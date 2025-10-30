@@ -1,0 +1,38 @@
+{
+  "variants": {
+    "corner=1,half=bottom": {
+      "model": "kingdomkeys:block/gummi/shell_gummi_pyramid",
+      "y": 90
+    },
+    "corner=1,half=top": {
+      "model": "kingdomkeys:block/gummi/shell_gummi_pyramid",
+      "x": 180
+    },
+    "corner=2,half=bottom": {
+      "model": "kingdomkeys:block/gummi/shell_gummi_pyramid",
+      "y": 180
+    },
+    "corner=2,half=top": {
+      "model": "kingdomkeys:block/gummi/shell_gummi_pyramid",
+      "x": 180,
+      "y": 90
+    },
+    "corner=3,half=bottom": {
+      "model": "kingdomkeys:block/gummi/shell_gummi_pyramid",
+      "y": 270
+    },
+    "corner=3,half=top": {
+      "model": "kingdomkeys:block/gummi/shell_gummi_pyramid",
+      "x": 180,
+      "y": 180
+    },
+    "corner=4,half=bottom": {
+      "model": "kingdomkeys:block/gummi/shell_gummi_pyramid"
+    },
+    "corner=4,half=top": {
+      "model": "kingdomkeys:block/gummi/shell_gummi_pyramid",
+      "x": 180,
+      "y": 270
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "group": "kingdomkeys_gummi_blocks",
+  "ingredients": [
+    {
+      "item": "kingdomkeys:gummi_meteor_fragment"
+    },
+    {
+      "item": "kingdomkeys:gummi_meteor_fragment"
+    },
+    {
+      "item": "kingdomkeys:gummi_meteor_fragment"
+    },
+    {
+      "item": "kingdomkeys:gummi_meteor_fragment"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "kingdomkeys:shell_gummi_cube_white"
+  }
+}

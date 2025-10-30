@@ -98,6 +98,6 @@ public class GummiBlockCorner extends GummiBlockBase {
                 stack.shrink(1);
             }
         }
-        return super.useItemOn(stack, state, level, pos, player, hand, hitResult);
+        return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
     }
 }

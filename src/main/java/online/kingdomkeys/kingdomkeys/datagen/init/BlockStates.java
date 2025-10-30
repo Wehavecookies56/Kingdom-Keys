@@ -38,6 +38,12 @@ public class BlockStates extends BlockStateProvider {
 					Quarter quarter = blockState.getValue(GummiBlockEdge.QUARTER);
 					Direction facing = blockState.getValue(GummiBlockEdge.FACING);
 					String blockName = Utils.getBlockRegistryName(block).getPath();
+					String tier = "";
+					if(blockName.contains("shell")){
+						tier = "shell_";
+					} else if (blockName.contains("dispel")) {
+						tier = "dispel_";
+					}
 					if (blockName.contains("gummi_wedge")) {
 						builder.modelFile(new ModelFile.ExistingModelFile(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "block/gummi/gummi_wedge"), models().existingFileHelper));
 					} else if (blockName.contains("gummi_cylinder")) {
@@ -45,7 +51,7 @@ public class BlockStates extends BlockStateProvider {
 					} else if (blockName.contains("gummi_pie")) {
 						builder.modelFile(new ModelFile.ExistingModelFile(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "block/gummi/gummi_pie"), models().existingFileHelper));
 					} else if (blockName.contains("gummi_cone")) {
-						builder.modelFile(new ModelFile.ExistingModelFile(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "block/gummi/gummi_cone"), models().existingFileHelper));
+						builder.modelFile(new ModelFile.ExistingModelFile(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "block/gummi/"+tier+"gummi_cone"), models().existingFileHelper));
 					} else if (blockName.contains("gummi_dome")) {
 						builder.modelFile(new ModelFile.ExistingModelFile(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "block/gummi/gummi_dome"), models().existingFileHelper));
 					}
@@ -70,12 +76,18 @@ public class BlockStates extends BlockStateProvider {
 				getVariantBuilder(block).forAllStates(blockState -> {
 					ConfiguredModel.Builder<?> builder = ConfiguredModel.builder();
 					String blockName = Utils.getBlockRegistryName(block).getPath();
+					String tier = "";
+					if(blockName.contains("shell")){
+						tier = "shell_";
+					} else if (blockName.contains("dispel")) {
+						tier = "dispel_";
+					}
 					Half half = blockState.getValue(GummiBlockCorner.HALF);
 					Corner corner = blockState.getValue(GummiBlockCorner.CORNER);
 					int x = half == Half.TOP ? 180 : 0;
 					int y = 0;
 					if (blockName.contains("gummi_pyramid")) {
-						builder.modelFile(new ModelFile.ExistingModelFile(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "block/gummi/gummi_pyramid"), models().existingFileHelper));
+						builder.modelFile(new ModelFile.ExistingModelFile(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "block/gummi/"+tier+"gummi_pyramid"), models().existingFileHelper));
 						y = half == Half.TOP ?
 								switch (corner) {
 									case CORNER1 -> 0;

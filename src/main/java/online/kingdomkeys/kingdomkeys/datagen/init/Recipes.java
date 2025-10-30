@@ -1050,57 +1050,63 @@ public class Recipes extends RecipeProvider {
 				Items.BLACK_DYE
 		);
 
+		//Stonecutter
 		for (int i = 0; i < gummiBlocks.size(); i++) {
 			for (int j = 0; j < gummiBlocks.size(); j++) {
 				if (i != j) {
 					for (int k = 0; k < dyes.size(); k++) {
 						SingleItemRecipeBuilder.stonecutting(Ingredient.of(gummiBlocks.get(i).get(k).get()), RecipeCategory.BUILDING_BLOCKS, gummiBlocks.get(j).get(k).get())
-								.group(KingdomKeys.MODID + "_gummi_blocks")
-								.unlockedBy("has_" + Utils.getBlockRegistryName(gummiBlocks.get(i).get(k).get()).getPath(), InventoryChangeTrigger.TriggerInstance.hasItems(gummiBlocks.get(i).get(k).get()))
-								.save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, Utils.getBlockRegistryName(gummiBlocks.get(j).get(k).get()).getPath() + "_from_" + Utils.getBlockRegistryName(gummiBlocks.get(i).get(k).get()).getPath().replace("_" + DyeColor.values()[k].getName(), "").replace("gummi_", "")));
+							.group(KingdomKeys.MODID + "_gummi_blocks")
+							.unlockedBy("has_" + Utils.getBlockRegistryName(gummiBlocks.get(i).get(k).get()).getPath(), InventoryChangeTrigger.TriggerInstance.hasItems(gummiBlocks.get(i).get(k).get()))
+							.save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, Utils.getBlockRegistryName(gummiBlocks.get(j).get(k).get()).getPath() + "_from_" + Utils.getBlockRegistryName(gummiBlocks.get(i).get(k).get()).getPath().replace("_" + DyeColor.values()[k].getName(), "").replace("gummi_", "")));
 					}
 				}
 			}
 		}
 
+		//Meteor fragment to cube
 		ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, new ItemStack(ModBlocks.gummiCubes.getFirst().get()))
-				.requires(ModItems.gummiMeteorFragment.get())
-				.group(KingdomKeys.MODID + "_gummi_blocks")
-				.unlockedBy("fragment", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.gummiMeteorFragment.get()))
-				.save(consumer);
+			.requires(ModItems.gummiMeteorFragment.get())
+			.group(KingdomKeys.MODID + "_gummi_blocks")
+			.unlockedBy("fragment", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.gummiMeteorFragment.get()))
+			.save(consumer);
+
+		//Meteor to shell
+		ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, new ItemStack(ModBlocks.gummiShellCubes.getFirst().get()))
+			.requires(ModItems.gummiMeteorFragment.get(),4)
+			.group(KingdomKeys.MODID + "_gummi_blocks")
+			.unlockedBy("fragment", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.gummiMeteorFragment.get()))
+			.save(consumer);
+
+		//Meteor to dispel
+		ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, new ItemStack(ModBlocks.gummiDispelCubes.getFirst().get()))
+			.requires(ModItems.gummiMeteorFragment.get(),9)
+			.group(KingdomKeys.MODID + "_gummi_blocks")
+			.unlockedBy("fragment", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.gummiMeteorFragment.get()))
+			.save(consumer);
+
 
 		for (int i = 0; i < dyes.size(); i++) {
-			if(i > 0) {
+			//Meteor + dye to cube
+			if(i > 0) { //Avoid white dye since they are white by default
 				ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, new ItemStack(ModBlocks.gummiCubes.get(i).get()))
-						.requires(ModItems.gummiMeteorFragment.get())
-						.requires(dyes.get(i))
-						.group(KingdomKeys.MODID + "_gummi_blocks")
-						.unlockedBy("fragment", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.gummiMeteorFragment.get()))
-						.save(consumer);
+					.requires(ModItems.gummiMeteorFragment.get())
+					.requires(dyes.get(i))
+					.group(KingdomKeys.MODID + "_gummi_blocks")
+					.unlockedBy("fragment", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.gummiMeteorFragment.get()))
+					.save(consumer);
 			}
 
+			// Shape + dye to dyed shape
 			for (int shape=0; shape<gummiBlocks.size();shape++) {
 				List<Supplier<Block>> blocks = gummiBlocks.get(shape);
 				ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, new ItemStack(blocks.get(i).get()))
-						.requires(ItemTagsGen.GUMMI_BLOCK_KEYS.get(shape))
-						.requires(dyes.get(i))
-						.group(KingdomKeys.MODID + "_gummi_blocks")
-						.unlockedBy("has_" + Utils.getBlockRegistryName(blocks.get(i).get()).getPath(), InventoryChangeTrigger.TriggerInstance.hasItems(blocks.get(i).get()))
-						.save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, Utils.getBlockRegistryName(blocks.get(i).get()).getPath() + "_from_dye"));
+					.requires(ItemTagsGen.GUMMI_BLOCK_KEYS.get(shape))
+					.requires(dyes.get(i))
+					.group(KingdomKeys.MODID + "_gummi_blocks")
+					.unlockedBy("has_" + Utils.getBlockRegistryName(blocks.get(i).get()).getPath(), InventoryChangeTrigger.TriggerInstance.hasItems(blocks.get(i).get()))
+					.save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, Utils.getBlockRegistryName(blocks.get(i).get()).getPath() + "_from_dye"));
 			}
-
-			/*for (int j = 0; j < dyes.size(); j++) {
-				if (i != j) {
-					for (List<Supplier<Block>> blocks : gummiBlocks) {
-						ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, new ItemStack(blocks.get(i).get()))
-								.requires(blocks.get(j).get())
-								.requires(dyes.get(i))
-								.group(KingdomKeys.MODID + "_gummi_blocks")
-								.unlockedBy("has_" + Utils.getBlockRegistryName(blocks.get(j).get()).getPath(), InventoryChangeTrigger.TriggerInstance.hasItems(blocks.get(j).get()))
-								.save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, Utils.getBlockRegistryName(blocks.get(i).get()).getPath() + "_from_" + DyeColor.values()[j].getName()));
-					}
-				}
-			}*/
 		}
     }
 }

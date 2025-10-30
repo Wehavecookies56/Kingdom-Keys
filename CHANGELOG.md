@@ -8,7 +8,7 @@
 * Gummi fragments which then can be used to make gummi blocks.
 * Gummi Phone to be able to store and summon your Gummi Ship (shift + punch your Gummi Ship while holding it).
 * Two datapacks to disable overworld and end custom worldgen.
-* Bug Blox enemy.
+* Blox Bug enemy.
 
 **Changed:**
 * Visual effect on HP Bar red portion, now decreases gradually.

@@ -108,7 +108,25 @@ public class ModBlocks {
             gummiPies = new ArrayList<>(),
             gummiRoundCorners = new ArrayList<>(),
             gummiCones = new ArrayList<>(),
-            gummiDomes = new ArrayList<>()
+            gummiDomes = new ArrayList<>(),
+
+            gummiShellCubes = new ArrayList<>(),
+            gummiShellWedges = new ArrayList<>(),
+            gummiShellPyramids = new ArrayList<>(),
+            gummiShellCylinders = new ArrayList<>(),
+            gummiShellPies = new ArrayList<>(),
+            gummiShellRoundCorners = new ArrayList<>(),
+            gummiShellCones = new ArrayList<>(),
+            gummiShellDomes = new ArrayList<>(),
+
+            gummiDispelCubes = new ArrayList<>(),
+            gummiDispelWedges = new ArrayList<>(),
+            gummiDispelPyramids = new ArrayList<>(),
+            gummiDispelCylinders = new ArrayList<>(),
+            gummiDispelPies = new ArrayList<>(),
+            gummiDispelRoundCorners = new ArrayList<>(),
+            gummiDispelCones = new ArrayList<>(),
+            gummiDispelDomes = new ArrayList<>()
     ;
 
     static {
@@ -120,6 +138,24 @@ public class ModBlocks {
         createNewCornerGummiBlock("gummi_round_corner", 1,3, gummiRoundCorners);
         createNewRotatableGummiBlock("gummi_cone", 1,3, gummiCones);
         createNewRotatableGummiBlock("gummi_dome", 1,3, gummiDomes);
+
+        createNewGummiBlock("shell_gummi_cube", 1,10, gummiShellCubes);
+        createNewRotatableGummiBlock("shell_gummi_wedge",1, 5, gummiShellWedges);
+        createNewCornerGummiBlock("shell_gummi_pyramid",1, 5, gummiShellPyramids);
+        createNewRotatableGummiBlock("shell_gummi_cylinder", 1,7, gummiShellCylinders);
+        createNewRotatableGummiBlock("shell_gummi_pie", 1,7, gummiShellPies);
+        createNewCornerGummiBlock("shell_gummi_round_corner", 1,5, gummiShellRoundCorners);
+        createNewRotatableGummiBlock("shell_gummi_cone", 1,5, gummiShellCones);
+        createNewRotatableGummiBlock("shell_gummi_dome", 1,5, gummiShellDomes);
+
+        createNewGummiBlock("dispel_gummi_cube", 1,15, gummiDispelCubes);
+        createNewRotatableGummiBlock("dispel_gummi_wedge",1, 7, gummiDispelWedges);
+        createNewCornerGummiBlock("dispel_gummi_pyramid",1, 7, gummiDispelPyramids);
+        createNewRotatableGummiBlock("dispel_gummi_cylinder", 1,12, gummiDispelCylinders);
+        createNewRotatableGummiBlock("dispel_gummi_pie", 1,12, gummiDispelPies);
+        createNewCornerGummiBlock("dispel_gummi_round_corner", 1,7, gummiDispelRoundCorners);
+        createNewRotatableGummiBlock("dispel_gummi_cone", 1,7, gummiDispelCones);
+        createNewRotatableGummiBlock("dispel_gummi_dome", 1,7, gummiDispelDomes);
     }
 
     /**

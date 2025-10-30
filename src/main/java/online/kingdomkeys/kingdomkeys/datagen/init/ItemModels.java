@@ -60,25 +60,31 @@ public class ItemModels extends ItemModelProvider {
 
 	private void blockLogic(BlockItem item, String path) {
 		final Block block = item.getBlock();
+		String tier = "";
+		if(path.contains("shell")){
+			tier = "shell_";
+		} else if (path.contains("dispel")) {
+			tier = "dispel_";
+		}
         switch (block) {
             case GummiBlockEdge gummiBlockEdge -> {
                 if (path.contains("gummi_wedge")) {
-                    gummiBlockItem(path, "gummi_wedge");
+                    gummiBlockItem(path, "gummi_wedge", tier);
                 } else if (path.contains("gummi_cylinder")) {
-                    gummiBlockItem(path, "gummi_cylinder");
+                    gummiBlockItem(path, "gummi_cylinder", tier);
                 } else if (path.contains("gummi_pie")) {
-                    gummiBlockItem(path, "gummi_pie");
+                    gummiBlockItem(path, "gummi_pie", tier);
                 } else if (path.contains("gummi_cone")) {
-                    gummiBlockItem(path, "gummi_cone");
+                    gummiBlockItem(path, "gummi_cone", tier);
                 } else if (path.contains("gummi_dome")) {
-                    gummiBlockItem(path, "gummi_dome");
+                    gummiBlockItem(path, "gummi_dome", tier);
                 }
             }
             case GummiBlockCorner gummiBlockCorner -> {
                 if (path.contains("gummi_pyramid")) {
-                    gummiBlockItem(path, "gummi_pyramid");
+                    gummiBlockItem(path, "gummi_pyramid", tier);
                 } else if (path.contains("gummi_round_corner")) {
-                    gummiBlockItem(path, "gummi_round_corner");
+                    gummiBlockItem(path, "gummi_round_corner", tier);
                 }
             }
             case GhostBloxBlock ghostBloxBlock -> {
@@ -152,8 +158,8 @@ public class ItemModels extends ItemModelProvider {
 		getBuilder(name).parent(new ModelFile.UncheckedModelFile(KingdomKeys.MODID + ":block/" + name));
 	}
 
-	void gummiBlockItem(String name, String type) {
-		getBuilder(name).parent(new ModelFile.UncheckedModelFile(KingdomKeys.MODID + ":block/gummi/" + type)).transforms()
+	void gummiBlockItem(String name, String type, String tier) {
+		getBuilder(name).parent(new ModelFile.UncheckedModelFile(KingdomKeys.MODID + ":block/gummi/"+tier+type)).transforms()
 				.transform(ItemDisplayContext.GROUND).scale(0.25F, 0.25F, 0.25F).translation(0, 3F, 0).end()
 				.transform(ItemDisplayContext.GUI).scale(0.6F, 0.6F, 0.6F).rotation(45, -135, 0).end()
 				.transform(ItemDisplayContext.FIRST_PERSON_LEFT_HAND).scale(0.375F, 0.375F, 0.375F).rotation(0, -135, 0).end()

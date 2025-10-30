@@ -87,7 +87,6 @@ public class LootTables extends BlockLootSubProvider {
 
 		HolderLookup.RegistryLookup<Enchantment> registrylookup = this.registries.lookupOrThrow(Registries.ENCHANTMENT);
 
-
 		List<Block> allGummiBlocks = Stream.of(
 						ModBlocks.gummiCubes,
 						ModBlocks.gummiWedges,
@@ -96,7 +95,25 @@ public class LootTables extends BlockLootSubProvider {
 						ModBlocks.gummiPies,
 						ModBlocks.gummiRoundCorners,
 						ModBlocks.gummiCones,
-						ModBlocks.gummiDomes
+						ModBlocks.gummiDomes,
+
+						ModBlocks.gummiShellCubes,
+						ModBlocks.gummiShellWedges,
+						ModBlocks.gummiShellPyramids,
+						ModBlocks.gummiShellCylinders,
+						ModBlocks.gummiShellPies,
+						ModBlocks.gummiShellRoundCorners,
+						ModBlocks.gummiShellCones,
+						ModBlocks.gummiShellDomes,
+
+						ModBlocks.gummiDispelCubes,
+						ModBlocks.gummiDispelWedges,
+						ModBlocks.gummiDispelPyramids,
+						ModBlocks.gummiDispelCylinders,
+						ModBlocks.gummiDispelPies,
+						ModBlocks.gummiDispelRoundCorners,
+						ModBlocks.gummiDispelCones,
+						ModBlocks.gummiDispelDomes
 				)
 				.flatMap(list -> list.stream().map(Supplier::get))
 				.toList();
