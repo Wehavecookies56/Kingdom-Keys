@@ -56,6 +56,7 @@ import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import online.kingdomkeys.kingdomkeys.entity.GummiShipEntity;
 import online.kingdomkeys.kingdomkeys.entity.KKVehicleEntity;
+import online.kingdomkeys.kingdomkeys.integration.epicfight.EpicFightUtils;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.item.WayfinderItem;
@@ -470,7 +471,7 @@ public class ClientEvents {
 					}
 				}
 				
-				if(mc.options.keyAttack.isDown()) {
+				if(EpicFightUtils.isAttacking()) {
 					if (focusingTicks > 0) {
 						// Has finished shotlocking, send packet to spawn entities and track enemies
 						if(!playerData.getShotlockEnemies().isEmpty()) {

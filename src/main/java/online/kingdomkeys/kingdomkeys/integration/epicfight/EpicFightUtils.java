@@ -7,8 +7,6 @@ import yesman.epicfight.world.capabilities.entitypatch.LivingEntityPatch;
 public class EpicFightUtils {
     private EpicFightUtils() {}
 
-    public static final EpicFightUtils INSTANCE = new EpicFightUtils();
-
     public static boolean isAttacking() {
         if (KingdomKeys.efmLoaded) {
             return Minecraft.getInstance().mouseHandler.isLeftPressed();
