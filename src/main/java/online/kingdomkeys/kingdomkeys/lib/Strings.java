@@ -593,7 +593,7 @@ public class Strings {
         LevelUpFinal = "levelupdrivefinal",
         
         wayfinder = "wayfinder",
-        gummiShip = "gummiship",
+        gummiPhone = "gummiphone",
 		gummiShipBlueprint = "gummi_ship_blueprint",
         
         powerBoost = "powerboost",

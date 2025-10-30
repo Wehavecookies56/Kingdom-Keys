@@ -64,8 +64,6 @@ public class GummiShipEntityRenderer extends EntityRenderer<GummiShipEntity> {
 				matrixStackIn.mulPose(Axis.YP.rotationDegrees(180.0F - entityYaw));
 				matrixStackIn.translate(-w / 2.0, 0, -d / 2.0);
 
-
-
 				BlockRenderDispatcher blockRenderer = Minecraft.getInstance().getBlockRenderer();
 				for (int x = 0; x < w; x++) {
 					for (int y = 0; y < h; y++) {
@@ -80,12 +78,6 @@ public class GummiShipEntityRenderer extends EntityRenderer<GummiShipEntity> {
 									renderType = CUSTOM_TINTED_GLASS2;
 								}
 								blockRenderer.renderSingleBlock(state, matrixStackIn, bufferIn, packedLightIn, OverlayTexture.NO_OVERLAY, ModelData.EMPTY, renderType);
-							}
-							matrixStackIn.popPose();
-
-							matrixStackIn.pushPose();
-							{
-
 							}
 							matrixStackIn.popPose();
 						}

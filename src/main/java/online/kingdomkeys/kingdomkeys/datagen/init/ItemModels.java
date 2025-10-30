@@ -46,8 +46,6 @@ public class ItemModels extends ItemModelProvider {
 				// shields already have models set up
 			} else if (item instanceof SwordItem) {
 				// Wooden Keyblade/Stick
-			} else if (item instanceof GummiShipItem) { //Might become the phone
-
 			} else if (item instanceof SpawnEggItem) {
 				// Spawn Egg
 				// This
@@ -62,53 +60,65 @@ public class ItemModels extends ItemModelProvider {
 
 	private void blockLogic(BlockItem item, String path) {
 		final Block block = item.getBlock();
-		if (block instanceof GummiBlockEdge) {
-			if (path.contains("gummi_wedge")) {
-				gummiBlockItem(path, "gummi_wedge");
-			} else if (path.contains("gummi_cylinder")) {
-				gummiBlockItem(path, "gummi_cylinder");
-			} else if (path.contains("gummi_pie")) {
-				gummiBlockItem(path, "gummi_pie");
-			} else if (path.contains("gummi_cone")) {
-				gummiBlockItem(path, "gummi_cone");
-			} else if (path.contains("gummi_dome")) {
-				gummiBlockItem(path, "gummi_dome");
-			}
-		} else if (block instanceof GummiBlockCorner) {
-			if (path.contains("gummi_pyramid")) {
-				gummiBlockItem(path, "gummi_pyramid");
-			} else if (path.contains("gummi_round_corner")) {
-				gummiBlockItem(path, "gummi_round_corner");
-			}
-		} else if (block instanceof GhostBloxBlock) {
-			// generated as part of blockstates provider
-		} else if (block instanceof PairBloxBlock) {
-			// generated as part of blockstates provider
-		} else if (block instanceof MagnetBloxBlock) {
-			// manually generated version exists in main/resources
-			standardBlockItem("magnet_blox_on");
-			standardBlockItem("magnet_blox_off");
-		} else if (block instanceof OrgPortalBlock) {
-			// Custom Model
-			// manually generated version exists in main/resources
-		} else if (block instanceof SavePointBlock) {
-			// Custom Model
-			// manually generated version exists in main/resources
-		} else if (block instanceof SoRCore) {
-			// skip - no texture/special block
-		} else if (block instanceof SoAPlatformCoreBlock) {
-			// skip - no texture/special block?
-		} else if (block instanceof DataPortalBlock) {
-			// manually generated version exists in main/resources
-		} else if (block instanceof MagicalChestBlock) {
-			// manually generated version exists in main/resources
-			getBuilder(path).parent(new ModelFile.UncheckedModelFile(KingdomKeys.MODID + ":block/" + path)).transforms().transform(ItemDisplayContext.GUI).rotation(0, 0, 0).translation(-0.25F, 1, 0).scale(1, 1, 1).end();
-		} else if (block instanceof GummiHangarBlock) {
-			// skip - no texture/special block
-		} else {
-			// fallback in case block item could not be generated as part of blockstates
-			standardBlockItem(path);
-		}
+        switch (block) {
+            case GummiBlockEdge gummiBlockEdge -> {
+                if (path.contains("gummi_wedge")) {
+                    gummiBlockItem(path, "gummi_wedge");
+                } else if (path.contains("gummi_cylinder")) {
+                    gummiBlockItem(path, "gummi_cylinder");
+                } else if (path.contains("gummi_pie")) {
+                    gummiBlockItem(path, "gummi_pie");
+                } else if (path.contains("gummi_cone")) {
+                    gummiBlockItem(path, "gummi_cone");
+                } else if (path.contains("gummi_dome")) {
+                    gummiBlockItem(path, "gummi_dome");
+                }
+            }
+            case GummiBlockCorner gummiBlockCorner -> {
+                if (path.contains("gummi_pyramid")) {
+                    gummiBlockItem(path, "gummi_pyramid");
+                } else if (path.contains("gummi_round_corner")) {
+                    gummiBlockItem(path, "gummi_round_corner");
+                }
+            }
+            case GhostBloxBlock ghostBloxBlock -> {
+                // generated as part of blockstates provider
+            }
+            case PairBloxBlock pairBloxBlock -> {
+                // generated as part of blockstates provider
+            }
+            case MagnetBloxBlock magnetBloxBlock -> {
+                // manually generated version exists in main/resources
+                standardBlockItem("magnet_blox_on");
+                standardBlockItem("magnet_blox_off");
+            }
+            case OrgPortalBlock orgPortalBlock -> {
+                // Custom Model
+                // manually generated version exists in main/resources
+            }
+            case SavePointBlock savePointBlock -> {
+                // Custom Model
+                // manually generated version exists in main/resources
+            }
+            case SoRCore soRCore -> {
+                // skip - no texture/special block
+            }
+            case SoAPlatformCoreBlock soAPlatformCoreBlock -> {
+                // skip - no texture/special block?
+            }
+            case DataPortalBlock dataPortalBlock -> {
+                // manually generated version exists in main/resources
+            }
+            case MagicalChestBlock magicalChestBlock ->
+                // manually generated version exists in main/resources
+                    getBuilder(path).parent(new ModelFile.UncheckedModelFile(KingdomKeys.MODID + ":block/" + path)).transforms().transform(ItemDisplayContext.GUI).rotation(0, 0, 0).translation(-0.25F, 1, 0).scale(1, 1, 1).end();
+            case GummiHangarBlock gummiHangarBlock -> {
+                // skip - no texture/special block
+            }
+            default ->
+                // fallback in case block item could not be generated as part of blockstates
+                    standardBlockItem(path);
+        }
 	}
 
     void standardMaterial(String name) {

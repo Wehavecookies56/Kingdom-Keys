@@ -60,7 +60,7 @@ public record CSCreateGummiShip(String name, int containerID) implements Packet 
 			return;
 		}
 
-		GummiStructure struct = Utils.getGummiStructureWithFacing(level, origin, hangar.getValue(GummiHangarBlock.FACING), size);
+		GummiStructure struct = Utils.getGummiStructureWithFacing(player.getUUID(), name, level, origin, hangar.getValue(GummiHangarBlock.FACING), size);
 		GummiShipEntity shipEntity = new GummiShipEntity(level, struct);
 
 		switch (hangar.getValue(GummiHangarBlock.FACING)) {

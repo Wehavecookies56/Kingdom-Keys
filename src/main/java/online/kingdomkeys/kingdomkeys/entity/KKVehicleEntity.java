@@ -60,7 +60,7 @@ public abstract class KKVehicleEntity extends VehicleEntity {
 
     @Override
     protected Item getDropItem() {
-        return ModItems.gummiShip.get();
+        return ModItems.gummiPhone.get();
     }
 
 

@@ -22,10 +22,27 @@ import net.neoforged.neoforge.common.util.INBTSerializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 public class GummiStructure implements INBTSerializable<CompoundTag> {
+    private UUID ownerID;
+    private String shipName;
     private BlockState[][][] blocks;
     private int width, height, depth;
+
+
+
+    public String getName(){
+        return shipName;
+    }
+
+    public UUID getOwnerID(){
+        return ownerID;
+    }
+
+    public String getOwnerIDString(){
+        return ownerID.toString();
+    }
 
     public BlockState[][][] getBlocks() {
         return blocks;
@@ -52,6 +69,8 @@ public class GummiStructure implements INBTSerializable<CompoundTag> {
     }
 
     public static final Codec<GummiStructure> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+            Codec.STRING.fieldOf("owner").forGetter(GummiStructure::getOwnerIDString),
+            Codec.STRING.fieldOf("name").forGetter(GummiStructure::getName),
             Codec.INT.fieldOf("width").forGetter(GummiStructure::getWidth),
             Codec.INT.fieldOf("height").forGetter(GummiStructure::getHeight),
             Codec.INT.fieldOf("depth").forGetter(GummiStructure::getDepth),
@@ -115,18 +134,17 @@ public class GummiStructure implements INBTSerializable<CompoundTag> {
         return count;
     }
 
-    public GummiStructure(int width, int height, int depth) {
-        this.width = width;
-        this.height = height;
-        this.depth = depth;
-        blocks = new BlockState[width][height][depth];
-    }
-
-    private GummiStructure(int width, int height, int depth, List<List<List<BlockState>>> blocks) {
+    public GummiStructure(UUID ownerID, String name, int width, int height, int depth) {
+        this.ownerID = ownerID;
+        this.shipName = name;
         this.width = width;
         this.height = height;
         this.depth = depth;
         this.blocks = new BlockState[width][height][depth];
+    }
+
+    private GummiStructure(UUID ownerID, String name, int width, int height, int depth, List<List<List<BlockState>>> blocks) {
+        this(ownerID, name, width, height, depth);
         for (int x = 0; x < blocks.size(); x++) {
             for (int y = 0; y < blocks.get(x).size(); y++) {
                 for (int z = 0; z < blocks.get(x).get(y).size(); z++) {
@@ -140,8 +158,8 @@ public class GummiStructure implements INBTSerializable<CompoundTag> {
         deserializeNBT(provider, tag);
     }
 
-    public GummiStructure(int width, int height, int depth, Level level, BlockPos pos) {
-        this(width, height, depth);
+    public GummiStructure(UUID ownerID, String name, int width, int height, int depth, Level level, BlockPos pos) {
+        this(ownerID, name, width, height, depth);
         BlockPos.MutableBlockPos mutableBlockPos = pos.mutable();
         for (int z = 0; z < depth; ++z) {
             for (int y = 0; y < height; ++y) {
@@ -153,9 +171,15 @@ public class GummiStructure implements INBTSerializable<CompoundTag> {
         }
     }
 
+    public GummiStructure(String ownerID, String name, int width, int height, int depth, List<List<List<BlockState>>> blocks) {
+       this(UUID.fromString(ownerID),name,width,height,depth,blocks);
+    }
+
     @Override
     public CompoundTag serializeNBT(HolderLookup.Provider provider) {
         CompoundTag tag = new CompoundTag();
+        tag.putUUID("owner", ownerID);
+        tag.putString("name", shipName);
         tag.putInt("width", width);
         tag.putInt("height", height);
         tag.putInt("depth", depth);
@@ -177,6 +201,8 @@ public class GummiStructure implements INBTSerializable<CompoundTag> {
 
     @Override
     public void deserializeNBT(HolderLookup.Provider provider, CompoundTag tag) {
+        ownerID = tag.getUUID("owner");
+        shipName = tag.getString("name");
         width = tag.getInt("width");
         height = tag.getInt("height");
         depth = tag.getInt("depth");
@@ -200,13 +226,13 @@ public class GummiStructure implements INBTSerializable<CompoundTag> {
 
     @Override
     public int hashCode() {
-        return 31 * Integer.hashCode(width) + Integer.hashCode(height) + Integer.hashCode(depth) + Arrays.deepHashCode(blocks);
+        return 31 * getOwnerID().hashCode() + getName().hashCode() + Integer.hashCode(width) + Integer.hashCode(height) + Integer.hashCode(depth) + Arrays.deepHashCode(blocks);
     }
 
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof GummiStructure gummiStructure) {
-            if (gummiStructure.width == this.width && gummiStructure.height == this.height && gummiStructure.depth == this.depth) {
+            if (gummiStructure.getName().equals(this.shipName) && gummiStructure.getOwnerID().equals(this.ownerID) && gummiStructure.width == this.width && gummiStructure.height == this.height && gummiStructure.depth == this.depth) {
                 for (int z = 0; z < depth; ++z) {
                     for (int y = 0; y < height; ++y) {
                         for (int x = 0; x < width; ++x) {

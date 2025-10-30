@@ -255,7 +255,7 @@ public class Utils {
 			return null;
 		}
 
-		GummiStructure resized = new GummiStructure(newSize, newSize, newSize);
+		GummiStructure resized = new GummiStructure(original.getOwnerID(), original.getName(), newSize, newSize, newSize);
 		BlockState[][][] oldBlocks = original.getBlocks();
 		BlockState[][][] newBlocks = resized.getBlocks();
 
@@ -395,8 +395,10 @@ public class Utils {
 		}
 	}
 
-	public static GummiStructure getGummiStructureWithFacing(Level level, BlockPos origin, Direction facing, int size) {
-		GummiStructure struct = new GummiStructure(size, size, size);
+
+
+	public static GummiStructure getGummiStructureWithFacing(UUID ownerID, String nameInHangar, Level level, BlockPos origin, Direction facing, int size) {
+		GummiStructure struct = new GummiStructure(ownerID, nameInHangar,size, size, size);
 
 		int max = size - 1;
 
@@ -589,7 +591,7 @@ public class Utils {
 		return null;
 	}
 
-    public static class Title {
+	public static class Title {
 		public String title, subtitle;
 		public int fadeIn = 10, fadeOut = 20, displayTime = 70;
 

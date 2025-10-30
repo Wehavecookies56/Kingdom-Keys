@@ -131,7 +131,7 @@ public class GummiHangarScreen extends AbstractContainerScreen<GummiHangarMenu> 
 		BlockPos origin = menu.TE.getBlockPos();
 		BlockState hangar = minecraft.level.getBlockState(origin);
 
-		structure = Utils.getGummiStructureWithFacing(minecraft.level,origin,hangar.getValue(GummiHangarBlock.FACING),GummiHangarBlock.getSize(hangar.getValue(GummiHangarBlock.LEVEL)));
+		structure = Utils.getGummiStructureWithFacing(minecraft.player.getUUID(), name.getValue(), minecraft.level,origin,hangar.getValue(GummiHangarBlock.FACING),GummiHangarBlock.getSize(hangar.getValue(GummiHangarBlock.LEVEL)));
 	}
 	@Override
 	public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
