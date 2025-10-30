@@ -9,7 +9,7 @@
 		"rotation": [ 0, 180, 0 ]
 	},
 	"textures": {
-		"texture0": "kingdomkeys:block/gummi_solid_colour",
-		"particle": "#texture0"
+		"texture1": "kingdomkeys:block/gummi_solid_colour",
+		"particle": "#texture1"
 	}
 }

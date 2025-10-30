@@ -541,14 +541,7 @@ public class ClientEvents {
 		@SubscribeEvent
 		public static void colourTint(RegisterColorHandlersEvent.Block event) {
 			event.register(ModBusEvents::getStructureWallColour, ModBlocks.structureWall.get());
-			event.register(ModBusEvents::getGummiBlockColour, ModBlocks.gummiCubes.stream().map(Supplier::get).toList().toArray(new Block[0]));
-			event.register(ModBusEvents::getGummiBlockColour, ModBlocks.gummiWedges.stream().map(Supplier::get).toList().toArray(new Block[0]));
-			event.register(ModBusEvents::getGummiBlockColour, ModBlocks.gummiPyramids.stream().map(Supplier::get).toList().toArray(new Block[0]));
-			event.register(ModBusEvents::getGummiBlockColour, ModBlocks.gummiCylinders.stream().map(Supplier::get).toList().toArray(new Block[0]));
-			event.register(ModBusEvents::getGummiBlockColour, ModBlocks.gummiPies.stream().map(Supplier::get).toList().toArray(new Block[0]));
-			event.register(ModBusEvents::getGummiBlockColour, ModBlocks.gummiRoundCorners.stream().map(Supplier::get).toList().toArray(new Block[0]));
-			event.register(ModBusEvents::getGummiBlockColour, ModBlocks.gummiCones.stream().map(Supplier::get).toList().toArray(new Block[0]));
-			event.register(ModBusEvents::getGummiBlockColour, ModBlocks.gummiDomes.stream().map(Supplier::get).toList().toArray(new Block[0]));
+			event.register(ModBusEvents::getGummiBlockColour, ModBlocks.gummiBlocks.get().stream().map(Supplier::get).toList().toArray(new Block[0]));
 		}
 
 		public static int getStructureWallColour(BlockState state, BlockAndTintGetter level, BlockPos pos, int tintIndex) {
@@ -583,11 +576,15 @@ public class ClientEvents {
 		}
 
 		public static int getGummiBlockColour(BlockState state, BlockAndTintGetter level, BlockPos pos, int tintIndex) {
-			int colour = Color.RED.getRGB();
-			if(state.getBlock() instanceof GummiBlockBase gummi) {
-				colour = gummi.getColor().getTextureDiffuseColor();
+			if (tintIndex == 0) {
+				int colour = Color.RED.getRGB();
+				if (state.getBlock() instanceof GummiBlockBase gummi) {
+					colour = gummi.getColor().getTextureDiffuseColor();
+				}
+				return colour;
+			} else {
+				return Color.white.getRGB();
 			}
-			return colour;
 		}
 
 		@SubscribeEvent
@@ -597,14 +594,7 @@ public class ClientEvents {
 				Color colour = new Color(itemColor);
 				return colour.getRGB();
 			}, ModItems.wayfinder.get());
-			event.register(ModBusEvents::getGummiBlockColour, ModBlocks.gummiCubes.stream().map(Supplier::get).toList().toArray(new Block[0]));
-			event.register(ModBusEvents::getGummiBlockColour, ModBlocks.gummiWedges.stream().map(Supplier::get).toList().toArray(new Block[0]));
-			event.register(ModBusEvents::getGummiBlockColour, ModBlocks.gummiPyramids.stream().map(Supplier::get).toList().toArray(new Block[0]));
-			event.register(ModBusEvents::getGummiBlockColour, ModBlocks.gummiCylinders.stream().map(Supplier::get).toList().toArray(new Block[0]));
-			event.register(ModBusEvents::getGummiBlockColour, ModBlocks.gummiPies.stream().map(Supplier::get).toList().toArray(new Block[0]));
-			event.register(ModBusEvents::getGummiBlockColour, ModBlocks.gummiRoundCorners.stream().map(Supplier::get).toList().toArray(new Block[0]));
-			event.register(ModBusEvents::getGummiBlockColour, ModBlocks.gummiCones.stream().map(Supplier::get).toList().toArray(new Block[0]));
-			event.register(ModBusEvents::getGummiBlockColour, ModBlocks.gummiDomes.stream().map(Supplier::get).toList().toArray(new Block[0]));
+			event.register(ModBusEvents::getGummiBlockColour, ModBlocks.gummiBlocks.get().stream().map(Supplier::get).toList().toArray(new Block[0]));
 		}
 	}
 
