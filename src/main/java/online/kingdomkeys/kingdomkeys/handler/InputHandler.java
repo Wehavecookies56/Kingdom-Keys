@@ -8,6 +8,7 @@ import javax.annotation.Nullable;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import online.kingdomkeys.kingdomkeys.reactioncommands.ModReactionCommands;
 import online.kingdomkeys.kingdomkeys.reactioncommands.ReactionCommand;
@@ -226,19 +227,22 @@ public class InputHandler {
 
     public void summonKeyblade() {
         if (playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())) {
-            if(Utils.findSummoned(player.getInventory(), playerData.getEquippedKeychain(DriveForm.NONE)) == -1 && playerData.getAlignment() == OrgMember.NONE)
-                if(!playerData.isAbilityEquipped(Strings.synchBlade))
-                    PacketHandler.sendToServer(new CSPlayAnimation(KKAnimations.singleKeybladeMap.get(playerData.getSingleStyle())));
+            if (KingdomKeys.efmLoaded) {
+                if (Utils.findSummoned(player.getInventory(), playerData.getEquippedKeychain(DriveForm.NONE)) == -1 && playerData.getAlignment() == OrgMember.NONE)
+                    if (!playerData.isAbilityEquipped(Strings.synchBlade))
+                        PacketHandler.sendToServer(new CSPlayAnimation(KKAnimations.singleKeybladeMap.get(playerData.getSingleStyle())));
+                    else
+                        PacketHandler.sendToServer(new CSPlayAnimation(KKAnimations.dualKeybladeMap.get(playerData.getDualStyle())));
+                else if (Utils.findSummoned(player.getInventory(), playerData.getEquippedWeapon()) == -1 && playerData.getAlignment() != OrgMember.NONE)
+
+                    PacketHandler.sendToServer(new CSPlayAnimation(KKAnimations.orgMap.get(playerData.getAlignment())));
                 else
-                    PacketHandler.sendToServer(new CSPlayAnimation(KKAnimations.dualKeybladeMap.get(playerData.getDualStyle())));
-            else if(Utils.findSummoned(player.getInventory(), playerData.getEquippedWeapon()) == -1 && playerData.getAlignment() != OrgMember.NONE)
-
-                PacketHandler.sendToServer(new CSPlayAnimation(KKAnimations.orgMap.get(playerData.getAlignment())));
-            else
-                PacketHandler.sendToServer(new CSSummonKeyblade()); // desummon
-
+                    PacketHandler.sendToServer(new CSSummonKeyblade()); // desummon
+            } else {
+                PacketHandler.sendToServer(new CSSummonKeyblade());
+            }
         } else {
-            if(Utils.findSummoned(player.getInventory(), playerData.getEquippedKeychain(DriveForm.NONE)) == -1)
+            if(KingdomKeys.efmLoaded && Utils.findSummoned(player.getInventory(), playerData.getEquippedKeychain(DriveForm.NONE)) == -1)
                 PacketHandler.sendToServer(new CSPlayAnimation(KKAnimations.DRIVE_SUMMON));
             else
                 PacketHandler.sendToServer(new CSSummonKeyblade(new ResourceLocation(playerData.getActiveDriveForm())));
