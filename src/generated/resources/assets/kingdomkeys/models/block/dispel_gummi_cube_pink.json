@@ -1,0 +1,7 @@
+{
+  "parent": "kingdomkeys:block/cube_tinted_layered",
+  "textures": {
+    "all": "kingdomkeys:block/gummi/gummi_solid_colour",
+    "layer": "kingdomkeys:block/gummi/gummi_dispel"
+  }
+}

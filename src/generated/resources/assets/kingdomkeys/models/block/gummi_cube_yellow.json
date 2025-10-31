@@ -1,6 +1,6 @@
 {
   "parent": "kingdomkeys:block/cube_tinted",
   "textures": {
-    "all": "kingdomkeys:block/gummi_solid_colour"
+    "all": "kingdomkeys:block/gummi/gummi_solid_colour"
   }
 }

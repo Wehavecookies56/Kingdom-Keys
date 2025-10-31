@@ -62,9 +62,11 @@ public class BlockModels extends BlockModelProvider {
 		standardCube("castle_oblivion_wall3", "cutout");
 		standardCube("castle_oblivion_wall_chiseled", "cutout");
 
-		for(Supplier<Block> b : ModBlocks.gummiCubes) {
-			gummiCube(b.get().getName().getString().substring(18));
-		}
+		ModBlocks.gummiCubes.forEach(blockSupplier -> gummiCube(blockSupplier.get().getName().getString().substring(18)));
+
+		ModBlocks.gummiShellCubes.forEach(blockSupplier -> gummiCubeLayered(blockSupplier.get().getName().getString().substring(18), "gummi_shell"));
+
+		ModBlocks.gummiDispelCubes.forEach(blockSupplier -> gummiCubeLayered(blockSupplier.get().getName().getString().substring(18), "gummi_dispel"));
 	}
 
 	public void standardCube(String name) {
@@ -72,7 +74,11 @@ public class BlockModels extends BlockModelProvider {
 	}
 
 	public void gummiCube(String name) {
-		getBuilder(name).parent(new ModelFile.UncheckedModelFile(KingdomKeys.MODID + ":block/cube_tinted")).texture("all", "block/gummi_solid_colour");
+		getBuilder(name).parent(new ModelFile.UncheckedModelFile(KingdomKeys.MODID + ":block/cube_tinted")).texture("all", "block/gummi/gummi_solid_colour");
+	}
+
+	public void gummiCubeLayered(String name, String layerTexture) {
+		getBuilder(name).parent(new ModelFile.UncheckedModelFile(KingdomKeys.MODID + ":block/cube_tinted_layered")).texture("all", "block/gummi/gummi_solid_colour").texture("layer", "block/gummi/" + layerTexture);
 	}
 
 	public void standardCube(String name, String type) {
