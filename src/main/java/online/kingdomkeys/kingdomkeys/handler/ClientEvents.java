@@ -16,6 +16,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Vec3i;
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.sounds.SoundSource;
@@ -138,15 +139,16 @@ public class ClientEvents {
 	}
 
 	@SubscribeEvent
-	public void onCameraSetup(ViewportEvent.ComputeFov event) {
+	public void onCameraSetup(CalculateDetachedCameraDistanceEvent event) {
 		Camera camera = event.getCamera();
 		Entity viewEntity = camera.getEntity();
 
-		if (!Minecraft.getInstance().options.getCameraType().isFirstPerson()) {
+		if (Minecraft.getInstance().options.getCameraType() == CameraType.THIRD_PERSON_BACK) {
 			if (viewEntity instanceof Player player && player.getVehicle() instanceof GummiShipEntity ship) {
-				if(ship.shipStats != null){
-					int maxSize = Math.max(Math.max(ship.structure.getHeight(),ship.structure.getDepth()),ship.structure.getWidth());
-					event.setFOV(event.getFOV()+maxSize*3);
+				if(ship.structure != null){
+					Vec3i realSize = Utils.getRealGummiStructureSize(ship.structure);
+					int maxSize = Math.max(Math.max(realSize.getX(), realSize.getY()), realSize.getZ());
+					event.setDistance(maxSize*1.5F);
 				}
 
 			}
