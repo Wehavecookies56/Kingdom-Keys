@@ -18,7 +18,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import javax.annotation.Nullable;
 
 public class SoADoorBlock extends BaseBlock implements INoDataGen{
-    public static final DirectionProperty FACING = BlockStateProperties.FACING;
+    public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
 
 	private static final VoxelShape collisionShapeEW = Block.box(5.0D, 0.0D, -8.0D, 11.0D, 32.0D, 24.0D);
 	private static final VoxelShape collisionShapeNS = Block.box(-8.0D, 0.0D, 5.0D, 24.0D, 32.0D, 11.0D);

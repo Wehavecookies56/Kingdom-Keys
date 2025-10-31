@@ -32,7 +32,7 @@ import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
 import javax.annotation.Nullable;
 
 public class DataPortalBlock extends BaseBlock implements INoDataGen {
-    public static final DirectionProperty FACING = BlockStateProperties.FACING;
+    public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
 
 	private static final VoxelShape collisionShapeEW = Block.box(0.0D, 0.0D, -5.0D, 16.0D, 48.0D, 21.0D);
 	private static final VoxelShape collisionShapeNS = Block.box(-5.0D, 0.0D, 0.0D, 21.0D, 48.0D, 16.0D);

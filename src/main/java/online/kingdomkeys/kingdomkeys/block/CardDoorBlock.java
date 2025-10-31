@@ -46,7 +46,7 @@ public class CardDoorBlock extends BaseBlock implements EntityBlock, INoDataGen 
 	private static final VoxelShape collisionShapeW = Block.box(10.0D, 0.0D, -8.0D, 16.0D, 32.0D, 24.0D);
 	private static final VoxelShape collisionShapeS = Block.box(-8.0D, 0.0D, 0.0D, 24.0D, 32.0D, 6.0D);
 
-	public static final DirectionProperty FACING = BlockStateProperties.FACING;
+	public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
 	// If block was placed by player: false
 	public static final BooleanProperty GENERATED = BooleanProperty.create("generated");
 
