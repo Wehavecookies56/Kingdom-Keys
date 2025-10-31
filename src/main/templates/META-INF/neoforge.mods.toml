@@ -38,7 +38,7 @@ issueTrackerURL="https://github.com/Wehavecookies56/Kingdom-Keys/issues"
     side="BOTH"
 [[dependencies.${mod_id}]]
     modId="geckolib"
-    type="optional"
+    type="required"
     versionRange="[4,)"
     ordering="AFTER"
     side="BOTH"
