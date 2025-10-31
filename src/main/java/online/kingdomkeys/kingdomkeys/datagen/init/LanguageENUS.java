@@ -397,9 +397,33 @@ public class LanguageENUS extends KKLanguageProvider {
         addBlock(ModBlocks.rodStone, "Dark Stone");
 
         //Gummi
+        //Angular
         addTintedBlock(ModBlocks.gummiCubes, "Angular/G-01 (Cube %s)");
+        addTintedBlock(ModBlocks.gummiShellCubes, "Angular/Shell-G-01 (Cube %s)");
+        addTintedBlock(ModBlocks.gummiDispelCubes, "Angular/Dispel-G-01 (Cube %s)");
         addTintedBlock(ModBlocks.gummiWedges, "Angular/G-02 (Wedge %s)");
-
+        addTintedBlock(ModBlocks.gummiShellWedges, "Angular/Shell-G-02 (Wedge %s)");
+        addTintedBlock(ModBlocks.gummiDispelWedges, "Angular/Dispel-G-02 (Wedge %s)");
+        addTintedBlock(ModBlocks.gummiPyramids, "Angular/G-03 (Pyramid %s)");
+        addTintedBlock(ModBlocks.gummiShellPyramids, "Angular/Shell-G-03 (Pyramid %s)");
+        addTintedBlock(ModBlocks.gummiDispelPyramids, "Angular/Dispel-G-03 (Pyramid %s)");
+        //Cylindrical
+        addTintedBlock(ModBlocks.gummiCylinders, "Cylindrical/G-01 (Cylinder %s)");
+        addTintedBlock(ModBlocks.gummiShellCylinders, "Cylindrical/Shell-G-01 (Cylinder %s)");
+        addTintedBlock(ModBlocks.gummiDispelCylinders, "Cylindrical/Dispel-G-01 (Cylinder %s)");
+        addTintedBlock(ModBlocks.gummiDomes, "Cylindrical/G-02 (Dome %s)");
+        addTintedBlock(ModBlocks.gummiShellDomes, "Cylindrical/Shell-G-02 (Dome %s)");
+        addTintedBlock(ModBlocks.gummiDispelDomes, "Cylindrical/Dispel-G-02 (Dome %s)");
+        addTintedBlock(ModBlocks.gummiCones, "Cylindrical/G-03 (Cone %s)");
+        addTintedBlock(ModBlocks.gummiShellCones, "Cylindrical/Shell-G-03 (Cone %s)");
+        addTintedBlock(ModBlocks.gummiDispelCones, "Cylindrical/Dispel-G-03 (Cone %s)");
+        //Rounded
+        addTintedBlock(ModBlocks.gummiPies, "Rounded/G-01 (Pie %s)");
+        addTintedBlock(ModBlocks.gummiShellPies, "Rounded/Shell-G-01 (Pie %s)");
+        addTintedBlock(ModBlocks.gummiDispelPies, "Rounded/Dispel-G-01 (Pie %s)");
+        addTintedBlock(ModBlocks.gummiRoundCorners, "Rounded/G-02 (Round Corner %s)");
+        addTintedBlock(ModBlocks.gummiShellRoundCorners, "Rounded/Shell-G-02 (Round Corner %s)");
+        addTintedBlock(ModBlocks.gummiDispelRoundCorners, "Rounded/Dispel-G-02 (Round Corner %s)");
 
         /**KK stuff**/
         //Abilities
