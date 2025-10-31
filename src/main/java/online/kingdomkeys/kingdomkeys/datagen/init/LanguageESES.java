@@ -14,9 +14,6 @@ import online.kingdomkeys.kingdomkeys.limit.ModLimits;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.reactioncommands.ModReactionCommands;
 import online.kingdomkeys.kingdomkeys.shotlock.ModShotlocks;
-
-import java.util.ArrayList;
-
 import static online.kingdomkeys.kingdomkeys.KingdomKeys.MODID;
 import static online.kingdomkeys.kingdomkeys.lib.Strings.*;
 
@@ -546,18 +543,34 @@ public class LanguageESES extends KKLanguageProvider {
         addBlock(ModBlocks.rodStone, "Piedra Oscura");
 
         //Gummi
+        //Coraza
         addTintedBlock(ModBlocks.gummiCubes, "Gummi Coraza (Cubo %s)");
-        addTintedBlock(ModBlocks.gummiWedges, "Gummi Coraza (Rampa %s)");
+        addTintedBlock(ModBlocks.gummiShellCubes, "Gummi Escudo (Cubo %s)");
+        addTintedBlock(ModBlocks.gummiDispelCubes, "Gummi Antimagia (Cubo %s)");
+        addTintedBlock(ModBlocks.gummiWedges, "Gummi Coraza (Cuña %s)");
+        addTintedBlock(ModBlocks.gummiShellWedges, "Gummi Escudo (Cuña %s)");
+        addTintedBlock(ModBlocks.gummiDispelWedges, "Gummi Antimagia (Cuña %s)");
         addTintedBlock(ModBlocks.gummiPyramids, "Gummi Coraza (Pirámide %s)");
+        addTintedBlock(ModBlocks.gummiShellPyramids, "Gummi Escudo (Pirámide %s)");
+        addTintedBlock(ModBlocks.gummiDispelPyramids, "Gummi Antimagia (Pirámide %s)");
+        //Cilíndricos
         addTintedBlock(ModBlocks.gummiCylinders, "Gummi Coraza (Cilindro %s)");
-        addTintedBlock(ModBlocks.gummiPies, "Gummi Coraza (Tarta %s)");
-        addTintedBlock(ModBlocks.gummiRoundCorners, "Gummi Coraza (Corner %s)");
-        addTintedBlock(ModBlocks.gummiCones, "Gummi Coraza (Cono %s)");
+        addTintedBlock(ModBlocks.gummiShellCylinders, "Gummi Escudo (Cilindro %s)");
+        addTintedBlock(ModBlocks.gummiDispelCylinders, "Gummi Antimagia (Cilindro %s)");
         addTintedBlock(ModBlocks.gummiDomes, "Gummi Coraza (Domo %s)");
+        addTintedBlock(ModBlocks.gummiShellDomes, "Gummi Escudo (Domo %s)");
+        addTintedBlock(ModBlocks.gummiDispelDomes, "Gummi Antimagia (Domo %s)");
+        addTintedBlock(ModBlocks.gummiCones, "Gummi Coraza (Cono %s)");
+        addTintedBlock(ModBlocks.gummiShellCones, "Gummi Escudo (Cono %s)");
+        addTintedBlock(ModBlocks.gummiDispelCones, "Gummi Antimagia (Cono %s)");
+        //Redondeados
+        addTintedBlock(ModBlocks.gummiPies, "Gummi Coraza (Tarta %s)");
+        addTintedBlock(ModBlocks.gummiShellPies, "Gummi Escudo (Tarta %s)");
+        addTintedBlock(ModBlocks.gummiDispelPies, "Gummi Antimagia (Tarta %s)");
+        addTintedBlock(ModBlocks.gummiRoundCorners, "Gummi Coraza (Corner %s)");
+        addTintedBlock(ModBlocks.gummiShellRoundCorners, "Gummi Escudo (Corner %s)");
+        addTintedBlock(ModBlocks.gummiDispelRoundCorners, "Gummi Antimagia (Corner %s)");
 
-        //Rest of blocks:
-        //Shell: Gummi Escudo
-        //Tier 3: Gummi Antimagia
         //Thrusters: Gummi piro, gummi piro+, gummi piro++, gummi fulgor, gummi sanctus
         //Canons: Gummi Electro, Gummi Electro+, Gummi Electro++,
         //Lasers: Cometa, Meteo, Artema
@@ -964,6 +977,7 @@ public class LanguageESES extends KKLanguageProvider {
 
         addItem(ModItems.gummiMeteorFragment, "Fragmento de Gummi");
         addItem(ModItems.gummiShipBlueprint, "Planos de Gummi");
+        addItem(ModItems.gummiPhone, "Gumífono");
 
         //Keyblades
         addItem(ModItems.abaddonPlasma, "Plasma de Abad\u00f3n");

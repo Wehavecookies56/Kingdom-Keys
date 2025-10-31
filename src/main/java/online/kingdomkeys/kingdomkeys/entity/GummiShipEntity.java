@@ -111,7 +111,7 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 				this.markHurt();
 				this.setDamage(this.getDamage() + amount);
 				this.gameEvent(GameEvent.ENTITY_DAMAGE, source.getEntity());
-				boolean flag = source.getEntity() instanceof Player && ((Player)source.getEntity()).getAbilities().instabuild;
+				boolean flag = source.getEntity() instanceof Player player && player.getAbilities().instabuild && player.isCrouching();
 				if (flag) { //If creative player hits a ship
 					this.destroy(source);
 				}

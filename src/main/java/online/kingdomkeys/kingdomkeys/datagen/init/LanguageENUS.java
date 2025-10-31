@@ -14,10 +14,6 @@ import online.kingdomkeys.kingdomkeys.limit.ModLimits;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.reactioncommands.ModReactionCommands;
 import online.kingdomkeys.kingdomkeys.shotlock.ModShotlocks;
-
-import java.util.List;
-import java.util.Map;
-
 import static online.kingdomkeys.kingdomkeys.KingdomKeys.MODID;
 import static online.kingdomkeys.kingdomkeys.lib.Strings.*;
 
@@ -655,6 +651,7 @@ public class LanguageENUS extends KKLanguageProvider {
 
         addItem(ModItems.gummiMeteorFragment, "Gummi Fragment");
         addItem(ModItems.gummiShipBlueprint, "Gummi Blueprint");
+        addItem(ModItems.gummiPhone, "Gummiphone");
 
         //Keyblades
         addItem(ModItems.abaddonPlasma, "Abaddon Plasma");

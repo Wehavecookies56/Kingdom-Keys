@@ -33,6 +33,8 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -220,7 +222,12 @@ public class ClientEvents {
 			MultiBufferSource buffer = event.getMultiBufferSource();
 
 			Vec3 cameraPos = event.getCamera().getPosition();
-			double x = pos.getX() - cameraPos.x;
+
+			BlockState state = mc.level.getBlockState(pos);
+			VoxelShape shape = state.getShape(mc.level, pos);
+			if (shape.isEmpty())
+				shape = Shapes.block(); // fallback
+			double x = (pos.getX()) - cameraPos.x;
 			double y = pos.getY() - cameraPos.y;
 			double z = pos.getZ() - cameraPos.z;
 
@@ -229,27 +236,21 @@ public class ClientEvents {
 			poseStack.pushPose();
 			{
 				VertexConsumer builder = buffer.getBuffer(RenderType.lines());
-
-				if (blockItem.getBlock() instanceof GummiBlockCorner) {
-					switch (face) {
-						case UP -> ClientUtils.drawPlusOnFace(poseStack, builder, x, y + 1 + offset, z, Direction.UP);
-						case DOWN -> ClientUtils.drawPlusOnFace(poseStack, builder, x, y - offset, z, Direction.DOWN);
-						case NORTH -> ClientUtils.drawPlusOnFace(poseStack, builder, x, y, z - offset, Direction.NORTH);
-						case SOUTH -> ClientUtils.drawPlusOnFace(poseStack, builder, x, y, z + 1 + offset, Direction.SOUTH);
-						case EAST -> ClientUtils.drawPlusOnFace(poseStack, builder, x + 1 + offset, y, z, Direction.EAST);
-						case WEST -> ClientUtils.drawPlusOnFace(poseStack, builder, x - offset, y, z, Direction.WEST);
-					}
-
-				} else {
-					switch (face) {
-						case UP -> ClientUtils.drawXOnFace(poseStack, builder, x, y + 1 + offset, z, Direction.UP);
-						case DOWN -> ClientUtils.drawXOnFace(poseStack, builder, x, y - offset, z, Direction.DOWN);
-						case NORTH -> ClientUtils.drawXOnFace(poseStack, builder, x, y, z - offset, Direction.NORTH);
-						case SOUTH -> ClientUtils.drawXOnFace(poseStack, builder, x, y, z + 1 + offset, Direction.SOUTH);
-						case EAST -> ClientUtils.drawXOnFace(poseStack, builder, x + 1 + offset, y, z, Direction.EAST);
-						case WEST -> ClientUtils.drawXOnFace(poseStack, builder, x - offset, y, z, Direction.WEST);
-					}
+				double dx = 0, dy = 0, dz = 0;
+				switch (face) {
+					case UP -> dy = offset + shape.bounds().maxY;
+					case DOWN -> dy = -offset + shape.bounds().minY;
+					case NORTH -> dz = -offset;
+					case SOUTH -> dz = 1 + offset;
+					case EAST -> dx = 1 + offset;
+					case WEST -> dx = -offset;
 				}
+
+				if (blockItem.getBlock() instanceof GummiBlockCorner)
+					ClientUtils.drawPlusOnFace(poseStack, builder, x + dx, y + dy, z + dz, face);
+				else
+					ClientUtils.drawXOnFace(poseStack, builder, x + dx, y + dy, z + dz, face);
+
 			}
 			poseStack.popPose();
 		}
