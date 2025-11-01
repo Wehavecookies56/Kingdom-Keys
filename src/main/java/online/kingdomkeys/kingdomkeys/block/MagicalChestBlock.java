@@ -45,7 +45,7 @@ import java.util.List;
 import java.util.UUID;
 
 public class MagicalChestBlock extends BaseEntityBlock implements INoDataGen {
-	public static final DirectionProperty FACING = BlockStateProperties.FACING;
+	public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
 	public static final BooleanProperty BIG = BooleanProperty.create("big");
 
 	private static final VoxelShape collisionShapeEW = Block.box(2.0D, 0.0D, 1.0D, 14.0D, 12.0D, 15.0D);
