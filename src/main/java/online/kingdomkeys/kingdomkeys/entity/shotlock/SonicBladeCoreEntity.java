@@ -24,8 +24,8 @@ import java.util.UUID;
 
 public class SonicBladeCoreEntity extends ThrowableProjectile{
 	int maxTicks = 260;
-	List<VolleyShotEntity> list = new ArrayList<VolleyShotEntity>();
-	List<Entity> targetList = new ArrayList<Entity>();
+	List<VolleyShotEntity> list = new ArrayList<>();
+	List<Entity> targetList = new ArrayList<>();
 	float dmg;
 	
 	public SonicBladeCoreEntity(EntityType<? extends ThrowableProjectile> type, Level world) {
@@ -57,7 +57,7 @@ public class SonicBladeCoreEntity extends ThrowableProjectile{
 			if (getCaster() != null && getTarget() != null) {
 				BlockPos pos = getTarget().blockPosition();
 				float speedFactor = 0.4F;
-				getCaster().setDeltaMovement((pos.getX() - getCaster().getX()) * speedFactor, (pos.getY() - getCaster().getY()) * speedFactor, (pos.getZ() - getCaster().getZ()) * speedFactor);
+				getCaster().setDeltaMovement((pos.getX() - getCaster().getX()) * speedFactor, (pos.getY() + 1 - getCaster().getY()) * speedFactor, (pos.getZ() - getCaster().getZ()) * speedFactor);
 	
 				if (level().isClientSide) {
 					getCaster().hurtMarked = true;
