@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class ClientConfig {
 
-    public ModConfigSpec.BooleanValue cmHeaderTextVisible, cmClassicColors;
+    public ModConfigSpec.BooleanValue cmHeaderTextVisible, cmClassicColors, auto3rdPersonShip;
     public ModConfigSpec.IntValue cmTextXOffset, cmXScale, cmXPos, cmSelectedXOffset, cmSubXOffset, cmEndLWidth, cmEndRWidth, cmHeaderEndLWidth, cmHeaderEndRWidth, cmReactionEndLWidth, cmReactionEndRWidth;
     
     public ModConfigSpec.BooleanValue hpShowHearts;
@@ -126,6 +126,11 @@ public class ClientConfig {
 				.comment("Reaction command right end segment width")
 				.translation(KingdomKeys.MODID + ".config.cm_reaction_end_r_width")
 				.defineInRange("cmReactionEndRWidth", 10, 0, 256);
+
+			auto3rdPersonShip = builder
+				.comment("Automatically change to 3rd person when riding a gummi ship")
+				.translation(KingdomKeys.MODID + ".config.auto_third_person_ship")
+				.define("auto3rdPersonShip", true);
 
 			builder.pop();
 	        

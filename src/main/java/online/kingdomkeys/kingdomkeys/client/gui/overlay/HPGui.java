@@ -85,7 +85,7 @@ public class HPGui extends OverlayBase {
         poseStack.popPose();
 		*/
 
-        float partialTick = deltaTracker.getGameTimeDeltaPartialTick(false);
+		float partialTick = deltaTracker.getGameTimeDeltaPartialTick(false);
 
 		int screenWidth = minecraft.getWindow().getGuiScaledWidth();
 		int screenHeight = minecraft.getWindow().getGuiScaledHeight();
@@ -97,56 +97,36 @@ public class HPGui extends OverlayBase {
 		RenderSystem.enableBlend();
 		RenderSystem.setShaderColor(1, 1, 1, 1);
 		poseStack.pushPose();
-		poseStack.translate(ModConfigs.hpXPos, ModConfigs.hpYPos, 0);
+		{
+			poseStack.translate(ModConfigs.hpXPos, ModConfigs.hpYPos, 0);
 
-		long now = net.minecraft.Util.getMillis();
-		// Player
-		float playerMaxHP = player.getMaxHealth();
+			long now = net.minecraft.Util.getMillis();
+			// Player
+			float playerMaxHP = player.getMaxHealth();
 
-		if (realPlayerHP == 0) {
-			realPlayerHP = player.getHealth();
-			displayedPlayerHP = player.getHealth();
-		}
-
-		float playerHP = player.getHealth();
-		if (playerHP < realPlayerHP) {
-			playerDelayEnd = now + 1000;
-		}
-		realPlayerHP = playerHP;
-
-		if (now > playerDelayEnd) {
-			displayedPlayerHP = Mth.lerp(0.05F * partialTick, displayedPlayerHP, realPlayerHP);
-		}
-
-		drawHPBars(guiGraphics, poseStack, screenWidth, screenHeight, scale, scaleFactor, displayedPlayerHP, realPlayerHP, playerMaxHP, false);
-
-		// Gummi
-		if (player.getVehicle() instanceof GummiShipEntity gummi && gummi.shipStats != null) {
-			float gummiHP = gummi.shipStats.armour() - gummi.getDamage();
-			float gummiMaxHP = gummi.shipStats.armour();
-
-			if (realGummiHP == 0) {
-				realGummiHP = gummiHP;
-				displayedGummiHP = gummiHP;
+			if (realPlayerHP == 0) {
+				realPlayerHP = player.getHealth();
+				displayedPlayerHP = player.getHealth();
 			}
 
-			if (gummiHP < realGummiHP) {
-				gummiDelayEnd = now + 1000;
+			float playerHP = player.getHealth();
+			if (playerHP < realPlayerHP) {
+				playerDelayEnd = now + 1000;
 			}
-			realGummiHP = gummiHP;
+			realPlayerHP = playerHP;
 
-			if (now > gummiDelayEnd) {
-				displayedGummiHP = Mth.lerp(0.05F * partialTick, displayedGummiHP, realGummiHP);
+			if (now > playerDelayEnd) {
+				displayedPlayerHP = Mth.lerp(0.05F * partialTick, displayedPlayerHP, realPlayerHP);
 			}
 
-			poseStack.translate(0, -10, 0);
-			drawHPBars(guiGraphics, poseStack, screenWidth, screenHeight, scale, scaleFactor, displayedGummiHP, realGummiHP, gummiMaxHP, true);
+			drawHPBars(guiGraphics, poseStack, screenWidth, screenHeight, scale, scaleFactor, displayedPlayerHP, realPlayerHP, playerMaxHP);
+
 		}
 		poseStack.popPose();
 		RenderSystem.disableBlend();
 	}
 
-	private void drawHPBars(GuiGraphics gui, PoseStack poseStack, int screenWidth, int screenHeight, float scale, float scaleFactor, float displayedHP, float realHP, float maxHP, boolean isGummi) {
+	public void drawHPBars(GuiGraphics gui, PoseStack poseStack, int screenWidth, int screenHeight, float scale, float scaleFactor, float displayedHP, float realHP, float maxHP) {
 		float maxBarWidth = maxHP * scaleFactor;
 		float realBarWidth = realHP * scaleFactor;
 		float displayedBarWidth = displayedHP * scaleFactor;
@@ -167,8 +147,6 @@ public class HPGui extends OverlayBase {
 		{
 			poseStack.translate((screenWidth - realBarWidth * scale) - 8 * scale, (screenHeight - guiHeight * scale) - 1 * scale, 0);
 			poseStack.scale(scale, scale, scale);
-			if (isGummi)
-				RenderSystem.setShaderColor(0.3F, 0.6F, 0.3F, 1);
 			drawHPBarTop(gui, 0, 0, realBarWidth, scale);
 			RenderSystem.setShaderColor(1, 1, 1, 1);
 		}
