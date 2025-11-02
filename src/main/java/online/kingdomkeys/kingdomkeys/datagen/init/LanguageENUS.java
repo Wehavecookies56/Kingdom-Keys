@@ -31,8 +31,8 @@ public class LanguageENUS extends KKLanguageProvider {
     @SuppressWarnings("all")
     @Override
     protected void addTranslations() {
-        //CLIENT
         //Config category keys
+        //CLIENT
         add(KingdomKeys.MODID + ".configuration.gui", "GUI related settings");
         add(KingdomKeys.MODID + ".configuration.command_menu", "Command Menu settings");
         add(KingdomKeys.MODID + ".configuration.hp_bar", "Health Bar settings");
@@ -43,12 +43,24 @@ public class LanguageENUS extends KKLanguageProvider {
         add(KingdomKeys.MODID + ".configuration.party", "Party HUD settings");
         add(KingdomKeys.MODID + ".configuration.focus", "Focus HUD settings");
 
-        //Config option keys
+        //COMMON
+        add(KingdomKeys.MODID + ".configuration.general", "General settings");
+        add(KingdomKeys.MODID + ".configuration.spawning", "Spawning settings");
+        add(KingdomKeys.MODID + ".configuration.drops", "Drops settings");
+        add(KingdomKeys.MODID + ".configuration.shotlock", "Shotlock settings");
+        add(KingdomKeys.MODID + ".configuration.synthesis", "Synthesis settings");
+        add(KingdomKeys.MODID + ".configuration.savepoint", "Savepoint settings");
+
+        //SERVER
+        add(KingdomKeys.MODID + ".configuration.leveling", "Leveling settings");
+
+
+        //CLIENT
         addConfigKey(ModConfigs.getClientConfig().summonTogether, "Summon weapon and armor together");
         addConfigKey(ModConfigs.getClientConfig().auto3rdPersonShip, "Auto 3rd person ship");
         addConfigKey(ModConfigs.getClientConfig().showGuiToggle, "Toggle HUD visibility");
         addConfigKey(ModConfigs.getClientConfig().showDriveForms, "Drive Forms visibility");
-        addConfigKey(ModConfigs.getClientConfig().magicDisplayedInCommandMenu, "Displayed Magic in Command Menu");
+        addConfigKey(ModConfigs.getClientConfig().magicDisplayedInCommandMenu, "Displayed Magic order in Command Menu");
         addConfigKey(ModConfigs.getClientConfig().cmTextXOffset, "Command Menu text X offset");
         addConfigKey(ModConfigs.getClientConfig().cmHeaderTextVisible, "Show Command Menu header text");
         addConfigKey(ModConfigs.getClientConfig().cmClassicColors, "Use classic Command Menu colors");
@@ -91,15 +103,6 @@ public class LanguageENUS extends KKLanguageProvider {
         addConfigKey(ModConfigs.getClientConfig().focusYScale, "Focus Bar Y scale (%)");
 
         //COMMON
-        //Categories
-        add(KingdomKeys.MODID + ".configuration.general", "General settings");
-        add(KingdomKeys.MODID + ".configuration.spawning", "Spawning settings");
-        add(KingdomKeys.MODID + ".configuration.drops", "Drops settings");
-        add(KingdomKeys.MODID + ".configuration.shotlock", "Shotlock settings");
-        add(KingdomKeys.MODID + ".configuration.synthesis", "Synthesis settings");
-        add(KingdomKeys.MODID + ".configuration.savepoint", "Savepoint settings");
-
-        //Options
         addConfigKey(ModConfigs.getCommonConfig().bombExplodeWithFire, "Bomb Heartless explode on fire");
         addConfigKey(ModConfigs.getCommonConfig().blizzardChangeBlocks, "Blizzard change blocks");
         addConfigKey(ModConfigs.getCommonConfig().keybladeOpenDoors, "Keyblade open iron doors");
@@ -134,28 +137,23 @@ public class LanguageENUS extends KKLanguageProvider {
         addConfigKey(ModConfigs.getCommonConfig().startingRecipes, "Starter recipes");
 
         //SERVER
-        //Categories
-        //General is taken from the client one since the translation should be identical
-        add(KingdomKeys.MODID + ".configuration.leveling", "Leveling settings");
-
-        //Options
         addConfigKey(ModConfigs.getServerConfig().recipeDropChance, "Recipe drop chance");
         addConfigKey(ModConfigs.getServerConfig().partyRangeLimit, "Party range limit");
         addConfigKey(ModConfigs.getServerConfig().partyMembersLimit, "Party members limit");
-        addConfigKey(ModConfigs.getServerConfig().requireSynthTier, "If true players will only be able to synthesis items from their tier or lower, if false they can synthesise all regardless of their tier");
-        addConfigKey(ModConfigs.getServerConfig().projectorHasShop, "If true moogle projectors will have the default shop available, if false only the moogles will");
-        addConfigKey(ModConfigs.getServerConfig().getExpFromShop, "If true both synthesis and moogle shop will give EXP for recipes, if false only synthesis");
-        addConfigKey(ModConfigs.getServerConfig().orgEnabled, "If true the organization system will be enabled, if false will be disabled");
-        addConfigKey(ModConfigs.getServerConfig().allowBoosts, "If true then boosts like Power Boost, Magic Boost and Defense Boost will be enabled, if false they won't add stats");
-        addConfigKey(ModConfigs.getServerConfig().allowPartyKO, "If true then when a player in a party (with more party members online) dies, they will be put in a KO state allowing to cast cure or potions to be revived");
-        addConfigKey(ModConfigs.getServerConfig().wayfinderParty, "If true then players will only be able to use the Wayfinder with other party members, if false with anyone");
-        addConfigKey(ModConfigs.getServerConfig().hostileMobsLevel, "If true other hostile mobs will level up alongside the player level the same way heartless do");
-        addConfigKey(ModConfigs.getServerConfig().shotlockMaxDist, "Shotlock max distance for locking");
+        addConfigKey(ModConfigs.getServerConfig().requireSynthTier, "Require Synthesis tier");
+        addConfigKey(ModConfigs.getServerConfig().projectorHasShop, "Moogle Projector has shop");
+        addConfigKey(ModConfigs.getServerConfig().getExpFromShop, "Get synthesis exp. from shop");
+        addConfigKey(ModConfigs.getServerConfig().orgEnabled, "Organization XIII system");
+        addConfigKey(ModConfigs.getServerConfig().allowBoosts, "Stat boosts");
+        addConfigKey(ModConfigs.getServerConfig().allowPartyKO, "Party KO system (kinda buggy)");
+        addConfigKey(ModConfigs.getServerConfig().wayfinderParty, "Restrict Wayfinder to party");
+        addConfigKey(ModConfigs.getServerConfig().hostileMobsLevel, "Hostile mobs level up (non KK enemies)");
+        addConfigKey(ModConfigs.getServerConfig().shotlockMaxDist, "Shotlock max distance");
         addConfigKey(ModConfigs.getServerConfig().xpMultiplier, "XP Multiplier");
         addConfigKey(ModConfigs.getServerConfig().heartMultiplier, "Hearts Multiplier");
-        addConfigKey(ModConfigs.getServerConfig().partyXPShare, "XP Share in party (killer gets 100%, the rest of party members the % specified here)");
+        addConfigKey(ModConfigs.getServerConfig().partyXPShare, "XP Share in party");
         addConfigKey(ModConfigs.getServerConfig().driveFormXPMultiplier, "Drive Form XP Multiplier");
-        addConfigKey(ModConfigs.getServerConfig().statsMultiplier, "Strength, Magic and Defense multiplier in % for players");
+        addConfigKey(ModConfigs.getServerConfig().statsMultiplier, "Stats multiplier");
 
 
         //Advancements

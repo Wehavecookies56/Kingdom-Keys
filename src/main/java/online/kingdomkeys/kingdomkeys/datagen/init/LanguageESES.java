@@ -28,10 +28,129 @@ public class LanguageESES extends KKLanguageProvider {
     @SuppressWarnings("all")
     @Override
     protected void addTranslations() {
-        //Config keys
-        addConfigKey(ModConfigs.getClientConfig().summonTogether, "Invoca arma y armadura a la vez");
+        //Config category keys
+        //CLIENT
+        add(KingdomKeys.MODID + ".configuration.gui", "Ajustes de interfaz");
+        add(KingdomKeys.MODID + ".configuration.command_menu", "Ajustes de Menú de Comandos");
+        add(KingdomKeys.MODID + ".configuration.hp_bar", "Ajustes de Indicador de Vida");
+        add(KingdomKeys.MODID + ".configuration.mp_bar", "Ajustes de Indicador de Magia");
+        add(KingdomKeys.MODID + ".configuration.dp_bar", "Ajustes de Indicador de Fusión");
+        add(KingdomKeys.MODID + ".configuration.player_skin", "Ajustes de indicador del jugador");
+        add(KingdomKeys.MODID + ".configuration.lock_on", "Ajustes de Fijar Enemigo");
+        add(KingdomKeys.MODID + ".configuration.party", "Ajustes de Grupo");
+        add(KingdomKeys.MODID + ".configuration.focus", "Ajustes de Indicador de Tino");
+
+        //COMMON
+        add(KingdomKeys.MODID + ".configuration.general", "Ajustes generales");
+        add(KingdomKeys.MODID + ".configuration.spawning", "Ajustes de spawneo");
+        add(KingdomKeys.MODID + ".configuration.drops", "Ajustes de drops");
+        add(KingdomKeys.MODID + ".configuration.shotlock", "Ajustes de Tiro Certero");
+        add(KingdomKeys.MODID + ".configuration.synthesis", "Ajustes de síntesis");
+        add(KingdomKeys.MODID + ".configuration.savepoint", "Ajustes de Punto de Guardado");
+
+        //SERVER
+        add(KingdomKeys.MODID + ".configuration.leveling", "Ajustes de niveles");
+
+
+        //CLIENT
+        addConfigKey(ModConfigs.getClientConfig().summonTogether, "Invoca simultáneamente arma y armadura");
         addConfigKey(ModConfigs.getClientConfig().auto3rdPersonShip, "3a persona automática en Nave Gummi");
-        add(KingdomKeys.MODID + ".configuration.gui", "Opciones de interfaz");
+        addConfigKey(ModConfigs.getClientConfig().showGuiToggle, "Cambiar visibilidad del HUD");
+        addConfigKey(ModConfigs.getClientConfig().showDriveForms, "Visibilidad de Formas de Fusión");
+        addConfigKey(ModConfigs.getClientConfig().magicDisplayedInCommandMenu, "Orden de Magias en el Menú de Comandos");
+        addConfigKey(ModConfigs.getClientConfig().cmTextXOffset, "Menú de Comandos offset del texto X");
+        addConfigKey(ModConfigs.getClientConfig().cmHeaderTextVisible, "Mostrar cabecera del Menú de Comandos");
+        addConfigKey(ModConfigs.getClientConfig().cmClassicColors, "Colores del Menú de Comandos clasicos");
+        addConfigKey(ModConfigs.getClientConfig().cmXScale, "Menú de Comandos escala X (%)");
+        addConfigKey(ModConfigs.getClientConfig().cmXPos, "Menú de Comandos posición X");
+        addConfigKey(ModConfigs.getClientConfig().cmSelectedXOffset, "Menú de Comandos offset X seleccionado");
+        addConfigKey(ModConfigs.getClientConfig().cmSubXOffset, "Menú de Comandos submenú X offset (%)");
+        addConfigKey(ModConfigs.getClientConfig().cmEndLWidth, "Menú de Comandos anchura segmento izquierda");
+        addConfigKey(ModConfigs.getClientConfig().cmEndRWidth, "Menú de Comandos anchura segmento derecha");
+        addConfigKey(ModConfigs.getClientConfig().cmHeaderEndLWidth, "Menú de Comandos anchura cabecera izquierda");
+        addConfigKey(ModConfigs.getClientConfig().cmHeaderEndRWidth, "Menú de Comandos anchura cabecera derecha");
+        addConfigKey(ModConfigs.getClientConfig().cmReactionEndLWidth, "Comando de Reacción anchura izquierda");
+        addConfigKey(ModConfigs.getClientConfig().cmReactionEndRWidth, "Comando de Reacción anchura derecha");
+        addConfigKey(ModConfigs.getClientConfig().hpXPos, "Indicador de vida X pos");
+        addConfigKey(ModConfigs.getClientConfig().hpYPos, "Indicador de vida Y pos");
+        addConfigKey(ModConfigs.getClientConfig().hpShowHearts, "Mostrar corazones de vida");
+        addConfigKey(ModConfigs.getClientConfig().hpAlarm, "Volumen de alarma de vida baja");
+        addConfigKey(ModConfigs.getClientConfig().hpXScale, "Indicador de vida escala X (%)");
+        addConfigKey(ModConfigs.getClientConfig().mpXPos, "Indicador de magia X pos");
+        addConfigKey(ModConfigs.getClientConfig().mpYPos, "Indicador de magia Y pos");
+        addConfigKey(ModConfigs.getClientConfig().mpXScale, "Indicador de magia escala X (%)");
+        addConfigKey(ModConfigs.getClientConfig().dpXPos, "Indicador de fusión X pos");
+        addConfigKey(ModConfigs.getClientConfig().dpYPos, "Indicador de fusión Y pos");
+        addConfigKey(ModConfigs.getClientConfig().dpXScale, "Indicador de fusión escala X (%)");
+        addConfigKey(ModConfigs.getClientConfig().dpYScale, "Indicador de fusión escala Y (%)");
+        addConfigKey(ModConfigs.getClientConfig().playerSkinXPos, "Skin de jugador X pos");
+        addConfigKey(ModConfigs.getClientConfig().playerSkinYPos, "skin de jugador Y pos");
+        addConfigKey(ModConfigs.getClientConfig().lockOnXPos, "Vida de objetivo X pos");
+        addConfigKey(ModConfigs.getClientConfig().lockOnYPos, "Vida de objetivo Y pos");
+        addConfigKey(ModConfigs.getClientConfig().lockOnHPScale, "Vida de objetivo escala (%)");
+        addConfigKey(ModConfigs.getClientConfig().lockOnIconScale, "Ícono de fijación escala (%)");
+        addConfigKey(ModConfigs.getClientConfig().lockOnIconRotation, "Ícono de fijación vel. rot.");
+        addConfigKey(ModConfigs.getClientConfig().lockOnHpPerBar, "Vida de objetivo hp por barra");
+        addConfigKey(ModConfigs.getClientConfig().partyXPos, "HUD Grupo X pos");
+        addConfigKey(ModConfigs.getClientConfig().partyYPos, "HUD Grupo Y pos");
+        addConfigKey(ModConfigs.getClientConfig().partyYDistance, "HUD Grupo Y offset");
+        addConfigKey(ModConfigs.getClientConfig().focusXPos, "Indicador de Tino X pos");
+        addConfigKey(ModConfigs.getClientConfig().focusYPos, "Indicador de Tino Y pos");
+        addConfigKey(ModConfigs.getClientConfig().focusXScale, "Indicador de Tino escala X (%)");
+        addConfigKey(ModConfigs.getClientConfig().focusYScale, "Indicador de Tino escala Y (%)");
+
+        //COMMON
+        addConfigKey(ModConfigs.getCommonConfig().bombExplodeWithFire, "Sincorazón bomba explotan con fuego");
+        addConfigKey(ModConfigs.getCommonConfig().blizzardChangeBlocks, "Hielo altera bloques");
+        addConfigKey(ModConfigs.getCommonConfig().keybladeOpenDoors, "Llave espada abre puertas de hierro");
+        addConfigKey(ModConfigs.getCommonConfig().driveHeal, "Cura de Fusión");
+        addConfigKey(ModConfigs.getCommonConfig().drivePointsMultiplier, "Multiplicador de puntos de Fusión");
+        addConfigKey(ModConfigs.getCommonConfig().focusPointsMultiplier, "Multiplicador de puntos de Tino");
+        addConfigKey(ModConfigs.getCommonConfig().critMult, "Multiplicador de golpe crítico");
+        addConfigKey(ModConfigs.getCommonConfig().needKeybladeForHeartless, "Llave espada necessaria para dañar Sincorazón");
+        addConfigKey(ModConfigs.getCommonConfig().savePointMaterials, "Materiales de mejora del Punto de Guardado");
+        addConfigKey(ModConfigs.getCommonConfig().savePointRecovers, "Estadísticas recuperadas en Punto de Guardado");
+        addConfigKey(ModConfigs.getCommonConfig().linkedSavePointRecovers, "Estadísticas recuperadas en Punto de Guardado Enlazado");
+        addConfigKey(ModConfigs.getCommonConfig().warpPointRecovers, "Estadísticas recuperadas en Punto de Guardado Enlazado Interdimensional");
+        addConfigKey(ModConfigs.getCommonConfig().allowBlocksInHangarArea, "Permitir bloques en la zona del hangar");
+        addConfigKey(ModConfigs.getCommonConfig().gummiBlocksDropPercent, "Bloques Gummi soltados");
+        addConfigKey(ModConfigs.getCommonConfig().heartlessSpawningMode, "Modo de aparición de Sincorazón");
+        addConfigKey(ModConfigs.getCommonConfig().mobSpawnRate, "Probabilidad de aparición por tipo");
+        addConfigKey(ModConfigs.getCommonConfig().playerSpawnHeartless, "Spawnear Sincorazón e Incorpóreo de jugador");
+        addConfigKey(ModConfigs.getCommonConfig().mobLevelingUp, "Enemigos suben de nivel");
+        addConfigKey(ModConfigs.getCommonConfig().mobLevelName, "Nivel del mob en el nombre");
+        addConfigKey(ModConfigs.getCommonConfig().rodHeartlessLevelScale, "Escala de nivel de Sincorazón en RoD");
+        addConfigKey(ModConfigs.getCommonConfig().rodHeartlessMaxLevel, "Máximo nivel de Sincorazón en RoD");
+        addConfigKey(ModConfigs.getCommonConfig().playerSpawnHeartlessData, "Estadísticas de Sincorazón e Incorpóreo de jugador");
+        addConfigKey(ModConfigs.getCommonConfig().respawnROD, "Forzar respawn en RoD");
+        addConfigKey(ModConfigs.getCommonConfig().mobLevelStats, "Escala de estadísticas por nivel para mobs");
+        addConfigKey(ModConfigs.getCommonConfig().bossDespawnIfNoTarget, "Jefe desaparece si pierde objetivo");
+        addConfigKey(ModConfigs.getCommonConfig().hpDropProbability, "Probabilidad de soltar VT");
+        addConfigKey(ModConfigs.getCommonConfig().mpDropProbability, "Probabilidad de soltar MP");
+        addConfigKey(ModConfigs.getCommonConfig().munnyDropProbability, "Probabilidad de soltar Platines");
+        addConfigKey(ModConfigs.getCommonConfig().driveDropProbability, "Probabilidad de soltar puntos de Fusión");
+        addConfigKey(ModConfigs.getCommonConfig().focusDropProbability, "Probabilidad de soltar puntos de tino");
+        addConfigKey(ModConfigs.getCommonConfig().shotlockMult, "Multiplicador de daño del Tiro Certero");
+        addConfigKey(ModConfigs.getCommonConfig().startingRecipes, "Recetas iniciales");
+
+        //SERVER
+        addConfigKey(ModConfigs.getServerConfig().recipeDropChance, "Probabilidad de soltar recetas");
+        addConfigKey(ModConfigs.getServerConfig().partyRangeLimit, "Límite de rango de grupo");
+        addConfigKey(ModConfigs.getServerConfig().partyMembersLimit, "Límite de miembros de grupo");
+        addConfigKey(ModConfigs.getServerConfig().requireSynthTier, "Requerir nivel de síntesis");
+        addConfigKey(ModConfigs.getServerConfig().projectorHasShop, "Proyector Moguri contiene tienda");
+        addConfigKey(ModConfigs.getServerConfig().getExpFromShop, "Obtener exp. de la tienda");
+        addConfigKey(ModConfigs.getServerConfig().orgEnabled, "Sistema de la Organización XIII");
+        addConfigKey(ModConfigs.getServerConfig().allowBoosts, "Impulsos de estadísticas");
+        addConfigKey(ModConfigs.getServerConfig().allowPartyKO, "Sistema de KO en grupo (kinda buggy)");
+        addConfigKey(ModConfigs.getServerConfig().wayfinderParty, "Restringir Siemprejuntos a grupo");
+        addConfigKey(ModConfigs.getServerConfig().hostileMobsLevel, "Mobs hostiles suben de nivel (no enemigos de KK)");
+        addConfigKey(ModConfigs.getServerConfig().shotlockMaxDist, "Distancia máxima de Tiro Certero");
+        addConfigKey(ModConfigs.getServerConfig().xpMultiplier, "Multiplicador de XP");
+        addConfigKey(ModConfigs.getServerConfig().heartMultiplier, "Multiplicador de Corazones");
+        addConfigKey(ModConfigs.getServerConfig().partyXPShare, "Compartir XP en grupo");
+        addConfigKey(ModConfigs.getServerConfig().driveFormXPMultiplier, "Multiplicador de XP para Formas de Fusión");
+        addConfigKey(ModConfigs.getServerConfig().statsMultiplier, "Multiplicador de Estadísticas");
         //Advancements
         addAdvancement("root", "\u00a1Bienvenido a Kingdom Keys!", "Instala Kingdom Keys");
         addAdvancement("to_soa", "Es esto... \u00bfmi coraz\u00f3n?!", "Descende a tu coraz\u00f3n");
