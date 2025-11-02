@@ -38,13 +38,17 @@ public class ClientConfig {
 	public ModConfigSpec.ConfigValue<List<? extends String>> magicDisplayedInCommandMenu;
 
 	ClientConfig(final ModConfigSpec.Builder builder) {
-        builder.push("general");
-        	summonTogether = builder
+		summonTogether = builder
                 .comment("Summon both Keyblade and Armor with Summon Keyblade key")
                 .translation(KingdomKeys.MODID + ".config.summon_together")
                 .define("summonTogether", false);
-        builder.push("gui");
 
+		auto3rdPersonShip = builder
+				.comment("Automatically change to 3rd person when riding a gummi ship")
+				.translation(KingdomKeys.MODID + ".config.auto_third_person_ship")
+				.define("auto3rdPersonShip", true);
+
+        builder.push("gui");
 			showGuiToggle = builder
 				.comment("Toggle HUD visibility, weapon option will show only while holding a Keyblade or Organization weapon")
 				.translation(KingdomKeys.MODID + ".config.show_gui_toggle")
@@ -54,9 +58,8 @@ public class ClientConfig {
                 .comment("Drive Forms Visibility")
                 .translation(KingdomKeys.MODID + ".config.show_drive_forms")
                 .define("showDriveForms", true);
-        
-	        builder.push("command_menu");
 
+		builder.push("command_menu");
 			magicDisplayedInCommandMenu = builder
 					.comment("The Magic to display in the Magic menu within the Command Menu")
 					.translation(KingdomKeys.MODID + ".config.cm_magic_display")
@@ -127,10 +130,7 @@ public class ClientConfig {
 				.translation(KingdomKeys.MODID + ".config.cm_reaction_end_r_width")
 				.defineInRange("cmReactionEndRWidth", 10, 0, 256);
 
-			auto3rdPersonShip = builder
-				.comment("Automatically change to 3rd person when riding a gummi ship")
-				.translation(KingdomKeys.MODID + ".config.auto_third_person_ship")
-				.define("auto3rdPersonShip", true);
+
 
 			builder.pop();
 	        
@@ -274,7 +274,6 @@ public class ClientConfig {
 	        builder.pop();
 	        
 	        builder.push("focus");
-	        
 	        focusXPos = builder
 	                .comment("Focus HUD X Pos")
 	                .translation(KingdomKeys.MODID + ".config.focus_x_pos")
@@ -294,10 +293,7 @@ public class ClientConfig {
 	                .comment("Focus Bar Y Scale")
 	                .translation(KingdomKeys.MODID + ".config.focus_y_scale")
 	                .defineInRange("focusYScale", 100, -1000, 1000);
-	        
 	        builder.pop();
-        
-        builder.pop();
     }
 
 }

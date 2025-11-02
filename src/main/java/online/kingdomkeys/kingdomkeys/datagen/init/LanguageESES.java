@@ -1,8 +1,10 @@
 package online.kingdomkeys.kingdomkeys.datagen.init;
 
 import net.minecraft.data.DataGenerator;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
+import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.datagen.provider.KKLanguageProvider;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
@@ -26,7 +28,11 @@ public class LanguageESES extends KKLanguageProvider {
     @SuppressWarnings("all")
     @Override
     protected void addTranslations() {
-        // Advancements translated into Spanish
+        //Config keys
+        addConfigKey(ModConfigs.getClientConfig().summonTogether, "Invoca arma y armadura a la vez");
+        addConfigKey(ModConfigs.getClientConfig().auto3rdPersonShip, "3a persona automática en Nave Gummi");
+        add(KingdomKeys.MODID + ".configuration.gui", "Opciones de interfaz");
+        //Advancements
         addAdvancement("root", "\u00a1Bienvenido a Kingdom Keys!", "Instala Kingdom Keys");
         addAdvancement("to_soa", "Es esto... \u00bfmi coraz\u00f3n?!", "Descende a tu coraz\u00f3n");
         addAdvancement("choice", "\u00bfUna espada, bast\u00f3n y escudo?", "Haz una elecci\u00f3n");
@@ -43,7 +49,7 @@ public class LanguageESES extends KKLanguageProvider {
         addAdvancement("obtain_magic", "\u00a1Como un hechicero!", "Obt\u00e9n tu primera magia");
         addAdvancement("obtain_org", "Nadie visti\u00f3 esto", "Obt\u00e9n la ropa de la Organizaci\u00f3n");
         addAdvancement("to_rod", "La oscuridad te consumir\u00e1", "S\u00e9 absorbido al Reino de la Oscuridad");
-        //addAdvancement("castle_oblivion_tp","How did I get here?", "Reach the unknown land of Castle Oblivion");
+        //addAdvancement("castle_oblivion_tp","How did I get here?", "Reach the forgotten land of Castle Oblivion");
 
         //Keybinds
         add("key.categories.kingdomkeys", "Kingdom Keys");

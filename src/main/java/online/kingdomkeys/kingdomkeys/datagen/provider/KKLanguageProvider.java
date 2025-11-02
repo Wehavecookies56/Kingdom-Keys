@@ -1,19 +1,13 @@
 package online.kingdomkeys.kingdomkeys.datagen.provider;
 
-import com.google.common.collect.ImmutableMap;
-import net.minecraft.client.resources.language.I18n;
 import net.minecraft.core.Holder;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.locale.Language;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.world.effect.MobEffect;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
+import net.neoforged.neoforge.common.ModConfigSpec;
 import net.neoforged.neoforge.common.data.LanguageProvider;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
@@ -24,11 +18,8 @@ import online.kingdomkeys.kingdomkeys.magic.Magic;
 import online.kingdomkeys.kingdomkeys.reactioncommands.ReactionCommand;
 import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
-import java.util.function.BiConsumer;
 import java.util.function.Supplier;
 
 public abstract class KKLanguageProvider extends LanguageProvider {
@@ -125,6 +116,11 @@ public abstract class KKLanguageProvider extends LanguageProvider {
         add(key.value(), name);
         add(key.value().getDescriptionId()+".desc", desc);
     }
+
+    public void addConfigKey(ModConfigSpec.ConfigValue configOption, String translation) {
+        add(configOption.getSpec().getTranslationKey(), translation);
+    }
+
     Map<String, Map<String, String>> colours = Map.ofEntries(
             Map.entry("es_es", Map.ofEntries(
             Map.entry("color.minecraft.black", "Negro"),

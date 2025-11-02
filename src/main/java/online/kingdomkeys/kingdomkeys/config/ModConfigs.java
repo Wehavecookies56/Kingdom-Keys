@@ -21,6 +21,18 @@ public class ModConfigs {
     public static final ModConfigSpec COMMON_SPEC;
     public static final ModConfigSpec SERVER_SPEC;
 
+    public static ClientConfig getClientConfig(){
+        return CLIENT;
+    }
+
+    public static CommonConfig getCommonConfig(){
+        return COMMON;
+    }
+
+    public static ServerConfig getServerConfig(){
+        return SERVER;
+    }
+
     static {
         {
             final Pair<ClientConfig, ModConfigSpec> specPair = new ModConfigSpec.Builder().configure(ClientConfig::new);

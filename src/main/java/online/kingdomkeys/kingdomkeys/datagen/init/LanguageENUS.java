@@ -1,8 +1,11 @@
 package online.kingdomkeys.kingdomkeys.datagen.init;
 
 import net.minecraft.data.DataGenerator;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
+import online.kingdomkeys.kingdomkeys.config.ClientConfig;
+import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.datagen.provider.KKLanguageProvider;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
@@ -14,6 +17,8 @@ import online.kingdomkeys.kingdomkeys.limit.ModLimits;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.reactioncommands.ModReactionCommands;
 import online.kingdomkeys.kingdomkeys.shotlock.ModShotlocks;
+import org.jetbrains.annotations.Nullable;
+
 import static online.kingdomkeys.kingdomkeys.KingdomKeys.MODID;
 import static online.kingdomkeys.kingdomkeys.lib.Strings.*;
 
@@ -23,9 +28,137 @@ public class LanguageENUS extends KKLanguageProvider {
         super(gen, "en_us");
     }
 
+    @SuppressWarnings("all")
     @Override
     protected void addTranslations() {
-    	//Advancements
+        //CLIENT
+        //Config category keys
+        add(KingdomKeys.MODID + ".configuration.gui", "GUI related settings");
+        add(KingdomKeys.MODID + ".configuration.command_menu", "Command Menu settings");
+        add(KingdomKeys.MODID + ".configuration.hp_bar", "Health Bar settings");
+        add(KingdomKeys.MODID + ".configuration.mp_bar", "Magic Bar settings");
+        add(KingdomKeys.MODID + ".configuration.dp_bar", "Drive Bar settings");
+        add(KingdomKeys.MODID + ".configuration.player_skin", "Player Skin settings");
+        add(KingdomKeys.MODID + ".configuration.lock_on", "Lock-On settings");
+        add(KingdomKeys.MODID + ".configuration.party", "Party HUD settings");
+        add(KingdomKeys.MODID + ".configuration.focus", "Focus HUD settings");
+
+        //Config option keys
+        addConfigKey(ModConfigs.getClientConfig().summonTogether, "Summon weapon and armor together");
+        addConfigKey(ModConfigs.getClientConfig().auto3rdPersonShip, "Auto 3rd person ship");
+        addConfigKey(ModConfigs.getClientConfig().showGuiToggle, "Toggle HUD visibility");
+        addConfigKey(ModConfigs.getClientConfig().showDriveForms, "Drive Forms visibility");
+        addConfigKey(ModConfigs.getClientConfig().magicDisplayedInCommandMenu, "Displayed Magic in Command Menu");
+        addConfigKey(ModConfigs.getClientConfig().cmTextXOffset, "Command Menu text X offset");
+        addConfigKey(ModConfigs.getClientConfig().cmHeaderTextVisible, "Show Command Menu header text");
+        addConfigKey(ModConfigs.getClientConfig().cmClassicColors, "Use classic Command Menu colors");
+        addConfigKey(ModConfigs.getClientConfig().cmXScale, "Command Menu X scale (%)");
+        addConfigKey(ModConfigs.getClientConfig().cmXPos, "Command Menu X position");
+        addConfigKey(ModConfigs.getClientConfig().cmSelectedXOffset, "Command Menu selected X offset");
+        addConfigKey(ModConfigs.getClientConfig().cmSubXOffset, "Command Menu submenu X offset (%)");
+        addConfigKey(ModConfigs.getClientConfig().cmEndLWidth, "Command Menu left end segment width");
+        addConfigKey(ModConfigs.getClientConfig().cmEndRWidth, "Command Menu right end segment width");
+        addConfigKey(ModConfigs.getClientConfig().cmHeaderEndLWidth, "Command Menu header left end width");
+        addConfigKey(ModConfigs.getClientConfig().cmHeaderEndRWidth, "Command Menu header right end width");
+        addConfigKey(ModConfigs.getClientConfig().cmReactionEndLWidth, "Reaction command left end width");
+        addConfigKey(ModConfigs.getClientConfig().cmReactionEndRWidth, "Reaction command right end width");
+        addConfigKey(ModConfigs.getClientConfig().hpXPos, "Health Bar X position");
+        addConfigKey(ModConfigs.getClientConfig().hpYPos, "Health Bar Y position");
+        addConfigKey(ModConfigs.getClientConfig().hpShowHearts, "Show hearts in Health Bar");
+        addConfigKey(ModConfigs.getClientConfig().hpAlarm, "Low HP alarm volume");
+        addConfigKey(ModConfigs.getClientConfig().hpXScale, "Health Bar X scale (%)");
+        addConfigKey(ModConfigs.getClientConfig().mpXPos, "Magic Bar X position");
+        addConfigKey(ModConfigs.getClientConfig().mpYPos, "Magic Bar Y position");
+        addConfigKey(ModConfigs.getClientConfig().mpXScale, "Magic Bar X scale (%)");
+        addConfigKey(ModConfigs.getClientConfig().dpXPos, "Drive Bar X position");
+        addConfigKey(ModConfigs.getClientConfig().dpYPos, "Drive Bar Y position");
+        addConfigKey(ModConfigs.getClientConfig().dpXScale, "Drive Bar X scale (%)");
+        addConfigKey(ModConfigs.getClientConfig().dpYScale, "Drive Bar Y scale (%)");
+        addConfigKey(ModConfigs.getClientConfig().playerSkinXPos, "Player Skin X position");
+        addConfigKey(ModConfigs.getClientConfig().playerSkinYPos, "Player Skin Y position");
+        addConfigKey(ModConfigs.getClientConfig().lockOnXPos, "Lock-On HP X position");
+        addConfigKey(ModConfigs.getClientConfig().lockOnYPos, "Lock-On HP Y position");
+        addConfigKey(ModConfigs.getClientConfig().lockOnHPScale, "Lock-On HP bar scale (%)");
+        addConfigKey(ModConfigs.getClientConfig().lockOnIconScale, "Lock-On icon scale (%)");
+        addConfigKey(ModConfigs.getClientConfig().lockOnIconRotation, "Lock-On icon rotation speed");
+        addConfigKey(ModConfigs.getClientConfig().lockOnHpPerBar, "Lock-On HP per bar");
+        addConfigKey(ModConfigs.getClientConfig().partyXPos, "Party HUD X position");
+        addConfigKey(ModConfigs.getClientConfig().partyYPos, "Party HUD Y position");
+        addConfigKey(ModConfigs.getClientConfig().partyYDistance, "Party HUD Y offset");
+        addConfigKey(ModConfigs.getClientConfig().focusXPos, "Focus Bar X position");
+        addConfigKey(ModConfigs.getClientConfig().focusYPos, "Focus Bar Y position");
+        addConfigKey(ModConfigs.getClientConfig().focusXScale, "Focus Bar X scale (%)");
+        addConfigKey(ModConfigs.getClientConfig().focusYScale, "Focus Bar Y scale (%)");
+
+        //COMMON
+        //Categories
+        add(KingdomKeys.MODID + ".configuration.general", "General settings");
+        add(KingdomKeys.MODID + ".configuration.spawning", "Spawning settings");
+        add(KingdomKeys.MODID + ".configuration.drops", "Drops settings");
+        add(KingdomKeys.MODID + ".configuration.shotlock", "Shotlock settings");
+        add(KingdomKeys.MODID + ".configuration.synthesis", "Synthesis settings");
+        add(KingdomKeys.MODID + ".configuration.savepoint", "Savepoint settings");
+
+        //Options
+        addConfigKey(ModConfigs.getCommonConfig().bombExplodeWithFire, "Bomb Heartless explode on fire");
+        addConfigKey(ModConfigs.getCommonConfig().blizzardChangeBlocks, "Blizzard change blocks");
+        addConfigKey(ModConfigs.getCommonConfig().keybladeOpenDoors, "Keyblade open iron doors");
+        addConfigKey(ModConfigs.getCommonConfig().driveHeal, "Drive form heal");
+        addConfigKey(ModConfigs.getCommonConfig().drivePointsMultiplier, "Drive Points Multiplier");
+        addConfigKey(ModConfigs.getCommonConfig().focusPointsMultiplier, "Focus Points Multiplier");
+        addConfigKey(ModConfigs.getCommonConfig().critMult, "Critical hit multiplier");
+        addConfigKey(ModConfigs.getCommonConfig().needKeybladeForHeartless, "Need Keyblade to hurt KKMobs");
+        addConfigKey(ModConfigs.getCommonConfig().savePointMaterials, "Save point upgrade materials");
+        addConfigKey(ModConfigs.getCommonConfig().savePointRecovers, "Save point stats restore");
+        addConfigKey(ModConfigs.getCommonConfig().linkedSavePointRecovers, "Linked point stats restore");
+        addConfigKey(ModConfigs.getCommonConfig().warpPointRecovers, "Warp point stats restore");
+        addConfigKey(ModConfigs.getCommonConfig().allowBlocksInHangarArea, "Allow blocks in hangar area");
+        addConfigKey(ModConfigs.getCommonConfig().gummiBlocksDropPercent, "Gummi blocks dropped");
+        addConfigKey(ModConfigs.getCommonConfig().heartlessSpawningMode, "Heartless spawning mode");
+        addConfigKey(ModConfigs.getCommonConfig().mobSpawnRate, "Mob type spawn rate");
+        addConfigKey(ModConfigs.getCommonConfig().playerSpawnHeartless, "Spawn player Heartless and Nobody");
+        addConfigKey(ModConfigs.getCommonConfig().mobLevelingUp, "Enemies level up");
+        addConfigKey(ModConfigs.getCommonConfig().mobLevelName, "Mob level in name");
+        addConfigKey(ModConfigs.getCommonConfig().rodHeartlessLevelScale, "RoD heartless level scale");
+        addConfigKey(ModConfigs.getCommonConfig().rodHeartlessMaxLevel, "RoD heartless max level");
+        addConfigKey(ModConfigs.getCommonConfig().playerSpawnHeartlessData, "Player Heartless and Nobody stats");
+        addConfigKey(ModConfigs.getCommonConfig().respawnROD, "Force respawn in RoD");
+        addConfigKey(ModConfigs.getCommonConfig().mobLevelStats, "Mob level stats scale");
+        addConfigKey(ModConfigs.getCommonConfig().bossDespawnIfNoTarget, "Boss despawn if no target");
+        addConfigKey(ModConfigs.getCommonConfig().hpDropProbability, "HP Drops Probability");
+        addConfigKey(ModConfigs.getCommonConfig().mpDropProbability, "MP Drops Probability");
+        addConfigKey(ModConfigs.getCommonConfig().munnyDropProbability, "Munny Drops Probability");
+        addConfigKey(ModConfigs.getCommonConfig().driveDropProbability, "Drive Drops Probability");
+        addConfigKey(ModConfigs.getCommonConfig().focusDropProbability, "Focus Drops Probability");
+        addConfigKey(ModConfigs.getCommonConfig().shotlockMult, "Shotlock Damage Multiplier");
+        addConfigKey(ModConfigs.getCommonConfig().startingRecipes, "Starter recipes");
+
+        //SERVER
+        //Categories
+        //General is taken from the client one since the translation should be identical
+        add(KingdomKeys.MODID + ".configuration.leveling", "Leveling settings");
+
+        //Options
+        addConfigKey(ModConfigs.getServerConfig().recipeDropChance, "Recipe drop chance");
+        addConfigKey(ModConfigs.getServerConfig().partyRangeLimit, "Party range limit");
+        addConfigKey(ModConfigs.getServerConfig().partyMembersLimit, "Party members limit");
+        addConfigKey(ModConfigs.getServerConfig().requireSynthTier, "If true players will only be able to synthesis items from their tier or lower, if false they can synthesise all regardless of their tier");
+        addConfigKey(ModConfigs.getServerConfig().projectorHasShop, "If true moogle projectors will have the default shop available, if false only the moogles will");
+        addConfigKey(ModConfigs.getServerConfig().getExpFromShop, "If true both synthesis and moogle shop will give EXP for recipes, if false only synthesis");
+        addConfigKey(ModConfigs.getServerConfig().orgEnabled, "If true the organization system will be enabled, if false will be disabled");
+        addConfigKey(ModConfigs.getServerConfig().allowBoosts, "If true then boosts like Power Boost, Magic Boost and Defense Boost will be enabled, if false they won't add stats");
+        addConfigKey(ModConfigs.getServerConfig().allowPartyKO, "If true then when a player in a party (with more party members online) dies, they will be put in a KO state allowing to cast cure or potions to be revived");
+        addConfigKey(ModConfigs.getServerConfig().wayfinderParty, "If true then players will only be able to use the Wayfinder with other party members, if false with anyone");
+        addConfigKey(ModConfigs.getServerConfig().hostileMobsLevel, "If true other hostile mobs will level up alongside the player level the same way heartless do");
+        addConfigKey(ModConfigs.getServerConfig().shotlockMaxDist, "Shotlock max distance for locking");
+        addConfigKey(ModConfigs.getServerConfig().xpMultiplier, "XP Multiplier");
+        addConfigKey(ModConfigs.getServerConfig().heartMultiplier, "Hearts Multiplier");
+        addConfigKey(ModConfigs.getServerConfig().partyXPShare, "XP Share in party (killer gets 100%, the rest of party members the % specified here)");
+        addConfigKey(ModConfigs.getServerConfig().driveFormXPMultiplier, "Drive Form XP Multiplier");
+        addConfigKey(ModConfigs.getServerConfig().statsMultiplier, "Strength, Magic and Defense multiplier in % for players");
+
+
+        //Advancements
     	addAdvancement("root","Welcome to Kingdom Keys!", "Install Kingdom Keys");
     	addAdvancement("to_soa","Is this... my heart?!", "Deep dive into your heart");
     	addAdvancement("choice","A sword, shield and staff?", "Make a choice");
@@ -42,7 +175,7 @@ public class LanguageENUS extends KKLanguageProvider {
     	addAdvancement("obtain_magic","Like a Wizard!", "Obtain your first Magic Spell");
     	addAdvancement("obtain_org","Nobody wore this", "Obtain the organization robes");
     	addAdvancement("to_rod","Darkness within darkness awaits you", "Get sucked into the Realm of Darkness");
-    	//addAdvancement("castle_oblivion_tp","How did I get here?", "Reach the unknown land of Castle Oblivion");
+    	//addAdvancement("castle_oblivion_tp","How did I get here?", "Reach the forgotten land of Castle Oblivion");
 
         /**GUIS**/
         //Containers

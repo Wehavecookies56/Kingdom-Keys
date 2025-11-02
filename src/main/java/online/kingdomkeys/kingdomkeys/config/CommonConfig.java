@@ -77,18 +77,8 @@ public class CommonConfig {
                 .translation(KingdomKeys.MODID + ".config.drive_heal")
                 .defineInRange("driveHeal",50,0,100);
 
-        drivePointsMultiplier = builder
-                .comment("Drive Points Drop Multiplier")
-                .translation(KingdomKeys.MODID + ".config.drive_points_multiplier")
-                .defineInRange("drivePointsMultiplier",1.0,0,100);
-
-        focusPointsMultiplier = builder
-                .comment("Focus Points Drop Multiplier")
-                .translation(KingdomKeys.MODID + ".config.focus_points_multiplier")
-                .defineInRange("focusPointsMultiplier",1.0,0,100);
-
         critMult = builder
-                .comment("Critic Damage Multiplier")
+                .comment("Critical Damage Multiplier")
                 .translation(KingdomKeys.MODID + ".config.crit_mult")
                 .defineInRange("critMult",1.5,0,100);
         
@@ -97,6 +87,18 @@ public class CommonConfig {
                 .translation(KingdomKeys.MODID + ".config.need_keyblade_for_heartless")
                 .define("needKeybladeForHeartless", false);
 
+        allowBlocksInHangarArea = builder
+                .comment("Allow the player to place a hangar in a zone where there are blocks already (probably a good idea to disable on servers)")
+                .translation(KingdomKeys.MODID + ".config.allow_blocks_in_hangar_area")
+                .define("allowBlocksInHangarArea", true);
+
+        gummiBlocksDropPercent = builder
+                .comment("Percentage of blocks dropped when the Gummi Ship gets destroyed")
+                .translation(KingdomKeys.MODID + ".config.gummi_blocks_drop_percent")
+                .defineInRange("gummiBlocksDropPercent",80,0,100);
+        builder.pop();
+
+        builder.push("savepoint");
         savePointMaterials = builder
                 .comment("Materials used to upgrade save points (Default values: HP=kingdomkeys:orichalcum,MP=kingdomkeys:illusory_crystal,HUNGER=kingdomkeys:hungry_crystal,FOCUS=kingdomkeys:remembrance_crystal,DRIVE=kingdomkeys:evanescent_crystal,TIER=kingdomkeys:orichalcumplus)")
                 .translation(KingdomKeys.MODID + ".config.save_point_materials")
@@ -116,21 +118,21 @@ public class CommonConfig {
                 .comment("Stats restored when using a warp point (Allowed values: HP,MP,HUNGER,FOCUS,DRIVE)")
                 .translation(KingdomKeys.MODID + ".config.warp_point_restore_list")
                 .define("warpPointRestoreList", "HP,HUNGER,MP,FOCUS,DRIVE", o -> o instanceof String);
+        builder.pop();
 
-        allowBlocksInHangarArea = builder
-                .comment("Allow the player to place a hangar in a zone where there are blocks already (probably a good idea to disable on servers)")
-                .translation(KingdomKeys.MODID + ".config.allow_blocks_in_hangar_area")
-                .define("allowBlocksInHangarArea", true);
+        builder.push("drops");
+        drivePointsMultiplier = builder
+                .comment("Drive Points Drop Multiplier")
+                .translation(KingdomKeys.MODID + ".config.drive_points_multiplier")
+                .defineInRange("drivePointsMultiplier",1.0,0,100);
 
-        gummiBlocksDropPercent = builder
-                .comment("Percentage of blocks dropped when the Gummi Ship gets destroyed")
-                .translation(KingdomKeys.MODID + ".config.gummi_blocks_drop_percent")
-                .defineInRange("gummiBlocksDropPercent",80,0,100);
-
+        focusPointsMultiplier = builder
+                .comment("Focus Points Drop Multiplier")
+                .translation(KingdomKeys.MODID + ".config.focus_points_multiplier")
+                .defineInRange("focusPointsMultiplier",1.0,0,100);
         builder.pop();
 
         builder.push("spawning");
-
         heartlessSpawningMode = builder
                 .comment("Heartless spawning mode: NEVER, ALWAYS, AFTER_KEYCHAIN (after the first keychain is synthesized), AFTER_DRAGON (after the Ender Dragon is defeated)")
                 .translation(KingdomKeys.MODID + ".config.heartless_spawning_mode")
@@ -217,16 +219,13 @@ public class CommonConfig {
         builder.pop();
 
         builder.push("shotlock");
-
         shotlockMult = builder
                 .comment("Shotlock Damage Multiplier (magic * multiplier)")
                 .translation(KingdomKeys.MODID + ".config.shotlock_mult")
                 .defineInRange("shotlockMult",0.4,0,100);
-
         builder.pop();
 
         builder.push("synthesis");
-
         startingRecipes = builder
                 .comment("Synthesis recipes given to the player on first join, so changing this list will not give you recipes in worlds you've already created")
                 .translation(KingdomKeys.MODID + ".config.starting_recipes")
