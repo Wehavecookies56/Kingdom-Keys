@@ -2,7 +2,6 @@ package online.kingdomkeys.kingdomkeys.util;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
-import com.mojang.datafixers.util.Pair;
 import net.minecraft.ChatFormatting;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
@@ -20,6 +19,7 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.game.ClientboundRemoveMobEffectPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.level.FullChunkStatus;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
@@ -49,6 +49,7 @@ import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.block.state.properties.Property;
+import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.capabilities.Capabilities;
@@ -89,6 +90,7 @@ import online.kingdomkeys.kingdomkeys.shotlock.ModShotlocks;
 import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
 
+import javax.annotation.Nullable;
 import java.util.*;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
@@ -489,8 +491,82 @@ public class Utils {
 
 					BlockPos target = origin.offset(offsets[0] + rx, y, offsets[1] + rz);
 					if (level.getBlockState(target).getBlock() != Blocks.AIR) {
-						level.setBlockAndUpdate(target, Blocks.AIR.defaultBlockState());
+						setBlockWithoutUpdate(level, target, Blocks.AIR.defaultBlockState());
 					}
+				}
+			}
+		}
+	}
+
+	public static boolean setBlockWithoutUpdate(Level level, BlockPos pos, BlockState state) {
+		int flags = 3;
+		if (level.isOutsideBuildHeight(pos)) {
+			return false;
+		} else if (!level.isClientSide && level.isDebug()) {
+			return false;
+		} else {
+			LevelChunk levelchunk = level.getChunkAt(pos);
+			Block block = state.getBlock();
+
+			pos = pos.immutable(); // Forge - prevent mutable BlockPos leaks
+			net.neoforged.neoforge.common.util.BlockSnapshot blockSnapshot = null;
+			if (level.captureBlockSnapshots && !level.isClientSide) {
+				blockSnapshot = net.neoforged.neoforge.common.util.BlockSnapshot.create(level.dimension(), level, pos, flags);
+				level.capturedBlockSnapshots.add(blockSnapshot);
+			}
+
+			BlockState old = level.getBlockState(pos);
+			int oldLight = old.getLightEmission(level, pos);
+			int oldOpacity = old.getLightBlock(level, pos);
+
+			BlockState blockstate = ((IKKLevelChunkExtension)levelchunk).kingdom_Keys$setBlockState(pos, state, (flags & 64) != 0);
+			if (blockstate == null) {
+				if (blockSnapshot != null) level.capturedBlockSnapshots.remove(blockSnapshot);
+				return false;
+			} else {
+				BlockState blockstate1 = level.getBlockState(pos);
+
+				if (blockSnapshot == null) { // Don't notify clients or update physics while capturing blockstates
+					markAndNotifyBlockNoNeighbourUpdate(level, pos, levelchunk, blockstate, state, flags, 512);
+				}
+
+				return true;
+			}
+		}
+	}
+
+	public static void markAndNotifyBlockNoNeighbourUpdate(Level level, BlockPos p_46605_, @Nullable LevelChunk levelchunk, BlockState blockstate, BlockState p_46606_, int p_46607_, int p_46608_) {
+		Block block = p_46606_.getBlock();
+		BlockState blockstate1 = level.getBlockState(p_46605_);
+		{
+			{
+				if (blockstate1 == p_46606_) {
+					if (blockstate != blockstate1) {
+						level.setBlocksDirty(p_46605_, blockstate, blockstate1);
+					}
+
+					if ((p_46607_ & 2) != 0
+							&& (!level.isClientSide || (p_46607_ & 4) == 0)
+							&& (level.isClientSide || levelchunk.getFullStatus() != null && levelchunk.getFullStatus().isOrAfter(FullChunkStatus.BLOCK_TICKING))) {
+						level.sendBlockUpdated(p_46605_, blockstate, p_46606_, p_46607_);
+					}
+
+					if ((p_46607_ & 1) != 0) {
+						level.blockUpdated(p_46605_, blockstate.getBlock());
+						if (!level.isClientSide && p_46606_.hasAnalogOutputSignal()) {
+							level.updateNeighbourForOutputSignal(p_46605_, block);
+						}
+					}
+
+					if ((p_46607_ & 16) == 0 && p_46608_ > 0) {
+						int i = p_46607_ & -34;
+						//blockstate.updateIndirectNeighbourShapes(level, p_46605_, i, p_46608_ - 1);
+						//p_46606_.updateNeighbourShapes(level, p_46605_, i, p_46608_ - 1);
+						//p_46606_.updateIndirectNeighbourShapes(level, p_46605_, i, p_46608_ - 1);
+					}
+
+					level.onBlockStateChange(p_46605_, blockstate, blockstate1);
+					p_46606_.onBlockStateChange(level, p_46605_, blockstate);
 				}
 			}
 		}
