@@ -120,11 +120,8 @@ public class BlockStates extends BlockStateProvider {
 
 					if (blockName.contains("gummi_cylinder")) {
 						builder.modelFile(new ModelFile.ExistingModelFile(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "block/gummi/gummi_cylinder"), models().existingFileHelper));
-					} else if (blockName.contains("gummi_cone")) {
-						builder.modelFile(new ModelFile.ExistingModelFile(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "block/gummi/" + tier + "gummi_cone"), models().existingFileHelper));
-					} else if (blockName.contains("gummi_dome")) {
-						builder.modelFile(new ModelFile.ExistingModelFile(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "block/gummi/gummi_dome"), models().existingFileHelper));
 					}
+
 					int x = switch (facing) {
                         case X -> 90;
                         case Y -> 0;
@@ -134,6 +131,38 @@ public class BlockStates extends BlockStateProvider {
                         case X -> 90;
                         case Y -> 0;
                         case Z -> 0;
+                    };
+					builder.rotationX(x);
+					builder.rotationY(y);
+
+					return builder.build();
+				});
+
+			} else if(block instanceof GummiBlockEnd) {
+				getVariantBuilder(block).forAllStates(blockState -> {
+					ConfiguredModel.Builder<?> builder = ConfiguredModel.builder();
+					Direction facing = blockState.getValue(GummiBlockEnd.FACING);
+
+					if (blockName.contains("gummi_cone")) {
+						builder.modelFile(new ModelFile.ExistingModelFile(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "block/gummi/" + tier + "gummi_cone"), models().existingFileHelper));
+					} else if (blockName.contains("gummi_dome")) {
+						builder.modelFile(new ModelFile.ExistingModelFile(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "block/gummi/gummi_dome"), models().existingFileHelper));
+					}
+					int x = switch (facing) {
+                        case DOWN -> 180;
+                        case UP -> 0;
+                        case NORTH -> 90;
+                        case SOUTH -> 90;
+                        case WEST -> 90;
+                        case EAST -> 90;
+                    };
+					int y = switch (facing) {
+                        case DOWN -> 0;
+                        case UP -> 0;
+                        case NORTH -> 0;
+                        case SOUTH -> 180;
+                        case WEST -> 270;
+                        case EAST -> 90;
                     };
 					builder.rotationX(x);
 					builder.rotationY(y);

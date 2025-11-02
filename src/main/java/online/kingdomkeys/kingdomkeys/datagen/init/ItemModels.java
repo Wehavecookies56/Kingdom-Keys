@@ -85,7 +85,10 @@ public class ItemModels extends ItemModelProvider {
 			case GummiBlockPillar gummiBlockPillar -> {
 				if (path.contains("gummi_cylinder")) {
 					gummiBlockItem(path, "gummi_cylinder", tier);
-				} else if (path.contains("gummi_cone")) {
+				}
+			}
+			case GummiBlockEnd gummiBlockEnd -> {
+				if (path.contains("gummi_cone")) {
 					gummiBlockItem(path, "gummi_cone", tier);
 				} else if (path.contains("gummi_dome")) {
 					gummiBlockItem(path, "gummi_dome", tier);

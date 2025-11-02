@@ -1,16 +1,30 @@
 {
   "variants": {
-    "axis=x": {
+    "facing=down": {
+      "model": "kingdomkeys:block/gummi/dispel_gummi_cone",
+      "x": 180
+    },
+    "facing=east": {
       "model": "kingdomkeys:block/gummi/dispel_gummi_cone",
       "x": 90,
       "y": 90
     },
-    "axis=y": {
-      "model": "kingdomkeys:block/gummi/dispel_gummi_cone"
-    },
-    "axis=z": {
+    "facing=north": {
       "model": "kingdomkeys:block/gummi/dispel_gummi_cone",
       "x": 90
+    },
+    "facing=south": {
+      "model": "kingdomkeys:block/gummi/dispel_gummi_cone",
+      "x": 90,
+      "y": 180
+    },
+    "facing=up": {
+      "model": "kingdomkeys:block/gummi/dispel_gummi_cone"
+    },
+    "facing=west": {
+      "model": "kingdomkeys:block/gummi/dispel_gummi_cone",
+      "x": 90,
+      "y": 270
     }
   }
 }
