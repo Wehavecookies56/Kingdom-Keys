@@ -141,29 +141,29 @@ public class ModBlocks {
         createNewGummiBlock("gummi_cube", 1,5, gummiCubes);
         createNewEdgeGummiBlock("gummi_wedge",1, 3, gummiWedges);
         createNewCornerGummiBlock("gummi_pyramid",1, 3, gummiPyramids);
-        createNewEdgeGummiBlock("gummi_cylinder", 1,4, gummiCylinders);
+        createNewCylGummiBlock("gummi_cylinder", 1,4, gummiCylinders);
         createNewEdgeGummiBlock("gummi_pie", 1,4, gummiPies);
         createNewCornerGummiBlock("gummi_round_corner", 1,3, gummiRoundCorners);
-        createNewEdgeGummiBlock("gummi_cone", 1,3, gummiCones);
-        createNewEdgeGummiBlock("gummi_dome", 1,3, gummiDomes);
+        createNewCylGummiBlock("gummi_cone", 1,3, gummiCones);
+        createNewCylGummiBlock("gummi_dome", 1,3, gummiDomes);
 
         createNewGummiBlock("shell_gummi_cube", 1,10, gummiShellCubes);
         createNewEdgeGummiBlock("shell_gummi_wedge",1, 5, gummiShellWedges);
         createNewCornerGummiBlock("shell_gummi_pyramid",1, 5, gummiShellPyramids);
-        createNewEdgeGummiBlock("shell_gummi_cylinder", 1,7, gummiShellCylinders);
+        createNewCylGummiBlock("shell_gummi_cylinder", 1,7, gummiShellCylinders);
         createNewEdgeGummiBlock("shell_gummi_pie", 1,7, gummiShellPies);
         createNewCornerGummiBlock("shell_gummi_round_corner", 1,5, gummiShellRoundCorners);
-        createNewEdgeGummiBlock("shell_gummi_cone", 1,5, gummiShellCones);
-        createNewEdgeGummiBlock("shell_gummi_dome", 1,5, gummiShellDomes);
+        createNewCylGummiBlock("shell_gummi_cone", 1,5, gummiShellCones);
+        createNewCylGummiBlock("shell_gummi_dome", 1,5, gummiShellDomes);
 
         createNewGummiBlock("dispel_gummi_cube", 1,15, gummiDispelCubes);
         createNewEdgeGummiBlock("dispel_gummi_wedge",1, 7, gummiDispelWedges);
         createNewCornerGummiBlock("dispel_gummi_pyramid",1, 7, gummiDispelPyramids);
-        createNewEdgeGummiBlock("dispel_gummi_cylinder", 1,12, gummiDispelCylinders);
+        createNewCylGummiBlock("dispel_gummi_cylinder", 1,12, gummiDispelCylinders);
         createNewEdgeGummiBlock("dispel_gummi_pie", 1,12, gummiDispelPies);
         createNewCornerGummiBlock("dispel_gummi_round_corner", 1,7, gummiDispelRoundCorners);
-        createNewEdgeGummiBlock("dispel_gummi_cone", 1,7, gummiDispelCones);
-        createNewEdgeGummiBlock("dispel_gummi_dome", 1,7, gummiDispelDomes);
+        createNewCylGummiBlock("dispel_gummi_cone", 1,7, gummiDispelCones);
+        createNewCylGummiBlock("dispel_gummi_dome", 1,7, gummiDispelDomes);
     }
 
     /**
@@ -197,6 +197,14 @@ public class ModBlocks {
     private static void createNewCornerGummiBlock(String name, int weight, int armour, List<Supplier<Block>> list) {
         for(DyeColor dye : DyeColor.values()) {
             Supplier<Block> newBlock = BLOCKS.register(name+"_"+dye.getName(), () -> new GummiBlockCorner(Block.Properties.of().noOcclusion().strength(0.1F, 10.0F), weight, armour, dye, list));
+            createNewBlockItem(name+"_"+dye.getName(), newBlock);
+            list.add(newBlock);
+        }
+    }
+
+    private static void createNewCylGummiBlock(String name, int weight, int armour, List<Supplier<Block>> list) {
+        for(DyeColor dye : DyeColor.values()) {
+            Supplier<Block> newBlock = BLOCKS.register(name+"_"+dye.getName(), () -> new GummiBlockPillar(Block.Properties.of().noOcclusion().strength(0.1F, 10.0F), weight, armour, dye, list));
             createNewBlockItem(name+"_"+dye.getName(), newBlock);
             list.add(newBlock);
         }

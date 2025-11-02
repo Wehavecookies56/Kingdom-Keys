@@ -2143,7 +2143,7 @@
   "kingdomkeys.config.show_gui_toggle": "Cambiar visibilidad del HUD",
   "kingdomkeys.config.starting_recipes": "Recetas iniciales",
   "kingdomkeys.config.stats_multiplier": "Multiplicador de Estadísticas",
-  "kingdomkeys.config.summon_together": "Invoca arma y armadura a la vez",
+  "kingdomkeys.config.summon_together": "Invoca simultáneamente arma y armadura",
   "kingdomkeys.config.warp_point_restore_list": "Estadísticas recuperadas en Punto de Guardado Enlazado Interdimensional",
   "kingdomkeys.config.wayfinder_party": "Restringir Siemprejuntos a grupo",
   "kingdomkeys.config.xp_multiplier": "Multiplicador de XP",

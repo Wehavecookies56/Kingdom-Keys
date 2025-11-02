@@ -248,7 +248,7 @@ public class ClientEvents {
 
 				if (blockItem.getBlock() instanceof GummiBlockCorner)
 					ClientUtils.drawPlusOnFace(poseStack, builder, x + dx, y + dy, z + dz, face);
-				else
+				else if (blockItem.getBlock() instanceof GummiBlockEdge)
 					ClientUtils.drawXOnFace(poseStack, builder, x + dx, y + dy, z + dz, face);
 
 			}

@@ -274,7 +274,6 @@ public class Utils {
 		return resized;
 	}
 
-
 	public static Vec3i getRealGummiStructureSize(GummiStructure structure){
 		int sizeX = structure.getBlocks().length;
 		int sizeY = structure.getBlocks()[0].length;
@@ -382,12 +381,12 @@ public class Utils {
 		}
 
 		if (!canMove) {
-			System.out.println("Can't move, ouut of hangar");
+			System.out.println("Can't move, out of hangar");
 			return;
 		}
 
 		for (BlockPos pos : positions) {
-			level.removeBlock(pos, false);
+			setBlockWithoutUpdate(level, pos, Blocks.AIR.defaultBlockState());
 		}
 
 		for (BlockPos pos : positions) {
@@ -396,8 +395,6 @@ public class Utils {
 			level.setBlock(newPos, state, 3);
 		}
 	}
-
-
 
 	public static GummiStructure getGummiStructureWithFacing(UUID ownerID, String nameInHangar, Level level, BlockPos origin, Direction facing, int size) {
 		GummiStructure struct = new GummiStructure(ownerID, nameInHangar,size, size, size);

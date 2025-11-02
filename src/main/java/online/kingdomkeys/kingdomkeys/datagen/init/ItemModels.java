@@ -70,14 +70,9 @@ public class ItemModels extends ItemModelProvider {
             case GummiBlockEdge gummiBlockEdge -> {
                 if (path.contains("gummi_wedge")) {
                     gummiBlockItem(path, "gummi_wedge", tier);
-                } else if (path.contains("gummi_cylinder")) {
-                    gummiBlockItem(path, "gummi_cylinder", tier);
                 } else if (path.contains("gummi_pie")) {
                     gummiBlockItem(path, "gummi_pie", tier);
-                } else if (path.contains("gummi_cone")) {
-                    gummiBlockItem(path, "gummi_cone", tier);
-                } else if (path.contains("gummi_dome")) {
-                    gummiBlockItem(path, "gummi_dome", tier);
+
                 }
             }
             case GummiBlockCorner gummiBlockCorner -> {
@@ -87,6 +82,15 @@ public class ItemModels extends ItemModelProvider {
                     gummiBlockItem(path, "gummi_round_corner", tier);
                 }
             }
+			case GummiBlockPillar gummiBlockPillar -> {
+				if (path.contains("gummi_cylinder")) {
+					gummiBlockItem(path, "gummi_cylinder", tier);
+				} else if (path.contains("gummi_cone")) {
+					gummiBlockItem(path, "gummi_cone", tier);
+				} else if (path.contains("gummi_dome")) {
+					gummiBlockItem(path, "gummi_dome", tier);
+				}
+			}
             case GhostBloxBlock ghostBloxBlock -> {
                 // generated as part of blockstates provider
             }

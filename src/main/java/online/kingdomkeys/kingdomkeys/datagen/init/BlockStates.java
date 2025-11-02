@@ -32,28 +32,26 @@ public class BlockStates extends BlockStateProvider {
 		for (DeferredHolder<Block, ? extends Block> itemRegistryObject : ModBlocks.BLOCKS.getEntries()) {
 			final Block block = itemRegistryObject.get();
 			String name = Objects.requireNonNull(BuiltInRegistries.BLOCK.getKey(block)).getPath();
-			if (block instanceof GummiBlockEdge) {
+
+			String blockName = Utils.getBlockRegistryName(block).getPath();
+			String tier;
+			if(blockName.contains("shell")){
+				tier = "shell_";
+			} else if (blockName.contains("dispel")) {
+				tier = "dispel_";
+			} else {
+                tier = "";
+            }
+            if (block instanceof GummiBlockEdge) {
 				getVariantBuilder(block).forAllStates(blockState -> {
 					ConfiguredModel.Builder<?> builder = ConfiguredModel.builder();
 					Quarter quarter = blockState.getValue(GummiBlockEdge.QUARTER);
 					Direction facing = blockState.getValue(GummiBlockEdge.FACING);
-					String blockName = Utils.getBlockRegistryName(block).getPath();
-					String tier = "";
-					if(blockName.contains("shell")){
-						tier = "shell_";
-					} else if (blockName.contains("dispel")) {
-						tier = "dispel_";
-					}
+
 					if (blockName.contains("gummi_wedge")) {
 						builder.modelFile(new ModelFile.ExistingModelFile(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "block/gummi/gummi_wedge"), models().existingFileHelper));
-					} else if (blockName.contains("gummi_cylinder")) {
-						builder.modelFile(new ModelFile.ExistingModelFile(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "block/gummi/gummi_cylinder"), models().existingFileHelper));
 					} else if (blockName.contains("gummi_pie")) {
 						builder.modelFile(new ModelFile.ExistingModelFile(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "block/gummi/gummi_pie"), models().existingFileHelper));
-					} else if (blockName.contains("gummi_cone")) {
-						builder.modelFile(new ModelFile.ExistingModelFile(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "block/gummi/"+tier+"gummi_cone"), models().existingFileHelper));
-					} else if (blockName.contains("gummi_dome")) {
-						builder.modelFile(new ModelFile.ExistingModelFile(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "block/gummi/gummi_dome"), models().existingFileHelper));
 					}
 					int x = switch (quarter) {
 						case TOP -> 180;
@@ -75,13 +73,6 @@ public class BlockStates extends BlockStateProvider {
 			} else if (block instanceof GummiBlockCorner) {
 				getVariantBuilder(block).forAllStates(blockState -> {
 					ConfiguredModel.Builder<?> builder = ConfiguredModel.builder();
-					String blockName = Utils.getBlockRegistryName(block).getPath();
-					String tier = "";
-					if(blockName.contains("shell")){
-						tier = "shell_";
-					} else if (blockName.contains("dispel")) {
-						tier = "dispel_";
-					}
 					Half half = blockState.getValue(GummiBlockCorner.HALF);
 					Corner corner = blockState.getValue(GummiBlockCorner.CORNER);
 					int x = half == Half.TOP ? 180 : 0;
@@ -122,6 +113,34 @@ public class BlockStates extends BlockStateProvider {
 
 					return builder.build();
 				});
+			} else if(block instanceof GummiBlockPillar) {
+				getVariantBuilder(block).forAllStates(blockState -> {
+					ConfiguredModel.Builder<?> builder = ConfiguredModel.builder();
+					Direction.Axis facing = blockState.getValue(GummiBlockPillar.AXIS);
+
+					if (blockName.contains("gummi_cylinder")) {
+						builder.modelFile(new ModelFile.ExistingModelFile(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "block/gummi/gummi_cylinder"), models().existingFileHelper));
+					} else if (blockName.contains("gummi_cone")) {
+						builder.modelFile(new ModelFile.ExistingModelFile(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "block/gummi/" + tier + "gummi_cone"), models().existingFileHelper));
+					} else if (blockName.contains("gummi_dome")) {
+						builder.modelFile(new ModelFile.ExistingModelFile(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "block/gummi/gummi_dome"), models().existingFileHelper));
+					}
+					int x = switch (facing) {
+                        case X -> 90;
+                        case Y -> 0;
+                        case Z -> 90;
+                    };
+					int y = switch (facing) {
+                        case X -> 90;
+                        case Y -> 0;
+                        case Z -> 0;
+                    };
+					builder.rotationX(x);
+					builder.rotationY(y);
+
+					return builder.build();
+				});
+
 			} else if (block instanceof GhostBloxBlock) {
 				getVariantBuilder(block).forAllStates(state -> {
 					boolean active = state.getValue(GhostBloxBlock.VISIBLE);
