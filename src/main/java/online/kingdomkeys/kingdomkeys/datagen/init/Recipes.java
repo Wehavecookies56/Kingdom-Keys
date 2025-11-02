@@ -1031,6 +1031,17 @@ public class Recipes extends RecipeProvider {
                 .unlockedBy("mosaic_stained_glass", InventoryChangeTrigger.TriggerInstance.hasItems(ModBlocks.mosaic_stained_glass.get()))
                 .save(consumer);
 
+		ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ModItems.gummiPhone.get())
+				.pattern("G G")
+				.pattern("RWR")
+				.pattern("RWR")
+				.define('R', Items.REDSTONE)
+				.define('G', Items.GOLD_INGOT)
+				.define('W', ModBlocks.gummiCubes.get(15).get())
+				.group("kingdomkeys")
+				.unlockedBy("redstone", InventoryChangeTrigger.TriggerInstance.hasItems(Items.REDSTONE))
+				.save(consumer);
+
 		List<Item> dyes = List.of(
 				Items.WHITE_DYE,
 				Items.ORANGE_DYE,

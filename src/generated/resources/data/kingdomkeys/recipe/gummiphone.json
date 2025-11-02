@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "group": "kingdomkeys",
+  "key": {
+    "G": {
+      "item": "minecraft:gold_ingot"
+    },
+    "R": {
+      "item": "minecraft:redstone"
+    },
+    "W": {
+      "item": "kingdomkeys:gummi_cube_black"
+    }
+  },
+  "pattern": [
+    "G G",
+    "RWR",
+    "RWR"
+  ],
+  "result": {
+    "count": 1,
+    "id": "kingdomkeys:gummiphone"
+  }
+}
