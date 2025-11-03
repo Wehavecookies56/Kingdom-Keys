@@ -214,7 +214,8 @@ public class GummiHangarScreen extends AbstractContainerScreen<GummiHangarMenu> 
 
 				if(stack.is(ModItems.gummiShipBlueprint.get())){
 					GummiStructure struct = stack.get(ModComponents.GUMMI_STRUCTURE);
-					if(struct.getWidth() > size){
+
+					if(struct != null && struct.getWidth() > size){
 						list.add(Component.translatable(ChatFormatting.DARK_RED + Component.translatable("The blueprint is too big for this hangar").getString()));
 					}
 				} else {
