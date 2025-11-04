@@ -16,6 +16,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.common.util.Lazy;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.ItemStackHandler;
+import online.kingdomkeys.kingdomkeys.block.GummiHangarBlock;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.menu.GummiHangarMenu;
 
@@ -52,6 +53,8 @@ public class GummiHangarTileEntity extends BlockEntity implements MenuProvider {
 			protected void onContentsChanged(int slot) {
 				setChanged();
 				level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), Block.UPDATE_ALL);
+                // Remove display if blueprint is removed
+                getLevel().setBlockAndUpdate(getBlockPos(),getBlockState().setValue(GummiHangarBlock.DISPLAY_BLUEPRINT,false));
 				super.onContentsChanged(slot);
 			}
 		};

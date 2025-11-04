@@ -416,13 +416,12 @@ public class EntityEvents {
 		//playerData.clearRecipes("all");
 		if (playerData != null) {
 			// Check if rc conditions match
-			List<ReactionCommand> rcList = new ArrayList<ReactionCommand>();
+            ArrayList<ReactionCommand> rcList = new ArrayList<>();
 
-			// Check commands from registry that need active check (can turn off based on
-			// conditions like drive forms when you are healed)
+			// Check commands from registry that need active check (can turn off based on conditions like drive forms when you are healed)
 			// Those will be available when joining the world too if the conditions are met
 			for (ReactionCommand rc : ModReactionCommands.registry) {
-				if (rc.needsConstantCheck() && rc.conditionsToAppear(player, player)) {
+				if (rc.needsConstantCheck() && rc.conditionsToAppear(player, player)){
 					rcList.add(rc);
 				}
 			}
@@ -435,7 +434,7 @@ public class EntityEvents {
 				}
 			}
 
-			playerData.setReactionCommands(new ArrayList<String>());
+			playerData.setReactionCommands(new LinkedList<>());
 			for (ReactionCommand rc : rcList) {
 				playerData.addReactionCommand(rc.getName(), player);
 			}

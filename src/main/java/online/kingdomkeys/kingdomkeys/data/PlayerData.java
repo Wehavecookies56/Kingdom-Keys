@@ -164,8 +164,9 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		storage.put("abilities", abilities);
 
 		CompoundTag reactions = new CompoundTag();
-		for (String rc : this.getReactionCommands()) {
-			reactions.putInt(rc, 0);
+		for (int i=0;i< this.getReactionCommands().size();i++) {
+            String rc = this.getReactionCommands().get(i);
+			reactions.putString("rc_"+i, rc);
 		}
 		storage.put("reaction_commands", reactions);
 
@@ -363,9 +364,13 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		}
 
 		reactionList.clear();
-		for (String key : nbt.getCompound("reaction_commands").getAllKeys()) {
-			if (ModReactionCommands.registry.containsKey(ResourceLocation.parse(key))) {
-				this.getReactionCommands().add(key);
+        int size = nbt.getCompound("reaction_commands").getAllKeys().size();
+		for (int i =0; i < size; i++) {
+
+            String rc = nbt.getCompound("reaction_commands").getString("rc_"+i);
+			if (ModReactionCommands.registry.containsKey(ResourceLocation.parse(rc))) {
+                System.out.println(rc);
+				this.getReactionCommands().add(rc);
 			}
 		}
 

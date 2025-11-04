@@ -680,6 +680,8 @@ public class CommandMenuGui extends OverlayBase {
 		float scale = 1.05f;
 		PlayerData playerData = PlayerData.get(minecraft.player);
 		List<String> list = playerData.getReactionCommands();
+        if(list.isEmpty())
+            return;
 
 		for(int i = 0; i < list.size(); i++) {
 			gui.pose().pushPose();

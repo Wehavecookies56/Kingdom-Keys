@@ -422,7 +422,7 @@ public class InputHandler {
     	loadLists();
     	if(!reactionList.isEmpty()) {
 			PacketHandler.sendToServer(new CSUseReactionCommandPacket(CommandMenuGui.reactionSelected, InputHandler.lockOn));
-            String reactionName = playerData.getReactionCommands().get(CommandMenuGui.reactionSelected);
+            String reactionName = PlayerData.get(player).getReactionCommands().get(CommandMenuGui.reactionSelected);
             ReactionCommand reaction = ModReactionCommands.registry.get(ResourceLocation.parse(reactionName));
             CommandMenuGui.reactionSelected = 0;
             if (reaction != null) {
