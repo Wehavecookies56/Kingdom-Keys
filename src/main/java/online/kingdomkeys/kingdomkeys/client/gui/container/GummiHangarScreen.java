@@ -58,8 +58,9 @@ public class GummiHangarScreen extends AbstractContainerScreen<GummiHangarMenu> 
 		addRenderableWidget(upgradeButton = new HiddenButton(xPos+imageWidth-3, (height / 2) - (imageHeight / 2) + 15, 17, 21, texture,176,0, (e) -> {
 			upgrade();
 		}));
-		addRenderableWidget(name = new EditBox(font, leftPos+((imageWidth - upgradeButton.getWidth())/2) - 50, topPos + 16, 100, 20, Component.empty()));
+		addRenderableWidget(name = new EditBox(font, leftPos+((imageWidth - upgradeButton.getWidth())/2) - 50, topPos + 16, 100, 20, Component.literal(menu.TE.getLastShipName())));
 
+		name.setValue((menu.TE.getLastShipName()));
 		addRenderableWidget(imp = new ExtendedButton(name.getX(), name.getY() + name.getHeight()+1, name.getWidth()/2, 18, Component.translatable("IMPORT"), p -> {
 			PacketHandler.sendToServer(new CSImportExportGummiShip(name.getValue(), menu.containerId, false));
 		}));
@@ -73,6 +74,9 @@ public class GummiHangarScreen extends AbstractContainerScreen<GummiHangarMenu> 
 
 			if(Utils.getAmountOfGummiShipsInBuildPlate(minecraft.level,origin,hangar.getValue(GummiHangarBlock.FACING),GummiHangarBlock.getSize(hangar.getValue(GummiHangarBlock.LEVEL))) == 0){
 				PacketHandler.sendToServer(new CSCreateGummiShip(name.getValue(), menu.containerId));
+				// When we build a ship from blocks to entity we want to clear the name
+				menu.TE.setLastShipName("");
+				name.setValue("");
 				onClose();
 			}
 		}));
@@ -86,6 +90,9 @@ public class GummiHangarScreen extends AbstractContainerScreen<GummiHangarMenu> 
 
 				if (struct.getWidth() <= size) {
 					PacketHandler.sendToServer(new CSEditGummiShip(name.getValue(), menu.containerId));
+					// When we change from entity to blocks we want to set the textbox name with the struc name
+					name.setValue(struct.getName());
+					menu.TE.setLastShipName(struct.getName());
 					onClose();
 				}
 			}
@@ -133,6 +140,7 @@ public class GummiHangarScreen extends AbstractContainerScreen<GummiHangarMenu> 
 
 		structure = Utils.getGummiStructureWithFacing(minecraft.player.getUUID(), name.getValue(), minecraft.level,origin,hangar.getValue(GummiHangarBlock.FACING),GummiHangarBlock.getSize(hangar.getValue(GummiHangarBlock.LEVEL)));
 	}
+
 	@Override
 	public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
 		if (name.isFocused()) {

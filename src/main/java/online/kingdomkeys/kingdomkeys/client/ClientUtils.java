@@ -578,10 +578,8 @@ public class ClientUtils {
                     float r = (float)(i >> 16 & 255) / 255.0F;
                     float g = (float)(i >> 8 & 255) / 255.0F;
                     float b = (float)(i & 255) / 255.0F;
-                    Iterator var16 = bakedmodel.getRenderTypes(state, RandomSource.create(42L), modelData).iterator();
 
-                    while(var16.hasNext()) {
-                        RenderType rt = (RenderType)var16.next();
+                    for (RenderType rt : bakedmodel.getRenderTypes(state, RandomSource.create(42L), modelData)) {
                         renderModel(poseStack.last(), bufferSource.getBuffer(renderType != null ? renderType : RenderTypeHelper.getEntityRenderType(rt, false)), state, bakedmodel, r, g, b, alpha, packedLight, packedOverlay, modelData, rt);
                     }
 

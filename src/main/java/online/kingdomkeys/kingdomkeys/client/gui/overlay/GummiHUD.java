@@ -69,6 +69,8 @@ public class GummiHUD extends OverlayBase {
 				//if radar is present
 				x = screenWidth/2;
 				y = 1;
+				text = ship.structure.getName();
+				drawString(guiGraphics, minecraft.font, text, x-(font.width(text)/2), 10 * y++, 0xAA0000);
 				text = "Coords: " + (int) ship.getX()+", "+(int) ship.getY()+", "+(int) ship.getZ();
 				drawString(guiGraphics, minecraft.font, text, x-(font.width(text)/2), 10 * y++, 0xFFFFFF);
 				text = "Facing: " + ship.getDirection();

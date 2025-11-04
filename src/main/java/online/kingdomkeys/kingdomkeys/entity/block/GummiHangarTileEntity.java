@@ -26,9 +26,19 @@ public class GummiHangarTileEntity extends BlockEntity implements MenuProvider {
 	public static final int NUMBER_OF_SLOTS = 1;
 	private final ItemStackHandler itemStackHandler = createInventory();
 	public final Lazy<IItemHandler> inventory = Lazy.of(() -> itemStackHandler);
+	private String lastShipName = "";
 
 	public GummiHangarTileEntity(BlockPos pos, BlockState state) {
 		super(ModEntities.TYPE_GUMMI_HANGAR.get(), pos, state);
+	}
+
+	public void setLastShipName(String name) {
+		this.lastShipName = name;
+		setChanged();
+	}
+
+	public String getLastShipName() {
+		return lastShipName;
 	}
 
 	private ItemStackHandler createInventory() {
@@ -52,12 +62,15 @@ public class GummiHangarTileEntity extends BlockEntity implements MenuProvider {
 		super.loadAdditional(compound, provider);
 		CompoundTag invCompound = compound.getCompound("inv");
 		itemStackHandler.deserializeNBT(provider, invCompound);
+		if (compound.contains("LastShipName"))
+			lastShipName = compound.getString("LastShipName");
 	}
 
 	@Override
 	protected void saveAdditional(CompoundTag compound, HolderLookup.Provider provider) {
 		super.saveAdditional(compound, provider);
 		compound.put("inv", itemStackHandler.serializeNBT(provider));
+		compound.putString("LastShipName", lastShipName);
 	}
 
 	@Override
