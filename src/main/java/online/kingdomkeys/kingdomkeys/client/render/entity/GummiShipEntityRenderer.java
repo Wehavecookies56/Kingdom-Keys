@@ -16,6 +16,7 @@ import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Vec3i;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
@@ -25,6 +26,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.client.model.data.ModelData;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.entity.GummiShipEntity;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class GummiShipEntityRenderer extends EntityRenderer<GummiShipEntity> {
 
@@ -64,15 +66,20 @@ public class GummiShipEntityRenderer extends EntityRenderer<GummiShipEntity> {
 				matrixStackIn.mulPose(Axis.YP.rotationDegrees(180.0F - entityYaw));
 				matrixStackIn.translate(-w / 2.0, 0, -d / 2.0);
 
+
+
 				BlockRenderDispatcher blockRenderer = Minecraft.getInstance().getBlockRenderer();
 				for (int x = 0; x < w; x++) {
 					for (int y = 0; y < h; y++) {
 						for (int z = 0; z < d; z++) {
 							BlockState state = entityIn.structure.getBlocks()[x][y][z];
-							if (state == null || state.isAir()) continue;
+							if (state == null || state.isAir())
+                                continue;
+                            boolean xEven = Utils.isStructureEven(entityIn.structure)[0];
+                            boolean zEven = Utils.isStructureEven(entityIn.structure)[1];
 							matrixStackIn.pushPose();
 							{
-								matrixStackIn.translate(x, y, z);
+								matrixStackIn.translate(xEven ? x+0.5F : x, y, zEven ? z-0.5F : z);
 								RenderType renderType = ItemBlockRenderTypes.getRenderType(state, false);
 								if(state.getBlock() instanceof TransparentBlock && Minecraft.getInstance().player.getVehicle() == entityIn && Minecraft.getInstance().options.getCameraType() == CameraType.FIRST_PERSON){
 									renderType = CUSTOM_TINTED_GLASS2;

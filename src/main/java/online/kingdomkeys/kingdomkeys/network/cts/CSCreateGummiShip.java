@@ -63,21 +63,24 @@ public record CSCreateGummiShip(String name, int containerID) implements Packet 
 		GummiStructure struct = Utils.getGummiStructureWithFacing(player.getUUID(), name, level, origin, hangar.getValue(GummiHangarBlock.FACING), size);
 		GummiShipEntity shipEntity = new GummiShipEntity(level, struct);
 
+        boolean xEven = Utils.isStructureEven(struct)[0];
+        boolean zEven = Utils.isStructureEven(struct)[1];
+
 		switch (hangar.getValue(GummiHangarBlock.FACING)) {
 			default -> {
-				shipEntity.setPos(new Vec3(origin.getX()+0.5F, origin.getY(), origin.getZ()+(size/2F)+1));
+				shipEntity.setPos(new Vec3(origin.getX()+0.5F+(xEven ? 0.5F : 0), origin.getY(), origin.getZ()+(size/2F)+(zEven ? 0.5F : 1)));
 				shipEntity.setYRot(0);
 			}
 			case SOUTH -> {
-				shipEntity.setPos(new Vec3(origin.getX()+0.5F, origin.getY(), origin.getZ()-(size/2F)));
+				shipEntity.setPos(new Vec3(origin.getX()+(xEven ? 0F : 0.5F), origin.getY(), origin.getZ()-(size/2F)+(zEven ? 0.5F : 0)));
 				shipEntity.setYRot(180);
 			}
 			case EAST -> {
-				shipEntity.setPos(new Vec3(origin.getX()-(size/2F), origin.getY(), origin.getZ()+0.5F));
+				shipEntity.setPos(new Vec3(origin.getX()-(size/2F)+(zEven ? 0.5F : 0), origin.getY(), origin.getZ()+(xEven ? 1F : 0.5F)));
 				shipEntity.setYRot(90);
 			}
 			case WEST -> {
-				shipEntity.setPos(new Vec3(origin.getX()+(size/2F)+1, origin.getY(), origin.getZ() + 0.5F));
+				shipEntity.setPos(new Vec3(origin.getX()+(size/2F)+(zEven ? 0.5F : 1), origin.getY(), origin.getZ() + (xEven ? 0F : 0.5F)));
 				shipEntity.setYRot(270);
 			}
 		}

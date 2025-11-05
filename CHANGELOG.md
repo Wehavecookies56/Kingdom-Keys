@@ -1,7 +1,7 @@
 **Added:**
 * Geckolib dependency.
 * NeoForge configuration screen.
-* Support for latest EFM.
+* Support for EFM 21.13.1.
 * Gummi Ships, can be controlled like a boat with up and down feature, have to be built.
 * Gummi Hangar, 4 tiers upgradable with munny, apply redstone to show the building area.
 * Gummi blocks with 8 shapes (stonecutter) and 16 colors variants (combining shape and dye).
@@ -29,3 +29,4 @@
 * Crash when a player who casted stop dies before it deals damage.
 * Magic being greyed out if you only had Cure which you could cast.
 * Fixed Reaction Commands order being wrong and crash.
+* HUD being visible even when F1 was pressed.

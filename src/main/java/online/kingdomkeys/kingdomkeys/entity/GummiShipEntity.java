@@ -76,9 +76,13 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 	public void fire(Player player, boolean rightClick) {
 		ThrowableProjectile blizzard = new LaserDomeShotEntity(player.level(), player, 10);
 		player.level().addFreshEntity(blizzard);
-		Vec3 weaponPos = shipStats.firepower.get(weaponCounter++);
-		Vec3 posInShip = new Vec3(structure.getWidth()/2-weaponPos.x(), (structure.getHeight()/2F)+weaponPos.y()-structure.getHeight()/2, structure.getDepth()/2-weaponPos.z()+0.5F).yRot(-this.getYRot() * 0.017453292F);
+        boolean xEven = Utils.isStructureEven(structure)[0];
+        boolean zEven = Utils.isStructureEven(structure)[1];
+
+        Vec3 weaponPos = shipStats.firepower.get(weaponCounter++);
+		Vec3 posInShip = new Vec3(structure.getWidth()/2-weaponPos.x() + (xEven ? -0.5F: 0), (structure.getHeight()/2F)+weaponPos.y()-structure.getHeight()/2, structure.getDepth()/2-weaponPos.z()+ (zEven ? 0F: 0.5F)).yRot(-this.getYRot() * 0.017453292F);
 		Vec3 finalPos = new Vec3(posInShip.x+getX(),posInShip.y+getY(),posInShip.z+getZ());
+
 		blizzard.setPos(finalPos);
 		blizzard.shootFromRotation(this, player.getXRot(), player.getYRot(), 0, 1.5F, 0);
 		level().playSound(null, player.blockPosition(), ModSounds.laser.get(), SoundSource.PLAYERS, 1F, 1F);
@@ -233,7 +237,9 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 		double x = getShipStats().passengerSlots.get(i).x();
 		double y = getShipStats().passengerSlots.get(i).y();
 		double z = getShipStats().passengerSlots.get(i).z();
-		return (new Vec3(structure.getWidth()/2-x, (structure.getHeight()/2F)+y-structure.getHeight()/2, structure.getDepth()/2-z)).yRot(-this.getYRot() * 0.017453292F);
+        boolean xEven = Utils.isStructureEven(structure)[0];
+        boolean zEven = Utils.isStructureEven(structure)[1];
+		return (new Vec3(structure.getWidth()/2-x + (xEven ? -0.5F: 0), (structure.getHeight()/2F)+y-structure.getHeight()/2, structure.getDepth()/2-z + (zEven ? 0.5F: 0))).yRot(-this.getYRot() * 0.017453292F);
 		// return super.getPassengerAttachmentPoint(entity,dimensions,partialTick);
 	}
 

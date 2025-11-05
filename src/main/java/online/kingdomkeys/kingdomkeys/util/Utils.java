@@ -4,6 +4,8 @@ import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import net.minecraft.ChatFormatting;
 import net.minecraft.Util;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
@@ -309,6 +311,18 @@ public class Utils {
 
 		return new Vec3i(realWidth, realHeight, realDepth);
 	}
+
+    public static boolean[] isStructureEven(GummiStructure structure){
+        boolean xEven = false, zEven = false;
+        Vec3i realDim = Utils.getRealGummiStructureSize(structure);
+        if(realDim.getX() % 2== 0){
+            xEven = true;
+        }
+        if(realDim.getZ() % 2== 0){
+            zEven = true;
+        }
+        return new boolean[]{xEven,zEven};
+    }
 
 	public static void moveShip(Level level, BlockPos origin, Direction facing, int size, String moveDirStr) {
 		Direction realDir = switch (moveDirStr.toUpperCase()) {
@@ -1675,6 +1689,9 @@ public class Utils {
 				return false;
 			}
 		}
+        if(player instanceof LocalPlayer lp){
+            return !Minecraft.getInstance().options.hideGui;
+        }
         return !player.hasEffect(ModMobEffects.KO);
     }
 
