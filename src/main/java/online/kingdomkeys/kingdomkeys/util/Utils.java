@@ -242,7 +242,7 @@ public class Utils {
 							speed += 0.5F;
 						} else if (state.getBlock() == Blocks.STICKY_PISTON) {
 							speed++;
-						} else if (state.getBlock() == Blocks.DISPENSER) {
+						} else if (state.getBlock() == Blocks.DISPENSER || state.getBlock() == Blocks.DROPPER) {
 							weapons.add(new Vec3(x, y, z));
 						}
 					}

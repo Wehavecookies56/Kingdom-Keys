@@ -1,7 +1,8 @@
 **Added:**
 * Geckolib dependency.
+* Blox Bug enemy.
 * NeoForge configuration screen.
-* Support for EFM 21.13.1.
+* Support for EFM 21.13.4.
 * Gummi Ships, can be controlled like a boat with up and down feature, have to be built.
 * Gummi Hangar, 4 tiers upgradable with munny, apply redstone to show the building area.
 * Gummi blocks with 8 shapes (stonecutter) and 16 colors variants (combining shape and dye).
@@ -10,7 +11,6 @@
 * Gummi fragments which then can be used to make gummi blocks.
 * Gummi Phone to be able to store and summon your Gummi Ship (shift + punch your Gummi Ship while holding it).
 * Two datapacks to disable overworld and end custom worldgen.
-* Blox Bug enemy.
 
 **Changed:**
 * Visual effect on HP Bar red portion, now decreases gradually.

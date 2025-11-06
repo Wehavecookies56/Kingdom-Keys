@@ -34,7 +34,10 @@ import net.neoforged.neoforge.entity.IEntityWithComplexSpawn;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.datagen.init.BlockTagsGen;
+import online.kingdomkeys.kingdomkeys.entity.magic.BlizzardEntity;
 import online.kingdomkeys.kingdomkeys.entity.organization.LaserDomeShotEntity;
+import online.kingdomkeys.kingdomkeys.entity.shotlock.BaseShotlockShotEntity;
+import online.kingdomkeys.kingdomkeys.entity.shotlock.RagnarokShotEntity;
 import online.kingdomkeys.kingdomkeys.item.ModComponents;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.lib.GummiStructure;
@@ -72,25 +75,102 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 		this.refreshDimensions();
 	}
 
+    public enum SHOT_TYPE {
+        FIRE, FIRA, FIRAGA, BLIZZARD, BLIZZARA, BLIZZAGA
+    }
+
 	int weaponCounter = 0;
 	public void fire(Player player, boolean rightClick) {
-		ThrowableProjectile blizzard = new LaserDomeShotEntity(player.level(), player, 10);
-		player.level().addFreshEntity(blizzard);
         boolean xEven = Utils.isStructureEven(structure)[0];
         boolean zEven = Utils.isStructureEven(structure)[1];
 
         Vec3 weaponPos = shipStats.firepower.get(weaponCounter++);
-		Vec3 posInShip = new Vec3(structure.getWidth()/2-weaponPos.x() + (xEven ? -0.5F: 0), (structure.getHeight()/2F)+weaponPos.y()-structure.getHeight()/2, structure.getDepth()/2-weaponPos.z()+ (zEven ? 0F: 0.5F)).yRot(-this.getYRot() * 0.017453292F);
-		Vec3 finalPos = new Vec3(posInShip.x+getX(),posInShip.y+getY(),posInShip.z+getZ());
+        BlockState weapon = structure.getBlocks()[(int)weaponPos.x][(int)weaponPos.y][(int)weaponPos.z];
 
-		blizzard.setPos(finalPos);
-		blizzard.shootFromRotation(this, player.getXRot(), player.getYRot(), 0, 1.5F, 0);
+        Vec3 posInShip = new Vec3(structure.getWidth()/2-weaponPos.x() + (xEven ? -0.5F: 0), (structure.getHeight()/2F)+weaponPos.y()-structure.getHeight()/2, structure.getDepth()/2-weaponPos.z()+ (zEven ? 0F: 0.5F)).yRot(-this.getYRot() * 0.017453292F);
+        Vec3 finalPos = new Vec3(posInShip.x + getX(),posInShip.y + getY(),posInShip.z + getZ());
+
+        if(weapon.getBlock() == Blocks.DISPENSER){
+            shoot(player,finalPos, SHOT_TYPE.FIRE);
+        } else if(weapon.getBlock() == Blocks.DROPPER){
+            shoot(player,finalPos, SHOT_TYPE.BLIZZAGA);
+        }
+
 		level().playSound(null, player.blockPosition(), ModSounds.laser.get(), SoundSource.PLAYERS, 1F, 1F);
 
 		if(weaponCounter >= shipStats.firepower().size())
 			weaponCounter = 0;
 	}
 
+    public void shoot(Player player, Vec3 finalPos, SHOT_TYPE type){
+        switch(type){
+            case FIRE -> {
+                GummiShotEntity shot = new GummiShotEntity(level(), player, 10);
+                shot.setColor(0xFFAA00);
+                player.level().addFreshEntity(shot);
+                shot.setPos(finalPos);
+                shot.shootFromRotation(this, player.getXRot(), player.getYRot(), 0, 1.5F, 0);
+            }
+            case FIRA -> {
+                GummiShotEntity shot = new GummiShotEntity(level(), player, 10);
+                shot.setColor(0xFFAA00);
+                player.level().addFreshEntity(shot);
+                shot.setPos(finalPos);
+                shot.shootFromRotation(this, player.getXRot(), player.getYRot(), 0, 1.5F, 0);
+            }
+            case FIRAGA -> {
+                GummiShotEntity shot = new GummiShotEntity(level(), player, 10);
+                shot.setColor(0xFFAA00);
+                player.level().addFreshEntity(shot);
+                shot.setPos(finalPos);
+                shot.shootFromRotation(this, player.getXRot(), player.getYRot(), 0, 1.5F, 0);
+            }
+            case BLIZZARA -> {
+                GummiShotEntity blizzara = new GummiShotEntity(level(), player, 10);
+                blizzara.setColor(0x00FFFF);
+                player.level().addFreshEntity(blizzara);
+                blizzara.setPos(finalPos);
+                blizzara.shootFromRotation(this, player.getXRot()-3, player.getYRot(), 0, 2F, 0);
+
+                GummiShotEntity blizzara2 = new GummiShotEntity(level(), player, 10);
+                blizzara2.setColor(0x00FFFF);
+                player.level().addFreshEntity(blizzara2);
+                blizzara2.setPos(finalPos);
+                blizzara2.shootFromRotation(this, player.getXRot()+3, player.getYRot()+3, 0, 2F, 0);
+
+                GummiShotEntity blizzara3 = new GummiShotEntity(level(), player, 10);
+                blizzara3.setColor(0x00FFFF);
+                player.level().addFreshEntity(blizzara3);
+                blizzara3.setPos(finalPos);
+                blizzara3.shootFromRotation(this, player.getXRot()+3, player.getYRot()-3, 0, 2F, 0);
+            }
+            case BLIZZAGA -> {
+                GummiShotEntity blizzara = new GummiShotEntity(level(), player, 10);
+                blizzara.setColor(0x00FFFF);
+                player.level().addFreshEntity(blizzara);
+                blizzara.setPos(finalPos);
+                blizzara.shootFromRotation(this, player.getXRot()-6, player.getYRot(), 0, 2F, 0);
+
+                GummiShotEntity blizzara2 = new GummiShotEntity(level(), player, 10);
+                blizzara2.setColor(0x00FFFF);
+                player.level().addFreshEntity(blizzara2);
+                blizzara2.setPos(finalPos);
+                blizzara2.shootFromRotation(this, player.getXRot()+6, player.getYRot(), 0, 2F, 0);
+
+                GummiShotEntity blizzara3 = new GummiShotEntity(level(), player, 10);
+                blizzara3.setColor(0x00FFFF);
+                player.level().addFreshEntity(blizzara3);
+                blizzara3.setPos(finalPos);
+                blizzara3.shootFromRotation(this, player.getXRot(), player.getYRot()-6, 0, 2F, 0);
+
+                GummiShotEntity blizzara4 = new GummiShotEntity(level(), player, 10);
+                blizzara4.setColor(0x00FFFF);
+                player.level().addFreshEntity(blizzara4);
+                blizzara4.setPos(finalPos);
+                blizzara4.shootFromRotation(this, player.getXRot(), player.getYRot()+6, 0, 2F, 0);
+            }
+        }
+    }
 	@Override
 	public boolean hurt(DamageSource source, float amount) {
 		if (!this.level().isClientSide && !this.isRemoved()) {

@@ -62,7 +62,7 @@ public class GummiPhoneItem extends Item implements IItemCategory {
 			tooltip.add(Component.translatable(ChatFormatting.GRAY+"Call Gummi Ship: ").append(ChatFormatting.RED+structure.getName()));
 		} else {
 			tooltip.add(Component.translatable(ChatFormatting.GRAY+"No Gummi Ship stored"));
-			tooltip.add(Component.translatable(ChatFormatting.GRAY+"Sneak + left click your Gummi Ship to store it"));
+			tooltip.add(Component.translatable(ChatFormatting.GRAY+"Sneak + left click on your Gummi Ship to store it"));
 		}
 		super.appendHoverText(stack, pContext, tooltip, pTooltipFlag);
 	}
