@@ -103,10 +103,14 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 				if(source.getEntity() instanceof Player player && structure != null){
 					if(player.isCrouching() && structure.getOwnerID().equals(player.getUUID()) && player.getMainHandItem().getItem() == ModItems.gummiPhone.get()){
 						ItemStack stack = player.getMainHandItem();
-						stack.set(ModComponents.GUMMI_STRUCTURE, structure);
-						player.displayClientMessage(Component.translatable("Stored gummi ship in gummi phone"),true);
-						((ServerLevel)level()).sendParticles(ParticleTypes.FIREWORK, this.getX(), this.getY() + 1, this.getZ(), Utils.getRealGummiStructureSize(structure).getX() * Utils.getRealGummiStructureSize(structure).getY() * Utils.getRealGummiStructureSize(structure).getZ(), 0,0,0, 0.2);
-						this.kill();
+                        if(stack.has(ModComponents.GUMMI_STRUCTURE)){
+                            player.displayClientMessage(Component.translatable("There's already a gummi ship stored in your gummi phone"), true);
+                        } else {
+                            stack.set(ModComponents.GUMMI_STRUCTURE, structure);
+                            player.displayClientMessage(Component.translatable("Stored gummi ship in your gummi phone"), true);
+                            ((ServerLevel) level()).sendParticles(ParticleTypes.FIREWORK, this.getX(), this.getY() + 1, this.getZ(), Utils.getRealGummiStructureSize(structure).getX() * Utils.getRealGummiStructureSize(structure).getY() * Utils.getRealGummiStructureSize(structure).getZ(), 0, 0, 0, 0.2);
+                            this.kill();
+                        }
 						return false;
 					}
 				}

@@ -313,15 +313,10 @@ public class Utils {
 	}
 
     public static boolean[] isStructureEven(GummiStructure structure){
-        boolean xEven = false, zEven = false;
         Vec3i realDim = Utils.getRealGummiStructureSize(structure);
-        if(realDim.getX() % 2== 0){
-            xEven = true;
-        }
-        if(realDim.getZ() % 2== 0){
-            zEven = true;
-        }
-        return new boolean[]{xEven,zEven};
+        boolean xEven = realDim.getX() % 2 == 0;
+        boolean zEven = realDim.getX() % 2 == 0;
+        return new boolean[]{ xEven, zEven };
     }
 
 	public static void moveShip(Level level, BlockPos origin, Direction facing, int size, String moveDirStr) {
