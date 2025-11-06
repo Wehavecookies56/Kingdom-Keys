@@ -34,9 +34,9 @@ public class GummiMeteorFeature extends Feature<NoneFeatureConfiguration> {
             return false;
         }
 
-        int craterRadius = 5 + random.nextInt(4);
+        int craterRadius = 6 + random.nextInt(5);
         int craterDepth = 3 + random.nextInt(3);
-        int meteorRadius = 1 + random.nextInt(2);
+        int meteorRadius = 2 + random.nextInt(2);
 
         spawnCrater(level, random, center, craterRadius, craterDepth, meteorRadius);
 
@@ -50,9 +50,9 @@ public class GummiMeteorFeature extends Feature<NoneFeatureConfiguration> {
             for (int y = -meteorRadius; y <= meteorRadius; y++) {
                 for (int z = -meteorRadius; z <= meteorRadius; z++) {
                     double dist = Math.sqrt(x * x + y * y + z * z);
-                    if (dist <= meteorRadius + random.nextFloat() * 0.3) { // forma orgánica
+                    if (dist <= meteorRadius + random.nextFloat() * 0.3) {
                         BlockPos pos = meteorCenter.offset(x, y, z);
-                        BlockState meteorMat = ModBlocks.gummiMeteor.get().defaultBlockState();
+                        BlockState meteorMat = random.nextFloat() < 0.6F ? ModBlocks.gummiMeteor.get().defaultBlockState() : Blocks.BASALT.defaultBlockState();
                         level.setBlock(pos, meteorMat, 2);
                     }
                 }

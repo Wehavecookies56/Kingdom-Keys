@@ -1,4 +1,4 @@
-package online.kingdomkeys.kingdomkeys.client.render;
+package online.kingdomkeys.kingdomkeys.client.render.entity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
@@ -12,7 +12,6 @@ import net.neoforged.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.model.entity.CubeModel;
 import online.kingdomkeys.kingdomkeys.entity.GummiShotEntity;
-import online.kingdomkeys.kingdomkeys.entity.shotlock.BaseShotlockShotEntity;
 
 import javax.annotation.Nullable;
 import java.awt.*;

@@ -26,7 +26,7 @@ import online.kingdomkeys.kingdomkeys.client.model.BlizzardModel;
 import online.kingdomkeys.kingdomkeys.client.model.FireModel;
 import online.kingdomkeys.kingdomkeys.client.model.armor.*;
 import online.kingdomkeys.kingdomkeys.client.model.entity.*;
-import online.kingdomkeys.kingdomkeys.client.render.GummiShotEntityRender;
+import online.kingdomkeys.kingdomkeys.client.render.entity.GummiShotEntityRender;
 import online.kingdomkeys.kingdomkeys.client.render.block.*;
 import online.kingdomkeys.kingdomkeys.client.render.entity.*;
 import online.kingdomkeys.kingdomkeys.client.render.entity.drops.*;
