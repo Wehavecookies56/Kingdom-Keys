@@ -247,7 +247,7 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 			if (this.level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)) {
 				level().explode(this,this.getX(),this.getY(),this.getZ(), size, Level.ExplosionInteraction.BLOCK);
 			} else {
-				level().explode(this,this.getX(),this.getY(),this.getZ(), size, Level.ExplosionInteraction.BLOCK);
+				level().explode(this,this.getX(),this.getY(),this.getZ(), size, Level.ExplosionInteraction.NONE);
 			}
 		}
 
@@ -448,7 +448,7 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 		super.tick();
         //setFuel(10);
         if(!getPassengers().isEmpty() && fuel > 0){
-            fuel = Math.max(fuel-0.1F,0);
+            fuel = Math.max(fuel - 0.1F,0);
         }
 		if (structure == null || structure.getBlocks().length == 0) {
 			this.kill();
