@@ -28,6 +28,7 @@ import net.neoforged.neoforge.items.IItemHandler;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.entity.block.GummiHangarTileEntity;
 import online.kingdomkeys.kingdomkeys.item.ModComponents;
+import online.kingdomkeys.kingdomkeys.lib.LineDisplay;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import javax.annotation.Nullable;
@@ -35,7 +36,7 @@ import javax.annotation.Nullable;
 @EventBusSubscriber
 public class GummiHangarBlock extends BaseEntityBlock implements EntityBlock, INoDataGen {
 	public static final DirectionProperty FACING = BlockStateProperties.FACING;
-	public static final BooleanProperty SHOW_LINES = BooleanProperty.create("show_lines");
+    public static final EnumProperty<LineDisplay> SHOW_LINES = EnumProperty.create("show_lines", LineDisplay.class);
 	public static final BooleanProperty DISPLAY_BLUEPRINT = BooleanProperty.create("display_blueprint");
 	public static final IntegerProperty LEVEL = IntegerProperty.create("size",0,3); //5 S, 7 M, 9 L, 11 XL
 
@@ -55,7 +56,7 @@ public class GummiHangarBlock extends BaseEntityBlock implements EntityBlock, IN
 	@Nullable
 	@Override
 	public BlockState getStateForPlacement(BlockPlaceContext context) {
-		return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite()).setValue(SHOW_LINES,false).setValue(LEVEL,0).setValue(DISPLAY_BLUEPRINT,false);
+		return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite()).setValue(SHOW_LINES,LineDisplay.OFF).setValue(LEVEL,0).setValue(DISPLAY_BLUEPRINT,false);
 	}
 
 	@Override
@@ -108,11 +109,6 @@ public class GummiHangarBlock extends BaseEntityBlock implements EntityBlock, IN
 	}
 
 	@Override
-	public void neighborChanged(BlockState state, Level worldIn, BlockPos pos, Block blockIn, BlockPos fromPos, boolean b) {
-		worldIn.setBlockAndUpdate(pos, state.setValue(SHOW_LINES, worldIn.hasNeighborSignal(pos)));
-	}
-
-	@Override
 	public boolean shouldCheckWeakPower(BlockState state, SignalGetter level, BlockPos pos, Direction side) {
 		return true;
 	}
@@ -139,21 +135,12 @@ public class GummiHangarBlock extends BaseEntityBlock implements EntityBlock, IN
 	}
 
 	@Override
-	public void onPlace(BlockState state, Level worldIn, BlockPos pos, BlockState oldState, boolean b) {
-		if (oldState.getBlock() != state.getBlock()) {
-			worldIn.setBlockAndUpdate(pos, state.setValue(SHOW_LINES, worldIn.hasNeighborSignal(pos)));
-		}
-	}
-
-	@Override
 	public void setPlacedBy(Level worldIn, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
 		if (!worldIn.isClientSide){
 			if(worldIn.getBlockEntity(pos) != null) {
 				//Give lvl to the block
 				if (stack.get(ModComponents.HANGAR_LEVEL) != null) {
-					worldIn.setBlockAndUpdate(pos, state.setValue(SHOW_LINES, worldIn.hasNeighborSignal(pos)).setValue(LEVEL, stack.get(ModComponents.HANGAR_LEVEL)));
-				} else {
-					worldIn.setBlockAndUpdate(pos, state.setValue(SHOW_LINES, worldIn.hasNeighborSignal(pos)));
+					worldIn.setBlockAndUpdate(pos, state.setValue(LEVEL, stack.get(ModComponents.HANGAR_LEVEL)));
 				}
 			}
 		}

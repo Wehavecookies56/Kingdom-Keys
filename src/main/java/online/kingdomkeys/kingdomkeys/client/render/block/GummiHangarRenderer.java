@@ -23,6 +23,7 @@ import online.kingdomkeys.kingdomkeys.entity.block.GummiHangarTileEntity;
 import online.kingdomkeys.kingdomkeys.item.ModComponents;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.lib.GummiStructure;
+import online.kingdomkeys.kingdomkeys.lib.LineDisplay;
 
 public class GummiHangarRenderer implements BlockEntityRenderer<GummiHangarTileEntity> {
 
@@ -76,12 +77,46 @@ public class GummiHangarRenderer implements BlockEntityRenderer<GummiHangarTileE
             }
 
             float dist = (float) Math.sqrt(Minecraft.getInstance().player.distanceToSqr(TE.getBlockPos().getX(), TE.getBlockPos().getY(), TE.getBlockPos().getZ()));
-            if(dist < 80 && state.getValue(GummiHangarBlock.SHOW_LINES)) {
-                float r = 0.3F, g = 0.8F, b = 1F, a = (80-dist)/100F;
-                LevelRenderer.renderLineBox(matrixStackIn, vertexLines, origin.x(), origin.y(), origin.z(), dest.x(), dest.y(), dest.z(), r,g,b,a);
-                // X shape
-                ClientUtils.drawLine(vertexLines, matrixStackIn, origin.x(), origin.y(), origin.z(), dest.x(), origin.y(), dest.z(), r, g, b, a);
-                ClientUtils.drawLine(vertexLines, matrixStackIn, dest.x(), origin.y(), origin.z(), origin.x(), origin.y(), dest.z(), r, g, b, a);
+            LineDisplay perimeter = state.getValue(GummiHangarBlock.SHOW_LINES);
+            if(dist < 80) {
+                float a = (80-dist)/100F;
+                if(perimeter == LineDisplay.ODD) {
+                    float r = 0.3F, g = 0.8F, b = 1F;
+
+                    LevelRenderer.renderLineBox(matrixStackIn, vertexLines, origin.x(), origin.y(), origin.z(), dest.x(), dest.y(), dest.z(), r, g, b, a);
+                    // X shape
+                    ClientUtils.drawLine(vertexLines, matrixStackIn, origin.x(), origin.y(), origin.z(), dest.x(), origin.y(), dest.z(), r, g, b, a);
+                    ClientUtils.drawLine(vertexLines, matrixStackIn, dest.x(), origin.y(), origin.z(), origin.x(), origin.y(), dest.z(), r, g, b, a);
+
+                } else if(perimeter == LineDisplay.EVEN) {
+                    float r = 1F, g = 0.4F, b = 1F;
+                    switch(facing){ //It has to make the box based on rotation
+                        case NORTH -> {
+                            LevelRenderer.renderLineBox(matrixStackIn, vertexLines, origin.x()+1, origin.y(), origin.z(), dest.x(), dest.y(), dest.z(), r, g, b, a);
+                            // X shape
+                            ClientUtils.drawLine(vertexLines, matrixStackIn, origin.x()+1, origin.y(), origin.z(), dest.x(), origin.y(), dest.z(), r, g, b, a);
+                            ClientUtils.drawLine(vertexLines, matrixStackIn, dest.x(), origin.y(), origin.z(), origin.x()+1, origin.y(), dest.z(), r, g, b, a);
+                        }
+                        case SOUTH -> {
+                            LevelRenderer.renderLineBox(matrixStackIn, vertexLines, origin.x(), origin.y(), origin.z(), dest.x()-1, dest.y(), dest.z(), r, g, b, a);
+                            // X shape
+                            ClientUtils.drawLine(vertexLines, matrixStackIn, origin.x(), origin.y(), origin.z(), dest.x()-1, origin.y(), dest.z(), r, g, b, a);
+                            ClientUtils.drawLine(vertexLines, matrixStackIn, dest.x()-1, origin.y(), origin.z(), origin.x(), origin.y(), dest.z(), r, g, b, a);
+                        }
+                        case WEST -> {
+                            LevelRenderer.renderLineBox(matrixStackIn, vertexLines, origin.x(), origin.y(), origin.z(), dest.x(), dest.y(), dest.z()-1, r, g, b, a);
+                            // X shape
+                            ClientUtils.drawLine(vertexLines, matrixStackIn, origin.x(), origin.y(), origin.z(), dest.x(), origin.y(), dest.z()-1, r, g, b, a);
+                            ClientUtils.drawLine(vertexLines, matrixStackIn, dest.x(), origin.y(), origin.z(), origin.x(), origin.y(), dest.z()-1, r, g, b, a);
+                        }
+                        case EAST -> {
+                            LevelRenderer.renderLineBox(matrixStackIn, vertexLines, origin.x(), origin.y(), origin.z()+1, dest.x(), dest.y(), dest.z(), r, g, b, a);
+                            // X shape
+                            ClientUtils.drawLine(vertexLines, matrixStackIn, origin.x(), origin.y(), origin.z()+1, dest.x(), origin.y(), dest.z(), r, g, b, a);
+                            ClientUtils.drawLine(vertexLines, matrixStackIn, dest.x(), origin.y(), origin.z()+1, origin.x(), origin.y(), dest.z(), r, g, b, a);
+                        }
+                    }
+                }
             }
 
             if(state.getValue(GummiHangarBlock.DISPLAY_BLUEPRINT)) {

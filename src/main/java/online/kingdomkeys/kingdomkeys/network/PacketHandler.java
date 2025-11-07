@@ -129,6 +129,7 @@ public class PacketHandler {
 		server(CSUpgradeGummiHangarPacket.TYPE, CSUpgradeGummiHangarPacket.STREAM_CODEC);
 		server(CSGummiFirePacket.TYPE, CSGummiFirePacket.STREAM_CODEC);
 		server(CSMoveGummiShipPacket.TYPE, CSMoveGummiShipPacket.STREAM_CODEC);
+        server(CSShowHangarLinesPacket.TYPE, CSShowHangarLinesPacket.STREAM_CODEC);
 	}
 
 	private static <T extends Packet> void client(CustomPacketPayload.Type<T> type, StreamCodec<? super RegistryFriendlyByteBuf, T> reader) {
