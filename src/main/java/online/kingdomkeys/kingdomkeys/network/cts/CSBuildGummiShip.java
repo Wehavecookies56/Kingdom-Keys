@@ -1,7 +1,7 @@
 package online.kingdomkeys.kingdomkeys.network.cts;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.Vec3i;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.ByteBufCodecs;
@@ -11,13 +11,15 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
-import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.block.GummiHangarBlock;
+import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.entity.GummiShipEntity;
+import online.kingdomkeys.kingdomkeys.entity.block.GummiCoreTileEntity;
 import online.kingdomkeys.kingdomkeys.lib.GummiStructure;
 import online.kingdomkeys.kingdomkeys.menu.GummiHangarMenu;
 import online.kingdomkeys.kingdomkeys.network.Packet;
@@ -26,16 +28,16 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
-public record CSCreateGummiShip(String name, int containerID) implements Packet {
+public record CSBuildGummiShip(String name, int containerID) implements Packet {
 
-	public static final Type<CSCreateGummiShip> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_create_gummi_ship"));
+	public static final Type<CSBuildGummiShip> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_create_gummi_ship"));
 
-	public static final StreamCodec<FriendlyByteBuf, CSCreateGummiShip> STREAM_CODEC = StreamCodec.composite(
+	public static final StreamCodec<FriendlyByteBuf, CSBuildGummiShip> STREAM_CODEC = StreamCodec.composite(
 			ByteBufCodecs.STRING_UTF8,
-			CSCreateGummiShip::name,
+			CSBuildGummiShip::name,
 			ByteBufCodecs.INT,
-			CSCreateGummiShip::containerID,
-			CSCreateGummiShip::new
+			CSBuildGummiShip::containerID,
+			CSBuildGummiShip::new
 	);
 
 	@Override
@@ -86,6 +88,17 @@ public record CSCreateGummiShip(String name, int containerID) implements Packet 
 		}
 
 		level.addFreshEntity(shipEntity);
+        BlockPos corePos = Utils.getCorePos(level, origin, hangar.getValue(GummiHangarBlock.FACING), size);
+
+        if(corePos != null){
+            //copy data from TE to entity
+            BlockEntity te = level.getBlockEntity(corePos);
+            if(te instanceof GummiCoreTileEntity core) {
+                core.loadToShip(shipEntity);
+            }
+
+        }
+
 		Utils.removeBlocks(level, origin, hangar.getValue(GummiHangarBlock.FACING), size);
 	}
 

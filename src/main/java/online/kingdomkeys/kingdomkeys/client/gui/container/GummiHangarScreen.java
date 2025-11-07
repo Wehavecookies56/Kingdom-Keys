@@ -73,7 +73,7 @@ public class GummiHangarScreen extends AbstractContainerScreen<GummiHangarMenu> 
 			BlockState hangar = minecraft.level.getBlockState(origin);
 
 			if(Utils.getAmountOfGummiShipsInBuildPlate(minecraft.level,origin,hangar.getValue(GummiHangarBlock.FACING),GummiHangarBlock.getSize(hangar.getValue(GummiHangarBlock.LEVEL))) == 0){
-				PacketHandler.sendToServer(new CSCreateGummiShip(name.getValue(), menu.containerId));
+				PacketHandler.sendToServer(new CSBuildGummiShip(name.getValue(), menu.containerId));
 				// When we build a ship from blocks to entity we want to clear the name
 				menu.TE.setLastShipName("");
 				name.setValue("");

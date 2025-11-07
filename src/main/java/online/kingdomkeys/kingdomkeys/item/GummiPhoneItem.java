@@ -39,7 +39,9 @@ public class GummiPhoneItem extends Item implements IItemCategory {
 			GummiStructure gummiStruct = null;
 			if(stack.has(ModComponents.GUMMI_STRUCTURE)){
 				gummiStruct = stack.get(ModComponents.GUMMI_STRUCTURE);
-			}
+			} else {
+                return InteractionResult.FAIL;
+            }
 			if (gummiStruct != null || gummiStruct.getBlocks().length > 0) {
                 Vec3i size = Utils.getRealGummiStructureSize(gummiStruct);
                 ((ServerLevel) world).sendParticles(ParticleTypes.FIREWORK, context.getClickedPos().getX() + 0.5F, context.getClickedPos().getY()+1, context.getClickedPos().getZ()+ 0.5F, size.getX() * size.getY() * size.getZ()*10, 0, 0, 0, 0.2);

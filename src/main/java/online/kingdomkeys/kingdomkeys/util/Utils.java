@@ -63,6 +63,7 @@ import online.kingdomkeys.kingdomkeys.api.item.IKeychain;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategoryRegistry;
 import online.kingdomkeys.kingdomkeys.block.GummiBlockBase;
+import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.GlobalData;
@@ -504,6 +505,8 @@ public class Utils {
 		}
 	}
 
+
+
 	public static boolean setBlockWithoutUpdate(Level level, BlockPos pos, BlockState state) {
 		int flags = 3;
 		if (level.isOutsideBuildHeight(pos)) {
@@ -577,6 +580,36 @@ public class Utils {
 			}
 		}
 	}
+
+    public static BlockPos getCorePos(Level level, BlockPos origin, Direction facing, int size) {
+        int max = size - 1;
+
+        int[] offsets = Utils.getShipOffset(facing,size);
+        if(offsets == null)
+            return null;
+
+        for (int x = 0; x < size; x++) {
+            for (int y = size-1; y >= 0; y--) {
+                for (int z = 0; z < size; z++) {
+                    int rx = x;
+                    int rz = z;
+
+                    switch (facing) {
+                        case NORTH -> { rx = x; rz = z; }
+                        case SOUTH -> { rx = max - x; rz = max - z; }
+                        case EAST  -> { rx = z; rz = max - x; }
+                        case WEST  -> { rx = max - z; rz = x; }
+                    }
+
+                    BlockPos target = origin.offset(offsets[0] + rx, y, offsets[1] + rz);
+                    if (level.getBlockState(target).getBlock() == ModBlocks.gummiCore.get()) {
+                        return target;
+                    }
+                }
+            }
+        }
+        return null;
+    }
 
 	public static boolean hasBlocks(Level level, BlockPos origin, Direction facing, int size) {
 		int max = size - 1;

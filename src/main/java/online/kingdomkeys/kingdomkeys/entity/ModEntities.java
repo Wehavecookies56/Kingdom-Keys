@@ -364,6 +364,7 @@ public class ModEntities {
         event.registerBlockEntityRenderer(TYPE_PEDESTAL.get(), PedestalRenderer::new);
         event.registerBlockEntityRenderer(TYPE_AIRSTEP_TARGET_TE.get(), AirstepTargetRenderer::new);
         event.registerBlockEntityRenderer(TYPE_GUMMI_HANGAR.get(), GummiHangarRenderer::new);
+        event.registerBlockEntityRenderer(TYPE_GUMMI_CORE_TE.get(), GummiCoreRenderer::new);
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -549,6 +550,7 @@ public class ModEntities {
     public static final Supplier<BlockEntityType<MoogleProjectorTileEntity>> TYPE_MOOGLE_PROJECTOR = TILE_ENTITIES.register("moogle_projector", () -> BlockEntityType.Builder.of(MoogleProjectorTileEntity::new, ModBlocks.moogleProjector.get()).build(null));
     public static final Supplier<BlockEntityType<SoAPlatformTileEntity>> TYPE_SOA_PLATFORM = TILE_ENTITIES.register("soa_platform", () -> BlockEntityType.Builder.of(SoAPlatformTileEntity::new, ModBlocks.station_of_awakening_core.get()).build(null));
     public static final Supplier<BlockEntityType<GummiHangarTileEntity>> TYPE_GUMMI_HANGAR = TILE_ENTITIES.register("gummi_hangar", () -> BlockEntityType.Builder.of(GummiHangarTileEntity::new, ModBlocks.gummiHangar.get()).build(null));
+    public static final Supplier<BlockEntityType<GummiCoreTileEntity>> TYPE_GUMMI_CORE_TE = TILE_ENTITIES.register("gummi_core", () -> BlockEntityType.Builder.of(GummiCoreTileEntity::new, ModBlocks.gummiCore.get()).build(null));
     public static final Supplier<BlockEntityType<SoRCoreTileEntity>> TYPE_SOR_CORE_TE = TILE_ENTITIES.register("sor_core", () -> BlockEntityType.Builder.of(SoRCoreTileEntity::new, ModBlocks.sorCore.get()).build(null));
     public static final Supplier<BlockEntityType<CardDoorTileEntity>> TYPE_CARD_DOOR = TILE_ENTITIES.register("card_door", () -> BlockEntityType.Builder.of(CardDoorTileEntity::new, ModBlocks.cardDoor.get()).build(null));
     public static final Supplier<BlockEntityType<AirStepTargetEntity>> TYPE_AIRSTEP_TARGET_TE = TILE_ENTITIES.register("airstep_target", () -> BlockEntityType.Builder.of(AirStepTargetEntity::new, ModBlocks.airstepTarget.get()).build(null));

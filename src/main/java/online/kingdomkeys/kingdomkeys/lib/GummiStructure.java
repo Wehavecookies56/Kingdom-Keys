@@ -8,9 +8,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.nbt.Tag;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.RegistryFriendlyByteBuf;
-import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -29,8 +27,6 @@ public class GummiStructure implements INBTSerializable<CompoundTag> {
     private String shipName;
     private BlockState[][][] blocks;
     private int width, height, depth;
-
-
 
     public String getName(){
         return shipName;

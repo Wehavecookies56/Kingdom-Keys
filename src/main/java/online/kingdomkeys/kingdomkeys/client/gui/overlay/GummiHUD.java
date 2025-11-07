@@ -55,7 +55,9 @@ public class GummiHUD extends OverlayBase {
 				float deltaZ = (float) (ship.getZ() - ship.zOld);
 				float speed = (float) Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2) + Math.pow(deltaZ, 2));
 
-				String text = "Speed: "+ df.format(speed * 20)+"m/s";
+                String text = "Fuel: "+ship.getFuel();
+                drawString(guiGraphics, minecraft.font, text, x-font.width(text), 10 * y++, 0xFFFFFF);
+				text = "Speed: "+ df.format(speed * 20)+"m/s";
 				drawString(guiGraphics, minecraft.font, text, x-font.width(text), 10 * y++, 0xFFFFFF);
 				text = "Current engine power: "+(int) (ship.currentSpeed * 100);
 				drawString(guiGraphics, minecraft.font, text, x-font.width(text), 10 * y++, 0xFFFFFF);

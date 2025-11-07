@@ -11,11 +11,14 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Rotation;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.block.GummiCoreBlock;
 import online.kingdomkeys.kingdomkeys.block.GummiHangarBlock;
 import online.kingdomkeys.kingdomkeys.entity.GummiShipEntity;
+import online.kingdomkeys.kingdomkeys.entity.block.GummiCoreTileEntity;
 import online.kingdomkeys.kingdomkeys.lib.GummiStructure;
 import online.kingdomkeys.kingdomkeys.menu.GummiHangarMenu;
 import online.kingdomkeys.kingdomkeys.network.Packet;
@@ -82,7 +85,8 @@ public record CSEditGummiShip(String name, int containerID) implements Packet {
 				for (int y = 0; y < size; y++) {
 					for (int z = 0; z < size; z++) {
 						BlockState blockToPlace = struct.getBlocks()[x][y][z];
-						if (blockToPlace == null) continue;
+						if (blockToPlace == null)
+                            continue;
 
 						int rx = x, rz = z;
 						switch (facing) {
@@ -96,6 +100,13 @@ public record CSEditGummiShip(String name, int containerID) implements Packet {
 						BlockState rotatedState = Utils.rotateBlock(blockToPlace,rotation);
 
 						level.setBlockAndUpdate(target, rotatedState);
+
+                        if(blockToPlace.getBlock() instanceof GummiCoreBlock){
+                            BlockEntity te = level.getBlockEntity(target);
+                            if(te instanceof GummiCoreTileEntity core) {
+                                core.saveFromShip(gummi);
+                            }
+                        }
 					}
 				}
 			}

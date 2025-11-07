@@ -9,6 +9,8 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.HitResult;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -32,8 +34,32 @@ public class GummiShotEntity extends ThrowableProjectile{
         this(ModEntities.TYPE_GUMMI_SHOT.get(), world, player, dmg);
     }
 
+    @Override
+    public void tick() {
+        super.tick();
+        if(tickCount > 100) {
+            super.remove(RemovalReason.KILLED);
+        }
+    }
 
-	@Override
+    @Override
+    protected void onHit(HitResult rtRes) {
+        super.onHit(rtRes);
+        if (!level().isClientSide) {
+            if (rtRes instanceof EntityHitResult ertResult) {
+                if (ertResult.getEntity() instanceof LivingEntity target) {
+                    if (target != getOwner()) {
+                        target.invulnerableTime = 0;
+                        target.hurt(target.damageSources().thrown(this, this.getOwner()), dmg);
+                        super.remove(RemovalReason.KILLED);
+                    }
+                }
+            }
+            remove(RemovalReason.KILLED);
+        }
+    }
+
+    @Override
 	protected double getDefaultGravity() {
 		return 0D;
 	}
