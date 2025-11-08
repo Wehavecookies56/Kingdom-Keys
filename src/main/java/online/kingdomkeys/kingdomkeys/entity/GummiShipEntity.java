@@ -93,8 +93,7 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
             } else if (weapon.getBlock() == Blocks.DROPPER) {
                 shoot(player, finalPos, SHOT_TYPE.BLIZZAGA);
             }
-
-            level().playSound(null, player.blockPosition(), ModSounds.laser.get(), SoundSource.PLAYERS, 1F, 1F);
+            level().playSound(null, player.blockPosition(), ModSounds.laser.get(), SoundSource.PLAYERS, 4F, 1F);
 
             if (weaponCounter >= shipStats.firepower().size())
                 weaponCounter = 0;
@@ -484,18 +483,32 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 			}
 		}
 
-        if(!level().isClientSide) {
+        if(!level().isClientSide && this.shipStats != null) {
+            int fuelConsumption = (int)(shipStats.speed * 0.2F);
+
+            if(getYRot() != prevRot){ //If rotates remove half of what moving takes
+                remFuel((int)(fuelConsumption * 0.3F));
+            }
             boolean moved = this.position().distanceToSqr(prevX, prevY, prevZ) > 0.0001D;
+            //If moves take as much fuel as engine power the ship has
             if (moved && !getPassengers().isEmpty() && getFuel() > 0) {
-                remFuel(1);
+                if(getY() < prevY){//If it's landing use 70% of the fuel it should
+                    remFuel((int)(fuelConsumption * 0.7F));
+                } else if(getY() > prevY){//If it's taking off use 130% of the fuel it should
+                    remFuel((int)(fuelConsumption * 1.3F));
+                } else {
+                    remFuel(fuelConsumption);
+                }
+
             }
 
             prevX = getX();
             prevY = getY();
             prevZ = getZ();
+            prevRot = getYRot();
         }
 	}
-    private double prevX, prevY, prevZ;
+    private double prevX, prevY, prevZ, prevRot;
 
 	@Override
 	public InteractionResult interact(Player player, InteractionHand hand) {
