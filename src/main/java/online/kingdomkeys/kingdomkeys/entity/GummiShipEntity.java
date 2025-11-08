@@ -78,25 +78,27 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 
 	int weaponCounter = 0;
 	public void fire(Player player, boolean rightClick) {
-        boolean xEven = Utils.isStructureEven(structure)[0];
-        boolean zEven = Utils.isStructureEven(structure)[1];
+        if(getFuel() > 0) {
+            boolean xEven = Utils.isStructureEven(structure)[0];
+            boolean zEven = Utils.isStructureEven(structure)[1];
 
-        Vec3 weaponPos = shipStats.firepower.get(weaponCounter++);
-        BlockState weapon = structure.getBlocks()[(int)weaponPos.x][(int)weaponPos.y][(int)weaponPos.z];
+            Vec3 weaponPos = shipStats.firepower.get(weaponCounter++);
+            BlockState weapon = structure.getBlocks()[(int)weaponPos.x][(int)weaponPos.y][(int)weaponPos.z];
 
-        Vec3 posInShip = new Vec3(structure.getWidth()/2-weaponPos.x() + (xEven ? -0.5F: 0), (structure.getHeight()/2F)+weaponPos.y()-structure.getHeight()/2, structure.getDepth()/2-weaponPos.z()+ (zEven ? 0F: 0.5F)).yRot(-this.getYRot() * 0.017453292F);
-        Vec3 finalPos = new Vec3(posInShip.x + getX(),posInShip.y + getY(),posInShip.z + getZ());
+            Vec3 posInShip = new Vec3(structure.getWidth()/2-weaponPos.x() + (xEven ? -0.5F: 0), (structure.getHeight()/2F)+weaponPos.y()-structure.getHeight()/2, structure.getDepth()/2-weaponPos.z()+ (zEven ? 0F: 0.5F)).yRot(-this.getYRot() * 0.017453292F);
+            Vec3 finalPos = new Vec3(posInShip.x + getX(),posInShip.y + getY(),posInShip.z + getZ());
 
-        if(weapon.getBlock() == Blocks.DISPENSER){
-            shoot(player,finalPos, SHOT_TYPE.FIRE);
-        } else if(weapon.getBlock() == Blocks.DROPPER){
-            shoot(player,finalPos, SHOT_TYPE.BLIZZAGA);
+            if (weapon.getBlock() == Blocks.DISPENSER) {
+                shoot(player, finalPos, SHOT_TYPE.FIRE);
+            } else if (weapon.getBlock() == Blocks.DROPPER) {
+                shoot(player, finalPos, SHOT_TYPE.BLIZZAGA);
+            }
+
+            level().playSound(null, player.blockPosition(), ModSounds.laser.get(), SoundSource.PLAYERS, 1F, 1F);
+
+            if (weaponCounter >= shipStats.firepower().size())
+                weaponCounter = 0;
         }
-
-		level().playSound(null, player.blockPosition(), ModSounds.laser.get(), SoundSource.PLAYERS, 1F, 1F);
-
-		if(weaponCounter >= shipStats.firepower().size())
-			weaponCounter = 0;
 	}
 
     public void shoot(Player player, Vec3 finalPos, SHOT_TYPE type){
@@ -107,6 +109,7 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
                 player.level().addFreshEntity(shot);
                 shot.setPos(finalPos);
                 shot.shootFromRotation(this, player.getXRot(), player.getYRot(), 0, 1.5F, 0);
+                remFuel(35);
             }
             case FIRA -> {
                 GummiShotEntity shot = new GummiShotEntity(level(), player, 10);
@@ -114,6 +117,7 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
                 player.level().addFreshEntity(shot);
                 shot.setPos(finalPos);
                 shot.shootFromRotation(this, player.getXRot(), player.getYRot(), 0, 1.5F, 0);
+                remFuel(41);
             }
             case FIRAGA -> {
                 GummiShotEntity shot = new GummiShotEntity(level(), player, 10);
@@ -121,6 +125,7 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
                 player.level().addFreshEntity(shot);
                 shot.setPos(finalPos);
                 shot.shootFromRotation(this, player.getXRot(), player.getYRot(), 0, 1.5F, 0);
+                remFuel(53);
             }
             case BLIZZARA -> {
                 GummiShotEntity blizzara = new GummiShotEntity(level(), player, 10);
@@ -140,6 +145,8 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
                 player.level().addFreshEntity(blizzara3);
                 blizzara3.setPos(finalPos);
                 blizzara3.shootFromRotation(this, player.getXRot()+3, player.getYRot()-3, 0, 2F, 0);
+
+                remFuel(108);
             }
             case BLIZZAGA -> {
                 GummiShotEntity blizzara = new GummiShotEntity(level(), player, 10);
@@ -165,6 +172,8 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
                 player.level().addFreshEntity(blizzara4);
                 blizzara4.setPos(finalPos);
                 blizzara4.shootFromRotation(this, player.getXRot(), player.getYRot()+6, 0, 2F, 0);
+
+                remFuel(138);
             }
         }
     }
@@ -539,7 +548,7 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
     }
 
     public void remFuel(int fuel) {
-        setFuel(getFuel() - fuel);
+        setFuel(Math.max(getFuel() - fuel,0));
     }
 
     public int getMaxFuel(){

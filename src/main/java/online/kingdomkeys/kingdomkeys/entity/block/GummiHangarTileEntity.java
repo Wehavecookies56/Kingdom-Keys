@@ -151,7 +151,6 @@ public class GummiHangarTileEntity extends BlockEntity implements MenuProvider {
             //If has some combustible store it
             if (hangar.burnTime > 0) {
                 hangar.burnTime -= state.getValue(GummiHangarBlock.LEVEL) + 1;
-                System.out.println(state.getValue(GummiHangarBlock.LEVEL) + 1);
                 hangar.storedEnergy = Math.min(hangar.storedEnergy + 5, MAX_ENERGY);
                 dirty = true;
             }
@@ -174,11 +173,11 @@ public class GummiHangarTileEntity extends BlockEntity implements MenuProvider {
             if (level.hasNeighborSignal(pos)) {
                 int size = GummiHangarBlock.getSize(state.getValue(GummiHangarBlock.LEVEL));
                 List<GummiShipEntity> ships = Utils.getAllGummiShipsInBuildPlate(level, pos, state.getValue(GummiHangarBlock.FACING), size);
-
                 //Refuel all ships found in the area
                 if (!ships.isEmpty() && hangar.storedEnergy > 0) {
                     for (GummiShipEntity ship : ships) {
-                        int transfer = Math.min(50, hangar.storedEnergy);
+                        int transfer = Math.min((state.getValue(GummiHangarBlock.LEVEL) + 1)*10, hangar.storedEnergy);
+                        System.out.println("Transfer: "+transfer);
                         if(ship.getFuel() < ship.getMaxFuel()) {
                             ship.addFuel(transfer);
                             hangar.storedEnergy -= transfer;

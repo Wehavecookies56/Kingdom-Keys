@@ -9,7 +9,6 @@ import online.kingdomkeys.kingdomkeys.entity.GummiShipEntity;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 
 public class GummiCoreTileEntity extends BlockEntity {
-
     private float damage;
     private int fuel;
 

@@ -1,7 +1,7 @@
 package online.kingdomkeys.kingdomkeys.network.cts;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Vec3i;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.ByteBufCodecs;
@@ -17,7 +17,6 @@ import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.block.GummiHangarBlock;
-import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.entity.GummiShipEntity;
 import online.kingdomkeys.kingdomkeys.entity.block.GummiCoreTileEntity;
 import online.kingdomkeys.kingdomkeys.lib.GummiStructure;
@@ -58,6 +57,10 @@ public record CSBuildGummiShip(String name, int containerID) implements Packet {
 			player.sendSystemMessage(Component.translatable("Structure contains banned blocks: ").append(Component.literal(bannedBlocksNames)));
 			return;
 		}
+        if(Utils.getCorePos(level,origin,hangar.getValue(GummiHangarBlock.FACING), size) == null){
+            player.displayClientMessage(Component.translatable(ChatFormatting.DARK_RED+"Structure doesn't contain a core"),true);
+            return;
+        }
 		if(Utils.getAmountOfGummiShipsInBuildPlate(level, origin, hangar.getValue(GummiHangarBlock.FACING), size) > 0){
 			return;
 		}

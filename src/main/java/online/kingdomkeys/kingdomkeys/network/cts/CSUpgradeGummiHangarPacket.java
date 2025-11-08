@@ -41,7 +41,7 @@ public record CSUpgradeGummiHangarPacket(int containerID) implements Packet {
 		Level level = player.level();
 		BlockState hangar = level.getBlockState(origin);
 		int lvl = hangar.getValue(GummiHangarBlock.LEVEL);
-		if(lvl < 3){
+		if(lvl < 4){
 			int cost = Utils.getHangarCosts(lvl);
 			PlayerData playerData = PlayerData.get(player);
 

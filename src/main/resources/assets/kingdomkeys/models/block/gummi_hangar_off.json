@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+	"textures": {
+		"bottom": "kingdomkeys:block/gummi_hangar_bottom",
+		"top": "kingdomkeys:block/gummi_hangar_top",
+		"side": "kingdomkeys:block/gummi_hangar_side_off"
+	}
+}

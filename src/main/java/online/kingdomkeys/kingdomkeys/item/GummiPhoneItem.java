@@ -79,6 +79,7 @@ public class GummiPhoneItem extends Item implements IItemCategory {
 		if (stack.has(ModComponents.GUMMI_STRUCTURE)) {
 			GummiStructure structure = stack.get(ModComponents.GUMMI_STRUCTURE);
 			tooltip.add(Component.translatable(ChatFormatting.GRAY+"Call Gummi Ship: ").append(ChatFormatting.RED+structure.getName()));
+            tooltip.add(Component.translatable(ChatFormatting.GRAY+"Health: ").append(ChatFormatting.GRAY+""+(Utils.getShipStats(structure).armour() - stack.get(ModComponents.GUMMI_DAMAGE).intValue()+"/"+Utils.getShipStats(structure).armour())));
             tooltip.add(Component.translatable(ChatFormatting.GRAY+"Fuel: ").append(ChatFormatting.GRAY+""+stack.get(ModComponents.GUMMI_FUEL)));
 		} else {
 			tooltip.add(Component.translatable(ChatFormatting.GRAY+"No Gummi Ship stored"));

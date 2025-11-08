@@ -42,7 +42,8 @@ public class GummiHangarBlock extends BaseEntityBlock implements EntityBlock, IN
 	public static final DirectionProperty FACING = BlockStateProperties.FACING;
     public static final EnumProperty<LineDisplay> SHOW_LINES = EnumProperty.create("show_lines", LineDisplay.class);
 	public static final BooleanProperty DISPLAY_BLUEPRINT = BooleanProperty.create("display_blueprint");
-	public static final IntegerProperty LEVEL = IntegerProperty.create("size",0,3); //5 S, 7 M, 9 L, 11 XL
+	public static final IntegerProperty LEVEL = IntegerProperty.create("size",0,4); //5 XS, 7 S, 9 M, 11 L, 13 XL
+    public static final BooleanProperty ACTIVE = BooleanProperty.create("active");
 
 	public GummiHangarBlock(Properties properties) {
 		super(properties);
@@ -60,7 +61,7 @@ public class GummiHangarBlock extends BaseEntityBlock implements EntityBlock, IN
 	@Nullable
 	@Override
 	public BlockState getStateForPlacement(BlockPlaceContext context) {
-		return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite()).setValue(SHOW_LINES,LineDisplay.OFF).setValue(LEVEL,0).setValue(DISPLAY_BLUEPRINT,false);
+		return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite()).setValue(ACTIVE,false).setValue(SHOW_LINES,LineDisplay.OFF).setValue(LEVEL,0).setValue(DISPLAY_BLUEPRINT,false);
 	}
 
 	@Override
@@ -70,9 +71,22 @@ public class GummiHangarBlock extends BaseEntityBlock implements EntityBlock, IN
 		builder.add(SHOW_LINES);
 		builder.add(LEVEL);
 		builder.add(DISPLAY_BLUEPRINT);
+        builder.add(ACTIVE);
 	}
 
-	@Override
+    @Override
+    public void neighborChanged(BlockState state, Level worldIn, BlockPos pos, Block blockIn, BlockPos fromPos, boolean b) {
+        worldIn.setBlockAndUpdate(pos, state.setValue(ACTIVE, worldIn.hasNeighborSignal(pos)));
+    }
+
+    @Override
+    public void onPlace(BlockState state, Level worldIn, BlockPos pos, BlockState oldState, boolean b) {
+        if (oldState.getBlock() != state.getBlock()) {
+            worldIn.setBlockAndUpdate(pos, state.setValue(ACTIVE, worldIn.hasNeighborSignal(pos)));
+        }
+    }
+
+    @Override
 	public ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
 		if (level.isClientSide)
 			return ItemInteractionResult.SUCCESS;
@@ -143,9 +157,11 @@ public class GummiHangarBlock extends BaseEntityBlock implements EntityBlock, IN
 		if (!worldIn.isClientSide){
 			if(worldIn.getBlockEntity(pos) != null) {
 				//Give lvl to the block
-				if (stack.get(ModComponents.HANGAR_LEVEL) != null) {
-					worldIn.setBlockAndUpdate(pos, state.setValue(LEVEL, stack.get(ModComponents.HANGAR_LEVEL)));
-				}
+                if (stack.get(ModComponents.HANGAR_LEVEL) != null) {
+                    worldIn.setBlockAndUpdate(pos, state.setValue(ACTIVE, worldIn.hasNeighborSignal(pos)).setValue(LEVEL, stack.get(ModComponents.HANGAR_LEVEL)));
+                } else {
+                    worldIn.setBlockAndUpdate(pos, state.setValue(ACTIVE, worldIn.hasNeighborSignal(pos)));
+                }
 			}
 		}
 	}

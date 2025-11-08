@@ -9,9 +9,7 @@ import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.inventory.AbstractFurnaceMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.client.gui.widget.ExtendedButton;
@@ -85,10 +83,10 @@ public class GummiHangarScreen extends AbstractContainerScreen<GummiHangarMenu> 
 		addRenderableWidget(editShip = new ExtendedButton(build.getX()+build.getWidth()+10, topPos + 97, 70, 20, Component.translatable("EDIT GUMMI"), p -> {
 			BlockPos origin = menu.TE.getBlockPos();
 			BlockState hangar = minecraft.level.getBlockState(origin);
-			GummiShipEntity gummi = Utils.getGummiShipInBuildPlate(minecraft.level, origin, hangar.getValue(GummiHangarBlock.FACING), GummiHangarBlock.getSize(hangar.getValue(GummiHangarBlock.LEVEL)));
+            int size = GummiHangarBlock.getSize(hangar.getValue(GummiHangarBlock.LEVEL));
+            GummiShipEntity gummi = Utils.getGummiShipInBuildPlate(minecraft.level, origin, hangar.getValue(GummiHangarBlock.FACING), size);
 			if(gummi != null) {
 				GummiStructure struct = gummi.structure;
-				int size = GummiHangarBlock.getSize(hangar.getValue(GummiHangarBlock.LEVEL));
 
 				if (struct.getWidth() <= size) {
 					PacketHandler.sendToServer(new CSEditGummiShip(name.getValue(), menu.containerId));
@@ -133,7 +131,7 @@ public class GummiHangarScreen extends AbstractContainerScreen<GummiHangarMenu> 
 		BlockPos origin = menu.TE.getBlockPos();
 		BlockState hangar = minecraft.level.getBlockState(origin);
 		int level = hangar.getValue(GummiHangarBlock.LEVEL);
-		if (level < 3) {
+		if (level < 4) {
 			if(PlayerData.get(minecraft.player).getMunny() >= Utils.getHangarCosts(level)) {
 				PacketHandler.sendToServer(new CSUpgradeGummiHangarPacket(menu.containerId));
 				onClose();
@@ -173,7 +171,7 @@ public class GummiHangarScreen extends AbstractContainerScreen<GummiHangarMenu> 
 		BlockPos origin = menu.TE.getBlockPos();
 		BlockState hangar = minecraft.level.getBlockState(origin);
 
-		upgradeButton.visible = hangar.getValue(GummiHangarBlock.LEVEL) < 3;
+		upgradeButton.visible = hangar.getValue(GummiHangarBlock.LEVEL) < 4;
 
 		int size = GummiHangarBlock.getSize(hangar.getValue(GummiHangarBlock.LEVEL));
 		if(Utils.getAmountOfGummiShipsInBuildPlate(minecraft.level,origin,hangar.getValue(GummiHangarBlock.FACING),size) != 0){
@@ -197,6 +195,13 @@ public class GummiHangarScreen extends AbstractContainerScreen<GummiHangarMenu> 
 				}
 			}
 		}
+
+        if(isHoveringButton(build,mouseX,mouseY)){
+            if(name.getValue().isEmpty()){
+                list.add(Component.translatable(ChatFormatting.DARK_RED + Component.translatable("You need to name your Gummi Ship").getString()));
+                gui.renderTooltip(font, list, Optional.empty(), mouseX, mouseY);
+            }
+        }
 
 		if(isHoveringButton(moveShipFW,mouseX,mouseY)){
 			list.add(Component.translatable(ChatFormatting.WHITE + Component.translatable("Move ship forward").getString()));
@@ -280,7 +285,15 @@ public class GummiHangarScreen extends AbstractContainerScreen<GummiHangarMenu> 
 	protected void renderLabels(@NotNull GuiGraphics gui, int mouseX, int mouseY) {
 		BlockState hangar = minecraft.level.getBlockState(menu.TE.getBlockPos());
 		int size = GummiHangarBlock.getSize(hangar.getValue(GummiHangarBlock.LEVEL));
-		gui.drawString(font, Component.translatable(this.title.getString()).getString()+" Lv."+(hangar.getValue(GummiHangarBlock.LEVEL)+1)+" ["+size+"x"+size+"x"+size+"]", 8.0F, 6.0F, 4210752, false);
+        String tier = switch(hangar.getValue(GummiHangarBlock.LEVEL)){
+            case 0 -> "XS";
+            case 1 -> "S";
+            case 2 -> "M";
+            case 3 -> "L";
+            case 4 -> "XL";
+            default -> "Unsuported value: " + hangar.getValue(GummiHangarBlock.LEVEL);
+        };
+		gui.drawString(font, Component.translatable(this.title.getString()).getString()+" "+tier+" ["+size+"x"+size+"x"+size+"]", 8.0F, 6.0F, 4210752, false);
 		gui.drawString(font, this.playerInventoryTitle.getString(), 8F, (float) (this.imageHeight - 94), 4210752, false);
 		updateShip();
 		if(structure != null){
@@ -309,7 +322,7 @@ public class GummiHangarScreen extends AbstractContainerScreen<GummiHangarMenu> 
 				imp.active = struct != null && struct.getWidth() <= size;
 			}
 
-            build.active = Utils.getAmountOfGummiShipsInBuildPlate(minecraft.level, origin, hangar.getValue(GummiHangarBlock.FACING), size) == 0;
+            build.active = Utils.getAmountOfGummiShipsInBuildPlate(minecraft.level, origin, hangar.getValue(GummiHangarBlock.FACING), size) == 0 && !name.getValue().isEmpty();
 
 			GummiShipEntity gummi = Utils.getGummiShipInBuildPlate(minecraft.level, origin, hangar.getValue(GummiHangarBlock.FACING), size);
 			if(gummi != null) {
@@ -322,8 +335,6 @@ public class GummiHangarScreen extends AbstractContainerScreen<GummiHangarMenu> 
             gui.pose().pushPose();
             {
                 if(menu.TE.maxBurnTime > 0) {
-                    System.out.println("BURN TIME: "+menu.TE.burnTime);
-                    System.out.println("MAX BURN: "+ menu.TE.maxBurnTime);
                     float progress = ((float) menu.TE.burnTime / menu.TE.maxBurnTime) * 14;
                     int v = (int) progress+1;
                     blit(gui, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/gummi_hangar.png"), 152, 39 + 14 - v, 242, 14 - v, 14, v);

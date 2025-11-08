@@ -1,7 +1,6 @@
 {
   "variants": {
-    "": [ 
-    	{"model": "kingdomkeys:block/gummi_hangar"}
-    ]
+   		"active=false": { "model":  "kingdomkeys:block/gummi_hangar_off" },
+    	"active=true": { "model": "kingdomkeys:block/gummi_hangar" }
   }
 }

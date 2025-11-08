@@ -1460,7 +1460,7 @@ public class Utils {
 	}
 
 	final static int[] bagCosts = {10000,20000,40000,80000};
-	final static int[] hangarCosts = {15000,30000,70000,80000};
+	final static int[] hangarCosts = {15000,30000,70000,130000,9999999};
 
 	public static int getBagCosts(int bagLevel) {
 		return bagCosts[bagLevel];

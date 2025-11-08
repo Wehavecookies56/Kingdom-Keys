@@ -32,6 +32,10 @@ public class GummiStructure implements INBTSerializable<CompoundTag> {
         return shipName;
     }
 
+    public void setName(String name){
+        this.shipName = name;
+    }
+
     public UUID getOwnerID(){
         return ownerID;
     }
