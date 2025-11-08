@@ -49,7 +49,7 @@ import java.util.Optional;
 public class GummiShipEntity extends KKVehicleEntity implements IEntityWithComplexSpawn {
 
 	CompoundTag data;
-    float fuel;
+    int fuel;
 	public GummiStructure structure;
 	public ShipStats shipStats;
 
@@ -57,7 +57,9 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 		super(type, world);
 	}
 
-	public record ShipStats(float speed, int weight, int armour, List<Vec3> firepower, List<Vec3> passengerSlots) {
+
+
+    public record ShipStats(float speed, int weight, int armour, List<Vec3> firepower, List<Vec3> passengerSlots) {
 		public float getEffectiveSpeed(){
             return speed() / (weight() * 0.05F);
         }
@@ -182,6 +184,9 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
                             player.displayClientMessage(Component.translatable("There's already a gummi ship stored in your gummi phone"), true);
                         } else {
                             stack.set(ModComponents.GUMMI_STRUCTURE, structure);
+                            stack.set(ModComponents.GUMMI_DAMAGE, getDamage());
+                            stack.set(ModComponents.GUMMI_FUEL, getFuel());
+                            System.out.println(getFuel());
                             player.displayClientMessage(Component.translatable("Stored gummi ship in your gummi phone"), true);
                             ((ServerLevel) level()).sendParticles(ParticleTypes.FIREWORK, this.getX(), this.getY() + 1, this.getZ(), Utils.getRealGummiStructureSize(structure).getX() * Utils.getRealGummiStructureSize(structure).getY() * Utils.getRealGummiStructureSize(structure).getZ(), 0, 0, 0, 0.2);
                             this.kill();
@@ -338,9 +343,11 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 	@Override
 	void controlBoat() {
         if(getFuel() <= 0){
-            this.setDeltaMovement(this.getDeltaMovement().x,-1.5F,this.getDeltaMovement().z);
+            inputLeft = inputRight = inputUp = inputForward = inputBackward = false;
+            inputDown = true;
         }
-		if (this.isVehicle() && getFuel() > 0) {
+
+		if (this.isVehicle()) {
 			//Forward / Backwards
 			float targetSpeed = 0F;
 			if (this.inputForward)
@@ -425,6 +432,7 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 			}
 
 			this.setDeltaMovement(this.getDeltaMovement().add((Mth.sin(-this.getYRot() * 0.017453292F) * currentSpeed), currentVerticalSpeed,(Math.cos(this.getYRot() * 0.017453292F) * currentSpeed)));
+            //move(MoverType.SELF,this.getDeltaMovement().add((Mth.sin(-this.getYRot() * 0.017453292F) * currentSpeed), currentVerticalSpeed,(Math.cos(this.getYRot() * 0.017453292F) * currentSpeed)));
 		}
 
 	}
@@ -446,10 +454,7 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 	@Override
 	public void tick() {
 		super.tick();
-        //setFuel(10);
-        if(!getPassengers().isEmpty() && fuel > 0){
-            fuel = Math.max(fuel - 0.1F,0);
-        }
+        //setFuel(200);
 		if (structure == null || structure.getBlocks().length == 0) {
 			this.kill();
 		} else {
@@ -469,7 +474,19 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 				this.refreshDimensions();
 			}
 		}
+
+        if(!level().isClientSide) {
+            boolean moved = this.position().distanceToSqr(prevX, prevY, prevZ) > 0.0001D;
+            if (moved && !getPassengers().isEmpty() && getFuel() > 0) {
+                remFuel(1);
+            }
+
+            prevX = getX();
+            prevY = getY();
+            prevZ = getZ();
+        }
 	}
+    private double prevX, prevY, prevZ;
 
 	@Override
 	public InteractionResult interact(Player player, InteractionHand hand) {
@@ -490,13 +507,13 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
                 ;
     }
 	private static final EntityDataAccessor<CompoundTag> DATA = SynchedEntityData.defineId(GummiShipEntity.class, EntityDataSerializers.COMPOUND_TAG);
-    private static final EntityDataAccessor<Float> FUEL = SynchedEntityData.defineId(GummiShipEntity.class, EntityDataSerializers.FLOAT);
+    private static final EntityDataAccessor<Integer> FUEL = SynchedEntityData.defineId(GummiShipEntity.class, EntityDataSerializers.INT);
 
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
         super.defineSynchedData(pBuilder);
         pBuilder.define(DATA, new CompoundTag());
-        pBuilder.define(FUEL, 0F);
+        pBuilder.define(FUEL, 0);
     }
 
 	public CompoundTag getData() {
@@ -508,13 +525,25 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 		structure = new GummiStructure(level().registryAccess(), struct);
 	}
 
-    public float getFuel() {
+    public int getFuel() {
         return fuel;
     }
 
-    public void setFuel(float fuel) {
+    public void setFuel(int fuel) {
         this.entityData.set(FUEL, fuel);
         this.fuel = fuel;
+    }
+
+    public void addFuel(int fuel) {
+        setFuel(Math.min(getFuel() + fuel, getMaxFuel()));
+    }
+
+    public void remFuel(int fuel) {
+        setFuel(getFuel() - fuel);
+    }
+
+    public int getMaxFuel(){
+        return (((structure.getWidth() - 5) / 2)*10000)+10000;
     }
 
 	@Override
@@ -532,20 +561,20 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 	@Override
 	public void addAdditionalSaveData(CompoundTag compound) {
 		compound.put("data",structure.serializeNBT(this.level().registryAccess()));
-        compound.putFloat("fuel", fuel);
+        compound.putInt("fuel", fuel);
 	}
 
 	@Override
 	public void readAdditionalSaveData(CompoundTag compound) {
 		this.setData(compound.getCompound("data"));
-        this.setFuel(compound.getFloat("fuel"));
+        this.setFuel(compound.getInt("fuel"));
 	}
 
 	public CompoundTag getDataManager() {
 		return this.entityData.get(DATA);
 	}
 
-    public float getFuelManager() {
+    public int getFuelManager() {
         return this.entityData.get(FUEL);
     }
 
@@ -553,7 +582,7 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 	public void writeSpawnData(RegistryFriendlyByteBuf buf) {
 		CompoundTag nbt = structure.serializeNBT(level().registryAccess());
 		buf.writeNbt(nbt);
-        buf.writeFloat(fuel);
+        buf.writeInt(fuel);
 	}
 
 	@Override
@@ -563,6 +592,6 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 			structure = new GummiStructure(level().registryAccess(), nbt);
 			this.setData(nbt);
 		}
-        setFuel(buf.readFloat());
+        this.setFuel(buf.readInt());
     }
 }

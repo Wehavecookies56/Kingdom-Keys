@@ -36,21 +36,38 @@ public class GummiPhoneItem extends Item implements IItemCategory {
 		InteractionHand hand = context.getHand();
 		if (!world.isClientSide) {
 			ItemStack stack = player.getItemInHand(hand);
-			GummiStructure gummiStruct = null;
+			GummiStructure gummiStruct;
+            float damage = 0;
+            int fuel = 0;
 			if(stack.has(ModComponents.GUMMI_STRUCTURE)){
 				gummiStruct = stack.get(ModComponents.GUMMI_STRUCTURE);
 			} else {
                 return InteractionResult.FAIL;
             }
-			if (gummiStruct != null || gummiStruct.getBlocks().length > 0) {
+            if(stack.has(ModComponents.GUMMI_DAMAGE)) {
+                damage = stack.get(ModComponents.GUMMI_DAMAGE);
+            }
+            if(stack.has(ModComponents.GUMMI_FUEL)) {
+                fuel = stack.get(ModComponents.GUMMI_FUEL);
+            }
+
+            if (gummiStruct != null || gummiStruct.getBlocks().length > 0) {
                 Vec3i size = Utils.getRealGummiStructureSize(gummiStruct);
                 ((ServerLevel) world).sendParticles(ParticleTypes.FIREWORK, context.getClickedPos().getX() + 0.5F, context.getClickedPos().getY()+1, context.getClickedPos().getZ()+ 0.5F, size.getX() * size.getY() * size.getZ()*10, 0, 0, 0, 0.2);
                 GummiShipEntity gummi = new GummiShipEntity(world, gummiStruct);
 				gummiStruct.serializeNBT(world.registryAccess());
                 gummi.setPos(context.getClickedPos().getX() + 0.5F, context.getClickedPos().getY()+1, context.getClickedPos().getZ()+ 0.5F);
                 gummi.setYRot(player.getYRot());
-				world.addFreshEntity(gummi);
-				stack.remove(ModComponents.GUMMI_STRUCTURE);
+                if(damage > 0) {
+                    gummi.setDamage(damage);
+                    stack.remove(ModComponents.GUMMI_DAMAGE);
+                }
+                if(fuel > 0) {
+                    gummi.setFuel(fuel);
+                    stack.remove(ModComponents.GUMMI_FUEL);
+                }
+                world.addFreshEntity(gummi);
+                stack.remove(ModComponents.GUMMI_STRUCTURE);
 			}
 		}
 		return InteractionResult.SUCCESS;
@@ -62,6 +79,7 @@ public class GummiPhoneItem extends Item implements IItemCategory {
 		if (stack.has(ModComponents.GUMMI_STRUCTURE)) {
 			GummiStructure structure = stack.get(ModComponents.GUMMI_STRUCTURE);
 			tooltip.add(Component.translatable(ChatFormatting.GRAY+"Call Gummi Ship: ").append(ChatFormatting.RED+structure.getName()));
+            tooltip.add(Component.translatable(ChatFormatting.GRAY+"Fuel: ").append(ChatFormatting.GRAY+""+stack.get(ModComponents.GUMMI_FUEL)));
 		} else {
 			tooltip.add(Component.translatable(ChatFormatting.GRAY+"No Gummi Ship stored"));
 			tooltip.add(Component.translatable(ChatFormatting.GRAY+"Sneak + left click on your Gummi Ship to store it"));

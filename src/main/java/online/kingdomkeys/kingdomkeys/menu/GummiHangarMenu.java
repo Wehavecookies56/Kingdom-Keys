@@ -7,6 +7,7 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.SlotItemHandler;
@@ -47,6 +48,14 @@ public class GummiHangarMenu extends AbstractContainerMenu {
 				return stack.getItem() == ModItems.gummiShipBlueprint.get();
 			}
 		});
+
+        //Fuel slot
+        addSlot(new SlotItemHandler(iih, 1, 152, 58) {
+            @Override
+            public boolean mayPlace(ItemStack stack) {
+                return stack.getBurnTime(RecipeType.SMELTING) > 0;
+            }
+        });
 
 		//Player Inventory slots
 		for (i = 0; i < 3; ++i) {

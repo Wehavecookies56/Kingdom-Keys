@@ -476,6 +476,15 @@ public class Utils {
 		return null;
 	}
 
+    public static List<GummiShipEntity> getAllGummiShipsInBuildPlate(Level level, BlockPos origin, Direction facing, int size) {
+        int[] offsets = Utils.getShipOffset(facing,size);
+        if(offsets == null)
+            return null;
+
+        AABB box = new AABB(origin.getX()+offsets[0], origin.getY(), origin.getZ()+offsets[1], origin.getX()+offsets[0]+size, origin.getY() + size, origin.getZ()+offsets[1]+size);
+        return level.getEntitiesOfClass(GummiShipEntity.class, box);
+    }
+
 	public static void removeBlocks(Level level, BlockPos origin, Direction facing, int size) {
 		int max = size - 1;
 

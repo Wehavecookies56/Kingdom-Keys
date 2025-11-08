@@ -9,7 +9,9 @@ import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.AbstractFurnaceMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.client.gui.widget.ExtendedButton;
@@ -293,6 +295,10 @@ public class GummiHangarScreen extends AbstractContainerScreen<GummiHangarMenu> 
 			gui.drawString(font, "Eff. Speed: " + effSpeed, x, y+=10, 4210752, false);
 			gui.drawString(font, "Seats: " + stats.passengerSlots().size(), x, y+=10, 4210752, false);
 
+            gui.drawString(font, "Burn time: " + menu.TE.burnTime, x-100, y+=10, 0xFFFFFF, false);
+            gui.drawString(font, "Max Burn time: "+menu.TE.maxBurnTime, x-100, y+=10, 0xFFFFFF, false);
+            gui.drawString(font, "Energy: "+menu.TE.storedEnergy, x-100, y+=10, 0xFFFFFF, false);
+
 			BlockPos origin = menu.TE.getBlockPos();
 			ItemStack stack = menu.TE.inventory.get().getStackInSlot(0);
 			imp.active = stack.is(ModItems.gummiShipBlueprint.get());
@@ -312,8 +318,25 @@ public class GummiHangarScreen extends AbstractContainerScreen<GummiHangarMenu> 
 					editShip.active = false;
 				}
 			}
-		}
+
+            gui.pose().pushPose();
+            {
+                if(menu.TE.maxBurnTime > 0) {
+                    System.out.println("BURN TIME: "+menu.TE.burnTime);
+                    System.out.println("MAX BURN: "+ menu.TE.maxBurnTime);
+                    float progress = ((float) menu.TE.burnTime / menu.TE.maxBurnTime) * 14;
+                    int v = (int) progress+1;
+                    blit(gui, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/gummi_hangar.png"), 152, 39 + 14 - v, 242, 14 - v, 14, v);
+                }
+            }
+            gui.pose().popPose();
+
+        }
 	}
+
+    public void blit(GuiGraphics gui, ResourceLocation texture, int x, int y, int u, int v, int uwidth, int vheight) {
+        gui.blit(texture, x, y, u ,v, uwidth, vheight);
+    }
 
 	@Override
 	protected void renderBg(@NotNull GuiGraphics gui, float partialTicks, int mouseX, int mouseY) {

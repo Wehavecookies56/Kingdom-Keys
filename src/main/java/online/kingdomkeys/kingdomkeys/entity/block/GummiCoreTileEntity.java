@@ -11,7 +11,7 @@ import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 public class GummiCoreTileEntity extends BlockEntity {
 
     private float damage;
-    private float fuel;
+    private int fuel;
 
     public GummiCoreTileEntity(BlockPos pos, BlockState blockState) {
         super(ModEntities.TYPE_GUMMI_CORE_TE.get(), pos, blockState);
@@ -19,14 +19,12 @@ public class GummiCoreTileEntity extends BlockEntity {
 
     public void saveFromShip(GummiShipEntity ship){
         this.damage = ship.getDamage();
-        System.out.println("Saved damage: "+damage);
         this.fuel = ship.getFuel();
 
         setChanged();
     }
 
     public void loadToShip(GummiShipEntity ship){
-        System.out.println("Loaded damage to ship: "+damage);
         ship.setDamage(this.damage);
         ship.setFuel(this.fuel);
     }
@@ -35,13 +33,13 @@ public class GummiCoreTileEntity extends BlockEntity {
     protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.saveAdditional(tag, registries);
         tag.putFloat("damage", damage);
-        tag.putFloat("fuel", fuel);
+        tag.putInt("fuel", fuel);
     }
 
     @Override
     protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.loadAdditional(tag, registries);
         this.damage = tag.getFloat("damage");
-        this.fuel = tag.getFloat("fuel");
+        this.fuel = tag.getInt("fuel");
     }
 }
