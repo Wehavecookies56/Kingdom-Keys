@@ -144,17 +144,19 @@ public class ClientEvents {
 	public void onCameraSetup(CalculateDetachedCameraDistanceEvent event) {
 		Camera camera = event.getCamera();
 		Entity viewEntity = camera.getEntity();
+        if (viewEntity instanceof Player player && player.getVehicle() instanceof GummiShipEntity ship) {
+            if(ship.structure != null){
+                Vec3i realSize = Utils.getRealGummiStructureSize(ship.structure);
+                int maxSize = Math.max(Math.max(realSize.getX(), realSize.getY()), realSize.getZ());
 
-		if (Minecraft.getInstance().options.getCameraType() == CameraType.THIRD_PERSON_BACK) {
-			if (viewEntity instanceof Player player && player.getVehicle() instanceof GummiShipEntity ship) {
-				if(ship.structure != null){
-					Vec3i realSize = Utils.getRealGummiStructureSize(ship.structure);
-					int maxSize = Math.max(Math.max(realSize.getX(), realSize.getY()), realSize.getZ());
-					event.setDistance(maxSize*1.5F);
-				}
+                if (Minecraft.getInstance().options.getCameraType() == CameraType.THIRD_PERSON_BACK) {
+                    event.setDistance(maxSize * 1.2F);
+                } else if(Minecraft.getInstance().options.getCameraType() == CameraType.THIRD_PERSON_FRONT) {
+                    event.setDistance(maxSize * 0.8F);
+                }
 
-			}
-		}
+            }
+        }
 	}
 
 

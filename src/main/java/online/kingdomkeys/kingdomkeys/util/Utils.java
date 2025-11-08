@@ -715,7 +715,8 @@ public class Utils {
 		return null;
 	}
 
-	public static class Title {
+
+    public static class Title {
 		public String title, subtitle;
 		public int fadeIn = 10, fadeOut = 20, displayTime = 70;
 
@@ -1469,7 +1470,19 @@ public class Utils {
 		return hangarCosts[hangarLevel];
 	}
 
-	public static String snakeToCamel(String str) {
+    public static String getHangarSizeFromLevel(int level) {
+        return switch(level){
+            case 0 -> "XS";
+            case 1 -> "S";
+            case 2 -> "M";
+            case 3 -> "L";
+            case 4 -> "XL";
+            default -> "Unsuported value: " + level;
+        };
+    }
+
+
+    public static String snakeToCamel(String str) {
 		// Capitalize first letter of string
 		str = str.substring(0, 1).toUpperCase() + str.substring(1);
 

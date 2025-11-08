@@ -1,6 +1,7 @@
 package online.kingdomkeys.kingdomkeys.block;
 
 import com.mojang.serialization.MapCodec;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
@@ -11,7 +12,9 @@ import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.SignalGetter;
@@ -23,6 +26,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.*;
 import net.minecraft.world.phys.BlockHitResult;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
@@ -30,12 +35,12 @@ import net.neoforged.neoforge.items.IItemHandler;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.block.GummiHangarTileEntity;
-import online.kingdomkeys.kingdomkeys.entity.block.SavepointTileEntity;
 import online.kingdomkeys.kingdomkeys.item.ModComponents;
 import online.kingdomkeys.kingdomkeys.lib.LineDisplay;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import javax.annotation.Nullable;
+import java.util.List;
 
 @EventBusSubscriber
 public class GummiHangarBlock extends BaseEntityBlock implements EntityBlock, INoDataGen {
@@ -111,17 +116,19 @@ public class GummiHangarBlock extends BaseEntityBlock implements EntityBlock, IN
 		if (state.hasBlockEntity() && state.getBlock() != newState.getBlock()) {
 			GummiHangarTileEntity TE = (GummiHangarTileEntity) world.getBlockEntity(pos);
 			if (TE != null) {
-				IItemHandler iItemHandler = TE.inventory.get();
-				if (iItemHandler != null) {
-					for (int i = 0; i < iItemHandler.getSlots(); i++) {
-						popResource(world, pos, iItemHandler.getStackInSlot(i));
-					}
-				}
-			}
-			world.removeBlockEntity(pos);
-			ItemStack stack = new ItemStack(this);
-			stack.set(ModComponents.HANGAR_LEVEL, state.getValue(LEVEL));
-			popResource(world, pos, stack);
+                IItemHandler iItemHandler = TE.inventory.get();
+                if (iItemHandler != null) {
+                    for (int i = 0; i < iItemHandler.getSlots(); i++) {
+                        popResource(world, pos, iItemHandler.getStackInSlot(i));
+                    }
+                }
+
+                world.removeBlockEntity(pos);
+                ItemStack stack = new ItemStack(this);
+                stack.set(ModComponents.HANGAR_LEVEL, state.getValue(LEVEL));
+                stack.set(ModComponents.HANGAR_FUEL, TE.storedEnergy);
+                popResource(world, pos, stack);
+            }
 			super.onRemove(state, world, pos, newState, isMoving);
 		}
 	}
@@ -159,12 +166,30 @@ public class GummiHangarBlock extends BaseEntityBlock implements EntityBlock, IN
 				//Give lvl to the block
                 if (stack.get(ModComponents.HANGAR_LEVEL) != null) {
                     worldIn.setBlockAndUpdate(pos, state.setValue(ACTIVE, worldIn.hasNeighborSignal(pos)).setValue(LEVEL, stack.get(ModComponents.HANGAR_LEVEL)));
+                    if(worldIn.getBlockEntity(pos) instanceof GummiHangarTileEntity TE){
+                        TE.storedEnergy = stack.get(ModComponents.HANGAR_FUEL);
+                    }
                 } else {
                     worldIn.setBlockAndUpdate(pos, state.setValue(ACTIVE, worldIn.hasNeighborSignal(pos)));
                 }
 			}
 		}
 	}
+
+    @OnlyIn(Dist.CLIENT)
+    @Override
+    public void appendHoverText(ItemStack stack, Item.TooltipContext pContext, List<Component> tooltip, TooltipFlag pTooltipFlag) {
+        if (stack.has(ModComponents.HANGAR_LEVEL)) {
+            int level = stack.get(ModComponents.HANGAR_LEVEL);
+            tooltip.add(Component.translatable(ChatFormatting.GRAY+"Tier ").append(ChatFormatting.GRAY+Utils.getHangarSizeFromLevel(level)));
+        }
+
+        if (stack.has(ModComponents.HANGAR_FUEL)) {
+            int fuel = stack.get(ModComponents.HANGAR_FUEL);
+            tooltip.add(Component.translatable(ChatFormatting.GRAY+"Stored fuel: ").append(""+ChatFormatting.GRAY+fuel));
+        }
+        super.appendHoverText(stack, pContext, tooltip, pTooltipFlag);
+    }
 
 	@Deprecated
 	public RenderShape getRenderShape(BlockState state) {

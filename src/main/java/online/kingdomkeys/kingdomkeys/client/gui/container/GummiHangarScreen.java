@@ -281,14 +281,7 @@ public class GummiHangarScreen extends AbstractContainerScreen<GummiHangarMenu> 
 	protected void renderLabels(@NotNull GuiGraphics gui, int mouseX, int mouseY) {
 		BlockState hangar = minecraft.level.getBlockState(menu.TE.getBlockPos());
 		int size = GummiHangarBlock.getSize(hangar.getValue(GummiHangarBlock.LEVEL));
-        String tier = switch(hangar.getValue(GummiHangarBlock.LEVEL)){
-            case 0 -> "XS";
-            case 1 -> "S";
-            case 2 -> "M";
-            case 3 -> "L";
-            case 4 -> "XL";
-            default -> "Unsuported value: " + hangar.getValue(GummiHangarBlock.LEVEL);
-        };
+        String tier = Utils.getHangarSizeFromLevel(hangar.getValue(GummiHangarBlock.LEVEL));
 		gui.drawString(font, Component.translatable(this.title.getString()).getString()+" "+tier+" ["+size+"x"+size+"x"+size+"]", 8.0F, 6.0F, 4210752, false);
 		gui.drawString(font, this.playerInventoryTitle.getString(), 8F, (float) (this.imageHeight - 94), 4210752, false);
 		updateShip();
@@ -306,7 +299,7 @@ public class GummiHangarScreen extends AbstractContainerScreen<GummiHangarMenu> 
 
             gui.drawString(font, "Burn time: " + menu.TE.burnTime, x-100, y+=10, 0xFFFFFF, false);
             gui.drawString(font, "Max Burn time: "+menu.TE.maxBurnTime, x-100, y+=10, 0xFFFFFF, false);
-            gui.drawString(font, "Energy: "+menu.TE.storedEnergy, x-100, y+=10, 0xFFFFFF, false);
+            gui.drawString(font, "Energy: "+menu.TE.storedEnergy+" / "+menu.TE.getMaxEnergy(), x-100, y+=10, 0xFFFFFF, false);
 
 			BlockPos origin = menu.TE.getBlockPos();
 			ItemStack stack = menu.TE.inventory.get().getStackInSlot(0);

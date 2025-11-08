@@ -2,9 +2,7 @@ package online.kingdomkeys.kingdomkeys.entity.block;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.TickablePacketListener;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.MenuProvider;
@@ -17,19 +15,15 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.common.CommonHooks;
 import net.neoforged.neoforge.common.util.Lazy;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import online.kingdomkeys.kingdomkeys.block.GummiHangarBlock;
-import online.kingdomkeys.kingdomkeys.block.SavePointBlock;
 import online.kingdomkeys.kingdomkeys.entity.GummiShipEntity;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.item.GummiShipBlueprintItem;
 import online.kingdomkeys.kingdomkeys.menu.GummiHangarMenu;
 import online.kingdomkeys.kingdomkeys.util.Utils;
-import online.kingdomkeys.kingdomkeys.world.SavePointStorage;
-import org.joml.Vector3f;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -44,7 +38,6 @@ public class GummiHangarTileEntity extends BlockEntity implements MenuProvider {
     public int burnTime;
     public int maxBurnTime;
     public int storedEnergy;
-    public static final int MAX_ENERGY = 20000;
 
 	public GummiHangarTileEntity(BlockPos pos, BlockState state) {
 		super(ModEntities.TYPE_GUMMI_HANGAR.get(), pos, state);
@@ -60,7 +53,11 @@ public class GummiHangarTileEntity extends BlockEntity implements MenuProvider {
 		return lastShipName;
 	}
 
-	private ItemStackHandler createInventory() {
+    public int getMaxEnergy() {
+        return ((getBlockState().getValue(GummiHangarBlock.LEVEL)+1)*10000)*2;
+    }
+
+    private ItemStackHandler createInventory() {
 		return new ItemStackHandler(NUMBER_OF_SLOTS) {
 			@Override
 			public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
@@ -152,12 +149,12 @@ public class GummiHangarTileEntity extends BlockEntity implements MenuProvider {
             //If has some combustible store it
             if (hangar.burnTime > 0) {
                 hangar.burnTime -= state.getValue(GummiHangarBlock.LEVEL) + 1;
-                hangar.storedEnergy = Math.min(hangar.storedEnergy + 5, MAX_ENERGY);
+                hangar.storedEnergy = Math.min(hangar.storedEnergy + 5, hangar.getMaxEnergy());
                 dirty = true;
             }
 
             //If has finished consuming find a new combustible
-            if (hangar.burnTime <= 0) {
+            if (hangar.burnTime <= 0 && hangar.storedEnergy < hangar.getMaxEnergy()) {
                 hangar.maxBurnTime = 0;
                 ItemStack fuelStack = hangar.inventory.get().getStackInSlot(1);
                 int fuel = fuelStack.getBurnTime(RecipeType.SMELTING);
@@ -193,5 +190,4 @@ public class GummiHangarTileEntity extends BlockEntity implements MenuProvider {
             }
         }
     }
-	
 }
