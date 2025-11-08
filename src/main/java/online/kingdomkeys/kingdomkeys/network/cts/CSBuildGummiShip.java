@@ -49,6 +49,8 @@ public record CSBuildGummiShip(String name, int containerID) implements Packet {
 		BlockPos origin = container.TE.getBlockPos();
 		Level level = player.level();
 		BlockState hangar = level.getBlockState(origin);
+        // When we build a ship from blocks to entity we want to clear the name
+        container.TE.setLastShipName("");
 
 		int size = GummiHangarBlock.getSize(hangar.getValue(GummiHangarBlock.LEVEL));
 		ArrayList<Block> bannedBlocks = Utils.getBannedBlocks(level,origin,hangar.getValue(GummiHangarBlock.FACING), size);

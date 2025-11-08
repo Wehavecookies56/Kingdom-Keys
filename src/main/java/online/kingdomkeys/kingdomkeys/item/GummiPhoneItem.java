@@ -88,10 +88,10 @@ public class GummiPhoneItem extends Item implements IItemCategory {
 		super.appendHoverText(stack, pContext, tooltip, pTooltipFlag);
 	}
 	
-	@Override
+	/*@Override
 	public void inventoryTick(ItemStack itemStack, Level world, Entity entity, int itemSlot, boolean isSelected) {
 
-	}
+	}*/
 
 	@Override
 	public ItemCategory getCategory() {

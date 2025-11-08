@@ -53,7 +53,10 @@ public record CSEditGummiShip(String name, int containerID) implements Packet {
 		if(gummi != null){
 			GummiStructure struct = gummi.structure;
 
-			//Vec3i shipSize = Utils.getRealGummiStructureSize(struct);
+            // When we change from entity to blocks we want to set the textbox name with the struc name
+            container.TE.setLastShipName(struct.getName());
+
+            //Vec3i shipSize = Utils.getRealGummiStructureSize(struct);
 			//If gummi ship trying to be turned into blocks is bigger than the build plate complain about it
 			//if(shipSize.getX() > size || shipSize.getY() > size || shipSize.getZ() > size){
 			if(struct.getWidth() > size){
@@ -110,7 +113,8 @@ public record CSEditGummiShip(String name, int containerID) implements Packet {
 					}
 				}
 			}
-			gummi.kill();
+
+            gummi.kill();
 		}
 	}
 

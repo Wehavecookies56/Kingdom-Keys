@@ -74,8 +74,6 @@ public class GummiHangarScreen extends AbstractContainerScreen<GummiHangarMenu> 
 
 			if(Utils.getAmountOfGummiShipsInBuildPlate(minecraft.level,origin,hangar.getValue(GummiHangarBlock.FACING),GummiHangarBlock.getSize(hangar.getValue(GummiHangarBlock.LEVEL))) == 0){
 				PacketHandler.sendToServer(new CSBuildGummiShip(name.getValue(), menu.containerId));
-				// When we build a ship from blocks to entity we want to clear the name
-				menu.TE.setLastShipName("");
 				name.setValue("");
 				onClose();
 			}
@@ -90,8 +88,6 @@ public class GummiHangarScreen extends AbstractContainerScreen<GummiHangarMenu> 
 
 				if (struct.getWidth() <= size) {
 					PacketHandler.sendToServer(new CSEditGummiShip(name.getValue(), menu.containerId));
-					// When we change from entity to blocks we want to set the textbox name with the struc name
-					name.setValue(struct.getName());
 					menu.TE.setLastShipName(struct.getName());
 					onClose();
 				}

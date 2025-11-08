@@ -391,7 +391,7 @@ public class Utils {
 		}
 
 		if (!canMove) {
-			System.out.println("Can't move, out of hangar");
+			//System.out.println("Can't move, out of hangar");
 			return;
 		}
 

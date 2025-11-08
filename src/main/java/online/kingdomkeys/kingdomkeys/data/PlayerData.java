@@ -369,7 +369,6 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 
             String rc = nbt.getCompound("reaction_commands").getString("rc_"+i);
 			if (ModReactionCommands.registry.containsKey(ResourceLocation.parse(rc))) {
-                System.out.println(rc);
 				this.getReactionCommands().add(rc);
 			}
 		}

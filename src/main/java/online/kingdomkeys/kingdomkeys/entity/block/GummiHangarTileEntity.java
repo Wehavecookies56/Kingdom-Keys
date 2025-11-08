@@ -51,9 +51,10 @@ public class GummiHangarTileEntity extends BlockEntity implements MenuProvider {
 	}
 
 	public void setLastShipName(String name) {
-		this.lastShipName = name;
-		setChanged();
-	}
+        this.lastShipName = name;
+        setChanged();
+        this.getLevel().sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), Block.UPDATE_ALL);
+    }
 
 	public String getLastShipName() {
 		return lastShipName;
@@ -177,7 +178,6 @@ public class GummiHangarTileEntity extends BlockEntity implements MenuProvider {
                 if (!ships.isEmpty() && hangar.storedEnergy > 0) {
                     for (GummiShipEntity ship : ships) {
                         int transfer = Math.min((state.getValue(GummiHangarBlock.LEVEL) + 1)*10, hangar.storedEnergy);
-                        System.out.println("Transfer: "+transfer);
                         if(ship.getFuel() < ship.getMaxFuel()) {
                             ship.addFuel(transfer);
                             hangar.storedEnergy -= transfer;

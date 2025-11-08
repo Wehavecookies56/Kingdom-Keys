@@ -195,7 +195,7 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
                             stack.set(ModComponents.GUMMI_STRUCTURE, structure);
                             stack.set(ModComponents.GUMMI_DAMAGE, getDamage());
                             stack.set(ModComponents.GUMMI_FUEL, getFuel());
-                            System.out.println(getFuel());
+
                             player.displayClientMessage(Component.translatable("Stored gummi ship in your gummi phone"), true);
                             ((ServerLevel) level()).sendParticles(ParticleTypes.FIREWORK, this.getX(), this.getY() + 1, this.getZ(), Utils.getRealGummiStructureSize(structure).getX() * Utils.getRealGummiStructureSize(structure).getY() * Utils.getRealGummiStructureSize(structure).getZ(), 0, 0, 0, 0.2);
                             this.kill();
