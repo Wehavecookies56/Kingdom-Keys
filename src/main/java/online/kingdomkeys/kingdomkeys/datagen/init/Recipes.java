@@ -332,6 +332,18 @@ public class Recipes extends RecipeProvider {
 				.unlockedBy("crafter", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.CRAFTER))
 				.save(consumer);
 
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.gummiCore.get())
+                .define('B', Items.BLAZE_POWDER)
+                .define('G', ModItems.gummiMeteorFragment.get())
+                .define('D', Blocks.DIAMOND_BLOCK)
+                .define('E', Items.ENDER_EYE)
+                .pattern("EBE")
+                .pattern("GDG")
+                .pattern("BGB")
+                .group("kingdomkeys")
+                .unlockedBy("ender_eye", InventoryChangeTrigger.TriggerInstance.hasItems(Items.ENDER_EYE))
+                .save(consumer);
+
         //Items
         ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ModItems.wayfinder.get(), 1)
 	        .pattern("GEG")

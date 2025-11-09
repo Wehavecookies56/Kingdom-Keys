@@ -128,6 +128,7 @@ dependencies {
     runtimeOnly("vazkii.patchouli:Patchouli:1.21.1-92-NEOFORGE")
     implementation "curse.maven:epic-fight-mod-405076:7132918-sources"
     implementation "software.bernie.geckolib:geckolib-neoforge-${minecraft_version}:${geckolib_version}"
+    implementation "curse.maven:mekanism-268560:7132168"
 }
 
 var generateModMetadata = tasks.register("generateModMetadata", ProcessResources) {

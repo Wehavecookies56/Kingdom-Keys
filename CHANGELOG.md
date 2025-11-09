@@ -4,7 +4,7 @@
 * NeoForge configuration screen.
 * Support for EFM 21.13.4.
 * Gummi Ships, can be controlled like a boat with up and down feature, have to be built.
-* Gummi Hangar, 4 tiers upgradable with munny, apply redstone to show the building area.
+* Gummi Hangar, 5 tiers upgradable with munny, apply redstone to refuel your ship.
 * Gummi blocks with 8 shapes (stonecutter) and 16 colors variants (combining shape and dye).
 * Gummi Blueprints, they can hold a Gummi Ship design.
 * Gummi meteors randomly spawning on the surface of the overworld, they drop keyblade upgrade materials and gummi fragments.
