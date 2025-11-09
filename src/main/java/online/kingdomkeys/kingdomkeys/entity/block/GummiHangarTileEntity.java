@@ -146,12 +146,10 @@ public class GummiHangarTileEntity extends BlockEntity implements MenuProvider {
     public static < T > void tick(Level level, BlockPos pos, BlockState state, T blockEntity) {
         if (blockEntity instanceof GummiHangarTileEntity hangar) {
             if (level == null || level.isClientSide) return;
-            boolean dirty = false;
             //If has some combustible store it
             if (hangar.burnTime > 0) {
                 hangar.burnTime -= state.getValue(GummiHangarBlock.LEVEL) + 1;
                 hangar.energyStorage.receiveEnergy(5, false);
-                dirty = true;
             }
             //If has finished consuming find a new combustible
             if (hangar.burnTime <= 0 && hangar.energyStorage.getEnergyStored() < hangar.getMaxEnergy()) {
@@ -162,7 +160,6 @@ public class GummiHangarTileEntity extends BlockEntity implements MenuProvider {
                     hangar.burnTime = fuel;
                     hangar.maxBurnTime = fuel;
                     fuelStack.shrink(1);
-                    dirty = true;
                 }
             }
             //Refuel ships
@@ -175,18 +172,10 @@ public class GummiHangarTileEntity extends BlockEntity implements MenuProvider {
                         int transfer = (state.getValue(GummiHangarBlock.LEVEL) + 1) * 10;
                         if (ship.getFuel() < ship.getMaxFuel()) {
                             ship.addFuel(transfer);
-                            System.out.println("---");
-                            System.out.println("Energy pre: "+hangar.energyStorage.getEnergyStored());
                             hangar.energyStorage.extractEnergy(transfer, false);
-                            System.out.println("Energy post: "+hangar.energyStorage.getEnergyStored());
-                            dirty = true;
                         }
                     }
                 }
-            }
-            if (dirty) {
-                hangar.setChanged();
-                hangar.getLevel().sendBlockUpdated(hangar.getBlockPos(), hangar.getBlockState(), hangar.getBlockState(), Block.UPDATE_ALL);
             }
         }
     }
