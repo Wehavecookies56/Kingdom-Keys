@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "kingdomkeys",
+  "key": {
+    "B": {
+      "item": "minecraft:blaze_powder"
+    },
+    "D": {
+      "item": "minecraft:diamond_block"
+    },
+    "E": {
+      "item": "minecraft:ender_eye"
+    },
+    "G": {
+      "item": "kingdomkeys:gummi_meteor_fragment"
+    }
+  },
+  "pattern": [
+    "EBE",
+    "GDG",
+    "BGB"
+  ],
+  "result": {
+    "count": 1,
+    "id": "kingdomkeys:gummi_core"
+  }
+}
