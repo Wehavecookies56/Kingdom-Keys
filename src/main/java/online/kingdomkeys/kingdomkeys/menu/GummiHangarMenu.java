@@ -53,7 +53,7 @@ public class GummiHangarMenu extends AbstractContainerMenu {
                 switch (index) {
                     case 0 -> TE.burnTime = value;
                     case 1 -> TE.maxBurnTime = value;
-                    case 2 -> TE.energyStorage.receiveEnergy(value - TE.energyStorage.getEnergyStored(), false);
+                    case 2 -> TE.energyStorage.setEnergy(value);
                 }
             }
 

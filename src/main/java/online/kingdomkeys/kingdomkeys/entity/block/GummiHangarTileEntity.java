@@ -40,7 +40,7 @@ public class GummiHangarTileEntity extends BlockEntity implements MenuProvider {
     public int burnTime;
     public int maxBurnTime;
 
-    public final EnergyStorage energyStorage = new EnergyStorage(20000,10,10);
+    public final HangarEnergyStorage energyStorage = new HangarEnergyStorage(20000,10,10);
 
 	public GummiHangarTileEntity(BlockPos pos, BlockState state) {
 		super(ModEntities.TYPE_GUMMI_HANGAR.get(), pos, state);
@@ -150,7 +150,7 @@ public class GummiHangarTileEntity extends BlockEntity implements MenuProvider {
             //If has some combustible store it
             if (hangar.burnTime > 0) {
                 hangar.burnTime -= state.getValue(GummiHangarBlock.LEVEL) + 1;
-               // hangar.energyStorage.receiveEnergy(5, false);
+                hangar.energyStorage.receiveEnergy(5, false);
                 dirty = true;
             }
             //If has finished consuming find a new combustible
@@ -185,14 +185,20 @@ public class GummiHangarTileEntity extends BlockEntity implements MenuProvider {
                 }
             }
             if (dirty) {
-               // hangar.setChanged();
-               // hangar.getLevel().sendBlockUpdated(hangar.getBlockPos(), hangar.getBlockState(), hangar.getBlockState(), Block.UPDATE_ALL);
+                hangar.setChanged();
+                hangar.getLevel().sendBlockUpdated(hangar.getBlockPos(), hangar.getBlockState(), hangar.getBlockState(), Block.UPDATE_ALL);
             }
         }
     }
 
-    @Override
-    public void setChanged() {
-        super.setChanged();
+    public static class HangarEnergyStorage extends EnergyStorage {
+        public HangarEnergyStorage(int capacity, int maxReceive, int maxExtract) {
+            super(capacity, maxReceive, maxExtract);
+        }
+
+        public void setEnergy(int energy) {
+            this.energy = Math.min(energy, capacity);
+        }
     }
+
 }
