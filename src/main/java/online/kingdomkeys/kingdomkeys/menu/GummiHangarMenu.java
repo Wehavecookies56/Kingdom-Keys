@@ -3,9 +3,7 @@ package online.kingdomkeys.kingdomkeys.menu;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.ContainerLevelAccess;
-import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -38,8 +36,35 @@ public class GummiHangarMenu extends AbstractContainerMenu {
 		super(ModMenus.GUMMI_HANGAR.get(), windowID);
 		TE = tileEntity;
 		canInteractWith = ContainerLevelAccess.create(TE.getLevel(), TE.getBlockPos());
+        this.data = new ContainerData() {
+            @Override
+            public int get(int index) {
+                return switch (index) {
+                    case 0 -> TE.burnTime;
+                    case 1 -> TE.maxBurnTime;
+                    case 2 -> TE.energyStorage.getEnergyStored();
+                    case 3 -> TE.getMaxEnergy();
+                    default -> 0;
+                };
+            }
 
-		int i,j;
+            @Override
+            public void set(int index, int value) {
+                switch (index) {
+                    case 0 -> TE.burnTime = value;
+                    case 1 -> TE.maxBurnTime = value;
+                    case 2 -> TE.energyStorage.receiveEnergy(value - TE.energyStorage.getEnergyStored(), false);
+                }
+            }
+
+            @Override
+            public int getCount() {
+                return 4;
+            }
+        };
+
+        addDataSlots(data);
+        int i,j;
 		//Gummi Ship slot
 		IItemHandler iih = TE.inventory.get();
 		addSlot(new SlotItemHandler(iih, 0, 152, 18) {
@@ -111,4 +136,23 @@ public class GummiHangarMenu extends AbstractContainerMenu {
 		}
 		return itemstack;
 	}
+
+    private final ContainerData data;
+
+    public int getBurnTime() {
+        return data.get(0);
+    }
+
+    public int getMaxBurnTime() {
+        return data.get(1);
+    }
+
+    public int getEnergy() {
+        return data.get(2);
+    }
+
+    public int getMaxEnergy() {
+        return data.get(3);
+    }
+
 }

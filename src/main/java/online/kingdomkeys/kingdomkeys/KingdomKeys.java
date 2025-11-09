@@ -39,6 +39,7 @@ import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.advancements.ModAdvancements;
 import online.kingdomkeys.kingdomkeys.api.event.client.CommandMenuEvent;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
+import online.kingdomkeys.kingdomkeys.block.ModEnergy;
 import online.kingdomkeys.kingdomkeys.client.gui.overlay.CommandMenuGui;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.command.ConvertOldForgeDataCommand;
@@ -218,6 +219,7 @@ public class KingdomKeys {
 
 		modEventBus.addListener(this::modLoaded);
 		modEventBus.addListener(ModMenus::registerCapabilities);
+        modEventBus.addListener(ModEnergy::registerCapabilities);
 		modEventBus.addListener(this::findPacks);
 
 		if (FMLEnvironment.dist.isClient()) {

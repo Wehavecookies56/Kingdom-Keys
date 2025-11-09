@@ -126,7 +126,7 @@ public class GummiHangarBlock extends BaseEntityBlock implements EntityBlock, IN
                 world.removeBlockEntity(pos);
                 ItemStack stack = new ItemStack(this);
                 stack.set(ModComponents.HANGAR_LEVEL, state.getValue(LEVEL));
-                stack.set(ModComponents.HANGAR_FUEL, TE.storedEnergy);
+                stack.set(ModComponents.HANGAR_FUEL, TE.energyStorage.getEnergyStored());
                 popResource(world, pos, stack);
             }
 			super.onRemove(state, world, pos, newState, isMoving);
@@ -167,7 +167,7 @@ public class GummiHangarBlock extends BaseEntityBlock implements EntityBlock, IN
                 if (stack.get(ModComponents.HANGAR_LEVEL) != null) {
                     worldIn.setBlockAndUpdate(pos, state.setValue(ACTIVE, worldIn.hasNeighborSignal(pos)).setValue(LEVEL, stack.get(ModComponents.HANGAR_LEVEL)));
                     if(worldIn.getBlockEntity(pos) instanceof GummiHangarTileEntity TE){
-                        TE.storedEnergy = stack.get(ModComponents.HANGAR_FUEL);
+                        TE.energyStorage.receiveEnergy(stack.get(ModComponents.HANGAR_FUEL),false);
                     }
                 } else {
                     worldIn.setBlockAndUpdate(pos, state.setValue(ACTIVE, worldIn.hasNeighborSignal(pos)));

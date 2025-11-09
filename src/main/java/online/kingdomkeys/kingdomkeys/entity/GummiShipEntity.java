@@ -487,15 +487,15 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
             int fuelConsumption = (int)(shipStats.speed * 0.2F);
 
             if(getYRot() != prevRot){ //If rotates remove half of what moving takes
-                remFuel((int)(fuelConsumption * 0.3F));
+                remFuel((int) Math.max(fuelConsumption * 0.3F,1));
             }
             boolean moved = this.position().distanceToSqr(prevX, prevY, prevZ) > 0.0001D;
             //If moves take as much fuel as engine power the ship has
             if (moved && !getPassengers().isEmpty() && getFuel() > 0) {
                 if(getY() < prevY){//If it's landing use 70% of the fuel it should
-                    remFuel((int)(fuelConsumption * 0.7F));
+                    remFuel((int) Math.max(fuelConsumption * 0.7F,1));
                 } else if(getY() > prevY){//If it's taking off use 130% of the fuel it should
-                    remFuel((int)(fuelConsumption * 1.3F));
+                    remFuel((int) Math.max(fuelConsumption * 1.3F,1));
                 } else {
                     remFuel(fuelConsumption);
                 }

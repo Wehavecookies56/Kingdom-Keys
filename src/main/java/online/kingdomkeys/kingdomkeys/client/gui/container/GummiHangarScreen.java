@@ -297,9 +297,9 @@ public class GummiHangarScreen extends AbstractContainerScreen<GummiHangarMenu> 
 			gui.drawString(font, "Eff. Speed: " + effSpeed, x, y+=10, 4210752, false);
 			gui.drawString(font, "Seats: " + stats.passengerSlots().size(), x, y+=10, 4210752, false);
 
-            gui.drawString(font, "Burn time: " + menu.TE.burnTime, x-100, y+=10, 0xFFFFFF, false);
-            gui.drawString(font, "Max Burn time: "+menu.TE.maxBurnTime, x-100, y+=10, 0xFFFFFF, false);
-            gui.drawString(font, "Energy: "+menu.TE.storedEnergy+" / "+menu.TE.getMaxEnergy(), x-100, y+=10, 0xFFFFFF, false);
+            gui.drawString(font, "Burn time: " + menu.getBurnTime(), x-100, y+=10, 0xFFFFFF, false);
+            gui.drawString(font, "Max Burn time: "+menu.getMaxBurnTime(), x-100, y+=10, 0xFFFFFF, false);
+            gui.drawString(font, "Energy: "+menu.getEnergy()+" / "+menu.getMaxEnergy(), x-100, y+=10, 0xFFFFFF, false);
 
 			BlockPos origin = menu.TE.getBlockPos();
 			ItemStack stack = menu.TE.inventory.get().getStackInSlot(0);

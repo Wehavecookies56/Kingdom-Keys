@@ -16,8 +16,10 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.common.util.Lazy;
+import net.neoforged.neoforge.energy.EnergyStorage;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.ItemStackHandler;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.block.GummiHangarBlock;
 import online.kingdomkeys.kingdomkeys.entity.GummiShipEntity;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
@@ -37,7 +39,8 @@ public class GummiHangarTileEntity extends BlockEntity implements MenuProvider {
 
     public int burnTime;
     public int maxBurnTime;
-    public int storedEnergy;
+
+    public final EnergyStorage energyStorage = new EnergyStorage(20000,10,10);
 
 	public GummiHangarTileEntity(BlockPos pos, BlockState state) {
 		super(ModEntities.TYPE_GUMMI_HANGAR.get(), pos, state);
@@ -96,8 +99,9 @@ public class GummiHangarTileEntity extends BlockEntity implements MenuProvider {
 			lastShipName = compound.getString("LastShipName");
         burnTime = compound.getInt("BurnTime");
         maxBurnTime = compound.getInt("MaxBurnTime");
-        storedEnergy = compound.getInt("Energy");
-	}
+        if(compound.contains("EnergyFE"))
+            energyStorage.receiveEnergy(compound.getInt("EnergyFE"), false);
+    }
 
 	@Override
 	protected void saveAdditional(CompoundTag compound, HolderLookup.Provider provider) {
@@ -107,8 +111,8 @@ public class GummiHangarTileEntity extends BlockEntity implements MenuProvider {
 
         compound.putInt("BurnTime", burnTime);
         compound.putInt("MaxBurnTime", maxBurnTime);
-        compound.putInt("Energy", storedEnergy);
-	}
+        compound.putInt("EnergyFE", energyStorage.getEnergyStored());
+    }
 
 	@Override
 	public Component getDisplayName() {
@@ -139,26 +143,21 @@ public class GummiHangarTileEntity extends BlockEntity implements MenuProvider {
 		return tag;
 	}
 
-    public static <T> void tick(Level level, BlockPos pos, BlockState state, T blockEntity) {
-        if(blockEntity instanceof GummiHangarTileEntity hangar) {
-            if (level == null || level.isClientSide)
-                return;
-
+    public static < T > void tick(Level level, BlockPos pos, BlockState state, T blockEntity) {
+        if (blockEntity instanceof GummiHangarTileEntity hangar) {
+            if (level == null || level.isClientSide) return;
             boolean dirty = false;
-
             //If has some combustible store it
             if (hangar.burnTime > 0) {
                 hangar.burnTime -= state.getValue(GummiHangarBlock.LEVEL) + 1;
-                hangar.storedEnergy = Math.min(hangar.storedEnergy + 5, hangar.getMaxEnergy());
+               // hangar.energyStorage.receiveEnergy(5, false);
                 dirty = true;
             }
-
             //If has finished consuming find a new combustible
-            if (hangar.burnTime <= 0 && hangar.storedEnergy < hangar.getMaxEnergy()) {
+            if (hangar.burnTime <= 0 && hangar.energyStorage.getEnergyStored() < hangar.getMaxEnergy()) {
                 hangar.maxBurnTime = 0;
                 ItemStack fuelStack = hangar.inventory.get().getStackInSlot(1);
                 int fuel = fuelStack.getBurnTime(RecipeType.SMELTING);
-
                 if (fuel > 0) {
                     hangar.burnTime = fuel;
                     hangar.maxBurnTime = fuel;
@@ -166,28 +165,34 @@ public class GummiHangarTileEntity extends BlockEntity implements MenuProvider {
                     dirty = true;
                 }
             }
-
             //Refuel ships
             if (level.hasNeighborSignal(pos)) {
                 int size = GummiHangarBlock.getSize(state.getValue(GummiHangarBlock.LEVEL));
-                List<GummiShipEntity> ships = Utils.getAllGummiShipsInBuildPlate(level, pos, state.getValue(GummiHangarBlock.FACING), size);
+                List < GummiShipEntity > ships = Utils.getAllGummiShipsInBuildPlate(level, pos, state.getValue(GummiHangarBlock.FACING), size);
                 //Refuel all ships found in the area
-                if (!ships.isEmpty() && hangar.storedEnergy > 0) {
-                    for (GummiShipEntity ship : ships) {
-                        int transfer = Math.min((state.getValue(GummiHangarBlock.LEVEL) + 1)*10, hangar.storedEnergy);
-                        if(ship.getFuel() < ship.getMaxFuel()) {
+                if (!ships.isEmpty() && hangar.energyStorage.getEnergyStored() > 0) {
+                    for (GummiShipEntity ship: ships) {
+                        int transfer = (state.getValue(GummiHangarBlock.LEVEL) + 1) * 10;
+                        if (ship.getFuel() < ship.getMaxFuel()) {
                             ship.addFuel(transfer);
-                            hangar.storedEnergy -= transfer;
+                            System.out.println("---");
+                            System.out.println("Energy pre: "+hangar.energyStorage.getEnergyStored());
+                            hangar.energyStorage.extractEnergy(transfer, false);
+                            System.out.println("Energy post: "+hangar.energyStorage.getEnergyStored());
                             dirty = true;
                         }
                     }
                 }
             }
-
             if (dirty) {
-                hangar.setChanged();
-                hangar.getLevel().sendBlockUpdated(hangar.getBlockPos(), hangar.getBlockState(), hangar.getBlockState(), Block.UPDATE_ALL);
+               // hangar.setChanged();
+               // hangar.getLevel().sendBlockUpdated(hangar.getBlockPos(), hangar.getBlockState(), hangar.getBlockState(), Block.UPDATE_ALL);
             }
         }
+    }
+
+    @Override
+    public void setChanged() {
+        super.setChanged();
     }
 }
