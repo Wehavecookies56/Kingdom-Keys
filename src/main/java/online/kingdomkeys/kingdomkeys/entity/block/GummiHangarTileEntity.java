@@ -148,13 +148,6 @@ public class GummiHangarTileEntity extends BlockEntity implements MenuProvider {
             if (level == null || level.isClientSide)
                 return;
 
-            int tier = state.getValue(GummiHangarBlock.LEVEL);
-            //System.out.println(hangar.getMaxEnergy());
-            //System.out.println(hangar.energyStorage.getMaxEnergyStored());
-          /*  if(hangar.energyStorage.getMaxEnergyStored() != hangar.getMaxEnergy()){
-                hangar.energyStorage.setEnergyCapacity(hangar.getMaxEnergy());
-            }*/
-
             //If has some combustible store it
             if (hangar.burnTime > 0) {
                 hangar.burnTime -= state.getValue(GummiHangarBlock.LEVEL) + 1;
@@ -174,8 +167,7 @@ public class GummiHangarTileEntity extends BlockEntity implements MenuProvider {
                     fuelStack.shrink(1);
                 }
             }
-            //hangar.energyStorage.setEnergy(15000);
-            System.out.println("Energy: "+hangar.energyStorage.getEnergyStored());
+
             //Refuel ships
             if (level.hasNeighborSignal(pos)) {
                 int size = GummiHangarBlock.getSize(state.getValue(GummiHangarBlock.LEVEL));
