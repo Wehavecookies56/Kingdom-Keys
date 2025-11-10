@@ -167,7 +167,7 @@ public class GummiHangarBlock extends BaseEntityBlock implements EntityBlock, IN
                 if (stack.get(ModComponents.HANGAR_LEVEL) != null) {
                     worldIn.setBlockAndUpdate(pos, state.setValue(ACTIVE, worldIn.hasNeighborSignal(pos)).setValue(LEVEL, stack.get(ModComponents.HANGAR_LEVEL)));
                     if(worldIn.getBlockEntity(pos) instanceof GummiHangarTileEntity TE){
-                        System.out.println(stack.get(ModComponents.HANGAR_FUEL));
+                        TE.energyStorage = Utils.getEnergyStoragePerLevel(stack.get(ModComponents.HANGAR_LEVEL));
                         TE.energyStorage.setEnergy(stack.get(ModComponents.HANGAR_FUEL));
                     }
                 } else {

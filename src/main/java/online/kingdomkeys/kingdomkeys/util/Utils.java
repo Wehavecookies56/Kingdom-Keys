@@ -55,6 +55,7 @@ import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.common.util.BlockSnapshot;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
@@ -74,6 +75,7 @@ import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import online.kingdomkeys.kingdomkeys.entity.GummiShipEntity;
+import online.kingdomkeys.kingdomkeys.entity.block.GummiHangarTileEntity;
 import online.kingdomkeys.kingdomkeys.item.*;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
 import online.kingdomkeys.kingdomkeys.lib.GummiStructure;
@@ -527,9 +529,9 @@ public class Utils {
 			Block block = state.getBlock();
 
 			pos = pos.immutable(); // Forge - prevent mutable BlockPos leaks
-			net.neoforged.neoforge.common.util.BlockSnapshot blockSnapshot = null;
+			BlockSnapshot blockSnapshot = null;
 			if (level.captureBlockSnapshots && !level.isClientSide) {
-				blockSnapshot = net.neoforged.neoforge.common.util.BlockSnapshot.create(level.dimension(), level, pos, flags);
+				blockSnapshot = BlockSnapshot.create(level.dimension(), level, pos, flags);
 				level.capturedBlockSnapshots.add(blockSnapshot);
 			}
 
@@ -715,7 +717,20 @@ public class Utils {
 		return null;
 	}
 
+    public static GummiHangarTileEntity.HangarEnergyStorage getEnergyStoragePerLevel(int lvl) {
+        return switch (lvl){
+            case 0 -> new GummiHangarTileEntity.HangarEnergyStorage(20000, 100, 50);
+            case 1 -> new GummiHangarTileEntity.HangarEnergyStorage(40000, 120, 60);
+            case 2 -> new GummiHangarTileEntity.HangarEnergyStorage(60000, 180, 90);
+            case 3 -> new GummiHangarTileEntity.HangarEnergyStorage(80000, 260, 130);
+            case 4 -> new GummiHangarTileEntity.HangarEnergyStorage(100000, 350, 175);
+            default -> throw new IllegalStateException("Unexpected value for Utils#getEnergyStoragePerLevel: " + lvl);
+        };
+    }
 
+    public static String getFormattedNumber(){
+
+    }
     public static class Title {
 		public String title, subtitle;
 		public int fadeIn = 10, fadeOut = 20, displayTime = 70;

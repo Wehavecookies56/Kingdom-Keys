@@ -3,6 +3,7 @@ package online.kingdomkeys.kingdomkeys.entity.block;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.MenuProvider;
@@ -19,7 +20,6 @@ import net.neoforged.neoforge.common.util.Lazy;
 import net.neoforged.neoforge.energy.EnergyStorage;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.ItemStackHandler;
-import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.block.GummiHangarBlock;
 import online.kingdomkeys.kingdomkeys.entity.GummiShipEntity;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
@@ -40,7 +40,7 @@ public class GummiHangarTileEntity extends BlockEntity implements MenuProvider {
     public int burnTime;
     public int maxBurnTime;
 
-    public final HangarEnergyStorage energyStorage = new HangarEnergyStorage(100000,100,10);
+    public HangarEnergyStorage energyStorage = Utils.getEnergyStoragePerLevel(0);
 
 	public GummiHangarTileEntity(BlockPos pos, BlockState state) {
 		super(ModEntities.TYPE_GUMMI_HANGAR.get(), pos, state);
@@ -57,7 +57,7 @@ public class GummiHangarTileEntity extends BlockEntity implements MenuProvider {
 	}
 
     public int getMaxEnergy() {
-        return ((getBlockState().getValue(GummiHangarBlock.LEVEL)+1)*10000)*2;
+        return energyStorage.getMaxEnergyStored();
     }
 
     private ItemStackHandler createInventory() {
@@ -100,7 +100,7 @@ public class GummiHangarTileEntity extends BlockEntity implements MenuProvider {
         burnTime = compound.getInt("BurnTime");
         maxBurnTime = compound.getInt("MaxBurnTime");
         if(compound.contains("EnergyFE"))
-            energyStorage.receiveEnergy(compound.getInt("EnergyFE"), false);
+            energyStorage.deserializeNBT(provider,compound.getCompound("EnergyFE"));
     }
 
 	@Override
@@ -111,7 +111,7 @@ public class GummiHangarTileEntity extends BlockEntity implements MenuProvider {
 
         compound.putInt("BurnTime", burnTime);
         compound.putInt("MaxBurnTime", maxBurnTime);
-        compound.putInt("EnergyFE", energyStorage.getEnergyStored());
+        compound.put("EnergyFE", energyStorage.serializeNBT(provider));
     }
 
 	@Override
@@ -154,7 +154,7 @@ public class GummiHangarTileEntity extends BlockEntity implements MenuProvider {
                 if(hangar.burnTime < 0){
                     hangar.burnTime = 0;
                 }
-                hangar.energyStorage.receiveEnergy(50, false);
+                hangar.energyStorage.receiveEnergy(5, false);
             }
             //If has finished consuming find a new combustible
             if (hangar.burnTime <= 0 && hangar.energyStorage.getEnergyStored() < hangar.getMaxEnergy()) {
@@ -176,9 +176,8 @@ public class GummiHangarTileEntity extends BlockEntity implements MenuProvider {
                 if (!ships.isEmpty() && hangar.energyStorage.getEnergyStored() > 0) {
                     for (GummiShipEntity ship: ships) {
                         int transfer = (state.getValue(GummiHangarBlock.LEVEL) + 1) * 10;
-                        if (ship.getFuel() < ship.getMaxFuel()) {
-                            ship.addFuel(transfer);
-                            hangar.energyStorage.extractEnergy(transfer, false);
+                        if (ship.getFuel() < ship.getMaxFuel()) { // Extract the energy from the block and insert it to the ship
+                            ship.addFuel(hangar.energyStorage.extractEnergy(transfer, false));
                         }
                     }
                 }
@@ -200,6 +199,28 @@ public class GummiHangarTileEntity extends BlockEntity implements MenuProvider {
             return capacity;
         }
 
+        @Override
+        public Tag serializeNBT(HolderLookup.Provider provider) {
+            CompoundTag tag = new CompoundTag();
+            tag.putInt("Energy", this.energy);
+            tag.putInt("Capacity", this.capacity);
+            tag.putInt("MaxReceive", this.maxReceive);
+            tag.putInt("MaxExtract", this.maxExtract);
+            return tag;
+        }
+
+        @Override
+        public void deserializeNBT(HolderLookup.Provider provider, Tag nbt) {
+            if (!(nbt instanceof CompoundTag tag))
+                throw new IllegalArgumentException("Expected CompoundTag for HangarEnergyStorage");
+
+            this.energy = tag.getInt("Energy");
+            this.capacity = tag.getInt("Capacity");
+            this.maxReceive = tag.getInt("MaxReceive");
+            this.maxExtract = tag.getInt("MaxExtract");
+            if (energy > capacity)
+                energy = capacity;
+        }
     }
 
 }

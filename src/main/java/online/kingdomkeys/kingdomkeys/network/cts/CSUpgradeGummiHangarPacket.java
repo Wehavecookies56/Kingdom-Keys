@@ -9,11 +9,13 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.block.GummiHangarBlock;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
+import online.kingdomkeys.kingdomkeys.entity.block.GummiHangarTileEntity;
 import online.kingdomkeys.kingdomkeys.menu.GummiHangarMenu;
 import online.kingdomkeys.kingdomkeys.network.Packet;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
@@ -30,7 +32,7 @@ public record CSUpgradeGummiHangarPacket(int containerID) implements Packet {
 			CSUpgradeGummiHangarPacket::new
 	);
 
-	@Override
+    @Override
 	public void handle(IPayloadContext context) {
 		Player player = context.player();
 		if (player.containerMenu.containerId != containerID)
@@ -48,6 +50,15 @@ public record CSUpgradeGummiHangarPacket(int containerID) implements Packet {
 			if (playerData.getMunny() >= cost) {
 				playerData.setMunny(playerData.getMunny() - cost);
 				level.setBlockAndUpdate(origin,hangar.setValue(GummiHangarBlock.LEVEL, lvl + 1));
+
+                // Update TE energystorage
+                BlockEntity tileEntity = level.getBlockEntity(origin);
+                if(tileEntity instanceof GummiHangarTileEntity TE) {
+                    int currEnergy = TE.energyStorage.getEnergyStored();
+                    TE.energyStorage = Utils.getEnergyStoragePerLevel(lvl+1);
+                    TE.energyStorage.setEnergy(currEnergy);
+                    TE.invalidateCapabilities();
+                }
 				PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
 			}
 		}
