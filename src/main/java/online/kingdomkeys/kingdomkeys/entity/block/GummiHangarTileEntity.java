@@ -40,7 +40,7 @@ public class GummiHangarTileEntity extends BlockEntity implements MenuProvider {
     public int burnTime;
     public int maxBurnTime;
 
-    public final HangarEnergyStorage energyStorage = new HangarEnergyStorage(20000,10,10);
+    public final HangarEnergyStorage energyStorage = new HangarEnergyStorage(100000,100,10);
 
 	public GummiHangarTileEntity(BlockPos pos, BlockState state) {
 		super(ModEntities.TYPE_GUMMI_HANGAR.get(), pos, state);
@@ -145,11 +145,23 @@ public class GummiHangarTileEntity extends BlockEntity implements MenuProvider {
 
     public static < T > void tick(Level level, BlockPos pos, BlockState state, T blockEntity) {
         if (blockEntity instanceof GummiHangarTileEntity hangar) {
-            if (level == null || level.isClientSide) return;
+            if (level == null || level.isClientSide)
+                return;
+
+            int tier = state.getValue(GummiHangarBlock.LEVEL);
+            //System.out.println(hangar.getMaxEnergy());
+            //System.out.println(hangar.energyStorage.getMaxEnergyStored());
+          /*  if(hangar.energyStorage.getMaxEnergyStored() != hangar.getMaxEnergy()){
+                hangar.energyStorage.setEnergyCapacity(hangar.getMaxEnergy());
+            }*/
+
             //If has some combustible store it
             if (hangar.burnTime > 0) {
                 hangar.burnTime -= state.getValue(GummiHangarBlock.LEVEL) + 1;
-                hangar.energyStorage.receiveEnergy(5, false);
+                if(hangar.burnTime < 0){
+                    hangar.burnTime = 0;
+                }
+                hangar.energyStorage.receiveEnergy(50, false);
             }
             //If has finished consuming find a new combustible
             if (hangar.burnTime <= 0 && hangar.energyStorage.getEnergyStored() < hangar.getMaxEnergy()) {
@@ -162,6 +174,8 @@ public class GummiHangarTileEntity extends BlockEntity implements MenuProvider {
                     fuelStack.shrink(1);
                 }
             }
+            //hangar.energyStorage.setEnergy(15000);
+            System.out.println("Energy: "+hangar.energyStorage.getEnergyStored());
             //Refuel ships
             if (level.hasNeighborSignal(pos)) {
                 int size = GummiHangarBlock.getSize(state.getValue(GummiHangarBlock.LEVEL));
@@ -188,6 +202,12 @@ public class GummiHangarTileEntity extends BlockEntity implements MenuProvider {
         public void setEnergy(int energy) {
             this.energy = Math.min(energy, capacity);
         }
+
+        public int setCapacity(int capacity) {
+            this.capacity = capacity;
+            return capacity;
+        }
+
     }
 
 }
