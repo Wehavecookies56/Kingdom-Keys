@@ -728,9 +728,14 @@ public class Utils {
         };
     }
 
-    public static String getFormattedNumber(){
-
+    public static String getFormattedNumber(int num) {
+        return String.format("%,d", num);
     }
+
+    public static String getFormattedNumber(float num) {
+        return String.format("%,.2f", num);
+    }
+
     public static class Title {
 		public String title, subtitle;
 		public int fadeIn = 10, fadeOut = 20, displayTime = 70;

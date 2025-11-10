@@ -86,8 +86,8 @@ public class WeaponUnlockScreen extends Screen {
         RenderSystem.enableBlend();
         gui.blit(GLOW, (width / 2) - (256 / 2) - 5, (height / 2) - (256 / 2), 0, 0, 256, 256);
         gui.drawString(font, new ItemStack(weapons.get(current)).getHoverName().getString(), (width / 2) - (256 / 2) - 5, (height / 2) - 120, 0xFFFFFF);
-        gui.drawString(font, "Hearts Cost: " + cost, (width / 2) - (256 / 2) - 5, (height / 2) - 110, 0xFF0000);
-        gui.drawString(font, "Current Hearts: " + playerData.getHearts(), (width / 2) - (256 / 2) - 5, (height / 2) - 100, 0xFF0000);
+        gui.drawString(font, "Hearts Cost: " + Utils.getFormattedNumber(cost), (width / 2) - (256 / 2) - 5, (height / 2) - 110, 0xFF0000);
+        gui.drawString(font, "Current Hearts: " + Utils.getFormattedNumber(playerData.getHearts()), (width / 2) - (256 / 2) - 5, (height / 2) - 100, 0xFF0000);
         matrixStack.popPose();
         matrixStack.pushPose();
         matrixStack.translate((width / 2) - (256 / 2) - 5 + 94, (height / 2) - (256 / 2) + 88, 0);

@@ -233,7 +233,7 @@ public class SynthesisCreateScreen extends MenuFilterable {
 			if(RecipeRegistry.getInstance().containsKey(selectedRL)) {
 				Recipe recipe = RecipeRegistry.getInstance().getValue(selectedRL);
 				gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Shop_Buy_Cost)+" ", 2, -20, Color.yellow.getRGB());
-				String line = recipe.getCost()+" "+Utils.translateToLocal(Strings.Gui_Menu_Main_Munny);
+				String line = Utils.getFormattedNumber(recipe.getCost())+" "+Utils.translateToLocal(Strings.Gui_Menu_Main_Munny);
 				gui.drawString(minecraft.font, line, boxM.getWidth() - minecraft.font.width(line) - 10, -20, recipe.getCost() > playerData.getMunny() ? Color.RED.getRGB() : Color.GREEN.getRGB());
 
 				gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Shop_Tier)+" ", 2, -10, Color.yellow.getRGB());
@@ -313,7 +313,7 @@ public class SynthesisCreateScreen extends MenuFilterable {
 					Entry<Item, Integer> m = materials.next();
 					ItemStack stack = new ItemStack(m.getKey());
 					String name = Utils.translateToLocal(stack.getDescriptionId());
-					String mats = " x"+m.getValue()+" ("+playerData.getMaterialAmount(m.getKey())+")";
+					String mats = " x"+m.getValue()+" ("+Utils.getFormattedNumber(playerData.getMaterialAmount(m.getKey()))+")";
 
 					int color = playerData.getMaterialAmount(m.getKey()) >= m.getValue() ?  0x00FF00 : 0xFF0000;
 					ClientUtils.drawScrollingString(gui,minecraft.font,Component.literal(name), startX, scrollBar2.getX() - minecraft.font.width(mats), startY + (int) ((i*16)-scrollBar2.scrollOffset), color, false);

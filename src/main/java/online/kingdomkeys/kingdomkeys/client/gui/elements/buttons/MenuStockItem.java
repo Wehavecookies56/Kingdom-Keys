@@ -200,7 +200,7 @@ public class MenuStockItem extends Button {
 
             int rightMargin = 5;
             if(showAmount) {
-                String count = Component.translatable("x%s ", stack.getCount()).getString();
+                String count = Component.translatable("x%s ", Utils.getFormattedNumber(stack.getCount())).getString();
                 gui.drawString(mc.font, count, getX() + width - mc.font.width(count), getY() + 3, 0xF8F711);
                 rightMargin += mc.font.width(count);
             }

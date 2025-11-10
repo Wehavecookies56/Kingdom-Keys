@@ -174,9 +174,9 @@ public class MenuBackground extends Screen {
 			int y = (int) (topBarHeight + middleHeight +1);
 			gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Main_Synthesis_Tier) + ": "+ Utils.getTierFromInt(playerData.getSynthLevel()), 5, y, 0xFFFF00);
 			y+= minecraft.font.lineHeight;
-			gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Main_Munny) + ": " + playerData.getMunny(), 5, y, 0xF66627);
+			gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Main_Munny) + ": " + Utils.getFormattedNumber(playerData.getMunny()), 5, y, 0xF66627);
 			y+= minecraft.font.lineHeight;
-			gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Main_Hearts) + ": " + playerData.getHearts(), 5, y, playerData.getAlignment() == OrgMember.NONE ? 0x888888 : 0xFF3333);
+			gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Main_Hearts) + ": " + Utils.getFormattedNumber(playerData.getHearts()), 5, y, playerData.getAlignment() == OrgMember.NONE ? 0x888888 : 0xFF3333);
 			y+= minecraft.font.lineHeight;
 			gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Main_Time) + ": " + getWorldHours(minecraft.level) + ":" + getWorldMinutes(minecraft.level), 5, y, 0xFFFFFF);
 			long seconds = minecraft.level.getDayTime() / 20;

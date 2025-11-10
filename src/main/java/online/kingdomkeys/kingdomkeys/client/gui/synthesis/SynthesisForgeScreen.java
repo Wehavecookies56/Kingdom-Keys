@@ -306,7 +306,7 @@ public class SynthesisForgeScreen extends MenuFilterable {
 						Entry<Item, Integer> m = materials.next();
 						ItemStack stack = new ItemStack(m.getKey());
 						String n = Utils.translateToLocal(stack.getDescriptionId());
-						String mats = " x"+m.getValue()+" ("+playerData.getMaterialAmount(m.getKey())+")";
+						String mats = " x"+m.getValue()+" ("+Utils.getFormattedNumber(playerData.getMaterialAmount(m.getKey()))+")";
 
 						int color = playerData.getMaterialAmount(m.getKey()) >= m.getValue() ?  0x00FF00 : 0xFF0000;
 						ClientUtils.drawScrollingString(gui,minecraft.font,Component.literal(n), startX, scrollBar2.getX() - minecraft.font.width(mats), startY + (int) ((i*16)-scrollBar2.scrollOffset), color, false);
