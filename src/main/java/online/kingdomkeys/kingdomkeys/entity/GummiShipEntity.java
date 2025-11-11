@@ -336,8 +336,8 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 	}
 
 	public float currentSpeed = 0F;
-	private final float acceleration = 0.02F; // ajusta según lo suave que quieras
-	private final float deceleration = 0.02F; // más rápido al frenar
+	private final float acceleration = 0.02F;
+	private final float deceleration = 0.02F;
 	private final float brake = 0.5F;
 
 	public float currentRotationSpeed = 0F;
@@ -372,12 +372,20 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 			} else {
 				if (delta > 0) {
 					// Forward
-					currentSpeed += delta * acceleration;
+                    if(currentSpeed < shipStats.speed()) { //Top cap so it doesn't go faster than intended
+                        currentSpeed += delta * acceleration;
+                    } else {
+                        currentSpeed = shipStats.speed();
+                    }
 					if (currentSpeed > targetSpeed)
 						currentSpeed = targetSpeed;
-				} else {
+                } else {
 					// Backwards
-					currentSpeed += delta * deceleration;
+                    if(currentSpeed > -shipStats.speed()) {
+                        currentSpeed += delta * deceleration;
+                    } else {
+                        currentSpeed = -shipStats.speed();
+                    }
 					if (currentSpeed < targetSpeed)
 						currentSpeed = targetSpeed;
 				}
@@ -565,7 +573,11 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
     }
 
     public int getMaxFuel(){
-        return (((structure.getWidth() - 5) / 2)*10000)+10000;
+        return Utils.getFEStatsPerLevel(getShipLevel())[0]/2;
+    }
+
+    public int getShipLevel(){
+        return ((structure.getWidth() - 5) / 2);
     }
 
 	@Override

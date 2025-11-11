@@ -718,13 +718,18 @@ public class Utils {
 	}
 
     public static GummiHangarTileEntity.HangarEnergyStorage getEnergyStoragePerLevel(int lvl) {
+        int[] stats = getFEStatsPerLevel(lvl);
+        return new GummiHangarTileEntity.HangarEnergyStorage(stats[0], stats[1], stats[2]);
+    }
+
+    public static int[] getFEStatsPerLevel(int lvl){
         return switch (lvl){
-            case 0 -> new GummiHangarTileEntity.HangarEnergyStorage(20000, 100, 50);
-            case 1 -> new GummiHangarTileEntity.HangarEnergyStorage(40000, 120, 60);
-            case 2 -> new GummiHangarTileEntity.HangarEnergyStorage(60000, 180, 90);
-            case 3 -> new GummiHangarTileEntity.HangarEnergyStorage(80000, 260, 130);
-            case 4 -> new GummiHangarTileEntity.HangarEnergyStorage(100000, 350, 175);
-            default -> throw new IllegalStateException("Unexpected value for Utils#getEnergyStoragePerLevel: " + lvl);
+            case 0 -> new int[]{ 20000, 100, 50 };
+            case 1 -> new int[]{ 60000, 120, 60 };
+            case 2 -> new int[]{ 120000, 180, 90 };
+            case 3 -> new int[]{ 240000, 260, 130 };
+            case 4 -> new int[]{ 400000, 350, 175 };
+            default -> throw new IllegalStateException("Unexpected value for Utils#getFEPerLevel: " + lvl);
         };
     }
 
