@@ -101,7 +101,9 @@ public class ModBlocks {
 
             airstepTarget = createNewBlock("airstep_target",()-> new AirStepBlock(Block.Properties.of().mapColor(MapColor.GOLD).instrument(NoteBlockInstrument.CHIME).strength(1.0F, 10.0F).lightLevel(state -> 10))),
             gummiMeteor = createNewBlock("gummi_meteor", Block.Properties.of().mapColor(MapColor.DIRT).strength(2.0F, 3600000.0F)),
-            gummiCore = createNewBlock("gummi_core", ()-> new GummiCoreBlock(Block.Properties.of().mapColor(MapColor.DIAMOND).instrument(NoteBlockInstrument.CHIME).strength(1.0F, 3600000.0F)));
+            gummiCore = createNewBlock("gummi_core", ()-> new GummiCoreBlock(Block.Properties.of().mapColor(MapColor.DIAMOND).instrument(NoteBlockInstrument.CHIME).strength(1.0F, 3600000.0F))),
+
+            gummiFire = createNewBlock("gummi_fire", ()-> new GummiWeapon(Block.Properties.of().noOcclusion().strength(0.1F, 10.0F), 1, 1));
 
     public static List<Supplier<Block>>
             gummiCubes = new ArrayList<>(),

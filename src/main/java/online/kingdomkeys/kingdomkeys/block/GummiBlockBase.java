@@ -50,7 +50,7 @@ public class GummiBlockBase extends BaseBlock implements ICreativeTab {
 
     @Override
     protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
-        if (stack.getItem() instanceof DyeItem dyeItem) {
+        if (blocks != null && stack.getItem() instanceof DyeItem dyeItem) {
             DyeColor dyeColor = dyeItem.getDyeColor();
             Block b = blocks.get(dyeColor.getId()).get();
             level.setBlockAndUpdate(pos, b.defaultBlockState());

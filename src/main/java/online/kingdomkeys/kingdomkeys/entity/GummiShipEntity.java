@@ -30,6 +30,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.entity.IEntityWithComplexSpawn;
+import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.datagen.init.BlockTagsGen;
@@ -85,13 +86,15 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
             Vec3 weaponPos = shipStats.firepower.get(weaponCounter++);
             BlockState weapon = structure.getBlocks()[(int)weaponPos.x][(int)weaponPos.y][(int)weaponPos.z];
 
-            Vec3 posInShip = new Vec3(structure.getWidth()/2-weaponPos.x() + (xEven ? -0.5F: 0), (structure.getHeight()/2F)+weaponPos.y()-structure.getHeight()/2, structure.getDepth()/2-weaponPos.z()+ (zEven ? 0F: 0.5F)).yRot(-this.getYRot() * 0.017453292F);
+            Vec3 posInShip = new Vec3(structure.getWidth()/2-weaponPos.x() + (xEven ? -0.5F: 0), (structure.getHeight()/2F)+weaponPos.y()-structure.getHeight()/2, structure.getDepth()/2-weaponPos.z()+ (zEven ? 0F: 0.5F)+0.5F).yRot(-this.getYRot() * 0.017453292F);
             Vec3 finalPos = new Vec3(posInShip.x + getX(),posInShip.y + getY(),posInShip.z + getZ());
 
-            if (weapon.getBlock() == Blocks.DISPENSER) {
+            if (weapon.getBlock() == ModBlocks.gummiFire.get()) {
                 shoot(player, finalPos, SHOT_TYPE.FIRE);
+            } else if (weapon.getBlock() == Blocks.DISPENSER) {
+                shoot(player, finalPos, SHOT_TYPE.BLIZZARA);
             } else if (weapon.getBlock() == Blocks.DROPPER) {
-                shoot(player, finalPos, SHOT_TYPE.BLIZZAGA);
+                    shoot(player, finalPos, SHOT_TYPE.BLIZZAGA);
             }
             level().playSound(null, player.blockPosition(), ModSounds.laser.get(), SoundSource.PLAYERS, 4F, 1F);
 
