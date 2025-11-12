@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.entity;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.ParticleTypes;
@@ -34,10 +35,6 @@ import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.datagen.init.BlockTagsGen;
-import online.kingdomkeys.kingdomkeys.entity.magic.BlizzardEntity;
-import online.kingdomkeys.kingdomkeys.entity.organization.LaserDomeShotEntity;
-import online.kingdomkeys.kingdomkeys.entity.shotlock.BaseShotlockShotEntity;
-import online.kingdomkeys.kingdomkeys.entity.shotlock.RagnarokShotEntity;
 import online.kingdomkeys.kingdomkeys.item.ModComponents;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.lib.GummiStructure;
@@ -45,7 +42,6 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class GummiShipEntity extends KKVehicleEntity implements IEntityWithComplexSpawn {
 
@@ -91,10 +87,12 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 
             if (weapon.getBlock() == ModBlocks.gummiFire.get()) {
                 shoot(player, finalPos, SHOT_TYPE.FIRE);
+            } else if (weapon.getBlock() == ModBlocks.gummiBlizzard.get()) {
+                shoot(player, finalPos, SHOT_TYPE.BLIZZARD);
             } else if (weapon.getBlock() == Blocks.DISPENSER) {
                 shoot(player, finalPos, SHOT_TYPE.BLIZZARA);
             } else if (weapon.getBlock() == Blocks.DROPPER) {
-                    shoot(player, finalPos, SHOT_TYPE.BLIZZAGA);
+                shoot(player, finalPos, SHOT_TYPE.BLIZZAGA);
             }
             level().playSound(null, player.blockPosition(), ModSounds.laser.get(), SoundSource.PLAYERS, 4F, 1F);
 
@@ -106,78 +104,44 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
     public void shoot(Player player, Vec3 finalPos, SHOT_TYPE type){
         switch(type){
             case FIRE -> {
-                GummiShotEntity shot = new GummiShotEntity(level(), player, 10);
-                shot.setColor(0xFFAA00);
-                player.level().addFreshEntity(shot);
-                shot.setPos(finalPos);
-                shot.shootFromRotation(this, player.getXRot(), player.getYRot(), 0, 1.5F, 0);
+                castShot(player,"fire", 10, finalPos,0,0, 1.8F);
                 remFuel(35);
             }
             case FIRA -> {
-                GummiShotEntity shot = new GummiShotEntity(level(), player, 10);
-                shot.setColor(0xFFAA00);
-                player.level().addFreshEntity(shot);
-                shot.setPos(finalPos);
-                shot.shootFromRotation(this, player.getXRot(), player.getYRot(), 0, 1.5F, 0);
+                castShot(player,"fire", 14, finalPos,0,0, 1.8F);
                 remFuel(41);
             }
             case FIRAGA -> {
-                GummiShotEntity shot = new GummiShotEntity(level(), player, 10);
-                shot.setColor(0xFFAA00);
-                player.level().addFreshEntity(shot);
-                shot.setPos(finalPos);
-                shot.shootFromRotation(this, player.getXRot(), player.getYRot(), 0, 1.5F, 0);
+                castShot(player,"fire", 18, finalPos,0,0, 1.8F);
                 remFuel(53);
             }
+            case BLIZZARD -> {
+                castShot(player,"blizzard", 10, finalPos,0,-3, 1.8F);
+                castShot(player,"blizzard", 10, finalPos,0,+3, 1.8F);
+                remFuel(108);
+            }
             case BLIZZARA -> {
-                GummiShotEntity blizzara = new GummiShotEntity(level(), player, 10);
-                blizzara.setColor(0x00FFFF);
-                player.level().addFreshEntity(blizzara);
-                blizzara.setPos(finalPos);
-                blizzara.shootFromRotation(this, player.getXRot()-3, player.getYRot(), 0, 2F, 0);
-
-                GummiShotEntity blizzara2 = new GummiShotEntity(level(), player, 10);
-                blizzara2.setColor(0x00FFFF);
-                player.level().addFreshEntity(blizzara2);
-                blizzara2.setPos(finalPos);
-                blizzara2.shootFromRotation(this, player.getXRot()+3, player.getYRot()+3, 0, 2F, 0);
-
-                GummiShotEntity blizzara3 = new GummiShotEntity(level(), player, 10);
-                blizzara3.setColor(0x00FFFF);
-                player.level().addFreshEntity(blizzara3);
-                blizzara3.setPos(finalPos);
-                blizzara3.shootFromRotation(this, player.getXRot()+3, player.getYRot()-3, 0, 2F, 0);
-
+                castShot(player,"blizzard", 10, finalPos,-3,0, 1.8F);
+                castShot(player,"blizzard", 10, finalPos,3,3, 1.8F);
+                castShot(player,"blizzard", 10, finalPos,3,-3, 1.8F);
                 remFuel(108);
             }
             case BLIZZAGA -> {
-                GummiShotEntity blizzara = new GummiShotEntity(level(), player, 10);
-                blizzara.setColor(0x00FFFF);
-                player.level().addFreshEntity(blizzara);
-                blizzara.setPos(finalPos);
-                blizzara.shootFromRotation(this, player.getXRot()-6, player.getYRot(), 0, 2F, 0);
-
-                GummiShotEntity blizzara2 = new GummiShotEntity(level(), player, 10);
-                blizzara2.setColor(0x00FFFF);
-                player.level().addFreshEntity(blizzara2);
-                blizzara2.setPos(finalPos);
-                blizzara2.shootFromRotation(this, player.getXRot()+6, player.getYRot(), 0, 2F, 0);
-
-                GummiShotEntity blizzara3 = new GummiShotEntity(level(), player, 10);
-                blizzara3.setColor(0x00FFFF);
-                player.level().addFreshEntity(blizzara3);
-                blizzara3.setPos(finalPos);
-                blizzara3.shootFromRotation(this, player.getXRot(), player.getYRot()-6, 0, 2F, 0);
-
-                GummiShotEntity blizzara4 = new GummiShotEntity(level(), player, 10);
-                blizzara4.setColor(0x00FFFF);
-                player.level().addFreshEntity(blizzara4);
-                blizzara4.setPos(finalPos);
-                blizzara4.shootFromRotation(this, player.getXRot(), player.getYRot()+6, 0, 2F, 0);
-
+                castShot(player,"blizzard", 10, finalPos,-6,0, 1.8F);
+                castShot(player,"blizzard", 10, finalPos,6,0, 1.8F);
+                castShot(player,"blizzard", 10, finalPos,0,-6, 1.8F);
+                castShot(player,"blizzard", 10, finalPos,0,6, 1.8F);
                 remFuel(138);
             }
         }
+    }
+
+    public void castShot(Player player, String type, float dmg, Vec3 pos, float xOff, float yOff, float speed){
+        GummiShotEntity shot = new GummiShotEntity(level(), player, dmg);
+        shot.setShotType(type);
+        player.level().addFreshEntity(shot);
+        shot.setPos(pos);
+        shot.shootFromRotation(this, player.getXRot()+xOff, player.getYRot()+yOff, 0, speed, 0);
     }
 	@Override
 	public boolean hurt(DamageSource source, float amount) {
@@ -398,9 +362,9 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 			float targetRotation = 0F;
 
 			if (this.inputLeft)
-				targetRotation = -getEffectiveSpeed() * 4; //TODO change blocks for wings maybe?
+				targetRotation = -getEffectiveSpeed() * 5; //TODO change blocks for wings maybe?
 			else if (this.inputRight)
-				targetRotation = getEffectiveSpeed() * 4;
+				targetRotation = getEffectiveSpeed() * 5;
 
 			float rotationDelta = targetRotation - currentRotationSpeed;
 			if(targetRotation == 0){

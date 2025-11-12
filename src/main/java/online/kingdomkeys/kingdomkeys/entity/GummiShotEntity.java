@@ -84,7 +84,7 @@ public class GummiShotEntity extends ThrowableProjectile{
 		super.addAdditionalSaveData(compound);
 		if (this.entityData.get(OWNER).isPresent()) {
 			compound.putString("OwnerUUID", this.entityData.get(OWNER).get().toString());
-			compound.putInt("Color", this.entityData.get(COLOR));
+			compound.putString("ShotType", this.entityData.get(SHOT_TYPE));
 		}
 	}
 
@@ -92,11 +92,11 @@ public class GummiShotEntity extends ThrowableProjectile{
 	public void readAdditionalSaveData(CompoundTag compound) {
 		super.readAdditionalSaveData(compound);
 		this.entityData.set(OWNER, Optional.of(UUID.fromString(compound.getString("OwnerUUID"))));
-		this.entityData.set(COLOR, compound.getInt("Color"));
+		this.entityData.set(SHOT_TYPE, compound.getString("ShotType"));
 	}
 
 	private static final EntityDataAccessor<Optional<UUID>> OWNER = SynchedEntityData.defineId(GummiShotEntity.class, EntityDataSerializers.OPTIONAL_UUID);
-	private static final EntityDataAccessor<Integer> COLOR = SynchedEntityData.defineId(GummiShotEntity.class, EntityDataSerializers.INT);
+	private static final EntityDataAccessor<String> SHOT_TYPE = SynchedEntityData.defineId(GummiShotEntity.class, EntityDataSerializers.STRING);
 
 	public Player getCaster() {
 		return this.getEntityData().get(OWNER).isPresent() ? this.level().getPlayerByUUID(this.getEntityData().get(OWNER).get()) : null;
@@ -106,17 +106,17 @@ public class GummiShotEntity extends ThrowableProjectile{
 		this.entityData.set(OWNER, Optional.of(uuid));
 	}
 
-	public int getColor() {
-		return this.getEntityData().get(COLOR);
+	public String getShotType() {
+		return this.getEntityData().get(SHOT_TYPE);
 	}
 	
-	public void setColor(int color) {
-		this.entityData.set(COLOR, color);
+	public void setShotType(String color) {
+		this.entityData.set(SHOT_TYPE, color);
 	}
 
 	@Override
 	protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
 		pBuilder.define(OWNER, Optional.of(new UUID(0L, 0L)));
-		pBuilder.define(COLOR, 0);
+		pBuilder.define(SHOT_TYPE, "");
 	}
 }
