@@ -74,7 +74,9 @@ public class ItemModels extends ItemModelProvider {
                     gummiBlockItem(path, "gummi_pie", tier);
                 } else if (path.contains("gummi_fire")) {
                     gummiBlockItem(path, "gummi_fire", tier);
-                }
+                } else if (path.contains("gummi_blizzard")) {
+					gummiBlockItem(path, "gummi_blizzard", tier);
+				}
             }
             case GummiBlockCorner gummiBlockCorner -> {
                 if (path.contains("gummi_pyramid")) {
