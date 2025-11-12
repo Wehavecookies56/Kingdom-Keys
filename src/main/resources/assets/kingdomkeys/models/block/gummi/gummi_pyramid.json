@@ -11,6 +11,6 @@
 	},
 	"textures": {
 		"texture0": "kingdomkeys:block/gummi/gummi_solid_colour",
-		"particle": "#texture1"
+		"particle": "#texture0"
 	}
 }

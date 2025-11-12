@@ -213,7 +213,7 @@ public class ClientEvents {
 		LocalPlayer player = mc.player;
 		if (player == null || mc.level == null || mc.options.hideGui) return;
 
-		if (!(player.getMainHandItem().getItem() instanceof BlockItem blockItem))
+		if (!(player.getMainHandItem().getItem() instanceof BlockItem blockItem) || event.getTarget().getDirection() == Direction.DOWN || event.getTarget().getDirection() == Direction.UP)
 			return;
 
 		if(blockItem.getBlock() instanceof GummiBlockEdge || blockItem.getBlock() instanceof GummiBlockCorner) {

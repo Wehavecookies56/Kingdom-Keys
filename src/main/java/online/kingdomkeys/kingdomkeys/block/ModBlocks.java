@@ -104,7 +104,9 @@ public class ModBlocks {
             gummiCore = createNewBlock("gummi_core", ()-> new GummiCoreBlock(Block.Properties.of().mapColor(MapColor.DIAMOND).instrument(NoteBlockInstrument.CHIME).strength(1.0F, 3600000.0F))),
 
             gummiFire = createNewBlock("gummi_fire", ()-> new GummiWeaponBlock(Block.Properties.of().noOcclusion().strength(0.1F, 10.0F), 1, 1, 25)),
-            gummiBlizzard = createNewBlock("gummi_blizzard", ()-> new GummiWeaponBlock(Block.Properties.of().noOcclusion().strength(0.1F, 10.0F), 1, 1, 50));
+            gummiBlizzard = createNewBlock("gummi_blizzard", ()-> new GummiWeaponBlock(Block.Properties.of().noOcclusion().strength(0.1F, 10.0F), 1, 1, 50)),
+            gummiGravity = createNewBlock("gummi_gravity", ()-> new GummiWeaponBlock(Block.Properties.of().noOcclusion().strength(0.1F, 10.0F), 1, 1, 100));
+
 
     public static List<Supplier<Block>>
             gummiCubes = new ArrayList<>(),

@@ -11,6 +11,6 @@
 	},
 	"textures": {
 		"texture0": "kingdomkeys:block/gummi/gummi_blizzard",
-		"particle": "#texture0"
+		"particle": "kingdomkeys:block/gummi/gummi_blizzard_particle"
 	}
 }

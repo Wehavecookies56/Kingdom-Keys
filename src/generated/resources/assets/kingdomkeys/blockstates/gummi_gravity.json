@@ -1,0 +1,76 @@
+{
+  "variants": {
+    "facing=east,quarter=bottom": {
+      "model": "kingdomkeys:block/gummi/gummi_gravity",
+      "y": 180
+    },
+    "facing=east,quarter=left": {
+      "model": "kingdomkeys:block/gummi/gummi_gravity",
+      "x": 270,
+      "y": 180
+    },
+    "facing=east,quarter=right": {
+      "model": "kingdomkeys:block/gummi/gummi_gravity",
+      "x": 90,
+      "y": 180
+    },
+    "facing=east,quarter=top": {
+      "model": "kingdomkeys:block/gummi/gummi_gravity",
+      "x": 180,
+      "y": 180
+    },
+    "facing=north,quarter=bottom": {
+      "model": "kingdomkeys:block/gummi/gummi_gravity",
+      "y": 90
+    },
+    "facing=north,quarter=left": {
+      "model": "kingdomkeys:block/gummi/gummi_gravity",
+      "x": 270,
+      "y": 90
+    },
+    "facing=north,quarter=right": {
+      "model": "kingdomkeys:block/gummi/gummi_gravity",
+      "x": 90,
+      "y": 90
+    },
+    "facing=north,quarter=top": {
+      "model": "kingdomkeys:block/gummi/gummi_gravity",
+      "x": 180,
+      "y": 90
+    },
+    "facing=south,quarter=bottom": {
+      "model": "kingdomkeys:block/gummi/gummi_gravity",
+      "y": 270
+    },
+    "facing=south,quarter=left": {
+      "model": "kingdomkeys:block/gummi/gummi_gravity",
+      "x": 270,
+      "y": 270
+    },
+    "facing=south,quarter=right": {
+      "model": "kingdomkeys:block/gummi/gummi_gravity",
+      "x": 90,
+      "y": 270
+    },
+    "facing=south,quarter=top": {
+      "model": "kingdomkeys:block/gummi/gummi_gravity",
+      "x": 180,
+      "y": 270
+    },
+    "facing=west,quarter=bottom": {
+      "model": "kingdomkeys:block/gummi/gummi_gravity"
+    },
+    "facing=west,quarter=left": {
+      "model": "kingdomkeys:block/gummi/gummi_gravity",
+      "x": 270
+    },
+    "facing=west,quarter=right": {
+      "model": "kingdomkeys:block/gummi/gummi_gravity",
+      "x": 90
+    },
+    "facing=west,quarter=top": {
+      "model": "kingdomkeys:block/gummi/gummi_gravity",
+      "x": 180
+    }
+  }
+}
