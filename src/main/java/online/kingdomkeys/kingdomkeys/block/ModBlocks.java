@@ -103,9 +103,13 @@ public class ModBlocks {
             gummiMeteor = createNewBlock("gummi_meteor", Block.Properties.of().mapColor(MapColor.DIRT).strength(2.0F, 3600000.0F)),
             gummiCore = createNewBlock("gummi_core", ()-> new GummiCoreBlock(Block.Properties.of().mapColor(MapColor.DIAMOND).instrument(NoteBlockInstrument.CHIME).strength(1.0F, 3600000.0F))),
 
-            gummiFire = createNewBlock("gummi_fire", ()-> new GummiWeaponBlock(Block.Properties.of().noOcclusion().strength(0.1F, 10.0F), 1, 1, 25)),
-            gummiBlizzard = createNewBlock("gummi_blizzard", ()-> new GummiWeaponBlock(Block.Properties.of().noOcclusion().strength(0.1F, 10.0F), 1, 1, 50)),
-            gummiGravity = createNewBlock("gummi_gravity", ()-> new GummiWeaponBlock(Block.Properties.of().noOcclusion().strength(0.1F, 10.0F), 1, 1, 100));
+            gummiFire = createNewBlock("gummi_fire", ()-> new GummiWeaponBlock(Block.Properties.of().noOcclusion().strength(0.1F, 10.0F), GummiWeaponBlock.SHOT_TYPE.FIRE, 1, 1, 35, 35)),
+            gummiFira = createNewBlock("gummi_fira", ()-> new GummiWeaponBlock(Block.Properties.of().noOcclusion().strength(0.1F, 10.0F), GummiWeaponBlock.SHOT_TYPE.FIRA, 1, 1, 41, 41)),
+            gummiFiraga = createNewBlock("gummi_firaga", ()-> new GummiWeaponBlock(Block.Properties.of().noOcclusion().strength(0.1F, 10.0F), GummiWeaponBlock.SHOT_TYPE.FIRAGA, 1, 1, 53, 53)),
+            gummiBlizzard = createNewBlock("gummi_blizzard", ()-> new GummiWeaponBlock(Block.Properties.of().noOcclusion().strength(0.1F, 10.0F), GummiWeaponBlock.SHOT_TYPE.BLIZZARD, 1, 1, 35,71)),
+            gummiBlizzara = createNewBlock("gummi_blizzara", ()-> new GummiWeaponBlock(Block.Properties.of().noOcclusion().strength(0.1F, 10.0F), GummiWeaponBlock.SHOT_TYPE.BLIZZARA, 1, 1, 35,108)),
+            gummiBlizzaga = createNewBlock("gummi_blizzaga", ()-> new GummiWeaponBlock(Block.Properties.of().noOcclusion().strength(0.1F, 10.0F), GummiWeaponBlock.SHOT_TYPE.BLIZZAGA, 1, 1, 35,138)),
+            gummiGravity = createNewBlock("gummi_gravity", ()-> new GummiWeaponBlock(Block.Properties.of().noOcclusion().strength(0.1F, 10.0F), GummiWeaponBlock.SHOT_TYPE.GRAVITY, 1, 1, 100, 145));
 
 
     public static List<Supplier<Block>>

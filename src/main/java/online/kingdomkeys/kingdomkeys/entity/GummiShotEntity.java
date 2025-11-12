@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.entity;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -8,7 +9,9 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
+import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 
@@ -25,13 +28,14 @@ public class GummiShotEntity extends ThrowableProjectile{
 		this.blocksBuilding = true;
 	}
 
-	public GummiShotEntity(EntityType<? extends ThrowableProjectile> type, Level world, LivingEntity player, double dmg) {
+	public GummiShotEntity(EntityType<? extends ThrowableProjectile> type, Level world, LivingEntity player, String gummiType, double dmg) {
 		super(type, player, world);
 		this.dmg = (float)dmg;
+        setShotType(gummiType);
 	}
 
-    public GummiShotEntity(Level world, LivingEntity player, double dmg) {
-        this(ModEntities.TYPE_GUMMI_SHOT.get(), world, player, dmg);
+    public GummiShotEntity(Level world, LivingEntity player, String gummiType, double dmg) {
+        this(ModEntities.TYPE_GUMMI_SHOT.get(), world, player, gummiType, dmg);
     }
 
     @Override
@@ -54,6 +58,12 @@ public class GummiShotEntity extends ThrowableProjectile{
                         super.remove(RemovalReason.KILLED);
                     }
                 }
+            }
+            if (rtRes instanceof BlockHitResult hitResult && getShotType().equals("gravity")) {
+                BlockPos blockpos = hitResult.getBlockPos();
+                level().explode(this, Explosion.getDefaultDamageSource(this.level(), this), null, blockpos.getX(), blockpos.getY(), blockpos.getZ(), 4.0F, false, Level.ExplosionInteraction.TRIGGER);
+                super.remove(RemovalReason.KILLED);
+
             }
             remove(RemovalReason.KILLED);
         }
