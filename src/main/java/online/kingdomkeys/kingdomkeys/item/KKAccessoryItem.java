@@ -32,8 +32,8 @@ public class KKAccessoryItem extends Item implements IItemCategory, ICreativeTab
     }
 
 	@Override
-	public TABS getTab() {
-		return TABS.EQUIPABLES;
+	public Tab getTab() {
+		return Tab.EQUIPABLES;
 	}
 
     @OnlyIn(Dist.CLIENT)

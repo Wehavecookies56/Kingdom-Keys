@@ -10,6 +10,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.SignalGetter;
 import net.minecraft.world.level.block.Block;
@@ -28,21 +29,21 @@ public class GummiWeaponBlock extends GummiBlockEdge {
     public static final BooleanProperty ACTIVE = BooleanProperty.create("active");
 
     int firepower, fuelPerShot;
-    SHOT_TYPE shotType;
+    ShotType shotType;
+    public enum ShotType {
+        FIRE, FIRA, FIRAGA, BLIZZARD, BLIZZARA, BLIZZAGA, GRAVITY, GRAVIRA, GRAVIGA, WATER, WATERA, WATERGA;
 
-    public enum SHOT_TYPE {
-        FIRE, FIRA, FIRAGA, BLIZZARD, BLIZZARA, BLIZZAGA, GRAVITY, GRAVIRA, GRAVIGA;
-
-        SHOT_TYPE getTextureName(){
+        ShotType getTextureName(){
             return switch (this) {
                 case FIRE, FIRA, FIRAGA -> FIRE;
                 case BLIZZARD, BLIZZARA, BLIZZAGA -> BLIZZARD;
                 case GRAVITY, GRAVIRA, GRAVIGA -> GRAVITY;
+                case WATER, WATERA, WATERGA -> WATERGA;
             };
         }
     }
 
-    public GummiWeaponBlock(Properties properties, SHOT_TYPE shotType, int weight, int armour, int firepower, int fuelPerShot) {
+    public GummiWeaponBlock(Properties properties, ShotType shotType, int weight, int armour, int firepower, int fuelPerShot) {
         super(properties, weight, armour, null, null);
         this.firepower = firepower;
         this.shotType = shotType;
@@ -107,8 +108,12 @@ public class GummiWeaponBlock extends GummiBlockEdge {
         }
 
         switch (shotType) {
-            case FIRE, FIRA, FIRAGA -> {
+            case FIRE -> {
                 castShot(player, level, getFirepower(), finalPos, 0, 0, speed, dir);
+                level.playSound(null, new BlockPos((int) finalPos.x(), (int) finalPos.y(), (int) finalPos.z()), ModSounds.laser.get(), SoundSource.PLAYERS, 4F, 1F);
+            }
+            case FIRA -> {
+                castShot(player, level, getFirepower(), finalPos, 0F, 0, speed, dir);
                 level.playSound(null, new BlockPos((int) finalPos.x(), (int) finalPos.y(), (int) finalPos.z()), ModSounds.laser.get(), SoundSource.PLAYERS, 4F, 1F);
             }
             case BLIZZARD -> {
@@ -152,7 +157,7 @@ public class GummiWeaponBlock extends GummiBlockEdge {
     @Nullable
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
-        return super.getStateForPlacement(context).setValue(FACING, context.getHorizontalDirection()).setValue(ACTIVE,false);
+        return super.getStateForPlacement(context).setValue(ACTIVE,false);
     }
 
     @Override
@@ -171,23 +176,22 @@ public class GummiWeaponBlock extends GummiBlockEdge {
     }
 
     @Override
-    public void neighborChanged(BlockState state, Level worldIn, BlockPos pos, Block blockIn, BlockPos fromPos, boolean b) {
-        super.neighborChanged(state,worldIn,pos,blockIn,fromPos,b);
-        boolean powered = worldIn.hasNeighborSignal(pos);
+    public void neighborChanged(BlockState state, Level level, BlockPos pos, Block blockIn, BlockPos fromPos, boolean b) {
+        super.neighborChanged(state,level,pos,blockIn,fromPos,b);
+        boolean powered = level.hasNeighborSignal(pos);
         boolean oldPowered = state.getValue(ACTIVE);
-        worldIn.setBlockAndUpdate(pos, state.setValue(ACTIVE, powered));
-        if(!worldIn.isClientSide() && !oldPowered && powered){
-            System.out.println(powered);
-            shoot(null, worldIn, null, new Vec3(pos.getX(), pos.getY(), pos.getZ()), null);
+        level.setBlockAndUpdate(pos, state.setValue(ACTIVE, powered));
+        if(!level.isClientSide() && !oldPowered && powered){
+            shoot(null, level, null, new Vec3(pos.getX(), pos.getY(), pos.getZ()), null);
         }
     }
 
     @Override
-    public void onPlace(BlockState state, Level worldIn, BlockPos pos, BlockState oldState, boolean b) {
-        super.onPlace(state,worldIn,pos,oldState,b);
+    public void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean b) {
+        super.onPlace(state,level,pos,oldState,b);
 
         if (oldState.getBlock() != state.getBlock()) {
-            worldIn.setBlockAndUpdate(pos, state.setValue(ACTIVE, worldIn.hasNeighborSignal(pos)));
+            level.setBlockAndUpdate(pos, state.setValue(ACTIVE, level.hasNeighborSignal(pos)));
         }
     }
 
@@ -212,5 +216,8 @@ public class GummiWeaponBlock extends GummiBlockEdge {
         return new Vec3(yawed.x, yawed.y * cosPitch - yawed.z * sinPitch, yawed.y * sinPitch + yawed.z * cosPitch).normalize();
     }
 
-
+    @Override
+    public boolean canConnectRedstone(BlockState state, BlockGetter level, BlockPos pos, @Nullable Direction direction) {
+        return true;
+    }
 }

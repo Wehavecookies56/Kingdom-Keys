@@ -102,8 +102,8 @@ public class OrgShieldItem extends KKShieldItem implements IOrgWeapon, ICreative
 	}
 
 	@Override
-	public ICreativeTab.TABS getTab() {
-		return TABS.ORGANIZATION;
+	public Tab getTab() {
+		return Tab.ORGANIZATION;
 	}
 }
 

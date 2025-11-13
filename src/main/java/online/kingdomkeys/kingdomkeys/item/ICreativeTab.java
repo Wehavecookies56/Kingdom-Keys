@@ -1,9 +1,9 @@
 package online.kingdomkeys.kingdomkeys.item;
 
 public interface ICreativeTab {
-    enum TABS {
-        KEYBLADES, KEYCHAINS, ORGANIZATION, EQUIPABLES, GUMMI, MISC
+    enum Tab {
+        KEYBLADES, KEYCHAINS, ORGANIZATION, EQUIPABLES, GUMMI, MISC, NONE
     }
 
-    TABS getTab();
+    Tab getTab();
 }

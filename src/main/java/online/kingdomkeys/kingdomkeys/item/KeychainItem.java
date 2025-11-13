@@ -105,7 +105,7 @@ public class KeychainItem extends SwordItem implements IKeychain, IItemCategory,
 	}
 
 	@Override
-	public TABS getTab() {
-		return TABS.KEYCHAINS;
+	public Tab getTab() {
+		return Tab.KEYCHAINS;
 	}
 }

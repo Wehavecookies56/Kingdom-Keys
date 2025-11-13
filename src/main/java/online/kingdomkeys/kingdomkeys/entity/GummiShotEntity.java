@@ -48,7 +48,7 @@ public class GummiShotEntity extends ThrowableProjectile{
     @Override
     public void tick() {
         super.tick();
-        if(getShotType().equals(GummiWeaponBlock.SHOT_TYPE.GRAVITY.name().toLowerCase())){
+        if(getShotType().equals(GummiWeaponBlock.ShotType.GRAVITY.name().toLowerCase())){
             if(tickCount > 80) {
                 level().explode(this, Explosion.getDefaultDamageSource(this.level(), this), null, getX(), getY(), getZ(), 4.0F, false, Level.ExplosionInteraction.TRIGGER);
                 super.remove(RemovalReason.KILLED);
@@ -77,7 +77,7 @@ public class GummiShotEntity extends ThrowableProjectile{
                     }
                 }
             }
-            if (rtRes instanceof BlockHitResult hitResult && getShotType().equals(GummiWeaponBlock.SHOT_TYPE.GRAVITY.name().toLowerCase())) {
+            if (rtRes instanceof BlockHitResult hitResult && getShotType().equals(GummiWeaponBlock.ShotType.GRAVITY.name().toLowerCase())) {
                 BlockPos blockpos = hitResult.getBlockPos();
                 if(!(level().getBlockState(blockpos).getBlock() instanceof GummiWeaponBlock)) {
                     level().explode(this, Explosion.getDefaultDamageSource(this.level(), this), null, blockpos.getX(), blockpos.getY(), blockpos.getZ(), 4.0F, false, Level.ExplosionInteraction.TRIGGER);

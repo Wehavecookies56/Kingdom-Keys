@@ -29,6 +29,7 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.api.event.client.KKInputEvent;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.client.gui.overlay.CommandMenuGui;
+import online.kingdomkeys.kingdomkeys.client.gui.overlay.OverlayConfigGui;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.GlobalData;
@@ -204,6 +205,7 @@ public class InputHandler {
     }
 
     public void openMenu() {
+        //Minecraft.getInstance().setScreen(new OverlayConfigGui());
         PacketHandler.sendToServer(new CSOpenMenu());
     }
 

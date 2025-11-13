@@ -35,6 +35,7 @@ import net.neoforged.neoforge.items.IItemHandler;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.block.GummiHangarTileEntity;
+import online.kingdomkeys.kingdomkeys.item.ICreativeTab;
 import online.kingdomkeys.kingdomkeys.item.ModComponents;
 import online.kingdomkeys.kingdomkeys.lib.LineDisplay;
 import online.kingdomkeys.kingdomkeys.util.Utils;
@@ -43,7 +44,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 @EventBusSubscriber
-public class GummiHangarBlock extends BaseEntityBlock implements EntityBlock, INoDataGen {
+public class GummiHangarBlock extends BaseEntityBlock implements EntityBlock, INoDataGen, ICreativeTab {
 	public static final DirectionProperty FACING = BlockStateProperties.FACING;
     public static final EnumProperty<LineDisplay> SHOW_LINES = EnumProperty.create("show_lines", LineDisplay.class);
 	public static final BooleanProperty DISPLAY_BLUEPRINT = BooleanProperty.create("display_blueprint");
@@ -207,4 +208,9 @@ public class GummiHangarBlock extends BaseEntityBlock implements EntityBlock, IN
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
         return type == ModEntities.TYPE_GUMMI_HANGAR.get() ? GummiHangarTileEntity::tick : null;
     }
+
+	@Override
+	public Tab getTab() {
+		return Tab.GUMMI;
+	}
 }

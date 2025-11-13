@@ -25,8 +25,8 @@ import java.util.List;
 public class KKPotionItem extends Item implements IItemCategory, ICreativeTab {
 
 	@Override
-	public TABS getTab() {
-		return TABS.EQUIPABLES;
+	public Tab getTab() {
+		return Tab.EQUIPABLES;
 	}
 
 	public enum PotionType {

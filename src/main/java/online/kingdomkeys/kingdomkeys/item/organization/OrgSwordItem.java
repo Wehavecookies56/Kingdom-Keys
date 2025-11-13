@@ -100,7 +100,7 @@ public abstract class OrgSwordItem extends SwordItem implements IOrgWeapon, IExt
     }
 
     @Override
-    public TABS getTab() {
-        return TABS.ORGANIZATION;
+    public Tab getTab() {
+        return Tab.ORGANIZATION;
     }
 }

@@ -56,11 +56,11 @@ public record CSBuildGummiShip(String name, int containerID) implements Packet {
 		ArrayList<Block> bannedBlocks = Utils.getBannedBlocks(level,origin,hangar.getValue(GummiHangarBlock.FACING), size);
 		if(bannedBlocks != null && !bannedBlocks.isEmpty()) {
 			String bannedBlocksNames = bannedBlocks.stream().map(block -> block.asItem().getDescription().getString()).collect(Collectors.joining(", "));
-			player.sendSystemMessage(Component.translatable("Structure contains banned blocks: ").append(Component.literal(bannedBlocksNames)));
+			player.sendSystemMessage(Component.translatable("Structure contains banned blocks: ").append(Component.literal(bannedBlocksNames))); //TODO translatable
 			return;
 		}
         if(Utils.getCorePos(level,origin,hangar.getValue(GummiHangarBlock.FACING), size) == null){
-            player.displayClientMessage(Component.translatable(ChatFormatting.DARK_RED+"Structure doesn't contain a core"),true);
+            player.displayClientMessage(Component.translatable(ChatFormatting.DARK_RED+"Structure doesn't contain a core"),true);//TODO translatable
             return;
         }
 		if(Utils.getAmountOfGummiShipsInBuildPlate(level, origin, hangar.getValue(GummiHangarBlock.FACING), size) > 0){

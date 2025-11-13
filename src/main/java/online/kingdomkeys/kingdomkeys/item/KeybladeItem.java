@@ -346,8 +346,8 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 	}
 
 	@Override
-	public TABS getTab() {
-		return TABS.KEYBLADES;
+	public Tab getTab() {
+		return Tab.KEYBLADES;
 	}
 
 	@EventBusSubscriber
