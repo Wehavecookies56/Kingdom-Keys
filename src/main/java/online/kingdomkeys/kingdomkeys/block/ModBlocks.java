@@ -86,7 +86,7 @@ public class ModBlocks {
             gummiHangar = createNewBlock("gummi_hangar", () -> new GummiHangarBlock(Block.Properties.of().mapColor(MapColor.METAL).strength(2.0F, 1.0F))), //HL 2
 
             cardDoor = createNewBlock("card_door", () -> new CardDoorBlock(Block.Properties.of().mapColor(MapColor.WOOD).strength(-1.0F, 3600000.0F))),
-            structureWall = createNewBlock("structure_wall", () -> new StructureWallBlock(Block.Properties.of().noOcclusion().strength(-1.0F, 3600000.0F).dropsLike(Blocks.AIR).isValidSpawn((p1, p2, p3, p4) -> false))),
+            structureWall = createNewBlock("structure_wall", () -> new StructureWallBlock(Block.Properties.of().noOcclusion().strength(-1.0F, 3600000.0F).lootFrom(() -> Blocks.AIR).isValidSpawn((p1, p2, p3, p4) -> false))),
             castleOblivionWall = createNewBlock("castle_oblivion_wall", () -> new CastleOblivionWallBlock(Block.Properties.of().noOcclusion().strength(-1.0F, 3600000.0F))),
             castleOblivionWallChiseled = createNewBlock("castle_oblivion_wall_chiseled", () -> new CastleOblivionWallBlock(Block.Properties.of().mapColor(MapColor.STONE).noOcclusion().strength(-1.0F, 3600000.0F))),
             castleOblivionWall2 = createNewBlock("castle_oblivion_wall2", () -> new CastleOblivionWallBlock(Block.Properties.of().mapColor(MapColor.STONE).noOcclusion().strength(-1.0F, 3600000.0F))),

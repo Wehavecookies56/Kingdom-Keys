@@ -49,7 +49,7 @@ public class BlockStates extends BlockStateProvider {
 					Direction facing = blockState.getValue(GummiBlockEdge.FACING);
 
 					if (blockName.contains("gummi_wedge")) {
-						builder.modelFile(new ModelFile.ExistingModelFile(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "block/gummi/gummi_wedge"), models().existingFileHelper));
+						builder.modelFile(new ModelFile.ExistingModelFile(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "block/gummi/"+tier+"gummi_wedge"), models().existingFileHelper));
                     } else if (blockName.contains("gummi_pie")) {
                         builder.modelFile(new ModelFile.ExistingModelFile(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "block/gummi/gummi_pie"), models().existingFileHelper));
                     } else if (blockName.contains("gummi_fire")) {

@@ -2,7 +2,7 @@
 	"parent": "neoforge:block/default",
 	"render_type": "minecraft:cutout",
 	"loader": "neoforge:obj",
-	"model": "kingdomkeys:models/block/gummi/gummi_pyramid.obj",
+	"model": "kingdomkeys:models/block/gummi/shell_gummi_pyramid.obj",
 	"flip_v" : true,
 	"transform":{
 		"translation": [ -1.75, -0.25, -1.75 ],
@@ -11,7 +11,7 @@
 	},
 	"textures": {
 		"texture0": "kingdomkeys:block/gummi/gummi_solid_colour",
-		"texture1": "kingdomkeys:block/gummi/shell_gummi_pyramid",
+		"texture1": "kingdomkeys:block/gummi/shell_gummi",
 		"particle": "#texture0"
 	}
 }
