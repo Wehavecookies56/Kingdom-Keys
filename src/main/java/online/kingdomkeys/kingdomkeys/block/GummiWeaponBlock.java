@@ -2,15 +2,12 @@ package online.kingdomkeys.kingdomkeys.block;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.Vec3i;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.ItemInteractionResult;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
@@ -24,10 +21,6 @@ import net.minecraft.world.phys.Vec3;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.entity.GummiShipEntity;
 import online.kingdomkeys.kingdomkeys.entity.GummiShotEntity;
-import online.kingdomkeys.kingdomkeys.entity.block.GummiHangarTileEntity;
-import online.kingdomkeys.kingdomkeys.item.ModComponents;
-import online.kingdomkeys.kingdomkeys.lib.LineDisplay;
-import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import javax.annotation.Nullable;
 
@@ -64,14 +57,14 @@ public class GummiWeaponBlock extends GummiBlockEdge {
         return fuelPerShot;
     }
 
-    public void castShot(Player player, Level level, GummiShipEntity ship, float dmg, Vec3 pos, float xOff, float yOff, float speed) {
+    public void castShot(Player player, Level level, float dmg, Vec3 pos, float xOff, float yOff, float speed, Vec3 direction) {
         if (player == null){
             castShot(level, xOff, yOff, getFirepower(), pos, speed/2F);
         } else {
             GummiShotEntity shot = new GummiShotEntity(level, player, shotType.getTextureName().name().toLowerCase(), dmg);
             level.addFreshEntity(shot);
             shot.setPos(pos);
-            shot.shootFromRotation(ship, player.getXRot() + xOff, player.getYRot() + yOff, 0, speed, 0);
+            shot.setDeltaMovement(direction.scale(speed));
         }
     }
 
@@ -99,40 +92,54 @@ public class GummiWeaponBlock extends GummiBlockEdge {
         shot.shoot(f, f1, f2, velocity, inaccuracy);
     }
 
-    public void shoot(Player player, Level level, GummiShipEntity ship, Vec3 finalPos){
+    public void shoot(Player player, Level level, GummiShipEntity ship, Vec3 finalPos, Vec3 dir) {
         float speed = 4F;
-        switch(shotType){
-            case FIRE, FIRA, FIRAGA-> {
-                castShot(player, level, ship, getFirepower(), finalPos,0,0, speed);
+        //Dir calculation if they are blocks so it is not null
+        if (dir == null && finalPos != null && level != null) {
+            BlockPos pos = BlockPos.containing(finalPos);
+            BlockState state = level.getBlockState(pos);
+            if (state.hasProperty(FACING)) {
+                Direction facing = state.getValue(FACING);
+                dir = Vec3.atLowerCornerOf(facing.getNormal()).normalize();
+            } else {
+                dir = new Vec3(0, 1, 0);
+            }
+        }
+
+        switch (shotType) {
+            case FIRE, FIRA, FIRAGA -> {
+                castShot(player, level, getFirepower(), finalPos, 0, 0, speed, dir);
                 level.playSound(null, new BlockPos((int) finalPos.x(), (int) finalPos.y(), (int) finalPos.z()), ModSounds.laser.get(), SoundSource.PLAYERS, 4F, 1F);
             }
             case BLIZZARD -> {
-                castShot(player, level,ship, getFirepower(), finalPos,0,-3, speed);
-                castShot(player, level,ship, getFirepower(), finalPos,0,+3, speed);
-                level.playSound(null, new BlockPos((int) finalPos.x(), (int) finalPos.y(), (int) finalPos.z()), ModSounds.laser.get(), SoundSource.PLAYERS, 4F, 1F);
+                castShot(player, level, getFirepower(), finalPos, 0, -3, speed, rotateDirection(dir, -3, 0));
+                castShot(player, level, getFirepower(), finalPos, 0, +3, speed, rotateDirection(dir, +3, 0));
+                level.playSound(null, BlockPos.containing(finalPos), ModSounds.laser.get(), SoundSource.PLAYERS, 4F, 1F);
             }
             case BLIZZARA -> {
-                castShot(player, level,ship, getFirepower(), finalPos,-3,0, speed);
-                castShot(player, level,ship, getFirepower(), finalPos,3,3, speed);
-                castShot(player, level,ship, getFirepower(), finalPos,3,-3, speed);
-                level.playSound(null, new BlockPos((int) finalPos.x(), (int) finalPos.y(), (int) finalPos.z()), ModSounds.laser.get(), SoundSource.PLAYERS, 4F, 1F);
+                castShot(player, level, getFirepower(), finalPos, 0, 0, speed, dir);
+                castShot(player, level, getFirepower(), finalPos, 0, 0, speed, rotateDirection(dir, -5, 2));
+                castShot(player, level, getFirepower(), finalPos, 0, 0, speed, rotateDirection(dir, +5, -2));
+                level.playSound(null, BlockPos.containing(finalPos), ModSounds.laser.get(), SoundSource.PLAYERS, 4F, 1F);
             }
             case BLIZZAGA -> {
-                castShot(player, level,ship, getFirepower(), finalPos,-6,0, speed);
-                castShot(player, level,ship, getFirepower(), finalPos,6,0, speed);
-                castShot(player, level,ship, getFirepower(), finalPos,0,-6, speed);
-                castShot(player, level,ship, getFirepower(), finalPos,0,6, speed);
-                level.playSound(null, new BlockPos((int) finalPos.x(), (int) finalPos.y(), (int) finalPos.z()), ModSounds.laser.get(), SoundSource.PLAYERS, 4F, 1F);
-            }
-            case GRAVITY, GRAVIRA, GRAVIGA-> {
-                castShot(player, level, ship, getFirepower(), finalPos,0,0, 0.75F);
-                level.playSound(null, new BlockPos((int) finalPos.x(), (int) finalPos.y(), (int) finalPos.z()), ModSounds.laser.get(), SoundSource.PLAYERS, 4F, 1F);
+                castShot(player, level, getFirepower(), finalPos, 0, 0, speed, rotateDirection(dir, -8, 0));
+                castShot(player, level, getFirepower(), finalPos, 0, 0, speed, rotateDirection(dir, +8, 0));
+                castShot(player, level, getFirepower(), finalPos, 0, 0, speed, rotateDirection(dir, 0, -8));
+                castShot(player, level, getFirepower(), finalPos, 0, 0, speed, rotateDirection(dir, 0, +8));
+                level.playSound(null, BlockPos.containing(finalPos), ModSounds.laser.get(), SoundSource.PLAYERS, 4F, 1F);
             }
 
+            case GRAVITY, GRAVIRA, GRAVIGA -> {
+                castShot(player, level, getFirepower(), finalPos, 0, 0, 0.75F, dir);
+                level.playSound(null, new BlockPos((int) finalPos.x(), (int) finalPos.y(), (int) finalPos.z()), ModSounds.laser.get(), SoundSource.PLAYERS, 4F, 0.9F);
+            }
         }
-        if(ship != null)
+
+        if (ship != null)
             ship.remFuel(getFuelPerShot());
     }
+
 
     /*
     * Overrinding this so it doesn't conflict with the dye method from super
@@ -159,10 +166,7 @@ public class GummiWeaponBlock extends GummiBlockEdge {
         super.setPlacedBy(worldIn,pos,state,placer,stack);
 
         if (!worldIn.isClientSide){
-           // if(worldIn.getBlockEntity(pos) != null) {
-                worldIn.setBlockAndUpdate(pos, state.setValue(ACTIVE, worldIn.hasNeighborSignal(pos)));
-
-            //}
+            worldIn.setBlockAndUpdate(pos, state.setValue(ACTIVE, worldIn.hasNeighborSignal(pos)));
         }
     }
 
@@ -174,7 +178,7 @@ public class GummiWeaponBlock extends GummiBlockEdge {
         worldIn.setBlockAndUpdate(pos, state.setValue(ACTIVE, powered));
         if(!worldIn.isClientSide() && !oldPowered && powered){
             System.out.println(powered);
-            shoot(null, worldIn, null, new Vec3(pos.getX(), pos.getY(), pos.getZ()));
+            shoot(null, worldIn, null, new Vec3(pos.getX(), pos.getY(), pos.getZ()), null);
         }
     }
 
@@ -191,5 +195,22 @@ public class GummiWeaponBlock extends GummiBlockEdge {
     public boolean shouldCheckWeakPower(BlockState state, SignalGetter level, BlockPos pos, Direction side) {
         return true;
     }
+
+    private Vec3 rotateDirection(Vec3 dir, double yawDegrees, double pitchDegrees) {
+        if (dir == null)
+            return new Vec3(0, 0, 1);
+
+        double yaw = Math.toRadians(yawDegrees);
+        double pitch = Math.toRadians(pitchDegrees);
+
+        double cosYaw = Math.cos(yaw);
+        double sinYaw = Math.sin(yaw);
+        Vec3 yawed = new Vec3(dir.x * cosYaw - dir.z * sinYaw, dir.y, dir.x * sinYaw + dir.z * cosYaw);
+
+        double cosPitch = Math.cos(pitch);
+        double sinPitch = Math.sin(pitch);
+        return new Vec3(yawed.x, yawed.y * cosPitch - yawed.z * sinPitch, yawed.y * sinPitch + yawed.z * cosPitch).normalize();
+    }
+
 
 }

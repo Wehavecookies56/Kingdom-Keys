@@ -72,21 +72,25 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 
 	int weaponCounter = 0;
 	public void fire(Player player, boolean rightClick) {
-        if(getFuel() > 0) {
-            boolean xEven = Utils.isStructureEven(structure)[0];
-            boolean zEven = Utils.isStructureEven(structure)[1];
+        if (getFuel() <= 0)
+            return;
 
-            Vec3 weaponPos = shipStats.firepower.get(weaponCounter++);
-            BlockState weapon = structure.getBlocks()[(int)weaponPos.x][(int)weaponPos.y][(int)weaponPos.z];
+        boolean xEven = Utils.isStructureEven(structure)[0];
+        boolean zEven = Utils.isStructureEven(structure)[1];
 
-            Vec3 posInShip = new Vec3(structure.getWidth()/2-weaponPos.x() + (xEven ? -0.5F: 0), (structure.getHeight()/2F)+weaponPos.y()-structure.getHeight()/2, structure.getDepth()/2-weaponPos.z()+ (zEven ? 0F: 0.5F)+0.5F).yRot(-this.getYRot() * 0.017453292F);
-            Vec3 finalPos = new Vec3(posInShip.x + getX(),posInShip.y + getY(),posInShip.z + getZ());
+        Vec3 weaponPos = shipStats.firepower.get(weaponCounter);
+        BlockState weapon = structure.getBlocks()[(int) weaponPos.x][(int) weaponPos.y][(int) weaponPos.z];
 
-            //TODO change for weapons shot() method
-            if(weapon.getBlock() instanceof GummiWeaponBlock wpn){
-                wpn.shoot(player, player.level(),this,finalPos);
-            }
+        Vec3 posInShip = new Vec3(structure.getWidth() / 2 - weaponPos.x() + (xEven ? -0.5F : 0), (structure.getHeight() / 2F) + weaponPos.y() - structure.getHeight() / 2, structure.getDepth() / 2 - weaponPos.z() + (zEven ? 0F : 0.5F) + 0.5F).yRot(-this.getYRot() * ((float) Math.PI / 180F));
+        Vec3 weaponPosWorld = posInShip.add(getX(), getY(), getZ());
+        Vec3 lookDir = player.getLookAngle();
+        Vec3 eyePos = player.getEyePosition(1.0f);
+        Vec3 targetPoint = eyePos.add(lookDir.scale(60)); //Higher the number the further away they converge
+        Vec3 compensatedDir = targetPoint.subtract(weaponPosWorld).normalize();
 
+        if (weapon.getBlock() instanceof GummiWeaponBlock wpn && getFuel() > wpn.getFuelPerShot()) {
+            wpn.shoot(player, player.level(), this, weaponPosWorld, compensatedDir);
+            weaponCounter++;
             if (weaponCounter >= shipStats.firepower().size())
                 weaponCounter = 0;
         }

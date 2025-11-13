@@ -331,33 +331,35 @@ public class ClientEvents {
 	private static int selectedSlot = 0;
 
 	private static long timeSinceLastshot = 0;
-	@SubscribeEvent
-	public void clientTickPre(ClientTickEvent.Pre event) {
-		Minecraft mc = Minecraft.getInstance();
 
-		if (mc.level != null) {
-			selectedSlot = Minecraft.getInstance().player.getInventory().selected;
-		}
+    @SubscribeEvent
+    public void clientTickPre(ClientTickEvent.Pre event) {
+        Minecraft mc = Minecraft.getInstance();
 
-		if (mc.player == null || !(mc.player.getVehicle() instanceof GummiShipEntity ship))
-			return;
+        if (mc.level != null)
+            selectedSlot = Minecraft.getInstance().player.getInventory().selected;
 
-		if(ship.shipStats == null || ship.shipStats.firepower().isEmpty())
-			return;
+        if (mc.player == null || !(mc.player.getVehicle() instanceof GummiShipEntity ship))
+            return;
 
+        if (ship.shipStats == null || ship.shipStats.firepower().isEmpty())
+            return;
 
-		int delay = 500 / ship.shipStats.firepower().size();
-		if (System.currentTimeMillis() - timeSinceLastshot >= delay) {
-			timeSinceLastshot = System.currentTimeMillis();
-			if (mc.options.keyAttack.isDown()) {
-				PacketHandler.sendToServer(new CSGummiFirePacket(ship.getId(), false));
-			}
-			/*if (mc.options.keyUse.isDown()) {
-				PacketHandler.sendToServer(new CSGummiFirePacket(ship.getId(), true));
-			}*/
-		}
+        if (timeSinceLastshot > 0) {
+            timeSinceLastshot--;
+        }
 
-	}
+        if(ship.getFuel() > 0) {
+            int baseTicks = 14;
+            int weaponCount = Math.max(1, ship.shipStats.firepower().size());
+            int delayTicks = Math.max(1, Math.round(baseTicks / (float)weaponCount));
+
+            if (EpicFightUtils.isAttacking() && timeSinceLastshot <= 0) {
+                timeSinceLastshot = delayTicks;
+                PacketHandler.sendToServer(new CSGummiFirePacket(ship.getId(), false));
+            }
+        }
+    }
 
 	@SubscribeEvent
 	public void clientTickPost(ClientTickEvent.Post event) {

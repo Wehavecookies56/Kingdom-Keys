@@ -9,7 +9,7 @@ public class EpicFightUtils {
 
     public static boolean isAttacking() {
         if (KingdomKeys.efmLoaded) {
-            return Minecraft.getInstance().mouseHandler.isLeftPressed();
+            return Minecraft.getInstance().mouseHandler.isLeftPressed() && Minecraft.getInstance().screen == null;
         } else {
             return Minecraft.getInstance().options.keyAttack.isDown();
         }
