@@ -64,6 +64,7 @@ import online.kingdomkeys.kingdomkeys.api.item.IKeychain;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategoryRegistry;
 import online.kingdomkeys.kingdomkeys.block.GummiBlockBase;
+import online.kingdomkeys.kingdomkeys.block.GummiWeaponBlock;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
@@ -245,9 +246,13 @@ public class Utils {
 							speed += 0.5F;
 						} else if (state.getBlock() == Blocks.STICKY_PISTON) {
 							speed++;
-						} else if (state.getBlock() == ModBlocks.gummiFire.get() || state.getBlock() == ModBlocks.gummiBlizzard.get() || state.getBlock() == Blocks.DISPENSER || state.getBlock() == Blocks.DROPPER) {
-							weapons.add(new Vec3(x, y, z));
 						}
+                        if(state.getBlock() instanceof GummiWeaponBlock){
+                            weapons.add(new Vec3(x, y, z));
+                        }
+                        /* else if (state.getBlock() == ModBlocks.gummiFire.get() || state.getBlock() == ModBlocks.gummiBlizzard.get() || state.getBlock() == Blocks.DISPENSER || state.getBlock() == Blocks.DROPPER) {
+							weapons.add(new Vec3(x, y, z));
+						}*/
 					}
 				}
 			}

@@ -31,6 +31,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.entity.IEntityWithComplexSpawn;
+import online.kingdomkeys.kingdomkeys.block.GummiWeaponBlock;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
@@ -69,10 +70,6 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 		this.refreshDimensions();
 	}
 
-    public enum SHOT_TYPE {
-        FIRE, FIRA, FIRAGA, BLIZZARD, BLIZZARA, BLIZZAGA
-    }
-
 	int weaponCounter = 0;
 	public void fire(Player player, boolean rightClick) {
         if(getFuel() > 0) {
@@ -85,64 +82,16 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
             Vec3 posInShip = new Vec3(structure.getWidth()/2-weaponPos.x() + (xEven ? -0.5F: 0), (structure.getHeight()/2F)+weaponPos.y()-structure.getHeight()/2, structure.getDepth()/2-weaponPos.z()+ (zEven ? 0F: 0.5F)+0.5F).yRot(-this.getYRot() * 0.017453292F);
             Vec3 finalPos = new Vec3(posInShip.x + getX(),posInShip.y + getY(),posInShip.z + getZ());
 
-            if (weapon.getBlock() == ModBlocks.gummiFire.get()) {
-                shoot(player, finalPos, SHOT_TYPE.FIRE);
-            } else if (weapon.getBlock() == ModBlocks.gummiBlizzard.get()) {
-                shoot(player, finalPos, SHOT_TYPE.BLIZZARD);
-            } else if (weapon.getBlock() == Blocks.DISPENSER) {
-                shoot(player, finalPos, SHOT_TYPE.BLIZZARA);
-            } else if (weapon.getBlock() == Blocks.DROPPER) {
-                shoot(player, finalPos, SHOT_TYPE.BLIZZAGA);
+            //TODO change for weapons shot() method
+            if(weapon.getBlock() instanceof GummiWeaponBlock wpn){
+                wpn.shoot(player,this,finalPos);
             }
-            level().playSound(null, player.blockPosition(), ModSounds.laser.get(), SoundSource.PLAYERS, 4F, 1F);
 
             if (weaponCounter >= shipStats.firepower().size())
                 weaponCounter = 0;
         }
 	}
 
-    public void shoot(Player player, Vec3 finalPos, SHOT_TYPE type){
-        switch(type){
-            case FIRE -> {
-                castShot(player,"fire", 10, finalPos,0,0, 1.8F);
-                remFuel(35);
-            }
-            case FIRA -> {
-                castShot(player,"fire", 14, finalPos,0,0, 1.8F);
-                remFuel(41);
-            }
-            case FIRAGA -> {
-                castShot(player,"fire", 18, finalPos,0,0, 1.8F);
-                remFuel(53);
-            }
-            case BLIZZARD -> {
-                castShot(player,"blizzard", 10, finalPos,0,-3, 1.8F);
-                castShot(player,"blizzard", 10, finalPos,0,+3, 1.8F);
-                remFuel(108);
-            }
-            case BLIZZARA -> {
-                castShot(player,"blizzard", 10, finalPos,-3,0, 1.8F);
-                castShot(player,"blizzard", 10, finalPos,3,3, 1.8F);
-                castShot(player,"blizzard", 10, finalPos,3,-3, 1.8F);
-                remFuel(108);
-            }
-            case BLIZZAGA -> {
-                castShot(player,"blizzard", 10, finalPos,-6,0, 1.8F);
-                castShot(player,"blizzard", 10, finalPos,6,0, 1.8F);
-                castShot(player,"blizzard", 10, finalPos,0,-6, 1.8F);
-                castShot(player,"blizzard", 10, finalPos,0,6, 1.8F);
-                remFuel(138);
-            }
-        }
-    }
-
-    public void castShot(Player player, String type, float dmg, Vec3 pos, float xOff, float yOff, float speed){
-        GummiShotEntity shot = new GummiShotEntity(level(), player, dmg);
-        shot.setShotType(type);
-        player.level().addFreshEntity(shot);
-        shot.setPos(pos);
-        shot.shootFromRotation(this, player.getXRot()+xOff, player.getYRot()+yOff, 0, speed, 0);
-    }
 	@Override
 	public boolean hurt(DamageSource source, float amount) {
 		if (!this.level().isClientSide && !this.isRemoved()) {
