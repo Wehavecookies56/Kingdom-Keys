@@ -84,7 +84,7 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 
             //TODO change for weapons shot() method
             if(weapon.getBlock() instanceof GummiWeaponBlock wpn){
-                wpn.shoot(player,this,finalPos);
+                wpn.shoot(player, player.level(),this,finalPos);
             }
 
             if (weaponCounter >= shipStats.firepower().size())

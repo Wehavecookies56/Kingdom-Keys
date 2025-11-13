@@ -28,7 +28,7 @@ public class GummiShotEntityRender extends EntityRenderer<GummiShotEntity> {
 
 	public GummiShotEntityRender(EntityRendererProvider.Context context) {
 		super(context);
-		this.shadowRadius = 0.25F;
+		this.shadowRadius = 0F;
 	}
 
     @Override

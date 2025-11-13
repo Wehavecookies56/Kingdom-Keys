@@ -14,6 +14,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
+import online.kingdomkeys.kingdomkeys.block.GummiWeaponBlock;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -28,22 +29,36 @@ public class GummiShotEntity extends ThrowableProjectile{
 		this.blocksBuilding = true;
 	}
 
-	public GummiShotEntity(EntityType<? extends ThrowableProjectile> type, Level world, LivingEntity player, String gummiType, double dmg) {
+	public GummiShotEntity(EntityType<? extends ThrowableProjectile> type, Level world, LivingEntity player, String gummiType, float dmg) {
 		super(type, player, world);
-		this.dmg = (float)dmg;
+        this.dmg = dmg;
         setShotType(gummiType);
 	}
 
-    public GummiShotEntity(Level world, LivingEntity player, String gummiType, double dmg) {
+    public GummiShotEntity(Level world, String gummiType, float dmg) {
+        this(ModEntities.TYPE_GUMMI_SHOT.get(), world);
+        this.dmg = dmg;
+        setShotType(gummiType);
+    }
+
+    public GummiShotEntity(Level world, LivingEntity player, String gummiType, float dmg) {
         this(ModEntities.TYPE_GUMMI_SHOT.get(), world, player, gummiType, dmg);
     }
 
     @Override
     public void tick() {
         super.tick();
-        if(tickCount > 100) {
-            super.remove(RemovalReason.KILLED);
+        if(getShotType().equals(GummiWeaponBlock.SHOT_TYPE.GRAVITY.name().toLowerCase())){
+            if(tickCount > 80) {
+                level().explode(this, Explosion.getDefaultDamageSource(this.level(), this), null, getX(), getY(), getZ(), 4.0F, false, Level.ExplosionInteraction.TRIGGER);
+                super.remove(RemovalReason.KILLED);
+            }
+        } else {
+            if(tickCount > 100) {
+                super.remove(RemovalReason.KILLED);
+            }
         }
+
     }
 
     @Override
@@ -54,15 +69,20 @@ public class GummiShotEntity extends ThrowableProjectile{
                 if (ertResult.getEntity() instanceof LivingEntity target) {
                     if (target != getOwner()) {
                         target.invulnerableTime = 0;
-                        target.hurt(target.damageSources().thrown(this, this.getOwner()), dmg);
+                        if(this.getOwner() != null)
+                            target.hurt(target.damageSources().thrown(this, this.getOwner()), dmg);
+                        else
+                            target.hurt(target.damageSources().magic(), dmg);
                         super.remove(RemovalReason.KILLED);
                     }
                 }
             }
-            if (rtRes instanceof BlockHitResult hitResult && getShotType().equals("gravity")) {
+            if (rtRes instanceof BlockHitResult hitResult && getShotType().equals(GummiWeaponBlock.SHOT_TYPE.GRAVITY.name().toLowerCase())) {
                 BlockPos blockpos = hitResult.getBlockPos();
-                level().explode(this, Explosion.getDefaultDamageSource(this.level(), this), null, blockpos.getX(), blockpos.getY(), blockpos.getZ(), 4.0F, false, Level.ExplosionInteraction.TRIGGER);
-                super.remove(RemovalReason.KILLED);
+                if(!(level().getBlockState(blockpos).getBlock() instanceof GummiWeaponBlock)) {
+                    level().explode(this, Explosion.getDefaultDamageSource(this.level(), this), null, blockpos.getX(), blockpos.getY(), blockpos.getZ(), 4.0F, false, Level.ExplosionInteraction.TRIGGER);
+                    super.remove(RemovalReason.KILLED);
+                }
 
             }
             remove(RemovalReason.KILLED);
