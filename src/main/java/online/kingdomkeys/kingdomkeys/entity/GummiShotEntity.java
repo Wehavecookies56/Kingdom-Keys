@@ -5,6 +5,8 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -15,7 +17,10 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import online.kingdomkeys.kingdomkeys.block.GummiWeaponBlock;
+import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -48,16 +53,32 @@ public class GummiShotEntity extends ThrowableProjectile{
     @Override
     public void tick() {
         super.tick();
-        if(getShotType().equals(GummiWeaponBlock.ShotType.GRAVITY.name().toLowerCase())){
-            if(tickCount > 80) {
-                level().explode(this, Explosion.getDefaultDamageSource(this.level(), this), null, getX(), getY(), getZ(), 4.0F, false, Level.ExplosionInteraction.TRIGGER);
-                super.remove(RemovalReason.KILLED);
-            }
-        } else {
-            if(tickCount > 100) {
-                super.remove(RemovalReason.KILLED);
+
+        int ticks = getTicks();
+        if(getShotType().equals(GummiWeaponBlock.ShotType.GRAVITY.name().toLowerCase())) {
+            if (ticks == 80) {
+                gravityExplosion();
+            } else if(ticks == 97){
+                if(getShotType().equals(GummiWeaponBlock.ShotType.GRAVITY.name().toLowerCase())) {
+                    Utils.getEntitiesInRadius(this, 4).forEach(this::damage);
+                }
+                level().playSound(null, getX(),getY(),getZ(), ModSounds.laser.get(), SoundSource.PLAYERS, 2.5F, 0.4F);
             }
         }
+
+        if(ticks > 100) {
+            super.remove(RemovalReason.KILLED);
+        }
+
+        setTicks(getTicks()+1);
+    }
+
+    public void damage(Entity e){
+        float damage = dmg * 0.7F;
+        if(this.getOwner() != null)
+            e.hurt(e.damageSources().thrown(this, this.getOwner()), damage);
+        else
+            e.hurt(e.damageSources().magic(), damage);
 
     }
 
@@ -73,20 +94,44 @@ public class GummiShotEntity extends ThrowableProjectile{
                             target.hurt(target.damageSources().thrown(this, this.getOwner()), dmg);
                         else
                             target.hurt(target.damageSources().magic(), dmg);
-                        super.remove(RemovalReason.KILLED);
+
+                        if(getShotType().equals(GummiWeaponBlock.ShotType.GRAVITY.name().toLowerCase())) {
+                            gravityExplosion();
+                        } else {
+                            super.remove(RemovalReason.KILLED);
+                        }
+                    }
+                } else if(ertResult.getEntity() instanceof GummiShipEntity ship) {
+                    if(getShotType().equals(GummiWeaponBlock.ShotType.GRAVITY.name().toLowerCase())) {
+                        gravityExplosion();
+                    } else {
+                        if(this.getOwner() != null)
+                            ship.hurt(ship.damageSources().thrown(this, this.getOwner()), dmg);
+                        else
+                            ship.hurt(ship.damageSources().magic(), dmg);
+
                     }
                 }
             }
-            if (rtRes instanceof BlockHitResult hitResult && getShotType().equals(GummiWeaponBlock.ShotType.GRAVITY.name().toLowerCase())) {
+            if (rtRes instanceof BlockHitResult hitResult) {
                 BlockPos blockpos = hitResult.getBlockPos();
                 if(!(level().getBlockState(blockpos).getBlock() instanceof GummiWeaponBlock)) {
-                    level().explode(this, Explosion.getDefaultDamageSource(this.level(), this), null, blockpos.getX(), blockpos.getY(), blockpos.getZ(), 4.0F, false, Level.ExplosionInteraction.TRIGGER);
-                    super.remove(RemovalReason.KILLED);
+                    if(getShotType().equals(GummiWeaponBlock.ShotType.GRAVITY.name().toLowerCase())) {
+                        gravityExplosion();
+                    } else {
+                        super.remove(RemovalReason.KILLED);
+                    }
                 }
 
             }
             remove(RemovalReason.KILLED);
         }
+    }
+
+    private void gravityExplosion() {
+        //Stop it
+        this.setTicks(81);
+        shoot(0,0,0, 0, 0);
     }
 
     @Override
@@ -115,6 +160,7 @@ public class GummiShotEntity extends ThrowableProjectile{
 		if (this.entityData.get(OWNER).isPresent()) {
 			compound.putString("OwnerUUID", this.entityData.get(OWNER).get().toString());
 			compound.putString("ShotType", this.entityData.get(SHOT_TYPE));
+            compound.putInt("ticks", getTicks());
 		}
 	}
 
@@ -123,10 +169,12 @@ public class GummiShotEntity extends ThrowableProjectile{
 		super.readAdditionalSaveData(compound);
 		this.entityData.set(OWNER, Optional.of(UUID.fromString(compound.getString("OwnerUUID"))));
 		this.entityData.set(SHOT_TYPE, compound.getString("ShotType"));
+        setTicks(compound.getInt("ticks"));
 	}
 
 	private static final EntityDataAccessor<Optional<UUID>> OWNER = SynchedEntityData.defineId(GummiShotEntity.class, EntityDataSerializers.OPTIONAL_UUID);
 	private static final EntityDataAccessor<String> SHOT_TYPE = SynchedEntityData.defineId(GummiShotEntity.class, EntityDataSerializers.STRING);
+    private static final EntityDataAccessor<Integer> TICKS = SynchedEntityData.defineId(GummiShotEntity.class, EntityDataSerializers.INT);
 
 	public Player getCaster() {
 		return this.getEntityData().get(OWNER).isPresent() ? this.level().getPlayerByUUID(this.getEntityData().get(OWNER).get()) : null;
@@ -144,9 +192,19 @@ public class GummiShotEntity extends ThrowableProjectile{
 		this.entityData.set(SHOT_TYPE, color);
 	}
 
-	@Override
+    public void setTicks(int ticks) {
+        this.entityData.set(TICKS, ticks);
+    }
+
+    public int getTicks() {
+        return this.entityData.get(TICKS);
+    }
+
+
+    @Override
 	protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
 		pBuilder.define(OWNER, Optional.of(new UUID(0L, 0L)));
 		pBuilder.define(SHOT_TYPE, "");
+        pBuilder.define(TICKS, 0);
 	}
 }

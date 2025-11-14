@@ -32,8 +32,7 @@ import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.entity.IEntityWithComplexSpawn;
 import online.kingdomkeys.kingdomkeys.block.GummiWeaponBlock;
-import online.kingdomkeys.kingdomkeys.block.ModBlocks;
-import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.block.GummiWeaponMultiBlock;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.datagen.init.BlockTagsGen;
 import online.kingdomkeys.kingdomkeys.item.ModComponents;
@@ -54,8 +53,6 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
     public GummiShipEntity(EntityType<? extends Entity> type, Level world) {
 		super(type, world);
 	}
-
-
 
     public record ShipStats(float speed, int weight, int armour, List<Vec3> firepower, List<Vec3> passengerSlots) {
 		public float getEffectiveSpeed(){
@@ -80,8 +77,12 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 
         Vec3 weaponPos = shipStats.firepower.get(weaponCounter);
         BlockState weapon = structure.getBlocks()[(int) weaponPos.x][(int) weaponPos.y][(int) weaponPos.z];
-
-        Vec3 posInShip = new Vec3(structure.getWidth() / 2 - weaponPos.x() + (xEven ? -0.5F : 0), (structure.getHeight() / 2F) + weaponPos.y() - structure.getHeight() / 2, structure.getDepth() / 2 - weaponPos.z() + (zEven ? 0F : 0.5F) + 0.5F).yRot(-this.getYRot() * ((float) Math.PI / 180F));
+        float xOff = 0, zOff = 0;
+        if(weapon.getBlock() instanceof GummiWeaponMultiBlock mb){
+            xOff = mb.getOffsetToCannon()[0];
+            zOff = mb.getOffsetToCannon()[2];
+        }
+        Vec3 posInShip = new Vec3(structure.getWidth() / 2 - weaponPos.x() + (xEven ? -0.5F : 0)+xOff, (structure.getHeight() / 2F) + weaponPos.y() - structure.getHeight() / 2, structure.getDepth() / 2 - weaponPos.z() + (zEven ? 0F : 0.5F) + 0.5F + zOff).yRot(-this.getYRot() * ((float) Math.PI / 180F));
         Vec3 weaponPosWorld = posInShip.add(getX(), getY(), getZ());
         Vec3 lookDir = player.getLookAngle();
         Vec3 eyePos = player.getEyePosition(1.0f);
@@ -89,6 +90,7 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
         Vec3 compensatedDir = targetPoint.subtract(weaponPosWorld).normalize();
 
         if (weapon.getBlock() instanceof GummiWeaponBlock wpn && getFuel() > wpn.getFuelPerShot()) {
+
             wpn.shoot(player, player.level(), this, weaponPosWorld, compensatedDir);
             weaponCounter++;
             if (weaponCounter >= shipStats.firepower().size())

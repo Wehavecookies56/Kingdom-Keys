@@ -32,6 +32,11 @@ public class GummiWeaponMultiBlock extends GummiWeaponBlock {
         super(properties.pushReaction(PushReaction.IGNORE), shotType, weight, armour, firepower, fuelPerShot);
     }
 
+    //TODO change for a dynamic number
+    public float[] getOffsetToCannon(){
+        return new float[]{0.5F,0,0.5F};
+    }
+
     @Override
     protected void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean movedByPiston) {
         super.onRemove(state, level, pos, newState, movedByPiston);

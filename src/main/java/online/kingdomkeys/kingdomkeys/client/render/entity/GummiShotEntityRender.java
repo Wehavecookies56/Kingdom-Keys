@@ -11,9 +11,11 @@ import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.block.GummiWeaponBlock;
 import online.kingdomkeys.kingdomkeys.client.model.entity.CubeModel;
 import online.kingdomkeys.kingdomkeys.entity.GummiShotEntity;
 import org.joml.Matrix4f;
@@ -32,8 +34,7 @@ public class GummiShotEntityRender extends EntityRenderer<GummiShotEntity> {
 	}
 
     @Override
-    public void render(GummiShotEntity entity, float entityYaw, float partialTicks,
-                       PoseStack poseStack, MultiBufferSource bufferIn, int packedLightIn) {
+    public void render(GummiShotEntity entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource bufferIn, int packedLightIn) {
         if (entity.tickCount < 1)
             return;
 
@@ -43,12 +44,22 @@ public class GummiShotEntityRender extends EntityRenderer<GummiShotEntity> {
             Camera camera = Minecraft.getInstance().gameRenderer.getMainCamera();
             Quaternionf q = new Quaternionf(camera.rotation());
             poseStack.mulPose(q);
-            poseStack.scale(0.3F, 0.3F, 0.3F);
+            float scale = 0.3F;
 
             VertexConsumer vertex = bufferIn.getBuffer(RenderType.entityCutout(getTextureLocation(entity)));
 
             Matrix4f matrix = poseStack.last().pose();
             int overlay = OverlayTexture.NO_OVERLAY;
+            if(entity.getShotType().equals(GummiWeaponBlock.ShotType.GRAVITY.name().toLowerCase())){
+                if(entity.getTicks() > 80 && entity.getTicks() < 95){
+                    float progress = (entity.getTicks() - 80) / 15f;      // 0 → 1
+                    scale = Mth.lerp(progress, 0.3f, 0.05f);
+                } else if(entity.getTicks() >= 95){
+                    float progress = (entity.getTicks() - 95) / 5f;      // 0 → 1
+                    scale = Mth.lerp(progress, 0.05f, 4f);
+                }
+            }
+            matrix.scale(scale,scale,scale);
 
             vertex.addVertex(matrix, -0.5f, -0.5f, 0.0f)
                     .setColor(1f, 1f, 1f, 1f)

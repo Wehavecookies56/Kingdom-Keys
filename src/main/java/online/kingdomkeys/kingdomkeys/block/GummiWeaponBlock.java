@@ -29,7 +29,7 @@ public class GummiWeaponBlock extends GummiBlockEdge {
     public static final BooleanProperty ACTIVE = BooleanProperty.create("active");
 
     int firepower, fuelPerShot;
-    ShotType shotType;
+    public ShotType shotType;
     public enum ShotType {
         FIRE, FIRA, FIRAGA, BLIZZARD, BLIZZARA, BLIZZAGA, GRAVITY, GRAVIRA, GRAVIGA, WATER, WATERA, WATERGA;
 
@@ -72,17 +72,33 @@ public class GummiWeaponBlock extends GummiBlockEdge {
     public void castShot(Level level, float xRot, float yRot, float dmg, Vec3 pos, float speed){
         BlockState state = level.getBlockState(new BlockPos((int) pos.x(), (int) pos.y(), (int) pos.z()));
         Direction rotation = state.getValue(FACING);
+
+        float xOff = 0, zOff = 0;
+        if(this instanceof GummiWeaponMultiBlock mb){
+            xOff = mb.getOffsetToCannon()[0];
+            zOff = mb.getOffsetToCannon()[2];
+        }
+
         //Get yRot based on direction
         int dir = switch (rotation){
-            case DOWN, UP, SOUTH -> 180;
+            case DOWN, UP, SOUTH -> {
+                xOff *= -1;
+                zOff *= -1;
+                yield 180;
+            }
             case NORTH -> 0;
-            case WEST -> 270;
+            case WEST -> {
+                xOff *= -1;
+                zOff *= -1;
+                yield 270;
+            }
             case EAST -> 90;
         };
 
         GummiShotEntity shot = new GummiShotEntity(level, shotType.getTextureName().name().toLowerCase(), dmg);
         level.addFreshEntity(shot);
-        shot.setPos(pos.add(0.5F,0.5F,0.5F));
+
+        shot.setPos(pos.add(0.5F+xOff,0.5F,0.5F+zOff));
         this.shootFromRotation(shot, xRot, yRot+dir, 0, speed, 0);
     }
 
@@ -110,34 +126,34 @@ public class GummiWeaponBlock extends GummiBlockEdge {
         switch (shotType) {
             case FIRE -> {
                 castShot(player, level, getFirepower(), finalPos, 0, 0, speed, dir);
-                level.playSound(null, new BlockPos((int) finalPos.x(), (int) finalPos.y(), (int) finalPos.z()), ModSounds.laser.get(), SoundSource.PLAYERS, 4F, 1F);
+                level.playSound(null, new BlockPos((int) finalPos.x(), (int) finalPos.y(), (int) finalPos.z()), ModSounds.laser.get(), SoundSource.PLAYERS, 2.5F, 1F);
             }
             case FIRA -> {
                 castShot(player, level, getFirepower(), finalPos, 0F, 0, speed, dir);
-                level.playSound(null, new BlockPos((int) finalPos.x(), (int) finalPos.y(), (int) finalPos.z()), ModSounds.laser.get(), SoundSource.PLAYERS, 4F, 1F);
+                level.playSound(null, new BlockPos((int) finalPos.x(), (int) finalPos.y(), (int) finalPos.z()), ModSounds.laser.get(), SoundSource.PLAYERS, 2.5F, 1F);
             }
             case BLIZZARD -> {
                 castShot(player, level, getFirepower(), finalPos, 0, -3, speed, rotateDirection(dir, -3, 0));
                 castShot(player, level, getFirepower(), finalPos, 0, +3, speed, rotateDirection(dir, +3, 0));
-                level.playSound(null, BlockPos.containing(finalPos), ModSounds.laser.get(), SoundSource.PLAYERS, 4F, 1F);
+                level.playSound(null, BlockPos.containing(finalPos), ModSounds.laser.get(), SoundSource.PLAYERS, 2.5F, 1F);
             }
             case BLIZZARA -> {
                 castShot(player, level, getFirepower(), finalPos, 0, 0, speed, dir);
                 castShot(player, level, getFirepower(), finalPos, 0, 0, speed, rotateDirection(dir, -5, 2));
                 castShot(player, level, getFirepower(), finalPos, 0, 0, speed, rotateDirection(dir, +5, -2));
-                level.playSound(null, BlockPos.containing(finalPos), ModSounds.laser.get(), SoundSource.PLAYERS, 4F, 1F);
+                level.playSound(null, BlockPos.containing(finalPos), ModSounds.laser.get(), SoundSource.PLAYERS, 2.5F, 1F);
             }
             case BLIZZAGA -> {
                 castShot(player, level, getFirepower(), finalPos, 0, 0, speed, rotateDirection(dir, -8, 0));
                 castShot(player, level, getFirepower(), finalPos, 0, 0, speed, rotateDirection(dir, +8, 0));
                 castShot(player, level, getFirepower(), finalPos, 0, 0, speed, rotateDirection(dir, 0, -8));
                 castShot(player, level, getFirepower(), finalPos, 0, 0, speed, rotateDirection(dir, 0, +8));
-                level.playSound(null, BlockPos.containing(finalPos), ModSounds.laser.get(), SoundSource.PLAYERS, 4F, 1F);
+                level.playSound(null, BlockPos.containing(finalPos), ModSounds.laser.get(), SoundSource.PLAYERS, 2.5F, 1F);
             }
 
             case GRAVITY, GRAVIRA, GRAVIGA -> {
                 castShot(player, level, getFirepower(), finalPos, 0, 0, 0.75F, dir);
-                level.playSound(null, new BlockPos((int) finalPos.x(), (int) finalPos.y(), (int) finalPos.z()), ModSounds.laser.get(), SoundSource.PLAYERS, 4F, 0.9F);
+                level.playSound(null, new BlockPos((int) finalPos.x(), (int) finalPos.y(), (int) finalPos.z()), ModSounds.laser.get(), SoundSource.PLAYERS, 2.5F, 0.9F);
             }
         }
 

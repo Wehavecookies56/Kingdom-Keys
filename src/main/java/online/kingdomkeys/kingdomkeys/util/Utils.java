@@ -65,6 +65,7 @@ import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategoryRegistry;
 import online.kingdomkeys.kingdomkeys.block.GummiBlockBase;
 import online.kingdomkeys.kingdomkeys.block.GummiWeaponBlock;
+import online.kingdomkeys.kingdomkeys.block.GummiWeaponMultiBlock;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
@@ -247,7 +248,10 @@ public class Utils {
 						} else if (state.getBlock() == Blocks.STICKY_PISTON) {
 							speed++;
 						}
-                        if(state.getBlock() instanceof GummiWeaponBlock){
+                        if(state.getBlock() instanceof GummiWeaponMultiBlock wpn){
+                            if(state.getValue(GummiWeaponMultiBlock.X) == 0 && state.getValue(GummiWeaponMultiBlock.Z) == 0)
+                                weapons.add(new Vec3(x, y, z));
+                        } else if (state.getBlock() instanceof GummiWeaponBlock wpn) {
                             weapons.add(new Vec3(x, y, z));
                         }
                         /* else if (state.getBlock() == ModBlocks.gummiFire.get() || state.getBlock() == ModBlocks.gummiBlizzard.get() || state.getBlock() == Blocks.DISPENSER || state.getBlock() == Blocks.DROPPER) {
@@ -1111,6 +1115,9 @@ public class Utils {
 		return list;
 	}
 
+    public static List<Entity> getEntitiesInRadius(Entity entity, float radius) {
+        return entity.level().getEntities(entity, entity.getBoundingBox().inflate(radius), Entity::isAlive);
+    }
 	public static List<LivingEntity> getLivingEntitiesInRadius(Entity entity, float radius) {
 		List<Entity> list = entity.level().getEntities(entity, entity.getBoundingBox().inflate(radius), Entity::isAlive);
 		List<LivingEntity> elList = new ArrayList<LivingEntity>();
