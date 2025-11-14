@@ -85,6 +85,13 @@ public class LootTables extends BlockLootSubProvider {
 
 		dropSelf(ModBlocks.airstepTarget.get());
 
+		dropSelf(ModBlocks.gummiFire.get());
+		dropSelf(ModBlocks.gummiFira.get());
+		dropSelf(ModBlocks.gummiBlizzard.get());
+		dropSelf(ModBlocks.gummiBlizzara.get());
+		dropSelf(ModBlocks.gummiGravity.get());
+		dropSelf(ModBlocks.gummiWater.get());
+
 		HolderLookup.RegistryLookup<Enchantment> registrylookup = this.registries.lookupOrThrow(Registries.ENCHANTMENT);
 
 		List<Block> allGummiBlocks = Stream.of(
@@ -113,7 +120,8 @@ public class LootTables extends BlockLootSubProvider {
 						ModBlocks.gummiDispelPies,
 						ModBlocks.gummiDispelRoundCorners,
 						ModBlocks.gummiDispelCones,
-						ModBlocks.gummiDispelDomes
+						ModBlocks.gummiDispelDomes,
+						ModBlocks.gummiBubbleHelms
 				)
 				.flatMap(list -> list.stream().map(Supplier::get))
 				.toList();

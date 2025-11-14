@@ -10,6 +10,7 @@ import net.minecraft.world.item.DyeItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Mirror;
 import net.minecraft.world.level.block.Rotation;
@@ -44,12 +45,12 @@ public class GummiBlockEnd extends GummiBlockBase {
         builder.add(FACING);
     }
 
-    protected BlockState rotate(BlockState p_154354_, Rotation p_154355_) {
-        return p_154354_.setValue(FACING, p_154355_.rotate(p_154354_.getValue(FACING)));
+    protected BlockState rotate(BlockState state, Rotation rotation) {
+        return state.setValue(FACING, rotation.rotate(state.getValue(FACING)));
     }
 
-    protected BlockState mirror(BlockState p_154351_, Mirror p_154352_) {
-        return p_154351_.setValue(FACING, p_154352_.mirror(p_154351_.getValue(FACING)));
+    protected BlockState mirror(BlockState state, Mirror mirror) {
+        return state.setValue(FACING, mirror.mirror(state.getValue(FACING)));
     }
 
     @Override

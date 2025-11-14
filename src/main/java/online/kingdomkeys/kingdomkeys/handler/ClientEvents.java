@@ -549,6 +549,7 @@ public class ClientEvents {
 		public static void colourTint(RegisterColorHandlersEvent.Block event) {
 			event.register(ModBusEvents::getStructureWallColour, ModBlocks.structureWall.get());
 			event.register(ModBusEvents::getGummiBlockColour, ModBlocks.gummiBlocks.get().stream().map(Supplier::get).toList().toArray(new Block[0]));
+			event.register(ModBusEvents::getGummiBlockColour, ModBlocks.gummiBubbleHelms.stream().map(Supplier::get).toList().toArray(new Block[0]));
 		}
 
 		public static int getStructureWallColour(BlockState state, BlockAndTintGetter level, BlockPos pos, int tintIndex) {
@@ -602,6 +603,7 @@ public class ClientEvents {
 				return colour.getRGB();
 			}, ModItems.wayfinder.get());
 			event.register(ModBusEvents::getGummiBlockColour, ModBlocks.gummiBlocks.get().stream().map(Supplier::get).toList().toArray(new Block[0]));
+			event.register(ModBusEvents::getGummiBlockColour, ModBlocks.gummiBubbleHelms.stream().map(Supplier::get).toList().toArray(new Block[0]));
 		}
 	}
 

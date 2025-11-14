@@ -551,6 +551,17 @@ public class LanguageENUS extends KKLanguageProvider {
         addTintedBlock(ModBlocks.gummiRoundCorners, "Rounded/G-02 (Round Corner %s)");
         addTintedBlock(ModBlocks.gummiShellRoundCorners, "Rounded/Shell-G-02 (Round Corner %s)");
         addTintedBlock(ModBlocks.gummiDispelRoundCorners, "Rounded/Dispel-G-02 (Round Corner %s)");
+        //Cockpits
+        addTintedBlock(ModBlocks.gummiBubbleHelms, "Bubble Helm/G (%s)");
+        //Weapons
+        addBlock(ModBlocks.gummiFire, "Fire/G");
+        addBlock(ModBlocks.gummiFira, "Fira/G");
+        addBlock(ModBlocks.gummiBlizzard, "Blizzard/G");
+        addBlock(ModBlocks.gummiBlizzara, "Blizzara/G");
+        addBlock(ModBlocks.gummiGravity, "Gravity/G");
+        addBlock(ModBlocks.gummiWater, "Water/G");
+
+        addBlock(ModBlocks.gummiCore, "Core/G");
 
         /**KK stuff**/
         //Abilities

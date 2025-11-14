@@ -144,7 +144,9 @@ public class ModBlocks {
             gummiDispelPies = new ArrayList<>(),
             gummiDispelRoundCorners = new ArrayList<>(),
             gummiDispelCones = new ArrayList<>(),
-            gummiDispelDomes = new ArrayList<>()
+            gummiDispelDomes = new ArrayList<>(),
+
+            gummiBubbleHelms = new ArrayList<>()
     ;
 
     public static Supplier<List<Supplier<Block>>> gummiBlocks = () -> Stream.of(
@@ -180,6 +182,8 @@ public class ModBlocks {
         createNewCornerGummiBlock("dispel_gummi_round_corner", 1,7, gummiDispelRoundCorners);
         createNewEndGummiBlock("dispel_gummi_cone", 1,7, gummiDispelCones);
         createNewEndGummiBlock("dispel_gummi_dome", 1,7, gummiDispelDomes);
+
+        createNewGummiCockpitBlock("gummi_bubble_helm", 2, 40, gummiBubbleHelms);
     }
 
     /**
@@ -229,6 +233,14 @@ public class ModBlocks {
     private static void createNewEndGummiBlock(String name, int weight, int armour, List<Supplier<Block>> list) {
         for(DyeColor dye : DyeColor.values()) {
             Supplier<Block> newBlock = BLOCKS.register(name+"_"+dye.getName(), () -> new GummiBlockEnd(Block.Properties.of().noOcclusion().strength(0.1F, 10.0F), weight, armour, dye, list));
+            createNewBlockItem(name+"_"+dye.getName(), newBlock);
+            list.add(newBlock);
+        }
+    }
+
+    private static void createNewGummiCockpitBlock(String name, int weight, int armour, List<Supplier<Block>> list) {
+        for(DyeColor dye : DyeColor.values()) {
+            Supplier<Block> newBlock = BLOCKS.register(name+"_"+dye.getName(), () -> new GummiCockpitBlock(Block.Properties.of().noOcclusion().strength(0.1F, 10.0F), weight, armour, dye, list));
             createNewBlockItem(name+"_"+dye.getName(), newBlock);
             list.add(newBlock);
         }

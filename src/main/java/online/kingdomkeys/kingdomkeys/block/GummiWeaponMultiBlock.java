@@ -25,7 +25,6 @@ import java.util.List;
 public class GummiWeaponMultiBlock extends GummiWeaponBlock {
 
     public static final IntegerProperty X = IntegerProperty.create("x", 0, 1);
-    //public static final IntegerProperty Y = IntegerProperty.create("y", 0, 1);
     public static final IntegerProperty Z = IntegerProperty.create("z", 0, 1);
 
     public GummiWeaponMultiBlock(Properties properties, ShotType shotType, int weight, int armour, int firepower, int fuelPerShot) {
@@ -43,8 +42,6 @@ public class GummiWeaponMultiBlock extends GummiWeaponBlock {
         if (newState.getBlock() == Blocks.AIR) {
             Quarter quarter = state.getValue(QUARTER);
             Direction facing = state.getValue(FACING);
-            //Direction yDir = quarter == Quarter.TOP ? Direction.DOWN : Direction.UP;
-            //yDir = state.getValue(Y) == 0 ? yDir : yDir.getOpposite();
             Direction xDir = state.getValue(X) == 0 ? facing : facing.getOpposite();
             Direction zDir = quarter == Quarter.BOTTOM || quarter == Quarter.TOP ? state.getValue(Z) == 0 ? facing.getClockWise() : facing.getCounterClockWise() : state.getValue(Z) == 0 ? Direction.UP : Direction.DOWN;
             if (quarter == Quarter.TOP || quarter == Quarter.RIGHT) {
@@ -62,10 +59,6 @@ public class GummiWeaponMultiBlock extends GummiWeaponBlock {
             if (level.getBlockState(pos3).getBlock() instanceof GummiWeaponMultiBlock) {
                 level.setBlock(pos3, Blocks.AIR.defaultBlockState(), 3);
             }
-            //level.setBlock(pos.relative(yDir, 1), Blocks.AIR.defaultBlockState(), 3);
-            //level.setBlock(pos.relative(yDir, 1).relative(xDir, 1), Blocks.AIR.defaultBlockState(), 3);
-            //level.setBlock(pos.relative(yDir, 1).relative(zDir, 1), Blocks.AIR.defaultBlockState(), 3);
-            //level.setBlock(pos.relative(yDir, 1).relative(xDir, 1).relative(zDir, 1), Blocks.AIR.defaultBlockState(), 3);
         }
     }
 
@@ -81,15 +74,10 @@ public class GummiWeaponMultiBlock extends GummiWeaponBlock {
         BlockPos pos2 = pos.relative(zDir);
         BlockPos pos3 = pos.relative(facing).relative(zDir);
         if (level.getBlockState(pos1).getBlock() == Blocks.AIR && level.getBlockState(pos2).getBlock() == Blocks.AIR && level.getBlockState(pos3).getBlock() == Blocks.AIR) {
-            //Direction yDir = quarter == Quarter.TOP ? Direction.DOWN : Direction.UP;
             super.setPlacedBy(level, pos, state, placer, stack);
             level.setBlock(pos1, state.setValue(X, 1), 3);
             level.setBlock(pos2, state.setValue(Z, 1), 3);
             level.setBlock(pos3, state.setValue(X, 1).setValue(Z, 1), 3);
-            //level.setBlock(pos.relative(yDir, 1), state.setValue(Y, 1), 3);
-            //level.setBlock(pos.relative(yDir, 1).relative(facing, 1), state.setValue(X, 1).setValue(Y, 1), 3);
-            //level.setBlock(pos.relative(yDir, 1).relative(facing.getClockWise(), 1), state.setValue(Z, 1).setValue(Y, 1), 3);
-            //level.setBlock(pos.relative(yDir, 1).relative(facing, 1).relative(facing.getClockWise(), 1), state.setValue(X, 1).setValue(Z, 1).setValue(Y, 1), 3);
         }
     }
 
@@ -131,7 +119,6 @@ public class GummiWeaponMultiBlock extends GummiWeaponBlock {
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         super.createBlockStateDefinition(builder);
         builder.add(X);
-        //builder.add(Y);
         builder.add(Z);
     }
 
@@ -141,15 +128,6 @@ public class GummiWeaponMultiBlock extends GummiWeaponBlock {
             return RenderShape.MODEL;
         } else {
             return RenderShape.INVISIBLE;
-        }
-    }
-
-    @Override
-    protected List<ItemStack> getDrops(BlockState state, LootParams.Builder params) {
-        if (state.getValue(X) == 0 && state.getValue(Z) == 0) {
-            return super.getDrops(state, params);
-        } else {
-            return List.of();
         }
     }
 

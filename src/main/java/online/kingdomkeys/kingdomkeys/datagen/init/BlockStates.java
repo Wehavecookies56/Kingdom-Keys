@@ -42,7 +42,25 @@ public class BlockStates extends BlockStateProvider {
 			} else {
                 tier = "";
             }
-            if (block instanceof GummiBlockEdge) {
+			if (block instanceof GummiCockpitBlock) {
+				getVariantBuilder(block).forAllStates(blockState -> {
+					ConfiguredModel.Builder<?> builder = ConfiguredModel.builder();
+					Direction facing = blockState.getValue(GummiCockpitBlock.FACING);
+
+					if (blockName.contains("gummi_bubble_helm")) {
+						builder.modelFile(new ModelFile.ExistingModelFile(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "block/gummi/gummi_bubble_helm"), models().existingFileHelper));
+					}
+
+					int y = switch (facing) {
+						case DOWN, UP, SOUTH -> 270;
+						case NORTH -> 90;
+						case EAST -> 180;
+						case WEST -> 0;
+					};
+					builder.rotationY(y);
+					return builder.build();
+				});
+			} else if (block instanceof GummiBlockEdge) {
 				getVariantBuilder(block).forAllStates(blockState -> {
 					ConfiguredModel.Builder<?> builder = ConfiguredModel.builder();
 					Quarter quarter = blockState.getValue(GummiBlockEdge.QUARTER);
