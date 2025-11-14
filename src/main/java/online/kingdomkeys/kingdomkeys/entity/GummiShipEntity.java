@@ -90,7 +90,6 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
         Vec3 compensatedDir = targetPoint.subtract(weaponPosWorld).normalize();
 
         if (weapon.getBlock() instanceof GummiWeaponBlock wpn && getFuel() > wpn.getFuelPerShot()) {
-
             wpn.shoot(player, player.level(), this, weaponPosWorld, compensatedDir);
             weaponCounter++;
             if (weaponCounter >= shipStats.firepower().size())

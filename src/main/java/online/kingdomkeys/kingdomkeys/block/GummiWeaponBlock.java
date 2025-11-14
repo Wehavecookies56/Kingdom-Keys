@@ -22,6 +22,8 @@ import net.minecraft.world.phys.Vec3;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.entity.GummiShipEntity;
 import online.kingdomkeys.kingdomkeys.entity.GummiShotEntity;
+import org.joml.Quaternionf;
+import org.joml.Vector3f;
 
 import javax.annotation.Nullable;
 
@@ -60,7 +62,7 @@ public class GummiWeaponBlock extends GummiBlockEdge {
 
     public void castShot(Player player, Level level, float dmg, Vec3 pos, float xOff, float yOff, float speed, Vec3 direction) {
         if (player == null){
-            castShot(level, xOff, yOff, getFirepower(), pos, speed/2F);
+            castShotFromRedstone(level, xOff, yOff, getFirepower(), pos, speed/2F);
         } else {
             GummiShotEntity shot = new GummiShotEntity(level, player, shotType.getTextureName().name().toLowerCase(), dmg);
             level.addFreshEntity(shot);
@@ -69,7 +71,7 @@ public class GummiWeaponBlock extends GummiBlockEdge {
         }
     }
 
-    public void castShot(Level level, float xRot, float yRot, float dmg, Vec3 pos, float speed){
+    public void castShotFromRedstone(Level level, float xRot, float yRot, float dmg, Vec3 pos, float speed){
         BlockState state = level.getBlockState(new BlockPos((int) pos.x(), (int) pos.y(), (int) pos.z()));
         Direction rotation = state.getValue(FACING);
 
@@ -124,12 +126,8 @@ public class GummiWeaponBlock extends GummiBlockEdge {
         }
 
         switch (shotType) {
-            case FIRE -> {
+            case FIRE, FIRA, FIRAGA -> {
                 castShot(player, level, getFirepower(), finalPos, 0, 0, speed, dir);
-                level.playSound(null, new BlockPos((int) finalPos.x(), (int) finalPos.y(), (int) finalPos.z()), ModSounds.laser.get(), SoundSource.PLAYERS, 2.5F, 1F);
-            }
-            case FIRA -> {
-                castShot(player, level, getFirepower(), finalPos, 0F, 0, speed, dir);
                 level.playSound(null, new BlockPos((int) finalPos.x(), (int) finalPos.y(), (int) finalPos.z()), ModSounds.laser.get(), SoundSource.PLAYERS, 2.5F, 1F);
             }
             case BLIZZARD -> {
@@ -138,9 +136,9 @@ public class GummiWeaponBlock extends GummiBlockEdge {
                 level.playSound(null, BlockPos.containing(finalPos), ModSounds.laser.get(), SoundSource.PLAYERS, 2.5F, 1F);
             }
             case BLIZZARA -> {
-                castShot(player, level, getFirepower(), finalPos, 0, 0, speed, dir);
-                castShot(player, level, getFirepower(), finalPos, 0, 0, speed, rotateDirection(dir, -5, 2));
-                castShot(player, level, getFirepower(), finalPos, 0, 0, speed, rotateDirection(dir, +5, -2));
+                castShot(player, level, getFirepower(), finalPos, -8, 0, speed, rotateDirection(dir, 0, +8));
+                castShot(player, level, getFirepower(), finalPos, 0, 12, speed, rotateDirection(dir, -12, 0));
+                castShot(player, level, getFirepower(), finalPos, 0, -12, speed, rotateDirection(dir, +12, 0));
                 level.playSound(null, BlockPos.containing(finalPos), ModSounds.laser.get(), SoundSource.PLAYERS, 2.5F, 1F);
             }
             case BLIZZAGA -> {
@@ -216,20 +214,19 @@ public class GummiWeaponBlock extends GummiBlockEdge {
         return true;
     }
 
-    private Vec3 rotateDirection(Vec3 dir, double yawDegrees, double pitchDegrees) {
+    private Vec3 rotateDirection(Vec3 dir, double yawDeg, double pitchDeg) {
         if (dir == null)
-            return new Vec3(0, 0, 1);
+            return Vec3.ZERO;
 
-        double yaw = Math.toRadians(yawDegrees);
-        double pitch = Math.toRadians(pitchDegrees);
+        Vector3f forward = new Vector3f((float)dir.x, (float)dir.y, (float)dir.z).normalize();
+        Vector3f up = new Vector3f(0, 1, 0);
+        Vector3f right = forward.cross(up, new Vector3f()).normalize();
 
-        double cosYaw = Math.cos(yaw);
-        double sinYaw = Math.sin(yaw);
-        Vec3 yawed = new Vec3(dir.x * cosYaw - dir.z * sinYaw, dir.y, dir.x * sinYaw + dir.z * cosYaw);
-
-        double cosPitch = Math.cos(pitch);
-        double sinPitch = Math.sin(pitch);
-        return new Vec3(yawed.x, yawed.y * cosPitch - yawed.z * sinPitch, yawed.y * sinPitch + yawed.z * cosPitch).normalize();
+        Quaternionf q = new Quaternionf();
+        q.rotateAxis((float)Math.toRadians(yawDeg), up);
+        q.rotateAxis((float)Math.toRadians(pitchDeg), right);
+        q.transform(forward);
+        return new Vec3(forward.x(), forward.y(), forward.z());
     }
 
     @Override

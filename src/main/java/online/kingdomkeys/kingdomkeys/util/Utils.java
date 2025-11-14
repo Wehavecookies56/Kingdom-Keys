@@ -249,8 +249,10 @@ public class Utils {
 							speed++;
 						}
                         if(state.getBlock() instanceof GummiWeaponMultiBlock wpn){
-                            if(state.getValue(GummiWeaponMultiBlock.X) == 0 && state.getValue(GummiWeaponMultiBlock.Z) == 0)
+                            if(state.getValue(GummiWeaponMultiBlock.X) == 0 && state.getValue(GummiWeaponMultiBlock.Z) == 0) {
                                 weapons.add(new Vec3(x, y, z));
+                                System.out.println(wpn.shotType);
+                            }
                         } else if (state.getBlock() instanceof GummiWeaponBlock wpn) {
                             weapons.add(new Vec3(x, y, z));
                         }
