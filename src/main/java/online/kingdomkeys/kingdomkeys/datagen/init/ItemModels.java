@@ -78,6 +78,8 @@ public class ItemModels extends ItemModelProvider {
 					gummiBlockItem(path, "gummi_fira", tier);
 				} else if (path.contains("gummi_blizzard")) {
 					gummiBlockItem(path, "gummi_blizzard", tier);
+				} else if (path.contains("gummi_blizzara")) {
+					gummiBlockItem(path, "gummi_blizzara", tier);
 				} else if (path.contains("gummi_gravity")) {
 					gummiBlockItem(path, "gummi_gravity", tier);
 				} else if (path.contains("gummi_water")) {
@@ -175,7 +177,18 @@ public class ItemModels extends ItemModelProvider {
 	}
 
 	void gummiBlockItem(String name, String type, String tier) {
-		if (type.equals("gummi_pyramid")) {
+		if (type.equals("gummi_fira") || type.equals("gummi_blizzara") || type.equals("gummi_gravira") || type.equals("gummi_watera") || type.equals("gummi_firaga") || type.equals("gummi_blizzaga") || type.equals("gummi_graviga") || type.equals("gummi_waterga")) {
+			getBuilder(name).parent(new ModelFile.UncheckedModelFile(KingdomKeys.MODID + ":block/gummi/" + tier + type)).transforms()
+					.transform(ItemDisplayContext.GROUND).scale(0.25F, 0.25F, 0.25F).translation(0, 3F, 0).end()
+					.transform(ItemDisplayContext.GUI).scale(0.5F, 0.5F, 0.5F).rotation(45, -135, 0).translation(-5, 0, 0).end()
+					.transform(ItemDisplayContext.FIRST_PERSON_LEFT_HAND).scale(0.375F, 0.375F, 0.375F).rotation(0, -135, 0).end()
+					.transform(ItemDisplayContext.FIRST_PERSON_RIGHT_HAND).scale(0.375F, 0.375F, 0.375F).rotation(0, -135, 0).end()
+					.transform(ItemDisplayContext.THIRD_PERSON_LEFT_HAND).scale(0.375F, 0.375F, 0.375F).rotation(70, -135, 0).translation(0, 3, 0).end()
+					.transform(ItemDisplayContext.THIRD_PERSON_RIGHT_HAND).scale(0.375F, 0.375F, 0.375F).rotation(70, -135, 0).translation(0, 3, 0).end()
+					.transform(ItemDisplayContext.FIXED).scale(0.5F, 0.5F, 0.5F).end()
+					.transform(ItemDisplayContext.HEAD).scale(0.5F, 0.5F, 0.5F).end()
+					.end();
+		} else if (type.equals("gummi_pyramid")) {
 			getBuilder(name).parent(new ModelFile.UncheckedModelFile(KingdomKeys.MODID + ":block/gummi/" + tier + type)).transforms()
 					.transform(ItemDisplayContext.GROUND).scale(0.25F, 0.25F, 0.25F).translation(0, 3F, 0).end()
 					.transform(ItemDisplayContext.GUI).scale(0.7F, 0.7F, 0.7F).rotation(45, 180, 0).end()

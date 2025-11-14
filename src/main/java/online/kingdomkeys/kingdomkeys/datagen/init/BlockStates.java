@@ -58,6 +58,8 @@ public class BlockStates extends BlockStateProvider {
 						builder.modelFile(new ModelFile.ExistingModelFile(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "block/gummi/gummi_fira"), models().existingFileHelper));
 					} else if (blockName.contains("gummi_blizzard")) {
 						builder.modelFile(new ModelFile.ExistingModelFile(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "block/gummi/gummi_blizzard"), models().existingFileHelper));
+					} else if (blockName.contains("gummi_blizzara")) {
+						builder.modelFile(new ModelFile.ExistingModelFile(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "block/gummi/gummi_blizzara"), models().existingFileHelper));
 					} else if (blockName.contains("gummi_gravity")) {
 						builder.modelFile(new ModelFile.ExistingModelFile(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "block/gummi/gummi_gravity"), models().existingFileHelper));
 					} else if (blockName.contains("gummi_water")) {
