@@ -142,10 +142,10 @@ public class GummiWeaponBlock extends GummiBlockEdge {
                 level.playSound(null, BlockPos.containing(finalPos), ModSounds.laser.get(), SoundSource.PLAYERS, 2.5F, 1F);
             }
             case BLIZZAGA -> {
-                castShot(player, level, getFirepower(), finalPos, 0, 0, speed, rotateDirection(dir, -8, 0));
-                castShot(player, level, getFirepower(), finalPos, 0, 0, speed, rotateDirection(dir, +8, 0));
-                castShot(player, level, getFirepower(), finalPos, 0, 0, speed, rotateDirection(dir, 0, -8));
-                castShot(player, level, getFirepower(), finalPos, 0, 0, speed, rotateDirection(dir, 0, +8));
+                castShot(player, level, getFirepower(), finalPos, 0, 8, speed, rotateDirection(dir, -8, 0));
+                castShot(player, level, getFirepower(), finalPos, 0, -8, speed, rotateDirection(dir, +8, 0));
+                castShot(player, level, getFirepower(), finalPos, 8, 0, speed, rotateDirection(dir, 0, -8));
+                castShot(player, level, getFirepower(), finalPos, -8, 0, speed, rotateDirection(dir, 0, +8));
                 level.playSound(null, BlockPos.containing(finalPos), ModSounds.laser.get(), SoundSource.PLAYERS, 2.5F, 1F);
             }
 

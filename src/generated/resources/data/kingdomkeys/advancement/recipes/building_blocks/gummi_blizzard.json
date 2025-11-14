@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "gummi_blizzard": {
+      "conditions": {
+        "items": [
+          {
+            "items": "kingdomkeys:spellblizzard"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "kingdomkeys:gummi_blizzard"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "gummi_blizzard"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "kingdomkeys:gummi_blizzard"
+    ]
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "ingredients": [
+    {
+      "item": "minecraft:dispenser"
+    },
+    {
+      "item": "kingdomkeys:gummi_meteor_fragment"
+    },
+    {
+      "item": "kingdomkeys:spellfire"
+    },
+    {
+      "item": "kingdomkeys:spellfire"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "kingdomkeys:gummi_fira"
+  }
+}

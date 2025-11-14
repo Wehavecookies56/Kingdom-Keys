@@ -344,6 +344,43 @@ public class Recipes extends RecipeProvider {
                 .unlockedBy("ender_eye", InventoryChangeTrigger.TriggerInstance.hasItems(Items.ENDER_EYE))
                 .save(consumer);
 
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, ModBlocks.gummiFire.get())
+                .requires(Blocks.DISPENSER)
+                .requires(ModItems.gummiMeteorFragment.get())
+                .requires(ModItems.fireSpell.get())
+                .unlockedBy("gummi_fire", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.fireSpell.get()))
+                .save(consumer);
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, ModBlocks.gummiFira.get())
+                .requires(Blocks.DISPENSER)
+                .requires(ModItems.gummiMeteorFragment.get())
+                .requires(ModItems.fireSpell.get(), 2)
+                .unlockedBy("gummi_fira", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.fireSpell.get()))
+                .save(consumer);
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, ModBlocks.gummiBlizzard.get())
+                .requires(Blocks.DISPENSER)
+                .requires(ModItems.gummiMeteorFragment.get())
+                .requires(ModItems.blizzardSpell.get())
+                .unlockedBy("gummi_blizzard", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.blizzardSpell.get()))
+                .save(consumer);
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, ModBlocks.gummiBlizzara.get())
+                .requires(Blocks.DISPENSER)
+                .requires(ModItems.gummiMeteorFragment.get())
+                .requires(ModItems.blizzardSpell.get(), 2)
+                .unlockedBy("gummi_blizzara", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.blizzardSpell.get()))
+                .save(consumer);
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, ModBlocks.gummiGravity.get())
+                .requires(Blocks.DISPENSER)
+                .requires(ModItems.gummiMeteorFragment.get())
+                .requires(ModItems.gravitySpell.get())
+                .unlockedBy("gummi_gravity", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.gravitySpell.get()))
+                .save(consumer);
+
+        //TODO rest of gummi weapons
+
         //Items
         ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ModItems.wayfinder.get(), 1)
 	        .pattern("GEG")
