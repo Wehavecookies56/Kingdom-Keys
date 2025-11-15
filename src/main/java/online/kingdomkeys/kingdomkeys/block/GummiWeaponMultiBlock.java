@@ -1,9 +1,13 @@
 package online.kingdomkeys.kingdomkeys.block;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -17,6 +21,8 @@ import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.lib.Quarter;
 import org.jetbrains.annotations.Nullable;
 
@@ -146,5 +152,12 @@ public class GummiWeaponMultiBlock extends GummiWeaponBlock {
     @Override
     public boolean canConnectRedstone(BlockState state, BlockGetter level, BlockPos pos, @Nullable Direction direction) {
         return state.getValue(X) == 0 && state.getValue(Z) == 0;
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    @Override
+    public void appendHoverText(ItemStack stack, Item.TooltipContext tooltipContext, List<Component> tooltip, TooltipFlag flagIn) {
+        tooltip.add(Component.translatable(ChatFormatting.GRAY+"Shape size: 2x1x2"));
+        super.appendHoverText(stack, tooltipContext, tooltip, flagIn);
     }
 }

@@ -22,6 +22,7 @@ import net.minecraft.world.phys.Vec3;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.entity.GummiShipEntity;
 import online.kingdomkeys.kingdomkeys.entity.GummiShotEntity;
+import online.kingdomkeys.kingdomkeys.lib.Quarter;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
@@ -73,6 +74,7 @@ public class GummiWeaponBlock extends GummiBlockEdge {
 
     public void castShotFromRedstone(Level level, float xRot, float yRot, float dmg, Vec3 pos, float speed){
         BlockState state = level.getBlockState(new BlockPos((int) pos.x(), (int) pos.y(), (int) pos.z()));
+        Quarter quarter = state.getValue(QUARTER);
         Direction rotation = state.getValue(FACING);
 
         float xOff = 0, zOff = 0;
@@ -96,6 +98,11 @@ public class GummiWeaponBlock extends GummiBlockEdge {
             }
             case EAST -> 90;
         };
+
+        if(quarter == Quarter.TOP){
+            xOff *= -1;
+            zOff *= -1;
+        }
 
         GummiShotEntity shot = new GummiShotEntity(level, shotType.name().toLowerCase(), dmg);
         level.addFreshEntity(shot);

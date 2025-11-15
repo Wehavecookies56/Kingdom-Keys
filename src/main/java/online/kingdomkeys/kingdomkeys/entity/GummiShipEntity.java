@@ -1,6 +1,7 @@
 package online.kingdomkeys.kingdomkeys.entity;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.ParticleTypes;
@@ -38,6 +39,7 @@ import online.kingdomkeys.kingdomkeys.datagen.init.BlockTagsGen;
 import online.kingdomkeys.kingdomkeys.item.ModComponents;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.lib.GummiStructure;
+import online.kingdomkeys.kingdomkeys.lib.Quarter;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.util.ArrayList;
@@ -77,11 +79,21 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 
         Vec3 weaponPos = shipStats.firepower.get(weaponCounter);
         BlockState weapon = structure.getBlocks()[(int) weaponPos.x][(int) weaponPos.y][(int) weaponPos.z];
+
+        Quarter quarter = weapon.getValue(GummiWeaponBlock.QUARTER);
+        Direction rotation = weapon.getValue(GummiWeaponBlock.FACING);
+
         float xOff = 0, zOff = 0;
         if(weapon.getBlock() instanceof GummiWeaponMultiBlock mb){
             xOff = mb.getOffsetToCannon()[0];
             zOff = mb.getOffsetToCannon()[2];
         }
+
+        if(quarter == Quarter.TOP){
+            xOff *= -1;
+            zOff *= -1;
+        }
+
         Vec3 posInShip = new Vec3(structure.getWidth() / 2 - weaponPos.x() + (xEven ? -0.5F : 0)+xOff, (structure.getHeight() / 2F) + weaponPos.y() - structure.getHeight() / 2, structure.getDepth() / 2 - weaponPos.z() + (zEven ? 0F : 0.5F) + 0.5F + zOff).yRot(-this.getYRot() * ((float) Math.PI / 180F));
         Vec3 weaponPosWorld = posInShip.add(getX(), getY(), getZ());
         Vec3 lookDir = player.getLookAngle();
