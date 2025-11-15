@@ -53,6 +53,9 @@ public class GummiShotEntity extends ThrowableProjectile{
         super.tick();
 
         int ticks = getTicks();
+        if(getShotType().isEmpty())
+            return;
+
         GummiWeaponBlock.ShotType projectileType = GummiWeaponBlock.ShotType.valueOf(getShotType().toUpperCase());
         if(projectileType.getRootType() == GummiWeaponBlock.ShotType.GRAVITY){
             if (ticks == 80) {

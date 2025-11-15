@@ -20,6 +20,7 @@
 * Slightly lowered volume for armor summon and unsummon sounds.
 * Shotlock should now lock on entities easier since it doesn't require to be that precise anymore.
 * Casting a magic will remember its position for the next time you open the submenu.
+* Reduced CPU usage of the merging function from MP orb, HP orb, Focus orb, Drive orb and munny and the Command Menu color scanning function.
 
 **Fixed:**
 * Some DDD keyblade models.
