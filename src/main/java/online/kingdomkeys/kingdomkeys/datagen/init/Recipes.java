@@ -26,7 +26,7 @@ import java.util.function.Supplier;
 public class Recipes extends RecipeProvider {
     DataGenerator dataGenerator;
 
-	public static final List<List<Supplier<Block>>> gummiBlocks = List.of(ModBlocks.gummiCubes, ModBlocks.gummiWedges, ModBlocks.gummiPyramids, ModBlocks.gummiCylinders, ModBlocks.gummiPies, ModBlocks.gummiRoundCorners, ModBlocks.gummiCones, ModBlocks.gummiDomes, ModBlocks.gummiAeroTriangles, ModBlocks.gummiAeroSquares);
+	public static final List<List<Supplier<Block>>> gummiBlocks = List.of(ModBlocks.gummiCubes, ModBlocks.gummiWedges, ModBlocks.gummiPyramids, ModBlocks.gummiCylinders, ModBlocks.gummiPies, ModBlocks.gummiRoundCorners, ModBlocks.gummiCones, ModBlocks.gummiDomes, ModBlocks.gummiBubbleHelms, ModBlocks.gummiAeroTriangles, ModBlocks.gummiAeroSquares);
     public Recipes(DataGenerator dataGenerator, CompletableFuture<HolderLookup.Provider> pRegistries) {
         super(dataGenerator.getPackOutput(), pRegistries);
         this.dataGenerator = dataGenerator;
@@ -398,6 +398,17 @@ public class Recipes extends RecipeProvider {
                 .requires(ModItems.gummiMeteorFragment.get())
                 .requires(ModItems.waterSpell.get(), 2)
                 .unlockedBy("gummi_watera", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.waterSpell.get()))
+                .save(consumer);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.gummiBubbleHelms.getFirst().get(), 1)
+                .pattern("GGG")
+                .pattern("GCG")
+                .pattern("FFF")
+                .define('F', ModItems.gummiMeteorFragment.get())
+                .define('C', ModItems.cureSpell.get())
+                .define('G', Blocks.GLASS)
+                .group("kingdomkeys")
+                .unlockedBy("gummi_cure", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.cureSpell.get()))
                 .save(consumer);
 
         //TODO rest of gummi weapons

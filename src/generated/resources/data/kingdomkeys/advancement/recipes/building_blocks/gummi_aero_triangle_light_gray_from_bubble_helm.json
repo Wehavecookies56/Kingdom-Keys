@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_gummi_bubble_helm_light_gray": {
+      "conditions": {
+        "items": [
+          {
+            "items": "kingdomkeys:gummi_bubble_helm_light_gray"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "kingdomkeys:gummi_aero_triangle_light_gray_from_bubble_helm"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_gummi_bubble_helm_light_gray"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "kingdomkeys:gummi_aero_triangle_light_gray_from_bubble_helm"
+    ]
+  }
+}
