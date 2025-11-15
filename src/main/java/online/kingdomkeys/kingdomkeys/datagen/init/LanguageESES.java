@@ -668,35 +668,52 @@ public class LanguageESES extends KKLanguageProvider {
         addBlock(ModBlocks.rodStone, "Piedra Oscura");
 
         //Gummi
-        //Coraza
-        addTintedBlock(ModBlocks.gummiCubes, "Gummi Coraza (Cubo %s)");
+        //Angular
+        addTintedBlock(ModBlocks.gummiCubes, "Gummi Angular (Cubo %s)");
         addTintedBlock(ModBlocks.gummiShellCubes, "Gummi Escudo (Cubo %s)");
         addTintedBlock(ModBlocks.gummiDispelCubes, "Gummi Antimagia (Cubo %s)");
-        addTintedBlock(ModBlocks.gummiWedges, "Gummi Coraza (Cuña %s)");
+        addTintedBlock(ModBlocks.gummiWedges, "Gummi Angular (Cuña %s)");
         addTintedBlock(ModBlocks.gummiShellWedges, "Gummi Escudo (Cuña %s)");
         addTintedBlock(ModBlocks.gummiDispelWedges, "Gummi Antimagia (Cuña %s)");
-        addTintedBlock(ModBlocks.gummiPyramids, "Gummi Coraza (Pirámide %s)");
+        addTintedBlock(ModBlocks.gummiPyramids, "Gummi Angular (Pirámide %s)");
         addTintedBlock(ModBlocks.gummiShellPyramids, "Gummi Escudo (Pirámide %s)");
         addTintedBlock(ModBlocks.gummiDispelPyramids, "Gummi Antimagia (Pirámide %s)");
-        //Cilíndricos
-        addTintedBlock(ModBlocks.gummiCylinders, "Gummi Coraza (Cilindro %s)");
+        //Tubulares
+        addTintedBlock(ModBlocks.gummiCylinders, "Gummi Tubular (Cilindro %s)");
         addTintedBlock(ModBlocks.gummiShellCylinders, "Gummi Escudo (Cilindro %s)");
         addTintedBlock(ModBlocks.gummiDispelCylinders, "Gummi Antimagia (Cilindro %s)");
-        addTintedBlock(ModBlocks.gummiDomes, "Gummi Coraza (Domo %s)");
+        addTintedBlock(ModBlocks.gummiDomes, "Gummi Tubular (Domo %s)");
         addTintedBlock(ModBlocks.gummiShellDomes, "Gummi Escudo (Domo %s)");
         addTintedBlock(ModBlocks.gummiDispelDomes, "Gummi Antimagia (Domo %s)");
-        addTintedBlock(ModBlocks.gummiCones, "Gummi Coraza (Cono %s)");
+        addTintedBlock(ModBlocks.gummiCones, "Gummi Tubular (Cono %s)");
         addTintedBlock(ModBlocks.gummiShellCones, "Gummi Escudo (Cono %s)");
         addTintedBlock(ModBlocks.gummiDispelCones, "Gummi Antimagia (Cono %s)");
-        //Redondeados
-        addTintedBlock(ModBlocks.gummiPies, "Gummi Coraza (Tarta %s)");
+        //Curvos
+        addTintedBlock(ModBlocks.gummiPies, "Gummi Curvo (Tarta %s)");
         addTintedBlock(ModBlocks.gummiShellPies, "Gummi Escudo (Tarta %s)");
         addTintedBlock(ModBlocks.gummiDispelPies, "Gummi Antimagia (Tarta %s)");
-        addTintedBlock(ModBlocks.gummiRoundCorners, "Gummi Coraza (Corner %s)");
+        addTintedBlock(ModBlocks.gummiRoundCorners, "Gummi Curvo (Corner %s)");
         addTintedBlock(ModBlocks.gummiShellRoundCorners, "Gummi Escudo (Corner %s)");
         addTintedBlock(ModBlocks.gummiDispelRoundCorners, "Gummi Antimagia (Corner %s)");
+        //Cockpits
+        addTintedBlock(ModBlocks.gummiBubbleHelms, "Gummi Casco curvo (%s)");
+        //Weapons
+        addBlock(ModBlocks.gummiFire, "Gummi Piro");
+        addBlock(ModBlocks.gummiFira, "Gummi Piro+");
+        addBlock(ModBlocks.gummiBlizzard, "Gummi Hielo");
+        addBlock(ModBlocks.gummiBlizzara, "Gummi Hielo+");
+        addBlock(ModBlocks.gummiGravity, "Gummi Gravedad");
+        addBlock(ModBlocks.gummiGravira, "Gummi Gravedad+");
+        addBlock(ModBlocks.gummiWater, "Gummi Aqua");
+        addBlock(ModBlocks.gummiWatera, "Gummi Aqua+");
 
-        //Thrusters: Gummi piro, gummi piro+, gummi piro++, gummi fulgor, gummi sanctus
+        addBlock(ModBlocks.gummiCore, "Núcleo Gummi");
+
+        //Aeros
+        addTintedBlock(ModBlocks.gummiAeroTriangles, "Gummi Aero (Triángulo %s)");
+        addTintedBlock(ModBlocks.gummiAeroSquares, "Gummi Aero (Cuadrado %s)");
+
+        //Thrusters: Envión, Cohete, Impulso
         //Canons: Gummi Electro, Gummi Electro+, Gummi Electro++,
         //Lasers: Cometa, Meteo, Artema
         //Cockpits: Gummi Cura, Gummi Cura+?, Gummi Cura++, Gummi Lázaro (revive)

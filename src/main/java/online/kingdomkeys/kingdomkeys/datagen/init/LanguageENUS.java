@@ -559,9 +559,16 @@ public class LanguageENUS extends KKLanguageProvider {
         addBlock(ModBlocks.gummiBlizzard, "Blizzard/G");
         addBlock(ModBlocks.gummiBlizzara, "Blizzara/G");
         addBlock(ModBlocks.gummiGravity, "Gravity/G");
+        addBlock(ModBlocks.gummiGravira, "Gravira/G");
         addBlock(ModBlocks.gummiWater, "Water/G");
+        addBlock(ModBlocks.gummiWatera, "Watera/G");
 
         addBlock(ModBlocks.gummiCore, "Core/G");
+
+        //Aeros
+        addTintedBlock(ModBlocks.gummiAeroTriangles, "Aero/G-01 (Triangle %s)");
+        addTintedBlock(ModBlocks.gummiAeroSquares, "Aero/G-01 (Square %s)");
+
 
         /**KK stuff**/
         //Abilities

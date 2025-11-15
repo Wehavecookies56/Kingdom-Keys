@@ -26,7 +26,7 @@ import java.util.function.Supplier;
 public class Recipes extends RecipeProvider {
     DataGenerator dataGenerator;
 
-	public static final List<List<Supplier<Block>>> gummiBlocks = List.of(ModBlocks.gummiCubes, ModBlocks.gummiWedges, ModBlocks.gummiPyramids, ModBlocks.gummiCylinders, ModBlocks.gummiPies, ModBlocks.gummiRoundCorners, ModBlocks.gummiCones, ModBlocks.gummiDomes);
+	public static final List<List<Supplier<Block>>> gummiBlocks = List.of(ModBlocks.gummiCubes, ModBlocks.gummiWedges, ModBlocks.gummiPyramids, ModBlocks.gummiCylinders, ModBlocks.gummiPies, ModBlocks.gummiRoundCorners, ModBlocks.gummiCones, ModBlocks.gummiDomes, ModBlocks.gummiAeroTriangles, ModBlocks.gummiAeroSquares);
     public Recipes(DataGenerator dataGenerator, CompletableFuture<HolderLookup.Provider> pRegistries) {
         super(dataGenerator.getPackOutput(), pRegistries);
         this.dataGenerator = dataGenerator;
@@ -377,6 +377,27 @@ public class Recipes extends RecipeProvider {
                 .requires(ModItems.gummiMeteorFragment.get())
                 .requires(ModItems.gravitySpell.get())
                 .unlockedBy("gummi_gravity", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.gravitySpell.get()))
+                .save(consumer);
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, ModBlocks.gummiGravira.get())
+                .requires(Blocks.DISPENSER)
+                .requires(ModItems.gummiMeteorFragment.get())
+                .requires(ModItems.gravitySpell.get(), 2)
+                .unlockedBy("gummi_gravira", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.gravitySpell.get()))
+                .save(consumer);
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, ModBlocks.gummiWater.get())
+                .requires(Blocks.DISPENSER)
+                .requires(ModItems.gummiMeteorFragment.get())
+                .requires(ModItems.waterSpell.get())
+                .unlockedBy("gummi_water", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.waterSpell.get()))
+                .save(consumer);
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, ModBlocks.gummiWatera.get())
+                .requires(Blocks.DISPENSER)
+                .requires(ModItems.gummiMeteorFragment.get())
+                .requires(ModItems.waterSpell.get(), 2)
+                .unlockedBy("gummi_watera", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.waterSpell.get()))
                 .save(consumer);
 
         //TODO rest of gummi weapons

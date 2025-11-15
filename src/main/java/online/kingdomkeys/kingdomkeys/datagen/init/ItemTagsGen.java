@@ -40,8 +40,10 @@ public class ItemTagsGen extends ItemTagsProvider {
 	public static final TagKey<Item> GUMMI_BLOCK_ROUND_CORNER = bind(KingdomKeys.MODID+":gummi_block_round_corner");
 	public static final TagKey<Item> GUMMI_BLOCK_CONE = bind(KingdomKeys.MODID+":gummi_block_cone");
 	public static final TagKey<Item> GUMMI_BLOCK_DOME = bind(KingdomKeys.MODID+":gummi_block_dome");
+    public static final TagKey<Item> GUMMI_BLOCK_AERO_TRIANGLE = bind(KingdomKeys.MODID+":gummi_block_aero_triangle");
+    public static final TagKey<Item> GUMMI_BLOCK_AERO_SQUARE = bind(KingdomKeys.MODID+":gummi_block_aero_square");
 
-	public static final List<TagKey<Item>> GUMMI_BLOCK_KEYS = List.of(GUMMI_BLOCK_CUBE, GUMMI_BLOCK_WEDGE, GUMMI_BLOCK_PYRAMID, GUMMI_BLOCK_CYLINDER, GUMMI_BLOCK_PIE, GUMMI_BLOCK_ROUND_CORNER, GUMMI_BLOCK_CONE, GUMMI_BLOCK_DOME);
+	public static final List<TagKey<Item>> GUMMI_BLOCK_KEYS = List.of(GUMMI_BLOCK_CUBE, GUMMI_BLOCK_WEDGE, GUMMI_BLOCK_PYRAMID, GUMMI_BLOCK_CYLINDER, GUMMI_BLOCK_PIE, GUMMI_BLOCK_ROUND_CORNER, GUMMI_BLOCK_CONE, GUMMI_BLOCK_DOME, GUMMI_BLOCK_AERO_TRIANGLE, GUMMI_BLOCK_AERO_SQUARE);
 
 	public ItemTagsGen(PackOutput p_255871_, CompletableFuture<HolderLookup.Provider> p_256035_, CompletableFuture<TagLookup<Block>> p_256467_, @Nullable ExistingFileHelper existingFileHelper) {
 		super(p_255871_, p_256035_, p_256467_, KingdomKeys.MODID, existingFileHelper);

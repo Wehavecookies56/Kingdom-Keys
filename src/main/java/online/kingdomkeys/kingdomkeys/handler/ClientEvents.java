@@ -561,7 +561,8 @@ public class ClientEvents {
 			event.register(ModBusEvents::getStructureWallColour, ModBlocks.structureWall.get());
 			event.register(ModBusEvents::getGummiBlockColour, ModBlocks.gummiBlocks.get().stream().map(Supplier::get).toList().toArray(new Block[0]));
 			event.register(ModBusEvents::getGummiBlockColour, ModBlocks.gummiBubbleHelms.stream().map(Supplier::get).toList().toArray(new Block[0]));
-            event.register(ModBusEvents::getGummiBlockColour, ModBlocks.gummiAeros.stream().map(Supplier::get).toList().toArray(new Block[0]));
+            event.register(ModBusEvents::getGummiBlockColour, ModBlocks.gummiAeroTriangles.stream().map(Supplier::get).toList().toArray(new Block[0]));
+            event.register(ModBusEvents::getGummiBlockColour, ModBlocks.gummiAeroSquares.stream().map(Supplier::get).toList().toArray(new Block[0]));
 		}
 
 		public static int getStructureWallColour(BlockState state, BlockAndTintGetter level, BlockPos pos, int tintIndex) {
@@ -616,7 +617,8 @@ public class ClientEvents {
 			}, ModItems.wayfinder.get());
 			event.register(ModBusEvents::getGummiBlockColour, ModBlocks.gummiBlocks.get().stream().map(Supplier::get).toList().toArray(new Block[0]));
 			event.register(ModBusEvents::getGummiBlockColour, ModBlocks.gummiBubbleHelms.stream().map(Supplier::get).toList().toArray(new Block[0]));
-            event.register(ModBusEvents::getGummiBlockColour, ModBlocks.gummiAeros.stream().map(Supplier::get).toList().toArray(new Block[0]));
+            event.register(ModBusEvents::getGummiBlockColour, ModBlocks.gummiAeroTriangles.stream().map(Supplier::get).toList().toArray(new Block[0]));
+            event.register(ModBusEvents::getGummiBlockColour, ModBlocks.gummiAeroSquares.stream().map(Supplier::get).toList().toArray(new Block[0]));
         }
 	}
 

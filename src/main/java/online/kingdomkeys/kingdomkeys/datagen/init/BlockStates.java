@@ -86,8 +86,10 @@ public class BlockStates extends BlockStateProvider {
 						builder.modelFile(new ModelFile.ExistingModelFile(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "block/gummi/gummi_water"), models().existingFileHelper));
 					} else if (blockName.equals("gummi_watera")) {
 						builder.modelFile(new ModelFile.ExistingModelFile(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "block/gummi/gummi_watera"), models().existingFileHelper));
-					} else if (blockName.contains("gummi_aero")) {
-                        builder.modelFile(new ModelFile.ExistingModelFile(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "block/gummi/gummi_aero"), models().existingFileHelper));
+                    } else if (blockName.contains("gummi_aero_triangle")) {
+                        builder.modelFile(new ModelFile.ExistingModelFile(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "block/gummi/gummi_aero_triangle"), models().existingFileHelper));
+                    } else if (blockName.contains("gummi_aero_square")) {
+                        builder.modelFile(new ModelFile.ExistingModelFile(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "block/gummi/gummi_aero_square"), models().existingFileHelper));
                     }
 
                     int x = switch (quarter) {
