@@ -9,14 +9,13 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.MapColor;
+import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
+import yesman.epicfight.api.utils.math.Vec3f;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
@@ -183,7 +182,10 @@ public class ModBlocks {
         createNewEndGummiBlock("dispel_gummi_cone", 1,7, gummiDispelCones);
         createNewEndGummiBlock("dispel_gummi_dome", 1,7, gummiDispelDomes);
 
-        createNewGummiCockpitBlock("gummi_bubble_helm", 2, 40, gummiBubbleHelms);
+        Vec3 seat1 = new Vec3(0.5F, 0F, 0F); //first is 0.5F positive (to the center, first row)
+        Vec3 seat2 = new Vec3(0F, 0F, 1F);//second is right behind the 0,0 block
+        Vec3 seat3 = new Vec3(1F, 0F, 1F);//third is right next to the second, opposite to 0,0
+        createNewGummiCockpitBlock("gummi_bubble_helm", 2, 40, gummiBubbleHelms, Arrays.asList(seat1,seat2,seat3));
     }
 
     /**
@@ -238,9 +240,9 @@ public class ModBlocks {
         }
     }
 
-    private static void createNewGummiCockpitBlock(String name, int weight, int armour, List<Supplier<Block>> list) {
+    private static void createNewGummiCockpitBlock(String name, int weight, int armour, List<Supplier<Block>> list, List<Vec3> seats) {
         for(DyeColor dye : DyeColor.values()) {
-            Supplier<Block> newBlock = BLOCKS.register(name+"_"+dye.getName(), () -> new GummiCockpitBlock(Block.Properties.of().noOcclusion().strength(0.1F, 10.0F), weight, armour, dye, list));
+            Supplier<Block> newBlock = BLOCKS.register(name+"_"+dye.getName(), () -> new GummiCockpitBlock(Block.Properties.of().noOcclusion().strength(0.1F, 10.0F), weight, armour, dye, list, seats));
             createNewBlockItem(name+"_"+dye.getName(), newBlock);
             list.add(newBlock);
         }

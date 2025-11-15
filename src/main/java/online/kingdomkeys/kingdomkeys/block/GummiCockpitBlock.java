@@ -22,9 +22,12 @@ import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.Vec3;
 import online.kingdomkeys.kingdomkeys.lib.Quarter;
 import org.jetbrains.annotations.Nullable;
+import yesman.epicfight.api.utils.math.Vec3f;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 
@@ -35,8 +38,23 @@ public class GummiCockpitBlock extends GummiBlockBase {
     public static final IntegerProperty Y = IntegerProperty.create("y", 0, 1);
     public static final IntegerProperty Z = IntegerProperty.create("z", 0, 1);
 
-    public GummiCockpitBlock(Properties properties, int weight, int armour, DyeColor color, List<Supplier<Block>> blocks) {
+    List<Vec3> seats;
+
+    public GummiCockpitBlock(Properties properties, int weight, int armour, DyeColor color, List<Supplier<Block>> blocks, List<Vec3> seats) {
         super(properties.pushReaction(PushReaction.IGNORE), weight, armour, color, blocks);
+        this.seats = seats;
+    }
+
+    public List<Vec3> getSeats(){
+        return seats;
+    }
+
+    public Vec3 getSeat(int i){
+        return seats.get(i);
+    }
+
+    public int getMaxSeats(){
+        return seats.size();
     }
 
     @Override

@@ -63,10 +63,7 @@ import online.kingdomkeys.kingdomkeys.api.item.IItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.IKeychain;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategoryRegistry;
-import online.kingdomkeys.kingdomkeys.block.GummiBlockBase;
-import online.kingdomkeys.kingdomkeys.block.GummiWeaponBlock;
-import online.kingdomkeys.kingdomkeys.block.GummiWeaponMultiBlock;
-import online.kingdomkeys.kingdomkeys.block.ModBlocks;
+import online.kingdomkeys.kingdomkeys.block.*;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.GlobalData;
@@ -229,12 +226,27 @@ public class Utils {
 					if (state != null && !state.isAir()) {
 						weight++;//TODO make heavier blocks
 						armour++;
-						if (state.getBlock() instanceof SlabBlock) {
+                        if (state.getBlock() instanceof GummiCockpitBlock cockpit) {
+                            if(state.getValue(GummiCockpitBlock.X) == 0 && state.getValue(GummiCockpitBlock.Y) == 0 && state.getValue(GummiCockpitBlock.Z) == 0) {
+                                if (cockpit.getMaxSeats() > 0) {
+                                    for(Vec3 s : cockpit.getSeats()){
+                                    //Vec3 s = cockpit.getSeat(0);
+                                        System.out.println("First: " + s);
+                                        System.out.println(y);
+                                        Vec3 finalPos = new Vec3(x - s.x(), y + s.y(), z + s.z());
+                                        System.out.println("Second: " + finalPos);
+                                        passengers.add(finalPos);
+                                    }
+                                    System.out.println();
+                                }
+                            }
+                        }
+						/*if (state.getBlock() instanceof SlabBlock) {
 							passengers.addFirst(new Vec3(x, y, z));
 						}
 						if (state.getBlock() instanceof StairBlock) {
 							passengers.add(new Vec3(x, y, z));
-						}
+						}*/
 						if (state.getBlock() instanceof GummiBlockBase gummi) {
 							armour += gummi.getArmour();
 							weight += gummi.getWeight()-1;// we already add one by default
