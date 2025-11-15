@@ -13,7 +13,6 @@ import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
-import yesman.epicfight.api.utils.math.Vec3f;
 
 import java.util.*;
 import java.util.function.Supplier;

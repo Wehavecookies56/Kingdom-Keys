@@ -285,6 +285,17 @@ public class ClientEvents {
 		if(event.getEntity() != null) {
 			if(event.getEntity() instanceof Player player) {
 				PlayerData playerData = PlayerData.get(player);
+                if(player.getVehicle() != null && player.getVehicle() instanceof GummiShipEntity ship){
+                    LocalPlayer localPlayer = Minecraft.getInstance().player;
+                    //Stop rendering players if they are in different ships than the local player
+                    if(localPlayer.getVehicle() != ship) { //make other players invis
+                        event.setCanceled(true);
+                    } else { //For same ship only make em invis in 3rd person
+                        if (Minecraft.getInstance().options.getCameraType() != CameraType.FIRST_PERSON) { //Make it so
+                            event.setCanceled(true);
+                        }
+                    }
+                }
 				if(player.hasEffect(ModMobEffects.KO)) {
 					LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> renderer = (LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>>) Minecraft.getInstance().getEntityRenderDispatcher().getRenderer((AbstractClientPlayer) player);
 					if (!((IDisabledAnimations) renderer).kingdom_Keys$isDisabled()) {
