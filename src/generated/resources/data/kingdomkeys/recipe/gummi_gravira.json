@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "ingredients": [
+    {
+      "item": "minecraft:dispenser"
+    },
+    {
+      "item": "kingdomkeys:gummi_meteor_fragment"
+    },
+    {
+      "item": "kingdomkeys:spellgravity"
+    },
+    {
+      "item": "kingdomkeys:spellgravity"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "kingdomkeys:gummi_gravira"
+  }
+}

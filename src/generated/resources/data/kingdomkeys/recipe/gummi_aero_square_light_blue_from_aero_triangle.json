@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:stonecutting",
+  "group": "kingdomkeys_gummi_blocks",
+  "ingredient": {
+    "item": "kingdomkeys:gummi_aero_triangle_light_blue"
+  },
+  "result": {
+    "count": 1,
+    "id": "kingdomkeys:gummi_aero_square_light_blue"
+  }
+}

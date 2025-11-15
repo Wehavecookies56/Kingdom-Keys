@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:stonecutting",
+  "group": "kingdomkeys_gummi_blocks",
+  "ingredient": {
+    "item": "kingdomkeys:gummi_cone_pink"
+  },
+  "result": {
+    "count": 1,
+    "id": "kingdomkeys:gummi_aero_triangle_pink"
+  }
+}
