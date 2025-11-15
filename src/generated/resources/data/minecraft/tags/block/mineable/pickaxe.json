@@ -475,6 +475,22 @@
     "kingdomkeys:gummi_bubble_helm_brown",
     "kingdomkeys:gummi_bubble_helm_green",
     "kingdomkeys:gummi_bubble_helm_red",
-    "kingdomkeys:gummi_bubble_helm_black"
+    "kingdomkeys:gummi_bubble_helm_black",
+    "kingdomkeys:gummi_aero_white",
+    "kingdomkeys:gummi_aero_orange",
+    "kingdomkeys:gummi_aero_magenta",
+    "kingdomkeys:gummi_aero_light_blue",
+    "kingdomkeys:gummi_aero_yellow",
+    "kingdomkeys:gummi_aero_lime",
+    "kingdomkeys:gummi_aero_pink",
+    "kingdomkeys:gummi_aero_gray",
+    "kingdomkeys:gummi_aero_light_gray",
+    "kingdomkeys:gummi_aero_cyan",
+    "kingdomkeys:gummi_aero_purple",
+    "kingdomkeys:gummi_aero_blue",
+    "kingdomkeys:gummi_aero_brown",
+    "kingdomkeys:gummi_aero_green",
+    "kingdomkeys:gummi_aero_red",
+    "kingdomkeys:gummi_aero_black"
   ]
 }

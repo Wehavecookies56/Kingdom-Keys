@@ -148,8 +148,9 @@ public class ModBlocks {
             gummiDispelCones = new ArrayList<>(),
             gummiDispelDomes = new ArrayList<>(),
 
-            gummiBubbleHelms = new ArrayList<>()
-    ;
+            gummiBubbleHelms = new ArrayList<>(),
+            gummiAeros = new ArrayList<>()
+        ;
 
     public static Supplier<List<Supplier<Block>>> gummiBlocks = () -> Stream.of(
             gummiCubes, gummiWedges, gummiPyramids, gummiCylinders, gummiPies, gummiRoundCorners, gummiCones, gummiDomes,
@@ -189,6 +190,8 @@ public class ModBlocks {
         Vec3 seat2 = new Vec3(0F, 0F, 1F);//second is right behind the 0,0 block
         Vec3 seat3 = new Vec3(1F, 0F, 1F);//third is right next to the second, opposite to 0,0
         createNewGummiCockpitBlock("gummi_bubble_helm", 2, 40, gummiBubbleHelms, Arrays.asList(seat1,seat2,seat3));
+
+        createNewEdgeGummiBlock("gummi_aero",1, 1, gummiAeros);
     }
 
     /**

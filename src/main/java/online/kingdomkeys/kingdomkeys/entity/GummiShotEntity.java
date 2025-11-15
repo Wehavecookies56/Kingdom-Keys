@@ -11,7 +11,6 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
-import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
@@ -20,7 +19,6 @@ import online.kingdomkeys.kingdomkeys.block.GummiWeaponBlock;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -55,13 +53,13 @@ public class GummiShotEntity extends ThrowableProjectile{
         super.tick();
 
         int ticks = getTicks();
-        if(getShotType().equals(GummiWeaponBlock.ShotType.GRAVITY.name().toLowerCase())) {
+        GummiWeaponBlock.ShotType projectileType = GummiWeaponBlock.ShotType.valueOf(getShotType().toUpperCase());
+        if(projectileType.getRootType() == GummiWeaponBlock.ShotType.GRAVITY){
             if (ticks == 80) {
                 gravityExplosion();
             } else if(ticks == 97){
-                if(getShotType().equals(GummiWeaponBlock.ShotType.GRAVITY.name().toLowerCase())) {
-                    Utils.getEntitiesInRadius(this, 4).forEach(this::damage);
-                }
+                float radius = projectileType == GummiWeaponBlock.ShotType.GRAVITY ? 2F : 4F;
+                Utils.getEntitiesInRadius(this, radius).forEach(this::damage);
                 level().playSound(null, getX(),getY(),getZ(), ModSounds.laser.get(), SoundSource.PLAYERS, 2.5F, 0.4F);
             }
         }
@@ -95,14 +93,16 @@ public class GummiShotEntity extends ThrowableProjectile{
                         else
                             target.hurt(target.damageSources().magic(), dmg);
 
-                        if(getShotType().equals(GummiWeaponBlock.ShotType.GRAVITY.name().toLowerCase())) {
+                        GummiWeaponBlock.ShotType projectileType = GummiWeaponBlock.ShotType.valueOf(getShotType().toUpperCase());
+                        if(projectileType.getRootType() == GummiWeaponBlock.ShotType.GRAVITY){
                             gravityExplosion();
                         } else {
                             super.remove(RemovalReason.KILLED);
                         }
                     }
                 } else if(ertResult.getEntity() instanceof GummiShipEntity ship) {
-                    if(getShotType().equals(GummiWeaponBlock.ShotType.GRAVITY.name().toLowerCase())) {
+                    GummiWeaponBlock.ShotType projectileType = GummiWeaponBlock.ShotType.valueOf(getShotType().toUpperCase());
+                    if(projectileType.getRootType() == GummiWeaponBlock.ShotType.GRAVITY){
                         gravityExplosion();
                     } else {
                         if(this.getOwner() != null)
@@ -116,7 +116,8 @@ public class GummiShotEntity extends ThrowableProjectile{
             if (rtRes instanceof BlockHitResult hitResult) {
                 BlockPos blockpos = hitResult.getBlockPos();
                 if(!(level().getBlockState(blockpos).getBlock() instanceof GummiWeaponBlock)) {
-                    if(getShotType().equals(GummiWeaponBlock.ShotType.GRAVITY.name().toLowerCase())) {
+                    GummiWeaponBlock.ShotType projectileType = GummiWeaponBlock.ShotType.valueOf(getShotType().toUpperCase());
+                    if(projectileType.getRootType() == GummiWeaponBlock.ShotType.GRAVITY){
                         gravityExplosion();
                     } else {
                         super.remove(RemovalReason.KILLED);

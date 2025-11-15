@@ -35,7 +35,7 @@ public class GummiWeaponBlock extends GummiBlockEdge {
     public enum ShotType {
         FIRE, FIRA, FIRAGA, BLIZZARD, BLIZZARA, BLIZZAGA, GRAVITY, GRAVIRA, GRAVIGA, WATER, WATERA, WATERGA;
 
-        ShotType getTextureName(){
+        public ShotType getRootType(){
             return switch (this) {
                 case FIRE, FIRA, FIRAGA -> FIRE;
                 case BLIZZARD, BLIZZARA, BLIZZAGA -> BLIZZARD;
@@ -64,7 +64,7 @@ public class GummiWeaponBlock extends GummiBlockEdge {
         if (player == null){
             castShotFromRedstone(level, xOff, yOff, getFirepower(), pos, speed/2F);
         } else {
-            GummiShotEntity shot = new GummiShotEntity(level, player, shotType.getTextureName().name().toLowerCase(), dmg);
+            GummiShotEntity shot = new GummiShotEntity(level, player, shotType.getRootType().name().toLowerCase(), dmg);
             level.addFreshEntity(shot);
             shot.setPos(pos);
             shot.setDeltaMovement(direction.scale(speed));
@@ -97,7 +97,7 @@ public class GummiWeaponBlock extends GummiBlockEdge {
             case EAST -> 90;
         };
 
-        GummiShotEntity shot = new GummiShotEntity(level, shotType.getTextureName().name().toLowerCase(), dmg);
+        GummiShotEntity shot = new GummiShotEntity(level, shotType.name().toLowerCase(), dmg);
         level.addFreshEntity(shot);
 
         shot.setPos(pos.add(0.5F+xOff,0.5F,0.5F+zOff));

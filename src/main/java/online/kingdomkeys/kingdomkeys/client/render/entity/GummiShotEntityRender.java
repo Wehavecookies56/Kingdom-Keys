@@ -2,7 +2,6 @@ package online.kingdomkeys.kingdomkeys.client.render.entity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Axis;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -16,13 +15,11 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.block.GummiWeaponBlock;
-import online.kingdomkeys.kingdomkeys.client.model.entity.CubeModel;
 import online.kingdomkeys.kingdomkeys.entity.GummiShotEntity;
 import org.joml.Matrix4f;
 import org.joml.Quaternionf;
 
 import javax.annotation.Nullable;
-import java.awt.*;
 
 @OnlyIn(Dist.CLIENT)
 public class GummiShotEntityRender extends EntityRenderer<GummiShotEntity> {
@@ -50,13 +47,18 @@ public class GummiShotEntityRender extends EntityRenderer<GummiShotEntity> {
 
             Matrix4f matrix = poseStack.last().pose();
             int overlay = OverlayTexture.NO_OVERLAY;
-            if(entity.getShotType().equals(GummiWeaponBlock.ShotType.GRAVITY.name().toLowerCase())){
+            GummiWeaponBlock.ShotType projectileType = GummiWeaponBlock.ShotType.valueOf(entity.getShotType().toUpperCase());
+            if(projectileType.getRootType() == GummiWeaponBlock.ShotType.GRAVITY){
+                float maxSize = 2F;
+                if(projectileType == GummiWeaponBlock.ShotType.GRAVIRA || projectileType == GummiWeaponBlock.ShotType.GRAVIGA){
+                    maxSize = 4F;
+                }
                 if(entity.getTicks() > 80 && entity.getTicks() < 95){
                     float progress = (entity.getTicks() - 80) / 15f;      // 0 → 1
                     scale = Mth.lerp(progress, 0.3f, 0.05f);
                 } else if(entity.getTicks() >= 95){
                     float progress = (entity.getTicks() - 95) / 5f;      // 0 → 1
-                    scale = Mth.lerp(progress, 0.05f, 4f);
+                    scale = Mth.lerp(progress, 0.05f, maxSize);
                 }
             }
             matrix.scale(scale,scale,scale);
@@ -99,7 +101,8 @@ public class GummiShotEntityRender extends EntityRenderer<GummiShotEntity> {
 	public ResourceLocation getTextureLocation(GummiShotEntity entity) {
         if(entity.getShotType().isEmpty()) //Just in case
             return ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/gummi_fire.png");
+        GummiWeaponBlock.ShotType projectileType = GummiWeaponBlock.ShotType.valueOf(entity.getShotType().toUpperCase());
 
-        return ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/gummi_"+entity.getShotType()+".png");
+        return ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/gummi_"+projectileType.getRootType().name().toLowerCase()+".png");
 	}
 }
