@@ -566,7 +566,9 @@ public class EntityEvents {
 		}
 
 		if (ticks % 5 == 0) {
-			updateCommandMenu(player);
+			if (player.level().isClientSide()) {
+				updateCommandMenu(player);
+			}
 			// Combat mode
 		}
 
