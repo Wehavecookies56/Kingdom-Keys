@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_shell_gummi_pie_pink": {
+      "conditions": {
+        "items": [
+          {
+            "items": "kingdomkeys:shell_gummi_pie_pink"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "kingdomkeys:shell_gummi_cone_pink_from_shell_pie"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_shell_gummi_pie_pink"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "kingdomkeys:shell_gummi_cone_pink_from_shell_pie"
+    ]
+  }
+}

@@ -26,7 +26,13 @@ import java.util.function.Supplier;
 public class Recipes extends RecipeProvider {
     DataGenerator dataGenerator;
 
-	public static final List<List<Supplier<Block>>> gummiBlocks = List.of(ModBlocks.gummiCubes, ModBlocks.gummiWedges, ModBlocks.gummiPyramids, ModBlocks.gummiCylinders, ModBlocks.gummiPies, ModBlocks.gummiRoundCorners, ModBlocks.gummiCones, ModBlocks.gummiDomes, ModBlocks.gummiBubbleHelms, ModBlocks.gummiAeroTriangles, ModBlocks.gummiAeroSquares);
+    //Stonecutter recipes
+	public static final List<List<Supplier<Block>>> gummiBlocks = List.of(ModBlocks.gummiCubes, ModBlocks.gummiWedges, ModBlocks.gummiPyramids, ModBlocks.gummiCylinders, ModBlocks.gummiPies, ModBlocks.gummiRoundCorners, ModBlocks.gummiCones, ModBlocks.gummiDomes, ModBlocks.gummiAeroSquares, ModBlocks.gummiAeroTriangles);
+    public static final List<List<Supplier<Block>>> gummiShellBlocks = List.of(ModBlocks.gummiShellCubes, ModBlocks.gummiShellWedges, ModBlocks.gummiShellPyramids, ModBlocks.gummiShellCylinders, ModBlocks.gummiShellPies, ModBlocks.gummiShellRoundCorners, ModBlocks.gummiShellCones, ModBlocks.gummiShellDomes);
+    public static final List<List<Supplier<Block>>> gummiDispelBlocks = List.of(ModBlocks.gummiDispelCubes, ModBlocks.gummiDispelWedges, ModBlocks.gummiDispelPyramids, ModBlocks.gummiDispelCylinders, ModBlocks.gummiDispelPies, ModBlocks.gummiDispelRoundCorners, ModBlocks.gummiDispelCones, ModBlocks.gummiDispelDomes);
+
+    //Other blocks that shouldn't be stonecutted alongside normal blocks
+    public static final List<List<Supplier<Block>>> gummiDifferentBlocks = List.of(ModBlocks.gummiBubbleHelms);
     public Recipes(DataGenerator dataGenerator, CompletableFuture<HolderLookup.Provider> pRegistries) {
         super(dataGenerator.getPackOutput(), pRegistries);
         this.dataGenerator = dataGenerator;
@@ -1155,6 +1161,30 @@ public class Recipes extends RecipeProvider {
 				}
 			}
 		}
+        for (int i = 0; i < gummiShellBlocks.size(); i++) {
+            for (int j = 0; j < gummiShellBlocks.size(); j++) {
+                if (i != j) {
+                    for (int k = 0; k < dyes.size(); k++) {
+                        SingleItemRecipeBuilder.stonecutting(Ingredient.of(gummiShellBlocks.get(i).get(k).get()), RecipeCategory.BUILDING_BLOCKS, gummiShellBlocks.get(j).get(k).get())
+                                .group(KingdomKeys.MODID + "_gummi_blocks")
+                                .unlockedBy("has_" + Utils.getBlockRegistryName(gummiShellBlocks.get(i).get(k).get()).getPath(), InventoryChangeTrigger.TriggerInstance.hasItems(gummiShellBlocks.get(i).get(k).get()))
+                                .save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, Utils.getBlockRegistryName(gummiShellBlocks.get(j).get(k).get()).getPath() + "_from_" + Utils.getBlockRegistryName(gummiShellBlocks.get(i).get(k).get()).getPath().replace("_" + DyeColor.values()[k].getName(), "").replace("gummi_", "")));
+                    }
+                }
+            }
+        }
+        for (int i = 0; i < gummiDispelBlocks.size(); i++) {
+            for (int j = 0; j < gummiDispelBlocks.size(); j++) {
+                if (i != j) {
+                    for (int k = 0; k < dyes.size(); k++) {
+                        SingleItemRecipeBuilder.stonecutting(Ingredient.of(gummiDispelBlocks.get(i).get(k).get()), RecipeCategory.BUILDING_BLOCKS, gummiDispelBlocks.get(j).get(k).get())
+                                .group(KingdomKeys.MODID + "_gummi_blocks")
+                                .unlockedBy("has_" + Utils.getBlockRegistryName(gummiDispelBlocks.get(i).get(k).get()).getPath(), InventoryChangeTrigger.TriggerInstance.hasItems(gummiDispelBlocks.get(i).get(k).get()))
+                                .save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, Utils.getBlockRegistryName(gummiDispelBlocks.get(j).get(k).get()).getPath() + "_from_" + Utils.getBlockRegistryName(gummiDispelBlocks.get(i).get(k).get()).getPath().replace("_" + DyeColor.values()[k].getName(), "").replace("gummi_", "")));
+                    }
+                }
+            }
+        }
 
 		//Meteor fragment to cube
 		ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, new ItemStack(ModBlocks.gummiCubes.getFirst().get()))
@@ -1199,6 +1229,38 @@ public class Recipes extends RecipeProvider {
 					.unlockedBy("has_" + Utils.getBlockRegistryName(blocks.get(i).get()).getPath(), InventoryChangeTrigger.TriggerInstance.hasItems(blocks.get(i).get()))
 					.save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, Utils.getBlockRegistryName(blocks.get(i).get()).getPath() + "_from_dye"));
 			}
+
+            //Shell block + dye ? shell dyed
+            for (int shape=0; shape<gummiShellBlocks.size();shape++) {
+                List<Supplier<Block>> blocks = gummiShellBlocks.get(shape);
+                ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, new ItemStack(blocks.get(i).get()))
+                        .requires(ItemTagsGen.GUMMI_SHELL_BLOCK_KEYS.get(shape))
+                        .requires(dyes.get(i))
+                        .group(KingdomKeys.MODID + "_gummi_blocks")
+                        .unlockedBy("has_" + Utils.getBlockRegistryName(blocks.get(i).get()).getPath(), InventoryChangeTrigger.TriggerInstance.hasItems(blocks.get(i).get()))
+                        .save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, Utils.getBlockRegistryName(blocks.get(i).get()).getPath() + "_from_dye"));
+            }
+
+            //Dispel block + dye = dispel dyed
+            for (int shape=0; shape<gummiDispelBlocks.size();shape++) {
+                List<Supplier<Block>> blocks = gummiDispelBlocks.get(shape);
+                ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, new ItemStack(blocks.get(i).get()))
+                        .requires(ItemTagsGen.GUMMI_DISPEL_BLOCK_KEYS.get(shape))
+                        .requires(dyes.get(i))
+                        .group(KingdomKeys.MODID + "_gummi_blocks")
+                        .unlockedBy("has_" + Utils.getBlockRegistryName(blocks.get(i).get()).getPath(), InventoryChangeTrigger.TriggerInstance.hasItems(blocks.get(i).get()))
+                        .save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, Utils.getBlockRegistryName(blocks.get(i).get()).getPath() + "_from_dye"));
+            }
+
+            for (int shape=0; shape<gummiDifferentBlocks.size();shape++) {
+                List<Supplier<Block>> blocks = gummiDifferentBlocks.get(shape);
+                ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, new ItemStack(blocks.get(i).get()))
+                        .requires(ItemTagsGen.GUMMI_DIFFERENT_BLOCK_KEYS.get(shape))
+                        .requires(dyes.get(i))
+                        .group(KingdomKeys.MODID + "_gummi_blocks")
+                        .unlockedBy("has_" + Utils.getBlockRegistryName(blocks.get(i).get()).getPath(), InventoryChangeTrigger.TriggerInstance.hasItems(blocks.get(i).get()))
+                        .save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, Utils.getBlockRegistryName(blocks.get(i).get()).getPath() + "_from_dye"));
+            }
 		}
     }
 }

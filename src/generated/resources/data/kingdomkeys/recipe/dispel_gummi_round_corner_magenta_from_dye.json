@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "group": "kingdomkeys_gummi_blocks",
+  "ingredients": [
+    {
+      "tag": "kingdomkeys:gummi_dispel_block_round_corner"
+    },
+    {
+      "item": "minecraft:magenta_dye"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "kingdomkeys:dispel_gummi_round_corner_magenta"
+  }
+}

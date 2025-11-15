@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:stonecutting",
+  "group": "kingdomkeys_gummi_blocks",
+  "ingredient": {
+    "item": "kingdomkeys:dispel_gummi_wedge_light_blue"
+  },
+  "result": {
+    "count": 1,
+    "id": "kingdomkeys:dispel_gummi_dome_light_blue"
+  }
+}

@@ -90,7 +90,9 @@ public class LootTables extends BlockLootSubProvider {
 		dropSelf(ModBlocks.gummiBlizzard.get());
 		dropSelf(ModBlocks.gummiBlizzara.get());
 		dropSelf(ModBlocks.gummiGravity.get());
+        dropSelf(ModBlocks.gummiGravira.get());
 		dropSelf(ModBlocks.gummiWater.get());
+        dropSelf(ModBlocks.gummiWatera.get());
 
 		HolderLookup.RegistryLookup<Enchantment> registrylookup = this.registries.lookupOrThrow(Registries.ENCHANTMENT);
 
@@ -121,7 +123,10 @@ public class LootTables extends BlockLootSubProvider {
 						ModBlocks.gummiDispelRoundCorners,
 						ModBlocks.gummiDispelCones,
 						ModBlocks.gummiDispelDomes,
-						ModBlocks.gummiBubbleHelms
+						ModBlocks.gummiBubbleHelms,
+
+                        ModBlocks.gummiAeroSquares,
+                        ModBlocks.gummiAeroTriangles
 				)
 				.flatMap(list -> list.stream().map(Supplier::get))
 				.toList();

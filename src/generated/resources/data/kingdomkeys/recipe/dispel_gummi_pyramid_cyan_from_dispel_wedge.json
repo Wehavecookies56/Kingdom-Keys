@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:stonecutting",
+  "group": "kingdomkeys_gummi_blocks",
+  "ingredient": {
+    "item": "kingdomkeys:dispel_gummi_wedge_cyan"
+  },
+  "result": {
+    "count": 1,
+    "id": "kingdomkeys:dispel_gummi_pyramid_cyan"
+  }
+}

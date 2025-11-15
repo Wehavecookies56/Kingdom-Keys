@@ -55,17 +55,15 @@ public class DriveOrbEntity extends ItemDropEntity {
 	public void tick() {
 		super.tick();
 		//Merge with surrounding orbs
-		List<Entity> list = level().getEntities(this, getBoundingBox().inflate(2.0D, 2.0D, 2.0D));
-		if (!list.isEmpty()) {
-			for (int i = 0; i < list.size(); i++) {
-				if(list.get(i) instanceof ItemDropEntity e) {
-                    if(e instanceof DriveOrbEntity) {
-						if(this.tickCount > e.tickCount) {
-							this.value += e.value;
-							e.remove(RemovalReason.KILLED);
-						}
-					}
-				}
+        if(tickCount % 5 == 0) {
+            List<DriveOrbEntity> list = level().getEntitiesOfClass(DriveOrbEntity.class, getBoundingBox().inflate(1.5, 1, 1.5));
+            if (!list.isEmpty()) {
+                for (DriveOrbEntity e : list) {
+                    if (this.tickCount > e.tickCount) {
+                        this.value += e.value;
+                        e.remove(RemovalReason.KILLED);
+                    }
+                }
 			}
 		}
 	}

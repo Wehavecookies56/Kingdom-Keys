@@ -37,18 +37,16 @@ public class MPOrbEntity extends ItemDropEntity {
 	public void tick() {
 		super.tick();
 		//Merge with surrounding orbs
-		List<Entity> list = level().getEntities(this, getBoundingBox().inflate(2.0D, 2.0D, 2.0D));
-		if (!list.isEmpty()) {
-			for (int i = 0; i < list.size(); i++) {
-				if(list.get(i) instanceof ItemDropEntity e) {
-                    if(e instanceof MPOrbEntity) {
-						if(this.tickCount > e.tickCount) {
-							this.value += e.value;
-							e.remove(RemovalReason.KILLED);
-						}
-					}
-				}
-			}
+        if(tickCount % 5 == 0) {
+            List<MPOrbEntity> list = level().getEntitiesOfClass(MPOrbEntity.class, getBoundingBox().inflate(1.5, 1, 1.5));
+            if (!list.isEmpty()) {
+                for (MPOrbEntity e : list) {
+                    if (this.tickCount > e.tickCount) {
+                        this.value += e.value;
+                        e.remove(RemovalReason.KILLED);
+                    }
+                }
+            }
 		}
 	}
 }

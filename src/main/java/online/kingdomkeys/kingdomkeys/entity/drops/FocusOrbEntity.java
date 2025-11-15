@@ -36,17 +36,15 @@ public class FocusOrbEntity extends ItemDropEntity {
 	public void tick() {
 		super.tick();
 		//Merge with surrounding orbs
-		List<Entity> list = level().getEntities(this, getBoundingBox().inflate(2.0D, 2.0D, 2.0D));
-		if (!list.isEmpty()) {
-			for (int i = 0; i < list.size(); i++) {
-				if(list.get(i) instanceof ItemDropEntity e) {
-                    if(e instanceof FocusOrbEntity) {
-						if(this.tickCount > e.tickCount) {
-							this.value += e.value;
-							e.remove(RemovalReason.KILLED);
-						}
-					}
-				}
+        if(tickCount % 5 == 0) {
+            List<FocusOrbEntity> list = level().getEntitiesOfClass(FocusOrbEntity.class, getBoundingBox().inflate(1.5, 1, 1.5));
+            if (!list.isEmpty()) {
+                for (FocusOrbEntity e : list) {
+                    if (this.tickCount > e.tickCount) {
+                        this.value += e.value;
+                        e.remove(RemovalReason.KILLED);
+                    }
+                }
 			}
 		}
 	}

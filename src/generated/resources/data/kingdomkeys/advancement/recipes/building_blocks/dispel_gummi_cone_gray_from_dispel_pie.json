@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_dispel_gummi_pie_gray": {
+      "conditions": {
+        "items": [
+          {
+            "items": "kingdomkeys:dispel_gummi_pie_gray"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "kingdomkeys:dispel_gummi_cone_gray_from_dispel_pie"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_dispel_gummi_pie_gray"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "kingdomkeys:dispel_gummi_cone_gray_from_dispel_pie"
+    ]
+  }
+}

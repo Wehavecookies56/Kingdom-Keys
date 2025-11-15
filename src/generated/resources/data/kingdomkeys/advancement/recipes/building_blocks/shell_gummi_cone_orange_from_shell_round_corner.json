@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_shell_gummi_round_corner_orange": {
+      "conditions": {
+        "items": [
+          {
+            "items": "kingdomkeys:shell_gummi_round_corner_orange"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "kingdomkeys:shell_gummi_cone_orange_from_shell_round_corner"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_shell_gummi_round_corner_orange"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "kingdomkeys:shell_gummi_cone_orange_from_shell_round_corner"
+    ]
+  }
+}

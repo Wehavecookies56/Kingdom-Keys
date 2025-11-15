@@ -230,14 +230,9 @@ public class Utils {
                             if(state.getValue(GummiCockpitBlock.X) == 0 && state.getValue(GummiCockpitBlock.Y) == 0 && state.getValue(GummiCockpitBlock.Z) == 0) {
                                 if (cockpit.getMaxSeats() > 0) {
                                     for(Vec3 s : cockpit.getSeats()){
-                                    //Vec3 s = cockpit.getSeat(0);
-                                        System.out.println("First: " + s);
-                                        System.out.println(y);
                                         Vec3 finalPos = new Vec3(x - s.x(), y + s.y(), z + s.z());
-                                        System.out.println("Second: " + finalPos);
                                         passengers.add(finalPos);
                                     }
-                                    System.out.println();
                                 }
                             }
                         }
@@ -263,7 +258,6 @@ public class Utils {
                         if(state.getBlock() instanceof GummiWeaponMultiBlock wpn){
                             if(state.getValue(GummiWeaponMultiBlock.X) == 0 && state.getValue(GummiWeaponMultiBlock.Z) == 0) {
                                 weapons.add(new Vec3(x, y, z));
-                                System.out.println(wpn.shotType);
                             }
                         } else if (state.getBlock() instanceof GummiWeaponBlock wpn) {
                             weapons.add(new Vec3(x, y, z));
@@ -416,7 +410,7 @@ public class Utils {
 		}
 
 		if (!canMove) {
-			//System.out.println("Can't move, out of hangar");
+            KingdomKeys.LOGGER.debug("Can't move, out of hangar");
 			return;
 		}
 

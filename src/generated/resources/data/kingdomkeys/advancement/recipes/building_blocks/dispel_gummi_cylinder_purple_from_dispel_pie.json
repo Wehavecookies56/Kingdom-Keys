@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_dispel_gummi_pie_purple": {
+      "conditions": {
+        "items": [
+          {
+            "items": "kingdomkeys:dispel_gummi_pie_purple"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "kingdomkeys:dispel_gummi_cylinder_purple_from_dispel_pie"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_dispel_gummi_pie_purple"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "kingdomkeys:dispel_gummi_cylinder_purple_from_dispel_pie"
+    ]
+  }
+}

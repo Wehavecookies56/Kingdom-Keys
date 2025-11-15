@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_dispel_gummi_pyramid_cyan": {
+      "conditions": {
+        "items": [
+          {
+            "items": "kingdomkeys:dispel_gummi_pyramid_cyan"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "kingdomkeys:dispel_gummi_pyramid_cyan_from_dye"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_dispel_gummi_pyramid_cyan"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "kingdomkeys:dispel_gummi_pyramid_cyan_from_dye"
+    ]
+  }
+}

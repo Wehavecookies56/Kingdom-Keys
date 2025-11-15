@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_dispel_gummi_dome_yellow": {
+      "conditions": {
+        "items": [
+          {
+            "items": "kingdomkeys:dispel_gummi_dome_yellow"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "kingdomkeys:dispel_gummi_cube_yellow_from_dispel_dome"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_dispel_gummi_dome_yellow"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "kingdomkeys:dispel_gummi_cube_yellow_from_dispel_dome"
+    ]
+  }
+}

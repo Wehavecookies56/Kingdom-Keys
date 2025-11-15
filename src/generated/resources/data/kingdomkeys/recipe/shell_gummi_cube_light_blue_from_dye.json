@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "group": "kingdomkeys_gummi_blocks",
+  "ingredients": [
+    {
+      "tag": "kingdomkeys:gummi_shell_block_cube"
+    },
+    {
+      "item": "minecraft:light_blue_dye"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "kingdomkeys:shell_gummi_cube_light_blue"
+  }
+}

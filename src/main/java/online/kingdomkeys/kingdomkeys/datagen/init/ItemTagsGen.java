@@ -40,12 +40,35 @@ public class ItemTagsGen extends ItemTagsProvider {
 	public static final TagKey<Item> GUMMI_BLOCK_ROUND_CORNER = bind(KingdomKeys.MODID+":gummi_block_round_corner");
 	public static final TagKey<Item> GUMMI_BLOCK_CONE = bind(KingdomKeys.MODID+":gummi_block_cone");
 	public static final TagKey<Item> GUMMI_BLOCK_DOME = bind(KingdomKeys.MODID+":gummi_block_dome");
+
+    public static final TagKey<Item> GUMMI_SHELL_BLOCK_CUBE = bind(KingdomKeys.MODID+":gummi_shell_block_cube");
+    public static final TagKey<Item> GUMMI_SHELL_BLOCK_WEDGE = bind(KingdomKeys.MODID+":gummi_shell_block_wedge");
+    public static final TagKey<Item> GUMMI_SHELL_BLOCK_PYRAMID = bind(KingdomKeys.MODID+":gummi_shell_block_pyramid");
+    public static final TagKey<Item> GUMMI_SHELL_BLOCK_CYLINDER = bind(KingdomKeys.MODID+":gummi_shell_block_cylinder");
+    public static final TagKey<Item> GUMMI_SHELL_BLOCK_PIE = bind(KingdomKeys.MODID+":gummi_shell_block_pie");
+    public static final TagKey<Item> GUMMI_SHELL_BLOCK_ROUND_CORNER = bind(KingdomKeys.MODID+":gummi_shell_block_round_corner");
+    public static final TagKey<Item> GUMMI_SHELL_BLOCK_CONE = bind(KingdomKeys.MODID+":gummi_shell_block_cone");
+    public static final TagKey<Item> GUMMI_SHELL_BLOCK_DOME = bind(KingdomKeys.MODID+":gummi_shell_block_dome");
+
+    public static final TagKey<Item> GUMMI_DISPEL_BLOCK_CUBE = bind(KingdomKeys.MODID+":gummi_dispel_block_cube");
+    public static final TagKey<Item> GUMMI_DISPEL_BLOCK_WEDGE = bind(KingdomKeys.MODID+":gummi_dispel_block_wedge");
+    public static final TagKey<Item> GUMMI_DISPEL_BLOCK_PYRAMID = bind(KingdomKeys.MODID+":gummi_dispel_block_pyramid");
+    public static final TagKey<Item> GUMMI_DISPEL_BLOCK_CYLINDER = bind(KingdomKeys.MODID+":gummi_dispel_block_cylinder");
+    public static final TagKey<Item> GUMMI_DISPEL_BLOCK_PIE = bind(KingdomKeys.MODID+":gummi_dispel_block_pie");
+    public static final TagKey<Item> GUMMI_DISPEL_BLOCK_ROUND_CORNER = bind(KingdomKeys.MODID+":gummi_dispel_block_round_corner");
+    public static final TagKey<Item> GUMMI_DISPEL_BLOCK_CONE = bind(KingdomKeys.MODID+":gummi_dispel_block_cone");
+    public static final TagKey<Item> GUMMI_DISPEL_BLOCK_DOME = bind(KingdomKeys.MODID+":gummi_dispel_block_dome");
+
     public static final TagKey<Item> GUMMI_BLOCK_BUBBLE = bind(KingdomKeys.MODID+":gummi_block_bubble");
 
     public static final TagKey<Item> GUMMI_BLOCK_AERO_TRIANGLE = bind(KingdomKeys.MODID+":gummi_block_aero_triangle");
     public static final TagKey<Item> GUMMI_BLOCK_AERO_SQUARE = bind(KingdomKeys.MODID+":gummi_block_aero_square");
 
-	public static final List<TagKey<Item>> GUMMI_BLOCK_KEYS = List.of(GUMMI_BLOCK_CUBE, GUMMI_BLOCK_WEDGE, GUMMI_BLOCK_PYRAMID, GUMMI_BLOCK_CYLINDER, GUMMI_BLOCK_PIE, GUMMI_BLOCK_ROUND_CORNER, GUMMI_BLOCK_CONE, GUMMI_BLOCK_DOME, GUMMI_BLOCK_BUBBLE, GUMMI_BLOCK_AERO_TRIANGLE, GUMMI_BLOCK_AERO_SQUARE);
+	public static final List<TagKey<Item>> GUMMI_BLOCK_KEYS = List.of(GUMMI_BLOCK_CUBE, GUMMI_BLOCK_WEDGE, GUMMI_BLOCK_PYRAMID, GUMMI_BLOCK_CYLINDER, GUMMI_BLOCK_PIE, GUMMI_BLOCK_ROUND_CORNER, GUMMI_BLOCK_CONE, GUMMI_BLOCK_DOME, GUMMI_BLOCK_AERO_SQUARE, GUMMI_BLOCK_AERO_TRIANGLE);
+    public static final List<TagKey<Item>> GUMMI_SHELL_BLOCK_KEYS = List.of(GUMMI_SHELL_BLOCK_CUBE, GUMMI_SHELL_BLOCK_WEDGE, GUMMI_SHELL_BLOCK_PYRAMID, GUMMI_SHELL_BLOCK_CYLINDER, GUMMI_SHELL_BLOCK_PIE, GUMMI_SHELL_BLOCK_ROUND_CORNER, GUMMI_SHELL_BLOCK_CONE, GUMMI_SHELL_BLOCK_DOME);
+    public static final List<TagKey<Item>> GUMMI_DISPEL_BLOCK_KEYS = List.of(GUMMI_DISPEL_BLOCK_CUBE, GUMMI_DISPEL_BLOCK_WEDGE, GUMMI_DISPEL_BLOCK_PYRAMID, GUMMI_DISPEL_BLOCK_CYLINDER, GUMMI_DISPEL_BLOCK_PIE, GUMMI_DISPEL_BLOCK_ROUND_CORNER, GUMMI_DISPEL_BLOCK_CONE, GUMMI_DISPEL_BLOCK_DOME);
+
+    public static final List<TagKey<Item>> GUMMI_DIFFERENT_BLOCK_KEYS = List.of(GUMMI_BLOCK_BUBBLE);
 
 	public ItemTagsGen(PackOutput p_255871_, CompletableFuture<HolderLookup.Provider> p_256035_, CompletableFuture<TagLookup<Block>> p_256467_, @Nullable ExistingFileHelper existingFileHelper) {
 		super(p_255871_, p_256035_, p_256467_, KingdomKeys.MODID, existingFileHelper);
@@ -60,8 +83,34 @@ public class ItemTagsGen extends ItemTagsProvider {
             for (Item item : items) {
                 add(GUMMI_BLOCK_KEYS.get(shape), item);
             }
-
 		}
+
+        for(int shape = 0; shape < Recipes.gummiShellBlocks.size();shape++){
+            List<Supplier<Block>> suppliers = Recipes.gummiShellBlocks.get(shape);
+            List<Item> items = suppliers.stream().map(blockSupplier -> blockSupplier.get().asItem()).toList();
+
+            for (Item item : items) {
+                add(GUMMI_SHELL_BLOCK_KEYS.get(shape), item);
+            }
+        }
+
+        for(int shape = 0; shape < Recipes.gummiDispelBlocks.size();shape++){
+            List<Supplier<Block>> suppliers = Recipes.gummiDispelBlocks.get(shape);
+            List<Item> items = suppliers.stream().map(blockSupplier -> blockSupplier.get().asItem()).toList();
+
+            for (Item item : items) {
+                add(GUMMI_DISPEL_BLOCK_KEYS.get(shape), item);
+            }
+        }
+
+        for(int shape = 0; shape < Recipes.gummiDifferentBlocks.size();shape++){
+            List<Supplier<Block>> suppliers = Recipes.gummiDifferentBlocks.get(shape);
+            List<Item> items = suppliers.stream().map(blockSupplier -> blockSupplier.get().asItem()).toList();
+
+            for (Item item : items) {
+                add(GUMMI_DIFFERENT_BLOCK_KEYS.get(shape), item);
+            }
+        }
 
 		/*if(ModBlocks.gummiCubes.contains(block)){
 			add(GUMMI_BLOCK, block);

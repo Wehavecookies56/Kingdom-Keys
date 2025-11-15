@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "group": "kingdomkeys_gummi_blocks",
+  "ingredients": [
+    {
+      "tag": "kingdomkeys:gummi_shell_block_pie"
+    },
+    {
+      "item": "minecraft:purple_dye"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "kingdomkeys:shell_gummi_pie_purple"
+  }
+}
