@@ -1,0 +1,16 @@
+{
+	"parent": "neoforge:block/default",
+	"render_type": "minecraft:cutout",
+	"loader": "neoforge:obj",
+	"flip_v" : true,
+	"model": "kingdomkeys:models/block/gummi/gummi_watera.obj",
+	"transform":{
+		"translation": [ -0.25, -0.25, -0.25 ],
+		"scale": [ 0.5, 0.5, 0.5 ],
+		"rotation": [ 0, 0, 0 ]
+	},
+	"textures": {
+		"texture0": "kingdomkeys:block/gummi/gummi_water",
+		"particle": "kingdomkeys:block/gummi/gummi_water_particle"
+	}
+}

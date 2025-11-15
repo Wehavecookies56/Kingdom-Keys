@@ -1,0 +1,580 @@
+{
+  "variants": {
+    "active=false,facing=east,quarter=bottom,x=0,z=0": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "y": 180
+    },
+    "active=false,facing=east,quarter=bottom,x=0,z=1": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "y": 180
+    },
+    "active=false,facing=east,quarter=bottom,x=1,z=0": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "y": 180
+    },
+    "active=false,facing=east,quarter=bottom,x=1,z=1": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "y": 180
+    },
+    "active=false,facing=east,quarter=left,x=0,z=0": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "x": 270,
+      "y": 180
+    },
+    "active=false,facing=east,quarter=left,x=0,z=1": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "x": 270,
+      "y": 180
+    },
+    "active=false,facing=east,quarter=left,x=1,z=0": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "x": 270,
+      "y": 180
+    },
+    "active=false,facing=east,quarter=left,x=1,z=1": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "x": 270,
+      "y": 180
+    },
+    "active=false,facing=east,quarter=right,x=0,z=0": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "x": 90,
+      "y": 180
+    },
+    "active=false,facing=east,quarter=right,x=0,z=1": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "x": 90,
+      "y": 180
+    },
+    "active=false,facing=east,quarter=right,x=1,z=0": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "x": 90,
+      "y": 180
+    },
+    "active=false,facing=east,quarter=right,x=1,z=1": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "x": 90,
+      "y": 180
+    },
+    "active=false,facing=east,quarter=top,x=0,z=0": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "x": 180,
+      "y": 180
+    },
+    "active=false,facing=east,quarter=top,x=0,z=1": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "x": 180,
+      "y": 180
+    },
+    "active=false,facing=east,quarter=top,x=1,z=0": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "x": 180,
+      "y": 180
+    },
+    "active=false,facing=east,quarter=top,x=1,z=1": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "x": 180,
+      "y": 180
+    },
+    "active=false,facing=north,quarter=bottom,x=0,z=0": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "y": 90
+    },
+    "active=false,facing=north,quarter=bottom,x=0,z=1": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "y": 90
+    },
+    "active=false,facing=north,quarter=bottom,x=1,z=0": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "y": 90
+    },
+    "active=false,facing=north,quarter=bottom,x=1,z=1": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "y": 90
+    },
+    "active=false,facing=north,quarter=left,x=0,z=0": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "x": 270,
+      "y": 90
+    },
+    "active=false,facing=north,quarter=left,x=0,z=1": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "x": 270,
+      "y": 90
+    },
+    "active=false,facing=north,quarter=left,x=1,z=0": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "x": 270,
+      "y": 90
+    },
+    "active=false,facing=north,quarter=left,x=1,z=1": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "x": 270,
+      "y": 90
+    },
+    "active=false,facing=north,quarter=right,x=0,z=0": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "x": 90,
+      "y": 90
+    },
+    "active=false,facing=north,quarter=right,x=0,z=1": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "x": 90,
+      "y": 90
+    },
+    "active=false,facing=north,quarter=right,x=1,z=0": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "x": 90,
+      "y": 90
+    },
+    "active=false,facing=north,quarter=right,x=1,z=1": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "x": 90,
+      "y": 90
+    },
+    "active=false,facing=north,quarter=top,x=0,z=0": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "x": 180,
+      "y": 90
+    },
+    "active=false,facing=north,quarter=top,x=0,z=1": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "x": 180,
+      "y": 90
+    },
+    "active=false,facing=north,quarter=top,x=1,z=0": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "x": 180,
+      "y": 90
+    },
+    "active=false,facing=north,quarter=top,x=1,z=1": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "x": 180,
+      "y": 90
+    },
+    "active=false,facing=south,quarter=bottom,x=0,z=0": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "y": 270
+    },
+    "active=false,facing=south,quarter=bottom,x=0,z=1": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "y": 270
+    },
+    "active=false,facing=south,quarter=bottom,x=1,z=0": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "y": 270
+    },
+    "active=false,facing=south,quarter=bottom,x=1,z=1": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "y": 270
+    },
+    "active=false,facing=south,quarter=left,x=0,z=0": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "x": 270,
+      "y": 270
+    },
+    "active=false,facing=south,quarter=left,x=0,z=1": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "x": 270,
+      "y": 270
+    },
+    "active=false,facing=south,quarter=left,x=1,z=0": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "x": 270,
+      "y": 270
+    },
+    "active=false,facing=south,quarter=left,x=1,z=1": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "x": 270,
+      "y": 270
+    },
+    "active=false,facing=south,quarter=right,x=0,z=0": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "x": 90,
+      "y": 270
+    },
+    "active=false,facing=south,quarter=right,x=0,z=1": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "x": 90,
+      "y": 270
+    },
+    "active=false,facing=south,quarter=right,x=1,z=0": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "x": 90,
+      "y": 270
+    },
+    "active=false,facing=south,quarter=right,x=1,z=1": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "x": 90,
+      "y": 270
+    },
+    "active=false,facing=south,quarter=top,x=0,z=0": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "x": 180,
+      "y": 270
+    },
+    "active=false,facing=south,quarter=top,x=0,z=1": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "x": 180,
+      "y": 270
+    },
+    "active=false,facing=south,quarter=top,x=1,z=0": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "x": 180,
+      "y": 270
+    },
+    "active=false,facing=south,quarter=top,x=1,z=1": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "x": 180,
+      "y": 270
+    },
+    "active=false,facing=west,quarter=bottom,x=0,z=0": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira"
+    },
+    "active=false,facing=west,quarter=bottom,x=0,z=1": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira"
+    },
+    "active=false,facing=west,quarter=bottom,x=1,z=0": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira"
+    },
+    "active=false,facing=west,quarter=bottom,x=1,z=1": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira"
+    },
+    "active=false,facing=west,quarter=left,x=0,z=0": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "x": 270
+    },
+    "active=false,facing=west,quarter=left,x=0,z=1": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "x": 270
+    },
+    "active=false,facing=west,quarter=left,x=1,z=0": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "x": 270
+    },
+    "active=false,facing=west,quarter=left,x=1,z=1": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "x": 270
+    },
+    "active=false,facing=west,quarter=right,x=0,z=0": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "x": 90
+    },
+    "active=false,facing=west,quarter=right,x=0,z=1": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "x": 90
+    },
+    "active=false,facing=west,quarter=right,x=1,z=0": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "x": 90
+    },
+    "active=false,facing=west,quarter=right,x=1,z=1": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "x": 90
+    },
+    "active=false,facing=west,quarter=top,x=0,z=0": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "x": 180
+    },
+    "active=false,facing=west,quarter=top,x=0,z=1": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "x": 180
+    },
+    "active=false,facing=west,quarter=top,x=1,z=0": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "x": 180
+    },
+    "active=false,facing=west,quarter=top,x=1,z=1": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "x": 180
+    },
+    "active=true,facing=east,quarter=bottom,x=0,z=0": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "y": 180
+    },
+    "active=true,facing=east,quarter=bottom,x=0,z=1": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "y": 180
+    },
+    "active=true,facing=east,quarter=bottom,x=1,z=0": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "y": 180
+    },
+    "active=true,facing=east,quarter=bottom,x=1,z=1": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "y": 180
+    },
+    "active=true,facing=east,quarter=left,x=0,z=0": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "x": 270,
+      "y": 180
+    },
+    "active=true,facing=east,quarter=left,x=0,z=1": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "x": 270,
+      "y": 180
+    },
+    "active=true,facing=east,quarter=left,x=1,z=0": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "x": 270,
+      "y": 180
+    },
+    "active=true,facing=east,quarter=left,x=1,z=1": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "x": 270,
+      "y": 180
+    },
+    "active=true,facing=east,quarter=right,x=0,z=0": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "x": 90,
+      "y": 180
+    },
+    "active=true,facing=east,quarter=right,x=0,z=1": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "x": 90,
+      "y": 180
+    },
+    "active=true,facing=east,quarter=right,x=1,z=0": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "x": 90,
+      "y": 180
+    },
+    "active=true,facing=east,quarter=right,x=1,z=1": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "x": 90,
+      "y": 180
+    },
+    "active=true,facing=east,quarter=top,x=0,z=0": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "x": 180,
+      "y": 180
+    },
+    "active=true,facing=east,quarter=top,x=0,z=1": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "x": 180,
+      "y": 180
+    },
+    "active=true,facing=east,quarter=top,x=1,z=0": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "x": 180,
+      "y": 180
+    },
+    "active=true,facing=east,quarter=top,x=1,z=1": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "x": 180,
+      "y": 180
+    },
+    "active=true,facing=north,quarter=bottom,x=0,z=0": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "y": 90
+    },
+    "active=true,facing=north,quarter=bottom,x=0,z=1": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "y": 90
+    },
+    "active=true,facing=north,quarter=bottom,x=1,z=0": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "y": 90
+    },
+    "active=true,facing=north,quarter=bottom,x=1,z=1": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "y": 90
+    },
+    "active=true,facing=north,quarter=left,x=0,z=0": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "x": 270,
+      "y": 90
+    },
+    "active=true,facing=north,quarter=left,x=0,z=1": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "x": 270,
+      "y": 90
+    },
+    "active=true,facing=north,quarter=left,x=1,z=0": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "x": 270,
+      "y": 90
+    },
+    "active=true,facing=north,quarter=left,x=1,z=1": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "x": 270,
+      "y": 90
+    },
+    "active=true,facing=north,quarter=right,x=0,z=0": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "x": 90,
+      "y": 90
+    },
+    "active=true,facing=north,quarter=right,x=0,z=1": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "x": 90,
+      "y": 90
+    },
+    "active=true,facing=north,quarter=right,x=1,z=0": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "x": 90,
+      "y": 90
+    },
+    "active=true,facing=north,quarter=right,x=1,z=1": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "x": 90,
+      "y": 90
+    },
+    "active=true,facing=north,quarter=top,x=0,z=0": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "x": 180,
+      "y": 90
+    },
+    "active=true,facing=north,quarter=top,x=0,z=1": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "x": 180,
+      "y": 90
+    },
+    "active=true,facing=north,quarter=top,x=1,z=0": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "x": 180,
+      "y": 90
+    },
+    "active=true,facing=north,quarter=top,x=1,z=1": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "x": 180,
+      "y": 90
+    },
+    "active=true,facing=south,quarter=bottom,x=0,z=0": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "y": 270
+    },
+    "active=true,facing=south,quarter=bottom,x=0,z=1": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "y": 270
+    },
+    "active=true,facing=south,quarter=bottom,x=1,z=0": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "y": 270
+    },
+    "active=true,facing=south,quarter=bottom,x=1,z=1": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "y": 270
+    },
+    "active=true,facing=south,quarter=left,x=0,z=0": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "x": 270,
+      "y": 270
+    },
+    "active=true,facing=south,quarter=left,x=0,z=1": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "x": 270,
+      "y": 270
+    },
+    "active=true,facing=south,quarter=left,x=1,z=0": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "x": 270,
+      "y": 270
+    },
+    "active=true,facing=south,quarter=left,x=1,z=1": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "x": 270,
+      "y": 270
+    },
+    "active=true,facing=south,quarter=right,x=0,z=0": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "x": 90,
+      "y": 270
+    },
+    "active=true,facing=south,quarter=right,x=0,z=1": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "x": 90,
+      "y": 270
+    },
+    "active=true,facing=south,quarter=right,x=1,z=0": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "x": 90,
+      "y": 270
+    },
+    "active=true,facing=south,quarter=right,x=1,z=1": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "x": 90,
+      "y": 270
+    },
+    "active=true,facing=south,quarter=top,x=0,z=0": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "x": 180,
+      "y": 270
+    },
+    "active=true,facing=south,quarter=top,x=0,z=1": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "x": 180,
+      "y": 270
+    },
+    "active=true,facing=south,quarter=top,x=1,z=0": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "x": 180,
+      "y": 270
+    },
+    "active=true,facing=south,quarter=top,x=1,z=1": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "x": 180,
+      "y": 270
+    },
+    "active=true,facing=west,quarter=bottom,x=0,z=0": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira"
+    },
+    "active=true,facing=west,quarter=bottom,x=0,z=1": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira"
+    },
+    "active=true,facing=west,quarter=bottom,x=1,z=0": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira"
+    },
+    "active=true,facing=west,quarter=bottom,x=1,z=1": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira"
+    },
+    "active=true,facing=west,quarter=left,x=0,z=0": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "x": 270
+    },
+    "active=true,facing=west,quarter=left,x=0,z=1": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "x": 270
+    },
+    "active=true,facing=west,quarter=left,x=1,z=0": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "x": 270
+    },
+    "active=true,facing=west,quarter=left,x=1,z=1": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "x": 270
+    },
+    "active=true,facing=west,quarter=right,x=0,z=0": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "x": 90
+    },
+    "active=true,facing=west,quarter=right,x=0,z=1": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "x": 90
+    },
+    "active=true,facing=west,quarter=right,x=1,z=0": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "x": 90
+    },
+    "active=true,facing=west,quarter=right,x=1,z=1": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "x": 90
+    },
+    "active=true,facing=west,quarter=top,x=0,z=0": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "x": 180
+    },
+    "active=true,facing=west,quarter=top,x=0,z=1": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "x": 180
+    },
+    "active=true,facing=west,quarter=top,x=1,z=0": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "x": 180
+    },
+    "active=true,facing=west,quarter=top,x=1,z=1": {
+      "model": "kingdomkeys:block/gummi/gummi_gravira",
+      "x": 180
+    }
+  }
+}
