@@ -81,7 +81,6 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
         BlockState weapon = structure.getBlocks()[(int) weaponPos.x][(int) weaponPos.y][(int) weaponPos.z];
 
         Quarter quarter = weapon.getValue(GummiWeaponBlock.QUARTER);
-        Direction rotation = weapon.getValue(GummiWeaponBlock.FACING);
 
         float xOff = 0, zOff = 0;
         if(weapon.getBlock() instanceof GummiWeaponMultiBlock mb){
