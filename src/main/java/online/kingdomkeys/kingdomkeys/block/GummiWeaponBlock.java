@@ -158,7 +158,7 @@ public class GummiWeaponBlock extends GummiBlockEdge {
 
             case GRAVITY, GRAVIRA, GRAVIGA -> {
                 castShot(player, level, getFirepower(), finalPos, 0, 0, 0.75F, dir);
-                level.playSound(null, new BlockPos((int) finalPos.x(), (int) finalPos.y(), (int) finalPos.z()), ModSounds.wisdom_shot.get(), SoundSource.PLAYERS, 2.5F, 0.9F);
+                level.playSound(null, BlockPos.containing(finalPos), ModSounds.wisdom_shot.get(), SoundSource.PLAYERS, 2.5F, 0.9F);
             }
         }
 

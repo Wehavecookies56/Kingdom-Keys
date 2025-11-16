@@ -210,6 +210,7 @@ public class Utils {
 
 	public static GummiShipEntity.ShipStats getShipStats(GummiStructure structure) {
 		float speed = 0;
+        int mobility = 0;
 		LinkedList<Vec3> passengers = new LinkedList<>();
 		LinkedList<Vec3> weapons = new LinkedList<>();
 		int weight = 0;
@@ -224,7 +225,7 @@ public class Utils {
 				for (int z = 0; z < sizeZ; z++) {
 					BlockState state = structure.getBlocks()[x][y][z];
 					if (state != null && !state.isAir()) {
-						weight++;//TODO make heavier blocks
+						weight++;//TODO make heavier blocks maybe?
 						armour++;
                         if (state.getBlock() instanceof GummiCockpitBlock cockpit) {
                             if(state.getValue(GummiCockpitBlock.X) == 0 && state.getValue(GummiCockpitBlock.Y) == 0 && state.getValue(GummiCockpitBlock.Z) == 0) {
@@ -250,26 +251,27 @@ public class Utils {
 						//TODO placeholder blocks, change for gummi thrusters and weapons
 						if (state.getBlock() == Blocks.OBSIDIAN) {
 							weight++;
-						} else if (state.getBlock() == Blocks.PISTON) {
+						} /*else if (state.getBlock() == Blocks.PISTON) {
 							speed += 0.5F;
 						} else if (state.getBlock() == Blocks.STICKY_PISTON) {
 							speed++;
-						}
+						}*/
                         if(state.getBlock() instanceof GummiWeaponMultiBlock wpn){
                             if(state.getValue(GummiWeaponMultiBlock.X) == 0 && state.getValue(GummiWeaponMultiBlock.Z) == 0) {
                                 weapons.add(new Vec3(x, y, z));
                             }
                         } else if (state.getBlock() instanceof GummiWeaponBlock wpn) {
                             weapons.add(new Vec3(x, y, z));
+                        } else if (state.getBlock() instanceof GummiAeroBlock aero) {
+                            mobility += aero.getMobility();
+                        } else if (state.getBlock() instanceof GummiEngineBlock engine) {
+                            speed += engine.getSpeed();
                         }
-                        /* else if (state.getBlock() == ModBlocks.gummiFire.get() || state.getBlock() == ModBlocks.gummiBlizzard.get() || state.getBlock() == Blocks.DISPENSER || state.getBlock() == Blocks.DROPPER) {
-							weapons.add(new Vec3(x, y, z));
-						}*/
 					}
 				}
 			}
 		}
-		return new GummiShipEntity.ShipStats(speed,weight,armour,weapons,passengers);
+		return new GummiShipEntity.ShipStats(speed,weight,armour,weapons,passengers,mobility);
 	}
 
 	public static GummiStructure resizeStructure(GummiStructure original, int newSize) {

@@ -115,9 +115,14 @@ public class ModBlocks {
             //gummiGravigaHorizontal = createNewBlock("gummi_graviga_horizontal", ()-> new GummiWeaponMultiBlock(Block.Properties.of().noOcclusion().strength(0.1F, 10.0F), GummiWeaponBlock.ShotType.GRAVIGA, 1, 1, 130,184)),
 
             gummiWater = createNewBlock("gummi_water", ()-> new GummiWeaponBlock(Block.Properties.of().noOcclusion().strength(0.1F, 10.0F), GummiWeaponBlock.ShotType.WATER, 1, 1, 35, 35)),
-            gummiWatera = createNewBlock("gummi_watera", ()-> new GummiWeaponMultiBlock(Block.Properties.of().noOcclusion().strength(0.1F, 10.0F), GummiWeaponBlock.ShotType.WATERA, 1, 1, 110,155));
+            gummiWatera = createNewBlock("gummi_watera", ()-> new GummiWeaponMultiBlock(Block.Properties.of().noOcclusion().strength(0.1F, 10.0F), GummiWeaponBlock.ShotType.WATERA, 1, 1, 110,155)),
             //gummiWatergaVertical = createNewBlock("gummi_waterga_vertical", ()-> new GummiWeaponMultiBlock(Block.Properties.of().noOcclusion().strength(0.1F, 10.0F), GummiWeaponBlock.ShotType.WATERGA, 1, 1, 130,184)),
             //gummiWatergaHorizontal = createNewBlock("gummi_waterga_horizontal", ()-> new GummiWeaponMultiBlock(Block.Properties.of().noOcclusion().strength(0.1F, 10.0F), GummiWeaponBlock.ShotType.WATERGA, 1, 1, 130,184));
+
+            gummiVernier = createNewBlock("gummi_vernier", ()-> new GummiEngineBlock(Block.Properties.of().noOcclusion().strength(0.1F, 10.0F), 1, 1, 30)),
+            gummiThruster = createNewBlock("gummi_thruster", ()-> new GummiEngineBlock(Block.Properties.of().noOcclusion().strength(0.1F, 10.0F), 1, 1, 40)),
+            gummiBooster = createNewBlock("gummi_booster", ()-> new GummiEngineBlock(Block.Properties.of().noOcclusion().strength(0.1F, 10.0F), 1, 1, 50));
+
 
 
     public static List<Supplier<Block>>
@@ -192,8 +197,8 @@ public class ModBlocks {
         Vec3 seat3 = new Vec3(1F, 0F, 1F);//third is right next to the second, opposite to 0,0
         createNewGummiCockpitBlock("gummi_bubble_helm", 2, 40, gummiBubbleHelms, Arrays.asList(seat1,seat2,seat3));
 
-        createNewEdgeGummiBlock("gummi_aero_triangle",1, 1, gummiAeroTriangles);
-        createNewEdgeGummiBlock("gummi_aero_square",1, 1, gummiAeroSquares);
+        createNewAeroGummiBlock("gummi_aero_triangle",1, 1, gummiAeroTriangles, 10);
+        createNewAeroGummiBlock("gummi_aero_square",1, 1, gummiAeroSquares, 10);
     }
 
     /**
@@ -219,6 +224,14 @@ public class ModBlocks {
     private static void createNewEdgeGummiBlock(String name, int weight, int armour, List<Supplier<Block>> list) {
         for(DyeColor dye : DyeColor.values()) {
             Supplier<Block> newBlock = BLOCKS.register(name+"_"+dye.getName(), () -> new GummiBlockEdge(Block.Properties.of().noOcclusion().strength(0.1F, 10.0F), weight, armour, dye, list));
+            createNewBlockItem(name+"_"+dye.getName(), newBlock);
+            list.add(newBlock);
+        }
+    }
+
+    private static void createNewAeroGummiBlock(String name, int weight, int armour, List<Supplier<Block>> list, int mobility) {
+        for(DyeColor dye : DyeColor.values()) {
+            Supplier<Block> newBlock = BLOCKS.register(name+"_"+dye.getName(), () -> new GummiAeroBlock(Block.Properties.of().noOcclusion().strength(0.1F, 10.0F), weight, armour, dye, list, mobility));
             createNewBlockItem(name+"_"+dye.getName(), newBlock);
             list.add(newBlock);
         }

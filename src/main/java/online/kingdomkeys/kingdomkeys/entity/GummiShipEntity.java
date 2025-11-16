@@ -56,9 +56,9 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 		super(type, world);
 	}
 
-    public record ShipStats(float speed, int weight, int armour, List<Vec3> firepower, List<Vec3> passengerSlots) {
+    public record ShipStats(float speed, int weight, int armour, List<Vec3> firepower, List<Vec3> passengerSlots, int mobility) {
 		public float getEffectiveSpeed(){
-            return speed() / (weight() * 0.05F);
+            return speed() / (weight() * 0.5F);
         }
 	}
 
@@ -327,9 +327,9 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 			float targetRotation = 0F;
 
 			if (this.inputLeft)
-				targetRotation = -getEffectiveSpeed() * 5; //TODO change blocks for wings maybe?
+				targetRotation = -getEffectiveSpeed() * 3 * (getShipStats().mobility()*0.05F); //TODO change blocks for wings maybe?
 			else if (this.inputRight)
-				targetRotation = getEffectiveSpeed() * 5;
+				targetRotation = getEffectiveSpeed() * 3 * (getShipStats().mobility()*0.05F);
 
 			float rotationDelta = targetRotation - currentRotationSpeed;
 			if(targetRotation == 0){
