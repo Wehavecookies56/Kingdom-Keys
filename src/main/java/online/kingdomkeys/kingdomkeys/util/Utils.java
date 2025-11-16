@@ -230,7 +230,7 @@ public class Utils {
                             if(state.getValue(GummiCockpitBlock.X) == 0 && state.getValue(GummiCockpitBlock.Y) == 0 && state.getValue(GummiCockpitBlock.Z) == 0) {
                                 if (cockpit.getMaxSeats() > 0) {
                                     for(Vec3 s : cockpit.getSeats()){
-                                        Vec3 finalPos = new Vec3(x - s.x(), y + s.y(), z + s.z());
+                                        Vec3 finalPos = new Vec3(x - s.x(), y + s.y()+0.18F, z + s.z());
                                         passengers.add(finalPos);
                                     }
                                 }

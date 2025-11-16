@@ -94,6 +94,8 @@ public class LootTables extends BlockLootSubProvider {
 		dropSelf(ModBlocks.gummiWater.get());
         dropSelf(ModBlocks.gummiWatera.get());
 
+        dropSelf(ModBlocks.gummiCore.get());
+
 		HolderLookup.RegistryLookup<Enchantment> registrylookup = this.registries.lookupOrThrow(Registries.ENCHANTMENT);
 
 		List<Block> allGummiBlocks = Stream.of(
