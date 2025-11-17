@@ -19,6 +19,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
@@ -56,6 +57,8 @@ import online.kingdomkeys.kingdomkeys.data.CastleOblivionData;
 import online.kingdomkeys.kingdomkeys.data.GlobalData;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.data.WorldData;
+import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
+import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import online.kingdomkeys.kingdomkeys.entity.GummiShipEntity;
 import online.kingdomkeys.kingdomkeys.entity.KKVehicleEntity;
@@ -64,9 +67,11 @@ import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.item.WayfinderItem;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
+import online.kingdomkeys.kingdomkeys.lib.Constants;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.cts.CSGummiBoostPacket;
 import online.kingdomkeys.kingdomkeys.network.cts.CSGummiFirePacket;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSetAirStepPacket;
 import online.kingdomkeys.kingdomkeys.network.cts.CSShotlockShot;
@@ -86,7 +91,8 @@ import java.util.ArrayList;
 import java.util.function.Supplier;
 
 public class ClientEvents {
-	@SubscribeEvent
+
+    @SubscribeEvent
 	public void onEntityJoinWorld(EntityJoinLevelEvent e) {
 		if (e.getEntity() instanceof LivingEntity ent) {
 			if (e.getLevel().isClientSide) {
@@ -343,6 +349,8 @@ public class ClientEvents {
 
 	private static long timeSinceLastshot = 0;
 
+    public static int gummiBoostCD;
+
     @SubscribeEvent
     public void clientTickPre(ClientTickEvent.Pre event) {
         Minecraft mc = Minecraft.getInstance();
@@ -353,7 +361,7 @@ public class ClientEvents {
         if (mc.player == null || !(mc.player.getVehicle() instanceof GummiShipEntity ship))
             return;
 
-        if (ship.shipStats == null || ship.shipStats.firepower().isEmpty())
+        if (ship.shipStats == null)
             return;
 
         if (timeSinceLastshot > 0) {
@@ -361,13 +369,29 @@ public class ClientEvents {
         }
 
         if(ship.getFuel() > 0) {
-            int baseTicks = 14;
-            int weaponCount = Math.max(1, ship.shipStats.firepower().size());
-            int delayTicks = Math.max(1, Math.round(baseTicks / (float)weaponCount));
+            if(!ship.shipStats.firepower().isEmpty()){
+                int baseTicks = 14;
+                int weaponCount = Math.max(1, ship.shipStats.firepower().size());
+                int delayTicks = Math.max(1, Math.round(baseTicks / (float)weaponCount));
 
-            if (EpicFightUtils.isAttacking() && timeSinceLastshot <= 0) {
-                timeSinceLastshot = delayTicks;
-                PacketHandler.sendToServer(new CSGummiFirePacket(ship.getId(), false));
+                if (EpicFightUtils.isAttacking() && timeSinceLastshot <= 0) {
+                    timeSinceLastshot = delayTicks;
+                    PacketHandler.sendToServer(new CSGummiFirePacket(ship.getId(), false));
+                }
+            }
+
+            if(gummiBoostCD <= 0) {
+                if (InputHandler.Keybinds.ACTION.getKeybind().isDown()) { //TODO check for booster block
+                    float yaw = ship.getYRot();
+                    float motionX = -Mth.sin(yaw / 180.0f * (float) Math.PI);
+                    float motionZ = Mth.cos(yaw / 180.0f * (float) Math.PI);
+                    double power = ship.shipStats.getEffectiveSpeed()*10;
+                    ship.push(motionX * power, 0, motionZ * power);
+                    PacketHandler.sendToServer(new CSGummiBoostPacket(ship.getId()));
+                    gummiBoostCD = 5 * 20;
+                }
+            } else {
+                gummiBoostCD--;
             }
         }
     }

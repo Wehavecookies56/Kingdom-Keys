@@ -34,6 +34,7 @@ import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.entity.IEntityWithComplexSpawn;
 import online.kingdomkeys.kingdomkeys.block.GummiWeaponBlock;
 import online.kingdomkeys.kingdomkeys.block.GummiWeaponMultiBlock;
+import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.datagen.init.BlockTagsGen;
 import online.kingdomkeys.kingdomkeys.item.ModComponents;
@@ -43,7 +44,9 @@ import online.kingdomkeys.kingdomkeys.lib.Quarter;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class GummiShipEntity extends KKVehicleEntity implements IEntityWithComplexSpawn {
 
@@ -56,7 +59,7 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 		super(type, world);
 	}
 
-    public record ShipStats(float speed, int weight, int armour, List<Vec3> firepower, List<Vec3> passengerSlots, int mobility) {
+    public record ShipStats(float speed, int weight, int armour, List<Vec3> firepower, HashMap<GummiWeaponBlock.ShotType,Integer> impact, List<Vec3> passengerSlots, int mobility) {
 		public float getEffectiveSpeed(){
             return speed() / (weight() * 0.5F);
         }
@@ -107,6 +110,41 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
                 weaponCounter = 0;
         }
 	}
+
+    public void boost(Player player){
+        // Seems entity push is not needed in server
+        int size = 0;
+        System.out.println(shipStats.impact());
+        if(shipStats.impact().containsKey(GummiWeaponBlock.ShotType.WATER)){
+            size+=1;
+        }
+        if(shipStats.impact().containsKey(GummiWeaponBlock.ShotType.WATERA)){
+            size+=2;
+        }
+        if(shipStats.impact().containsKey(GummiWeaponBlock.ShotType.WATERGA)){
+            size+=4;
+        }
+
+        int power = 0;
+        for(Map.Entry<GummiWeaponBlock.ShotType,Integer> e : shipStats.impact().entrySet()){
+            power += e.getValue();
+        }
+
+        size *= 2; //Scale it for wider area
+
+        GummiImpactEntity shot = new GummiImpactEntity(level(), player, power);
+        level().addFreshEntity(shot);
+        shot.setPos(position());
+        shot.shootFromRotation(this, getXRot(), getYRot() - size, 0, 5F, 0);
+
+        GummiImpactEntity shot2 = new GummiImpactEntity(level(), player, power);
+        level().addFreshEntity(shot2);
+        shot2.setPos(position());
+        shot2.shootFromRotation(this, getXRot(), getYRot() + size, 0, 5F, 0);
+
+        shot.setLinked(shot2);
+        shot2.setLinked(shot);
+    }
 
 	@Override
 	public boolean hurt(DamageSource source, float amount) {

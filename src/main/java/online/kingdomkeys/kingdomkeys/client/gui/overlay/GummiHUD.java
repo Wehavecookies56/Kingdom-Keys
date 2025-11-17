@@ -11,6 +11,8 @@ import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.entity.GummiShipEntity;
+import online.kingdomkeys.kingdomkeys.handler.ClientEvents;
+import online.kingdomkeys.kingdomkeys.handler.InputHandler;
 import online.kingdomkeys.kingdomkeys.lib.Constants;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
@@ -88,6 +90,7 @@ public class GummiHUD extends OverlayBase {
 			drawString(guiGraphics, minecraft.font, minecraft.options.keyRight.getKey().getDisplayName().getString()+": RIGHT", x, 10*y++, ship.inputRight ? 0xAA0000 : 0xFFFFFF);
 			drawString(guiGraphics, minecraft.font, minecraft.options.keyJump.getKey().getDisplayName().getString()+": UP", x, 10*y++, ship.inputUp ? 0xAA0000 : 0xFFFFFF);
 			drawString(guiGraphics, minecraft.font, minecraft.options.keySprint.getKey().getDisplayName().getString()+": DOWN", x, 10*y++, ship.inputDown ? 0xAA0000 : 0xFFFFFF);
+            drawString(guiGraphics, minecraft.font, InputHandler.Keybinds.ACTION.getKeybind().getKey().getDisplayName().getString() +": Boost "+ (ClientEvents.gummiBoostCD == 0 ? "READY" : "NOT READY"), x, 10*y++, InputHandler.Keybinds.ACTION.getKeybind().isDown() || ClientEvents.gummiBoostCD > 0 ? 0xAA0000 : 0xFFFFFF);
 		} else {
 			//Restore camera if needed
 			if(handledCamera && ModConfigs.auto3rdPersonShip){

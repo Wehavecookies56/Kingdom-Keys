@@ -215,6 +215,7 @@ public class Utils {
 		LinkedList<Vec3> weapons = new LinkedList<>();
 		int weight = 0;
 		int armour = 0;
+        HashMap<GummiWeaponBlock.ShotType, Integer> impact = new HashMap<>();
 
 		int sizeX = structure.getBlocks().length;
 		int sizeY = structure.getBlocks()[0].length;
@@ -248,20 +249,24 @@ public class Utils {
 							weight += gummi.getWeight()-1;// we already add one by default
 						}
 
-						//TODO placeholder blocks, change for gummi thrusters and weapons
 						if (state.getBlock() == Blocks.OBSIDIAN) {
 							weight++;
-						} /*else if (state.getBlock() == Blocks.PISTON) {
-							speed += 0.5F;
-						} else if (state.getBlock() == Blocks.STICKY_PISTON) {
-							speed++;
-						}*/
+						}
                         if(state.getBlock() instanceof GummiWeaponMultiBlock wpn){
                             if(state.getValue(GummiWeaponMultiBlock.X) == 0 && state.getValue(GummiWeaponMultiBlock.Z) == 0) {
-                                weapons.add(new Vec3(x, y, z));
+                                if(wpn.shotType.getRootType() == GummiWeaponBlock.ShotType.WATER){
+                                    //int power = wpn.shotType == GummiWeaponBlock.ShotType.WATER ? 1 : wpn.shotType == GummiWeaponBlock.ShotType.WATERA ? 2 : 3;
+                                    impact.put(wpn.shotType, wpn.getFirepower());
+                                } else {
+                                    weapons.add(new Vec3(x, y, z));
+                                }
                             }
                         } else if (state.getBlock() instanceof GummiWeaponBlock wpn) {
-                            weapons.add(new Vec3(x, y, z));
+                            if(wpn.shotType.getRootType().equals(GummiWeaponBlock.ShotType.WATER)){
+                                impact.put(wpn.shotType, wpn.getFirepower());
+                            } else {
+                                weapons.add(new Vec3(x, y, z));
+                            }
                         } else if (state.getBlock() instanceof GummiAeroBlock aero) {
                             mobility += aero.getMobility();
                         } else if (state.getBlock() instanceof GummiEngineBlock engine) {
@@ -271,7 +276,7 @@ public class Utils {
 				}
 			}
 		}
-		return new GummiShipEntity.ShipStats(speed,weight,armour,weapons,passengers,mobility);
+		return new GummiShipEntity.ShipStats(speed,weight,armour,weapons,impact,passengers,mobility);
 	}
 
 	public static GummiStructure resizeStructure(GummiStructure original, int newSize) {

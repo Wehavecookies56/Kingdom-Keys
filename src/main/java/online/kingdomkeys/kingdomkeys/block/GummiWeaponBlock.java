@@ -41,7 +41,7 @@ public class GummiWeaponBlock extends GummiBlockEdge {
                 case FIRE, FIRA, FIRAGA -> FIRE;
                 case BLIZZARD, BLIZZARA, BLIZZAGA -> BLIZZARD;
                 case GRAVITY, GRAVIRA, GRAVIGA -> GRAVITY;
-                case WATER, WATERA, WATERGA -> WATERGA;
+                case WATER, WATERA, WATERGA -> WATER;
             };
         }
     }

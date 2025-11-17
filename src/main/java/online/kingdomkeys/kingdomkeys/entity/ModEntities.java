@@ -214,6 +214,7 @@ public class ModEntities {
     public static final Supplier<EntityType<BaseShotlockShotEntity>> TYPE_ULTIMA_CANNON_SHOT = createEntityType(UltimaCannonShotEntity::new, MobCategory.MISC,"entity_ultima_cannon_shotlock_shot", 0.5F, 0.5F);
 
     public static final Supplier<EntityType<GummiShotEntity>> TYPE_GUMMI_SHOT = createEntityType(GummiShotEntity::new, MobCategory.MISC, "entity_gummi_shot", 0.5F, 0.5F);
+    public static final Supplier<EntityType<GummiImpactEntity>> TYPE_GUMMI_IMPACT = createEntityType(GummiImpactEntity::new, MobCategory.MISC, "entity_gummi_impact", 0.5F, 0.5F);
 
     public static void register(IEventBus eventBus) {
         ENTITIES.register(eventBus);
@@ -353,6 +354,7 @@ public class ModEntities {
         
         event.registerEntityRenderer(TYPE_GUMMI_SHIP.get(), GummiShipEntityRenderer::new);
         event.registerEntityRenderer(TYPE_GUMMI_SHOT.get(), GummiShotEntityRender::new);
+        event.registerEntityRenderer(TYPE_GUMMI_IMPACT.get(), GummiImpactEntityRender::new);
 
         event.registerEntityRenderer(TYPE_MARLUXIA.get(), MarluxiaRenderer::new);
         
