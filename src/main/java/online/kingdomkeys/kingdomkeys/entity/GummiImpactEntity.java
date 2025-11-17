@@ -8,21 +8,20 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.EntityHitResult;
-import net.minecraft.world.phys.HitResult;
-import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.*;
 import online.kingdomkeys.kingdomkeys.block.GummiWeaponBlock;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.sql.SQLOutput;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -63,6 +62,7 @@ public class GummiImpactEntity extends ThrowableProjectile{
 
         if (linked != null && !linked.isRemoved() && this.getId() < linked.getId()) {
             spawnLinkParticles(this.position(), linked.position());
+            damageEntitiesBetween(linked, dmg ,getCaster());
         }
 
         if(ticks > 100) {
@@ -92,9 +92,41 @@ public class GummiImpactEntity extends ThrowableProjectile{
             double t = i / (double) steps;
             Vec3 p = a.add(diff.scale(t));
 
-            ((ServerLevel)level()).sendParticles(ParticleTypes.BUBBLE, p.x, p.y, p.z, 1,0, 0, 0,0);
+            float offset = level().random.nextFloat()-0.5F;
+            ((ServerLevel)level()).sendParticles(ParticleTypes.BUBBLE, p.x, p.y, p.z, 100,offset,offset,offset,0);
         }
     }
+
+    public void damageEntitiesBetween(GummiImpactEntity other, float damage, Entity shooter) {
+        if (!(level() instanceof ServerLevel server))
+            return;
+
+        Vec3 start = this.position();
+        Vec3 end = other.position();
+
+        int steps = 30;
+        double radius = 0.5;
+
+        for (int i = 0; i <= steps; i++) {
+            double t = i / (double) steps;
+            Vec3 point = start.add(end.subtract(start).scale(t));
+
+            AABB box = new AABB(point.x - radius, point.y - radius, point.z - radius, point.x + radius, point.y + radius, point.z + radius);
+
+            List<Entity> entities = level().getEntities(shooter, box, e -> e != shooter && e != this && e != other && e.isAlive());
+
+            for (Entity e : entities) {
+                if(e instanceof GummiShipEntity ship){
+                    if(!ship.getPassengers().contains(getOwner())) {
+                        e.hurt(e.damageSources().indirectMagic(shooter, shooter), damage);
+                    }
+                } else {
+                    e.hurt(e.damageSources().indirectMagic(shooter, shooter), damage);
+                }
+            }
+        }
+    }
+
 
     @Override
     protected void onHit(HitResult rtRes) {
@@ -121,7 +153,7 @@ public class GummiImpactEntity extends ThrowableProjectile{
             if (rtRes instanceof BlockHitResult hitResult) {
                 BlockPos blockpos = hitResult.getBlockPos();
                 if(!(level().getBlockState(blockpos).getBlock() instanceof GummiWeaponBlock)) {
-                    //super.remove(RemovalReason.KILLED);
+                    super.remove(RemovalReason.KILLED);
                 }
             }
             //remove(RemovalReason.KILLED);

@@ -113,6 +113,7 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 
     public void boost(Player player){
         // Seems entity push is not needed in server
+
         int size = 0;
         System.out.println(shipStats.impact());
         if(shipStats.impact().containsKey(GummiWeaponBlock.ShotType.WATER)){
@@ -135,12 +136,12 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
         GummiImpactEntity shot = new GummiImpactEntity(level(), player, power);
         level().addFreshEntity(shot);
         shot.setPos(position());
-        shot.shootFromRotation(this, getXRot(), getYRot() - size, 0, 5F, 0);
+        shot.shootFromRotation(this, getXRot(), getYRot() - size, 0, 3F, 0);
 
         GummiImpactEntity shot2 = new GummiImpactEntity(level(), player, power);
         level().addFreshEntity(shot2);
         shot2.setPos(position());
-        shot2.shootFromRotation(this, getXRot(), getYRot() + size, 0, 5F, 0);
+        shot2.shootFromRotation(this, getXRot(), getYRot() + size, 0, 3F, 0);
 
         shot.setLinked(shot2);
         shot2.setLinked(shot);
