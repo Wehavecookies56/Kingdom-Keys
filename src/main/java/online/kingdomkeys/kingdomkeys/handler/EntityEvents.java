@@ -1159,7 +1159,7 @@ public class EntityEvents {
 					}
 
 					int num = Utils.randomWithRange(0, 99);
-					if (num < ModConfigs.SERVER.recipeDropChance.get() + Utils.getLootingLevel(player)) {
+					if (num < ModConfigs.recipeDropChance + Utils.getLootingLevel(player)) {
 						Item recipeTier = ModItems.recipeD.get();
 						GlobalData mobData = GlobalData.get(entity);
 						if (mobData != null) {
