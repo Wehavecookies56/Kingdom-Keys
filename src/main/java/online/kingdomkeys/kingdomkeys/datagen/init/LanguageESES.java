@@ -100,6 +100,7 @@ public class LanguageESES extends KKLanguageProvider {
         addConfigKey(ModConfigs.getClientConfig().focusYScale, "Indicador de Tino escala Y (%)");
 
         //COMMON
+        addConfigKey(ModConfigs.getCommonConfig().recipeDropChance, "Probabilidad de soltar recetas");
         addConfigKey(ModConfigs.getCommonConfig().bombExplodeWithFire, "Sincorazón bomba explotan con fuego");
         addConfigKey(ModConfigs.getCommonConfig().blizzardChangeBlocks, "Hielo altera bloques");
         addConfigKey(ModConfigs.getCommonConfig().keybladeOpenDoors, "Llave espada abre puertas de hierro");
@@ -134,7 +135,6 @@ public class LanguageESES extends KKLanguageProvider {
         addConfigKey(ModConfigs.getCommonConfig().startingRecipes, "Recetas iniciales");
 
         //SERVER
-        addConfigKey(ModConfigs.getServerConfig().recipeDropChance, "Probabilidad de soltar recetas");
         addConfigKey(ModConfigs.getServerConfig().partyRangeLimit, "Límite de rango de grupo");
         addConfigKey(ModConfigs.getServerConfig().partyMembersLimit, "Límite de miembros de grupo");
         addConfigKey(ModConfigs.getServerConfig().requireSynthTier, "Requerir nivel de síntesis");

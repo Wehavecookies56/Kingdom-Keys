@@ -103,6 +103,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addConfigKey(ModConfigs.getClientConfig().focusYScale, "Focus Bar Y scale (%)");
 
         //COMMON
+        addConfigKey(ModConfigs.getCommonConfig().recipeDropChance, "Recipe drop chance");
         addConfigKey(ModConfigs.getCommonConfig().bombExplodeWithFire, "Bomb Heartless explode on fire");
         addConfigKey(ModConfigs.getCommonConfig().blizzardChangeBlocks, "Blizzard change blocks");
         addConfigKey(ModConfigs.getCommonConfig().keybladeOpenDoors, "Keyblade open iron doors");
@@ -137,7 +138,6 @@ public class LanguageENUS extends KKLanguageProvider {
         addConfigKey(ModConfigs.getCommonConfig().startingRecipes, "Starter recipes");
 
         //SERVER
-        addConfigKey(ModConfigs.getServerConfig().recipeDropChance, "Recipe drop chance");
         addConfigKey(ModConfigs.getServerConfig().partyRangeLimit, "Party range limit");
         addConfigKey(ModConfigs.getServerConfig().partyMembersLimit, "Party members limit");
         addConfigKey(ModConfigs.getServerConfig().requireSynthTier, "Require Synthesis tier");
@@ -566,9 +566,12 @@ public class LanguageENUS extends KKLanguageProvider {
         addBlock(ModBlocks.gummiCore, "Core/G");
 
         //Aeros
-        addTintedBlock(ModBlocks.gummiAeroTriangles, "Aero/G-01 (Triangle %s)");
+        addTintedBlock(ModBlocks.gummiAeroTriangles, "Aero/G-02 (Triangle %s)");
         addTintedBlock(ModBlocks.gummiAeroSquares, "Aero/G-01 (Square %s)");
 
+        //Engines
+        addBlock(ModBlocks.gummiVernier, "Vernier/G");
+        addBlock(ModBlocks.gummiThruster, "Thruster/G");
 
         /**KK stuff**/
         //Abilities
@@ -2007,6 +2010,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add(InputHandler.Keybinds.LOCK_ON, "Lock-on");
         add(InputHandler.Keybinds.OPENMENU, "Open Menu");
         add(InputHandler.Keybinds.SHOW_GUI, "Toggle HUD");
+        add(InputHandler.Keybinds.LOCK_ON_SWAP, "Lock-on target swap");
 
         //Groups
         add("itemGroup.kingdomkeys_misc", "Kingdom Keys: Misc");
