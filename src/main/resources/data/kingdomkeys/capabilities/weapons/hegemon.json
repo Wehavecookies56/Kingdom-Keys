@@ -1,11 +1,16 @@
 {
-	"type": "epicfight:spear",
+	"type": "kingdomkeys:kk_lance",
 	"attributes":{
 		"common":{
 			"armor_negation": 0.0,
-			"impact": 3.3,
+			"impact": 3.0,
 			"max_strikes": 1,
 			"speed_bonus": 0
 		}
+	},
+	"collider": {
+		"number": 2,
+		"center": [0.0, 0.0, 0.0],
+		"size": [0.3, 0.3, 2.0]
 	}
 }

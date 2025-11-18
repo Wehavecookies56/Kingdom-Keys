@@ -1,11 +1,16 @@
 {
-	"type": "epicfight:dagger",
-	"attributes":{
-		"common":{
+	"type": "kingdomkeys:kk_ethereal_blade",
+	"attributes": {
+		"common": {
 			"armor_negation": 0.0,
 			"impact": 3.0,
 			"max_strikes": 1,
 			"speed_bonus": 0
+		},
+		"collider": {
+			"number": 1,
+			"center": [0.0, 0.0, -0.7],
+			"size": [0.4, 0.4, 0.7]
 		}
 	}
 }

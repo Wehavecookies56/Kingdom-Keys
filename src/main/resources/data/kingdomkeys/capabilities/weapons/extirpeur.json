@@ -1,11 +1,16 @@
 {
-	"type": "epicfight:dagger",
+	"type": "kingdomkeys:kk_knives",
 	"attributes":{
 		"common":{
 			"armor_negation": 0.0,
-			"impact": 3.0,
+			"impact": 2.0,
 			"max_strikes": 1,
 			"speed_bonus": 0
 		}
+	},
+	"collider": {
+		"number": 4,
+		"center": [0.0, 0.0, -0.0],
+		"size": [0.5, 0.5, 0.5]
 	}
 }
