@@ -7,7 +7,7 @@
 	"base":	{
 		"parent": "forge:item/default",
 		"loader": "forge:obj",
-		"model": "kingdomkeys:models/item/keyblade/nightmaresendandmiragesplit.obj",
+		"model": "kingdomkeys:models/item/keyblade/combinedkeyblade.obj",
 		"flip_v" : true,
 		"textures": {
 	

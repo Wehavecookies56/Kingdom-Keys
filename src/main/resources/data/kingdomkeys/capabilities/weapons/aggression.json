@@ -5,7 +5,7 @@
 			"armor_negation": 0.0,
 			"impact": 3.0,
 			"max_strikes": 1,
-			"speed_bonus": -2.90
+			"speed_bonus": 0
 		},
 		"collider": {
 			"number": 1,
