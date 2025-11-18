@@ -10,20 +10,21 @@
 * Gummi meteors randomly spawning on the surface of the overworld, they drop keyblade upgrade materials and gummi fragments.
 * Gummi fragments which then can be used to make gummi blocks.
 * Gummi Phone to be able to store and summon your Gummi Ship (shift + punch your Gummi Ship while holding it).
-* Two datapacks to disable overworld and end custom worldgen.
+* Two datapacks, to disable overworld and end custom worldgen.
 
 **Changed:**
 * Visual effect on HP Bar red portion, now decreases gradually.
 * Savepoints will now retain their stats when broken.
 * Lock on switch is now a keybind, no longer bound to sprinting key.
-* Updated Spanish translation to work with datagen, please report any missing translations if found.
+* Updated Spanish translation to work with datagen, please report any faulty translations if found.
 * Slightly lowered volume for armor summon and unsummon sounds.
 * Shotlock should now lock on entities easier since it doesn't require to be that precise anymore.
 * Casting a magic will remember its position for the next time you open the submenu.
-* Reduced CPU usage of the merging function from MP orb, HP orb, Focus orb, Drive orb and munny and the Command Menu color scanning function.
+* Reduced CPU usage of the merging function from MP, HP, Focus, Drive and Munny orbs and the Command Menu color scanning function.
 
 **Fixed:**
 * Some DDD keyblade models.
+* Pauldrons lagging over time with EFM.
 * Shotlocks not working with EFM.
 * IronFurnaces desummoning the keyblade.
 * Errors on console regarding extended reach.
@@ -31,3 +32,4 @@
 * Magic being greyed out if you only had Cure which you could cast.
 * Fixed Reaction Commands order being wrong and crash.
 * HUD being visible even when F1 was pressed.
+* Keyblade selection going further down than intended depending on the resolution.

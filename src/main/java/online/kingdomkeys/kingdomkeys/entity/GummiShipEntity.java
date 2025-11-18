@@ -29,8 +29,9 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.entity.IEntityWithComplexSpawn;
+import online.kingdomkeys.kingdomkeys.block.gummi.GummiBlockBase;
+import online.kingdomkeys.kingdomkeys.block.gummi.GummiPlacementType;
 import online.kingdomkeys.kingdomkeys.block.gummi.GummiWeaponBlock;
-import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.datagen.init.BlockTagsGen;
 import online.kingdomkeys.kingdomkeys.item.ModComponents;
@@ -202,14 +203,28 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 					BlockState state = structure.getBlocks()[x][y][z];
 					if (state != null && !state.isAir()) {
 						Block block = state.getBlock();
-						if (block.builtInRegistryHolder().is(BlockTagsGen.GUMMI_DROPS)) {
-							items.add(block.asItem());
-						} else {
-							int number = level().random.nextInt(100);
-							if (number < ModConfigs.gummiBlocksDropPercent) {
-								items.add(block.asItem());
-							}
-						}
+                        if(block instanceof GummiBlockBase gummi) {
+                            if (gummi.getPlacementType() == GummiPlacementType.MULTIBLOCK2D) {
+                                if (!(state.getValue(GummiBlockBase.X) == 0 && state.getValue(GummiBlockBase.Z) == 0)) {
+                                    continue; //skip fake blocks
+                                }
+                            } else if (gummi.getPlacementType() == GummiPlacementType.MULTIBLOCK3D) {
+                                if (!(state.getValue(GummiBlockBase.X) == 0 && state.getValue(GummiBlockBase.Y) == 0 && state.getValue(GummiBlockBase.Z) == 0)) {
+                                    continue; //skip fake blocks
+                                }
+                            }
+                        }
+
+
+                        if (block.builtInRegistryHolder().is(BlockTagsGen.GUMMI_DROPS)) {
+                            items.add(block.asItem());
+                        } else {
+                            int number = level().random.nextInt(100);
+                            if (number < ModConfigs.gummiBlocksDropPercent) {
+                                items.add(block.asItem());
+                            }
+                        }
+
 					}
 				}
 			}

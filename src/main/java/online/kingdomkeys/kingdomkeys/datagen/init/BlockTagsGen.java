@@ -8,13 +8,14 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.neoforged.neoforge.common.data.BlockTagsProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.block.gummi.GummiBlockBase;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
+import online.kingdomkeys.kingdomkeys.block.gummi.GummiCockpitBlock;
+import online.kingdomkeys.kingdomkeys.block.gummi.GummiWeaponBlock;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
@@ -52,7 +53,7 @@ public class BlockTagsGen extends BlockTagsProvider {
 		add(BlockTags.DRAGON_IMMUNE, ModBlocks.metalBlox.get());
 		add(BlockTags.WITHER_IMMUNE, ModBlocks.metalBlox.get());
 
-		add(GUMMI_DROPS,Blocks.PISTON);
+		add(GUMMI_DROPS,ModBlocks.gummiCore.get());
 		add(BANNED_GUMMI_BLOCKS, ModBlocks.savepoint.get());
 		add(BANNED_GUMMI_BLOCKS, ModBlocks.gummiHangar.get());
 
@@ -62,8 +63,11 @@ public class BlockTagsGen extends BlockTagsProvider {
             String name = Objects.requireNonNull(BuiltInRegistries.BLOCK.getKey(block)).getPath();
 
             if (block instanceof Block) {
-				if(block instanceof GummiBlockBase){
+				if(block instanceof GummiBlockBase gummi){
 					add(GUMMI_BLOCK, block);
+                    if(gummi instanceof GummiWeaponBlock || gummi instanceof GummiCockpitBlock){
+                        add(GUMMI_DROPS, block);
+                    }
 				}
 
                 if(block == ModBlocks.rodSand.get()) {
