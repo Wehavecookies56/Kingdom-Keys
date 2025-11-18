@@ -30,6 +30,7 @@ public class CommonConfig {
 
     public ModConfigSpec.IntValue driveHeal, gummiBlocksDropPercent;
 
+    public ModConfigSpec.IntValue recipeDropChance;
     public ModConfigSpec.DoubleValue drivePointsMultiplier;
     public ModConfigSpec.DoubleValue focusPointsMultiplier;
 
@@ -131,6 +132,11 @@ public class CommonConfig {
                 .translation(KingdomKeys.MODID + ".config.focus_points_multiplier")
                 .defineInRange("focusPointsMultiplier",1.0,0,100);
         builder.pop();
+
+        recipeDropChance = builder
+                .comment("Recipe drop chance")
+                .translation(KingdomKeys.MODID + ".config.recipe_drop_chance")
+                .defineInRange("recipeDropChance", 2, 0, 100);
 
         builder.push("spawning");
         heartlessSpawningMode = builder

@@ -8,7 +8,7 @@ import java.util.List;
 
 public class ServerConfig {
 
-    public ModConfigSpec.IntValue recipeDropChance, partyRangeLimit, partyMembersLimit, shotlockMaxDist;
+    public ModConfigSpec.IntValue partyRangeLimit, partyMembersLimit, shotlockMaxDist;
 
     public ModConfigSpec.ConfigValue<List<? extends String>> driveFormXPMultiplier;
     public ModConfigSpec.ConfigValue<List<? extends Integer>> statsMultiplier;
@@ -18,11 +18,6 @@ public class ServerConfig {
 
     ServerConfig(final ModConfigSpec.Builder builder) {
         builder.push("general");
-
-        recipeDropChance = builder
-                .comment("Recipe drop chance")
-                .translation(KingdomKeys.MODID + ".config.recipe_drop_chance")
-                .defineInRange("recipeDropChance", 2, 0, 100);
 
         partyRangeLimit = builder
                 .comment("Party range limit")

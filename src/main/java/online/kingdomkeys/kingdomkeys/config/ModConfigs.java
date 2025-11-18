@@ -350,7 +350,7 @@ public class ModConfigs {
     public static SpawningMode heartlessSpawningMode;
     public static List<String> mobSpawnRate;
 
-    public static int driveHeal, hpDropProbability, mpDropProbability, munnyDropProbability, driveDropProbability, focusDropProbability, gummiBlocksDropPercent;
+    public static int driveHeal, hpDropProbability, mpDropProbability, munnyDropProbability, driveDropProbability, focusDropProbability, gummiBlocksDropPercent, recipeDropChance;
 
     public static double shotlockMult, critMult, drivePointsMultiplier, focusPointsMultiplier;
 
@@ -379,6 +379,7 @@ public class ModConfigs {
         shotlockMult = COMMON.shotlockMult.get();
         critMult = COMMON.critMult.get();
 
+        recipeDropChance = COMMON.recipeDropChance.get();
         hpDropProbability = COMMON.hpDropProbability.get();
         mpDropProbability = COMMON.mpDropProbability.get();
         munnyDropProbability = COMMON.munnyDropProbability.get();
