@@ -1,28 +1,28 @@
 {
   "variants": {
     "facing=down": {
-      "model": "kingdomkeys:block/gummi/gummi_dome",
+      "model": "kingdomkeys:block/gummi/dispel_gummi_dome",
       "x": 180
     },
     "facing=east": {
-      "model": "kingdomkeys:block/gummi/gummi_dome",
+      "model": "kingdomkeys:block/gummi/dispel_gummi_dome",
       "x": 90,
       "y": 90
     },
     "facing=north": {
-      "model": "kingdomkeys:block/gummi/gummi_dome",
+      "model": "kingdomkeys:block/gummi/dispel_gummi_dome",
       "x": 90
     },
     "facing=south": {
-      "model": "kingdomkeys:block/gummi/gummi_dome",
+      "model": "kingdomkeys:block/gummi/dispel_gummi_dome",
       "x": 90,
       "y": 180
     },
     "facing=up": {
-      "model": "kingdomkeys:block/gummi/gummi_dome"
+      "model": "kingdomkeys:block/gummi/dispel_gummi_dome"
     },
     "facing=west": {
-      "model": "kingdomkeys:block/gummi/gummi_dome",
+      "model": "kingdomkeys:block/gummi/dispel_gummi_dome",
       "x": 90,
       "y": 270
     }

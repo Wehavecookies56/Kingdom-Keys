@@ -44,10 +44,9 @@ import net.neoforged.neoforge.client.event.*;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
-import online.kingdomkeys.kingdomkeys.block.GummiBlockBase;
-import online.kingdomkeys.kingdomkeys.block.GummiBlockCorner;
+import online.kingdomkeys.kingdomkeys.block.gummi.GummiBlockBase;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
-import online.kingdomkeys.kingdomkeys.block.GummiBlockEdge;
+import online.kingdomkeys.kingdomkeys.block.gummi.GummiPlacementType;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.KOGui;
 import online.kingdomkeys.kingdomkeys.client.gui.StopGui;
@@ -222,7 +221,7 @@ public class ClientEvents {
 		if (!(player.getMainHandItem().getItem() instanceof BlockItem blockItem) || event.getTarget().getDirection() == Direction.DOWN || event.getTarget().getDirection() == Direction.UP)
 			return;
 
-		if(blockItem.getBlock() instanceof GummiBlockEdge || blockItem.getBlock() instanceof GummiBlockCorner) {
+		if(blockItem.getBlock() instanceof GummiBlockBase blockBase && (blockBase.getPlacementType() == GummiPlacementType.EDGE || blockBase.getPlacementType() == GummiPlacementType.CORNER)) {
 			BlockPos pos = event.getTarget().getBlockPos();
 			Direction face = event.getTarget().getDirection();
 
@@ -254,9 +253,9 @@ public class ClientEvents {
 					case WEST -> dx = -offset;
 				}
 
-				if (blockItem.getBlock() instanceof GummiBlockCorner)
+				if (blockItem.getBlock() instanceof GummiBlockBase gummiBlockBase && gummiBlockBase.getPlacementType() == GummiPlacementType.CORNER)
 					ClientUtils.drawPlusOnFace(poseStack, builder, x + dx, y + dy, z + dz, face);
-				else if (blockItem.getBlock() instanceof GummiBlockEdge)
+				else if (blockItem.getBlock() instanceof GummiBlockBase gummiBlockBase && gummiBlockBase.getPlacementType() == GummiPlacementType.EDGE)
 					ClientUtils.drawXOnFace(poseStack, builder, x + dx, y + dy, z + dz, face);
 
 			}

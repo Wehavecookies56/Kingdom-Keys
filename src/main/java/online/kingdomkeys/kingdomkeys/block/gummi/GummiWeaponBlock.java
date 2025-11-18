@@ -1,15 +1,12 @@
-package online.kingdomkeys.kingdomkeys.block;
+package online.kingdomkeys.kingdomkeys.block.gummi;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.SignalGetter;
@@ -17,7 +14,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.entity.GummiShipEntity;
@@ -28,7 +24,7 @@ import org.joml.Vector3f;
 
 import javax.annotation.Nullable;
 
-public class GummiWeaponBlock extends GummiBlockEdge {
+public class GummiWeaponBlock extends GummiBlockBase {
     public static final BooleanProperty ACTIVE = BooleanProperty.create("active");
 
     int firepower, fuelPerShot;
@@ -46,8 +42,12 @@ public class GummiWeaponBlock extends GummiBlockEdge {
         }
     }
 
-    public GummiWeaponBlock(Properties properties, ShotType shotType, int weight, int armour, int firepower, int fuelPerShot) {
-        super(properties, weight, armour, null, null);
+    public float[] getOffsetToCannon(){
+        return new float[]{0.5F,0,0.5F};
+    }
+
+    public GummiWeaponBlock(GummiBlockProperties gummiProperties, ShotType shotType, int firepower, int fuelPerShot) {
+        super(gummiProperties);
         this.firepower = firepower;
         this.shotType = shotType;
         this.fuelPerShot = fuelPerShot;
@@ -75,12 +75,12 @@ public class GummiWeaponBlock extends GummiBlockEdge {
     public void castShotFromRedstone(Level level, float xRot, float yRot, float dmg, Vec3 pos, float speed){
         BlockState state = level.getBlockState(new BlockPos((int) pos.x(), (int) pos.y(), (int) pos.z()));
         Quarter quarter = state.getValue(QUARTER);
-        Direction rotation = state.getValue(FACING);
+        Direction rotation = state.getValue(HORIZONTAL_FACING);
 
         float xOff = 0, zOff = 0;
-        if(this instanceof GummiWeaponMultiBlock mb){
-            xOff = mb.getOffsetToCannon()[0];
-            zOff = mb.getOffsetToCannon()[2];
+        if(this.isMultiBlock){
+            xOff = getOffsetToCannon()[0];
+            zOff = getOffsetToCannon()[2];
         }
 
         //Get yRot based on direction
@@ -125,7 +125,7 @@ public class GummiWeaponBlock extends GummiBlockEdge {
             BlockPos pos = BlockPos.containing(finalPos);
             BlockState state = level.getBlockState(pos);
             if (state.hasProperty(FACING)) {
-                Direction facing = state.getValue(FACING);
+                Direction facing = state.getValue(HORIZONTAL_FACING);
                 dir = Vec3.atLowerCornerOf(facing.getNormal()).normalize();
             } else {
                 dir = new Vec3(0, 1, 0);
@@ -166,21 +166,6 @@ public class GummiWeaponBlock extends GummiBlockEdge {
             ship.remFuel(getFuelPerShot());
     }
 
-
-    /*
-    * Overrinding this so it doesn't conflict with the dye method from super
-    * */
-    @Override
-    protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
-        return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
-    }
-
-    @Nullable
-    @Override
-    public BlockState getStateForPlacement(BlockPlaceContext context) {
-        return super.getStateForPlacement(context).setValue(ACTIVE,false);
-    }
-
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         super.createBlockStateDefinition(builder);
@@ -198,12 +183,14 @@ public class GummiWeaponBlock extends GummiBlockEdge {
 
     @Override
     public void neighborChanged(BlockState state, Level level, BlockPos pos, Block blockIn, BlockPos fromPos, boolean b) {
-        super.neighborChanged(state,level,pos,blockIn,fromPos,b);
-        boolean powered = level.hasNeighborSignal(pos);
-        boolean oldPowered = state.getValue(ACTIVE);
-        level.setBlockAndUpdate(pos, state.setValue(ACTIVE, powered));
-        if(!level.isClientSide() && !oldPowered && powered){
-            shoot(null, level, null, new Vec3(pos.getX(), pos.getY(), pos.getZ()), null);
+        if (canConnectRedstone(state, level, pos, null)) {
+            super.neighborChanged(state, level, pos, blockIn, fromPos, b);
+            boolean powered = level.hasNeighborSignal(pos);
+            boolean oldPowered = state.getValue(ACTIVE);
+            level.setBlockAndUpdate(pos, state.setValue(ACTIVE, powered));
+            if (!level.isClientSide() && !oldPowered && powered) {
+                shoot(null, level, null, new Vec3(pos.getX(), pos.getY(), pos.getZ()), null);
+            }
         }
     }
 
@@ -215,6 +202,7 @@ public class GummiWeaponBlock extends GummiBlockEdge {
             level.setBlockAndUpdate(pos, state.setValue(ACTIVE, level.hasNeighborSignal(pos)));
         }
     }
+
 
     @Override
     public boolean shouldCheckWeakPower(BlockState state, SignalGetter level, BlockPos pos, Direction side) {
@@ -238,6 +226,10 @@ public class GummiWeaponBlock extends GummiBlockEdge {
 
     @Override
     public boolean canConnectRedstone(BlockState state, BlockGetter level, BlockPos pos, @Nullable Direction direction) {
-        return true;
+        if (isMultiBlock) {
+            return state.getValue(X) == 0 && state.getValue(Z) == 0;
+        } else {
+            return true;
+        }
     }
 }

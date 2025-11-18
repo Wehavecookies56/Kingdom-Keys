@@ -14,7 +14,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.client.gui.widget.ExtendedButton;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.block.GummiHangarBlock;
+import online.kingdomkeys.kingdomkeys.block.gummi.GummiHangarBlock;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.HiddenButton;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.entity.GummiShipEntity;

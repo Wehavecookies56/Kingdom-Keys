@@ -14,7 +14,7 @@ import net.minecraft.util.Mth;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.block.GummiWeaponBlock;
+import online.kingdomkeys.kingdomkeys.block.gummi.GummiWeaponBlock;
 import online.kingdomkeys.kingdomkeys.entity.GummiShotEntity;
 import org.joml.Matrix4f;
 import org.joml.Quaternionf;

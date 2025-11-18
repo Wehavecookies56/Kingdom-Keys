@@ -7,14 +7,13 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.menu.GummiHangarMenu;
 import online.kingdomkeys.kingdomkeys.network.Packet;
-import static online.kingdomkeys.kingdomkeys.block.GummiHangarBlock.SHOW_LINES;
+import static online.kingdomkeys.kingdomkeys.block.gummi.GummiHangarBlock.SHOW_LINES;
 
 public record CSShowHangarLinesPacket(int containerID) implements Packet {
 

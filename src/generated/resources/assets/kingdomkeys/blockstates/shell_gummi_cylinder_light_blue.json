@@ -1,15 +1,15 @@
 {
   "variants": {
     "axis=x": {
-      "model": "kingdomkeys:block/gummi/gummi_cylinder",
+      "model": "kingdomkeys:block/gummi/shell_gummi_cylinder",
       "x": 90,
       "y": 90
     },
     "axis=y": {
-      "model": "kingdomkeys:block/gummi/gummi_cylinder"
+      "model": "kingdomkeys:block/gummi/shell_gummi_cylinder"
     },
     "axis=z": {
-      "model": "kingdomkeys:block/gummi/gummi_cylinder",
+      "model": "kingdomkeys:block/gummi/shell_gummi_cylinder",
       "x": 90
     }
   }

@@ -1,9 +1,10 @@
-package online.kingdomkeys.kingdomkeys.block;
+package online.kingdomkeys.kingdomkeys.block.gummi;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import online.kingdomkeys.kingdomkeys.block.BaseBlock;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.item.ICreativeTab;
 

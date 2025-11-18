@@ -13,7 +13,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.block.GummiHangarBlock;
+import online.kingdomkeys.kingdomkeys.block.gummi.GummiHangarBlock;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.entity.block.GummiHangarTileEntity;
 import online.kingdomkeys.kingdomkeys.menu.GummiHangarMenu;

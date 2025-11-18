@@ -1,4 +1,4 @@
-package online.kingdomkeys.kingdomkeys.block;
+package online.kingdomkeys.kingdomkeys.block.gummi;
 
 import com.mojang.serialization.MapCodec;
 import net.minecraft.ChatFormatting;
@@ -32,6 +32,8 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.items.IItemHandler;
+import online.kingdomkeys.kingdomkeys.block.INoDataGen;
+import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.block.GummiHangarTileEntity;

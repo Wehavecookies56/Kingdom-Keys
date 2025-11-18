@@ -1,7 +1,5 @@
 package online.kingdomkeys.kingdomkeys.entity;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.ParticleTypes;
@@ -12,7 +10,6 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -32,8 +29,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.entity.IEntityWithComplexSpawn;
-import online.kingdomkeys.kingdomkeys.block.GummiWeaponBlock;
-import online.kingdomkeys.kingdomkeys.block.GummiWeaponMultiBlock;
+import online.kingdomkeys.kingdomkeys.block.gummi.GummiWeaponBlock;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.datagen.init.BlockTagsGen;
@@ -86,7 +82,7 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
         Quarter quarter = weapon.getValue(GummiWeaponBlock.QUARTER);
 
         float xOff = 0, zOff = 0;
-        if(weapon.getBlock() instanceof GummiWeaponMultiBlock mb){
+        if(weapon.getBlock() instanceof GummiWeaponBlock mb && mb.isMultiBlock()){
             xOff = mb.getOffsetToCannon()[0];
             zOff = mb.getOffsetToCannon()[2];
         }

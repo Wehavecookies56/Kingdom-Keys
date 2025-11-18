@@ -15,7 +15,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
-import online.kingdomkeys.kingdomkeys.block.GummiWeaponBlock;
+import online.kingdomkeys.kingdomkeys.block.gummi.GummiWeaponBlock;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 

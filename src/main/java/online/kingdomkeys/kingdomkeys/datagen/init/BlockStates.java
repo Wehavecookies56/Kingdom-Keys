@@ -4,6 +4,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.properties.Half;
 import net.neoforged.neoforge.client.model.generators.BlockStateProvider;
@@ -14,10 +15,14 @@ import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.block.*;
+import online.kingdomkeys.kingdomkeys.block.gummi.*;
 import online.kingdomkeys.kingdomkeys.lib.Corner;
 import online.kingdomkeys.kingdomkeys.lib.Quarter;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Objects;
 import java.util.function.Supplier;
 
@@ -34,6 +39,14 @@ public class BlockStates extends BlockStateProvider {
 			String name = Objects.requireNonNull(BuiltInRegistries.BLOCK.getKey(block)).getPath();
 
 			String blockName = Utils.getBlockRegistryName(block).getPath();
+			List<String> colours = Arrays.stream(DyeColor.values()).map(DyeColor::toString).sorted(Comparator.comparingInt(String::length).reversed()).toList();
+			for (String colour : colours) {
+				String suffix = "_" + colour;
+				if (blockName.endsWith(suffix)) {
+					blockName = blockName.substring(0, blockName.length() - suffix.length());
+				}
+			}
+			String finalBlockName = blockName;
 			String tier;
 			if(blockName.contains("shell")){
 				tier = "shell_";
@@ -42,14 +55,13 @@ public class BlockStates extends BlockStateProvider {
 			} else {
                 tier = "";
             }
+			String path = "block/gummi/" + finalBlockName;
 			if (block instanceof GummiCockpitBlock) {
 				getVariantBuilder(block).forAllStates(blockState -> {
 					ConfiguredModel.Builder<?> builder = ConfiguredModel.builder();
-					Direction facing = blockState.getValue(GummiCockpitBlock.FACING);
+					Direction facing = blockState.getValue(GummiCockpitBlock.HORIZONTAL_FACING);
 
-					if (blockName.contains("gummi_bubble_helm")) {
-						builder.modelFile(new ModelFile.ExistingModelFile(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "block/gummi/gummi_bubble_helm"), models().existingFileHelper));
-					}
+					builder.modelFile(new ModelFile.ExistingModelFile(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, path), models().existingFileHelper));
 
 					int y = switch (facing) {
 						case DOWN, UP, SOUTH -> 270;
@@ -60,155 +72,127 @@ public class BlockStates extends BlockStateProvider {
 					builder.rotationY(y);
 					return builder.build();
 				});
-			} else if (block instanceof GummiBlockEdge) {
-				getVariantBuilder(block).forAllStates(blockState -> {
-					ConfiguredModel.Builder<?> builder = ConfiguredModel.builder();
-					Quarter quarter = blockState.getValue(GummiBlockEdge.QUARTER);
-					Direction facing = blockState.getValue(GummiBlockEdge.FACING);
+			} else if (block instanceof GummiBlockBase gummiBlockBase) {
+				if (gummiBlockBase.getPlacementType() == GummiPlacementType.STANDARD) {
+					simpleBlock(block, new ModelFile.UncheckedModelFile(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "block/" + name)));
+				} else if (gummiBlockBase.getPlacementType() == GummiPlacementType.EDGE || gummiBlockBase.getPlacementType() == GummiPlacementType.MULTIBLOCK2D) {
+					getVariantBuilder(block).forAllStates(blockState -> {
+						ConfiguredModel.Builder<?> builder = ConfiguredModel.builder();
+						Quarter quarter = blockState.getValue(GummiBlockBase.QUARTER);
+						Direction facing = blockState.getValue(GummiBlockBase.HORIZONTAL_FACING);
 
-					if (blockName.contains("gummi_wedge")) {
-						builder.modelFile(new ModelFile.ExistingModelFile(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "block/gummi/"+tier+"gummi_wedge"), models().existingFileHelper));
-                    } else if (blockName.contains("gummi_pie")) {
-                        builder.modelFile(new ModelFile.ExistingModelFile(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "block/gummi/gummi_pie"), models().existingFileHelper));
-                    } else if (blockName.equals("gummi_fire")) {
-                        builder.modelFile(new ModelFile.ExistingModelFile(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "block/gummi/gummi_fire"), models().existingFileHelper));
-					} else if (blockName.equals("gummi_fira")) {
-						builder.modelFile(new ModelFile.ExistingModelFile(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "block/gummi/gummi_fira"), models().existingFileHelper));
-					} else if (blockName.equals("gummi_blizzard")) {
-						builder.modelFile(new ModelFile.ExistingModelFile(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "block/gummi/gummi_blizzard"), models().existingFileHelper));
-					} else if (blockName.equals("gummi_blizzara")) {
-						builder.modelFile(new ModelFile.ExistingModelFile(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "block/gummi/gummi_blizzara"), models().existingFileHelper));
-					} else if (blockName.equals("gummi_gravity")) {
-						builder.modelFile(new ModelFile.ExistingModelFile(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "block/gummi/gummi_gravity"), models().existingFileHelper));
-					} else if (blockName.equals("gummi_gravira")) {
-						builder.modelFile(new ModelFile.ExistingModelFile(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "block/gummi/gummi_gravira"), models().existingFileHelper));
-					} else if (blockName.equals("gummi_water")) {
-						builder.modelFile(new ModelFile.ExistingModelFile(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "block/gummi/gummi_water"), models().existingFileHelper));
-					} else if (blockName.equals("gummi_watera")) {
-						builder.modelFile(new ModelFile.ExistingModelFile(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "block/gummi/gummi_watera"), models().existingFileHelper));
-                    } else if (blockName.contains("gummi_aero_triangle")) {
-                        builder.modelFile(new ModelFile.ExistingModelFile(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "block/gummi/gummi_aero_triangle"), models().existingFileHelper));
-                    } else if (blockName.contains("gummi_aero_square")) {
-                        builder.modelFile(new ModelFile.ExistingModelFile(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "block/gummi/gummi_aero_square"), models().existingFileHelper));
-                    }
+						builder.modelFile(new ModelFile.ExistingModelFile(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, path), models().existingFileHelper));
 
-                    int x = switch (quarter) {
-						case TOP -> 180;
-						case BOTTOM -> 0;
-						case RIGHT -> 90;
-						case LEFT -> 270;
-					};
-					int y = switch (facing) {
-                        case DOWN, UP, SOUTH -> 270;
-                        case NORTH -> 90;
-						case EAST -> 180;
-                        case WEST -> 0;
-					};
-					builder.rotationX(x);
-					builder.rotationY(y);
+						int x = switch (quarter) {
+							case TOP -> 180;
+							case BOTTOM -> 0;
+							case RIGHT -> 90;
+							case LEFT -> 270;
+						};
+						int y = switch (facing) {
+							case DOWN, UP, SOUTH -> 270;
+							case NORTH -> 90;
+							case EAST -> 180;
+							case WEST -> 0;
+						};
+						builder.rotationX(x);
+						builder.rotationY(y);
 
-					return builder.build();
-				});
-			} else if (block instanceof GummiBlockCorner) {
-				getVariantBuilder(block).forAllStates(blockState -> {
-					ConfiguredModel.Builder<?> builder = ConfiguredModel.builder();
-					Half half = blockState.getValue(GummiBlockCorner.HALF);
-					Corner corner = blockState.getValue(GummiBlockCorner.CORNER);
-					int x = half == Half.TOP ? 180 : 0;
-					int y = 0;
-					if (blockName.contains("gummi_pyramid")) {
-						builder.modelFile(new ModelFile.ExistingModelFile(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "block/gummi/"+tier+"gummi_pyramid"), models().existingFileHelper));
-						y = half == Half.TOP ?
-								switch (corner) {
-									case CORNER1 -> 0;
-									case CORNER2 -> 90;
-									case CORNER3 -> 180;
-									case CORNER4 -> 270;
-								} :
-								switch (corner) {
-									case CORNER1 -> 90;
-									case CORNER2 -> 180;
-									case CORNER3 -> 270;
-									case CORNER4 -> 0;
-								};
-					} else if (blockName.contains("gummi_round_corner")) {
-						builder.modelFile(new ModelFile.ExistingModelFile(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "block/gummi/gummi_round_corner"), models().existingFileHelper));
-						y = half == Half.TOP ?
-								switch (corner) {
-									case CORNER1 -> 180;
-									case CORNER2 -> 270;
-									case CORNER3 -> 0;
-									case CORNER4 -> 90;
-								} :
-								switch (corner) {
-									case CORNER1 -> 270;
-									case CORNER2 -> 0;
-									case CORNER3 -> 90;
-									case CORNER4 -> 180;
-								};
-					}
-					builder.rotationX(x);
-					builder.rotationY(y);
+						return builder.build();
+					});
+				} else if (gummiBlockBase.getPlacementType() == GummiPlacementType.CORNER) {
+					getVariantBuilder(block).forAllStates(blockState -> {
+						ConfiguredModel.Builder<?> builder = ConfiguredModel.builder();
+						Half half = blockState.getValue(GummiBlockBase.HALF);
+						Corner corner = blockState.getValue(GummiBlockBase.CORNER);
+						int x = half == Half.TOP ? 180 : 0;
+						int y = 0;
+						if (finalBlockName.equals(tier + "gummi_pyramid")) {
+							builder.modelFile(new ModelFile.ExistingModelFile(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, path), models().existingFileHelper));
+							y = half == Half.TOP ?
+									switch (corner) {
+										case CORNER1 -> 0;
+										case CORNER2 -> 90;
+										case CORNER3 -> 180;
+										case CORNER4 -> 270;
+									} :
+									switch (corner) {
+										case CORNER1 -> 90;
+										case CORNER2 -> 180;
+										case CORNER3 -> 270;
+										case CORNER4 -> 0;
+									};
+						} else if (finalBlockName.equals(tier + "gummi_round_corner")) {
+							builder.modelFile(new ModelFile.ExistingModelFile(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, path), models().existingFileHelper));
+							y = half == Half.TOP ?
+									switch (corner) {
+										case CORNER1 -> 180;
+										case CORNER2 -> 270;
+										case CORNER3 -> 0;
+										case CORNER4 -> 90;
+									} :
+									switch (corner) {
+										case CORNER1 -> 270;
+										case CORNER2 -> 0;
+										case CORNER3 -> 90;
+										case CORNER4 -> 180;
+									};
+						}
+						builder.rotationX(x);
+						builder.rotationY(y);
 
-					return builder.build();
-				});
-			} else if(block instanceof GummiBlockPillar) {
-				getVariantBuilder(block).forAllStates(blockState -> {
-					ConfiguredModel.Builder<?> builder = ConfiguredModel.builder();
-					Direction.Axis facing = blockState.getValue(GummiBlockPillar.AXIS);
+						return builder.build();
+					});
+				} else if (gummiBlockBase.getPlacementType() == GummiPlacementType.PILLAR) {
+					getVariantBuilder(block).forAllStates(blockState -> {
+						ConfiguredModel.Builder<?> builder = ConfiguredModel.builder();
+						Direction.Axis facing = blockState.getValue(GummiBlockBase.AXIS);
 
-					if (blockName.contains("gummi_cylinder")) {
-						builder.modelFile(new ModelFile.ExistingModelFile(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "block/gummi/gummi_cylinder"), models().existingFileHelper));
-					}
+						builder.modelFile(new ModelFile.ExistingModelFile(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, path), models().existingFileHelper));
 
-					int x = switch (facing) {
-                        case X -> 90;
-                        case Y -> 0;
-                        case Z -> 90;
-                    };
-					int y = switch (facing) {
-                        case X -> 90;
-                        case Y -> 0;
-                        case Z -> 0;
-                    };
-					builder.rotationX(x);
-					builder.rotationY(y);
+						int x = switch (facing) {
+							case X -> 90;
+							case Y -> 0;
+							case Z -> 90;
+						};
+						int y = switch (facing) {
+							case X -> 90;
+							case Y -> 0;
+							case Z -> 0;
+						};
+						builder.rotationX(x);
+						builder.rotationY(y);
 
-					return builder.build();
-				});
+						return builder.build();
+					});
+				} else if (gummiBlockBase.getPlacementType() == GummiPlacementType.END) {
+					getVariantBuilder(block).forAllStates(blockState -> {
+						ConfiguredModel.Builder<?> builder = ConfiguredModel.builder();
+						Direction facing = blockState.getValue(GummiBlockBase.FACING);
 
-			} else if(block instanceof GummiBlockEnd) {
-				getVariantBuilder(block).forAllStates(blockState -> {
-					ConfiguredModel.Builder<?> builder = ConfiguredModel.builder();
-					Direction facing = blockState.getValue(GummiBlockEnd.FACING);
+						builder.modelFile(new ModelFile.ExistingModelFile(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, path), models().existingFileHelper));
+						int x = switch (facing) {
+							case DOWN -> 180;
+							case UP -> 0;
+							case NORTH -> 90;
+							case SOUTH -> 90;
+							case WEST -> 90;
+							case EAST -> 90;
+						};
+						int y = switch (facing) {
+							case DOWN -> 0;
+							case UP -> 0;
+							case NORTH -> 0;
+							case SOUTH -> 180;
+							case WEST -> 270;
+							case EAST -> 90;
+						};
+						builder.rotationX(x);
+						builder.rotationY(y);
 
-					if (blockName.contains("gummi_cone")) {
-						builder.modelFile(new ModelFile.ExistingModelFile(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "block/gummi/" + tier + "gummi_cone"), models().existingFileHelper));
-					} else if (blockName.contains("gummi_dome")) {
-						builder.modelFile(new ModelFile.ExistingModelFile(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "block/gummi/gummi_dome"), models().existingFileHelper));
-					}
-					int x = switch (facing) {
-                        case DOWN -> 180;
-                        case UP -> 0;
-                        case NORTH -> 90;
-                        case SOUTH -> 90;
-                        case WEST -> 90;
-                        case EAST -> 90;
-                    };
-					int y = switch (facing) {
-                        case DOWN -> 0;
-                        case UP -> 0;
-                        case NORTH -> 0;
-                        case SOUTH -> 180;
-                        case WEST -> 270;
-                        case EAST -> 90;
-                    };
-					builder.rotationX(x);
-					builder.rotationY(y);
-
-					return builder.build();
-				});
-
+						return builder.build();
+					});
+				}
 			} else if (block instanceof GhostBloxBlock) {
 				getVariantBuilder(block).forAllStates(state -> {
 					boolean active = state.getValue(GhostBloxBlock.VISIBLE);

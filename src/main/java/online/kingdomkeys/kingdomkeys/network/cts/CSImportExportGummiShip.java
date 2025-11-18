@@ -12,7 +12,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.block.GummiHangarBlock;
+import online.kingdomkeys.kingdomkeys.block.gummi.GummiHangarBlock;
 import online.kingdomkeys.kingdomkeys.item.ModComponents;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.lib.GummiStructure;
@@ -20,7 +20,7 @@ import online.kingdomkeys.kingdomkeys.menu.GummiHangarMenu;
 import online.kingdomkeys.kingdomkeys.network.Packet;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
-import static online.kingdomkeys.kingdomkeys.block.GummiHangarBlock.DISPLAY_BLUEPRINT;
+import static online.kingdomkeys.kingdomkeys.block.gummi.GummiHangarBlock.DISPLAY_BLUEPRINT;
 
 public record CSImportExportGummiShip(String name, int containerID, boolean export) implements Packet {
 

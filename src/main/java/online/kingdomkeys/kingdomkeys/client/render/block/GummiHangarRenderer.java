@@ -16,7 +16,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.client.model.data.ModelData;
-import online.kingdomkeys.kingdomkeys.block.GummiHangarBlock;
+import online.kingdomkeys.kingdomkeys.block.gummi.GummiHangarBlock;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.entity.block.GummiHangarTileEntity;

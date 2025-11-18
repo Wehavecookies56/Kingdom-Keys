@@ -1,0 +1,30 @@
+{
+  "variants": {
+    "facing=down": {
+      "model": "kingdomkeys:block/gummi/gummi_vernier",
+      "x": 180
+    },
+    "facing=east": {
+      "model": "kingdomkeys:block/gummi/gummi_vernier",
+      "x": 90,
+      "y": 90
+    },
+    "facing=north": {
+      "model": "kingdomkeys:block/gummi/gummi_vernier",
+      "x": 90
+    },
+    "facing=south": {
+      "model": "kingdomkeys:block/gummi/gummi_vernier",
+      "x": 90,
+      "y": 180
+    },
+    "facing=up": {
+      "model": "kingdomkeys:block/gummi/gummi_vernier"
+    },
+    "facing=west": {
+      "model": "kingdomkeys:block/gummi/gummi_vernier",
+      "x": 90,
+      "y": 270
+    }
+  }
+}

@@ -10,7 +10,13 @@ import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.block.*;
+import online.kingdomkeys.kingdomkeys.block.gummi.*;
 import online.kingdomkeys.kingdomkeys.item.*;
+import online.kingdomkeys.kingdomkeys.util.Utils;
+
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
 
 public class ItemModels extends ItemModelProvider {
 
@@ -60,6 +66,14 @@ public class ItemModels extends ItemModelProvider {
 
 	private void blockLogic(BlockItem item, String path) {
 		final Block block = item.getBlock();
+		String blockName = Utils.getBlockRegistryName(block).getPath();
+		List<String> colours = Arrays.stream(DyeColor.values()).map(DyeColor::toString).sorted(Comparator.comparingInt(String::length).reversed()).toList();
+		for (String colour : colours) {
+			String suffix = "_" + colour;
+			if (blockName.endsWith(suffix)) {
+				blockName = blockName.substring(0, blockName.length() - suffix.length());
+			}
+		}
 		String tier = "";
 		if(path.contains("shell")){
 			tier = "shell_";
@@ -67,55 +81,11 @@ public class ItemModels extends ItemModelProvider {
 			tier = "dispel_";
 		}
         switch (block) {
-			case GummiCockpitBlock gummiCockpitBlock -> {
-				if (path.contains("gummi_bubble_helm")) {
-					gummiBlockItem(path, "gummi_bubble_helm", tier);
-				}
-			}
-            case GummiBlockEdge gummiBlockEdge -> {
-                if (path.contains("gummi_wedge")) {
-                    gummiBlockItem(path, "gummi_wedge", tier);
-                } else if (path.contains("gummi_pie")) {
-                    gummiBlockItem(path, "gummi_pie", tier);
-                } else if (path.equals("gummi_fire")) {
-                    gummiBlockItem(path, "gummi_fire", tier);
-                } else if (path.equals("gummi_fira")) {
-					gummiBlockItem(path, "gummi_fira", tier);
-				} else if (path.equals("gummi_blizzard")) {
-					gummiBlockItem(path, "gummi_blizzard", tier);
-				} else if (path.equals("gummi_blizzara")) {
-					gummiBlockItem(path, "gummi_blizzara", tier);
-				} else if (path.equals("gummi_gravity")) {
-					gummiBlockItem(path, "gummi_gravity", tier);
-				} else if (path.equals("gummi_gravira")) {
-					gummiBlockItem(path, "gummi_gravira", tier);
-				} else if (path.equals("gummi_water")) {
-					gummiBlockItem(path, "gummi_water", tier);
-				} else if (path.equals("gummi_watera")) {
-					gummiBlockItem(path, "gummi_watera", tier);
-                } else if (path.contains("gummi_aero_triangle")) {
-                    gummiBlockItem(path, "gummi_aero_triangle", tier);
-                } else if (path.contains("gummi_aero_square")) {
-                    gummiBlockItem(path, "gummi_aero_square", tier);
-                }
-            }
-            case GummiBlockCorner gummiBlockCorner -> {
-                if (path.contains("gummi_pyramid")) {
-                    gummiBlockItem(path, "gummi_pyramid", tier);
-                } else if (path.contains("gummi_round_corner")) {
-                    gummiBlockItem(path, "gummi_round_corner", tier);
-                }
-            }
-			case GummiBlockPillar gummiBlockPillar -> {
-				if (path.contains("gummi_cylinder")) {
-					gummiBlockItem(path, "gummi_cylinder", tier);
-				}
-			}
-			case GummiBlockEnd gummiBlockEnd -> {
-				if (path.contains("gummi_cone")) {
-					gummiBlockItem(path, "gummi_cone", tier);
-				} else if (path.contains("gummi_dome")) {
-					gummiBlockItem(path, "gummi_dome", tier);
+			case GummiBlockBase gummiBlockBase -> {
+				if (!blockName.contains("gummi_cube")) {
+					gummiBlockItem(path, blockName);
+				} else {
+					standardBlockItem(path);
 				}
 			}
             case GhostBloxBlock ghostBloxBlock -> {
@@ -189,9 +159,9 @@ public class ItemModels extends ItemModelProvider {
 		getBuilder(name).parent(new ModelFile.UncheckedModelFile(KingdomKeys.MODID + ":block/" + name));
 	}
 
-	void gummiBlockItem(String name, String type, String tier) {
+	void gummiBlockItem(String name, String type) {
 		if (type.equals("gummi_bubble_helm")) {
-			getBuilder(name).parent(new ModelFile.UncheckedModelFile(KingdomKeys.MODID + ":block/gummi/" + tier + type)).transforms()
+			getBuilder(name).parent(new ModelFile.UncheckedModelFile(KingdomKeys.MODID + ":block/gummi/" + type)).transforms()
 					.transform(ItemDisplayContext.GROUND).scale(0.25F, 0.25F, 0.25F).translation(0, 3F, 0).end()
 					.transform(ItemDisplayContext.GUI).scale(0.3F, 0.3F, 0.3F).rotation(45, -135, 0).translation(-3, 0, 0).end()
 					.transform(ItemDisplayContext.FIRST_PERSON_LEFT_HAND).scale(0.375F, 0.375F, 0.375F).rotation(0, -135, 0).end()
@@ -202,7 +172,7 @@ public class ItemModels extends ItemModelProvider {
 					.transform(ItemDisplayContext.HEAD).scale(0.5F, 0.5F, 0.5F).end()
 					.end();
 		} else if (type.equals("gummi_fira") || type.equals("gummi_blizzara") || type.equals("gummi_gravira") || type.equals("gummi_watera") || type.equals("gummi_firaga") || type.equals("gummi_blizzaga") || type.equals("gummi_graviga") || type.equals("gummi_waterga")) {
-			getBuilder(name).parent(new ModelFile.UncheckedModelFile(KingdomKeys.MODID + ":block/gummi/" + tier + type)).transforms()
+			getBuilder(name).parent(new ModelFile.UncheckedModelFile(KingdomKeys.MODID + ":block/gummi/" + type)).transforms()
 					.transform(ItemDisplayContext.GROUND).scale(0.25F, 0.25F, 0.25F).translation(0, 3F, 0).end()
 					.transform(ItemDisplayContext.GUI).scale(0.5F, 0.5F, 0.5F).rotation(45, -135, 0).translation(-5, 0, 0).end()
 					.transform(ItemDisplayContext.FIRST_PERSON_LEFT_HAND).scale(0.375F, 0.375F, 0.375F).rotation(0, -135, 0).end()
@@ -212,8 +182,8 @@ public class ItemModels extends ItemModelProvider {
 					.transform(ItemDisplayContext.FIXED).scale(0.5F, 0.5F, 0.5F).end()
 					.transform(ItemDisplayContext.HEAD).scale(0.5F, 0.5F, 0.5F).end()
 					.end();
-		} else if (type.equals("gummi_pyramid")) {
-			getBuilder(name).parent(new ModelFile.UncheckedModelFile(KingdomKeys.MODID + ":block/gummi/" + tier + type)).transforms()
+		} else if (type.contains("gummi_pyramid")) {
+			getBuilder(name).parent(new ModelFile.UncheckedModelFile(KingdomKeys.MODID + ":block/gummi/" + type)).transforms()
 					.transform(ItemDisplayContext.GROUND).scale(0.25F, 0.25F, 0.25F).translation(0, 3F, 0).end()
 					.transform(ItemDisplayContext.GUI).scale(0.7F, 0.7F, 0.7F).rotation(45, 180, 0).end()
 					.transform(ItemDisplayContext.FIRST_PERSON_LEFT_HAND).scale(0.375F, 0.375F, 0.375F).rotation(0, -135, 0).end()
@@ -224,7 +194,7 @@ public class ItemModels extends ItemModelProvider {
 					.transform(ItemDisplayContext.HEAD).scale(0.5F, 0.5F, 0.5F).end()
 					.end();
 		} else {
-			getBuilder(name).parent(new ModelFile.UncheckedModelFile(KingdomKeys.MODID + ":block/gummi/" + tier + type)).transforms()
+			getBuilder(name).parent(new ModelFile.UncheckedModelFile(KingdomKeys.MODID + ":block/gummi/" + type)).transforms()
 					.transform(ItemDisplayContext.GROUND).scale(0.25F, 0.25F, 0.25F).translation(0, 3F, 0).end()
 					.transform(ItemDisplayContext.GUI).scale(0.6F, 0.6F, 0.6F).rotation(45, -135, 0).end()
 					.transform(ItemDisplayContext.FIRST_PERSON_LEFT_HAND).scale(0.375F, 0.375F, 0.375F).rotation(0, -135, 0).end()

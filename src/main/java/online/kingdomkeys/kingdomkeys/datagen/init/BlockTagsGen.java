@@ -13,15 +13,12 @@ import net.neoforged.neoforge.common.data.BlockTagsProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.block.BaseBlock;
-import online.kingdomkeys.kingdomkeys.block.GummiBlockBase;
+import online.kingdomkeys.kingdomkeys.block.gummi.GummiBlockBase;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
-import java.util.function.Supplier;
 
 public class BlockTagsGen extends BlockTagsProvider {
 	

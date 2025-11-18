@@ -64,6 +64,7 @@ import online.kingdomkeys.kingdomkeys.api.item.IKeychain;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategoryRegistry;
 import online.kingdomkeys.kingdomkeys.block.*;
+import online.kingdomkeys.kingdomkeys.block.gummi.*;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.GlobalData;
@@ -252,8 +253,8 @@ public class Utils {
 						if (state.getBlock() == Blocks.OBSIDIAN) {
 							weight++;
 						}
-                        if(state.getBlock() instanceof GummiWeaponMultiBlock wpn){
-                            if(state.getValue(GummiWeaponMultiBlock.X) == 0 && state.getValue(GummiWeaponMultiBlock.Z) == 0) {
+                        if(state.getBlock() instanceof GummiWeaponBlock wpn && wpn.isMultiBlock()){
+                            if(state.getValue(GummiWeaponBlock.X) == 0 && state.getValue(GummiWeaponBlock.Z) == 0) {
                                 if(wpn.shotType.getRootType() == GummiWeaponBlock.ShotType.WATER){
                                     //int power = wpn.shotType == GummiWeaponBlock.ShotType.WATER ? 1 : wpn.shotType == GummiWeaponBlock.ShotType.WATERA ? 2 : 3;
                                     impact.put(wpn.shotType, wpn.getFirepower());

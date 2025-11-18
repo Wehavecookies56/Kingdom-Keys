@@ -1,36 +1,36 @@
 {
   "variants": {
     "corner=1,half=bottom": {
-      "model": "kingdomkeys:block/gummi/gummi_round_corner",
+      "model": "kingdomkeys:block/gummi/shell_gummi_round_corner",
       "y": 270
     },
     "corner=1,half=top": {
-      "model": "kingdomkeys:block/gummi/gummi_round_corner",
+      "model": "kingdomkeys:block/gummi/shell_gummi_round_corner",
       "x": 180,
       "y": 180
     },
     "corner=2,half=bottom": {
-      "model": "kingdomkeys:block/gummi/gummi_round_corner"
+      "model": "kingdomkeys:block/gummi/shell_gummi_round_corner"
     },
     "corner=2,half=top": {
-      "model": "kingdomkeys:block/gummi/gummi_round_corner",
+      "model": "kingdomkeys:block/gummi/shell_gummi_round_corner",
       "x": 180,
       "y": 270
     },
     "corner=3,half=bottom": {
-      "model": "kingdomkeys:block/gummi/gummi_round_corner",
+      "model": "kingdomkeys:block/gummi/shell_gummi_round_corner",
       "y": 90
     },
     "corner=3,half=top": {
-      "model": "kingdomkeys:block/gummi/gummi_round_corner",
+      "model": "kingdomkeys:block/gummi/shell_gummi_round_corner",
       "x": 180
     },
     "corner=4,half=bottom": {
-      "model": "kingdomkeys:block/gummi/gummi_round_corner",
+      "model": "kingdomkeys:block/gummi/shell_gummi_round_corner",
       "y": 180
     },
     "corner=4,half=top": {
-      "model": "kingdomkeys:block/gummi/gummi_round_corner",
+      "model": "kingdomkeys:block/gummi/shell_gummi_round_corner",
       "x": 180,
       "y": 90
     }
