@@ -59,5 +59,7 @@ jobs:
           changelog-file: CHANGELOG.md
           loaders: forge
           game-versions: 1.20.1
-
+          dependencies: |
+            geckolib(required)
+            
           java: "${{env.JAVA_VERSION}}"
