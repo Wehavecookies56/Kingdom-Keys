@@ -31,7 +31,6 @@ public class GummiBlockProperties {
     }
 
     public GummiBlockProperties addProperties(BlockBehaviour.Properties properties) {
-        this.properties = properties;
         this.properties = properties.noOcclusion().strength(0.1F, 10.0F);
         return this;
     }

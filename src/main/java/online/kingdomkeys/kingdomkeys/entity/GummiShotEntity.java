@@ -75,11 +75,11 @@ public class GummiShotEntity extends ThrowableProjectile{
     }
 
     public void damage(Entity e){
-        float damage = dmg * 0.7F;
+        float damage = dmg * 0.5F;
         if(this.getOwner() != null)
-            e.hurt(e.damageSources().thrown(this, this.getOwner()), damage);
+            e.hurt(e.damageSources().thrown(this, this.getOwner()), damage); //Block redstone
         else
-            e.hurt(e.damageSources().magic(), damage);
+            e.hurt(e.damageSources().magic(), damage); //Ship shot
 
     }
 

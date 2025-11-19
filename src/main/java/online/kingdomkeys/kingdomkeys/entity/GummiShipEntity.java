@@ -110,9 +110,10 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 
     public void boost(Player player){
         // Seems entity push is not needed in server
-
+        if(shipStats.impact() == null || shipStats.impact().isEmpty()){
+            return;
+        }
         int size = 0;
-        System.out.println(shipStats.impact());
         if(shipStats.impact().containsKey(GummiWeaponBlock.ShotType.WATER)){
             size+=1;
         }
