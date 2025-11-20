@@ -647,6 +647,37 @@ public class Utils {
         return null;
     }
 
+    public static int getCorePosCount(Level level, BlockPos origin, Direction facing, int size) {
+        int max = size - 1;
+        int cores = 0;
+
+        int[] offsets = Utils.getShipOffset(facing,size);
+        if(offsets == null)
+            return 0;
+
+        for (int x = 0; x < size; x++) {
+            for (int y = size-1; y >= 0; y--) {
+                for (int z = 0; z < size; z++) {
+                    int rx = x;
+                    int rz = z;
+
+                    switch (facing) {
+                        case NORTH -> { rx = x; rz = z; }
+                        case SOUTH -> { rx = max - x; rz = max - z; }
+                        case EAST  -> { rx = z; rz = max - x; }
+                        case WEST  -> { rx = max - z; rz = x; }
+                    }
+
+                    BlockPos target = origin.offset(offsets[0] + rx, y, offsets[1] + rz);
+                    if (level.getBlockState(target).getBlock() == ModBlocks.gummiCore.get()) {
+                        cores++;
+                    }
+                }
+            }
+        }
+        return cores;
+    }
+
 	public static boolean hasBlocks(Level level, BlockPos origin, Direction facing, int size) {
 		int max = size - 1;
 

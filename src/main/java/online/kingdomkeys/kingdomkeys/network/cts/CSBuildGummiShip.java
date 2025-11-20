@@ -63,6 +63,10 @@ public record CSBuildGummiShip(String name, int containerID) implements Packet {
             player.displayClientMessage(Component.translatable(ChatFormatting.DARK_RED+"Structure doesn't contain a core"),true);//TODO translatable
             return;
         }
+        if(Utils.getCorePosCount(level,origin,hangar.getValue(GummiHangarBlock.FACING), size) != 1){
+            player.displayClientMessage(Component.translatable(ChatFormatting.DARK_RED+"Structure must contain a single core, currently has "+Utils.getCorePosCount(level,origin,hangar.getValue(GummiHangarBlock.FACING), size)),true);//TODO translatable
+            return;
+        }
 		if(Utils.getAmountOfGummiShipsInBuildPlate(level, origin, hangar.getValue(GummiHangarBlock.FACING), size) > 0){
 			return;
 		}

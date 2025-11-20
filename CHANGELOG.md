@@ -3,7 +3,7 @@
 * Blox Bug enemy.
 * NeoForge configuration screen.
 * Support for EFM 21.13.4.
-* Gummi Ships, can be controlled like a boat with up and down feature, have to be built.
+* Gummi Ships, can be controlled similar to a boat with the ability to fly, they require a Gummi Core block and a cockpit.
 * Gummi Hangar, 5 tiers upgradable with munny, apply redstone to refuel your ship.
 * Gummi blocks with 8 shapes (stonecutter) and 16 colors variants (combining shape and dye).
 * Gummi Blueprints, they can hold a Gummi Ship design. Thank you Televo for providing the original texture.
