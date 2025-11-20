@@ -22,8 +22,8 @@ public class EntityItemDropRenderer extends EntityRenderer<ItemDropEntity> {
 
 	public EntityItemDropRenderer(EntityRendererProvider.Context context) {
 		super(context);
-		this.shadowRadius = 0.15F;
-		this.shadowStrength = 0.75F;
+		this.shadowRadius = 0;
+		this.shadowStrength = 0;
 	}
 
 	@Override

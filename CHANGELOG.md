@@ -6,7 +6,7 @@
 * Gummi Ships, can be controlled like a boat with up and down feature, have to be built.
 * Gummi Hangar, 5 tiers upgradable with munny, apply redstone to refuel your ship.
 * Gummi blocks with 8 shapes (stonecutter) and 16 colors variants (combining shape and dye).
-* Gummi Blueprints, they can hold a Gummi Ship design.
+* Gummi Blueprints, they can hold a Gummi Ship design. Thank you Televo for providing the original texture.
 * Gummi meteors randomly spawning on the surface of the overworld, they drop keyblade upgrade materials and gummi fragments.
 * Gummi fragments which then can be used to make gummi blocks.
 * Gummi Phone to be able to store and summon your Gummi Ship (shift + punch your Gummi Ship while holding it).

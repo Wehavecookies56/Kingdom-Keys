@@ -9,6 +9,7 @@ import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
@@ -271,6 +272,11 @@ public class GummiHangarScreen extends AbstractContainerScreen<GummiHangarMenu> 
 				}
 			}
 		}
+
+        if (isHoveringEnergyBar(mouseX, mouseY)) {
+            list.add(Component.translatable(Utils.getFormattedNumber(menu.getEnergy()) + " / " + Utils.getFormattedNumber(menu.getMaxEnergy())+" FE"));
+            gui.renderTooltip(font, list, Optional.empty(), mouseX, mouseY);
+        }
 	}
 
 	public boolean isHoveringButton(ExtendedButton button, int mouseX, int mouseY) {
@@ -297,10 +303,10 @@ public class GummiHangarScreen extends AbstractContainerScreen<GummiHangarMenu> 
 			gui.drawString(font, "Eff. Speed: " + effSpeed, x, y+=10, 4210752, false);
 			gui.drawString(font, "Seats: " + stats.passengerSlots().size(), x, y+=10, 4210752, false);
 
-            gui.drawString(font, "Burn time: " + Utils.getFormattedNumber(menu.getBurnTime()), x-100, y+=10, 0xFFFFFF, false); //These are temporal since the fire icon indicates them
+           /* gui.drawString(font, "Burn time: " + Utils.getFormattedNumber(menu.getBurnTime()), x-100, y+=10, 0xFFFFFF, false); //These are temporal since the fire icon indicates them
             gui.drawString(font, "Max Burn time: "+Utils.getFormattedNumber(menu.getMaxBurnTime()), x-100, y+=10, 0xFFFFFF, false);
             gui.drawString(font, "Energy: "+Utils.getFormattedNumber(menu.getEnergy())+" / "+Utils.getFormattedNumber(menu.getMaxEnergy()), x-100, y+=10, 0xFFFFFF, false);
-
+*/
 			BlockPos origin = menu.TE.getBlockPos();
 			ItemStack stack = menu.TE.inventory.get().getStackInSlot(0);
 			imp.active = stack.is(ModItems.gummiShipBlueprint.get());
@@ -331,6 +337,61 @@ public class GummiHangarScreen extends AbstractContainerScreen<GummiHangarMenu> 
             }
             gui.pose().popPose();
 
+            gui.pose().pushPose();
+            {
+
+                float scaleX = 0.8F;
+                float scaleY = 1.5F;
+
+                float val = menu.getEnergy();
+                float max = menu.getMaxEnergy();
+                float fill = Mth.clamp(val / max, 0F, 1F);
+
+                ResourceLocation tex = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/hpbar.png");
+
+                gui.pose().translate(165.5, 79, 1);
+                gui.pose().scale(scaleX, scaleY, 1);
+
+                // --- Top ---
+                gui.pose().pushPose();
+                {
+                    gui.pose().scale(2F / 3F, 1F, 1F);
+                    this.blit(gui, tex, 0, 0, 0, 72, 12, 2);
+                }
+                gui.pose().popPose();
+
+                // --- Middle ---
+                gui.pose().pushPose();
+                {
+                    gui.pose().translate(0, 1, 0);
+                    gui.pose().scale(2F / 3F, 28F, 1F);
+                    this.blit(gui, tex, 0, 0, 0, 74, 12, 1);
+                }
+                gui.pose().popPose();
+
+                // --- Bottom ---
+                gui.pose().pushPose();
+                {
+                    gui.pose().translate(0, 29, 0);
+                    gui.pose().scale(2F / 3F, 1F, 1F);
+                    this.blit(gui, tex, 0, 0, 0, 72, 12, 2);
+                }
+                gui.pose().popPose();
+
+                gui.pose().pushPose();
+                {
+                    float barHeight = 29F;
+                    float scaledHeight = barHeight * fill;
+
+                    gui.pose().translate(0, 30 - scaledHeight, 0);
+                    gui.pose().scale(2F/3F, scaledHeight, 1F);
+                    this.blit(gui, tex, 0, 0, 0, 78, 12, 1);
+                }
+                gui.pose().popPose();
+            }
+            gui.pose().popPose();
+
+
         }
 	}
 
@@ -355,4 +416,25 @@ public class GummiHangarScreen extends AbstractContainerScreen<GummiHangarMenu> 
 		}
 		return super.mouseReleased(mouseX, mouseY, button);
 	}
+
+    private boolean isHoveringEnergyBar(double mouseX, double mouseY) {
+        final float BAR_OFFSET_X = 165.5F;
+        final float BAR_OFFSET_Y = 79F;
+
+        final float BAR_WIDTH  = 12F;
+        final float BAR_HEIGHT = 32F; // top(2) + mid(28) + bottom(2)
+
+        final float scaleX = 0.8F;
+        final float scaleY = 1.5F;
+
+        double originX = leftPos + BAR_OFFSET_X;
+        double originY = topPos  + BAR_OFFSET_Y;
+
+        double localX = (mouseX - originX) / scaleX;
+        double localY = (mouseY - originY) / scaleY;
+
+        return localX >= 0 && localX <= BAR_WIDTH && localY >= 0 && localY <= BAR_HEIGHT;
+    }
+
+
 }

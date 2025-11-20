@@ -176,8 +176,13 @@ public class GummiHangarTileEntity extends BlockEntity implements MenuProvider {
                 if (!ships.isEmpty() && hangar.energyStorage.getEnergyStored() > 0) {
                     for (GummiShipEntity ship: ships) {
                         int transfer = (state.getValue(GummiHangarBlock.LEVEL) + 1) * 10;
-                        if (ship.getFuel() < ship.getMaxFuel()) { // Extract the energy from the block and insert it to the ship
-                            ship.addFuel(hangar.energyStorage.extractEnergy(transfer, false));
+                        //Heal first, refuel later
+                        if(ship.getDamage() > 0){
+                            ship.setDamage(ship.getDamage() - hangar.energyStorage.extractEnergy((int)(transfer*0.1F), false));
+                        } else {
+                            if (ship.getFuel() < ship.getMaxFuel()) { // Extract the energy from the block and insert it to the ship
+                                ship.addFuel(hangar.energyStorage.extractEnergy(transfer, false));
+                            }
                         }
                     }
                 }
