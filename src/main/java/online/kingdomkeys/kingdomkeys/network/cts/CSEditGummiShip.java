@@ -61,7 +61,7 @@ public record CSEditGummiShip(String name, int containerID) implements Packet {
 			//if(shipSize.getX() > size || shipSize.getY() > size || shipSize.getZ() > size){
 			if(struct.getWidth() > size){
 				KingdomKeys.LOGGER.debug("Can't resize a ship from "+gummi.structure.getWidth()+" to "+size);
-				player.sendSystemMessage(Component.translatable("This Gummi Ship is too big"));
+				player.sendSystemMessage(Component.translatable("container.gummi_hangar.shiptoobig"));
 
 			} else {
 				//If ship is smaller allow it in and adapt it's array

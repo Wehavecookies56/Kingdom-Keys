@@ -62,14 +62,14 @@ public class GummiHangarScreen extends AbstractContainerScreen<GummiHangarMenu> 
 		addRenderableWidget(name = new EditBox(font, leftPos+((imageWidth - upgradeButton.getWidth())/2) - 50, topPos + 16, 100, 20, Component.literal(menu.TE.getLastShipName())));
 
 		name.setValue((menu.TE.getLastShipName()));
-		addRenderableWidget(imp = new ExtendedButton(name.getX(), name.getY() + name.getHeight()+1, name.getWidth()/2, 18, Component.translatable("IMPORT"), p -> {
+		addRenderableWidget(imp = new ExtendedButton(name.getX(), name.getY() + name.getHeight(), name.getWidth()/2, 12, Component.translatable("container.gummi_hangar.import"), p -> {
 			PacketHandler.sendToServer(new CSImportExportGummiShip(name.getValue(), menu.containerId, false));
 		}));
-		addRenderableWidget(exp = new ExtendedButton(name.getX()+name.getWidth()/2, name.getY() + name.getHeight()+1, name.getWidth()/2, 18, Component.translatable("EXPORT"), p -> {
+		addRenderableWidget(exp = new ExtendedButton(name.getX()+name.getWidth()/2, name.getY() + name.getHeight(), name.getWidth()/2, 12, Component.translatable("container.gummi_hangar.export"), p -> {
 			PacketHandler.sendToServer(new CSImportExportGummiShip(name.getValue(), menu.containerId, true));
 		}));
 
-		addRenderableWidget(build = new ExtendedButton(leftPos + imageWidth - 162, topPos + 97, 70, 20, Component.translatable("BUILD GUMMI"), p -> {
+		addRenderableWidget(build = new ExtendedButton(leftPos + imageWidth - 162, topPos + 101, 70, 16, Component.translatable("container.gummi_hangar.build"), p -> {
 			BlockPos origin = menu.TE.getBlockPos();
 			BlockState hangar = minecraft.level.getBlockState(origin);
 
@@ -79,7 +79,7 @@ public class GummiHangarScreen extends AbstractContainerScreen<GummiHangarMenu> 
 				onClose();
 			}
 		}));
-		addRenderableWidget(editShip = new ExtendedButton(build.getX()+build.getWidth()+10, topPos + 97, 70, 20, Component.translatable("EDIT GUMMI"), p -> {
+		addRenderableWidget(editShip = new ExtendedButton(build.getX()+build.getWidth()+10, topPos + 101, 70, 16, Component.translatable("container.gummi_hangar.edit"), p -> {
 			BlockPos origin = menu.TE.getBlockPos();
 			BlockState hangar = minecraft.level.getBlockState(origin);
             int size = GummiHangarBlock.getSize(hangar.getValue(GummiHangarBlock.LEVEL));
@@ -101,7 +101,7 @@ public class GummiHangarScreen extends AbstractContainerScreen<GummiHangarMenu> 
         }));
 
 		int x = editShip.getX();
-		int y = topPos + 76;
+		int y = topPos + 80;
 		addRenderableWidget(moveShipDown = new ExtendedButton(x, y, 20, 10, Component.translatable("⤓"), p -> {
 			PacketHandler.sendToServer(new CSMoveGummiShipPacket("DOWN", menu.containerId));
 		}));
@@ -174,7 +174,7 @@ public class GummiHangarScreen extends AbstractContainerScreen<GummiHangarMenu> 
 		if(Utils.getAmountOfGummiShipsInBuildPlate(minecraft.level,origin,hangar.getValue(GummiHangarBlock.FACING),size) != 0){
 			if (mouseX >= build.getX() && mouseX <= build.getX() + build.getWidth()) {
 				if (mouseY >= build.getY() && mouseY <= build.getY() + build.getHeight()) {
-					list.add(Component.translatable(ChatFormatting.DARK_RED + Component.translatable("There's already a Gummi Ship in the building area").getString()));
+					list.add(Component.translatable(ChatFormatting.DARK_RED + Component.translatable("container.gummi_hangar.gummifound").getString()));
 					gui.renderTooltip(font, list, Optional.empty(), mouseX, mouseY);
 				}
 			}
@@ -186,7 +186,7 @@ public class GummiHangarScreen extends AbstractContainerScreen<GummiHangarMenu> 
 			if (struct.getWidth() > GummiHangarBlock.getSize(hangar.getValue(GummiHangarBlock.LEVEL))) {
 				if (mouseX >= editShip.getX() && mouseX <= editShip.getX() + editShip.getWidth()) {
 					if (mouseY >= editShip.getY() && mouseY <= editShip.getY() + editShip.getHeight()) {
-						list.add(Component.translatable(ChatFormatting.DARK_RED + Component.translatable("There's a Gummi Ship too big for the hangar in the building area").getString()));
+						list.add(Component.translatable(ChatFormatting.DARK_RED + Component.translatable("container.gummi_hangar.gummitoobig").getString()));
 						gui.renderTooltip(font, list, Optional.empty(), mouseX, mouseY);
 					}
 				}
@@ -195,33 +195,33 @@ public class GummiHangarScreen extends AbstractContainerScreen<GummiHangarMenu> 
 
         if(isHoveringButton(build,mouseX,mouseY)){
             if(name.getValue().isEmpty()){
-                list.add(Component.translatable(ChatFormatting.DARK_RED + Component.translatable("You need to name your Gummi Ship").getString()));
+                list.add(Component.translatable(ChatFormatting.DARK_RED + Component.translatable("container.gummi_hangar.noname").getString()));
                 gui.renderTooltip(font, list, Optional.empty(), mouseX, mouseY);
             }
         }
 
 		if(isHoveringButton(moveShipFW,mouseX,mouseY)){
-			list.add(Component.translatable(ChatFormatting.WHITE + Component.translatable("Move ship forward").getString()));
+			list.add(Component.translatable(ChatFormatting.WHITE + Component.translatable("container.gummi_hangar.moveshipfw").getString()));
 			gui.renderTooltip(font, list, Optional.empty(), mouseX, mouseY);
 		}
 		if(isHoveringButton(moveShipBW,mouseX,mouseY)){
-			list.add(Component.translatable(ChatFormatting.WHITE + Component.translatable("Move ship backwards").getString()));
+			list.add(Component.translatable(ChatFormatting.WHITE + Component.translatable("container.gummi_hangar.moveshipbw").getString()));
 			gui.renderTooltip(font, list, Optional.empty(), mouseX, mouseY);
 		}
 		if(isHoveringButton(moveShipLeft,mouseX,mouseY)){
-			list.add(Component.translatable(ChatFormatting.WHITE + Component.translatable("Move ship to the left").getString()));
+			list.add(Component.translatable(ChatFormatting.WHITE + Component.translatable("container.gummi_hangar.moveshipleft").getString()));
 			gui.renderTooltip(font, list, Optional.empty(), mouseX, mouseY);
 		}
 		if(isHoveringButton(moveShipRight,mouseX,mouseY)){
-			list.add(Component.translatable(ChatFormatting.WHITE + Component.translatable("Move ship to the right").getString()));
+			list.add(Component.translatable(ChatFormatting.WHITE + Component.translatable("container.gummi_hangar.moveshipright").getString()));
 			gui.renderTooltip(font, list, Optional.empty(), mouseX, mouseY);
 		}
 		if(isHoveringButton(moveShipUp,mouseX,mouseY)){
-			list.add(Component.translatable(ChatFormatting.WHITE + Component.translatable("Move ship higher").getString()));
+			list.add(Component.translatable(ChatFormatting.WHITE + Component.translatable("container.gummi_hangar.moveshiphigher").getString()));
 			gui.renderTooltip(font, list, Optional.empty(), mouseX, mouseY);
 		}
 		if(isHoveringButton(moveShipDown,mouseX,mouseY)){
-			list.add(Component.translatable(ChatFormatting.WHITE + Component.translatable("Move ship lower").getString()));
+			list.add(Component.translatable(ChatFormatting.WHITE + Component.translatable("container.gummi_hangar.moveshiplower").getString()));
 			gui.renderTooltip(font, list, Optional.empty(), mouseX, mouseY);
 		}
 
@@ -233,10 +233,10 @@ public class GummiHangarScreen extends AbstractContainerScreen<GummiHangarMenu> 
 					GummiStructure struct = stack.get(ModComponents.GUMMI_STRUCTURE);
 
 					if(struct != null && struct.getWidth() > size){
-						list.add(Component.translatable(ChatFormatting.DARK_RED + Component.translatable("The blueprint is too big for this hangar").getString()));
+						list.add(Component.translatable(ChatFormatting.DARK_RED + Component.translatable("container.gummi_hangar.blueprinttoobig").getString()));
 					}
 				} else {
-					list.add(Component.translatable(ChatFormatting.DARK_RED + Component.translatable("You need to place a blueprint to import it").getString()));
+					list.add(Component.translatable(ChatFormatting.DARK_RED + Component.translatable("container.gummi_hangar.noblueprintimp").getString()));
 				}
 				gui.renderTooltip(font, list, Optional.empty(), mouseX, mouseY);
 
@@ -249,10 +249,10 @@ public class GummiHangarScreen extends AbstractContainerScreen<GummiHangarMenu> 
 
 				if(stack.is(ModItems.gummiShipBlueprint.get())){
 					if(name.getValue().equals("")){
-						list.add(Component.translatable(ChatFormatting.DARK_RED + Component.translatable("You need to specify the blueprint name").getString()));
+						list.add(Component.translatable(ChatFormatting.DARK_RED + Component.translatable("container.gummi_hangar.noblueprintname").getString()));
 					}
 				} else {
-					list.add(Component.translatable(ChatFormatting.DARK_RED + Component.translatable("You need to place a blueprint to export it").getString()));
+					list.add(Component.translatable(ChatFormatting.DARK_RED + Component.translatable("container.gummi_hangar.noblueprintexp").getString()));
 				}
 				gui.renderTooltip(font, list, Optional.empty(), mouseX, mouseY);
 
@@ -293,15 +293,16 @@ public class GummiHangarScreen extends AbstractContainerScreen<GummiHangarMenu> 
 		updateShip();
 		if(structure != null){
 			GummiShipEntity.ShipStats stats = Utils.getShipStats(structure);
-			int x = 10;
-			int y = this.imageHeight-164;
+			int x = 8;
+			int y = this.imageHeight-170;
 			String effSpeed = df.format(stats.getEffectiveSpeed()).equals("NaN") ? "0" : df.format(stats.getEffectiveSpeed());
-			gui.drawString(font, "Power: " + stats.speed(), x, y+=10, 4210752, false);
-			gui.drawString(font, "Firepower: "+ stats.firepower().size(), imageWidth / 2, y, 4210752, false);
-			gui.drawString(font, "Weight: " + stats.weight(), x, y+=10, 4210752, false);
-			gui.drawString(font, "Armor: "+ stats.armour(), imageWidth / 2, y, 4210752, false);
-			gui.drawString(font, "Eff. Speed: " + effSpeed, x, y+=10, 4210752, false);
-			gui.drawString(font, "Seats: " + stats.passengerSlots().size(), x, y+=10, 4210752, false);
+			gui.drawString(font, Utils.translateToLocal("container.gummi_hangar.power")+": " + stats.speed(), x, y+=10, 4210752, false);
+			gui.drawString(font, Utils.translateToLocal("container.gummi_hangar.firepower")+": "+ stats.firepower().size(), imageWidth / 2, y, 4210752, false);
+			gui.drawString(font, Utils.translateToLocal("container.gummi_hangar.weight")+": " + stats.weight(), x, y+=10, 4210752, false);
+			gui.drawString(font, Utils.translateToLocal("container.gummi_hangar.armor")+": "+ stats.armour(), imageWidth / 2, y, 4210752, false);
+			gui.drawString(font, Utils.translateToLocal("container.gummi_hangar.effectivespeed")+": " + effSpeed, x, y+=10, 4210752, false);
+			gui.drawString(font, Utils.translateToLocal("container.gummi_hangar.mobility")+": " + stats.mobility(), x, y+=10, 4210752, false);
+            gui.drawString(font, Utils.translateToLocal("container.gummi_hangar.seats")+": " + stats.passengerSlots().size(), x, y+=10, 4210752, false);
 
            /* gui.drawString(font, "Burn time: " + Utils.getFormattedNumber(menu.getBurnTime()), x-100, y+=10, 0xFFFFFF, false); //These are temporal since the fire icon indicates them
             gui.drawString(font, "Max Burn time: "+Utils.getFormattedNumber(menu.getMaxBurnTime()), x-100, y+=10, 0xFFFFFF, false);

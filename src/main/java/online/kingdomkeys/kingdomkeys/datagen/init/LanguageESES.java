@@ -184,6 +184,8 @@ public class LanguageESES extends KKLanguageProvider {
         add(InputHandler.Keybinds.LOCK_ON, "Fijar");
         add(InputHandler.Keybinds.OPENMENU, "Abrir Men\u00fa");
         add(InputHandler.Keybinds.SHOW_GUI, "Mostrar HUD");
+        add(InputHandler.Keybinds.LOCK_ON_SWAP, "Cambiar objetivo fijado");
+
 
         //Tabs
         add("itemGroup.kingdomkeys_misc", "Kingdom Keys: Misc");
@@ -217,6 +219,39 @@ public class LanguageESES extends KKLanguageProvider {
         add("container.magical_chest", "Cofre M\u00e1gico");
         add("container.pedestal", "Pedestal");
         add("container.gummi_hangar", "Hangar Gummi");
+
+        add("container.gummi_hangar.hasbannedblocks", "La estructura contiene bloques prohibidos: ");
+        add("container.gummi_hangar.doesntcontaincore", "La estructura no tiene un núcleo");
+        add("container.gummi_hangar.singlecore", "La estructura solo puede tener un núcle, detectados ");
+        add("container.gummi_hangar.shiptoobig","Esta Nave Gummi es demasiado grande");
+
+        add("container.gummi_hangar.gummifound","Ya hay una Nave Gummi en la zona");
+        add("container.gummi_hangar.gummitoobig","Hay una Nave Gummi demasiado grande para el hangar en la zona");
+        add("container.gummi_hangar.noname","Necesitas nombrar tu Nave Gummi");
+        add("container.gummi_hangar.moveshipfw","Mover nave hacia delante");
+        add("container.gummi_hangar.moveshipbw","Mover nave hacia atrás");
+        add("container.gummi_hangar.moveshipleft","Mover nave hacia la izquierda");
+        add("container.gummi_hangar.moveshipright","Mover nave hacia la derecha");
+        add("container.gummi_hangar.moveshiphigher","Mover nave hacia arriba");
+        add("container.gummi_hangar.moveshiplower","Mover nave hacia abajo");
+
+        add("container.gummi_hangar.blueprinttoobig","Los planos son demasiado grandes para este hangar");
+        add("container.gummi_hangar.noblueprintimp","Debes meter unos planos para importarlos");
+        add("container.gummi_hangar.noblueprintname","Debes especificar un nombre para los planos");
+        add("container.gummi_hangar.noblueprintexp","Debes meter unos planos para exportarlos");
+
+        add("container.gummi_hangar.build","Ensamblar");
+        add("container.gummi_hangar.edit","Modificar");
+        add("container.gummi_hangar.import","Importar");
+        add("container.gummi_hangar.export","Exportar");
+
+        add("container.gummi_hangar.power","Pot. motora");
+        add("container.gummi_hangar.firepower","Pot. ofensiva");
+        add("container.gummi_hangar.weight","Peso");
+        add("container.gummi_hangar.armor","Coraza");
+        add("container.gummi_hangar.effectivespeed","Vel. Efectiva");
+        add("container.gummi_hangar.seats","Asientos");
+        add("container.gummi_hangar.mobility","Movilidad");
 
         //GUI
         //Main Menu
@@ -712,6 +747,10 @@ public class LanguageESES extends KKLanguageProvider {
         //Aeros
         addTintedBlock(ModBlocks.gummiAeroTriangles, "Gummi Aero (Triángulo %s)");
         addTintedBlock(ModBlocks.gummiAeroSquares, "Gummi Aero (Cuadrado %s)");
+
+        //Engines
+        addBlock(ModBlocks.gummiVernier, "Gummi Envión");
+        addBlock(ModBlocks.gummiThruster, "Gummi Cohete");
 
         //Thrusters: Envión, Cohete, Impulso
         //Canons: Gummi Electro, Gummi Electro+, Gummi Electro++,

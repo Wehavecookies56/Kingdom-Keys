@@ -181,6 +181,40 @@ public class LanguageENUS extends KKLanguageProvider {
         add("container.pedestal", "Pedestal");
         add("container.gummi_hangar", "Gummi Hangar");
 
+        add("container.gummi_hangar.hasbannedblocks", "Structure contains banned blocks: ");
+        add("container.gummi_hangar.doesntcontaincore", "Structure doesn't contain a core");
+        add("container.gummi_hangar.singlecore", "Structure must contain a single core, currently has ");
+        add("container.gummi_hangar.shiptoobig","This Gummi Ship is too big");
+
+        add("container.gummi_hangar.gummifound","There's already a Gummi Ship in the building area");
+        add("container.gummi_hangar.gummitoobig","There's a Gummi Ship too big for the hangar in the building area");
+        add("container.gummi_hangar.noname","You need to name your Gummi Ship");
+        add("container.gummi_hangar.moveshipfw","Move ship forward");
+        add("container.gummi_hangar.moveshipbw","Move ship backwards");
+        add("container.gummi_hangar.moveshipleft","Move ship to the left");
+        add("container.gummi_hangar.moveshipright","Move ship to the right");
+        add("container.gummi_hangar.moveshiphigher","Move ship higher");
+        add("container.gummi_hangar.moveshiplower","Move ship lower");
+
+        add("container.gummi_hangar.blueprinttoobig","The blueprint is too big for this hangar");
+        add("container.gummi_hangar.noblueprintimp","You need to place a blueprint to import it");
+        add("container.gummi_hangar.noblueprintname","You need to specify the blueprint name");
+        add("container.gummi_hangar.noblueprintexp","You need to place a blueprint to export it");
+
+        add("container.gummi_hangar.build","Build");
+        add("container.gummi_hangar.edit","Edit");
+        add("container.gummi_hangar.import","Import");
+        add("container.gummi_hangar.export","Export");
+
+        add("container.gummi_hangar.power","Engine power");
+        add("container.gummi_hangar.firepower","Firepower");
+        add("container.gummi_hangar.weight","Weight");
+        add("container.gummi_hangar.armor","Armor");
+        add("container.gummi_hangar.effectivespeed","Eff. Speed");
+        add("container.gummi_hangar.seats","Seats");
+        add("container.gummi_hangar.mobility","Mobility");
+
+
         //Menu
         add(Gui_Menu_Back, "Back");
         add(Gui_Menu_Back + ".desc", "Go back to the previous menu.");

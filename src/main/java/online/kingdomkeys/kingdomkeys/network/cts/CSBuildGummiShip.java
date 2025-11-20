@@ -56,15 +56,15 @@ public record CSBuildGummiShip(String name, int containerID) implements Packet {
 		ArrayList<Block> bannedBlocks = Utils.getBannedBlocks(level,origin,hangar.getValue(GummiHangarBlock.FACING), size);
 		if(bannedBlocks != null && !bannedBlocks.isEmpty()) {
 			String bannedBlocksNames = bannedBlocks.stream().map(block -> block.asItem().getDescription().getString()).collect(Collectors.joining(", "));
-			player.sendSystemMessage(Component.translatable("Structure contains banned blocks: ").append(Component.literal(bannedBlocksNames))); //TODO translatable
+			player.sendSystemMessage(Component.translatable("container.gummi_hangar.hasbannedblocks").append(Component.literal(bannedBlocksNames))); //TODO translatable
 			return;
 		}
         if(Utils.getCorePos(level,origin,hangar.getValue(GummiHangarBlock.FACING), size) == null){
-            player.displayClientMessage(Component.translatable(ChatFormatting.DARK_RED+"Structure doesn't contain a core"),true);//TODO translatable
+            player.displayClientMessage(Component.translatable("container.gummi_hangar.doesntcontaincore"),true);
             return;
         }
         if(Utils.getCorePosCount(level,origin,hangar.getValue(GummiHangarBlock.FACING), size) != 1){
-            player.displayClientMessage(Component.translatable(ChatFormatting.DARK_RED+"Structure must contain a single core, currently has "+Utils.getCorePosCount(level,origin,hangar.getValue(GummiHangarBlock.FACING), size)),true);//TODO translatable
+            player.displayClientMessage(Component.translatable("container.gummi_hangar.singlecore").append(""+Utils.getCorePosCount(level,origin,hangar.getValue(GummiHangarBlock.FACING), size)),true);
             return;
         }
 		if(Utils.getAmountOfGummiShipsInBuildPlate(level, origin, hangar.getValue(GummiHangarBlock.FACING), size) > 0){
