@@ -57,15 +57,15 @@ public class GummiHUD extends OverlayBase {
 				float deltaZ = (float) (ship.getZ() - ship.zOld);
 				float speed = (float) Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2) + Math.pow(deltaZ, 2));
 
-                String text = "Fuel: "+ship.getFuel()+" / "+ship.getMaxFuel();
+                String text = Utils.translateToLocal("container.gummi_ship.fuel")+": "+ship.getFuel()+" / "+ship.getMaxFuel();
                 drawString(guiGraphics, minecraft.font, text, x-font.width(text), 10 * y++, 0xFFFFFF);
-				text = "Speed: "+ df.format(speed * 20)+"m/s";
+				text = Utils.translateToLocal("container.gummi_ship.speed")+": "+ df.format(speed * 20)+"m/s";
 				drawString(guiGraphics, minecraft.font, text, x-font.width(text), 10 * y++, 0xFFFFFF);
-				text = "Engine power: "+(int) Math.abs(ship.currentSpeed * 100)+" / "+ (int) (stats.speed() * 100);
+				text = Utils.translateToLocal("container.gummi_ship.eng_power")+": "+(int) Math.abs(ship.currentSpeed * 100)+" / "+ (int) (stats.speed() * 100);
 				drawString(guiGraphics, minecraft.font, text, x-font.width(text), 10 * y++, 0xFFFFFF);
-				text = "Armor: " + stats.armour();
+				text = Utils.translateToLocal("container.gummi_ship.armor")+": " + stats.armour();
 				drawString(guiGraphics, minecraft.font, text, x-font.width(text), 10 * y++, 0xFFFFFF);
-				text = "Num. of weapons: " + stats.firepower().size();
+				text = Utils.translateToLocal("container.gummi_ship.numofweapons")+": " + stats.firepower().size();
 				drawString(guiGraphics, minecraft.font, text, x-font.width(text), 10 * y++, 0xFFFFFF);
 
 				//if radar is present
@@ -73,9 +73,9 @@ public class GummiHUD extends OverlayBase {
 				y = 1;
 				text = ship.structure.getName();
 				drawString(guiGraphics, minecraft.font, text, x-(font.width(text)/2), 10 * y++, 0xAA0000);
-				text = "Coords: " + (int) ship.getX()+", "+(int) ship.getY()+", "+(int) ship.getZ();
+				text = Utils.translateToLocal("container.gummi_ship.coords")+": " + (int) ship.getX()+", "+(int) ship.getY()+", "+(int) ship.getZ();
 				drawString(guiGraphics, minecraft.font, text, x-(font.width(text)/2), 10 * y++, 0xFFFFFF);
-				text = "Facing: " + ship.getDirection();
+				text = Utils.translateToLocal("container.gummi_ship.facing")+": " + ship.getDirection();
 				drawString(guiGraphics, minecraft.font, text, x-(font.width(text)/2), 10 * y++, 0xFFFFFF);
 
 				drawHP(ship, deltaTracker);
@@ -84,13 +84,13 @@ public class GummiHUD extends OverlayBase {
 			x = 10;
 			y = 1;
 
-			drawString(guiGraphics, minecraft.font, minecraft.options.keyUp.getKey().getDisplayName().getString()+": FORWARD", x, 10*y++, ship.inputForward ? 0xAA0000 : 0xFFFFFF);
-			drawString(guiGraphics, minecraft.font, minecraft.options.keyDown.getKey().getDisplayName().getString()+": BACKWARDS", x, 10*y++, ship.inputBackward ? 0xAA0000 : 0xFFFFFF);
-			drawString(guiGraphics, minecraft.font, minecraft.options.keyLeft.getKey().getDisplayName().getString()+": LEFT", x, 10*y++, ship.inputLeft ? 0xAA0000 : 0xFFFFFF);
-			drawString(guiGraphics, minecraft.font, minecraft.options.keyRight.getKey().getDisplayName().getString()+": RIGHT", x, 10*y++, ship.inputRight ? 0xAA0000 : 0xFFFFFF);
-			drawString(guiGraphics, minecraft.font, minecraft.options.keyJump.getKey().getDisplayName().getString()+": UP", x, 10*y++, ship.inputUp ? 0xAA0000 : 0xFFFFFF);
-			drawString(guiGraphics, minecraft.font, minecraft.options.keySprint.getKey().getDisplayName().getString()+": DOWN", x, 10*y++, ship.inputDown ? 0xAA0000 : 0xFFFFFF);
-            drawString(guiGraphics, minecraft.font, InputHandler.Keybinds.ACTION.getKeybind().getKey().getDisplayName().getString() +": Boost "+ (ClientEvents.gummiBoostCD == 0 ? "READY" : "NOT READY"), x, 10*y++, InputHandler.Keybinds.ACTION.getKeybind().isDown() || ClientEvents.gummiBoostCD > 0 ? 0xAA0000 : 0xFFFFFF);
+			drawString(guiGraphics, minecraft.font, minecraft.options.keyUp.getKey().getDisplayName().getString()+": "+Utils.translateToLocal("container.gummi_ship.forward"), x, 10*y++, ship.inputForward ? 0xAA0000 : 0xFFFFFF);
+			drawString(guiGraphics, minecraft.font, minecraft.options.keyDown.getKey().getDisplayName().getString()+": "+Utils.translateToLocal("container.gummi_ship.backwards"), x, 10*y++, ship.inputBackward ? 0xAA0000 : 0xFFFFFF);
+			drawString(guiGraphics, minecraft.font, minecraft.options.keyLeft.getKey().getDisplayName().getString()+": "+Utils.translateToLocal("container.gummi_ship.left"), x, 10*y++, ship.inputLeft ? 0xAA0000 : 0xFFFFFF);
+			drawString(guiGraphics, minecraft.font, minecraft.options.keyRight.getKey().getDisplayName().getString()+": "+Utils.translateToLocal("container.gummi_ship.right"), x, 10*y++, ship.inputRight ? 0xAA0000 : 0xFFFFFF);
+			drawString(guiGraphics, minecraft.font, minecraft.options.keyJump.getKey().getDisplayName().getString()+": "+Utils.translateToLocal("container.gummi_ship.up"), x, 10*y++, ship.inputUp ? 0xAA0000 : 0xFFFFFF);
+			drawString(guiGraphics, minecraft.font, minecraft.options.keySprint.getKey().getDisplayName().getString()+": "+Utils.translateToLocal("container.gummi_ship.down"), x, 10*y++, ship.inputDown ? 0xAA0000 : 0xFFFFFF);
+            drawString(guiGraphics, minecraft.font, InputHandler.Keybinds.ACTION.getKeybind().getKey().getDisplayName().getString() +": "+Utils.translateToLocal("container.gummi_ship.boost")+" ["+ (ClientEvents.gummiBoostCD == 0 ? Utils.translateToLocal("container.gummi_ship.ready") :  Utils.translateToLocal("container.gummi_ship.not_ready"))+"]", x, 10*y++, InputHandler.Keybinds.ACTION.getKeybind().isDown() || ClientEvents.gummiBoostCD > 0 ? 0xAA0000 : 0xFFFFFF);
 		} else {
 			//Restore camera if needed
 			if(handledCamera && ModConfigs.auto3rdPersonShip){

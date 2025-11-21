@@ -296,7 +296,7 @@ public class GummiHangarScreen extends AbstractContainerScreen<GummiHangarMenu> 
 			int x = 8;
 			int y = this.imageHeight-170;
 			String effSpeed = df.format(stats.getEffectiveSpeed()).equals("NaN") ? "0" : df.format(stats.getEffectiveSpeed());
-			gui.drawString(font, Utils.translateToLocal("container.gummi_hangar.power")+": " + stats.speed(), x, y+=10, 4210752, false);
+			gui.drawString(font, Utils.translateToLocal("container.gummi_hangar.power")+": " + (int)stats.speed(), x, y+=10, 4210752, false);
 			gui.drawString(font, Utils.translateToLocal("container.gummi_hangar.firepower")+": "+ stats.firepower().size(), imageWidth / 2, y, 4210752, false);
 			gui.drawString(font, Utils.translateToLocal("container.gummi_hangar.weight")+": " + stats.weight(), x, y+=10, 4210752, false);
 			gui.drawString(font, Utils.translateToLocal("container.gummi_hangar.armor")+": "+ stats.armour(), imageWidth / 2, y, 4210752, false);

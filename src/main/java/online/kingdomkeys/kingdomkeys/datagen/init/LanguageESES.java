@@ -253,6 +253,27 @@ public class LanguageESES extends KKLanguageProvider {
         add("container.gummi_hangar.seats","Asientos");
         add("container.gummi_hangar.mobility","Movilidad");
 
+        //Gummi Ship HUD
+        add("container.gummi_ship.forward", "Acelerar");
+        add("container.gummi_ship.backwards", "Marcha atrás");
+        add("container.gummi_ship.left", "Izquierda");
+        add("container.gummi_ship.right", "Derecha");
+        add("container.gummi_ship.up", "Subir");
+        add("container.gummi_ship.down", "Bajar");
+        add("container.gummi_ship.boost", "Turbo");
+
+        add("container.gummi_ship.coords", "Coords");
+        add("container.gummi_ship.facing", "Orientación");
+
+        add("container.gummi_ship.fuel", "Combustible");
+        add("container.gummi_ship.speed", "Velocidad");
+        add("container.gummi_ship.eng_power", "Potencia motora");
+        add("container.gummi_ship.armor", "Coraza");
+        add("container.gummi_ship.numofweapons", "Núm. de armas");
+
+        add("container.gummi_ship.ready", "Listo");
+        add("container.gummi_ship.not_ready", "No listo");
+
         //GUI
         //Main Menu
         add(Gui_Menu_Back, "Atr\u00e1s");

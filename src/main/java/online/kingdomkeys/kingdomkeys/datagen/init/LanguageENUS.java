@@ -214,6 +214,27 @@ public class LanguageENUS extends KKLanguageProvider {
         add("container.gummi_hangar.seats","Seats");
         add("container.gummi_hangar.mobility","Mobility");
 
+        //Gummi Ship HUD
+        add("container.gummi_ship.forward", "Forward");
+        add("container.gummi_ship.backwards", "Backwards");
+        add("container.gummi_ship.left", "Left");
+        add("container.gummi_ship.right", "Right");
+        add("container.gummi_ship.up", "Up");
+        add("container.gummi_ship.down", "Down");
+        add("container.gummi_ship.boost", "Boost");
+
+        add("container.gummi_ship.coords", "Coords");
+        add("container.gummi_ship.facing", "Facing");
+
+        add("container.gummi_ship.fuel", "Fuel");
+        add("container.gummi_ship.speed", "Speed");
+        add("container.gummi_ship.eng_power", "Engine power");
+        add("container.gummi_ship.armor", "Armor");
+        add("container.gummi_ship.numofweapons", "Num. of weapons");
+
+        add("container.gummi_ship.ready", "Ready");
+        add("container.gummi_ship.not_ready", "Not ready");
+
 
         //Menu
         add(Gui_Menu_Back, "Back");
