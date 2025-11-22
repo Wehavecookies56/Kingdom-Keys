@@ -1572,41 +1572,11 @@ public class Utils {
 
 		// Run a loop till string contains underscore
 		while (str.contains("_")) {
-			// Replace the first occurrence of letter that present after the underscore, to
-			// capitalize form of next letter of underscore
+			// Replace the first occurrence of letter that present after the underscore, to capitalize form of next letter of underscore
 			str = str.replaceFirst("_[a-z]", String.valueOf(Character.toUpperCase(str.charAt(str.indexOf("_") + 1))));
 		}
 		str = str.substring(0, 1).toLowerCase() + str.substring(1);
-		// Return string
 		return str;
-	}
-
-	/**
-	 * From {@link //LookController#getTargetPitch()}
-	 * 
-	 * @param target
-	 * @param entity
-	 * @return
-	 */
-	public static float getTargetPitch(Entity entity, Entity target) {
-		double xDiff = target.getX() - entity.getX();
-		double yDiff = target.getY() - entity.getY();
-		double zDiff = target.getZ() - entity.getZ();
-		double distance = Mth.sqrt((float) (xDiff * xDiff + zDiff * zDiff));
-		return (float) (-(Mth.atan2(yDiff, distance) * (double) (180F / (float) Math.PI)));
-	}
-
-	/**
-	 * From {@link //LookController#getTargetYaw()}
-	 * 
-	 * @param target
-	 * @param entity
-	 * @return
-	 */
-	public static float getTargetYaw(Entity entity, Entity target) {
-		double d0 = target.getX() - entity.getX();
-		double d1 = target.getZ() - entity.getZ();
-		return (float) -(Mth.atan2(d1, d0) * (double) (180F / (float) Math.PI)) - 90.0F;
 	}
 
 	public static Shotlock getPlayerShotlock(Player player) {

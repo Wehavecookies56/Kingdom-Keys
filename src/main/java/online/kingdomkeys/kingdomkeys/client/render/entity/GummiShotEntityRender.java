@@ -35,6 +35,9 @@ public class GummiShotEntityRender extends EntityRenderer<GummiShotEntity> {
         if (entity.tickCount < 1)
             return;
 
+        if(entity.getShotType().isEmpty())
+            return;
+
         poseStack.pushPose();
         {
             poseStack.translate(0, 0.05, 0);
