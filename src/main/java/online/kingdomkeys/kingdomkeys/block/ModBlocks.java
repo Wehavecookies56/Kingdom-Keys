@@ -115,8 +115,8 @@ public class ModBlocks {
             //gummiGravigaVertical = createNewGummiWeaponBlock("gummi_graviga_vertical", ()-> new GummiWeaponMultiBlock(Block.Properties.of().noOcclusion().strength(0.1F, 10.0F), GummiWeaponBlock.ShotType.GRAVIGA, 1, 1, 130,184)),
             //gummiGravigaHorizontal = createNewGummiWeaponBlock("gummi_graviga_horizontal", ()-> new GummiWeaponMultiBlock(Block.Properties.of().noOcclusion().strength(0.1F, 10.0F), GummiWeaponBlock.ShotType.GRAVIGA, 1, 1, 130,184)),
 
-            gummiWater = createNewGummiWeaponBlock("gummi_water", GummiBlockProperties.of(1, 1, 0).withPlacement(GummiPlacementType.EDGE), GummiWeaponBlock.ShotType.WATER, 2, 35),
-            gummiWatera = createNewGummiWeaponBlock("gummi_watera", GummiBlockProperties.of(1, 1, 0).withPlacement(GummiPlacementType.MULTIBLOCK2D), GummiWeaponBlock.ShotType.WATERA, 3,155),
+            gummiWater = createNewGummiWeaponBlock("gummi_water", GummiBlockProperties.of(1, 1, 0).withPlacement(GummiPlacementType.EDGE), GummiWeaponBlock.ShotType.WATER, 2, 0),
+            gummiWatera = createNewGummiWeaponBlock("gummi_watera", GummiBlockProperties.of(1, 1, 0).withPlacement(GummiPlacementType.MULTIBLOCK2D), GummiWeaponBlock.ShotType.WATERA, 3,0),
             //gummiWatergaVertical = createNewGummiWeaponBlock("gummi_waterga_vertical", ()-> new GummiWeaponMultiBlock(Block.Properties.of().noOcclusion().strength(0.1F, 10.0F), GummiWeaponBlock.ShotType.WATERGA, 1, 1, 130,184)),
             //gummiWatergaHorizontal = createNewGummiWeaponBlock("gummi_waterga_horizontal", ()-> new GummiWeaponMultiBlock(Block.Properties.of().noOcclusion().strength(0.1F, 10.0F), GummiWeaponBlock.ShotType.WATERGA, 1, 1, 130,184));
 

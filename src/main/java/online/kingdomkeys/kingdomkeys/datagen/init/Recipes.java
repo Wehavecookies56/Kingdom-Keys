@@ -406,7 +406,29 @@ public class Recipes extends RecipeProvider {
                 .unlockedBy("gummi_watera", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.waterSpell.get()))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.gummiBubbleHelms.getFirst().get(), 1)
+        //Engines
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.gummiVernier.get())
+                .pattern("P")
+                .pattern("F")
+                .pattern("G")
+                .define('F',Blocks.FURNACE)
+                .define('G',ModItems.gummiMeteorFragment.get())
+                .define('P', Blocks.PISTON)
+                .unlockedBy("gummi_vernier", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.FURNACE))
+                .save(consumer);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.gummiThruster.get())
+                .pattern("PP")
+                .pattern("FF")
+                .pattern("GG")
+                .define('F',Blocks.FURNACE)
+                .define('G',ModItems.gummiMeteorFragment.get())
+                .define('P', Blocks.PISTON)
+                .unlockedBy("gummi_thruster", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.FURNACE))
+                .save(consumer);
+
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.gummiBubbleHelms.getFirst().get())
                 .pattern("GGG")
                 .pattern("GCG")
                 .pattern("FFF")

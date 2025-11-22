@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "F": {
+      "item": "minecraft:furnace"
+    },
+    "G": {
+      "item": "kingdomkeys:gummi_meteor_fragment"
+    },
+    "P": {
+      "item": "minecraft:piston"
+    }
+  },
+  "pattern": [
+    "PP",
+    "FF",
+    "GG"
+  ],
+  "result": {
+    "count": 1,
+    "id": "kingdomkeys:gummi_thruster"
+  }
+}
