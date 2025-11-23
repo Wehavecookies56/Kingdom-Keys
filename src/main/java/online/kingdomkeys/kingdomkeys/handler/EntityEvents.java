@@ -150,7 +150,7 @@ public class EntityEvents {
 				}
 			}
 			
-			if(mobData.getLevel() <= 0 && mob instanceof Monster && ModConfigs.SERVER.hostileMobsLevel.get()) { //TODO config
+			if(mobData.getLevel() <= 0 && mob instanceof Monster && ModConfigs.SERVER.hostileMobsLevel.get()) {
 				mobData.setLevel(Utils.getRandomMobLevel(player));
 			}
 

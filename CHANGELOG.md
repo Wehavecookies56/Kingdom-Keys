@@ -1,5 +1,5 @@
 **Added:**
-* Geckolib dependency.
+* **Geckolib dependency.**
 * Blox Bug enemy.
 * NeoForge configuration screen.
 * Support for EFM 21.13.4.
@@ -10,17 +10,17 @@
 * Gummi meteors randomly spawning on the surface of the overworld, they drop keyblade upgrade materials and gummi fragments.
 * Gummi fragments which then can be used to make gummi blocks.
 * Gummi Phone to be able to store and summon your Gummi Ship (shift + punch your Gummi Ship while holding it).
-* Two datapacks, to disable overworld and end custom worldgen.
+* Two built-in datapacks, one to disable Overworld and the other one to disable End custom worldgen.
 
 **Changed:**
-* Visual effect on HP Bar red portion, now decreases gradually.
+* Visual effect on the red portion of the HP Bar, now it decreases gradually.
 * Savepoints will now retain their stats when broken.
 * Lock on switch is now a keybind, no longer bound to sprinting key.
 * Updated Spanish translation to work with datagen, please report any faulty translations if found.
 * Slightly lowered volume for armor summon and unsummon sounds.
 * Shotlock should now lock on entities easier since it doesn't require to be that precise anymore.
 * Casting a magic will remember its position for the next time you open the submenu.
-* Reduced CPU usage of the merging function from MP, HP, Focus, Drive and Munny orbs and the Command Menu color scanning function.
+* Reduced CPU usage of the merging function from Munny, MP, HP, Focus and Drive orbs and the Command Menu color scanning function.
 
 **Fixed:**
 * Some DDD keyblade models.

@@ -44,10 +44,6 @@ public abstract class ItemDropEntity extends Entity {
 	public ItemDropEntity(EntityType<? extends Entity> type, Level world) {
 		super(type, world);
 	}
-	
-	protected boolean isMovementNoisy() {
-		return false;
-	}
 
 	public void tick() {
 		if(tickCount > 2400) {
@@ -67,7 +63,7 @@ public abstract class ItemDropEntity extends Entity {
 		} else if (!this.isNoGravity()) {
 			this.setDeltaMovement(this.getDeltaMovement().add(0.0D, -0.03D, 0.0D));
 		}
-		//TODO fix the vec3 to Vec3i
+
 		if (this.level().getFluidState(new BlockPos((int)this.position().x, (int)this.position().y, (int)this.position().z)).is(FluidTags.LAVA)) {
 			this.setDeltaMovement(((this.random.nextFloat() - this.random.nextFloat()) * 0.2F), 0.2F, ((this.random.nextFloat() - this.random.nextFloat()) * 0.2F));
 			this.playSound(SoundEvents.GENERIC_BURN, 0.4F, 2.0F + this.random.nextFloat() * 0.4F);
