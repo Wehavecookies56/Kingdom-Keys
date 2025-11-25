@@ -182,7 +182,6 @@ public class CommandMenuGui extends OverlayBase {
 		return (subMenu, guiGraphics) -> {
 			AtomicInteger i = new AtomicInteger(0);
 			Map<String, Integer> limits = new HashMap<>();
-			PlayerData playerData = PlayerData.get(minecraft.player);
 			Utils.getSortedLimits(Utils.getPlayerLimitAttacks(minecraft.player)).forEach(limit -> {
 				limits.put(limit.getRegistryName().toString(), i.getAndIncrement());
 			});

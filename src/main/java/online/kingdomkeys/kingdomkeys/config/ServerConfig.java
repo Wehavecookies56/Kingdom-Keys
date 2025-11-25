@@ -14,11 +14,16 @@ public class ServerConfig {
     public ModConfigSpec.ConfigValue<List<? extends Integer>> statsMultiplier;
 
     public ModConfigSpec.DoubleValue xpMultiplier, heartMultiplier, partyXPShare;
-    public ModConfigSpec.BooleanValue requireSynthTier, projectorHasShop, getExpFromShop, orgEnabled, allowBoosts, allowPartyKO, wayfinderParty, hostileMobsLevel;
+    public ModConfigSpec.BooleanValue requireSynthTier, projectorHasShop, getExpFromShop, orgEnabled, allowBoosts, allowPartyKO, wayfinderParty, hostileMobsLevel, gummiShipFuelSystem;
 
     ServerConfig(final ModConfigSpec.Builder builder) {
         builder.push("general");
 
+        gummiShipFuelSystem = builder
+                .comment("Set whether to enable Gummi Ships fuel system")
+                .translation(KingdomKeys.MODID + ".config.gummi_fuel_system")
+                .define("gummiShipFuelSystem", true);
+        
         partyRangeLimit = builder
                 .comment("Party range limit")
                 .translation(KingdomKeys.MODID + ".config.party_range_limit")

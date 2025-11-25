@@ -18,45 +18,17 @@ public class CommonConfig {
     public ModConfigSpec.EnumValue<SpawningMode> heartlessSpawningMode;
     public ModConfigSpec.ConfigValue<List<? extends String>> mobSpawnRate;
 
-    public ModConfigSpec.IntValue rodHeartlessLevelScale;
-    public ModConfigSpec.IntValue rodHeartlessMaxLevel;
-    public ModConfigSpec.BooleanValue respawnROD;
-    public ModConfigSpec.BooleanValue mobLevelingUp;
-    public ModConfigSpec.BooleanValue mobLevelName;
+    public ModConfigSpec.IntValue rodHeartlessLevelScale, rodHeartlessMaxLevel, driveHeal, recipeDropChance, gummiBlocksDropPercent, hpDropProbability, mpDropProbability, munnyDropProbability, driveDropProbability, focusDropProbability, mobLevelStats;
+    public ModConfigSpec.BooleanValue respawnROD, mobLevelingUp, mobLevelName, bombExplodeWithFire, allowBlocksInHangarArea, keybladeOpenDoors, blizzardChangeBlocks, playerSpawnHeartless, bossDespawnIfNoTarget, needKeybladeForHeartless;
+    public ModConfigSpec.DoubleValue drivePointsMultiplier, focusPointsMultiplier, shotlockMult, critMult;
 
-    public ModConfigSpec.BooleanValue bombExplodeWithFire;
-    public ModConfigSpec.BooleanValue allowBlocksInHangarArea;
-    public ModConfigSpec.BooleanValue keybladeOpenDoors;
-
-    public ModConfigSpec.IntValue driveHeal, gummiBlocksDropPercent;
-
-    public ModConfigSpec.IntValue recipeDropChance;
-    public ModConfigSpec.DoubleValue drivePointsMultiplier;
-    public ModConfigSpec.DoubleValue focusPointsMultiplier;
-
-    public ModConfigSpec.IntValue hpDropProbability;
-    public ModConfigSpec.IntValue mpDropProbability;
-    public ModConfigSpec.IntValue munnyDropProbability;
-    public ModConfigSpec.IntValue driveDropProbability;
-    public ModConfigSpec.IntValue focusDropProbability;
-
-    public ModConfigSpec.BooleanValue blizzardChangeBlocks;
-    public ModConfigSpec.BooleanValue playerSpawnHeartless;
     public ModConfigSpec.ConfigValue<List<? extends String>> playerSpawnHeartlessData;
-
-    public ModConfigSpec.DoubleValue shotlockMult;
-    public ModConfigSpec.DoubleValue critMult;
-
-    public ModConfigSpec.IntValue mobLevelStats;
-
-    public ModConfigSpec.BooleanValue bossDespawnIfNoTarget;
-    public ModConfigSpec.BooleanValue needKeybladeForHeartless;
     public ModConfigSpec.ConfigValue<String> savePointMaterials, linkedSavePointRecovers, savePointRecovers, warpPointRecovers;
-
     public ModConfigSpec.ConfigValue<List<? extends String>> startingRecipes;
     
     CommonConfig(final ModConfigSpec.Builder builder) {
 		builder.push("general");
+
 
         bombExplodeWithFire = builder
                 .comment("Allow Bomb heartless to explode when lit on fire")
@@ -87,6 +59,9 @@ public class CommonConfig {
         		.comment("Force the player to need a Keyblade or an Organization weapon to hurt Heartless, and Nobodies")
                 .translation(KingdomKeys.MODID + ".config.need_keyblade_for_heartless")
                 .define("needKeybladeForHeartless", false);
+        builder.pop();
+
+        builder.push("gummi");
 
         allowBlocksInHangarArea = builder
                 .comment("Allow the player to place a hangar in a zone where there are blocks already (probably a good idea to disable on servers)")
@@ -122,6 +97,31 @@ public class CommonConfig {
         builder.pop();
 
         builder.push("drops");
+        hpDropProbability = builder
+                .comment("HP Drops Probability")
+                .translation(KingdomKeys.MODID + ".config.hp_drop_probability")
+                .defineInRange("hpDropProbability",80,0,100);
+
+        mpDropProbability = builder
+                .comment("MP Drops Probability")
+                .translation(KingdomKeys.MODID + ".config.mp_drop_probability")
+                .defineInRange("mpDropProbability",80,0,100);
+
+        munnyDropProbability = builder
+                .comment("Munny Drops Probability")
+                .translation(KingdomKeys.MODID + ".config.munny_drop_probability")
+                .defineInRange("munnyDropProbability",80,0,100);
+
+        driveDropProbability = builder
+                .comment("Drive Drops Probability")
+                .translation(KingdomKeys.MODID + ".config.drive_drop_probability")
+                .defineInRange("driveDropProbability",80,0,100);
+
+        focusDropProbability = builder
+                .comment("Focus Drops Probability")
+                .translation(KingdomKeys.MODID + ".config.focus_drop_probability")
+                .defineInRange("focusDropProbability",80,0,100);
+
         drivePointsMultiplier = builder
                 .comment("Drive Points Drop Multiplier")
                 .translation(KingdomKeys.MODID + ".config.drive_points_multiplier")
@@ -194,34 +194,6 @@ public class CommonConfig {
                 .translation(KingdomKeys.MODID + ".config.boss_despawn_if_no_target")
                 .define("bossDespawnIfNoTarget", true);
         
-        builder.pop();
-
-        builder.push("drops");
-        hpDropProbability = builder
-                .comment("HP Drops Probability")
-                .translation(KingdomKeys.MODID + ".config.hp_drop_probability")
-                .defineInRange("hpDropProbability",80,0,100);
-
-        mpDropProbability = builder
-                .comment("MP Drops Probability")
-                .translation(KingdomKeys.MODID + ".config.mp_drop_probability")
-                .defineInRange("mpDropProbability",80,0,100);
-
-        munnyDropProbability = builder
-                .comment("Munny Drops Probability")
-                .translation(KingdomKeys.MODID + ".config.munny_drop_probability")
-                .defineInRange("munnyDropProbability",80,0,100);
-
-        driveDropProbability = builder
-                .comment("Drive Drops Probability")
-                .translation(KingdomKeys.MODID + ".config.drive_drop_probability")
-                .defineInRange("driveDropProbability",80,0,100);
-
-        focusDropProbability = builder
-                .comment("Focus Drops Probability")
-                .translation(KingdomKeys.MODID + ".config.focus_drop_probability")
-                .defineInRange("focusDropProbability",80,0,100);
-
         builder.pop();
 
         builder.push("shotlock");

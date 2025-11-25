@@ -45,6 +45,7 @@ public class LanguageENUS extends KKLanguageProvider {
 
         //COMMON
         add(KingdomKeys.MODID + ".configuration.general", "General settings");
+        add(KingdomKeys.MODID + ".configuration.gummi", "Gummi Ship settings");
         add(KingdomKeys.MODID + ".configuration.spawning", "Spawning settings");
         add(KingdomKeys.MODID + ".configuration.drops", "Drops settings");
         add(KingdomKeys.MODID + ".configuration.shotlock", "Shotlock settings");
@@ -138,6 +139,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addConfigKey(ModConfigs.getCommonConfig().startingRecipes, "Starter recipes");
 
         //SERVER
+        addConfigKey(ModConfigs.getServerConfig().gummiShipFuelSystem, "Gummi fuel system");
         addConfigKey(ModConfigs.getServerConfig().partyRangeLimit, "Party range limit");
         addConfigKey(ModConfigs.getServerConfig().partyMembersLimit, "Party members limit");
         addConfigKey(ModConfigs.getServerConfig().requireSynthTier, "Require Synthesis tier");

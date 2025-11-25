@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class ClientConfig {
 
-    public ModConfigSpec.BooleanValue cmHeaderTextVisible, cmClassicColors, auto3rdPersonShip;
+    public ModConfigSpec.BooleanValue cmHeaderTextVisible, cmClassicColors, auto3rdPersonShip, cmChangeColor;
     public ModConfigSpec.IntValue cmTextXOffset, cmXScale, cmXPos, cmSelectedXOffset, cmSubXOffset, cmEndLWidth, cmEndRWidth, cmHeaderEndLWidth, cmHeaderEndRWidth, cmReactionEndLWidth, cmReactionEndRWidth;
     
     public ModConfigSpec.BooleanValue hpShowHearts;
@@ -60,6 +60,11 @@ public class ClientConfig {
                 .define("showDriveForms", true);
 
 		builder.push("command_menu");
+            cmChangeColor = builder
+                    .comment("Allow the Command Menu to change colors based on nearby enemies")
+                    .translation(KingdomKeys.MODID + ".config.cm_change_color")
+                    .define("cmChangeColor", true);
+
 			magicDisplayedInCommandMenu = builder
 					.comment("The Magic to display in the Magic menu within the Command Menu")
 					.translation(KingdomKeys.MODID + ".config.cm_magic_display")

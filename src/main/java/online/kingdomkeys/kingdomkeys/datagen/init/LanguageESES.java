@@ -42,6 +42,7 @@ public class LanguageESES extends KKLanguageProvider {
 
         //COMMON
         add(KingdomKeys.MODID + ".configuration.general", "Ajustes generales");
+        add(KingdomKeys.MODID + ".configuration.gummi", "Gummi Ship settings");
         add(KingdomKeys.MODID + ".configuration.spawning", "Ajustes de spawneo");
         add(KingdomKeys.MODID + ".configuration.drops", "Ajustes de drops");
         add(KingdomKeys.MODID + ".configuration.shotlock", "Ajustes de Tiro Certero");
@@ -135,6 +136,7 @@ public class LanguageESES extends KKLanguageProvider {
         addConfigKey(ModConfigs.getCommonConfig().startingRecipes, "Recetas iniciales");
 
         //SERVER
+        addConfigKey(ModConfigs.getServerConfig().gummiShipFuelSystem, "Gummi fuel system");
         addConfigKey(ModConfigs.getServerConfig().partyRangeLimit, "Límite de rango de grupo");
         addConfigKey(ModConfigs.getServerConfig().partyMembersLimit, "Límite de miembros de grupo");
         addConfigKey(ModConfigs.getServerConfig().requireSynthTier, "Requerir nivel de síntesis");

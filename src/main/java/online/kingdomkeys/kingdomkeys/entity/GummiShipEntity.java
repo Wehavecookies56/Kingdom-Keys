@@ -539,7 +539,7 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 	}
 
     public int getFuel() {
-        return fuel;
+        return ModConfigs.SERVER.gummiShipFuelSystem.get() ? fuel : 100000;
     }
 
     public void setFuel(int fuel) {

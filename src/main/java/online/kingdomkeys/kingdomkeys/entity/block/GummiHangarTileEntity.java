@@ -21,6 +21,7 @@ import net.neoforged.neoforge.energy.EnergyStorage;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import online.kingdomkeys.kingdomkeys.block.gummi.GummiHangarBlock;
+import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.entity.GummiShipEntity;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.item.GummiShipBlueprintItem;
@@ -151,7 +152,7 @@ public class GummiHangarTileEntity extends BlockEntity implements MenuProvider {
             //If has some combustible store it
             if (hangar.burnTime > 0) {
                 hangar.burnTime -= state.getValue(GummiHangarBlock.LEVEL) + 1;
-                if(hangar.burnTime < 0){
+                if (hangar.burnTime < 0) {
                     hangar.burnTime = 0;
                 }
                 hangar.energyStorage.receiveEnergy(state.getValue(GummiHangarBlock.LEVEL) + 1, false); //Since we reduce the ticks faster we should increase the amount each tick gives to compensate
@@ -171,7 +172,7 @@ public class GummiHangarTileEntity extends BlockEntity implements MenuProvider {
             //Refuel ships
             if (level.hasNeighborSignal(pos)) {
                 int size = GummiHangarBlock.getSize(state.getValue(GummiHangarBlock.LEVEL));
-                List < GummiShipEntity > ships = Utils.getAllGummiShipsInBuildPlate(level, pos, state.getValue(GummiHangarBlock.FACING), size);
+                List <GummiShipEntity> ships = Utils.getAllGummiShipsInBuildPlate(level, pos, state.getValue(GummiHangarBlock.FACING), size);
                 //Refuel all ships found in the area
                 if (!ships.isEmpty() && hangar.energyStorage.getEnergyStored() > 0) {
                     for (GummiShipEntity ship: ships) {
@@ -180,8 +181,10 @@ public class GummiHangarTileEntity extends BlockEntity implements MenuProvider {
                         if(ship.getDamage() > 0){
                             ship.setDamage(ship.getDamage() - hangar.energyStorage.extractEnergy((int)(transfer*0.1F), false));
                         } else {
-                            if (ship.getFuel() < ship.getMaxFuel()) { // Extract the energy from the block and insert it to the ship
-                                ship.addFuel(hangar.energyStorage.extractEnergy(transfer, false));
+                            if(ModConfigs.SERVER.gummiShipFuelSystem.get()) { //Only refuel (and lose energy) if the fuel system is enabled
+                                if (ship.getFuel() < ship.getMaxFuel()) { // Extract the energy from the block and insert it to the ship
+                                    ship.addFuel(hangar.energyStorage.extractEnergy(transfer, false));
+                                }
                             }
                         }
                     }

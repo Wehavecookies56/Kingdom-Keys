@@ -57,8 +57,11 @@ public class GummiHUD extends OverlayBase {
 				float deltaZ = (float) (ship.getZ() - ship.zOld);
 				float speed = (float) Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2) + Math.pow(deltaZ, 2));
 
-                String text = Utils.translateToLocal("container.gummi_ship.fuel")+": "+ship.getFuel()+" / "+ship.getMaxFuel();
-                drawString(guiGraphics, minecraft.font, text, x-font.width(text), 10 * y++, 0xFFFFFF);
+                String text = "";
+                if(ModConfigs.SERVER.gummiShipFuelSystem.get()) {
+                    text = Utils.translateToLocal("container.gummi_ship.fuel") + ": " + ship.getFuel() + " / " + ship.getMaxFuel();
+                    drawString(guiGraphics, minecraft.font, text, x - font.width(text), 10 * y++, 0xFFFFFF);
+                }
 				text = Utils.translateToLocal("container.gummi_ship.speed")+": "+ df.format(speed * 20)+"m/s";
 				drawString(guiGraphics, minecraft.font, text, x-font.width(text), 10 * y++, 0xFFFFFF);
 				text = Utils.translateToLocal("container.gummi_ship.eng_power")+": "+(int) Math.abs(ship.currentSpeed * 100)+" / "+ (int) (stats.speed() * 100);

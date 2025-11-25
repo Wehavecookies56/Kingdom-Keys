@@ -565,11 +565,10 @@ public class EntityEvents {
 			 */
 		}
 
-		if (ticks % 5 == 0) {
+		if (ModConfigs.cmChangeColor && ticks % 5 == 0) {
 			if (player.level().isClientSide()) {
 				updateCommandMenu(player);
 			}
-			// Combat mode
 		}
 
 	}
@@ -582,14 +581,14 @@ public class EntityEvents {
 		List<LivingEntity> entities = Utils.getLivingEntitiesInRadius(player, 16);
 		List<LivingEntity> bossEntities = Utils.getLivingEntitiesInRadius(player, 150);
 		if (!bossEntities.isEmpty()) {
-			for (int i = 0; i < bossEntities.size(); i++) {
-				if (bossEntities.get(i) instanceof EnderDragon || bossEntities.get(i) instanceof WitherBoss || bossEntities.get(i) instanceof MarluxiaEntity) {
-					isBoss = true;
-					return;
-				} else {
-					isBoss = false;
-				}
-			}
+            for (LivingEntity bossEntity : bossEntities) {
+                if (bossEntity instanceof EnderDragon || bossEntity instanceof WitherBoss || bossEntity instanceof MarluxiaEntity) {
+                    isBoss = true;
+                    return;
+                } else {
+                    isBoss = false;
+                }
+            }
 		} else {
 			isBoss = false;
 		}
