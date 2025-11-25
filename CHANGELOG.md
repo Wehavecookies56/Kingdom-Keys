@@ -10,6 +10,7 @@
 * Gummi meteors randomly spawning on the surface of the overworld, they drop keyblade upgrade materials and gummi fragments.
 * Gummi fragments which then can be used to make gummi blocks.
 * Gummi Phone to be able to store and summon your Gummi Ship (shift + punch your Gummi Ship while holding it).
+* Config option to disable the Command Menu to change colors, preventing some cases where it would flicker.
 * Two built-in datapacks, one to disable Overworld and the other one to disable End custom worldgen.
 
 **Changed:**
