@@ -34,3 +34,4 @@
 * Fixed Reaction Commands order being wrong and crash.
 * HUD being visible even when F1 was pressed.
 * Keyblade selection going further down than intended depending on the resolution.
+* Potential fix for Large Bodies ignoring Stop damage.

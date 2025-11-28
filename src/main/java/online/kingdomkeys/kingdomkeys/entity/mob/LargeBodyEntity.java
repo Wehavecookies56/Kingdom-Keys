@@ -18,6 +18,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.damagesource.KKDamageTypes;
 import online.kingdomkeys.kingdomkeys.data.GlobalData;
 import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
@@ -34,12 +35,6 @@ public class LargeBodyEntity extends BaseKHEntity {
     private SpecialAttack currentAttack, previousAttack;
     private int timeForNextAI = 80;
     private boolean isAngry = false;
-
-    protected final int
-            DAMAGE_HIT = 0,
-            DAMAGE_CHARGE = 6,
-            DAMAGE_MOWDOWN = 5,
-            DAMAGE_SHOCKWAVE = 4;
 
     public LargeBodyEntity(EntityType<? extends Monster> type, Level worldIn) {
         super(type, worldIn);
@@ -66,9 +61,7 @@ public class LargeBodyEntity extends BaseKHEntity {
                 .add(Attributes.MOVEMENT_SPEED, 0.15D)
                 .add(Attributes.FOLLOW_RANGE, 35.0D)
                 .add(Attributes.ATTACK_DAMAGE, 5.0D)
-				.add(Attributes.ATTACK_KNOCKBACK, 1.0D)
-
-                ;
+				.add(Attributes.ATTACK_KNOCKBACK, 1.0D);
     }
 
     @Override
@@ -79,8 +72,6 @@ public class LargeBodyEntity extends BaseKHEntity {
     @Override
     public void tick() {
         super.tick();
-
-        int rotation = Mth.floor(this.getYHeadRot() * 4.0F / 360.0F + 0.5D) & 3;
 
         if(this.getHealth() < this.getMaxHealth()/3)
             this.isAngry = true;
@@ -107,19 +98,23 @@ public class LargeBodyEntity extends BaseKHEntity {
             timeForNextAI = 80;
         }
 
-        if (this.isAngry) {
+        /* if (this.isAngry) {
             //TODO particles
-            //KingdomKeys.proxy.spawnDarkSmokeParticle(world, getPosX(), getPosY() + 1, getPosZ(), 0, 0.01D, 0, 0.8F);
-        }
-
+            KingdomKeys.proxy.spawnDarkSmokeParticle(world, getPosX(), getPosY() + 1, getPosZ(), 0, 0.01D, 0, 0.8F);
+        }*/
     }
 
     @Override
     public boolean hurt(DamageSource source, float amount) {
     	if(GlobalData.get(this) == null) {
     		KingdomKeys.LOGGER.warn("For some reason "+this+" doesn't have globaldata");
-    	}
-    	if(source.getEntity() instanceof LivingEntity && GlobalData.get(this) != null) {
+            return super.hurt(source, amount);
+        }
+
+        if(source.getEntity() instanceof LivingEntity) {
+            if(source.is(KKDamageTypes.STOP)){
+                return super.hurt(source, amount);
+            }
     		Entity attacker = source.getDirectEntity();
     		double d1 = attacker.getX() - this.getX();
             double d0 = attacker.getZ() - this.getZ();
@@ -174,7 +169,6 @@ public class LargeBodyEntity extends BaseKHEntity {
         private boolean canUseAttack = true;
         private final int ATTACK_MAX_TIMER = 50;
         private int attackTimer = ATTACK_MAX_TIMER, whileAttackTimer;
-        private double[] posToCharge;
         private float initialHealth;
 
         public MowdownGoal(LargeBodyEntity e)
@@ -311,7 +305,6 @@ public class LargeBodyEntity extends BaseKHEntity {
         public void tick() {
             if(theEntity.getTarget() != null && canUseAttack) {
                 whileAttackTimer+=2;
-                LivingEntity target = this.theEntity.getTarget();
                 this.theEntity.getNavigation().moveTo(posToCharge[0], posToCharge[1], posToCharge[2], theEntity.isAngry ? 2.3D : 2.0D);
 
                 if(whileAttackTimer > 70)
