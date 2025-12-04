@@ -2,7 +2,7 @@
 	"parent": "neoforge:block/default",
 	"render_type": "minecraft:cutout",
 	"loader": "neoforge:obj",
-	"model": "kingdomkeys:models/block/gummi/gummi_cone.obj",
+	"model": "kingdomkeys:models/block/gummi/dispel_gummi_cone.obj",
 	"transform":{
 		"translation": [ -0.25, -0.5, -0.25 ],
 		"scale": [ 0.5, 0.5, 0.5 ],
@@ -10,6 +10,7 @@
 	},
 	"textures": {
 		"texture0": "kingdomkeys:block/gummi/gummi_solid_colour",
+		"texture1": "kingdomkeys:block/gummi/dispel_gummi",
 		"particle": "#texture0"
 	}
 }
