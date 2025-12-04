@@ -13,11 +13,11 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
 import net.minecraftforge.network.PlayMessages;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.capability.ModCapabilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.damagesource.KKDamageTypes;
 import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
@@ -34,12 +34,6 @@ public class LargeBodyEntity extends BaseKHEntity {
     private SpecialAttack currentAttack, previousAttack;
     private int timeForNextAI = 80;
     private boolean isAngry = false;
-
-    protected final int
-            DAMAGE_HIT = 0,
-            DAMAGE_CHARGE = 6,
-            DAMAGE_MOWDOWN = 5,
-            DAMAGE_SHOCKWAVE = 4;
 
     public LargeBodyEntity(EntityType<? extends Monster> type, Level worldIn) {
         super(type, worldIn);
@@ -84,8 +78,6 @@ public class LargeBodyEntity extends BaseKHEntity {
     public void tick() {
         super.tick();
 
-        int rotation = Mth.floor(this.getYHeadRot() * 4.0F / 360.0F + 0.5D) & 3;
-
         if(this.getHealth() < this.getMaxHealth()/3)
             this.isAngry = true;
 
@@ -110,20 +102,19 @@ public class LargeBodyEntity extends BaseKHEntity {
             this.setTarget(null);
             timeForNextAI = 80;
         }
-
-        if (this.isAngry) {
-            //TODO particles
-            //KingdomKeys.proxy.spawnDarkSmokeParticle(world, getPosX(), getPosY() + 1, getPosZ(), 0, 0.01D, 0, 0.8F);
-        }
-
     }
 
     @Override
     public boolean hurt(DamageSource source, float amount) {
     	if(ModCapabilities.getGlobal(this) == null) {
     		KingdomKeys.LOGGER.warn("For some reason "+this+" doesn't have globaldata");
-    	}
-    	if(source.getEntity() instanceof LivingEntity && ModCapabilities.getGlobal(this) != null) {
+            return super.hurt(source, amount);
+        }
+
+        if(source.getEntity() instanceof LivingEntity) {
+            if(source.is(KKDamageTypes.STOP)){
+                return super.hurt(source, amount);
+            }
     		Entity attacker = source.getDirectEntity();
     		double d1 = attacker.getX() - this.getX();
             double d0 = attacker.getZ() - this.getZ();
