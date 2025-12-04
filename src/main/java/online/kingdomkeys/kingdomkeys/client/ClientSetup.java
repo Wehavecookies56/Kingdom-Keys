@@ -46,8 +46,6 @@ import java.util.Map.Entry;
 @EventBusSubscriber(value = Dist.CLIENT, bus = EventBusSubscriber.Bus.MOD)
 public class ClientSetup {
 
-	public static final Map<Item, ArmorBaseModel<LivingEntity>> armorModels = new HashMap<>();
-
 	public static ResourceLocation
 			COMMAND_MENU,
 			PLAYER_PORTRAIT,
@@ -75,116 +73,6 @@ public class ClientSetup {
 	public static void addLayers(EntityRenderersEvent.AddLayers event) {
 		Minecraft mc = Minecraft.getInstance();
 		EntityRendererProvider.Context context = new EntityRendererProvider.Context(mc.getEntityRenderDispatcher(), mc.getItemRenderer(), mc.getBlockRenderer(), mc.gameRenderer.itemInHandRenderer, mc.getResourceManager(), mc.getEntityModels(), mc.font);
-		ArmorModel<LivingEntity> top = new ArmorModel<>(context.bakeLayer(ArmorModel.LAYER_LOCATION_TOP));
-		ArmorModel<LivingEntity> bot = new ArmorModel<>(context.bakeLayer(ArmorModel.LAYER_LOCATION_BOTTOM));
-
-		VentusModel<LivingEntity> vTop = new VentusModel<>(context.bakeLayer(VentusModel.LAYER_LOCATION_TOP));
-		VentusModel<LivingEntity> vBot = new VentusModel<>(context.bakeLayer(VentusModel.LAYER_LOCATION_BOTTOM));
-
-		TerraModel<LivingEntity> tTop = new TerraModel<>(context.bakeLayer(TerraModel.LAYER_LOCATION_TOP));
-		TerraModel<LivingEntity> tBot = new TerraModel<>(context.bakeLayer(TerraModel.LAYER_LOCATION_BOTTOM));
-
-		AquaModel<LivingEntity> aTop = new AquaModel<>(context.bakeLayer(AquaModel.LAYER_LOCATION_TOP));
-		AquaModel<LivingEntity> aBot = new AquaModel<>(context.bakeLayer(AquaModel.LAYER_LOCATION_BOTTOM));
-
-		EraqusModel<LivingEntity> eTop = new EraqusModel<>(context.bakeLayer(EraqusModel.LAYER_LOCATION_TOP));
-		EraqusModel<LivingEntity> eBot = new EraqusModel<>(context.bakeLayer(EraqusModel.LAYER_LOCATION_BOTTOM));
-
-		XehanortModel<LivingEntity> xTop = new XehanortModel<>(context.bakeLayer(XehanortModel.LAYER_LOCATION_TOP));
-		XehanortModel<LivingEntity> xBot = new XehanortModel<>(context.bakeLayer(XehanortModel.LAYER_LOCATION_BOTTOM));
-
-		UXArmorModel<LivingEntity> uxTop = new UXArmorModel<>(context.bakeLayer(UXArmorModel.LAYER_LOCATION_TOP));
-		UXArmorModel<LivingEntity> uxBot = new UXArmorModel<>(context.bakeLayer(UXArmorModel.LAYER_LOCATION_BOTTOM));
-
-
-		armorModels.put(ModItems.terra_Helmet.get(), tTop);
-		armorModels.put(ModItems.terra_Chestplate.get(), tTop);
-		armorModels.put(ModItems.terra_Leggings.get(), tBot);
-		armorModels.put(ModItems.terra_Boots.get(), tTop);
-
-		armorModels.put(ModItems.aqua_Helmet.get(), aTop);
-		armorModels.put(ModItems.aqua_Chestplate.get(), aTop);
-		armorModels.put(ModItems.aqua_Leggings.get(), aBot);
-		armorModels.put(ModItems.aqua_Boots.get(), aTop);
-
-		armorModels.put(ModItems.ventus_Helmet.get(), vTop);
-		armorModels.put(ModItems.ventus_Chestplate.get(), vTop);
-		armorModels.put(ModItems.ventus_Leggings.get(), vBot);
-		armorModels.put(ModItems.ventus_Boots.get(), vTop);
-
-		armorModels.put(ModItems.nightmareVentus_Helmet.get(), vTop);
-		armorModels.put(ModItems.nightmareVentus_Chestplate.get(), vTop);
-		armorModels.put(ModItems.nightmareVentus_Leggings.get(), vBot);
-		armorModels.put(ModItems.nightmareVentus_Boots.get(), vTop);
-
-		armorModels.put(ModItems.eraqus_Helmet.get(), eTop);
-		armorModels.put(ModItems.eraqus_Chestplate.get(), eTop);
-		armorModels.put(ModItems.eraqus_Leggings.get(), eBot);
-		armorModels.put(ModItems.eraqus_Boots.get(), eTop);
-
-		armorModels.put(ModItems.xehanort_Helmet.get(), xTop);
-		armorModels.put(ModItems.xehanort_Chestplate.get(), xTop);
-		armorModels.put(ModItems.xehanort_Leggings.get(), xBot);
-		armorModels.put(ModItems.xehanort_Boots.get(), xTop);
-
-		armorModels.put(ModItems.ux_Helmet.get(), uxTop);
-		armorModels.put(ModItems.ux_Chestplate.get(), uxTop);
-		armorModels.put(ModItems.ux_Leggings.get(), uxBot);
-		armorModels.put(ModItems.ux_Boots.get(), uxTop);
-
-		armorModels.put(ModItems.organizationRobe_Helmet.get(), top);
-		armorModels.put(ModItems.organizationRobe_Chestplate.get(), top);
-		armorModels.put(ModItems.organizationRobe_Leggings.get(), bot);
-		armorModels.put(ModItems.organizationRobe_Boots.get(), top);
-
-		armorModels.put(ModItems.xemnas_Helmet.get(), top);
-		armorModels.put(ModItems.xemnas_Chestplate.get(), top);
-		armorModels.put(ModItems.xemnas_Leggings.get(), bot);
-		armorModels.put(ModItems.xemnas_Boots.get(), top);
-
-		armorModels.put(ModItems.vanitas_Helmet.get(), top);
-		armorModels.put(ModItems.vanitas_Chestplate.get(), top);
-		armorModels.put(ModItems.vanitas_Leggings.get(), bot);
-		armorModels.put(ModItems.vanitas_Boots.get(), top);
-
-		armorModels.put(ModItems.vanitas_Remnant_Helmet.get(), top);
-		armorModels.put(ModItems.vanitas_Remnant_Chestplate.get(), top);
-		armorModels.put(ModItems.vanitas_Remnant_Leggings.get(), bot);
-		armorModels.put(ModItems.vanitas_Remnant_Boots.get(), top);
-
-		armorModels.put(ModItems.dark_Riku_Chestplate.get(), top);
-		armorModels.put(ModItems.dark_Riku_Leggings.get(), bot);
-		armorModels.put(ModItems.dark_Riku_Boots.get(), top);
-
-		armorModels.put(ModItems.antiCoat_Helmet.get(), top);
-		armorModels.put(ModItems.antiCoat_Chestplate.get(), top);
-		armorModels.put(ModItems.antiCoat_Leggings.get(), bot);
-		armorModels.put(ModItems.antiCoat_Boots.get(), top);
-
-		armorModels.put(ModItems.aced_Helmet.get(), top);
-		armorModels.put(ModItems.aced_Chestplate.get(), top);
-		armorModels.put(ModItems.aced_Leggings.get(), bot);
-		armorModels.put(ModItems.aced_Boots.get(), top);
-
-		armorModels.put(ModItems.ava_Helmet.get(), top);
-		armorModels.put(ModItems.ava_Chestplate.get(), top);
-		armorModels.put(ModItems.ava_Leggings.get(), bot);
-		armorModels.put(ModItems.ava_Boots.get(), top);
-
-		armorModels.put(ModItems.gula_Helmet.get(), top);
-		armorModels.put(ModItems.gula_Chestplate.get(), top);
-		armorModels.put(ModItems.gula_Leggings.get(), bot);
-		armorModels.put(ModItems.gula_Boots.get(), top);
-
-		armorModels.put(ModItems.invi_Helmet.get(), top);
-		armorModels.put(ModItems.invi_Chestplate.get(), top);
-		armorModels.put(ModItems.invi_Leggings.get(), bot);
-		armorModels.put(ModItems.invi_Boots.get(), top);
-
-		armorModels.put(ModItems.ira_Helmet.get(), top);
-		armorModels.put(ModItems.ira_Chestplate.get(), top);
-		armorModels.put(ModItems.ira_Leggings.get(), bot);
-		armorModels.put(ModItems.ira_Boots.get(), top);
 
 		for(Entry<EntityType<?>, EntityRenderer<?>> entry : Minecraft.getInstance().getEntityRenderDispatcher().renderers.entrySet()) {
 			if(entry.getValue() instanceof LivingEntityRenderer renderer && !(entry.getValue() instanceof PlayerRenderer)) {
