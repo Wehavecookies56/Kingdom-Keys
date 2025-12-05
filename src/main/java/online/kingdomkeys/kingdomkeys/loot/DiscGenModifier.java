@@ -57,6 +57,6 @@ public class DiscGenModifier extends LootModifier {
 
 	@Override
 	public MapCodec<? extends IGlobalLootModifier> codec() {
-		return (MapCodec<? extends IGlobalLootModifier>) CODEC;
+		return CODEC.get();
 	}
 }
