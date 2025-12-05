@@ -166,7 +166,7 @@ public class EntityEvents {
 			if (mobData.getLevel() > 0) {
 				int lvl = mobData.getLevel();
 				Utils.applyMobLevel(mob, lvl);
-				mob.heal(mob.getMaxHealth());
+				mob.setHealth(mob.getMaxHealth());
 				if (!mob.hasCustomName() && !(mob instanceof OwnableEntity)) {
 					if (ModConfigs.mobLevelName) {
 						mob.setCustomName(Component.translatable(mob.getDisplayName().getString() + " Lv." + Utils.getLevelColor(player, lvl) + lvl + ChatFormatting.RESET));
