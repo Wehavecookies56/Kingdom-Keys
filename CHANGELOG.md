@@ -1,2 +1,2 @@
 **Fixed:**
-* Potential fix for Large Bodies ignoring Stop damage.
+* Server thread no longer freezes after a while with Minestuck
