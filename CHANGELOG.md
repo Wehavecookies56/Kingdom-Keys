@@ -1,2 +1,2 @@
 **Fixed:**
-* Server thread no longer freezes after a while with Minestuck
+* Increase Epic Fight version range so 20.14 works
