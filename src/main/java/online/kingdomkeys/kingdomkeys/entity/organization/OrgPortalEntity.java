@@ -113,9 +113,13 @@ public class OrgPortalEntity extends Entity implements IEntityWithComplexSpawn {
 
 	@Override
 	public void readSpawnData(RegistryFriendlyByteBuf additionalData) {
-		destinationPos = additionalData.readBlockPos();
-		destinationDim = ResourceKey.create(Registries.DIMENSION, additionalData.readResourceLocation());
-		shouldTeleport = additionalData.readBoolean();
+		if (destinationPos == null)
+			return;
+
+			destinationPos = additionalData.readBlockPos();
+			destinationDim = ResourceKey.create(Registries.DIMENSION, additionalData.readResourceLocation());
+			shouldTeleport = additionalData.readBoolean();
+
 	}
 }
 
