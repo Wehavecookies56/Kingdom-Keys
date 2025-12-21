@@ -25,6 +25,12 @@ issueTrackerURL="https://github.com/Wehavecookies56/Kingdom-Keys/issues"
     ordering="BEFORE"
     side="BOTH"
 [[dependencies.${mod_id}]]
+    modId="patchouli"
+    type="optional"
+    versionRange="[1.21,)"
+    ordering="BEFORE"
+    side="BOTH"
+[[dependencies.${mod_id}]]
     modId="epicfight"
     type="optional"
     versionRange="[21.13,)"
