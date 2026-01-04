@@ -94,6 +94,8 @@ public class KingdomKeys {
 
 	public static boolean efmLoaded = false;
 
+	public static boolean patchouliLoaded = false;
+
 	public static final DeferredRegister<CreativeModeTab> TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MODID);
 
 	private static final Supplier<List<ItemStack>> kkItems = Suppliers.memoize(() -> ModItems.ITEMS.getEntries().stream().map(Supplier::get).map(ItemStack::new).toList());
@@ -230,6 +232,10 @@ public class KingdomKeys {
 		if (ModList.get().isLoaded("epicfight")) {
 			efmLoaded = true;
 			EpicFightIntegration.initIntegration(modEventBus);
+		}
+
+		if (ModList.get().isLoaded("patchouli")) {
+			patchouliLoaded = true;
 		}
 
 		NeoForge.EVENT_BUS.register(this);
