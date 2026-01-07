@@ -765,6 +765,7 @@ public class Strings {
         kiblade = "kiblade",
         kingdomKey = "kingdom_key",
         kingdomKeyD = "kingdom_key_d",
+        kingdomKeyN = "kingdom_key_n",
         knockoutPunch = "knockout_punch",
         ladyLuck = "lady_luck",
         leviathan = "leviathan",
