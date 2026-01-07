@@ -91,6 +91,7 @@ public class ModItems {
 			kiblade = createKeybladeItem(Strings.kiblade),
 			kingdomKey = createKeybladeItem(Strings.kingdomKey),
 			kingdomKeyD = createKeybladeItem(Strings.kingdomKeyD),
+			kingdomKeyN = createKeybladeItem(Strings.kingdomKeyN),
 			knockoutPunch = createKeybladeItem(Strings.knockoutPunch),
 			ladyLuck = createKeybladeItem(Strings.ladyLuck),
 			leviathan = createKeybladeItem(Strings.leviathan),
