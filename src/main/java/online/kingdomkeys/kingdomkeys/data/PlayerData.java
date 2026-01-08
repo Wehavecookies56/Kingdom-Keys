@@ -6,6 +6,7 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.IntArrayTag;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -83,7 +84,8 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		return player.getData(ModData.PLAYER_DATA);
 	}
 
-	@Override
+
+    @Override
 	public CompoundTag serializeNBT(HolderLookup.Provider provider) {
 		CompoundTag storage = new CompoundTag();
 		storage.putInt("level", this.getLevel());
@@ -150,6 +152,18 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		storage.put("shotlocks", shotlocks);
 
 		storage.putString("equipped_shotlock", this.getEquippedShotlock());
+
+        CompoundTag targetShotlocks = new CompoundTag();
+        for (int i=0; i< this.getShotlockEnemies().size(); i++) {
+            Utils.ShotlockPosition shotlock = getShotlockEnemies().get(i);
+            CompoundTag tag1 = new CompoundTag();
+            tag1.putInt("id", shotlock.id());
+            tag1.putFloat("x", shotlock.x());
+            tag1.putFloat("y", shotlock.y());
+            tag1.putFloat("z", shotlock.z());
+            targetShotlocks.put("target"+i, tag1);
+        }//TODO a
+        storage.put("target_shotlocks", targetShotlocks);
 
 		CompoundTag forms = new CompoundTag();
 		for (Entry<String, int[]> pair : this.getDriveFormMap().entrySet()) {
@@ -349,6 +363,14 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 
 		this.setEquippedShotlock(nbt.getString("equipped_shotlock"));
 
+        shotlockEnemies.clear();
+        int targetsSize = nbt.getCompound("target_shotlocks").getAllKeys().size();
+        for (int i = 0; i < targetsSize; i++) {
+            CompoundTag tag1 = nbt.getCompound("target_shotlocks").getCompound("target"+i);
+            Utils.ShotlockPosition pos = new Utils.ShotlockPosition(tag1.getInt("id"),tag1.getFloat("x"),tag1.getFloat("y"),tag1.getFloat("z"));
+            this.shotlockEnemies.add(pos);
+        }
+//TODO a
 		driveForms.clear();
 		for (String driveFormName : nbt.getCompound("drive_forms").getAllKeys()) {
 			if (ModDriveForms.registry.containsKey(ResourceLocation.parse(driveFormName))) {
@@ -366,7 +388,6 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		reactionList.clear();
         int size = nbt.getCompound("reaction_commands").getAllKeys().size();
 		for (int i =0; i < size; i++) {
-
             String rc = nbt.getCompound("reaction_commands").getString("rc_"+i);
 			if (ModReactionCommands.registry.containsKey(ResourceLocation.parse(rc))) {
 				this.getReactionCommands().add(rc);

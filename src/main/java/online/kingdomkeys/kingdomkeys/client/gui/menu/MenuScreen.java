@@ -76,7 +76,6 @@ public class MenuScreen extends MenuBackground {
 			case STATUS -> minecraft.setScreen(new MenuStatusScreen());
 			case CUSTOMIZE -> minecraft.setScreen(new MenuCustomizeScreen());
 			case JOURNAL -> {
-				System.out.println("Journal Button Clicked!"); // DEBUG
 				if (KingdomKeys.patchouliLoaded) {
 					online.kingdomkeys.kingdomkeys.integration.patchouli.PatchouliIntegration.openJournal();
 				} else {

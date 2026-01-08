@@ -1,3 +1,8 @@
+**Added:**
+* Kingdom Key Nightmare
+* Journal opens with journal button given you have Patchouli installed.
+
 **Fixed:**
-* Crash with Advanced Loot Info (and potentially other mods that deal with loot)
-* Server thread no longer freezes after a while with Minestuck
+* Shotlocks counter getting reset when the player data saved (when taking damage etc...)
+* Org portal potential crash.
+* Org weapons not summonable with EFM.

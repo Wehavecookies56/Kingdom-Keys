@@ -913,6 +913,7 @@ public class Strings {
         kibladeChain = "kiblade_chain",
         kingdomKeyChain = "kingdom_key_chain",
         kingdomKeyDChain = "kingdom_key_d_chain",
+        kingdomKeyNChain = "kingdom_key_n_chain",
         knockoutPunchChain = "knockout_punch_chain",
         ladyLuckChain = "lady_luck_chain",
         leviathanChain = "leviathan_chain",

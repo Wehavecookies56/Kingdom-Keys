@@ -19,7 +19,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
@@ -56,8 +55,6 @@ import online.kingdomkeys.kingdomkeys.data.CastleOblivionData;
 import online.kingdomkeys.kingdomkeys.data.GlobalData;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.data.WorldData;
-import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
-import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import online.kingdomkeys.kingdomkeys.entity.GummiShipEntity;
 import online.kingdomkeys.kingdomkeys.entity.KKVehicleEntity;
@@ -66,14 +63,10 @@ import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.item.WayfinderItem;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
-import online.kingdomkeys.kingdomkeys.lib.Constants;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.cts.CSGummiBoostPacket;
-import online.kingdomkeys.kingdomkeys.network.cts.CSGummiFirePacket;
-import online.kingdomkeys.kingdomkeys.network.cts.CSSetAirStepPacket;
-import online.kingdomkeys.kingdomkeys.network.cts.CSShotlockShot;
+import online.kingdomkeys.kingdomkeys.network.cts.*;
 import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
 import online.kingdomkeys.kingdomkeys.sound.AlarmSoundInstance;
 import online.kingdomkeys.kingdomkeys.util.IDisabledAnimations;
@@ -432,8 +425,9 @@ public class ClientEvents {
 				if (focusingTicks == 0) {
 					// Has started focusing
 					focusGaugeTemp = playerData.getFocus();
-					playerData.setShotlockEnemies(new ArrayList<>());
-					player.level().playSound(player, player.position().x(),player.position().y(),player.position().z(), ModSounds.shotlock_lockon_start.get(), SoundSource.PLAYERS, 1F, 1F);
+					//playerData.setShotlockEnemies();
+                    PacketHandler.sendToServer(new CSSetShotlockEnemyListPacket(new ArrayList<>()));
+                    player.level().playSound(player, player.position().x(),player.position().y(),player.position().z(), ModSounds.shotlock_lockon_start.get(), SoundSource.PLAYERS, 1F, 1F);
 				}
 				
 				if(focusingTicks == 5) {
@@ -447,7 +441,6 @@ public class ClientEvents {
 				HitResult rt = InputHandler.getMouseOverExtended(ModConfigs.SERVER.shotlockMaxDist.get());
 				if (rt == null) {
 					lockedAirStep = BlockPos.ZERO;
-
 					return;
 				}
 
@@ -497,9 +490,11 @@ public class ClientEvents {
 					} else if (focusingTicks % shotlock.getCooldown() == 1 && playerData.getShotlockEnemies().size() < shotlock.getMaxLocks()) {
 						Party p = WorldData.getClient().getPartyFromMember(player.getUUID());
 						if (ertr.getEntity() instanceof LivingEntity target) {
+                            System.out.println(playerData.getShotlockEnemies());
 							if (p == null || (p.getMember(target.getUUID()) == null || p.getFriendlyFire())) { // If caster is not in a party || the party doesn't have the target in it || the party has FF on
-								playerData.addShotlockEnemy(new Utils.ShotlockPosition(target.getId(), Utils.randomWithRange(0, target.getBbWidth() * 2) - target.getBbWidth(), Utils.randomWithRange(0, target.getBbHeight() * 2) - target.getBbHeight(), Utils.randomWithRange(0, target.getBbWidth() * 2) - target.getBbWidth()));
-
+                                Utils.ShotlockPosition shotlockPoint = new Utils.ShotlockPosition(target.getId(), Utils.randomWithRange(0, target.getBbWidth() * 2) - target.getBbWidth(), Utils.randomWithRange(0, target.getBbHeight() * 2) - target.getBbHeight(), Utils.randomWithRange(0, target.getBbWidth() * 2) - target.getBbWidth());
+								playerData.addShotlockEnemy(shotlockPoint);
+                                PacketHandler.sendToServer(new CSSetShotlockEnemyListPacket(playerData.getShotlockEnemies()));
 								player.level().playSound(player, player.position().x(), player.position().y(), player.position().z(), ModSounds.shotlock_lockon.get(), SoundSource.PLAYERS, 1F, 1F);
 								cost = playerData.getFocus() - focusGaugeTemp;
 								tempShotlockEntity = null;
