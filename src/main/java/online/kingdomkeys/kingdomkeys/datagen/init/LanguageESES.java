@@ -1246,6 +1246,7 @@ public class LanguageESES extends KKLanguageProvider {
         addItem(ModItems.kiblade, "Llave Espada");
         addItem(ModItems.kingdomKey, "Cadena del Reino");
         addItem(ModItems.kingdomKeyD, "Cadena del Reino D");
+        addItem(ModItems.kingdomKeyN, "Cadena del Reino Pesadilla");
         addItem(ModItems.knockoutPunch, "Nocaut");
         addItem(ModItems.ladyLuck, "\u00daltimo Recurso");
         addItem(ModItems.leviathan, "Leviat\u00e1n");
@@ -1397,6 +1398,7 @@ public class LanguageESES extends KKLanguageProvider {
         addItem(ModItems.kibladeChain, "Llavero de Llave Espada   ");
         addItem(ModItems.kingdomKeyChain, "Llavero de Cadena del Reino");
         addItem(ModItems.kingdomKeyDChain, "Llavero de Cadena del Reino D");
+        addItem(ModItems.kingdomKeyNChain, "Llavero de Cadena del Reino Pesadilla");
         addItem(ModItems.knockoutPunchChain, "Llavero de Nocaut");
         addItem(ModItems.ladyLuckChain, "Llavero de \u00faltimo Recurso");
         addItem(ModItems.leviathanChain, "Llavero de Leviat\u00e1n");
@@ -1540,6 +1542,7 @@ public class LanguageESES extends KKLanguageProvider {
         add("item." + MODID + "." + Strings.kiblade + ".desc", "A legendary weapon, the original Keyblade which all other are imperfectly modeled after.");
         add("item." + MODID + "." + Strings.kingdomKey + ".desc", "The key chain attached draws out the Keyblade's true form and power.");
         add("item." + MODID + "." + Strings.kingdomKeyD + ".desc", "A Keyblade which mirrors the Kingdom Key from the Realm of Darkness.");
+        add("item." + MODID + "." + Strings.kingdomKeyN + ".desc", "A Keyblade which stems from the negativity of the heart.");
         add("item." + MODID + "." + Strings.knockoutPunch + ".desc", "A Keyblade that lands fewer critical hits, but compensates with a Strength boost and more frequent Reality Shifts.");
         add("item." + MODID + "." + Strings.ladyLuck + ".desc", "Raises max MP by 2, and significantly enhances magic and summon power. Also inflicts good physical damage.");
         add("item." + MODID + "." + Strings.leviathan + ".desc", "A weapon that performs extremely well in midair. Outstanding for taking on fliers.");
