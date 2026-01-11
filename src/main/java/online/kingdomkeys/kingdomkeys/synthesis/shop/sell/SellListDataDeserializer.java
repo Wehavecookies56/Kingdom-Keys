@@ -27,15 +27,13 @@ public class SellListDataDeserializer implements JsonDeserializer<SellList> {
         for(JsonElement e : jsonArray) {
         	SellItem shopItem = new SellItem();
         	JsonObject jsonObj = e.getAsJsonObject();
-            boolean valid = jsonObj.get("item") != null && jsonObj.get("amount") != null;
-            if (valid) {
+            if (jsonObj.get("item") != null) {
                 Item item = BuiltInRegistries.ITEM.get(ResourceLocation.parse(jsonObj.get("item").getAsString()));
                 shopItem.setResult(item);
                 shopItem.setPrice(jsonObj.get("price").getAsInt());
                 out.addToList(shopItem);
-                KingdomKeys.LOGGER.info("OUTPUT: {}, PRICE {}", shopItem.result, shopItem.price);
+                KingdomKeys.LOGGER.info("ITEM: {}, PRICE {}", shopItem.result, shopItem.price);
             }
-
         }
         return out;
     }
