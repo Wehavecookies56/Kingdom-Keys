@@ -17,9 +17,11 @@ import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuFilterBar;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuFilterable;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuFilterableIndexed;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuScrollBar;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuStockItem;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuStockItemIndexed;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.item.KKAccessoryItem;
 import online.kingdomkeys.kingdomkeys.item.KKArmorItem;
@@ -34,18 +36,16 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Comparator;
+import java.util.*;
 import java.util.List;
 
-public class SellScreen extends MenuFilterable {
+public class SellScreen extends MenuFilterableIndexed {
 	MenuBox boxL, boxM;
 
 	MenuButton sell;
 	private MenuButton buy, back;
     EditBox amountBox;
 
-    int playerInvSlot = -1;
 	SynthesisScreen parent;
 
 	public SellScreen(PlayerData playerData, SynthesisScreen parent) {
@@ -66,7 +66,7 @@ public class SellScreen extends MenuFilterable {
 	protected void action(String string) {
 		switch (string) {
 		case "sell":
-            System.out.println(selectedItemStack);
+            System.out.println(selectedIndex);
             /*if(getTextBoxAmount() > -1){
                 PacketHandler.sendToServer(new CSShopSell(selectedItemStack, Integer.parseInt(amountBox.getValue())));
                 minecraft.level.playSound(minecraft.player, minecraft.player.blockPosition(), ModSounds.itemget.get(), SoundSource.MASTER, 1.0f, 1.0f);
@@ -107,16 +107,17 @@ public class SellScreen extends MenuFilterable {
 		
 		SellList sellList = getSellList();
 
-		List<ResourceLocation> items = new ArrayList<>();
+		int c = 0;
 		for (int i = 0; i < minecraft.player.getInventory().getContainerSize(); i++) {
             ItemStack stack = minecraft.player.getInventory().getItem(i);
             if(stack != null){
                 for(int j=0;j<getSellList().getList().size();j++) {
                     SellItem sellItem = sellList.getList().get(j);
-                    ResourceLocation recipeRL = Utils.getItemRegistryName(sellItem.getResult());
                     if (stack.getItem() == sellItem.getResult() && filterItem(stack)) {
-                        items.add(recipeRL);
-                    }
+						MenuStockItemIndexed item = new MenuStockItemIndexed(this, i, stack, (int) invPosX, (int) invPosY + (c++ * 14), boxL.getWidth() - scrollBar.getWidth() - 6, true);
+						item.setBackgroundColor(new Color(10, 10, 80));
+						inventory.add(item);
+					}
                 }
             }
 			/*ResourceLocation itemName = null;
@@ -132,20 +133,9 @@ public class SellScreen extends MenuFilterable {
 				KingdomKeys.LOGGER.error(itemName +" is not a valid sell entry, check it");
 			}*/
 		}
-		items.sort(Comparator.comparing(Utils::getCategoryForShop).thenComparing(stackRL -> new ItemStack(BuiltInRegistries.ITEM.get(stackRL)).getHoverName().getContents().toString()));
-
-        int c = 0;
-        for (ResourceLocation resourceLocation : items) {
-            ItemStack itemStack = new ItemStack(BuiltInRegistries.ITEM.get(resourceLocation));
-            if (minecraft.player.getInventory().contains(itemStack)) {
-                MenuStockItem item = new MenuStockItem(this, resourceLocation, itemStack, (int) invPosX, (int) invPosY + (c++ * 14), boxL.getWidth() - scrollBar.getWidth() - 6, true);
-                item.setBackgroundColor(new Color(10, 10, 80));
-                inventory.add(item);
-            }
-        }
 		
 		inventory.forEach(this::addWidget);
-		
+
 		super.init();
 
 		sell = new MenuButton(boxM.getX()+boxM.getWidth()/2 - (int)(buttonWidth+22)/2, (int) (height * 0.67),(int)buttonWidth, Strings.Gui_Shop_Sell, MenuButton.ButtonType.ROUNDBUTTON,(e) -> {
@@ -153,23 +143,22 @@ public class SellScreen extends MenuFilterable {
 		});
 		sell.setCenterText(true);
 		addRenderableWidget(sell);
-        addRenderableWidget(buy = new MenuButton((int)this.buttonPosX, this.buttonPosY, (int)(buttonWidth+15)/2, Component.translatable(Strings.Gui_Shop_Buy).getString(), MenuButton.ButtonType.BUTTON, b -> minecraft.setScreen(new ShopScreen(parent.playerData, parent))));
-        addRenderableWidget(back = new MenuButton((int)this.buttonPosX, this.buttonPosY+18, (int)(buttonWidth+15)/2, Component.translatable(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, b -> minecraft.setScreen(new SynthesisScreen(parent.playerData, parent.invFile, parent.name, parent.moogle))));
-        addRenderableWidget(amountBox = new EditBox(minecraft.font, boxM.getX()+30, (int) (topBarHeight + middleHeight - 30), minecraft.font.width("#####"), 16, Component.translatable("test")) {
-        @Override
-        public boolean charTyped(char c, int i) {
-            if (Utils.isNumber(c)) {
-                String text = new StringBuilder(this.getValue()).insert(this.getCursorPosition(), c).toString();
-                if (Integer.parseInt(text) > 64) {
-                    return false;
-                }
-            } else {
-                return false;
-            }
-            return super.charTyped(c, i);
-        }
-        });
-
+		addRenderableWidget(buy = new MenuButton((int)this.buttonPosX, this.buttonPosY, (int)(buttonWidth+15)/2, Component.translatable(Strings.Gui_Shop_Buy).getString(), MenuButton.ButtonType.BUTTON, b -> minecraft.setScreen(new ShopScreen(parent.playerData, parent))));
+		addRenderableWidget(back = new MenuButton((int)this.buttonPosX, this.buttonPosY+18, (int)(buttonWidth+15)/2, Component.translatable(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, b -> minecraft.setScreen(new SynthesisScreen(parent.playerData, parent.invFile, parent.name, parent.moogle))));
+		addRenderableWidget(amountBox = new EditBox(minecraft.font, boxM.getX()+30, (int) (topBarHeight + middleHeight - 30), minecraft.font.width("#####"), 16, Component.translatable("test")) {
+			@Override
+			public boolean charTyped(char c, int i) {
+				if (Utils.isNumber(c)) {
+					String text = new StringBuilder(this.getValue()).insert(this.getCursorPosition(), c).toString();
+					if (Integer.parseInt(text) > 64) {
+						return false;
+					}
+				} else {
+					return false;
+				}
+				return super.charTyped(c, i);
+			}
+		});
     }
 
     public int getTextBoxAmount(){
@@ -188,12 +177,11 @@ public class SellScreen extends MenuFilterable {
 		boxM.renderWidget(gui, mouseX, mouseY, partialTicks);
 		super.render(gui, mouseX, mouseY, partialTicks);
 
-		if(inventory.isEmpty())
-			return;
+		if (!inventory.isEmpty()) {
+			int listHeight = (inventory.get(inventory.size() - 1).getY() + 20) - inventory.get(0).getY() + 3;
+			scrollBar.setContentHeight(listHeight);
 
-		int listHeight = (inventory.get(inventory.size()-1).getY()+20) - inventory.get(0).getY() + 3;
-		scrollBar.setContentHeight(listHeight);
-
+		}
 		if (selectedItemStack != ItemStack.EMPTY) {
             List<SellItem> list = getSellList().getList();
             SellItem item = null;
