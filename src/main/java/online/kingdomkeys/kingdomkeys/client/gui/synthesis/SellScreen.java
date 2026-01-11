@@ -2,6 +2,7 @@ package online.kingdomkeys.kingdomkeys.client.gui.synthesis;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
@@ -19,17 +20,16 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuFilterable;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuScrollBar;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuStockItem;
-import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
-import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
-import online.kingdomkeys.kingdomkeys.item.*;
+import online.kingdomkeys.kingdomkeys.item.KKAccessoryItem;
+import online.kingdomkeys.kingdomkeys.item.KKArmorItem;
+import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSCloseMoogleGUI;
-import online.kingdomkeys.kingdomkeys.network.cts.CSShopBuy;
-import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopItem;
-import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopList;
-import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopListRegistry;
+import online.kingdomkeys.kingdomkeys.synthesis.shop.sell.SellItem;
+import online.kingdomkeys.kingdomkeys.synthesis.shop.sell.SellList;
+import online.kingdomkeys.kingdomkeys.synthesis.shop.sell.SellListRegistry;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import org.jetbrains.annotations.NotNull;
 
@@ -37,37 +37,41 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 
-public class ShopScreen extends MenuFilterable {
+public class SellScreen extends MenuFilterable {
 	MenuBox boxL, boxM;
 
-	MenuButton create;
-	private MenuButton sell, back;
-	
+	MenuButton sell;
+	private MenuButton buy, back;
+    EditBox amountBox;
+
+    int playerInvSlot = -1;
 	SynthesisScreen parent;
 
-	public ShopScreen(PlayerData playerData, SynthesisScreen parent) {
-		super(Strings.Gui_Shop_Main_Title, new Color(255, 0, 0));
+	public SellScreen(PlayerData playerData, SynthesisScreen parent) {
+		super(Strings.Gui_Shop_Main_Title, new Color(0, 0, 255));
 		drawSeparately = true;
 		this.parent = parent;
 		parent.playerData = playerData;
 	}
-	
-	public ShopScreen(PlayerData playerData, String nbt, SynthesisScreen parent) {
+
+	public SellScreen(PlayerData playerData, String nbt, SynthesisScreen parent) {
 		this(playerData, parent);
 	}
 
-	public ShopList getShopList(){
-		return ShopListRegistry.getInstance().getRegistry().get(ResourceLocation.parse(parent.invFile));
+	public SellList getSellList(){
+		return SellListRegistry.getInstance().getRegistry().get(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "sell"));
 	}
 
 	protected void action(String string) {
 		switch (string) {
-		case "create":
-			PacketHandler.sendToServer(new CSShopBuy(ResourceLocation.parse(parent.invFile), selectedItemStack));
-			minecraft.level.playSound(minecraft.player, minecraft.player.blockPosition(), ModSounds.itemget.get(), SoundSource.MASTER, 1.0f, 1.0f);
-			break;
+		case "sell":
+            System.out.println(selectedItemStack);
+            /*if(getTextBoxAmount() > -1){
+                PacketHandler.sendToServer(new CSShopSell(selectedItemStack, Integer.parseInt(amountBox.getValue())));
+                minecraft.level.playSound(minecraft.player, minecraft.player.blockPosition(), ModSounds.itemget.get(), SoundSource.MASTER, 1.0f, 1.0f);
+            }*/
+            break;
 		}
 	}
 	
@@ -77,8 +81,8 @@ public class ShopScreen extends MenuFilterable {
 		float topBarHeight = (float) height * 0.17F;
 		float boxWidth = (float) width * 0.3F;
 		float middleHeight = (float) height * 0.6F;
-		boxL = new MenuBox((int) boxPosX, (int) topBarHeight, (int) boxWidth, (int) middleHeight,1F, new Color(100, 4, 4));
-		boxM = new MenuBox((int) boxPosX + (int) boxWidth, (int) topBarHeight, (int) (boxWidth*0.7F), (int) middleHeight, 1F,new Color(100, 4, 4));		int scrollTop = (int) topBarHeight;
+		boxL = new MenuBox((int) boxPosX, (int) topBarHeight, (int) boxWidth, (int) middleHeight,1F, new Color(4, 4, 150));
+		boxM = new MenuBox((int) boxPosX + (int) boxWidth, (int) topBarHeight, (int) (boxWidth*0.7F), (int) middleHeight, 1F,new Color(4, 4, 150));		int scrollTop = (int) topBarHeight;
 		int scrollBot = (int) (scrollTop + middleHeight);
 		float filterPosX = width * 0.3F;
 		float filterPosY = height * 0.02F;
@@ -101,52 +105,82 @@ public class ShopScreen extends MenuFilterable {
 		renderables.clear();
 		filterBar.buttons.forEach(this::addWidget);
 		
-		ShopList shopList = getShopList();
+		SellList sellList = getSellList();
 
 		List<ResourceLocation> items = new ArrayList<>();
-		for (int i = 0; i < shopList.getList().size(); i++) {
-			ResourceLocation itemName = null;
-			ShopItem shopItem = shopList.getList().get(i);
-			if(shopItem != null) {
-				ResourceLocation recipeRL = Utils.getItemRegistryName(shopItem.getResult());
-				ItemStack stack = new ItemStack(shopItem.getResult());
-	
-				if (shopItem.getResult() instanceof KeychainItem)
-					stack = new ItemStack(((KeychainItem) shopItem.getResult()).getKeyblade());
+		for (int i = 0; i < minecraft.player.getInventory().getContainerSize(); i++) {
+            ItemStack stack = minecraft.player.getInventory().getItem(i);
+            if(stack != null){
+                for(int j=0;j<getSellList().getList().size();j++) {
+                    SellItem sellItem = sellList.getList().get(j);
+                    ResourceLocation recipeRL = Utils.getItemRegistryName(sellItem.getResult());
+                    if (stack.getItem() == sellItem.getResult() && filterItem(stack)) {
+                        items.add(recipeRL);
+                    }
+                }
+            }
+			/*ResourceLocation itemName = null;
+			//SellItem sellItem = sellList.getList().get(i);
+			if(sellItem != null) {
+				ResourceLocation recipeRL = Utils.getItemRegistryName(sellItem.getResult());
+				ItemStack stack = new ItemStack(sellItem.getResult());
 	
 				if (filterItem(stack)) {
 					items.add(recipeRL);
 				}
 			} else {
-				KingdomKeys.LOGGER.error(itemName +" is not a valid recipe, check it");
-			}
+				KingdomKeys.LOGGER.error(itemName +" is not a valid sell entry, check it");
+			}*/
 		}
 		items.sort(Comparator.comparing(Utils::getCategoryForShop).thenComparing(stackRL -> new ItemStack(BuiltInRegistries.ITEM.get(stackRL)).getHoverName().getContents().toString()));
 
-		for (int i = 0; i < items.size(); i++) {
-			ItemStack itemStack = new ItemStack(BuiltInRegistries.ITEM.get(items.get(i)));
-			if(itemStack != null && itemStack.getItem() instanceof KeychainItem) {
-				itemStack = new ItemStack(((KeychainItem) itemStack.getItem()).getKeyblade());
-			}
-			MenuStockItem item = new MenuStockItem(this, items.get(i), itemStack, (int) invPosX, (int) invPosY + (i * 14), boxL.getWidth()-scrollBar.getWidth()-6, false);
-			item.setBackgroundColor(new Color(80,10,10));
-			inventory.add(item);
-		}
+        int c = 0;
+        for (ResourceLocation resourceLocation : items) {
+            ItemStack itemStack = new ItemStack(BuiltInRegistries.ITEM.get(resourceLocation));
+            if (minecraft.player.getInventory().contains(itemStack)) {
+                MenuStockItem item = new MenuStockItem(this, resourceLocation, itemStack, (int) invPosX, (int) invPosY + (c++ * 14), boxL.getWidth() - scrollBar.getWidth() - 6, true);
+                item.setBackgroundColor(new Color(10, 10, 80));
+                inventory.add(item);
+            }
+        }
 		
 		inventory.forEach(this::addWidget);
 		
 		super.init();
 
-		create = new MenuButton(boxM.getX()+boxM.getWidth()/2 - (int)(buttonWidth+22)/2, (int) (height * 0.67),(int)buttonWidth, Strings.Gui_Shop_Buy, MenuButton.ButtonType.ROUNDBUTTON,(e) -> {
-			action("create");
+		sell = new MenuButton(boxM.getX()+boxM.getWidth()/2 - (int)(buttonWidth+22)/2, (int) (height * 0.67),(int)buttonWidth, Strings.Gui_Shop_Sell, MenuButton.ButtonType.ROUNDBUTTON,(e) -> {
+			action("sell");
 		});
-		create.setCenterText(true);
-		addRenderableWidget(create);
+		sell.setCenterText(true);
+		addRenderableWidget(sell);
+        addRenderableWidget(buy = new MenuButton((int)this.buttonPosX, this.buttonPosY, (int)(buttonWidth+15)/2, Component.translatable(Strings.Gui_Shop_Buy).getString(), MenuButton.ButtonType.BUTTON, b -> minecraft.setScreen(new ShopScreen(parent.playerData, parent))));
+        addRenderableWidget(back = new MenuButton((int)this.buttonPosX, this.buttonPosY+18, (int)(buttonWidth+15)/2, Component.translatable(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, b -> minecraft.setScreen(new SynthesisScreen(parent.playerData, parent.invFile, parent.name, parent.moogle))));
+        addRenderableWidget(amountBox = new EditBox(minecraft.font, boxM.getX()+30, (int) (topBarHeight + middleHeight - 30), minecraft.font.width("#####"), 16, Component.translatable("test")) {
+        @Override
+        public boolean charTyped(char c, int i) {
+            if (Utils.isNumber(c)) {
+                String text = new StringBuilder(this.getValue()).insert(this.getCursorPosition(), c).toString();
+                if (Integer.parseInt(text) > 64) {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+            return super.charTyped(c, i);
+        }
+        });
 
-        addRenderableWidget(sell = new MenuButton((int)this.buttonPosX, this.buttonPosY, (int)(buttonWidth+15)/2, Component.translatable(Strings.Gui_Shop_Sell).getString(), MenuButton.ButtonType.BUTTON, b -> minecraft.setScreen(new SellScreen(parent.playerData, parent))));
-		addRenderableWidget(back = new MenuButton((int)this.buttonPosX, this.buttonPosY+18, (int)(buttonWidth+15)/2, Component.translatable(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, b -> minecraft.setScreen(new SynthesisScreen(parent.playerData, parent.invFile, parent.name, parent.moogle))));
-	}
+    }
 
+    public int getTextBoxAmount(){
+        try {
+            Integer.parseInt(amountBox.getValue());
+            return Integer.parseInt(amountBox.getValue());
+        } catch (NumberFormatException e) {
+            KingdomKeys.LOGGER.error("NaN "+amountBox.getValue());
+            return -1;
+        }
+    }
 	@Override
 	public void render(@NotNull GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
 		drawMenuBackground(gui, mouseX, mouseY, partialTicks);
@@ -161,37 +195,24 @@ public class ShopScreen extends MenuFilterable {
 		scrollBar.setContentHeight(listHeight);
 
 		if (selectedItemStack != ItemStack.EMPTY) {
-			boolean enoughMunny = false;
-			boolean enoughTier = false;
-			List<ShopItem> list = ShopListRegistry.getInstance().getRegistry().get(ResourceLocation.parse(parent.invFile)).getList();
-			ShopItem item = null;
-			for(ShopItem shopItem : list) {
-				Item it = shopItem.getResult();
+            List<SellItem> list = getSellList().getList();
+            SellItem item = null;
+			for(SellItem sellItem : list) {
+				Item it = sellItem.getResult();
+                int amount = 1; //TODO change for max in inv
 
-				if(it instanceof KeychainItem) {
-					it = ((KeychainItem)it).getKeyblade();
-				}
-				
-				if(ItemStack.isSameItem(new ItemStack(it,shopItem.getAmount()), selectedItemStack)) {
-					item = shopItem;
+                if(ItemStack.isSameItem(new ItemStack(it,amount), selectedItemStack)) {
+					item = sellItem;
 					break;
 				}
 				
 			}			
 			if(item != null) {
-				enoughMunny = parent.playerData.getMunny() >= item.getCost();
-				enoughTier = !ModConfigs.SERVER.requireSynthTier.get() || parent.playerData.getSynthLevel() >= item.getTier();
-				create.visible = true;			
-
-				create.active = enoughMunny && enoughTier;
-				if(minecraft.player.getInventory().getFreeSlot() == -1) { //TODO somehow make this detect in singleplayer the inventory changes
-					create.active = false;
-					create.setMessage(Component.translatable(Strings.Gui_Shop_NoSpace));
-				}
+				sell.visible = true;
 			}
-			create.visible = item != null;
+			sell.visible = item != null;
 		} else {
-			create.visible = false;
+			sell.visible = false;
 		}
 
 		for(Renderable renderable : this.inventory){
@@ -204,8 +225,8 @@ public class ShopScreen extends MenuFilterable {
 				renderable.render(gui,mouseX,mouseY,partialTicks);
 			}
 		}
-		create.render(gui, mouseX,  mouseY,  partialTicks);
-        sell.render(gui, mouseX, mouseY, partialTicks);
+		sell.render(gui, mouseX,  mouseY,  partialTicks);
+        buy.render(gui, mouseX,  mouseY,  partialTicks);
 		back.render(gui, mouseX, mouseY, partialTicks);
 	}
 
@@ -217,44 +238,32 @@ public class ShopScreen extends MenuFilterable {
 
 		float iconPosY = boxM.getPosY() + 25;
 
-		PlayerData playerData = PlayerData.get(minecraft.player);
-
 		matrixStack.pushPose();
 		{
-			double offset = (boxM.getWidth()*0.1F);
+			double offset = boxM.getWidth()*0.1F;
 			matrixStack.translate(boxM.getX() + offset/2, iconPosY, 1);
 			
-			List<ShopItem> list = ShopListRegistry.getInstance().getRegistry().get(ResourceLocation.parse(parent.invFile)).getList();
-			ShopItem item = null;
-			for(ShopItem shopItem : list) {
-				Item it = shopItem.getResult();
-
-				if(it instanceof KeychainItem) {
-					it = ((KeychainItem)it).getKeyblade();
-				}
-				
-				if(ItemStack.isSameItem(new ItemStack(it,shopItem.getAmount()), selectedItemStack)) {
-					item = shopItem;
+			List<SellItem> list = getSellList().getList();
+            SellItem item = null;
+            //iterate through the list made from the file
+			for(SellItem sellItem : list) {
+				Item it = sellItem.getResult();
+				if(ItemStack.isSameItem(new ItemStack(it,1), selectedItemStack)) {
+					item = sellItem;
 					break;
 				}
 				
 			}
 			if(item != null) {
-				gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Shop_Buy_Cost)+" ", 2, -20, Color.yellow.getRGB());
-				String line = Utils.getFormattedNumber(item.getCost())+" "+Utils.translateToLocal(Strings.Gui_Menu_Main_Munny);
-				gui.drawString(minecraft.font, line, boxM.getWidth() - minecraft.font.width(line) - 10, -20, item.getCost() > playerData.getMunny() ? Color.RED.getRGB() : Color.GREEN.getRGB());
-
-				if(ModConfigs.SERVER.requireSynthTier.get()) {
-					gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Shop_Tier) + " ", 2, -10, Color.yellow.getRGB());
-					line = Utils.getTierFromInt(item.getTier()) + " - " + (10 + item.getTier() * 2) + " " + Utils.translateToLocal(Strings.Gui_Synthesis_Exp);
-					gui.drawString(minecraft.font, line, boxM.getWidth() - minecraft.font.width(line) - 10, -10, item.getTier() > playerData.getSynthLevel() ? Color.RED.getRGB() : Color.GREEN.getRGB());
-				}
+				gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Shop_Buy_Price)+" ", 2, -20, Color.yellow.getRGB());
+				String line = Utils.getFormattedNumber(item.getPrice())+" "+Utils.translateToLocal(Strings.Gui_Menu_Main_Munny);
+				gui.drawString(minecraft.font, line, boxM.getWidth() - minecraft.font.width(line) - 10, -20, Color.GREEN.getRGB());
 				
 				matrixStack.pushPose();
 				{
 					float size = 80;
-					matrixStack.translate(boxM.getWidth()*0.7F / 2,boxM.getHeight()*0.6F - size / 2,0);
-					ClientUtils.drawItemAsIcon(selectedItemStack, matrixStack, 0, -30, (int)size);
+					matrixStack.translate(boxM.getWidth()*0.7F / 2,boxM.getHeight() * 0.6F - size / 2,0);
+					ClientUtils.drawItemAsIcon(selectedItemStack, matrixStack, 0, -30, (int) size);
 				}
 				matrixStack.popPose();
 			}
@@ -351,4 +360,14 @@ public class ShopScreen extends MenuFilterable {
 		updateScroll();
 		return false;
 	}
+
+    public int getFirstInvSlotWithItemStack(ItemStack stack){
+        for(int i=0;i< minecraft.player.getInventory().items.size();i++){
+            ItemStack item = minecraft.player.getInventory().getItem(i);
+            if(ItemStack.isSameItem(item,stack)){
+                return i;
+            }
+        }
+        return -1;
+    }
 }

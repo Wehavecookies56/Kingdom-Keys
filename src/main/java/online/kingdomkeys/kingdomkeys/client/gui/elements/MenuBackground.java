@@ -262,11 +262,7 @@ public class MenuBackground extends Screen {
 }
 	
 	private static String printBiome(Holder<Biome> p_205375_) {
-	      return p_205375_.unwrap().map((p_205377_) -> {
-	         return p_205377_.location().toString();
-	      }, (p_205367_) -> {
-	         return "[unregistered " + p_205367_ + "]";
-	      });
+	      return p_205375_.unwrap().map((p_205377_) -> p_205377_.location().toString(), (p_205367_) -> "[unregistered " + p_205367_ + "]");
 	   }
 
 }

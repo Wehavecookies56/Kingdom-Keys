@@ -56,6 +56,7 @@ import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeData;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopListRegistry;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.names.NamesListRegistry;
+import online.kingdomkeys.kingdomkeys.synthesis.shop.sell.SellListRegistry;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import org.apache.commons.io.IOUtils;
 
@@ -157,6 +158,13 @@ public class ClientPacketHandler {
         ShopListRegistry.getInstance().clearRegistry();
         message.list().forEach(shopItem -> {
             ShopListRegistry.getInstance().register(shopItem);
+        });
+    }
+
+    public static void syncSellData(SCSyncSellData message) {
+        SellListRegistry.getInstance().clearRegistry();
+        message.list().forEach(shopItem -> {
+            SellListRegistry.getInstance().register(shopItem);
         });
     }
 
