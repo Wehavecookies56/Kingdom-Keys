@@ -6,6 +6,7 @@
 
 **Changed:**
 * Portals probability to teleport changed from 10% to 8% on the overworld and any dimension, except Nether with a 14% and the End with a 20%.
+* Xemnas and Anticoat armor are now cheaper since they have the same stats as the main Organization XIII armor.
 
 **Fixed:**
 * Shotlocks counter getting reset when the player data saved (when taking damage etc...)

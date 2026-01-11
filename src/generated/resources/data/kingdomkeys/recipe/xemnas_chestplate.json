@@ -6,20 +6,17 @@
     "A": {
       "item": "kingdomkeys:organization_chestplate"
     },
-    "E": {
-      "item": "minecraft:end_crystal"
-    },
-    "L": {
-      "tag": "c:leathers"
+    "B": {
+      "tag": "c:dyes/black"
     },
     "W": {
       "tag": "c:dyes/white"
     }
   },
   "pattern": [
-    "LAL",
-    "EWE",
-    "LLL"
+    "B B",
+    "WAW",
+    "BWB"
   ],
   "result": {
     "count": 1,

@@ -41,6 +41,8 @@
   "ability.ability_drive_boost.name": "Drive Boost",
   "ability.ability_drive_converter.desc": "Increment all Drive Point prizes value",
   "ability.ability_drive_converter.name": "Drive Converter",
+  "ability.ability_encounter_plus.desc": "Increase the amount of enemies that spawn around you. Stack the ability to increase the effect.",
+  "ability.ability_encounter_plus.name": "Encounter Plus",
   "ability.ability_endless_magic.desc": "Allows the user to reduce the cooldown between magic casts. Stack the ability to increase the effect.",
   "ability.ability_endless_magic.name": "Endless Magic",
   "ability.ability_experience_boost.desc": "Increases experience gained by 100% when you are at half health or less.",

@@ -6,19 +6,16 @@
     "A": {
       "item": "kingdomkeys:organization_boots"
     },
-    "E": {
-      "item": "minecraft:end_crystal"
+    "B": {
+      "tag": "c:dyes/black"
     },
-    "L": {
-      "tag": "c:leathers"
-    },
-    "P": {
+    "W": {
       "tag": "c:dyes/purple"
     }
   },
   "pattern": [
-    "EPE",
-    "LAL"
+    "B B",
+    "WAW"
   ],
   "result": {
     "count": 1,
