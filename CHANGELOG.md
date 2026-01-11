@@ -1,4 +1,5 @@
 **Added:**
+* Shop sell system.
 * Kingdom Key Nightmare
 * Journal opens with journal button given you have Patchouli installed.
 * Encounter Plus ability, increases the amount of enemies that can go through portals.

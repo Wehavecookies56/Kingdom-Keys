@@ -392,6 +392,8 @@ public class LanguageENUS extends KKLanguageProvider {
 
         add(Gui_Shop, "Shop");
         add(Gui_Shop_Buy, "Buy");
+        add(Gui_Shop_Sell, "Sell");
+        add(Gui_Shop_Buy_Price, "Price:");
         add(Gui_Shop_Page, "Page:");
         add(Gui_Shop_NoSpace, "Not enough space");
         add(Gui_Shop_Tier, "Tier:");

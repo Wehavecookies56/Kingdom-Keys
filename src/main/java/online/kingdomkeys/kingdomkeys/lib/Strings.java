@@ -489,7 +489,6 @@ public class Strings {
             Gui_Shop_Buy_Price = Gui_Shop + ".price",
             Gui_Shop_Buy_Quantity = Gui_Shop_Buy + ".quantity",
             Gui_Shop_Sell = Gui_Shop + ".sell",
-            Gui_Shop_Sell_Price = Gui_Shop_Sell + ".price",
 
             // Synthesis
             Gui_Synthesis = "gui.synthesis",

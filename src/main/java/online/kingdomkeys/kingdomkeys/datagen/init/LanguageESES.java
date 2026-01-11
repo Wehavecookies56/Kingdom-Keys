@@ -447,6 +447,8 @@ public class LanguageESES extends KKLanguageProvider {
         //Shop
         add(Gui_Shop, "Tienda");
         add(Gui_Shop_Buy, "Comprar");
+        add(Gui_Shop_Sell, "Vender");
+        add(Gui_Shop_Buy_Price, "Precio:");
         add(Gui_Shop_Page, "P\u00e1gina");
         add(Gui_Shop_NoSpace, "No tienes espacio");
         add(Gui_Shop_Tier, "Clase");

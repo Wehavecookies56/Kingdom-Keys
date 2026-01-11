@@ -997,6 +997,8 @@
   "gui.shop.main.title": "Tienda",
   "gui.shop.no_empty_slot": "No tienes espacio",
   "gui.shop.page": "Página",
+  "gui.shop.price": "Precio:",
+  "gui.shop.sell": "Vender",
   "gui.shop.tier": "Clase",
   "gui.statboost.increased": "%s aumentada, ahora es %s",
   "gui.statboost.tooltip": "aumenta %s en 1",

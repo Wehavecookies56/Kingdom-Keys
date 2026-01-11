@@ -34,6 +34,7 @@ public class PacketHandler {
 		client(SCOpenEquipmentScreen.TYPE, SCOpenEquipmentScreen.STREAM_CODEC);
 		client(SCOpenMagicCustomize.TYPE, SCOpenMagicCustomize.STREAM_CODEC);
 		client(SCOpenMaterialsScreen.TYPE, SCOpenMaterialsScreen.STREAM_CODEC);
+        client(SCOpenSellScreen.TYPE, SCOpenSellScreen.STREAM_CODEC);
 		client(SCOpenSavePointScreen.TYPE, SCOpenSavePointScreen.STREAM_CODEC);
 		client(SCOpenShortcutsCustomize.TYPE, SCOpenShortcutsCustomize.STREAM_CODEC);
 		client(SCOpenSynthesisGui.TYPE, SCOpenSynthesisGui.STREAM_CODEC);
@@ -104,6 +105,7 @@ public class PacketHandler {
 		server(CSSetOrgPortalName.TYPE, CSSetOrgPortalName.STREAM_CODEC);
 		server(CSSetShortcutPacket.TYPE, CSSetShortcutPacket.STREAM_CODEC);
 		server(CSShopBuy.TYPE, CSShopBuy.STREAM_CODEC);
+        server(CSShopSell.TYPE, CSShopSell.STREAM_CODEC);
 		server(CSShotlockShot.TYPE, CSShotlockShot.STREAM_CODEC);
 		server(CSSpawnOrgPortalPacket.TYPE, CSSpawnOrgPortalPacket.STREAM_CODEC);
 		server(CSStruggleSettings.TYPE, CSStruggleSettings.STREAM_CODEC);
