@@ -494,7 +494,7 @@ public class ClientEvents {
 					} else if (focusingTicks % shotlock.getCooldown() == 1 && playerData.getShotlockEnemies().size() < shotlock.getMaxLocks()) {
 						Party p = WorldData.getClient().getPartyFromMember(player.getUUID());
 						if (ertr.getEntity() instanceof LivingEntity target) {
-                            System.out.println(playerData.getShotlockEnemies());
+                            //System.out.println(playerData.getShotlockEnemies());
 							if (p == null || (p.getMember(target.getUUID()) == null || p.getFriendlyFire())) { // If caster is not in a party || the party doesn't have the target in it || the party has FF on
                                 Utils.ShotlockPosition shotlockPoint = new Utils.ShotlockPosition(target.getId(), Utils.randomWithRange(0, target.getBbWidth() * 2) - target.getBbWidth(), Utils.randomWithRange(0, target.getBbHeight() * 2) - target.getBbHeight(), Utils.randomWithRange(0, target.getBbWidth() * 2) - target.getBbWidth());
 								playerData.addShotlockEnemy(shotlockPoint);

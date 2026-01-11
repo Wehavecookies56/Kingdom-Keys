@@ -575,6 +575,7 @@ public class LanguageESES extends KKLanguageProvider {
         addAbilityWithDesc(ModAbilities.THUNDER_BOOST, "Extraelectro", "Aumenta el da\u00f1o de los ataques Electro. Cuantos m\u00e1s activas, mayor efecto.");
         addAbilityWithDesc(ModAbilities.TREASURE_MAGNET, "Atracci\u00f3n", "Acerca y recoge objetos cercanos. Cuantos m\u00e1s activas, mayor efecto.");
         addAbilityWithDesc(ModAbilities.EXPERIENCE_BOOST, "Extraexperiencia", "Si la VT cae a menos de la mitad, aumenta un 100% la experiencia ganada al vencer enemigos. Cuantos m\u00e1s activas, mayor efecto.");
+        addAbilityWithDesc(ModAbilities.ENCOUNTER_PLUS, "Más Encuentros", "Aumenta la cantidad de enemigos que aparecen a tu alrededor. Cuantos m\u00e1s activas, mayor efecto.");
         addAbilityWithDesc(ModAbilities.SECOND_CHANCE, "\u00daltimo Estertor", "Asegura un punto de vitalidad si recibes da\u00f1os severos.");
         addAbilityWithDesc(ModAbilities.LIGHT_AND_DARKNESS, "Luz y Oscuridad", "Proporciona un poder tan misterioso como poderoso.");
         addAbilityWithDesc(ModAbilities.SYNCH_BLADE, "Espada Doble", "Tendr\u00e1s una arma en cada mano. Dispondr\u00e1s tambi\u00e9n de las habilidades de la mano izquierda.");

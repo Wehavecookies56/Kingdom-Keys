@@ -136,6 +136,7 @@ public class Strings {
 			protect = KingdomKeys.MODID+":"+AB_Prefix + "protect",
 			protectra = KingdomKeys.MODID+":"+AB_Prefix + "protectra",
 			protectga = KingdomKeys.MODID+":"+AB_Prefix + "protectga",
+            encounterPlus =  KingdomKeys.MODID+":"+AB_Prefix +"encounter_plus",
 
     		firaza = KingdomKeys.MODID+":"+AB_Prefix +"firaza",
     		blizzaza = KingdomKeys.MODID+":"+AB_Prefix +"blizzaza",

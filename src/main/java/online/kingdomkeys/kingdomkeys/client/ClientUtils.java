@@ -511,6 +511,8 @@ public class ClientUtils {
         Player localPlayer = Minecraft.getInstance().player;
         PlayerData localPlayerData = PlayerData.get(localPlayer);
         Shotlock shotlock = Utils.getPlayerShotlock(localPlayer);
+        if(shotlock == null)
+            return;
 
         for (Utils.ShotlockPosition shotlockEnemy : localPlayerData.getShotlockEnemies()) {
             float ex = (float) entityIn.getX(); //Random offsets

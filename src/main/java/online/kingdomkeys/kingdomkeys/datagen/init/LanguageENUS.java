@@ -661,6 +661,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addAbilityWithDesc(ModAbilities.THUNDER_BOOST, "Thunder Boost", "Increases damage done with thunder-based attacks.");
         addAbilityWithDesc(ModAbilities.TREASURE_MAGNET, "Treasure Magnet", "Automatically draw in and collect nearby prizes. Stack the ability to increase the effect.");
         addAbilityWithDesc(ModAbilities.EXPERIENCE_BOOST, "Experience Boost", "Increases experience gained by 100% when you are at half health or less.");
+        addAbilityWithDesc(ModAbilities.ENCOUNTER_PLUS, "Encounter Plus", "Increase the amount of enemies that spawn around you. Stack the ability to increase the effect.");
         addAbilityWithDesc(ModAbilities.SECOND_CHANCE, "Second Chance", "Ensures 1 HP remains after taking massive damage.");
         addAbilityWithDesc(ModAbilities.LIGHT_AND_DARKNESS, "Light & Darkness", "Has a secret effect");
         addAbilityWithDesc(ModAbilities.SYNCH_BLADE, "Synch Blade", "Equips a weapon in each hand. The ability of the left hand weapon becomes available as well.");
