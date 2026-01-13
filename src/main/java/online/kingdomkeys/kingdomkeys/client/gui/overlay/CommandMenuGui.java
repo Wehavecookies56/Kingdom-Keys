@@ -444,16 +444,18 @@ public class CommandMenuGui extends OverlayBase {
         ArrayList<CommandMenuItem> targets = new ArrayList<>();
         WorldData worldData = WorldData.getClient();
 
-        if (worldData.getPartyFromMember(minecraft.player.getUUID()) != null) {
-            targets.add(new CommandMenuItem.Builder(
-                    ResourceLocation.fromNamespaceAndPath(
-                            KingdomKeys.MODID,
-                            minecraft.player.getDisplayName().getString().toLowerCase()
-                    ),
-                    Component.literal(minecraft.player.getDisplayName().getString()),
-                    item -> subMenu.getParent().getSelected().onEnter()
-            ).setData(minecraft.player.getId()+"").build(subMenu));
+        //Self should always show in case using an addon
+        targets.add(new CommandMenuItem.Builder(
+                ResourceLocation.fromNamespaceAndPath(
+                        KingdomKeys.MODID,
+                        minecraft.player.getDisplayName().getString().toLowerCase()
+                ),
+                Component.literal(minecraft.player.getDisplayName().getString()),
+                item -> subMenu.getParent().getSelected().onEnter()
+        ).setData(minecraft.player.getId()+"").build(subMenu));
 
+        //Party Members
+        if (worldData.getPartyFromMember(minecraft.player.getUUID()) != null) {
             List<Party.Member> members = worldData
                     .getPartyFromMember(minecraft.player.getUUID())
                     .getMembers();
