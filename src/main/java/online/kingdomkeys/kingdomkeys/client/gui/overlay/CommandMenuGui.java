@@ -234,21 +234,11 @@ public class CommandMenuGui extends OverlayBase {
 			} else {
 				if (worldData.getPartyFromMember(minecraft.player.getUUID()) != null && ModMagic.registry.get(magicRegistryObject.getRegistryName()).getHasToSelect()) { //Open party target selector
 					if (currentSubmenu.equals(target) && commandMenuElements.get(currentSubmenu).getSelected() != null) {
-						/*String target = commandMenuElements.get(currentSubmenu).getSelected().getId().getPath();
-                        //TODO differenciate between player and dreameater
-                        int targetID;
-                        if(Utils.getPlayerByName(minecraft.level,target) == null){
-                            //dreameater
-                            //targetID = ClientUtils.getEntityByUUIDClient(UUID.fromString(target)).getId();
-                        } else {
-                            targetID = Utils.getPlayerByName(minecraft.level,target).getId();
-                        }*/
                         int level = playerData.getMagicLevel(magicRegistryObject.getRegistryName());
                         String data = commandMenuElements.get(currentSubmenu).getSelected().getData();
                         int targetID = Integer.parseInt(data);
-                        if(targetID > -1) {
-                            PacketHandler.sendToServer(new CSUseMagicPacket(magicRegistryObject.getRegistryName().toString(), targetID, level));
-                        }
+                        PacketHandler.sendToServer(new CSUseMagicPacket(magicRegistryObject.getRegistryName().toString(), targetID, level));
+
 						changeSubmenu(root, true);
 					} else {
 						changeSubmenu(target, true);
