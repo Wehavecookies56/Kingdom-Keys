@@ -18,6 +18,7 @@ import net.minecraft.world.phys.HitResult;
 import net.neoforged.neoforge.common.NeoForge;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.api.event.client.TargetSelectorEvent;
+import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.CommandMenuItem;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.CommandMenuSubMenu;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
@@ -235,7 +236,15 @@ public class CommandMenuGui extends OverlayBase {
 					if (currentSubmenu.equals(target) && commandMenuElements.get(currentSubmenu).getSelected() != null) {
 						String target = commandMenuElements.get(currentSubmenu).getSelected().getId().getPath();
 						int level = playerData.getMagicLevel(magicRegistryObject.getRegistryName());
-						PacketHandler.sendToServer(new CSUseMagicPacket(magicRegistryObject.getRegistryName().toString(), target, level));
+                        //TODO differenciate between player and dreameater
+                        int targetID;
+                        if(Utils.getPlayerByName(minecraft.level,target) == null){
+                            //dreameater
+                            //targetID = ClientUtils.getEntityByUUIDClient(UUID.fromString(target)).getId();
+                        } else {
+                            targetID = Utils.getPlayerByName(minecraft.level,target).getId();
+                        }
+						PacketHandler.sendToServer(new CSUseMagicPacket(magicRegistryObject.getRegistryName().toString(), targetID, level));
 						changeSubmenu(root, true);
 					} else {
 						changeSubmenu(target, true);
