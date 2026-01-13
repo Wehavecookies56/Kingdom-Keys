@@ -234,8 +234,7 @@ public class CommandMenuGui extends OverlayBase {
 			} else {
 				if (worldData.getPartyFromMember(minecraft.player.getUUID()) != null && ModMagic.registry.get(magicRegistryObject.getRegistryName()).getHasToSelect()) { //Open party target selector
 					if (currentSubmenu.equals(target) && commandMenuElements.get(currentSubmenu).getSelected() != null) {
-						String target = commandMenuElements.get(currentSubmenu).getSelected().getId().getPath();
-						int level = playerData.getMagicLevel(magicRegistryObject.getRegistryName());
+						/*String target = commandMenuElements.get(currentSubmenu).getSelected().getId().getPath();
                         //TODO differenciate between player and dreameater
                         int targetID;
                         if(Utils.getPlayerByName(minecraft.level,target) == null){
@@ -243,8 +242,13 @@ public class CommandMenuGui extends OverlayBase {
                             //targetID = ClientUtils.getEntityByUUIDClient(UUID.fromString(target)).getId();
                         } else {
                             targetID = Utils.getPlayerByName(minecraft.level,target).getId();
+                        }*/
+                        int level = playerData.getMagicLevel(magicRegistryObject.getRegistryName());
+                        String data = commandMenuElements.get(currentSubmenu).getSelected().getData();
+                        int targetID = Integer.parseInt(data);
+                        if(targetID > -1) {
+                            PacketHandler.sendToServer(new CSUseMagicPacket(magicRegistryObject.getRegistryName().toString(), targetID, level));
                         }
-						PacketHandler.sendToServer(new CSUseMagicPacket(magicRegistryObject.getRegistryName().toString(), targetID, level));
 						changeSubmenu(root, true);
 					} else {
 						changeSubmenu(target, true);
@@ -453,7 +457,7 @@ public class CommandMenuGui extends OverlayBase {
                     ),
                     Component.literal(minecraft.player.getDisplayName().getString()),
                     item -> subMenu.getParent().getSelected().onEnter()
-            ).build(subMenu));
+            ).setData(minecraft.player.getId()+"").build(subMenu));
 
             List<Party.Member> members = worldData
                     .getPartyFromMember(minecraft.player.getUUID())
@@ -475,7 +479,7 @@ public class CommandMenuGui extends OverlayBase {
                                 ),
                                 Component.literal(playerAlly.getDisplayName().getString()),
                                 item -> subMenu.getParent().getSelected().onEnter()
-                        ).build(subMenu));
+                        ).setData(playerAlly.getId()+"").build(subMenu));
                     });
         }
 
