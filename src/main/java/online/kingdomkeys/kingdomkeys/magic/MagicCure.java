@@ -25,9 +25,9 @@ public class MagicCure extends Magic {
 	}
 
 	@Override
-	public void magicUse(Player player, Player caster, int level, float fullMPBlastMult, LivingEntity lockOnEntity) {
+	public void magicUse(LivingEntity player, Player caster, int level, float fullMPBlastMult, LivingEntity lockOnEntity) {
 		((ServerLevel) player.level()).sendParticles(ParticleTypes.HAPPY_VILLAGER.getType(), player.getX(), player.getY() + 2.3D, player.getZ(), 5, 0D, 0D, 0D, 0D);
-		PlayerData playerData = PlayerData.get(player);
+		PlayerData playerData = PlayerData.get(caster);
 		WorldData worldData = WorldData.get(player.getServer());
 
 		float amount = playerData.getMaxHP() * getDamageMult(level);
@@ -79,7 +79,8 @@ public class MagicCure extends Magic {
 			break;
 		case 3:
 			player.heal(amount);
-			player.getFoodData().eat(20, 10);
+            if(player instanceof Player p)
+			    p.getFoodData().eat(20, 10);
 
 			if (worldData.getPartyFromMember(player.getUUID()) != null) {
 				Party party = worldData.getPartyFromMember(player.getUUID());
@@ -104,7 +105,7 @@ public class MagicCure extends Magic {
 	}
 
 	@Override
-	protected void playMagicCastSound(Player player, Player caster, int level) {
+	protected void playMagicCastSound(LivingEntity player, Player caster, int level) {
 		switch (level) {
 			case 0 -> player.level().playSound(null, player.position().x(), player.position().y(), player.position().z(), ModSounds.cure.get(), SoundSource.PLAYERS, 1F, 1F);
 			case 1 -> player.level().playSound(null, player.position().x(), player.position().y(), player.position().z(), ModSounds.cura.get(), SoundSource.PLAYERS, 1F, 1F);

@@ -75,17 +75,17 @@ public abstract class Magic {
     public void setMagicData(MagicData data) {
     	this.data = data;
     }
-   
-    public void magicUse(Player player, Player caster, int level, float fullMPBlastMult, LivingEntity lockOnEntity) {
+
+    public void magicUse(LivingEntity player, LivingEntity caster, int level, float fullMPBlastMult, LivingEntity lockOnEntity) {
 
     }
-    
+
     /**
      * If player and caster are different it means the magic was casted from a target selector to another player in the party
      * @param player
      * @param caster
      */
-    public final void onUse(Player player, Player caster, int level, LivingEntity lockOnEntity) {
+    public final void onUse(LivingEntity player, Player caster, int level, LivingEntity lockOnEntity) {
     	PlayerData casterData = PlayerData.get(caster);
     	float fullMPBlastMult = casterData.isAbilityEquipped(Strings.fullMPBlast) && casterData.getMP() >= casterData.getMaxMP() ? 1.5F: 1F;
     	
@@ -95,7 +95,7 @@ public abstract class Magic {
 			casterData.setMagicUses(name, 0);
 		} else { // If it's not using a grand magic add a point and remove MP
 			casterData.addMagicUses(name, 1);
-			casterData.remMP(getCost(level, player));
+			casterData.remMP(getCost(level, caster));
 
 			if(getMagicData() != null) { //If the magic exists and has data and has Grand Magic
 				if(getRCProb(casterData)) {// If the actual uses is equals or above the required
@@ -116,7 +116,7 @@ public abstract class Magic {
 		if(casterData.isAbilityEquipped(Strings.wizardsRuse)) { //Wizard's Ruse has a chance to heal the player based on the amount of stacked abilities and amount healed based on the cost of the ability
 			double num = player.level().random.nextDouble();
 			if(num < (0.25+(0.125*(casterData.getNumberOfAbilitiesEquipped(Strings.wizardsRuse)-1)))){
-				caster.heal((int) getCost(level, player)/2);
+				caster.heal((int) getCost(level, caster)/2);
 			}
 		}
 		
@@ -135,7 +135,9 @@ public abstract class Magic {
 		PacketHandler.sendTo(new SCSyncPlayerData(caster), (ServerPlayer) caster);
     }
 
-	protected abstract void playMagicCastSound(Player player, Player caster, int level);
+    public abstract void magicUse(LivingEntity player, Player caster, int level, float fullMPBlastMult, LivingEntity lockOnEntity);
+
+    protected abstract void playMagicCastSound(LivingEntity player, Player caster, int level);
 
 	private boolean getRCProb(PlayerData casterData) {
 		int prob = casterData.getNumberOfAbilitiesEquipped(Strings.grandMagicHaste) * 10;

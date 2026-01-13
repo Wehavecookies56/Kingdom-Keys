@@ -15,7 +15,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
+import net.neoforged.neoforge.common.NeoForge;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.api.event.client.TargetSelectorEvent;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.CommandMenuItem;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.CommandMenuSubMenu;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
@@ -428,33 +430,53 @@ public class CommandMenuGui extends OverlayBase {
 		item.setActive(false);
 	}
 
-	public void createTargets(CommandMenuSubMenu subMenu) {
-		subMenu.getChildren().clear();
-		WorldData worldData = WorldData.getClient();
-		if (worldData.getPartyFromMember(minecraft.player.getUUID()) != null) {
-			subMenu.addChild(new CommandMenuItem.Builder(
-					ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, minecraft.player.getDisplayName().getString().toLowerCase()),
-					Component.translatable(minecraft.player.getDisplayName().getString()),
-					item -> subMenu.getParent().getSelected().onEnter()
-			).build(subMenu));
-			List<Party.Member> targets = worldData.getPartyFromMember(minecraft.player.getUUID()).getMembers();
-			targets.stream().filter(member -> !member.getUsername().equals(minecraft.player.getDisplayName().getString())).filter(member -> {
-				if(minecraft.player.level().getPlayerByUUID(member.getUUID()) == null)
-					return false;
+    public void createTargets(CommandMenuSubMenu subMenu) {
+        subMenu.getChildren().clear();
 
-				Player playerAlly = minecraft.player.level().getPlayerByUUID(member.getUUID());
-				return minecraft.player.distanceTo(playerAlly) <= ModConfigs.SERVER.partyRangeLimit.get();
-			}).forEach(member -> {
-				subMenu.addChild(new CommandMenuItem.Builder(
-						ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, member.getUsername().toLowerCase()),
-						Component.translatable(member.getUsername()),
-						item -> subMenu.getParent().getSelected().onEnter()
-				).build(subMenu));
-			});
-		}
-	}
+        ArrayList<CommandMenuItem> targets = new ArrayList<>();
+        WorldData worldData = WorldData.getClient();
 
-	public void createPortals(CommandMenuSubMenu subMenu) {
+        if (worldData.getPartyFromMember(minecraft.player.getUUID()) != null) {
+            targets.add(new CommandMenuItem.Builder(
+                    ResourceLocation.fromNamespaceAndPath(
+                            KingdomKeys.MODID,
+                            minecraft.player.getDisplayName().getString().toLowerCase()
+                    ),
+                    Component.literal(minecraft.player.getDisplayName().getString()),
+                    item -> subMenu.getParent().getSelected().onEnter()
+            ).build(subMenu));
+
+            List<Party.Member> members = worldData
+                    .getPartyFromMember(minecraft.player.getUUID())
+                    .getMembers();
+
+            members.stream()
+                    .filter(member -> !member.getUUID().equals(minecraft.player.getUUID()))
+                    .map(member -> minecraft.player.level().getPlayerByUUID(member.getUUID()))
+                    .filter(Objects::nonNull)
+                    .filter(playerAlly ->
+                            minecraft.player.distanceTo(playerAlly)
+                                    <= ModConfigs.SERVER.partyRangeLimit.get()
+                    )
+                    .forEach(playerAlly -> {
+                        targets.add(new CommandMenuItem.Builder(
+                                ResourceLocation.fromNamespaceAndPath(
+                                        KingdomKeys.MODID,
+                                        playerAlly.getDisplayName().getString().toLowerCase()
+                                ),
+                                Component.literal(playerAlly.getDisplayName().getString()),
+                                item -> subMenu.getParent().getSelected().onEnter()
+                        ).build(subMenu));
+                    });
+        }
+
+        TargetSelectorEvent event = new TargetSelectorEvent(subMenu, targets);
+        NeoForge.EVENT_BUS.post(event);
+
+        event.getTargets().forEach(subMenu::addChild);
+    }
+
+    public void createPortals(CommandMenuSubMenu subMenu) {
 		subMenu.getChildren().clear();
 		WorldData worldData = WorldData.getClient();
 		worldData.getAllPortalsFromOwnerID(minecraft.player.getUUID()).forEach(uuid -> {

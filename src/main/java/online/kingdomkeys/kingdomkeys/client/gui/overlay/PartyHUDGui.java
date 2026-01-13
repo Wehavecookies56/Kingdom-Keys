@@ -24,10 +24,6 @@ import java.util.List;
 public class PartyHUDGui extends OverlayBase {
 
 	public static final PartyHUDGui INSTANCE = new PartyHUDGui();
-	int hpBarWidth;
-	int guiHeight = 10;
-
-	int counter = 0;
 
 	private PartyHUDGui() {
 		super();
@@ -54,7 +50,7 @@ public class PartyHUDGui extends OverlayBase {
 			return;
 		}
 
-		List<Member> allies = new ArrayList<Member>();
+		List<Member> allies = new ArrayList<>();
 		allies.clear();
 		for (Member m : p.getMembers()) {
 			if (!m.getUUID().equals(player.getUUID())) {

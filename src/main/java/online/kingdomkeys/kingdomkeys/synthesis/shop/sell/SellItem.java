@@ -19,7 +19,7 @@ public class SellItem {
 
     }
 
-    public SellItem(int price, Item result, int tier) {
+    public SellItem(int price, Item result) {
 		this.result = result;
 		this.price = price;
 	}

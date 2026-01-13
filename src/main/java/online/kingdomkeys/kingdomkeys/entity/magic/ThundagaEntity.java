@@ -39,7 +39,7 @@ public class ThundagaEntity extends ThrowableProjectile {
 		this.blocksBuilding = true;
 	}
 
-	public ThundagaEntity(Level world, Player player, float dmgMult, LivingEntity lockedOnEntity) {
+	public ThundagaEntity(Level world, LivingEntity player, float dmgMult, LivingEntity lockedOnEntity) {
 		super(ModEntities.TYPE_THUNDAGA.get(), player, world);
 		setCaster(player.getUUID());
 		this.dmgMult = dmgMult;
