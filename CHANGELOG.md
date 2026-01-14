@@ -12,6 +12,7 @@
 
 **Fixed:**
 * Shotlocks counter getting reset when the player data saved (when taking damage etc...)
+* Org portal not being able to spawn on top of blocks.
 * Org portal potential crash.
 * Org weapons not summonable with EFM.
 * Crash with shotlock indicator rendering if your shotlock was unequipped (when level up command for example).

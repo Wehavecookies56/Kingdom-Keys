@@ -567,6 +567,59 @@ public class InputHandler {
         return bestEntityHit;
     }
 
+    public static HitResult getMouseOverExtendedStraight(float dist) {
+        Minecraft mc = Minecraft.getInstance();
+        Entity theRenderViewEntity = mc.getCameraEntity();
+        AABB theViewBoundingBox = new AABB(theRenderViewEntity.getX() - 0.5D, theRenderViewEntity.getY() - 0.0D, theRenderViewEntity.getZ() - 0.5D, theRenderViewEntity.getX() + 0.5D, theRenderViewEntity.getY() + 1.5D, theRenderViewEntity.getZ() + 0.5D);
+        HitResult returnMOP = null;
+        if (mc.level != null) {
+            double var2 = dist;
+            returnMOP = theRenderViewEntity.pick(var2, 0, false);
+            double calcdist = var2;
+            Vec3 pos = theRenderViewEntity.getEyePosition(0);
+            var2 = calcdist;
+            if (returnMOP != null) {
+                calcdist = returnMOP.getLocation().distanceTo(pos);
+            }
+
+            Vec3 lookvec = theRenderViewEntity.getViewVector(0);
+            Vec3 var8 = pos.add(lookvec.x * var2, lookvec.y * var2, lookvec.z * var2);
+            Entity pointedEntity = null;
+            float var9 = 1.0F;
+
+            List<Entity> list = mc.level.getEntities(theRenderViewEntity, theViewBoundingBox.inflate(lookvec.x * var2, lookvec.y * var2, lookvec.z * var2).inflate(var9, var9, var9));
+            double d = calcdist;
+
+            for (Entity entity : list) {
+                if (entity.isPickable()) {
+                    float bordersize = entity.getPickRadius();
+                    AABB aabb = new AABB(entity.getX() - entity.getBbWidth() / 2, entity.getY(), entity.getZ() - entity.getBbWidth() / 2, entity.getX() + entity.getBbWidth() / 2, entity.getY() + entity.getBbHeight(), entity.getZ() + entity.getBbWidth() / 2);
+                    aabb.inflate(bordersize, bordersize, bordersize);
+                    Optional<Vec3> mop0 = aabb.clip(pos, var8);
+
+                    if (aabb.contains(pos)) {
+                        if (0.0D < d || d == 0.0D) {
+                            pointedEntity = entity;
+                            d = 0.0D;
+                        }
+                    } else if (mop0 != null && mop0.isPresent()) {
+                        double d1 = pos.distanceTo(mop0.get());
+
+                        if (d1 < d || d == 0.0D) {
+                            pointedEntity = entity;
+                            d = d1;
+                        }
+                    }
+                }
+            }
+
+            if (pointedEntity != null && (d < calcdist || returnMOP == null)) {
+                returnMOP = new EntityHitResult(pointedEntity);
+            }
+        }
+        return returnMOP;
+    }
+
     private static Vec3 rotateVector(Vec3 lookVec, double phi, double theta) {
         Vec3 z = lookVec.normalize();
 

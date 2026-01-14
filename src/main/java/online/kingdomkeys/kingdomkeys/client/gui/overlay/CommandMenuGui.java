@@ -511,17 +511,17 @@ public class CommandMenuGui extends OverlayBase {
 		if (minecraft.player.isShiftKeyDown()) {
 			PacketHandler.sendToServer(new CSSpawnOrgPortalPacket(minecraft.player.blockPosition(), destination, coords.getDimID()));
 		} else {
-			HitResult rtr = InputHandler.getMouseOverExtended(100);
+			HitResult rtr = InputHandler.getMouseOverExtendedStraight(100);
 			if (rtr != null) {
-				if(rtr instanceof BlockHitResult brtr) {
+                double reachSq = 100 * 100;
+
+                if(rtr instanceof BlockHitResult brtr) {
                     double distanceSq = minecraft.player.distanceToSqr(brtr.getBlockPos().getX(), brtr.getBlockPos().getY(), brtr.getBlockPos().getZ());
-					double reachSq = 100 * 100;
 					if (reachSq >= distanceSq) {
 						PacketHandler.sendToServer(new CSSpawnOrgPortalPacket(brtr.getBlockPos().above(), destination, coords.getDimID()));
 					}
 				} else if(rtr instanceof EntityHitResult ertr) {
                     double distanceSq = minecraft.player.distanceToSqr(ertr.getEntity().getX(), ertr.getEntity().getY(), ertr.getEntity().getZ());
-					double reachSq = 100 * 100;
 					if (reachSq >= distanceSq) {
 						PacketHandler.sendToServer(new CSSpawnOrgPortalPacket(ertr.getEntity().blockPosition(), destination, coords.getDimID()));
 					}
