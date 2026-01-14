@@ -882,7 +882,7 @@ public class Utils {
 		);
 	}
 
-	public record castMagic(Player player, Player caster, int level, float fullMPBlastMult, LivingEntity lockOnEntity, Magic magic) {}
+	public record castMagic(LivingEntity player, Player caster, int level, float fullMPBlastMult, LivingEntity lockOnEntity, Magic magic) {}
 
 	public static ResourceLocation getItemRegistryName(Item item) {
 		return BuiltInRegistries.ITEM.getKey(item);
@@ -1210,7 +1210,7 @@ public class Utils {
 		return membersOn;
 	}
 
-	public static List<LivingEntity> getLivingEntitiesInRadiusExcludingParty(Player player, float radius) {
+	public static List<LivingEntity> getLivingEntitiesInRadiusExcludingParty(LivingEntity player, float radius) {
 		List<Entity> list = player.level().getEntities(player, player.getBoundingBox().inflate(radius), Entity::isAlive);
 		Party casterParty = WorldData.get(player.getServer()).getPartyFromMember(player.getUUID());
 

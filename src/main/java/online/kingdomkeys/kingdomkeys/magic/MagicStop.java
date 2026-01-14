@@ -30,7 +30,7 @@ public class MagicStop extends Magic {
 	}
 
 	@Override
-	public void magicUse(Player player, Player caster, int level, float fullMPBlastMult, LivingEntity lockOnEntity) {
+	public void magicUse(LivingEntity player, Player caster, int level, float fullMPBlastMult, LivingEntity lockOnEntity) {
 		float dmg = /*ModCapabilities.getPlayer(player).isAbilityEquipped(Strings.waterBoost) ? getDamageMult(level) * 1.2F :*/ getDamageMult(level);
 		dmg *= fullMPBlastMult;
 		
@@ -71,7 +71,7 @@ public class MagicStop extends Magic {
 	}
 	
 	@Override
-	protected void playMagicCastSound(Player player, Player caster, int level) {
+	protected void playMagicCastSound(LivingEntity player, Player caster, int level) {
 		switch(level) {
 		case 0 -> player.level().playSound(null, player.position().x(), player.position().y(), player.position().z(), ModSounds.stop.get(), SoundSource.PLAYERS, 1F, 1F);
 		case 1 -> player.level().playSound(null, player.position().x(), player.position().y(), player.position().z(), ModSounds.stopra.get(), SoundSource.PLAYERS, 1F, 1F);

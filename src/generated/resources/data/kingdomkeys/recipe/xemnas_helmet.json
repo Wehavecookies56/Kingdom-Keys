@@ -6,19 +6,16 @@
     "A": {
       "item": "kingdomkeys:organization_helmet"
     },
-    "E": {
-      "item": "minecraft:end_crystal"
-    },
-    "L": {
-      "tag": "c:leathers"
+    "B": {
+      "tag": "c:dyes/black"
     },
     "W": {
       "tag": "c:dyes/white"
     }
   },
   "pattern": [
-    "LWL",
-    "EAE"
+    "WAW",
+    "B B"
   ],
   "result": {
     "count": 1,

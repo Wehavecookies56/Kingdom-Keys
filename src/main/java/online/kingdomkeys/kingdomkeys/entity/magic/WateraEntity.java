@@ -33,7 +33,7 @@ import java.util.List;
 public class WateraEntity extends ThrowableProjectile {
 
 	int maxTicks = 100;
-	Player player;
+    LivingEntity player;
 	String caster;
 	float dmgMult = 1;
 	
@@ -42,7 +42,7 @@ public class WateraEntity extends ThrowableProjectile {
 		this.blocksBuilding = true;
 	}
 
-	public WateraEntity(Level world, Player player, float dmgMult) {
+	public WateraEntity(Level world, LivingEntity player, float dmgMult) {
 		super(ModEntities.TYPE_WATERA.get(), player, world);
 		this.player = player;
 		this.dmgMult = dmgMult;

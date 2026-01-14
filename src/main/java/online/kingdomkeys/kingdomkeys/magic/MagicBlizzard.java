@@ -18,8 +18,8 @@ public class MagicBlizzard extends Magic {
 	}
 
 	@Override
-	public void magicUse(Player player, Player caster, int level, float fullMPBlastMult, LivingEntity lockOnEntity) {
-		float dmgMult = getDamageMult(level) + PlayerData.get(player).getNumberOfAbilitiesEquipped(Strings.blizzardBoost) * 0.2F;
+	public void magicUse(LivingEntity player, Player caster, int level, float fullMPBlastMult, LivingEntity lockOnEntity) {
+		float dmgMult = getDamageMult(level) + PlayerData.get(caster).getNumberOfAbilitiesEquipped(Strings.blizzardBoost) * 0.2F;
 		dmgMult *= fullMPBlastMult;
 
 		switch (level) {
@@ -58,7 +58,7 @@ public class MagicBlizzard extends Magic {
 	}
 
 	@Override
-	protected void playMagicCastSound(Player player, Player caster, int level) {
+	protected void playMagicCastSound(LivingEntity player, Player caster, int level) {
 		switch (level) {
 			case 0 -> player.level().playSound(null, player.position().x(), player.position().y(), player.position().z(), ModSounds.blizzard.get(), SoundSource.PLAYERS, 1F, 1F);
 			case 1 -> player.level().playSound(null, player.position().x(), player.position().y(), player.position().z(), ModSounds.blizzara.get(), SoundSource.PLAYERS, 1F, 1F);

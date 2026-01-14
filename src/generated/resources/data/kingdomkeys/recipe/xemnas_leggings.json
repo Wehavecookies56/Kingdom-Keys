@@ -6,20 +6,17 @@
     "A": {
       "item": "kingdomkeys:organization_leggings"
     },
-    "E": {
-      "item": "minecraft:end_crystal"
-    },
-    "L": {
-      "tag": "c:leathers"
+    "B": {
+      "tag": "c:dyes/black"
     },
     "W": {
       "tag": "c:dyes/white"
     }
   },
   "pattern": [
-    "LWL",
-    "EAE",
-    "L L"
+    "WAW",
+    "B B",
+    "W W"
   ],
   "result": {
     "count": 1,

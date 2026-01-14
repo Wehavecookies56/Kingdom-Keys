@@ -241,6 +241,7 @@ public class ModItems {
 			kibladeChain = createNewItem(Strings.kibladeChain, KeychainItem::new),
 			kingdomKeyChain = createNewItem(Strings.kingdomKeyChain, KeychainItem::new),
 			kingdomKeyDChain = createNewItem(Strings.kingdomKeyDChain, KeychainItem::new),
+            kingdomKeyNChain = createNewItem(Strings.kingdomKeyNChain, KeychainItem::new),
 			knockoutPunchChain = createNewItem(Strings.knockoutPunchChain, KeychainItem::new),
 			ladyLuckChain = createNewItem(Strings.ladyLuckChain, KeychainItem::new),
 			leviathanChain = createNewItem(Strings.leviathanChain, KeychainItem::new),

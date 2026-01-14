@@ -68,7 +68,6 @@ public record CSDepositMaterials(String inv, String name, int moogle) implements
 						if (bag != null) {
 							removeMaterial(bag, player, i);
 						}
-						//PacketHandler.sendTo(new SCSyncSynthBagToClientPacket(bag), (ServerPlayerEntity) player);
 					}
 				}
 			}

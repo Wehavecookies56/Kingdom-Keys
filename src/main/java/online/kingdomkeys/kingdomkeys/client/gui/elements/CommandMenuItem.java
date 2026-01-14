@@ -14,7 +14,7 @@ import java.awt.*;
 import java.util.function.Supplier;
 
 public class CommandMenuItem {
-
+    String data;
     OnEnter onEnter;
     OnCancel onCancel;
     OnUpdate onUpdate;
@@ -29,6 +29,8 @@ public class CommandMenuItem {
     int iconU, iconV;
     boolean hasIcon;
 
+
+
     public static class Builder {
         private final ResourceLocation id;
         private CommandMenuSubMenu parent;
@@ -36,6 +38,7 @@ public class CommandMenuItem {
         private final OnEnter onEnter;
         private OnCancel onCancel;
         private OnUpdate onUpdate;
+        private String data;
         private boolean active = true, visible = true;
         private int height = 15, width = 70;
         private Color textColour = Color.WHITE;
@@ -48,6 +51,11 @@ public class CommandMenuItem {
             this.id = id;
             this.message = message;
             this.onEnter = onEnter;
+        }
+
+        public Builder setData(String data) {
+            this.data = data;
+            return this;
         }
 
         public Builder onCancel(OnCancel onCancel) {
@@ -115,7 +123,6 @@ public class CommandMenuItem {
             }
             return new CommandMenuItem(this);
         }
-
     }
 
     private CommandMenuItem(Builder builder) {
@@ -139,6 +146,11 @@ public class CommandMenuItem {
         this.iconU = builder.iconU;
         this.iconV = builder.iconV;
         this.hasIcon = builder.hasIcon;
+        this.data = builder.data;
+    }
+
+    public String getData() {
+        return data;
     }
 
     public int getHeight() {

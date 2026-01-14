@@ -6,7 +6,10 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
+import net.neoforged.neoforge.common.NeoForge;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.api.event.client.CommandMenuEvent;
+import online.kingdomkeys.kingdomkeys.api.event.client.MenuButtonRegisterEvent;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
@@ -30,6 +33,7 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 public class MenuScreen extends MenuBackground {
 
@@ -38,9 +42,10 @@ public class MenuScreen extends MenuBackground {
 		minecraft = Minecraft.getInstance();
 		this.playerData = playerData;
 	}
-	
 
-	public enum buttons {
+    private final ArrayList<MenuButton> menuButtons = new ArrayList<>();
+
+    public enum buttons {
 		ITEMS, ABILITIES, CUSTOMIZE, PARTY, STATUS, JOURNAL, CONFIG, STYLES
     }
 
@@ -76,7 +81,6 @@ public class MenuScreen extends MenuBackground {
 			case STATUS -> minecraft.setScreen(new MenuStatusScreen());
 			case CUSTOMIZE -> minecraft.setScreen(new MenuCustomizeScreen());
 			case JOURNAL -> {
-				System.out.println("Journal Button Clicked!"); // DEBUG
 				if (KingdomKeys.patchouliLoaded) {
 					online.kingdomkeys.kingdomkeys.integration.patchouli.PatchouliIntegration.openJournal();
 				} else {
@@ -96,37 +100,55 @@ public class MenuScreen extends MenuBackground {
 		super.height = height;
 		super.init();
 		float topBarHeight = (float) height * 0.17F;
-		int start = (int)topBarHeight + 5;
+		int startY = (int)topBarHeight + 5;
 		int pos = 0;
 
-		float buttonPosX = (float) width * 0.03F;
+		float buttonX = (float) width * 0.03F;
 		float buttonWidth = ((float) width * 0.1744F) - 22;
+       // addRenderableWidget(abilities = new MenuButton((int) buttonPosX, start + 18 * ++pos, (int) buttonWidth, (Strings.Gui_Menu_Main_Button_Abilities), ButtonType.BUTTON, true, (e) -> {
+        menuButtons.clear();
+        menuButtons.add(items = new MenuButton(
+                (int) buttonX, startY + 18 * pos++, (int) buttonWidth, Strings.Gui_Menu_Main_Button_Items, ButtonType.BUTTON, true, e -> action(buttons.ITEMS)
+        ));
 
-		addRenderableWidget(items = new MenuButton((int) buttonPosX, start, (int) buttonWidth, (Strings.Gui_Menu_Main_Button_Items), ButtonType.BUTTON, true, (e) -> {
-			action(buttons.ITEMS);
-		}));
-		addRenderableWidget(abilities = new MenuButton((int) buttonPosX, start + 18 * ++pos, (int) buttonWidth, (Strings.Gui_Menu_Main_Button_Abilities), ButtonType.BUTTON, true, (e) -> {
-			action(buttons.ABILITIES);
-		}));
-		addRenderableWidget(customize = new MenuButton((int) buttonPosX, start + 18 * ++pos, (int) buttonWidth, (Strings.Gui_Menu_Main_Button_Customize), ButtonType.BUTTON, true, (e) -> {
-			action(buttons.CUSTOMIZE);
-		}));
-		addRenderableWidget(party = new MenuButton((int) buttonPosX, start + 18 * ++pos, (int) buttonWidth, (Strings.Gui_Menu_Main_Button_Party), ButtonType.BUTTON, true, (e) -> {
-			action(buttons.PARTY);
-		}));
-		addRenderableWidget(status = new MenuButton((int) buttonPosX, start + 18 * ++pos, (int) buttonWidth, (Strings.Gui_Menu_Main_Button_Status), ButtonType.BUTTON, true, (e) -> {
-			action(buttons.STATUS);
-		}));
-		addRenderableWidget(journal = new MenuButton((int) buttonPosX, start + 18 * ++pos, (int) buttonWidth, (Strings.Gui_Menu_Main_Button_Journal), ButtonType.BUTTON, true, (e) -> {
-			action(buttons.JOURNAL);
-		}));
-		if (KingdomKeys.efmLoaded)
-			addRenderableWidget(style = new MenuButton((int) buttonPosX, start + 18 * ++pos, (int) buttonWidth, (Strings.Gui_Menu_Main_Button_Style), ButtonType.BUTTON, true, e -> action(buttons.STYLES)));
-		addRenderableWidget(config = new MenuButton((int) buttonPosX, start + 18 * ++pos, (int) buttonWidth, (Strings.Gui_Menu_Main_Button_Config), ButtonType.BUTTON, true, (e) -> {
-			action(buttons.CONFIG);
-		}));
+        menuButtons.add(abilities = new MenuButton(
+                (int) buttonX, startY + 18 * pos++, (int) buttonWidth, Strings.Gui_Menu_Main_Button_Abilities, ButtonType.BUTTON, true, e -> action(buttons.ABILITIES)
 
-		updateButtons();
+        ));
+
+        menuButtons.add(customize = new MenuButton(
+                (int) buttonX, startY + 18 * pos++, (int) buttonWidth, Strings.Gui_Menu_Main_Button_Customize, ButtonType.BUTTON, true, e -> action(buttons.CUSTOMIZE)
+        ));
+
+        menuButtons.add(party = new MenuButton(
+                (int) buttonX, startY + 18 * pos++, (int) buttonWidth, Strings.Gui_Menu_Main_Button_Party, ButtonType.BUTTON, true, e -> action(buttons.PARTY)
+        ));
+
+        menuButtons.add(status = new MenuButton(
+                (int) buttonX, startY + 18 * pos++, (int) buttonWidth, Strings.Gui_Menu_Main_Button_Status, ButtonType.BUTTON, true, e -> action(buttons.STATUS)
+        ));
+
+        menuButtons.add(journal = new MenuButton(
+                (int) buttonX, startY + 18 * pos++, (int) buttonWidth, Strings.Gui_Menu_Main_Button_Journal, ButtonType.BUTTON, true, e -> action(buttons.JOURNAL)
+        ));
+
+        if (KingdomKeys.efmLoaded) {
+            menuButtons.add(style = new MenuButton(
+                    (int) buttonX, startY + 18 * pos++, (int) buttonWidth, Strings.Gui_Menu_Main_Button_Style, ButtonType.BUTTON, true, e -> action(buttons.STYLES)
+            ));
+        }
+
+        menuButtons.add(config = new MenuButton(
+                (int) buttonX, startY + 18 * pos++, (int) buttonWidth, Strings.Gui_Menu_Main_Button_Config, ButtonType.BUTTON, true, e -> action(buttons.CONFIG)
+        ));
+
+        NeoForge.EVENT_BUS.post(new MenuButtonRegisterEvent(this, menuButtons));
+
+        for (MenuButton button : menuButtons) {
+            addRenderableWidget(button);
+        }
+
+        updateButtons();
 	}
 
 	private void updateButtons() {

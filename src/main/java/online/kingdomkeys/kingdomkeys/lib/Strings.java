@@ -136,6 +136,7 @@ public class Strings {
 			protect = KingdomKeys.MODID+":"+AB_Prefix + "protect",
 			protectra = KingdomKeys.MODID+":"+AB_Prefix + "protectra",
 			protectga = KingdomKeys.MODID+":"+AB_Prefix + "protectga",
+            encounterPlus =  KingdomKeys.MODID+":"+AB_Prefix +"encounter_plus",
 
     		firaza = KingdomKeys.MODID+":"+AB_Prefix +"firaza",
     		blizzaza = KingdomKeys.MODID+":"+AB_Prefix +"blizzaza",
@@ -485,9 +486,9 @@ public class Strings {
             Gui_Shop_Main_Sell = Gui_Shop_Main + ".sell",
             Gui_Shop_Buy = Gui_Shop + ".buy",
             Gui_Shop_Buy_Cost = Gui_Shop + ".cost",
+            Gui_Shop_Buy_Price = Gui_Shop + ".price",
             Gui_Shop_Buy_Quantity = Gui_Shop_Buy + ".quantity",
             Gui_Shop_Sell = Gui_Shop + ".sell",
-            Gui_Shop_Sell_Price = Gui_Shop_Sell + ".price",
 
             // Synthesis
             Gui_Synthesis = "gui.synthesis",
@@ -913,6 +914,7 @@ public class Strings {
         kibladeChain = "kiblade_chain",
         kingdomKeyChain = "kingdom_key_chain",
         kingdomKeyDChain = "kingdom_key_d_chain",
+        kingdomKeyNChain = "kingdom_key_n_chain",
         knockoutPunchChain = "knockout_punch_chain",
         ladyLuckChain = "lady_luck_chain",
         leviathanChain = "leviathan_chain",

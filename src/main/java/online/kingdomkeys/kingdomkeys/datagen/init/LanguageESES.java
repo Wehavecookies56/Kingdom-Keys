@@ -447,6 +447,8 @@ public class LanguageESES extends KKLanguageProvider {
         //Shop
         add(Gui_Shop, "Tienda");
         add(Gui_Shop_Buy, "Comprar");
+        add(Gui_Shop_Sell, "Vender");
+        add(Gui_Shop_Buy_Price, "Precio:");
         add(Gui_Shop_Page, "P\u00e1gina");
         add(Gui_Shop_NoSpace, "No tienes espacio");
         add(Gui_Shop_Tier, "Clase");
@@ -575,6 +577,7 @@ public class LanguageESES extends KKLanguageProvider {
         addAbilityWithDesc(ModAbilities.THUNDER_BOOST, "Extraelectro", "Aumenta el da\u00f1o de los ataques Electro. Cuantos m\u00e1s activas, mayor efecto.");
         addAbilityWithDesc(ModAbilities.TREASURE_MAGNET, "Atracci\u00f3n", "Acerca y recoge objetos cercanos. Cuantos m\u00e1s activas, mayor efecto.");
         addAbilityWithDesc(ModAbilities.EXPERIENCE_BOOST, "Extraexperiencia", "Si la VT cae a menos de la mitad, aumenta un 100% la experiencia ganada al vencer enemigos. Cuantos m\u00e1s activas, mayor efecto.");
+        addAbilityWithDesc(ModAbilities.ENCOUNTER_PLUS, "Más Encuentros", "Aumenta la cantidad de enemigos que aparecen a tu alrededor. Cuantos m\u00e1s activas, mayor efecto.");
         addAbilityWithDesc(ModAbilities.SECOND_CHANCE, "\u00daltimo Estertor", "Asegura un punto de vitalidad si recibes da\u00f1os severos.");
         addAbilityWithDesc(ModAbilities.LIGHT_AND_DARKNESS, "Luz y Oscuridad", "Proporciona un poder tan misterioso como poderoso.");
         addAbilityWithDesc(ModAbilities.SYNCH_BLADE, "Espada Doble", "Tendr\u00e1s una arma en cada mano. Dispondr\u00e1s tambi\u00e9n de las habilidades de la mano izquierda.");
@@ -1246,6 +1249,7 @@ public class LanguageESES extends KKLanguageProvider {
         addItem(ModItems.kiblade, "Llave Espada");
         addItem(ModItems.kingdomKey, "Cadena del Reino");
         addItem(ModItems.kingdomKeyD, "Cadena del Reino D");
+        addItem(ModItems.kingdomKeyN, "Cadena del Reino Pesadilla");
         addItem(ModItems.knockoutPunch, "Nocaut");
         addItem(ModItems.ladyLuck, "\u00daltimo Recurso");
         addItem(ModItems.leviathan, "Leviat\u00e1n");
@@ -1397,6 +1401,7 @@ public class LanguageESES extends KKLanguageProvider {
         addItem(ModItems.kibladeChain, "Llavero de Llave Espada   ");
         addItem(ModItems.kingdomKeyChain, "Llavero de Cadena del Reino");
         addItem(ModItems.kingdomKeyDChain, "Llavero de Cadena del Reino D");
+        addItem(ModItems.kingdomKeyNChain, "Llavero de Cadena del Reino Pesadilla");
         addItem(ModItems.knockoutPunchChain, "Llavero de Nocaut");
         addItem(ModItems.ladyLuckChain, "Llavero de \u00faltimo Recurso");
         addItem(ModItems.leviathanChain, "Llavero de Leviat\u00e1n");
@@ -1540,6 +1545,7 @@ public class LanguageESES extends KKLanguageProvider {
         add("item." + MODID + "." + Strings.kiblade + ".desc", "A legendary weapon, the original Keyblade which all other are imperfectly modeled after.");
         add("item." + MODID + "." + Strings.kingdomKey + ".desc", "The key chain attached draws out the Keyblade's true form and power.");
         add("item." + MODID + "." + Strings.kingdomKeyD + ".desc", "A Keyblade which mirrors the Kingdom Key from the Realm of Darkness.");
+        add("item." + MODID + "." + Strings.kingdomKeyN + ".desc", "A Keyblade which stems from the negativity of the heart.");
         add("item." + MODID + "." + Strings.knockoutPunch + ".desc", "A Keyblade that lands fewer critical hits, but compensates with a Strength boost and more frequent Reality Shifts.");
         add("item." + MODID + "." + Strings.ladyLuck + ".desc", "Raises max MP by 2, and significantly enhances magic and summon power. Also inflicts good physical damage.");
         add("item." + MODID + "." + Strings.leviathan + ".desc", "A weapon that performs extremely well in midair. Outstanding for taking on fliers.");

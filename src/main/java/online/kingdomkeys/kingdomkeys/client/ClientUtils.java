@@ -14,6 +14,7 @@ import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderStateShard;
@@ -34,6 +35,7 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -66,8 +68,24 @@ import javax.annotation.Nullable;
 import java.io.FileNotFoundException;
 import java.util.Iterator;
 import java.util.List;
+import java.util.UUID;
 
 public class ClientUtils {
+
+    public static Entity getEntityByUUIDClient(UUID uuid) {
+        Minecraft mc = Minecraft.getInstance();
+        ClientLevel level = mc.level;
+
+        if (level == null)
+            return null;
+
+        for (Entity entity : level.entitiesForRendering()) {
+            if (entity.getUUID().equals(uuid)) {
+                return entity;
+            }
+        }
+        return null;
+    }
 
     public static int drawScrollingString(GuiGraphics gui, Font font, Component text, int minX, int maxX, int y, int color, boolean centered){
         int maxWidth = maxX - minX;
@@ -511,6 +529,8 @@ public class ClientUtils {
         Player localPlayer = Minecraft.getInstance().player;
         PlayerData localPlayerData = PlayerData.get(localPlayer);
         Shotlock shotlock = Utils.getPlayerShotlock(localPlayer);
+        if(shotlock == null)
+            return;
 
         for (Utils.ShotlockPosition shotlockEnemy : localPlayerData.getShotlockEnemies()) {
             float ex = (float) entityIn.getX(); //Random offsets

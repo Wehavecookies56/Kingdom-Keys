@@ -30,15 +30,18 @@ import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper.MobType;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
+import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
+import java.util.ArrayList;
+
 public class SpawningOrbEntity extends Monster {
 
-	Monster mob;
+	ArrayList<Monster> mobs = new ArrayList<>();
 	boolean portal;
-	
+
 	//Natural
 	public SpawningOrbEntity(EntityType<? extends SpawningOrbEntity> type, Level worldIn) {
 		super(type, worldIn);
@@ -49,39 +52,37 @@ public class SpawningOrbEntity extends Monster {
 			if(playerData == null)
 				return;
 
-			this.mob = ModEntities.getRandomEnemy(playerData.getLevel(), level());
-			setEntityType(((IKHMob)this.mob).getKHMobType().name());
-			
-			int randomLevel = Utils.getRandomMobLevel(player);
-			
-			GlobalData mobData = GlobalData.get(mob);
-			if(mobData != null) {
-				mobData.setLevel(randomLevel);
-				PacketHandler.syncToAllAround(mob, mobData);
-			}
-		}
+            int randomTimes = worldIn.random.nextInt(playerData.getNumberOfAbilitiesEquipped(Strings.encounterPlus)+1);
+
+            for(int i=0;i<=randomTimes;i++) {
+                this.mobs.add(ModEntities.getRandomEnemy(playerData.getLevel(), level()));
+
+                int randomLevel = Utils.getRandomMobLevel(player);
+                GlobalData mobData = GlobalData.get(mobs.get(i));
+                if(mobData != null) {
+                    mobData.setLevel(randomLevel);
+                    PacketHandler.syncToAllAround(mobs.get(i), mobData);
+                }
+            }
+
+            //Portal type is based on the first mob type
+            setEntityType(((IKHMob)this.mobs.getFirst()).getKHMobType().name());
+        }
 	}
 
 	@Override
-    public boolean checkSpawnRules(LevelAccessor worldIn, MobSpawnType spawnReasonIn) {
-		if(worldIn instanceof Level level)
-    		return WorldData.get(level.getServer()).getHeartlessSpawnLevel() > 0;
-		else
-			return true;
-    }
-	
-	@Override
-	public boolean hurt(DamageSource source, float amount) {
-		return false;
-	}
-	
-	@Override
 	public void tick() {
-		if(tickCount == 1 && !level().isClientSide && this.mob != null) {
-			if(level().random.nextDouble() < 0.1) {
+        if(tickCount == 1 && !level().isClientSide && this.mobs != null && !this.mobs.isEmpty()) {
+            float prob = 0.8F;
+            if(level().dimension().location().equals(Level.NETHER.location()))
+                prob = 0.14F;
+            if(level().dimension().location().equals(Level.END.location()))
+                prob = 0.20F;
+
+			if(level().random.nextDouble() < prob) {
 				setPortal(true);
 			}
-			setEntityType(((IKHMob)this.mob).getKHMobType().name());
+			setEntityType(((IKHMob)this.mobs.getFirst()).getKHMobType().name());
 		}
 		SimpleParticleType particle = getEntityType().equals(MobType.NOBODY.name()) ? ParticleTypes.END_ROD : ParticleTypes.DRAGON_BREATH;
 
@@ -94,11 +95,13 @@ public class SpawningOrbEntity extends Monster {
 		
 		if(tickCount == 70) {
 			if(!level().isClientSide) {
-				if(this.mob != null) {
-					this.mob.setPos(this.getX(),this.getY(),this.getZ());
-					this.mob.heal(this.mob.getMaxHealth());
-					level().addFreshEntity(this.mob);
-				}
+                if (this.mobs != null && !this.mobs.isEmpty()) {
+                    for (Monster mob : mobs) {
+                        mob.setPos(this.getX(), this.getY(), this.getZ());
+                        mob.heal(mob.getMaxHealth());
+                        level().addFreshEntity(mob);
+                    }
+                }
 			} else {
 				float radius = 0.5F;
 				double X = getX();
@@ -130,7 +133,21 @@ public class SpawningOrbEntity extends Monster {
 	public boolean getPortal() {
 		return portal;
 	}
-	
+
+
+    @Override
+    public boolean hurt(DamageSource source, float amount) {
+        return false;
+    }
+
+    @Override
+    public boolean checkSpawnRules(LevelAccessor worldIn, MobSpawnType spawnReasonIn) {
+        if(worldIn instanceof Level level)
+            return WorldData.get(level.getServer()).getHeartlessSpawnLevel() > 0;
+        else
+            return true;
+    }
+
 	@Override
 	public void playerTouch(Player nPlayer) {
 		if(getPortal()) {

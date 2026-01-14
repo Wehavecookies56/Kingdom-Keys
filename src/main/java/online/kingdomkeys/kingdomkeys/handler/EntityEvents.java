@@ -471,6 +471,7 @@ public class EntityEvents {
 			if (playerData.getCastedMagic() != null) {
 				if (playerData.getMagicCasttimeTicks() <= 0) {
 					Utils.castMagic castedMagic = playerData.getCastedMagic();
+                    System.out.println(castedMagic.player());
 					castedMagic.magic().magicUse(castedMagic.player(), castedMagic.caster(), castedMagic.level(), castedMagic.fullMPBlastMult(), castedMagic.lockOnEntity());
 					player.swing(InteractionHand.MAIN_HAND,true);
 					playerData.setCastedMagic(null);

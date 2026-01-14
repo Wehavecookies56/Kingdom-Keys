@@ -392,6 +392,8 @@ public class LanguageENUS extends KKLanguageProvider {
 
         add(Gui_Shop, "Shop");
         add(Gui_Shop_Buy, "Buy");
+        add(Gui_Shop_Sell, "Sell");
+        add(Gui_Shop_Buy_Price, "Price:");
         add(Gui_Shop_Page, "Page:");
         add(Gui_Shop_NoSpace, "Not enough space");
         add(Gui_Shop_Tier, "Tier:");
@@ -661,6 +663,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addAbilityWithDesc(ModAbilities.THUNDER_BOOST, "Thunder Boost", "Increases damage done with thunder-based attacks.");
         addAbilityWithDesc(ModAbilities.TREASURE_MAGNET, "Treasure Magnet", "Automatically draw in and collect nearby prizes. Stack the ability to increase the effect.");
         addAbilityWithDesc(ModAbilities.EXPERIENCE_BOOST, "Experience Boost", "Increases experience gained by 100% when you are at half health or less.");
+        addAbilityWithDesc(ModAbilities.ENCOUNTER_PLUS, "Encounter Plus", "Increase the amount of enemies that spawn around you. Stack the ability to increase the effect.");
         addAbilityWithDesc(ModAbilities.SECOND_CHANCE, "Second Chance", "Ensures 1 HP remains after taking massive damage.");
         addAbilityWithDesc(ModAbilities.LIGHT_AND_DARKNESS, "Light & Darkness", "Has a secret effect");
         addAbilityWithDesc(ModAbilities.SYNCH_BLADE, "Synch Blade", "Equips a weapon in each hand. The ability of the left hand weapon becomes available as well.");
@@ -925,6 +928,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.kiblade, "\u03c7-Blade");
         addItem(ModItems.kingdomKey, "Kingdom Key");
         addItem(ModItems.kingdomKeyD, "Kingdom Key D");
+        addItem(ModItems.kingdomKeyN, "Kingdom Key Nightmare");
         addItem(ModItems.knockoutPunch, "Knockout Punch");
         addItem(ModItems.ladyLuck, "Lady Luck");
         addItem(ModItems.leviathan, "Leviathan");
@@ -1076,6 +1080,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.kibladeChain, "\u03c7-Blade Chain");
         addItem(ModItems.kingdomKeyChain, "Kingdom Key Chain");
         addItem(ModItems.kingdomKeyDChain, "Kingdom Key D Chain");
+        addItem(ModItems.kingdomKeyNChain, "Kingdom Key N Chain");
         addItem(ModItems.knockoutPunchChain, "Knockout Punch Chain");
         addItem(ModItems.ladyLuckChain, "Lady Luck Chain");
         addItem(ModItems.leviathanChain, "Leviathan Chain");
@@ -1220,6 +1225,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add("item." + MODID + "." + Strings.kiblade + ".desc", "A legendary weapon, the original Keyblade which all other are imperfectly modeled after.");
         add("item." + MODID + "." + Strings.kingdomKey + ".desc", "The key chain attached draws out the Keyblade's true form and power.");
         add("item." + MODID + "." + Strings.kingdomKeyD + ".desc", "A Keyblade which mirrors the Kingdom Key from the Realm of Darkness.");
+        add("item." + MODID + "." + Strings.kingdomKeyN + ".desc", "A Keyblade which stems from the negativity of the heart.");
         add("item." + MODID + "." + Strings.knockoutPunch + ".desc", "A Keyblade that lands fewer critical hits, but compensates with a Strength boost and more frequent Reality Shifts.");
         add("item." + MODID + "." + Strings.ladyLuck + ".desc", "Raises max MP by 2, and significantly enhances magic and summon power. Also inflicts good physical damage.");
         add("item." + MODID + "." + Strings.leviathan + ".desc", "A weapon that performs extremely well in midair. Outstanding for taking on fliers.");
