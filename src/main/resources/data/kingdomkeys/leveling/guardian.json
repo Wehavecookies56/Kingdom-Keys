@@ -181,6 +181,9 @@
         "str":1,
         "shotlocks":[
             "kingdomkeys:dark_volley"
+        ],
+        "abilities":[
+          "kingdomkeys:ability_encounter_plus"
         ]
     },
     "30":{

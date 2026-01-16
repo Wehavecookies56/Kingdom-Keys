@@ -77,7 +77,7 @@ public class ServerConfig {
         shotlockMaxDist = builder
                 .comment("Shotlock max distance for locking")
                 .translation(KingdomKeys.MODID + ".config.shotlock_max_dist")
-                .defineInRange("shotlockMaxDist", 100, 1, 1000);
+                .defineInRange("shotlockMaxDist", 200, 1, 1000);
 
         builder.pop();
 
