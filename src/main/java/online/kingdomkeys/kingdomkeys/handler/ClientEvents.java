@@ -341,26 +341,54 @@ public class ClientEvents {
 				event.getPoseStack().mulPose(Axis.XP.rotationDegrees(90));
 				event.getPoseStack().scale(0.01F, 0.01F, 0.01F);
 			}
-
-			PlayerData localPlayerData = PlayerData.get(Minecraft.getInstance().player);
-
-            if(ModConfigs.SERVER.softLockOnMode.get() && event.getEntity() == InputHandler.lockOn){
-                ClientUtils.drawLockOnIndicator(event.getEntity().getId(), event.getPoseStack(), event.getMultiBufferSource(), event.getPartialTick());
-            }
-			if (tempShotlockEntity != null && event.getEntity() == tempShotlockEntity) {
-				ClientUtils.drawSingleShotlockIndicator(tempShotlockEntity.getId(), event.getPoseStack(), event.getMultiBufferSource(), event.getPartialTick());
-			}
-			if (localPlayerData != null && localPlayerData.getShotlockEnemies() != null && !localPlayerData.getShotlockEnemies().isEmpty()) {
-				LivingEntity e = event.getEntity();
-				if (localPlayerData.getShotlockEnemies().stream().anyMatch(sh -> sh.id() == e.getId())) {
-					ClientUtils.drawShotlockIndicator(e, event.getPoseStack(), event.getMultiBufferSource(), event.getPartialTick());
-				}
-			}
 		}
 	}
 
+    @SubscribeEvent
+    public void onRenderLevel(RenderLevelStageEvent event) {
+        if (event.getStage() != RenderLevelStageEvent.Stage.AFTER_ENTITIES)
+            return;
 
-	@SubscribeEvent(priority = EventPriority.HIGHEST)
+        Minecraft mc = Minecraft.getInstance();
+        Player player = mc.player;
+        if (player == null)
+            return;
+
+        PoseStack poseStack = event.getPoseStack();
+        MultiBufferSource.BufferSource buffer = mc.renderBuffers().bufferSource();
+        PlayerData localPlayerData = PlayerData.get(player);
+
+        RenderSystem.depthMask(false);
+        float partialTicks = mc.getTimer().getGameTimeDeltaPartialTick(false);
+        // Lock on
+        if (ModConfigs.SERVER.softLockOnMode.get() && InputHandler.lockOn != null) {
+            ClientUtils.drawLockOnIndicator(InputHandler.lockOn.getId(), poseStack, buffer, partialTicks);
+        }
+
+        // Single shotlock indicator (Ultima cannon)
+        Shotlock shotlock = Utils.getPlayerShotlock(mc.player);
+        if (shotlock == null)
+            return;
+
+        boolean singleLock = shotlock.getMaxLocks() == 1;
+
+        if (tempShotlockEntity != null || (singleLock && !localPlayerData.getShotlockEnemies().isEmpty())) {
+            int entityID = tempShotlockEntity == null ? localPlayerData.getShotlockEnemies().getFirst().id() : tempShotlockEntity.getId();
+            ClientUtils.drawSingleShotlockIndicator(entityID, poseStack, buffer, partialTicks);
+        }
+
+        //Normal shotlocks
+        if (!singleLock && localPlayerData.getShotlockEnemies() != null && !localPlayerData.getShotlockEnemies().isEmpty()) {
+            for (Utils.ShotlockPosition sh : localPlayerData.getShotlockEnemies()) {
+                ClientUtils.drawShotlockIndicator(sh, poseStack, buffer, partialTicks);
+            }
+        }
+
+        RenderSystem.depthMask(true);
+        buffer.endBatch();
+    }
+
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
 	public void RenderEntity(RenderLivingEvent.Pre<? extends LivingEntity, ? extends EntityModel<? extends LivingEntity>> event) {
 		if(event.getEntity() != null) {
 			if(event.getEntity() instanceof Player player) {
@@ -549,8 +577,10 @@ public class ClientEvents {
 					}
 				}
 
-				if (rt instanceof EntityHitResult ertr && focusGaugeTemp > 0) { //If looking at an entity
-					if(shotlock.getMaxLocks() == 1 && playerData.getShotlockEnemies().size() < shotlock.getMaxLocks()){//Ultimate shotlock
+                //If looking at an entity
+				if (rt instanceof EntityHitResult ertr && focusGaugeTemp > 0) {
+                    //Ultimate shotlock
+					if(shotlock.getMaxLocks() == 1 && playerData.getShotlockEnemies().size() < shotlock.getMaxLocks()){
 						if (ertr.getEntity() instanceof LivingEntity target) {
 							if(target != tempShotlockEntity){
 								focusingAnEntityTicks = 0;
@@ -561,7 +591,13 @@ public class ClientEvents {
 							Party p = WorldData.getClient().getPartyFromMember(player.getUUID());
 							if (p == null || (p.getMember(target.getUUID()) == null || p.getFriendlyFire())) { // If caster is not in a party || the party doesn't have the target in it || the party has FF on
 								if(focusingAnEntityTicks >= shotlock.getCooldown()) {
-									playerData.addShotlockEnemy(new Utils.ShotlockPosition(target.getId(), Utils.randomWithRange(0, target.getBbWidth() * 2) - target.getBbWidth(), Utils.randomWithRange(0, target.getBbHeight() * 2) - target.getBbHeight(), Utils.randomWithRange(0, target.getBbWidth() * 2) - target.getBbWidth()));
+                                    float halfWidth = target.getBbWidth() * 0.5F;
+                                    float height = target.getBbHeight();
+                                    float ox = Mth.nextFloat(player.getRandom(), -halfWidth, halfWidth);
+                                    float oy = Mth.nextFloat(player.getRandom(), 0.0F, height);
+                                    float oz = Mth.nextFloat(player.getRandom(), -halfWidth, halfWidth);
+
+                                    playerData.addShotlockEnemy(new Utils.ShotlockPosition(target.getId(), ox, oy, oz));
 									player.level().playSound(player, player.position().x(), player.position().y(), player.position().z(), ModSounds.shotlock_lockon_all.get(), SoundSource.PLAYERS, 1F, 1F);
 									cost = playerData.getFocus() - focusGaugeTemp;
 									tempShotlockEntity = null;
@@ -569,13 +605,19 @@ public class ClientEvents {
 								focusingAnEntityTicks++;
 							}
 						}
+                    // Locking on
 					} else if (focusingTicks % shotlock.getCooldown() == 1 && playerData.getShotlockEnemies().size() < shotlock.getMaxLocks()) {
 						Party p = WorldData.getClient().getPartyFromMember(player.getUUID());
 						if (ertr.getEntity() instanceof LivingEntity target) {
                             //System.out.println(playerData.getShotlockEnemies());
 							if (p == null || (p.getMember(target.getUUID()) == null || p.getFriendlyFire())) { // If caster is not in a party || the party doesn't have the target in it || the party has FF on
-                                Utils.ShotlockPosition shotlockPoint = new Utils.ShotlockPosition(target.getId(), Utils.randomWithRange(0, target.getBbWidth() * 2) - target.getBbWidth(), Utils.randomWithRange(0, target.getBbHeight() * 2) - target.getBbHeight(), Utils.randomWithRange(0, target.getBbWidth() * 2) - target.getBbWidth());
-								playerData.addShotlockEnemy(shotlockPoint);
+                                float halfWidth = target.getBbWidth() * 0.5F;
+                                float height = target.getBbHeight();
+                                float ox = Mth.nextFloat(player.getRandom(), -halfWidth, halfWidth);
+                                float oy = Mth.nextFloat(player.getRandom(), 0.0F, height);
+                                float oz = Mth.nextFloat(player.getRandom(), -halfWidth, halfWidth);
+
+                                playerData.addShotlockEnemy(new Utils.ShotlockPosition(target.getId(), ox, oy, oz));
                                 PacketHandler.sendToServer(new CSSetShotlockEnemyListPacket(playerData.getShotlockEnemies()));
 								player.level().playSound(player, player.position().x(), player.position().y(), player.position().z(), ModSounds.shotlock_lockon.get(), SoundSource.PLAYERS, 1F, 1F);
 								cost = playerData.getFocus() - focusGaugeTemp;

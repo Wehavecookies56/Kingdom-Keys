@@ -9,6 +9,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.math.Axis;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
@@ -44,6 +45,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.client.RenderTypeHelper;
@@ -53,7 +55,6 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.handler.ClientEvents;
-import online.kingdomkeys.kingdomkeys.handler.InputHandler;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.KeychainItem;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
@@ -523,92 +524,126 @@ public class ClientUtils {
                     .setOverlayState(RenderStateShard.NO_OVERLAY).createCompositeState(true));
 
 
+    //Lock on
     public static void drawLockOnIndicator(int entityID, PoseStack poseStack, MultiBufferSource buffer, float partialTicks) {
-        Player player = Minecraft.getInstance().player;
-        if (player == null)
+        Minecraft mc = Minecraft.getInstance();
+
+        Entity target = mc.level.getEntity(entityID);
+        if(target == null)
             return;
 
-        if (!(player.level().getEntity(entityID) instanceof LivingEntity target))
-            return;
+        double x = Mth.lerp(partialTicks, target.xOld, target.getX());
+        double y = Mth.lerp(partialTicks, target.yOld, target.getY());
+        double z = Mth.lerp(partialTicks, target.zOld, target.getZ());
 
-        float x = (float) (player.getX() - target.getX()) * 0.3F;
-        float y = (float) (player.getY() - target.getY() + target.getBbHeight() / 2F) * 0.3F;
-        float z = (float) (player.getZ() - target.getZ()) * 0.3F;
+        Camera camera = mc.gameRenderer.getMainCamera();
+        Vec3 camPos = camera.getPosition();
 
         poseStack.pushPose();
         {
-            Matrix4f mv = getMVMatrix(poseStack, target, x, y + target.getBbHeight() * 0.5f, z, true, partialTicks);
-            mv.rotate(Minecraft.getInstance().getEntityRenderDispatcher().cameraOrientation());
+            poseStack.translate(x - camPos.x, y - camPos.y + target.getBbHeight() * 0.5, z - camPos.z);
+            poseStack.mulPose(mc.getEntityRenderDispatcher().cameraOrientation());
 
-            float size = 0.5F;
+            float size = 0.5f;
+            Matrix4f mat = poseStack.last().pose();
+            ClientUtils.drawTexturedModalRect2DPlane(mat, buffer.getBuffer(LOCK_ON_INDICATOR), -size, -size, size, size, 0, 0, 256, 256);
 
-            //Outer
-            ClientUtils.drawTexturedModalRect2DPlane(mv, buffer.getBuffer(LOCK_ON_INDICATOR), -size, -size, size, size, 0, 0, 256, 256);
+            poseStack.pushPose();
+            {
+                float ticks = target.tickCount + partialTicks;
+                float rotation = ticks * ModConfigs.lockOnIconRotation * -0.5f;
 
-            Matrix4f inner = new Matrix4f(mv);
+                poseStack.mulPose(Axis.ZP.rotationDegrees(rotation));
 
-            float rotation = (player.tickCount + partialTicks) * ModConfigs.lockOnIconRotation * -0.5F;
-
-            inner.rotate(Axis.ZP.rotationDegrees(rotation));
-            ClientUtils.drawTexturedModalRect2DPlane(inner, buffer.getBuffer(LOCK_ON_INNER), -size, -size, size, size, 0, 0, 256, 256);
+                mat = poseStack.last().pose();
+                ClientUtils.drawTexturedModalRect2DPlane(mat, buffer.getBuffer(LOCK_ON_INNER), -size, -size, size, size, 0, 0, 256, 256);
+            }
+            poseStack.popPose();
         }
         poseStack.popPose();
     }
 
-    public static void drawSingleShotlockIndicator(int entityID, PoseStack matStackIn, MultiBufferSource bufferIn, float partialTicks) {
-        Player localPlayer = Minecraft.getInstance().player;
-        Shotlock shotlock = Utils.getPlayerShotlock(localPlayer);
+    // Ultimate shotlock
+    public static void drawSingleShotlockIndicator(int entityID, PoseStack poseStack, MultiBufferSource buffer, float partialTicks) {
+        Minecraft mc = Minecraft.getInstance();
 
-        if(localPlayer.level().getEntity(entityID) instanceof LivingEntity entityIn) {
-            float x = (float) (localPlayer.getX() - entityIn.getX()) * 0.3F;
-            float y = (float) (localPlayer.getY() - entityIn.getY()) * 0.3F;
-            float z = (float) (localPlayer.getZ() - entityIn.getZ()) * 0.3F;
-            Matrix4f mvMatrix = getMVMatrix(matStackIn, entityIn, x, y + entityIn.getBbHeight() / 2, z, true, partialTicks);
-            float renderSize = 1.5F + shotlock.getCooldown() * 0.2F - ClientEvents.focusingAnEntityTicks * 0.2F;
-            mvMatrix.rotate(Minecraft.getInstance().getEntityRenderDispatcher().cameraOrientation());
-            ClientUtils.drawTexturedModalRect2DPlane(mvMatrix, bufferIn.getBuffer(ULTIMATE_SHOTLOCK_INDICATOR), -renderSize, -renderSize, renderSize, renderSize, 0, 0, 256, 256);
-        }
-    }
-
-    public static void drawShotlockIndicator(LivingEntity entityIn, PoseStack matStackIn, MultiBufferSource bufferIn, float partialTicks) {
-        Player localPlayer = Minecraft.getInstance().player;
-        PlayerData localPlayerData = PlayerData.get(localPlayer);
-        Shotlock shotlock = Utils.getPlayerShotlock(localPlayer);
-        if(shotlock == null)
+        Shotlock shotlock = Utils.getPlayerShotlock(mc.player);
+        if (shotlock == null)
             return;
 
-        for (Utils.ShotlockPosition shotlockEnemy : localPlayerData.getShotlockEnemies()) {
-            float ex = (float) entityIn.getX(); //Random offsets
-            float ey = (float) entityIn.getY();
-            float ez = (float) entityIn.getZ();
-            float renderSize = 1.5F;
-            if(shotlock.getMaxLocks() > 1) {
-                ex += shotlockEnemy.x(); //Random offsets
-                ey += shotlockEnemy.y();
-                ez += shotlockEnemy.z();
-                renderSize = 0.1F;
-            }
-            float x = (float) (localPlayer.getX() - ex)*0.3F;
-            float y = (float) (localPlayer.getY() - ey)*0.3F;
-            float z = (float) (localPlayer.getZ() - ez)*0.3F;
-            Matrix4f mvMatrix = getMVMatrix(matStackIn, entityIn, x,y+entityIn.getBbHeight()/2,z, true, partialTicks);
+        Entity target = mc.level.getEntity(entityID);
+        if(target == null)
+            return;
 
-            //Random Circles
-            if(shotlockEnemy.id() == entityIn.getId()) {
-                mvMatrix.rotate(Minecraft.getInstance().getEntityRenderDispatcher().cameraOrientation());
-                ClientUtils.drawTexturedModalRect2DPlane(mvMatrix, bufferIn.getBuffer(shotlock.getMaxLocks() == 1 ? ULTIMATE_SHOTLOCK_INDICATOR : SHOTLOCK_INDICATOR), -renderSize, -renderSize, renderSize, renderSize, 0, 0, 256, 256);
-            }
+        double x = Mth.lerp(partialTicks, target.xOld, target.getX());
+        double y = Mth.lerp(partialTicks, target.yOld, target.getY());
+        double z = Mth.lerp(partialTicks, target.zOld, target.getZ());
+
+        Camera camera = mc.gameRenderer.getMainCamera();
+        Vec3 camPos = camera.getPosition();
+
+        poseStack.pushPose();
+        {
+            poseStack.translate(x - camPos.x, y - camPos.y + target.getBbHeight() * 0.5, z - camPos.z);
+            poseStack.mulPose(mc.getEntityRenderDispatcher().cameraOrientation());
+
+            float size = 1.5F + shotlock.getCooldown() * 0.2F - ClientEvents.focusingAnEntityTicks * 0.2F;
+            Matrix4f mat = poseStack.last().pose();
+            ClientUtils.drawTexturedModalRect2DPlane(mat, buffer.getBuffer(ULTIMATE_SHOTLOCK_INDICATOR), -size, -size, size, size, 0, 0, 256, 256);
         }
+        poseStack.popPose();
     }
 
-    public static void drawShotlockIndicator(BlockPos pos, PoseStack matStackIn, MultiBufferSource bufferIn, float partialTicks) {
-        Player localPlayer = Minecraft.getInstance().player;
-        float x = (float) (localPlayer.getX() - pos.getX())*0.8F;
-        float y = (float) (localPlayer.getY() - pos.getY())*0.8F;
-        float z = (float) (localPlayer.getZ() - pos.getZ())*0.8F;
-        Matrix4f mvMatrix = getMVMatrix(matStackIn, x,y,z, 0.5F, 0.5F, 0.5F, true, partialTicks);
-        mvMatrix.rotate(Minecraft.getInstance().getEntityRenderDispatcher().cameraOrientation());
-        ClientUtils.drawTexturedModalRect2DPlane(mvMatrix, bufferIn.getBuffer(SHOTLOCK_INDICATOR), -0.6f,-0.6f,0.6f,0.6f, 0, 0, 256, 256);
+    //Normal shotlock
+    public static void drawShotlockIndicator(Utils.ShotlockPosition shotlockPosition, PoseStack poseStack, MultiBufferSource buffer, float partialTicks) {
+        Minecraft mc = Minecraft.getInstance();
+
+        Shotlock shotlock = Utils.getPlayerShotlock(mc.player);
+        if (shotlock == null)
+            return;
+
+        Entity target = mc.level.getEntity(shotlockPosition.id());
+        if(target == null)
+            return;
+
+        double ex = Mth.lerp(partialTicks, target.xo, target.getX());
+        double ey = Mth.lerp(partialTicks, target.yo, target.getY());
+        double ez = Mth.lerp(partialTicks, target.zo, target.getZ());
+
+        double x = ex + shotlockPosition.x();
+        double y = ey + shotlockPosition.y();
+        double z = ez + shotlockPosition.z();
+
+        Camera camera = mc.gameRenderer.getMainCamera();
+        Vec3 camPos = camera.getPosition();
+
+        poseStack.pushPose();
+        {
+            poseStack.translate(x - camPos.x, y - camPos.y, z - camPos.z);
+            poseStack.mulPose(mc.getEntityRenderDispatcher().cameraOrientation());
+
+            float size = 0.3F;
+            Matrix4f mat = poseStack.last().pose();
+            ClientUtils.drawTexturedModalRect2DPlane(mat, buffer.getBuffer(SHOTLOCK_INDICATOR), -size, -size, size, size, 0, 0, 256, 256);
+        }
+        poseStack.popPose();
+    }
+
+    // Airsteps
+    public static void drawShotlockIndicator(BlockPos pos, PoseStack poseStack, MultiBufferSource buffer, float partialTicks) {
+        Minecraft mc = Minecraft.getInstance();
+
+        Vec3 camPos = mc.gameRenderer.getMainCamera().getPosition();
+
+        float x = (float) (pos.getX() + 0.5 - camPos.x);
+        float y = (float) (pos.getY() + 0.5 - camPos.y);
+        float z = (float) (pos.getZ() + 0.5 - camPos.z);
+
+        Matrix4f mvMatrix = getMVMatrix(poseStack, x, y, z, 0.5F, 0.5F, 0.5F, true, partialTicks);
+
+        mvMatrix.rotate(mc.getEntityRenderDispatcher().cameraOrientation());
+
+        ClientUtils.drawTexturedModalRect2DPlane(mvMatrix, buffer.getBuffer(SHOTLOCK_INDICATOR), -0.6f, -0.6f, 0.6f, 0.6f, 0, 0, 256, 256);
     }
 
     public static void drawTexturedModalRect2DPlane(Matrix4f matrix, VertexConsumer vertexBuilder, float minX, float minY, float maxX, float maxY, float minTexU, float minTexV, float maxTexU, float maxTexV) {
