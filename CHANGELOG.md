@@ -2,7 +2,7 @@
 * Encounter Plus ability able to be obtained on level 21 for warrior, 29 for guardian and 32 for mystic. 
 * New Soft Lock on system enabled by default, it allows the camera to move as long as the target is on the screen.
 * Server-Config option to toggle between Hard and Soft lock on.
-* Event so addons can intercept when a magic is being casted.
+* Event so addons can intercept when a magic, drive form, reaction command or limit is being casted.
 
 **Changed:**
 * Slightly increased the χ-blade reach.

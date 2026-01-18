@@ -88,9 +88,6 @@ public abstract class Magic {
      * @param caster
      */
     public final void onUse(LivingEntity player, Player caster, int level, LivingEntity lockOnEntity) {
-        if (NeoForge.EVENT_BUS.post(new MagicSpellCastEvent(player, name)).isCanceled())
-            return;
-
     	PlayerData casterData = PlayerData.get(caster);
     	float fullMPBlastMult = casterData.isAbilityEquipped(Strings.fullMPBlast) && casterData.getMP() >= casterData.getMaxMP() ? 1.5F: 1F;
     	

@@ -8,8 +8,11 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.api.event.LimitCastEvent;
+import online.kingdomkeys.kingdomkeys.api.event.MagicSpellCastEvent;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.limit.Limit;
 import online.kingdomkeys.kingdomkeys.limit.ModLimits;
@@ -44,7 +47,11 @@ public record CSUseLimitPacket(ResourceLocation limit, int targetID) implements 
 		Limit limit = ModLimits.registry.get(this.limit);
 		int cost = limit.getCost();
 		if (playerData.getDP() >= cost) {
-			playerData.remDP(cost);
+
+            if (NeoForge.EVENT_BUS.post(new LimitCastEvent(player, this.limit)).isCanceled())
+                return;
+
+            playerData.remDP(cost);
 			playerData.setLimitCooldownTicks(limit.getCooldown());
 			PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer)player);
 			if(targetID > -1) {
