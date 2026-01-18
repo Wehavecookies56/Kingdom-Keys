@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.handler;
 
+import com.mojang.blaze3d.platform.Window;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import com.mojang.math.Axis;
@@ -43,16 +44,12 @@ import net.neoforged.neoforge.client.event.*;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
-import online.kingdomkeys.kingdomkeys.api.event.client.MenuButtonRegisterEvent;
 import online.kingdomkeys.kingdomkeys.block.gummi.GummiBlockBase;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.block.gummi.GummiPlacementType;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.KOGui;
 import online.kingdomkeys.kingdomkeys.client.gui.StopGui;
-import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
-import online.kingdomkeys.kingdomkeys.client.gui.menu.MenuScreen;
-import online.kingdomkeys.kingdomkeys.client.gui.menu.journal.MenuJournalScreen;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.CastleOblivionData;
@@ -100,47 +97,124 @@ public class ClientEvents {
 		}
 	}
 
-	@SubscribeEvent
-	public void onRenderTick(RenderFrameEvent.Pre event) {
-		Player player = Minecraft.getInstance().player;
+    @SubscribeEvent
+    public void onRenderTick(RenderFrameEvent.Pre event) {
+        Minecraft mc = Minecraft.getInstance();
+        Player player = mc.player;
 
-		if (InputHandler.lockOn != null && player != null) {
-			if (InputHandler.lockOn.isRemoved()) {
-				InputHandler.lockOn = null;
-				return;
-			}
+        if (player == null || InputHandler.lockOn == null)
+            return;
 
-			LivingEntity target = InputHandler.lockOn;
+        LivingEntity target = InputHandler.lockOn;
+        if (target.isRemoved()) {
+            InputHandler.lockOn = null;
+            return;
+        }
 
-			double dx = target.getX() - player.getX();
-			double dz = target.getZ() - player.getZ();
-			double dy = (target.getY() + target.getBbHeight() * 0.5) - (player.getY() + player.getEyeHeight());
+        //TODO server-config
+        if(ModConfigs.SERVER.softLockOnMode.get())
+            softLockOn(player,target);
+        else
+            hardLockOn(player, target);
+    }
 
-			double angleYaw = Math.toDegrees(Math.atan2(dz, dx)) - 90.0;
-			double anglePitch = -Math.toDegrees(Math.atan2(dy, Math.sqrt(dx * dx + dz * dz)));
+    /**
+     * New method to allow moving the camera slightly
+     * @param player
+     * @param target
+     */
+    private void softLockOn(Player player, LivingEntity target) {
+        Minecraft mc = Minecraft.getInstance();
 
-			float currentYaw = player.getYRot();
-			float currentPitch = player.getXRot();
+        double verticalFovDeg = mc.options.fov().get();
+        double verticalFovRad = Math.toRadians(verticalFovDeg);
 
-			float yawDifference = Mth.wrapDegrees((float) angleYaw - currentYaw);
-			float pitchDifference = (float) anglePitch - currentPitch;
+        Window window = mc.getWindow();
+        double aspect = (double) window.getGuiScaledWidth() / window.getGuiScaledHeight();
 
-			float smoothFactor = 0.2F;
+        double horizontalFovRad = 2.0 * Math.atan(Math.tan(verticalFovRad / 2.0) * aspect);
+        double horizontalFovDeg = Math.toDegrees(horizontalFovRad);
 
-			float newYaw = currentYaw + yawDifference * smoothFactor;
-			float newPitch = currentPitch + pitchDifference * smoothFactor;
+        float maxYawOffset = (float) (horizontalFovDeg * 0.4f);
+        float maxPitchOffset = (float) (verticalFovDeg * 0.4f);
 
-			player.setYRot(newYaw);
-			player.setXRot(newPitch);
+        final float CORRECTION_SMOOTH = 0.15f;
 
-			player.yRotO = currentYaw;
-			player.xRotO = currentPitch;
+        double dx = target.getX() - player.getX();
+        double dz = target.getZ() - player.getZ();
+        double dy = (target.getY() + target.getBbHeight() * 0.5) - (player.getY() + player.getEyeHeight());
 
-			if (player.getVehicle() != null) {
-				player.getVehicle().onPassengerTurned(player);
-			}
-		}
-	}
+        float targetYaw = (float) (Math.toDegrees(Math.atan2(dz, dx)) - 90.0);
+        float targetPitch = (float) (-Math.toDegrees(Math.atan2(dy, Math.sqrt(dx * dx + dz * dz))));
+
+        float currentYaw = player.getYRot();
+        float currentPitch = player.getXRot();
+
+        float yawDiff = Mth.wrapDegrees(targetYaw - currentYaw);
+        float pitchDiff = targetPitch - currentPitch;
+
+        float yawCorrection = 0f;
+        float pitchCorrection = 0f;
+
+        if (yawDiff > maxYawOffset) {
+            yawCorrection = yawDiff - maxYawOffset;
+        } else if (yawDiff < -maxYawOffset) {
+            yawCorrection = yawDiff + maxYawOffset;
+        }
+
+        if (pitchDiff > maxPitchOffset) {
+            pitchCorrection = pitchDiff - maxPitchOffset;
+        } else if (pitchDiff < -maxPitchOffset) {
+            pitchCorrection = pitchDiff + maxPitchOffset;
+        }
+
+        if (yawCorrection != 0 || pitchCorrection != 0) {
+            player.setYRot(currentYaw + yawCorrection * CORRECTION_SMOOTH);
+            player.setXRot(currentPitch + pitchCorrection * CORRECTION_SMOOTH);
+
+            player.yRotO = currentYaw;
+            player.xRotO = currentPitch;
+
+            if (player.getVehicle() != null) {
+                player.getVehicle().onPassengerTurned(player);
+            }
+        }
+    }
+
+    /**
+     * Old method to lock the camera strictly on the entity
+     * @param player
+     * @param target
+     */
+    private void hardLockOn(Player player, LivingEntity target) {
+        double dx = target.getX() - player.getX();
+        double dz = target.getZ() - player.getZ();
+        double dy = (target.getY() + target.getBbHeight() * 0.5) - (player.getY() + player.getEyeHeight());
+
+        double angleYaw = Math.toDegrees(Math.atan2(dz, dx)) - 90.0;
+        double anglePitch = -Math.toDegrees(Math.atan2(dy, Math.sqrt(dx * dx + dz * dz)));
+
+        float currentYaw = player.getYRot();
+        float currentPitch = player.getXRot();
+
+        float yawDifference = Mth.wrapDegrees((float) angleYaw - currentYaw);
+        float pitchDifference = (float) anglePitch - currentPitch;
+
+        float smoothFactor = 0.2F;
+
+        float newYaw = currentYaw + yawDifference * smoothFactor;
+        float newPitch = currentPitch + pitchDifference * smoothFactor;
+
+        player.setYRot(newYaw);
+        player.setXRot(newPitch);
+
+        player.yRotO = currentYaw;
+        player.xRotO = currentPitch;
+
+        if (player.getVehicle() != null) {
+            player.getVehicle().onPassengerTurned(player);
+        }
+    }
 
 	@SubscribeEvent
 	public void onCameraSetup(CalculateDetachedCameraDistanceEvent event) {
@@ -269,6 +343,10 @@ public class ClientEvents {
 			}
 
 			PlayerData localPlayerData = PlayerData.get(Minecraft.getInstance().player);
+
+            if(ModConfigs.SERVER.softLockOnMode.get() && event.getEntity() == InputHandler.lockOn){
+                ClientUtils.drawLockOnIndicator(event.getEntity().getId(), event.getPoseStack(), event.getMultiBufferSource(), event.getPartialTick());
+            }
 			if (tempShotlockEntity != null && event.getEntity() == tempShotlockEntity) {
 				ClientUtils.drawSingleShotlockIndicator(tempShotlockEntity.getId(), event.getPoseStack(), event.getMultiBufferSource(), event.getPartialTick());
 			}

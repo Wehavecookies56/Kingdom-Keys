@@ -50,8 +50,10 @@ import net.neoforged.neoforge.client.RenderTypeHelper;
 import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 import net.neoforged.neoforge.client.model.data.ModelData;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.handler.ClientEvents;
+import online.kingdomkeys.kingdomkeys.handler.InputHandler;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.KeychainItem;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
@@ -500,6 +502,16 @@ public class ClientUtils {
         return getMVMatrix(poseStack,posX,posY,posZ,x,y,z,lockRotation,partialTicks);
     }
 
+    public static final RenderType LOCK_ON_INDICATOR = RenderType.create(KingdomKeys.MODID + ":lock_on_indicator", DefaultVertexFormat.POSITION_TEX, VertexFormat.Mode.QUADS, 256, false, false,
+            RenderType.CompositeState.builder().setShaderState(RenderStateShard.POSITION_TEX_SHADER).setTextureState(new RenderStateShard.TextureStateShard(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/lockon_0.png"),
+                            false, false)).setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY).setDepthTestState(RenderStateShard.NO_DEPTH_TEST).setWriteMaskState(RenderStateShard.COLOR_WRITE).setLightmapState(RenderStateShard.NO_LIGHTMAP)
+                    .setOverlayState(RenderStateShard.NO_OVERLAY).createCompositeState(true));
+
+    public static final RenderType LOCK_ON_INNER = RenderType.create(KingdomKeys.MODID + ":lock_on_inner", DefaultVertexFormat.POSITION_TEX, VertexFormat.Mode.QUADS, 256, false, false,
+            RenderType.CompositeState.builder().setShaderState(RenderStateShard.POSITION_TEX_SHADER).setTextureState(new RenderStateShard.TextureStateShard(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/lockon_1.png"),
+                            false, false)).setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY).setDepthTestState(RenderStateShard.NO_DEPTH_TEST).setWriteMaskState(RenderStateShard.COLOR_WRITE).setLightmapState(RenderStateShard.NO_LIGHTMAP)
+                    .setOverlayState(RenderStateShard.NO_OVERLAY).createCompositeState(true));
+
     public static final RenderType SHOTLOCK_INDICATOR = RenderType.create(KingdomKeys.MODID + ":shotlock_indicator", DefaultVertexFormat.POSITION_TEX, VertexFormat.Mode.QUADS, 256, false, false,
             RenderType.CompositeState.builder().setShaderState(RenderStateShard.POSITION_TEX_SHADER).setTextureState(new RenderStateShard.TextureStateShard(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/shotlock_indicator.png"),
                             false, false)).setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY).setDepthTestState(RenderStateShard.NO_DEPTH_TEST).setWriteMaskState(RenderStateShard.COLOR_WRITE).setLightmapState(RenderStateShard.NO_LIGHTMAP)
@@ -510,6 +522,38 @@ public class ClientUtils {
                             false, false)).setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY).setDepthTestState(RenderStateShard.NO_DEPTH_TEST).setWriteMaskState(RenderStateShard.COLOR_WRITE).setLightmapState(RenderStateShard.NO_LIGHTMAP)
                     .setOverlayState(RenderStateShard.NO_OVERLAY).createCompositeState(true));
 
+
+    public static void drawLockOnIndicator(int entityID, PoseStack poseStack, MultiBufferSource buffer, float partialTicks) {
+        Player player = Minecraft.getInstance().player;
+        if (player == null)
+            return;
+
+        if (!(player.level().getEntity(entityID) instanceof LivingEntity target))
+            return;
+
+        float x = (float) (player.getX() - target.getX()) * 0.3F;
+        float y = (float) (player.getY() - target.getY() + target.getBbHeight() / 2F) * 0.3F;
+        float z = (float) (player.getZ() - target.getZ()) * 0.3F;
+
+        poseStack.pushPose();
+        {
+            Matrix4f mv = getMVMatrix(poseStack, target, x, y + target.getBbHeight() * 0.5f, z, true, partialTicks);
+            mv.rotate(Minecraft.getInstance().getEntityRenderDispatcher().cameraOrientation());
+
+            float size = 0.5F;
+
+            //Outer
+            ClientUtils.drawTexturedModalRect2DPlane(mv, buffer.getBuffer(LOCK_ON_INDICATOR), -size, -size, size, size, 0, 0, 256, 256);
+
+            Matrix4f inner = new Matrix4f(mv);
+
+            float rotation = (player.tickCount + partialTicks) * ModConfigs.lockOnIconRotation * -0.5F;
+
+            inner.rotate(Axis.ZP.rotationDegrees(rotation));
+            ClientUtils.drawTexturedModalRect2DPlane(inner, buffer.getBuffer(LOCK_ON_INNER), -size, -size, size, size, 0, 0, 256, 256);
+        }
+        poseStack.popPose();
+    }
 
     public static void drawSingleShotlockIndicator(int entityID, PoseStack matStackIn, MultiBufferSource bufferIn, float partialTicks) {
         Player localPlayer = Minecraft.getInstance().player;
@@ -525,6 +569,7 @@ public class ClientUtils {
             ClientUtils.drawTexturedModalRect2DPlane(mvMatrix, bufferIn.getBuffer(ULTIMATE_SHOTLOCK_INDICATOR), -renderSize, -renderSize, renderSize, renderSize, 0, 0, 256, 256);
         }
     }
+
     public static void drawShotlockIndicator(LivingEntity entityIn, PoseStack matStackIn, MultiBufferSource bufferIn, float partialTicks) {
         Player localPlayer = Minecraft.getInstance().player;
         PlayerData localPlayerData = PlayerData.get(localPlayer);
