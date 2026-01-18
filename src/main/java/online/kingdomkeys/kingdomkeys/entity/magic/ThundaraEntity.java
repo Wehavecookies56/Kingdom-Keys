@@ -39,7 +39,7 @@ public class ThundaraEntity extends ThrowableProjectile {
 		this.blocksBuilding = true;
 	}
 
-	public ThundaraEntity(Level world, Player player, float dmgMult, LivingEntity lockedOnEntity) {
+	public ThundaraEntity(Level world, LivingEntity player, float dmgMult, LivingEntity lockedOnEntity) {
 		super(ModEntities.TYPE_THUNDARA.get(), player, world);
 		setCaster(player.getUUID());
 		this.dmgMult = dmgMult;

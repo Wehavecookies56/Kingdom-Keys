@@ -28,6 +28,7 @@ import online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment.MenuEquipm
 import online.kingdomkeys.kingdomkeys.client.gui.organization.AlignmentSelectionScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.overlay.COMinimap;
 import online.kingdomkeys.kingdomkeys.client.gui.overlay.SoAMessages;
+import online.kingdomkeys.kingdomkeys.client.gui.synthesis.SellScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.synthesis.SynthesisMaterialScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.synthesis.SynthesisScreen;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
@@ -56,6 +57,7 @@ import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeData;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopListRegistry;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.names.NamesListRegistry;
+import online.kingdomkeys.kingdomkeys.synthesis.shop.sell.SellListRegistry;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import org.apache.commons.io.IOUtils;
 
@@ -157,6 +159,13 @@ public class ClientPacketHandler {
         ShopListRegistry.getInstance().clearRegistry();
         message.list().forEach(shopItem -> {
             ShopListRegistry.getInstance().register(shopItem);
+        });
+    }
+
+    public static void syncSellData(SCSyncSellData message) {
+        SellListRegistry.getInstance().clearRegistry();
+        message.list().forEach(shopItem -> {
+            SellListRegistry.getInstance().register(shopItem);
         });
     }
 
@@ -321,6 +330,11 @@ public class ClientPacketHandler {
         Minecraft.getInstance().setScreen(new SynthesisMaterialScreen(data, message.inv(), message.name(), message.moogle()));
     }
 
+    public static void openSellScreen(SCOpenSellScreen message) {
+        PlayerData data = PlayerData.get(message.playerData(), Minecraft.getInstance().player);
+        Minecraft.getInstance().setScreen(new SellScreen(data, message.inv(), message.name(), message.moogle()));
+    }
+
     public static void syncGlobalData(SCSyncGlobalData message) {
         //TODO keep an eye if something doesn't sync cause of this
         if(Minecraft.getInstance().level.getEntity(message.entity()) == null)
@@ -328,10 +342,7 @@ public class ClientPacketHandler {
         GlobalData globalData = GlobalData.get((LivingEntity) Minecraft.getInstance().level.getEntity(message.entity()));
         globalData.deserializeNBT(Minecraft.getInstance().level.registryAccess(), message.data());
 
-        //if (message.entity() != Minecraft.getInstance().player.getId()) {
-            GlobalData.setClientCache((LivingEntity) Minecraft.getInstance().level.getEntity(message.entity()), globalData);
-        //}
-
+        GlobalData.setClientCache((LivingEntity) Minecraft.getInstance().level.getEntity(message.entity()), globalData);
     }
 
     public static void syncDimensionLists(SCSyncDimensionLists message) {

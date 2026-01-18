@@ -48,15 +48,18 @@ public class MenuStockItem extends Button {
 
     final ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
 
-    public MenuStockItem(MenuFilterable parent, ResourceLocation rl, ItemStack displayStack, int x, int y, int width, boolean showAmount) {
-    	super(new Builder(Component.literal(""), b -> {
-            parent.action(rl, displayStack);
-        }).bounds(x, y, width, 14));
-
+    public MenuStockItem(MenuFilterable parent, ResourceLocation rl, ItemStack displayStack, int x, int y, int width, boolean showAmount, OnPress onPress) {
+        super(new Builder(Component.literal(""), onPress).bounds(x, y, width, 14));
         this.parent = parent;
         this.rl = rl;
         this.showAmount = showAmount;
         this.stack = displayStack;
+    }
+
+    public MenuStockItem(MenuFilterable parent, ResourceLocation rl, ItemStack displayStack, int x, int y, int width, boolean showAmount) {
+        this(parent,rl,displayStack,x,y,width,showAmount, b -> {
+            parent.action(rl, displayStack);
+        });
     }
 
     public MenuStockItem(MenuFilterable parent, ItemStack stack, int x, int y, int width, boolean showAmount) {

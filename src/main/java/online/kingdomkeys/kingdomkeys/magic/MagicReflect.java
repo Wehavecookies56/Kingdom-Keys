@@ -16,15 +16,15 @@ public class MagicReflect extends Magic {
 	}
 
 	@Override
-	public void magicUse(Player player, Player caster, int level, float fullMPBlastMult, LivingEntity lockOnEntity) {
-		PlayerData playerData = PlayerData.get(player);
+	public void magicUse(LivingEntity player, Player caster, int level, float fullMPBlastMult, LivingEntity lockOnEntity) {
+		PlayerData playerData = PlayerData.get(caster);
 		playerData.setReflectTicks(40 + (level * 5), level);
-		PacketHandler.syncToAllAround(player, playerData);
+		PacketHandler.syncToAllAround(caster, playerData);
 		player.swing(InteractionHand.MAIN_HAND);
 	}
 	
 	@Override
-	protected void playMagicCastSound(Player player, Player caster, int level) {
+	protected void playMagicCastSound(LivingEntity player, Player caster, int level) {
 		player.level().playSound(null, player.position().x(), player.position().y(), player.position().z(), ModSounds.reflect1.get(), SoundSource.PLAYERS, 1F, 1F);
 	}
 

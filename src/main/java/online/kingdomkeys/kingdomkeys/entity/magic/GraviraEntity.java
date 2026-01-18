@@ -35,7 +35,7 @@ public class GraviraEntity extends ThrowableProjectile {
 		this.blocksBuilding = true;
 	}
 
-	public GraviraEntity(Level world, Player player, float dmgMult) {
+	public GraviraEntity(Level world, LivingEntity player, float dmgMult) {
 		super(ModEntities.TYPE_GRAVIRA.get(), player, world);
 		this.dmgMult = dmgMult;
 	}

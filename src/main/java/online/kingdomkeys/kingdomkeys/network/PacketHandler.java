@@ -34,6 +34,7 @@ public class PacketHandler {
 		client(SCOpenEquipmentScreen.TYPE, SCOpenEquipmentScreen.STREAM_CODEC);
 		client(SCOpenMagicCustomize.TYPE, SCOpenMagicCustomize.STREAM_CODEC);
 		client(SCOpenMaterialsScreen.TYPE, SCOpenMaterialsScreen.STREAM_CODEC);
+        client(SCOpenSellScreen.TYPE, SCOpenSellScreen.STREAM_CODEC);
 		client(SCOpenSavePointScreen.TYPE, SCOpenSavePointScreen.STREAM_CODEC);
 		client(SCOpenShortcutsCustomize.TYPE, SCOpenShortcutsCustomize.STREAM_CODEC);
 		client(SCOpenSynthesisGui.TYPE, SCOpenSynthesisGui.STREAM_CODEC);
@@ -53,6 +54,7 @@ public class PacketHandler {
 		client(SCSyncOrgPortalPacket.TYPE, SCSyncOrgPortalPacket.STREAM_CODEC);
 		client(SCSyncPlayerData.TYPE, SCSyncPlayerData.STREAM_CODEC);
 		client(SCSyncShopData.TYPE, SCSyncShopData.STREAM_CODEC);
+        client(SCSyncSellData.TYPE, SCSyncSellData.STREAM_CODEC);
 		client(SCSyncSynthesisData.TYPE, SCSyncSynthesisData.STREAM_CODEC);
 		client(SCSyncWorldData.TYPE, SCSyncWorldData.STREAM_CODEC);
 		client(SCUpdateCORooms.TYPE, SCUpdateCORooms.STREAM_CODEC);
@@ -103,6 +105,7 @@ public class PacketHandler {
 		server(CSSetOrgPortalName.TYPE, CSSetOrgPortalName.STREAM_CODEC);
 		server(CSSetShortcutPacket.TYPE, CSSetShortcutPacket.STREAM_CODEC);
 		server(CSShopBuy.TYPE, CSShopBuy.STREAM_CODEC);
+        server(CSShopSell.TYPE, CSShopSell.STREAM_CODEC);
 		server(CSShotlockShot.TYPE, CSShotlockShot.STREAM_CODEC);
 		server(CSSpawnOrgPortalPacket.TYPE, CSSpawnOrgPortalPacket.STREAM_CODEC);
 		server(CSStruggleSettings.TYPE, CSStruggleSettings.STREAM_CODEC);
@@ -131,6 +134,7 @@ public class PacketHandler {
 		server(CSMoveGummiShipPacket.TYPE, CSMoveGummiShipPacket.STREAM_CODEC);
         server(CSShowHangarLinesPacket.TYPE, CSShowHangarLinesPacket.STREAM_CODEC);
         server(CSGummiBoostPacket.TYPE, CSGummiBoostPacket.STREAM_CODEC);
+        server(CSSetShotlockEnemyListPacket.TYPE, CSSetShotlockEnemyListPacket.STREAM_CODEC);
 	}
 
 	private static <T extends Packet> void client(CustomPacketPayload.Type<T> type, StreamCodec<? super RegistryFriendlyByteBuf, T> reader) {

@@ -40,7 +40,7 @@ public class ThunderEntity extends ThrowableProjectile {
 		this.blocksBuilding = true;
 	}
 
-	public ThunderEntity(Level world, Player player, float dmgMult, LivingEntity lockedOnEntity) {
+	public ThunderEntity(Level world, LivingEntity player, float dmgMult, LivingEntity lockedOnEntity) {
 		super(ModEntities.TYPE_THUNDER.get(), player, world);
 		setCaster(player.getUUID());
 		this.dmgMult = dmgMult;

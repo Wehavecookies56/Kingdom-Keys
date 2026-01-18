@@ -15,7 +15,10 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
+import net.neoforged.neoforge.common.NeoForge;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.api.event.client.TargetSelectorEvent;
+import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.CommandMenuItem;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.CommandMenuSubMenu;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
@@ -228,12 +231,19 @@ public class CommandMenuGui extends OverlayBase {
 			if (playerData.getMaxMP() == 0 || playerData.getRecharge() || cost > playerData.getMaxMP() && cost < 300) {
 				playErrorSound();
 				changeSubmenu(root, true);
-			} else {
-				if (worldData.getPartyFromMember(minecraft.player.getUUID()) != null && ModMagic.registry.get(magicRegistryObject.getRegistryName()).getHasToSelect()) { //Open party target selector
-					if (currentSubmenu.equals(target) && commandMenuElements.get(currentSubmenu).getSelected() != null) {
-						String target = commandMenuElements.get(currentSubmenu).getSelected().getId().getPath();
-						int level = playerData.getMagicLevel(magicRegistryObject.getRegistryName());
-						PacketHandler.sendToServer(new CSUseMagicPacket(magicRegistryObject.getRegistryName().toString(), target, level));
+			} else { //cast / target selector
+                ArrayList<CommandMenuItem> targets = new ArrayList<>();
+
+                TargetSelectorEvent event = new TargetSelectorEvent(commandMenuElements.get(currentSubmenu), targets);
+                NeoForge.EVENT_BUS.post(event);
+                System.out.println(targets.size());// if in a party                 and           magic has target selector                                             or has target selector populated
+				if ((worldData.getPartyFromMember(minecraft.player.getUUID()) != null && ModMagic.registry.get(magicRegistryObject.getRegistryName()).getHasToSelect()) || !targets.isEmpty()) { //Open party target selector
+					if (currentSubmenu.equals(target) && commandMenuElements.get(currentSubmenu).getSelected() != null) {//if is in target selector
+                        int level = playerData.getMagicLevel(magicRegistryObject.getRegistryName());
+                        String data = commandMenuElements.get(currentSubmenu).getSelected().getData();
+                        int targetID = Integer.parseInt(data);
+                        PacketHandler.sendToServer(new CSUseMagicPacket(magicRegistryObject.getRegistryName().toString(), targetID, level));
+
 						changeSubmenu(root, true);
 					} else {
 						changeSubmenu(target, true);
@@ -428,33 +438,55 @@ public class CommandMenuGui extends OverlayBase {
 		item.setActive(false);
 	}
 
-	public void createTargets(CommandMenuSubMenu subMenu) {
-		subMenu.getChildren().clear();
-		WorldData worldData = WorldData.getClient();
-		if (worldData.getPartyFromMember(minecraft.player.getUUID()) != null) {
-			subMenu.addChild(new CommandMenuItem.Builder(
-					ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, minecraft.player.getDisplayName().getString().toLowerCase()),
-					Component.translatable(minecraft.player.getDisplayName().getString()),
-					item -> subMenu.getParent().getSelected().onEnter()
-			).build(subMenu));
-			List<Party.Member> targets = worldData.getPartyFromMember(minecraft.player.getUUID()).getMembers();
-			targets.stream().filter(member -> !member.getUsername().equals(minecraft.player.getDisplayName().getString())).filter(member -> {
-				if(minecraft.player.level().getPlayerByUUID(member.getUUID()) == null)
-					return false;
+    public void createTargets(CommandMenuSubMenu subMenu) {
+        subMenu.getChildren().clear();
 
-				Player playerAlly = minecraft.player.level().getPlayerByUUID(member.getUUID());
-				return minecraft.player.distanceTo(playerAlly) <= ModConfigs.SERVER.partyRangeLimit.get();
-			}).forEach(member -> {
-				subMenu.addChild(new CommandMenuItem.Builder(
-						ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, member.getUsername().toLowerCase()),
-						Component.translatable(member.getUsername()),
-						item -> subMenu.getParent().getSelected().onEnter()
-				).build(subMenu));
-			});
-		}
-	}
+        ArrayList<CommandMenuItem> targets = new ArrayList<>();
+        WorldData worldData = WorldData.getClient();
 
-	public void createPortals(CommandMenuSubMenu subMenu) {
+        //Self should always show in case using an addon
+        targets.add(new CommandMenuItem.Builder(
+                ResourceLocation.fromNamespaceAndPath(
+                        KingdomKeys.MODID,
+                        minecraft.player.getDisplayName().getString().toLowerCase()
+                ),
+                Component.literal(minecraft.player.getDisplayName().getString()),
+                item -> subMenu.getParent().getSelected().onEnter()
+        ).setData(minecraft.player.getId()+"").build(subMenu));
+
+        //Party Members
+        if (worldData.getPartyFromMember(minecraft.player.getUUID()) != null) {
+            List<Party.Member> members = worldData
+                    .getPartyFromMember(minecraft.player.getUUID())
+                    .getMembers();
+
+            members.stream()
+                    .filter(member -> !member.getUUID().equals(minecraft.player.getUUID()))
+                    .map(member -> minecraft.player.level().getPlayerByUUID(member.getUUID()))
+                    .filter(Objects::nonNull)
+                    .filter(playerAlly ->
+                            minecraft.player.distanceTo(playerAlly)
+                                    <= ModConfigs.SERVER.partyRangeLimit.get()
+                    )
+                    .forEach(playerAlly -> {
+                        targets.add(new CommandMenuItem.Builder(
+                                ResourceLocation.fromNamespaceAndPath(
+                                        KingdomKeys.MODID,
+                                        playerAlly.getDisplayName().getString().toLowerCase()
+                                ),
+                                Component.literal(playerAlly.getDisplayName().getString()),
+                                item -> subMenu.getParent().getSelected().onEnter()
+                        ).setData(playerAlly.getId()+"").build(subMenu));
+                    });
+        }
+
+        TargetSelectorEvent event = new TargetSelectorEvent(subMenu, targets);
+        NeoForge.EVENT_BUS.post(event);
+
+        event.getTargets().forEach(subMenu::addChild);
+    }
+
+    public void createPortals(CommandMenuSubMenu subMenu) {
 		subMenu.getChildren().clear();
 		WorldData worldData = WorldData.getClient();
 		worldData.getAllPortalsFromOwnerID(minecraft.player.getUUID()).forEach(uuid -> {
@@ -479,17 +511,17 @@ public class CommandMenuGui extends OverlayBase {
 		if (minecraft.player.isShiftKeyDown()) {
 			PacketHandler.sendToServer(new CSSpawnOrgPortalPacket(minecraft.player.blockPosition(), destination, coords.getDimID()));
 		} else {
-			HitResult rtr = InputHandler.getMouseOverExtended(100);
+			HitResult rtr = InputHandler.getMouseOverExtendedStraight(100);
 			if (rtr != null) {
-				if(rtr instanceof BlockHitResult brtr) {
+                double reachSq = 100 * 100;
+
+                if(rtr instanceof BlockHitResult brtr) {
                     double distanceSq = minecraft.player.distanceToSqr(brtr.getBlockPos().getX(), brtr.getBlockPos().getY(), brtr.getBlockPos().getZ());
-					double reachSq = 100 * 100;
 					if (reachSq >= distanceSq) {
 						PacketHandler.sendToServer(new CSSpawnOrgPortalPacket(brtr.getBlockPos().above(), destination, coords.getDimID()));
 					}
 				} else if(rtr instanceof EntityHitResult ertr) {
                     double distanceSq = minecraft.player.distanceToSqr(ertr.getEntity().getX(), ertr.getEntity().getY(), ertr.getEntity().getZ());
-					double reachSq = 100 * 100;
 					if (reachSq >= distanceSq) {
 						PacketHandler.sendToServer(new CSSpawnOrgPortalPacket(ertr.getEntity().blockPosition(), destination, coords.getDimID()));
 					}

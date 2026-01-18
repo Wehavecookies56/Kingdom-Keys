@@ -117,7 +117,7 @@ public class GummiShotEntity extends ThrowableProjectile{
                 }
             }
             if (rtRes instanceof BlockHitResult hitResult) {
-                System.out.println(getShotType());
+                //System.out.println(getShotType());
                 if(getTicks() > 1){
                 //if(!(level().getBlockState(blockpos).getBlock() instanceof GummiWeaponBlock)) {
                     GummiWeaponBlock.ShotType projectileType = GummiWeaponBlock.ShotType.valueOf(getShotType().toUpperCase());

@@ -20,7 +20,7 @@ public class MagicAero extends Magic {
 	}
 
 	@Override
-	public void magicUse(Player player, Player caster, int level, float fullMPBlastMult, LivingEntity lockOnEntity) {
+	public void magicUse(LivingEntity player, Player caster, int level, float fullMPBlastMult, LivingEntity lockOnEntity) {
 		int time = (int) (PlayerData.get(caster).getMaxMP() * (4F + level/2F) * getDamageMult(level));
 		player.addEffect(new MobEffectInstance(ModMobEffects.AERO, time, level, false, false, false));
 		PacketHandler.sendToAll(new SCAeroSoundPacket(player.getId()));
@@ -28,7 +28,7 @@ public class MagicAero extends Magic {
 	}
 
 	@Override
-	protected void playMagicCastSound(Player player, Player caster, int level) {
+	protected void playMagicCastSound(LivingEntity player, Player caster, int level) {
 		player.level().playSound(null, player.position().x(), player.position().y(), player.position().z(), ModSounds.aero1.get(), SoundSource.PLAYERS, 1F, 1F);
 	}
 

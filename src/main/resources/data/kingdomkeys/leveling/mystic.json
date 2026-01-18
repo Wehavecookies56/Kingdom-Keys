@@ -202,7 +202,10 @@
     "32":{
         "str":1,
         "mag":1,
-        "maxmp":4.0
+        "maxmp":4.0,
+        "abilities":[
+          "kingdomkeys:ability_encounter_plus"
+        ]
     },
     "33":{
         "str":1,

@@ -1,7 +1,6 @@
 package online.kingdomkeys.kingdomkeys.client.gui.synthesis;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -27,7 +26,6 @@ import online.kingdomkeys.kingdomkeys.item.*;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSCloseMoogleGUI;
-import online.kingdomkeys.kingdomkeys.network.cts.CSOpenMenu;
 import online.kingdomkeys.kingdomkeys.network.cts.CSShopBuy;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopItem;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopList;
@@ -45,7 +43,7 @@ public class ShopScreen extends MenuFilterable {
 	MenuBox boxL, boxM;
 
 	MenuButton create;
-	private MenuButton back;
+	private MenuButton sell, back;
 	
 	SynthesisScreen parent;
 
@@ -144,8 +142,9 @@ public class ShopScreen extends MenuFilterable {
 		});
 		create.setCenterText(true);
 		addRenderableWidget(create);
-		
-		addRenderableWidget(back = new MenuButton((int)this.buttonPosX, this.buttonPosY, (int)buttonWidth/2, Component.translatable(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, b -> minecraft.setScreen(new SynthesisScreen(parent.playerData, parent.invFile, parent.name, parent.moogle))));
+
+        addRenderableWidget(sell = new MenuButton((int)this.buttonPosX, this.buttonPosY, (int)(buttonWidth+15)/2, Component.translatable(Strings.Gui_Shop_Sell).getString(), MenuButton.ButtonType.BUTTON, b -> minecraft.setScreen(new SellScreen(parent.playerData, parent))));
+		addRenderableWidget(back = new MenuButton((int)this.buttonPosX, this.buttonPosY+18, (int)(buttonWidth+15)/2, Component.translatable(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, b -> minecraft.setScreen(new SynthesisScreen(parent.playerData, parent.invFile, parent.name, parent.moogle))));
 	}
 
 	@Override
@@ -206,6 +205,7 @@ public class ShopScreen extends MenuFilterable {
 			}
 		}
 		create.render(gui, mouseX,  mouseY,  partialTicks);
+        sell.render(gui, mouseX, mouseY, partialTicks);
 		back.render(gui, mouseX, mouseY, partialTicks);
 	}
 
@@ -323,9 +323,6 @@ public class ShopScreen extends MenuFilterable {
 	@Override
 	public boolean mouseClicked(double mouseX, double mouseY, int mouseButton) {
 		scrollBar.mouseClicked(mouseX, mouseY, mouseButton);
-		if (mouseButton == 1) {
-			PacketHandler.sendToServer(new CSOpenMenu());
-		}
 		return super.mouseClicked(mouseX, mouseY, mouseButton);
 	}
 

@@ -15,17 +15,13 @@ import java.util.UUID;
 
 public class Party {
 
-	//public static final byte PARTY_LIMIT = 5;
-
 	private String name;
-	private final List<Member> members = new ArrayList<Member>();
+	private final List<Member> members = new ArrayList<>();
 	private boolean priv;
 	private byte size;
 	private boolean friendlyFire;
 
-	public Party() {
-
-	}
+	public Party() {}
 
 	public Party(CompoundTag tag) {
 		read(tag);
@@ -116,8 +112,7 @@ public class Party {
 	}
 
 	public int getMemberIndex(UUID memberUUID) {
-		int i = 0;
-		for (i = 0; i < members.size(); i++) {
+		for (int i = 0; i < members.size(); i++) {
 			if (members.get(i).getUUID().equals(memberUUID)) {
 				return i;
 			}

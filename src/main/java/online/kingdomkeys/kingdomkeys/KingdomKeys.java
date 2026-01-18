@@ -70,6 +70,7 @@ import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeDataLoader
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeDataLoader;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopListDataLoader;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.names.NamesListLoader;
+import online.kingdomkeys.kingdomkeys.synthesis.shop.sell.SellListDataLoader;
 import online.kingdomkeys.kingdomkeys.world.SavePointStorage;
 import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.CastleOblivionHandler;
@@ -295,6 +296,7 @@ public class KingdomKeys {
 		event.addListener(new LevelingDataLoader());
 		event.addListener(new NamesListLoader.Loader());
 		event.addListener(new ShopListDataLoader());
+        event.addListener(new SellListDataLoader());
 		event.addListener(new LimitDataLoader());
 		ModJsonRegistries.registry.forEach(event::addListener);
 	}

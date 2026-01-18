@@ -10,6 +10,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
@@ -33,7 +34,7 @@ public class MagnetEntity extends ThrowableProjectile {
 		this.blocksBuilding = true;
 	}
 
-	public MagnetEntity(Level world, Player player, float dmgMult) {
+	public MagnetEntity(Level world, LivingEntity player, float dmgMult) {
 		super(ModEntities.TYPE_MAGNET.get(), player, world);
 		setCaster(player.getUUID());
 		this.dmgMult = dmgMult;

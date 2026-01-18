@@ -35,7 +35,7 @@ public class GravigaEntity extends ThrowableProjectile {
 		this.blocksBuilding = true;
 	}
 
-	public GravigaEntity(Level world, Player player, float dmgMult) {
+	public GravigaEntity(Level world, LivingEntity player, float dmgMult) {
 		super(ModEntities.TYPE_GRAVIGA.get(), player, world);
 		this.dmgMult = dmgMult;
 	}

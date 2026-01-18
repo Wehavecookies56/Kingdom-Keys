@@ -84,9 +84,10 @@ public class KeybladeStats extends KeybladeProvider {
 		addStats(Strings.irasKeyblade, Strings.irasKeybladeChain, 8, 7, "", 5.0F, "item." + MODID + "." + Strings.irasKeyblade + ".desc");
 		addStats(Strings.jungleKing, Strings.jungleKingChain, 5, 2, "", 6.0F, "item." + MODID + "." + Strings.jungleKing + ".desc");
 		addStats(Strings.keybladeOfPeoplesHearts, Strings.keybladeOfPeoplesHeartsChain, 6, 2, "", 5.0F, "item." + MODID + "." + Strings.keybladeOfPeoplesHearts + ".desc");
-		addStats(Strings.kiblade, Strings.kibladeChain, 10, 7, ModAbilities.DARK_DOMINATION.get().toString(), 5.0F, "item." + MODID + "." + Strings.kiblade + ".desc");
+		addStats(Strings.kiblade, Strings.kibladeChain, 10, 7, ModAbilities.DARK_DOMINATION.get().toString(), 6.0F, "item." + MODID + "." + Strings.kiblade + ".desc");
 		addStats(Strings.kingdomKey, Strings.kingdomKeyChain, 4, 1, ModAbilities.DAMAGE_CONTROL.get().toString(), 5.0F, "item." + MODID + "." + Strings.kingdomKey + ".desc");
 		addStats(Strings.kingdomKeyD, Strings.kingdomKeyDChain, 4, 1, "", 5.0F, "item." + MODID + "." + Strings.kingdomKeyD + ".desc");
+        addStats(Strings.kingdomKeyN, Strings.kingdomKeyNChain, 4, 1, ModAbilities.BERSERK_CHARGE.get().toString(), 5.0F, "item." + MODID + "." + Strings.kingdomKeyN + ".desc");
 		addStats(Strings.knockoutPunch, Strings.knockoutPunchChain, 7, 5, "", 5.0F, "item." + MODID + "." + Strings.knockoutPunch + ".desc");
 		addStats(Strings.ladyLuck, Strings.ladyLuckChain, 6, 5, "", 5.0F, "item." + MODID + "." + Strings.ladyLuck + ".desc");
 		addStats(Strings.leviathan, Strings.leviathanChain, 5, 2, "", 5.0F, "item." + MODID + "." + Strings.leviathan + ".desc");

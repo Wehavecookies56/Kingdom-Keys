@@ -1,0 +1,19 @@
+{
+  "cost": 0,
+  "ingredients": [
+    {
+      "material": "kingdomkeys:sinister_shard",
+      "quantity": "1"
+    },
+    {
+      "material": "kingdomkeys:writhing_gem",
+      "quantity": "1"
+    }
+  ],
+  "output": {
+    "type": "keyblade",
+    "item": "kingdomkeys:kingdom_key_n_chain",
+    "quantity": 1
+  },
+  "tier": 1
+}
