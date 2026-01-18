@@ -3,7 +3,7 @@
 * New Soft Lock on system enabled by default, it allows the camera to move as long as the target is on the screen.
 * Server-Config option to toggle between Hard and Soft lock on.
 
-* **Changed:**
+**Changed:**
 * Slightly increased the χ-blade reach.
 * Default shotlock reach to 200.
 * Shotlock icon offset adjusted to the entity hitbox dimensions.
