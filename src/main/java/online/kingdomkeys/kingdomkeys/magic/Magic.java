@@ -4,8 +4,10 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.neoforged.neoforge.common.NeoForge;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
+import online.kingdomkeys.kingdomkeys.api.event.MagicSpellCastEvent;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
@@ -86,6 +88,9 @@ public abstract class Magic {
      * @param caster
      */
     public final void onUse(LivingEntity player, Player caster, int level, LivingEntity lockOnEntity) {
+        if (NeoForge.EVENT_BUS.post(new MagicSpellCastEvent(player, name)).isCanceled())
+            return;
+
     	PlayerData casterData = PlayerData.get(caster);
     	float fullMPBlastMult = casterData.isAbilityEquipped(Strings.fullMPBlast) && casterData.getMP() >= casterData.getMaxMP() ? 1.5F: 1F;
     	

@@ -234,9 +234,8 @@ public class CommandMenuGui extends OverlayBase {
 			} else { //cast / target selector
                 ArrayList<CommandMenuItem> targets = new ArrayList<>();
 
-                TargetSelectorEvent event = new TargetSelectorEvent(commandMenuElements.get(currentSubmenu), targets);
-                NeoForge.EVENT_BUS.post(event);
-                System.out.println(targets.size());// if in a party                 and           magic has target selector                                             or has target selector populated
+                NeoForge.EVENT_BUS.post(new TargetSelectorEvent(commandMenuElements.get(currentSubmenu), targets));
+                //                                      if in a party                 and           magic has target selector                                             or has target selector populated
 				if ((worldData.getPartyFromMember(minecraft.player.getUUID()) != null && ModMagic.registry.get(magicRegistryObject.getRegistryName()).getHasToSelect()) || !targets.isEmpty()) { //Open party target selector
 					if (currentSubmenu.equals(target) && commandMenuElements.get(currentSubmenu).getSelected() != null) {//if is in target selector
                         int level = playerData.getMagicLevel(magicRegistryObject.getRegistryName());

@@ -378,7 +378,7 @@ public class ClientEvents {
         }
 
         //Normal shotlocks
-        if (!singleLock && localPlayerData.getShotlockEnemies() != null && !localPlayerData.getShotlockEnemies().isEmpty()) {
+        if (focusing && !singleLock && localPlayerData.getShotlockEnemies() != null && !localPlayerData.getShotlockEnemies().isEmpty()) {
             for (Utils.ShotlockPosition sh : localPlayerData.getShotlockEnemies()) {
                 ClientUtils.drawShotlockIndicator(sh, poseStack, buffer, partialTicks);
             }
