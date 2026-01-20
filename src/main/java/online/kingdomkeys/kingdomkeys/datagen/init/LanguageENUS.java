@@ -1847,11 +1847,13 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.hiDriveRecovery, "High Drive Recovery");
         addItem(ModItems.refocuser, "Refocuser");
         addItem(ModItems.hiRefocuser, "Hi-Refocuser");
+        addItem(ModItems.panacea, "Panacea");
         addItem(ModItems.apBoost, "AP Boost");
         addItem(ModItems.powerBoost, "Power Boost");
         addItem(ModItems.magicBoost, "Magic Boost");
         addItem(ModItems.defenseBoost, "Defense Boost");
 
+        add("potion.desc.panacea", "Will remove all negative effects");
         add("potion.desc.hp", "\u00A7aHP\u00A7r");
         add("potion.desc.mp", "\u00A79MP\u00A7r");
         add("potion.desc.hpmp", "\u00A7aHP\u00A7r and \u00A79MP\u00A7r");

@@ -2,6 +2,7 @@ package online.kingdomkeys.kingdomkeys.item;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -30,7 +31,7 @@ public class KKPotionItem extends Item implements IItemCategory, ICreativeTab {
 	}
 
 	public enum PotionType {
-		HP, MP, HPMP, DRIVE, FOCUS
+		HP, MP, HPMP, DRIVE, FOCUS, PANACEA
 	}
 	
 	PotionType type;
@@ -48,7 +49,6 @@ public class KKPotionItem extends Item implements IItemCategory, ICreativeTab {
 
     public void potionEffect (Player player) {
     	PlayerData playerData = PlayerData.get(player);
-		//Utils.reviveFromKO(player);
 
 		switch(type) {
     	case HP:
@@ -82,7 +82,7 @@ public class KKPotionItem extends Item implements IItemCategory, ICreativeTab {
     	case MP:
         	float mpAmount = (float) (percentage ? playerData.getMaxMP() * amount / 100 : amount);
     		playerData.addMP(mpAmount);
-    		player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.potion.get(), SoundSource.PLAYERS, 1, 1);
+    		player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.ether.get(), SoundSource.PLAYERS, 1, 1);
     		if(all) {
     			//Heal the rest of the party
     			WorldData worldData = WorldData.get(player.getServer());
@@ -95,7 +95,7 @@ public class KKPotionItem extends Item implements IItemCategory, ICreativeTab {
     						if(target.distanceTo(player) < ModConfigs.SERVER.partyRangeLimit.get()) {
 	    						mpAmount = (float) (percentage ? targetData.getMaxMP() * amount / 100 : amount);
 	    			        	targetData.addMP(mpAmount);
-	    			    		player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.potion.get(), SoundSource.PLAYERS, 1, 1);
+	    			    		player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.ether.get(), SoundSource.PLAYERS, 1, 1);
     						}
     			    		PacketHandler.syncToAllAround(target, targetData);
     					}
@@ -107,7 +107,7 @@ public class KKPotionItem extends Item implements IItemCategory, ICreativeTab {
     		mpAmount = (float) (percentage ? playerData.getMaxMP() * amount / 100 : amount);
     		hpAmount = (float) (percentage ? player.getMaxHealth() * amount / 100 : amount);
         	hpAmount += hpAmount * playerData.getNumberOfAbilitiesEquipped(Strings.itemBoost) / 2;
-        	
+
     		playerData.addMP(mpAmount);
 			Utils.reviveFromKO(player);
     		player.heal(hpAmount);
@@ -128,7 +128,8 @@ public class KKPotionItem extends Item implements IItemCategory, ICreativeTab {
 	    			        	Utils.reviveFromKO(target);
 	    			        	targetData.addMP(mpAmount);
 	    						target.heal(hpAmount);
-	    			    		player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.potion.get(), SoundSource.PLAYERS, 1, 1);
+                                player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.potion.get(), SoundSource.PLAYERS, 1, 1);
+                                player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.ether.get(), SoundSource.PLAYERS, 1, 1);
     						}
     			    		PacketHandler.syncToAllAround(target, targetData);
     					}
@@ -176,7 +177,7 @@ public class KKPotionItem extends Item implements IItemCategory, ICreativeTab {
     						if(target.distanceTo(player) < ModConfigs.SERVER.partyRangeLimit.get()) {
 	    						focusAmount = (float) (percentage ? targetData.getMaxFocus() * amount / 100 : amount);
 	    			        	targetData.addFocus(focusAmount);
-	    			    		player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.potion.get(), SoundSource.PLAYERS, 1, 1);
+                                player.level().playSound(null, target.blockPosition(), ModSounds.potion.get(), SoundSource.PLAYERS, 1, 1);
     						}
     			    		PacketHandler.syncToAllAround(target, targetData);
     					}
@@ -184,6 +185,10 @@ public class KKPotionItem extends Item implements IItemCategory, ICreativeTab {
     			}
     		}
     		break;
+            case PANACEA:
+                Utils.removeNegativeEffects(player);
+                player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.potion.get(), SoundSource.PLAYERS, 1, 1);
+            break;
     	}
 		PacketHandler.syncToAllAround(player, playerData);
 
@@ -192,10 +197,14 @@ public class KKPotionItem extends Item implements IItemCategory, ICreativeTab {
     @OnlyIn(Dist.CLIENT)
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext tooltipContext, List<Component> tooltip, TooltipFlag flagIn) {
-    	String sType = Utils.translateToLocal("potion.desc."+type.toString().toLowerCase());
-    	String beginning = Utils.translateToLocal("potion.desc.beginning", (int)amount, percentage ? "%":"", sType);
-    	String end = Utils.translateToLocal(all ? "potion.desc.toall" : "potion.desc.toone");
-		tooltip.add(Component.translatable(beginning + end));
+        if(type == PotionType.PANACEA){
+            tooltip.add(Component.translatable("potion.desc.panacea"));
+        } else {
+            String sType = Utils.translateToLocal("potion.desc." + type.toString().toLowerCase());
+            String beginning = Utils.translateToLocal("potion.desc.beginning", (int) amount, percentage ? "%" : "", sType);
+            String end = Utils.translateToLocal(all ? "potion.desc.toall" : "potion.desc.toone");
+            tooltip.add(Component.translatable(beginning + end));
+        }
         super.appendHoverText(stack, tooltipContext, tooltip, flagIn);
     }
 

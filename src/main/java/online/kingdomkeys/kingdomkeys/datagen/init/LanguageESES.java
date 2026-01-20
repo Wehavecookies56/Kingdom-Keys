@@ -885,11 +885,13 @@ public class LanguageESES extends KKLanguageProvider {
         add("item.kingdomkeys.hi_drive_recovery", "Recarga de Fusi\u00f3n+");
         add("item.kingdomkeys.refocuser", "Carga Tino");
         add("item.kingdomkeys.hi_refocuser", "Ultracarga Tino");
+        add("item.kingdomkeys.panacea", "Panacea");
         add("item.kingdomkeys.apboost", "Impulso H\u00e1bil");
         add("item.kingdomkeys.powerboost", "Impulso de Vigor");
         add("item.kingdomkeys.magicboost", "Impulso M\u00e1gico");
         add("item.kingdomkeys.defenseboost", "Impulso Defensivo");
 
+        add("potion.desc.panacea", "Elimina todos los efectos negativos");
         add("potion.desc.hp", "\u00A7aVT\u00A7r");
         add("potion.desc.mp", "\u00A79PM\u00A7r");
         add("potion.desc.hpmp", "\u00A7aVT\u00A7r y \u00A79PM\u00A7r");
