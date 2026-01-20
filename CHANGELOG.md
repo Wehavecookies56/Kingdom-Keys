@@ -10,6 +10,7 @@
 * Default shotlock reach to 200.
 * Shotlock icon offset adjusted to the entity hitbox dimensions.
 * Fire magic tracking power with magic lock on is stronger, also the higher the magic the better the tracking will be.
+* Ether use sound instead of potion.
 
 **Fixed:**
-* Lock on indicator not rendering on EFM animated mobs.
+* Shotlock indicator not rendering on EFM animated mobs and weird overlaps on normal mobs.
