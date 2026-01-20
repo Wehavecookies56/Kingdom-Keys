@@ -47,10 +47,8 @@ public record CSUseLimitPacket(ResourceLocation limit, int targetID) implements 
 		Limit limit = ModLimits.registry.get(this.limit);
 		int cost = limit.getCost();
 		if (playerData.getDP() >= cost) {
-
             if (NeoForge.EVENT_BUS.post(new LimitCastEvent(player, this.limit)).isCanceled())
                 return;
-
             playerData.remDP(cost);
 			playerData.setLimitCooldownTicks(limit.getCooldown());
 			PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer)player);
