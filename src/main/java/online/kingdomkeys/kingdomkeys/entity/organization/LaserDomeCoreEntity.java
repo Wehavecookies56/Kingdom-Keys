@@ -57,8 +57,6 @@ public class LaserDomeCoreEntity extends ThrowableProjectile {
 			this.remove(RemovalReason.KILLED);
 		}
 
-		//level.addParticle(ParticleTypes.BUBBLE, getX(), getY(), getZ(), 0, 0, 0);
-
 		double X = getX();
 		double Y = getY();
 		double Z = getZ();
@@ -96,12 +94,12 @@ public class LaserDomeCoreEntity extends ThrowableProjectile {
 					} while (usedIndexes.contains(num) && usedIndexes.size() != list.size());
 					usedIndexes.add(num);
 
-					Entity target = this;
 					int targetIndex = random.nextInt(targetList.size());
-					target = targetList.get(targetIndex);
+                    Entity target = targetList.get(targetIndex);
 
 					if (target != null && target.isAlive() && getCaster() != null) {
 						LaserDomeShotEntity bullet = list.get(num);
+                        System.out.println(bullet.level().isClientSide);
 						bullet.shoot(target.getX() - (bullet.getX() + level().random.nextDouble() - 0.5D), target.getY() - bullet.getY(), target.getZ() - (bullet.getZ() + level().random.nextDouble() - 0.5D), 2f, 0);
 						level().playSound(getCaster(), getCaster().blockPosition(), ModSounds.laser.get(), SoundSource.PLAYERS, 0.2F, 1F);
 					}

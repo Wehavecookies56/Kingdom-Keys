@@ -1,7 +1,6 @@
 package online.kingdomkeys.kingdomkeys.integration.epicfight.init;
 
 import net.neoforged.bus.api.IEventBus;
-import net.neoforged.neoforge.common.NeoForge;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.skills.ComboExtender;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.skills.KKSkills;
 

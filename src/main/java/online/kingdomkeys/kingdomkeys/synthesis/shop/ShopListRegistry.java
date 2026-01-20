@@ -2,7 +2,6 @@ package online.kingdomkeys.kingdomkeys.synthesis.shop;
 
 import net.minecraft.resources.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 
 import java.util.HashMap;
 import java.util.LinkedList;

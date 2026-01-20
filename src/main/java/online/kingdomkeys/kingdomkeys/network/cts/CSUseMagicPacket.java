@@ -17,7 +17,6 @@ import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.network.Packet;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
-import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public record CSUseMagicPacket(String name, int level, int allyTarget, int lockedTarget) implements Packet {
 
