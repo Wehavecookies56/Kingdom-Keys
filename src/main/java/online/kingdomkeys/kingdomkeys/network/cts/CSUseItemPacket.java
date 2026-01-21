@@ -8,8 +8,10 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.api.event.ItemUseEvent;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.item.KKPotionItem;
 import online.kingdomkeys.kingdomkeys.network.Packet;
@@ -38,6 +40,9 @@ public record CSUseItemPacket(int slot, String target) implements Packet {
 		Player player = context.player();
 		PlayerData playerData = PlayerData.get(player);
 		KKPotionItem potion = (KKPotionItem) playerData.getEquippedItem(slot).getItem();
+
+        if (NeoForge.EVENT_BUS.post(new ItemUseEvent(player, potion)).isCanceled())
+            return;
 
 		if (target.equals("")) {
 			potion.potionEffect(player);

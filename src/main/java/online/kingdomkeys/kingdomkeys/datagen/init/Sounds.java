@@ -39,6 +39,8 @@ public class Sounds extends SoundDefinitionsProvider {
         add(mp_orb);
         add(munny);
         add(potion);
+        add(ether);
+        add(hiPotion);
         add(savepoint);
         add(savespawn);
         add(sharpshooterbullet);

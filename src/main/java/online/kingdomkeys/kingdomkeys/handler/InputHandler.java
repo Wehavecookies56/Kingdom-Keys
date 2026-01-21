@@ -12,14 +12,12 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.*;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -29,7 +27,6 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.api.event.client.KKInputEvent;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.client.gui.overlay.CommandMenuGui;
-import online.kingdomkeys.kingdomkeys.client.gui.overlay.OverlayConfigGui;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.GlobalData;
@@ -39,7 +36,6 @@ import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import online.kingdomkeys.kingdomkeys.entity.mob.SpawningOrbEntity;
-import online.kingdomkeys.kingdomkeys.integration.epicfight.EpicFightUtils;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.init.KKAnimations;
 import online.kingdomkeys.kingdomkeys.lib.Constants;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
@@ -55,7 +51,6 @@ import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
 import org.lwjgl.glfw.GLFW;
 
 import javax.annotation.Nullable;
-import javax.crypto.spec.PSource;
 import java.util.*;
 
 public class InputHandler {
@@ -565,6 +560,59 @@ public class InputHandler {
         }
 
         return bestEntityHit;
+    }
+
+    public static HitResult getMouseOverExtendedStraight(float dist) {
+        Minecraft mc = Minecraft.getInstance();
+        Entity theRenderViewEntity = mc.getCameraEntity();
+        AABB theViewBoundingBox = new AABB(theRenderViewEntity.getX() - 0.5D, theRenderViewEntity.getY() - 0.0D, theRenderViewEntity.getZ() - 0.5D, theRenderViewEntity.getX() + 0.5D, theRenderViewEntity.getY() + 1.5D, theRenderViewEntity.getZ() + 0.5D);
+        HitResult returnMOP = null;
+        if (mc.level != null) {
+            double var2 = dist;
+            returnMOP = theRenderViewEntity.pick(var2, 0, false);
+            double calcdist = var2;
+            Vec3 pos = theRenderViewEntity.getEyePosition(0);
+            var2 = calcdist;
+            if (returnMOP != null) {
+                calcdist = returnMOP.getLocation().distanceTo(pos);
+            }
+
+            Vec3 lookvec = theRenderViewEntity.getViewVector(0);
+            Vec3 var8 = pos.add(lookvec.x * var2, lookvec.y * var2, lookvec.z * var2);
+            Entity pointedEntity = null;
+            float var9 = 1.0F;
+
+            List<Entity> list = mc.level.getEntities(theRenderViewEntity, theViewBoundingBox.inflate(lookvec.x * var2, lookvec.y * var2, lookvec.z * var2).inflate(var9, var9, var9));
+            double d = calcdist;
+
+            for (Entity entity : list) {
+                if (entity.isPickable()) {
+                    float bordersize = entity.getPickRadius();
+                    AABB aabb = new AABB(entity.getX() - entity.getBbWidth() / 2, entity.getY(), entity.getZ() - entity.getBbWidth() / 2, entity.getX() + entity.getBbWidth() / 2, entity.getY() + entity.getBbHeight(), entity.getZ() + entity.getBbWidth() / 2);
+                    aabb.inflate(bordersize, bordersize, bordersize);
+                    Optional<Vec3> mop0 = aabb.clip(pos, var8);
+
+                    if (aabb.contains(pos)) {
+                        if (0.0D < d || d == 0.0D) {
+                            pointedEntity = entity;
+                            d = 0.0D;
+                        }
+                    } else if (mop0 != null && mop0.isPresent()) {
+                        double d1 = pos.distanceTo(mop0.get());
+
+                        if (d1 < d || d == 0.0D) {
+                            pointedEntity = entity;
+                            d = d1;
+                        }
+                    }
+                }
+            }
+
+            if (pointedEntity != null && (d < calcdist || returnMOP == null)) {
+                returnMOP = new EntityHitResult(pointedEntity);
+            }
+        }
+        return returnMOP;
     }
 
     private static Vec3 rotateVector(Vec3 lookVec, double phi, double theta) {

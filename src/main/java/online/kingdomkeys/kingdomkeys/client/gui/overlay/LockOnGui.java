@@ -6,6 +6,7 @@ import com.mojang.math.Axis;
 import net.minecraft.ChatFormatting;
 import net.minecraft.Util;
 import net.minecraft.client.DeltaTracker;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -59,7 +60,7 @@ public class LockOnGui extends OverlayBase {
 
 	@SubscribeEvent
 	public static void renderOverlay(RenderGuiLayerEvent.Pre event) {
-		if (InputHandler.lockOn != null && event.getName().equals(VanillaGuiLayers.CROSSHAIR)) {
+		if (!ModConfigs.SERVER.softLockOnMode.get() && InputHandler.lockOn != null && event.getName().equals(VanillaGuiLayers.CROSSHAIR)) {
 			event.setCanceled(true);
 		}
 	}
@@ -89,22 +90,26 @@ public class LockOnGui extends OverlayBase {
 
 				PoseStack poseStack = guiGraphics.pose();
 
-				// Icon
+                //TODO change with the config
+                if(!ModConfigs.SERVER.softLockOnMode.get()) {
+                    // Icon
+                    poseStack.pushPose();
+                    {
+                        poseStack.translate((screenWidth / 2) - (guiWidth / 2) * lockOnScale / size - 0.5F, (screenHeight / 2) - (guiHeight / 2) * lockOnScale / size - 0.5F, 0);
+                        poseStack.scale(lockOnScale / size, lockOnScale / size, lockOnScale / size);
+                        this.blit(guiGraphics, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/lockon_0.png"), 0, 0, 0, 0, guiWidth, guiHeight);
+
+                        poseStack.translate(guiWidth / 2, guiWidth / 2, 0);
+                        float partialTicks = Minecraft.getInstance().getTimer().getGameTimeDeltaPartialTick(false);
+                        poseStack.mulPose(Axis.ZP.rotationDegrees((float) Math.toDegrees((player.tickCount+ partialTicks % 360) * ModConfigs.lockOnIconRotation / 100F)));
+                        poseStack.translate(-guiWidth / 2, -guiWidth / 2, 0);
+                        this.blit(guiGraphics, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/lockon_1.png"), 0, 0, 0, 0, guiWidth, guiHeight);
+                    }
+                    poseStack.popPose();
+                }
 				poseStack.pushPose();
-				{
-					poseStack.translate((screenWidth / 2) - (guiWidth / 2) * lockOnScale / size - 0.5F, (screenHeight / 2) - (guiHeight / 2) * lockOnScale / size - 0.5F, 0);
-					poseStack.scale(lockOnScale / size, lockOnScale / size, lockOnScale / size);
-					this.blit(guiGraphics, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/lockon_0.png"), 0, 0, 0, 0, guiWidth, guiHeight);
 
-					poseStack.translate(guiWidth / 2, guiWidth / 2, 0);
-					poseStack.mulPose(Axis.ZP.rotationDegrees((float) Math.toDegrees((player.tickCount % 360) * ModConfigs.lockOnIconRotation / 100F)));
-					poseStack.translate(-guiWidth / 2, -guiWidth / 2, 0);
-					this.blit(guiGraphics, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/lockon_1.png"), 0, 0, 0, 0, guiWidth, guiHeight);
-				}
-				poseStack.popPose();
-
-				poseStack.pushPose();
-
+                //HP Bar and name
 				if(target != null && playerData.isAbilityEquipped(Strings.scan)) {
 					poseStack.pushPose();
 					{

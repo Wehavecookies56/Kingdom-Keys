@@ -8,8 +8,6 @@ import yesman.epicfight.main.EpicFightMod;
 import yesman.epicfight.skill.Skill;
 import yesman.epicfight.skill.SkillCategories;
 
-import java.util.function.Supplier;
-
 public class KKSkills {
 
     public static final DeferredRegister<Skill> SKILLS = DeferredRegister.create(ResourceLocation.fromNamespaceAndPath(EpicFightMod.MODID, "skill"), KingdomKeys.MODID);

@@ -1,6 +1,4 @@
-# Blender 4.3.2
-# www.blender.org
-mtllib retribution2.mtl
+mtllib retribution.mtl
 o MeshNode0002.001
 v 0.017730 0.090476 0.000552
 v -0.046081 0.090476 0.000552

@@ -8,8 +8,10 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.api.event.ReactionCommandCastEvent;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.network.Packet;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
@@ -39,7 +41,9 @@ public record CSUseReactionCommandPacket(int index, int lockedOnEntity) implemen
 		PlayerData playerData = PlayerData.get(player);
 		String reactionName = playerData.getReactionCommands().get(index);
 		ReactionCommand reaction = ModReactionCommands.registry.get(ResourceLocation.parse(reactionName));
-		reaction.onUse(player, player, (LivingEntity) player.level().getEntity(lockedOnEntity));
+        if (NeoForge.EVENT_BUS.post(new ReactionCommandCastEvent(player, ResourceLocation.parse(reactionName))).isCanceled())
+            return;
+        reaction.onUse(player, player, (LivingEntity) player.level().getEntity(lockedOnEntity));
 
 		PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
 	}

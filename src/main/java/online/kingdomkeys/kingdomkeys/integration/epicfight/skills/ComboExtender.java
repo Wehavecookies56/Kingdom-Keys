@@ -1,10 +1,5 @@
 package online.kingdomkeys.kingdomkeys.integration.epicfight.skills;
 
-import java.util.List;
-import java.util.UUID;
-import java.util.function.Supplier;
-
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
@@ -17,7 +12,6 @@ import online.kingdomkeys.kingdomkeys.lib.Strings;
 import yesman.epicfight.api.animation.AnimationManager;
 import yesman.epicfight.api.animation.types.AttackAnimation;
 import yesman.epicfight.api.animation.types.EntityState;
-import yesman.epicfight.api.animation.types.StaticAnimation;
 import yesman.epicfight.api.neoevent.playerpatch.SkillCastEvent;
 import yesman.epicfight.main.EpicFightMod;
 import yesman.epicfight.registry.entries.EpicFightSkillDataKeys;
@@ -25,6 +19,8 @@ import yesman.epicfight.registry.entries.EpicFightSkills;
 import yesman.epicfight.skill.*;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
 import yesman.epicfight.world.capabilities.item.CapabilityItem;
+
+import java.util.List;
 
 public class ComboExtender extends Skill {
 	private final DeferredHolder<SkillDataKey<?>, SkillDataKey<Integer>> combo = EpicFightSkillDataKeys.COMBO_COUNTER;

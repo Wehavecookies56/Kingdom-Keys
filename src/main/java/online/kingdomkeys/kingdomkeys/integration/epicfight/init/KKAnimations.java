@@ -1,8 +1,5 @@
 package online.kingdomkeys.kingdomkeys.integration.epicfight.init;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
@@ -24,7 +21,9 @@ import yesman.epicfight.client.world.capabilites.entitypatch.player.LocalPlayerP
 import yesman.epicfight.gameasset.Armatures;
 import yesman.epicfight.main.EpicFightSharedConstants;
 import yesman.epicfight.world.capabilities.entitypatch.LivingEntityPatch;
-import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class KKAnimations {
 

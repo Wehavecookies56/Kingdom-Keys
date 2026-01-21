@@ -1,45 +1,43 @@
 {
-	"parent": "neoforge:item/default",
-	"loader": "neoforge:obj",
-	"model": "kingdomkeys:models/item/keyblade/lunatic.obj",
-	"textures": {
-
-	},
-	"display": {
-		"firstperson_righthand": {
-			"rotation": [0.0, 0.0, 0.0 ],
-			"translation": [0.0, 0.0, 0.0 ],
-			"scale": [0.004999999888241291, 0.004999999888241291, 0.004999999888241291 ]
-		},
-		"thirdperson_lefthand": {
-			"rotation": [0.0, 0.0, 0.0 ],
-			"translation": [0.0, -0.3, 0.05 ],
-			"scale": [0.013000000268220901, 0.013000000268220901, 0.013000000268220901 ]
-		},
-		"firstperson_lefthand": {
-			"rotation": [0.0, 0.0, 0.0 ],
-			"translation": [0.0, 0.0, 0.0 ],
-			"scale": [0.004999999888241291, 0.004999999888241291, 0.004999999888241291 ]
-		},
-		"thirdperson_righthand": {
-			"rotation": [0.0, 0.0, 0.0 ],
-			"translation": [0.0, -0.3, 0.05 ],
-			"scale": [0.013000000268220901, 0.013000000268220901, 0.013000000268220901 ]
-		},
-		"gui": {
-			"rotation": [0.0, -90, 0 ],
-			"translation": [0.1, -4.5, 0.0 ],
-			"scale": [0.004, 0.004, 0.004 ]
-		},
-		"ground": {
-			"rotation": [45.0, 0.0, 0.0 ],
-			"translation": [0.0, 0.0, 0.0 ],
-			"scale": [0.00800000037997961, 0.00800000037997961, 0.00800000037997961 ]
-		},
-		"fixed": {
-			"rotation": [0.0, 90.0, 0.0 ],
-			"translation": [0.0, -0.25, 0.0 ],
-			"scale": [0.009999999776482582, 0.009999999776482582, 0.009999999776482582 ]
-		}
-	}
+    "parent": "neoforge:item/default",
+    "loader": "neoforge:obj",
+    "model": "kingdomkeys:models/item/keyblade/lunatic.obj",
+    "textures": {},
+    "display": {
+        "firstperson_righthand": {
+            "rotation": [0.0, 0.0, 0.0],
+            "translation": [0.0, 0.0, 0.0],
+            "scale": [0.005, 0.005, 0.005]
+        },
+        "thirdperson_lefthand": {
+            "rotation": [0.0, 0.0, 0.0],
+            "translation": [0.0, -0.3, 0.05],
+            "scale": [0.013, 0.013, 0.013]
+        },
+        "firstperson_lefthand": {
+            "rotation": [0.0, 0.0, 0.0],
+            "translation": [0.0, 0.0, 0.0],
+            "scale": [0.005, 0.005, 0.005]
+        },
+        "thirdperson_righthand": {
+            "rotation": [0.0, 0.0, 0.0],
+            "translation": [0.0, -0.3, 0.05],
+            "scale": [0.013, 0.013, 0.013]
+        },
+        "gui": {
+            "rotation": [0.0, -90, 0],
+            "translation": [0.1, -4.5, 0.0],
+            "scale": [0.004, 0.004, 0.004]
+        },
+        "ground": {
+            "rotation": [45.0, 0.0, 0.0],
+            "translation": [0.0, 0.0, 0.0],
+            "scale": [0.008, 0.008, 0.008]
+        },
+        "fixed": {
+            "rotation": [0.0, 90.0, 0.0],
+            "translation": [0.0, -0.25, 0.0],
+            "scale": [0.01, 0.01, 0.01]
+        }
+    }
 }

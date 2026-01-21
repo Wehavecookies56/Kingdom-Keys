@@ -1,7 +1,5 @@
 package online.kingdomkeys.kingdomkeys.integration.epicfight.capabilities;
 
-import java.util.Map;
-
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.UseAnim;
 import yesman.epicfight.api.animation.AnimationManager;
@@ -11,6 +9,8 @@ import yesman.epicfight.api.animation.types.StaticAnimation;
 import yesman.epicfight.gameasset.Animations;
 import yesman.epicfight.world.capabilities.entitypatch.LivingEntityPatch;
 import yesman.epicfight.world.capabilities.item.WeaponCapability;
+
+import java.util.Map;
 
 public class ShieldCapabilities extends WeaponCapability {
 

@@ -7,6 +7,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
@@ -21,64 +22,64 @@ import java.util.List;
 
 public class OrgPortalEntity extends Entity implements IEntityWithComplexSpawn {
 
-	int maxTicks = 100;
-	float radius = 0.5F;
-	
-	BlockPos destinationPos;
+    int maxTicks = 100;
+    float radius = 0.5F;
+
+    BlockPos destinationPos;
     ResourceKey<Level> destinationDim;
     boolean shouldTeleport;
 
-	public OrgPortalEntity(EntityType<? extends Entity> type, Level world) {
-		super(type, world);
-		this.blocksBuilding = true;
-	}
+    public OrgPortalEntity(EntityType<? extends Entity> type, Level world) {
+        super(type, world);
+        this.blocksBuilding = true;
+    }
 
-	public OrgPortalEntity(Level world, BlockPos spawnPos, BlockPos destinationPos, ResourceKey<Level> destinationDim, boolean shouldTP) {
-		super(ModEntities.TYPE_ORG_PORTAL.get(), world);
-		this.setPos(spawnPos.getX()+0.5,spawnPos.getY(), spawnPos.getZ()+0.5);
+    public OrgPortalEntity(Level world, BlockPos spawnPos, BlockPos destinationPos, ResourceKey<Level> destinationDim, boolean shouldTP) {
+        super(ModEntities.TYPE_ORG_PORTAL.get(), world);
+        this.setPos(spawnPos.getX() + 0.5, spawnPos.getY(), spawnPos.getZ() + 0.5);
         this.destinationPos = destinationPos;
         this.destinationDim = destinationDim;
         this.shouldTeleport = shouldTP;
-	}
+    }
 
-	@Override
-	public void tick() {
-		if (this.tickCount > maxTicks) {
-			this.remove(RemovalReason.KILLED);
-		}
-		level().addParticle(ParticleTypes.DRAGON_BREATH, getX() - 1 + random.nextDouble() * 2, getY() + random.nextDouble() * 4, getZ() - 1 + random.nextDouble() * 2, 0.0D, 0.0D, 0.0D);
+    @Override
+    public void tick() {
+        if (this.tickCount > maxTicks) {
+            this.remove(RemovalReason.KILLED);
+        }
+        level().addParticle(ParticleTypes.DRAGON_BREATH, getX() - 1 + random.nextDouble() * 2, getY() + random.nextDouble() * 4, getZ() - 1 + random.nextDouble() * 2, 0.0D, 0.0D, 0.0D);
 
-		List<Entity> tempList = level().getEntities(this, getBoundingBox().inflate(radius, radius, radius));
-		for (Entity t : tempList) {
-			if(shouldTeleport && !(t instanceof OrgPortalEntity)) {
-		        if(!this.isAlive())
-		            return;
-		        if(t != null){
-		            if (destinationPos != null) {
-		                if(destinationPos.getX()!=0 && destinationPos.getY()!=0 && destinationPos.getZ()!=0){
-		                	double yOffset = t.getY() - this.getY();
-		                	t.setPos(destinationPos.getX()+0.5, destinationPos.getY()+1 + yOffset, destinationPos.getZ()+0.5);
-		                	if(t instanceof Player && level().isClientSide)
-		                		PacketHandler.sendToServer(new CSOrgPortalTPPacket(this.destinationDim,new Vec3(destinationPos.getX()+0.5, destinationPos.getY()+1 + yOffset, destinationPos.getZ()+0.5)));
-		                }
-		            }
-		        }
-	        }
-		}
-    	super.tick();
-	}
-	
-	public int getMaxTicks() {
-		return maxTicks;
-	}
+        List<Entity> tempList = level().getEntities(this, getBoundingBox().inflate(radius, radius, radius));
+        for (Entity t : tempList) {
+            if (shouldTeleport && !(t instanceof OrgPortalEntity)) {
+                if (!this.isAlive())
+                    return;
+                if (t != null) {
+                    if (destinationPos != null) {
+                        if (destinationPos.getX() != 0 && destinationPos.getY() != 0 && destinationPos.getZ() != 0) {
+                            double yOffset = t.getY() - this.getY();
+                            t.setPos(destinationPos.getX() + 0.5, destinationPos.getY() + 1 + yOffset, destinationPos.getZ() + 0.5);
+                            if (t instanceof Player && level().isClientSide)
+                                PacketHandler.sendToServer(new CSOrgPortalTPPacket(this.destinationDim, new Vec3(destinationPos.getX() + 0.5, destinationPos.getY() + 1 + yOffset, destinationPos.getZ() + 0.5)));
+                        }
+                    }
+                }
+            }
+        }
+        super.tick();
+    }
 
-	public void setMaxTicks(int maxTicks) {
-		this.maxTicks = maxTicks;
-	}
+    public int getMaxTicks() {
+        return maxTicks;
+    }
 
-	@Override
-	public void addAdditionalSaveData(CompoundTag compound) {
-		// compound.putInt("lvl", this.getLvl());
+    public void setMaxTicks(int maxTicks) {
+        this.maxTicks = maxTicks;
+    }
+
+    @Override
+    public void addAdditionalSaveData(CompoundTag compound) {
+        // compound.putInt("lvl", this.getLvl());
 		/*if(destinationPos == null)
             return;
     	
@@ -87,39 +88,48 @@ public class OrgPortalEntity extends Entity implements IEntityWithComplexSpawn {
         compound.putInt("z",destinationPos.getZ());
         compound.putInt("dim",destinationDim);
         compound.putBoolean("tp",shouldTeleport);*/
-	}
+    }
 
-	@Override
-	public void readAdditionalSaveData(CompoundTag compound) {
-		// this.setLvl(compound.getInt("lvl"));
+    @Override
+    public void readAdditionalSaveData(CompoundTag compound) {
+        // this.setLvl(compound.getInt("lvl"));
 	/*	destinationPos = new BlockPos(compound.getInt("x"),compound.getInt("y"),compound.getInt("z"));
     	destinationDim = compound.getInt("dim");
     	shouldTeleport = compound.getBoolean("tp");*/
-	}
+    }
 
-	@Override
-	protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
+    @Override
+    protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
 
-	}
+    }
 
-	@Override
-	public void writeSpawnData(RegistryFriendlyByteBuf buffer) {
-		if(destinationPos == null)
-			return;
+    @Override
+    public void writeSpawnData(RegistryFriendlyByteBuf buffer) {
 
-		buffer.writeBlockPos(new BlockPos(destinationPos.getX(),destinationPos.getY(),destinationPos.getZ()));
-		buffer.writeResourceLocation(destinationDim.location());
-		buffer.writeBoolean(shouldTeleport);	}
+        buffer.writeBoolean(destinationPos != null);
 
-	@Override
-	public void readSpawnData(RegistryFriendlyByteBuf additionalData) {
-		if (destinationPos == null)
-			return;
+        if (destinationPos != null) {
+            buffer.writeBlockPos(destinationPos);
+            buffer.writeUtf(destinationDim.location().toString(), 100);
+            buffer.writeBoolean(shouldTeleport);
+        }
+    }
 
-			destinationPos = additionalData.readBlockPos();
-			destinationDim = ResourceKey.create(Registries.DIMENSION, additionalData.readResourceLocation());
-			shouldTeleport = additionalData.readBoolean();
+    @Override
+    public void readSpawnData(RegistryFriendlyByteBuf buffer) {
 
-	}
+        boolean hasDestination = buffer.readBoolean();
+
+        if (hasDestination) {
+            destinationPos = buffer.readBlockPos();
+            destinationDim = ResourceKey.create(Registries.DIMENSION, ResourceLocation.parse(buffer.readUtf(100)));
+            shouldTeleport = buffer.readBoolean();
+        } else {
+            destinationPos = null;
+            destinationDim = null;
+            shouldTeleport = false;
+        }
+    }
+
 }
 

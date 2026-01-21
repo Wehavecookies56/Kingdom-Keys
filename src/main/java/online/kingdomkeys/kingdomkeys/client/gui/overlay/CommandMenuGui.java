@@ -18,11 +18,9 @@ import net.minecraft.world.phys.HitResult;
 import net.neoforged.neoforge.common.NeoForge;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.api.event.client.TargetSelectorEvent;
-import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.CommandMenuItem;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.CommandMenuSubMenu;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
-import online.kingdomkeys.kingdomkeys.config.ClientConfig;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.data.WorldData;
@@ -234,9 +232,8 @@ public class CommandMenuGui extends OverlayBase {
 			} else { //cast / target selector
                 ArrayList<CommandMenuItem> targets = new ArrayList<>();
 
-                TargetSelectorEvent event = new TargetSelectorEvent(commandMenuElements.get(currentSubmenu), targets);
-                NeoForge.EVENT_BUS.post(event);
-                System.out.println(targets.size());// if in a party                 and           magic has target selector                                             or has target selector populated
+                NeoForge.EVENT_BUS.post(new TargetSelectorEvent(commandMenuElements.get(currentSubmenu), targets));
+                //                                      if in a party                 and           magic has target selector                                             or has target selector populated
 				if ((worldData.getPartyFromMember(minecraft.player.getUUID()) != null && ModMagic.registry.get(magicRegistryObject.getRegistryName()).getHasToSelect()) || !targets.isEmpty()) { //Open party target selector
 					if (currentSubmenu.equals(target) && commandMenuElements.get(currentSubmenu).getSelected() != null) {//if is in target selector
                         int level = playerData.getMagicLevel(magicRegistryObject.getRegistryName());
@@ -511,17 +508,17 @@ public class CommandMenuGui extends OverlayBase {
 		if (minecraft.player.isShiftKeyDown()) {
 			PacketHandler.sendToServer(new CSSpawnOrgPortalPacket(minecraft.player.blockPosition(), destination, coords.getDimID()));
 		} else {
-			HitResult rtr = InputHandler.getMouseOverExtended(100);
+			HitResult rtr = InputHandler.getMouseOverExtendedStraight(100);
 			if (rtr != null) {
-				if(rtr instanceof BlockHitResult brtr) {
+                double reachSq = 100 * 100;
+
+                if(rtr instanceof BlockHitResult brtr) {
                     double distanceSq = minecraft.player.distanceToSqr(brtr.getBlockPos().getX(), brtr.getBlockPos().getY(), brtr.getBlockPos().getZ());
-					double reachSq = 100 * 100;
 					if (reachSq >= distanceSq) {
 						PacketHandler.sendToServer(new CSSpawnOrgPortalPacket(brtr.getBlockPos().above(), destination, coords.getDimID()));
 					}
 				} else if(rtr instanceof EntityHitResult ertr) {
                     double distanceSq = minecraft.player.distanceToSqr(ertr.getEntity().getX(), ertr.getEntity().getY(), ertr.getEntity().getZ());
-					double reachSq = 100 * 100;
 					if (reachSq >= distanceSq) {
 						PacketHandler.sendToServer(new CSSpawnOrgPortalPacket(ertr.getEntity().blockPosition(), destination, coords.getDimID()));
 					}

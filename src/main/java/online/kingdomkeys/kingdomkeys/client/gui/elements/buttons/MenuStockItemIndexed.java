@@ -3,7 +3,6 @@ package online.kingdomkeys.kingdomkeys.client.gui.elements.buttons;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.MinecartItem;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuFilterableIndexed;
 
 public class MenuStockItemIndexed extends MenuStockItem {

@@ -4,6 +4,7 @@
 	{"item": "kingdomkeys:hi_potion", "amount":1, "tier":2, "cost": 400},
 	{"item": "kingdomkeys:ether", "amount":1, "tier":1, "cost": 160},
     {"item": "kingdomkeys:hi_ether", "amount":1, "tier":2, "cost": 250},
+    {"item": "kingdomkeys:panacea", "amount":1, "tier":2, "cost": 360},
 
     {"item": "kingdomkeys:ability_ring", "amount":1, "tier":1, "cost": 280},
     {"item": "kingdomkeys:engineers_ring", "amount":1, "tier":1, "cost": 390},

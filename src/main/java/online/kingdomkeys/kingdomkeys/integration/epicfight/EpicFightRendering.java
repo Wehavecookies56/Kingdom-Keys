@@ -1,12 +1,9 @@
 package online.kingdomkeys.kingdomkeys.integration.epicfight;
 
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.client.render.DriveLayerRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.KeybladeArmorRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.ShoulderLayerRenderer;
 import yesman.epicfight.api.client.neoevent.PatchedRenderersEvent;
-import yesman.epicfight.client.ClientEngine;
 import yesman.epicfight.client.events.engine.RenderEngine;
 
 public class EpicFightRendering {

@@ -10,7 +10,8 @@ import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.block.*;
-import online.kingdomkeys.kingdomkeys.block.gummi.*;
+import online.kingdomkeys.kingdomkeys.block.gummi.GummiBlockBase;
+import online.kingdomkeys.kingdomkeys.block.gummi.GummiHangarBlock;
 import online.kingdomkeys.kingdomkeys.item.*;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 

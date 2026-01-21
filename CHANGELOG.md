@@ -1,18 +1,16 @@
 **Added:**
-* Shop sell system.
-* Kingdom Key Nightmare
-* Journal opens with journal button given you have Patchouli installed.
-* Encounter Plus ability, increases the amount of enemies that can go through portals.
-* New event to allow addons to add custom buttons to the M menu.
-* New event to allow addons to add custom targets to the magic target selector.
- 
+* Encounter Plus ability able to be obtained on level 21 for warrior, 29 for guardian and 32 for mystic. 
+* New Soft Lock on system enabled by default, it allows the camera to move as long as the target is on the screen.
+* Server-Config option to toggle between Hard and Soft lock on.
+* Events so addons can intercept when a magic, item, drive form, reaction command or limit is being called.
+* Panacea item to remove all negative effects.
+
 **Changed:**
-* Portals probability to teleport changed from 10% to 8% on the overworld and any dimension, except Nether with a 14% and the End with a 20%.
-* Xemnas and Anticoat armor are now cheaper since they have the same stats as the main Organization XIII armor.
+* Slightly increased the χ-blade reach.
+* Default shotlock reach to 200.
+* Shotlock icon offset adjusted to the entity hitbox dimensions.
+* Fire magic tracking power with magic lock on is stronger, also the higher the magic the better the tracking will be.
+* Ether use sound instead of potion.
 
 **Fixed:**
-* Shotlocks counter getting reset when the player data saved (when taking damage etc...)
-* Org portal potential crash.
-* Org weapons not summonable with EFM.
-* Crash with shotlock indicator rendering if your shotlock was unequipped (when level up command for example).
-* Removed some numbers log spam.
+* Shotlock indicator not rendering on EFM animated mobs and weird overlaps on normal mobs.

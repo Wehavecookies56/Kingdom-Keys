@@ -4,7 +4,6 @@ import net.minecraft.data.DataGenerator;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
-import online.kingdomkeys.kingdomkeys.config.ClientConfig;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.datagen.provider.KKLanguageProvider;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
@@ -17,7 +16,6 @@ import online.kingdomkeys.kingdomkeys.limit.ModLimits;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.reactioncommands.ModReactionCommands;
 import online.kingdomkeys.kingdomkeys.shotlock.ModShotlocks;
-import org.jetbrains.annotations.Nullable;
 
 import static online.kingdomkeys.kingdomkeys.KingdomKeys.MODID;
 import static online.kingdomkeys.kingdomkeys.lib.Strings.*;
@@ -1847,11 +1845,13 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.hiDriveRecovery, "High Drive Recovery");
         addItem(ModItems.refocuser, "Refocuser");
         addItem(ModItems.hiRefocuser, "Hi-Refocuser");
+        addItem(ModItems.panacea, "Panacea");
         addItem(ModItems.apBoost, "AP Boost");
         addItem(ModItems.powerBoost, "Power Boost");
         addItem(ModItems.magicBoost, "Magic Boost");
         addItem(ModItems.defenseBoost, "Defense Boost");
 
+        add("potion.desc.panacea", "Will remove all negative effects");
         add("potion.desc.hp", "\u00A7aHP\u00A7r");
         add("potion.desc.mp", "\u00A79MP\u00A7r");
         add("potion.desc.hpmp", "\u00A7aHP\u00A7r and \u00A79MP\u00A7r");
