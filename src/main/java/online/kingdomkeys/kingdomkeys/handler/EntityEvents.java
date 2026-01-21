@@ -87,6 +87,7 @@ import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeDataLoader
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopListRegistry;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.names.NamesListRegistry;
+import online.kingdomkeys.kingdomkeys.synthesis.shop.sell.SellListRegistry;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
 import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
@@ -99,28 +100,20 @@ public class EntityEvents {
 
 	public static boolean isBoss = false;
 	public static boolean isHostiles = false;
-	public int ticks;
 
 	@SubscribeEvent
 	public void soundPlayed(PlayLevelSoundEvent.AtEntity event) {
 		if (event.getEntity() instanceof Player player && event.getSound().value().getLocation().getPath().contains("step")) {
-			boolean kbArmor = false;
-			byte index = 0;
-            for (ItemStack a : player.getArmorSlots()) {
-                if (a.getItem() instanceof ArmorItem armor) {
-                    if (index < 3 && armor.getMaterial().value().equipSound().value() == ModSounds.keyblade_armor.get()) { // If the armor has a kb sound we assume it's a keyblade armor part, if it's index is < 3 it means it's boots, pants or chest.
-                        kbArmor = true;
-                    }
-                }
-                index++;
+            ItemStack chest = player.getItemBySlot(EquipmentSlot.CHEST);
+            ItemStack legs  = player.getItemBySlot(EquipmentSlot.LEGS);
+            ItemStack feet  = player.getItemBySlot(EquipmentSlot.FEET);
+            if (Utils.isKBArmor(chest) || Utils.isKBArmor(legs) || Utils.isKBArmor(feet)) {
+                event.getEntity().playSound(ModSounds.keyblade_armor.get());
             }
-			if (kbArmor) {
-				event.getEntity().playSound(ModSounds.keyblade_armor.get());
-			}
-		}
+        }
 	}
 
-	@SubscribeEvent
+    @SubscribeEvent
 	public void onXPPickup(PlayerXpEvent.XpChange e) {
 		if(e.getEntity() instanceof Player player && player.getHealth() <= player.getMaxHealth() / 2) {
 			PlayerData playerData = PlayerData.get(player);
@@ -214,6 +207,7 @@ public class EntityEvents {
 			PacketHandler.sendTo(new SCSyncSynthesisData(RecipeRegistry.getInstance().getValues()), player);
 			PacketHandler.sendTo(new SCSyncMoogleNames(NamesListRegistry.getInstance()), player);
 			PacketHandler.sendTo(new SCSyncShopData(ShopListRegistry.getInstance().getValues()), player);
+            PacketHandler.sendTo(new SCSyncSellData(SellListRegistry.getInstance().getValues()), player);
 			PacketHandler.sendTo(new SCSyncMagicData(MagicDataLoader.names, MagicDataLoader.dataList), player);
 			PacketHandler.sendTo(new SCSyncDriveFormData(DriveFormDataLoader.names, DriveFormDataLoader.dataList), player);
 			PacketHandler.sendTo(new SCSyncLimitData(LimitDataLoader.names, LimitDataLoader.dataList), player);
@@ -240,7 +234,6 @@ public class EntityEvents {
 					worldData.setHeartlessSpawnLevel(1);
 				}
 			}
-
 
 			if (!player.level().isClientSide) { // Sync from server to client
 				if (!playerData.getDriveFormMap().containsKey(DriveForm.NONE.toString())) { // One time event here :D
@@ -405,11 +398,6 @@ public class EntityEvents {
 	@SubscribeEvent
 	public void onPlayerTick(PlayerTickEvent.Pre event) {
 		Player player = event.getEntity();
-
-		if (ticks >= Integer.MAX_VALUE) {
-			ticks = Integer.MIN_VALUE;
-		}
-
 		PlayerData playerData = PlayerData.get(player);
 		//playerData.clearRecipes("all");
 		if (playerData != null) {
@@ -552,20 +540,11 @@ public class EntityEvents {
 						pulled++;
 					}
 				}
-
 			}
-
-			/*
-			 * if(ModConfigs.magicUsesTimer > 1) { if(player.tickCount %
-			 * ModConfigs.magicUsesTimer == 0) { for (Entry<String, int[]> entry :
-			 * playerData.getMagicsMap().entrySet()) { int uses =
-			 * playerData.getMagicUses(entry.getKey()); if(uses > 0) {
-			 * playerData.remMagicUses(entry.getKey(), 1); } } } }
-			 */
 		}
 
-		if (ModConfigs.cmChangeColor && ticks % 5 == 0) {
-			if (player.level().isClientSide()) {
+        if (player.level().isClientSide()) {
+            if (ModConfigs.cmChangeColor && player.tickCount % 5 == 0) {
 				updateCommandMenu(player);
 			}
 		}

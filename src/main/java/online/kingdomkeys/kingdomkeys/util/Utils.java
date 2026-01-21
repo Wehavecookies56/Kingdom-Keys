@@ -815,6 +815,12 @@ public class Utils {
         return String.format("%,.2f", num);
     }
 
+    public static boolean isKBArmor(ItemStack stack) {
+        if (!(stack.getItem() instanceof ArmorItem armor))
+            return false;
+        return armor.getMaterial().value().equipSound().value() == ModSounds.keyblade_armor.get();
+    }
+
     public static class Title {
 		public String title, subtitle;
 		public int fadeIn = 10, fadeOut = 20, displayTime = 70;
