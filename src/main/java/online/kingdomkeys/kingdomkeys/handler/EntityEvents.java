@@ -98,10 +98,15 @@ import java.util.*;
 
 public class EntityEvents {
 
-	public static boolean isBoss = false;
-	public static boolean isHostiles = false;
+    public enum ThreatLevel {
+        NONE,
+        HOSTILES,
+        BOSS
+    }
+    public static ThreatLevel threatLevel = ThreatLevel.NONE;
 
-	@SubscribeEvent
+
+    @SubscribeEvent
 	public void soundPlayed(PlayLevelSoundEvent.AtEntity event) {
 		if (event.getEntity() instanceof Player player && event.getSound().value().getLocation().getPath().contains("step")) {
             ItemStack chest = player.getItemBySlot(EquipmentSlot.CHEST);
@@ -552,38 +557,25 @@ public class EntityEvents {
 	}
 
 	/**
-	 * This method returns once a boss is been found, therefore isHostiles will not be updated
+	 * This method returns the threat level around the player, boss prevails over hostile which prevails over none
 	 * @param player
 	 */
-	private void updateCommandMenu(Player player) {
-		List<LivingEntity> entities = Utils.getLivingEntitiesInRadius(player, 16);
-		List<LivingEntity> bossEntities = Utils.getLivingEntitiesInRadius(player, 150);
-		if (!bossEntities.isEmpty()) {
-            for (LivingEntity bossEntity : bossEntities) {
-                if (bossEntity instanceof EnderDragon || bossEntity instanceof WitherBoss || bossEntity instanceof MarluxiaEntity) {
-                    isBoss = true;
-                    return;
-                } else {
-                    isBoss = false;
-                }
-            }
-		} else {
-			isBoss = false;
-		}
-		if (!entities.isEmpty()) {
-			for (Entity entity : entities) {
-				if (entity instanceof Monster || entity instanceof Slime) {
-					isHostiles = true;
-					return;
-				} else {
-					isHostiles = false;
-				}
-			}
-		} else {
-			isHostiles = false;
-		}
+    private void updateCommandMenu(Player player) {
+        threatLevel = ThreatLevel.NONE;
 
-	}
+        for (LivingEntity entity : Utils.getLivingEntitiesInRadius(player, 150)) {
+            // Search for a boss
+            if (entity instanceof EnderDragon || entity instanceof WitherBoss || entity instanceof MarluxiaEntity) {
+                threatLevel = ThreatLevel.BOSS;
+                return;
+            }
+
+            // If no boss was found
+            if (threatLevel == ThreatLevel.NONE && player.distanceToSqr(entity) <= 16 * 16 && (entity instanceof Monster || entity instanceof Slime)) {
+                threatLevel = ThreatLevel.HOSTILES;
+            }
+        }
+    }
 
 	int airstepTicks = -1;
 	@SubscribeEvent
@@ -935,32 +927,29 @@ public class EntityEvents {
 		if (!event.getEntity().level().isClientSide) {
 			if (event.getEntity() instanceof Player player) {
 				WorldData worldData = WorldData.get(player.getServer());
-				GlobalData globalData = GlobalData.get(player);
-				if (worldData != null && globalData != null && worldData.getPartyFromMember(player.getUUID()) != null) {
-					if (!player.level().isClientSide()) {
-						Party p = worldData.getPartyFromMember(player.getUUID());
-						if (Utils.anyPartyMemberOnExcept(player, p, (ServerLevel) player.level())) {
-							if (ModConfigs.SERVER.allowPartyKO.get()) {
-								if (!player.hasEffect(ModMobEffects.KO) && player.getHealth() - event.getAmount() <= 0) { // We only set KO if we die while not KO already
-									event.setCanceled(true);
-									player.removeAllEffects();
-									player.setHealth(player.getMaxHealth());
-									player.invulnerableTime = 40;
-									player.getFoodData().setFoodLevel(10);
-									player.getFoodData().setExhaustion(0);
-									player.getFoodData().setSaturation(0);
-									MobEffectInstance koInstance = new MobEffectInstance(ModMobEffects.KO, MobEffectInstance.INFINITE_DURATION, 0, false, false, false);
-									player.addEffect(koInstance);
-									player.level().playSound(null, player.blockPosition(), ModSounds.playerDeathHardcore.get(), SoundSource.PLAYERS);
-								}
-								PacketHandler.syncToAllAround(player, globalData);
-							} else { //If config does not allow prevent KO from being applied
-								player.removeEffect(ModMobEffects.KO);
-							}
-						}
-					}
+				if (worldData != null && worldData.getPartyFromMember(player.getUUID()) != null) { //If the player gets hit and data is not null
+                    Party p = worldData.getPartyFromMember(player.getUUID());
+                    if (Utils.anyPartyMemberOnExcept(player, p, (ServerLevel) player.level())) { //If there's a party member on at this point
+                        if (ModConfigs.SERVER.allowPartyKO.get()) { //If KO is allowed
+                            if (!player.hasEffect(ModMobEffects.KO) && player.getHealth() - event.getAmount() <= 0) { // We only set KO if player gets hit enough to kill them (but doesn't kill them yet) while not KO already
+                                event.setCanceled(true);
+                                player.removeAllEffects();
+                                player.setHealth(player.getMaxHealth());
+                                player.invulnerableTime = 40;
+                                player.getFoodData().setFoodLevel(10);
+                                player.getFoodData().setExhaustion(0);
+                                player.getFoodData().setSaturation(0);
+                                MobEffectInstance koInstance = new MobEffectInstance(ModMobEffects.KO, MobEffectInstance.INFINITE_DURATION, 0, false, false, false);
+                                player.addEffect(koInstance);
+                                player.level().playSound(null, player.blockPosition(), ModSounds.playerDeathHardcore.get(), SoundSource.PLAYERS);
+                            }
+                        } else { //If config does not allow prevent KO from being applied
+                            player.removeEffect(ModMobEffects.KO);
+                        }
+                    }
 				}
 			}
+
 			if (event.getSource().getEntity() instanceof LivingEntity attacker) { // If attacker is a LivingEntity
                 LivingEntity target = event.getEntity();
 
