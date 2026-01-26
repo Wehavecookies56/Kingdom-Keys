@@ -51,8 +51,6 @@ public class ArrowRainCoreEntity extends ThrowableProjectile {
 		this.setDeltaMovement(0, 0, 0);
 		this.hurtMarked = true;
 
-		//level.addParticle(ParticleTypes.BUBBLE, getX(), getY(), getZ(), 0, 0, 0);
-
 		double X = getX();
 		double Y = getY();
 		double Z = getZ();
@@ -76,7 +74,6 @@ public class ArrowRainCoreEntity extends ThrowableProjectile {
 					bullet.setPos(X, Y + 27, Z);
 					bullet.setMaxTicks(20);
 					bullet.shoot(x - bullet.getX(), this.getY() - bullet.getY()+1, z - bullet.getZ(), 2.5f, 0);
-					//list.add(bullet);
 					level().addFreshEntity(bullet);
 				}
 				level().playSound(getCaster(), getCaster().blockPosition(), ModSounds.sharpshooterbullet.get(), SoundSource.PLAYERS, 1F, 1F);

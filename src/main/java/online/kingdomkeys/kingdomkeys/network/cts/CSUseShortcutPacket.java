@@ -8,9 +8,10 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.data.GlobalData;
+import online.kingdomkeys.kingdomkeys.api.event.MagicSpellCastEvent;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
@@ -54,6 +55,8 @@ public record CSUseShortcutPacket(int index, int lockOnTarget) implements Packet
 				if(playerData.getMaxMP() == 0 || playerData.getRecharge() || cost > playerData.getMaxMP() && cost < 300 || cost < 300 && cost >= playerData.getMP() && playerData.isAbilityEquipped(Strings.mpSafety) || playerData.getMagicCooldownTicks() > 0) {
 
 				} else {
+                    if (NeoForge.EVENT_BUS.post(new MagicSpellCastEvent(player, ResourceLocation.parse(magicName))).isCanceled())
+                        return;
 					magic.onUse(player, player, level, (LivingEntity) player.level().getEntity(lockOnTarget));
 				}
 

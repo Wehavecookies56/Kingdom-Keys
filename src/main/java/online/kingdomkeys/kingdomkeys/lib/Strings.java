@@ -569,6 +569,7 @@ public class Strings {
         hiRefocuser = "hi_refocuser",
         driveRecovery = "drive_recovery",   
         hiDriveRecovery = "hi_drive_recovery",
+        panacea = "panacea",
         
         synthesisBag = "synthesis_bag",
         

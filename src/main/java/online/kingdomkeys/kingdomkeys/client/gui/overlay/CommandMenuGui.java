@@ -18,11 +18,9 @@ import net.minecraft.world.phys.HitResult;
 import net.neoforged.neoforge.common.NeoForge;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.api.event.client.TargetSelectorEvent;
-import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.CommandMenuItem;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.CommandMenuSubMenu;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
-import online.kingdomkeys.kingdomkeys.config.ClientConfig;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.data.WorldData;
@@ -101,7 +99,7 @@ public class CommandMenuGui extends OverlayBase {
 						new CommandMenuItem.Builder(drive, Component.translatable(Strings.Gui_CommandMenu_Drive), opensSubmenu(drive)).onUpdate((item, guiGraphics) -> updateRootItem(item, drive, guiGraphics)).iconUV(0, 60),
 						new CommandMenuItem.Builder(revert, Component.translatable(Strings.Gui_CommandMenu_Drive_Revert), item -> {
 							PlayerData playerData = PlayerData.get(minecraft.player);
-							if (playerData.getActiveDriveForm().equals(Strings.Form_Anti) && !playerData.isAbilityEquipped(Strings.darkDomination) && EntityEvents.isHostiles) {
+							if (playerData.getActiveDriveForm().equals(Strings.Form_Anti) && !playerData.isAbilityEquipped(Strings.darkDomination) && EntityEvents.threatLevel == EntityEvents.ThreatLevel.HOSTILES) {
 								playErrorSound();
 							} else {
 								PacketHandler.sendToServer(new CSUseDriveFormPacket(DriveForm.NONE.toString()));
@@ -234,9 +232,8 @@ public class CommandMenuGui extends OverlayBase {
 			} else { //cast / target selector
                 ArrayList<CommandMenuItem> targets = new ArrayList<>();
 
-                TargetSelectorEvent event = new TargetSelectorEvent(commandMenuElements.get(currentSubmenu), targets);
-                NeoForge.EVENT_BUS.post(event);
-                System.out.println(targets.size());// if in a party                 and           magic has target selector                                             or has target selector populated
+                NeoForge.EVENT_BUS.post(new TargetSelectorEvent(commandMenuElements.get(currentSubmenu), targets));
+                //                                      if in a party                 and           magic has target selector                                             or has target selector populated
 				if ((worldData.getPartyFromMember(minecraft.player.getUUID()) != null && ModMagic.registry.get(magicRegistryObject.getRegistryName()).getHasToSelect()) || !targets.isEmpty()) { //Open party target selector
 					if (currentSubmenu.equals(target) && commandMenuElements.get(currentSubmenu).getSelected() != null) {//if is in target selector
                         int level = playerData.getMagicLevel(magicRegistryObject.getRegistryName());

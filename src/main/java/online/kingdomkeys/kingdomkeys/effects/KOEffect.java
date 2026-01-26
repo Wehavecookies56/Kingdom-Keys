@@ -15,6 +15,7 @@ public class KOEffect extends MobEffect {
         if(livingEntity.tickCount % 20 == 0) {
             if(livingEntity.getHealth() - 1 <= 0) {
                 livingEntity.kill();
+                return false;
             } else {
                 livingEntity.setHealth(livingEntity.getHealth() - 1);
             }

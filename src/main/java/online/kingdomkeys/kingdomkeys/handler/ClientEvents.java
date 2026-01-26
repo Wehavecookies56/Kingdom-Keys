@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.handler;
 
+import com.mojang.blaze3d.platform.Window;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import com.mojang.math.Axis;
@@ -43,16 +44,12 @@ import net.neoforged.neoforge.client.event.*;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
-import online.kingdomkeys.kingdomkeys.api.event.client.MenuButtonRegisterEvent;
-import online.kingdomkeys.kingdomkeys.block.gummi.GummiBlockBase;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
+import online.kingdomkeys.kingdomkeys.block.gummi.GummiBlockBase;
 import online.kingdomkeys.kingdomkeys.block.gummi.GummiPlacementType;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.KOGui;
 import online.kingdomkeys.kingdomkeys.client.gui.StopGui;
-import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
-import online.kingdomkeys.kingdomkeys.client.gui.menu.MenuScreen;
-import online.kingdomkeys.kingdomkeys.client.gui.menu.journal.MenuJournalScreen;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.CastleOblivionData;
@@ -100,47 +97,124 @@ public class ClientEvents {
 		}
 	}
 
-	@SubscribeEvent
-	public void onRenderTick(RenderFrameEvent.Pre event) {
-		Player player = Minecraft.getInstance().player;
+    @SubscribeEvent
+    public void onRenderTick(RenderFrameEvent.Pre event) {
+        Minecraft mc = Minecraft.getInstance();
+        Player player = mc.player;
 
-		if (InputHandler.lockOn != null && player != null) {
-			if (InputHandler.lockOn.isRemoved()) {
-				InputHandler.lockOn = null;
-				return;
-			}
+        if (player == null || InputHandler.lockOn == null)
+            return;
 
-			LivingEntity target = InputHandler.lockOn;
+        LivingEntity target = InputHandler.lockOn;
+        if (target.isRemoved()) {
+            InputHandler.lockOn = null;
+            return;
+        }
 
-			double dx = target.getX() - player.getX();
-			double dz = target.getZ() - player.getZ();
-			double dy = (target.getY() + target.getBbHeight() * 0.5) - (player.getY() + player.getEyeHeight());
+        //TODO server-config
+        if(ModConfigs.SERVER.softLockOnMode.get())
+            softLockOn(player,target);
+        else
+            hardLockOn(player, target);
+    }
 
-			double angleYaw = Math.toDegrees(Math.atan2(dz, dx)) - 90.0;
-			double anglePitch = -Math.toDegrees(Math.atan2(dy, Math.sqrt(dx * dx + dz * dz)));
+    /**
+     * New method to allow moving the camera slightly
+     * @param player
+     * @param target
+     */
+    private void softLockOn(Player player, LivingEntity target) {
+        Minecraft mc = Minecraft.getInstance();
 
-			float currentYaw = player.getYRot();
-			float currentPitch = player.getXRot();
+        double verticalFovDeg = mc.options.fov().get();
+        double verticalFovRad = Math.toRadians(verticalFovDeg);
 
-			float yawDifference = Mth.wrapDegrees((float) angleYaw - currentYaw);
-			float pitchDifference = (float) anglePitch - currentPitch;
+        Window window = mc.getWindow();
+        double aspect = (double) window.getGuiScaledWidth() / window.getGuiScaledHeight();
 
-			float smoothFactor = 0.2F;
+        double horizontalFovRad = 2.0 * Math.atan(Math.tan(verticalFovRad / 2.0) * aspect);
+        double horizontalFovDeg = Math.toDegrees(horizontalFovRad);
 
-			float newYaw = currentYaw + yawDifference * smoothFactor;
-			float newPitch = currentPitch + pitchDifference * smoothFactor;
+        float maxYawOffset = (float) (horizontalFovDeg * 0.4f);
+        float maxPitchOffset = (float) (verticalFovDeg * 0.4f);
 
-			player.setYRot(newYaw);
-			player.setXRot(newPitch);
+        final float CORRECTION_SMOOTH = 0.15f;
 
-			player.yRotO = currentYaw;
-			player.xRotO = currentPitch;
+        double dx = target.getX() - player.getX();
+        double dz = target.getZ() - player.getZ();
+        double dy = (target.getY() + target.getBbHeight() * 0.5) - (player.getY() + player.getEyeHeight());
 
-			if (player.getVehicle() != null) {
-				player.getVehicle().onPassengerTurned(player);
-			}
-		}
-	}
+        float targetYaw = (float) (Math.toDegrees(Math.atan2(dz, dx)) - 90.0);
+        float targetPitch = (float) (-Math.toDegrees(Math.atan2(dy, Math.sqrt(dx * dx + dz * dz))));
+
+        float currentYaw = player.getYRot();
+        float currentPitch = player.getXRot();
+
+        float yawDiff = Mth.wrapDegrees(targetYaw - currentYaw);
+        float pitchDiff = targetPitch - currentPitch;
+
+        float yawCorrection = 0f;
+        float pitchCorrection = 0f;
+
+        if (yawDiff > maxYawOffset) {
+            yawCorrection = yawDiff - maxYawOffset;
+        } else if (yawDiff < -maxYawOffset) {
+            yawCorrection = yawDiff + maxYawOffset;
+        }
+
+        if (pitchDiff > maxPitchOffset) {
+            pitchCorrection = pitchDiff - maxPitchOffset;
+        } else if (pitchDiff < -maxPitchOffset) {
+            pitchCorrection = pitchDiff + maxPitchOffset;
+        }
+
+        if (yawCorrection != 0 || pitchCorrection != 0) {
+            player.setYRot(currentYaw + yawCorrection * CORRECTION_SMOOTH);
+            player.setXRot(currentPitch + pitchCorrection * CORRECTION_SMOOTH);
+
+            player.yRotO = currentYaw;
+            player.xRotO = currentPitch;
+
+            if (player.getVehicle() != null) {
+                player.getVehicle().onPassengerTurned(player);
+            }
+        }
+    }
+
+    /**
+     * Old method to lock the camera strictly on the entity
+     * @param player
+     * @param target
+     */
+    private void hardLockOn(Player player, LivingEntity target) {
+        double dx = target.getX() - player.getX();
+        double dz = target.getZ() - player.getZ();
+        double dy = (target.getY() + target.getBbHeight() * 0.5) - (player.getY() + player.getEyeHeight());
+
+        double angleYaw = Math.toDegrees(Math.atan2(dz, dx)) - 90.0;
+        double anglePitch = -Math.toDegrees(Math.atan2(dy, Math.sqrt(dx * dx + dz * dz)));
+
+        float currentYaw = player.getYRot();
+        float currentPitch = player.getXRot();
+
+        float yawDifference = Mth.wrapDegrees((float) angleYaw - currentYaw);
+        float pitchDifference = (float) anglePitch - currentPitch;
+
+        float smoothFactor = 0.2F;
+
+        float newYaw = currentYaw + yawDifference * smoothFactor;
+        float newPitch = currentPitch + pitchDifference * smoothFactor;
+
+        player.setYRot(newYaw);
+        player.setXRot(newPitch);
+
+        player.yRotO = currentYaw;
+        player.xRotO = currentPitch;
+
+        if (player.getVehicle() != null) {
+            player.getVehicle().onPassengerTurned(player);
+        }
+    }
 
 	@SubscribeEvent
 	public void onCameraSetup(CalculateDetachedCameraDistanceEvent event) {
@@ -267,22 +341,54 @@ public class ClientEvents {
 				event.getPoseStack().mulPose(Axis.XP.rotationDegrees(90));
 				event.getPoseStack().scale(0.01F, 0.01F, 0.01F);
 			}
-
-			PlayerData localPlayerData = PlayerData.get(Minecraft.getInstance().player);
-			if (tempShotlockEntity != null && event.getEntity() == tempShotlockEntity) {
-				ClientUtils.drawSingleShotlockIndicator(tempShotlockEntity.getId(), event.getPoseStack(), event.getMultiBufferSource(), event.getPartialTick());
-			}
-			if (localPlayerData != null && localPlayerData.getShotlockEnemies() != null && !localPlayerData.getShotlockEnemies().isEmpty()) {
-				LivingEntity e = event.getEntity();
-				if (localPlayerData.getShotlockEnemies().stream().anyMatch(sh -> sh.id() == e.getId())) {
-					ClientUtils.drawShotlockIndicator(e, event.getPoseStack(), event.getMultiBufferSource(), event.getPartialTick());
-				}
-			}
 		}
 	}
 
+    @SubscribeEvent
+    public void onRenderLevel(RenderLevelStageEvent event) {
+        if (event.getStage() != RenderLevelStageEvent.Stage.AFTER_ENTITIES)
+            return;
 
-	@SubscribeEvent(priority = EventPriority.HIGHEST)
+        Minecraft mc = Minecraft.getInstance();
+        Player player = mc.player;
+        if (player == null)
+            return;
+
+        PoseStack poseStack = event.getPoseStack();
+        MultiBufferSource.BufferSource buffer = mc.renderBuffers().bufferSource();
+        PlayerData localPlayerData = PlayerData.get(player);
+
+        RenderSystem.depthMask(false);
+        float partialTicks = mc.getTimer().getGameTimeDeltaPartialTick(false);
+        // Lock on
+        if (ModConfigs.SERVER.softLockOnMode.get() && InputHandler.lockOn != null) {
+            ClientUtils.drawLockOnIndicator(InputHandler.lockOn.getId(), poseStack, buffer, partialTicks);
+        }
+
+        // Single shotlock indicator (Ultima cannon)
+        Shotlock shotlock = Utils.getPlayerShotlock(mc.player);
+        if (shotlock == null)
+            return;
+
+        boolean singleLock = shotlock.getMaxLocks() == 1;
+
+        if (tempShotlockEntity != null || (singleLock && !localPlayerData.getShotlockEnemies().isEmpty())) {
+            int entityID = tempShotlockEntity == null ? localPlayerData.getShotlockEnemies().getFirst().id() : tempShotlockEntity.getId();
+            ClientUtils.drawSingleShotlockIndicator(entityID, poseStack, buffer, partialTicks);
+        }
+
+        //Normal shotlocks
+        if (focusing && !singleLock && localPlayerData.getShotlockEnemies() != null && !localPlayerData.getShotlockEnemies().isEmpty()) {
+            for (Utils.ShotlockPosition sh : localPlayerData.getShotlockEnemies()) {
+                ClientUtils.drawShotlockIndicator(sh, poseStack, buffer, partialTicks);
+            }
+        }
+
+        RenderSystem.depthMask(true);
+        buffer.endBatch();
+    }
+
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
 	public void RenderEntity(RenderLivingEvent.Pre<? extends LivingEntity, ? extends EntityModel<? extends LivingEntity>> event) {
 		if(event.getEntity() != null) {
 			if(event.getEntity() instanceof Player player) {
@@ -471,8 +577,10 @@ public class ClientEvents {
 					}
 				}
 
-				if (rt instanceof EntityHitResult ertr && focusGaugeTemp > 0) { //If looking at an entity
-					if(shotlock.getMaxLocks() == 1 && playerData.getShotlockEnemies().size() < shotlock.getMaxLocks()){//Ultimate shotlock
+                //If looking at an entity
+				if (rt instanceof EntityHitResult ertr && focusGaugeTemp > 0) {
+                    //Ultimate shotlock
+					if(shotlock.getMaxLocks() == 1 && playerData.getShotlockEnemies().size() < shotlock.getMaxLocks()){
 						if (ertr.getEntity() instanceof LivingEntity target) {
 							if(target != tempShotlockEntity){
 								focusingAnEntityTicks = 0;
@@ -483,7 +591,13 @@ public class ClientEvents {
 							Party p = WorldData.getClient().getPartyFromMember(player.getUUID());
 							if (p == null || (p.getMember(target.getUUID()) == null || p.getFriendlyFire())) { // If caster is not in a party || the party doesn't have the target in it || the party has FF on
 								if(focusingAnEntityTicks >= shotlock.getCooldown()) {
-									playerData.addShotlockEnemy(new Utils.ShotlockPosition(target.getId(), Utils.randomWithRange(0, target.getBbWidth() * 2) - target.getBbWidth(), Utils.randomWithRange(0, target.getBbHeight() * 2) - target.getBbHeight(), Utils.randomWithRange(0, target.getBbWidth() * 2) - target.getBbWidth()));
+                                    float halfWidth = target.getBbWidth() * 0.5F;
+                                    float height = target.getBbHeight();
+                                    float ox = Mth.nextFloat(player.getRandom(), -halfWidth, halfWidth);
+                                    float oy = Mth.nextFloat(player.getRandom(), 0.0F, height);
+                                    float oz = Mth.nextFloat(player.getRandom(), -halfWidth, halfWidth);
+
+                                    playerData.addShotlockEnemy(new Utils.ShotlockPosition(target.getId(), ox, oy, oz));
 									player.level().playSound(player, player.position().x(), player.position().y(), player.position().z(), ModSounds.shotlock_lockon_all.get(), SoundSource.PLAYERS, 1F, 1F);
 									cost = playerData.getFocus() - focusGaugeTemp;
 									tempShotlockEntity = null;
@@ -491,13 +605,19 @@ public class ClientEvents {
 								focusingAnEntityTicks++;
 							}
 						}
+                    // Locking on
 					} else if (focusingTicks % shotlock.getCooldown() == 1 && playerData.getShotlockEnemies().size() < shotlock.getMaxLocks()) {
 						Party p = WorldData.getClient().getPartyFromMember(player.getUUID());
 						if (ertr.getEntity() instanceof LivingEntity target) {
                             //System.out.println(playerData.getShotlockEnemies());
 							if (p == null || (p.getMember(target.getUUID()) == null || p.getFriendlyFire())) { // If caster is not in a party || the party doesn't have the target in it || the party has FF on
-                                Utils.ShotlockPosition shotlockPoint = new Utils.ShotlockPosition(target.getId(), Utils.randomWithRange(0, target.getBbWidth() * 2) - target.getBbWidth(), Utils.randomWithRange(0, target.getBbHeight() * 2) - target.getBbHeight(), Utils.randomWithRange(0, target.getBbWidth() * 2) - target.getBbWidth());
-								playerData.addShotlockEnemy(shotlockPoint);
+                                float halfWidth = target.getBbWidth() * 0.5F;
+                                float height = target.getBbHeight();
+                                float ox = Mth.nextFloat(player.getRandom(), -halfWidth, halfWidth);
+                                float oy = Mth.nextFloat(player.getRandom(), 0.0F, height);
+                                float oz = Mth.nextFloat(player.getRandom(), -halfWidth, halfWidth);
+
+                                playerData.addShotlockEnemy(new Utils.ShotlockPosition(target.getId(), ox, oy, oz));
                                 PacketHandler.sendToServer(new CSSetShotlockEnemyListPacket(playerData.getShotlockEnemies()));
 								player.level().playSound(player, player.position().x(), player.position().y(), player.position().z(), ModSounds.shotlock_lockon.get(), SoundSource.PLAYERS, 1F, 1F);
 								cost = playerData.getFocus() - focusGaugeTemp;

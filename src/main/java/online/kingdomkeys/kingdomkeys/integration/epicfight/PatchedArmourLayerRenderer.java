@@ -1,15 +1,10 @@
 package online.kingdomkeys.kingdomkeys.integration.epicfight;
 
-import static online.kingdomkeys.kingdomkeys.client.render.KeybladeArmorRenderer.armorModels;
-
 import com.mojang.blaze3d.vertex.PoseStack;
-
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.resources.PlayerSkin;
 import net.minecraft.core.NonNullList;
@@ -42,6 +37,8 @@ import yesman.epicfight.world.capabilities.entitypatch.LivingEntityPatch;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static online.kingdomkeys.kingdomkeys.client.render.KeybladeArmorRenderer.armorModels;
 
 public class PatchedArmourLayerRenderer<E extends LivingEntity, T extends LivingEntityPatch<E>, M extends HumanoidModel<E>> extends PatchedLayer<E, T, M, KeybladeArmorRenderer<E, M>> {
 

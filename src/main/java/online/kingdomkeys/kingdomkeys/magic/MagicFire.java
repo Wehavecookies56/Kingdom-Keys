@@ -43,7 +43,7 @@ public class MagicFire extends Magic {
 			firaga.shootFromRotation(player, player.getXRot(), player.getYRot(), 0, 2F, 0);
 			break;
 		case 3:
-			ThrowableProjectile firaza = new FirazaEntity(player.level(), player, dmgMult);
+			ThrowableProjectile firaza = new FirazaEntity(player.level(), player, dmgMult, lockOnEntity);
 			player.level().addFreshEntity(firaza);
 			firaza.shootFromRotation(player, player.getXRot(), player.getYRot(), 0, 2F, 0);
 			break;

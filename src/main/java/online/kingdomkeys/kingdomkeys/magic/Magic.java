@@ -127,9 +127,6 @@ public abstract class Magic {
 		playMagicCastSound(player,caster,level);
 		Utils.castMagic cast = new Utils.castMagic(player, caster, level, fullMPBlastMult, lockOnEntity, this);
 		casterData.setCastedMagic(cast);
-		
-		//magicUse(player, caster, level, fullMPBlastMult, lockOnEntity);
-    	//caster.swing(InteractionHand.MAIN_HAND, true);
 
 		//MinecraftForge.EVENT_BUS.post(new UpdatePlayerMotionEvent.BaseLayer((LocalPlayerPatch) player.getCapability(EpicFightCapabilities.CAPABILITY_ENTITY).orElse(null), KKLivingMotionsEnum.SPELL));
 		PacketHandler.sendTo(new SCSyncPlayerData(caster), (ServerPlayer) caster);

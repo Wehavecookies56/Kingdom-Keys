@@ -13,6 +13,7 @@
 	{"item": "kingdomkeys:hi_potion", "price": 100},
 	{"item": "kingdomkeys:ether", "price": 40},
 	{"item": "kingdomkeys:hi_ether", "price": 62},
+    {"item": "kingdomkeys:panacea", "price": 90},
 
 	{"item": "kingdomkeys:ability_ring", "price": 70},
 	{"item": "kingdomkeys:engineers_ring", "price": 97},

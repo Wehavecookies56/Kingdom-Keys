@@ -14,10 +14,15 @@ public class ServerConfig {
     public ModConfigSpec.ConfigValue<List<? extends Integer>> statsMultiplier;
 
     public ModConfigSpec.DoubleValue xpMultiplier, heartMultiplier, partyXPShare;
-    public ModConfigSpec.BooleanValue requireSynthTier, projectorHasShop, getExpFromShop, orgEnabled, allowBoosts, allowPartyKO, wayfinderParty, hostileMobsLevel, gummiShipFuelSystem;
+    public ModConfigSpec.BooleanValue requireSynthTier, projectorHasShop, getExpFromShop, orgEnabled, allowBoosts, allowPartyKO, wayfinderParty, hostileMobsLevel, gummiShipFuelSystem, softLockOnMode;
 
     ServerConfig(final ModConfigSpec.Builder builder) {
         builder.push("general");
+
+        softLockOnMode = builder
+                .comment("Soft lock on allows some camera movement while locked on")
+                .translation(KingdomKeys.MODID + ".config.soft_lock_on_mode")
+                .define("softLockOnMode", true);
 
         gummiShipFuelSystem = builder
                 .comment("Set whether to enable Gummi Ships fuel system")

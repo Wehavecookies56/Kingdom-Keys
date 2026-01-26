@@ -12,6 +12,7 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.api.event.AbilityEvent;
+import online.kingdomkeys.kingdomkeys.api.event.DriveFormCastEvent;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
@@ -32,6 +33,9 @@ public record CSUseDriveFormPacket(String form) implements Packet {
 	public void handle(IPayloadContext context) {
 		Player player = context.player();
 		PlayerData playerData = PlayerData.get(player);
+
+        if (NeoForge.EVENT_BUS.post(new DriveFormCastEvent(player, ResourceLocation.parse(form))).isCanceled())
+            return;
 
 		if (form.equals(Strings.Form_Anti)) { //If target is antiform
 			DriveForm form = ModDriveForms.registry.get(ResourceLocation.parse(Strings.Form_Anti));

@@ -143,7 +143,7 @@ public abstract class DriveForm {
 
 	public void initDrive(Player player) {
 		if (!getRegistryName().equals(NONE)) {
-			PlayerData playerData = PlayerData.get(player);
+            PlayerData playerData = PlayerData.get(player);
 			playerData.setActiveDriveForm(getName());
 			int cost = ModDriveForms.registry.get(getRegistryName()).getDriveCost();
 			playerData.remDP(cost);
@@ -171,15 +171,14 @@ public abstract class DriveForm {
 	public void pushEntities(Player player) {
 		List<Entity> list = player.level().getEntities(player, player.getBoundingBox().inflate(4.0D, 3.0D, 4.0D));
 		if (!list.isEmpty()) {
-			for (int i = 0; i < list.size(); i++) {
-				Entity e = list.get(i);
-				if (e instanceof LivingEntity) {
-					double d = e.getX() - player.getX();
-					double d1 = e.getZ() - player.getZ();
-					((LivingEntity) e).knockback(1, -d, -d1);
-					e.setDeltaMovement(e.getDeltaMovement().x, 0.7F, e.getDeltaMovement().z);
-				}
-			}
+            for (Entity e : list) {
+                if (e instanceof LivingEntity) {
+                    double d = e.getX() - player.getX();
+                    double d1 = e.getZ() - player.getZ();
+                    ((LivingEntity) e).knockback(1, -d, -d1);
+                    e.setDeltaMovement(e.getDeltaMovement().x, 0.7F, e.getDeltaMovement().z);
+                }
+            }
 		}
 	}
 

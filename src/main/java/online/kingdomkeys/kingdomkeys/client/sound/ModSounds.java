@@ -31,6 +31,8 @@ public class ModSounds {
             mp_orb = registerSound("mp_orb"),
             munny = registerSound("munny"),
             potion = registerSound("potion"),
+            ether = registerSound("ether"),
+            hiPotion = registerSound("hi-potion"),
             savepoint = registerSound("savepoint"),
             savespawn = registerSound("savespawn"),
             sharpshooterbullet = registerSound("sharpshooterbullet"),

@@ -53,11 +53,12 @@ public class FireEntity extends ThrowableProjectile {
 			this.remove(RemovalReason.KILLED);
 		}
 
-		if(this.lockOnEntity != null && tickCount > 1) {
+		if(this.lockOnEntity != null && tickCount > 0) {
 			double x = (this.lockOnEntity.getX() - this.getX());
 			double y = (this.lockOnEntity.getY() - this.getY());
 			double z = (this.lockOnEntity.getZ() - this.getZ());
-			shoot(getDeltaMovement().x + x/100, getDeltaMovement().y + y/100, getDeltaMovement().z + z/100, 2F, 0);
+            float trackingSpeed = 40F;
+			shoot(getDeltaMovement().x + x / trackingSpeed, getDeltaMovement().y + y / trackingSpeed, getDeltaMovement().z + z / trackingSpeed, 2F, 0);
 		}
 		//world.addParticle(ParticleTypes.ENTITY_EFFECT, getPosX(), getPosY(), getPosZ(), 1, 1, 0);
 		if(tickCount > 2)

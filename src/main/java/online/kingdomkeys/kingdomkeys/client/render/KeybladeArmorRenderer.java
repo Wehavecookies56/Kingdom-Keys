@@ -28,7 +28,6 @@ import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 @OnlyIn(Dist.CLIENT)

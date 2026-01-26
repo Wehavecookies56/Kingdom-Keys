@@ -277,9 +277,9 @@ public class CommandMenuSubMenu {
     }
 
     public Color getColour() {
-        if (useBossColour && EntityEvents.isBoss) {
+        if (useBossColour && EntityEvents.threatLevel == EntityEvents.ThreatLevel.BOSS) {
             return active ? BOSS_COLOUR : BOSS_COLOUR.darker().darker();
-        } else if (useHostileColour && EntityEvents.isHostiles) {
+        } else if (useHostileColour && EntityEvents.threatLevel == EntityEvents.ThreatLevel.HOSTILES) {
             return active ? HOSTILE_COLOUR : HOSTILE_COLOUR.darker().darker();
         } else if (useOrgColour && PlayerData.get(Minecraft.getInstance().player).getAlignment() != Utils.OrgMember.NONE) {
             return active ? ORG_COLOUR : ORG_COLOUR.darker().darker();

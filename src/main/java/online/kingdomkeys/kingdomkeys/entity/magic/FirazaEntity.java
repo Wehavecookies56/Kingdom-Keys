@@ -34,16 +34,18 @@ public class FirazaEntity extends ThrowableProjectile {
 
 	int maxTicks = 100;
 	float dmgMult = 1;
+    LivingEntity lockOnEntity;
 
 	public FirazaEntity(EntityType<? extends ThrowableProjectile> type, Level world) {
 		super(type, world);
 		this.blocksBuilding = true;
 	}
 
-	public FirazaEntity(Level world, LivingEntity player, float dmgMult) {
+	public FirazaEntity(Level world, LivingEntity player, float dmgMult, LivingEntity lockOnEntity) {
 		super(ModEntities.TYPE_FIRAZA.get(), player, world);
 		this.dmgMult = dmgMult;
-	}
+        this.lockOnEntity = lockOnEntity;
+    }
 
 	@Override
 	public Packet<ClientGamePacketListener> getAddEntityPacket(ServerEntity pEntity) {
@@ -61,7 +63,15 @@ public class FirazaEntity extends ThrowableProjectile {
 			this.remove(RemovalReason.KILLED);
 		}
 
-		//world.addParticle(ParticleTypes.ENTITY_EFFECT, getPosX(), getPosY(), getPosZ(), 1, 1, 0);
+        if(this.lockOnEntity != null && tickCount > 0) {
+            double x = (this.lockOnEntity.getX() - this.getX());
+            double y = (this.lockOnEntity.getY() - this.getY());
+            double z = (this.lockOnEntity.getZ() - this.getZ());
+            float trackingSpeed = 20F;
+            shoot(getDeltaMovement().x + x / trackingSpeed, getDeltaMovement().y + y / trackingSpeed, getDeltaMovement().z + z / trackingSpeed, 2F, 0);
+        }
+
+        //world.addParticle(ParticleTypes.ENTITY_EFFECT, getPosX(), getPosY(), getPosZ(), 1, 1, 0);
 		if(tickCount > 2) {
 			float radius = 1F;
 			for (int t = 1; t < 360; t += 30) {

@@ -872,6 +872,7 @@ public class ModItems {
 			hiDriveRecovery = createNewItem(Strings.hiDriveRecovery, () -> new KKPotionItem(new Item.Properties().stacksTo(1), KKPotionItem.PotionType.DRIVE, 1000, false, false)),
 			refocuser = createNewItem(Strings.refocuser, () -> new KKPotionItem(new Item.Properties().stacksTo(1), KKPotionItem.PotionType.FOCUS, 40, true, false)),
 			hiRefocuser = createNewItem(Strings.hiRefocuser, () -> new KKPotionItem(new Item.Properties().stacksTo(1), KKPotionItem.PotionType.FOCUS, 100, true, false)),
+            panacea = createNewItem(Strings.panacea, () -> new KKPotionItem(new Item.Properties().stacksTo(1), KKPotionItem.PotionType.PANACEA, 1, false, false)),
 			
     		powerBoost = createNewItem(Strings.powerBoost, () -> new StatUpgradeItem(new Item.Properties(), Strings.powerBoost)),
 			magicBoost = createNewItem(Strings.magicBoost, () -> new StatUpgradeItem(new Item.Properties(), Strings.magicBoost)),

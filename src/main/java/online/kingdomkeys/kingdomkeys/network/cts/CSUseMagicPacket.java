@@ -8,14 +8,15 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.api.event.MagicSpellCastEvent;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.network.Packet;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
-import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public record CSUseMagicPacket(String name, int level, int allyTarget, int lockedTarget) implements Packet {
 
@@ -45,6 +46,9 @@ public record CSUseMagicPacket(String name, int level, int allyTarget, int locke
 	public void handle(IPayloadContext context) {
 		Player player = context.player();
 		PlayerData playerData = PlayerData.get(player);
+        if (NeoForge.EVENT_BUS.post(new MagicSpellCastEvent(player, ResourceLocation.parse(name))).isCanceled())
+            return;
+
 		if (playerData.getMP() >= 0 && !playerData.getRecharge()) {
 			PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer)player);
 

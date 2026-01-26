@@ -1,7 +1,6 @@
 package online.kingdomkeys.kingdomkeys.integration.epicfight;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;

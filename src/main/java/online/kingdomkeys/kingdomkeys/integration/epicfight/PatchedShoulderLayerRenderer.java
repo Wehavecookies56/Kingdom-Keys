@@ -1,15 +1,10 @@
 package online.kingdomkeys.kingdomkeys.integration.epicfight;
 
-import static online.kingdomkeys.kingdomkeys.client.render.ShoulderLayerRenderer.models;
-
 import com.mojang.blaze3d.vertex.PoseStack;
-
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.resources.PlayerSkin;
 import net.minecraft.resources.ResourceLocation;
@@ -22,7 +17,6 @@ import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.SubscribeEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.render.ShoulderLayerRenderer;
-import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.item.PauldronItem;
@@ -32,7 +26,6 @@ import yesman.epicfight.api.client.model.SkinnedMesh;
 import yesman.epicfight.api.client.model.transformer.HumanoidModelBaker;
 import yesman.epicfight.api.client.neoevent.PrepareModelEvent;
 import yesman.epicfight.api.utils.math.OpenMatrix4f;
-import yesman.epicfight.client.ClientEngine;
 import yesman.epicfight.client.renderer.EpicFightRenderTypes;
 import yesman.epicfight.client.renderer.patched.layer.PatchedLayer;
 import yesman.epicfight.gameasset.Armatures;
@@ -40,6 +33,8 @@ import yesman.epicfight.world.capabilities.entitypatch.LivingEntityPatch;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import static online.kingdomkeys.kingdomkeys.client.render.ShoulderLayerRenderer.models;
 
 public class PatchedShoulderLayerRenderer<E extends LivingEntity, T extends LivingEntityPatch<E>, M extends HumanoidModel<E>> extends PatchedLayer<E, T, M, ShoulderLayerRenderer<E, M>> {
     public PatchedShoulderLayerRenderer() {}

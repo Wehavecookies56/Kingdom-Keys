@@ -47,9 +47,7 @@ public class ReactionAutoForm extends ReactionCommand {
 	public void onUse(Player player, LivingEntity target, LivingEntity lockOnEntity) {
 		if(conditionsToAppear(player,target)) {
 			player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.drive.get(), SoundSource.PLAYERS, 1F, 1F);
-	    	//PacketHandler.sendToServer(new CSSetDriveFormPacket(form));
 			PlayerData playerData = PlayerData.get(player);
-			
 			
 			if (!playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()) && form.equals(DriveForm.NONE.toString())) { // If is in a drive form and the target is "" (player)
 				DriveForm forma = ModDriveForms.registry.get(ResourceLocation.parse(playerData.getActiveDriveForm()));

@@ -22,7 +22,7 @@ import online.kingdomkeys.kingdomkeys.lib.Corner;
 import online.kingdomkeys.kingdomkeys.lib.Quarter;
 
 import javax.annotation.Nullable;
-import java.util.*;
+import java.util.List;
 import java.util.function.Supplier;
 
 public class GummiBlockBase extends BaseBlock implements ICreativeTab {
