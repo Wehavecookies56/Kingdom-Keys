@@ -30,7 +30,7 @@ public class KOGui extends ChatScreen {
  //      this.input.setFocused(true);
 
         int cx = width / 2;
-        int cy = (int) (height * 0.6F);
+        int cy = (int) (height * 0.3F);
 
         addRenderableWidget(giveUp = new MenuButton(cx - 40, cy, 40, Utils.translateToLocal(Strings.Gui_KO_Die), MenuButton.ButtonType.BUTTON, (e) -> action("giveup")));
 
@@ -40,6 +40,7 @@ public class KOGui extends ChatScreen {
     private void action(String string) {
         switch (string) {
             case "giveup" -> {
+                //Prevents screen flickering
                 if (minecraft.player != null) {
                     minecraft.player.removeEffect(ModMobEffects.KO);
                 }

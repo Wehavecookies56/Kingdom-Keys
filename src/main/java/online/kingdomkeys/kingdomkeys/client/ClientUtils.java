@@ -37,6 +37,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityAttachment;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -48,6 +49,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.neoforge.client.ClientHooks;
 import net.neoforged.neoforge.client.RenderTypeHelper;
 import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 import net.neoforged.neoforge.client.model.data.ModelData;
@@ -666,6 +668,35 @@ public class ClientUtils {
         return playerData;
     }
 
+    public static void renderNameTag(LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> renderer, LivingEntity entity, String displayName, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, float partialTick) {
+        EntityRenderDispatcher dispatcher = Minecraft.getInstance().getEntityRenderDispatcher();
+
+        double d0 = dispatcher.distanceToSqr(entity);
+        if (ClientHooks.isNameplateInRenderDistance(entity, d0)) {
+            Vec3 vec3 = entity.getAttachments().getNullable(EntityAttachment.NAME_TAG, 0, entity.getViewYRot(partialTick));
+            if (vec3 != null) {
+                boolean flag = !entity.isDiscrete();
+                int i = "deadmau5".equals(displayName) ? -10 : 0;
+                poseStack.pushPose();
+                {
+                    poseStack.translate(vec3.x, vec3.y + (double) 0.5F, vec3.z);
+                    poseStack.mulPose(dispatcher.cameraOrientation());
+                    poseStack.scale(0.025F, -0.025F, 0.025F);
+                    Matrix4f matrix4f = poseStack.last().pose();
+                    float f = Minecraft.getInstance().options.getBackgroundOpacity(0.25F);
+                    int j = (int) (f * 255.0F) << 24;
+                    Font font = renderer.getFont();
+                    float f1 = (float) (-font.width(displayName) / 2);
+                    font.drawInBatch(displayName, f1, (float) i, 553648127, false, matrix4f, bufferSource, flag ? Font.DisplayMode.SEE_THROUGH : Font.DisplayMode.NORMAL, j, packedLight);
+                    if (flag) {
+                        font.drawInBatch(displayName, f1, (float) i, 0xFFFFFF, false, matrix4f, bufferSource, Font.DisplayMode.NORMAL, 0, packedLight);
+                    }
+                }
+                poseStack.popPose();
+            }
+        }
+
+    }
 
     /**
      * Copied from {@link net.minecraft.client.renderer.block.BlockRenderDispatcher#renderSingleBlock(BlockState, PoseStack, MultiBufferSource, int, int, ModelData, RenderType)} modified to use alpha

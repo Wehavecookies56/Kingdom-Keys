@@ -7,6 +7,7 @@ import com.mojang.math.Axis;
 import net.minecraft.client.Camera;
 import net.minecraft.client.CameraType;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.player.AbstractClientPlayer;
@@ -14,15 +15,18 @@ import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityAttachment;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
@@ -40,6 +44,7 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.client.ClientHooks;
 import net.neoforged.neoforge.client.event.*;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
@@ -405,20 +410,41 @@ public class ClientEvents {
                         }
                     }
                 }
+
 				if(player.hasEffect(ModMobEffects.KO)) {
 					LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> renderer = (LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>>) Minecraft.getInstance().getEntityRenderDispatcher().getRenderer((AbstractClientPlayer) player);
 					if (!((IDisabledAnimations) renderer).kingdom_Keys$isDisabled()) {
-						event.getPoseStack().mulPose(Axis.XN.rotationDegrees(90));
-						event.getPoseStack().mulPose(Axis.ZP.rotationDegrees(90));
-						float MAX = 100;
-						double pos = player.tickCount % MAX / (MAX /2D);
+                        event.setCanceled(true);
 
-						if (player.tickCount % MAX < (MAX / 2)) {
-							event.getPoseStack().translate(0, 0, pos * 0.3);
-						} else {
-							event.getPoseStack().translate(0, 0, (MAX - player.tickCount % MAX) / (MAX / 2D) * 0.3);
-						}
-						event.getPoseStack().translate(0, -1, 0.8);
+                        PoseStack pose = event.getPoseStack();
+                        MultiBufferSource buffer = event.getMultiBufferSource();
+                        int light = event.getPackedLight();
+
+                        pose.pushPose();
+                        {
+                            float MAX = 100;
+                            double t = player.tickCount % MAX;
+
+                            double bob = (t < MAX / 2) ? (t / (MAX / 2D)) : ((MAX - t) / (MAX / 2D));
+
+                            pose.pushPose();
+                            {
+                                pose.mulPose(Axis.XP.rotationDegrees(90));
+                                pose.mulPose(Axis.ZP.rotationDegrees(90));
+
+                                pose.translate(0, -0.8, bob * 0.3 - 0.8F);
+
+                                ResourceLocation tex = ((AbstractClientPlayer) player).getSkin().texture();
+                                renderer.getModel().renderToBuffer(pose, buffer.getBuffer(RenderType.entityCutout(tex)), light, LivingEntityRenderer.getOverlayCoords(player, 0), 0xffffff);
+                            }
+                            pose.popPose();
+
+                            String name = player.getDisplayName().getString();
+
+                            ClientUtils.renderNameTag(renderer, player, name, pose, buffer, light, event.getPartialTick());
+
+                        }
+                        pose.popPose();
 					}
 				}
 				
@@ -448,7 +474,8 @@ public class ClientEvents {
 		}
 	}
 
-	private static int selectedSlot = 0;
+
+    private static int selectedSlot = 0;
 
 	private static long timeSinceLastshot = 0;
 

@@ -772,7 +772,7 @@ public class EntityEvents {
 	@SubscribeEvent
 	public void hitEntity(LivingDamageEvent.Pre event) {
 		if (event.getSource().getEntity() instanceof Player player) {
-
+            //First we calculate the weapon damage
 			ItemStack weapon = Utils.getWeaponDamageStack(event.getSource(), player);
 			if (weapon != null && !(event.getSource() instanceof StopDamageSource)) {
 				float dmg = 0;
@@ -814,6 +814,33 @@ public class EntityEvents {
 				}
 			}
 		}
+
+        //KO Method
+        if (event.getEntity() instanceof Player player) {
+            WorldData worldData = WorldData.get(player.getServer());
+            if (worldData != null && worldData.getPartyFromMember(player.getUUID()) != null) { //If the player gets hit and data is not null
+                Party p = worldData.getPartyFromMember(player.getUUID());
+                if (Utils.anyPartyMemberOnExcept(player, p, (ServerLevel) player.level())) { //If there's a party member on at this point
+                    if (ModConfigs.SERVER.allowPartyKO.get()) { //If KO is allowed
+                        if (!player.hasEffect(ModMobEffects.KO) && player.getHealth() - event.getNewDamage() <= 0) { // We only set KO if player gets hit enough to kill them (but doesn't kill them yet) while not KO already
+                            event.setNewDamage(0);
+                            player.removeAllEffects();
+                            player.setHealth(player.getMaxHealth());
+                            player.invulnerableTime = 40;
+                            player.getFoodData().setFoodLevel(10);
+                            player.getFoodData().setExhaustion(0);
+                            player.getFoodData().setSaturation(0);
+                            MobEffectInstance koInstance = new MobEffectInstance(ModMobEffects.KO, MobEffectInstance.INFINITE_DURATION, 0, false, false, false);
+                            player.addEffect(koInstance);
+                            player.level().playSound(null, player.blockPosition(), ModSounds.playerDeathHardcore.get(), SoundSource.PLAYERS);
+                        }
+                        return;
+                    } else { //If config does not allow prevent KO from being applied
+                        player.removeEffect(ModMobEffects.KO);
+                    }
+                }
+            }
+        }
 
 		// This is outside as it should apply the formula if you have been hit by non player too
 		if (event.getEntity() instanceof Player player) {
@@ -925,31 +952,6 @@ public class EntityEvents {
 	@SubscribeEvent
 	public void onLivingAttack(LivingIncomingDamageEvent event) {
 		if (!event.getEntity().level().isClientSide) {
-			if (event.getEntity() instanceof Player player) {
-				WorldData worldData = WorldData.get(player.getServer());
-				if (worldData != null && worldData.getPartyFromMember(player.getUUID()) != null) { //If the player gets hit and data is not null
-                    Party p = worldData.getPartyFromMember(player.getUUID());
-                    if (Utils.anyPartyMemberOnExcept(player, p, (ServerLevel) player.level())) { //If there's a party member on at this point
-                        if (ModConfigs.SERVER.allowPartyKO.get()) { //If KO is allowed
-                            if (!player.hasEffect(ModMobEffects.KO) && player.getHealth() - event.getAmount() <= 0) { // We only set KO if player gets hit enough to kill them (but doesn't kill them yet) while not KO already
-                                event.setCanceled(true);
-                                player.removeAllEffects();
-                                player.setHealth(player.getMaxHealth());
-                                player.invulnerableTime = 40;
-                                player.getFoodData().setFoodLevel(10);
-                                player.getFoodData().setExhaustion(0);
-                                player.getFoodData().setSaturation(0);
-                                MobEffectInstance koInstance = new MobEffectInstance(ModMobEffects.KO, MobEffectInstance.INFINITE_DURATION, 0, false, false, false);
-                                player.addEffect(koInstance);
-                                player.level().playSound(null, player.blockPosition(), ModSounds.playerDeathHardcore.get(), SoundSource.PLAYERS);
-                            }
-                        } else { //If config does not allow prevent KO from being applied
-                            player.removeEffect(ModMobEffects.KO);
-                        }
-                    }
-				}
-			}
-
 			if (event.getSource().getEntity() instanceof LivingEntity attacker) { // If attacker is a LivingEntity
                 LivingEntity target = event.getEntity();
 
@@ -971,6 +973,7 @@ public class EntityEvents {
 					}
 				}
 
+                // Stop
 				GlobalData globalData = GlobalData.get(target);
 				if (globalData != null && event.getSource().getEntity() instanceof Player source) {
 					if (target.hasEffect(ModMobEffects.STOP)) {
