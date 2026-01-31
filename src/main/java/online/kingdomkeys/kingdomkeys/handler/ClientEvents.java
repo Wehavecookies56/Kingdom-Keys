@@ -250,7 +250,10 @@ public class ClientEvents {
 
 				if(livingEntity.hasEffect(ModMobEffects.KO)) {
 					if (event.getEntity().level().isClientSide && event.getEntity() == Minecraft.getInstance().player) {
-						if (Minecraft.getInstance().options.getCameraType() == CameraType.FIRST_PERSON)
+                        if (livingEntity.isDeadOrDying())
+                            return;
+
+                        if (Minecraft.getInstance().options.getCameraType() == CameraType.FIRST_PERSON)
 							Minecraft.getInstance().options.setCameraType(CameraType.THIRD_PERSON_FRONT);
 
 						if (!(Minecraft.getInstance().screen instanceof KOGui))
@@ -358,7 +361,6 @@ public class ClientEvents {
         MultiBufferSource.BufferSource buffer = mc.renderBuffers().bufferSource();
         PlayerData localPlayerData = PlayerData.get(player);
 
-        RenderSystem.depthMask(false);
         float partialTicks = mc.getTimer().getGameTimeDeltaPartialTick(false);
         // Lock on
         if (ModConfigs.SERVER.softLockOnMode.get() && InputHandler.lockOn != null) {
@@ -384,7 +386,6 @@ public class ClientEvents {
             }
         }
 
-        RenderSystem.depthMask(true);
         buffer.endBatch();
     }
 
