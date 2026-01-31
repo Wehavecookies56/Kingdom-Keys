@@ -708,7 +708,6 @@ public class ClientUtils {
             BakedModel model = Minecraft.getInstance().getModelManager().getModel(ModelResourceLocation.standalone(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "entity/heart")));
             matrixStackIn.scale(0.005F, 0.005F, 0.005F);
             matrixStackIn.translate(0, 300, 0);
-            //matrixStackIn.mulPose(Axis.XN.rotationDegrees(90));
             matrixStackIn.mulPose(Axis.YP.rotationDegrees(entitylivingbaseIn.tickCount*5));
 
             for (BakedQuad quad : model.getQuads(null, null, RandomSource.create(), ModelData.EMPTY, RenderType.cutout())) {

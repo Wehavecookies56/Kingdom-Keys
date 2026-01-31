@@ -321,10 +321,6 @@ public class ClientPacketHandler {
         }
     }
 
-    public static void removeKO() {
-        Minecraft.getInstance().player.removeEffect(ModMobEffects.KO);
-    }
-
     public static void openEquipmentScreen() {
         Minecraft.getInstance().setScreen(new MenuEquipmentScreen());
     }

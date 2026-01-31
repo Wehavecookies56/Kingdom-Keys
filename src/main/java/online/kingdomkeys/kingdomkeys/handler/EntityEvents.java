@@ -815,34 +815,32 @@ public class EntityEvents {
 			}
 
             //KO Method
-            if(!player.level().isClientSide()) {
-                WorldData worldData = WorldData.get(player.getServer());
-                if (worldData != null && worldData.getPartyFromMember(player.getUUID()) != null) { //If the player gets hit and data is not null
-                    Party p = worldData.getPartyFromMember(player.getUUID());
-                    if (Utils.anyPartyMemberOnExcept(player, p, (ServerLevel) player.level())) { //If there's a party member on at this point
-                        System.out.println(ModConfigs.SERVER.allowPartyKO.get());
-                        if (ModConfigs.SERVER.allowPartyKO.get()) { //If KO is allowed
-                            if (player.getHealth() - event.getNewDamage() <= 0) { //If gets hit by a mortal attack
-                                System.out.println("Fatal hit");
-                                if (!player.hasEffect(ModMobEffects.KO)) { // We only set KO if player gets hit enough to kill them (but doesn't kill them yet) while not KO already
-                                    event.setNewDamage(0);
-                                    player.removeAllEffects();
-                                    player.setHealth(player.getMaxHealth());
-                                    player.invulnerableTime = 40;
-                                    player.getFoodData().setFoodLevel(10);
-                                    player.getFoodData().setExhaustion(0);
-                                    player.getFoodData().setSaturation(0);
-                                    MobEffectInstance koInstance = new MobEffectInstance(ModMobEffects.KO, MobEffectInstance.INFINITE_DURATION, 0, false, false, false);
-                                    player.addEffect(koInstance);
-                                    player.level().playSound(null, player.blockPosition(), ModSounds.playerDeathHardcore.get(), SoundSource.PLAYERS);
-                                } else { //If player has the effect we should force the gui to be closed to avoid - spamming
-                                    PacketHandler.sendTo(new SCRemoveKO(), (ServerPlayer) player);
-                                }
+            WorldData worldData = WorldData.get(player.getServer());
+            if (worldData != null && worldData.getPartyFromMember(player.getUUID()) != null) { //If the player gets hit and data is not null
+                Party p = worldData.getPartyFromMember(player.getUUID());
+                if (Utils.anyPartyMemberOnExcept(player, p, (ServerLevel) player.level())) { //If there's a party member on at this point
+                    System.out.println(ModConfigs.SERVER.allowPartyKO.get());
+                    if (ModConfigs.SERVER.allowPartyKO.get()) { //If KO is allowed
+                        if (player.getHealth() - event.getNewDamage() <= 0) { //If gets hit by a mortal attack
+                            System.out.println("Fatal hit");
+                            if (!player.hasEffect(ModMobEffects.KO)) { // We only set KO if player gets hit enough to kill them (but doesn't kill them yet) while not KO already
+                                event.setNewDamage(0);
+                                player.removeAllEffects();
+                                player.setHealth(player.getMaxHealth());
+                                player.invulnerableTime = 40;
+                                player.getFoodData().setFoodLevel(10);
+                                player.getFoodData().setExhaustion(0);
+                                player.getFoodData().setSaturation(0);
+                                MobEffectInstance koInstance = new MobEffectInstance(ModMobEffects.KO, MobEffectInstance.INFINITE_DURATION, 0, false, false, false);
+                                player.addEffect(koInstance);
+                                player.level().playSound(null, player.blockPosition(), ModSounds.playerDeathHardcore.get(), SoundSource.PLAYERS);
+                            } else { //If player has the effect we should force the gui to be closed to avoid - spamming
+                                PacketHandler.sendTo(new SCRemoveKO(), (ServerPlayer) player);
                             }
-                            return;
-                        } else { //If config does not allow prevent KO from being applied
-                            player.removeEffect(ModMobEffects.KO);
                         }
+                        return;
+                    } else { //If config does not allow prevent KO from being applied
+                        player.removeEffect(ModMobEffects.KO);
                     }
                 }
             }
