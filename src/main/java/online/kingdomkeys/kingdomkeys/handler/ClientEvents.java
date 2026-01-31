@@ -47,6 +47,7 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.ClientHooks;
 import net.neoforged.neoforge.client.event.*;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
+import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
@@ -414,6 +415,7 @@ public class ClientEvents {
 				if(player.hasEffect(ModMobEffects.KO)) {
 					LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> renderer = (LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>>) Minecraft.getInstance().getEntityRenderDispatcher().getRenderer((AbstractClientPlayer) player);
 					if (!((IDisabledAnimations) renderer).kingdom_Keys$isDisabled()) {
+                        //Cancel the vanilla animation
                         event.setCanceled(true);
 
                         PoseStack pose = event.getPoseStack();
@@ -423,16 +425,21 @@ public class ClientEvents {
                         pose.pushPose();
                         {
                             float MAX = 100;
+                            float MAX2 = 35;
+
                             double t = player.tickCount % MAX;
+                            double t2 = player.tickCount % MAX2;
 
                             double bob = (t < MAX / 2) ? (t / (MAX / 2D)) : ((MAX - t) / (MAX / 2D));
+                            double bob2 = (t2 < MAX2 / 2) ? (t2 / (MAX2 / 2D)) : ((MAX2 - t2) / (MAX2 / 2D));
 
+                            //Render body
                             pose.pushPose();
                             {
                                 pose.mulPose(Axis.XP.rotationDegrees(90));
                                 pose.mulPose(Axis.ZP.rotationDegrees(90));
 
-                                pose.translate(0, -0.8, bob * 0.3 - 0.8F);
+                                pose.translate(0, -0.5, bob * 0.3 - 0.8F);
 
                                 ResourceLocation tex = ((AbstractClientPlayer) player).getSkin().texture();
                                 renderer.getModel().renderToBuffer(pose, buffer.getBuffer(RenderType.entityCutout(tex)), light, LivingEntityRenderer.getOverlayCoords(player, 0), 0xffffff);
@@ -442,6 +449,9 @@ public class ClientEvents {
                             String name = player.getDisplayName().getString();
 
                             ClientUtils.renderNameTag(renderer, player, name, pose, buffer, light, event.getPartialTick());
+
+                            pose.translate(0, -bob2 * 0.15 - 0.8F + 0.9F, 0);
+                            ClientUtils.renderHeart(pose,buffer,player);
 
                         }
                         pose.popPose();
@@ -473,7 +483,6 @@ public class ClientEvents {
 			}
 		}
 	}
-
 
     private static int selectedSlot = 0;
 

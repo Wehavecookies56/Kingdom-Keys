@@ -73,7 +73,6 @@ public class ClientSetup {
 			if(entry.getValue() instanceof LivingEntityRenderer renderer && !(entry.getValue() instanceof PlayerRenderer)) {
 				renderer.addLayer(new AeroLayerRenderer<LivingEntity>(renderer, event.getEntityModels()));
 				renderer.addLayer(new KeybladeArmorRenderer<>(renderer, event.getEntityModels()));
-
 			}
 		}
 		
@@ -83,7 +82,6 @@ public class ClientSetup {
 		renderer.addLayer(new ShoulderLayerRenderer<>(renderer, event.getEntityModels(),true));
 		renderer.addLayer(new KeybladeArmorRenderer<>(renderer, event.getEntityModels()));
 		renderer.addLayer(new AeroLayerRenderer<>(renderer, event.getEntityModels()));
-		renderer.addLayer(new HeartLayerRenderer<>(renderer, event.getEntityModels()));
 
 		renderer = event.getSkin(PlayerSkin.Model.SLIM);
 		renderer.addLayer(new DriveLayerRenderer<>(renderer));
@@ -91,9 +89,6 @@ public class ClientSetup {
 		renderer.addLayer(new ShoulderLayerRenderer<>(renderer, event.getEntityModels(),false));
 		renderer.addLayer(new KeybladeArmorRenderer<>(renderer, event.getEntityModels()));
 		renderer.addLayer(new AeroLayerRenderer<>(renderer, event.getEntityModels()));
-		renderer.addLayer(new HeartLayerRenderer<>(renderer, event.getEntityModels()));
-		
-
 	}
 
 	@SubscribeEvent
