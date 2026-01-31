@@ -15,6 +15,7 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 import org.lwjgl.glfw.GLFW;
 
 public class KOGui extends ChatScreen {
+    private boolean allowChatSend = true;
 
     Button giveUp, exit;
 
@@ -26,15 +27,23 @@ public class KOGui extends ChatScreen {
     protected void init() {
         //GLFW.glfwSetInputMode(minecraft.getWindow().getWindow(), GLFW.GLFW_CURSOR, GLFW.GLFW_CURSOR_DISABLED);
         super.init();
-
- //      this.input.setFocused(true);
-
         int cx = width / 2;
         int cy = (int) (height * 0.3F);
 
         addRenderableWidget(giveUp = new MenuButton(cx - 40, cy, 40, Utils.translateToLocal(Strings.Gui_KO_Die), MenuButton.ButtonType.BUTTON, (e) -> action("giveup")));
-
         addRenderableWidget(exit = new MenuButton(cx - 40, cy + 18, 40, Utils.translateToLocal(Strings.Gui_KO_Quit), MenuButton.ButtonType.BUTTON, (e) -> action("exit")));
+    }
+
+    @Override
+    public void onClose() {
+        allowChatSend = false;
+        super.onClose();
+    }
+
+    @Override
+    public void handleChatInput(String message, boolean addToRecentChat) {
+        if(allowChatSend)
+            super.handleChatInput(message, addToRecentChat);
     }
 
     private void action(String string) {

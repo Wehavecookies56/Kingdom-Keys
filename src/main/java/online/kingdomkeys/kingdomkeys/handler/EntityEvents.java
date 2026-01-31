@@ -835,7 +835,7 @@ public class EntityEvents {
                                 player.addEffect(koInstance);
                                 player.level().playSound(null, player.blockPosition(), ModSounds.playerDeathHardcore.get(), SoundSource.PLAYERS);
                             } else { //If player has the effect we should force the gui to be closed to avoid - spamming
-                                PacketHandler.sendTo(new SCRemoveKO(), (ServerPlayer) player);
+
                             }
                         }
                         return;
