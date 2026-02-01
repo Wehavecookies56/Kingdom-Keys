@@ -16,14 +16,10 @@ public record CSGiveUpKO() implements Packet {
 
     public static final StreamCodec<FriendlyByteBuf, CSGiveUpKO> STREAM_CODEC = StreamCodec.of((pBuffer, pValue) -> {}, pBuffer -> new CSGiveUpKO());
 
-    public static void killPlayer(Player player){
-        player.kill();
-    }
-
     @Override
     public void handle(IPayloadContext context) {
         Player player = context.player();
-        killPlayer(player);
+        player.kill();
         player.removeEffect(ModMobEffects.KO);
     }
 

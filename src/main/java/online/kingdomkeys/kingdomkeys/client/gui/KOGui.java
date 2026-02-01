@@ -6,7 +6,6 @@ import net.minecraft.client.gui.screens.ChatScreen;
 import net.minecraft.client.gui.screens.GenericMessageScreen;
 import net.minecraft.client.gui.screens.TitleScreen;
 import net.minecraft.network.chat.Component;
-import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
@@ -15,8 +14,6 @@ import online.kingdomkeys.kingdomkeys.network.cts.CSGiveUpKO;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class KOGui extends ChatScreen {
-    private boolean allowChatSend = true;
-
     Button giveUp, exit;
 
     public KOGui() {
@@ -32,21 +29,6 @@ public class KOGui extends ChatScreen {
 
         addRenderableWidget(giveUp = new MenuButton(cx - 40, cy, 40, Utils.translateToLocal(Strings.Gui_KO_Die), MenuButton.ButtonType.BUTTON, (e) -> action("giveup")));
         addRenderableWidget(exit = new MenuButton(cx - 40, cy + 18, 40, Utils.translateToLocal(Strings.Gui_KO_Quit), MenuButton.ButtonType.BUTTON, (e) -> action("exit")));
-    }
-
-
-    @Override
-    public void onClose() {
-        allowChatSend = false;
-        super.onClose();
-    }
-
-    @Override
-    public void handleChatInput(String message, boolean addToRecentChat) {
-        if(allowChatSend)
-            super.handleChatInput(message, addToRecentChat);
-        else
-            KingdomKeys.LOGGER.debug("Prevented message being sent while KO: ["+message+"]");
     }
 
     @Override

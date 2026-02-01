@@ -242,6 +242,12 @@ public class KingdomKeys {
 			patchouliLoaded = true;
 		}
 
+        if(ModList.get().isLoaded("supplementaries")){
+            KingdomKeys.LOGGER.warn("Supplementaries found, by default if you die while typing it sends the message with a - at the end.");
+            KingdomKeys.LOGGER.warn("We recommend to disable it if you play with the KO System enabled.");
+            KingdomKeys.LOGGER.warn("Change \"send_chat_on_death = true\" to false in supplementaries-client.toml.");
+        }
+
 		NeoForge.EVENT_BUS.register(this);
 		NeoForge.EVENT_BUS.register(new CastleOblivionHandler());
 		//MinecraftForge.EVENT_BUS.register(new APITests());

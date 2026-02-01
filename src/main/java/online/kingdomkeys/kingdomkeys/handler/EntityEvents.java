@@ -822,7 +822,6 @@ public class EntityEvents {
                     System.out.println(ModConfigs.SERVER.allowPartyKO.get());
                     if (ModConfigs.SERVER.allowPartyKO.get()) { //If KO is allowed
                         if (player.getHealth() - event.getNewDamage() <= 0) { //If gets hit by a mortal attack
-                            System.out.println("Fatal hit");
                             if (!player.hasEffect(ModMobEffects.KO)) { // We only set KO if player gets hit enough to kill them (but doesn't kill them yet) while not KO already
                                 event.setNewDamage(0);
                                 player.removeAllEffects();
@@ -834,8 +833,6 @@ public class EntityEvents {
                                 MobEffectInstance koInstance = new MobEffectInstance(ModMobEffects.KO, MobEffectInstance.INFINITE_DURATION, 0, false, false, false);
                                 player.addEffect(koInstance);
                                 player.level().playSound(null, player.blockPosition(), ModSounds.playerDeathHardcore.get(), SoundSource.PLAYERS);
-                            } else { //If player has the effect we should force the gui to be closed to avoid - spamming
-
                             }
                         }
                         return;
@@ -1334,8 +1331,10 @@ public class EntityEvents {
 			PacketHandler.syncToAllAround(localPlayer, globalData);
 			PlayerData targetPlayerData = PlayerData.get(targetPlayer);
 			GlobalData globalData2 = GlobalData.get(targetPlayer);
-			PacketHandler.syncToAllAround(targetPlayer, targetPlayerData);
-			PacketHandler.syncToAllAround(targetPlayer, globalData2);
+            if(targetPlayerData != null && globalData2 != null) {
+                PacketHandler.syncToAllAround(targetPlayer, targetPlayerData);
+                PacketHandler.syncToAllAround(targetPlayer, globalData2);
+            }
 		}
 
 		if(!localPlayer.level().isClientSide) {
