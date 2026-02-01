@@ -254,7 +254,6 @@ public class ClientEvents {
 			GlobalData globalData = GlobalData.get((LivingEntity) event.getEntity());
 			if (globalData != null) {
                 if(livingEntity == Minecraft.getInstance().player) {
-                    System.out.println("\n"+livingEntity.getDisplayName().getString()+" "+(livingEntity.hasEffect(ModMobEffects.KO) ? "Has effect": "No effect"));
                     if (livingEntity.hasEffect(ModMobEffects.KO)) {
                         if (livingEntity.level().isClientSide) {
                             if (livingEntity.isDeadOrDying())
@@ -277,7 +276,6 @@ public class ClientEvents {
                             handledCamera = false;
                         }
                     }
-                    System.out.println(prevCamera + " " + handledCamera);
                 }
 				if (event.getEntity() instanceof Player player) {
 					if (player.hasEffect(ModMobEffects.STOP)) {
