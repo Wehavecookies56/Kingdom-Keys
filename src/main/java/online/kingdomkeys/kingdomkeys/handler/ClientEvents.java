@@ -239,8 +239,10 @@ public class ClientEvents {
         }
 	}
 
+    boolean handledCamera = false;
+    public static CameraType prevCamera = CameraType.FIRST_PERSON;
 
-	@SubscribeEvent
+    @SubscribeEvent
 	public void onLivingUpdate(EntityTickEvent.Pre event) {
 		if(event.getEntity() instanceof LocalPlayer player){
 			if(player.getControlledVehicle() instanceof KKVehicleEntity vehicle) {
@@ -251,19 +253,32 @@ public class ClientEvents {
 		if (event.getEntity() instanceof LivingEntity livingEntity) {
 			GlobalData globalData = GlobalData.get((LivingEntity) event.getEntity());
 			if (globalData != null) {
+                if(livingEntity == Minecraft.getInstance().player) {
+                    System.out.println("\n"+livingEntity.getDisplayName().getString()+" "+(livingEntity.hasEffect(ModMobEffects.KO) ? "Has effect": "No effect"));
+                    if (livingEntity.hasEffect(ModMobEffects.KO)) {
+                        if (livingEntity.level().isClientSide) {
+                            if (livingEntity.isDeadOrDying())
+                                return;
 
-				if(livingEntity.hasEffect(ModMobEffects.KO)) {
-					if (event.getEntity().level().isClientSide && event.getEntity() == Minecraft.getInstance().player) {
-                        if (livingEntity.isDeadOrDying())
-                            return;
+                            //Force the 3rd person view when KO
+                            if (!handledCamera) {
+                                // Store and swap camera if needed
+                                prevCamera = Minecraft.getInstance().options.getCameraType();
+                                Minecraft.getInstance().options.setCameraType(CameraType.THIRD_PERSON_BACK);
+                                handledCamera = true;
+                            }
 
-                        if (Minecraft.getInstance().options.getCameraType() == CameraType.FIRST_PERSON)
-							Minecraft.getInstance().options.setCameraType(CameraType.THIRD_PERSON_FRONT);
-
-						if (!(Minecraft.getInstance().screen instanceof KOGui))
-							Minecraft.getInstance().setScreen(new KOGui());
-					}
-				}
+                            if (!(Minecraft.getInstance().screen instanceof KOGui))
+                                Minecraft.getInstance().setScreen(new KOGui());
+                        }
+                    } else { //If doesn't have KO
+                        if (handledCamera) {
+                            Minecraft.getInstance().options.setCameraType(prevCamera);
+                            handledCamera = false;
+                        }
+                    }
+                    System.out.println(prevCamera + " " + handledCamera);
+                }
 				if (event.getEntity() instanceof Player player) {
 					if (player.hasEffect(ModMobEffects.STOP)) {
 						if(event.getEntity().level().isClientSide && player == Minecraft.getInstance().player) {

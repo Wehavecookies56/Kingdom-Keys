@@ -49,10 +49,6 @@ public class KOGui extends ChatScreen {
     private void action(String string) {
         switch (string) {
             case "giveup" -> {
-                //Prevents screen flickering
-                if (minecraft.player != null) {
-                    minecraft.player.removeEffect(ModMobEffects.KO);
-                }
                 PacketHandler.sendToServer(new CSGiveUpKO());
                 onClose();
             }
@@ -80,10 +76,6 @@ public class KOGui extends ChatScreen {
     public void render(GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
         // If revives or dies close it
         if (minecraft.player != null) {
-            if(minecraft.player.isDeadOrDying()) {
-                onClose();
-                return;
-            }
             if(!minecraft.player.hasEffect(ModMobEffects.KO)){
                 onClose();
                 return;

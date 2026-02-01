@@ -3,7 +3,8 @@
 
 **Changed:**
 * Description of KO party config to reflect the issue with supplementaries. 
+* Camera will now save the first or third person mode and will restore it after KO'd.
 
 **Fixed:**
-* Heart animation when KO missing.
-* Potential chat spam when two players started tracking eachother.
+* Heart animation when KO was missing.
+* Potential log message when two players started tracking eachother.
