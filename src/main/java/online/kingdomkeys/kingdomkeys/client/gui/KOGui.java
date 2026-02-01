@@ -6,13 +6,13 @@ import net.minecraft.client.gui.screens.ChatScreen;
 import net.minecraft.client.gui.screens.GenericMessageScreen;
 import net.minecraft.client.gui.screens.TitleScreen;
 import net.minecraft.network.chat.Component;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSGiveUpKO;
 import online.kingdomkeys.kingdomkeys.util.Utils;
-import org.lwjgl.glfw.GLFW;
 
 public class KOGui extends ChatScreen {
     private boolean allowChatSend = true;
@@ -34,6 +34,7 @@ public class KOGui extends ChatScreen {
         addRenderableWidget(exit = new MenuButton(cx - 40, cy + 18, 40, Utils.translateToLocal(Strings.Gui_KO_Quit), MenuButton.ButtonType.BUTTON, (e) -> action("exit")));
     }
 
+
     @Override
     public void onClose() {
         allowChatSend = false;
@@ -44,6 +45,23 @@ public class KOGui extends ChatScreen {
     public void handleChatInput(String message, boolean addToRecentChat) {
         if(allowChatSend)
             super.handleChatInput(message, addToRecentChat);
+        else
+            KingdomKeys.LOGGER.debug("Prevented message being sent while KO: ["+message+"]");
+    }
+
+    @Override
+    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+        if(keyCode == 257 || keyCode == 335) {//enter
+            if(input.getValue().trim().isEmpty()){
+                return false;
+            } else {
+                this.handleChatInput(this.input.getValue(), true);
+                this.input.setValue("");
+                this.minecraft.gui.getChat().resetChatScroll();
+                return true;
+            }
+        }
+        return super.keyPressed(keyCode, scanCode, modifiers);
     }
 
     private void action(String string) {
@@ -90,6 +108,28 @@ public class KOGui extends ChatScreen {
             }
         }
 
+     //   System.out.println(input.getValue());
+
+       /* Minecraft mc = Minecraft.getInstance();
+        int width = mc.getWindow().getGuiScaledWidth();
+        int height = mc.getWindow().getGuiScaledHeight();
+
+        int layers = 50;
+        int max = 140;
+
+        for (int i = 0; i < layers; i++) {
+            float t = (float)i / (layers - 1);
+            float alpha = (float)Math.pow(t, 2.2);
+
+            int a = (int)(alpha * 180) << 24;  // opacidad máxima
+
+            int thickness = (int)((1f - t) * max);
+
+            gui.fill(0, 0, width, thickness, a);
+            gui.fill(0, height - thickness, width, height, a);
+            gui.fill(0, thickness, thickness, height - thickness, a);
+            gui.fill(width - thickness, thickness, width, height - thickness, a);
+        }*/
         super.render(gui, mouseX, mouseY, partialTicks);
     }
 }
