@@ -29,11 +29,6 @@
       "kingdomkeys:ether"
     ]
   },
-  "hi-potion": {
-    "sounds": [
-      "kingdomkeys:hi-potion"
-    ]
-  },
   "hp_orb": {
     "sounds": [
       "kingdomkeys:hp_orb"

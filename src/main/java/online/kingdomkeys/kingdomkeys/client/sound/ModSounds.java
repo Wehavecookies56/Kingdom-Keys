@@ -32,7 +32,7 @@ public class ModSounds {
             munny = registerSound("munny"),
             potion = registerSound("potion"),
             ether = registerSound("ether"),
-            hiPotion = registerSound("hi-potion"),
+            //hiPotion = registerSound("hi-potion"),
             savepoint = registerSound("savepoint"),
             savespawn = registerSound("savespawn"),
             sharpshooterbullet = registerSound("sharpshooterbullet"),

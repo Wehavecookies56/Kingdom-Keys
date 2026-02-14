@@ -40,7 +40,7 @@ public class Sounds extends SoundDefinitionsProvider {
         add(munny);
         add(potion);
         add(ether);
-        add(hiPotion);
+        //add(hiPotion);
         add(savepoint);
         add(savespawn);
         add(sharpshooterbullet);
