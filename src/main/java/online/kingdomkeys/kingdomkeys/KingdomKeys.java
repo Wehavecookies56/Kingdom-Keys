@@ -38,6 +38,7 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.advancements.ModAdvancements;
 import online.kingdomkeys.kingdomkeys.api.event.client.CommandMenuEvent;
+import online.kingdomkeys.kingdomkeys.banners.ModBannerPatterns;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.block.ModEnergy;
 import online.kingdomkeys.kingdomkeys.client.gui.overlay.CommandMenuGui;
@@ -207,6 +208,7 @@ public class KingdomKeys {
         ModMenus.MENUS.register(modEventBus);
 		ModLootModifier.LOOT_MODIFIERS.register(modEventBus);
 		ModMobEffects.MOB_EFFECTS.register(modEventBus);
+        //ModBannerPatterns.PATTERNS.register(modEventBus);
 		TABS.register(modEventBus);
 
         ModEntities.ENTITIES.register(modEventBus);
