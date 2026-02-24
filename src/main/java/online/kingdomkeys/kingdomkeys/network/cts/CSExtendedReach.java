@@ -12,6 +12,8 @@ import net.neoforged.neoforge.network.handling.IPayloadContext;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.network.Packet;
 import online.kingdomkeys.kingdomkeys.util.IExtendedReach;
+import yesman.epicfight.client.ClientEngine;
+import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
 
 public record CSExtendedReach(int entityId) implements Packet {
 
@@ -30,6 +32,11 @@ public record CSExtendedReach(int entityId) implements Packet {
 		if (ItemStack.matches(player.getMainHandItem(), ItemStack.EMPTY)) {
 			return;
 		}
+        if (KingdomKeys.efmLoaded){
+            if (PlayerPatch.PlayerMode.EPICFIGHT == ClientEngine.getInstance().getPlayerPatch().getPlayerMode())
+                return ;
+        }
+
 		if (player.getMainHandItem().getItem() instanceof IExtendedReach theExtendedReachWeapon) {
             double distanceSq = 0;
             if (theEntity != null) {
