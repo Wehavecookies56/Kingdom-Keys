@@ -29,10 +29,13 @@ public record CSExtendedReach(int entityId) implements Packet {
 	public void handle(IPayloadContext context) {
 		Player player = context.player();
 		Entity theEntity = player.level().getEntity(entityId);
-		if (ItemStack.matches(player.getMainHandItem(), ItemStack.EMPTY) ||
-                (KingdomKeys.efmLoaded && PlayerPatch.PlayerMode.EPICFIGHT == ClientEngine.getInstance().getPlayerPatch().getPlayerMode())) {
+		if (ItemStack.matches(player.getMainHandItem(), ItemStack.EMPTY)) {
 			return;
 		}
+        if (KingdomKeys.efmLoaded){
+            if (PlayerPatch.PlayerMode.EPICFIGHT == ClientEngine.getInstance().getPlayerPatch().getPlayerMode())
+                return ;
+        }
 
 		if (player.getMainHandItem().getItem() instanceof IExtendedReach theExtendedReachWeapon) {
             double distanceSq = 0;
