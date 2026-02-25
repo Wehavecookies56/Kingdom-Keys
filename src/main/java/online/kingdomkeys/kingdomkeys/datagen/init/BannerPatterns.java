@@ -9,7 +9,10 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BannerPatternTags;
 import net.minecraft.world.level.block.entity.BannerPattern;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
+import net.neoforged.neoforge.registries.DeferredHolder;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.banners.ModBannerPatterns;
+
 import java.util.concurrent.CompletableFuture;
 
 public class BannerPatterns extends BannerPatternTagsProvider {
@@ -20,10 +23,17 @@ public class BannerPatterns extends BannerPatternTagsProvider {
 
     @Override
     protected void addTags(HolderLookup.Provider provider) {
-        this.tag(BannerPatternTags.NO_ITEM_REQUIRED).add(create("heartless"));
+        for (DeferredHolder<BannerPattern, ? extends BannerPattern> patternEntry : ModBannerPatterns.PATTERNS.getEntries()) {
+            ResourceKey<BannerPattern> banner = patternEntry.getKey();
+            this.tag(BannerPatternTags.NO_ITEM_REQUIRED).add(create(banner.location()));
+        }
     }
 
     private static ResourceKey<BannerPattern> create(String name) {
         return ResourceKey.create(Registries.BANNER_PATTERN, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, name));
+    }
+
+    private static ResourceKey<BannerPattern> create(ResourceLocation name) {
+        return ResourceKey.create(Registries.BANNER_PATTERN, name);
     }
 }

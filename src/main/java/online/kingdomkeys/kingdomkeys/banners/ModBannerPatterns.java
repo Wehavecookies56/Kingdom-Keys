@@ -9,9 +9,10 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import java.util.function.Supplier;
 
 public class ModBannerPatterns {
-    public static final DeferredRegister<BannerPattern> PATTERNS =
-            DeferredRegister.create(Registries.BANNER_PATTERN, KingdomKeys.MODID);
+    public static final DeferredRegister<BannerPattern> PATTERNS = DeferredRegister.create(Registries.BANNER_PATTERN, KingdomKeys.MODID);
 
-    public static final Supplier<BannerPattern> HEARTLESS =
-            PATTERNS.register("heartless", () -> new BannerPattern(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID,"heartless"), "kk"));
+    public static final Supplier<BannerPattern>
+            HEARTLESS = PATTERNS.register("heartless", () -> new BannerPattern(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID,"heartless"), "heartless")),
+            NOBODY = PATTERNS.register("nobody", () -> new BannerPattern(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID,"nobody"), "nobody"));
+
 }

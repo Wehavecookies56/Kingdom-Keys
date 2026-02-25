@@ -24,8 +24,8 @@ public class AtlasProvider extends SpriteSourceProvider {
 		atlas(SpriteSourceProvider.BLOCKS_ATLAS).addSource(new SingleFile(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "entity/models/heart"), Optional.empty()));
 		atlas(SpriteSourceProvider.BLOCKS_ATLAS).addSource(new SingleFile(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "entity/models/portal"), Optional.empty()));
 
-        atlas(SpriteSourceProvider.BLOCKS_ATLAS)
+       /* atlas(SpriteSourceProvider.BLOCKS_ATLAS)
                 .addSource(new DirectoryLister("banner_pattern", "banner_pattern/"))
-                .addSource(new DirectoryLister("entity/shield", "entity/shield/"));
+                .addSource(new DirectoryLister("entity/shield", "entity/shield/"));*/
 	}
 }

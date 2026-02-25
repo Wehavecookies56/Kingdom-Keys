@@ -208,7 +208,6 @@ public class KingdomKeys {
         ModMenus.MENUS.register(modEventBus);
 		ModLootModifier.LOOT_MODIFIERS.register(modEventBus);
 		ModMobEffects.MOB_EFFECTS.register(modEventBus);
-        //ModBannerPatterns.PATTERNS.register(modEventBus);
 		TABS.register(modEventBus);
 
         ModEntities.ENTITIES.register(modEventBus);
