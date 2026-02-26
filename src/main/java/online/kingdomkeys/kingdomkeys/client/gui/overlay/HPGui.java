@@ -1,16 +1,19 @@
 package online.kingdomkeys.kingdomkeys.client.gui.overlay;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.*;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.client.ClientSetup;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.lib.Constants;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+import org.joml.Matrix4f;
 
 public class HPGui extends OverlayBase {
 
@@ -37,9 +40,11 @@ public class HPGui extends OverlayBase {
 
 		PoseStack poseStack = guiGraphics.pose();
 
-		/*
+
         poseStack.pushPose();
         {
+            poseStack.translate(20,20,0);
+            poseStack.scale(0.2F,0.2F,0.2F);
             RenderSystem.enableBlend();
             RenderSystem.defaultBlendFunc();
 
@@ -47,9 +52,8 @@ public class HPGui extends OverlayBase {
 			float maxHealth = minecraft.player.getMaxHealth();
 			float healthPercentage = health / maxHealth;
 
-
-			int barWidth = 256;
-			int barHeight = 256;
+			int barWidth = 905;
+			int barHeight = 241;
 			int barX = 0;
 			int barY = 0;
             RenderSystem.setShaderTexture(0, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/hp_fill.png"));
@@ -74,7 +78,10 @@ public class HPGui extends OverlayBase {
             RenderSystem.setShader(GameRenderer::getPositionTexShader);
         }
         poseStack.popPose();
-		*/
+
+
+
+
 
 		float partialTick = deltaTracker.getGameTimeDeltaPartialTick(false);
 
