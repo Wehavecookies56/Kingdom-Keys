@@ -178,18 +178,21 @@ public class ClientSetup {
 		event.register(ModelResourceLocation.standalone(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "entity/heart")));
 	}
 
-	public static ShaderInstance testShader;
+	public static ShaderInstance testShader, focusShader;
 
 	@SubscribeEvent
 	public static void registerShaders(RegisterShadersEvent event) {
 		try {
-			event.registerShader(new ShaderInstance(event.getResourceProvider(), ResourceLocation.parse("kingdomkeys:test"), DefaultVertexFormat.POSITION_TEX), shaderInstance -> {
+			event.registerShader(new ShaderInstance(event.getResourceProvider(), ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID,"test"), DefaultVertexFormat.POSITION_TEX), shaderInstance -> {
 				testShader = shaderInstance;
 			});
+            event.registerShader(new ShaderInstance(event.getResourceProvider(), ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID,"focus"), DefaultVertexFormat.POSITION_TEX), shaderInstance -> {
+                focusShader = shaderInstance;
+            });
 
 		} catch (IOException e) {
 			e.printStackTrace();
-			throw new RuntimeException("Could not load shader");
+			throw new RuntimeException("Could not load shader: "+e);
 		}
 	}
 }

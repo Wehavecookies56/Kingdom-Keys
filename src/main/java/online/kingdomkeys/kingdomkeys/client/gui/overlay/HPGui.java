@@ -40,10 +40,14 @@ public class HPGui extends OverlayBase {
 
 		PoseStack poseStack = guiGraphics.pose();
 
+        int screenWidth = minecraft.getWindow().getGuiScaledWidth();
+        int screenHeight = minecraft.getWindow().getGuiScaledHeight();
+
+
 
         poseStack.pushPose();
         {
-            poseStack.translate(20,20,0);
+            poseStack.translate(screenWidth-ModConfigs.hpXPos, ModConfigs.hpYPos, 0);
             poseStack.scale(0.2F,0.2F,0.2F);
             RenderSystem.enableBlend();
             RenderSystem.defaultBlendFunc();
@@ -85,8 +89,6 @@ public class HPGui extends OverlayBase {
 
 		float partialTick = deltaTracker.getGameTimeDeltaPartialTick(false);
 
-		int screenWidth = minecraft.getWindow().getGuiScaledWidth();
-		int screenHeight = minecraft.getWindow().getGuiScaledHeight();
 		float scale = 1f;
 		if (minecraft.options.guiScale().get() == Constants.SCALE_AUTO)
 			scale = 0.85F;

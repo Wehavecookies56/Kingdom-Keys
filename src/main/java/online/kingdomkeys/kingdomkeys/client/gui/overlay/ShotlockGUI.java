@@ -1,29 +1,33 @@
 package online.kingdomkeys.kingdomkeys.client.gui.overlay;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.*;
 import com.mojang.math.Axis;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.client.ClientSetup;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
+import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.handler.ClientEvents;
 import online.kingdomkeys.kingdomkeys.lib.Constants;
 import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+import org.joml.Matrix4f;
 
 //TODO cleanup + comments
 public class ShotlockGUI extends OverlayBase {
 
 	public static final ShotlockGUI INSTANCE = new ShotlockGUI();
 	float focusBarWidth;
-	int guiWidth = 44;
-	int guiHeight = 122;
-	int noborderguiwidth = 42;
-	int noborderguiheight = 120;
+    int barWidth = 260;
+    int barHeight = 172;
+    int barX = 0;
+    int barY = 0;
 	PlayerData playerData;
 
 	public ResourceLocation focusBar = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/focusbar.png");
@@ -45,9 +49,9 @@ public class ShotlockGUI extends OverlayBase {
 				rawScale = 0.85F;
 				break;
 		}
-		float scaleX = rawScale * ModConfigs.focusXScale/100F;
-		float scaleY = rawScale * ModConfigs.focusYScale/100F;
-		
+		float scaleX = rawScale * ModConfigs.focusXScale/100F * 0.35F;
+		float scaleY = rawScale * ModConfigs.focusYScale/100F * 0.35F;
+
 		playerData = PlayerData.get(player);
 		if(playerData == null || playerData.getMaxFocus() <= 0)
 			return;
@@ -56,40 +60,21 @@ public class ShotlockGUI extends OverlayBase {
 
 		PoseStack poseStack = guiGraphics.pose();
 
-		poseStack.pushPose();
-		{
-			poseStack.pushPose();
-			{
+        poseStack.pushPose();
+        {
+            poseStack.translate(screenWidth-0, screenHeight-40, 0);
+            poseStack.translate(-barWidth * scaleX, -barHeight * scaleY, 0);
+            poseStack.scale(scaleX, scaleY, 1);
 
-				RenderSystem.enableBlend();
-				poseStack.translate(ModConfigs.focusXPos + 38, ModConfigs.focusYPos -10, 0);
-				poseStack.translate((screenWidth - guiWidth * scaleX) - 20 * scaleX, (screenHeight - (guiHeight) * scaleY) - 8 * scaleY, 0);
-				poseStack.mulPose(Axis.ZP.rotationDegrees(50));
+            drawBackground(poseStack);
+            drawRedBar(poseStack);
+            drawOrangeBar(poseStack);
+        }
+        poseStack.popPose();
 
-				poseStack.pushPose();// Focus Background
-				{
-					poseStack.scale(scaleX, scaleY, 1);
-					drawFocusBarBack(guiGraphics, 0, 0, guiWidth, 1);
-				}
-				poseStack.popPose();
-
-				poseStack.pushPose();// Focus Cost Bar
-				{
-					poseStack.scale(scaleX, scaleY, 1);
-					drawFocusCostBarTop(guiGraphics, 0, 0, playerData.getFocus(), 1);
-				}
-				poseStack.popPose();
-
-				poseStack.pushPose();// Focus Bar
-				{
-					poseStack.scale(scaleX, scaleY, 1);
-					drawFocusBarTop(guiGraphics, 0, 0, (float)(ClientEvents.focusGaugeTemp), 1);
-				}
-				poseStack.popPose();
-			}
-			poseStack.popPose();
-
-			if(ClientEvents.focusing) { //GUI itslef
+        poseStack.pushPose();
+        {
+			if(ClientEvents.focusing) { //GUI itself
 				int guiWidth = 256;
 				int guiHeight = 256;
 
@@ -138,38 +123,90 @@ public class ShotlockGUI extends OverlayBase {
 		poseStack.popPose();
 	}
 
-	public void drawFocusBarBack(GuiGraphics gui, float posX, float posY, float width, float scale) {
-		PoseStack matrixStack = gui.pose();
-		matrixStack.pushPose();
-		{
-			matrixStack.translate((posX) * scale, posY * scale, 0);
-			matrixStack.scale(scale, scale, 0);
-			blit(gui, focusBar, 0, 0, 0, 0, guiWidth, guiHeight);
-		}
-		matrixStack.popPose();
-	}
+    private void drawOrangeBar(PoseStack poseStack) {
+        float cost = (float) ClientEvents.focusGaugeTemp;
+        float maxFocus = (float) playerData.getMaxFocus();
+        float costPercentage = cost / maxFocus;
 
-	public void drawFocusCostBarTop(GuiGraphics gui, float posX, float posY, double focus, float scale) {
-		PoseStack matrixStack = gui.pose();
-		matrixStack.pushPose();
-		{
-			int h = (int) (focus * noborderguiheight / 100);
-			matrixStack.translate((posX) * scale, posY * scale, 0);
-			matrixStack.scale(scale, scale, 0);
-			blit(gui, focusBar, 0, noborderguiheight-h+1, 88, 120 - h, noborderguiwidth+1, h);
-		}
-		matrixStack.popPose();
-	}
-	
-	public void drawFocusBarTop(GuiGraphics gui, float posX, float posY, float amount, float scale) {
-		PoseStack matrixStack = gui.pose();
-		matrixStack.pushPose();
-		{
-			int h = (int) (amount * noborderguiheight / 100F);
-			matrixStack.translate((posX) * scale, posY * scale, 0);
-			matrixStack.scale(scale, scale, 0);
-			blit(gui, focusBar, 0, noborderguiheight-h+1, 44, 120 - h, noborderguiwidth+1, h);
-		}
-		matrixStack.popPose();
-	}
+        poseStack.pushPose();
+        {
+            RenderSystem.enableBlend();
+            RenderSystem.defaultBlendFunc();
+
+            RenderSystem.setShaderTexture(0, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/focus_bar_fill.png"));
+            RenderSystem.setShaderTexture(1, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/focus_bar_mask.png"));
+
+            ClientSetup.focusShader.setSampler("Sampler0", 0);
+            ClientSetup.focusShader.setSampler("Sampler1", 1);
+            ClientSetup.focusShader.safeGetUniform("FocusPercentage").set(costPercentage);
+            ClientSetup.focusShader.apply();
+            RenderSystem.setShader(() -> ClientSetup.focusShader);
+
+            Matrix4f matrix = poseStack.last().pose();
+            Tesselator tesselator = Tesselator.getInstance();
+            BufferBuilder buffer = tesselator.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
+
+            buffer.addVertex(matrix, barX, barY + barHeight, 0).setUv(0, 1);
+            buffer.addVertex(matrix, barX + barWidth, barY + barHeight, 0).setUv(1, 1);
+            buffer.addVertex(matrix, barX + barWidth, barY, 0).setUv(1, 0);
+            buffer.addVertex(matrix, barX, barY, 0).setUv(0, 0);
+            BufferUploader.drawWithShader(buffer.buildOrThrow());
+        }
+        poseStack.popPose();
+    }
+
+    private void drawRedBar(PoseStack poseStack) {
+        float focus = (float) playerData.getFocus();
+        float maxFocus = (float) playerData.getMaxFocus();
+        float focusPercentage = focus / maxFocus;
+
+        poseStack.pushPose();
+        {
+            RenderSystem.enableBlend();
+            RenderSystem.defaultBlendFunc();
+            RenderSystem.setShaderTexture(0, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/focus_cost_fill.png"));
+            RenderSystem.setShaderTexture(1, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/focus_bar_mask.png"));
+            ClientSetup.focusShader.setSampler("Sampler0", 0);
+            ClientSetup.focusShader.setSampler("Sampler1", 1);
+            ClientSetup.focusShader.safeGetUniform("FocusPercentage").set(focusPercentage);
+            ClientSetup.focusShader.apply();
+            RenderSystem.setShader(() -> ClientSetup.focusShader);
+
+            Matrix4f matrix = poseStack.last().pose();
+            Tesselator tesselator = Tesselator.getInstance();
+            BufferBuilder buffer = tesselator.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
+
+            buffer.addVertex(matrix, barX, barY + barHeight, 0).setUv(0, 1);
+            buffer.addVertex(matrix, barX + barWidth, barY + barHeight, 0).setUv(1, 1);
+            buffer.addVertex(matrix, barX + barWidth, barY, 0).setUv(1, 0);
+            buffer.addVertex(matrix, barX, barY, 0).setUv(0, 0);
+            BufferUploader.drawWithShader(buffer.buildOrThrow());
+
+            RenderSystem.disableBlend();
+            RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        }
+        poseStack.popPose();
+    }
+
+    private void drawBackground(PoseStack poseStack) {
+        poseStack.pushPose();
+        {
+            RenderSystem.enableBlend();
+            RenderSystem.setShader(GameRenderer::getPositionTexShader);
+            RenderSystem.setShaderTexture(0, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/focus_bar_outline.png"));
+
+            Matrix4f matrix = poseStack.last().pose();
+            Tesselator tesselator = Tesselator.getInstance();
+            BufferBuilder buffer = tesselator.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
+
+            buffer.addVertex(matrix, barX, barY + barHeight, 0).setUv(0, 1);
+            buffer.addVertex(matrix, barX + barWidth, barY + barHeight, 0).setUv(1, 1);
+            buffer.addVertex(matrix, barX + barWidth, barY, 0).setUv(1, 0);
+            buffer.addVertex(matrix, barX, barY, 0).setUv(0, 0);
+            BufferUploader.drawWithShader(buffer.buildOrThrow());
+        }
+        poseStack.popPose();
+    }
+
+
 }
