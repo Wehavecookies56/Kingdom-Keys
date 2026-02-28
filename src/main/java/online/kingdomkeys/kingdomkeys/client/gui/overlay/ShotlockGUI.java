@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.client.gui.overlay;
 
+import ca.weblite.objc.Client;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import com.mojang.math.Axis;
@@ -30,7 +31,6 @@ public class ShotlockGUI extends OverlayBase {
     int barY = 0;
 	PlayerData playerData;
 
-	public ResourceLocation focusBar = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/focusbar.png");
 	private ShotlockGUI() {
 		super();
 	}
@@ -49,8 +49,8 @@ public class ShotlockGUI extends OverlayBase {
 				rawScale = 0.85F;
 				break;
 		}
-		float scaleX = rawScale * ModConfigs.focusXScale/100F * 0.35F;
-		float scaleY = rawScale * ModConfigs.focusYScale/100F * 0.35F;
+		float scaleX = rawScale * ModConfigs.focusXScale / 100F * 0.35F;
+		float scaleY = rawScale * ModConfigs.focusYScale / 100F * 0.35F;
 
 		playerData = PlayerData.get(player);
 		if(playerData == null || playerData.getMaxFocus() <= 0)
@@ -74,53 +74,72 @@ public class ShotlockGUI extends OverlayBase {
 
         poseStack.pushPose();
         {
-			if(ClientEvents.focusing) { //GUI itself
-				int guiWidth = 256;
-				int guiHeight = 256;
+            if (ClientEvents.focusing) {
+                Shotlock shotlock = Utils.getPlayerShotlock(minecraft.player);
+                playerData = PlayerData.get(minecraft.player);
+                if(playerData == null || shotlock == null)
+                    return;
 
-				float focusScale = 400/100F;
-				float size = 6;
+                float scale = 1;
+                int guiWidth = 256;
+                int guiHeight = 256;
+                float x = (screenWidth - guiWidth * scale) / 2f;
+                float y = (screenHeight - guiHeight * scale) / 2f;
 
-				poseStack.pushPose();
-				{
-					poseStack.pushPose();
-					{
-						Shotlock shotlock = Utils.getPlayerShotlock(minecraft.player);
-						playerData = PlayerData.get(minecraft.player);
-						if(playerData == null)
-							return;
+                poseStack.translate(x, y, 0);
+                poseStack.scale(scale, scale, scale);
 
-						poseStack.translate((screenWidth / 2) - (guiWidth / 2) * focusScale / size - 0.5F, (screenHeight / 2) - (guiHeight / 2) * focusScale / size - 0.5F, 0);
-						poseStack.scale(focusScale / size, focusScale / size, focusScale / size);
-						if(ClientEvents.focusGaugeTemp<= 0)
-							RenderSystem.setShaderColor(1, 0, 0, 1);
-						this.blit(guiGraphics, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/focus.png"), 0, 0, 0, 0, guiWidth, guiHeight);
-						poseStack.pushPose();
-						{
-							poseStack.scale(2,2,2);
-							this.drawString(guiGraphics, minecraft.font, playerData.getShotlockEnemies().size() + "/" + shotlock.getMaxLocks(), guiWidth/2, guiHeight / 4 - minecraft.font.lineHeight / 2, 0x88CC33);
-						}
-						poseStack.popPose();
-						if(ClientEvents.focusGaugeTemp> 0) {
-							double max = playerData.getFocus();
-							double actual = ClientEvents.focusGaugeTemp;
-							int topOffset = 25;
-							int botOffset = 31;
+                float shotlockPercentage = (float) (ClientEvents.focusGaugeTemp / playerData.getFocus());
 
-							int realGuiHeight = (guiHeight-botOffset) - topOffset;
-							int n = (int)(actual * realGuiHeight / max);
-							blit(guiGraphics, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/focus2.png"), 0, (guiHeight-botOffset)-n, 0, (guiHeight-botOffset ) - n, guiWidth, n);
-						}
-						RenderSystem.setShaderColor(1, 1, 1, 1);
+                int barX = 0;
+                int barY = 0;
 
-					}
-					poseStack.popPose();
-				}
-				poseStack.popPose();
-			}
-			RenderSystem.disableBlend();
+                RenderSystem.enableBlend();
+                RenderSystem.defaultBlendFunc();
+
+                if (ClientEvents.focusGaugeTemp <= 0)
+                    RenderSystem.setShaderColor(1, 0, 0, 1);
+                else
+                    RenderSystem.setShaderColor(1, 1, 1, 1);
+
+                // Base
+                this.blit(guiGraphics, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/focus.png"), 0, 0,0, 0, guiWidth, guiHeight);
+                RenderSystem.setShaderColor(1, 1, 1, 1);
+
+                RenderSystem.setShaderTexture(0, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/focus_fill.png"));
+                RenderSystem.setShaderTexture(1, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/focus_mask.png"));
+
+                ClientSetup.shotlockShader.setSampler("Sampler0", 0);
+                ClientSetup.shotlockShader.setSampler("Sampler1", 1);
+                ClientSetup.shotlockShader.safeGetUniform("ShotlockPercentage").set(shotlockPercentage);
+                ClientSetup.shotlockShader.apply();
+                RenderSystem.setShader(() -> ClientSetup.shotlockShader);
+
+                Matrix4f matrix = poseStack.last().pose();
+                Tesselator tesselator = Tesselator.getInstance();
+                BufferBuilder buffer = tesselator.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
+
+                buffer.addVertex(matrix, barX, barY + guiHeight, 0).setUv(0, 1);
+                buffer.addVertex(matrix, barX + guiWidth, barY + guiHeight, 0).setUv(1, 1);
+                buffer.addVertex(matrix, barX + guiWidth, barY, 0).setUv(1, 0);
+                buffer.addVertex(matrix, barX, barY, 0).setUv(0, 0);
+
+                BufferUploader.drawWithShader(buffer.buildOrThrow());
+
+                RenderSystem.disableBlend();
+                RenderSystem.setShader(GameRenderer::getPositionTexShader);
+
+                poseStack.pushPose();
+                {
+                    poseStack.scale(2,2,2);
+                    this.drawString(guiGraphics, minecraft.font, playerData.getShotlockEnemies().size() + "/" + shotlock.getMaxLocks(), guiWidth/2, guiHeight / 4 - minecraft.font.lineHeight / 2, 0x88CC33);
+                }
+                poseStack.popPose();
+            }
 		}
 		poseStack.popPose();
+
+
 	}
 
     private void drawOrangeBar(PoseStack poseStack) {
