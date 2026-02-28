@@ -43,14 +43,10 @@ public class ShotlockGUI extends OverlayBase {
 		int screenWidth = minecraft.getWindow().getGuiScaledWidth();
 		int screenHeight = minecraft.getWindow().getGuiScaledHeight();
 
-		float rawScale = 1f;
-		switch (minecraft.options.guiScale().get()) {
-			case Constants.SCALE_AUTO:
-				rawScale = 0.85F;
-				break;
-		}
-		float scaleX = rawScale * ModConfigs.focusXScale / 100F * 0.35F;
-		float scaleY = rawScale * ModConfigs.focusYScale / 100F * 0.35F;
+		float rawScale = 0.28f;
+
+		float scaleX = rawScale * (ModConfigs.focusXScale-10) / 100F;
+		float scaleY = rawScale * (ModConfigs.focusYScale-20) / 100F;
 
 		playerData = PlayerData.get(player);
 		if(playerData == null || playerData.getMaxFocus() <= 0)
@@ -62,7 +58,7 @@ public class ShotlockGUI extends OverlayBase {
 
         poseStack.pushPose();
         {
-            poseStack.translate(screenWidth-0, screenHeight-40, 0);
+            poseStack.translate(screenWidth-2, screenHeight-34, 0);
             poseStack.translate(-barWidth * scaleX, -barHeight * scaleY, 0);
             poseStack.scale(scaleX, scaleY, 1);
 

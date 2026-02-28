@@ -29,20 +29,14 @@ public class MPGui extends OverlayBase {
 	@Override
 	public void render(GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
 		super.render(guiGraphics, deltaTracker);
-		// if (!MainConfig.displayGUI() || !player.getCapability(ModCapabilities.PLAYER_STATS, null).getHudMode())
-		// return;
 		Player player = minecraft.player;
 
 		int screenWidth = minecraft.getWindow().getGuiScaledWidth();
 		int screenHeight = minecraft.getWindow().getGuiScaledHeight();
 		RenderSystem.setShaderColor(1, 1, 1, 1);
 
-		float scale = 1f;
-		switch (minecraft.options.guiScale().get()) {
-			case Constants.SCALE_AUTO:
-				scale = 0.85F;
-				break;
-		}
+		float scale = 0.85f;
+
 		float scaleactor = 1F * ModConfigs.mpXScale/100F;
 		playerData = PlayerData.get(player);
 		if(playerData == null || playerData.getMaxMP() <= 0)
@@ -56,7 +50,7 @@ public class MPGui extends OverlayBase {
 		poseStack.pushPose();// MP Background
 		{
 			RenderSystem.enableBlend();
-			poseStack.translate(ModConfigs.mpXPos-7, ModConfigs.mpYPos, 0);
+			poseStack.translate(ModConfigs.mpXPos-3, ModConfigs.mpYPos-5, 0);
 
 			poseStack.pushPose();// MP Background
 			{

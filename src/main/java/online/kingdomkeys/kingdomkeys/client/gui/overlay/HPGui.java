@@ -14,6 +14,8 @@ import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.ClientSetup;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
+import online.kingdomkeys.kingdomkeys.effects.FreezeEffect;
+import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import online.kingdomkeys.kingdomkeys.lib.Constants;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import org.joml.Matrix4f;
@@ -61,10 +63,9 @@ public class HPGui extends OverlayBase {
         float scaleY = 0.2F;
         poseStack.pushPose();
         {
-            poseStack.translate(screenWidth-0, screenHeight-5, 0);
+            poseStack.translate(screenWidth-15, screenHeight-10, 0);
             poseStack.translate(-barWidth * scaleX, -barHeight * scaleY, 0);
             poseStack.scale(scaleX, scaleY, 1);
-            //if(player.hasEffect(MobEffects.POISON))
 
             RenderSystem.enableBlend();
             RenderSystem.defaultBlendFunc();
@@ -92,13 +93,25 @@ public class HPGui extends OverlayBase {
 			tesselator = Tesselator.getInstance();
 			buffer = tesselator.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
 
-            RenderSystem.setShaderTexture(0, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/hp_fill.png"));
-			RenderSystem.setShaderTexture(1, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/hp_mask.png"));
+            if (player.level().getLevelData().isHardcore())
+                RenderSystem.setShaderTexture(0, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/hp_fill_h.png"));
+            else
+                RenderSystem.setShaderTexture(0, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/hp_fill.png"));
+
+            RenderSystem.setShaderTexture(1, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/hp_mask.png"));
             ClientSetup.testShader.setSampler("Sampler0", 0);
 			ClientSetup.testShader.setSampler("Sampler1", 1);
 			ClientSetup.testShader.safeGetUniform("HealthPercentage").set(healthPercentage);
-			ClientSetup.testShader.safeGetUniform("Colour").set(1F, 1F, 1F, 1F);
-			ClientSetup.testShader.apply();
+            if(player.hasEffect(MobEffects.POISON))
+                ClientSetup.testShader.safeGetUniform("Colour").set(0.54F, 0.53F, 0F, 1F);
+            else if(player.hasEffect(MobEffects.WITHER))
+                ClientSetup.testShader.safeGetUniform("Colour").set(0.2F, 0.05F, 0F, 1F);
+            else if(player.hasEffect(ModMobEffects.FREEZE))
+                ClientSetup.testShader.safeGetUniform("Colour").set(0F, 1F, 1F, 1F);
+            else
+                ClientSetup.testShader.safeGetUniform("Colour").set(0.75F, 1F, 0.3F, 1F);
+
+            ClientSetup.testShader.apply();
             RenderSystem.setShader(() -> ClientSetup.testShader);
             buffer.addVertex(matrix, barX, barY + barHeight, 0).setUv(0, 1);
             buffer.addVertex(matrix, barX + barWidth, barY + barHeight, 0).setUv(1, 1);
