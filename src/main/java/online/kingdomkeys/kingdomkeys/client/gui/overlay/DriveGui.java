@@ -95,7 +95,7 @@ public class DriveGui extends OverlayBase {
 			{
 				RenderSystem.setShaderColor(1, 1, 1, 1);
 				RenderSystem.enableBlend();
-				poseStack.translate(-27 + ModConfigs.dpXPos, -8.3F + ModConfigs.dpYPos, 1);
+				poseStack.translate(-27 + ModConfigs.dpXPos, -3.3F + ModConfigs.dpYPos, 1);
 
 				// Background
 				poseStack.pushPose();

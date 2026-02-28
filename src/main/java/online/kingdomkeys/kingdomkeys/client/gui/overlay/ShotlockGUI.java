@@ -58,7 +58,7 @@ public class ShotlockGUI extends OverlayBase {
 
         poseStack.pushPose();
         {
-            poseStack.translate(screenWidth-2, screenHeight-34, 0);
+            poseStack.translate(screenWidth-2, screenHeight-29, 0);
             poseStack.translate(-barWidth * scaleX, -barHeight * scaleY, 0);
             poseStack.scale(scaleX, scaleY, 1);
 

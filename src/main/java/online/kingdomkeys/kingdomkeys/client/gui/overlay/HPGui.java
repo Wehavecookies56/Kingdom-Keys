@@ -63,7 +63,7 @@ public class HPGui extends OverlayBase {
         float scaleY = 0.2F;
         poseStack.pushPose();
         {
-            poseStack.translate(screenWidth-15, screenHeight-10, 0);
+            poseStack.translate(screenWidth-15, screenHeight-5, 0);
             poseStack.translate(-barWidth * scaleX, -barHeight * scaleY, 0);
             poseStack.scale(scaleX, scaleY, 1);
 
