@@ -14,6 +14,7 @@ import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.lib.Constants;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import org.joml.Matrix4f;
+import org.joml.Vector4f;
 
 public class HPGui extends OverlayBase {
 
@@ -66,6 +67,7 @@ public class HPGui extends OverlayBase {
 			ClientSetup.testShader.setSampler("Sampler0", 0);
 			ClientSetup.testShader.setSampler("Sampler1", 1);
 			ClientSetup.testShader.safeGetUniform("HealthPercentage").set(maxHealthPercentage);
+			ClientSetup.testShader.safeGetUniform("Colour").set(1F, 1F, 1F, 1F);
 			ClientSetup.testShader.apply();
 			RenderSystem.setShader(() -> ClientSetup.testShader);
 
@@ -88,6 +90,7 @@ public class HPGui extends OverlayBase {
             ClientSetup.testShader.setSampler("Sampler0", 0);
 			ClientSetup.testShader.setSampler("Sampler1", 1);
 			ClientSetup.testShader.safeGetUniform("HealthPercentage").set(healthPercentage);
+			ClientSetup.testShader.safeGetUniform("Colour").set(1F, 1F, 1F, 1F);
 			ClientSetup.testShader.apply();
             RenderSystem.setShader(() -> ClientSetup.testShader);
 
