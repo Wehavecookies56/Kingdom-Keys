@@ -12,7 +12,7 @@ import online.kingdomkeys.kingdomkeys.entity.mob.MegaShadowEntity;
 public class MegaShadowRenderer extends MobRenderer<MegaShadowEntity, ShadowModel<MegaShadowEntity>> {
 
 	public MegaShadowRenderer(EntityRendererProvider.Context context) {
-		super(context, new ShadowModel<>(context.bakeLayer(ShadowModel.LAYER_LOCATION)), 1F);
+		super(context, new ShadowModel<>(context.bakeLayer(ShadowModel.LAYER_LOCATION)), 0);
 		model.CYCLES_PER_BLOCK = 1;
 	}
 

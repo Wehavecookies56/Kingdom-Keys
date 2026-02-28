@@ -42,7 +42,6 @@ public class PatchedShoulderLayerRenderer<E extends LivingEntity, T extends Livi
     ResourceLocation texture;
     public static final Map<Item, SkinnedMesh> epicfight_shoulderModels = new HashMap<>();
 
-    //TODO
     public static void clearModels(PrepareModelEvent meshBuildEvent) {
         epicfight_shoulderModels.values().forEach(SkinnedMesh::destroy);
         epicfight_shoulderModels.clear();
