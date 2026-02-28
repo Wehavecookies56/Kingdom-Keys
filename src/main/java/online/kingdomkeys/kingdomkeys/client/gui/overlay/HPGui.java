@@ -4,9 +4,12 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.renderer.EffectInstance;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.ClientSetup;
@@ -14,7 +17,6 @@ import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.lib.Constants;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import org.joml.Matrix4f;
-import org.joml.Vector4f;
 
 public class HPGui extends OverlayBase {
 
@@ -46,7 +48,7 @@ public class HPGui extends OverlayBase {
 
 		float health = minecraft.player.getHealth();
 		float maxHealth = minecraft.player.getMaxHealth();
-		float maxMaxHealth = 140; //maybe config value or something?
+		float maxMaxHealth = 180; //maybe config value or something?
 		float healthPercentage = health / maxMaxHealth;
 		float maxHealthPercentage = maxHealth / maxMaxHealth;
 
@@ -55,10 +57,15 @@ public class HPGui extends OverlayBase {
 		int barX = 0;
 		int barY = 0;
 
+        float scaleX = 0.2F;
+        float scaleY = 0.2F;
         poseStack.pushPose();
         {
-            poseStack.translate(screenWidth-ModConfigs.hpXPos, ModConfigs.hpYPos, 0);
-            poseStack.scale(0.2F,0.2F,0.2F);
+            poseStack.translate(screenWidth-0, screenHeight-5, 0);
+            poseStack.translate(-barWidth * scaleX, -barHeight * scaleY, 0);
+            poseStack.scale(scaleX, scaleY, 1);
+            //if(player.hasEffect(MobEffects.POISON))
+
             RenderSystem.enableBlend();
             RenderSystem.defaultBlendFunc();
 
@@ -93,7 +100,6 @@ public class HPGui extends OverlayBase {
 			ClientSetup.testShader.safeGetUniform("Colour").set(1F, 1F, 1F, 1F);
 			ClientSetup.testShader.apply();
             RenderSystem.setShader(() -> ClientSetup.testShader);
-
             buffer.addVertex(matrix, barX, barY + barHeight, 0).setUv(0, 1);
             buffer.addVertex(matrix, barX + barWidth, barY + barHeight, 0).setUv(1, 1);
             buffer.addVertex(matrix, barX + barWidth, barY, 0).setUv(1, 0);
@@ -137,7 +143,7 @@ public class HPGui extends OverlayBase {
 				displayedPlayerHP = Mth.lerp(0.05F * partialTick, displayedPlayerHP, realPlayerHP);
 			}
 
-			drawHPBars(guiGraphics, poseStack, screenWidth, screenHeight, scale, scaleFactor, displayedPlayerHP, realPlayerHP, playerMaxHP);
+			//drawHPBars(guiGraphics, poseStack, screenWidth, screenHeight, scale, scaleFactor, displayedPlayerHP, realPlayerHP, playerMaxHP);
 
 		}
 		poseStack.popPose();
