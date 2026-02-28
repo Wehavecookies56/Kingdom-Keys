@@ -1,10 +1,12 @@
 **Added:**
-* A warning when mods load if supplementaries is found, regarding the KO system conflict.
+* Heartless and Nobody icons for banner paterns.
 
 **Changed:**
-* Description of KO party config to reflect the issue with supplementaries. 
-* Camera will now save the first or third person mode and will restore it after KO'd.
+* HP bar is now curved and works like in KH2.
+* Focus bar now fills up in a radial direction.
+* Shotlock GUI has been reworked and changed the "time indicator" to be radial instead of vertical texture.
 
 **Fixed:**
-* Heart animation when KO was missing.
-* Potential log message when two players started tracking eachother.
+* Retribution compatibility with EFM
+* Keyblades doing a vanilla attack when EFM is loaded and battle mode active.
+* Kingdom Key N texture being broken when using shaders.
