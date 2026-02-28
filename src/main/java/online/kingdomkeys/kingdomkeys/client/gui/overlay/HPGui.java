@@ -43,7 +43,16 @@ public class HPGui extends OverlayBase {
         int screenWidth = minecraft.getWindow().getGuiScaledWidth();
         int screenHeight = minecraft.getWindow().getGuiScaledHeight();
 
+		float health = minecraft.player.getHealth();
+		float maxHealth = minecraft.player.getMaxHealth();
+		float maxMaxHealth = 140; //maybe config value or something?
+		float healthPercentage = health / maxMaxHealth;
+		float maxHealthPercentage = maxHealth / maxMaxHealth;
 
+		int barWidth = 908;
+		int barHeight = 244;
+		int barX = 0;
+		int barY = 0;
 
         poseStack.pushPose();
         {
@@ -52,14 +61,28 @@ public class HPGui extends OverlayBase {
             RenderSystem.enableBlend();
             RenderSystem.defaultBlendFunc();
 
-			float health = minecraft.player.getHealth();
-			float maxHealth = minecraft.player.getMaxHealth();
-			float healthPercentage = health / maxHealth;
+			RenderSystem.setShaderTexture(0, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/hp_background.png"));
+			RenderSystem.setShaderTexture(1, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/hp_mask.png"));
+			ClientSetup.testShader.setSampler("Sampler0", 0);
+			ClientSetup.testShader.setSampler("Sampler1", 1);
+			ClientSetup.testShader.safeGetUniform("HealthPercentage").set(maxHealthPercentage);
+			ClientSetup.testShader.apply();
+			RenderSystem.setShader(() -> ClientSetup.testShader);
 
-			int barWidth = 905;
-			int barHeight = 241;
-			int barX = 0;
-			int barY = 0;
+			Matrix4f matrix = poseStack.last().pose();
+			Tesselator tesselator = Tesselator.getInstance();
+			BufferBuilder buffer = tesselator.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
+
+			buffer.addVertex(matrix, barX, barY + barHeight, 0).setUv(0, 1);
+			buffer.addVertex(matrix, barX + barWidth, barY + barHeight, 0).setUv(1, 1);
+			buffer.addVertex(matrix, barX + barWidth, barY, 0).setUv(1, 0);
+			buffer.addVertex(matrix, barX, barY, 0).setUv(0, 0);
+			BufferUploader.drawWithShader(buffer.buildOrThrow());
+
+			matrix = poseStack.last().pose();
+			tesselator = Tesselator.getInstance();
+			buffer = tesselator.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
+
             RenderSystem.setShaderTexture(0, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/hp_fill.png"));
 			RenderSystem.setShaderTexture(1, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/hp_mask.png"));
             ClientSetup.testShader.setSampler("Sampler0", 0);
@@ -67,10 +90,6 @@ public class HPGui extends OverlayBase {
 			ClientSetup.testShader.safeGetUniform("HealthPercentage").set(healthPercentage);
 			ClientSetup.testShader.apply();
             RenderSystem.setShader(() -> ClientSetup.testShader);
-
-            Matrix4f matrix = poseStack.last().pose();
-            Tesselator tesselator = Tesselator.getInstance();
-            BufferBuilder buffer = tesselator.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
 
             buffer.addVertex(matrix, barX, barY + barHeight, 0).setUv(0, 1);
             buffer.addVertex(matrix, barX + barWidth, barY + barHeight, 0).setUv(1, 1);
@@ -82,10 +101,6 @@ public class HPGui extends OverlayBase {
             RenderSystem.setShader(GameRenderer::getPositionTexShader);
         }
         poseStack.popPose();
-
-
-
-
 
 		float partialTick = deltaTracker.getGameTimeDeltaPartialTick(false);
 

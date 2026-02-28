@@ -53,6 +53,7 @@ import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.handler.EntityEvents;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.EpicFightRendering;
+import online.kingdomkeys.kingdomkeys.integration.epicfight.init.ClientEpicFightIntegration;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.init.EpicFightIntegration;
 import online.kingdomkeys.kingdomkeys.item.ICreativeTab;
 import online.kingdomkeys.kingdomkeys.item.ModArmorMaterials;
@@ -263,7 +264,8 @@ public class KingdomKeys {
 	private void modLoaded(final FMLLoadCompleteEvent event) {
 		if (FMLEnvironment.dist.isClient()) {
 			if (ModList.get().isLoaded("epicfight")) {
-				ModList.get().getModContainerById(KingdomKeys.MODID).get().getEventBus().addListener(EpicFightRendering::patchedRenderersEventModify);
+				ClientEpicFightIntegration.init();
+				//ModList.get().getModContainerById(KingdomKeys.MODID).get().getEventBus().addListener(EpicFightRendering::patchedRenderersEventModify);
 			}
 			NeoForge.EVENT_BUS.post(new CommandMenuEvent.Construct(CommandMenuGui.INSTANCE));
 		}

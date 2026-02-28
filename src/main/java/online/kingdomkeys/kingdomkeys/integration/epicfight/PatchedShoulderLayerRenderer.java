@@ -20,11 +20,11 @@ import online.kingdomkeys.kingdomkeys.client.render.ShoulderLayerRenderer;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.item.PauldronItem;
+import yesman.epicfight.api.client.event.types.render.PrepareModelEvent;
 import yesman.epicfight.api.client.model.Mesh;
 import yesman.epicfight.api.client.model.Meshes;
 import yesman.epicfight.api.client.model.SkinnedMesh;
 import yesman.epicfight.api.client.model.transformer.HumanoidModelBaker;
-import yesman.epicfight.api.client.neoevent.PrepareModelEvent;
 import yesman.epicfight.api.utils.math.OpenMatrix4f;
 import yesman.epicfight.client.renderer.EpicFightRenderTypes;
 import yesman.epicfight.client.renderer.patched.layer.PatchedLayer;
@@ -41,7 +41,8 @@ public class PatchedShoulderLayerRenderer<E extends LivingEntity, T extends Livi
 
     ResourceLocation texture;
     public static final Map<Item, SkinnedMesh> epicfight_shoulderModels = new HashMap<>();
-    @SubscribeEvent
+
+    //TODO
     public static void clearModels(PrepareModelEvent meshBuildEvent) {
         epicfight_shoulderModels.values().forEach(SkinnedMesh::destroy);
         epicfight_shoulderModels.clear();
