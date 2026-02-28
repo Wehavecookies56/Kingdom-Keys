@@ -80,10 +80,10 @@ public class ShotlockGUI extends OverlayBase {
                 if(playerData == null || shotlock == null)
                     return;
 
-                float scale = 1;
+                float scale = 0.6F;
                 int guiWidth = 256;
                 int guiHeight = 256;
-                float x = (screenWidth - guiWidth * scale) / 2f;
+                float x = (screenWidth - guiWidth * scale) / 2f -1;
                 float y = (screenHeight - guiHeight * scale) / 2f;
 
                 poseStack.translate(x, y, 0);
