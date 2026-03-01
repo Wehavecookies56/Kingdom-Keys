@@ -6,6 +6,7 @@ import com.mojang.math.Axis;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.core.Vec3i;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -14,6 +15,7 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
+import online.kingdomkeys.kingdomkeys.entity.GummiShipEntity;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
@@ -66,6 +68,12 @@ public class PlayerPortraitGui extends OverlayBase {
                     RenderSystem.disableBlend();
                 }
                 poseStack.popPose();
+                if(minecraft.player == null)
+                    return;
+
+                Player player = Minecraft.getInstance().player;
+
+
 
                 //3D render
 				float playerHeight = 50;
@@ -77,25 +85,41 @@ public class PlayerPortraitGui extends OverlayBase {
 
 				poseStack.pushPose();
 				{
-					if(minecraft.player == null)
-						return;
 
-					Player player = Minecraft.getInstance().player;
 					ItemStack stack = player.getInventory().getItem(player.getInventory().selected);
 					player.getInventory().setItem(player.getInventory().selected, new ItemStack(Items.AIR));
 
                     if(player.getVehicle() == null)
-                        ClientUtils.renderPlayerNoAnims(poseStack, (int) playerPosX + ModConfigs.playerSkinXPos, (int) playerPosY+ ModConfigs.playerSkinYPos, (int) playerHeight, 0,0, player);
+                        ClientUtils.renderEntity(poseStack, (int) playerPosX + ModConfigs.playerSkinXPos, (int) playerPosY+ ModConfigs.playerSkinYPos, (int) playerHeight, 0,0, player);
                     else {
-                        poseStack.scale(0.1F,0.1F,0.1F);
-                        poseStack.translate(-430,-250,0);
-                        poseStack.mulPose(Axis.YP.rotationDegrees(180.0F));
-                        ClientUtils.renderPlayerNoAnims(poseStack, (int) playerPosX + ModConfigs.playerSkinXPos, (int) playerPosY + ModConfigs.playerSkinYPos, (int) playerHeight, 0, 0, player.getVehicle());
+                        poseStack.pushPose();
+                        {
+                            int sizeX = 1, sizeY = 1;
+                            scale = 1.0f;
+
+                            if (player.getVehicle() instanceof GummiShipEntity ship) {
+                                if (ship.structure != null) {
+                                    Vec3i vec = Utils.getRealGummiStructureSize(ship.structure);
+                                    sizeX = vec.getX();
+                                    sizeY = vec.getY();
+                                    scale = 13f / Math.max(sizeX, sizeY); // escala uniforme
+                                }
+                            }
+
+                            poseStack.mulPose(Axis.YP.rotationDegrees(180));
+
+                            poseStack.translate(-sizeX / 2f, -sizeY / 2f, 0);
+                            poseStack.scale(scale, scale, scale);
+                            poseStack.translate(87, -56, 0);
+
+                            ClientUtils.renderEntity(poseStack, (int) playerPosX + ModConfigs.playerSkinXPos, (int) playerPosY + ModConfigs.playerSkinYPos, 3F, 0, 0, player.getVehicle());
+                        }
+                        poseStack.popPose();
                     }
 					player.getInventory().setItem(player.getInventory().selected, stack);
 				}
 				poseStack.popPose();
-				
+
 				
 				//2D render
 				/*poseStack.translate(-5 + ModConfigs.playerSkinXPos, -1 + ModConfigs.playerSkinYPos, 0);

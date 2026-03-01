@@ -8,16 +8,13 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.ClientSetup;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
-import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import online.kingdomkeys.kingdomkeys.entity.GummiShipEntity;
 import online.kingdomkeys.kingdomkeys.handler.ClientEvents;
 import online.kingdomkeys.kingdomkeys.handler.InputHandler;
-import online.kingdomkeys.kingdomkeys.lib.Constants;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import org.joml.Matrix4f;
 
@@ -124,7 +121,7 @@ public class GummiHUD extends OverlayBase {
         float maxHealth = ship.shipStats.armour();
         float health = maxHealth - ship.getDamage();
 
-        float maxMaxHealth = 1800; //maybe config value or something?
+        float maxMaxHealth = 35000; //maybe config value or something?
         float healthPercentage = health / maxMaxHealth;
         float maxHealthPercentage = maxHealth / maxMaxHealth;
 
@@ -170,14 +167,14 @@ public class GummiHUD extends OverlayBase {
 
 
     private void drawHPBackground(PoseStack poseStack, float maxHealthPercentage) {
-        RenderSystem.setShaderTexture(0, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/hp_background.png"));
+        RenderSystem.setShaderTexture(0, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/hp_gummi_background.png"));
         RenderSystem.setShaderTexture(1, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/hp_gummi_mask.png"));
-        ClientSetup.testShader.setSampler("Sampler0", 0);
-        ClientSetup.testShader.setSampler("Sampler1", 1);
-        ClientSetup.testShader.safeGetUniform("HealthPercentage").set(maxHealthPercentage);
-        ClientSetup.testShader.safeGetUniform("Colour").set(1F, 1F, 1F, 1F);
-        ClientSetup.testShader.apply();
-        RenderSystem.setShader(() -> ClientSetup.testShader);
+        ClientSetup.gummiHPShader.setSampler("Sampler0", 0);
+        ClientSetup.gummiHPShader.setSampler("Sampler1", 1);
+        ClientSetup.gummiHPShader.safeGetUniform("HealthPercentage").set(maxHealthPercentage);
+        ClientSetup.gummiHPShader.safeGetUniform("Colour").set(1F, 1F, 1F, 1F);
+        ClientSetup.gummiHPShader.apply();
+        RenderSystem.setShader(() -> ClientSetup.gummiHPShader);
 
         Matrix4f matrix = poseStack.last().pose();
         Tesselator tesselator = Tesselator.getInstance();
@@ -198,16 +195,16 @@ public class GummiHUD extends OverlayBase {
         RenderSystem.setShaderTexture(0, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/hp_gummi_fill.png"));
         RenderSystem.setShaderTexture(1, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/hp_gummi_mask.png"));
 
-        ClientSetup.testShader.setSampler("Sampler0", 0);
-        ClientSetup.testShader.setSampler("Sampler1", 1);
-        ClientSetup.testShader.safeGetUniform("HealthPercentage").set(healthPercentage);
-        ClientSetup.testShader.safeGetUniform("RedStart").set(0f);
-        ClientSetup.testShader.safeGetUniform("RedEnd").set(0f);
+        ClientSetup.gummiHPShader.setSampler("Sampler0", 0);
+        ClientSetup.gummiHPShader.setSampler("Sampler1", 1);
+        ClientSetup.gummiHPShader.safeGetUniform("HealthPercentage").set(healthPercentage);
+        ClientSetup.gummiHPShader.safeGetUniform("RedStart").set(0f);
+        ClientSetup.gummiHPShader.safeGetUniform("RedEnd").set(0f);
 
-        ClientSetup.testShader.safeGetUniform("Colour").set(0.4F, 1F, 0.2F, 1F);
+        ClientSetup.gummiHPShader.safeGetUniform("Colour").set(0.4F, 1F, 0.2F, 1F);
 
-        ClientSetup.testShader.apply();
-        RenderSystem.setShader(() -> ClientSetup.testShader);
+        ClientSetup.gummiHPShader.apply();
+        RenderSystem.setShader(() -> ClientSetup.gummiHPShader);
         buffer.addVertex(matrix, barX, barY + barHeight, 0).setUv(0, 1);
         buffer.addVertex(matrix, barX + barWidth, barY + barHeight, 0).setUv(1, 1);
         buffer.addVertex(matrix, barX + barWidth, barY, 0).setUv(1, 0);
@@ -236,20 +233,20 @@ public class GummiHUD extends OverlayBase {
             );
 
             RenderSystem.setShaderTexture(1,
-                    ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/hp_mask.png")
+                    ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/hp_gummi_mask.png")
             );
 
-            ClientSetup.testShader.setSampler("Sampler0", 0);
-            ClientSetup.testShader.setSampler("Sampler1", 1);
+            ClientSetup.gummiHPShader.setSampler("Sampler0", 0);
+            ClientSetup.gummiHPShader.setSampler("Sampler1", 1);
 
-            ClientSetup.testShader.safeGetUniform("HealthPercentage").set(0F);
-            ClientSetup.testShader.safeGetUniform("RedStart").set(healthPercentage);
-            ClientSetup.testShader.safeGetUniform("RedEnd").set(redEnd);
+            ClientSetup.gummiHPShader.safeGetUniform("HealthPercentage").set(0F);
+            ClientSetup.gummiHPShader.safeGetUniform("RedStart").set(healthPercentage);
+            ClientSetup.gummiHPShader.safeGetUniform("RedEnd").set(redEnd);
 
-            ClientSetup.testShader.safeGetUniform("Colour").set(1F, 0F, 0F, 1F);
+            ClientSetup.gummiHPShader.safeGetUniform("Colour").set(1F, 0F, 0F, 1F);
 
-            ClientSetup.testShader.apply();
-            RenderSystem.setShader(() -> ClientSetup.testShader);
+            ClientSetup.gummiHPShader.apply();
+            RenderSystem.setShader(() -> ClientSetup.gummiHPShader);
 
             buffer.addVertex(matrix, barX, barY + barHeight, 0).setUv(0, 1);
             buffer.addVertex(matrix, barX + barWidth, barY + barHeight, 0).setUv(1, 1);

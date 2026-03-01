@@ -1442,7 +1442,7 @@ public class MenuConfigScreen extends MenuBackground {
 				matrixStack.popPose();
 				RenderSystem.setShaderColor(1,1,1,1F);
 
-				ClientUtils.renderPlayerNoAnims(matrixStack, (int) (width*0.5F), (int) (height*0.55F), 50, 0, 0, player);
+				ClientUtils.renderEntity(matrixStack, (int) (width*0.5F), (int) (height*0.55F), 50, 0, 0, player);
 
 				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.player_skin"), 20, 0, 0xFF9900);
 				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.notif_color"), 100, 20 * ++pos, 0xFF9900);

@@ -131,7 +131,7 @@ public class GuiMenu_Party_None extends MenuBackground {
 			{
 				RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 				if(member != null && player != null) {
-					ClientUtils.renderPlayerNoAnims(gui.pose(), (int) playerPosX, (int) playerPosY, (int) playerHeight / 2, 0, 0, player);
+					ClientUtils.renderEntity(gui.pose(), (int) playerPosX, (int) playerPosY, (int) playerHeight / 2, 0, 0, player);
 				}
 				RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 0.75F);
 			}
