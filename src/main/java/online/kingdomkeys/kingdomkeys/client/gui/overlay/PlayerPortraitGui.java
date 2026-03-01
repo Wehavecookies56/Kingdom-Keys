@@ -95,24 +95,41 @@ public class PlayerPortraitGui extends OverlayBase {
                         poseStack.pushPose();
                         {
                             int sizeX = 1, sizeY = 1;
-                            scale = 1.0f;
+                             scale = 1f;
 
                             if (player.getVehicle() instanceof GummiShipEntity ship) {
                                 if (ship.structure != null) {
                                     Vec3i vec = Utils.getRealGummiStructureSize(ship.structure);
                                     sizeX = vec.getX();
                                     sizeY = vec.getY();
-                                    scale = 13f / Math.max(sizeX, sizeY); // escala uniforme
+                                    scale = 13f / Math.max(sizeX, sizeY);
                                 }
                             }
 
+                            // Punto donde quieres el centro de la nave en pantalla
+                            float baseX = 46;
+                            float baseY = -4;
+
+                            // === fórmula de centrado correcta ===
+                            float offsetX = baseX - (sizeX * scale) / 2f;
+                            float offsetY = baseY - (sizeY * scale) / 2f;
+scale *= 1.4F;
+                            // Rotación
                             poseStack.mulPose(Axis.YP.rotationDegrees(180));
 
-                            poseStack.translate(-sizeX / 2f, -sizeY / 2f, 0);
-                            poseStack.scale(scale, scale, scale);
-                            poseStack.translate(87, -56, 0);
+                            // Centrado manual correcto
+                            poseStack.translate(offsetX, offsetY, 0);
 
-                            ClientUtils.renderEntity(poseStack, (int) playerPosX + ModConfigs.playerSkinXPos, (int) playerPosY + ModConfigs.playerSkinYPos, 3F, 0, 0, player.getVehicle());
+                            // Escalado uniforme
+                            poseStack.scale(scale, scale, scale);
+
+                            // Render
+                            ClientUtils.renderEntity(
+                                    poseStack,
+                                    0, 0,
+                                    2, 0,0,
+                                    player.getVehicle()
+                            );
                         }
                         poseStack.popPose();
                     }
