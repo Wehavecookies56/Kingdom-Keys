@@ -155,7 +155,6 @@ public class HPGui extends OverlayBase {
         BufferUploader.drawWithShader(buffer.buildOrThrow());
     }
 
-
     private void drawRedHP(PoseStack poseStack, float healthPercentage, float displayedPercentage) {
         float damagedPercentage = displayedPercentage - healthPercentage;
 

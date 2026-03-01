@@ -97,7 +97,8 @@ public class ClientSetup {
 		event.registerBelow(VanillaGuiLayers.CHAT, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "command_menu"), CommandMenuGui.INSTANCE);
         event.registerBelow(VanillaGuiLayers.CHAT, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "player_portrait"), PlayerPortraitGui.INSTANCE);
 		event.registerBelow(VanillaGuiLayers.CHAT, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "hp_bar"), HPGui.INSTANCE);
-		event.registerBelow(VanillaGuiLayers.CHAT, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "mp_bar"), MPGui.INSTANCE);
+        event.registerBelow(VanillaGuiLayers.CHAT, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "gummi_hud"), GummiHUD.INSTANCE);
+        event.registerBelow(VanillaGuiLayers.CHAT, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "mp_bar"), MPGui.INSTANCE);
 		event.registerBelow(VanillaGuiLayers.CHAT, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "drive_bar"), DriveGui.INSTANCE);
 		event.registerBelow(VanillaGuiLayers.CHAT, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "kk_notifications"), GuiOverlay.INSTANCE);
 		event.registerBelow(VanillaGuiLayers.CROSSHAIR, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "lock_on"), LockOnGui.INSTANCE);
@@ -105,7 +106,6 @@ public class ClientSetup {
 		event.registerBelow(VanillaGuiLayers.CROSSHAIR, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "shotlock"), ShotlockGUI.INSTANCE);
 		event.registerBelow(VanillaGuiLayers.TITLE, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "station_of_awakening_messages"), SoAMessages.INSTANCE);
 		event.registerBelow(VanillaGuiLayers.CHAT, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "castle_oblivion_minimap"), COMinimap.INSTANCE);
-		event.registerBelow(VanillaGuiLayers.CHAT, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "gummi_hud"), GummiHUD.INSTANCE);
 	}
 
 	@SubscribeEvent
