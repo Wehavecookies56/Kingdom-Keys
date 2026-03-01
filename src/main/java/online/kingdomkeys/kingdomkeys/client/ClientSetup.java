@@ -38,7 +38,7 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 import java.io.IOException;
 import java.util.Map.Entry;
 
-@EventBusSubscriber(value = Dist.CLIENT, bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(value = Dist.CLIENT)
 public class ClientSetup {
 
 	public static ResourceLocation

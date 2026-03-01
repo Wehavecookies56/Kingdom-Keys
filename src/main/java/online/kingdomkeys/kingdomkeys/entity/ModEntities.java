@@ -54,7 +54,7 @@ import java.util.function.Supplier;
 
 import static online.kingdomkeys.kingdomkeys.entity.EntityHelper.MobType.*;
 
-@EventBusSubscriber(modid = KingdomKeys.MODID, bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = KingdomKeys.MODID)
 public class ModEntities {
     public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(BuiltInRegistries.ENTITY_TYPE, KingdomKeys.MODID);
 

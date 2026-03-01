@@ -741,7 +741,7 @@ public class ClientEvents {
 		}
 	}
 
-	@EventBusSubscriber(value = Dist.CLIENT, bus = EventBusSubscriber.Bus.MOD)
+	@EventBusSubscriber(value = Dist.CLIENT)
 	public static class ModBusEvents {
 		@SubscribeEvent
 		public static void colourTint(RegisterColorHandlersEvent.Block event) {
