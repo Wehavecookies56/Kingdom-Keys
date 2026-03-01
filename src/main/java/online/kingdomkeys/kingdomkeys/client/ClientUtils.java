@@ -23,6 +23,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
+import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
@@ -347,10 +348,13 @@ public class ClientUtils {
     }
 
   //Copy of InventoryScreen.renderEntityInInventory to disable animations, so if it breaks in an update, use that to fix it
-  	public static void renderPlayerNoAnims(PoseStack posestack, int pPosX, int pPosY, int pScale, float pMouseX, float pMouseY, LivingEntity pLivingEntity) {
+  	public static void renderPlayerNoAnims(PoseStack posestack, int pPosX, int pPosY, int pScale, float pMouseX, float pMouseY, Entity entity) {
   		float f = (float)Math.atan(pMouseX / 40.0F);
   		float f1 = (float)Math.atan(pMouseY / 40.0F);
-  		renderPlayerNoAnimsRaw(posestack, pPosX, pPosY, pScale, f, f1, pLivingEntity);
+        if(entity instanceof LivingEntity livingEntity)
+  		    renderPlayerNoAnimsRaw(posestack, pPosX, pPosY, pScale, f, f1, livingEntity);
+        else
+            renderEntityNoAnimsRaw(posestack, pPosX, pPosY, pScale, f, f1, entity);
   	}
 
     public static boolean disableEFMAnims = false;
@@ -374,7 +378,6 @@ public class ClientUtils {
         p_275689_.yHeadRot = p_275689_.getYRot();
         p_275689_.yHeadRotO = p_275689_.getYRot();
 
-        double d0 = 1000.0D;
         Matrix4fStack posestack = RenderSystem.getModelViewStack();
         posestack.pushMatrix();
         posestack.translate(0.0F, 0.0F, 1000.0F);
@@ -414,6 +417,43 @@ public class ClientUtils {
         p_275689_.setXRot(f4);
         p_275689_.yHeadRotO = f5;
         p_275689_.yHeadRot = f6;
+    }
+
+    public static void renderEntityNoAnimsRaw(PoseStack p_275396_, int p_275688_, int p_275245_, int p_275535_, float angleXComponent, float angleYComponent, Entity p_275689_) {
+        float f = angleXComponent;
+        float f1 = angleYComponent;
+        Quaternionf quaternionf = (new Quaternionf()).rotateZ((float) Math.PI);
+        Quaternionf quaternionf1 = (new Quaternionf()).rotateX(f1 * 20.0F * ((float) Math.PI / 180F));
+        quaternionf.mul(quaternionf1);
+
+        Matrix4fStack posestack = RenderSystem.getModelViewStack();
+        posestack.pushMatrix();
+        posestack.translate(0.0F, 0.0F, 1000.0F);
+        RenderSystem.applyModelViewMatrix();
+        p_275396_.pushPose();
+        p_275396_.translate(p_275688_, p_275245_, -950.0D);
+        p_275396_.mulPose((new Matrix4f()).scaling((float) p_275535_, (float) p_275535_, (float) (-p_275535_)));
+        p_275396_.mulPose(quaternionf);
+        Lighting.setupForEntityInInventory();
+        EntityRenderDispatcher entityrenderdispatcher = Minecraft.getInstance().getEntityRenderDispatcher();
+        if (quaternionf1 != null) {
+            quaternionf1.conjugate();
+            entityrenderdispatcher.overrideCameraOrientation(quaternionf1);
+        }
+
+        entityrenderdispatcher.setRenderShadow(false);
+        MultiBufferSource.BufferSource multibuffersource$buffersource = Minecraft.getInstance().renderBuffers().bufferSource();
+        RenderSystem.runAsFancy(() -> {
+            EntityRenderer<? super Entity> renderer = Minecraft.getInstance().getEntityRenderDispatcher().getRenderer(p_275689_);
+            renderer.render(p_275689_, 0, 1, p_275396_, multibuffersource$buffersource, 15728880);
+        });
+
+        multibuffersource$buffersource.endBatch();
+        entityrenderdispatcher.setRenderShadow(true);
+        p_275396_.popPose();
+        Lighting.setupFor3DItems();
+        posestack.popMatrix();
+        RenderSystem.applyModelViewMatrix();
     }
   	
   	public static List<Component> getTooltip(List<Component> tooltip, Item.TooltipContext context, ItemStack stack) {

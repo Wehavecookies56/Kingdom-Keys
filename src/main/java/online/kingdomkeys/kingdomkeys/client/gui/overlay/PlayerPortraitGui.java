@@ -2,6 +2,7 @@ package online.kingdomkeys.kingdomkeys.client.gui.overlay;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Axis;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -9,6 +10,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
@@ -50,13 +52,28 @@ public class PlayerPortraitGui extends OverlayBase {
 			PoseStack poseStack = guiGraphics.pose();
 
 			poseStack.pushPose();
-			{
-				//3D render
-				float playerHeight = (screenHeight/2F) * scale;
-                poseStack.translate(screenWidth, screenHeight, 0);
+            {
+                poseStack.pushPose();
+                {
+                    RenderSystem.enableBlend();
+                    float scaleX = 0.13F, scaleY = 0.13F;
+                    int texSize = 131;
+                    poseStack.translate(screenWidth-38.8, screenHeight-29, 0);
+                    poseStack.translate(-texSize * scaleX, -texSize * scaleY, 0);
+                    poseStack.scale(scaleX, scaleY, 0);
+                    ResourceLocation circle = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/hp_background_circle.png");
+                    blit(guiGraphics, circle, 0, 0, 0, 0, 256, 256);
+                    RenderSystem.disableBlend();
+                }
+                poseStack.popPose();
+
+                //3D render
+				float playerHeight = 50;
+                poseStack.translate(screenWidth-0.4, screenHeight, 0);
+                poseStack.translate(scale, scale, 0);
 
                 float playerPosX = -39;
-				float playerPosY = 60;
+				float playerPosY = 53;
 
 				poseStack.pushPose();
 				{
@@ -66,7 +83,15 @@ public class PlayerPortraitGui extends OverlayBase {
 					Player player = Minecraft.getInstance().player;
 					ItemStack stack = player.getInventory().getItem(player.getInventory().selected);
 					player.getInventory().setItem(player.getInventory().selected, new ItemStack(Items.AIR));
-					ClientUtils.renderPlayerNoAnims(poseStack, (int) playerPosX + ModConfigs.playerSkinXPos, (int) playerPosY+ ModConfigs.playerSkinYPos, (int) playerHeight, 0,0, player);
+
+                    if(player.getVehicle() == null)
+                        ClientUtils.renderPlayerNoAnims(poseStack, (int) playerPosX + ModConfigs.playerSkinXPos, (int) playerPosY+ ModConfigs.playerSkinYPos, (int) playerHeight, 0,0, player);
+                    else {
+                        poseStack.scale(0.1F,0.1F,0.1F);
+                        poseStack.translate(-430,-250,0);
+                        poseStack.mulPose(Axis.YP.rotationDegrees(180.0F));
+                        ClientUtils.renderPlayerNoAnims(poseStack, (int) playerPosX + ModConfigs.playerSkinXPos, (int) playerPosY + ModConfigs.playerSkinYPos, (int) playerHeight, 0, 0, player.getVehicle());
+                    }
 					player.getInventory().setItem(player.getInventory().selected, stack);
 				}
 				poseStack.popPose();
