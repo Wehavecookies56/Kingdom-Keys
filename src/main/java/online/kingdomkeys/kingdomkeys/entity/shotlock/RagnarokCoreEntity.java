@@ -55,8 +55,6 @@ public class RagnarokCoreEntity extends ThrowableProjectile {
 			this.remove(RemovalReason.KILLED);
 		}
 
-		level().addParticle(ParticleTypes.BUBBLE, getX(), getY(), getZ(), 0, 0, 0);
-
 		double X = getX();
 		double Y = getY()+1;
 		double Z = getZ();

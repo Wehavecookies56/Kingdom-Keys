@@ -20,13 +20,16 @@ import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
+import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -37,6 +40,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityAttachment;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -48,6 +52,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.neoforge.client.ClientHooks;
 import net.neoforged.neoforge.client.RenderTypeHelper;
 import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 import net.neoforged.neoforge.client.model.data.ModelData;
@@ -343,10 +348,13 @@ public class ClientUtils {
     }
 
   //Copy of InventoryScreen.renderEntityInInventory to disable animations, so if it breaks in an update, use that to fix it
-  	public static void renderPlayerNoAnims(PoseStack posestack, int pPosX, int pPosY, int pScale, float pMouseX, float pMouseY, LivingEntity pLivingEntity) {
+  	public static void renderPlayerNoAnims(PoseStack posestack, int pPosX, int pPosY, int pScale, float pMouseX, float pMouseY, Entity entity) {
   		float f = (float)Math.atan(pMouseX / 40.0F);
   		float f1 = (float)Math.atan(pMouseY / 40.0F);
-  		renderPlayerNoAnimsRaw(posestack, pPosX, pPosY, pScale, f, f1, pLivingEntity);
+        if(entity instanceof LivingEntity livingEntity)
+  		    renderPlayerNoAnimsRaw(posestack, pPosX, pPosY, pScale, f, f1, livingEntity);
+        else
+            renderEntityNoAnimsRaw(posestack, pPosX, pPosY, pScale, f, f1, entity);
   	}
 
     public static boolean disableEFMAnims = false;
@@ -370,7 +378,6 @@ public class ClientUtils {
         p_275689_.yHeadRot = p_275689_.getYRot();
         p_275689_.yHeadRotO = p_275689_.getYRot();
 
-        double d0 = 1000.0D;
         Matrix4fStack posestack = RenderSystem.getModelViewStack();
         posestack.pushMatrix();
         posestack.translate(0.0F, 0.0F, 1000.0F);
@@ -410,6 +417,43 @@ public class ClientUtils {
         p_275689_.setXRot(f4);
         p_275689_.yHeadRotO = f5;
         p_275689_.yHeadRot = f6;
+    }
+
+    public static void renderEntityNoAnimsRaw(PoseStack p_275396_, int p_275688_, int p_275245_, int p_275535_, float angleXComponent, float angleYComponent, Entity p_275689_) {
+        float f = angleXComponent;
+        float f1 = angleYComponent;
+        Quaternionf quaternionf = (new Quaternionf()).rotateZ((float) Math.PI);
+        Quaternionf quaternionf1 = (new Quaternionf()).rotateX(f1 * 20.0F * ((float) Math.PI / 180F));
+        quaternionf.mul(quaternionf1);
+
+        Matrix4fStack posestack = RenderSystem.getModelViewStack();
+        posestack.pushMatrix();
+        posestack.translate(0.0F, 0.0F, 1000.0F);
+        RenderSystem.applyModelViewMatrix();
+        p_275396_.pushPose();
+        p_275396_.translate(p_275688_, p_275245_, -950.0D);
+        p_275396_.mulPose((new Matrix4f()).scaling((float) p_275535_, (float) p_275535_, (float) (-p_275535_)));
+        p_275396_.mulPose(quaternionf);
+        Lighting.setupForEntityInInventory();
+        EntityRenderDispatcher entityrenderdispatcher = Minecraft.getInstance().getEntityRenderDispatcher();
+        if (quaternionf1 != null) {
+            quaternionf1.conjugate();
+            entityrenderdispatcher.overrideCameraOrientation(quaternionf1);
+        }
+
+        entityrenderdispatcher.setRenderShadow(false);
+        MultiBufferSource.BufferSource multibuffersource$buffersource = Minecraft.getInstance().renderBuffers().bufferSource();
+        RenderSystem.runAsFancy(() -> {
+            EntityRenderer<? super Entity> renderer = Minecraft.getInstance().getEntityRenderDispatcher().getRenderer(p_275689_);
+            renderer.render(p_275689_, 0, 1, p_275396_, multibuffersource$buffersource, 15728880);
+        });
+
+        multibuffersource$buffersource.endBatch();
+        entityrenderdispatcher.setRenderShadow(true);
+        p_275396_.popPose();
+        Lighting.setupFor3DItems();
+        posestack.popMatrix();
+        RenderSystem.applyModelViewMatrix();
     }
   	
   	public static List<Component> getTooltip(List<Component> tooltip, Item.TooltipContext context, ItemStack stack) {
@@ -589,7 +633,7 @@ public class ClientUtils {
 
             float size = 1.5F + shotlock.getCooldown() * 0.2F - ClientEvents.focusingAnEntityTicks * 0.2F;
             Matrix4f mat = poseStack.last().pose();
-            ClientUtils.drawTexturedModalRect2DPlane(mat, buffer.getBuffer(ULTIMATE_SHOTLOCK_INDICATOR), -size, -size, size, size, 0, 0, 256, 256);
+            drawTexturedModalRect2DPlane(mat, buffer.getBuffer(ULTIMATE_SHOTLOCK_INDICATOR), -size, -size, size, size, 0, 0, 256, 256);
         }
         poseStack.popPose();
     }
@@ -624,7 +668,7 @@ public class ClientUtils {
 
             float size = 0.3F;
             Matrix4f mat = poseStack.last().pose();
-            ClientUtils.drawTexturedModalRect2DPlane(mat, buffer.getBuffer(SHOTLOCK_INDICATOR), -size, -size, size, size, 0, 0, 256, 256);
+            drawTexturedModalRect2DPlane(mat, buffer.getBuffer(SHOTLOCK_INDICATOR), -size, -size, size, size, 0, 0, 256, 256);
         }
         poseStack.popPose();
     }
@@ -643,11 +687,13 @@ public class ClientUtils {
 
         mvMatrix.rotate(mc.getEntityRenderDispatcher().cameraOrientation());
 
-        ClientUtils.drawTexturedModalRect2DPlane(mvMatrix, buffer.getBuffer(SHOTLOCK_INDICATOR), -0.6f, -0.6f, 0.6f, 0.6f, 0, 0, 256, 256);
+        drawTexturedModalRect2DPlane(mvMatrix, buffer.getBuffer(SHOTLOCK_INDICATOR), -0.6f, -0.6f, 0.6f, 0.6f, 0, 0, 256, 256);
     }
 
     public static void drawTexturedModalRect2DPlane(Matrix4f matrix, VertexConsumer vertexBuilder, float minX, float minY, float maxX, float maxY, float minTexU, float minTexV, float maxTexU, float maxTexV) {
+        RenderSystem.depthMask(false);
         drawTexturedModalRect3DPlane(matrix, vertexBuilder, minX, minY, 0, maxX, maxY, 0, minTexU, minTexV, maxTexU, maxTexV);
+        RenderSystem.depthMask(true);
     }
 
     public static void drawTexturedModalRect3DPlane(Matrix4f matrix, VertexConsumer vertexBuilder, float minX, float minY, float minZ, float maxX, float maxY, float maxZ, float minTexU, float minTexV, float maxTexU, float maxTexV) {
@@ -664,6 +710,51 @@ public class ClientUtils {
         return playerData;
     }
 
+    public static void renderNameTag(LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> renderer, LivingEntity entity, String displayName, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, float partialTick) {
+        EntityRenderDispatcher dispatcher = Minecraft.getInstance().getEntityRenderDispatcher();
+
+        double d0 = dispatcher.distanceToSqr(entity);
+        if (ClientHooks.isNameplateInRenderDistance(entity, d0)) {
+            Vec3 vec3 = entity.getAttachments().getNullable(EntityAttachment.NAME_TAG, 0, entity.getViewYRot(partialTick));
+            if (vec3 != null) {
+                boolean flag = !entity.isDiscrete();
+                int i = "deadmau5".equals(displayName) ? -10 : 0;
+                poseStack.pushPose();
+                {
+                    poseStack.translate(vec3.x, vec3.y + (double) 0.5F, vec3.z);
+                    poseStack.mulPose(dispatcher.cameraOrientation());
+                    poseStack.scale(0.025F, -0.025F, 0.025F);
+                    Matrix4f matrix4f = poseStack.last().pose();
+                    float f = Minecraft.getInstance().options.getBackgroundOpacity(0.25F);
+                    int j = (int) (f * 255.0F) << 24;
+                    Font font = renderer.getFont();
+                    float f1 = (float) (-font.width(displayName) / 2);
+                    font.drawInBatch(displayName, f1, (float) i, 553648127, false, matrix4f, bufferSource, flag ? Font.DisplayMode.SEE_THROUGH : Font.DisplayMode.NORMAL, j, packedLight);
+                    if (flag) {
+                        font.drawInBatch(displayName, f1, (float) i, 0xFFFFFF, false, matrix4f, bufferSource, Font.DisplayMode.NORMAL, 0, packedLight);
+                    }
+                }
+                poseStack.popPose();
+            }
+        }
+
+    }
+
+    public static void renderHeart(PoseStack matrixStackIn, MultiBufferSource bufferIn, LivingEntity entitylivingbaseIn) {
+        VertexConsumer buffer = bufferIn.getBuffer(Sheets.translucentCullBlockSheet());
+        matrixStackIn.pushPose();
+        {
+            BakedModel model = Minecraft.getInstance().getModelManager().getModel(ModelResourceLocation.standalone(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "entity/heart")));
+            matrixStackIn.scale(0.005F, 0.005F, 0.005F);
+            matrixStackIn.translate(0, 300, 0);
+            matrixStackIn.mulPose(Axis.YP.rotationDegrees(entitylivingbaseIn.tickCount*5));
+
+            for (BakedQuad quad : model.getQuads(null, null, RandomSource.create(), ModelData.EMPTY, RenderType.cutout())) {
+                buffer.putBulkData(matrixStackIn.last(), quad, 1, 1, 1, 1, 0x00F000F0, OverlayTexture.NO_OVERLAY, true);
+            }
+        }
+        matrixStackIn.popPose();
+    }
 
     /**
      * Copied from {@link net.minecraft.client.renderer.block.BlockRenderDispatcher#renderSingleBlock(BlockState, PoseStack, MultiBufferSource, int, int, ModelData, RenderType)} modified to use alpha

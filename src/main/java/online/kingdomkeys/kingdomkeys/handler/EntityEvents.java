@@ -25,7 +25,10 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.monster.Slime;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.*;
+import net.minecraft.world.item.EnchantedBookItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.portal.DimensionTransition;
@@ -87,6 +90,7 @@ import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeDataLoader
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopListRegistry;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.names.NamesListRegistry;
+import online.kingdomkeys.kingdomkeys.synthesis.shop.sell.SellListRegistry;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
 import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
@@ -97,30 +101,27 @@ import java.util.*;
 
 public class EntityEvents {
 
-	public static boolean isBoss = false;
-	public static boolean isHostiles = false;
-	public int ticks;
+    public enum ThreatLevel {
+        NONE,
+        HOSTILES,
+        BOSS
+    }
+    public static ThreatLevel threatLevel = ThreatLevel.NONE;
 
-	@SubscribeEvent
+
+    @SubscribeEvent
 	public void soundPlayed(PlayLevelSoundEvent.AtEntity event) {
 		if (event.getEntity() instanceof Player player && event.getSound().value().getLocation().getPath().contains("step")) {
-			boolean kbArmor = false;
-			byte index = 0;
-            for (ItemStack a : player.getArmorSlots()) {
-                if (a.getItem() instanceof ArmorItem armor) {
-                    if (index < 3 && armor.getMaterial().value().equipSound().value() == ModSounds.keyblade_armor.get()) { // If the armor has a kb sound we assume it's a keyblade armor part, if it's index is < 3 it means it's boots, pants or chest.
-                        kbArmor = true;
-                    }
-                }
-                index++;
+            ItemStack chest = player.getItemBySlot(EquipmentSlot.CHEST);
+            ItemStack legs  = player.getItemBySlot(EquipmentSlot.LEGS);
+            ItemStack feet  = player.getItemBySlot(EquipmentSlot.FEET);
+            if (Utils.isKBArmor(chest) || Utils.isKBArmor(legs) || Utils.isKBArmor(feet)) {
+                event.getEntity().playSound(ModSounds.keyblade_armor.get());
             }
-			if (kbArmor) {
-				event.getEntity().playSound(ModSounds.keyblade_armor.get());
-			}
-		}
+        }
 	}
 
-	@SubscribeEvent
+    @SubscribeEvent
 	public void onXPPickup(PlayerXpEvent.XpChange e) {
 		if(e.getEntity() instanceof Player player && player.getHealth() <= player.getMaxHealth() / 2) {
 			PlayerData playerData = PlayerData.get(player);
@@ -214,6 +215,7 @@ public class EntityEvents {
 			PacketHandler.sendTo(new SCSyncSynthesisData(RecipeRegistry.getInstance().getValues()), player);
 			PacketHandler.sendTo(new SCSyncMoogleNames(NamesListRegistry.getInstance()), player);
 			PacketHandler.sendTo(new SCSyncShopData(ShopListRegistry.getInstance().getValues()), player);
+            PacketHandler.sendTo(new SCSyncSellData(SellListRegistry.getInstance().getValues()), player);
 			PacketHandler.sendTo(new SCSyncMagicData(MagicDataLoader.names, MagicDataLoader.dataList), player);
 			PacketHandler.sendTo(new SCSyncDriveFormData(DriveFormDataLoader.names, DriveFormDataLoader.dataList), player);
 			PacketHandler.sendTo(new SCSyncLimitData(LimitDataLoader.names, LimitDataLoader.dataList), player);
@@ -240,7 +242,6 @@ public class EntityEvents {
 					worldData.setHeartlessSpawnLevel(1);
 				}
 			}
-
 
 			if (!player.level().isClientSide) { // Sync from server to client
 				if (!playerData.getDriveFormMap().containsKey(DriveForm.NONE.toString())) { // One time event here :D
@@ -405,11 +406,6 @@ public class EntityEvents {
 	@SubscribeEvent
 	public void onPlayerTick(PlayerTickEvent.Pre event) {
 		Player player = event.getEntity();
-
-		if (ticks >= Integer.MAX_VALUE) {
-			ticks = Integer.MIN_VALUE;
-		}
-
 		PlayerData playerData = PlayerData.get(player);
 		//playerData.clearRecipes("all");
 		if (playerData != null) {
@@ -552,20 +548,11 @@ public class EntityEvents {
 						pulled++;
 					}
 				}
-
 			}
-
-			/*
-			 * if(ModConfigs.magicUsesTimer > 1) { if(player.tickCount %
-			 * ModConfigs.magicUsesTimer == 0) { for (Entry<String, int[]> entry :
-			 * playerData.getMagicsMap().entrySet()) { int uses =
-			 * playerData.getMagicUses(entry.getKey()); if(uses > 0) {
-			 * playerData.remMagicUses(entry.getKey(), 1); } } } }
-			 */
 		}
 
-		if (ModConfigs.cmChangeColor && ticks % 5 == 0) {
-			if (player.level().isClientSide()) {
+        if (player.level().isClientSide()) {
+            if (ModConfigs.cmChangeColor && player.tickCount % 5 == 0) {
 				updateCommandMenu(player);
 			}
 		}
@@ -573,38 +560,25 @@ public class EntityEvents {
 	}
 
 	/**
-	 * This method returns once a boss is been found, therefore isHostiles will not be updated
+	 * This method returns the threat level around the player, boss prevails over hostile which prevails over none
 	 * @param player
 	 */
-	private void updateCommandMenu(Player player) {
-		List<LivingEntity> entities = Utils.getLivingEntitiesInRadius(player, 16);
-		List<LivingEntity> bossEntities = Utils.getLivingEntitiesInRadius(player, 150);
-		if (!bossEntities.isEmpty()) {
-            for (LivingEntity bossEntity : bossEntities) {
-                if (bossEntity instanceof EnderDragon || bossEntity instanceof WitherBoss || bossEntity instanceof MarluxiaEntity) {
-                    isBoss = true;
-                    return;
-                } else {
-                    isBoss = false;
-                }
-            }
-		} else {
-			isBoss = false;
-		}
-		if (!entities.isEmpty()) {
-			for (Entity entity : entities) {
-				if (entity instanceof Monster || entity instanceof Slime) {
-					isHostiles = true;
-					return;
-				} else {
-					isHostiles = false;
-				}
-			}
-		} else {
-			isHostiles = false;
-		}
+    private void updateCommandMenu(Player player) {
+        threatLevel = ThreatLevel.NONE;
 
-	}
+        for (LivingEntity entity : Utils.getLivingEntitiesInRadius(player, 150)) {
+            // Search for a boss
+            if (entity instanceof EnderDragon || entity instanceof WitherBoss || entity instanceof MarluxiaEntity) {
+                threatLevel = ThreatLevel.BOSS;
+                return;
+            }
+
+            // If no boss was found
+            if (threatLevel == ThreatLevel.NONE && player.distanceToSqr(entity) <= 16 * 16 && (entity instanceof Monster || entity instanceof Slime)) {
+                threatLevel = ThreatLevel.HOSTILES;
+            }
+        }
+    }
 
 	int airstepTicks = -1;
 	@SubscribeEvent
@@ -801,7 +775,7 @@ public class EntityEvents {
 	@SubscribeEvent
 	public void hitEntity(LivingDamageEvent.Pre event) {
 		if (event.getSource().getEntity() instanceof Player player) {
-
+            //First we calculate the weapon damage
 			ItemStack weapon = Utils.getWeaponDamageStack(event.getSource(), player);
 			if (weapon != null && !(event.getSource() instanceof StopDamageSource)) {
 				float dmg = 0;
@@ -842,7 +816,35 @@ public class EntityEvents {
 					PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
 				}
 			}
-		}
+
+            //KO Method
+            WorldData worldData = WorldData.get(player.getServer());
+            if (worldData != null && worldData.getPartyFromMember(player.getUUID()) != null) { //If the player gets hit and data is not null
+                Party p = worldData.getPartyFromMember(player.getUUID());
+                if (Utils.anyPartyMemberOnExcept(player, p, (ServerLevel) player.level())) { //If there's a party member on at this point
+                    System.out.println(ModConfigs.SERVER.allowPartyKO.get());
+                    if (ModConfigs.SERVER.allowPartyKO.get()) { //If KO is allowed
+                        if (player.getHealth() - event.getNewDamage() <= 0) { //If gets hit by a mortal attack
+                            if (!player.hasEffect(ModMobEffects.KO)) { // We only set KO if player gets hit enough to kill them (but doesn't kill them yet) while not KO already
+                                event.setNewDamage(0);
+                                player.removeAllEffects();
+                                player.setHealth(player.getMaxHealth());
+                                player.invulnerableTime = 40;
+                                player.getFoodData().setFoodLevel(10);
+                                player.getFoodData().setExhaustion(0);
+                                player.getFoodData().setSaturation(0);
+                                MobEffectInstance koInstance = new MobEffectInstance(ModMobEffects.KO, MobEffectInstance.INFINITE_DURATION, 0, false, false, false);
+                                player.addEffect(koInstance);
+                                player.level().playSound(null, player.blockPosition(), ModSounds.playerDeathHardcore.get(), SoundSource.PLAYERS);
+                            }
+                        }
+                        return;
+                    } else { //If config does not allow prevent KO from being applied
+                        player.removeEffect(ModMobEffects.KO);
+                    }
+                }
+            }
+        }
 
 		// This is outside as it should apply the formula if you have been hit by non player too
 		if (event.getEntity() instanceof Player player) {
@@ -954,34 +956,6 @@ public class EntityEvents {
 	@SubscribeEvent
 	public void onLivingAttack(LivingIncomingDamageEvent event) {
 		if (!event.getEntity().level().isClientSide) {
-			if (event.getEntity() instanceof Player player) {
-				WorldData worldData = WorldData.get(player.getServer());
-				GlobalData globalData = GlobalData.get(player);
-				if (worldData != null && globalData != null && worldData.getPartyFromMember(player.getUUID()) != null) {
-					if (!player.level().isClientSide()) {
-						Party p = worldData.getPartyFromMember(player.getUUID());
-						if (Utils.anyPartyMemberOnExcept(player, p, (ServerLevel) player.level())) {
-							if (ModConfigs.SERVER.allowPartyKO.get()) {
-								if (!player.hasEffect(ModMobEffects.KO) && player.getHealth() - event.getAmount() <= 0) { // We only set KO if we die while not KO already
-									event.setCanceled(true);
-									player.removeAllEffects();
-									player.setHealth(player.getMaxHealth());
-									player.invulnerableTime = 40;
-									player.getFoodData().setFoodLevel(10);
-									player.getFoodData().setExhaustion(0);
-									player.getFoodData().setSaturation(0);
-									MobEffectInstance koInstance = new MobEffectInstance(ModMobEffects.KO, MobEffectInstance.INFINITE_DURATION, 0, false, false, false);
-									player.addEffect(koInstance);
-									player.level().playSound(null, player.blockPosition(), ModSounds.playerDeathHardcore.get(), SoundSource.PLAYERS);
-								}
-								PacketHandler.syncToAllAround(player, globalData);
-							} else { //If config does not allow prevent KO from being applied
-								player.removeEffect(ModMobEffects.KO);
-							}
-						}
-					}
-				}
-			}
 			if (event.getSource().getEntity() instanceof LivingEntity attacker) { // If attacker is a LivingEntity
                 LivingEntity target = event.getEntity();
 
@@ -1003,6 +977,7 @@ public class EntityEvents {
 					}
 				}
 
+                // Stop
 				GlobalData globalData = GlobalData.get(target);
 				if (globalData != null && event.getSource().getEntity() instanceof Player source) {
 					if (target.hasEffect(ModMobEffects.STOP)) {
@@ -1359,8 +1334,10 @@ public class EntityEvents {
 			PacketHandler.syncToAllAround(localPlayer, globalData);
 			PlayerData targetPlayerData = PlayerData.get(targetPlayer);
 			GlobalData globalData2 = GlobalData.get(targetPlayer);
-			PacketHandler.syncToAllAround(targetPlayer, targetPlayerData);
-			PacketHandler.syncToAllAround(targetPlayer, globalData2);
+            if(targetPlayerData != null && globalData2 != null) {
+                PacketHandler.syncToAllAround(targetPlayer, targetPlayerData);
+                PacketHandler.syncToAllAround(targetPlayer, globalData2);
+            }
 		}
 
 		if(!localPlayer.level().isClientSide) {

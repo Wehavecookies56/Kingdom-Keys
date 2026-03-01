@@ -11,7 +11,7 @@ import online.kingdomkeys.kingdomkeys.entity.mob.ShadowGlobEntity;
 public class ShadowGlobRenderer extends MobRenderer<ShadowGlobEntity, ShadowGlobModel<ShadowGlobEntity>> {
 
     public ShadowGlobRenderer(EntityRendererProvider.Context context) {
-        super(context, new ShadowGlobModel<>(context.bakeLayer(ShadowGlobModel.LAYER_LOCATION)), 0.35F);
+        super(context, new ShadowGlobModel<>(context.bakeLayer(ShadowGlobModel.LAYER_LOCATION)), 0);
     }
 
     @Override

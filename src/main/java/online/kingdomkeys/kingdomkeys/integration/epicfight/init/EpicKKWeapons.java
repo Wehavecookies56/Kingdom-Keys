@@ -11,7 +11,8 @@ import online.kingdomkeys.kingdomkeys.integration.epicfight.enums.KKStyles;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.skills.KKSkills;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import yesman.epicfight.api.animation.LivingMotions;
-import yesman.epicfight.api.neoevent.WeaponCapabilityPresetRegistryEvent;
+import yesman.epicfight.api.event.EpicFightEventHooks;
+import yesman.epicfight.api.event.types.registry.WeaponCapabilityPresetRegistryEvent;
 import yesman.epicfight.gameasset.Animations;
 import yesman.epicfight.gameasset.ColliderPreset;
 import yesman.epicfight.registry.entries.EpicFightSkills;
@@ -130,10 +131,12 @@ public class EpicKKWeapons {
     private EpicKKWeapons() {
     }
 
-    public static void register(WeaponCapabilityPresetRegistryEvent event) {
-        event.getTypeEntry().put(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID,EpicKKWeaponEnum.KK_CHAKRAM.toString().toLowerCase()), CHAKRAM);
-        event.getTypeEntry().put(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID,EpicKKWeaponEnum.KK_SHIELD.toString().toLowerCase()), KK_SHIELD);
-        event.getTypeEntry().put(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID,EpicKKWeaponEnum.KK_KEYBLADE.toString().toLowerCase()), KEYBLADE);
+    public static void register() {
+        EpicFightEventHooks.Registry.WEAPON_CAPABILITY_PRESET.registerEvent(event -> {
+            event.getTypeEntry().put(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, EpicKKWeaponEnum.KK_CHAKRAM.toString().toLowerCase()), CHAKRAM);
+            event.getTypeEntry().put(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, EpicKKWeaponEnum.KK_SHIELD.toString().toLowerCase()), KK_SHIELD);
+            event.getTypeEntry().put(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, EpicKKWeaponEnum.KK_KEYBLADE.toString().toLowerCase()), KEYBLADE);
+        });
     }
 
     public enum EpicKKWeaponEnum implements WeaponCategory {

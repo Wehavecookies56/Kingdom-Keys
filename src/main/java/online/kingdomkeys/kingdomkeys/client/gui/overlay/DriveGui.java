@@ -58,11 +58,6 @@ public class DriveGui extends OverlayBase {
 	@Override
 	public void render(GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
 		super.render(guiGraphics, deltaTracker);
-		/*
-		 * if (!MainConfig.displayGUI()) return; if
-		 * (!mc.player.getCapability(ModCapabilities.PLAYER_STATS, null).getHudMode())
-		 * return;
-		 */
 		PlayerData playerData = PlayerData.get(minecraft.player);
 		if (playerData != null) {
 			double dp = playerData.getDP();
@@ -88,7 +83,7 @@ public class DriveGui extends OverlayBase {
 			int screenWidth = minecraft.getWindow().getGuiScaledWidth();
 			int screenHeight = minecraft.getWindow().getGuiScaledHeight();
 
-			float rawScale = 0.85f;
+			float rawScale = 0.75f;
 			float scaleX = rawScale * ModConfigs.dpXScale/100F;
 			float scaleY = rawScale * ModConfigs.dpYScale/100F;
 			float posX = 52 * scaleX;
@@ -100,7 +95,7 @@ public class DriveGui extends OverlayBase {
 			{
 				RenderSystem.setShaderColor(1, 1, 1, 1);
 				RenderSystem.enableBlend();
-				poseStack.translate(-27 + ModConfigs.dpXPos, -2 + ModConfigs.dpYPos, 1);
+				poseStack.translate(-27 + ModConfigs.dpXPos, -3.3F + ModConfigs.dpYPos, 1);
 
 				// Background
 				poseStack.pushPose();

@@ -1,16 +1,13 @@
 **Added:**
-* Encounter Plus ability able to be obtained on level 21 for warrior, 29 for guardian and 32 for mystic. 
-* New Soft Lock on system enabled by default, it allows the camera to move as long as the target is on the screen.
-* Server-Config option to toggle between Hard and Soft lock on.
-* Events so addons can intercept when a magic, item, drive form, reaction command or limit is being called.
-* Panacea item to remove all negative effects.
+* Heartless and Nobody icons for banner paterns.
 
 **Changed:**
-* Slightly increased the χ-blade reach.
-* Default shotlock reach to 200.
-* Shotlock icon offset adjusted to the entity hitbox dimensions.
-* Fire magic tracking power with magic lock on is stronger, also the higher the magic the better the tracking will be.
-* Ether use sound instead of potion.
+* EFM support for 21.15.6
+* HP bar is now curved and works like in KH2.
+* Focus bar now fills up in a radial direction.
+* Shotlock GUI has been reworked and changed the "time indicator" to be radial instead of vertical texture.
 
 **Fixed:**
-* Shotlock indicator not rendering on EFM animated mobs and weird overlaps on normal mobs.
+* Retribution compatibility with EFM
+* Keyblades doing a vanilla attack when EFM is loaded and battle mode active.
+* Kingdom Key N texture being broken when using shaders.

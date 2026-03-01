@@ -38,6 +38,7 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.advancements.ModAdvancements;
 import online.kingdomkeys.kingdomkeys.api.event.client.CommandMenuEvent;
+import online.kingdomkeys.kingdomkeys.banners.ModBannerPatterns;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.block.ModEnergy;
 import online.kingdomkeys.kingdomkeys.client.gui.overlay.CommandMenuGui;
@@ -52,6 +53,7 @@ import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.handler.EntityEvents;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.EpicFightRendering;
+import online.kingdomkeys.kingdomkeys.integration.epicfight.init.ClientEpicFightIntegration;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.init.EpicFightIntegration;
 import online.kingdomkeys.kingdomkeys.item.ICreativeTab;
 import online.kingdomkeys.kingdomkeys.item.ModArmorMaterials;
@@ -242,6 +244,12 @@ public class KingdomKeys {
 			patchouliLoaded = true;
 		}
 
+        if(ModList.get().isLoaded("supplementaries")){
+            KingdomKeys.LOGGER.warn("Supplementaries found, by default if you die while typing it sends the message with a - at the end.");
+            KingdomKeys.LOGGER.warn("We recommend to disable it if you play with the KO System enabled.");
+            KingdomKeys.LOGGER.warn("Change \"send_chat_on_death = true\" to false in supplementaries-client.toml.");
+        }
+
 		NeoForge.EVENT_BUS.register(this);
 		NeoForge.EVENT_BUS.register(new CastleOblivionHandler());
 		//MinecraftForge.EVENT_BUS.register(new APITests());
@@ -256,7 +264,8 @@ public class KingdomKeys {
 	private void modLoaded(final FMLLoadCompleteEvent event) {
 		if (FMLEnvironment.dist.isClient()) {
 			if (ModList.get().isLoaded("epicfight")) {
-				ModList.get().getModContainerById(KingdomKeys.MODID).get().getEventBus().addListener(EpicFightRendering::patchedRenderersEventModify);
+				ClientEpicFightIntegration.init();
+				//ModList.get().getModContainerById(KingdomKeys.MODID).get().getEventBus().addListener(EpicFightRendering::patchedRenderersEventModify);
 			}
 			NeoForge.EVENT_BUS.post(new CommandMenuEvent.Construct(CommandMenuGui.INSTANCE));
 		}

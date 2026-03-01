@@ -58,8 +58,8 @@ public class GuiOverlay extends OverlayBase {
 		public int prevNotifTicks, notifTicks;
 		public boolean sliding = true;
 		public long timeLevelUp;
-		public List<String> messages1 = new ArrayList<String>();
-		public List<String> messages2 = new ArrayList<String>();
+		public List<String> messages1 = new ArrayList<>();
+		public List<String> messages2 = new ArrayList<>();
 		public int color;
 	}
 	
@@ -120,8 +120,6 @@ public class GuiOverlay extends OverlayBase {
 			matrixStack.pushPose();
 			{
 				matrixStack.translate(1, 1, 0);
-
-				heightOffsetText = 0;
 				heightOffsetNum = minecraft.font.lineHeight;
 			}
 			matrixStack.popPose();

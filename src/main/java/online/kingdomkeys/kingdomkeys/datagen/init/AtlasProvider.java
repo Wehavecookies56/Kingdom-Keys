@@ -1,5 +1,7 @@
 package online.kingdomkeys.kingdomkeys.datagen.init;
 
+import net.minecraft.client.renderer.texture.TextureAtlas;
+import net.minecraft.client.renderer.texture.atlas.sources.DirectoryLister;
 import net.minecraft.client.renderer.texture.atlas.sources.SingleFile;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
@@ -21,5 +23,9 @@ public class AtlasProvider extends SpriteSourceProvider {
 	protected void gather() {
 		atlas(SpriteSourceProvider.BLOCKS_ATLAS).addSource(new SingleFile(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "entity/models/heart"), Optional.empty()));
 		atlas(SpriteSourceProvider.BLOCKS_ATLAS).addSource(new SingleFile(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "entity/models/portal"), Optional.empty()));
+
+       /* atlas(SpriteSourceProvider.BLOCKS_ATLAS)
+                .addSource(new DirectoryLister("banner_pattern", "banner_pattern/"))
+                .addSource(new DirectoryLister("entity/shield", "entity/shield/"));*/
 	}
 }

@@ -16,6 +16,7 @@ import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import org.joml.Vector3f;
 
+import java.awt.*;
 import java.util.List;
 
 public class MagnetBloxTileEntity extends BlockEntity {
@@ -38,7 +39,7 @@ public class MagnetBloxTileEntity extends BlockEntity {
 					break;
 				}
 			} else {
-				if (current.canOcclude() && current.getBlock() != Blocks.AIR) {
+				if (current.getBlock() != Blocks.AIR && current.canOcclude()) {
 					actualRange = i;
 					break;
 				}
@@ -57,29 +58,24 @@ public class MagnetBloxTileEntity extends BlockEntity {
 			// Not very useful if it's 0
 			if (range > 0) {
 				boolean attract = state.getValue(MagnetBloxBlock.ATTRACT);
-
 				if (TE.ticks % 5 == 0) {
-					int[] colors = { 1, 0, 0 };
-					if (!attract) {
-						colors[0] = 0;
-						colors[1] = 0;
-						colors[2] = 1;
-					}
+                    Color c = attract ? Color.RED : Color.BLUE;
+                    Vector3f vec = new Vector3f(c.getRed() / 255F, c.getGreen() / 255F, c.getBlue() / 255F);
 
 					for (double i = 0.7; i < range; i += 0.3) {
-						float scale = 1+ (float) i / 6;
+						float scale = 1 + (float) i / 6;
 						if (facing == Direction.NORTH) {
-							level.addParticle(new DustParticleOptions(new Vector3f(colors[0], colors[1], colors[2]), scale), pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5 - i, 0,0,0);
+							level.addParticle(new DustParticleOptions(vec, scale), pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5 - i, 0,0,0);
 						} else if (facing == Direction.EAST) {
-							level.addParticle(new DustParticleOptions(new Vector3f(colors[0], colors[1], colors[2]), scale), pos.getX() + 0.5 + i, pos.getY() + 0.5, pos.getZ() + 0.5,0,0,0);
+							level.addParticle(new DustParticleOptions(vec, scale), pos.getX() + 0.5 + i, pos.getY() + 0.5, pos.getZ() + 0.5,0,0,0);
 						} else if (facing == Direction.SOUTH) {
-							level.addParticle(new DustParticleOptions(new Vector3f(colors[0], colors[1], colors[2]), scale), pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5 + i,0,0,0);
+							level.addParticle(new DustParticleOptions(vec, scale), pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5 + i,0,0,0);
 						} else if (facing == Direction.WEST) {
-							level.addParticle(new DustParticleOptions(new Vector3f(colors[0], colors[1], colors[2]), scale), pos.getX() + 0.5 - i, pos.getY() + 0.5, pos.getZ() + 0.5, 0,0,0);
+							level.addParticle(new DustParticleOptions(vec, scale), pos.getX() + 0.5 - i, pos.getY() + 0.5, pos.getZ() + 0.5, 0,0,0);
 						} else if (facing == Direction.UP) {
-							level.addParticle(new DustParticleOptions(new Vector3f(colors[0], colors[1], colors[2]), scale), pos.getX() + 0.5, pos.getY() + 0.5 + i, pos.getZ() + 0.5, 0,0,0);
+							level.addParticle(new DustParticleOptions(vec, scale), pos.getX() + 0.5, pos.getY() + 0.5 + i, pos.getZ() + 0.5, 0,0,0);
 						} else if (facing == Direction.DOWN) {
-							level.addParticle(new DustParticleOptions(new Vector3f(colors[0], colors[1], colors[2]), scale), pos.getX() + 0.5, pos.getY() + 0.5 - i, pos.getZ() + 0.5, 0,0,0);
+							level.addParticle(new DustParticleOptions(vec, scale), pos.getX() + 0.5, pos.getY() + 0.5 - i, pos.getZ() + 0.5, 0,0,0);
 						}
 					}
 				}

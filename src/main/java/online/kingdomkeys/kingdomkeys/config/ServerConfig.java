@@ -66,6 +66,7 @@ public class ServerConfig {
         
         allowPartyKO = builder
                 .comment("If true then when a player in a party (with more party members online) dies, they will be put in a KO state allowing to cast cure or potions to be revived")
+                .comment("IMPORTANT! If supplementaries is installed we recommend to change in supplementaries-client.toml \"send_chat_on_death = true\" to false, since by default it sends a - at the end and might cause issues.")
                 .translation(KingdomKeys.MODID + ".config.allow_party_ko")
                 .define("allowPartyKO", true);
         

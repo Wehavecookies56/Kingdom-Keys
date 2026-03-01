@@ -7,6 +7,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import online.kingdomkeys.kingdomkeys.network.Packet;
 
 public record CSGiveUpKO() implements Packet {
@@ -15,14 +16,11 @@ public record CSGiveUpKO() implements Packet {
 
     public static final StreamCodec<FriendlyByteBuf, CSGiveUpKO> STREAM_CODEC = StreamCodec.of((pBuffer, pValue) -> {}, pBuffer -> new CSGiveUpKO());
 
-    public static void killPlayer(Player player){
-        player.kill();
-    }
-
     @Override
     public void handle(IPayloadContext context) {
         Player player = context.player();
-        killPlayer(player);
+        player.kill();
+        player.removeEffect(ModMobEffects.KO);
     }
 
     @Override

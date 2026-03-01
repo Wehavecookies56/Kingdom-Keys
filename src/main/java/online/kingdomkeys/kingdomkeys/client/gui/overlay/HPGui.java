@@ -1,16 +1,24 @@
 package online.kingdomkeys.kingdomkeys.client.gui.overlay;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.*;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.renderer.EffectInstance;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.client.ClientSetup;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
+import online.kingdomkeys.kingdomkeys.effects.FreezeEffect;
+import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import online.kingdomkeys.kingdomkeys.lib.Constants;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+import org.joml.Matrix4f;
 
 public class HPGui extends OverlayBase {
 
@@ -23,6 +31,11 @@ public class HPGui extends OverlayBase {
 	private long gummiDelayEnd = 0;
 
     final ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/hpbar.png");
+
+    int barWidth = 908;
+    int barHeight = 244;
+    int barX = 0;
+    int barY = 0;
 
 	private HPGui() {
 		super();
@@ -37,171 +50,154 @@ public class HPGui extends OverlayBase {
 
 		PoseStack poseStack = guiGraphics.pose();
 
-		/*
+        int screenWidth = minecraft.getWindow().getGuiScaledWidth();
+        int screenHeight = minecraft.getWindow().getGuiScaledHeight();
+
+		float health = minecraft.player.getHealth();
+		float maxHealth = minecraft.player.getMaxHealth();
+		float maxMaxHealth = 180; //maybe config value or something?
+		float healthPercentage = health / maxMaxHealth;
+		float maxHealthPercentage = maxHealth / maxMaxHealth;
+
+        if (realPlayerHP == 0) {
+            realPlayerHP = health;
+            displayedPlayerHP = health;
+        }
+
+        float partialTick = deltaTracker.getGameTimeDeltaPartialTick(false);
+        long now = net.minecraft.Util.getMillis();
+
+        if (health < realPlayerHP) {
+            playerDelayEnd = now + 1000;
+        }
+        realPlayerHP = health;
+
+        if (now > playerDelayEnd) {
+            displayedPlayerHP = Mth.lerp(0.05F * partialTick, displayedPlayerHP, realPlayerHP);
+        }
+
+        float displayedPercentage = displayedPlayerHP / maxMaxHealth;
+
+        float scaleX = 0.2F;
+        float scaleY = 0.2F;
         poseStack.pushPose();
         {
+            poseStack.translate(screenWidth-15, screenHeight-5, 0);
+            poseStack.translate(-barWidth * scaleX, -barHeight * scaleY, 0);
+            poseStack.scale(scaleX, scaleY, 1);
+
             RenderSystem.enableBlend();
             RenderSystem.defaultBlendFunc();
 
-			float health = minecraft.player.getHealth();
-			float maxHealth = minecraft.player.getMaxHealth();
-			float healthPercentage = health / maxHealth;
-
-
-			int barWidth = 256;
-			int barHeight = 256;
-			int barX = 0;
-			int barY = 0;
-            RenderSystem.setShaderTexture(0, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/hp_fill.png"));
-			RenderSystem.setShaderTexture(1, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/hp_mask.png"));
-            ClientSetup.testShader.setSampler("Sampler0", 0);
-			ClientSetup.testShader.setSampler("Sampler1", 1);
-			ClientSetup.testShader.safeGetUniform("HealthPercentage").set(healthPercentage);
-			ClientSetup.testShader.apply();
-            RenderSystem.setShader(() -> ClientSetup.testShader);
-
-            Matrix4f matrix = poseStack.last().pose();
-            Tesselator tesselator = Tesselator.getInstance();
-            BufferBuilder buffer = tesselator.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
-
-            buffer.addVertex(matrix, barX, barY + barHeight, 0).setUv(0, 1);
-            buffer.addVertex(matrix, barX + barWidth, barY + barHeight, 0).setUv(1, 1);
-            buffer.addVertex(matrix, barX + barWidth, barY, 0).setUv(1, 0);
-            buffer.addVertex(matrix, barX, barY, 0).setUv(0, 0);
-            BufferUploader.drawWithShader(buffer.buildOrThrow());
+			drawHPBackground(poseStack, maxHealthPercentage);
+            drawHPBar(poseStack, healthPercentage);
+            drawRedHP(poseStack, healthPercentage, displayedPercentage);
 
             RenderSystem.disableBlend();
             RenderSystem.setShader(GameRenderer::getPositionTexShader);
         }
         poseStack.popPose();
-		*/
-
-		float partialTick = deltaTracker.getGameTimeDeltaPartialTick(false);
-
-		int screenWidth = minecraft.getWindow().getGuiScaledWidth();
-		int screenHeight = minecraft.getWindow().getGuiScaledHeight();
-		float scale = 1f;
-		if (minecraft.options.guiScale().get() == Constants.SCALE_AUTO)
-			scale = 0.85F;
-
-		float scaleFactor = 1.5F * ModConfigs.hpXScale / 100F;
-		RenderSystem.enableBlend();
-		RenderSystem.setShaderColor(1, 1, 1, 1);
-		poseStack.pushPose();
-		{
-			poseStack.translate(ModConfigs.hpXPos, ModConfigs.hpYPos, 0);
-
-			long now = net.minecraft.Util.getMillis();
-			// Player
-			float playerMaxHP = player.getMaxHealth();
-
-			if (realPlayerHP == 0) {
-				realPlayerHP = player.getHealth();
-				displayedPlayerHP = player.getHealth();
-			}
-
-			float playerHP = player.getHealth();
-			if (playerHP < realPlayerHP) {
-				playerDelayEnd = now + 1000;
-			}
-			realPlayerHP = playerHP;
-
-			if (now > playerDelayEnd) {
-				displayedPlayerHP = Mth.lerp(0.05F * partialTick, displayedPlayerHP, realPlayerHP);
-			}
-
-			drawHPBars(guiGraphics, poseStack, screenWidth, screenHeight, scale, scaleFactor, displayedPlayerHP, realPlayerHP, playerMaxHP);
-
-		}
-		poseStack.popPose();
-		RenderSystem.disableBlend();
 	}
 
-	public void drawHPBars(GuiGraphics gui, PoseStack poseStack, int screenWidth, int screenHeight, float scale, float scaleFactor, float displayedHP, float realHP, float maxHP) {
-		float maxBarWidth = maxHP * scaleFactor;
-		float realBarWidth = realHP * scaleFactor;
-		float displayedBarWidth = displayedHP * scaleFactor;
-		float missingWidth = Math.max(displayedBarWidth - realBarWidth, 0);
+    private void drawHPBackground(PoseStack poseStack, float maxHealthPercentage) {
+        RenderSystem.setShaderTexture(0, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/hp_background.png"));
+        RenderSystem.setShaderTexture(1, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/hp_mask.png"));
+        ClientSetup.testShader.setSampler("Sampler0", 0);
+        ClientSetup.testShader.setSampler("Sampler1", 1);
+        ClientSetup.testShader.safeGetUniform("HealthPercentage").set(maxHealthPercentage);
+        ClientSetup.testShader.safeGetUniform("Colour").set(1F, 1F, 1F, 1F);
+        ClientSetup.testShader.apply();
+        RenderSystem.setShader(() -> ClientSetup.testShader);
 
-		// Background & outline
-		poseStack.pushPose();
-        int guiHeight = 10;
-        {
-			poseStack.translate((screenWidth - maxBarWidth * scale) - 8 * scale, (screenHeight - guiHeight * scale) - 2 * scale, 0);
-			poseStack.scale(scale, scale, scale);
-			drawHPBarBack(gui, 0, 0, maxBarWidth, scale, realHP, maxHP);
-		}
-		poseStack.popPose();
+        Matrix4f matrix = poseStack.last().pose();
+        Tesselator tesselator = Tesselator.getInstance();
+        BufferBuilder buffer = tesselator.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
 
-		// Green HP
-		poseStack.pushPose();
-		{
-			poseStack.translate((screenWidth - realBarWidth * scale) - 8 * scale, (screenHeight - guiHeight * scale) - 1 * scale, 0);
-			poseStack.scale(scale, scale, scale);
-			drawHPBarTop(gui, 0, 0, realBarWidth, scale);
-			RenderSystem.setShaderColor(1, 1, 1, 1);
-		}
-		poseStack.popPose();
+        buffer.addVertex(matrix, barX, barY + barHeight, 0).setUv(0, 1);
+        buffer.addVertex(matrix, barX + barWidth, barY + barHeight, 0).setUv(1, 1);
+        buffer.addVertex(matrix, barX + barWidth, barY, 0).setUv(1, 0);
+        buffer.addVertex(matrix, barX, barY, 0).setUv(0, 0);
+        BufferUploader.drawWithShader(buffer.buildOrThrow());
+    }
 
-		// Red
-		if (missingWidth > 0.5F) {
-			poseStack.pushPose();
-			{
-				poseStack.translate((screenWidth - (realBarWidth + missingWidth) * scale) - 8 * scale, (screenHeight - guiHeight * scale) - 1 * scale, 0);
-				poseStack.scale(scale, scale, scale);
-				drawDamagedHPBarTop(gui, 0, 0, missingWidth, scale);
-			}
-			poseStack.popPose();
-		}
-	}
+    private void drawHPBar(PoseStack poseStack, float healthPercentage) {
+        Matrix4f matrix = poseStack.last().pose();
+        Tesselator tesselator = Tesselator.getInstance();
+        BufferBuilder buffer = tesselator.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
 
-	public void drawHPBarBack(GuiGraphics gui, int posX, int posY, float width, float scale, float hp, float maxHP) {
-		PoseStack matrixStack = gui.pose();
-		matrixStack.pushPose();
-		{
-			matrixStack.translate(scale * posX, scale * posY, 0);
-			matrixStack.scale(scale, scale, 0);
-			blit(gui, texture, 0, 0, 0, 0, 2, 12);
-		}
-		matrixStack.popPose();
+        if (minecraft.player.level().getLevelData().isHardcore())
+            RenderSystem.setShaderTexture(0, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/hp_fill_h.png"));
+        else
+            RenderSystem.setShaderTexture(0, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/hp_fill.png"));
 
-		matrixStack.pushPose();
-		{
-			matrixStack.translate((posX + 2) * scale, posY * scale, 0);
-			matrixStack.scale(width, scale, 0);
-			int v = Utils.isLowHP(hp, maxHP) ? 8 : 2;
-			blit(gui, texture, 0, 0, v, 0, 1, 12);
-		}
-		matrixStack.popPose();
+        RenderSystem.setShaderTexture(1, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/hp_mask.png"));
+        ClientSetup.testShader.setSampler("Sampler0", 0);
+        ClientSetup.testShader.setSampler("Sampler1", 1);
+        ClientSetup.testShader.safeGetUniform("HealthPercentage").set(healthPercentage);
+        ClientSetup.testShader.safeGetUniform("RedStart").set(0f);
+        ClientSetup.testShader.safeGetUniform("RedEnd").set(0f);
 
-		matrixStack.pushPose();
-		{
-			matrixStack.translate((posX + 2) * scale + width, scale * posY, 0);
-			matrixStack.scale(scale, scale, 0);
-			blit(gui, texture, 0, 0, 3, 0, 2, 12);
-		}
-		matrixStack.popPose();
-	}
+        if(minecraft.player.hasEffect(MobEffects.POISON))
+            ClientSetup.testShader.safeGetUniform("Colour").set(0.54F, 0.53F, 0F, 1F);
+        else if(minecraft.player.hasEffect(MobEffects.WITHER))
+            ClientSetup.testShader.safeGetUniform("Colour").set(0.2F, 0.05F, 0F, 1F);
+        else if(minecraft.player.hasEffect(ModMobEffects.FREEZE))
+            ClientSetup.testShader.safeGetUniform("Colour").set(0F, 1F, 1F, 1F);
+        else
+            ClientSetup.testShader.safeGetUniform("Colour").set(0.75F, 1F, 0.3F, 1F);
 
-	public void drawHPBarTop(GuiGraphics gui, int posX, int posY, float width, float scale) {
-		PoseStack matrixStack = gui.pose();
-		matrixStack.pushPose();
-		{
-			matrixStack.translate((posX + 2) * scale, (posY + 2) * scale, 0);
-			matrixStack.scale(width, scale, 0);
-			blit(gui, texture, 0, -1, 2, 12, 1, 8);
-		}
-		matrixStack.popPose();
-	}
+        ClientSetup.testShader.apply();
+        RenderSystem.setShader(() -> ClientSetup.testShader);
+        buffer.addVertex(matrix, barX, barY + barHeight, 0).setUv(0, 1);
+        buffer.addVertex(matrix, barX + barWidth, barY + barHeight, 0).setUv(1, 1);
+        buffer.addVertex(matrix, barX + barWidth, barY, 0).setUv(1, 0);
+        buffer.addVertex(matrix, barX, barY, 0).setUv(0, 0);
+        BufferUploader.drawWithShader(buffer.buildOrThrow());
+    }
 
-	public void drawDamagedHPBarTop(GuiGraphics gui, int posX, int posY, float width, float scale) {
-		PoseStack matrixStack = gui.pose();
-		matrixStack.pushPose();
-		{
-			matrixStack.translate((posX + 2) * scale, (posY + 2) * scale, 0);
-			matrixStack.scale(width, scale, 0);
-			blit(gui, texture, 0, -1, 2, 22, 1, 8);
-		}
-		matrixStack.popPose();
-	}
+
+    private void drawRedHP(PoseStack poseStack, float healthPercentage, float displayedPercentage) {
+        float damagedPercentage = displayedPercentage - healthPercentage;
+
+        if (damagedPercentage < 0)
+            damagedPercentage = 0;
+
+        if (damagedPercentage > 0.001F) {
+            float redEnd = displayedPercentage;
+
+            Matrix4f matrix = poseStack.last().pose();
+            Tesselator tesselator = Tesselator.getInstance();
+            BufferBuilder buffer = tesselator.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
+
+            RenderSystem.enableBlend();
+            RenderSystem.defaultBlendFunc();
+
+            RenderSystem.setShaderTexture(0,
+                    ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/hp_fill.png")
+            );
+
+            RenderSystem.setShaderTexture(1,
+                    ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/hp_mask.png")
+            );
+
+            ClientSetup.testShader.setSampler("Sampler0", 0);
+            ClientSetup.testShader.setSampler("Sampler1", 1);
+
+            ClientSetup.testShader.safeGetUniform("HealthPercentage").set(0F);
+            ClientSetup.testShader.safeGetUniform("RedStart").set(healthPercentage);
+            ClientSetup.testShader.safeGetUniform("RedEnd").set(redEnd);
+
+            ClientSetup.testShader.safeGetUniform("Colour").set(1F, 0F, 0F, 1F);
+
+            ClientSetup.testShader.apply();
+            RenderSystem.setShader(() -> ClientSetup.testShader);
+
+            buffer.addVertex(matrix, barX, barY + barHeight, 0).setUv(0, 1);
+            buffer.addVertex(matrix, barX + barWidth, barY + barHeight, 0).setUv(1, 1);
+            buffer.addVertex(matrix, barX + barWidth, barY, 0).setUv(1, 0);
+            buffer.addVertex(matrix, barX, barY, 0).setUv(0, 0);
+
+            BufferUploader.drawWithShader(buffer.buildOrThrow());
+        }
+    }
 }

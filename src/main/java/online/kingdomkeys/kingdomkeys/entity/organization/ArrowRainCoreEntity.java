@@ -73,7 +73,6 @@ public class ArrowRainCoreEntity extends ThrowableProjectile {
 					LaserDomeShotEntity bullet = new LaserDomeShotEntity(level(), getCaster(), dmg);
 					bullet.setPos(X, Y + 27, Z);
 					bullet.setMaxTicks(20);
-                    System.out.println(bullet.level().isClientSide);
 					bullet.shoot(x - bullet.getX(), this.getY() - bullet.getY()+1, z - bullet.getZ(), 2.5f, 0);
 					level().addFreshEntity(bullet);
 				}

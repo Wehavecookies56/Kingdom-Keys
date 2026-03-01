@@ -11,7 +11,7 @@ import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.List;
 
-@EventBusSubscriber(modid = KingdomKeys.MODID, bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = KingdomKeys.MODID)
 public class ModConfigs {
 
     private static final ClientConfig CLIENT; //Client stuff that doesn't matter if it's changed

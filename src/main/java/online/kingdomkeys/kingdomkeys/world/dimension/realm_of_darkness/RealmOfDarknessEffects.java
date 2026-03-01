@@ -18,7 +18,7 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
 
-@EventBusSubscriber(value = Dist.CLIENT, bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(value = Dist.CLIENT)
 public class RealmOfDarknessEffects extends DimensionSpecialEffects {
 
     static final int r = 100, g = 100, b = 160;

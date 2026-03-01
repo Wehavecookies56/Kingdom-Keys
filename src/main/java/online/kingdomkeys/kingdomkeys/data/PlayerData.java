@@ -56,6 +56,7 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
 import online.kingdomkeys.kingdomkeys.util.Utils.castMagic;
 
+import javax.annotation.Nullable;
 import java.time.Instant;
 import java.util.*;
 import java.util.Map.Entry;
@@ -76,13 +77,13 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		}
 	}
 
+    @Nullable
 	public static PlayerData get(Player player) {
 		if (!player.hasData(ModData.PLAYER_DATA)) {
 			player.setData(ModData.PLAYER_DATA, new PlayerData());
 		}
 		return player.getData(ModData.PLAYER_DATA);
 	}
-
 
     @Override
 	public CompoundTag serializeNBT(HolderLookup.Provider provider) {

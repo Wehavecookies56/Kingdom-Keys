@@ -12,7 +12,7 @@ import online.kingdomkeys.kingdomkeys.entity.mob.GigaShadowEntity;
 public class GigaShadowRenderer extends MobRenderer<GigaShadowEntity, ShadowModel<GigaShadowEntity>> {
 
     public GigaShadowRenderer(EntityRendererProvider.Context context) {
-        super(context, new ShadowModel<>(context.bakeLayer(ShadowModel.LAYER_LOCATION)), 1.5F);
+        super(context, new ShadowModel<>(context.bakeLayer(ShadowModel.LAYER_LOCATION)), 0);
         model.CYCLES_PER_BLOCK = 1;
 
     }

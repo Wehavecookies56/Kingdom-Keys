@@ -3,12 +3,12 @@ package online.kingdomkeys.kingdomkeys.integration.epicfight;
 import online.kingdomkeys.kingdomkeys.client.render.DriveLayerRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.KeybladeArmorRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.ShoulderLayerRenderer;
-import yesman.epicfight.api.client.neoevent.PatchedRenderersEvent;
+import yesman.epicfight.api.client.event.types.registry.RegisterPatchedRenderersEvent;
 import yesman.epicfight.client.events.engine.RenderEngine;
 
 public class EpicFightRendering {
     private EpicFightRendering() {}
-    public static void patchedRenderersEventModify(PatchedRenderersEvent.Modify event) {
+    public static void patchedRenderersEventModify(RegisterPatchedRenderersEvent.ModifyEntity event) {
         //PatchedLivingEntityRenderer playerRenderer = (PatchedLivingEntityRenderer) event.get(EntityType.PLAYER);
         //playerRenderer.addPatchedLayer(DriveLayerRenderer.class, new PatchedDriveLayerRenderer<>(Meshes.BIPED));
         RenderEngine.getInstance().getFirstPersonRenderer().addPatchedLayer(DriveLayerRenderer.class, new PatchedDriveLayerRenderer<>());

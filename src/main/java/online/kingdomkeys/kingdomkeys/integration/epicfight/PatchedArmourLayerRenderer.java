@@ -21,11 +21,11 @@ import online.kingdomkeys.kingdomkeys.client.render.KeybladeArmorRenderer;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.item.KeybladeArmorItem;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+import yesman.epicfight.api.client.event.types.render.PrepareModelEvent;
 import yesman.epicfight.api.client.model.Mesh;
 import yesman.epicfight.api.client.model.Meshes;
 import yesman.epicfight.api.client.model.SkinnedMesh;
 import yesman.epicfight.api.client.model.transformer.HumanoidModelBaker;
-import yesman.epicfight.api.client.neoevent.PrepareModelEvent;
 import yesman.epicfight.api.utils.math.OpenMatrix4f;
 import yesman.epicfight.client.ClientEngine;
 import yesman.epicfight.client.mesh.HumanoidMesh;
@@ -47,7 +47,6 @@ public class PatchedArmourLayerRenderer<E extends LivingEntity, T extends Living
     // Cache to store generated epic fight model
     public static final Map<Item, SkinnedMesh> epicfight_armorModels = new HashMap<>();
 
-    @SubscribeEvent
     public static void clearModels(PrepareModelEvent meshBuildEvent) {
         epicfight_armorModels.values().forEach(SkinnedMesh::destroy);
         epicfight_armorModels.clear();

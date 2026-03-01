@@ -50,6 +50,7 @@ public class DataGeneration {
         generator.addProvider(event.includeClient(), new LanguageESES(generator));
         generator.addProvider(event.includeClient(), new LanguageENGB(generator));
         generator.addProvider(event.includeClient(), new Sounds(generator, existingFileHelper));
+        generator.addProvider(event.includeClient(), new BannerPatterns(generator, event.getLookupProvider(), existingFileHelper));
         
        // generator.addProvider(event.includeServer(), new DatapackBuiltinEntriesProvider(output, event.getLookupProvider(), BUILDER, Set.of(KingdomKeys.MODID)));
 

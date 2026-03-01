@@ -99,7 +99,7 @@ public class CommandMenuGui extends OverlayBase {
 						new CommandMenuItem.Builder(drive, Component.translatable(Strings.Gui_CommandMenu_Drive), opensSubmenu(drive)).onUpdate((item, guiGraphics) -> updateRootItem(item, drive, guiGraphics)).iconUV(0, 60),
 						new CommandMenuItem.Builder(revert, Component.translatable(Strings.Gui_CommandMenu_Drive_Revert), item -> {
 							PlayerData playerData = PlayerData.get(minecraft.player);
-							if (playerData.getActiveDriveForm().equals(Strings.Form_Anti) && !playerData.isAbilityEquipped(Strings.darkDomination) && EntityEvents.isHostiles) {
+							if (playerData.getActiveDriveForm().equals(Strings.Form_Anti) && !playerData.isAbilityEquipped(Strings.darkDomination) && EntityEvents.threatLevel == EntityEvents.ThreatLevel.HOSTILES) {
 								playErrorSound();
 							} else {
 								PacketHandler.sendToServer(new CSUseDriveFormPacket(DriveForm.NONE.toString()));

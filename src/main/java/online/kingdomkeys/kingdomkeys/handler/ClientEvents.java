@@ -20,6 +20,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
@@ -235,8 +236,10 @@ public class ClientEvents {
         }
 	}
 
+    boolean handledCamera = false;
+    public static CameraType prevCamera = CameraType.FIRST_PERSON;
 
-	@SubscribeEvent
+    @SubscribeEvent
 	public void onLivingUpdate(EntityTickEvent.Pre event) {
 		if(event.getEntity() instanceof LocalPlayer player){
 			if(player.getControlledVehicle() instanceof KKVehicleEntity vehicle) {
@@ -247,16 +250,30 @@ public class ClientEvents {
 		if (event.getEntity() instanceof LivingEntity livingEntity) {
 			GlobalData globalData = GlobalData.get((LivingEntity) event.getEntity());
 			if (globalData != null) {
+                if(livingEntity == Minecraft.getInstance().player) {
+                    if (livingEntity.hasEffect(ModMobEffects.KO)) {
+                        if (livingEntity.level().isClientSide) {
+                            if (livingEntity.isDeadOrDying())
+                                return;
 
-				if(livingEntity.hasEffect(ModMobEffects.KO)) {
-					if (event.getEntity().level().isClientSide && event.getEntity() == Minecraft.getInstance().player) {
-						if (Minecraft.getInstance().options.getCameraType() == CameraType.FIRST_PERSON)
-							Minecraft.getInstance().options.setCameraType(CameraType.THIRD_PERSON_FRONT);
+                            //Force the 3rd person view when KO
+                            if (!handledCamera) {
+                                // Store and swap camera if needed
+                                prevCamera = Minecraft.getInstance().options.getCameraType();
+                                Minecraft.getInstance().options.setCameraType(CameraType.THIRD_PERSON_BACK);
+                                handledCamera = true;
+                            }
 
-						if (!(Minecraft.getInstance().screen instanceof KOGui))
-							Minecraft.getInstance().setScreen(new KOGui());
-					}
-				}
+                            if (!(Minecraft.getInstance().screen instanceof KOGui))
+                                Minecraft.getInstance().setScreen(new KOGui());
+                        }
+                    } else { //If doesn't have KO
+                        if (handledCamera) {
+                            Minecraft.getInstance().options.setCameraType(prevCamera);
+                            handledCamera = false;
+                        }
+                    }
+                }
 				if (event.getEntity() instanceof Player player) {
 					if (player.hasEffect(ModMobEffects.STOP)) {
 						if(event.getEntity().level().isClientSide && player == Minecraft.getInstance().player) {
@@ -358,7 +375,6 @@ public class ClientEvents {
         MultiBufferSource.BufferSource buffer = mc.renderBuffers().bufferSource();
         PlayerData localPlayerData = PlayerData.get(player);
 
-        RenderSystem.depthMask(false);
         float partialTicks = mc.getTimer().getGameTimeDeltaPartialTick(false);
         // Lock on
         if (ModConfigs.SERVER.softLockOnMode.get() && InputHandler.lockOn != null) {
@@ -384,7 +400,6 @@ public class ClientEvents {
             }
         }
 
-        RenderSystem.depthMask(true);
         buffer.endBatch();
     }
 
@@ -404,20 +419,50 @@ public class ClientEvents {
                         }
                     }
                 }
+
 				if(player.hasEffect(ModMobEffects.KO)) {
 					LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> renderer = (LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>>) Minecraft.getInstance().getEntityRenderDispatcher().getRenderer((AbstractClientPlayer) player);
 					if (!((IDisabledAnimations) renderer).kingdom_Keys$isDisabled()) {
-						event.getPoseStack().mulPose(Axis.XN.rotationDegrees(90));
-						event.getPoseStack().mulPose(Axis.ZP.rotationDegrees(90));
-						float MAX = 100;
-						double pos = player.tickCount % MAX / (MAX /2D);
+                        //Cancel the vanilla animation
+                        event.setCanceled(true);
 
-						if (player.tickCount % MAX < (MAX / 2)) {
-							event.getPoseStack().translate(0, 0, pos * 0.3);
-						} else {
-							event.getPoseStack().translate(0, 0, (MAX - player.tickCount % MAX) / (MAX / 2D) * 0.3);
-						}
-						event.getPoseStack().translate(0, -1, 0.8);
+                        PoseStack pose = event.getPoseStack();
+                        MultiBufferSource buffer = event.getMultiBufferSource();
+                        int light = event.getPackedLight();
+
+                        pose.pushPose();
+                        {
+                            float MAX = 100;
+                            float MAX2 = 35;
+
+                            double t = player.tickCount % MAX;
+                            double t2 = player.tickCount % MAX2;
+
+                            double bob = (t < MAX / 2) ? (t / (MAX / 2D)) : ((MAX - t) / (MAX / 2D));
+                            double bob2 = (t2 < MAX2 / 2) ? (t2 / (MAX2 / 2D)) : ((MAX2 - t2) / (MAX2 / 2D));
+
+                            //Render body
+                            pose.pushPose();
+                            {
+                                pose.mulPose(Axis.XP.rotationDegrees(90));
+                                pose.mulPose(Axis.ZP.rotationDegrees(90));
+
+                                pose.translate(0, -0.5, bob * 0.3 - 0.8F);
+
+                                ResourceLocation tex = ((AbstractClientPlayer) player).getSkin().texture();
+                                renderer.getModel().renderToBuffer(pose, buffer.getBuffer(RenderType.entityCutout(tex)), light, LivingEntityRenderer.getOverlayCoords(player, 0), 0xffffff);
+                            }
+                            pose.popPose();
+
+                            String name = player.getDisplayName().getString();
+
+                            ClientUtils.renderNameTag(renderer, player, name, pose, buffer, light, event.getPartialTick());
+
+                            pose.translate(0, -bob2 * 0.15 - 0.8F + 0.9F, 0);
+                            ClientUtils.renderHeart(pose,buffer,player);
+
+                        }
+                        pose.popPose();
 					}
 				}
 				
@@ -447,7 +492,7 @@ public class ClientEvents {
 		}
 	}
 
-	private static int selectedSlot = 0;
+    private static int selectedSlot = 0;
 
 	private static long timeSinceLastshot = 0;
 
@@ -696,7 +741,7 @@ public class ClientEvents {
 		}
 	}
 
-	@EventBusSubscriber(value = Dist.CLIENT, bus = EventBusSubscriber.Bus.MOD)
+	@EventBusSubscriber(value = Dist.CLIENT)
 	public static class ModBusEvents {
 		@SubscribeEvent
 		public static void colourTint(RegisterColorHandlersEvent.Block event) {
