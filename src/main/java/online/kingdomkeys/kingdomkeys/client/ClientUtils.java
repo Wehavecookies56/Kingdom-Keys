@@ -354,8 +354,8 @@ public class ClientUtils {
         if(entity instanceof LivingEntity livingEntity)
   		    renderPlayerNoAnimsRaw(posestack, pPosX, pPosY, (int) pScale, f, f1, livingEntity);
         else
-            renderEntityRaw(posestack, pPosX, pPosY, pScale, f, f1, entity);
-  	}
+            renderEntityRaw(posestack, pScale, f, f1, entity);
+    }
 
     public static boolean disableEFMAnims = false;
   	
@@ -419,45 +419,40 @@ public class ClientUtils {
         p_275689_.yHeadRot = f6;
     }
 
-    public static void renderEntityRaw(PoseStack p_275396_, int p_275688_, int p_275245_, float scale, float angleXComponent, float angleYComponent, Entity entity) {
-        float f = angleXComponent;
-        float f1 = angleYComponent;
-        Quaternionf quaternionf = (new Quaternionf()).rotateZ((float) Math.PI);
-        Quaternionf quaternionf1 = (new Quaternionf()).rotateX(f1 * 20.0F * ((float) Math.PI / 180F));
-        quaternionf.mul(quaternionf1);
+    public static void renderEntityRaw(PoseStack pose, float scale, float angleXComponent, float angleYComponent, Entity entity) {
+        Quaternionf qZ = new Quaternionf().rotateZ((float)Math.PI);
+        Quaternionf qX = new Quaternionf().rotateX(angleYComponent * 20.0F * ((float)Math.PI / 180F));
+        qZ.mul(qX);
 
-        Matrix4fStack posestack = RenderSystem.getModelViewStack();
-        posestack.pushMatrix();
+        pose.pushPose();
         {
-            posestack.translate(0.0F, 0.0F, 1000.0F);
-            RenderSystem.applyModelViewMatrix();
-            p_275396_.pushPose();
-            p_275396_.translate(p_275688_, p_275245_, -950.0D);
-            p_275396_.mulPose((new Matrix4f()).scaling(scale, scale, (-scale)));
-            p_275396_.mulPose(quaternionf);
+            pose.mulPose(qZ);
+            pose.scale(-scale, scale, scale);
+
             Lighting.setupForEntityInInventory();
-            EntityRenderDispatcher entityrenderdispatcher = Minecraft.getInstance().getEntityRenderDispatcher();
-            if (quaternionf1 != null) {
-                quaternionf1.conjugate();
-                entityrenderdispatcher.overrideCameraOrientation(quaternionf1);
+            EntityRenderDispatcher dispatcher = Minecraft.getInstance().getEntityRenderDispatcher();
+
+            if (qX != null) {
+                Quaternionf inv = new Quaternionf(qX).conjugate();
+                dispatcher.overrideCameraOrientation(inv);
             }
 
-            entityrenderdispatcher.setRenderShadow(false);
-            MultiBufferSource.BufferSource multibuffersource$buffersource = Minecraft.getInstance().renderBuffers().bufferSource();
+            dispatcher.setRenderShadow(false);
+            MultiBufferSource.BufferSource buffer = Minecraft.getInstance().renderBuffers().bufferSource();
+
             RenderSystem.runAsFancy(() -> {
-                EntityRenderer<? super Entity> renderer = Minecraft.getInstance().getEntityRenderDispatcher().getRenderer(entity);
-                renderer.render(entity, 0, 1, p_275396_, multibuffersource$buffersource, 15728880);
+                EntityRenderer<? super Entity> renderer = dispatcher.getRenderer(entity);
+                pose.translate(0,0,-100);
+                pose.mulPose(Axis.YP.rotationDegrees(180));
+                renderer.render(entity, 0, 1, pose, buffer, 15728880);
             });
 
-            multibuffersource$buffersource.endBatch();
-            entityrenderdispatcher.setRenderShadow(true);
-            p_275396_.popPose();
+            buffer.endBatch();
+            dispatcher.setRenderShadow(true);
             Lighting.setupFor3DItems();
         }
-        posestack.popMatrix();
-        RenderSystem.applyModelViewMatrix();
+        pose.popPose();
     }
-  	
   	public static List<Component> getTooltip(List<Component> tooltip, Item.TooltipContext context, ItemStack stack) {
           if (context.level() != null) {
               float baseStr = 0, baseMag = 0;

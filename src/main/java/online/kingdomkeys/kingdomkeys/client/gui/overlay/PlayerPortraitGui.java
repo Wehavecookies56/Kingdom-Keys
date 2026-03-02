@@ -85,7 +85,6 @@ public class PlayerPortraitGui extends OverlayBase {
 
 				poseStack.pushPose();
 				{
-
 					ItemStack stack = player.getInventory().getItem(player.getInventory().selected);
 					player.getInventory().setItem(player.getInventory().selected, new ItemStack(Items.AIR));
 
@@ -98,38 +97,29 @@ public class PlayerPortraitGui extends OverlayBase {
                              scale = 1f;
 
                             if (player.getVehicle() instanceof GummiShipEntity ship) {
+                                sizeX = Utils.getRealGummiStructureSize(ship.structure).getX();
+                                sizeY = (int) ship.getBoundingBox().getYsize();
                                 if (ship.structure != null) {
-                                    Vec3i vec = Utils.getRealGummiStructureSize(ship.structure);
-                                    sizeX = vec.getX();
-                                    sizeY = vec.getY();
-                                    scale = 13f / Math.max(sizeX, sizeY);
+                                    scale = 11f / Math.max(sizeX, sizeY);
                                 }
                             }
 
-                            // Punto donde quieres el centro de la nave en pantalla
                             float baseX = 46;
-                            float baseY = -4;
+                            float baseY = -15;
 
-                            // === fórmula de centrado correcta ===
+                            if(sizeX % 2 == 0){
+                                baseX -= 2;
+                            }
                             float offsetX = baseX - (sizeX * scale) / 2f;
-                            float offsetY = baseY - (sizeY * scale) / 2f;
-scale *= 1.4F;
-                            // Rotación
+                            int missingY = 13 - sizeY;
+                            float offsetY = baseY - missingY;
+                            scale *= 1.4F;
+
                             poseStack.mulPose(Axis.YP.rotationDegrees(180));
-
-                            // Centrado manual correcto
                             poseStack.translate(offsetX, offsetY, 0);
-
-                            // Escalado uniforme
                             poseStack.scale(scale, scale, scale);
 
-                            // Render
-                            ClientUtils.renderEntity(
-                                    poseStack,
-                                    0, 0,
-                                    2, 0,0,
-                                    player.getVehicle()
-                            );
+                            ClientUtils.renderEntity(poseStack, 0, 0, 2, 0,0, player.getVehicle());
                         }
                         poseStack.popPose();
                     }

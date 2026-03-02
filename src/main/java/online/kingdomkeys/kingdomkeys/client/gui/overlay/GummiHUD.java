@@ -121,7 +121,9 @@ public class GummiHUD extends OverlayBase {
         float maxHealth = ship.shipStats.armour();
         float health = maxHealth - ship.getDamage();
 
-        float maxMaxHealth = 35000; //maybe config value or something?
+        //Based on the max hp per ship tier
+
+        float maxMaxHealth = 6000 * ship.getShipLevel(); //maybe config value or something?
         float healthPercentage = health / maxMaxHealth;
         float maxHealthPercentage = maxHealth / maxMaxHealth;
 
