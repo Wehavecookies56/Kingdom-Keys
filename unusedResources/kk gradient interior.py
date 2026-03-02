@@ -13,8 +13,8 @@ THICKNESS = 40
 ARC_DEGREES = 270
 
 # Radial gradient colors (inner → outer)  ---- NOW RGB
-INNER_COLOR = (180, 220, 40)   # ejemplo verde-amarillento
-OUTER_COLOR = (40, 215, 40)    # ejemplo verde puro
+INNER_COLOR = (255, 255, 255)    # ejemplo verde puro
+OUTER_COLOR = (150, 215, 40)   # ejemplo verde-amarillento
 
 # Arc center at upper-right
 ARC_CENTER = (WIDTH - RADIUS, RADIUS)
