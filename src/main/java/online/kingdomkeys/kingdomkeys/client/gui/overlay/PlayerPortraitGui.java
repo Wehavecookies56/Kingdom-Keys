@@ -19,11 +19,15 @@ import online.kingdomkeys.kingdomkeys.entity.GummiShipEntity;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
 //TODO cleanup + comments
 public class PlayerPortraitGui extends OverlayBase {
 
 	public static final PlayerPortraitGui INSTANCE = new PlayerPortraitGui();
-    private static Vec3i GUMMI_SIZE_CACHE = Vec3i.ZERO;
+    private static final Map<UUID, Vec3i> GUMMI_SIZE_CACHE = new HashMap<>();
 
 	private PlayerPortraitGui() {
 		super();
@@ -94,10 +98,9 @@ public class PlayerPortraitGui extends OverlayBase {
                         {
                             int sizeX = 1, sizeY = 1;
                             if (player.getVehicle() instanceof GummiShipEntity ship) {
-                                checkCachedGummiSize(ship);
-                                sizeX = GUMMI_SIZE_CACHE.getX();
-                                sizeY = GUMMI_SIZE_CACHE.getY();
-
+                                Vec3i size = getCachedGummiSize(ship);
+                                sizeX = size.getX();
+                                sizeY = size.getY();
                                 if (ship.structure != null) {
                                     scale = 11f / Math.max(sizeX, sizeY);
                                 }
@@ -294,22 +297,12 @@ public class PlayerPortraitGui extends OverlayBase {
 		}
 	}
 
-    /**
-     * Cache method to prevent accessing Utils.getRealGummiStructureSize since it's very resource expensive
-     * @param ship
-     */
-    public static void checkCachedGummiSize(GummiShipEntity ship) {
+    public static Vec3i getCachedGummiSize(GummiShipEntity ship) {
         if (ship == null || ship.structure == null)
-            GUMMI_SIZE_CACHE = Vec3i.ZERO;
+            return new Vec3i(1,1,1);
 
-        if(Minecraft.getInstance().player.getVehicle() == null){
-            if(GUMMI_SIZE_CACHE != Vec3i.ZERO){
-                GUMMI_SIZE_CACHE = Vec3i.ZERO;
-            }
-        } else {
-            if(GUMMI_SIZE_CACHE == Vec3i.ZERO){
-                GUMMI_SIZE_CACHE = Utils.getRealGummiStructureSize(ship.structure);
-            }
-        }
+        return GUMMI_SIZE_CACHE.computeIfAbsent(ship.getUUID(), id ->
+                Utils.getRealGummiStructureSize(ship.structure)
+        );
     }
 }
