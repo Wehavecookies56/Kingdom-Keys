@@ -5,11 +5,11 @@ import math
 # CONFIGURATION
 # ===========================
 
-WIDTH  = 1024
-HEIGHT = 256
+WIDTH  = 908
+HEIGHT = 260
 
-RADIUS = 120
-THICKNESS = 10
+RADIUS = 127
+THICKNESS = 50
 ARC_DEGREES = 270
 
 # Arc center at upper-right area

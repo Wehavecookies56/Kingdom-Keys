@@ -199,9 +199,11 @@ public class HPGui extends OverlayBase {
 
     private void drawHPOutline(PoseStack poseStack, float maxHealthPercentage) {
         poseStack.pushPose();
+        int barWidth = 908;
+        int barHeight = 254;
 
         RenderSystem.setShaderTexture(0, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/hp_outline.png"));
-        RenderSystem.setShaderTexture(1, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/hp_mask.png"));
+        RenderSystem.setShaderTexture(1, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/hp_outline_mask.png"));
         ClientSetup.gummiHPShader.setSampler("Sampler0", 0);
         ClientSetup.gummiHPShader.setSampler("Sampler1", 1);
         ClientSetup.gummiHPShader.safeGetUniform("HealthPercentage").set(maxHealthPercentage);
@@ -213,12 +215,7 @@ public class HPGui extends OverlayBase {
         Tesselator tesselator = Tesselator.getInstance();
         BufferBuilder buffer = tesselator.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
 
-        float scale = 1.05F;
-
-
-        poseStack.scale(scale, scale, 1);
-
-        poseStack.translate(-36,-4,0);
+        poseStack.translate(5.5F,-5,0);
 
         buffer.addVertex(matrix, barX, barY + barHeight, 0).setUv(0, 1);
         buffer.addVertex(matrix, barX + barWidth, barY + barHeight, 0).setUv(1, 1);
