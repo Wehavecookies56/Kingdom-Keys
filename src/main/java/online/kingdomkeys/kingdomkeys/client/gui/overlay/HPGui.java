@@ -132,13 +132,13 @@ public class HPGui extends OverlayBase {
         ClientSetup.gummiHPShader.safeGetUniform("RedEnd").set(0f);
 
         if(minecraft.player.hasEffect(MobEffects.POISON))
-            ClientSetup.gummiHPShader.safeGetUniform("Colour").set(0.54F, 0.53F, 0F, 1F);
+            ClientSetup.gummiHPShader.safeGetUniform("Colour").set(0.8F, 0.45F, 0F, 1F);
         else if(minecraft.player.hasEffect(MobEffects.WITHER))
-            ClientSetup.gummiHPShader.safeGetUniform("Colour").set(0.2F, 0.05F, 0F, 1F);
+            ClientSetup.gummiHPShader.safeGetUniform("Colour").set(0.3F, 0.1F, 0.6F, 1F);
         else if(minecraft.player.hasEffect(ModMobEffects.FREEZE))
-            ClientSetup.gummiHPShader.safeGetUniform("Colour").set(0F, 1F, 1F, 1F);
+            ClientSetup.gummiHPShader.safeGetUniform("Colour").set(0.6F, 0.5F, 1F, 1F);
         else
-            ClientSetup.gummiHPShader.safeGetUniform("Colour").set(0.75F, 1F, 0.3F, 1F);
+            ClientSetup.gummiHPShader.safeGetUniform("Colour").set(1F, 1F, 1F, 1F);
 
         ClientSetup.gummiHPShader.apply();
         RenderSystem.setShader(() -> ClientSetup.gummiHPShader);
