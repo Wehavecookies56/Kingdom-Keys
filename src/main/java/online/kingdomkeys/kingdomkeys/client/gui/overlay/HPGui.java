@@ -26,8 +26,8 @@ public class HPGui extends OverlayBase {
 
     final ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/hpbar.png");
 
-    int barWidth = 908;
-    int barHeight = 244;
+    int barWidth = 904;
+    int barHeight = 240;
     int barX = 0;
     int barY = 0;
 
@@ -113,6 +113,8 @@ public class HPGui extends OverlayBase {
         ClientSetup.gummiHPShader.safeGetUniform("Colour").set(1F, 1F, 1F, 1F);
         ClientSetup.gummiHPShader.apply();
         RenderSystem.setShader(() -> ClientSetup.gummiHPShader);
+
+        poseStack.translate(-1.5F,-3F,0);
 
         Matrix4f matrix = poseStack.last().pose();
         Tesselator tesselator = Tesselator.getInstance();
@@ -206,14 +208,14 @@ public class HPGui extends OverlayBase {
 
     private void drawHPOutline(PoseStack poseStack, float maxHealthPercentage) {
         poseStack.pushPose();
-        int barWidth = 909;
+        int barWidth = 916;
         int barHeight = 254;
 
         RenderSystem.setShaderTexture(0, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/hp_outline.png"));
         RenderSystem.setShaderTexture(1, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/hp_outline_mask.png"));
         ClientSetup.gummiHPShader.setSampler("Sampler0", 0);
         ClientSetup.gummiHPShader.setSampler("Sampler1", 1);
-        ClientSetup.gummiHPShader.safeGetUniform("HealthPercentage").set(maxHealthPercentage);
+        ClientSetup.gummiHPShader.safeGetUniform("HealthPercentage").set(maxHealthPercentage + 0.005F);
         ClientSetup.gummiHPShader.safeGetUniform("Colour").set(1F, 1F, 1F, 1F);
         ClientSetup.gummiHPShader.apply();
         RenderSystem.setShader(() -> ClientSetup.gummiHPShader);
@@ -222,7 +224,7 @@ public class HPGui extends OverlayBase {
         Tesselator tesselator = Tesselator.getInstance();
         BufferBuilder buffer = tesselator.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
 
-        poseStack.translate(5.5F,-5,0);
+        poseStack.translate(-6F,-9.8F,0);
 
         buffer.addVertex(matrix, barX, barY + barHeight, 0).setUv(0, 1);
         buffer.addVertex(matrix, barX + barWidth, barY + barHeight, 0).setUv(1, 1);
