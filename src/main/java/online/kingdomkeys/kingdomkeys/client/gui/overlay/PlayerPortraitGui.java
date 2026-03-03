@@ -101,36 +101,7 @@ public class PlayerPortraitGui extends OverlayBase {
                             render2D(poseStack);
                         }
                     } else {
-                        poseStack.pushPose();
-                        {
-                            int sizeX = 1, sizeY = 1;
-                            if (player.getVehicle() instanceof GummiShipEntity ship) {
-                                Vec3i size = getCachedGummiSize(ship);
-                                sizeX = size.getX();
-                                sizeY = size.getY();
-                                if (ship.structure != null) {
-                                    scale = 11f / Math.max(sizeX, sizeY);
-                                }
-                            }
-
-                            float baseX = 46;
-                            float baseY = -15;
-
-                            if(sizeX % 2 == 0){
-                                baseX -= 2;
-                            }
-                            float offsetX = baseX - (sizeX * scale) / 2f;
-                            int missingY = 13 - sizeY;
-                            float offsetY = baseY - missingY;
-                            scale *= 1.4F;
-
-                            poseStack.mulPose(Axis.YP.rotationDegrees(180));
-                            poseStack.translate(offsetX, offsetY, 0);
-                            poseStack.scale(scale, scale, scale);
-
-                            ClientUtils.renderEntity(poseStack, 0, 0, 2, 0,0, player.getVehicle());
-                        }
-                        poseStack.popPose();
+                        renderShip(poseStack, scale);
                     }
 					player.getInventory().setItem(player.getInventory().selected, stack);
 				}
@@ -139,6 +110,41 @@ public class PlayerPortraitGui extends OverlayBase {
 			poseStack.popPose();
 		}
 	}
+
+    private void renderShip(PoseStack poseStack, float scale) {
+        poseStack.pushPose();
+        {
+            Player player = Minecraft.getInstance().player;
+
+            int sizeX = 1, sizeY = 1;
+            if (player.getVehicle() instanceof GummiShipEntity ship) {
+                Vec3i size = getCachedGummiSize(ship);
+                sizeX = size.getX();
+                sizeY = size.getY();
+                if (ship.structure != null) {
+                    scale = 11f / Math.max(sizeX, sizeY);
+                }
+            }
+
+            float baseX = 46;
+            float baseY = -15;
+
+            if(sizeX % 2 == 0){
+                baseX -= 2;
+            }
+            float offsetX = baseX - (sizeX * scale) / 2f;
+            int missingY = 13 - sizeY;
+            float offsetY = baseY - missingY;
+            scale *= 1.4F;
+
+            poseStack.mulPose(Axis.YP.rotationDegrees(180));
+            poseStack.translate(offsetX, offsetY, 0);
+            poseStack.scale(scale, scale, scale);
+
+            ClientUtils.renderEntity(poseStack, 0, 0, 2, 0,0, player.getVehicle());
+        }
+        poseStack.popPose();
+    }
 
     private void render2D(PoseStack poseStack) {
         ResourceLocation skin = minecraft.player.getSkin().texture();

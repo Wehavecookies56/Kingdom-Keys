@@ -9,7 +9,7 @@ WIDTH  = 908
 HEIGHT = 260
 
 RADIUS = 127
-THICKNESS = 50
+THICKNESS = 60
 ARC_DEGREES = 270
 
 # Arc center at upper-right area

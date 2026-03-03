@@ -52,7 +52,14 @@ public class HPGui extends OverlayBase {
 		float maxMaxHealth = 180; //maybe config value or something?
 		float healthPercentage = health / maxMaxHealth;
 		float maxHealthPercentage = maxHealth / maxMaxHealth;
-        float maxHealthPercentageOutline = (maxHealth+1) / (maxMaxHealth);
+        float healthPercent = maxHealth / maxMaxHealth;
+
+        float minExtra = 0.01F;
+        float maxExtra = 0.004F;
+        float exponent = 2.5F;
+
+        float extra = minExtra + (maxExtra - minExtra) * (1 - (float)Math.pow(healthPercent, exponent));
+        float maxHealthPercentageOutline = maxHealthPercentage + extra;
 
         if (realPlayerHP == 0) {
             realPlayerHP = health;
@@ -199,7 +206,7 @@ public class HPGui extends OverlayBase {
 
     private void drawHPOutline(PoseStack poseStack, float maxHealthPercentage) {
         poseStack.pushPose();
-        int barWidth = 908;
+        int barWidth = 909;
         int barHeight = 254;
 
         RenderSystem.setShaderTexture(0, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/hp_outline.png"));
