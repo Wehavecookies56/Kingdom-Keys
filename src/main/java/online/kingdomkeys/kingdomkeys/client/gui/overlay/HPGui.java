@@ -215,7 +215,11 @@ public class HPGui extends OverlayBase {
         RenderSystem.setShaderTexture(1, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/hp_outline_mask.png"));
         ClientSetup.gummiHPShader.setSampler("Sampler0", 0);
         ClientSetup.gummiHPShader.setSampler("Sampler1", 1);
-        ClientSetup.gummiHPShader.safeGetUniform("HealthPercentage").set(maxHealthPercentage + 0.005F);
+        float outlinePercentage = maxHealthPercentage;
+        if (maxHealthPercentage <= 0.5F || maxHealthPercentage >= 0.55F) {
+            outlinePercentage += 0.005F;
+        }
+        ClientSetup.gummiHPShader.safeGetUniform("HealthPercentage").set(outlinePercentage);
         ClientSetup.gummiHPShader.safeGetUniform("Colour").set(1F, 1F, 1F, 1F);
         ClientSetup.gummiHPShader.apply();
         RenderSystem.setShader(() -> ClientSetup.gummiHPShader);
