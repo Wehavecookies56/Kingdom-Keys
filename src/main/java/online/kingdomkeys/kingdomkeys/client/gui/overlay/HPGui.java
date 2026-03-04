@@ -216,7 +216,6 @@ public class HPGui extends OverlayBase {
         ClientSetup.gummiHPShader.setSampler("Sampler0", 0);
         ClientSetup.gummiHPShader.setSampler("Sampler1", 1);
         float outlinePercentage = maxHealthPercentage;
-        KingdomKeys.LOGGER.debug(maxHealthPercentage);
         if (maxHealthPercentage <= 0.45F || maxHealthPercentage >= 0.67F) {
             outlinePercentage += 0.005F;
         }
