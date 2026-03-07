@@ -4,6 +4,7 @@
 **Changed:**
 * EFM support for 21.15.6
 * HP bar is now curved and works like in KH2.
+* HP bar will now change colors based on poison, wither and freezing, just like how vanilla hearts do.
 * Focus bar now fills up in a radial direction.
 * Shotlock GUI has been reworked and changed the "time indicator" to be radial instead of vertical texture.
 
