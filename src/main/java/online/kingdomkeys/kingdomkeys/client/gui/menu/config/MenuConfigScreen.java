@@ -18,6 +18,8 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.EditBoxLength;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton.ButtonType;
+import online.kingdomkeys.kingdomkeys.client.gui.overlay.DriveGui;
+import online.kingdomkeys.kingdomkeys.client.gui.overlay.HUDEditorScreen;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
@@ -102,7 +104,8 @@ public class MenuConfigScreen extends MenuBackground {
 		PlayerData playerData = PlayerData.get(minecraft.player);
 		switch(string) {
 		case "back":
-			PacketHandler.sendToServer(new CSOpenMenu());
+			//PacketHandler.sendToServer(new CSOpenMenu());
+			minecraft.setScreen(new HUDEditorScreen(List.of(DriveGui.ELEMENT)));
 			break;
 		case "textHeaderVisibility":
 			cmHeaderTextVisible = !cmHeaderTextVisible;
@@ -123,12 +126,10 @@ public class MenuConfigScreen extends MenuBackground {
 			glint = !glint;
 			glintButton.setMessage(Component.translatable(glint+""));
 			PacketHandler.sendToServer(new CSSyncArmorColor(playerData.getArmorColor(), glint));
-
 			break;
 		}
 		
 	}
-
 
 	@Override
 	public void init() {
