@@ -20,12 +20,11 @@ import java.awt.*;
 
 public class DriveGui extends OverlayBase {
 
-	private static final ResourceLocation TEXTURE =
-			ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/drivebar.png");
+	private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/drivebar.png");
 
 	public static final DriveGui INSTANCE = new DriveGui();
 
-	public static final HUDElement ELEMENT = new HUDElement(HUDAnchorPosition.BOTTOM_RIGHT,10F, 5F, 95, 18);
+	public static final HUDElement ELEMENT = new HUDElement(HUDAnchorPosition.BOTTOM_RIGHT,53.7F, 14.6F, 95, 18).setScale(0.8F,0.8F);
 
 	private static final double GUI_LENGTH = 47D;
 	private static final double ONE_VALUE = GUI_LENGTH / 100D;
@@ -47,10 +46,9 @@ public class DriveGui extends OverlayBase {
 
 	@Override
 	public void render(GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
-
 		PlayerData playerData = PlayerData.get(minecraft.player);
-		if (playerData == null) return;
-
+		if (playerData == null)
+			return;
 		double dp = playerData.getDP();
 		double fp = playerData.getFP();
 

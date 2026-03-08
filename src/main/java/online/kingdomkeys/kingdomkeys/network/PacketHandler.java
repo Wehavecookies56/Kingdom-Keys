@@ -18,7 +18,7 @@ import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.network.cts.*;
 import online.kingdomkeys.kingdomkeys.network.stc.*;
 
-@EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber()
 public class PacketHandler {
 
 	private static PayloadRegistrar registrar;

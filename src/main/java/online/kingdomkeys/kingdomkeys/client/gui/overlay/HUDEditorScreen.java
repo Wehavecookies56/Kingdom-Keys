@@ -4,12 +4,14 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.HUDElement;
+import org.lwjgl.glfw.GLFW;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class HUDEditorScreen extends Screen {
 
+    private boolean renderOutline = true;
     private final List<HUDElement> elements = new ArrayList<>();
     private HUDElement selected;
 
@@ -17,18 +19,63 @@ public class HUDEditorScreen extends Screen {
     private float dragOffsetX;
     private float dragOffsetY;
 
-    public HUDEditorScreen(List<HUDElement> hudElements) {
+    public HUDEditorScreen() {
         super(Component.literal("HUD Editor"));
-        this.elements.addAll(hudElements);
+        //Order is important for overlapping boxes
+        this.elements.addAll(List.of(DriveGui.ELEMENT, MPGui.ELEMENT, HPGui.ELEMENT, CommandMenuGui.ELEMENT));
     }
 
     @Override
     public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
-        //this.renderBackground(guiGraphics, mouseX, mouseY, partialTick);
+        int y=1;
+        guiGraphics.drawString(minecraft.font,"First of all select the anchor point by clicking the element and SPACE",100,y++*10,0xFFFFFF);
+        guiGraphics.drawString(minecraft.font,"Click and drag an element to move it",100,y++*10,0xFFFFFF);
+        guiGraphics.drawString(minecraft.font,"Use ARROW KEYS to move it in tiny gaps",100,y++*10,0xFFFFFF);
+        guiGraphics.drawString(minecraft.font,"Hold SHIFT + ARROW KEYS to move it in bigger gaps",100,y++*10,0xFFFFFF);
+        guiGraphics.drawString(minecraft.font,"Use SCROLL WHEEL to scale it up",100,y++*10,0xFFFFFF);
+        guiGraphics.drawString(minecraft.font,"Use SHIFT + SCROLL WHEEL to rotate it",100,y++*10,0xFFFFFF);
+        guiGraphics.drawString(minecraft.font,"Press LEFT ALT to show or hide outlines",100,y++*10,0xFFFFFF);
+
         for (HUDElement element : elements) {
-            element.renderEditorBox(guiGraphics);
+            if(renderOutline) {
+                element.renderEditorBox(guiGraphics);
+            }
+            element.selected = selected == element;
         }
-      //  super.render(guiGraphics, mouseX, mouseY, partialTick);
+    }
+
+
+    @Override
+    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+        if(selected == null) {
+            return false;
+        }
+
+        float step = hasControlDown() ? 1F : 0.1F;
+
+        boolean right = selected.anchor == HUDAnchorPosition.TOP_RIGHT || selected.anchor == HUDAnchorPosition.CENTER_RIGHT || selected.anchor == HUDAnchorPosition.BOTTOM_RIGHT;
+        boolean bottom = selected.anchor == HUDAnchorPosition.BOTTOM_LEFT || selected.anchor == HUDAnchorPosition.BOTTOM_CENTER || selected.anchor == HUDAnchorPosition.BOTTOM_RIGHT;
+
+        float xStep = right ? -step : step;
+        float yStep = bottom ? -step : step;
+
+        switch (keyCode) {
+            case GLFW.GLFW_KEY_LEFT -> selected.x -= xStep;
+            case GLFW.GLFW_KEY_RIGHT -> selected.x += xStep;
+
+            case GLFW.GLFW_KEY_UP -> selected.y -= yStep;
+            case GLFW.GLFW_KEY_DOWN -> selected.y += yStep;
+
+            case GLFW.GLFW_KEY_SPACE -> {
+                HUDAnchorPosition[] anchors = HUDAnchorPosition.values();
+                selected.anchor = anchors[(selected.anchor.ordinal() + 1) % anchors.length];
+            }
+            case GLFW.GLFW_KEY_LEFT_ALT -> {
+                renderOutline = !renderOutline;
+            }
+        }
+
+        return super.keyPressed(keyCode, scanCode, modifiers);
     }
 
     @Override
@@ -81,7 +128,6 @@ public class HUDEditorScreen extends Screen {
             }*/
 
             switch (selected.anchor) {
-
                 case TOP_LEFT, CENTER_LEFT, BOTTOM_LEFT -> selected.x = newPx;
                 case TOP_RIGHT, CENTER_RIGHT, BOTTOM_RIGHT -> selected.x = w - newPx - selected.getScaledWidth();
                 case TOP_CENTER, CENTER, BOTTOM_CENTER -> selected.x = newPx - (w / 2f) + selected.getScaledWidth() / 2f;

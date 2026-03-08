@@ -7,20 +7,14 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.config.ModConfigs;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.HUDElement;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
-import online.kingdomkeys.kingdomkeys.lib.Constants;
 
-//TODO cleanup + comments
 public class MPGui extends OverlayBase {
-
 	public static final MPGui INSTANCE = new MPGui();
-	int guiWidth = 173;
-	int mpBarWidth;
-	int guiHeight = 10;
-	int noborderguiwidth = 171;
-	PlayerData playerData;
-	int counter = 0;
+	private static final ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/mpbar.png");
+	public static final HUDElement ELEMENT = new HUDElement(HUDAnchorPosition.BOTTOM_RIGHT, 54.2F, 8.6F, 142, 12).setScale(0.7F, 0.5F);
+	private PlayerData playerData;
 
 	private MPGui() {
 		super();
@@ -29,79 +23,77 @@ public class MPGui extends OverlayBase {
 	@Override
 	public void render(GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
 		super.render(guiGraphics, deltaTracker);
+
 		Player player = minecraft.player;
+		if(player == null)
+			return;
 
-		int screenWidth = minecraft.getWindow().getGuiScaledWidth();
-		int screenHeight = minecraft.getWindow().getGuiScaledHeight();
-		RenderSystem.setShaderColor(1, 1, 1, 1);
-
-		float scale = 0.85f;
-
-		float scaleactor = 1F * ModConfigs.mpXScale/100F;
 		playerData = PlayerData.get(player);
 		if(playerData == null || playerData.getMaxMP() <= 0)
 			return;
 
-		mpBarWidth = (int) (playerData.getMP() * scaleactor);
-		int mpBarMaxWidth = (int) (playerData.getMaxMP() * scaleactor);
+		int screenWidth = minecraft.getWindow().getGuiScaledWidth();
+		int screenHeight = minecraft.getWindow().getGuiScaledHeight();
+
+		RenderSystem.setShaderColor(1,1,1,1);
+
+		int mpBarWidth = (int)(playerData.getMP());
+		int mpBarMaxWidth = (int)(playerData.getMaxMP());
 
 		PoseStack poseStack = guiGraphics.pose();
-
-		poseStack.pushPose();// MP Background
+		poseStack.pushPose();
 		{
+			float px = ELEMENT.getPixelX(screenWidth);
+			float py = ELEMENT.getPixelY(screenHeight);
+
+			float sw = ELEMENT.getScaledWidth();
+			float sh = ELEMENT.getScaledHeight();
+
+			poseStack.translate(px + sw / 2f, py + sh / 2f, 0);
+			poseStack.mulPose(com.mojang.math.Axis.ZP.rotationDegrees(ELEMENT.rotation));
+			poseStack.scale(ELEMENT.scaleX, ELEMENT.scaleY, 1);
+			poseStack.translate(-ELEMENT.width / 2f, -ELEMENT.height / 2f, 0);
 			RenderSystem.enableBlend();
-			poseStack.translate(ModConfigs.mpXPos-3, ModConfigs.mpYPos, 0);
 
-			poseStack.pushPose();// MP Background
-			{
-				poseStack.translate((screenWidth - mpBarMaxWidth * scale) - 80 * scale, (screenHeight - guiHeight * scale) - 9 * scale, 0);
-				poseStack.scale(scale, scale / 1.3F, scale);
-				drawMPBarBack(guiGraphics, 0, 0, mpBarMaxWidth, scale);
-			}
-			poseStack.popPose();
+			drawMPBarBack(guiGraphics, mpBarMaxWidth);
+			drawMPBarTop(guiGraphics, mpBarWidth);
 
-			poseStack.pushPose();// MP Bar
-			{
-				poseStack.translate((screenWidth - mpBarWidth * scale) - 80 * scale, (screenHeight - (guiHeight) * scale) - 9 * scale, 0);
-				poseStack.scale(scale, scale / 1.3F, scale);
-				drawMPBarTop(guiGraphics, 0, 0, mpBarWidth, scale);
-			}
-			poseStack.popPose();
 			RenderSystem.disableBlend();
 		}
 		poseStack.popPose();
 	}
 
-	public void drawMPBarBack(GuiGraphics gui, int posX, int posY, int width, float scale) {
+	public void drawMPBarBack(GuiGraphics gui, int width) {
+
 		PoseStack matrixStack = gui.pose();
+
 		matrixStack.pushPose();
 		{
+
 			// Left Margin
 			matrixStack.pushPose();
 			{
-				matrixStack.translate(scale * posX, scale * posY, 0);
-				matrixStack.scale(scale, scale, 0);
-				blit(gui, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/mpbar.png"), 0, 0, 0, 0, 2, 12);
+				blit(gui, texture, 0, 0, 0, 0, 2, 12);
 			}
 			matrixStack.popPose();
 
 			// Background
 			matrixStack.pushPose();
 			{
-				matrixStack.translate((posX + 2) * scale, posY * scale, 0);
-				matrixStack.scale(width, scale, 0);
-				int v = playerData.getRecharge() ? 8 : 2;
-				blit(gui, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/mpbar.png"), 0, 0, v, 0, 1, 12);
+				matrixStack.translate(2, 0, 0);
+				matrixStack.scale(width, 1, 0);
 
+				int v = playerData.getRecharge() ? 8 : 2;
+
+				blit(gui, texture, 0, 0, v, 0, 1, 12);
 			}
 			matrixStack.popPose();
 
 			// Right Margin
 			matrixStack.pushPose();
 			{
-				matrixStack.translate((posX + 2) * scale + width, scale * posY, 0);
-				matrixStack.scale(scale, scale, 0);
-				blit(gui, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/mpbar.png"), 0, 0, 3, 0, 2, 12);
+				matrixStack.translate(2 + width, 0, 0);
+				blit(gui, texture, 0, 0, 3, 0, 2, 12);
 			}
 			matrixStack.popPose();
 
@@ -109,26 +101,30 @@ public class MPGui extends OverlayBase {
 			matrixStack.pushPose();
 			{
 				int v = playerData.getRecharge() ? 45 : 32;
-				matrixStack.translate((posX + 2) * scale + width + 1, scale * posY, 0);
-				matrixStack.scale(scale * 0.8F, scale, 1);
-				blit(gui, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/mpbar.png"), 0, 0, 0, v, 23, 12);
+
+				matrixStack.translate( 2 + width + 1, 0, 0);
+				matrixStack.scale(1 * 0.8F, 1, 1);
+
+				blit(gui, texture, 0, 0, 0, v, 23, 12);
 			}
 			matrixStack.popPose();
 		}
 		matrixStack.popPose();
-
 	}
 
-	public void drawMPBarTop(GuiGraphics gui, int posX, int posY, int width, float scale) {
+	public void drawMPBarTop(GuiGraphics gui, int width) {
 		PoseStack matrixStack = gui.pose();
 		matrixStack.pushPose();
 		{
-			matrixStack.translate((posX + 2) * scale, (posY + 2) * scale, 0);
-			matrixStack.scale(width, scale, 0);
+			int maxWidth = (int)playerData.getMaxMP();
+			int offset = maxWidth - width;
+
+			matrixStack.translate(2 + offset, 2, 0);
+			matrixStack.scale(width, 1, 0);
+
 			int v = playerData.getRecharge() ? 22 : 12;
-			blit(gui, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/mpbar.png"), 0, 0, 2, v, 1, 8);
+
+			blit(gui, texture, 0, 0, 2, v, 1, 8);
 		}
 		matrixStack.popPose();
-
-	}
-}
+	}}

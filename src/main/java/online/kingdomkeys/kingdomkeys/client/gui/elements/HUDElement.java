@@ -3,9 +3,10 @@ package online.kingdomkeys.kingdomkeys.client.gui.elements;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import online.kingdomkeys.kingdomkeys.client.gui.overlay.HUDAnchorPosition;
+import online.kingdomkeys.kingdomkeys.client.gui.overlay.HUDEditorScreen;
 
 public class HUDElement {
-    public HUDAnchorPosition anchor = HUDAnchorPosition.BOTTOM_RIGHT;
+    public HUDAnchorPosition anchor;
 
     public float x;
     public float y;
@@ -18,12 +19,21 @@ public class HUDElement {
     public int width;
     public int height;
 
+    public boolean selected;
+
+
     public HUDElement(HUDAnchorPosition anchor, float x, float y, int width, int height) {
         this.anchor = anchor;
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
+    }
+
+    public HUDElement setScale(float scaleX, float scaleY) {
+        this.scaleX = scaleX;
+        this.scaleY = scaleY;
+        return this;
     }
 
     public boolean isMouseOver(double mouseX, double mouseY) {
@@ -53,36 +63,38 @@ public class HUDElement {
 
         guiGraphics.fill(x1, y1, x2, y2, 0x55000000);
 
-        float cellW = sw / 3f;
-        float cellH = sh / 3f;
+        if(selected) {
+            float cellW = sw / 3f;
+            float cellH = sh / 3f;
 
-        for (int gx = 0; gx < 3; gx++) {
-            for (int gy = 0; gy < 3; gy++) {
+            for (int gx = 0; gx < 3; gx++) {
+                for (int gy = 0; gy < 3; gy++) {
 
-                int cx1 = (int) (px + gx * cellW);
-                int cy1 = (int) (py + gy * cellH);
-                int cx2 = (int) (cx1 + cellW);
-                int cy2 = (int) (cy1 + cellH);
+                    int cx1 = (int) (px + gx * cellW);
+                    int cy1 = (int) (py + gy * cellH);
+                    int cx2 = (int) (cx1 + cellW);
+                    int cy2 = (int) (cy1 + cellH);
 
-                if (isAnchorCell(gx, gy)) {
-                    guiGraphics.fill(cx1, cy1, cx2, cy2, 0xAAFF0000);
+                    if (isAnchorCell(gx, gy)) {
+                        guiGraphics.fill(cx1, cy1, cx2, cy2, 0xAAFF0000);
+                    }
                 }
             }
+
+            /*
+            for (int i = 1; i < 3; i++) {
+                int vx = (int) (px + i * cellW);
+                int hy = (int) (py + i * cellH);
+
+                guiGraphics.fill(vx, y1, vx + 1, y2, 0xFFFFFFFF);
+                guiGraphics.fill(x1, hy, x2, hy + 1, 0xFFFFFFFF);
+            }
+*/
+            guiGraphics.fill(x1, y1-1, x2, y1, 0xFFFFFFFF);
+            guiGraphics.fill(x1, y2 - 1, x2, y2, 0xFFFFFFFF);
+            guiGraphics.fill(x1, y1, x1 + 1, y2, 0xFFFFFFFF);
+            guiGraphics.fill(x2 - 1, y1, x2, y2, 0xFFFFFFFF);
         }
-
-        /*
-        for (int i = 1; i < 3; i++) {
-            int vx = (int) (px + i * cellW);
-            int hy = (int) (py + i * cellH);
-
-            guiGraphics.fill(vx, y1, vx + 1, y2, 0xFFFFFFFF);
-            guiGraphics.fill(x1, hy, x2, hy + 1, 0xFFFFFFFF);
-        }
-
-        guiGraphics.fill(x1, y1, x2, y1, 0xFFFFFFFF);
-        guiGraphics.fill(x1, y2 - 1, x2, y2, 0xFFFFFFFF);
-        guiGraphics.fill(x1, y1, x1 + 1, y2, 0xFFFFFFFF);
-        guiGraphics.fill(x2 - 1, y1, x2, y2, 0xFFFFFFFF);*/
     }
 
 
