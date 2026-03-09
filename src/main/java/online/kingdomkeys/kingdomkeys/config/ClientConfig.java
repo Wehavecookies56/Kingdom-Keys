@@ -10,6 +10,7 @@ import java.util.List;
  * Config file for client only config options
  */
 public class ClientConfig {
+	public ModConfigSpec.ConfigValue<List<? extends Float>> hpHUDData;
 
     public ModConfigSpec.BooleanValue cmHeaderTextVisible, cmClassicColors, auto3rdPersonShip, cmChangeColor;
     public ModConfigSpec.IntValue cmTextXOffset, cmXScale, cmXPos, cmSelectedXOffset, cmSubXOffset, cmEndLWidth, cmEndRWidth, cmHeaderEndLWidth, cmHeaderEndRWidth, cmReactionEndLWidth, cmReactionEndRWidth;
@@ -140,7 +141,11 @@ public class ClientConfig {
 			builder.pop();
 	        
 	        builder.push("hp_bar");
-	        
+			hpHUDData = builder
+					.comment("Health Bar HUD Data")
+					.translation(KingdomKeys.MODID + ".config.hp_hud_data")//X,Y,Width ,Height ,xScale, yScale,rotation,anchor (ordinal)
+					.defineList("hpHUDData", () -> Lists.newArrayList(13.8F, 3.8F, 916F, 254F,0.2F,0.2F, 0F, 8F), () -> 1F, o -> o instanceof Float);
+
 	        hpXPos = builder
 	                .comment("Health Bar X Pos")
 	                .translation(KingdomKeys.MODID + ".config.hp_x_pos")

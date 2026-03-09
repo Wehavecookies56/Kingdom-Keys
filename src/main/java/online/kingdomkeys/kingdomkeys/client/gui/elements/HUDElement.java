@@ -3,9 +3,16 @@ package online.kingdomkeys.kingdomkeys.client.gui.elements;
 import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.neoforged.neoforge.common.ModConfigSpec;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.gui.overlay.HUDAnchorPosition;
+import online.kingdomkeys.kingdomkeys.config.ModConfigs;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class HUDElement {
+    public String name;
     public HUDAnchorPosition anchor;
 
     public float x;
@@ -21,18 +28,38 @@ public class HUDElement {
 
     public boolean selected;
 
+    public float[] originalValues = new float[8];
 
-    public HUDElement(HUDAnchorPosition anchor, float x, float y, int width, int height) {
+    //ModConfigSpec.ConfigValue<List<? extends Float>> configdOption;
+
+    public HUDElement(String name){
+        this.name = name;
+        List<? extends Float> configOption = ModConfigs.getHUDData(name);
+        for (int i = 0; i < configOption.size(); i++) {
+            originalValues[i] = configOption.get(i);
+        }
+        restoreDefaultValues();
+    }
+    public HUDElement(String name, HUDAnchorPosition anchor, float x, float y, int width, int height) {
+        this.name = name;
         this.anchor = anchor;
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
+
+        originalValues[0] = x;
+        originalValues[1] = y;
+        originalValues[2] = width;
+        originalValues[3] = height;
     }
 
     public HUDElement setScale(float scaleX, float scaleY) {
         this.scaleX = scaleX;
         this.scaleY = scaleY;
+
+        originalValues[4] = scaleX;
+        originalValues[5] = scaleY;
         return this;
     }
 
@@ -200,5 +227,32 @@ public class HUDElement {
 
     public void endTransform(GuiGraphics guiGraphics) {
         guiGraphics.pose().popPose();
+    }
+
+    public void restoreDefaultValues(){
+        x = originalValues[0];
+        y = originalValues[1];
+        width = (int) originalValues[2];
+        height = (int) originalValues[3];
+        scaleX = originalValues[4];
+        scaleY = originalValues[5];
+        rotation = originalValues[6];
+        anchor = HUDAnchorPosition.values()[(int) originalValues[7]];
+    }
+
+    public void saveConfig(){
+       /* if(configOption == null) {
+            KingdomKeys.LOGGER.warn("No config option has been linked with "+name+" HUDElement");
+            return;
+        }*/
+        KingdomKeys.LOGGER.warn("Saving config for "+name);
+        List<Float> values = new ArrayList<>(List.of(x,y,(float)width,(float)height,scaleX,scaleY,rotation,(float)anchor.ordinal()));
+        ModConfigs.setHUDData(name,values);
+        System.out.println(this);
+    }
+
+    @Override
+    public String toString() {
+        return name+": x-"+x+" y-"+y+" width:"+width+" height:"+height;
     }
 }

@@ -241,7 +241,6 @@ public class CommandMenuItem {
     }
 
     public void render(GuiGraphics guiGraphics, int x, int y, int screenWidth, int screenHeight, float partialTick) {
-
         guiGraphics.setColor(parent.getColour().getRed() / 255F, parent.getColour().getGreen() / 255F, parent.getColour().getBlue() / 255F, 1);
         guiGraphics.blit(parent.getTexture(), parent.getSelected().equals(this) ? x + ModConfigs.cmSelectedXOffset : x, y, 0, parent.getSelected().equals(this) ? 30 : 15, ModConfigs.cmEndLWidth+1, 15);
         guiGraphics.blit(parent.getTexture(), parent.getSelected().equals(this) ? x + ModConfigs.cmEndLWidth + ModConfigs.cmSelectedXOffset : x + ModConfigs.cmEndLWidth, y, getWidth() - (ModConfigs.cmEndLWidth + ModConfigs.cmEndRWidth), height, ModConfigs.cmEndLWidth + 1, parent.getSelected().equals(this) ? 30 : 15, 1, 15, 256, 256);

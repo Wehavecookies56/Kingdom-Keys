@@ -10,6 +10,8 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.HUDElement;
+import online.kingdomkeys.kingdomkeys.config.ClientConfig;
+import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
@@ -24,7 +26,7 @@ public class DriveGui extends OverlayBase {
 
 	public static final DriveGui INSTANCE = new DriveGui();
 
-	public static final HUDElement ELEMENT = new HUDElement(HUDAnchorPosition.BOTTOM_RIGHT,53.7F, 14.6F, 95, 18).setScale(0.8F,0.8F);
+	public static final HUDElement ELEMENT = new HUDElement("Drive", HUDAnchorPosition.BOTTOM_RIGHT,53.7F, 14.6F, 95, 18).setScale(0.8F,0.8F);
 
 	private static final double GUI_LENGTH = 47D;
 	private static final double ONE_VALUE = GUI_LENGTH / 100D;

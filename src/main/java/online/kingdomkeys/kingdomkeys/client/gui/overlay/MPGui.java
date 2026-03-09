@@ -13,7 +13,7 @@ import online.kingdomkeys.kingdomkeys.data.PlayerData;
 public class MPGui extends OverlayBase {
 	public static final MPGui INSTANCE = new MPGui();
 	private static final ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/mpbar.png");
-	public static final HUDElement ELEMENT = new HUDElement(HUDAnchorPosition.BOTTOM_RIGHT, 54.2F, 8.6F, 142, 12).setScale(0.7F, 0.5F);
+	public static final HUDElement ELEMENT = new HUDElement("MP", HUDAnchorPosition.BOTTOM_RIGHT, 54.2F, 8.6F, 142, 12).setScale(0.7F, 0.5F);
 	private PlayerData playerData;
 
 	private MPGui() {

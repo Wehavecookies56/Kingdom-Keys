@@ -12,6 +12,7 @@ import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.ClientSetup;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.HUDElement;
+import online.kingdomkeys.kingdomkeys.config.ClientConfig;
 import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import org.joml.Matrix4f;
 
@@ -20,13 +21,11 @@ public class HPGui extends OverlayBase {
     public static final HPGui INSTANCE = new HPGui();
 
     // HUD ELEMENT
-    public static final HUDElement ELEMENT = new HUDElement(HUDAnchorPosition.BOTTOM_RIGHT,13.8F, 3.8F, 916, 254).setScale(0.2F,0.2F);
+    public static final HUDElement ELEMENT = new HUDElement("HP").setScale(0.2F,0.2F);
 
     private float displayedPlayerHP, realPlayerHP;
 
     private long playerDelayEnd = 0;
-
-    final ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/hpbar.png");
 
     int barWidth = 904;
     int barHeight = 240;

@@ -2,7 +2,9 @@ package online.kingdomkeys.kingdomkeys.config;
 
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.event.config.ModConfigEvent;
 import net.neoforged.neoforge.common.ModConfigSpec;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
@@ -13,6 +15,7 @@ import java.util.List;
 
 @EventBusSubscriber(modid = KingdomKeys.MODID)
 public class ModConfigs {
+    public static ModConfig CLIENT_CONFIG;
 
     private static final ClientConfig CLIENT; //Client stuff that doesn't matter if it's changed
     private static final CommonConfig COMMON; //Stuff in both sides
@@ -54,6 +57,28 @@ public class ModConfigs {
     public static List<String> magicDisplayedInCommandMenu;
     public static boolean cmHeaderTextVisible, cmClassicColors, hpShowHearts, showDriveForms, summonTogether, auto3rdPersonShip, cmChangeColor;
     public static int cmTextXOffset, cmXScale, cmXPos, cmSelectedXOffset, cmSubXOffset, hpAlarm, hpXPos, hpYPos, hpXScale, mpXPos, mpYPos, mpXScale, dpXPos, dpYPos, dpXScale, dpYScale, playerSkinXPos, playerSkinYPos, lockOnXPos, lockOnYPos, lockOnHPScale, lockOnIconScale, lockOnIconRotation, lockOnHpPerBar, partyXPos, partyYPos, partyYDistance, focusXPos, focusYPos, focusXScale, focusYScale, cmEndLWidth, cmEndRWidth, cmHeaderEndLWidth, cmHeaderEndRWidth, cmReactionEndLWidth, cmReactionEndRWidth;
+
+    public static void setHUDData(String name, List<? extends Float> data){
+        switch (name){
+            case "HP" -> CLIENT.hpHUDData.set(data);
+            /*case "MP" -> ;
+            case "Command Menu" -> ;
+            case "Drive" -> ;
+            case "Focus" -> ;*/
+        }
+        //CLIENT_SPEC.save();
+    }
+
+    public static List<? extends Float> getHUDData(String name){
+        return switch (name){
+            case "HP" -> CLIENT.hpHUDData.get();
+            /*case "MP" -> ;
+            case "Command Menu" -> ;
+            case "Drive" -> ;
+            case "Focus" -> ;*/
+            default -> throw new IllegalStateException("Unexpected HUD value: " + name);
+        };
+    }
 
     public enum ShowType {
         SHOW, HIDE, WEAPON

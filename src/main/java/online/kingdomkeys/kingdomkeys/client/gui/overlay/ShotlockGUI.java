@@ -11,6 +11,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.ClientSetup;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.HUDElement;
+import online.kingdomkeys.kingdomkeys.config.ClientConfig;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
@@ -22,6 +24,7 @@ import org.joml.Matrix4f;
 
 //TODO cleanup + comments
 public class ShotlockGUI extends OverlayBase {
+    public static final HUDElement ELEMENT = new HUDElement("Focus", HUDAnchorPosition.BOTTOM_RIGHT,3, 27.5F, 66, 40);
 
 	public static final ShotlockGUI INSTANCE = new ShotlockGUI();
 	float focusBarWidth;
@@ -38,7 +41,6 @@ public class ShotlockGUI extends OverlayBase {
 	@Override
 	public void render(GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
 		super.render(guiGraphics, deltaTracker);
-
 		Player player = minecraft.player;
 		int screenWidth = minecraft.getWindow().getGuiScaledWidth();
 		int screenHeight = minecraft.getWindow().getGuiScaledHeight();
@@ -58,13 +60,13 @@ public class ShotlockGUI extends OverlayBase {
 
         poseStack.pushPose();
         {
-            poseStack.translate(screenWidth-2, screenHeight-29, 0);
-            poseStack.translate(-barWidth * scaleX, -barHeight * scaleY, 0);
+            ELEMENT.applyTransform(guiGraphics,screenWidth,screenHeight,1);
             poseStack.scale(scaleX, scaleY, 1);
 
             drawBackground(poseStack);
             drawRedBar(poseStack);
             drawOrangeBar(poseStack);
+            ELEMENT.endTransform(guiGraphics);
         }
         poseStack.popPose();
 

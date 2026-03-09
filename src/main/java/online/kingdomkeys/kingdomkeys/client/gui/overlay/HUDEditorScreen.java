@@ -22,19 +22,21 @@ public class HUDEditorScreen extends Screen {
     public HUDEditorScreen() {
         super(Component.literal("HUD Editor"));
         //Order is important for overlapping boxes
-        this.elements.addAll(List.of(DriveGui.ELEMENT, MPGui.ELEMENT, HPGui.ELEMENT, CommandMenuGui.ELEMENT));
+        this.elements.addAll(List.of(DriveGui.ELEMENT, MPGui.ELEMENT, ShotlockGUI.ELEMENT, HPGui.ELEMENT, CommandMenuGui.ELEMENT));
     }
 
     @Override
     public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
         int y=1;
         guiGraphics.drawString(minecraft.font,"First of all select the anchor point by clicking the element and SPACE",100,y++*10,0xFFFFFF);
-        guiGraphics.drawString(minecraft.font,"Click and drag an element to move it",100,y++*10,0xFFFFFF);
+        guiGraphics.drawString(minecraft.font,"Left Click and drag an element to move it",100,y++*10,0xFFFFFF);
         guiGraphics.drawString(minecraft.font,"Use ARROW KEYS to move it in tiny gaps",100,y++*10,0xFFFFFF);
         guiGraphics.drawString(minecraft.font,"Hold SHIFT + ARROW KEYS to move it in bigger gaps",100,y++*10,0xFFFFFF);
         guiGraphics.drawString(minecraft.font,"Use SCROLL WHEEL to scale it up",100,y++*10,0xFFFFFF);
         guiGraphics.drawString(minecraft.font,"Use SHIFT + SCROLL WHEEL to rotate it",100,y++*10,0xFFFFFF);
         guiGraphics.drawString(minecraft.font,"Press LEFT ALT to show or hide outlines",100,y++*10,0xFFFFFF);
+        guiGraphics.drawString(minecraft.font,"Right click on a selected item to reset it to default",100,y++*10,0xFFFFFF);
+
 
         for (HUDElement element : elements) {
             if(renderOutline) {
@@ -44,6 +46,13 @@ public class HUDEditorScreen extends Screen {
         }
     }
 
+    @Override
+    public void onClose() {
+        for (HUDElement element : elements) {
+            element.saveConfig();
+        }
+        super.onClose();
+    }
 
     @Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
@@ -73,6 +82,11 @@ public class HUDEditorScreen extends Screen {
             case GLFW.GLFW_KEY_LEFT_ALT -> {
                 renderOutline = !renderOutline;
             }
+            case GLFW.GLFW_KEY_S -> {
+                if(hasControlDown()) {
+                    selected.saveConfig();
+                }
+            }
         }
 
         return super.keyPressed(keyCode, scanCode, modifiers);
@@ -99,8 +113,14 @@ public class HUDEditorScreen extends Screen {
                     return true;
                 }
             }
+        } else if (button == 1) {
+            for (HUDElement element : elements) {
+                if(element == selected) {
+                    System.out.println("Right click for selected element "+element.x);
+                    element.restoreDefaultValues();
+                }
+            }
         }
-
         return super.mouseClicked(mouseX, mouseY, button);
     }
 

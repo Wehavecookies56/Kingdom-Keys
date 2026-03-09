@@ -24,6 +24,7 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.CommandMenuItem;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.CommandMenuSubMenu;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.HUDElement;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.config.ClientConfig;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.data.WorldData;
@@ -54,7 +55,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class CommandMenuGui extends OverlayBase {
-	public static final HUDElement ELEMENT = new HUDElement(HUDAnchorPosition.BOTTOM_LEFT,5, 5, 70, 75).setScale(1F,1F);
+	public static final HUDElement ELEMENT = new HUDElement("Command Menu", HUDAnchorPosition.BOTTOM_LEFT,5, 5, 70, 75).setScale(1F,1F);
 	public static final CommandMenuGui INSTANCE = new CommandMenuGui();
 	public static Map<ResourceLocation, CommandMenuSubMenu> commandMenuElements;
 
