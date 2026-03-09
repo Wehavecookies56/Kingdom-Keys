@@ -1,9 +1,9 @@
 package online.kingdomkeys.kingdomkeys.client.gui.elements;
 
+import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import online.kingdomkeys.kingdomkeys.client.gui.overlay.HUDAnchorPosition;
-import online.kingdomkeys.kingdomkeys.client.gui.overlay.HUDEditorScreen;
 
 public class HUDElement {
     public HUDAnchorPosition anchor;
@@ -160,5 +160,45 @@ public class HUDElement {
             case BOTTOM_CENTER -> gx == 1 && gy == 2;
             case BOTTOM_RIGHT -> gx == 2 && gy == 2;
         };
+    }
+
+    public void applyTransform(GuiGraphics guiGraphics, int screenWidth, int screenHeight, int z) {
+        float px = getPixelX(screenWidth);
+        float py = getPixelY(screenHeight);
+/*
+        float w = width * scaleX;
+        float h = height * scaleY;
+
+        float pivotX = switch (anchor) {
+            case TOP_LEFT, CENTER_LEFT, BOTTOM_LEFT -> px;
+            case TOP_CENTER, CENTER, BOTTOM_CENTER -> px + w / 2f;
+            case TOP_RIGHT, CENTER_RIGHT, BOTTOM_RIGHT -> px + w;
+        };
+
+        float pivotY = switch (anchor) {
+            case TOP_LEFT, TOP_CENTER, TOP_RIGHT -> py;
+            case CENTER_LEFT, CENTER, CENTER_RIGHT -> py + h / 2f;
+            case BOTTOM_LEFT, BOTTOM_CENTER, BOTTOM_RIGHT -> py + h;
+        };*/
+
+        guiGraphics.pose().pushPose();
+
+        /*guiGraphics.pose().translate(px, py, z);
+        guiGraphics.pose().mulPose(com.mojang.math.Axis.ZP.rotationDegrees(rotation));
+        guiGraphics.pose().scale(scaleX, scaleY, 1);
+        guiGraphics.pose().translate(-px, -py, 0);
+        */
+        float centerX = width * scaleX / 2f;
+        float centerY = height * scaleY / 2f;
+
+        guiGraphics.pose().translate(px + centerX, py + centerY, 0);
+        guiGraphics.pose().mulPose(Axis.ZP.rotationDegrees(rotation));
+        guiGraphics.pose().scale(scaleX, scaleY, 1);
+        guiGraphics.pose().translate(-width / 2f, -height / 2f, 0);
+
+    }
+
+    public void endTransform(GuiGraphics guiGraphics) {
+        guiGraphics.pose().popPose();
     }
 }

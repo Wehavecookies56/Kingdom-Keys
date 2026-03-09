@@ -54,7 +54,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class CommandMenuGui extends OverlayBase {
-	public static final HUDElement ELEMENT = new HUDElement(HUDAnchorPosition.BOTTOM_LEFT,53.7F, 14.6F, 90, 120).setScale(1F,1F);
+	public static final HUDElement ELEMENT = new HUDElement(HUDAnchorPosition.BOTTOM_LEFT,5, 5, 70, 75).setScale(1F,1F);
 	public static final CommandMenuGui INSTANCE = new CommandMenuGui();
 	public static Map<ResourceLocation, CommandMenuSubMenu> commandMenuElements;
 
@@ -86,13 +86,15 @@ public class CommandMenuGui extends OverlayBase {
 		currentSubmenu = root;
 		commandMenuElements = new HashMap<>();
 		CommandMenuSubMenu rootSubmenu = new CommandMenuSubMenu.Builder(this.root, Component.translatable(Strings.Gui_CommandMenu_Command))
-				.position(ModConfigs.cmXPos, Minecraft.getInstance().getWindow().getGuiScaledHeight())
+				.position(0,0)
 				.openByDefault()
 				.changesColour()
 				.fixedHeader()
 				.colour(new Color(10, 51, 255))
 				.onUpdate((subMenu, guiGraphics) -> {
-					subMenu.updatePosition(ModConfigs.cmXPos, Minecraft.getInstance().getWindow().getGuiScaledHeight());
+                    ELEMENT.height = subMenu.getHeight() * (subMenu.getVisibleChildren().size()+1);
+					ELEMENT.width = subMenu.getWidth();
+					subMenu.setPosition(0,0);
 				})
 				.withChildren(
 						new CommandMenuItem.Builder(attack, Component.translatable(Strings.Gui_CommandMenu_Attack), null).onUpdate((item, guiGraphics) -> updateRootItem(item, null, guiGraphics)).iconUV(30, 60),
@@ -677,8 +679,9 @@ public class CommandMenuGui extends OverlayBase {
 	@Override
 	public void render(GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
 		super.render(guiGraphics, deltaTracker);
-		//textX = (int) (5 * ModConfigs.cmXScale / 100D) + ModConfigs.cmTextXOffset;
 		if (minecraft.player != null) {
+			//TODO Potentially add an RC element too
+			CommandMenuGui.ELEMENT.applyTransform(guiGraphics, minecraft.getWindow().getGuiScaledWidth(), minecraft.getWindow().getGuiScaledHeight(), 1);
 			drawReactionCommands(guiGraphics, deltaTracker);
 
 			List<CommandMenuSubMenu> submenus = commandMenuElements.values().stream().sorted(Comparator.comparingInt(CommandMenuSubMenu::getZ)).toList();
@@ -686,6 +689,7 @@ public class CommandMenuGui extends OverlayBase {
 				submenu.render(guiGraphics, minecraft.getWindow().getGuiScaledWidth(), minecraft.getWindow().getGuiScaledHeight(), deltaTracker.getGameTimeDeltaPartialTick(true));
 				submenu.onUpdate(guiGraphics);
 			});
+			CommandMenuGui.ELEMENT.endTransform(guiGraphics);
 		}
 	}
 
@@ -719,7 +723,7 @@ public class CommandMenuGui extends OverlayBase {
 			{
 				float shade = i == reactionSelected ? 1F : 0.4F;
 				RenderSystem.setShaderColor(shade,shade,shade, alpha);
-				gui.pose().translate(0, commandMenuElements.get(currentSubmenu).getY()-20-(16*i), 0.5F);
+				gui.pose().translate(0, commandMenuElements.get(currentSubmenu).getY()-20-(16*i), 1F);
 				gui.pose().scale(scale, scale, scale);
 				gui.pose().pushPose();
 				{
@@ -728,8 +732,8 @@ public class CommandMenuGui extends OverlayBase {
 
 					gui.pose().scale(ModConfigs.cmXScale / 75F, 1, 1);
 					RenderSystem.enableBlend();
-					blit(gui, commandMenuElements.get(currentSubmenu).getTexture(), 0, 0, 0, 45, ModConfigs.cmReactionEndLWidth, TOP_HEIGHT);
-					blit(gui, commandMenuElements.get(currentSubmenu).getTexture(), ModConfigs.cmReactionEndLWidth, 0, TOP_WIDTH - (ModConfigs.cmReactionEndLWidth + ModConfigs.cmReactionEndRWidth), TOP_HEIGHT, ModConfigs.cmReactionEndLWidth + 1, 45, 1, TOP_HEIGHT, 256, 256);
+					blit(gui, commandMenuElements.get(currentSubmenu).getTexture(), 0, 0, 0, 45, ModConfigs.cmReactionEndLWidth+1, TOP_HEIGHT);
+					blit(gui, commandMenuElements.get(currentSubmenu).getTexture(), ModConfigs.cmReactionEndLWidth, 0, TOP_WIDTH - (ModConfigs.cmReactionEndLWidth + ModConfigs.cmReactionEndRWidth)+1, TOP_HEIGHT, ModConfigs.cmReactionEndLWidth + 1, 45, 1, TOP_HEIGHT, 256, 256);
 					blit(gui, commandMenuElements.get(currentSubmenu).getTexture(), TOP_WIDTH - ModConfigs.cmReactionEndRWidth, 0, ModConfigs.cmReactionEndLWidth + 3, 45, ModConfigs.cmReactionEndRWidth, TOP_HEIGHT);
 					RenderSystem.disableBlend();
 

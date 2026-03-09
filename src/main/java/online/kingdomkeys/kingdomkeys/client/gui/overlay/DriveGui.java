@@ -76,17 +76,7 @@ public class DriveGui extends OverlayBase {
 		int screenWidth = minecraft.getWindow().getGuiScaledWidth();
 		int screenHeight = minecraft.getWindow().getGuiScaledHeight();
 
-		float px = ELEMENT.getPixelX(screenWidth);
-		float py = ELEMENT.getPixelY(screenHeight);
-
-		float centerX = ELEMENT.width * ELEMENT.scaleX / 2f;
-		float centerY = ELEMENT.height * ELEMENT.scaleY / 2f;
-
-		pose.translate(px + centerX, py + centerY, 0);
-		pose.mulPose(Axis.ZP.rotationDegrees(ELEMENT.rotation));
-		pose.scale(ELEMENT.scaleX, ELEMENT.scaleY, 1);
-		pose.translate(-ELEMENT.width / 2f, -ELEMENT.height / 2f, 0);
-
+		ELEMENT.applyTransform(guiGraphics,screenWidth,screenHeight,1);
 
 		RenderSystem.enableBlend();
 		RenderSystem.setShaderColor(1,1,1,1);
@@ -95,7 +85,7 @@ public class DriveGui extends OverlayBase {
 
 		RenderSystem.disableBlend();
 
-		pose.popPose();
+		ELEMENT.endTransform(guiGraphics);
 	}
 
 	private void renderDriveBar(GuiGraphics guiGraphics, DeltaTracker deltaTracker, PlayerData playerData, double dp, double fp) {

@@ -312,6 +312,16 @@ public class CommandMenuSubMenu {
         return maxY - totalHeight;
     }
 
+    public void setY(int y) {
+        int totalHeight = height;
+        for (CommandMenuItem item : children) {
+            if (item.isVisible()) {
+                totalHeight += item.getHeight();
+            }
+        }
+        this.maxY = y + totalHeight;
+    }
+
     public void setMaxY(int maxY) {
         this.maxY = maxY;
     }
@@ -331,6 +341,10 @@ public class CommandMenuSubMenu {
         setMaxY(maxY);
     }
 
+    public void setPosition(int x, int y){
+        this.x = x;
+        setY(y);
+    }
     public void addChild(CommandMenuItem item) {
         getChildren().add(item);
         if (getSelected() == null && item.visible) {
@@ -411,7 +425,7 @@ public class CommandMenuSubMenu {
     }
 
     public int getWidth() {
-        return width * ModConfigs.cmXScale/100;
+        return width;
     }
 
     public int getHeight() {
@@ -492,7 +506,8 @@ public class CommandMenuSubMenu {
                 updatePosition();
             }
             RenderSystem.enableBlend();
-            guiGraphics.pose().translate(0, 0, getZ());
+
+
             guiGraphics.setColor(getColour().getRed() / 255F, getColour().getGreen() / 255F, getColour().getBlue() / 255F, 1);
             if (useFixedHeader) {
                 guiGraphics.blit(getTexture(), getX(), getY(), 0, 70, 70, 15);
