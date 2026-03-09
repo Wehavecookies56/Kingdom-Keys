@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.client.gui.elements;
 
+import com.google.common.collect.Lists;
 import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -28,16 +29,18 @@ public class HUDElement {
 
     public boolean selected;
 
-    public float[] originalValues = new float[8];
+    public double[] originalValues = new double[8];
 
     //ModConfigSpec.ConfigValue<List<? extends Float>> configdOption;
 
     public HUDElement(String name){
         this.name = name;
-        List<? extends Float> configOption = ModConfigs.getHUDData(name);
+        List<? extends Number> configOption = ModConfigs.getHUDData(name);
+
         for (int i = 0; i < configOption.size(); i++) {
-            originalValues[i] = configOption.get(i);
+            originalValues[i] = configOption.get(i).floatValue();
         }
+
         restoreDefaultValues();
     }
     public HUDElement(String name, HUDAnchorPosition anchor, float x, float y, int width, int height) {
@@ -230,14 +233,15 @@ public class HUDElement {
     }
 
     public void restoreDefaultValues(){
-        x = originalValues[0];
-        y = originalValues[1];
-        width = (int) originalValues[2];
-        height = (int) originalValues[3];
-        scaleX = originalValues[4];
-        scaleY = originalValues[5];
-        rotation = originalValues[6];
-        anchor = HUDAnchorPosition.values()[(int) originalValues[7]];
+        ArrayList<Float> defaultValues = getDefaultValues(name);
+        x = defaultValues.get(0);
+        y = defaultValues.get(1);
+        width = defaultValues.get(2).intValue();
+        height = defaultValues.get(3).intValue();
+        scaleX = defaultValues.get(4);
+        scaleY = defaultValues.get(5);
+        rotation = defaultValues.get(6);
+        anchor = HUDAnchorPosition.values()[defaultValues.get(7).intValue()];
     }
 
     public void saveConfig(){
@@ -248,7 +252,19 @@ public class HUDElement {
         KingdomKeys.LOGGER.warn("Saving config for "+name);
         List<Float> values = new ArrayList<>(List.of(x,y,(float)width,(float)height,scaleX,scaleY,rotation,(float)anchor.ordinal()));
         ModConfigs.setHUDData(name,values);
-        System.out.println(this);
+    }
+
+    public static ArrayList<Float> getDefaultValues(String name){
+        return switch(name){
+            case "HP" -> Lists.newArrayList(13.8F, 3.8F, 916F, 254F,0.2F,0.2F, 0F, 8F);
+            case "MP" -> Lists.newArrayList(54.2F, 8.6F, 142F, 12F,0.7F,0.5F, 0F, 8F);
+            case "CM" -> Lists.newArrayList(5F, 5F, 70F, 75F, 1F,1F, 0F, 6F);
+            case "Drive" -> Lists.newArrayList(53.7F, 14.6F, 95F, 18F, 0.8F, 0.8F, 0F, 8F);
+            case "Focus" -> Lists.newArrayList(3F, 27.5F, 66F, 40F, 1F, 1F, 0F, 8F);
+
+            default -> throw new IllegalStateException("Unexpected default HUD value: " + name);
+        };
+
     }
 
     @Override

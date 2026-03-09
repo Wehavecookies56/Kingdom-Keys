@@ -26,7 +26,7 @@ public class DriveGui extends OverlayBase {
 
 	public static final DriveGui INSTANCE = new DriveGui();
 
-	public static final HUDElement ELEMENT = new HUDElement("Drive", HUDAnchorPosition.BOTTOM_RIGHT,53.7F, 14.6F, 95, 18).setScale(0.8F,0.8F);
+	public static final HUDElement ELEMENT = new HUDElement("Drive").setScale(0.8F,0.8F);
 
 	private static final double GUI_LENGTH = 47D;
 	private static final double ONE_VALUE = GUI_LENGTH / 100D;

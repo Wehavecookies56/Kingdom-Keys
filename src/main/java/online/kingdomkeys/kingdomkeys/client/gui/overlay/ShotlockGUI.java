@@ -24,7 +24,7 @@ import org.joml.Matrix4f;
 
 //TODO cleanup + comments
 public class ShotlockGUI extends OverlayBase {
-    public static final HUDElement ELEMENT = new HUDElement("Focus", HUDAnchorPosition.BOTTOM_RIGHT,3, 27.5F, 66, 40);
+    public static final HUDElement ELEMENT = new HUDElement("Focus");
 
 	public static final ShotlockGUI INSTANCE = new ShotlockGUI();
 	float focusBarWidth;

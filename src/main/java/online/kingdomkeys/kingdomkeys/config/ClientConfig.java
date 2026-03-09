@@ -3,6 +3,7 @@ package online.kingdomkeys.kingdomkeys.config;
 import com.google.common.collect.Lists;
 import net.neoforged.neoforge.common.ModConfigSpec;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.HUDElement;
 
 import java.util.List;
 
@@ -10,7 +11,7 @@ import java.util.List;
  * Config file for client only config options
  */
 public class ClientConfig {
-	public ModConfigSpec.ConfigValue<List<? extends Float>> hpHUDData;
+	public ModConfigSpec.ConfigValue<List<? extends Float>> hpHUDData, mpHUDData, cmHUDData, driveHUDData, focusHUDData;
 
     public ModConfigSpec.BooleanValue cmHeaderTextVisible, cmClassicColors, auto3rdPersonShip, cmChangeColor;
     public ModConfigSpec.IntValue cmTextXOffset, cmXScale, cmXPos, cmSelectedXOffset, cmSubXOffset, cmEndLWidth, cmEndRWidth, cmHeaderEndLWidth, cmHeaderEndRWidth, cmReactionEndLWidth, cmReactionEndRWidth;
@@ -61,7 +62,12 @@ public class ClientConfig {
                 .define("showDriveForms", true);
 
 		builder.push("command_menu");
-            cmChangeColor = builder
+			cmHUDData = builder
+					.comment("Command Menu HUD Data")
+					.translation(KingdomKeys.MODID + ".config.cm_hud_data")//X,Y,Width ,Height ,xScale, yScale,rotation,anchor (ordinal)
+					.defineList("cmHUDData", () -> HUDElement.getDefaultValues("CM"), o -> o instanceof Number);
+
+			cmChangeColor = builder
                     .comment("Allow the Command Menu to change colors based on nearby enemies")
                     .translation(KingdomKeys.MODID + ".config.cm_change_color")
                     .define("cmChangeColor", true);
@@ -144,7 +150,7 @@ public class ClientConfig {
 			hpHUDData = builder
 					.comment("Health Bar HUD Data")
 					.translation(KingdomKeys.MODID + ".config.hp_hud_data")//X,Y,Width ,Height ,xScale, yScale,rotation,anchor (ordinal)
-					.defineList("hpHUDData", () -> Lists.newArrayList(13.8F, 3.8F, 916F, 254F,0.2F,0.2F, 0F, 8F), () -> 1F, o -> o instanceof Float);
+					.defineList("hpHUDData", () -> HUDElement.getDefaultValues("HP"), o -> o instanceof Number);
 
 	        hpXPos = builder
 	                .comment("Health Bar X Pos")
@@ -174,7 +180,11 @@ public class ClientConfig {
 	        builder.pop();
 	        
 	        builder.push("mp_bar");
-	        
+			mpHUDData = builder
+					.comment("Magic Bar HUD Data")
+					.translation(KingdomKeys.MODID + ".config.mp_hud_data")//X,Y,Width ,Height ,xScale, yScale,rotation,anchor (ordinal)
+					.defineList("mpHUDData", () -> HUDElement.getDefaultValues("MP"), o -> o instanceof Number);
+
 	        mpXPos = builder
 	                .comment("Magic Bar X Pos")
 	                .translation(KingdomKeys.MODID + ".config.mp_x_pos")
@@ -193,8 +203,12 @@ public class ClientConfig {
 	        builder.pop();
 	        
 	        builder.push("dp_bar");
-	        
-	        dpXPos = builder
+			driveHUDData = builder
+					.comment("Drive Bar HUD Data")
+					.translation(KingdomKeys.MODID + ".config.drive_hud_data")//X,Y,Width ,Height ,xScale, yScale,rotation,anchor (ordinal)
+					.defineList("driveHUDData", () -> HUDElement.getDefaultValues("Drive"), o -> o instanceof Number);
+
+			dpXPos = builder
 	                .comment("Drive Bar X Pos")
 	                .translation(KingdomKeys.MODID + ".config.dp_x_pos")
 	                .defineInRange("dpXPos", 0, -1000, 1000);
@@ -284,7 +298,12 @@ public class ClientConfig {
 	        builder.pop();
 	        
 	        builder.push("focus");
-	        focusXPos = builder
+			focusHUDData = builder
+					.comment("Focus Bar HUD Data")
+					.translation(KingdomKeys.MODID + ".config.focus_hud_data")//X,Y,Width ,Height ,xScale, yScale,rotation,anchor (ordinal)
+					.defineList("focusHUDData", () -> HUDElement.getDefaultValues("Focus"), o -> o instanceof Number);
+
+			focusXPos = builder
 	                .comment("Focus HUD X Pos")
 	                .translation(KingdomKeys.MODID + ".config.focus_x_pos")
 	                .defineInRange("focusXPos", 0, -1000, 1000);

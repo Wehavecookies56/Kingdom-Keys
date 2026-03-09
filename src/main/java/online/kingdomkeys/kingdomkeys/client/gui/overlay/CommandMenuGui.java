@@ -55,7 +55,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class CommandMenuGui extends OverlayBase {
-	public static final HUDElement ELEMENT = new HUDElement("Command Menu", HUDAnchorPosition.BOTTOM_LEFT,5, 5, 70, 75).setScale(1F,1F);
+	public static final HUDElement ELEMENT = new HUDElement("CM").setScale(1F,1F);
 	public static final CommandMenuGui INSTANCE = new CommandMenuGui();
 	public static Map<ResourceLocation, CommandMenuSubMenu> commandMenuElements;
 

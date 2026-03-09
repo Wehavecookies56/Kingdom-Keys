@@ -84,7 +84,9 @@ public class HUDEditorScreen extends Screen {
             }
             case GLFW.GLFW_KEY_S -> {
                 if(hasControlDown()) {
-                    selected.saveConfig();
+                    for (HUDElement element : elements) {
+                        element.saveConfig();
+                    }
                 }
             }
         }
@@ -116,7 +118,7 @@ public class HUDEditorScreen extends Screen {
         } else if (button == 1) {
             for (HUDElement element : elements) {
                 if(element == selected) {
-                    System.out.println("Right click for selected element "+element.x);
+                    System.out.println("Right click for selected element "+element.name);
                     element.restoreDefaultValues();
                 }
             }

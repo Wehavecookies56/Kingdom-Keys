@@ -61,21 +61,25 @@ public class ModConfigs {
     public static void setHUDData(String name, List<? extends Float> data){
         switch (name){
             case "HP" -> CLIENT.hpHUDData.set(data);
-            /*case "MP" -> ;
-            case "Command Menu" -> ;
-            case "Drive" -> ;
-            case "Focus" -> ;*/
+            case "MP" -> CLIENT.mpHUDData.set(data);
+            case "CM" -> CLIENT.cmHUDData.set(data);
+            case "Drive" -> CLIENT.driveHUDData.set(data);
+            case "Focus" -> CLIENT.focusHUDData.set(data);
         }
-        //CLIENT_SPEC.save();
+        CLIENT.hpHUDData.save();
+        CLIENT.mpHUDData.save();
+        CLIENT.cmHUDData.save();
+        CLIENT.driveHUDData.save();
+        CLIENT.focusHUDData.save();
     }
 
     public static List<? extends Float> getHUDData(String name){
         return switch (name){
             case "HP" -> CLIENT.hpHUDData.get();
-            /*case "MP" -> ;
-            case "Command Menu" -> ;
-            case "Drive" -> ;
-            case "Focus" -> ;*/
+            case "MP" -> CLIENT.mpHUDData.get();
+            case "CM" -> CLIENT.cmHUDData.get();
+            case "Drive" -> CLIENT.driveHUDData.get();
+            case "Focus" -> CLIENT.focusHUDData.get();
             default -> throw new IllegalStateException("Unexpected HUD value: " + name);
         };
     }
@@ -96,218 +100,260 @@ public class ModConfigs {
     //Command Menu
     public static void setMagicDisplayedInCommandMenu(List<String> value) {
         CLIENT.magicDisplayedInCommandMenu.set(value);
+        CLIENT.magicDisplayedInCommandMenu.save();
         bakeClient();
     }
 
     public static void setCmHeaderTextVisible(boolean value) {
         CLIENT.cmHeaderTextVisible.set(value);
+        CLIENT.cmHeaderTextVisible.save();
         bakeClient();
     }
     
     public static void setCmClassicColors(boolean value) {
         CLIENT.cmClassicColors.set(value);
+        CLIENT.cmClassicColors.save();
         bakeClient();
     }
 
     public static void setCmTextXOffset(int value) {
         CLIENT.cmTextXOffset.set(value);
+        CLIENT.cmTextXOffset.save();
         bakeClient();
     }
 
     public static void setCmXScale(int value) {
         CLIENT.cmXScale.set(value);
+        CLIENT.cmXScale.save();
         bakeClient();
     }
 
     public static void setCmXPos(int value) {
         CLIENT.cmXPos.set(value);
+        CLIENT.cmXPos.save();
         bakeClient();
     }
     
     public static void setCmSelectedXOffset(int value) {
         CLIENT.cmSelectedXOffset.set(value);
+        CLIENT.cmSelectedXOffset.save();
         bakeClient();
     }
 
     public static void setCmSubXOffset(int value) {
         CLIENT.cmSubXOffset.set(value);
+        CLIENT.cmSubXOffset.save();
         bakeClient();
     }
 
     //HP
     public static void setHpXPos(int value) {
         CLIENT.hpXPos.set(value);
+        CLIENT.hpXPos.save();
         bakeClient();
     }
 
     public static void setHpYPos(int value) {
         CLIENT.hpYPos.set(value);
+        CLIENT.hpYPos.save();
         bakeClient();
     }
 
     public static void setShowHearts(boolean value) {
         CLIENT.hpShowHearts.set(value);
+        CLIENT.hpShowHearts.save();
         bakeClient();
     }
     
     public static void setHPAlarm(int value) {
         CLIENT.hpAlarm.set(value);
+        CLIENT.hpAlarm.save();
         bakeClient();
     }
     
     public static void setHPXScale(int value) {
         CLIENT.hpXScale.set(value);
+        CLIENT.hpXScale.save();
         bakeClient();
     }
 
     //MP
     public static void setMpXPos(int value) {
         CLIENT.mpXPos.set(value);
+        CLIENT.mpXPos.save();
         bakeClient();
     }
 
     public static void setMpYPos(int value) {
         CLIENT.mpYPos.set(value);
+        CLIENT.mpYPos.save();
         bakeClient();
     }
     
     public static void setMPXScale(int value) {
         CLIENT.mpXScale.set(value);
+        CLIENT.mpXScale.save();
         bakeClient();
     }
 
     //DP
     public static void setDpXPos(int value) {
         CLIENT.dpXPos.set(value);
+        CLIENT.dpXPos.save();
         bakeClient();
     }
 
     public static void setDpYPos(int value) {
         CLIENT.dpYPos.set(value);
+        CLIENT.dpYPos.save();
         bakeClient();
     }
     
     public static void setDpXScale(int value) {
         CLIENT.dpXScale.set(value);
+        CLIENT.dpXScale.save();
         bakeClient();
     }
     
     public static void setDpYScale(int value) {
         CLIENT.dpYScale.set(value);
+        CLIENT.dpYScale.save();
         bakeClient();
     }
 
   //Player Skin
     public static void setPlayerSkinXPos(int value) {
         CLIENT.playerSkinXPos.set(value);
+        CLIENT.playerSkinXPos.save();
         bakeClient();
     }
 
     public static void setPlayerSkinYPos(int value) {
         CLIENT.playerSkinYPos.set(value);
+        CLIENT.playerSkinYPos.save();
         bakeClient();
     }
 
   //Lock On
     public static void setLockOnXPos(int value) {
         CLIENT.lockOnXPos.set(value);
+        CLIENT.lockOnXPos.save();
         bakeClient();
     }
 
     public static void setLockOnYPos(int value) {
         CLIENT.lockOnYPos.set(value);
+        CLIENT.lockOnYPos.save();
         bakeClient();
     }
 
     public static void setLockOnHPScale(int value) {
         CLIENT.lockOnHPScale.set(value);
+        CLIENT.lockOnHPScale.save();
         bakeClient();
     }
 
     public static void setLockOnIconScale(int value) {
         CLIENT.lockOnIconScale.set(value);
+        CLIENT.lockOnIconScale.save();
         bakeClient();
     }
     
     public static void setLockOnIconRotation(int value) {
         CLIENT.lockOnIconRotation.set(value);
+        CLIENT.lockOnIconRotation.save();
         bakeClient();
     }
 
     public static void setLockOnHpPerBar(int value) {
         CLIENT.lockOnHpPerBar.set(Math.max(10, value));
+        CLIENT.lockOnHpPerBar.save();
         bakeClient();
     }
 
     //Party
     public static void setPartyXPos(int value) {
         CLIENT.partyXPos.set(value);
+        CLIENT.partyXPos.save();
         bakeClient();
     }
 
     public static void setPartyYPos(int value) {
         CLIENT.partyYPos.set(value);
+        CLIENT.partyYPos.save();
         bakeClient();
     }
 
     public static void setPartyYDistance(int value) {
         CLIENT.partyYDistance.set(value);
+        CLIENT.partyYDistance.save();
         bakeClient();
     }
 
     //Focus
     public static void setFocusXPos(int value) {
         CLIENT.focusXPos.set(value);
+        CLIENT.focusXPos.save();
         bakeClient();
     }
 
     public static void setFocusYPos(int value) {
         CLIENT.focusYPos.set(value);
+        CLIENT.focusYPos.save();
         bakeClient();
     }
     
     public static void setFocusXScale(int value) {
         CLIENT.focusXScale.set(value);
+        CLIENT.focusXScale.save();
         bakeClient();
     }
     
     public static void setFocusYScale(int value) {
         CLIENT.focusYScale.set(value);
+        CLIENT.focusYScale.save();
         bakeClient();
     }
 
     public static void setShowDriveForms(boolean val) {
         CLIENT.showDriveForms.set(val);
+        CLIENT.showDriveForms.save();
         bakeClient();
     }
 
     public static void setCmEndLWidth(int value) {
         CLIENT.cmEndLWidth.set(value);
+        CLIENT.cmEndLWidth.save();
         bakeClient();
     }
 
     public static void setCmEndRWidth(int value) {
         CLIENT.cmEndRWidth.set(value);
+        CLIENT.cmEndRWidth.save();
         bakeClient();
     }
 
     public static void setCmHeaderEndLWidth(int value) {
         CLIENT.cmHeaderEndLWidth.set(value);
+        CLIENT.cmHeaderEndLWidth.save();
         bakeClient();
     }
 
     public static void setCmHeaderEndRWidth(int value) {
         CLIENT.cmHeaderEndRWidth.set(value);
+        CLIENT.cmHeaderEndRWidth.save();
         bakeClient();
     }
 
     public static void setCmReactionEndLWidth(int value) {
         CLIENT.cmReactionEndLWidth.set(value);
+        CLIENT.cmReactionEndLWidth.save();
         bakeClient();
     }
 
     public static void setCmReactionEndRWidth(int value) {
         CLIENT.cmReactionEndRWidth.set(value);
+        CLIENT.cmReactionEndRWidth.save();
         bakeClient();
     }
 

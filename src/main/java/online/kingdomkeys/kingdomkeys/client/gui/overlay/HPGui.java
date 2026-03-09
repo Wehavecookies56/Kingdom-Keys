@@ -39,7 +39,7 @@ public class HPGui extends OverlayBase {
     @Override
     public void render(GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
         super.render(guiGraphics, deltaTracker);
-
+        //System.out.println(ELEMENT.x + " " + ELEMENT.y);
         Player player = minecraft.player;
         if (player == null)
             return;
