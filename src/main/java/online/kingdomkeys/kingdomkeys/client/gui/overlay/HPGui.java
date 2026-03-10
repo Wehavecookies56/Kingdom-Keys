@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.client.gui.overlay;
 
+import com.google.common.collect.Lists;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import net.minecraft.client.DeltaTracker;
@@ -39,7 +40,7 @@ public class HPGui extends OverlayBase {
     @Override
     public void render(GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
         super.render(guiGraphics, deltaTracker);
-        //System.out.println(ELEMENT.x + " " + ELEMENT.y);
+
         Player player = minecraft.player;
         if (player == null)
             return;
@@ -83,32 +84,20 @@ public class HPGui extends OverlayBase {
 
         float displayedPercentage = displayedPlayerHP / maxMaxHealth;
 
-        poseStack.pushPose();
-        {
-            float px = ELEMENT.getPixelX(screenWidth);
-            float py = ELEMENT.getPixelY(screenHeight);
+        ELEMENT.applyTransform(guiGraphics, screenWidth, screenHeight);
 
-            float sw = ELEMENT.getScaledWidth();
-            float sh = ELEMENT.getScaledHeight();
+        RenderSystem.enableBlend();
+        RenderSystem.defaultBlendFunc();
 
-            poseStack.translate(px + sw / 2f, py + sh / 2f, 0);
-            poseStack.mulPose(com.mojang.math.Axis.ZP.rotationDegrees(ELEMENT.rotation));
-            poseStack.scale(ELEMENT.scaleX, ELEMENT.scaleY, 1);
-            poseStack.translate(-ELEMENT.width / 2f, -ELEMENT.height / 2f, 0);
+        drawHPOutline(poseStack, maxHealthPercentageOutline);
+        drawHPBackground(poseStack, maxHealthPercentage);
+        drawHPBar(poseStack, healthPercentage);
+        drawRedHP(poseStack, healthPercentage, displayedPercentage);
 
+        RenderSystem.disableBlend();
+        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        ELEMENT.endTransform(guiGraphics);
 
-            RenderSystem.enableBlend();
-            RenderSystem.defaultBlendFunc();
-
-            drawHPOutline(poseStack, maxHealthPercentageOutline);
-            drawHPBackground(poseStack, maxHealthPercentage);
-            drawHPBar(poseStack, healthPercentage);
-            drawRedHP(poseStack, healthPercentage, displayedPercentage);
-
-            RenderSystem.disableBlend();
-            RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        }
-        poseStack.popPose();
     }
 
     private void drawHPBackground(PoseStack poseStack, float maxHealthPercentage) {

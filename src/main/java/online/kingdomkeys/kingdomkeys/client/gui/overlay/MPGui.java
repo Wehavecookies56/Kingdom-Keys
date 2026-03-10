@@ -43,22 +43,14 @@ public class MPGui extends OverlayBase {
 		PoseStack poseStack = guiGraphics.pose();
 		poseStack.pushPose();
 		{
-			float px = ELEMENT.getPixelX(screenWidth);
-			float py = ELEMENT.getPixelY(screenHeight);
-
-			float sw = ELEMENT.getScaledWidth();
-			float sh = ELEMENT.getScaledHeight();
-
-			poseStack.translate(px + sw / 2f, py + sh / 2f, 0);
-			poseStack.mulPose(com.mojang.math.Axis.ZP.rotationDegrees(ELEMENT.rotation));
-			poseStack.scale(ELEMENT.scaleX, ELEMENT.scaleY, 1);
-			poseStack.translate(-ELEMENT.width / 2f, -ELEMENT.height / 2f, 0);
+			ELEMENT.applyTransform(guiGraphics, screenWidth, screenHeight);
 			RenderSystem.enableBlend();
 
 			drawMPBarBack(guiGraphics, mpBarMaxWidth);
 			drawMPBarTop(guiGraphics, mpBarWidth);
 
 			RenderSystem.disableBlend();
+			ELEMENT.endTransform(guiGraphics);
 		}
 		poseStack.popPose();
 	}

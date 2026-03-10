@@ -60,7 +60,7 @@ public class ShotlockGUI extends OverlayBase {
 
         poseStack.pushPose();
         {
-            ELEMENT.applyTransform(guiGraphics,screenWidth,screenHeight,1);
+            ELEMENT.applyTransform(guiGraphics,screenWidth,screenHeight);
             poseStack.scale(scaleX, scaleY, 1);
 
             drawBackground(poseStack);

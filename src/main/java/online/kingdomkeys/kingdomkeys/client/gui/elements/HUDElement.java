@@ -1,16 +1,26 @@
 package online.kingdomkeys.kingdomkeys.client.gui.elements;
 
 import com.google.common.collect.Lists;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.resources.Resource;
 import net.neoforged.neoforge.common.ModConfigSpec;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.gui.overlay.HUDAnchorPosition;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class HUDElement {
     public String name;
@@ -29,9 +39,7 @@ public class HUDElement {
 
     public boolean selected;
 
-    public double[] originalValues = new double[8];
-
-    //ModConfigSpec.ConfigValue<List<? extends Float>> configdOption;
+    public float[] originalValues = new float[8];
 
     public HUDElement(String name){
         this.name = name;
@@ -192,32 +200,12 @@ public class HUDElement {
         };
     }
 
-    public void applyTransform(GuiGraphics guiGraphics, int screenWidth, int screenHeight, int z) {
+    public void applyTransform(GuiGraphics guiGraphics, int screenWidth, int screenHeight) {
         float px = getPixelX(screenWidth);
         float py = getPixelY(screenHeight);
-/*
-        float w = width * scaleX;
-        float h = height * scaleY;
-
-        float pivotX = switch (anchor) {
-            case TOP_LEFT, CENTER_LEFT, BOTTOM_LEFT -> px;
-            case TOP_CENTER, CENTER, BOTTOM_CENTER -> px + w / 2f;
-            case TOP_RIGHT, CENTER_RIGHT, BOTTOM_RIGHT -> px + w;
-        };
-
-        float pivotY = switch (anchor) {
-            case TOP_LEFT, TOP_CENTER, TOP_RIGHT -> py;
-            case CENTER_LEFT, CENTER, CENTER_RIGHT -> py + h / 2f;
-            case BOTTOM_LEFT, BOTTOM_CENTER, BOTTOM_RIGHT -> py + h;
-        };*/
 
         guiGraphics.pose().pushPose();
 
-        /*guiGraphics.pose().translate(px, py, z);
-        guiGraphics.pose().mulPose(com.mojang.math.Axis.ZP.rotationDegrees(rotation));
-        guiGraphics.pose().scale(scaleX, scaleY, 1);
-        guiGraphics.pose().translate(-px, -py, 0);
-        */
         float centerX = width * scaleX / 2f;
         float centerY = height * scaleY / 2f;
 
@@ -225,7 +213,6 @@ public class HUDElement {
         guiGraphics.pose().mulPose(Axis.ZP.rotationDegrees(rotation));
         guiGraphics.pose().scale(scaleX, scaleY, 1);
         guiGraphics.pose().translate(-width / 2f, -height / 2f, 0);
-
     }
 
     public void endTransform(GuiGraphics guiGraphics) {
@@ -254,17 +241,50 @@ public class HUDElement {
         ModConfigs.setHUDData(name,values);
     }
 
+    public static Map<String, List<Float>> loadHudDefaults() {
+        Map<String, List<Float>> map = new HashMap<>();
+        try {
+            ResourceLocation rl = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "hud/default_hud.json");
+            System.out.println("LOADING HUD DEFAULTS");
+            Resource resource = Minecraft.getInstance().getResourceManager().getResourceOrThrow(rl);
+            try (Reader reader = new InputStreamReader(resource.open())) {
+                JsonObject json = JsonParser.parseReader(reader).getAsJsonObject();
+                for (String key : json.keySet()) {
+                    JsonArray arr = json.getAsJsonArray(key);
+                    //if(key.equals("HP"))
+                    List<Float> values = new ArrayList<>();
+                    for (JsonElement e : arr) {
+                        values.add(e.getAsFloat());
+                    }
+                    map.put(key.toUpperCase(), values);
+                }
+            }
+
+        } catch (Exception e) {
+            KingdomKeys.LOGGER.warn("Failed to load HUD defaults from resourcepack, using hardcoded values.\n"+e);
+        }
+
+        return map;
+    }
+
+    private static Map<String, List<Float>> RESOURCE_DEFAULTS;
     public static ArrayList<Float> getDefaultValues(String name){
+        RESOURCE_DEFAULTS = loadHudDefaults();
+        List<Float> values = RESOURCE_DEFAULTS.get(name);
+        if(values != null && values.size() == 8){
+            System.out.println("Found values for "+name+": "+values);
+            return new ArrayList<>(values);
+        }
+
+        System.out.println("No values found for "+name+" in any resourcepack");
         return switch(name){
             case "HP" -> Lists.newArrayList(13.8F, 3.8F, 916F, 254F,0.2F,0.2F, 0F, 8F);
             case "MP" -> Lists.newArrayList(54.2F, 8.6F, 142F, 12F,0.7F,0.5F, 0F, 8F);
             case "CM" -> Lists.newArrayList(5F, 5F, 70F, 75F, 1F,1F, 0F, 6F);
             case "Drive" -> Lists.newArrayList(53.7F, 14.6F, 95F, 18F, 0.8F, 0.8F, 0F, 8F);
             case "Focus" -> Lists.newArrayList(3F, 27.5F, 66F, 40F, 1F, 1F, 0F, 8F);
-
             default -> throw new IllegalStateException("Unexpected default HUD value: " + name);
         };
-
     }
 
     @Override

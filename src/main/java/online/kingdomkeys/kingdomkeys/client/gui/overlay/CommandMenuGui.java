@@ -682,7 +682,7 @@ public class CommandMenuGui extends OverlayBase {
 		super.render(guiGraphics, deltaTracker);
 		if (minecraft.player != null) {
 			//TODO Potentially add an RC element too
-			CommandMenuGui.ELEMENT.applyTransform(guiGraphics, minecraft.getWindow().getGuiScaledWidth(), minecraft.getWindow().getGuiScaledHeight(), 1);
+			CommandMenuGui.ELEMENT.applyTransform(guiGraphics, minecraft.getWindow().getGuiScaledWidth(), minecraft.getWindow().getGuiScaledHeight());
 			drawReactionCommands(guiGraphics, deltaTracker);
 
 			List<CommandMenuSubMenu> submenus = commandMenuElements.values().stream().sorted(Comparator.comparingInt(CommandMenuSubMenu::getZ)).toList();

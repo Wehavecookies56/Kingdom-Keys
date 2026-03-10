@@ -78,7 +78,7 @@ public class DriveGui extends OverlayBase {
 		int screenWidth = minecraft.getWindow().getGuiScaledWidth();
 		int screenHeight = minecraft.getWindow().getGuiScaledHeight();
 
-		ELEMENT.applyTransform(guiGraphics,screenWidth,screenHeight,1);
+		ELEMENT.applyTransform(guiGraphics,screenWidth,screenHeight);
 
 		RenderSystem.enableBlend();
 		RenderSystem.setShaderColor(1,1,1,1);
