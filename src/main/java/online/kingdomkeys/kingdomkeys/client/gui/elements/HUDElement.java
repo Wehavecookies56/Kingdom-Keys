@@ -1,8 +1,6 @@
 package online.kingdomkeys.kingdomkeys.client.gui.elements;
 
 import com.google.common.collect.Lists;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.mojang.math.Axis;
@@ -10,7 +8,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.Resource;
-import net.neoforged.neoforge.common.ModConfigSpec;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.gui.overlay.HUDAnchorPosition;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
@@ -18,9 +15,7 @@ import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class HUDElement {
     public String name;
@@ -39,38 +34,36 @@ public class HUDElement {
 
     public boolean selected;
 
-    public float[] originalValues = new float[8];
+    public float[] configValues = new float[8];
 
     public HUDElement(String name){
         this.name = name;
+        //Apply config options
         List<? extends Number> configOption = ModConfigs.getHUDData(name);
 
         for (int i = 0; i < configOption.size(); i++) {
-            originalValues[i] = configOption.get(i).floatValue();
+            configValues[i] = configOption.get(i).floatValue();
         }
-
-        restoreDefaultValues();
+        applyValues(configValues);
     }
-    public HUDElement(String name, HUDAnchorPosition anchor, float x, float y, int width, int height) {
-        this.name = name;
-        this.anchor = anchor;
-        this.x = x;
-        this.y = y;
-        this.width = width;
-        this.height = height;
 
-        originalValues[0] = x;
-        originalValues[1] = y;
-        originalValues[2] = width;
-        originalValues[3] = height;
+    public void applyValues(float[] configValues){
+        this.x = configValues[0];
+        this.y = configValues[1];
+        this.width = (int) configValues[2];
+        this.height = (int) configValues[3];
+        this.scaleX = configValues[4];
+        this.scaleY = configValues[5];
+        this.rotation = configValues[6];
+        this.anchor = HUDAnchorPosition.values()[(int)configValues[7]];
     }
 
     public HUDElement setScale(float scaleX, float scaleY) {
         this.scaleX = scaleX;
         this.scaleY = scaleY;
 
-        originalValues[4] = scaleX;
-        originalValues[5] = scaleY;
+        configValues[4] = scaleX;
+        configValues[5] = scaleY;
         return this;
     }
 
@@ -119,39 +112,12 @@ public class HUDElement {
                 }
             }
 
-            /*
-            for (int i = 1; i < 3; i++) {
-                int vx = (int) (px + i * cellW);
-                int hy = (int) (py + i * cellH);
-
-                guiGraphics.fill(vx, y1, vx + 1, y2, 0xFFFFFFFF);
-                guiGraphics.fill(x1, hy, x2, hy + 1, 0xFFFFFFFF);
-            }
-*/
             guiGraphics.fill(x1, y1-1, x2, y1, 0xFFFFFFFF);
             guiGraphics.fill(x1, y2 - 1, x2, y2, 0xFFFFFFFF);
             guiGraphics.fill(x1, y1, x1 + 1, y2, 0xFFFFFFFF);
             guiGraphics.fill(x2 - 1, y1, x2, y2, 0xFFFFFFFF);
         }
     }
-
-
-    //Relative (gotta change HUDEditorScreen too)
-    /*public float getPixelX(int screenWidth) {
-        return switch (anchor) {
-            case TOP_LEFT, CENTER_LEFT, BOTTOM_LEFT -> x * screenWidth;
-            case TOP_RIGHT, CENTER_RIGHT, BOTTOM_RIGHT -> screenWidth - (x * screenWidth) - width * scaleX;
-            case TOP_CENTER, CENTER, BOTTOM_CENTER -> (screenWidth / 2f) + (x * screenWidth) - (width * scaleX / 2f);
-        };
-    }
-
-    public float getPixelY(int screenHeight) {
-        return switch (anchor) {
-            case TOP_LEFT, TOP_CENTER, TOP_RIGHT -> y * screenHeight;
-            case BOTTOM_LEFT, BOTTOM_CENTER, BOTTOM_RIGHT -> screenHeight - (y * screenHeight) - height * scaleY;
-            case CENTER_LEFT, CENTER, CENTER_RIGHT -> (screenHeight / 2f) + (y * screenHeight) - (height * scaleY / 2f);
-        };
-    }*/
 
     //Absolute
     public float getPixelX(int screenWidth) {
@@ -232,51 +198,59 @@ public class HUDElement {
     }
 
     public void saveConfig(){
-       /* if(configOption == null) {
-            KingdomKeys.LOGGER.warn("No config option has been linked with "+name+" HUDElement");
-            return;
-        }*/
         KingdomKeys.LOGGER.warn("Saving config for "+name);
         List<Float> values = new ArrayList<>(List.of(x,y,(float)width,(float)height,scaleX,scaleY,rotation,(float)anchor.ordinal()));
         ModConfigs.setHUDData(name,values);
     }
 
-    public static Map<String, List<Float>> loadHudDefaults() {
-        Map<String, List<Float>> map = new HashMap<>();
+    public void loadDefaultsFromJson() {
+        ArrayList<Float> defaults = getDefaultValues(name);
+
+        float defX = defaults.get(0);
+        float defY = defaults.get(1);
+        int defWidth = defaults.get(2).intValue();
+        int defHeight = defaults.get(3).intValue();
+        float defScaleX = defaults.get(4);
+        float defScaleY = defaults.get(5);
+        float defRotation = defaults.get(6);
+        HUDAnchorPosition defAnchor = HUDAnchorPosition.values()[defaults.get(7).intValue()];
+
         try {
-            ResourceLocation rl = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "hud/default_hud.json");
-            System.out.println("LOADING HUD DEFAULTS");
+            ResourceLocation rl = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "hud/" + name.toLowerCase() + ".json");
             Resource resource = Minecraft.getInstance().getResourceManager().getResourceOrThrow(rl);
+            KingdomKeys.LOGGER.info("Found RP config for "+name);
             try (Reader reader = new InputStreamReader(resource.open())) {
                 JsonObject json = JsonParser.parseReader(reader).getAsJsonObject();
-                for (String key : json.keySet()) {
-                    JsonArray arr = json.getAsJsonArray(key);
-                    //if(key.equals("HP"))
-                    List<Float> values = new ArrayList<>();
-                    for (JsonElement e : arr) {
-                        values.add(e.getAsFloat());
-                    }
-                    map.put(key.toUpperCase(), values);
-                }
+
+                x = json.has("xPos") ? json.get("xPos").getAsFloat() : defX;
+                y = json.has("yPos") ? json.get("yPos").getAsFloat() : defY;
+
+                width = json.has("width") ? json.get("width").getAsInt() : defWidth;
+                height = json.has("height") ? json.get("height").getAsInt() : defHeight;
+
+                scaleX = json.has("xScale") ? json.get("xScale").getAsFloat() : defScaleX;
+                scaleY = json.has("yScale") ? json.get("yScale").getAsFloat() : defScaleY;
+
+                rotation = json.has("rotation") ? json.get("rotation").getAsFloat() : defRotation;
+
+                anchor = json.has("anchor") ? HUDAnchorPosition.valueOf(json.get("anchor").getAsString()) : defAnchor;
             }
 
         } catch (Exception e) {
-            KingdomKeys.LOGGER.warn("Failed to load HUD defaults from resourcepack, using hardcoded values.\n"+e);
-        }
+            KingdomKeys.LOGGER.warn("Couldn't find HUD defaults for {} in a Resource Pack, using hardcoded defaults", name);
 
-        return map;
+            x = defX;
+            y = defY;
+            width = defWidth;
+            height = defHeight;
+            scaleX = defScaleX;
+            scaleY = defScaleY;
+            rotation = defRotation;
+            anchor = defAnchor;
+        }
     }
 
-    private static Map<String, List<Float>> RESOURCE_DEFAULTS;
     public static ArrayList<Float> getDefaultValues(String name){
-        RESOURCE_DEFAULTS = loadHudDefaults();
-        List<Float> values = RESOURCE_DEFAULTS.get(name);
-        if(values != null && values.size() == 8){
-            System.out.println("Found values for "+name+": "+values);
-            return new ArrayList<>(values);
-        }
-
-        System.out.println("No values found for "+name+" in any resourcepack");
         return switch(name){
             case "HP" -> Lists.newArrayList(13.8F, 3.8F, 916F, 254F,0.2F,0.2F, 0F, 8F);
             case "MP" -> Lists.newArrayList(54.2F, 8.6F, 142F, 12F,0.7F,0.5F, 0F, 8F);

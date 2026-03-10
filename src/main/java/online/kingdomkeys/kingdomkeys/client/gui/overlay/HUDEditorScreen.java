@@ -1,17 +1,22 @@
 package online.kingdomkeys.kingdomkeys.client.gui.overlay;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.HUDElement;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.config.MenuConfigScreen;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 import org.lwjgl.glfw.GLFW;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class HUDEditorScreen extends Screen {
-
+    private Button resetButton, rpButton;
     private boolean renderOutline = true;
     private final List<HUDElement> elements = new ArrayList<>();
     private HUDElement selected;
@@ -24,19 +29,39 @@ public class HUDEditorScreen extends Screen {
         super(Component.literal("HUD Editor"));
         //Order is important for overlapping boxes
         this.elements.addAll(List.of(DriveGui.ELEMENT, MPGui.ELEMENT, ShotlockGUI.ELEMENT, HPGui.ELEMENT, CommandMenuGui.ELEMENT));
+        int buttonWidth = 120;
+        addRenderableWidget(rpButton = new MenuButton(Minecraft.getInstance().getWindow().getGuiScaledWidth()/2 - buttonWidth - 20, 5, buttonWidth, Utils.translateToLocal("RESET ALL TO DEFAULTS"), MenuButton.ButtonType.ROUNDBUTTON, (e) -> {
+            for (HUDElement element : elements) {
+                element.restoreDefaultValues();
+            }
+        }));
+
+        buttonWidth = 140;
+        addRenderableWidget(resetButton = new MenuButton(Minecraft.getInstance().getWindow().getGuiScaledWidth()/2 + 10, 5, buttonWidth, Utils.translateToLocal("RESET ALL TO RESOURCEPACK"), MenuButton.ButtonType.ROUNDBUTTON, (e) -> {
+            for (HUDElement element : elements) {
+                element.loadDefaultsFromJson();
+            }
+        }));
+
+
+
     }
 
     @Override
     public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
-        int y=1;
-        guiGraphics.drawString(minecraft.font,"First of all select the anchor point by clicking the element and SPACE",100,y++*10,0xFFFFFF);
-        guiGraphics.drawString(minecraft.font,"LEFT CLICK and drag an element to move it",100,y++*10,0xFFFFFF);
-        guiGraphics.drawString(minecraft.font,"Use ARROW KEYS to move it in tiny gaps",100,y++*10,0xFFFFFF);
-        guiGraphics.drawString(minecraft.font,"Hold CTRL + ARROW KEYS to move it in bigger gaps",100,y++*10,0xFFFFFF);
-        guiGraphics.drawString(minecraft.font,"Use SCROLL WHEEL to scale it up",100,y++*10,0xFFFFFF);
-        guiGraphics.drawString(minecraft.font,"Use SHIFT + SCROLL WHEEL to rotate it",100,y++*10,0xFFFFFF);
-        guiGraphics.drawString(minecraft.font,"Press LEFT ALT to show or hide outlines",100,y++*10,0xFFFFFF);
-        guiGraphics.drawString(minecraft.font,"RIGHT CLICK on a selected item to reset it to default",100,y++*10,0xFFFFFF);
+        resetButton.render(guiGraphics, mouseX, mouseY, partialTick);
+        rpButton.render(guiGraphics, mouseX, mouseY, partialTick);
+        int scaledWidth = Minecraft.getInstance().getWindow().getGuiScaledWidth();
+        int y=3;
+        guiGraphics.drawCenteredString(minecraft.font,"First of all select the anchor point by clicking the element and SPACE",scaledWidth / 2,y++*10,0xFFFFFF);
+        guiGraphics.drawCenteredString(minecraft.font,"LEFT CLICK and drag an element to move it",scaledWidth / 2,y++*10,0xFFFFFF);
+        guiGraphics.drawCenteredString(minecraft.font,"Use ARROW KEYS to move it in tiny gaps",scaledWidth / 2,y++*10,0xFFFFFF);
+        guiGraphics.drawCenteredString(minecraft.font,"Hold CTRL + ARROW KEYS to move it in bigger gaps",scaledWidth / 2,y++*10,0xFFFFFF);
+        guiGraphics.drawCenteredString(minecraft.font,"Use SCROLL WHEEL to scale it up",scaledWidth / 2,y++*10,0xFFFFFF);
+        guiGraphics.drawCenteredString(minecraft.font,"Use SHIFT + SCROLL WHEEL to rotate it",scaledWidth / 2,y++*10,0xFFFFFF);
+        guiGraphics.drawCenteredString(minecraft.font,"Press LEFT ALT to show or hide outlines",scaledWidth / 2,y++*10,0xFFFFFF);
+        guiGraphics.drawCenteredString(minecraft.font,"RIGHT CLICK on a selected item to reset it to Resourcepack defaults",scaledWidth / 2,y++*10,0xFFFFFF);
+        guiGraphics.drawCenteredString(minecraft.font,"SHIFT + RIGHT CLICK on a selected item to reset it to base defaults",scaledWidth / 2,y++*10,0xFFFFFF);
 
 
         for (HUDElement element : elements) {
@@ -119,9 +144,13 @@ public class HUDEditorScreen extends Screen {
             }
         } else if (button == 1) {
             for (HUDElement element : elements) {
-                if(element == selected) {
-                    System.out.println("Right click for selected element "+element.name);
-                    element.restoreDefaultValues();
+                if (element.isMouseOver(mouseX, mouseY)) {
+                    selected = element;
+                    if(hasShiftDown()){
+                        element.restoreDefaultValues();
+                    } else {
+                        element.loadDefaultsFromJson();
+                    }
                 }
             }
         }
@@ -136,20 +165,6 @@ public class HUDEditorScreen extends Screen {
 
             float newPx = (float) mouseX - dragOffsetX;
             float newPy = (float) mouseY - dragOffsetY;
-
-            //Relative (gotta change HUDElement too)
-            /*
-            switch (selected.anchor) {
-                case TOP_LEFT, CENTER_LEFT, BOTTOM_LEFT -> selected.x = newPx / w;
-                case TOP_RIGHT, CENTER_RIGHT, BOTTOM_RIGHT -> selected.x = (w - newPx - selected.width * selected.scaleX) / w;
-                case TOP_CENTER, CENTER, BOTTOM_CENTER -> selected.x = (newPx - w / 2f + (selected.width * selected.scaleX / 2f)) / w;
-            }
-
-            switch (selected.anchor) {
-                case TOP_LEFT, TOP_CENTER, TOP_RIGHT -> selected.y = newPy / h;
-                case BOTTOM_LEFT, BOTTOM_CENTER, BOTTOM_RIGHT -> selected.y = (h - newPy - selected.height * selected.scaleY) / h;
-                case CENTER_LEFT, CENTER, CENTER_RIGHT -> selected.y = (newPy - h / 2f + (selected.height * selected.scaleY / 2f)) / h;
-            }*/
 
             switch (selected.anchor) {
                 case TOP_LEFT, CENTER_LEFT, BOTTOM_LEFT -> selected.x = newPx;
