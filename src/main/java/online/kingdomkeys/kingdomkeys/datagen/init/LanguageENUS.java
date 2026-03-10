@@ -63,8 +63,6 @@ public class LanguageENUS extends KKLanguageProvider {
         addConfigKey(ModConfigs.getClientConfig().cmTextXOffset, "Command Menu text X offset");
         addConfigKey(ModConfigs.getClientConfig().cmHeaderTextVisible, "Show Command Menu header text");
         addConfigKey(ModConfigs.getClientConfig().cmClassicColors, "Use classic Command Menu colors");
-        addConfigKey(ModConfigs.getClientConfig().cmXScale, "Command Menu X scale (%)");
-        addConfigKey(ModConfigs.getClientConfig().cmXPos, "Command Menu X position");
         addConfigKey(ModConfigs.getClientConfig().cmSelectedXOffset, "Command Menu selected X offset");
         addConfigKey(ModConfigs.getClientConfig().cmSubXOffset, "Command Menu submenu X offset (%)");
         addConfigKey(ModConfigs.getClientConfig().cmEndLWidth, "Command Menu left end segment width");
@@ -73,18 +71,8 @@ public class LanguageENUS extends KKLanguageProvider {
         addConfigKey(ModConfigs.getClientConfig().cmHeaderEndRWidth, "Command Menu header right end width");
         addConfigKey(ModConfigs.getClientConfig().cmReactionEndLWidth, "Reaction command left end width");
         addConfigKey(ModConfigs.getClientConfig().cmReactionEndRWidth, "Reaction command right end width");
-        addConfigKey(ModConfigs.getClientConfig().hpXPos, "Health Bar X position");
-        addConfigKey(ModConfigs.getClientConfig().hpYPos, "Health Bar Y position");
         addConfigKey(ModConfigs.getClientConfig().hpShowHearts, "Show hearts in Health Bar");
         addConfigKey(ModConfigs.getClientConfig().hpAlarm, "Low HP alarm volume");
-        addConfigKey(ModConfigs.getClientConfig().hpXScale, "Health Bar X scale (%)");
-        addConfigKey(ModConfigs.getClientConfig().mpXPos, "Magic Bar X position");
-        addConfigKey(ModConfigs.getClientConfig().mpYPos, "Magic Bar Y position");
-        addConfigKey(ModConfigs.getClientConfig().mpXScale, "Magic Bar X scale (%)");
-        addConfigKey(ModConfigs.getClientConfig().dpXPos, "Drive Bar X position");
-        addConfigKey(ModConfigs.getClientConfig().dpYPos, "Drive Bar Y position");
-        addConfigKey(ModConfigs.getClientConfig().dpXScale, "Drive Bar X scale (%)");
-        addConfigKey(ModConfigs.getClientConfig().dpYScale, "Drive Bar Y scale (%)");
         addConfigKey(ModConfigs.getClientConfig().playerSkinXPos, "Player Skin X position");
         addConfigKey(ModConfigs.getClientConfig().playerSkinYPos, "Player Skin Y position");
         addConfigKey(ModConfigs.getClientConfig().lockOnXPos, "Lock-On HP X position");
@@ -96,10 +84,6 @@ public class LanguageENUS extends KKLanguageProvider {
         addConfigKey(ModConfigs.getClientConfig().partyXPos, "Party HUD X position");
         addConfigKey(ModConfigs.getClientConfig().partyYPos, "Party HUD Y position");
         addConfigKey(ModConfigs.getClientConfig().partyYDistance, "Party HUD Y offset");
-        addConfigKey(ModConfigs.getClientConfig().focusXPos, "Focus Bar X position");
-        addConfigKey(ModConfigs.getClientConfig().focusYPos, "Focus Bar Y position");
-        addConfigKey(ModConfigs.getClientConfig().focusXScale, "Focus Bar X scale (%)");
-        addConfigKey(ModConfigs.getClientConfig().focusYScale, "Focus Bar Y scale (%)");
 
         //COMMON
         addConfigKey(ModConfigs.getCommonConfig().recipeDropChance, "Recipe drop chance");
@@ -328,6 +312,7 @@ public class LanguageENUS extends KKLanguageProvider {
         
         add(Gui_Menu_Config, "Config");
         add(Gui_Menu_Config + ".bg", "Background");
+        add(Gui_Menu_Config + ".hud", "Adjust HUD");
         add(Gui_Menu_Config + ".command_menu", "Command Menu");
         add(Gui_Menu_Config + ".hp", "HP Bar");
         add(Gui_Menu_Config + ".mp", "MP Bar");

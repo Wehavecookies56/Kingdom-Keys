@@ -4,6 +4,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.HUDElement;
+import online.kingdomkeys.kingdomkeys.client.gui.menu.config.MenuConfigScreen;
 import org.lwjgl.glfw.GLFW;
 
 import java.util.ArrayList;
@@ -29,13 +30,13 @@ public class HUDEditorScreen extends Screen {
     public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
         int y=1;
         guiGraphics.drawString(minecraft.font,"First of all select the anchor point by clicking the element and SPACE",100,y++*10,0xFFFFFF);
-        guiGraphics.drawString(minecraft.font,"Left Click and drag an element to move it",100,y++*10,0xFFFFFF);
+        guiGraphics.drawString(minecraft.font,"LEFT CLICK and drag an element to move it",100,y++*10,0xFFFFFF);
         guiGraphics.drawString(minecraft.font,"Use ARROW KEYS to move it in tiny gaps",100,y++*10,0xFFFFFF);
-        guiGraphics.drawString(minecraft.font,"Hold SHIFT + ARROW KEYS to move it in bigger gaps",100,y++*10,0xFFFFFF);
+        guiGraphics.drawString(minecraft.font,"Hold CTRL + ARROW KEYS to move it in bigger gaps",100,y++*10,0xFFFFFF);
         guiGraphics.drawString(minecraft.font,"Use SCROLL WHEEL to scale it up",100,y++*10,0xFFFFFF);
         guiGraphics.drawString(minecraft.font,"Use SHIFT + SCROLL WHEEL to rotate it",100,y++*10,0xFFFFFF);
         guiGraphics.drawString(minecraft.font,"Press LEFT ALT to show or hide outlines",100,y++*10,0xFFFFFF);
-        guiGraphics.drawString(minecraft.font,"Right click on a selected item to reset it to default",100,y++*10,0xFFFFFF);
+        guiGraphics.drawString(minecraft.font,"RIGHT CLICK on a selected item to reset it to default",100,y++*10,0xFFFFFF);
 
 
         for (HUDElement element : elements) {
@@ -52,12 +53,13 @@ public class HUDEditorScreen extends Screen {
             element.saveConfig();
         }
         super.onClose();
+        minecraft.setScreen(new MenuConfigScreen());
     }
 
     @Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
         if(selected == null) {
-            return false;
+            return super.keyPressed(keyCode, scanCode, modifiers);
         }
 
         float step = hasControlDown() ? 1F : 0.1F;

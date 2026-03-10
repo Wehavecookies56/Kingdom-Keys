@@ -507,7 +507,6 @@ public class CommandMenuSubMenu {
             }
             RenderSystem.enableBlend();
 
-
             guiGraphics.setColor(getColour().getRed() / 255F, getColour().getGreen() / 255F, getColour().getBlue() / 255F, 1);
             if (useFixedHeader) {
                 guiGraphics.blit(getTexture(), getX(), getY(), 0, 70, 70, 15);

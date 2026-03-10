@@ -237,7 +237,7 @@ public class CommandMenuItem {
     }
 
     public int getWidth(){
-        return width * ModConfigs.cmXScale/100;
+        return width;
     }
 
     public void render(GuiGraphics guiGraphics, int x, int y, int screenWidth, int screenHeight, float partialTick) {

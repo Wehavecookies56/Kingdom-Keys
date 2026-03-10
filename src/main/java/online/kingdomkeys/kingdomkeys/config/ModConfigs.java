@@ -56,21 +56,31 @@ public class ModConfigs {
 
     public static List<String> magicDisplayedInCommandMenu;
     public static boolean cmHeaderTextVisible, cmClassicColors, hpShowHearts, showDriveForms, summonTogether, auto3rdPersonShip, cmChangeColor;
-    public static int cmTextXOffset, cmXScale, cmXPos, cmSelectedXOffset, cmSubXOffset, hpAlarm, hpXPos, hpYPos, hpXScale, mpXPos, mpYPos, mpXScale, dpXPos, dpYPos, dpXScale, dpYScale, playerSkinXPos, playerSkinYPos, lockOnXPos, lockOnYPos, lockOnHPScale, lockOnIconScale, lockOnIconRotation, lockOnHpPerBar, partyXPos, partyYPos, partyYDistance, focusXPos, focusYPos, focusXScale, focusYScale, cmEndLWidth, cmEndRWidth, cmHeaderEndLWidth, cmHeaderEndRWidth, cmReactionEndLWidth, cmReactionEndRWidth;
+    public static int cmTextXOffset, cmSelectedXOffset, cmSubXOffset, hpAlarm, playerSkinXPos, playerSkinYPos, lockOnXPos, lockOnYPos, lockOnHPScale, lockOnIconScale, lockOnIconRotation, lockOnHpPerBar, partyXPos, partyYPos, partyYDistance, cmEndLWidth, cmEndRWidth, cmHeaderEndLWidth, cmHeaderEndRWidth, cmReactionEndLWidth, cmReactionEndRWidth;
 
     public static void setHUDData(String name, List<? extends Float> data){
         switch (name){
-            case "HP" -> CLIENT.hpHUDData.set(data);
-            case "MP" -> CLIENT.mpHUDData.set(data);
-            case "CM" -> CLIENT.cmHUDData.set(data);
-            case "Drive" -> CLIENT.driveHUDData.set(data);
-            case "Focus" -> CLIENT.focusHUDData.set(data);
+            case "HP" -> {
+                CLIENT.hpHUDData.set(data);
+                CLIENT.hpHUDData.save();
+            }
+            case "MP" -> {
+                CLIENT.mpHUDData.set(data);
+                CLIENT.mpHUDData.save();
+            }
+            case "CM" -> {
+                CLIENT.cmHUDData.set(data);
+                CLIENT.cmHUDData.save();
+            }
+            case "Drive" -> {
+                CLIENT.driveHUDData.set(data);
+                CLIENT.driveHUDData.save();
+            }
+            case "Focus" -> {
+                CLIENT.focusHUDData.set(data);
+                CLIENT.focusHUDData.save();
+            }
         }
-        CLIENT.hpHUDData.save();
-        CLIENT.mpHUDData.save();
-        CLIENT.cmHUDData.save();
-        CLIENT.driveHUDData.save();
-        CLIENT.focusHUDData.save();
     }
 
     public static List<? extends Float> getHUDData(String name){
@@ -121,18 +131,6 @@ public class ModConfigs {
         CLIENT.cmTextXOffset.save();
         bakeClient();
     }
-
-    public static void setCmXScale(int value) {
-        CLIENT.cmXScale.set(value);
-        CLIENT.cmXScale.save();
-        bakeClient();
-    }
-
-    public static void setCmXPos(int value) {
-        CLIENT.cmXPos.set(value);
-        CLIENT.cmXPos.save();
-        bakeClient();
-    }
     
     public static void setCmSelectedXOffset(int value) {
         CLIENT.cmSelectedXOffset.set(value);
@@ -147,18 +145,6 @@ public class ModConfigs {
     }
 
     //HP
-    public static void setHpXPos(int value) {
-        CLIENT.hpXPos.set(value);
-        CLIENT.hpXPos.save();
-        bakeClient();
-    }
-
-    public static void setHpYPos(int value) {
-        CLIENT.hpYPos.set(value);
-        CLIENT.hpYPos.save();
-        bakeClient();
-    }
-
     public static void setShowHearts(boolean value) {
         CLIENT.hpShowHearts.set(value);
         CLIENT.hpShowHearts.save();
@@ -168,56 +154,6 @@ public class ModConfigs {
     public static void setHPAlarm(int value) {
         CLIENT.hpAlarm.set(value);
         CLIENT.hpAlarm.save();
-        bakeClient();
-    }
-    
-    public static void setHPXScale(int value) {
-        CLIENT.hpXScale.set(value);
-        CLIENT.hpXScale.save();
-        bakeClient();
-    }
-
-    //MP
-    public static void setMpXPos(int value) {
-        CLIENT.mpXPos.set(value);
-        CLIENT.mpXPos.save();
-        bakeClient();
-    }
-
-    public static void setMpYPos(int value) {
-        CLIENT.mpYPos.set(value);
-        CLIENT.mpYPos.save();
-        bakeClient();
-    }
-    
-    public static void setMPXScale(int value) {
-        CLIENT.mpXScale.set(value);
-        CLIENT.mpXScale.save();
-        bakeClient();
-    }
-
-    //DP
-    public static void setDpXPos(int value) {
-        CLIENT.dpXPos.set(value);
-        CLIENT.dpXPos.save();
-        bakeClient();
-    }
-
-    public static void setDpYPos(int value) {
-        CLIENT.dpYPos.set(value);
-        CLIENT.dpYPos.save();
-        bakeClient();
-    }
-    
-    public static void setDpXScale(int value) {
-        CLIENT.dpXScale.set(value);
-        CLIENT.dpXScale.save();
-        bakeClient();
-    }
-    
-    public static void setDpYScale(int value) {
-        CLIENT.dpYScale.set(value);
-        CLIENT.dpYScale.save();
         bakeClient();
     }
 
@@ -290,31 +226,6 @@ public class ModConfigs {
         bakeClient();
     }
 
-    //Focus
-    public static void setFocusXPos(int value) {
-        CLIENT.focusXPos.set(value);
-        CLIENT.focusXPos.save();
-        bakeClient();
-    }
-
-    public static void setFocusYPos(int value) {
-        CLIENT.focusYPos.set(value);
-        CLIENT.focusYPos.save();
-        bakeClient();
-    }
-    
-    public static void setFocusXScale(int value) {
-        CLIENT.focusXScale.set(value);
-        CLIENT.focusXScale.save();
-        bakeClient();
-    }
-    
-    public static void setFocusYScale(int value) {
-        CLIENT.focusYScale.set(value);
-        CLIENT.focusYScale.save();
-        bakeClient();
-    }
-
     public static void setShowDriveForms(boolean val) {
         CLIENT.showDriveForms.set(val);
         CLIENT.showDriveForms.save();
@@ -362,25 +273,11 @@ public class ModConfigs {
         cmTextXOffset = CLIENT.cmTextXOffset.get();
         cmHeaderTextVisible = CLIENT.cmHeaderTextVisible.get();
         cmClassicColors = CLIENT.cmClassicColors.get();
-        cmXScale = CLIENT.cmXScale.get();
-        cmXPos = CLIENT.cmXPos.get();
         cmSelectedXOffset = CLIENT.cmSelectedXOffset.get();
         cmSubXOffset = CLIENT.cmSubXOffset.get();
 
-        hpXPos = CLIENT.hpXPos.get();
-        hpYPos = CLIENT.hpYPos.get();
         hpShowHearts = CLIENT.hpShowHearts.get();
         hpAlarm = CLIENT.hpAlarm.get();
-        hpXScale = CLIENT.hpXScale.get();
-        
-        mpXPos = CLIENT.mpXPos.get();
-        mpYPos = CLIENT.mpYPos.get();
-        mpXScale = CLIENT.mpXScale.get();
-
-        dpXPos = CLIENT.dpXPos.get();
-        dpYPos = CLIENT.dpYPos.get();
-        dpXScale = CLIENT.dpXScale.get();
-        dpYScale = CLIENT.dpYScale.get();
 
         playerSkinXPos = CLIENT.playerSkinXPos.get();
         playerSkinYPos = CLIENT.playerSkinYPos.get();
@@ -395,11 +292,6 @@ public class ModConfigs {
         partyXPos = CLIENT.partyXPos.get();
         partyYPos = CLIENT.partyYPos.get();
         partyYDistance = CLIENT.partyYDistance.get();
-
-        focusXPos = CLIENT.focusXPos.get();
-        focusYPos = CLIENT.focusYPos.get();
-        focusXScale = CLIENT.focusXScale.get();
-        focusYScale = CLIENT.focusYScale.get();
 
         showDriveForms = CLIENT.showDriveForms.get();
         summonTogether = CLIENT.summonTogether.get();

@@ -361,7 +361,7 @@ public class CommandMenuGui extends OverlayBase {
 				ItemStack weapon = minecraft.player.getMainHandItem();
 				if (weapon.has(ModComponents.ARROWGUN_AMMO)) {
 					int ammo = weapon.getOrDefault(ModComponents.ARROWGUN_AMMO, 0);
-					drawString(guiGraphics, minecraft.font, ammo + "", item.getX() + 8 + (int) (item.getParent().getWidth() * (ModConfigs.cmXScale / 100D)), item.getY() + 4, 0xFFFFFF);
+					drawString(guiGraphics, minecraft.font, ammo + "", item.getX() + 8 + item.getParent().getWidth(), item.getY() + 4, 0xFFFFFF);
 				}
 			}
 		}
@@ -729,9 +729,9 @@ public class CommandMenuGui extends OverlayBase {
 				gui.pose().pushPose();
 				{
 					ReactionCommand command = ModReactionCommands.registry.get(ResourceLocation.parse(list.get(i)));
-					drawString(gui, minecraft.font, Utils.translateToLocal(command.getTranslationKey()), (int) (5 * ModConfigs.cmXScale / 100D) + (ModConfigs.cmTextXOffset+5), 4, 0xFFFFFF);
+					drawString(gui, minecraft.font, Utils.translateToLocal(command.getTranslationKey()),5 + (ModConfigs.cmTextXOffset+5), 4, 0xFFFFFF);
 
-					gui.pose().scale(ModConfigs.cmXScale / 75F, 1, 1);
+					gui.pose().scale(100 / 75F, 1, 1);
 					RenderSystem.enableBlend();
 					blit(gui, commandMenuElements.get(currentSubmenu).getTexture(), 0, 0, 0, 45, ModConfigs.cmReactionEndLWidth+1, TOP_HEIGHT);
 					blit(gui, commandMenuElements.get(currentSubmenu).getTexture(), ModConfigs.cmReactionEndLWidth, 0, TOP_WIDTH - (ModConfigs.cmReactionEndLWidth + ModConfigs.cmReactionEndRWidth)+1, TOP_HEIGHT, ModConfigs.cmReactionEndLWidth + 1, 45, 1, TOP_HEIGHT, 256, 256);

@@ -63,8 +63,6 @@ public class LanguageESES extends KKLanguageProvider {
         addConfigKey(ModConfigs.getClientConfig().cmTextXOffset, "Menú de Comandos offset del texto X");
         addConfigKey(ModConfigs.getClientConfig().cmHeaderTextVisible, "Mostrar cabecera del Menú de Comandos");
         addConfigKey(ModConfigs.getClientConfig().cmClassicColors, "Colores del Menú de Comandos clasicos");
-        addConfigKey(ModConfigs.getClientConfig().cmXScale, "Menú de Comandos escala X (%)");
-        addConfigKey(ModConfigs.getClientConfig().cmXPos, "Menú de Comandos posición X");
         addConfigKey(ModConfigs.getClientConfig().cmSelectedXOffset, "Menú de Comandos offset X seleccionado");
         addConfigKey(ModConfigs.getClientConfig().cmSubXOffset, "Menú de Comandos submenú X offset (%)");
         addConfigKey(ModConfigs.getClientConfig().cmEndLWidth, "Menú de Comandos anchura segmento izquierda");
@@ -73,18 +71,8 @@ public class LanguageESES extends KKLanguageProvider {
         addConfigKey(ModConfigs.getClientConfig().cmHeaderEndRWidth, "Menú de Comandos anchura cabecera derecha");
         addConfigKey(ModConfigs.getClientConfig().cmReactionEndLWidth, "Comando de Reacción anchura izquierda");
         addConfigKey(ModConfigs.getClientConfig().cmReactionEndRWidth, "Comando de Reacción anchura derecha");
-        addConfigKey(ModConfigs.getClientConfig().hpXPos, "Indicador de vida X pos");
-        addConfigKey(ModConfigs.getClientConfig().hpYPos, "Indicador de vida Y pos");
         addConfigKey(ModConfigs.getClientConfig().hpShowHearts, "Mostrar corazones de vida");
         addConfigKey(ModConfigs.getClientConfig().hpAlarm, "Volumen de alarma de vida baja");
-        addConfigKey(ModConfigs.getClientConfig().hpXScale, "Indicador de vida escala X (%)");
-        addConfigKey(ModConfigs.getClientConfig().mpXPos, "Indicador de magia X pos");
-        addConfigKey(ModConfigs.getClientConfig().mpYPos, "Indicador de magia Y pos");
-        addConfigKey(ModConfigs.getClientConfig().mpXScale, "Indicador de magia escala X (%)");
-        addConfigKey(ModConfigs.getClientConfig().dpXPos, "Indicador de fusión X pos");
-        addConfigKey(ModConfigs.getClientConfig().dpYPos, "Indicador de fusión Y pos");
-        addConfigKey(ModConfigs.getClientConfig().dpXScale, "Indicador de fusión escala X (%)");
-        addConfigKey(ModConfigs.getClientConfig().dpYScale, "Indicador de fusión escala Y (%)");
         addConfigKey(ModConfigs.getClientConfig().playerSkinXPos, "Skin de jugador X pos");
         addConfigKey(ModConfigs.getClientConfig().playerSkinYPos, "skin de jugador Y pos");
         addConfigKey(ModConfigs.getClientConfig().lockOnXPos, "Vida de objetivo X pos");
@@ -96,10 +84,6 @@ public class LanguageESES extends KKLanguageProvider {
         addConfigKey(ModConfigs.getClientConfig().partyXPos, "HUD Grupo X pos");
         addConfigKey(ModConfigs.getClientConfig().partyYPos, "HUD Grupo Y pos");
         addConfigKey(ModConfigs.getClientConfig().partyYDistance, "HUD Grupo Y offset");
-        addConfigKey(ModConfigs.getClientConfig().focusXPos, "Indicador de Tino X pos");
-        addConfigKey(ModConfigs.getClientConfig().focusYPos, "Indicador de Tino Y pos");
-        addConfigKey(ModConfigs.getClientConfig().focusXScale, "Indicador de Tino escala X (%)");
-        addConfigKey(ModConfigs.getClientConfig().focusYScale, "Indicador de Tino escala Y (%)");
 
         //COMMON
         addConfigKey(ModConfigs.getCommonConfig().recipeDropChance, "Probabilidad de soltar recetas");
@@ -381,6 +365,7 @@ public class LanguageESES extends KKLanguageProvider {
         //Config Sub-menu
         add(Gui_Menu_Config, "Preferencias");
         add(Gui_Menu_Config + ".bg", "Fondo");
+        add(Gui_Menu_Config + ".hud", "Ajustar HUD");
         add(Gui_Menu_Config + ".command_menu", "Men\u00fa Comandos");
         add(Gui_Menu_Config + ".hp", "Barra VT");
         add(Gui_Menu_Config + ".mp", "Barra PM");

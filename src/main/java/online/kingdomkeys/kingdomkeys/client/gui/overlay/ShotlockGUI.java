@@ -47,8 +47,8 @@ public class ShotlockGUI extends OverlayBase {
 
 		float rawScale = 0.28f;
 
-		float scaleX = rawScale * (ModConfigs.focusXScale-10) / 100F;
-		float scaleY = rawScale * (ModConfigs.focusYScale-20) / 100F;
+		float scaleX = rawScale * 0.9F;
+		float scaleY = rawScale * 0.8F;
 
 		playerData = PlayerData.get(player);
 		if(playerData == null || playerData.getMaxFocus() <= 0)

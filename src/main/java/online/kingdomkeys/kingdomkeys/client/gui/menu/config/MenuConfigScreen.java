@@ -18,10 +18,7 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.EditBoxLength;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton.ButtonType;
-import online.kingdomkeys.kingdomkeys.client.gui.overlay.DriveGui;
-import online.kingdomkeys.kingdomkeys.client.gui.overlay.HPGui;
 import online.kingdomkeys.kingdomkeys.client.gui.overlay.HUDEditorScreen;
-import online.kingdomkeys.kingdomkeys.client.gui.overlay.MPGui;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
@@ -41,31 +38,25 @@ import java.util.Map;
 public class MenuConfigScreen extends MenuBackground {
 			
 	enum ActualWindow {
-		COMMAND_MENU, HP, MP, DRIVE, PLAYER, LOCK_ON_HP, PARTY, FOCUS, IMPORT_EXPORT
+		COMMAND_MENU, HP, PLAYER, LOCK_ON_HP, PARTY, IMPORT_EXPORT
 	}
 
 	ActualWindow window = ActualWindow.COMMAND_MENU;
 	
-	MenuButton back, commandMenuButton, hpButton, mpButton, dpButton, playerSkinButton, lockOnButton, partyButton, focusButton, impExButton;
-	Button backgroundButton;
+	MenuButton back, commandMenuButton, hpButton, playerSkinButton, lockOnButton, partyButton, impExButton;
+	Button backgroundButton, adjustHUDButton;
 	MenuBox box;
 	
 	//Command Menu
-	EditBox cmTextXOffsetBox, cmXScaleBox, cmXPosBox, cmSelectedXOffsetBox, cmSubXOffsetBox;
+	EditBox cmTextXOffsetBox, cmSelectedXOffsetBox, cmSubXOffsetBox;
 	Button cmHeaderTextVisibleButton, cmClassicColorsButton;
 	boolean cmHeaderTextVisible, cmClassicColors;
 	
 	//HP
-	EditBox hpXPosBox, hpYPosBox, hpAlarmBox, hpXScaleBox;
+	EditBox hpAlarmBox;
 	Button hpShowHeartsButton;
 	boolean hpShowHearts;
 
-	//MP
-	EditBox mpXPosBox, mpYPosBox, mpXScaleBox;
-
-	//DP
-	EditBox dpXPosBox, dpYPosBox, dpXScaleBox, dpYScaleBox;
-	
 	//PlayerSkin
 	EditBox playerSkinXPosBox, playerSkinYPosBox;
 	ExtendedSlider armorColorRed, armorColorGreen, armorColorBlue, notifColorRed, notifColorGreen, notifColorBlue;
@@ -78,21 +69,15 @@ public class MenuConfigScreen extends MenuBackground {
 	//Party
 	EditBox partyXPosBox, partyYPosBox, partyYDistanceBox;
 
-	//Focus
-	EditBox focusXPosBox, focusYPosBox, focusXScaleBox, focusYScaleBox;
-
 	//Import Export
 	Button export, Import;
 	EditBoxLength importCode;
 	
 	List<AbstractWidget> commandMenuList = new ArrayList<AbstractWidget>();
 	List<AbstractWidget> hpList = new ArrayList<AbstractWidget>();
-	List<AbstractWidget> mpList = new ArrayList<AbstractWidget>();
-	List<AbstractWidget> dpList = new ArrayList<AbstractWidget>();
 	List<AbstractWidget> playerSkinList = new ArrayList<AbstractWidget>();
 	List<AbstractWidget> lockOnList = new ArrayList<AbstractWidget>();
 	List<AbstractWidget> partyList = new ArrayList<AbstractWidget>();
-	List<AbstractWidget> focusList = new ArrayList<AbstractWidget>();
 	List<AbstractWidget> impExpList = new ArrayList<>();
 
 	int buttonsX = 0;
@@ -106,8 +91,7 @@ public class MenuConfigScreen extends MenuBackground {
 		PlayerData playerData = PlayerData.get(minecraft.player);
 		switch(string) {
 		case "back":
-			//PacketHandler.sendToServer(new CSOpenMenu());
-			minecraft.setScreen(new HUDEditorScreen());
+			PacketHandler.sendToServer(new CSOpenMenu());
 			break;
 		case "textHeaderVisibility":
 			cmHeaderTextVisible = !cmHeaderTextVisible;
@@ -148,26 +132,21 @@ public class MenuConfigScreen extends MenuBackground {
 		
 		initCommandMenu();
 		initHP();
-		initMP();
-		initDP();
 		initPlayerSkin();
 		initLockOn();
 		initParty();
-		initFocus();
 		initImpExp();
-		
-		addRenderableWidget(commandMenuButton = new MenuButton((int) buttonPosX, (int) topBarHeight + 5, (int) buttonWidth, Utils.translateToLocal("gui.menu.config.command_menu"), ButtonType.BUTTON, (e) -> { window = ActualWindow.COMMAND_MENU; }));
-		addRenderableWidget(hpButton = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + (18), (int) buttonWidth, Utils.translateToLocal("gui.menu.config.hp"), ButtonType.BUTTON, (e) -> { window = ActualWindow.HP; }));
-		addRenderableWidget(mpButton = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + (2 * 18), (int) buttonWidth, Utils.translateToLocal("gui.menu.config.mp"), ButtonType.BUTTON, (e) -> { window = ActualWindow.MP; }));
-		addRenderableWidget(dpButton = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + (3 * 18), (int) buttonWidth, Utils.translateToLocal("gui.menu.config.dp"), ButtonType.BUTTON, (e) -> { window = ActualWindow.DRIVE; }));
-		addRenderableWidget(playerSkinButton = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + (4 * 18), (int) buttonWidth, Utils.translateToLocal("gui.menu.config.player_skin"), ButtonType.BUTTON, (e) -> { window = ActualWindow.PLAYER; }));
-		addRenderableWidget(lockOnButton = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + (5 * 18), (int) buttonWidth, Utils.translateToLocal("gui.menu.config.lock_on_hp"), ButtonType.BUTTON, (e) -> { window = ActualWindow.LOCK_ON_HP; }));
-		addRenderableWidget(partyButton = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + (6 * 18), (int) buttonWidth, Utils.translateToLocal("gui.menu.config.party"), ButtonType.BUTTON, (e) -> { window = ActualWindow.PARTY; }));
-		addRenderableWidget(focusButton = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + (7 * 18), (int) buttonWidth, Utils.translateToLocal("gui.menu.config.focus"), ButtonType.BUTTON, (e) -> { window = ActualWindow.FOCUS; }));
-		addRenderableWidget(impExButton = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + (8 * 18), (int) buttonWidth, Utils.translateToLocal("gui.menu.config.impexp"), ButtonType.BUTTON, (e) -> window = ActualWindow.IMPORT_EXPORT));
+		int y = 0;
+		addRenderableWidget(commandMenuButton = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + y++ * 18, (int) buttonWidth, Utils.translateToLocal("gui.menu.config.command_menu"), ButtonType.BUTTON, (e) -> { window = ActualWindow.COMMAND_MENU; }));
+		addRenderableWidget(hpButton = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + + y++ * 18, (int) buttonWidth, Utils.translateToLocal("gui.menu.config.hp"), ButtonType.BUTTON, (e) -> { window = ActualWindow.HP; }));
+		addRenderableWidget(playerSkinButton = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + y++ * 18, (int) buttonWidth, Utils.translateToLocal("gui.menu.config.player_skin"), ButtonType.BUTTON, (e) -> { window = ActualWindow.PLAYER; }));
+		addRenderableWidget(lockOnButton = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + y++ * 18, (int) buttonWidth, Utils.translateToLocal("gui.menu.config.lock_on_hp"), ButtonType.BUTTON, (e) -> { window = ActualWindow.LOCK_ON_HP; }));
+		addRenderableWidget(partyButton = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + y++ * 18, (int) buttonWidth, Utils.translateToLocal("gui.menu.config.party"), ButtonType.BUTTON, (e) -> { window = ActualWindow.PARTY; }));
+		addRenderableWidget(impExButton = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + y++ * 18, (int) buttonWidth, Utils.translateToLocal("gui.menu.config.impexp"), ButtonType.BUTTON, (e) -> window = ActualWindow.IMPORT_EXPORT));
 
-		addRenderableWidget(back = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + (9 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), ButtonType.BUTTON, (e) -> { PacketHandler.sendToServer(new CSSyncArmorColor(PlayerData.get(minecraft.player).getArmorColor(),glint)); action("back"); }));
-		addRenderableWidget(backgroundButton = new MenuButton(width / 2 - (int)buttonWidth / 2, (int) topBarHeight + 5 + (7-2 * 18), (int) buttonWidth, Utils.translateToLocal("gui.menu.config.bg"), ButtonType.BUTTON, (e) -> { drawSeparately = !drawSeparately; }));
+		addRenderableWidget(back = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + y++ * 18, (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), ButtonType.BUTTON, (e) -> { PacketHandler.sendToServer(new CSSyncArmorColor(PlayerData.get(minecraft.player).getArmorColor(),glint)); action("back"); }));
+		addRenderableWidget(backgroundButton = new MenuButton(width / 2 - (int)buttonWidth / 2 - 50, (int) topBarHeight + 5 + (7-2 * 18), (int) buttonWidth, Utils.translateToLocal("gui.menu.config.bg"), ButtonType.ROUNDBUTTON, (e) -> { drawSeparately = !drawSeparately; }));
+		addRenderableWidget(adjustHUDButton = new MenuButton(width / 2 - (int)buttonWidth / 2 + 50, (int) topBarHeight + 5 + (7-2 * 18), (int) buttonWidth, Utils.translateToLocal("gui.menu.config.hud"), ButtonType.ROUNDBUTTON, (e) -> { minecraft.setScreen(new HUDEditorScreen()); }));
 	}
 
 	private void initCommandMenu() {
@@ -178,57 +157,6 @@ public class MenuConfigScreen extends MenuBackground {
 		addRenderableWidget(cmClassicColorsButton = Button.builder(Component.translatable(cmClassicColors+""), (e) -> {
 			 action("classicColors");
 		}).bounds(buttonsX - 1, (int) topBarHeight + 20 * ++pos - 2, minecraft.font.width("#####")+2, 20).build());
-
-		addRenderableWidget(cmXScaleBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, Component.translatable("test")){
-			@Override
-			public boolean charTyped(char c, int i) {
-				if (Utils.isNumber(c) || c == '-') {
-					String text = new StringBuilder(this.getValue()).insert(this.getCursorPosition(), c).toString();
-					if (Utils.getInt(text) < 1000 && Utils.getInt(text) > -1000) {
-						super.charTyped(c, i);
-						ModConfigs.setCmXScale(Utils.getInt(getValue()));
-						return true;
-					} else {
-						return false;
-					}
-				} else {
-					return false;
-				}
-			}
-			
-			@Override
-			public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-				super.keyPressed(keyCode, scanCode, modifiers);
-				ModConfigs.setCmXScale(Utils.getInt(getValue()));
-				return true;
-			}
-		});
-		
-		addRenderableWidget(cmXPosBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, Component.translatable("test")){
-			@Override
-			public boolean charTyped(char c, int i) {
-				if (Utils.isNumber(c) || c == '-') {
-					String text = new StringBuilder(this.getValue()).insert(this.getCursorPosition(), c).toString();
-					if (Utils.getInt(text) < 1000 && Utils.getInt(text) > -1000) {
-						super.charTyped(c, i);
-						ModConfigs.setCmXPos(Utils.getInt(getValue()));
-						return true;
-					} else {
-						return false;
-					}
-				} else {
-					return false;
-				}
-			}
-			
-			@Override
-			public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-				super.keyPressed(keyCode, scanCode, modifiers);
-				ModConfigs.setCmXPos(Utils.getInt(getValue()));
-				return true;
-			}
-			
-		});
 		
 		addRenderableWidget(cmSelectedXOffsetBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, Component.translatable("test")){
 			@Override
@@ -317,8 +245,6 @@ public class MenuConfigScreen extends MenuBackground {
 		cmHeaderTextVisibleButton.setMessage(Component.translatable(cmHeaderTextVisible+""));
 		cmClassicColorsButton.setMessage(Component.translatable(cmClassicColors+""));
 
-		cmXScaleBox.setValue(""+ModConfigs.cmXScale);
-		cmXPosBox.setValue(""+ModConfigs.cmXPos);
 		cmSelectedXOffsetBox.setValue(""+ModConfigs.cmSelectedXOffset);
 		cmSubXOffsetBox.setValue(""+ModConfigs.cmSubXOffset);
 		
@@ -327,8 +253,6 @@ public class MenuConfigScreen extends MenuBackground {
 		commandMenuList.add(cmTextXOffsetBox);
 		commandMenuList.add(cmTextXOffsetBox);
 		commandMenuList.add(cmHeaderTextVisibleButton);
-		commandMenuList.add(cmXScaleBox);
-		commandMenuList.add(cmXPosBox);
 		commandMenuList.add(cmSelectedXOffsetBox);
 		commandMenuList.add(cmSubXOffsetBox);
 	}
@@ -336,58 +260,6 @@ public class MenuConfigScreen extends MenuBackground {
 	private void initHP() {
 		hpShowHearts = ModConfigs.hpShowHearts;
 		int pos = 0;
-		
-		addRenderableWidget(hpXPosBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, Component.translatable("test")){
-			@Override
-			public boolean charTyped(char c, int i) {
-				if (Utils.isNumber(c) || c == '-') {
-					String text = new StringBuilder(this.getValue()).insert(this.getCursorPosition(), c).toString();
-					if (Utils.getInt(text) < 1000 && Utils.getInt(text) > -1000) {
-						super.charTyped(c, i);
-						ModConfigs.setHpXPos(Utils.getInt(getValue()));
-						return true;
-					} else {
-						return false;
-					}
-				} else {
-					return false;
-				}
-			}
-			
-			@Override
-			public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-				super.keyPressed(keyCode, scanCode, modifiers);
-				ModConfigs.setHpXPos(Utils.getInt(getValue()));
-				return true;
-			}
-			
-		});
-		
-		addRenderableWidget(hpYPosBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, Component.translatable("test")){
-			@Override
-			public boolean charTyped(char c, int i) {
-				if (Utils.isNumber(c) || c == '-') {
-					String text = new StringBuilder(this.getValue()).insert(this.getCursorPosition(), c).toString();
-					if (Utils.getInt(text) < 1000 && Utils.getInt(text) > -1000) {
-						super.charTyped(c, i);
-						ModConfigs.setHpYPos(Utils.getInt(getValue()));
-						return true;
-					} else {
-						return false;
-					}
-				} else {
-					return false;
-				}
-			}
-			
-			@Override
-			public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-				super.keyPressed(keyCode, scanCode, modifiers);
-				ModConfigs.setHpYPos(Utils.getInt(getValue()));
-				return true;
-			}
-			
-		});
 		
 		addRenderableWidget(hpShowHeartsButton = Button.builder(Component.translatable(hpShowHearts+""), (e) -> {
 			 action("hpShowHearts");
@@ -418,263 +290,13 @@ public class MenuConfigScreen extends MenuBackground {
 			}
 			
 		});
-		
-		addRenderableWidget(hpXScaleBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, Component.translatable("test")){
-			@Override
-			public boolean charTyped(char c, int i) {
-				if (Utils.isNumber(c) || c == '-') {
-					String text = new StringBuilder(this.getValue()).insert(this.getCursorPosition(), c).toString();
-					if (Utils.getInt(text) < 1000 && Utils.getInt(text) > -1000) {
-						super.charTyped(c, i);
-						ModConfigs.setHPXScale(Utils.getInt(getValue()));
-						return true;
-					} else {
-						return false;
-					}
-				} else {
-					return false;
-				}
-			}
-			
-			@Override
-			public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-				super.keyPressed(keyCode, scanCode, modifiers);
-				ModConfigs.setHPXScale(Utils.getInt(getValue()));
-				return true;
-			}
-			
-		});
 
-		
-		hpXPosBox.setValue(""+ModConfigs.hpXPos);
-		hpYPosBox.setValue(""+ModConfigs.hpYPos);
 		hpShowHeartsButton.setMessage(Component.translatable(hpShowHearts+""));
 		hpAlarmBox.setValue(""+ModConfigs.hpAlarm);
-		hpXScaleBox.setValue(""+ModConfigs.hpXScale);
 
 
-		hpList.add(hpXPosBox);
-		hpList.add(hpYPosBox);
 		hpList.add(hpShowHeartsButton);
 		hpList.add(hpAlarmBox);
-		hpList.add(hpXScaleBox);
-
-
-	}
-	
-	private void initMP() {
-		int pos = 0;
-		
-		addRenderableWidget(mpXPosBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, Component.translatable("test")){
-			@Override
-			public boolean charTyped(char c, int i) {
-				if (Utils.isNumber(c) || c == '-') {
-					String text = new StringBuilder(this.getValue()).insert(this.getCursorPosition(), c).toString();
-					if (Utils.getInt(text) < 1000 && Utils.getInt(text) > -1000) {
-						super.charTyped(c, i);
-						ModConfigs.setMpXPos(Utils.getInt(getValue()));
-						return true;
-					} else {
-						return false;
-					}
-				} else {
-					return false;
-				}
-			}
-			
-			@Override
-			public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-				super.keyPressed(keyCode, scanCode, modifiers);
-				ModConfigs.setMpXPos(Utils.getInt(getValue()));
-				return true;
-			}
-			
-		});
-		
-		addRenderableWidget(mpYPosBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, Component.translatable("test")){
-			@Override
-			public boolean charTyped(char c, int i) {
-				if (Utils.isNumber(c) || c == '-') {
-					String text = new StringBuilder(this.getValue()).insert(this.getCursorPosition(), c).toString();
-					if (Utils.getInt(text) < 1000 && Utils.getInt(text) > -1000) {
-						super.charTyped(c, i);
-						ModConfigs.setMpYPos(Utils.getInt(getValue()));
-						return true;
-					} else {
-						return false;
-					}
-				} else {
-					return false;
-				}
-			}
-			
-			@Override
-			public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-				super.keyPressed(keyCode, scanCode, modifiers);
-				ModConfigs.setMpYPos(Utils.getInt(getValue()));
-				return true;
-			}
-			
-		});
-		
-		addRenderableWidget(mpXScaleBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, Component.translatable("test")){
-			@Override
-			public boolean charTyped(char c, int i) {
-				if (Utils.isNumber(c) || c == '-') {
-					String text = new StringBuilder(this.getValue()).insert(this.getCursorPosition(), c).toString();
-					if (Utils.getInt(text) < 1000 && Utils.getInt(text) > -1000) {
-						super.charTyped(c, i);
-						ModConfigs.setMPXScale(Utils.getInt(getValue()));
-						return true;
-					} else {
-						return false;
-					}
-				} else {
-					return false;
-				}
-			}
-			
-			@Override
-			public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-				super.keyPressed(keyCode, scanCode, modifiers);
-				ModConfigs.setMPXScale(Utils.getInt(getValue()));
-				return true;
-			}
-			
-		});
-		
-		
-		mpXPosBox.setValue(""+ModConfigs.mpXPos);
-		mpYPosBox.setValue(""+ModConfigs.mpYPos);
-		mpXScaleBox.setValue(""+ModConfigs.mpXScale);
-
-		
-		mpList.add(mpXPosBox);
-		mpList.add(mpYPosBox);
-		mpList.add(mpXScaleBox);
-
-	}
-	
-	private void initDP() {
-		int pos = 0;
-		
-		addRenderableWidget(dpXPosBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, Component.translatable("test")){
-			@Override
-			public boolean charTyped(char c, int i) {
-				if (Utils.isNumber(c) || c == '-') {
-					String text = new StringBuilder(this.getValue()).insert(this.getCursorPosition(), c).toString();
-					if (Utils.getInt(text) < 1000 && Utils.getInt(text) > -1000) {
-						super.charTyped(c, i);
-						ModConfigs.setDpXPos(Utils.getInt(getValue()));
-						return true;
-					} else {
-						return false;
-					}
-				} else {
-					return false;
-				}
-			}
-			
-			@Override
-			public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-				super.keyPressed(keyCode, scanCode, modifiers);
-				ModConfigs.setDpXPos(Utils.getInt(getValue()));
-				return true;
-			}
-			
-		});
-		
-		addRenderableWidget(dpYPosBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, Component.translatable("test")){
-			@Override
-			public boolean charTyped(char c, int i) {
-				if (Utils.isNumber(c) || c == '-') {
-					String text = new StringBuilder(this.getValue()).insert(this.getCursorPosition(), c).toString();
-					if (Utils.getInt(text) < 1000 && Utils.getInt(text) > -1000) {
-						super.charTyped(c, i);
-						ModConfigs.setDpYPos(Utils.getInt(getValue()));
-						return true;
-					} else {
-						return false;
-					}
-				} else {
-					return false;
-				}
-			}
-			
-			@Override
-			public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-				super.keyPressed(keyCode, scanCode, modifiers);
-				ModConfigs.setDpYPos(Utils.getInt(getValue()));
-				return true;
-			}
-			
-		});
-		
-		addRenderableWidget(dpXScaleBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, Component.translatable("test")){
-			@Override
-			public boolean charTyped(char c, int i) {
-				if (Utils.isNumber(c) || c == '-') {
-					String text = new StringBuilder(this.getValue()).insert(this.getCursorPosition(), c).toString();
-					if (Utils.getInt(text) < 1000 && Utils.getInt(text) > -1000) {
-						super.charTyped(c, i);
-						ModConfigs.setDpXScale(Utils.getInt(getValue()));
-						return true;
-					} else {
-						return false;
-					}
-				} else {
-					return false;
-				}
-			}
-			
-			@Override
-			public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-				super.keyPressed(keyCode, scanCode, modifiers);
-				ModConfigs.setDpXScale(Utils.getInt(getValue()));
-				return true;
-			}
-			
-		});
-		
-		addRenderableWidget(dpYScaleBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, Component.translatable("test")){
-			@Override
-			public boolean charTyped(char c, int i) {
-				if (Utils.isNumber(c) || c == '-') {
-					String text = new StringBuilder(this.getValue()).insert(this.getCursorPosition(), c).toString();
-					if (Utils.getInt(text) < 1000 && Utils.getInt(text) > -1000) {
-						super.charTyped(c, i);
-						ModConfigs.setDpYScale(Utils.getInt(getValue()));
-						return true;
-					} else {
-						return false;
-					}
-				} else {
-					return false;
-				}
-			}
-			
-			@Override
-			public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-				super.keyPressed(keyCode, scanCode, modifiers);
-				ModConfigs.setDpYScale(Utils.getInt(getValue()));
-				return true;
-			}
-			
-		});
-		
-
-		
-		dpXPosBox.setValue(""+ModConfigs.dpXPos);
-		dpYPosBox.setValue(""+ModConfigs.dpYPos);
-		dpXScaleBox.setValue(""+ModConfigs.dpXScale);
-		dpYScaleBox.setValue(""+ModConfigs.dpYScale);
-
-		
-		dpList.add(dpXPosBox);
-		dpList.add(dpYPosBox);
-		dpList.add(dpXScaleBox);
-		dpList.add(dpYScaleBox);
-
 	}
 	
 	private void initPlayerSkin() {
@@ -1121,125 +743,7 @@ public class MenuConfigScreen extends MenuBackground {
 		partyList.add(partyYDistanceBox);
 
 	}
-	
-	private void initFocus() {
-		int pos = 0;
-		
-		addRenderableWidget(focusXPosBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, Component.translatable("test")){
-			@Override
-			public boolean charTyped(char c, int i) {
-				if (Utils.isNumber(c) || c == '-') {
-					String text = new StringBuilder(this.getValue()).insert(this.getCursorPosition(), c).toString();
-					if (Utils.getInt(text) < 1000 && Utils.getInt(text) > -1000) {
-						super.charTyped(c, i);
-						ModConfigs.setFocusXPos(Utils.getInt(getValue()));
-						return true;
-					} else {
-						return false;
-					}
-				} else {
-					return false;
-				}
-			}
-			
-			@Override
-			public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-				super.keyPressed(keyCode, scanCode, modifiers);
-				ModConfigs.setFocusXPos(Utils.getInt(getValue()));
-				return true;
-			}
-			
-		});
-		
-		addRenderableWidget(focusYPosBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, Component.translatable("test")){
-			@Override
-			public boolean charTyped(char c, int i) {
-				if (Utils.isNumber(c) || c == '-') {
-					String text = new StringBuilder(this.getValue()).insert(this.getCursorPosition(), c).toString();
-					if (Utils.getInt(text) < 1000 && Utils.getInt(text) > -1000) {
-						super.charTyped(c, i);
-						ModConfigs.setFocusYPos(Utils.getInt(getValue()));
-						return true;
-					} else {
-						return false;
-					}
-				} else {
-					return false;
-				}
-			}
-			
-			@Override
-			public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-				super.keyPressed(keyCode, scanCode, modifiers);
-				ModConfigs.setFocusYPos(Utils.getInt(getValue()));
-				return true;
-			}
-			
-		});
-		
-		addRenderableWidget(focusXScaleBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, Component.translatable("test")){
-			@Override
-			public boolean charTyped(char c, int i) {
-				if (Utils.isNumber(c) || c == '-') {
-					String text = new StringBuilder(this.getValue()).insert(this.getCursorPosition(), c).toString();
-					if (Utils.getInt(text) < 1000 && Utils.getInt(text) > -1000) {
-						super.charTyped(c, i);
-						ModConfigs.setFocusXScale(Utils.getInt(getValue()));
-						return true;
-					} else {
-						return false;
-					}
-				} else {
-					return false;
-				}
-			}
-			
-			@Override
-			public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-				super.keyPressed(keyCode, scanCode, modifiers);
-				ModConfigs.setFocusXScale(Utils.getInt(getValue()));
-				return true;
-			}
-			
-		});
-		
-		addRenderableWidget(focusYScaleBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, Component.translatable("test")){
-			@Override
-			public boolean charTyped(char c, int i) {
-				if (Utils.isNumber(c) || c == '-') {
-					String text = new StringBuilder(this.getValue()).insert(this.getCursorPosition(), c).toString();
-					if (Utils.getInt(text) < 1000 && Utils.getInt(text) > -1000) {
-						super.charTyped(c, i);
-						ModConfigs.setFocusYScale(Utils.getInt(getValue()));
-						return true;
-					} else {
-						return false;
-					}
-				} else {
-					return false;
-				}
-			}
-			
-			@Override
-			public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-				super.keyPressed(keyCode, scanCode, modifiers);
-				ModConfigs.setFocusYScale(Utils.getInt(getValue()));
-				return true;
-			}
-			
-		});
-		
-		focusXPosBox.setValue(""+ModConfigs.focusXPos);
-		focusYPosBox.setValue(""+ModConfigs.focusYPos);
-		focusXScaleBox.setValue(""+ModConfigs.focusXScale);
-		focusYScaleBox.setValue(""+ModConfigs.focusYScale);
-		
-		focusList.add(focusXPosBox);
-		focusList.add(focusYPosBox);
-		focusList.add(focusXScaleBox);
-		focusList.add(focusYScaleBox);
-	}
-	
+
 	private void initImpExp() {
 		int pos = 0;
 
@@ -1276,12 +780,9 @@ public class MenuConfigScreen extends MenuBackground {
 		PoseStack matrixStack = gui.pose();
 		commandMenuButton.active = window != ActualWindow.COMMAND_MENU;
 		hpButton.active = window != ActualWindow.HP;
-		mpButton.active = window != ActualWindow.MP;
-		dpButton.active = window != ActualWindow.DRIVE;
 		playerSkinButton.active = window != ActualWindow.PLAYER;
 		lockOnButton.active = window != ActualWindow.LOCK_ON_HP;
 		partyButton.active = window != ActualWindow.PARTY;
-		focusButton.active = window != ActualWindow.FOCUS;
 		impExButton.active = window != ActualWindow.IMPORT_EXPORT;
 		
 		box.renderWidget(gui, mouseX, mouseY, partialTicks);
@@ -1296,17 +797,7 @@ public class MenuConfigScreen extends MenuBackground {
 			b.active = false;
 			b.visible = false;
 		}
-		
-		for(AbstractWidget b : mpList) {
-			b.active = false;
-			b.visible = false;
-		}
-		
-		for(AbstractWidget b : dpList) {
-			b.active = false;
-			b.visible = false;
-		}
-		
+
 		for(AbstractWidget b : playerSkinList) {
 			b.active = false;
 			b.visible = false;
@@ -1318,11 +809,6 @@ public class MenuConfigScreen extends MenuBackground {
 		}
 		
 		for(AbstractWidget b : partyList) {
-			b.active = false;
-			b.visible = false;
-		}
-		
-		for(AbstractWidget b : focusList) {
 			b.active = false;
 			b.visible = false;
 		}
@@ -1346,8 +832,6 @@ public class MenuConfigScreen extends MenuBackground {
 
 				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.command_menu"), 20, 0, 0xFF9900);
 				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.classic_colors"), 40, 20 * ++pos, 0xFF9900);
-				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.x_scale"), 40, 20 * ++pos, 0xFF9900);
-				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.x_pos"), 40, 20 * ++pos, 0xFF9900);
 				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.selected_x_pos"), 40, 20 * ++pos, 0xFF9900);
 				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.sub_x_offset"), 40, 20 * ++pos, 0xFF9900);
 				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.header_title"), 40, 20 * ++pos, 0xFF9900);
@@ -1362,41 +846,8 @@ public class MenuConfigScreen extends MenuBackground {
 				}
 
 				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.hp"), 20, 0, 0xFF9900);
-				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.x_pos"), 40, 20 * ++pos, 0xFF9900);
-				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.y_pos"), 40, 20 * ++pos, 0xFF9900);
 				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.show_hearts"), 40, 20 * ++pos, 0xFF9900);
 				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.hp_alarm"), 40, 20 * ++pos, 0xFF9900);
-				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.x_scale"), 40, 20 * ++pos, 0xFF9900);
-
-				break;
-
-			case MP:
-				for (AbstractWidget b : mpList) {
-					b.active = true;
-					b.visible = true;
-				}
-
-				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.mp"), 20, 0, 0xFF9900);
-				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.x_pos"), 40, 20 * ++pos, 0xFF9900);
-				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.y_pos"), 40, 20 * ++pos, 0xFF9900);
-				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.x_scale"), 40, 20 * ++pos, 0xFF9900);
-
-
-				break;
-
-			case DRIVE:
-				for (AbstractWidget b : dpList) {
-					b.active = true;
-					b.visible = true;
-				}
-
-				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.dp"), 20, 0, 0xFF9900);
-				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.x_pos"), 40, 20 * ++pos, 0xFF9900);
-				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.y_pos"), 40, 20 * ++pos, 0xFF9900);
-				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.x_scale"), 40, 20 * ++pos, 0xFF9900);
-				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.y_scale"), 40, 20 * ++pos, 0xFF9900);
-
-
 				break;
 
 			case PLAYER:
@@ -1484,22 +935,6 @@ public class MenuConfigScreen extends MenuBackground {
 				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.x_pos"), 40, 20 * ++pos, 0xFF9900);
 				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.y_pos"), 40, 20 * ++pos, 0xFF9900);
 				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.y_dist"), 40, 20 * ++pos, 0xFF9900);
-
-				break;
-
-			case FOCUS:
-				for (AbstractWidget b : focusList) {
-					b.active = true;
-					b.visible = true;
-				}
-
-				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.focus"), 20, 0, 0xFF9900);
-				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.x_pos"), 40, 20 * ++pos, 0xFF9900);
-				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.y_pos"), 40, 20 * ++pos, 0xFF9900);
-				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.x_scale"), 40, 20 * ++pos, 0xFF9900);
-				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.y_scale"), 40, 20 * ++pos, 0xFF9900);
-
-
 				break;
 
 			case IMPORT_EXPORT:
@@ -1523,19 +958,14 @@ public class MenuConfigScreen extends MenuBackground {
 
 	public Map<Character, Integer> getOptionsMap() {
 		Map<Character, Integer> options = new HashMap<>();
-		options.put('A', Integer.valueOf(cmXScaleBox.getValue()));
-		options.put('B', Integer.valueOf(cmXPosBox.getValue()));
+		//A B
 		options.put('C', Integer.valueOf(cmSelectedXOffsetBox.getValue()));
 		options.put('D', Integer.valueOf(cmSubXOffsetBox.getValue()));
 		options.put('E', cmHeaderTextVisible ? 1 : 0);
 		options.put('F', Integer.valueOf(cmTextXOffsetBox.getValue()));
-		options.put('G', Integer.valueOf(hpXPosBox.getValue()));
-		options.put('H', Integer.valueOf(hpYPosBox.getValue()));
+		//G H
 		options.put('I', hpShowHearts ? 1 : 0);
-		options.put('J', Integer.valueOf(mpXPosBox.getValue()));
-		options.put('K', Integer.valueOf(mpYPosBox.getValue()));
-		options.put('L', Integer.valueOf(dpXPosBox.getValue()));
-		options.put('M', Integer.valueOf(dpYPosBox.getValue()));
+		//J K L M
 		options.put('N', Integer.valueOf(playerSkinXPosBox.getValue()));
 		options.put('O', Integer.valueOf(playerSkinYPosBox.getValue()));
 		options.put('P', Integer.valueOf(lockOnXPosBox.getValue()));
@@ -1547,15 +977,9 @@ public class MenuConfigScreen extends MenuBackground {
 		options.put('V', Integer.valueOf(partyXPosBox.getValue()));
 		options.put('W', Integer.valueOf(partyYPosBox.getValue()));
 		options.put('X', Integer.valueOf(partyYDistanceBox.getValue()));
-		options.put('Y', Integer.valueOf(focusXPosBox.getValue()));
-		options.put('Z', Integer.valueOf(focusYPosBox.getValue()));
+		//Y Z
 		options.put('+', hpShowHearts ? 1 : 0);
-		options.put(':', Integer.valueOf(hpXScaleBox.getValue()));
-		options.put('_', Integer.valueOf(mpXScaleBox.getValue()));
-		options.put('<', Integer.valueOf(dpXScaleBox.getValue()));
-		options.put('>', Integer.valueOf(dpYScaleBox.getValue()));
-		options.put('(', Integer.valueOf(focusXScaleBox.getValue()));
-		options.put(')', Integer.valueOf(focusYScaleBox.getValue()));
+		//: _ < > ( )
 		return options;
 	}
 
@@ -1646,19 +1070,11 @@ public class MenuConfigScreen extends MenuBackground {
 	}
 
 	public void setAllZero() {
-		ModConfigs.setCmXScale(0);
-		ModConfigs.setCmXPos(0);
 		ModConfigs.setCmSelectedXOffset(0);
 		ModConfigs.setCmSubXOffset(0);
 		ModConfigs.setCmHeaderTextVisible(false);
 		ModConfigs.setCmTextXOffset(0);
-		ModConfigs.setHpXPos(0);
-		ModConfigs.setHpYPos(0);
 		ModConfigs.setShowHearts(false);
-		ModConfigs.setMpXPos(0);
-		ModConfigs.setMpYPos(0);
-		ModConfigs.setDpXPos(0);
-		ModConfigs.setDpYPos(0);
 		ModConfigs.setPlayerSkinXPos(0);
 		ModConfigs.setPlayerSkinYPos(0);
 		ModConfigs.setLockOnXPos(0);
@@ -1670,15 +1086,7 @@ public class MenuConfigScreen extends MenuBackground {
 		ModConfigs.setPartyXPos(0);
 		ModConfigs.setPartyYPos(0);
 		ModConfigs.setPartyYDistance(0);
-		ModConfigs.setFocusXPos(0);
-		ModConfigs.setFocusYPos(0);
 		ModConfigs.setHPAlarm(0);
-		ModConfigs.setHPXScale(0);
-		ModConfigs.setMPXScale(0);
-		ModConfigs.setDpXScale(0);
-		ModConfigs.setDpYScale(0);
-		ModConfigs.setFocusXScale(0);
-		ModConfigs.setFocusYScale(0);
 	}
 
 	public boolean isBase36Char(char c) {
@@ -1701,12 +1109,8 @@ public class MenuConfigScreen extends MenuBackground {
 	public void importSetting(char c, int value) {
 		switch (c) {
 			case 'A' -> {
-				ModConfigs.setCmXScale(value);
-				cmXScaleBox.setValue(""+value);
 			}
 			case 'B' -> {
-				ModConfigs.setCmXPos(value);
-				cmXPosBox.setValue(""+value);
 			}
 			case 'C' -> {
 				ModConfigs.setCmSelectedXOffset(value);
@@ -1726,12 +1130,8 @@ public class MenuConfigScreen extends MenuBackground {
 				cmTextXOffsetBox.setValue(""+value);
 			}
 			case 'G' -> {
-				ModConfigs.setHpXPos(value);
-				hpXPosBox.setValue(""+value);
 			}
 			case 'H' -> {
-				ModConfigs.setHpYPos(value);
-				hpYPosBox.setValue(""+value);
 			}
 			case 'I' -> {
 				ModConfigs.setShowHearts(value == 1);
@@ -1739,20 +1139,12 @@ public class MenuConfigScreen extends MenuBackground {
 				hpShowHeartsButton.setMessage(Component.translatable(hpShowHearts+""));
 			}
 			case 'J' -> {
-				ModConfigs.setMpXPos(value);
-				mpXPosBox.setValue(""+value);
 			}
 			case 'K' -> {
-				ModConfigs.setMpYPos(value);
-				mpYPosBox.setValue(""+value);
 			}
 			case 'L' -> {
-				ModConfigs.setDpXPos(value);
-				dpXPosBox.setValue(""+value);
 			}
 			case 'M' -> {
-				ModConfigs.setDpYPos(value);
-				dpYPosBox.setValue(""+value);
 			}
 			case 'N' -> {
 				ModConfigs.setPlayerSkinXPos(value);
@@ -1799,40 +1191,24 @@ public class MenuConfigScreen extends MenuBackground {
 				partyYDistanceBox.setValue(""+value);
 			}
 			case 'Y' -> {
-				ModConfigs.setFocusXPos(value);
-				focusXPosBox.setValue(""+value);
 			}
 			case 'Z' -> {
-				ModConfigs.setFocusYPos(value);
-				focusYPosBox.setValue(""+value);
 			}
 			case '+' -> {
 				ModConfigs.setHPAlarm(value);
 				hpAlarmBox.setValue(""+value);
 			}
 			case ':' -> {
-				ModConfigs.setHPXScale(value);
-				hpXScaleBox.setValue(""+value);
 			}
 			case '_' -> {
-				ModConfigs.setMPXScale(value);
-				mpXScaleBox.setValue(""+value);
 			}
 			case '<' -> {
-				ModConfigs.setDpXScale(value);
-				dpXScaleBox.setValue(""+value);
 			}
 			case '>' -> {
-				ModConfigs.setDpYScale(value);
-				dpYScaleBox.setValue(""+value);
 			}
 			case '(' -> {
-				ModConfigs.setFocusXScale(value);
-				focusXScaleBox.setValue(""+value);
 			}
 			case ')' -> {
-				ModConfigs.setFocusYScale(value);
-				focusYScaleBox.setValue(""+value);
 			}
 		}
 	}
