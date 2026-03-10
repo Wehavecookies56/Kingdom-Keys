@@ -679,8 +679,12 @@ public class CommandMenuGui extends OverlayBase {
 		super.render(guiGraphics, deltaTracker);
 		if (minecraft.player != null) {
 			//TODO Potentially add an RC element too
-			ClientUtils.CM_ELEMENT.applyTransform(guiGraphics, minecraft.getWindow().getGuiScaledWidth(), minecraft.getWindow().getGuiScaledHeight());
+			ClientUtils.RC_ELEMENT.applyTransform(guiGraphics, minecraft.getWindow().getGuiScaledWidth(), minecraft.getWindow().getGuiScaledHeight());
+
 			drawReactionCommands(guiGraphics, deltaTracker);
+			ClientUtils.RC_ELEMENT.endTransform(guiGraphics);
+
+			ClientUtils.CM_ELEMENT.applyTransform(guiGraphics, minecraft.getWindow().getGuiScaledWidth(), minecraft.getWindow().getGuiScaledHeight());
 
 			List<CommandMenuSubMenu> submenus = commandMenuElements.values().stream().sorted(Comparator.comparingInt(CommandMenuSubMenu::getZ)).toList();
 			submenus.forEach(submenu -> {
@@ -721,7 +725,7 @@ public class CommandMenuGui extends OverlayBase {
 			{
 				float shade = i == reactionSelected ? 1F : 0.4F;
 				RenderSystem.setShaderColor(shade,shade,shade, alpha);
-				gui.pose().translate(0, commandMenuElements.get(currentSubmenu).getY()-20-(16*i), 1F);
+				gui.pose().translate(0, commandMenuElements.get(currentSubmenu).getY()-(16*i), 1F);
 				gui.pose().scale(scale, scale, scale);
 				gui.pose().pushPose();
 				{

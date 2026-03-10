@@ -72,6 +72,10 @@ public class ModConfigs {
                 CLIENT.cmHUDData.set(data);
                 CLIENT.cmHUDData.save();
             }
+            case "RC" -> {
+                CLIENT.rcHUDData.set(data);
+                CLIENT.rcHUDData.save();
+            }
             case "Drive" -> {
                 CLIENT.driveHUDData.set(data);
                 CLIENT.driveHUDData.save();
@@ -101,6 +105,7 @@ public class ModConfigs {
             case "HP" -> CLIENT.hpHUDData.get();
             case "MP" -> CLIENT.mpHUDData.get();
             case "CM" -> CLIENT.cmHUDData.get();
+            case "RC" -> CLIENT.rcHUDData.get();
             case "Drive" -> CLIENT.driveHUDData.get();
             case "Focus" -> CLIENT.focusHUDData.get();
             case "Party" -> CLIENT.partyHUDData.get();

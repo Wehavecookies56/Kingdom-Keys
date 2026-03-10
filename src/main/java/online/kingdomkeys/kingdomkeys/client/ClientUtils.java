@@ -91,11 +91,12 @@ public class ClientUtils {
     public static final HUDElement FOCUS_ELEMENT = new HUDElement("Focus");
     public static final HPElement HP_ELEMENT = new HPElement("HP").setScale(0.2F,0.2F);
     public static final CMElement CM_ELEMENT = new CMElement("CM");
+    public static final HUDElement RC_ELEMENT = new HUDElement("RC");
     public static final LockOnElement LOCKON_ELEMENT = new LockOnElement("LockOn");
     public static final PartyElement PARTY_ELEMENT = new PartyElement("Party");
     public static final HUDElement PORTRAIT_ELEMENT = new HUDElement("Portrait");
 
-    public static List<HUDElement> HUD_ELEMENTS = List.of(DRIVE_ELEMENT, MP_ELEMENT, PORTRAIT_ELEMENT, FOCUS_ELEMENT, HP_ELEMENT, CM_ELEMENT, LOCKON_ELEMENT, PARTY_ELEMENT);
+    public static List<HUDElement> HUD_ELEMENTS = List.of(DRIVE_ELEMENT, MP_ELEMENT, PORTRAIT_ELEMENT, FOCUS_ELEMENT, HP_ELEMENT, CM_ELEMENT, RC_ELEMENT, LOCKON_ELEMENT, PARTY_ELEMENT);
 
     public static Entity getEntityByUUIDClient(UUID uuid) {
         Minecraft mc = Minecraft.getInstance();
