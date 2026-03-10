@@ -73,16 +73,9 @@ public class LanguageENUS extends KKLanguageProvider {
         addConfigKey(ModConfigs.getClientConfig().cmReactionEndRWidth, "Reaction command right end width");
         addConfigKey(ModConfigs.getClientConfig().hpShowHearts, "Show hearts in Health Bar");
         addConfigKey(ModConfigs.getClientConfig().hpAlarm, "Low HP alarm volume");
-        addConfigKey(ModConfigs.getClientConfig().playerSkinXPos, "Player Skin X position");
-        addConfigKey(ModConfigs.getClientConfig().playerSkinYPos, "Player Skin Y position");
-        addConfigKey(ModConfigs.getClientConfig().lockOnXPos, "Lock-On HP X position");
-        addConfigKey(ModConfigs.getClientConfig().lockOnYPos, "Lock-On HP Y position");
-        addConfigKey(ModConfigs.getClientConfig().lockOnHPScale, "Lock-On HP bar scale (%)");
         addConfigKey(ModConfigs.getClientConfig().lockOnIconScale, "Lock-On icon scale (%)");
         addConfigKey(ModConfigs.getClientConfig().lockOnIconRotation, "Lock-On icon rotation speed");
         addConfigKey(ModConfigs.getClientConfig().lockOnHpPerBar, "Lock-On HP per bar");
-        addConfigKey(ModConfigs.getClientConfig().partyXPos, "Party HUD X position");
-        addConfigKey(ModConfigs.getClientConfig().partyYPos, "Party HUD Y position");
         addConfigKey(ModConfigs.getClientConfig().partyYDistance, "Party HUD Y offset");
 
         //COMMON

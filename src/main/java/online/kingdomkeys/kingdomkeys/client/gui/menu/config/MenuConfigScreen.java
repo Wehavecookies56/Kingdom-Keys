@@ -58,16 +58,15 @@ public class MenuConfigScreen extends MenuBackground {
 	boolean hpShowHearts;
 
 	//PlayerSkin
-	EditBox playerSkinXPosBox, playerSkinYPosBox;
 	ExtendedSlider armorColorRed, armorColorGreen, armorColorBlue, notifColorRed, notifColorGreen, notifColorBlue;
 	Button glintButton;
 	boolean glint;
 
 	//Lock On
-	EditBox lockOnXPosBox, lockOnYPosBox, lockOnHPScaleBox, lockOnIconScaleBox, lockOnIconRotationBox, lockOnHpPerBarBox;
+	EditBox lockOnIconScaleBox, lockOnIconRotationBox, lockOnHpPerBarBox;
 
 	//Party
-	EditBox partyXPosBox, partyYPosBox, partyYDistanceBox;
+	EditBox partyYDistanceBox;
 
 	//Import Export
 	Button export, Import;
@@ -348,57 +347,6 @@ public class MenuConfigScreen extends MenuBackground {
 				super.onRelease(pMouseX, pMouseY);
 			}
 		});
-		
-		addRenderableWidget(playerSkinXPosBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, Component.translatable("test")){
-			@Override
-			public boolean charTyped(char c, int i) {
-				if (Utils.isNumber(c) || c == '-') {
-					String text = new StringBuilder(this.getValue()).insert(this.getCursorPosition(), c).toString();
-					if (Utils.getInt(text) < 1000 && Utils.getInt(text) > -1000) {
-						super.charTyped(c, i);
-						ModConfigs.setPlayerSkinXPos(Utils.getInt(getValue()));
-						return true;
-					} else {
-						return false;
-					}
-				} else {
-					return false;
-				}
-			}
-			
-			@Override
-			public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-				super.keyPressed(keyCode, scanCode, modifiers);
-				ModConfigs.setPlayerSkinXPos(Utils.getInt(getValue()));
-				return true;
-			}
-		});
-		
-		addRenderableWidget(playerSkinYPosBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, Component.translatable("test")){
-			@Override
-			public boolean charTyped(char c, int i) {
-				if (Utils.isNumber(c) || c == '-') {
-					String text = new StringBuilder(this.getValue()).insert(this.getCursorPosition(), c).toString();
-					if (Utils.getInt(text) < 1000 && Utils.getInt(text) > -1000) {
-						super.charTyped(c, i);
-						ModConfigs.setPlayerSkinYPos(Utils.getInt(getValue()));
-						return true;
-					} else {
-						return false;
-					}
-				} else {
-					return false;
-				}
-			}
-			
-			@Override
-			public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-				super.keyPressed(keyCode, scanCode, modifiers);
-				ModConfigs.setPlayerSkinYPos(Utils.getInt(getValue()));
-				return true;
-			}
-			
-		});
 
 		int[] armorColors = Utils.getRGBFromDec(playerData.getArmorColor());
 		
@@ -450,11 +398,6 @@ public class MenuConfigScreen extends MenuBackground {
 			 action("glint");
 		}).bounds(buttonsX - 1, (int) topBarHeight + 20 * ++pos - 2, minecraft.font.width("#####")+2, 20).build());
 
-		playerSkinXPosBox.setValue(""+ModConfigs.playerSkinXPos);
-		playerSkinYPosBox.setValue(""+ModConfigs.playerSkinYPos);
-		
-		playerSkinList.add(playerSkinXPosBox);
-		playerSkinList.add(playerSkinYPosBox);
 		playerSkinList.add(armorColorRed);
 		playerSkinList.add(armorColorGreen);
 		playerSkinList.add(armorColorBlue);
@@ -479,85 +422,7 @@ public class MenuConfigScreen extends MenuBackground {
 	
 	private void initLockOn() {
 		int pos = 0;
-		
-		addRenderableWidget(lockOnXPosBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, Component.translatable("test")){
-			@Override
-			public boolean charTyped(char c, int i) {
-				if (Utils.isNumber(c) || c == '-') {
-					String text = new StringBuilder(this.getValue()).insert(this.getCursorPosition(), c).toString();
-					if (Utils.getInt(text) < 1000 && Utils.getInt(text) > -1000) {
-						super.charTyped(c, i);
-						ModConfigs.setLockOnXPos(Utils.getInt(getValue()));
-						return true;
-					} else {
-						return false;
-					}
-				} else {
-					return false;
-				}
-			}
-			
-			@Override
-			public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-				super.keyPressed(keyCode, scanCode, modifiers);
-				ModConfigs.setLockOnXPos(Utils.getInt(getValue()));
-				return true;
-			}
-			
-		});
-		
-		addRenderableWidget(lockOnYPosBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, Component.translatable("test")){
-			@Override
-			public boolean charTyped(char c, int i) {
-				if (Utils.isNumber(c) || c == '-') {
-					String text = new StringBuilder(this.getValue()).insert(this.getCursorPosition(), c).toString();
-					if (Utils.getInt(text) < 1000 && Utils.getInt(text) > -1000) {
-						super.charTyped(c, i);
-						ModConfigs.setLockOnYPos(Utils.getInt(getValue()));
-						return true;
-					} else {
-						return false;
-					}
-				} else {
-					return false;
-				}
-			}
-			
-			@Override
-			public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-				super.keyPressed(keyCode, scanCode, modifiers);
-				ModConfigs.setLockOnYPos(Utils.getInt(getValue()));
-				return true;
-			}
-			
-		});
-		
-		addRenderableWidget(lockOnHPScaleBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, Component.translatable("test")){
-			@Override
-			public boolean charTyped(char c, int i) {
-				if (Utils.isNumber(c) || c == '-') {
-					String text = new StringBuilder(this.getValue()).insert(this.getCursorPosition(), c).toString();
-					if (Utils.getInt(text) < 1000 && Utils.getInt(text) > -1000) {
-						super.charTyped(c, i);
-						ModConfigs.setLockOnHPScale(Utils.getInt(getValue()));
-						return true;
-					} else {
-						return false;
-					}
-				} else {
-					return false;
-				}
-			}
-			
-			@Override
-			public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-				super.keyPressed(keyCode, scanCode, modifiers);
-				ModConfigs.setLockOnHPScale(Utils.getInt(getValue()));
-				return true;
-			}
-			
-		});
-		
+
 		addRenderableWidget(lockOnIconScaleBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, Component.translatable("test")){
 			@Override
 			public boolean charTyped(char c, int i) {
@@ -637,17 +502,11 @@ public class MenuConfigScreen extends MenuBackground {
 			
 		});
 		
-		
-		lockOnXPosBox.setValue(""+ModConfigs.lockOnXPos);
-		lockOnYPosBox.setValue(""+ModConfigs.lockOnYPos);
-		lockOnHPScaleBox.setValue(""+ModConfigs.lockOnHPScale);
+
 		lockOnIconScaleBox.setValue(""+ModConfigs.lockOnIconScale);
 		lockOnIconRotationBox.setValue(""+ModConfigs.lockOnIconRotation);
 		lockOnHpPerBarBox.setValue(""+ModConfigs.lockOnHpPerBar);
 		
-		lockOnList.add(lockOnXPosBox);
-		lockOnList.add(lockOnYPosBox);
-		lockOnList.add(lockOnHPScaleBox);
 		lockOnList.add(lockOnIconScaleBox);
 		lockOnList.add(lockOnIconRotationBox);
 		lockOnList.add(lockOnHpPerBarBox);
@@ -655,59 +514,7 @@ public class MenuConfigScreen extends MenuBackground {
 	
 	private void initParty() {
 		int pos = 0;
-		
-		addRenderableWidget(partyXPosBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, Component.translatable("test")){
-			@Override
-			public boolean charTyped(char c, int i) {
-				if (Utils.isNumber(c) || c == '-') {
-					String text = new StringBuilder(this.getValue()).insert(this.getCursorPosition(), c).toString();
-					if (Utils.getInt(text) < 1000 && Utils.getInt(text) > -1000) {
-						super.charTyped(c, i);
-						ModConfigs.setPartyXPos(Utils.getInt(getValue()));
-						return true;
-					} else {
-						return false;
-					}
-				} else {
-					return false;
-				}
-			}
-			
-			@Override
-			public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-				super.keyPressed(keyCode, scanCode, modifiers);
-				ModConfigs.setPartyXPos(Utils.getInt(getValue()));
-				return true;
-			}
-			
-		});
-		
-		addRenderableWidget(partyYPosBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, Component.translatable("test")){
-			@Override
-			public boolean charTyped(char c, int i) {
-				if (Utils.isNumber(c) || c == '-') {
-					String text = new StringBuilder(this.getValue()).insert(this.getCursorPosition(), c).toString();
-					if (Utils.getInt(text) < 1000 && Utils.getInt(text) > -1000) {
-						super.charTyped(c, i);
-						ModConfigs.setPartyYPos(Utils.getInt(getValue()));
-						return true;
-					} else {
-						return false;
-					}
-				} else {
-					return false;
-				}
-			}
-			
-			@Override
-			public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-				super.keyPressed(keyCode, scanCode, modifiers);
-				ModConfigs.setPartyYPos(Utils.getInt(getValue()));
-				return true;
-			}
-			
-		});
-		
+
 		addRenderableWidget(partyYDistanceBox = new EditBox(minecraft.font, buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, Component.translatable("test")){
 			@Override
 			public boolean charTyped(char c, int i) {
@@ -733,13 +540,9 @@ public class MenuConfigScreen extends MenuBackground {
 			}
 			
 		});
-		
-		partyXPosBox.setValue(""+ModConfigs.partyXPos);
-		partyYPosBox.setValue(""+ModConfigs.partyYPos);
+
 		partyYDistanceBox.setValue(""+ModConfigs.partyYDistance);
-		
-		partyList.add(partyXPosBox);
-		partyList.add(partyYPosBox);
+
 		partyList.add(partyYDistanceBox);
 
 	}
@@ -900,8 +703,6 @@ public class MenuConfigScreen extends MenuBackground {
 
 				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.player_skin"), 20, 0, 0xFF9900);
 				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.notif_color"), 100, 20 * ++pos, 0xFF9900);
-				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.x_pos"), 40, 20 * ++pos, 0xFF9900);
-				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.y_pos"), 40, 20 * ++pos, 0xFF9900);
 				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.armor.red")+": "+armorColorRed.getValueInt(), 40, 20 * ++pos, 0xFF9900);
 				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.armor.green")+": "+armorColorGreen.getValueInt(), 40, 20 * ++pos, 0xFF9900);
 				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.armor.blue")+": "+armorColorBlue.getValueInt(), 40, 20 * ++pos, 0xFF9900);
@@ -916,9 +717,6 @@ public class MenuConfigScreen extends MenuBackground {
 				}
 
 				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.lock_on_hp"), 20, 0, 0xFF9900);
-				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.x_pos"), 40, 20 * ++pos, 0xFF9900);
-				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.y_pos"), 40, 20 * ++pos, 0xFF9900);
-				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.hp_scale"), 40, 20 * ++pos, 0xFF9900);
 				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.icon_scale"), 40, 20 * ++pos, 0xFF9900);
 				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.icon_rotation"), 40, 20 * ++pos, 0xFF9900);
 				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.hp_per_bar"), 40, 20 * ++pos, 0xFF9900);
@@ -932,8 +730,6 @@ public class MenuConfigScreen extends MenuBackground {
 				}
 
 				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.party"), 20, 0, 0xFF9900);
-				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.x_pos"), 40, 20 * ++pos, 0xFF9900);
-				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.y_pos"), 40, 20 * ++pos, 0xFF9900);
 				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.y_dist"), 40, 20 * ++pos, 0xFF9900);
 				break;
 
@@ -965,17 +761,11 @@ public class MenuConfigScreen extends MenuBackground {
 		options.put('F', Integer.valueOf(cmTextXOffsetBox.getValue()));
 		//G H
 		options.put('I', hpShowHearts ? 1 : 0);
-		//J K L M
-		options.put('N', Integer.valueOf(playerSkinXPosBox.getValue()));
-		options.put('O', Integer.valueOf(playerSkinYPosBox.getValue()));
-		options.put('P', Integer.valueOf(lockOnXPosBox.getValue()));
-		options.put('Q', Integer.valueOf(lockOnYPosBox.getValue()));
-		options.put('R', Integer.valueOf(lockOnHPScaleBox.getValue()));
+		//J K L M N O P Q R
 		options.put('S', Integer.valueOf(lockOnIconScaleBox.getValue()));
 		options.put('T', Integer.valueOf(lockOnIconRotationBox.getValue()));
 		options.put('U', Integer.valueOf(lockOnHpPerBarBox.getValue()));
-		options.put('V', Integer.valueOf(partyXPosBox.getValue()));
-		options.put('W', Integer.valueOf(partyYPosBox.getValue()));
+		// V W
 		options.put('X', Integer.valueOf(partyYDistanceBox.getValue()));
 		//Y Z
 		options.put('+', hpShowHearts ? 1 : 0);
@@ -1075,16 +865,9 @@ public class MenuConfigScreen extends MenuBackground {
 		ModConfigs.setCmHeaderTextVisible(false);
 		ModConfigs.setCmTextXOffset(0);
 		ModConfigs.setShowHearts(false);
-		ModConfigs.setPlayerSkinXPos(0);
-		ModConfigs.setPlayerSkinYPos(0);
-		ModConfigs.setLockOnXPos(0);
-		ModConfigs.setLockOnYPos(0);
-		ModConfigs.setLockOnHPScale(0);
 		ModConfigs.setLockOnIconScale(0);
 		ModConfigs.setLockOnIconRotation(0);
 		ModConfigs.setLockOnHpPerBar(0);
-		ModConfigs.setPartyXPos(0);
-		ModConfigs.setPartyYPos(0);
 		ModConfigs.setPartyYDistance(0);
 		ModConfigs.setHPAlarm(0);
 	}
@@ -1147,24 +930,14 @@ public class MenuConfigScreen extends MenuBackground {
 			case 'M' -> {
 			}
 			case 'N' -> {
-				ModConfigs.setPlayerSkinXPos(value);
-				playerSkinXPosBox.setValue(""+value);
 			}
 			case 'O' -> {
-				ModConfigs.setPlayerSkinYPos(value);
-				playerSkinYPosBox.setValue(""+value);
 			}
 			case 'P' -> {
-				ModConfigs.setLockOnXPos(value);
-				lockOnXPosBox.setValue(""+value);
 			}
 			case 'Q' -> {
-				ModConfigs.setLockOnYPos(value);
-				lockOnYPosBox.setValue(""+value);
 			}
 			case 'R' -> {
-				ModConfigs.setLockOnHPScale(value);
-				lockOnHPScaleBox.setValue(""+value);
 			}
 			case 'S' -> {
 				ModConfigs.setLockOnIconScale(value);
@@ -1179,12 +952,8 @@ public class MenuConfigScreen extends MenuBackground {
 				lockOnHpPerBarBox.setValue(""+value);
 			}
 			case 'V' -> {
-				ModConfigs.setPartyXPos(value);
-				partyXPosBox.setValue(""+value);
 			}
 			case 'W' -> {
-				ModConfigs.setPartyYPos(value);
-				partyYPosBox.setValue(""+value);
 			}
 			case 'X' -> {
 				ModConfigs.setPartyYDistance(value);

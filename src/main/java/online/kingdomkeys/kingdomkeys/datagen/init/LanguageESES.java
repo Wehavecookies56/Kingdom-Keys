@@ -73,16 +73,9 @@ public class LanguageESES extends KKLanguageProvider {
         addConfigKey(ModConfigs.getClientConfig().cmReactionEndRWidth, "Comando de Reacción anchura derecha");
         addConfigKey(ModConfigs.getClientConfig().hpShowHearts, "Mostrar corazones de vida");
         addConfigKey(ModConfigs.getClientConfig().hpAlarm, "Volumen de alarma de vida baja");
-        addConfigKey(ModConfigs.getClientConfig().playerSkinXPos, "Skin de jugador X pos");
-        addConfigKey(ModConfigs.getClientConfig().playerSkinYPos, "skin de jugador Y pos");
-        addConfigKey(ModConfigs.getClientConfig().lockOnXPos, "Vida de objetivo X pos");
-        addConfigKey(ModConfigs.getClientConfig().lockOnYPos, "Vida de objetivo Y pos");
-        addConfigKey(ModConfigs.getClientConfig().lockOnHPScale, "Vida de objetivo escala (%)");
         addConfigKey(ModConfigs.getClientConfig().lockOnIconScale, "Ícono de fijación escala (%)");
         addConfigKey(ModConfigs.getClientConfig().lockOnIconRotation, "Ícono de fijación vel. rot.");
         addConfigKey(ModConfigs.getClientConfig().lockOnHpPerBar, "Vida de objetivo hp por barra");
-        addConfigKey(ModConfigs.getClientConfig().partyXPos, "HUD Grupo X pos");
-        addConfigKey(ModConfigs.getClientConfig().partyYPos, "HUD Grupo Y pos");
         addConfigKey(ModConfigs.getClientConfig().partyYDistance, "HUD Grupo Y offset");
 
         //COMMON

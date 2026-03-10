@@ -63,15 +63,14 @@ public class PlayerPortraitGui extends OverlayBase {
             {
                 poseStack.pushPose();
                 {
+                    ClientUtils.PORTRAIT_ELEMENT.applyTransform(guiGraphics, screenWidth, screenHeight);
                     RenderSystem.enableBlend();
-                    float scaleX = 0.13F, scaleY = 0.13F;
-                    int texSize = 131;
-                    poseStack.translate(screenWidth-38.8, screenHeight-29, 0);
-                    poseStack.translate(-texSize * scaleX, -texSize * scaleY, 0);
+                    float scaleX = 0.18F, scaleY = 0.18F;
                     poseStack.scale(scaleX, scaleY, 0);
                     ResourceLocation circle = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/hp_background_circle.png");
-                    blit(guiGraphics, circle, 0, 0, 0, 0, 256, 256);
+                    blit(guiGraphics, circle, -39, -39, 0, 0, 256, 256);
                     RenderSystem.disableBlend();
+                    ClientUtils.PORTRAIT_ELEMENT.endTransform(guiGraphics);
                 }
                 poseStack.popPose();
                 if(minecraft.player == null)
@@ -81,22 +80,20 @@ public class PlayerPortraitGui extends OverlayBase {
 
                 //3D render
 				float playerHeight = 50;
-                poseStack.translate(screenWidth-0.4, screenHeight, 0);
-                poseStack.translate(scale, scale, 0);
-
-                float playerPosX = -39;
-				float playerPosY = 53;
+                //System.out.println(ClientUtils.PORTRAIT_ELEMENT.x+" "+ClientUtils.PORTRAIT_ELEMENT.y);
+                ClientUtils.PORTRAIT_ELEMENT.applyTransform(guiGraphics,screenWidth, screenHeight);
+                float playerPosX = 16;
+				float playerPosY = 94;
 
 				poseStack.pushPose();
 				{
-
 					ItemStack stack = player.getInventory().getItem(player.getInventory().selected);
 					player.getInventory().setItem(player.getInventory().selected, new ItemStack(Items.AIR));
 
                     if(player.getVehicle() == null) {
                         render3D = false;
                         if(render3D) {
-                            ClientUtils.renderEntity(poseStack, (int) playerPosX + ModConfigs.playerSkinXPos, (int) playerPosY+ ModConfigs.playerSkinYPos, (int) playerHeight, 0,0, player);
+                            ClientUtils.renderEntity(poseStack, (int) playerPosX + 0, (int) playerPosY+ 0, (int) playerHeight, 0,0, player);
                         } else {
                             render2D(poseStack);
                         }
@@ -106,7 +103,9 @@ public class PlayerPortraitGui extends OverlayBase {
 					player.getInventory().setItem(player.getInventory().selected, stack);
 				}
 				poseStack.popPose();
-			}
+                ClientUtils.PORTRAIT_ELEMENT.endTransform(guiGraphics);
+
+            }
 			poseStack.popPose();
 		}
 	}
@@ -150,12 +149,9 @@ public class PlayerPortraitGui extends OverlayBase {
         ResourceLocation skin = minecraft.player.getSkin().texture();
         RenderSystem.setShaderTexture(0, skin);
 
-        poseStack.translate(-50.5F + ModConfigs.playerSkinXPos, -41 + ModConfigs.playerSkinYPos, 0);
-        float scale = 0.7F;
         // HEAD
         int headWidth = 32;
         int headHeight = 32;
-        poseStack.scale(scale, scale, scale);
 
         this.blit(guiGraphics,skin, 0, 0, 32, 32, headWidth, headHeight);
 

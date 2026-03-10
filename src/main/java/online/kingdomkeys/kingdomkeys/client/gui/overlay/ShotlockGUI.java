@@ -11,6 +11,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.ClientSetup;
+import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.HUDElement;
 import online.kingdomkeys.kingdomkeys.config.ClientConfig;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
@@ -24,7 +25,6 @@ import org.joml.Matrix4f;
 
 //TODO cleanup + comments
 public class ShotlockGUI extends OverlayBase {
-    public static final HUDElement ELEMENT = new HUDElement("Focus");
 
 	public static final ShotlockGUI INSTANCE = new ShotlockGUI();
 	float focusBarWidth;
@@ -60,13 +60,13 @@ public class ShotlockGUI extends OverlayBase {
 
         poseStack.pushPose();
         {
-            ELEMENT.applyTransform(guiGraphics,screenWidth,screenHeight);
+            ClientUtils.FOCUS_ELEMENT.applyTransform(guiGraphics,screenWidth,screenHeight);
             poseStack.scale(scaleX, scaleY, 1);
 
             drawBackground(poseStack);
             drawRedBar(poseStack);
             drawOrangeBar(poseStack);
-            ELEMENT.endTransform(guiGraphics);
+            ClientUtils.FOCUS_ELEMENT.endTransform(guiGraphics);
         }
         poseStack.popPose();
 

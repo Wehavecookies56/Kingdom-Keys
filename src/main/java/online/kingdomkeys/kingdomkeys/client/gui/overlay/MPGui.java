@@ -7,13 +7,13 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.HUDElement;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 
 public class MPGui extends OverlayBase {
 	public static final MPGui INSTANCE = new MPGui();
 	private static final ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/mpbar.png");
-	public static final HUDElement ELEMENT = new HUDElement("MP").setScale(0.7F, 0.5F);
 	private PlayerData playerData;
 
 	private MPGui() {
@@ -43,25 +43,22 @@ public class MPGui extends OverlayBase {
 		PoseStack poseStack = guiGraphics.pose();
 		poseStack.pushPose();
 		{
-			ELEMENT.applyTransform(guiGraphics, screenWidth, screenHeight);
+			ClientUtils.MP_ELEMENT.applyTransform(guiGraphics, screenWidth, screenHeight);
 			RenderSystem.enableBlend();
 
 			drawMPBarBack(guiGraphics, mpBarMaxWidth);
 			drawMPBarTop(guiGraphics, mpBarWidth);
 
 			RenderSystem.disableBlend();
-			ELEMENT.endTransform(guiGraphics);
+			ClientUtils.MP_ELEMENT.endTransform(guiGraphics);
 		}
 		poseStack.popPose();
 	}
 
 	public void drawMPBarBack(GuiGraphics gui, int width) {
-
 		PoseStack matrixStack = gui.pose();
-
 		matrixStack.pushPose();
 		{
-
 			// Left Margin
 			matrixStack.pushPose();
 			{

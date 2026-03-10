@@ -1,8 +1,6 @@
 package online.kingdomkeys.kingdomkeys.client.gui.overlay;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Axis;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
@@ -20,12 +18,11 @@ import net.minecraft.world.phys.HitResult;
 import net.neoforged.neoforge.common.NeoForge;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.api.event.client.TargetSelectorEvent;
-import online.kingdomkeys.kingdomkeys.client.gui.elements.CMElement;
+import online.kingdomkeys.kingdomkeys.client.ClientUtils;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.HUD.CMElement;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.CommandMenuItem;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.CommandMenuSubMenu;
-import online.kingdomkeys.kingdomkeys.client.gui.elements.HUDElement;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
-import online.kingdomkeys.kingdomkeys.config.ClientConfig;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.data.WorldData;
@@ -56,7 +53,6 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class CommandMenuGui extends OverlayBase {
-	public static final CMElement ELEMENT = new CMElement("CM").setScale(1F,1F);
 	public static final CommandMenuGui INSTANCE = new CommandMenuGui();
 	public static Map<ResourceLocation, CommandMenuSubMenu> commandMenuElements;
 
@@ -94,8 +90,8 @@ public class CommandMenuGui extends OverlayBase {
 				.fixedHeader()
 				.colour(new Color(10, 51, 255))
 				.onUpdate((subMenu, guiGraphics) -> {
-                    ELEMENT.height = subMenu.getHeight() * (subMenu.getVisibleChildren().size()+1);
-					ELEMENT.width = subMenu.getWidth();
+					ClientUtils.CM_ELEMENT.height = subMenu.getHeight() * (subMenu.getVisibleChildren().size()+1);
+					ClientUtils.CM_ELEMENT.width = subMenu.getWidth();
 					subMenu.setPosition(0,0);
 				})
 				.withChildren(
@@ -683,7 +679,7 @@ public class CommandMenuGui extends OverlayBase {
 		super.render(guiGraphics, deltaTracker);
 		if (minecraft.player != null) {
 			//TODO Potentially add an RC element too
-			CommandMenuGui.ELEMENT.applyTransform(guiGraphics, minecraft.getWindow().getGuiScaledWidth(), minecraft.getWindow().getGuiScaledHeight());
+			ClientUtils.CM_ELEMENT.applyTransform(guiGraphics, minecraft.getWindow().getGuiScaledWidth(), minecraft.getWindow().getGuiScaledHeight());
 			drawReactionCommands(guiGraphics, deltaTracker);
 
 			List<CommandMenuSubMenu> submenus = commandMenuElements.values().stream().sorted(Comparator.comparingInt(CommandMenuSubMenu::getZ)).toList();
@@ -691,7 +687,7 @@ public class CommandMenuGui extends OverlayBase {
 				submenu.render(guiGraphics, minecraft.getWindow().getGuiScaledWidth(), minecraft.getWindow().getGuiScaledHeight(), deltaTracker.getGameTimeDeltaPartialTick(true));
 				submenu.onUpdate(guiGraphics);
 			});
-			CommandMenuGui.ELEMENT.endTransform(guiGraphics);
+			ClientUtils.CM_ELEMENT.endTransform(guiGraphics);
 		}
 	}
 

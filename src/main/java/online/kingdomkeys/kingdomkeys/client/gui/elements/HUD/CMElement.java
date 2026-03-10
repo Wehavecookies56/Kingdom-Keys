@@ -1,6 +1,7 @@
-package online.kingdomkeys.kingdomkeys.client.gui.elements;
+package online.kingdomkeys.kingdomkeys.client.gui.elements.HUD;
 
 import com.google.gson.JsonObject;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.HUDElement;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 
 public class CMElement extends HUDElement {
@@ -28,12 +29,12 @@ public class CMElement extends HUDElement {
             if (json.has("selectedXOffset"))
                 selectedXOffset = json.get("selectedXOffset").getAsInt();
             else
-                selectedXOffset = 10;
+                selectedXOffset = 5;
 
             if (json.has("submenuXOffset"))
                 submenuXOffset = json.get("submenuXOffset").getAsInt();
             else
-                submenuXOffset = 130;
+                submenuXOffset = 100;
 
             if (json.has("headerTitle"))
                 headerTitle = json.get("headerTitle").getAsBoolean();
@@ -43,7 +44,7 @@ public class CMElement extends HUDElement {
             if (json.has("textXOffset"))
                 textXOffset = json.get("textXOffset").getAsInt();
             else
-                textXOffset = 10;
+                textXOffset = 0;
 
 
            ModConfigs.setCmClassicColors(classicColors);

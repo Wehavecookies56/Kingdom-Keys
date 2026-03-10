@@ -57,6 +57,12 @@ import net.neoforged.neoforge.client.RenderTypeHelper;
 import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 import net.neoforged.neoforge.client.model.data.ModelData;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.HUD.CMElement;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.HUD.HPElement;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.HUD.LockOnElement;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.HUD.PartyElement;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.HUDElement;
+import online.kingdomkeys.kingdomkeys.client.gui.overlay.*;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.handler.ClientEvents;
@@ -79,6 +85,17 @@ import java.util.List;
 import java.util.UUID;
 
 public class ClientUtils {
+    //Order is important for overlapping boxes, top to bottom
+    public static final HUDElement DRIVE_ELEMENT = new HUDElement("Drive").setScale(0.8F,0.8F);
+    public static final HUDElement MP_ELEMENT = new HUDElement("MP").setScale(0.7F, 0.5F);
+    public static final HUDElement FOCUS_ELEMENT = new HUDElement("Focus");
+    public static final HPElement HP_ELEMENT = new HPElement("HP").setScale(0.2F,0.2F);
+    public static final CMElement CM_ELEMENT = new CMElement("CM");
+    public static final LockOnElement LOCKON_ELEMENT = new LockOnElement("LockOn");
+    public static final PartyElement PARTY_ELEMENT = new PartyElement("Party");
+    public static final HUDElement PORTRAIT_ELEMENT = new HUDElement("Portrait");
+
+    public static List<HUDElement> HUD_ELEMENTS = List.of(DRIVE_ELEMENT, MP_ELEMENT, PORTRAIT_ELEMENT, FOCUS_ELEMENT, HP_ELEMENT, CM_ELEMENT, LOCKON_ELEMENT, PARTY_ELEMENT);
 
     public static Entity getEntityByUUIDClient(UUID uuid) {
         Minecraft mc = Minecraft.getInstance();

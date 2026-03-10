@@ -9,6 +9,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.HUDElement;
 import online.kingdomkeys.kingdomkeys.config.ClientConfig;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
@@ -26,7 +27,6 @@ public class DriveGui extends OverlayBase {
 
 	public static final DriveGui INSTANCE = new DriveGui();
 
-	public static final HUDElement ELEMENT = new HUDElement("Drive").setScale(0.8F,0.8F);
 
 	private static final double GUI_LENGTH = 47D;
 	private static final double ONE_VALUE = GUI_LENGTH / 100D;
@@ -78,7 +78,7 @@ public class DriveGui extends OverlayBase {
 		int screenWidth = minecraft.getWindow().getGuiScaledWidth();
 		int screenHeight = minecraft.getWindow().getGuiScaledHeight();
 
-		ELEMENT.applyTransform(guiGraphics,screenWidth,screenHeight);
+		ClientUtils.DRIVE_ELEMENT.applyTransform(guiGraphics,screenWidth,screenHeight);
 
 		RenderSystem.enableBlend();
 		RenderSystem.setShaderColor(1,1,1,1);
@@ -87,7 +87,7 @@ public class DriveGui extends OverlayBase {
 
 		RenderSystem.disableBlend();
 
-		ELEMENT.endTransform(guiGraphics);
+		ClientUtils.DRIVE_ELEMENT.endTransform(guiGraphics);
 	}
 
 	private void renderDriveBar(GuiGraphics guiGraphics, DeltaTracker deltaTracker, PlayerData playerData, double dp, double fp) {

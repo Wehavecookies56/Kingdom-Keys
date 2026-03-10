@@ -41,7 +41,9 @@ import online.kingdomkeys.kingdomkeys.api.event.client.CommandMenuEvent;
 import online.kingdomkeys.kingdomkeys.banners.ModBannerPatterns;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.block.ModEnergy;
-import online.kingdomkeys.kingdomkeys.client.gui.overlay.CommandMenuGui;
+import online.kingdomkeys.kingdomkeys.client.ClientUtils;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.HUDElement;
+import online.kingdomkeys.kingdomkeys.client.gui.overlay.*;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.command.ConvertOldForgeDataCommand;
 import online.kingdomkeys.kingdomkeys.command.ModCommands;
@@ -269,6 +271,8 @@ public class KingdomKeys {
 			}
 			NeoForge.EVENT_BUS.post(new CommandMenuEvent.Construct(CommandMenuGui.INSTANCE));
 		}
+
+		ClientUtils.HUD_ELEMENTS.forEach(HUDElement::loadFromConfig);
 	}
 
 	@SubscribeEvent

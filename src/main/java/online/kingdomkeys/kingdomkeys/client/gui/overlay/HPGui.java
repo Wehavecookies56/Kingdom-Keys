@@ -11,7 +11,8 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.ClientSetup;
-import online.kingdomkeys.kingdomkeys.client.gui.elements.HPElement;
+import online.kingdomkeys.kingdomkeys.client.ClientUtils;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.HUD.HPElement;
 import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import org.joml.Matrix4f;
 
@@ -20,7 +21,6 @@ public class HPGui extends OverlayBase {
     public static final HPGui INSTANCE = new HPGui();
 
     // HUD ELEMENT
-    public static final HPElement ELEMENT = new HPElement("HP").setScale(0.2F,0.2F);
 
     private float displayedPlayerHP, realPlayerHP;
 
@@ -82,7 +82,7 @@ public class HPGui extends OverlayBase {
 
         float displayedPercentage = displayedPlayerHP / maxMaxHealth;
 
-        ELEMENT.applyTransform(guiGraphics, screenWidth, screenHeight);
+        ClientUtils.HP_ELEMENT.applyTransform(guiGraphics, screenWidth, screenHeight);
 
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
@@ -94,7 +94,7 @@ public class HPGui extends OverlayBase {
 
         RenderSystem.disableBlend();
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        ELEMENT.endTransform(guiGraphics);
+        ClientUtils.HP_ELEMENT.endTransform(guiGraphics);
 
     }
 

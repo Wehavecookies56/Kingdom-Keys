@@ -11,7 +11,7 @@ import java.util.List;
  * Config file for client only config options
  */
 public class ClientConfig {
-	public ModConfigSpec.ConfigValue<List<? extends Float>> hpHUDData, mpHUDData, cmHUDData, driveHUDData, focusHUDData;
+	public ModConfigSpec.ConfigValue<List<? extends Float>> hpHUDData, mpHUDData, cmHUDData, driveHUDData, focusHUDData, partyHUDData, lockOnHUDData, portraitHUDData;
 
     public ModConfigSpec.BooleanValue cmHeaderTextVisible, cmClassicColors, auto3rdPersonShip, cmChangeColor;
     public ModConfigSpec.IntValue cmTextXOffset, cmSelectedXOffset, cmSubXOffset, cmEndLWidth, cmEndRWidth, cmHeaderEndLWidth, cmHeaderEndRWidth, cmReactionEndLWidth, cmReactionEndRWidth;
@@ -19,11 +19,10 @@ public class ClientConfig {
     public ModConfigSpec.BooleanValue hpShowHearts;
     public ModConfigSpec.IntValue hpAlarm;
 
-    public ModConfigSpec.IntValue playerSkinXPos, playerSkinYPos;
+
+    public ModConfigSpec.IntValue lockOnIconScale, lockOnIconRotation, lockOnHpPerBar;
     
-    public ModConfigSpec.IntValue lockOnXPos, lockOnYPos, lockOnHPScale, lockOnIconScale, lockOnIconRotation, lockOnHpPerBar;
-    
-    public ModConfigSpec.IntValue partyXPos, partyYPos, partyYDistance;
+    public ModConfigSpec.IntValue partyYDistance;
 
     public ModConfigSpec.BooleanValue showDriveForms, summonTogether;
 
@@ -164,35 +163,20 @@ public class ClientConfig {
 	        builder.pop();
 	        
 	        builder.push("player_skin");
-	        
-	        playerSkinXPos = builder
-	                .comment("Player Skin X Pos")
-	                .translation(KingdomKeys.MODID + ".config.player_skin_x_pos")
-	                .defineInRange("playerSkinXPos", 0, -1000, 1000);
-	        
-	        playerSkinYPos = builder
-	                .comment("Player Skin Y Pos")
-	                .translation(KingdomKeys.MODID + ".config.player_skin_y_pos")
-	                .defineInRange("playerSkinYPos", 0, -1000, 1000);
-	        
+
+			portraitHUDData = builder
+					.comment("Portrait HUD Data")
+					.translation(KingdomKeys.MODID + ".config.portrait_hud_data")//X,Y,Width ,Height ,xScale, yScale,rotation,anchor (ordinal)
+					.defineList("portraitHUDData", () -> HUDElement.getDefaultValues("Portrait"), o -> o instanceof Number);
+
 	        builder.pop();
 	        
 	        builder.push("lock_on");
-	        
-	        lockOnXPos = builder
-	                .comment("Lock On HP X Pos")
-	                .translation(KingdomKeys.MODID + ".config.lock_on_x_pos")
-	                .defineInRange("lockOnXPos", 0, -1000, 1000);
-	        
-	        lockOnYPos = builder
-	                .comment("Lock On HP Y Pos")
-	                .translation(KingdomKeys.MODID + ".config.lock_on_y_pos")
-	                .defineInRange("lockOnYPos", 0, -1000, 1000);
-	        
-	        lockOnHPScale = builder
-	                .comment("Lock On HP Bar Scale")
-	                .translation(KingdomKeys.MODID + ".config.lock_on_hp_scale")
-	                .defineInRange("lockOnHPScale", 70, -1000, 1000);
+
+			lockOnHUDData = builder
+					.comment("Lock On HUD Data")
+					.translation(KingdomKeys.MODID + ".config.lock_on_hud_data")//X,Y,Width ,Height ,xScale, yScale,rotation,anchor (ordinal)
+					.defineList("lockOnHUDData", () -> HUDElement.getDefaultValues("LockOn"), o -> o instanceof Number);
 	        
 	        lockOnIconScale = builder
 	                .comment("Lock On Icon Scale")
@@ -212,21 +196,15 @@ public class ClientConfig {
 	        builder.pop();
 	        
 	        builder.push("party");
-	        
-	        partyXPos = builder
-	                .comment("Party HUD X Pos")
-	                .translation(KingdomKeys.MODID + ".config.party_x_pos")
-	                .defineInRange("partyXPos", 0, -1000, 1000);
-	        
-	        partyYPos = builder
-	                .comment("Party HUD Y Pos")
-	                .translation(KingdomKeys.MODID + ".config.party_y_pos")
-	                .defineInRange("partyYPos", 0, -1000, 1000);
+			partyHUDData = builder
+					.comment("Party HUD Data")
+					.translation(KingdomKeys.MODID + ".config.party_hud_data")//X,Y,Width ,Height ,xScale, yScale,rotation,anchor (ordinal)
+					.defineList("partyHUDData", () -> HUDElement.getDefaultValues("Party"), o -> o instanceof Number);
 	        
 	        partyYDistance = builder
 	                .comment("Party HUD Y Offset")
 	                .translation(KingdomKeys.MODID + ".config.party_y_offset")
-	                .defineInRange("partyYOffset", 60, -1000, 1000);
+	                .defineInRange("partyYOffset", 70, -1000, 1000);
 	        
 	        builder.pop();
 	        

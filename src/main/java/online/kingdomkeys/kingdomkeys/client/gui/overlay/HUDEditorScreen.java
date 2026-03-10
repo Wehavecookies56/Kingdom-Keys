@@ -3,9 +3,9 @@ package online.kingdomkeys.kingdomkeys.client.gui.overlay;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
-import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
+import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.HUDElement;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.config.MenuConfigScreen;
@@ -27,8 +27,8 @@ public class HUDEditorScreen extends Screen {
 
     public HUDEditorScreen() {
         super(Component.literal("HUD Editor"));
-        //Order is important for overlapping boxes
-        this.elements.addAll(List.of(DriveGui.ELEMENT, MPGui.ELEMENT, ShotlockGUI.ELEMENT, HPGui.ELEMENT, CommandMenuGui.ELEMENT));
+        this.elements.addAll(ClientUtils.HUD_ELEMENTS);
+
         int buttonWidth = 120;
         addRenderableWidget(rpButton = new MenuButton(Minecraft.getInstance().getWindow().getGuiScaledWidth()/2 - buttonWidth - 20, 5, buttonWidth, Utils.translateToLocal("RESET ALL TO DEFAULTS"), MenuButton.ButtonType.ROUNDBUTTON, (e) -> {
             for (HUDElement element : elements) {
@@ -42,8 +42,6 @@ public class HUDEditorScreen extends Screen {
                 element.loadDefaultsFromJson();
             }
         }));
-
-
 
     }
 

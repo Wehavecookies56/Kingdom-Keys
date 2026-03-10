@@ -56,7 +56,7 @@ public class ModConfigs {
 
     public static List<String> magicDisplayedInCommandMenu;
     public static boolean cmHeaderTextVisible, cmClassicColors, hpShowHearts, showDriveForms, summonTogether, auto3rdPersonShip, cmChangeColor;
-    public static int cmTextXOffset, cmSelectedXOffset, cmSubXOffset, hpAlarm, playerSkinXPos, playerSkinYPos, lockOnXPos, lockOnYPos, lockOnHPScale, lockOnIconScale, lockOnIconRotation, lockOnHpPerBar, partyXPos, partyYPos, partyYDistance, cmEndLWidth, cmEndRWidth, cmHeaderEndLWidth, cmHeaderEndRWidth, cmReactionEndLWidth, cmReactionEndRWidth;
+    public static int cmTextXOffset, cmSelectedXOffset, cmSubXOffset, hpAlarm, lockOnIconScale, lockOnIconRotation, lockOnHpPerBar, partyYDistance, cmEndLWidth, cmEndRWidth, cmHeaderEndLWidth, cmHeaderEndRWidth, cmReactionEndLWidth, cmReactionEndRWidth;
 
     public static void setHUDData(String name, List<? extends Float> data){
         switch (name){
@@ -80,16 +80,32 @@ public class ModConfigs {
                 CLIENT.focusHUDData.set(data);
                 CLIENT.focusHUDData.save();
             }
+            case "Portrait" -> {
+                CLIENT.portraitHUDData.set(data);
+                CLIENT.portraitHUDData.save();
+            }
+            case "Party" -> {
+                CLIENT.partyHUDData.set(data);
+                CLIENT.partyHUDData.save();
+            }
+            case "LockOn" -> {
+                CLIENT.lockOnHUDData.set(data);
+                CLIENT.lockOnHUDData.save();
+            }
         }
     }
 
     public static List<? extends Float> getHUDData(String name){
+        System.out.println(name);
         return switch (name){
             case "HP" -> CLIENT.hpHUDData.get();
             case "MP" -> CLIENT.mpHUDData.get();
             case "CM" -> CLIENT.cmHUDData.get();
             case "Drive" -> CLIENT.driveHUDData.get();
             case "Focus" -> CLIENT.focusHUDData.get();
+            case "Party" -> CLIENT.partyHUDData.get();
+            case "LockOn" -> CLIENT.lockOnHUDData.get();
+            case "Portrait" -> CLIENT.portraitHUDData.get();
             default -> throw new IllegalStateException("Unexpected HUD value: " + name);
         };
     }
@@ -157,38 +173,7 @@ public class ModConfigs {
         bakeClient();
     }
 
-  //Player Skin
-    public static void setPlayerSkinXPos(int value) {
-        CLIENT.playerSkinXPos.set(value);
-        CLIENT.playerSkinXPos.save();
-        bakeClient();
-    }
-
-    public static void setPlayerSkinYPos(int value) {
-        CLIENT.playerSkinYPos.set(value);
-        CLIENT.playerSkinYPos.save();
-        bakeClient();
-    }
-
   //Lock On
-    public static void setLockOnXPos(int value) {
-        CLIENT.lockOnXPos.set(value);
-        CLIENT.lockOnXPos.save();
-        bakeClient();
-    }
-
-    public static void setLockOnYPos(int value) {
-        CLIENT.lockOnYPos.set(value);
-        CLIENT.lockOnYPos.save();
-        bakeClient();
-    }
-
-    public static void setLockOnHPScale(int value) {
-        CLIENT.lockOnHPScale.set(value);
-        CLIENT.lockOnHPScale.save();
-        bakeClient();
-    }
-
     public static void setLockOnIconScale(int value) {
         CLIENT.lockOnIconScale.set(value);
         CLIENT.lockOnIconScale.save();
@@ -208,18 +193,6 @@ public class ModConfigs {
     }
 
     //Party
-    public static void setPartyXPos(int value) {
-        CLIENT.partyXPos.set(value);
-        CLIENT.partyXPos.save();
-        bakeClient();
-    }
-
-    public static void setPartyYPos(int value) {
-        CLIENT.partyYPos.set(value);
-        CLIENT.partyYPos.save();
-        bakeClient();
-    }
-
     public static void setPartyYDistance(int value) {
         CLIENT.partyYDistance.set(value);
         CLIENT.partyYDistance.save();
@@ -279,18 +252,10 @@ public class ModConfigs {
         hpShowHearts = CLIENT.hpShowHearts.get();
         hpAlarm = CLIENT.hpAlarm.get();
 
-        playerSkinXPos = CLIENT.playerSkinXPos.get();
-        playerSkinYPos = CLIENT.playerSkinYPos.get();
-
-        lockOnXPos = CLIENT.lockOnXPos.get();
-        lockOnYPos = CLIENT.lockOnYPos.get();
-        lockOnHPScale = CLIENT.lockOnHPScale.get();
         lockOnIconScale = CLIENT.lockOnIconScale.get();
         lockOnIconRotation = CLIENT.lockOnIconRotation.get();
         lockOnHpPerBar = CLIENT.lockOnHpPerBar.get();
 
-        partyXPos = CLIENT.partyXPos.get();
-        partyYPos = CLIENT.partyYPos.get();
         partyYDistance = CLIENT.partyYDistance.get();
 
         showDriveForms = CLIENT.showDriveForms.get();
