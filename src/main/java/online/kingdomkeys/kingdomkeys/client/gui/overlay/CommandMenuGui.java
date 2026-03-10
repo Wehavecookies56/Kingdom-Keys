@@ -20,6 +20,7 @@ import net.minecraft.world.phys.HitResult;
 import net.neoforged.neoforge.common.NeoForge;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.api.event.client.TargetSelectorEvent;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.CMElement;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.CommandMenuItem;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.CommandMenuSubMenu;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.HUDElement;
@@ -55,7 +56,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class CommandMenuGui extends OverlayBase {
-	public static final HUDElement ELEMENT = new HUDElement("CM").setScale(1F,1F);
+	public static final CMElement ELEMENT = new CMElement("CM").setScale(1F,1F);
 	public static final CommandMenuGui INSTANCE = new CommandMenuGui();
 	public static Map<ResourceLocation, CommandMenuSubMenu> commandMenuElements;
 

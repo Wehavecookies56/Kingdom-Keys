@@ -58,13 +58,13 @@ public class HUDElement {
         this.anchor = HUDAnchorPosition.values()[(int)configValues[7]];
     }
 
-    public HUDElement setScale(float scaleX, float scaleY) {
+    public <T extends HUDElement> T setScale(float scaleX, float scaleY) {
         this.scaleX = scaleX;
         this.scaleY = scaleY;
 
         configValues[4] = scaleX;
         configValues[5] = scaleY;
-        return this;
+        return (T) this;
     }
 
     public boolean isMouseOver(double mouseX, double mouseY) {
@@ -203,7 +203,7 @@ public class HUDElement {
         ModConfigs.setHUDData(name,values);
     }
 
-    public void loadDefaultsFromJson() {
+    public JsonObject loadDefaultsFromJson() {
         ArrayList<Float> defaults = getDefaultValues(name);
 
         float defX = defaults.get(0);
@@ -234,6 +234,8 @@ public class HUDElement {
                 rotation = json.has("rotation") ? json.get("rotation").getAsFloat() : defRotation;
 
                 anchor = json.has("anchor") ? HUDAnchorPosition.valueOf(json.get("anchor").getAsString()) : defAnchor;
+
+                return json;
             }
 
         } catch (Exception e) {
@@ -247,6 +249,7 @@ public class HUDElement {
             scaleY = defScaleY;
             rotation = defRotation;
             anchor = defAnchor;
+            return null;
         }
     }
 

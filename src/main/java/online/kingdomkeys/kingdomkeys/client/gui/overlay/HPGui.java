@@ -1,6 +1,5 @@
 package online.kingdomkeys.kingdomkeys.client.gui.overlay;
 
-import com.google.common.collect.Lists;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import net.minecraft.client.DeltaTracker;
@@ -12,8 +11,7 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.ClientSetup;
-import online.kingdomkeys.kingdomkeys.client.gui.elements.HUDElement;
-import online.kingdomkeys.kingdomkeys.config.ClientConfig;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.HPElement;
 import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import org.joml.Matrix4f;
 
@@ -22,7 +20,7 @@ public class HPGui extends OverlayBase {
     public static final HPGui INSTANCE = new HPGui();
 
     // HUD ELEMENT
-    public static final HUDElement ELEMENT = new HUDElement("HP").setScale(0.2F,0.2F);
+    public static final HPElement ELEMENT = new HPElement("HP").setScale(0.2F,0.2F);
 
     private float displayedPlayerHP, realPlayerHP;
 
