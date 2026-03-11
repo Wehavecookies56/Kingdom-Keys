@@ -359,6 +359,8 @@ public class LanguageESES extends KKLanguageProvider {
         add(Gui_Menu_Config, "Preferencias");
         add(Gui_Menu_Config + ".bg", "Fondo");
         add(Gui_Menu_Config + ".hud", "Ajustar HUD");
+        add(Gui_Menu_Config + ".reset_defaults", "Reset por defecto");
+        add(Gui_Menu_Config + ".reset_rp", "Reset de resource pack");
         add(Gui_Menu_Config + ".command_menu", "Men\u00fa Comandos");
         add(Gui_Menu_Config + ".hp", "Barra VT");
         add(Gui_Menu_Config + ".mp", "Barra PM");

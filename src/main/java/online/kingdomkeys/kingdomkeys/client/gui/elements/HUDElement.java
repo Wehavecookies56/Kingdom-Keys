@@ -271,8 +271,14 @@ public class HUDElement {
         };
     }
 
-    @Override
-    public String toString() {
-        return name+": x-"+x+" y-"+y+" width:"+width+" height:"+height;
+    public String[] getData() {
+        String[] string = new String[6];
+        string[0] = "Name: " + name;
+        string[1] = "Anchor: " + anchor;
+        string[2] = "Position: " + x+", "+y;
+        string[3] = "Dimensions: " + width+" x "+height;
+        string[4] = "Scale: " + scaleX+", "+scaleY;
+        string[5] = "Rotation: " + rotation;
+        return string;
     }
 }

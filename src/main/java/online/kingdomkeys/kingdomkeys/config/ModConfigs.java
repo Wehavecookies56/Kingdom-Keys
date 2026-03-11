@@ -100,7 +100,6 @@ public class ModConfigs {
     }
 
     public static List<? extends Float> getHUDData(String name){
-        System.out.println(name);
         return switch (name){
             case "HP" -> CLIENT.hpHUDData.get();
             case "MP" -> CLIENT.mpHUDData.get();

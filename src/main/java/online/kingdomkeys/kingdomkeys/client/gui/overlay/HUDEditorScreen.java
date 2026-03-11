@@ -28,16 +28,15 @@ public class HUDEditorScreen extends Screen {
     public HUDEditorScreen() {
         super(Component.literal("HUD Editor"));
         this.elements.addAll(ClientUtils.HUD_ELEMENTS);
-
-        int buttonWidth = 120;
-        addRenderableWidget(rpButton = new MenuButton(Minecraft.getInstance().getWindow().getGuiScaledWidth()/2 - buttonWidth - 20, 5, buttonWidth, Utils.translateToLocal("RESET ALL TO DEFAULTS"), MenuButton.ButtonType.ROUNDBUTTON, (e) -> {
+        int scaledWidth = Minecraft.getInstance().getWindow().getGuiScaledWidth();
+        int buttonWidth = (int)(scaledWidth * 0.23F);
+        addRenderableWidget(rpButton = new MenuButton(scaledWidth/2 - buttonWidth - 20, 5, buttonWidth, Utils.translateToLocal("gui.menu.config.reset_defaults"), MenuButton.ButtonType.ROUNDBUTTON, (e) -> {
             for (HUDElement element : elements) {
                 element.restoreDefaultValues();
             }
         }));
 
-        buttonWidth = 140;
-        addRenderableWidget(resetButton = new MenuButton(Minecraft.getInstance().getWindow().getGuiScaledWidth()/2 + 10, 5, buttonWidth, Utils.translateToLocal("RESET ALL TO RESOURCEPACK"), MenuButton.ButtonType.ROUNDBUTTON, (e) -> {
+        addRenderableWidget(resetButton = new MenuButton(scaledWidth/2 + 10, 5, buttonWidth, Utils.translateToLocal("gui.menu.config.reset_rp"), MenuButton.ButtonType.ROUNDBUTTON, (e) -> {
             for (HUDElement element : elements) {
                 element.loadDefaultsFromJson();
             }
@@ -60,6 +59,13 @@ public class HUDEditorScreen extends Screen {
         guiGraphics.drawCenteredString(minecraft.font,"Press LEFT ALT to show or hide outlines",scaledWidth / 2,y++*10,0xFFFFFF);
         guiGraphics.drawCenteredString(minecraft.font,"RIGHT CLICK on a selected item to reset it to Resourcepack defaults",scaledWidth / 2,y++*10,0xFFFFFF);
         guiGraphics.drawCenteredString(minecraft.font,"SHIFT + RIGHT CLICK on a selected item to reset it to base defaults",scaledWidth / 2,y++*10,0xFFFFFF);
+        if(selected!=null) {
+            guiGraphics.drawCenteredString(minecraft.font,"Selected element data:",scaledWidth / 2,y++*10+20,0xFFFFFF);
+            for(String data : selected.getData()) {
+                guiGraphics.drawString(minecraft.font, data,scaledWidth / 2-40,y++*10+ 20,0xFFFFFF);
+            }
+        }
+
 
 
         for (HUDElement element : elements) {

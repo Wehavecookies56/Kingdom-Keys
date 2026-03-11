@@ -306,6 +306,8 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Gui_Menu_Config, "Config");
         add(Gui_Menu_Config + ".bg", "Background");
         add(Gui_Menu_Config + ".hud", "Adjust HUD");
+        add(Gui_Menu_Config + ".reset_defaults", "Reset to defaults");
+        add(Gui_Menu_Config + ".reset_rp", "Reset to resource pack");
         add(Gui_Menu_Config + ".command_menu", "Command Menu");
         add(Gui_Menu_Config + ".hp", "HP Bar");
         add(Gui_Menu_Config + ".mp", "MP Bar");

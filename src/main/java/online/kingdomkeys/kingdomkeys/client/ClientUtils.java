@@ -369,7 +369,7 @@ public class ClientUtils {
   	public static void renderEntity(PoseStack posestack, int pPosX, int pPosY, float pScale, float pMouseX, float pMouseY, Entity entity) {
   		float f = (float)Math.atan(pMouseX / 40.0F);
   		float f1 = (float)Math.atan(pMouseY / 40.0F);
-        if(entity instanceof LivingEntity livingEntity)
+        if(entity instanceof AbstractClientPlayer livingEntity)
   		    renderPlayerNoAnimsRaw(posestack, pPosX, pPosY, (int) pScale, f, f1, livingEntity);
         else
             renderEntityRaw(posestack, pScale, f, f1, entity);

@@ -122,6 +122,8 @@ public class MenuConfigScreen extends MenuBackground {
 		float topBarHeight = (float) height * 0.17F;
 		float boxWidth = (float) width * 0.67F;
 		float middleHeight = (float) height * 0.6F;
+
+		int scaledWidth = Minecraft.getInstance().getWindow().getGuiScaledWidth();
 		
 		box = new MenuBox((int) boxPosX, (int) topBarHeight, (int) boxWidth, (int) middleHeight, 0.6F,new Color(4, 4, 68));
 		buttonsX = box.getX() + 10;
@@ -144,8 +146,8 @@ public class MenuConfigScreen extends MenuBackground {
 		addRenderableWidget(impExButton = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + y++ * 18, (int) buttonWidth, Utils.translateToLocal("gui.menu.config.impexp"), ButtonType.BUTTON, (e) -> window = ActualWindow.IMPORT_EXPORT));
 
 		addRenderableWidget(back = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + y++ * 18, (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), ButtonType.BUTTON, (e) -> { PacketHandler.sendToServer(new CSSyncArmorColor(PlayerData.get(minecraft.player).getArmorColor(),glint)); action("back"); }));
-		addRenderableWidget(backgroundButton = new MenuButton(width / 2 - (int)buttonWidth / 2 - 50, (int) topBarHeight + 5 + (7-2 * 18), (int) buttonWidth, Utils.translateToLocal("gui.menu.config.bg"), ButtonType.ROUNDBUTTON, (e) -> { drawSeparately = !drawSeparately; }));
-		addRenderableWidget(adjustHUDButton = new MenuButton(width / 2 - (int)buttonWidth / 2 + 50, (int) topBarHeight + 5 + (7-2 * 18), (int) buttonWidth, Utils.translateToLocal("gui.menu.config.hud"), ButtonType.ROUNDBUTTON, (e) -> { minecraft.setScreen(new HUDEditorScreen()); }));
+		addRenderableWidget(backgroundButton = new MenuButton((int)(scaledWidth/2F - buttonWidth - 20), (int) topBarHeight - 30, (int)buttonWidth, Utils.translateToLocal("gui.menu.config.bg"), ButtonType.ROUNDBUTTON, (e) -> { drawSeparately = !drawSeparately; }));
+		addRenderableWidget(adjustHUDButton = new MenuButton(scaledWidth/2 + 10, (int) topBarHeight - 30, (int)buttonWidth, Utils.translateToLocal("gui.menu.config.hud"), ButtonType.ROUNDBUTTON, (e) -> { minecraft.setScreen(new HUDEditorScreen()); }));
 	}
 
 	private void initCommandMenu() {

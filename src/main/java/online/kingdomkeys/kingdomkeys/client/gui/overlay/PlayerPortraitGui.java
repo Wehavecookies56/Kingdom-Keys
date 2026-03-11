@@ -90,15 +90,15 @@ public class PlayerPortraitGui extends OverlayBase {
 					ItemStack stack = player.getInventory().getItem(player.getInventory().selected);
 					player.getInventory().setItem(player.getInventory().selected, new ItemStack(Items.AIR));
 
-                    if(player.getVehicle() == null) {
+                    if(player.getVehicle() instanceof GummiShipEntity) {
+                        renderShip(poseStack, scale);
+                    } else {
                         render3D = false;
                         if(render3D) {
                             ClientUtils.renderEntity(poseStack, (int) playerPosX + 0, (int) playerPosY+ 0, (int) playerHeight, 0,0, player);
                         } else {
                             render2D(poseStack);
                         }
-                    } else {
-                        renderShip(poseStack, scale);
                     }
 					player.getInventory().setItem(player.getInventory().selected, stack);
 				}
