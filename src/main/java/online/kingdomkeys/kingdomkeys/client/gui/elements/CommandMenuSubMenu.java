@@ -506,7 +506,7 @@ public class CommandMenuSubMenu {
                 updatePosition();
             }
             RenderSystem.enableBlend();
-
+            guiGraphics.pose().translate(0, 0, getZ());
             guiGraphics.setColor(getColour().getRed() / 255F, getColour().getGreen() / 255F, getColour().getBlue() / 255F, 1);
             if (useFixedHeader) {
                 guiGraphics.blit(getTexture(), getX(), getY(), 0, 70, 70, 15);
@@ -518,7 +518,7 @@ public class CommandMenuSubMenu {
             if(ModConfigs.cmHeaderTextVisible) {
                 Color textColour = isActive() ? titleColour : titleColour.darker().darker();
                 guiGraphics.setColor(textColour.getRed() / 255F, textColour.getGreen() / 255F, textColour.getBlue() / 255F, 1);
-                guiGraphics.drawString(Minecraft.getInstance().font, getTitle(), getX() + 1 + ModConfigs.cmSelectedXOffset + ModConfigs.cmTextXOffset, getY() + 4, 0xFFFFFF);
+                guiGraphics.drawString(Minecraft.getInstance().font, getTitle(), getX() + 1 + 5 + ModConfigs.cmTextXOffset, getY() + 4, 0xFFFFFF);
             }
             renderChildren(guiGraphics, screenWidth, screenHeight, partialTick);
 
