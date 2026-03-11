@@ -125,8 +125,8 @@ public class PlayerPortraitGui extends OverlayBase {
                 }
             }
 
-            float baseX = 46;
-            float baseY = -15;
+            float baseX = -9;
+            float baseY = 31;
 
             if(sizeX % 2 == 0){
                 baseX -= 2;

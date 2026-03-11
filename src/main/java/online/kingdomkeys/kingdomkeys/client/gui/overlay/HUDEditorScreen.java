@@ -143,7 +143,6 @@ public class HUDEditorScreen extends Screen {
         } else if (button == 1) {
             for (HUDElement element : elements) {
                 if (element.isMouseOver(mouseX, mouseY)) {
-                    selected = element;
                     if(hasShiftDown()){
                         element.restoreDefaultValues();
                     } else {
