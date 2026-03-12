@@ -260,8 +260,6 @@ public class GuiOverlay extends OverlayBase {
 			RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
 		}
 		matrixStack.popPose();
-		
-		
 	}
 
 	private void showDriveLevelUp(GuiGraphics gui, DeltaTracker deltaTracker) {

@@ -45,6 +45,7 @@ public class MPGui extends OverlayBase {
 			ClientUtils.MP_ELEMENT.applyTransform(guiGraphics, screenWidth, screenHeight);
 			RenderSystem.enableBlend();
 
+			guiGraphics.pose().translate(ClientUtils.MP_ELEMENT.width - mpBarMaxWidth-23.4,0,0);
 			drawMPBarBack(guiGraphics, mpBarMaxWidth);
 			drawMPBarTop(guiGraphics, mpBarWidth);
 
@@ -91,7 +92,7 @@ public class MPGui extends OverlayBase {
 				int v = playerData.getRecharge() ? 45 : 32;
 
 				matrixStack.translate( 2 + width + 1, 0, 0);
-				matrixStack.scale(1 * 0.8F, 1, 1);
+				matrixStack.scale(0.8F, 1, 1);
 
 				blit(gui, texture, 0, 0, 0, v, 23, 12);
 			}
@@ -115,4 +116,5 @@ public class MPGui extends OverlayBase {
 			blit(gui, texture, 0, 0, 2, v, 1, 8);
 		}
 		matrixStack.popPose();
-	}}
+	}
+}

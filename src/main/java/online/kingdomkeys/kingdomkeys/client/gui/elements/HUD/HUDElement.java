@@ -175,8 +175,8 @@ public class HUDElement {
 
         guiGraphics.pose().pushPose();
 
-        float centerX = width * scaleX / 2f;
-        float centerY = height * scaleY / 2f;
+        float centerX = width * Math.abs(scaleX) / 2f;
+        float centerY = height * Math.abs(scaleY) / 2f;
 
         guiGraphics.pose().translate(px + centerX, py + centerY, 0);
         guiGraphics.pose().mulPose(Axis.ZP.rotationDegrees(rotation));
@@ -259,7 +259,7 @@ public class HUDElement {
     public static ArrayList<Float> getDefaultValues(String name){
         return switch(name){
             case "HP" -> Lists.newArrayList(13.8F, 3.8F, 916F, 254F,0.2F,0.2F, 0F, 8F);
-            case "MP" -> Lists.newArrayList(54.2F, 8.6F, 142F, 12F,0.7F,0.5F, 0F, 8F);
+            case "MP" -> Lists.newArrayList(53F, 8.6F, 142F, 12F,0.7F,0.5F, 0F, 8F);
             case "CM" -> Lists.newArrayList(5F, 5F, 70F, 75F, 1F,1F, 0F, 6F);
             case "RC" -> Lists.newArrayList(5F, 80F, 100F, 16F, 1F, 1F, 0F, 6F);
             case "Drive" -> Lists.newArrayList(53.7F, 14.6F, 95F, 18F, 0.8F, 0.8F, 0F, 8F);
