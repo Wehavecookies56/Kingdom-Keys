@@ -11,6 +11,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
@@ -71,6 +72,7 @@ public class GuiOverlay extends OverlayBase {
 
 		playerData = PlayerData.get(minecraft.player);
 		if(playerData != null) {
+			ClientUtils.MUNNYEXP_ELEMENT.applyTransform(guiGraphics,width,sHeight);
 			// Experience
 			if (showExp) {
 				showExp(guiGraphics);
@@ -80,8 +82,11 @@ public class GuiOverlay extends OverlayBase {
 			if (showMunny) {
 				showMunny(guiGraphics);
 			}
+			ClientUtils.MUNNYEXP_ELEMENT.endTransform(guiGraphics);
 
 			// Level Up
+			ClientUtils.LEVELUP_ELEMENT.applyTransform(guiGraphics,width,sHeight);
+
 			int lvlCounter = 0;
 			Iterator<LevelUpData> it = levelUpList.iterator();
 			while(it.hasNext()) {
@@ -92,10 +97,13 @@ public class GuiOverlay extends OverlayBase {
 					it.remove();
 				}
 			}
+			ClientUtils.LEVELUP_ELEMENT.endTransform(guiGraphics);
 
 			// Drive form level up
 			if (showDriveLevelUp) {
+				ClientUtils.DRIVELEVEL_ELEMENT.applyTransform(guiGraphics,width,sHeight);
 				showDriveLevelUp(guiGraphics, deltaTracker);
+				ClientUtils.DRIVELEVEL_ELEMENT.endTransform(guiGraphics);
 			}
 		}
 	}
@@ -167,7 +175,7 @@ public class GuiOverlay extends OverlayBase {
 			if(notifXPos <= -LEVULUP_WIDTH)
 				notifXPos = -LEVULUP_WIDTH;
 
-			matrixStack.translate(width + notifXPos, 4, 0);
+			matrixStack.translate(notifXPos+LEVULUP_WIDTH, 0, 0);
 
 			int height = (int)(minecraft.font.lineHeight * 1.2f) * (levelData.messages1.size());
 			RenderSystem.enableBlend();
@@ -258,6 +266,7 @@ public class GuiOverlay extends OverlayBase {
 
 	private void showDriveLevelUp(GuiGraphics gui, DeltaTracker deltaTracker) {
 		PoseStack matrixStack = gui.pose();
+		final int LEVULUP_WIDTH = 155;
 
 		if(playerData == null || driveForm == null)
 			return;
@@ -268,10 +277,10 @@ public class GuiOverlay extends OverlayBase {
 		matrixStack.pushPose();
 		{
 			float driveNotifXPos = prevDriveNotifTicks + (driveNotifTicks - prevDriveNotifTicks) * deltaTracker.getGameTimeDeltaPartialTick(true);
-			if(driveNotifXPos > 155)
-				driveNotifXPos = 155;
+			if(driveNotifXPos > LEVULUP_WIDTH)
+				driveNotifXPos = LEVULUP_WIDTH;
 			
-			matrixStack.translate(driveNotifXPos - 155, 4, 0);
+			matrixStack.translate(driveNotifXPos - LEVULUP_WIDTH, -90, 0);
 			int heightBase = (int) (minecraft.font.lineHeight * 1.1F) * driveLevelData.messages1.size();
 			int heightDF = (int) (minecraft.font.lineHeight * 1.1F) * driveLevelData.messages2.size();
 			RenderSystem.enableBlend();

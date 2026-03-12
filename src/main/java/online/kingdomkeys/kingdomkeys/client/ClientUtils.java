@@ -94,8 +94,12 @@ public class ClientUtils {
     public static final LockOnElement LOCKON_ELEMENT = new LockOnElement("LockOn");
     public static final PartyElement PARTY_ELEMENT = new PartyElement("Party");
     public static final HUDElement PORTRAIT_ELEMENT = new HUDElement("Portrait");
+    public static final HUDElement MUNNYEXP_ELEMENT = new HUDElement("MunnyExp");
+    public static final HUDElement LEVELUP_ELEMENT = new HUDElement("LevelUp");
+    public static final HUDElement DRIVELEVEL_ELEMENT = new HUDElement("DriveLevel");
 
-    public static List<HUDElement> HUD_ELEMENTS = List.of(DRIVE_ELEMENT, MP_ELEMENT, PORTRAIT_ELEMENT, FOCUS_ELEMENT, HP_ELEMENT, CM_ELEMENT, RC_ELEMENT, LOCKON_ELEMENT, PARTY_ELEMENT);
+    //Order is from top to bottom
+    public static List<HUDElement> HUD_ELEMENTS = List.of(DRIVE_ELEMENT, MP_ELEMENT, PORTRAIT_ELEMENT, FOCUS_ELEMENT, HP_ELEMENT, CM_ELEMENT, RC_ELEMENT, LOCKON_ELEMENT, PARTY_ELEMENT, MUNNYEXP_ELEMENT, LEVELUP_ELEMENT, DRIVELEVEL_ELEMENT);
 
     public static Entity getEntityByUUIDClient(UUID uuid) {
         Minecraft mc = Minecraft.getInstance();

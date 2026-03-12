@@ -11,7 +11,7 @@ import java.util.List;
  * Config file for client only config options
  */
 public class ClientConfig {
-	public ModConfigSpec.ConfigValue<List<? extends Float>> hpHUDData, mpHUDData, cmHUDData, rcHUDData, driveHUDData, focusHUDData, partyHUDData, lockOnHUDData, portraitHUDData;
+	public ModConfigSpec.ConfigValue<List<? extends Float>> hpHUDData, mpHUDData, cmHUDData, rcHUDData, driveHUDData, focusHUDData, partyHUDData, lockOnHUDData, portraitHUDData, munnyExpHUDData, levelUpHUDData, driveLevelHUDData;
 
     public ModConfigSpec.BooleanValue cmHeaderTextVisible, cmClassicColors, auto3rdPersonShip, cmChangeColor;
     public ModConfigSpec.IntValue cmTextXOffset, cmSelectedXOffset, cmSubXOffset, cmEndLWidth, cmEndRWidth, cmHeaderEndLWidth, cmHeaderEndRWidth, cmReactionEndLWidth, cmReactionEndRWidth;
@@ -41,6 +41,57 @@ public class ClientConfig {
 				.translation(KingdomKeys.MODID + ".config.auto_third_person_ship")
 				.define("auto3rdPersonShip", true);
 
+		builder.push("hud_data");
+		cmHUDData = builder
+				.comment("Command Menu HUD Data")
+				.translation(KingdomKeys.MODID + ".config.cm_hud_data")//X,Y,Width ,Height ,xScale, yScale,rotation,anchor (ordinal)
+				.defineList("cmHUDData", () -> HUDElement.getDefaultValues("CM"), o -> o instanceof Number);
+		rcHUDData = builder
+				.comment("Reaction Commands HUD Data")
+				.translation(KingdomKeys.MODID + ".config.rc_hud_data")//X,Y,Width ,Height ,xScale, yScale,rotation,anchor (ordinal)
+				.defineList("rcHUDData", () -> HUDElement.getDefaultValues("RC"), o -> o instanceof Number);
+		hpHUDData = builder
+				.comment("Health Bar HUD Data")
+				.translation(KingdomKeys.MODID + ".config.hp_hud_data")//X,Y,Width ,Height ,xScale, yScale,rotation,anchor (ordinal)
+				.defineList("hpHUDData", () -> HUDElement.getDefaultValues("HP"), o -> o instanceof Number);
+		mpHUDData = builder
+				.comment("Magic Bar HUD Data")
+				.translation(KingdomKeys.MODID + ".config.mp_hud_data")//X,Y,Width ,Height ,xScale, yScale,rotation,anchor (ordinal)
+				.defineList("mpHUDData", () -> HUDElement.getDefaultValues("MP"), o -> o instanceof Number);
+		driveHUDData = builder
+				.comment("Drive Bar HUD Data")
+				.translation(KingdomKeys.MODID + ".config.drive_hud_data")//X,Y,Width ,Height ,xScale, yScale,rotation,anchor (ordinal)
+				.defineList("driveHUDData", () -> HUDElement.getDefaultValues("Drive"), o -> o instanceof Number);
+		portraitHUDData = builder
+				.comment("Portrait HUD Data")
+				.translation(KingdomKeys.MODID + ".config.portrait_hud_data")//X,Y,Width ,Height ,xScale, yScale,rotation,anchor (ordinal)
+				.defineList("portraitHUDData", () -> HUDElement.getDefaultValues("Portrait"), o -> o instanceof Number);
+		lockOnHUDData = builder
+				.comment("Lock On HUD Data")
+				.translation(KingdomKeys.MODID + ".config.lock_on_hud_data")//X,Y,Width ,Height ,xScale, yScale,rotation,anchor (ordinal)
+				.defineList("lockOnHUDData", () -> HUDElement.getDefaultValues("LockOn"), o -> o instanceof Number);
+		partyHUDData = builder
+				.comment("Party HUD Data")
+				.translation(KingdomKeys.MODID + ".config.party_hud_data")//X,Y,Width ,Height ,xScale, yScale,rotation,anchor (ordinal)
+				.defineList("partyHUDData", () -> HUDElement.getDefaultValues("Party"), o -> o instanceof Number);
+		focusHUDData = builder
+				.comment("Focus Bar HUD Data")
+				.translation(KingdomKeys.MODID + ".config.focus_hud_data")//X,Y,Width ,Height ,xScale, yScale,rotation,anchor (ordinal)
+				.defineList("focusHUDData", () -> HUDElement.getDefaultValues("Focus"), o -> o instanceof Number);
+		munnyExpHUDData = builder
+				.comment("Munny get and Exp. for next level HUD Data")
+				.translation(KingdomKeys.MODID + ".config.munny_exp_hud_data")//X,Y,Width ,Height ,xScale, yScale,rotation,anchor (ordinal)
+				.defineList("munnyExpHUDData", () -> HUDElement.getDefaultValues("MunnyExp"), o -> o instanceof Number);
+		levelUpHUDData = builder
+				.comment("Level up notification HUD Data")
+				.translation(KingdomKeys.MODID + ".config.levelup_hud_data")//X,Y,Width ,Height ,xScale, yScale,rotation,anchor (ordinal)
+				.defineList("levelUpHUDData", () -> HUDElement.getDefaultValues("LevelUp"), o -> o instanceof Number);
+		driveLevelHUDData = builder
+				.comment("Drive form level up HUD Data")
+				.translation(KingdomKeys.MODID + ".config.drivelevel_hud_data")//X,Y,Width ,Height ,xScale, yScale,rotation,anchor (ordinal)
+				.defineList("driveLevelHUDData", () -> HUDElement.getDefaultValues("DriveLevel"), o -> o instanceof Number);
+		builder.pop();
+
         builder.push("gui");
 			showGuiToggle = builder
 				.comment("Toggle HUD visibility, weapon option will show only while holding a Keyblade or Organization weapon")
@@ -53,16 +104,6 @@ public class ClientConfig {
                 .define("showDriveForms", true);
 
 		builder.push("command_menu");
-			cmHUDData = builder
-					.comment("Command Menu HUD Data")
-					.translation(KingdomKeys.MODID + ".config.cm_hud_data")//X,Y,Width ,Height ,xScale, yScale,rotation,anchor (ordinal)
-					.defineList("cmHUDData", () -> HUDElement.getDefaultValues("CM"), o -> o instanceof Number);
-
-		rcHUDData = builder
-				.comment("Reaction Commands HUD Data")
-				.translation(KingdomKeys.MODID + ".config.rc_hud_data")//X,Y,Width ,Height ,xScale, yScale,rotation,anchor (ordinal)
-				.defineList("rcHUDData", () -> HUDElement.getDefaultValues("RC"), o -> o instanceof Number);
-
 			cmChangeColor = builder
                     .comment("Allow the Command Menu to change colors based on nearby enemies")
                     .translation(KingdomKeys.MODID + ".config.cm_change_color")
@@ -127,18 +168,9 @@ public class ClientConfig {
 				.comment("Reaction command right end segment width")
 				.translation(KingdomKeys.MODID + ".config.cm_reaction_end_r_width")
 				.defineInRange("cmReactionEndRWidth", 10, 0, 256);
-
-
-
 			builder.pop();
 	        
 	        builder.push("hp_bar");
-			hpHUDData = builder
-					.comment("Health Bar HUD Data")
-					.translation(KingdomKeys.MODID + ".config.hp_hud_data")//X,Y,Width ,Height ,xScale, yScale,rotation,anchor (ordinal)
-					.defineList("hpHUDData", () -> HUDElement.getDefaultValues("HP"), o -> o instanceof Number);
-
-	        
 	        hpShowHearts = builder
 	        		.comment("Show Hearts")
 	                .translation(KingdomKeys.MODID + ".config.hp_hearts")
@@ -148,77 +180,28 @@ public class ClientConfig {
 	        		.comment("Low HP Alarm Volume")
 	                .translation(KingdomKeys.MODID + ".config.hp_alarm")
 	                .defineInRange("hpAlarmVolume", 10, 0, 10);
-	        
-	        builder.pop();
-	        
-	        builder.push("mp_bar");
-			mpHUDData = builder
-					.comment("Magic Bar HUD Data")
-					.translation(KingdomKeys.MODID + ".config.mp_hud_data")//X,Y,Width ,Height ,xScale, yScale,rotation,anchor (ordinal)
-					.defineList("mpHUDData", () -> HUDElement.getDefaultValues("MP"), o -> o instanceof Number);
-	        
-	        builder.pop();
-	        
-	        builder.push("dp_bar");
-			driveHUDData = builder
-					.comment("Drive Bar HUD Data")
-					.translation(KingdomKeys.MODID + ".config.drive_hud_data")//X,Y,Width ,Height ,xScale, yScale,rotation,anchor (ordinal)
-					.defineList("driveHUDData", () -> HUDElement.getDefaultValues("Drive"), o -> o instanceof Number);
-	        
-	        builder.pop();
-	        
-	        builder.push("player_skin");
-
-			portraitHUDData = builder
-					.comment("Portrait HUD Data")
-					.translation(KingdomKeys.MODID + ".config.portrait_hud_data")//X,Y,Width ,Height ,xScale, yScale,rotation,anchor (ordinal)
-					.defineList("portraitHUDData", () -> HUDElement.getDefaultValues("Portrait"), o -> o instanceof Number);
-
 	        builder.pop();
 	        
 	        builder.push("lock_on");
-
-			lockOnHUDData = builder
-					.comment("Lock On HUD Data")
-					.translation(KingdomKeys.MODID + ".config.lock_on_hud_data")//X,Y,Width ,Height ,xScale, yScale,rotation,anchor (ordinal)
-					.defineList("lockOnHUDData", () -> HUDElement.getDefaultValues("LockOn"), o -> o instanceof Number);
-	        
 	        lockOnIconScale = builder
 	                .comment("Lock On Icon Scale")
 	                .translation(KingdomKeys.MODID + ".config.lock_on_icon_scale")
 	                .defineInRange("lockOnIconScale", 75, -1000, 1000);
-	        
 	        lockOnIconRotation = builder
 	                .comment("Lock On Icon Rotation Speed")
 	                .translation(KingdomKeys.MODID + ".config.lock_on_icon_rotation")
 	                .defineInRange("lockOnIconRotation", 16, -1000, 1000);
-	        
 	        lockOnHpPerBar = builder
 	                .comment("Lock On HP per bar")
 	                .translation(KingdomKeys.MODID + ".config.lock_on_hp_per_bar")
 	                .defineInRange("lockOnHpPerBar", 40, 10, 100);
-	        
 	        builder.pop();
 	        
 	        builder.push("party");
-			partyHUDData = builder
-					.comment("Party HUD Data")
-					.translation(KingdomKeys.MODID + ".config.party_hud_data")//X,Y,Width ,Height ,xScale, yScale,rotation,anchor (ordinal)
-					.defineList("partyHUDData", () -> HUDElement.getDefaultValues("Party"), o -> o instanceof Number);
-	        
 	        partyYDistance = builder
 	                .comment("Party HUD Y Offset")
 	                .translation(KingdomKeys.MODID + ".config.party_y_offset")
 	                .defineInRange("partyYOffset", 70, -1000, 1000);
-	        
-	        builder.pop();
-	        
-	        builder.push("focus");
-			focusHUDData = builder
-					.comment("Focus Bar HUD Data")
-					.translation(KingdomKeys.MODID + ".config.focus_hud_data")//X,Y,Width ,Height ,xScale, yScale,rotation,anchor (ordinal)
-					.defineList("focusHUDData", () -> HUDElement.getDefaultValues("Focus"), o -> o instanceof Number);
-
 	        builder.pop();
     }
 

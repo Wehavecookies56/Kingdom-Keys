@@ -96,6 +96,18 @@ public class ModConfigs {
                 CLIENT.lockOnHUDData.set(data);
                 CLIENT.lockOnHUDData.save();
             }
+            case "MunnyExp" -> {
+                CLIENT.munnyExpHUDData.set(data);
+                CLIENT.munnyExpHUDData.save();
+            }
+            case "LevelUp" -> {
+                CLIENT.levelUpHUDData.set(data);
+                CLIENT.levelUpHUDData.save();
+            }
+            case "DriveLevel" -> {
+                CLIENT.driveLevelHUDData.set(data);
+                CLIENT.driveLevelHUDData.save();
+            }
         }
     }
 
@@ -110,6 +122,9 @@ public class ModConfigs {
             case "Party" -> CLIENT.partyHUDData.get();
             case "LockOn" -> CLIENT.lockOnHUDData.get();
             case "Portrait" -> CLIENT.portraitHUDData.get();
+            case "MunnyExp" -> CLIENT.munnyExpHUDData.get();
+            case "LevelUp" -> CLIENT.levelUpHUDData.get();
+            case "DriveLevel" -> CLIENT.driveLevelHUDData.get();
             default -> throw new IllegalStateException("Unexpected HUD value: " + name);
         };
     }

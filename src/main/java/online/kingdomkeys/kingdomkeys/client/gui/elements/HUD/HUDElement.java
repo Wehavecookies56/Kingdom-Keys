@@ -267,6 +267,9 @@ public class HUDElement {
             case "Party" -> Lists.newArrayList(3F, 0F, 25F, 120F, 1F, 1F, 0F, 5F);
             case "LockOn" -> Lists.newArrayList(2F, 2F, 166F, 40F, 0.7F, 0.7F, 0F, 2F);
             case "Portrait" -> Lists.newArrayList(28F, 18F, 32F, 32F, 0.7F, 0.7F, 0F, 8F);
+            case "MunnyExp" -> Lists.newArrayList(0F, 0F, 80F, 60F, 1F, 1F, 0F, 0F);
+            case "LevelUp" -> Lists.newArrayList(1F, 10F, 155F, 50F, 1F, 1F, 0F, 2F);
+            case "DriveLevel" -> Lists.newArrayList(0F, -4F, 155F, 90F, 1F, 1F, 0F, 3F);
             default -> throw new IllegalStateException("Unexpected default HUD value: " + name);
         };
     }

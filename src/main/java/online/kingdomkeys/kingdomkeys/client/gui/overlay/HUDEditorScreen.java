@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.client.gui.overlay;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
@@ -14,6 +15,7 @@ import org.lwjgl.glfw.GLFW;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class HUDEditorScreen extends Screen {
     private Button resetButton, rpButton;
@@ -52,8 +54,8 @@ public class HUDEditorScreen extends Screen {
         int y=3;
         guiGraphics.drawCenteredString(minecraft.font,"First of all select the anchor point by clicking the element and SPACE",scaledWidth / 2,y++*10,0xFFFFFF);
         guiGraphics.drawCenteredString(minecraft.font,"LEFT CLICK and drag an element to move it",scaledWidth / 2,y++*10,0xFFFFFF);
-        guiGraphics.drawCenteredString(minecraft.font,"Use ARROW KEYS to move it in tiny gaps",scaledWidth / 2,y++*10,0xFFFFFF);
-        guiGraphics.drawCenteredString(minecraft.font,"Hold CTRL + ARROW KEYS to move it in bigger gaps",scaledWidth / 2,y++*10,0xFFFFFF);
+        guiGraphics.drawCenteredString(minecraft.font,"Use ARROW KEYS to move it in bigger gaps",scaledWidth / 2,y++*10,0xFFFFFF);
+        guiGraphics.drawCenteredString(minecraft.font,"Hold CTRL + ARROW KEYS to move it in tiny gaps",scaledWidth / 2,y++*10,0xFFFFFF);
         guiGraphics.drawCenteredString(minecraft.font,"Use SCROLL WHEEL to scale it up",scaledWidth / 2,y++*10,0xFFFFFF);
         guiGraphics.drawCenteredString(minecraft.font,"Use SHIFT + SCROLL WHEEL to rotate it",scaledWidth / 2,y++*10,0xFFFFFF);
         guiGraphics.drawCenteredString(minecraft.font,"Press LEFT ALT to show or hide outlines",scaledWidth / 2,y++*10,0xFFFFFF);
@@ -66,9 +68,13 @@ public class HUDEditorScreen extends Screen {
             }
         }
 
-
-
+        List<Component> list = new ArrayList<>();
         for (HUDElement element : elements) {
+            if(element.isMouseOver(mouseX, mouseY)) {
+                String line = (list.isEmpty() ? ChatFormatting.BOLD : "") + element.name;
+                list.add(Component.translatable(ChatFormatting.WHITE + line));
+                guiGraphics.renderTooltip(font, list, Optional.empty(), mouseX, mouseY);
+            }
             if(renderOutline) {
                 element.renderEditorBox(guiGraphics);
             }
@@ -91,7 +97,7 @@ public class HUDEditorScreen extends Screen {
             return super.keyPressed(keyCode, scanCode, modifiers);
         }
 
-        float step = hasControlDown() ? 1F : 0.1F;
+        float step = hasControlDown() ? 0.1F : 1F;
 
         boolean right = selected.anchor == HUDAnchorPosition.TOP_RIGHT || selected.anchor == HUDAnchorPosition.CENTER_RIGHT || selected.anchor == HUDAnchorPosition.BOTTOM_RIGHT;
         boolean bottom = selected.anchor == HUDAnchorPosition.BOTTOM_LEFT || selected.anchor == HUDAnchorPosition.BOTTOM_CENTER || selected.anchor == HUDAnchorPosition.BOTTOM_RIGHT;
