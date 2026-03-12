@@ -3,6 +3,7 @@ package online.kingdomkeys.kingdomkeys.client.gui.elements.HUD;
 import com.google.common.collect.Lists;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -77,7 +78,18 @@ public class HUDElement {
         float px = getPixelX(w);
         float py = getPixelY(h);
 
-        return mouseX >= px && mouseX <= px + width * scaleX && mouseY >= py && mouseY <= py + height * scaleY;
+        float x1 = px;
+        float x2 = px + width * scaleX;
+
+        float y1 = py;
+        float y2 = py + height * scaleY;
+
+        float minX = Math.min(x1, x2);
+        float maxX = Math.max(x1, x2);
+        float minY = Math.min(y1, y2);
+        float maxY = Math.max(y1, y2);
+
+        return mouseX >= minX && mouseX <= maxX && mouseY >= minY && mouseY <= maxY;
     }
 
     public void renderEditorBox(GuiGraphics guiGraphics) {
@@ -90,38 +102,47 @@ public class HUDElement {
         float sw = width * scaleX;
         float sh = height * scaleY;
 
-        int x1 = (int) px;
-        int y1 = (int) py;
-        int x2 = (int) (px + sw);
-        int y2 = (int) (py + sh);
+        float x1 = px;
+        float y1 = py;
+        float x2 = px + sw;
+        float y2 = py + sh;
 
-        guiGraphics.fill(x1, y1, x2, y2, 0x55000000);
+        // Normalizar rectángulo
+        float minX = Math.min(x1, x2);
+        float maxX = Math.max(x1, x2);
+        float minY = Math.min(y1, y2);
+        float maxY = Math.max(y1, y2);
 
-        if(selected) {
-            float cellW = sw / 3f;
-            float cellH = sh / 3f;
+        guiGraphics.fill((int)minX, (int)minY, (int)maxX, (int)maxY, 0x55000000);
+
+        if (selected) {
+
+            float cellW = (maxX - minX) / 3f;
+            float cellH = (maxY - minY) / 3f;
+
+            boolean flipped = scaleX < 0 || scaleY < 0;
+            int anchorColor = flipped ? 0xAAAA00FF : 0xAAFF0000; // morado si invertido
 
             for (int gx = 0; gx < 3; gx++) {
                 for (int gy = 0; gy < 3; gy++) {
 
-                    int cx1 = (int) (px + gx * cellW);
-                    int cy1 = (int) (py + gy * cellH);
-                    int cx2 = (int) (cx1 + cellW);
-                    int cy2 = (int) (cy1 + cellH);
+                    int cx1 = (int)(minX + gx * cellW);
+                    int cy1 = (int)(minY + gy * cellH);
+                    int cx2 = (int)(cx1 + cellW);
+                    int cy2 = (int)(cy1 + cellH);
 
                     if (isAnchorCell(gx, gy)) {
-                        guiGraphics.fill(cx1, cy1, cx2, cy2, 0xAAFF0000);
+                        guiGraphics.fill(cx1, cy1, cx2, cy2, anchorColor);
                     }
                 }
             }
 
-            guiGraphics.fill(x1, y1-1, x2, y1, 0xFFFFFFFF);
-            guiGraphics.fill(x1, y2 - 1, x2, y2, 0xFFFFFFFF);
-            guiGraphics.fill(x1, y1, x1 + 1, y2, 0xFFFFFFFF);
-            guiGraphics.fill(x2 - 1, y1, x2, y2, 0xFFFFFFFF);
+            guiGraphics.fill((int)minX, (int)minY - 1, (int)maxX, (int)minY, 0xFFFFFFFF);
+            guiGraphics.fill((int)minX, (int)maxY - 1, (int)maxX, (int)maxY, 0xFFFFFFFF);
+            guiGraphics.fill((int)minX, (int)minY, (int)minX + 1, (int)maxY, 0xFFFFFFFF);
+            guiGraphics.fill((int)maxX - 1, (int)minY, (int)maxX, (int)maxY, 0xFFFFFFFF);
         }
     }
-
     //Absolute
     public float getPixelX(int screenWidth) {
         return switch (anchor) {
@@ -175,17 +196,33 @@ public class HUDElement {
 
         guiGraphics.pose().pushPose();
 
-        float centerX = width * Math.abs(scaleX) / 2f;
-        float centerY = height * Math.abs(scaleY) / 2f;
+        boolean flipped = scaleX < 0 || scaleY < 0;
+        if (flipped) {
+            RenderSystem.disableCull();
+        }
+
+        float absScaleX = Math.abs(scaleX);
+        float absScaleY = Math.abs(scaleY);
+
+        float centerX = width * absScaleX / 2f;
+        float centerY = height * absScaleY / 2f;
 
         guiGraphics.pose().translate(px + centerX, py + centerY, 0);
         guiGraphics.pose().mulPose(Axis.ZP.rotationDegrees(rotation));
         guiGraphics.pose().scale(scaleX, scaleY, 1);
-        guiGraphics.pose().translate(-width / 2f, -height / 2f, 0);
+
+        float offsetX = scaleX < 0 ? width : 0;
+        float offsetY = scaleY < 0 ? height : 0;
+
+        guiGraphics.pose().translate(-width / 2f + offsetX, -height / 2f + offsetY, 0);
     }
 
     public void endTransform(GuiGraphics guiGraphics) {
         guiGraphics.pose().popPose();
+
+        if (scaleX < 0 || scaleY < 0) {
+            RenderSystem.enableCull();
+        }
     }
 
     public void restoreDefaultValues(){

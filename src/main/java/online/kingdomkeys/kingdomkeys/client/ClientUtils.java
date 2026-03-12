@@ -1,6 +1,7 @@
 package online.kingdomkeys.kingdomkeys.client;
 
 import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
@@ -76,6 +77,7 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 import org.joml.Matrix4f;
 import org.joml.Matrix4fStack;
 import org.joml.Quaternionf;
+import org.lwjgl.glfw.GLFW;
 
 import javax.annotation.Nullable;
 import java.io.FileNotFoundException;
@@ -207,6 +209,10 @@ public class ClientUtils {
 
         builder.addVertex(pose, (float)x1, (float)y1, (float)z1).setColor(r, g, b, a).setNormal(lastPose, nx, ny, nz);
         builder.addVertex(pose, (float)x2, (float)y2, (float)z2).setColor(r, g, b, a).setNormal(lastPose, nx, ny, nz);
+    }
+
+    public static boolean isKeyDown(int key) {
+        return InputConstants.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), key);
     }
 
 

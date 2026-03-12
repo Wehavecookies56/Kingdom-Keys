@@ -78,7 +78,6 @@ public class DriveGui extends OverlayBase {
 
 		RenderSystem.enableBlend();
 		RenderSystem.setShaderColor(1,1,1,1);
-
 		renderDriveBar(guiGraphics, deltaTracker, playerData, dp, fp);
 
 		RenderSystem.disableBlend();
@@ -93,13 +92,11 @@ public class DriveGui extends OverlayBase {
 
 		// Background
 		if (playerData.getAlignment() == OrgMember.NONE) {
-
 			if (playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())) {
 				blit(guiGraphics, TEXTURE, 0, 0, 0, 0, guiWidth, guiHeight);
 			} else {
 				blit(guiGraphics, TEXTURE, 0, 0, 98, 0, guiWidth, guiHeight);
 			}
-
 		} else {
 			blit(guiGraphics, TEXTURE, 0, 0, 0, 68, guiWidth, guiHeight);
 		}

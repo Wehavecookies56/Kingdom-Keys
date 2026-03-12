@@ -122,7 +122,7 @@ public class GummiHUD extends OverlayBase {
         int screenHeight = minecraft.getWindow().getGuiScaledHeight();
 
         float maxHealth = ship.shipStats.armour();
-        float health = (maxHealth - ship.getDamage()); //TODO remove /2
+        float health = maxHealth - ship.getDamage();
 
         //Based on the max hp per ship tier
         float maxMaxHealth = 2000 * ship.getShipLevel(); //maybe config value or something?
@@ -130,12 +130,14 @@ public class GummiHUD extends OverlayBase {
         float healthPercentage = health / maxMaxHealth;
         float maxHealthPercentage = maxHealth / maxMaxHealth;
 
+        /*
         float minExtra = 0.01F;
         float maxExtra = 0.004F;
         float exponent = 2.5F;
 
         float extra = minExtra + (maxExtra - minExtra) * (1 - (float) Math.pow(healthPercentage, exponent));
         float maxHealthPercentageOutline = maxHealthPercentage + extra;
+         */
 
         if (realGummiHP == 0) {
             realGummiHP = health;
