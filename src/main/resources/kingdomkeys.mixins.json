@@ -8,10 +8,8 @@
     "ItemStackMixin",
     "LevelChunkMixin",
     "LivingEntityMixin",
+    "ServerGamePacketListenerImplMixin",
     "TellMeTheErrorMixin"
-    //"apotheosis.SalvagingMenuMixin",
-    //"jer.ForgePlatformHelperMixin",
-    //"jer.RegistrySetBuilderMixin"
   ],
   "client": [
     "client.BiomeMixin",
