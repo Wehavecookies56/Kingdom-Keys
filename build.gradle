@@ -56,6 +56,10 @@ repositories {
             includeGroup("software.bernie.geckolib")
         }
     }
+
+    flatDir {
+        dir'libs'
+    }
 }
 
 base {
@@ -129,6 +133,7 @@ dependencies {
     implementation "curse.maven:epic-fight-mod-405076:7633252-sources"
     implementation "software.bernie.geckolib:geckolib-neoforge-${minecraft_version}:${geckolib_version}"
     implementation "curse.maven:mekanism-268560:7132168"
+    implementation "huge-structure-blocks-kk:huge-structure-blocks-kk:1.1.2"
 }
 
 var generateModMetadata = tasks.register("generateModMetadata", ProcessResources) {
