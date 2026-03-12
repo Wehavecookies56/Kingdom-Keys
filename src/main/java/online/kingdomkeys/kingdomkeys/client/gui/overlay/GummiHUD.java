@@ -125,7 +125,7 @@ public class GummiHUD extends OverlayBase {
         float health = (maxHealth - ship.getDamage()); //TODO remove /2
 
         //Based on the max hp per ship tier
-        float maxMaxHealth = 6000 * ship.getShipLevel(); //maybe config value or something?
+        float maxMaxHealth = 2000 * ship.getShipLevel(); //maybe config value or something?
 
         float healthPercentage = health / maxMaxHealth;
         float maxHealthPercentage = maxHealth / maxMaxHealth;
