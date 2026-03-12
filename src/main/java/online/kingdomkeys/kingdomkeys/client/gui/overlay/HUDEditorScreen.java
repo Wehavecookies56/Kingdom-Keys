@@ -6,7 +6,7 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
-import online.kingdomkeys.kingdomkeys.client.gui.elements.HUDElement;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.HUD.HUDElement;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.config.MenuConfigScreen;
 import online.kingdomkeys.kingdomkeys.util.Utils;

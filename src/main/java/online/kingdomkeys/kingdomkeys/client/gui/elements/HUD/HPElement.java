@@ -1,7 +1,6 @@
 package online.kingdomkeys.kingdomkeys.client.gui.elements.HUD;
 
 import com.google.gson.JsonObject;
-import online.kingdomkeys.kingdomkeys.client.gui.elements.HUDElement;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 
 public class HPElement extends HUDElement {

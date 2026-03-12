@@ -1,4 +1,4 @@
-package online.kingdomkeys.kingdomkeys.client.gui.elements;
+package online.kingdomkeys.kingdomkeys.client.gui.elements.HUD;
 
 import com.google.common.collect.Lists;
 import com.google.gson.JsonObject;

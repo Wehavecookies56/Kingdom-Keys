@@ -67,7 +67,7 @@ public class PlayerPortraitGui extends OverlayBase {
                     RenderSystem.enableBlend();
                     float scaleX = 0.18F, scaleY = 0.18F;
                     poseStack.scale(scaleX, scaleY, 0);
-                    ResourceLocation circle = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/hp_background_circle.png");
+                    ResourceLocation circle = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/portrait.png");
                     blit(guiGraphics, circle, -39, -39, 0, 0, 256, 256);
                     RenderSystem.disableBlend();
                     ClientUtils.PORTRAIT_ELEMENT.endTransform(guiGraphics);

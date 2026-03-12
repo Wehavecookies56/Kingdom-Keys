@@ -99,7 +99,6 @@ public class HPGui extends OverlayBase {
     }
 
     private void drawHPBackground(PoseStack poseStack, float maxHealthPercentage) {
-
         RenderSystem.setShaderTexture(0, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/hp_background.png"));
         RenderSystem.setShaderTexture(1, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/hp_mask.png"));
 
@@ -126,7 +125,6 @@ public class HPGui extends OverlayBase {
     }
 
     private void drawHPBar(PoseStack poseStack, float healthPercentage) {
-
         Matrix4f matrix = poseStack.last().pose();
         Tesselator tesselator = Tesselator.getInstance();
         BufferBuilder buffer = tesselator.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
@@ -183,13 +181,9 @@ public class HPGui extends OverlayBase {
             RenderSystem.enableBlend();
             RenderSystem.defaultBlendFunc();
 
-            RenderSystem.setShaderTexture(0,
-                    ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/hp_fill.png")
-            );
+            RenderSystem.setShaderTexture(0, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/hp_fill.png"));
 
-            RenderSystem.setShaderTexture(1,
-                    ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/hp_mask.png")
-            );
+            RenderSystem.setShaderTexture(1, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/hp_mask.png"));
 
             ClientSetup.gummiHPShader.setSampler("Sampler0", 0);
             ClientSetup.gummiHPShader.setSampler("Sampler1", 1);
