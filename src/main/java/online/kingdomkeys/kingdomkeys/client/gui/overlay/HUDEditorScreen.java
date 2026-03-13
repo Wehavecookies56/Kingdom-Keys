@@ -53,24 +53,16 @@ public class HUDEditorScreen extends Screen {
         int scaledWidth = Minecraft.getInstance().getWindow().getGuiScaledWidth();
         int y=3;
         if(!ClientUtils.isKeyDown(GLFW.GLFW_KEY_H)) {
-            guiGraphics.drawCenteredString(minecraft.font, "Hold H to see help", scaledWidth / 2, y++ * 10, 0xFFFFFF);
+            guiGraphics.drawCenteredString(minecraft.font, Utils.translateToLocal("gui.menu.config.hud.help0"), scaledWidth / 2, y++ * 10, 0xFFFFFF);
         } else {
-            guiGraphics.drawCenteredString(minecraft.font, "First of all select the anchor point by clicking the element and SPACE", scaledWidth / 2, y++ * 10, 0xFFFFFF);
-            guiGraphics.drawCenteredString(minecraft.font, "LEFT CLICK and drag an element to move it", scaledWidth / 2, y++ * 10, 0xFFFFFF);
-            guiGraphics.drawCenteredString(minecraft.font, "Use ARROW KEYS to move it in bigger gaps", scaledWidth / 2, y++ * 10, 0xFFFFFF);
-            guiGraphics.drawCenteredString(minecraft.font, "Hold CTRL + ARROW KEYS to move it in tiny gaps", scaledWidth / 2, y++ * 10, 0xFFFFFF);
-            guiGraphics.drawCenteredString(minecraft.font, "Use SCROLL WHEEL to scale it up", scaledWidth / 2, y++ * 10, 0xFFFFFF);
-            guiGraphics.drawCenteredString(minecraft.font, "Hold X + SCROLL WHEEL to scale it horizontally", scaledWidth / 2, y++ * 10, 0xFFFFFF);
-            guiGraphics.drawCenteredString(minecraft.font, "Hold Y + SCROLL WHEEL to scale it vertically", scaledWidth / 2, y++ * 10, 0xFFFFFF);
-            guiGraphics.drawCenteredString(minecraft.font, "Use SHIFT + SCROLL WHEEL to rotate it", scaledWidth / 2, y++ * 10, 0xFFFFFF);
-            guiGraphics.drawCenteredString(minecraft.font, "Press LEFT ALT to show or hide outlines", scaledWidth / 2, y++ * 10, 0xFFFFFF);
-            guiGraphics.drawCenteredString(minecraft.font, "RIGHT CLICK on a selected item to reset it to Resourcepack defaults", scaledWidth / 2, y++ * 10, 0xFFFFFF);
-            guiGraphics.drawCenteredString(minecraft.font, "SHIFT + RIGHT CLICK on a selected item to reset it to base defaults", scaledWidth / 2, y++ * 10, 0xFFFFFF);
+            for(int i= 1; i < 12; i++) {
+                guiGraphics.drawCenteredString(minecraft.font, Utils.translateToLocal("gui.menu.config.hud.help"+i), scaledWidth / 2, y++ * 10, 0xFFFFFF);
+            }
         }
         if(selected!=null) {
-            guiGraphics.drawCenteredString(minecraft.font,"Selected element data:",scaledWidth / 2,y++*10+20,0xFFFFFF);
+            guiGraphics.drawCenteredString(minecraft.font,Utils.translateToLocal("gui.menu.config.hud.help12"),scaledWidth / 2,y++*10+10,0xFFFFFF);
             for(String data : selected.getData()) {
-                guiGraphics.drawString(minecraft.font, data,scaledWidth / 2-40,y++*10+ 20,0xFFFFFF);
+                guiGraphics.drawString(minecraft.font, data,scaledWidth / 2-40,y++*10+ 10,0xFFFFFF);
             }
         }
 
@@ -208,7 +200,10 @@ public class HUDEditorScreen extends Screen {
     public boolean mouseScrolled(double mouseX, double mouseY, double scrollX, double scrollY) {
         if (selected != null) {
             if (hasShiftDown()) {
-                selected.rotation += (float) (scrollY * 5f);
+                selected.rotation = (selected.rotation + (float)(scrollY * 5f)) % 360f;
+                if (selected.rotation < 0) {
+                    selected.rotation += 360f;
+                }
             } else {
                 if(ClientUtils.isKeyDown(GLFW.GLFW_KEY_X)) {
                     selected.scaleX += (float) (scrollY * 0.05f);
@@ -219,9 +214,6 @@ public class HUDEditorScreen extends Screen {
                     selected.scaleY += (float) (scrollY * 0.05f);
                 }
             }
-
-           // selected.scaleX = Math.max(0.1f, selected.scaleX);
-           // selected.scaleY = Math.max(0.1f, selected.scaleY);
 
             return true;
         }

@@ -196,8 +196,7 @@ public class HUDElement {
 
         guiGraphics.pose().pushPose();
 
-        boolean flipped = scaleX < 0 || scaleY < 0;
-        if (flipped) {
+        if (scaleX < 0 || scaleY < 0) {
             RenderSystem.disableCull();
         }
 

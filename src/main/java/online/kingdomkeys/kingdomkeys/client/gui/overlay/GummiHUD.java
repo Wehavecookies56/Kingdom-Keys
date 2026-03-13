@@ -130,15 +130,6 @@ public class GummiHUD extends OverlayBase {
         float healthPercentage = health / maxMaxHealth;
         float maxHealthPercentage = maxHealth / maxMaxHealth;
 
-        /*
-        float minExtra = 0.01F;
-        float maxExtra = 0.004F;
-        float exponent = 2.5F;
-
-        float extra = minExtra + (maxExtra - minExtra) * (1 - (float) Math.pow(healthPercentage, exponent));
-        float maxHealthPercentageOutline = maxHealthPercentage + extra;
-         */
-
         if (realGummiHP == 0) {
             realGummiHP = health;
             displayedGummiHP = health;
