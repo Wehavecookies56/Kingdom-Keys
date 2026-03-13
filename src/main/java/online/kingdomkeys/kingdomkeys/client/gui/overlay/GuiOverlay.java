@@ -7,6 +7,7 @@ import net.minecraft.Util;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
@@ -25,7 +26,6 @@ import java.util.List;
 import java.util.UUID;
 
 public class GuiOverlay extends OverlayBase {
-
 	public static final GuiOverlay INSTANCE = new GuiOverlay();
 	public static boolean showExp;
 	public static boolean showMunny;
@@ -74,6 +74,7 @@ public class GuiOverlay extends OverlayBase {
 		if(playerData != null) {
 			ClientUtils.MUNNYEXP_ELEMENT.applyTransform(guiGraphics,width,sHeight);
 			// Experience
+			RenderSystem.setShaderColor(0.8F,0.75F,1F, 0.6F);
 			if (showExp) {
 				showExp(guiGraphics);
 			}
@@ -82,6 +83,9 @@ public class GuiOverlay extends OverlayBase {
 			if (showMunny) {
 				showMunny(guiGraphics);
 			}
+
+			RenderSystem.setShaderColor(1F,1F,1F, 1F);
+
 			ClientUtils.MUNNYEXP_ELEMENT.endTransform(guiGraphics);
 
 			// Level Up
@@ -107,12 +111,13 @@ public class GuiOverlay extends OverlayBase {
 			}
 		}
 	}
-	
+
+
 	private void showExp(GuiGraphics gui) {
 		if(playerData != null) {
 			String reqExp = String.valueOf(playerData.getExpNeeded(playerData.getLevel(), playerData.getExperience()));
-			drawString(gui, minecraft.font, Utils.translateToLocal(Strings.Stats_LevelNext), 5, 5, 0xFFFFFF);
-			drawString(gui, minecraft.font, reqExp, 5, 5 + minecraft.font.lineHeight, 0xFFFFFF);
+			drawString(gui, minecraft.font, Component.translatable(Strings.Stats_LevelNext).withStyle(ClientUtils.KKFont), 5, 5, 0xFFFFFF);
+			drawString(gui, minecraft.font, Component.literal(reqExp).withStyle(ClientUtils.KKFont), 5, 5 + minecraft.font.lineHeight, 0xFFFFFF);
 
 			if (System.currentTimeMillis()/1000 > (timeExp + 4))
 				showExp = false;
@@ -132,12 +137,12 @@ public class GuiOverlay extends OverlayBase {
 			}
 			matrixStack.popPose();
 		} else { // If exp is being displayed print it below it
-			heightOffsetText = minecraft.font.lineHeight + 10;
-			heightOffsetNum = (minecraft.font.lineHeight * 2) + 10;
+			heightOffsetText = minecraft.font.lineHeight + 15;
+			heightOffsetNum = (minecraft.font.lineHeight * 2) + 15;
 		}
 
-		drawString(guiGraphics, minecraft.font, Utils.translateToLocal(Strings.Stats_MunnyGet), 5, 5 + heightOffsetText, 0xFFFFFF);
-		drawString(guiGraphics, minecraft.font, munnyGet + "", 5, 5 + heightOffsetNum, 0xFFFFFF);
+		drawString(guiGraphics, minecraft.font, Component.translatable(Strings.Stats_MunnyGet).withStyle(ClientUtils.KKFont), 5, 5 + heightOffsetText, 0xFFFFFF);
+		drawString(guiGraphics, minecraft.font, Component.literal(munnyGet+"").withStyle(ClientUtils.KKFont), 5, 5 + heightOffsetNum, 0xFFFFFF);
 
 		if (System.currentTimeMillis()/1000 > (timeMunny + 4))
 			showMunny = false;

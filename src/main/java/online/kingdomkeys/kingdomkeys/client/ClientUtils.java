@@ -37,6 +37,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.FormattedText;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
@@ -86,6 +87,8 @@ import java.util.List;
 import java.util.UUID;
 
 public class ClientUtils {
+    public static final Style KKFont = Style.EMPTY.withFont(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "kk_font"));
+
     //Order is important for overlapping boxes, top to bottom
     public static final HUDElement DRIVE_ELEMENT = new HUDElement("Drive").setScale(0.8F,0.8F);
     public static final HUDElement MP_ELEMENT = new HUDElement("MP").setScale(0.7F, 0.5F);
