@@ -2,7 +2,7 @@
   "providers": [
     {
       "type": "ttf",
-      "file": "kingdomkeys:kk_font.ttf",
+      "file": "kingdomkeys:kk_font_menu.ttf",
       "size": 8,
       "oversample": 8
     },

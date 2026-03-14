@@ -103,7 +103,7 @@ public class PartyHUDGui extends OverlayBase {
 			}
 			pose.popPose();
 
-			String name = playerAlly == null ? "Out of range" : playerAlly.getDisplayName().getString()+i;
+			String name = playerAlly == null ? "Out of range" : playerAlly.getDisplayName().getString();
 
 			pose.pushPose();
 			{

@@ -116,8 +116,8 @@ public class GuiOverlay extends OverlayBase {
 	private void showExp(GuiGraphics gui) {
 		if(playerData != null) {
 			String reqExp = String.valueOf(playerData.getExpNeeded(playerData.getLevel(), playerData.getExperience()));
-			drawString(gui, minecraft.font, Component.translatable(Strings.Stats_LevelNext).withStyle(ClientUtils.KKFont), 5, 5, 0xFFFFFF);
-			drawString(gui, minecraft.font, Component.literal(reqExp).withStyle(ClientUtils.KKFont), 5, 5 + minecraft.font.lineHeight, 0xFFFFFF);
+			drawString(gui, minecraft.font, Component.translatable(Strings.Stats_LevelNext).withStyle(ClientUtils.KK_Font_EXP), 5, 5, 0xFFFFFF);
+			drawString(gui, minecraft.font, Component.literal(reqExp).withStyle(ClientUtils.KK_Font_EXP), 5, 5 + minecraft.font.lineHeight, 0xFFFFFF);
 
 			if (System.currentTimeMillis()/1000 > (timeExp + 4))
 				showExp = false;
@@ -141,8 +141,8 @@ public class GuiOverlay extends OverlayBase {
 			heightOffsetNum = (minecraft.font.lineHeight * 2) + 15;
 		}
 
-		drawString(guiGraphics, minecraft.font, Component.translatable(Strings.Stats_MunnyGet).withStyle(ClientUtils.KKFont), 5, 5 + heightOffsetText, 0xFFFFFF);
-		drawString(guiGraphics, minecraft.font, Component.literal(munnyGet+"").withStyle(ClientUtils.KKFont), 5, 5 + heightOffsetNum, 0xFFFFFF);
+		drawString(guiGraphics, minecraft.font, Component.translatable(Strings.Stats_MunnyGet).withStyle(ClientUtils.KK_Font_EXP), 5, 5 + heightOffsetText, 0xFFFFFF);
+		drawString(guiGraphics, minecraft.font, Component.literal(munnyGet+"").withStyle(ClientUtils.KK_Font_EXP), 5, 5 + heightOffsetNum, 0xFFFFFF);
 
 		if (System.currentTimeMillis()/1000 > (timeMunny + 4))
 			showMunny = false;

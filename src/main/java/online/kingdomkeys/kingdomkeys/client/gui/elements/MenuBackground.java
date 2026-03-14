@@ -98,10 +98,11 @@ public class MenuBackground extends Screen {
 		drawBiomeDim(gui);
 		drawTip(gui);
 
+		//TITLE
 		gui.pose().pushPose();
 		{
 			gui.pose().scale(1.3F,1.3F, 1F);
-			gui.drawString(minecraft.font, Component.literal(Utils.translateToLocal(getTitle().getString())).withStyle(ClientUtils.KKFont), 2, 10, 0xFF9900);
+			gui.drawString(minecraft.font, Component.literal(Utils.translateToLocal(getTitle().getString().toUpperCase())).withStyle(ClientUtils.KK_Font_EXP), 2, 10, 0xFF9900);
 		}
 		gui.pose().popPose();
 	}
@@ -160,7 +161,7 @@ public class MenuBackground extends Screen {
 			} else {
 				biome = biomeLoc.toString();
 			}
-			Component text = Component.literal(dimension + " | " + biome).withStyle(ClientUtils.KKFont);
+			Component text = Component.literal(dimension + " | " + biome).withStyle(ClientUtils.KK_Font_MENU);
 			gui.drawString(minecraft.font, text, width - minecraft.font.width(text) - 5, 5, 0xF58B33);
 		}
 		gui.pose().popPose();
@@ -173,13 +174,13 @@ public class MenuBackground extends Screen {
 			gui.pose().translate(0.0F, 16, 1F);
 			PlayerData playerData = PlayerData.get(minecraft.player);
 			int y = (int) (topBarHeight + middleHeight +1);
-			gui.drawString(minecraft.font, Component.literal(Utils.translateToLocal(Strings.Gui_Menu_Main_Synthesis_Tier)+": "+Utils.getTierFromInt(playerData.getSynthLevel())).withStyle(ClientUtils.KKFont) , 5, y, 0xFFFF00);
+			gui.drawString(minecraft.font, Component.literal(Utils.translateToLocal(Strings.Gui_Menu_Main_Synthesis_Tier)+": "+Utils.getTierFromInt(playerData.getSynthLevel())).withStyle(ClientUtils.KK_Font_EXP) , 5, y, 0xFFFF00);
 			y+= minecraft.font.lineHeight;
-			gui.drawString(minecraft.font, Component.literal(Utils.translateToLocal(Strings.Gui_Menu_Main_Munny) + ": " + Utils.getFormattedNumber(playerData.getMunny())).withStyle(ClientUtils.KKFont), 5, y, 0xF66627);
+			gui.drawString(minecraft.font, Component.literal(Utils.translateToLocal(Strings.Gui_Menu_Main_Munny) + ": " + Utils.getFormattedNumber(playerData.getMunny())).withStyle(ClientUtils.KK_Font_EXP), 5, y, 0xF66627);
 			y+= minecraft.font.lineHeight;
-			gui.drawString(minecraft.font, Component.literal(Utils.translateToLocal(Strings.Gui_Menu_Main_Hearts) + ": " + Utils.getFormattedNumber(playerData.getHearts())).withStyle(ClientUtils.KKFont), 5, y, playerData.getAlignment() == OrgMember.NONE ? 0x888888 : 0xFF3333);
+			gui.drawString(minecraft.font, Component.literal(Utils.translateToLocal(Strings.Gui_Menu_Main_Hearts) + ": " + Utils.getFormattedNumber(playerData.getHearts())).withStyle(ClientUtils.KK_Font_EXP), 5, y, playerData.getAlignment() == OrgMember.NONE ? 0x888888 : 0xFF3333);
 			y+= minecraft.font.lineHeight;
-			gui.drawString(minecraft.font, Component.literal(Utils.translateToLocal(Strings.Gui_Menu_Main_Time) + ": " + getWorldHours(minecraft.level) + ":" + getWorldMinutes(minecraft.level)).withStyle(ClientUtils.KKFont), 5, y, 0xFFFFFF);
+			gui.drawString(minecraft.font, Component.literal(Utils.translateToLocal(Strings.Gui_Menu_Main_Time) + ": " + getWorldHours(minecraft.level) + ":" + getWorldMinutes(minecraft.level)).withStyle(ClientUtils.KK_Font_EXP), 5, y, 0xFFFFFF);
 			long seconds = minecraft.level.getDayTime() / 20;
 			long h = seconds / 3600;
 			long m = seconds % 3600 / 60;
@@ -191,7 +192,7 @@ public class MenuBackground extends Screen {
 			String time = hou + ":" + min + ":" + sec;
 			y+= minecraft.font.lineHeight;
 
-			gui.drawString(minecraft.font, Component.literal(Utils.translateToLocal(Strings.Gui_Menu_Main_Time_Spent) + ": " + time).withStyle(ClientUtils.KKFont), 5, y, 0x42ceff);
+			gui.drawString(minecraft.font, Component.literal(Utils.translateToLocal(Strings.Gui_Menu_Main_Time_Spent) + ": " + time).withStyle(ClientUtils.KK_Font_EXP), 5, y, 0x42ceff);
 		}
 		gui.pose().popPose();
 	}

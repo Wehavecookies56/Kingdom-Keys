@@ -1,10 +1,10 @@
 package online.kingdomkeys.kingdomkeys.client.gui.menu.party;
 
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundSource;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton.ButtonType;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
@@ -25,8 +25,8 @@ public class GuiMenu_Party_Settings extends MenuBackground {
 
 	boolean priv = false, friendlyFire = false;
 	int pSize = ModConfigs.SERVER.partyMembersLimit.get();
-	
-	Button togglePriv, toggleFF, accept, size;
+	MenuBox box;
+	MenuButton togglePriv, toggleFF, accept, size;
 	MenuButton back;
 		
 	final PlayerData playerData = PlayerData.get(minecraft.player);
@@ -91,9 +91,6 @@ public class GuiMenu_Party_Settings extends MenuBackground {
 
 	@Override
 	public void init() {
-		//TODO request packet to sync other players data
-		super.width = width;
-		super.height = height;
 		super.init();
 		this.renderables.clear();
 		
@@ -102,28 +99,19 @@ public class GuiMenu_Party_Settings extends MenuBackground {
 			priv = party.getPriv();
 			pSize = party.getSize();
 			friendlyFire = party.getFriendlyFire();
-			
-			float topBarHeight = (float) height * 0.17F;
+
+			topBarHeight = (float) height * 0.17F;
 			int button_statsY = (int) topBarHeight + 5;
 			float buttonPosX = (float) width * 0.03F;
 			float buttonWidth = ((float) width * 0.1744F) - 20;
-	
-			addRenderableWidget(togglePriv = Button.builder(Component.literal(""), (e) -> {
-				action("togglePriv");
-			}).bounds((int) (width*0.25)-2, button_statsY + (18), 100, 20).build());
-			
-			addRenderableWidget(size = Button.builder(Component.literal(""), (e) -> {
-				action("size");
-			}).bounds((int) (width * 0.25 - 2 + 100 + 4), button_statsY + (18), 20, 20).build());
-			
-			addRenderableWidget(toggleFF = Button.builder(Component.literal(""), (e) -> {
-				action("ff");
-			}).bounds((int) (width*0.25)-2, button_statsY + (3 * 18), 100, 20).build());
-			
-			addRenderableWidget(accept = Button.builder(Component.translatable(Utils.translateToLocal(Strings.Gui_Menu_Accept)), (e) -> {
-				action("accept");
-			}).bounds((int) (width*0.25)-2, button_statsY + (5 * 18), 130, 20).build());
-			
+
+			box = new MenuBox((int)(width*0.25F), (int)topBarHeight, (int)(width*0.5F), (int) middleHeight,0.8F, new Color(255,128,255));
+
+			addRenderableWidget(togglePriv = new MenuButton(box.getX() + 10, button_statsY + (18), 80, "", ButtonType.ROUNDBUTTON, (e) -> { action("togglePriv"); }).setCenterText());
+			addRenderableWidget(size = new MenuButton(togglePriv.getX() + togglePriv.getWidth(), button_statsY + (18), 0, "", ButtonType.ROUNDBUTTON,(e) -> { action("size"); }).setCenterText());
+			addRenderableWidget(toggleFF = new MenuButton(togglePriv.getX(), button_statsY + (3 * 18), 80, "", ButtonType.ROUNDBUTTON,(e) -> { action("ff"); }).setCenterText());
+			addRenderableWidget(accept = new MenuButton(togglePriv.getX(), button_statsY + (5 * 18), 110, Strings.Gui_Menu_Accept, ButtonType.ROUNDBUTTON,(e) -> { action("accept"); }).setCenterText());
+
 			addRenderableWidget(back = new MenuButton((int) buttonPosX, button_statsY, (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), ButtonType.BUTTON, (e) -> { action("back"); }));
 		}
 		
@@ -132,12 +120,11 @@ public class GuiMenu_Party_Settings extends MenuBackground {
 
 	@Override
 	public void render(@NotNull GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
-		
-		//fill(125, ((-140 / 16) + 75) + 10, 200, ((-140 / 16) + 75) + 20, 0xFFFFFF);
+		box.render(gui, mouseX, mouseY, partialTicks);
 		super.render(gui, mouseX, mouseY, partialTicks);
 		worldData = WorldData.getClient();
+
 		party = worldData.getPartyFromMember(minecraft.player.getUUID());
-		
 		if(party == null) {
 			PacketHandler.sendToServer(new CSOpenMenu());
         } else {
@@ -146,12 +133,9 @@ public class GuiMenu_Party_Settings extends MenuBackground {
 				return;
 			}
 			
-			int buttonX = (int)(width*0.25);
+			int buttonX = togglePriv.getX();
 			gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Party_Create_Accessibility), buttonX, (int)(height * 0.21), 0xFFFFFF);
 			gui.drawString(minecraft.font, Utils.translateToLocal("Friendly Fire"), buttonX, (int)(height * 0.21) + 38, 0xFFFFFF);
 		}
-		
-		
 	}
-	
 }

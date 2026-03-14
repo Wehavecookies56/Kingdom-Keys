@@ -62,6 +62,7 @@ public class LanguageESES extends KKLanguageProvider {
         addConfigKey(ModConfigs.getClientConfig().magicDisplayedInCommandMenu, "Orden de Magias en el Menú de Comandos");
         addConfigKey(ModConfigs.getClientConfig().cmTextXOffset, "Menú de Comandos offset del texto X");
         addConfigKey(ModConfigs.getClientConfig().cmHeaderTextVisible, "Mostrar cabecera del Menú de Comandos");
+        addConfigKey(ModConfigs.getClientConfig().customFont, "Muestra la fuente personalizada");
         addConfigKey(ModConfigs.getClientConfig().cmClassicColors, "Colores del Menú de Comandos clasicos");
         addConfigKey(ModConfigs.getClientConfig().cmSelectedXOffset, "Menú de Comandos offset X seleccionado");
         addConfigKey(ModConfigs.getClientConfig().cmSubXOffset, "Menú de Comandos submenú X offset (%)");
@@ -374,6 +375,7 @@ public class LanguageESES extends KKLanguageProvider {
         add(Gui_Menu_Config + ".hud.help10", "CLICK DERECHO en un elemento seleccionado para resetearlo a valores de Resourcepack");
         add(Gui_Menu_Config + ".hud.help11", "SHIFT + CLICK DERECHO en un elemento seleccionado para resetearlo a valores por defecto");
         add(Gui_Menu_Config + ".hud.help12", "Datos del elemento seleccionado:");
+        add(Gui_Menu_Config + ".font", "Fuente");
         add(Gui_Menu_Config + ".command_menu", "Men\u00fa Comandos");
         add(Gui_Menu_Config + ".hp", "Barra VT");
         add(Gui_Menu_Config + ".mp", "Barra PM");
@@ -382,6 +384,7 @@ public class LanguageESES extends KKLanguageProvider {
         add(Gui_Menu_Config + ".lock_on_hp", "Fijar mob");
         add(Gui_Menu_Config + ".party", "Grupo");
         add(Gui_Menu_Config + ".focus", "Barra Tino");
+        add(Gui_Menu_Config + ".custom_font", "Fuente personalizada");
         add(Gui_Menu_Config + ".classic_colors", "Colores cl\u00e1sicos");
         add(Gui_Menu_Config + ".x_scale", "Escala X");
         add(Gui_Menu_Config + ".y_scale", "Escala Y");

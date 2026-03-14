@@ -78,7 +78,6 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 import org.joml.Matrix4f;
 import org.joml.Matrix4fStack;
 import org.joml.Quaternionf;
-import org.lwjgl.glfw.GLFW;
 
 import javax.annotation.Nullable;
 import java.io.FileNotFoundException;
@@ -87,7 +86,8 @@ import java.util.List;
 import java.util.UUID;
 
 public class ClientUtils {
-    public static final Style KKFont = Style.EMPTY.withFont(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "kk_font"));
+    public static Style KK_Font_EXP = Style.EMPTY.withFont(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "kk_font_exp"));
+    public static Style KK_Font_MENU = Style.EMPTY.withFont(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "kk_font_menu"));
 
     //Order is important for overlapping boxes, top to bottom
     public static final HUDElement DRIVE_ELEMENT = new HUDElement("Drive").setScale(0.8F,0.8F);

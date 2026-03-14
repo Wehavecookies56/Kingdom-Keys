@@ -13,7 +13,7 @@ import java.util.List;
 public class ClientConfig {
 	public ModConfigSpec.ConfigValue<List<? extends Float>> hpHUDData, mpHUDData, cmHUDData, rcHUDData, driveHUDData, focusHUDData, partyHUDData, lockOnHUDData, portraitHUDData, munnyExpHUDData, levelUpHUDData, driveLevelHUDData;
 
-    public ModConfigSpec.BooleanValue cmHeaderTextVisible, cmClassicColors, auto3rdPersonShip, cmChangeColor;
+    public ModConfigSpec.BooleanValue cmHeaderTextVisible, cmClassicColors, auto3rdPersonShip, cmChangeColor, customFont;
     public ModConfigSpec.IntValue cmTextXOffset, cmSelectedXOffset, cmSubXOffset, cmEndLWidth, cmEndRWidth, cmHeaderEndLWidth, cmHeaderEndRWidth, cmReactionEndLWidth, cmReactionEndRWidth;
     
     public ModConfigSpec.BooleanValue hpShowHearts;
@@ -97,6 +97,11 @@ public class ClientConfig {
 				.comment("Toggle HUD visibility, weapon option will show only while holding a Keyblade or Organization weapon")
 				.translation(KingdomKeys.MODID + ".config.show_gui_toggle")
 				.defineEnum("showGuiToggle", ModConfigs.ShowType.SHOW);
+
+			customFont = builder
+				.comment("Enable the custom font")
+				.translation(KingdomKeys.MODID + ".config.custom_font")
+				.define("customFont", true);
 
 			showDriveForms = builder
                 .comment("Drive Forms Visibility")

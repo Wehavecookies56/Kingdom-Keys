@@ -58,6 +58,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addConfigKey(ModConfigs.getClientConfig().summonTogether, "Summon weapon and armor together");
         addConfigKey(ModConfigs.getClientConfig().auto3rdPersonShip, "Auto 3rd person ship");
         addConfigKey(ModConfigs.getClientConfig().showGuiToggle, "Toggle HUD visibility");
+        addConfigKey(ModConfigs.getClientConfig().customFont, "Toggle the custom font");
         addConfigKey(ModConfigs.getClientConfig().showDriveForms, "Drive Forms visibility");
         addConfigKey(ModConfigs.getClientConfig().magicDisplayedInCommandMenu, "Displayed Magic order in Command Menu");
         addConfigKey(ModConfigs.getClientConfig().cmTextXOffset, "Command Menu text X offset");
@@ -321,6 +322,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Gui_Menu_Config + ".hud.help10", "RIGHT CLICK on a selected item to reset it to Resourcepack defaults");
         add(Gui_Menu_Config + ".hud.help11", "SHIFT + RIGHT CLICK on a selected item to reset it to base defaults");
         add(Gui_Menu_Config + ".hud.help12", "Selected element data:");
+        add(Gui_Menu_Config + ".font", "Font");
         add(Gui_Menu_Config + ".command_menu", "Command Menu");
         add(Gui_Menu_Config + ".hp", "HP Bar");
         add(Gui_Menu_Config + ".mp", "MP Bar");
@@ -329,6 +331,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Gui_Menu_Config + ".lock_on_hp", "Lock On");
         add(Gui_Menu_Config + ".party", "Party");
         add(Gui_Menu_Config + ".focus", "Focus Bar");
+        add(Gui_Menu_Config + ".custom_font", "Custom Font");
         add(Gui_Menu_Config + ".classic_colors", "Classic colors");
         add(Gui_Menu_Config + ".x_scale", "X Scale");
         add(Gui_Menu_Config + ".y_scale", "Y Scale");

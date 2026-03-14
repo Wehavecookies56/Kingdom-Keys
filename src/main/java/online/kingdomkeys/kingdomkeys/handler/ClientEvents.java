@@ -543,6 +543,10 @@ public class ClientEvents {
         }
     }
 
+    public static float ballRot = 0;
+    public static float prevBallRot = 0;
+
+
 	@SubscribeEvent
 	public void clientTickPost(ClientTickEvent.Post event) {
 		if (Minecraft.getInstance().level != null) {
@@ -550,7 +554,13 @@ public class ClientEvents {
 				Minecraft.getInstance().player.getInventory().selected = selectedSlot;
 			}
 		}
-	}
+        prevBallRot = ballRot;
+        ballRot =  (ballRot + 5F) % 360f;
+
+        if (ballRot >= 360F)
+            ballRot -= 360F;
+
+    }
 
 	public static boolean focusing = false;
 	int focusingTicks = 0;

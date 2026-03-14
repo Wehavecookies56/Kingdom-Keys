@@ -1,13 +1,14 @@
 package online.kingdomkeys.kingdomkeys.config;
 
+import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.event.config.ModConfigEvent;
 import net.neoforged.neoforge.common.ModConfigSpec;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.entity.SpawningMode;
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -55,7 +56,7 @@ public class ModConfigs {
     }
 
     public static List<String> magicDisplayedInCommandMenu;
-    public static boolean cmHeaderTextVisible, cmClassicColors, hpShowHearts, showDriveForms, summonTogether, auto3rdPersonShip, cmChangeColor;
+    public static boolean cmHeaderTextVisible, cmClassicColors, hpShowHearts, showDriveForms, summonTogether, auto3rdPersonShip, cmChangeColor, customFont;
     public static int cmTextXOffset, cmSelectedXOffset, cmSubXOffset, hpAlarm, lockOnIconScale, lockOnIconRotation, lockOnHpPerBar, partyYDistance, cmEndLWidth, cmEndRWidth, cmHeaderEndLWidth, cmHeaderEndRWidth, cmReactionEndLWidth, cmReactionEndRWidth;
 
     public static void setHUDData(String name, List<? extends Float> data){
@@ -141,7 +142,12 @@ public class ModConfigs {
         CLIENT.showGuiToggle.set(ShowType.values()[i]);
         bakeClient();
     }
-
+    //Font
+    public static void setCustomFont(boolean customFont) {
+        CLIENT.customFont.set(customFont);
+        CLIENT.customFont.save();
+        bakeClient();
+    }
     //Command Menu
     public static void setMagicDisplayedInCommandMenu(List<String> value) {
         CLIENT.magicDisplayedInCommandMenu.set(value);
@@ -261,6 +267,15 @@ public class ModConfigs {
     }
 
     public static void bakeClient() {
+        customFont = CLIENT.customFont.get();
+        if(customFont) {
+            ClientUtils.KK_Font_EXP = Style.EMPTY.withFont(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "kk_font_exp"));
+            ClientUtils.KK_Font_MENU = Style.EMPTY.withFont(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "kk_font_menu"));
+        } else {
+            ClientUtils.KK_Font_EXP = Style.EMPTY;
+            ClientUtils.KK_Font_MENU = Style.EMPTY;
+        }
+
         magicDisplayedInCommandMenu = (List<String>) CLIENT.magicDisplayedInCommandMenu.get();
         cmTextXOffset = CLIENT.cmTextXOffset.get();
         cmHeaderTextVisible = CLIENT.cmHeaderTextVisible.get();

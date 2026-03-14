@@ -24,7 +24,6 @@ import online.kingdomkeys.kingdomkeys.entity.GummiShipEntity;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class GummiShipEntityRenderer extends EntityRenderer<GummiShipEntity> {
-
 	public GummiShipEntityRenderer(EntityRendererProvider.Context context) {
 		super(context);
 	}

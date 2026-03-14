@@ -137,13 +137,16 @@ public class DriveGui extends OverlayBase {
 		//Balls
 		if (playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())) {
 			float ballScale = 0.4F;
+			int u = 55;
+			int v = playerData.getAlignment() == OrgMember.NONE ? 22 : 90;
+
 			guiGraphics.pose().pushPose();
 			{
-				float centerX = 86F;
-				float centerY = 7F;
+				float centerX = 85.5F;
+				float centerY = 6.8F;
 
 				float radiusX = 7F;
-				float radiusY = 11F;
+				float radiusY = 10.5F;
 				int amount = numPos / 10;
 
 				float delta = ballRot - prevBallRot;
@@ -163,7 +166,7 @@ public class DriveGui extends OverlayBase {
 					guiGraphics.pose().pushPose();
 					guiGraphics.pose().translate(x, y, 0);
 					guiGraphics.pose().scale(ballScale, ballScale, 1F);
-					blit(guiGraphics, TEXTURE, 0, 0, 55, 23, 11, 11);
+					blit(guiGraphics, TEXTURE, 0, 0, u, v, 11, 11);
 
 					guiGraphics.pose().popPose();
 				}

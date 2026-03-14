@@ -16,6 +16,7 @@ import net.neoforged.neoforge.common.NeoForge;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.api.event.EquipmentEvent;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.lib.Tags;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
@@ -42,7 +43,7 @@ public class WeaponUnlockScreen extends Screen {
         playerData = PlayerData.get(Minecraft.getInstance().player);
     }
 
-    Button cancel, next, prev, select;
+    MenuButton cancel, next, prev, select;
     final int CANCEL = 2, NEXT = 3, PREV = 4, SELECT = 5;
 
     List<Item> weapons;
@@ -58,13 +59,10 @@ public class WeaponUnlockScreen extends Screen {
     @Override
     public boolean mouseScrolled(double mouseX, double mouseY, double deltaX, double deltaY)
     {
-        if (deltaY > 0 && prev.visible)
-        {
+        if (deltaY > 0 && prev.visible){
             actionPerformed(PREV);
             return true;
-        }
-        else if  (deltaY < 0 && next.visible)
-        {
+        } else if  (deltaY < 0 && next.visible) {
             actionPerformed(NEXT);
             return true;
         }
@@ -103,21 +101,22 @@ public class WeaponUnlockScreen extends Screen {
     @Override
     protected void init() {
         super.init();
-        
-        addRenderableWidget(cancel = Button.builder(Component.translatable("Back"), (e) -> {
-    		actionPerformed(CANCEL);
-		}).bounds(0, 0, 50, 20).build());
-        addRenderableWidget(next = Button.builder(Component.literal(">"), (e) -> {
-    		actionPerformed(NEXT);
-		}).bounds(0, 0, 20, 20).build());
-        
-        addRenderableWidget(prev = Button.builder(Component.literal("<"), (e) -> {
-    		actionPerformed(PREV);
-		}).bounds(0, 0, 20, 20).build());
 
-        addRenderableWidget(select = Button.builder(Component.translatable("Unlock"), (e) -> {
-    		actionPerformed(SELECT);
-		}).bounds(0, 0, 50, 20).build());
+        addRenderableWidget(cancel = new MenuButton(0,0,60,"gui.org.cancel", MenuButton.ButtonType.ROUNDBUTTON, (e) -> {
+            actionPerformed(CANCEL);
+        }).setCenterText());
+
+        addRenderableWidget(next = new MenuButton(0,0,0,">", MenuButton.ButtonType.ROUNDBUTTON, (e) -> {
+            actionPerformed(NEXT);
+        }).setCenterText());
+
+        addRenderableWidget(prev = new MenuButton(0,0,0,"<", MenuButton.ButtonType.ROUNDBUTTON,  (e) -> {
+            actionPerformed(PREV);
+        }).setCenterText());
+
+        addRenderableWidget(select = new MenuButton(0,0,40,"gui.org.select", MenuButton.ButtonType.ROUNDBUTTON,  (e) -> {
+            actionPerformed(SELECT);
+        }).setCenterText());
         updateButtons();
     }
 
@@ -236,9 +235,9 @@ public class WeaponUnlockScreen extends Screen {
         prev.setY((height / 2) - (prev.getHeight() / 2));
         select.visible = true;
         select.setX((width / 2) - (select.getWidth() / 2));
-        select.setY((height / 2) - (select.getHeight() / 2) + 90);
+        select.setY((height / 2) - (select.getHeight() / 2) + 80);
         cancel.visible = true;
-        cancel.setX((width / 2) - (select.getWidth() / 2));
-        cancel.setY((height / 2) - (select.getHeight() / 2) + 115);
+        cancel.setX((width / 2) - (cancel.getWidth() / 2));
+        cancel.setY((height / 2) - (cancel.getHeight() / 2) + 100);
     }
 }

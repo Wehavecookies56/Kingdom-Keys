@@ -4,11 +4,11 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment.MenuEquipmentScreen;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import org.jetbrains.annotations.NotNull;
@@ -22,7 +22,7 @@ public class WeaponTreeSelectionScreen extends Screen {
         super(Component.literal(""));
         this.current = current;
     }
-    Button cancel, next, prev, select;
+    MenuButton cancel, next, prev, select;
     final int CANCEL = 2, NEXT = 3, PREV = 4, SELECT = 5;
 
     Utils.OrgMember current = Utils.OrgMember.XEMNAS;
@@ -179,21 +179,21 @@ public class WeaponTreeSelectionScreen extends Screen {
 
     @Override
     public void init() {
-    	addRenderableWidget(cancel = Button.builder(Component.translatable("Back"), (e) -> {
-    		actionPerformed(CANCEL);
-		}).bounds(0, 0, 50, 20).build());
-    	
-        addRenderableWidget(next = Button.builder(Component.literal(">"), (e) -> {
-    		actionPerformed(NEXT);
-		}).bounds(0, 0, 20, 20).build());
-        
-        addRenderableWidget(prev = Button.builder(Component.literal("<"), (e) -> {
-    		actionPerformed(PREV);
-		}).bounds(0, 0, 20, 20).build());
+        addRenderableWidget(cancel = new MenuButton(0,0,60,"gui.org.cancel", MenuButton.ButtonType.ROUNDBUTTON, (e) -> {
+            actionPerformed(CANCEL);
+        }).setCenterText());
 
-        addRenderableWidget(select = Button.builder(Component.translatable("Select"), (e) -> {
-    		actionPerformed(SELECT);
-		}).bounds(0, 0, 50, 20).build());
+        addRenderableWidget(next = new MenuButton(0,0,0,">", MenuButton.ButtonType.ROUNDBUTTON, (e) -> {
+            actionPerformed(NEXT);
+        }).setCenterText());
+
+        addRenderableWidget(prev = new MenuButton(0,0,0,"<", MenuButton.ButtonType.ROUNDBUTTON,  (e) -> {
+            actionPerformed(PREV);
+        }).setCenterText());
+
+        addRenderableWidget(select = new MenuButton(0,0,40,"gui.org.select", MenuButton.ButtonType.ROUNDBUTTON,  (e) -> {
+            actionPerformed(SELECT);
+        }).setCenterText());
         updateButtons();
         super.init();
     }
@@ -237,9 +237,9 @@ public class WeaponTreeSelectionScreen extends Screen {
         prev.setY((height / 2) - (prev.getHeight() / 2));
         select.visible = true;
         select.setX((width / 2) - (select.getWidth() / 2));
-        select.setY((height / 2) - (select.getHeight() / 2) + 90);
+        select.setY((height / 2) - (select.getHeight() / 2) + 80);
         cancel.visible = true;
-        cancel.setX((width / 2) - (select.getWidth() / 2));
-        cancel.setY((height / 2) - (select.getHeight() / 2) + 115);
+        cancel.setX((width / 2) - (cancel.getWidth() / 2));
+        cancel.setY((height / 2) - (cancel.getHeight() / 2) + 100);
     }
 }

@@ -38,15 +38,19 @@ import java.util.Map;
 public class MenuConfigScreen extends MenuBackground {
 			
 	enum ActualWindow {
-		COMMAND_MENU, HP, PLAYER, LOCK_ON_HP, PARTY, IMPORT_EXPORT
+		FONT, COMMAND_MENU, HP, PLAYER, LOCK_ON_HP, PARTY, IMPORT_EXPORT
 	}
 
-	ActualWindow window = ActualWindow.COMMAND_MENU;
+	ActualWindow window = ActualWindow.FONT;
 	
-	MenuButton back, commandMenuButton, hpButton, playerSkinButton, lockOnButton, partyButton, impExButton;
+	MenuButton back, fontButton, commandMenuButton, hpButton, playerSkinButton, lockOnButton, partyButton, impExButton;
 	Button backgroundButton, adjustHUDButton;
 	MenuBox box;
-	
+
+	//Font
+	Button customFontButton;
+	boolean customFont = true;
+
 	//Command Menu
 	EditBox cmTextXOffsetBox, cmSelectedXOffsetBox, cmSubXOffsetBox;
 	Button cmHeaderTextVisibleButton, cmClassicColorsButton;
@@ -71,12 +75,13 @@ public class MenuConfigScreen extends MenuBackground {
 	//Import Export
 	Button export, Import;
 	EditBoxLength importCode;
-	
-	List<AbstractWidget> commandMenuList = new ArrayList<AbstractWidget>();
-	List<AbstractWidget> hpList = new ArrayList<AbstractWidget>();
-	List<AbstractWidget> playerSkinList = new ArrayList<AbstractWidget>();
-	List<AbstractWidget> lockOnList = new ArrayList<AbstractWidget>();
-	List<AbstractWidget> partyList = new ArrayList<AbstractWidget>();
+
+	List<AbstractWidget> fontList = new ArrayList<>();
+	List<AbstractWidget> commandMenuList = new ArrayList<>();
+	List<AbstractWidget> hpList = new ArrayList<>();
+	List<AbstractWidget> playerSkinList = new ArrayList<>();
+	List<AbstractWidget> lockOnList = new ArrayList<>();
+	List<AbstractWidget> partyList = new ArrayList<>();
 	List<AbstractWidget> impExpList = new ArrayList<>();
 
 	int buttonsX = 0;
@@ -84,13 +89,17 @@ public class MenuConfigScreen extends MenuBackground {
 		super(Strings.Gui_Menu_Config, new Color(0,0,255));
 		drawPlayerInfo = false;
 	}
-
 	
 	protected void action(String string) {
 		PlayerData playerData = PlayerData.get(minecraft.player);
 		switch(string) {
 		case "back":
 			PacketHandler.sendToServer(new CSOpenMenu());
+			break;
+		case "customFont":
+			customFont = !customFont;
+			customFontButton.setMessage(Component.translatable(customFont+""));
+			ModConfigs.setCustomFont(customFont);
 			break;
 		case "textHeaderVisibility":
 			cmHeaderTextVisible = !cmHeaderTextVisible;
@@ -130,7 +139,8 @@ public class MenuConfigScreen extends MenuBackground {
 		
 		super.init();
 		this.renderables.clear();
-		
+
+		initFont();
 		initCommandMenu();
 		initHP();
 		initPlayerSkin();
@@ -138,6 +148,7 @@ public class MenuConfigScreen extends MenuBackground {
 		initParty();
 		initImpExp();
 		int y = 0;
+		addRenderableWidget(fontButton = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + y++ * 18, (int) buttonWidth, Utils.translateToLocal("gui.menu.config.font"), ButtonType.BUTTON, (e) -> { window = ActualWindow.FONT; }));
 		addRenderableWidget(commandMenuButton = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + y++ * 18, (int) buttonWidth, Utils.translateToLocal("gui.menu.config.command_menu"), ButtonType.BUTTON, (e) -> { window = ActualWindow.COMMAND_MENU; }));
 		addRenderableWidget(hpButton = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + + y++ * 18, (int) buttonWidth, Utils.translateToLocal("gui.menu.config.hp"), ButtonType.BUTTON, (e) -> { window = ActualWindow.HP; }));
 		addRenderableWidget(playerSkinButton = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + y++ * 18, (int) buttonWidth, Utils.translateToLocal("gui.menu.config.player_skin"), ButtonType.BUTTON, (e) -> { window = ActualWindow.PLAYER; }));
@@ -148,6 +159,18 @@ public class MenuConfigScreen extends MenuBackground {
 		addRenderableWidget(back = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + y++ * 18, (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), ButtonType.BUTTON, (e) -> { PacketHandler.sendToServer(new CSSyncArmorColor(PlayerData.get(minecraft.player).getArmorColor(),glint)); action("back"); }));
 		addRenderableWidget(backgroundButton = new MenuButton((int)(scaledWidth/2F - buttonWidth - 20), (int) topBarHeight - 30, (int)buttonWidth, Utils.translateToLocal("gui.menu.config.bg"), ButtonType.ROUNDBUTTON, (e) -> { drawSeparately = !drawSeparately; }));
 		addRenderableWidget(adjustHUDButton = new MenuButton(scaledWidth/2 + 10, (int) topBarHeight - 30, (int)buttonWidth, Utils.translateToLocal("gui.menu.config.hud"), ButtonType.ROUNDBUTTON, (e) -> { minecraft.setScreen(new HUDEditorScreen()); }));
+	}
+
+	private void initFont(){
+		customFont = ModConfigs.customFont;
+
+		int pos = 0;
+		addRenderableWidget(customFontButton = Button.builder(Component.translatable(customFont+""), (e) -> {
+			action("customFont");
+		}).bounds(buttonsX - 1, (int) topBarHeight + 20 * ++pos - 2, minecraft.font.width("#####")+2, 20).build());
+
+		customFontButton.setMessage(Component.translatable(customFont+""));
+		fontList.add(customFontButton);
 	}
 
 	private void initCommandMenu() {
@@ -544,9 +567,7 @@ public class MenuConfigScreen extends MenuBackground {
 		});
 
 		partyYDistanceBox.setValue(""+ModConfigs.partyYDistance);
-
 		partyList.add(partyYDistanceBox);
-
 	}
 
 	private void initImpExp() {
@@ -583,6 +604,7 @@ public class MenuConfigScreen extends MenuBackground {
 	@Override
 	public void render(@NotNull GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
 		PoseStack matrixStack = gui.pose();
+		fontButton.active = window != ActualWindow.FONT;
 		commandMenuButton.active = window != ActualWindow.COMMAND_MENU;
 		hpButton.active = window != ActualWindow.HP;
 		playerSkinButton.active = window != ActualWindow.PLAYER;
@@ -592,6 +614,11 @@ public class MenuConfigScreen extends MenuBackground {
 		
 		box.renderWidget(gui, mouseX, mouseY, partialTicks);
 		super.render(gui, mouseX, mouseY, partialTicks);
+
+		for(AbstractWidget b : fontList) {
+			b.active = false;
+			b.visible = false;
+		}
 
 		for(AbstractWidget b : commandMenuList) {
 			b.active = false;
@@ -629,124 +656,125 @@ public class MenuConfigScreen extends MenuBackground {
 			matrixStack.translate(buttonsX, box.getY() + 4, 1);
 			
 			switch (window) {
-			case COMMAND_MENU:
-				for (AbstractWidget b : commandMenuList) {
-					b.active = true;
-					b.visible = true;
-				}
-
-				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.command_menu"), 20, 0, 0xFF9900);
-				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.classic_colors"), 40, 20 * ++pos, 0xFF9900);
-				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.selected_x_pos"), 40, 20 * ++pos, 0xFF9900);
-				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.sub_x_offset"), 40, 20 * ++pos, 0xFF9900);
-				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.header_title"), 40, 20 * ++pos, 0xFF9900);
-				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.text_x_offset"), 40, 20 * ++pos, 0xFF9900);
-
-				break;
-
-			case HP:
-				for (AbstractWidget b : hpList) {
-					b.active = true;
-					b.visible = true;
-				}
-
-				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.hp"), 20, 0, 0xFF9900);
-				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.show_hearts"), 40, 20 * ++pos, 0xFF9900);
-				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.hp_alarm"), 40, 20 * ++pos, 0xFF9900);
-				break;
-
-			case PLAYER:
-				for (AbstractWidget b : playerSkinList) {
-					b.active = true;
-					b.visible = true;
-				}
-
-				Player player = Minecraft.getInstance().player;
-
-				matrixStack.pushPose();
-					{
-					matrixStack.translate(-(width*0.35F), 4, 0);
-					RenderSystem.enableBlend();
-					RenderSystem.setShaderColor((float) notifColorRed.getValue() / 255F, (float) notifColorGreen.getValue() / 255F, (float) notifColorBlue.getValue() / 255F, 1F);
-					ResourceLocation levelUpTexture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/levelup.png");
-	
-					// Top
-					matrixStack.pushPose();
-					{
-						matrixStack.translate((width - 153.6f - 2), 0, 0);
-						matrixStack.scale(0.6f, 0.6f, 1);
-						gui.blit(levelUpTexture, 0, 0, 0, 0, 256, 36);
-					}
-					matrixStack.popPose();
-	
-					// Half
-					matrixStack.pushPose();
-					{
-						matrixStack.translate((width - 256.0f * 0.6f - 2), 36.0f * 0.6f, 0);
-						matrixStack.scale(0.6f, 0, 1);
-						gui.blit(levelUpTexture, 0, 0, 0, 36, 256, 1);
-					}
-					matrixStack.popPose();
-	
-					// Bottom
-					matrixStack.pushPose();
-					{
-						matrixStack.translate((width - 256.0f * 0.6f - 2), 0 + (36.0f * 0.6f), 0);
-						matrixStack.scale(0.6f, 0.6f, 1);
-						gui.blit(levelUpTexture, 0, 0, 0, 37, 256, 14);
-					}
-					matrixStack.popPose();
-					RenderSystem.disableBlend();
-				}
-				matrixStack.popPose();
-				RenderSystem.setShaderColor(1,1,1,1F);
-
-				ClientUtils.renderEntity(matrixStack, (int) (width*0.5F), (int) (height*0.55F), 50, 0, 0, player);
-
-				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.player_skin"), 20, 0, 0xFF9900);
-				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.notif_color"), 100, 20 * ++pos, 0xFF9900);
-				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.armor.red")+": "+armorColorRed.getValueInt(), 40, 20 * ++pos, 0xFF9900);
-				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.armor.green")+": "+armorColorGreen.getValueInt(), 40, 20 * ++pos, 0xFF9900);
-				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.armor.blue")+": "+armorColorBlue.getValueInt(), 40, 20 * ++pos, 0xFF9900);
-				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.armor.glint"), 40, 20 * ++pos, 0xFF9900);
-
-				break;
-
-			case LOCK_ON_HP:
-				for (AbstractWidget b : lockOnList) {
-					b.active = true;
-					b.visible = true;
-				}
-
-				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.lock_on_hp"), 20, 0, 0xFF9900);
-				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.icon_scale"), 40, 20 * ++pos, 0xFF9900);
-				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.icon_rotation"), 40, 20 * ++pos, 0xFF9900);
-				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.hp_per_bar"), 40, 20 * ++pos, 0xFF9900);
-
-				break;
-
-			case PARTY:
-				for (AbstractWidget b : partyList) {
-					b.active = true;
-					b.visible = true;
-				}
-
-				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.party"), 20, 0, 0xFF9900);
-				gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.y_dist"), 40, 20 * ++pos, 0xFF9900);
-				break;
-
-			case IMPORT_EXPORT:
-				for (AbstractWidget b : impExpList) {
-					if(b == Import) {
-						b.active = !importCode.getValue().equals("");
-						b.visible = true;
-					} else {
+				case FONT -> {
+					for (AbstractWidget b : fontList) {
 						b.active = true;
 						b.visible = true;
 					}
-				}
 
-				break;
+					gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.font"), 20, 0, 0xFF9900);
+					gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.custom_font"), 40, 20 * ++pos, 0xFF9900);
+				}
+				case COMMAND_MENU -> {
+					for (AbstractWidget b : commandMenuList) {
+						b.active = true;
+						b.visible = true;
+					}
+
+					gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.command_menu"), 20, 0, 0xFF9900);
+					gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.classic_colors"), 40, 20 * ++pos, 0xFF9900);
+					gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.selected_x_pos"), 40, 20 * ++pos, 0xFF9900);
+					gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.sub_x_offset"), 40, 20 * ++pos, 0xFF9900);
+					gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.header_title"), 40, 20 * ++pos, 0xFF9900);
+					gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.text_x_offset"), 40, 20 * ++pos, 0xFF9900);
+				}
+				case HP -> {
+					for (AbstractWidget b : hpList) {
+						b.active = true;
+						b.visible = true;
+					}
+
+					gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.hp"), 20, 0, 0xFF9900);
+					gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.show_hearts"), 40, 20 * ++pos, 0xFF9900);
+					gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.hp_alarm"), 40, 20 * ++pos, 0xFF9900);
+				}
+				case PLAYER -> {
+					for (AbstractWidget b : playerSkinList) {
+						b.active = true;
+						b.visible = true;
+					}
+
+					Player player = Minecraft.getInstance().player;
+
+					matrixStack.pushPose();
+						{
+						matrixStack.translate(-(width*0.35F), 4, 0);
+						RenderSystem.enableBlend();
+						RenderSystem.setShaderColor((float) notifColorRed.getValue() / 255F, (float) notifColorGreen.getValue() / 255F, (float) notifColorBlue.getValue() / 255F, 1F);
+						ResourceLocation levelUpTexture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/levelup.png");
+
+						// Top
+						matrixStack.pushPose();
+						{
+							matrixStack.translate((width - 153.6f - 2), 0, 0);
+							matrixStack.scale(0.6f, 0.6f, 1);
+							gui.blit(levelUpTexture, 0, 0, 0, 0, 256, 36);
+						}
+						matrixStack.popPose();
+
+						// Half
+						matrixStack.pushPose();
+						{
+							matrixStack.translate((width - 256.0f * 0.6f - 2), 36.0f * 0.6f, 0);
+							matrixStack.scale(0.6f, 0, 1);
+							gui.blit(levelUpTexture, 0, 0, 0, 36, 256, 1);
+						}
+						matrixStack.popPose();
+
+						// Bottom
+						matrixStack.pushPose();
+						{
+							matrixStack.translate((width - 256.0f * 0.6f - 2), 0 + (36.0f * 0.6f), 0);
+							matrixStack.scale(0.6f, 0.6f, 1);
+							gui.blit(levelUpTexture, 0, 0, 0, 37, 256, 14);
+						}
+						matrixStack.popPose();
+						RenderSystem.disableBlend();
+					}
+					matrixStack.popPose();
+					RenderSystem.setShaderColor(1,1,1,1F);
+
+					ClientUtils.renderEntity(matrixStack, (int) (width*0.5F), (int) (height*0.55F), 50, 0, 0, player);
+
+					gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.player_skin"), 20, 0, 0xFF9900);
+					gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.notif_color"), 100, 20 * ++pos, 0xFF9900);
+					gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.armor.red")+": "+armorColorRed.getValueInt(), 40, 20 * ++pos, 0xFF9900);
+					gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.armor.green")+": "+armorColorGreen.getValueInt(), 40, 20 * ++pos, 0xFF9900);
+					gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.armor.blue")+": "+armorColorBlue.getValueInt(), 40, 20 * ++pos, 0xFF9900);
+					gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.armor.glint"), 40, 20 * ++pos, 0xFF9900);
+				}
+				case LOCK_ON_HP -> {
+					for (AbstractWidget b : lockOnList) {
+						b.active = true;
+						b.visible = true;
+					}
+
+					gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.lock_on_hp"), 20, 0, 0xFF9900);
+					gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.icon_scale"), 40, 20 * ++pos, 0xFF9900);
+					gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.icon_rotation"), 40, 20 * ++pos, 0xFF9900);
+					gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.hp_per_bar"), 40, 20 * ++pos, 0xFF9900);
+
+				}
+				case PARTY -> {
+					for (AbstractWidget b : partyList) {
+						b.active = true;
+						b.visible = true;
+					}
+
+					gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.party"), 20, 0, 0xFF9900);
+					gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.y_dist"), 40, 20 * ++pos, 0xFF9900);
+				}
+				case IMPORT_EXPORT -> {
+					for (AbstractWidget b : impExpList) {
+						if (b == Import) {
+							b.active = !importCode.getValue().equals("");
+							b.visible = true;
+						} else {
+							b.active = true;
+							b.visible = true;
+						}
+					}
+				}
 			}
 
 		}

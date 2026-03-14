@@ -268,9 +268,8 @@ public class KingdomKeys {
 				//ModList.get().getModContainerById(KingdomKeys.MODID).get().getEventBus().addListener(EpicFightRendering::patchedRenderersEventModify);
 			}
 			NeoForge.EVENT_BUS.post(new CommandMenuEvent.Construct(CommandMenuGui.INSTANCE));
+			ClientUtils.HUD_ELEMENTS.forEach(HUDElement::loadFromConfig);
 		}
-
-		ClientUtils.HUD_ELEMENTS.forEach(HUDElement::loadFromConfig);
 	}
 
 	@SubscribeEvent
