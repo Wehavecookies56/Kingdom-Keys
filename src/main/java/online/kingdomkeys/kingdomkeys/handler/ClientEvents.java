@@ -135,8 +135,8 @@ public class ClientEvents {
         double horizontalFovRad = 2.0 * Math.atan(Math.tan(verticalFovRad / 2.0) * aspect);
         double horizontalFovDeg = Math.toDegrees(horizontalFovRad);
 
-        float maxYawOffset = (float) (horizontalFovDeg * 0.4f);
-        float maxPitchOffset = (float) (verticalFovDeg * 0.4f);
+        float maxYawOffset = (float) horizontalFovDeg * 0.4f;
+        float maxPitchOffset = (float) verticalFovDeg * 0.4f;
 
         final float CORRECTION_SMOOTH = 0.15f;
 
