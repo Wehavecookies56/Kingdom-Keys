@@ -546,6 +546,9 @@ public class ClientEvents {
     public static float ballRot = 0;
     public static float prevBallRot = 0;
 
+    public static float visualMP = 0;
+    public static float prevVisualMP = 0;
+    private boolean prevRecharge = false;
 
 	@SubscribeEvent
 	public void clientTickPost(ClientTickEvent.Post event) {
@@ -554,12 +557,40 @@ public class ClientEvents {
 				Minecraft.getInstance().player.getInventory().selected = selectedSlot;
 			}
 		}
+
         prevBallRot = ballRot;
-        ballRot =  (ballRot + 5F) % 360f;
+        ballRot = (ballRot + 5F) % 360f;
 
         if (ballRot >= 360F)
             ballRot -= 360F;
 
+        if(Minecraft.getInstance().player == null)
+            return;
+        PlayerData playerData = PlayerData.get(Minecraft.getInstance().player);
+        if(playerData == null)
+            return;
+
+        float targetMP = (float) playerData.getMP();
+        boolean recharge = playerData.getRecharge();
+
+        prevVisualMP = visualMP;
+
+// Si el MP cae a 0 instantáneamente (ej: Cura)
+        if (targetMP == 0 && visualMP > 0) {
+            visualMP = 0;
+        }
+        else if (targetMP < visualMP) {
+            // gasto normal de MP
+            visualMP = targetMP;
+        }
+        else if (recharge) {
+            visualMP += (targetMP - visualMP) * 0.2F;
+        }
+        else {
+            visualMP = targetMP;
+        }
+
+        prevRecharge = recharge;
     }
 
 	public static boolean focusing = false;

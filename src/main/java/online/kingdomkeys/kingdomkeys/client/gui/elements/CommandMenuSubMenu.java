@@ -21,8 +21,6 @@ import java.util.Comparator;
 import java.util.List;
 
 public class CommandMenuSubMenu {
-
-
     private final ResourceLocation id;
     private int x;
     private int z;

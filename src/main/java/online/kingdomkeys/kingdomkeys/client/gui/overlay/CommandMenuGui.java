@@ -724,20 +724,19 @@ public class CommandMenuGui extends OverlayBase {
 			{
 				float shade = i == reactionSelected ? 1F : 0.4F;
 				RenderSystem.setShaderColor(shade,shade,shade, alpha);
-				gui.pose().translate(0, commandMenuElements.get(currentSubmenu).getY()-(16*i), 1F);
+				gui.pose().translate(0, commandMenuElements.get(currentSubmenu).getY()-(16*i), 2F);
 				gui.pose().scale(scale, scale, scale);
 				gui.pose().pushPose();
 				{
 					ReactionCommand command = ModReactionCommands.registry.get(ResourceLocation.parse(list.get(i)));
 					drawString(gui, minecraft.font, Utils.translateToLocal(command.getTranslationKey()),5 + (ModConfigs.cmTextXOffset+5), 4, 0xFFFFFF);
 
-					gui.pose().scale(100 / 75F, 1, 1);
+					gui.pose().scale(1.33F, 1, 1);
 					RenderSystem.enableBlend();
 					blit(gui, commandMenuElements.get(currentSubmenu).getTexture(), 0, 0, 0, 45, ModConfigs.cmReactionEndLWidth+1, TOP_HEIGHT);
 					blit(gui, commandMenuElements.get(currentSubmenu).getTexture(), ModConfigs.cmReactionEndLWidth, 0, TOP_WIDTH - (ModConfigs.cmReactionEndLWidth + ModConfigs.cmReactionEndRWidth)+1, TOP_HEIGHT, ModConfigs.cmReactionEndLWidth + 1, 45, 1, TOP_HEIGHT, 256, 256);
 					blit(gui, commandMenuElements.get(currentSubmenu).getTexture(), TOP_WIDTH - ModConfigs.cmReactionEndRWidth, 0, ModConfigs.cmReactionEndLWidth + 3, 45, ModConfigs.cmReactionEndRWidth, TOP_HEIGHT);
 					RenderSystem.disableBlend();
-
 				}
 				gui.pose().popPose();
 

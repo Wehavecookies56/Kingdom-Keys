@@ -413,7 +413,8 @@ public class InputHandler {
 					CommandMenuGui.reactionSelected = 0;
 			}
 		}
-	}
+        CommandMenuGui.INSTANCE.playMoveSound();
+    }
     
     public void reactionCommand() {
     	loadLists();

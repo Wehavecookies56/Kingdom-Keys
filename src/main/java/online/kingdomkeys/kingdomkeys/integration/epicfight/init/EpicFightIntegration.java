@@ -1,6 +1,7 @@
 package online.kingdomkeys.kingdomkeys.integration.epicfight.init;
 
 import net.neoforged.bus.api.IEventBus;
+import online.kingdomkeys.kingdomkeys.integration.epicfight.PatchedArmourLayerRenderer;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.skills.ComboExtender;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.skills.KKSkills;
 import yesman.epicfight.api.event.EpicFightEventHooks;
