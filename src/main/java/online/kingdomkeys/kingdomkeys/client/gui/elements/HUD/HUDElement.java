@@ -116,7 +116,6 @@ public class HUDElement {
         guiGraphics.fill((int)minX, (int)minY, (int)maxX, (int)maxY, 0x55000000);
 
         if (selected) {
-
             float cellW = (maxX - minX) / 3f;
             float cellH = (maxY - minY) / 3f;
 

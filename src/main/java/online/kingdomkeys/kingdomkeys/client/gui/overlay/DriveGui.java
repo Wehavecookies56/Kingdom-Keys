@@ -2,6 +2,7 @@ package online.kingdomkeys.kingdomkeys.client.gui.overlay;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Axis;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
@@ -14,6 +15,7 @@ import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
+import org.joml.Vector3f;
 
 import java.awt.*;
 
@@ -88,7 +90,6 @@ public class DriveGui extends OverlayBase {
 	private void renderDriveBar(GuiGraphics guiGraphics, DeltaTracker deltaTracker, PlayerData playerData, double dp, double fp) {
 		int guiWidth = 95;
 		int guiHeight = 18;
-		int guiBarWidth = 83;
 
 		// Background
 		if (playerData.getAlignment() == OrgMember.NONE) {
@@ -133,9 +134,45 @@ public class DriveGui extends OverlayBase {
 			blit(guiGraphics, TEXTURE, 84, -2, numPos, 106, 10, guiHeight);
 		}
 
+		//Balls
+		if (playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())) {
+			float ballScale = 0.4F;
+			guiGraphics.pose().pushPose();
+			{
+				float centerX = 86F;
+				float centerY = 7F;
+
+				float radiusX = 7F;
+				float radiusY = 11F;
+				int amount = numPos / 10;
+
+				float delta = ballRot - prevBallRot;
+
+				if (delta < -180F)
+					delta += 360F;
+				if (delta > 180F)
+					delta -= 360F;
+
+				float interpRot = prevBallRot + delta * deltaTracker.getGameTimeDeltaPartialTick(true);
+				for (int i = 0; i < amount; i++) {
+					double angle = Math.toRadians(-interpRot) + (i * (2 * Math.PI / amount));
+
+					float x = centerX + (float) Math.cos(angle) * radiusX;
+					float y = centerY + (float) Math.sin(angle) * radiusY;
+
+					guiGraphics.pose().pushPose();
+					guiGraphics.pose().translate(x, y, 0);
+					guiGraphics.pose().scale(ballScale, ballScale, 1F);
+					blit(guiGraphics, TEXTURE, 0, 0, 55, 23, 11, 11);
+
+					guiGraphics.pose().popPose();
+				}
+			}
+			guiGraphics.pose().popPose();
+		}
+
 		// MAX icon
 		if (playerData.getDP() >= playerData.getMaxDP() && playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())) {
-
 			decimalColor = prevMaxDriveTicks + (maxDriveTicks - prevMaxDriveTicks) * deltaTracker.getGameTimeDeltaPartialTick(true);
 
 			Color c = Color.getHSBColor(decimalColor, 1F, 1F);
@@ -146,6 +183,8 @@ public class DriveGui extends OverlayBase {
 		}
 	}
 
+	private float ballRot = 0;
+	private float prevBallRot = 0;
 	@SubscribeEvent
 	public void clientTick(ClientTickEvent.Post event) {
 		if (maxDriveTicks >= 1)
@@ -153,5 +192,11 @@ public class DriveGui extends OverlayBase {
 
 		prevMaxDriveTicks = maxDriveTicks;
 		maxDriveTicks += 0.02;
+
+		prevBallRot = ballRot;
+		ballRot =  (ballRot + 10F) % 360f;
+
+		if (ballRot >= 360F)
+			ballRot -= 360F;
 	}
 }
