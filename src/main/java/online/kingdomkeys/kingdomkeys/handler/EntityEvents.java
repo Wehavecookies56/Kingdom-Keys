@@ -465,14 +465,12 @@ public class EntityEvents {
 			if (playerData.getCastedMagic() != null) {
 				if (playerData.getMagicCasttimeTicks() <= 0) {
 					Utils.castMagic castedMagic = playerData.getCastedMagic();
-                    System.out.println(castedMagic.player());
 					castedMagic.magic().magicUse(castedMagic.player(), castedMagic.caster(), castedMagic.level(), castedMagic.fullMPBlastMult(), castedMagic.lockOnEntity());
 					player.swing(InteractionHand.MAIN_HAND,true);
 					playerData.setCastedMagic(null);
 					PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
 				}
 			}
-
 
 			// Magic CD recharge system
 			if (playerData.getMagicCooldownTicks() > 0 && !player.level().isClientSide) {

@@ -2,6 +2,7 @@ package online.kingdomkeys.kingdomkeys.client.gui.elements;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Renderable;
@@ -11,6 +12,7 @@ import net.minecraft.locale.Language;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
@@ -19,17 +21,20 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButtonBase;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
+import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.handler.InputHandler;
+import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.awt.*;
 import java.util.Iterator;
 
 public class MenuBackground extends Screen {
-
+	public static final ResourceLocation PLAYER_BOX_TEXTURE = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
 	int selected;
 	
 	String tip = null;
@@ -261,7 +266,157 @@ public class MenuBackground extends Screen {
 
 	    tooltipPosX = bottomRightBar.getPosX() + 15;
 		tooltipPosY = bottomRightBar.getPosY() + 15;
-}
+	}
+
+	public void drawParty(@Nullable WorldData worldData, GuiGraphics gui) {
+		if(worldData == null || worldData.getPartyFromMember(minecraft.player.getUUID()) == null) {
+			Party.Member m = new Party.Member(minecraft.player.getUUID(), minecraft.player.getDisplayName().getString());
+			drawPlayer(gui, null,0, m);
+		} else {
+			Party party =  worldData.getPartyFromMember(minecraft.player.getUUID());
+			for(int i=0;i<party.getMembers().size();i++) {
+				Party.Member member = party.getMembers().get(i);
+				drawPlayer(gui, party, i, member);
+			}
+		}
+	}
+
+	public void drawPlayer(GuiGraphics gui,@Nullable Party party, int order, Party.Member member) {
+		PoseStack matrixStack = gui.pose();
+		int count =  party == null ? 1 : party.getMembers().size();
+
+		boolean multiRow = count > 5;
+
+		int columns;
+		int row;
+		int col;
+
+		if (!multiRow) {
+			columns = count;
+			row = 1;
+			col = order;
+		} else {
+			columns = (int)Math.ceil(count / 2.0);
+			row = order / columns;
+			col = order % columns;
+		}
+		float layoutLeft = width * 0.2F;
+		float layoutWidth = width * 0.8F;
+		float layoutRight = layoutLeft + layoutWidth;
+		float playerHeight = height * 0.45F;
+
+		float scale = Math.max(1.0F - (columns * 0.08F), 0.55F);
+
+		float minSpacing = playerHeight * 0.65F * scale;
+		float layoutSpacing = layoutWidth / Math.max(columns, 1);
+
+		float spacingX = Math.max(layoutSpacing, minSpacing);
+		float spacingY = height * 0.20F;
+
+		float usedWidth = (columns - 1) * spacingX;
+
+		if (multiRow)
+			usedWidth += spacingX * 0.5F;
+
+		float startX = layoutLeft + (layoutWidth - usedWidth) / 2F;
+
+		float playerPosX = startX + (col * spacingX);
+		if (multiRow && row == 1)
+			playerPosX += spacingX * 0.5F;
+		float playerPosY = (height * 0.45F) + (row * spacingY);
+
+		Player player = Utils.getPlayerByName(minecraft.level, member.getUsername());
+
+		int infoBoxWidth = (int)(70 * (0.75F + scale * 0.25F));
+		int infoBoxPosX = (int)playerPosX - 16 - (infoBoxWidth / 2);
+		int infoBoxPosY = (int)playerPosY - 24;
+
+		matrixStack.pushPose();
+		{
+			matrixStack.translate(playerPosX, playerPosY, 0);
+			matrixStack.scale(scale, scale, 1F);
+			matrixStack.translate(-playerPosX, -playerPosY, 0);
+
+			RenderSystem.setShaderColor(1F,1F,1F,1F);
+
+			if(member != null && player != null) {
+				ClientUtils.renderEntity(gui.pose(), (int)playerPosX, (int)playerPosY, (int)playerHeight/2, 0,0, player);
+			}
+
+			RenderSystem.setShaderColor(1F,1F,1F,0.75F);
+
+			matrixStack.pushPose();
+			{
+				RenderSystem.setShaderColor(1,1,1,1);
+				matrixStack.translate(9,1,100);
+
+				RenderSystem.enableBlend();
+
+				gui.blit(PLAYER_BOX_TEXTURE, infoBoxPosX, infoBoxPosY, 123,67,11,22);
+
+				for(int i=0;i<infoBoxWidth;i++)
+					gui.blit(PLAYER_BOX_TEXTURE, infoBoxPosX + 11 + i, infoBoxPosY, 135,67,2,22);
+
+				gui.blit(PLAYER_BOX_TEXTURE, infoBoxPosX + 11 + infoBoxWidth, infoBoxPosY,137,67,3,22);
+				gui.blit(PLAYER_BOX_TEXTURE, infoBoxPosX, infoBoxPosY + 22,123,90,3,35);
+
+				for(int i=0;i<infoBoxWidth+8;i++)
+					gui.blit(PLAYER_BOX_TEXTURE, infoBoxPosX + 3 + i, infoBoxPosY + 22,127,90,2,35);
+
+				gui.blit(PLAYER_BOX_TEXTURE, infoBoxPosX + 3 + infoBoxWidth + 8, infoBoxPosY + 22,129,90,3,35);
+
+				RenderSystem.disableBlend();
+			}
+			matrixStack.popPose();
+
+			// stats
+			matrixStack.pushPose();
+			{
+				matrixStack.translate(10,2,100);
+
+				matrixStack.pushPose();
+				{
+					matrixStack.translate(infoBoxPosX + 8, infoBoxPosY + ((22 / 2) - (minecraft.font.lineHeight / 2)), 1);
+					gui.drawString(minecraft.font, member.getUsername(),0,0,0xFFFFFF);
+				}
+				matrixStack.popPose();
+
+				if(player != null) {
+
+					PlayerData playerData = PlayerData.get(player);
+
+					if(playerData != null) {
+
+						gui.drawString(
+								minecraft.font,
+								"LV: " + playerData.getLevel(),
+								infoBoxPosX + 4,
+								infoBoxPosY + 26,
+								0xFFD900
+						);
+
+						gui.drawString(
+								minecraft.font,
+								"HP: " + (int)player.getHealth() + "/" + (int)player.getMaxHealth(),
+								infoBoxPosX + 4,
+								infoBoxPosY + 26 + minecraft.font.lineHeight,
+								0x00FF00
+						);
+
+						gui.drawString(
+								minecraft.font,
+								"MP: " + (int)playerData.getMP() + "/" + (int)playerData.getMaxMP(),
+								infoBoxPosX + 4,
+								infoBoxPosY + 26 + (minecraft.font.lineHeight * 2),
+								0x4444FF
+						);
+					}
+				}
+			}
+			matrixStack.popPose();
+		}
+		matrixStack.popPose();
+	}
 	
 	private static String printBiome(Holder<Biome> p_205375_) {
 	      return p_205375_.unwrap().map((p_205377_) -> p_205377_.location().toString(), (p_205367_) -> "[unregistered " + p_205367_ + "]");
