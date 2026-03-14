@@ -260,12 +260,9 @@ public class InputHandler {
     }
 
     public void lockOnSwap() {
-        if(canSwitchTarget){
+        if(InputHandler.lockOn != null) {
             switchTarget(player.isCrouching());
         }
-        canSwitchTarget = !canSwitchTarget;
-
-        switchTarget(player.isCrouching());
     }
 
     private void switchTarget(boolean toRight) {

@@ -112,9 +112,8 @@ public class ClientEvents {
             return;
         }
 
-        //TODO server-config
-        if(ModConfigs.SERVER.softLockOnMode.get())
-            softLockOn(player,target);
+        if (ModConfigs.SERVER.softLockOnMode.get())
+            softLockOn(player, target);
         else
             hardLockOn(player, target);
     }
