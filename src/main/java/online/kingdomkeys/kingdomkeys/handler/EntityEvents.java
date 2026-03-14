@@ -820,7 +820,6 @@ public class EntityEvents {
             if (worldData != null && worldData.getPartyFromMember(player.getUUID()) != null) { //If the player gets hit and data is not null
                 Party p = worldData.getPartyFromMember(player.getUUID());
                 if (Utils.anyPartyMemberOnExcept(player, p, (ServerLevel) player.level())) { //If there's a party member on at this point
-                    System.out.println(ModConfigs.SERVER.allowPartyKO.get());
                     if (ModConfigs.SERVER.allowPartyKO.get()) { //If KO is allowed
                         if (player.getHealth() - event.getNewDamage() <= 0) { //If gets hit by a mortal attack
                             if (!player.hasEffect(ModMobEffects.KO)) { // We only set KO if player gets hit enough to kill them (but doesn't kill them yet) while not KO already
