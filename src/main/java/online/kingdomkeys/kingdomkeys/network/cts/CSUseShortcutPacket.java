@@ -55,7 +55,7 @@ public record CSUseShortcutPacket(int index, int lockOnTarget) implements Packet
 				if(playerData.getMaxMP() == 0 || playerData.getRecharge() || cost > playerData.getMaxMP() && cost < 300 || cost < 300 && cost >= playerData.getMP() && playerData.isAbilityEquipped(Strings.mpSafety) || playerData.getMagicCooldownTicks() > 0) {
 
 				} else {
-                    if (NeoForge.EVENT_BUS.post(new MagicSpellCastEvent(player, ResourceLocation.parse(magicName))).isCanceled())
+                    if (NeoForge.EVENT_BUS.post(new MagicSpellCastEvent(player, ResourceLocation.parse(magicName), level)).isCanceled())
                         return;
 					magic.onUse(player, player, level, (LivingEntity) player.level().getEntity(lockOnTarget));
 				}
