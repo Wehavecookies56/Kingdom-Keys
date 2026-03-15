@@ -89,7 +89,6 @@ public class CommandMenuGui extends OverlayBase {
 				.fixedHeader()
 				.colour(new Color(10, 51, 255))
 				.onUpdate((subMenu, guiGraphics) -> {
-					System.out.println(subMenu.getWidth());
 					ClientUtils.CM_ELEMENT.height = subMenu.getHeight() * (subMenu.getVisibleChildren().size()+1);
 					ClientUtils.CM_ELEMENT.width = subMenu.getWidth();
 					subMenu.setPosition(0,0);
