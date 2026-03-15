@@ -197,7 +197,10 @@
     },
     "33":{
         "str":1,
-        "ap":1
+        "ap":1,
+        "abilities":[
+            "kingdomkeys:ability_flowstep"
+        ]
     },
     "34":{
         "mag":1,

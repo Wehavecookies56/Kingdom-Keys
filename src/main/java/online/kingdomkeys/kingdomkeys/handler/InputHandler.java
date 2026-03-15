@@ -87,8 +87,6 @@ public class InputHandler {
         }
     }
 
-    boolean canSwitchTarget = true;
-
     @SubscribeEvent
     public void handleKeyInputEvent(InputEvent.Key event) {
         init();
@@ -200,7 +198,6 @@ public class InputHandler {
     }
 
     public void openMenu() {
-        //Minecraft.getInstance().setScreen(new OverlayConfigGui());
         PacketHandler.sendToServer(new CSOpenMenu());
     }
 

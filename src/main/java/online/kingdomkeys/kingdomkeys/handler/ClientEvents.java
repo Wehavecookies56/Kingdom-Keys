@@ -399,6 +399,10 @@ public class ClientEvents {
             }
         }
 
+        if (lockedAirStepEntity != null) {
+            ClientUtils.drawAirstepIndicator(lockedAirStepEntity.getId(), poseStack, buffer, partialTicks);
+        }
+
         buffer.endBatch();
     }
 
@@ -602,6 +606,7 @@ public class ClientEvents {
 	int cooldownTicks = 0;
 	public static BlockPos lockedAirStep = new BlockPos(0,0,0);
 
+    private LivingEntity lockedAirStepEntity = null;
 	@SubscribeEvent
 	public void PlayerTick(PlayerTickEvent.Post event) {
 		Minecraft mc = Minecraft.getInstance();
@@ -634,10 +639,11 @@ public class ClientEvents {
 					focusGaugeTemp-=0.8;
 
 				HitResult rt = InputHandler.getMouseOverExtended(ModConfigs.SERVER.shotlockMaxDist.get());
-				if (rt == null) {
-					lockedAirStep = BlockPos.ZERO;
-					return;
-				}
+                if (rt == null) {
+                    lockedAirStep = BlockPos.ZERO;
+                    lockedAirStepEntity = null;
+                    return;
+                }
 
 				if (rt instanceof BlockHitResult blockResult) { //Airstep
 					tempShotlockEntity = null;
@@ -649,8 +655,9 @@ public class ClientEvents {
 
 						// On right click
 						if (mc.options.keyUse.isDown()) {
-							PacketHandler.sendToServer(new CSSetAirStepPacket(blockResult.getBlockPos()));
+							PacketHandler.sendToServer(new CSSetAirStepPacket(blockResult.getBlockPos(), 0));
 							lockedAirStep = new BlockPos(0, 0, 0);
+                            lockedAirStepEntity = null;
 							cooldownTicks = 20;
 							focusingAnEntityTicks = 0;
 							focusingTicks = 0;
@@ -662,8 +669,37 @@ public class ClientEvents {
 					}
 				}
 
+                float costDivider = 3;
                 //If looking at an entity
 				if (rt instanceof EntityHitResult ertr && focusGaugeTemp > 0) {
+                    //Airstep to entity
+                    if (ertr.getEntity() instanceof LivingEntity target) {
+                        float distance = mc.player.distanceTo(target);
+                        //System.out.println(playerData.getFocus()+" "+distance/costDivider);
+                        if(playerData.isAbilityEquipped(Strings.flowStep) && distance / costDivider <= playerData.getFocus()) { //Only able to target enemies that are as far as focus can take you to
+                            if (lockedAirStepEntity != target) {
+                                player.level().playSound(player, player.position().x(), player.position().y(), player.position().z(), ModSounds.shotlock_lockon.get(), SoundSource.PLAYERS, 1F, 0.6F);
+                            }
+                            lockedAirStepEntity = target;
+                            lockedAirStep = BlockPos.ZERO;
+
+                            if (mc.options.keyUse.isDown()) {
+                                float focusCost = mc.player.distanceTo(target) / costDivider;
+                                PacketHandler.sendToServer(new CSSetAirStepPacket(target.blockPosition(), focusCost));
+
+                                lockedAirStepEntity = null;
+                                cooldownTicks = 20;
+                                focusingAnEntityTicks = 0;
+                                focusingTicks = 0;
+                                focusing = false;
+                                tempShotlockEntity = null;
+                                focusGaugeTemp = playerData.getFocus();
+                                return;
+                            }
+                        }
+                    }
+
+
                     //Ultimate shotlock
 					if(shotlock.getMaxLocks() == 1 && playerData.getShotlockEnemies().size() < shotlock.getMaxLocks()){
 						if (ertr.getEntity() instanceof LivingEntity target) {
@@ -733,8 +769,9 @@ public class ClientEvents {
 					focusGaugeTemp = playerData.getFocus();
 					playerData.setShotlockEnemies(new ArrayList<>());
 				}
-			} else {
+			} else { //No longer focusing (released wheel button)
 				lockedAirStep = new BlockPos(0,0,0);
+                lockedAirStepEntity = null;
 				focusingTicks = 0;
 				focusingAnEntityTicks = 0;
 				tempShotlockEntity = null;

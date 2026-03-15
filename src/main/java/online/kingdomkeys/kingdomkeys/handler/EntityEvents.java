@@ -606,7 +606,7 @@ public class EntityEvents {
 							player.setPos(pos.getCenter().subtract(0, 0.4, 0));
 							//player.addEffect(new MobEffectInstance(MobEffects.LEVITATION,0,0));
 							if (player.level().isClientSide) {
-								PacketHandler.sendToServer(new CSSetAirStepPacket(new BlockPos(0, 0, 0)));
+								PacketHandler.sendToServer(new CSSetAirStepPacket(new BlockPos(0, 0, 0), 0));
 								airstepTicks = -1;
 							}
 						}
