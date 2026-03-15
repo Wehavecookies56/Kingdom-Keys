@@ -12,3 +12,4 @@
 **Fixed:**
 * Reaction command slot being covered below a submenu if actual submenu was targets.
 * Lock on swap not working.
+* Aero and Stop models not rendering while in EFM.

@@ -551,7 +551,6 @@ public class ClientEvents {
 
     public static float visualMP = 0;
     public static float prevVisualMP = 0;
-    private boolean prevRecharge = false;
 
 	@SubscribeEvent
 	public void clientTickPost(ClientTickEvent.Post event) {
@@ -574,24 +573,15 @@ public class ClientEvents {
             return;
 
         float targetMP = (float) playerData.getMP();
-        boolean recharge = playerData.getRecharge();
 
         prevVisualMP = visualMP;
 
-        if (targetMP == 0 && visualMP > 0) {
-            visualMP = 0;
-        }
-        else if (targetMP < visualMP) {
+        if (targetMP < 1) {
             visualMP = targetMP;
-        }
-        else if (recharge) {
+            prevVisualMP = visualMP;
+        } else {
             visualMP += (targetMP - visualMP) * 0.2F;
         }
-        else {
-            visualMP = targetMP;
-        }
-
-        prevRecharge = recharge;
     }
 
 	public static boolean focusing = false;
@@ -603,8 +593,8 @@ public class ClientEvents {
 
 	int cooldownTicks = 0;
 	public static BlockPos lockedAirStep = new BlockPos(0,0,0);
-
     private LivingEntity lockedAirStepEntity = null;
+
 	@SubscribeEvent
 	public void PlayerTick(PlayerTickEvent.Post event) {
 		Minecraft mc = Minecraft.getInstance();
