@@ -514,9 +514,12 @@ public class CommandMenuSubMenu {
                 guiGraphics.blit(getTexture(), getX() + getWidth() - ModConfigs.cmHeaderEndRWidth, getY(), ModConfigs.cmHeaderEndLWidth + 3, 0, ModConfigs.cmHeaderEndRWidth, getHeight());
             }
             if(ModConfigs.cmHeaderTextVisible) {
-                Color textColour = isActive() ? titleColour : titleColour.darker().darker();
-                guiGraphics.setColor(textColour.getRed() / 255F, textColour.getGreen() / 255F, textColour.getBlue() / 255F, 1);
-                guiGraphics.drawString(Minecraft.getInstance().font, getTitle(), getX() + 1 + 5 + ModConfigs.cmTextXOffset, getY() + 4, 0xFFFFFF);
+                guiGraphics.pose().pushPose();
+                {
+                    guiGraphics.pose().scale(0.91F, 1F, 1); //TODO remove this and enlarge menu
+                    guiGraphics.drawCenteredString(Minecraft.getInstance().font, getTitle(), getX() + 35 + ModConfigs.cmTextXOffset, getY() + 4, 0xFFFFFF);
+                }
+                guiGraphics.pose().popPose();
             }
             renderChildren(guiGraphics, screenWidth, screenHeight, partialTick);
 

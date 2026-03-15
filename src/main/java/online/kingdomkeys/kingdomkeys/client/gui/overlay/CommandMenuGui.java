@@ -82,13 +82,14 @@ public class CommandMenuGui extends OverlayBase {
 		revert = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "revert");
 		currentSubmenu = root;
 		commandMenuElements = new HashMap<>();
-		CommandMenuSubMenu rootSubmenu = new CommandMenuSubMenu.Builder(this.root, Component.translatable(Strings.Gui_CommandMenu_Command))
+		CommandMenuSubMenu rootSubmenu = new CommandMenuSubMenu.Builder(this.root, Component.translatable(Strings.Gui_CommandMenu_Command).withStyle(ClientUtils.KK_Font_EXP))
 				.position(0,0)
 				.openByDefault()
 				.changesColour()
 				.fixedHeader()
 				.colour(new Color(10, 51, 255))
 				.onUpdate((subMenu, guiGraphics) -> {
+					System.out.println(subMenu.getWidth());
 					ClientUtils.CM_ELEMENT.height = subMenu.getHeight() * (subMenu.getVisibleChildren().size()+1);
 					ClientUtils.CM_ELEMENT.width = subMenu.getWidth();
 					subMenu.setPosition(0,0);
@@ -118,34 +119,34 @@ public class CommandMenuGui extends OverlayBase {
 						new CommandMenuItem.Builder(limit, Component.translatable(Strings.Gui_CommandMenu_Limit), opensSubmenu(limit)).invisibleByDefault().onUpdate((item, guiGraphics) -> updateRootItem(item, limit, guiGraphics)).iconUV(0, 60)
 				)
 				.build();
-		CommandMenuSubMenu magicSubmenu = new CommandMenuSubMenu.Builder(magic, Component.translatable(Strings.Gui_CommandMenu_Magic_Title))
+		CommandMenuSubMenu magicSubmenu = new CommandMenuSubMenu.Builder(magic, Component.translatable(Strings.Gui_CommandMenu_Magic_Title).withStyle(ClientUtils.KK_Font_EXP))
 				.colour(new Color(102, 0, 255))
 				.onUpdate(updateMagic())
 				.withChildren(createMagicFromRegistry())
 				.autoResizes()
 				.buildWithParent(rootSubmenu);
-		CommandMenuSubMenu itemsSubmenu = new CommandMenuSubMenu.Builder(items, Component.translatable(Strings.Gui_CommandMenu_Items_Title))
+		CommandMenuSubMenu itemsSubmenu = new CommandMenuSubMenu.Builder(items, Component.translatable(Strings.Gui_CommandMenu_Items_Title).withStyle(ClientUtils.KK_Font_EXP))
 				.colour(new Color(77, 255, 77))
 				.onOpen(this::createItems)
 				.autoResizes()
 				.buildWithParent(rootSubmenu);
-		CommandMenuSubMenu targetSubmenu =  new CommandMenuSubMenu.Builder(target, Component.translatable(Strings.Gui_CommandMenu_Target))
+		CommandMenuSubMenu targetSubmenu =  new CommandMenuSubMenu.Builder(target, Component.translatable(Strings.Gui_CommandMenu_Target).withStyle(ClientUtils.KK_Font_EXP))
 				.colour(new Color(10, 51, 255))
 				.onOpen(this::createTargets)
 				.autoResizes()
 				.build();
-		CommandMenuSubMenu portalsSubmenu = new CommandMenuSubMenu.Builder(portals, Component.translatable(Strings.Gui_CommandMenu_Portals_Title))
+		CommandMenuSubMenu portalsSubmenu = new CommandMenuSubMenu.Builder(portals, Component.translatable(Strings.Gui_CommandMenu_Portals_Title).withStyle(ClientUtils.KK_Font_EXP))
 				.colour(new Color(204, 204, 204))
 				.onOpen(this::createPortals)
 				.autoResizes()
 				.buildWithParent(rootSubmenu);
-		CommandMenuSubMenu limitSubmenu = new CommandMenuSubMenu.Builder(limit, Component.translatable(Strings.Gui_CommandMenu_Limit_Title))
+		CommandMenuSubMenu limitSubmenu = new CommandMenuSubMenu.Builder(limit, Component.translatable(Strings.Gui_CommandMenu_Limit_Title).withStyle(ClientUtils.KK_Font_EXP))
 				.colour(new Color(255, 255, 0))
 				.onUpdate(updateLimits())
 				.withChildren(createLimitsFromRegistry())
 				.autoResizes()
 				.buildWithParent(rootSubmenu);
-		CommandMenuSubMenu driveSubmenu = new CommandMenuSubMenu.Builder(drive, Component.translatable(Strings.Gui_CommandMenu_Drive_Title))
+		CommandMenuSubMenu driveSubmenu = new CommandMenuSubMenu.Builder(drive, Component.translatable(Strings.Gui_CommandMenu_Drive_Title).withStyle(ClientUtils.KK_Font_EXP))
 				.colour(new Color(0, 255, 255))
 				.onUpdate(updateDriveForms())
 				.withChildren(createDriveFormsFromRegistry())

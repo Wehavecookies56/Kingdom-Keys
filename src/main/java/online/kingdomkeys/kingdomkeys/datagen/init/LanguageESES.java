@@ -454,7 +454,7 @@ public class LanguageESES extends KKLanguageProvider {
         add(Gui_Synthesis_Moogle_Name, "Tienda Moguri de %s");
 
         //Command Menu
-        add(Gui_CommandMenu_Command, "COMANDOS");
+        add(Gui_CommandMenu_Command, "COMANDO");
         add(Gui_CommandMenu_Attack, "Atacar");
         add(Gui_CommandMenu_Portal, "Portal");
         add(Gui_CommandMenu_Magic, "Magia");
@@ -463,11 +463,11 @@ public class LanguageESES extends KKLanguageProvider {
         add(Gui_CommandMenu_Drive_Revert, "Revertir");
         add(Gui_CommandMenu_Limit, "L\u00edmite");
         add(Gui_CommandMenu_Target,"Objetivo");
-        add(Gui_CommandMenu_Portals_Title, "Portales");
-        add(Gui_CommandMenu_Magic_Title, "Magia");
-        add(Gui_CommandMenu_Items_Title, "Objetos");
-        add(Gui_CommandMenu_Drive_Title, "Formas");
-        add(Gui_CommandMenu_Limit_Title, "L\u00edmites");
+        add(Gui_CommandMenu_Portals_Title, "PORTAL");
+        add(Gui_CommandMenu_Magic_Title, "MAGIA");
+        add(Gui_CommandMenu_Items_Title, "OBJETOS");
+        add(Gui_CommandMenu_Drive_Title, "FORMAS");
+        add(Gui_CommandMenu_Limit_Title, "LÍMITES");
 
         add("kingdomkeys.helmet", "Casco");
         add("kingdomkeys.chestplate", "Pechera");

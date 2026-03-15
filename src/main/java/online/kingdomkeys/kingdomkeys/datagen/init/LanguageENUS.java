@@ -405,11 +405,11 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Gui_CommandMenu_Drive_Revert, "Revert");
         add(Gui_CommandMenu_Limit, "Limit");
         add(Gui_CommandMenu_Target,"Target");
-        add(Gui_CommandMenu_Portals_Title, "Portals");
-        add(Gui_CommandMenu_Magic_Title, "Magic");
-        add(Gui_CommandMenu_Items_Title, "Items");
-        add(Gui_CommandMenu_Drive_Title, "Forms");
-        add(Gui_CommandMenu_Limit_Title, "Limits");
+        add(Gui_CommandMenu_Portals_Title, "PORTALS");
+        add(Gui_CommandMenu_Magic_Title, "MAGIC");
+        add(Gui_CommandMenu_Items_Title, "ITEMS");
+        add(Gui_CommandMenu_Drive_Title, "FORMS");
+        add(Gui_CommandMenu_Limit_Title, "LIMITS");
 
         add("kingdomkeys.helmet", "Helmet");
         add("kingdomkeys.chestplate", "Chestplate");
