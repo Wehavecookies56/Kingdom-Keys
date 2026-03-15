@@ -170,8 +170,8 @@ public class MenuButton extends MenuButtonBase {
 		//Ball
 		if(hovered) {
 			float ballScale = 0.5F;
-			int u = 55;
-			int v = 22;
+			int u = 0;
+			int v = 204;
 
 			gui.pose().pushPose();
 			{
@@ -198,7 +198,7 @@ public class MenuButton extends MenuButtonBase {
 				gui.pose().translate(x, y, 0);
 				gui.pose().scale(ballScale, ballScale, 1F);
 
-				gui.blit(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/drivebar.png"), 0, 0, u, v, 11, 11);
+				gui.blit(texture, 0, 0, u, v, 15, 15);
 
 				gui.pose().popPose();
 			}

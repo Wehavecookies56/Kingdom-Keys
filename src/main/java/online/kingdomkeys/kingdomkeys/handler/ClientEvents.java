@@ -671,7 +671,7 @@ public class ClientEvents {
 
                 float costDivider = 3;
                 //If looking at an entity
-				if (rt instanceof EntityHitResult ertr && focusGaugeTemp > 0) {
+				if (rt instanceof EntityHitResult ertr && focusGaugeTemp > 0 && cooldownTicks <= 0) {
                     //Airstep to entity
                     if (ertr.getEntity() instanceof LivingEntity target) {
                         float distance = mc.player.distanceTo(target);
@@ -688,7 +688,7 @@ public class ClientEvents {
                                 PacketHandler.sendToServer(new CSSetAirStepPacket(target.blockPosition(), focusCost));
 
                                 lockedAirStepEntity = null;
-                                cooldownTicks = 20;
+                                cooldownTicks = 40;
                                 focusingAnEntityTicks = 0;
                                 focusingTicks = 0;
                                 focusing = false;
@@ -698,7 +698,6 @@ public class ClientEvents {
                             }
                         }
                     }
-
 
                     //Ultimate shotlock
 					if(shotlock.getMaxLocks() == 1 && playerData.getShotlockEnemies().size() < shotlock.getMaxLocks()){
@@ -766,7 +765,8 @@ public class ClientEvents {
 					focusingTicks = 0;
 					focusingAnEntityTicks = 0;
 					tempShotlockEntity = null;
-					focusGaugeTemp = playerData.getFocus();
+                    lockedAirStepEntity = null;
+                    focusGaugeTemp = playerData.getFocus();
 					playerData.setShotlockEnemies(new ArrayList<>());
 				}
 			} else { //No longer focusing (released wheel button)
