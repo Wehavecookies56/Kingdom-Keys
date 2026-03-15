@@ -38,7 +38,8 @@ public class MPGui extends OverlayBase {
 		RenderSystem.setShaderColor(1,1,1,1);
 		float interpMP = ClientEvents.prevVisualMP + (ClientEvents.visualMP - ClientEvents.prevVisualMP) * deltaTracker.getGameTimeDeltaPartialTick(true);
 		float mpBarWidth = playerData.getRecharge() ? interpMP : (float) playerData.getMP();
-		int mpBarMaxWidth = (int)(playerData.getMaxMP());
+
+		int mpBarMaxWidth = (int) playerData.getMaxMP();
 
 		PoseStack poseStack = guiGraphics.pose();
 		poseStack.pushPose();

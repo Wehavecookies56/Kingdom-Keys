@@ -2,12 +2,8 @@ package online.kingdomkeys.kingdomkeys.mixin.epicfight;
 
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.world.entity.EntityType;
-import online.kingdomkeys.kingdomkeys.client.render.DriveLayerRenderer;
-import online.kingdomkeys.kingdomkeys.client.render.KeybladeArmorRenderer;
-import online.kingdomkeys.kingdomkeys.client.render.ShoulderLayerRenderer;
-import online.kingdomkeys.kingdomkeys.integration.epicfight.PatchedArmourLayerRenderer;
-import online.kingdomkeys.kingdomkeys.integration.epicfight.PatchedDriveLayerRenderer;
-import online.kingdomkeys.kingdomkeys.integration.epicfight.PatchedShoulderLayerRenderer;
+import online.kingdomkeys.kingdomkeys.client.render.*;
+import online.kingdomkeys.kingdomkeys.integration.epicfight.*;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -26,5 +22,7 @@ public class PHumanoidRendererMixin {
         thisOne.addPatchedLayer(DriveLayerRenderer.class, new PatchedDriveLayerRenderer<>());
         thisOne.addPatchedLayer(KeybladeArmorRenderer.class, new PatchedArmourLayerRenderer<>(false));
         thisOne.addPatchedLayer(ShoulderLayerRenderer.class, new PatchedShoulderLayerRenderer<>());
+        thisOne.addPatchedLayer(AeroLayerRenderer.class, new PatchedAeroLayerRenderer<>());
+        thisOne.addPatchedLayer(StopLayerRenderer.class, new PatchedStopLayerRenderer<>());
     }
 }

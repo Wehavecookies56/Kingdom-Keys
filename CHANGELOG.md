@@ -7,6 +7,7 @@
 
 **Changed:**
 * KO effect goes from neutral to beneficial, hopefully fixing the Artifacts' Antidote vessel conflict.
+* Button dot icon.
 
 **Fixed:**
 * Reaction command slot being covered below a submenu if actual submenu was targets.

@@ -578,12 +578,10 @@ public class ClientEvents {
 
         prevVisualMP = visualMP;
 
-// Si el MP cae a 0 instantáneamente (ej: Cura)
         if (targetMP == 0 && visualMP > 0) {
             visualMP = 0;
         }
         else if (targetMP < visualMP) {
-            // gasto normal de MP
             visualMP = targetMP;
         }
         else if (recharge) {

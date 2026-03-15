@@ -30,7 +30,6 @@ import java.awt.*;
 @OnlyIn(Dist.CLIENT)
 public class AeroLayerRenderer<T extends LivingEntity> extends RenderLayer<T, PlayerModel<T>> {
 	public static final ResourceLocation TEXTURE = ResourceLocation.withDefaultNamespace("textures/entity/trident_riptide.png");
-	public static final String BOX = "box";
 	private final ModelPart box;
 
 	public AeroLayerRenderer(RenderLayerParent<T, PlayerModel<T>> p_174540_, EntityModelSet p_174541_) {
@@ -44,14 +43,14 @@ public class AeroLayerRenderer<T extends LivingEntity> extends RenderLayer<T, Pl
 		if (entitylivingbaseIn instanceof AbstractClientPlayer) {
 			LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> renderer = (LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>>) Minecraft.getInstance().getEntityRenderDispatcher().getRenderer((AbstractClientPlayer) entitylivingbaseIn);
 			if (!((IDisabledAnimations) renderer).kingdom_Keys$isDisabled()) {
-				renderEntity(matrixStackIn, bufferIn, packedLightIn, entitylivingbaseIn, limbSwing, limbSwingAmount, partialTicks, ageInTicks, netHeadYaw, headPitch);
+				renderEntity(matrixStackIn, bufferIn, packedLightIn, entitylivingbaseIn, ageInTicks);
 			}
 		} else {
-			renderEntity(matrixStackIn, bufferIn, packedLightIn, entitylivingbaseIn, limbSwing, limbSwingAmount, partialTicks, ageInTicks, netHeadYaw, headPitch);
+			renderEntity(matrixStackIn, bufferIn, packedLightIn, entitylivingbaseIn, ageInTicks);
 		}
 	}
 
-	public void renderEntity(PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn, T entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
+	public void renderEntity(PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn, T entitylivingbaseIn, float ageInTicks) {
 		if (GlobalData.get(entitylivingbaseIn) != null) {
 			if (entitylivingbaseIn.hasEffect(ModMobEffects.AERO)) {
 				MobEffectInstance aero = entitylivingbaseIn.getEffect(ModMobEffects.AERO);
