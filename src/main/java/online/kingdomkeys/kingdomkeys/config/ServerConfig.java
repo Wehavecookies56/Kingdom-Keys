@@ -14,7 +14,7 @@ public class ServerConfig {
     public ModConfigSpec.ConfigValue<List<? extends Integer>> statsMultiplier;
 
     public ModConfigSpec.DoubleValue xpMultiplier, heartMultiplier, partyXPShare;
-    public ModConfigSpec.BooleanValue requireSynthTier, projectorHasShop, getExpFromShop, orgEnabled, allowBoosts, allowPartyKO, wayfinderParty, hostileMobsLevel, gummiShipFuelSystem, softLockOnMode;
+    public ModConfigSpec.BooleanValue requireSynthTier, projectorHasShop, savepointGlobal, getExpFromShop, orgEnabled, allowBoosts, allowPartyKO, wayfinderParty, hostileMobsLevel, gummiShipFuelSystem, softLockOnMode;
 
     ServerConfig(final ModConfigSpec.Builder builder) {
         builder.push("general");
@@ -48,6 +48,11 @@ public class ServerConfig {
                 .comment("If true moogle projectors will have the default shop available, if false only the moogles will")
                 .translation(KingdomKeys.MODID + ".config.projector_has_shop")
                 .define("projectorHasShop", false);
+
+        savepointGlobal = builder
+                .comment("If true savepoints will allow any player to mark it as global, if false only creative players will")
+                .translation(KingdomKeys.MODID + ".config.savepoint_global")
+                .define("savepointGlobal", false);
         
         getExpFromShop = builder
                 .comment("If true both synthesis and moogle shop will give EXP for recipes, if false only synthesis")

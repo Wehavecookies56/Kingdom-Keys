@@ -4,9 +4,10 @@
 * Sound when toggling the selected Reaction Command.
 * Interpolated values for MP Bar while on recharge.
 * Magic level field to Magic Cast Event.
+* Config option to prevent survival players from setting a global savepoint.
 
 **Changed:**
-* Winner Stick is now able to be sold and no longer right clicked to a moogle.
+* Winner Stick is now able to be sold and no longer right clicked on a moogle.
 * KO effect goes from neutral to beneficial, hopefully fixing the Artifacts' Antidote vessel conflict.
 * Menu bars will now adapt their length based on the text they contain.
 * Button dot icon.
