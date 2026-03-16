@@ -6,11 +6,14 @@
 * Magic level field to Magic Cast Event.
 
 **Changed:**
+* Winner Stick is now able to be sold and no longer right clicked to a moogle.
 * KO effect goes from neutral to beneficial, hopefully fixing the Artifacts' Antidote vessel conflict.
+* Menu bars will now adapt their length based on the text they contain.
 * Button dot icon.
-* Font for the Command Menu header
+* Font for the Command Menu header.
 
 **Fixed:**
 * Reaction command slot being covered below a submenu if actual submenu was targets.
+* Moogles not able to be renamed.
 * Lock on swap not working.
 * Aero and Stop models not rendering while in EFM.

@@ -103,11 +103,27 @@ public class MenuBackground extends Screen {
 		drawBiomeDim(gui);
 		drawTip(gui);
 
-		//TITLE
+		// TITLE
 		gui.pose().pushPose();
 		{
-			gui.pose().scale(1.3F,1.3F, 1F);
-			gui.drawString(minecraft.font, Component.literal(Utils.translateToLocal(getTitle().getString().toUpperCase())).withStyle(ClientUtils.KK_Font_EXP), 2, 10, 0xFF9900);
+			int sw = Minecraft.getInstance().getWindow().getGuiScaledWidth();
+			Component titleComponent = Component.literal(Utils.translateToLocal(getTitle().getString().toUpperCase())).withStyle(ClientUtils.KK_Font_EXP);
+			int textX = 5;
+			int textY = 10;
+			int textWidth = minecraft.font.width(titleComponent);
+
+			float scale = 1.5F;
+			gui.pose().scale(scale, scale, 1F);
+			gui.drawString(minecraft.font, titleComponent, textX, textY, 0xFF9900);
+
+			int scaledWidth = (int) Math.ceil(textWidth * scale);
+
+			int textOffset = textX - topLeftBar.getPosX();
+			int borderPadding = 20;
+
+			topLeftBar.width = textOffset + scaledWidth + borderPadding;
+			topRightBar.posX = (int) (topLeftBar.posX + topLeftBar.getWidth() + topGap);
+			topRightBar.width = sw;
 		}
 		gui.pose().popPose();
 	}
@@ -122,12 +138,10 @@ public class MenuBackground extends Screen {
 		this.renderBackground(gui, mouseX, mouseY, partialTicks);
 		if (!drawSeparately)
 			drawMenuBackground(gui, mouseX, mouseY, partialTicks);
-		Iterator var5 = this.renderables.iterator();
 
-		while(var5.hasNext()) {
-			Renderable renderable = (Renderable)var5.next();
-			renderable.render(gui, mouseX, mouseY, partialTicks);
-		}
+        for (Renderable renderable : this.renderables) {
+            renderable.render(gui, mouseX, mouseY, partialTicks);
+        }
 	}
 
 	private void clearButtons() {
@@ -175,29 +189,53 @@ public class MenuBackground extends Screen {
 	public void drawMunnyTime(GuiGraphics gui) {
 		gui.pose().pushPose();
 		{
-			gui.pose().scale(0.98F,0.98F,1F);
-			gui.pose().translate(0.0F, 16, 1F);
+			float scale = 1F;
+
+			gui.pose().translate(0.0F, 12, 1F);
+
 			PlayerData playerData = PlayerData.get(minecraft.player);
-			int y = (int) (topBarHeight + middleHeight +1);
-			gui.drawString(minecraft.font, Component.literal(Utils.translateToLocal(Strings.Gui_Menu_Main_Synthesis_Tier)+": "+Utils.getTierFromInt(playerData.getSynthLevel())).withStyle(ClientUtils.KK_Font_EXP) , 5, y, 0xFFFF00);
-			y+= minecraft.font.lineHeight;
-			gui.drawString(minecraft.font, Component.literal(Utils.translateToLocal(Strings.Gui_Menu_Main_Munny) + ": " + Utils.getFormattedNumber(playerData.getMunny())).withStyle(ClientUtils.KK_Font_EXP), 5, y, 0xF66627);
-			y+= minecraft.font.lineHeight;
-			gui.drawString(minecraft.font, Component.literal(Utils.translateToLocal(Strings.Gui_Menu_Main_Hearts) + ": " + Utils.getFormattedNumber(playerData.getHearts())).withStyle(ClientUtils.KK_Font_EXP), 5, y, playerData.getAlignment() == OrgMember.NONE ? 0x888888 : 0xFF3333);
-			y+= minecraft.font.lineHeight;
-			gui.drawString(minecraft.font, Component.literal(Utils.translateToLocal(Strings.Gui_Menu_Main_Time) + ": " + getWorldHours(minecraft.level) + ":" + getWorldMinutes(minecraft.level)).withStyle(ClientUtils.KK_Font_EXP), 5, y, 0xFFFFFF);
+
+			int y = (int) (topBarHeight + middleHeight + 1);
+			int maxWidth = 0;
+
 			long seconds = minecraft.level.getDayTime() / 20;
 			long h = seconds / 3600;
 			long m = seconds % 3600 / 60;
-			long s = seconds % 3600 % 60;
+			long s = seconds % 60;
 
-			String sec = s < 10 ? 0 + "" + s : s + "";
-			String min = m < 10 ? 0 + "" + m : m + "";
-			String hou = h < 10 ? 0 + "" + h : h + "";
-			String time = hou + ":" + min + ":" + sec;
-			y+= minecraft.font.lineHeight;
+			String time = String.format("%02d:%02d:%02d", h, m, s);
 
-			gui.drawString(minecraft.font, Component.literal(Utils.translateToLocal(Strings.Gui_Menu_Main_Time_Spent) + ": " + time).withStyle(ClientUtils.KK_Font_EXP), 5, y, 0x42ceff);
+			Component[] lines = new Component[]{
+					Component.literal(Utils.translateToLocal(Strings.Gui_Menu_Main_Synthesis_Tier) + ": " + Utils.getTierFromInt(playerData.getSynthLevel())).withStyle(ClientUtils.KK_Font_EXP),
+					Component.literal(Utils.translateToLocal(Strings.Gui_Menu_Main_Munny) + ": " + Utils.getFormattedNumber(playerData.getMunny())).withStyle(ClientUtils.KK_Font_EXP),
+					Component.literal(Utils.translateToLocal(Strings.Gui_Menu_Main_Hearts) + ": " + Utils.getFormattedNumber(playerData.getHearts())).withStyle(ClientUtils.KK_Font_EXP),
+					Component.literal(Utils.translateToLocal(Strings.Gui_Menu_Main_Time) + ": " + getWorldHours(minecraft.level) + ":" + getWorldMinutes(minecraft.level)).withStyle(ClientUtils.KK_Font_EXP),
+					Component.literal(Utils.translateToLocal(Strings.Gui_Menu_Main_Time_Spent) + ": " + time).withStyle(ClientUtils.KK_Font_EXP)
+			};
+
+			int[] colors = new int[]{
+					0xFFFF00,
+					0xF66627,
+					playerData.getAlignment() == OrgMember.NONE ? 0x888888 : 0xFF3333,
+					0xFFFFFF,
+					0x42ceff
+			};
+
+			for (int i = 0; i < lines.length; i++) {
+				Component line = lines[i];
+				gui.drawString(minecraft.font, line, 5, y, colors[i]);
+				maxWidth = Math.max(maxWidth, minecraft.font.width(line));
+				y += minecraft.font.lineHeight;
+			}
+
+			int scaledWidth = (int) Math.ceil(maxWidth * scale);
+
+			int textOffset = 5 - bottomLeftBar.getPosX();
+			int sw = Minecraft.getInstance().getWindow().getGuiScaledWidth();
+
+			bottomLeftBar.setWidth(textOffset + scaledWidth + 15);
+			bottomRightBar.posX = (int) (bottomLeftBar.width + bottomGap);
+			bottomRightBar.width = sw;
 		}
 		gui.pose().popPose();
 	}
@@ -230,7 +268,6 @@ public class MenuBackground extends Screen {
 
 	public static final ResourceLocation menu = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
 	public static final ResourceLocation menubg = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/menu/menu_background.png");
-
 
 	public static String getWorldMinutes(Level world) {
 		int time = (int) Math.abs((world.getGameTime() + 6000) % 24000);

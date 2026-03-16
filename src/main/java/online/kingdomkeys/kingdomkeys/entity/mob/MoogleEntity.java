@@ -19,6 +19,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.phys.Vec3;
@@ -70,18 +71,22 @@ public class MoogleEntity extends PathfinderMob implements IEntityWithComplexSpa
     @Nullable
     @Override
     public Component getCustomName() {
+        Component vanilla = super.getCustomName();
+        if (vanilla != null) {
+            return vanilla;
+        }
         if (name != null && !name.isEmpty()) {
             return Component.translatable(name);
         }
-        return super.getCustomName();
+        return null;
     }
 
     @Override
     public boolean hasCustomName() {
-        if (name != null && !name.isEmpty()) {
+        if (super.hasCustomName()) {
             return true;
         }
-        return super.hasCustomName();
+        return name != null && !name.isEmpty();
     }
 
     private boolean fakeMoogle = false;
@@ -145,33 +150,24 @@ public class MoogleEntity extends PathfinderMob implements IEntityWithComplexSpa
 
     @Override
     public InteractionResult interactAt(Player player, Vec3 vec, InteractionHand hand) {
+        ItemStack itemstack = player.getItemInHand(hand);
+        //Name tag
+        if (itemstack.getItem() == Items.NAME_TAG) {
+           // this.name = ""; //TODO Check if this is needed in the future
+            return super.interactAt(player, vec, hand);
+        }
+
+        //GUI opening
         if (!player.level().isClientSide) {
         	if(!player.isCrouching()) {
-	        	ItemStack itemstack = player.getItemInHand(hand);
-	        	if(!ItemStack.isSameItem(itemstack, ItemStack.EMPTY) && itemstack.getItem() == ModItems.winnerStick.get()) {
-	        		PlayerData playerData = PlayerData.get(player);
-	        		int reward = 500;
-	        		playerData.setMunny(playerData.getMunny() + reward);
-	        		itemstack.shrink(1);
-					player.sendSystemMessage(Component.translatable(ChatFormatting.YELLOW + "You have been rewarded with " + reward + " munny!"));
-					return InteractionResult.FAIL;
-	        	} else {
-	        		PacketHandler.sendTo(new SCOpenSynthesisGui(PlayerData.get(player).serializeNBT(player.level().registryAccess()), inv, name, this.getId()), (ServerPlayer)player);
-                    interacting = player;
-                    goalSelector.removeAllGoals(Objects::nonNull);
-                    goalSelector.addGoal(0, new LookAtInteractingPlayerGoal(this));
-                    return InteractionResult.SUCCESS;
-	        	}
+                PacketHandler.sendTo(new SCOpenSynthesisGui(PlayerData.get(player).serializeNBT(player.level().registryAccess()), inv, name, this.getId()), (ServerPlayer)player);
+                interacting = player;
+                goalSelector.removeAllGoals(Objects::nonNull);
+                goalSelector.addGoal(0, new LookAtInteractingPlayerGoal(this));
+                return InteractionResult.SUCCESS;
 	        }
-	        return super.interactAt(player, vec, hand);
         }
-    	ItemStack itemstack = player.getItemInHand(hand);
-    	if(!ItemStack.isSameItem(itemstack, ItemStack.EMPTY) && itemstack.getItem() == ModItems.winnerStick.get()) {
-    		return InteractionResult.SUCCESS;
-    	} else {
-	        return super.interactAt(player, vec, hand);
-    	}
-
+        return super.interactAt(player, vec, hand);
     }
 
     @Override
@@ -224,17 +220,20 @@ public class MoogleEntity extends PathfinderMob implements IEntityWithComplexSpa
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundTag pCompound) {
-    	super.addAdditionalSaveData(pCompound);
-    	pCompound.putString("inv", inv);
-        pCompound.putString("name", name);
+    public void addAdditionalSaveData(CompoundTag tag) {
+        super.addAdditionalSaveData(tag);
+        tag.putString("inv", inv);
+
+        if (!name.isEmpty()) {
+            tag.putString("name", name);
+        }
     }
-    
+
     @Override
-    public void readAdditionalSaveData(CompoundTag pCompound) {
-    	super.readAdditionalSaveData(pCompound);
-        inv = pCompound.getString("inv");
-        name = pCompound.getString("name");
+    public void readAdditionalSaveData(CompoundTag tag) {
+        super.readAdditionalSaveData(tag);
+        inv = tag.getString("inv");
+        name = tag.contains("name") ? tag.getString("name") : "";
         if (name.isEmpty()) {
             setRandomName();
         }
