@@ -507,19 +507,14 @@ public class CommandMenuSubMenu {
             guiGraphics.pose().translate(0, 0, getZ());
             guiGraphics.setColor(getColour().getRed() / 255F, getColour().getGreen() / 255F, getColour().getBlue() / 255F, 1);
             if (useFixedHeader) {
-                guiGraphics.blit(getTexture(), getX(), getY(), 0, 70, 70, 15);
+                guiGraphics.blit(getTexture(), getX(), getY(), 0, 70, 74, 15);
             } else {
                 guiGraphics.blit(getTexture(), getX(), getY(), 0, 0, ModConfigs.cmHeaderEndLWidth, getHeight());
                 guiGraphics.blit(getTexture(), getX() + ModConfigs.cmHeaderEndLWidth, getY(), getWidth() - (ModConfigs.cmHeaderEndLWidth + ModConfigs.cmHeaderEndRWidth), getHeight(), ModConfigs.cmHeaderEndLWidth + 1, 0, 1, getHeight(), 256, 256);
                 guiGraphics.blit(getTexture(), getX() + getWidth() - ModConfigs.cmHeaderEndRWidth, getY(), ModConfigs.cmHeaderEndLWidth + 3, 0, ModConfigs.cmHeaderEndRWidth, getHeight());
             }
             if(ModConfigs.cmHeaderTextVisible) {
-                guiGraphics.pose().pushPose();
-                {
-                    guiGraphics.pose().scale(0.91F, 1F, 1); //TODO remove this and enlarge menu
-                    guiGraphics.drawCenteredString(Minecraft.getInstance().font, getTitle(), getX() + 35 + ModConfigs.cmTextXOffset, getY() + 4, 0xFFFFFF);
-                }
-                guiGraphics.pose().popPose();
+                guiGraphics.drawCenteredString(Minecraft.getInstance().font, getTitle(), getX() + ((getWidth()-8)/2) + 1, getY() + 4, 0xFFFFFF);
             }
             renderChildren(guiGraphics, screenWidth, screenHeight, partialTick);
 

@@ -92,6 +92,7 @@ public class CommandMenuGui extends OverlayBase {
 					ClientUtils.CM_ELEMENT.height = subMenu.getHeight() * (subMenu.getVisibleChildren().size()+1);
 					ClientUtils.CM_ELEMENT.width = subMenu.getWidth();
 					subMenu.setPosition(0,0);
+					subMenu.setWidth(74);
 				})
 				.withChildren(
 						new CommandMenuItem.Builder(attack, Component.translatable(Strings.Gui_CommandMenu_Attack), null).onUpdate((item, guiGraphics) -> updateRootItem(item, null, guiGraphics)).iconUV(30, 60),
