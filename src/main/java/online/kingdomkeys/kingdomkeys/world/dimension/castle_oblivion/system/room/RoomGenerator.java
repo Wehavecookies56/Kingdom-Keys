@@ -16,11 +16,12 @@ import net.neoforged.neoforge.common.NeoForge;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.block.CardDoorBlock;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
+import online.kingdomkeys.kingdomkeys.block.StructureWallBlock;
 import online.kingdomkeys.kingdomkeys.data.CastleOblivionData;
 import online.kingdomkeys.kingdomkeys.entity.block.CardDoorTileEntity;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCastleOblivionInteriorData;
 import online.kingdomkeys.kingdomkeys.util.Utils;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.CastleOblivionEvent;
+import online.kingdomkeys.kingdomkeys.api.event.CastleOblivionEvent;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.floor.Floor;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModRoomStructures;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModRoomTypes;
@@ -73,12 +74,44 @@ public class RoomGenerator {
             CompoundTag main = NbtIo.readCompressed(resource.open(), NbtAccounter.unlimitedHeap());
             newRoom.setStructure(structureToGenerate);
 
+            ListTag size = main.getList("size", Tag.TAG_INT);
+
             ListTag palette = main.getList("palette", Tag.TAG_COMPOUND);
 
             ListTag blocks = main.getList("blocks", Tag.TAG_COMPOUND);
 
             List<BlockState> blockStates = new ArrayList<>();
 
+            BlockPos northWallCorner = pos.north();
+            BlockPos bottomWallCorner = pos.below();
+            BlockPos topWallCorner = pos.above(size.getInt(1));
+            BlockPos eastWallCorner = pos.east(size.getInt(0));
+            BlockPos southWallCorner = pos.south(size.getInt(2));
+            BlockPos westWallCorner = pos.west();
+
+            BlockPos.MutableBlockPos.betweenClosedStream(northWallCorner, new BlockPos(northWallCorner.getX() + size.getInt(0)-1, northWallCorner.getY() + size.getInt(1)-1, northWallCorner.getZ())).forEach(blockPos -> {
+                level.setBlock(blockPos, ModBlocks.structureWall.get().defaultBlockState().setValue(StructureWallBlock.FACING, Direction.SOUTH), 2);
+            });
+
+            BlockPos.MutableBlockPos.betweenClosedStream(southWallCorner, new BlockPos(southWallCorner.getX() + size.getInt(0)-1, southWallCorner.getY() + size.getInt(1)-1, southWallCorner.getZ())).forEach(blockPos -> {
+                level.setBlock(blockPos, ModBlocks.structureWall.get().defaultBlockState().setValue(StructureWallBlock.FACING, Direction.NORTH), 2);
+            });
+
+            BlockPos.MutableBlockPos.betweenClosedStream(westWallCorner, new BlockPos(westWallCorner.getX(), westWallCorner.getY() + size.getInt(1)-1, westWallCorner.getZ() + size.getInt(2)-1)).forEach(blockPos -> {
+                level.setBlock(blockPos, ModBlocks.structureWall.get().defaultBlockState().setValue(StructureWallBlock.FACING, Direction.EAST), 2);
+            });
+
+            BlockPos.MutableBlockPos.betweenClosedStream(eastWallCorner, new BlockPos(eastWallCorner.getX(), eastWallCorner.getY() + size.getInt(1)-1, eastWallCorner.getZ() + size.getInt(2)-1)).forEach(blockPos -> {
+                level.setBlock(blockPos, ModBlocks.structureWall.get().defaultBlockState().setValue(StructureWallBlock.FACING, Direction.WEST), 2);
+            });
+
+            BlockPos.MutableBlockPos.betweenClosedStream(bottomWallCorner, new BlockPos(bottomWallCorner.getX() + size.getInt(0)-1, bottomWallCorner.getY(), bottomWallCorner.getZ() + size.getInt(2)-1)).forEach(blockPos -> {
+                level.setBlock(blockPos, ModBlocks.structureWall.get().defaultBlockState().setValue(StructureWallBlock.FACING, Direction.UP), 2);
+            });
+
+            BlockPos.MutableBlockPos.betweenClosedStream(topWallCorner, new BlockPos(topWallCorner.getX() + size.getInt(0)-1, topWallCorner.getY(), topWallCorner.getZ() + size.getInt(2)-1)).forEach(blockPos -> {
+                level.setBlock(blockPos, ModBlocks.structureWall.get().defaultBlockState().setValue(StructureWallBlock.FACING, Direction.DOWN), 2);
+            });
 
             CompoundTag block = blocks.getCompound(0);
             BlockPos.MutableBlockPos blockpos = new BlockPos.MutableBlockPos(block.getList("pos", 3).getInt(0), block.getList("pos", 3).getInt(1), block.getList("pos", 3).getInt(2));
@@ -163,6 +196,7 @@ public class RoomGenerator {
                 }
             }
             data.setGenerated(newRoom);
+            CastleOblivionData.InteriorData.get(level).setDirty();
             SCSyncCastleOblivionInteriorData.syncClients(level);
             KingdomKeys.LOGGER.info("Generated room:{} at {}", newRoom.type.getRegistryName().toString(), pos);
             NeoForge.EVENT_BUS.post(new CastleOblivionEvent.RoomGeneratedEvent(level, data, currentRoom));

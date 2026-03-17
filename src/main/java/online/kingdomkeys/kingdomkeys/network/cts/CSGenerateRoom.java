@@ -53,6 +53,7 @@ public record CSGenerateRoom(ItemStack stack, int slot, BlockPos pos) implements
 		BlockPos destination = newRoom.doors.get(te.getDirection().opposite()).pos();
 		CardDoorTileEntity destTe = (CardDoorTileEntity) level.getBlockEntity(destination);
 		te.openDoor(true);
+		te.getDestinationRoom().setGenerated(newRoom);
 		destTe.openDoor(true);
 		destTe.setDestinationRoom(te.getParentRoom());
 		player.getInventory().getItem(slot).shrink(1);

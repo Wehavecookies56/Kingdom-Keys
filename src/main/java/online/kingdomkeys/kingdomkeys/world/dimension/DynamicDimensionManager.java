@@ -201,7 +201,7 @@ public class DynamicDimensionManager {
             ResourceKey<?> key = ResourceKey.create(ResourceKey.createRegistryKey(ResourceLocation.withDefaultNamespace("root")),ResourceLocation.withDefaultNamespace("dimension"));
 
             final Registry<LevelStem> oldRegistry = (Registry<LevelStem>) hashMap.get(key);
-            Lifecycle oldLifecycle = null; // @todo 1.19.3 AT ((MappedRegistry<LevelStem>)oldRegistry).registryLifecycle;
+            Lifecycle oldLifecycle = oldRegistry.registryLifecycle();
             final Registry<LevelStem> newRegistry = new MappedRegistry<>(Registries.LEVEL_STEM, oldLifecycle, false);
 
             for (var entry : oldRegistry.entrySet()) {
@@ -281,7 +281,7 @@ public class DynamicDimensionManager {
                 worldKey,
                 dimension,
                 chunkProgressListener,
-                false, // @todo 1.19.3 worldGenSettings.isDebug(),
+                worldData.isDebugWorld(),
                 net.minecraft.world.level.biome.BiomeManager.obfuscateSeed(worldGenSettings.seed()),
                 ImmutableList.of(), // "special spawn list"
                 // phantoms, travelling traders, patrolling/sieging raiders, and cats are overworld special spawns

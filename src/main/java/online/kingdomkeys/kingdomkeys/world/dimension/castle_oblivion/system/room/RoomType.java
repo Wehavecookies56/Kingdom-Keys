@@ -11,6 +11,7 @@ import net.minecraft.sounds.SoundEvent;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.floor.FloorType;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.JsonRegistryObject;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModFloorTypes;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModRoomModifiers;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModRoomStructures;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.modifiers.RoomModifier;
 
@@ -68,8 +69,7 @@ public class RoomType extends JsonRegistryObject {
     }
 
     public List<RoomModifier> getModifiers() {
-        //TODO registry
-        return List.of();
+        return modifiers.stream().map(resourceLocation -> ModRoomModifiers.registry.get(resourceLocation)).toList();
     }
 
     public boolean isFloorCompatible(FloorType floor) {
@@ -237,8 +237,12 @@ public class RoomType extends JsonRegistryObject {
                         this.modifiers = new ArrayList<>();
                         modifiers.forEach(mentry -> {
                             String modifier = mentry.getAsString();
-                            //TODO registry
-                            this.modifiers.add(ResourceLocation.parse(modifier));
+                            ResourceLocation rl = ResourceLocation.parse(modifier);
+                            if (ModRoomModifiers.registry.containsKey(rl)) {
+                                this.modifiers.add(rl);
+                            } else {
+                                throw new JsonParseException("Supplied room modifier does not exist");
+                            }
                         });
                     }
                 }

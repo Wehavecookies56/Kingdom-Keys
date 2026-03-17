@@ -1,5 +1,9 @@
 {
   "size": "L",
   "category": "ENEMY",
-  "enemies": "L"
+  "enemies": "L",
+  "colour": [0, 0, 0],
+  "modifiers": [
+    "kingdomkeys:blindness"
+  ]
 }

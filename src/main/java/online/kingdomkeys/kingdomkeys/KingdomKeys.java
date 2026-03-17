@@ -80,6 +80,7 @@ import online.kingdomkeys.kingdomkeys.world.SavePointStorage;
 import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.CastleOblivionHandler;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModJsonRegistries;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModRoomModifiers;
 import online.kingdomkeys.kingdomkeys.world.features.ModFeatures;
 import online.kingdomkeys.kingdomkeys.world.structure.ModStructures;
 import org.apache.logging.log4j.LogManager;
@@ -219,6 +220,7 @@ public class KingdomKeys {
 		ModStructures.STRUCTURES.register(modEventBus);
 
 		ModJsonRegistries.JSON_REGISTRIES.register(modEventBus);
+		ModRoomModifiers.ROOM_MODIFIERS.register(modEventBus);
 		ModData.ATTACHMENT_TYPES.register(modEventBus);
 		ModComponents.COMPONENTS.register(modEventBus);
 		ModArmorMaterials.ARMOR_MATERIALS.register(modEventBus);

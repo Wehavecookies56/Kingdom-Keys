@@ -28,7 +28,6 @@ public class Floor {
 
 
     FloorType type = ModFloorTypes.NONE.get();
-    Map<UUID, Room> players = new HashMap<>();
     Map<RoomPos, RoomData> rooms = new HashMap<>();
     int floorID;
     RoomPos exitRoom;
@@ -92,20 +91,8 @@ public class Floor {
         return floorID;
     }
 
-    public Map<UUID, Room> getPlayers() {
-        return ImmutableMap.<UUID, Room>builder().putAll(players).build();
-    }
-
     public boolean hasWorldCard() {
         return type != ModFloorTypes.NONE.get();
-    }
-
-    public void floorEntered(Player player) {
-        players.put(player.getGameProfile().getId(), getEntranceHall().getGenerated());
-    }
-
-    public void floorExited(Player player) {
-        players.remove(player.getGameProfile().getId());
     }
 
     public boolean inFloor(BlockPos pos) {
@@ -312,11 +299,7 @@ public class Floor {
     }
 
     public boolean shouldTick() {
-        return !players.isEmpty();
-    }
-
-    public boolean shouldRoomTick(Room room) {
-        return players.containsValue(room);
+        return false;
     }
 
     public BlockPos getNorthernMostRoomPosition() {
@@ -334,19 +317,10 @@ public class Floor {
         CompoundTag tag = new CompoundTag();
         tag.putInt("id", floorID);
         tag.putString("floor_type", type.getRegistryName().toString());
-        tag.putInt("players_size", players.size());
-        CompoundTag playersTag = new CompoundTag();
-        for (int i = 0; i < players.size(); i++) {
-            List<UUID> uuids = players.keySet().stream().toList();
-            List<Room> rooms = players.values().stream().toList();
-            playersTag.putUUID("players_uuid_" + i, uuids.get(i));
-            playersTag.put("players_room_" + i, rooms.get(i).serializeNBT());
-        }
-        tag.put("players", playersTag);
         tag.putInt("rooms_size", rooms.size());
         CompoundTag roomsTag = new CompoundTag();
+        List<RoomData> roomList = rooms.values().stream().toList();
         for (int i = 0; i < rooms.size(); i++) {
-            List<RoomData> roomList = rooms.values().stream().toList();
             roomsTag.put("rooms_roomdata_" + i, roomList.get(i).serializeNBT());
         }
         tag.put("rooms", roomsTag);
@@ -359,10 +333,6 @@ public class Floor {
     public void deserializeNBT(CompoundTag tag) {
         floorID = tag.getInt("id");
         type = ModJsonRegistries.FLOOR_TYPE.get().getValue(ResourceLocation.parse(tag.getString("floor_type")));
-        players.clear();
-        int playerssize = tag.getInt("players_size");
-        CompoundTag playersTag = tag.getCompound("players");
-        //todo players
         rooms.clear();
         int roomssize = tag.getInt("rooms_size");
         CompoundTag roomsTag = tag.getCompound("rooms");

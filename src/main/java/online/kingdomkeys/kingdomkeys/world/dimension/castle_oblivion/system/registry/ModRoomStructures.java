@@ -19,6 +19,7 @@ public class ModRoomStructures {
             TEST_ROOM = () -> registry.get().getValue(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "test_room")),
             PLAINS_S_1 = () -> registry.get().getValue(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "plains_s_1")),
             PLAINS_S_2 = () -> registry.get().getValue(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "plains_s_2")),
+            PLAINS_S_3 = () -> registry.get().getValue(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "plains_s_3")),
             BOTTOMLESS_DARKNESS = () -> registry.get().getValue(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "bottomless_darkness")),
             NETHER_S_1 = () -> registry.get().getValue(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "nether_s_1"));
 
@@ -26,13 +27,16 @@ public class ModRoomStructures {
         if (room.getFixedRoom() != null) {
             return List.of(room.getFixedRoom());
         } else {
+            for (RoomStructure rs : registry.get().getValues()) {
+                KingdomKeys.LOGGER.debug(rs.registryName + ":" + isStructureCompatible(floor, rs, room));
+            }
             return registry.get().getValues().stream().filter(s -> isStructureCompatible(floor, s, room)).toList();
         }
     }
 
     public static boolean isStructureCompatible(FloorType floor, RoomStructure structure, RoomType type) {
         if (structure.getFloor() != null) {
-            if (!(ModFloorTypes.isFloorCompatible(floor, type) && floor.equals(structure.getFloor()))) {
+            if (!ModFloorTypes.isFloorCompatible(floor, type) || !floor.registryName.equals(structure.getFloor().registryName)) {
                 return false;
             }
         }
