@@ -59,11 +59,7 @@ import net.neoforged.neoforge.client.RenderTypeHelper;
 import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 import net.neoforged.neoforge.client.model.data.ModelData;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.client.gui.elements.HUD.CMElement;
-import online.kingdomkeys.kingdomkeys.client.gui.elements.HUD.HPElement;
-import online.kingdomkeys.kingdomkeys.client.gui.elements.HUD.LockOnElement;
-import online.kingdomkeys.kingdomkeys.client.gui.elements.HUD.PartyElement;
-import online.kingdomkeys.kingdomkeys.client.gui.elements.HUD.HUDElement;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.HUD.*;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.handler.ClientEvents;
@@ -594,6 +590,11 @@ public class ClientUtils {
                             false, false)).setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY).setDepthTestState(RenderStateShard.NO_DEPTH_TEST).setWriteMaskState(RenderStateShard.COLOR_WRITE).setLightmapState(RenderStateShard.NO_LIGHTMAP)
                     .setOverlayState(RenderStateShard.NO_OVERLAY).createCompositeState(true));
 
+    public static final RenderType AIRSTEP_INDICATOR = RenderType.create(KingdomKeys.MODID+":airstep_indicator", DefaultVertexFormat.POSITION_TEX, VertexFormat.Mode.QUADS, 256, false, false,
+            RenderType.CompositeState.builder().setShaderState(RenderStateShard.POSITION_TEX_SHADER).setTextureState(new RenderStateShard.TextureStateShard(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID,"textures/gui/airstep_indicator.png"),
+                            false, false)).setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY).setDepthTestState(RenderStateShard.NO_DEPTH_TEST).setWriteMaskState(RenderStateShard.COLOR_WRITE).setLightmapState(RenderStateShard.NO_LIGHTMAP)
+                    .setOverlayState(RenderStateShard.NO_OVERLAY).createCompositeState(true));
+
 
     //Lock on
     public static void drawLockOnIndicator(int entityID, PoseStack poseStack, MultiBufferSource buffer, float partialTicks) {
@@ -700,7 +701,7 @@ public class ClientUtils {
         poseStack.popPose();
     }
 
-    // Airsteps
+    // Airstep to block
     public static void drawShotlockIndicator(BlockPos pos, PoseStack poseStack, MultiBufferSource buffer, float partialTicks) {
         Minecraft mc = Minecraft.getInstance();
 
@@ -714,8 +715,40 @@ public class ClientUtils {
 
         mvMatrix.rotate(mc.getEntityRenderDispatcher().cameraOrientation());
 
-        drawTexturedModalRect2DPlane(mvMatrix, buffer.getBuffer(SHOTLOCK_INDICATOR), -0.6f, -0.6f, 0.6f, 0.6f, 0, 0, 256, 256);
+        drawTexturedModalRect2DPlane(mvMatrix, buffer.getBuffer(AIRSTEP_INDICATOR), -0.6f, -0.6f, 0.6f, 0.6f, 0, 0, 256, 256);
     }
+
+    // Airstep shotlock
+    public static void drawAirstepIndicator(int entityID, PoseStack poseStack, MultiBufferSource buffer, float partialTicks) {
+        Minecraft mc = Minecraft.getInstance();
+
+        Shotlock shotlock = Utils.getPlayerShotlock(mc.player);
+        if (shotlock == null)
+            return;
+
+        Entity target = mc.level.getEntity(entityID);
+        if(target == null)
+            return;
+
+        double x = Mth.lerp(partialTicks, target.xOld, target.getX());
+        double y = Mth.lerp(partialTicks, target.yOld, target.getY());
+        double z = Mth.lerp(partialTicks, target.zOld, target.getZ());
+
+        Camera camera = mc.gameRenderer.getMainCamera();
+        Vec3 camPos = camera.getPosition();
+
+        poseStack.pushPose();
+        {
+            poseStack.translate(x - camPos.x, y - camPos.y + target.getBbHeight() * 0.5, z - camPos.z);
+            poseStack.mulPose(mc.getEntityRenderDispatcher().cameraOrientation());
+
+            float size = 1.5F + shotlock.getCooldown() * 0.2F - ClientEvents.focusingAnEntityTicks * 0.2F;
+            Matrix4f mat = poseStack.last().pose();
+            drawTexturedModalRect2DPlane(mat, buffer.getBuffer(AIRSTEP_INDICATOR), -size, -size, size, size, 0, 0, 256, 256);
+        }
+        poseStack.popPose();
+    }
+
 
     public static void drawTexturedModalRect2DPlane(Matrix4f matrix, VertexConsumer vertexBuilder, float minX, float minY, float maxX, float maxY, float minTexU, float minTexV, float maxTexU, float maxTexV) {
         RenderSystem.depthMask(false);

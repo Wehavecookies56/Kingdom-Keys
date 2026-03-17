@@ -9,6 +9,7 @@ import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
+import online.kingdomkeys.kingdomkeys.handler.ClientEvents;
 
 public class MPGui extends OverlayBase {
 	public static final MPGui INSTANCE = new MPGui();
@@ -35,9 +36,10 @@ public class MPGui extends OverlayBase {
 		int screenHeight = minecraft.getWindow().getGuiScaledHeight();
 
 		RenderSystem.setShaderColor(1,1,1,1);
+		float interpMP = ClientEvents.prevVisualMP + (ClientEvents.visualMP - ClientEvents.prevVisualMP) * deltaTracker.getGameTimeDeltaPartialTick(true);
+		float mpBarWidth = playerData.getRecharge() ? interpMP : (float) playerData.getMP();
 
-		int mpBarWidth = (int)(playerData.getMP());
-		int mpBarMaxWidth = (int)(playerData.getMaxMP());
+		int mpBarMaxWidth = (int) playerData.getMaxMP();
 
 		PoseStack poseStack = guiGraphics.pose();
 		poseStack.pushPose();
@@ -101,12 +103,12 @@ public class MPGui extends OverlayBase {
 		matrixStack.popPose();
 	}
 
-	public void drawMPBarTop(GuiGraphics gui, int width) {
+	public void drawMPBarTop(GuiGraphics gui, float width){
 		PoseStack matrixStack = gui.pose();
 		matrixStack.pushPose();
 		{
 			int maxWidth = (int)playerData.getMaxMP();
-			int offset = maxWidth - width;
+			float offset = maxWidth - width;
 
 			matrixStack.translate(2 + offset, 2, 1);
 			matrixStack.scale(width, 1, 0);

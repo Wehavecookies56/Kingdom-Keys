@@ -12,7 +12,6 @@ import online.kingdomkeys.kingdomkeys.integration.epicfight.skills.KKSkills;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import yesman.epicfight.api.animation.LivingMotions;
 import yesman.epicfight.api.event.EpicFightEventHooks;
-import yesman.epicfight.api.event.types.registry.WeaponCapabilityPresetRegistryEvent;
 import yesman.epicfight.gameasset.Animations;
 import yesman.epicfight.gameasset.ColliderPreset;
 import yesman.epicfight.registry.entries.EpicFightSkills;

@@ -1,15 +1,11 @@
 package online.kingdomkeys.kingdomkeys.client.gui.menu;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.common.NeoForge;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.api.event.client.MenuButtonRegisterEvent;
-import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton.ButtonType;
@@ -28,7 +24,6 @@ import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
-import online.kingdomkeys.kingdomkeys.util.Utils;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
@@ -51,8 +46,6 @@ public class MenuScreen extends MenuBackground {
 	PlayerData playerData;
 
 	MenuButton items, abilities, customize, party, status, journal, config, style;
-
-	final ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
 
 	protected void action(buttons buttonID) {
 		switch (buttonID) {
@@ -95,8 +88,6 @@ public class MenuScreen extends MenuBackground {
 
 	@Override
 	public void init() {
-		super.width = width;
-		super.height = height;
 		super.init();
 		float topBarHeight = (float) height * 0.17F;
 		int startY = (int)topBarHeight + 5;
@@ -104,42 +95,19 @@ public class MenuScreen extends MenuBackground {
 
 		float buttonX = (float) width * 0.03F;
 		float buttonWidth = ((float) width * 0.1744F) - 22;
-       // addRenderableWidget(abilities = new MenuButton((int) buttonPosX, start + 18 * ++pos, (int) buttonWidth, (Strings.Gui_Menu_Main_Button_Abilities), ButtonType.BUTTON, true, (e) -> {
         menuButtons.clear();
-        menuButtons.add(items = new MenuButton(
-                (int) buttonX, startY + 18 * pos++, (int) buttonWidth, Strings.Gui_Menu_Main_Button_Items, ButtonType.BUTTON, true, e -> action(buttons.ITEMS)
-        ));
-
-        menuButtons.add(abilities = new MenuButton(
-                (int) buttonX, startY + 18 * pos++, (int) buttonWidth, Strings.Gui_Menu_Main_Button_Abilities, ButtonType.BUTTON, true, e -> action(buttons.ABILITIES)
-
-        ));
-
-        menuButtons.add(customize = new MenuButton(
-                (int) buttonX, startY + 18 * pos++, (int) buttonWidth, Strings.Gui_Menu_Main_Button_Customize, ButtonType.BUTTON, true, e -> action(buttons.CUSTOMIZE)
-        ));
-
-        menuButtons.add(party = new MenuButton(
-                (int) buttonX, startY + 18 * pos++, (int) buttonWidth, Strings.Gui_Menu_Main_Button_Party, ButtonType.BUTTON, true, e -> action(buttons.PARTY)
-        ));
-
-        menuButtons.add(status = new MenuButton(
-                (int) buttonX, startY + 18 * pos++, (int) buttonWidth, Strings.Gui_Menu_Main_Button_Status, ButtonType.BUTTON, true, e -> action(buttons.STATUS)
-        ));
-
-        menuButtons.add(journal = new MenuButton(
-                (int) buttonX, startY + 18 * pos++, (int) buttonWidth, Strings.Gui_Menu_Main_Button_Journal, ButtonType.BUTTON, true, e -> action(buttons.JOURNAL)
-        ));
+        menuButtons.add(items = new MenuButton((int) buttonX, startY + 18 * pos++, (int) buttonWidth, Strings.Gui_Menu_Main_Button_Items, ButtonType.BUTTON, true, e -> action(buttons.ITEMS)));
+        menuButtons.add(abilities = new MenuButton((int) buttonX, startY + 18 * pos++, (int) buttonWidth, Strings.Gui_Menu_Main_Button_Abilities, ButtonType.BUTTON, true, e -> action(buttons.ABILITIES)));
+        menuButtons.add(customize = new MenuButton((int) buttonX, startY + 18 * pos++, (int) buttonWidth, Strings.Gui_Menu_Main_Button_Customize, ButtonType.BUTTON, true, e -> action(buttons.CUSTOMIZE)));
+        menuButtons.add(party = new MenuButton((int) buttonX, startY + 18 * pos++, (int) buttonWidth, Strings.Gui_Menu_Main_Button_Party, ButtonType.BUTTON, true, e -> action(buttons.PARTY)));
+        menuButtons.add(status = new MenuButton((int) buttonX, startY + 18 * pos++, (int) buttonWidth, Strings.Gui_Menu_Main_Button_Status, ButtonType.BUTTON, true, e -> action(buttons.STATUS)));
+        menuButtons.add(journal = new MenuButton((int) buttonX, startY + 18 * pos++, (int) buttonWidth, Strings.Gui_Menu_Main_Button_Journal, ButtonType.BUTTON, true, e -> action(buttons.JOURNAL)));
 
         if (KingdomKeys.efmLoaded) {
-            menuButtons.add(style = new MenuButton(
-                    (int) buttonX, startY + 18 * pos++, (int) buttonWidth, Strings.Gui_Menu_Main_Button_Style, ButtonType.BUTTON, true, e -> action(buttons.STYLES)
-            ));
+            menuButtons.add(style = new MenuButton((int) buttonX, startY + 18 * pos++, (int) buttonWidth, Strings.Gui_Menu_Main_Button_Style, ButtonType.BUTTON, true, e -> action(buttons.STYLES)));
         }
 
-        menuButtons.add(config = new MenuButton(
-                (int) buttonX, startY + 18 * pos++, (int) buttonWidth, Strings.Gui_Menu_Main_Button_Config, ButtonType.BUTTON, true, e -> action(buttons.CONFIG)
-        ));
+        menuButtons.add(config = new MenuButton((int) buttonX, startY + 18 * pos++, (int) buttonWidth, Strings.Gui_Menu_Main_Button_Config, ButtonType.BUTTON, true, e -> action(buttons.CONFIG)));
 
         NeoForge.EVENT_BUS.post(new MenuButtonRegisterEvent(this, menuButtons));
 
@@ -167,62 +135,15 @@ public class MenuScreen extends MenuBackground {
 	@Override
 	public void render(@NotNull GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
 		super.render(gui, mouseX, mouseY, partialTicks);
-		drawPlayer(gui);
-	}
-	
-	public void drawPlayer(GuiGraphics gui) {
-		PoseStack matrixStack = gui.pose();
-		//PoseStack ps2 = matrixStack;
-		float playerHeight = height * 0.45F;
-		float playerPosX = width * 0.5229F;
-		float playerPosY = height * 0.7F;
-		if (playerData != null) {
-			matrixStack.pushPose();
-			{
-				Player player = minecraft.player;
-				ClientUtils.renderEntity(matrixStack, (int) playerPosX, (int) playerPosY, (int) playerHeight / 2, 0, 0, player);
-			}
-			matrixStack.popPose();
-			matrixStack.pushPose();
-			RenderSystem.setShaderColor(1, 1, 1, 1);
-			matrixStack.translate(1, 1, 100);
 
-			RenderSystem.enableBlend();
-			int infoBoxWidth = (int) ((width * 0.1385F) - 14); // This might be wrong cuz I had to convert from float to int
-			int infoBoxPosX = (int) (width * 0.4354F);
-			int infoBoxPosY = (int) (height * 0.54F);
-			gui.blit(texture, infoBoxPosX, infoBoxPosY, 123, 67, 11, 22);
-			for (int i = 0; i < infoBoxWidth; i++) {
-				gui.blit(texture, infoBoxPosX + 11 + i, infoBoxPosY, 135, 67, 1, 22);
-			}
-			gui.blit(texture, infoBoxPosX + 11 + infoBoxWidth, infoBoxPosY, 137, 67, 3, 22);
-			gui.blit(texture, infoBoxPosX, infoBoxPosY + 22, 123, 90, 3, 35);
-			for (int i = 0; i < infoBoxWidth + 8; i++) {
-				gui.blit(texture, infoBoxPosX + 3 + i, infoBoxPosY + 22, 127, 90, 1, 35);
-			}
-			gui.blit(texture, infoBoxPosX + 3 + infoBoxWidth + 8, infoBoxPosY + 22, 129, 90, 3, 35);
+		PoseStack pose = gui.pose();
 
-			RenderSystem.disableBlend();
-			matrixStack.popPose();
-			matrixStack.pushPose();
-			{
-				matrixStack.translate(2, 2, 100);
+		pose.pushPose();
 
-				matrixStack.pushPose();
-				{
-					matrixStack.translate(infoBoxPosX + 8, infoBoxPosY + ((22 / 2) - (minecraft.font.lineHeight / 2)), 1);
-					// matrixStack.scale(0.75F, 0.75F, 1);
-					gui.drawString(minecraft.font, minecraft.player.getDisplayName().getString(), 0, 0, 0xFFFFFF);
-				}
-				matrixStack.popPose();
+		// reset cualquier transformación heredada
+		pose.translate(0, 0, 0);
+		Party.Member m = new Party.Member(minecraft.player.getUUID(), minecraft.player.getDisplayName().getString());
+		drawPlayer(gui, null,0, m);
 
-				gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_Level) + ": " + playerData.getLevel(), infoBoxPosX + 4, infoBoxPosY + 26, 0xFFD900);
-				gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_HP) + ": " + (int) minecraft.player.getHealth() + "/" + (int) minecraft.player.getMaxHealth(), infoBoxPosX + 4, infoBoxPosY + 26 + minecraft.font.lineHeight, 0x00FF00);
-				gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_MP) + ": " + (int) playerData.getMP() + "/" + (int) playerData.getMaxMP(), infoBoxPosX + 4, infoBoxPosY + 26 + (minecraft.font.lineHeight * 2), 0x4444FF);
-
-			}
-			matrixStack.popPose();
-		}
-	}
-
+		pose.popPose();	}
 }

@@ -2,7 +2,6 @@ package online.kingdomkeys.kingdomkeys.client.gui.overlay;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Axis;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
@@ -15,7 +14,6 @@ import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
-import org.joml.Vector3f;
 
 import java.awt.*;
 
@@ -103,25 +101,14 @@ public class DriveGui extends OverlayBase {
 		}
 
 		// Yellow meter
-		int meterWidth;
+		int meterWidth = !playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()) ? (int) currForm : (int) currDrive;
+		int driveU = playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()) ? 0 : 98;
+		int driveV = playerData.getAlignment() != OrgMember.NONE ? 86 : 18;
 
-		if (playerData.getAlignment() == OrgMember.NONE) {
-			if (playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())) {
-				meterWidth = (int) currDrive;
-				blit(guiGraphics, TEXTURE, 35, -2, 0, 18, meterWidth, guiHeight);
-			} else {
-				meterWidth = (int) currForm;
-				blit(guiGraphics, TEXTURE, 35, -2, 98, 18, meterWidth, guiHeight);
-			}
-
-		} else {
-			meterWidth = (int) currDrive;
-			blit(guiGraphics, TEXTURE, 14, 0, 0, 86, meterWidth, guiHeight);
-		}
+        blit(guiGraphics, TEXTURE, 35, -2, driveU, driveV, meterWidth, guiHeight);
 
 		// Level number
 		int numPos;
-
 		if (playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())) {
 			numPos = getCurrBar(dp == 1000 ? 900 : dp, (int) playerData.getMaxDP() / 100) * 10;
 		} else {

@@ -465,14 +465,12 @@ public class EntityEvents {
 			if (playerData.getCastedMagic() != null) {
 				if (playerData.getMagicCasttimeTicks() <= 0) {
 					Utils.castMagic castedMagic = playerData.getCastedMagic();
-                    System.out.println(castedMagic.player());
 					castedMagic.magic().magicUse(castedMagic.player(), castedMagic.caster(), castedMagic.level(), castedMagic.fullMPBlastMult(), castedMagic.lockOnEntity());
 					player.swing(InteractionHand.MAIN_HAND,true);
 					playerData.setCastedMagic(null);
 					PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
 				}
 			}
-
 
 			// Magic CD recharge system
 			if (playerData.getMagicCooldownTicks() > 0 && !player.level().isClientSide) {
@@ -608,7 +606,7 @@ public class EntityEvents {
 							player.setPos(pos.getCenter().subtract(0, 0.4, 0));
 							//player.addEffect(new MobEffectInstance(MobEffects.LEVITATION,0,0));
 							if (player.level().isClientSide) {
-								PacketHandler.sendToServer(new CSSetAirStepPacket(new BlockPos(0, 0, 0)));
+								PacketHandler.sendToServer(new CSSetAirStepPacket(new BlockPos(0, 0, 0), 0));
 								airstepTicks = -1;
 							}
 						}
@@ -822,7 +820,6 @@ public class EntityEvents {
             if (worldData != null && worldData.getPartyFromMember(player.getUUID()) != null) { //If the player gets hit and data is not null
                 Party p = worldData.getPartyFromMember(player.getUUID());
                 if (Utils.anyPartyMemberOnExcept(player, p, (ServerLevel) player.level())) { //If there's a party member on at this point
-                    System.out.println(ModConfigs.SERVER.allowPartyKO.get());
                     if (ModConfigs.SERVER.allowPartyKO.get()) { //If KO is allowed
                         if (player.getHealth() - event.getNewDamage() <= 0) { //If gets hit by a mortal attack
                             if (!player.hasEffect(ModMobEffects.KO)) { // We only set KO if player gets hit enough to kill them (but doesn't kill them yet) while not KO already

@@ -454,7 +454,7 @@ public class LanguageESES extends KKLanguageProvider {
         add(Gui_Synthesis_Moogle_Name, "Tienda Moguri de %s");
 
         //Command Menu
-        add(Gui_CommandMenu_Command, "COMANDOS");
+        add(Gui_CommandMenu_Command, "COMANDO");
         add(Gui_CommandMenu_Attack, "Atacar");
         add(Gui_CommandMenu_Portal, "Portal");
         add(Gui_CommandMenu_Magic, "Magia");
@@ -463,11 +463,11 @@ public class LanguageESES extends KKLanguageProvider {
         add(Gui_CommandMenu_Drive_Revert, "Revertir");
         add(Gui_CommandMenu_Limit, "L\u00edmite");
         add(Gui_CommandMenu_Target,"Objetivo");
-        add(Gui_CommandMenu_Portals_Title, "Portales");
-        add(Gui_CommandMenu_Magic_Title, "Magia");
-        add(Gui_CommandMenu_Items_Title, "Objetos");
-        add(Gui_CommandMenu_Drive_Title, "Formas");
-        add(Gui_CommandMenu_Limit_Title, "L\u00edmites");
+        add(Gui_CommandMenu_Portals_Title, "PORTAL");
+        add(Gui_CommandMenu_Magic_Title, "MAGIA");
+        add(Gui_CommandMenu_Items_Title, "OBJETOS");
+        add(Gui_CommandMenu_Drive_Title, "FORMAS");
+        add(Gui_CommandMenu_Limit_Title, "LÍMITES");
 
         add("kingdomkeys.helmet", "Casco");
         add("kingdomkeys.chestplate", "Pechera");
@@ -550,7 +550,8 @@ public class LanguageESES extends KKLanguageProvider {
         addAbilityWithDesc(ModAbilities.AUTO_LIMIT, "Auto-suma", "En casos de emergencia, si la Forma suma est\u00e1 disponible, el comando de reacci\u00f3n cambia a Suma.");
         addAbilityWithDesc(ModAbilities.AUTO_MASTER, "Auto-maestra", "En casos de emergencia, si la Forma maestra est\u00e1 disponible, el comando de reacci\u00f3n cambia a Maestra.");
         addAbilityWithDesc(ModAbilities.AUTO_FINAL, "Auto-final", "En casos de emergencia, si la Forma final est\u00e1 disponible, el comando de reacci\u00f3n cambia a Final.");
-        addAbilityWithDesc(ModAbilities.STRIKE_RAID, "Tiro Mort\u00edfero", "Click derecho mientras te agachas para lanzar tu Llave-Espada, usa 10PM.");
+        addAbilityWithDesc(ModAbilities.STRIKE_RAID, "Tiro Mort\u00edfero", "Click derecho mientras te agachas para lanzar tu Llave Espada, usa 10PM.");
+        addAbilityWithDesc(ModAbilities.FLOWSTEP, "Paso fluido", "Click derecho mientras fijas un tiro certero para usar el modo ágil hacia el último enemigo fijado.");
 
         addGrowthAbility(ModAbilities.HIGH_JUMP, "¡Ahora saltarás más alto!", "Salto de altura 1", "Salto de altura 2", "Salto de altura 3", "Salto de altura MÁX");
         addGrowthAbility(ModAbilities.QUICK_RUN, "Si pulsas X mientras corres harás un sprint.", "Carrera rápida 1", "Carrera rápida 2", "Carrera rápida 3", "Carrera rápida MÁX");

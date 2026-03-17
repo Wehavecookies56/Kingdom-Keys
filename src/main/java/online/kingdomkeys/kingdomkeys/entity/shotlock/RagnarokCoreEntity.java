@@ -1,6 +1,5 @@
 package online.kingdomkeys.kingdomkeys.entity.shotlock;
 
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;

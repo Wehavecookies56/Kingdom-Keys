@@ -1,7 +1,6 @@
 package online.kingdomkeys.kingdomkeys.client.gui.menu.party;
 
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundSource;

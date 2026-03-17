@@ -405,11 +405,11 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Gui_CommandMenu_Drive_Revert, "Revert");
         add(Gui_CommandMenu_Limit, "Limit");
         add(Gui_CommandMenu_Target,"Target");
-        add(Gui_CommandMenu_Portals_Title, "Portals");
-        add(Gui_CommandMenu_Magic_Title, "Magic");
-        add(Gui_CommandMenu_Items_Title, "Items");
-        add(Gui_CommandMenu_Drive_Title, "Forms");
-        add(Gui_CommandMenu_Limit_Title, "Limits");
+        add(Gui_CommandMenu_Portals_Title, "PORTALS");
+        add(Gui_CommandMenu_Magic_Title, "MAGIC");
+        add(Gui_CommandMenu_Items_Title, "ITEMS");
+        add(Gui_CommandMenu_Drive_Title, "FORMS");
+        add(Gui_CommandMenu_Limit_Title, "LIMITS");
 
         add("kingdomkeys.helmet", "Helmet");
         add("kingdomkeys.chestplate", "Chestplate");
@@ -634,6 +634,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addAbilityWithDesc(ModAbilities.AUTO_MASTER, "Auto Master", "Automatically sets the Reaction Command to Master in a pinch, if Master Form is usable.");
         addAbilityWithDesc(ModAbilities.AUTO_FINAL, "Auto Final", "Automatically sets the Reaction Command to Final in a pinch, if Final Form is usable.");
         addAbilityWithDesc(ModAbilities.STRIKE_RAID, "Strike Raid", "Right click while crouching to throw your keyblade, uses 10MP.");
+        addAbilityWithDesc(ModAbilities.FLOWSTEP, "Flowstep", "Right click while using shotlock to airstep to the last targeted entity.");
 
         addGrowthAbility(ModAbilities.HIGH_JUMP, "Now you can jump really high!", "High Jump LV.1", "High Jump LV.2", "High Jump LV.3", "High Jump MAX");
         addGrowthAbility(ModAbilities.QUICK_RUN, "If you press the action button while running you will sprint.", "Quick Run LV.1", "Quick Run LV.2", "Quick Run LV.3", "Quick Run MAX");

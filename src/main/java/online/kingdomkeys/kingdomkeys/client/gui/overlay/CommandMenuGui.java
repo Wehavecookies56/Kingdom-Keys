@@ -19,7 +19,6 @@ import net.neoforged.neoforge.common.NeoForge;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.api.event.client.TargetSelectorEvent;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
-import online.kingdomkeys.kingdomkeys.client.gui.elements.HUD.CMElement;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.CommandMenuItem;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.CommandMenuSubMenu;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
@@ -83,7 +82,7 @@ public class CommandMenuGui extends OverlayBase {
 		revert = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "revert");
 		currentSubmenu = root;
 		commandMenuElements = new HashMap<>();
-		CommandMenuSubMenu rootSubmenu = new CommandMenuSubMenu.Builder(this.root, Component.translatable(Strings.Gui_CommandMenu_Command))
+		CommandMenuSubMenu rootSubmenu = new CommandMenuSubMenu.Builder(this.root, Component.translatable(Strings.Gui_CommandMenu_Command).withStyle(ClientUtils.KK_Font_EXP))
 				.position(0,0)
 				.openByDefault()
 				.changesColour()
@@ -93,6 +92,7 @@ public class CommandMenuGui extends OverlayBase {
 					ClientUtils.CM_ELEMENT.height = subMenu.getHeight() * (subMenu.getVisibleChildren().size()+1);
 					ClientUtils.CM_ELEMENT.width = subMenu.getWidth();
 					subMenu.setPosition(0,0);
+					subMenu.setWidth(74);
 				})
 				.withChildren(
 						new CommandMenuItem.Builder(attack, Component.translatable(Strings.Gui_CommandMenu_Attack), null).onUpdate((item, guiGraphics) -> updateRootItem(item, null, guiGraphics)).iconUV(30, 60),
@@ -119,34 +119,34 @@ public class CommandMenuGui extends OverlayBase {
 						new CommandMenuItem.Builder(limit, Component.translatable(Strings.Gui_CommandMenu_Limit), opensSubmenu(limit)).invisibleByDefault().onUpdate((item, guiGraphics) -> updateRootItem(item, limit, guiGraphics)).iconUV(0, 60)
 				)
 				.build();
-		CommandMenuSubMenu magicSubmenu = new CommandMenuSubMenu.Builder(magic, Component.translatable(Strings.Gui_CommandMenu_Magic_Title))
+		CommandMenuSubMenu magicSubmenu = new CommandMenuSubMenu.Builder(magic, Component.translatable(Strings.Gui_CommandMenu_Magic_Title).withStyle(ClientUtils.KK_Font_EXP))
 				.colour(new Color(102, 0, 255))
 				.onUpdate(updateMagic())
 				.withChildren(createMagicFromRegistry())
 				.autoResizes()
 				.buildWithParent(rootSubmenu);
-		CommandMenuSubMenu itemsSubmenu = new CommandMenuSubMenu.Builder(items, Component.translatable(Strings.Gui_CommandMenu_Items_Title))
+		CommandMenuSubMenu itemsSubmenu = new CommandMenuSubMenu.Builder(items, Component.translatable(Strings.Gui_CommandMenu_Items_Title).withStyle(ClientUtils.KK_Font_EXP))
 				.colour(new Color(77, 255, 77))
 				.onOpen(this::createItems)
 				.autoResizes()
 				.buildWithParent(rootSubmenu);
-		CommandMenuSubMenu targetSubmenu =  new CommandMenuSubMenu.Builder(target, Component.translatable(Strings.Gui_CommandMenu_Target))
+		CommandMenuSubMenu targetSubmenu =  new CommandMenuSubMenu.Builder(target, Component.translatable(Strings.Gui_CommandMenu_Target).withStyle(ClientUtils.KK_Font_EXP))
 				.colour(new Color(10, 51, 255))
 				.onOpen(this::createTargets)
 				.autoResizes()
 				.build();
-		CommandMenuSubMenu portalsSubmenu = new CommandMenuSubMenu.Builder(portals, Component.translatable(Strings.Gui_CommandMenu_Portals_Title))
+		CommandMenuSubMenu portalsSubmenu = new CommandMenuSubMenu.Builder(portals, Component.translatable(Strings.Gui_CommandMenu_Portals_Title).withStyle(ClientUtils.KK_Font_EXP))
 				.colour(new Color(204, 204, 204))
 				.onOpen(this::createPortals)
 				.autoResizes()
 				.buildWithParent(rootSubmenu);
-		CommandMenuSubMenu limitSubmenu = new CommandMenuSubMenu.Builder(limit, Component.translatable(Strings.Gui_CommandMenu_Limit_Title))
+		CommandMenuSubMenu limitSubmenu = new CommandMenuSubMenu.Builder(limit, Component.translatable(Strings.Gui_CommandMenu_Limit_Title).withStyle(ClientUtils.KK_Font_EXP))
 				.colour(new Color(255, 255, 0))
 				.onUpdate(updateLimits())
 				.withChildren(createLimitsFromRegistry())
 				.autoResizes()
 				.buildWithParent(rootSubmenu);
-		CommandMenuSubMenu driveSubmenu = new CommandMenuSubMenu.Builder(drive, Component.translatable(Strings.Gui_CommandMenu_Drive_Title))
+		CommandMenuSubMenu driveSubmenu = new CommandMenuSubMenu.Builder(drive, Component.translatable(Strings.Gui_CommandMenu_Drive_Title).withStyle(ClientUtils.KK_Font_EXP))
 				.colour(new Color(0, 255, 255))
 				.onUpdate(updateDriveForms())
 				.withChildren(createDriveFormsFromRegistry())
@@ -725,20 +725,19 @@ public class CommandMenuGui extends OverlayBase {
 			{
 				float shade = i == reactionSelected ? 1F : 0.4F;
 				RenderSystem.setShaderColor(shade,shade,shade, alpha);
-				gui.pose().translate(0, commandMenuElements.get(currentSubmenu).getY()-(16*i), 1F);
+				gui.pose().translate(0, commandMenuElements.get(currentSubmenu).getY()-(16*i), 2F);
 				gui.pose().scale(scale, scale, scale);
 				gui.pose().pushPose();
 				{
 					ReactionCommand command = ModReactionCommands.registry.get(ResourceLocation.parse(list.get(i)));
 					drawString(gui, minecraft.font, Utils.translateToLocal(command.getTranslationKey()),5 + (ModConfigs.cmTextXOffset+5), 4, 0xFFFFFF);
 
-					gui.pose().scale(100 / 75F, 1, 1);
+					gui.pose().scale(1.33F, 1, 1);
 					RenderSystem.enableBlend();
 					blit(gui, commandMenuElements.get(currentSubmenu).getTexture(), 0, 0, 0, 45, ModConfigs.cmReactionEndLWidth+1, TOP_HEIGHT);
 					blit(gui, commandMenuElements.get(currentSubmenu).getTexture(), ModConfigs.cmReactionEndLWidth, 0, TOP_WIDTH - (ModConfigs.cmReactionEndLWidth + ModConfigs.cmReactionEndRWidth)+1, TOP_HEIGHT, ModConfigs.cmReactionEndLWidth + 1, 45, 1, TOP_HEIGHT, 256, 256);
 					blit(gui, commandMenuElements.get(currentSubmenu).getTexture(), TOP_WIDTH - ModConfigs.cmReactionEndRWidth, 0, ModConfigs.cmReactionEndLWidth + 3, 45, ModConfigs.cmReactionEndRWidth, TOP_HEIGHT);
 					RenderSystem.disableBlend();
-
 				}
 				gui.pose().popPose();
 

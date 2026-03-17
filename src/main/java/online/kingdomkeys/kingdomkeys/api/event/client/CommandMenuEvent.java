@@ -98,6 +98,48 @@ public class CommandMenuEvent extends Event {
         }
     }
 
+    public static class SubmenuRender extends CommandMenuEvent implements ICancellableEvent {
+        private final ResourceLocation id;
+        private final CommandMenuSubMenu subMenu;
+        private final GuiGraphics guiGraphics;
+        int screenWidth;
+        int screenHeight;
+        float partialTick;
+
+        public SubmenuRender(ResourceLocation id, CommandMenuSubMenu subMenu, GuiGraphics guiGraphics, int screenWidth, int screenHeight, float partialTick) {
+            this.id = id;
+            this.subMenu = subMenu;
+            this.guiGraphics = guiGraphics;
+            this.screenWidth = screenWidth;
+            this.screenHeight = screenHeight;
+            this.partialTick = partialTick;
+        }
+
+        public int getScreenWidth() {
+            return screenWidth;
+        }
+
+        public int getScreenHeight() {
+            return screenHeight;
+        }
+
+        public float getPartialTick() {
+            return partialTick;
+        }
+
+        public ResourceLocation getId() {
+            return id;
+        }
+
+        public CommandMenuSubMenu getSubMenu() {
+            return subMenu;
+        }
+
+        public GuiGraphics getGuiGraphics() {
+            return guiGraphics;
+        }
+    }
+
     public static class SubmenuOpen extends CommandMenuEvent implements ICancellableEvent {
         private final ResourceLocation id;
         private final CommandMenuSubMenu subMenu;

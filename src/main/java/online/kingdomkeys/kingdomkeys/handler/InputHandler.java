@@ -87,8 +87,6 @@ public class InputHandler {
         }
     }
 
-    boolean canSwitchTarget = true;
-
     @SubscribeEvent
     public void handleKeyInputEvent(InputEvent.Key event) {
         init();
@@ -200,7 +198,6 @@ public class InputHandler {
     }
 
     public void openMenu() {
-        //Minecraft.getInstance().setScreen(new OverlayConfigGui());
         PacketHandler.sendToServer(new CSOpenMenu());
     }
 
@@ -260,12 +257,9 @@ public class InputHandler {
     }
 
     public void lockOnSwap() {
-        if(canSwitchTarget){
+        if(InputHandler.lockOn != null) {
             switchTarget(player.isCrouching());
         }
-        canSwitchTarget = !canSwitchTarget;
-
-        switchTarget(player.isCrouching());
     }
 
     private void switchTarget(boolean toRight) {
@@ -413,7 +407,8 @@ public class InputHandler {
 					CommandMenuGui.reactionSelected = 0;
 			}
 		}
-	}
+        CommandMenuGui.INSTANCE.playMoveSound();
+    }
     
     public void reactionCommand() {
     	loadLists();

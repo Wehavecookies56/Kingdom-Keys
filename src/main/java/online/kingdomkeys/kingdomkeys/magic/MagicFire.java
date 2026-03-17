@@ -25,7 +25,7 @@ public class MagicFire extends Magic {
 		dmgMult *= fullMPBlastMult;
 
 		lockOnEntity = getMagicLockOn(level) ? lockOnEntity : null;
-				
+
 		switch (level) {
 		case 0:
 			ThrowableProjectile fire = new FireEntity(player.level(), player, dmgMult, lockOnEntity);

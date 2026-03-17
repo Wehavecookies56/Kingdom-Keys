@@ -1,5 +1,7 @@
 [
-    {"item": "minecraft:coal", "price": 10},
+    {"item": "kingdomkeys:winner_stick", "price": 500},
+
+	{"item": "minecraft:coal", "price": 10},
 	{"item": "minecraft:copper_ingot", "price": 10},
 	{"item": "minecraft:iron_ingot", "price": 20},
 	{"item": "minecraft:gold_ingot", "price": 160},

@@ -7,6 +7,8 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -109,6 +111,17 @@ public class Party {
 
 	public List<Member> getMembers() {
 		return this.members;
+	}
+
+	public List<Member> getMembersOnline(Level level) {
+		List<Member> onlineMembers = new ArrayList<>();
+		for(Member member : this.members) {
+			Player playerAlly = level.getPlayerByUUID(member.getUUID());
+			if(playerAlly != null) {
+				onlineMembers.add(member);
+			}
+		}
+		return onlineMembers;
 	}
 
 	public int getMemberIndex(UUID memberUUID) {

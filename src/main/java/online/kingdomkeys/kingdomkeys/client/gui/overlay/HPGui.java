@@ -12,7 +12,6 @@ import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.ClientSetup;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
-import online.kingdomkeys.kingdomkeys.client.gui.elements.HUD.HPElement;
 import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import org.joml.Matrix4f;
 
