@@ -22,7 +22,7 @@ import java.util.List;
 
 public class RoomType extends JsonRegistryObject {
 
-    private boolean entranceHall = false;
+    private boolean entranceHall;
     private RoomSize size;
     private RoomCategory category;
     private RoomEnemies enemies;

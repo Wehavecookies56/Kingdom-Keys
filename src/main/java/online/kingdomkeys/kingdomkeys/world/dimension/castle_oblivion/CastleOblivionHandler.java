@@ -121,11 +121,12 @@ public class CastleOblivionHandler {
                 //if size is 1 only the entrance hall room exists
                 if (floor.getGeneratedRooms().size() == 1) {
                     te.setDestinationRoom(floor.getRoom(new RoomPos(0, 1)));
+                    Room room = RoomGenerator.INSTANCE.generateRoom((ServerLevel) player.level(), floor.getRoom(new RoomPos(0, 1)), ModRoomTypes.SLEEPING_DARKNESS.get(), te.getParentRoom().getGenerated(), RoomDirection.NORTH);
                     for (Player playerFromList : player.level().players()) {
                         PacketHandler.sendTo(new SCUpdateCORooms(floor.getRooms()), (ServerPlayer) playerFromList);
                     }
-                    //TODO possibly define room type by the floor type
-                    return RoomGenerator.INSTANCE.generateRoom((ServerLevel) player.level(), floor.getRoom(new RoomPos(0, 1)), ModRoomTypes.SLEEPING_DARKNESS.get(), te.getParentRoom().getGenerated(), RoomDirection.NORTH);
+                    //TODO possibly define room type by the floor type :)
+                    return room;
                 } else {
                     return floor.getRoom(new RoomPos(0, 1)).getGenerated();
                 }
@@ -235,6 +236,13 @@ public class CastleOblivionHandler {
     public void generatedRoom(CastleOblivionEvent.RoomGeneratedEvent event) {
         if (event.getGeneratedRoomData() != null) {
             KingdomKeys.LOGGER.debug("Generated a new room: {}", event.getGeneratedRoomData().getGenerated());
+        }
+    }
+
+    @SubscribeEvent
+    public void changeFloor(CastleOblivionEvent.PlayerChangeFloorEvent event) {
+        if(event.getNewFloor() != null) {
+            PacketHandler.sendTo(new SCUpdateCORooms(event.getNewFloor().getRooms()), (ServerPlayer) event.getPlayer());
         }
     }
 }

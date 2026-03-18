@@ -19,6 +19,7 @@ import online.kingdomkeys.kingdomkeys.client.gui.IPlayerDataRequester;
 import online.kingdomkeys.kingdomkeys.client.gui.OrgPortalGui;
 import online.kingdomkeys.kingdomkeys.client.gui.SavePointScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.castle_oblivion.CardSelectionScreen;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.MenuScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.NoChoiceMenuPopup;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.customize.MenuCustomizeMagicScreen;
@@ -293,7 +294,7 @@ public class ClientPacketHandler {
     }
 
     public static void updateCORooms(SCUpdateCORooms message) {
-        COMinimap.rooms = message.rooms();
+        MenuBackground.rooms = message.rooms();
     }
 
 

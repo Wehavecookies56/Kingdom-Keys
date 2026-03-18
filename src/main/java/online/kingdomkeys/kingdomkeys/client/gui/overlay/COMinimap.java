@@ -1,29 +1,27 @@
 package online.kingdomkeys.kingdomkeys.client.gui.overlay;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.math.Axis;
 import net.minecraft.client.DeltaTracker;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.LayeredDraw;
-import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.entity.block.CardDoorTileEntity;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.DoorData;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.RoomData;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.RoomDirection;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 public class COMinimap extends OverlayBase {
     public static final LayeredDraw.Layer INSTANCE = new COMinimap();
-
-    public static List<RoomData> rooms = new ArrayList<>();
 
     private static final ResourceLocation ROOM_TEX = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/co/room.png");
 
@@ -35,120 +33,131 @@ public class COMinimap extends OverlayBase {
     public void render(GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
         super.render(guiGraphics, deltaTracker);
 
-        if (rooms.isEmpty())
+        if (MenuBackground.rooms.isEmpty())
             return;
 
-        int tileSize = 20;
-        int originX = 200;
-        int originY = 200;
+        int screenWidth = Minecraft.getInstance().getWindow().getGuiScaledWidth();
+        int screenHeight = Minecraft.getInstance().getWindow().getGuiScaledHeight();
+
+        ClientUtils.LOCKON_ELEMENT.applyTransform(guiGraphics,screenWidth,screenHeight);
+
+        RenderSystem.enableBlend();
+        RenderSystem.setShaderColor(1,1,1,1);
+        renderMinimap(guiGraphics, deltaTracker);
+
+        RenderSystem.disableBlend();
+
+        ClientUtils.LOCKON_ELEMENT.endTransform(guiGraphics);
+    }
+
+    private void renderMinimap(GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
+        int tileSize = 60;
 
         RoomData currentRoom = null;
 
         guiGraphics.pose().pushPose();
         {
-            guiGraphics.pose().translate(originX, originY, 0);
             guiGraphics.pose().mulPose(Axis.ZP.rotationDegrees(45));
 
-            for (RoomData roomData : rooms) {
-                int x = -roomData.pos.x() * 2;
-                int y = -roomData.pos.y() * 2;
-
-                int px = x * tileSize;
-                int py = y * tileSize;
-
+            for (RoomData roomData : MenuBackground.rooms) {
                 if (roomData.getGenerated() != null) {
-                    if (minecraft.player.getX() >= roomData.getGenerated().getPosition().getX()
-                            && minecraft.player.getX() < roomData.getGenerated().getPosition().getX() + 64
-                            && minecraft.player.getZ() >= roomData.getGenerated().getPosition().getZ()
-                            && minecraft.player.getZ() < roomData.getGenerated().getPosition().getZ() + 64) {
-
+                    if (roomData.getGenerated().inRoom(minecraft.player.blockPosition())) {
                         currentRoom = roomData;
                     }
                 }
+            }
 
-                //Room
-                guiGraphics.blit(ROOM_TEX, px, py, tileSize, tileSize, 0, 0, 16, 16, 16, 16);
+            if(currentRoom == null || currentRoom.getGenerated().getType().isEntranceHall()){
+                guiGraphics.pose().popPose();
+                return;
+            }
 
-                //Connections
-                for (Map.Entry<RoomDirection, DoorData> entry : roomData.getDoors().entrySet()) {
-                    RoomDirection dir = entry.getKey();
-                    DoorData data = entry.getValue();
 
-                    if (data.getType() == DoorData.Type.NONE)
-                        continue;
+            guiGraphics.blit(ROOM_TEX, 0,0, tileSize, tileSize, 0, 0, 16, 16, 16, 16);
+            guiGraphics.setColor(1, 1, 1, 1);
 
-                    if (dir != RoomDirection.EAST && dir != RoomDirection.SOUTH)
-                        continue;
 
-                    int dx = 0;
-                    int dy = 0;
+            for (Map.Entry<RoomDirection, DoorData> entry : currentRoom.getDoors().entrySet()) {
+                RoomDirection dir = entry.getKey();
+                DoorData data = entry.getValue();
 
-                    switch (dir) {
-                        case EAST -> dx = -1;
-                        case SOUTH -> dy = -1;
-                    }
+                if (data.getType() == DoorData.Type.NONE)
+                    continue;
 
-                    RoomData neighbor = getRoomAt(roomData.pos.x() + dx, roomData.pos.y() + dy);
-                    if (neighbor == null)
-                        continue;
+                int dx = 0;
+                int dy = 0;
 
-                    //Door state
-                    boolean open = false;
+                switch (dir) {
+                    case EAST -> dx = -1;
+                    case WEST -> dx = 1;
+                    case SOUTH -> dy = -1;
+                    case NORTH -> dy = 1;
+                }
 
-                    if (roomData.getGenerated() != null && neighbor.getGenerated() != null) {
-                        CardDoorTileEntity te1 = roomData.getGenerated().getDoorTE(minecraft.level, dir);
-                        CardDoorTileEntity te2 = neighbor.getGenerated().getDoorTE(minecraft.level, dir.opposite());
+                RoomData neighbor = getRoomAt(
+                        currentRoom.pos.x() + dx,
+                        currentRoom.pos.y() + dy
+                );
 
-                        if (te1 != null && te1.isOpen())
-                            open = true;
-                        if (te2 != null && te2.isOpen())
-                            open = true;
-                    }
+                if (neighbor == null)
+                    continue;
 
-                    int color = open ? 0xFF00FF00 : 0xFFFFFF00;
+                boolean open = false;
 
-                    int thickness = Math.max(2, tileSize / 5);
+                if (currentRoom.getGenerated() != null && neighbor.getGenerated() != null) {
 
-                    switch (dir) {
-                        case EAST -> {
-                            guiGraphics.fill(px + tileSize, py + tileSize / 2 - thickness / 2, px + tileSize * 2, py + tileSize / 2 + thickness / 2, color);
-                        }
+                    CardDoorTileEntity te1 = currentRoom.getGenerated().getDoorTE(minecraft.level, dir);
 
-                        case SOUTH -> {
-                            guiGraphics.fill(px + tileSize / 2 - thickness / 2, py + tileSize, px + tileSize / 2 + thickness / 2, py + tileSize * 2, color);
-                        }
-                    }
+                    CardDoorTileEntity te2 = neighbor.getGenerated().getDoorTE(minecraft.level, dir.opposite());
+
+                    if (te1 != null && te1.isOpen())
+                        open = true;
+                    if (te2 != null && te2.isOpen())
+                        open = true;
+                }
+
+                int color = open ? 0xFF00FF00 : 0xFFFFFF00;
+                int thickness = Math.max(2, tileSize / 5);
+
+                switch (dir) {
+                    case EAST -> fillSafe(guiGraphics, tileSize, -thickness / 2 + tileSize / 2, tileSize * 2, thickness / 2 + tileSize / 2, color);
+                    case WEST -> fillSafe(guiGraphics, -tileSize, -thickness / 2 + tileSize / 2, 0, thickness / 2 + tileSize / 2, color);
+                    case SOUTH -> fillSafe(guiGraphics, -thickness / 2 + tileSize / 2, tileSize, thickness / 2 + tileSize / 2, tileSize*2, color);
+                    case NORTH -> fillSafe(guiGraphics, -thickness / 2 + tileSize / 2, -tileSize, thickness / 2 + tileSize / 2, 0, color);
                 }
             }
 
             // Keyblade icon
             if (currentRoom != null) {
                 guiGraphics.pose().pushPose();
+                {
+                    guiGraphics.pose().translate(tileSize / 2f, tileSize / 2f, 0);
 
-                int x = currentRoom.pos.x() * 2;
-                int y = currentRoom.pos.y() * 2;
+                    float rotation = Mth.wrapDegrees(minecraft.player.getYRot() - 45);
+                    guiGraphics.pose().mulPose(Axis.ZP.rotationDegrees(rotation));
 
-                int px = -x * tileSize;
-                int py = -y * tileSize;
+                    float iconScale = tileSize * 0.8F;
+                    guiGraphics.pose().scale(iconScale, iconScale, 1f);
 
-                guiGraphics.pose().translate(px + tileSize / 2f, py + tileSize / 2f, 0);
-
-                float rotation = Mth.wrapDegrees(minecraft.player.getYRot() - 45);
-                guiGraphics.pose().mulPose(Axis.ZP.rotationDegrees(rotation));
-
-                float iconScale = 16F;
-                guiGraphics.pose().scale(iconScale, iconScale, 1f);
-
-                ClientUtils.drawItemAsIcon(new ItemStack(ModItems.kingdomKey.get()), guiGraphics.pose(), -8, -8, 1);
-
+                    ClientUtils.drawItemAsIcon(new ItemStack(ModItems.kingdomKey.get()), guiGraphics.pose(), -8, -8, 1);
+                }
                 guiGraphics.pose().popPose();
             }
         }
         guiGraphics.pose().popPose();
     }
 
+    private void fillSafe(GuiGraphics g, int x1, int y1, int x2, int y2, int color) {
+        int minX = Math.min(x1, x2);
+        int maxX = Math.max(x1, x2);
+        int minY = Math.min(y1, y2);
+        int maxY = Math.max(y1, y2);
+
+        g.fill(minX, minY, maxX, maxY, color);
+    }
+
     private RoomData getRoomAt(int x, int y) {
-        for (RoomData r : rooms) {
+        for (RoomData r : MenuBackground.rooms) {
             if (r.pos.x() == x && r.pos.y() == y) {
                 return r;
             }

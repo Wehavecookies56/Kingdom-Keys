@@ -35,6 +35,7 @@ public class MenuScreen extends MenuBackground {
 		super(Strings.Gui_Menu_Main_Title, new Color(0,0,255));
 		minecraft = Minecraft.getInstance();
 		this.playerData = playerData;
+		this.showCOMap = true;
 	}
 
     private final ArrayList<MenuButton> menuButtons = new ArrayList<>();
