@@ -28,61 +28,85 @@ public class COMinimap extends OverlayBase {
     @Override
     public void render(GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
         super.render(guiGraphics, deltaTracker);
-        if (!rooms.isEmpty()) {
-            guiGraphics.pose().pushPose();
-            guiGraphics.pose().translate(200, 200, 0);
-            guiGraphics.pose().scale(4, 4, 4);
-           // System.out.println("-----------");
 
-            for (int i = 0; i < rooms.size(); i++) {
-                RoomData roomData = rooms.get(i);
-                int roomColor = Color.RED.getRGB();
+        if (rooms.isEmpty()) return;
 
+        int tileSize = 10;
+        int thickness = 2;
 
-                //Room render as red by default (blue if player is in it)
-                guiGraphics.fill(-roomData.pos.x() * 2, -roomData.pos.y() * 2, (-roomData.pos.x() * 2) + 1, (-roomData.pos.y() * 2) + 1, roomColor);
+        int originX = 200;
+        int originY = 200;
 
-                //Render player icon
+        RoomData currentRoom = null;
+
+        guiGraphics.pose().pushPose();
+        {
+            guiGraphics.pose().translate(originX, originY, 0);
+
+            for (RoomData roomData : rooms) {
+                int x = -roomData.pos.x() * 2;
+                int y = -roomData.pos.y() * 2;
+
+                int px = x * tileSize;
+                int py = y * tileSize;
+
+                // Room
+                guiGraphics.fill(px, py, px + tileSize, py + tileSize, Color.RED.getRGB());
+
+                // Detect current room
                 if (roomData.getGenerated() != null) {
-                   // System.out.println(i+": "+roomData.getGenerated().position);
-                    if (minecraft.player.getX() >= roomData.getGenerated().getPosition().getX() && minecraft.player.getX() < roomData.getGenerated().getPosition().getX() + 64 && minecraft.player.getZ() >= roomData.getGenerated().getPosition().getZ() && minecraft.player.getZ() < roomData.getGenerated().getPosition().getZ() +64) {
-                        guiGraphics.pose().pushPose();
-                        float rotationDegrees = Mth.wrapDegrees(minecraft.player.getYRot());
-                        //System.out.println(rotationDegrees);
-                        guiGraphics.pose().mulPose(Axis.ZP.rotationDegrees(rotationDegrees));
-
-                        ClientUtils.drawItemAsIcon(new ItemStack(ModItems.k111.get()), guiGraphics.pose(), 0,0,1);
-                        guiGraphics.pose().popPose();
+                    if (minecraft.player.getX() >= roomData.getGenerated().getPosition().getX() && minecraft.player.getX() < roomData.getGenerated().getPosition().getX() + 64 && minecraft.player.getZ() >= roomData.getGenerated().getPosition().getZ() && minecraft.player.getZ() < roomData.getGenerated().getPosition().getZ() + 64) {
+                        currentRoom = roomData;
                     }
                 }
+
+                // Doors
                 roomData.getDoors().forEach((direction, doorData) -> {
                     if (doorData.getType() != DoorData.Type.NONE) {
-                        int offsetY = 0;
-                        int offsetX = 0;
-                        switch (direction) {
-                            case NORTH -> offsetY = 1;
-                            case SOUTH -> offsetY = -1;
-                            case EAST -> offsetX = -1;
-                            case WEST -> offsetX = 1;
-                        }
-                        //Offset color and fill
-
                         boolean open = false;
 
                         if (roomData.getGenerated() != null) {
                             CardDoorTileEntity te = roomData.getGenerated().getDoorTE(minecraft.level, direction);
-                            if (te != null) {
+                            if (te != null)
                                 open = te.isOpen();
-                            }
                         }
 
-                        int colour = open ? Color.GREEN.getRGB() : Color.YELLOW.getRGB();
-                        guiGraphics.fill(-roomData.pos.x() * 2 - offsetX, -roomData.pos.y() * 2 - offsetY, (-roomData.pos.x() * 2) + 1 - offsetX, (-roomData.pos.y() * 2) + 1 - offsetY, colour);
+                        int color = open ? Color.GREEN.getRGB() : Color.YELLOW.getRGB();
+
+                        switch (direction) {
+                            case SOUTH ->
+                                    guiGraphics.fill(px + 2, py + tileSize, px + tileSize - 2, py + tileSize + thickness, color);
+                            case NORTH ->
+                                    guiGraphics.fill(px + 2, py - thickness, px + tileSize - 2, py, color);
+                            case EAST ->
+                                    guiGraphics.fill(px + tileSize, py + 2, px + tileSize + thickness, py + tileSize - 2, color);
+                            case WEST ->
+                                    guiGraphics.fill(px - thickness, py + 2, px, py + tileSize - 2, color);
+                        }
                     }
                 });
             }
-            guiGraphics.pose().popPose();
-        }
-    }
 
+            //Keyblade icon
+            if (currentRoom != null) {
+                guiGraphics.pose().pushPose();
+
+                int x = currentRoom.pos.x() * 2;
+                int y = currentRoom.pos.y() * 2;
+
+                int px = -x * tileSize;
+                int py = -y * tileSize;
+
+                guiGraphics.pose().translate(px + tileSize / 2f, py + tileSize / 2f, 0);
+
+
+                float rotation = Mth.wrapDegrees(minecraft.player.getYRot());
+                guiGraphics.pose().mulPose(Axis.ZP.rotationDegrees(rotation));
+                guiGraphics.pose().scale(6f, 6f, 1f);
+                ClientUtils.drawItemAsIcon(new ItemStack(ModItems.k111.get()), guiGraphics.pose(), -8, -8, 1);
+                guiGraphics.pose().popPose();
+            }
+        }
+        guiGraphics.pose().popPose();
+    }
 }
