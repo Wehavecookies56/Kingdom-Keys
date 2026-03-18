@@ -89,7 +89,8 @@ public class COMinimap extends OverlayBase {
                     }
 
                     RoomData neighbor = getRoomAt(roomData.pos.x() + dx, roomData.pos.y() + dy);
-                    if (neighbor == null) continue;
+                    if (neighbor == null)
+                        continue;
 
                     //Door state
                     boolean open = false;
