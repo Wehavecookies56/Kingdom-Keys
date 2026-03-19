@@ -30,6 +30,8 @@ public class ClientConfig {
 
 	public ModConfigSpec.ConfigValue<List<? extends String>> magicDisplayedInCommandMenu;
 
+	public ModConfigSpec.BooleanValue shoulderSurfingDecoupled;
+
 	ClientConfig(final ModConfigSpec.Builder builder) {
 		summonTogether = builder
                 .comment("Summon both Keyblade and Armor with Summon Keyblade key")
@@ -200,6 +202,12 @@ public class ClientConfig {
 	                .comment("Lock On HP per bar")
 	                .translation(KingdomKeys.MODID + ".config.lock_on_hp_per_bar")
 	                .defineInRange("lockOnHpPerBar", 40, 10, 100);
+			if (KingdomKeys.shoulderSurfingLoaded) {
+				shoulderSurfingDecoupled = builder
+						.comment("Shoulder Surfing mod: Decoupled camera while not locked on")
+						.translation(KingdomKeys.MODID + ".config.shoulder_surfing_decoupled")
+						.define("shoulderSurfingDecoupled", true);
+			}
 	        builder.pop();
 	        
 	        builder.push("party");

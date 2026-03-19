@@ -4,7 +4,6 @@ import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.event.config.ModConfigEvent;
 import net.neoforged.neoforge.common.ModConfigSpec;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
@@ -16,8 +15,6 @@ import java.util.List;
 
 @EventBusSubscriber(modid = KingdomKeys.MODID)
 public class ModConfigs {
-    public static ModConfig CLIENT_CONFIG;
-
     private static final ClientConfig CLIENT; //Client stuff that doesn't matter if it's changed
     private static final CommonConfig COMMON; //Stuff in both sides
     public static final ServerConfig SERVER; //Client stuff that needs to be synced from the server
@@ -56,7 +53,7 @@ public class ModConfigs {
     }
 
     public static List<String> magicDisplayedInCommandMenu;
-    public static boolean cmHeaderTextVisible, cmClassicColors, hpShowHearts, showDriveForms, summonTogether, auto3rdPersonShip, cmChangeColor, customFont;
+    public static boolean cmHeaderTextVisible, cmClassicColors, hpShowHearts, showDriveForms, summonTogether, auto3rdPersonShip, cmChangeColor, customFont, shoulderSurfingDecoupled;
     public static int cmTextXOffset, cmSelectedXOffset, cmSubXOffset, hpAlarm, lockOnIconScale, lockOnIconRotation, lockOnHpPerBar, partyYDistance, cmEndLWidth, cmEndRWidth, cmHeaderEndLWidth, cmHeaderEndRWidth, cmReactionEndLWidth, cmReactionEndRWidth;
 
     public static void setHUDData(String name, List<? extends Float> data){
@@ -306,6 +303,9 @@ public class ModConfigs {
 
         auto3rdPersonShip = CLIENT.auto3rdPersonShip.get();
         cmChangeColor = CLIENT.cmChangeColor.get();
+        if (KingdomKeys.shoulderSurfingLoaded) {
+            shoulderSurfingDecoupled = CLIENT.shoulderSurfingDecoupled.get();
+        }
     }
 
     public static boolean bombExplodeWithfire, keybladeOpenDoors, mobLevelingUp, playerSpawnHeartless,blizzardChangeBlocks, bossDespawnIfNoTarget, respawnROD, needKeybladeForHeartless, mobLevelName, allowBlocksInHangarArea;

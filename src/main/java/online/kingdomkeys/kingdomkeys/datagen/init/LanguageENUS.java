@@ -78,6 +78,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addConfigKey(ModConfigs.getClientConfig().lockOnIconRotation, "Lock-On icon rotation speed");
         addConfigKey(ModConfigs.getClientConfig().lockOnHpPerBar, "Lock-On HP per bar");
         addConfigKey(ModConfigs.getClientConfig().partyYDistance, "Party HUD Y offset");
+        addConfigKey(ModConfigs.getClientConfig().shoulderSurfingDecoupled, "Shoulder Surfing Mod: Use decoupled camera when not locked on");
 
         //COMMON
         addConfigKey(ModConfigs.getCommonConfig().recipeDropChance, "Recipe drop chance");

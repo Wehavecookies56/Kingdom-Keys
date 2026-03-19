@@ -136,6 +136,7 @@ dependencies {
     implementation "huge-structure-blocks-kk:huge-structure-blocks-kk:1.1.2"
     implementation "curse.maven:female-gender-neoforge-481655:5579007"
     implementation "curse.maven:gender-mod-epic-fight-compat-1489735:7778152"
+    implementation "curse.maven:shoulder-surfing-reloaded-243190:7720604"
 }
 
 var generateModMetadata = tasks.register("generateModMetadata", ProcessResources) {

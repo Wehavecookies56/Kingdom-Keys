@@ -55,6 +55,7 @@ import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.handler.EntityEvents;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.init.ClientEpicFightIntegration;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.init.EpicFightIntegration;
+import online.kingdomkeys.kingdomkeys.integration.wildfire_gender.KKWildFireGender;
 import online.kingdomkeys.kingdomkeys.item.ICreativeTab;
 import online.kingdomkeys.kingdomkeys.item.ModArmorMaterials;
 import online.kingdomkeys.kingdomkeys.item.ModComponents;
@@ -102,6 +103,8 @@ public class KingdomKeys {
 	public static boolean efmLoaded = false;
 
 	public static boolean patchouliLoaded = false;
+
+	public static boolean shoulderSurfingLoaded = false;
 
 	public static final DeferredRegister<CreativeModeTab> TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MODID);
 
@@ -242,8 +245,16 @@ public class KingdomKeys {
 			EpicFightIntegration.initIntegration(modEventBus);
 		}
 
+		if (ModList.get().isLoaded("wildfire_gender")) {
+			modEventBus.addListener(KKWildFireGender::registerCapabilities);
+		}
+
 		if (ModList.get().isLoaded("patchouli")) {
 			patchouliLoaded = true;
+		}
+
+		if (ModList.get().isLoaded("shouldersurfing")) {
+			shoulderSurfingLoaded = true;
 		}
 
         if(ModList.get().isLoaded("supplementaries")){

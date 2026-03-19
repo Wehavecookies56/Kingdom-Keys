@@ -45,6 +45,7 @@ import net.neoforged.neoforge.client.event.*;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.block.gummi.GummiBlockBase;
 import online.kingdomkeys.kingdomkeys.block.gummi.GummiPlacementType;
@@ -61,6 +62,7 @@ import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import online.kingdomkeys.kingdomkeys.entity.GummiShipEntity;
 import online.kingdomkeys.kingdomkeys.entity.KKVehicleEntity;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.EpicFightUtils;
+import online.kingdomkeys.kingdomkeys.integration.shouldersurfing.KKShoulderSurfing;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.item.WayfinderItem;
@@ -103,13 +105,24 @@ public class ClientEvents {
         Minecraft mc = Minecraft.getInstance();
         Player player = mc.player;
 
-        if (player == null || InputHandler.lockOn == null)
+        if (player == null || InputHandler.lockOn == null) {
+            if (KingdomKeys.shoulderSurfingLoaded) {
+                KKShoulderSurfing.enableDecoupling();
+            }
             return;
+        }
 
         LivingEntity target = InputHandler.lockOn;
         if (target.isRemoved()) {
             InputHandler.lockOn = null;
+            if (KingdomKeys.shoulderSurfingLoaded) {
+                KKShoulderSurfing.enableDecoupling();
+            }
             return;
+        }
+
+        if (KingdomKeys.shoulderSurfingLoaded) {
+            KKShoulderSurfing.disableDecoupling();
         }
 
         if (ModConfigs.SERVER.softLockOnMode.get())
@@ -171,6 +184,9 @@ public class ClientEvents {
         if (yawCorrection != 0 || pitchCorrection != 0) {
             player.setYRot(currentYaw + yawCorrection * CORRECTION_SMOOTH);
             player.setXRot(currentPitch + pitchCorrection * CORRECTION_SMOOTH);
+            if (KingdomKeys.shoulderSurfingLoaded) {
+                KKShoulderSurfing.setCameraPos(currentYaw, currentPitch, yawCorrection, pitchCorrection, CORRECTION_SMOOTH);
+            }
 
             player.yRotO = currentYaw;
             player.xRotO = currentPitch;
@@ -207,6 +223,10 @@ public class ClientEvents {
 
         player.setYRot(newYaw);
         player.setXRot(newPitch);
+
+        if (KingdomKeys.shoulderSurfingLoaded) {
+            KKShoulderSurfing.setCameraPos(currentYaw, currentPitch, 0, 0, 0);
+        }
 
         player.yRotO = currentYaw;
         player.xRotO = currentPitch;
