@@ -48,6 +48,12 @@ issueTrackerURL="https://github.com/Wehavecookies56/Kingdom-Keys/issues"
     versionRange="[4,)"
     ordering="AFTER"
     side="BOTH"
+[[dependencies.${mod_id}]]
+    modId="wildfire_gender"
+    type="optional"
+    versionRange="[3.2,)"
+    ordering="AFTER"
+    side="BOTH"
 [mc-publish]
     modrinth="DrsqKwVw"
     curseforge=242862
