@@ -18,7 +18,9 @@
     "client.MinecraftMixin",
     "client.PlayerRendererMixin",
     "epicfight.PHumanoidRendererMixin",
-    "epicfight.RenderEngineEventsMixin"
+    "epicfight.RenderEngineEventsMixin",
+    "epicfight.FirstPersonRendererMixin",
+    "wildfire_gender.GenderLayerMixin"
   ],
   "minVersion": "0.8"
 }
