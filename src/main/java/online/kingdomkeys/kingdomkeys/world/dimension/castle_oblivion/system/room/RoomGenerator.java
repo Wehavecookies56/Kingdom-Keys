@@ -82,36 +82,40 @@ public class RoomGenerator {
 
             List<BlockState> blockStates = new ArrayList<>();
 
-            BlockPos northWallCorner = pos.north();
-            BlockPos bottomWallCorner = pos.below();
-            BlockPos topWallCorner = pos.above(size.getInt(1));
-            BlockPos eastWallCorner = pos.east(size.getInt(0));
-            BlockPos southWallCorner = pos.south(size.getInt(2));
-            BlockPos westWallCorner = pos.west();
+            if (!newRoom.getType().isEntranceHall()) {
 
-            BlockPos.MutableBlockPos.betweenClosedStream(northWallCorner, new BlockPos(northWallCorner.getX() + size.getInt(0)-1, northWallCorner.getY() + size.getInt(1)-1, northWallCorner.getZ())).forEach(blockPos -> {
-                level.setBlock(blockPos, ModBlocks.structureWall.get().defaultBlockState().setValue(StructureWallBlock.FACING, Direction.SOUTH), 2);
-            });
+                BlockPos northWallCorner = pos.north();
+                BlockPos bottomWallCorner = pos.below();
+                BlockPos topWallCorner = pos.above(size.getInt(1));
+                BlockPos eastWallCorner = pos.east(size.getInt(0));
+                BlockPos southWallCorner = pos.south(size.getInt(2));
+                BlockPos westWallCorner = pos.west();
 
-            BlockPos.MutableBlockPos.betweenClosedStream(southWallCorner, new BlockPos(southWallCorner.getX() + size.getInt(0)-1, southWallCorner.getY() + size.getInt(1)-1, southWallCorner.getZ())).forEach(blockPos -> {
-                level.setBlock(blockPos, ModBlocks.structureWall.get().defaultBlockState().setValue(StructureWallBlock.FACING, Direction.NORTH), 2);
-            });
+                BlockPos.MutableBlockPos.betweenClosedStream(northWallCorner, new BlockPos(northWallCorner.getX() + size.getInt(0) - 1, northWallCorner.getY() + size.getInt(1) - 1, northWallCorner.getZ())).forEach(blockPos -> {
+                    level.setBlock(blockPos, ModBlocks.structureWall.get().defaultBlockState().setValue(StructureWallBlock.FACING, Direction.SOUTH), 2);
+                });
 
-            BlockPos.MutableBlockPos.betweenClosedStream(westWallCorner, new BlockPos(westWallCorner.getX(), westWallCorner.getY() + size.getInt(1)-1, westWallCorner.getZ() + size.getInt(2)-1)).forEach(blockPos -> {
-                level.setBlock(blockPos, ModBlocks.structureWall.get().defaultBlockState().setValue(StructureWallBlock.FACING, Direction.EAST), 2);
-            });
+                BlockPos.MutableBlockPos.betweenClosedStream(southWallCorner, new BlockPos(southWallCorner.getX() + size.getInt(0) - 1, southWallCorner.getY() + size.getInt(1) - 1, southWallCorner.getZ())).forEach(blockPos -> {
+                    level.setBlock(blockPos, ModBlocks.structureWall.get().defaultBlockState().setValue(StructureWallBlock.FACING, Direction.NORTH), 2);
+                });
 
-            BlockPos.MutableBlockPos.betweenClosedStream(eastWallCorner, new BlockPos(eastWallCorner.getX(), eastWallCorner.getY() + size.getInt(1)-1, eastWallCorner.getZ() + size.getInt(2)-1)).forEach(blockPos -> {
-                level.setBlock(blockPos, ModBlocks.structureWall.get().defaultBlockState().setValue(StructureWallBlock.FACING, Direction.WEST), 2);
-            });
+                BlockPos.MutableBlockPos.betweenClosedStream(westWallCorner, new BlockPos(westWallCorner.getX(), westWallCorner.getY() + size.getInt(1) - 1, westWallCorner.getZ() + size.getInt(2) - 1)).forEach(blockPos -> {
+                    level.setBlock(blockPos, ModBlocks.structureWall.get().defaultBlockState().setValue(StructureWallBlock.FACING, Direction.EAST), 2);
+                });
 
-            BlockPos.MutableBlockPos.betweenClosedStream(bottomWallCorner, new BlockPos(bottomWallCorner.getX() + size.getInt(0)-1, bottomWallCorner.getY(), bottomWallCorner.getZ() + size.getInt(2)-1)).forEach(blockPos -> {
-                level.setBlock(blockPos, ModBlocks.structureWall.get().defaultBlockState().setValue(StructureWallBlock.FACING, Direction.UP), 2);
-            });
+                BlockPos.MutableBlockPos.betweenClosedStream(eastWallCorner, new BlockPos(eastWallCorner.getX(), eastWallCorner.getY() + size.getInt(1) - 1, eastWallCorner.getZ() + size.getInt(2) - 1)).forEach(blockPos -> {
+                    level.setBlock(blockPos, ModBlocks.structureWall.get().defaultBlockState().setValue(StructureWallBlock.FACING, Direction.WEST), 2);
+                });
 
-            BlockPos.MutableBlockPos.betweenClosedStream(topWallCorner, new BlockPos(topWallCorner.getX() + size.getInt(0)-1, topWallCorner.getY(), topWallCorner.getZ() + size.getInt(2)-1)).forEach(blockPos -> {
-                level.setBlock(blockPos, ModBlocks.structureWall.get().defaultBlockState().setValue(StructureWallBlock.FACING, Direction.DOWN), 2);
-            });
+                BlockPos.MutableBlockPos.betweenClosedStream(bottomWallCorner, new BlockPos(bottomWallCorner.getX() + size.getInt(0) - 1, bottomWallCorner.getY(), bottomWallCorner.getZ() + size.getInt(2) - 1)).forEach(blockPos -> {
+                    level.setBlock(blockPos, ModBlocks.structureWall.get().defaultBlockState().setValue(StructureWallBlock.FACING, Direction.UP), 2);
+                });
+
+                BlockPos.MutableBlockPos.betweenClosedStream(topWallCorner, new BlockPos(topWallCorner.getX() + size.getInt(0) - 1, topWallCorner.getY(), topWallCorner.getZ() + size.getInt(2) - 1)).forEach(blockPos -> {
+                    level.setBlock(blockPos, ModBlocks.structureWall.get().defaultBlockState().setValue(StructureWallBlock.FACING, Direction.DOWN), 2);
+                });
+
+            }
 
             CompoundTag block = blocks.getCompound(0);
             BlockPos.MutableBlockPos blockpos = new BlockPos.MutableBlockPos(block.getList("pos", 3).getInt(0), block.getList("pos", 3).getInt(1), block.getList("pos", 3).getInt(2));
