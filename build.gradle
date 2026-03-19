@@ -137,6 +137,7 @@ dependencies {
     implementation "curse.maven:female-gender-neoforge-481655:5579007"
     implementation "curse.maven:gender-mod-epic-fight-compat-1489735:7778152"
     implementation "curse.maven:shoulder-surfing-reloaded-243190:7720604"
+    implementation "curse.maven:tool-belt-260262:5929065"
 }
 
 var generateModMetadata = tasks.register("generateModMetadata", ProcessResources) {

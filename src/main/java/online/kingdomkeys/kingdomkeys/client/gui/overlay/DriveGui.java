@@ -67,10 +67,6 @@ public class DriveGui extends OverlayBase {
 			currDrive = GUI_LENGTH;
 		}
 
-		PoseStack pose = guiGraphics.pose();
-
-		pose.pushPose();
-
 		int screenWidth = minecraft.getWindow().getGuiScaledWidth();
 		int screenHeight = minecraft.getWindow().getGuiScaledHeight();
 

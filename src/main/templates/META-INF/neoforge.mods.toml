@@ -54,6 +54,12 @@ issueTrackerURL="https://github.com/Wehavecookies56/Kingdom-Keys/issues"
     versionRange="[3.2,)"
     ordering="AFTER"
     side="BOTH"
+[[dependencies.${mod_id}]]
+    modId="shouldersurfing"
+    type="optional"
+    versionRange="[1.21.1-4.22,)"
+    ordering="AFTER"
+    side="CLIENT"
 [mc-publish]
     modrinth="DrsqKwVw"
     curseforge=242862

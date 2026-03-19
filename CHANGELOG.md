@@ -1,5 +1,2 @@
-**Added:**
-* Integration with Shoulder Surfing with config option to keep camera decoupled while not locking on
-
 **Fixed:**
-* Missing WildFire's Gender mod integration part
+* Rendering issues caused by Drive bar fixes icons not rendering with the Tool Belt mod and potentially other issues
