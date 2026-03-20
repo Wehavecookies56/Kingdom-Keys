@@ -294,7 +294,7 @@ public class ClientPacketHandler {
     }
 
     public static void updateCORooms(SCUpdateCORooms message) {
-        MenuBackground.rooms = message.rooms();
+        MenuScreen.rooms = message.rooms();
     }
 
 

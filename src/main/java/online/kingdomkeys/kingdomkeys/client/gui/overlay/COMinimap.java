@@ -11,7 +11,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
-import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
+import online.kingdomkeys.kingdomkeys.client.gui.menu.MenuScreen;
 import online.kingdomkeys.kingdomkeys.entity.block.CardDoorTileEntity;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.DoorData;
@@ -33,7 +33,7 @@ public class COMinimap extends OverlayBase {
     public void render(GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
         super.render(guiGraphics, deltaTracker);
 
-        if (MenuBackground.rooms.isEmpty())
+        if (MenuScreen.rooms.isEmpty())
             return;
 
         int screenWidth = Minecraft.getInstance().getWindow().getGuiScaledWidth();
@@ -59,7 +59,7 @@ public class COMinimap extends OverlayBase {
         {
             guiGraphics.pose().mulPose(Axis.ZP.rotationDegrees(45));
 
-            for (RoomData roomData : MenuBackground.rooms) {
+            for (RoomData roomData : MenuScreen.rooms) {
                 if (roomData.getGenerated() != null) {
                     if (roomData.getGenerated().inRoom(minecraft.player.blockPosition())) {
                         currentRoom = roomData;
@@ -157,7 +157,7 @@ public class COMinimap extends OverlayBase {
     }
 
     private RoomData getRoomAt(int x, int y) {
-        for (RoomData r : MenuBackground.rooms) {
+        for (RoomData r : MenuScreen.rooms) {
             if (r.pos.x() == x && r.pos.y() == y) {
                 return r;
             }

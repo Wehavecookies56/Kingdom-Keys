@@ -105,8 +105,6 @@ public class MenuBackground extends Screen {
     protected int buttonPosY;
     protected float buttonWidth;
 
-	protected boolean showCOMap = false;
-
 	@Override
 	public Component getTitle() {
 		return title;
@@ -143,9 +141,6 @@ public class MenuBackground extends Screen {
 			topRightBar.width = sw;
 		}
 		gui.pose().popPose();
-
-		if(showCOMap)
-			renderMap(gui);
 	}
 
 	@Override
@@ -452,141 +447,6 @@ public class MenuBackground extends Screen {
 			matrixStack.popPose();
 		}
 		matrixStack.popPose();
-	}
-
-	public static List<RoomData> rooms = new ArrayList<>();
-	private static final ResourceLocation ROOM_TEX = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/co/room.png");
-
-	public void renderMap(GuiGraphics guiGraphics) {
-		if (!CastleOblivionHandler.inInterior(getMinecraft().player) || rooms.isEmpty())
-			return;
-
-		int sw = Minecraft.getInstance().getWindow().getGuiScaledWidth();
-		int sh = Minecraft.getInstance().getWindow().getGuiScaledHeight();
-
-		int tileSize = 20;
-		int originX = sw/2;
-		int originY = sh - (int)bottomBarHeight;
-
-		RoomData currentRoom = null;
-
-		guiGraphics.pose().pushPose();
-		{
-			guiGraphics.pose().translate(originX, originY, 0);
-			guiGraphics.pose().mulPose(Axis.ZP.rotationDegrees(45));
-
-			for (RoomData roomData : rooms) {
-				int x = -roomData.pos.x() * 2;
-				int y = -roomData.pos.y() * 2;
-
-				int px = x * tileSize;
-				int py = y * tileSize;
-
-				if (roomData.getGenerated() != null) {
-					if(roomData.getGenerated().inRoom(minecraft.player.blockPosition())){
-						currentRoom = roomData;
-					}
-				}
-
-				//Room
-				if(roomData.getGenerated() == null){
-					guiGraphics.setColor(0.8F,0.7F,0.2F,1);
-				} else {
-					if(roomData == currentRoom){
-						guiGraphics.setColor(0.2F,0.9F,1F,1);
-					} else {
-						guiGraphics.setColor(0.9F,0.9F,0.8F,1);
-					}
-				}
-				guiGraphics.blit(ROOM_TEX, px, py, tileSize, tileSize, 0, 0, 16, 16, 16, 16);
-				guiGraphics.setColor(1,1,1,1);
-
-
-				//Connections
-				for (Map.Entry<RoomDirection, DoorData> entry : roomData.getDoors().entrySet()) {
-					RoomDirection dir = entry.getKey();
-					DoorData data = entry.getValue();
-
-					if (data.getType() == DoorData.Type.NONE)
-						continue;
-
-					if (dir != RoomDirection.EAST && dir != RoomDirection.SOUTH)
-						continue;
-
-					int dx = 0;
-					int dy = 0;
-
-					switch (dir) {
-						case EAST -> dx = -1;
-						case SOUTH -> dy = -1;
-					}
-
-					RoomData neighbor = getRoomAt(roomData.pos.x() + dx, roomData.pos.y() + dy);
-					if (neighbor == null)
-						continue;
-
-					//Door state
-					boolean open = false;
-
-					if (roomData.getGenerated() != null && neighbor.getGenerated() != null) {
-						CardDoorTileEntity te1 = roomData.getGenerated().getDoorTE(minecraft.level, dir);
-						CardDoorTileEntity te2 = neighbor.getGenerated().getDoorTE(minecraft.level, dir.opposite());
-
-						if (te1 != null && te1.isOpen())
-							open = true;
-						if (te2 != null && te2.isOpen())
-							open = true;
-					}
-
-					int color = open ? 0xFF00FF00 : 0xFFFFFF00;
-
-					int thickness = Math.max(2, tileSize / 5);
-
-					switch (dir) {
-						case EAST -> {
-							guiGraphics.fill(px + tileSize, py + tileSize / 2 - thickness / 2, px + tileSize * 2, py + tileSize / 2 + thickness / 2, color);
-						}
-
-						case SOUTH -> {
-							guiGraphics.fill(px + tileSize / 2 - thickness / 2, py + tileSize, px + tileSize / 2 + thickness / 2, py + tileSize * 2, color);
-						}
-					}
-				}
-			}
-
-			// Keyblade icon
-			if (currentRoom != null) {
-				guiGraphics.pose().pushPose();
-
-				int x = currentRoom.pos.x() * 2;
-				int y = currentRoom.pos.y() * 2;
-
-				int px = -x * tileSize;
-				int py = -y * tileSize;
-
-				guiGraphics.pose().translate(px + tileSize / 2f, py + tileSize / 2f, 0);
-
-				float rotation = Mth.wrapDegrees(minecraft.player.getYRot() - 45);
-				guiGraphics.pose().mulPose(Axis.ZP.rotationDegrees(rotation));
-
-				float iconScale = 16F;
-				guiGraphics.pose().scale(iconScale, iconScale, 1f);
-
-				ClientUtils.drawItemAsIcon(new ItemStack(ModItems.kingdomKey.get()), guiGraphics.pose(), -8, -8, 1);
-
-				guiGraphics.pose().popPose();
-			}
-		}
-		guiGraphics.pose().popPose();
-	}
-
-	private RoomData getRoomAt(int x, int y) {
-		for (RoomData r : rooms) {
-			if (r.pos.x() == x && r.pos.y() == y) {
-				return r;
-			}
-		}
-		return null;
 	}
 
 	private static String printBiome(Holder<Biome> p_205375_) {
