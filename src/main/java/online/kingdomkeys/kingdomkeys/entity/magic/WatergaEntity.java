@@ -95,15 +95,13 @@ public class WatergaEntity extends ThrowableProjectile {
 			List<Entity> list = this.level().getEntities(player, player.getBoundingBox().inflate(radius), Entity::isAlive);
 
 	        if (!list.isEmpty() && list.get(0) != this) {
-				float baseDmg = DamageCalculation.getMagicDamage((Player) this.getOwner()) * 0.6F;
-				float dmg = this.getOwner() instanceof Player ? baseDmg : 2;
+				float dmg = this.getOwner() instanceof Player ? DamageCalculation.getMagicDamage((Player) this.getOwner()) * 0.6F : 4;
                 for (Entity entity : list) {
                     if (entity instanceof LivingEntity) {
                         entity.hurt(KKDamageTypes.getElementalDamage(KKDamageTypes.WATER, this, this.getOwner()), dmg * dmgMult);
                     }
                 }
 	        }
-
 		} else { //Projectile
 			shootFromRotation(player, player.getXRot(), player.getYRot(), 0, 2F, 0);
 			player.level().playSound(null, player.blockPosition(), SoundEvents.PLAYER_SWIM, SoundSource.PLAYERS, 1F, 1F);

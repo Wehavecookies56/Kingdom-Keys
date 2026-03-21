@@ -96,9 +96,8 @@ public class WateraEntity extends ThrowableProjectile {
 			List<Entity> list = this.level().getEntities(player, player.getBoundingBox().inflate(radius), Entity::isAlive);
 			
 	        if (!list.isEmpty() && list.get(0) != this) {
-				float baseDmg = DamageCalculation.getMagicDamage((Player) this.getOwner()) * 0.45F;
-				float dmg = this.getOwner() instanceof Player ? baseDmg : 2;
-                for (Entity e : list) {
+				float dmg = this.getOwner() instanceof Player ? DamageCalculation.getMagicDamage((Player) this.getOwner()) * 0.45F : 3;
+				for (Entity e : list) {
                     if (e instanceof LivingEntity) {
                         e.hurt(e.damageSources().thrown(this, this.getOwner()), dmg * dmgMult);
                     }
