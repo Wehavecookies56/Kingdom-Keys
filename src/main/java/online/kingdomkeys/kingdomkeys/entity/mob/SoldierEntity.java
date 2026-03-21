@@ -46,7 +46,7 @@ public class SoldierEntity extends BaseKHEntity {
         return Mob.createLivingAttributes()
             .add(Attributes.FOLLOW_RANGE, 15.0D)
             .add(Attributes.MOVEMENT_SPEED, 0.28D)
-            .add(Attributes.MAX_HEALTH, 50.0D)
+            .add(Attributes.MAX_HEALTH, 70.0D)
             .add(Attributes.ATTACK_DAMAGE, 4.0D)
 			.add(Attributes.ATTACK_KNOCKBACK, 1.0D)
 
