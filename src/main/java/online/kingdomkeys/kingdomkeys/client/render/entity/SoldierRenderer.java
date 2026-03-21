@@ -7,6 +7,7 @@ import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.model.entity.SoldierModel;
+import online.kingdomkeys.kingdomkeys.client.render.HeartlessEyesLayerRenderer;
 import online.kingdomkeys.kingdomkeys.entity.mob.SoldierEntity;
 
 //TODO should be able to make this a a generic human renderer for the rest of the members
@@ -14,18 +15,13 @@ public class SoldierRenderer<Type extends SoldierEntity> extends MobRenderer<Typ
 
 	public SoldierRenderer(EntityRendererProvider.Context context) {
         super(context, new SoldierModel<>(context.bakeLayer(SoldierModel.LAYER_LOCATION)), 0.5F);
+		this.addLayer(new HeartlessEyesLayerRenderer<>(this, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/mob/soldier_eyes.png")));
 	}
 
 	@Override
 	public void render(Type entityIn, float entityYaw, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn) {
 		matrixStackIn.pushPose();
 		{
-			//matrixStackIn.scale(0.7F, 0.7F, 0.7F);
-			/*if (EntityHelper.getState(entityIn) == 1) {
-				matrixStackIn.translate(0, 0.4, 0);
-			} else if(EntityHelper.getState(entityIn) == 3) {
-				matrixStackIn.translate(0, 1.5, 0);
-			}*/
 			super.render(entityIn, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
 		}
 		matrixStackIn.popPose();
@@ -38,8 +34,8 @@ public class SoldierRenderer<Type extends SoldierEntity> extends MobRenderer<Typ
 	}
 
 	@Override
-	public ResourceLocation getTextureLocation(Type pEntity) {
-		return ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/mob/soldier.png");
+	public ResourceLocation getTextureLocation(SoldierEntity entity) {
+		return entity.getTexture();
 	}
 
 }

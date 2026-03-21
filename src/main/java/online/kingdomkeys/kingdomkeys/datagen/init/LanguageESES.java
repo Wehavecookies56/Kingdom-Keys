@@ -1978,6 +1978,7 @@ public class LanguageESES extends KKLanguageProvider {
         addEntityType(ModEntities.TYPE_LARGE_BODY, "Grandull\u00f3n");
         addEntityType(ModEntities.TYPE_DIRE_PLANT, "Mala Hierba");
         addEntityType(ModEntities.TYPE_SOLDIER, "Soldado");
+        addEntityType(ModEntities.TYPE_DESERTOR, "Desertor");
         addEntityType(ModEntities.TYPE_WHITE_MUSHROOM, "Seta Blanca");
         addEntityType(ModEntities.TYPE_BLACK_FUNGUS, "Hongo Negro");
         addEntityType(ModEntities.TYPE_BLOX_BUG, "Error");
@@ -2009,6 +2010,7 @@ public class LanguageESES extends KKLanguageProvider {
         addItem(ModEntities.LARGE_BODY_EGG, "Generar Grandull\u00f3n");
         addItem(ModEntities.DIRE_PLANT_EGG, "Generar Mala Hierba");
         addItem(ModEntities.SOLDIER_EGG, "Generar Soldado");
+        addItem(ModEntities.DESERTOR_EGG, "Generar Desertor");
         addItem(ModEntities.WHITE_MUSHROOM_EGG, "Generar Seta Blanca");
         addItem(ModEntities.BLACK_FUNGUS_EGG, "Generar Hongo Negro");
         addItem(ModEntities.BLOX_BUG_EGG, "Generar Error");

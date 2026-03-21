@@ -8,7 +8,9 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.model.entity.BombModel;
+import online.kingdomkeys.kingdomkeys.client.render.HeartlessEyesLayerRenderer;
 import online.kingdomkeys.kingdomkeys.entity.mob.BaseBombEntity;
 import org.joml.Matrix4f;
 
@@ -16,6 +18,7 @@ public class BombRenderer extends MobRenderer<BaseBombEntity, BombModel<BaseBomb
 
     public BombRenderer(EntityRendererProvider.Context context) {
         super(context, new BombModel<>(context.bakeLayer(BombModel.LAYER_LOCATION)), 0.35F);
+        this.addLayer(new HeartlessEyesLayerRenderer<>(this, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/mob/bomb_eyes.png")));
     }
 
     @Override

@@ -322,7 +322,9 @@ public class MenuScreen extends MenuBackground {
 
 			ItemStack stack = playerData.getEquippedKeychain(DriveForm.NONE);
 			ItemStack item = stack;
-			if (stack.getItem() instanceof IKeychain kc) {
+			if(stack.isEmpty()) {
+				item = new ItemStack(ModItems.k111.get());
+			} else if (stack.getItem() instanceof IKeychain kc) {
 				item = new ItemStack(kc.toSummon());
 			}
 			ClientUtils.drawItemAsIcon(item, guiGraphics.pose(), -8, -8, 1);
