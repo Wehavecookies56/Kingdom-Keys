@@ -330,5 +330,6 @@ public class KingdomKeys {
 	public void findPacks(AddPackFindersEvent event) {
 		event.addPackFinders(ResourceLocation.fromNamespaceAndPath(MODID, "datapacks/disable_blox_gen"), PackType.SERVER_DATA, Component.literal("KK: Disable Blox Gen (Overworld)"), PackSource.FEATURE, false, Pack.Position.TOP);
 		event.addPackFinders(ResourceLocation.fromNamespaceAndPath(MODID, "datapacks/disable_blox_gen_end"), PackType.SERVER_DATA, Component.literal("KK: Disable Blox Gen (End)"), PackSource.FEATURE, false, Pack.Position.TOP);
+		event.addPackFinders(ResourceLocation.fromNamespaceAndPath(MODID, "datapacks/recipe_example"), PackType.SERVER_DATA, Component.literal("KK: Custom Synthesis Recipe Example"), PackSource.FEATURE, false, Pack.Position.TOP);
 	}
 }

@@ -177,22 +177,26 @@ public class EntityEvents {
 	}
 
 	public void checkRecipeMaterials(Player player) {
-		RecipeRegistry.getInstance().getValues().forEach(recipe -> recipe.getMaterials().keySet().forEach(item -> {
-			if (!item.builtInRegistryHolder().is(Tags.MATERIALS)) {
-				player.sendSystemMessage(Component.translatable(ChatFormatting.RED + "Recipe[" + recipe.getRegistryName().toString() + "] contains material(s) that are not present in the \"synthesis/materials\" tag you will be unable to create this recipe"));
-			}
-		}));
-		BuiltInRegistries.ITEM.entrySet().stream().filter(itemRegistryObject -> itemRegistryObject.getValue() instanceof KeybladeItem).map(itemRegistryObject -> (KeybladeItem)itemRegistryObject.getValue()).toList().forEach(keybladeItem -> {
-			if (keybladeItem.data != null) {
-				for (int i = 0; i < keybladeItem.data.getMaxLevel(); i++) {
-					keybladeItem.data.getLevelData(i).getMaterialList().keySet().forEach(item -> {
-						if (!item.builtInRegistryHolder().is(Tags.MATERIALS)) {
-							player.sendSystemMessage(Component.translatable(ChatFormatting.RED + "Keyblade level data[" + BuiltInRegistries.ITEM.getKey(keybladeItem) + "] contains material(s) that are not present in the \"synthesis/materials\" tag you will be unable to upgrade this keyblade"));
-						}
-					});
+		if (player.level().registryAccess().lookupOrThrow(Registries.ITEM).get(Tags.MATERIALS).isPresent()) {
+			RecipeRegistry.getInstance().getValues().forEach(recipe -> recipe.getMaterials().keySet().forEach(item -> {
+				if (!item.builtInRegistryHolder().is(Tags.MATERIALS)) {
+					player.sendSystemMessage(Component.translatable(ChatFormatting.RED + "Recipe[" + recipe.getRegistryName().toString() + "] contains material(s) that are not present in the \"synthesis/materials\" tag you will be unable to create this recipe"));
 				}
-			}
-		});
+			}));
+			BuiltInRegistries.ITEM.entrySet().stream().filter(itemRegistryObject -> itemRegistryObject.getValue() instanceof KeybladeItem).map(itemRegistryObject -> (KeybladeItem) itemRegistryObject.getValue()).toList().forEach(keybladeItem -> {
+				if (keybladeItem.data != null) {
+					for (int i = 0; i < keybladeItem.data.getMaxLevel(); i++) {
+						keybladeItem.data.getLevelData(i).getMaterialList().keySet().forEach(item -> {
+							if (!item.builtInRegistryHolder().is(Tags.MATERIALS)) {
+								player.sendSystemMessage(Component.translatable(ChatFormatting.RED + "Keyblade level data[" + BuiltInRegistries.ITEM.getKey(keybladeItem) + "] contains material(s) that are not present in the \"synthesis/materials\" tag you will be unable to upgrade this keyblade"));
+							}
+						});
+					}
+				}
+			});
+		} else {
+			player.sendSystemMessage(Component.translatable(ChatFormatting.RED + "The synthesis/materials tag failed to load due to a broken datapack please fix any issues otherwise synthesis will not function, check the log for what is wrong"));
+		}
 	}
 
 	@SubscribeEvent
