@@ -625,8 +625,6 @@ public class InputHandler {
         return dir.normalize();
     }
 
-
-
     public enum Keybinds {
         OPENMENU("key.kingdomkeys.openmenu", GLFW.GLFW_KEY_M),
         SCROLL_UP("key.kingdomkeys.scrollup",GLFW.GLFW_KEY_UP),

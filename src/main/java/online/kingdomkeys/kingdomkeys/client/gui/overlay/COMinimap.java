@@ -10,8 +10,11 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.api.item.IKeychain;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.MenuScreen;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
+import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.entity.block.CardDoorTileEntity;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.DoorData;
@@ -39,15 +42,16 @@ public class COMinimap extends OverlayBase {
         int screenWidth = Minecraft.getInstance().getWindow().getGuiScaledWidth();
         int screenHeight = Minecraft.getInstance().getWindow().getGuiScaledHeight();
 
-        ClientUtils.LOCKON_ELEMENT.applyTransform(guiGraphics,screenWidth,screenHeight);
-
+        ClientUtils.MINIMAP_ELEMENT.applyTransform(guiGraphics,screenWidth,screenHeight);
+        guiGraphics.pose().translate(50.1,20,0);
+        guiGraphics.pose().scale(0.7F,0.7F,1);
         RenderSystem.enableBlend();
         RenderSystem.setShaderColor(1,1,1,1);
         renderMinimap(guiGraphics, deltaTracker);
 
         RenderSystem.disableBlend();
 
-        ClientUtils.LOCKON_ELEMENT.endTransform(guiGraphics);
+        ClientUtils.MINIMAP_ELEMENT.endTransform(guiGraphics);
     }
 
     private void renderMinimap(GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
@@ -128,23 +132,35 @@ public class COMinimap extends OverlayBase {
             }
 
             // Keyblade icon
-            if (currentRoom != null) {
-                guiGraphics.pose().pushPose();
-                {
-                    guiGraphics.pose().translate(tileSize / 2f, tileSize / 2f, 0);
+            drawKeybladeIcon(tileSize);
 
-                    float rotation = Mth.wrapDegrees(minecraft.player.getYRot() - 45);
-                    guiGraphics.pose().mulPose(Axis.ZP.rotationDegrees(rotation));
-
-                    float iconScale = tileSize * 0.8F;
-                    guiGraphics.pose().scale(iconScale, iconScale, 1f);
-
-                    ClientUtils.drawItemAsIcon(new ItemStack(ModItems.kingdomKey.get()), guiGraphics.pose(), -8, -8, 1);
-                }
-                guiGraphics.pose().popPose();
-            }
         }
         guiGraphics.pose().popPose();
+    }
+
+    public void drawKeybladeIcon(float tileSize) {
+        guiGraphics.pose().pushPose();
+        {
+            guiGraphics.pose().translate(tileSize / 2f, tileSize / 2f, 0);
+
+            float rotation = Mth.wrapDegrees(Minecraft.getInstance().player.getYRot() - 45);
+            guiGraphics.pose().mulPose(Axis.ZP.rotationDegrees(rotation));
+
+            float iconScale = tileSize * 0.8F;
+            guiGraphics.pose().scale(iconScale, iconScale, 1f);
+
+            PlayerData playerData = PlayerData.get(Minecraft.getInstance().player);
+            ItemStack stack = playerData.getEquippedKeychain(DriveForm.NONE);
+            ItemStack item = stack;
+            if(stack.isEmpty()) {
+                item = new ItemStack(ModItems.k111.get());
+            } else if (stack.getItem() instanceof IKeychain kc) {
+                item = new ItemStack(kc.toSummon());
+            }
+            ClientUtils.drawItemAsIcon(item, guiGraphics.pose(), -8, -8, 1);
+        }
+        guiGraphics.pose().popPose();
+
     }
 
     private void fillSafe(GuiGraphics g, int x1, int y1, int x2, int y2, int color) {

@@ -11,6 +11,7 @@ import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.common.NeoForge;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.api.event.client.MenuButtonRegisterEvent;
+import online.kingdomkeys.kingdomkeys.api.item.IKeychain;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
@@ -28,6 +29,7 @@ import online.kingdomkeys.kingdomkeys.client.gui.menu.status.MenuStatusScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.styles.StylesMenu;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.data.WorldData;
+import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.entity.block.CardDoorTileEntity;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.lib.Party;
@@ -293,31 +295,40 @@ public class MenuScreen extends MenuBackground {
 				}
 			}
 
-			if (currentRoom != null) {
-				guiGraphics.pose().pushPose();
-
-				int x = -currentRoom.pos.x() * 2;
-				int y = -currentRoom.pos.y() * 2;
-
-				int px = x * tileSize;
-				int py = y * tileSize;
-
-				guiGraphics.pose().translate(px + tileSize / 2f, py + tileSize / 2f, 0);
-
-				float rotation = Mth.wrapDegrees(minecraft.player.getYRot() - 45);
-				guiGraphics.pose().mulPose(Axis.ZP.rotationDegrees(rotation));
-
-				float iconScale = 16F;
-				guiGraphics.pose().scale(iconScale, iconScale, 1f);
-
-				ClientUtils.drawItemAsIcon(new ItemStack(ModItems.kingdomKey.get()), guiGraphics.pose(), -8, -8, 1);
-
-				guiGraphics.pose().popPose();
-			}
+			drawKeybladeIcon(guiGraphics, currentRoom, tileSize);
 		}
 		guiGraphics.pose().popPose();
 
 		RenderSystem.disableScissor();
+	}
+
+	private void drawKeybladeIcon(GuiGraphics guiGraphics, RoomData currentRoom, int tileSize) {
+		if (currentRoom != null) {
+			guiGraphics.pose().pushPose();
+
+			int x = -currentRoom.pos.x() * 2;
+			int y = -currentRoom.pos.y() * 2;
+
+			int px = x * tileSize;
+			int py = y * tileSize;
+
+			guiGraphics.pose().translate(px + tileSize / 2f, py + tileSize / 2f, 0);
+
+			float rotation = Mth.wrapDegrees(minecraft.player.getYRot() - 45);
+			guiGraphics.pose().mulPose(Axis.ZP.rotationDegrees(rotation));
+
+			float iconScale = 16F;
+			guiGraphics.pose().scale(iconScale, iconScale, 1f);
+
+			ItemStack stack = playerData.getEquippedKeychain(DriveForm.NONE);
+			ItemStack item = stack;
+			if (stack.getItem() instanceof IKeychain kc) {
+				item = new ItemStack(kc.toSummon());
+			}
+			ClientUtils.drawItemAsIcon(item, guiGraphics.pose(), -8, -8, 1);
+
+			guiGraphics.pose().popPose();
+		}
 	}
 
 	private void enableScissor(int x, int y, int w, int h) {

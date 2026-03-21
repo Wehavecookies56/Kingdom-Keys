@@ -19,6 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HUDElement {
+    public static final List<HUDElement> REGISTRY = new ArrayList<>();
+
     public String name;
     public HUDAnchorPosition anchor;
 
@@ -39,6 +41,7 @@ public class HUDElement {
 
     public HUDElement(String name){
         this.name = name;
+        REGISTRY.add(this);
     }
 
     public void loadFromConfig(){
@@ -305,6 +308,7 @@ public class HUDElement {
             case "MunnyExp" -> Lists.newArrayList(0F, 0F, 80F, 60F, 1F, 1F, 0F, 0F);
             case "LevelUp" -> Lists.newArrayList(1F, 10F, 155F, 50F, 1F, 1F, 0F, 2F);
             case "DriveLevel" -> Lists.newArrayList(0F, -4F, 155F, 90F, 1F, 1F, 0F, 3F);
+            case "Minimap" -> Lists.newArrayList(2F, 2F, 100F, 100F, 1F, 1F, 0F, 2F);
             default -> throw new IllegalStateException("Unexpected default HUD value: " + name);
         };
     }

@@ -20,7 +20,6 @@ import java.util.Optional;
 public class HUDEditorScreen extends Screen {
     private Button resetButton, rpButton;
     private boolean renderOutline = true;
-    private final List<HUDElement> elements = new ArrayList<>();
     private HUDElement selected;
 
     private boolean dragging = false;
@@ -29,17 +28,16 @@ public class HUDEditorScreen extends Screen {
 
     public HUDEditorScreen() {
         super(Component.literal("HUD Editor"));
-        this.elements.addAll(ClientUtils.HUD_ELEMENTS);
         int scaledWidth = Minecraft.getInstance().getWindow().getGuiScaledWidth();
         int buttonWidth = (int)(scaledWidth * 0.23F);
         addRenderableWidget(rpButton = new MenuButton(scaledWidth/2 - buttonWidth - 20, 5, buttonWidth, Utils.translateToLocal("gui.menu.config.reset_defaults"), MenuButton.ButtonType.ROUNDBUTTON, (e) -> {
-            for (HUDElement element : elements) {
+            for (HUDElement element : HUDElement.REGISTRY) {
                 element.restoreDefaultValues();
             }
         }));
 
         addRenderableWidget(resetButton = new MenuButton(scaledWidth/2 + 10, 5, buttonWidth, Utils.translateToLocal("gui.menu.config.reset_rp"), MenuButton.ButtonType.ROUNDBUTTON, (e) -> {
-            for (HUDElement element : elements) {
+            for (HUDElement element : HUDElement.REGISTRY) {
                 element.loadDefaultsFromJson();
             }
         }));
@@ -67,7 +65,7 @@ public class HUDEditorScreen extends Screen {
         }
 
         List<Component> list = new ArrayList<>();
-        for (HUDElement element : elements) {
+        for (HUDElement element : HUDElement.REGISTRY) {
             if(element.isMouseOver(mouseX, mouseY)) {
                 String line = (list.isEmpty() ? ChatFormatting.BOLD : "") + element.name;
                 list.add(Component.translatable(ChatFormatting.WHITE + line));
@@ -82,7 +80,7 @@ public class HUDEditorScreen extends Screen {
 
     @Override
     public void onClose() {
-        for (HUDElement element : elements) {
+        for (HUDElement element : HUDElement.REGISTRY) {
             element.saveConfig();
         }
         super.onClose();
@@ -119,7 +117,7 @@ public class HUDEditorScreen extends Screen {
             }
             case GLFW.GLFW_KEY_S -> {
                 if(hasControlDown()) {
-                    for (HUDElement element : elements) {
+                    for (HUDElement element : HUDElement.REGISTRY) {
                         element.saveConfig();
                     }
                 }
@@ -135,7 +133,7 @@ public class HUDEditorScreen extends Screen {
             int w = minecraft.getWindow().getGuiScaledWidth();
             int h = minecraft.getWindow().getGuiScaledHeight();
 
-            for (HUDElement element : elements) {
+            for (HUDElement element : HUDElement.REGISTRY) {
                 if (element.isMouseOver(mouseX, mouseY)) {
                     selected = element;
 
@@ -151,7 +149,7 @@ public class HUDEditorScreen extends Screen {
                 }
             }
         } else if (button == 1) {
-            for (HUDElement element : elements) {
+            for (HUDElement element : HUDElement.REGISTRY) {
                 if (element.isMouseOver(mouseX, mouseY)) {
                     if(hasShiftDown()){
                         element.restoreDefaultValues();

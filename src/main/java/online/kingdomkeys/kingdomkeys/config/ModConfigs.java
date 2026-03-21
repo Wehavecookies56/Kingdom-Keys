@@ -106,6 +106,10 @@ public class ModConfigs {
                 CLIENT.driveLevelHUDData.set(data);
                 CLIENT.driveLevelHUDData.save();
             }
+            case "Minimap" -> {
+                CLIENT.minimapHUDData.set(data);
+                CLIENT.minimapHUDData.save();
+            }
         }
     }
 
@@ -123,6 +127,7 @@ public class ModConfigs {
             case "MunnyExp" -> CLIENT.munnyExpHUDData.get();
             case "LevelUp" -> CLIENT.levelUpHUDData.get();
             case "DriveLevel" -> CLIENT.driveLevelHUDData.get();
+            case "Minimap" -> CLIENT.minimapHUDData.get();
             default -> throw new IllegalStateException("Unexpected HUD value: " + name);
         };
     }
