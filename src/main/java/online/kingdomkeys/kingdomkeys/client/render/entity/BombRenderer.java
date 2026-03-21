@@ -11,7 +11,7 @@ import net.minecraft.resources.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.model.entity.BombModel;
 import online.kingdomkeys.kingdomkeys.client.render.HeartlessEyesLayerRenderer;
-import online.kingdomkeys.kingdomkeys.entity.mob.BaseBombEntity;
+import online.kingdomkeys.kingdomkeys.entity.mob.*;
 import org.joml.Matrix4f;
 
 public class BombRenderer extends MobRenderer<BaseBombEntity, BombModel<BaseBombEntity>> {
@@ -28,7 +28,17 @@ public class BombRenderer extends MobRenderer<BaseBombEntity, BombModel<BaseBomb
 
     @Override
     protected void scale(BaseBombEntity entitylivingbaseIn, PoseStack matrixStackIn, float partialTickTime) {
-    	matrixStackIn.scale(1F, 1F, 1F);
+        float scale = 1;
+        if(entitylivingbaseIn instanceof MinuteBombEntity) {
+            scale = 1;
+        } else if(entitylivingbaseIn instanceof SkaterBombEntity) {
+            scale = 1.15F;
+        } else if(entitylivingbaseIn instanceof StormBombEntity) {
+            scale = 1.3F;
+        } else {
+            scale = 1.5F;
+        }
+    	matrixStackIn.scale(scale, scale, scale);
     	super.scale(entitylivingbaseIn, matrixStackIn, partialTickTime);
     }
 

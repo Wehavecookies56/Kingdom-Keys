@@ -17,16 +17,16 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
 import online.kingdomkeys.kingdomkeys.entity.mob.goal.SoldierGoal;
 
-public class DesertorEntity extends SoldierEntity {
+public class CommanderEntity extends SoldierEntity {
 
-    public DesertorEntity(EntityType<? extends Monster> type, Level worldIn) {
+    public CommanderEntity(EntityType<? extends Monster> type, Level worldIn) {
         super(type, worldIn);
-        xpReward = 10;
+        xpReward = 14;
     }
 
     @OnlyIn(Dist.CLIENT)
     public ResourceLocation getTexture(){
-        return ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/mob/desertor.png");
+        return ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/mob/commander.png");
     }
 
     @Override
@@ -44,11 +44,11 @@ public class DesertorEntity extends SoldierEntity {
 
     public static AttributeSupplier.Builder registerAttributes() {
         return Mob.createLivingAttributes()
-            .add(Attributes.FOLLOW_RANGE, 15.0D)
-            .add(Attributes.MOVEMENT_SPEED, 0.38D)
-            .add(Attributes.MAX_HEALTH, 50.0D)
-            .add(Attributes.ATTACK_DAMAGE, 4.0D)
-			.add(Attributes.ATTACK_KNOCKBACK, 1.0D)
+            .add(Attributes.FOLLOW_RANGE, 20.0D)
+            .add(Attributes.MOVEMENT_SPEED, 0.24D)
+            .add(Attributes.MAX_HEALTH, 110.0D)
+            .add(Attributes.ATTACK_DAMAGE, 6.0D)
+			.add(Attributes.ATTACK_KNOCKBACK, 1.5D)
 
             ;
     }

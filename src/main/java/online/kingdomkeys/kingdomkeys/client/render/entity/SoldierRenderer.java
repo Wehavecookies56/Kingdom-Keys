@@ -8,9 +8,10 @@ import net.minecraft.resources.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.model.entity.SoldierModel;
 import online.kingdomkeys.kingdomkeys.client.render.HeartlessEyesLayerRenderer;
+import online.kingdomkeys.kingdomkeys.entity.mob.CommanderEntity;
+import online.kingdomkeys.kingdomkeys.entity.mob.DesertorEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.SoldierEntity;
 
-//TODO should be able to make this a a generic human renderer for the rest of the members
 public class SoldierRenderer<Type extends SoldierEntity> extends MobRenderer<Type, SoldierModel<Type>> {
 
 	public SoldierRenderer(EntityRendererProvider.Context context) {
@@ -29,7 +30,13 @@ public class SoldierRenderer<Type extends SoldierEntity> extends MobRenderer<Typ
 	
 	@Override
 	protected void scale(Type entitylivingbaseIn, PoseStack matrixStackIn, float partialTickTime) {
-		matrixStackIn.scale(0.6F, 0.6F, 0.6F);
+		if(entitylivingbaseIn instanceof CommanderEntity) {
+			matrixStackIn.scale(1F, 1F, 1F);
+		} else if(entitylivingbaseIn instanceof DesertorEntity) {
+			matrixStackIn.scale(0.5F, 0.5F, 0.5F);
+		} else {
+			matrixStackIn.scale(0.6F, 0.6F, 0.6F);
+		}
 		super.scale(entitylivingbaseIn, matrixStackIn, partialTickTime);
 	}
 

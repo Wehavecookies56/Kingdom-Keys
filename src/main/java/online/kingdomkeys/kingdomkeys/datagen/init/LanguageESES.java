@@ -920,13 +920,13 @@ public class LanguageESES extends KKLanguageProvider {
 
         // Other
         addItem(ModItems.recipe, "Receta");
-        addItem(ModItems.recipeD, "Receta de Tier D");
-        addItem(ModItems.recipeC, "Receta de Tier C");
-        addItem(ModItems.recipeB, "Receta de Tier B");
-        addItem(ModItems.recipeA, "Receta de Tier A");
-        addItem(ModItems.recipeS, "Receta de Tier S");
-        addItem(ModItems.recipeSS, "Receta de Tier SS");
-        addItem(ModItems.recipeSSS, "Receta de Tier SSS");
+        addItem(ModItems.recipeD, "Receta de clase D");
+        addItem(ModItems.recipeC, "Receta de clase C");
+        addItem(ModItems.recipeB, "Receta de clase B");
+        addItem(ModItems.recipeA, "Receta de clase A");
+        addItem(ModItems.recipeS, "Receta de clase S");
+        addItem(ModItems.recipeSS, "Receta de clase SS");
+        addItem(ModItems.recipeSSS, "Receta de clase SSS");
         addItem(ModItems.iceCream, "Helado de Sal Marina");
         addItem(ModItems.winnerStick, "Palito de Ganador");
         addItem(ModItems.synthesisBag, "Bolsa de S\u00edntesis");
@@ -1979,6 +1979,7 @@ public class LanguageESES extends KKLanguageProvider {
         addEntityType(ModEntities.TYPE_DIRE_PLANT, "Mala Hierba");
         addEntityType(ModEntities.TYPE_SOLDIER, "Soldado");
         addEntityType(ModEntities.TYPE_DESERTOR, "Desertor");
+        addEntityType(ModEntities.TYPE_COMMANDER, "Commander");
         addEntityType(ModEntities.TYPE_WHITE_MUSHROOM, "Seta Blanca");
         addEntityType(ModEntities.TYPE_BLACK_FUNGUS, "Hongo Negro");
         addEntityType(ModEntities.TYPE_BLOX_BUG, "Error");
@@ -2011,6 +2012,7 @@ public class LanguageESES extends KKLanguageProvider {
         addItem(ModEntities.DIRE_PLANT_EGG, "Generar Mala Hierba");
         addItem(ModEntities.SOLDIER_EGG, "Generar Soldado");
         addItem(ModEntities.DESERTOR_EGG, "Generar Desertor");
+        addItem(ModEntities.COMMANDER_EGG, "Generar Comandante");
         addItem(ModEntities.WHITE_MUSHROOM_EGG, "Generar Seta Blanca");
         addItem(ModEntities.BLACK_FUNGUS_EGG, "Generar Hongo Negro");
         addItem(ModEntities.BLOX_BUG_EGG, "Generar Error");

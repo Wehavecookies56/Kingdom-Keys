@@ -17,7 +17,7 @@ public class AssassinEntity extends BaseKHEntity {
 
 	public AssassinEntity(EntityType<? extends BaseKHEntity> type, Level worldIn) {
 		super(type, worldIn);
-		xpReward = 12;
+		xpReward = 16;
 	}
 	
 	@Override
