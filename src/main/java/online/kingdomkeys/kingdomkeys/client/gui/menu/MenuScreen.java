@@ -158,6 +158,7 @@ public class MenuScreen extends MenuBackground {
 			style.visible = true;
 		customize.active = true;
 		journal.active = true;
+
 	}
 
 	@Override
@@ -172,9 +173,8 @@ public class MenuScreen extends MenuBackground {
 			drawPlayer(gui, null, 0, m);
 		}
 		pose.popPose();
-		box.render(gui, mouseX, mouseY, partialTicks);
 
-		renderMap(gui);
+		renderMap(gui, mouseX,mouseY,partialTicks);
 	}
 
 	//CO Map stuff
@@ -189,9 +189,11 @@ public class MenuScreen extends MenuBackground {
 	public static List<RoomData> rooms = new ArrayList<>();
 	private static final ResourceLocation ROOM_TEX = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/co/room.png");
 
-	public void renderMap(GuiGraphics guiGraphics) {
+	public void renderMap(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
 		if (!CastleOblivionHandler.inInterior(getMinecraft().player) || rooms.isEmpty())
 			return;
+
+		box.render(guiGraphics, mouseX, mouseY, partialTicks);
 
 		int tileSize = 20;
 		int originX = mapX + mapW / 2;

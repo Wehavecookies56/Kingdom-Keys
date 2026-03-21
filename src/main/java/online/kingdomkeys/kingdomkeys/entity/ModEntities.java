@@ -156,10 +156,10 @@ public class ModEntities {
     public static final Supplier<Item> SOLDIER_EGG = ModItems.ITEMS.register("soldier_spawn_egg", () -> new DeferredSpawnEggItem(TYPE_SOLDIER, Color.BLUE.getRGB(), Color.RED.getRGB(), PROPERTIES));
 
     public static final Supplier<EntityType<SoldierEntity>> TYPE_DESERTOR = createEntityType(DesertorEntity::new, MobCategory.MONSTER, "desertor", 0.7F, 1.3F);
-    public static final Supplier<Item> DESERTOR_EGG = ModItems.ITEMS.register("desertor_spawn_egg", () -> new DeferredSpawnEggItem(TYPE_DESERTOR, Color.GREEN.getRGB(), Color.RED.getRGB(), PROPERTIES));
+    public static final Supplier<Item> DESERTOR_EGG = ModItems.ITEMS.register("desertor_spawn_egg", () -> new DeferredSpawnEggItem(TYPE_DESERTOR, 0x007b5a, Color.LIGHT_GRAY.getRGB(), PROPERTIES));
 
     public static final Supplier<EntityType<SoldierEntity>> TYPE_COMMANDER = createEntityType(CommanderEntity::new, MobCategory.MONSTER, "commander", 0.9F, 2.4F);
-    public static final Supplier<Item> COMMANDER_EGG = ModItems.ITEMS.register("commander_spawn_egg", () -> new DeferredSpawnEggItem(TYPE_COMMANDER, Color.DARK_GRAY.getRGB(), Color.YELLOW.getRGB(), PROPERTIES));
+    public static final Supplier<Item> COMMANDER_EGG = ModItems.ITEMS.register("commander_spawn_egg", () -> new DeferredSpawnEggItem(TYPE_COMMANDER, 0x003c32, Color.YELLOW.getRGB(), PROPERTIES));
 
     public static final Supplier<EntityType<WhiteMushroomEntity>> TYPE_WHITE_MUSHROOM = createEntityType(WhiteMushroomEntity::new, MobCategory.MONSTER, "white_mushroom", 0.6F, 1.1F);
     public static final Supplier<Item> WHITE_MUSHROOM_EGG = ModItems.ITEMS.register("white_mushroom_spawn_egg", () -> new DeferredSpawnEggItem(TYPE_WHITE_MUSHROOM, 0xFAF3B9, Color.RED.getRGB(), PROPERTIES));

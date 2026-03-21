@@ -1,6 +1,6 @@
 **Added:**
 * Desertor heartless, these ones are slightly smaller but very fast, watch out! 
-* Command heartless, these are big and have a larger health pool, consider them a threat.
+* Commander heartless, these are big and have a larger health pool, consider them a threat.
 * An example datapack template for custom materials and synthesis recipes.
 
 **Changed:**
