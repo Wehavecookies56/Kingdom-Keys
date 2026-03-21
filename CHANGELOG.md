@@ -11,3 +11,4 @@
 
 **Fixed:**
 * Bomb enemies sizes not varying.
+* Fixed event for driveform ability unequip on revert.
