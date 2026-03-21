@@ -1,9 +1,7 @@
 package online.kingdomkeys.kingdomkeys.client.gui.overlay;
 
-import ca.weblite.objc.Client;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
-import com.mojang.math.Axis;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.GameRenderer;
@@ -11,11 +9,9 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.ClientSetup;
-import online.kingdomkeys.kingdomkeys.config.ModConfigs;
-import online.kingdomkeys.kingdomkeys.data.ModData;
+import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.handler.ClientEvents;
-import online.kingdomkeys.kingdomkeys.lib.Constants;
 import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import org.joml.Matrix4f;
@@ -38,15 +34,14 @@ public class ShotlockGUI extends OverlayBase {
 	@Override
 	public void render(GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
 		super.render(guiGraphics, deltaTracker);
-
 		Player player = minecraft.player;
 		int screenWidth = minecraft.getWindow().getGuiScaledWidth();
 		int screenHeight = minecraft.getWindow().getGuiScaledHeight();
 
 		float rawScale = 0.28f;
 
-		float scaleX = rawScale * (ModConfigs.focusXScale-10) / 100F;
-		float scaleY = rawScale * (ModConfigs.focusYScale-20) / 100F;
+		float scaleX = rawScale * 0.9F;
+		float scaleY = rawScale * 0.8F;
 
 		playerData = PlayerData.get(player);
 		if(playerData == null || playerData.getMaxFocus() <= 0)
@@ -58,13 +53,13 @@ public class ShotlockGUI extends OverlayBase {
 
         poseStack.pushPose();
         {
-            poseStack.translate(screenWidth-2, screenHeight-29, 0);
-            poseStack.translate(-barWidth * scaleX, -barHeight * scaleY, 0);
+            ClientUtils.FOCUS_ELEMENT.applyTransform(guiGraphics,screenWidth,screenHeight);
             poseStack.scale(scaleX, scaleY, 1);
 
             drawBackground(poseStack);
             drawRedBar(poseStack);
             drawOrangeBar(poseStack);
+            ClientUtils.FOCUS_ELEMENT.endTransform(guiGraphics);
         }
         poseStack.popPose();
 

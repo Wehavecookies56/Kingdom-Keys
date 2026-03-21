@@ -1,6 +1,7 @@
 package online.kingdomkeys.kingdomkeys.client;
 
 import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
@@ -36,6 +37,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.FormattedText;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
@@ -57,6 +59,7 @@ import net.neoforged.neoforge.client.RenderTypeHelper;
 import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 import net.neoforged.neoforge.client.model.data.ModelData;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.HUD.*;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.handler.ClientEvents;
@@ -79,6 +82,23 @@ import java.util.List;
 import java.util.UUID;
 
 public class ClientUtils {
+    public static Style KK_Font_EXP = Style.EMPTY.withFont(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "kk_font_exp"));
+    public static Style KK_Font_MENU = Style.EMPTY.withFont(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "kk_font_menu"));
+
+    //Order is important for overlapping boxes, top to bottom
+    public static final HUDElement DRIVE_ELEMENT = new HUDElement("Drive").setScale(0.8F,0.8F);
+    public static final HUDElement MP_ELEMENT = new HUDElement("MP").setScale(0.7F, 0.5F);
+    public static final HUDElement PORTRAIT_ELEMENT = new HUDElement("Portrait");
+    public static final HUDElement FOCUS_ELEMENT = new HUDElement("Focus");
+    public static final HPElement HP_ELEMENT = new HPElement("HP").setScale(0.2F,0.2F);
+    public static final CMElement CM_ELEMENT = new CMElement("CM");
+    public static final HUDElement RC_ELEMENT = new HUDElement("RC");
+    public static final LockOnElement LOCKON_ELEMENT = new LockOnElement("LockOn");
+    public static final PartyElement PARTY_ELEMENT = new PartyElement("Party");
+    public static final HUDElement MUNNYEXP_ELEMENT = new HUDElement("MunnyExp");
+    public static final HUDElement LEVELUP_ELEMENT = new HUDElement("LevelUp");
+    public static final HUDElement DRIVELEVEL_ELEMENT = new HUDElement("DriveLevel");
+    public static final HUDElement MINIMAP_ELEMENT = new HUDElement("Minimap");
 
     public static Entity getEntityByUUIDClient(UUID uuid) {
         Minecraft mc = Minecraft.getInstance();
@@ -186,6 +206,10 @@ public class ClientUtils {
 
         builder.addVertex(pose, (float)x1, (float)y1, (float)z1).setColor(r, g, b, a).setNormal(lastPose, nx, ny, nz);
         builder.addVertex(pose, (float)x2, (float)y2, (float)z2).setColor(r, g, b, a).setNormal(lastPose, nx, ny, nz);
+    }
+
+    public static boolean isKeyDown(int key) {
+        return InputConstants.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), key);
     }
 
 
@@ -348,14 +372,14 @@ public class ClientUtils {
     }
 
   //Copy of InventoryScreen.renderEntityInInventory to disable animations, so if it breaks in an update, use that to fix it
-  	public static void renderPlayerNoAnims(PoseStack posestack, int pPosX, int pPosY, int pScale, float pMouseX, float pMouseY, Entity entity) {
+  	public static void renderEntity(PoseStack posestack, int pPosX, int pPosY, float pScale, float pMouseX, float pMouseY, Entity entity) {
   		float f = (float)Math.atan(pMouseX / 40.0F);
   		float f1 = (float)Math.atan(pMouseY / 40.0F);
-        if(entity instanceof LivingEntity livingEntity)
-  		    renderPlayerNoAnimsRaw(posestack, pPosX, pPosY, pScale, f, f1, livingEntity);
+        if(entity instanceof AbstractClientPlayer livingEntity)
+  		    renderPlayerNoAnimsRaw(posestack, pPosX, pPosY, (int) pScale, f, f1, livingEntity);
         else
-            renderEntityNoAnimsRaw(posestack, pPosX, pPosY, pScale, f, f1, entity);
-  	}
+            renderEntityRaw(posestack, pScale, f, f1, entity);
+    }
 
     public static boolean disableEFMAnims = false;
   	
@@ -419,43 +443,40 @@ public class ClientUtils {
         p_275689_.yHeadRot = f6;
     }
 
-    public static void renderEntityNoAnimsRaw(PoseStack p_275396_, int p_275688_, int p_275245_, int p_275535_, float angleXComponent, float angleYComponent, Entity p_275689_) {
-        float f = angleXComponent;
-        float f1 = angleYComponent;
-        Quaternionf quaternionf = (new Quaternionf()).rotateZ((float) Math.PI);
-        Quaternionf quaternionf1 = (new Quaternionf()).rotateX(f1 * 20.0F * ((float) Math.PI / 180F));
-        quaternionf.mul(quaternionf1);
+    public static void renderEntityRaw(PoseStack pose, float scale, float angleXComponent, float angleYComponent, Entity entity) {
+        Quaternionf qZ = new Quaternionf().rotateZ((float)Math.PI);
+        Quaternionf qX = new Quaternionf().rotateX(angleYComponent * 20.0F * ((float)Math.PI / 180F));
+        qZ.mul(qX);
 
-        Matrix4fStack posestack = RenderSystem.getModelViewStack();
-        posestack.pushMatrix();
-        posestack.translate(0.0F, 0.0F, 1000.0F);
-        RenderSystem.applyModelViewMatrix();
-        p_275396_.pushPose();
-        p_275396_.translate(p_275688_, p_275245_, -950.0D);
-        p_275396_.mulPose((new Matrix4f()).scaling((float) p_275535_, (float) p_275535_, (float) (-p_275535_)));
-        p_275396_.mulPose(quaternionf);
-        Lighting.setupForEntityInInventory();
-        EntityRenderDispatcher entityrenderdispatcher = Minecraft.getInstance().getEntityRenderDispatcher();
-        if (quaternionf1 != null) {
-            quaternionf1.conjugate();
-            entityrenderdispatcher.overrideCameraOrientation(quaternionf1);
+        pose.pushPose();
+        {
+            pose.mulPose(qZ);
+            pose.scale(-scale, scale, scale);
+
+            Lighting.setupForEntityInInventory();
+            EntityRenderDispatcher dispatcher = Minecraft.getInstance().getEntityRenderDispatcher();
+
+            if (qX != null) {
+                Quaternionf inv = new Quaternionf(qX).conjugate();
+                dispatcher.overrideCameraOrientation(inv);
+            }
+
+            dispatcher.setRenderShadow(false);
+            MultiBufferSource.BufferSource buffer = Minecraft.getInstance().renderBuffers().bufferSource();
+
+            RenderSystem.runAsFancy(() -> {
+                EntityRenderer<? super Entity> renderer = dispatcher.getRenderer(entity);
+                pose.translate(0,0,-100);
+                pose.mulPose(Axis.YP.rotationDegrees(180));
+                renderer.render(entity, 0, 1, pose, buffer, 15728880);
+            });
+
+            buffer.endBatch();
+            dispatcher.setRenderShadow(true);
+            Lighting.setupFor3DItems();
         }
-
-        entityrenderdispatcher.setRenderShadow(false);
-        MultiBufferSource.BufferSource multibuffersource$buffersource = Minecraft.getInstance().renderBuffers().bufferSource();
-        RenderSystem.runAsFancy(() -> {
-            EntityRenderer<? super Entity> renderer = Minecraft.getInstance().getEntityRenderDispatcher().getRenderer(p_275689_);
-            renderer.render(p_275689_, 0, 1, p_275396_, multibuffersource$buffersource, 15728880);
-        });
-
-        multibuffersource$buffersource.endBatch();
-        entityrenderdispatcher.setRenderShadow(true);
-        p_275396_.popPose();
-        Lighting.setupFor3DItems();
-        posestack.popMatrix();
-        RenderSystem.applyModelViewMatrix();
+        pose.popPose();
     }
-  	
   	public static List<Component> getTooltip(List<Component> tooltip, Item.TooltipContext context, ItemStack stack) {
           if (context.level() != null) {
               float baseStr = 0, baseMag = 0;
@@ -567,6 +588,11 @@ public class ClientUtils {
                             false, false)).setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY).setDepthTestState(RenderStateShard.NO_DEPTH_TEST).setWriteMaskState(RenderStateShard.COLOR_WRITE).setLightmapState(RenderStateShard.NO_LIGHTMAP)
                     .setOverlayState(RenderStateShard.NO_OVERLAY).createCompositeState(true));
 
+    public static final RenderType AIRSTEP_INDICATOR = RenderType.create(KingdomKeys.MODID+":airstep_indicator", DefaultVertexFormat.POSITION_TEX, VertexFormat.Mode.QUADS, 256, false, false,
+            RenderType.CompositeState.builder().setShaderState(RenderStateShard.POSITION_TEX_SHADER).setTextureState(new RenderStateShard.TextureStateShard(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID,"textures/gui/airstep_indicator.png"),
+                            false, false)).setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY).setDepthTestState(RenderStateShard.NO_DEPTH_TEST).setWriteMaskState(RenderStateShard.COLOR_WRITE).setLightmapState(RenderStateShard.NO_LIGHTMAP)
+                    .setOverlayState(RenderStateShard.NO_OVERLAY).createCompositeState(true));
+
 
     //Lock on
     public static void drawLockOnIndicator(int entityID, PoseStack poseStack, MultiBufferSource buffer, float partialTicks) {
@@ -673,7 +699,7 @@ public class ClientUtils {
         poseStack.popPose();
     }
 
-    // Airsteps
+    // Airstep to block
     public static void drawShotlockIndicator(BlockPos pos, PoseStack poseStack, MultiBufferSource buffer, float partialTicks) {
         Minecraft mc = Minecraft.getInstance();
 
@@ -687,8 +713,40 @@ public class ClientUtils {
 
         mvMatrix.rotate(mc.getEntityRenderDispatcher().cameraOrientation());
 
-        drawTexturedModalRect2DPlane(mvMatrix, buffer.getBuffer(SHOTLOCK_INDICATOR), -0.6f, -0.6f, 0.6f, 0.6f, 0, 0, 256, 256);
+        drawTexturedModalRect2DPlane(mvMatrix, buffer.getBuffer(AIRSTEP_INDICATOR), -0.6f, -0.6f, 0.6f, 0.6f, 0, 0, 256, 256);
     }
+
+    // Airstep shotlock
+    public static void drawAirstepIndicator(int entityID, PoseStack poseStack, MultiBufferSource buffer, float partialTicks) {
+        Minecraft mc = Minecraft.getInstance();
+
+        Shotlock shotlock = Utils.getPlayerShotlock(mc.player);
+        if (shotlock == null)
+            return;
+
+        Entity target = mc.level.getEntity(entityID);
+        if(target == null)
+            return;
+
+        double x = Mth.lerp(partialTicks, target.xOld, target.getX());
+        double y = Mth.lerp(partialTicks, target.yOld, target.getY());
+        double z = Mth.lerp(partialTicks, target.zOld, target.getZ());
+
+        Camera camera = mc.gameRenderer.getMainCamera();
+        Vec3 camPos = camera.getPosition();
+
+        poseStack.pushPose();
+        {
+            poseStack.translate(x - camPos.x, y - camPos.y + target.getBbHeight() * 0.5, z - camPos.z);
+            poseStack.mulPose(mc.getEntityRenderDispatcher().cameraOrientation());
+
+            float size = 1.5F + shotlock.getCooldown() * 0.2F - ClientEvents.focusingAnEntityTicks * 0.2F;
+            Matrix4f mat = poseStack.last().pose();
+            drawTexturedModalRect2DPlane(mat, buffer.getBuffer(AIRSTEP_INDICATOR), -size, -size, size, size, 0, 0, 256, 256);
+        }
+        poseStack.popPose();
+    }
+
 
     public static void drawTexturedModalRect2DPlane(Matrix4f matrix, VertexConsumer vertexBuilder, float minX, float minY, float maxX, float maxY, float minTexU, float minTexV, float maxTexU, float maxTexV) {
         RenderSystem.depthMask(false);

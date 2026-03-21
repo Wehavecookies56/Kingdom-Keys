@@ -58,13 +58,12 @@ public class LanguageENUS extends KKLanguageProvider {
         addConfigKey(ModConfigs.getClientConfig().summonTogether, "Summon weapon and armor together");
         addConfigKey(ModConfigs.getClientConfig().auto3rdPersonShip, "Auto 3rd person ship");
         addConfigKey(ModConfigs.getClientConfig().showGuiToggle, "Toggle HUD visibility");
+        addConfigKey(ModConfigs.getClientConfig().customFont, "Toggle the custom font");
         addConfigKey(ModConfigs.getClientConfig().showDriveForms, "Drive Forms visibility");
         addConfigKey(ModConfigs.getClientConfig().magicDisplayedInCommandMenu, "Displayed Magic order in Command Menu");
         addConfigKey(ModConfigs.getClientConfig().cmTextXOffset, "Command Menu text X offset");
         addConfigKey(ModConfigs.getClientConfig().cmHeaderTextVisible, "Show Command Menu header text");
         addConfigKey(ModConfigs.getClientConfig().cmClassicColors, "Use classic Command Menu colors");
-        addConfigKey(ModConfigs.getClientConfig().cmXScale, "Command Menu X scale (%)");
-        addConfigKey(ModConfigs.getClientConfig().cmXPos, "Command Menu X position");
         addConfigKey(ModConfigs.getClientConfig().cmSelectedXOffset, "Command Menu selected X offset");
         addConfigKey(ModConfigs.getClientConfig().cmSubXOffset, "Command Menu submenu X offset (%)");
         addConfigKey(ModConfigs.getClientConfig().cmEndLWidth, "Command Menu left end segment width");
@@ -73,33 +72,13 @@ public class LanguageENUS extends KKLanguageProvider {
         addConfigKey(ModConfigs.getClientConfig().cmHeaderEndRWidth, "Command Menu header right end width");
         addConfigKey(ModConfigs.getClientConfig().cmReactionEndLWidth, "Reaction command left end width");
         addConfigKey(ModConfigs.getClientConfig().cmReactionEndRWidth, "Reaction command right end width");
-        addConfigKey(ModConfigs.getClientConfig().hpXPos, "Health Bar X position");
-        addConfigKey(ModConfigs.getClientConfig().hpYPos, "Health Bar Y position");
         addConfigKey(ModConfigs.getClientConfig().hpShowHearts, "Show hearts in Health Bar");
         addConfigKey(ModConfigs.getClientConfig().hpAlarm, "Low HP alarm volume");
-        addConfigKey(ModConfigs.getClientConfig().hpXScale, "Health Bar X scale (%)");
-        addConfigKey(ModConfigs.getClientConfig().mpXPos, "Magic Bar X position");
-        addConfigKey(ModConfigs.getClientConfig().mpYPos, "Magic Bar Y position");
-        addConfigKey(ModConfigs.getClientConfig().mpXScale, "Magic Bar X scale (%)");
-        addConfigKey(ModConfigs.getClientConfig().dpXPos, "Drive Bar X position");
-        addConfigKey(ModConfigs.getClientConfig().dpYPos, "Drive Bar Y position");
-        addConfigKey(ModConfigs.getClientConfig().dpXScale, "Drive Bar X scale (%)");
-        addConfigKey(ModConfigs.getClientConfig().dpYScale, "Drive Bar Y scale (%)");
-        addConfigKey(ModConfigs.getClientConfig().playerSkinXPos, "Player Skin X position");
-        addConfigKey(ModConfigs.getClientConfig().playerSkinYPos, "Player Skin Y position");
-        addConfigKey(ModConfigs.getClientConfig().lockOnXPos, "Lock-On HP X position");
-        addConfigKey(ModConfigs.getClientConfig().lockOnYPos, "Lock-On HP Y position");
-        addConfigKey(ModConfigs.getClientConfig().lockOnHPScale, "Lock-On HP bar scale (%)");
         addConfigKey(ModConfigs.getClientConfig().lockOnIconScale, "Lock-On icon scale (%)");
         addConfigKey(ModConfigs.getClientConfig().lockOnIconRotation, "Lock-On icon rotation speed");
         addConfigKey(ModConfigs.getClientConfig().lockOnHpPerBar, "Lock-On HP per bar");
-        addConfigKey(ModConfigs.getClientConfig().partyXPos, "Party HUD X position");
-        addConfigKey(ModConfigs.getClientConfig().partyYPos, "Party HUD Y position");
         addConfigKey(ModConfigs.getClientConfig().partyYDistance, "Party HUD Y offset");
-        addConfigKey(ModConfigs.getClientConfig().focusXPos, "Focus Bar X position");
-        addConfigKey(ModConfigs.getClientConfig().focusYPos, "Focus Bar Y position");
-        addConfigKey(ModConfigs.getClientConfig().focusXScale, "Focus Bar X scale (%)");
-        addConfigKey(ModConfigs.getClientConfig().focusYScale, "Focus Bar Y scale (%)");
+        addConfigKey(ModConfigs.getClientConfig().shoulderSurfingDecoupled, "Shoulder Surfing Mod: Use decoupled camera when not locked on");
 
         //COMMON
         addConfigKey(ModConfigs.getCommonConfig().recipeDropChance, "Recipe drop chance");
@@ -328,6 +307,23 @@ public class LanguageENUS extends KKLanguageProvider {
         
         add(Gui_Menu_Config, "Config");
         add(Gui_Menu_Config + ".bg", "Background");
+        add(Gui_Menu_Config + ".hud", "Adjust HUD");
+        add(Gui_Menu_Config + ".reset_defaults", "Reset to defaults");
+        add(Gui_Menu_Config + ".reset_rp", "Reset to resource pack");
+        add(Gui_Menu_Config + ".hud.help0", "Hold H to see help");
+        add(Gui_Menu_Config + ".hud.help1", "First of all select the anchor point by clicking the element and SPACE");
+        add(Gui_Menu_Config + ".hud.help2", "LEFT CLICK and drag an element to move it");
+        add(Gui_Menu_Config + ".hud.help3", "Use ARROW KEYS to move it in bigger gaps");
+        add(Gui_Menu_Config + ".hud.help4", "Hold CTRL + ARROW KEYS to move it in tiny gaps");
+        add(Gui_Menu_Config + ".hud.help5", "Use SCROLL WHEEL to scale it up");
+        add(Gui_Menu_Config + ".hud.help6", "Hold X + SCROLL WHEEL to scale it horizontally");
+        add(Gui_Menu_Config + ".hud.help7", "Hold Y + SCROLL WHEEL to scale it vertically");
+        add(Gui_Menu_Config + ".hud.help8", "Use SHIFT + SCROLL WHEEL to rotate it");
+        add(Gui_Menu_Config + ".hud.help9", "Press LEFT ALT to show or hide outlines");
+        add(Gui_Menu_Config + ".hud.help10", "RIGHT CLICK on a selected item to reset it to Resourcepack defaults");
+        add(Gui_Menu_Config + ".hud.help11", "SHIFT + RIGHT CLICK on a selected item to reset it to base defaults");
+        add(Gui_Menu_Config + ".hud.help12", "Selected element data:");
+        add(Gui_Menu_Config + ".font", "Font");
         add(Gui_Menu_Config + ".command_menu", "Command Menu");
         add(Gui_Menu_Config + ".hp", "HP Bar");
         add(Gui_Menu_Config + ".mp", "MP Bar");
@@ -336,6 +332,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Gui_Menu_Config + ".lock_on_hp", "Lock On");
         add(Gui_Menu_Config + ".party", "Party");
         add(Gui_Menu_Config + ".focus", "Focus Bar");
+        add(Gui_Menu_Config + ".custom_font", "Custom Font");
         add(Gui_Menu_Config + ".classic_colors", "Classic colors");
         add(Gui_Menu_Config + ".x_scale", "X Scale");
         add(Gui_Menu_Config + ".y_scale", "Y Scale");
@@ -409,11 +406,11 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Gui_CommandMenu_Drive_Revert, "Revert");
         add(Gui_CommandMenu_Limit, "Limit");
         add(Gui_CommandMenu_Target,"Target");
-        add(Gui_CommandMenu_Portals_Title, "Portals");
-        add(Gui_CommandMenu_Magic_Title, "Magic");
-        add(Gui_CommandMenu_Items_Title, "Items");
-        add(Gui_CommandMenu_Drive_Title, "Forms");
-        add(Gui_CommandMenu_Limit_Title, "Limits");
+        add(Gui_CommandMenu_Portals_Title, "PORTALS");
+        add(Gui_CommandMenu_Magic_Title, "MAGIC");
+        add(Gui_CommandMenu_Items_Title, "ITEMS");
+        add(Gui_CommandMenu_Drive_Title, "FORMS");
+        add(Gui_CommandMenu_Limit_Title, "LIMITS");
 
         add("kingdomkeys.helmet", "Helmet");
         add("kingdomkeys.chestplate", "Chestplate");
@@ -638,6 +635,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addAbilityWithDesc(ModAbilities.AUTO_MASTER, "Auto Master", "Automatically sets the Reaction Command to Master in a pinch, if Master Form is usable.");
         addAbilityWithDesc(ModAbilities.AUTO_FINAL, "Auto Final", "Automatically sets the Reaction Command to Final in a pinch, if Final Form is usable.");
         addAbilityWithDesc(ModAbilities.STRIKE_RAID, "Strike Raid", "Right click while crouching to throw your keyblade, uses 10MP.");
+        addAbilityWithDesc(ModAbilities.FLOWSTEP, "Flowstep", "Right click while using shotlock to airstep to the last targeted entity.");
 
         addGrowthAbility(ModAbilities.HIGH_JUMP, "Now you can jump really high!", "High Jump LV.1", "High Jump LV.2", "High Jump LV.3", "High Jump MAX");
         addGrowthAbility(ModAbilities.QUICK_RUN, "If you press the action button while running you will sprint.", "Quick Run LV.1", "Quick Run LV.2", "Quick Run LV.3", "Quick Run MAX");
@@ -1697,6 +1695,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModEntities.LARGE_BODY_EGG, "Large Body Spawn Egg");
         addItem(ModEntities.DIRE_PLANT_EGG, "Dire Plant Spawn Egg");
         addItem(ModEntities.SOLDIER_EGG, "Soldier Spawn Egg");
+        addItem(ModEntities.DESERTOR_EGG, "Desertor Spawn Egg");
         addItem(ModEntities.WHITE_MUSHROOM_EGG, "White Mushroom Spawn Egg");
         addItem(ModEntities.BLACK_FUNGUS_EGG, "Black Fungus Spawn Egg");
         addItem(ModEntities.BLOX_BUG_EGG, "Blox Bug Spawn Egg");
@@ -1939,6 +1938,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addEntityType(ModEntities.TYPE_LARGE_BODY, "Large Body");
         addEntityType(ModEntities.TYPE_DIRE_PLANT, "Dire Plant");
         addEntityType(ModEntities.TYPE_SOLDIER, "Soldier");
+        addEntityType(ModEntities.TYPE_DESERTOR, "Desertor");
         addEntityType(ModEntities.TYPE_WHITE_MUSHROOM, "White Mushroom");
         addEntityType(ModEntities.TYPE_BLACK_FUNGUS, "Black Fungus");
         addEntityType(ModEntities.TYPE_BLOX_BUG, "Blox Bug");

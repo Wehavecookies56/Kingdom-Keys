@@ -62,9 +62,8 @@ public class LanguageESES extends KKLanguageProvider {
         addConfigKey(ModConfigs.getClientConfig().magicDisplayedInCommandMenu, "Orden de Magias en el Menú de Comandos");
         addConfigKey(ModConfigs.getClientConfig().cmTextXOffset, "Menú de Comandos offset del texto X");
         addConfigKey(ModConfigs.getClientConfig().cmHeaderTextVisible, "Mostrar cabecera del Menú de Comandos");
+        addConfigKey(ModConfigs.getClientConfig().customFont, "Muestra la fuente personalizada");
         addConfigKey(ModConfigs.getClientConfig().cmClassicColors, "Colores del Menú de Comandos clasicos");
-        addConfigKey(ModConfigs.getClientConfig().cmXScale, "Menú de Comandos escala X (%)");
-        addConfigKey(ModConfigs.getClientConfig().cmXPos, "Menú de Comandos posición X");
         addConfigKey(ModConfigs.getClientConfig().cmSelectedXOffset, "Menú de Comandos offset X seleccionado");
         addConfigKey(ModConfigs.getClientConfig().cmSubXOffset, "Menú de Comandos submenú X offset (%)");
         addConfigKey(ModConfigs.getClientConfig().cmEndLWidth, "Menú de Comandos anchura segmento izquierda");
@@ -73,33 +72,12 @@ public class LanguageESES extends KKLanguageProvider {
         addConfigKey(ModConfigs.getClientConfig().cmHeaderEndRWidth, "Menú de Comandos anchura cabecera derecha");
         addConfigKey(ModConfigs.getClientConfig().cmReactionEndLWidth, "Comando de Reacción anchura izquierda");
         addConfigKey(ModConfigs.getClientConfig().cmReactionEndRWidth, "Comando de Reacción anchura derecha");
-        addConfigKey(ModConfigs.getClientConfig().hpXPos, "Indicador de vida X pos");
-        addConfigKey(ModConfigs.getClientConfig().hpYPos, "Indicador de vida Y pos");
         addConfigKey(ModConfigs.getClientConfig().hpShowHearts, "Mostrar corazones de vida");
         addConfigKey(ModConfigs.getClientConfig().hpAlarm, "Volumen de alarma de vida baja");
-        addConfigKey(ModConfigs.getClientConfig().hpXScale, "Indicador de vida escala X (%)");
-        addConfigKey(ModConfigs.getClientConfig().mpXPos, "Indicador de magia X pos");
-        addConfigKey(ModConfigs.getClientConfig().mpYPos, "Indicador de magia Y pos");
-        addConfigKey(ModConfigs.getClientConfig().mpXScale, "Indicador de magia escala X (%)");
-        addConfigKey(ModConfigs.getClientConfig().dpXPos, "Indicador de fusión X pos");
-        addConfigKey(ModConfigs.getClientConfig().dpYPos, "Indicador de fusión Y pos");
-        addConfigKey(ModConfigs.getClientConfig().dpXScale, "Indicador de fusión escala X (%)");
-        addConfigKey(ModConfigs.getClientConfig().dpYScale, "Indicador de fusión escala Y (%)");
-        addConfigKey(ModConfigs.getClientConfig().playerSkinXPos, "Skin de jugador X pos");
-        addConfigKey(ModConfigs.getClientConfig().playerSkinYPos, "skin de jugador Y pos");
-        addConfigKey(ModConfigs.getClientConfig().lockOnXPos, "Vida de objetivo X pos");
-        addConfigKey(ModConfigs.getClientConfig().lockOnYPos, "Vida de objetivo Y pos");
-        addConfigKey(ModConfigs.getClientConfig().lockOnHPScale, "Vida de objetivo escala (%)");
         addConfigKey(ModConfigs.getClientConfig().lockOnIconScale, "Ícono de fijación escala (%)");
         addConfigKey(ModConfigs.getClientConfig().lockOnIconRotation, "Ícono de fijación vel. rot.");
         addConfigKey(ModConfigs.getClientConfig().lockOnHpPerBar, "Vida de objetivo hp por barra");
-        addConfigKey(ModConfigs.getClientConfig().partyXPos, "HUD Grupo X pos");
-        addConfigKey(ModConfigs.getClientConfig().partyYPos, "HUD Grupo Y pos");
         addConfigKey(ModConfigs.getClientConfig().partyYDistance, "HUD Grupo Y offset");
-        addConfigKey(ModConfigs.getClientConfig().focusXPos, "Indicador de Tino X pos");
-        addConfigKey(ModConfigs.getClientConfig().focusYPos, "Indicador de Tino Y pos");
-        addConfigKey(ModConfigs.getClientConfig().focusXScale, "Indicador de Tino escala X (%)");
-        addConfigKey(ModConfigs.getClientConfig().focusYScale, "Indicador de Tino escala Y (%)");
 
         //COMMON
         addConfigKey(ModConfigs.getCommonConfig().recipeDropChance, "Probabilidad de soltar recetas");
@@ -381,6 +359,23 @@ public class LanguageESES extends KKLanguageProvider {
         //Config Sub-menu
         add(Gui_Menu_Config, "Preferencias");
         add(Gui_Menu_Config + ".bg", "Fondo");
+        add(Gui_Menu_Config + ".hud", "Ajustar HUD");
+        add(Gui_Menu_Config + ".reset_defaults", "Reset por defecto");
+        add(Gui_Menu_Config + ".reset_rp", "Reset de resource pack");
+        add(Gui_Menu_Config + ".hud.help0", "Mantén H para ver ayuda");
+        add(Gui_Menu_Config + ".hud.help1", "Primero selecciona el punto de anclaje seleccionando el elemento y ESPACIO");
+        add(Gui_Menu_Config + ".hud.help2", "CLICK IZQUIERDO y arrastra un elemento para moverlo");
+        add(Gui_Menu_Config + ".hud.help3", "Usa las FLECHAS para moverlo en incrementos grandes");
+        add(Gui_Menu_Config + ".hud.help4", "Mantén CTRL + FLECHAS para moverlo en incrementos pequeños");
+        add(Gui_Menu_Config + ".hud.help5", "Usa RUEDA DE SCROLL para escalarlo");
+        add(Gui_Menu_Config + ".hud.help6", "Mantén X + RUEDA DE SCROLL para escalarlo horizontalmente");
+        add(Gui_Menu_Config + ".hud.help7", "Mantén Y + RUEDA DE SCROLL para escalarlo verticalmente");
+        add(Gui_Menu_Config + ".hud.help8", "Usa SHIFT + RUEDA DE SCROLL para rotarlo");
+        add(Gui_Menu_Config + ".hud.help9", "Pulsa ALT IZQUIERDO para mostrar u ocultar recuadros");
+        add(Gui_Menu_Config + ".hud.help10", "CLICK DERECHO en un elemento seleccionado para resetearlo a valores de Resourcepack");
+        add(Gui_Menu_Config + ".hud.help11", "SHIFT + CLICK DERECHO en un elemento seleccionado para resetearlo a valores por defecto");
+        add(Gui_Menu_Config + ".hud.help12", "Datos del elemento seleccionado:");
+        add(Gui_Menu_Config + ".font", "Fuente");
         add(Gui_Menu_Config + ".command_menu", "Men\u00fa Comandos");
         add(Gui_Menu_Config + ".hp", "Barra VT");
         add(Gui_Menu_Config + ".mp", "Barra PM");
@@ -389,6 +384,7 @@ public class LanguageESES extends KKLanguageProvider {
         add(Gui_Menu_Config + ".lock_on_hp", "Fijar mob");
         add(Gui_Menu_Config + ".party", "Grupo");
         add(Gui_Menu_Config + ".focus", "Barra Tino");
+        add(Gui_Menu_Config + ".custom_font", "Fuente personalizada");
         add(Gui_Menu_Config + ".classic_colors", "Colores cl\u00e1sicos");
         add(Gui_Menu_Config + ".x_scale", "Escala X");
         add(Gui_Menu_Config + ".y_scale", "Escala Y");
@@ -458,7 +454,7 @@ public class LanguageESES extends KKLanguageProvider {
         add(Gui_Synthesis_Moogle_Name, "Tienda Moguri de %s");
 
         //Command Menu
-        add(Gui_CommandMenu_Command, "COMANDOS");
+        add(Gui_CommandMenu_Command, "COMANDO");
         add(Gui_CommandMenu_Attack, "Atacar");
         add(Gui_CommandMenu_Portal, "Portal");
         add(Gui_CommandMenu_Magic, "Magia");
@@ -467,11 +463,11 @@ public class LanguageESES extends KKLanguageProvider {
         add(Gui_CommandMenu_Drive_Revert, "Revertir");
         add(Gui_CommandMenu_Limit, "L\u00edmite");
         add(Gui_CommandMenu_Target,"Objetivo");
-        add(Gui_CommandMenu_Portals_Title, "Portales");
-        add(Gui_CommandMenu_Magic_Title, "Magia");
-        add(Gui_CommandMenu_Items_Title, "Objetos");
-        add(Gui_CommandMenu_Drive_Title, "Formas");
-        add(Gui_CommandMenu_Limit_Title, "L\u00edmites");
+        add(Gui_CommandMenu_Portals_Title, "PORTAL");
+        add(Gui_CommandMenu_Magic_Title, "MAGIA");
+        add(Gui_CommandMenu_Items_Title, "OBJETOS");
+        add(Gui_CommandMenu_Drive_Title, "FORMAS");
+        add(Gui_CommandMenu_Limit_Title, "LÍMITES");
 
         add("kingdomkeys.helmet", "Casco");
         add("kingdomkeys.chestplate", "Pechera");
@@ -554,7 +550,8 @@ public class LanguageESES extends KKLanguageProvider {
         addAbilityWithDesc(ModAbilities.AUTO_LIMIT, "Auto-suma", "En casos de emergencia, si la Forma suma est\u00e1 disponible, el comando de reacci\u00f3n cambia a Suma.");
         addAbilityWithDesc(ModAbilities.AUTO_MASTER, "Auto-maestra", "En casos de emergencia, si la Forma maestra est\u00e1 disponible, el comando de reacci\u00f3n cambia a Maestra.");
         addAbilityWithDesc(ModAbilities.AUTO_FINAL, "Auto-final", "En casos de emergencia, si la Forma final est\u00e1 disponible, el comando de reacci\u00f3n cambia a Final.");
-        addAbilityWithDesc(ModAbilities.STRIKE_RAID, "Tiro Mort\u00edfero", "Click derecho mientras te agachas para lanzar tu Llave-Espada, usa 10PM.");
+        addAbilityWithDesc(ModAbilities.STRIKE_RAID, "Tiro Mort\u00edfero", "Click derecho mientras te agachas para lanzar tu Llave Espada, usa 10PM.");
+        addAbilityWithDesc(ModAbilities.FLOWSTEP, "Paso fluido", "Click derecho mientras fijas un tiro certero para usar el modo ágil hacia el último enemigo fijado.");
 
         addGrowthAbility(ModAbilities.HIGH_JUMP, "¡Ahora saltarás más alto!", "Salto de altura 1", "Salto de altura 2", "Salto de altura 3", "Salto de altura MÁX");
         addGrowthAbility(ModAbilities.QUICK_RUN, "Si pulsas X mientras corres harás un sprint.", "Carrera rápida 1", "Carrera rápida 2", "Carrera rápida 3", "Carrera rápida MÁX");
@@ -923,13 +920,13 @@ public class LanguageESES extends KKLanguageProvider {
 
         // Other
         addItem(ModItems.recipe, "Receta");
-        addItem(ModItems.recipeD, "Receta de Tier D");
-        addItem(ModItems.recipeC, "Receta de Tier C");
-        addItem(ModItems.recipeB, "Receta de Tier B");
-        addItem(ModItems.recipeA, "Receta de Tier A");
-        addItem(ModItems.recipeS, "Receta de Tier S");
-        addItem(ModItems.recipeSS, "Receta de Tier SS");
-        addItem(ModItems.recipeSSS, "Receta de Tier SSS");
+        addItem(ModItems.recipeD, "Receta de clase D");
+        addItem(ModItems.recipeC, "Receta de clase C");
+        addItem(ModItems.recipeB, "Receta de clase B");
+        addItem(ModItems.recipeA, "Receta de clase A");
+        addItem(ModItems.recipeS, "Receta de clase S");
+        addItem(ModItems.recipeSS, "Receta de clase SS");
+        addItem(ModItems.recipeSSS, "Receta de clase SSS");
         addItem(ModItems.iceCream, "Helado de Sal Marina");
         addItem(ModItems.winnerStick, "Palito de Ganador");
         addItem(ModItems.synthesisBag, "Bolsa de S\u00edntesis");
@@ -1981,6 +1978,8 @@ public class LanguageESES extends KKLanguageProvider {
         addEntityType(ModEntities.TYPE_LARGE_BODY, "Grandull\u00f3n");
         addEntityType(ModEntities.TYPE_DIRE_PLANT, "Mala Hierba");
         addEntityType(ModEntities.TYPE_SOLDIER, "Soldado");
+        addEntityType(ModEntities.TYPE_DESERTOR, "Desertor");
+        addEntityType(ModEntities.TYPE_COMMANDER, "Commander");
         addEntityType(ModEntities.TYPE_WHITE_MUSHROOM, "Seta Blanca");
         addEntityType(ModEntities.TYPE_BLACK_FUNGUS, "Hongo Negro");
         addEntityType(ModEntities.TYPE_BLOX_BUG, "Error");
@@ -2012,6 +2011,8 @@ public class LanguageESES extends KKLanguageProvider {
         addItem(ModEntities.LARGE_BODY_EGG, "Generar Grandull\u00f3n");
         addItem(ModEntities.DIRE_PLANT_EGG, "Generar Mala Hierba");
         addItem(ModEntities.SOLDIER_EGG, "Generar Soldado");
+        addItem(ModEntities.DESERTOR_EGG, "Generar Desertor");
+        addItem(ModEntities.COMMANDER_EGG, "Generar Comandante");
         addItem(ModEntities.WHITE_MUSHROOM_EGG, "Generar Seta Blanca");
         addItem(ModEntities.BLACK_FUNGUS_EGG, "Generar Hongo Negro");
         addItem(ModEntities.BLOX_BUG_EGG, "Generar Error");

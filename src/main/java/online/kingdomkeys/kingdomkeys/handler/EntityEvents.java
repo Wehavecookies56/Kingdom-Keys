@@ -177,22 +177,26 @@ public class EntityEvents {
 	}
 
 	public void checkRecipeMaterials(Player player) {
-		RecipeRegistry.getInstance().getValues().forEach(recipe -> recipe.getMaterials().keySet().forEach(item -> {
-			if (!item.builtInRegistryHolder().is(Tags.MATERIALS)) {
-				player.sendSystemMessage(Component.translatable(ChatFormatting.RED + "Recipe[" + recipe.getRegistryName().toString() + "] contains material(s) that are not present in the \"synthesis/materials\" tag you will be unable to create this recipe"));
-			}
-		}));
-		BuiltInRegistries.ITEM.entrySet().stream().filter(itemRegistryObject -> itemRegistryObject.getValue() instanceof KeybladeItem).map(itemRegistryObject -> (KeybladeItem)itemRegistryObject.getValue()).toList().forEach(keybladeItem -> {
-			if (keybladeItem.data != null) {
-				for (int i = 0; i < keybladeItem.data.getMaxLevel(); i++) {
-					keybladeItem.data.getLevelData(i).getMaterialList().keySet().forEach(item -> {
-						if (!item.builtInRegistryHolder().is(Tags.MATERIALS)) {
-							player.sendSystemMessage(Component.translatable(ChatFormatting.RED + "Keyblade level data[" + BuiltInRegistries.ITEM.getKey(keybladeItem) + "] contains material(s) that are not present in the \"synthesis/materials\" tag you will be unable to upgrade this keyblade"));
-						}
-					});
+		if (player.level().registryAccess().lookupOrThrow(Registries.ITEM).get(Tags.MATERIALS).isPresent()) {
+			RecipeRegistry.getInstance().getValues().forEach(recipe -> recipe.getMaterials().keySet().forEach(item -> {
+				if (!item.builtInRegistryHolder().is(Tags.MATERIALS)) {
+					player.sendSystemMessage(Component.translatable(ChatFormatting.RED + "Recipe[" + recipe.getRegistryName().toString() + "] contains material(s) that are not present in the \"synthesis/materials\" tag you will be unable to create this recipe"));
 				}
-			}
-		});
+			}));
+			BuiltInRegistries.ITEM.entrySet().stream().filter(itemRegistryObject -> itemRegistryObject.getValue() instanceof KeybladeItem).map(itemRegistryObject -> (KeybladeItem) itemRegistryObject.getValue()).toList().forEach(keybladeItem -> {
+				if (keybladeItem.data != null) {
+					for (int i = 0; i < keybladeItem.data.getMaxLevel(); i++) {
+						keybladeItem.data.getLevelData(i).getMaterialList().keySet().forEach(item -> {
+							if (!item.builtInRegistryHolder().is(Tags.MATERIALS)) {
+								player.sendSystemMessage(Component.translatable(ChatFormatting.RED + "Keyblade level data[" + BuiltInRegistries.ITEM.getKey(keybladeItem) + "] contains material(s) that are not present in the \"synthesis/materials\" tag you will be unable to upgrade this keyblade"));
+							}
+						});
+					}
+				}
+			});
+		} else {
+			player.sendSystemMessage(Component.translatable(ChatFormatting.RED + "The synthesis/materials tag failed to load due to a broken datapack please fix any issues otherwise synthesis will not function, check the log for what is wrong"));
+		}
 	}
 
 	@SubscribeEvent
@@ -465,14 +469,12 @@ public class EntityEvents {
 			if (playerData.getCastedMagic() != null) {
 				if (playerData.getMagicCasttimeTicks() <= 0) {
 					Utils.castMagic castedMagic = playerData.getCastedMagic();
-                    System.out.println(castedMagic.player());
 					castedMagic.magic().magicUse(castedMagic.player(), castedMagic.caster(), castedMagic.level(), castedMagic.fullMPBlastMult(), castedMagic.lockOnEntity());
 					player.swing(InteractionHand.MAIN_HAND,true);
 					playerData.setCastedMagic(null);
 					PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
 				}
 			}
-
 
 			// Magic CD recharge system
 			if (playerData.getMagicCooldownTicks() > 0 && !player.level().isClientSide) {
@@ -608,7 +610,7 @@ public class EntityEvents {
 							player.setPos(pos.getCenter().subtract(0, 0.4, 0));
 							//player.addEffect(new MobEffectInstance(MobEffects.LEVITATION,0,0));
 							if (player.level().isClientSide) {
-								PacketHandler.sendToServer(new CSSetAirStepPacket(new BlockPos(0, 0, 0)));
+								PacketHandler.sendToServer(new CSSetAirStepPacket(new BlockPos(0, 0, 0), 0));
 								airstepTicks = -1;
 							}
 						}
@@ -822,7 +824,6 @@ public class EntityEvents {
             if (worldData != null && worldData.getPartyFromMember(player.getUUID()) != null) { //If the player gets hit and data is not null
                 Party p = worldData.getPartyFromMember(player.getUUID());
                 if (Utils.anyPartyMemberOnExcept(player, p, (ServerLevel) player.level())) { //If there's a party member on at this point
-                    System.out.println(ModConfigs.SERVER.allowPartyKO.get());
                     if (ModConfigs.SERVER.allowPartyKO.get()) { //If KO is allowed
                         if (player.getHealth() - event.getNewDamage() <= 0) { //If gets hit by a mortal attack
                             if (!player.hasEffect(ModMobEffects.KO)) { // We only set KO if player gets hit enough to kill them (but doesn't kill them yet) while not KO already

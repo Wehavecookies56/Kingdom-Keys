@@ -56,6 +56,10 @@ repositories {
             includeGroup("software.bernie.geckolib")
         }
     }
+
+    flatDir {
+        dir'libs'
+    }
 }
 
 base {
@@ -126,9 +130,14 @@ dependencies {
     localRuntime("mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}")
     compileOnly("vazkii.patchouli:Patchouli:1.21.1-92-NEOFORGE:api")
     runtimeOnly("vazkii.patchouli:Patchouli:1.21.1-92-NEOFORGE")
-    implementation "curse.maven:epic-fight-mod-405076:7633252-sources"
+    implementation "curse.maven:epic-fight-mod-405076:7734081-sources"
     implementation "software.bernie.geckolib:geckolib-neoforge-${minecraft_version}:${geckolib_version}"
     implementation "curse.maven:mekanism-268560:7132168"
+    implementation "huge-structure-blocks-kk:huge-structure-blocks-kk:1.1.2"
+    implementation "curse.maven:female-gender-neoforge-481655:5579007"
+    implementation "curse.maven:gender-mod-epic-fight-compat-1489735:7778152"
+    implementation "curse.maven:shoulder-surfing-reloaded-243190:7720604"
+    implementation "curse.maven:tool-belt-260262:5929065"
 }
 
 var generateModMetadata = tasks.register("generateModMetadata", ProcessResources) {

@@ -1,13 +1,15 @@
 **Added:**
-* Heartless and Nobody icons for banner paterns.
+* Desertor heartless, these ones are slightly smaller but very fast, watch out! 
+* Commander heartless, these are big and have a larger health pool, consider them a threat.
+* An example datapack template for custom materials and synthesis recipes.
 
 **Changed:**
-* EFM support for 21.15.6
-* HP bar is now curved and works like in KH2.
-* Focus bar now fills up in a radial direction.
-* Shotlock GUI has been reworked and changed the "time indicator" to be radial instead of vertical texture.
+* Heartless and Antiform eyes will now glow in the darkness.
+* Font and color used in the XP obtained from an enemy.
+* Assassins will now yield a bit more exp.
+* Improved the way Kingdom Keys complains about malformed synthesis materials in a custom datapack.
 
 **Fixed:**
-* Retribution compatibility with EFM
-* Keyblades doing a vanilla attack when EFM is loaded and battle mode active.
-* Kingdom Key N texture being broken when using shaders.
+* Bomb enemies sizes not varying.
+* Event for driveform ability unequip on revert.
+* Crash regarding water spells owner not being a player

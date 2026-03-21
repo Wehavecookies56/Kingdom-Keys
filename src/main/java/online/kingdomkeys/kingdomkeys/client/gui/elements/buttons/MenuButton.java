@@ -12,13 +12,13 @@ import net.minecraft.resources.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.handler.ClientEvents;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.awt.*;
 
 public class MenuButton extends MenuButtonBase {
-
 	private final ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
 	private final int endWidth = 11;
 
@@ -68,6 +68,11 @@ public class MenuButton extends MenuButtonBase {
 			this.tip = buttonText + ".desc";
 	}
 
+	public MenuButton setCenterText(){
+		this.centerText = true;
+		return this;
+	}
+
 	public String getData() {
 		return data;
 	}
@@ -110,10 +115,10 @@ public class MenuButton extends MenuButtonBase {
 				if (shouldOffset)
 					setX(x + offset);
 
-				drawButton(gui, isHovered && active);
+				drawButton(gui, isHovered && active, partialTicks);
 
 				int drawX = textX + (shouldOffset ? offset : 0);
-				ClientUtils.drawScrollingString(gui,font, getMessage(), drawX, drawX + getWidth() - (btnMargin*2), getY() + 6, drawColor, centerText);
+				ClientUtils.drawScrollingString(gui,font, getMessage(), drawX, drawX + getWidth() - (btnMargin*2)-1, getY() + 6, drawColor, centerText);
 
 				if (shouldOffset)
 					setX(x);
@@ -125,7 +130,7 @@ public class MenuButton extends MenuButtonBase {
 		}
 	}
 
-	private void drawButton(GuiGraphics gui, boolean hovered) {
+	private void drawButton(GuiGraphics gui, boolean hovered, float partialTicks) {
 		int leftU = 0, middleU = 0, rightU = 0;
 		int vPos = 0, selVPos = 0;
 		switch (type) { // Set the local values to the corresponding fields
@@ -162,6 +167,43 @@ public class MenuButton extends MenuButtonBase {
 			gui.blit(texture, getX() + i + endWidth, getY(), middleU, vPos, 1, height);
 		gui.blit(texture, getX() + endWidth + middleWidth, getY(), rightU, vPos, endWidth, height);
 
+		//Ball
+		if(hovered) {
+			float ballScale = 0.5F;
+			int u = 0;
+			int v = 204;
+
+			gui.pose().pushPose();
+			{
+				float radiusX = 4.5F;
+				float radiusY = 6F;
+				float centerX = getX() + getWidth() - radiusX -3;
+				float centerY = getY() + 3;
+
+				float delta = ClientEvents.ballRot - ClientEvents.prevBallRot;
+
+				if (delta < -180F)
+					delta += 360F;
+				if (delta > 180F)
+					delta -= 360F;
+
+				float interpRot = ClientEvents.prevBallRot + delta * partialTicks;
+
+				float t = (float)Math.toRadians(-interpRot);
+
+				float x = centerX + (float)Math.cos(t * 3F + Math.PI / 2F) * radiusX;
+				float y = centerY + (float)Math.sin(t * 2F) * radiusY;
+
+				gui.pose().pushPose();
+				gui.pose().translate(x, y, 0);
+				gui.pose().scale(ballScale, ballScale, 1F);
+
+				gui.blit(texture, 0, 0, u, v, 15, 15);
+
+				gui.pose().popPose();
+			}
+			gui.pose().popPose();
+		}
 	}
 
 	@Override
@@ -194,4 +236,6 @@ public class MenuButton extends MenuButtonBase {
 		super.setWidth(pWidth);
 		middleWidth = pWidth;
 	}
+
+
 }

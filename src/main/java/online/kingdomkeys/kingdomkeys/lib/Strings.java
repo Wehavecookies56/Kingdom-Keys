@@ -84,6 +84,7 @@ public class Strings {
     		autoMaster = KingdomKeys.MODID+":"+AB_Prefix +"auto_master",
     		autoFinal = KingdomKeys.MODID+":"+AB_Prefix +"auto_final",
     		strikeRaid = KingdomKeys.MODID+":"+AB_Prefix +"strike_raid",
+			flowStep = KingdomKeys.MODID+":"+AB_Prefix +"flowstep",
     		
     		//Growth
     		highJump = KingdomKeys.MODID+":"+AB_Prefix +"high_jump",

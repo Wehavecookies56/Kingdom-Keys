@@ -12,7 +12,7 @@ import net.neoforged.neoforge.network.handling.IPayloadContext;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.network.Packet;
 import online.kingdomkeys.kingdomkeys.util.IExtendedReach;
-import yesman.epicfight.client.ClientEngine;
+import yesman.epicfight.world.capabilities.EpicFightCapabilities;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
 
 public record CSExtendedReach(int entityId) implements Packet {
@@ -33,7 +33,7 @@ public record CSExtendedReach(int entityId) implements Packet {
 			return;
 		}
         if (KingdomKeys.efmLoaded){
-            if (PlayerPatch.PlayerMode.EPICFIGHT == ClientEngine.getInstance().getPlayerPatch().getPlayerMode())
+            if (PlayerPatch.PlayerMode.EPICFIGHT == EpicFightCapabilities.getCachedLocalPlayerPatch().getPlayerMode())
                 return ;
         }
 

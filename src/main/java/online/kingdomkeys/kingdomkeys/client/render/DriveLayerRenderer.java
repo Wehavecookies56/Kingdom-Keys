@@ -15,6 +15,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
@@ -23,6 +24,7 @@ import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 @OnlyIn(Dist.CLIENT)
 public class DriveLayerRenderer<T extends LivingEntity, M extends HumanoidModel<T>> extends RenderLayer<T, M> {
 	private final PlayerRenderer renderPlayer;
+	private static final ResourceLocation ANTI_EYES = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/models/armor/anti_eyes.png");
 
 	public DriveLayerRenderer(RenderLayerParent<T, M> entityRendererIn) {
 		super(entityRendererIn);
@@ -39,6 +41,10 @@ public class DriveLayerRenderer<T extends LivingEntity, M extends HumanoidModel<
 				if (form.getTextureLocation((Player) entitylivingbaseIn) != null) {
 					VertexConsumer ivertexbuilder = ItemRenderer.getFoilBuffer(bufferIn, RenderType.entityCutoutNoCull(form.getTextureLocation((Player) entitylivingbaseIn)), false, false);
 					renderPlayer.getModel().renderToBuffer(matrixStackIn, ivertexbuilder, packedLightIn, OverlayTexture.NO_OVERLAY, 0xFFFFFF);
+					if(form.equals(ModDriveForms.ANTI.get())) {
+						VertexConsumer vertex = ItemRenderer.getFoilBuffer(bufferIn, RenderType.eyes(ANTI_EYES), false, false);
+						renderPlayer.getModel().renderToBuffer(matrixStackIn, vertex, 15728640, OverlayTexture.NO_OVERLAY, 0xFFFFFF);
+					}
 				}
 			}
 		}

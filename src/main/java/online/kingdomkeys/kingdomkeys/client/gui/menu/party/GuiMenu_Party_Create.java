@@ -1,11 +1,11 @@
 package online.kingdomkeys.kingdomkeys.client.gui.menu.party;
 
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundSource;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton.ButtonType;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
@@ -25,9 +25,9 @@ public class GuiMenu_Party_Create extends MenuBackground {
 
 	boolean priv = false;
 	int pSize = ModConfigs.SERVER.partyMembersLimit.get();
-	
+	MenuBox box;
 	EditBox tfName;
-	Button togglePriv, accept, size;
+	MenuButton togglePriv, accept, size;
 	MenuButton back;
 		
 	final PlayerData playerData = PlayerData.get(minecraft.player);
@@ -98,22 +98,15 @@ public class GuiMenu_Party_Create extends MenuBackground {
 		float buttonPosX = (float) width * 0.03F;
 		float buttonWidth = ((float) width * 0.1744F) - 20;
 
+		box = new MenuBox((int)(width*0.25F), (int)topBarHeight, (int)(width*0.5F), (int) middleHeight,0.8F, new Color(255,128,255));
 
-		addRenderableWidget(togglePriv = Button.builder(Component.literal(""), (e) -> {
-			action("togglePriv");
-		}).bounds((int) (width*0.25)-2, button_statsY + (3 * 18), 100, 20).build());
-		
-		addRenderableWidget(accept = Button.builder(Component.translatable(Utils.translateToLocal(Strings.Gui_Menu_Accept)), (e) -> {
-			action("accept");
-		}).bounds((int) (width*0.25)-2, button_statsY + (5 * 18), 100, 20).build());
-		
-		addRenderableWidget(size = Button.builder(Component.translatable(ModConfigs.SERVER.partyMembersLimit.get()+""), (e) -> {
-			action("size");
-		}).bounds((int) (width * 0.25 - 2 + 100 + 4), button_statsY + (3 * 18), 20, 20).build());
-		
+		addRenderableWidget(togglePriv = new MenuButton(box.getX() + 10, button_statsY + (3 * 18), 80, "", ButtonType.ROUNDBUTTON, (e) -> { action("togglePriv"); }).setCenterText());
+		addRenderableWidget(size = new MenuButton(togglePriv.getX() + togglePriv.getWidth(), button_statsY + (3 * 18), 0, ModConfigs.SERVER.partyMembersLimit.get()+"", ButtonType.ROUNDBUTTON,(e) -> { action("size"); }).setCenterText());
+		addRenderableWidget(accept = new MenuButton(togglePriv.getX(), button_statsY + (5 * 18), 110, Strings.Gui_Menu_Accept, ButtonType.ROUNDBUTTON,(e) -> { action("accept"); }).setCenterText());
+
 		addRenderableWidget(back = new MenuButton((int) buttonPosX, button_statsY, (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), ButtonType.BUTTON, (e) -> { action("back"); }));
 		
-		addRenderableWidget(tfName = new EditBox(minecraft.font, (int)(width*0.25), (int)(height*0.25), 100, 15, Component.literal("")) {
+		addRenderableWidget(tfName = new EditBox(minecraft.font, togglePriv.getX(), (int)(height*0.25), 100, 15, Component.literal("")) {
 			@Override
 			public boolean charTyped(char c, int i) {
 				super.charTyped(c, i);
@@ -127,7 +120,6 @@ public class GuiMenu_Party_Create extends MenuBackground {
 				checkAvailable();
 				return true;
 			}
-			
 		});
 		
 		updateButtons();
@@ -144,11 +136,13 @@ public class GuiMenu_Party_Create extends MenuBackground {
 
 	@Override
 	public void render(@NotNull GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
+		box.render(gui, mouseX, mouseY, partialTicks);
 		super.render(gui, mouseX, mouseY, partialTicks);
+
 		worldData = WorldData.getClient();
 		party = worldData.getPartyFromMember(minecraft.player.getUUID());
 		
-		int buttonX = (int)(width*0.25);
+		int buttonX = togglePriv.getX();
 		
 		gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Party_Create_Name), buttonX, (int)(height * 0.2), 0xFFFFFF);
 		gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Party_Create_Accessibility), buttonX, (int)(height * 0.35), 0xFFFFFF);

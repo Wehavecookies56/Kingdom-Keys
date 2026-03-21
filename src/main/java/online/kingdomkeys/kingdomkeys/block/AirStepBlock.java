@@ -23,8 +23,6 @@ public class AirStepBlock extends BaseBlock implements EntityBlock, INoDataGen {
 		super(properties);
 	}
 
-	private static final VoxelShape collisionShape = Block.box(1.0D, 0.0D, 1.0D, 16.0D, 1.0D, 16.0D);
-
 	@Override
 	public VoxelShape getCollisionShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
 		return Block.box(0,0,0,0,0,0);

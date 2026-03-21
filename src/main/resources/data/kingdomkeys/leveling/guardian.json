@@ -257,7 +257,10 @@
         "mag":1,
         "maxhp":5,
         "maxmp":4.0,
-		"max_accessories":1
+		"max_accessories":1,
+        "abilities":[
+            "kingdomkeys:ability_flowstep"
+        ]
     },
     "41":{
         "str":1

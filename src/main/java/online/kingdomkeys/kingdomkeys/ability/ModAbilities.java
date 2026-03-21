@@ -24,6 +24,7 @@ public class ModAbilities {
 			AUTO_MASTER = createAbility(Strings.autoMaster, 1, AbilityType.ACTION),
 			AUTO_FINAL = createAbility(Strings.autoFinal, 1, AbilityType.ACTION),
 			STRIKE_RAID = createAbility(Strings.strikeRaid, 3, AbilityType.ACTION),
+			FLOWSTEP = createAbility(Strings.flowStep, 4, AbilityType.ACTION),
 			
 			// Growth
 			HIGH_JUMP = createAbility(Strings.highJump, 2, AbilityType.GROWTH),

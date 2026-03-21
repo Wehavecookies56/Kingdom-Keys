@@ -17,13 +17,15 @@ import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.client.model.data.ModelData;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.model.entity.WhiteMushroomModel;
+import online.kingdomkeys.kingdomkeys.client.render.HeartlessEyesLayerRenderer;
 import online.kingdomkeys.kingdomkeys.entity.mob.WhiteMushroomEntity;
 
 //TODO should be able to make this a a generic human renderer for the rest of the members
 public class WhiteMushroomRenderer<Type extends WhiteMushroomEntity> extends MobRenderer<Type, WhiteMushroomModel<Type>> {
 
 	public WhiteMushroomRenderer(EntityRendererProvider.Context context) {
-        super(context, new WhiteMushroomModel<>(context.bakeLayer(WhiteMushroomModel.LAYER_LOCATION)), 0.5F);
+        super(context, new WhiteMushroomModel<>(context.bakeLayer(WhiteMushroomModel.LAYER_LOCATION)), 0.8F);
+		this.addLayer(new HeartlessEyesLayerRenderer<>(this, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/mob/mushroom_eyes.png")));
 	}
 
 	int prevState = 0;

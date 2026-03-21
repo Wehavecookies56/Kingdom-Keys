@@ -16,7 +16,7 @@ import online.kingdomkeys.kingdomkeys.datagen.provider.BaseLootTableProvider;
 
 import java.util.Set;
 
-@EventBusSubscriber(bus=EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber()
 public class DataGeneration {
 
 	 private static final RegistrySetBuilder BUILDER = new RegistrySetBuilder()

@@ -19,6 +19,7 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.RenderGuiLayerEvent;
 import net.neoforged.neoforge.client.gui.VanillaGuiLayers;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.GlobalData;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
@@ -27,7 +28,7 @@ import online.kingdomkeys.kingdomkeys.handler.InputHandler;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
-@EventBusSubscriber(value = Dist.CLIENT, bus = EventBusSubscriber.Bus.GAME)
+@EventBusSubscriber(value = Dist.CLIENT)
 public class LockOnGui extends OverlayBase {
 
 	public static final LockOnGui INSTANCE = new LockOnGui();
@@ -46,7 +47,7 @@ public class LockOnGui extends OverlayBase {
 	int noborderguiwidth = 171;
 
 	float lockOnScale;
-	float hpBarScale;
+	float s1;
 	LivingEntity lastTrackedTarget;
 	private float targetHealth;
 	private long lastSystemTime;
@@ -86,7 +87,6 @@ public class LockOnGui extends OverlayBase {
 				int screenHeight = minecraft.getWindow().getGuiScaledHeight();
 
 				lockOnScale = ModConfigs.lockOnIconScale/100F;
-				hpBarScale = ModConfigs.lockOnHPScale/100F;
 
 				PoseStack poseStack = guiGraphics.pose();
 
@@ -108,38 +108,39 @@ public class LockOnGui extends OverlayBase {
                     poseStack.popPose();
                 }
 				poseStack.pushPose();
-
                 //HP Bar and name
 				if(target != null && playerData.isAbilityEquipped(Strings.scan)) {
-					poseStack.pushPose();
-					{
-						RenderSystem.enableBlend();
-						poseStack.translate(ModConfigs.lockOnXPos, ModConfigs.lockOnYPos, 0);
-						Component targetName = target.getName();
-						if (!ModConfigs.mobLevelName) {
-							GlobalData targetData = GlobalData.getClient((LivingEntity) target);
-							if (targetData != null && targetData.getLevel() > 0) {
-								targetName = Component.translatable(target.getDisplayName().getString() + " Lv." + Utils.getLevelColor(player, targetData.getLevel()) + targetData.getLevel() + ChatFormatting.RESET);
-							}
+					ClientUtils.LOCKON_ELEMENT.applyTransform(guiGraphics, screenWidth, screenHeight);
+					RenderSystem.enableBlend();
+					Component targetName = target.getName();
+					if (!ModConfigs.mobLevelName) {
+						GlobalData targetData = GlobalData.getClient((LivingEntity) target);
+						if (targetData != null && targetData.getLevel() > 0) {
+							targetName = Component.translatable(target.getDisplayName().getString() + " Lv." + Utils.getLevelColor(player, targetData.getLevel()) + targetData.getLevel() + ChatFormatting.RESET);
 						}
-						drawString(guiGraphics, minecraft.font, targetName, screenWidth - minecraft.font.width(targetName), (int) (26*hpBarScale), 0xFFFFFF);
-						drawHPBar(guiGraphics, (LivingEntity) target);
-						RenderSystem.disableBlend();
 					}
-					poseStack.popPose();
+					float scale = 1.42F;
+					guiGraphics.pose().pushPose();
+					{
+						guiGraphics.pose().scale(scale, scale, scale);
+						drawString(guiGraphics, minecraft.font, targetName, ClientUtils.LOCKON_ELEMENT.width - minecraft.font.width(targetName) - 50, 19, 0xFFFFFF);
+					}
+					guiGraphics.pose().popPose();
+					drawHPBar(guiGraphics, (LivingEntity) target);
+					RenderSystem.disableBlend();
+					ClientUtils.LOCKON_ELEMENT.endTransform(guiGraphics);
 				}
 
-				poseStack.scale(hpBarScale, hpBarScale, hpBarScale);
 				poseStack.popPose();
 			}
 		}
 	}
 
 	public void drawHPBar(GuiGraphics gui, LivingEntity target) {
-		int screenWidth = minecraft.getWindow().getGuiScaledWidth();
+		int offset = 165;
 
 		hpPerBar = ModConfigs.lockOnHpPerBar;
-		float widthMultiplier = 10 * hpBarScale;
+		float widthMultiplier = 10;
 
 		float targetHealth = Math.min(target.getHealth(), target.getMaxHealth());
 
@@ -202,11 +203,11 @@ public class LockOnGui extends OverlayBase {
 
 		gui.pose().pushPose();
 		{
-			drawHPBarBack(gui, (screenWidth - hpBarMaxWidth - 4 * hpBarScale), 0 * hpBarScale, hpBarMaxWidth, hpBarScale, (screenWidth - bgHPBarMaxWidth - 4 * hpBarScale), bgHPBarMaxWidth);
-			drawHPBarTop(gui, (screenWidth - hpBarWidth - 2 * hpBarScale), 2 * hpBarScale, hpBarWidth, hpBarScale);
-			drawDamagedHPBarTop(gui, (screenWidth - hpBarWidth - missingHpBarWidth - 2 * hpBarScale), 2 * hpBarScale, missingHpBarWidth, hpBarScale, target);
-			drawHPBars(gui, (screenWidth - hpBarMaxWidth - 4 * hpBarScale), 0 * hpBarScale, hpBarMaxWidth, hpBarScale, target);
-			drawDamagedHPBars(gui, (screenWidth - hpBarMaxWidth - 4 * hpBarScale), 0 * hpBarScale, hpBarMaxWidth, hpBarScale, target);
+			drawHPBarBack(gui, (offset - hpBarMaxWidth - 4 ), 0 , hpBarMaxWidth, 1, (offset - bgHPBarMaxWidth - 4 ), bgHPBarMaxWidth);
+			drawHPBarTop(gui, (offset - hpBarWidth - 2 ), 2 , hpBarWidth, 1);
+			drawDamagedHPBarTop(gui, (offset - hpBarWidth - missingHpBarWidth - 2 ), 2 , missingHpBarWidth, 1, target);
+			drawHPBars(gui, (offset - hpBarMaxWidth - 4 ), 0 , hpBarMaxWidth, 1, target);
+			drawDamagedHPBars(gui, (offset - hpBarMaxWidth - 4 ), 0 , hpBarMaxWidth, 1, target);
 		}
 		gui.pose().popPose();
 	}

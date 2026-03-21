@@ -95,8 +95,7 @@ public class WaterzaEntity extends ThrowableProjectile {
 			List<LivingEntity> list = Utils.getLivingEntitiesInRadiusExcludingParty(player, radius);
 
 	        if (!list.isEmpty()) {
-				float baseDmg = DamageCalculation.getMagicDamage((Player) this.getOwner()) * 0.6F;
-				float dmg = this.getOwner() instanceof Player ? baseDmg : 2;
+				float dmg = this.getOwner() instanceof Player ? DamageCalculation.getMagicDamage((Player) this.getOwner()) * 0.8F : 6;
                 for (LivingEntity livingEntity : list) {
 					livingEntity.hurt(KKDamageTypes.getElementalDamage(KKDamageTypes.WATER, this, this.getOwner()), dmg * dmgMult);
                 }

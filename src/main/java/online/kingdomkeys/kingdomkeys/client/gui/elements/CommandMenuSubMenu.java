@@ -21,8 +21,6 @@ import java.util.Comparator;
 import java.util.List;
 
 public class CommandMenuSubMenu {
-
-
     private final ResourceLocation id;
     private int x;
     private int z;
@@ -312,6 +310,16 @@ public class CommandMenuSubMenu {
         return maxY - totalHeight;
     }
 
+    public void setY(int y) {
+        int totalHeight = height;
+        for (CommandMenuItem item : children) {
+            if (item.isVisible()) {
+                totalHeight += item.getHeight();
+            }
+        }
+        this.maxY = y + totalHeight;
+    }
+
     public void setMaxY(int maxY) {
         this.maxY = maxY;
     }
@@ -331,6 +339,10 @@ public class CommandMenuSubMenu {
         setMaxY(maxY);
     }
 
+    public void setPosition(int x, int y){
+        this.x = x;
+        setY(y);
+    }
     public void addChild(CommandMenuItem item) {
         getChildren().add(item);
         if (getSelected() == null && item.visible) {
@@ -411,7 +423,7 @@ public class CommandMenuSubMenu {
     }
 
     public int getWidth() {
-        return width * ModConfigs.cmXScale/100;
+        return width;
     }
 
     public int getHeight() {
@@ -491,20 +503,22 @@ public class CommandMenuSubMenu {
             if (parent != null) {
                 updatePosition();
             }
+
             RenderSystem.enableBlend();
-            guiGraphics.pose().translate(0, 0, getZ());
-            guiGraphics.setColor(getColour().getRed() / 255F, getColour().getGreen() / 255F, getColour().getBlue() / 255F, 1);
-            if (useFixedHeader) {
-                guiGraphics.blit(getTexture(), getX(), getY(), 0, 70, 70, 15);
-            } else {
-                guiGraphics.blit(getTexture(), getX(), getY(), 0, 0, ModConfigs.cmHeaderEndLWidth, getHeight());
-                guiGraphics.blit(getTexture(), getX() + ModConfigs.cmHeaderEndLWidth, getY(), getWidth() - (ModConfigs.cmHeaderEndLWidth + ModConfigs.cmHeaderEndRWidth), getHeight(), ModConfigs.cmHeaderEndLWidth + 1, 0, 1, getHeight(), 256, 256);
-                guiGraphics.blit(getTexture(), getX() + getWidth() - ModConfigs.cmHeaderEndRWidth, getY(), ModConfigs.cmHeaderEndLWidth + 3, 0, ModConfigs.cmHeaderEndRWidth, getHeight());
-            }
-            if(ModConfigs.cmHeaderTextVisible) {
-                Color textColour = isActive() ? titleColour : titleColour.darker().darker();
-                guiGraphics.setColor(textColour.getRed() / 255F, textColour.getGreen() / 255F, textColour.getBlue() / 255F, 1);
-                guiGraphics.drawString(Minecraft.getInstance().font, getTitle(), getX() + 1 + ModConfigs.cmSelectedXOffset + ModConfigs.cmTextXOffset, getY() + 4, 0xFFFFFF);
+
+            if (!NeoForge.EVENT_BUS.post(new CommandMenuEvent.SubmenuRender(getId(), this, guiGraphics, screenWidth, screenHeight, partialTick)).isCanceled()) {
+                guiGraphics.pose().translate(0, 0, getZ());
+                guiGraphics.setColor(getColour().getRed() / 255F, getColour().getGreen() / 255F, getColour().getBlue() / 255F, 1);
+                if (useFixedHeader) {
+                    guiGraphics.blit(getTexture(), getX(), getY(), 0, 70, 74, 15);
+                } else {
+                    guiGraphics.blit(getTexture(), getX(), getY(), 0, 0, ModConfigs.cmHeaderEndLWidth, getHeight());
+                    guiGraphics.blit(getTexture(), getX() + ModConfigs.cmHeaderEndLWidth, getY(), getWidth() - (ModConfigs.cmHeaderEndLWidth + ModConfigs.cmHeaderEndRWidth), getHeight(), ModConfigs.cmHeaderEndLWidth + 1, 0, 1, getHeight(), 256, 256);
+                    guiGraphics.blit(getTexture(), getX() + getWidth() - ModConfigs.cmHeaderEndRWidth, getY(), ModConfigs.cmHeaderEndLWidth + 3, 0, ModConfigs.cmHeaderEndRWidth, getHeight());
+                }
+                if (ModConfigs.cmHeaderTextVisible) {
+                    guiGraphics.drawCenteredString(Minecraft.getInstance().font, getTitle(), getX() + ((getWidth() - 8) / 2) + 1, getY() + 4, 0xFFFFFF);
+                }
             }
             renderChildren(guiGraphics, screenWidth, screenHeight, partialTick);
 

@@ -4,6 +4,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.sounds.SoundSource;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton.ButtonType;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
@@ -23,7 +24,7 @@ import javax.annotation.Nullable;
 import java.awt.*;
 
 public class GuiMenu_Party_Promote extends MenuBackground {
-	
+	MenuBox box;
 	MenuButton back;
 		
 	final PlayerData playerData = PlayerData.get(minecraft.player);
@@ -91,7 +92,7 @@ public class GuiMenu_Party_Promote extends MenuBackground {
 		
 		float topBarHeight = (float) height * 0.17F;
 		int button_statsY = (int) topBarHeight + 5;
-		float buttonWidth = ((float) width * 0.1744F) - 20;
+		float buttonWidth = (box.getWidth() - 40);
 
 		for(int i = 1;i<renderables.size();i++) {
 			
@@ -109,12 +110,12 @@ public class GuiMenu_Party_Promote extends MenuBackground {
 				minecraft.setScreen(new GuiMenu_Party_Member());
 				return;
 			}
-			
+
 			for(int i = 0; i < party.getMembers().size(); i++) {
-				addRenderableWidget(players[i] = new MenuButton((int)(width * 0.3F), button_statsY + (i * 18), (int)(buttonWidth * 2), party.getMembers().get(i).getUsername(), ButtonType.BUTTON, (e) -> { action("member:"+e.getMessage().getString()); }));
+				addRenderableWidget(players[i] = new MenuButton(box.getX()+10, button_statsY + (i * 18), (int)(buttonWidth), party.getMembers().get(i).getUsername(), ButtonType.ROUNDBUTTON, (e) -> { action("member:"+e.getMessage().getString()); }));
 				if(gui != null) {
 					if(party.getMembers().get(i).isLeader()) {
-					gui.drawString(minecraft.font, "Leader", (int)(width * 0.3F+buttonWidth*2)+30,  button_statsY + (i * 18)+6, 0xFF9900);
+						gui.drawString(minecraft.font, "Leader", box.getX()+box.getWidth()-minecraft.font.width("Leader")-15,  button_statsY + (i * 18)+6, 0xFF9900);
 					}
 				}
 			}
@@ -126,9 +127,6 @@ public class GuiMenu_Party_Promote extends MenuBackground {
 
 	@Override
 	public void init() {
-		//TODO request packet to sync other players data
-		super.width = width;
-		super.height = height;
 		super.init();
 		this.renderables.clear();
 				
@@ -136,14 +134,14 @@ public class GuiMenu_Party_Promote extends MenuBackground {
 		int button_statsY = (int) topBarHeight + 5;
 		float buttonPosX = (float) width * 0.03F;
 		float buttonWidth = ((float) width * 0.1744F) - 20;
-
+		box = new MenuBox((int)(width*0.25F), (int)topBarHeight, (int)(width*0.3F), (int) middleHeight,0.8F, new Color(255,128,255));
 		addRenderableWidget(back = new MenuButton((int) buttonPosX, button_statsY, (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), ButtonType.BUTTON, (e) -> { action("back"); }));
-		
 		updateButtons();
 	}
 
 	@Override
 	public void render(@NotNull GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
+		box.render(gui, mouseX, mouseY, partialTicks);
 		super.render(gui, mouseX, mouseY, partialTicks);
 		worldData = WorldData.getClient();
 		party = worldData.getPartyFromMember(minecraft.player.getUUID());
