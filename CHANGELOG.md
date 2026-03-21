@@ -11,4 +11,5 @@
 
 **Fixed:**
 * Bomb enemies sizes not varying.
-* Fixed event for driveform ability unequip on revert.
+* Event for driveform ability unequip on revert.
+* Crash regarding water spells owner not being a player
