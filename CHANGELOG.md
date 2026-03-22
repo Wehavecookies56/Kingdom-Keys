@@ -1,5 +1,7 @@
 **Added:**
 * A training scarecrow (training dummy) which shows the damage dealt and the magic it deals (through color).
+  * Crouch + right click it to change it's iframes mode (so it ignores them or not)
+  * Can be removed by attacking it with a feather.
 * Desertor heartless, these ones are slightly smaller but very fast, watch out! 
 * Commander heartless, these are big and have a larger health pool, consider them a threat.
 * An example datapack template for custom materials and synthesis recipes.
