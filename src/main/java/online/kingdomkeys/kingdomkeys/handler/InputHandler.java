@@ -140,7 +140,7 @@ public class InputHandler {
                 if(KeyboardHelper.isScrollActivatorDown() && Utils.shouldRenderOverlay(player)) {
                     commandEnter();
                     event.setCanceled(true);
-                } else if(mc.screen == null){
+                } /*else if(mc.screen == null){
                     if (player != null) {
                         ItemStack itemstack = player.getMainHandItem();
                         if (!ItemStack.matches(itemstack, ItemStack.EMPTY)) {
@@ -162,7 +162,7 @@ public class InputHandler {
                             }
                         }
                     }
-                }
+                }*/
             }
 
             if (event.getButton() == Constants.MIDDLE_MOUSE && KeyboardHelper.isScrollActivatorDown() && event.getAction() == 1 && Utils.shouldRenderOverlay(player)) {

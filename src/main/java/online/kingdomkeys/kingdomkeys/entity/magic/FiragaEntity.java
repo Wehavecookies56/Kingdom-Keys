@@ -131,7 +131,7 @@ public class FiragaEntity extends ThrowableProjectile {
 			
 			List<Entity> list = level().getEntities(getOwner(), getBoundingBox().inflate(radius));
 			list = Utils.removePartyMembersFromList((Player)getOwner(), list);
-			
+
 			((ServerLevel)level()).sendParticles(ParticleTypes.FLAME, getX(), getY(), getZ(), 500, Math.random() - 0.5D, Math.random() - 0.5D, Math.random() - 0.5D,0.1);
 			
 			if (!list.isEmpty()) {

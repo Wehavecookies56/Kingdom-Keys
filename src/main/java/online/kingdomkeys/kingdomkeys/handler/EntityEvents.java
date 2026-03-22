@@ -14,6 +14,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
@@ -68,6 +69,7 @@ import online.kingdomkeys.kingdomkeys.entity.EntityHelper.MobType;
 import online.kingdomkeys.kingdomkeys.entity.GummiShipEntity;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.SpawningMode;
+import online.kingdomkeys.kingdomkeys.entity.TrainingDummyEntity;
 import online.kingdomkeys.kingdomkeys.entity.block.SoRCoreTileEntity;
 import online.kingdomkeys.kingdomkeys.entity.drops.*;
 import online.kingdomkeys.kingdomkeys.entity.mob.*;
@@ -799,6 +801,11 @@ public class EntityEvents {
 			if (playerData != null && playerData.getActiveDriveForm().equals(Strings.Form_Anti)) {
 				event.setNewDamage(playerData.getStrength(true));
 			}
+
+			if(event.getEntity() instanceof TrainingDummyEntity dummy) {
+				dummy.recordDamage(player, event.getNewDamage(), event.getSource());
+				dummy.invulnerableTime = 0;
+			}
 		}
 
 		if (event.getEntity() instanceof Player player) {
@@ -873,7 +880,7 @@ public class EntityEvents {
 			if (Utils.isPlayerLowHP(player) && playerData.isAbilityEquipped(Strings.damageControl)) {
 				damage /= (1 + playerData.getNumberOfAbilitiesEquipped(Strings.damageControl));
 			}
-			
+
 			// Protect Abilities
 			float protectReduction;
 			if (playerData.isAbilityEquipped(Strings.protect)){

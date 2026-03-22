@@ -2,6 +2,7 @@ package online.kingdomkeys.kingdomkeys.entity;
 
 import net.minecraft.client.model.geom.builders.CubeDeformation;
 import net.minecraft.client.renderer.entity.EntityRenderers;
+import net.minecraft.client.renderer.entity.HumanoidMobRenderer;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.monster.Monster;
@@ -114,6 +115,8 @@ public class ModEntities {
     
     public static final Supplier<EntityType<HeartEntity>> TYPE_HEART = createEntityType(HeartEntity::new, MobCategory.MISC, "heart", 1F, 1F);
     public static final Supplier<EntityType<XPEntity>> TYPE_XP = createEntityType(XPEntity::new, MobCategory.MISC, "xp", 1F, 1F);
+    public static final Supplier<EntityType<TrainingDummyEntity>> TYPE_TRAINING_DUMMY = createEntityType(TrainingDummyEntity::new, MobCategory.MISC, "training_dummy", 1F, 2F);
+    public static final Supplier<EntityType<DamageNumberEntity>> TYPE_DAMAGE_NUMBER = createEntityType(DamageNumberEntity::new, MobCategory.MISC, "damage_number", 1F, 1F);
 
     //Mobs
     public static final Item.Properties PROPERTIES = new Item.Properties();
@@ -337,6 +340,8 @@ public class ModEntities {
         event.registerEntityRenderer(TYPE_ORG_PORTAL.get(), OrgPortalEntityRenderer::new);
         event.registerEntityRenderer(TYPE_HEART.get(), HeartEntityRenderer::new);
         event.registerEntityRenderer(TYPE_XP.get(), XPEntityRenderer::new);
+        event.registerEntityRenderer(TYPE_TRAINING_DUMMY.get(), TrainingDummyRenderer::new);
+        event.registerEntityRenderer(TYPE_DAMAGE_NUMBER.get(), DamageNumberRenderer::new);
 
         //event.registerEntityRenderer(TYPE_CHAKRAM.get(), ChakramEntityRenderer::new);
         EntityRenderers.register(TYPE_KK_THROWABLE.get(), KKThrowableEntityRenderer::new);
@@ -452,7 +457,9 @@ public class ModEntities {
         event.put(TYPE_BLACK_FUNGUS.get(), BlackFungusEntity.registerAttributes().build());
         event.put(TYPE_DRAGOON.get(), DragoonEntity.registerAttributes().build());
         event.put(TYPE_BLOX_BUG.get(), BloxBugEntity.registerAttributes().build());
-        
+
+        event.put(TYPE_TRAINING_DUMMY.get(), TrainingDummyEntity.registerAttributes().build());
+
         //GlobalEntityTypeAttributes.put(TYPE_GUMMI_SHIP.get(), GummiShipEntity.registerAttributes().create());
         event.put(TYPE_SPAWNING_ORB.get(), SpawningOrbEntity.registerAttributes().build());
         
