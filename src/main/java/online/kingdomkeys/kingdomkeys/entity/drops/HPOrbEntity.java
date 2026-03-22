@@ -25,11 +25,11 @@ public class HPOrbEntity extends ItemDropEntity {
 	@Override
 	void onPickup(Player player) {
 		if(!PlayerData.get(player).getActiveDriveForm().equals(Strings.Form_Anti))
-			player.heal(Math.min(this.value, 8));
+			player.heal(Math.min(this.value, 4));
 	}
 
 	@Override
-	SoundEvent getPickupSound() {
+	public SoundEvent getPickupSound() {
 		return ModSounds.hp_orb.get();
 	}
 	
