@@ -110,6 +110,8 @@ public class CommandMenuGui extends OverlayBase {
 							}
 						}).invisibleByDefault().onUpdate((item, guiGraphics) -> {
 							if (item.isVisible()) {
+								PlayerData playerData = PlayerData.get(minecraft.player);
+								item.setActive(!(playerData.getActiveDriveForm().equals(Strings.Form_Anti) && !playerData.isAbilityEquipped(Strings.darkDomination) && EntityEvents.threatLevel == EntityEvents.ThreatLevel.HOSTILES));
 								if (PlayerData.get(minecraft.player).getActiveDriveForm().equals(DriveForm.NONE.toString())) {
 									item.setVisible(false);
 									item.getParent().getChild(drive).setVisible(true);

@@ -10,12 +10,12 @@
 * Assassins will now yield a bit more exp.
 * The way Kingdom Keys complains about malformed synthesis materials in a custom datapack.
 * Orb entities (Munny, HP...) logic to hopefully improve performance.
+* Extended Reach packet got replaced by a mixin, as it was the culprit for double attacking based on the distance.
 
 **Fixed:**
 * Bomb enemies sizes not varying.
 * Event for driveform ability unequip on revert.
 * Crash regarding water spells owner not being a player.
 * Glide stuttering while in final form if the glide ability was not equipped for the base form.
-
-**Removed:**
-* Temporarily disabled the Extended Reach packet as it was the culprit for double attacking based on the distance.
+* Reverting antiform causing issues with the ability event.
+* Antiform revert being displayed as active despite conditions not being met.

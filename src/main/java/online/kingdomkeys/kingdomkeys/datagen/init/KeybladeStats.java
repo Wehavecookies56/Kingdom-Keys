@@ -116,7 +116,7 @@ public class KeybladeStats extends KeybladeProvider {
 		addStats(Strings.olympia, Strings.olympiaChain, 7, 1, "", 1.0F, "item." + MODID + "." + Strings.olympia + ".desc");
 		addStats(Strings.omegaWeapon, Strings.omegaWeaponChain, 8, 7, "", 1.0F, "item." + MODID + "." + Strings.omegaWeapon + ".desc");
 		addStats(Strings.ominousBlight, Strings.ominousBlightChain, 4, 2, "", 1.0F, "item." + MODID + "." + Strings.ominousBlight + ".desc");
-		addStats(Strings.oneWingedAngel, Strings.oneWingedAngelChain, 6, 0, "", 1.0F, "item." + MODID + "." + Strings.oneWingedAngel + ".desc");
+		addStats(Strings.oneWingedAngel, Strings.oneWingedAngelChain, 6, 0, "", 1.5F, "item." + MODID + "." + Strings.oneWingedAngel + ".desc");
 		addStats(Strings.painOfSolitude, Strings.painOfSolitudeChain, 4, 5, "", 1.0F, "item." + MODID + "." + Strings.painOfSolitude + ".desc");
 		addStats(Strings.phantomGreen, Strings.phantomGreenChain, 4, 4, "", 1.0F, "item." + MODID + "." + Strings.phantomGreen + ".desc");
 		addStats(Strings.photonDebugger, Strings.photonDebuggerChain, 5, 3, ModAbilities.THUNDER_BOOST.get().toString(), 1.0F, "item." + MODID + "." + Strings.photonDebugger + ".desc");
