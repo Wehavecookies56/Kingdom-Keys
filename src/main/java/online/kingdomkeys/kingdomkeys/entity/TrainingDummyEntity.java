@@ -2,26 +2,24 @@ package online.kingdomkeys.kingdomkeys.entity;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import online.kingdomkeys.kingdomkeys.config.ModConfigs;
-import online.kingdomkeys.kingdomkeys.damagesource.StopDamageSource;
-import online.kingdomkeys.kingdomkeys.data.PlayerData;
-import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
-import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
-import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
-import online.kingdomkeys.kingdomkeys.lib.Strings;
-import online.kingdomkeys.kingdomkeys.util.Utils;
+import online.kingdomkeys.kingdomkeys.item.ModItems;
 
 import java.util.Collections;
 
@@ -31,18 +29,22 @@ public class TrainingDummyEntity extends LivingEntity {
     private float damageAccumulated = 0;
     private int dpsTimer = 0;
 
-    protected TrainingDummyEntity(EntityType<? extends LivingEntity> type, Level level) {
+    private static final EntityDataAccessor<Boolean> IGNORE_CD = SynchedEntityData.defineId(TrainingDummyEntity.class, EntityDataSerializers.BOOLEAN);
+
+    public TrainingDummyEntity(EntityType<? extends LivingEntity> type, Level level) {
         super(type, level);
     }
 
     @Override
-    public void move(MoverType type, Vec3 pos) {
+    public InteractionResult interact(Player player, InteractionHand hand) {
+        if(player.isShiftKeyDown()){
+            if(player.level().isClientSide())
+                return InteractionResult.SUCCESS;
 
-    }
-
-    @Override
-    public void push(Entity entity) {
-
+            setIgnoreCD(!getIgnoreCD());
+            player.displayClientMessage(Component.literal("Invincibility frames "+(getIgnoreCD() ? "disabled" : "enabled")), true);
+        }
+        return super.interact(player, hand);
     }
 
     @Override
@@ -59,7 +61,6 @@ public class TrainingDummyEntity extends LivingEntity {
                         player.displayClientMessage(Component.literal(String.format("DPS: %.1f", damageAccumulated)), true);
                     }
                 }
-
                 damageAccumulated = 0;
                 dpsTimer = 0;
             }
@@ -70,45 +71,23 @@ public class TrainingDummyEntity extends LivingEntity {
         this.lastAttacker = player;
         this.damageAccumulated += amount;
 
-        spawnDamageText(String.valueOf((int) amount), source);
+        String text = (amount % 1 == 0) ? String.valueOf((int) amount) : String.format("%.1f", amount);
+        spawnDamageText(text, source);
     }
 
     @Override
     public boolean hurt(DamageSource source, float amount) {
+        if(source.getEntity() instanceof Player player){
+            if(player.getMainHandItem().getItem() == Items.FEATHER){
+                ItemEntity itementity = new ItemEntity(this.level(), this.getX(), this.getY(), this.getZ(), new ItemStack(ModItems.trainingDummy.get()));
+                itementity.setDefaultPickUpDelay();
+                this.level().addFreshEntity(itementity);
+                remove(RemovalReason.DISCARDED);
+            }
+        }
         if (level().isClientSide)
             return false;
 
-       /* Entity attacker = source.getEntity();
-
-        // If damagesource is player it's a keyblade attack, therefore calculate damage multiplier
-        float newDMG = source.getMsgId().equals("player") ? 0 : amount;
-        if (attacker instanceof Player player) {
-            //First we calculate the weapon damage
-            ItemStack weapon = Utils.getWeaponDamageStack(source, player);
-            if (weapon != null && !(source instanceof StopDamageSource)) {
-                float dmg = 0;
-                if (weapon.getItem() instanceof KeybladeItem) {
-                    dmg = DamageCalculation.getKBStrengthDamage(player, weapon);
-                } else if (weapon.getItem() instanceof IOrgWeapon) {
-                    dmg = DamageCalculation.getOrgStrengthDamage(player, weapon);
-                }
-
-                if (player.fallDistance > 0.0F && !player.onGround() && !player.onClimbable() && !player.isInWater() && !player.hasEffect(MobEffects.BLINDNESS) && !player.isPassenger()) { // Crit attack formula
-                    dmg *= ModConfigs.critMult;
-                    dmg += dmg * PlayerData.get(player).getNumberOfAbilitiesEquipped(Strings.criticalBoost) * 0.1F;
-                }
-                newDMG = (amount - 1) + dmg * player.getAttackStrengthScale(0);
-            }
-
-            PlayerData playerData = PlayerData.get(player);
-            if (playerData != null && playerData.getActiveDriveForm().equals(Strings.Form_Anti)) {
-                newDMG = playerData.getStrength(true);
-            }
-            recordDamage(player, newDMG, source);
-        }
-
-        boolean result = super.hurt(source, newDMG);
-        this.invulnerableTime = 0;*/
         return super.hurt(source, amount);
     }
 
@@ -138,9 +117,7 @@ public class TrainingDummyEntity extends LivingEntity {
     }
 
     @Override
-    public void knockback(double strength, double x, double z) {
-
-    }
+    public void knockback(double strength, double x, double z) {}
 
     @Override
     public boolean isPushable() {
@@ -148,15 +125,26 @@ public class TrainingDummyEntity extends LivingEntity {
     }
 
     @Override
+    public void move(MoverType type, Vec3 pos) {}
+
+    @Override
+    public void push(Entity entity) {}
+
+    @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
+        builder.define(IGNORE_CD, false);
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundTag tag) {}
+    public void readAdditionalSaveData(CompoundTag tag) {
+        setIgnoreCD(tag.getBoolean("text"));
+    }
 
     @Override
-    public void readAdditionalSaveData(CompoundTag tag) {}
+    public void addAdditionalSaveData(CompoundTag tag) {
+        tag.putBoolean("text", getIgnoreCD());
+    }
 
     @Override
     public Iterable<ItemStack> getArmorSlots() {
@@ -182,5 +170,13 @@ public class TrainingDummyEntity extends LivingEntity {
     @Override
     public HumanoidArm getMainArm() {
         return HumanoidArm.RIGHT;
+    }
+
+    public void setIgnoreCD(boolean text) {
+        this.entityData.set(IGNORE_CD, text);
+    }
+
+    public boolean getIgnoreCD() {
+        return this.entityData.get(IGNORE_CD);
     }
 }

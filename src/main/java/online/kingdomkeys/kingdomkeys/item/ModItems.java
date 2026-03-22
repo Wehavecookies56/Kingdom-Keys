@@ -725,6 +725,8 @@ public class ModItems {
 			iceCream = createNewItem(Strings.iceCream, () -> new KKIceCreamItem(new Item.Properties().food(new FoodProperties.Builder().fast().saturationModifier(2.0f).nutrition(2).alwaysEdible().build()))),
 			winnerStick = createNewItem(Strings.winnerStick, () -> new Item(new Item.Properties())),
 
+			trainingDummy = createNewItem(Strings.trainingDummy, () -> new TrainingDummyItem(new Item.Properties())),
+
 			disc_Birth_by_Sleep_A_Link_to_the_Future = createNewItem(Strings.Disc_Birth_by_Sleep_A_Link_to_the_Future, () -> new KKRecordItem(ModJukeboxSongs.BIRTH_BY_SLEEP_A_LINK_TO_THE_FUTURE)),
 			disc_Dream_Drop_Distance_The_Next_Awakening = createNewItem(Strings.Disc_Dream_Drop_Distance_The_Next_Awakening, () -> new KKRecordItem(ModJukeboxSongs.DREAM_DROP_DISTANCE_THE_NEXT_AWAKENING)),
 			disc_Hikari_KINGDOM_Instrumental_Version = createNewItem(Strings.Disc_Hikari_KINGDOM_Instrumental_Version, () -> new KKRecordItem(ModJukeboxSongs.HIKARI_KINGDOM_INSTRUMENTAL_VERSION)),

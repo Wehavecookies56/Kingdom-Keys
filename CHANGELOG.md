@@ -1,5 +1,5 @@
 **Added:**
-* A training dummy (missing model) which shows the damage dealt and the magic it deals (through color).
+* A training scarecrow (training dummy) which shows the damage dealt and the magic it deals (through color).
 * Desertor heartless, these ones are slightly smaller but very fast, watch out! 
 * Commander heartless, these are big and have a larger health pool, consider them a threat.
 * An example datapack template for custom materials and synthesis recipes.

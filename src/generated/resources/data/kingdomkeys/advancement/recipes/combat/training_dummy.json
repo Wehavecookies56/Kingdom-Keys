@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "kingdomkeys:training_dummy"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "training_dummy": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:hay_block"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "training_dummy"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "kingdomkeys:training_dummy"
+    ]
+  }
+}

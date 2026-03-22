@@ -1893,6 +1893,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.synthesisBag, "Synthesis Bag");
         addItem(ModItems.proofOfHeart, "Proof of Heart");
         addItem(ModItems.wayfinder, "Wayfinder");
+        addItem(ModItems.trainingDummy, "Training Scarecrow");
 
         add("patchouli.kingdomkeys.journal.name", "Jiminy's Journal");
         add("patchouli.kingdomkeys.journal.desc", "Thank Naminé.");

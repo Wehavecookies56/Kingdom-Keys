@@ -482,7 +482,19 @@ public class Recipes extends RecipeProvider {
 	        .group("kingdomkeys")
 	        .unlockedBy("struggle_hammer", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.woodenStick.get()))
 	        .save(consumer);
-	        
+
+		ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.trainingDummy.get())
+			.pattern(" W ")
+			.pattern("SHS")
+			.pattern(" A ")
+			.define('S', ModItems.woodenStick.get())
+			.define('W', Items.WHEAT)
+			.define('A', Items.ARMOR_STAND)
+			.define('H', Blocks.HAY_BLOCK)
+			.group("kingdomkeys")
+			.unlockedBy("training_dummy", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.HAY_BLOCK))
+			.save(consumer);
+
         //2 recipes upgrade
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.recipeC.get())
         .requires(ModItems.recipeD.get())

@@ -804,7 +804,8 @@ public class EntityEvents {
 
 			if(event.getEntity() instanceof TrainingDummyEntity dummy) {
 				dummy.recordDamage(player, event.getNewDamage(), event.getSource());
-				dummy.invulnerableTime = 0;
+				if(dummy.getIgnoreCD())
+					dummy.invulnerableTime = 0;
 			}
 		}
 

@@ -165,8 +165,8 @@ public class KeybladeStats extends KeybladeProvider {
 		addStats(Strings.wishingStar, Strings.wishingStarChain, 5, 1, "", 1.0F, "item." + MODID + "." + Strings.wishingStar + ".desc");
 		addStats(Strings.youngXehanortsKeyblade, Strings.youngXehanortsKeybladeChain, 9, 7, "", 1.0F, "item." + MODID + "." + Strings.youngXehanortsKeyblade + ".desc");
 		addStats(Strings.zeroOne, Strings.zeroOneChain, 6, 4, "", 1.0F, "item." + MODID + "." + Strings.zeroOne + ".desc");
-		addStats(Strings.k111, Strings.k111c, 10, 8, "", 5, "item." + MODID + "." + Strings.k111 + ".desc");
-		addStats(Strings.retribution, Strings.retributionChain, 5, 5, ModAbilities.FIRE_BOOST.get().toString(), 5, "item." + MODID + "." + Strings.retribution + ".desc");
+		addStats(Strings.k111, Strings.k111c, 10, 8, "", 0.69F, "item." + MODID + "." + Strings.k111 + ".desc");
+		addStats(Strings.retribution, Strings.retributionChain, 5, 5, ModAbilities.FIRE_BOOST.get().toString(), 0.5F, "item." + MODID + "." + Strings.retribution + ".desc");
 	}
 
 	static Recipe[] recipes = {
@@ -182,8 +182,8 @@ public class KeybladeStats extends KeybladeProvider {
 			new Recipe().addMaterial(ModItems.electrum.get(), 1).addMaterial(ModItems.wellspring_crystal.get(), 1).addMaterial(ModItems.writhing_crystal.get(), 1),
 	};
 
-	public void addStats(String keyblade, String keychain, int baseStr, int baseMag, String ability, float reach, String description) {
-			getBuilder(keyblade).keychain(keychain).baseStats(baseStr, baseMag).ability(ability).reach(reach).levels(recipes).desc(description);
+	public void addStats(String keyblade, String keychain, int baseStr, int baseMag, String ability, float extraReach, String description) {
+			getBuilder(keyblade).keychain(keychain).baseStats(baseStr, baseMag).ability(ability).reach(extraReach).levels(recipes).desc(description);
 	}
 
 	public static class Recipe {

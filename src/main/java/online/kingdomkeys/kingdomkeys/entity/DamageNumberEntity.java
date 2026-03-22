@@ -13,8 +13,6 @@ public class DamageNumberEntity extends Entity {
     private static final EntityDataAccessor<String> TEXT = SynchedEntityData.defineId(DamageNumberEntity.class, EntityDataSerializers.STRING);
     private static final EntityDataAccessor<String> TYPE = SynchedEntityData.defineId(DamageNumberEntity.class, EntityDataSerializers.STRING);
 
-    private int life;
-
     public DamageNumberEntity(EntityType<?> type, Level level) {
         super(type, level);
     }
@@ -35,9 +33,7 @@ public class DamageNumberEntity extends Entity {
     public void tick() {
         super.tick();
 
-        life++;
-
-        if (life > 20) {
+        if (tickCount > 40) {
             this.discard();
             return;
         }

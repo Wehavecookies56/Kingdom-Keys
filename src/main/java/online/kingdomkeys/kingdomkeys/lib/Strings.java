@@ -557,7 +557,7 @@ public class Strings {
     public static final String
         iceCream = "ice_cream",
         winnerStick = "winner_stick",
-        emptyBottle = "empty_bottle",
+        trainingDummy = "training_dummy",
         potion = "potion",
         hiPotion = "hi_potion",
         megaPotion = "mega_potion",
