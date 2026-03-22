@@ -7,6 +7,7 @@ import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
@@ -30,7 +31,7 @@ public class PatchedStopLayerRenderer<E extends LivingEntity, T extends LivingEn
     }
 
     @Override
-    protected void renderLayer(T patch, E entity, @Nullable net.minecraft.client.renderer.entity.layers.RenderLayer<E, M> vanillaLayer, PoseStack poseStack, MultiBufferSource buffer, int packedLight, OpenMatrix4f[] poses, float bob, float yRot, float xRot, float partialTicks) {
+    protected void renderLayer(T patch, E entity, @Nullable RenderLayer<E, M> vanillaLayer, PoseStack poseStack, MultiBufferSource buffer, int packedLight, OpenMatrix4f[] poses, float bob, float yRot, float xRot, float partialTicks) {
         GlobalData globalData = GlobalData.getClient(entity);
         if (globalData == null)
             return;

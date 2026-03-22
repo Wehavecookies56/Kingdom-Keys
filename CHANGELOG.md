@@ -12,4 +12,5 @@
 **Fixed:**
 * Bomb enemies sizes not varying.
 * Event for driveform ability unequip on revert.
-* Crash regarding water spells owner not being a player
+* Crash regarding water spells owner not being a player.
+* Glide stuttering while in final form if the glide ability was not equipped for the base form.
