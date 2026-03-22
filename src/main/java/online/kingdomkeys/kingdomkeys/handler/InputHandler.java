@@ -7,6 +7,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
@@ -15,6 +16,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
@@ -483,6 +485,40 @@ public class InputHandler {
 
     public void playSound(SoundEvent sound) {
         level.playSound(player, player.position().x(),player.position().y(),player.position().z(), sound, SoundSource.MASTER, 1.0f, 1.0f);
+    }
+
+    public static HitResult pickExtend(Player player, double range) {
+        double d0 = range;
+        double d1 = Mth.square(d0);
+        Vec3 vec3 = player.getEyePosition(0);
+        HitResult hitresult = player.pick(d0, 0, false);
+        double d2 = hitresult.getLocation().distanceToSqr(vec3);
+        if (hitresult.getType() != HitResult.Type.MISS) {
+            d1 = d2;
+            d0 = Math.sqrt(d2);
+        }
+
+        Vec3 vec31 = player.getViewVector(0);
+        Vec3 vec32 = vec3.add(vec31.x * d0, vec31.y * d0, vec31.z * d0);
+        float f = 1.0F;
+        AABB aabb = player.getBoundingBox().expandTowards(vec31.scale(d0)).inflate(1.0, 1.0, 1.0);
+        EntityHitResult entityhitresult = ProjectileUtil.getEntityHitResult(
+                player, vec3, vec32, aabb, p_234237_ -> !p_234237_.isSpectator() && p_234237_.isPickable(), d1
+        );
+        return entityhitresult != null && entityhitresult.getLocation().distanceToSqr(vec3) < d2
+                ? filterHitResult(entityhitresult, vec3, range)
+                : filterHitResult(hitresult, vec3, range);
+    }
+
+    private static HitResult filterHitResult(HitResult hitResult, Vec3 pos, double blockInteractionRange) {
+        Vec3 vec3 = hitResult.getLocation();
+        if (!vec3.closerThan(pos, blockInteractionRange)) {
+            Vec3 vec31 = hitResult.getLocation();
+            Direction direction = Direction.getNearest(vec31.x - pos.x, vec31.y - pos.y, vec31.z - pos.z);
+            return BlockHitResult.miss(vec31, direction, BlockPos.containing(vec31));
+        } else {
+            return hitResult;
+        }
     }
 
     public static HitResult getMouseOverExtended(double dist) {

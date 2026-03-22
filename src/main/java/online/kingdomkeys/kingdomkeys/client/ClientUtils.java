@@ -70,6 +70,7 @@ import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
 import online.kingdomkeys.kingdomkeys.util.IDisabledAnimations;
+import online.kingdomkeys.kingdomkeys.util.IExtendedReach;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import org.joml.Matrix4f;
 import org.joml.Matrix4fStack;
@@ -524,6 +525,9 @@ public class ClientUtils {
 
               tooltip.add(Component.translatable(ChatFormatting.RED + Utils.translateToLocal(Strings.Gui_Menu_Status_Strength) + " %s", baseStr + " [" + totalStr + "]"));
               tooltip.add(Component.translatable(ChatFormatting.BLUE + Utils.translateToLocal(Strings.Gui_Menu_Status_Magic) + " %s", baseMag + " [" + totalMag + "]"));
+              if (stack.getItem() instanceof IExtendedReach extendedReach) {
+                tooltip.add(Component.translatable(ChatFormatting.AQUA + "Reach " + ChatFormatting.WHITE + "+" + extendedReach.getReach()));
+              }
               tooltip.add(Component.translatable(ChatFormatting.WHITE + "" + ChatFormatting.ITALIC + desc));
 
           }
