@@ -111,6 +111,10 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 		return 0;
 	}
 
+	public float setCritChance(float critChance){
+		return 10;
+	}
+
 	public void setKeybladeLevel(ItemStack stack, int level) {
 		stack.set(ModComponents.KEYBLADE_LEVEL, level);
 	}
@@ -118,6 +122,8 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 	public int getMaxLevel(){
 		return data.getMaxLevel();
 	}
+
+	public float getCritChance() {return data.getCritChance();}
 
 	public Item.Properties getProperties() {
 		return properties;
