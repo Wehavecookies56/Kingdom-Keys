@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.client.model.entity;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
@@ -136,6 +137,9 @@ public class MarluxiaModel<T extends BaseKHEntity> extends HumanoidModel<T> {
 
     @Override
     public void setupAnim(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+		if(Minecraft.getInstance().isPaused())
+			return;
+
     	super.setupAnim(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
     	this.rightArm.x=-7;
     	this.leftArm.x=7;

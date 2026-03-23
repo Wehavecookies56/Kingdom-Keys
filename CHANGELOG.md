@@ -5,6 +5,7 @@
 * Desertor heartless, these ones are slightly smaller but very fast, watch out! 
 * Commander heartless, these are big and have a larger health pool, consider them a threat.
 * An example datapack template for custom materials and synthesis recipes.
+* Critical hits to Epic Fight mode combos, 10% chance per Critical Boost ability equipped (Thanks Xephiro).
 
 **Changed:**
 * Heartless and Antiform eyes will now glow in the darkness.
@@ -21,3 +22,4 @@
 * Glide stuttering while in final form if the glide ability was not equipped for the base form.
 * Reverting antiform causing issues with the ability event.
 * Antiform revert being displayed as active despite conditions not being met.
+* Some mobs models still animated while the game is paused.

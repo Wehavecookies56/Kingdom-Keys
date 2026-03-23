@@ -175,24 +175,22 @@ public class AssassinModel<T extends AssassinEntity> extends EntityModel<T> {
     public void setupAnim(T ent, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         updateDistanceMovedTotal(ent);
         if (ent.distanceToSqr(ent.xOld, ent.yOld, ent.zOld) > 0) {
-            for(int i = 0; i < animation.size(); i++) { //iterate through the legs array
-                ModelAnimation m = animation.get(i);
-
-                if(m != null && m.model != null) {
-                    if(m.increasing) { //animation increase
+            for (ModelAnimation m : animation) { //iterate through the legs array
+                if (m != null && m.model != null) {
+                    if (m.increasing) { //animation increase
                         m.actVal += 2;
-                        if(m.actVal >= m.maxVal) {
+                        if (m.actVal >= m.maxVal) {
                             m.increasing = false;
                         }
                     } else { //Animation decrease
                         m.actVal -= 2;
-                        if(m.actVal <= m.minVal) {
+                        if (m.actVal <= m.minVal) {
                             m.increasing = true;
                         }
                     }
                     m.model.xRot = (float) Math.toRadians(m.actVal);
-                    if(m.modelCounterpart != null) {
-                        m.modelCounterpart.xRot = (float) Math.toRadians(m.defVal*2-m.actVal);
+                    if (m.modelCounterpart != null) {
+                        m.modelCounterpart.xRot = (float) Math.toRadians(m.defVal * 2 - m.actVal);
                     }
                 }
             }
