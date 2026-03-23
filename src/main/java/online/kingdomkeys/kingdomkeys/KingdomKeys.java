@@ -53,6 +53,7 @@ import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.handler.EntityEvents;
+import online.kingdomkeys.kingdomkeys.integration.epicfight.EpicFightEvents;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.init.ClientEpicFightIntegration;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.init.EpicFightIntegration;
 import online.kingdomkeys.kingdomkeys.integration.wildfire_gender.KKWildFireGender;
@@ -243,6 +244,7 @@ public class KingdomKeys {
 		if (ModList.get().isLoaded("epicfight")) {
 			efmLoaded = true;
 			EpicFightIntegration.initIntegration(modEventBus);
+			NeoForge.EVENT_BUS.register(new EpicFightEvents());
 		}
 
 		if (ModList.get().isLoaded("wildfire_gender")) {
