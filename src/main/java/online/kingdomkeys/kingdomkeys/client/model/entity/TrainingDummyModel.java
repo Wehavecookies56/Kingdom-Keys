@@ -7,9 +7,11 @@ import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.entity.TrainingDummyEntity;
 
 public class TrainingDummyModel<T extends Entity> extends EntityModel<T> {
     public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "training_dummy"), "main");
@@ -44,14 +46,36 @@ public class TrainingDummyModel<T extends Entity> extends EntityModel<T> {
         return LayerDefinition.create(meshdefinition, 128, 64);
     }
 
+
     @Override
     public void setupAnim(Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+        if (entity instanceof TrainingDummyEntity dummy) {
 
+            float progress = dummy.getEntityData().get(TrainingDummyEntity.HIT_TICKS) / 10.0F;
+
+            if (progress > 0) {
+                float strength = (float) Math.sin(progress * Math.PI);
+
+                float dirX = dummy.getEntityData().get(TrainingDummyEntity.HIT_DIR_X);
+                float dirZ = dummy.getEntityData().get(TrainingDummyEntity.HIT_DIR_Z);
+
+                this.bone.xRot = dirZ * strength * 0.4F;
+                this.bone.zRot = dirX * strength * 0.4F;
+
+                this.bone.yScale = 1.0F - 0.1F * progress;
+
+            } else {
+                this.bone.xRot = 0;
+                this.bone.zRot = 0;
+
+                this.bone.yScale = 1.0F;
+            }
+        }
     }
 
     @Override
     public void renderToBuffer(PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, int colour) {
-        bone.render(poseStack, buffer, packedLight, packedOverlay, colour);
+        bone.render(poseStack, buffer, packedLight, OverlayTexture.NO_OVERLAY, colour);
     }
 }
 

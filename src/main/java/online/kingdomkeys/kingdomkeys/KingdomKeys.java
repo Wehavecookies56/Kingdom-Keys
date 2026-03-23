@@ -244,7 +244,7 @@ public class KingdomKeys {
 		if (ModList.get().isLoaded("epicfight")) {
 			efmLoaded = true;
 			EpicFightIntegration.initIntegration(modEventBus);
-			NeoForge.EVENT_BUS.register(new EpicFightEvents());
+			// NeoForge.EVENT_BUS.register(new EpicFightEvents());
 		}
 
 		if (ModList.get().isLoaded("wildfire_gender")) {

@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.entity;
 
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -7,6 +8,7 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
@@ -49,6 +51,10 @@ public class TrainingDummyEntity extends LivingEntity {
 
     @Override
     public void tick() {
+        if (this.entityData.get(HIT_TICKS) > 0) {
+            this.entityData.set(HIT_TICKS, this.entityData.get(HIT_TICKS) - 1);
+        }
+
         super.tick();
         this.setDeltaMovement(Vec3.ZERO);
         this.setPos(this.getX(), this.getY(), this.getZ());
@@ -88,7 +94,31 @@ public class TrainingDummyEntity extends LivingEntity {
         if (level().isClientSide)
             return false;
 
-        return super.hurt(source, amount);
+
+        Entity directEntity = source.getDirectEntity();
+
+        if (directEntity != null) {
+            double dx = this.getX() - directEntity.getX();
+            double dz = this.getZ() - directEntity.getZ();
+
+            double length = Math.sqrt(dx * dx + dz * dz);
+
+            if (length > 0) {
+                this.entityData.set(HIT_DIR_X, (float)(dx / length));
+                this.entityData.set(HIT_DIR_Z, (float)(dz / length));
+            }
+        }
+
+        this.entityData.set(HIT_TICKS, 10);
+
+        boolean result = super.hurt(source, amount);
+
+        return result;
+    }
+
+    @Override
+    protected void playHurtSound(DamageSource source) {
+        this.playSound(SoundEvents.ARMOR_STAND_HIT, 1.0F, 1.0F);
     }
 
     @Override
@@ -130,10 +160,22 @@ public class TrainingDummyEntity extends LivingEntity {
     @Override
     public void push(Entity entity) {}
 
+    public static final EntityDataAccessor<Float> HIT_DIR_X =
+            SynchedEntityData.defineId(TrainingDummyEntity.class, EntityDataSerializers.FLOAT);
+
+    public static final EntityDataAccessor<Float> HIT_DIR_Z =
+            SynchedEntityData.defineId(TrainingDummyEntity.class, EntityDataSerializers.FLOAT);
+
+    public static final EntityDataAccessor<Integer> HIT_TICKS =
+            SynchedEntityData.defineId(TrainingDummyEntity.class, EntityDataSerializers.INT);
+
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
         builder.define(IGNORE_CD, false);
+        builder.define(HIT_DIR_X, 0f);
+        builder.define(HIT_DIR_Z, 0f);
+        builder.define(HIT_TICKS, 0);
     }
 
     @Override
