@@ -34,7 +34,7 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.damagesource.KeybladeDamageSource;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.network.Packet;
-import online.kingdomkeys.kingdomkeys.util.IExtendedReach;
+import online.kingdomkeys.kingdomkeys.util.IOffHandRange;
 
 public record CSAttackOffhandPacket(int entityId) implements Packet {
 
@@ -139,7 +139,7 @@ public record CSAttackOffhandPacket(int entityId) implements Packet {
 
 							for (LivingEntity livingentity2 : player.level()
 									.getEntitiesOfClass(LivingEntity.class, targetEntity.getBoundingBox().inflate(1.0, 0.25, 1.0))) {
-								double entityReachSq = Mth.square(player.entityInteractionRange()); // Use entity reach instead of constant 9.0. Vanilla uses bottom center-to-center checks here, so don't update this to use canReach, since it uses closest-corner checks.
+								double entityReachSq = Mth.square(((IOffHandRange)player).kingdom_Keys$getOffHandEntityInteractionRange()); // Use entity reach instead of constant 9.0. Vanilla uses bottom center-to-center checks here, so don't update this to use canReach, since it uses closest-corner checks.
 								if (livingentity2 != player
 										&& livingentity2 != targetEntity
 										&& !player.isAlliedTo(livingentity2)
@@ -248,13 +248,10 @@ public record CSAttackOffhandPacket(int entityId) implements Packet {
 		Player player = context.player();
 		Entity entity = player.level().getEntity(entityId);
 		if (entity != null) {
-			if (player.getOffhandItem().getItem() instanceof IExtendedReach theExtendedReachWeapon) {
-                double distanceSq = player.distanceToSqr(entity);
-				float reach = Math.max(5,theExtendedReachWeapon.getReach());
-				double reachSq = reach * reach;
-				if (reachSq >= distanceSq) {
-					attackTargetEntityWithOffhandItem((ServerPlayer) player, entity);
-				}
+			double distanceSq = player.distanceToSqr(entity);
+			double reachSq = Mth.square(((IOffHandRange)player).kingdom_Keys$getOffHandEntityInteractionRange()+1);
+			if (distanceSq < reachSq) {
+				attackTargetEntityWithOffhandItem((ServerPlayer) player, entity);
 			}
 		}
 	}

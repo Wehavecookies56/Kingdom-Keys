@@ -32,14 +32,14 @@ public class MunnyEntity extends ItemDropEntity {
 	}
 
 	@Override
-	SoundEvent getPickupSound() {
+	public SoundEvent getPickupSound() {
 		return ModSounds.munny.get();
 	}
 	
 	@Override
 	public void tick() {
 		super.tick();
-            //Merge with surrounding orbs
+		//Merge with surrounding orbs
         if(tickCount % 5 == 0) {
             List<MunnyEntity> list = level().getEntitiesOfClass(MunnyEntity.class, getBoundingBox().inflate(1.5, 1, 1.5));
             if (!list.isEmpty()) {

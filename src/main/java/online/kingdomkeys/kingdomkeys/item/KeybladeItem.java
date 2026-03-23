@@ -1,7 +1,6 @@
 package online.kingdomkeys.kingdomkeys.item;
 
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -35,6 +34,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.entity.item.ItemTossEvent;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.api.item.IItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
@@ -53,6 +53,7 @@ import online.kingdomkeys.kingdomkeys.network.cts.CSAttackOffhandPacket;
 import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeData;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.Recipe;
 import online.kingdomkeys.kingdomkeys.util.IExtendedReach;
+import online.kingdomkeys.kingdomkeys.util.IOffHandRange;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.util.Iterator;
@@ -236,11 +237,11 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
         } else { //Attack offhand and wisdom attack
 			if (!player.getOffhandItem().isEmpty() && player.getOffhandItem().getItem() instanceof KeybladeItem) { // offhand kb attacking
 				if (world.isClientSide && !player.getOffhandItem().isEmpty() && player.getOffhandItem().getItem() instanceof KeybladeItem) { // if kb in offhand
-					HitResult rtr = player.getOffhandItem().getItem() instanceof IExtendedReach item ? InputHandler.getMouseOverExtended(item.getReach()) : Minecraft.getInstance().hitResult;
+					HitResult rtr = InputHandler.pickExtend(player, ((IOffHandRange)player).kingdom_Keys$getOffHandEntityInteractionRange());
 					if (rtr != null) {
 						if (rtr.getType() == Type.ENTITY) {
-							EntityHitResult ertr = (EntityHitResult) rtr;
 							if (!ItemStack.matches(player.getItemInHand(InteractionHand.OFF_HAND), ItemStack.EMPTY) && player.getItemInHand(InteractionHand.OFF_HAND).getItem() instanceof KeybladeItem && hand == InteractionHand.OFF_HAND) {
+								EntityHitResult ertr = (EntityHitResult) rtr;
 								if (ertr.getEntity() != null) {
 									PacketHandler.sendToServer(new CSAttackOffhandPacket(ertr.getEntity().getId()));
 									return InteractionResultHolder.success(itemstack);

@@ -8,6 +8,7 @@
     "ItemStackMixin",
     "LevelChunkMixin",
     "LivingEntityMixin",
+    "PlayerMixin",
     "ServerGamePacketListenerImplMixin",
     "TellMeTheErrorMixin"
   ],
@@ -17,9 +18,9 @@
     "client.LivingEntityRendererMixin",
     "client.MinecraftMixin",
     "client.PlayerRendererMixin",
+    "epicfight.FirstPersonRendererMixin",
     "epicfight.PHumanoidRendererMixin",
     "epicfight.RenderEngineEventsMixin",
-    "epicfight.FirstPersonRendererMixin",
     "wildfire_gender.GenderLayerMixin"
   ],
   "minVersion": "0.8"

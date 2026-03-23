@@ -932,6 +932,8 @@ public class LanguageESES extends KKLanguageProvider {
         addItem(ModItems.synthesisBag, "Bolsa de S\u00edntesis");
         addItem(ModItems.proofOfHeart, "Prueba de Coraz\u00f3n");
         addItem(ModItems.wayfinder, "Siemprejuntos");
+        addItem(ModItems.trainingDummy, "Espantapájaros de entrenamiento");
+
 
         //Patchouli
         add("patchouli.kingdomkeys.journal.name", "Jiminy's Journal");

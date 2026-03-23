@@ -43,6 +43,11 @@ public record CSUseDriveFormPacket(String form) implements Packet {
 		} else { //if target is a normal form or revert
 			if (!playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()) && form.equals(DriveForm.NONE.toString())) { // If is in a drive form and the target is "" (player)
 				DriveForm form = ModDriveForms.registry.get(ResourceLocation.parse(playerData.getActiveDriveForm()));
+				System.out.println(form);
+				if(form.getName().equals(Strings.Form_Anti)) { //Antiform should not have any ability to check equipping
+					form.endDrive(player);
+					return;
+				}
 				if (!form.getBaseGrowthAbilities()) {
 					NeoForge.EVENT_BUS.post(new AbilityEvent.Unequip(ModAbilities.registry.get(ResourceLocation.parse(form.getDFAbilityForLevel(playerData.getDriveFormLevel(form.getName())))), playerData.getDriveFormLevel(form.getName()), player, false));
 				}

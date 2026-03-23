@@ -48,7 +48,7 @@ public class XPEntityRenderer extends EntityRenderer<XPEntity> {
             matrixStackIn.scale(-0.05F, -0.05F, -0.05F);
             
             if(entityIn.tickCount >= 10)
-            matrixStackIn.scale((30-entityIn.tickCount)*0.05F,(30-entityIn.tickCount)*0.05F,(30-entityIn.tickCount)*0.05F);
+                matrixStackIn.scale((30-entityIn.tickCount)*0.05F,(30-entityIn.tickCount)*0.05F,(30-entityIn.tickCount)*0.05F);
 
             Matrix4f matrix4f = matrixStackIn.last().pose();
             mc.font.drawInBatch(text, -mc.font.width(text) / 2, 0, 0x7788FF, false, matrix4f, bufferIn, Font.DisplayMode.NORMAL, 0, packedLightIn);

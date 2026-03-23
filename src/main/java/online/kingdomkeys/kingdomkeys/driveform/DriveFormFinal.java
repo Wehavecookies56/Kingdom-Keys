@@ -64,7 +64,7 @@ public class DriveFormFinal extends DriveForm {
 			}
 
 			//Check if the player has the ability to cancel the variable
-			if(playerData.getIsGliding()) {
+			if(playerData.getIsGliding() && !playerData.getActiveDriveForm().equals(Strings.Form_Final)) {
 				if(!playerData.isAbilityEquipped(Strings.glide)) {
 					playerData.setIsGliding(false);
 				}
@@ -120,12 +120,7 @@ public class DriveFormFinal extends DriveForm {
 		}
 
 		if (playerData.getIsGliding()) {
-			int glideLevel = playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())
-					? playerData.getDriveFormLevel(Strings.Form_Final) - 2
-					: playerData.getDriveFormLevel(Strings.Form_Final);
-
-
-
+			int glideLevel = playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()) ? playerData.getDriveFormLevel(Strings.Form_Final) - 2 : playerData.getDriveFormLevel(Strings.Form_Final);
 			float glide = DriveForm.FINAL_GLIDE[glideLevel];
 			float limit = DriveForm.FINAL_GLIDE_SPEED[glideLevel];
 
