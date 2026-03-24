@@ -76,7 +76,6 @@ public class PacketHandler {
 		server(CSEquipKeychain.TYPE, CSEquipKeychain.STREAM_CODEC);
 		server(CSEquipShotlock.TYPE, CSEquipShotlock.STREAM_CODEC);
 		server(CSEquipShoulderArmor.TYPE, CSEquipShoulderArmor.STREAM_CODEC);
-		server(CSExtendedReach.TYPE, CSExtendedReach.STREAM_CODEC);
 		server(CSGenerateRoom.TYPE, CSGenerateRoom.STREAM_CODEC);
 		server(CSGiveUpKO.TYPE, CSGiveUpKO.STREAM_CODEC);
 		server(CSLevelUpKeybladePacket.TYPE, CSLevelUpKeybladePacket.STREAM_CODEC);

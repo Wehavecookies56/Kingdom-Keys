@@ -141,29 +141,7 @@ public class InputHandler {
                 if(KeyboardHelper.isScrollActivatorDown() && Utils.shouldRenderOverlay(player)) {
                     commandEnter();
                     event.setCanceled(true);
-                } /*else if(mc.screen == null){
-                    if (player != null) {
-                        ItemStack itemstack = player.getMainHandItem();
-                        if (!ItemStack.matches(itemstack, ItemStack.EMPTY)) {
-                            IExtendedReach ieri = itemstack.getItem() instanceof IExtendedReach ? (IExtendedReach) itemstack.getItem() : null;
-                            if (ieri != null) {
-                                float reach = ieri.getReach();
-                                HitResult rtr = getMouseOverExtended(reach);
-                                if (rtr != null) {
-                                    if (rtr instanceof EntityHitResult ertr) {
-                                        if (ertr.getEntity() != null && ertr.getEntity().invulnerableTime == 0) {
-                                            if (ertr.getEntity() != player) {
-                                                if(!ertr.getEntity().getPassengers().contains(player)) {
-                                                    PacketHandler.sendToServer(new CSExtendedReach(ertr.getEntity().getId()));
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }*/
+                }
             }
 
             if (event.getButton() == Constants.MIDDLE_MOUSE && KeyboardHelper.isScrollActivatorDown() && event.getAction() == 1 && Utils.shouldRenderOverlay(player)) {

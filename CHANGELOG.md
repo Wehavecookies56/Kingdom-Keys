@@ -14,6 +14,7 @@
 * The way Kingdom Keys complains about malformed synthesis materials in a custom datapack.
 * Orb entities (Munny, HP...) logic to hopefully improve performance.
 * Extended Reach packet got replaced by a mixin, as it was the culprit for double attacking based on the distance.
+* Interpolated heart and org portal animations.
 
 **Fixed:**
 * Bomb enemies sizes not varying.
