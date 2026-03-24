@@ -157,8 +157,8 @@ public class ModEntities {
     public static final Supplier<EntityType<SoldierEntity>> TYPE_SOLDIER = createEntityType(SoldierEntity::new, MobCategory.MONSTER, "soldier", 0.8F, 1.6F);
     public static final Supplier<Item> SOLDIER_EGG = ModItems.ITEMS.register("soldier_spawn_egg", () -> new DeferredSpawnEggItem(TYPE_SOLDIER, Color.BLUE.getRGB(), Color.RED.getRGB(), PROPERTIES));
 
-    public static final Supplier<EntityType<SoldierEntity>> TYPE_DESERTOR = createEntityType(DesertorEntity::new, MobCategory.MONSTER, "desertor", 0.7F, 1.3F);
-    public static final Supplier<Item> DESERTOR_EGG = ModItems.ITEMS.register("desertor_spawn_egg", () -> new DeferredSpawnEggItem(TYPE_DESERTOR, 0x007b5a, Color.LIGHT_GRAY.getRGB(), PROPERTIES));
+    public static final Supplier<EntityType<SoldierEntity>> TYPE_DESERTER = createEntityType(DeserterEntity::new, MobCategory.MONSTER, "deserter", 0.7F, 1.3F);
+    public static final Supplier<Item> DESERTER_EGG = ModItems.ITEMS.register("deserter_spawn_egg", () -> new DeferredSpawnEggItem(TYPE_DESERTER, 0x007b5a, Color.LIGHT_GRAY.getRGB(), PROPERTIES));
 
     public static final Supplier<EntityType<SoldierEntity>> TYPE_COMMANDER = createEntityType(CommanderEntity::new, MobCategory.MONSTER, "commander", 0.9F, 2.4F);
     public static final Supplier<Item> COMMANDER_EGG = ModItems.ITEMS.register("commander_spawn_egg", () -> new DeferredSpawnEggItem(TYPE_COMMANDER, 0x003c32, Color.YELLOW.getRGB(), PROPERTIES));
@@ -329,7 +329,7 @@ public class ModEntities {
         event.registerEntityRenderer(TYPE_ASSASSIN.get(), AssassinRenderer::new);
         event.registerEntityRenderer(TYPE_DIRE_PLANT.get(), DirePlantRenderer::new);
         event.registerEntityRenderer(TYPE_SOLDIER.get(), SoldierRenderer::new);
-        event.registerEntityRenderer(TYPE_DESERTOR.get(), SoldierRenderer::new);
+        event.registerEntityRenderer(TYPE_DESERTER.get(), SoldierRenderer::new);
         event.registerEntityRenderer(TYPE_COMMANDER.get(), SoldierRenderer::new);
         event.registerEntityRenderer(TYPE_DRAGOON.get(), DragoonRenderer::new);
         event.registerEntityRenderer(TYPE_WHITE_MUSHROOM.get(), WhiteMushroomRenderer::new);
@@ -451,7 +451,7 @@ public class ModEntities {
         event.put(TYPE_STORM_BOMB.get(), StormBombEntity.registerAttributes().build());
         event.put(TYPE_YELLOW_OPERA.get(), YellowOperaEntity.registerAttributes().build());
         event.put(TYPE_SOLDIER.get(), SoldierEntity.registerAttributes().build());
-        event.put(TYPE_DESERTOR.get(), DesertorEntity.registerAttributes().build());
+        event.put(TYPE_DESERTER.get(), DeserterEntity.registerAttributes().build());
         event.put(TYPE_COMMANDER.get(), CommanderEntity.registerAttributes().build());
         event.put(TYPE_WHITE_MUSHROOM.get(), WhiteMushroomEntity.registerAttributes().build());
         event.put(TYPE_BLACK_FUNGUS.get(), BlackFungusEntity.registerAttributes().build());
@@ -487,7 +487,7 @@ public class ModEntities {
         addToGroup(HEARTLESS_EMBLEM, TYPE_LARGE_BODY.get(), 8);
         addToGroup(HEARTLESS_EMBLEM, TYPE_DIRE_PLANT.get(), 0);
         addToGroup(HEARTLESS_EMBLEM, TYPE_SOLDIER.get(), 3);
-        addToGroup(HEARTLESS_EMBLEM, TYPE_DESERTOR.get(), 5);
+        addToGroup(HEARTLESS_EMBLEM, TYPE_DESERTER.get(), 5);
         addToGroup(HEARTLESS_EMBLEM, TYPE_COMMANDER.get(), 12);
         addToGroup(HEARTLESS_EMBLEM, TYPE_WHITE_MUSHROOM.get(), 20);
         addToGroup(HEARTLESS_EMBLEM, TYPE_BLACK_FUNGUS.get(), 25);
@@ -553,7 +553,7 @@ public class ModEntities {
         event.register(TYPE_YELLOW_OPERA.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
         event.register(TYPE_SPAWNING_ORB.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
         event.register(TYPE_SOLDIER.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
-        event.register(TYPE_DESERTOR.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
+        event.register(TYPE_DESERTER.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
         event.register(TYPE_COMMANDER.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
         event.register(TYPE_WHITE_MUSHROOM.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
         event.register(TYPE_BLACK_FUNGUS.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);

@@ -17,16 +17,16 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
 import online.kingdomkeys.kingdomkeys.entity.mob.goal.SoldierGoal;
 
-public class DesertorEntity extends SoldierEntity {
+public class DeserterEntity extends SoldierEntity {
 
-    public DesertorEntity(EntityType<? extends Monster> type, Level worldIn) {
+    public DeserterEntity(EntityType<? extends Monster> type, Level worldIn) {
         super(type, worldIn);
         xpReward = 10;
     }
 
     @OnlyIn(Dist.CLIENT)
     public ResourceLocation getTexture(){
-        return ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/mob/desertor.png");
+        return ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/mob/deserter.png");
     }
 
     @Override
