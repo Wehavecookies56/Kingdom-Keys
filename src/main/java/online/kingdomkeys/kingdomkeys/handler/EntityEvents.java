@@ -13,6 +13,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -801,6 +802,18 @@ public class EntityEvents {
 
 			if(event.getEntity() instanceof TrainingDummyEntity dummy) {
 				dummy.recordDamage(player, event.getNewDamage(), event.getSource());
+
+				float maxDamage = 120f;
+				float damage = event.getNewDamage();
+				float normalized = Mth.clamp(damage / maxDamage, 0f, 1f);
+				float strength = (float) Math.pow(normalized, 0.7f);
+				strength = Math.max(strength, 0.08f);
+
+				dummy.getEntityData().set(TrainingDummyEntity.HIT_STRENGTH, strength);
+
+				int duration = (int)(8 + strength * 10);
+				dummy.getEntityData().set(TrainingDummyEntity.HIT_TICKS, duration);
+
 				if(dummy.getIgnoreCD())
 					dummy.invulnerableTime = 0;
 			}

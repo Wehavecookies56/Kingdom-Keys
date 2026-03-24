@@ -1,6 +1,5 @@
 package online.kingdomkeys.kingdomkeys.integration.shouldersurfing;
 
-import com.github.exopandora.shouldersurfing.api.client.ShoulderSurfing;
 import com.github.exopandora.shouldersurfing.client.ShoulderSurfingCamera;
 import com.github.exopandora.shouldersurfing.client.ShoulderSurfingImpl;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;

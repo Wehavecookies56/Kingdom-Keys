@@ -50,24 +50,44 @@ public class TrainingDummyModel<T extends Entity> extends EntityModel<T> {
     @Override
     public void setupAnim(Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         if (entity instanceof TrainingDummyEntity dummy) {
+            //Interpolation
+            float ticks = dummy.getHitTicks() - (ageInTicks - entity.tickCount);
 
-            float progress = dummy.getEntityData().get(TrainingDummyEntity.HIT_TICKS) / 10.0F;
+            if (ticks > 0) {
+                float progress = ticks / 15.0F;
+                float t = 1.0F - progress;
 
-            if (progress > 0) {
-                float strength = (float) Math.sin(progress * Math.PI);
+                float strength = dummy.getHitStrength();
 
-                float dirX = dummy.getEntityData().get(TrainingDummyEntity.HIT_DIR_X);
-                float dirZ = dummy.getEntityData().get(TrainingDummyEntity.HIT_DIR_Z);
+                float dirX = dummy.getHitDirX();
+                float dirZ = dummy.getHitDirZ();
 
-                this.bone.xRot = dirZ * strength * 0.4F;
-                this.bone.zRot = dirX * strength * 0.4F;
+                //Amount of bounces
+                float bounces = 2.0F + strength * 2.5F;
 
-                this.bone.yScale = 1.0F - 0.1F * progress;
+                // Start strong and smooth out
+                float ease = 1.0F - (t * t);
 
+                //Sinus-like oscillation
+                float oscillation = (float) Math.sin(t * Math.PI * bounces);
+
+                //Reduce intensity with time
+                float decay = (1.0F - t);
+
+                float finalStrength = oscillation * decay * strength;
+
+                //Bounce
+                this.bone.xRot = dirZ * finalStrength * 0.35F;
+                this.bone.zRot = dirX * finalStrength * 0.35F;
+
+                // Squash, y scale change
+                this.bone.yScale = 1.0F - 0.15F * ease * strength;
+
+                this.bone.yRot = oscillation * 0.1F * strength;
             } else {
                 this.bone.xRot = 0;
+                this.bone.yRot = 0;
                 this.bone.zRot = 0;
-
                 this.bone.yScale = 1.0F;
             }
         }

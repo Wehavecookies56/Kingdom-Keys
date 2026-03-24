@@ -1,6 +1,5 @@
 package online.kingdomkeys.kingdomkeys.entity;
 
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -96,23 +95,31 @@ public class TrainingDummyEntity extends LivingEntity {
 
 
         Entity directEntity = source.getDirectEntity();
-
         if (directEntity != null) {
+            //Calculate the position it has to bounce off
             double dx = this.getX() - directEntity.getX();
             double dz = this.getZ() - directEntity.getZ();
 
             double length = Math.sqrt(dx * dx + dz * dz);
 
             if (length > 0) {
-                this.entityData.set(HIT_DIR_X, (float)(dx / length));
-                this.entityData.set(HIT_DIR_Z, (float)(dz / length));
+                dx /= length;
+                dz /= length;
+            }
+
+            float yaw = this.getYRot();
+            float rad = (float) Math.toRadians(-yaw);
+
+            float localX = (float)(dx * Math.cos(rad) - dz * Math.sin(rad));
+            float localZ = (float)(dx * Math.sin(rad) + dz * Math.cos(rad));
+
+            if (length > 0) {
+                this.entityData.set(HIT_DIR_X, localX);
+                this.entityData.set(HIT_DIR_Z, localZ);
             }
         }
 
-        this.entityData.set(HIT_TICKS, 10);
-
         boolean result = super.hurt(source, amount);
-
         return result;
     }
 
@@ -160,14 +167,11 @@ public class TrainingDummyEntity extends LivingEntity {
     @Override
     public void push(Entity entity) {}
 
-    public static final EntityDataAccessor<Float> HIT_DIR_X =
-            SynchedEntityData.defineId(TrainingDummyEntity.class, EntityDataSerializers.FLOAT);
+    public static final EntityDataAccessor<Float> HIT_DIR_X = SynchedEntityData.defineId(TrainingDummyEntity.class, EntityDataSerializers.FLOAT);
+    public static final EntityDataAccessor<Float> HIT_DIR_Z = SynchedEntityData.defineId(TrainingDummyEntity.class, EntityDataSerializers.FLOAT);
 
-    public static final EntityDataAccessor<Float> HIT_DIR_Z =
-            SynchedEntityData.defineId(TrainingDummyEntity.class, EntityDataSerializers.FLOAT);
-
-    public static final EntityDataAccessor<Integer> HIT_TICKS =
-            SynchedEntityData.defineId(TrainingDummyEntity.class, EntityDataSerializers.INT);
+    public static final EntityDataAccessor<Integer> HIT_TICKS = SynchedEntityData.defineId(TrainingDummyEntity.class, EntityDataSerializers.INT);
+    public static final EntityDataAccessor<Float> HIT_STRENGTH = SynchedEntityData.defineId(TrainingDummyEntity.class, EntityDataSerializers.FLOAT);
 
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
@@ -176,6 +180,7 @@ public class TrainingDummyEntity extends LivingEntity {
         builder.define(HIT_DIR_X, 0f);
         builder.define(HIT_DIR_Z, 0f);
         builder.define(HIT_TICKS, 0);
+        builder.define(HIT_STRENGTH, 0f);
     }
 
     @Override
@@ -220,5 +225,20 @@ public class TrainingDummyEntity extends LivingEntity {
 
     public boolean getIgnoreCD() {
         return this.entityData.get(IGNORE_CD);
+    }
+
+    public int getHitTicks() {
+        return this.entityData.get(HIT_TICKS);
+    }
+
+    public float getHitStrength() {
+        return this.entityData.get(HIT_STRENGTH);
+    }
+
+    public float getHitDirX(){
+        return this.entityData.get(HIT_DIR_X);
+    }
+    public float getHitDirZ(){
+        return this.entityData.get(HIT_DIR_Z);
     }
 }
