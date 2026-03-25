@@ -1,5 +1,5 @@
 **Added:**
-* A training scarecrow (training dummy) which shows the damage dealt and the magic it deals (through color).
+* A training scarecrow (training dummy) which shows the damage dealt and the type of magic through color.
   * Crouch + right click to toggle iframes.
   * Can be removed by attacking it with a feather.
 * Deserter heartless, these ones are slightly smaller but very fast, watch out! 
@@ -15,6 +15,7 @@
 * Orb entities (Munny, HP...) logic to hopefully improve performance.
 * Extended Reach packet got replaced by a mixin, as it was the culprit for double attacking based on the distance.
 * Interpolated heart and org portal animations.
+* Increased Gummi Hangar max level from 4 up to 10 (op commands only).
 
 **Fixed:**
 * Bomb enemies sizes not varying.
