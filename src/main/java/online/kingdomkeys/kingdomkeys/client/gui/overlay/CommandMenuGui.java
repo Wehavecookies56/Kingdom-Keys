@@ -27,6 +27,7 @@ import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
+import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import online.kingdomkeys.kingdomkeys.handler.EntityEvents;
 import online.kingdomkeys.kingdomkeys.handler.InputHandler;
 import online.kingdomkeys.kingdomkeys.item.KKPotionItem;
@@ -394,27 +395,30 @@ public class CommandMenuGui extends OverlayBase {
 				item.setActive(true);
 				item.setMessage(Component.translatable(Strings.Gui_CommandMenu_Magic));
 			}
-
 		}
 
 		if (item.getId().equals(drive)){
-			if(playerData.getDriveFormMap().size() < 4){
+			if(playerData.getDriveFormMap().size() < 4){ //If no forms are unlocked
 				item.setActive(false);
 				item.setMessage(Component.literal("???"));
-			} else {
+			} else { //If any form is unlocked
+				if(minecraft.player.hasEffect(ModMobEffects.NO_DRIVE)){
+					item.setActive(false);
+					return;
+				}
 				item.setActive(true);
 				Color color = playerData.getDP() >= Utils.getCheapestDriveCost(playerData,Utils.getVisibleDriveForms(minecraft.player)) ? Color.WHITE : Color.GRAY;
 				item.setTextColour(color);
 				item.setMessage(Component.translatable(Strings.Gui_CommandMenu_Drive));
 			}
-			if(!playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())) {
+			if(!playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())) { //while in a drive form
 				item.setVisible(false);
 				item.getParent().getChild(revert).setVisible(true);
 			}
 		}
 
 		if(item.getId().equals(limit)){
-			if (playerData.getLimitCooldownTicks() > 0) {
+			if (minecraft.player.hasEffect(ModMobEffects.NO_DRIVE) || playerData.getLimitCooldownTicks() > 0) {
 				item.setActive(false);
 				return;
 			}

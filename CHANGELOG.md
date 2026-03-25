@@ -6,6 +6,7 @@
 * Commander heartless, these are big and have a larger health pool, consider them a threat.
 * An example datapack template for custom materials and synthesis recipes.
 * Critical hits to Epic Fight mode combos, 10% chance per Critical Boost ability equipped (Thanks Xephiro).
+* NoDrive mob effect which prevents drive forms and org limits.
 
 **Changed:**
 * Heartless and Antiform eyes will now glow in the darkness.
