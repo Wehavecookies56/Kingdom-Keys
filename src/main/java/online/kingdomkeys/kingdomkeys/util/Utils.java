@@ -808,7 +808,7 @@ public class Utils {
             case 2 -> new int[]{ 120000, 180, 90 };
             case 3 -> new int[]{ 240000, 260, 130 };
             case 4 -> new int[]{ 400000, 350, 175 };
-			case 5,6,7,8,9,10 -> new int[]{ 400000, 350, 175 };
+			case 5,6,7,8,9,10 -> new int[]{ 1000000, 1000, 500 };
             default -> throw new IllegalStateException("Unexpected value for Utils#getFEPerLevel: " + lvl);
         };
     }

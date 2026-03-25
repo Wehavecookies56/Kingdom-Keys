@@ -306,16 +306,23 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 		return shipStats;
 	}
 
+	int isXEven = -1;
+	int isZEven = -1;
+
 	@Override
 	protected Vec3 getPassengerAttachmentPoint(Entity entity, EntityDimensions dimensions, float partialTick) {
 		int i = getPassengers().indexOf(entity); //return index of the entity in the big array
 		double x = getShipStats().passengerSlots.get(i).x();
 		double y = getShipStats().passengerSlots.get(i).y();
 		double z = getShipStats().passengerSlots.get(i).z();
-        boolean xEven = Utils.isStructureEven(structure)[0];
-        boolean zEven = Utils.isStructureEven(structure)[1];
+		if(isXEven == -1 || isZEven == -1) {
+			isXEven = Utils.isStructureEven(structure)[0] ? 1 : 0;
+			isZEven = Utils.isStructureEven(structure)[1] ? 1 : 0;
+		}
+		boolean xEven = isXEven == 1;
+		boolean zEven = isZEven == 1;
+
 		return (new Vec3(structure.getWidth()/2-x + (xEven ? -0.5F: 0), (structure.getHeight()/2F)+y-structure.getHeight()/2, structure.getDepth()/2-z + (zEven ? 0.5F: 0))).yRot(-this.getYRot() * 0.017453292F);
-		// return super.getPassengerAttachmentPoint(entity,dimensions,partialTick);
 	}
 
 	public float currentSpeed = 0F;
