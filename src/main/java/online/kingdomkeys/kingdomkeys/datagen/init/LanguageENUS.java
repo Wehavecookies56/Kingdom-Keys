@@ -1695,7 +1695,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModEntities.LARGE_BODY_EGG, "Large Body Spawn Egg");
         addItem(ModEntities.DIRE_PLANT_EGG, "Dire Plant Spawn Egg");
         addItem(ModEntities.SOLDIER_EGG, "Soldier Spawn Egg");
-        addItem(ModEntities.DESERTER_EGG, "Desertor Spawn Egg");
+        addItem(ModEntities.DESERTER_EGG, "Deserter Spawn Egg");
         addItem(ModEntities.WHITE_MUSHROOM_EGG, "White Mushroom Spawn Egg");
         addItem(ModEntities.BLACK_FUNGUS_EGG, "Black Fungus Spawn Egg");
         addItem(ModEntities.BLOX_BUG_EGG, "Blox Bug Spawn Egg");
