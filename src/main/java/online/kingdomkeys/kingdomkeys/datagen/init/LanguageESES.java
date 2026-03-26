@@ -2104,6 +2104,8 @@ public class LanguageESES extends KKLanguageProvider {
         addKKEffect(ModMobEffects.STOP, "Paro", "Evita todo movimiento, todo el daño recibido se aplicará de golpe cuando el efecto termine.");
         addKKEffect(ModMobEffects.GRAVITY, "Gravedad", "Limita tu movimiento mientras estás aplastado.");
         addKKEffect(ModMobEffects.KO, "KO", "Permite a un jugador en tu grupo salvarte usando Cura o una Poción en tí.");
+        addKKEffect(ModMobEffects.UNDERWORLD_CURSE, "Maldición del inframundo", "Prevents the use of drive forms and limits.");
+
 
         //JEI
         add("jei.category.kingdomkeys.synthesis", "S\u00edntesis de Objetos");

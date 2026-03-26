@@ -18,5 +18,5 @@ public class ModMobEffects {
             GRAVITY = MOB_EFFECTS.register("gravity", () -> new GravityEffect(MobEffectCategory.HARMFUL, 0x63337F)),
             AERO = MOB_EFFECTS.register("aero", () -> new AeroEffect(MobEffectCategory.BENEFICIAL, 0x60B86E)),
             KO = MOB_EFFECTS.register("ko", () -> new KOEffect(MobEffectCategory.BENEFICIAL, 0xFF6666)),
-            NO_DRIVE = MOB_EFFECTS.register("no_drive", () -> new NoDriveEffect(MobEffectCategory.HARMFUL, 0x612bad));
+            UNDERWORLD_CURSE = MOB_EFFECTS.register("underworld_curse", () -> new NoDriveEffect(MobEffectCategory.HARMFUL, 0x612bad));
 }

@@ -764,6 +764,8 @@
   "effect.kingdomkeys.ko.desc": "Permite a un jugador en tu grupo salvarte usando Cura o una Poción en tí.",
   "effect.kingdomkeys.stop": "Paro",
   "effect.kingdomkeys.stop.desc": "Evita todo movimiento, todo el daño recibido se aplicará de golpe cuando el efecto termine.",
+  "effect.kingdomkeys.underworld_curse": "Maldición del inframundo",
+  "effect.kingdomkeys.underworld_curse.desc": "Prevents the use of drive forms and limits.",
   "entity.kingdomkeys.assassin": "Asesino",
   "entity.kingdomkeys.black_fungus": "Hongo Negro",
   "entity.kingdomkeys.blast_blox_primed": "Blox Explosivo Prendido",

@@ -764,6 +764,8 @@
   "effect.kingdomkeys.ko.desc": "Allows a player in your party to save you by casting Cure or using a Potion on you.",
   "effect.kingdomkeys.stop": "Stop",
   "effect.kingdomkeys.stop.desc": "Prevents you to move, all the damage taken will be dealt at the same time once it runs out.",
+  "effect.kingdomkeys.underworld_curse": "Underworld's Curse",
+  "effect.kingdomkeys.underworld_curse.desc": "Prevents the use of drive forms and limits.",
   "entity.kingdomkeys.assassin": "Assassin",
   "entity.kingdomkeys.black_fungus": "Black Fungus",
   "entity.kingdomkeys.blast_blox_primed": "Primed Blast Blox",

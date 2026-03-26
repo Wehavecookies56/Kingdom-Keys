@@ -402,7 +402,7 @@ public class CommandMenuGui extends OverlayBase {
 				item.setActive(false);
 				item.setMessage(Component.literal("???"));
 			} else { //If any form is unlocked
-				if(minecraft.player.hasEffect(ModMobEffects.NO_DRIVE)){
+				if(minecraft.player.hasEffect(ModMobEffects.UNDERWORLD_CURSE)){
 					item.setActive(false);
 					return;
 				}
@@ -418,7 +418,7 @@ public class CommandMenuGui extends OverlayBase {
 		}
 
 		if(item.getId().equals(limit)){
-			if (minecraft.player.hasEffect(ModMobEffects.NO_DRIVE) || playerData.getLimitCooldownTicks() > 0) {
+			if (minecraft.player.hasEffect(ModMobEffects.UNDERWORLD_CURSE) || playerData.getLimitCooldownTicks() > 0) {
 				item.setActive(false);
 				return;
 			}

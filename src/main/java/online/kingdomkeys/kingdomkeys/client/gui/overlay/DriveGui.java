@@ -4,7 +4,6 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.effect.MobEffectInstance;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
@@ -85,7 +84,7 @@ public class DriveGui extends OverlayBase {
 		int guiWidth = 95;
 		int guiHeight = 18;
 
-		boolean noDrive = minecraft.player.hasEffect(ModMobEffects.NO_DRIVE);
+		boolean noDrive = minecraft.player.hasEffect(ModMobEffects.UNDERWORLD_CURSE);
 
 		if (noDrive) {
 			// Disabled background
