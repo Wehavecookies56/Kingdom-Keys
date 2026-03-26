@@ -1696,6 +1696,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModEntities.DIRE_PLANT_EGG, "Dire Plant Spawn Egg");
         addItem(ModEntities.SOLDIER_EGG, "Soldier Spawn Egg");
         addItem(ModEntities.DESERTER_EGG, "Deserter Spawn Egg");
+        addItem(ModEntities.COMMANDER_EGG, "Commander Spawn Egg");
         addItem(ModEntities.WHITE_MUSHROOM_EGG, "White Mushroom Spawn Egg");
         addItem(ModEntities.BLACK_FUNGUS_EGG, "Black Fungus Spawn Egg");
         addItem(ModEntities.BLOX_BUG_EGG, "Blox Bug Spawn Egg");
@@ -1940,6 +1941,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addEntityType(ModEntities.TYPE_DIRE_PLANT, "Dire Plant");
         addEntityType(ModEntities.TYPE_SOLDIER, "Soldier");
         addEntityType(ModEntities.TYPE_DESERTER, "Deserter");
+        addEntityType(ModEntities.TYPE_COMMANDER, "Commander");
         addEntityType(ModEntities.TYPE_WHITE_MUSHROOM, "White Mushroom");
         addEntityType(ModEntities.TYPE_BLACK_FUNGUS, "Black Fungus");
         addEntityType(ModEntities.TYPE_BLOX_BUG, "Blox Bug");
