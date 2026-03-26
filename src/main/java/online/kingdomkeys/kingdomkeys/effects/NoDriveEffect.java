@@ -27,7 +27,6 @@ public class NoDriveEffect extends MobEffect {
             if(playerData != null){
                 DriveForm form = ModDriveForms.registry.get(ResourceLocation.parse(playerData.getActiveDriveForm()));
                 if(form != null && !playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())){
-                    KingdomKeys.LOGGER.debug("Player has nodrive and is in drive form " + playerData.getActiveDriveForm()+ ", reverting");
                     form.endDrive(player);
                 }
             }
