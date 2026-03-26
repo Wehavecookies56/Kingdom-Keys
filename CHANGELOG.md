@@ -16,10 +16,10 @@
 * Orb entities (Munny, HP...) logic to hopefully improve performance.
 * Extended Reach packet got replaced by a mixin, as it was the culprit for double attacking based on the distance.
 * Interpolated heart and org portal animations.
-* Increased Gummi Hangar max level from 4 up to 10 (op commands only).
+* Increased Gummi Hangar max level from 4 up to 10 (25³ blocks), op commands only.
 
 **Fixed:**
-* Hugely optimized Gummi Ship rendering method (from 11ms down to 2ms per frame).
+* Hugely optimized Gummi Ship rendering method (from ~11ms down to 2ms per frame in my case).
 * Bomb enemies sizes not varying.
 * Event for driveform ability unequip on revert.
 * Crash regarding water spells owner not being a player.

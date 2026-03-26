@@ -201,7 +201,7 @@ public abstract class DriveForm {
 		PlayerData playerData = PlayerData.get(player);
 		playerData.setActiveDriveForm(DriveForm.NONE.toString());
 		if(getDriveSound() != null)
-			player.level().playSound(player, player.blockPosition(), getRevertSound(), SoundSource.MASTER, 1.0f, 1.0f);
+			player.level().playSound(null, player.blockPosition(), getRevertSound(), SoundSource.MASTER, 1.0f, 1.0f);
 		if(!player.level().isClientSide) {
 			PacketHandler.syncToAllAround(player, playerData);
 		}
