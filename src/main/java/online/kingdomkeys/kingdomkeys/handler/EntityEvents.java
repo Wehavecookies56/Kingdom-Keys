@@ -135,7 +135,6 @@ public class EntityEvents {
 	@SubscribeEvent
 	public void onEntityJoinWorld(EntityJoinLevelEvent e) {
 		if (e.getEntity() instanceof LivingEntity mob) {
-			
 			GlobalData mobData = GlobalData.get(mob);
 			if(mobData == null)
 				return;
@@ -144,6 +143,7 @@ public class EntityEvents {
 			if(player == null)
 				return;
 
+			//ROD
 			if (e.getLevel().dimension().location().getPath().equals("realm_of_darkness") && mob instanceof IKHMob ikhmob) {
 				if (ikhmob.getKHMobType() == MobType.HEARTLESS_PUREBLOOD) {
 					double dist = e.getEntity().position().distanceTo(new Vec3(0, 62, 0));
@@ -151,11 +151,17 @@ public class EntityEvents {
 					mobData.setLevel(level);
 				}
 			}
-			
+
+			//Set level based on config
 			if(mobData.getLevel() <= 0 && mob instanceof Monster && ModConfigs.SERVER.hostileMobsLevel.get()) {
 				mobData.setLevel(Utils.getRandomMobLevel(player));
 			}
 
+			if(mob instanceof EnderDragon && ModConfigs.SERVER.dragonLevel.get()) {
+				mobData.setLevel(Utils.getRandomMobLevel(player));
+			}
+
+			//Tamed mobs
 			if (mob instanceof OwnableEntity ownableEntity) {
 				if (mobData.getLevel() == 0) {
 					if (ownableEntity.getOwner() instanceof Player owner) {
@@ -165,9 +171,11 @@ public class EntityEvents {
 				}
 			}
 
+			//Apply stored level attributes
 			if (mobData.getLevel() > 0) {
 				int lvl = mobData.getLevel();
 				Utils.applyMobLevel(mob, lvl);
+				System.out.println("applied level to "+mob.getDisplayName().getString());
 				mob.setHealth(mob.getMaxHealth());
 				if (!mob.hasCustomName() && !(mob instanceof OwnableEntity)) {
 					if (ModConfigs.mobLevelName) {

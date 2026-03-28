@@ -15,6 +15,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.boss.EnderDragonPart;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.item.ItemStack;
@@ -221,13 +222,20 @@ public class InputHandler {
         if (lockOn == null) {
             HitResult rtr = getMouseOverExtended(LOCK_ON_REACH);
             if (rtr instanceof EntityHitResult ertr) {
+                System.out.println(ertr.getEntity());
                 double distance = player.distanceTo(ertr.getEntity());
 
                 if (LOCK_ON_REACH >= distance) {
                     if (ertr.getEntity() instanceof LivingEntity && !(ertr.getEntity() instanceof SpawningOrbEntity)) {
                         lockOn = (LivingEntity) ertr.getEntity();
                         playSound(ModSounds.lockon.get());
+                    } else if(ertr.getEntity() instanceof EnderDragonPart part){
+                        if(part.parentMob != null){
+                            lockOn = part.parentMob;
+                            playSound(ModSounds.lockon.get());
+                        }
                     }
+
                 }
             }
         } else {
@@ -538,7 +546,8 @@ public class InputHandler {
             }
         }
 
-        if (bestBlockHit != null) return bestBlockHit;
+        if (bestBlockHit != null)
+            return bestBlockHit;
 
         HitResult bestEntityHit = null;
         double bestEntityDist = dist;

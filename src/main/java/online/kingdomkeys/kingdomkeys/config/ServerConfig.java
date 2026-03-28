@@ -14,7 +14,7 @@ public class ServerConfig {
     public ModConfigSpec.ConfigValue<List<? extends Integer>> statsMultiplier;
 
     public ModConfigSpec.DoubleValue xpMultiplier, heartMultiplier, partyXPShare;
-    public ModConfigSpec.BooleanValue requireSynthTier, projectorHasShop, savepointGlobal, getExpFromShop, orgEnabled, allowBoosts, allowPartyKO, wayfinderParty, hostileMobsLevel, gummiShipFuelSystem, softLockOnMode;
+    public ModConfigSpec.BooleanValue requireSynthTier, projectorHasShop, savepointGlobal, getExpFromShop, orgEnabled, allowBoosts, allowPartyKO, wayfinderParty, hostileMobsLevel, dragonLevel, gummiShipFuelSystem, softLockOnMode;
 
     ServerConfig(final ModConfigSpec.Builder builder) {
         builder.push("general");
@@ -84,6 +84,11 @@ public class ServerConfig {
                 .comment("If true other hostile mobs will level up alongside the player level the same way heartless do")
                 .translation(KingdomKeys.MODID + ".config.hostile_mobs_level")
                 .define("hostileMobsLevel", true);
+
+        dragonLevel = builder
+                .comment("If true the Enderdragon will level up too")
+                .translation(KingdomKeys.MODID + ".config.dragon_level")
+                .define("dragonLevel", true);
 
         shotlockMaxDist = builder
                 .comment("Shotlock max distance for locking")

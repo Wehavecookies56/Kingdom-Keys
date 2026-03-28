@@ -50,16 +50,18 @@ public class CastleOblivionHandler {
     @SubscribeEvent
     public void tick(LevelTickEvent.Pre event) {
         if (!event.getLevel().isClientSide()) {
-            if (event.getLevel().dimension().toString().contains(KingdomKeys.MODID + ":castle_oblivion_interior_")) {
-                CastleOblivionData.InteriorData interiorData = CastleOblivionData.InteriorData.get((ServerLevel) event.getLevel());
-                if (interiorData != null) {
-                    interiorData.getFloors().forEach(floor -> {
-                        floor.getRooms().forEach(roomData -> {
-                            if (roomData.getGenerated() != null) {
-                                roomData.getGenerated().tick(event.getLevel().getServer());
-                            }
+            if(event.getLevel().dimension().location().getNamespace().equals(KingdomKeys.MODID)) {//Attempt to alleviate load
+                if (event.getLevel().dimension().toString().contains(KingdomKeys.MODID + ":castle_oblivion_interior_")) {
+                    CastleOblivionData.InteriorData interiorData = CastleOblivionData.InteriorData.get((ServerLevel) event.getLevel());
+                    if (interiorData != null) {
+                        interiorData.getFloors().forEach(floor -> {
+                            floor.getRooms().forEach(roomData -> {
+                                if (roomData.getGenerated() != null) {
+                                    roomData.getGenerated().tick(event.getLevel().getServer());
+                                }
+                            });
                         });
-                    });
+                    }
                 }
             }
         }
