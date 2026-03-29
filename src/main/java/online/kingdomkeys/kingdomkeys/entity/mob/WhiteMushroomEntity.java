@@ -48,18 +48,15 @@ public class WhiteMushroomEntity extends BaseKHEntity {
     private void checkSatisfy(int i) {
         if(getState() >= 0) { //Prevents multiple hitting attacks from counting at the wrong moment
             if (getState() == i) { //If the magic is right
-                //System.out.println("Happy");
                 setState(-1); //Set to satisfied pose
                 satisfied++;
                 if (satisfied >= 3) { //If it's the 3rd time in a row
-                    //System.out.println("Drop smth");
                     setState(-3); //Set to victory pose
 
                     ItemEntity ie = new ItemEntity(level(), getX(), getY(), getZ(), Utils.getWhiteMushroomReward());
                     level().addFreshEntity(ie);
                 }
             } else { //If magic is wrong set to angry pose
-                //System.out.println("Not happy");
                 setState(-2);
             }
         }

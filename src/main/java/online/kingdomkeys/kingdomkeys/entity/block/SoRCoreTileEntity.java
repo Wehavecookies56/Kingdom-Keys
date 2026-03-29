@@ -63,7 +63,6 @@ public class SoRCoreTileEntity extends BlockEntity {
 
 	public static <T> void tick(Level level, BlockPos pos, BlockState state, T blockEntity) {
 		if(!level.isClientSide) {
-			//System.out.println(ticks);
 			if(ticks == 0) {
 				//spawnSoR();
 			}

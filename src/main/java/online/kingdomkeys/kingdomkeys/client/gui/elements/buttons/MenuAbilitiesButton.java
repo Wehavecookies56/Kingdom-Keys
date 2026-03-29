@@ -140,7 +140,6 @@ public class MenuAbilitiesButton extends MenuButtonBase {
 		matrixStack.pushPose();
 		{
 			RenderSystem.setShaderColor(1, 1, 1, 1);
-			//System.out.println(index);
 			equipped = PlayerData.get(Minecraft.getInstance().player).isAbilityEquipped(text, index) || isVisual;
 			if(!equipped && abilityType != AbilityType.WEAPON && abilityType != AbilityType.ACCESSORY) {
 				gui.blit(texture, getX()+6, getY()+4, 74, 102, 12, 12);

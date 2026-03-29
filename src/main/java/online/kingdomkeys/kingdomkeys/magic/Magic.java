@@ -103,7 +103,7 @@ public abstract class Magic {
 					if(!(getGMAbility() == null && level == getMaxLevel())) {
 						casterData.addReactionCommand(getRegistryName().toString(), caster);
 					} else {
-						//System.out.println(level+" "+getMaxLevel()+" disabled RC");
+
 					}
 					casterData.setMagicUses(name, 0);
 					PacketHandler.sendTo(new SCSyncPlayerData(caster), (ServerPlayer)caster);
@@ -143,7 +143,6 @@ public abstract class Magic {
 			prob += casterData.getNumberOfAbilitiesEquipped(gmAbility) * 10;
 		}
 		prob += (casterData.getMagicUses(name)-1)*5;
-		//System.out.println(prob);
 		double num = Math.random()*100;
 		return num <= prob;
 	}

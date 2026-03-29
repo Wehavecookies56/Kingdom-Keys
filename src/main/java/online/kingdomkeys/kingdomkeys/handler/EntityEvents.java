@@ -175,7 +175,7 @@ public class EntityEvents {
 			if (mobData.getLevel() > 0) {
 				int lvl = mobData.getLevel();
 				Utils.applyMobLevel(mob, lvl);
-				System.out.println("applied level to "+mob.getDisplayName().getString());
+
 				mob.setHealth(mob.getMaxHealth());
 				if (!mob.hasCustomName() && !(mob instanceof OwnableEntity)) {
 					if (ModConfigs.mobLevelName) {

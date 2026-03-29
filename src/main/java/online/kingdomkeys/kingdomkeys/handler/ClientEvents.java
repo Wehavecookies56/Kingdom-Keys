@@ -683,7 +683,6 @@ public class ClientEvents {
                     //Airstep to entity
                     if (ertr.getEntity() instanceof LivingEntity target) {
                         float distance = mc.player.distanceTo(target);
-                        //System.out.println(playerData.getFocus()+" "+distance/costDivider);
                         if(playerData.isAbilityEquipped(Strings.flowStep) && distance / costDivider <= playerData.getFocus()) { //Only able to target enemies that are as far as focus can take you to
                             if (lockedAirStepEntity != target) {
                                 player.level().playSound(player, player.position().x(), player.position().y(), player.position().z(), ModSounds.shotlock_lockon.get(), SoundSource.PLAYERS, 1F, 0.6F);

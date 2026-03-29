@@ -75,7 +75,6 @@ public class CardDoorBlock extends BaseBlock implements EntityBlock, INoDataGen 
 	@Override
 	protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
     	//state.setValue(OPEN, true);
-    	//System.out.println("OPEN? "+state.getValue(OPEN));
 		if (!level.isClientSide) {
 
 			if (state.getValue(GENERATED)) {

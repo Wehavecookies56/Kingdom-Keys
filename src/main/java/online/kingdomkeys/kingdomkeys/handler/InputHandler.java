@@ -222,7 +222,6 @@ public class InputHandler {
         if (lockOn == null) {
             HitResult rtr = getMouseOverExtended(LOCK_ON_REACH);
             if (rtr instanceof EntityHitResult ertr) {
-                System.out.println(ertr.getEntity());
                 double distance = player.distanceTo(ertr.getEntity());
 
                 if (LOCK_ON_REACH >= distance) {

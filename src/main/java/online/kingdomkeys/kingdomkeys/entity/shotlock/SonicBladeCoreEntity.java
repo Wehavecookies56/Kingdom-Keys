@@ -108,7 +108,6 @@ public class SonicBladeCoreEntity extends ThrowableProjectile{
 	}
 	
 	private Entity getTarget() {
-		//System.out.println(getTargets().size() +" "+ getActualTargetIndex());
 		if(getTargets().size() <= getActualTargetIndex())
 			return null;
 		return getTargets().get(getActualTargetIndex());

@@ -244,7 +244,6 @@ public class WorldData extends SavedData {
         String key = Utils.getResourceName(party.getName());
         int pos = -1;
         for(int i = 0; i < parties.size();i++) {
-            //System.out.println(parties.get(i).getName()+":"+key);
             if(Utils.getResourceName(parties.get(i).getName()).equalsIgnoreCase(key)) {
                 pos = i;
                 break;
@@ -323,7 +322,6 @@ public class WorldData extends SavedData {
         String key = Utils.getResourceName(struggle.getName());
         int pos = -1;
         for(int i = 0; i < struggles.size();i++) {
-            //System.out.println(parties.get(i).getName()+":"+key);
             if(Utils.getResourceName(struggles.get(i).getName()).equalsIgnoreCase(key)) {
                 pos = i;
                 break;

@@ -149,9 +149,7 @@ public class MenuCustomizeShortcutsScreen extends MenuBackground {
 
 	private boolean isMagicAlreadyEquipped(String string) {
 		PlayerData playerData = PlayerData.get(minecraft.player);
-		//System.out.println("1: "+string);
 		for (Entry<Integer, String> entry : playerData.getShortcutsMap().entrySet()) {
-			//System.out.println("2: "+entry.getValue());
 			if(entry.getValue().equals(string)) {
 				return true;
 			}

@@ -262,7 +262,6 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 				if(playerData.getActiveDriveForm().equals(Strings.Form_Wisdom)) {
 					player.swing(hand);
 					if(!world.isClientSide) {
-						//System.out.println(DamageCalculation.getMagicDamage(player) * 0.1);
 						ArrowgunShotEntity shot = new ArrowgunShotEntity(player.level(), player, DamageCalculation.getMagicDamage(player) * 0.1F);
 						shot.setShotType(1);
 						shot.shootFromRotation(player, player.getXRot(), player.getYRot(), 0, 3F, 0);

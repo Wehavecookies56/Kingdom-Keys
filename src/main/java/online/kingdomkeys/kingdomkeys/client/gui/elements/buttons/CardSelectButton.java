@@ -39,7 +39,6 @@ public class CardSelectButton extends MenuButtonBase {
     @Override
     public void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
         //if(!isSelected())
-        //System.out.println(mouseX+" "+mouseY);
         isHovered = mouseX > getX() + 1 && mouseY >= getY() + 1 && mouseX < getX() + width - 1 && mouseY < getY() + height - 1;
         active = card.getCardValue(stack) >= parent.te.getDestinationRoom().getCardCost() || card.getCardValue(stack) == 0;
 

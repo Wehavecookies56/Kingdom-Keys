@@ -102,7 +102,6 @@ public class SoAPlatformCoreBlock extends BaseBlock implements EntityBlock, INoD
                 corePos.set(corePos.getX(), corePos.getY(), startPos.getZ() + z);
                 for (int x = 0; x < width; ++x) {
                     corePos.set(startPos.getX() + x, corePos.getY(), corePos.getZ());
-                    //System.out.println("Check pos: " + corePos.getX() + ", " + corePos.getY() + ", " + corePos.getZ());
                     if (corePos.getY() == startPos.getY()) {
                         switch (structureTop.charAt(x + z * width)) {
                             case '0':
