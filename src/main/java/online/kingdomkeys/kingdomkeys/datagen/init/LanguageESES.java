@@ -1992,6 +1992,8 @@ public class LanguageESES extends KKLanguageProvider {
         addEntityType(ModEntities.TYPE_DRAGOON, "Dragón");
         addEntityType(ModEntities.TYPE_MARLUXIA, "Marluxia");
 
+        addEntityType(ModEntities.TYPE_TRAINING_DUMMY, "Espantapájaros de entrenamiento");
+
         //Spawn eggs
         addItem(ModEntities.MOOGLE_EGG, "Generar Moguri");
         addItem(ModEntities.SHADOW_EGG, "Generar Sombra");

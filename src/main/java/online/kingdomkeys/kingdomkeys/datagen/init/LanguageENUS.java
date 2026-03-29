@@ -1952,6 +1952,8 @@ public class LanguageENUS extends KKLanguageProvider {
         addEntityType(ModEntities.TYPE_DRAGOON, "Dragoon");
         addEntityType(ModEntities.TYPE_MARLUXIA, "Marluxia");
 
+        addEntityType(ModEntities.TYPE_TRAINING_DUMMY, "Training Scarecrow");
+
         /**Biomes**/
         add("biome.kingdomkeys.dive_to_the_heart", "Dive to the Heart");
         add("biome.kingdomkeys.realm_of_darkness", "Realm of Darkness");
