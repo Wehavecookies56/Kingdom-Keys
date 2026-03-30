@@ -578,7 +578,7 @@ public class EntityEvents {
 			if(playerData.hasAirDashed()){
 				int grabs = playerData.getWallGrabs();
 				if(playerData.getHangingInWallTicks() == 0 && grabs < playerData.getNumberOfAbilitiesEquipped(Strings.airSlide)){
-					playerData.setAirDashed(false);
+					playerData.setBounced(false);
 					playerData.setHangingWallTicks(20);
 					playerData.setWallGrabs(grabs+1);
 					playerData.setFlowmotion(true);//TODO packet?
@@ -587,7 +587,7 @@ public class EntityEvents {
 				}
 			}
 			if(playerData.getHangingInWallTicks() > 0){
-				if(!playerData.hasAirDashed())
+				if(!playerData.hasBounced())
 					player.setDeltaMovement(0,0,0);
 			}
 
@@ -615,6 +615,7 @@ public class EntityEvents {
 		if(player.onGround()){
 			player.removeEffect(MobEffects.GLOWING);
 			playerData.setAirDashed(false);
+			playerData.setBounced(false);
 			playerData.setHangingWallTicks(0);
 			playerData.setWallGrabs(0);
 			playerData.setFlowmotion(false);

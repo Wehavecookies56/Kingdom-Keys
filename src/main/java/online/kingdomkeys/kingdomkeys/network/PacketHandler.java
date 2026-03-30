@@ -138,6 +138,7 @@ public class PacketHandler {
 		server(CSPlaySoundPacket.TYPE, CSPlaySoundPacket.STREAM_CODEC);
 		server(CSSetFlowmotionPacket.TYPE, CSSetFlowmotionPacket.STREAM_CODEC);
 		server(CSSetAirDashedPacket.TYPE, CSSetAirDashedPacket.STREAM_CODEC);
+		server(CSSetBouncedPacket.TYPE, CSSetBouncedPacket.STREAM_CODEC);
 	}
 
 	private static <T extends Packet> void client(CustomPacketPayload.Type<T> type, StreamCodec<? super RegistryFriendlyByteBuf, T> reader) {

@@ -282,6 +282,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		storage.putInt("wall_grabs", wallGrabs);
 		storage.putBoolean("air_dashed", airDashed);
 		storage.putBoolean("flowmotion", flowmotion);
+		storage.putBoolean("bounced", bounced);
 
 		return storage;
 	}
@@ -489,6 +490,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		this.setWallGrabs(nbt.getInt("wall_grabs"));
 		this.setAirDashed(nbt.getBoolean("air_dashed"));
 		this.setFlowmotion(nbt.getBoolean("flowmotion"));
+		this.setBounced(nbt.getBoolean("bounced"));
 	}
 
 	private int level = 1, exp = 0, expGiven = 0, maxHp = 20, remainingExp = 0, reflectTicks = 0, reflectLevel = 0, magicCasttime = 0, magicCooldown = 0, munny = 0, antipoints = 0, aerialDodgeTicks, synthLevel=1, synthExp, remainingSynthExp = 0,hangingWallTicks, wallGrabs;
@@ -516,7 +518,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 	
 	private double mp = 0, maxMP = 0, dp = 0, maxDP = 1000, fp = 0, focus = 100, maxFocus = 100;
 
-	private boolean recharge, reflectActive, isGliding, hasJumpedAerealDodge = false, airDashed, flowmotion;
+	private boolean recharge, reflectActive, isGliding, hasJumpedAerealDodge = false, airDashed, bounced, flowmotion;
 
 	private Vec3 returnPos = Vec3.ZERO;
 	private ResourceKey<Level> returnDim = Level.OVERWORLD;
@@ -2209,6 +2211,13 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 	}
 	public boolean hasAirDashed() {
 		return airDashed;
+	}
+
+	public void setBounced(boolean bounced) {
+		this.bounced = bounced;
+	}
+	public boolean hasBounced() {
+		return bounced;
 	}
 
 	public void setFlowmotion(boolean flowmotion) {

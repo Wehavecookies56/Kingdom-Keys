@@ -334,16 +334,19 @@ public class InputHandler {
 		}
 
         //Bounce off wall
-        if(playerData.getHangingInWallTicks() > 0 && !playerData.hasAirDashed()) {
-//playerData.setAirDashed(true);
-
+        if(playerData.getHangingInWallTicks() > 0 && !playerData.hasBounced()) {
             Vec3 look = player.getLookAngle();
             Vec3 push = new Vec3(look.x, 0.5, look.z).normalize();
             float pow = playerData.getNumberOfAbilitiesEquipped(Strings.airSlide) * 0.5F;
             player.setDeltaMovement(push.scale(pow));
             player.hasImpulse = true;
             PacketHandler.sendToServer(new CSPlaySoundPacket(player.getX(), player.getY(), player.getZ(), ModSounds.wall_jump.get().getLocation(), SoundSource.PLAYERS));
-            PacketHandler.sendToServer(new CSSetAirDashedPacket(true));
+
+            PacketHandler.sendToServer(new CSSetBouncedPacket(true));
+            playerData.setBounced(true);
+            playerData.setAirDashed(false);
+            PacketHandler.sendToServer(new CSSetAirDashedPacket(false));
+            InputHandler.qrCooldown = 5;
         }
 
     }
@@ -386,8 +389,8 @@ public class InputHandler {
             }
             player.push(motionX * power, 0, motionZ * power);
             qrCooldown = 20;
-            playerData.setAirDashed(true);
 
+            playerData.setAirDashed(true);
             PacketHandler.sendToServer(new CSSetAirDashedPacket(true));
             PacketHandler.sendToServer(new CSPlaySoundPacket(player.getX(), player.getY(), player.getZ(), ModSounds.air_slide.get().getLocation(), SoundSource.PLAYERS));
         }

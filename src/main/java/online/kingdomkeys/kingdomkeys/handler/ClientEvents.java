@@ -265,20 +265,25 @@ public class ClientEvents {
 				vehicle.setInput(player.input.left, player.input.right, player.input.up, player.input.down, Minecraft.getInstance().options.keyJump.isDown(), Minecraft.getInstance().options.keySprint.isDown(), player.getXRot(), player.getYRot());
 			}
 
-            //Cooldown for wall hang
+            //From wall hang to bounce up with jump
             PlayerData playerData = PlayerData.get(player);
             if(playerData != null) {
                 if (playerData.getHangingInWallTicks() > 0) {
                     if(Minecraft.getInstance().options.keyJump.isDown()) {
-                        if(!playerData.hasAirDashed()) {
-                            playerData.setAirDashed(true);
-                            Vec3 push = new Vec3(0, 1.5, 0).normalize();
+                        if(!playerData.hasBounced()) { //If has not bounced before bounce
+                            Vec3 look = player.getLookAngle();
+                            Vec3 push = new Vec3(-look.x, 1.5, -look.z).normalize();
+
                             float pow = playerData.getNumberOfAbilitiesEquipped(Strings.airSlide) * 0.5F;
                             player.setDeltaMovement(push.scale(pow));
                             player.hasImpulse = true;
-
                             PacketHandler.sendToServer(new CSPlaySoundPacket(player.getX(), player.getY(), player.getZ(), ModSounds.wall_jump.get().getLocation(), SoundSource.PLAYERS));
-                            PacketHandler.sendToServer(new CSSetAirDashedPacket(true));
+
+                            PacketHandler.sendToServer(new CSSetBouncedPacket(true));
+                            playerData.setBounced(true);
+                            playerData.setAirDashed(false);
+                            PacketHandler.sendToServer(new CSSetAirDashedPacket(false));
+                            InputHandler.qrCooldown = 5;
                         }
                     }
                 }
