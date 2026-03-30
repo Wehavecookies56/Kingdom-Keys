@@ -611,6 +611,7 @@ public class EntityEvents {
 			if(!player.level().isClientSide()) {
 				((ServerLevel)player.level()).sendParticles(new DustParticleOptions(new Vector3f(1F, 0.5F, 1), 1F), player.getX() - Math.random() * (radius * 2) + radius, player.getY() + Math.random() * player.getBbHeight(), player.getZ() - Math.random() * (radius * 2) + radius, 1, 0, 0, 0, 0);
 				((ServerLevel)player.level()).sendParticles(new DustParticleOptions(new Vector3f(0.2F, 0.8F, 1), 1F), player.getX() - Math.random() * (radius * 2) + radius, player.getY() + Math.random() * player.getBbHeight(), player.getZ() - Math.random() * (radius * 2) + radius, 1, 0, 0, 0, 0);
+				((ServerLevel)player.level()).sendParticles(ParticleTypes.ELECTRIC_SPARK, player.getX(), player.getY(), player.getZ(), 1, 0, 0, 0, 0);
 			}
 		}
 
