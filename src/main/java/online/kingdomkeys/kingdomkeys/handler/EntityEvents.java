@@ -575,7 +575,7 @@ public class EntityEvents {
 
 		//Flowmotion
 		if(!player.onGround() && Utils.isTouchingWall(player)) {
-			if(playerData.hasAirDashed()){
+			if(playerData.hasAirDashed() && playerData.isAbilityEquipped(Strings.flowMotion)) {
 				int grabs = playerData.getWallGrabs();
 				if(playerData.getHangingInWallTicks() == 0 && grabs < playerData.getNumberOfAbilitiesEquipped(Strings.airSlide)){
 					playerData.setBounced(false);

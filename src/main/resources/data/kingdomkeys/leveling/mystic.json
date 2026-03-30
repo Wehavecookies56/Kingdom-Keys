@@ -159,7 +159,8 @@
         "mag":1,
         "def":1,
         "abilities":[
-            "kingdomkeys:ability_item_boost"
+            "kingdomkeys:ability_item_boost",
+            "kingdomkeys:ability_flowmotion"
         ]
     },
     "27":{

@@ -183,7 +183,8 @@
             "kingdomkeys:dark_volley"
         ],
         "abilities":[
-          "kingdomkeys:ability_encounter_plus"
+            "kingdomkeys:ability_encounter_plus",
+            "kingdomkeys:ability_flowmotion"
         ]
     },
     "30":{

@@ -73,7 +73,8 @@
         "mag":1,
         "def":1,
         "abilities":[
-            "kingdomkeys:ability_mp_safety"
+            "kingdomkeys:ability_mp_safety",
+            "kingdomkeys:ability_flowmotion"
         ]
     },
     "15":{

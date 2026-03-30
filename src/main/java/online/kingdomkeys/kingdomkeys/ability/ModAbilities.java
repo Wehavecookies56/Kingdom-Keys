@@ -27,12 +27,14 @@ public class ModAbilities {
 			FLOWSTEP = createAbility(Strings.flowStep, 4, AbilityType.ACTION),
 			AIR_SLIDE = createAbility(Strings.airSlide, 3, AbilityType.ACTION),
 
+
 			// Growth
 			HIGH_JUMP = createAbility(Strings.highJump, 2, AbilityType.GROWTH),
 			QUICK_RUN = createAbility(Strings.quickRun, 2, AbilityType.GROWTH),
 			DODGE_ROLL = createAbility(Strings.dodgeRoll, 3, AbilityType.GROWTH),
 			AERIAL_DODGE = createAbility(Strings.aerialDodge, 3, AbilityType.GROWTH),
 			GLIDE = createAbility(Strings.glide, 3, AbilityType.GROWTH),
+			FLOWMOTION = createAbility(Strings.flowMotion, 4, AbilityType.GROWTH),
 
 			// Support
 			ZERO_EXP = createAbility(Strings.zeroExp, 0, AbilityType.SUPPORT),
