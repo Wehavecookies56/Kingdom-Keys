@@ -274,7 +274,8 @@ public class ClientEvents {
                             Vec3 look = player.getLookAngle();
                             Vec3 push = new Vec3(-look.x, 1.5, -look.z).normalize();
 
-                            float pow = playerData.getNumberOfAbilitiesEquipped(Strings.airSlide) * 0.5F;
+                            float pow = 0.5F + playerData.getNumberOfAbilitiesEquipped(Strings.airSlide) * 0.2F;
+                            ;
                             player.setDeltaMovement(push.scale(pow));
                             player.hasImpulse = true;
                             PacketHandler.sendToServer(new CSPlaySoundPacket(player.getX(), player.getY(), player.getZ(), ModSounds.wall_jump.get().getLocation(), SoundSource.PLAYERS));
