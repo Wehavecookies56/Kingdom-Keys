@@ -258,6 +258,7 @@ public class ClientEvents {
     boolean handledCamera = false;
     public static CameraType prevCamera = CameraType.FIRST_PERSON;
 
+
     @SubscribeEvent
 	public void onLivingUpdate(EntityTickEvent.Pre event) {
 		if(event.getEntity() instanceof LocalPlayer player){
@@ -273,9 +274,26 @@ public class ClientEvents {
                         if(!playerData.hasBounced()) { //If has not bounced before bounce
                             Vec3 look = player.getLookAngle();
                             Vec3 push = new Vec3(-look.x, 1.5, -look.z).normalize();
+                            if(InputHandler.jumpRayTrace != null){
+                                if(InputHandler.jumpRayTrace instanceof BlockHitResult blockHitResult){
+                                    switch (blockHitResult.getDirection()) {
+                                        case NORTH -> {
+                                            push = new Vec3(0, 1.5, -1).normalize();
+                                        }
+                                        case SOUTH -> {
+                                            push = new Vec3(0, 1.5, 1).normalize();
+                                        }
+                                        case WEST -> {
+                                            push = new Vec3(-1, 1.5, 0).normalize();
+                                        }
+                                        case EAST -> {
+                                            push = new Vec3(1, 1.5, 0).normalize();
+                                        }
+                                    }
+                                }
+                            }
 
-                            float pow = 0.5F + playerData.getNumberOfAbilitiesEquipped(Strings.airSlide) * 0.2F;
-                            ;
+                            float pow = 0.5F + playerData.getNumberOfAbilitiesEquipped(Strings.airSlide) * 0.15F;
                             player.setDeltaMovement(push.scale(pow));
                             player.hasImpulse = true;
                             PacketHandler.sendToServer(new CSPlaySoundPacket(player.getX(), player.getY(), player.getZ(), ModSounds.wall_jump.get().getLocation(), SoundSource.PLAYERS));

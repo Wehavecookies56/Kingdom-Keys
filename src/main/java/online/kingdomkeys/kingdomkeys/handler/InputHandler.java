@@ -313,7 +313,8 @@ public class InputHandler {
         CommandMenuGui.cancel();
     }
 
-	public void commandAction() {
+    public static HitResult jumpRayTrace;
+    public void commandAction() {
     	if (qrCooldown <= 0 && (player.getDeltaMovement().x != 0 && player.getDeltaMovement().z != 0)) { // If player is moving do dodge roll / quick run
 			if (player.isSprinting()) { //If player is sprinting do quick run
 				if (playerData.isAbilityEquipped(Strings.quickRun) || playerData.getActiveDriveForm().equals(Strings.Form_Wisdom)) {
@@ -337,7 +338,7 @@ public class InputHandler {
         if(playerData.getHangingInWallTicks() > 0 && !playerData.hasBounced()) {
             Vec3 look = player.getLookAngle();
             Vec3 push = new Vec3(look.x, 0.5, look.z).normalize();
-            float pow = 0.5F + playerData.getNumberOfAbilitiesEquipped(Strings.airSlide) * 0.2F;
+            float pow = 0.5F + playerData.getNumberOfAbilitiesEquipped(Strings.airSlide) * 0.15F;
             player.setDeltaMovement(push.scale(pow));
             player.hasImpulse = true;
             PacketHandler.sendToServer(new CSPlaySoundPacket(player.getX(), player.getY(), player.getZ(), ModSounds.wall_jump.get().getLocation(), SoundSource.PLAYERS));

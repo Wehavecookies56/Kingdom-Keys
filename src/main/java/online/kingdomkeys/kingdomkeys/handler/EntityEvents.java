@@ -584,6 +584,9 @@ public class EntityEvents {
 					playerData.setFlowmotion(true);//TODO packet?
 					player.level().playSound(player, player.getX(), player.getY(), player.getZ(), ModSounds.wall_grab.get(), SoundSource.PLAYERS);
 					player.addEffect(new MobEffectInstance(MobEffects.GLOWING, 100, 1, false, false, false));
+					if(player.level().isClientSide) {
+						InputHandler.jumpRayTrace = InputHandler.getMouseOverExtendedStraight(20);
+					}
 				}
 			}
 			if(playerData.getHangingInWallTicks() > 0){
