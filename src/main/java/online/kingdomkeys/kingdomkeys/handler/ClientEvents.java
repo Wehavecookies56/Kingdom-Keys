@@ -264,12 +264,32 @@ public class ClientEvents {
 			if(player.getControlledVehicle() instanceof KKVehicleEntity vehicle) {
 				vehicle.setInput(player.input.left, player.input.right, player.input.up, player.input.down, Minecraft.getInstance().options.keyJump.isDown(), Minecraft.getInstance().options.keySprint.isDown(), player.getXRot(), player.getYRot());
 			}
-		}
+
+            //Cooldown for wall hang
+            PlayerData playerData = PlayerData.get(player);
+            if(playerData != null) {
+                if (playerData.getHangingInWallTicks() > 0) {
+                    if(Minecraft.getInstance().options.keyJump.isDown()) {
+                        if(!playerData.hasAirDashed()) {
+                            playerData.setAirDashed(true);
+                            Vec3 push = new Vec3(0, 1.5, 0).normalize();
+                            float pow = playerData.getNumberOfAbilitiesEquipped(Strings.airSlide) * 0.5F;
+                            player.setDeltaMovement(push.scale(pow));
+                            player.hasImpulse = true;
+
+                            PacketHandler.sendToServer(new CSPlaySoundPacket(player.getX(), player.getY(), player.getZ(), ModSounds.wall_jump.get().getLocation(), SoundSource.PLAYERS));
+                            PacketHandler.sendToServer(new CSSetAirDashedPacket(true));
+                        }
+                    }
+                }
+            }
+
+        }
 
 		if (event.getEntity() instanceof LivingEntity livingEntity) {
-			GlobalData globalData = GlobalData.get((LivingEntity) event.getEntity());
-			if (globalData != null) {
-                if(livingEntity == Minecraft.getInstance().player) {
+            GlobalData globalData = GlobalData.get((LivingEntity) event.getEntity());
+            if (globalData != null) {
+                if (livingEntity == Minecraft.getInstance().player) {
                     if (livingEntity.hasEffect(ModMobEffects.KO)) {
                         if (livingEntity.level().isClientSide) {
                             if (livingEntity.isDeadOrDying())
@@ -293,30 +313,30 @@ public class ClientEvents {
                         }
                     }
                 }
-				if (event.getEntity() instanceof Player player) {
-					if (player.hasEffect(ModMobEffects.STOP)) {
-						if(event.getEntity().level().isClientSide && player == Minecraft.getInstance().player) {
-							if(Minecraft.getInstance().screen == null)
-								Minecraft.getInstance().setScreen(new StopGui());
-						}
-						event.setCanceled(true);
-					}
-					PlayerData playerData = PlayerData.get(player);
-					if (playerData != null) {
-						if (playerData.getMagicCasttimeTicks() > 0) {
-							player.setDeltaMovement(0, 0, 0);
-						}
-					}
-				}
-			}
+                if (event.getEntity() instanceof Player player) {
+                    if (player.hasEffect(ModMobEffects.STOP)) {
+                        if (event.getEntity().level().isClientSide && player == Minecraft.getInstance().player) {
+                            if (Minecraft.getInstance().screen == null)
+                                Minecraft.getInstance().setScreen(new StopGui());
+                        }
+                        event.setCanceled(true);
+                    }
+                    PlayerData playerData = PlayerData.get(player);
+                    if (playerData != null) {
+                        if (playerData.getMagicCasttimeTicks() > 0) {
+                            player.setDeltaMovement(0, 0, 0);
+                        }
+                    }
+                }
+            }
 
-			if (event.getEntity() == Minecraft.getInstance().player) { //Local player
-				if (InputHandler.qrCooldown > 0) {
-					InputHandler.qrCooldown -= 1;
-				}
-			}
-		}
-	}
+            if (event.getEntity() == Minecraft.getInstance().player) { //Local player
+                if (InputHandler.qrCooldown > 0) {
+                    InputHandler.qrCooldown -= 1;
+                }
+            }
+        }
+    }
 
 
 	@SubscribeEvent
@@ -396,7 +416,7 @@ public class ClientEvents {
 
         float partialTicks = mc.getTimer().getGameTimeDeltaPartialTick(false);
         // Lock on
-        if (ModConfigs.SERVER.softLockOnMode.get() && InputHandler.lockOn != null) {
+        if (InputHandler.lockOn != null && ModConfigs.SERVER.softLockOnMode.get()) {
             ClientUtils.drawLockOnIndicator(InputHandler.lockOn.getId(), poseStack, buffer, partialTicks);
         }
 
@@ -495,11 +515,12 @@ public class ClientEvents {
 						player.level().addParticle(new DustParticleOptions(new Vector3f(c.getRed()/255F,c.getGreen()/255F,c.getBlue()/255F),1F), player.getX(), player.getY()+1, player.getZ(), 0, 0.0, 0);
 						event.setCanceled(true);
 					}
+
 					// Aerial Dodge rotation
 					if(playerData.getAerialDodgeTicks() > 0) {
 						LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> renderer = (LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>>) Minecraft.getInstance().getEntityRenderDispatcher().getRenderer((AbstractClientPlayer) player);
 						if (!((IDisabledAnimations) renderer).kingdom_Keys$isDisabled()) {
-							event.getPoseStack().mulPose(Axis.YP.rotationDegrees(player.tickCount*80));
+							event.getPoseStack().mulPose(Axis.YP.rotationDegrees(player.tickCount * 80));
 						}
 					}
 					

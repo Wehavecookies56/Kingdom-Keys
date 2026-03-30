@@ -195,12 +195,10 @@ public class InputHandler {
                 } else {
                     PacketHandler.sendToServer(new CSSummonKeyblade()); // desummon
                 }
-            }
-            else {
+            } else {
                 PacketHandler.sendToServer(new CSSummonKeyblade());
             }
         } else {
-
             if(KingdomKeys.efmLoaded && Utils.findSummoned(player.getInventory(), playerData.getEquippedKeychain(DriveForm.NONE)) == -1) {
                 PacketHandler.sendToServer(new CSPlayAnimation(KKAnimations.DRIVE_SUMMON));
             } else {
@@ -326,16 +324,28 @@ public class InputHandler {
 					dodgeRoll();
 				}
 			}
-		} else { // If player is not moving do guard
-			/*if (ABILITIES.getEquippedAbility(ModAbilities.guard)) {
-				if (player.getHeldItemMainhand() != null) {
-					// If the player holds a weapon
-					if (player.getHeldItemMainhand().getItem() instanceof ItemKeyblade || player.getHeldItemMainhand().getItem() instanceof IOrgWeapon) {
-						PacketDispatcher.sendToServer(new InvinciblePacket(20));
-					}
-				}
-			}*/
+
+            if(playerData.isAbilityEquipped(Strings.airSlide) && !player.onGround()){
+                airSlide();
+            }
+
+		} else { // If player is not moving do guard (eventually lol)
+
 		}
+
+        //Bounce off wall
+        if(playerData.getHangingInWallTicks() > 0 && !playerData.hasAirDashed()) {
+//playerData.setAirDashed(true);
+
+            Vec3 look = player.getLookAngle();
+            Vec3 push = new Vec3(look.x, 0.5, look.z).normalize();
+            float pow = playerData.getNumberOfAbilitiesEquipped(Strings.airSlide) * 0.5F;
+            player.setDeltaMovement(push.scale(pow));
+            player.hasImpulse = true;
+            PacketHandler.sendToServer(new CSPlaySoundPacket(player.getX(), player.getY(), player.getZ(), ModSounds.wall_jump.get().getLocation(), SoundSource.PLAYERS));
+            PacketHandler.sendToServer(new CSSetAirDashedPacket(true));
+        }
+
     }
 
     public void quickRun() {
@@ -360,6 +370,26 @@ public class InputHandler {
         if (player.onGround()) {
             player.push(motionX * power, 0, motionZ * power);
             qrCooldown = 20;
+        }
+    }
+
+    public void airSlide() {
+        if(!playerData.hasAirDashed()) {
+            float yaw = player.getYRot();
+            float motionX = -Mth.sin(yaw / 180.0f * (float) Math.PI);
+            float motionZ = Mth.cos(yaw / 180.0f * (float) Math.PI);
+
+            double power = 0;
+
+            if (playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())) { //Base
+                power = playerData.getNumberOfAbilitiesEquipped(Strings.airSlide) * 0.5F;
+            }
+            player.push(motionX * power, 0, motionZ * power);
+            qrCooldown = 20;
+            playerData.setAirDashed(true);
+
+            PacketHandler.sendToServer(new CSSetAirDashedPacket(true));
+            PacketHandler.sendToServer(new CSPlaySoundPacket(player.getX(), player.getY(), player.getZ(), ModSounds.air_slide.get().getLocation(), SoundSource.PLAYERS));
         }
     }
 

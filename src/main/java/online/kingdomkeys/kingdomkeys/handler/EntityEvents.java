@@ -3,6 +3,7 @@ package online.kingdomkeys.kingdomkeys.handler;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -86,6 +87,7 @@ import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.menu.PauldronInventory;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSetAirStepPacket;
+import online.kingdomkeys.kingdomkeys.network.cts.CSSetHangingWallTicksPacket;
 import online.kingdomkeys.kingdomkeys.network.stc.*;
 import online.kingdomkeys.kingdomkeys.reactioncommands.ModReactionCommands;
 import online.kingdomkeys.kingdomkeys.reactioncommands.ReactionCommand;
@@ -99,6 +101,7 @@ import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
 import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.CastleOblivionHandler;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModJsonRegistries;
+import org.joml.Vector3f;
 
 import java.util.*;
 
@@ -568,6 +571,53 @@ public class EntityEvents {
             if (ModConfigs.cmChangeColor && player.tickCount % 5 == 0) {
 				updateCommandMenu(player);
 			}
+		}
+
+		//Flowmotion
+		if(!player.onGround() && Utils.isTouchingWall(player)) {
+			if(playerData.hasAirDashed()){
+				int grabs = playerData.getWallGrabs();
+				if(playerData.getHangingInWallTicks() == 0 && grabs < playerData.getNumberOfAbilitiesEquipped(Strings.airSlide)){
+					playerData.setAirDashed(false);
+					playerData.setHangingWallTicks(20);
+					playerData.setWallGrabs(grabs+1);
+					playerData.setFlowmotion(true);//TODO packet?
+					player.level().playSound(player, player.getX(), player.getY(), player.getZ(), ModSounds.wall_grab.get(), SoundSource.PLAYERS);
+					player.addEffect(new MobEffectInstance(MobEffects.GLOWING, 100, 1, false, false, false));
+				}
+			}
+			if(playerData.getHangingInWallTicks() > 0){
+				if(!playerData.hasAirDashed())
+					player.setDeltaMovement(0,0,0);
+			}
+
+		} else {
+			//If no longer touching wall reset
+			if(playerData.getHangingInWallTicks() > 0)
+				playerData.setHangingWallTicks(0);
+		}
+
+		//Ticker
+		if(playerData.getHangingInWallTicks() > 0){
+			playerData.setHangingWallTicks(playerData.getHangingInWallTicks() - 1);
+		}
+
+		if(playerData.inFlowmotion()) {
+			float radius = 0.3F;
+
+			if(!player.level().isClientSide()) {
+				((ServerLevel)player.level()).sendParticles(new DustParticleOptions(new Vector3f(1F, 0.5F, 1), 1F), player.getX() - Math.random() * (radius * 2) + radius, player.getY() + Math.random() * player.getBbHeight(), player.getZ() - Math.random() * (radius * 2) + radius, 1, 0, 0, 0, 0);
+				((ServerLevel)player.level()).sendParticles(new DustParticleOptions(new Vector3f(0.2F, 0.8F, 1), 1F), player.getX() - Math.random() * (radius * 2) + radius, player.getY() + Math.random() * player.getBbHeight(), player.getZ() - Math.random() * (radius * 2) + radius, 1, 0, 0, 0, 0);
+			}
+		}
+
+		//If in ground reset
+		if(player.onGround()){
+			player.removeEffect(MobEffects.GLOWING);
+			playerData.setAirDashed(false);
+			playerData.setHangingWallTicks(0);
+			playerData.setWallGrabs(0);
+			playerData.setFlowmotion(false);
 		}
 
 	}

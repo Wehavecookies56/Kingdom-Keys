@@ -134,6 +134,10 @@ public class PacketHandler {
         server(CSShowHangarLinesPacket.TYPE, CSShowHangarLinesPacket.STREAM_CODEC);
         server(CSGummiBoostPacket.TYPE, CSGummiBoostPacket.STREAM_CODEC);
         server(CSSetShotlockEnemyListPacket.TYPE, CSSetShotlockEnemyListPacket.STREAM_CODEC);
+		server(CSSetHangingWallTicksPacket.TYPE, CSSetHangingWallTicksPacket.STREAM_CODEC);
+		server(CSPlaySoundPacket.TYPE, CSPlaySoundPacket.STREAM_CODEC);
+		server(CSSetFlowmotionPacket.TYPE, CSSetFlowmotionPacket.STREAM_CODEC);
+		server(CSSetAirDashedPacket.TYPE, CSSetAirDashedPacket.STREAM_CODEC);
 	}
 
 	private static <T extends Packet> void client(CustomPacketPayload.Type<T> type, StreamCodec<? super RegistryFriendlyByteBuf, T> reader) {

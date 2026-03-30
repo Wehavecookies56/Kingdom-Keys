@@ -79,6 +79,10 @@ public class ModSounds {
 			summon_armor = registerSound("summon_armor"),
 			unsummon_armor = registerSound("unsummon_armor"),
 
+			wall_jump = registerSound("wall_jump"),
+			wall_grab = registerSound("wall_grab"),
+			air_slide = registerSound("air_slide"),
+
             
             Record_Birth_by_Sleep_A_Link_to_the_Future = registerSound("records/birth_by_sleep_a_link_to_the_future"),
             Record_Dream_Drop_Distance_The_Next_Awakening = registerSound("records/dream_drop_distance_the_next_awakening"),

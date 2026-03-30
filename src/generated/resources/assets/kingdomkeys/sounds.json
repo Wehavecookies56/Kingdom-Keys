@@ -1,4 +1,9 @@
 {
+  "air_slide": {
+    "sounds": [
+      "kingdomkeys:air_slide"
+    ]
+  },
   "alarm": {
     "sounds": [
       "kingdomkeys:alarm"
@@ -485,6 +490,16 @@
   "unsummon_armor": {
     "sounds": [
       "kingdomkeys:unsummon_armor"
+    ]
+  },
+  "wall_grab": {
+    "sounds": [
+      "kingdomkeys:wall_grab"
+    ]
+  },
+  "wall_jump": {
+    "sounds": [
+      "kingdomkeys:wall_jump"
     ]
   },
   "wisdom_shot": {

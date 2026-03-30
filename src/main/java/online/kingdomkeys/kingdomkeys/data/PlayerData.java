@@ -277,6 +277,12 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 
 		storage.putInt("cast_ticks", magicCasttime);
 		storage.putInt("cd_ticks", magicCooldown);
+
+		storage.putInt("hanging_wall", hangingWallTicks);
+		storage.putInt("wall_grabs", wallGrabs);
+		storage.putBoolean("air_dashed", airDashed);
+		storage.putBoolean("flowmotion", flowmotion);
+
 		return storage;
 	}
 
@@ -479,9 +485,13 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 
 		this.setMagicCasttimeTicks(nbt.getInt("cast_ticks"));
 		this.setMagicCooldownTicks(nbt.getInt("cd_ticks"));
+		this.setHangingWallTicks(nbt.getInt("hanging_wall"));
+		this.setWallGrabs(nbt.getInt("wall_grabs"));
+		this.setAirDashed(nbt.getBoolean("air_dashed"));
+		this.setFlowmotion(nbt.getBoolean("flowmotion"));
 	}
 
-	private int level = 1, exp = 0, expGiven = 0, maxHp = 20, remainingExp = 0, reflectTicks = 0, reflectLevel = 0, magicCasttime = 0, magicCooldown = 0, munny = 0, antipoints = 0, aerialDodgeTicks, synthLevel=1, synthExp, remainingSynthExp = 0;
+	private int level = 1, exp = 0, expGiven = 0, maxHp = 20, remainingExp = 0, reflectTicks = 0, reflectLevel = 0, magicCasttime = 0, magicCooldown = 0, munny = 0, antipoints = 0, aerialDodgeTicks, synthLevel=1, synthExp, remainingSynthExp = 0,hangingWallTicks, wallGrabs;
 	private BlockPos airStepPos = new BlockPos(0,0,0);
 	Stat strength = new Stat("strength", 1);
 	Stat magic = new Stat("magic",1);
@@ -506,7 +516,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 	
 	private double mp = 0, maxMP = 0, dp = 0, maxDP = 1000, fp = 0, focus = 100, maxFocus = 100;
 
-	private boolean recharge, reflectActive, isGliding, hasJumpedAerealDodge = false;
+	private boolean recharge, reflectActive, isGliding, hasJumpedAerealDodge = false, airDashed, flowmotion;
 
 	private Vec3 returnPos = Vec3.ZERO;
 	private ResourceKey<Level> returnDim = Level.OVERWORLD;
@@ -2178,5 +2188,33 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 
 	public Set<String> getSynthesisedRecipes(){
 		return this.synthesisedRecipes;
+	}
+
+	public void setHangingWallTicks(int ticks) {
+		this.hangingWallTicks = ticks;
+	}
+
+	public int getHangingInWallTicks() {
+		return hangingWallTicks;
+	}
+	public void setWallGrabs(int grabs){
+		this.wallGrabs = grabs;
+	}
+	public int getWallGrabs(){
+		return wallGrabs;
+	}
+
+	public void setAirDashed(boolean airDashed) {
+		this.airDashed = airDashed;
+	}
+	public boolean hasAirDashed() {
+		return airDashed;
+	}
+
+	public void setFlowmotion(boolean flowmotion) {
+		this.flowmotion = flowmotion;
+	}
+	public boolean inFlowmotion() {
+		return flowmotion;
 	}
 }

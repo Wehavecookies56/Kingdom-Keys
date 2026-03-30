@@ -2101,6 +2101,15 @@ public class Utils {
 		return (int) player.getX() >= bounds.min.getX() && (int) player.getX() <= bounds.max.getX() && (int) player.getY() >= bounds.min.getY() && (int) player.getY() <= bounds.max.getY() && (int) player.getZ() >= bounds.min.getZ() && (int) player.getZ() <= bounds.max.getZ();
 	}
 
+	public static boolean isTouchingWall(Player player) {
+		AABB box = player.getBoundingBox().inflate(0.1);
+
+		return player.level().getBlockCollisions(player, box.move(0.1, 0, 0)).iterator().hasNext()
+				|| player.level().getBlockCollisions(player, box.move(-0.1, 0, 0)).iterator().hasNext()
+				|| player.level().getBlockCollisions(player, box.move(0, 0, 0.1)).iterator().hasNext()
+				|| player.level().getBlockCollisions(player, box.move(0, 0, -0.1)).iterator().hasNext();
+	}
+
 	//TODO config option for people who hate fun
 	public static boolean isAprilFools() {
 		Calendar calendar = Calendar.getInstance();

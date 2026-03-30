@@ -92,6 +92,8 @@ public class Strings {
     		dodgeRoll = KingdomKeys.MODID+":"+AB_Prefix +"dodge_roll",
     		aerialDodge = KingdomKeys.MODID+":"+AB_Prefix +"aerial_dodge",
     		glide = KingdomKeys.MODID+":"+AB_Prefix +"glide",
+
+			airSlide = KingdomKeys.MODID+":"+AB_Prefix +"air_slide",
     		
     		//Support
     		zeroExp = KingdomKeys.MODID+":"+AB_Prefix +"zero_exp",

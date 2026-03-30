@@ -85,6 +85,9 @@ public class Sounds extends SoundDefinitionsProvider {
         add(keyblade_armor, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID,"keyblade_armor2"));
         add(summon_armor);
         add(unsummon_armor);
+        add(wall_jump);
+        add(wall_grab);
+        add(air_slide);
         
         //Music
         //Records
