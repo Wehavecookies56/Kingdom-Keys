@@ -250,11 +250,17 @@ public class CommandMenuItem {
         guiGraphics.drawString(Minecraft.getInstance().font, getMessage(), parent.getSelected().equals(this) ? x + ModConfigs.cmSelectedXOffset + 6 + ModConfigs.cmTextXOffset : x + ModConfigs.cmTextXOffset + 6, y + 4, isActive() ? Color.WHITE.getRGB() : Color.WHITE.darker().darker().getRGB());
 
        if (this.hasIcon && this.getParent().getSelected().equals(this)) {
-            Color iconColour = parent.isActive() ? Color.WHITE : Color.WHITE.darker().darker();
-            guiGraphics.setColor(iconColour.getRed() / 255F, iconColour.getGreen() / 255F, iconColour.getBlue() / 255F, 1);
-            RenderSystem.enableBlend();
-            guiGraphics.blit(iconTexture.get(), x + ModConfigs.cmSelectedXOffset + getWidth() - ModConfigs.cmEndRWidth - 6, y + 2, iconU, iconV, 10, 10);
-            RenderSystem.disableBlend();
+           float speed = 0.15f;
+           float amplitude = 2f;
+           float time = Minecraft.getInstance().player.tickCount + partialTick;
+           float offsetY = (float) Math.sin(time * speed) * amplitude + 2.5F;
+           guiGraphics.pose().pushPose();
+           {
+               guiGraphics.pose().translate(0, offsetY, 0);
+               guiGraphics.setColor(1,1,1, 1);
+               guiGraphics.blit(iconTexture.get(), x + ModConfigs.cmSelectedXOffset + getWidth() - ModConfigs.cmEndRWidth - 6, y, iconU, iconV, 10, 10);
+           }
+           guiGraphics.pose().popPose();
         }
 
     }

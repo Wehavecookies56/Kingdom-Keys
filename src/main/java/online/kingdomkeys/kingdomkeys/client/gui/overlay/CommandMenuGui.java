@@ -292,7 +292,7 @@ public class CommandMenuGui extends OverlayBase {
 					item.setTextColour(Color.WHITE);
 					item.setActive(false);
 				}
-			}).iconUV(160, 60)));
+			}).iconUV(20, 60)));
 		return magic.toArray(new CommandMenuItem.Builder[0]);
 	}
 
