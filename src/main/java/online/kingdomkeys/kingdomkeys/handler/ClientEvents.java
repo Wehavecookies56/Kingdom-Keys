@@ -129,6 +129,7 @@ public class ClientEvents {
             softLockOn(player, target);
         else
             hardLockOn(player, target);
+
     }
 
     /**
@@ -446,26 +447,52 @@ public class ClientEvents {
 
         // Single shotlock indicator (Ultima cannon)
         Shotlock shotlock = Utils.getPlayerShotlock(mc.player);
-        if (shotlock == null)
-            return;
+        if (shotlock != null) {
+            boolean singleLock = shotlock.getMaxLocks() == 1;
 
-        boolean singleLock = shotlock.getMaxLocks() == 1;
+            if (tempShotlockEntity != null || (singleLock && !localPlayerData.getShotlockEnemies().isEmpty())) {
+                int entityID = tempShotlockEntity == null ? localPlayerData.getShotlockEnemies().getFirst().id() : tempShotlockEntity.getId();
+                ClientUtils.drawSingleShotlockIndicator(entityID, poseStack, buffer, partialTicks);
+            }
 
-        if (tempShotlockEntity != null || (singleLock && !localPlayerData.getShotlockEnemies().isEmpty())) {
-            int entityID = tempShotlockEntity == null ? localPlayerData.getShotlockEnemies().getFirst().id() : tempShotlockEntity.getId();
-            ClientUtils.drawSingleShotlockIndicator(entityID, poseStack, buffer, partialTicks);
-        }
+            //Normal shotlocks
+            if (focusing && !singleLock && localPlayerData.getShotlockEnemies() != null && !localPlayerData.getShotlockEnemies().isEmpty()) {
+                for (Utils.ShotlockPosition sh : localPlayerData.getShotlockEnemies()) {
+                    ClientUtils.drawShotlockIndicator(sh, poseStack, buffer, partialTicks);
+                }
+            }
 
-        //Normal shotlocks
-        if (focusing && !singleLock && localPlayerData.getShotlockEnemies() != null && !localPlayerData.getShotlockEnemies().isEmpty()) {
-            for (Utils.ShotlockPosition sh : localPlayerData.getShotlockEnemies()) {
-                ClientUtils.drawShotlockIndicator(sh, poseStack, buffer, partialTicks);
+            if (lockedAirStepEntity != null) {
+                ClientUtils.drawAirstepIndicator(lockedAirStepEntity.getId(), poseStack, buffer, partialTicks);
             }
         }
 
-        if (lockedAirStepEntity != null) {
-            ClientUtils.drawAirstepIndicator(lockedAirStepEntity.getId(), poseStack, buffer, partialTicks);
+
+        if (player == null) return;
+
+        for (Player p : mc.level.players()) {
+
+            PlayerData playerData = PlayerData.get(p);
+            float partialTick = event.getPartialTick().getGameTimeDeltaPartialTick(false);
+            if (playerData.inFlowmotion()) {
+                ClientUtils.updateTrail(p, partialTick);
+            } else {
+                ClientUtils.fadeTrail(p);
+            }
+
+            Camera camera = mc.gameRenderer.getMainCamera();
+            Vec3 camPos = camera.getPosition();
+
+            poseStack.pushPose();
+            {
+                poseStack.translate(-camPos.x, -camPos.y, -camPos.z);
+                ClientUtils.renderTrail(p, poseStack, buffer, -5F,1F,0.2F,1F);
+                ClientUtils.renderTrail(p, poseStack, buffer, 0F,0.2F,0.6F,1F);
+                ClientUtils.renderTrail(p, poseStack, buffer, 5F,1F,0.2F,1F);
+            }
+            poseStack.popPose();
         }
+
 
         buffer.endBatch();
     }
@@ -556,11 +583,26 @@ public class ClientEvents {
 					} else if(playerData.getActiveDriveForm().equals(Strings.Form_Wisdom)) {
 						player.level().addParticle(new DustParticleOptions(new Vector3f(0F,1F,1F),1F), player.getX(), player.getY(), player.getZ(), 0, 0.3, 0);
 					}
-
-				}
+                }
 			}
 		}
 	}
+
+   /* @SubscribeEvent
+    public void onRenderLivingPost(RenderLivingEvent.Post<?, ?> event) {
+        if (!(event.getEntity() instanceof Player player)) return;
+
+        PlayerData playerData = PlayerData.get(player); // tu sistema
+
+        if (playerData.inFlowmotion()) {
+            ClientUtils.updateTrail(player, event.getPartialTick()); // solo añadir puntos
+        } else {
+            ClientUtils.fadeTrail(player); // eliminar poco a poco
+        }
+
+
+        ClientUtils.renderTrail(player, event.getPoseStack(), event.getMultiBufferSource(), event.getPartialTick());
+    }*/
 
     private static int selectedSlot = 0;
 

@@ -75,12 +75,13 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 import org.joml.Matrix4f;
 import org.joml.Matrix4fStack;
 import org.joml.Quaternionf;
+import org.joml.Vector3f;
 
 import javax.annotation.Nullable;
+import java.awt.*;
 import java.io.FileNotFoundException;
-import java.util.Iterator;
+import java.util.*;
 import java.util.List;
-import java.util.UUID;
 
 public class ClientUtils {
     public static Style KK_Font_EXP = Style.EMPTY.withFont(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "kk_font_exp"));
@@ -886,6 +887,72 @@ public class ClientUtils {
             }
         }
 
+    }
+
+
+    /**
+     * Stuff for trails
+     */
+    private static final Map<UUID, Deque<Vec3>> TRAILS = new HashMap<>();
+    private static final int MAX_POINTS = 200;
+
+    private static Deque<Vec3> getTrail(Player player) {
+        return TRAILS.computeIfAbsent(player.getUUID(), k -> new ArrayDeque<>());
+    }
+
+    public static void updateTrail(Player player, float partialTick) {
+        Deque<Vec3> trail = getTrail(player);
+        Vec3 pos = player.getPosition(partialTick);
+        trail.addLast(pos);
+
+        if (trail.size() > MAX_POINTS) {
+            trail.removeFirst();
+        }
+    }
+
+    public static void fadeTrail(Player player) {
+        Deque<Vec3> trail = getTrail(player);
+
+        if (!trail.isEmpty()) {
+            trail.removeFirst();
+        }
+    }
+
+    public static void renderTrail(Player player, PoseStack poseStack, MultiBufferSource bufferSource, float offsetAmount, float r, float g, float b){
+        Deque<Vec3> trail = getTrail(player);
+
+        if (trail.size() < 2)
+            return;
+
+        poseStack.pushPose();
+
+        VertexConsumer buffer = bufferSource.getBuffer(RenderType.lines());
+        List<Vec3> points = new ArrayList<>(trail);
+
+        Matrix4f pose = poseStack.last().pose();
+
+        for (int i = 0; i < points.size() - 1; i++) {
+            //Gets the points to form the vector
+            Vec3 p1 = points.get(i);
+            Vec3 p2 = points.get(i + 1);
+
+            //Some magic happens
+            Vec3 dir = p2.subtract(p1).normalize();
+            Vec3 up = new Vec3(0, 1, 0);
+            Vec3 side = dir.cross(up).normalize().scale(0.05f);
+            Vec3 offset = side.scale(offsetAmount);
+
+            //Applies the offsets
+            Vec3 p1Final = p1.add(offset);
+            Vec3 p2Final = p2.add(offset);
+
+            //Less alpha for oldest points
+            float alpha = i / (float) points.size();
+            buffer.addVertex(pose, (float)p1Final.x, (float)p1Final.y, (float)p1Final.z).setColor(r, g, b, alpha).setUv(0f, 0f).setUv2(0, 15728880).setNormal(0f, 1f, 0f);
+            buffer.addVertex(pose, (float)p2Final.x, (float)p2Final.y, (float)p2Final.z).setColor(r, g, b, alpha).setUv(0f, 0f).setUv2(0, 15728880).setNormal(0f, 1f, 0f);
+        }
+
+        poseStack.popPose();
     }
 }
 

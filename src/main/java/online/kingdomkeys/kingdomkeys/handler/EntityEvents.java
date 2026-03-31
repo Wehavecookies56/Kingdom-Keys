@@ -582,6 +582,9 @@ public class EntityEvents {
 					playerData.setHangingWallTicks(20);
 					playerData.setWallGrabs(grabs+1);
 					playerData.setFlowmotion(true);//TODO packet?
+					//if(!player.level().isClientSide) {
+						//PacketHandler.syncToAllAround(player, playerData);
+					//}
 					player.level().playSound(player, player.getX(), player.getY(), player.getZ(), ModSounds.wall_grab.get(), SoundSource.PLAYERS);
 					player.addEffect(new MobEffectInstance(MobEffects.GLOWING, 100, 1, false, false, false));
 					if(player.level().isClientSide) {
@@ -611,10 +614,6 @@ public class EntityEvents {
 			if(!player.level().isClientSide()) {
 				((ServerLevel)player.level()).sendParticles(new DustParticleOptions(new Vector3f(1F, 0.5F, 1), 1F), player.getX() - Math.random() * (radius * 2) + radius, player.getY() + Math.random() * player.getBbHeight(), player.getZ() - Math.random() * (radius * 2) + radius, 1, 0, 0, 0, 0);
 				((ServerLevel)player.level()).sendParticles(new DustParticleOptions(new Vector3f(0.2F, 0.8F, 1), 1F), player.getX() - Math.random() * (radius * 2) + radius, player.getY() + Math.random() * player.getBbHeight(), player.getZ() - Math.random() * (radius * 2) + radius, 1, 0, 0, 0, 0);
-				((ServerLevel)player.level()).sendParticles(ParticleTypes.ELECTRIC_SPARK, player.getX(), player.getY(), player.getZ(), 1, 0, 0, 0, 0);
-
-				((ServerLevel)player.level()).sendParticles(new DustParticleOptions(new Vector3f(1F, 0.5F, 1), 1F), player.getX() - Math.random() * (radius * 2) + radius, player.getY(), player.getZ() - Math.random() * (radius * 2) + radius, 10, 0, 0, 0, 0);
-				((ServerLevel)player.level()).sendParticles(new DustParticleOptions(new Vector3f(0.2F, 0.8F, 1), 1F), player.getX() - Math.random() * (radius * 2) + radius, player.getY(), player.getZ() - Math.random() * (radius * 2) + radius, 10, 0, 0, 0, 0);
 			}
 		}
 
