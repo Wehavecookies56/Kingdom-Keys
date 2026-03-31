@@ -237,6 +237,7 @@ public class InputHandler {
             }
         } else {
             lockOn = null;
+            playSound(ModSounds.lockoff.get());
         }
     }
 
@@ -326,13 +327,17 @@ public class InputHandler {
 				}
 			}
 
-            if(playerData.isAbilityEquipped(Strings.airSlide) && !player.onGround()){
-                airSlide();
-            }
+
 
 		} else { // If player is not moving do guard (eventually lol)
 
 		}
+
+        if(qrCooldown <= 0){
+            if(playerData.isAbilityEquipped(Strings.airSlide) && !player.onGround()){
+                airSlide();
+            }
+        }
 
         //Bounce off wall (X)
         if(playerData.getHangingInWallTicks() > 0 && !playerData.hasBounced()) {

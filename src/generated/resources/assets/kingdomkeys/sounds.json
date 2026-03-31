@@ -75,6 +75,11 @@
       "kingdomkeys:levelup"
     ]
   },
+  "lockoff": {
+    "sounds": [
+      "kingdomkeys:lockoff"
+    ]
+  },
   "lockon": {
     "sounds": [
       "kingdomkeys:lockon"

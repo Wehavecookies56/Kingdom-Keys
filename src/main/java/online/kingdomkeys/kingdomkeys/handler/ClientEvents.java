@@ -105,7 +105,7 @@ public class ClientEvents {
         Minecraft mc = Minecraft.getInstance();
         Player player = mc.player;
 
-        if (mc == null || player == null || InputHandler.lockOn == null) {
+        if (mc == null || mc.level == null || player == null || InputHandler.lockOn == null) {
             if (KingdomKeys.shoulderSurfingLoaded) {
                 KKShoulderSurfing.enableDecoupling();
             }

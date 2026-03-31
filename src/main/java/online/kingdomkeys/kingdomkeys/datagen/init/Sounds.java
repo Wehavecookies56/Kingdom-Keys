@@ -32,6 +32,7 @@ public class Sounds extends SoundDefinitionsProvider {
         add(kupoliving);
         add(levelup);
         add(lockon);
+        add(lockoff);
         add(menu_back);
         add(menu_in);
         add(menu_move);

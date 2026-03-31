@@ -24,6 +24,7 @@ public class ModSounds {
             kupoliving = registerSound("kupoliving"),
             levelup = registerSound("levelup"),
             lockon = registerSound("lockon"),
+			lockoff = registerSound("lockoff"),
             menu_back = registerSound("menu_back"),
             menu_in = registerSound("menu_in"),
             menu_move = registerSound("menu_move"),
