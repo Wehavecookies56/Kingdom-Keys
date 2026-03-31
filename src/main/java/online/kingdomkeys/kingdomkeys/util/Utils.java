@@ -2102,12 +2102,23 @@ public class Utils {
 	}
 
 	public static boolean isTouchingWall(Player player) {
-		AABB box = player.getBoundingBox().inflate(0.1);
+		if (player.onGround())
+			return false;
 
-		return player.level().getBlockCollisions(player, box.move(0.1, 0, 0)).iterator().hasNext()
-				|| player.level().getBlockCollisions(player, box.move(-0.1, 0, 0)).iterator().hasNext()
-				|| player.level().getBlockCollisions(player, box.move(0, 0, 0.1)).iterator().hasNext()
-				|| player.level().getBlockCollisions(player, box.move(0, 0, -0.1)).iterator().hasNext();
+		AABB box = player.getBoundingBox();
+		double yShrink = 0.2; // recorta top y bottom para ignorar suelo/techo
+		AABB sideBox = new AABB(box.minX, box.minY + yShrink, box.minZ, box.maxX, box.maxY - yShrink, box.maxZ).inflate(0.05);
+
+		Level level = player.level();
+
+		return hasCollision(level, player, sideBox.move(0.1, 0, 0)) ||
+				hasCollision(level, player, sideBox.move(-0.1, 0, 0)) ||
+				hasCollision(level, player, sideBox.move(0, 0, 0.1)) ||
+				hasCollision(level, player, sideBox.move(0, 0, -0.1));
+	}
+
+	private static boolean hasCollision(Level level, Player player, AABB box) {
+		return level.getBlockCollisions(player, box).iterator().hasNext();
 	}
 
 	//TODO config option for people who hate fun

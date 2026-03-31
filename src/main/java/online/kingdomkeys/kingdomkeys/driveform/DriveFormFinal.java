@@ -88,7 +88,7 @@ public class DriveFormFinal extends DriveForm {
 	}
 	
 	private static void handleGlide(Player player, PlayerData playerData) {
-		if (player.isInWater() || player.isInLava())
+		if (player.isInWater() || player.isInLava() || playerData.inFlowmotion())
 			return;
 
 		if (player.level().isClientSide) {// Need to check if it's clientside for the keyboard key detection
