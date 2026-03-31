@@ -4,6 +4,10 @@
 * Config option to allow the Enderdragon to level up too.
 * Command Menu icon bobbing effect.
 * Sound when removing lockon objective.
+* Crafting recipe for Gummi Blueprint 
+  * Glass, glass, glass
+  * Gummi fragment, redstone block, gummi fragment
+  * Glass, glass, glass
 
 **Changed:**
 * Aerial dodge spin is now smooth.
