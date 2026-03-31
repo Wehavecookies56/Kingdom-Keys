@@ -2106,7 +2106,7 @@ public class Utils {
 			return false;
 
 		AABB box = player.getBoundingBox();
-		double yShrink = 0.2; // recorta top y bottom para ignorar suelo/techo
+		double yShrink = 0.2; // ignore 20% of the block's top and bottom to avoid false positives
 		AABB sideBox = new AABB(box.minX, box.minY + yShrink, box.minZ, box.maxX, box.maxY - yShrink, box.maxZ).inflate(0.05);
 
 		Level level = player.level();
