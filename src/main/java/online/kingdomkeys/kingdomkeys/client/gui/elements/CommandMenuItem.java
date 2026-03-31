@@ -240,11 +240,17 @@ public class CommandMenuItem {
         return width;
     }
 
+    ResourceLocation cmTexture = null;
+
     public void render(GuiGraphics guiGraphics, int x, int y, int screenWidth, int screenHeight, float partialTick) {
+        //long ns = System.nanoTime();
+        if(cmTexture == null) {
+            cmTexture = parent.getTexture();
+        }
         guiGraphics.setColor(parent.getColour().getRed() / 255F, parent.getColour().getGreen() / 255F, parent.getColour().getBlue() / 255F, 1);
-        guiGraphics.blit(parent.getTexture(), parent.getSelected().equals(this) ? x + ModConfigs.cmSelectedXOffset : x, y, 0, parent.getSelected().equals(this) ? 30 : 15, ModConfigs.cmEndLWidth+1, 15);
-        guiGraphics.blit(parent.getTexture(), parent.getSelected().equals(this) ? x + ModConfigs.cmEndLWidth + ModConfigs.cmSelectedXOffset : x + ModConfigs.cmEndLWidth, y, getWidth() - (ModConfigs.cmEndLWidth + ModConfigs.cmEndRWidth), height, ModConfigs.cmEndLWidth + 1, parent.getSelected().equals(this) ? 30 : 15, 1, 15, 256, 256);
-        guiGraphics.blit(parent.getTexture(), parent.getSelected().equals(this) ? x + getWidth() - ModConfigs.cmEndRWidth + ModConfigs.cmSelectedXOffset : x + getWidth() - ModConfigs.cmEndRWidth, y, ModConfigs.cmEndLWidth + 4, parent.getSelected().equals(this) ? 30 : 15, ModConfigs.cmEndRWidth, 15);
+        guiGraphics.blit(cmTexture, parent.getSelected().equals(this) ? x + ModConfigs.cmSelectedXOffset : x, y, 0, parent.getSelected().equals(this) ? 30 : 15, ModConfigs.cmEndLWidth+1, 15);
+        guiGraphics.blit(cmTexture, parent.getSelected().equals(this) ? x + ModConfigs.cmEndLWidth + ModConfigs.cmSelectedXOffset : x + ModConfigs.cmEndLWidth, y, getWidth() - (ModConfigs.cmEndLWidth + ModConfigs.cmEndRWidth), height, ModConfigs.cmEndLWidth + 1, parent.getSelected().equals(this) ? 30 : 15, 1, 15, 256, 256);
+        guiGraphics.blit(cmTexture, parent.getSelected().equals(this) ? x + getWidth() - ModConfigs.cmEndRWidth + ModConfigs.cmSelectedXOffset : x + getWidth() - ModConfigs.cmEndRWidth, y, ModConfigs.cmEndLWidth + 4, parent.getSelected().equals(this) ? 30 : 15, ModConfigs.cmEndRWidth, 15);
         Color textColour = parent.isActive() ? this.textColour : this.textColour.darker().darker();
         guiGraphics.setColor(textColour.getRed() / 255F, textColour.getGreen() / 255F, textColour.getBlue() / 255F, 1);
         guiGraphics.drawString(Minecraft.getInstance().font, getMessage(), parent.getSelected().equals(this) ? x + ModConfigs.cmSelectedXOffset + 6 + ModConfigs.cmTextXOffset : x + ModConfigs.cmTextXOffset + 6, y + 4, isActive() ? Color.WHITE.getRGB() : Color.WHITE.darker().darker().getRGB());
@@ -263,6 +269,7 @@ public class CommandMenuItem {
            guiGraphics.pose().popPose();
         }
 
+        //System.out.println("Took "+(System.nanoTime() - ns)+" ns");
     }
 
     public interface OnEnter {

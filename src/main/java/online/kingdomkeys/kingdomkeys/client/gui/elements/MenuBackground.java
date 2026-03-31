@@ -236,6 +236,10 @@ public class MenuBackground extends Screen {
 			bottomLeftBar.setWidth(textOffset + scaledWidth + 15);
 			bottomRightBar.posX = (int) (bottomLeftBar.width + bottomGap);
 			bottomRightBar.width = sw;
+
+			tooltipPosX = bottomRightBar.getPosX() + 15;
+			tooltipPosY = bottomRightBar.getPosY() + 15;
+
 		}
 		gui.pose().popPose();
 	}
