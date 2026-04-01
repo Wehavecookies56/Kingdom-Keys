@@ -467,11 +467,8 @@ public class ClientEvents {
             }
         }
 
-
-        if (player == null) return;
-
+        //Flowmotion trails
         for (Player p : mc.level.players()) {
-
             PlayerData playerData = PlayerData.get(p);
             float partialTick = event.getPartialTick().getGameTimeDeltaPartialTick(false);
             if (playerData.inFlowmotion()) {
@@ -489,6 +486,9 @@ public class ClientEvents {
                 ClientUtils.renderTrail(p, poseStack, buffer, -5F,1F,0.2F,1F);
                 ClientUtils.renderTrail(p, poseStack, buffer, 0F,0.2F,0.6F,1F);
                 ClientUtils.renderTrail(p, poseStack, buffer, 5F,1F,0.2F,1F);
+
+                ClientUtils.renderFixedTrail(p, poseStack, buffer, -5F,1F,0.2F,1F);
+                ClientUtils.renderFixedTrail(p, poseStack, buffer, 5F,1F,0.2F,1F);
             }
             poseStack.popPose();
         }

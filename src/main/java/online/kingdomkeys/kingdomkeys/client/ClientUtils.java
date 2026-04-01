@@ -918,7 +918,53 @@ public class ClientUtils {
         }
     }
 
-    public static void renderTrail(Player player, PoseStack poseStack, MultiBufferSource bufferSource, float offsetAmount, float r, float g, float b){
+    public static void renderTrail(Player player, PoseStack poseStack, MultiBufferSource bufferSource, float offsetAmount, float r, float g, float b) {
+        Deque<Vec3> trail = getTrail(player);
+
+        if (trail.size() < 2)
+            return;
+
+        poseStack.pushPose();
+        {
+            VertexConsumer buffer = bufferSource.getBuffer(RenderType.lines());
+            List<Vec3> points = new ArrayList<>(trail);
+
+            Matrix4f pose = poseStack.last().pose();
+
+            for (int i = 0; i < points.size() - 1; i++) {
+                //Gets the points to form the vector
+                Vec3 p1 = points.get(i);
+                Vec3 p2 = points.get(i + 1);
+
+                Vec3 dir = p2.subtract(p1).normalize();
+
+                Vec3 arbitrary = Math.abs(dir.y) < 0.99 ? new Vec3(0,1,0) : new Vec3(1,0,0);
+
+                Vec3 right = dir.cross(arbitrary).normalize();
+                Vec3 up = dir.cross(right).normalize();
+
+                float t = i / (float) points.size();
+
+                float angle = t * 10f + (player.tickCount) * 0.2f;
+
+                float radius = 0.05f * offsetAmount;
+
+                Vec3 offset = right.scale((float)Math.cos(angle) * radius).add(up.scale((float)Math.sin(angle) * radius));
+
+                //Applies the offsets
+                Vec3 p1Final = p1.add(offset);
+                Vec3 p2Final = p2.add(offset);
+
+                //Less alpha for oldest points
+                float alpha = i / (float) points.size();
+                buffer.addVertex(pose, (float) p1Final.x, (float) p1Final.y, (float) p1Final.z).setColor(r, g, b, alpha).setUv(0f, 0f).setUv2(0, 15728880).setNormal(0f, 1f, 0f);
+                buffer.addVertex(pose, (float) p2Final.x, (float) p2Final.y, (float) p2Final.z).setColor(r, g, b, alpha).setUv(0f, 0f).setUv2(0, 15728880).setNormal(0f, 1f, 0f);
+            }
+        }
+        poseStack.popPose();
+    }
+
+    public static void renderFixedTrail(Player player, PoseStack poseStack, MultiBufferSource bufferSource, float offsetAmount, float r, float g, float b){
         Deque<Vec3> trail = getTrail(player);
 
         if (trail.size() < 2)
