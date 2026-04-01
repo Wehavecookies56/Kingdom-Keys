@@ -75,10 +75,8 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 import org.joml.Matrix4f;
 import org.joml.Matrix4fStack;
 import org.joml.Quaternionf;
-import org.joml.Vector3f;
 
 import javax.annotation.Nullable;
-import java.awt.*;
 import java.io.FileNotFoundException;
 import java.util.*;
 import java.util.List;
@@ -893,15 +891,24 @@ public class ClientUtils {
     /**
      * Stuff for trails
      */
-    private static final Map<UUID, Deque<Vec3>> TRAILS = new HashMap<>();
+
+    public enum TrailType {
+        FLOWMOTION, DASH
+    }
+    private static final Map<UUID, Deque<Vec3>> FLOW_TRAILS = new HashMap<>();
+    private static final Map<UUID, Deque<Vec3>> DASH_TRAILS = new HashMap<>();
+
     private static final int MAX_POINTS = 200;
 
-    private static Deque<Vec3> getTrail(Player player) {
-        return TRAILS.computeIfAbsent(player.getUUID(), k -> new ArrayDeque<>());
+    private static Deque<Vec3> getTrail(TrailType type, Player player) {
+        return switch(type){
+            case FLOWMOTION -> FLOW_TRAILS.computeIfAbsent(player.getUUID(), k -> new ArrayDeque<>());
+            case DASH -> DASH_TRAILS.computeIfAbsent(player.getUUID(), k -> new ArrayDeque<>());
+        };
     }
 
-    public static void updateTrail(Player player, float partialTick) {
-        Deque<Vec3> trail = getTrail(player);
+    public static void updateTrail(TrailType type, Player player, float partialTick, int MAX_POINTS) {
+        Deque<Vec3> trail = getTrail(type, player);
         Vec3 pos = player.getPosition(partialTick);
         trail.addLast(pos);
 
@@ -910,16 +917,16 @@ public class ClientUtils {
         }
     }
 
-    public static void fadeTrail(Player player) {
-        Deque<Vec3> trail = getTrail(player);
+    public static void fadeTrail(TrailType type, Player player) {
+        Deque<Vec3> trail = getTrail(type, player);
 
         if (!trail.isEmpty()) {
             trail.removeFirst();
         }
     }
 
-    public static void renderTrail(Player player, PoseStack poseStack, MultiBufferSource bufferSource, float offsetAmount, float r, float g, float b) {
-        Deque<Vec3> trail = getTrail(player);
+    public static void renderTrail(TrailType type, Player player, PoseStack poseStack, MultiBufferSource bufferSource, float offsetAmount, float verticalOffset, float r, float g, float b, boolean oscillate) {
+        Deque<Vec3> trail = getTrail(type, player);
 
         if (trail.size() < 2)
             return;
@@ -928,76 +935,59 @@ public class ClientUtils {
         {
             VertexConsumer buffer = bufferSource.getBuffer(RenderType.lines());
             List<Vec3> points = new ArrayList<>(trail);
-
             Matrix4f pose = poseStack.last().pose();
 
             for (int i = 0; i < points.size() - 1; i++) {
-                //Gets the points to form the vector
                 Vec3 p1 = points.get(i);
                 Vec3 p2 = points.get(i + 1);
 
                 Vec3 dir = p2.subtract(p1).normalize();
 
-                Vec3 arbitrary = Math.abs(dir.y) < 0.99 ? new Vec3(0,1,0) : new Vec3(1,0,0);
+                Vec3 offset;
 
-                Vec3 right = dir.cross(arbitrary).normalize();
-                Vec3 up = dir.cross(right).normalize();
+                if (oscillate) {
+                    //Spiral
+                    Vec3 arbitrary = Math.abs(dir.y) < 0.99 ? new Vec3(0,1,0) : new Vec3(1,0,0);
 
-                float t = i / (float) points.size();
+                    Vec3 right = dir.cross(arbitrary).normalize();
+                    Vec3 up = dir.cross(right).normalize();
 
-                float angle = t * 10f + (player.tickCount) * 0.2f;
+                    float t = i / (float) points.size();
+                    float angle = t * 10f + player.tickCount * 0.2f;
+                    float radius = 0.05f * offsetAmount;
 
-                float radius = 0.05f * offsetAmount;
+                    offset = right.scale((float)Math.cos(angle) * radius).add(up.scale((float)Math.sin(angle) * radius));
+                    offset = offset.add(new Vec3(0, verticalOffset, 0));
+                } else {
+                    //Fixed
+                    Vec3 worldUp = new Vec3(0, 1, 0);
+                    Vec3 side = dir.cross(worldUp).normalize().scale(0.05f);
 
-                Vec3 offset = right.scale((float)Math.cos(angle) * radius).add(up.scale((float)Math.sin(angle) * radius));
+                    Vec3 horizontalOffset = side.scale(offsetAmount);
+                    Vec3 vertical = worldUp.scale(verticalOffset);
 
-                //Applies the offsets
+                    offset = horizontalOffset.add(vertical);
+                }
+
+                // aplicar offset
                 Vec3 p1Final = p1.add(offset);
                 Vec3 p2Final = p2.add(offset);
 
-                //Less alpha for oldest points
                 float alpha = i / (float) points.size();
-                buffer.addVertex(pose, (float) p1Final.x, (float) p1Final.y, (float) p1Final.z).setColor(r, g, b, alpha).setUv(0f, 0f).setUv2(0, 15728880).setNormal(0f, 1f, 0f);
-                buffer.addVertex(pose, (float) p2Final.x, (float) p2Final.y, (float) p2Final.z).setColor(r, g, b, alpha).setUv(0f, 0f).setUv2(0, 15728880).setNormal(0f, 1f, 0f);
+
+                buffer.addVertex(pose, (float)p1Final.x, (float)p1Final.y, (float)p1Final.z)
+                        .setColor(r, g, b, alpha)
+                        .setUv(0f, 0f)
+                        .setUv2(0, 15728880)
+                        .setNormal(0f, 1f, 0f);
+
+                buffer.addVertex(pose, (float)p2Final.x, (float)p2Final.y, (float)p2Final.z)
+                        .setColor(r, g, b, alpha)
+                        .setUv(0f, 0f)
+                        .setUv2(0, 15728880)
+                        .setNormal(0f, 1f, 0f);
             }
         }
-        poseStack.popPose();
-    }
-
-    public static void renderFixedTrail(Player player, PoseStack poseStack, MultiBufferSource bufferSource, float offsetAmount, float r, float g, float b){
-        Deque<Vec3> trail = getTrail(player);
-
-        if (trail.size() < 2)
-            return;
-
-        poseStack.pushPose();
-
-        VertexConsumer buffer = bufferSource.getBuffer(RenderType.lines());
-        List<Vec3> points = new ArrayList<>(trail);
-
-        Matrix4f pose = poseStack.last().pose();
-
-        for (int i = 0; i < points.size() - 1; i++) {
-            //Gets the points to form the vector
-            Vec3 p1 = points.get(i);
-            Vec3 p2 = points.get(i + 1);
-
-            //Some magic happens
-            Vec3 dir = p2.subtract(p1).normalize();
-            Vec3 up = new Vec3(0, 1, 0);
-            Vec3 side = dir.cross(up).normalize().scale(0.05f);
-            Vec3 offset = side.scale(offsetAmount);
-
-            //Applies the offsets
-            Vec3 p1Final = p1.add(offset);
-            Vec3 p2Final = p2.add(offset);
-
-            //Less alpha for oldest points
-            float alpha = i / (float) points.size();
-            buffer.addVertex(pose, (float)p1Final.x, (float)p1Final.y, (float)p1Final.z).setColor(r, g, b, alpha).setUv(0f, 0f).setUv2(0, 15728880).setNormal(0f, 1f, 0f);
-            buffer.addVertex(pose, (float)p2Final.x, (float)p2Final.y, (float)p2Final.z).setColor(r, g, b, alpha).setUv(0f, 0f).setUv2(0, 15728880).setNormal(0f, 1f, 0f);
-        }
-
         poseStack.popPose();
     }
 }

@@ -1,5 +1,8 @@
 **Added:**
-* Trails for flowmotion
+* Trails for flowmotion and air dash
+
+**Changed:**
+* Flowmotion jump won't bounce you off the wall as much as before.
 
 **Fixed:**
 * Command Menu cpu usage being a bit high.

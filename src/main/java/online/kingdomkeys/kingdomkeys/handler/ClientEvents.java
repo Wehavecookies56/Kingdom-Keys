@@ -274,28 +274,26 @@ public class ClientEvents {
                     if(Minecraft.getInstance().options.keyJump.isDown()) {
                         if(!playerData.hasBounced()) { //If has not bounced before bounce
                             Vec3 look = player.getLookAngle();
-                            Vec3 push = new Vec3(-look.x, 1.5, -look.z).normalize();
-                            if(InputHandler.jumpRayTrace != null){
-                                if(InputHandler.jumpRayTrace instanceof BlockHitResult blockHitResult){
-                                    switch (blockHitResult.getDirection()) {
-                                        case NORTH -> {
-                                            push = new Vec3(0, 1.5, -1).normalize();
-                                        }
-                                        case SOUTH -> {
-                                            push = new Vec3(0, 1.5, 1).normalize();
-                                        }
-                                        case WEST -> {
-                                            push = new Vec3(-1, 1.5, 0).normalize();
-                                        }
-                                        case EAST -> {
-                                            push = new Vec3(1, 1.5, 0).normalize();
-                                        }
-                                    }
+
+                            Vec3 horizontalDir = new Vec3(-look.x, 0, -look.z).normalize();
+                            double baseY = 1.5;
+
+                            if (InputHandler.jumpRayTrace instanceof BlockHitResult blockHitResult) {
+                                switch (blockHitResult.getDirection()) {
+                                    case NORTH -> horizontalDir = new Vec3(0, 0, -1);
+                                    case SOUTH -> horizontalDir = new Vec3(0, 0, 1);
+                                    case WEST  -> horizontalDir = new Vec3(-1, 0, 0);
+                                    case EAST  -> horizontalDir = new Vec3(1, 0, 0);
                                 }
                             }
 
-                            float pow = 0.5F + playerData.getNumberOfAbilitiesEquipped(Strings.airSlide) * 0.15F;
-                            player.setDeltaMovement(push.scale(pow));
+                            float pow = 0.25F + playerData.getNumberOfAbilitiesEquipped(Strings.airSlide) * 0.15F;
+                            double horizontalStrength = 0.25;
+                            double verticalStrength = baseY * pow;
+
+                            Vec3 push = new Vec3(horizontalDir.x * horizontalStrength, verticalStrength, horizontalDir.z * horizontalStrength);
+
+                            player.setDeltaMovement(push);
                             player.hasImpulse = true;
                             PacketHandler.sendToServer(new CSPlaySoundPacket(player.getX(), player.getY(), player.getZ(), ModSounds.wall_jump.get().getLocation(), SoundSource.PLAYERS));
 
@@ -368,7 +366,8 @@ public class ClientEvents {
 	public void onRenderWorld(RenderHighlightEvent.Block event) {
 		Minecraft mc = Minecraft.getInstance();
 		LocalPlayer player = mc.player;
-		if (player == null || mc.level == null || mc.options.hideGui) return;
+		if (player == null || mc.level == null || mc.options.hideGui)
+            return;
 
 		if (!(player.getMainHandItem().getItem() instanceof BlockItem blockItem) || event.getTarget().getDirection() == Direction.DOWN || event.getTarget().getDirection() == Direction.UP)
 			return;
@@ -472,9 +471,15 @@ public class ClientEvents {
             PlayerData playerData = PlayerData.get(p);
             float partialTick = event.getPartialTick().getGameTimeDeltaPartialTick(false);
             if (playerData.inFlowmotion()) {
-                ClientUtils.updateTrail(p, partialTick);
+                ClientUtils.updateTrail(ClientUtils.TrailType.FLOWMOTION, p, partialTick, 200);
             } else {
-                ClientUtils.fadeTrail(p);
+                ClientUtils.fadeTrail(ClientUtils.TrailType.FLOWMOTION, p);
+            }
+
+            if (playerData.hasAirDashed()) {
+                ClientUtils.updateTrail(ClientUtils.TrailType.DASH, p, partialTick, 50);
+            } else {
+                ClientUtils.fadeTrail(ClientUtils.TrailType.DASH, p);
             }
 
             Camera camera = mc.gameRenderer.getMainCamera();
@@ -483,16 +488,27 @@ public class ClientEvents {
             poseStack.pushPose();
             {
                 poseStack.translate(-camPos.x, -camPos.y, -camPos.z);
-                ClientUtils.renderTrail(p, poseStack, buffer, -5F,1F,0.2F,1F);
-                ClientUtils.renderTrail(p, poseStack, buffer, 0F,0.2F,0.6F,1F);
-                ClientUtils.renderTrail(p, poseStack, buffer, 5F,1F,0.2F,1F);
+                ClientUtils.renderTrail(ClientUtils.TrailType.FLOWMOTION, p, poseStack, buffer, -5F,0,1F,0.2F,1F, false);
+                ClientUtils.renderTrail(ClientUtils.TrailType.FLOWMOTION, p, poseStack, buffer, 0F,0,0.2F,0.6F,1F, false);
+                ClientUtils.renderTrail(ClientUtils.TrailType.FLOWMOTION, p, poseStack, buffer, 5F,0,1F,0.2F,1F, false);
 
-                ClientUtils.renderFixedTrail(p, poseStack, buffer, -5F,1F,0.2F,1F);
-                ClientUtils.renderFixedTrail(p, poseStack, buffer, 5F,1F,0.2F,1F);
+                ClientUtils.renderTrail(ClientUtils.TrailType.FLOWMOTION, p, poseStack, buffer, -5F,0,1F,0.2F,1F, true);
+                ClientUtils.renderTrail(ClientUtils.TrailType.FLOWMOTION, p, poseStack, buffer, 5F,0,1F,0.2F,1F, true);
+
+                //DASH
+                //Legs
+                ClientUtils.renderTrail(ClientUtils.TrailType.DASH, p, poseStack, buffer, -4F,0.2F,1F,1F,1F, false);
+                ClientUtils.renderTrail(ClientUtils.TrailType.DASH, p, poseStack, buffer, 4F,0.2F,1F,1F,1F, false);
+
+                //Shoulders
+                ClientUtils.renderTrail(ClientUtils.TrailType.DASH, p, poseStack, buffer, -7F,1.2F,1F,1F,1F, false);
+                ClientUtils.renderTrail(ClientUtils.TrailType.DASH, p, poseStack, buffer, 7F,1.2F,1F,1F,1F, false);
+
+                //Body
+                ClientUtils.renderTrail(ClientUtils.TrailType.DASH, p, poseStack, buffer, 0,1.8F,1F,1F,1F, false);
             }
             poseStack.popPose();
         }
-
 
         buffer.endBatch();
     }
