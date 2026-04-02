@@ -1,8 +1,9 @@
 **Added:**
-* Trails for flowmotion and air dash
+* Trails for flowmotion and air dash.
+* 3D model for umbrella.
 
 **Changed:**
-* Flowmotion jump won't bounce you off the wall as much as before.
+* Reduced the amount of horizontal motion received during Flowmotion jump.
 
 **Fixed:**
 * Command Menu cpu usage being a bit high.
