@@ -53,7 +53,7 @@ public class ModConfigs {
     }
 
     public static List<String> magicDisplayedInCommandMenu;
-    public static boolean cmHeaderTextVisible, cmClassicColors, hpShowHearts, showDriveForms, summonTogether, auto3rdPersonShip, cmChangeColor, customFont, shoulderSurfingDecoupled;
+    public static boolean cmHeaderTextVisible, cmClassicColors, hpShowHearts, showDriveForms, summonTogether, auto3rdPersonShip, cmChangeColor, customFont, shoulderSurfingDecoupled, seasonalEvents;
     public static int cmTextXOffset, cmSelectedXOffset, cmSubXOffset, hpAlarm, lockOnIconScale, lockOnIconRotation, lockOnHpPerBar, partyYDistance, cmEndLWidth, cmEndRWidth, cmHeaderEndLWidth, cmHeaderEndRWidth, cmReactionEndLWidth, cmReactionEndRWidth;
 
     public static void setHUDData(String name, List<? extends Float> data){
@@ -311,6 +311,7 @@ public class ModConfigs {
         if (KingdomKeys.shoulderSurfingLoaded) {
             shoulderSurfingDecoupled = CLIENT.shoulderSurfingDecoupled.get();
         }
+        seasonalEvents = CLIENT.seasonalEvents.get();
     }
 
     public static boolean bombExplodeWithfire, keybladeOpenDoors, mobLevelingUp, playerSpawnHeartless,blizzardChangeBlocks, bossDespawnIfNoTarget, respawnROD, needKeybladeForHeartless, mobLevelName, allowBlocksInHangarArea;

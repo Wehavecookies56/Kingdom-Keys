@@ -7,8 +7,8 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -19,24 +19,17 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class Recipe {
     @Nullable Map<Item, Integer> materials;
     @Nullable Item result;
-    @Nullable int amount;
+    int amount;
     @Nullable String type;
-    @Nullable int cost;
-    @Nullable int tier;
+    int cost;
+    int tier;
+	int exp;
    
     ResourceLocation registryName;
 
     public Recipe() {
-
+		exp = -1;
     }
-
-    public Recipe(Map<Item, Integer> materials, int cost, Item result, int amount, String type) {
-		this.materials = materials;
-		this.result = result;
-		this.amount = amount;
-		this.type = type;
-		this.cost = cost;
-	}
 
 	public Recipe(CompoundTag tag) {
 		deserializeNBT(tag);
@@ -65,6 +58,14 @@ public class Recipe {
 	public void setResult(Item result, int amount) {
 		this.result = result;
 		this.amount = amount;
+	}
+
+	public int getExp() {
+		return this.exp;
+	}
+
+	public void setExp(int exp) {
+		this.exp = exp;
 	}
 
 	public int getAmount() {
@@ -98,6 +99,9 @@ public class Recipe {
 		nbt.putString("result", BuiltInRegistries.ITEM.getKey(result).toString());
 		nbt.putInt("amount", amount);
 		nbt.putInt("cost", cost);
+		if (exp >= 0) {
+			nbt.putInt("exp", exp);
+		}
 		nbt.putInt("tier", tier);
 		nbt.putString("type", getType());
 		nbt.putInt("ingredients_size", materials.entrySet().size());
@@ -114,6 +118,9 @@ public class Recipe {
 		this.setResult(BuiltInRegistries.ITEM.get(ResourceLocation.parse(nbt.getString("result"))), nbt.getInt("amount"));
 		this.setType(nbt.getString("type"));
 		this.setCost(nbt.getInt("cost"));
+		if (nbt.contains("exp")) {
+			this.setExp(nbt.getInt("exp"));
+		}
 		this.setTier(nbt.getInt("tier"));
 		Map<Item, Integer> ingredients = new HashMap<>();
 		for (int i = 0; i < nbt.getInt("ingredients_size"); i++) {

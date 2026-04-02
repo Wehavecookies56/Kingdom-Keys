@@ -1,5 +1,6 @@
 {
   "cost": 0,
+  "exp": 1000,
   "ingredients": [
     {
       "material": "minecraft:dirt",

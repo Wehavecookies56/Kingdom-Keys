@@ -32,6 +32,8 @@ public class ClientConfig {
 
 	public ModConfigSpec.BooleanValue shoulderSurfingDecoupled;
 
+	public ModConfigSpec.BooleanValue seasonalEvents;
+
 	ClientConfig(final ModConfigSpec.Builder builder) {
 		summonTogether = builder
                 .comment("Summon both Keyblade and Armor with Summon Keyblade key")
@@ -42,6 +44,11 @@ public class ClientConfig {
 				.comment("Automatically change to 3rd person when riding a gummi ship")
 				.translation(KingdomKeys.MODID + ".config.auto_third_person_ship")
 				.define("auto3rdPersonShip", true);
+
+		seasonalEvents = builder
+				.comment("Enable fun cosmetic seasonal events (disable if you hate fun, no judgement)")
+				.translation(KingdomKeys.MODID + ".config.seasonal_events")
+				.define("seasonalEvents", true);
 
 		builder.push("hud_data");
 		cmHUDData = builder

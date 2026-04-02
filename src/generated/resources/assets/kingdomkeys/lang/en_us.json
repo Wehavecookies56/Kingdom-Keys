@@ -2271,6 +2271,7 @@
   "kingdomkeys.config.rod_heartless_level_scale": "RoD heartless level scale",
   "kingdomkeys.config.rod_heartless_max_level": "RoD heartless max level",
   "kingdomkeys.config.save_point_materials": "Save point upgrade materials",
+  "kingdomkeys.config.seasonal_events": "Enable Seasonal Events",
   "kingdomkeys.config.shotlock_max_dist": "Shotlock max distance",
   "kingdomkeys.config.shotlock_mult": "Shotlock Damage Multiplier",
   "kingdomkeys.config.shoulder_surfing_decoupled": "Shoulder Surfing Mod: Use decoupled camera when not locked on",
