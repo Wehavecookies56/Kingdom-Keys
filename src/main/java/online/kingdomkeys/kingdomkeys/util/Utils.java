@@ -2121,8 +2121,8 @@ public class Utils {
 		return level.getBlockCollisions(player, box).iterator().hasNext();
 	}
 
-	//TODO config option for people who hate fun
 	public static boolean isAprilFools() {
+		if (!ModConfigs.seasonalEvents) return false;
 		Calendar calendar = Calendar.getInstance();
 		return calendar.get(Calendar.MONTH) == Calendar.APRIL && calendar.get(Calendar.DAY_OF_MONTH) == 1;
 	}
