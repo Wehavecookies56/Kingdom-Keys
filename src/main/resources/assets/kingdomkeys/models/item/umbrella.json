@@ -10,7 +10,7 @@
 		"model": "kingdomkeys:models/item/keyblade/umbrella.obj",
 		"flip_v": true,
 		"textures": {
-
+			"layer0": "kingdomkeys:item/models/keyblades/umbrella"	
 		},
 		"display": {
 			"firstperson_righthand": {
