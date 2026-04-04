@@ -32,6 +32,7 @@ public class Recipe {
     }
 
 	public Recipe(CompoundTag tag) {
+		exp = -1;
 		deserializeNBT(tag);
 	}
     
