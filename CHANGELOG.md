@@ -1,7 +1,7 @@
 **Added:**
 * Trails for flowmotion and air dash.
 * 3D model for umbrella.
-* Exp parameter in recipe data
+* Exp parameter in recipe data to allow synthesis recipes to give out more or less (even 0) experience.
 * Client Config to disable seasonal events (like April fools). 
 
 **Changed:**
