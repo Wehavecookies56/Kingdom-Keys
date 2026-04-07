@@ -2096,8 +2096,8 @@ public class LanguageENUS extends KKLanguageProvider {
         add("death.attack.stop.item", "%2$s stopped the life of %1$s using %3$s");
         add("death.attack.offhand", "%1$s was slain by %2$s");
         add("death.attack.offhand.item", "%1$s was slain by %2$s using %3$s");
-        add("death.attack.air", "%1$s was blown away %2$s");
-        add("death.attack.air.item", "%1$s was blown away %2$s using %3$s");
+        add("death.attack.air", "%1$s was blown away by %2$s");
+        add("death.attack.air.item", "%1$s was blown away by %2$s using %3$s");
         add("death.attack.darkness", "%2$s lead %1$s into everlasting darkness");
         add("death.attack.darkness.item", "%2$s lead %1$s into everlasting darkness using %3$s");
         add("death.attack.lightning", "%2$s struck down %1$s, shocking!");
