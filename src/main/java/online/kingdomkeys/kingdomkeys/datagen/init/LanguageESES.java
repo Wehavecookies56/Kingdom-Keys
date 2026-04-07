@@ -178,7 +178,7 @@ public class LanguageESES extends KKLanguageProvider {
         //Death messages
         add("keybladedamage.death", "%s fue asesinado por %s");
         add("death.attack.air", "%1$s fue aireado por %2$s");
-        add("death.attack.air.item", "%1$s due aireado por %2$s usando %3$s");
+        add("death.attack.air.item", "%1$s fue aireado por %2$s usando %3$s");
         add("death.attack.darkness", "%2$s llev\u00f3 a %1$s a la oscuridad");
         add("death.attack.darkness.item", "%2$s llev\u00f3 a %1$s a la oscuridad usando %3$s");
         add("death.attack.fire", "%1$s sinti\u00f3 el calor de %2$s");
