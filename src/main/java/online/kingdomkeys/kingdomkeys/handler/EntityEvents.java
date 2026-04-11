@@ -27,10 +27,7 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.monster.Slime;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.EnchantedBookItem;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
+import net.minecraft.world.item.*;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.portal.DimensionTransition;
@@ -87,7 +84,6 @@ import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.menu.PauldronInventory;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSetAirStepPacket;
-import online.kingdomkeys.kingdomkeys.network.cts.CSSetHangingWallTicksPacket;
 import online.kingdomkeys.kingdomkeys.network.stc.*;
 import online.kingdomkeys.kingdomkeys.reactioncommands.ModReactionCommands;
 import online.kingdomkeys.kingdomkeys.reactioncommands.ReactionCommand;
@@ -575,9 +571,9 @@ public class EntityEvents {
 
 		//Flowmotion
 		if(!player.onGround() && Utils.isTouchingWall(player) && !playerData.getIsGliding()) {
-			if(playerData.hasAirDashed() && playerData.isAbilityEquipped(Strings.flowMotion)) {
+			if(playerData.hasAirDashed() && playerData.isAbilityEquipped(Strings.wallKick)) {
 				int grabs = playerData.getWallGrabs();
-				if(playerData.getHangingInWallTicks() == 0 && grabs < playerData.getNumberOfAbilitiesEquipped(Strings.airSlide)){
+				if(playerData.getHangingInWallTicks() == 0 && grabs < playerData.getNumberOfAbilitiesEquipped(Strings.wallKick)){
 					playerData.setBounced(false);
 					playerData.setHangingWallTicks(20);
 					playerData.setWallGrabs(grabs+1);
@@ -1250,10 +1246,17 @@ public class EntityEvents {
 					PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
 				}
 			}
-			// TODO check if works
-			if (event.getEntity() instanceof MoogleEntity && event.getSource().getMsgId().equals("anvil")) {
-				ItemEntity ie = new ItemEntity(event.getEntity().level(), event.getEntity().getX(), event.getEntity().getY(), event.getEntity().getZ(), new ItemStack(ModBlocks.moogleProjector.get()));
-				event.getEntity().level().addFreshEntity(ie);
+
+			if (event.getEntity() instanceof MoogleEntity moogle) {
+				ItemStack weapon = player != null ? player.getMainHandItem() : ItemStack.EMPTY;
+
+				boolean killedByAnvil = event.getSource().getMsgId().equals("anvil");
+				boolean killedByMace = !weapon.isEmpty() && weapon.getItem() instanceof MaceItem;
+
+				if (killedByAnvil || killedByMace) {
+					ItemEntity ie = new ItemEntity(event.getEntity().level(), moogle.getX(), moogle.getY(), moogle.getZ(), new ItemStack(ModBlocks.moogleProjector.get()));
+					event.getEntity().level().addFreshEntity(ie);
+				}
 			}
 
 			if (event.getSource().getEntity() instanceof IKHMob killerMob && ModConfigs.playerSpawnHeartless) {
@@ -1329,7 +1332,7 @@ public class EntityEvents {
 				if (!playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())) {
 					event.setDistance(0);
 				} else {
-					if (playerData.isAbilityEquipped(Strings.highJump) || playerData.isAbilityEquipped(Strings.aerialDodge) || playerData.isAbilityEquipped(Strings.glide) || playerData.isAbilityEquipped(Strings.flowMotion)) {
+					if (playerData.isAbilityEquipped(Strings.highJump) || playerData.isAbilityEquipped(Strings.aerialDodge) || playerData.isAbilityEquipped(Strings.glide) || playerData.isAbilityEquipped(Strings.wallKick)) {
 						event.setDistance(0);
 					}
 				}

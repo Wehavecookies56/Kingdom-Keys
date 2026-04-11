@@ -1,5 +1,5 @@
 {
-  "ability": "",
+  "ability": "kingdomkeys:ability_fire_boost",
   "base_stats": {
     "mag": 5,
     "str": 5

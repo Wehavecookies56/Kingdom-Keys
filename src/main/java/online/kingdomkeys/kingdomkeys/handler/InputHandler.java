@@ -343,7 +343,7 @@ public class InputHandler {
         if(playerData.getHangingInWallTicks() > 0 && !playerData.hasBounced()) {
             Vec3 look = player.getLookAngle();
             Vec3 push = new Vec3(look.x, 0.5, look.z).normalize();
-            float pow = 0.5F + playerData.getNumberOfAbilitiesEquipped(Strings.airSlide) * 0.15F;
+            float pow = 0.5F + playerData.getNumberOfAbilitiesEquipped(Strings.superSlide) * 0.15F;
             player.setDeltaMovement(push.scale(pow));
             player.hasImpulse = true;
             PacketHandler.sendToServer(new CSPlaySoundPacket(player.getX(), player.getY(), player.getZ(), ModSounds.wall_jump.get().getLocation(), SoundSource.PLAYERS));

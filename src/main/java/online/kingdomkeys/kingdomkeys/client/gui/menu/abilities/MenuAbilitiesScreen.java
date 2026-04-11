@@ -46,12 +46,10 @@ public class MenuAbilitiesScreen extends MenuBackground {
     List<MenuAbilitiesButton> abilities = new ArrayList<>();
 
 	MenuBox box;
-	//Button prev, next;
 	MenuButton back, playerButton;
 	
 	List<MenuButton> driveSelector = new ArrayList<>();
 
-	int page = 0;
 	int itemsPerPage;
 
 	Ability hoveredAbility;
@@ -125,8 +123,6 @@ public class MenuAbilitiesScreen extends MenuBackground {
 
 	@Override
 	public void init() {
-		super.width = width;
-		super.height = height;
 		super.init();
 
 		renderables.clear();
@@ -380,26 +376,26 @@ public class MenuAbilitiesScreen extends MenuBackground {
 
 		gui.enableScissor(0, (int) topBarHeight, width, (int) (topBarHeight + middleHeight));
 
-		for (int i = 0; i < abilities.size(); i++) {
-			if (abilities.get(i) != null) {
-				abilities.get(i).setY((int) (abilities.get(i).getY() - scrollBar.scrollOffset));
-				if (abilities.get(i).getY() < scrollBot && abilities.get(i).getY() >= scrollTop-20) {
-					abilities.get(i).active =true;
-                    String abilityName = abilities.get(i).getText();
-					Ability ability = ModAbilities.registry.get(ResourceLocation.parse(abilityName));
+        for (MenuAbilitiesButton menuAbilitiesButton : abilities) {
+            if (menuAbilitiesButton != null) {
+                menuAbilitiesButton.setY((int) (menuAbilitiesButton.getY() - scrollBar.scrollOffset));
+                if (menuAbilitiesButton.getY() < scrollBot && menuAbilitiesButton.getY() >= scrollTop - 20) {
+                    menuAbilitiesButton.active = true;
+                    String abilityName = menuAbilitiesButton.getText();
+                    Ability ability = ModAbilities.registry.get(ResourceLocation.parse(abilityName));
 
-					if (ability.getAPCost() > playerData.getMaxAP(true) - Utils.getConsumedAP(playerData)) {
-						abilities.get(i).active = abilities.get(i).equipped;
-					}
-					
-					if (abilities.get(i).abilityType == AbilityType.WEAPON || abilities.get(i).abilityType == AbilityType.ACCESSORY || form.equals(DriveForm.NONE.toString()) && playerData.isAbilityEquipped(abilities.get(i).getText(), abilitiesMap.get(abilities.get(i).getText())[0])) {
-						abilities.get(i).active = true;
-					}
+                    if (ability.getAPCost() > playerData.getMaxAP(true) - Utils.getConsumedAP(playerData)) {
+                        menuAbilitiesButton.active = menuAbilitiesButton.equipped;
+                    }
 
-					abilities.get(i).render(gui, mouseX, mouseY, partialTicks);
-				}
-			}
-		}
+                    if (menuAbilitiesButton.abilityType == AbilityType.WEAPON || menuAbilitiesButton.abilityType == AbilityType.ACCESSORY || form.equals(DriveForm.NONE.toString()) && playerData.isAbilityEquipped(menuAbilitiesButton.getText(), abilitiesMap.get(menuAbilitiesButton.getText())[0])) {
+                        menuAbilitiesButton.active = true;
+                    }
+
+                    menuAbilitiesButton.render(gui, mouseX, mouseY, partialTicks);
+                }
+            }
+        }
 		gui.disableScissor();
 
 		playerButton.render(gui, mouseX, mouseY, partialTicks);

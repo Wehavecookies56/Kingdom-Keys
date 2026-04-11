@@ -5,7 +5,7 @@ import net.minecraft.resources.ResourceLocation;
 public class Ability {
 
 	public enum AbilityType{
-		ACTION, GROWTH, SUPPORT, WEAPON, ACCESSORY
+		ACTION, GROWTH, GROWTH_STACKABLE, SUPPORT, WEAPON, ACCESSORY
 	}
 	
     ResourceLocation name;

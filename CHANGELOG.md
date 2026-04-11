@@ -1,14 +1,12 @@
 **Added:**
-* Trails for flowmotion and air dash.
-* 3D model for umbrella.
-* Exp parameter in recipe data to allow synthesis recipes to give out more or less (even 0) experience.
-* Client Config to disable seasonal events (like April fools). 
+* Some abilities to some elemental Keyblades.
+* New ability Superjump, increases vertical impulse off a flowmotion jump.
+  * Obtained at Valor form levels 4 and 6.
+* New ability Superslide, increases horizontal impulse off a flowmotion airdash.
+  * Obtained at Master form levels 4 and 6, and at level 42 for warrior, 46 for mystic and 39 for guardian.
 
 **Changed:**
-* Reduced the amount of horizontal motion received during Flowmotion jump.
-* Having flowmotion equipped will remove fall damage.
-
-**Fixed:**
-* Command Menu cpu usage being a bit high.
-* Menu button tooltip not aligned with the adaptive size of the bottom bars.
-* Normal Gummi blocks not able to be tinted when applied a tint via right click.
+* Flowmotion renamed to Wall Kick, equip more to allow more bounces.
+* Flowmotion-related abilities into growth abilities.
+* Wall kick obtained at levels 7 and 51 for Warrior, 9 and 62 for Mystic, 14 and 43 for Guardian.
+* Air dash obtained at levels 19 and 40 for Warrior, 29 and 45 for Mystic, 24 and 45 for Guardian.

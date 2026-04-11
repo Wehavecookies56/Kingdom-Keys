@@ -267,7 +267,7 @@ public class ClientEvents {
 				vehicle.setInput(player.input.left, player.input.right, player.input.up, player.input.down, Minecraft.getInstance().options.keyJump.isDown(), Minecraft.getInstance().options.keySprint.isDown(), player.getXRot(), player.getYRot());
 			}
 
-            //From wall hang to bounce up with jump
+            //From wall hang to bounce up with jump (SPACE)
             PlayerData playerData = PlayerData.get(player);
             if(playerData != null) {
                 if (playerData.getHangingInWallTicks() > 0) {
@@ -287,7 +287,7 @@ public class ClientEvents {
                                 }
                             }
 
-                            float pow = 0.25F + playerData.getNumberOfAbilitiesEquipped(Strings.airSlide) * 0.15F;
+                            float pow = 0.25F + playerData.getNumberOfAbilitiesEquipped(Strings.superJump) * 0.15F;
                             double horizontalStrength = 0.25;
                             double verticalStrength = baseY * pow;
 

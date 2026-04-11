@@ -94,8 +94,10 @@ public class Strings {
     		glide = KingdomKeys.MODID+":"+AB_Prefix +"glide",
 
 			airSlide = KingdomKeys.MODID+":"+AB_Prefix +"air_slide",
-			flowMotion = KingdomKeys.MODID+":"+AB_Prefix +"flowmotion",
-    		
+			wallKick = KingdomKeys.MODID+":"+AB_Prefix +"wall_kick",
+			superJump = KingdomKeys.MODID+":"+AB_Prefix +"superjump",
+			superSlide = KingdomKeys.MODID+":"+AB_Prefix +"superslide",
+
     		//Support
     		zeroExp = KingdomKeys.MODID+":"+AB_Prefix +"zero_exp",
     		scan = KingdomKeys.MODID+":"+AB_Prefix +"scan",

@@ -30,7 +30,10 @@
         "ap":1
     },
     "7":{
-        "str":1
+        "str":1,
+		"abilities":[
+			"kingdomkeys:ability_wall_kick"
+        ]
     },
     "8":{
         "mag":1,
@@ -73,8 +76,7 @@
         "mag":1,
         "def":1,
         "abilities":[
-            "kingdomkeys:ability_mp_safety",
-            "kingdomkeys:ability_flowmotion"
+            "kingdomkeys:ability_mp_safety"
         ]
     },
     "15":{
@@ -105,7 +107,10 @@
         ]
     },
     "19":{
-        "str":1
+        "str":1,
+		"abilities":[
+            "kingdomkeys:ability_air_slide"
+        ]
     },
     "20":{
         "mag":1,
@@ -247,7 +252,10 @@
         "mag":1,
         "maxhp":5,
         "maxmp":4.0,
-		"max_accessories":1
+		"max_accessories":1,
+		"abilities":[
+            "kingdomkeys:ability_air_slide"
+        ]
     },
     "41":{
         "str":1,
@@ -258,7 +266,10 @@
     "42":{
         "mag":1,
         "def":1,
-        "ap":1
+        "ap":1,
+		"abilities":[
+			"kingdomkeys:ability_superslide"
+        ]
     },
     "43":{
         "str":1,
@@ -321,7 +332,10 @@
     },
     "51":{
         "str":1,
-        "ap":1
+        "ap":1,
+		"abilities":[
+			"kingdomkeys:ability_wall_kick"
+        ]
     },
     "52":{
         "mag":1,

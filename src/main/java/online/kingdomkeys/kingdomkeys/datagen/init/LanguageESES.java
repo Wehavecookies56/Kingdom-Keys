@@ -552,14 +552,16 @@ public class LanguageESES extends KKLanguageProvider {
         addAbilityWithDesc(ModAbilities.AUTO_FINAL, "Auto-final", "En casos de emergencia, si la Forma final est\u00e1 disponible, el comando de reacci\u00f3n cambia a Final.");
         addAbilityWithDesc(ModAbilities.STRIKE_RAID, "Tiro Mort\u00edfero", "Click derecho mientras te agachas para lanzar tu Llave Espada, usa 10PM.");
         addAbilityWithDesc(ModAbilities.FLOWSTEP, "Paso fluido", "Click derecho mientras fijas un tiro certero para usar el modo ágil hacia el último enemigo fijado.");
-        addAbilityWithDesc(ModAbilities.AIR_SLIDE, "Impulso aéreo", "Si pulsas la tecla de acción mientras estás en el aire podrás impulsarte hacia delante. Cuantos más activas, mayor efecto.");
 
         addGrowthAbility(ModAbilities.HIGH_JUMP, "¡Ahora saltarás más alto!", "Salto de altura 1", "Salto de altura 2", "Salto de altura 3", "Salto de altura MÁX");
         addGrowthAbility(ModAbilities.QUICK_RUN, "Si pulsas la tecla de acción mientras corres harás un sprint.", "Carrera rápida 1", "Carrera rápida 2", "Carrera rápida 3", "Carrera rápida MÁX");
         addGrowthAbility(ModAbilities.DODGE_ROLL, "Si pulsas la tecla de acción mientras caminas darás una voltereta.", "Voltereta 1", "Voltereta 2", "Voltereta 3", "Voltereta MÁX");
         addGrowthAbility(ModAbilities.AERIAL_DODGE, "En el aire puedes volver a saltar para dar un doble salto.", "Regate aéreo 1", "Regate aéreo 2", "Regate aéreo 3", "Regate aéreo MÁX.");
         addGrowthAbility(ModAbilities.GLIDE, "En el aire, mantén pulsada la tecla de salto para planear.", "Planeador 1", "Planeador 2", "Planeador 3", "Superplaneador");
-        addGrowthAbility(ModAbilities.FLOWMOTION,"Usa impulso aéreo para activar modo acróbata, permite rebotar en las paredes.", "Modo Acróbata", "Modo Acróbata", "Modo Acróbata", "Modo Acróbata");
+        addAbilityWithDesc(ModAbilities.AIR_SLIDE, "Impulso aéreo", "Si pulsas la tecla de acción mientras estás en el aire podrás impulsarte hacia delante. Cuantos más activas, mayor efecto.");
+        addAbilityWithDesc(ModAbilities.WALL_KICK,"Rebote","Usa impulso aéreo contra una pared para propulsarte con ella y entrar en el Modo acróbata. Cuantos más activas, más rebotes.");
+        addAbilityWithDesc(ModAbilities.SUPERJUMP, "Supersalto", "En el Modo acróbata, pulsa el botón de salto para saltar muy, muy alto. Cuantos más activas, mayor efecto.");
+        addAbilityWithDesc(ModAbilities.SUPERSLIDE, "Superdeslizamiento", "En el Modo acróbata, pulsa la tecla de acción para darte mucho impulso en esa dirección. Cuantos más activas, mayor efecto.");
 
         addAbilityWithDesc(ModAbilities.SCAN, "Libra", "Muestra la VT actual del enemigo fijado.");
         addAbilityWithDesc(ModAbilities.ZERO_EXP, "Experiencia 0", "No ganas experiencia al derrotar enemigos.");

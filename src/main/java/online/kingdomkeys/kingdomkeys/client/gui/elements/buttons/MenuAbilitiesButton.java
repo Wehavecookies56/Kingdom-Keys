@@ -105,6 +105,8 @@ public class MenuAbilitiesButton extends MenuButtonBase {
 				break;
 			case GROWTH:
 				RenderSystem.setShaderColor(0.4F, 0.4F, 0, 1.0F);
+			case GROWTH_STACKABLE:
+				RenderSystem.setShaderColor(0.4F, 0.4F, 0, 1.0F);
 				break;
 			case SUPPORT:
 				RenderSystem.setShaderColor(0, 0.4F, 0, 1.0F);

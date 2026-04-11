@@ -17,7 +17,7 @@ public class ModAbilities {
 	public static int order = 0;
 
 	public static final Supplier<Ability>
-			//Action
+	//Action
 			AUTO_VALOR = createAbility(Strings.autoValor, 1, AbilityType.ACTION),
 			AUTO_WISDOM = createAbility(Strings.autoWisdom, 1, AbilityType.ACTION),
 			AUTO_LIMIT = createAbility(Strings.autoLimit, 1, AbilityType.ACTION),
@@ -25,18 +25,19 @@ public class ModAbilities {
 			AUTO_FINAL = createAbility(Strings.autoFinal, 1, AbilityType.ACTION),
 			STRIKE_RAID = createAbility(Strings.strikeRaid, 3, AbilityType.ACTION),
 			FLOWSTEP = createAbility(Strings.flowStep, 4, AbilityType.ACTION),
-			AIR_SLIDE = createAbility(Strings.airSlide, 3, AbilityType.ACTION),
 
-
-			// Growth
+	// Growth
 			HIGH_JUMP = createAbility(Strings.highJump, 2, AbilityType.GROWTH),
 			QUICK_RUN = createAbility(Strings.quickRun, 2, AbilityType.GROWTH),
 			DODGE_ROLL = createAbility(Strings.dodgeRoll, 3, AbilityType.GROWTH),
 			AERIAL_DODGE = createAbility(Strings.aerialDodge, 3, AbilityType.GROWTH),
 			GLIDE = createAbility(Strings.glide, 3, AbilityType.GROWTH),
-			FLOWMOTION = createAbility(Strings.flowMotion, 4, AbilityType.GROWTH),
+			AIR_SLIDE = createAbility(Strings.airSlide, 3, AbilityType.GROWTH_STACKABLE),
+			WALL_KICK = createAbility(Strings.wallKick, 2, AbilityType.GROWTH_STACKABLE),
+			SUPERJUMP = createAbility(Strings.superJump, 3, AbilityType.GROWTH_STACKABLE),
+			SUPERSLIDE = createAbility(Strings.superSlide, 2, AbilityType.GROWTH_STACKABLE),
 
-			// Support
+	// Support
 			ZERO_EXP = createAbility(Strings.zeroExp, 0, AbilityType.SUPPORT),
 			SCAN = createAbility(Strings.scan, 1, AbilityType.SUPPORT),
 			MAGIC_LOCK_ON = createAbility(Strings.magicLockOn, 4, AbilityType.SUPPORT), 

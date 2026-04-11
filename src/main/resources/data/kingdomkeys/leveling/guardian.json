@@ -70,7 +70,8 @@
         "mag":1,
         "def":1,
         "abilities":[
-            "kingdomkeys:ability_mp_safety"
+            "kingdomkeys:ability_mp_safety",
+			"kingdomkeys:ability_wall_kick"
         ]
     },
     "15":{
@@ -144,7 +145,8 @@
         "maxmp":4.0,
         "ap":1,
         "abilities":[
-            "kingdomkeys:ability_drive_converter"
+            "kingdomkeys:ability_drive_converter",
+			"kingdomkeys:ability_air_slide"
         ]
     },
     "25":{
@@ -183,8 +185,7 @@
             "kingdomkeys:dark_volley"
         ],
         "abilities":[
-            "kingdomkeys:ability_encounter_plus",
-            "kingdomkeys:ability_flowmotion"
+            "kingdomkeys:ability_encounter_plus"
         ]
     },
     "30":{
@@ -210,7 +211,6 @@
 		"abilities":[
 			"kingdomkeys:ability_endless_magic"
         ]
-
     },
     "33":{
         "str":1,
@@ -252,7 +252,10 @@
     },
     "39":{
         "str":1,
-        "ap":1
+        "ap":1,
+		"abilities":[
+			"kingdomkeys:ability_superslide"
+        ]
     },
     "40":{
         "mag":1,
@@ -276,7 +279,10 @@
     },
     "43":{
         "str":1,
-        "mag":1
+        "mag":1,
+		"abilities":[
+			"kingdomkeys:ability_wall_kick"
+        ]
     },
     "44":{
         "mag":1,
@@ -288,7 +294,10 @@
     "45":{
         "str":1,
         "maxhp":5,
-        "ap":1
+        "ap":1,
+		"abilities":[
+			"kingdomkeys:ability_air_slide"
+		]
     },
     "46":{
         "mag":1,

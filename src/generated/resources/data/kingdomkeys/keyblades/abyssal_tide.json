@@ -1,5 +1,5 @@
 {
-  "ability": "",
+  "ability": "kingdomkeys:ability_water_boost",
   "base_stats": {
     "mag": 2,
     "str": 5

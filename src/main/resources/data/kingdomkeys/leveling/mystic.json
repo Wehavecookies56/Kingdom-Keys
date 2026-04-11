@@ -38,7 +38,10 @@
     },
     "9":{
         "str":1,
-        "ap":1
+        "ap":1,
+		"abilities":[
+			"kingdomkeys:ability_wall_kick"
+        ]
     },
     "10":{
         "mag":1,
@@ -160,7 +163,7 @@
         "def":1,
         "abilities":[
             "kingdomkeys:ability_item_boost",
-            "kingdomkeys:ability_flowmotion"
+            "kingdomkeys:ability_wall_kick"
         ]
     },
     "27":{
@@ -182,6 +185,9 @@
         "str":1,
         "shotlocks":[
             "kingdomkeys:dark_volley"
+        ],
+		"abilities":[
+            "kingdomkeys:ability_air_slide"
         ]
     },
     "30":{
@@ -283,11 +289,17 @@
     "45":{
         "str":1,
         "maxhp":5,
-        "ap":1
+        "ap":1,
+		"abilities":[
+            "kingdomkeys:ability_air_slide"
+        ]
     },
     "46":{
         "mag":1,
-        "def":1
+        "def":1,
+		"abilities":[
+			"kingdomkeys:ability_superslide"
+        ]
     },
     "47":{
         "str":1,
@@ -365,7 +377,10 @@
     },
     "62":{
         "mag":1,
-        "def":1
+        "def":1,
+		"abilities":[
+			"kingdomkeys:ability_wall_kick"
+        ]
     },
     "63":{
         "str":1,
