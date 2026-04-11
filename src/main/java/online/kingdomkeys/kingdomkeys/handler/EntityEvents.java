@@ -52,6 +52,7 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.command.DimensionCommand;
+import online.kingdomkeys.kingdomkeys.command.ExpCommand;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.damagesource.KKDamageTypes;
 import online.kingdomkeys.kingdomkeys.damagesource.StopDamageSource;
@@ -291,46 +292,45 @@ public class EntityEvents {
 				// Old worlds stat conversion
 				if (playerData.getSoAState() == SoAState.COMPLETE) {
 					switch (playerData.getChosen()) {
-					case WARRIOR -> {
-						if (!playerData.getStrengthStat().hasModifier("choice") && !playerData.getStrengthStat().hasModifier("sacrifice")) {
-							playerData.setStrength(playerData.getStrength(false) - 1);
-							playerData.getStrengthStat().addModifier("choice", 1, false, false);
+						case WARRIOR -> {
+							if (!playerData.getStrengthStat().hasModifier("choice") && !playerData.getStrengthStat().hasModifier("sacrifice")) {
+								playerData.setStrength(playerData.getStrength(false) - 1);
+								playerData.getStrengthStat().addModifier("choice", 1, false, false);
+							}
 						}
-					}
-					case GUARDIAN -> {
-						if (!playerData.getDefenseStat().hasModifier("choice") && !playerData.getDefenseStat().hasModifier("sacrifice")) {
-							playerData.setDefense(playerData.getDefense(false) - 1);
-							playerData.getDefenseStat().addModifier("choice", 1, false, false);
+						case GUARDIAN -> {
+							if (!playerData.getDefenseStat().hasModifier("choice") && !playerData.getDefenseStat().hasModifier("sacrifice")) {
+								playerData.setDefense(playerData.getDefense(false) - 1);
+								playerData.getDefenseStat().addModifier("choice", 1, false, false);
+							}
 						}
-					}
-					case MYSTIC -> {
-						if (!playerData.getMagicStat().hasModifier("choice") && !playerData.getMagicStat().hasModifier("sacrifice")) {
-							playerData.setMagic(playerData.getMagic(false) - 1);
-							playerData.getMagicStat().addModifier("choice", 1, false, false);
+						case MYSTIC -> {
+							if (!playerData.getMagicStat().hasModifier("choice") && !playerData.getMagicStat().hasModifier("sacrifice")) {
+								playerData.setMagic(playerData.getMagic(false) - 1);
+								playerData.getMagicStat().addModifier("choice", 1, false, false);
+							}
 						}
-					}
 					}
 					switch (playerData.getSacrificed()) {
-					case WARRIOR -> {
-						if (!playerData.getStrengthStat().hasModifier("choice") && !playerData.getStrengthStat().hasModifier("sacrifice")) {
-							playerData.setStrength(playerData.getStrength(false) + 1);
-							playerData.getStrengthStat().addModifier("sacrifice", -1, false, false);
+						case WARRIOR -> {
+							if (!playerData.getStrengthStat().hasModifier("choice") && !playerData.getStrengthStat().hasModifier("sacrifice")) {
+								playerData.setStrength(playerData.getStrength(false) + 1);
+								playerData.getStrengthStat().addModifier("sacrifice", -1, false, false);
+							}
+						}
+						case GUARDIAN -> {
+							if (!playerData.getDefenseStat().hasModifier("choice") && !playerData.getDefenseStat().hasModifier("sacrifice")) {
+								playerData.setDefense(playerData.getDefense(false) + 1);
+								playerData.getDefenseStat().addModifier("sacrifice", -1, false, false);
+							}
+						}
+						case MYSTIC -> {
+							if (!playerData.getMagicStat().hasModifier("choice") && !playerData.getMagicStat().hasModifier("sacrifice")) {
+								playerData.setMagic(playerData.getMagic(false) + 1);
+								playerData.getMagicStat().addModifier("sacrifice", -1, false, false);
+							}
 						}
 					}
-					case GUARDIAN -> {
-						if (!playerData.getDefenseStat().hasModifier("choice") && !playerData.getDefenseStat().hasModifier("sacrifice")) {
-							playerData.setDefense(playerData.getDefense(false) + 1);
-							playerData.getDefenseStat().addModifier("sacrifice", -1, false, false);
-						}
-					}
-					case MYSTIC -> {
-						if (!playerData.getMagicStat().hasModifier("choice") && !playerData.getMagicStat().hasModifier("sacrifice")) {
-							playerData.setMagic(playerData.getMagic(false) + 1);
-							playerData.getMagicStat().addModifier("sacrifice", -1, false, false);
-						}
-					}
-					}
-
 				}
 
 				//Set org weapon keybladeIDs if they don't exist
@@ -351,7 +351,6 @@ public class EntityEvents {
 				}
 
 				// TODO (done) Fix for retrocompatibility, move above in a few versions
-
 				if (playerData.getEquippedKBArmors().isEmpty()) {
 					HashMap<Integer, ItemStack> map = new HashMap<Integer, ItemStack>();
 					for (int i = 0; i < 1; i++) {
@@ -398,6 +397,16 @@ public class EntityEvents {
 					}
 				});
 
+				//Data check, might be able to reduce the above code:
+				if(playerData.getVer() != PlayerData.DATA_VERSION){
+					//Run kkexp fix command
+					ExpCommand.fix(playerData,player);
+					player.level().playSound(null, player.blockPosition(), ModSounds.levelup.get(), SoundSource.MASTER, 1f, 1.0f);
+					KingdomKeys.LOGGER.info("Auto adjusted " + player.getDisplayName().getString() + " data from version " + playerData.getVer() + " to version " + PlayerData.DATA_VERSION);
+					player.sendSystemMessage(Component.translatable("Adjusted your data value from " + playerData.getVer() + " to version " + PlayerData.DATA_VERSION + ", all your missing abilities have been added to you"));
+					playerData.setVer(PlayerData.DATA_VERSION);
+				}
+
 				PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
 				PacketHandler.sendTo(new SCSyncWorldData(player.getServer()), (ServerPlayer) player);
 				PacketHandler.syncToAllAround(player, playerData);
@@ -410,7 +419,6 @@ public class EntityEvents {
 					PacketHandler.sendTo(new SCUpdateCORooms(List.of()), (ServerPlayer) player);
 				}
 			}
-
 			PacketHandler.syncToAllAround(player, playerData);
 		}
 	}

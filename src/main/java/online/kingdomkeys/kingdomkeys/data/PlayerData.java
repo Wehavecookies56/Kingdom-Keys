@@ -62,7 +62,7 @@ import java.util.*;
 import java.util.Map.Entry;
 
 public class PlayerData implements INBTSerializable<CompoundTag> {
-
+	public static final int DATA_VERSION = 1;
 	protected PlayerData() {}
 
 	public static PlayerData get(CompoundTag nbt, Player player) {
@@ -88,6 +88,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
     @Override
 	public CompoundTag serializeNBT(HolderLookup.Provider provider) {
 		CompoundTag storage = new CompoundTag();
+		storage.putInt("data_ver", this.getVer());
 		storage.putInt("level", this.getLevel());
 		storage.putInt("experience", this.getExperience());
 		storage.putInt("experience_given", this.getExperienceGiven());
@@ -289,6 +290,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 
 	@Override
 	public void deserializeNBT(HolderLookup.Provider provider, CompoundTag nbt) {
+		this.setVer(nbt.getInt("data_ver"));
 		this.setLevel(nbt.getInt("level"));
 		this.setExperience(nbt.getInt("experience"));
 		this.setExperienceGiven(nbt.getInt("experience_given"));
@@ -493,7 +495,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		this.setBounced(nbt.getBoolean("bounced"));
 	}
 
-	private int level = 1, exp = 0, expGiven = 0, maxHp = 20, remainingExp = 0, reflectTicks = 0, reflectLevel = 0, magicCasttime = 0, magicCooldown = 0, munny = 0, antipoints = 0, aerialDodgeTicks, synthLevel=1, synthExp, remainingSynthExp = 0,hangingWallTicks, wallGrabs;
+	private int ver = 0, level = 1, exp = 0, expGiven = 0, maxHp = 20, remainingExp = 0, reflectTicks = 0, reflectLevel = 0, magicCasttime = 0, magicCooldown = 0, munny = 0, antipoints = 0, aerialDodgeTicks, synthLevel=1, synthExp, remainingSynthExp = 0,hangingWallTicks, wallGrabs;
 	private BlockPos airStepPos = new BlockPos(0,0,0);
 	Stat strength = new Stat("strength", 1);
 	Stat magic = new Stat("magic",1);
@@ -559,13 +561,18 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 
 	private Map<UUID, Instant> discoveredSavePoints = new HashMap<>();
 
-	//private String armorName = "";
-
 	Utils.castMagic castMagic = null;
 
 	private Set<String> synthesisedRecipes = new HashSet<>();
 
-	//region Main stats, level, exp, str, mag, ap
+	public int getVer(){
+		return ver;
+	}
+
+	public void setVer(int ver) {
+		this.ver = ver;
+	}
+
 	public int getLevel() {
 		return level;
 	}
