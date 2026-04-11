@@ -4,6 +4,7 @@
   * Obtained at Valor form levels 4 and 6.
 * New ability Superslide, increases horizontal impulse off a flowmotion airdash.
   * Obtained at Master form levels 4 and 6, and at level 42 for warrior, 46 for mystic and 39 for guardian.
+* New data version check, will automatically run the exp fix command if the playerdata is older. 
 
 **Changed:**
 * Flowmotion renamed to Wall Kick, equip more to allow more bounces.
