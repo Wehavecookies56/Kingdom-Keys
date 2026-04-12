@@ -1742,7 +1742,6 @@ public class Utils {
             int dfLevel = entry.getValue()[0];
             DriveForm form = ModDriveForms.registry.get(ResourceLocation.parse(entry.getKey()));
             if (!Utils.getFakeForms().contains(form.getRegistryName().toString())) {
-				System.out.println(form.getRegistryName().toString());
                 for (int i = 1; i <= dfLevel; i++) {
                     String baseAbility = form.getBaseAbilityForLevel(i);
                     if (baseAbility != null && !baseAbility.equals("")) {
