@@ -1731,7 +1731,7 @@ public class Utils {
 	}
 
 	/**
-	 * Recalculate drive form levels
+	 * Recalculate drive form levels and permanent abilities and shotlocks
 	 * 
 	 * @param playerData
 	 * @param player
@@ -1750,6 +1750,14 @@ public class Utils {
                 }
             }
         }
+
+		playerData.getPAbilitiesList().forEach(a -> {
+			playerData.addAbility(a,false);
+		});
+
+		playerData.getPShotlocksList().forEach(s -> {
+			playerData.addShotlockToList(s,false);
+		});
 
 		player.heal(playerData.getMaxHP());
 		playerData.setMP(playerData.getMaxMP());

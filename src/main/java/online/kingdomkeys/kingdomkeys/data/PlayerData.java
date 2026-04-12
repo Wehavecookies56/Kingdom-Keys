@@ -6,6 +6,9 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.StringTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -62,7 +65,8 @@ import java.util.*;
 import java.util.Map.Entry;
 
 public class PlayerData implements INBTSerializable<CompoundTag> {
-	public static final int DATA_VERSION = 1;
+	public static final int DATA_VERSION = 1; //CHANGE THIS TO FORCE ALL PLAYERS TO GET THEIR STATS FIXED
+
 	protected PlayerData() {}
 
 	public static PlayerData get(CompoundTag nbt, Player player) {
@@ -152,6 +156,12 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		}
 		storage.put("shotlocks", shotlocks);
 
+		ListTag shList = new ListTag();
+		for (String s : this.getPShotlocksList()) {
+			shList.add(StringTag.valueOf(s));
+		}
+		storage.put("permanent_shotlocks", shList);
+
 		storage.putString("equipped_shotlock", this.getEquippedShotlock());
 
         CompoundTag targetShotlocks = new CompoundTag();
@@ -177,6 +187,12 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 			abilities.putIntArray(pair.getKey(), pair.getValue());
 		}
 		storage.put("abilities", abilities);
+
+		ListTag list = new ListTag();
+		for (String ab : this.getPAbilitiesList()) {
+			list.add(StringTag.valueOf(ab));
+		}
+		storage.put("permanent_abilities", list);
 
 		CompoundTag reactions = new CompoundTag();
 		for (int i=0;i< this.getReactionCommands().size();i++) {
@@ -370,6 +386,16 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 			}
 		}
 
+		pShotlocksList.clear();
+		ListTag shList = nbt.getList("permanent_shotlocks", Tag.TAG_STRING);
+		for (int i = 0; i < shList.size(); i++) {
+			String shotlockName = shList.getString(i);
+			ResourceLocation id = ResourceLocation.parse(shotlockName);
+			if (ModShotlocks.registry.containsKey(id)) {
+				pShotlocksList.add(shotlockName);
+			}
+		}
+
 		this.setEquippedShotlock(nbt.getString("equipped_shotlock"));
 
         shotlockEnemies.clear();
@@ -379,7 +405,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
             Utils.ShotlockPosition pos = new Utils.ShotlockPosition(tag1.getInt("id"),tag1.getFloat("x"),tag1.getFloat("y"),tag1.getFloat("z"));
             this.shotlockEnemies.add(pos);
         }
-//TODO a
+
 		driveForms.clear();
 		for (String driveFormName : nbt.getCompound("drive_forms").getAllKeys()) {
 			if (ModDriveForms.registry.containsKey(ResourceLocation.parse(driveFormName))) {
@@ -391,6 +417,17 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		for (String abilityName : nbt.getCompound("abilities").getAllKeys()) {
 			if (ModAbilities.registry.containsKey(ResourceLocation.parse(abilityName))) {
 				this.getAbilityMap().put(abilityName, nbt.getCompound("abilities").getIntArray(abilityName));
+			}
+		}
+
+		pAbilitiesList.clear();
+		ListTag list = nbt.getList("permanent_abilities", Tag.TAG_STRING);
+
+		for (int i = 0; i < list.size(); i++) {
+			String abilityName = list.getString(i);
+			ResourceLocation id = ResourceLocation.parse(abilityName);
+			if (ModAbilities.registry.containsKey(id)) {
+				pAbilitiesList.add(abilityName);
 			}
 		}
 
@@ -512,6 +549,8 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 	LinkedHashMap<String, int[]> abilityMap = new LinkedHashMap<>(); //Key = name, value = {level, equipped},
     private TreeMap<ResourceLocation, Integer> materials = new TreeMap<>();
     List<String> reactionList = new ArrayList<>();
+	List<String> pAbilitiesList = new ArrayList<>();
+	List<String> pShotlocksList = new ArrayList<>();
 
 	List<String> partyList = new ArrayList<>();
 	String equippedShotlock = "";
@@ -1203,9 +1242,23 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
         shotlockList.remove(shotlock);
 	}
 
-	//endregion
+	public void removePShotlockFromList(String shotlock) {
+		pShotlocksList.remove(shotlock);
+	}
 
-	//region Currencies, munny, hearts
+	public List<String> getPShotlocksList() {
+		return pShotlocksList;
+	}
+
+	public void setPShotlocksList(List<String> set) {
+		this.pShotlocksList = set;
+	}
+
+	public void addPShotlock(String shotlock) {
+		pShotlocksList.add(shotlock);
+		addShotlockToList(shotlock, false);
+	}
+
 
 	public void setMunny(int amount) {
 		this.munny = amount;
@@ -1585,11 +1638,24 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 	}
 
 	public LinkedHashMap<String, int[]> getAbilityMap() {
-		return abilityMap;//Utils.getSortedAbilities(abilitiesMap);
+		return abilityMap;
 	}
 
 	public void setAbilityMap(LinkedHashMap<String, int[]> map) {
 		this.abilityMap = map;
+	}
+
+	public List<String> getPAbilitiesList() {
+		return pAbilitiesList;
+	}
+
+	public void setPAbilitiesList(List<String> set) {
+		this.pAbilitiesList = set;
+	}
+
+	public void addPAbility(String ability) {
+		pAbilitiesList.add(ability);
+		addAbility(ability,false);
 	}
 
 	public void addAbility(String ability, boolean notification) {
@@ -1617,6 +1683,10 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		} else {//If not already present in the map set it to level 1 and fully unequipped
 			abilityMap.put(ability, new int[]{1,0});
 		}
+	}
+
+	public void removePAbility(String ability) {
+		pAbilitiesList.remove(ability);
 	}
 
 	public void removeAbility(String ability) {
@@ -1667,7 +1737,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 				}
 			}
 		}
-		
+
 		//SB Keyblade if user is base form
 		if (getActiveDriveForm().equals(DriveForm.NONE.toString())) {
 			// Check for synch blade ability to be equiped from the abilities menu
@@ -1686,7 +1756,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 				List<String> abilities = Utils.getKeybladeAbilitiesAtLevel(weapon.toSummon(), level);
 				amount += Collections.frequency(abilities, ability);
 			}
-			
+
 			//Drive form passive abilities
 			DriveForm form = ModDriveForms.registry.get(ResourceLocation.parse(getActiveDriveForm()));
 			List<String> list = form.getDriveFormData().getAbilities();
@@ -1694,9 +1764,9 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 				amount += Collections.frequency(list, ability);
 			}
 		}
-		
+
 		amount += Collections.frequency(Utils.getAccessoriesAbilities(this), ability);
-				
+
 		if (ModAbilities.registry.get(ResourceLocation.parse(ability)).getType() != AbilityType.GROWTH) {
 			return amount + (abilityMap.containsKey(ability) ? Integer.bitCount(abilityMap.get(ability)[1]) : 0);
 		} else {

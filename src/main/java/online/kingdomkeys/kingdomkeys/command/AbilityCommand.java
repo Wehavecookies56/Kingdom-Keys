@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.command;
 
+import com.mojang.brigadier.arguments.BoolArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
@@ -25,7 +26,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class AbilityCommand extends BaseCommand { /// kk_ability <give/take> <ability> [player]
+public class AbilityCommand extends BaseCommand { // kingdomkeys ability <give/take> <ability> <permanent> [player]
 	private static final SuggestionProvider<CommandSourceStack> SUGGEST_ABILITIES = (p_198296_0_, p_198296_1_) -> {
 		List<String> list = new ArrayList<>();
 		for (ResourceLocation actual : ModAbilities.registry.keySet()) {
@@ -38,26 +39,25 @@ public class AbilityCommand extends BaseCommand { /// kk_ability <give/take> <ab
 		LiteralArgumentBuilder<CommandSourceStack> builder = Commands.literal("ability").requires(source -> source.hasPermission(2));
 
 		builder.then(Commands.literal("give")
-				.then(Commands.argument("ability", StringArgumentType.string()).suggests(SUGGEST_ABILITIES)
-						.then(Commands.argument("targets", EntityArgument.players())
-								.executes(AbilityCommand::addAbility))
-						.executes(AbilityCommand::addAbility)) );
-				/*.then(Commands.literal("all")
-						.then(Commands.argument("targets", EntityArgument.players())
-								.executes(KKAbilityCommand::addAllRecipes))
-						.executes(KKAbilityCommand::addAllRecipes)));*/
+			.then(Commands.argument("ability", StringArgumentType.string()).suggests(SUGGEST_ABILITIES)
+				.then(Commands.argument("permanent", BoolArgumentType.bool())
+					.executes(AbilityCommand::addAbility)
+					.then(Commands.argument("targets", EntityArgument.players())
+						.executes(AbilityCommand::addAbility))
+				)
+			)
+		);
 
 		builder.then(Commands.literal("take")
-				.then(Commands.argument("ability", StringArgumentType.string())
-						.suggests(SUGGEST_ABILITIES)
-						.then(Commands.argument("targets", EntityArgument.players())
-								.executes(AbilityCommand::removeAbility))
-						.executes(AbilityCommand::removeAbility))
-				.then(Commands.literal("all")
-						.then(Commands.argument("targets", EntityArgument.players())
-								.executes(AbilityCommand::removeAllAbilities))
-						.executes(AbilityCommand::removeAllAbilities))
-
+			.then(Commands.argument("ability", StringArgumentType.string())
+				.suggests(SUGGEST_ABILITIES)
+				.then(Commands.argument("targets", EntityArgument.players())
+					.executes(AbilityCommand::removeAbility))
+				.executes(AbilityCommand::removeAbility))
+			.then(Commands.literal("all")
+				.then(Commands.argument("targets", EntityArgument.players())
+					.executes(AbilityCommand::removeAllAbilities))
+				.executes(AbilityCommand::removeAllAbilities))
 		);
 
 		KingdomKeys.LOGGER.warn("Registered command " + builder.getLiteral());
@@ -65,8 +65,10 @@ public class AbilityCommand extends BaseCommand { /// kk_ability <give/take> <ab
 	}
 
 	private static int addAbility(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
-		Collection<ServerPlayer> players = getPlayers(context, 4);
+		Collection<ServerPlayer> players = getPlayers(context, 5);
 		String abilityName = StringArgumentType.getString(context, "ability");
+		boolean permanent = BoolArgumentType.getBool(context, "permanent");
+
 		Ability a = ModAbilities.registry.get(ResourceLocation.parse(abilityName));
 		if(a == null) {
 			context.getSource().sendFailure(Component.literal("Ability '"+abilityName+ "' does not exist"));
@@ -75,11 +77,16 @@ public class AbilityCommand extends BaseCommand { /// kk_ability <give/take> <ab
 
 		for (ServerPlayer player : players) {
 			PlayerData playerData = PlayerData.get(player);
-			playerData.addAbility(abilityName, true);
+			if (permanent) {
+				playerData.addPAbility(abilityName);
+				player.sendSystemMessage(Component.translatable("You have been given the ability '" + Utils.translateToLocal(a.getTranslationKey()) + "' permanently"));
+			} else {
+				playerData.addAbility(abilityName, true);
+				player.sendSystemMessage(Component.translatable("You have been given the ability '" + Utils.translateToLocal(a.getTranslationKey()) + "'"));
+			}
 			if (player != context.getSource().getPlayerOrException()) {
 				context.getSource().sendSuccess(() -> Component.translatable("Added '" + Utils.translateToLocal(a.getTranslationKey()) + "' ability to " + player.getDisplayName().getString()), true);
 			}
-			player.sendSystemMessage(Component.translatable("You have been given the ability '" + Utils.translateToLocal(a.getTranslationKey()) + "'"));
 			PacketHandler.sendTo(new SCSyncPlayerData(player), player);
 		}
 		return 1;
@@ -91,7 +98,9 @@ public class AbilityCommand extends BaseCommand { /// kk_ability <give/take> <ab
 
 		for (ServerPlayer player : players) {
 			PlayerData playerData = PlayerData.get(player);
+			playerData.removePAbility(ability);
 			playerData.removeAbility(ability);
+
 			if (player != context.getSource().getPlayerOrException()) {
 				context.getSource().sendSuccess(() -> Component.translatable("Removed ability '" + Utils.translateToLocal(ability) + "' from " + player.getDisplayName().getString()), true);
 			}
@@ -101,24 +110,6 @@ public class AbilityCommand extends BaseCommand { /// kk_ability <give/take> <ab
 		}
 		return 1;
 	}
-
-	/*private static int addAllRecipes(CommandContext<CommandSource> context) throws CommandSyntaxException {
-		Collection<ServerPlayerEntity> players = getPlayers(context, 3);
-
-		for (ServerPlayerEntity player : players) {
-			IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-			for (Recipe actual : RecipeRegistry.getInstance().getValues()) {
-				playerData.addKnownRecipe(actual.getRegistryName());
-			}
-
-			if (player != context.getSource().asPlayer()) {
-				context.getSource().sendFeedback(new TranslationTextComponent("Added all recipes to " + player.getDisplayName().getString()), true);
-			}
-			player.sendSystemMessage(new TranslationTextComponent("You have been given all the recipes"),Util.DUMMY_UUID);
-			PacketHandler.sendTo(new SCSyncCapabilityPacket(playerData), (ServerPlayerEntity) player);
-		}
-		return 1;
-	}*/
 
 	private static int removeAllAbilities(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
 		Collection<ServerPlayer> players = getPlayers(context, 4);
