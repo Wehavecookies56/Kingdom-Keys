@@ -203,7 +203,7 @@ public class WatergaEntity extends ThrowableProjectile {
 						} else {
 							if(!Utils.isEntityInParty(casterParty, e) && e != player) {
 								float dmg = this.getOwner() instanceof Player ? DamageCalculation.getMagicDamage((Player) this.getOwner()) * 0.5F : 2;
-								e.hurt(e.damageSources().thrown(this, this.getOwner()), dmg * dmgMult);
+								e.hurt(KKDamageTypes.getElementalDamage(KKDamageTypes.WATER,this, this.getOwner()), dmg * dmgMult);
 							}
 						}
 					}

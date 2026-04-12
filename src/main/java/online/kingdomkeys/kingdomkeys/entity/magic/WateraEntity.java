@@ -99,8 +99,8 @@ public class WateraEntity extends ThrowableProjectile {
 				float dmg = this.getOwner() instanceof Player ? DamageCalculation.getMagicDamage((Player) this.getOwner()) * 0.45F : 3;
 				for (Entity e : list) {
                     if (e instanceof LivingEntity) {
-                        e.hurt(e.damageSources().thrown(this, this.getOwner()), dmg * dmgMult);
-                    }
+                        e.hurt(KKDamageTypes.getElementalDamage(KKDamageTypes.WATER,this, this.getOwner()), dmg * dmgMult);
+					}
                 }
 	        }
 

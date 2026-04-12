@@ -2,6 +2,7 @@
 * New data version check, will automatically run the exp fix command if the playerdata is older.
 * Keyblade swapping by cancelling the ATTACK menu (opposite of opening the submenu).
 * Situation commands (timed reaction commands).
+* Small icon representing the keybind next to the selected Reaction Command.
 * Some abilities to some elemental Keyblades.
 * New ability Superjump, increases vertical impulse off a flowmotion jump.
   * Obtained at Valor form levels 4 and 6.
@@ -20,3 +21,4 @@
 
 **Fixed:**
 * Random crash when opening Minecraft related to configs being accessed too early.
+* Some water spells not dealing water damage type.
