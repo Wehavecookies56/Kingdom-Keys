@@ -729,13 +729,14 @@ public class CommandMenuGui extends OverlayBase {
 		float alpha = 1F;
 		float scale = 1.05f;
 		PlayerData playerData = PlayerData.get(minecraft.player);
-		List<String> list = playerData.getReactionCommands();
+		LinkedHashMap<String, Integer> list = playerData.getReactionCommands();
         if(list.isEmpty())
             return;
 
 		ResourceLocation rcTexture = commandMenuElements.get(currentSubmenu).getTexture();
 
-		for(int i = 0; i < list.size(); i++) {
+		int i = 0;
+		for (Map.Entry<String, Integer> entry : list.entrySet()) {
 			gui.pose().pushPose();
 			{
 				float shade = i == reactionSelected ? 1F : 0.4F;
@@ -744,13 +745,28 @@ public class CommandMenuGui extends OverlayBase {
 				gui.pose().scale(scale, scale, scale);
 				gui.pose().pushPose();
 				{
-					ReactionCommand command = ModReactionCommands.registry.get(ResourceLocation.parse(list.get(i)));
+					ReactionCommand command = ModReactionCommands.registry.get(ResourceLocation.parse(entry.getKey()));
+					String time = "";
+					if(entry.getValue() > -1){
+						time = String.format("%.1f", entry.getValue() / 20.0);
+						gui.pose().pushPose();
+						gui.pose().scale(0.6F, 0.8F, scale);
+						drawString(gui, minecraft.font, Component.literal(time).withStyle(ClientUtils.KK_Font_EXP),(int)((TOP_WIDTH - ModConfigs.cmReactionEndRWidth) * 1.9F), 6, 0xFFFFFF);
+						gui.pose().popPose();
+					}
 					drawString(gui, minecraft.font, Utils.translateToLocal(command.getTranslationKey()),5 + (ModConfigs.cmTextXOffset+5), 4, 0xFFFFFF);
 
 					gui.pose().scale(1.33F, 1, 1);
 					RenderSystem.enableBlend();
 					blit(gui, rcTexture, 0, 0, 0, 45, ModConfigs.cmReactionEndLWidth+1, TOP_HEIGHT);
-					blit(gui, rcTexture, ModConfigs.cmReactionEndLWidth, 0, TOP_WIDTH - (ModConfigs.cmReactionEndLWidth + ModConfigs.cmReactionEndRWidth)+1, TOP_HEIGHT, ModConfigs.cmReactionEndLWidth + 1, 45, 1, TOP_HEIGHT, 256, 256);
+					int middleWidth = TOP_WIDTH - (ModConfigs.cmReactionEndLWidth + ModConfigs.cmReactionEndRWidth) + 1;
+					if(time.isEmpty()) {
+						blit(gui, rcTexture, ModConfigs.cmReactionEndLWidth, 0, middleWidth, TOP_HEIGHT, ModConfigs.cmReactionEndLWidth + 1, 45, 1, TOP_HEIGHT, 256, 256);
+					} else {
+						blit(gui, rcTexture, ModConfigs.cmReactionEndLWidth, 0, middleWidth, TOP_HEIGHT, 35, 45, 1, TOP_HEIGHT, 256, 256);
+						float perc = 100F * entry.getValue() / command.getDuration();
+						blit(gui, rcTexture, ModConfigs.cmReactionEndLWidth, 0, (int)(middleWidth * perc/100F), TOP_HEIGHT, 37, 45, 1, TOP_HEIGHT, 256, 256);
+					}
 					blit(gui, rcTexture, TOP_WIDTH - ModConfigs.cmReactionEndRWidth, 0, ModConfigs.cmReactionEndLWidth + 3, 45, ModConfigs.cmReactionEndRWidth, TOP_HEIGHT);
 					RenderSystem.disableBlend();
 				}
@@ -758,6 +774,7 @@ public class CommandMenuGui extends OverlayBase {
 
 			}
 			gui.pose().popPose();
+			i++;
 		}
 
 	}

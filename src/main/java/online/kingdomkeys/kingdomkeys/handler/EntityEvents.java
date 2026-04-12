@@ -435,28 +435,23 @@ public class EntityEvents {
 		//playerData.clearRecipes("all");
 		if (playerData != null) {
 			// Check if rc conditions match
-            ArrayList<ReactionCommand> rcList = new ArrayList<>();
+			//Tick RCs in list
+			for (String rcName : new ArrayList<>(playerData.getReactionCommands().keySet())) {
+				ReactionCommand rc = ModReactionCommands.registry.get(ResourceLocation.parse(rcName));
+				if (rc != null) {
+					rc.tick(player);
+				}
+			}
 
 			// Check commands from registry that need active check (can turn off based on conditions like drive forms when you are healed)
 			// Those will be available when joining the world too if the conditions are met
 			for (ReactionCommand rc : ModReactionCommands.registry) {
-				if (rc.needsConstantCheck() && rc.conditionsToAppear(player, player)){
-					rcList.add(rc);
+				if (rc.needsConstantCheck() && rc.conditionsToAppear(player, player)) {
+					playerData.addReactionCommand(rc.getName(), player);
 				}
 			}
 
-			// Check commands in player list
-			for (String rcName : playerData.getReactionCommands()) {
-				ReactionCommand rc = ModReactionCommands.registry.get(ResourceLocation.parse(rcName));
-				if (rc.conditionsToAppear(player, player)) {
-					rcList.add(rc);
-				}
-			}
-
-			playerData.setReactionCommands(new LinkedList<>());
-			for (ReactionCommand rc : rcList) {
-				playerData.addReactionCommand(rc.getName(), player);
-			}
+			//System.out.println(player.level().isClientSide+": "+playerData.getReactionCommands());
 
 			if (!player.level().isClientSide && player.tickCount == 5) { // TODO Check if it's necessary, I thought it was to set the max hp value but now it seems to work fine without it
 				PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);

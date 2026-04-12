@@ -62,7 +62,7 @@ public class InputHandler {
     @Nullable public List<Limit> limitsList;
     @Nullable public List<String> magicList;
     @Nullable public Map<Integer, ItemStack> itemsList;
-    @Nullable public List<String> reactionList;
+    @Nullable public LinkedHashMap<String, Integer> reactionList;
     
     @Nullable public static LivingEntity lockOn = null;
     public static int qrCooldown = 40;
@@ -439,7 +439,8 @@ public class InputHandler {
     	loadLists();
     	if(!reactionList.isEmpty()) {
 			PacketHandler.sendToServer(new CSUseReactionCommandPacket(CommandMenuGui.reactionSelected, InputHandler.lockOn));
-            String reactionName = PlayerData.get(player).getReactionCommands().get(CommandMenuGui.reactionSelected);
+            String reactionName = Utils.getRCNameFromIndex(player, CommandMenuGui.reactionSelected);
+
             ReactionCommand reaction = ModReactionCommands.registry.get(ResourceLocation.parse(reactionName));
             CommandMenuGui.reactionSelected = 0;
             if (reaction != null) {

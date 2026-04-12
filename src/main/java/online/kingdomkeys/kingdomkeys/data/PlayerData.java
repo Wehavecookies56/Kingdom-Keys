@@ -51,6 +51,7 @@ import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCShowOverlayPacket;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
 import online.kingdomkeys.kingdomkeys.reactioncommands.ModReactionCommands;
+import online.kingdomkeys.kingdomkeys.reactioncommands.ReactionCommand;
 import online.kingdomkeys.kingdomkeys.shotlock.ModShotlocks;
 import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.Recipe;
@@ -194,12 +195,15 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		}
 		storage.put("permanent_abilities", list);
 
-		CompoundTag reactions = new CompoundTag();
-		for (int i=0;i< this.getReactionCommands().size();i++) {
-            String rc = this.getReactionCommands().get(i);
-			reactions.putString("rc_"+i, rc);
+		ListTag rcList = new ListTag();
+
+		for (Entry<String, Integer> pair : this.getReactionCommands().entrySet()) {
+			CompoundTag entryTag = new CompoundTag();
+			entryTag.putString("key", pair.getKey());
+			entryTag.putInt("value", pair.getValue());
+			rcList.add(entryTag);
 		}
-		storage.put("reaction_commands", reactions);
+		storage.put("reaction_commands", rcList);
 
 		CompoundTag keychains = new CompoundTag();
 		this.getEquippedKeychains().forEach((form, chain) -> keychains.put(form.toString(), chain.saveOptional(provider)));
@@ -431,13 +435,13 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 			}
 		}
 
-		reactionList.clear();
-        int size = nbt.getCompound("reaction_commands").getAllKeys().size();
-		for (int i =0; i < size; i++) {
-            String rc = nbt.getCompound("reaction_commands").getString("rc_"+i);
-			if (ModReactionCommands.registry.containsKey(ResourceLocation.parse(rc))) {
-				this.getReactionCommands().add(rc);
-			}
+		reactionMap.clear();
+		ListTag rcList = nbt.getList("reaction_commands", Tag.TAG_COMPOUND);
+		for (int i = 0; i < rcList.size(); i++) {
+			CompoundTag entryTag = rcList.getCompound(i);
+			String key = entryTag.getString("key");
+			int value = entryTag.getInt("value");
+			this.getReactionCommands().put(key, value);
 		}
 
 		equippedKeychains.clear();
@@ -548,7 +552,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 	List<ResourceLocation> recipeList = new ArrayList<>();
 	LinkedHashMap<String, int[]> abilityMap = new LinkedHashMap<>(); //Key = name, value = {level, equipped},
     private TreeMap<ResourceLocation, Integer> materials = new TreeMap<>();
-    List<String> reactionList = new ArrayList<>();
+	LinkedHashMap<String, Integer> reactionMap = new LinkedHashMap<>();
 	List<String> pAbilitiesList = new ArrayList<>();
 	List<String> pShotlocksList = new ArrayList<>();
 
@@ -2075,21 +2079,30 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		return this.magicCooldown;
 	}
 
-	public List<String> getReactionCommands() {
-		return reactionList;
+	public LinkedHashMap<String, Integer> getReactionCommands() {
+		return reactionMap;
 	}
 
-	public void setReactionCommands(List<String> list) {
-		this.reactionList = list;
+	public void setReactionCommands(LinkedHashMap<String, Integer> list) {
+		this.reactionMap = list;
 		
 	}
 
 	public boolean addReactionCommand(String command, Player player) {
-		if(this.reactionList.contains(command)) {
+		ReactionCommand reactionCommand = ModReactionCommands.registry.get(ResourceLocation.parse(command));
+		if (reactionCommand == null) {
+			KingdomKeys.LOGGER.error("Unknown reaction command: " + command);
+			return false;
+		}
+
+		if(this.reactionMap.containsKey(command)) {
+			//reset timer by removing
+			//this.reactionMap.remove(command);
+			this.reactionMap.put(command, reactionCommand.getDuration());
 			return false;
 		} else {
-			if(ModReactionCommands.registry.get(ResourceLocation.parse(command)).conditionsToAppear(player, player)) {
-				this.reactionList.add(command);
+			if(reactionCommand.conditionsToAppear(player, player)) {
+				this.reactionMap.put(command, reactionCommand.getDuration());
 				return true;
 			} else {
 				return false;
@@ -2098,8 +2111,8 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 	}
 
 	public boolean removeReactionCommand(String command) {
-		if(this.reactionList.contains(command)) {
-			this.reactionList.remove(command);
+		if(this.reactionMap.containsKey(command)) {
+			this.reactionMap.remove(command);
 			return true;
 		} else {
 			return false;

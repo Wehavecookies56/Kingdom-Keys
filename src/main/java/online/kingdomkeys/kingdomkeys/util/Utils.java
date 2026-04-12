@@ -71,6 +71,7 @@ import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategoryRegistry;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.block.gummi.*;
+import online.kingdomkeys.kingdomkeys.client.gui.overlay.CommandMenuGui;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.GlobalData;
@@ -827,7 +828,18 @@ public class Utils {
         return armor.getMaterial().value().equipSound().value() == ModSounds.keyblade_armor.get();
     }
 
-    public static class Title {
+	public static String getRCNameFromIndex(Player player, int reactionSelected) {
+		int index = 0;
+		for (Map.Entry<String, Integer> entry : PlayerData.get(player).getReactionCommands().entrySet()) {
+			if(index == reactionSelected) {
+				return entry.getKey();
+			}
+			index++;
+		}
+		return null;
+	}
+
+	public static class Title {
 		public String title, subtitle;
 		public int fadeIn = 10, fadeOut = 20, displayTime = 70;
 

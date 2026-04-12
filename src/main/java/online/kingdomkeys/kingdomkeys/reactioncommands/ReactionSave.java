@@ -17,7 +17,7 @@ public class ReactionSave extends ReactionCommand {
 
 
     public ReactionSave(ResourceLocation registryName) {
-        super(registryName, true);
+        super(registryName, true, -1);
     }
 
     @Override
