@@ -22,3 +22,4 @@
 **Fixed:**
 * Random crash when opening Minecraft related to configs being accessed too early.
 * Some water spells not dealing water damage type.
+* When having more than 1 RC if the selected one disappeared you could still attempt to cast it, crashing.
