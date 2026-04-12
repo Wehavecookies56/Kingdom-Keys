@@ -981,7 +981,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 
 	public void setDriveFormLevel(String name, int level) {
 		DriveForm form = ModDriveForms.registry.get(ResourceLocation.parse(name));
-		if(name.equals(DriveForm.NONE.toString()) || name.equals(DriveForm.SYNCH_BLADE.toString())){
+		if(Utils.getFakeForms().contains(name)){
 			driveForms.put(name, new int[] {level, 1});
 		} else {
 			if(level == 0) {

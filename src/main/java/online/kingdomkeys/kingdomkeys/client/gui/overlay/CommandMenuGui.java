@@ -96,7 +96,7 @@ public class CommandMenuGui extends OverlayBase {
 					subMenu.setWidth(74);
 				})
 				.withChildren(
-						new CommandMenuItem.Builder(attack, Component.translatable(Strings.Gui_CommandMenu_Attack), null).onUpdate((item, guiGraphics) -> updateRootItem(item, null, guiGraphics)).iconUV(30, 60),
+						new CommandMenuItem.Builder(attack, Component.translatable(Strings.Gui_CommandMenu_Attack), null).onUpdate((item, guiGraphics) -> updateRootItem(item, null, guiGraphics)).iconUV(30, 60).onCancel(item -> onCancel(item,null, guiGraphics)),
 						new CommandMenuItem.Builder(portals, Component.translatable(Strings.Gui_CommandMenu_Portal), opensSubmenu(portals)).invisibleByDefault().onUpdate((item, guiGraphics) -> updateRootItem(item, portals, guiGraphics)).iconUV(40, 60),
 						new CommandMenuItem.Builder(magic, Component.translatable(Strings.Gui_CommandMenu_Magic), opensSubmenu(magic)).onUpdate((item, guiGraphics) -> updateRootItem(item, magic, guiGraphics)).iconUV(20, 60),
 						new CommandMenuItem.Builder(items, Component.translatable(Strings.Gui_CommandMenu_Items), opensSubmenu(items)).onUpdate((item, guiGraphics) -> updateRootItem(item, items, guiGraphics)).iconUV(10, 60),
@@ -354,6 +354,12 @@ public class CommandMenuGui extends OverlayBase {
 		return PlayerData.get(minecraft.player).getAlignment() != OrgMember.NONE;
 	}
 
+	public void onCancel(CommandMenuItem item, ResourceLocation submenu, GuiGraphics guiGraphics) {
+		if (item.getId().equals(attack)) {
+			PacketHandler.sendToServer(new CSSwapKeyblade());
+		}
+	}
+
 	public void updateRootItem(CommandMenuItem item, ResourceLocation submenu, GuiGraphics guiGraphics) {
 		PlayerData playerData = PlayerData.get(minecraft.player);
 		if (item.getId().equals(portals) && isOrgMode() && item.getParent().getSelected().equals(item)) {
@@ -398,7 +404,8 @@ public class CommandMenuGui extends OverlayBase {
 		}
 
 		if (item.getId().equals(drive)){
-			if(playerData.getDriveFormMap().size() < 4){ //If no forms are unlocked
+			//System.out.println(playerData.getDriveFormMap());
+			if(playerData.getDriveFormMap().size() <= Utils.getFakeForms().size() + 1){ //If no forms are unlocked (fake forms + anti)
 				item.setActive(false);
 				item.setMessage(Component.literal("???"));
 			} else { //If any form is unlocked

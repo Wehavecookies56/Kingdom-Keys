@@ -1741,7 +1741,8 @@ public class Utils {
         for (Entry<String, int[]> entry : driveForms.entrySet()) {
             int dfLevel = entry.getValue()[0];
             DriveForm form = ModDriveForms.registry.get(ResourceLocation.parse(entry.getKey()));
-            if (!form.getRegistryName().equals(DriveForm.NONE) && !form.getRegistryName().equals(DriveForm.SYNCH_BLADE)) {
+            if (!Utils.getFakeForms().contains(form.getRegistryName().toString())) {
+				System.out.println(form.getRegistryName().toString());
                 for (int i = 1; i <= dfLevel; i++) {
                     String baseAbility = form.getBaseAbilityForLevel(i);
                     if (baseAbility != null && !baseAbility.equals("")) {
@@ -1761,6 +1762,15 @@ public class Utils {
 
 		player.heal(playerData.getMaxHP());
 		playerData.setMP(playerData.getMaxMP());
+	}
+
+	public static List<String> getFakeForms(){
+		ArrayList<String> list = new ArrayList<>();
+		list.add(DriveForm.KB2.toString());
+		list.add(DriveForm.KB3.toString());
+		list.add(DriveForm.SYNCH_BLADE.toString());
+		list.add(DriveForm.NONE.toString());
+		return list;
 	}
 
 	public static String getTierFromInt(int tier) {

@@ -63,7 +63,6 @@ public class PacketHandler {
 		client(SCOpenMenu.TYPE, SCOpenMenu.STREAM_CODEC);
 		client(SCSyncJsonRegistry.TYPE, SCSyncJsonRegistry.STREAM_CODEC);
 
-
 		server(CSAntiPointsPacket.TYPE, CSAntiPointsPacket.STREAM_CODEC);
 		server(CSAttackOffhandPacket.TYPE, CSAttackOffhandPacket.STREAM_CODEC);
 		server(CSChangeStyle.TYPE, CSChangeStyle.STREAM_CODEC);
@@ -139,6 +138,8 @@ public class PacketHandler {
 		server(CSSetFlowmotionPacket.TYPE, CSSetFlowmotionPacket.STREAM_CODEC);
 		server(CSSetAirDashedPacket.TYPE, CSSetAirDashedPacket.STREAM_CODEC);
 		server(CSSetBouncedPacket.TYPE, CSSetBouncedPacket.STREAM_CODEC);
+		server(CSSwapKeyblade.TYPE, CSSwapKeyblade.STREAM_CODEC);
+
 	}
 
 	private static <T extends Packet> void client(CustomPacketPayload.Type<T> type, StreamCodec<? super RegistryFriendlyByteBuf, T> reader) {

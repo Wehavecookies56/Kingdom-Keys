@@ -260,8 +260,9 @@ public class EntityEvents {
 
 			if (!player.level().isClientSide) { // Sync from server to client
 				if (!playerData.getDriveFormMap().containsKey(DriveForm.NONE.toString())) { // One time event here :D
-					playerData.setDriveFormLevel(DriveForm.NONE.toString(), 1);
-					playerData.setDriveFormLevel(DriveForm.SYNCH_BLADE.toString(), 1);
+					Utils.getFakeForms().forEach(form -> {
+						playerData.setDriveFormLevel(form, 1);
+					});
 					playerData.setDriveFormLevel(Strings.Form_Anti, 1);
 
 					if (playerData.getEquippedItems().isEmpty()) {
@@ -273,6 +274,11 @@ public class EntityEvents {
 					}
 				}
 
+				if (!playerData.getDriveFormMap().containsKey(DriveForm.KB2.toString())) {
+					playerData.setDriveFormLevel(DriveForm.KB2.toString(), 1);
+					playerData.setDriveFormLevel(DriveForm.KB3.toString(), 1);
+				}
+
 				ModConfigs.startingRecipes.forEach(resourceLocation -> {
 					if (RecipeRegistry.getInstance().containsKey(resourceLocation)) {
 						playerData.addKnownRecipe(resourceLocation);
@@ -280,10 +286,6 @@ public class EntityEvents {
 						KingdomKeys.LOGGER.error("Recipe[{}] in startingRecipes config doesn't exist", resourceLocation);
 					}
 				});
-
-				if (!playerData.getDriveFormMap().containsKey(Strings.Form_Anti)) {
-					playerData.setDriveFormLevel(Strings.Form_Anti, 1);
-				}
 
 				if (!playerData.getDriveFormMap().containsKey(Strings.Form_Anti)) {
 					playerData.setDriveFormLevel(Strings.Form_Anti, 1);
@@ -337,6 +339,7 @@ public class EntityEvents {
 				if (!playerData.getEquippedWeapon().is(Items.AIR)) {
 					Utils.createKeybladeID(playerData.getEquippedWeapon());
 				}
+
 				playerData.getWeaponsUnlocked().forEach(itemStack -> {
 					if (itemStack.is(playerData.getEquippedWeapon().getItem())) {
 						Utils.copyKeybladeID(playerData.getEquippedWeapon(), itemStack);

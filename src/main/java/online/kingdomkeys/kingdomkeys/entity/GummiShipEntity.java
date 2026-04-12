@@ -236,8 +236,6 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 
 	@Override
 	protected void destroy(DamageSource source) {
-		//Vec3i gummiSize = Utils.getRealGummiStructureSize(structure);
-		//int size = Math.max(Math.max(gummiSize.getX(), gummiSize.getY()), gummiSize.getZ());
 		if(structure.containsBlock(Blocks.PISTON)){
 			float size = structure.getBlockCount(Blocks.PISTON) / 10F;
 			if (this.level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)) {
@@ -246,7 +244,6 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 				level().explode(this,this.getX(),this.getY(),this.getZ(), size, Level.ExplosionInteraction.NONE);
 			}
 		}
-
 
 		destroy(this.getDropItems());
 	}
@@ -271,8 +268,6 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 				} else {
 					this.level().addFreshEntity(itementity);
 				}
-
-				//this.spawnAtLocation(itemstack);
 			}
 		}
 
@@ -438,9 +433,7 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 			}
 
 			this.setDeltaMovement(this.getDeltaMovement().add((Mth.sin(-this.getYRot() * 0.017453292F) * currentSpeed), currentVerticalSpeed,(Math.cos(this.getYRot() * 0.017453292F) * currentSpeed)));
-            //move(MoverType.SELF,this.getDeltaMovement().add((Mth.sin(-this.getYRot() * 0.017453292F) * currentSpeed), currentVerticalSpeed,(Math.cos(this.getYRot() * 0.017453292F) * currentSpeed)));
 		}
-
 	}
 
 	@Override

@@ -116,9 +116,15 @@ public class MenuEquipmentScreen extends MenuBackground {
         if (keychains.get(DriveForm.NONE) != null) {
             MenuEquipmentButton firstSlot = new MenuEquipmentButton(keychains.get(DriveForm.NONE), (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement(), 0x880000, new MenuEquipmentSelectorScreen(DriveForm.NONE, new Color(112, 31, 35), 0x880000), ItemCategory.TOOL, this, Strings.Gui_Menu_Items_Equipment_Weapon, 0xFE8185);
             addRenderableWidget(firstSlot);
+            MenuEquipmentButton firstSlot1 = new MenuEquipmentButton(keychains.get(DriveForm.KB2), (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement(), 0x880000, new MenuEquipmentSelectorScreen(DriveForm.KB2, new Color(112, 31, 35), 0x880000), ItemCategory.TOOL, this);
+            addRenderableWidget(firstSlot1);
+            MenuEquipmentButton firstSlot2 = new MenuEquipmentButton(keychains.get(DriveForm.KB3), (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement(), 0x880000, new MenuEquipmentSelectorScreen(DriveForm.KB3, new Color(112, 31, 35), 0x880000), ItemCategory.TOOL, this);
+            addRenderableWidget(firstSlot2);
 
-            firstSlot.active = showingKeyblades;
-            firstSlot.visible = showingKeyblades;
+            firstSlot.active = firstSlot1.active = firstSlot2.active = showingKeyblades;
+            firstSlot.visible = firstSlot1.visible = firstSlot2.visible = showingKeyblades;
+            hidden.getAndIncrement();
+            hidden.getAndIncrement();
             hidden.getAndIncrement();
             
             //Synch blade
@@ -138,7 +144,7 @@ public class MenuEquipmentScreen extends MenuBackground {
         keychains.entrySet().stream().sorted(sortByFormOrder).forEachOrdered((entry) -> {
             ResourceLocation form = entry.getKey();
             ItemStack keychain = entry.getValue();
-            if (!form.equals(DriveForm.NONE) && !form.equals(DriveForm.SYNCH_BLADE) && ModDriveForms.registry.get(form).isSlotVisible(minecraft.player)) {
+            if (!Utils.getFakeForms().contains(form.toString()) && ModDriveForms.registry.get(form).isSlotVisible(minecraft.player)) {
             	MenuEquipmentButton button = new MenuEquipmentButton(keychain, (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement(), 0x006666, new MenuEquipmentSelectorScreen(form, new Color(10, 22, 22), 0x006666), ItemCategory.TOOL, this, ModDriveForms.registry.get(form).getTranslationKey(), 0x00BBBB);
                 addRenderableWidget(button);
 

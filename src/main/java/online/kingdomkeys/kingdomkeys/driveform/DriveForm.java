@@ -22,6 +22,8 @@ import java.util.List;
 public abstract class DriveForm {
 
 	public static final ResourceLocation NONE = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "none");
+	public static final ResourceLocation KB2 = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "kb2");
+	public static final ResourceLocation KB3 = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "kb3");
 	public static final ResourceLocation SYNCH_BLADE = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "synch_blade");
 
 	// Level 0-7 (0 unused)
