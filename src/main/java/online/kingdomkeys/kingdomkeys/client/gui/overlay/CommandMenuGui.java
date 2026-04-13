@@ -759,24 +759,19 @@ public class CommandMenuGui extends OverlayBase {
 
 					gui.pose().scale(1.33F, 1, 1);
 					RenderSystem.enableBlend();
-					blit(gui, rcTexture, 0, 0, 0, 45, ModConfigs.cmReactionEndLWidth + 1, TOP_HEIGHT);
-					int middleWidth = TOP_WIDTH - (ModConfigs.cmReactionEndLWidth + ModConfigs.cmReactionEndRWidth) + 1;
 					if (time.isEmpty()) {
-						blit(gui, rcTexture, ModConfigs.cmReactionEndLWidth, 0, middleWidth, TOP_HEIGHT, ModConfigs.cmReactionEndLWidth + 1, 45, 1, TOP_HEIGHT, 256, 256);
+						drawRC(gui, rcTexture);
 					} else {
-						blit(gui, rcTexture, ModConfigs.cmReactionEndLWidth, 0, middleWidth, TOP_HEIGHT, 24, 45, 1, TOP_HEIGHT, 256, 256);
-						float perc = 100F * entry.getValue() / command.getDuration();
-						blit(gui, rcTexture, ModConfigs.cmReactionEndLWidth, 0, (int) (middleWidth * perc / 100F), TOP_HEIGHT, 26, 45, 1, TOP_HEIGHT, 256, 256);
+						drawSC(gui, rcTexture, entry);
 					}
-					blit(gui, rcTexture, TOP_WIDTH - ModConfigs.cmReactionEndRWidth, 0, ModConfigs.cmReactionEndLWidth + 3, 45, ModConfigs.cmReactionEndRWidth, TOP_HEIGHT);
 
 					if(i == reactionSelected) {
 						valid = true;
 						gui.pose().pushPose();
 						{
-							gui.pose().scale(0.7F, 1F, 1);
-							blit(gui, rcTexture, 4, 3, 28, 45, 10, 10);
-							gui.drawString(minecraft.font, Component.literal(InputHandler.Keybinds.REACTION_COMMAND.getKeybind().getKey().getDisplayName().getString()).withStyle(ClientUtils.KK_Font_MENU), 6, 3, 0xFFFFFF, false);
+							gui.pose().scale(0.55F, 0.8F, 1);
+							blit(gui, rcTexture, 4, 4, 52, 45, 10, 10);
+							gui.drawString(minecraft.font, Component.literal(InputHandler.Keybinds.REACTION_COMMAND.getKeybind().getKey().getDisplayName().getString()).withStyle(ClientUtils.KK_Font_MENU), 6, 5, 0xFFFFFF, false);
 						}
 						gui.pose().popPose();
 					}
@@ -784,7 +779,6 @@ public class CommandMenuGui extends OverlayBase {
 					RenderSystem.disableBlend();
 				}
 				gui.pose().popPose();
-
 			}
 			gui.pose().popPose();
 			i++;
@@ -792,6 +786,37 @@ public class CommandMenuGui extends OverlayBase {
 		if(!valid) {
 			reactionSelected = 0;
 		}
+
+	}
+
+	private void drawSC(GuiGraphics gui, ResourceLocation rcTexture, Map.Entry<String, Integer> entry) {
+		ReactionCommand command = ModReactionCommands.registry.get(ResourceLocation.parse(entry.getKey()));
+		int middleWidth = TOP_WIDTH - (ModConfigs.cmReactionEndLWidth + ModConfigs.cmReactionEndRWidth) + 1;
+		//Black bg bar
+		blit(gui, rcTexture, ModConfigs.cmReactionEndLWidth-2, 0, middleWidth+4, TOP_HEIGHT, 48, 45, 1, TOP_HEIGHT, 256, 256);
+
+		float perc = 100F * entry.getValue() / command.getDuration();
+		//Purple bar
+		blit(gui, rcTexture, ModConfigs.cmReactionEndLWidth - 2, 0, (int) ((middleWidth+4) * perc / 100F), TOP_HEIGHT, 50, 45, 1, TOP_HEIGHT, 256, 256);
+
+		//Left
+		blit(gui, rcTexture, 0, 0, 24, 45, ModConfigs.cmReactionEndLWidth + 1, TOP_HEIGHT);
+		//Middle
+		blit(gui, rcTexture, ModConfigs.cmReactionEndLWidth, 0, middleWidth, TOP_HEIGHT, ModConfigs.cmReactionEndLWidth + 25, 45, 1, TOP_HEIGHT, 256, 256);
+		//Right
+		blit(gui, rcTexture, TOP_WIDTH - ModConfigs.cmReactionEndRWidth, 0, ModConfigs.cmReactionEndLWidth + 27, 45, ModConfigs.cmReactionEndRWidth, TOP_HEIGHT);
+
+	}
+
+	private void drawRC(GuiGraphics gui, ResourceLocation rcTexture) {
+		//Left
+		blit(gui, rcTexture, 0, 0, 0, 45, ModConfigs.cmReactionEndLWidth + 1, TOP_HEIGHT);
+
+		int middleWidth = TOP_WIDTH - (ModConfigs.cmReactionEndLWidth + ModConfigs.cmReactionEndRWidth) + 1;
+		//Middle
+		blit(gui, rcTexture, ModConfigs.cmReactionEndLWidth, 0, middleWidth, TOP_HEIGHT, ModConfigs.cmReactionEndLWidth + 1, 45, 1, TOP_HEIGHT, 256, 256);
+		//Right
+		blit(gui, rcTexture, TOP_WIDTH - ModConfigs.cmReactionEndRWidth, 0, ModConfigs.cmReactionEndLWidth + 3, 45, ModConfigs.cmReactionEndRWidth, TOP_HEIGHT);
 
 	}
 }

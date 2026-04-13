@@ -32,6 +32,7 @@ public class LanguageESES extends KKLanguageProvider {
         //Config category keys
         //CLIENT
         add(KingdomKeys.MODID + ".configuration.gui", "Ajustes de interfaz");
+        add(KingdomKeys.MODID + ".configuration.hud_data", "Ajustes de HUD, NO los edites desde aquí");
         add(KingdomKeys.MODID + ".configuration.command_menu", "Ajustes de Menú de Comandos");
         add(KingdomKeys.MODID + ".configuration.hp_bar", "Ajustes de Indicador de Vida");
         add(KingdomKeys.MODID + ".configuration.mp_bar", "Ajustes de Indicador de Magia");
@@ -123,8 +124,9 @@ public class LanguageESES extends KKLanguageProvider {
         addConfigKey(ModConfigs.getServerConfig().getExpFromShop, "Obtener exp. de la tienda");
         addConfigKey(ModConfigs.getServerConfig().orgEnabled, "Sistema de la Organización XIII");
         addConfigKey(ModConfigs.getServerConfig().allowBoosts, "Impulsos de estadísticas");
-        addConfigKey(ModConfigs.getServerConfig().allowPartyKO, "Sistema de KO en grupo (kinda buggy)");
+        addConfigKey(ModConfigs.getServerConfig().allowPartyKO, "Sistema de KO en grupo");
         addConfigKey(ModConfigs.getServerConfig().wayfinderParty, "Restringir Siemprejuntos a grupo");
+        addConfigKey(ModConfigs.getServerConfig().dragonLevel, "Permite que el Dragón del End suba de nivel");
         addConfigKey(ModConfigs.getServerConfig().hostileMobsLevel, "Mobs hostiles suben de nivel (no enemigos de KK)");
         addConfigKey(ModConfigs.getServerConfig().shotlockMaxDist, "Distancia máxima de Tiro Certero");
         addConfigKey(ModConfigs.getServerConfig().xpMultiplier, "Multiplicador de XP");

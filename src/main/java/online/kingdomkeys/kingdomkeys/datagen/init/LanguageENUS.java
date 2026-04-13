@@ -32,6 +32,7 @@ public class LanguageENUS extends KKLanguageProvider {
         //Config category keys
         //CLIENT
         add(KingdomKeys.MODID + ".configuration.gui", "GUI related settings");
+        add(KingdomKeys.MODID + ".configuration.hud_data", "HUD data related settings, do NOT edit them from here");
         add(KingdomKeys.MODID + ".configuration.command_menu", "Command Menu settings");
         add(KingdomKeys.MODID + ".configuration.hp_bar", "Health Bar settings");
         add(KingdomKeys.MODID + ".configuration.mp_bar", "Magic Bar settings");
@@ -125,8 +126,9 @@ public class LanguageENUS extends KKLanguageProvider {
         addConfigKey(ModConfigs.getServerConfig().getExpFromShop, "Get synthesis exp. from shop");
         addConfigKey(ModConfigs.getServerConfig().orgEnabled, "Organization XIII system");
         addConfigKey(ModConfigs.getServerConfig().allowBoosts, "Stat boosts");
-        addConfigKey(ModConfigs.getServerConfig().allowPartyKO, "Party KO system (kinda buggy)");
+        addConfigKey(ModConfigs.getServerConfig().allowPartyKO, "Party KO system");
         addConfigKey(ModConfigs.getServerConfig().wayfinderParty, "Restrict Wayfinder to party");
+        addConfigKey(ModConfigs.getServerConfig().dragonLevel, "Allow the Enderdragon to level up");
         addConfigKey(ModConfigs.getServerConfig().hostileMobsLevel, "Hostile mobs level up (non KK enemies)");
         addConfigKey(ModConfigs.getServerConfig().shotlockMaxDist, "Shotlock max distance");
         addConfigKey(ModConfigs.getServerConfig().xpMultiplier, "XP Multiplier");
