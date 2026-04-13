@@ -51,15 +51,11 @@ public class MenuScrollBar extends Button {
 	}
 
 	public void setHandleY(int handleY) {
-		if (handleY < handleYMax) {
-			this.handleY = handleYMax;
-		} else {
-			this.handleY = handleY;
-		}
+        this.handleY = Math.max(handleY, handleYMax);
 	}
 
 	public void setHandleHeight(int height) {
-		this.handleHeight = height;
+		this.handleHeight = Math.min(height,localHandleYMax);
 		if (handleY > getHandleBottom()) {
 			handleY = getHandleBottom() + 1;
 		} else if (handleY < handleYMax) {
@@ -99,7 +95,7 @@ public class MenuScrollBar extends Button {
 
 	@Override
 	public void renderWidget(@NotNull GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
-		if (visible && contentHeight > visibleHeight) {
+		if (visible) {
 			//Bar background
 			RenderSystem.enableBlend();
 			RenderSystem.setShaderColor(1, 1, 1, 0.5F);
@@ -129,7 +125,7 @@ public class MenuScrollBar extends Button {
 	}
 
 	public void updateScroll() {
-		if (visible && contentHeight > visibleHeight) {
+		if (isVisible()) {
 			//get the local handle position so 0 is at the top of the scroll bar
 			localHandleY = handleY - handleYMax;
 			//percentage of how far down the bar the handle is
@@ -138,14 +134,14 @@ public class MenuScrollBar extends Button {
 			scrollOffset = totalScroll * (scrollPercent/100);
 			//KingdomKeys.LOGGER.debug("{}/{} = {}%, offset {}", localHandleY, (localHandleYMax - handleHeight), scrollPercent, scrollOffset);
 		} else {
-		scrollOffset = 0;
+			scrollOffset = 0;
 		}
 	}
 
 	@Override
 	public boolean mouseDragged(double mouseX, double mouseY, int button, double dragX, double dragY) {
 		if (button == 0) {
-			if (visible && contentHeight > visibleHeight) {
+			if (isVisible()) {
 				if (clickX >= getX() && clickX <= getX() + width) {
 					updateScroll();
 					if (active) {
@@ -185,7 +181,7 @@ public class MenuScrollBar extends Button {
 
 	@Override
 	public boolean mouseScrolled(double mouseX, double mouseY, double scrollX, double scrollY) {
-		if (visible && contentHeight > visibleHeight) {
+		if (isVisible()) {
 			int scrollFactor = 5;
 			int oldY = handleY;
 			if (scrollY > 0) {

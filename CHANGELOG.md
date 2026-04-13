@@ -29,6 +29,8 @@
 * Wall kick obtained at levels 7 and 51 for Warrior, 9 and 62 for Mystic, 14 and 43 for Guardian.
 * Air dash obtained at levels 19 and 40 for Warrior, 29 and 45 for Mystic, 24 and 45 for Guardian.
 * Minor adjustments in a couple of keyblades' reach.
+* Scroll bars will always be visible.
+* Button tips color changed from orange to light blue.
 
 **Fixed:**
 * Random crash when opening Minecraft related to configs being accessed too early.
@@ -36,3 +38,4 @@
 * Some water spells not dealing water damage type.
 * When having more than 1 RC if the selected one disappeared you could still attempt to cast it, crashing.
 * A couple of configs in the config screen not being localized.
+* Menu bottom bars gap was too large.

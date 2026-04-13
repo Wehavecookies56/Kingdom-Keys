@@ -154,8 +154,6 @@ public class MenuBackground extends Screen {
 
 	public void drawBars(GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
 		renderBackground(gui, mouseX, mouseY, partialTicks);
-		int sh = Minecraft.getInstance().getWindow().getGuiScaledHeight();
-		int sw = Minecraft.getInstance().getWindow().getGuiScaledWidth();
 
 		float r = color.getRed() / 255F, g = color.getGreen() / 255F, b = color.getBlue() / 255F;
 		RenderSystem.setShaderColor(r,g,b, 1.0F);
@@ -234,7 +232,7 @@ public class MenuBackground extends Screen {
 			int sw = Minecraft.getInstance().getWindow().getGuiScaledWidth();
 
 			bottomLeftBar.setWidth(textOffset + scaledWidth + 15);
-			bottomRightBar.posX = (int) (bottomLeftBar.width + bottomGap);
+			bottomRightBar.posX = (int) (bottomLeftBar.width + bottomGap) - 12;
 			bottomRightBar.width = sw;
 
 			tooltipPosX = bottomRightBar.getPosX() + 15;
@@ -263,7 +261,7 @@ public class MenuBackground extends Screen {
 		if(tip != null) {
 			gui.pose().pushPose();
 			{
-				ClientUtils.drawSplitString(gui, Utils.translateToLocal(tip), (int) tooltipPosX, (int) tooltipPosY, (int) (width * 0.6F), 0xFF9900);
+				ClientUtils.drawSplitString(gui, Utils.translateToLocal(tip), (int) tooltipPosX, (int) tooltipPosY, (int) (width * 0.6F), 0x44BBFF);
 			}
 			gui.pose().popPose();
 		}
