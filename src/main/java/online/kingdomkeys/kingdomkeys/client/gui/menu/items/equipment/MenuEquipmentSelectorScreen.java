@@ -110,7 +110,7 @@ public class MenuEquipmentSelectorScreen extends MenuBackground {
 		if(!widgets.isEmpty())
 			listHeight = (widgets.get(widgets.size()-1).getY()+itemHeight+equipped.getHeight()) - widgets.get(0).getY()+3;
 
-		scrollBar = new MenuScrollBar(boxL.getX() + boxL.getWidth() - 17, scrollYPos, scrollYPos + (int) keybladesHeight - itemHeight - 8, (int) keybladesHeight - 6,listHeight);
+		scrollBar = new MenuScrollBar(boxL.getX() + boxL.getWidth() - 17, scrollYPos, scrollYPos + (int) keybladesHeight - itemHeight - 8, (int) keybladesHeight - 6,listHeight, true);
 		if (scrollBar.isVisible()) {
 			widgets.forEach(menuSelectEquipmentButton -> {
 				menuSelectEquipmentButton.setWidth((int) keybladesWidth-10-scrollBar.getWidth());

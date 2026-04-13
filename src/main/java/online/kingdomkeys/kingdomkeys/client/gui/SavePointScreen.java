@@ -347,7 +347,7 @@ public class SavePointScreen extends MenuBackground {
         orderDropDown.setSelected(ordering);
         this.sorting = sorting;
         this.ordering = ordering;
-        addRenderableWidget(bar = new MenuScrollBar((width/2) - (((elementWidth + 2) * elementsPerRow) / 2) + ((elementWidth + 2) * elementsPerRow), (int) topBarHeight, (int) (topBarHeight + middleHeight), (int) middleHeight, (int) (yPos - topBarHeight) + elementHeight+2));
+        addRenderableWidget(bar = new MenuScrollBar((width/2) - (((elementWidth + 2) * elementsPerRow) / 2) + ((elementWidth + 2) * elementsPerRow), (int) topBarHeight, (int) (topBarHeight + middleHeight), (int) middleHeight, (int) (yPos - topBarHeight) + elementHeight+2, true));
     }
 
     public void updateScroll(MenuScrollBar bar) {

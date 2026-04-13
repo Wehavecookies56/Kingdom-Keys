@@ -21,7 +21,7 @@ public class MenuScrollBar extends Button {
 	private int contentHeight, handleHeight;
 
 	public float scrollOffset;
-
+	public boolean alwaysVisible;
 	//The top and bottom part of the handle that stick out touch the top and bottom of the bar 3 pixels from the middle part so this is so it stops before overlapping with the top/bottom texture
 	final int handleEndOffset = 3;
 
@@ -29,7 +29,7 @@ public class MenuScrollBar extends Button {
 
 	ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
 
-	public MenuScrollBar(int x, int y, int bottom, int visibleHeight, int contentHeight) {
+	public MenuScrollBar(int x, int y, int bottom, int visibleHeight, int contentHeight, boolean alwaysVisible) {
 		super(new Builder(Component.empty(),button -> {}).bounds(x, y, WIDTH, bottom-y));
 		this.visibleHeight = visibleHeight;
 		//The highest point on the scroll bar for the handle
@@ -39,6 +39,7 @@ public class MenuScrollBar extends Button {
 		handleY = handleYMax;
 		localHandleYMax = handleBottom - handleYMax + 1;
 		setContentHeight(contentHeight);
+		this.alwaysVisible = alwaysVisible;
 	}
 
 	public int getBottom() {
@@ -95,7 +96,7 @@ public class MenuScrollBar extends Button {
 
 	@Override
 	public void renderWidget(@NotNull GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
-		if (visible) {
+		if (visible && (alwaysVisible || contentHeight > visibleHeight)) {
 			//Bar background
 			RenderSystem.enableBlend();
 			RenderSystem.setShaderColor(1, 1, 1, 0.5F);

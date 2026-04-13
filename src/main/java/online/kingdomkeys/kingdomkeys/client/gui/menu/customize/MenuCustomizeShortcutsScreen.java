@@ -109,7 +109,7 @@ public class MenuCustomizeShortcutsScreen extends MenuBackground {
 		}
 
 		int contentHeight = !magics.isEmpty() ? magics.get(magics.size()-1).getY() - magics.get(0).getY() + 28 : 0;
-		addRenderableWidget(scrollBar = new MenuScrollBar((int) (boxPosX + boxWidth) - MenuScrollBar.WIDTH - 4, (int) topBarHeight + 2, (int) (topBarHeight + middleHeight)-2, (int) middleHeight, contentHeight));
+		addRenderableWidget(scrollBar = new MenuScrollBar((int) (boxPosX + boxWidth) - MenuScrollBar.WIDTH - 4, (int) topBarHeight + 2, (int) (topBarHeight + middleHeight)-2, (int) middleHeight, contentHeight, true));
 		scrollBar.scrollOffset = scrollOffset;
 		scrollBar.setHandleY(handleY);
 

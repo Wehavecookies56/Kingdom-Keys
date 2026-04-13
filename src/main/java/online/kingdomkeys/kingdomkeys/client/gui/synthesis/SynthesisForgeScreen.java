@@ -119,9 +119,9 @@ public class SynthesisForgeScreen extends MenuFilterable {
 		int scrollTop = (int) topBarHeight;
 		int scrollBot = (int) (scrollTop + middleHeight);
 
-		scrollBar = new MenuScrollBar((int) (boxPosX + boxWidth - 17), scrollTop, scrollBot, (int) middleHeight, 0);
+		scrollBar = new MenuScrollBar((int) (boxPosX + boxWidth - 17), scrollTop, scrollBot, (int) middleHeight, 0, true);
 		addRenderableWidget(scrollBar);
-		scrollBar2 = new MenuScrollBar(boxR.getX()+boxR.getWidth()- 17, scrollTop, scrollBot, (int) middleHeight, 0);
+		scrollBar2 = new MenuScrollBar(boxR.getX()+boxR.getWidth()- 17, scrollTop, scrollBot, (int) middleHeight, 0, false);
 		addRenderableWidget(scrollBar2);
 
 

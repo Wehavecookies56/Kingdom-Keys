@@ -230,8 +230,7 @@ public class MenuEquipmentScreen extends MenuBackground {
             }
         }
 
-        addRenderableWidget(scrollBar = new MenuScrollBar((int) (listBoxX+listBoxWidth-MenuScrollBar.WIDTH-2), (int) topBarHeight + 4, (int) (middleHeight + topBarHeight)-4, (int) middleHeight, (int) ((lastButtonY+28) - itemsY)));
-        
+        addRenderableWidget(scrollBar = new MenuScrollBar((int) (listBoxX+listBoxWidth-MenuScrollBar.WIDTH-2), (int) topBarHeight + 4, (int) (middleHeight + topBarHeight)-4, (int) middleHeight, (int) ((lastButtonY+28) - itemsY), true));
     }
 
     public void updateScroll() {

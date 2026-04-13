@@ -76,8 +76,8 @@ public class SynthesisCreateScreen extends MenuFilterable {
 		boxRB = new MenuBox(boxM.getX() + (int) (boxWidth*0.7F), (int) topBarHeight + boxRT.getHeight(), (int) (boxWidth*1.17F), (int) (middleHeight - boxRT.getHeight()),1, new Color(4, 68, 4));
 		int scrollTop = (int) topBarHeight;
 		int scrollBot = (int) (scrollTop + middleHeight);
-		scrollBar = new MenuScrollBar((int) (boxPosX + boxWidth - 17), scrollTop, scrollBot, (int) middleHeight, 0);
-		scrollBar2 = new MenuScrollBar(boxRB.getX() + boxRB.getWidth() - 17, boxRB.getY(), boxRB.getY()+boxRB.getHeight(), (int) middleHeight, 0);
+		scrollBar = new MenuScrollBar((int) (boxPosX + boxWidth - 17), scrollTop, scrollBot, (int) middleHeight, 0, true);
+		scrollBar2 = new MenuScrollBar(boxRB.getX() + boxRB.getWidth() - 17, boxRB.getY(), boxRB.getY()+boxRB.getHeight(), (int) middleHeight, 0, false);
 		addRenderableWidget(scrollBar);
 		addRenderableWidget(scrollBar2);
 		float filterPosX = width * 0.3F;

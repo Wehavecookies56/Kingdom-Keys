@@ -121,7 +121,7 @@ public class MenuStockScreen extends MenuFilterable {
         filterBar = new MenuFilterBar((int) filterPosX, (int) filterPosY, this);
         filterBar.init();
 
-        scrollBar = new MenuScrollBar(box.getX()+box.getWidth()-17,box.getY(),box.getY()+box.getHeight(), box.getHeight(), 0);
+        scrollBar = new MenuScrollBar(box.getX()+box.getWidth()-17,box.getY(),box.getY()+box.getHeight(), box.getHeight(), 0, true);
         addRenderableWidget(scrollBar);
 
         initItems();
