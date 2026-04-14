@@ -736,7 +736,6 @@ public class CommandMenuGui extends OverlayBase {
 		ResourceLocation rcTexture = commandMenuElements.get(currentSubmenu).getTexture();
 
 		int i = 0;
-		boolean valid = false;
 		for (Map.Entry<String, Integer> entry : list.entrySet()) {
 			gui.pose().pushPose();
 			{
@@ -766,7 +765,6 @@ public class CommandMenuGui extends OverlayBase {
 					}
 
 					if(i == reactionSelected) {
-						valid = true;
 						gui.pose().pushPose();
 						{
 							gui.pose().scale(0.55F, 0.8F, 1);
@@ -783,7 +781,8 @@ public class CommandMenuGui extends OverlayBase {
 			gui.pose().popPose();
 			i++;
 		}
-		if(!valid) {
+
+		if(reactionSelected >= list.size()) {
 			reactionSelected = 0;
 		}
 
@@ -795,7 +794,9 @@ public class CommandMenuGui extends OverlayBase {
 		//Black bg bar
 		blit(gui, rcTexture, ModConfigs.cmReactionEndLWidth-2, 0, middleWidth+4, TOP_HEIGHT, 48, 45, 1, TOP_HEIGHT, 256, 256);
 
-		float perc = 100F * entry.getValue() / command.getDuration();
+		PlayerData playerData = PlayerData.get(minecraft.player);
+		int maxDuration = (int) (command.getDuration() + command.getDuration() * (playerData.getNumberOfAbilitiesEquipped(Strings.grandMagicExtender) * 0.2F));
+		float perc = 100F * entry.getValue() / maxDuration;
 		//Purple bar
 		blit(gui, rcTexture, ModConfigs.cmReactionEndLWidth - 2, 0, (int) ((middleWidth+4) * perc / 100F), TOP_HEIGHT, 50, 45, 1, TOP_HEIGHT, 256, 256);
 

@@ -10,6 +10,8 @@ import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
+import online.kingdomkeys.kingdomkeys.reactioncommands.ModReactionCommands;
+import online.kingdomkeys.kingdomkeys.reactioncommands.ReactionCommand;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public abstract class Magic {
@@ -101,7 +103,9 @@ public abstract class Magic {
 				if(getRCProb(casterData)) {// If the actual uses is equals or above the required
 					//If player has max level magic (and doesnt have GM) don't give RC
 					if(!(getGMAbility() == null && level == getMaxLevel())) {
-						casterData.addReactionCommand(getRegistryName().toString(), caster);
+						ReactionCommand reactionCommand = ModReactionCommands.registry.get(ResourceLocation.parse(getRegistryName().toString()));
+						int duration = (int) (reactionCommand.getDuration() + reactionCommand.getDuration() * (casterData.getNumberOfAbilitiesEquipped(Strings.grandMagicExtender) * 0.2F));
+						casterData.addReactionCommand(getRegistryName().toString(), caster, duration);
 					} else {
 
 					}

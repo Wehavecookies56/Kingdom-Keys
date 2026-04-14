@@ -687,6 +687,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addAbilityWithDesc(ModAbilities.THUNDAZA, "Thundaza", "Allows the user to get the Thundaza reaction command.");
         addAbilityWithDesc(ModAbilities.CURAZA, "Curaza", "Allows the user to get the Curaza reaction command.");
         addAbilityWithDesc(ModAbilities.GRAND_MAGIC_HASTE, "Grand Magic Haste", "Gives the user a higher chance to cast an upgraded magic. Stack the ability to increase the chance.");
+        addAbilityWithDesc(ModAbilities.GRAND_MAGIC_EXTENDER, "Grand Magic Extender", "Extend the availability period of grand magic commands. Stack the ability to increase the effect.");
         addAbilityWithDesc(ModAbilities.BERSERK_CHARGE, "Berserk Charge", "Gives the user +2 Strength when in MP recharge. Stack the ability to increase the effect.");
         addAbilityWithDesc(ModAbilities.LEAF_BRACER, "Leaf Bracer", "Casting Cure on yourself will continue even when attacked.");
         addAbilityWithDesc(ModAbilities.HP_GAIN, "HP Gain", "Restores a bit of HP when a shotlock impacts. Stack the ability to increase the effect.");

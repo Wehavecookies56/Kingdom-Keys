@@ -2090,25 +2090,29 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 
 	public boolean addReactionCommand(String command, Player player) {
 		ReactionCommand reactionCommand = ModReactionCommands.registry.get(ResourceLocation.parse(command));
+		return addReactionCommand(command,player,reactionCommand.getDuration());
+	}
+
+	public boolean addReactionCommand(String command, Player player, int duration) {
+		ReactionCommand reactionCommand = ModReactionCommands.registry.get(ResourceLocation.parse(command));
 		if (reactionCommand == null) {
 			KingdomKeys.LOGGER.error("Unknown reaction command: " + command);
 			return false;
 		}
 
 		if(this.reactionMap.containsKey(command)) {
-			//reset timer by removing
-			//this.reactionMap.remove(command);
-			this.reactionMap.put(command, reactionCommand.getDuration());
+			this.reactionMap.put(command, duration);
 			return false;
 		} else {
 			if(reactionCommand.conditionsToAppear(player, player)) {
-				this.reactionMap.put(command, reactionCommand.getDuration());
+				this.reactionMap.put(command, duration);
 				return true;
 			} else {
 				return false;
 			}
 		}
 	}
+
 
 	public boolean removeReactionCommand(String command) {
 		if(this.reactionMap.containsKey(command)) {

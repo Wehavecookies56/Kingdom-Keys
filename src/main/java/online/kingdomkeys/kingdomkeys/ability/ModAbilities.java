@@ -74,6 +74,7 @@ public class ModAbilities {
 			LIGHT_AND_DARKNESS = createAbility(Strings.lightAndDarkness, 2, AbilityType.SUPPORT),
 			SYNCH_BLADE = createAbility(Strings.synchBlade, 5, AbilityType.SUPPORT),
 			GRAND_MAGIC_HASTE = createAbility(Strings.grandMagicHaste, 3, AbilityType.SUPPORT),
+			GRAND_MAGIC_EXTENDER = createAbility(Strings.grandMagicExtender, 3, AbilityType.SUPPORT),
 			COMBO_PLUS = createAbility(Strings.comboPlus, 1, AbilityType.SUPPORT),
 			NEGATIVE_COMBO = createAbility(Strings.negativeCombo, 1, AbilityType.SUPPORT),
 			FINISHING_PLUS = createAbility(Strings.finishingPlus, 1, AbilityType.SUPPORT),

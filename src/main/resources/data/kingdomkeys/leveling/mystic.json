@@ -17,7 +17,8 @@
     },
     "4":{
         "def":1,
-        "maxmp":8
+        "maxmp":8,
+        "abilities":[ "kingdomkeys:ability_grand_magic_extender" ]
     },
     "5":{
         "str":1,
@@ -117,7 +118,8 @@
         "maxhp":5,
         "maxmp":8,
         "abilities":[
-            "kingdomkeys:ability_jackpot"
+            "kingdomkeys:ability_jackpot",
+            "kingdomkeys:ability_grand_magic_extender"
         ],
 		"max_accessories":1
     },

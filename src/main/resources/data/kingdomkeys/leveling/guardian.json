@@ -38,7 +38,8 @@
     },
     "9":{
         "str":1,
-        "ap":1
+        "ap":1,
+        "abilities":[ "kingdomkeys:ability_grand_magic_extender" ]
     },
     "10":{
         "mag":1,
@@ -48,23 +49,17 @@
     },
     "11":{
         "str":1,
-        "shotlocks":[
-            "kingdomkeys:circular_shotlock"
-        ]
+        "shotlocks":[ "kingdomkeys:circular_shotlock" ]
     },
     "12":{
         "mag":1,
-        "abilities":[
-            "kingdomkeys:ability_mp_haste"
-        ],
+        "abilities":[ "kingdomkeys:ability_mp_haste" ],
         "maxmp":8,
         "ap":1
     },
     "13":{
         "str":1,
-        "abilities":[
-            "kingdomkeys:ability_item_boost"
-        ]
+        "abilities":[ "kingdomkeys:ability_item_boost" ]
     },
     "14":{
         "mag":1,
@@ -169,7 +164,8 @@
         "mag":1,
         "ap":1,
         "abilities":[
-            "kingdomkeys:ability_grand_magic_haste"
+            "kingdomkeys:ability_grand_magic_haste",
+            "kingdomkeys:ability_grand_magic_extender"
         ]
     },
     "28":{

@@ -602,6 +602,7 @@ public class LanguageESES extends KKLanguageProvider {
         addAbilityWithDesc(ModAbilities.THUNDAZA, "Electro+++", "Permite al usuario obtener el comando de reacci\u00f3n Electro+++.");
         addAbilityWithDesc(ModAbilities.CURAZA, "Cura+++", "Permite al usuario obtener el comando de reacci\u00f3n Cura+++.");
         addAbilityWithDesc(ModAbilities.GRAND_MAGIC_HASTE, "Gran Prisa M\u00e1gica", "Otorga al usuario una probabilidad m\u00e1s alta para invocar una magia mejorada. Cuantas m\u00e1s activas, mayor probabilidad.");
+        addAbilityWithDesc(ModAbilities.GRAND_MAGIC_EXTENDER, "Gran magia extra", "Aumenta el tiempo de disponibilidad de los comandos de Gran magia. Cuantas más activas, mayor efecto.");
         addAbilityWithDesc(ModAbilities.BERSERK_CHARGE, "Carga de Locura", "Otorga al usuario +2 de Fuerza durante la Recarga de PM. Cuantas m\u00e1s activas, mayor efecto.");
         addAbilityWithDesc(ModAbilities.LEAF_BRACER, "Hoja Sana", "Utilizar Cura continuar\u00e1 a\u00fan que te ataquen.");
         addAbilityWithDesc(ModAbilities.HP_GAIN, "Saqueo VT", "Recuperas VT cuando impacta un Tiro Certero. Cuantas m\u00e1s activas, mayor efecto.");
