@@ -21,13 +21,14 @@ import online.kingdomkeys.kingdomkeys.damagesource.KKDamageTypes;
 import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
+import online.kingdomkeys.kingdomkeys.item.KKResistanceType;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.util.List;
 
-public class FiragaEntity extends ThrowableProjectile {
+public class FiragaEntity extends ThrowableProjectile implements IMagicProjectile {
 
 	int maxTicks = 100;
 	float dmgMult = 1;
@@ -79,6 +80,7 @@ public class FiragaEntity extends ThrowableProjectile {
 
 	@Override
 	protected void onHit(HitResult rtRes) {
+		super.onHit(rtRes);
 		if (!level().isClientSide && getOwner() != null) {
 			EntityHitResult ertResult = null;
 			BlockHitResult brtResult = null;
@@ -173,5 +175,10 @@ public class FiragaEntity extends ThrowableProjectile {
 	@Override
 	protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
 
+	}
+
+	@Override
+	public int getMagicRedstoneStrength() {
+		return 1;
 	}
 }

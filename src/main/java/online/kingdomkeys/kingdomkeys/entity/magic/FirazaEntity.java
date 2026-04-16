@@ -30,7 +30,7 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.util.List;
 
-public class FirazaEntity extends ThrowableProjectile {
+public class FirazaEntity extends ThrowableProjectile implements IMagicProjectile {
 
 	int maxTicks = 100;
 	float dmgMult = 1;
@@ -88,6 +88,7 @@ public class FirazaEntity extends ThrowableProjectile {
 
 	@Override
 	protected void onHit(HitResult rtRes) {
+		super.onHit(rtRes);
 		if (!level().isClientSide && getOwner() != null) {
 			EntityHitResult ertResult = null;
 			BlockHitResult brtResult = null;
@@ -182,5 +183,10 @@ public class FirazaEntity extends ThrowableProjectile {
 	@Override
 	protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
 
+	}
+
+	@Override
+	public int getMagicRedstoneStrength() {
+		return 1;
 	}
 }

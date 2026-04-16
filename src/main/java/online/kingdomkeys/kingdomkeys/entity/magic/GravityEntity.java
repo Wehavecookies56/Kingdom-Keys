@@ -24,7 +24,7 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.util.List;
 
-public class GravityEntity extends ThrowableProjectile {
+public class GravityEntity extends ThrowableProjectile implements IMagicProjectile {
 
 	int maxTicks = 100;
 	float dmgMult = 1;
@@ -58,6 +58,7 @@ public class GravityEntity extends ThrowableProjectile {
 
 	@Override
 	protected void onHit(HitResult rtRes) {
+		super.onHit(rtRes);
 		if (!level().isClientSide) {
 			float radius = 2F;
 			double X = getX();
@@ -123,5 +124,10 @@ public class GravityEntity extends ThrowableProjectile {
 	@Override
 	protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
 
+	}
+
+	@Override
+	public int getMagicRedstoneStrength() {
+		return 3;
 	}
 }

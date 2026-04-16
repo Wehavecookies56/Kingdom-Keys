@@ -272,7 +272,6 @@ public class ModEntities {
     @OnlyIn(Dist.CLIENT)
     public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
         //Entities
-        
         event.registerEntityRenderer(TYPE_BLAST_BLOX.get(), BlastBloxRenderer::new);
 
         event.registerEntityRenderer(TYPE_PAIR_BLOX.get(), PairBloxRenderer::new);
@@ -368,13 +367,11 @@ public class ModEntities {
         event.registerEntityRenderer(TYPE_GUMMI_IMPACT.get(), GummiImpactEntityRender::new);
 
         event.registerEntityRenderer(TYPE_MARLUXIA.get(), MarluxiaRenderer::new);
-        
-        //Tile Entities
 
+        //Tile Entities
         event.registerBlockEntityRenderer(TYPE_PEDESTAL.get(), PedestalRenderer::new);
         event.registerBlockEntityRenderer(TYPE_MOOGLE_PROJECTOR.get(), MoogleProjectorRenderer::new);
         event.registerBlockEntityRenderer(TYPE_SOA_PLATFORM.get(), SoAPlatformRenderer::new);
-        event.registerBlockEntityRenderer(TYPE_PEDESTAL.get(), PedestalRenderer::new);
         event.registerBlockEntityRenderer(TYPE_AIRSTEP_TARGET_TE.get(), AirstepTargetRenderer::new);
         event.registerBlockEntityRenderer(TYPE_GUMMI_HANGAR.get(), GummiHangarRenderer::new);
         event.registerBlockEntityRenderer(TYPE_GUMMI_CORE_TE.get(), GummiCoreRenderer::new);

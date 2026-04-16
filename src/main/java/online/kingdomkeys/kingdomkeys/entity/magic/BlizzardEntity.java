@@ -24,7 +24,7 @@ import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 
-public class BlizzardEntity extends ThrowableProjectile {
+public class BlizzardEntity extends ThrowableProjectile implements IMagicProjectile {
 
 	int maxTicks = 120;
 	float dmgMult = 1;
@@ -69,6 +69,7 @@ public class BlizzardEntity extends ThrowableProjectile {
 
 	@Override
 	protected void onHit(HitResult rtRes) {
+		super.onHit(rtRes);
 		if (!level().isClientSide) {
 			EntityHitResult ertResult = null;
 			BlockHitResult brtResult = null;
@@ -136,6 +137,11 @@ public class BlizzardEntity extends ThrowableProjectile {
 	@Override
 	protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
 
+	}
+
+	@Override
+	public int getMagicRedstoneStrength() {
+		return 2;
 	}
 
 }
