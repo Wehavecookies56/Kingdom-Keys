@@ -795,7 +795,7 @@ public class CommandMenuGui extends OverlayBase {
 		blit(gui, rcTexture, ModConfigs.cmReactionEndLWidth-2, 0, middleWidth+4, TOP_HEIGHT, 48, 45, 1, TOP_HEIGHT, 256, 256);
 
 		PlayerData playerData = PlayerData.get(minecraft.player);
-		int maxDuration = (int) (command.getDuration() + command.getDuration() * (playerData.getNumberOfAbilitiesEquipped(Strings.grandMagicExtender) * 0.2F));
+		int maxDuration = (int) (command.getDuration() + command.getDuration() * (playerData.getNumberOfAbilitiesEquipped(Strings.grandMagicExtender) * 0.25F));
 		float perc = 100F * entry.getValue() / maxDuration;
 		//Purple bar
 		blit(gui, rcTexture, ModConfigs.cmReactionEndLWidth - 2, 0, (int) ((middleWidth+4) * perc / 100F), TOP_HEIGHT, 50, 45, 1, TOP_HEIGHT, 256, 256);
