@@ -30,7 +30,7 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.util.List;
 
-public class FirazaEntity extends ThrowableProjectile implements IMagicProjectile {
+public class FirazaEntity extends ThrowableProjectile {
 
 	int maxTicks = 100;
 	float dmgMult = 1;
@@ -183,10 +183,5 @@ public class FirazaEntity extends ThrowableProjectile implements IMagicProjectil
 	@Override
 	protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
 
-	}
-
-	@Override
-	public int getMagicRedstoneStrength() {
-		return 1;
 	}
 }

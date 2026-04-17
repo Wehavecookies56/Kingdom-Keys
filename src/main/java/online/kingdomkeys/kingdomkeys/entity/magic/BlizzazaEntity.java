@@ -28,7 +28,7 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.util.List;
 
-public class BlizzazaEntity extends ThrowableProjectile implements IMagicProjectile {
+public class BlizzazaEntity extends ThrowableProjectile {
 
 	int maxTicks = 120;
 	float dmgMult = 1;
@@ -208,10 +208,5 @@ public class BlizzazaEntity extends ThrowableProjectile implements IMagicProject
 	@Override
 	protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
 
-	}
-
-	@Override
-	public int getMagicRedstoneStrength() {
-		return 2;
 	}
 }

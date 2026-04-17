@@ -116,6 +116,7 @@ public class ModEntities {
     public static final Supplier<EntityType<XPEntity>> TYPE_XP = createEntityType(XPEntity::new, MobCategory.MISC, "xp", 1F, 1F);
     public static final Supplier<EntityType<TrainingDummyEntity>> TYPE_TRAINING_DUMMY = createEntityType(TrainingDummyEntity::new, MobCategory.MISC, "training_dummy", 1F, 2F);
     public static final Supplier<EntityType<DamageNumberEntity>> TYPE_DAMAGE_NUMBER = createEntityType(DamageNumberEntity::new, MobCategory.MISC, "damage_number", 1F, 1F);
+    public static final Supplier<EntityType<MagicTargetEntity>> TYPE_MAGIC_TARGET = createEntityTypeImmuneToFire(MagicTargetEntity::new, MobCategory.MISC, "magic_target", 1F, 1F);
 
     //Mobs
     public static final Item.Properties PROPERTIES = new Item.Properties();
@@ -340,6 +341,7 @@ public class ModEntities {
         event.registerEntityRenderer(TYPE_XP.get(), XPEntityRenderer::new);
         event.registerEntityRenderer(TYPE_TRAINING_DUMMY.get(), TrainingDummyRenderer::new);
         event.registerEntityRenderer(TYPE_DAMAGE_NUMBER.get(), DamageNumberRenderer::new);
+        event.registerEntityRenderer(TYPE_MAGIC_TARGET.get(), MagicTargetRenderer::new);
 
         //event.registerEntityRenderer(TYPE_CHAKRAM.get(), ChakramEntityRenderer::new);
         EntityRenderers.register(TYPE_KK_THROWABLE.get(), KKThrowableEntityRenderer::new);
@@ -456,6 +458,7 @@ public class ModEntities {
         event.put(TYPE_BLOX_BUG.get(), BloxBugEntity.registerAttributes().build());
 
         event.put(TYPE_TRAINING_DUMMY.get(), TrainingDummyEntity.registerAttributes().build());
+        event.put(TYPE_MAGIC_TARGET.get(), MagicTargetEntity.registerAttributes().build());
 
         //GlobalEntityTypeAttributes.put(TYPE_GUMMI_SHIP.get(), GummiShipEntity.registerAttributes().create());
         event.put(TYPE_SPAWNING_ORB.get(), SpawningOrbEntity.registerAttributes().build());
@@ -573,4 +576,5 @@ public class ModEntities {
     public static final Supplier<BlockEntityType<SoRCoreTileEntity>> TYPE_SOR_CORE_TE = TILE_ENTITIES.register("sor_core", () -> BlockEntityType.Builder.of(SoRCoreTileEntity::new, ModBlocks.sorCore.get()).build(null));
     public static final Supplier<BlockEntityType<CardDoorTileEntity>> TYPE_CARD_DOOR = TILE_ENTITIES.register("card_door", () -> BlockEntityType.Builder.of(CardDoorTileEntity::new, ModBlocks.cardDoor.get()).build(null));
     public static final Supplier<BlockEntityType<AirStepTargetEntity>> TYPE_AIRSTEP_TARGET_TE = TILE_ENTITIES.register("airstep_target", () -> BlockEntityType.Builder.of(AirStepTargetEntity::new, ModBlocks.airstepTarget.get()).build(null));
+    public static final Supplier<BlockEntityType<MagicTargetBlockEntity>> TYPE_MAGIC_TARGET_TE = TILE_ENTITIES.register("magic_target_te", () -> BlockEntityType.Builder.of(MagicTargetBlockEntity::new, ModBlocks.magicTarget.get()).build(null));
 }

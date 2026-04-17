@@ -71,7 +71,6 @@ import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategoryRegistry;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.block.gummi.*;
-import online.kingdomkeys.kingdomkeys.client.gui.overlay.CommandMenuGui;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.GlobalData;
@@ -108,6 +107,20 @@ import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
 public class Utils {
+
+	public static int getRedstoneFromMagic(String type){
+		return switch(type){
+			case "fire" -> 1;
+			case "ice"-> 2;
+			case "water"-> 3;
+			case "lightning"-> 4;
+			case "air"-> 5;
+			case "stop"-> 6;
+			case "darkness"-> 7;
+			case "light"-> 8;
+			default -> 0;
+		};
+	}
 
     public static void removeNegativeEffects(Player player) {
         if (player.level().isClientSide)

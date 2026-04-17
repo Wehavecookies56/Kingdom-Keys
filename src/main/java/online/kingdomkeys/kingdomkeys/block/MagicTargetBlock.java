@@ -1,34 +1,36 @@
 package online.kingdomkeys.kingdomkeys.block;
 
 import com.mojang.serialization.MapCodec;
-import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.stats.Stats;
-import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.projectile.AbstractArrow;
-import net.minecraft.world.entity.projectile.Projectile;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.EntityBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.Vec3;
-import online.kingdomkeys.kingdomkeys.entity.magic.IMagicProjectile;
+import online.kingdomkeys.kingdomkeys.entity.ModEntities;
+import online.kingdomkeys.kingdomkeys.entity.block.MagicTargetBlockEntity;
 
-public class MagicTargetBlock extends Block implements INoDataGen {
+public class MagicTargetBlock extends Block implements EntityBlock, INoDataGen {
 
     public static final MapCodec<MagicTargetBlock> CODEC = simpleCodec(MagicTargetBlock::new);
-    private static final IntegerProperty OUTPUT_POWER;
+    public static final IntegerProperty OUTPUT_POWER = BlockStateProperties.POWER;
+    public static final DirectionProperty FACING = BlockStateProperties.FACING;
 
     public MapCodec<MagicTargetBlock> codec() {
         return CODEC;
@@ -36,45 +38,12 @@ public class MagicTargetBlock extends Block implements INoDataGen {
 
     public MagicTargetBlock(BlockBehaviour.Properties properties) {
         super(properties);
-        this.registerDefaultState((this.stateDefinition.any()).setValue(OUTPUT_POWER, 0));
+        this.registerDefaultState((this.stateDefinition.any()).setValue(FACING, Direction.UP).setValue(OUTPUT_POWER, 0));
     }
 
     @Override
-    protected void onProjectileHit(Level level, BlockState state, BlockHitResult hit, Projectile projectile) {
-        int i = updateRedstoneOutput(level, state, hit, projectile);
-        Entity owner = projectile.getOwner();
-        if (owner instanceof ServerPlayer serverplayer) {
-            serverplayer.awardStat(Stats.TARGET_HIT);
-            CriteriaTriggers.TARGET_BLOCK_HIT.trigger(serverplayer, projectile, hit.getLocation(), i);
-        }
-    }
-
-    private static int updateRedstoneOutput(LevelAccessor level, BlockState state, BlockHitResult hit, Entity projectile) {
-        int strength = projectile instanceof IMagicProjectile p ? p.getMagicRedstoneStrength() : 0;
-        int ticks = projectile instanceof IMagicProjectile p ? 20 : 0;
-        if (!level.getBlockTicks().hasScheduledTick(hit.getBlockPos(), state.getBlock())) {
-            setOutputPower(level, state, strength, hit.getBlockPos(), ticks);
-        }
-
-        return strength;
-    }
-
-    private static int getRedstoneStrength(BlockHitResult hit, Vec3 hitLocation) {
-        Direction direction = hit.getDirection();
-        double d0 = Math.abs(Mth.frac(hitLocation.x) - (double) 0.5F);
-        double d1 = Math.abs(Mth.frac(hitLocation.y) - (double) 0.5F);
-        double d2 = Math.abs(Mth.frac(hitLocation.z) - (double) 0.5F);
-        Direction.Axis direction$axis = direction.getAxis();
-        double d3;
-        if (direction$axis == Direction.Axis.Y) {
-            d3 = Math.max(d0, d2);
-        } else if (direction$axis == Direction.Axis.Z) {
-            d3 = Math.max(d0, d1);
-        } else {
-            d3 = Math.max(d1, d2);
-        }
-
-        return Math.max(1, Mth.ceil((double) 15.0F * Mth.clamp(((double) 0.5F - d3) / (double) 0.5F, (double) 0.0F, (double) 1.0F)));
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+        builder.add(FACING, OUTPUT_POWER);
     }
 
     private static void setOutputPower(LevelAccessor level, BlockState state, int power, BlockPos pos, int waitTime) {
@@ -89,6 +58,7 @@ public class MagicTargetBlock extends Block implements INoDataGen {
         }
 
     }
+
     @Override
     protected int getSignal(BlockState blockState, BlockGetter blockAccess, BlockPos pos, Direction side) {
         return blockState.getValue(OUTPUT_POWER);
@@ -99,20 +69,53 @@ public class MagicTargetBlock extends Block implements INoDataGen {
         return true;
     }
 
-    @Override
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(OUTPUT_POWER);
-    }
 
     @Override
     protected void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean isMoving) {
         if (!level.isClientSide() && !state.is(oldState.getBlock()) && state.getValue(OUTPUT_POWER) > 0 && !level.getBlockTicks().hasScheduledTick(pos, this)) {
             level.setBlock(pos, state.setValue(OUTPUT_POWER, 0), 18);
         }
-
     }
 
-    static {
-        OUTPUT_POWER = BlockStateProperties.POWER;
+    @Override
+    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit) {
+        if (!level.isClientSide) {
+            Direction next = getNextDirection(state.getValue(FACING));
+
+            level.setBlock(pos, state.setValue(FACING, next), 3);
+
+            BlockEntity be = level.getBlockEntity(pos);
+            if (be instanceof MagicTargetBlockEntity target) {
+                target.updateEntityPosition();
+            }
+        }
+
+        return InteractionResult.SUCCESS;
+    }
+
+    private Direction getNextDirection(Direction dir) {
+        return switch (dir) {
+            case UP -> Direction.DOWN;
+            case DOWN -> Direction.NORTH;
+            case NORTH -> Direction.SOUTH;
+            case SOUTH -> Direction.EAST;
+            case EAST -> Direction.WEST;
+            case WEST -> Direction.UP;
+        };
+    }
+
+    @Override
+    public BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
+        return ModEntities.TYPE_MAGIC_TARGET_TE.get().create(pPos, pState);
+    }
+
+
+    @Override
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
+        return level.isClientSide ? null : (lvl, pos, st, be) -> {
+            if (be instanceof MagicTargetBlockEntity target) {
+                MagicTargetBlockEntity.tick(lvl, pos, st, target);
+            }
+        };
     }
 }

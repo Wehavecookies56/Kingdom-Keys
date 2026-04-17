@@ -29,7 +29,7 @@ import online.kingdomkeys.kingdomkeys.lib.Party;
 
 import java.util.List;
 
-public class WaterEntity extends ThrowableProjectile implements IMagicProjectile {
+public class WaterEntity extends ThrowableProjectile {
 
 	int maxTicks = 100;
     LivingEntity player;
@@ -222,8 +222,4 @@ public class WaterEntity extends ThrowableProjectile implements IMagicProjectile
 		return this.entityData.get(CASTER);
 	}
 
-	@Override
-	public int getMagicRedstoneStrength() {
-		return 3;
-	}
 }

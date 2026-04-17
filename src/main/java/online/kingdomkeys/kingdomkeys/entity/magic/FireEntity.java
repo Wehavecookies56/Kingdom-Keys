@@ -25,7 +25,7 @@ import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 
-public class FireEntity extends ThrowableProjectile implements IMagicProjectile {
+public class FireEntity extends ThrowableProjectile {
 
 	int maxTicks = 100;
 	float dmgMult = 1;
@@ -136,10 +136,5 @@ public class FireEntity extends ThrowableProjectile implements IMagicProjectile 
 	@Override
 	protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
 
-	}
-
-	@Override
-	public int getMagicRedstoneStrength() {
-		return 1;
 	}
 }

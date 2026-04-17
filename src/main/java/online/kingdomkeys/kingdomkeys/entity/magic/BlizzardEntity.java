@@ -24,7 +24,7 @@ import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 
-public class BlizzardEntity extends ThrowableProjectile implements IMagicProjectile {
+public class BlizzardEntity extends ThrowableProjectile {
 
 	int maxTicks = 120;
 	float dmgMult = 1;
@@ -138,10 +138,4 @@ public class BlizzardEntity extends ThrowableProjectile implements IMagicProject
 	protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
 
 	}
-
-	@Override
-	public int getMagicRedstoneStrength() {
-		return 2;
-	}
-
 }
