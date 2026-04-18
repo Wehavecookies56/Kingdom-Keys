@@ -35,7 +35,7 @@ public class DamageNumberRenderer extends EntityRenderer<DamageNumberEntity> {
             case "lightning"-> Color.YELLOW.getRGB();
             case "air"-> 0xAAAAFF;
             case "stop"-> Color.LIGHT_GRAY.getRGB();
-            case "darkness"-> Color.DARK_GRAY.getRGB();
+            case "darkness"-> 0x8800ff;
             case "light"-> Color.YELLOW.brighter().brighter().getRGB();
             default -> Color.WHITE.getRGB();
         };

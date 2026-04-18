@@ -2,6 +2,8 @@ package online.kingdomkeys.kingdomkeys.entity;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
@@ -17,8 +19,7 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 import java.util.Collections;
 
 public class MagicTargetEntity extends LivingEntity {
-
-    private BlockPos linkedBlock;
+    private static final EntityDataAccessor<BlockPos> DATA_POS = SynchedEntityData.defineId(MagicTargetEntity.class, EntityDataSerializers.BLOCK_POS);
 
     public MagicTargetEntity(EntityType<? extends LivingEntity> type, Level level) {
         super(type, level);
@@ -28,20 +29,19 @@ public class MagicTargetEntity extends LivingEntity {
         this(ModEntities.TYPE_MAGIC_TARGET.get(), level);
     }
 
-    // 🔗 Vincular bloque
     public void setLinkedBlock(BlockPos pos) {
-        this.linkedBlock = pos;
+        this.entityData.set(DATA_POS,pos);
     }
 
     public BlockPos getLinkedBlock() {
-        return linkedBlock;
+        return this.entityData.get(DATA_POS);
     }
 
     @Override
     public boolean hurt(DamageSource source, float amount) {
-        if (!level().isClientSide && linkedBlock != null) {
+        if (!level().isClientSide && getLinkedBlock() != null) {
             if (level() instanceof ServerLevel server) {
-                if (server.getBlockEntity(linkedBlock) instanceof MagicTargetBlockEntity target) {
+                if (server.getBlockEntity(getLinkedBlock()) instanceof MagicTargetBlockEntity target) {
                     int power = Utils.getRedstoneFromMagic(source.getMsgId());
                     if (power > 0) {
                         target.onMagicHit(power);
@@ -60,7 +60,7 @@ public class MagicTargetEntity extends LivingEntity {
         setDeltaMovement(0, 0, 0);
 
         if (!level().isClientSide) {
-            if (linkedBlock == null || !(level().getBlockEntity(linkedBlock) instanceof MagicTargetBlockEntity)) {
+            if (getLinkedBlock() == null || !(level().getBlockEntity(getLinkedBlock()) instanceof MagicTargetBlockEntity)) {
                 discard();
             }
         }
@@ -73,6 +73,7 @@ public class MagicTargetEntity extends LivingEntity {
 
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        builder.define(DATA_POS, BlockPos.ZERO);
         super.defineSynchedData(builder);
     }
 
@@ -140,15 +141,13 @@ public class MagicTargetEntity extends LivingEntity {
 
     @Override
     public void addAdditionalSaveData(CompoundTag tag) {
-        if (linkedBlock != null) {
-            tag.putLong("LinkedBlock", linkedBlock.asLong());
-        }
+        tag.putLong("LinkedPos", getLinkedBlock().asLong());
     }
 
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
-        if (tag.contains("LinkedBlock")) {
-            linkedBlock = BlockPos.of(tag.getLong("LinkedBlock"));
+        if (tag.contains("LinkedPos")) {
+            setLinkedBlock(BlockPos.of(tag.getLong("LinkedPos")));
         }
     }
 

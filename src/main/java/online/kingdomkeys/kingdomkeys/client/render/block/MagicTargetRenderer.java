@@ -6,6 +6,8 @@ import net.minecraft.client.renderer.block.BlockRenderDispatcher;
 import net.minecraft.client.renderer.culling.Frustum;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.state.BlockState;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
@@ -23,11 +25,17 @@ public class MagicTargetRenderer extends EntityRenderer<MagicTargetEntity> {
 
     @Override
     public void render(MagicTargetEntity entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
+        if(entity.getLinkedBlock() == null)
+            return;
+
+        BlockState state = entity.level().getBlockState(entity.getLinkedBlock());
+        if(state == null)
+            return;
+
         poseStack.pushPose();
         {
             poseStack.translate(-0.5, 0.0, -0.5);
-            BlockState state = ModBlocks.magicTarget.get().defaultBlockState();
-            blockRenderer.renderSingleBlock(state, poseStack, buffer, packedLight, net.minecraft.client.renderer.texture.OverlayTexture.NO_OVERLAY);
+            blockRenderer.renderSingleBlock(state, poseStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
         }
         poseStack.popPose();
         super.render(entity, entityYaw, partialTicks, poseStack, buffer, packedLight);

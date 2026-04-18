@@ -46,17 +46,11 @@ public class MagicTargetBlock extends Block implements EntityBlock, INoDataGen {
         builder.add(FACING, OUTPUT_POWER);
     }
 
-    private static void setOutputPower(LevelAccessor level, BlockState state, int power, BlockPos pos, int waitTime) {
-        level.setBlock(pos, state.setValue(OUTPUT_POWER, power), 3);
-        level.scheduleTick(pos, state.getBlock(), waitTime);
-    }
-
     @Override
     protected void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
         if (state.getValue(OUTPUT_POWER) != 0) {
             level.setBlock(pos, state.setValue(OUTPUT_POWER, 0), 3);
         }
-
     }
 
     @Override
@@ -80,8 +74,7 @@ public class MagicTargetBlock extends Block implements EntityBlock, INoDataGen {
     @Override
     protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit) {
         if (!level.isClientSide) {
-            Direction next = getNextDirection(state.getValue(FACING));
-
+            Direction next = hit.getDirection();
             level.setBlock(pos, state.setValue(FACING, next), 3);
 
             BlockEntity be = level.getBlockEntity(pos);
@@ -91,17 +84,6 @@ public class MagicTargetBlock extends Block implements EntityBlock, INoDataGen {
         }
 
         return InteractionResult.SUCCESS;
-    }
-
-    private Direction getNextDirection(Direction dir) {
-        return switch (dir) {
-            case UP -> Direction.DOWN;
-            case DOWN -> Direction.NORTH;
-            case NORTH -> Direction.SOUTH;
-            case SOUTH -> Direction.EAST;
-            case EAST -> Direction.WEST;
-            case WEST -> Direction.UP;
-        };
     }
 
     @Override
