@@ -516,6 +516,7 @@ public class CommandMenuGui extends OverlayBase {
 				playInSound();
 			}).iconUV(40, 60).build(subMenu));
 		});
+		subMenu.setSelected(subMenu.getFirst());
 	}
 
 	public void summonPortal(PortalData coords) {
@@ -579,6 +580,7 @@ public class CommandMenuGui extends OverlayBase {
 							}).iconUV(10, 60)
 							.build(subMenu));
 		}});
+		subMenu.setSelected(subMenu.getFirst());
 	}
 
 	public void playSelectSound() {
