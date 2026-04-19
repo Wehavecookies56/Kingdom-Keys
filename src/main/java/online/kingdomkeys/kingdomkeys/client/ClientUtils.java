@@ -62,6 +62,7 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.HUD.*;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
+import online.kingdomkeys.kingdomkeys.entity.block.MagnetBloxTileEntity;
 import online.kingdomkeys.kingdomkeys.handler.ClientEvents;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.KeychainItem;
@@ -991,6 +992,153 @@ public class ClientUtils {
             }
         }
         poseStack.popPose();
+    }
+
+
+    public static void renderMiniTrails(PoseStack poseStack, MultiBufferSource bufferSource, float partialTick) {
+        VertexConsumer buffer = bufferSource.getBuffer(RenderType.debugQuads());
+        Matrix4f pose = poseStack.last().pose();
+
+        Vec3 camPos = Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();
+
+        for (MiniTrail t : MINI_TRAILS) {
+            Vec3 p1 = t.getPos(partialTick);
+            Vec3 dir = t.target.subtract(t.start).normalize();
+
+            float length = 0.5f;
+
+            Vec3 p2 = p1.add(dir.scale(length));
+
+            Vec3 mid = p1.add(p2).scale(0.5);
+
+            Vec3 toCam = camPos.subtract(mid).normalize();
+
+            Vec3 side = dir.cross(toCam).normalize();
+            if (side.lengthSqr() < 0.0001)
+                side = new Vec3(0,1,0);
+
+            Vec3 up = side.cross(dir).normalize();
+
+            float alpha = 0.2F;
+            float width = 0.015f;
+
+            // offsets (dos planos cruzados)
+            Vec3 off1 = side.scale(width);
+            Vec3 off2 = up.scale(width);
+
+            //We draw 2 quads to make a cross
+            drawQuad(buffer, pose, p1, p2, off1, t.r, t.g, t.b, alpha);
+            drawQuad(buffer, pose, p1, p2, off2, t.r, t.g, t.b, alpha);
+        }
+    }
+
+    private static void drawQuad(VertexConsumer buffer, Matrix4f pose, Vec3 p1, Vec3 p2, Vec3 offset, float r, float g, float b, float alpha) {
+        Vec3 p1A = p1.add(offset);
+        Vec3 p1B = p1.subtract(offset);
+        Vec3 p2A = p2.add(offset);
+        Vec3 p2B = p2.subtract(offset);
+
+        buffer.addVertex(pose, (float)p1A.x, (float)p1A.y, (float)p1A.z)
+                .setColor(r, g, b, alpha)
+                .setNormal(0,1,0);
+
+        buffer.addVertex(pose, (float)p2A.x, (float)p2A.y, (float)p2A.z)
+                .setColor(r, g, b, alpha)
+                .setNormal(0,1,0);
+
+        buffer.addVertex(pose, (float)p2B.x, (float)p2B.y, (float)p2B.z)
+                .setColor(r, g, b, alpha)
+                .setNormal(0,1,0);
+
+        buffer.addVertex(pose, (float)p1B.x, (float)p1B.y, (float)p1B.z)
+                .setColor(r, g, b, alpha)
+                .setNormal(0,1,0);
+    }
+
+    public static void updateMiniTrails() {
+        Iterator<MiniTrail> it = MINI_TRAILS.iterator();
+
+        while (it.hasNext()) {
+            MiniTrail t = it.next();
+
+            float delta = Minecraft.getInstance().getTimer().getGameTimeDeltaTicks();
+
+            t.progress += t.speed * delta;
+            if (t.progress >= 1f) {
+                it.remove();
+            }
+        }
+    }
+
+    private static final List<MiniTrail> MINI_TRAILS = new ArrayList<>();
+
+    private static class MiniTrail {
+        Vec3 start;
+        Vec3 target;
+
+        float progress;
+        float speed;
+
+        float r, g, b;
+        boolean attract;
+
+        public MiniTrail(Vec3 start, Vec3 target, float speed, boolean attract) {
+            this.start = start;
+            this.target = target;
+            this.progress = 0f;
+            this.speed = speed;
+            this.attract = attract;
+            this.r = attract ? 1 : 0;
+            this.g = 0;
+            this.b = attract ? 0 : 1;
+        }
+
+        public Vec3 getPos(float partialTick) {
+            float p = Math.min(1f, progress + partialTick * speed);
+            return start.lerp(target, p);
+        }
+    }
+
+    public static void spawnRandomMiniTrail(BlockPos pos, Direction facing, int range, boolean attract) {
+        RandomSource rand = Minecraft.getInstance().level.getRandom();
+
+        Vec3 base = new Vec3(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
+
+        Vec3 forward = new Vec3(facing.getStepX(), facing.getStepY(), facing.getStepZ());
+        Vec3 arbitrary = Math.abs(forward.y) < 0.99 ? new Vec3(0,1,0) : new Vec3(1,0,0);
+
+        Vec3 right = forward.cross(arbitrary).normalize();
+        Vec3 up = forward.cross(right).normalize();
+
+        float spreadAmount = 0.4f;
+
+        Vec3[] offsets = new Vec3[] {
+                Vec3.ZERO,
+                right.add(up).normalize().scale(spreadAmount),
+                right.subtract(up).normalize().scale(spreadAmount),
+                right.scale(-1).add(up).normalize().scale(spreadAmount),
+                right.scale(-1).subtract(up).normalize().scale(spreadAmount)
+        };
+
+// elegir uno random
+        Vec3 spread = offsets[rand.nextInt(offsets.length)];
+
+        Vec3 farPoint = base.add(forward.scale(range));
+
+        Vec3 start;
+        Vec3 target;
+
+        if (attract) {
+            start = farPoint.add(spread);
+            target = base.add(spread);
+        } else {
+            start = base.add(spread);
+            target = farPoint.add(spread);
+        }
+
+        float speed = 0.02f;
+
+        MINI_TRAILS.add(new MiniTrail(start, target, speed, attract));
     }
 }
 

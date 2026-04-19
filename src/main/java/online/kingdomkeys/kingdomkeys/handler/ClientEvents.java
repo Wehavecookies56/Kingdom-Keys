@@ -61,6 +61,7 @@ import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import online.kingdomkeys.kingdomkeys.entity.GummiShipEntity;
 import online.kingdomkeys.kingdomkeys.entity.KKVehicleEntity;
+import online.kingdomkeys.kingdomkeys.entity.block.MagnetBloxTileEntity;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.EpicFightUtils;
 import online.kingdomkeys.kingdomkeys.integration.shouldersurfing.KKShoulderSurfing;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
@@ -506,9 +507,15 @@ public class ClientEvents {
 
                 //Body
                 ClientUtils.renderTrail(ClientUtils.TrailType.DASH, p, poseStack, buffer, 0,1.8F,1F,1F,1F, false);
+
+                //Magnet blox trails
+                ClientUtils.updateMiniTrails();
+                ClientUtils.renderMiniTrails(poseStack, buffer, partialTicks);
+
             }
             poseStack.popPose();
         }
+
 
         buffer.endBatch();
     }

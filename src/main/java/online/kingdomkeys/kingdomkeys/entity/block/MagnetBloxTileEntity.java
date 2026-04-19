@@ -13,10 +13,14 @@ import net.minecraft.world.phys.Vec3;
 import online.kingdomkeys.kingdomkeys.block.GhostBloxBlock;
 import online.kingdomkeys.kingdomkeys.block.MagnetBloxBlock;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
+import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import org.joml.Vector3f;
 
 import java.awt.*;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Deque;
 import java.util.List;
 
 public class MagnetBloxTileEntity extends BlockEntity {
@@ -58,26 +62,8 @@ public class MagnetBloxTileEntity extends BlockEntity {
 			// Not very useful if it's 0
 			if (range > 0) {
 				boolean attract = state.getValue(MagnetBloxBlock.ATTRACT);
-				if (TE.ticks % 5 == 0) {
-                    Color c = attract ? Color.RED : Color.BLUE;
-                    Vector3f vec = new Vector3f(c.getRed() / 255F, c.getGreen() / 255F, c.getBlue() / 255F);
-
-					for (double i = 0.7; i < range; i += 0.3) {
-						float scale = 1 + (float) i / 6;
-						if (facing == Direction.NORTH) {
-							level.addParticle(new DustParticleOptions(vec, scale), pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5 - i, 0,0,0);
-						} else if (facing == Direction.EAST) {
-							level.addParticle(new DustParticleOptions(vec, scale), pos.getX() + 0.5 + i, pos.getY() + 0.5, pos.getZ() + 0.5,0,0,0);
-						} else if (facing == Direction.SOUTH) {
-							level.addParticle(new DustParticleOptions(vec, scale), pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5 + i,0,0,0);
-						} else if (facing == Direction.WEST) {
-							level.addParticle(new DustParticleOptions(vec, scale), pos.getX() + 0.5 - i, pos.getY() + 0.5, pos.getZ() + 0.5, 0,0,0);
-						} else if (facing == Direction.UP) {
-							level.addParticle(new DustParticleOptions(vec, scale), pos.getX() + 0.5, pos.getY() + 0.5 + i, pos.getZ() + 0.5, 0,0,0);
-						} else if (facing == Direction.DOWN) {
-							level.addParticle(new DustParticleOptions(vec, scale), pos.getX() + 0.5, pos.getY() + 0.5 - i, pos.getZ() + 0.5, 0,0,0);
-						}
-					}
+				if (level.isClientSide()) {
+					ClientUtils.spawnRandomMiniTrail(pos, facing, range, attract);
 				}
 
 				List<Entity> entities = level.getEntitiesOfClass(Entity.class, new AABB(0, 0, 0, 1, 1, 1).expandTowards(range * facing.getNormal().getX(), range * facing.getNormal().getY(), range * facing.getNormal().getZ()).move(pos));
@@ -94,6 +80,8 @@ public class MagnetBloxTileEntity extends BlockEntity {
 			}
 		}
 	}
+
+
 
 	public Vec3 toVector3f(Direction facing) {
 		return new Vec3((float) facing.getStepX(), (float) facing.getStepY(), (float) facing.getStepZ());
