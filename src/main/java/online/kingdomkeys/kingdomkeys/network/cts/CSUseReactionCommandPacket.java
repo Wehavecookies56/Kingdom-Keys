@@ -39,6 +39,10 @@ public record CSUseReactionCommandPacket(int index, int lockedOnEntity) implemen
 	public void handle(IPayloadContext context) {
 		Player player = context.player();
 		String reactionName = Utils.getRCNameFromIndex(player, index);
+		if(reactionName == null) {
+			KingdomKeys.LOGGER.warn("Reaction command packet received a null reaction name!");
+			return;
+		}
 		ReactionCommand reaction = ModReactionCommands.registry.get(ResourceLocation.parse(reactionName));
         if (NeoForge.EVENT_BUS.post(new ReactionCommandCastEvent(player, ResourceLocation.parse(reactionName))).isCanceled())
             return;

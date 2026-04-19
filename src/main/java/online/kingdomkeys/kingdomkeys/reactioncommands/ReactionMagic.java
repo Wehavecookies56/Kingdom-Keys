@@ -14,7 +14,7 @@ public class ReactionMagic extends ReactionCommand {
 	ResourceLocation magic;
 
 	public ReactionMagic(ResourceLocation registryName) {
-		super(registryName, false, 20*20);
+		super(registryName, false, 20*20, 0x8800FF);
 		this.magic = registryName;		
 	}
 	

@@ -154,7 +154,7 @@ public class MagicTargetEntity extends LivingEntity {
     public static AttributeSupplier.Builder registerAttributes() {
         return Mob.createLivingAttributes()
                 .add(Attributes.FOLLOW_RANGE, 35.0D)
-                .add(Attributes.MAX_HEALTH, 100.0D)
+                .add(Attributes.MAX_HEALTH, 20.0D)
                 .add(Attributes.MOVEMENT_SPEED, 0.28D)
                 ;
     }

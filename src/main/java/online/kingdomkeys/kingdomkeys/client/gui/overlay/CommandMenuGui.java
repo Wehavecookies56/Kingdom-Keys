@@ -693,7 +693,6 @@ public class CommandMenuGui extends OverlayBase {
 	public void render(GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
 		super.render(guiGraphics, deltaTracker);
 		if (minecraft.player != null) {
-			//TODO Potentially add an RC element too
 			ClientUtils.RC_ELEMENT.applyTransform(guiGraphics, minecraft.getWindow().getGuiScaledWidth(), minecraft.getWindow().getGuiScaledHeight());
 
 			drawReactionCommands(guiGraphics, deltaTracker);
@@ -800,7 +799,10 @@ public class CommandMenuGui extends OverlayBase {
 		int maxDuration = (int) (command.getDuration() + command.getDuration() * (playerData.getNumberOfAbilitiesEquipped(Strings.grandMagicExtender) * 0.25F));
 		float perc = 100F * entry.getValue() / maxDuration;
 		//Purple bar
+		Color color = new Color(command.getColor());
+		gui.setColor(color.getRed()/255F,color.getGreen()/255F,color.getBlue()/255F,1);
 		blit(gui, rcTexture, ModConfigs.cmReactionEndLWidth - 2, 0, (int) ((middleWidth+4) * perc / 100F), TOP_HEIGHT, 50, 45, 1, TOP_HEIGHT, 256, 256);
+		gui.setColor(1,1,1,1);
 
 		//Left
 		blit(gui, rcTexture, 0, 0, 24, 45, ModConfigs.cmReactionEndLWidth + 1, TOP_HEIGHT);

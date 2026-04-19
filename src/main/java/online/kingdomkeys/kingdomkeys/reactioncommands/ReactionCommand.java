@@ -12,16 +12,21 @@ import online.kingdomkeys.kingdomkeys.data.PlayerData;
 public abstract class ReactionCommand {
 	ResourceLocation name;
 	int duration;
+	int color;
 
 	String translationKey;
 	boolean constantCheck;
 
-
-	public ReactionCommand(ResourceLocation registryName, boolean constantCheck, int duration) {
+	public ReactionCommand(ResourceLocation registryName, boolean constantCheck, int duration, int color) {
 		this.name = registryName;
 		this.duration = duration;
 		this.constantCheck = constantCheck;
 		translationKey = "reactioncommand." + registryName.getNamespace() + "." + registryName.getPath() + ".name";
+		this.color = color;
+	}
+
+	public ReactionCommand(ResourceLocation registryName, boolean constantCheck, int duration) {
+		this(registryName, constantCheck, duration, 0x8800FF);
 	}
 
 	public ReactionCommand(String registryName, boolean constantCheck, int duration) {
@@ -42,6 +47,10 @@ public abstract class ReactionCommand {
 
 	public int getDuration() {
 		return duration;
+	}
+
+	public int getColor() {
+		return color;
 	}
 	
     @OnlyIn(Dist.CLIENT)

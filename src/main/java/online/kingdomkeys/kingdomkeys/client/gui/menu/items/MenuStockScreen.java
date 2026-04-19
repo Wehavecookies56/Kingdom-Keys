@@ -65,7 +65,7 @@ public class MenuStockScreen extends MenuFilterable {
     @Override
 	protected void renderSelectedData(GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
         PoseStack matrixStack = gui.pose();
-        float iconPosX = width * 0.335F;
+        float iconPosX = bottomRightBar.getPosX() + 8;
         float iconPosY = height * 0.8283F;
         float iconWidth = width * 0.1015F;
         float iconHeight = height * 0.1537F;
