@@ -19,7 +19,7 @@ public class CommonConfig {
     public ModConfigSpec.ConfigValue<List<? extends String>> mobSpawnRate;
 
     public ModConfigSpec.IntValue rodHeartlessLevelScale, rodHeartlessMaxLevel, driveHeal, recipeDropChance, gummiBlocksDropPercent, hpDropProbability, mpDropProbability, munnyDropProbability, driveDropProbability, focusDropProbability, mobLevelStats;
-    public ModConfigSpec.BooleanValue respawnROD, mobLevelingUp, mobLevelName, bombExplodeWithFire, allowBlocksInHangarArea, keybladeOpenDoors, blizzardChangeBlocks, playerSpawnHeartless, bossDespawnIfNoTarget, needKeybladeForHeartless;
+    public ModConfigSpec.BooleanValue respawnROD, mobLevelingUp, mobLevelName, bombExplodeWithFire, allowBlocksInHangarArea, keybladeOpenDoors, blizzardChangeBlocks, playerSpawnHeartless, bossDespawnIfNoTarget, needKeybladeForHeartless, hideOrgNames;
     public ModConfigSpec.DoubleValue drivePointsMultiplier, focusPointsMultiplier, shotlockMult, critMult;
 
     public ModConfigSpec.ConfigValue<List<? extends String>> playerSpawnHeartlessData;
@@ -28,7 +28,6 @@ public class CommonConfig {
     
     CommonConfig(final ModConfigSpec.Builder builder) {
 		builder.push("general");
-
 
         bombExplodeWithFire = builder
                 .comment("Allow Bomb heartless to explode when lit on fire")
@@ -59,6 +58,12 @@ public class CommonConfig {
         		.comment("Force the player to need a Keyblade or an Organization weapon to hurt Heartless, and Nobodies")
                 .translation(KingdomKeys.MODID + ".config.need_keyblade_for_heartless")
                 .define("needKeybladeForHeartless", false);
+
+        hideOrgNames = builder
+                .comment("When enabled players wearing the whole Organization XIII set will not show their playername on their head and in the Tab menu")
+                .translation(KingdomKeys.MODID + ".config.hide_org_names")
+                .define("hideOrgNames", true);
+
         builder.pop();
 
         builder.push("gummi");

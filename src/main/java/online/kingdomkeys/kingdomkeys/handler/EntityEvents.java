@@ -259,6 +259,8 @@ public class EntityEvents {
 			}
 
 			if (!player.level().isClientSide) { // Sync from server to client
+				Utils.updateOrgRobesTeam((ServerPlayer) player);
+
 				if (!playerData.getDriveFormMap().containsKey(DriveForm.NONE.toString())) { // One time event here :D
 					Utils.getFakeForms().forEach(form -> {
 						playerData.setDriveFormLevel(form, 1);
@@ -1043,7 +1045,16 @@ public class EntityEvents {
 
 	}
 
-	// Prevent attack when stopped
+	@SubscribeEvent
+	public void onLivingEquipArmor(LivingEquipmentChangeEvent event) {
+		if(!event.getEntity().level().isClientSide() && event.getEntity() instanceof ServerPlayer player) {
+			if(event.getSlot().isArmor()){
+				Utils.updateOrgRobesTeam(player);
+			}
+		}
+	}
+
+		// Prevent attack when stopped
 	@SubscribeEvent
 	public void onLivingAttack(LivingIncomingDamageEvent event) {
 		if (!event.getEntity().level().isClientSide) {

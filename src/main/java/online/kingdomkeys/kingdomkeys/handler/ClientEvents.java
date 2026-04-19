@@ -604,7 +604,7 @@ public class ClientEvents {
 		}
 	}
 
-   /* @SubscribeEvent
+    /* @SubscribeEvent
     public void onRenderLivingPost(RenderLivingEvent.Post<?, ?> event) {
         if (!(event.getEntity() instanceof Player player)) return;
 

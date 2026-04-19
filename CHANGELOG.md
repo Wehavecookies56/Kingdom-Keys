@@ -4,6 +4,7 @@
 * Magic target block, outputting a redstone signal depending on the magic type that hit it:
   * It ranges from 1-8 as follows: fire, ice, water, lightning, aero, stop (currently not working), darkness, light.
 * A way for addon makers to change the color of Situation Commands timer bar.
+* A common-config option to hide player names while wearing the Organization XIII coat.
 
 **Changed:**
 * Gravity is now a dark spell.

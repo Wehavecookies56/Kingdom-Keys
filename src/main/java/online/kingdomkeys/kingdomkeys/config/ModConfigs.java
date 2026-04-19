@@ -314,7 +314,7 @@ public class ModConfigs {
         seasonalEvents = CLIENT.seasonalEvents.get();
     }
 
-    public static boolean bombExplodeWithfire, keybladeOpenDoors, mobLevelingUp, playerSpawnHeartless,blizzardChangeBlocks, bossDespawnIfNoTarget, respawnROD, needKeybladeForHeartless, mobLevelName, allowBlocksInHangarArea;
+    public static boolean bombExplodeWithfire, keybladeOpenDoors, mobLevelingUp, playerSpawnHeartless,blizzardChangeBlocks, bossDespawnIfNoTarget, respawnROD, needKeybladeForHeartless, mobLevelName, allowBlocksInHangarArea, hideOrgNames;
 
     public static SpawningMode heartlessSpawningMode;
     public static List<String> mobSpawnRate;
@@ -372,6 +372,8 @@ public class ModConfigs {
 
         allowBlocksInHangarArea = COMMON.allowBlocksInHangarArea.get();
         gummiBlocksDropPercent = COMMON.gummiBlocksDropPercent.get();
+
+        hideOrgNames = COMMON.hideOrgNames.get();
     }
 
     @SubscribeEvent

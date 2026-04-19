@@ -18,6 +18,10 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.protocol.game.ClientboundPlayerInfoRemovePacket;
+import net.minecraft.network.protocol.game.ClientboundPlayerInfoUpdatePacket;
 import net.minecraft.network.protocol.game.ClientboundRemoveMobEffectPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
@@ -60,6 +64,9 @@ import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.scores.PlayerTeam;
+import net.minecraft.world.scores.Scoreboard;
+import net.minecraft.world.scores.Team;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.common.util.BlockSnapshot;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
@@ -1582,6 +1589,52 @@ public class Utils {
 		map.put(Attributes.LUCK, attributemodifier);
 
 		player.getAttributes().addTransientAttributeModifiers(map);
+	}
+
+	private static final String ORG_TEAM_ID = "kk_orgrobes";
+
+	public static PlayerTeam getOrCreateTeam(ServerLevel level) {
+		Scoreboard sb = level.getScoreboard();
+		PlayerTeam team = sb.getPlayerTeam(ORG_TEAM_ID);
+
+		if (team == null) {
+			team = sb.addPlayerTeam(ORG_TEAM_ID);
+			team.setNameTagVisibility(Team.Visibility.NEVER);
+			team.setCollisionRule(Team.CollisionRule.ALWAYS);
+		}
+		return team;
+	}
+
+	public static void updateOrgRobesTeam(ServerPlayer player) {
+		ServerLevel level = player.serverLevel();
+		Scoreboard sb = level.getScoreboard();
+		PlayerTeam team = getOrCreateTeam(level);
+
+		String name = player.getScoreboardName();
+		if(ModConfigs.hideOrgNames){
+			if (Utils.isWearingOrgRobes(player)) {
+				if (sb.getPlayersTeam(name) != team) {
+					sb.addPlayerToTeam(name, team);
+					updateTabName(player, true);
+				}
+			} else {
+				if (sb.getPlayersTeam(name) == team) {
+					sb.removePlayerFromTeam(name, team);
+					updateTabName(player, false);
+				}
+			}
+		} else {
+			//If config is false make sure everyone invisible is visible again
+			if (sb.getPlayersTeam(name) == team) {
+				sb.removePlayerFromTeam(name, team);
+				updateTabName(player, false);
+			}
+		}
+	}
+
+	public static void updateTabName(ServerPlayer player, boolean wearing) {                  // hide											//show
+		Packet<ClientGamePacketListener> packet = wearing ? new ClientboundPlayerInfoRemovePacket(List.of(player.getUUID())) : ClientboundPlayerInfoUpdatePacket.createPlayerInitializing(List.of(player));
+		player.server.getPlayerList().getPlayers().forEach(p -> p.connection.send(packet));
 	}
 
 	public static boolean isWearingOrgRobes(Player player) {
