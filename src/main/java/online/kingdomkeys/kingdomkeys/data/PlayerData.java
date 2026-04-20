@@ -634,7 +634,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 
 	public void addExperience(Player player, int exp, boolean shareXP, boolean sound) {
 		if (player != null && getSoAState() == SoAState.COMPLETE) {
-			if (this.level < 100) {
+			if (this.level < 100) {//TODO change 100 for the actual max level in the config file?
 				Party party = WorldData.get(player.getServer()).getPartyFromMember(player.getUUID());
 				if(party != null && shareXP) { //If player is in a party and first to get EXP
 					double sharedXP = (exp * ((ModConfigs.SERVER.partyXPShare.get() / 100F) * 2F)); // exp * share% * 2 (2 being to apply the formula from the 2 player party as mentioned in the config)
@@ -656,15 +656,15 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 					if(getNumberOfAbilitiesEquipped(Strings.experienceBoost) > 0 && player.getHealth() <= player.getMaxHealth() / 2) {
 						exp *= (1 + getNumberOfAbilitiesEquipped(Strings.experienceBoost));
 					}
-					this.exp += exp;
-					
-				} else { //Player not in a party or shareXP is false (command)
+
+                } else { //Player not in a party or shareXP is false (command)
 					if(getNumberOfAbilitiesEquipped(Strings.experienceBoost) > 0 && player.getHealth() <= player.getMaxHealth() / 2 && shareXP) { //if shareXP is false means it gets here because of the command
 						exp *= (1 + getNumberOfAbilitiesEquipped(Strings.experienceBoost));
 					}
-					this.exp += exp;
-				}
-				while (this.getExpNeeded(this.getLevel(), this.exp) <= 0 && this.getLevel() != 100) {
+                }
+                this.exp += exp;
+
+                while (this.getExpNeeded(this.getLevel(), this.exp) <= 0 && this.getLevel() != 100) {
 					setLevel(this.getLevel() + 1);
 					if(player instanceof ServerPlayer svPlayer) {
 				       ModAdvancements.levelUp.trigger(svPlayer, this.getLevel());

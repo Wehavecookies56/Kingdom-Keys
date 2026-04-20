@@ -656,7 +656,7 @@ public class LanguageESES extends KKLanguageProvider {
         addBlock(ModBlocks.pairBlox, "Bloque Emparejado");
         addBlock(ModBlocks.infestedNormalBlox, "Blox Normal Infestado");
         addBlock(ModBlocks.gummiMeteor, "Meteorito Gummi");
-
+        addBlock(ModBlocks.magicTarget, "Diana Mágica");
 
         //Ores
         addBlock(ModBlocks.blazingOre, "Mena \u00edgnea");
@@ -2000,6 +2000,8 @@ public class LanguageESES extends KKLanguageProvider {
         addEntityType(ModEntities.TYPE_MARLUXIA, "Marluxia");
 
         addEntityType(ModEntities.TYPE_TRAINING_DUMMY, "Espantapájaros de entrenamiento");
+        addEntityType(ModEntities.TYPE_MAGIC_TARGET, "Diana Mágica");
+
 
         //Spawn eggs
         addItem(ModEntities.MOOGLE_EGG, "Generar Moguri");

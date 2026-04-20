@@ -504,6 +504,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addBlock(ModBlocks.pairBlox, "Pair Blox");
         addBlock(ModBlocks.infestedNormalBlox, "Infested Normal Blox");
         addBlock(ModBlocks.gummiMeteor, "Gummi Meteorite");
+        addBlock(ModBlocks.magicTarget, "Magic Target");
 
         //Ores
         addBlock(ModBlocks.blazingOre, "Blazing Ore");
@@ -1961,6 +1962,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addEntityType(ModEntities.TYPE_MARLUXIA, "Marluxia");
 
         addEntityType(ModEntities.TYPE_TRAINING_DUMMY, "Training Scarecrow");
+        addEntityType(ModEntities.TYPE_MAGIC_TARGET, "Magic Target");
 
         /**Biomes**/
         add("biome.kingdomkeys.dive_to_the_heart", "Dive to the Heart");

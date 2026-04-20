@@ -123,7 +123,11 @@ public class ItemModels extends ItemModelProvider {
             case GummiHangarBlock gummiHangarBlock -> {
                 // skip - no texture/special block
             }
-            default ->
+			case MagicTargetBlock magicTargetBlock -> {
+				// manually generated version exists in main/resources
+			}
+
+			default ->
                 // fallback in case block item could not be generated as part of blockstates
                     standardBlockItem(path);
         }

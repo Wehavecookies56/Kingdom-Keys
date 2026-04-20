@@ -68,12 +68,9 @@ public class ExpCommand extends BaseCommand { // kk_exp <give/take/set> <amount>
 		for (ServerPlayer player : players) {
 			PlayerData playerData = PlayerData.get(player);
 			playerData.addExperience(player, value, false, false);
-			player.level().playSound(null, player.blockPosition(), ModSounds.levelup.get(), SoundSource.MASTER, 1f, 1.0f);
-
 			PacketHandler.sendTo(new SCSyncPlayerData(player), player);
 
-			context.getSource().sendSuccess(() -> Component.translatable("Added " + value + " experience to " + player.getDisplayName().getString()), true);
-
+			context.getSource().sendSuccess(() -> Component.translatable("Given " + value + " experience to " + player.getDisplayName().getString()), true);
 			player.sendSystemMessage(Component.translatable("Your experience has been increased by " + value));
 		}
 		return 1;

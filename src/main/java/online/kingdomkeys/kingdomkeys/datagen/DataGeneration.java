@@ -19,8 +19,7 @@ import java.util.Set;
 @EventBusSubscriber()
 public class DataGeneration {
 
-	 private static final RegistrySetBuilder BUILDER = new RegistrySetBuilder()
-	            .add(Registries.DAMAGE_TYPE, KKDamageTypes::bootstrap);
+	 private static final RegistrySetBuilder BUILDER = new RegistrySetBuilder().add(Registries.DAMAGE_TYPE, KKDamageTypes::bootstrap);
 	 
     @SubscribeEvent
     public static void gatherData(GatherDataEvent event) {

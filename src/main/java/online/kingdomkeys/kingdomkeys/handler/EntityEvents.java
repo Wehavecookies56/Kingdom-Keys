@@ -1191,7 +1191,7 @@ public class EntityEvents {
 								exp *= (1 + playerData.getNumberOfAbilitiesEquipped(Strings.experienceBoost));
 							}
 
-							XPEntity xp = new XPEntity(mob.level(), player, mob, exp);
+							XPEntity xp = new XPEntity(mob.level(), player, mob, Math.max(exp * ModConfigs.SERVER.xpMultiplier.get(), 1));//Ensures at least 1 xp is obtained
 							player.level().addFreshEntity(xp);
 						}
 					}

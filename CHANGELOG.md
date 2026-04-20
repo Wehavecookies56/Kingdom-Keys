@@ -8,7 +8,10 @@
 
 **Changed:**
 * Gravity is now a dark spell.
+* Minimum XP you can get from defeating enemies is at least 1.
+* Removed level up sound from the command **/kingdomkeys exp give** (set still plays it). 
 
 **Fixed:**
 * Items and Portals not displaying a selected element until scrolled.
 * Stock items tooltip icon was out of place on different aspect ratios.
+* XP particle not displaying the right amount if changed on the server.
