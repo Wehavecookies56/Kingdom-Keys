@@ -881,7 +881,7 @@ public class LanguageESES extends KKLanguageProvider {
         add("item.kingdomkeys.potion", "Poci\u00f3n");
         add("item.kingdomkeys.hi_potion", "Ultrapoci\u00f3n");
         add("item.kingdomkeys.mega_potion", "Omnipoci\u00f3n");
-        add("item.kingdomkeys.ether", "\u00e9ter");
+        add("item.kingdomkeys.ether", "Éter");
         add("item.kingdomkeys.hi_ether", "Ultra\u00e9ter");
         add("item.kingdomkeys.mega_ether", "Omni\u00e9ter");
         add("item.kingdomkeys.elixir", "Elixir");

@@ -44,16 +44,16 @@
       },
       "9":{
          "str":1,
-         "ap":1,
-         "abilities":[
-            "kingdomkeys:ability_grand_magic_extender"
-         ]
+         "ap":1
       },
       "10":{
          "mag":1,
          "def":1,
          "maxhp":5,
-         "max_accessories":1
+         "max_accessories":1,
+         "abilities":[
+            "kingdomkeys:ability_grand_magic_extender"
+         ]
       },
       "11":{
          "str":1,

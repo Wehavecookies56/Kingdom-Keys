@@ -23,10 +23,7 @@
       },
       "4":{
          "def":1,
-         "maxmp":8,
-         "abilities":[
-            "kingdomkeys:ability_grand_magic_extender"
-         ]
+         "maxmp":8
       },
       "5":{
          "str":1,
@@ -49,7 +46,8 @@
          "str":1,
          "ap":1,
          "abilities":[
-            "kingdomkeys:ability_wall_kick"
+            "kingdomkeys:ability_wall_kick",
+			"kingdomkeys:ability_grand_magic_extender"
          ]
       },
       "10":{

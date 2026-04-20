@@ -407,6 +407,7 @@ public class EntityEvents {
 				online.kingdomkeys.kingdomkeys.leveling.Level levelData = ModLevels.registry.get(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, playerData.getChosen().toString().toLowerCase()));
 				if(levelData != null) {// Only run if the player has made a choice
 					//If stored is -1 (default value in the capability) set it directly to the real version without fixing
+					KingdomKeys.LOGGER.debug("Player version: "+playerData.getVer()+" leveldata version: "+levelData.getVersion());
 					if (playerData.getVer() == -1)
 						playerData.setVer(levelData.getVersion());
 
