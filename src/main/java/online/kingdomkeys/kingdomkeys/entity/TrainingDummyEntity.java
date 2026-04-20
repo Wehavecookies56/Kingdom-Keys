@@ -93,7 +93,6 @@ public class TrainingDummyEntity extends LivingEntity {
         if (level().isClientSide)
             return false;
 
-
         Entity directEntity = source.getDirectEntity();
         if (directEntity != null) {
             //Calculate the position it has to bounce off
@@ -119,8 +118,7 @@ public class TrainingDummyEntity extends LivingEntity {
             }
         }
 
-        boolean result = super.hurt(source, amount);
-        return result;
+        return super.hurt(source, amount);
     }
 
     @Override
@@ -129,9 +127,7 @@ public class TrainingDummyEntity extends LivingEntity {
     }
 
     @Override
-    public void animateHurt(float yaw) {
-
-    }
+    public void animateHurt(float yaw) {}
 
     @Override
     protected void actuallyHurt(DamageSource source, float amount) {
@@ -206,7 +202,7 @@ public class TrainingDummyEntity extends LivingEntity {
     public static AttributeSupplier.Builder registerAttributes() {
         return Mob.createLivingAttributes()
                 .add(Attributes.FOLLOW_RANGE, 35.0D)
-                .add(Attributes.MAX_HEALTH, 100.0D)
+                .add(Attributes.MAX_HEALTH, 10.0D)
                 .add(Attributes.MOVEMENT_SPEED, 0.28D)
                 ;
     }

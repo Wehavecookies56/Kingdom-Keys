@@ -13,6 +13,11 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.common.CommonHooks;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.common.damagesource.DamageContainer;
+import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
+import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import online.kingdomkeys.kingdomkeys.entity.block.MagicTargetBlockEntity;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
@@ -43,13 +48,15 @@ public class MagicTargetEntity extends LivingEntity {
             if (level() instanceof ServerLevel server) {
                 if (server.getBlockEntity(getLinkedBlock()) instanceof MagicTargetBlockEntity target) {
                     int power = Utils.getRedstoneFromMagic(source.getMsgId());
-                    if (power > 0) {
+                    if (power > 0 && !this.hasEffect(ModMobEffects.STOP)) { //If is stopped it shouldn't work cause it has to report stop damage
                         target.onMagicHit(power);
                     }
                 }
             }
         }
 
+        // Fire the event so stop can accumulate without actually hurting the entity
+        NeoForge.EVENT_BUS.post(new LivingIncomingDamageEvent(this, new DamageContainer(source, amount)));
         return false;
     }
 
