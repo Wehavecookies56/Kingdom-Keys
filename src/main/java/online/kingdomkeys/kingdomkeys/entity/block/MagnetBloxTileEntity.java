@@ -2,7 +2,6 @@ package online.kingdomkeys.kingdomkeys.entity.block;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
@@ -15,12 +14,8 @@ import online.kingdomkeys.kingdomkeys.block.MagnetBloxBlock;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
-import org.joml.Vector3f;
 
 import java.awt.*;
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Deque;
 import java.util.List;
 
 public class MagnetBloxTileEntity extends BlockEntity {
@@ -30,8 +25,7 @@ public class MagnetBloxTileEntity extends BlockEntity {
 
 	int ticks = 0;
 
-	// Loop through each block in the direction3facing for a given range and returns
-	// the nunmber of blocks it goes without hitting one
+	// Loop through each block in the direction3facing for a given range and returns the nunmber of blocks it goes without hitting one
 	// Returns the original range if nothing is hit
 	int calculateActualRange(Direction facing, int range) {
 		int actualRange = range;
@@ -59,10 +53,9 @@ public class MagnetBloxTileEntity extends BlockEntity {
 		if (state.getValue(MagnetBloxBlock.ACTIVE)) {
 			Direction facing = state.getValue(MagnetBloxBlock.FACING);
 			int range = TE.calculateActualRange(facing, state.getValue(MagnetBloxBlock.RANGE));
-			// Not very useful if it's 0
 			if (range > 0) {
 				boolean attract = state.getValue(MagnetBloxBlock.ATTRACT);
-				if (level.isClientSide()) {
+				if (level.isClientSide() && TE.ticks % (11 - range) == 0) { //TODO spawn less trails if range is less
 					ClientUtils.spawnRandomMiniTrail(pos, facing, range, attract);
 				}
 
@@ -80,8 +73,6 @@ public class MagnetBloxTileEntity extends BlockEntity {
 			}
 		}
 	}
-
-
 
 	public Vec3 toVector3f(Direction facing) {
 		return new Vec3((float) facing.getStepX(), (float) facing.getStepY(), (float) facing.getStepZ());

@@ -62,7 +62,6 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.HUD.*;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
-import online.kingdomkeys.kingdomkeys.entity.block.MagnetBloxTileEntity;
 import online.kingdomkeys.kingdomkeys.handler.ClientEvents;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.KeychainItem;
@@ -994,12 +993,14 @@ public class ClientUtils {
         poseStack.popPose();
     }
 
-
+    /**
+     * Render magnet blox mini trails
+     */
     public static void renderMiniTrails(PoseStack poseStack, MultiBufferSource bufferSource, float partialTick) {
         VertexConsumer buffer = bufferSource.getBuffer(RenderType.debugQuads());
         Matrix4f pose = poseStack.last().pose();
 
-        Vec3 camPos = Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();
+        //Vec3 camPos = Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();
 
         for (MiniTrail t : MINI_TRAILS) {
             Vec3 p1 = t.getPos(partialTick);
@@ -1009,11 +1010,14 @@ public class ClientUtils {
 
             Vec3 p2 = p1.add(dir.scale(length));
 
-            Vec3 mid = p1.add(p2).scale(0.5);
+            //Vec3 mid = p1.add(p2).scale(0.5);
+            //Vec3 toCam = camPos.subtract(mid).normalize();
+            //Vec3 side = dir.cross(toCam).normalize();
 
-            Vec3 toCam = camPos.subtract(mid).normalize();
+            Vec3 arbitrary = Math.abs(dir.y) < 0.99 ? new Vec3(0,1,0) : new Vec3(1,0,0);
+            Vec3 side = dir.cross(arbitrary).normalize();
 
-            Vec3 side = dir.cross(toCam).normalize();
+
             if (side.lengthSqr() < 0.0001)
                 side = new Vec3(0,1,0);
 
@@ -1022,7 +1026,6 @@ public class ClientUtils {
             float alpha = 0.2F;
             float width = 0.015f;
 
-            // offsets (dos planos cruzados)
             Vec3 off1 = side.scale(width);
             Vec3 off2 = up.scale(width);
 
@@ -1032,6 +1035,9 @@ public class ClientUtils {
         }
     }
 
+    /**
+     * Helper function to draw the quads
+     */
     private static void drawQuad(VertexConsumer buffer, Matrix4f pose, Vec3 p1, Vec3 p2, Vec3 offset, float r, float g, float b, float alpha) {
         Vec3 p1A = p1.add(offset);
         Vec3 p1B = p1.subtract(offset);
@@ -1055,6 +1061,9 @@ public class ClientUtils {
                 .setNormal(0,1,0);
     }
 
+    /**
+     * Update the magnet blox mini trails
+     */
     public static void updateMiniTrails() {
         Iterator<MiniTrail> it = MINI_TRAILS.iterator();
 
@@ -1120,7 +1129,6 @@ public class ClientUtils {
                 right.scale(-1).subtract(up).normalize().scale(spreadAmount)
         };
 
-// elegir uno random
         Vec3 spread = offsets[rand.nextInt(offsets.length)];
 
         Vec3 farPoint = base.add(forward.scale(range));
