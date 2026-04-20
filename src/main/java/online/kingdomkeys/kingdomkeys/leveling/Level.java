@@ -8,8 +8,6 @@ public class Level {
 	ResourceLocation name;
 	int maxLevel;
 
-	// String translationKey;
-
 	private LevelingData data;
 
 	public Level(ResourceLocation registryName) {
@@ -71,6 +69,10 @@ public class Level {
 	
 	public int getMaxArmors(int level) {
 		return data.getMaxArmors(level);
+	}
+
+	public int getVersion() {
+		return data.getVersion();
 	}
 
 	public ResourceLocation getRegistryName() {

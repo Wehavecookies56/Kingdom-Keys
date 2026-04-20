@@ -1,10 +1,13 @@
 package online.kingdomkeys.kingdomkeys.leveling;
 
 import com.google.gson.*;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import org.spongepowered.asm.mixin.injection.struct.InjectorGroupInfo;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Custom deserializer for Keyblade Data json files located in
@@ -18,73 +21,77 @@ public class LevelingDataDeserializer implements JsonDeserializer<LevelingData> 
 	@Override
 	public LevelingData deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
 		LevelingData out = new LevelingData();
-		JsonObject jsonObject = json.getAsJsonObject();
+		JsonObject root = json.getAsJsonObject();
 
-		jsonObject.entrySet().forEach(entry -> {
-			JsonElement element = entry.getValue();
+		if(!root.has("version"))
+			KingdomKeys.LOGGER.warn("No version found in one of the leveling paths data, you might want to add it: "+json.toString().substring(0,15));
+
+		//Get version
+		int version = root.has("version") ? root.get("version").getAsInt() : 0;
+		out.setVersion(version);
+
+		//This should allow for old datapacks to still be compatible
+		JsonObject levelsObj = root.has("levels") ? root.getAsJsonObject("levels") : root;
+
+		//Levels
+		for (Map.Entry<String,JsonElement> entry : levelsObj.entrySet()) {
 			int level = Integer.parseInt(entry.getKey());
-			JsonObject jsonObject2 = entry.getValue().getAsJsonObject();
-			jsonObject2.entrySet().forEach(entry2 -> {
-				JsonElement element2 = entry2.getValue();
+			JsonObject levelData = entry.getValue().getAsJsonObject();
+
+			for (Map.Entry<String,JsonElement> entry2 : levelData.entrySet()) {
+				JsonElement element = entry2.getValue();
 
 				switch (entry2.getKey()) {
-				case "ap":
-					out.setAP(level, element2.getAsInt());
-					break;
-				case "str":
-					out.setStr(level, element2.getAsInt());
-					break;
-				case "mag":
-					out.setMag(level, element2.getAsInt());
-					break;
-				case "def":
-					out.setDef(level, element2.getAsInt());
-					break;
-				case "maxhp":
-					out.setMaxHp(level, element2.getAsInt());
-					break;
-				case "maxmp":
-					out.setMaxMp(level, element2.getAsInt());
-					break;
-				case "abilities":
-					JsonArray abilities = entry2.getValue().getAsJsonArray();
-					List<String> abilitiesArray = new ArrayList<String>();
-					
-					for(int i= 0; i < abilities.size(); i++) {
-						abilitiesArray.add(abilities.get(i).getAsString());
-					}
-					out.setAbilities(level, abilitiesArray.toArray(new String[0]));
-					break;
-				case "shotlocks":
-					JsonArray shotlocks = entry2.getValue().getAsJsonArray();
-					List<String> shotlocksArray = new ArrayList<String>();
-					
-					for(int i= 0; i < shotlocks.size(); i++) {
-						shotlocksArray.add(shotlocks.get(i).getAsString());
-					}
-					out.setShotlocks(level, shotlocksArray.toArray(new String[0]));
-					break;
-				case "spells":
-					JsonArray spells = entry2.getValue().getAsJsonArray();
-					List<String> spellsArray = new ArrayList<String>();
-					
-					for(int i= 0; i < spells.size(); i++) {
-						spellsArray.add(spells.get(i).getAsString());
-					}
-					out.setSpells(level, spellsArray.toArray(new String[0]));
-					break;
-					
-				case "max_accessories":
-					out.setMaxAccessories(level, element2.getAsInt());
-					break;
-					
-				case "max_armors":
-					out.setMaxArmors(level, element2.getAsInt());
-					break;
-				}
-			});
+					case "ap":
+						out.setAP(level, element.getAsInt());
+						break;
+					case "str":
+						out.setStr(level, element.getAsInt());
+						break;
+					case "mag":
+						out.setMag(level, element.getAsInt());
+						break;
+					case "def":
+						out.setDef(level, element.getAsInt());
+						break;
+					case "maxhp":
+						out.setMaxHp(level, element.getAsInt());
+						break;
+					case "maxmp":
+						out.setMaxMp(level, element.getAsInt());
+						break;
 
-		});
+					case "abilities":
+						out.setAbilities(level, toStringArray(element.getAsJsonArray()));
+						break;
+
+					case "shotlocks":
+						out.setShotlocks(level, toStringArray(element.getAsJsonArray()));
+						break;
+
+					case "spells":
+						out.setSpells(level, toStringArray(element.getAsJsonArray()));
+						break;
+
+					case "max_accessories":
+						out.setMaxAccessories(level, element.getAsInt());
+						break;
+
+					case "max_armors":
+						out.setMaxArmors(level, element.getAsInt());
+						break;
+				}
+			}
+		}
+
+		return out;
+	}
+
+	private String[] toStringArray(JsonArray array) {
+		String[] out = new String[array.size()];
+		for (int i = 0; i < array.size(); i++) {
+			out[i] = array.get(i).getAsString();
+		}
 		return out;
 	}
 }

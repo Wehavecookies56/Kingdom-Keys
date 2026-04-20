@@ -6,7 +6,6 @@ import java.util.List;
  * Stores the data loaded from the leveling datapack
  */
 public class LevelingData {
-
 	int[] str = new int[101];
 	int[] mag = new int[101];
 	int[] def = new int[101];
@@ -18,6 +17,7 @@ public class LevelingData {
 	String[][] spells = new String[101][5];
 	int[] maxAccessories = new int[101];
 	int[] maxArmors = new int[101];
+	int version;
 
 	public LevelingData() {
 
@@ -124,4 +124,11 @@ public class LevelingData {
 		this.maxArmors[lvl] = amount;
 	}
 
+	public int getVersion() {
+		return version;
+	}
+
+	public void setVersion(int version) {
+		this.version = version;
+	}
 }

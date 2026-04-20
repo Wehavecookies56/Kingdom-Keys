@@ -39,6 +39,7 @@ import online.kingdomkeys.kingdomkeys.integration.epicfight.enums.DualChoices;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.enums.SingleChoices;
 import online.kingdomkeys.kingdomkeys.item.*;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
+import online.kingdomkeys.kingdomkeys.leveling.ModLevels;
 import online.kingdomkeys.kingdomkeys.leveling.Stat;
 import online.kingdomkeys.kingdomkeys.lib.LevelStats;
 import online.kingdomkeys.kingdomkeys.lib.Party;
@@ -536,7 +537,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		this.setBounced(nbt.getBoolean("bounced"));
 	}
 
-	private int ver = DATA_VERSION, level = 1, exp = 0, expGiven = 0, maxHp = 20, remainingExp = 0, reflectTicks = 0, reflectLevel = 0, magicCasttime = 0, magicCooldown = 0, munny = 0, antipoints = 0, aerialDodgeTicks, synthLevel=1, synthExp, remainingSynthExp = 0,hangingWallTicks, wallGrabs;
+	private int ver = -1, level = 1, exp = 0, expGiven = 0, maxHp = 20, remainingExp = 0, reflectTicks = 0, reflectLevel = 0, magicCasttime = 0, magicCooldown = 0, munny = 0, antipoints = 0, aerialDodgeTicks, synthLevel=1, synthExp, remainingSynthExp = 0,hangingWallTicks, wallGrabs;
 	private BlockPos airStepPos = new BlockPos(0,0,0);
 	Stat strength = new Stat("strength", 1);
 	Stat magic = new Stat("magic",1);
@@ -2021,6 +2022,14 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 
 	public void setChoice(SoAState choice) {
 		this.choice = choice;
+
+		//If choice is actually a real choice (warrior, mystic, guardian)
+		if(choice.get() > 4) {
+			//After choice has been set, set the player's version to the default value from the datapack, as it's a new player no fixing needed
+			online.kingdomkeys.kingdomkeys.leveling.Level levelData = ModLevels.registry.get(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, choice.toString().toLowerCase()));
+			if (getVer() == -1)
+				setVer(levelData.getVersion());
+		}
 	}
 
 	public SoAState getSacrificed() {

@@ -7,9 +7,11 @@
 * A common-config option to hide player names while wearing the Organization XIII coat.
 
 **Changed:**
+* Datapacks modifying the leveling progression got support for a version number, allowing for updates to apply once a player logs in.
+  * It should be retro compatible with the old .json files, but we encourage you to migrate to the new system.
 * Gravity is now a dark spell.
 * Minimum XP you can get from defeating enemies is at least 1.
-* Removed level up sound from the command **/kingdomkeys exp give** (set still plays it). 
+* **/kingdomkeys exp give** won't play the level up sound so it can be used in adventure maps or servers. 
 
 **Fixed:**
 * Items and Portals not displaying a selected element until scrolled.

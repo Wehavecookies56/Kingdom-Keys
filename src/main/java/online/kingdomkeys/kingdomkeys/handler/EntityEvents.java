@@ -77,6 +77,7 @@ import online.kingdomkeys.kingdomkeys.integration.epicfight.EpicFightUtils;
 import online.kingdomkeys.kingdomkeys.item.*;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
 import online.kingdomkeys.kingdomkeys.item.organization.OrganizationDataLoader;
+import online.kingdomkeys.kingdomkeys.leveling.ModLevels;
 import online.kingdomkeys.kingdomkeys.lib.*;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
 import online.kingdomkeys.kingdomkeys.limit.LimitDataLoader;
@@ -403,13 +404,21 @@ public class EntityEvents {
 				});
 
 				//Data check, might be able to reduce the above code:
-				if(playerData.getVer() != PlayerData.DATA_VERSION){
-					//Run kkexp fix command
-					ExpCommand.fix(playerData,player);
-					player.level().playSound(null, player.blockPosition(), ModSounds.levelup.get(), SoundSource.MASTER, 1f, 1.0f);
-					KingdomKeys.LOGGER.info("Auto adjusted " + player.getDisplayName().getString() + " data from version " + playerData.getVer() + " to version " + PlayerData.DATA_VERSION);
-					player.sendSystemMessage(Component.translatable("Adjusted your data value from " + playerData.getVer() + " to version " + PlayerData.DATA_VERSION + ", all your missing abilities have been added to you"));
-					playerData.setVer(PlayerData.DATA_VERSION);
+				online.kingdomkeys.kingdomkeys.leveling.Level levelData = ModLevels.registry.get(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, playerData.getChosen().toString().toLowerCase()));
+				if(levelData != null) {// Only run if the player has made a choice
+					//If stored is -1 (default value in the capability) set it directly to the real version without fixing
+					if (playerData.getVer() == -1)
+						playerData.setVer(levelData.getVersion());
+
+					//If the stored player version is different from the one in the file of it's choice (for example file got updated)
+					if (playerData.getVer() != levelData.getVersion()) {
+						//Run kkexp fix command
+						ExpCommand.fix(playerData, player);
+						player.level().playSound(null, player.blockPosition(), ModSounds.levelup.get(), SoundSource.MASTER, 1f, 1.0f);
+						KingdomKeys.LOGGER.info("Auto adjusted " + player.getDisplayName().getString() + " data from version " + playerData.getVer() + " to version " + levelData.getVersion());
+						player.sendSystemMessage(Component.translatable("Adjusted your data value from " + playerData.getVer() + " to version " + levelData.getVersion() + ", all your missing abilities have been added to you"));
+						playerData.setVer(levelData.getVersion());
+					}
 				}
 
 				PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
