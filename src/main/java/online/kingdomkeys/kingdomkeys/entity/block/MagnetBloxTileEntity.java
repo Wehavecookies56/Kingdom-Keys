@@ -15,7 +15,6 @@ import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 
-import java.awt.*;
 import java.util.List;
 
 public class MagnetBloxTileEntity extends BlockEntity {

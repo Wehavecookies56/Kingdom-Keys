@@ -2,11 +2,8 @@ package online.kingdomkeys.kingdomkeys.leveling;
 
 import com.google.gson.*;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import org.spongepowered.asm.mixin.injection.struct.InjectorGroupInfo;
 
 import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 /**
