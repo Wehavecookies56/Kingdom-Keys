@@ -997,6 +997,9 @@ public class ClientUtils {
      * Render magnet blox mini trails
      */
     public static void renderMiniTrails(PoseStack poseStack, MultiBufferSource bufferSource, float partialTick) {
+        if(MINI_TRAILS.isEmpty())
+            return;
+
         VertexConsumer buffer = bufferSource.getBuffer(RenderType.debugQuads());
         Matrix4f pose = poseStack.last().pose();
 

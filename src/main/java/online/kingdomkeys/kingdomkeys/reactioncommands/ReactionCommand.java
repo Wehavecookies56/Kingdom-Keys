@@ -59,6 +59,13 @@ public abstract class ReactionCommand {
 	}
 
 	public abstract void onUse(Player player, LivingEntity target, LivingEntity lockedOnEntity);
+
+	/**
+	 * If needsConstantCheck() is true this should not be just true, since it will get added each tick.
+	 * @param player
+	 * @param target
+	 * @return
+	 */
 	public abstract boolean conditionsToAppear(Player player, LivingEntity target);
 
 	public void tick(Player player){

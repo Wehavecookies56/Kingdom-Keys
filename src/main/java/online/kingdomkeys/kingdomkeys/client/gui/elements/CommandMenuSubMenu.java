@@ -505,16 +505,16 @@ public class CommandMenuSubMenu {
             }
 
             RenderSystem.enableBlend();
-
+            ResourceLocation texture = getTexture(); //POtentially improve performance
             if (!NeoForge.EVENT_BUS.post(new CommandMenuEvent.SubmenuRender(getId(), this, guiGraphics, screenWidth, screenHeight, partialTick)).isCanceled()) {
                 guiGraphics.pose().translate(0, 0, getZ());
                 guiGraphics.setColor(getColour().getRed() / 255F, getColour().getGreen() / 255F, getColour().getBlue() / 255F, 1);
                 if (useFixedHeader) {
-                    guiGraphics.blit(getTexture(), getX(), getY(), 0, 70, 74, 15);
+                    guiGraphics.blit(texture, getX(), getY(), 0, 70, 74, 15);
                 } else {
-                    guiGraphics.blit(getTexture(), getX(), getY(), 0, 0, ModConfigs.cmHeaderEndLWidth, getHeight());
-                    guiGraphics.blit(getTexture(), getX() + ModConfigs.cmHeaderEndLWidth, getY(), getWidth() - (ModConfigs.cmHeaderEndLWidth + ModConfigs.cmHeaderEndRWidth), getHeight(), ModConfigs.cmHeaderEndLWidth + 1, 0, 1, getHeight(), 256, 256);
-                    guiGraphics.blit(getTexture(), getX() + getWidth() - ModConfigs.cmHeaderEndRWidth, getY(), ModConfigs.cmHeaderEndLWidth + 3, 0, ModConfigs.cmHeaderEndRWidth, getHeight());
+                    guiGraphics.blit(texture, getX(), getY(), 0, 0, ModConfigs.cmHeaderEndLWidth, getHeight());
+                    guiGraphics.blit(texture, getX() + ModConfigs.cmHeaderEndLWidth, getY(), getWidth() - (ModConfigs.cmHeaderEndLWidth + ModConfigs.cmHeaderEndRWidth), getHeight(), ModConfigs.cmHeaderEndLWidth + 1, 0, 1, getHeight(), 256, 256);
+                    guiGraphics.blit(texture, getX() + getWidth() - ModConfigs.cmHeaderEndRWidth, getY(), ModConfigs.cmHeaderEndLWidth + 3, 0, ModConfigs.cmHeaderEndRWidth, getHeight());
                 }
                 if (ModConfigs.cmHeaderTextVisible) {
                     guiGraphics.drawCenteredString(Minecraft.getInstance().font, getTitle(), getX() + ((getWidth() - 8) / 2) + 1, getY() + 4, 0xFFFFFF);
