@@ -2026,7 +2026,13 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		//If choice is actually a real choice (warrior, mystic, guardian)
 		if(choice.get() > 4) {
 			//After choice has been set, set the player's version to the default value from the datapack, as if it's a new player no fixing is needed, and if it's an old player who changed it with command he should have been fixed by it (?)
+			KingdomKeys.LOGGER.debug("[DEBUG] Set choice: "+choice);
 			online.kingdomkeys.kingdomkeys.leveling.Level levelData = ModLevels.registry.get(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, choice.toString().toLowerCase()));
+			if(levelData == null) {
+				KingdomKeys.LOGGER.debug("[DEBUG] levelData is null, choice "+choice+" does not exist or there was an error");
+				return;
+			}
+
 			if (getVer() == -1)
 				setVer(levelData.getVersion());
 		}

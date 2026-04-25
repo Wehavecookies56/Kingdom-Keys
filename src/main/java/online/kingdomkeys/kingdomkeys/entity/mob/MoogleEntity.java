@@ -151,7 +151,6 @@ public class MoogleEntity extends PathfinderMob implements IEntityWithComplexSpa
         ItemStack itemstack = player.getItemInHand(hand);
         //Name tag
         if (itemstack.getItem() == Items.NAME_TAG) {
-           // this.name = ""; //TODO Check if this is needed in the future
             return super.interactAt(player, vec, hand);
         }
 

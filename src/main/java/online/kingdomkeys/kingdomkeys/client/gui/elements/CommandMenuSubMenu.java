@@ -494,8 +494,18 @@ public class CommandMenuSubMenu {
         setSelected(getChildren().get(nextIndex));
     }
 
+    ResourceLocation cachedTexture;
+    String cachedPlayerDimension;
+
     public ResourceLocation getTexture() {
-        return ClientUtils.getResourceExistsOrDefault("textures/gui/commandmenu/%s.png", Minecraft.getInstance().level.dimension().location().getPath(), "default");
+        //long ns = System.nanoTime();
+        String currDim = Minecraft.getInstance().level.dimension().location().getPath();
+        if(cachedTexture == null || !currDim.equals(cachedPlayerDimension)) {
+            cachedTexture = ClientUtils.getResourceExistsOrDefault("textures/gui/commandmenu/%s.png", currDim, "default");
+            cachedPlayerDimension = currDim;
+        }
+        //System.out.println("Took: "+(System.nanoTime() - ns)+" to get texture");
+        return cachedTexture;
     }
 
     public void render(GuiGraphics guiGraphics, int screenWidth, int screenHeight, float partialTick) {
@@ -505,7 +515,7 @@ public class CommandMenuSubMenu {
             }
 
             RenderSystem.enableBlend();
-            ResourceLocation texture = getTexture(); //POtentially improve performance
+            ResourceLocation texture = getTexture(); //Potentially improve performance
             if (!NeoForge.EVENT_BUS.post(new CommandMenuEvent.SubmenuRender(getId(), this, guiGraphics, screenWidth, screenHeight, partialTick)).isCanceled()) {
                 guiGraphics.pose().translate(0, 0, getZ());
                 guiGraphics.setColor(getColour().getRed() / 255F, getColour().getGreen() / 255F, getColour().getBlue() / 255F, 1);
