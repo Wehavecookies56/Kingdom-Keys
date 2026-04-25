@@ -23,7 +23,8 @@ public class LevelingData {
 
 	}
 
-	public LevelingData(int level, int str, int mag, int def, int ap, int maxhp, int maxmp, List<String> abilities, List<String> shotlocks, List<String> spells, int maxAccessories, int maxArmors) {
+	public LevelingData(int ver, int level, int str, int mag, int def, int ap, int maxhp, int maxmp, List<String> abilities, List<String> shotlocks, List<String> spells, int maxAccessories, int maxArmors) {
+		this.version = ver;
 		this.mag[level] = mag;
 		this.def[level] = def;
 		this.str[level] = str;

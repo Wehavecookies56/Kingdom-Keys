@@ -47,6 +47,7 @@ public class PacketHandler {
 		client(SCSyncDriveFormData.TYPE, SCSyncDriveFormData.STREAM_CODEC);
 		client(SCSyncGlobalData.TYPE, SCSyncGlobalData.STREAM_CODEC);
 		client(SCSyncKeybladeData.TYPE, SCSyncKeybladeData.STREAM_CODEC);
+		client(SCSyncLevelingData.TYPE, SCSyncLevelingData.STREAM_CODEC);
 		client(SCSyncLimitData.TYPE, SCSyncLimitData.STREAM_CODEC);
 		client(SCSyncMagicData.TYPE, SCSyncMagicData.STREAM_CODEC);
 		client(SCSyncMoogleNames.TYPE, SCSyncMoogleNames.STREAM_CODEC);

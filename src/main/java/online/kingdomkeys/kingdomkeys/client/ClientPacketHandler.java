@@ -43,6 +43,8 @@ import online.kingdomkeys.kingdomkeys.entity.organization.OrgPortalEntity;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
 import online.kingdomkeys.kingdomkeys.item.organization.OrganizationData;
+import online.kingdomkeys.kingdomkeys.leveling.LevelingData;
+import online.kingdomkeys.kingdomkeys.leveling.ModLevels;
 import online.kingdomkeys.kingdomkeys.limit.Limit;
 import online.kingdomkeys.kingdomkeys.limit.LimitData;
 import online.kingdomkeys.kingdomkeys.limit.ModLimits;
@@ -205,6 +207,24 @@ public class ClientPacketHandler {
                 continue;
             }
             magic.setMagicData(result);
+            IOUtils.closeQuietly(br);
+        }
+    }
+
+    public static void syncLevelingData(SCSyncLevelingData message) {
+        for (int i = 0; i < message.names().size(); i++) {
+            online.kingdomkeys.kingdomkeys.leveling.Level level = ModLevels.registry.get(ResourceLocation.parse(message.names().get(i)));
+            String d = message.data().get(i);
+            BufferedReader br = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(d.getBytes())));
+
+            LevelingData result;
+            try {
+                result = SCSyncLevelingData.GSON_BUILDER.fromJson(br, LevelingData.class);
+            } catch (JsonParseException e) {
+                KingdomKeys.LOGGER.error("Error parsing leveling json file {}: {}", message.names().get(i), e);
+                continue;
+            }
+            level.setLevelingData(result);
             IOUtils.closeQuietly(br);
         }
     }
