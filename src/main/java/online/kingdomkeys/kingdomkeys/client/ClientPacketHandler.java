@@ -21,6 +21,7 @@ import online.kingdomkeys.kingdomkeys.client.gui.SavePointScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.castle_oblivion.CardSelectionScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.MenuScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.NoChoiceMenuPopup;
+import online.kingdomkeys.kingdomkeys.client.gui.menu.check.CheckStatusScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.customize.MenuCustomizeMagicScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.customize.MenuCustomizeShortcutsScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment.MenuEquipmentScreen;
@@ -346,6 +347,12 @@ public class ClientPacketHandler {
     public static void openMaterialsScreen(SCOpenMaterialsScreen message) {
         PlayerData data = PlayerData.get(message.playerData(), Minecraft.getInstance().player);
         Minecraft.getInstance().setScreen(new SynthesisMaterialScreen(data, message.inv(), message.name(), message.moogle()));
+    }
+
+    public static void openCheckScreen(SCOpenCheckScreen message) {
+        Player target = Minecraft.getInstance().level.getPlayerByUUID(message.uuid());
+        PlayerData data = PlayerData.get(message.playerData(), target);
+        Minecraft.getInstance().setScreen(new CheckStatusScreen(data, target));
     }
 
     public static void openSellScreen(SCOpenSellScreen message) {

@@ -25,6 +25,7 @@ public class ModCommands {
                 .then(RecipeCommand.register())
                 .then(WhisperInMyEarPinkHairMan.register())
                 .then(ConvertOldForgeDataCommand.register())
+		        .then(CheckCommand.register())
         );
     }
 
