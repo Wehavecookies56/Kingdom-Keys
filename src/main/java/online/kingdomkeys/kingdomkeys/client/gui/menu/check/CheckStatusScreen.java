@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.client.gui.menu.check;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.resources.ResourceLocation;
@@ -29,7 +30,7 @@ public class CheckStatusScreen extends MenuBackground {
 	Player player;
 	PlayerData playerData;
 
-	Button stats_player, stats_back;
+	Button stats_player, stats_ability;
 	List<MenuButton> dfStats = new ArrayList<>();
 
 	MenuColourBox level, totalExp, nextLevel, hp, mp, ap, driveGauge, str, mag, def, fRes, bRes, tRes, aRes, lRes, wRes, dRes, dfLevel, dfExp, dfNextLevel, dfFormGauge;
@@ -44,8 +45,8 @@ public class CheckStatusScreen extends MenuBackground {
 	}
 
 	protected void action(String string) {
-		if (string.equals("back"))
-			PacketHandler.sendToServer(new CSOpenMenu());
+		if (string.equals("abilities"))
+			Minecraft.getInstance().setScreen(new CheckAbilitiesScreen(playerData, player));
 		else
 			form = string;
 
@@ -60,40 +61,18 @@ public class CheckStatusScreen extends MenuBackground {
 		}
 
 		//Select the widgets to show depending on the selected button
-		if (form.equals(DriveForm.NONE.toString())) {
-			form = DriveForm.NONE.toString();
-			dfLevel.visible = false;
-			dfExp.visible = false;
-			dfNextLevel.visible = false;
-			dfFormGauge.visible = false;
+		boolean base = form.equals(DriveForm.NONE.toString());
+		dfLevel.visible = dfExp.visible = dfNextLevel.visible = dfFormGauge.visible = !base;
+		level.visible = totalExp.visible = nextLevel.visible = hp.visible = mp.visible = ap.visible = driveGauge.visible = base;
 
-			level.visible = true;
-			totalExp.visible = true;
-			nextLevel.visible = true;
-			hp.visible = true;
-			mp.visible = true;
-			ap.visible = true;
-			driveGauge.visible = true;
-		} else {
-			dfLevel.visible = true;
-			dfExp.visible = true;
-			dfNextLevel.visible = true;
-			dfFormGauge.visible = true;
-
-			level.visible = false;
-			totalExp.visible = false;
-			nextLevel.visible = false;
-			hp.visible = false;
-			mp.visible = false;
-			ap.visible = false;
-			driveGauge.visible = false;
-
-			int remainingExp = playerData.getDriveFormLevel(form) == ModDriveForms.registry.get(ResourceLocation.parse(form)).getMaxLevel() ? 0 : ModDriveForms.registry.get(ResourceLocation.parse(form)).getLevelUpCost(playerData.getDriveFormLevel(form)+1) - playerData.getDriveFormExp(form);
+		if(!base) {
+			int remainingExp = playerData.getDriveFormLevel(form) == ModDriveForms.registry.get(ResourceLocation.parse(form)).getMaxLevel() ? 0 : ModDriveForms.registry.get(ResourceLocation.parse(form)).getLevelUpCost(playerData.getDriveFormLevel(form) + 1) - playerData.getDriveFormExp(form);
 			dfLevel.setValue("" + playerData.getDriveFormLevel(form));
-			dfExp.setValue(""+playerData.getDriveFormExp(form));
-			dfNextLevel.setValue(""+remainingExp);
-			dfFormGauge.setValue(""+(2 + playerData.getDriveFormLevel(form)));
+			dfExp.setValue("" + playerData.getDriveFormExp(form));
+			dfNextLevel.setValue("" + remainingExp);
+			dfFormGauge.setValue("" + (2 + playerData.getDriveFormLevel(form)));
 		}
+
 	}
 
 	@Override
@@ -135,7 +114,7 @@ public class CheckStatusScreen extends MenuBackground {
 			dfStats.add(b);
 			addRenderableWidget(b);
 		}
-		addRenderableWidget(stats_back = new MenuButton((int) buttonPosX, button_stats_formsY + (i * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), ButtonType.BUTTON, (e) -> { action("back"); }));
+		addRenderableWidget(stats_ability = new MenuButton((int) buttonPosX, button_stats_formsY + (i * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Status_Abilities), ButtonType.BUTTON, (e) -> { action("abilities"); }));
 
 		//Stats
 		int c = 0;

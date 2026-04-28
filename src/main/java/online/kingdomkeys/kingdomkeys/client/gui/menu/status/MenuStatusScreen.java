@@ -58,39 +58,16 @@ public class MenuStatusScreen extends MenuBackground {
         }
 		
 		//Select the widgets to show depending on the selected button
-		if (form.equals(DriveForm.NONE.toString())) {
-			form = DriveForm.NONE.toString();
-			dfLevel.visible = false;
-			dfExp.visible = false;
-			dfNextLevel.visible = false;
-			dfFormGauge.visible = false;
-			
-			level.visible = true;
-			totalExp.visible = true;
-			nextLevel.visible = true;
-			hp.visible = true;
-			mp.visible = true;
-			ap.visible = true;
-			driveGauge.visible = true;	
-		} else {
-			dfLevel.visible = true;
-			dfExp.visible = true;
-			dfNextLevel.visible = true;
-			dfFormGauge.visible = true;
-			
-			level.visible = false;
-			totalExp.visible = false;
-			nextLevel.visible = false;
-			hp.visible = false;
-			mp.visible = false;
-			ap.visible = false;
-			driveGauge.visible = false;
-			 
-			int remainingExp = playerData.getDriveFormLevel(form) == ModDriveForms.registry.get(ResourceLocation.parse(form)).getMaxLevel() ? 0 : ModDriveForms.registry.get(ResourceLocation.parse(form)).getLevelUpCost(playerData.getDriveFormLevel(form)+1) - playerData.getDriveFormExp(form);
+		boolean base = form.equals(DriveForm.NONE.toString());
+		dfLevel.visible = dfExp.visible = dfNextLevel.visible = dfFormGauge.visible = !base;
+		level.visible = totalExp.visible = nextLevel.visible = hp.visible = mp.visible = ap.visible = driveGauge.visible = base;
+
+		if(!base) {
+			int remainingExp = playerData.getDriveFormLevel(form) == ModDriveForms.registry.get(ResourceLocation.parse(form)).getMaxLevel() ? 0 : ModDriveForms.registry.get(ResourceLocation.parse(form)).getLevelUpCost(playerData.getDriveFormLevel(form) + 1) - playerData.getDriveFormExp(form);
 			dfLevel.setValue("" + playerData.getDriveFormLevel(form));
-			dfExp.setValue(""+playerData.getDriveFormExp(form));
-			dfNextLevel.setValue(""+remainingExp);
-			dfFormGauge.setValue(""+(2 + playerData.getDriveFormLevel(form)));
+			dfExp.setValue("" + playerData.getDriveFormExp(form));
+			dfNextLevel.setValue("" + remainingExp);
+			dfFormGauge.setValue("" + (2 + playerData.getDriveFormLevel(form)));
 		}
 	}
 
@@ -100,8 +77,7 @@ public class MenuStatusScreen extends MenuBackground {
 		this.renderables.clear();
 
 		int button_statsY = (int) topBarHeight + 5;
-		int button_stats_playerY = button_statsY;
-		int button_stats_formsY = button_stats_playerY + 18;
+		int button_stats_formsY = button_statsY + 18;
 
 		float buttonPosX = (float) width * 0.03F;
 		float subButtonPosX = buttonPosX + 10;
@@ -116,7 +92,7 @@ public class MenuStatusScreen extends MenuBackground {
 		int col1X = box.getX() + 10;
 		int col2X = box.getX() + box.getWidth()/2 + 5;
 
-		addRenderableWidget(stats_player = new MenuButton((int) buttonPosX, button_stats_playerY, (int) buttonWidth, minecraft.player.getDisplayName().getString(), ButtonType.BUTTON, (e) -> { action(DriveForm.NONE.toString()); }));
+		addRenderableWidget(stats_player = new MenuButton((int) buttonPosX, button_statsY, (int) buttonWidth, minecraft.player.getDisplayName().getString(), ButtonType.BUTTON, (e) -> { action(DriveForm.NONE.toString()); }));
 
 		int i;
 
