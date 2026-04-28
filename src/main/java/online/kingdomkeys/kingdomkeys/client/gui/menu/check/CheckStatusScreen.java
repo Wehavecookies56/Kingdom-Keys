@@ -14,8 +14,6 @@ import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
-import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.cts.CSOpenMenu;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import org.jetbrains.annotations.NotNull;
 
@@ -27,9 +25,6 @@ public class CheckStatusScreen extends MenuBackground {
 
 	String form = DriveForm.NONE.toString();
 
-	Player player;
-	PlayerData playerData;
-
 	Button stats_player, stats_ability;
 	List<MenuButton> dfStats = new ArrayList<>();
 
@@ -40,8 +35,7 @@ public class CheckStatusScreen extends MenuBackground {
 	public CheckStatusScreen(PlayerData playerData, Player player) {
 		super(Strings.Gui_Menu_Status, new Color(0,0,255));
 		drawPlayerInfo = false;
-		this.player = player;
-		this.playerData = playerData;
+		setPlayerData(player, playerData);
 	}
 
 	protected void action(String string) {

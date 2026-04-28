@@ -42,9 +42,6 @@ import java.util.List;
 public class CheckAbilitiesScreen extends MenuBackground {
 	String form = DriveForm.NONE.toString();
 
-	Player player;
-	PlayerData playerData;
-
 	LinkedHashMap<String, int[]> abilitiesMap;
     List<MenuAbilitiesButton> abilities = new ArrayList<>();
 
@@ -69,8 +66,7 @@ public class CheckAbilitiesScreen extends MenuBackground {
 
 	public CheckAbilitiesScreen(PlayerData playerData, Player player) {
 		this();
-		this.playerData = playerData;
-		this.player = player;
+		setPlayerData(player, playerData);
 	}
 
 	@Override

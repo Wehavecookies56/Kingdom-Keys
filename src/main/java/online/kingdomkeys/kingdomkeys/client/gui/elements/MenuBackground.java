@@ -34,6 +34,9 @@ import org.jetbrains.annotations.Nullable;
 import java.awt.*;
 
 public class MenuBackground extends Screen {
+	public Player player;
+	public PlayerData playerData;
+	
 	public static final ResourceLocation PLAYER_BOX_TEXTURE = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
 	int selected;
 	
@@ -49,6 +52,14 @@ public class MenuBackground extends Screen {
 		selected = -1;
 		this.color = rgb;
 		this.title = super.title;
+
+		this.player = minecraft.player;
+		this.playerData = PlayerData.get(this.player);
+	}
+
+	public void setPlayerData(Player player, PlayerData playerData) {
+		this.player = player;
+		this.playerData = playerData;
 	}
 
 	@Override
@@ -169,8 +180,8 @@ public class MenuBackground extends Screen {
 	public void drawBiomeDim(GuiGraphics gui) {
 		gui.pose().pushPose();
 		{
-			String dimension = minecraft.player.level().dimension().location().getPath().toUpperCase().replaceAll("_", " ");
-			ResourceLocation biomeLoc = ResourceLocation.parse(printBiome(this.minecraft.level.getBiome(minecraft.player.blockPosition())));
+			String dimension = this.player.level().dimension().location().getPath().toUpperCase().replaceAll("_", " ");
+			ResourceLocation biomeLoc = ResourceLocation.parse(printBiome(this.minecraft.level.getBiome(this.player.blockPosition())));
 
 			String biome = "biome." + biomeLoc.getNamespace() + "." + biomeLoc.getPath();
 			if (Language.getInstance().has(biome)) {
@@ -190,8 +201,6 @@ public class MenuBackground extends Screen {
 			float scale = 1F;
 
 			gui.pose().translate(0.0F, 12, 1F);
-
-			PlayerData playerData = PlayerData.get(minecraft.player);
 
 			int y = (int) (topBarHeight + middleHeight + 1);
 			int maxWidth = 0;
@@ -308,11 +317,11 @@ public class MenuBackground extends Screen {
 	}
 
 	public void drawParty(@Nullable WorldData worldData, GuiGraphics gui) {
-		if(worldData == null || worldData.getPartyFromMember(minecraft.player.getUUID()) == null) {
-			Party.Member m = new Party.Member(minecraft.player.getUUID(), minecraft.player.getDisplayName().getString());
+		if(worldData == null || worldData.getPartyFromMember(this.player.getUUID()) == null) {
+			Party.Member m = new Party.Member(this.player.getUUID(), this.player.getDisplayName().getString());
 			drawPlayer(gui, null,0, m);
 		} else {
-			Party party =  worldData.getPartyFromMember(minecraft.player.getUUID());
+			Party party =  worldData.getPartyFromMember(this.player.getUUID());
 			for(int i=0;i<party.getMembers().size();i++) {
 				Party.Member member = party.getMembers().get(i);
 				drawPlayer(gui, party, i, member);
