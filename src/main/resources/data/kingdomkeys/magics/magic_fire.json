@@ -3,21 +3,21 @@
 		"cost":8,
 		"casttime":10,
 		"cooldown":5,
-		"dmg_mult":1.0,
+		"dmg_mult":0.2,
 		"magic_lock_on":true
 	},
 	"1": {
 		"cost":8,
 		"casttime":10,
 		"cooldown":5,
-		"dmg_mult":1.0,
+		"dmg_mult":0.3,
 		"magic_lock_on":true
 	},
 	"2": {
 		"cost":8,
 		"casttime":10,
 		"cooldown":5,
-		"dmg_mult":1.0,
+		"dmg_mult":0.4,
 		"magic_lock_on":true
 	},
 	"3": {

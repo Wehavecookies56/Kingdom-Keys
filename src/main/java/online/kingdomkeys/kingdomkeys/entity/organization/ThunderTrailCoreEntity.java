@@ -57,7 +57,6 @@ public class ThunderTrailCoreEntity extends ThrowableProjectile {
 		if (getCaster() != null) {
 			if(tickCount % 3 == 0) {
 				ThunderBoltEntity shot = new ThunderBoltEntity(getCaster().level(), getCaster(), getX(), getY()-1, getZ(), dmg);
-				shot.setCaster(getCaster().getUUID());
 				level().addFreshEntity(shot);
 
 				LightningBolt lightningBoltEntity = EntityType.LIGHTNING_BOLT.create(this.level());

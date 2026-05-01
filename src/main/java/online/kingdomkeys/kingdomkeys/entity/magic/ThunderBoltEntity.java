@@ -1,10 +1,6 @@
 package online.kingdomkeys.kingdomkeys.entity.magic;
 
-import net.minecraft.Util;
 import net.minecraft.advancements.CriteriaTriggers;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.syncher.EntityDataAccessor;
-import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -21,7 +17,6 @@ import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
@@ -31,8 +26,6 @@ import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 
 public class ThunderBoltEntity extends ThrowableProjectile {
 	private int lightningState;
@@ -45,9 +38,8 @@ public class ThunderBoltEntity extends ThrowableProjectile {
 		this.blocksBuilding = true;
 	}
 
-	public ThunderBoltEntity(Level world, Player player, double x, double y, double z, float dmgMult) {
+	public ThunderBoltEntity(Level world, LivingEntity player, double x, double y, double z, float dmgMult) {
 		super(ModEntities.TYPE_THUNDERBOLT.get(), player, world);
-		setCaster(player.getUUID());
 		this.noCulling = true;
 		this.moveTo(x, y, z, 0.0F, 0.0F);
 		this.lightningState = 2;
@@ -59,6 +51,11 @@ public class ThunderBoltEntity extends ThrowableProjectile {
 
 	public SoundSource getSoundSource() {
 		return SoundSource.WEATHER;
+	}
+
+	@Override
+	protected void defineSynchedData(SynchedEntityData.Builder builder) {
+
 	}
 
 	/**
@@ -136,13 +133,13 @@ public class ThunderBoltEntity extends ThrowableProjectile {
 					if (entity instanceof Creeper) {
 						LightningBolt lightningBoltEntity = EntityType.LIGHTNING_BOLT.create(this.level());
 						lightningBoltEntity.moveTo(Vec3.atBottomCenterOf(entity.blockPosition()));
-						lightningBoltEntity.setCause(getCaster() instanceof ServerPlayer ? (ServerPlayer) getCaster() : null);
+						lightningBoltEntity.setCause(getOwner() instanceof ServerPlayer ? (ServerPlayer) getOwner() : null);
 						this.level().addFreshEntity(lightningBoltEntity);
 					}
 				}
 
-				if (getCaster() != null) {
-					CriteriaTriggers.CHANNELED_LIGHTNING.trigger((ServerPlayer) getCaster(), list);
+				if (getOwner() != null) {
+					CriteriaTriggers.CHANNELED_LIGHTNING.trigger((ServerPlayer) getOwner(), list);
 				}
 			}
 		}
@@ -156,47 +153,5 @@ public class ThunderBoltEntity extends ThrowableProjectile {
 	public boolean shouldRenderAtSqrDistance(double distance) {
 		double d0 = 64.0D * getViewScale();
 		return distance < d0 * d0;
-	}
-
-	/*
-	 * @Override public void writeAdditional(CompoundNBT compound) {
-	 * compound.putUniqueId("caster", this.getCaster()); }
-	 * 
-	 * @Override public void readAdditional(CompoundNBT compound) {
-	 * this.setCaster(compound.getUniqueId("caster")); }
-	 */
-
-	private static final EntityDataAccessor<Optional<UUID>> OWNER = SynchedEntityData.defineId(ThunderBoltEntity.class, EntityDataSerializers.OPTIONAL_UUID);
-
-	@Override
-	public void addAdditionalSaveData(CompoundTag compound) {
-		super.addAdditionalSaveData(compound);
-		if (this.entityData.get(OWNER).isPresent()) {
-			compound.putString("OwnerUUID", this.entityData.get(OWNER).get().toString());
-		}
-	}
-
-	@Override
-	public void readAdditionalSaveData(CompoundTag compound) {
-		super.readAdditionalSaveData(compound);
-		this.entityData.set(OWNER, Optional.of(UUID.fromString(compound.getString("OwnerUUID"))));
-	}
-
-	public Player getCaster() {
-		return this.getEntityData().get(OWNER).isPresent() ? this.level().getPlayerByUUID(this.getEntityData().get(OWNER).get()) : null;
-	}
-
-	public void setCaster(UUID uuid) {
-		this.entityData.set(OWNER, Optional.of(uuid));
-	}
-
-	@Override
-	protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
-		pBuilder.define(OWNER, Optional.of(Util.NIL_UUID));
-	}
-
-	@Override
-	protected void onHit(HitResult result) {
-		// TODO Auto-generated method stub
 	}
 }

@@ -23,7 +23,6 @@ public class MagicFire extends Magic {
 	public void magicUse(LivingEntity player, Player caster, int level, float fullMPBlastMult, LivingEntity lockOnEntity) {
 		float dmgMult = getDamageMult(level) + PlayerData.get(caster).getNumberOfAbilitiesEquipped(Strings.fireBoost) * 0.2F;
 		dmgMult *= fullMPBlastMult;
-
 		lockOnEntity = getMagicLockOn(level) ? lockOnEntity : null;
 
 		switch (level) {

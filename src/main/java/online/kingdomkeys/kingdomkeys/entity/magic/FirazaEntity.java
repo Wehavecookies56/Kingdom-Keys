@@ -2,11 +2,6 @@ package online.kingdomkeys.kingdomkeys.entity.magic;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
-import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.server.level.ServerEntity;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -24,46 +19,27 @@ import online.kingdomkeys.kingdomkeys.damagesource.KKDamageTypes;
 import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
-import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.util.List;
 
-public class FirazaEntity extends ThrowableProjectile {
-
-	int maxTicks = 100;
-	float dmgMult = 1;
-    LivingEntity lockOnEntity;
+public class FirazaEntity extends BaseMagicProjectile {
 
 	public FirazaEntity(EntityType<? extends ThrowableProjectile> type, Level world) {
 		super(type, world);
-		this.blocksBuilding = true;
 	}
 
 	public FirazaEntity(Level world, LivingEntity player, float dmgMult, LivingEntity lockOnEntity) {
 		super(ModEntities.TYPE_FIRAZA.get(), player, world);
 		this.dmgMult = dmgMult;
         this.lockOnEntity = lockOnEntity;
-    }
-
-	@Override
-	public Packet<ClientGamePacketListener> getAddEntityPacket(ServerEntity pEntity) {
-		return super.getAddEntityPacket(pEntity);
-	}
-
-	@Override
-	protected double getDefaultGravity() {
-		return 0;
+		setDamageType(KKDamageTypes.FIRE);
 	}
 
 	@Override
 	public void tick() {
-		if (this.tickCount > maxTicks) {
-			this.remove(RemovalReason.KILLED);
-		}
-
-        if(this.lockOnEntity != null && tickCount > 0) {
+		if(this.lockOnEntity != null && tickCount > 0) {
             double x = (this.lockOnEntity.getX() - this.getX());
             double y = (this.lockOnEntity.getY() - this.getY());
             double z = (this.lockOnEntity.getZ() - this.getZ());
@@ -102,7 +78,6 @@ public class FirazaEntity extends ThrowableProjectile {
 			}
 
 			if (ertResult != null && ertResult.getEntity() instanceof LivingEntity target) {
-
                 if (target != getOwner()) {
 					if (target.getEffect(ModMobEffects.FREEZE) != null) {
 						target.removeEffect(ModMobEffects.FREEZE);
@@ -113,8 +88,7 @@ public class FirazaEntity extends ThrowableProjectile {
 					}
 					if(p == null || (p.getMember(target.getUUID()) == null || p.getFriendlyFire())) { //If caster is not in a party || the party doesn't have the target in it || the party has FF on
 						target.setRemainingFireTicks(30);
-						float dmg = this.getOwner() instanceof Player ? DamageCalculation.getMagicDamage((Player) this.getOwner()) : 2;
-						target.hurt(KKDamageTypes.getElementalDamage(KKDamageTypes.FIRE,this, this.getOwner()), dmg * dmgMult);
+						damageEntity(target);
 					}
 				}
 			}
@@ -149,8 +123,8 @@ public class FirazaEntity extends ThrowableProjectile {
                     for (Entity e : list) {
                         if (e instanceof LivingEntity ent) {
                             e.setRemainingFireTicks(25);
-                            float dmg = this.getOwner() instanceof Player ? DamageCalculation.getMagicDamage((Player) this.getOwner()) * 0.8F : 2;
-                            e.hurt(KKDamageTypes.getElementalDamage(KKDamageTypes.FIRE, this, this.getOwner()), dmg * dmgMult);
+                            damageEntity(ent);
+
                             if (ent.getEffect(ModMobEffects.FREEZE) != null) {
                                 ent.removeEffect(ModMobEffects.FREEZE);
                             }
@@ -160,28 +134,5 @@ public class FirazaEntity extends ThrowableProjectile {
 			}
 			remove(RemovalReason.KILLED);
 		}
-	}
-
-	public int getMaxTicks() {
-		return maxTicks;
-	}
-
-	public void setMaxTicks(int maxTicks) {
-		this.maxTicks = maxTicks;
-	}
-
-	@Override
-	public void addAdditionalSaveData(CompoundTag compound) {
-		// compound.putInt("lvl", this.getLvl());
-	}
-
-	@Override
-	public void readAdditionalSaveData(CompoundTag compound) {
-		// this.setLvl(compound.getInt("lvl"));
-	}
-
-	@Override
-	protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
-
 	}
 }

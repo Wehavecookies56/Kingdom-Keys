@@ -24,26 +24,22 @@ public class MagicWater extends Magic {
 		dmgMult *= fullMPBlastMult;
 
 		switch(level) {
-		case 0:
-			WaterEntity water = new WaterEntity(player.level(), player, dmgMult);
-			water.setCaster(player.getDisplayName().getString());
-			player.level().addFreshEntity(water);
-			break;
-		case 1:
-			WateraEntity watera = new WateraEntity(player.level(), player, dmgMult);
-			watera.setCaster(player.getDisplayName().getString());
-			player.level().addFreshEntity(watera);
-			break;
-		case 2:
-			WatergaEntity waterga = new WatergaEntity(player.level(), player, dmgMult);
-			waterga.setCaster(player.getDisplayName().getString());
-			player.level().addFreshEntity(waterga);
-			break;
-		case 3:
-			WaterzaEntity waterza = new WaterzaEntity(player.level(), player, dmgMult);
-			waterza.setCaster(player.getDisplayName().getString());
-			player.level().addFreshEntity(waterza);
-			break;
+			case 0 -> {
+				WaterEntity water = new WaterEntity(player.level(), player, dmgMult);
+				player.level().addFreshEntity(water);
+			}
+			case 1 -> {
+				WateraEntity watera = new WateraEntity(player.level(), player, dmgMult);
+				player.level().addFreshEntity(watera);
+			}
+			case 2 -> {
+				WatergaEntity waterga = new WatergaEntity(player.level(), player, dmgMult);
+				player.level().addFreshEntity(waterga);
+			}
+			case 3 -> {
+				WaterzaEntity waterza = new WaterzaEntity(player.level(), player, dmgMult);
+				player.level().addFreshEntity(waterza);
+			}
 		}
 		
 		if(player.isOnFire()) {

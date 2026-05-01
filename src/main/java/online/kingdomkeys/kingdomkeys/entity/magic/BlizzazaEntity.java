@@ -2,8 +2,6 @@ package online.kingdomkeys.kingdomkeys.entity.magic;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.EntityType;
@@ -22,16 +20,12 @@ import online.kingdomkeys.kingdomkeys.damagesource.KKDamageTypes;
 import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
-import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.util.List;
 
-public class BlizzazaEntity extends ThrowableProjectile {
-
-	int maxTicks = 120;
-	float dmgMult = 1;
+public class BlizzazaEntity extends BaseMagicProjectile {
 	int freezeTime;
 
 	public BlizzazaEntity(EntityType<? extends ThrowableProjectile> type, Level world) {
@@ -43,21 +37,13 @@ public class BlizzazaEntity extends ThrowableProjectile {
 		super(ModEntities.TYPE_BLIZZAZA.get(), player, world);
 		this.dmgMult = dmgMult;
 		this.freezeTime = freezeTime;
-	}
-
-	@Override
-	protected double getDefaultGravity() {
-		return 0D;
+		setDamageType(KKDamageTypes.ICE);
 	}
 
 	float radius = 6F;
 
 	@Override
 	public void tick() {
-		if (this.tickCount > maxTicks) {
-			this.remove(RemovalReason.KILLED);
-		}
-
 		if(ModConfigs.blizzardChangeBlocks && !level().isClientSide && level().getBlockState(blockPosition()) != Blocks.AIR.defaultBlockState()) {
 			for(int x=(int)(getX()-radius/2);x<getX()+radius/2;x++) {
 				for(int y=(int)(getY());y<getY()+1;y++) {
@@ -104,8 +90,8 @@ public class BlizzazaEntity extends ThrowableProjectile {
 					}
 
 					if (p == null || (p.getMember(target.getUUID()) == null || p.getFriendlyFire())) { // If caster is not in a party || the party doesn't have the target in it || the party has FF on
-						float dmg = this.getOwner() instanceof Player ? DamageCalculation.getMagicDamage((Player) this.getOwner()) * 1.4F : 2;
-						target.hurt(KKDamageTypes.getElementalDamage(KKDamageTypes.ICE, this, this.getOwner()), dmg * dmgMult);
+						damageEntity(target);
+
 						if (!target.isOnFire()) {
 							MobEffectInstance freeze = target.getEffect(ModMobEffects.FREEZE);
 							int duration = freezeTime;
@@ -145,7 +131,6 @@ public class BlizzazaEntity extends ThrowableProjectile {
 					}
 				}
 				
-				
 				for(float i = -5; i <= 5; i+=0.5F) {
 					((ServerLevel) level()).sendParticles(ParticleTypes.CLOUD, getX(), getY()+i, getZ(), 3, 0,0,0, 0.2);
 				}
@@ -166,9 +151,7 @@ public class BlizzazaEntity extends ThrowableProjectile {
                             e.clearFire();
                         } else {
                             if (!Utils.isEntityInParty(casterParty, e) && e != getOwner()) {
-                                float baseDmg = DamageCalculation.getMagicDamage((Player) this.getOwner()) * 1.4F;
-                                float dmg = this.getOwner() instanceof Player ? baseDmg : 2;
-                                e.hurt(KKDamageTypes.getElementalDamage(KKDamageTypes.ICE,this, player), dmg);
+								damageEntity(e);
 
 								MobEffectInstance freeze = e.getEffect(ModMobEffects.FREEZE);
 								int duration = freezeTime;
@@ -184,29 +167,6 @@ public class BlizzazaEntity extends ThrowableProjectile {
 			}
 			remove(RemovalReason.KILLED);
 		}
-
-	}
-
-	public int getMaxTicks() {
-		return maxTicks;
-	}
-
-	public void setMaxTicks(int maxTicks) {
-		this.maxTicks = maxTicks;
-	}
-
-	@Override
-	public void addAdditionalSaveData(CompoundTag compound) {
-		// compound.putInt("lvl", this.getLvl());
-	}
-
-	@Override
-	public void readAdditionalSaveData(CompoundTag compound) {
-		// this.setLvl(compound.getInt("lvl"));
-	}
-
-	@Override
-	protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
 
 	}
 }

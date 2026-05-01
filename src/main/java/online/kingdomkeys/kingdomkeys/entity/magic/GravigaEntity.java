@@ -27,9 +27,8 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.util.List;
 
-public class GravigaEntity extends ThrowableProjectile {
+public class GravigaEntity extends BaseMagicProjectile {
 
-	int maxTicks = 100;
 	float dmgMult = 1;
 
 	public GravigaEntity(EntityType<? extends ThrowableProjectile> type, Level world) {
@@ -40,6 +39,7 @@ public class GravigaEntity extends ThrowableProjectile {
 	public GravigaEntity(Level world, LivingEntity player, float dmgMult) {
 		super(ModEntities.TYPE_GRAVIGA.get(), player, world);
 		this.dmgMult = dmgMult;
+		setDamageType(KKDamageTypes.DARKNESS);
 	}
 
 	@Override
@@ -49,10 +49,6 @@ public class GravigaEntity extends ThrowableProjectile {
 
 	@Override
 	public void tick() {
-		if (this.tickCount > maxTicks) {
-			this.remove(RemovalReason.KILLED);
-		}
-
 		if (tickCount > 2)
 			level().addParticle(ParticleTypes.DRAGON_BREATH, getX(), getY(), getZ(), 0, 0, 0);
 
@@ -91,9 +87,10 @@ public class GravigaEntity extends ThrowableProjectile {
 								player.connection.send(new ClientboundUpdateMobEffectPacket(le.getId(), instance, false));
 							});
 							if (Utils.isHostile(e) || e instanceof TrainingDummyEntity || e instanceof MagicTargetEntity) {
-                                float dmg = this.getOwner() instanceof Player player ? le.getMaxHealth() * DamageCalculation.getMagicDamage(player) / 100 : 2;
-                                dmg = Math.min(dmg, 99);
-								e.hurt(KKDamageTypes.getElementalDamage(KKDamageTypes.DARKNESS,this, this.getOwner()), dmg * dmgMult);
+								float ratio = dmgMult * (this.getOwner() instanceof Player ? DamageCalculation.getMagicDamage((Player) this.getOwner()) / 100 : 2);
+								float dmg = le.getHealth() * ratio;
+								dmg = Math.min(dmg, 99);
+								e.hurt(KKDamageTypes.getElementalDamage(KKDamageTypes.DARKNESS,this, this.getOwner()), dmg);
                             }
 
                             if (e instanceof ServerPlayer)

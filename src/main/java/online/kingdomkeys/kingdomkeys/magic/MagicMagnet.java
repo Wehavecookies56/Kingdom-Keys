@@ -18,13 +18,12 @@ public class MagicMagnet extends Magic {
 
 	@Override
 	public void magicUse(LivingEntity player, Player caster, int level, float fullMPBlastMult, LivingEntity lockOnEntity) {
-		float dmg = /*ModCapabilities.getPlayer(player).isAbilityEquipped(Strings.waterBoost) ? getDamageMult(level) * 1.2F :*/ getDamageMult(level);
+		float dmg = getDamageMult(level);
 		dmg *= fullMPBlastMult;
 
 		switch(level) {
 		case 0:
 			MagnetEntity magnet = new MagnetEntity(player.level(), player, dmg);
-			magnet.setCaster(player.getUUID());
 			if(lockOnEntity != null) {
 				magnet.setPos(lockOnEntity.getX(), lockOnEntity.getY()+1, lockOnEntity.getZ());
 				magnet.shootFromRotation(lockOnEntity, -90, lockOnEntity.getYRot(),0,1,0);
@@ -36,7 +35,6 @@ public class MagicMagnet extends Magic {
 			break;
 		case 1:
 			MagneraEntity magnera = new MagneraEntity(player.level(), player, dmg);
-			magnera.setCaster(player.getUUID());
 			if(lockOnEntity != null) {
 				magnera.setPos(lockOnEntity.getX(), lockOnEntity.getY()+1, lockOnEntity.getZ());
 				magnera.shootFromRotation(lockOnEntity, -90, lockOnEntity.getYRot(),0,1,0);
@@ -47,7 +45,6 @@ public class MagicMagnet extends Magic {
 			break;
 		case 2:
 			MagnegaEntity magnega = new MagnegaEntity(player.level(), player, dmg);
-			magnega.setCaster(player.getUUID());
 			if(lockOnEntity != null) {
 				magnega.setPos(lockOnEntity.getX(), lockOnEntity.getY()+1, lockOnEntity.getZ());
 				magnega.shootFromRotation(lockOnEntity, -90, lockOnEntity.getYRot(),0,1,0);
