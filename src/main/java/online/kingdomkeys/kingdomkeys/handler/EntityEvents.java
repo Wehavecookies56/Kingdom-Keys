@@ -16,6 +16,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
@@ -764,23 +765,9 @@ public class EntityEvents {
 				} else { // When it finishes
 					if (playerData.getReflectActive() && !player.level().isClientSide()) {// If has been hit
 						// SPAWN ENTITY and apply damage
-						float dmgMult = 1;
-						float radius = 1;
-                        dmgMult = switch (playerData.getReflectLevel()) {
-                            case 0 -> {
-                                radius = 2.5F;
-                                yield 0.3F;
-                            }
-                            case 1 -> {
-                                radius = 3F;
-                                yield 0.5F;
-                            }
-                            case 2 -> {
-                                radius = 3.5F;
-                                yield 0.7F;
-                            }
-                            default -> dmgMult;
-                        };
+						float radius = 2F + playerData.getReflectLevel() * 0.5F;
+						float dmgMult = ModMagic.registry.get(ModMagic.REFLECT.get().getRegistryName()).getDamageMult(playerData.getReflectLevel());
+
 						List<Entity> list = player.level().getEntities(player, player.getBoundingBox().inflate(radius, radius, radius));
 						Party casterParty = WorldData.get(player.level().getServer()).getPartyFromMember(player.getUUID());
 
@@ -799,13 +786,13 @@ public class EntityEvents {
 							double z = Z + (radius * Math.sin(Math.toRadians(t)));
 							((ServerLevel) entity.level()).sendParticles(ParticleTypes.BUBBLE.getType(), x, Y + 1, z, 5, 0, 0, 0, 1);
 						}
-
 						if (!list.isEmpty()) {
-                            for (Entity e : list) {
-                                if (e instanceof LivingEntity) {
-                                    e.hurt(e.damageSources().playerAttack(player), DamageCalculation.getMagicDamage(player) * dmgMult * ModMagic.registry.get(ResourceLocation.parse(Strings.Magic_Reflect)).getDamageMult(playerData.getReflectLevel()));
-                                }
-                            }
+							DamageSource damageSource = KKDamageTypes.getElementalDamage(KKDamageTypes.AIR, player, player);
+							float dmg = DamageCalculation.getMagicDamage(player) * dmgMult;
+
+							for (Entity e : list) {
+								e.hurt(damageSource, dmg);
+							}
 							player.level().playSound(null, player.position().x(), player.position().y(), player.position().z(), ModSounds.reflect2.get(), SoundSource.PLAYERS, 1F, 1F);
 
 						}

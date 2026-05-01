@@ -18,7 +18,7 @@ public class MagicReflect extends Magic {
 	@Override
 	public void magicUse(LivingEntity player, Player caster, int level, float fullMPBlastMult, LivingEntity lockOnEntity) {
 		PlayerData playerData = PlayerData.get(caster);
-		playerData.setReflectTicks(40 + (level * 5), level);
+		playerData.setReflectTicks((int) (40 + (getDamageMult(level) * 5)), level);
 		PacketHandler.syncToAllAround(caster, playerData);
 		player.swing(InteractionHand.MAIN_HAND);
 	}
