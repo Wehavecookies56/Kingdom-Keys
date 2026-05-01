@@ -1,5 +1,5 @@
 ### Added:
-*  **/kingdomkeys check** command for server owners to see other player stats and abilities.
+* **/kingdomkeys check <player>** command for server owners to see other player stats and abilities.
 
 ### Changed:
 * All the magics got the internal multipliers removed.
