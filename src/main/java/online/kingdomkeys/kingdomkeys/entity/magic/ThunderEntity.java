@@ -59,7 +59,7 @@ public class ThunderEntity extends BaseMagicProjectile {
 				list.remove(this);
 			}
 			
-			if (tickCount % 10 == 1) {
+			if (tickCount % 9 == 1) {
 				if (!list.isEmpty()) { //find random entity
 					int i = level().random.nextInt(list.size());
 					Entity e = list.get(i);

@@ -34,6 +34,10 @@ public class MagicSpellItem extends Item implements IItemCategory {
 		this.magic = name;
 	}
 
+	public String getMagic() {
+		return magic;
+	}
+
 	@Override
 	public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
 		PlayerData playerData = PlayerData.get(player);

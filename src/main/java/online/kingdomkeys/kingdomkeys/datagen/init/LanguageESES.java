@@ -300,6 +300,7 @@ public class LanguageESES extends KKLanguageProvider {
         add(Gui_Menu_Items_Equipment_Shotlock, "Tiro Certero");
         add(Gui_Menu_Items_Equipment_Accessories, "Accesorios");
         add(Gui_Menu_Items_Equipment_Armor, "Armadura");
+        add(Gui_Menu_Items_Equipment_Magic, "Magias");
         add(Gui_Menu_Items_Equipment_Pauldron, "Hombrera");
         add(Gui_Menu_Items_Equipment_Items, "Objetos");
 

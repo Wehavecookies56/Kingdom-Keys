@@ -229,8 +229,9 @@ public class CommandMenuGui extends OverlayBase {
 		ModMagic.registry.forEach(magicRegistryObject -> magic.add(new CommandMenuItem.Builder(magicRegistryObject.getRegistryName(), Component.translatable(magicRegistryObject.getTranslationKey()), item -> {
 			PlayerData playerData = PlayerData.get(minecraft.player);
 			WorldData worldData = WorldData.getClient();
-			int[] mag = playerData.getMagicsMap().get(magicRegistryObject.getRegistryName().toString());
-			double cost = magicRegistryObject.getCost(mag[0], minecraft.player);
+			int magLevel = playerData.getMagicsMap().get(magicRegistryObject.getRegistryName().toString())[0]; //Get the magic instance from the current name
+			//int magLevel = playerData.getEquippedMagics().get()
+			double cost = magicRegistryObject.getCost(magLevel, minecraft.player);
 
 			if (playerData.getMaxMP() == 0 || playerData.getRecharge() || cost > playerData.getMaxMP() && cost < 300) {
 				playErrorSound();
@@ -459,10 +460,7 @@ public class CommandMenuGui extends OverlayBase {
 
         //Self should always show in case using an addon
         targets.add(new CommandMenuItem.Builder(
-                ResourceLocation.fromNamespaceAndPath(
-                        KingdomKeys.MODID,
-                        minecraft.player.getDisplayName().getString().toLowerCase()
-                ),
+                ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, minecraft.player.getDisplayName().getString().toLowerCase()),
                 Component.literal(minecraft.player.getDisplayName().getString()),
                 item -> subMenu.getParent().getSelected().onEnter()
         ).setData(minecraft.player.getId()+"").build(subMenu));

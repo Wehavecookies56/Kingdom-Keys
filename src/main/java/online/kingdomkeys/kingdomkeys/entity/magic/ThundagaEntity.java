@@ -50,7 +50,7 @@ public class ThundagaEntity extends BaseMagicProjectile {
 			return;
 		}
 		
-		float radius = 3.0F;
+		float radius = 4.0F;
 
 		if (!level().isClientSide && getOwner() != null) { // Only calculate and spawn lightning bolts server side
 			if (tickCount == 1) {

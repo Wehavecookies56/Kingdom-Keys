@@ -390,6 +390,20 @@ public class EntityEvents {
 				}
 				playerData.equipAllArmors(armorsMap, true);
 
+
+				HashMap<Integer, ItemStack> magicsMap = (HashMap<Integer, ItemStack>) playerData.getEquippedMagics();
+				if (magicsMap.isEmpty()) {
+					for (int i = 0; i < 10; i++) {
+						magicsMap.put(i, ItemStack.EMPTY);
+					}
+				}
+				for (int i = magicsMap.size(); i < 10; i++) {
+					magicsMap.put(i, ItemStack.EMPTY);
+				}
+				playerData.equipAllMagics(magicsMap, true);
+
+
+
 				// Fills the map with empty stacks for every form that requires one.
 				playerData.getDriveFormMap().keySet().forEach(key -> {
 					// Make sure the form exists
@@ -449,6 +463,7 @@ public class EntityEvents {
 		PlayerData playerData = PlayerData.get(player);
 		//playerData.clearRecipes("all");
 		if (playerData != null) {
+			playerData.setMaxMagics(8);
 			// Check if rc conditions match
 			//Tick RCs in list
 			for (String rcName : new ArrayList<>(playerData.getReactionCommands().keySet())) {

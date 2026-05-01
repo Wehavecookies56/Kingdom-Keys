@@ -225,9 +225,14 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		CompoundTag armors = new CompoundTag();
 		this.getEquippedArmors().forEach((slot, armor) -> armors.put(slot.toString(), armor.saveOptional(provider)));
 		storage.put("armors", armors);
-		
+
+	    CompoundTag equippedMagics = new CompoundTag();
+	    this.getEquippedMagics().forEach((slot, magic) -> equippedMagics.put(slot.toString(), magic.saveOptional(provider)));
+	    storage.put("equipped_magics", equippedMagics);
+
 		storage.putInt("max_accessories", this.getMaxAccessories());
 		storage.putInt("max_armors", this.getMaxArmors());
+	    storage.putInt("max_magics", this.getMaxMagics());
 
 		storage.putInt("hearts", this.getHearts());
 		storage.putInt("org_alignment", this.getAlignmentIndex());
@@ -465,8 +470,13 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		CompoundTag armorsNBT = nbt.getCompound("armors");
 		armorsNBT.getAllKeys().forEach((slot) -> this.setNewArmor(Integer.parseInt(slot), ItemStack.parseOptional(provider, armorsNBT.getCompound(slot))));
 
+		equippedMagics.clear();
+		CompoundTag magicsNBT = nbt.getCompound("equipped_magics");
+		magicsNBT.getAllKeys().forEach((slot) -> this.setNewMagic(Integer.parseInt(slot), ItemStack.parseOptional(provider, magicsNBT.getCompound(slot))));
+
 		this.setMaxAccessories(nbt.getInt("max_accessories"));
 		this.setMaxArmors(nbt.getInt("max_armors"));
+		this.setMaxMagics(nbt.getInt("max_magics"));
 		
 		this.setHearts(nbt.getInt("hearts"));
 		this.setAlignment(nbt.getInt("org_alignment"));
@@ -590,9 +600,11 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 	private Map<Integer, ItemStack> equippedAccessories = new HashMap<>();
 	private Map<Integer, ItemStack> equippedArmors = new HashMap<>();
 	private Map<Integer, ItemStack> equippedKBArmors = new HashMap<>();
+	private Map<Integer, ItemStack> equippedMagics = new HashMap<>();
 	
 	private int maxAccessories = 0;
 	private int maxArmors = 0;
+	private int maxMagics = 0;
 	
 	private int armorColor = 16777215;
 	private boolean armorGlint = true;
@@ -1531,6 +1543,59 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 			equippedArmors.put(slot, stack);
 		}
 	}
+
+//Magic equippables
+	public Map<Integer, ItemStack> getEquippedMagics() {
+		return equippedMagics;
+	}
+	public ItemStack getEquippedMagic(int slot) {
+		if (equippedMagics.containsKey(slot)) {
+			return equippedMagics.get(slot);
+		}
+		return null;
+	}
+
+	public ItemStack equipMagic(int slot, ItemStack stack) {
+		//Item can be empty stack to unequip
+		if (canEquipMagic(slot, stack)) {
+			ItemStack previous = getEquippedMagic(slot);
+			equippedMagics.put(slot, stack);
+			return previous;
+		}
+		return null;
+	}
+
+	public boolean canEquipMagic(int slot, ItemStack stack) {
+		if (getEquippedMagic(slot) != null) {
+			if (ItemStack.matches(stack, ItemStack.EMPTY) || stack.getItem() instanceof MagicSpellItem) {
+				//If there is more than 1 item in the stack don't handle it
+				return stack.getCount() <= 1;
+			}
+		}
+		return false;
+	}
+
+	public void equipAllMagics(Map<Integer, ItemStack> magics, boolean force) {
+		//Any Magics that cannot be equipped will be removed
+		if(!force)
+			magics.replaceAll((k,v) -> canEquipMagic(k,v) ? v : ItemStack.EMPTY);
+		equippedMagics = magics;
+	}
+
+	public void setNewMagic(int slot, ItemStack stack) {
+		if (!equippedMagics.containsKey(slot)) {
+			equippedMagics.put(slot, stack);
+		}
+	}
+
+	/*public int getMagicSlot(String magicName) {
+		for(Entry<Integer, ItemStack> a : equippedMagics.entrySet()){
+			ItemStack stack = a.getValue();
+			if(stack.getItem() instanceof MagicSpellItem spell){
+				spell.getMagic()
+			}
+		}
+	}*/
 	//endregion
 
 	//region Organization
@@ -2253,6 +2318,19 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 	public void addMaxArmors(int num) {
 		this.maxArmors += num;
 		messages.add("R_"+Strings.Stats_LevelUp_MaxArmors);
+	}
+
+	public int getMaxMagics() {
+		return maxMagics;
+	}
+
+	public void setMaxMagics(int num) {
+		this.maxMagics = num;
+	}
+
+	public void addMaxMagics(int num) {
+		this.maxMagics += num;
+		messages.add("M_"+Strings.Stats_LevelUp_MaxMagics);
 	}
 	//endregion
 

@@ -256,6 +256,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Gui_Menu_Items_Equipment_Shotlock, "Shotlock");
         add(Gui_Menu_Items_Equipment_Accessories, "Accessories");
         add(Gui_Menu_Items_Equipment_Armor, "Armor");
+        add(Gui_Menu_Items_Equipment_Magic, "Magics");
         add(Gui_Menu_Items_Equipment_Pauldron, "Pauldron");
         add(Gui_Menu_Items_Equipment_Items, "Items");
         add(Gui_Menu_Customize, "Customize");

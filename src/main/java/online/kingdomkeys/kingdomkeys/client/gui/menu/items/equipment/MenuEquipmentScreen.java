@@ -81,6 +81,7 @@ public class MenuEquipmentScreen extends MenuBackground {
         Map<Integer, ItemStack> accessories = playerData.getEquippedAccessories();
         Map<Integer, ItemStack> kbArmor = playerData.getEquippedKBArmors();
         Map<Integer, ItemStack> armor = playerData.getEquippedArmors();
+	    Map<Integer, ItemStack> magics = playerData.getEquippedMagics();
 
         AtomicInteger offset = new AtomicInteger();
         AtomicInteger hidden = new AtomicInteger(0);
@@ -107,7 +108,6 @@ public class MenuEquipmentScreen extends MenuBackground {
                     hidden.getAndIncrement();            		
             	}
             }
-           
         } else {
         	showingKeyblades = true;
         }
@@ -170,8 +170,26 @@ public class MenuEquipmentScreen extends MenuBackground {
 	            MenuEquipmentButton kbArmorSlot = new MenuEquipmentButton(item, (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement(), 0xFF7200, new MenuKeybladeArmorSelectorScreen(0, new Color(255, 127, 0), 0xFF7200), ItemCategory.KBARMOR, this, Utils.translateToLocal(Strings.Gui_Menu_Items_Equipment_Pauldron), 0xFF9A3D);
 	            addRenderableWidget(kbArmorSlot);
         	});
-         }        
-        
+         }
+
+	    if (magics != null) {
+		    int c = 1;
+		    for (Map.Entry<Integer, ItemStack> entry : magics.entrySet()) {
+			    if (c > playerData.getMaxMagics())
+				    break;
+			    int slot = entry.getKey();
+			    ItemStack item = entry.getValue();
+			    MenuEquipmentButton magicSlot;
+			    if (slot == 0) {
+				    magicSlot = new MenuEquipmentButton(item, (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement(), 0xAA77FF, new MenuMagicSelectorScreen(slot, new Color(150, 130, 255), 0x8888AA), ItemCategory.MAGICS, this, Utils.translateToLocal(Strings.Gui_Menu_Items_Equipment_Magic), 0xAAAAFF);
+			    } else {
+				    magicSlot = new MenuEquipmentButton(item, (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement(), 0xAA77FF, new MenuMagicSelectorScreen(slot, new Color(150, 130, 255), 0x8888AA), ItemCategory.MAGICS, this);
+			    }
+			    addRenderableWidget(magicSlot);
+			    c++;
+		    }
+	    }
+
 		if (accessories != null) {
 			int c = 1;
 			for (Map.Entry<Integer, ItemStack> entry : accessories.entrySet()) {

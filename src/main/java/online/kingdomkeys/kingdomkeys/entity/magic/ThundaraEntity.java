@@ -50,7 +50,7 @@ public class ThundaraEntity extends BaseMagicProjectile {
 			return;
 		}
 		
-		float radius = 2.5F;
+		float radius = 3F;
 
 		if (!level().isClientSide && getOwner() != null) { // Only calculate and spawn lightning bolts server side
 			if (tickCount == 1) {
@@ -64,7 +64,7 @@ public class ThundaraEntity extends BaseMagicProjectile {
 				list.remove(this);
 			}
 
-			if (tickCount % 8 == 1) {
+			if (tickCount % 7 == 1) {
 				if (!list.isEmpty()) { // find random entity
 					int i = level().random.nextInt(list.size());
 					Entity e = list.get(i);

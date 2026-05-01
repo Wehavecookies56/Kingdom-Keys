@@ -73,6 +73,7 @@ public class PacketHandler {
 		server(CSDepositMaterials.TYPE, CSDepositMaterials.STREAM_CODEC);
 		server(CSEquipAccessories.TYPE, CSEquipAccessories.STREAM_CODEC);
 		server(CSEquipArmor.TYPE, CSEquipArmor.STREAM_CODEC);
+		server(CSEquipMagic.TYPE, CSEquipMagic.STREAM_CODEC);
 		server(CSEquipItems.TYPE, CSEquipItems.STREAM_CODEC);
 		server(CSEquipKeychain.TYPE, CSEquipKeychain.STREAM_CODEC);
 		server(CSEquipShotlock.TYPE, CSEquipShotlock.STREAM_CODEC);
