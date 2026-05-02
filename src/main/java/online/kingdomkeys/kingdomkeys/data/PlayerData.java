@@ -1217,7 +1217,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 	}
 
 	public int getMagicUses(ResourceLocation name) {
-		return magicList.get(name.toString())[1];
+		return 0;//magicList.get(name.toString())[1];
 	}
 
 	public void setMagicUses(ResourceLocation name, int uses) {
@@ -1548,6 +1548,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 	public Map<Integer, ItemStack> getEquippedMagics() {
 		return equippedMagics;
 	}
+
 	public ItemStack getEquippedMagic(int slot) {
 		if (equippedMagics.containsKey(slot)) {
 			return equippedMagics.get(slot);

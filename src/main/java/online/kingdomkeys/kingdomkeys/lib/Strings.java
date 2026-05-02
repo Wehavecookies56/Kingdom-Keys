@@ -581,19 +581,46 @@ public class Strings {
         panacea = "panacea",
         
         synthesisBag = "synthesis_bag",
-        
-        SpellFire = "spellfire",
-        SpellFira = "spellfira",
-        SpellFiraga = "spellfiraga",
-        SpellBlizzard = "spellblizzard",
-        SpellWater = "spellwater",
-        SpellThunder = "spellthunder",
-        SpellCure = "spellcure",
-        SpellAero = "spellaero",
-        SpellMagnet = "spellmagnet",
-        SpellReflect = "spellreflect",
-        SpellGravity = "spellgravity",
-        SpellStop = "spellstop",
+
+		SpellFire = "spellfire",
+		SpellFira = "spellfira",
+		SpellFiraga = "spellfiraga",
+
+		SpellBlizzard = "spellblizzard",
+		SpellBlizzara = "spellblizzara",
+		SpellBlizzaga = "spellblizzaga",
+
+		SpellWater = "spellwater",
+		SpellWatera = "spellwatera",
+		SpellWaterga = "spellwaterga",
+
+		SpellThunder = "spellthunder",
+		SpellThundara = "spellthundara",
+		SpellThundaga = "spellthundaga",
+
+		SpellCure = "spellcure",
+		SpellCura = "spellcura",
+		SpellCuraga = "spellcuraga",
+
+		SpellAero = "spellaero",
+		SpellAerora = "spellaerora",
+		SpellAeroga = "spellaeroga",
+
+		SpellMagnet = "spellmagnet",
+		SpellMagnera = "spellmagnera",
+		SpellMagnega = "spellmagnega",
+
+		SpellReflect = "spellreflect",
+		SpellReflera = "spellreflera",
+		SpellReflega = "spellreflega",
+
+		SpellGravity = "spellgravity",
+		SpellGravira = "spellgravira",
+		SpellGraviga = "spellgraviga",
+
+		SpellStop = "spellstop",
+		SpellStopra = "spellstopra",
+		SpellStopga = "spellstopga",
 
 		StruggleSword = "struggle_sword",
 		StruggleWand = "struggle_wand",

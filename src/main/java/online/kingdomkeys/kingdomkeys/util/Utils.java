@@ -859,6 +859,32 @@ public class Utils {
 		return null;
 	}
 
+	public static List<String> getSpellsList(Map<Integer, ItemStack> equippedMagics) {
+		List<String> result = new ArrayList<>();
+		if(equippedMagics.isEmpty())
+			return result;
+		for (Map.Entry<Integer, ItemStack> entry : equippedMagics.entrySet()) {
+			if(entry.getValue().getItem() instanceof MagicSpellItem spell) {
+				result.add(spell.getMagic());
+			}
+		}
+		return result;
+	}
+
+	public static int getMagicSlotFromName(Map<Integer, ItemStack> equippedMagics, String commandMagicName) {
+		if (equippedMagics.isEmpty()) return -1;
+
+		for (Map.Entry<Integer, ItemStack> entry : equippedMagics.entrySet()) {
+			ItemStack stack = entry.getValue();
+			if (!stack.isEmpty() && stack.getItem() instanceof MagicSpellItem spell) {
+				if (spell.getMagic().equals(commandMagicName)) {
+					return entry.getKey();
+				}
+			}
+		}
+		return -1;
+	}
+
 	public static class Title {
 		public String title, subtitle;
 		public int fadeIn = 10, fadeOut = 20, displayTime = 70;
