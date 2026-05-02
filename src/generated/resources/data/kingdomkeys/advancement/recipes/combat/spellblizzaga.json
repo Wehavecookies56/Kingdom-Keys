@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "blizzaga_spell": {
+      "conditions": {
+        "items": [
+          {
+            "items": "kingdomkeys:spellblizzara"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "kingdomkeys:spellblizzaga"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "blizzaga_spell"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "kingdomkeys:spellblizzaga"
+    ]
+  }
+}

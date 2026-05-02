@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    {
+      "item": "kingdomkeys:spellwatera"
+    },
+    {
+      "item": "kingdomkeys:spellwatera"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "kingdomkeys:spellwaterga"
+  }
+}

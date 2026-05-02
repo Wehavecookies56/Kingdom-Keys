@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    {
+      "item": "kingdomkeys:spellwater"
+    },
+    {
+      "item": "kingdomkeys:spellwater"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "kingdomkeys:spellwatera"
+  }
+}

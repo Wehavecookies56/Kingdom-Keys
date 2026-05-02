@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    {
+      "item": "kingdomkeys:spellgravira"
+    },
+    {
+      "item": "kingdomkeys:spellgravira"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "kingdomkeys:spellgraviga"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    {
+      "item": "kingdomkeys:spellreflera"
+    },
+    {
+      "item": "kingdomkeys:spellreflera"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "kingdomkeys:spellreflega"
+  }
+}

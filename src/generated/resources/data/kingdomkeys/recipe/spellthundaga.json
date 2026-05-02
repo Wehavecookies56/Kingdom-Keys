@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    {
+      "item": "kingdomkeys:spellthundara"
+    },
+    {
+      "item": "kingdomkeys:spellthundara"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "kingdomkeys:spellthundaga"
+  }
+}

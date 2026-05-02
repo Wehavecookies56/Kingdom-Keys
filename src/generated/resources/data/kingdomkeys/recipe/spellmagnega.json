@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    {
+      "item": "kingdomkeys:spellmagnera"
+    },
+    {
+      "item": "kingdomkeys:spellmagnera"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "kingdomkeys:spellmagnega"
+  }
+}

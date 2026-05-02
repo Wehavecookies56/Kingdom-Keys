@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "kingdomkeys:spellmagnera"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "magnera_spell": {
+      "conditions": {
+        "items": [
+          {
+            "items": "kingdomkeys:spellmagnet"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "magnera_spell"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "kingdomkeys:spellmagnera"
+    ]
+  }
+}

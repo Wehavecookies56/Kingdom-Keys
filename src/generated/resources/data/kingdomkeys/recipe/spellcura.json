@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    {
+      "item": "kingdomkeys:spellcure"
+    },
+    {
+      "item": "kingdomkeys:spellcure"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "kingdomkeys:spellcura"
+  }
+}

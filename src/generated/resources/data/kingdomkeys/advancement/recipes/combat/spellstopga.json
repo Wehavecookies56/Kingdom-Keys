@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "kingdomkeys:spellstopga"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "stopga_spell": {
+      "conditions": {
+        "items": [
+          {
+            "items": "kingdomkeys:spellstopra"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "stopga_spell"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "kingdomkeys:spellstopga"
+    ]
+  }
+}

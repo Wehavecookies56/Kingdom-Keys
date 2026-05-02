@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    {
+      "item": "kingdomkeys:spellaerora"
+    },
+    {
+      "item": "kingdomkeys:spellaerora"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "kingdomkeys:spellaeroga"
+  }
+}
