@@ -180,9 +180,8 @@ public class CommandMenuGui extends OverlayBase {
 			for (CommandMenuItem item : children) {
 				int slot = Utils.getMagicSlotFromName(playerData.getEquippedMagics(), item.getId().toString(), item.getData());
 				ItemStack stack = playerData.getEquippedMagics().get(slot);
-				if (stack.getItem() instanceof MagicSpellItem spell) {
+				if (stack != null && stack.getItem() instanceof MagicSpellItem spell) {
 					item.setSorting(0);
-					//System.out.println(item.getId());
 
 					if (magicList.containsKey(item.getId().toString())) {
 						item.setSorting(magicList.get(item.getId().toString()));
