@@ -46,7 +46,7 @@ public class MagicSpellItem extends Item implements IItemCategory {
 
 	@Override
 	public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
-		PlayerData playerData = PlayerData.get(player);
+		/*PlayerData playerData = PlayerData.get(player);
 		Magic magicInstance = ModMagic.registry.get(ResourceLocation.parse(magic));
 
 		if (!world.isClientSide) {
@@ -57,7 +57,7 @@ public class MagicSpellItem extends Item implements IItemCategory {
 					player.displayClientMessage(Component.translatable("message.unlocked", Utils.translateToLocal(magicInstance.getTranslationKey())), true);
 				} else {
 					int actualLevel = playerData.getMagicLevel(ResourceLocation.parse(magic));
-					if(actualLevel < magicInstance.getMaxLevel()) {
+					if(actualLevel < magicInstance.getLevel()) {
 						player.displayClientMessage(Component.translatable("message.magic_upgrade",Utils.translateToLocal(magicInstance.getTranslationKey(actualLevel)),Utils.translateToLocal(magicInstance.getTranslationKey(actualLevel+1))), true);
 						playerData.getMagicsMap().put(magic, new int[] {actualLevel+1,0});
 						takeItem(player);
@@ -76,7 +76,7 @@ public class MagicSpellItem extends Item implements IItemCategory {
 				}
 			}
 		}
-			
+			*/
 		return InteractionResultHolder.success(player.getItemInHand(hand));
 	}
 
@@ -93,18 +93,18 @@ public class MagicSpellItem extends Item implements IItemCategory {
 	public void appendHoverText(ItemStack stack, TooltipContext tooltipContext, List<Component> tooltip, TooltipFlag flagIn) {
 		Magic magicInstance = ModMagic.registry.get(ResourceLocation.parse(magic));
 		if(Minecraft.getInstance().player != null) {
-			PlayerData playerData = PlayerData.get(Minecraft.getInstance().player);
+			/*PlayerData playerData = PlayerData.get(Minecraft.getInstance().player);
 	
 			int actualLevel = playerData.getMagicLevel(ResourceLocation.parse(magic));
 			if(!playerData.getMagicsMap().containsKey(magic)) {
 				actualLevel--;
 			}
 			
-			if(actualLevel < magicInstance.getMaxLevel()) {
+			if(actualLevel < magicInstance.getLevel()) {
 				tooltip.add(Component.translatable("gui.magicspell.unlock",Utils.translateToLocal(magicInstance.getTranslationKey(actualLevel+1))));
 			} else {
 				tooltip.add(Component.translatable("gui.magicspell.maxed",Utils.translateToLocal(magicInstance.getTranslationKey(actualLevel))));
-			}
+			}*/
 		}
 		super.appendHoverText(stack, tooltipContext, tooltip, flagIn);
 	}

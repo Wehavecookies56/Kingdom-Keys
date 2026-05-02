@@ -26,17 +26,47 @@ public class Strings {
 
     // Magics
     public static final String
-    		Mag_Prefix = "magic_",
-    		Magic_Fire = KingdomKeys.MODID + ":" + Mag_Prefix + "fire",
-    		Magic_Blizzard = KingdomKeys.MODID + ":" + Mag_Prefix + "blizzard",
-			Magic_Water = KingdomKeys.MODID + ":" + Mag_Prefix + "water",
-			Magic_Thunder = KingdomKeys.MODID + ":" + Mag_Prefix + "thunder",
-			Magic_Cure = KingdomKeys.MODID + ":" + Mag_Prefix + "cure",
-			Magic_Aero = KingdomKeys.MODID + ":" + Mag_Prefix + "aero",
-			Magic_Magnet = KingdomKeys.MODID + ":" + Mag_Prefix + "magnet",
-			Magic_Reflect = KingdomKeys.MODID + ":" + Mag_Prefix + "reflect",
-			Magic_Gravity = KingdomKeys.MODID + ":" + Mag_Prefix + "gravity",
-			Magic_Stop = KingdomKeys.MODID + ":" + Mag_Prefix + "stop";
+		Mag_Prefix = "magic_",
+
+		Magic_Fire = KingdomKeys.MODID + ":" + Mag_Prefix + "fire",
+		Magic_Fira = KingdomKeys.MODID + ":" + Mag_Prefix + "fira",
+		Magic_Firaga = KingdomKeys.MODID + ":" + Mag_Prefix + "firaga",
+
+		Magic_Blizzard = KingdomKeys.MODID + ":" + Mag_Prefix + "blizzard",
+		Magic_Blizzara = KingdomKeys.MODID + ":" + Mag_Prefix + "blizzara",
+		Magic_Blizzaga = KingdomKeys.MODID + ":" + Mag_Prefix + "blizzaga",
+
+		Magic_Water = KingdomKeys.MODID + ":" + Mag_Prefix + "water",
+		Magic_Watera = KingdomKeys.MODID + ":" + Mag_Prefix + "watera",
+		Magic_Waterga = KingdomKeys.MODID + ":" + Mag_Prefix + "waterga",
+
+		Magic_Thunder = KingdomKeys.MODID + ":" + Mag_Prefix + "thunder",
+		Magic_Thundara = KingdomKeys.MODID + ":" + Mag_Prefix + "thundara",
+		Magic_Thundaga = KingdomKeys.MODID + ":" + Mag_Prefix + "thundaga",
+
+		Magic_Cure = KingdomKeys.MODID + ":" + Mag_Prefix + "cure",
+		Magic_Cura = KingdomKeys.MODID + ":" + Mag_Prefix + "cura",
+		Magic_Curaga = KingdomKeys.MODID + ":" + Mag_Prefix + "curaga",
+
+		Magic_Aero = KingdomKeys.MODID + ":" + Mag_Prefix + "aero",
+		Magic_Aerora = KingdomKeys.MODID + ":" + Mag_Prefix + "aerora",
+		Magic_Aeroga = KingdomKeys.MODID + ":" + Mag_Prefix + "aeroga",
+
+		Magic_Magnet = KingdomKeys.MODID + ":" + Mag_Prefix + "magnet",
+		Magic_Magnera = KingdomKeys.MODID + ":" + Mag_Prefix + "magnera",
+		Magic_Magnega = KingdomKeys.MODID + ":" + Mag_Prefix + "magnega",
+
+		Magic_Reflect = KingdomKeys.MODID + ":" + Mag_Prefix + "reflect",
+		Magic_Reflera = KingdomKeys.MODID + ":" + Mag_Prefix + "reflera",
+		Magic_Reflega = KingdomKeys.MODID + ":" + Mag_Prefix + "reflega",
+
+		Magic_Gravity = KingdomKeys.MODID + ":" + Mag_Prefix + "gravity",
+		Magic_Gravira = KingdomKeys.MODID + ":" + Mag_Prefix + "gravira",
+		Magic_Graviga = KingdomKeys.MODID + ":" + Mag_Prefix + "graviga",
+
+		Magic_Stop = KingdomKeys.MODID + ":" + Mag_Prefix + "stop",
+		Magic_Stopra = KingdomKeys.MODID + ":" + Mag_Prefix + "stopra",
+		Magic_Stopga = KingdomKeys.MODID + ":" + Mag_Prefix + "stopga";
 																
     
     // Drive Forms

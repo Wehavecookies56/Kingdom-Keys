@@ -178,7 +178,7 @@ public class CommandMenuGui extends OverlayBase {
 			List<CommandMenuItem> children = subMenu.getChildren();
 
 			for (CommandMenuItem item : children) {
-				int slot = Utils.getMagicSlotFromName(playerData.getEquippedMagics(), item.getId().toString());
+				int slot = Utils.getMagicSlotFromName(playerData.getEquippedMagics(), item.getId().toString(), item.getData());
 				ItemStack stack = playerData.getEquippedMagics().get(slot);
 				if (stack.getItem() instanceof MagicSpellItem spell) {
 					item.setSorting(0);
@@ -186,7 +186,6 @@ public class CommandMenuGui extends OverlayBase {
 
 					if (magicList.containsKey(item.getId().toString())) {
 						item.setSorting(magicList.get(item.getId().toString()));
-						System.out.println(item.getId() + " " + spell.getLevel());
 						item.setMessage(Component.translatable(ModMagic.registry.get(item.getId()).getTranslationKey(spell.getLevel())));
 						item.setVisible(true);
 					} else {
@@ -570,6 +569,7 @@ public class CommandMenuGui extends OverlayBase {
 									item.setActive(false);
 								}
 							})
+							.setData(spell.getLevel()+"")
 							.iconUV(20, 60)
 							.build(subMenu)
 			);

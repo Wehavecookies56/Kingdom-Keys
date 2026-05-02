@@ -871,13 +871,14 @@ public class Utils {
 		return result;
 	}
 
-	public static int getMagicSlotFromName(Map<Integer, ItemStack> equippedMagics, String commandMagicName) {
-		if (equippedMagics.isEmpty()) return -1;
+	public static int getMagicSlotFromName(Map<Integer, ItemStack> equippedMagics, String commandMagicName, String data) {
+		if (equippedMagics.isEmpty() || data.isEmpty()) return -1;
 
+		int level = Integer.parseInt(data);
 		for (Map.Entry<Integer, ItemStack> entry : equippedMagics.entrySet()) {
 			ItemStack stack = entry.getValue();
 			if (!stack.isEmpty() && stack.getItem() instanceof MagicSpellItem spell) {
-				if (spell.getMagic().equals(commandMagicName)) {
+				if (spell.getMagic().equals(commandMagicName) && spell.getLevel() == level) {
 					return entry.getKey();
 				}
 			}
