@@ -485,8 +485,7 @@ public class LanguageESES extends KKLanguageProvider {
         add("gui.statboost.increased","%s aumentada, ahora es %s");
         add("gui.statboost.tooltip", "aumenta %s en 1");
 
-        add("gui.magicspell.unlock","Desbloquea %s");
-        add("gui.magicspell.maxed", "%s está al máximo");
+        add("gui.magicspell.equip","Equípalo en el menú para poder usar %s");
 
         add("gui.driveformorb.tooltip", "Mejora Forma %s");
         add("gui.driveformorb.upgrade", "Forma %s ha obtenido %s exp");

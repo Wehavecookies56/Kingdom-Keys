@@ -3,7 +3,6 @@ package online.kingdomkeys.kingdomkeys.item;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
@@ -15,15 +14,10 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.api.item.IItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
-import online.kingdomkeys.kingdomkeys.config.ModConfigs;
-import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.magic.Magic;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
-import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MagicSpellItem extends Item implements IItemCategory {
@@ -93,6 +87,8 @@ public class MagicSpellItem extends Item implements IItemCategory {
 	public void appendHoverText(ItemStack stack, TooltipContext tooltipContext, List<Component> tooltip, TooltipFlag flagIn) {
 		Magic magicInstance = ModMagic.registry.get(ResourceLocation.parse(magic));
 		if(Minecraft.getInstance().player != null) {
+			tooltip.add(Component.translatable("gui.magicspell.equip", Utils.translateToLocal(magicInstance.getTranslationKey(getLevel()))));
+
 			/*PlayerData playerData = PlayerData.get(Minecraft.getInstance().player);
 	
 			int actualLevel = playerData.getMagicLevel(ResourceLocation.parse(magic));

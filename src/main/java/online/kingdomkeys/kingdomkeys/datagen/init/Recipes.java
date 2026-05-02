@@ -212,7 +212,108 @@ public class Recipes extends RecipeProvider {
 		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_BOOTS), Ingredient.of(Items.GRAY_DYE), RecipeCategory.COMBAT, ModItems.xehanort_Boots.get())
         .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_BOOTS))
         .save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "keyblade_armor_xehanort_boots_smithing"));
-    	
+
+		ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.firaSpell.get())
+				.requires(ModItems.fireSpell.get(), 2)
+				.unlockedBy("fira_spell", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.fireSpell.get()))
+				.save(consumer);
+
+		ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.firagaSpell.get())
+				.requires(ModItems.firaSpell.get(), 2)
+				.unlockedBy("fira_spell", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.firaSpell.get()))
+				.save(consumer);
+
+		ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.blizzaraSpell.get())
+				.requires(ModItems.blizzardSpell.get(), 2)
+				.unlockedBy("blizzara_spell", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.blizzardSpell.get()))
+				.save(consumer);
+
+		ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.blizzagaSpell.get())
+				.requires(ModItems.blizzaraSpell.get(), 2)
+				.unlockedBy("blizzaga_spell", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.blizzaraSpell.get()))
+				.save(consumer);
+
+		ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.wateraSpell.get())
+				.requires(ModItems.waterSpell.get(), 2)
+				.unlockedBy("watera_spell", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.waterSpell.get()))
+				.save(consumer);
+
+		ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.watergaSpell.get())
+				.requires(ModItems.wateraSpell.get(), 2)
+				.unlockedBy("waterga_spell", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.wateraSpell.get()))
+				.save(consumer);
+
+		ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.thundaraSpell.get())
+				.requires(ModItems.thunderSpell.get(), 2)
+				.unlockedBy("thundara_spell", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.thunderSpell.get()))
+				.save(consumer);
+
+		ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.thundagaSpell.get())
+				.requires(ModItems.thundaraSpell.get(), 2)
+				.unlockedBy("thundaga_spell", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.thundaraSpell.get()))
+				.save(consumer);
+
+		ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.curaSpell.get())
+				.requires(ModItems.cureSpell.get(), 2)
+				.unlockedBy("cura_spell", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.cureSpell.get()))
+				.save(consumer);
+
+		ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.curagaSpell.get())
+				.requires(ModItems.curaSpell.get(), 2)
+				.unlockedBy("curaga_spell", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.curaSpell.get()))
+				.save(consumer);
+
+		ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.aeroraSpell.get())
+				.requires(ModItems.aeroSpell.get(), 2)
+				.unlockedBy("aerora_spell", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.aeroSpell.get()))
+				.save(consumer);
+
+		ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.aerogaSpell.get())
+				.requires(ModItems.aeroraSpell.get(), 2)
+				.unlockedBy("aeroga_spell", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.aeroraSpell.get()))
+				.save(consumer);
+
+		ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.magneraSpell.get())
+				.requires(ModItems.magnetSpell.get(), 2)
+				.unlockedBy("magnera_spell", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.magnetSpell.get()))
+				.save(consumer);
+
+		ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.magnegaSpell.get())
+				.requires(ModItems.magneraSpell.get(), 2)
+				.unlockedBy("magnega_spell", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.magneraSpell.get()))
+				.save(consumer);
+
+		ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.refleraSpell.get())
+				.requires(ModItems.reflectSpell.get(), 2)
+				.unlockedBy("reflera_spell", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.reflectSpell.get()))
+				.save(consumer);
+
+		ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.reflegaSpell.get())
+				.requires(ModItems.refleraSpell.get(), 2)
+				.unlockedBy("reflega_spell", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.refleraSpell.get()))
+				.save(consumer);
+
+		ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.graviraSpell.get())
+				.requires(ModItems.gravitySpell.get(), 2)
+				.unlockedBy("gravira_spell", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.gravitySpell.get()))
+				.save(consumer);
+
+		ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.gravigaSpell.get())
+				.requires(ModItems.graviraSpell.get(), 2)
+				.unlockedBy("graviga_spell", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.graviraSpell.get()))
+				.save(consumer);
+
+		ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.stopraSpell.get())
+				.requires(ModItems.stopSpell.get(), 2)
+				.unlockedBy("stopra_spell", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.stopSpell.get()))
+				.save(consumer);
+
+		ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.stopgaSpell.get())
+				.requires(ModItems.stopraSpell.get(), 2)
+				.unlockedBy("stopga_spell", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.stopraSpell.get()))
+				.save(consumer);
+
+
         // blox
         ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.normalBlox.get())
                 .define('S', Tags.Items.STONES)

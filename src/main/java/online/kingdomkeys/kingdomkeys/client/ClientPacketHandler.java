@@ -22,7 +22,6 @@ import online.kingdomkeys.kingdomkeys.client.gui.castle_oblivion.CardSelectionSc
 import online.kingdomkeys.kingdomkeys.client.gui.menu.MenuScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.NoChoiceMenuPopup;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.check.CheckStatusScreen;
-import online.kingdomkeys.kingdomkeys.client.gui.menu.customize.MenuCustomizeMagicScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.customize.MenuCustomizeShortcutsScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment.MenuEquipmentScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.organization.AlignmentSelectionScreen;
@@ -66,7 +65,6 @@ import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.InputStreamReader;
-import java.util.LinkedHashMap;
 import java.util.Set;
 
 public class ClientPacketHandler {

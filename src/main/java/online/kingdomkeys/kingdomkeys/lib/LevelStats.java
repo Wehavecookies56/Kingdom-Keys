@@ -8,8 +8,6 @@ import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.leveling.Level;
 import online.kingdomkeys.kingdomkeys.leveling.ModLevels;
-import online.kingdomkeys.kingdomkeys.magic.Magic;
-import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.shotlock.ModShotlocks;
 import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
 
