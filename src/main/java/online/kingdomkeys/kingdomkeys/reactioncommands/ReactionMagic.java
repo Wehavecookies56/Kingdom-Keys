@@ -9,6 +9,7 @@ import net.neoforged.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.magic.Magic;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class ReactionMagic extends ReactionCommand {
 	ResourceLocation magic;
@@ -26,7 +27,7 @@ public class ReactionMagic extends ReactionCommand {
 	@Override
 	public String getTranslationKey() {
 		PlayerData playerData = PlayerData.get(Minecraft.getInstance().player);
-		int level = playerData.getMagicLevel(magic);
+	    int level = Utils.getMagicHighestLevel(playerData.getEquippedMagics(),magic.toString());
 		Magic mag = ModMagic.registry.get(magic);
 		//Maybe this will have to be re-enabled if we give access to -za magic to players without reaction commands
 		/*if(level == mag.getMaxLevel()) { //If magic level is the same as the max keep it max
@@ -34,7 +35,8 @@ public class ReactionMagic extends ReactionCommand {
 		} else { //If magic level is not max increment it one level
 			level++;
 		}*/
-		level++;
+		//Since we get the highest level we need to add one more to make -ga --> -za
+	    level++;
 		if(mag.getGMAbility() != null && playerData.getNumberOfAbilitiesEquipped(mag.getGMAbility().getRegistryName().toString()) > 0) { //Get if the player has the -za
 			level = mag.getMaxLevel()+1;
 		}
@@ -47,7 +49,7 @@ public class ReactionMagic extends ReactionCommand {
 	public void onUse(Player player, LivingEntity target, LivingEntity lockedOnEntity) {
 		Magic mag = ModMagic.registry.get(magic);
 		PlayerData playerData = PlayerData.get(player);
-		int level = playerData.getMagicLevel(magic);
+		int level = Utils.getMagicHighestLevel(playerData.getEquippedMagics(),magic.toString());
 		/*if(level == mag.getMaxLevel()) { //If magic level is the same as the max keep it max
 			level = mag.getMaxLevel();
 		} else { //If magic level is not max increment it one level

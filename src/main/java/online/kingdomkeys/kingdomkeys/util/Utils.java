@@ -180,18 +180,25 @@ public class Utils {
 		return min;
 	}
 
-    public static double getCheapestMagicCost(LinkedHashMap<String,int[]> magicsMap, Player player) {
+    public static double getCheapestMagicCost(Map<Integer, ItemStack> magicsMap, Player player) {
 		double min = 1000;
+	    PlayerData playerData = PlayerData.get(player);
+		if(playerData == null){
+			return 0;
+		}
 
-    	for (Entry<String,int[]> magic : magicsMap.entrySet()){
-			Magic m = ModMagic.registry.get(ResourceLocation.parse(magic.getKey()));
-			if(m != null){
-				int lvl = magic.getValue()[0];
-				if(m.getCost(lvl,player) == 300){ //If has cure return it since it's used to calculate whether to show magic available or not.
-					return m.getCost(lvl,player);
+    	for (Entry<Integer, ItemStack> magic : magicsMap.entrySet()){
+		    ItemStack stack = playerData.getEquippedMagic(magic.getKey());
+			if(stack != null && stack.getItem() instanceof MagicSpellItem spell) {
+				Magic m = ModMagic.registry.get(ResourceLocation.parse(spell.getMagic()));
+				if (m != null) {
+					int lvl = spell.getLevel();
+					if (m.getCost(lvl, player) == 300) { //If has cure return it since it's used to calculate whether to show magic available or not.
+						return m.getCost(lvl, player);
+					}
+					min = Math.min(m.getCost(lvl, player), min);
+
 				}
-				min = Math.min(m.getCost(lvl,player),min);
-
 			}
 		}
         return min;
@@ -871,10 +878,9 @@ public class Utils {
 		return result;
 	}
 
-	public static int getMagicSlotFromName(Map<Integer, ItemStack> equippedMagics, String commandMagicName, String data) {
-		if (equippedMagics.isEmpty() || data.isEmpty()) return -1;
+	public static int getMagicSlotFromNameAndLevel(Map<Integer, ItemStack> equippedMagics, String commandMagicName, int level) {
+		if (equippedMagics.isEmpty()) return -1;
 
-		int level = Integer.parseInt(data);
 		for (Map.Entry<Integer, ItemStack> entry : equippedMagics.entrySet()) {
 			ItemStack stack = entry.getValue();
 			if (!stack.isEmpty() && stack.getItem() instanceof MagicSpellItem spell) {
@@ -884,6 +890,21 @@ public class Utils {
 			}
 		}
 		return -1;
+	}
+
+	public static int getMagicHighestLevel(Map<Integer, ItemStack> equippedMagics, String commandMagicName) {
+		if (equippedMagics.isEmpty()) return -1;
+
+		int level = -1;
+		for (Map.Entry<Integer, ItemStack> entry : equippedMagics.entrySet()) {
+			ItemStack stack = entry.getValue();
+			if (!stack.isEmpty() && stack.getItem() instanceof MagicSpellItem spell) {
+				if (spell.getMagic().equals(commandMagicName)) {
+					level = Math.max(spell.getLevel(),level);
+				}
+			}
+		}
+		return level;
 	}
 
 	public static class Title {

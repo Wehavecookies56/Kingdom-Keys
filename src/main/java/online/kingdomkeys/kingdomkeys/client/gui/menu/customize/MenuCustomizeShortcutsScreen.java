@@ -94,7 +94,7 @@ public class MenuCustomizeShortcutsScreen extends MenuBackground {
 		for (ResourceLocation entry : allMagic) {
 			Magic magic = ModMagic.registry.get(entry);
 			if(magic != null) {
-				int level = playerData.getMagicLevel(entry);
+				/*int level = playerData.getMagicLevel(entry);
 				while(level >= 0) {
 					int lvl = level;
 					MenuButton button = new MenuButton((int) ((int) (width * 0.32F) + (level * (buttonWidth + 5))), buttonPosY +  (magicLine * 18), (int) (buttonWidth * 0.8), Utils.translateToLocal(magic.getTranslationKey(level)), ButtonType.SUBBUTTON, (e) -> { select(magic,lvl); });
@@ -103,7 +103,7 @@ public class MenuCustomizeShortcutsScreen extends MenuBackground {
 					magics.get(totalMagics).setData(magic.getRegistryName().toString()+","+level);
 					level--;
 					totalMagics++;
-				}
+				}*/
 				magicLine++;
 			}
 		}

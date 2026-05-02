@@ -96,7 +96,7 @@ public enum SoAState {
 		if (choice.getMaxMp(choiceLevel) > 0) {
 			playerData.addMaxMP(choice.getMaxMp(choiceLevel));
 		}
-        choice.getAbilities(choiceLevel);
+        //choice.getAbilities(choiceLevel);
         for (String ability : choice.getAbilities(choiceLevel)) {
             if (ability != null) {
                 Ability a = ModAbilities.registry.get(ResourceLocation.parse(ability));
@@ -105,7 +105,7 @@ public enum SoAState {
                 }
             }
         }
-        choice.getShotlocks(choiceLevel);
+        //choice.getShotlocks(choiceLevel);
         for (String shotlock : choice.getShotlocks(choiceLevel)) {
             if (shotlock != null) {
                 Shotlock a = ModShotlocks.registry.get(ResourceLocation.parse(shotlock));
@@ -114,13 +114,13 @@ public enum SoAState {
                 }
             }
         }
-        choice.getSpells(choiceLevel);
-        for (String magic : choice.getSpells(choiceLevel)) {
+        //choice.getSpells(choiceLevel); //TODO magic spell earning from level up
+        /*for (String magic : choice.getSpells(choiceLevel)) {
             if (magic != null) {
                 Magic magicInstance = ModMagic.registry.get(ResourceLocation.parse(magic));
                 if (magicInstance != null) {
-                    if (playerData != null && playerData.getMagicsMap() != null) {
-                        if (!playerData.getMagicsMap().containsKey(magic)) {
+                    if (playerData != null && playerData.getMagicsCastMap() != null) {
+                        if (!playerData.getMagicsCastMap().containsKey(magic)) {
                             playerData.setMagicLevel(ResourceLocation.parse(magic), playerData.getMagicLevel(ResourceLocation.parse(magic)), true);
                         } else {
                             playerData.setMagicLevel(ResourceLocation.parse(magic), playerData.getMagicLevel(ResourceLocation.parse(magic)) + 1, true);
@@ -128,7 +128,7 @@ public enum SoAState {
                     }
                 }
             }
-        }
+        }*/
 
         if (choice.getMaxAccessories(choiceLevel) != 0) {
 			playerData.addMaxAccessories(choice.getMaxAccessories(choiceLevel));
@@ -140,7 +140,7 @@ public enum SoAState {
 	}
     
     public static void removeNonStatsData(Level levelData, PlayerData playerData) {
-        levelData.getAbilities(0);
+        //levelData.getAbilities(0);
         for (String ability : levelData.getAbilities(0)) {
             if (ability != null) {
                 Ability a = ModAbilities.registry.get(ResourceLocation.parse(ability));
@@ -149,7 +149,7 @@ public enum SoAState {
                 }
             }
         }
-        levelData.getShotlocks(0);
+        //levelData.getShotlocks(0);
         for (String shotlock : levelData.getShotlocks(0)) {
             if (shotlock != null) {
                 Shotlock a = ModShotlocks.registry.get(ResourceLocation.parse(shotlock));
@@ -158,21 +158,21 @@ public enum SoAState {
                 }
             }
         }
-        levelData.getSpells(0);
+        /*levelData.getSpells(0); //TODO spells to remove
         for (String magic : levelData.getSpells(0)) {
             if (magic != null) {
                 Magic magicInstance = ModMagic.registry.get(ResourceLocation.parse(magic));
                 if (magicInstance != null) {
-                    if (playerData != null && playerData.getMagicsMap() != null) {
-                        if (playerData.getMagicsMap().containsKey(magic)) {
+                    if (playerData != null && playerData.getMagicsCastMap() != null) {
+                        if (playerData.getMagicsCastMap().containsKey(magic)) {
                             playerData.setMagicLevel(ResourceLocation.parse(magic), playerData.getMagicLevel(ResourceLocation.parse(magic)) - 1, true);
                         }
                     }
                 }
             }
-        }
+        }*/
 
-        levelData.getAbilities(1);
+       // levelData.getAbilities(1);
         for (String ability : levelData.getAbilities(1)) {
             if (ability != null) {
                 Ability a = ModAbilities.registry.get(ResourceLocation.parse(ability));
@@ -181,7 +181,7 @@ public enum SoAState {
                 }
             }
         }
-        levelData.getShotlocks(1);
+        //levelData.getShotlocks(1);
         for (String shotlock : levelData.getShotlocks(1)) {
             if (shotlock != null) {
                 Shotlock a = ModShotlocks.registry.get(ResourceLocation.parse(shotlock));
@@ -190,18 +190,18 @@ public enum SoAState {
                 }
             }
         }
-        levelData.getSpells(1);
-        for (String magic : levelData.getSpells(1)) {
+        //levelData.getSpells(1); //TODO initial spells
+        /*for (String magic : levelData.getSpells(1)) {
             if (magic != null) {
                 Magic magicInstance = ModMagic.registry.get(ResourceLocation.parse(magic));
                 if (magicInstance != null) {
-                    if (playerData != null && playerData.getMagicsMap() != null) {
-                        if (playerData.getMagicsMap().containsKey(magic)) {
+                    if (playerData != null && playerData.getMagicsCastMap() != null) {
+                        if (playerData.getMagicsCastMap().containsKey(magic)) {
                             playerData.setMagicLevel(ResourceLocation.parse(magic), playerData.getMagicLevel(ResourceLocation.parse(magic)) - 1, true);
                         }
                     }
                 }
             }
-        }
+        }*/
     }
 }

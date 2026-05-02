@@ -46,7 +46,6 @@ import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
 import online.kingdomkeys.kingdomkeys.lib.SoAState;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
-import online.kingdomkeys.kingdomkeys.magic.Magic;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCShowOverlayPacket;
@@ -147,10 +146,10 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		storage.put("recipes", recipes);
 
 		CompoundTag magics = new CompoundTag();
-		for (Entry<String, int[]> pair : this.getMagicsMap().entrySet()) {
-			magics.putIntArray(pair.getKey(), pair.getValue());
+		for (Entry<String, Integer> pair : this.getMagicsCastMap().entrySet()) {
+			magics.putInt(pair.getKey(), pair.getValue());
 		}
-		storage.put("magics", magics);
+		storage.put("magic_casts", magics);
 
 		CompoundTag shotlocks = new CompoundTag();
 		for (String shotlock : this.getShotlockList()) {
@@ -375,17 +374,12 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		}
 		Collections.sort(recipeList);
 
-		magicList.clear();
-		for (String magicName : nbt.getCompound("magics").getAllKeys()) {
-			int[] array;
-			if (nbt.getCompound("magics").contains(magicName, 99)) {
-				KingdomKeys.LOGGER.info("Converting " + magicName + " data");
-				array = new int[]{nbt.getCompound("magics").getInt(magicName), 0};
-			} else {
-				array = nbt.getCompound("magics").getIntArray(magicName);
-			}
+		magicCastMap.clear();
+		for (String magicName : nbt.getCompound("magic_casts").getAllKeys()) {
+			int casts = nbt.getCompound("magic_casts").getInt(magicName);
+
 			if (ModMagic.registry.containsKey(ResourceLocation.parse(magicName))) {
-				this.getMagicsMap().put(magicName, array);
+				this.getMagicsCastMap().put(magicName, casts);
 			}
 		}
 
@@ -556,7 +550,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 
 	private String driveForm = DriveForm.NONE.toString();
 	LinkedHashMap<String, int[]> driveForms = new LinkedHashMap<>(); //Key = name, value=  {level, experience}
-	LinkedHashMap<String, int[]> magicList = new LinkedHashMap<>(); //Key = name, value=  {level, uses_in_combo}
+	LinkedHashMap<String, Integer> magicCastMap = new LinkedHashMap<>(); //Key = name, value=  {level, uses_in_combo}
 	List<String> shotlockList = new ArrayList<>();
 	List<Utils.ShotlockPosition> shotlockEnemies = new ArrayList<>();
 	boolean hasShotMaxShotlock = false;
@@ -1188,44 +1182,43 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		return reflectActive;
 	}
 
-	public LinkedHashMap<String, int[]> getMagicsMap() {
-		return magicList;
+	public LinkedHashMap<String, Integer> getMagicsCastMap() {
+		return magicCastMap;
 	}
 
-	public void setMagicsMap(LinkedHashMap<String, int[]> map) {
-		this.magicList = map;
+	public void setMagicsMap(LinkedHashMap<String, Integer> map) {
+		this.magicCastMap = map;
 	}
 	
-	public int getMagicLevel(ResourceLocation name) {
-		return magicList.containsKey(name.toString()) ? magicList.get(name.toString())[0] : 0;
-	}
+	/*public int getMagicLevel(ResourceLocation name) {
+		return magicCastMap.containsKey(name.toString()) ? magicCastMap.get(name.toString()) : 0;
+	}*/
 
-	public void setMagicLevel(ResourceLocation name, int level, boolean notification) {
+	/*public void setMagicLevel(ResourceLocation name, int level, boolean notification) {
 		Magic magic = ModMagic.registry.get(name);
 		if(level == -1) {
-			magicList.remove(name.toString());
+			magicCastMap.remove(name.toString());
 		} else {
 			if(level <= magic.getMaxLevel()) {
-				int uses = magicList.containsKey(name.toString()) ? getMagicUses(name) : 0;
-				magicList.put(name.toString(), new int[] {level, uses});
+				int uses = magicCastMap.containsKey(name.toString()) ? getMagicUses(name) : 0;
+				magicCastMap.put(name.toString(), uses);
 				
 				if(notification) {
 					messages.add("M_"+magic.getTranslationKey(level));
 				}
 			}
 		}
-	}
+	}*/
 
 	public int getMagicUses(ResourceLocation name) {
-		return 0;//magicList.get(name.toString())[1];
+		if(!magicCastMap.containsKey(name.toString())) {
+			magicCastMap.put(name.toString(), 0);
+		}
+		return magicCastMap.get(name.toString());
 	}
 
 	public void setMagicUses(ResourceLocation name, int uses) {
-		Magic magic = ModMagic.registry.get(name);
-		int level = getMagicLevel(name);
-		if(level <= magic.getMaxLevel()) {
-			magicList.put(name.toString(), new int[] {level, uses});
-		}
+		magicCastMap.put(name.toString(), uses);
 	}
 	
 	public void addMagicUses(ResourceLocation name, int uses) {
@@ -2342,6 +2335,10 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 			this.magicCasttime = castMagic.magic().getCasttimeTicks(castMagic.level());
 	}
 
+	public castMagic getCastedMagic() {
+		return castMagic;
+	}
+
 	public BlockPos getAirStep() {
 		return airStepPos;
 	}
@@ -2362,9 +2359,6 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		discoveredSavePoints = list;
 	}
 
-	public castMagic getCastedMagic() {
-		return castMagic;
-	}
 
 	public void setSynthesisedRecipes(Set<String> synthesisedRecipes) {
 		this.synthesisedRecipes = synthesisedRecipes;

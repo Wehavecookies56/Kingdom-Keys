@@ -22,7 +22,7 @@ public record CSOpenShortcutsCustomize() implements Packet {
     public void handle(IPayloadContext context) {
         ServerPlayer player = (ServerPlayer) context.player();
         PlayerData cap = PlayerData.get(player);
-        PacketHandler.sendTo(new SCOpenShortcutsCustomize(cap.getMagicsMap()), player);
+        //PacketHandler.sendTo(new SCOpenShortcutsCustomize(cap.getMagicsCastMap()), player);
     }
 
     @Override

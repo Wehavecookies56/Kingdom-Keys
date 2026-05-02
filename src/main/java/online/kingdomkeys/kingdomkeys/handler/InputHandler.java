@@ -475,7 +475,7 @@ public class InputHandler {
         if(playerData != null && worldData != null) {
             //this.magicsMap = Utils.getSortedMagics(playerData.getMagicsMap());
             this.portalCommands = worldData.getAllPortalsFromOwnerID(player.getUUID());
-            this.magicList = ModConfigs.magicDisplayedInCommandMenu.stream().filter(magic -> playerData.getMagicsMap().containsKey(magic)).toList();
+            this.magicList = ModConfigs.magicDisplayedInCommandMenu.stream().filter(magic -> playerData.getMagicsCastMap().containsKey(magic)).toList();
             this.limitsList = Utils.getSortedLimits(Utils.getPlayerLimitAttacks(player));
 
             if(worldData.getPartyFromMember(player.getUUID()) != null) {

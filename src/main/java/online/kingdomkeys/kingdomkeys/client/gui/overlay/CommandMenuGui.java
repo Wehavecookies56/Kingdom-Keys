@@ -178,7 +178,7 @@ public class CommandMenuGui extends OverlayBase {
 			List<CommandMenuItem> children = subMenu.getChildren();
 
 			for (CommandMenuItem item : children) {
-				int slot = Utils.getMagicSlotFromName(playerData.getEquippedMagics(), item.getId().toString(), item.getData());
+				int slot = Utils.getMagicSlotFromNameAndLevel(playerData.getEquippedMagics(), item.getId().toString(), Integer.parseInt(item.getData()));
 				ItemStack stack = playerData.getEquippedMagics().get(slot);
 				if (stack != null && stack.getItem() instanceof MagicSpellItem spell) {
 					item.setSorting(0);
@@ -322,7 +322,8 @@ public class CommandMenuGui extends OverlayBase {
 			item.setTextColour(Color.WHITE);
 
 			//This first part of the condition is to avoid the code below from making it even darker
-			if(!Utils.getSpellsList(playerData.getEquippedMagics()).isEmpty() && (playerData.getRecharge() || (playerData.getMaxMP() < Utils.getCheapestMagicCost(playerData.getMagicsMap(),minecraft.player)) && (Utils.getCheapestMagicCost(playerData.getMagicsMap(),minecraft.player)) < 300) && playerData.getMagicCooldownTicks() <= 0) { //Small hack to avoid gray and dark gray flicker when using last magic and going on recharge
+			double cheapest = Utils.getCheapestMagicCost(playerData.getEquippedMagics(), minecraft.player);
+			if(!Utils.getSpellsList(playerData.getEquippedMagics()).isEmpty() && (playerData.getRecharge() || playerData.getMaxMP() < cheapest && cheapest < 300) && playerData.getMagicCooldownTicks() <= 0) { //Small hack to avoid gray and dark gray flicker when using last magic and going on recharge
 				item.setTextColour(Color.GRAY); //Still allows to open submenu
 			}
 

@@ -71,7 +71,7 @@ public class MagicLevelCommand extends BaseCommand{
 			PlayerData playerData = PlayerData.get(player);
             
 			if(level <= magicInstance.getMaxLevel()) {
-				playerData.setMagicLevel(ResourceLocation.parse(magic), level, false);
+				//playerData.setMagicLevel(ResourceLocation.parse(magic), level, false);
 			} else {
 				context.getSource().sendSuccess(() -> Component.translatable("Level too high, max is '"+magicInstance.getMaxLevel()+"'"), true);
 				return 1;

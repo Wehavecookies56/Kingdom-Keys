@@ -23,7 +23,7 @@ public record CSOpenMagicCustomize() implements Packet {
     public void handle(IPayloadContext context) {
         Player player = context.player();
         PlayerData cap = PlayerData.get(player);
-        PacketHandler.sendTo(new SCOpenMagicCustomize(cap.getMagicsMap()), (ServerPlayer) player);
+        //PacketHandler.sendTo(new SCOpenMagicCustomize(cap.getMagicsCastMap()), (ServerPlayer) player);
     }
 
     @Override
