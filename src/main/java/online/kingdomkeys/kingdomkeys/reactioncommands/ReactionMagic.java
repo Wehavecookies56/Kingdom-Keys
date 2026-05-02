@@ -27,17 +27,18 @@ public class ReactionMagic extends ReactionCommand {
 	@Override
 	public String getTranslationKey() {
 		PlayerData playerData = PlayerData.get(Minecraft.getInstance().player);
-	    int level = Utils.getMagicHighestLevel(playerData.getEquippedMagics(),magic.toString());
-		Magic mag = ModMagic.registry.get(magic);
+	    //Since we get the highest level we need to add one more to make -ga --> -za
+	    int level = Utils.getMagicHighestLevel(playerData.getEquippedMagics(),magic.toString()) + 1;
+
 		//Maybe this will have to be re-enabled if we give access to -za magic to players without reaction commands
 		/*if(level == mag.getMaxLevel()) { //If magic level is the same as the max keep it max
 			level = mag.getMaxLevel();
 		} else { //If magic level is not max increment it one level
 			level++;
 		}*/
-		//Since we get the highest level we need to add one more to make -ga --> -za
-	    level++;
-		if(mag.getGMAbility() != null && playerData.getNumberOfAbilitiesEquipped(mag.getGMAbility().getRegistryName().toString()) > 0) { //Get if the player has the -za
+
+	    Magic mag = ModMagic.registry.get(magic);
+	    if(mag.getGMAbility() != null && playerData.getNumberOfAbilitiesEquipped(mag.getGMAbility().getRegistryName().toString()) > 0) { //Get if the player has the -za
 			level = mag.getMaxLevel()+1;
 		}
 		

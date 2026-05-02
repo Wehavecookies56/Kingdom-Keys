@@ -13,20 +13,16 @@ import online.kingdomkeys.kingdomkeys.util.StreamCodecs;
 
 import java.util.LinkedHashMap;
 
-public record SCOpenMagicCustomize(LinkedHashMap<String, int[]> knownMagic) implements Packet {
+public record SCOpenMagicCustomize() implements Packet {
 
     public static final Type<SCOpenMagicCustomize> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "sc_open_magic_customize"));
 
-    public static final StreamCodec<FriendlyByteBuf, SCOpenMagicCustomize> STREAM_CODEC = StreamCodec.composite(
-            StreamCodecs.KNOWN_MAGIC,
-            SCOpenMagicCustomize::knownMagic,
-            SCOpenMagicCustomize::new
-    );
+    public static final StreamCodec<FriendlyByteBuf, SCOpenMagicCustomize> STREAM_CODEC = StreamCodec.of((pBuffer, pValue) -> {}, pBuffer -> new SCOpenMagicCustomize());
 
     @Override
     public void handle(IPayloadContext context) {
         if (FMLEnvironment.dist.isClient()) {
-            ClientPacketHandler.openMagicCustomize(knownMagic);
+            ClientPacketHandler.openMagicCustomize();
         }
     }
 

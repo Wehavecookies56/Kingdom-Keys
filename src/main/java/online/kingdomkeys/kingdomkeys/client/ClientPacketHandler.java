@@ -71,12 +71,12 @@ import java.util.Set;
 
 public class ClientPacketHandler {
 
-    public static void openMagicCustomize(LinkedHashMap<String, int[]> knownMagic) {
-        Minecraft.getInstance().setScreen(new MenuCustomizeMagicScreen(knownMagic));
+    public static void openMagicCustomize() {
+      //  Minecraft.getInstance().setScreen(new MenuCustomizeMagicScreen());
     }
 
-    public static void openShortcutsCustomize(LinkedHashMap<String, int[]> knownMagic) {
-        Minecraft.getInstance().setScreen(new MenuCustomizeShortcutsScreen(knownMagic));
+    public static void openShortcutsCustomize() {
+        Minecraft.getInstance().setScreen(new MenuCustomizeShortcutsScreen());
     }
 
     public static void openAlignment() {

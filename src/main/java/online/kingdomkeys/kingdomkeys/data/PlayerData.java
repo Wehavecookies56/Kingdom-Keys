@@ -257,8 +257,8 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		storage.putInt("limitCooldownTicks", this.getLimitCooldownTicks());
 
 		CompoundTag shortcuts = new CompoundTag();
-		for (Entry<Integer, String> pair : this.getShortcutsMap().entrySet()) {
-			shortcuts.putString(pair.getKey().toString(), pair.getValue());
+		for (Entry<Integer, Integer> pair : this.getShortcutsMap().entrySet()) {
+			shortcuts.putInt(pair.getKey().toString(), pair.getValue());
 		}
 		storage.put("shortcuts", shortcuts);
 
@@ -494,7 +494,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		shortcutsMap.clear();
 		for (String s : nbt.getCompound("shortcuts").getAllKeys()) {
 			int shortcutPos = Integer.parseInt(s);
-			this.getShortcutsMap().put(shortcutPos, nbt.getCompound("shortcuts").getString(shortcutPos + ""));
+			this.getShortcutsMap().put(shortcutPos, nbt.getCompound("shortcuts").getInt(shortcutPos + ""));
 		}
 		
 		this.setSynthLevel(nbt.getInt("synth_level"));
@@ -564,7 +564,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 	List<String> partyList = new ArrayList<>();
 	String equippedShotlock = "";
 	
-	LinkedHashMap<Integer,String> shortcutsMap = new LinkedHashMap<>(); //Key = magic name, value=  {position, level}
+	LinkedHashMap<Integer,Integer> shortcutsMap = new LinkedHashMap<>(); //Key = magic name, value=  {position, level}
 	
 	private double mp = 0, maxMP = 0, dp = 0, maxDP = 1000, fp = 0, focus = 100, maxFocus = 100;
 
@@ -2200,16 +2200,16 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 
 	//region Shortcuts
 
-	public LinkedHashMap<Integer,String> getShortcutsMap() {
+	public LinkedHashMap<Integer,Integer> getShortcutsMap() {
 		return shortcutsMap;
 	}
 
-	public void setShortcutsMap(LinkedHashMap<Integer,String> map) {
+	public void setShortcutsMap(LinkedHashMap<Integer,Integer> map) {
 		this.shortcutsMap = map;
 	}
 	
-	public void changeShortcut(int position, String name, int level) {
-		this.shortcutsMap.put(position, name+","+level);
+	public void changeShortcut(int position, int slot) {
+		this.shortcutsMap.put(position, slot);
 	}
 
 	public void removeShortcut(int position) {

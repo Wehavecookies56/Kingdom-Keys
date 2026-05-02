@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.client.gui.menu.customize;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
@@ -30,10 +31,11 @@ public class MenuCustomizeScreen extends MenuBackground {
     protected void action(String string) {
         switch(string) {
             case "shortcuts":
-                PacketHandler.sendToServer(new CSOpenShortcutsCustomize());
+                Minecraft.getInstance().setScreen(new MenuCustomizeShortcutsScreen()); //This time directly from client
+                //PacketHandler.sendToServer(new CSOpenShortcutsCustomize());
                 break;
             case "magic":
-                PacketHandler.sendToServer(new CSOpenMagicCustomize());
+                //PacketHandler.sendToServer(new CSOpenMagicCustomize());
                 break;
             case "back":
                 PacketHandler.sendToServer(new CSOpenMenu());
@@ -58,7 +60,7 @@ public class MenuCustomizeScreen extends MenuBackground {
 
         addRenderableWidget(shortcuts = new MenuButton((int) buttonPosX, buttonPosY, (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Customize_Shortcuts), MenuButton.ButtonType.BUTTON, (e) -> action("shortcuts")));
         addRenderableWidget(magic = new MenuButton((int) buttonPosX, buttonPosY + (18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Customize_Magic), MenuButton.ButtonType.BUTTON, (e) -> action("magic")));
-
+        magic.active = false;
         addRenderableWidget(back = new MenuButton((int) buttonPosX, buttonPosY + (2 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), MenuButton.ButtonType.BUTTON, (e) -> action("back")));
 
     }
