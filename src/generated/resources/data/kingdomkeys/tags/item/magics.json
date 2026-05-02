@@ -9,6 +9,26 @@
     "kingdomkeys:spellmagnet",
     "kingdomkeys:spellreflect",
     "kingdomkeys:spellgravity",
-    "kingdomkeys:spellstop"
+    "kingdomkeys:spellstop",
+    "kingdomkeys:spellfira",
+    "kingdomkeys:spellblizzara",
+    "kingdomkeys:spellwatera",
+    "kingdomkeys:spellthundara",
+    "kingdomkeys:spellcura",
+    "kingdomkeys:spellaerora",
+    "kingdomkeys:spellmagnera",
+    "kingdomkeys:spellreflera",
+    "kingdomkeys:spellgravira",
+    "kingdomkeys:spellstopra",
+    "kingdomkeys:spellfiraga",
+    "kingdomkeys:spellblizzaga",
+    "kingdomkeys:spellwaterga",
+    "kingdomkeys:spellthundaga",
+    "kingdomkeys:spellcuraga",
+    "kingdomkeys:spellaeroga",
+    "kingdomkeys:spellmagnega",
+    "kingdomkeys:spellreflega",
+    "kingdomkeys:spellgraviga",
+    "kingdomkeys:spellstopga"
   ]
 }

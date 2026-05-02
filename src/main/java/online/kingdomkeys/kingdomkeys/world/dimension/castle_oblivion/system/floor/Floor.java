@@ -76,6 +76,7 @@ public class Floor {
             southTE.openDoor(false);
             level.setBlockEntity(northTE);
             level.setBlockEntity(southTE);
+            capability.setDirty();
             return floor;
         }
         return capability.getFloors().get(0);
