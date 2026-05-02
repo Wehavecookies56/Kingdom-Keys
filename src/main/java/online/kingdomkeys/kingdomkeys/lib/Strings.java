@@ -583,6 +583,8 @@ public class Strings {
         synthesisBag = "synthesis_bag",
         
         SpellFire = "spellfire",
+        SpellFira = "spellfira",
+        SpellFiraga = "spellfiraga",
         SpellBlizzard = "spellblizzard",
         SpellWater = "spellwater",
         SpellThunder = "spellthunder",

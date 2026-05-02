@@ -31,6 +31,7 @@ import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import online.kingdomkeys.kingdomkeys.handler.EntityEvents;
 import online.kingdomkeys.kingdomkeys.handler.InputHandler;
 import online.kingdomkeys.kingdomkeys.item.KKPotionItem;
+import online.kingdomkeys.kingdomkeys.item.MagicSpellItem;
 import online.kingdomkeys.kingdomkeys.item.ModComponents;
 import online.kingdomkeys.kingdomkeys.item.organization.ArrowgunItem;
 import online.kingdomkeys.kingdomkeys.lib.Party;
@@ -125,7 +126,7 @@ public class CommandMenuGui extends OverlayBase {
 		CommandMenuSubMenu magicSubmenu = new CommandMenuSubMenu.Builder(magic, Component.translatable(Strings.Gui_CommandMenu_Magic_Title).withStyle(ClientUtils.KK_Font_EXP))
 				.colour(new Color(102, 0, 255))
 				.onUpdate(updateMagic())
-				.withChildren(createMagicFromRegistry())
+				.withChildren(createMagicFromEquipped())
 				.autoResizes()
 				.buildWithParent(rootSubmenu);
 		CommandMenuSubMenu itemsSubmenu = new CommandMenuSubMenu.Builder(items, Component.translatable(Strings.Gui_CommandMenu_Items_Title).withStyle(ClientUtils.KK_Font_EXP))
@@ -169,9 +170,19 @@ public class CommandMenuGui extends OverlayBase {
 			AtomicInteger i = new AtomicInteger(0);
 			Map<String, Integer> magicList = new HashMap<>();
 			PlayerData playerData = PlayerData.get(minecraft.player);
-			ModConfigs.magicDisplayedInCommandMenu.stream().filter(m -> playerData.getMagicsMap().containsKey(m)).toList().forEach(s -> {
+
+			/*ModConfigs.magicDisplayedInCommandMenu.stream().filter(m -> playerData.getMagicsMap().containsKey(m)).toList().forEach(s -> {
 				magicList.put(s, i.getAndIncrement());
-			});
+			});*/
+
+			for (Map.Entry<Integer, ItemStack> entry : playerData.getEquippedMagics().entrySet()) {
+				ItemStack stack = entry.getValue();
+
+				if (!stack.isEmpty() && stack.getItem() instanceof MagicSpellItem spell) {
+					magicList.put(spell.getMagic(), i.getAndIncrement());
+				}
+			}
+
 			subMenu.getChildren().forEach(item -> {
 				item.setSorting(0);
 				if (magicList.containsKey(item.getId().toString())) {
@@ -224,76 +235,98 @@ public class CommandMenuGui extends OverlayBase {
 		};
 	}
 
-	public CommandMenuItem.Builder[] createMagicFromRegistry() {
+	public CommandMenuItem.Builder[] createMagicFromEquipped() {
 		List<CommandMenuItem.Builder> magic = new ArrayList<>();
-		ModMagic.registry.forEach(magicRegistryObject -> magic.add(new CommandMenuItem.Builder(magicRegistryObject.getRegistryName(), Component.translatable(magicRegistryObject.getTranslationKey()), item -> {
+		if(minecraft.player != null) {
 			PlayerData playerData = PlayerData.get(minecraft.player);
 			WorldData worldData = WorldData.getClient();
-			int magLevel = playerData.getMagicsMap().get(magicRegistryObject.getRegistryName().toString())[0]; //Get the magic instance from the current name
-			//int magLevel = playerData.getEquippedMagics().get()
-			double cost = magicRegistryObject.getCost(magLevel, minecraft.player);
+			if(playerData != null) {
+				playerData.getEquippedMagics().entrySet().stream()
+						.sorted(Map.Entry.comparingByKey()) // mantener orden por slot
+						.forEach(entry -> {
+							ItemStack stack = entry.getValue();
 
-			if (playerData.getMaxMP() == 0 || playerData.getRecharge() || cost > playerData.getMaxMP() && cost < 300) {
-				playErrorSound();
-				changeSubmenu(root, true);
-			} else { //cast / target selector
-                ArrayList<CommandMenuItem> targets = new ArrayList<>();
+							if (stack.isEmpty() || !(stack.getItem() instanceof MagicSpellItem spell)) return;
 
-                NeoForge.EVENT_BUS.post(new TargetSelectorEvent(commandMenuElements.get(currentSubmenu), targets));
-                //                                      if in a party                 and           magic has target selector                                             or has target selector populated
-				if ((worldData.getPartyFromMember(minecraft.player.getUUID()) != null && ModMagic.registry.get(magicRegistryObject.getRegistryName()).getHasToSelect()) || !targets.isEmpty()) { //Open party target selector
-					if (currentSubmenu.equals(target) && commandMenuElements.get(currentSubmenu).getSelected() != null) {//if is in target selector
-                        int level = playerData.getMagicLevel(magicRegistryObject.getRegistryName());
-                        String data = commandMenuElements.get(currentSubmenu).getSelected().getData();
-                        int targetID = Integer.parseInt(data);
-                        PacketHandler.sendToServer(new CSUseMagicPacket(magicRegistryObject.getRegistryName().toString(), targetID, level));
+							String magicId = spell.getMagic();
+							Magic magicRegistryObject = ModMagic.registry.get(ResourceLocation.parse(magicId));
 
-						changeSubmenu(root, true);
-					} else {
-						changeSubmenu(target, true);
-						playInSound();
-						return;
-					}
-				} else { //Cast Magic
-					int level = playerData.getMagicLevel(magicRegistryObject.getRegistryName());
-					PacketHandler.sendToServer(new CSUseMagicPacket(magicRegistryObject.getRegistryName().toString(), level, InputHandler.lockOn));
-					changeSubmenu(root, true);
-				}
-				playSelectSound();
+							magic.add(new CommandMenuItem.Builder(
+									ResourceLocation.parse(magicId),
+									Component.translatable(magicRegistryObject.getTranslationKey()),
+									item -> {
+										int magLevel = spell.getLevel(); // 🔥 ahora viene del item
+										double cost = magicRegistryObject.getCost(magLevel, minecraft.player);
+
+										if (playerData.getMaxMP() == 0 || playerData.getRecharge() || cost > playerData.getMaxMP() && cost < 300) {
+											playErrorSound();
+											changeSubmenu(root, true);
+											return;
+										}
+
+										ArrayList<CommandMenuItem> targets = new ArrayList<>();
+										NeoForge.EVENT_BUS.post(new TargetSelectorEvent(commandMenuElements.get(currentSubmenu), targets));
+
+										boolean hasParty = worldData.getPartyFromMember(minecraft.player.getUUID()) != null;
+										boolean needsTarget = magicRegistryObject.getHasToSelect();
+
+										if ((hasParty && needsTarget) || !targets.isEmpty()) {
+											if (currentSubmenu.equals(target) && commandMenuElements.get(currentSubmenu).getSelected() != null) {
+
+												int targetID = Integer.parseInt(commandMenuElements.get(currentSubmenu).getSelected().getData());
+
+												PacketHandler.sendToServer(new CSUseMagicPacket(magicId, targetID, magLevel));
+												changeSubmenu(root, true);
+
+											} else {
+												changeSubmenu(target, true);
+												playInSound();
+												return;
+											}
+										} else {
+											PacketHandler.sendToServer(new CSUseMagicPacket(magicId, magLevel, InputHandler.lockOn));
+											changeSubmenu(root, true);
+										}
+
+										playSelectSound();
+									})
+									.onUpdate((item, guiGraphics) -> {
+										if (playerData.getMP() > 0 && !playerData.getRecharge()) {
+											item.setActive(true);
+											item.setTextColour(Color.WHITE);
+
+											int level = spell.getLevel();
+											double magCost = magicRegistryObject.getCost(level, minecraft.player);
+
+											if (playerData.getMP() <= magCost) {
+												if (playerData.getMaxMP() < magCost && magCost < 300) {
+													item.setTextColour(Color.GRAY);
+												} else {
+													if (playerData.isAbilityEquipped(Strings.extraCast)) {
+														if (magCost >= playerData.getMaxMP()) {
+															item.setTextColour(Color.ORANGE);
+														} else {
+															if (playerData.getMP() > 1 && playerData.getMP() - magCost < 1) {
+																item.setTextColour(Color.WHITE);
+															} else {
+																item.setTextColour(Color.ORANGE);
+															}
+														}
+													} else {
+														item.setTextColour(Color.ORANGE);
+													}
+												}
+											}
+										} else {
+											item.setTextColour(Color.WHITE);
+											item.setActive(false);
+										}
+									})
+									.iconUV(20, 60)
+							);
+						});
 			}
-		})
-			.onUpdate((item, guiGraphics) -> {
-				PlayerData playerData = PlayerData.get(minecraft.player);
-				Magic magicInst = ModMagic.registry.get(item.getId());
-				if (playerData.getMP() > 0 && !playerData.getRecharge()) {
-					item.setActive(true);
-					item.setTextColour(Color.WHITE);
-					double magCost = magicInst.getCost(playerData.getMagicLevel(item.getId()), Minecraft.getInstance().player);
-					if (playerData.getMP() <= magCost) {
-						if(playerData.getMaxMP() < magCost && magCost < 300){ //Cure case using all
-							item.setTextColour(Color.GRAY);
-						} else {
-							//Extra Cast
-							if(playerData.isAbilityEquipped(Strings.extraCast)){
-								if(magCost >= playerData.getMaxMP()){
-									item.setTextColour(Color.ORANGE);
-								} else {// if it's a normal magic
-									if(playerData.getMP() > 1 && playerData.getMP() - magCost < 1) { // If the player has more than 1MP and the magic would consume it all
-										item.setTextColour(Color.WHITE);
-									} else { //If the player has 1MP already orange
-										item.setTextColour(Color.ORANGE);
-									}
-								}
-							} else {
-								item.setTextColour(Color.ORANGE);
-							}
-						}
-					}
-				} else {
-					item.setTextColour(Color.WHITE);
-					item.setActive(false);
-				}
-			}).iconUV(20, 60)));
+		}
 		return magic.toArray(new CommandMenuItem.Builder[0]);
 	}
 

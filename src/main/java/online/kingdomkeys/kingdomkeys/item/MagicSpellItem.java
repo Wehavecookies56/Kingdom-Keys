@@ -28,10 +28,16 @@ import java.util.List;
 
 public class MagicSpellItem extends Item implements IItemCategory {
 	String magic;
+	int level;
 
-	public MagicSpellItem(Properties properties, String name) {
+	public MagicSpellItem(Properties properties, String name, int level) {
 		super(properties);
 		this.magic = name;
+		this.level = level;
+	}
+
+	public int getLevel(){
+		return level;
 	}
 
 	public String getMagic() {
