@@ -7,9 +7,7 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.cts.CSOpenMagicCustomize;
 import online.kingdomkeys.kingdomkeys.network.cts.CSOpenMenu;
-import online.kingdomkeys.kingdomkeys.network.cts.CSOpenShortcutsCustomize;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import org.jetbrains.annotations.NotNull;
 
@@ -19,7 +17,7 @@ public class MenuCustomizeScreen extends MenuBackground {
 
     MenuBox box;
 
-    MenuButton shortcuts, magic, back;
+    MenuButton shortcuts, back;
 
     int buttonsX = 0;
 
@@ -30,16 +28,9 @@ public class MenuCustomizeScreen extends MenuBackground {
 
     protected void action(String string) {
         switch(string) {
-            case "shortcuts":
-                Minecraft.getInstance().setScreen(new MenuCustomizeShortcutsScreen()); //This time directly from client
+            case "shortcuts" -> Minecraft.getInstance().setScreen(new MenuCustomizeShortcutsScreen()); //This time directly from client
                 //PacketHandler.sendToServer(new CSOpenShortcutsCustomize());
-                break;
-            case "magic":
-                //PacketHandler.sendToServer(new CSOpenMagicCustomize());
-                break;
-            case "back":
-                PacketHandler.sendToServer(new CSOpenMenu());
-                break;
+            case "back" -> PacketHandler.sendToServer(new CSOpenMenu());
         }
     }
 
@@ -59,8 +50,6 @@ public class MenuCustomizeScreen extends MenuBackground {
         this.renderables.clear();
 
         addRenderableWidget(shortcuts = new MenuButton((int) buttonPosX, buttonPosY, (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Customize_Shortcuts), MenuButton.ButtonType.BUTTON, (e) -> action("shortcuts")));
-        addRenderableWidget(magic = new MenuButton((int) buttonPosX, buttonPosY + (18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Customize_Magic), MenuButton.ButtonType.BUTTON, (e) -> action("magic")));
-        magic.active = false;
         addRenderableWidget(back = new MenuButton((int) buttonPosX, buttonPosY + (2 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), MenuButton.ButtonType.BUTTON, (e) -> action("back")));
 
     }

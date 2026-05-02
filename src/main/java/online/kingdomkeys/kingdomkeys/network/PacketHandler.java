@@ -32,12 +32,10 @@ public class PacketHandler {
 		client(SCOpenChoiceScreen.TYPE, SCOpenChoiceScreen.STREAM_CODEC);
 		client(SCOpenCODoorGui.TYPE, SCOpenCODoorGui.STREAM_CODEC);
 		client(SCOpenEquipmentScreen.TYPE, SCOpenEquipmentScreen.STREAM_CODEC);
-		client(SCOpenMagicCustomize.TYPE, SCOpenMagicCustomize.STREAM_CODEC);
 		client(SCOpenMaterialsScreen.TYPE, SCOpenMaterialsScreen.STREAM_CODEC);
 		client(SCOpenCheckScreen.TYPE, SCOpenCheckScreen.STREAM_CODEC);
         client(SCOpenSellScreen.TYPE, SCOpenSellScreen.STREAM_CODEC);
 		client(SCOpenSavePointScreen.TYPE, SCOpenSavePointScreen.STREAM_CODEC);
-		client(SCOpenShortcutsCustomize.TYPE, SCOpenShortcutsCustomize.STREAM_CODEC);
 		client(SCOpenSynthesisGui.TYPE, SCOpenSynthesisGui.STREAM_CODEC);
 		client(SCRecalculateEyeHeight.TYPE, SCRecalculateEyeHeight.STREAM_CODEC);
 		client(SCShowMessagesPacket.TYPE, SCShowMessagesPacket.STREAM_CODEC);
@@ -81,8 +79,6 @@ public class PacketHandler {
 		server(CSGenerateRoom.TYPE, CSGenerateRoom.STREAM_CODEC);
 		server(CSGiveUpKO.TYPE, CSGiveUpKO.STREAM_CODEC);
 		server(CSLevelUpKeybladePacket.TYPE, CSLevelUpKeybladePacket.STREAM_CODEC);
-		server(CSOpenMagicCustomize.TYPE, CSOpenMagicCustomize.STREAM_CODEC);
-		server(CSOpenShortcutsCustomize.TYPE, CSOpenShortcutsCustomize.STREAM_CODEC);
 		server(CSOrgPortalTPPacket.TYPE, CSOrgPortalTPPacket.STREAM_CODEC);
 		server(CSPartyAddMember.TYPE, CSPartyAddMember.STREAM_CODEC);
 		server(CSPartyCreate.TYPE, CSPartyCreate.STREAM_CODEC);
