@@ -92,9 +92,12 @@ public class LevelStats {
         if (levelData.getMaxAccessories(level) > 0) {
 			cap.addMaxAccessories(levelData.getMaxAccessories(level));
 		}
-		if (levelData.getMaxArmors(level) > 0) {
-			cap.addMaxArmors(levelData.getMaxArmors(level));
-		}
+	    if (levelData.getMaxArmors(level) > 0) {
+		    cap.addMaxArmors(levelData.getMaxArmors(level));
+	    }
+	    if (levelData.getMaxMagics(level) > 0) {
+		    cap.addMaxMagics(levelData.getMaxMagics(level));
+	    }
     }
 
 }

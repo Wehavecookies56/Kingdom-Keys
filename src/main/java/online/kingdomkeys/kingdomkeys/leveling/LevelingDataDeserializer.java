@@ -39,44 +39,18 @@ public class LevelingDataDeserializer implements JsonDeserializer<LevelingData> 
 				JsonElement element = entry2.getValue();
 
 				switch (entry2.getKey()) {
-					case "ap":
-						out.setAP(level, element.getAsInt());
-						break;
-					case "str":
-						out.setStr(level, element.getAsInt());
-						break;
-					case "mag":
-						out.setMag(level, element.getAsInt());
-						break;
-					case "def":
-						out.setDef(level, element.getAsInt());
-						break;
-					case "maxhp":
-						out.setMaxHp(level, element.getAsInt());
-						break;
-					case "maxmp":
-						out.setMaxMp(level, element.getAsInt());
-						break;
-
-					case "abilities":
-						out.setAbilities(level, toStringArray(element.getAsJsonArray()));
-						break;
-
-					case "shotlocks":
-						out.setShotlocks(level, toStringArray(element.getAsJsonArray()));
-						break;
-
-					case "spells":
-						out.setSpells(level, toStringArray(element.getAsJsonArray()));
-						break;
-
-					case "max_accessories":
-						out.setMaxAccessories(level, element.getAsInt());
-						break;
-
-					case "max_armors":
-						out.setMaxArmors(level, element.getAsInt());
-						break;
+					case "ap" -> out.setAP(level, element.getAsInt());
+					case "str" -> out.setStr(level, element.getAsInt());
+					case "mag" -> out.setMag(level, element.getAsInt());
+					case "def" -> out.setDef(level, element.getAsInt());
+					case "maxhp" -> out.setMaxHp(level, element.getAsInt());
+					case "maxmp" -> out.setMaxMp(level, element.getAsInt());
+					case "abilities" -> out.setAbilities(level, toStringArray(element.getAsJsonArray()));
+					case "shotlocks" -> out.setShotlocks(level, toStringArray(element.getAsJsonArray()));
+					case "spells" -> out.setSpells(level, toStringArray(element.getAsJsonArray()));
+					case "max_accessories" -> out.setMaxAccessories(level, element.getAsInt());
+					case "max_armors" -> out.setMaxArmors(level, element.getAsInt());
+					case "max_magics" -> out.setMaxMagics(level, element.getAsInt());
 				}
 			}
 		}

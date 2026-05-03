@@ -1846,6 +1846,7 @@ public class Utils {
 		playerData.setMaxAP(0);
 		playerData.setMaxAccessories(0);
 		playerData.setMaxArmors(0);
+		playerData.setMaxMagics(0);
 
 		playerData.clearAbilities();
 		SoAState.applyStatsForChoices(player, playerData, false);

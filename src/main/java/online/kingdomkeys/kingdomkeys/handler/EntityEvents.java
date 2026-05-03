@@ -463,7 +463,6 @@ public class EntityEvents {
 		PlayerData playerData = PlayerData.get(player);
 		//playerData.clearRecipes("all");
 		if (playerData != null) {
-			playerData.setMaxMagics(8);
 			// Check if rc conditions match
 			//Tick RCs in list
 			for (String rcName : new ArrayList<>(playerData.getReactionCommands().keySet())) {

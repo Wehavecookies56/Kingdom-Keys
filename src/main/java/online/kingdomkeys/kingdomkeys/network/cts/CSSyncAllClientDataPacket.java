@@ -22,8 +22,6 @@ public record CSSyncAllClientDataPacket() implements Packet {
 	@Override
 	public void handle(IPayloadContext context) {
 		Player player = context.player();
-
-		PlayerData playerData = PlayerData.get(player);
 		PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
 	}
 

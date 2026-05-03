@@ -29,11 +29,11 @@ public enum SoAState {
 
     public static SoAState fromByte(byte b) {
         SoAState[] values = SoAState.values();
-        for (int i = 0; i < values.length; i++) {
-            if (values[i].Compare(b)) {
-                return values[i];
-            }
-        }
+	    for (SoAState value : values) {
+		    if (value.Compare(b)) {
+			    return value;
+		    }
+	    }
         return NONE;
     }
 
@@ -134,6 +134,10 @@ public enum SoAState {
 		
 		if (choice.getMaxArmors(choiceLevel) != 0) {
 			playerData.addMaxArmors(choice.getMaxArmors(choiceLevel));
+		}
+
+		if (choice.getMaxMagics(choiceLevel) != 0) {
+			playerData.addMaxMagics(choice.getMaxMagics(choiceLevel));
 		}
 	}
     

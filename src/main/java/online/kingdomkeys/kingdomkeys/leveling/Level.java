@@ -71,6 +71,10 @@ public class Level {
 		return data.getMaxArmors(level);
 	}
 
+	public int getMaxMagics(int level) {
+		return data.getMaxMagics(level);
+	}
+
 	public int getVersion() {
 		return data.getVersion();
 	}
