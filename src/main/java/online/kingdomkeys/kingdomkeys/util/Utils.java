@@ -188,6 +188,8 @@ public class Utils {
 		}
 
     	for (Entry<Integer, ItemStack> magic : magicsMap.entrySet()){
+			if(magic.getKey() >= playerData.getMaxMagics())
+				break;
 		    ItemStack stack = playerData.getEquippedMagic(magic.getKey());
 			if(stack != null && stack.getItem() instanceof MagicSpellItem spell) {
 				Magic m = ModMagic.registry.get(ResourceLocation.parse(spell.getMagic()));
@@ -866,11 +868,15 @@ public class Utils {
 		return null;
 	}
 
-	public static List<String> getSpellsList(Map<Integer, ItemStack> equippedMagics) {
+	public static List<String> getSpellsList(PlayerData playerData) {
+		Map<Integer, ItemStack> equippedMagics = playerData.getEquippedMagics();
+		int maxMagics = playerData.getMaxMagics();
 		List<String> result = new ArrayList<>();
 		if(equippedMagics.isEmpty())
 			return result;
 		for (Map.Entry<Integer, ItemStack> entry : equippedMagics.entrySet()) {
+			if(entry.getKey() >= maxMagics)
+				break;
 			if(entry.getValue().getItem() instanceof MagicSpellItem spell) {
 				result.add(spell.getMagic());
 			}

@@ -390,18 +390,16 @@ public class EntityEvents {
 				}
 				playerData.equipAllArmors(armorsMap, true);
 
-
 				HashMap<Integer, ItemStack> magicsMap = (HashMap<Integer, ItemStack>) playerData.getEquippedMagics();
 				if (magicsMap.isEmpty()) {
-					for (int i = 0; i < 10; i++) {
+					for (int i = 0; i < 20; i++) {
 						magicsMap.put(i, ItemStack.EMPTY);
 					}
 				}
-				for (int i = magicsMap.size(); i < 10; i++) {
+				for (int i = magicsMap.size(); i < 20; i++) {
 					magicsMap.put(i, ItemStack.EMPTY);
 				}
 				playerData.equipAllMagics(magicsMap, true);
-
 
 
 				// Fills the map with empty stacks for every form that requires one.

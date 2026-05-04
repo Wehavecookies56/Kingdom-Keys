@@ -160,8 +160,11 @@ public class CommandMenuGui extends OverlayBase {
 
 	private CommandMenuItem.OnEnter opensSubmenu(ResourceLocation subMenu) {
 		return (item -> {
-			changeSubmenu(subMenu, false);
-			playInSound();
+			if(changeSubmenu(subMenu, false)){
+				playInSound();
+			} else {
+				playErrorSound();
+			}
 		});
 	}
 
@@ -171,7 +174,7 @@ public class CommandMenuGui extends OverlayBase {
 			Map<String, Integer> magicList = new HashMap<>();
 			PlayerData playerData = PlayerData.get(minecraft.player);
 
-			for(String s : Utils.getSpellsList(playerData.getEquippedMagics())){
+			for(String s : Utils.getSpellsList(playerData)){
 				magicList.put(s, i.getAndIncrement());
 			}
 
@@ -323,7 +326,8 @@ public class CommandMenuGui extends OverlayBase {
 
 			//This first part of the condition is to avoid the code below from making it even darker
 			double cheapest = Utils.getCheapestMagicCost(playerData.getEquippedMagics(), minecraft.player);
-			if(!Utils.getSpellsList(playerData.getEquippedMagics()).isEmpty() && (playerData.getRecharge() || playerData.getMaxMP() < cheapest && cheapest < 300) && playerData.getMagicCooldownTicks() <= 0) { //Small hack to avoid gray and dark gray flicker when using last magic and going on recharge
+
+			if(Utils.getSpellsList(playerData).isEmpty() || (playerData.getRecharge() || playerData.getMaxMP() < cheapest && cheapest < 300) && playerData.getMagicCooldownTicks() <= 0) { //Small hack to avoid gray and dark gray flicker when using last magic and going on recharge
 				item.setTextColour(Color.GRAY); //Still allows to open submenu
 			}
 
@@ -333,7 +337,7 @@ public class CommandMenuGui extends OverlayBase {
 				return;
 			}
 
-			if(Utils.getSpellsList(playerData.getEquippedMagics()).isEmpty()){
+			if(Utils.getSpellsList(playerData).isEmpty()){
 				item.setActive(false);
 				item.setMessage(Component.literal("???"));
 			} else {
@@ -493,9 +497,14 @@ public class CommandMenuGui extends OverlayBase {
 
 		PlayerData playerData = PlayerData.get(minecraft.player);
 		WorldData worldData = WorldData.getClient();
+		for (Map.Entry<Integer, ItemStack> entry : playerData.getEquippedMagics().entrySet()) {
+			Integer slot = entry.getKey();
+			if(slot >= playerData.getMaxMagics())
+				break;
 
-		playerData.getEquippedMagics().forEach((slot, stack) -> {
-			if (stack.isEmpty() || !(stack.getItem() instanceof MagicSpellItem spell)) return;
+			ItemStack stack = entry.getValue();
+			if (stack.isEmpty() || !(stack.getItem() instanceof MagicSpellItem spell))
+				continue;
 
 			ResourceLocation magicId = ResourceLocation.parse(spell.getMagic());
 			Magic magic = ModMagic.registry.get(magicId);
@@ -569,11 +578,11 @@ public class CommandMenuGui extends OverlayBase {
 									item.setActive(false);
 								}
 							})
-							.setData(spell.getLevel()+"")
+							.setData(spell.getLevel() + "")
 							.iconUV(20, 60)
 							.build(subMenu)
 			);
-		});
+		}
 
 		subMenu.setSelected(subMenu.getFirst());
 	}
@@ -642,7 +651,7 @@ public class CommandMenuGui extends OverlayBase {
 		Minecraft.getInstance().level.playSound(player, player.position().x(),player.position().y(),player.position().z(), sound, SoundSource.MASTER, 1.0f, 1.0f);
 	}
 
-	public void changeSubmenu(ResourceLocation submenu, boolean resetSelected) {
+	public boolean changeSubmenu(ResourceLocation submenu, boolean resetSelected) {
 		commandMenuElements.forEach((resourceLocation, subMenu) -> {
 			subMenu.setActive(false);
 		});
@@ -667,6 +676,7 @@ public class CommandMenuGui extends OverlayBase {
 			newSubmenu.close();
 			newSubmenu.setActive(true);
 			newSubmenu.onOpen();
+
 			if (newSubmenu.visibleSize() > 0) {
 				if (!currentSubmenu.equals(root)) {
 					newSubmenu.setVisible(false);
@@ -676,10 +686,14 @@ public class CommandMenuGui extends OverlayBase {
 				}
 				newSubmenu.setVisible(true);
 				currentSubmenu = submenu;
+				return true;
 			} else {
 				newSubmenu.setActive(false);
+				currentSubMenu.setActive(true);
+				return false;
 			}
 		}
+		return false;
 	}
 
 	public boolean antiFormCheck(PlayerData playerData, DriveForm driveForm) { //Only checks if form is not final

@@ -1,5 +1,5 @@
 {
-   "version":1,
+   "version":3,
    "levels":{
       "0":{
          "mag":-1
@@ -41,7 +41,8 @@
       },
       "8":{
          "mag":1,
-         "maxmp":8
+         "maxmp":8,
+         "max_magics":1
       },
       "9":{
          "str":1,
@@ -69,7 +70,8 @@
             "kingdomkeys:ability_mp_haste"
          ],
          "maxmp":8,
-         "ap":1
+         "ap":1,
+         "max_magics":1
       },
       "13":{
          "str":1,
@@ -98,7 +100,8 @@
          "abilities":[
             "kingdomkeys:ability_mp_rage"
          ],
-         "maxmp":8
+         "maxmp":8,
+         "max_magics":1
       },
       "17":{
          "str":1,
@@ -128,7 +131,8 @@
             "kingdomkeys:ability_jackpot",
             "kingdomkeys:ability_grand_magic_extender"
          ],
-         "max_accessories":1
+         "max_accessories":1,
+         "max_magics":1
       },
       "21":{
          "str":1,
@@ -157,7 +161,8 @@
          "abilities":[
             "kingdomkeys:ability_drive_converter",
             "kingdomkeys:ability_endless_magic"
-         ]
+         ],
+         "max_magics":1
       },
       "25":{
          "str":1,
@@ -188,7 +193,8 @@
          "abilities":[
             "kingdomkeys:ability_experience_boost"
          ],
-         "maxmp":4.0
+         "maxmp":4.0,
+         "max_magics":1
       },
       "29":{
          "str":1,
@@ -221,7 +227,8 @@
          "maxmp":4.0,
          "abilities":[
             "kingdomkeys:ability_encounter_plus"
-         ]
+         ],
+         "max_magics":1
       },
       "33":{
          "str":1,
@@ -248,7 +255,8 @@
          "ap":1,
          "abilities":[
             "kingdomkeys:ability_negative_combo"
-         ]
+         ],
+         "max_magics":1
       },
       "37":{
          "str":1,
@@ -274,7 +282,8 @@
          "abilities":[
             "kingdomkeys:ability_leaf_bracer"
          ],
-         "max_accessories":1
+         "max_accessories":1,
+         "max_magics":1
       },
       "41":{
          "str":1

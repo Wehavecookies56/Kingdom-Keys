@@ -36,6 +36,9 @@ public class ShortcutsGui extends OverlayBase {
 			playerData = PlayerData.get(minecraft.player);
 			int i = 0;
 			for (Map.Entry<Integer, Integer> entry : playerData.getShortcutsMap().entrySet()) {
+				if(entry.getValue() >= playerData.getMaxMagics())
+					continue;
+
 				int slot = entry.getValue();
 
 				ItemStack stack = playerData.getEquippedMagics().get(slot);

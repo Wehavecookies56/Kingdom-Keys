@@ -49,6 +49,8 @@ public record CSUseShortcutPacket(int index, int lockOnTarget) implements Packet
 		if (playerData.getMagicCooldownTicks() <= 0 && !playerData.getRecharge() && !playerData.getActiveDriveForm().equals(Strings.Form_Valor) && !player.hasEffect(ModMobEffects.KO)) {
 			if (playerData.getShortcutsMap().containsKey(index)) {
 				int slot = playerData.getShortcutsMap().get(index);
+				if(slot >= playerData.getMaxMagics())
+					return;
 
 				ItemStack stack = playerData.getEquippedMagics().get(slot);
 				if (stack == null || stack.isEmpty() || !(stack.getItem() instanceof MagicSpellItem spell)) {

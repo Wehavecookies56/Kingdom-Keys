@@ -1,5 +1,5 @@
 {
-   "version":1,
+   "version":2,
    "levels":{
       "0":{
          "str":-1
@@ -28,7 +28,8 @@
       "5":{
          "str":1,
          "maxhp":5,
-         "max_armors":1
+         "max_armors":1,
+         "max_magics":1
       },
       "6":{
          "mag":1,
@@ -56,7 +57,8 @@
          "mag":1,
          "def":1,
          "maxhp":5,
-         "max_accessories":1
+         "max_accessories":1,
+         "max_magics":1
       },
       "11":{
          "str":1,
@@ -92,7 +94,8 @@
             "kingdomkeys:ability_damage_drive"
          ],
          "ap":1,
-         "max_armors":1
+         "max_armors":1,
+         "max_magics":1
       },
       "16":{
          "mag":1,
@@ -128,7 +131,8 @@
          "abilities":[
             "kingdomkeys:ability_jackpot"
          ],
-         "max_accessories":1
+         "max_accessories":1,
+         "max_magics":1
       },
       "21":{
          "str":1,
@@ -161,7 +165,8 @@
          "abilities":[
             "kingdomkeys:ability_drive_boost"
          ],
-         "max_armors":1
+         "max_armors":1,
+         "max_magics":1
       },
       "26":{
          "mag":1,
@@ -202,7 +207,8 @@
          "abilities":[
             "kingdomkeys:ability_curaza"
          ],
-         "max_accessories":1
+         "max_accessories":1,
+         "max_magics":1
       },
       "31":{
          "str":1,
@@ -235,7 +241,8 @@
          "abilities":[
             "kingdomkeys:ability_grand_magic_haste"
          ],
-         "max_armors":1
+         "max_armors":1,
+         "max_magics":1
       },
       "36":{
          "mag":1,
@@ -269,7 +276,8 @@
          "max_accessories":1,
          "abilities":[
             "kingdomkeys:ability_air_slide"
-         ]
+         ],
+         "max_magics":1
       },
       "41":{
          "str":1,
@@ -306,7 +314,8 @@
          "ap":1,
          "abilities":[
             "kingdomkeys:ability_endless_magic"
-         ]
+         ],
+         "max_magics":1
       },
       "46":{
          "mag":1,
@@ -342,7 +351,8 @@
          "maxhp":5,
          "abilities":[
             "kingdomkeys:ability_synch_blade"
-         ]
+         ],
+         "max_magics":1
       },
       "51":{
          "str":1,

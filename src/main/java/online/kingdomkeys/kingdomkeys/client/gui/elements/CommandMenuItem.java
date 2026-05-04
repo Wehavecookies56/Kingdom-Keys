@@ -250,7 +250,7 @@ public class CommandMenuItem {
         Color textColour = parent.isActive() ? this.textColour : this.textColour.darker().darker();
         guiGraphics.setColor(textColour.getRed() / 255F, textColour.getGreen() / 255F, textColour.getBlue() / 255F, 1);
         guiGraphics.drawString(Minecraft.getInstance().font, getMessage(), parent.getSelected().equals(this) ? x + ModConfigs.cmSelectedXOffset + 6 + ModConfigs.cmTextXOffset : x + ModConfigs.cmTextXOffset + 6, y + 4, isActive() ? Color.WHITE.getRGB() : Color.WHITE.darker().darker().getRGB());
-
+        //System.out.println(this.getId()+"'s parent "+parent.isActive());
        if (this.hasIcon && this.getParent().getSelected().equals(this)) {
            float speed = 0.15f;
            float amplitude = 2f;

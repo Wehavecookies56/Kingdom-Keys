@@ -1,5 +1,5 @@
 {
-   "version":1,
+   "version":2,
    "levels":{
       "0":{
          "def":-1
@@ -33,7 +33,8 @@
       "6":{
          "mag":1,
          "def":1,
-         "ap":1
+         "ap":1,
+         "max_magics":1
       },
       "7":{
          "str":1
@@ -67,7 +68,8 @@
             "kingdomkeys:ability_mp_haste"
          ],
          "maxmp":8,
-         "ap":1
+         "ap":1,
+         "max_magics":1
       },
       "13":{
          "str":1,
@@ -111,7 +113,8 @@
          "ap":1,
          "abilities":[
             "kingdomkeys:ability_focus_converter"
-         ]
+         ],
+         "max_magics":1
       },
       "19":{
          "str":1,
@@ -155,7 +158,8 @@
          "abilities":[
             "kingdomkeys:ability_drive_converter",
             "kingdomkeys:ability_air_slide"
-         ]
+         ],
+         "max_magics":1
       },
       "25":{
          "str":1,
@@ -205,7 +209,8 @@
          "abilities":[
             "kingdomkeys:ability_thundaza"
          ],
-         "max_accessories":1
+         "max_accessories":1,
+         "max_magics":1
       },
       "31":{
          "str":1,
@@ -249,7 +254,8 @@
          "ap":1,
          "abilities":[
             "kingdomkeys:ability_berserk_charge"
-         ]
+         ],
+         "max_magics":1
       },
       "37":{
          "str":1
@@ -286,7 +292,8 @@
          "ap":1,
          "abilities":[
             "kingdomkeys:ability_combo_plus"
-         ]
+         ],
+         "max_magics":1
       },
       "43":{
          "str":1,
@@ -324,7 +331,8 @@
          "str":1,
          "mag":1,
          "maxmp":4.0,
-         "ap":1
+         "ap":1,
+         "max_magics":1
       },
       "49":{
          "str":1
@@ -355,7 +363,8 @@
       "54":{
          "mag":1,
          "def":1,
-         "ap":1
+         "ap":1,
+         "max_magics":1
       },
       "55":{
          "str":1,
@@ -383,7 +392,8 @@
          "mag":1,
          "maxhp":5,
          "maxmp":4.0,
-         "ap":1
+         "ap":1,
+         "max_magics":1
       },
       "61":{
          "str":1

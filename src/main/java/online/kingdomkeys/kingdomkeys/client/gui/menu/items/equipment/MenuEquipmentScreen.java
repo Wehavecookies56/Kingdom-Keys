@@ -181,7 +181,7 @@ public class MenuEquipmentScreen extends MenuBackground {
 			    ItemStack item = entry.getValue();
 			    MenuEquipmentButton magicSlot;
 			    if (slot == 0) {
-				    magicSlot = new MenuEquipmentButton(item, (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement(), 0xAA77FF, new MenuMagicSelectorScreen(slot, new Color(150, 130, 255), 0x8888AA), ItemCategory.MAGICS, this, Utils.translateToLocal(Strings.Gui_Menu_Items_Equipment_Magic), 0xAAAAFF);
+				    magicSlot = new MenuEquipmentButton(item, (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement(), 0xAA77FF, new MenuMagicSelectorScreen(slot, new Color(150, 130, 255), 0x8888AA), ItemCategory.MAGICS, this, Utils.translateToLocal(Strings.Gui_Menu_Items_Equipment_Magic), 0xBBAAFF);
 			    } else {
 				    magicSlot = new MenuEquipmentButton(item, (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement(), 0xAA77FF, new MenuMagicSelectorScreen(slot, new Color(150, 130, 255), 0x8888AA), ItemCategory.MAGICS, this);
 			    }
