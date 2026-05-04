@@ -27,7 +27,7 @@ import online.kingdomkeys.kingdomkeys.api.item.IKeychain;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
-import online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment.MenuEquipmentScreen;
+import online.kingdomkeys.kingdomkeys.client.gui.menu.check.CheckEquipmentScreen;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.item.*;
@@ -47,7 +47,7 @@ public class MenuEquipmentButton extends Button {
     ItemStack stack;
     Shotlock shotlock;
     int colour, labelColour;
-    MenuEquipmentScreen parent;
+	MenuBackground parent;
     String label;
     boolean hasLabel;
     ItemCategory category;
@@ -55,9 +55,9 @@ public class MenuEquipmentButton extends Button {
 
 	final ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
 
-    public MenuEquipmentButton(ItemStack stack, int x, int y, int colour, Screen toOpen, ItemCategory category, MenuEquipmentScreen parent) {
+    public MenuEquipmentButton(ItemStack stack, int x, int y, int colour, Screen toOpen, ItemCategory category, MenuBackground parent) {
         super(new Builder(Component.literal(""), b -> {
-            if (b.visible && b.active) {
+            if (b.visible && b.active && !(parent instanceof CheckEquipmentScreen)) {
                 Minecraft.getInstance().setScreen(((MenuEquipmentButton)b).toOpen);
             }
         }).bounds(x, y, (int) (parent.width * 0.264f), 14));
@@ -70,16 +70,16 @@ public class MenuEquipmentButton extends Button {
         this.category = category;
     }
 
-    public MenuEquipmentButton(ItemStack stack, int x, int y, int colour, Screen toOpen, ItemCategory category, MenuEquipmentScreen parent, String label, int labelColour) {
+    public MenuEquipmentButton(ItemStack stack, int x, int y, int colour, Screen toOpen, ItemCategory category, MenuBackground parent, String label, int labelColour) {
         this(stack, x, y, colour, toOpen, category, parent);
         this.hasLabel = true;
         this.labelColour = labelColour;
         this.label = label;
     }
     
-    public MenuEquipmentButton(String shotlock, int x, int y, int colour, Screen toOpen, ItemCategory category, MenuEquipmentScreen parent) {
+    public MenuEquipmentButton(String shotlock, int x, int y, int colour, Screen toOpen, ItemCategory category, MenuBackground parent) {
     	super(new Builder(Component.literal(""), b -> {
-            if (b.visible && b.active) {
+		    if (b.visible && b.active && !(parent instanceof CheckEquipmentScreen)) {
                 Minecraft.getInstance().setScreen(((MenuEquipmentButton)b).toOpen);
             }
         }).bounds(x, y, (int) (parent.width * 0.264f), 14));
@@ -93,7 +93,7 @@ public class MenuEquipmentButton extends Button {
         this.category = category;
     }
 
-    public MenuEquipmentButton(String shotlock, int x, int y, int colour, Screen toOpen, ItemCategory category, MenuEquipmentScreen parent, String label, int labelColour) {
+    public MenuEquipmentButton(String shotlock, int x, int y, int colour, Screen toOpen, ItemCategory category, MenuBackground parent, String label, int labelColour) {
         this(shotlock, x, y, colour, toOpen, category, parent);
         this.hasLabel = true;
         this.labelColour = labelColour;

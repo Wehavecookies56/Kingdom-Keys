@@ -25,7 +25,7 @@ public class CheckStatusScreen extends MenuBackground {
 
 	String form = DriveForm.NONE.toString();
 
-	Button stats_player, stats_ability;
+	Button stats_player, stats_ability, stats_equipment;
 	List<MenuButton> dfStats = new ArrayList<>();
 
 	MenuColourBox level, totalExp, nextLevel, hp, mp, ap, driveGauge, str, mag, def, fRes, bRes, tRes, aRes, lRes, wRes, dRes, dfLevel, dfExp, dfNextLevel, dfFormGauge;
@@ -39,7 +39,9 @@ public class CheckStatusScreen extends MenuBackground {
 	}
 
 	protected void action(String string) {
-		if (string.equals("abilities"))
+		if (string.equals("equipment"))
+			Minecraft.getInstance().setScreen(new CheckEquipmentScreen(playerData, player));
+		else if (string.equals("abilities"))
 			Minecraft.getInstance().setScreen(new CheckAbilitiesScreen(playerData, player));
 		else
 			form = string;
@@ -66,7 +68,6 @@ public class CheckStatusScreen extends MenuBackground {
 			dfNextLevel.setValue("" + remainingExp);
 			dfFormGauge.setValue("" + (2 + playerData.getDriveFormLevel(form)));
 		}
-
 	}
 
 	@Override
@@ -108,6 +109,7 @@ public class CheckStatusScreen extends MenuBackground {
 			dfStats.add(b);
 			addRenderableWidget(b);
 		}
+		addRenderableWidget(stats_equipment = new MenuButton((int) buttonPosX, button_stats_formsY + (i++ * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Items_Equipment), ButtonType.BUTTON, (e) -> { action("equipment"); }));
 		addRenderableWidget(stats_ability = new MenuButton((int) buttonPosX, button_stats_formsY + (i * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Status_Abilities), ButtonType.BUTTON, (e) -> { action("abilities"); }));
 
 		//Stats
