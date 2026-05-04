@@ -227,12 +227,9 @@ public class CommandMenuGui extends OverlayBase {
 
 	public CommandMenuSubMenu.OnUpdate updateDriveForms() {
 		return (subMenu, guiGraphics) -> {
-			AtomicInteger i = new AtomicInteger(0);
 			Map<String, Integer> formList = new HashMap<>();
 			PlayerData playerData = PlayerData.get(minecraft.player);
-			playerData.getDriveFormMap().forEach((s, ints) -> {
-				formList.put(s, ModDriveForms.registry.get(ResourceLocation.parse(s)).getOrder());
-			});
+			playerData.getDriveFormMap().forEach((s, ints) -> formList.put(s, ModDriveForms.registry.get(ResourceLocation.parse(s)).getOrder()));
 			subMenu.getChildren().forEach(item -> {
 				item.setSorting(0);
 				if (formList.containsKey(item.getId().toString())) {
@@ -335,7 +332,12 @@ public class CommandMenuGui extends OverlayBase {
 			//This first part of the condition is to avoid the code below from making it even darker
 			double cheapest = Utils.getCheapestMagicCost(playerData.getEquippedMagics(), minecraft.player);
 
-			if(Utils.getSpellsList(playerData).isEmpty() || (playerData.getRecharge() || playerData.getMaxMP() < cheapest && cheapest < 300) && playerData.getMagicCooldownTicks() <= 0) { //Small hack to avoid gray and dark gray flicker when using last magic and going on recharge
+			if(Utils.getSpellsList(playerData).isEmpty()){
+				item.setActive(false); //Doesn't allow opening submenu if empty
+				item.setMessage(Component.literal("???"));
+				return;
+			}
+			if((playerData.getRecharge() || playerData.getMaxMP() < cheapest && cheapest < 300) && playerData.getMagicCooldownTicks() <= 0) { //Small hack to avoid gray and dark gray flicker when using last magic and going on recharge
 				item.setTextColour(Color.GRAY); //Still allows to open submenu
 			}
 
@@ -345,13 +347,9 @@ public class CommandMenuGui extends OverlayBase {
 				return;
 			}
 
-			if(Utils.getSpellsList(playerData).isEmpty()){
-				item.setActive(false);
-				item.setMessage(Component.literal("???"));
-			} else {
-				item.setActive(true);
-				item.setMessage(Component.translatable(Strings.Gui_CommandMenu_Magic));
-			}
+			item.setActive(true);
+			item.setMessage(Component.translatable(Strings.Gui_CommandMenu_Magic));
+
 		}
 
 		if (item.getId().equals(drive)){
@@ -359,6 +357,7 @@ public class CommandMenuGui extends OverlayBase {
 			if(playerData.getDriveFormMap().size() <= Utils.getFakeForms().size() + 1){ //If no forms are unlocked (fake forms + anti)
 				item.setActive(false);
 				item.setMessage(Component.literal("???"));
+				return;
 			} else { //If any form is unlocked
 				if(minecraft.player.hasEffect(ModMobEffects.UNDERWORLD_CURSE)){
 					item.setActive(false);
