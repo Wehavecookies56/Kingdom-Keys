@@ -50,7 +50,7 @@ public class MenuCustomizeScreen extends MenuBackground {
         this.renderables.clear();
 
         addRenderableWidget(shortcuts = new MenuButton((int) buttonPosX, buttonPosY, (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Customize_Shortcuts), MenuButton.ButtonType.BUTTON, (e) -> action("shortcuts")));
-        addRenderableWidget(back = new MenuButton((int) buttonPosX, buttonPosY + (2 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), MenuButton.ButtonType.BUTTON, (e) -> action("back")));
+        addRenderableWidget(back = new MenuButton((int) buttonPosX, buttonPosY + (1 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), MenuButton.ButtonType.BUTTON, (e) -> action("back")));
 
     }
 

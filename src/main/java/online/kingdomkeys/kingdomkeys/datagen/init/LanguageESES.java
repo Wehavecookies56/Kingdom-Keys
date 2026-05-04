@@ -543,8 +543,9 @@ public class LanguageESES extends KKLanguageProvider {
         add(Stats_LevelUp_FormGauge, "\u00a1Aumenta el indic. de Forma!");
         add(Stats_LevelUp_MaxAccessories, "\u00a1Espacio para accesorios +1!");
         add(Stats_LevelUp_MaxArmors, "\u00a1Espacio para armaduras +1!");
-        add(Stats_LevelNext, "Next LV");
-        add(Stats_MunnyGet, "Munny Get!");
+        add(Stats_LevelUp_MaxMagics,"\u00a1Espacio para hechizos +1!");
+        add(Stats_LevelNext, "Sig. nivel");
+        add(Stats_MunnyGet, "¡Platines!");
 
         //Abilities
         addAbilityWithDesc(ModAbilities.AUTO_VALOR, "Auto-valent\u00eda", "En casos de emergencia, si la Forma valiente est\u00e1 disponible, el comando de reacci\u00f3n cambia a Valiente.");
@@ -917,6 +918,28 @@ public class LanguageESES extends KKLanguageProvider {
         addItem(ModItems.reflectSpell, "Hechizo de Reflejo");
         addItem(ModItems.gravitySpell, "Hechizo de Gravedad");
         addItem(ModItems.stopSpell, "Hechizo de Paro");
+
+        addItem(ModItems.firaSpell, "Hechizo de Piro+");
+        addItem(ModItems.blizzaraSpell, "Hechizo de Hielo+");
+        addItem(ModItems.wateraSpell, "Hechizo de Aqua+");
+        addItem(ModItems.thundaraSpell, "Hechizo de Electro+");
+        addItem(ModItems.curaSpell, "Hechizo de Cura+");
+        addItem(ModItems.aeroraSpell, "Hechizo de Aero+");
+        addItem(ModItems.magneraSpell, "Hechizo de Magneto+");
+        addItem(ModItems.refleraSpell, "Hechizo de Reflejo+");
+        addItem(ModItems.graviraSpell, "Hechizo de Gravedad+");
+        addItem(ModItems.stopraSpell, "Hechizo de Paro+");
+
+        addItem(ModItems.firagaSpell, "Hechizo de Piro++");
+        addItem(ModItems.blizzagaSpell, "Hechizo de Hielo++");
+        addItem(ModItems.watergaSpell, "Hechizo de Aqua++");
+        addItem(ModItems.thundagaSpell, "Hechizo de Electro++");
+        addItem(ModItems.curagaSpell, "Hechizo de Cura++");
+        addItem(ModItems.aerogaSpell, "Hechizo de Aero++");
+        addItem(ModItems.magnegaSpell, "Hechizo de Magneto++");
+        addItem(ModItems.reflegaSpell, "Hechizo de Reflejo++");
+        addItem(ModItems.gravigaSpell, "Hechizo de Gravedad++");
+        addItem(ModItems.stopgaSpell, "Hechizo de Paro++");
 
         // Drive form orbs
         addItem(ModItems.valorOrb, "Orbe de Forma Valiente");

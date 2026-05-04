@@ -486,6 +486,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Stats_LevelUp_FormGauge, "Form Gauge Powered Up!");
         add(Stats_LevelUp_MaxAccessories, "Gained accessory slot!");
         add(Stats_LevelUp_MaxArmors,"Gained armor slot!");
+        add(Stats_LevelUp_MaxMagics,"Gained spell slot!");
         add(Stats_LevelNext, "Next LV");
         add(Stats_MunnyGet, "Munny Get!");
 
@@ -1881,6 +1882,28 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.reflectSpell, "Reflect Spell");
         addItem(ModItems.gravitySpell, "Gravity Spell");
         addItem(ModItems.stopSpell, "Stop Spell");
+
+        addItem(ModItems.firaSpell, "Fira Spell");
+        addItem(ModItems.blizzaraSpell, "Blizzara Spell");
+        addItem(ModItems.wateraSpell, "Watera Spell");
+        addItem(ModItems.thundaraSpell, "Thundara Spell");
+        addItem(ModItems.curaSpell, "Cura Spell");
+        addItem(ModItems.aeroraSpell, "Aerora Spell");
+        addItem(ModItems.magneraSpell, "Magnera Spell");
+        addItem(ModItems.refleraSpell, "Reflera Spell");
+        addItem(ModItems.graviraSpell, "Gravira Spell");
+        addItem(ModItems.stopraSpell, "Stopra Spell");
+
+        addItem(ModItems.firagaSpell, "Firaga Spell");
+        addItem(ModItems.blizzagaSpell, "Blizzaga Spell");
+        addItem(ModItems.watergaSpell, "Waterga Spell");
+        addItem(ModItems.thundagaSpell, "Thundaga Spell");
+        addItem(ModItems.curagaSpell, "Curaga Spell");
+        addItem(ModItems.aerogaSpell, "Aeroga Spell");
+        addItem(ModItems.magnegaSpell, "Magnega Spell");
+        addItem(ModItems.reflegaSpell, "Reflega Spell");
+        addItem(ModItems.gravigaSpell, "Graviga Spell");
+        addItem(ModItems.stopgaSpell, "Stopga Spell");
 
         //Drive form orbs
         addItem(ModItems.valorOrb, "Valor Form Orb");

@@ -25,7 +25,7 @@ public class MagicSpellItem extends Item implements IItemCategory {
 	int level;
 
 	public MagicSpellItem(Properties properties, String name, int level) {
-		super(properties);
+		super(properties.stacksTo(1));
 		this.magic = name;
 		this.level = level;
 	}
@@ -40,37 +40,8 @@ public class MagicSpellItem extends Item implements IItemCategory {
 
 	@Override
 	public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
-		/*PlayerData playerData = PlayerData.get(player);
 		Magic magicInstance = ModMagic.registry.get(ResourceLocation.parse(magic));
-
-		if (!world.isClientSide) {
-			if (playerData != null && playerData.getMagicsMap() != null) {
-				if (!playerData.getMagicsMap().containsKey(magic)) {
-					playerData.getMagicsMap().put(magic, new int[] {0,0});
-					takeItem(player);
-					player.displayClientMessage(Component.translatable("message.unlocked", Utils.translateToLocal(magicInstance.getTranslationKey())), true);
-				} else {
-					int actualLevel = playerData.getMagicLevel(ResourceLocation.parse(magic));
-					if(actualLevel < magicInstance.getLevel()) {
-						player.displayClientMessage(Component.translatable("message.magic_upgrade",Utils.translateToLocal(magicInstance.getTranslationKey(actualLevel)),Utils.translateToLocal(magicInstance.getTranslationKey(actualLevel+1))), true);
-						playerData.getMagicsMap().put(magic, new int[] {actualLevel+1,0});
-						takeItem(player);
-					} else {
-						player.displayClientMessage(Component.translatable("message.magic_max_level",Utils.translateToLocal(magicInstance.getTranslationKey(actualLevel))), true);
-					}
-				}
-				PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
-			}
-		} else { //For the client side
-			if (!playerData.getMagicsMap().containsKey(magic)) { // If the magic is not on the list
-				if(!ModConfigs.magicDisplayedInCommandMenu.contains(magic)) {
-					List<String> list = new ArrayList<>(ModConfigs.magicDisplayedInCommandMenu);
-					list.add(magic);
-					ModConfigs.setMagicDisplayedInCommandMenu(list);
-				}
-			}
-		}
-			*/
+		player.displayClientMessage(Component.translatable("gui.magicspell.equip", Utils.translateToLocal(magicInstance.getTranslationKey(getLevel()))), true);
 		return InteractionResultHolder.success(player.getItemInHand(hand));
 	}
 

@@ -8,3 +8,6 @@
 * Magics customize is gone as now the order is based on the equipment order (Shortcuts still work).
 * Buffed thunder and thundara radius and frequency for all thunder magics.
 * /kingdomkeys magiclevel is now gone.
+
+### Fixed:
+* Next level and Munny get not being translated in spanish. 
