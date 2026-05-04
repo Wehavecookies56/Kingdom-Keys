@@ -174,6 +174,14 @@ public class CommandMenuGui extends OverlayBase {
 			Map<String, Integer> magicList = new HashMap<>();
 			PlayerData playerData = PlayerData.get(minecraft.player);
 
+			if(Utils.getSpellsList(playerData).isEmpty()){
+				//Quit the submenu
+				if(subMenu.getId().equals(magic)) {
+					changeSubmenu(root, false);
+					return;
+				}
+			}
+
 			for(String s : Utils.getSpellsList(playerData)){
 				magicList.put(s, i.getAndIncrement());
 			}

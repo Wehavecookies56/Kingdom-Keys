@@ -10,4 +10,4 @@
 * /kingdomkeys magiclevel is now gone.
 
 ### Fixed:
-* Next level and Munny get not being translated in spanish. 
+* Next level and Munny get not being translated in spanish.

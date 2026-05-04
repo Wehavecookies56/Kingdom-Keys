@@ -53,6 +53,8 @@ import online.kingdomkeys.kingdomkeys.block.gummi.GummiPlacementType;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.KOGui;
 import online.kingdomkeys.kingdomkeys.client.gui.StopGui;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.CommandMenuSubMenu;
+import online.kingdomkeys.kingdomkeys.client.gui.overlay.CommandMenuGui;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.CastleOblivionData;
@@ -88,6 +90,15 @@ import java.util.ArrayList;
 import java.util.function.Supplier;
 
 public class ClientEvents {
+
+
+	@SubscribeEvent
+	public void onEquipmentChange(EquipmentEvent.Magic e) {
+		CommandMenuSubMenu submenu = CommandMenuGui.commandMenuElements.get(CommandMenuGui.INSTANCE.currentSubmenu);
+		if(submenu.getId().equals(CommandMenuGui.INSTANCE.magic)) {
+			CommandMenuGui.INSTANCE.createMagics(submenu);
+		}
+	}
 
     @SubscribeEvent
 	public void onEntityJoinWorld(EntityJoinLevelEvent e) {

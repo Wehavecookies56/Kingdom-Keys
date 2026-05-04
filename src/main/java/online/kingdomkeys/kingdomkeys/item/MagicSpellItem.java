@@ -59,19 +59,6 @@ public class MagicSpellItem extends Item implements IItemCategory {
 		Magic magicInstance = ModMagic.registry.get(ResourceLocation.parse(magic));
 		if(Minecraft.getInstance().player != null) {
 			tooltip.add(Component.translatable("gui.magicspell.equip", Utils.translateToLocal(magicInstance.getTranslationKey(getLevel()))));
-
-			/*PlayerData playerData = PlayerData.get(Minecraft.getInstance().player);
-	
-			int actualLevel = playerData.getMagicLevel(ResourceLocation.parse(magic));
-			if(!playerData.getMagicsMap().containsKey(magic)) {
-				actualLevel--;
-			}
-			
-			if(actualLevel < magicInstance.getLevel()) {
-				tooltip.add(Component.translatable("gui.magicspell.unlock",Utils.translateToLocal(magicInstance.getTranslationKey(actualLevel+1))));
-			} else {
-				tooltip.add(Component.translatable("gui.magicspell.maxed",Utils.translateToLocal(magicInstance.getTranslationKey(actualLevel))));
-			}*/
 		}
 		super.appendHoverText(stack, tooltipContext, tooltip, flagIn);
 	}

@@ -201,21 +201,23 @@ public class CommandMenuSubMenu {
     }
 
     public void onUpdate(GuiGraphics guiGraphics) {
-        getChildren().forEach(item -> item.onUpdate(guiGraphics));
-        if (getVisibleChildren().isEmpty()) {
-            setActive(false);
-        }
-        if (this.onUpdate != null) {
-            if (!NeoForge.EVENT_BUS.post(new CommandMenuEvent.SubmenuUpdate(getId(), this, guiGraphics)).isCanceled()) {
-                this.onUpdate.onUpdate(this, guiGraphics);
+        if (this.isVisible()) {
+            getChildren().forEach(item -> item.onUpdate(guiGraphics));
+            if (getVisibleChildren().isEmpty()) {
+                setActive(false);
             }
-        }
-        if (autoResize) {
-            setWidth(getMaxChildWidth());
-        }
-        if (getSelected() != null && !getSelected().isVisible()) {
-            if (getFirst() != null) {
-                setSelected(getFirst());
+            if (this.onUpdate != null) {
+                if (!NeoForge.EVENT_BUS.post(new CommandMenuEvent.SubmenuUpdate(getId(), this, guiGraphics)).isCanceled()) {
+                    this.onUpdate.onUpdate(this, guiGraphics);
+                }
+            }
+            if (autoResize) {
+                setWidth(getMaxChildWidth());
+            }
+            if (getSelected() != null && !getSelected().isVisible()) {
+                if (getFirst() != null) {
+                    setSelected(getFirst());
+                }
             }
         }
     }
@@ -494,17 +496,36 @@ public class CommandMenuSubMenu {
         setSelected(getChildren().get(nextIndex));
     }
 
+
     ResourceLocation cachedTexture;
     String cachedPlayerDimension;
+    long lastCacheTime = -1;
 
     public ResourceLocation getTexture() {
         //long ns = System.nanoTime();
-        String currDim = Minecraft.getInstance().level.dimension().location().getPath();
-        if(cachedTexture == null || !currDim.equals(cachedPlayerDimension)) {
+
+        Minecraft mc = Minecraft.getInstance();
+        if (mc.level == null)
+            return cachedTexture;
+
+        long now = System.currentTimeMillis();
+
+        if (lastCacheTime != -1 && now - lastCacheTime < 10000) {
+            return cachedTexture;
+        }
+
+        String currDim = mc.level.dimension().location().getPath();
+
+        if (cachedTexture == null || !currDim.equals(cachedPlayerDimension)) {
             cachedTexture = ClientUtils.getResourceExistsOrDefault("textures/gui/commandmenu/%s.png", currDim, "default");
             cachedPlayerDimension = currDim;
         }
-        //System.out.println("Took: "+(System.nanoTime() - ns)+" to get texture");
+
+        lastCacheTime = now;
+
+       // System.out.println("Renewing texture into cache");
+       // System.out.println("Took: " + (System.nanoTime() - ns) + " ns");
+
         return cachedTexture;
     }
 
