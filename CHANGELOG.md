@@ -1,14 +1,2 @@
-### Added:
-* Max magics attribute to leveling, changes the amount of available magic slots to equip the spells in.
-  * By default, mystic gets one every 4 levels, warrior every 5 and guardian every 6 until they get 10 (so they cap at 40, 50 and 60).
-* Equipment check screen for it's command.
-
-### Changed:
-* ### **Magics are now equipped in the menu instead of learned.**
-* To create a next level magic you have to merge the 2 previous levels in a crafting, similar to recipes (for now).
-* Magics customize is gone as now the order is based on the equipment order (Shortcuts still work).
-* Buffed thunder and thundara radius and frequency for all thunder magics.
-* /kingdomkeys magiclevel is now gone.
-
 ### Fixed:
-* Next level and Munny get not being translated in spanish.
+* Optimized client performance by adjusting various things, like the trails rendering code (flowmotion / magnet blox)

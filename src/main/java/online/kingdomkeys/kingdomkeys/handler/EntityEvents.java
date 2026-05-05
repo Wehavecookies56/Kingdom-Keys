@@ -653,7 +653,8 @@ public class EntityEvents {
 
 		//If in ground reset
 		if(player.onGround()){
-			player.removeEffect(MobEffects.GLOWING);
+			if(player.hasEffect(MobEffects.GLOWING))
+				player.removeEffect(MobEffects.GLOWING);
 			playerData.setAirDashed(false);
 			playerData.setBounced(false);
 			playerData.setHangingWallTicks(0);

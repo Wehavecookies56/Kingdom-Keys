@@ -478,9 +478,17 @@ public class ClientEvents {
             }
         }
 
+	    Camera camera = mc.gameRenderer.getMainCamera();
+	    Vec3 camPos = camera.getPosition();
+
         //Flowmotion trails
         for (Player p : mc.level.players()) {
+	        if (p.distanceToSqr(mc.player) > 100 * 100) //Only update and render trails if the player currently iterating is closer than 100 blocks
+				continue;
             PlayerData playerData = PlayerData.get(p);
+			if(playerData == null)
+				continue;
+
             float partialTick = event.getPartialTick().getGameTimeDeltaPartialTick(false);
             if (playerData.inFlowmotion()) {
                 ClientUtils.updateTrail(ClientUtils.TrailType.FLOWMOTION, p, partialTick, 200);
@@ -494,8 +502,6 @@ public class ClientEvents {
                 ClientUtils.fadeTrail(ClientUtils.TrailType.DASH, p);
             }
 
-            Camera camera = mc.gameRenderer.getMainCamera();
-            Vec3 camPos = camera.getPosition();
 
             poseStack.pushPose();
             {
@@ -518,16 +524,20 @@ public class ClientEvents {
 
                 //Body
                 ClientUtils.renderTrail(ClientUtils.TrailType.DASH, p, poseStack, buffer, 0,1.8F,1F,1F,1F, false);
-
-                //Magnet blox trails
-                ClientUtils.updateMiniTrails();
-                ClientUtils.renderMiniTrails(poseStack, buffer, partialTicks);
             }
             poseStack.popPose();
         }
 
 
-        buffer.endBatch();
+
+	    poseStack.pushPose();
+	    {
+		    poseStack.translate(-camPos.x, -camPos.y, -camPos.z);
+		    //Magnet blox trails
+		    ClientUtils.updateMiniTrails();
+		    ClientUtils.renderMiniTrails(poseStack, buffer, partialTicks);
+	    }
+	    poseStack.popPose();
     }
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)
