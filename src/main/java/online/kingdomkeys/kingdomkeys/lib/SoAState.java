@@ -94,7 +94,7 @@ public enum SoAState {
 		if (choice.getMaxMp(choiceLevel) > 0) {
 			playerData.addMaxMP(choice.getMaxMp(choiceLevel));
 		}
-        //choice.getAbilities(choiceLevel);
+
         for (String ability : choice.getAbilities(choiceLevel)) {
             if (ability != null) {
                 Ability a = ModAbilities.registry.get(ResourceLocation.parse(ability));
@@ -103,7 +103,7 @@ public enum SoAState {
                 }
             }
         }
-        //choice.getShotlocks(choiceLevel);
+
         for (String shotlock : choice.getShotlocks(choiceLevel)) {
             if (shotlock != null) {
                 Shotlock a = ModShotlocks.registry.get(ResourceLocation.parse(shotlock));
@@ -112,7 +112,8 @@ public enum SoAState {
                 }
             }
         }
-        //choice.getSpells(choiceLevel); //TODO magic spell earning from level up
+
+		// TODO magic spell earning from level up
         /*for (String magic : choice.getSpells(choiceLevel)) {
             if (magic != null) {
                 Magic magicInstance = ModMagic.registry.get(ResourceLocation.parse(magic));

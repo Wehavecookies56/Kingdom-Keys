@@ -8,6 +8,7 @@ import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.level.block.state.BlockState;
 import online.kingdomkeys.kingdomkeys.entity.MagicTargetEntity;
 
@@ -23,7 +24,7 @@ public class MagicTargetRenderer extends EntityRenderer<MagicTargetEntity> {
 
     @Override
     public void render(MagicTargetEntity entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
-        if(entity.getLinkedBlock() == null)
+        if(entity.hasEffect(MobEffects.INVISIBILITY) || entity.getLinkedBlock() == null)
             return;
 
         BlockState state = entity.level().getBlockState(entity.getLinkedBlock());
