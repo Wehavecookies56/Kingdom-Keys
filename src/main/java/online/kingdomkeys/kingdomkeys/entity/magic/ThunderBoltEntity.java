@@ -92,9 +92,8 @@ public class ThunderBoltEntity extends ThrowableProjectile {
 					entity.invulnerableTime = 0;
 					entity.hurt(KKDamageTypes.getElementalDamage(KKDamageTypes.LIGHTNING,this, this.getOwner()), dmg * dmgMult);
 
-					if (entity instanceof Pig) {
+					if (entity instanceof Pig pig) {
 						if (level().getDifficulty() != Difficulty.PEACEFUL) {
-							Pig pig = (Pig) entity;
 							ZombifiedPiglin zombifiedpiglinentity = EntityType.ZOMBIFIED_PIGLIN.create(level());
 							zombifiedpiglinentity.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.GOLDEN_SWORD));
 							zombifiedpiglinentity.moveTo(pig.getX(), pig.getY(), pig.getZ(), pig.getYRot(), pig.getXRot());
@@ -133,13 +132,13 @@ public class ThunderBoltEntity extends ThrowableProjectile {
 					if (entity instanceof Creeper) {
 						LightningBolt lightningBoltEntity = EntityType.LIGHTNING_BOLT.create(this.level());
 						lightningBoltEntity.moveTo(Vec3.atBottomCenterOf(entity.blockPosition()));
-						lightningBoltEntity.setCause(getOwner() instanceof ServerPlayer ? (ServerPlayer) getOwner() : null);
+						lightningBoltEntity.setCause(getOwner() instanceof ServerPlayer owner ? owner : null);
 						this.level().addFreshEntity(lightningBoltEntity);
 					}
 				}
 
-				if (getOwner() != null) {
-					CriteriaTriggers.CHANNELED_LIGHTNING.trigger((ServerPlayer) getOwner(), list);
+				if (getOwner() != null && getOwner() instanceof ServerPlayer player) {
+					CriteriaTriggers.CHANNELED_LIGHTNING.trigger(player, list);
 				}
 			}
 		}

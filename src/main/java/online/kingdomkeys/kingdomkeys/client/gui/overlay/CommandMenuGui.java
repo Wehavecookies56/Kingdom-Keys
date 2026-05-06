@@ -349,7 +349,6 @@ public class CommandMenuGui extends OverlayBase {
 
 			item.setActive(true);
 			item.setMessage(Component.translatable(Strings.Gui_CommandMenu_Magic));
-
 		}
 
 		if (item.getId().equals(drive)){
