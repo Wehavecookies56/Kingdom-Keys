@@ -129,7 +129,7 @@ public class ClientSetup {
 			}
 		} else { //If mode is set to SHOW or WEAPON while holding one
 			if(o.equals(MP_BAR)) { //Remove MP Bar is magics map is empty
-				event.setCanceled(playerData.getMagicsCastMap().isEmpty());
+				event.setCanceled(playerData.getEquippedMagics().isEmpty());
 				return;
 			}
 			if(o.equals(SHOTLOCK)) {
