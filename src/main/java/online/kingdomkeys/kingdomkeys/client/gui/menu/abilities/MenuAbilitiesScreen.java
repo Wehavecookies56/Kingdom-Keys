@@ -451,74 +451,34 @@ public class MenuAbilitiesScreen extends MenuBackground {
 		matrixStack.pushPose();
 		{
 			matrixStack.translate((posX - 2) * scale - 20, posY * scale - 10, 0);
+			RenderSystem.setShaderColor(1, 1, 1, 1);
 
-			// Left
-			matrixStack.pushPose();
-			{
-				RenderSystem.setShaderColor(1, 1, 1, 1);
-				gui.blit(texture, 0, 0, 143, 67, 7, 25);
-			}
-			matrixStack.popPose();
+			gui.blit(texture, 0, 0, 143, 67, 7, 25); // Left
+			for (int j = 0; j < barWidth; j++)
+				gui.blit(texture, 7 + j, 0, 151, 67, 1, 25); // Middle
+			gui.blit(texture, 7 + barWidth, 0, 153, 67, 7, 25); // Right
 
-			// Middle
-			matrixStack.pushPose();
-			{
-				RenderSystem.setShaderColor(1, 1, 1, 1);
-				for (int j = 0; j < barWidth; j++)
-					gui.blit(texture, 7 + j, 0, 151, 67, 1, 25);
-			}
-			matrixStack.popPose();
-			// Right
-			matrixStack.pushPose();
-			{
-				RenderSystem.setShaderColor(1, 1, 1, 1);
-				gui.blit(texture, 7 + barWidth, 0, 153, 67, 7, 25);
-			}
-			matrixStack.popPose();
-
-			// Bar Background
-			matrixStack.pushPose();
-			{
-				RenderSystem.setShaderColor(1, 1, 1, 1);
-				for (int j = 0; j < barWidth; j++)
-					gui.blit(texture, j + 7, 17, 161, 67, 1, 25);
-			}
-			matrixStack.popPose();
+			for (int j = 0; j < barWidth; j++)
+				gui.blit(texture, j + 7, 17, 161, 67, 1, 25); // Bar Background
 
 			int requiredAP = (hoveredAbility != null) ? hoveredAbility.getAPCost() : 0;
 
 			if(hoveredType != AbilityType.WEAPON && hoveredType != AbilityType.ACCESSORY) {
 				if (hoveredAbility != null && playerData.isAbilityEquipped(hoveredAbility.getRegistryName().toString(), hoveredIndex)) { // If hovering an equipped ability
 					requiredAP *= -1;
-	
 					// Bar going to decrease (dark yellow section when hovering equipped ability)
-					matrixStack.pushPose();
-					{
-						int percent = (consumedAP) * barWidth / maxAP;
-						matrixStack.pushPose();
-						// RenderSystem.color(1, 1, 1,);
-						for (int j = 0; j < percent; j++)
-							gui.blit(texture, j + 7, 17, 165, 67, 1, 5);
-						matrixStack.popPose();
-	
-					}
-					matrixStack.popPose();
+					int percent = (consumedAP) * barWidth / maxAP;
+					for (int j = 0; j < percent; j++)
+						gui.blit(texture, j + 7, 17, 165, 67, 1, 5);
 				} else {
 					if(consumedAP + requiredAP <= playerData.getMaxAP(true)) {
 						// Bar going to increase (blue section when hovering unequipped ability)
-						matrixStack.pushPose();
-						{
-							int percent = (consumedAP + requiredAP) * barWidth / maxAP;
-							matrixStack.pushPose();
-							for (int j = 0; j < percent; j++)
-								gui.blit(texture, j + 7, 17, 167, 67, 1, 5);
-							matrixStack.popPose();
-						}
-						matrixStack.popPose();
+						int percent = (consumedAP + requiredAP) * barWidth / maxAP;
+						for (int j = 0; j < percent; j++)
+							gui.blit(texture, j + 7, 17, 167, 67, 1, 5);
 					}
 				}
 			}
-			RenderSystem.setShaderColor(1, 1, 1, 1F);
 
 			// Foreground
 			matrixStack.pushPose();

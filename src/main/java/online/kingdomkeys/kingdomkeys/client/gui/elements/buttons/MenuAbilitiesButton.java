@@ -13,6 +13,8 @@ import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.Ability.AbilityType;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
+import online.kingdomkeys.kingdomkeys.lib.Strings;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.awt.*;
@@ -73,7 +75,7 @@ public class MenuAbilitiesButton extends MenuButtonBase {
 				drawButton(gui, isHovered);
 				gui.drawString(minecraft.font, getMessage().getString().substring(getMessage().getString().indexOf(":")+1), getX() + 20, getY() + 6, new Color(255, 255, 255).hashCode());
 				if(abilityType != AbilityType.WEAPON && abilityType != AbilityType.ACCESSORY) {
-					gui.drawString(minecraft.font, "AP", getX() +endWidth + middleWidth+ apMiddleWidth-5, getY() + 6, new Color(255, 255, 0).hashCode());
+					gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_AP), getX() +endWidth + middleWidth+ apMiddleWidth-5, getY() + 6, new Color(255, 255, 0).hashCode());
 					gui.drawString(minecraft.font, ap+"", getX() +endWidth + middleWidth+ apMiddleWidth+10, getY() + 6, new Color(255,255,255).hashCode());
 				}
 			} else {
@@ -81,14 +83,14 @@ public class MenuAbilitiesButton extends MenuButtonBase {
 					drawButton(gui, isHovered);
 					gui.drawString(minecraft.font, getMessage(), getX() + 20, getY() + 6, new Color(255, 255, 255).hashCode());
 					if(abilityType != AbilityType.WEAPON && abilityType != AbilityType.ACCESSORY) {
-						gui.drawString(minecraft.font, "AP", getX() +endWidth + middleWidth+ apMiddleWidth-5, getY() + 6, new Color(255, 255, 0).hashCode());
+						gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_AP), getX() +endWidth + middleWidth+ apMiddleWidth-5, getY() + 6, new Color(255, 255, 0).hashCode());
 						gui.drawString(minecraft.font, ap+"", getX() +endWidth + middleWidth+ apMiddleWidth+10, getY() + 6, new Color(255,255,255).hashCode());
 					}
 				} else {//Not hovered and selected (not fully visible)
 					drawButton(gui, isHovered);
 					gui.drawString(minecraft.font, getMessage(), getX() + 20, getY() + 6, new Color(100,100,100).hashCode());
 					if(abilityType != AbilityType.WEAPON && abilityType != AbilityType.ACCESSORY) {
-						gui.drawString(minecraft.font, "AP", getX() +endWidth + middleWidth+ apMiddleWidth-5, getY() + 6, new Color(255, 255, 0).hashCode());
+						gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_AP), getX() +endWidth + middleWidth+ apMiddleWidth-5, getY() + 6, new Color(255, 255, 0).hashCode());
 						gui.drawString(minecraft.font, ap+"", getX() +endWidth + middleWidth+ apMiddleWidth+10, getY() + 6, new Color(255,255,255).hashCode());
 					}
 				}
