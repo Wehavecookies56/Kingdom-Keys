@@ -3,6 +3,7 @@ package online.kingdomkeys.kingdomkeys.client.gui.elements;
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Renderable;
@@ -189,8 +190,10 @@ public class MenuBackground extends Screen {
 			} else {
 				biome = biomeLoc.toString();
 			}
-			Component text = Component.literal(dimension + " | " + biome).withStyle(ClientUtils.KK_Font_MENU);
-			gui.drawString(minecraft.font, text, width - minecraft.font.width(text) - 5, 5, 0xF58B33);
+			Component text = Component.literal(dimension).withStyle(ClientUtils.KK_Font_MENU).withStyle(ChatFormatting.UNDERLINE);
+			gui.drawString(minecraft.font, text, width - minecraft.font.width(text) - 5, 10, 0xF58B33);
+			text = Component.literal(biome).withStyle(ClientUtils.KK_Font_MENU).withStyle(ChatFormatting.UNDERLINE);
+			gui.drawString(minecraft.font, text, width - minecraft.font.width(text) - 5, 20, 0xF58B33);
 		}
 		gui.pose().popPose();
 	}
