@@ -2008,7 +2008,7 @@ public class Utils {
 				}
 				if (membersOnline == 0) {
 					avgLevel = 1;
-					KingdomKeys.LOGGER.warn("0 members online for this party, this should not be happening, in world " + player.level().dimension().location());
+					KingdomKeys.LOGGER.warn("Party {} with 0 online members. Player={}, PartyMembers={}, Dimension={}", p.getName(), player.getGameProfile().getName(), p.getMembers().size(), player.level().dimension().location());
 				} else {
 					avgLevel = total / membersOnline;
 				}
