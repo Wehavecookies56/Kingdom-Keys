@@ -58,45 +58,64 @@ public class SynthesisBagMenu extends AbstractContainerMenu {
     public boolean stillValid (Player player) {
         return true;
     }
-    
-    @Override
-	public ItemStack quickMoveStack(Player playerIn, int index) {
-		ItemStack itemstack = ItemStack.EMPTY;
+
+	@Override
+	public ItemStack quickMoveStack(Player player, int index) {
+		Slot slot = slots.get(index);
+
+		if (slot == null || !slot.hasItem())
+			return ItemStack.EMPTY;
+
+		ItemStack stack = slot.getItem();
+		ItemStack copy = stack.copy();
 
 		int bagLevel = bag.get(ModComponents.SYNTH_BAG_LEVEL);
 		int maxSlots = switch (bagLevel) {
-            case 0 -> 18;
-            case 1 -> 36;
-            case 2 -> 54;
-            case 3 -> 72;
-            default -> 0;
-        };
+			case 0 -> 18;
+			case 1 -> 36;
+			case 2 -> 54;
+			case 3 -> 72;
+			default -> 0;
+		};
 
-        Slot slot = this.slots.get(index);
-        if (slot != null && slot.hasItem()) {
-            ItemStack itemstack1 = slot.getItem();
-            itemstack = itemstack1.copy();
+		// From player to bag
+		if (index >= maxSlots) {
+			SynthesisBagInventory inv = (SynthesisBagInventory) bag.getCapability(Capabilities.ItemHandler.ITEM);
 
-			if (index < maxSlots) {
-				if (!this.moveItemStackTo(itemstack1, maxSlots, this.slots.size(), true)) {
+			if (inv != null) {
+				int oldCount = stack.getCount();
+				for (int i = 0; i < maxSlots; i++) {
+					stack = inv.insertItem(i, stack, false);
+
+					if (stack.isEmpty())
+						break;
+				}
+
+				if (stack.getCount() == oldCount) {
 					return ItemStack.EMPTY;
 				}
-			} else if (!this.moveItemStackTo(itemstack1, 0, maxSlots, false)) {
-				return ItemStack.EMPTY;
 			}
 
-			if (itemstack1.isEmpty()) {
-				slot.set(ItemStack.EMPTY);
-			} else {
-				slot.setChanged();
-			}
+			slot.set(stack);
+			return copy;
 		}
-		return itemstack;
+
+		// From bag to player
+		if (!moveItemStackTo(stack, maxSlots, slots.size(), true))
+			return ItemStack.EMPTY;
+
+		if (stack.isEmpty()) {
+			slot.set(ItemStack.EMPTY);
+		} else {
+			slot.setChanged();
+		}
+
+		return copy;
 	}
 
 	@Override
     public void clicked(int slot, int dragType, ClickType clickTypeIn, Player player) {
-        if (!(slot >= 0 && getSlot(slot).getItem() == bag)) {
+        if (!(slot >= 0 && ItemStack.isSameItemSameComponents(getSlot(slot).getItem(), bag))) {
 			super.clicked(slot, dragType, clickTypeIn, player);
 		}
 

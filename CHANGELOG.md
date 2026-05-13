@@ -1,9 +1,4 @@
-### Changed:
-* Magic Target Entities can now be turned invisible with potion effects.
-
 ### Fixed:
-* Optimized client performance by adjusting various things, like the trails rendering code (flowmotion / magnet blox).
-* MP Bar not rendering until you cast a spell first.
-* Potential crash if the thunderbolt owner was not a player.
-* Crash when building the Station of Awakening structure.
-* AP cost in the abilities buttons not being localized.
+* Potential fix for the error where parties where not found from a player's party.
+* Synth bag shift click issue where items would get deleted if they tried to merge.
+* Small spanish typo.

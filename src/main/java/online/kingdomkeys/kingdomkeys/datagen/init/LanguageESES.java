@@ -841,7 +841,7 @@ public class LanguageESES extends KKLanguageProvider {
         addItem(ModItems.cosmicChain, "Cadena C\u00f3smica");
         addItem(ModItems.darkAnklet, "Cadena Oscura");
         addItem(ModItems.divineBandanna, "Pa\u00f1uelo Divino");
-        addItem(ModItems.elvenBandanna, "Pa\u00f1uelo de Dende");
+        addItem(ModItems.elvenBandanna, "Pa\u00f1uelo de Duende");
         addItem(ModItems.firaBangle, "Brazal Piro+");
         addItem(ModItems.firagaBangle, "Brazal Piro++");
         addItem(ModItems.firagunBangle, "Brazal Piro+++");
