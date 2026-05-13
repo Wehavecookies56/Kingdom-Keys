@@ -104,8 +104,10 @@ public abstract class Magic {
 					//If player has max level magic (and doesnt have GM) don't give RC
 					if(!(getGMAbility() == null && level == getMaxLevel())) {
 						ReactionCommand reactionCommand = ModReactionCommands.registry.get(ResourceLocation.parse(getRegistryName().toString()));
-						int duration = (int) (reactionCommand.getDuration() + reactionCommand.getDuration() * (casterData.getNumberOfAbilitiesEquipped(Strings.grandMagicExtender) * 0.25F));
-						casterData.addReactionCommand(getRegistryName().toString(), caster, duration);
+						if(reactionCommand != null) {
+							int duration = (int) (reactionCommand.getDuration() + reactionCommand.getDuration() * (casterData.getNumberOfAbilitiesEquipped(Strings.grandMagicExtender) * 0.25F));
+							casterData.addReactionCommand(getRegistryName().toString(), caster, duration);
+						}
 					} else {
 
 					}
