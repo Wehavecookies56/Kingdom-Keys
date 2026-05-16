@@ -6,4 +6,4 @@
 * Journal got tweaked and also translated to spanish (thanks to Shiro)
 
 ### Fixed:
-* Some console spam of the Player Data sync packet if the player wasn't found.
+* Some console spam from the Player Data sync packet if the player wasn't found.

@@ -220,11 +220,16 @@ public abstract class DriveForm {
 
 		if(!getName().equals(ModDriveForms.ANTI.get().getName())) {
 			if (!getBaseGrowthAbilities()) {
-				NeoForge.EVENT_BUS.post(new AbilityEvent.Unequip(ModAbilities.registry.get(ResourceLocation.parse(getDFAbilityForLevel(playerData.getDriveFormLevel(getName())))), playerData.getDriveFormLevel(getName()), player, false));
+				Ability ability = ModAbilities.registry.get(ResourceLocation.parse(getDFAbilityForLevel(playerData.getDriveFormLevel(getName()))));
+				if(ability != null) {
+					NeoForge.EVENT_BUS.post(new AbilityEvent.Unequip(ability, playerData.getDriveFormLevel(getName()), player, false));
+				}
 			}
 			for (String abilityLoc : getDriveFormData().getAbilities()) {
 				Ability ability = ModAbilities.registry.get(ResourceLocation.parse(abilityLoc));
-				NeoForge.EVENT_BUS.post(new AbilityEvent.Unequip(ability, 0, player, false));
+				if(ability != null) {
+					NeoForge.EVENT_BUS.post(new AbilityEvent.Unequip(ability, 0, player, false));
+				}
 			}
 		}
 

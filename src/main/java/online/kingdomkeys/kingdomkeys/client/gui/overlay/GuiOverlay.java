@@ -168,9 +168,7 @@ public class GuiOverlay extends OverlayBase {
 
 			for(int i = 0;i<actual;i++) {
 				totalSpace += 36*0.6F;
-
 				totalSpace += (int)(minecraft.font.lineHeight * 1.2f) * (levelUpList.get(i).messages1.size());
-			
 				totalSpace += 18*0.6F;
 			}
 			
@@ -303,7 +301,7 @@ public class GuiOverlay extends OverlayBase {
 				matrixStack.popPose();
 				
 				RenderSystem.setShaderColor(1,1,1, 1F);
-				showText(matrixStack, minecraft.player.getDisplayName().getString(), 140 - (minecraft.font.width(minecraft.player.getDisplayName().getString()) * 0.75f), sHeight / 3 + 4, 0, 0.75f, 0.75f, 1, 0xFFFFFF);
+				showText(matrixStack, minecraft.player.getGameProfile().getName(), 140 - (minecraft.font.width(minecraft.player.getGameProfile().getName()) * 0.75f), sHeight / 3 + 4, 0, 0.75f, 0.75f, 1, 0xFFFFFF);
 	
 				// Half
 				RenderSystem.setShaderColor(0.4F, 0.4F, 0.4F, 1F);
