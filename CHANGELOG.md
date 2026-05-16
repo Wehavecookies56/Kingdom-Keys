@@ -1,2 +1,2 @@
 ### Fixed:
-* Potential fix for an issue with some addon magic casts not working once the Grand Magic RC was triggered.
+* Some console spam of the Player Data sync packet if the player wasn't found.

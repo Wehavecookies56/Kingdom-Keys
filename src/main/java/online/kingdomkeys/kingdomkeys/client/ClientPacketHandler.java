@@ -123,7 +123,10 @@ public class ClientPacketHandler {
     }
 
     public static void syncCapability(SCSyncPlayerData message) {
-       PlayerData.get(message.data(), (Player) Minecraft.getInstance().level.getEntity(message.player()));
+        Entity ent = Minecraft.getInstance().level.getEntity(message.player());
+        if(ent != null && ent instanceof Player player) {
+            PlayerData.get(message.data(), player);
+        }
     }
 
     public static void syncDriveFormData(SCSyncDriveFormData message) {
