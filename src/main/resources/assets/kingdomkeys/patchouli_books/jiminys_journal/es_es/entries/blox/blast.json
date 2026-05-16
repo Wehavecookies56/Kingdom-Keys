@@ -1,0 +1,16 @@
+{
+	"name": "Bloque Explosivo",
+	"icon": "kingdomkeys:blast_blox",
+	"sortnum": 6,
+	"category": "kingdomkeys:blox",
+	"pages": [
+		{
+			"type": "text",
+			"text": "Te aconsejo que te $(lissa)mantengas alejado$() de $(item)estos Bloques$() en todo momento. Los Bloques Explosivos funcionan como la TNT de la vieja escuela y se $(lissa)activarán de inmediato al entrar en contacto$(). La única forma segura de romperlos es con una $(thing)pluma$(). Pueden encontrarse en el mundo junto con $(l:kingdomkeys:blox/prize)Bloques Premio$() y también se pueden fabricar usando Bloques Normales, TNT y un Cubo con lava."
+		},
+		{
+			"type":"crafting",
+			"recipe":"kingdomkeys:blast_blox"
+		}
+	]
+}

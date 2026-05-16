@@ -1,0 +1,66 @@
+{
+	"name": "Armadura de Augure",
+	"icon": "kingdomkeys:ira_helmet",
+	"sortnum": 4,
+	"category": "kingdomkeys:armor",
+	"pages": [
+		{
+			"type": "text",
+			"text": "$(item)Conjuntos de atuendo$() llevados originalmente por los $(thing)Augures$() de las 5 Uniones, estos Augures son algunos de los más antiguos conocidos por ser capaces de manejar la Llave Espada. Estos son los conjuntos de armadura más fáciles y $(thing)los más débiles$() que puedes fabricar, pero una vez más $(thing)$(o)no se rompen$()."
+		},
+		{
+			"type": "text",
+			"text": "Puedes adoptar el estilo de $(#679ac2)Invi$(), $(#d6a528)Gula$(#99936f), $(#c3c4c2)Ira$(), $(#99936f)Aced$() o $(#b29191)Ava$()."
+		},
+		{
+			"type":"crafting",
+			"recipe":"kingdomkeys:invi_helmet",
+			"recipe2":"kingdomkeys:invi_chestplate"
+		},
+		{
+			"type":"crafting",
+			"recipe":"kingdomkeys:invi_leggings",
+			"recipe2":"kingdomkeys:invi_boots"
+		},
+		{
+			"type":"crafting",
+			"recipe":"kingdomkeys:gula_helmet",
+			"recipe2":"kingdomkeys:gula_chestplate"
+		},
+		{
+			"type":"crafting",
+			"recipe":"kingdomkeys:gula_leggings",
+			"recipe2":"kingdomkeys:gula_boots"
+		},
+		{
+			"type":"crafting",
+			"recipe":"kingdomkeys:ira_helmet",
+			"recipe2":"kingdomkeys:ira_chestplate"
+		},
+		{
+			"type":"crafting",
+			"recipe":"kingdomkeys:ira_leggings",
+			"recipe2":"kingdomkeys:ira_boots"
+		},
+		{
+			"type":"crafting",
+			"recipe":"kingdomkeys:aced_helmet",
+			"recipe2":"kingdomkeys:aced_chestplate"
+		},
+		{
+			"type":"crafting",
+			"recipe":"kingdomkeys:aced_leggings",
+			"recipe2":"kingdomkeys:aced_boots"
+		},
+		{
+			"type":"crafting",
+			"recipe":"kingdomkeys:ava_helmet",
+			"recipe2":"kingdomkeys:ava_chestplate"
+		},
+		{
+			"type":"crafting",
+			"recipe":"kingdomkeys:ava_leggings",
+			"recipe2":"kingdomkeys:ava_boots"
+		}
+	]
+}

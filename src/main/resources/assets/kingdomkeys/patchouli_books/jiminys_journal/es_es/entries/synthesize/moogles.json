@@ -1,0 +1,30 @@
+{
+	"name": "Moguris",
+	"icon": "kingdomkeys:moogle_o_glory_chain",
+	"sortnum": 1,
+	"category": "kingdomkeys:synthesize",
+	"pages": [ 
+		{
+			"type": "text",
+			"text": "Estos $(item)pequeños seres$() están aquí para ayudarte con tus $(thing)Fabricaciones$(). Pueden crear cualquier cosa que desees, siempre y cuando conozcas la $(l:kingdomkeys:synthesize/recipes)Receta$() y les traigas los $(l:kingdomkeys:synthesize/materials)Materiales$(). A veces también te venderán $(l:kingdomkeys:customize/items)Objetos$() útiles como $(item)Pociones$(). Si le das tus materiales a un $(thing)Moguri$(), todos los $(thing)Moguris$() tendrán acceso a ellos, así que no te preocupes por perderlos."
+		},
+		{
+			"type": "patchouli:entity",
+			"entity": "kingdomkeys:moogle",
+			"scale": 0.9,
+			"offset": 0.5
+		},
+		{
+			"type": "text",
+			"text": "Si tienes problemas para encontrarlos, deberías considerar llevar un $(thing)Yunque$() contigo. Dejar caer uno sobre la cabeza de un Moguri puede ayudarte a convertirlo en tu $(thing)amigo permanente$(), un $(item)Proyector de Moguri$()."
+		},
+		{
+            "type": "image",
+            "images": [
+                "kingdomkeys:journal/moogle.png"
+            ],
+            "title": ":c",
+            "border": true
+        }
+	]
+}

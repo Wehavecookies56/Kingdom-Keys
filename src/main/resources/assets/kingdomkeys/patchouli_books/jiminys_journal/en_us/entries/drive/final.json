@@ -7,7 +7,7 @@
 	"pages": [
 		{
 			"type": "text",
-			"text": "This form gains XP for every $(nobody)Nobody$() and $(thing)Enderman struck down$() while $(thing)in this form$(). Leveling this form will reward you with permenant access to the $(item)Glide ability$()."
+			"text": "This form gains XP for every $(nobody)Nobody$() and $(thing)Enderman$() struck down while in this form.$(p)Leveling this form will reward you with permenant access to the $(item)Glide$() ability."
 		}
 	]
 }

@@ -1,0 +1,6 @@
+{
+	"name": "Aprendiendo el Menú",
+	"description": "Has decidido tu camino, ahora aprendamos cómo navegar por el Menú de Kingdom Keys. Para abrir el menú, presiona una vez más la tecla $(thing)[$(k:key.kingdomkeys.openmenu)]$().",
+	"icon": "kingdomkeys:potion",
+	"sortnum": 2
+}

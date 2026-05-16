@@ -1,0 +1,44 @@
+{
+	"name": "Bloques de Premio",
+	"icon": "kingdomkeys:prize_blox",
+	"sortnum": 8,
+	"category": "kingdomkeys:blox",
+	"pages": [
+		{
+			"type": "text",
+			"text": "Estos pueden encontrarse por todo el mundo y llevarán muchos tipos diferentes de cosas útiles, incluyendo: $(l:kingdomkeys:customize/magic_and_spells)Hechizos$(), $(l:kingdomkeys:customize/drive)Orbes de Forma$(), $(l:kingdomkeys:synthesize/materials)Materiales de Síntesis$() y $(munny)Platines$(). Sin embargo, son la única clase de Bloques que no se pueden fabricar, pero deberías romperlos siempre que los veas."
+		},
+		{
+			"type": "text",
+			"text": "Nota:$(br)A menudo irán acompañados por $(l:kingdomkeys:blox/blast)Bloques Explosivos$() o $(l:kingdomkeys:blox/danger)Bloques Peligrosos$(). Para evitar perder cualquier botín valioso, se recomienda excavar alrededor de los Bloques de Premio primero."
+		},
+		{
+            "type": "multiblock",
+            "name": "Bloque de Premio",
+            "enable_visualize": false,
+            "multiblock": {
+                "pattern": [
+                    [" 0 "]
+                ],
+                "mapping": {
+                    "0": "kingdomkeys:prize_blox"
+                },
+                "symmetrical": true
+            }
+        },
+        {
+            "type": "multiblock",
+            "name": "Bloque de Premio Raro",
+            "enable_visualize": false,
+            "multiblock": {
+                "pattern": [
+                    [" 0 "]
+                ],
+                "mapping": {
+                    "0": "kingdomkeys:rare_prize_blox"
+                },
+                "symmetrical": true
+            }
+        }
+	]
+}

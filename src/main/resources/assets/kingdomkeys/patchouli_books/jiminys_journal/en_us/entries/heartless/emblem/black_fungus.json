@@ -1,0 +1,17 @@
+{
+	"name": "Black Fungus",
+	"icon": "kingdomkeys:black_fungus_spawn_egg",
+	"category": "kingdomkeys:emblem",
+	"sortnum": 16,
+	"pages": [
+		{
+			"type": "text",
+			"text": "These $(heartless)Heartless$() are hostile, different from $(l:kingdomkeys:heartless/emblem/white_mushroom)their cousin$(). $(thing)$(o)They attack with a poisonous gas, so be careful!$().$(p)$(lissa)$(l)$(o)[First Appearance: Kingdom Hearts]$()"
+		},
+		{
+			"type": "patchouli:entity",
+			"entity": "kingdomkeys:black_fungus",
+			"scale": 0.8
+		}
+	]
+}

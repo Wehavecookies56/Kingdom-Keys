@@ -1,0 +1,16 @@
+{
+	"name": "Armadura de Llave Espada",
+	"icon": "kingdomkeys:terra_helmet",
+	"sortnum": 3,
+	"category": "kingdomkeys:armor",
+	"pages": [
+		{
+			"type": "text",
+			"text": "Estos son los $(item)conjuntos de Armadura$() que llevan los $(thing)Guardianes de la luz$() en $(lissa)Birth by Sleep$(). La armadura una vez protegía a su portador de la $(lissa)oscuridad$() que rodeaba los Senderos entre Mundos, ahora te protege en combate. Si fabricas una $(item)Hombrera$(), puedes almacenar dentro de ella un conjunto completo, y puedes colocarlo en el $(l:kingdomkeys:learning_the_menu/item_tab)Espacio para Hombreras$(), para invocar tu Armadura con $(thing)[$(k:key.kingdomkeys.summonarmor)]$()."
+		},
+		{
+			"type": "text",
+			"text": "Estos conjuntos de armadura pueden ser fabricados en el estilo de $(#cc7a22)Terra$(), $(#335cc1)Aqua$(), $(#80d11d)Ventus$(), $(#b6b6c9)Eraqus$(), $(#5d5d5d)Xehanort$() y $(#1a1827)Ventus Pesadilla$(). Entra en una Mesa de Forja y combina $(thing)armadura de netherita$() con $(thing)molde de herrería de mejora$() con un tinte $(#cc7a22)naranja$(), $(#335cc1)azul$(), $(#80d11d)verde lima$(), $(#b6b6c9)blanco$() o $(#5d5d5d)gris$() y $(#1a1827)negro$(), respectivamente.$(p)Además, una Hombrera puede encantarse agarrándola y presionando clic derecho, mientras llevas un conjunto de armadura con los encantamientos deseados. $(thing)Atención$(): ¡La armadura que llevas actualmente será desencantada en el proceso!"
+		}
+	]
+}

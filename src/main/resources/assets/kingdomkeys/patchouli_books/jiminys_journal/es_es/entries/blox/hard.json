@@ -1,0 +1,16 @@
+{
+	"name": "Bloque Duro",
+	"icon": "kingdomkeys:hard_blox",
+	"sortnum": 2,
+	"category": "kingdomkeys:blox",
+	"pages": [
+		{
+			"type": "text",
+			"text": "$(item)El Bloque Duro$() puede ser encontrado en el mundo. Tienen un uso singular en la forma de fabricar $(l:kingdomkeys:blox/metal)Bloque de Metal$(). Puedes fabricar Bloques Duros usando $(l:kingdomkeys:blox/normal)Bloques Normales$() y piedra."
+		},
+		{
+			"type":"crafting",
+			"recipe":"kingdomkeys:hard_blox"
+		}
+	]
+}

@@ -7,12 +7,7 @@
 	"pages": [
 		{
 			"type": "text",
-			"text": "$(item)Purebloods$() are natural $(heartless)heartless$() and have a weak will. They get born, when the $(thing)heart$() from somebody is engulfed by $(lissa)darkness$(). Unlilke $(emblem)Emblem-Heartless$() do these set free $(thing)no heart$(), once defeated."
-		},
-
-		{
-			"type": "text",
-			"text": "Usually are $(item)Pureblooded Heartless$() black with yellow eyes, but become more colorful the stronger they are."
+			"text": "$(item)Pureblood$() are natural $(heartless)heartless$() and have a weak will. They are born when a somebody's $(thing)heart$() is swallowed by $(lissa)darkness$(). Unlike $(emblem)Emblem-Heartless$(), these do not release $(thing)hearts$(), once defeated.$(p)Usually they are black with yellow eyes, but become more colorful the stronger they are."
 		},
 		{
 			"type": "patchouli:relations",

@@ -1,0 +1,13 @@
+{
+	"name": "Forma Suma",
+	"icon": "kingdomkeys:levelupdrivelimit",
+	"sortnum": 3,
+	"category": "kingdomkeys:drive",
+	"advancement": "kingdomkeys:obtain_drive",
+	"pages": [
+		{
+			"type": "text",
+			"text": "Esta forma obtiene XP por cada $(thing)disparo de Tiro Certero cargado al máximo$() realizado con éxito mientras estás en esta forma, $(lissa)$(l)no cargar completamente$() el Tiro Certero no te dará XP.$(p)Subir de nivel esta forma te recompensará con acceso permanente a la habilidad $(item)Voltereta$()."
+		}
+	]
+}

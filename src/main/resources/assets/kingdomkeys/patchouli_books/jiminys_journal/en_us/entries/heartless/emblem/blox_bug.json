@@ -1,0 +1,17 @@
+{
+	"name": "Blox Bug",
+	"icon": "kingdomkeys:blox_bug_spawn_egg",
+	"category": "kingdomkeys:emblem",
+	"sortnum": 17,
+	"pages": [
+		{
+			"type": "text",
+			"text": "These digital $(heartless)Heartless$() disguise themselves as Blox Bugs. $(thing)$(o)They charge or do jumping attacks, so prepare to block in time!$().$(p)$(lissa)$(l)$(o)[First Appearance: Kingdom Hearts Re:Coded]$()"
+		},
+		{
+			"type": "patchouli:entity",
+			"entity": "kingdomkeys:blox_bug",
+			"scale": 0.3
+		}
+	]
+}

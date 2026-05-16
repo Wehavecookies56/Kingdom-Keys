@@ -1,0 +1,20 @@
+{
+	"name": "Crear un Grupo",
+	"icon": "kingdomkeys:ice_cream",
+	"sortnum": 4,
+	"category": "kingdomkeys:learning_the_menu",
+		"pages": [
+		{
+			"type": "text",
+			"text": "La pestaña $(thing)Grupo$() en tu menú puede usarse para formar un equipo con amigos. Esto desactiva el PvP con estos otros jugadores, comparte la ganancia de XP y también te permite curarlos con hechizos y objetos siempre que estén en tu rango."
+		},
+        {
+            "type": "image",
+            "images": [
+                "kingdomkeys:journal/party.png"
+            ],
+            "title": "Menú de Grupo",
+            "border": true
+        }
+	]
+}

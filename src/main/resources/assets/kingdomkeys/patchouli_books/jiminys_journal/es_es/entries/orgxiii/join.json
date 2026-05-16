@@ -1,0 +1,27 @@
+{
+	"name": "Unirse a la Org. XIII",
+	"icon": "kingdomkeys:organization_helmet",
+	"sortnum": 1,
+	"category": "kingdomkeys:orgxiii",
+	"pages": [
+		{
+			"type": "text",
+			"text": "Para formar parte de la $(item)Organización$(), debes crear las 4 piezas de la armadura básica de la Organización y equiparlas todas a la vez. Una vez que tomes esta decisión, no podrás retroceder a menos que derrotes al $(thing)Ender Dragon$() y obtengas una $(l:kingdomkeys:orgxiii/leave)Prueba de Corazón$()."
+		},
+		{
+			"type": "text",
+			"text": "Cuando te unes a la Organización, ya no puedes usar las $(l:synthesize/moogles)Llaves Espada que sintetizas$() (jugar como Roxas aún te permitirá usar Llaves Espada, pero no las que haces tú mismo.) y ya no puedes entrar en las $(l:kingdomkeys:drive)Formas de Fusión$(), pero tendrás acceso a los $(thing)Límites$()."
+		},
+		{
+			"type":"crafting",
+			"recipe":"kingdomkeys:organization_helmet",
+			"recipe2":"kingdomkeys:organization_chestplate"
+		},
+		{
+			"type":"crafting",
+			"recipe":"kingdomkeys:organization_leggings",
+			"recipe2":"kingdomkeys:organization_boots"
+		}
+
+	]
+}

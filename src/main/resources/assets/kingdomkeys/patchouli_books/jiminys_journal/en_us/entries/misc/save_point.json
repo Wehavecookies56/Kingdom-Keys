@@ -6,7 +6,7 @@
 	"pages": [
 		{
 			"type": "text",
-			"text": "$(item)Save Points$() are a really useful tool when it comes to $(thing)long distance transportation$(). Save Points come in three versions: Normal Save Points, $(#0F0)Linked Save Points$(), and $(#00F)Warp Points$(), where each of them is an upgrade version of the previous one. Normal ones just have two floating green trails, a Linked one has a round plate beneath it, and a Warp Point is the same as a Linked Save Point, but with a blue tint."
+			"text": "$(item)Save Points$() are a really useful tool when it comes to $(thing)long distance transportation$(). Save Points come in three versions: $(#2c9930)Normal Save Points$(), $(#3ed23b)Linked Save Points$(), and $(#69acac)Warp Points$(), where each of them is an upgrade version of the previous one. Normal ones just have two floating green trails, a Linked one has a round plate beneath it, and a Warp Point is the same as a Linked Save Point, but with a blue tint."
 		},
 		{
 			"type": "text",
@@ -22,7 +22,7 @@
 		},
 		{
 			"type": "text",
-			"text": "Additionally, $(thing)Save Points can be upgraded$() with the use of specific $(l:kingdomkeys:synthesize/materials)synthesis materials$(). Each Material increases the recovery rate up to 5 times, where some can only be used on an upgraded version: $(li)Orichalcum: Health $(li)Illusory Crytsal: Magic $(li)$(#0F0)Hungry Crystal$(): Hunger $(li)$(#0F0)Remembrance Crytsal$(): Focus $(li)$(#00F)Evanescent Crystal$(): Drive $(li)Orichalcum Plus: Increases tier $(li2)Normal -> $(#0F0)Linked$() -> $(#00F)Warp$()"
+			"text": "Additionally, $(thing)Save Points can be upgraded$() with the use of specific $(l:kingdomkeys:synthesize/materials)synthesis materials$(). Each Material increases the recovery rate up to 5 times, where some can only be used on an upgraded version: $(li)Orichalcum: Health $(li)Illusory Crytsal: Magic $(li)Hungry Crystal$(): Hunger $(li)Remembrance Crytsal$(): Focus $(li)Evanescent Crystal$(): Drive $(li)Orichalcum+: Increases tier"
 		},
 		{
 			"type": "image",
@@ -32,7 +32,7 @@
 				"kingdomkeys:journal/save_warp.png"
 			],
 			"title": "Save Points",
-			"text":"Normal - $(#0F0)Linked$() - $(#00F)Warp$()",
+			"text":"$(#2c9930)Normal$() - $(#3ed23b)Linked$() - $(#69acac)Warp$()",
 			"border": true,
 			"centered": true,
 			"height": 480,

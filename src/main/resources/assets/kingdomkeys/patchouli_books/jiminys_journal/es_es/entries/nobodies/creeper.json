@@ -1,0 +1,17 @@
+{
+	"name": "Trepador",
+	"icon": "kingdomkeys:nobody_creeper_spawn_egg",
+	"category": "kingdomkeys:nobodies",
+	"sortnum": 1,
+	"advancement": "kingdomkeys:obtain_keychain",
+	"pages": [
+		{
+			"type": "text",
+			"text": "El más débil de los $(nobody)Incorpóreos$(). Toma diversas formas, lo que lo hace difícil de predecir su próximo movimiento.$(p)$(lissa)$(l)$(o)[Primera Aparición: Kingdom Hearts II]$()"
+		},
+		{
+			"type": "patchouli:entity",
+			"entity": "kingdomkeys:nobody_creeper"
+		}
+	]
+}

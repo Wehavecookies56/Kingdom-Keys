@@ -1,7 +1,7 @@
 {
 	"name": "Pureblooded",
-	"description": "$(item)Pureblooded Heartless$() have a weak will and are nothing more than the living manifestion of $(lissa)Darkness$(). Unlike $(emblem)Emblem Heartless$() do these $(thing)not set heart free$(), once defeated.",
-	"icon": "kingdomkeys:illusory_crystal",
+	"description": "Complete list of $(item)Pureblooded Heartless$() that are present in the mod. Check the individual entries for more $(thing)information$() and $(thing)strategies$() for each one!",
+	"icon": "kingdomkeys:way_to_the_dawn_chain",
 	"parent": "kingdomkeys:heartless",
 	"sortnum": 1
 }

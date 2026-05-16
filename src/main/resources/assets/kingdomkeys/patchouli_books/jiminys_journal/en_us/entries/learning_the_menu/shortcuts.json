@@ -11,7 +11,7 @@
         {
             "type": "image",
             "images": [
-                "kingdomkeys:journal/shortcut.png"
+                "kingdomkeys:journal/shortcuts.png"
             ],
             "title": "Shortcuts",
             "border": true

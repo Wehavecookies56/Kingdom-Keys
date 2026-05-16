@@ -1,0 +1,44 @@
+{
+	"name": "Puntos de Guardado",
+	"icon": "kingdomkeys:savepoint",
+	"sortnum": 2,
+	"category": "kingdomkeys:misc",
+	"pages": [
+		{
+			"type": "text",
+			"text": "Los $(item)Puntos de Guardado$() son una herramienta realmente útil cuando se trata de $(thing)transporte a larga distancia$(). Los Puntos de Guardado vienen en tres versiones: $(#2c9930)Puntos de Guardado Normales$(), $(#3ed23b)Puntos de Guardado Enlazados$(), y $(#69acac)Puntos de Guardado Interdimensionales$(), donde cada uno es una versión mejorada del anterior. Los normales solo tienen dos rastros verdes flotantes, un Vinculado tiene una placa redonda debajo, y un Punto de Teletransporte es igual a un Punto de Guardado Enlazado, pero con un matiz azul."
+		},
+		{
+			"type": "text",
+			"text": "Cada Punto de Guardado sirve como un $(thing)punto de reaparición$(), en caso de que hayas perdido tu alma, similar a cómo lo hace una cama. Para ello, se debe usar el comando de reacción que aparece una vez que te paras encima de un Punto de Guardado. Si es un Punto de Guardado Enlazado o un Punto de Teletransporte, también podría pedirte darle un nombre.$(br)$(o)(Ten en cuenta que la vista actual servirá como imagen de vista previa para este punto de guardado.)$()"
+		},
+		{
+			"type": "text",
+			"text": "Si tienes más de un Punto de Guardado Enlazado o un Punto de Guardado Interdimensional agregado, puedes $(thing)teletransportarte entre ellos$(). Los Puntos de Guardado Enlazados pueden teletransportarte a cualquier punto de guardado dentro de la misma dimensión, mientras que los Puntos de Teletransporte pueden adicionalmente teletransportarte a otros Puntos de Teletransporte de otras Dimensiones.$(p)$(lissa)Romper$() un Punto de Guardado hará que $(lissa)pierdas todas las mejoras$()."
+		},
+		{
+			"type":"crafting",
+			"recipe":"kingdomkeys:savepoint"
+		},
+		{
+			"type": "text",
+			"text": "Adicionalmente, los $(thing)Puntos de Guardado pueden mejorarse$() con el uso de $(l:kingdomkeys:synthesize/materials)materiales de síntesis$() específicos. Cada Material aumenta la tasa de recuperación hasta 5 veces, mientras que algunos solo se pueden usar en una versión mejorada: $(li)Orichalcum: Vida $(li)Cristal Ilusorio: Mágia $(li)Cristal Voraz$(): Hambre $(li)Cristal Evocador$(): Focus $(li)Cristal Evanescente$(): Fusión $(li)Orichalcum+: Mejora el rango"
+		},
+		{
+			"type": "image",
+			"images": [
+				"kingdomkeys:journal/save.png",
+				"kingdomkeys:journal/save_linked.png",
+				"kingdomkeys:journal/save_warp.png"
+			],
+			"title": "Puntos de Guardado",
+			"text":"$(#2c9930)Normal$() - $(#3ed23b)Enlazado$() - $(#69acac)Interdimensional$()",
+			"border": true,
+			"centered": true,
+			"height": 480,
+			"width": 384,
+			"texture_height": 480,
+			"texture_width": 384
+		}
+	]
+}

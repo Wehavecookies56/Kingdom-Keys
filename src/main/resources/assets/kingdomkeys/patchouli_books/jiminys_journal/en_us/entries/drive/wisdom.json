@@ -7,7 +7,7 @@
 	"pages": [
 		{
 			"type": "text",
-			"text": "This form gains XP for $(thing)every$() $(heartless)Heartless$() $(thing)struck down$() while in this form. Defeating other mobs won't give it any XP. Leveling this form will reward you with permenant access to the $(item)Quick Run ability$()."
+			"text": "This form gains XP for every $(heartless)Heartless$() struck down while in this form. Defeating other mobs won't give it any XP.$(p)Leveling this form will reward you with permenant access to the $(item)Quick Run$() ability."
 		}
 	]
 }

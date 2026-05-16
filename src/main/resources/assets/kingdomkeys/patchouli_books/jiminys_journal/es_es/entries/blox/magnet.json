@@ -1,0 +1,16 @@
+{
+	"name": "Bloque Magnético",
+	"icon": "kingdomkeys:magnet_blox",
+	"sortnum": 9,
+	"category": "kingdomkeys:blox",
+	"pages": [
+		{
+			"type": "text",
+			"text": "$(item)Un Bloque Magnético$() puede ser usado para $(thing)atraer$() o $(thing)repeler$() items o entidades$() hacia él y hacia ti cuando estás en el rango de los Bloques de Error. Su rango puede ser ajustado desde 1-10 bloques de distancia y se encuentra extremadamente útil en granjas de comida y de mobs. Los Bloques Magnéticos pueden ser fabricados usando un $(l:kingdomkeys:blox/normal)Bloque Normal$(), lingotes de hierro, lingotes de oro y polvo de redstone."
+		},
+		{
+			"type":"crafting",
+			"recipe":"kingdomkeys:magnet_blox"
+		}
+	]
+}

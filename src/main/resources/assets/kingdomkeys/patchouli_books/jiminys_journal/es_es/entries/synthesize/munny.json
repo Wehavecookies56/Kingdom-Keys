@@ -1,0 +1,21 @@
+{
+	"name": "Platines",
+	"icon": "kingdomkeys:mark_of_a_hero_chain",
+	"sortnum": 5,
+	"category": "kingdomkeys:synthesize",
+	"pages": [ 
+		{
+			"type": "text",
+			"text": "Cuando un $(thing)monstruo hostil$() es derrotado, suelta unas pequeñas esferas llamadas $(item)Platines$(). Estas esferas se usan como $(thing)moneda$() en Kingdom Keys. Puedes usarlas en los $(moogle)Moguris$() para comprar objetos u otros equipamiento. También puedes usar $(l)/kingdomkeys paymunny [Usuario] [Cantidad]$() en el modo multijugador para $(thing)pagar a otro jugador$()."
+		},
+		{
+			"type": "patchouli:entity",
+			"entity": "kingdomkeys:entity_munny",
+			"scale": 3,
+			"name": "Platín",
+			"offset": -0.4,
+			"rotate": false,
+			"default_rotation": 90
+		}
+	]
+}

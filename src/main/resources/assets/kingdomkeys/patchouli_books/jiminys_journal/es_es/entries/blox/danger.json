@@ -1,0 +1,16 @@
+{
+	"name": "Bloque Peligroso",
+	"icon": "kingdomkeys:danger_blox",
+	"sortnum": 4,
+	"category": "kingdomkeys:blox",
+	"pages": [
+		{
+			"type": "text",
+			"text": "$(item)El Bloque Peligroso$() es, bueno... $(thing)Peligroso$(). Estos $(blox)Bloques$() cuando se pisan $(thing)sin botas$() o se golpean con tus herramientas o puños $(thing)te causarán daño$(), lentamente pero seguramente. Similar a un Cactus, destruirán cualquier $(lissa)Bloque o Ítem $() que los toque. Pueden encontrarse en el mundo, generalmente alrededor de estos $(l:kingdomkeys:blox/prize)Bloques con forma de estrella$(), o fabricados usando $(l:kingdomkeys:blox/normal)Bloques Normales$() y $(thing)Cactus$()."
+		},
+		{
+			"type":"crafting",
+			"recipe":"kingdomkeys:danger_blox"
+		}
+	]
+}

@@ -1,0 +1,20 @@
+{
+	"name": "Pref. de Kingdom Keys",
+	"icon": "kingdomkeys:spellbinder_chain",
+	"sortnum": 8,
+	"category": "kingdomkeys:learning_the_menu",
+		"pages": [
+		{
+			"type": "text",
+			"text": "La pestaña $(thing)Preferencias$() te permite editar la posición del HUD de cada elemento del HUD incluido en el mod."
+		},
+        {
+            "type": "image",
+            "images": [
+                "kingdomkeys:journal/config.png"
+            ],
+            "title": "Preferencias",
+            "border": true
+        }
+	]
+}

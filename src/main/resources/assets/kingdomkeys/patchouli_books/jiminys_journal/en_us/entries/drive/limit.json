@@ -7,7 +7,7 @@
 	"pages": [
 		{
 			"type": "text",
-			"text": "This form gains XP for every $(thing)max charged Shotlock successfully performed$() while $(thing)in this form$(), $(lissa)$(l)not fully charging$() the Shotlock will give you $(lissa)$(l)no XP$(). Leveling this form will reward you with permenant access to the $(item)Dodge Roll ability$()."
+			"text": "This form gains XP for every $(thing)max charged Shotlock successfully performed$() while in this form, $(lissa)$(l)not fully charging$() the Shotlock will give you no XP.$(p)Leveling this form will reward you with permenant access to the $(item)Dodge Roll$() ability."
 		}
 	]
 }

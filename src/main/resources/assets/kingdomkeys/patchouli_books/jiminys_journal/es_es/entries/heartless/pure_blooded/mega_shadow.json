@@ -1,0 +1,19 @@
+{
+	"name": "Mega-Sombra",
+	"icon": "kingdomkeys:mega_shadow_spawn_egg",
+	"category": "kingdomkeys:pure_blooded",
+	"sortnum": 2,
+	"advancement": "kingdomkeys:obtain_keychain",
+	"pages": [
+		{
+			"type": "text",
+			"text": "Estos $(pure_blooded)Purasangre$() de tamaño mediano conservan los patrones de ataque de sus $(l:kingdomkeys:heartless/pure_blooded/shadow)parientes más pequeños$(), pero también usan un placaje peligroso. Si lo bloqueas, quedarán completamente expuestos.$(p)$(lissa)$(l)$(o)[Primera aparición: Kingdom Hearts 358/2 Days]$()"
+		},
+		{
+			"type": "patchouli:entity",
+			"entity": "kingdomkeys:mega_shadow",
+			"scale": 0.55,
+			"offset": 0.2
+		}
+	]
+}

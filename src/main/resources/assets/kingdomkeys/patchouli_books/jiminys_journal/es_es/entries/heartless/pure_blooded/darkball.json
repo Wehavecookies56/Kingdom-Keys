@@ -1,0 +1,17 @@
+{
+	"name": "Bola Oscura",
+	"icon": "kingdomkeys:darkball_spawn_egg",
+	"category": "kingdomkeys:pure_blooded",
+	"sortnum": 4,
+	"advancement": "kingdomkeys:obtain_keychain",
+	"pages": [
+		{
+			"type": "text",
+			"text": "$(heartless)Sincorazón$() tallado desde las mismas sombras. Por lo general, simplemente flotan en el aire, pero pueden ser molestamente impredecibles, moviéndose erráticamente o cargando directamente hacia ti sin previo aviso.$(p)$(lissa)$(l)$(o)[Primera aparición: Kingdom Hearts]$()"
+		},
+		{
+			"type": "patchouli:entity",
+			"entity": "kingdomkeys:darkball"
+		}
+	]
+}

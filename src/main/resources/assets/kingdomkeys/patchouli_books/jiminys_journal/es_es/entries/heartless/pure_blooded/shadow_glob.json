@@ -1,0 +1,18 @@
+{
+	"name": "Mole de Sombra",
+	"icon": "kingdomkeys:shadow_glob_spawn_egg",
+	"category": "kingdomkeys:pure_blooded",
+	"sortnum": 5,
+	"advancement": "kingdomkeys:obtain_keychain",
+	"pages": [
+		{
+			"type": "text",
+			"text": "Estas masas oscuras tienden a $(thing)atraer$() $(pureblooded)Purasangre$(). Destrúyelos al verlos.$(p)$(lissa)$(l)$(o)[Primera aparición: Kingdom Hearts 358/2 Days]$()"
+		},
+		{
+			"type": "patchouli:entity",
+			"entity": "kingdomkeys:shadow_glob",
+			"scale": 0.5
+		}
+	]
+}

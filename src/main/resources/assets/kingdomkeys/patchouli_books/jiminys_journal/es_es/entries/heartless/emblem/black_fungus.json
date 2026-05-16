@@ -1,0 +1,17 @@
+{
+	"name": "Hongo Negro",
+	"icon": "kingdomkeys:black_fungus_spawn_egg",
+	"category": "kingdomkeys:emblem",
+	"sortnum": 16,
+	"pages": [
+		{
+			"type": "text",
+			"text": "Estos $(heartless)Sincorazón$() son hostiles, a diferencia de $(l:kingdomkeys:heartless/emblem/white_mushroom)sus parientes$(). $(thing)$(o)Atacan con un gas venenoso, ¡así que ten cuidado!$().$(p)$(lissa)$(l)$(o)[Primera aparición: Kingdom Hearts]$()"
+		},
+		{
+			"type": "patchouli:entity",
+			"entity": "kingdomkeys:black_fungus",
+			"scale": 0.8
+		}
+	]
+}
