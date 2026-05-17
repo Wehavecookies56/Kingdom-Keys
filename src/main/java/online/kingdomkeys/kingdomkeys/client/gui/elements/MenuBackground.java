@@ -179,6 +179,8 @@ public class MenuBackground extends Screen {
 	}
 
 	public void drawBiomeDim(GuiGraphics gui) {
+		if(player == null)
+			return;
 		gui.pose().pushPose();
 		{
 			String dimension = this.player.level().dimension().location().getPath().toUpperCase().replaceAll("_", " ");

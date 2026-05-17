@@ -3,6 +3,7 @@ package online.kingdomkeys.kingdomkeys.data;
 import com.google.common.collect.Lists;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
@@ -75,11 +76,19 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		if (FMLEnvironment.dist.isClient()) {
 			PlayerData data = new PlayerData();
 			data.deserializeNBT(player.level().registryAccess(), nbt);
-			player.setData(ModData.PLAYER_DATA, data);
+			if (player != null) {
+				player.setData(ModData.PLAYER_DATA, data);
+			}
 			return data;
 		} else {
 			return get(player);
 		}
+	}
+
+	public static PlayerData fromNBT(RegistryAccess registryAccess, CompoundTag nbt) {
+		PlayerData data = new PlayerData();
+		data.deserializeNBT(registryAccess, nbt);
+		return data;
 	}
 
     @Nullable

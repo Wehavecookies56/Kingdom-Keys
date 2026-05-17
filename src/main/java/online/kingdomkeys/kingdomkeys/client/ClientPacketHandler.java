@@ -4,6 +4,7 @@ import com.google.gson.JsonParseException;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceKey;
@@ -351,9 +352,11 @@ public class ClientPacketHandler {
     }
 
     public static void openCheckScreen(SCOpenCheckScreen message) {
-        Player target = Minecraft.getInstance().level.getPlayerByUUID(message.uuid());
-        PlayerData data = PlayerData.get(message.playerData(), target);
-        Minecraft.getInstance().setScreen(new CheckStatusScreen(data, target));
+        Minecraft mc = Minecraft.getInstance();
+        Player target = mc.level.getPlayerByUUID(message.uuid());
+        RegistryAccess registryAccess = target != null ? target.level().registryAccess() : mc.level.registryAccess();
+        PlayerData data = PlayerData.fromNBT(registryAccess, message.playerData());
+        mc.setScreen(new CheckStatusScreen(data, target));
     }
 
     public static void openSellScreen(SCOpenSellScreen message) {

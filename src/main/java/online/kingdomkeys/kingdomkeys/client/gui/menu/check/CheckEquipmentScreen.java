@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.client.gui.menu.check;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Renderable;
@@ -77,7 +78,7 @@ public class CheckEquipmentScreen extends MenuBackground {
         buttonPosY = (int) (topBarHeight+5);
         buttonPosX = 15.4F;
 
-        addRenderableWidget(back = new MenuButton((int)buttonPosX, playerData.getAlignment() == OrgMember.NONE ? buttonPosY : buttonPosY+20, (int)buttonWidth, Component.translatable(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, b -> minecraft.setScreen(new MenuItemsScreen())));
+        addRenderableWidget(back = new MenuButton((int)buttonPosX, playerData.getAlignment() == OrgMember.NONE ? buttonPosY : buttonPosY+20, (int)buttonWidth, Component.translatable(Strings.Gui_Menu_Status).getString(), MenuButton.ButtonType.BUTTON, b -> Minecraft.getInstance().setScreen(new CheckStatusScreen(playerData, player))));
 
         Map<ResourceLocation, ItemStack> keychains = playerData.getEquippedKeychains();
         List<String> shotlocks = Utils.getSortedShotlocks(playerData.getShotlockList());

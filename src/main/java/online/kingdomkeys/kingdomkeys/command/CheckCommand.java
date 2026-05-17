@@ -22,28 +22,30 @@ public class CheckCommand extends BaseCommand {
     public static ArgumentBuilder<CommandSourceStack, ?> register() {
         LiteralArgumentBuilder<CommandSourceStack> builder = Commands.literal("check").requires(source -> source.hasPermission(2));
         builder.then(Commands.argument("targets", EntityArgument.players())
-                        .executes(CheckCommand::makeChoice))
-                .executes(CheckCommand::makeChoice);
+                        .executes(CheckCommand::checkPlayer))
+                .executes(CheckCommand::checkPlayer);
         KingdomKeys.LOGGER.warn("Registered command " + builder.getLiteral());
         return builder;
     }
 
-    private static int makeChoice(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
+    private static int checkPlayer(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
         Collection<ServerPlayer> players = getPlayers(context, 2);
         if(context.getSource().getEntity() instanceof ServerPlayer sender){
             Player target = players.stream().findFirst().orElse(null);
             if(target == null) {
-                context.getSource().sendSuccess(() -> Component.literal("Player not found "+ players), true);
+                context.getSource().sendFailure(Component.literal("Player not found "+ players));
                 return 0;
             }
             PlayerData playerData = PlayerData.get(target);
             if(playerData == null) {
-                context.getSource().sendSuccess(() -> Component.literal("PlayerData seems null for player "+ target.getName().getString()), true);
+                context.getSource().sendFailure(Component.literal("PlayerData seems null for player "+ target.getName().getString()));
                 return 0;
             }
+
+            context.getSource().sendSuccess(() -> Component.literal("Checking data from player "+ target.getName().getString()), true);
             PacketHandler.sendTo(new SCOpenCheckScreen(playerData, target), sender);
         } else {
-            context.getSource().sendSuccess(() -> Component.literal("Command must be run by a player"), true);
+            context.getSource().sendFailure(Component.literal("Command must be run by a player"));
         }
         return 1;
     }
