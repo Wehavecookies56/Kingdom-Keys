@@ -877,7 +877,7 @@
   "gui.menu.config.hp_per_bar": "HP Per Bar",
   "gui.menu.config.hp_scale": "HP Bar Scale",
   "gui.menu.config.hud": "Adjust HUD",
-  "gui.menu.config.hud.help0": "Hold H to see help",
+  "gui.menu.config.hud.help0": "Hold %s to see help",
   "gui.menu.config.hud.help1": "First of all select the anchor point by clicking the element and SPACE",
   "gui.menu.config.hud.help10": "RIGHT CLICK on a selected item to reset it to Resourcepack defaults",
   "gui.menu.config.hud.help11": "SHIFT + RIGHT CLICK on a selected item to reset it to base defaults",

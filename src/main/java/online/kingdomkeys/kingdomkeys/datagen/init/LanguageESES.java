@@ -365,7 +365,7 @@ public class LanguageESES extends KKLanguageProvider {
         add(Gui_Menu_Config + ".hud", "Ajustar HUD");
         add(Gui_Menu_Config + ".reset_defaults", "Reset por defecto");
         add(Gui_Menu_Config + ".reset_rp", "Reset de resource pack");
-        add(Gui_Menu_Config + ".hud.help0", "Mantén H para ver ayuda");
+        add(Gui_Menu_Config + ".hud.help0", "Mantén %s para ver ayuda");
         add(Gui_Menu_Config + ".hud.help1", "Primero selecciona el punto de anclaje seleccionando el elemento y ESPACIO");
         add(Gui_Menu_Config + ".hud.help2", "CLICK IZQUIERDO y arrastra un elemento para moverlo");
         add(Gui_Menu_Config + ".hud.help3", "Usa las FLECHAS para moverlo en incrementos grandes");
@@ -644,18 +644,18 @@ public class LanguageESES extends KKLanguageProvider {
         addShotlock(ModShotlocks.ULTIMA_CANNON, "Cañón Artema");
 
         //Blox
-        addBlock(ModBlocks.normalBlox, "Blox Normal");
-        addBlock(ModBlocks.hardBlox, "Blox Duro");
-        addBlock(ModBlocks.metalBlox, "Blox Met\u00e1lico");
-        addBlock(ModBlocks.dangerBlox, "Blox Peligroso");
-        addBlock(ModBlocks.bounceBlox, "Blox de Rebote");
-        addBlock(ModBlocks.blastBlox, "Blox Explosivo");
-        addBlock(ModBlocks.ghostBlox, "Blox Fantasma");
-        addBlock(ModBlocks.prizeBlox, "Blox de Premio");
-        addBlock(ModBlocks.rarePrizeBlox, "Blox de Premio Raro");
-        addBlock(ModBlocks.magnetBlox, "Blox Magn\u00e9tico");
+        addBlock(ModBlocks.normalBlox, "Bloque Normal");
+        addBlock(ModBlocks.hardBlox, "Bloque Duro");
+        addBlock(ModBlocks.metalBlox, "Bloque Met\u00e1lico");
+        addBlock(ModBlocks.dangerBlox, "Bloque Peligroso");
+        addBlock(ModBlocks.bounceBlox, "Bloque de Rebote");
+        addBlock(ModBlocks.blastBlox, "Bloque Explosivo");
+        addBlock(ModBlocks.ghostBlox, "Bloque Fantasma");
+        addBlock(ModBlocks.prizeBlox, "Bloque de Premio");
+        addBlock(ModBlocks.rarePrizeBlox, "Bloque de Premio Raro");
+        addBlock(ModBlocks.magnetBlox, "Bloque Magn\u00e9tico");
         addBlock(ModBlocks.pairBlox, "Bloque Emparejado");
-        addBlock(ModBlocks.infestedNormalBlox, "Blox Normal Infestado");
+        addBlock(ModBlocks.infestedNormalBlox, "Bloque Normal Infestado");
         addBlock(ModBlocks.gummiMeteor, "Meteorito Gummi");
         addBlock(ModBlocks.magicTarget, "Diana Mágica");
 
@@ -966,9 +966,9 @@ public class LanguageESES extends KKLanguageProvider {
 
 
         //Patchouli
-        add("patchouli.kingdomkeys.journal.name", "Jiminy's Journal");
-        add("patchouli.kingdomkeys.journal.desc", "Thank Naminé.");
-        add("patchouli.kingdomkeys.journal.hello", "Welcome, Keyblade wielder to the $(thing)Kingdom Keys$() Mod.$(p)In this book, you'll find all info you need to get started, as well as helpful tips.");
+        add("patchouli.kingdomkeys.journal.name", "Diario de Pepito");
+        add("patchouli.kingdomkeys.journal.desc", "Dar las gracias a Naminé.");
+        add("patchouli.kingdomkeys.journal.hello", "Bienvenido, portador de la Llave Espada, al mod de $(thing)Kingdom Keys$().$(p)En este libro, encontrarás toda la información que necesitas para comenzar, así como consejos útiles.");
 
         //Music discs
         add("disc.duration.desc", "Duraci\u00f3n");
@@ -1273,12 +1273,12 @@ public class LanguageESES extends KKLanguageProvider {
         addItem(ModItems.hiddenDragon, "Drag\u00f3n Oculto");
         addItem(ModItems.hunnySpout, "Dulce Miel");
         addItem(ModItems.hyperdrive, "Hiperpropulsor");
-        addItem(ModItems.incompleteKiblade, "Llave Espada Incompleta");
+        addItem(ModItems.incompleteKiblade, "Llave Espada \u03c7 Incompleta");
         addItem(ModItems.invisKeyblade, "Llave Espada de Invi");
         addItem(ModItems.irasKeyblade, "Llave Espada de Ira");
         addItem(ModItems.jungleKing, "Artesana");
         addItem(ModItems.keybladeOfPeoplesHearts, "Llave Espada del Coraz\u00f3n");
-        addItem(ModItems.kiblade, "Llave Espada");
+        addItem(ModItems.kiblade, "Llave Espada \u03c7");
         addItem(ModItems.kingdomKey, "Cadena del Reino");
         addItem(ModItems.kingdomKeyD, "Cadena del Reino D");
         addItem(ModItems.kingdomKeyN, "Cadena del Reino Pesadilla");
@@ -1971,8 +1971,8 @@ public class LanguageESES extends KKLanguageProvider {
         addItem(ModItems.ampoule, "Bombilla");
 
         //Entities
-        addEntityType(ModEntities.TYPE_BLAST_BLOX,"Blox Explosivo Prendido");
-        addEntityType(ModEntities.TYPE_PAIR_BLOX, "Blox de Pareja");
+        addEntityType(ModEntities.TYPE_BLAST_BLOX,"Bloque Explosivo Prendido");
+        addEntityType(ModEntities.TYPE_PAIR_BLOX, "Bloque Emparejado");
 
         addEntityType(ModEntities.TYPE_BLIZZARD, "Hielo");
         addEntityType(ModEntities.TYPE_FIRE, "Piro");
@@ -2014,7 +2014,7 @@ public class LanguageESES extends KKLanguageProvider {
         addEntityType(ModEntities.TYPE_COMMANDER, "Commander");
         addEntityType(ModEntities.TYPE_WHITE_MUSHROOM, "Seta Blanca");
         addEntityType(ModEntities.TYPE_BLACK_FUNGUS, "Hongo Negro");
-        addEntityType(ModEntities.TYPE_BLOX_BUG, "Error");
+        addEntityType(ModEntities.TYPE_BLOX_BUG, "Bloque de Error");
 
         addEntityType(ModEntities.TYPE_NOBODY_CREEPER, "Trepador");
         addEntityType(ModEntities.TYPE_DUSK, "Umbr\u00edo");
@@ -2041,7 +2041,7 @@ public class LanguageESES extends KKLanguageProvider {
 
         addItem(ModEntities.RED_NOCTURNE_EGG, "Generar Nocturno Rojo");
         addItem(ModEntities.BLUE_RHAPSODY_EGG, "Generar Rapsodia Azul");
-        addItem(ModEntities.YELLOW_OPERA_EGG, "Generar \u00f3pera Amarilla");
+        addItem(ModEntities.YELLOW_OPERA_EGG, "Generar Ópera Amarilla");
         addItem(ModEntities.GREEN_REQUIEM_EGG, "Generar R\u00e9quiem Verde");
         addItem(ModEntities.EMERALD_BLUES_EGG, "Generar Blues Esmeralda");
         addItem(ModEntities.LARGE_BODY_EGG, "Generar Grandull\u00f3n");
@@ -2051,7 +2051,7 @@ public class LanguageESES extends KKLanguageProvider {
         addItem(ModEntities.COMMANDER_EGG, "Generar Comandante");
         addItem(ModEntities.WHITE_MUSHROOM_EGG, "Generar Seta Blanca");
         addItem(ModEntities.BLACK_FUNGUS_EGG, "Generar Hongo Negro");
-        addItem(ModEntities.BLOX_BUG_EGG, "Generar Error");
+        addItem(ModEntities.BLOX_BUG_EGG, "Generar Bloque de Error");
 
         addItem(ModEntities.NOBODY_CREEPER_EGG, "Generar Trepador");
         addItem(ModEntities.DUSK_EGG, "Generar Umbr\u00edo");

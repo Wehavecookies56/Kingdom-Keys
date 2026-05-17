@@ -17,18 +17,19 @@ import online.kingdomkeys.kingdomkeys.network.Packet;
 
 import java.util.UUID;
 
-public record SCOpenCheckScreen(CompoundTag playerData, UUID uuid) implements Packet {
+public record SCOpenCheckScreen(CompoundTag playerData, UUID uuid, String name) implements Packet {
 
     public static final Type<SCOpenCheckScreen> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "sc_open_check_screen"));
 
     public static final StreamCodec<FriendlyByteBuf, SCOpenCheckScreen> STREAM_CODEC = StreamCodec.composite(
             ByteBufCodecs.COMPOUND_TAG, SCOpenCheckScreen::playerData,
             UUIDUtil.STREAM_CODEC, SCOpenCheckScreen::uuid,
+            ByteBufCodecs.STRING_UTF8, SCOpenCheckScreen::name,
             SCOpenCheckScreen::new
     );
 
     public SCOpenCheckScreen(PlayerData playerData, Player player) {
-        this(playerData.serializeNBT(player.level().registryAccess()), player.getUUID());
+        this(playerData.serializeNBT(player.level().registryAccess()), player.getUUID(), player.getGameProfile().getName());
     }
 
     @Override

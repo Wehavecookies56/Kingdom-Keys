@@ -8,6 +8,7 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.Ability.AbilityType;
@@ -44,18 +45,23 @@ public class MenuAbilitiesButton extends MenuButtonBase {
 	public boolean equipped = false;
 	public int index = 0;
 	public boolean isVisual = false;
+
+	Player player;
+	PlayerData playerData;
 	
-	public MenuAbilitiesButton(int x, int y, int widthIn, String buttonText, Ability.AbilityType type, Button.OnPress onPress) {
+	public MenuAbilitiesButton(int x, int y, int widthIn, String buttonText, Ability.AbilityType type, Button.OnPress onPress, Player player, PlayerData playerData) {
 		super(x, y, 22 + widthIn, 20, buttonText, onPress);
 		text = buttonText;
 		middleWidth = widthIn;
 		apMiddleWidth = widthIn/3;
 		abilityType = type;
 		minecraft = Minecraft.getInstance();
+		this.player = player;
+		this.playerData = playerData;
 	}
 
-	public MenuAbilitiesButton(int buttonPosX, int buttonPosY, int buttonWidth, String abilityName, int finalJ, AbilityType type, Button.OnPress onPress) {
-		this(buttonPosX, buttonPosY, buttonWidth, abilityName, type, onPress);
+	public MenuAbilitiesButton(int buttonPosX, int buttonPosY, int buttonWidth, String abilityName, int finalJ, AbilityType type, Button.OnPress onPress, Player player, PlayerData playerData) {
+		this(buttonPosX, buttonPosY, buttonWidth, abilityName, type, onPress, player, playerData);
 		index = finalJ;
 	}
 
@@ -136,15 +142,15 @@ public class MenuAbilitiesButton extends MenuButtonBase {
 		if(abilityType != AbilityType.WEAPON && abilityType != AbilityType.ACCESSORY) {
 			//AP Cost
 			RenderSystem.setShaderColor(0.3F, 0.24F, 0, 1.0F);
-			gui.blit(texture, getX()+middleWidth+endWidth+10, getY()-1, 72, 117, endWidth, height);
-			gui.blit(texture, getX() +middleWidth + endWidth+19, getY(), apMiddleWidth, height, middleU, vPos, 1, height, 256, 256);
-			gui.blit(texture, getX() + endWidth + middleWidth+apMiddleWidth +19, getY(), rightU, vPos, endWidth, height);
+			gui.blit(texture, getX() + middleWidth + endWidth + 10, getY() - 1, 72, 117, endWidth, height);
+			gui.blit(texture, getX() + middleWidth + endWidth + 19, getY(), apMiddleWidth, height, middleU, vPos, 1, height, 256, 256);
+			gui.blit(texture, getX() + endWidth + middleWidth + apMiddleWidth + 19, getY(), rightU, vPos, endWidth, height);
 		}
 		//Equipped/Unequipped icon
 		matrixStack.pushPose();
 		{
 			RenderSystem.setShaderColor(1, 1, 1, 1);
-			equipped = PlayerData.get(Minecraft.getInstance().player).isAbilityEquipped(text, index) || isVisual;
+			equipped = playerData.isAbilityEquipped(text, index) || isVisual;
 			if(!equipped && abilityType != AbilityType.WEAPON && abilityType != AbilityType.ACCESSORY) {
 				gui.blit(texture, getX()+6, getY()+4, 74, 102, 12, 12);
 			} else {

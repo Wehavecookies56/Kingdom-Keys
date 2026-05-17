@@ -22,7 +22,6 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton.ButtonType;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuScrollBar;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.MenuScreen;
-import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
@@ -41,7 +40,6 @@ import java.util.List;
 public class MenuAbilitiesScreen extends MenuBackground {
 	String form = DriveForm.NONE.toString();
 
-	PlayerData playerData = PlayerData.get(minecraft.player);
 	LinkedHashMap<String, int[]> abilitiesMap;
     List<MenuAbilitiesButton> abilities = new ArrayList<>();
 
@@ -152,13 +150,13 @@ public class MenuAbilitiesScreen extends MenuBackground {
 				if (level == 0 || ability.getType() == AbilityType.GROWTH) {
 					abilities.add(new MenuAbilitiesButton(buttonPosX, buttonPosY, buttonWidth, abilityName, ability.getType(), (e) -> {
 						action(ability, 0);
-					}));
+					}, player, playerData));
 				} else {
 					for (int j = 0; j < level; j++) {
 						int finalJ = j;
 						abilities.add(new MenuAbilitiesButton(buttonPosX, buttonPosY, buttonWidth, abilityName, finalJ, ability.getType(), (e) -> {
 							action(ability, finalJ);
-						}));
+						}, player, playerData));
 					}
 				}
 				abilities.get(i).visible = false;
@@ -171,7 +169,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 					for(String a : abilitiesList) {
 						Ability ability = ModAbilities.registry.get(ResourceLocation.parse(a));
 						if(ability != null) {
-							MenuAbilitiesButton aa = new MenuAbilitiesButton(buttonPosX, buttonPosY, buttonWidth, ability.getRegistryName().toString(), AbilityType.WEAPON, (e) -> { });
+							MenuAbilitiesButton aa = new MenuAbilitiesButton(buttonPosX, buttonPosY, buttonWidth, ability.getRegistryName().toString(), AbilityType.WEAPON, (e) -> { }, player, playerData);
 							abilities.add(aa);
 							aa.visible = false;
 						}
@@ -190,14 +188,14 @@ public class MenuAbilitiesScreen extends MenuBackground {
 						Ability ability = ModAbilities.registry.get(ResourceLocation.parse(a));
 						if (ability != null) { //Add weapon ability display
 							MenuAbilitiesButton aa = new MenuAbilitiesButton(buttonPosX, buttonPosY, buttonWidth, ability.getRegistryName().toString(), AbilityType.WEAPON, (e) -> {
-							});
+							}, player, playerData);
 							abilities.add(aa);
 							aa.visible = false;
 							
 							//If synch blade do it again
 							if(playerData.getAbilityMap().containsKey(Strings.synchBlade) && playerData.getAbilityMap().get(Strings.synchBlade)[1] > 0) { //Org synch blade
 								MenuAbilitiesButton aaa = new MenuAbilitiesButton(buttonPosX, buttonPosY, buttonWidth, ability.getRegistryName().toString(), AbilityType.WEAPON, (e) -> {
-								});
+								}, player, playerData);
 								abilities.add(aaa);
 								aaa.visible = false;
 							}
@@ -214,7 +212,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 						Ability ability = ModAbilities.registry.get(ResourceLocation.parse(a));
 						if (ability != null) {
 							MenuAbilitiesButton aa = new MenuAbilitiesButton(buttonPosX, buttonPosY, buttonWidth,  ability.getRegistryName().toString(), AbilityType.WEAPON, (e) -> {
-							});
+							}, player, playerData);
 							abilities.add(aa);
 							aa.visible = false;
 						}
@@ -229,7 +227,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 							Ability ability = ModAbilities.registry.get(ResourceLocation.parse(a));
 							if (ability != null) {
 								MenuAbilitiesButton aa = new MenuAbilitiesButton(buttonPosX, buttonPosY, buttonWidth, ability.getRegistryName().toString(), AbilityType.WEAPON, (e) -> {
-								});
+								}, player, playerData);
 								abilities.add(aa);
 								aa.visible = false;
 							}
@@ -243,7 +241,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 				Ability ability = ModAbilities.registry.get(ResourceLocation.parse(a));
 				if (ability != null) {
 					MenuAbilitiesButton aa = new MenuAbilitiesButton(buttonPosX, buttonPosY, buttonWidth, ability.getRegistryName().toString(), AbilityType.ACCESSORY, (e) -> {
-					});
+					}, player, playerData);
 					abilities.add(aa);
 					aa.visible = false;
 				}
@@ -261,7 +259,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 					int level = abilitiesMap.get(abilityName)[0];
 					if (level == 0 || ability.getType() == AbilityType.GROWTH) {
 						MenuAbilitiesButton aa = new MenuAbilitiesButton(buttonPosX, buttonPosY, buttonWidth, abilityName, ability.getType(), (e) -> {
-						});
+						}, player, playerData);
 
 						abilities.add(aa);
 						aa.visible = false;
@@ -275,7 +273,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 					Ability ab = ModAbilities.registry.get(ResourceLocation.parse(growth));
 					if (ab != null) {
 						MenuAbilitiesButton aa = new MenuAbilitiesButton(buttonPosX, buttonPosY, buttonWidth, growth, ab.getType(), (e) -> {
-						});
+						}, player, playerData);
 						abilities.add(aa);
 						aa.visible = false;
 						aa.isVisual = true;
@@ -288,7 +286,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 					Ability ability = ModAbilities.registry.get(ResourceLocation.parse(a));
 					if (ability != null) {
 						MenuAbilitiesButton aa = new MenuAbilitiesButton(buttonPosX, buttonPosY, buttonWidth, ability.getRegistryName().toString(), ability.getType(), (e) -> {
-						});
+						}, player, playerData);
 						abilities.add(aa);
 						aa.visible = false;
 						aa.isVisual = true;
@@ -301,7 +299,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 				for(String a : abilitiesList) {
 					Ability ability = ModAbilities.registry.get(ResourceLocation.parse(a));
 					if(ability != null) {
-						MenuAbilitiesButton aa = new MenuAbilitiesButton(buttonPosX, buttonPosY, buttonWidth, ability.getRegistryName().toString(), AbilityType.WEAPON, (e) -> { });
+						MenuAbilitiesButton aa = new MenuAbilitiesButton(buttonPosX, buttonPosY, buttonWidth, ability.getRegistryName().toString(), AbilityType.WEAPON, (e) -> { }, player, playerData);
 						abilities.add(aa);
 						aa.visible = false;
 					}
@@ -317,7 +315,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 							Ability ability = ModAbilities.registry.get(ResourceLocation.parse(a));
 							if (ability != null) {
 								MenuAbilitiesButton aa = new MenuAbilitiesButton(buttonPosX, buttonPosY, buttonWidth, ability.getRegistryName().toString(), AbilityType.WEAPON, (e) -> {
-								});
+								}, player, playerData);
 								abilities.add(aa);
 								aa.visible = false;
 							}

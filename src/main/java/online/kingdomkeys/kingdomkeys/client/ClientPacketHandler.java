@@ -1,9 +1,11 @@
 package online.kingdomkeys.kingdomkeys.client;
 
 import com.google.gson.JsonParseException;
+import com.mojang.authlib.GameProfile;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.client.player.RemotePlayer;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
@@ -353,7 +355,10 @@ public class ClientPacketHandler {
 
     public static void openCheckScreen(SCOpenCheckScreen message) {
         Minecraft mc = Minecraft.getInstance();
-        Player target = mc.level.getPlayerByUUID(message.uuid());
+        GameProfile profile = new GameProfile(message.uuid(), message.name());
+        Player target = new RemotePlayer(Minecraft.getInstance().level, profile);
+
+        //Player target = mc.level.getPlayerByUUID(message.uuid());
         RegistryAccess registryAccess = target != null ? target.level().registryAccess() : mc.level.registryAccess();
         PlayerData data = PlayerData.fromNBT(registryAccess, message.playerData());
         mc.setScreen(new CheckStatusScreen(data, target));

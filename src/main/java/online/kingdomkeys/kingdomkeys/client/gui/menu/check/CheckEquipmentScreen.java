@@ -14,7 +14,6 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuEquipmentButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuScrollBar;
-import online.kingdomkeys.kingdomkeys.client.gui.menu.items.MenuItemsScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment.*;
 import online.kingdomkeys.kingdomkeys.client.gui.organization.WeaponTreeSelectionScreen;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;

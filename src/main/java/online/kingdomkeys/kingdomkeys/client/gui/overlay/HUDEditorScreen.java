@@ -51,13 +51,13 @@ public class HUDEditorScreen extends Screen {
         int scaledWidth = Minecraft.getInstance().getWindow().getGuiScaledWidth();
         int y=3;
         if(!ClientUtils.isKeyDown(GLFW.GLFW_KEY_H)) {
-            guiGraphics.drawCenteredString(minecraft.font, Utils.translateToLocal("gui.menu.config.hud.help0"), scaledWidth / 2, y++ * 10, 0xFFFFFF);
+            guiGraphics.drawCenteredString(minecraft.font, Component.translatable("gui.menu.config.hud.help0", Component.literal("H").withStyle(ChatFormatting.DARK_RED)), scaledWidth / 2, y++ * 10, 0xFFFFFF);
         } else {
             for(int i= 1; i < 12; i++) {
                 guiGraphics.drawCenteredString(minecraft.font, Utils.translateToLocal("gui.menu.config.hud.help"+i), scaledWidth / 2, y++ * 10, 0xFFFFFF);
             }
         }
-        if(selected!=null) {
+        if(selected != null) {
             guiGraphics.drawCenteredString(minecraft.font,Utils.translateToLocal("gui.menu.config.hud.help12"),scaledWidth / 2,y++*10+10,0xFFFFFF);
             for(String data : selected.getData()) {
                 guiGraphics.drawString(minecraft.font, data,scaledWidth / 2-40,y++*10+ 10,0xFFFFFF);

@@ -314,7 +314,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Gui_Menu_Config + ".hud", "Adjust HUD");
         add(Gui_Menu_Config + ".reset_defaults", "Reset to defaults");
         add(Gui_Menu_Config + ".reset_rp", "Reset to resource pack");
-        add(Gui_Menu_Config + ".hud.help0", "Hold H to see help");
+        add(Gui_Menu_Config + ".hud.help0", "Hold %s to see help");
         add(Gui_Menu_Config + ".hud.help1", "First of all select the anchor point by clicking the element and SPACE");
         add(Gui_Menu_Config + ".hud.help2", "LEFT CLICK and drag an element to move it");
         add(Gui_Menu_Config + ".hud.help3", "Use ARROW KEYS to move it in bigger gaps");
