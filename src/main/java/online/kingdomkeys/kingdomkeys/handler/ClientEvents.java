@@ -299,7 +299,7 @@ public class ClientEvents {
                                 }
                             }
 
-                            float pow = 0.25F + playerData.getNumberOfAbilitiesEquipped(Strings.superJump) * 0.15F;
+                            float pow = 0.35F + playerData.getNumberOfAbilitiesEquipped(Strings.superJump) * 0.15F;
                             double horizontalStrength = 0.25;
                             double verticalStrength = baseY * pow;
 
