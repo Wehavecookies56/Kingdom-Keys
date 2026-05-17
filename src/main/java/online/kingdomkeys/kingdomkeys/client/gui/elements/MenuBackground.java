@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.client.gui.elements;
 
+import com.mojang.authlib.GameProfile;
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -8,6 +9,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.player.RemotePlayer;
 import net.minecraft.core.Holder;
 import net.minecraft.locale.Language;
 import net.minecraft.network.chat.Component;
@@ -33,6 +35,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.awt.*;
+import java.util.UUID;
 
 public class MenuBackground extends Screen {
 	public Player player;
@@ -336,7 +339,7 @@ public class MenuBackground extends Screen {
 
 	public void drawPlayer(GuiGraphics gui,@Nullable Party party, int order, Party.Member member) {
 		PoseStack matrixStack = gui.pose();
-		int count =  party == null ? CastleOblivionHandler.inInterior(getMinecraft().player) ? 3 : 1 : party.getMembers().size();
+		int count =  party == null ? CastleOblivionHandler.inInterior(getMinecraft().player) ? 3 : 1 : party.getMembers().size(); //Map space
 
 		boolean multiRow = count > 5;
 
@@ -378,7 +381,13 @@ public class MenuBackground extends Screen {
 			playerPosX += spacingX * 0.5F;
 		float playerPosY = (height * 0.45F) + (row * spacingY);
 
-		Player player = Utils.getPlayerByName(minecraft.level, member.getUsername());
+		//Player player = Utils.getPlayerByName(minecraft.level, member.getUsername());
+		UUID uuid = member.getUUID();
+		String name = member.getUsername();
+
+		GameProfile profile = new GameProfile(uuid, name);
+		RemotePlayer player = new RemotePlayer(Minecraft.getInstance().level, profile);
+
 
 		int infoBoxWidth = (int)(70 * (0.75F + scale * 0.25F));
 		int infoBoxPosX = (int)playerPosX - 16 - (infoBoxWidth / 2);
