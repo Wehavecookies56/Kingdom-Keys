@@ -381,13 +381,26 @@ public class MenuBackground extends Screen {
 			playerPosX += spacingX * 0.5F;
 		float playerPosY = (height * 0.45F) + (row * spacingY);
 
-		//Player player = Utils.getPlayerByName(minecraft.level, member.getUsername());
-		UUID uuid = member.getUUID();
-		String name = member.getUsername();
+		Player player = Utils.getPlayerByName(minecraft.level, member.getUsername());
 
-		GameProfile profile = new GameProfile(uuid, name);
-		RemotePlayer player = new RemotePlayer(Minecraft.getInstance().level, profile);
+		String level = "LV: N/A";
+		String hp = "HP: N/A";
+		String mp = "MP: N/A";
 
+		if(player == null) {
+			UUID uuid = member.getUUID();
+			String name = member.getUsername();
+
+			GameProfile profile = new GameProfile(uuid, name);
+			player = new RemotePlayer(Minecraft.getInstance().level, profile);
+		} else {
+			PlayerData playerData = PlayerData.get(player);
+			if(playerData != null) {
+				level = Utils.translateToLocal(Strings.Gui_Menu_Status_Level)+": "+ playerData.getLevel();
+				hp = Utils.translateToLocal(Strings.Gui_Menu_Status_HP)+": " + (int) player.getHealth() + "/" + (int) player.getMaxHealth();
+				mp = Utils.translateToLocal(Strings.Gui_Menu_Status_MP)+": " + (int) playerData.getMP() + "/" + (int) playerData.getMaxMP();
+			}
+		}
 
 		int infoBoxWidth = (int)(70 * (0.75F + scale * 0.25F));
 		int infoBoxPosX = (int)playerPosX - 16 - (infoBoxWidth / 2);
@@ -438,21 +451,14 @@ public class MenuBackground extends Screen {
 
 				matrixStack.pushPose();
 				{
-					matrixStack.translate(infoBoxPosX + 8, infoBoxPosY + ((22 / 2) - (minecraft.font.lineHeight / 2)), 1);
+					matrixStack.translate(infoBoxPosX + 10, infoBoxPosY + ((22 / 2) - minecraft.font.lineHeight / 2), 1);
 					gui.drawString(minecraft.font, member.getUsername(),0,0,0xFFFFFF);
 				}
 				matrixStack.popPose();
 
-				if(player != null) {
-
-					PlayerData playerData = PlayerData.get(player);
-
-					if(playerData != null) {
-						gui.drawString(minecraft.font, "LV: " + playerData.getLevel(), infoBoxPosX + 4, infoBoxPosY + 26, 0xFFD900);
-						gui.drawString(minecraft.font, "HP: " + (int)player.getHealth() + "/" + (int)player.getMaxHealth(), infoBoxPosX + 4, infoBoxPosY + 26 + minecraft.font.lineHeight, 0x00FF00);
-						gui.drawString(minecraft.font, "MP: " + (int)playerData.getMP() + "/" + (int)playerData.getMaxMP(), infoBoxPosX + 4, infoBoxPosY + 26 + (minecraft.font.lineHeight * 2), 0x4444FF);
-					}
-				}
+				gui.drawString(minecraft.font, level, infoBoxPosX + 5, infoBoxPosY + 26, 0xFFD900);
+				gui.drawString(minecraft.font, hp, infoBoxPosX + 5, infoBoxPosY + 26 + minecraft.font.lineHeight, 0x00FF00);
+				gui.drawString(minecraft.font, mp, infoBoxPosX + 5, infoBoxPosY + 26 + minecraft.font.lineHeight * 2, 0x4444FF);
 			}
 			matrixStack.popPose();
 		}

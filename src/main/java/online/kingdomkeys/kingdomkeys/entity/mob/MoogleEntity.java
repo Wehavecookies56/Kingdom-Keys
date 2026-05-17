@@ -45,11 +45,8 @@ public class MoogleEntity extends PathfinderMob implements IEntityWithComplexSpa
 	
     public MoogleEntity(EntityType<? extends PathfinderMob> type, Level worldIn) {
         super(type, worldIn);
-        if (Utils.randomWithRange(0, 100) >= 98) {
-            inv = "kingdomkeys:special";
-        } else {
-            inv = "kingdomkeys:default";
-        }
+        inv = Utils.randomWithRange(0, 100) >= 98 ? "kingdomkeys:special" :  "kingdomkeys:default";
+
         setRandomName();
         if (name == null) {
             name = "";
