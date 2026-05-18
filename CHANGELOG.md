@@ -4,4 +4,4 @@
 
 ### Fixed:
 * Gummi engines not dropping.
-* Wayfinder colors update not working properly.
+* Wayfinder colors update not working properly, optimized its code and fixed a localization issue.

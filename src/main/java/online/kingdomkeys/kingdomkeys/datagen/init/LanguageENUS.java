@@ -2041,6 +2041,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add("message.chest.keyblade_set", "Your keyblade has been set to unlock this chest");
         add("message.chest.unlocked", "Chest has been unlocked");
         add("message.kingdomkeys.gui_toggle", "GUI display set to: %s");
+        add("message.wayfinder.player_not_found", "Player %s not found");
         add("message.wayfinder.your_wayfinder","This is your Wayfinder, hand it over to someone else");
         add("message.wayfinder.in_your_party","in your party");
         add("message.wayfinder.not_in_party","You are not in a party");

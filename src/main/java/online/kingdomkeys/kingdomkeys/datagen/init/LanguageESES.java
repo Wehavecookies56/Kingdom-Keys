@@ -2072,11 +2072,12 @@ public class LanguageESES extends KKLanguageProvider {
         add("message.magic_max_level", "%s ya est\u00e1 en el m\u00e1ximo nivel");
         add("message.magic_upgrade", "%s ha mejorado a %s");
         add("message.unlocked", "Desbloqueado %s");
-        add("message.wayfinder.in_your_party", "en tu grupo");
-        add("message.wayfinder.not_in_party", "No est\u00e1s en un grupo");
-        add("message.wayfinder.player_not_in_party", "El jugador %s no est\u00e1 en tu grupo");
-        add("message.wayfinder.player_not_online", "El jugador %s no est\u00e1 en l\u00ednea");
-        add("message.wayfinder.your_wayfinder", "Este es tu siemprejuntos, d\u00e1selo a otro jugador");
+        add("message.wayfinder.player_not_found", "Jugador %s no encontrado");
+        add("message.wayfinder.in_your_party", "de tu grupo");
+        add("message.wayfinder.not_in_party", "No estás en un grupo");
+        add("message.wayfinder.player_not_in_party", "El jugador %s no está en tu grupo");
+        add("message.wayfinder.player_not_online", "El jugador %s no está en línea");
+        add("message.wayfinder.your_wayfinder", "Este es tu siemprejuntos, dáselo a otro jugador");
         add("message.wayfinder.owner","Propietario: %s");
         add("message.wayfinder.cooldown","Recarga: %s%%");
         add("message.recipe.already_learnt", "Receta ya aprendida para %s");

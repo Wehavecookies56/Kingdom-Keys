@@ -1268,9 +1268,7 @@ public class Utils {
 
 	public static List<Player> getAllPlayers(MinecraftServer ms) {
 		List<Player> list = new ArrayList<Player>();
-		Iterator<ServerLevel> it = ms.getAllLevels().iterator();
-		while (it.hasNext()) {
-			ServerLevel world = it.next();
+		for (ServerLevel world : ms.getAllLevels()) {
 			for (Player p : world.players()) {
 				list.add(p);
 			}
