@@ -2080,6 +2080,12 @@ public class LanguageESES extends KKLanguageProvider {
         add("message.wayfinder.your_wayfinder", "Este es tu siemprejuntos, dáselo a otro jugador");
         add("message.wayfinder.owner","Propietario: %s");
         add("message.wayfinder.cooldown","Recarga: %s%%");
+        add("message.wayfinder.calling_for_help","%s te reclama, ¡usa su siemprejuntos!");
+        add("message.wayfinder.asking_other_for_help","Llamando a %s para venir aquí");
+        add("message.wayfinder.player_has_no_wayfinder","%s no tiene tu siemprejuntos encima ahora mismo");
+        add("message.wayfinder.tooltip1", "Click derecho para teletransportarte");
+        add("message.wayfinder.tooltip2", "Shift + click derecho para llamar");
+
         add("message.recipe.already_learnt", "Receta ya aprendida para %s");
         add("message.recipe.cant_learn_yet", "A\u00fan no puedes aprender esa receta");
         add("message.recipe.learnt", "Aprendida la receta de %s");

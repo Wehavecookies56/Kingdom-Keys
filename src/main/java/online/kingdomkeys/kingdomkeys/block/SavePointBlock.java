@@ -126,31 +126,29 @@ public class SavePointBlock extends BaseBlock implements EntityBlock, INoDataGen
 	@Override
 	public void onRemove(BlockState pState, Level pLevel, BlockPos pPos, BlockState pNewState, boolean pMovedByPiston) {
 		if (pNewState.getBlock() != this) {
-			//if (pState.getValue(TIER) != SavePointStorage.SavePointType.NORMAL) {
-				if (!pLevel.isClientSide()) {
-					SavepointTileEntity te = (SavepointTileEntity) pLevel.getBlockEntity(pPos);
-					ItemStack stack = new ItemStack(this);
-					stack.set(ModComponents.SAVE_POINT_TIER, pState.getValue(TIER).name());
-					stack.set(ModComponents.SAVE_POINT_HEAL, te.getHeal());
-					stack.set(ModComponents.SAVE_POINT_MAGIC, te.getMagic());
-					stack.set(ModComponents.SAVE_POINT_HUNGER, te.getHunger());
-					stack.set(ModComponents.SAVE_POINT_FOCUS, te.getFocus());
-					stack.set(ModComponents.SAVE_POINT_DRIVE, te.getDrive());
-					popResource(pLevel, pPos, stack);
+			if (!pLevel.isClientSide()) {
+				SavepointTileEntity te = (SavepointTileEntity) pLevel.getBlockEntity(pPos);
+				ItemStack stack = new ItemStack(this);
+				stack.set(ModComponents.SAVE_POINT_TIER, pState.getValue(TIER).name());
+				stack.set(ModComponents.SAVE_POINT_HEAL, te.getHeal());
+				stack.set(ModComponents.SAVE_POINT_MAGIC, te.getMagic());
+				stack.set(ModComponents.SAVE_POINT_HUNGER, te.getHunger());
+				stack.set(ModComponents.SAVE_POINT_FOCUS, te.getFocus());
+				stack.set(ModComponents.SAVE_POINT_DRIVE, te.getDrive());
+				popResource(pLevel, pPos, stack);
 
-					SavePointStorage storage = SavePointStorage.getStorage(pLevel.getServer());
-					if (storage.savePointRegistered(te.getID())) {
-						SavePointStorage.SavePoint removed = storage.getSavePoint(te.getID());
-						storage.removeSavePoint(te.getID());
-						for (Level level : pLevel.getServer().getAllLevels()) {
-							for (Player playerFromList : level.players()) {
-								PacketHandler.sendTo(new SCUpdateSavePoints(storage.getDiscoveredSavePoints(playerFromList)), (ServerPlayer) playerFromList);
-								PacketHandler.sendTo(new SCDeleteSavePointScreenshot(removed.name(), removed.id()), (ServerPlayer) playerFromList);
-							}
+				SavePointStorage storage = SavePointStorage.getStorage(pLevel.getServer());
+				if (storage.savePointRegistered(te.getID())) {
+					SavePointStorage.SavePoint removed = storage.getSavePoint(te.getID());
+					storage.removeSavePoint(te.getID());
+					for (Level level : pLevel.getServer().getAllLevels()) {
+						for (Player playerFromList : level.players()) {
+							PacketHandler.sendTo(new SCUpdateSavePoints(storage.getDiscoveredSavePoints(playerFromList)), (ServerPlayer) playerFromList);
+							PacketHandler.sendTo(new SCDeleteSavePointScreenshot(removed.name(), removed.id()), (ServerPlayer) playerFromList);
 						}
 					}
 				}
-			//}
+			}
 		}
 		super.onRemove(pState, pLevel, pPos, pNewState, pMovedByPiston);
 	}

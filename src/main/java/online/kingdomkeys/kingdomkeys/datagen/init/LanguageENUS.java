@@ -2049,6 +2049,11 @@ public class LanguageENUS extends KKLanguageProvider {
         add("message.wayfinder.player_not_online","Player %s is not online");
         add("message.wayfinder.owner","Owner: %s");
         add("message.wayfinder.cooldown","Cooldown: %s%%");
+        add("message.wayfinder.calling_for_help","%s is calling you, use their wayfinder!");
+        add("message.wayfinder.asking_other_for_help","Calling %s to come here");
+        add("message.wayfinder.player_has_no_wayfinder","%s does not have your wayfinder on them right now");
+        add("message.wayfinder.tooltip1", "Right click to teleport");
+        add("message.wayfinder.tooltip2", "Shift + right click to call");
         add("message.unlocked","Unlocked %s");
         add("message.magic_upgrade","%s has been upgraded to %s");
         add("message.magic_max_level","%s is already at the max level");

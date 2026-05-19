@@ -8,7 +8,7 @@ import java.util.List;
 
 public class ServerConfig {
 
-    public ModConfigSpec.IntValue partyRangeLimit, partyMembersLimit, shotlockMaxDist;
+    public ModConfigSpec.IntValue partyRangeLimit, partyMembersLimit, shotlockMaxDist, wayfinderCD, wayfinderCDCall;
 
     public ModConfigSpec.ConfigValue<List<? extends String>> driveFormXPMultiplier;
     public ModConfigSpec.ConfigValue<List<? extends Integer>> statsMultiplier;
@@ -74,7 +74,17 @@ public class ServerConfig {
                 .comment("IMPORTANT! If supplementaries is installed we recommend to change in supplementaries-client.toml \"send_chat_on_death = true\" to false, since by default it sends a - at the end and might cause issues.")
                 .translation(KingdomKeys.MODID + ".config.allow_party_ko")
                 .define("allowPartyKO", true);
-        
+
+        wayfinderCD = builder
+                .comment("Cooldown (in seconds) for the Wayfinder after a successful teleport")
+                .translation(KingdomKeys.MODID + ".config.wayfinder_cd")
+                .defineInRange("wayfinderCD", 300,1,10000);
+
+        wayfinderCDCall = builder
+                .comment("Cooldown (in seconds) for the Wayfinder after a call")
+                .translation(KingdomKeys.MODID + ".config.wayfinder_cd_call")
+                .defineInRange("wayfinderCDCall", 30,1,10000);
+
         wayfinderParty = builder
                 .comment("If true then players will only be able to use the Wayfinder with other party members, if false with anyone")
                 .translation(KingdomKeys.MODID + ".config.wayfinder_party")

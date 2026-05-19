@@ -2,6 +2,7 @@ package online.kingdomkeys.kingdomkeys.item;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.UUIDUtil;
 import net.minecraft.core.particles.DustParticleOptions;
@@ -37,8 +38,6 @@ import java.util.List;
 import java.util.UUID;
 
 public class WayfinderItem extends Item {
-	private static final int COOLDOWN_TICKS = 300 * 20;
-
 	public WayfinderItem(Properties pProperties) {
 		super(pProperties);
 	}
@@ -71,55 +70,75 @@ public class WayfinderItem extends Item {
 			}
 
 			WayfinderOwner ownerdata = stack.get(ModComponents.WAYFINDER_OWNER);
-
 			Player owner = getOwner(serverLevel, stack);
 			if (owner == null) {
 				player.displayClientMessage(Component.translatable("message.wayfinder.player_not_found", ownerdata.name), true);
 				return InteractionResultHolder.fail(stack);
 			}
-			Party p = WorldData.get(world.getServer()).getPartyFromMember(player.getUUID());
-			
+
 			if(owner == player) {
 				player.displayClientMessage(Component.translatable("message.wayfinder.your_wayfinder").append(" ").append(ModConfigs.SERVER.wayfinderParty.get() ? Component.translatable("message.wayfinder.in_your_party") : Component.empty()), true);
 				return InteractionResultHolder.fail(stack);
 			}
 
-			if(ModConfigs.SERVER.wayfinderParty.get()) {
-				if(p == null) {
-					player.displayClientMessage(Component.translatable("message.wayfinder.not_in_party"), true);
+			if(player.isCrouching()){ //Calling
+				if(hasWayfinderOf(owner, player.getUUID())) {
+					Component coloredPlayerName = Component.literal(player.getGameProfile().getName()).withColor(getColor(stack));
+					Component coloredOwnerName = Component.literal(owner.getGameProfile().getName()).withColor(getColor(stack));
+
+					owner.displayClientMessage(Component.translatable("message.wayfinder.calling_for_help", coloredPlayerName), true);
+					player.displayClientMessage(Component.translatable("message.wayfinder.asking_other_for_help", coloredOwnerName), true);
+					spawnWayfinderParticles((ServerLevel) player.level(), player, 1, getColor(stack), 35);
+					player.getCooldowns().addCooldown(this, (ModConfigs.SERVER.wayfinderCD.get() * 20) / 10);
+					return InteractionResultHolder.success(stack);
+				} else {
+					player.displayClientMessage(Component.translatable("message.wayfinder.player_has_no_wayfinder", owner.getGameProfile().getName()), true);
 					return InteractionResultHolder.fail(stack);
 				}
-				
-				if(!Utils.isEntityInParty(p, player)) {
-					player.displayClientMessage(Component.translatable("message.wayfinder.player_not_in_party", ownerdata.name), true);
-					return InteractionResultHolder.fail(stack);
+			} else { //Teleporting
+				if (ModConfigs.SERVER.wayfinderParty.get()) {
+					Party p = WorldData.get(world.getServer()).getPartyFromMember(player.getUUID());
+					if (p == null) {
+						player.displayClientMessage(Component.translatable("message.wayfinder.not_in_party"), true);
+						return InteractionResultHolder.fail(stack);
+					}
+
+					if (!Utils.isEntityInParty(p, player)) {
+						player.displayClientMessage(Component.translatable("message.wayfinder.player_not_in_party", ownerdata.name), true);
+						return InteractionResultHolder.fail(stack);
+					}
 				}
+				PlayerData playerData = PlayerData.get(player);
+				teleport(player, owner, playerData.getNotifColor());
 			}
-			teleport(player, owner, getColor(player.getItemInHand(hand)));
 		}
 		return super.use(world, player, hand);
 	}
 
 	public void teleport(Player player, Entity owner, int color) {
 		if (player.level().dimension() != owner.level().dimension()) {
-			ServerLevel destiinationWorld = owner.getServer().getLevel(owner.level().dimension());
-			player.changeDimension(new DimensionTransition(destiinationWorld, new Vec3(owner.getX(), owner.getY(), owner.getZ()), Vec3.ZERO, player.getYRot(), player.getXRot(), entity -> {}));
+			ServerLevel destinationWorld = owner.getServer().getLevel(owner.level().dimension());
+			player.changeDimension(new DimensionTransition(destinationWorld, new Vec3(owner.getX(), owner.getY(), owner.getZ()), Vec3.ZERO, player.getYRot(), player.getXRot(), entity -> {}));
 		}
 
 		player.teleportTo(owner.getX(), owner.getY(), owner.getZ());
 		player.setDeltaMovement(0, 0, 0);
-
 		player.level().playSound(null, player.blockPosition(), ModSounds.unsummon_armor.get(), SoundSource.PLAYERS,1f,1f);
+
+		spawnWayfinderParticles((ServerLevel) player.level(),player,1.5F, color, 50);
+		spawnWayfinderParticles((ServerLevel) player.level(),player,1.0F, color, 50);
+		spawnWayfinderParticles((ServerLevel) player.level(),player,0.5F, color, 50);
+		((ServerLevel)player.level()).sendParticles(ParticleTypes.FIREWORK, player.getX(), player.getY() + 1, player.getZ(), 100, 0,0,0, 0.2);
+		player.getCooldowns().addCooldown(this, (ModConfigs.SERVER.wayfinderCD.get() * 20));
+	}
+
+	public void spawnWayfinderParticles(ServerLevel level, Entity entity, float y, int color, int amount) {
 		float r = ((color >> 16) & 0xFF) / 255F;
 		float g = ((color >> 8) & 0xFF) / 255F;
 		float b = (color & 0xFF) / 255F;
-		DustParticleOptions dust = new DustParticleOptions(new Vector3f(r, g, b), 6F);
 
-		((ServerLevel)player.level()).sendParticles(dust, player.getX(),player.getY() + 1.5,player.getZ(),50,0,0,0,0.2);
-		((ServerLevel)player.level()).sendParticles(dust, player.getX(),player.getY() + 1,player.getZ(),50,0,0,0,0.2);
-		((ServerLevel)player.level()).sendParticles(dust, player.getX(),player.getY() + 0.5,player.getZ(),50,0,0,0,0.2);
-		((ServerLevel)player.level()).sendParticles(ParticleTypes.FIREWORK, player.getX(), player.getY() +1, player.getZ(), 100, 0,0,0, 0.2);
-		player.getCooldowns().addCooldown(this, COOLDOWN_TICKS);
+		DustParticleOptions dust = new DustParticleOptions(new Vector3f(r, g, b), 2F);
+		level.sendParticles(dust, entity.getX(), entity.getY() + y, entity.getZ(), amount, 0.4, 0.6, 0.4, 0.02);
 	}
 
 	public void setID(ItemStack stack, Player player) {
@@ -149,6 +168,9 @@ public class WayfinderItem extends Item {
 		if (stack.has(ModComponents.WAYFINDER_OWNER)) {
 			Minecraft mc = Minecraft.getInstance();
 			Player player = mc.player;
+			tooltip.add(Component.translatable("message.wayfinder.tooltip1").withStyle(ChatFormatting.GRAY));
+			tooltip.add(Component.translatable("message.wayfinder.tooltip2").withStyle(ChatFormatting.GRAY));
+
 			tooltip.add(Component.translatable("message.wayfinder.owner", stack.get(ModComponents.WAYFINDER_OWNER).name));
 			//tooltip.add(Component.translatable(""+new Color(stack.getTag().getInt("color"))));
 			if(player.getCooldowns().isOnCooldown(this))
@@ -156,6 +178,21 @@ public class WayfinderItem extends Item {
 		} else {
 			tooltip.add(Component.translatable("message.wayfinder.none"));
 		}
+	}
+
+	public boolean hasWayfinderOf(Player player, UUID targetUUID) {
+		for (ItemStack stack : player.getInventory().items) {
+			if (!(stack.getItem() instanceof WayfinderItem))
+				continue;
+
+			WayfinderOwner owner = stack.get(ModComponents.WAYFINDER_OWNER);
+
+			if (owner != null && owner.uuid().equals(targetUUID)) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 	
 	@Override
