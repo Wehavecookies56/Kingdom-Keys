@@ -2386,6 +2386,8 @@
   "message.wayfinder.player_not_found": "Jugador %s no encontrado",
   "message.wayfinder.player_not_in_party": "El jugador %s no está en tu grupo",
   "message.wayfinder.player_not_online": "El jugador %s no está en línea",
+  "message.wayfinder.tooltip1": "Click derecho para teletransportarte",
+  "message.wayfinder.tooltip2": "Shift + click derecho para llamar",
   "message.wayfinder.your_wayfinder": "Este es tu siemprejuntos, dáselo a otro jugador",
   "patchouli.kingdomkeys.journal.desc": "Dar las gracias a Naminé.",
   "patchouli.kingdomkeys.journal.hello": "Bienvenido, portador de la Llave Espada, al mod de $(thing)Kingdom Keys$().$(p)En este libro, encontrarás toda la información que necesitas para comenzar, así como consejos útiles.",
