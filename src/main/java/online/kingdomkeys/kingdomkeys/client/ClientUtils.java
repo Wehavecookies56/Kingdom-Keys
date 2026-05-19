@@ -1002,35 +1002,27 @@ public class ClientUtils {
 
         VertexConsumer buffer = bufferSource.getBuffer(RenderType.debugQuads());
         Matrix4f pose = poseStack.last().pose();
+        Vec3 camPos = Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();
 
-        //Vec3 camPos = Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();
+        double maxDistanceSqr = 80 * 80;
 
         for (MiniTrail t : MINI_TRAILS) {
             Vec3 p1 = t.getPos(partialTick);
-            Vec3 dir = t.target.subtract(t.start).normalize();
+            if (p1.distanceToSqr(camPos) > maxDistanceSqr)
+                continue;
 
             float length = 0.5f;
 
-            Vec3 p2 = p1.add(dir.scale(length));
+            Vec3 p2 = p1.add(t.dir.scale(length));
 
-            //Vec3 mid = p1.add(p2).scale(0.5);
-            //Vec3 toCam = camPos.subtract(mid).normalize();
-            //Vec3 side = dir.cross(toCam).normalize();
-
-            Vec3 arbitrary = Math.abs(dir.y) < 0.99 ? new Vec3(0,1,0) : new Vec3(1,0,0);
-            Vec3 side = dir.cross(arbitrary).normalize();
-
-
-            if (side.lengthSqr() < 0.0001)
-                side = new Vec3(0,1,0);
-
-            Vec3 up = side.cross(dir).normalize();
+            if (t.side.lengthSqr() < 0.0001)
+                t.side = new Vec3(0,1,0);
 
             float alpha = 0.2F;
             float width = 0.015f;
 
-            Vec3 off1 = side.scale(width);
-            Vec3 off2 = up.scale(width);
+            Vec3 off1 = t.side.scale(width);
+            Vec3 off2 = t.up.scale(width);
 
             //We draw 2 quads to make a cross
             drawQuad(buffer, pose, p1, p2, off1, t.r, t.g, t.b, alpha);
@@ -1068,14 +1060,27 @@ public class ClientUtils {
      * Update the magnet blox mini trails
      */
     public static void updateMiniTrails() {
-        Iterator<MiniTrail> it = MINI_TRAILS.iterator();
+        Minecraft mc = Minecraft.getInstance();
 
+        if (mc.player == null)
+            return;
+
+        Vec3 camPos = mc.gameRenderer.getMainCamera().getPosition();
+        double maxDistanceSqr = 80 * 80;
+
+        Iterator<MiniTrail> it = MINI_TRAILS.iterator();
         while (it.hasNext()) {
             MiniTrail t = it.next();
+            Vec3 pos = t.getPos(0);
 
-            float delta = Minecraft.getInstance().getTimer().getGameTimeDeltaTicks();
+            if (pos.distanceToSqr(camPos) > maxDistanceSqr) {
+                it.remove();
+                continue;
+            }
 
+            float delta = mc.getTimer().getGameTimeDeltaTicks();
             t.progress += t.speed * delta;
+
             if (t.progress >= 1f) {
                 it.remove();
             }
@@ -1094,12 +1099,24 @@ public class ClientUtils {
         float r, g, b;
         boolean attract;
 
+        Vec3 dir;
+
+        Vec3 arbitrary;
+        Vec3 side;
+        Vec3 up;
+
+
         public MiniTrail(Vec3 start, Vec3 target, float speed, boolean attract) {
             this.start = start;
             this.target = target;
             this.progress = 0f;
             this.speed = speed;
             this.attract = attract;
+            this.dir = target.subtract(start).normalize();
+            this.arbitrary = Math.abs(dir.y) < 0.99 ? new Vec3(0,1,0) : new Vec3(1,0,0);
+            this.side = dir.cross(arbitrary).normalize();
+            this.up = side.cross(dir).normalize();
+
             this.r = attract ? 1 : 0;
             this.g = 0;
             this.b = attract ? 0 : 1;
