@@ -89,8 +89,12 @@ public abstract class Magic {
      */
     public final void onUse(LivingEntity player, Player caster, int level, LivingEntity lockOnEntity) {
     	PlayerData casterData = PlayerData.get(caster);
-    	float fullMPBlastMult = casterData.isAbilityEquipped(Strings.fullMPBlast) && casterData.getMP() >= casterData.getMaxMP() ? 1.5F: 1F;
-    	
+	    float fullMPBlastMult = 1F;
+
+	    if (casterData.isAbilityEquipped(Strings.fullMPBlast) && casterData.getMP() >= casterData.getMaxMP()) {
+		    int stacks = casterData.getNumberOfAbilitiesEquipped(Strings.fullMPBlast);
+		    fullMPBlastMult = (float) (2F - Math.pow(0.5F, stacks));
+	    }
     	//if(hasRC()) {// If the magic has a Grand Magic and the timer is not 1 (GM is not disabled in the config)
 		//int maxLevel = casterData.getMagicLevel(name);
     	if(level > maxLevel){ // Grand Magic, set GM variable to 0 and not consume MP
