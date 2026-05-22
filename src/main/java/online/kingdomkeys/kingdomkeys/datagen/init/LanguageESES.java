@@ -147,10 +147,11 @@ public class LanguageESES extends KKLanguageProvider {
         addAdvancement("levelup100", "\u00a1En la cima!", "Alcanza el nivel 100");
         addAdvancement("obtain_drive", "\u00bfUna fusi\u00f3n?", "Obt\u00e9n tu primera forma de fusi\u00f3n");
         addAdvancement("obtain_keychain", "Estos moguris saben como trabajar", "Obt\u00e9n tu primer llavero");
-        addAdvancement("obtain_kiblade", "\u00a1Una llave para gobernarlos a todos!", "Obt\u00e9n la legendaria Llave Espada   ");
+        addAdvancement("obtain_kiblade", "\u00a1Una llave para gobernarlos a todos!", "Obt\u00e9n la legendaria Llave Espada \u03c7");
         addAdvancement("obtain_magic", "\u00a1Como un hechicero!", "Obt\u00e9n tu primera magia");
         addAdvancement("obtain_org", "Nadie visti\u00f3 esto", "Obt\u00e9n la ropa de la Organizaci\u00f3n");
         addAdvancement("to_rod", "La oscuridad te consumir\u00e1", "S\u00e9 absorbido al Reino de la Oscuridad");
+        addAdvancement("obtain_winner_stick","Supongo que mis vacaciones de verano...", "Obtén un palito de ganador");
         //addAdvancement("castle_oblivion_tp","How did I get here?", "Reach the forgotten land of Castle Oblivion");
 
         //Keybinds
@@ -958,7 +959,7 @@ public class LanguageESES extends KKLanguageProvider {
         addItem(ModItems.recipeSS, "Receta de clase SS");
         addItem(ModItems.recipeSSS, "Receta de clase SSS");
         addItem(ModItems.iceCream, "Helado de Sal Marina");
-        addItem(ModItems.winnerStick, "Palito de Ganador");
+        addItem(ModItems.winnerStick, "Palito de ganador");
         addItem(ModItems.synthesisBag, "Bolsa de S\u00edntesis");
         addItem(ModItems.proofOfHeart, "Prueba de Coraz\u00f3n");
         addItem(ModItems.wayfinder, "Siemprejuntos");

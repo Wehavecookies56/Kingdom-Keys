@@ -20,7 +20,7 @@ public class CommonConfig {
 
     public ModConfigSpec.IntValue rodHeartlessLevelScale, rodHeartlessMaxLevel, driveHeal, recipeDropChance, gummiBlocksDropPercent, hpDropProbability, mpDropProbability, munnyDropProbability, driveDropProbability, focusDropProbability, mobLevelStats;
     public ModConfigSpec.BooleanValue respawnROD, mobLevelingUp, mobLevelName, bombExplodeWithFire, allowBlocksInHangarArea, keybladeOpenDoors, blizzardChangeBlocks, playerSpawnHeartless, bossDespawnIfNoTarget, needKeybladeForHeartless, hideOrgNames;
-    public ModConfigSpec.DoubleValue drivePointsMultiplier, focusPointsMultiplier, shotlockMult, critMult;
+    public ModConfigSpec.DoubleValue drivePointsMultiplier, focusPointsMultiplier, shotlockMult, critMult, fuelConsumeFactor;
 
     public ModConfigSpec.ConfigValue<List<? extends String>> playerSpawnHeartlessData;
     public ModConfigSpec.ConfigValue<String> savePointMaterials, linkedSavePointRecovers, savePointRecovers, warpPointRecovers;
@@ -77,9 +77,16 @@ public class CommonConfig {
                 .comment("Percentage of blocks dropped when the Gummi Ship gets destroyed")
                 .translation(KingdomKeys.MODID + ".config.gummi_blocks_drop_percent")
                 .defineInRange("gummiBlocksDropPercent",80,0,100);
+
+        fuelConsumeFactor = builder
+                .comment("Factor of fuel consumption, the higher the more it consumes")
+                .translation(KingdomKeys.MODID + ".config.fuel_consume_Factor")
+                .defineInRange("fuelConsumeFactor",0.1F,0,100);
+
         builder.pop();
 
         builder.push("savepoint");
+
         savePointMaterials = builder
                 .comment("Materials used to upgrade save points (Default values: HP=kingdomkeys:orichalcum,MP=kingdomkeys:illusory_crystal,HUNGER=kingdomkeys:hungry_crystal,FOCUS=kingdomkeys:remembrance_crystal,DRIVE=kingdomkeys:evanescent_crystal,TIER=kingdomkeys:orichalcumplus)")
                 .translation(KingdomKeys.MODID + ".config.save_point_materials")

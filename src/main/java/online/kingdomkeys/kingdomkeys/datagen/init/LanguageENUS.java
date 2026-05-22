@@ -155,6 +155,7 @@ public class LanguageENUS extends KKLanguageProvider {
     	addAdvancement("obtain_magic","Like a Wizard!", "Obtain your first Magic Spell");
     	addAdvancement("obtain_org","Nobody wore this", "Obtain the organization robes");
     	addAdvancement("to_rod","Darkness within darkness awaits you", "Get sucked into the Realm of Darkness");
+        addAdvancement("obtain_winner_stick","Looks like my summer vacation is...", "Get a winner stick");
     	//addAdvancement("castle_oblivion_tp","How did I get here?", "Reach the forgotten land of Castle Oblivion");
 
         /**GUIS**/

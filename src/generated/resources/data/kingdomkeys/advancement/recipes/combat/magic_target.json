@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "kingdomkeys:magic_target"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "magic_target": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:target"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "magic_target"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "kingdomkeys:magic_target"
+    ]
+  }
+}

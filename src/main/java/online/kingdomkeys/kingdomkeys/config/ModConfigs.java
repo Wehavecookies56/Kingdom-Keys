@@ -321,7 +321,7 @@ public class ModConfigs {
 
     public static int driveHeal, hpDropProbability, mpDropProbability, munnyDropProbability, driveDropProbability, focusDropProbability, gummiBlocksDropPercent, recipeDropChance;
 
-    public static double shotlockMult, critMult, drivePointsMultiplier, focusPointsMultiplier;
+    public static double shotlockMult, critMult, drivePointsMultiplier, focusPointsMultiplier, fuelConsumeFactor;
 
     public static int mobLevelStats,rodHeartlessLevelScale, rodHeartlessMaxLevel;
     public static List<String> playerSpawnHeartlessData;
@@ -374,6 +374,8 @@ public class ModConfigs {
         gummiBlocksDropPercent = COMMON.gummiBlocksDropPercent.get();
 
         hideOrgNames = COMMON.hideOrgNames.get();
+
+        fuelConsumeFactor = COMMON.fuelConsumeFactor.get();
     }
 
     @SubscribeEvent

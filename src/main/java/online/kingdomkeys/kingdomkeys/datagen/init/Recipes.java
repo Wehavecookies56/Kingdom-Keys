@@ -40,6 +40,12 @@ public class Recipes extends RecipeProvider {
 
 	@Override
 	protected void buildRecipes(RecipeOutput consumer, HolderLookup.Provider holderLookup) {
+		ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModBlocks.magicTarget.get())
+				.requires(Blocks.TARGET)
+				.requires(Blocks.REDSTONE_BLOCK)
+				.unlockedBy("magic_target", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.TARGET))
+				.save(consumer);
+
 		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.terra_Shoulder.get())
 				.define('B', ItemTags.BUTTONS)
 				.define('I', Items.IRON_INGOT)

@@ -475,7 +475,7 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 		}
 
         if(!level().isClientSide && this.shipStats != null) {
-            int fuelConsumption = (int)(shipStats.speed * 0.2F);
+            int fuelConsumption = (int)(shipStats.speed * ModConfigs.fuelConsumeFactor);
 
             if(getYRot() != prevRot){ //If rotates remove half of what moving takes
                 remFuel((int) Math.max(fuelConsumption * 0.3F,1));
