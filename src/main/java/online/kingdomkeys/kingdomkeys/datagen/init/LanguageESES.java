@@ -90,10 +90,6 @@ public class LanguageESES extends KKLanguageProvider {
         addConfigKey(ModConfigs.getCommonConfig().focusPointsMultiplier, "Multiplicador de puntos de Tino");
         addConfigKey(ModConfigs.getCommonConfig().critMult, "Multiplicador de golpe crítico");
         addConfigKey(ModConfigs.getCommonConfig().needKeybladeForHeartless, "Llave espada necessaria para dañar Sincorazón");
-        addConfigKey(ModConfigs.getCommonConfig().savePointMaterials, "Materiales de mejora del Punto de Guardado");
-        addConfigKey(ModConfigs.getCommonConfig().savePointRecovers, "Estadísticas recuperadas en Punto de Guardado");
-        addConfigKey(ModConfigs.getCommonConfig().linkedSavePointRecovers, "Estadísticas recuperadas en Punto de Guardado Enlazado");
-        addConfigKey(ModConfigs.getCommonConfig().warpPointRecovers, "Estadísticas recuperadas en Punto de Guardado Enlazado Interdimensional");
         addConfigKey(ModConfigs.getCommonConfig().allowBlocksInHangarArea, "Permitir bloques en la zona del hangar");
         addConfigKey(ModConfigs.getCommonConfig().gummiBlocksDropPercent, "Bloques Gummi soltados");
         addConfigKey(ModConfigs.getCommonConfig().heartlessSpawningMode, "Modo de aparición de Sincorazón");
@@ -717,7 +713,9 @@ public class LanguageESES extends KKLanguageProvider {
         add("savepoint.max_upgrade", "\u00faltimo nivel alcanzado");
         add("savepoint.maxed", "Velocidad de %s est\u00e1 al m\u00e1ximo");
         add("savepoint.upgrade", "La velocidad de %s est\u00e1 al %s%%");
-        add("savepoint.upgrade_type", "Punto de guardado mejorado a {0}");
+        add("savepoint.upgrade_type", "Punto de guardado mejorado a %s");
+        add("savepoint.unavailable","%s no está disponible en este punto de guardado");
+
 
         //Castle Oblivion
         addBlock(ModBlocks.cardDoor, "Puerta de Carta");

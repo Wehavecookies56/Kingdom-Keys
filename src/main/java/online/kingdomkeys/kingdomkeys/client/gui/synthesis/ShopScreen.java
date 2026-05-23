@@ -103,12 +103,15 @@ public class ShopScreen extends MenuFilterable {
 		renderables.clear();
 		filterBar.buttons.forEach(this::addWidget);
 		
-		ShopList shopList = getShopList();
-
+		if(ModConfigs.SERVER.requireSynthTierShop.get()) {
+			getShopList().getList().removeIf(shopItem ->
+					shopItem.getTier() > playerData.getSynthLevel()
+			);
+		}
 		List<ResourceLocation> items = new ArrayList<>();
-		for (int i = 0; i < shopList.getList().size(); i++) {
+		for (int i = 0; i < getShopList().getList().size(); i++) {
 			ResourceLocation itemName = null;
-			ShopItem shopItem = shopList.getList().get(i);
+			ShopItem shopItem = getShopList().getList().get(i);
 			if(shopItem != null) {
 				ResourceLocation recipeRL = Utils.getItemRegistryName(shopItem.getResult());
 				ItemStack stack = new ItemStack(shopItem.getResult());
@@ -123,6 +126,8 @@ public class ShopScreen extends MenuFilterable {
 				KingdomKeys.LOGGER.error(itemName +" is not a valid recipe, check it");
 			}
 		}
+
+
 		items.sort(Comparator.comparing(Utils::getCategoryForShop).thenComparing(stackRL -> new ItemStack(BuiltInRegistries.ITEM.get(stackRL)).getHoverName().getContents().toString()));
 
 		for (int i = 0; i < items.size(); i++) {
@@ -182,7 +187,7 @@ public class ShopScreen extends MenuFilterable {
 			}			
 			if(item != null) {
 				enoughMunny = parent.playerData.getMunny() >= item.getCost();
-				enoughTier = !ModConfigs.SERVER.requireSynthTier.get() || parent.playerData.getSynthLevel() >= item.getTier();
+				enoughTier = !ModConfigs.SERVER.requireSynthTierShop.get() || parent.playerData.getSynthLevel() >= item.getTier();
 				create.visible = true;			
 
 				create.active = enoughMunny && enoughTier;
@@ -223,8 +228,8 @@ public class ShopScreen extends MenuFilterable {
 
 		matrixStack.pushPose();
 		{
-			double offset = (boxM.getWidth()*0.1F);
-			matrixStack.translate(boxM.getX() + offset/2, iconPosY, 1);
+			double offset = boxM.getWidth() * 0.1F;
+			matrixStack.translate(boxM.getX() + offset / 2, iconPosY, 1);
 			
 			List<ShopItem> list = ShopListRegistry.getInstance().getRegistry().get(ResourceLocation.parse(parent.invFile)).getList();
 			ShopItem item = null;
@@ -234,23 +239,23 @@ public class ShopScreen extends MenuFilterable {
 				if(it instanceof KeychainItem) {
 					it = ((KeychainItem)it).getKeyblade();
 				}
-				
-				if(ItemStack.isSameItem(new ItemStack(it,shopItem.getAmount()), selectedItemStack)) {
+
+				if(ItemStack.isSameItem(new ItemStack(it, shopItem.getAmount()), selectedItemStack)) {
 					item = shopItem;
 					break;
 				}
-				
+
 			}
 			if(item != null) {
-				gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Shop_Buy_Cost)+" ", 2, -20, Color.yellow.getRGB());
+				gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Shop_Buy_Cost)+": ", 2, -20, Color.yellow.getRGB());
 				String line = Utils.getFormattedNumber(item.getCost())+" "+Utils.translateToLocal(Strings.Gui_Menu_Main_Munny);
 				gui.drawString(minecraft.font, line, boxM.getWidth() - minecraft.font.width(line) - 10, -20, item.getCost() > playerData.getMunny() ? Color.RED.getRGB() : Color.GREEN.getRGB());
 
-				if(ModConfigs.SERVER.requireSynthTier.get()) {
+				/*if(ModConfigs.SERVER.requireSynthTierShop.get()) {
 					gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Shop_Tier) + " ", 2, -10, Color.yellow.getRGB());
 					line = Utils.getTierFromInt(item.getTier()) + " - " + (10 + item.getTier() * 2) + " " + Utils.translateToLocal(Strings.Gui_Synthesis_Exp);
 					gui.drawString(minecraft.font, line, boxM.getWidth() - minecraft.font.width(line) - 10, -10, item.getTier() > playerData.getSynthLevel() ? Color.RED.getRGB() : Color.GREEN.getRGB());
-				}
+				}*/
 				
 				matrixStack.pushPose();
 				{

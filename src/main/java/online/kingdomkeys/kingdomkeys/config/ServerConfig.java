@@ -14,7 +14,7 @@ public class ServerConfig {
     public ModConfigSpec.ConfigValue<List<? extends Integer>> statsMultiplier;
 
     public ModConfigSpec.DoubleValue xpMultiplier, heartMultiplier, partyXPShare;
-    public ModConfigSpec.BooleanValue requireSynthTier, projectorHasShop, savepointGlobal, getExpFromShop, orgEnabled, allowBoosts, allowPartyKO, wayfinderParty, hostileMobsLevel, dragonLevel, gummiShipFuelSystem, softLockOnMode;
+    public ModConfigSpec.BooleanValue requireSynthTier, requireSynthTierShop, projectorHasShop, savepointGlobal, getExpFromShop, orgEnabled, allowBoosts, allowPartyKO, wayfinderParty, hostileMobsLevel, dragonLevel, gummiShipFuelSystem, softLockOnMode;
 
     ServerConfig(final ModConfigSpec.Builder builder) {
         builder.push("general");
@@ -40,9 +40,14 @@ public class ServerConfig {
                 .defineInRange("partyMembersLimit", 5, 1, 20);
                
         requireSynthTier = builder
-                .comment("If true players will only be able to synthesis items from their tier or lower, if false they can synthesise all regardless of their tier")
+                .comment("If true players will only be able to synthesise items from their tier or lower, if false they can synthesise all of them regardless of their tier")
                 .translation(KingdomKeys.MODID + ".config.require_synth_tier")
                 .define("requireSynthTier", false);
+
+        requireSynthTierShop = builder
+                .comment("If true players will only be able to buy items from their tier or lower, if false they can buy all of them regardless of their tier")
+                .translation(KingdomKeys.MODID + ".config.require_synth_tier_shop")
+                .define("requireSynthTierShop", true);
         
         projectorHasShop = builder
                 .comment("If true moogle projectors will have the default shop available, if false only the moogles will")

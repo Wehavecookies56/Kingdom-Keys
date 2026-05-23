@@ -32,16 +32,17 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
-import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.block.SavepointTileEntity;
 import online.kingdomkeys.kingdomkeys.item.ModComponents;
-import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCDeleteSavePointScreenshot;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
 import online.kingdomkeys.kingdomkeys.network.stc.SCUpdateSavePoints;
+import online.kingdomkeys.kingdomkeys.savepoint.ModSavePoints;
+import online.kingdomkeys.kingdomkeys.savepoint.SavePoint;
+import online.kingdomkeys.kingdomkeys.savepoint.SavePointData;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.world.SavePointStorage;
 
@@ -155,144 +156,277 @@ public class SavePointBlock extends BaseBlock implements EntityBlock, INoDataGen
 
 	@Override
 	public void setPlacedBy(Level worldIn, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
-		if (!worldIn.isClientSide){
-			if(worldIn.getBlockEntity(pos) != null) {
-				if (stack.get(ModComponents.SAVE_POINT_TIER) != null) {
-					worldIn.setBlockAndUpdate(pos, state.setValue(TIER, Enum.valueOf(SavePointStorage.SavePointType.class,stack.get(ModComponents.SAVE_POINT_TIER))));
-					if(worldIn.getBlockEntity(pos) instanceof SavepointTileEntity savepoint){
-						savepoint.setHeal(stack.get(ModComponents.SAVE_POINT_HEAL));
-						savepoint.setMagic(stack.get(ModComponents.SAVE_POINT_MAGIC));
-						savepoint.setHunger(stack.get(ModComponents.SAVE_POINT_HUNGER));
-						savepoint.setDrive(stack.get(ModComponents.SAVE_POINT_DRIVE));
-						savepoint.setFocus(stack.get(ModComponents.SAVE_POINT_FOCUS));
-					}
-				}
-			}
-		}
+		if (worldIn.isClientSide)
+			return;
+
+		BlockEntity be = worldIn.getBlockEntity(pos);
+		if (!(be instanceof SavepointTileEntity savepoint))
+			return;
+
+		String tier = stack.get(ModComponents.SAVE_POINT_TIER);
+		if (tier == null)
+			return;
+
+		worldIn.setBlockAndUpdate(pos, state.setValue(TIER, SavePointStorage.SavePointType.valueOf(tier)));
+
+		savepoint.setHeal(stack.get(ModComponents.SAVE_POINT_HEAL));
+		savepoint.setMagic(stack.get(ModComponents.SAVE_POINT_MAGIC));
+		savepoint.setHunger(stack.get(ModComponents.SAVE_POINT_HUNGER));
+		savepoint.setDrive(stack.get(ModComponents.SAVE_POINT_DRIVE));
+		savepoint.setFocus(stack.get(ModComponents.SAVE_POINT_FOCUS));
 	}
 
 	@Override
-	public ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit) {
-		if (!stack.isEmpty() && worldIn.getBlockEntity(pos) instanceof SavepointTileEntity savepoint) {
-			if (worldIn.isClientSide)
+	public ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+		if (world.isClientSide)
+			return ItemInteractionResult.SUCCESS;
+
+		if (stack.isEmpty())
+			return ItemInteractionResult.CONSUME;
+
+		if (!(world.getBlockEntity(pos) instanceof SavepointTileEntity savepoint))
+			return ItemInteractionResult.CONSUME;
+
+		SavePointData data = getSavePointData(state);
+
+		if (data == null) {
+			player.displayClientMessage(Component.literal("Savepoint data not loaded"), true);
+			return ItemInteractionResult.FAIL;
+		}
+
+		// Upgrade stats
+		for (SavePointData.SavePointStat stat : SavePointData.SavePointStat.values()) {
+			Item upgradeItem = getItemToUpgrade(data, stat);
+			if (upgradeItem != null && stack.getItem() == upgradeItem) {
+				if (stat == SavePointData.SavePointStat.TIER) {
+					upgradeTier(world, pos, state, stack, player);
+				} else {
+					upgradeStat(player, stack, savepoint, data, stat);
+				}
+
 				return ItemInteractionResult.SUCCESS;
-
-			String list = switch(state.getValue(TIER)){
-                case NORMAL -> ModConfigs.savePointRecovers;
-                case LINKED -> ModConfigs.linkedSavePointRecovers;
-                case WARP -> ModConfigs.warpPointRecovers;
-            };
-
-			if(stack.getItem() == getItemToUpgrade("HP")){
-				if(savepoint.getHeal() > 1 && list.contains("HP")){
-					stack.shrink(1);
-					savepoint.setHeal(Math.max(savepoint.getHeal() - 4, 1));
-					player.displayClientMessage(Component.translatable("savepoint.upgrade", Utils.translateToLocal("savepoint.healing"),Utils.getSavepointPercent(savepoint.getHeal())), true);
-				} else {
-					player.displayClientMessage(Component.translatable("savepoint.maxed", Utils.translateToLocal("savepoint.healing")), true);
-				}
-			} else if(stack.getItem() == getItemToUpgrade("MP")){
-				if(savepoint.getMagic() > 1 && list.contains("MP")){
-					stack.shrink(1);
-					savepoint.setMagic(Math.max(savepoint.getMagic() - 4, 1));
-					player.displayClientMessage(Component.translatable("savepoint.upgrade", Utils.translateToLocal("savepoint.magic"),Utils.getSavepointPercent(savepoint.getMagic())), true);
-				} else {
-					player.displayClientMessage(Component.translatable("savepoint.maxed", Utils.translateToLocal("savepoint.magic")), true);
-				}
-			} else if(stack.getItem() == getItemToUpgrade("HUNGER")){
-				if(savepoint.getHunger() > 1 && list.contains("HUNGER")){
-					stack.shrink(1);
-					savepoint.setHunger(Math.max(savepoint.getHunger() - 4, 1));
-					player.displayClientMessage(Component.translatable("savepoint.upgrade", Utils.translateToLocal("savepoint.feed"),Utils.getSavepointPercent(savepoint.getHunger())), true);
-				} else {
-					player.displayClientMessage(Component.translatable("savepoint.maxed", Utils.translateToLocal("savepoint.feed")), true);
-				}
-			} else if(stack.getItem() == getItemToUpgrade("FOCUS")){
-				if(savepoint.getFocus() > 1 && list.contains("FOCUS")){
-					stack.shrink(1);
-					savepoint.setFocus(Math.max(savepoint.getFocus() - 4, 1));
-					player.displayClientMessage(Component.translatable("savepoint.upgrade", Utils.translateToLocal("savepoint.focus"),Utils.getSavepointPercent(savepoint.getFocus())), true);
-				} else {
-					player.displayClientMessage(Component.translatable("savepoint.maxed", Utils.translateToLocal("savepoint.focus")), true);
-				}
-			} else if(stack.getItem() == getItemToUpgrade("DRIVE")){
-				if(savepoint.getDrive() > 1 && list.contains("DRIVE")){
-					stack.shrink(1);
-					savepoint.setDrive(Math.max(savepoint.getDrive() - 4, 1));
-					player.displayClientMessage(Component.translatable("savepoint.upgrade", Utils.translateToLocal("savepoint.drive"),Utils.getSavepointPercent(savepoint.getDrive())), true);
-				} else {
-					player.displayClientMessage(Component.translatable("savepoint.maxed", Utils.translateToLocal("savepoint.drive")), true);
-				}
-			} else if(stack.getItem() == ModItems.orichalcumplus.get()){
-				if(state.getValue(TIER) != SavePointStorage.SavePointType.WARP){
-					stack.shrink(1);
-					BlockState newState = state.setValue(TIER, state.getValue(TIER) == SavePointStorage.SavePointType.NORMAL ? SavePointStorage.SavePointType.LINKED : SavePointStorage.SavePointType.WARP);
-					worldIn.setBlockAndUpdate(pos, newState);
-					player.displayClientMessage(Component.translatable("savepoint.upgrade_type", newState.getValue(TIER).getSerializedName()), true);
-				} else {
-					player.displayClientMessage(Component.translatable("savepoint.max_upgrade"), true);
-				}
-			} else {
-				player.displayClientMessage(Component.translatable("This item cannot be used to upgrade anything"), true);
 			}
 		}
+
+		player.displayClientMessage(Component.translatable("This item cannot be used to upgrade anything"), true);
 		return ItemInteractionResult.CONSUME;
 	}
 
-	public static Item getItemToUpgrade(String type){
-		String[] configLine = ModConfigs.savePointMaterials.split(",");
+	/**
+	 * Gets the savepoint data associated with the current block tier
+	 */
+	@Nullable
+	private SavePointData getSavePointData(BlockState state) {
+		SavePoint savePoint = getSavePoint(state.getValue(TIER));
+		if (savePoint == null)
+			return null;
+		return savePoint.getData();
+	}
 
-		for(String line : configLine){
-			if(line.contains(type)){
-				return BuiltInRegistries.ITEM.get(ResourceLocation.parse(line.split("=")[1]));
-			}
+	/**
+	 * Gets the item used to upgrade a specific savepoint stat
+	 */
+	@Nullable
+	public static Item getItemToUpgrade(SavePointData data, SavePointData.SavePointStat stat) {
+		if (data == null)
+			return null;
+
+		ResourceLocation rl = data.getMaterials().get(stat);
+
+		if (rl == null)
+			return null;
+
+		return BuiltInRegistries.ITEM.get(rl);
+	}
+
+	/**
+	 * Upgrades the specified savepoint stat if it is available for the current tier
+	 */
+	private void upgradeStat(Player player, ItemStack stack, SavepointTileEntity savepoint, SavePointData data, SavePointData.SavePointStat stat) {
+		if (!data.restores(stat)) {
+			String translated = Utils.translateToLocal(getTranslationKey(stat));
+			String capitalized = Character.toUpperCase(translated.charAt(0)) + translated.substring(1);
+			player.displayClientMessage(Component.translatable("savepoint.unavailable", capitalized), true);
+			return;
 		}
 
-		throw new IllegalStateException("Save point material does not exist: " + type);
+		int current = getSavepointValue(savepoint, stat);
+		if (current <= 1) {
+			player.displayClientMessage(Component.translatable("savepoint.maxed", Utils.translateToLocal(getTranslationKey(stat))), true);
+			return;
+		}
+
+		stack.shrink(1);
+		int newValue = Math.max(current - 4, 1);
+
+		setSavepointValue(savepoint, stat, newValue);
+		player.displayClientMessage(Component.translatable("savepoint.upgrade", Utils.translateToLocal(getTranslationKey(stat)), Utils.getSavepointPercent(newValue)), true);
 	}
+
+	/**
+	 * Returns the translation key associated with a savepoint stat
+	 */
+	private String getTranslationKey(SavePointData.SavePointStat stat) {
+		return switch (stat) {
+			case HP -> "savepoint.healing";
+			case MP -> "savepoint.magic";
+			case HUNGER -> "savepoint.feed";
+			case FOCUS -> "savepoint.focus";
+			case DRIVE -> "savepoint.drive";
+			case TIER -> "";
+		};
+	}
+
+	private int getSavepointValue(SavepointTileEntity savepoint, SavePointData.SavePointStat stat) {
+		return switch (stat) {
+			case HP -> savepoint.getHeal();
+			case MP -> savepoint.getMagic();
+			case HUNGER -> savepoint.getHunger();
+			case FOCUS -> savepoint.getFocus();
+			case DRIVE -> savepoint.getDrive();
+			case TIER -> 0;
+		};
+	}
+	private void setSavepointValue(SavepointTileEntity savepoint, SavePointData.SavePointStat stat, int value) {
+		switch (stat) {
+			case HP -> savepoint.setHeal(value);
+			case MP -> savepoint.setMagic(value);
+			case HUNGER -> savepoint.setHunger(value);
+			case FOCUS -> savepoint.setFocus(value);
+			case DRIVE -> savepoint.setDrive(value);
+		}
+	}
+
+	/**
+	 * Upgrades the savepoint tier to the next available level.
+	 */
+	private void upgradeTier(Level world, BlockPos pos, BlockState state, ItemStack stack, Player player) {
+		if (state.getValue(TIER) == SavePointStorage.SavePointType.WARP) {
+			player.displayClientMessage(Component.translatable("savepoint.max_upgrade"), true);
+			return;
+		}
+
+		stack.shrink(1);
+		SavePointStorage.SavePointType nextTier = state.getValue(TIER) == SavePointStorage.SavePointType.NORMAL ? SavePointStorage.SavePointType.LINKED : SavePointStorage.SavePointType.WARP;
+		BlockState newState = state.setValue(TIER, nextTier);
+
+		world.setBlockAndUpdate(pos, newState);
+		player.displayClientMessage(Component.translatable("savepoint.upgrade_type", nextTier.getSerializedName()), true);
+	}
+
 	@SuppressWarnings("deprecation")
 	@Override
 	public void entityInside(BlockState state, Level world, BlockPos pos, Entity entity) {
-		if (entity instanceof Player player && !world.isClientSide()) {
-            PlayerData playerData = PlayerData.get(player);
-			if (playerData != null && world.getBlockEntity(pos) instanceof SavepointTileEntity savepoint) {
-				String list = switch(state.getValue(TIER)){
-					case NORMAL -> ModConfigs.savePointRecovers;
-					case LINKED -> ModConfigs.linkedSavePointRecovers;
-					case WARP -> ModConfigs.warpPointRecovers;
-				};
+		if (world.isClientSide)
+			return;
 
-				if(savepoint.getHeal() == 0 || savepoint.getHunger() == 0 || savepoint.getFocus() == 0 || savepoint.getMagic() == 0 || savepoint.getDrive() == 0) {
-					player.displayClientMessage(Component.translatable("ERROR, this is probably an old savepoint, break and place it again to correct it"), true);
-				} else {
-					if (list.contains("HP") && entity.tickCount % savepoint.getHeal() == 0 && player.getHealth() < player.getMaxHealth()) {
-						player.heal(1);
-						showParticles(player, world, pos);
-					}
-					if (list.contains("HUNGER") && entity.tickCount % savepoint.getHunger() == 0 && player.getFoodData().getFoodLevel() < 20) {
-						player.getFoodData().eat(1, 1);
-						showParticles(player, world, pos);
-					}
-					if (list.contains("MP") && entity.tickCount % savepoint.getMagic() == 0 && playerData.getMP() < playerData.getMaxMP()) {
-						playerData.addMP(1);
-						PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
-						showParticles(player, world, pos);
-					}
-					if (list.contains("FOCUS") && entity.tickCount % savepoint.getFocus() == 0 && playerData.getFocus() < playerData.getMaxFocus()) {
-						playerData.addFocus(1);
-						PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
-						showParticles(player, world, pos);
-					}
-					if (list.contains("DRIVE") && entity.tickCount % savepoint.getDrive() == 0 && playerData.getDP() < playerData.getMaxDP()) {
-						playerData.addDP(5);
-						PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
-						showParticles(player, world, pos);
-					}
+		if (!(entity instanceof Player player))
+			return;
 
-				}
+		if (!(world.getBlockEntity(pos) instanceof SavepointTileEntity savepoint))
+			return;
+
+		SavePoint savePoint = getSavePoint(state.getValue(TIER));
+
+		if (savePoint == null || savePoint.getData() == null) {
+			player.displayClientMessage(Component.literal("Savepoint data not loaded"), true);
+			return;
+		}
+
+		SavePointData data = savePoint.getData();
+		if (hasInvalidValues(savepoint)) {
+			player.displayClientMessage(Component.translatable("ERROR, this is probably an old savepoint, break and place it again to correct it"), true);
+			return;
+		}
+
+		handleRestore(player, savepoint, data, world, pos, entity.tickCount);
+		super.entityInside(state, world, pos, entity);
+	}
+
+	/**
+	 * Checks if the savepoint contains invalid values
+	 */
+	private boolean hasInvalidValues(SavepointTileEntity savepoint) {
+		return savepoint.getHeal() == 0 || savepoint.getHunger() == 0 || savepoint.getFocus() == 0 || savepoint.getMagic() == 0 || savepoint.getDrive() == 0;
+	}
+
+	/**
+	 * Handles periodic stat restoration while the player stands on it
+	 */
+	private void handleRestore(Player player, SavepointTileEntity savepoint, SavePointData data, Level world, BlockPos pos, int tickCount) {
+		for (SavePointData.SavePointStat stat : SavePointData.SavePointStat.values()) {
+			if (!data.restores(stat))
+				continue;
+
+			int interval = getSavepointValue(savepoint, stat);
+			if (interval <= 0)
+				continue;
+
+			if (tickCount % interval != 0)
+				continue;
+
+			if (restore(player, stat))
+				showParticles(player, world, pos);
+		}
+	}
+
+	/**
+	 * Restores the specified stat for the player.
+	 */
+	private boolean restore(Player player, SavePointData.SavePointStat stat) {
+		PlayerData playerData = PlayerData.get(player);
+		if(playerData == null)
+			return false;
+
+		switch (stat) {
+			case HP -> {
+				if (player.getHealth() >= player.getMaxHealth())
+					return false;
+
+				player.heal(1);
+				return true;
+			}
+
+			case HUNGER -> {
+				if (player.getFoodData().getFoodLevel() >= 20)
+					return false;
+
+				player.getFoodData().eat(1, 1);
+				return true;
+			}
+
+			case MP -> {
+				if (playerData.getMP() >= playerData.getMaxMP())
+					return false;
+
+				playerData.addMP(1);
+				PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
+				return true;
+			}
+
+			case FOCUS -> {
+				if (playerData.getFocus() >= playerData.getMaxFocus())
+					return false;
+
+				playerData.addFocus(1);
+				PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
+				return true;
+			}
+
+			case DRIVE -> {
+				if (playerData.getDP() >= playerData.getMaxDP())
+					return false;
+
+				playerData.addDP(5);
+				PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
+				return true;
+			}
+
+			case TIER -> {
+				return false;
 			}
 		}
-		super.entityInside(state, world, pos, entity);
+		return false;
 	}
 
 	public void showParticles(Player player, Level world, BlockPos pos){
@@ -314,5 +448,13 @@ public class SavePointBlock extends BaseBlock implements EntityBlock, INoDataGen
 	@Override
 	public BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
 		return ModEntities.TYPE_SAVEPOINT.get().create(pPos, pState);
+	}
+
+	public static SavePoint getSavePoint(SavePointStorage.SavePointType type) {
+		return switch(type) {
+			case NORMAL -> ModSavePoints.NORMAL;
+			case LINKED -> ModSavePoints.LINKED;
+			case WARP -> ModSavePoints.WARP;
+		};
 	}
 }

@@ -92,10 +92,6 @@ public class LanguageENUS extends KKLanguageProvider {
         addConfigKey(ModConfigs.getCommonConfig().focusPointsMultiplier, "Focus Points Multiplier");
         addConfigKey(ModConfigs.getCommonConfig().critMult, "Critical hit multiplier");
         addConfigKey(ModConfigs.getCommonConfig().needKeybladeForHeartless, "Need Keyblade to hurt KKMobs");
-        addConfigKey(ModConfigs.getCommonConfig().savePointMaterials, "Save point upgrade materials");
-        addConfigKey(ModConfigs.getCommonConfig().savePointRecovers, "Save point stats restore");
-        addConfigKey(ModConfigs.getCommonConfig().linkedSavePointRecovers, "Linked point stats restore");
-        addConfigKey(ModConfigs.getCommonConfig().warpPointRecovers, "Warp point stats restore");
         addConfigKey(ModConfigs.getCommonConfig().allowBlocksInHangarArea, "Allow blocks in hangar area");
         addConfigKey(ModConfigs.getCommonConfig().gummiBlocksDropPercent, "Gummi blocks dropped");
         addConfigKey(ModConfigs.getCommonConfig().heartlessSpawningMode, "Heartless spawning mode");
@@ -564,8 +560,9 @@ public class LanguageENUS extends KKLanguageProvider {
         add("savepoint.drive","drive restoration");
         add("savepoint.upgrade","Savepoint %s speed is now at %s%%");
         add("savepoint.maxed","Savepoint %s speed is already maxed");
-        add("savepoint.upgrade_type","Savepoint upgraded to {0}");
+        add("savepoint.upgrade_type","Savepoint upgraded to %s");
         add("savepoint.max_upgrade","Max upgrade reached");
+        add("savepoint.unavailable","%s is not available on this savepoint");
 
         //Castle Oblivion
         addBlock(ModBlocks.cardDoor, "Card Door");

@@ -70,6 +70,7 @@ import online.kingdomkeys.kingdomkeys.magic.MagicDataLoader;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.menu.ModMenus;
 import online.kingdomkeys.kingdomkeys.reactioncommands.ModReactionCommands;
+import online.kingdomkeys.kingdomkeys.savepoint.SavePointDataLoader;
 import online.kingdomkeys.kingdomkeys.shotlock.ModShotlocks;
 import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeDataLoader;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeDataLoader;
@@ -324,6 +325,7 @@ public class KingdomKeys {
 		event.addListener(new ShopListDataLoader());
         event.addListener(new SellListDataLoader());
 		event.addListener(new LimitDataLoader());
+		event.addListener(new SavePointDataLoader());
 		ModJsonRegistries.registry.forEach(event::addListener);
 	}
 
