@@ -9,7 +9,7 @@ import java.util.EnumSet;
 import java.util.Map;
 
 /**
- * Custom deserializer for Keyblade Data json files located in data/kingdomkeys/keyblades/
+ * Custom deserializer for Keyblade Data json files located in data/kingdomkeys/savepoints/
  * Str and Mag are integers
  * Keychain can be null therefore an invalid registry name will be treated as having no keychain
  * A keyblade with no keychain does not need the levels object
@@ -36,6 +36,8 @@ public class SavePointDataDeserializer implements JsonDeserializer<SavePointData
             restores.add(SavePointData.SavePointStat.valueOf(element.getAsString()));
         }
 
-        return new SavePointData(materials, restores);
+        SavePointData data = new SavePointData(materials, restores);
+        data.setName("a");
+        return data;
     }
 }

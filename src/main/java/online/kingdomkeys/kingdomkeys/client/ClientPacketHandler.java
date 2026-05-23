@@ -55,6 +55,9 @@ import online.kingdomkeys.kingdomkeys.magic.Magic;
 import online.kingdomkeys.kingdomkeys.magic.MagicData;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.network.stc.*;
+import online.kingdomkeys.kingdomkeys.savepoint.ModSavePoints;
+import online.kingdomkeys.kingdomkeys.savepoint.SavePoint;
+import online.kingdomkeys.kingdomkeys.savepoint.SavePointData;
 import online.kingdomkeys.kingdomkeys.sound.AeroSoundInstance;
 import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeData;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
@@ -152,7 +155,6 @@ public class ClientPacketHandler {
     }
 
     public static void syncSynthesisData(SCSyncSynthesisData message) {
-        Player player = Minecraft.getInstance().player;
         RecipeRegistry.getInstance().clearRegistry();
         message.recipes().forEach(recipe -> {
             RecipeRegistry.getInstance().register(recipe);
@@ -160,7 +162,6 @@ public class ClientPacketHandler {
     }
 
     public static void syncShopData(SCSyncShopData message) {
-        Player player = Minecraft.getInstance().player;
         ShopListRegistry.getInstance().clearRegistry();
         message.list().forEach(shopItem -> {
             ShopListRegistry.getInstance().register(shopItem);
@@ -175,7 +176,6 @@ public class ClientPacketHandler {
     }
 
     public static void syncKeybladeData(SCSyncKeybladeData message) {
-        Player player = Minecraft.getInstance().player;
         for (int i = 0; i < message.names().size(); i++) {
             KeybladeItem keyblade = (KeybladeItem) BuiltInRegistries.ITEM.get(ResourceLocation.parse(message.names().get(i)));
             String d = message.data().get(i);
@@ -197,7 +197,6 @@ public class ClientPacketHandler {
     }
 
     public static void syncMagicData(SCSyncMagicData message) {
-        Player player = Minecraft.getInstance().player;
         for (int i = 0; i < message.names().size(); i++) {
             Magic magic = ModMagic.registry.get(ResourceLocation.parse(message.names().get(i)));
             String d = message.data().get(i);
@@ -235,7 +234,6 @@ public class ClientPacketHandler {
     }
 
     public static void syncLimitData(SCSyncLimitData message) {
-        Player player = Minecraft.getInstance().player;
         for (int i = 0; i < message.names().size(); i++) {
             Limit limit = ModLimits.registry.get(ResourceLocation.parse(message.names().get(i)));
             String d = message.data().get(i);
@@ -254,8 +252,27 @@ public class ClientPacketHandler {
         }
     }
 
+    public static void syncSavePointData(SCSyncSavePointData message) {
+        for (int i = 0; i < message.names().size(); i++) {
+            SavePoint savepoint = ModSavePoints.registry.get(ResourceLocation.parse(message.names().get(i)));
+            String d = message.data().get(i);
+            BufferedReader br = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(d.getBytes())));
+
+            SavePointData result;
+            try {
+                result = SCSyncSavePointData.GSON_BUILDER.fromJson(br, SavePointData.class);
+                result.setName(message.names().get(i));
+            } catch (JsonParseException e) {
+                KingdomKeys.LOGGER.error("Error parsing savepoint json file {}: {}", message.names().get(i), e);
+                continue;
+            }
+            savepoint.setData(result);
+
+            IOUtils.closeQuietly(br);
+        }
+    }
+
     public static void syncOrgData(SCSyncOrganizationData message) {
-        Player player = Minecraft.getInstance().player;
         for (int i = 0; i < message.names().size(); i++) {
             IOrgWeapon weapon = (IOrgWeapon) BuiltInRegistries.ITEM.get(ResourceLocation.parse(message.names().get(i)));
 

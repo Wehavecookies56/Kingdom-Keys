@@ -1994,6 +1994,7 @@ public class LanguageENUS extends KKLanguageProvider {
 
         /**JEI**/
         add("jei.category.kingdomkeys.synthesis", "Item Synthesis");
+        add("jei.category.kingdomkeys.savepoints", "Savepoint upgrades");
         add("jei.category.kingdomkeys.keyblade_summon", "Keyblade Summoning");
         add("jei.category.kingdomkeys.synthesis.locked", "Recipe not unlocked");
         add("jei.category.kingdomkeys.synthesis.unlocked", "Recipe unlocked");

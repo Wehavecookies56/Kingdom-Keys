@@ -16,6 +16,8 @@ import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.item.KeychainItem;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
+import online.kingdomkeys.kingdomkeys.savepoint.ModSavePoints;
+import online.kingdomkeys.kingdomkeys.savepoint.SavePointData;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
 
 import java.util.ArrayList;
@@ -33,12 +35,14 @@ public class KKJEIPlugin implements IModPlugin {
     public void registerCategories(IRecipeCategoryRegistration registration) {
         registration.addRecipeCategories(new SynthesisRecipeCategory(registration.getJeiHelpers().getGuiHelper()));
         registration.addRecipeCategories(new KeybladeSummonRecipeCategory(registration.getJeiHelpers().getGuiHelper()));
+        registration.addRecipeCategories(new SavepointUpgradeCategory(registration.getJeiHelpers().getGuiHelper()));
         //TODO make category for ore drops
     }
 
     @Override
     public void registerRecipeCatalysts(IRecipeCatalystRegistration registration) {
         //registration.addRecipeCatalyst(new ItemStack(ModBlocks.moogleProjector.get()), SynthesisRecipeCategory.TYPE);
+        registration.addRecipeCatalyst(new ItemStack(ModBlocks.savepoint.get()), SavepointUpgradeCategory.TYPE);
     }
 
     @Override
@@ -98,7 +102,13 @@ public class KKJEIPlugin implements IModPlugin {
         //Recipes
         registration.addRecipes(KeybladeSummonRecipeCategory.TYPE, keychains);
         registration.addRecipes(SynthesisRecipeCategory.TYPE, RecipeRegistry.getInstance().getValues());
+        List<SavePointData> recipes = new ArrayList<>();
 
+        recipes.add(ModSavePoints.NORMAL.getData());
+        recipes.add(ModSavePoints.LINKED.getData());
+        recipes.add(ModSavePoints.WARP.getData());
+
+        registration.addRecipes(SavepointUpgradeCategory.TYPE, recipes);
     }
 
     public static class InfoAdder {
