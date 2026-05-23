@@ -1,10 +1,12 @@
 package online.kingdomkeys.kingdomkeys.item;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -45,11 +47,11 @@ public class MagicSpellItem extends Item implements IItemCategory {
 		return InteractionResultHolder.success(player.getItemInHand(hand));
 	}
 
-	private void takeItem(Player player) {
-		if (!ItemStack.matches(player.getMainHandItem(), ItemStack.EMPTY) && player.getMainHandItem().getItem() == this) {
-			player.getMainHandItem().shrink(1);
-		} else if (!ItemStack.matches(player.getOffhandItem(), ItemStack.EMPTY) && player.getOffhandItem().getItem() == this) {
-			player.getOffhandItem().shrink(1);
+	@Override
+	public void inventoryTick(ItemStack stack, Level level, Entity entity, int slotId, boolean isSelected) {
+		super.inventoryTick(stack, level, entity, slotId, isSelected);
+		if(!stack.has(ModComponents.MAGIC_EXP)){
+			stack.set(ModComponents.MAGIC_EXP, 0);
 		}
 	}
 
@@ -58,13 +60,34 @@ public class MagicSpellItem extends Item implements IItemCategory {
 	public void appendHoverText(ItemStack stack, TooltipContext tooltipContext, List<Component> tooltip, TooltipFlag flagIn) {
 		Magic magicInstance = ModMagic.registry.get(ResourceLocation.parse(magic));
 		if(Minecraft.getInstance().player != null) {
-			tooltip.add(Component.translatable("gui.magicspell.equip", Utils.translateToLocal(magicInstance.getTranslationKey(getLevel()))));
+			int maxExp = magicInstance.getMaxExp(getLevel());
+			tooltip.add(Component.translatable("gui.magicspell.exp", getExp(stack), maxExp));
+
+			tooltip.add(Component.translatable("gui.magicspell.equip").withStyle(ChatFormatting.GRAY));
 		}
 		super.appendHoverText(stack, tooltipContext, tooltip, flagIn);
+	}
+
+	public static int getExp(ItemStack stack) {
+		return stack.getOrDefault(ModComponents.MAGIC_EXP.get(), 0);
+	}
+
+	public float getExpPercent(ItemStack stack) {
+		int exp = getExp(stack);
+		Magic magicInstance = ModMagic.registry.get(ResourceLocation.parse(magic));
+		int maxExp = magicInstance.getMaxExp(getLevel());
+		return (float) exp / maxExp;
 	}
 
 	@Override
 	public ItemCategory getCategory() {
 		return ItemCategory.MISC;
+	}
+
+	public void setExp(ItemStack stack, int amount) {
+		stack.set(ModComponents.MAGIC_EXP.get(), amount);
+	}
+	public void addExp(ItemStack stack, int amount) {
+		stack.set(ModComponents.MAGIC_EXP.get(), stack.getOrDefault(ModComponents.MAGIC_EXP.get(), 0) + amount);
 	}
 }

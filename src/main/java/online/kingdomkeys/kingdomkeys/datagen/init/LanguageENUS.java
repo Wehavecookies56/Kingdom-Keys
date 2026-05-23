@@ -426,7 +426,9 @@ public class LanguageENUS extends KKLanguageProvider {
         add("gui.statboost.increased","Increased %s, now it's %s");
         add("gui.statboost.tooltip", "Increases %s by 1");
         		
-        add("gui.magicspell.equip","Equip it in the menu in order to use %s");
+        add("gui.magicspell.equip","Equip in the menu in order to use it");
+        add("gui.magicspell.exp","Experience: %s/%s");
+        add("gui.magicspell.exp_short","Exp: %s/%s");
 
         add("gui.driveformorb.tooltip", "Upgrades %s Form");
     	add("gui.driveformorb.upgrade", "%s Form has obtained %s exp");

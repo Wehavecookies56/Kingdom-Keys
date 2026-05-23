@@ -63,6 +63,10 @@ public abstract class Magic {
     public boolean getMagicLockOn(int lvl) {
     	return data.getMagicLockOn(lvl);
     }
+
+	public int getMaxExp(int lvl) {
+		return data.getMaxExp(lvl);
+	}
     
     public Ability getGMAbility() {
     	if(gmAbility == null)

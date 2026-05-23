@@ -916,6 +916,22 @@ public class Utils {
 		return level;
 	}
 
+	public static void addMagicExperience(Player player, int amount) {
+		PlayerData playerData = PlayerData.get(player);
+		if(playerData == null)
+			return;
+
+		for (ItemStack stack : playerData.getEquippedMagics().values()) {
+			if (stack.isEmpty())
+				continue;
+
+			if (!(stack.getItem() instanceof MagicSpellItem magic))
+				continue;
+
+			magic.addExp(stack, amount);
+		}
+	}
+
 	public static class Title {
 		public String title, subtitle;
 		public int fadeIn = 10, fadeOut = 20, displayTime = 70;

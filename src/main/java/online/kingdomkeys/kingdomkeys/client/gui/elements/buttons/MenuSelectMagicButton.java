@@ -9,6 +9,7 @@ import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.client.sounds.SoundManager;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -22,6 +23,8 @@ import online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment.MenuMagicS
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.item.MagicSpellItem;
+import online.kingdomkeys.kingdomkeys.magic.Magic;
+import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSEquipMagic;
 
@@ -143,208 +146,15 @@ public class MenuSelectMagicButton extends MenuButtonBase {
 				matrixStack.popPose();
 				float strPosX = parent.width * 0.57F;
 				float posY = parent.height * 0.55F;
-				float strNumPosX = parent.width * 0.67F;
-				float abiPosX = parent.width * 0.62F;
-				int strength = 0;
-				int magic = 0;
-				int ap = 0;
 
-
-				/*List<String> abilities = new ArrayList<String>();
-				boolean showData = true;
-				if (stack.getItem() instanceof IKeychain) {
-					strength = ((IKeychain) stack.getItem()).toSummon().getStrength(stack);
-					magic = ((IKeychain) stack.getItem()).toSummon().getMagic(stack);
-					int level = ((IKeychain) stack.getItem()).toSummon().getKeybladeLevel(stack);
-					abilities = Utils.getKeybladeAbilitiesAtLevel(stack.getItem(), level);
-				} else if (stack.getItem() instanceof KeybladeItem) {
-					strength = ((KeybladeItem) stack.getItem()).getStrength(stack);
-					magic = ((KeybladeItem) stack.getItem()).getMagic(stack);
-					int level = ((KeybladeItem) stack.getItem()).getKeybladeLevel(stack);
-					abilities = Utils.getKeybladeAbilitiesAtLevel(stack.getItem(), level);
-				} else if (stack.getItem() instanceof IOrgWeapon orgWeapon) {
-					strength = orgWeapon.getStrength();
-					magic = orgWeapon.getMagic();
-				} else if (stack.getItem() instanceof MagicSpellItem MagicItem) {
-					//resistances = MagicItem.getResList();
-					showData = true;
-				} else if (stack.getItem() instanceof KKPotionItem) {
-					showData = false;
-				} else if (stack.getItem() instanceof KKAccessoryItem) {
-					ap = ((KKAccessoryItem) stack.getItem()).getAp();
-					strength = ((KKAccessoryItem) stack.getItem()).getStr();
-					magic = ((KKAccessoryItem) stack.getItem()).getMag();
-					abilities = ((KKAccessoryItem) stack.getItem()).getAbilities();
-				} else {
-					showData = false;
+				if (stack.getItem() instanceof MagicSpellItem spell) {
+					Magic magicInstance = ModMagic.registry.get(ResourceLocation.parse(spell.getMagic()));
+					int maxExp = magicInstance.getMaxExp(spell.getLevel());
+					Component text = Component.translatable("gui.magicspell.exp_short", spell.getExp(stack), maxExp);
+					gui.drawString(fr, text, (int) strPosX, (int) posY, 0xEE8603);
+					//text = Component.translatable("%s/%s", spell.getExp(stack), maxExp);
+					//gui.drawString(fr, text, (int) strPosX, (int) posY+10, 0xEE8603);
 				}
-				if (showData) {
-					boolean showStr = true, showMag = true, showAP = true, showResistances = false;
-					abilities.remove(null);
-					String strengthStr = String.valueOf(strength);
-					String magicStr = String.valueOf(magic);
-					String apStr = String.valueOf(ap);
-
-					int oldAP = 0, oldStr = 0, oldMag = 0;
-					PlayerData playerData = PlayerData.get(minecraft.player);
-					ItemStack replacedAccessory = playerData.getEquippedAccessory(parent.slot);
-					if (!ItemStack.matches(replacedAccessory, ItemStack.EMPTY) && replacedAccessory.getItem() instanceof KKAccessoryItem oldAccessory) {
-						oldAP = oldAccessory.getAp();
-						oldStr = oldAccessory.getStr();
-						oldMag = oldAccessory.getMag();
-					}
-
-					ImmutableMap<KKResistanceType, Integer> oldResistances = null;
-					int oldDefense = 0;
-					ItemStack replacedMagic = playerData.getEquippedMagic(parent.slot);
-					if (!ItemStack.matches(replacedMagic, ItemStack.EMPTY) && replacedMagic.getItem() instanceof MagicSpellItem oldMagic) {
-						oldDefense = oldMagic.getDefense();
-						oldResistances = oldMagic.getResList();
-					}
-
-
-					int totalStrength = playerData.getStrength(true) + strength;
-					int totalMagic = playerData.getMagic(true) + magic;
-					int totalAP = playerData.getMaxAP(true) + ap;
-
-					String openBracket = " [ ";
-
-					String totalStrengthStr = String.valueOf(totalStrength);
-					String totalMagicStr = String.valueOf(totalMagic);
-					String totalAPStr = String.valueOf(totalAP);
-
-					//String totalDefResStr = String.valueOf(playerData.getDefense(true) + Magic.getDefense());
-
-					String totalFireResStr = String.valueOf(resistances.get(KKResistanceType.fire));
-					String totalIceResStr = String.valueOf(resistances.get(KKResistanceType.ice));
-					String totalLightningResStr = String.valueOf(resistances.get(KKResistanceType.lightning));
-					String totalLightResStr = String.valueOf(resistances.get(KKResistanceType.light));
-					String totalDarknessResStr = String.valueOf(resistances.get(KKResistanceType.darkness));
-
-
-					if (totalStrengthStr.length() == 1) {
-						openBracket += " ";
-					}
-					if (totalMagicStr.length() == 1) {
-						openBracket += " ";
-					}
-
-					if (totalAPStr.length() == 1) {
-						openBracket += " ";
-					}
-
-					Map<Integer, ItemStack> equippedArmourWithSelected = new HashMap<>(playerData.getEquippedMagics());
-
-					if (stack.getItem() instanceof KKAccessoryItem) {
-						showAP = true;
-						showStr = strength != oldStr || strength != 0;
-						showMag = magic != oldMag || magic != 0;
-					} else if (stack.getItem() instanceof MagicSpellItem) {
-						showAP = false;
-						showStr = false;
-						showMag = false;
-						showResistances = true;
-						equippedArmourWithSelected.put(parent.slot, stack);
-					} else {
-						showAP = false;
-						showStr = true;
-						showMag = true;
-					}
-
-					if (showAP) {
-						gui.drawString(fr, Component.translatable(Strings.Gui_Menu_Status_AP).getString(), (int) strPosX, (int) posY, 0xEE8603);
-						gui.drawString(fr, apStr, (int) strNumPosX, (int) posY, 0xFFFFFF);
-						gui.drawString(fr, openBracket, (int) strNumPosX + fr.width(apStr), (int) posY, 0xBF6004);
-						gui.drawString(fr, (totalAP - oldAP) + "", (int) strNumPosX + fr.width(apStr) + fr.width(openBracket), (int) posY, oldAP > ap ? 0xFF0000 : oldAP == ap ? 0xFFFF00 : 0x00AAFF);
-						gui.drawString(fr, "]", (int) strNumPosX + fr.width(apStr) + fr.width(openBracket) + fr.width(totalAPStr), (int) posY, 0xBF6004);
-						posY += 10;
-					}
-
-					if (showStr) {
-						gui.drawString(fr, Component.translatable(Strings.Gui_Menu_Status_Strength).getString(), (int) strPosX, (int) posY, 0xEE8603);
-						gui.drawString(fr, strengthStr, (int) strNumPosX, (int) posY, 0xFFFFFF);
-						gui.drawString(fr, openBracket, (int) strNumPosX + fr.width(strengthStr), (int) posY, 0xBF6004);
-						gui.drawString(fr, (totalStrength - oldStr) + "", (int) strNumPosX + fr.width(strengthStr) + fr.width(openBracket), (int) posY, oldStr > strength ? 0xFF0000 : oldStr == strength ? 0xFFFF00 : 0x00AAFF);
-						gui.drawString(fr, "]", (int) strNumPosX + fr.width(strengthStr) + fr.width(openBracket) + fr.width(totalStrengthStr), (int) posY, 0xBF6004);
-						posY += 10;
-					}
-
-					if (showMag) {
-						gui.drawString(fr, Component.translatable(Strings.Gui_Menu_Status_Magic).getString(), (int) strPosX, (int) posY, 0xEE8603);
-						gui.drawString(fr, magicStr, (int) strNumPosX, (int) posY, 0xFFFFFF);
-						gui.drawString(fr, openBracket, (int) strNumPosX + fr.width(magicStr), (int) posY, 0xBF6004);
-						gui.drawString(fr, (totalMagic - oldMag) + "", (int) strNumPosX + fr.width(magicStr) + fr.width(openBracket), (int) posY, oldMag > magic ? 0xFF0000 : oldMag == magic ? 0xFFFF00 : 0x00AAFF);
-						gui.drawString(fr, "]", (int) strNumPosX + fr.width(magicStr) + fr.width(openBracket) + fr.width(totalMagicStr), (int) posY, 0xBF6004);
-						posY += 10;
-					}
-
-					/*if (showResistances && resistances != null) {
-						int pos = 0;
-						{
-							String resVal = ((MagicSpellItem) stack.getItem()).getDefense() + "";
-							gui.drawString(fr, Component.translatable(Strings.Gui_Menu_Status_Defense).getString(), (int) strPosX, (int) posY + 10 * pos, 0xEE8603);
-							gui.drawString(fr, resVal, (int) strNumPosX, (int) posY + 10 * pos, 0xFFFFFF);
-							gui.drawString(fr, openBracket, (int) strNumPosX + fr.width(resVal), (int) posY + 10 * pos, 0xBF6004);
-							gui.drawString(fr, (playerData.getDefense(true) + ((MagicSpellItem) stack.getItem()).getDefense() - oldDefense) + "", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket), (int) posY + 10 * pos, 0xFFFF00);
-							gui.drawString(fr, "]", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket) + fr.width(totalDefResStr), (int) posY + 10 * pos++, 0xBF6004);
-						}
-
-						KKResistanceType type = KKResistanceType.fire;
-						if (resistances.containsKey(type)) {
-							int oldVal = (oldResistances == null || oldResistances.get(type) == null) ? 0 : oldResistances.get(type);
-							String resVal = resistances.get(type).toString();
-							gui.drawString(fr, Component.translatable(Strings.Gui_Menu_Status_FireResShort).getString(), (int) strPosX, (int) posY + 10 * pos, 0xEE8603);
-							gui.drawString(fr, resVal, (int) strNumPosX, (int) posY + 10 * pos, 0xFFFFFF);
-							gui.drawString(fr, openBracket, (int) strNumPosX + fr.width(resVal), (int) posY + 10 * pos, 0xBF6004);
-							gui.drawString(fr, (Utils.getMagicsStat(equippedArmourWithSelected, type.toString())) - oldVal + "", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket), (int) posY + 10 * pos, 0xFFFF00);
-							gui.drawString(fr, "]", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket) + fr.width(totalFireResStr), (int) posY + 10 * pos++, 0xBF6004);
-						}
-
-						type = KKResistanceType.ice;
-						if (resistances.containsKey(type)) {
-							int oldVal = (oldResistances == null || oldResistances.get(type) == null) ? 0 : oldResistances.get(type);
-							String resVal = resistances.get(type).toString();
-							gui.drawString(fr, Component.translatable(Strings.Gui_Menu_Status_BlizzardResShort).getString(), (int) strPosX, (int) posY + 10 * pos, 0xEE8603);
-							gui.drawString(fr, resVal, (int) strNumPosX, (int) posY + 10 * pos, 0xFFFFFF);
-							gui.drawString(fr, openBracket, (int) strNumPosX + fr.width(resVal), (int) posY + 10 * pos, 0xBF6004);
-							gui.drawString(fr, (Utils.getMagicsStat(equippedArmourWithSelected, type.toString())) - oldVal + "", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket), (int) posY + 10 * pos, 0xFFFF00);
-							gui.drawString(fr, "]", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket) + fr.width(totalIceResStr), (int) posY + 10 * pos++, 0xBF6004);
-						}
-
-						type = KKResistanceType.lightning;
-						if (resistances.containsKey(type)) {
-							int oldVal = (oldResistances == null || oldResistances.get(type) == null) ? 0 : oldResistances.get(type);
-							String resVal = resistances.get(type).toString();
-							gui.drawString(fr, Component.translatable(Strings.Gui_Menu_Status_ThunderResShort).getString(), (int) strPosX, (int) posY + 10 * pos, 0xEE8603);
-							gui.drawString(fr, resVal, (int) strNumPosX, (int) posY + 10 * pos, 0xFFFFFF);
-							gui.drawString(fr, openBracket, (int) strNumPosX + fr.width(resVal), (int) posY + 10 * pos, 0xBF6004);
-							gui.drawString(fr, (Utils.getMagicsStat(equippedArmourWithSelected, type.toString())) - oldVal + "", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket), (int) posY + 10 * pos, 0xFFFF00);
-							gui.drawString(fr, "]", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket) + fr.width(totalLightningResStr), (int) posY + 10 * pos++, 0xBF6004);
-						}
-
-						type = KKResistanceType.light;
-						if (resistances.containsKey(type)) {
-							int oldVal = (oldResistances == null || oldResistances.get(type) == null) ? 0 : oldResistances.get(type);
-							String resVal = resistances.get(type).toString();
-							gui.drawString(fr, Component.translatable(Strings.Gui_Menu_Status_LightResShort).getString(), (int) strPosX, (int) posY + 10 * pos, 0xEE8603);
-							gui.drawString(fr, resVal, (int) strNumPosX, (int) posY + 10 * pos, 0xFFFFFF);
-							gui.drawString(fr, openBracket, (int) strNumPosX + fr.width(resVal), (int) posY + 10 * pos, 0xBF6004);
-							gui.drawString(fr, (Utils.getMagicsStat(equippedArmourWithSelected, type.toString())) - oldVal + "", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket), (int) posY + 10 * pos, 0xFFFF00);
-							gui.drawString(fr, "]", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket) + fr.width(totalLightResStr), (int) posY + 10 * pos++, 0xBF6004);
-						}
-
-						type = KKResistanceType.darkness;
-						if (resistances.containsKey(type)) {
-							int oldVal = (oldResistances == null || oldResistances.get(type) == null) ? 0 : oldResistances.get(type);
-							String resVal = resistances.get(type).toString();
-							gui.drawString(fr, Component.translatable(Strings.Gui_Menu_Status_DarkResShort).getString(), (int) strPosX, (int) posY + 10 * pos, 0xEE8603);
-							gui.drawString(fr, resVal, (int) strNumPosX, (int) posY + 10 * pos, 0xFFFFFF);
-							gui.drawString(fr, openBracket, (int) strNumPosX + fr.width(resVal), (int) posY + 10 * pos, 0xBF6004);
-							gui.drawString(fr, (Utils.getMagicsStat(equippedArmourWithSelected, type.toString())) - oldVal + "", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket), (int) posY + 10 * pos, 0xFFFF00);
-							gui.drawString(fr, "]", (int) strNumPosX + fr.width(resVal) + fr.width(openBracket) + fr.width(totalDarknessResStr), (int) posY + 10 * pos++, 0xBF6004);
-						}
-					}
-				}*/
 			}
 		}
 	}

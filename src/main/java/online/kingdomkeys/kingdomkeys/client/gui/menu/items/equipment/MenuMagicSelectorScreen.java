@@ -86,7 +86,7 @@ public class MenuMagicSelectorScreen extends MenuBackground {
 							int amount = addedMagicList.get(Magic);
 							addedMagicList.replace(Magic, amount+1);
 						} else {
-							widgets.add(new MenuSelectMagicButton(minecraft.player.getInventory().getItem(i), i, (int) listX, (int) listY + (itemHeight * pos++), (int) keybladesWidth-17, this, buttonColour));
+							widgets.add(new MenuSelectMagicButton(minecraft.player.getInventory().getItem(i), i, (int) listX, (int) listY + (itemHeight * pos++), (int) keybladesWidth-25, this, buttonColour));
 							addedMagicList.put((MagicSpellItem) minecraft.player.getInventory().getItem(i).getItem(), 1);
 						}
 					}

@@ -42,4 +42,5 @@ public class ModComponents {
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Float>> GUMMI_DAMAGE = COMPONENTS.registerComponentType("gummi_damage", builder -> builder.persistent(Codec.FLOAT).networkSynchronized(ByteBufCodecs.FLOAT).cacheEncoding());
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> GUMMI_FUEL = COMPONENTS.registerComponentType("gummi_fuel", builder -> builder.persistent(Codec.INT).networkSynchronized(ByteBufCodecs.INT).cacheEncoding());
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<String>> BLUEPRINT_NAME = COMPONENTS.registerComponentType("blueprint_name", builder -> builder.persistent(Codec.STRING).networkSynchronized(ByteBufCodecs.STRING_UTF8).cacheEncoding());
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> MAGIC_EXP = COMPONENTS.registerComponentType("magic_exp", builder -> builder.persistent(Codec.INT).networkSynchronized(ByteBufCodecs.INT).cacheEncoding());
 }

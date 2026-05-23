@@ -33,6 +33,8 @@ import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.item.*;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
+import online.kingdomkeys.kingdomkeys.magic.Magic;
+import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.shotlock.ModShotlocks;
 import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
 import online.kingdomkeys.kingdomkeys.util.Utils;
@@ -225,6 +227,8 @@ public class MenuEquipmentButton extends Button {
                     	showData = true;
                     } else if (stack.getItem() instanceof KKPotionItem) {
                      	showData = true;
+					} else if (stack.getItem() instanceof MagicSpellItem) {
+						showData = true;
                     } else if (stack.getItem() instanceof KKAccessoryItem) {
                      	ap = ((KKAccessoryItem)stack.getItem()).getAp();
                      	strength = ((KKAccessoryItem)stack.getItem()).getStr();
@@ -234,7 +238,7 @@ public class MenuEquipmentButton extends Button {
                     	showData = false;
                     }
                     if(showData) {
-                    	boolean showStr = true, showMag= true, showAP=true, showResistances = false;
+                    	boolean showStr = true, showMag= true, showAP=true, showResistances = false, showExp = false;
                     	abilities.remove(null);
 	                    String strengthStr = String.valueOf(strength);
 	                    String magicStr = String.valueOf(magic);
@@ -289,6 +293,12 @@ public class MenuEquipmentButton extends Button {
 	                    	showStr = false;
 	                    	showMag = false;
 	                    }
+
+	                    if(stack.getItem() instanceof MagicSpellItem) {
+							showExp = true;
+		                    showStr = false;
+		                    showMag = false;
+	                    }
 	                    
 	                    if(showAP) {
 		                    gui.drawString(fr, Component.translatable(Strings.Gui_Menu_Status_AP).getString(), (int) strPosX, (int) posY, 0xEE8603);
@@ -315,6 +325,14 @@ public class MenuEquipmentButton extends Button {
 							gui.drawString(fr, totalMagicStr, (int) strNumPosX + fr.width(magicStr) + fr.width(openBracket), (int) posY, 0xFBEA21);
 							gui.drawString(fr, "]", (int) strNumPosX + fr.width(magicStr) + fr.width(openBracket) + fr.width(totalMagicStr), (int) posY, 0xBF6004);
 							posY+=10;
+	                    }
+
+	                    if(showExp) {
+							MagicSpellItem spell = (MagicSpellItem) stack.getItem();
+							Magic magicInstance = ModMagic.registry.get(ResourceLocation.parse(spell.getMagic()));
+		                    int maxExp = magicInstance.getMaxExp(spell.getLevel());
+		                    Component text = Component.translatable("gui.magicspell.exp", spell.getExp(stack), maxExp);
+		                    gui.drawString(fr, text, (int) strPosX, (int) posY, 0xEE8603);
 	                    }
 	                    
 	                    if(showResistances && resistances != null) {

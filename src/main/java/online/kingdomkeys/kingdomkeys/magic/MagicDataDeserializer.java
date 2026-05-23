@@ -19,7 +19,6 @@ public class MagicDataDeserializer implements JsonDeserializer<MagicData> {
 		JsonObject jsonObject = json.getAsJsonObject();
 
 		jsonObject.entrySet().forEach(entry -> {
-			JsonElement element = entry.getValue();
 			int level = Integer.parseInt(entry.getKey());
 			JsonObject jsonObject2 = entry.getValue().getAsJsonObject();
 			jsonObject2.entrySet().forEach(entry2 -> {
@@ -36,6 +35,8 @@ public class MagicDataDeserializer implements JsonDeserializer<MagicData> {
 					out.setDmgMult(level, element2.getAsFloat());
 				case "magic_lock_on"->
 					out.setMagicLockon(level, element2.getAsBoolean());
+				case "max_exp"->
+					out.setMaxExp(level, element2.getAsInt());
 				}
 			});
 

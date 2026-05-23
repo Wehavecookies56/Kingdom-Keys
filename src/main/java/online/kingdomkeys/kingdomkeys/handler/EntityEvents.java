@@ -1193,6 +1193,7 @@ public class EntityEvents {
 						double value = mob.getAttribute(Attributes.MAX_HEALTH).getValue() / 2;
 						double exp = Utils.randomWithRange(value * 0.8, value * 1.8);
 						playerData.addExperience(player, (int) (exp * ModConfigs.SERVER.xpMultiplier.get()), true, true);
+						Utils.addMagicExperience(player, (int) (exp * ModConfigs.SERVER.xpMultiplier.get()));
 
 						if (event.getEntity() instanceof WitherBoss) {
 							exp += 1500;
