@@ -152,7 +152,10 @@ public class Utils {
     }
 
 	public static int getSavepointPercent(int ticks) {
-		return Math.round(100 - (((ticks-1) /(20F-1F)) * 100F));
+		int res = Math.round(100 - (((ticks-1) /(20F-1F)) * 100F));
+		if(res == 0)
+			res = 1;
+		return res;
 	}
 
 	public static final ResourceLocation mobLevelHPModifier = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "mob_level_hp");

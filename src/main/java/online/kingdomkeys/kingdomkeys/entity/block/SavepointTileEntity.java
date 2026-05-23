@@ -34,12 +34,12 @@ public class SavepointTileEntity extends BlockEntity {
 	}
 
 	private int
-			heal = 20,
-			hunger = 20,
-			magic = 20,
-			drive = 20,
-			focus = 20
-	;
+			heal = 24,
+			hunger = 24,
+			magic = 24,
+			drive = 24,
+			focus = 24
+	; //24 because once the first time it gets used it will be enabled since it will go down to 20, but if it's > 20 it won't work, ensuring at least spending one item in it.
 
 	public int getHeal() {
 		return heal;

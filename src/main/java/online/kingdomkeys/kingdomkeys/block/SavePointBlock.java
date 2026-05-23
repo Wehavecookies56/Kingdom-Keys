@@ -169,11 +169,11 @@ public class SavePointBlock extends BaseBlock implements EntityBlock, INoDataGen
 
 		worldIn.setBlockAndUpdate(pos, state.setValue(TIER, SavePointStorage.SavePointType.valueOf(tier)));
 
-		savepoint.setHeal(stack.get(ModComponents.SAVE_POINT_HEAL));
-		savepoint.setMagic(stack.get(ModComponents.SAVE_POINT_MAGIC));
-		savepoint.setHunger(stack.get(ModComponents.SAVE_POINT_HUNGER));
-		savepoint.setDrive(stack.get(ModComponents.SAVE_POINT_DRIVE));
-		savepoint.setFocus(stack.get(ModComponents.SAVE_POINT_FOCUS));
+		savepoint.setHeal(stack.getOrDefault(ModComponents.SAVE_POINT_HEAL, 24));
+		savepoint.setMagic(stack.getOrDefault(ModComponents.SAVE_POINT_MAGIC, 24));
+		savepoint.setHunger(stack.getOrDefault(ModComponents.SAVE_POINT_HUNGER, 24));
+		savepoint.setDrive(stack.getOrDefault(ModComponents.SAVE_POINT_DRIVE, 24));
+		savepoint.setFocus(stack.getOrDefault(ModComponents.SAVE_POINT_FOCUS, 24));
 	}
 
 	@Override
@@ -359,7 +359,7 @@ public class SavePointBlock extends BaseBlock implements EntityBlock, INoDataGen
 				continue;
 
 			int interval = getSavepointValue(savepoint, stat);
-			if (interval <= 0)
+			if (interval <= 0 || interval > 20) //We exclude the first at 24, ensuring having to spend a synth mat before it starts restoring said stat
 				continue;
 
 			if (tickCount % interval != 0)

@@ -1,11 +1,12 @@
 ### Added:
 * Common config option for gummi fuel consumption factor, defaulting to half of what it was before.
 * New achievement for when obtaining a winner stick.
-* New config option to only display items in the shop based on their tier to players which already meet it.
+* New config option to limit shop inventory based on their tier to players which already meet it.
 * JEI recipe category for savepoint upgrades.
 
 ### Changed:
 * Savepoint configs have been moved to be data-driven for a cleaner look.
+* Savepoints will no longer restore any stat by default unless an item is used on them.
 
 ### Fixed:
 * Magic Target Block didn't have a recipe, it is now crafted with a Target block and a Redstone block.
