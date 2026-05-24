@@ -1,0 +1,11 @@
+{
+  "cost": 400,
+  "ingredient1": "kingdomkeys:spellstop",
+  "ingredient2": "kingdomkeys:spellstop",
+  "output": {
+    "type": "item",
+    "item": "kingdomkeys:spellstopra",
+    "quantity": 1
+  },
+  "tier": 2
+}

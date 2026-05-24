@@ -529,6 +529,10 @@ public class Strings {
             Gui_Shop_Buy_Quantity = Gui_Shop_Buy + ".quantity",
             Gui_Shop_Sell = Gui_Shop + ".sell",
 
+			// Melding
+			Gui_Melding = "gui.melding",
+			Gui_Melding_Meld = Gui_Melding+ ".meld",
+
             // Synthesis
             Gui_Synthesis = "gui.synthesis",
 			Gui_Synthesis_Exp = Gui_Synthesis + ".exp",

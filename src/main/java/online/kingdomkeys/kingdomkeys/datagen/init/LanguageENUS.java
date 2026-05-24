@@ -371,6 +371,10 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Gui_Menu_Style + ".kh2roxasdual", "Roxas (KH2)");
         add(Gui_Menu_Style + ".daysroxasdual", "Roxas (358/2 Days)");
 
+        //Melding
+        add(Gui_Melding, "Melding");
+        add(Gui_Melding_Meld, "Meld");
+
         //Synthesis
         add(Gui_Synthesis, "Item Workshop");
         add(Gui_Synthesis_Exp, "Exp");

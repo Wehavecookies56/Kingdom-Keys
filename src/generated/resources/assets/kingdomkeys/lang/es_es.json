@@ -852,6 +852,8 @@
   "gui.magicspell.equip": "Equípalo en el menú para poder usarla",
   "gui.magicspell.exp": "Experiencia: %s/%s",
   "gui.magicspell.exp_short": "Exp:",
+  "gui.melding": "Síntesis",
+  "gui.melding.meld": "Sintetizar",
   "gui.menu.accept": "Aceptar",
   "gui.menu.back": "Atrás",
   "gui.menu.back.desc": "Vuelve al menú anterior.",

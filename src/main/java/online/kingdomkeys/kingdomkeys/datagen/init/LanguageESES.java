@@ -426,6 +426,10 @@ public class LanguageESES extends KKLanguageProvider {
         add(Gui_Menu_Style + ".kh2roxasdual", "Roxas (KH2)");
         add(Gui_Menu_Style + ".daysroxasdual", "Roxas (358/2 Days)");
 
+        //Melding
+        add(Gui_Melding, "Síntesis");
+        add(Gui_Melding_Meld, "Sintetizar");
+
         //Synthesis
         add(Gui_Synthesis, "Sintetizador");
         add(Gui_Synthesis_Exp, "Exp");

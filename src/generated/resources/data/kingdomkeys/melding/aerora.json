@@ -1,0 +1,11 @@
+{
+  "cost": 400,
+  "ingredient1": "kingdomkeys:spellaero",
+  "ingredient2": "kingdomkeys:spellaero",
+  "output": {
+    "type": "item",
+    "item": "kingdomkeys:spellaerora",
+    "quantity": 1
+  },
+  "tier": 2
+}

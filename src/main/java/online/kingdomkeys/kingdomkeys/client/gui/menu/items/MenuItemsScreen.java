@@ -26,13 +26,11 @@ public class MenuItemsScreen extends MenuBackground {
     public void init () {
         super.init();
         this.renderables.clear();
-
         Minecraft mc = Minecraft.getInstance();
-        PlayerData playerData = PlayerData.get(mc.player);
 
         int i = 0;
         addRenderableWidget(items_player = new MenuButton((int) buttonPosX, buttonPosY + i++ * 18, (int) buttonWidth, Strings.Gui_Menu_Items_Equipment, MenuButton.ButtonType.BUTTON, true, b -> mc.setScreen(new MenuEquipmentScreen())));
-        addRenderableWidget(items_melding = new MenuButton((int) buttonPosX, buttonPosY + i++ * 18, (int) buttonWidth, "melding", MenuButton.ButtonType.BUTTON, true, b -> mc.setScreen(new MeldingScreen(playerData))));
+        addRenderableWidget(items_melding = new MenuButton((int) buttonPosX, buttonPosY + i++ * 18, (int) buttonWidth, Strings.Gui_Melding, MenuButton.ButtonType.BUTTON, true, b -> mc.setScreen(new MeldingScreen())));
         addRenderableWidget(items_stock = new MenuButton((int) buttonPosX, buttonPosY + i++ * 18, (int) buttonWidth, Strings.Gui_Menu_Items_Stock, MenuButton.ButtonType.BUTTON, true, b -> mc.setScreen(new MenuStockScreen())));
         addRenderableWidget(items_back = new MenuButton((int) buttonPosX, buttonPosY + i++ * 18, (int) buttonWidth, Strings.Gui_Menu_Back, MenuButton.ButtonType.BUTTON, true, b -> PacketHandler.sendToServer(new CSOpenMenu())));
     }

@@ -1,0 +1,11 @@
+{
+  "cost": 400,
+  "ingredient1": "kingdomkeys:spellreflect",
+  "ingredient2": "kingdomkeys:spellreflect",
+  "output": {
+    "type": "item",
+    "item": "kingdomkeys:spellreflera",
+    "quantity": 1
+  },
+  "tier": 2
+}

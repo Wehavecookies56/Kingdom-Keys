@@ -14,7 +14,7 @@ public class ServerConfig {
     public ModConfigSpec.ConfigValue<List<? extends Integer>> statsMultiplier;
 
     public ModConfigSpec.DoubleValue xpMultiplier, magicXPMultiplier, heartMultiplier, partyXPShare;
-    public ModConfigSpec.BooleanValue requireSynthTier, requireSynthTierShop, projectorHasShop, savepointGlobal, getExpFromShop, orgEnabled, allowBoosts, allowPartyKO, wayfinderParty, hostileMobsLevel, dragonLevel, gummiShipFuelSystem, softLockOnMode;
+    public ModConfigSpec.BooleanValue requireSynthTier, requireSynthTierShop, requireMeldingTier, projectorHasShop, savepointGlobal, getExpFromShop, orgEnabled, allowBoosts, allowPartyKO, wayfinderParty, hostileMobsLevel, dragonLevel, gummiShipFuelSystem, softLockOnMode;
 
     ServerConfig(final ModConfigSpec.Builder builder) {
         builder.push("general");
@@ -48,6 +48,11 @@ public class ServerConfig {
                 .comment("If true players will only be able to buy items from their tier or lower, if false they can buy all of them regardless of their tier")
                 .translation(KingdomKeys.MODID + ".config.require_synth_tier_shop")
                 .define("requireSynthTierShop", true);
+
+        requireMeldingTier = builder
+                .comment("If true players will only be able to meld commands from their tier or lower, if false they can meld all of them regardless of their tier")
+                .translation(KingdomKeys.MODID + ".config.require_melding_tier")
+                .define("requireMeldingTier", true);
         
         projectorHasShop = builder
                 .comment("If true moogle projectors will have the default shop available, if false only the moogles will")

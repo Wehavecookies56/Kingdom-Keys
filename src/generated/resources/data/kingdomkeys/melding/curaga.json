@@ -1,0 +1,11 @@
+{
+  "cost": 800,
+  "ingredient1": "kingdomkeys:spellcura",
+  "ingredient2": "kingdomkeys:spellcura",
+  "output": {
+    "type": "item",
+    "item": "kingdomkeys:spellcuraga",
+    "quantity": 1
+  },
+  "tier": 3
+}

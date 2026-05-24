@@ -12,12 +12,12 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
-import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuFilterBar;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuFilterable;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuScrollBar;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuStockItem;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.item.MagicSpellItem;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
@@ -34,8 +34,8 @@ import java.util.Comparator;
 import java.util.List;
 
 public class MeldingScreen extends MenuFilterable {
-	MenuBox boxL, boxM, boxR;
-	MenuButton create;
+	MenuBox boxL, boxMT, boxMB, boxR;
+	MenuButton meld;
 	private MenuButton back;
 	private ItemStack selected1 = ItemStack.EMPTY;
 	private ItemStack selected2 = ItemStack.EMPTY;
@@ -44,8 +44,8 @@ public class MeldingScreen extends MenuFilterable {
 	private int selectedSlot1 = -1;
 	private int selectedSlot2 = -1;
 
-	public MeldingScreen(PlayerData playerData) {
-		super("melding", new Color(0, 255, 0));
+	public MeldingScreen() {
+		super(Strings.Gui_Melding, new Color(0, 255, 0));
 		drawSeparately = true;
 	}
 
@@ -93,27 +93,24 @@ public class MeldingScreen extends MenuFilterable {
 		float boxWidth = (float) width * 0.3F;
 		float middleHeight = (float) height * 0.6F;
 		boxL = new MenuBox((int) boxPosX, (int) topBarHeight, (int) (boxWidth*1.1F), (int) middleHeight, 1, new Color(40, 4, 255));
-		boxM = new MenuBox((int) boxL.getX() + (int) boxL.getWidth(), (int) topBarHeight, (int) (boxWidth * 0.7F), (int) middleHeight, 1, new Color(108, 40, 40));
-		boxR = new MenuBox(boxM.getX() + (int) (boxWidth * 0.7F), (int) topBarHeight, (int) (boxWidth), (int) (middleHeight), 1, new Color(4, 68, 4));
+		boxMT = new MenuBox(boxL.getX() + boxL.getWidth(), (int) (topBarHeight), (int) (boxWidth * 0.7F), (int) (middleHeight * 0.5F), 1, new Color(108, 40, 40));
+		boxMB = new MenuBox(boxMT.getX(), boxMT.getY() + boxMT.getHeight(), boxMT.getWidth(), boxMT.getHeight(), 1, new Color(108, 40, 40));
+		boxR = new MenuBox(boxMT.getX() + (int) (boxWidth * 0.7F), (int) topBarHeight, (int) (boxWidth), (int) (middleHeight), 1, new Color(4, 68, 4));
 		int scrollTop = (int) topBarHeight;
 		int scrollBot = (int) (scrollTop + middleHeight);
-		scrollBar = new MenuScrollBar((int) (boxL.getX() + boxL.getWidth() - 17), scrollTop, scrollBot, (int) middleHeight, 0, true);
+		scrollBar = new MenuScrollBar(boxL.getX() + boxL.getWidth() - 17, scrollTop, scrollBot, (int) middleHeight, 0, true);
 		addRenderableWidget(scrollBar);
-		float filterPosX = width * 0.3F;
-		float filterPosY = height * 0.02F;
-		//filterBar = new MenuFilterBar((int) filterPosX, (int) filterPosY, this);
-		//filterBar.init();
-
 
 		initItems();
 
-		buttonWidth = ((float) width * 0.07F);
+		buttonWidth = ((float) width * 0.1F);
 
-		create = new MenuButton(boxR.getX() + boxR.getWidth() / 2 - (int) (buttonWidth + 22) / 2, boxR.getY() + boxR.getHeight() - 22, (int) buttonWidth, "meld", MenuButton.ButtonType.ROUNDBUTTON, (e) -> {
+		meld = new MenuButton(boxR.getX() + boxR.getWidth() / 2 - (int) (buttonWidth + 22) / 2, boxR.getY() + boxR.getHeight() - 22, (int) buttonWidth, Strings.Gui_Melding_Meld, MenuButton.ButtonType.ROUNDBUTTON, (e) -> {
 			action("create");
 		});
-		create.setCenterText(true);
-		addRenderableWidget(create);
+		meld.setCenterText(true);
+		addRenderableWidget(meld);
+		buttonWidth = ((float) width * 0.07F);
 		addRenderableWidget(back = new MenuButton((int) this.buttonPosX, (int) topBarHeight + 10, (int) buttonWidth, Component.translatable(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, b -> minecraft.setScreen(new MenuItemsScreen())));
 
 		super.init();
@@ -201,7 +198,7 @@ public class MeldingScreen extends MenuFilterable {
 			boolean compatible = base.isEmpty() || isCompatible(base, stack);
 
 			if (!compatible) {
-				//item.active = false;
+				//shouldn't reach this I think
 			}
 
 			// Resaltar seleccionados
@@ -219,7 +216,8 @@ public class MeldingScreen extends MenuFilterable {
 	public void render(@NotNull GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
 		drawMenuBackground(gui, mouseX, mouseY, partialTicks);
 		boxL.renderWidget(gui, mouseX, mouseY, partialTicks);
-		boxM.renderWidget(gui, mouseX, mouseY, partialTicks);
+		boxMT.renderWidget(gui, mouseX, mouseY, partialTicks);
+		boxMB.renderWidget(gui, mouseX, mouseY, partialTicks);
 		boxR.renderWidget(gui, mouseX, mouseY, partialTicks);
 
 		if (filterBar != null)
@@ -249,8 +247,11 @@ public class MeldingScreen extends MenuFilterable {
 		PlayerData playerData = PlayerData.get(minecraft.player);
 
 		// Selected magics
-		int centerX = boxM.getX() + boxM.getWidth() / 2;
-		int centerY = boxM.getY() + 10;
+		int centerTopX = boxMT.getX() + boxMT.getWidth() / 2;
+		int centerTopY = boxMT.getY() + 10;
+
+		int centerBottomX = boxMB.getX() + boxMB.getWidth() / 2;
+		int centerBottomY = boxMB.getY() + 10;
 
 		int rightCenterX = boxR.getX() + boxR.getWidth() / 2;
 		int rightCenterY = boxR.getY() + 10;
@@ -262,18 +263,19 @@ public class MeldingScreen extends MenuFilterable {
 			int ingSize = 50;
 			// Magic 1
 			if (!selected1.isEmpty()) {
-				ClientUtils.drawItemAsIcon(selected1, pose, centerX - 8, centerY + 10, ingSize);
+				ClientUtils.drawItemAsIcon(selected1, pose, centerTopX - 8, centerTopY + 15, ingSize);
 				String resultName = selected1.getHoverName().getString();
-				gui.drawCenteredString(minecraft.font, resultName, centerX, centerY + 45, 0xFFFFFF);
+				gui.drawCenteredString(minecraft.font, resultName, centerTopX, centerTopY + 50, 0xFFFFFF);
 			}
 
 			// Magic 2
 			if (!selected2.isEmpty()) {
-				ClientUtils.drawItemAsIcon(selected2, pose, centerX - 8, centerY + 80, ingSize);
+				ClientUtils.drawItemAsIcon(selected2, pose, centerBottomX - 8, centerBottomY + 15, ingSize);
 				String resultName = selected2.getHoverName().getString();
-				gui.drawCenteredString(minecraft.font, resultName, centerX, centerY + 115, 0xFFFFFF);
+				gui.drawCenteredString(minecraft.font, resultName, centerBottomX, centerBottomY + 50, 0xFFFFFF);
 			}
 
+			String tierText;
 			// Result
 			if (currentMelding != null) {
 				ItemStack result = new ItemStack(currentMelding.getResult(), currentMelding.getAmount());
@@ -281,26 +283,30 @@ public class MeldingScreen extends MenuFilterable {
 
 				String resultName = result.getHoverName().getString();
 				gui.drawCenteredString(minecraft.font, resultName, rightCenterX, rightCenterY + 96, 0xFFFFFF);
-
 				gui.drawString(minecraft.font, "Cost: " + currentMelding.getCost(), boxR.getX() + 10, boxR.getY() + 10, playerData.getMunny() >= currentMelding.getCost() ? 0x00FF00 : 0xFF0000);
 
-				String tierText = "Tier: " + Utils.getTierFromInt(currentMelding.getTier());
-				gui.drawString(minecraft.font, tierText, boxR.getX() + boxR.getWidth() - minecraft.font.width(tierText) - 10, boxR.getY() + 10, 0xFFFFFF);
+				tierText = "Tier: " + Utils.getTierFromInt(currentMelding.getTier());
+				int tierColor = ModConfigs.SERVER.requireMeldingTier.get() && playerData.getSynthLevel() >= currentMelding.getTier() ? 0x00FF00 : 0xFF0000;
+				gui.drawString(minecraft.font, tierText, boxR.getX() + boxR.getWidth() - minecraft.font.width(tierText) - 10, boxR.getY() + 10, tierColor);
 
-				create.visible = true;
-				create.active = playerData.getMunny() >= currentMelding.getCost();
+				meld.visible = true;
+				meld.active = playerData.getMunny() >= currentMelding.getCost() && !ModConfigs.SERVER.requireMeldingTier.get() || playerData.getSynthLevel() >= currentMelding.getTier();
 			} else {
 				if (!selected1.isEmpty() || !selected2.isEmpty()) { //Only show ????? if at least one ingredient has been selected
+					gui.drawString(minecraft.font, "Cost: ???", boxR.getX() + 10, boxR.getY() + 10, 0x777777);
 					gui.drawCenteredString(minecraft.font, "?????", rightCenterX, boxR.getY() + boxR.getHeight() - 20, 0x777777);
+					tierText = "Tier: ???";
+					gui.drawString(minecraft.font, tierText, boxR.getX() + boxR.getWidth() - minecraft.font.width(tierText) - 10, boxR.getY() + 10, 0x777777);
 				}
-				create.active = false;
-				create.visible = false;
+				meld.active = false;
+				meld.visible = false;
 			}
+
 		}
 
 		pose.popPose();
 
-		create.render(gui, mouseX, mouseY, partialTicks);
+		meld.render(gui, mouseX, mouseY, partialTicks);
 		back.render(gui, mouseX, mouseY, partialTicks);
 	}
 

@@ -72,7 +72,7 @@ public class MenuMagicSelectorScreen extends MenuBackground {
 		if(slot >= 0) {
 			if(!ItemStack.matches(equippedMagic, ItemStack.EMPTY)) {
 				if (minecraft.player.getInventory().getFreeSlot() > -1) {
-					widgets.add(new MenuSelectMagicButton(ItemStack.EMPTY, minecraft.player.getInventory().getFreeSlot(), (int) listX, (int) listY + (itemHeight * pos++), (int) keybladesWidth-17, this, buttonColour));
+					widgets.add(new MenuSelectMagicButton(ItemStack.EMPTY, minecraft.player.getInventory().getFreeSlot(), (int) listX, (int) listY + (itemHeight * pos++), (int) keybladesWidth-25, this, buttonColour));
 				}
 			}
 
