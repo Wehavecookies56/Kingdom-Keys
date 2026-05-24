@@ -73,6 +73,7 @@ import online.kingdomkeys.kingdomkeys.reactioncommands.ModReactionCommands;
 import online.kingdomkeys.kingdomkeys.savepoint.SavePointDataLoader;
 import online.kingdomkeys.kingdomkeys.shotlock.ModShotlocks;
 import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeDataLoader;
+import online.kingdomkeys.kingdomkeys.synthesis.melding.MeldingDataLoader;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeDataLoader;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopListDataLoader;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.names.NamesListLoader;
@@ -318,6 +319,7 @@ public class KingdomKeys {
 		event.addListener(new KeybladeDataLoader());
 		event.addListener(new OrganizationDataLoader());
 		event.addListener(new RecipeDataLoader());
+		event.addListener(new MeldingDataLoader());
 		event.addListener(new DriveFormDataLoader());
 		event.addListener(new MagicDataLoader());
 		event.addListener(new LevelingDataLoader());

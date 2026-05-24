@@ -13,7 +13,7 @@ public class ServerConfig {
     public ModConfigSpec.ConfigValue<List<? extends String>> driveFormXPMultiplier;
     public ModConfigSpec.ConfigValue<List<? extends Integer>> statsMultiplier;
 
-    public ModConfigSpec.DoubleValue xpMultiplier, heartMultiplier, partyXPShare;
+    public ModConfigSpec.DoubleValue xpMultiplier, magicXPMultiplier, heartMultiplier, partyXPShare;
     public ModConfigSpec.BooleanValue requireSynthTier, requireSynthTierShop, projectorHasShop, savepointGlobal, getExpFromShop, orgEnabled, allowBoosts, allowPartyKO, wayfinderParty, hostileMobsLevel, dragonLevel, gummiShipFuelSystem, softLockOnMode;
 
     ServerConfig(final ModConfigSpec.Builder builder) {
@@ -118,6 +118,11 @@ public class ServerConfig {
                 .comment("XP Multiplier")
                 .translation(KingdomKeys.MODID + ".config.xp_multiplier")
                 .defineInRange("xpMultiplier", 1F, 0, 1000);
+
+        magicXPMultiplier = builder
+                .comment("Magic spells XP Multiplier")
+                .translation(KingdomKeys.MODID + ".config.magic_xp_multiplier")
+                .defineInRange("magicXPMultiplier", 1F, 0, 1000);
 
         heartMultiplier = builder
                 .comment("Hearts Multiplier")

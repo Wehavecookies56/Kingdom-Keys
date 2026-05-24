@@ -1,0 +1,504 @@
+package online.kingdomkeys.kingdomkeys.client.gui.menu.items;
+
+import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.ChatFormatting;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.Renderable;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import online.kingdomkeys.kingdomkeys.client.ClientUtils;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuFilterBar;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuFilterable;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuScrollBar;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuStockItem;
+import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
+import online.kingdomkeys.kingdomkeys.item.MagicSpellItem;
+import online.kingdomkeys.kingdomkeys.lib.Strings;
+import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.cts.CSOpenMenu;
+import online.kingdomkeys.kingdomkeys.synthesis.melding.Melding;
+import online.kingdomkeys.kingdomkeys.synthesis.melding.MeldingRegistry;
+import online.kingdomkeys.kingdomkeys.util.Utils;
+import org.jetbrains.annotations.NotNull;
+
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+
+public class MeldingScreen extends MenuFilterable {
+	MenuBox boxL, boxM, boxR;
+	MenuButton create;
+	private MenuButton back;
+	private ItemStack selected1 = ItemStack.EMPTY;
+	private ItemStack selected2 = ItemStack.EMPTY;
+	private Melding currentMelding;
+
+	private int selectedSlot1 = -1;
+	private int selectedSlot2 = -1;
+
+	public MeldingScreen(PlayerData playerData) {
+		super("melding", new Color(0, 255, 0));
+		drawSeparately = true;
+	}
+
+	protected void action(String string) {
+		switch (string) {
+			case "create":
+				//PacketHandler.sendToServer(new CSSynthesiseRecipe(selectedRL));
+				minecraft.level.playSound(minecraft.player, minecraft.player.blockPosition(), ModSounds.itemget.get(), SoundSource.MASTER, 1.0f, 1.0f);
+				break;
+		}
+	}
+
+	@Override
+	public void action(ResourceLocation loc, ItemStack stack) {
+		System.out.println("1: " + selected1);
+		System.out.println("2: " + selected2);
+	}
+
+	private void handleSelection(ItemStack clicked, int slot) {
+		if (selectedSlot1 == slot) { //Unselecting first slot
+			selectedSlot1 = -1;
+			selected1 = ItemStack.EMPTY;
+		} else if (selectedSlot2 == slot) { //Unselecting second slot
+			selectedSlot2 = -1;
+			selected2 = ItemStack.EMPTY;
+		} else if (selected1.isEmpty()) { //First slot empty
+			selectedSlot1 = slot;
+			selected1 = clicked.copy();
+		} else if (selected2.isEmpty()) { // Second slot empty
+			selectedSlot2 = slot;
+			selected2 = clicked.copy();
+		} else { //Reset
+			selectedSlot1 = slot;
+			selected1 = clicked.copy();
+
+			selectedSlot2 = -1;
+			selected2 = ItemStack.EMPTY;
+		}
+		currentMelding = !selected1.isEmpty() && !selected2.isEmpty() ? findMelding(selected1, selected2) : null;
+		initItems();
+	}
+
+	@Override
+	public void init() {
+		float boxPosX = (float) width * 0.14F;
+		float topBarHeight = (float) height * 0.17F;
+		float boxWidth = (float) width * 0.3F;
+		float middleHeight = (float) height * 0.6F;
+		boxL = new MenuBox((int) boxPosX, (int) topBarHeight, (int) (boxWidth*1.1F), (int) middleHeight, 1, new Color(40, 4, 255));
+		boxM = new MenuBox((int) boxL.getX() + (int) boxL.getWidth(), (int) topBarHeight, (int) (boxWidth * 0.7F), (int) middleHeight, 1, new Color(108, 40, 40));
+		boxR = new MenuBox(boxM.getX() + (int) (boxWidth * 0.7F), (int) topBarHeight, (int) (boxWidth), (int) (middleHeight), 1, new Color(4, 68, 4));
+		int scrollTop = (int) topBarHeight;
+		int scrollBot = (int) (scrollTop + middleHeight);
+		scrollBar = new MenuScrollBar((int) (boxL.getX() + boxL.getWidth() - 17), scrollTop, scrollBot, (int) middleHeight, 0, true);
+		addRenderableWidget(scrollBar);
+		float filterPosX = width * 0.3F;
+		float filterPosY = height * 0.02F;
+		filterBar = new MenuFilterBar((int) filterPosX, (int) filterPosY, this);
+		filterBar.init();
+
+		initItems();
+
+		buttonWidth = ((float) width * 0.07F);
+
+		create = new MenuButton(boxR.getX() + boxR.getWidth() / 2 - (int) (buttonWidth + 22) / 2, boxR.getY() + boxR.getHeight() - 22, (int) buttonWidth, "meld", MenuButton.ButtonType.ROUNDBUTTON, (e) -> {
+			action("create");
+		});
+		create.setCenterText(true);
+		addRenderableWidget(create);
+		addRenderableWidget(back = new MenuButton((int) this.buttonPosX, (int) topBarHeight + 10, (int) buttonWidth, Component.translatable(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, b -> minecraft.setScreen(new MenuItemsScreen())));
+
+		super.init();
+	}
+
+	@Override
+	public void initItems() {
+		inventory.forEach(this::removeWidget);
+		inventory.clear();
+
+		float invPosX = boxL.getX() + 5;
+		float invPosY = boxL.getY() + 5;
+
+		List<SlotEntry> entries = new ArrayList<>();
+		for (int slot = 0; slot < minecraft.player.getInventory().items.size(); slot++) {
+			ItemStack stack = minecraft.player.getInventory().items.get(slot);
+
+			if (stack.isEmpty())
+				continue;
+
+			if (!(stack.getItem() instanceof MagicSpellItem magic))
+				continue;
+
+			//if (!magic.canMeld(stack))
+				//continue;
+
+			entries.add(new SlotEntry(slot, stack.copy()));
+		}
+
+		entries.sort(Comparator.comparing(e -> e.stack.getHoverName().getString()));
+
+		ItemStack base = !selected1.isEmpty() ? selected1 : selected2;
+
+		for (int i = 0; i < entries.size(); i++) {
+			SlotEntry entry = entries.get(i);
+			ItemStack stack = entry.stack.copy();
+			int slot = entry.slot;
+
+			MenuStockItem item = new MenuStockItem(this, BuiltInRegistries.ITEM.getKey(stack.getItem()), stack, (int) invPosX, (int) (invPosY + i * 14), boxL.getWidth() - scrollBar.getWidth() - 6, false) {
+				@Override
+				public void onPress() {
+					ItemStack clicked = stack.copy();
+					ItemStack base = !selected1.isEmpty() ? selected1 : selected2;
+
+					boolean compatible = base.isEmpty() || isCompatible(base, clicked) || ItemStack.isSameItemSameComponents(base, clicked) || selectedSlot1 == slot || selectedSlot2 == slot;
+					if (!compatible)
+						return;
+					if (stack.getItem() instanceof MagicSpellItem magic) {
+						if (!magic.canMeld(stack)) {
+							return;
+						}
+					}
+
+					handleSelection(clicked, slot);
+				}
+
+				@Override
+				public void renderWidget(GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
+					textColor = ChatFormatting.WHITE;
+
+					ItemStack base = !getSelected1().isEmpty() ? getSelected1() : getSelected2();
+					boolean compatible = base.isEmpty() || isCompatible(base, stack) || ItemStack.isSameItemSameComponents(base, stack);
+
+					if (stack.getItem() instanceof MagicSpellItem spell) {
+						float percent = spell.getExpPercent(stack);
+						int red = (int) (255 * (1F - percent));
+						int green = (int) (255 * percent);
+						int color = (red << 16) | (green << 8);
+
+						String text = (int)percent * 100+"%";
+						int x = getX() + getWidth() - minecraft.font.width(text) - 4;
+						gui.drawString(minecraft.font, text, x, getY() + 3, color);
+
+						if (!spell.canMeld(stack)) {
+							textColor = ChatFormatting.DARK_GRAY;
+						}
+					}
+					if(!compatible) {
+						textColor = ChatFormatting.DARK_GRAY;
+					}
+					super.renderWidget(gui, mouseX, mouseY, partialTicks);
+				}
+			};
+
+			boolean compatible = base.isEmpty() || isCompatible(base, stack);
+
+			if (!compatible) {
+				//item.active = false;
+			}
+
+			// Resaltar seleccionados
+			if (selectedSlot1 == slot || selectedSlot2 == slot) {
+				item.setBackgroundColor(new Color(0, 120, 255));
+			}
+
+			inventory.add(item);
+		}
+
+		inventory.forEach(this::addWidget);
+	}
+
+	@Override
+	public void render(@NotNull GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
+		drawMenuBackground(gui, mouseX, mouseY, partialTicks);
+		boxL.renderWidget(gui, mouseX, mouseY, partialTicks);
+		boxM.renderWidget(gui, mouseX, mouseY, partialTicks);
+		boxR.renderWidget(gui, mouseX, mouseY, partialTicks);
+
+		if (filterBar != null)
+			filterBar.render(gui, mouseX, mouseY, partialTicks);
+
+		if (scrollBar != null)
+			scrollBar.render(gui, mouseX, mouseY, partialTicks);
+
+		// Scroll
+		if (!inventory.isEmpty()) {
+			int listHeight = (inventory.get(inventory.size() - 1).getY() + 20) - inventory.get(0).getY() + 3;
+
+			scrollBar.setContentHeight(listHeight);
+		}
+
+		// Render inventory items
+		for (Renderable renderable : this.inventory) {
+			if (renderable instanceof MenuStockItem menuStockItem) {
+				gui.enableScissor(boxL.getX() + 2, scrollBar.getY() + 2, boxL.getX() + boxL.getWidth(), scrollBar.getBottom() - 5);
+				renderable.render(gui, mouseX, mouseY, partialTicks);
+				gui.disableScissor();
+			} else {
+				renderable.render(gui, mouseX, mouseY, partialTicks);
+			}
+		}
+
+		PlayerData playerData = PlayerData.get(minecraft.player);
+
+		// Selected magics
+		int centerX = boxM.getX() + boxM.getWidth() / 2;
+		int centerY = boxM.getY() + 10;
+
+		int rightCenterX = boxR.getX() + boxR.getWidth() / 2;
+		int rightCenterY = boxR.getY() + 10;
+
+		PoseStack pose = gui.pose();
+
+		pose.pushPose();
+		{
+			int ingSize = 50;
+			// Magic 1
+			if (!selected1.isEmpty()) {
+				ClientUtils.drawItemAsIcon(selected1, pose, centerX - 8, centerY + 10, ingSize);
+				String resultName = selected1.getHoverName().getString();
+				gui.drawCenteredString(minecraft.font, resultName, centerX, centerY + 45, 0xFFFFFF);
+			}
+
+			// Plus
+			gui.drawString(minecraft.font, "+", centerX, centerY + 60, 0xFFFFFF);
+
+			// Magic 2
+			if (!selected2.isEmpty()) {
+				ClientUtils.drawItemAsIcon(selected2, pose, centerX - 8, centerY + 80, ingSize);
+				String resultName = selected2.getHoverName().getString();
+				gui.drawCenteredString(minecraft.font, resultName, centerX, centerY + 115, 0xFFFFFF);
+			}
+
+			// Result
+			if (currentMelding != null) {
+				ItemStack result = new ItemStack(currentMelding.getResult(), currentMelding.getAmount());
+				ClientUtils.drawItemAsIcon(result, pose, rightCenterX - 8, rightCenterY + 65, 40);
+
+				String resultName = result.getHoverName().getString();
+				gui.drawCenteredString(minecraft.font, resultName, rightCenterX, rightCenterY + 96, 0xFFFFFF);
+
+				// Cost
+				gui.drawString(minecraft.font, "Cost: " + currentMelding.getCost(), boxR.getX() + 10, boxR.getY() + 10, playerData.getMunny() >= currentMelding.getCost() ? 0x00FF00 : 0xFF0000);
+
+				// Tier
+				String tierText = "Tier: " + Utils.getTierFromInt(currentMelding.getTier());
+				gui.drawString(minecraft.font, tierText, boxR.getX() + boxR.getWidth() - minecraft.font.width(tierText) - 10, boxR.getY() + 10, 0xFFFFFF);
+
+				create.visible = true;
+
+				create.active = playerData.getMunny() >= currentMelding.getCost();
+
+			} else {
+				if (!selected1.isEmpty() || !selected2.isEmpty()) { //Only show ????? if at least one ingredient has been selected
+					gui.drawCenteredString(minecraft.font, "?????", rightCenterX, boxR.getY() + boxR.getHeight() - 20, 0x777777);
+				}
+				create.active = false;
+				create.visible = false;
+			}
+		}
+
+		pose.popPose();
+
+		create.render(gui, mouseX, mouseY, partialTicks);
+		back.render(gui, mouseX, mouseY, partialTicks);
+	}
+
+	@Override
+	protected void renderSelectedData(GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
+/*
+		if (currentMelding == null) return;
+
+		ItemStack result = new ItemStack(currentMelding.getResult(), currentMelding.getAmount());
+
+		PoseStack pose = gui.pose();
+
+		float tooltipPosX = bottomRightBar.getPosX() + 8;
+		float tooltipPosY = height * 0.8F;
+
+		// Big icon
+		pose.pushPose();
+		{
+			float size = 80;
+
+			pose.translate(boxM.getWidth() * 0.7F / 2, boxM.getHeight() / 2F - size / 2F, 0);
+
+			ClientUtils.drawItemAsIcon(result, pose, 0, -10, (int) size);
+		}
+		pose.popPose();
+
+		// Description / stats
+		if (result.getItem() instanceof KeybladeItem || result.getItem() instanceof KKAccessoryItem || result.getItem() instanceof KKArmorItem) {
+
+			String desc = "";
+			String ability = "";
+
+			if (result.getItem() instanceof KeybladeItem kb) {
+
+				desc = kb.getDesc();
+				ability = kb.data.getLevelAbility(0);
+
+			} else if (result.getItem() instanceof KKAccessoryItem accessory) {
+
+				ability = !accessory.getAbilities().isEmpty() ? accessory.getAbilities().getFirst() : null;
+			}
+
+			// Stats
+			pose.pushPose();
+			{
+				pose.translate(boxM.getX() + 20, height * 0.58, 1);
+
+				List<Component> stats = Utils.getResistancesStats(result);
+
+				float scale = stats.size() > 4 ? 1F - (stats.size() - 4) * 0.25F : 1F;
+
+				pose.scale(scale, scale, scale);
+
+				int offset = -10;
+
+				for (int i = 0; i < stats.size(); i++) {
+
+					Component c = stats.get(i);
+
+					gui.drawString(minecraft.font, c, 0, offset + (10 * i), 0x4444FF);
+				}
+
+				// Ability
+				if (ability != null) {
+
+					Ability a = ModAbilities.registry.get(ResourceLocation.parse(ability));
+
+					if (a != null) {
+
+						String abilityName = Utils.translateToLocal(a.getTranslationKey());
+
+						gui.drawString(minecraft.font, abilityName, -20 + (boxM.getWidth() / 2) - (minecraft.font.width(abilityName) / 2), (stats.size() - 1) * 10, 0xFFAA44);
+					}
+				}
+			}
+			pose.popPose();
+
+			// Description
+			if (!desc.isEmpty()) {
+
+				pose.pushPose();
+				{
+					String text = Utils.translateToLocal(result.getDescriptionId());
+
+					gui.drawString(minecraft.font, text, (int) (tooltipPosX + 5), (int) (tooltipPosY) + 5, 0xFF9900);
+
+					ClientUtils.drawSplitString(gui, desc, (int) tooltipPosX + 5, (int) tooltipPosY + 5 + minecraft.font.lineHeight, (int) (width * 0.6F), 0xFFFFFF);
+				}
+				pose.popPose();
+			}
+		}
+
+		// Result info
+		gui.drawString(minecraft.font, "Cost: " + currentMelding.getCost(), boxR.getX() + 10, boxR.getY() + 15, 0xFFFF00);
+
+		gui.drawString(minecraft.font, "EXP: " + currentMelding.getExp(), boxR.getX() + 10, boxR.getY() + 30, 0x00FF00);
+
+		gui.drawString(minecraft.font, "Tier: " + Utils.getTierFromInt(currentMelding.getTier()), boxR.getX() + 10, boxR.getY() + 45, 0xFFFFFF);*/
+	}
+
+	@Override
+	public boolean isPauseScreen() {
+		return false;
+	}
+
+	@Override
+	public boolean mouseClicked(double mouseX, double mouseY, int mouseButton) {
+		scrollBar.mouseClicked(mouseX, mouseY, mouseButton);
+		if (mouseButton == 1) {
+			PacketHandler.sendToServer(new CSOpenMenu());
+		}
+		return super.mouseClicked(mouseX, mouseY, mouseButton);
+	}
+
+	@Override
+	public boolean mouseReleased(double pMouseX, double pMouseY, int pButton) {
+		scrollBar.mouseReleased(pMouseX, pMouseY, pButton);
+		return super.mouseReleased(pMouseX, pMouseY, pButton);
+	}
+
+	@Override
+	public boolean mouseDragged(double pMouseX, double pMouseY, int pButton, double pDragX, double pDragY) {
+		scrollBar.mouseDragged(pMouseX, pMouseY, pButton, pDragX, pDragY);
+		updateScroll();
+		return super.mouseDragged(pMouseX, pMouseY, pButton, pDragX, pDragY);
+	}
+
+	public void updateScroll() {
+		inventory.forEach(button -> {
+			button.offsetY = (int) scrollBar.scrollOffset;
+		});
+	}
+
+	@Override
+	public boolean mouseScrolled(double mouseX, double mouseY, double deltaX, double deltaY) {
+		if (mouseX >= boxL.getX() && mouseX <= scrollBar.getX() + scrollBar.getWidth())
+			scrollBar.mouseScrolled(mouseX, mouseY, deltaX, deltaY);
+		updateScroll();
+		return false;
+	}
+
+	/**
+	 * Checks if the two selected items match in a meld
+	 * @param first
+	 * @param second
+	 * @return
+	 */
+	private Melding findMelding(ItemStack first, ItemStack second) {
+		Item item1 = first.getItem();
+		Item item2 = second.getItem();
+
+		for (Melding melding : MeldingRegistry.getInstance().getValues()) {
+			boolean matches = (melding.getIngredient1() == item1 && melding.getIngredient2() == item2) || (melding.getIngredient1() == item2 && melding.getIngredient2() == item1);
+
+			if (matches)
+				return melding;
+		}
+
+		return null;
+	}
+
+	public boolean isCompatible(ItemStack first, ItemStack other) {
+		if (first.isEmpty())
+			return true;
+
+		return findMelding(first, other) != null;
+	}
+
+	public ItemStack getSelected1() {
+		return selected1;
+	}
+
+	public ItemStack getSelected2() {
+		return selected2;
+	}
+
+	public boolean isSelected(ItemStack stack, int slot) {
+		return selectedSlot1 == slot || selectedSlot2 == slot;
+	}
+
+	/**
+	 * Aux class
+	 */
+	private static class SlotEntry {
+		final int slot;
+		final ItemStack stack;
+
+		SlotEntry(int slot, ItemStack stack) {
+			this.slot = slot;
+			this.stack = stack;
+		}
+	}
+}

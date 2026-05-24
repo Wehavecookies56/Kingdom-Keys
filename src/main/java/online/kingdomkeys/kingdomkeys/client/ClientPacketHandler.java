@@ -60,6 +60,7 @@ import online.kingdomkeys.kingdomkeys.savepoint.SavePoint;
 import online.kingdomkeys.kingdomkeys.savepoint.SavePointData;
 import online.kingdomkeys.kingdomkeys.sound.AeroSoundInstance;
 import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeData;
+import online.kingdomkeys.kingdomkeys.synthesis.melding.MeldingRegistry;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopListRegistry;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.names.NamesListRegistry;
@@ -152,6 +153,13 @@ public class ClientPacketHandler {
             driveform.setDriveFormData(result);
             IOUtils.closeQuietly(br);
         }
+    }
+
+    public static void syncMeldingData(SCSyncMeldingData message) {
+        MeldingRegistry.getInstance().clearRegistry();
+        message.recipes().forEach(recipe -> {
+            MeldingRegistry.getInstance().register(recipe);
+        });
     }
 
     public static void syncSynthesisData(SCSyncSynthesisData message) {

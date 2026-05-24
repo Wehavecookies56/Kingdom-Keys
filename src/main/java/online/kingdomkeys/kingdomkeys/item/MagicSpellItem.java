@@ -68,15 +68,18 @@ public class MagicSpellItem extends Item implements IItemCategory {
 		super.appendHoverText(stack, tooltipContext, tooltip, flagIn);
 	}
 
-	public static int getExp(ItemStack stack) {
+	public int getExp(ItemStack stack) {
 		return stack.getOrDefault(ModComponents.MAGIC_EXP.get(), 0);
+	}
+
+	public int getMaxExp() {
+		Magic magicInstance = ModMagic.registry.get(ResourceLocation.parse(magic));
+		return magicInstance.getMaxExp(getLevel());
 	}
 
 	public float getExpPercent(ItemStack stack) {
 		int exp = getExp(stack);
-		Magic magicInstance = ModMagic.registry.get(ResourceLocation.parse(magic));
-		int maxExp = magicInstance.getMaxExp(getLevel());
-		return (float) exp / maxExp;
+		return (float) exp / getMaxExp();
 	}
 
 	@Override
@@ -88,6 +91,11 @@ public class MagicSpellItem extends Item implements IItemCategory {
 		stack.set(ModComponents.MAGIC_EXP.get(), amount);
 	}
 	public void addExp(ItemStack stack, int amount) {
-		stack.set(ModComponents.MAGIC_EXP.get(), stack.getOrDefault(ModComponents.MAGIC_EXP.get(), 0) + amount);
+		int newExp = Math.min(getExp(stack) + amount, getMaxExp());
+		setExp(stack, newExp);
+	}
+
+	public boolean canMeld(ItemStack stack) {
+		return getExp(stack) >= getMaxExp();
 	}
 }

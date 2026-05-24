@@ -142,7 +142,6 @@ public class SynthesisForgeScreen extends MenuFilterable {
 		inventory.clear();
 		children().clear();
 		renderables.clear();
-		//filterBar.buttons.forEach(this::addButton);
 
 		List<ItemStack> items = new ArrayList<>();
 		
@@ -179,7 +178,6 @@ public class SynthesisForgeScreen extends MenuFilterable {
 
 	@Override
 	public void render(@NotNull GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
-		PoseStack matrixStack = gui.pose();
 		drawMenuBackground(gui, mouseX, mouseY, partialTicks);
 		boxL.renderWidget(gui, mouseX, mouseY, partialTicks);
 		boxM.renderWidget(gui, mouseX, mouseY, partialTicks);

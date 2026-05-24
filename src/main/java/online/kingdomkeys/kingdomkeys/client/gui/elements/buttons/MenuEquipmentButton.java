@@ -332,7 +332,7 @@ public class MenuEquipmentButton extends Button {
 							Magic magicInstance = ModMagic.registry.get(ResourceLocation.parse(spell.getMagic()));
 		                    int maxExp = magicInstance.getMaxExp(spell.getLevel());
 		                    Component text = Component.translatable("gui.magicspell.exp", spell.getExp(stack), maxExp);
-		                    gui.drawString(fr, text, (int) strPosX, (int) posY, 0xEE8603);
+		                    gui.drawString(fr, text, (int) strPosX, (int) posY, 0xEEEE03);
 	                    }
 	                    
 	                    if(showResistances && resistances != null) {

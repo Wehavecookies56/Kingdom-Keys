@@ -151,9 +151,7 @@ public class MenuSelectMagicButton extends MenuButtonBase {
 					Magic magicInstance = ModMagic.registry.get(ResourceLocation.parse(spell.getMagic()));
 					int maxExp = magicInstance.getMaxExp(spell.getLevel());
 					Component text = Component.translatable("gui.magicspell.exp_short", spell.getExp(stack), maxExp);
-					gui.drawString(fr, text, (int) strPosX, (int) posY, 0xEE8603);
-					//text = Component.translatable("%s/%s", spell.getExp(stack), maxExp);
-					//gui.drawString(fr, text, (int) strPosX, (int) posY+10, 0xEE8603);
+					gui.drawString(fr, text, (int) strPosX, (int) posY, 0xEEEE03);
 				}
 			}
 		}

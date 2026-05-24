@@ -1,0 +1,11 @@
+{
+  "cost": 4000,
+  "ingredient1": "kingdomkeys:spellfire",
+  "ingredient2": "kingdomkeys:spellfire",
+  "output": {
+    "type": "item",
+    "item": "kingdomkeys:spellfira",
+    "quantity": 1
+  },
+  "tier": 2
+}

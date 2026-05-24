@@ -45,7 +45,7 @@ public class MenuBackground extends Screen {
 	int selected;
 	
 	String tip = null;
-	Color color;
+	protected Color color;
 	protected Component title;
 
 	public boolean shouldCloseOnMenu;
