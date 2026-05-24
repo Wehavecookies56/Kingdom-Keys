@@ -61,7 +61,7 @@ public record CSMeldRecipe(ResourceLocation recipe, int selected1, int selected2
 
 		if(isEquippedSlot(slot)) {
 			int equippedSlot = getEquippedIndex(slot);
-			playerData.getEquippedMagics().remove(equippedSlot);
+			playerData.equipMagic(equippedSlot, ItemStack.EMPTY);
 		} else {
 			player.getInventory().removeItem(slot, 1);
 		}
