@@ -1,4 +1,6 @@
 ### Added:
+* Command melding system, similar to how it works in Birth by Sleep.
+* Experience system for magic spells, now in order to use them to meld they need to be at the 100%.
 * Common config option for gummi fuel consumption factor, defaulting to half of what it was before.
 * New achievement for when obtaining a winner stick.
 * New config option to limit shop inventory based on their tier to players which already meet it.
@@ -7,6 +9,7 @@
 ### Changed:
 * Savepoint configs have been moved to be data-driven for a cleaner look.
 * Savepoints will no longer restore any stat by default unless an item is used on them.
+* Magics are no longer stacked in the equipment menu due to them being all different now because of their experience.
 
 ### Fixed:
 * Magic Target Block didn't have a recipe, it is now crafted with a Target block and a Redstone block.

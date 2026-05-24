@@ -60,8 +60,6 @@ public class MeldingScreen extends MenuFilterable {
 
 	@Override
 	public void action(ResourceLocation loc, ItemStack stack) {
-		System.out.println("1: " + selected1);
-		System.out.println("2: " + selected2);
 	}
 
 	private void handleSelection(ItemStack clicked, int slot) {
@@ -103,8 +101,9 @@ public class MeldingScreen extends MenuFilterable {
 		addRenderableWidget(scrollBar);
 		float filterPosX = width * 0.3F;
 		float filterPosY = height * 0.02F;
-		filterBar = new MenuFilterBar((int) filterPosX, (int) filterPosY, this);
-		filterBar.init();
+		//filterBar = new MenuFilterBar((int) filterPosX, (int) filterPosY, this);
+		//filterBar.init();
+
 
 		initItems();
 
@@ -132,14 +131,14 @@ public class MeldingScreen extends MenuFilterable {
 		for (int slot = 0; slot < minecraft.player.getInventory().items.size(); slot++) {
 			ItemStack stack = minecraft.player.getInventory().items.get(slot);
 
-			if (stack.isEmpty())
+			if (stack.isEmpty()) // Only accept items
 				continue;
 
-			if (!(stack.getItem() instanceof MagicSpellItem magic))
+			if (!(stack.getItem() instanceof MagicSpellItem magic)) //only accept magics
 				continue;
 
-			//if (!magic.canMeld(stack))
-				//continue;
+			if (!isMeldingIngredient(stack.getItem())) // Only accept real ingredients
+				continue;
 
 			entries.add(new SlotEntry(slot, stack.copy()));
 		}
@@ -268,9 +267,6 @@ public class MeldingScreen extends MenuFilterable {
 				gui.drawCenteredString(minecraft.font, resultName, centerX, centerY + 45, 0xFFFFFF);
 			}
 
-			// Plus
-			gui.drawString(minecraft.font, "+", centerX, centerY + 60, 0xFFFFFF);
-
 			// Magic 2
 			if (!selected2.isEmpty()) {
 				ClientUtils.drawItemAsIcon(selected2, pose, centerX - 8, centerY + 80, ingSize);
@@ -286,17 +282,13 @@ public class MeldingScreen extends MenuFilterable {
 				String resultName = result.getHoverName().getString();
 				gui.drawCenteredString(minecraft.font, resultName, rightCenterX, rightCenterY + 96, 0xFFFFFF);
 
-				// Cost
 				gui.drawString(minecraft.font, "Cost: " + currentMelding.getCost(), boxR.getX() + 10, boxR.getY() + 10, playerData.getMunny() >= currentMelding.getCost() ? 0x00FF00 : 0xFF0000);
 
-				// Tier
 				String tierText = "Tier: " + Utils.getTierFromInt(currentMelding.getTier());
 				gui.drawString(minecraft.font, tierText, boxR.getX() + boxR.getWidth() - minecraft.font.width(tierText) - 10, boxR.getY() + 10, 0xFFFFFF);
 
 				create.visible = true;
-
 				create.active = playerData.getMunny() >= currentMelding.getCost();
-
 			} else {
 				if (!selected1.isEmpty() || !selected2.isEmpty()) { //Only show ????? if at least one ingredient has been selected
 					gui.drawCenteredString(minecraft.font, "?????", rightCenterX, boxR.getY() + boxR.getHeight() - 20, 0x777777);
@@ -487,6 +479,16 @@ public class MeldingScreen extends MenuFilterable {
 
 	public boolean isSelected(ItemStack stack, int slot) {
 		return selectedSlot1 == slot || selectedSlot2 == slot;
+	}
+
+	private boolean isMeldingIngredient(Item item) {
+		for(Melding melding : MeldingRegistry.getInstance().getValues()) {
+			if(melding.getIngredient1() == item || melding.getIngredient2() == item) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	/**

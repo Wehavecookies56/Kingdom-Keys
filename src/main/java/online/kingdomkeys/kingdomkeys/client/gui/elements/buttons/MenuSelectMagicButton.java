@@ -84,7 +84,7 @@ public class MenuSelectMagicButton extends MenuButtonBase {
 		RenderSystem.setShaderColor(1, 1, 1, 1);
 		ItemCategory category = ItemCategory.MAGICS;
 
-		MagicSpellItem Magic = (ItemStack.matches(stack, ItemStack.EMPTY) || !(stack.getItem() instanceof MagicSpellItem)) ? null : (MagicSpellItem) stack.getItem();
+		MagicSpellItem spell = (ItemStack.matches(stack, ItemStack.EMPTY) || !(stack.getItem() instanceof MagicSpellItem)) ? null : (MagicSpellItem) stack.getItem();
 
 		if (visible) {
 			Lighting.setupForFlatItems();
@@ -100,15 +100,9 @@ public class MenuSelectMagicButton extends MenuButtonBase {
 			RenderSystem.setShaderColor(1, 1, 1, 1);
 			gui.blit(texture, 6, 4, category.getU(), category.getV(), 20, 20);
 			matrixStack.popPose();
-			String accessoryName;
-			if (Magic == null) { //Name to display
-				accessoryName = "---";
-			} else {
-				accessoryName = stack.getHoverName().getString();
-				String amount = "x"+parent.addedMagicList.get(stack.getItem());
-				gui.drawString(minecraft.font,ChatFormatting.YELLOW+ amount, getX() + width - minecraft.font.width(amount)-3, getY() + 3, 0xFFFFFF);
-			}
-			gui.drawString(minecraft.font, accessoryName, getX() + 15, getY() + 3, 0xFFFFFF);
+			String magicName = spell == null ? "---" : stack.getHoverName().getString();
+
+			gui.drawString(minecraft.font, magicName, getX() + 15, getY() + 3, 0xFFFFFF);
 
 			if (isButtonRendered(mouseY) && (selected || isHovered)) { //Render stuff on the right
 				matrixStack.pushPose();

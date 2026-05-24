@@ -15,7 +15,6 @@ import java.util.List;
 
 public class MenuFilterBar {
 
-
     final int endWidth = 24, buttonWidth = 26;
     public ItemCategory currentFilter = null;
 
@@ -65,7 +64,6 @@ public class MenuFilterBar {
     }
 
     public void render(GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
-        Minecraft mc = Minecraft.getInstance();
         RenderSystem.setShaderColor(1, 1, 1, 1);
         ClientUtils.blitScaled(texture, gui, startX, y, 118, 0, 48, 30, 0.5F);
         buttons.forEach(b -> b.render(gui, mouseX, mouseY, partialTicks));

@@ -32,8 +32,6 @@ public class MenuMagicSelectorScreen extends MenuBackground {
 	int buttonColour;
 	Color colour;
 	public int slot = -1;
-
-	public Map<MagicSpellItem,Integer> addedMagicList = new HashMap<>();
 	
 	public MenuMagicSelectorScreen(int slot, Color colour, int buttonColour) {
 		super(Strings.Gui_Menu_Items_Equipment_Magic, new Color(0,0,255));
@@ -58,7 +56,6 @@ public class MenuMagicSelectorScreen extends MenuBackground {
 		float listY = height * 0.2546F;
 
 		widgets.clear();
-		addedMagicList.clear();
 
         addRenderableWidget(back = new MenuButton((int)buttonPosX, buttonPosY, (int)buttonWidth, Component.translatable(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, false, b -> minecraft.setScreen(new MenuEquipmentScreen())));
 
@@ -78,19 +75,14 @@ public class MenuMagicSelectorScreen extends MenuBackground {
 					widgets.add(new MenuSelectMagicButton(ItemStack.EMPTY, minecraft.player.getInventory().getFreeSlot(), (int) listX, (int) listY + (itemHeight * pos++), (int) keybladesWidth-17, this, buttonColour));
 				}
 			}
-			
+
 			for (int i = 0; i < minecraft.player.getInventory().getContainerSize(); i++) {
-				if (!ItemStack.matches(minecraft.player.getInventory().getItem(i), ItemStack.EMPTY)) {
-					if (minecraft.player.getInventory().getItem(i).getItem() instanceof MagicSpellItem Magic) {
-                        if(addedMagicList.containsKey(Magic)) {
-							int amount = addedMagicList.get(Magic);
-							addedMagicList.replace(Magic, amount+1);
-						} else {
-							widgets.add(new MenuSelectMagicButton(minecraft.player.getInventory().getItem(i), i, (int) listX, (int) listY + (itemHeight * pos++), (int) keybladesWidth-25, this, buttonColour));
-							addedMagicList.put((MagicSpellItem) minecraft.player.getInventory().getItem(i).getItem(), 1);
-						}
-					}
-				}
+				ItemStack stack = minecraft.player.getInventory().getItem(i);
+				if (stack.isEmpty())
+					continue;
+				if (!(stack.getItem() instanceof MagicSpellItem))
+					continue;
+				widgets.add(new MenuSelectMagicButton(stack, i, (int) listX, (int) listY + (itemHeight * pos++), (int) keybladesWidth - 25, this, buttonColour));
 			}
 		}
 
