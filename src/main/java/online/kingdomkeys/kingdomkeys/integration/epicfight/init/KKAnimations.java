@@ -49,6 +49,7 @@ public class KKAnimations {
     public static AnimationManager.AnimationAccessor<ComboAttackAnimation>
             VALOR_AUTO1, VALOR_AUTO2, VALOR_AUTO3,
             WISDOM_COMBO1,
+            MASTER_AUTO1,
             FINAL_AUTO1,
             ROXAS_AUTO1,
             SORA_AUTO1, SORA_AUTO2, SORA_AUTO3, SORA_FINISHER1,
@@ -186,7 +187,7 @@ public class KKAnimations {
                         AnimationEvent.InTimeEvent.create(.8f, (ep, animation, arr) ->
                                 WisdomProjectile.shoot(ep, Armatures.BIPED.get().toolR), AnimationEvent.Side.BOTH)).addState(EntityState.MOVEMENT_LOCKED, false));
 
-        MASTER_IDLE = builder.nextAccessor("biped/living/master_idle", animationAccessor -> new StaticAnimation(true, animationAccessor, Armatures.BIPED));
+        MASTER_IDLE = builder.nextAccessor("biped/living/master_form_idle", animationAccessor -> new StaticAnimation(true, animationAccessor, Armatures.BIPED));
 
         FINAL_IDLE = builder.nextAccessor("biped/living/final_idle", animationAccessor -> new StaticAnimation(true, animationAccessor, Armatures.BIPED).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> .8f));
         FINAL_AUTO1 = builder.nextAccessor("biped/combat/final_auto1", animationAccessor -> new ComboAttackAnimation(0.01F, animationAccessor, Armatures.BIPED,
