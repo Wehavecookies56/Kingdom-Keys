@@ -21,7 +21,7 @@ public class MeldingRecipeBuilder extends ModelFile {
     private int cost;
     private int tier;
 
-    public MeldingRecipeBuilder(Object o, Object o1) {
+    public MeldingRecipeBuilder(Object o) {
         super((ResourceLocation) o);
     }
 
@@ -30,34 +30,21 @@ public class MeldingRecipeBuilder extends ModelFile {
     }
 
     public MeldingRecipeBuilder ingredient1(Supplier<Item> item) {
-
         Preconditions.checkNotNull(item);
-
-        this.ingredient1 =
-                BuiltInRegistries.ITEM.getKey(item.get());
-
+        this.ingredient1 = BuiltInRegistries.ITEM.getKey(item.get());
         return self();
     }
 
     public MeldingRecipeBuilder ingredient2(Supplier<Item> item) {
-
         Preconditions.checkNotNull(item);
-
-        this.ingredient2 =
-                BuiltInRegistries.ITEM.getKey(item.get());
-
+        this.ingredient2 = BuiltInRegistries.ITEM.getKey(item.get());
         return self();
     }
 
     public MeldingRecipeBuilder output(Supplier<Item> item, int quantity) {
-
         Preconditions.checkNotNull(item);
-
-        this.output =
-                BuiltInRegistries.ITEM.getKey(item.get());
-
+        this.output = BuiltInRegistries.ITEM.getKey(item.get());
         this.quantity = quantity;
-
         return self();
     }
 
@@ -78,37 +65,17 @@ public class MeldingRecipeBuilder extends ModelFile {
 
     @VisibleForTesting
     public JsonObject toJson() {
-
         JsonObject root = new JsonObject();
-
         root.addProperty("cost", cost);
-
-        root.addProperty(
-                "ingredient1",
-                ingredient1.toString()
-        );
-
-        root.addProperty(
-                "ingredient2",
-                ingredient2.toString()
-        );
+        root.addProperty("ingredient1", ingredient1.toString());
+        root.addProperty("ingredient2", ingredient2.toString());
 
         JsonObject outputObj = new JsonObject();
-
         outputObj.addProperty("type", "item");
-
-        outputObj.addProperty(
-                "item",
-                output.toString()
-        );
-
-        outputObj.addProperty(
-                "quantity",
-                quantity
-        );
+        outputObj.addProperty("item", output.toString());
+        outputObj.addProperty("quantity", quantity);
 
         root.add("output", outputObj);
-
         root.addProperty("tier", tier);
 
         return root;

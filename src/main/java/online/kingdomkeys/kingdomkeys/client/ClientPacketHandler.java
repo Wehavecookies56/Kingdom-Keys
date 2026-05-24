@@ -26,6 +26,7 @@ import online.kingdomkeys.kingdomkeys.client.gui.menu.MenuScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.NoChoiceMenuPopup;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.check.CheckStatusScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.customize.MenuCustomizeShortcutsScreen;
+import online.kingdomkeys.kingdomkeys.client.gui.menu.items.MeldingScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment.MenuEquipmentScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.organization.AlignmentSelectionScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.overlay.SoAMessages;
@@ -367,6 +368,10 @@ public class ClientPacketHandler {
         } else {
             Minecraft.getInstance().setScreen(new NoChoiceMenuPopup());
         }
+    }
+
+    public static void openMeldingScreen() {
+        Minecraft.getInstance().setScreen(new MeldingScreen());
     }
 
     public static void openEquipmentScreen() {

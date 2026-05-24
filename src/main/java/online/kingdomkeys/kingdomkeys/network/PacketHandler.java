@@ -113,6 +113,7 @@ public class PacketHandler {
 		server(CSSyncAllClientDataPacket.TYPE, CSSyncAllClientDataPacket.STREAM_CODEC);
 		server(CSSyncArmorColor.TYPE, CSSyncArmorColor.STREAM_CODEC);
 		server(CSSynthesiseRecipe.TYPE, CSSynthesiseRecipe.STREAM_CODEC);
+		server(CSMeldRecipe.TYPE, CSMeldRecipe.STREAM_CODEC);
 		server(CSTakeMaterials.TYPE, CSTakeMaterials.STREAM_CODEC);
 		server(CSTravelToSoA.TYPE, CSTravelToSoA.STREAM_CODEC);
 		server(CSUnlockEquipOrgWeapon.TYPE, CSUnlockEquipOrgWeapon.STREAM_CODEC);
@@ -125,6 +126,7 @@ public class PacketHandler {
 		server(CSUseShortcutPacket.TYPE, CSUseShortcutPacket.STREAM_CODEC);
 		server(CSRequestPlayerDataFromServer.TYPE, CSRequestPlayerDataFromServer.STREAM_CODEC);
 		server(CSOpenMenu.TYPE, CSOpenMenu.STREAM_CODEC);
+		//server(CSOpenMeldingScreen.TYPE, CSOpenMeldingScreen.STREAM_CODEC);
 		server(CSBuildGummiShip.TYPE, CSBuildGummiShip.STREAM_CODEC);
 		server(CSEditGummiShip.TYPE, CSEditGummiShip.STREAM_CODEC);
 		server(CSImportExportGummiShip.TYPE, CSImportExportGummiShip.STREAM_CODEC);
