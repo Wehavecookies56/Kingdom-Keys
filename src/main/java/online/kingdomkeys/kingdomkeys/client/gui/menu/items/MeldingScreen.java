@@ -33,6 +33,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
 public class MeldingScreen extends MenuFilterable {
 	MenuBox boxL, boxMT, boxMB, boxR;
@@ -54,7 +55,7 @@ public class MeldingScreen extends MenuFilterable {
 	protected void action(String string) {
 		switch (string) {
 			case "meld" -> {
-				PacketHandler.sendToServer(new CSMeldRecipe(currentMelding.getRegistryName()));
+				PacketHandler.sendToServer(new CSMeldRecipe(currentMelding.getRegistryName(), selectedSlot1, selectedSlot2));
 				minecraft.level.playSound(minecraft.player, minecraft.player.blockPosition(), ModSounds.itemget.get(), SoundSource.MASTER, 1.0f, 1.0f);
 
 				selected1 = ItemStack.EMPTY;
@@ -73,13 +74,22 @@ public class MeldingScreen extends MenuFilterable {
 		super.tick();
 
 		int hash = 1;
-
-		for (ItemStack stack : minecraft.player.getInventory().items) {
+		// Normal inventory
+		for(ItemStack stack : minecraft.player.getInventory().items) {
 			hash = 31 * hash + ItemStack.hashItemAndComponents(stack);
 			hash = 31 * hash + stack.getCount();
 		}
 
-		if (hash != lastInventoryHash) {
+		// Equipped magics
+		for(Map.Entry<Integer, ItemStack> entry : playerData.getEquippedMagics().entrySet()) {
+			hash = 31 * hash + entry.getKey();
+
+			ItemStack stack = entry.getValue();
+			hash = 31 * hash + ItemStack.hashItemAndComponents(stack);
+			hash = 31 * hash + stack.getCount();
+		}
+
+		if(hash != lastInventoryHash) {
 			lastInventoryHash = hash;
 			initItems();
 		}
@@ -112,6 +122,7 @@ public class MeldingScreen extends MenuFilterable {
 
 	@Override
 	public void init() {
+		super.init();
 		float boxPosX = (float) width * 0.14F;
 		float topBarHeight = (float) height * 0.17F;
 		float boxWidth = (float) width * 0.3F;
@@ -137,7 +148,7 @@ public class MeldingScreen extends MenuFilterable {
 		buttonWidth = ((float) width * 0.07F);
 		addRenderableWidget(back = new MenuButton((int) this.buttonPosX, (int) topBarHeight + 10, (int) buttonWidth, Component.translatable(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, b -> minecraft.setScreen(new MenuItemsScreen())));
 
-		super.init();
+
 	}
 
 	@Override
@@ -149,6 +160,24 @@ public class MeldingScreen extends MenuFilterable {
 		float invPosY = boxL.getY() + 5;
 
 		List<SlotEntry> entries = new ArrayList<>();
+
+		Map<Integer, ItemStack> equippedMagics = playerData.getEquippedMagics();
+		for (Map.Entry<Integer, ItemStack> entry : equippedMagics.entrySet()) {
+			int slot = -1000 - entry.getKey(); //Avoid normal inv slots conflict
+			ItemStack stack = entry.getValue();
+
+			if (stack.isEmpty())
+				continue;
+
+			if (!(stack.getItem() instanceof MagicSpellItem))
+				continue;
+
+			if (!isMeldingIngredient(stack.getItem()))
+				continue;
+
+			entries.add(new SlotEntry(slot, stack.copy(), true));
+		}
+
 		for (int slot = 0; slot < minecraft.player.getInventory().items.size(); slot++) {
 			ItemStack stack = minecraft.player.getInventory().items.get(slot);
 
@@ -161,16 +190,17 @@ public class MeldingScreen extends MenuFilterable {
 			if (!isMeldingIngredient(stack.getItem())) // Only accept real ingredients
 				continue;
 
-			entries.add(new SlotEntry(slot, stack.copy()));
+			entries.add(new SlotEntry(slot, stack.copy(), false));
 		}
 
 		entries.sort(
-				Comparator.<SlotEntry>comparingInt(e -> {
-					ItemStack stack = e.stack;
+				Comparator.<SlotEntry>comparingInt(e -> e.equipped ? 0 : 1)
+					.thenComparingInt(e -> {
+						ItemStack stack = e.stack;
+						boolean canCurrentlyMeld = stack.getItem() instanceof MagicSpellItem magic && magic.canMeld(stack);
 
-					boolean canCurrentlyMeld = stack.getItem() instanceof MagicSpellItem magic && magic.canMeld(stack);
-					return canCurrentlyMeld ? 0 : 1;
-				})
+						return canCurrentlyMeld ? 0 : 1;
+					})
 				//.thenComparing(e -> e.stack.getHoverName().getString())
 		);
 
@@ -243,6 +273,10 @@ public class MeldingScreen extends MenuFilterable {
 				}
 			};
 
+			if(entry.equipped) {
+				item.setBackgroundColor(new Color(30*2, 20*2, 63*2));
+			}
+
 			boolean compatible = base.isEmpty() || isCompatible(base, stack);
 
 			if (!compatible) {
@@ -292,7 +326,7 @@ public class MeldingScreen extends MenuFilterable {
 			}
 		}
 
-		PlayerData playerData = PlayerData.get(minecraft.player);
+		playerData = PlayerData.get(minecraft.player);
 
 		// Selected magics
 		int centerTopX = boxMT.getX() + boxMT.getWidth() / 2;
@@ -345,9 +379,9 @@ public class MeldingScreen extends MenuFilterable {
 				}
 			} else {
 				if (!selected1.isEmpty() || !selected2.isEmpty()) { //Only show ????? if at least one ingredient has been selected
-					gui.drawString(minecraft.font, "Cost: ???", boxR.getX() + 10, boxR.getY() + 10, 0x777777);
+					gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Shop_Buy_Cost)+" ???", boxR.getX() + 10, boxR.getY() + 10, 0x777777);
 					gui.drawCenteredString(minecraft.font, "?????", rightCenterX, boxR.getY() + boxR.getHeight() - 20, 0x777777);
-					tierText = "Tier: ???";
+					tierText = Utils.translateToLocal(Strings.Gui_Shop_Tier)+" ?";
 					gui.drawString(minecraft.font, tierText, boxR.getX() + boxR.getWidth() - minecraft.font.width(tierText) - 10, boxR.getY() + 10, 0x777777);
 				}
 				meld.active = false;
@@ -459,10 +493,12 @@ public class MeldingScreen extends MenuFilterable {
 	private static class SlotEntry {
 		final int slot;
 		final ItemStack stack;
+		final boolean equipped;
 
-		SlotEntry(int slot, ItemStack stack) {
+		SlotEntry(int slot, ItemStack stack, boolean equipped) {
 			this.slot = slot;
 			this.stack = stack;
+			this.equipped = equipped;
 		}
 	}
 }
