@@ -219,7 +219,7 @@ public class Recipes extends RecipeProvider {
         .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_BOOTS))
         .save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "keyblade_armor_xehanort_boots_smithing"));
 
-		ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.firaSpell.get())
+		/*ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.firaSpell.get())
 				.requires(ModItems.fireSpell.get(), 2)
 				.unlockedBy("fira_spell", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.fireSpell.get()))
 				.save(consumer);
@@ -318,7 +318,7 @@ public class Recipes extends RecipeProvider {
 				.requires(ModItems.stopraSpell.get(), 2)
 				.unlockedBy("stopga_spell", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.stopraSpell.get()))
 				.save(consumer);
-
+*/
 
         // blox
         ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.normalBlox.get())

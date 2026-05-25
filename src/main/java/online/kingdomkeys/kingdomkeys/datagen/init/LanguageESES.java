@@ -2156,6 +2156,7 @@ public class LanguageESES extends KKLanguageProvider {
 
         //JEI
         add("jei.category.kingdomkeys.synthesis", "S\u00edntesis de Objetos");
+        add("jei.category.kingdomkeys.melding", "Síntesis de Ítems");
         add("jei.category.kingdomkeys.savepoints", "Mejoras de Puntos de Guardado");
         add("jei.category.kingdomkeys.keyblade_summon", "Invocaci\u00f3n de Llave Espada");
         add("jei.category.kingdomkeys.synthesis.locked", "Receta no desbloqueada");
