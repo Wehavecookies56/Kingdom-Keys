@@ -31,7 +31,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class MenuEquipmentScreen extends MenuBackground {
 
-    MenuBox listBox, detailsBox;
+    public MenuBox listBox, detailsBox;
     Button back, showKeybladesButton;
     MenuScrollBar scrollBar;
 

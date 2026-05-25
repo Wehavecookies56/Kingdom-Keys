@@ -6,6 +6,7 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.capabilities.Capabilities;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuColourBox;
@@ -23,6 +24,7 @@ import org.jetbrains.annotations.NotNull;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class MenuMagicSelectorScreen extends MenuBackground {
 
@@ -31,7 +33,7 @@ public class MenuMagicSelectorScreen extends MenuBackground {
 
 	public MenuScrollBar scrollBar;
 	public int slot = -1;
-	MenuBox boxL, boxR;
+	public MenuBox boxL, boxR;
 	Button back;
 	MenuColourBox equipped;
 	List<MenuSelectMagicButton> widgets = new ArrayList<>();
@@ -112,34 +114,32 @@ public class MenuMagicSelectorScreen extends MenuBackground {
 			}
 
 
-			/*
-			 * MAGIC BAG
-			 */
-			ItemStack magicBag = ItemStack.EMPTY;
+			// Magic bag
+			if(MenuSelectMagicButton.hasOnlyOneBag(player)) {
+				ItemStack magicBag = ItemStack.EMPTY;
 
-			for (ItemStack stack : minecraft.player.getInventory().items) {
-				if (stack.getItem() == ModItems.magicsBag.get()) {
-					magicBag = stack;
-					break;
-				}
-			}
-			if (!magicBag.isEmpty()) {
-
-				if (magicBag.getCapability(Capabilities.ItemHandler.ITEM) instanceof BagInventory bagInv) {
-
-					for (int i = 0; i < bagInv.getSlots(); i++) {
-
-						ItemStack stack = bagInv.getStackInSlot(i);
-
-						if (stack.isEmpty()) continue;
-
-						if (!(stack.getItem() instanceof MagicSpellItem)) continue;
-
-						int virtualSlot = BAG_OFFSET - i;
-
-						widgets.add(new MenuSelectMagicButton(stack, virtualSlot, (int) listX, (int) listY + (itemHeight * pos++), (int) keybladesWidth - 25, this, buttonColour));
+				for (ItemStack stack : minecraft.player.getInventory().items) {
+					if (stack.getItem() == ModItems.magicsBag.get()) {
+						magicBag = stack;
+						break;
 					}
 				}
+
+				if (!magicBag.isEmpty()) {
+					if (magicBag.getCapability(Capabilities.ItemHandler.ITEM) instanceof BagInventory bagInv) {
+						for (int i = 0; i < bagInv.getSlots(); i++) {
+							ItemStack stack = bagInv.getStackInSlot(i);
+							if (stack.isEmpty())
+								continue;
+							if (!(stack.getItem() instanceof MagicSpellItem))
+								continue;
+							int virtualSlot = BAG_OFFSET - i;
+							widgets.add(new MenuSelectMagicButton(stack, virtualSlot, (int) listX, (int) listY + (itemHeight * pos++), (int) keybladesWidth - 25, this, buttonColour));
+						}
+					}
+				}
+			} else {
+				KingdomKeys.LOGGER.debug("More than one magic bag found, ignoring.");
 			}
 		}
 

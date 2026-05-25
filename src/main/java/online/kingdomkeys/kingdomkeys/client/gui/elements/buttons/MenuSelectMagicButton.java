@@ -8,6 +8,7 @@ import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.client.sounds.SoundManager;
+import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
@@ -35,6 +36,8 @@ import java.awt.*;
 public class MenuSelectMagicButton extends MenuButtonBase {
 
 	final ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
+	final ResourceLocation barTexture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
+
 	ItemStack stack;
 	boolean selected;
 	int colour, labelColour;
@@ -52,7 +55,10 @@ public class MenuSelectMagicButton extends MenuButtonBase {
 
 					if (slot <= MenuMagicSelectorScreen.BAG_OFFSET) {
 						int bagSlot = Math.abs(slot - MenuMagicSelectorScreen.BAG_OFFSET);
-						ItemStack magicBag = Utils.getItemInAnyHand(player, ModItems.magicsBag.get());
+						if(!hasOnlyOneBag(player)) //Only one bag should be in the inv
+							return;
+
+						ItemStack magicBag = player.getInventory().getItem(getMagicBagSlot(player));
 						if (magicBag.isEmpty())
 							return;
 						if (!(magicBag.getCapability(Capabilities.ItemHandler.ITEM) instanceof BagInventory bagInv))
@@ -98,6 +104,30 @@ public class MenuSelectMagicButton extends MenuButtonBase {
 		super.setWidth(width);
 	}
 
+	public static int getMagicBagSlot(Player player) {
+		NonNullList<ItemStack> items = player.getInventory().items;
+		for (int i = 0, itemsSize = items.size(); i < itemsSize; i++) {
+			ItemStack stack = items.get(i);
+			if (stack.is(ModItems.magicsBag.get())) {
+				return i;
+			}
+		}
+		return -1;
+	}
+
+	public static boolean hasOnlyOneBag(Player player) {
+		boolean found = false;
+		for (ItemStack stack : player.getInventory().items) {
+			if (stack.is(ModItems.magicsBag.get())) {
+				if(found){
+					return false;
+				} else {
+					found = true;
+				}
+			}
+		}
+		return found;
+	}
 
 	@Override
 	public void renderWidget(GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
@@ -161,14 +191,22 @@ public class MenuSelectMagicButton extends MenuButtonBase {
 					ClientUtils.drawItemAsIcon(stack, matrixStack, 0, 0, 16);
 				}
 				matrixStack.popPose();
-				float strPosX = parent.width * 0.57F;
-				float posY = parent.height * 0.55F;
+				float strPosX = parent.boxR.getX() + 10;
+				float posY = parent.boxR.getY() + parent.boxR.getHeight() / 2F + 20;
 
 				if (stack.getItem() instanceof MagicSpellItem spell) {
 					Magic magicInstance = ModMagic.registry.get(ResourceLocation.parse(spell.getMagic()));
 					int maxExp = magicInstance.getMaxExp(spell.getLevel());
 					Component text = Component.translatable("gui.magicspell.exp_short", spell.getExp(stack), maxExp);
 					gui.drawString(fr, text, (int) strPosX, (int) posY, 0xEEEE03);
+
+					int percent = (int) (spell.getExpPercent(stack) * 100F);
+					int barWidth = (int)(parent.boxR.getWidth() * 0.8F);
+					for (int j = 0; j < barWidth; j++)
+						gui.blit(barTexture, j + (int) strPosX, (int)posY + 10, 161, 67, 1, 25); // Bar Background
+
+					for (int j = 0; j < percent; j++)
+						gui.blit(barTexture, j + (int) strPosX, (int)posY + 10, 163, 67, 1, 5);
 				}
 			}
 		}

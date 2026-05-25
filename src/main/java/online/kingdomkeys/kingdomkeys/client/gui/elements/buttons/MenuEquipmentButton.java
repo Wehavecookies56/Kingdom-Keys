@@ -28,6 +28,7 @@ import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.check.CheckEquipmentScreen;
+import online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment.MenuEquipmentScreen;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.item.*;
@@ -56,8 +57,9 @@ public class MenuEquipmentButton extends Button {
 	public int offsetY;
 
 	final ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
+	final ResourceLocation barTexture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
 
-    public MenuEquipmentButton(ItemStack stack, int x, int y, int colour, Screen toOpen, ItemCategory category, MenuBackground parent) {
+	public MenuEquipmentButton(ItemStack stack, int x, int y, int colour, Screen toOpen, ItemCategory category, MenuBackground parent) {
         super(new Builder(Component.literal(""), b -> {
             if (b.visible && b.active && !(parent instanceof CheckEquipmentScreen)) {
                 Minecraft.getInstance().setScreen(((MenuEquipmentButton)b).toOpen);
@@ -331,8 +333,21 @@ public class MenuEquipmentButton extends Button {
 							MagicSpellItem spell = (MagicSpellItem) stack.getItem();
 							Magic magicInstance = ModMagic.registry.get(ResourceLocation.parse(spell.getMagic()));
 		                    int maxExp = magicInstance.getMaxExp(spell.getLevel());
-		                    Component text = Component.translatable("gui.magicspell.exp", spell.getExp(stack), maxExp);
-		                    gui.drawString(fr, text, (int) strPosX, (int) posY, 0xEEEE03);
+		                    if(parent instanceof MenuEquipmentScreen screen) {
+			                    float textX = screen.detailsBox.getX() + 10;
+			                    float textY = screen.detailsBox.getY() + screen.detailsBox.getHeight() / 2F + 20;
+
+			                    Component text = Component.translatable("gui.magicspell.exp", spell.getExp(stack), maxExp);
+		                        gui.drawString(fr, text, (int) textX, (int) textY, 0xEEEE03);
+
+		                        int percent = (int) (spell.getExpPercent(stack) * 100F);
+								int barWidth = (int) (screen.detailsBox.getWidth() * 0.8F);
+								for (int j = 0; j < barWidth; j++)
+									gui.blit(barTexture, j + (int) textX, (int) textY + 10, 161, 67, 1, 25); // Bar Background
+
+								for (int j = 0; j < percent; j++)
+									gui.blit(barTexture, j + (int) textX, (int) textY + 10, 163, 67, 1, 5);
+							}
 	                    }
 	                    
 	                    if(showResistances && resistances != null) {

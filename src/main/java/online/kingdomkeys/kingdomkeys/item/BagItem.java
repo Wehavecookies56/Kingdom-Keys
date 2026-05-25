@@ -1,5 +1,7 @@
 package online.kingdomkeys.kingdomkeys.item;
 
+import net.minecraft.ChatFormatting;
+import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -13,6 +15,7 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import online.kingdomkeys.kingdomkeys.api.item.IItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuSelectMagicButton;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.menu.BagMenu;
 import online.kingdomkeys.kingdomkeys.menu.ModMenus;
@@ -62,6 +65,11 @@ public class BagItem extends Item implements IItemCategory {
 		if (level != null) {
 			int bagLevel = level;
 			tooltip.add(Component.translatable(Utils.translateToLocal(Strings.Gui_Menu_Status_Level) + " " + (bagLevel + 1)));
+		}
+		if(type == Type.MAGICS_BAG) {
+			if(!MenuSelectMagicButton.hasOnlyOneBag(Minecraft.getInstance().player)){
+				tooltip.add(Component.literal("Only 1 magic bag should be in the inventory").withStyle(ChatFormatting.RED));
+			}
 		}
 		super.appendHoverText(stack, tooltipContext, tooltip, flagIn);
 	}
