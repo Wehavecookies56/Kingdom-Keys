@@ -61,7 +61,7 @@ public class BagItem extends Item implements IItemCategory {
 		Integer level = stack.get(ModComponents.BAG_LEVEL);
 		if (level != null) {
 			int bagLevel = level;
-			tooltip.add(Component.translatable(Utils.translateToLocal(Strings.Gui_Menu_Status_Level) + " " + bagLevel + 1));
+			tooltip.add(Component.translatable(Utils.translateToLocal(Strings.Gui_Menu_Status_Level) + " " + (bagLevel + 1)));
 		}
 		super.appendHoverText(stack, tooltipContext, tooltip, flagIn);
 	}
