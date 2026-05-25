@@ -141,6 +141,17 @@ public class Utils {
         }
     }
 
+	public static ItemStack getItemInInventory(Player player, Item item) {
+		ItemStack itemStack = ItemStack.EMPTY;
+
+		for (ItemStack stack : player.getInventory().items) {
+			if (stack.getItem() == item) {
+				itemStack = stack;
+				break;
+			}
+		}
+		return itemStack;
+	}
 
     public static ItemStack getItemInAnyHand(Player player, Item item) {
 		if(!player.getMainHandItem().isEmpty() && player.getMainHandItem().getItem() == item) {

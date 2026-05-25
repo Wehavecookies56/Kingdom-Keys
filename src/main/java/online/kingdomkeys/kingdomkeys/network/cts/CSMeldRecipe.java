@@ -8,15 +8,19 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.item.MagicSpellItem;
+import online.kingdomkeys.kingdomkeys.item.ModItems;
+import online.kingdomkeys.kingdomkeys.menu.BagInventory;
 import online.kingdomkeys.kingdomkeys.network.Packet;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
 import online.kingdomkeys.kingdomkeys.synthesis.melding.Melding;
 import online.kingdomkeys.kingdomkeys.synthesis.melding.MeldingRegistry;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public record CSMeldRecipe(ResourceLocation recipe, int selected1, int selected2) implements Packet {
 
@@ -56,12 +60,24 @@ public record CSMeldRecipe(ResourceLocation recipe, int selected1, int selected2
 	}
 
 	private static void consumeMagic(Player player, PlayerData playerData, int slot) {
-		if(slot == -1)
+		if (slot == -1)
 			return;
 
-		if(isEquippedSlot(slot)) {
+		if (isEquippedSlot(slot)) {
+
 			int equippedSlot = getEquippedIndex(slot);
 			playerData.equipMagic(equippedSlot, ItemStack.EMPTY);
+
+		} else if (isBagSlot(slot)) {
+
+			int bagSlot = getBagIndex(slot);
+
+			ItemStack magicBag = Utils.getItemInInventory(player, ModItems.magicsBag.get());
+			if (!magicBag.isEmpty()) {
+				if (magicBag.getCapability(Capabilities.ItemHandler.ITEM) instanceof BagInventory bagInv) {
+					bagInv.setStackInSlot(bagSlot, ItemStack.EMPTY);
+				}
+			}
 		} else {
 			player.getInventory().removeItem(slot, 1);
 		}
@@ -73,10 +89,18 @@ public record CSMeldRecipe(ResourceLocation recipe, int selected1, int selected2
 	}
 
 	private static boolean isEquippedSlot(int slot) {
-		return slot <= -1000;
+		return slot <= -1000 && slot > -2000;
+	}
+
+	private static boolean isBagSlot(int slot) {
+		return slot <= -2000;
 	}
 
 	private static int getEquippedIndex(int slot) {
 		return -1000 - slot;
+	}
+
+	private static int getBagIndex(int slot) {
+		return -2000 - slot;
 	}
 }

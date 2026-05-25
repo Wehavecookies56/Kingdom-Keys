@@ -10,17 +10,21 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.neoforged.neoforge.capabilities.Capabilities;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuFilterable;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuScrollBar;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuSelectMagicButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuStockItem;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.item.MagicSpellItem;
+import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
+import online.kingdomkeys.kingdomkeys.menu.BagInventory;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSMeldRecipe;
 import online.kingdomkeys.kingdomkeys.synthesis.melding.Melding;
@@ -45,6 +49,9 @@ public class MeldingScreen extends MenuFilterable {
 	private int selectedSlot1 = -1;
 	private int selectedSlot2 = -1;
 	private int lastInventoryHash;
+
+	public static final int EQUIPPED_OFFSET = -1000;
+	public static final int BAG_OFFSET = -2000;
 
 	public MeldingScreen() {
 		super(Strings.Gui_Melding, new Color(0, 0, 255));
@@ -160,9 +167,11 @@ public class MeldingScreen extends MenuFilterable {
 
 		List<SlotEntry> entries = new ArrayList<>();
 
+		// Equipped magics
 		Map<Integer, ItemStack> equippedMagics = playerData.getEquippedMagics();
+
 		for (Map.Entry<Integer, ItemStack> entry : equippedMagics.entrySet()) {
-			int slot = -1000 - entry.getKey(); //Avoid normal inv slots conflict
+			int slot = EQUIPPED_OFFSET - entry.getKey();
 			ItemStack stack = entry.getValue();
 
 			if (stack.isEmpty())
@@ -174,7 +183,7 @@ public class MeldingScreen extends MenuFilterable {
 			if (!isMeldingIngredient(stack.getItem()))
 				continue;
 
-			entries.add(new SlotEntry(slot, stack.copy(), true));
+			entries.add(new SlotEntry(slot, stack.copy(), true, false));
 		}
 
 		for (int slot = 0; slot < minecraft.player.getInventory().items.size(); slot++) {
@@ -189,18 +198,49 @@ public class MeldingScreen extends MenuFilterable {
 			if (!isMeldingIngredient(stack.getItem())) // Only accept real ingredients
 				continue;
 
-			entries.add(new SlotEntry(slot, stack.copy(), false));
+			entries.add(new SlotEntry(slot, stack.copy(), false, false));
+		}
+
+		if(MenuSelectMagicButton.hasOnlyOneBag(player)) {
+			ItemStack magicBag = ItemStack.EMPTY;
+
+			for(ItemStack stack : minecraft.player.getInventory().items) {
+				if(stack.getItem() == ModItems.magicsBag.get()) {
+					magicBag = stack;
+					break;
+				}
+			}
+
+			if(!magicBag.isEmpty()) {
+				if(magicBag.getCapability(Capabilities.ItemHandler.ITEM) instanceof BagInventory bagInv) {
+					for(int i = 0; i < bagInv.getSlots(); i++) {
+						ItemStack stack = bagInv.getStackInSlot(i);
+						if(stack.isEmpty())
+							continue;
+						if(!(stack.getItem() instanceof MagicSpellItem))
+							continue;
+						if(!isMeldingIngredient(stack.getItem()))
+							continue;
+						int slot = BAG_OFFSET - i;
+						entries.add(new SlotEntry(slot, stack.copy(), false, true));
+					}
+				}
+			}
 		}
 
 		entries.sort(
-				Comparator.<SlotEntry>comparingInt(e -> e.equipped ? 0 : 1)
-					.thenComparingInt(e -> {
-						ItemStack stack = e.stack;
-						boolean canCurrentlyMeld = stack.getItem() instanceof MagicSpellItem magic && magic.canMeld(stack);
-
-						return canCurrentlyMeld ? 0 : 1;
-					})
-				//.thenComparing(e -> e.stack.getHoverName().getString())
+				Comparator.<SlotEntry>comparingInt(e -> {
+					if(e.equipped)
+						return 0;
+					if(e.bag)
+						return 1;
+					return 2;
+				})
+				.thenComparingInt(e -> {
+					ItemStack stack = e.stack;
+					boolean canCurrentlyMeld = stack.getItem() instanceof MagicSpellItem magic && magic.canMeld(stack);
+					return canCurrentlyMeld ? 0 : 1;
+				})
 		);
 
 		ItemStack base = !selected1.isEmpty() ? selected1 : selected2;
@@ -251,7 +291,7 @@ public class MeldingScreen extends MenuFilterable {
 						int green = (int) (255 * percent);
 						int color = (red << 16) | (green << 8);
 
-						String text = (int) percent * 100 + "%";
+						String text = (int) (percent * 100) + "%";
 						int x = getX() + getWidth() - minecraft.font.width(text) - 4;
 						gui.drawString(minecraft.font, text, x, getY() + 3, color);
 
@@ -275,11 +315,8 @@ public class MeldingScreen extends MenuFilterable {
 			if(entry.equipped) {
 				item.setBackgroundColor(new Color(60, 40, 127));
 			}
-
-			boolean compatible = base.isEmpty() || isCompatible(base, stack);
-
-			if (!compatible) {
-				//shouldn't reach this I think
+			else if(entry.bag) {
+				item.setBackgroundColor(new Color(100, 40, 127));
 			}
 
 			// Resaltar seleccionados
@@ -493,11 +530,13 @@ public class MeldingScreen extends MenuFilterable {
 		final int slot;
 		final ItemStack stack;
 		final boolean equipped;
+		final boolean bag;
 
-		SlotEntry(int slot, ItemStack stack, boolean equipped) {
+		SlotEntry(int slot, ItemStack stack, boolean equipped, boolean bag) {
 			this.slot = slot;
 			this.stack = stack;
 			this.equipped = equipped;
+			this.bag = bag;
 		}
 	}
 }
