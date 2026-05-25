@@ -37,12 +37,11 @@ public class MenuSelectMagicButton extends MenuButtonBase {
 
 	final ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
 	final ResourceLocation barTexture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
-
-	ItemStack stack;
+	public int slot;
+	public ItemStack stack;
 	boolean selected;
 	int colour, labelColour;
 	MenuMagicSelectorScreen parent;
-	int slot;
 	Minecraft minecraft;
 
 	public MenuSelectMagicButton(ItemStack stack, int slot, int x, int y, int widthIn, MenuMagicSelectorScreen parent, int colour) {
@@ -55,14 +54,12 @@ public class MenuSelectMagicButton extends MenuButtonBase {
 
 					if (slot <= MenuMagicSelectorScreen.BAG_OFFSET) {
 						int bagSlot = Math.abs(slot - MenuMagicSelectorScreen.BAG_OFFSET);
-						if(!hasOnlyOneBag(player)) //Only one bag should be in the inv
+						if (!hasOnlyOneBag(player)) //Only one bag should be in the inv
 							return;
 
 						ItemStack magicBag = player.getInventory().getItem(getMagicBagSlot(player));
-						if (magicBag.isEmpty())
-							return;
-						if (!(magicBag.getCapability(Capabilities.ItemHandler.ITEM) instanceof BagInventory bagInv))
-							return;
+						if (magicBag.isEmpty()) return;
+						if (!(magicBag.getCapability(Capabilities.ItemHandler.ITEM) instanceof BagInventory bagInv)) return;
 
 						stackToEquip = bagInv.getStackInSlot(bagSlot);
 					} else {
@@ -99,11 +96,6 @@ public class MenuSelectMagicButton extends MenuButtonBase {
 		minecraft = Minecraft.getInstance();
 	}
 
-	@Override
-	public void setWidth(int width) {
-		super.setWidth(width);
-	}
-
 	public static int getMagicBagSlot(Player player) {
 		NonNullList<ItemStack> items = player.getInventory().items;
 		for (int i = 0, itemsSize = items.size(); i < itemsSize; i++) {
@@ -119,7 +111,7 @@ public class MenuSelectMagicButton extends MenuButtonBase {
 		boolean found = false;
 		for (ItemStack stack : player.getInventory().items) {
 			if (stack.is(ModItems.magicsBag.get())) {
-				if(found){
+				if (found) {
 					return false;
 				} else {
 					found = true;
@@ -127,6 +119,11 @@ public class MenuSelectMagicButton extends MenuButtonBase {
 			}
 		}
 		return found;
+	}
+
+	@Override
+	public void setWidth(int width) {
+		super.setWidth(width);
 	}
 
 	@Override
@@ -200,13 +197,12 @@ public class MenuSelectMagicButton extends MenuButtonBase {
 					Component text = Component.translatable("gui.magicspell.exp_short", spell.getExp(stack), maxExp);
 					gui.drawString(fr, text, (int) strPosX, (int) posY, 0xEEEE03);
 
-					int percent = (int) (spell.getExpPercent(stack) * 100F);
-					int barWidth = (int)(parent.boxR.getWidth() * 0.8F);
-					for (int j = 0; j < barWidth; j++)
-						gui.blit(barTexture, j + (int) strPosX, (int)posY + 10, 161, 67, 1, 25); // Bar Background
+					float percent = spell.getExpPercent(stack);
+					int barWidth = (int) (parent.boxR.getWidth() * 0.8F);
+					int percentWidth = (int)(barWidth * percent);
 
-					for (int j = 0; j < percent; j++)
-						gui.blit(barTexture, j + (int) strPosX, (int)posY + 10, 163, 67, 1, 5);
+					gui.blit(barTexture, (int) strPosX, (int) posY + 10, barWidth, 5, 161, 67, 1, 5, 256, 256);
+					gui.blit(barTexture, (int) strPosX, (int) posY + 10, percentWidth, 5, 163, 67, 1, 5, 256, 256);
 				}
 			}
 		}

@@ -486,7 +486,7 @@ public class LanguageESES extends KKLanguageProvider {
         add("gui.statboost.increased","%s aumentada, ahora es %s");
         add("gui.statboost.tooltip", "aumenta %s en 1");
 
-        add("gui.magicspell.equip","Equípalo en el menú para poder usarla");
+        add("gui.magicspell.equip","Equípalo en el menú para usarlo");
         add("gui.magicspell.exp","Experiencia: %s/%s");
         add("gui.magicspell.exp_short","Exp: %s/%s");
 
@@ -965,8 +965,9 @@ public class LanguageESES extends KKLanguageProvider {
         addItem(ModItems.recipeSSS, "Receta de clase SSS");
         addItem(ModItems.iceCream, "Helado de Sal Marina");
         addItem(ModItems.winnerStick, "Palito de ganador");
-        addItem(ModItems.synthesisBag, "Bolsa de S\u00edntesis");
-        addItem(ModItems.proofOfHeart, "Prueba de Coraz\u00f3n");
+        addItem(ModItems.synthesisBag, "Bolsa de Síntesis");
+        addItem(ModItems.magicsBag, "Bolsa de Hechizos");
+        addItem(ModItems.proofOfHeart, "Prueba de Corazón");
         addItem(ModItems.wayfinder, "Siemprejuntos");
         addItem(ModItems.trainingDummy, "Espantapájaros de entrenamiento");
 

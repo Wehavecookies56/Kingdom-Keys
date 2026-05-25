@@ -430,7 +430,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add("gui.statboost.increased","Increased %s, now it's %s");
         add("gui.statboost.tooltip", "Increases %s by 1");
         		
-        add("gui.magicspell.equip","Equip in the menu in order to use it");
+        add("gui.magicspell.equip","Equip in the menu to use it");
         add("gui.magicspell.exp","Experience: %s/%s");
         add("gui.magicspell.exp_short","Exp: %s/%s");
 
@@ -1928,6 +1928,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.iceCream, "Sea Salt Ice Cream");
         addItem(ModItems.winnerStick, "Winner Stick");
         addItem(ModItems.synthesisBag, "Synthesis Bag");
+        addItem(ModItems.magicsBag, "Spells Bag");
         addItem(ModItems.proofOfHeart, "Proof of Heart");
         addItem(ModItems.wayfinder, "Wayfinder");
         addItem(ModItems.trainingDummy, "Training Scarecrow");

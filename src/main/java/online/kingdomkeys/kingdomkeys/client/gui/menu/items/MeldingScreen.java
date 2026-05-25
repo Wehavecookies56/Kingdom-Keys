@@ -23,7 +23,6 @@ import online.kingdomkeys.kingdomkeys.item.MagicSpellItem;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSMeldRecipe;
-import online.kingdomkeys.kingdomkeys.network.cts.CSOpenMenu;
 import online.kingdomkeys.kingdomkeys.synthesis.melding.Melding;
 import online.kingdomkeys.kingdomkeys.synthesis.melding.MeldingRegistry;
 import online.kingdomkeys.kingdomkeys.util.Utils;
@@ -48,7 +47,7 @@ public class MeldingScreen extends MenuFilterable {
 	private int lastInventoryHash;
 
 	public MeldingScreen() {
-		super(Strings.Gui_Melding, new Color(0, 255, 0));
+		super(Strings.Gui_Melding, new Color(0, 0, 255));
 		drawSeparately = true;
 	}
 
@@ -274,7 +273,7 @@ public class MeldingScreen extends MenuFilterable {
 			};
 
 			if(entry.equipped) {
-				item.setBackgroundColor(new Color(30*2, 20*2, 63*2));
+				item.setBackgroundColor(new Color(60, 40, 127));
 			}
 
 			boolean compatible = base.isEmpty() || isCompatible(base, stack);

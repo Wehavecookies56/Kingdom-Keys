@@ -335,18 +335,17 @@ public class MenuEquipmentButton extends Button {
 		                    int maxExp = magicInstance.getMaxExp(spell.getLevel());
 		                    if(parent instanceof MenuEquipmentScreen screen) {
 			                    float textX = screen.detailsBox.getX() + 10;
-			                    float textY = screen.detailsBox.getY() + screen.detailsBox.getHeight() / 2F + 20;
+			                    float textY = screen.detailsBox.getY() + screen.detailsBox.getHeight() / 2F + 25;
 
-			                    Component text = Component.translatable("gui.magicspell.exp", spell.getExp(stack), maxExp);
+			                    Component text = Component.translatable("gui.magicspell.exp_short", spell.getExp(stack), maxExp);
 		                        gui.drawString(fr, text, (int) textX, (int) textY, 0xEEEE03);
 
-		                        int percent = (int) (spell.getExpPercent(stack) * 100F);
-								int barWidth = (int) (screen.detailsBox.getWidth() * 0.8F);
-								for (int j = 0; j < barWidth; j++)
-									gui.blit(barTexture, j + (int) textX, (int) textY + 10, 161, 67, 1, 25); // Bar Background
+			                    float percent = spell.getExpPercent(stack);
+			                    int barWidth = (int) (screen.detailsBox.getWidth() * 0.8F);
+			                    int percentWidth = (int)(barWidth * percent);
 
-								for (int j = 0; j < percent; j++)
-									gui.blit(barTexture, j + (int) textX, (int) textY + 10, 163, 67, 1, 5);
+			                    gui.blit(barTexture, (int) textX, (int) textY + 10, barWidth, 5, 161, 67, 1, 5, 256, 256);
+			                    gui.blit(barTexture, (int) textX, (int) textY + 10, percentWidth, 5, 163, 67, 1, 5, 256, 256);
 							}
 	                    }
 	                    
