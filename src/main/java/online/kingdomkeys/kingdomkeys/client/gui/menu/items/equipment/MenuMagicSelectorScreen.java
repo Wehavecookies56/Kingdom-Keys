@@ -122,7 +122,7 @@ public class MenuMagicSelectorScreen extends MenuBackground {
 							if (!(stack.getItem() instanceof MagicSpellItem))
 								continue;
 							int virtualSlot = BAG_OFFSET - i;
-							widgets.add(new MenuSelectMagicButton(stack, virtualSlot, (int) listX, 0, (int) keybladesWidth - 25, this, new Color(60*2, 40*2, 127*2).getRGB()));
+							widgets.add(new MenuSelectMagicButton(stack, virtualSlot, (int) listX, 0, (int) keybladesWidth - 25, this, new Color(200, 80, 200).getRGB()));
 						}
 					}
 				}

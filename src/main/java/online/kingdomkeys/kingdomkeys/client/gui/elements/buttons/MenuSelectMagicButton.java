@@ -72,7 +72,7 @@ public class MenuSelectMagicButton extends MenuButtonBase {
 
 						if (slot <= MenuMagicSelectorScreen.BAG_OFFSET) {
 							int bagSlot = Math.abs(slot - MenuMagicSelectorScreen.BAG_OFFSET);
-							ItemStack magicBag = Utils.getItemInAnyHand(player, ModItems.magicsBag.get());
+							ItemStack magicBag = Utils.getItemInInventory(player, ModItems.magicsBag.get());
 
 							if (magicBag.getCapability(Capabilities.ItemHandler.ITEM) instanceof BagInventory bagInv) {
 								bagInv.setStackInSlot(bagSlot, stackPreviouslyEquipped);

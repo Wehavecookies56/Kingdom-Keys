@@ -103,6 +103,7 @@ import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.menu.PauldronInventory;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCRecalculateEyeHeight;
+import online.kingdomkeys.kingdomkeys.network.stc.SCShowOverlayPacket;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncGlobalData;
 import online.kingdomkeys.kingdomkeys.shotlock.ModShotlocks;
 import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
@@ -112,6 +113,8 @@ import javax.annotation.Nullable;
 import java.util.*;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
+
+import static online.kingdomkeys.kingdomkeys.client.gui.overlay.GuiOverlay.driveForm;
 
 public class Utils {
 
@@ -939,7 +942,16 @@ public class Utils {
 			if (!(stack.getItem() instanceof MagicSpellItem magic))
 				continue;
 
+			int oldExp = magic.getExp(stack);
 			magic.addExp(stack, amount);
+
+			if(magic.getExp(stack) >= magic.getMaxExp()) {
+				if(magic.getExp(stack) != oldExp) {
+					playerData.setMessages(List.of(stack.getHoverName().getString() +" has leveled up"));
+					player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.levelup.get(), SoundSource.MASTER, 0.5f, 1.0f);
+					PacketHandler.sendTo(new SCShowOverlayPacket("levelup", player.getUUID(), player.getGameProfile().getName(), playerData.getLevel(), playerData.getNotifColor(), new ArrayList<>(playerData.getMessages())), (ServerPlayer) player);
+				}
+			}
 		}
 	}
 

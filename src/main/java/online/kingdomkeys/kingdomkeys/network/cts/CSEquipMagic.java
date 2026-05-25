@@ -39,7 +39,7 @@ public record CSEquipMagic(int slotToEquipTo, int slotToEquipFrom) implements Pa
 
 		if (fromBag) {
 			bagSlot = Math.abs(slotToEquipFrom - MenuMagicSelectorScreen.BAG_OFFSET);
-			ItemStack magicBag = Utils.getItemInAnyHand(player, ModItems.magicsBag.get());
+			ItemStack magicBag = Utils.getItemInInventory(player, ModItems.magicsBag.get());
 			if (magicBag.isEmpty())
 				return;
 
