@@ -201,7 +201,7 @@ public class MeldingScreen extends MenuFilterable {
 			entries.add(new SlotEntry(slot, stack.copy(), false, false));
 		}
 
-		if(MenuSelectMagicButton.hasOnlyOneBag(player)) {
+		if(Utils.hasOnlyOneBag(player)) {
 			ItemStack magicBag = ItemStack.EMPTY;
 
 			for(ItemStack stack : minecraft.player.getInventory().items) {

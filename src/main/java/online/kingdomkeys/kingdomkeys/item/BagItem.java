@@ -67,7 +67,7 @@ public class BagItem extends Item implements IItemCategory {
 			tooltip.add(Component.translatable(Utils.translateToLocal(Strings.Gui_Menu_Status_Level) + " " + (bagLevel + 1)));
 		}
 		if(type == Type.MAGICS_BAG) {
-			if(!MenuSelectMagicButton.hasOnlyOneBag(Minecraft.getInstance().player)){
+			if(!Utils.hasOnlyOneBag(Minecraft.getInstance().player)){
 				tooltip.add(Component.literal("Only 1 magic bag should be in the inventory").withStyle(ChatFormatting.RED));
 			}
 		}

@@ -54,10 +54,10 @@ public class MenuSelectMagicButton extends MenuButtonBase {
 
 					if (slot <= MenuMagicSelectorScreen.BAG_OFFSET) {
 						int bagSlot = Math.abs(slot - MenuMagicSelectorScreen.BAG_OFFSET);
-						if (!hasOnlyOneBag(player)) //Only one bag should be in the inv
+						if (!Utils.hasOnlyOneBag(player)) //Only one bag should be in the inv
 							return;
 
-						ItemStack magicBag = player.getInventory().getItem(getMagicBagSlot(player));
+						ItemStack magicBag = player.getInventory().getItem(Utils.getMagicBagSlot(player));
 						if (magicBag.isEmpty()) return;
 						if (!(magicBag.getCapability(Capabilities.ItemHandler.ITEM) instanceof BagInventory bagInv)) return;
 
@@ -96,30 +96,7 @@ public class MenuSelectMagicButton extends MenuButtonBase {
 		minecraft = Minecraft.getInstance();
 	}
 
-	public static int getMagicBagSlot(Player player) {
-		NonNullList<ItemStack> items = player.getInventory().items;
-		for (int i = 0, itemsSize = items.size(); i < itemsSize; i++) {
-			ItemStack stack = items.get(i);
-			if (stack.is(ModItems.magicsBag.get())) {
-				return i;
-			}
-		}
-		return -1;
-	}
 
-	public static boolean hasOnlyOneBag(Player player) {
-		boolean found = false;
-		for (ItemStack stack : player.getInventory().items) {
-			if (stack.is(ModItems.magicsBag.get())) {
-				if (found) {
-					return false;
-				} else {
-					found = true;
-				}
-			}
-		}
-		return found;
-	}
 
 	@Override
 	public void setWidth(int width) {

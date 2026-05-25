@@ -6,10 +6,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.core.Holder;
-import net.minecraft.core.Vec3i;
+import net.minecraft.core.*;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
@@ -164,6 +161,31 @@ public class Utils {
 		}
 		return null;
     }
+
+	public static int getMagicBagSlot(Player player) {
+		NonNullList<ItemStack> items = player.getInventory().items;
+		for (int i = 0, itemsSize = items.size(); i < itemsSize; i++) {
+			ItemStack stack = items.get(i);
+			if (stack.is(ModItems.magicsBag.get())) {
+				return i;
+			}
+		}
+		return -1;
+	}
+
+	public static boolean hasOnlyOneBag(Player player) {
+		boolean found = false;
+		for (ItemStack stack : player.getInventory().items) {
+			if (stack.is(ModItems.magicsBag.get())) {
+				if (found) {
+					return false;
+				} else {
+					found = true;
+				}
+			}
+		}
+		return found;
+	}
 
 	public static int getSavepointPercent(int ticks) {
 		int res = Math.round(100 - (((ticks-1) /(20F-1F)) * 100F));
@@ -935,6 +957,7 @@ public class Utils {
 		if(playerData == null)
 			return;
 
+		ArrayList<String> leveledMagics =  new ArrayList();
 		for (ItemStack stack : playerData.getEquippedMagics().values()) {
 			if (stack.isEmpty())
 				continue;
@@ -947,11 +970,14 @@ public class Utils {
 
 			if(magic.getExp(stack) >= magic.getMaxExp()) {
 				if(magic.getExp(stack) != oldExp) {
-					playerData.setMessages(List.of(stack.getHoverName().getString() +" has leveled up"));
-					player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.levelup.get(), SoundSource.MASTER, 0.5f, 1.0f);
-					PacketHandler.sendTo(new SCShowOverlayPacket("levelup", player.getUUID(), player.getGameProfile().getName(), playerData.getLevel(), playerData.getNotifColor(), new ArrayList<>(playerData.getMessages())), (ServerPlayer) player);
+					leveledMagics.add("M_"+stack.getHoverName().getString() +" ⬆");
 				}
 			}
+		}
+
+		if(!leveledMagics.isEmpty()){
+			player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.levelup.get(), SoundSource.MASTER, 0.5f, 1.0f);
+			PacketHandler.sendTo(new SCShowOverlayPacket("levelup", player.getUUID(), player.getGameProfile().getName(), playerData.getLevel(), playerData.getNotifColor(), leveledMagics), (ServerPlayer) player);
 		}
 	}
 

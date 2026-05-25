@@ -112,7 +112,6 @@ public class GuiOverlay extends OverlayBase {
 		}
 	}
 
-
 	private void showExp(GuiGraphics gui) {
 		if(playerData != null) {
 			String reqExp = String.valueOf(playerData.getExpNeeded(playerData.getLevel(), playerData.getExperience()));
@@ -241,7 +240,7 @@ public class GuiOverlay extends OverlayBase {
 				}
 				
 				if(message.startsWith("M_")) {
-					blit(gui, menuTexture, (int)x, (int)y-2, 87, 115, 12, 12);
+					blit(gui, menuTexture, (int)x, (int)y-3, 87, 115, 12, 12);
 					message = message.replace("M_", "");
 					x += 13;
 				}

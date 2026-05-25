@@ -103,7 +103,7 @@ public class MenuMagicSelectorScreen extends MenuBackground {
 			}
 
 			// Magic bag
-			if(MenuSelectMagicButton.hasOnlyOneBag(player)) {
+			if(Utils.hasOnlyOneBag(player)) {
 				ItemStack magicBag = ItemStack.EMPTY;
 
 				for (ItemStack stack : minecraft.player.getInventory().items) {
