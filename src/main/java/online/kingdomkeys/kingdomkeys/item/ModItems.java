@@ -872,7 +872,8 @@ public class ModItems {
 			masterOrb = createNewItem(Strings.LevelUpMaster, () -> new DriveFormOrbItem(new Item.Properties(), KingdomKeys.MODID+":form_master")),
 			finalOrb = createNewItem(Strings.LevelUpFinal, () -> new DriveFormOrbItem(new Item.Properties(), KingdomKeys.MODID+":form_final")),
 			
-			synthesisBag = createNewItem("synthesis_bag", () -> new SynthesisBagItem(new Item.Properties().stacksTo(1))),
+			synthesisBag = createNewItem("synthesis_bag", () -> new BagItem(new Item.Properties().stacksTo(1), BagItem.Type.SYNTHESIS_BAG)),
+			magicsBag = createNewItem("magics_bag", () -> new BagItem(new Item.Properties().stacksTo(1), BagItem.Type.MAGICS_BAG)),
 			recipe = createNewItem("recipe", () -> new RecipeItem(0,new Item.Properties().stacksTo(16))),
 			recipeD = createNewItem("recipe_d", () -> new RecipeItem(1,new Item.Properties().stacksTo(16))),
 			recipeC = createNewItem("recipe_c", () -> new RecipeItem(2,new Item.Properties().stacksTo(16))),

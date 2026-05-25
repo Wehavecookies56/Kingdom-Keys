@@ -17,11 +17,11 @@ import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
-public record CSUpgradeSynthesisBagPacket() implements Packet {
+public record CSUpgradeBagPacket() implements Packet {
 
-	public static final Type<CSUpgradeSynthesisBagPacket> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_upgrade_synthesis_bag"));
+	public static final Type<CSUpgradeBagPacket> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_upgrade_synthesis_bag"));
 
-	public static final StreamCodec<FriendlyByteBuf, CSUpgradeSynthesisBagPacket> STREAM_CODEC = StreamCodec.of((pBuffer, pValue) -> {}, pBuffer -> new CSUpgradeSynthesisBagPacket());
+	public static final StreamCodec<FriendlyByteBuf, CSUpgradeBagPacket> STREAM_CODEC = StreamCodec.of((pBuffer, pValue) -> {}, pBuffer -> new CSUpgradeBagPacket());
 
 	@Override
 	public void handle(IPayloadContext context) {
@@ -29,14 +29,17 @@ public record CSUpgradeSynthesisBagPacket() implements Packet {
 
 		PlayerData playerData = PlayerData.get(player);
 		ItemStack stack = Utils.getItemInAnyHand(player, ModItems.synthesisBag.get());
+		if(stack == null || stack.isEmpty()){
+			stack = Utils.getItemInAnyHand(player, ModItems.magicsBag.get());
+		}
 
 		if(stack != null) {
-			int bagLevel = stack.get(ModComponents.SYNTH_BAG_LEVEL);
+			int bagLevel = stack.get(ModComponents.BAG_LEVEL);
 
 			int cost = Utils.getBagCosts(bagLevel);
 			if (playerData.getMunny() >= cost) {
 				playerData.setMunny(playerData.getMunny() - cost);
-				stack.set(ModComponents.SYNTH_BAG_LEVEL, bagLevel+1);
+				stack.set(ModComponents.BAG_LEVEL, bagLevel+1);
 				PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
 			}
 		}

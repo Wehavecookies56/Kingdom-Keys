@@ -361,7 +361,7 @@ public class MeldingScreen extends MenuFilterable {
 			// Result
 			if (currentMelding != null) {
 				ItemStack result = new ItemStack(currentMelding.getResult(), currentMelding.getAmount());
-				ClientUtils.drawItemAsIcon(result, pose, rightCenterX - 8, rightCenterY + 65, 40);
+				ClientUtils.drawItemAsIcon(result, pose, rightCenterX - 8, rightCenterY + 45, 80);
 
 				String resultName = result.getHoverName().getString();
 				gui.drawCenteredString(minecraft.font, resultName, rightCenterX, rightCenterY + 96, 0xFFFFFF);

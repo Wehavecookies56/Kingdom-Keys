@@ -117,7 +117,7 @@ public class PacketHandler {
 		server(CSTakeMaterials.TYPE, CSTakeMaterials.STREAM_CODEC);
 		server(CSTravelToSoA.TYPE, CSTravelToSoA.STREAM_CODEC);
 		server(CSUnlockEquipOrgWeapon.TYPE, CSUnlockEquipOrgWeapon.STREAM_CODEC);
-		server(CSUpgradeSynthesisBagPacket.TYPE, CSUpgradeSynthesisBagPacket.STREAM_CODEC);
+		server(CSUpgradeBagPacket.TYPE, CSUpgradeBagPacket.STREAM_CODEC);
 		server(CSUseDriveFormPacket.TYPE, CSUseDriveFormPacket.STREAM_CODEC);
 		server(CSUseItemPacket.TYPE, CSUseItemPacket.STREAM_CODEC);
 		server(CSUseLimitPacket.TYPE, CSUseLimitPacket.STREAM_CODEC);
