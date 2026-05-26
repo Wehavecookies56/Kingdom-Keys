@@ -166,15 +166,21 @@ public class MenuSelectMagicButton extends MenuButtonBase {
 				}
 				matrixStack.popPose();
 				float strPosX = parent.boxR.getX() + 10;
-				float posY = parent.boxR.getY() + parent.boxR.getHeight() / 2F + 20;
+				float posY = parent.boxR.getY() + parent.boxR.getHeight() / 2F + 30;
 
 				if (stack.getItem() instanceof MagicSpellItem spell) {
-					Magic magicInstance = ModMagic.registry.get(ResourceLocation.parse(spell.getMagic()));
-					int maxExp = magicInstance.getMaxExp(spell.getLevel());
-					Component text = Component.translatable("gui.magicspell.exp_short", spell.getExp(stack), maxExp);
+					Component text;
+					if(spell.isMaxed(stack)){
+						text = Component.translatable("gui.synthesis.exp").append(": MAX");
+					} else{
+						text = Component.translatable("gui.magicspell.exp_short", spell.getLocalExp(stack), spell.getLocalMaxExp());
+					}
 					gui.drawString(fr, text, (int) strPosX, (int) posY, 0xEEEE03);
 
-					float percent = spell.getExpPercent(stack);
+					text = Component.translatable("gui.magicspell.lvl_short", spell.getLocalLevel(stack));
+					gui.drawString(fr, text, (int) strPosX, (int) posY - 10, 0xEEEE03);
+
+					float percent = spell.getLocalPercent(stack);
 					int barWidth = (int) (parent.boxR.getWidth() * 0.8F);
 					int percentWidth = (int)(barWidth * percent);
 

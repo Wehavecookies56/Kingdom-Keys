@@ -489,6 +489,7 @@ public class LanguageESES extends KKLanguageProvider {
         add("gui.magicspell.equip","Equípalo en el menú para usarlo");
         add("gui.magicspell.exp","Experiencia: %s/%s");
         add("gui.magicspell.exp_short","Exp: %s/%s");
+        add("gui.magicspell.lvl_short","Nv. %s");
 
 
         add("gui.driveformorb.tooltip", "Mejora Forma %s");

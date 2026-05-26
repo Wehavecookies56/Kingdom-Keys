@@ -1733,9 +1733,9 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 	}
 
 	public void addAbility(String ability, boolean notification) {
-		Ability abilitythis = ModAbilities.registry.get(ResourceLocation.parse(ability));
+		Ability a = ModAbilities.registry.get(ResourceLocation.parse(ability));
 		if(notification) {
-			messages.add("A_"+abilitythis.getTranslationKey());
+			messages.add("A_"+a.getTranslationKey());
 		}
 		
 		if(abilityMap.containsKey(ability)) {

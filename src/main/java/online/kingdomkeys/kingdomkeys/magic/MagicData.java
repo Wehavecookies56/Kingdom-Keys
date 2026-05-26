@@ -11,18 +11,20 @@ public class MagicData {
     int[] cd = new int[4];
     boolean[] magicLockOn = new boolean[4];
 	int[] maxExp = new int[4];
+	int[] maxExpLevel = new int[4];
 
     public MagicData() {
 
     }
 
-    public MagicData(int level, int cost, int ct, int cd, float dmgMult, float magMult, boolean magicLockOn, int maxExp) {
+    public MagicData(int level, int cost, int ct, int cd, float dmgMult, float magMult, boolean magicLockOn, int maxExp, int maxExpLevel) {
     	this.cost[level] = cost;
     	this.ct[level] = ct;
     	this.cd[level] = cd;
 		this.dmgMult[level] = dmgMult;
 		this.magicLockOn[level] = magicLockOn;
 		this.maxExp[level] = maxExp;
+		this.maxExpLevel[level] = maxExpLevel;
 	}
 
     public int getCost(int lvl) {
@@ -69,7 +71,15 @@ public class MagicData {
 		return this.maxExp[lvl];
 	}
 
+	public int getMaxExpLevel(int lvl) {
+		return this.maxExpLevel[lvl];
+	}
+
 	public void setMaxExp(int lvl, int maxExp) {
 		this.maxExp[lvl] = maxExp;
+	}
+
+	public void setMaxExpLevel(int lvl, int maxExp) {
+		this.maxExpLevel[lvl] = maxExp;
 	}
 }

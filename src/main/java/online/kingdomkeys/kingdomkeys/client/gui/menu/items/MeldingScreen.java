@@ -286,12 +286,13 @@ public class MeldingScreen extends MenuFilterable {
 					boolean compatible = base.isEmpty() || isCompatible(base, stack) || ItemStack.isSameItemSameComponents(base, stack);
 
 					if (stack.getItem() instanceof MagicSpellItem spell) {
-						float percent = spell.getExpPercent(stack);
+						/*float percent = spell.getExpPercent(stack);
 						int red = (int) (255 * (1F - percent));
 						int green = (int) (255 * percent);
-						int color = (red << 16) | (green << 8);
+						int color = (red << 16) | (green << 8);*/
+						int color = spell.isMaxed(stack) ? 0x00FF00 : 0x555555;
 
-						String text = (int) (percent * 100) + "%";
+						String text = Utils.translateToLocal("gui.magicspell.lvl_short",spell.getLocalLevel(stack));
 						int x = getX() + getWidth() - minecraft.font.width(text) - 4;
 						gui.drawString(minecraft.font, text, x, getY() + 3, color);
 

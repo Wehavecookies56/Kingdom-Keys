@@ -860,6 +860,7 @@
   "gui.magicspell.equip": "Equip in the menu to use it",
   "gui.magicspell.exp": "Experience: %s/%s",
   "gui.magicspell.exp_short": "Exp: %s/%s",
+  "gui.magicspell.lvl_short": "Lvl %s",
   "gui.melding": "Melding",
   "gui.melding.meld": "Meld",
   "gui.menu.accept": "Accept",

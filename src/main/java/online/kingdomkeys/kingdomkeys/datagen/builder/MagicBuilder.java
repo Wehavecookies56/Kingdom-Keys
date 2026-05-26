@@ -56,6 +56,11 @@ public class MagicBuilder {
 			return this;
 		}
 
+		public LevelBuilder maxExpLevel(int value) {
+			obj.addProperty("max_exp_lvl", value);
+			return this;
+		}
+
 		public MagicBuilder end() {
 			parent.root.add(String.valueOf(level), obj);
 			return parent;

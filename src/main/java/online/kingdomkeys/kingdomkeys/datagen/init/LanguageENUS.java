@@ -433,6 +433,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add("gui.magicspell.equip","Equip in the menu to use it");
         add("gui.magicspell.exp","Experience: %s/%s");
         add("gui.magicspell.exp_short","Exp: %s/%s");
+        add("gui.magicspell.lvl_short","Lv. %s");
 
         add("gui.driveformorb.tooltip", "Upgrades %s Form");
     	add("gui.driveformorb.upgrade", "%s Form has obtained %s exp");

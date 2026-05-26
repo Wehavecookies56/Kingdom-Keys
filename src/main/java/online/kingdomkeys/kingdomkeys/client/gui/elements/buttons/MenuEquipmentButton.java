@@ -331,16 +331,23 @@ public class MenuEquipmentButton extends Button {
 
 	                    if(showExp) {
 							MagicSpellItem spell = (MagicSpellItem) stack.getItem();
-							Magic magicInstance = ModMagic.registry.get(ResourceLocation.parse(spell.getMagic()));
-		                    int maxExp = magicInstance.getMaxExp(spell.getLevel());
 		                    if(parent instanceof MenuEquipmentScreen screen) {
 			                    float textX = screen.detailsBox.getX() + 10;
 			                    float textY = screen.detailsBox.getY() + screen.detailsBox.getHeight() / 2F + 25;
 
-			                    Component text = Component.translatable("gui.magicspell.exp_short", spell.getExp(stack), maxExp);
-		                        gui.drawString(fr, text, (int) textX, (int) textY, 0xEEEE03);
+			                    Component text;
+			                    if(spell.isMaxed(stack)){
+				                    text = Component.translatable("gui.synthesis.exp").append(": MAX");
+			                    } else{
+				                    text = Component.translatable("gui.magicspell.exp_short", spell.getLocalExp(stack), spell.getLocalMaxExp());
+			                    }
+								gui.drawString(fr, text, (int) textX, (int) textY, 0xEEEE03);
 
-			                    float percent = spell.getExpPercent(stack);
+			                    text = Component.translatable("gui.magicspell.lvl_short", spell.getLocalLevel(stack));
+			                    float levelTextX = screen.detailsBox.getX() + screen.detailsBox.getWidth() * 0.8F - Minecraft.getInstance().font.width(text) + 10;
+			                    gui.drawString(fr, text, (int) levelTextX, (int) textY, 0xEEEE03);
+
+			                    float percent = spell.getLocalPercent(stack);
 			                    int barWidth = (int) (screen.detailsBox.getWidth() * 0.8F);
 			                    int percentWidth = (int)(barWidth * percent);
 

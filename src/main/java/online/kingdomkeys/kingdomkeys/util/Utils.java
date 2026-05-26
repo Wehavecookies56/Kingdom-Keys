@@ -965,13 +965,11 @@ public class Utils {
 			if (!(stack.getItem() instanceof MagicSpellItem magic))
 				continue;
 
-			int oldExp = magic.getExp(stack);
+			int oldLevel = magic.getLocalLevel(stack);
 			magic.addExp(stack, amount);
 
-			if(magic.getExp(stack) >= magic.getMaxExp()) {
-				if(magic.getExp(stack) != oldExp) {
-					leveledMagics.add("M_"+stack.getHoverName().getString() +" ⬆");
-				}
+			if(magic.getLocalLevel(stack) != oldLevel) { //If the level is different show notif
+				leveledMagics.add("M_"+stack.getHoverName().getString() +" "+ Utils.translateToLocal("gui.magicspell.lvl_short", magic.getLocalLevel(stack)));
 			}
 		}
 

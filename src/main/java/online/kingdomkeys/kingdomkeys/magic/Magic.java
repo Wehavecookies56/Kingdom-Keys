@@ -67,6 +67,10 @@ public abstract class Magic {
 	public int getMaxExp(int lvl) {
 		return data.getMaxExp(lvl);
 	}
+
+	public int getMaxExpLevel(int lvl) {
+		return data.getMaxExpLevel(lvl);
+	}
     
     public Ability getGMAbility() {
     	if(gmAbility == null)

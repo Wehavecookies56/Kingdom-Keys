@@ -44,6 +44,14 @@ public class MagicSpellItem extends Item implements IItemCategory {
 	public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
 		Magic magicInstance = ModMagic.registry.get(ResourceLocation.parse(magic));
 		player.displayClientMessage(Component.translatable("gui.magicspell.equip", Utils.translateToLocal(magicInstance.getTranslationKey(getLevel()))), true);
+		/*if(player.getItemInHand(hand).getItem() instanceof MagicSpellItem spell){
+			spell.setExp(player.getItemInHand(hand), 1800);
+		}
+		System.out.println("Level: " + getLocalLevel(player.getItemInHand(hand)));
+		System.out.println("Local Exp: " + getLocalExp(player.getItemInHand(hand)));
+		System.out.println("Percentage: " + getLocalPercent(player.getItemInHand(hand)));
+		System.out.println();
+*/
 		return InteractionResultHolder.success(player.getItemInHand(hand));
 	}
 
@@ -58,11 +66,9 @@ public class MagicSpellItem extends Item implements IItemCategory {
 	@OnlyIn(Dist.CLIENT)
 	@Override
 	public void appendHoverText(ItemStack stack, TooltipContext tooltipContext, List<Component> tooltip, TooltipFlag flagIn) {
-		Magic magicInstance = ModMagic.registry.get(ResourceLocation.parse(magic));
 		if(Minecraft.getInstance().player != null) {
-			int maxExp = magicInstance.getMaxExp(getLevel());
-			tooltip.add(Component.translatable("gui.magicspell.exp", getExp(stack), maxExp));
-
+			tooltip.add(Component.translatable("gui.magicspell.lvl_short", getLocalLevel(stack)));
+			tooltip.add(Component.translatable("gui.magicspell.exp", getLocalExp(stack), getLocalMaxExp()));
 			tooltip.add(Component.translatable("gui.magicspell.equip").withStyle(ChatFormatting.GRAY));
 		}
 		super.appendHoverText(stack, tooltipContext, tooltip, flagIn);
@@ -77,9 +83,68 @@ public class MagicSpellItem extends Item implements IItemCategory {
 		return magicInstance.getMaxExp(getLevel());
 	}
 
+	/**
+	 * Total of levels the magic can level up
+	 * @return
+	 */
+	public int getMaxExpLevel() {
+		Magic magicInstance = ModMagic.registry.get(ResourceLocation.parse(magic));
+		return magicInstance.getMaxExpLevel(getLevel());
+	}
+
+	/**
+	 * Global experience percentage
+	 * @param stack
+	 * @return
+	 */
 	public float getExpPercent(ItemStack stack) {
 		int exp = getExp(stack);
 		return (float) exp / getMaxExp();
+	}
+
+	// Fully maxed
+	public boolean isMaxed(ItemStack stack) {
+		return getExpPercent(stack) == 1;
+	}
+
+	//Local level based on the section
+	public int getLocalLevel(ItemStack stack) {
+		int maxLevel = getMaxExpLevel();
+		if(maxLevel <= 1) {
+			return 1;
+		}
+
+		float percent = (float)getExp(stack) / (float)getMaxExp();
+		int level = (int)(percent * (maxLevel - 1)) + 1;
+
+		return Math.min(level, maxLevel);
+	}
+
+	public int getLocalExp(ItemStack stack) {
+		int expPerLevel = getMaxExp() / (getMaxExpLevel() - 1);
+		int exp = getExp(stack) % expPerLevel;
+		if(getExp(stack) >= getMaxExp()) {
+			exp = getLocalMaxExp();
+		}
+		return exp;
+	}
+
+	public int getLocalMaxExp() {
+		int maxLevel = getMaxExpLevel();
+		if(maxLevel <= 1) {
+			return getMaxExp();
+		}
+
+		return getMaxExp() / (maxLevel - 1);
+	}
+
+	public float getLocalPercent(ItemStack stack) {
+		int expPerLevel = getMaxExp() / (getMaxExpLevel() - 1);
+		float perc =  (float) getLocalExp(stack) / (float)expPerLevel;
+		if(getExp(stack) >= getMaxExp()) {
+			perc = 1;
+		}
+		return perc;
 	}
 
 	@Override

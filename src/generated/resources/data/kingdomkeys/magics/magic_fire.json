@@ -5,7 +5,8 @@
     "cost": 8,
     "dmg_mult": 0.2,
     "magic_lock_on": true,
-    "max_exp": 1800
+    "max_exp": 1800,
+    "max_exp_lvl": 3
   },
   "1": {
     "casttime": 10,
@@ -13,7 +14,8 @@
     "cost": 8,
     "dmg_mult": 0.3,
     "magic_lock_on": true,
-    "max_exp": 2400
+    "max_exp": 2400,
+    "max_exp_lvl": 3
   },
   "2": {
     "casttime": 10,
@@ -21,7 +23,8 @@
     "cost": 8,
     "dmg_mult": 0.4,
     "magic_lock_on": true,
-    "max_exp": 4200
+    "max_exp": 4200,
+    "max_exp_lvl": 4
   },
   "3": {
     "casttime": 15,
@@ -29,6 +32,7 @@
     "cost": 8,
     "dmg_mult": 1.0,
     "magic_lock_on": true,
-    "max_exp": 800
+    "max_exp": 800,
+    "max_exp_lvl": 3
   }
 }
