@@ -38,7 +38,7 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 import java.io.IOException;
 import java.util.Map.Entry;
 
-@EventBusSubscriber(value = Dist.CLIENT, bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(value = Dist.CLIENT)
 public class ClientSetup {
 
 	public static ResourceLocation
@@ -73,7 +73,6 @@ public class ClientSetup {
 			if(entry.getValue() instanceof LivingEntityRenderer renderer && !(entry.getValue() instanceof PlayerRenderer)) {
 				renderer.addLayer(new AeroLayerRenderer<LivingEntity>(renderer, event.getEntityModels()));
 				renderer.addLayer(new KeybladeArmorRenderer<>(renderer, event.getEntityModels()));
-
 			}
 		}
 		
@@ -83,7 +82,6 @@ public class ClientSetup {
 		renderer.addLayer(new ShoulderLayerRenderer<>(renderer, event.getEntityModels(),true));
 		renderer.addLayer(new KeybladeArmorRenderer<>(renderer, event.getEntityModels()));
 		renderer.addLayer(new AeroLayerRenderer<>(renderer, event.getEntityModels()));
-		renderer.addLayer(new HeartLayerRenderer<>(renderer, event.getEntityModels()));
 
 		renderer = event.getSkin(PlayerSkin.Model.SLIM);
 		renderer.addLayer(new DriveLayerRenderer<>(renderer));
@@ -91,18 +89,16 @@ public class ClientSetup {
 		renderer.addLayer(new ShoulderLayerRenderer<>(renderer, event.getEntityModels(),false));
 		renderer.addLayer(new KeybladeArmorRenderer<>(renderer, event.getEntityModels()));
 		renderer.addLayer(new AeroLayerRenderer<>(renderer, event.getEntityModels()));
-		renderer.addLayer(new HeartLayerRenderer<>(renderer, event.getEntityModels()));
-		
-
 	}
 
 	@SubscribeEvent
 	public static void registerOverlays(RegisterGuiLayersEvent event) {
 		event.registerBelow(VanillaGuiLayers.CHAT, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "shortcuts"), ShortcutsGui.INSTANCE);
 		event.registerBelow(VanillaGuiLayers.CHAT, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "command_menu"), CommandMenuGui.INSTANCE);
-		event.registerBelow(VanillaGuiLayers.CHAT, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "player_portrait"), PlayerPortraitGui.INSTANCE);
+        event.registerBelow(VanillaGuiLayers.CHAT, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "player_portrait"), PlayerPortraitGui.INSTANCE);
 		event.registerBelow(VanillaGuiLayers.CHAT, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "hp_bar"), HPGui.INSTANCE);
-		event.registerBelow(VanillaGuiLayers.CHAT, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "mp_bar"), MPGui.INSTANCE);
+        event.registerBelow(VanillaGuiLayers.CHAT, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "gummi_hud"), GummiHUD.INSTANCE);
+        event.registerBelow(VanillaGuiLayers.CHAT, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "mp_bar"), MPGui.INSTANCE);
 		event.registerBelow(VanillaGuiLayers.CHAT, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "drive_bar"), DriveGui.INSTANCE);
 		event.registerBelow(VanillaGuiLayers.CHAT, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "kk_notifications"), GuiOverlay.INSTANCE);
 		event.registerBelow(VanillaGuiLayers.CROSSHAIR, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "lock_on"), LockOnGui.INSTANCE);
@@ -110,7 +106,6 @@ public class ClientSetup {
 		event.registerBelow(VanillaGuiLayers.CROSSHAIR, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "shotlock"), ShotlockGUI.INSTANCE);
 		event.registerBelow(VanillaGuiLayers.TITLE, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "station_of_awakening_messages"), SoAMessages.INSTANCE);
 		event.registerBelow(VanillaGuiLayers.CHAT, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "castle_oblivion_minimap"), COMinimap.INSTANCE);
-		event.registerBelow(VanillaGuiLayers.CHAT, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "gummi_hud"), GummiHUD.INSTANCE);
 	}
 
 	@SubscribeEvent
@@ -134,7 +129,7 @@ public class ClientSetup {
 			}
 		} else { //If mode is set to SHOW or WEAPON while holding one
 			if(o.equals(MP_BAR)) { //Remove MP Bar is magics map is empty
-				event.setCanceled(playerData.getMagicsMap().isEmpty());
+				event.setCanceled(playerData.getEquippedMagics().isEmpty());
 				return;
 			}
 			if(o.equals(SHOTLOCK)) {
@@ -183,15 +178,23 @@ public class ClientSetup {
 		event.register(ModelResourceLocation.standalone(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "entity/heart")));
 	}
 
-	public static ShaderInstance testShader;
+	public static ShaderInstance hpShader, focusShader, shotlockShader, gummiHPShader;
 
 	@SubscribeEvent
 	public static void registerShaders(RegisterShadersEvent event) {
 		try {
-			event.registerShader(new ShaderInstance(event.getResourceProvider(), ResourceLocation.parse("kingdomkeys:test"), DefaultVertexFormat.POSITION_TEX), shaderInstance -> {
-				testShader = shaderInstance;
+			event.registerShader(new ShaderInstance(event.getResourceProvider(), ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID,"hp"), DefaultVertexFormat.POSITION_TEX), shaderInstance -> {
+                hpShader = shaderInstance;
 			});
-
+            event.registerShader(new ShaderInstance(event.getResourceProvider(), ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID,"focus"), DefaultVertexFormat.POSITION_TEX), shaderInstance -> {
+                focusShader = shaderInstance;
+            });
+            event.registerShader(new ShaderInstance(event.getResourceProvider(), ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID,"shotlock"), DefaultVertexFormat.POSITION_TEX), shaderInstance -> {
+                shotlockShader = shaderInstance;
+            });
+            event.registerShader(new ShaderInstance(event.getResourceProvider(), ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID,"gummi_hp"), DefaultVertexFormat.POSITION_TEX), shaderInstance -> {
+                gummiHPShader = shaderInstance;
+            });
 		} catch (IOException e) {
 			e.printStackTrace();
 			throw new RuntimeException("Could not load shader");

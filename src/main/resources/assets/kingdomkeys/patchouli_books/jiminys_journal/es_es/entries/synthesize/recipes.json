@@ -1,0 +1,25 @@
+{
+	"name": "Recetas",
+	"icon": "kingdomkeys:recipe",
+	"sortnum": 4,
+	"category": "kingdomkeys:synthesize",
+	"pages": [ 
+		{
+			"type": "text",
+			"text": "Las $(item)Recetas$() pueden obtenerse ocasionalmente de $(thing)mobs hostiles$() cuando los matas. Estas Recetas vienen en varios rangos, desde D hasta SSS, donde los Mobs con un nivel más alto soltarán recetas con un rango más alto. Cada Receta contiene nuevas Llaves Espada, Armaduras y Accesorios para ser $(moogle)Sintetizados$()."
+		},
+		{
+			"type": "text",
+			"text": "Para aumentar el rango de una receta, puedes:$(p)$(thing)Combinar 2$() del mismo rango, para recibir una de 1 rango superior.$(br)$(thing)Combinar 4$() del mismo rango, para recibir una de 2 rangos superior.$(br)Dejar $(thing)una sola$() receta, para convertirla en un rango inferior."
+		},
+		{
+			"type":"crafting",
+			"recipe":"kingdomkeys:recipe_c",
+			"recipe2":"kingdomkeys:recipe_d2"
+		},
+		{
+			"type":"crafting",
+			"recipe2":"kingdomkeys:recipe_c3"
+		}
+	]
+}

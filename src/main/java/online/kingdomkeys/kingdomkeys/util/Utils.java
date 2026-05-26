@@ -6,10 +6,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.core.Holder;
-import net.minecraft.core.Vec3i;
+import net.minecraft.core.*;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
@@ -18,6 +15,10 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.protocol.game.ClientboundPlayerInfoRemovePacket;
+import net.minecraft.network.protocol.game.ClientboundPlayerInfoUpdatePacket;
 import net.minecraft.network.protocol.game.ClientboundRemoveMobEffectPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
@@ -30,6 +31,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
@@ -59,6 +61,9 @@ import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.scores.PlayerTeam;
+import net.minecraft.world.scores.Scoreboard;
+import net.minecraft.world.scores.Team;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.common.util.BlockSnapshot;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
@@ -95,6 +100,7 @@ import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.menu.PauldronInventory;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCRecalculateEyeHeight;
+import online.kingdomkeys.kingdomkeys.network.stc.SCShowOverlayPacket;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncGlobalData;
 import online.kingdomkeys.kingdomkeys.shotlock.ModShotlocks;
 import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
@@ -105,7 +111,23 @@ import java.util.*;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
+import static online.kingdomkeys.kingdomkeys.client.gui.overlay.GuiOverlay.driveForm;
+
 public class Utils {
+
+	public static int getRedstoneFromMagic(String type){
+		return switch(type){
+			case "fire" -> 1;
+			case "ice"-> 2;
+			case "water"-> 3;
+			case "lightning"-> 4;
+			case "air"-> 5;
+			case "stop"-> 6;
+			case "darkness"-> 7;
+			case "light"-> 8;
+			default -> 0;
+		};
+	}
 
     public static void removeNegativeEffects(Player player) {
         if (player.level().isClientSide)
@@ -119,6 +141,17 @@ public class Utils {
         }
     }
 
+	public static ItemStack getItemInInventory(Player player, Item item) {
+		ItemStack itemStack = ItemStack.EMPTY;
+
+		for (ItemStack stack : player.getInventory().items) {
+			if (stack.getItem() == item) {
+				itemStack = stack;
+				break;
+			}
+		}
+		return itemStack;
+	}
 
     public static ItemStack getItemInAnyHand(Player player, Item item) {
 		if(!player.getMainHandItem().isEmpty() && player.getMainHandItem().getItem() == item) {
@@ -129,8 +162,36 @@ public class Utils {
 		return null;
     }
 
+	public static int getMagicBagSlot(Player player) {
+		NonNullList<ItemStack> items = player.getInventory().items;
+		for (int i = 0, itemsSize = items.size(); i < itemsSize; i++) {
+			ItemStack stack = items.get(i);
+			if (stack.is(ModItems.magicsBag.get())) {
+				return i;
+			}
+		}
+		return -1;
+	}
+
+	public static boolean hasOnlyOneBag(Player player) {
+		boolean found = false;
+		for (ItemStack stack : player.getInventory().items) {
+			if (stack.is(ModItems.magicsBag.get())) {
+				if (found) {
+					return false;
+				} else {
+					found = true;
+				}
+			}
+		}
+		return found;
+	}
+
 	public static int getSavepointPercent(int ticks) {
-		return Math.round(100 - (((ticks-1) /(20F-1F)) * 100F));
+		int res = Math.round(100 - (((ticks-1) /(20F-1F)) * 100F));
+		if(res == 0)
+			res = 1;
+		return res;
 	}
 
 	public static final ResourceLocation mobLevelHPModifier = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "mob_level_hp");
@@ -158,18 +219,27 @@ public class Utils {
 		return min;
 	}
 
-    public static double getCheapestMagicCost(LinkedHashMap<String,int[]> magicsMap, Player player) {
+    public static double getCheapestMagicCost(Map<Integer, ItemStack> magicsMap, Player player) {
 		double min = 1000;
+	    PlayerData playerData = PlayerData.get(player);
+		if(playerData == null){
+			return 0;
+		}
 
-    	for (Entry<String,int[]> magic : magicsMap.entrySet()){
-			Magic m = ModMagic.registry.get(ResourceLocation.parse(magic.getKey()));
-			if(m != null){
-				int lvl = magic.getValue()[0];
-				if(m.getCost(lvl,player) == 300){ //If has cure return it since it's used to calculate whether to show magic available or not.
-					return m.getCost(lvl,player);
+    	for (Entry<Integer, ItemStack> magic : magicsMap.entrySet()){
+			if(magic.getKey() >= playerData.getMaxMagics())
+				break;
+		    ItemStack stack = playerData.getEquippedMagic(magic.getKey());
+			if(stack != null && stack.getItem() instanceof MagicSpellItem spell) {
+				Magic m = ModMagic.registry.get(ResourceLocation.parse(spell.getMagic()));
+				if (m != null) {
+					int lvl = spell.getLevel();
+					if (m.getCost(lvl, player) == 300) { //If has cure return it since it's used to calculate whether to show magic available or not.
+						return m.getCost(lvl, player);
+					}
+					min = Math.min(m.getCost(lvl, player), min);
+
 				}
-				min = Math.min(m.getCost(lvl,player),min);
-
 			}
 		}
         return min;
@@ -757,6 +827,10 @@ public class Utils {
 		return blocks;
 	}
 
+	public static boolean isVanillaCrit(Player player) {
+		return player.fallDistance > 0.0F && !player.onGround() && !player.onClimbable() && !player.isInWater() && !player.hasEffect(MobEffects.BLINDNESS) && !player.isPassenger();
+	}
+
 	public static BlockState rotateBlock(BlockState state, Rotation rotation) {
 		// If block has custom rotate implementatio
 		BlockState rotated = state.rotate(rotation);
@@ -803,6 +877,7 @@ public class Utils {
             case 2 -> new int[]{ 120000, 180, 90 };
             case 3 -> new int[]{ 240000, 260, 130 };
             case 4 -> new int[]{ 400000, 350, 175 };
+			case 5,6,7,8,9,10 -> new int[]{ 1000000, 1000, 500 };
             default -> throw new IllegalStateException("Unexpected value for Utils#getFEPerLevel: " + lvl);
         };
     }
@@ -821,7 +896,92 @@ public class Utils {
         return armor.getMaterial().value().equipSound().value() == ModSounds.keyblade_armor.get();
     }
 
-    public static class Title {
+	public static String getRCNameFromIndex(Player player, int reactionSelected) {
+		int index = 0;
+		for (Map.Entry<String, Integer> entry : PlayerData.get(player).getReactionCommands().entrySet()) {
+			if(index == reactionSelected) {
+				return entry.getKey();
+			}
+			index++;
+		}
+		return null;
+	}
+
+	public static List<String> getSpellsList(PlayerData playerData) {
+		Map<Integer, ItemStack> equippedMagics = playerData.getEquippedMagics();
+		int maxMagics = playerData.getMaxMagics();
+		List<String> result = new ArrayList<>();
+		if(equippedMagics.isEmpty())
+			return result;
+		for (Map.Entry<Integer, ItemStack> entry : equippedMagics.entrySet()) {
+			if(entry.getKey() >= maxMagics)
+				break;
+			if(entry.getValue().getItem() instanceof MagicSpellItem spell) {
+				result.add(spell.getMagic());
+			}
+		}
+		return result;
+	}
+
+	public static int getMagicSlotFromNameAndLevel(Map<Integer, ItemStack> equippedMagics, String commandMagicName, int level) {
+		if (equippedMagics.isEmpty()) return -1;
+
+		for (Map.Entry<Integer, ItemStack> entry : equippedMagics.entrySet()) {
+			ItemStack stack = entry.getValue();
+			if (!stack.isEmpty() && stack.getItem() instanceof MagicSpellItem spell) {
+				if (spell.getMagic().equals(commandMagicName) && spell.getLevel() == level) {
+					return entry.getKey();
+				}
+			}
+		}
+		return -1;
+	}
+
+	public static int getMagicHighestLevel(Map<Integer, ItemStack> equippedMagics, String commandMagicName) {
+		if (equippedMagics.isEmpty()) return -1;
+
+		int level = -1;
+		for (Map.Entry<Integer, ItemStack> entry : equippedMagics.entrySet()) {
+			ItemStack stack = entry.getValue();
+			if (!stack.isEmpty() && stack.getItem() instanceof MagicSpellItem spell) {
+				if (spell.getMagic().equals(commandMagicName)) {
+					level = Math.max(spell.getLevel(),level);
+				}
+			}
+		}
+		return level;
+	}
+
+	public static void addMagicExperience(Player player, int amount) {
+		PlayerData playerData = PlayerData.get(player);
+		if(playerData == null)
+			return;
+
+		ArrayList<String> leveledMagics =  new ArrayList();
+		for (ItemStack stack : playerData.getEquippedMagics().values()) {
+			if (stack.isEmpty())
+				continue;
+
+			if (!(stack.getItem() instanceof MagicSpellItem magic))
+				continue;
+
+			int oldExp = magic.getExp(stack);
+			magic.addExp(stack, amount);
+
+			if(magic.getExp(stack) >= magic.getMaxExp()) {
+				if(magic.getExp(stack) != oldExp) {
+					leveledMagics.add("M_"+stack.getHoverName().getString() +" ⬆");
+				}
+			}
+		}
+
+		if(!leveledMagics.isEmpty()){
+			player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.levelup.get(), SoundSource.MASTER, 0.5f, 1.0f);
+			PacketHandler.sendTo(new SCShowOverlayPacket("levelup", player.getUUID(), player.getGameProfile().getName(), playerData.getLevel(), playerData.getNotifColor(), leveledMagics), (ServerPlayer) player);
+		}
+	}
+
+	public static class Title {
 		public String title, subtitle;
 		public int fadeIn = 10, fadeOut = 20, displayTime = 70;
 
@@ -1145,7 +1305,7 @@ public class Utils {
 	public static Player getPlayerByName(Level world, String name) {
 		List<? extends Player> players = world.getServer() == null ? world.players() : getAllPlayers(world.getServer());
 		for (Player p : players) {
-			if (p.getDisplayName().getString().equalsIgnoreCase(name)) {
+			if (p.getGameProfile().getName().equalsIgnoreCase(name)) {
 				return p;
 			}
 		}
@@ -1176,9 +1336,7 @@ public class Utils {
 
 	public static List<Player> getAllPlayers(MinecraftServer ms) {
 		List<Player> list = new ArrayList<Player>();
-		Iterator<ServerLevel> it = ms.getAllLevels().iterator();
-		while (it.hasNext()) {
-			ServerLevel world = it.next();
+		for (ServerLevel world : ms.getAllLevels()) {
 			for (Player p : world.players()) {
 				list.add(p);
 			}
@@ -1553,6 +1711,52 @@ public class Utils {
 		player.getAttributes().addTransientAttributeModifiers(map);
 	}
 
+	private static final String ORG_TEAM_ID = "kk_orgrobes";
+
+	public static PlayerTeam getOrCreateTeam(ServerLevel level) {
+		Scoreboard sb = level.getScoreboard();
+		PlayerTeam team = sb.getPlayerTeam(ORG_TEAM_ID);
+
+		if (team == null) {
+			team = sb.addPlayerTeam(ORG_TEAM_ID);
+			team.setNameTagVisibility(Team.Visibility.NEVER);
+			team.setCollisionRule(Team.CollisionRule.ALWAYS);
+		}
+		return team;
+	}
+
+	public static void updateOrgRobesTeam(ServerPlayer player) {
+		ServerLevel level = player.serverLevel();
+		Scoreboard sb = level.getScoreboard();
+		PlayerTeam team = getOrCreateTeam(level);
+
+		String name = player.getScoreboardName();
+		if(ModConfigs.hideOrgNames){
+			if (Utils.isWearingOrgRobes(player)) {
+				if (sb.getPlayersTeam(name) != team) {
+					sb.addPlayerToTeam(name, team);
+					updateTabName(player, true);
+				}
+			} else {
+				if (sb.getPlayersTeam(name) == team) {
+					sb.removePlayerFromTeam(name, team);
+					updateTabName(player, false);
+				}
+			}
+		} else {
+			//If config is false make sure everyone invisible is visible again
+			if (sb.getPlayersTeam(name) == team) {
+				sb.removePlayerFromTeam(name, team);
+				updateTabName(player, false);
+			}
+		}
+	}
+
+	public static void updateTabName(ServerPlayer player, boolean wearing) {                  // hide											//show
+		Packet<ClientGamePacketListener> packet = wearing ? new ClientboundPlayerInfoRemovePacket(List.of(player.getUUID())) : ClientboundPlayerInfoUpdatePacket.createPlayerInitializing(List.of(player));
+		player.server.getPlayerList().getPlayers().forEach(p -> p.connection.send(packet));
+	}
+
 	public static boolean isWearingOrgRobes(Player player) {
 		if (!ModConfigs.SERVER.orgEnabled.get())
 			return false;
@@ -1585,6 +1789,7 @@ public class Utils {
             case 2 -> "M";
             case 3 -> "L";
             case 4 -> "XL";
+			case 5,6,7,8,9,10 -> level+"";
             default -> "Unsuported value: " + level;
         };
     }
@@ -1713,6 +1918,7 @@ public class Utils {
 		playerData.setMaxAP(0);
 		playerData.setMaxAccessories(0);
 		playerData.setMaxArmors(0);
+		playerData.setMaxMagics(0);
 
 		playerData.clearAbilities();
 		SoAState.applyStatsForChoices(player, playerData, false);
@@ -1724,7 +1930,7 @@ public class Utils {
 	}
 
 	/**
-	 * Recalculate drive form levels
+	 * Recalculate drive form levels and permanent abilities and shotlocks
 	 * 
 	 * @param playerData
 	 * @param player
@@ -1734,7 +1940,7 @@ public class Utils {
         for (Entry<String, int[]> entry : driveForms.entrySet()) {
             int dfLevel = entry.getValue()[0];
             DriveForm form = ModDriveForms.registry.get(ResourceLocation.parse(entry.getKey()));
-            if (!form.getRegistryName().equals(DriveForm.NONE) && !form.getRegistryName().equals(DriveForm.SYNCH_BLADE)) {
+            if (!Utils.getFakeForms().contains(form.getRegistryName().toString())) {
                 for (int i = 1; i <= dfLevel; i++) {
                     String baseAbility = form.getBaseAbilityForLevel(i);
                     if (baseAbility != null && !baseAbility.equals("")) {
@@ -1744,8 +1950,25 @@ public class Utils {
             }
         }
 
+		playerData.getPAbilitiesList().forEach(a -> {
+			playerData.addAbility(a,false);
+		});
+
+		playerData.getPShotlocksList().forEach(s -> {
+			playerData.addShotlockToList(s,false);
+		});
+
 		player.heal(playerData.getMaxHP());
 		playerData.setMP(playerData.getMaxMP());
+	}
+
+	public static List<String> getFakeForms(){
+		ArrayList<String> list = new ArrayList<>();
+		list.add(DriveForm.KB2.toString());
+		list.add(DriveForm.KB3.toString());
+		list.add(DriveForm.SYNCH_BLADE.toString());
+		list.add(DriveForm.NONE.toString());
+		return list;
 	}
 
 	public static String getTierFromInt(int tier) {
@@ -1851,7 +2074,7 @@ public class Utils {
 				}
 				if (membersOnline == 0) {
 					avgLevel = 1;
-					KingdomKeys.LOGGER.warn("0 members online for this party, this should not be happening, in world " + player.level().dimension().location());
+					KingdomKeys.LOGGER.warn("Party {} with 0 online members. Player={}, PartyMembers={}, Dimension={}", p.getName(), player.getGameProfile().getName(), p.getMembers().size(), player.level().dimension().location());
 				} else {
 					avgLevel = total / membersOnline;
 				}
@@ -2094,8 +2317,28 @@ public class Utils {
 		return (int) player.getX() >= bounds.min.getX() && (int) player.getX() <= bounds.max.getX() && (int) player.getY() >= bounds.min.getY() && (int) player.getY() <= bounds.max.getY() && (int) player.getZ() >= bounds.min.getZ() && (int) player.getZ() <= bounds.max.getZ();
 	}
 
-	//TODO config option for people who hate fun
+	public static boolean isTouchingWall(Player player) {
+		if (player.onGround())
+			return false;
+
+		AABB box = player.getBoundingBox();
+		double yShrink = 0.2; // ignore 20% of the block's top and bottom to avoid false positives
+		AABB sideBox = new AABB(box.minX, box.minY + yShrink, box.minZ, box.maxX, box.maxY - yShrink, box.maxZ).inflate(0.05);
+
+		Level level = player.level();
+
+		return hasCollision(level, player, sideBox.move(0.1, 0, 0)) ||
+				hasCollision(level, player, sideBox.move(-0.1, 0, 0)) ||
+				hasCollision(level, player, sideBox.move(0, 0, 0.1)) ||
+				hasCollision(level, player, sideBox.move(0, 0, -0.1));
+	}
+
+	private static boolean hasCollision(Level level, Player player, AABB box) {
+		return level.getBlockCollisions(player, box).iterator().hasNext();
+	}
+
 	public static boolean isAprilFools() {
+		if (!ModConfigs.seasonalEvents) return false;
 		Calendar calendar = Calendar.getInstance();
 		return calendar.get(Calendar.MONTH) == Calendar.APRIL && calendar.get(Calendar.DAY_OF_MONTH) == 1;
 	}

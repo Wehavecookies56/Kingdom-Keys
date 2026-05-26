@@ -1,0 +1,16 @@
+{
+	"name": "Cofre Mágico",
+	"icon": "kingdomkeys:magical_chest",
+	"sortnum": 1,
+	"category": "kingdomkeys:misc",
+	"pages": [
+		{
+			"type": "text",
+			"text": "$(item)Este cofre$() es especial porque puede ser cerrado con una $(thing)Llave Espada$() de un jugador específico y solo podrá ser abierto por el jugador que lo bloqueó. Tiene $(thing)una fila adicional$() (9 espacios) de almacenamiento que un cofre normal tiene, pero $(lissa)no se puede conectar$() con otros para formar una versión grande."
+		},
+		{
+			"type":"crafting",
+			"recipe":"kingdomkeys:magical_chest"
+		}
+	]
+}

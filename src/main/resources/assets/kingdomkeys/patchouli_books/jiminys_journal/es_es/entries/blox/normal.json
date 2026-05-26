@@ -1,0 +1,16 @@
+{
+	"name": "Bloque Normal",
+	"icon": "kingdomkeys:normal_blox",
+	"sortnum": 1,
+	"category": "kingdomkeys:blox",
+	"pages": [
+		{
+			"type": "text",
+			"text": "El bloque más común de los $(blox)Bloques de Error$(). Puede ser usado para crear muchos otros bloques diferentes. Puedes minar Bloques Normales en el mundo o crearlos usando Tierra y Piedra."
+		},
+		{
+			"type":"crafting",
+			"recipe":"kingdomkeys:normal_blox"
+		}
+	]
+}

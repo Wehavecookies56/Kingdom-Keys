@@ -1,0 +1,16 @@
+{
+	"name": "Mosaico de Cristal Tintado",
+	"icon": "kingdomkeys:mosaic_stained_glass",
+	"sortnum": 10,
+	"category": "kingdomkeys:misc",
+	"pages": [
+		{
+			"type": "text",
+			"text": "Un bloque de vidrio decorativo para dar a tus hogares ese aspecto clásico de Kingdom Hearts."
+		},
+		{
+			"type":"crafting",
+			"recipe":"kingdomkeys:mosaic_stained_glass"
+		}
+	]
+}

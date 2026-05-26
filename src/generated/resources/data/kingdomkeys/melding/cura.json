@@ -1,0 +1,11 @@
+{
+  "cost": 400,
+  "ingredient1": "kingdomkeys:spellcure",
+  "ingredient2": "kingdomkeys:spellcure",
+  "output": {
+    "type": "item",
+    "item": "kingdomkeys:spellcura",
+    "quantity": 1
+  },
+  "tier": 2
+}

@@ -48,7 +48,6 @@ public record CSEquipAccessories(int slotToEquipTo, int slotToEquipFrom) impleme
                 newItemAP = ((KKAccessoryItem) player.getInventory().getItem(slotToEquipFrom).getItem()).getAp();
             }
 
-            //System.out.println(Utils.getConsumedAP(playerData)+" "+playerData.getMaxAP(true)+" "+itemAP);
             if (playerData.getMaxAP(true) - oldItemAP + newItemAP >= Utils.getConsumedAP(playerData)) {
                 ItemStack stackToEquip = player.getInventory().getItem(slotToEquipFrom);
                 ItemStack stackPreviouslyEquipped = playerData.equipAccessory(slotToEquipTo, stackToEquip);

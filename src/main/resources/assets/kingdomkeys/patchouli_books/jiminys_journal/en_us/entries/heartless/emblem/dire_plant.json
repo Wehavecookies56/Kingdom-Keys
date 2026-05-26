@@ -2,16 +2,17 @@
 	"name": "Dire Plant",
 	"icon": "kingdomkeys:dire_plant_spawn_egg",
 	"category": "kingdomkeys:emblem",
-	"sortnum": 212,
+	"sortnum": 14,
 	"advancement": "kingdomkeys:obtain_keychain",
 	"pages": [
 		{
 			"type": "text",
-			"text": "These small plant $(heartless)Heartless$() are rooted to the ground. They strike from afar with a seed cannon that can be turned on other foes with a well-timed block, or even used to destroy the Dire Plant itself.$(p)$(lissa)$(l)$(o)[Days]$()"
+			"text": "These small plant $(heartless)Heartless$() are rooted to the ground. They strike from afar with a seed cannon that $(thing)$(o)can be turned on other foes with a well-timed block, or even used to destroy the Dire Plant itself$().$(p)$(lissa)$(l)$(o)[First Appearance: Kingdom Hearts 358/2 Days]$()"
 		},
 		{
 			"type": "patchouli:entity",
-			"entity": "kingdomkeys:dire_plant"
+			"entity": "kingdomkeys:dire_plant",
+			"scale": 0.8
 		}
 	]
 }

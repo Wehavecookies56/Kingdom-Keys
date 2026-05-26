@@ -2,6 +2,7 @@ package online.kingdomkeys.kingdomkeys.client.model.entity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
@@ -134,6 +135,9 @@ public class ShadowModel<Type extends Entity> extends EntityModel<Type> {
 
 	@Override
 	public void setupAnim(Type e, float p_102619_, float p_102620_, float p_102621_, float p_102622_, float p_102623_) {
+		if(Minecraft.getInstance().isPaused())
+			return;
+
 		updateDistanceMovedTotal(e);
 		cycleIndex = (int) ((getDistanceMovedTotal() * CYCLES_PER_BLOCK) % animationWalk.length);
 

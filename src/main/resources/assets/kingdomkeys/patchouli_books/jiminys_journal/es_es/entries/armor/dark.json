@@ -1,0 +1,45 @@
+{
+	"name": "Buscadores de la Oscuridad",
+	"icon": "kingdomkeys:dark_riku_chestplate",
+	"sortnum": 2,
+	"category": "kingdomkeys:armor",
+	"pages": [
+		{
+			"type": "text",
+			"text": "$(item)Estos conjuntos de armadura$() son ligeramente más débiles que los $(l:kingdomkeys:armor/orgcoats)abrigos de la Organización$() pero no te obligan a unirte a ella. Te permiten mantener tu estilo de juego normal mientras representas a los $(lissa)Buscadores de la Oscuridad$(), además son más fáciles de fabricar que la mayoría de las otras armaduras."
+		},
+		{
+			"type": "text",
+			"text": "Tomando el estilo de Dark Riku, Vanitas y Reminiscencia de Vanitas."
+		},
+		{
+			"type":"crafting",
+			"recipe":"kingdomkeys:dark_riku_chestplate"
+		},
+		{
+			"type":"crafting",
+			"recipe":"kingdomkeys:dark_riku_leggings",
+			"recipe2":"kingdomkeys:dark_riku_boots"
+		},
+		{
+			"type":"crafting",
+			"recipe":"kingdomkeys:vanitas_helmet",
+			"recipe2":"kingdomkeys:vanitas_chestplate"
+		},
+		{
+			"type":"crafting",
+			"recipe":"kingdomkeys:vanitas_leggings",
+			"recipe2":"kingdomkeys:vanitas_boots"
+		},
+		{
+			"type":"crafting",
+			"recipe":"kingdomkeys:vanitas_remnant_helmet",
+			"recipe2":"kingdomkeys:vanitas_remnant_chestplate"
+		},
+		{
+			"type":"crafting",
+			"recipe":"kingdomkeys:vanitas_remnant_leggings",
+			"recipe2":"kingdomkeys:vanitas_remnant_boots"
+		}
+	]
+}

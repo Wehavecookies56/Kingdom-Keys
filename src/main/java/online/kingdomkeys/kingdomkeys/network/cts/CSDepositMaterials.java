@@ -13,7 +13,7 @@ import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
-import online.kingdomkeys.kingdomkeys.item.SynthesisBagItem;
+import online.kingdomkeys.kingdomkeys.item.BagItem;
 import online.kingdomkeys.kingdomkeys.lib.Tags;
 import online.kingdomkeys.kingdomkeys.network.Packet;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
@@ -63,7 +63,7 @@ public record CSDepositMaterials(String inv, String name, int moogle) implements
 					}
 
 					//Bag
-					if (stack != null && stack.getItem() instanceof SynthesisBagItem) {
+					if (stack != null && stack.getItem() instanceof BagItem) {
 						IItemHandler bag = stack.getCapability(Capabilities.ItemHandler.ITEM);
 						if (bag != null) {
 							removeMaterial(bag, player, i);

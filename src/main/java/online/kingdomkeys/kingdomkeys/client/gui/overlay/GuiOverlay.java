@@ -7,10 +7,12 @@ import net.minecraft.Util;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
@@ -24,7 +26,6 @@ import java.util.List;
 import java.util.UUID;
 
 public class GuiOverlay extends OverlayBase {
-
 	public static final GuiOverlay INSTANCE = new GuiOverlay();
 	public static boolean showExp;
 	public static boolean showMunny;
@@ -58,8 +59,8 @@ public class GuiOverlay extends OverlayBase {
 		public int prevNotifTicks, notifTicks;
 		public boolean sliding = true;
 		public long timeLevelUp;
-		public List<String> messages1 = new ArrayList<String>();
-		public List<String> messages2 = new ArrayList<String>();
+		public List<String> messages1 = new ArrayList<>();
+		public List<String> messages2 = new ArrayList<>();
 		public int color;
 	}
 	
@@ -71,7 +72,9 @@ public class GuiOverlay extends OverlayBase {
 
 		playerData = PlayerData.get(minecraft.player);
 		if(playerData != null) {
+			ClientUtils.MUNNYEXP_ELEMENT.applyTransform(guiGraphics,width,sHeight);
 			// Experience
+			RenderSystem.setShaderColor(0.8F,0.75F,1F, 0.6F);
 			if (showExp) {
 				showExp(guiGraphics);
 			}
@@ -81,7 +84,13 @@ public class GuiOverlay extends OverlayBase {
 				showMunny(guiGraphics);
 			}
 
+			RenderSystem.setShaderColor(1F,1F,1F, 1F);
+
+			ClientUtils.MUNNYEXP_ELEMENT.endTransform(guiGraphics);
+
 			// Level Up
+			ClientUtils.LEVELUP_ELEMENT.applyTransform(guiGraphics,width,sHeight);
+
 			int lvlCounter = 0;
 			Iterator<LevelUpData> it = levelUpList.iterator();
 			while(it.hasNext()) {
@@ -92,19 +101,22 @@ public class GuiOverlay extends OverlayBase {
 					it.remove();
 				}
 			}
+			ClientUtils.LEVELUP_ELEMENT.endTransform(guiGraphics);
 
 			// Drive form level up
 			if (showDriveLevelUp) {
+				ClientUtils.DRIVELEVEL_ELEMENT.applyTransform(guiGraphics,width,sHeight);
 				showDriveLevelUp(guiGraphics, deltaTracker);
+				ClientUtils.DRIVELEVEL_ELEMENT.endTransform(guiGraphics);
 			}
 		}
 	}
-	
+
 	private void showExp(GuiGraphics gui) {
 		if(playerData != null) {
 			String reqExp = String.valueOf(playerData.getExpNeeded(playerData.getLevel(), playerData.getExperience()));
-			drawString(gui, minecraft.font, Utils.translateToLocal(Strings.Stats_LevelNext), 5, 5, 0xFFFFFF);
-			drawString(gui, minecraft.font, reqExp, 5, 5 + minecraft.font.lineHeight, 0xFFFFFF);
+			drawString(gui, minecraft.font, Component.translatable(Strings.Stats_LevelNext).withStyle(ClientUtils.KK_Font_EXP), 5, 5, 0xFFFFFF);
+			drawString(gui, minecraft.font, Component.literal(reqExp).withStyle(ClientUtils.KK_Font_EXP), 5, 5 + minecraft.font.lineHeight, 0xFFFFFF);
 
 			if (System.currentTimeMillis()/1000 > (timeExp + 4))
 				showExp = false;
@@ -120,18 +132,16 @@ public class GuiOverlay extends OverlayBase {
 			matrixStack.pushPose();
 			{
 				matrixStack.translate(1, 1, 0);
-
-				heightOffsetText = 0;
 				heightOffsetNum = minecraft.font.lineHeight;
 			}
 			matrixStack.popPose();
 		} else { // If exp is being displayed print it below it
-			heightOffsetText = minecraft.font.lineHeight + 10;
-			heightOffsetNum = (minecraft.font.lineHeight * 2) + 10;
+			heightOffsetText = minecraft.font.lineHeight + 15;
+			heightOffsetNum = (minecraft.font.lineHeight * 2) + 15;
 		}
 
-		drawString(guiGraphics, minecraft.font, Utils.translateToLocal(Strings.Stats_MunnyGet), 5, 5 + heightOffsetText, 0xFFFFFF);
-		drawString(guiGraphics, minecraft.font, munnyGet + "", 5, 5 + heightOffsetNum, 0xFFFFFF);
+		drawString(guiGraphics, minecraft.font, Component.translatable(Strings.Stats_MunnyGet).withStyle(ClientUtils.KK_Font_EXP), 5, 5 + heightOffsetText, 0xFFFFFF);
+		drawString(guiGraphics, minecraft.font, Component.literal(munnyGet+"").withStyle(ClientUtils.KK_Font_EXP), 5, 5 + heightOffsetNum, 0xFFFFFF);
 
 		if (System.currentTimeMillis()/1000 > (timeMunny + 4))
 			showMunny = false;
@@ -157,9 +167,7 @@ public class GuiOverlay extends OverlayBase {
 
 			for(int i = 0;i<actual;i++) {
 				totalSpace += 36*0.6F;
-
 				totalSpace += (int)(minecraft.font.lineHeight * 1.2f) * (levelUpList.get(i).messages1.size());
-			
 				totalSpace += 18*0.6F;
 			}
 			
@@ -169,7 +177,7 @@ public class GuiOverlay extends OverlayBase {
 			if(notifXPos <= -LEVULUP_WIDTH)
 				notifXPos = -LEVULUP_WIDTH;
 
-			matrixStack.translate(width + notifXPos, 4, 0);
+			matrixStack.translate(notifXPos+LEVULUP_WIDTH, 0, 0);
 
 			int height = (int)(minecraft.font.lineHeight * 1.2f) * (levelData.messages1.size());
 			RenderSystem.enableBlend();
@@ -232,7 +240,7 @@ public class GuiOverlay extends OverlayBase {
 				}
 				
 				if(message.startsWith("M_")) {
-					blit(gui, menuTexture, (int)x, (int)y-2, 87, 115, 12, 12);
+					blit(gui, menuTexture, (int)x, (int)y-3, 87, 115, 12, 12);
 					message = message.replace("M_", "");
 					x += 13;
 				}
@@ -254,12 +262,11 @@ public class GuiOverlay extends OverlayBase {
 			RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
 		}
 		matrixStack.popPose();
-		
-		
 	}
 
 	private void showDriveLevelUp(GuiGraphics gui, DeltaTracker deltaTracker) {
 		PoseStack matrixStack = gui.pose();
+		final int LEVULUP_WIDTH = 155;
 
 		if(playerData == null || driveForm == null)
 			return;
@@ -270,10 +277,10 @@ public class GuiOverlay extends OverlayBase {
 		matrixStack.pushPose();
 		{
 			float driveNotifXPos = prevDriveNotifTicks + (driveNotifTicks - prevDriveNotifTicks) * deltaTracker.getGameTimeDeltaPartialTick(true);
-			if(driveNotifXPos > 155)
-				driveNotifXPos = 155;
+			if(driveNotifXPos > LEVULUP_WIDTH)
+				driveNotifXPos = LEVULUP_WIDTH;
 			
-			matrixStack.translate(driveNotifXPos - 155, 4, 0);
+			matrixStack.translate(driveNotifXPos - LEVULUP_WIDTH, -90, 0);
 			int heightBase = (int) (minecraft.font.lineHeight * 1.1F) * driveLevelData.messages1.size();
 			int heightDF = (int) (minecraft.font.lineHeight * 1.1F) * driveLevelData.messages2.size();
 			RenderSystem.enableBlend();
@@ -293,7 +300,7 @@ public class GuiOverlay extends OverlayBase {
 				matrixStack.popPose();
 				
 				RenderSystem.setShaderColor(1,1,1, 1F);
-				showText(matrixStack, minecraft.player.getDisplayName().getString(), 140 - (minecraft.font.width(minecraft.player.getDisplayName().getString()) * 0.75f), sHeight / 3 + 4, 0, 0.75f, 0.75f, 1, 0xFFFFFF);
+				showText(matrixStack, minecraft.player.getGameProfile().getName(), 140 - (minecraft.font.width(minecraft.player.getGameProfile().getName()) * 0.75f), sHeight / 3 + 4, 0, 0.75f, 0.75f, 1, 0xFFFFFF);
 	
 				// Half
 				RenderSystem.setShaderColor(0.4F, 0.4F, 0.4F, 1F);

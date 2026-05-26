@@ -1,16 +1,16 @@
 {
-	"name": "Item Tab",
+	"name": "Items",
 	"icon": "kingdomkeys:ether",
 	"sortnum": 1,
 	"category": "kingdomkeys:learning_the_menu",
 	"pages": [ 
 		{
 			"type": "text",
-			"text": "Let's start with $(item)Items$(). This is where you go to equip any item relating to the $(thing)Kingdom Keys$() mod. This being Keyblades / $(orgxiii)Organization XIII$() weapons, Kingdom Keys specific Armors/Accessories and consumable Items (such as Potions, Hi-Potions, Ethers, Elixirs, etc.)"
+			"text": "Let's start with the $(item)Items$() tab. This is where you go to equip any item relating to the $(thing)Kingdom Keys$() mod. This being Keyblades / $(orgxiii)Organization XIII$() weapons, Kingdom Keys specific Armors/Accessories and consumable Items (such as Potions, Hi-Potions, Ethers, Elixirs, etc.)"
 		},
 		{
 			"type": "text",
-			"text": "After equiping your Keyblade you can summon it with $(thing)[$(k:key.kingdomkeys.summonkeyblade)]$(). If you own a $(item)Pauldron$() you can equip it and then summon it with the $(thing)[$(k:key.kingdomkeys.summonarmor)]$() key, similar to your Keyblade/Weapon."
+			"text": "After equiping your Keyblade you can summon it with $(thing)[$(k:key.kingdomkeys.summonkeyblade)]$(). If you own a $(item)Pauldron$() you can equip its armor and then summon it with the $(thing)[$(k:key.kingdomkeys.summonarmor)]$() key, similar to your Keyblade/Weapon."
 		}
 	]
 }

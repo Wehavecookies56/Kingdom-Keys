@@ -1,7 +1,7 @@
 {
 	"name": "Emblem Heartless",
-	"description": "$(item)Emblem Heartless$() are easy to notice btw their $(thing)heartshaped symbol$() on their body. Unlike $(pureblooded)Pureblooded Heartless$() they have a stronger will and set a $(thing)heart$() free once defeated.",
-	"icon": "kingdomkeys:illusory_crystal",
+	"description": "Complete list of $(item)Emblem Heartless$() that are present in the mod. Check the individual entries for more $(thing)information$() and $(thing)strategies$() for each one!",
+	"icon": "kingdomkeys:keyblade_of_peoples_hearts_chain",
 	"parent": "kingdomkeys:heartless",
 	"sortnum": 2
 }

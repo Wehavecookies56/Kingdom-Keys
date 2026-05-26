@@ -27,12 +27,15 @@ import online.kingdomkeys.kingdomkeys.api.item.IKeychain;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
+import online.kingdomkeys.kingdomkeys.client.gui.menu.check.CheckEquipmentScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment.MenuEquipmentScreen;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.item.*;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
+import online.kingdomkeys.kingdomkeys.magic.Magic;
+import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.shotlock.ModShotlocks;
 import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
 import online.kingdomkeys.kingdomkeys.util.Utils;
@@ -47,17 +50,18 @@ public class MenuEquipmentButton extends Button {
     ItemStack stack;
     Shotlock shotlock;
     int colour, labelColour;
-    MenuEquipmentScreen parent;
+	MenuBackground parent;
     String label;
     boolean hasLabel;
     ItemCategory category;
 	public int offsetY;
 
 	final ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
+	final ResourceLocation barTexture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
 
-    public MenuEquipmentButton(ItemStack stack, int x, int y, int colour, Screen toOpen, ItemCategory category, MenuEquipmentScreen parent) {
+	public MenuEquipmentButton(ItemStack stack, int x, int y, int colour, Screen toOpen, ItemCategory category, MenuBackground parent) {
         super(new Builder(Component.literal(""), b -> {
-            if (b.visible && b.active) {
+            if (b.visible && b.active && !(parent instanceof CheckEquipmentScreen)) {
                 Minecraft.getInstance().setScreen(((MenuEquipmentButton)b).toOpen);
             }
         }).bounds(x, y, (int) (parent.width * 0.264f), 14));
@@ -70,16 +74,16 @@ public class MenuEquipmentButton extends Button {
         this.category = category;
     }
 
-    public MenuEquipmentButton(ItemStack stack, int x, int y, int colour, Screen toOpen, ItemCategory category, MenuEquipmentScreen parent, String label, int labelColour) {
+    public MenuEquipmentButton(ItemStack stack, int x, int y, int colour, Screen toOpen, ItemCategory category, MenuBackground parent, String label, int labelColour) {
         this(stack, x, y, colour, toOpen, category, parent);
         this.hasLabel = true;
         this.labelColour = labelColour;
         this.label = label;
     }
     
-    public MenuEquipmentButton(String shotlock, int x, int y, int colour, Screen toOpen, ItemCategory category, MenuEquipmentScreen parent) {
+    public MenuEquipmentButton(String shotlock, int x, int y, int colour, Screen toOpen, ItemCategory category, MenuBackground parent) {
     	super(new Builder(Component.literal(""), b -> {
-            if (b.visible && b.active) {
+		    if (b.visible && b.active && !(parent instanceof CheckEquipmentScreen)) {
                 Minecraft.getInstance().setScreen(((MenuEquipmentButton)b).toOpen);
             }
         }).bounds(x, y, (int) (parent.width * 0.264f), 14));
@@ -93,7 +97,7 @@ public class MenuEquipmentButton extends Button {
         this.category = category;
     }
 
-    public MenuEquipmentButton(String shotlock, int x, int y, int colour, Screen toOpen, ItemCategory category, MenuEquipmentScreen parent, String label, int labelColour) {
+    public MenuEquipmentButton(String shotlock, int x, int y, int colour, Screen toOpen, ItemCategory category, MenuBackground parent, String label, int labelColour) {
         this(shotlock, x, y, colour, toOpen, category, parent);
         this.hasLabel = true;
         this.labelColour = labelColour;
@@ -225,6 +229,8 @@ public class MenuEquipmentButton extends Button {
                     	showData = true;
                     } else if (stack.getItem() instanceof KKPotionItem) {
                      	showData = true;
+					} else if (stack.getItem() instanceof MagicSpellItem) {
+						showData = true;
                     } else if (stack.getItem() instanceof KKAccessoryItem) {
                      	ap = ((KKAccessoryItem)stack.getItem()).getAp();
                      	strength = ((KKAccessoryItem)stack.getItem()).getStr();
@@ -234,7 +240,7 @@ public class MenuEquipmentButton extends Button {
                     	showData = false;
                     }
                     if(showData) {
-                    	boolean showStr = true, showMag= true, showAP=true, showResistances = false;
+                    	boolean showStr = true, showMag= true, showAP=true, showResistances = false, showExp = false;
                     	abilities.remove(null);
 	                    String strengthStr = String.valueOf(strength);
 	                    String magicStr = String.valueOf(magic);
@@ -289,6 +295,12 @@ public class MenuEquipmentButton extends Button {
 	                    	showStr = false;
 	                    	showMag = false;
 	                    }
+
+	                    if(stack.getItem() instanceof MagicSpellItem) {
+							showExp = true;
+		                    showStr = false;
+		                    showMag = false;
+	                    }
 	                    
 	                    if(showAP) {
 		                    gui.drawString(fr, Component.translatable(Strings.Gui_Menu_Status_AP).getString(), (int) strPosX, (int) posY, 0xEE8603);
@@ -315,6 +327,26 @@ public class MenuEquipmentButton extends Button {
 							gui.drawString(fr, totalMagicStr, (int) strNumPosX + fr.width(magicStr) + fr.width(openBracket), (int) posY, 0xFBEA21);
 							gui.drawString(fr, "]", (int) strNumPosX + fr.width(magicStr) + fr.width(openBracket) + fr.width(totalMagicStr), (int) posY, 0xBF6004);
 							posY+=10;
+	                    }
+
+	                    if(showExp) {
+							MagicSpellItem spell = (MagicSpellItem) stack.getItem();
+							Magic magicInstance = ModMagic.registry.get(ResourceLocation.parse(spell.getMagic()));
+		                    int maxExp = magicInstance.getMaxExp(spell.getLevel());
+		                    if(parent instanceof MenuEquipmentScreen screen) {
+			                    float textX = screen.detailsBox.getX() + 10;
+			                    float textY = screen.detailsBox.getY() + screen.detailsBox.getHeight() / 2F + 25;
+
+			                    Component text = Component.translatable("gui.magicspell.exp_short", spell.getExp(stack), maxExp);
+		                        gui.drawString(fr, text, (int) textX, (int) textY, 0xEEEE03);
+
+			                    float percent = spell.getExpPercent(stack);
+			                    int barWidth = (int) (screen.detailsBox.getWidth() * 0.8F);
+			                    int percentWidth = (int)(barWidth * percent);
+
+			                    gui.blit(barTexture, (int) textX, (int) textY + 10, barWidth, 5, 161, 67, 1, 5, 256, 256);
+			                    gui.blit(barTexture, (int) textX, (int) textY + 10, percentWidth, 5, 163, 67, 1, 5, 256, 256);
+							}
 	                    }
 	                    
 	                    if(showResistances && resistances != null) {

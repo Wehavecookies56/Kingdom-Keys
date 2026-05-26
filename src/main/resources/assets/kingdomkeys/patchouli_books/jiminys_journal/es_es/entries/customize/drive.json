@@ -1,0 +1,17 @@
+{
+	"name": "Formas de Fusión",
+	"icon": "kingdomkeys:hi_drive_recovery",
+	"category": "kingdomkeys:commands",
+	"sortnum": 3,
+	"advancement": "kingdomkeys:obtain_drive",
+	"pages": [
+		{
+			"type": "text",
+			"text": "Al igual que con los $(spell)Hechizos$(), a medida que exploras el mundo y encuentras $(l:kingdomkeys:blox/prize)esos cubos$() que mencionamos antes, también puedes encontrar $(item)Orbes de Forma$(). Estos orbes se pueden usar para $(thing)aprender o mejorar$() la Forma de Fusión correspondiente."
+		},
+		{
+			"type": "text",
+			"text": "Usando tu $(item)Indicador de Fusión$(), ubicado en la esquina inferior derecha de tu pantalla, sobre tu barra de VT, puedes transformarte en una de varias Formas diferentes las cuales tienen sus $(thing)propias habilidades, estilos y opciones de movimiento$() para aprender.$(p)Estas formas son conocidas como $(l:kingdomkeys:drive/valor)Valiente$(), $(l:kingdomkeys:drive/wisdom)Sabia$(), $(l:kingdomkeys:drive/master)Maestra$(), $(l:kingdomkeys:drive/limit)Suma$() y $(l:kingdomkeys:drive/final)Final$()."
+		}
+	]
+}

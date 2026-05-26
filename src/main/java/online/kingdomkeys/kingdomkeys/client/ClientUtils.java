@@ -1,6 +1,7 @@
 package online.kingdomkeys.kingdomkeys.client;
 
 import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
@@ -20,23 +21,28 @@ import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
+import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.FormattedText;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityAttachment;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -48,10 +54,12 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.neoforge.client.ClientHooks;
 import net.neoforged.neoforge.client.RenderTypeHelper;
 import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 import net.neoforged.neoforge.client.model.data.ModelData;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.HUD.*;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.handler.ClientEvents;
@@ -62,6 +70,7 @@ import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
 import online.kingdomkeys.kingdomkeys.util.IDisabledAnimations;
+import online.kingdomkeys.kingdomkeys.util.IExtendedReach;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import org.joml.Matrix4f;
 import org.joml.Matrix4fStack;
@@ -69,11 +78,26 @@ import org.joml.Quaternionf;
 
 import javax.annotation.Nullable;
 import java.io.FileNotFoundException;
-import java.util.Iterator;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class ClientUtils {
+    public static Style KK_Font_EXP = Style.EMPTY.withFont(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "kk_font_exp"));
+    public static Style KK_Font_MENU = Style.EMPTY.withFont(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "kk_font_menu"));
+
+    //Order is important for overlapping boxes, top to bottom
+    public static final HUDElement DRIVE_ELEMENT = new HUDElement("Drive").setScale(0.8F,0.8F);
+    public static final HUDElement MP_ELEMENT = new HUDElement("MP").setScale(0.7F, 0.5F);
+    public static final HUDElement PORTRAIT_ELEMENT = new HUDElement("Portrait");
+    public static final HUDElement FOCUS_ELEMENT = new HUDElement("Focus");
+    public static final HPElement HP_ELEMENT = new HPElement("HP").setScale(0.2F,0.2F);
+    public static final CMElement CM_ELEMENT = new CMElement("CM");
+    public static final HUDElement RC_ELEMENT = new HUDElement("RC");
+    public static final LockOnElement LOCKON_ELEMENT = new LockOnElement("LockOn");
+    public static final PartyElement PARTY_ELEMENT = new PartyElement("Party");
+    public static final HUDElement MUNNYEXP_ELEMENT = new HUDElement("MunnyExp");
+    public static final HUDElement LEVELUP_ELEMENT = new HUDElement("LevelUp");
+    public static final HUDElement DRIVELEVEL_ELEMENT = new HUDElement("DriveLevel");
+    public static final HUDElement MINIMAP_ELEMENT = new HUDElement("Minimap");
 
     public static Entity getEntityByUUIDClient(UUID uuid) {
         Minecraft mc = Minecraft.getInstance();
@@ -181,6 +205,10 @@ public class ClientUtils {
 
         builder.addVertex(pose, (float)x1, (float)y1, (float)z1).setColor(r, g, b, a).setNormal(lastPose, nx, ny, nz);
         builder.addVertex(pose, (float)x2, (float)y2, (float)z2).setColor(r, g, b, a).setNormal(lastPose, nx, ny, nz);
+    }
+
+    public static boolean isKeyDown(int key) {
+        return InputConstants.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), key);
     }
 
 
@@ -343,11 +371,14 @@ public class ClientUtils {
     }
 
   //Copy of InventoryScreen.renderEntityInInventory to disable animations, so if it breaks in an update, use that to fix it
-  	public static void renderPlayerNoAnims(PoseStack posestack, int pPosX, int pPosY, int pScale, float pMouseX, float pMouseY, LivingEntity pLivingEntity) {
+  	public static void renderEntity(PoseStack posestack, int pPosX, int pPosY, float pScale, float pMouseX, float pMouseY, Entity entity) {
   		float f = (float)Math.atan(pMouseX / 40.0F);
   		float f1 = (float)Math.atan(pMouseY / 40.0F);
-  		renderPlayerNoAnimsRaw(posestack, pPosX, pPosY, pScale, f, f1, pLivingEntity);
-  	}
+        if(entity instanceof AbstractClientPlayer livingEntity)
+  		    renderPlayerNoAnimsRaw(posestack, pPosX, pPosY, (int) pScale, f, f1, livingEntity);
+        else
+            renderEntityRaw(posestack, pScale, f, f1, entity);
+    }
 
     public static boolean disableEFMAnims = false;
   	
@@ -370,7 +401,6 @@ public class ClientUtils {
         p_275689_.yHeadRot = p_275689_.getYRot();
         p_275689_.yHeadRotO = p_275689_.getYRot();
 
-        double d0 = 1000.0D;
         Matrix4fStack posestack = RenderSystem.getModelViewStack();
         posestack.pushMatrix();
         posestack.translate(0.0F, 0.0F, 1000.0F);
@@ -411,7 +441,41 @@ public class ClientUtils {
         p_275689_.yHeadRotO = f5;
         p_275689_.yHeadRot = f6;
     }
-  	
+
+    public static void renderEntityRaw(PoseStack pose, float scale, float angleXComponent, float angleYComponent, Entity entity) {
+        Quaternionf qZ = new Quaternionf().rotateZ((float)Math.PI);
+        Quaternionf qX = new Quaternionf().rotateX(angleYComponent * 20.0F * ((float)Math.PI / 180F));
+        qZ.mul(qX);
+
+        pose.pushPose();
+        {
+            pose.mulPose(qZ);
+            pose.scale(-scale, scale, scale);
+
+            Lighting.setupForEntityInInventory();
+            EntityRenderDispatcher dispatcher = Minecraft.getInstance().getEntityRenderDispatcher();
+
+            if (qX != null) {
+                Quaternionf inv = new Quaternionf(qX).conjugate();
+                dispatcher.overrideCameraOrientation(inv);
+            }
+
+            dispatcher.setRenderShadow(false);
+            MultiBufferSource.BufferSource buffer = Minecraft.getInstance().renderBuffers().bufferSource();
+
+            RenderSystem.runAsFancy(() -> {
+                EntityRenderer<? super Entity> renderer = dispatcher.getRenderer(entity);
+                pose.translate(0,0,-100);
+                pose.mulPose(Axis.YP.rotationDegrees(180));
+                renderer.render(entity, 0, 1, pose, buffer, 15728880);
+            });
+
+            buffer.endBatch();
+            dispatcher.setRenderShadow(true);
+            Lighting.setupFor3DItems();
+        }
+        pose.popPose();
+    }
   	public static List<Component> getTooltip(List<Component> tooltip, Item.TooltipContext context, ItemStack stack) {
           if (context.level() != null) {
               float baseStr = 0, baseMag = 0;
@@ -459,6 +523,9 @@ public class ClientUtils {
 
               tooltip.add(Component.translatable(ChatFormatting.RED + Utils.translateToLocal(Strings.Gui_Menu_Status_Strength) + " %s", baseStr + " [" + totalStr + "]"));
               tooltip.add(Component.translatable(ChatFormatting.BLUE + Utils.translateToLocal(Strings.Gui_Menu_Status_Magic) + " %s", baseMag + " [" + totalMag + "]"));
+              if (stack.getItem() instanceof IExtendedReach extendedReach) {
+                tooltip.add(Component.translatable(ChatFormatting.AQUA + "Reach " + ChatFormatting.WHITE + "+" + extendedReach.getReach()));
+              }
               tooltip.add(Component.translatable(ChatFormatting.WHITE + "" + ChatFormatting.ITALIC + desc));
 
           }
@@ -520,6 +587,11 @@ public class ClientUtils {
 
     public static final RenderType ULTIMATE_SHOTLOCK_INDICATOR = RenderType.create(KingdomKeys.MODID+":shotlock_indicator", DefaultVertexFormat.POSITION_TEX, VertexFormat.Mode.QUADS, 256, false, false,
             RenderType.CompositeState.builder().setShaderState(RenderStateShard.POSITION_TEX_SHADER).setTextureState(new RenderStateShard.TextureStateShard(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID,"textures/gui/ultimate_shotlock_indicator.png"),
+                            false, false)).setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY).setDepthTestState(RenderStateShard.NO_DEPTH_TEST).setWriteMaskState(RenderStateShard.COLOR_WRITE).setLightmapState(RenderStateShard.NO_LIGHTMAP)
+                    .setOverlayState(RenderStateShard.NO_OVERLAY).createCompositeState(true));
+
+    public static final RenderType AIRSTEP_INDICATOR = RenderType.create(KingdomKeys.MODID+":airstep_indicator", DefaultVertexFormat.POSITION_TEX, VertexFormat.Mode.QUADS, 256, false, false,
+            RenderType.CompositeState.builder().setShaderState(RenderStateShard.POSITION_TEX_SHADER).setTextureState(new RenderStateShard.TextureStateShard(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID,"textures/gui/airstep_indicator.png"),
                             false, false)).setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY).setDepthTestState(RenderStateShard.NO_DEPTH_TEST).setWriteMaskState(RenderStateShard.COLOR_WRITE).setLightmapState(RenderStateShard.NO_LIGHTMAP)
                     .setOverlayState(RenderStateShard.NO_OVERLAY).createCompositeState(true));
 
@@ -589,7 +661,7 @@ public class ClientUtils {
 
             float size = 1.5F + shotlock.getCooldown() * 0.2F - ClientEvents.focusingAnEntityTicks * 0.2F;
             Matrix4f mat = poseStack.last().pose();
-            ClientUtils.drawTexturedModalRect2DPlane(mat, buffer.getBuffer(ULTIMATE_SHOTLOCK_INDICATOR), -size, -size, size, size, 0, 0, 256, 256);
+            drawTexturedModalRect2DPlane(mat, buffer.getBuffer(ULTIMATE_SHOTLOCK_INDICATOR), -size, -size, size, size, 0, 0, 256, 256);
         }
         poseStack.popPose();
     }
@@ -624,12 +696,12 @@ public class ClientUtils {
 
             float size = 0.3F;
             Matrix4f mat = poseStack.last().pose();
-            ClientUtils.drawTexturedModalRect2DPlane(mat, buffer.getBuffer(SHOTLOCK_INDICATOR), -size, -size, size, size, 0, 0, 256, 256);
+            drawTexturedModalRect2DPlane(mat, buffer.getBuffer(SHOTLOCK_INDICATOR), -size, -size, size, size, 0, 0, 256, 256);
         }
         poseStack.popPose();
     }
 
-    // Airsteps
+    // Airstep to block
     public static void drawShotlockIndicator(BlockPos pos, PoseStack poseStack, MultiBufferSource buffer, float partialTicks) {
         Minecraft mc = Minecraft.getInstance();
 
@@ -643,11 +715,45 @@ public class ClientUtils {
 
         mvMatrix.rotate(mc.getEntityRenderDispatcher().cameraOrientation());
 
-        ClientUtils.drawTexturedModalRect2DPlane(mvMatrix, buffer.getBuffer(SHOTLOCK_INDICATOR), -0.6f, -0.6f, 0.6f, 0.6f, 0, 0, 256, 256);
+        drawTexturedModalRect2DPlane(mvMatrix, buffer.getBuffer(AIRSTEP_INDICATOR), -0.6f, -0.6f, 0.6f, 0.6f, 0, 0, 256, 256);
     }
 
+    // Airstep shotlock
+    public static void drawAirstepIndicator(int entityID, PoseStack poseStack, MultiBufferSource buffer, float partialTicks) {
+        Minecraft mc = Minecraft.getInstance();
+
+        Shotlock shotlock = Utils.getPlayerShotlock(mc.player);
+        if (shotlock == null)
+            return;
+
+        Entity target = mc.level.getEntity(entityID);
+        if(target == null)
+            return;
+
+        double x = Mth.lerp(partialTicks, target.xOld, target.getX());
+        double y = Mth.lerp(partialTicks, target.yOld, target.getY());
+        double z = Mth.lerp(partialTicks, target.zOld, target.getZ());
+
+        Camera camera = mc.gameRenderer.getMainCamera();
+        Vec3 camPos = camera.getPosition();
+
+        poseStack.pushPose();
+        {
+            poseStack.translate(x - camPos.x, y - camPos.y + target.getBbHeight() * 0.5, z - camPos.z);
+            poseStack.mulPose(mc.getEntityRenderDispatcher().cameraOrientation());
+
+            float size = 1.5F + shotlock.getCooldown() * 0.2F - ClientEvents.focusingAnEntityTicks * 0.2F;
+            Matrix4f mat = poseStack.last().pose();
+            drawTexturedModalRect2DPlane(mat, buffer.getBuffer(AIRSTEP_INDICATOR), -size, -size, size, size, 0, 0, 256, 256);
+        }
+        poseStack.popPose();
+    }
+
+
     public static void drawTexturedModalRect2DPlane(Matrix4f matrix, VertexConsumer vertexBuilder, float minX, float minY, float maxX, float maxY, float minTexU, float minTexV, float maxTexU, float maxTexV) {
+        RenderSystem.depthMask(false);
         drawTexturedModalRect3DPlane(matrix, vertexBuilder, minX, minY, 0, maxX, maxY, 0, minTexU, minTexV, maxTexU, maxTexV);
+        RenderSystem.depthMask(true);
     }
 
     public static void drawTexturedModalRect3DPlane(Matrix4f matrix, VertexConsumer vertexBuilder, float minX, float minY, float minZ, float maxX, float maxY, float maxZ, float minTexU, float minTexV, float maxTexU, float maxTexV) {
@@ -664,6 +770,54 @@ public class ClientUtils {
         return playerData;
     }
 
+    /**
+     * Used in the KO system so it doesn't rotate
+     */
+    public static void renderNameTag(LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> renderer, LivingEntity entity, String displayName, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, float partialTick) {
+        EntityRenderDispatcher dispatcher = Minecraft.getInstance().getEntityRenderDispatcher();
+
+        double d0 = dispatcher.distanceToSqr(entity);
+        if (ClientHooks.isNameplateInRenderDistance(entity, d0)) {
+            Vec3 vec3 = entity.getAttachments().getNullable(EntityAttachment.NAME_TAG, 0, entity.getViewYRot(partialTick));
+            if (vec3 != null) {
+                boolean flag = !entity.isDiscrete();
+                int i = "deadmau5".equals(displayName) ? -10 : 0;
+                poseStack.pushPose();
+                {
+                    poseStack.translate(vec3.x, vec3.y + (double) 0.5F, vec3.z);
+                    poseStack.mulPose(dispatcher.cameraOrientation());
+                    poseStack.scale(0.025F, -0.025F, 0.025F);
+                    Matrix4f matrix4f = poseStack.last().pose();
+                    float f = Minecraft.getInstance().options.getBackgroundOpacity(0.25F);
+                    int j = (int) (f * 255.0F) << 24;
+                    Font font = renderer.getFont();
+                    float f1 = (float) (-font.width(displayName) / 2);
+                    font.drawInBatch(displayName, f1, (float) i, 553648127, false, matrix4f, bufferSource, flag ? Font.DisplayMode.SEE_THROUGH : Font.DisplayMode.NORMAL, j, packedLight);
+                    if (flag) {
+                        font.drawInBatch(displayName, f1, (float) i, 0xFFFFFF, false, matrix4f, bufferSource, Font.DisplayMode.NORMAL, 0, packedLight);
+                    }
+                }
+                poseStack.popPose();
+            }
+        }
+
+    }
+
+    public static void renderHeart(PoseStack matrixStackIn, MultiBufferSource bufferIn, LivingEntity entitylivingbaseIn) {
+        VertexConsumer buffer = bufferIn.getBuffer(Sheets.translucentCullBlockSheet());
+        matrixStackIn.pushPose();
+        {
+            BakedModel model = Minecraft.getInstance().getModelManager().getModel(ModelResourceLocation.standalone(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "entity/heart")));
+            matrixStackIn.scale(0.005F, 0.005F, 0.005F);
+            matrixStackIn.translate(0, 300, 0);
+            matrixStackIn.mulPose(Axis.YP.rotationDegrees(entitylivingbaseIn.tickCount*5));
+
+            for (BakedQuad quad : model.getQuads(null, null, RandomSource.create(), ModelData.EMPTY, RenderType.cutout())) {
+                buffer.putBulkData(matrixStackIn.last(), quad, 1, 1, 1, 1, 0x00F000F0, OverlayTexture.NO_OVERLAY, true);
+            }
+        }
+        matrixStackIn.popPose();
+    }
 
     /**
      * Copied from {@link net.minecraft.client.renderer.block.BlockRenderDispatcher#renderSingleBlock(BlockState, PoseStack, MultiBufferSource, int, int, ModelData, RenderType)} modified to use alpha
@@ -733,6 +887,286 @@ public class ClientUtils {
             }
         }
 
+    }
+
+
+    /**
+     * Stuff for trails
+     */
+
+    public enum TrailType {
+        FLOWMOTION, DASH
+    }
+    private static final Map<UUID, Deque<Vec3>> FLOW_TRAILS = new HashMap<>();
+    private static final Map<UUID, Deque<Vec3>> DASH_TRAILS = new HashMap<>();
+
+    private static final int MAX_POINTS = 200;
+
+    private static Deque<Vec3> getTrail(TrailType type, Player player) {
+        return switch(type){
+            case FLOWMOTION -> FLOW_TRAILS.computeIfAbsent(player.getUUID(), k -> new ArrayDeque<>());
+            case DASH -> DASH_TRAILS.computeIfAbsent(player.getUUID(), k -> new ArrayDeque<>());
+        };
+    }
+
+    public static void updateTrail(TrailType type, Player player, float partialTick, int MAX_POINTS) {
+        Deque<Vec3> trail = getTrail(type, player);
+        Vec3 pos = player.getPosition(partialTick);
+        trail.addLast(pos);
+
+        if (trail.size() > MAX_POINTS) {
+            trail.removeFirst();
+        }
+    }
+
+    public static void fadeTrail(TrailType type, Player player) {
+        Deque<Vec3> trail = getTrail(type, player);
+
+        if (!trail.isEmpty()) {
+            trail.removeFirst();
+        }
+    }
+
+    public static void renderTrail(TrailType type, Player player, PoseStack poseStack, MultiBufferSource bufferSource, float offsetAmount, float verticalOffset, float r, float g, float b, boolean oscillate) {
+        Deque<Vec3> trail = getTrail(type, player);
+
+        if (trail.size() < 2)
+            return;
+
+        poseStack.pushPose();
+        {
+            VertexConsumer buffer = bufferSource.getBuffer(RenderType.lines());
+            List<Vec3> points = new ArrayList<>(trail);
+            Matrix4f pose = poseStack.last().pose();
+
+            for (int i = 0; i < points.size() - 1; i++) {
+                Vec3 p1 = points.get(i);
+                Vec3 p2 = points.get(i + 1);
+
+                Vec3 dir = p2.subtract(p1).normalize();
+
+                Vec3 offset;
+
+                if (oscillate) {
+                    //Spiral
+                    Vec3 arbitrary = Math.abs(dir.y) < 0.99 ? new Vec3(0,1,0) : new Vec3(1,0,0);
+
+                    Vec3 right = dir.cross(arbitrary).normalize();
+                    Vec3 up = dir.cross(right).normalize();
+
+                    float t = i / (float) points.size();
+                    float angle = t * 10f + player.tickCount * 0.2f;
+                    float radius = 0.05f * offsetAmount;
+
+                    offset = right.scale((float)Math.cos(angle) * radius).add(up.scale((float)Math.sin(angle) * radius));
+                    offset = offset.add(new Vec3(0, verticalOffset, 0));
+                } else {
+                    //Fixed
+                    Vec3 worldUp = new Vec3(0, 1, 0);
+                    Vec3 side = dir.cross(worldUp).normalize().scale(0.05f);
+
+                    Vec3 horizontalOffset = side.scale(offsetAmount);
+                    Vec3 vertical = worldUp.scale(verticalOffset);
+
+                    offset = horizontalOffset.add(vertical);
+                }
+
+                // aplicar offset
+                Vec3 p1Final = p1.add(offset);
+                Vec3 p2Final = p2.add(offset);
+
+                float alpha = i / (float) points.size();
+
+                buffer.addVertex(pose, (float)p1Final.x, (float)p1Final.y, (float)p1Final.z)
+                        .setColor(r, g, b, alpha)
+                        .setUv(0f, 0f)
+                        .setUv2(0, 15728880)
+                        .setNormal(0f, 1f, 0f);
+
+                buffer.addVertex(pose, (float)p2Final.x, (float)p2Final.y, (float)p2Final.z)
+                        .setColor(r, g, b, alpha)
+                        .setUv(0f, 0f)
+                        .setUv2(0, 15728880)
+                        .setNormal(0f, 1f, 0f);
+            }
+        }
+        poseStack.popPose();
+    }
+
+    /**
+     * Render magnet blox mini trails
+     */
+    public static void renderMiniTrails(PoseStack poseStack, MultiBufferSource bufferSource, float partialTick) {
+        if(MINI_TRAILS.isEmpty())
+            return;
+
+        VertexConsumer buffer = bufferSource.getBuffer(RenderType.debugQuads());
+        Matrix4f pose = poseStack.last().pose();
+        Vec3 camPos = Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();
+
+        double maxDistanceSqr = 80 * 80;
+
+        for (MiniTrail t : MINI_TRAILS) {
+            Vec3 p1 = t.getPos(partialTick);
+            if (p1.distanceToSqr(camPos) > maxDistanceSqr)
+                continue;
+
+            float length = 0.5f;
+
+            Vec3 p2 = p1.add(t.dir.scale(length));
+
+            if (t.side.lengthSqr() < 0.0001)
+                t.side = new Vec3(0,1,0);
+
+            float alpha = 0.2F;
+            float width = 0.015f;
+
+            Vec3 off1 = t.side.scale(width);
+            Vec3 off2 = t.up.scale(width);
+
+            //We draw 2 quads to make a cross
+            drawQuad(buffer, pose, p1, p2, off1, t.r, t.g, t.b, alpha);
+            drawQuad(buffer, pose, p1, p2, off2, t.r, t.g, t.b, alpha);
+        }
+    }
+
+    /**
+     * Helper function to draw the quads
+     */
+    private static void drawQuad(VertexConsumer buffer, Matrix4f pose, Vec3 p1, Vec3 p2, Vec3 offset, float r, float g, float b, float alpha) {
+        Vec3 p1A = p1.add(offset);
+        Vec3 p1B = p1.subtract(offset);
+        Vec3 p2A = p2.add(offset);
+        Vec3 p2B = p2.subtract(offset);
+
+        buffer.addVertex(pose, (float)p1A.x, (float)p1A.y, (float)p1A.z)
+                .setColor(r, g, b, alpha)
+                .setNormal(0,1,0);
+
+        buffer.addVertex(pose, (float)p2A.x, (float)p2A.y, (float)p2A.z)
+                .setColor(r, g, b, alpha)
+                .setNormal(0,1,0);
+
+        buffer.addVertex(pose, (float)p2B.x, (float)p2B.y, (float)p2B.z)
+                .setColor(r, g, b, alpha)
+                .setNormal(0,1,0);
+
+        buffer.addVertex(pose, (float)p1B.x, (float)p1B.y, (float)p1B.z)
+                .setColor(r, g, b, alpha)
+                .setNormal(0,1,0);
+    }
+
+    /**
+     * Update the magnet blox mini trails
+     */
+    public static void updateMiniTrails() {
+        Minecraft mc = Minecraft.getInstance();
+
+        if (mc.player == null)
+            return;
+
+        Vec3 camPos = mc.gameRenderer.getMainCamera().getPosition();
+        double maxDistanceSqr = 80 * 80;
+
+        Iterator<MiniTrail> it = MINI_TRAILS.iterator();
+        while (it.hasNext()) {
+            MiniTrail t = it.next();
+            Vec3 pos = t.getPos(0);
+
+            if (pos.distanceToSqr(camPos) > maxDistanceSqr) {
+                it.remove();
+                continue;
+            }
+
+            float delta = mc.getTimer().getGameTimeDeltaTicks();
+            t.progress += t.speed * delta;
+
+            if (t.progress >= 1f) {
+                it.remove();
+            }
+        }
+    }
+
+    private static final List<MiniTrail> MINI_TRAILS = new ArrayList<>();
+
+    private static class MiniTrail {
+        Vec3 start;
+        Vec3 target;
+
+        float progress;
+        float speed;
+
+        float r, g, b;
+        boolean attract;
+
+        Vec3 dir;
+
+        Vec3 arbitrary;
+        Vec3 side;
+        Vec3 up;
+
+
+        public MiniTrail(Vec3 start, Vec3 target, float speed, boolean attract) {
+            this.start = start;
+            this.target = target;
+            this.progress = 0f;
+            this.speed = speed;
+            this.attract = attract;
+            this.dir = target.subtract(start).normalize();
+            this.arbitrary = Math.abs(dir.y) < 0.99 ? new Vec3(0,1,0) : new Vec3(1,0,0);
+            this.side = dir.cross(arbitrary).normalize();
+            this.up = side.cross(dir).normalize();
+
+            this.r = attract ? 1 : 0;
+            this.g = 0;
+            this.b = attract ? 0 : 1;
+        }
+
+        public Vec3 getPos(float partialTick) {
+            float p = Math.min(1f, progress + partialTick * speed);
+            return start.lerp(target, p);
+        }
+    }
+
+    public static void spawnRandomMiniTrail(BlockPos pos, Direction facing, int range, boolean attract) {
+        RandomSource rand = Minecraft.getInstance().level.getRandom();
+
+        Vec3 base = new Vec3(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
+
+        Vec3 forward = new Vec3(facing.getStepX(), facing.getStepY(), facing.getStepZ());
+        Vec3 arbitrary = Math.abs(forward.y) < 0.99 ? new Vec3(0,1,0) : new Vec3(1,0,0);
+
+        Vec3 right = forward.cross(arbitrary).normalize();
+        Vec3 up = forward.cross(right).normalize();
+
+        float spreadAmount = 0.4f;
+
+        Vec3[] offsets = new Vec3[] {
+                Vec3.ZERO,
+                right.add(up).normalize().scale(spreadAmount),
+                right.subtract(up).normalize().scale(spreadAmount),
+                right.scale(-1).add(up).normalize().scale(spreadAmount),
+                right.scale(-1).subtract(up).normalize().scale(spreadAmount)
+        };
+
+        Vec3 spread = offsets[rand.nextInt(offsets.length)];
+
+        Vec3 farPoint = base.add(forward.scale(range));
+
+        Vec3 start;
+        Vec3 target;
+
+        if (attract) {
+            start = farPoint.add(spread);
+            target = base.add(spread);
+        } else {
+            start = base.add(spread);
+            target = farPoint.add(spread);
+        }
+
+        float speed = 0.02f;
+
+        MINI_TRAILS.add(new MiniTrail(start, target, speed, attract));
     }
 }
 

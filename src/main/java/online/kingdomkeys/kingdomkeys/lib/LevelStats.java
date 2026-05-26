@@ -8,8 +8,6 @@ import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.leveling.Level;
 import online.kingdomkeys.kingdomkeys.leveling.ModLevels;
-import online.kingdomkeys.kingdomkeys.magic.Magic;
-import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.shotlock.ModShotlocks;
 import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
 
@@ -57,7 +55,6 @@ public class LevelStats {
 			cap.addMaxMP(levelData.getMaxMp(level));
 		}
 
-        levelData.getAbilities(level);
         for (String ability : levelData.getAbilities(level)) {
             if (ability != null) {
                 Ability a = ModAbilities.registry.get(ResourceLocation.parse(ability));
@@ -67,7 +64,6 @@ public class LevelStats {
             }
         }
 
-        levelData.getShotlocks(level);
         for (String shotlock : levelData.getShotlocks(level)) {
             if (shotlock != null) {
                 Shotlock a = ModShotlocks.registry.get(ResourceLocation.parse(shotlock));
@@ -77,13 +73,13 @@ public class LevelStats {
             }
         }
 
-        levelData.getSpells(level);
+       /* levelData.getSpells(level); // TODO spells
         for (String magic : levelData.getSpells(level)) {
             if (magic != null) {
                 Magic magicInstance = ModMagic.registry.get(ResourceLocation.parse(magic));
                 if (magicInstance != null) {
-                    if (cap != null && cap.getMagicsMap() != null) {
-                        if (!cap.getMagicsMap().containsKey(magic)) {
+                    if (cap != null && cap.getMagicsCastMap() != null) {
+                        if (!cap.getMagicsCastMap().containsKey(magic)) {
                             cap.setMagicLevel(ResourceLocation.parse(magic), cap.getMagicLevel(ResourceLocation.parse(magic)), true);
                         } else {
                             cap.setMagicLevel(ResourceLocation.parse(magic), cap.getMagicLevel(ResourceLocation.parse(magic)) + 1, true);
@@ -91,14 +87,17 @@ public class LevelStats {
                     }
                 }
             }
-        }
+        }*/
 
         if (levelData.getMaxAccessories(level) > 0) {
 			cap.addMaxAccessories(levelData.getMaxAccessories(level));
 		}
-		if (levelData.getMaxArmors(level) > 0) {
-			cap.addMaxArmors(levelData.getMaxArmors(level));
-		}
+	    if (levelData.getMaxArmors(level) > 0) {
+		    cap.addMaxArmors(levelData.getMaxArmors(level));
+	    }
+	    if (levelData.getMaxMagics(level) > 0) {
+		    cap.addMaxMagics(levelData.getMaxMagics(level));
+	    }
     }
 
 }

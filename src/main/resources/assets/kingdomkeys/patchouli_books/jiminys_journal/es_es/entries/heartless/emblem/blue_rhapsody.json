@@ -1,0 +1,19 @@
+{
+	"name": "Rapsodia Azul",
+	"icon": "kingdomkeys:blue_rhapsody_spawn_egg",
+	"category": "kingdomkeys:emblem",
+	"sortnum": 2,
+	"advancement": "kingdomkeys:obtain_keychain",
+	"pages": [
+		{
+			"type": "text",
+			"text": "Un $(heartless)Sincorazón$() Hechicero. Se acercan a sus enemigos rebotando y atacan con Hielo y $(thing)$(o)absorben ataques de hielo$().$(p)$(lissa)$(l)$(o)[Primera aparición: Kingdom Hearts]$()"
+		},
+		{
+			"type": "patchouli:entity",
+			"entity": "kingdomkeys:blue_rhapsody",
+			"scale": 0.9,
+			"offset": 0.5
+		}
+	]
+}

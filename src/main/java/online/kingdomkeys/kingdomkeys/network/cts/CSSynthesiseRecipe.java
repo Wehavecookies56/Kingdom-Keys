@@ -67,7 +67,7 @@ public record CSSynthesiseRecipe(ResourceLocation name) implements Packet {
 					playerData.setMunny(playerData.getMunny() - recipe.getCost());
 					//playerData.setSynthExperience(600);
 					//playerData.setSynthLevel(1);
-					playerData.addSynthExperience(10 + recipe.getTier() * 2);
+					playerData.addSynthExperience(recipe.getExp() >= 0 ? recipe.getExp() : 10 + recipe.getTier() * 2);
 
                     for (Entry<Item, Integer> m : recipe.getMaterials().entrySet()) {
                         playerData.removeMaterial(m.getKey(), m.getValue());

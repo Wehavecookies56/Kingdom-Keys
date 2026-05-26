@@ -230,6 +230,8 @@ public class NobodyCreeperModel<T extends BaseKHEntity> extends EntityModel<T> {
 
     @Override
     public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+        if(Minecraft.getInstance().isPaused())
+            return;
 /*
     	  Manually get these rotations ( in degrees ) while having tabula opened
     	  (or if it's easy like in this case just add +10)

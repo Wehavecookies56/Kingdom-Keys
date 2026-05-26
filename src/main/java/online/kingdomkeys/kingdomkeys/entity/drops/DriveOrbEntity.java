@@ -46,8 +46,7 @@ public class DriveOrbEntity extends ItemDropEntity {
 	}
 
 	@Override
-	SoundEvent getPickupSound() {
-		//return ModSounds.drive.get();
+	public SoundEvent getPickupSound() {
 		return ModSounds.hp_orb.get();
 	}
 	

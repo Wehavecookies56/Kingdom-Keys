@@ -54,7 +54,7 @@ import java.util.function.Supplier;
 
 import static online.kingdomkeys.kingdomkeys.entity.EntityHelper.MobType.*;
 
-@EventBusSubscriber(modid = KingdomKeys.MODID, bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = KingdomKeys.MODID)
 public class ModEntities {
     public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(BuiltInRegistries.ENTITY_TYPE, KingdomKeys.MODID);
 
@@ -114,6 +114,9 @@ public class ModEntities {
     
     public static final Supplier<EntityType<HeartEntity>> TYPE_HEART = createEntityType(HeartEntity::new, MobCategory.MISC, "heart", 1F, 1F);
     public static final Supplier<EntityType<XPEntity>> TYPE_XP = createEntityType(XPEntity::new, MobCategory.MISC, "xp", 1F, 1F);
+    public static final Supplier<EntityType<TrainingDummyEntity>> TYPE_TRAINING_DUMMY = createEntityType(TrainingDummyEntity::new, MobCategory.MISC, "training_dummy", 1F, 2F);
+    public static final Supplier<EntityType<DamageNumberEntity>> TYPE_DAMAGE_NUMBER = createEntityType(DamageNumberEntity::new, MobCategory.MISC, "damage_number", 1F, 1F);
+    public static final Supplier<EntityType<MagicTargetEntity>> TYPE_MAGIC_TARGET = createEntityTypeImmuneToFire(MagicTargetEntity::new, MobCategory.MISC, "magic_target", 1F, 1F);
 
     //Mobs
     public static final Item.Properties PROPERTIES = new Item.Properties();
@@ -135,11 +138,11 @@ public class ModEntities {
     //Emblems
     public static final Supplier<EntityType<MinuteBombEntity>> TYPE_MINUTE_BOMB = createEntityType(MinuteBombEntity::new, MobCategory.MONSTER, "minute_bomb", 0.6F, 1.3F);
     public static final Supplier<Item> MINUTE_BOMB_EGG = ModItems.ITEMS.register("minute_bomb_spawn_egg", () -> new DeferredSpawnEggItem(TYPE_MINUTE_BOMB, 0x020030, 0x8B4513, PROPERTIES));
-    public static final Supplier<EntityType<SkaterBombEntity>> TYPE_SKATER_BOMB = createEntityType(SkaterBombEntity::new, MobCategory.MONSTER, "skater_bomb", 0.6F, 1.3F);
+    public static final Supplier<EntityType<SkaterBombEntity>> TYPE_SKATER_BOMB = createEntityType(SkaterBombEntity::new, MobCategory.MONSTER, "skater_bomb", 0.63F, 1.5F);
     public static final Supplier<Item> SKATER_BOMB_EGG = ModItems.ITEMS.register("skater_bomb_spawn_egg", () -> new DeferredSpawnEggItem(TYPE_SKATER_BOMB, 0x020030, 0xAAAAFF, PROPERTIES));
-    public static final Supplier<EntityType<StormBombEntity>> TYPE_STORM_BOMB = createEntityType(StormBombEntity::new, MobCategory.MONSTER, "storm_bomb", 0.6F, 1.3F);
+    public static final Supplier<EntityType<StormBombEntity>> TYPE_STORM_BOMB = createEntityType(StormBombEntity::new, MobCategory.MONSTER, "storm_bomb", 0.65F, 1.7F);
     public static final Supplier<Item> STORM_BOMB_EGG = ModItems.ITEMS.register("storm_bomb_spawn_egg", () -> new DeferredSpawnEggItem(TYPE_STORM_BOMB, 0x020030, Color.CYAN.getRGB(), PROPERTIES));
-    public static final Supplier<EntityType<DetonatorEntity>> TYPE_DETONATOR = createEntityType(DetonatorEntity::new, MobCategory.MONSTER, "detonator", 0.6F, 1.3F);
+    public static final Supplier<EntityType<DetonatorEntity>> TYPE_DETONATOR = createEntityType(DetonatorEntity::new, MobCategory.MONSTER, "detonator", 0.68F, 1.8F);
     public static final Supplier<Item> DETONATOR_EGG = ModItems.ITEMS.register("detonator_spawn_egg", () -> new DeferredSpawnEggItem(TYPE_DETONATOR, 0x020030, Color.RED.getRGB(), PROPERTIES));
     public static final Supplier<EntityType<RedNocturneEntity>> TYPE_RED_NOCTURNE = createEntityTypeImmuneToFire(RedNocturneEntity::new, MobCategory.MONSTER, "red_nocturne", 1.0F,  2.0F);
     public static final Supplier<Item> RED_NOCTURNE_EGG = ModItems.ITEMS.register("red_nocturne_spawn_egg", () -> new DeferredSpawnEggItem(TYPE_RED_NOCTURNE, Color.RED.getRGB(), Color.YELLOW.getRGB(), PROPERTIES));
@@ -154,6 +157,12 @@ public class ModEntities {
 
     public static final Supplier<EntityType<SoldierEntity>> TYPE_SOLDIER = createEntityType(SoldierEntity::new, MobCategory.MONSTER, "soldier", 0.8F, 1.6F);
     public static final Supplier<Item> SOLDIER_EGG = ModItems.ITEMS.register("soldier_spawn_egg", () -> new DeferredSpawnEggItem(TYPE_SOLDIER, Color.BLUE.getRGB(), Color.RED.getRGB(), PROPERTIES));
+
+    public static final Supplier<EntityType<SoldierEntity>> TYPE_DESERTER = createEntityType(DeserterEntity::new, MobCategory.MONSTER, "deserter", 0.7F, 1.3F);
+    public static final Supplier<Item> DESERTER_EGG = ModItems.ITEMS.register("deserter_spawn_egg", () -> new DeferredSpawnEggItem(TYPE_DESERTER, 0x007b5a, Color.LIGHT_GRAY.getRGB(), PROPERTIES));
+
+    public static final Supplier<EntityType<SoldierEntity>> TYPE_COMMANDER = createEntityType(CommanderEntity::new, MobCategory.MONSTER, "commander", 0.9F, 2.4F);
+    public static final Supplier<Item> COMMANDER_EGG = ModItems.ITEMS.register("commander_spawn_egg", () -> new DeferredSpawnEggItem(TYPE_COMMANDER, 0x003c32, Color.YELLOW.getRGB(), PROPERTIES));
 
     public static final Supplier<EntityType<WhiteMushroomEntity>> TYPE_WHITE_MUSHROOM = createEntityType(WhiteMushroomEntity::new, MobCategory.MONSTER, "white_mushroom", 0.6F, 1.1F);
     public static final Supplier<Item> WHITE_MUSHROOM_EGG = ModItems.ITEMS.register("white_mushroom_spawn_egg", () -> new DeferredSpawnEggItem(TYPE_WHITE_MUSHROOM, 0xFAF3B9, Color.RED.getRGB(), PROPERTIES));
@@ -264,7 +273,6 @@ public class ModEntities {
     @OnlyIn(Dist.CLIENT)
     public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
         //Entities
-        
         event.registerEntityRenderer(TYPE_BLAST_BLOX.get(), BlastBloxRenderer::new);
 
         event.registerEntityRenderer(TYPE_PAIR_BLOX.get(), PairBloxRenderer::new);
@@ -321,6 +329,8 @@ public class ModEntities {
         event.registerEntityRenderer(TYPE_ASSASSIN.get(), AssassinRenderer::new);
         event.registerEntityRenderer(TYPE_DIRE_PLANT.get(), DirePlantRenderer::new);
         event.registerEntityRenderer(TYPE_SOLDIER.get(), SoldierRenderer::new);
+        event.registerEntityRenderer(TYPE_DESERTER.get(), SoldierRenderer::new);
+        event.registerEntityRenderer(TYPE_COMMANDER.get(), SoldierRenderer::new);
         event.registerEntityRenderer(TYPE_DRAGOON.get(), DragoonRenderer::new);
         event.registerEntityRenderer(TYPE_WHITE_MUSHROOM.get(), WhiteMushroomRenderer::new);
         event.registerEntityRenderer(TYPE_BLACK_FUNGUS.get(), BlackFungusRenderer::new);
@@ -329,6 +339,9 @@ public class ModEntities {
         event.registerEntityRenderer(TYPE_ORG_PORTAL.get(), OrgPortalEntityRenderer::new);
         event.registerEntityRenderer(TYPE_HEART.get(), HeartEntityRenderer::new);
         event.registerEntityRenderer(TYPE_XP.get(), XPEntityRenderer::new);
+        event.registerEntityRenderer(TYPE_TRAINING_DUMMY.get(), TrainingDummyRenderer::new);
+        event.registerEntityRenderer(TYPE_DAMAGE_NUMBER.get(), DamageNumberRenderer::new);
+        event.registerEntityRenderer(TYPE_MAGIC_TARGET.get(), MagicTargetRenderer::new);
 
         //event.registerEntityRenderer(TYPE_CHAKRAM.get(), ChakramEntityRenderer::new);
         EntityRenderers.register(TYPE_KK_THROWABLE.get(), KKThrowableEntityRenderer::new);
@@ -356,13 +369,11 @@ public class ModEntities {
         event.registerEntityRenderer(TYPE_GUMMI_IMPACT.get(), GummiImpactEntityRender::new);
 
         event.registerEntityRenderer(TYPE_MARLUXIA.get(), MarluxiaRenderer::new);
-        
-        //Tile Entities
 
+        //Tile Entities
         event.registerBlockEntityRenderer(TYPE_PEDESTAL.get(), PedestalRenderer::new);
         event.registerBlockEntityRenderer(TYPE_MOOGLE_PROJECTOR.get(), MoogleProjectorRenderer::new);
         event.registerBlockEntityRenderer(TYPE_SOA_PLATFORM.get(), SoAPlatformRenderer::new);
-        event.registerBlockEntityRenderer(TYPE_PEDESTAL.get(), PedestalRenderer::new);
         event.registerBlockEntityRenderer(TYPE_AIRSTEP_TARGET_TE.get(), AirstepTargetRenderer::new);
         event.registerBlockEntityRenderer(TYPE_GUMMI_HANGAR.get(), GummiHangarRenderer::new);
         event.registerBlockEntityRenderer(TYPE_GUMMI_CORE_TE.get(), GummiCoreRenderer::new);
@@ -384,6 +395,7 @@ public class ModEntities {
         event.registerLayerDefinition(LargeBodyModel.LAYER_LOCATION, LargeBodyModel::createBodyLayer);
         event.registerLayerDefinition(MarluxiaModel.LAYER_LOCATION, MarluxiaModel::createBodyLayer);
         event.registerLayerDefinition(MoogleModel.LAYER_LOCATION, MoogleModel::createBodyLayer);
+        event.registerLayerDefinition(TrainingDummyModel.LAYER_LOCATION, TrainingDummyModel::createBodyLayer);
         event.registerLayerDefinition(NobodyCreeperModel.LAYER_LOCATION, NobodyCreeperModel::createBodyLayer);
         event.registerLayerDefinition(ShadowGlobModel.LAYER_LOCATION, ShadowGlobModel::createBodyLayer);
         event.registerLayerDefinition(ShadowModel.LAYER_LOCATION, ShadowModel::createBodyLayer);
@@ -438,11 +450,16 @@ public class ModEntities {
         event.put(TYPE_STORM_BOMB.get(), StormBombEntity.registerAttributes().build());
         event.put(TYPE_YELLOW_OPERA.get(), YellowOperaEntity.registerAttributes().build());
         event.put(TYPE_SOLDIER.get(), SoldierEntity.registerAttributes().build());
+        event.put(TYPE_DESERTER.get(), DeserterEntity.registerAttributes().build());
+        event.put(TYPE_COMMANDER.get(), CommanderEntity.registerAttributes().build());
         event.put(TYPE_WHITE_MUSHROOM.get(), WhiteMushroomEntity.registerAttributes().build());
         event.put(TYPE_BLACK_FUNGUS.get(), BlackFungusEntity.registerAttributes().build());
         event.put(TYPE_DRAGOON.get(), DragoonEntity.registerAttributes().build());
         event.put(TYPE_BLOX_BUG.get(), BloxBugEntity.registerAttributes().build());
-        
+
+        event.put(TYPE_TRAINING_DUMMY.get(), TrainingDummyEntity.registerAttributes().build());
+        event.put(TYPE_MAGIC_TARGET.get(), MagicTargetEntity.registerAttributes().build());
+
         //GlobalEntityTypeAttributes.put(TYPE_GUMMI_SHIP.get(), GummiShipEntity.registerAttributes().create());
         event.put(TYPE_SPAWNING_ORB.get(), SpawningOrbEntity.registerAttributes().build());
         
@@ -470,6 +487,8 @@ public class ModEntities {
         addToGroup(HEARTLESS_EMBLEM, TYPE_LARGE_BODY.get(), 8);
         addToGroup(HEARTLESS_EMBLEM, TYPE_DIRE_PLANT.get(), 0);
         addToGroup(HEARTLESS_EMBLEM, TYPE_SOLDIER.get(), 3);
+        addToGroup(HEARTLESS_EMBLEM, TYPE_DESERTER.get(), 5);
+        addToGroup(HEARTLESS_EMBLEM, TYPE_COMMANDER.get(), 12);
         addToGroup(HEARTLESS_EMBLEM, TYPE_WHITE_MUSHROOM.get(), 20);
         addToGroup(HEARTLESS_EMBLEM, TYPE_BLACK_FUNGUS.get(), 25);
 
@@ -534,6 +553,8 @@ public class ModEntities {
         event.register(TYPE_YELLOW_OPERA.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
         event.register(TYPE_SPAWNING_ORB.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
         event.register(TYPE_SOLDIER.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
+        event.register(TYPE_DESERTER.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
+        event.register(TYPE_COMMANDER.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
         event.register(TYPE_WHITE_MUSHROOM.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
         event.register(TYPE_BLACK_FUNGUS.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
         event.register(TYPE_DRAGOON.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
@@ -555,4 +576,5 @@ public class ModEntities {
     public static final Supplier<BlockEntityType<SoRCoreTileEntity>> TYPE_SOR_CORE_TE = TILE_ENTITIES.register("sor_core", () -> BlockEntityType.Builder.of(SoRCoreTileEntity::new, ModBlocks.sorCore.get()).build(null));
     public static final Supplier<BlockEntityType<CardDoorTileEntity>> TYPE_CARD_DOOR = TILE_ENTITIES.register("card_door", () -> BlockEntityType.Builder.of(CardDoorTileEntity::new, ModBlocks.cardDoor.get()).build(null));
     public static final Supplier<BlockEntityType<AirStepTargetEntity>> TYPE_AIRSTEP_TARGET_TE = TILE_ENTITIES.register("airstep_target", () -> BlockEntityType.Builder.of(AirStepTargetEntity::new, ModBlocks.airstepTarget.get()).build(null));
+    public static final Supplier<BlockEntityType<MagicTargetBlockEntity>> TYPE_MAGIC_TARGET_TE = TILE_ENTITIES.register("magic_target_te", () -> BlockEntityType.Builder.of(MagicTargetBlockEntity::new, ModBlocks.magicTarget.get()).build(null));
 }

@@ -14,6 +14,7 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.gui.container.*;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
+import online.kingdomkeys.kingdomkeys.item.BagItem;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 
 import java.util.function.Supplier;
@@ -23,7 +24,7 @@ import java.util.function.Supplier;
 public class ModMenus {
     public static final DeferredRegister<MenuType<?>> MENUS = DeferredRegister.create(BuiltInRegistries.MENU, KingdomKeys.MODID);
 
-    public static final Supplier<MenuType<SynthesisBagMenu>> SYNTHESIS_BAG = createMenu("synthesis_bag", SynthesisBagMenu::fromNetwork);
+    public static final Supplier<MenuType<BagMenu>> BAG = createMenu("bag", BagMenu::fromNetwork);
     public static final Supplier<MenuType<PedestalMenu>> PEDESTAL = createMenu("pedestal_container", PedestalMenu::new);
     public static final Supplier<MenuType<MagicalChestMenu>> MAGICAL_CHEST = createMenu("magical_chest", MagicalChestMenu::new);
     public static final Supplier<MenuType<GummiHangarMenu>> GUMMI_HANGAR = createMenu("gummi_hangar_container", GummiHangarMenu::new);
@@ -35,7 +36,7 @@ public class ModMenus {
 
     @OnlyIn(Dist.CLIENT)
     public static void registerGUIFactories(RegisterMenuScreensEvent event) {
-        event.register(ModMenus.SYNTHESIS_BAG.get(), SynthesisBagScreen::new);
+        event.register(ModMenus.BAG.get(), BagScreen::new);
         event.register(ModMenus.PEDESTAL.get(), PedestalScreen::new);
         event.register(ModMenus.MAGICAL_CHEST.get(), MagicalChestScreen::new);
         event.register(ModMenus.GUMMI_HANGAR.get(), GummiHangarScreen::new);
@@ -43,7 +44,12 @@ public class ModMenus {
     }
 
     public static void registerCapabilities(RegisterCapabilitiesEvent event) {
-        event.registerItem(Capabilities.ItemHandler.ITEM, (object, context) -> new SynthesisBagInventory(object), ModItems.synthesisBag.get());
+        event.registerItem(Capabilities.ItemHandler.ITEM, (object, context) -> {
+                if (!(object.getItem() instanceof BagItem bagItem)) {
+                    return null;
+                }
+            return new BagInventory(object, bagItem.getValidator());
+            }, ModItems.synthesisBag.get(), ModItems.magicsBag.get());
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, ModEntities.TYPE_PEDESTAL.get(), (object, context) -> object.inventory.get());
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, ModEntities.TYPE_MAGICAL_CHEST.get(), (object, context) -> object.inventory.get());
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, ModEntities.TYPE_GUMMI_HANGAR.get(), (object, context) -> object.inventory.get());

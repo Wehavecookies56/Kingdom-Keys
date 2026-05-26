@@ -1,5 +1,5 @@
 {
-  "ability": "",
+  "ability": "kingdomkeys:ability_lucky_lucky",
   "base_stats": {
     "mag": 5,
     "str": 6
@@ -172,5 +172,5 @@
       "str": 11
     }
   ],
-  "reach": 5.0
+  "reach": 1.0
 }

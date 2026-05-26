@@ -1,4 +1,9 @@
 {
+  "air_slide": {
+    "sounds": [
+      "kingdomkeys:air_slide"
+    ]
+  },
   "alarm": {
     "sounds": [
       "kingdomkeys:alarm"
@@ -27,11 +32,6 @@
   "ether": {
     "sounds": [
       "kingdomkeys:ether"
-    ]
-  },
-  "hi-potion": {
-    "sounds": [
-      "kingdomkeys:hi-potion"
     ]
   },
   "hp_orb": {
@@ -73,6 +73,11 @@
   "levelup": {
     "sounds": [
       "kingdomkeys:levelup"
+    ]
+  },
+  "lockoff": {
+    "sounds": [
+      "kingdomkeys:lockoff"
     ]
   },
   "lockon": {
@@ -490,6 +495,16 @@
   "unsummon_armor": {
     "sounds": [
       "kingdomkeys:unsummon_armor"
+    ]
+  },
+  "wall_grab": {
+    "sounds": [
+      "kingdomkeys:wall_grab"
+    ]
+  },
+  "wall_jump": {
+    "sounds": [
+      "kingdomkeys:wall_jump"
     ]
   },
   "wisdom_shot": {

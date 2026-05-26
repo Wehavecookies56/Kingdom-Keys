@@ -1,0 +1,12 @@
+{
+	"name": "Salir de la Org. XIII",
+	"icon": "kingdomkeys:proof_of_heart",
+	"sortnum": 3,
+	"category": "kingdomkeys:orgxiii",
+	"pages": [
+		{
+			"type": "text",
+			"text": "La única forma de $(item)abandonar la Organización$() es derrotar al $(thing)Ender Dragon$() y obtener una $(item)Prueba de Corazón$(). Una vez utilizada, serás expulsado de los rangos de las Organizaciones y regresarás a ser un Portador normal de Llave Espada. Puedes unirte de nuevo en cualquier momento repitiendo los mismos métodos que al unirte originalmente."
+		}
+	]
+}

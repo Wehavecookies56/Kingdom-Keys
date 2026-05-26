@@ -28,7 +28,7 @@ public class FocusOrbEntity extends ItemDropEntity {
 	}
 
 	@Override
-	SoundEvent getPickupSound() {
+	public SoundEvent getPickupSound() {
 		return ModSounds.hp_orb.get();
 	}
 	

@@ -1,0 +1,17 @@
+{
+	"name": "Seta Blanca",
+	"icon": "kingdomkeys:white_mushroom_spawn_egg",
+	"category": "kingdomkeys:emblem",
+	"sortnum": 15,
+	"pages": [
+		{
+			"type": "text",
+			"text": "Estos $(heartless)Sincorazón$() no son hostiles. Estas amigables y raras criaturas te recompensarán si usas 3 hechizos de magia correctamente sobre ellos. $(thing)$(o)Presta atención a su animación, si fallas una vez, desaparecerán$().$(p)$(lissa)$(l)$(o)[Primera aparición: Kingdom Hearts]$()"
+		},
+		{
+			"type": "patchouli:entity",
+			"entity": "kingdomkeys:white_mushroom",
+			"scale": 0.8
+		}
+	]
+}

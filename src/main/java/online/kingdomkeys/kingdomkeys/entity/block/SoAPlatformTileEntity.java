@@ -53,7 +53,7 @@ public class SoAPlatformTileEntity extends BlockEntity {
         int size = structureCompound.getInt("size");
         structureBlockPosCache.clear();
         for (int i = 0; i < size; i++) {
-            structureBlockPosCache.add(NbtUtils.readBlockPos(structureCompound.getCompound("pos"+i), "pos"+i).get());
+            NbtUtils.readBlockPos(structureCompound, "pos"+i).ifPresent(structureBlockPosCache::add);
         }
     }
 

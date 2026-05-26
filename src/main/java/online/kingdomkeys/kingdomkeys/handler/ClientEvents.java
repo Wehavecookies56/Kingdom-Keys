@@ -20,6 +20,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
@@ -44,12 +45,16 @@ import net.neoforged.neoforge.client.event.*;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.api.event.EquipmentEvent;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.block.gummi.GummiBlockBase;
 import online.kingdomkeys.kingdomkeys.block.gummi.GummiPlacementType;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.KOGui;
 import online.kingdomkeys.kingdomkeys.client.gui.StopGui;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.CommandMenuSubMenu;
+import online.kingdomkeys.kingdomkeys.client.gui.overlay.CommandMenuGui;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.CastleOblivionData;
@@ -60,6 +65,7 @@ import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import online.kingdomkeys.kingdomkeys.entity.GummiShipEntity;
 import online.kingdomkeys.kingdomkeys.entity.KKVehicleEntity;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.EpicFightUtils;
+import online.kingdomkeys.kingdomkeys.integration.shouldersurfing.KKShoulderSurfing;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.item.WayfinderItem;
@@ -85,6 +91,15 @@ import java.util.function.Supplier;
 
 public class ClientEvents {
 
+
+	@SubscribeEvent
+	public void onEquipmentChange(EquipmentEvent.Magic e) {
+		CommandMenuSubMenu submenu = CommandMenuGui.commandMenuElements.get(CommandMenuGui.INSTANCE.currentSubmenu);
+		if(submenu.getId().equals(CommandMenuGui.INSTANCE.magic)) {
+			CommandMenuGui.INSTANCE.createMagics(submenu);
+		}
+	}
+
     @SubscribeEvent
 	public void onEntityJoinWorld(EntityJoinLevelEvent e) {
 		if (e.getEntity() instanceof LivingEntity ent) {
@@ -102,20 +117,31 @@ public class ClientEvents {
         Minecraft mc = Minecraft.getInstance();
         Player player = mc.player;
 
-        if (player == null || InputHandler.lockOn == null)
+        if (mc == null || mc.level == null || player == null || InputHandler.lockOn == null) {
+            if (KingdomKeys.shoulderSurfingLoaded) {
+                KKShoulderSurfing.enableDecoupling();
+            }
             return;
+        }
 
         LivingEntity target = InputHandler.lockOn;
         if (target.isRemoved()) {
             InputHandler.lockOn = null;
+            if (KingdomKeys.shoulderSurfingLoaded) {
+                KKShoulderSurfing.enableDecoupling();
+            }
             return;
         }
 
-        //TODO server-config
-        if(ModConfigs.SERVER.softLockOnMode.get())
-            softLockOn(player,target);
+        if (KingdomKeys.shoulderSurfingLoaded) {
+            KKShoulderSurfing.disableDecoupling();
+        }
+
+        if (ModConfigs.SERVER.softLockOnMode.get())
+            softLockOn(player, target);
         else
             hardLockOn(player, target);
+
     }
 
     /**
@@ -135,8 +161,8 @@ public class ClientEvents {
         double horizontalFovRad = 2.0 * Math.atan(Math.tan(verticalFovRad / 2.0) * aspect);
         double horizontalFovDeg = Math.toDegrees(horizontalFovRad);
 
-        float maxYawOffset = (float) (horizontalFovDeg * 0.4f);
-        float maxPitchOffset = (float) (verticalFovDeg * 0.4f);
+        float maxYawOffset = (float) horizontalFovDeg * 0.4f;
+        float maxPitchOffset = (float) verticalFovDeg * 0.4f;
 
         final float CORRECTION_SMOOTH = 0.15f;
 
@@ -171,6 +197,9 @@ public class ClientEvents {
         if (yawCorrection != 0 || pitchCorrection != 0) {
             player.setYRot(currentYaw + yawCorrection * CORRECTION_SMOOTH);
             player.setXRot(currentPitch + pitchCorrection * CORRECTION_SMOOTH);
+            if (KingdomKeys.shoulderSurfingLoaded) {
+                KKShoulderSurfing.setCameraPos(currentYaw, currentPitch, yawCorrection, pitchCorrection, CORRECTION_SMOOTH);
+            }
 
             player.yRotO = currentYaw;
             player.xRotO = currentPitch;
@@ -208,6 +237,10 @@ public class ClientEvents {
         player.setYRot(newYaw);
         player.setXRot(newPitch);
 
+        if (KingdomKeys.shoulderSurfingLoaded) {
+            KKShoulderSurfing.setCameraPos(currentYaw, currentPitch, 0, 0, 0);
+        }
+
         player.yRotO = currentYaw;
         player.xRotO = currentPitch;
 
@@ -235,59 +268,118 @@ public class ClientEvents {
         }
 	}
 
+    boolean handledCamera = false;
+    public static CameraType prevCamera = CameraType.FIRST_PERSON;
 
-	@SubscribeEvent
+
+    @SubscribeEvent
 	public void onLivingUpdate(EntityTickEvent.Pre event) {
 		if(event.getEntity() instanceof LocalPlayer player){
 			if(player.getControlledVehicle() instanceof KKVehicleEntity vehicle) {
 				vehicle.setInput(player.input.left, player.input.right, player.input.up, player.input.down, Minecraft.getInstance().options.keyJump.isDown(), Minecraft.getInstance().options.keySprint.isDown(), player.getXRot(), player.getYRot());
 			}
-		}
+
+            //From wall hang to bounce up with jump (SPACE)
+            PlayerData playerData = PlayerData.get(player);
+            if(playerData != null) {
+                if (playerData.getHangingInWallTicks() > 0) {
+                    if(Minecraft.getInstance().options.keyJump.isDown()) {
+                        if(!playerData.hasBounced()) { //If has not bounced before bounce
+                            Vec3 look = player.getLookAngle();
+
+                            Vec3 horizontalDir = new Vec3(-look.x, 0, -look.z).normalize();
+                            double baseY = 1.5;
+
+                            if (InputHandler.jumpRayTrace instanceof BlockHitResult blockHitResult) {
+                                switch (blockHitResult.getDirection()) {
+                                    case NORTH -> horizontalDir = new Vec3(0, 0, -1);
+                                    case SOUTH -> horizontalDir = new Vec3(0, 0, 1);
+                                    case WEST  -> horizontalDir = new Vec3(-1, 0, 0);
+                                    case EAST  -> horizontalDir = new Vec3(1, 0, 0);
+                                }
+                            }
+
+                            float pow = 0.35F + playerData.getNumberOfAbilitiesEquipped(Strings.superJump) * 0.15F;
+                            double horizontalStrength = 0.25;
+                            double verticalStrength = baseY * pow;
+
+                            Vec3 push = new Vec3(horizontalDir.x * horizontalStrength, verticalStrength, horizontalDir.z * horizontalStrength);
+
+                            player.setDeltaMovement(push);
+                            player.hasImpulse = true;
+                            PacketHandler.sendToServer(new CSPlaySoundPacket(player.getX(), player.getY(), player.getZ(), ModSounds.wall_jump.get().getLocation(), SoundSource.PLAYERS));
+
+                            PacketHandler.sendToServer(new CSSetBouncedPacket(true));
+                            playerData.setBounced(true);
+                            playerData.setAirDashed(false);
+                            PacketHandler.sendToServer(new CSSetAirDashedPacket(false));
+                            InputHandler.qrCooldown = 5;
+                        }
+                    }
+                }
+            }
+
+        }
 
 		if (event.getEntity() instanceof LivingEntity livingEntity) {
-			GlobalData globalData = GlobalData.get((LivingEntity) event.getEntity());
-			if (globalData != null) {
+            GlobalData globalData = GlobalData.get((LivingEntity) event.getEntity());
+            if (globalData != null) {
+                if (livingEntity == Minecraft.getInstance().player) {
+                    if (livingEntity.hasEffect(ModMobEffects.KO)) {
+                        if (livingEntity.level().isClientSide) {
+                            if (livingEntity.isDeadOrDying())
+                                return;
 
-				if(livingEntity.hasEffect(ModMobEffects.KO)) {
-					if (event.getEntity().level().isClientSide && event.getEntity() == Minecraft.getInstance().player) {
-						if (Minecraft.getInstance().options.getCameraType() == CameraType.FIRST_PERSON)
-							Minecraft.getInstance().options.setCameraType(CameraType.THIRD_PERSON_FRONT);
+                            //Force the 3rd person view when KO
+                            if (!handledCamera) {
+                                // Store and swap camera if needed
+                                prevCamera = Minecraft.getInstance().options.getCameraType();
+                                Minecraft.getInstance().options.setCameraType(CameraType.THIRD_PERSON_BACK);
+                                handledCamera = true;
+                            }
 
-						if (!(Minecraft.getInstance().screen instanceof KOGui))
-							Minecraft.getInstance().setScreen(new KOGui());
-					}
-				}
-				if (event.getEntity() instanceof Player player) {
-					if (player.hasEffect(ModMobEffects.STOP)) {
-						if(event.getEntity().level().isClientSide && player == Minecraft.getInstance().player) {
-							if(Minecraft.getInstance().screen == null)
-								Minecraft.getInstance().setScreen(new StopGui());
-						}
-						event.setCanceled(true);
-					}
-					PlayerData playerData = PlayerData.get(player);
-					if (playerData != null) {
-						if (playerData.getMagicCasttimeTicks() > 0) {
-							player.setDeltaMovement(0, 0, 0);
-						}
-					}
-				}
-			}
+                            if (!(Minecraft.getInstance().screen instanceof KOGui))
+                                Minecraft.getInstance().setScreen(new KOGui());
+                        }
+                    } else { //If doesn't have KO
+                        if (handledCamera) {
+                            Minecraft.getInstance().options.setCameraType(prevCamera);
+                            handledCamera = false;
+                        }
+                    }
+                }
+                if (event.getEntity() instanceof Player player) {
+                    if (player.hasEffect(ModMobEffects.STOP)) {
+                        if (event.getEntity().level().isClientSide && player == Minecraft.getInstance().player) {
+                            if (Minecraft.getInstance().screen == null)
+                                Minecraft.getInstance().setScreen(new StopGui());
+                        }
+                        event.setCanceled(true);
+                    }
+                    PlayerData playerData = PlayerData.get(player);
+                    if (playerData != null) {
+                        if (playerData.getMagicCasttimeTicks() > 0) {
+                            player.setDeltaMovement(0, 0, 0);
+                        }
+                    }
+                }
+            }
 
-			if (event.getEntity() == Minecraft.getInstance().player) { //Local player
-				if (InputHandler.qrCooldown > 0) {
-					InputHandler.qrCooldown -= 1;
-				}
-			}
-		}
-	}
+            if (event.getEntity() == Minecraft.getInstance().player) { //Local player
+                if (InputHandler.qrCooldown > 0) {
+                    InputHandler.qrCooldown -= 1;
+                }
+            }
+        }
+    }
 
 
 	@SubscribeEvent
 	public void onRenderWorld(RenderHighlightEvent.Block event) {
 		Minecraft mc = Minecraft.getInstance();
 		LocalPlayer player = mc.player;
-		if (player == null || mc.level == null || mc.options.hideGui) return;
+		if (player == null || mc.level == null || mc.options.hideGui)
+            return;
 
 		if (!(player.getMainHandItem().getItem() instanceof BlockItem blockItem) || event.getTarget().getDirection() == Direction.DOWN || event.getTarget().getDirection() == Direction.UP)
 			return;
@@ -358,34 +450,94 @@ public class ClientEvents {
         MultiBufferSource.BufferSource buffer = mc.renderBuffers().bufferSource();
         PlayerData localPlayerData = PlayerData.get(player);
 
-        RenderSystem.depthMask(false);
         float partialTicks = mc.getTimer().getGameTimeDeltaPartialTick(false);
         // Lock on
-        if (ModConfigs.SERVER.softLockOnMode.get() && InputHandler.lockOn != null) {
+        if (InputHandler.lockOn != null && ModConfigs.SERVER.softLockOnMode.get()) {
             ClientUtils.drawLockOnIndicator(InputHandler.lockOn.getId(), poseStack, buffer, partialTicks);
         }
 
         // Single shotlock indicator (Ultima cannon)
         Shotlock shotlock = Utils.getPlayerShotlock(mc.player);
-        if (shotlock == null)
-            return;
+        if (shotlock != null) {
+            boolean singleLock = shotlock.getMaxLocks() == 1;
 
-        boolean singleLock = shotlock.getMaxLocks() == 1;
+            if (tempShotlockEntity != null || (singleLock && !localPlayerData.getShotlockEnemies().isEmpty())) {
+                int entityID = tempShotlockEntity == null ? localPlayerData.getShotlockEnemies().getFirst().id() : tempShotlockEntity.getId();
+                ClientUtils.drawSingleShotlockIndicator(entityID, poseStack, buffer, partialTicks);
+            }
 
-        if (tempShotlockEntity != null || (singleLock && !localPlayerData.getShotlockEnemies().isEmpty())) {
-            int entityID = tempShotlockEntity == null ? localPlayerData.getShotlockEnemies().getFirst().id() : tempShotlockEntity.getId();
-            ClientUtils.drawSingleShotlockIndicator(entityID, poseStack, buffer, partialTicks);
-        }
+            //Normal shotlocks
+            if (focusing && !singleLock && localPlayerData.getShotlockEnemies() != null && !localPlayerData.getShotlockEnemies().isEmpty()) {
+                for (Utils.ShotlockPosition sh : localPlayerData.getShotlockEnemies()) {
+                    ClientUtils.drawShotlockIndicator(sh, poseStack, buffer, partialTicks);
+                }
+            }
 
-        //Normal shotlocks
-        if (focusing && !singleLock && localPlayerData.getShotlockEnemies() != null && !localPlayerData.getShotlockEnemies().isEmpty()) {
-            for (Utils.ShotlockPosition sh : localPlayerData.getShotlockEnemies()) {
-                ClientUtils.drawShotlockIndicator(sh, poseStack, buffer, partialTicks);
+            if (lockedAirStepEntity != null) {
+                ClientUtils.drawAirstepIndicator(lockedAirStepEntity.getId(), poseStack, buffer, partialTicks);
             }
         }
 
-        RenderSystem.depthMask(true);
-        buffer.endBatch();
+	    Camera camera = mc.gameRenderer.getMainCamera();
+	    Vec3 camPos = camera.getPosition();
+
+        //Flowmotion trails
+        for (Player p : mc.level.players()) {
+	        if (p.distanceToSqr(mc.player) > 100 * 100) //Only update and render trails if the player currently iterating is closer than 100 blocks
+				continue;
+            PlayerData playerData = PlayerData.get(p);
+			if(playerData == null)
+				continue;
+
+            float partialTick = event.getPartialTick().getGameTimeDeltaPartialTick(false);
+            if (playerData.inFlowmotion()) {
+                ClientUtils.updateTrail(ClientUtils.TrailType.FLOWMOTION, p, partialTick, 200);
+            } else {
+                ClientUtils.fadeTrail(ClientUtils.TrailType.FLOWMOTION, p);
+            }
+
+            if (playerData.hasAirDashed()) {
+                ClientUtils.updateTrail(ClientUtils.TrailType.DASH, p, partialTick, 50);
+            } else {
+                ClientUtils.fadeTrail(ClientUtils.TrailType.DASH, p);
+            }
+
+
+            poseStack.pushPose();
+            {
+                poseStack.translate(-camPos.x, -camPos.y, -camPos.z);
+                ClientUtils.renderTrail(ClientUtils.TrailType.FLOWMOTION, p, poseStack, buffer, -5F,0,1F,0.2F,1F, false);
+                ClientUtils.renderTrail(ClientUtils.TrailType.FLOWMOTION, p, poseStack, buffer, 0F,0,0.2F,0.6F,1F, false);
+                ClientUtils.renderTrail(ClientUtils.TrailType.FLOWMOTION, p, poseStack, buffer, 5F,0,1F,0.2F,1F, false);
+
+                ClientUtils.renderTrail(ClientUtils.TrailType.FLOWMOTION, p, poseStack, buffer, -5F,0,1F,0.2F,1F, true);
+                ClientUtils.renderTrail(ClientUtils.TrailType.FLOWMOTION, p, poseStack, buffer, 5F,0,1F,0.2F,1F, true);
+
+                //DASH
+                //Legs
+                ClientUtils.renderTrail(ClientUtils.TrailType.DASH, p, poseStack, buffer, -4F,0.2F,1F,1F,1F, false);
+                ClientUtils.renderTrail(ClientUtils.TrailType.DASH, p, poseStack, buffer, 4F,0.2F,1F,1F,1F, false);
+
+                //Shoulders
+                ClientUtils.renderTrail(ClientUtils.TrailType.DASH, p, poseStack, buffer, -7F,1.2F,1F,1F,1F, false);
+                ClientUtils.renderTrail(ClientUtils.TrailType.DASH, p, poseStack, buffer, 7F,1.2F,1F,1F,1F, false);
+
+                //Body
+                ClientUtils.renderTrail(ClientUtils.TrailType.DASH, p, poseStack, buffer, 0,1.8F,1F,1F,1F, false);
+            }
+            poseStack.popPose();
+        }
+
+
+
+	    poseStack.pushPose();
+	    {
+		    poseStack.translate(-camPos.x, -camPos.y, -camPos.z);
+		    //Magnet blox trails
+		    ClientUtils.updateMiniTrails();
+		    ClientUtils.renderMiniTrails(poseStack, buffer, partialTicks);
+	    }
+	    poseStack.popPose();
     }
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)
@@ -404,20 +556,50 @@ public class ClientEvents {
                         }
                     }
                 }
+
 				if(player.hasEffect(ModMobEffects.KO)) {
 					LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> renderer = (LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>>) Minecraft.getInstance().getEntityRenderDispatcher().getRenderer((AbstractClientPlayer) player);
 					if (!((IDisabledAnimations) renderer).kingdom_Keys$isDisabled()) {
-						event.getPoseStack().mulPose(Axis.XN.rotationDegrees(90));
-						event.getPoseStack().mulPose(Axis.ZP.rotationDegrees(90));
-						float MAX = 100;
-						double pos = player.tickCount % MAX / (MAX /2D);
+                        //Cancel the vanilla animation
+                        event.setCanceled(true);
 
-						if (player.tickCount % MAX < (MAX / 2)) {
-							event.getPoseStack().translate(0, 0, pos * 0.3);
-						} else {
-							event.getPoseStack().translate(0, 0, (MAX - player.tickCount % MAX) / (MAX / 2D) * 0.3);
-						}
-						event.getPoseStack().translate(0, -1, 0.8);
+                        PoseStack pose = event.getPoseStack();
+                        MultiBufferSource buffer = event.getMultiBufferSource();
+                        int light = event.getPackedLight();
+
+                        pose.pushPose();
+                        {
+                            float MAX = 100;
+                            float MAX2 = 35;
+
+                            double t = player.tickCount % MAX;
+                            double t2 = player.tickCount % MAX2;
+
+                            double bob = (t < MAX / 2) ? (t / (MAX / 2D)) : ((MAX - t) / (MAX / 2D));
+                            double bob2 = (t2 < MAX2 / 2) ? (t2 / (MAX2 / 2D)) : ((MAX2 - t2) / (MAX2 / 2D));
+
+                            //Render body
+                            pose.pushPose();
+                            {
+                                pose.mulPose(Axis.XP.rotationDegrees(90));
+                                pose.mulPose(Axis.ZP.rotationDegrees(90));
+
+                                pose.translate(0, -0.5, bob * 0.3 - 0.8F);
+
+                                ResourceLocation tex = ((AbstractClientPlayer) player).getSkin().texture();
+                                renderer.getModel().renderToBuffer(pose, buffer.getBuffer(RenderType.entityCutout(tex)), light, LivingEntityRenderer.getOverlayCoords(player, 0), 0xffffff);
+                            }
+                            pose.popPose();
+
+                            String name = player.getDisplayName().getString();
+
+                            ClientUtils.renderNameTag(renderer, player, name, pose, buffer, light, event.getPartialTick());
+
+                            pose.translate(0, -bob2 * 0.15 - 0.8F + 0.9F, 0);
+                            ClientUtils.renderHeart(pose,buffer,player);
+
+                        }
+                        pose.popPose();
 					}
 				}
 				
@@ -427,11 +609,15 @@ public class ClientEvents {
 						player.level().addParticle(new DustParticleOptions(new Vector3f(c.getRed()/255F,c.getGreen()/255F,c.getBlue()/255F),1F), player.getX(), player.getY()+1, player.getZ(), 0, 0.0, 0);
 						event.setCanceled(true);
 					}
+
 					// Aerial Dodge rotation
 					if(playerData.getAerialDodgeTicks() > 0) {
 						LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> renderer = (LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>>) Minecraft.getInstance().getEntityRenderDispatcher().getRenderer((AbstractClientPlayer) player);
 						if (!((IDisabledAnimations) renderer).kingdom_Keys$isDisabled()) {
-							event.getPoseStack().mulPose(Axis.YP.rotationDegrees(player.tickCount*80));
+                            float partialTicks = event.getPartialTick();
+                            float time = player.tickCount + partialTicks;
+
+                            event.getPoseStack().mulPose(Axis.YP.rotationDegrees(-time * 100));
 						}
 					}
 					
@@ -439,15 +625,29 @@ public class ClientEvents {
 						player.level().addParticle(ParticleTypes.SMOKE, player.getX()+player.level().random.nextDouble() - 0.5D, player.getY()+player.level().random.nextDouble() *2D, player.getZ()+player.level().random.nextDouble() - 0.5D, (player.level().random.nextDouble() - 0.5D)*0.2, 0.1, (player.level().random.nextDouble() - 0.5D)*0.2);
 					} else if(playerData.getActiveDriveForm().equals(Strings.Form_Wisdom)) {
 						player.level().addParticle(new DustParticleOptions(new Vector3f(0F,1F,1F),1F), player.getX(), player.getY(), player.getZ(), 0, 0.3, 0);
-						//player.level().addParticle(ParticleTypes.ENCHANTED_HIT, player.getX(), player.getY(), player.getZ(), 0, 0.3, 0);
 					}
-
-				}
+                }
 			}
 		}
 	}
 
-	private static int selectedSlot = 0;
+    /* @SubscribeEvent
+    public void onRenderLivingPost(RenderLivingEvent.Post<?, ?> event) {
+        if (!(event.getEntity() instanceof Player player)) return;
+
+        PlayerData playerData = PlayerData.get(player); // tu sistema
+
+        if (playerData.inFlowmotion()) {
+            ClientUtils.updateTrail(player, event.getPartialTick()); // solo añadir puntos
+        } else {
+            ClientUtils.fadeTrail(player); // eliminar poco a poco
+        }
+
+
+        ClientUtils.renderTrail(player, event.getPoseStack(), event.getMultiBufferSource(), event.getPartialTick());
+    }*/
+
+    private static int selectedSlot = 0;
 
 	private static long timeSinceLastshot = 0;
 
@@ -498,6 +698,12 @@ public class ClientEvents {
         }
     }
 
+    public static float ballRot = 0;
+    public static float prevBallRot = 0;
+
+    public static float visualMP = 0;
+    public static float prevVisualMP = 0;
+
 	@SubscribeEvent
 	public void clientTickPost(ClientTickEvent.Post event) {
 		if (Minecraft.getInstance().level != null) {
@@ -505,7 +711,30 @@ public class ClientEvents {
 				Minecraft.getInstance().player.getInventory().selected = selectedSlot;
 			}
 		}
-	}
+
+        prevBallRot = ballRot;
+        ballRot = (ballRot + 5F) % 360f;
+
+        if (ballRot >= 360F)
+            ballRot -= 360F;
+
+        if(Minecraft.getInstance().player == null)
+            return;
+        PlayerData playerData = PlayerData.get(Minecraft.getInstance().player);
+        if(playerData == null)
+            return;
+
+        float targetMP = (float) playerData.getMP();
+
+        prevVisualMP = visualMP;
+
+        if (targetMP < 1) {
+            visualMP = targetMP;
+            prevVisualMP = visualMP;
+        } else {
+            visualMP += (targetMP - visualMP) * 0.2F;
+        }
+    }
 
 	public static boolean focusing = false;
 	int focusingTicks = 0;
@@ -516,6 +745,7 @@ public class ClientEvents {
 
 	int cooldownTicks = 0;
 	public static BlockPos lockedAirStep = new BlockPos(0,0,0);
+    private LivingEntity lockedAirStepEntity = null;
 
 	@SubscribeEvent
 	public void PlayerTick(PlayerTickEvent.Post event) {
@@ -549,10 +779,11 @@ public class ClientEvents {
 					focusGaugeTemp-=0.8;
 
 				HitResult rt = InputHandler.getMouseOverExtended(ModConfigs.SERVER.shotlockMaxDist.get());
-				if (rt == null) {
-					lockedAirStep = BlockPos.ZERO;
-					return;
-				}
+                if (rt == null) {
+                    lockedAirStep = BlockPos.ZERO;
+                    lockedAirStepEntity = null;
+                    return;
+                }
 
 				if (rt instanceof BlockHitResult blockResult) { //Airstep
 					tempShotlockEntity = null;
@@ -564,8 +795,9 @@ public class ClientEvents {
 
 						// On right click
 						if (mc.options.keyUse.isDown()) {
-							PacketHandler.sendToServer(new CSSetAirStepPacket(blockResult.getBlockPos()));
+							PacketHandler.sendToServer(new CSSetAirStepPacket(blockResult.getBlockPos(), 0));
 							lockedAirStep = new BlockPos(0, 0, 0);
+                            lockedAirStepEntity = null;
 							cooldownTicks = 20;
 							focusingAnEntityTicks = 0;
 							focusingTicks = 0;
@@ -577,8 +809,35 @@ public class ClientEvents {
 					}
 				}
 
+                float costDivider = 3;
                 //If looking at an entity
-				if (rt instanceof EntityHitResult ertr && focusGaugeTemp > 0) {
+				if (rt instanceof EntityHitResult ertr && focusGaugeTemp > 0 && cooldownTicks <= 0) {
+                    //Airstep to entity
+                    if (ertr.getEntity() instanceof LivingEntity target) {
+                        float distance = mc.player.distanceTo(target);
+                        if(playerData.isAbilityEquipped(Strings.flowStep) && distance / costDivider <= playerData.getFocus()) { //Only able to target enemies that are as far as focus can take you to
+                            if (lockedAirStepEntity != target) {
+                                player.level().playSound(player, player.position().x(), player.position().y(), player.position().z(), ModSounds.shotlock_lockon.get(), SoundSource.PLAYERS, 1F, 0.6F);
+                            }
+                            lockedAirStepEntity = target;
+                            lockedAirStep = BlockPos.ZERO;
+
+                            if (mc.options.keyUse.isDown()) {
+                                float focusCost = mc.player.distanceTo(target) / costDivider;
+                                PacketHandler.sendToServer(new CSSetAirStepPacket(target.blockPosition(), focusCost));
+
+                                lockedAirStepEntity = null;
+                                cooldownTicks = 40;
+                                focusingAnEntityTicks = 0;
+                                focusingTicks = 0;
+                                focusing = false;
+                                tempShotlockEntity = null;
+                                focusGaugeTemp = playerData.getFocus();
+                                return;
+                            }
+                        }
+                    }
+
                     //Ultimate shotlock
 					if(shotlock.getMaxLocks() == 1 && playerData.getShotlockEnemies().size() < shotlock.getMaxLocks()){
 						if (ertr.getEntity() instanceof LivingEntity target) {
@@ -609,7 +868,6 @@ public class ClientEvents {
 					} else if (focusingTicks % shotlock.getCooldown() == 1 && playerData.getShotlockEnemies().size() < shotlock.getMaxLocks()) {
 						Party p = WorldData.getClient().getPartyFromMember(player.getUUID());
 						if (ertr.getEntity() instanceof LivingEntity target) {
-                            //System.out.println(playerData.getShotlockEnemies());
 							if (p == null || (p.getMember(target.getUUID()) == null || p.getFriendlyFire())) { // If caster is not in a party || the party doesn't have the target in it || the party has FF on
                                 float halfWidth = target.getBbWidth() * 0.5F;
                                 float height = target.getBbHeight();
@@ -645,11 +903,13 @@ public class ClientEvents {
 					focusingTicks = 0;
 					focusingAnEntityTicks = 0;
 					tempShotlockEntity = null;
-					focusGaugeTemp = playerData.getFocus();
+                    lockedAirStepEntity = null;
+                    focusGaugeTemp = playerData.getFocus();
 					playerData.setShotlockEnemies(new ArrayList<>());
 				}
-			} else {
+			} else { //No longer focusing (released wheel button)
 				lockedAirStep = new BlockPos(0,0,0);
+                lockedAirStepEntity = null;
 				focusingTicks = 0;
 				focusingAnEntityTicks = 0;
 				tempShotlockEntity = null;
@@ -696,7 +956,7 @@ public class ClientEvents {
 		}
 	}
 
-	@EventBusSubscriber(value = Dist.CLIENT, bus = EventBusSubscriber.Bus.MOD)
+	@EventBusSubscriber(value = Dist.CLIENT)
 	public static class ModBusEvents {
 		@SubscribeEvent
 		public static void colourTint(RegisterColorHandlersEvent.Block event) {

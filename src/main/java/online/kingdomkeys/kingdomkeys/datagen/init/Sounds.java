@@ -32,6 +32,7 @@ public class Sounds extends SoundDefinitionsProvider {
         add(kupoliving);
         add(levelup);
         add(lockon);
+        add(lockoff);
         add(menu_back);
         add(menu_in);
         add(menu_move);
@@ -40,7 +41,7 @@ public class Sounds extends SoundDefinitionsProvider {
         add(munny);
         add(potion);
         add(ether);
-        add(hiPotion);
+        //add(hiPotion);
         add(savepoint);
         add(savespawn);
         add(sharpshooterbullet);
@@ -85,6 +86,9 @@ public class Sounds extends SoundDefinitionsProvider {
         add(keyblade_armor, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID,"keyblade_armor2"));
         add(summon_armor);
         add(unsummon_armor);
+        add(wall_jump);
+        add(wall_grab);
+        add(air_slide);
         
         //Music
         //Records

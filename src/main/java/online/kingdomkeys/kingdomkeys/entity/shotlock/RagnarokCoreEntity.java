@@ -1,6 +1,5 @@
 package online.kingdomkeys.kingdomkeys.entity.shotlock;
 
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -54,8 +53,6 @@ public class RagnarokCoreEntity extends ThrowableProjectile {
 		if (this.tickCount > maxTicks || getCaster() == null) {
 			this.remove(RemovalReason.KILLED);
 		}
-
-		level().addParticle(ParticleTypes.BUBBLE, getX(), getY(), getZ(), 0, 0, 0);
 
 		double X = getX();
 		double Y = getY()+1;

@@ -2,16 +2,17 @@
 	"name": "Minute Bomb",
 	"icon": "kingdomkeys:minute_bomb_spawn_egg",
 	"category": "kingdomkeys:emblem",
-	"sortnum": 208,
+	"sortnum": 10,
 	"advancement": "kingdomkeys:obtain_keychain",
 	"pages": [
 		{
 			"type": "text",
-			"text": "Prone to self-detonation, these small $(heartless)Heartless$() will begin a countdown to explosion if you deflect their head-butts with a block.$(br)They can also be detonated on the spot using $(thing)Fire magic$().$(p)$(lissa)$(l)$(o)[Days]$()"
+			"text": "Prone to self-detonation, these small $(heartless)Heartless$() will begin a countdown to explosion if you deflect their head-butts with a block. $(thing)$(o)They can also be detonated on the spot using Fire magic$().$(p)$(lissa)$(l)$(o)[First Appearance: Kingdom Hearts II]$()"
 		},
 		{
 			"type": "patchouli:entity",
-			"entity": "kingdomkeys:minute_bomb"
+			"entity": "kingdomkeys:minute_bomb",
+			"scale": 0.5
 		}
 	]
 }

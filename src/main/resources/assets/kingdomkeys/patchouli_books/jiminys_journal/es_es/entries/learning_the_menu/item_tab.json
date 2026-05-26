@@ -1,0 +1,16 @@
+{
+	"name": "Objetos",
+	"icon": "kingdomkeys:ether",
+	"sortnum": 1,
+	"category": "kingdomkeys:learning_the_menu",
+	"pages": [ 
+		{
+			"type": "text",
+			"text": "Empecemos con la pestaña de $(item)Objetos$(). Aquí es donde puedes equipar cualquier artículo relacionado con el mod de $(thing)Kingdom Keys$(). Tratándose de Llaves Espada / armas de la $(orgxiii)Organización XIII$(), Armaduras/Accesorios específicos de Kingdom Keys y Objetos consumibles (como Pociones, Ultrapociones, Éteres, Elixires, etc.)"
+		},
+		{
+			"type": "text",
+			"text": "Después de equipar tu Llave Espada, puedes invocarla con $(thing)[$(k:key.kingdomkeys.summonkeyblade)]$(). Si tienes una $(item)Hombrera$() puedes equipar su armadura y luego invocarla con la tecla $(thing)[$(k:key.kingdomkeys.summonarmor)]$(), similar a tu Llave Espada/Arma."
+		}
+	]
+}

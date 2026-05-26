@@ -25,7 +25,6 @@ public class ShopListDataDeserializer implements JsonDeserializer<ShopList> {
 
         JsonArray jsonArray = json.getAsJsonArray();
 		boolean setNames = false;
-		//System.out.println(jsonArray);
         for(JsonElement e : jsonArray) {
         	ShopItem shopItem = new ShopItem();
         	JsonObject jsonObj = e.getAsJsonObject();

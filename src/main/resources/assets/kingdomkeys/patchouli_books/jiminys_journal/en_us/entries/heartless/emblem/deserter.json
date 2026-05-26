@@ -1,0 +1,17 @@
+{
+	"name": "Deserter",
+	"icon": "kingdomkeys:deserter_spawn_egg",
+	"category": "kingdomkeys:emblem",
+	"sortnum": 7,
+	"pages": [
+		{
+			"type": "text",
+			"text": "$(heartless)Heartless$() similar to the $(l:kingdomkeys:heartless/emblem/soldier)Soldier$(). They avoid direct combat (hence their name). However, they become aggressive when cornered or when one of them is defeated. $(thing)$(o)Use blocking to stop them or attack with Blizzard$().$(p)$(lissa)$(l)$(o)[First Appearance: Kingdom Hearts 358/2 Days]$()"
+		},
+		{
+			"type": "patchouli:entity",
+			"entity": "kingdomkeys:deserter",
+			"scale": 0.6
+		}
+	]
+}

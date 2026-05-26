@@ -1,0 +1,18 @@
+{
+	"name": "Sombra",
+	"icon": "kingdomkeys:shadow_spawn_egg",
+	"category": "kingdomkeys:pure_blooded",
+	"sortnum": 1,
+	"advancement": "kingdomkeys:obtain_keychain",
+	"pages": [
+		{
+			"type": "text",
+			"text": "Los $(heartless)Sincorazón$() que surgen de varios lugares. Se acercan sigilosamente a sus enemigos con garras afiladas. Son extremadamente tenaces, a menudo persiguiendo a su presa hasta el final.$(p)$(lissa)$(l)$(o)[Primera aparición: Kingdom Hearts]$()"
+		},
+		{
+			"type": "patchouli:entity",
+			"entity": "kingdomkeys:shadow",
+			"scale": 0.6
+		}
+	]
+}

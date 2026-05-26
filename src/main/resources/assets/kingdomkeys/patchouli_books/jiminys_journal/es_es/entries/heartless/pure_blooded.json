@@ -1,0 +1,24 @@
+{
+	"name": "Purasangre",
+	"icon": "kingdomkeys:way_to_the_dawn_chain",
+	"sortnum": 1,
+	"category": "kingdomkeys:heartless",
+	"advancement": "kingdomkeys:obtain_keychain",
+	"pages": [
+		{
+			"type": "text",
+			"text": "Los $(item)Purasangre$() son $(heartless)sincorazón$() naturales y tienen una voluntad débil. Nacen cuando el $(thing)corazón$() de un ser completo es engullido por la $(lissa)oscuridad$(). A diferencia de los $(emblem)Sincorazón Emblema$(), estos no liberan $(thing)corazones$(), una vez derrotados.$(p)Usualmente son negros con ojos amarillos, pero se vuelven más coloridos mientras son más fuertes."
+		},
+		{
+			"type": "patchouli:relations",
+			"title": "Purasangre",
+			"entries": [
+				"kingdomkeys:heartless/pure_blooded/shadow",
+				"kingdomkeys:heartless/pure_blooded/mega_shadow",
+				"kingdomkeys:heartless/pure_blooded/gigas_shadow",
+				"kingdomkeys:heartless/pure_blooded/darkball",
+				"kingdomkeys:heartless/pure_blooded/shadow_glob"
+			]
+		}
+	]
+}

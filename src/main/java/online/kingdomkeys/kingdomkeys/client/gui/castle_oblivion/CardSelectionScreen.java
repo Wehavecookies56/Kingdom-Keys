@@ -69,8 +69,7 @@ public class CardSelectionScreen extends MenuBackground {
 				}
 			}
 			PacketHandler.sendToServer(new CSGenerateRoom(selectedCardStack, slot, te.getBlockPos()));
-			selectedCardStack.shrink(1);
-			
+
 			Level level = minecraft.level;
             CastleOblivionData.InteriorData cap = CastleOblivionData.InteriorData.getClient((ClientLevel) level);
 			Room currentRoom = cap.getRoomAtPos(te.getBlockPos());

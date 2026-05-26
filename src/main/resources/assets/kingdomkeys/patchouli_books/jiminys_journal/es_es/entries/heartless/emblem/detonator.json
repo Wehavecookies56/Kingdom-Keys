@@ -1,0 +1,18 @@
+{
+	"name": "Detonador",
+	"icon": "kingdomkeys:detonator_spawn_egg",
+	"category": "kingdomkeys:emblem",
+	"sortnum": 13,
+	"advancement": "kingdomkeys:obtain_keychain",
+	"pages": [
+		{
+			"type": "text",
+			"text": "Estas versiones grandes del $(l:kingdomkeys/heartless/emblem/minute_bomb)Minuto Explosivo$() actúan de manera similar, pero producen una explosión mucho más amplia cuando se auto-detonan. $(thing)$(o)Tampoco se moverán por ataques regulares$(), lo que las hace un enemigo peligroso. Ten mucho cuidado al enfrentarlas.$(p)$(lissa)$(l)$(o)[Primera aparición: Kingdom Hearts 358/2 Days]$()"
+		},
+		{
+			"type": "patchouli:entity",
+			"entity": "kingdomkeys:detonator",
+			"scale": 0.8
+		}
+	]
+}

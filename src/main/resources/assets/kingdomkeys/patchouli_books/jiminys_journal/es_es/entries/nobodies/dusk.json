@@ -1,0 +1,17 @@
+{
+	"name": "Umbrío",
+	"icon": "kingdomkeys:dusk_spawn_egg",
+	"category": "kingdomkeys:nobodies",
+	"sortnum": 2,
+	"advancement": "kingdomkeys:obtain_keychain",
+	"pages": [
+		{
+			"type": "text",
+			"text": "Espíritus fantasmagóricos que se transforman y se estiran mientras luchan. Aunque son difíciles de predecir, hay momentos en los que simplemente... se quedan quietos. ¿Y si el rival se separa? Llave Espada en la cara.$(p)$(lissa)$(l)$(o)[Primera Aparición: Kingdom Hearts II]$()"
+		},
+		{
+			"type": "patchouli:entity",
+			"entity": "kingdomkeys:dusk"
+		}
+	]
+}

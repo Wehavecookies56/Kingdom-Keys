@@ -1,6 +1,5 @@
 package online.kingdomkeys.kingdomkeys.entity.mob;
 
-import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
@@ -19,13 +18,13 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.entity.IEntityWithComplexSpawn;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
-import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCOpenSynthesisGui;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopList;
@@ -46,11 +45,8 @@ public class MoogleEntity extends PathfinderMob implements IEntityWithComplexSpa
 	
     public MoogleEntity(EntityType<? extends PathfinderMob> type, Level worldIn) {
         super(type, worldIn);
-        if (Utils.randomWithRange(0, 100) >= 98) {
-            inv = "kingdomkeys:special";
-        } else {
-            inv = "kingdomkeys:default";
-        }
+        inv = Utils.randomWithRange(0, 100) >= 98 ? "kingdomkeys:special" :  "kingdomkeys:default";
+
         setRandomName();
         if (name == null) {
             name = "";
@@ -70,18 +66,22 @@ public class MoogleEntity extends PathfinderMob implements IEntityWithComplexSpa
     @Nullable
     @Override
     public Component getCustomName() {
+        Component vanilla = super.getCustomName();
+        if (vanilla != null) {
+            return vanilla;
+        }
         if (name != null && !name.isEmpty()) {
             return Component.translatable(name);
         }
-        return super.getCustomName();
+        return null;
     }
 
     @Override
     public boolean hasCustomName() {
-        if (name != null && !name.isEmpty()) {
+        if (super.hasCustomName()) {
             return true;
         }
-        return super.hasCustomName();
+        return name != null && !name.isEmpty();
     }
 
     private boolean fakeMoogle = false;
@@ -145,33 +145,23 @@ public class MoogleEntity extends PathfinderMob implements IEntityWithComplexSpa
 
     @Override
     public InteractionResult interactAt(Player player, Vec3 vec, InteractionHand hand) {
+        ItemStack itemstack = player.getItemInHand(hand);
+        //Name tag
+        if (itemstack.getItem() == Items.NAME_TAG) {
+            return super.interactAt(player, vec, hand);
+        }
+
+        //GUI opening
         if (!player.level().isClientSide) {
         	if(!player.isCrouching()) {
-	        	ItemStack itemstack = player.getItemInHand(hand);
-	        	if(!ItemStack.isSameItem(itemstack, ItemStack.EMPTY) && itemstack.getItem() == ModItems.winnerStick.get()) {
-	        		PlayerData playerData = PlayerData.get(player);
-	        		int reward = 500;
-	        		playerData.setMunny(playerData.getMunny() + reward);
-	        		itemstack.shrink(1);
-					player.sendSystemMessage(Component.translatable(ChatFormatting.YELLOW + "You have been rewarded with " + reward + " munny!"));
-					return InteractionResult.FAIL;
-	        	} else {
-	        		PacketHandler.sendTo(new SCOpenSynthesisGui(PlayerData.get(player).serializeNBT(player.level().registryAccess()), inv, name, this.getId()), (ServerPlayer)player);
-                    interacting = player;
-                    goalSelector.removeAllGoals(Objects::nonNull);
-                    goalSelector.addGoal(0, new LookAtInteractingPlayerGoal(this));
-                    return InteractionResult.SUCCESS;
-	        	}
+                PacketHandler.sendTo(new SCOpenSynthesisGui(PlayerData.get(player).serializeNBT(player.level().registryAccess()), inv, name, this.getId()), (ServerPlayer)player);
+                interacting = player;
+                goalSelector.removeAllGoals(Objects::nonNull);
+                goalSelector.addGoal(0, new LookAtInteractingPlayerGoal(this));
+                return InteractionResult.SUCCESS;
 	        }
-	        return super.interactAt(player, vec, hand);
         }
-    	ItemStack itemstack = player.getItemInHand(hand);
-    	if(!ItemStack.isSameItem(itemstack, ItemStack.EMPTY) && itemstack.getItem() == ModItems.winnerStick.get()) {
-    		return InteractionResult.SUCCESS;
-    	} else {
-	        return super.interactAt(player, vec, hand);
-    	}
-
+        return super.interactAt(player, vec, hand);
     }
 
     @Override
@@ -224,17 +214,20 @@ public class MoogleEntity extends PathfinderMob implements IEntityWithComplexSpa
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundTag pCompound) {
-    	super.addAdditionalSaveData(pCompound);
-    	pCompound.putString("inv", inv);
-        pCompound.putString("name", name);
+    public void addAdditionalSaveData(CompoundTag tag) {
+        super.addAdditionalSaveData(tag);
+        tag.putString("inv", inv);
+
+        if (!name.isEmpty()) {
+            tag.putString("name", name);
+        }
     }
-    
+
     @Override
-    public void readAdditionalSaveData(CompoundTag pCompound) {
-    	super.readAdditionalSaveData(pCompound);
-        inv = pCompound.getString("inv");
-        name = pCompound.getString("name");
+    public void readAdditionalSaveData(CompoundTag tag) {
+        super.readAdditionalSaveData(tag);
+        inv = tag.getString("inv");
+        name = tag.contains("name") ? tag.getString("name") : "";
         if (name.isEmpty()) {
             setRandomName();
         }

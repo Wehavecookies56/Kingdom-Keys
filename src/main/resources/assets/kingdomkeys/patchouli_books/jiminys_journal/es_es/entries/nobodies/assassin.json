@@ -1,0 +1,19 @@
+{
+	"name": "Asesino",
+	"icon": "kingdomkeys:assassin_spawn_egg",
+	"category": "kingdomkeys:nobodies",
+	"sortnum": 3,
+	"advancement": "kingdomkeys:obtain_keychain",
+	"pages": [
+		{
+			"type": "text",
+			"text": "$(item)Un asesino.$() Un $(nobody)Incorpóreo$() de alto rango. Se esconde en el suelo y ataca en silencio desde detrás.$(p)No se le puede atacar mientras está en el suelo. Cuando empieza a correr, ¡ten cuidado! Comenzará a desatar ataques poderosos.$(p)$(lissa)$(l)$(o)[Primera Aparición: Kingdom Hearts II]$()"
+		},
+		{
+			"type": "patchouli:entity",
+			"entity": "kingdomkeys:assassin",
+			"scale": 0.65,
+			"offset": 0.5
+		}
+	]
+}

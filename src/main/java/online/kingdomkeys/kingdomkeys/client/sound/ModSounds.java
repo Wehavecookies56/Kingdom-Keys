@@ -24,6 +24,7 @@ public class ModSounds {
             kupoliving = registerSound("kupoliving"),
             levelup = registerSound("levelup"),
             lockon = registerSound("lockon"),
+			lockoff = registerSound("lockoff"),
             menu_back = registerSound("menu_back"),
             menu_in = registerSound("menu_in"),
             menu_move = registerSound("menu_move"),
@@ -32,7 +33,7 @@ public class ModSounds {
             munny = registerSound("munny"),
             potion = registerSound("potion"),
             ether = registerSound("ether"),
-            hiPotion = registerSound("hi-potion"),
+            //hiPotion = registerSound("hi-potion"),
             savepoint = registerSound("savepoint"),
             savespawn = registerSound("savespawn"),
             sharpshooterbullet = registerSound("sharpshooterbullet"),
@@ -78,6 +79,10 @@ public class ModSounds {
 			keyblade_armor = registerSound("keyblade_armor"),
 			summon_armor = registerSound("summon_armor"),
 			unsummon_armor = registerSound("unsummon_armor"),
+
+			wall_jump = registerSound("wall_jump"),
+			wall_grab = registerSound("wall_grab"),
+			air_slide = registerSound("air_slide"),
 
             
             Record_Birth_by_Sleep_A_Link_to_the_Future = registerSound("records/birth_by_sleep_a_link_to_the_future"),

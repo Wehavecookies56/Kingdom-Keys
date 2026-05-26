@@ -2,8 +2,6 @@ package online.kingdomkeys.kingdomkeys.entity.magic;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -21,17 +19,12 @@ import online.kingdomkeys.kingdomkeys.damagesource.KKDamageTypes;
 import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
-import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.util.List;
 
-public class FiragaEntity extends ThrowableProjectile {
-
-	int maxTicks = 100;
-	float dmgMult = 1;
-	LivingEntity lockOnEntity;
+public class FiragaEntity extends BaseMagicProjectile {
 
 	public FiragaEntity(EntityType<? extends ThrowableProjectile> type, Level world) {
 		super(type, world);
@@ -42,6 +35,7 @@ public class FiragaEntity extends ThrowableProjectile {
 		super(ModEntities.TYPE_FIRAGA.get(), player, world);
 		this.dmgMult = dmgMult;
 		this.lockOnEntity = lockOnEntity;
+		setDamageType(KKDamageTypes.FIRE);
 	}
 
 	@Override
@@ -79,6 +73,7 @@ public class FiragaEntity extends ThrowableProjectile {
 
 	@Override
 	protected void onHit(HitResult rtRes) {
+		super.onHit(rtRes);
 		if (!level().isClientSide && getOwner() != null) {
 			EntityHitResult ertResult = null;
 			BlockHitResult brtResult = null;
@@ -103,8 +98,7 @@ public class FiragaEntity extends ThrowableProjectile {
 					}
 					if(p == null || (p.getMember(target.getUUID()) == null || p.getFriendlyFire())) { //If caster is not in a party || the party doesn't have the target in it || the party has FF on
 						target.setRemainingFireTicks(15);
-						float dmg = this.getOwner() instanceof Player ? DamageCalculation.getMagicDamage((Player) this.getOwner()) * 0.4F : 2;
-						target.hurt(KKDamageTypes.getElementalDamage(KKDamageTypes.FIRE,this, this.getOwner()), dmg * dmgMult);
+						damageEntity(target);
 					}
 				}
 			}
@@ -131,16 +125,15 @@ public class FiragaEntity extends ThrowableProjectile {
 			
 			List<Entity> list = level().getEntities(getOwner(), getBoundingBox().inflate(radius));
 			list = Utils.removePartyMembersFromList((Player)getOwner(), list);
-			
+
 			((ServerLevel)level()).sendParticles(ParticleTypes.FLAME, getX(), getY(), getZ(), 500, Math.random() - 0.5D, Math.random() - 0.5D, Math.random() - 0.5D,0.1);
 			
 			if (!list.isEmpty()) {
                 for (Entity e : list) {
                     if (e instanceof LivingEntity ent) {
                         e.setRemainingFireTicks(15);
-                        float baseDmg = DamageCalculation.getMagicDamage((Player) this.getOwner()) * 0.3F;
-                        float dmg = this.getOwner() instanceof Player ? baseDmg : 2;
-                        e.hurt(KKDamageTypes.getElementalDamage(KKDamageTypes.FIRE,this, this.getOwner()), dmg);
+						damageEntity(ent);
+
 						if (ent.getEffect(ModMobEffects.FREEZE) != null) {
 							ent.removeEffect(ModMobEffects.FREEZE);
 						}
@@ -150,28 +143,5 @@ public class FiragaEntity extends ThrowableProjectile {
 
 			remove(RemovalReason.KILLED);
 		}
-	}
-
-	public int getMaxTicks() {
-		return maxTicks;
-	}
-
-	public void setMaxTicks(int maxTicks) {
-		this.maxTicks = maxTicks;
-	}
-
-	@Override
-	public void addAdditionalSaveData(CompoundTag compound) {
-		// compound.putInt("lvl", this.getLvl());
-	}
-
-	@Override
-	public void readAdditionalSaveData(CompoundTag compound) {
-		// this.setLvl(compound.getInt("lvl"));
-	}
-
-	@Override
-	protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
-
 	}
 }

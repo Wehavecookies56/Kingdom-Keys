@@ -97,7 +97,7 @@ public class MenuStruggle extends MenuBackground {
 			matrixStack.pushPose();
 			{
 				Player player = minecraft.player;
-				ClientUtils.renderPlayerNoAnims(matrixStack, (int) playerPosX, (int) playerPosY, (int) playerHeight / 2, 0, 0, player);
+				ClientUtils.renderEntity(matrixStack, (int) playerPosX, (int) playerPosY, (int) playerHeight / 2, 0, 0, player);
 			}
 			matrixStack.popPose();
 			matrixStack.pushPose();

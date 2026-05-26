@@ -1,0 +1,20 @@
+{
+	"name": "Personalizar Atajos",
+	"icon": "kingdomkeys:spellfire",
+	"sortnum": 3,
+	"category": "kingdomkeys:learning_the_menu",
+		"pages": [
+		{
+			"type": "text",
+			"text": "A medida que obtienes nuevos $(spell)hechizos$(), puedes usar la pestaña $(item)Configuración$() en tu menú para establecer $(thing)atajos$() y hacer que los hechizos sean más fáciles de lanzar."
+		},
+        {
+            "type": "image",
+            "images": [
+                "kingdomkeys:journal/shortcuts.png"
+            ],
+            "title": "Atajos",
+            "border": true
+        }
+	]
+}

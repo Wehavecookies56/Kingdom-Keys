@@ -119,9 +119,9 @@ public class SynthesisForgeScreen extends MenuFilterable {
 		int scrollTop = (int) topBarHeight;
 		int scrollBot = (int) (scrollTop + middleHeight);
 
-		scrollBar = new MenuScrollBar((int) (boxPosX + boxWidth - 17), scrollTop, scrollBot, (int) middleHeight, 0);
+		scrollBar = new MenuScrollBar((int) (boxPosX + boxWidth - 17), scrollTop, scrollBot, (int) middleHeight, 0, true);
 		addRenderableWidget(scrollBar);
-		scrollBar2 = new MenuScrollBar(boxR.getX()+boxR.getWidth()- 17, scrollTop, scrollBot, (int) middleHeight, 0);
+		scrollBar2 = new MenuScrollBar(boxR.getX()+boxR.getWidth()- 17, scrollTop, scrollBot, (int) middleHeight, 0, false);
 		addRenderableWidget(scrollBar2);
 
 
@@ -142,7 +142,6 @@ public class SynthesisForgeScreen extends MenuFilterable {
 		inventory.clear();
 		children().clear();
 		renderables.clear();
-		//filterBar.buttons.forEach(this::addButton);
 
 		List<ItemStack> items = new ArrayList<>();
 		
@@ -179,7 +178,6 @@ public class SynthesisForgeScreen extends MenuFilterable {
 
 	@Override
 	public void render(@NotNull GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
-		PoseStack matrixStack = gui.pose();
 		drawMenuBackground(gui, mouseX, mouseY, partialTicks);
 		boxL.renderWidget(gui, mouseX, mouseY, partialTicks);
 		boxM.renderWidget(gui, mouseX, mouseY, partialTicks);
@@ -231,7 +229,7 @@ public class SynthesisForgeScreen extends MenuFilterable {
 	@Override
 	protected void renderSelectedData(GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
 		PoseStack matrixStack = gui.pose();
-		float tooltipPosX = width * 0.3333F;
+		float tooltipPosX = bottomRightBar.getPosX() + 8;
 		float tooltipPosY = height * 0.8F;
 
 		float iconPosX = boxR.getX();

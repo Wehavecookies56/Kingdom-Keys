@@ -8,10 +8,9 @@
     "ItemStackMixin",
     "LevelChunkMixin",
     "LivingEntityMixin",
+    "PlayerMixin",
+    "ServerGamePacketListenerImplMixin",
     "TellMeTheErrorMixin"
-    //"apotheosis.SalvagingMenuMixin",
-    //"jer.ForgePlatformHelperMixin",
-    //"jer.RegistrySetBuilderMixin"
   ],
   "client": [
     "client.BiomeMixin",
@@ -19,8 +18,10 @@
     "client.LivingEntityRendererMixin",
     "client.MinecraftMixin",
     "client.PlayerRendererMixin",
+    "epicfight.FirstPersonRendererMixin",
     "epicfight.PHumanoidRendererMixin",
-    "epicfight.RenderEngineEventsMixin"
+    "epicfight.RenderEngineEventsMixin",
+    "wildfire_gender.GenderLayerMixin"
   ],
   "minVersion": "0.8"
 }

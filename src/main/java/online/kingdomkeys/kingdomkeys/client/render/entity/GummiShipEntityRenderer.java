@@ -24,10 +24,12 @@ import online.kingdomkeys.kingdomkeys.entity.GummiShipEntity;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class GummiShipEntityRenderer extends EntityRenderer<GummiShipEntity> {
-
 	public GummiShipEntityRenderer(EntityRendererProvider.Context context) {
 		super(context);
 	}
+
+	int isXEven = -1, isZEven = -1;
+
 	private static final RenderType CUSTOM_TINTED_GLASS2 = RenderType.create(
 			"custom_tinted_glass",
 			DefaultVertexFormat.BLOCK,
@@ -61,7 +63,14 @@ public class GummiShipEntityRenderer extends EntityRenderer<GummiShipEntity> {
 				matrixStackIn.mulPose(Axis.YP.rotationDegrees(180.0F - entityYaw));
 				matrixStackIn.translate(-w / 2.0, 0, -d / 2.0);
 
+				boolean xEven, zEven;
+				if(isXEven == -1 || isZEven == -1) {
+					isXEven = Utils.isStructureEven(entityIn.structure)[0] ? 1 : 0;
+					isZEven = Utils.isStructureEven(entityIn.structure)[1] ? 1 : 0;
+				}
 
+				xEven = isXEven == 1;
+				zEven = isZEven == 1;
 
 				BlockRenderDispatcher blockRenderer = Minecraft.getInstance().getBlockRenderer();
 				for (int x = 0; x < w; x++) {
@@ -70,8 +79,6 @@ public class GummiShipEntityRenderer extends EntityRenderer<GummiShipEntity> {
 							BlockState state = entityIn.structure.getBlocks()[x][y][z];
 							if (state == null || state.isAir())
                                 continue;
-                            boolean xEven = Utils.isStructureEven(entityIn.structure)[0];
-                            boolean zEven = Utils.isStructureEven(entityIn.structure)[1];
 							matrixStackIn.pushPose();
 							{
 								matrixStackIn.translate(xEven ? x+0.5F : x, y, zEven ? z-0.5F : z);
@@ -88,7 +95,6 @@ public class GummiShipEntityRenderer extends EntityRenderer<GummiShipEntity> {
 			}
 		}
 		matrixStackIn.popPose();
-
 	}
 
 	@Override

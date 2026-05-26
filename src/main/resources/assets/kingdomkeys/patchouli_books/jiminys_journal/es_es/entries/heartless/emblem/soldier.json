@@ -1,0 +1,17 @@
+{
+	"name": "Soldado",
+	"icon": "kingdomkeys:soldier_spawn_egg",
+	"category": "kingdomkeys:emblem",
+	"sortnum": 6,
+	"pages": [
+		{
+			"type": "text",
+			"text": "$(heartless)Sincorazón$() que emergen de diversos lugares. Son ágiles en sus movimientos y se abalanzan sobre sus oponentes. Sin embargo, no son muy tenaces. Suelen aparecer en grupos, aunque carecen de trabajo en equipo.$(p)$(lissa)$(l)$(o)[Primera aparición: Kingdom Hearts]$()"
+		},
+		{
+			"type": "patchouli:entity",
+			"entity": "kingdomkeys:soldier",
+			"scale": 0.75
+		}
+	]
+}

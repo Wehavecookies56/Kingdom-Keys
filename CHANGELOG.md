@@ -1,16 +1,19 @@
-**Added:**
-* Encounter Plus ability able to be obtained on level 21 for warrior, 29 for guardian and 32 for mystic. 
-* New Soft Lock-On system enabled by default, it allows the camera to move as long as the target is on the screen.
-* Server-Config option to toggle between Hard and Soft Lock-On.
-* New events so addons can intercept when a magic, item, drive form, reaction command or limit is being called.
-* Panacea consumable item to remove all negative effects.
+### Added:
+* Command melding system, similar to how it works in Birth by Sleep.
+* Experience system for magic spells, now in order to use them to meld they need to be at the 100%.
+* Magics bag, to store all your magic spells without cluttering your inventory, works with the magic selection menu.
+* Common config option for gummi fuel consumption factor, defaulting to half of what it was before.
+* New achievement for when obtaining a winner stick.
+* New config option to limit shop inventory based on their tier to players which already meet it.
+* JEI recipe category for savepoint upgrades.
 
-**Changed:**
-* Slightly increased the χ-blade reach.
-* Default shotlock reach to 200.
-* Shotlock icon offset adjusted to the entity hitbox dimensions.
-* Fire magic tracking power with magic lock on is stronger, also the higher the magic the better the tracking will be.
-* Ether use sound instead of potion.
+### Changed:
+* Savepoint configs have been moved to be data-driven for a cleaner look.
+* Savepoints will no longer restore any stat by default unless an item is used on them.
+* Magics are no longer stacked in the equipment menu due to them being all different now because of their experience.
 
-**Fixed:**
-* Shotlock indicator not rendering on EFM animated mobs and weird overlaps on normal mobs.
+### Fixed:
+* Magic Target Block didn't have a recipe, it is now crafted with a Target block and a Redstone block.
+* Culled magnet blox trails based on distance, increasing performance when they are far from the player.
+* Made Full MP Blast stackable with diminishing returns since the description mentioned it.
+* Synthesis and Keyblade Forge screens item description being misaligned.

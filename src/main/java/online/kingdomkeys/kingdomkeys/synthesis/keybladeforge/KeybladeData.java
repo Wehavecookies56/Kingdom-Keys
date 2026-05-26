@@ -18,6 +18,7 @@ public class KeybladeData {
     int baseStrength, baseMagic;
     String baseAbility;
     float reach;
+    float critChance;
     //List of upgrades for the keyblade
     @Nullable List<KeybladeLevel> levels;
     //Description for the tooltip of the keyblade
@@ -104,4 +105,8 @@ public class KeybladeData {
     public void setReach(float reach) {
         this.reach = reach;
     }
+
+    public void setCritChance(float critChance){this.critChance = critChance;}
+
+    public float getCritChance() { return critChance;}
 }

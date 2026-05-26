@@ -101,7 +101,7 @@ public class SellScreen extends MenuFilterableIndexed {
 		float filterPosY = height * 0.02F;
 		filterBar = new MenuFilterBar((int) filterPosX, (int) filterPosY, this);
 		filterBar.init();
-		scrollBar = new MenuScrollBar((int) (boxPosX + boxWidth - 17), scrollTop, scrollBot, (int) middleHeight, 0);
+		scrollBar = new MenuScrollBar((int) (boxPosX + boxWidth - 17), scrollTop, scrollBot, (int) middleHeight, 0, true);
 		addRenderableWidget(scrollBar);
 		initItems();
 		buttonPosX -= 10;

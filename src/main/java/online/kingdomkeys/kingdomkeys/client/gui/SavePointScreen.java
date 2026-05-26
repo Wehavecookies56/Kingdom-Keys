@@ -15,6 +15,7 @@ import online.kingdomkeys.kingdomkeys.block.SavePointBlock;
 import online.kingdomkeys.kingdomkeys.client.ScreenshotManager;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.*;
+import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.entity.block.SavepointTileEntity;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
@@ -175,7 +176,7 @@ public class SavePointScreen extends MenuBackground {
                     create = false;
                     nameField.visible = false;
                     save.visible = false;
-                    setGlobal.visible = false;
+                    setGlobal.visible = ModConfigs.SERVER.savepointGlobal.get() || minecraft.player.isCreative();
                     ScreenshotManager.screenshot(nameField.getValue(), tileEntity.getID());
                     title = Component.literal(nameField.getValue());
                 }
@@ -195,8 +196,6 @@ public class SavePointScreen extends MenuBackground {
     private void updateButtons() {
         if (create) {
             save.active = !nameField.getValue().isEmpty();
-        } else {
-
         }
     }
 
@@ -281,6 +280,9 @@ public class SavePointScreen extends MenuBackground {
             });
             addRenderableWidget(setGlobal = new CheckboxButton((width/2) - 60, (height/2) - 14, Strings.Gui_Save_Creation_Global, false, Strings.Gui_Save_Creation_Global_Desc, Color.WHITE.getRGB()));
             addRenderableWidget(save = new MenuButton((width/2) - 60, (height/2), 100, Utils.translateToLocal(Strings.Gui_Save_Creation_Accept), MenuButton.ButtonType.BUTTON, press -> action(SAVE)));
+            //Will be visible if the config is enabled or if the player is in creative
+            setGlobal.visible = ModConfigs.SERVER.savepointGlobal.get() || minecraft.player.isCreative();
+
         } else {
             init(recent, 0);
         }
@@ -345,7 +347,7 @@ public class SavePointScreen extends MenuBackground {
         orderDropDown.setSelected(ordering);
         this.sorting = sorting;
         this.ordering = ordering;
-        addRenderableWidget(bar = new MenuScrollBar((width/2) - (((elementWidth + 2) * elementsPerRow) / 2) + ((elementWidth + 2) * elementsPerRow), (int) topBarHeight, (int) (topBarHeight + middleHeight), (int) middleHeight, (int) (yPos - topBarHeight) + elementHeight+2));
+        addRenderableWidget(bar = new MenuScrollBar((width/2) - (((elementWidth + 2) * elementsPerRow) / 2) + ((elementWidth + 2) * elementsPerRow), (int) topBarHeight, (int) (topBarHeight + middleHeight), (int) middleHeight, (int) (yPos - topBarHeight) + elementHeight+2, true));
     }
 
     public void updateScroll(MenuScrollBar bar) {

@@ -1,0 +1,13 @@
+{
+	"name": "Forma Valiente",
+	"icon": "kingdomkeys:levelupdrivevalor",
+	"sortnum": 1,
+	"category": "kingdomkeys:drive",
+	"advancement": "kingdomkeys:obtain_drive",
+	"pages": [
+		{
+			"type": "text",
+			"text": "Esta forma obtiene XP por cada golpe que aciertas en cualquier $(thing)mob hostil$() mientras estás en esta forma.$(p)Subir de nivel esta forma te recompensará con acceso permanente a la habilidad de $(item)Salto de Altura$()."
+		}
+	]
+}

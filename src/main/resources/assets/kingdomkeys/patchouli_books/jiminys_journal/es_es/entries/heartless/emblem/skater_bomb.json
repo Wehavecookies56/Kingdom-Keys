@@ -1,0 +1,17 @@
+{
+	"name": "Bomba Patinadora",
+	"icon": "kingdomkeys:skater_bomb_spawn_egg",
+	"category": "kingdomkeys:emblem",
+	"sortnum": 11,
+	"pages": [
+		{
+			"type": "text",
+			"text": "Estos $(heartless)Sincorazón$() de tamaño medio iniciarán una cuenta regresiva para detonarse si desvías sus embestidas con un bloqueo. Golpéalos durante la cuenta regresiva para enviar su carga volando hacia otros enemigos.$(p)$(lissa)$(l)$(o)[Primera aparición: Kingdom Hearts 358/2 Days]$()"
+		},
+		{
+			"type": "patchouli:entity",
+			"entity": "kingdomkeys:skater_bomb",
+			"scale": 0.6
+		}
+	]
+}

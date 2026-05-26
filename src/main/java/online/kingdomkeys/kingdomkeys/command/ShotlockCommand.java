@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.command;
 
+import com.mojang.brigadier.arguments.BoolArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
@@ -25,7 +26,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class ShotlockCommand extends BaseCommand { /// kingdomkeys shotlock <give/take> <shotlock> [player]
+public class ShotlockCommand extends BaseCommand { // kingdomkeys shotlock <give/take> <shotlock> <permanent> [player]
 	private static final SuggestionProvider<CommandSourceStack> SUGGEST_SHOTLOCKS = (p_198296_0_, p_198296_1_) -> {
 		List<String> list = new ArrayList<>();
 		for (ResourceLocation actual : ModShotlocks.registry.keySet()) {
@@ -38,21 +39,25 @@ public class ShotlockCommand extends BaseCommand { /// kingdomkeys shotlock <giv
 		LiteralArgumentBuilder<CommandSourceStack> builder = Commands.literal("shotlock").requires(source -> source.hasPermission(2));
 
 		builder.then(Commands.literal("give")
-				.then(Commands.argument("shotlock", StringArgumentType.string()).suggests(SUGGEST_SHOTLOCKS)
-						.then(Commands.argument("targets", EntityArgument.players())
-								.executes(ShotlockCommand::addShotlock))
-						.executes(ShotlockCommand::addShotlock)) );
+			.then(Commands.argument("shotlock", StringArgumentType.string()).suggests(SUGGEST_SHOTLOCKS)
+				.then(Commands.argument("permanent", BoolArgumentType.bool())
+					.executes(ShotlockCommand::addShotlock)
+					.then(Commands.argument("targets", EntityArgument.players())
+						.executes(ShotlockCommand::addShotlock))
+				)
+			)
+		);
 
 		builder.then(Commands.literal("take")
 				.then(Commands.argument("shotlock", StringArgumentType.string())
-						.suggests(SUGGEST_SHOTLOCKS)
-						.then(Commands.argument("targets", EntityArgument.players())
-								.executes(ShotlockCommand::removeShotlock))
+					.suggests(SUGGEST_SHOTLOCKS)
+					.then(Commands.argument("targets", EntityArgument.players())
 						.executes(ShotlockCommand::removeShotlock))
+					.executes(ShotlockCommand::removeShotlock))
 				.then(Commands.literal("all")
-						.then(Commands.argument("targets", EntityArgument.players())
-								.executes(ShotlockCommand::removeAllShotlocks))
+					.then(Commands.argument("targets", EntityArgument.players())
 						.executes(ShotlockCommand::removeAllShotlocks))
+					.executes(ShotlockCommand::removeAllShotlocks))
 
 		);
 
@@ -61,8 +66,10 @@ public class ShotlockCommand extends BaseCommand { /// kingdomkeys shotlock <giv
 	}
 
 	private static int addShotlock(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
-		Collection<ServerPlayer> players = getPlayers(context, 4);
+		Collection<ServerPlayer> players = getPlayers(context, 5);
 		String shotlockName = StringArgumentType.getString(context, "shotlock");
+		boolean permanent = BoolArgumentType.getBool(context, "permanent");
+
 		Shotlock a = ModShotlocks.registry.get(ResourceLocation.parse(shotlockName));
 		if(a == null){
 			context.getSource().sendFailure(Component.literal("Shotlock '"+shotlockName+ "' does not exist"));
@@ -71,11 +78,17 @@ public class ShotlockCommand extends BaseCommand { /// kingdomkeys shotlock <giv
 
 		for (ServerPlayer player : players) {
 			PlayerData playerData = PlayerData.get(player);
-			playerData.addShotlockToList(shotlockName, true);
+			if (permanent) {
+				playerData.addPShotlock(shotlockName);
+				player.sendSystemMessage(Component.translatable("You have been given the shotlock '" + Utils.translateToLocal(a.getTranslationKey()) + "' permanently"));
+			} else {
+				playerData.addShotlockToList(shotlockName, true);
+				player.sendSystemMessage(Component.translatable("You have been given the shotlock '" + Utils.translateToLocal(a.getTranslationKey()) + "'"));
+			}
+
 			if (player != context.getSource().getPlayerOrException()) {
 				context.getSource().sendSuccess(() -> Component.translatable("Added '" + Utils.translateToLocal(a.getTranslationKey()) + "' shotlock to " + player.getDisplayName().getString()), true);
 			}
-			player.sendSystemMessage(Component.translatable("You have been given the shotlock '" + Utils.translateToLocal(a.getTranslationKey()) + "'"));
 			PacketHandler.sendTo(new SCSyncPlayerData(player), player);
 		}
 		return 1;
@@ -87,7 +100,9 @@ public class ShotlockCommand extends BaseCommand { /// kingdomkeys shotlock <giv
 
 		for (ServerPlayer player : players) {
 			PlayerData playerData = PlayerData.get(player);
+			playerData.removePShotlockFromList(shotlock);
 			playerData.removeShotlockFromList(shotlock);
+
 			if (player != context.getSource().getPlayerOrException()) {
 				context.getSource().sendSuccess(() -> Component.translatable("Removed shotlock '" + Utils.translateToLocal(shotlock) + "' from " + player.getDisplayName().getString()), true);
 			}

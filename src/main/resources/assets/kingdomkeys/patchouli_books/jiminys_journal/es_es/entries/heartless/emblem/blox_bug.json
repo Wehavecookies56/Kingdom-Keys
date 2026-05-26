@@ -1,0 +1,17 @@
+{
+	"name": "Bloque de Error",
+	"icon": "kingdomkeys:blox_bug_spawn_egg",
+	"category": "kingdomkeys:emblem",
+	"sortnum": 17,
+	"pages": [
+		{
+			"type": "text",
+			"text": "Estos $(heartless)Sincorazón$() se disfrazan como Bloques de Bugs. $(thing)$(o)Atacan con cargas o saltos, ¡así que prepárate para bloquear a tiempo!$().$(p)$(lissa)$(l)$(o)[Primera aparición: Kingdom Hearts Re:Coded]$()"
+		},
+		{
+			"type": "patchouli:entity",
+			"entity": "kingdomkeys:blox_bug",
+			"scale": 0.3
+		}
+	]
+}

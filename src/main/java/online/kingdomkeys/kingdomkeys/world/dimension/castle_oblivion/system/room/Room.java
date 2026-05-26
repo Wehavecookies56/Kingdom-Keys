@@ -5,7 +5,9 @@ import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import online.kingdomkeys.kingdomkeys.data.CastleOblivionData;
@@ -13,9 +15,10 @@ import online.kingdomkeys.kingdomkeys.entity.block.CardDoorTileEntity;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.floor.Floor;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModRoomStructures;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModRoomTypes;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.modifiers.RoomModifier;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Room {
@@ -38,7 +41,6 @@ public class Room {
         this.parentFloor = parentFloor;
         this.doors = new HashMap<>();
         this.roomPos = roomPos;
-
     }
 
     //Deserialization constructor
@@ -108,18 +110,25 @@ public class Room {
         return data.getFloorByID(parentFloor);
     }
 
-    public void tick() {
-        type.getModifiers().forEach(RoomModifier::tick);
+    public void tick(MinecraftServer server) {
+        List<Player> players = getPlayersInRoom(server, this);
+        if (shouldRoomTick(players)) {
+            type.getModifiers().forEach(roomModifier -> roomModifier.tick(this, players));
+        }
+    }
+
+    public boolean shouldRoomTick(List<Player> players) {
+        return !players.isEmpty();
     }
 
     public boolean inRoom(BlockPos pos) {
-        return pos.getX() >= position.getX() && pos.getX() <= position.getX() + structure.getWidth() && pos.getZ() >= position.getZ() && pos.getZ() <= position.getZ() + structure.getDepth();
+        return pos.getX() >= position.getX() - 1 && pos.getX() <= position.getX() + structure.getWidth() && pos.getZ() >= position.getZ() - 1 && pos.getZ() <= position.getZ() + structure.getDepth();
     }
 
     public boolean clearRoom(ServerLevel level) {
         Floor parent = getParent(CastleOblivionData.InteriorData.get(level));
         if (parent != null) {
-            if (!parent.shouldRoomTick(this)) {
+            if (!shouldRoomTick(getPlayersInRoom(level.getServer(), this))) {
                 BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos(position.getX(), position.getY(), position.getZ());
                 for (int z = 0; z < structure.getDepth(); z++) {
                     for (int y = 0; y < 128; y++) {
@@ -155,6 +164,7 @@ public class Room {
         }
         tag.put("door_positions", doorPosTag);
         tag.putString("structure", structure.getRegistryName().toString());
+
         return tag;
     }
 
@@ -181,5 +191,16 @@ public class Room {
             tag.put("pos", NbtUtils.writeBlockPos(pos));
             return tag;
         }
+    }
+
+
+    public static List<Player> getPlayersInRoom(MinecraftServer server, Room room) {
+        List<Player> players = new ArrayList<>();
+        server.getPlayerList().getPlayers().forEach(serverPlayer -> {
+            if (room.inRoom(serverPlayer.blockPosition())) {
+                players.add(serverPlayer);
+            }
+        });
+        return players;
     }
 }

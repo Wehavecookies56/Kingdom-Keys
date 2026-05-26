@@ -1,0 +1,18 @@
+{
+	"name": "Nocturno Rojo",
+	"icon": "kingdomkeys:red_nocturne_spawn_egg",
+	"category": "kingdomkeys:emblem",
+	"sortnum": 1,
+	"pages": [
+		{
+			"type": "text",
+			"text": "Un $(heartless)Sincorazón$() Hechicero. Mientras flotan, atacan lanzando Piro. Al tener poca vida, mantienen la distancia con sus oponentes, lo que dificulta atacarlos. $(thing)$(o)Absorben ataques de fuego$().$(p)$(lissa)$(l)$(o)[Primera aparición: Kingdom Hearts]$()"
+		},
+		{
+			"type": "patchouli:entity",
+			"entity": "kingdomkeys:red_nocturne",
+			"scale": 0.9,
+			"offset": 0.5
+		}
+	]
+}

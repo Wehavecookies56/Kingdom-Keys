@@ -7,11 +7,12 @@ import net.minecraft.world.item.Item;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.capabilities.ShieldCapabilities;
+import online.kingdomkeys.kingdomkeys.integration.epicfight.enums.EpicKKWeaponEnum;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.enums.KKStyles;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.skills.KKSkills;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import yesman.epicfight.api.animation.LivingMotions;
-import yesman.epicfight.api.neoevent.WeaponCapabilityPresetRegistryEvent;
+import yesman.epicfight.api.event.EpicFightEventHooks;
 import yesman.epicfight.gameasset.Animations;
 import yesman.epicfight.gameasset.ColliderPreset;
 import yesman.epicfight.registry.entries.EpicFightSkills;
@@ -19,7 +20,6 @@ import yesman.epicfight.registry.entries.EpicFightSounds;
 import yesman.epicfight.world.capabilities.EpicFightCapabilities;
 import yesman.epicfight.world.capabilities.item.CapabilityItem;
 import yesman.epicfight.world.capabilities.item.WeaponCapability;
-import yesman.epicfight.world.capabilities.item.WeaponCategory;
 
 import java.util.function.Function;
 
@@ -130,24 +130,11 @@ public class EpicKKWeapons {
     private EpicKKWeapons() {
     }
 
-    public static void register(WeaponCapabilityPresetRegistryEvent event) {
-        event.getTypeEntry().put(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID,EpicKKWeaponEnum.KK_CHAKRAM.toString().toLowerCase()), CHAKRAM);
-        event.getTypeEntry().put(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID,EpicKKWeaponEnum.KK_SHIELD.toString().toLowerCase()), KK_SHIELD);
-        event.getTypeEntry().put(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID,EpicKKWeaponEnum.KK_KEYBLADE.toString().toLowerCase()), KEYBLADE);
-    }
-
-    public enum EpicKKWeaponEnum implements WeaponCategory {
-        KK_ETHEREAL_BLADE, KK_ARROW_GUNS, KK_LANCE, KK_SHIELD, KK_AXE_SWORD, KK_LEXICON, KK_CLAYMORE, KK_CHAKRAM, KK_SITAR, KK_CARD, KK_SCYTHE,
-        KK_KNIVES, KK_KEYBLADE;
-        private final int id;
-
-        EpicKKWeaponEnum() {
-            this.id = WeaponCategory.ENUM_MANAGER.assign(this);
-        }
-
-        @Override
-        public int universalOrdinal() {
-            return id;
-        }
+    public static void register() {
+        EpicFightEventHooks.Registry.WEAPON_CAPABILITY_PRESET.registerEvent(event -> {
+            event.getTypeEntry().put(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, EpicKKWeaponEnum.KK_CHAKRAM.toString().toLowerCase()), CHAKRAM);
+            event.getTypeEntry().put(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, EpicKKWeaponEnum.KK_SHIELD.toString().toLowerCase()), KK_SHIELD);
+            event.getTypeEntry().put(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, EpicKKWeaponEnum.KK_KEYBLADE.toString().toLowerCase()), KEYBLADE);
+        }, KingdomKeys.MODID);
     }
 }

@@ -1,6 +1,5 @@
 package online.kingdomkeys.kingdomkeys.entity.shotlock;
 
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -38,7 +37,9 @@ public class DarkVolleyCoreEntity extends ThrowableProjectile {
 		setCaster(player.getUUID());
 		String targetIDS = "";
 		for(Entity t : targets) {
-			targetIDS+=","+t.getId();
+            if(t != null) {
+                targetIDS += "," + t.getId();
+            }
 		}
 		setTarget(targetIDS.substring(1));
 		this.targetList = targets;
@@ -57,12 +58,6 @@ public class DarkVolleyCoreEntity extends ThrowableProjectile {
 		if (this.tickCount > maxTicks || getCaster() == null) {
 			this.remove(RemovalReason.KILLED);
 		}
-
-		level().addParticle(ParticleTypes.BUBBLE, getX(), getY(), getZ(), 0, 0, 0);
-
-		double X = getX();
-		double Y = getY();
-		double Z = getZ();
 
 		if (getCaster() != null && getTargets() != null && !getTargets().isEmpty() && getTargets().size() > i) {
 			if (tickCount >= 0 && tickCount % 2 == 1) {

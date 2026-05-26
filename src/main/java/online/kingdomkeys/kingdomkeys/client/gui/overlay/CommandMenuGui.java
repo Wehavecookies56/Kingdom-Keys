@@ -18,6 +18,7 @@ import net.minecraft.world.phys.HitResult;
 import net.neoforged.neoforge.common.NeoForge;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.api.event.client.TargetSelectorEvent;
+import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.CommandMenuItem;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.CommandMenuSubMenu;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
@@ -26,9 +27,11 @@ import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
+import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import online.kingdomkeys.kingdomkeys.handler.EntityEvents;
 import online.kingdomkeys.kingdomkeys.handler.InputHandler;
 import online.kingdomkeys.kingdomkeys.item.KKPotionItem;
+import online.kingdomkeys.kingdomkeys.item.MagicSpellItem;
 import online.kingdomkeys.kingdomkeys.item.ModComponents;
 import online.kingdomkeys.kingdomkeys.item.organization.ArrowgunItem;
 import online.kingdomkeys.kingdomkeys.lib.Party;
@@ -51,7 +54,6 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class CommandMenuGui extends OverlayBase {
-
 	public static final CommandMenuGui INSTANCE = new CommandMenuGui();
 	public static Map<ResourceLocation, CommandMenuSubMenu> commandMenuElements;
 
@@ -82,17 +84,20 @@ public class CommandMenuGui extends OverlayBase {
 		revert = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "revert");
 		currentSubmenu = root;
 		commandMenuElements = new HashMap<>();
-		CommandMenuSubMenu rootSubmenu = new CommandMenuSubMenu.Builder(this.root, Component.translatable(Strings.Gui_CommandMenu_Command))
-				.position(ModConfigs.cmXPos, Minecraft.getInstance().getWindow().getGuiScaledHeight())
+		CommandMenuSubMenu rootSubmenu = new CommandMenuSubMenu.Builder(this.root, Component.translatable(Strings.Gui_CommandMenu_Command).withStyle(ClientUtils.KK_Font_EXP))
+				.position(0,0)
 				.openByDefault()
 				.changesColour()
 				.fixedHeader()
 				.colour(new Color(10, 51, 255))
 				.onUpdate((subMenu, guiGraphics) -> {
-					subMenu.updatePosition(ModConfigs.cmXPos, Minecraft.getInstance().getWindow().getGuiScaledHeight());
+					ClientUtils.CM_ELEMENT.height = subMenu.getHeight() * (subMenu.getVisibleChildren().size()+1);
+					ClientUtils.CM_ELEMENT.width = subMenu.getWidth();
+					subMenu.setPosition(0,0);
+					subMenu.setWidth(74);
 				})
 				.withChildren(
-						new CommandMenuItem.Builder(attack, Component.translatable(Strings.Gui_CommandMenu_Attack), null).onUpdate((item, guiGraphics) -> updateRootItem(item, null, guiGraphics)).iconUV(30, 60),
+						new CommandMenuItem.Builder(attack, Component.translatable(Strings.Gui_CommandMenu_Attack), null).onUpdate((item, guiGraphics) -> updateRootItem(item, null, guiGraphics)).iconUV(30, 60).onCancel(item -> onCancel(item,null, guiGraphics)),
 						new CommandMenuItem.Builder(portals, Component.translatable(Strings.Gui_CommandMenu_Portal), opensSubmenu(portals)).invisibleByDefault().onUpdate((item, guiGraphics) -> updateRootItem(item, portals, guiGraphics)).iconUV(40, 60),
 						new CommandMenuItem.Builder(magic, Component.translatable(Strings.Gui_CommandMenu_Magic), opensSubmenu(magic)).onUpdate((item, guiGraphics) -> updateRootItem(item, magic, guiGraphics)).iconUV(20, 60),
 						new CommandMenuItem.Builder(items, Component.translatable(Strings.Gui_CommandMenu_Items), opensSubmenu(items)).onUpdate((item, guiGraphics) -> updateRootItem(item, items, guiGraphics)).iconUV(10, 60),
@@ -107,6 +112,8 @@ public class CommandMenuGui extends OverlayBase {
 							}
 						}).invisibleByDefault().onUpdate((item, guiGraphics) -> {
 							if (item.isVisible()) {
+								PlayerData playerData = PlayerData.get(minecraft.player);
+								item.setActive(!(playerData.getActiveDriveForm().equals(Strings.Form_Anti) && !playerData.isAbilityEquipped(Strings.darkDomination) && EntityEvents.threatLevel == EntityEvents.ThreatLevel.HOSTILES));
 								if (PlayerData.get(minecraft.player).getActiveDriveForm().equals(DriveForm.NONE.toString())) {
 									item.setVisible(false);
 									item.getParent().getChild(drive).setVisible(true);
@@ -116,34 +123,34 @@ public class CommandMenuGui extends OverlayBase {
 						new CommandMenuItem.Builder(limit, Component.translatable(Strings.Gui_CommandMenu_Limit), opensSubmenu(limit)).invisibleByDefault().onUpdate((item, guiGraphics) -> updateRootItem(item, limit, guiGraphics)).iconUV(0, 60)
 				)
 				.build();
-		CommandMenuSubMenu magicSubmenu = new CommandMenuSubMenu.Builder(magic, Component.translatable(Strings.Gui_CommandMenu_Magic_Title))
+		CommandMenuSubMenu magicSubmenu = new CommandMenuSubMenu.Builder(magic, Component.translatable(Strings.Gui_CommandMenu_Magic_Title).withStyle(ClientUtils.KK_Font_EXP))
 				.colour(new Color(102, 0, 255))
 				.onUpdate(updateMagic())
-				.withChildren(createMagicFromRegistry())
+				.onOpen(this::createMagics)
 				.autoResizes()
 				.buildWithParent(rootSubmenu);
-		CommandMenuSubMenu itemsSubmenu = new CommandMenuSubMenu.Builder(items, Component.translatable(Strings.Gui_CommandMenu_Items_Title))
+		CommandMenuSubMenu itemsSubmenu = new CommandMenuSubMenu.Builder(items, Component.translatable(Strings.Gui_CommandMenu_Items_Title).withStyle(ClientUtils.KK_Font_EXP))
 				.colour(new Color(77, 255, 77))
 				.onOpen(this::createItems)
 				.autoResizes()
 				.buildWithParent(rootSubmenu);
-		CommandMenuSubMenu targetSubmenu =  new CommandMenuSubMenu.Builder(target, Component.translatable(Strings.Gui_CommandMenu_Target))
+		CommandMenuSubMenu targetSubmenu =  new CommandMenuSubMenu.Builder(target, Component.translatable(Strings.Gui_CommandMenu_Target).withStyle(ClientUtils.KK_Font_EXP))
 				.colour(new Color(10, 51, 255))
 				.onOpen(this::createTargets)
 				.autoResizes()
 				.build();
-		CommandMenuSubMenu portalsSubmenu = new CommandMenuSubMenu.Builder(portals, Component.translatable(Strings.Gui_CommandMenu_Portals_Title))
+		CommandMenuSubMenu portalsSubmenu = new CommandMenuSubMenu.Builder(portals, Component.translatable(Strings.Gui_CommandMenu_Portals_Title).withStyle(ClientUtils.KK_Font_EXP))
 				.colour(new Color(204, 204, 204))
 				.onOpen(this::createPortals)
 				.autoResizes()
 				.buildWithParent(rootSubmenu);
-		CommandMenuSubMenu limitSubmenu = new CommandMenuSubMenu.Builder(limit, Component.translatable(Strings.Gui_CommandMenu_Limit_Title))
+		CommandMenuSubMenu limitSubmenu = new CommandMenuSubMenu.Builder(limit, Component.translatable(Strings.Gui_CommandMenu_Limit_Title).withStyle(ClientUtils.KK_Font_EXP))
 				.colour(new Color(255, 255, 0))
 				.onUpdate(updateLimits())
 				.withChildren(createLimitsFromRegistry())
 				.autoResizes()
 				.buildWithParent(rootSubmenu);
-		CommandMenuSubMenu driveSubmenu = new CommandMenuSubMenu.Builder(drive, Component.translatable(Strings.Gui_CommandMenu_Drive_Title))
+		CommandMenuSubMenu driveSubmenu = new CommandMenuSubMenu.Builder(drive, Component.translatable(Strings.Gui_CommandMenu_Drive_Title).withStyle(ClientUtils.KK_Font_EXP))
 				.colour(new Color(0, 255, 255))
 				.onUpdate(updateDriveForms())
 				.withChildren(createDriveFormsFromRegistry())
@@ -153,8 +160,11 @@ public class CommandMenuGui extends OverlayBase {
 
 	private CommandMenuItem.OnEnter opensSubmenu(ResourceLocation subMenu) {
 		return (item -> {
-			changeSubmenu(subMenu, false);
-			playInSound();
+			if(changeSubmenu(subMenu, false)){
+				playInSound();
+			} else {
+				playErrorSound();
+			}
 		});
 	}
 
@@ -163,19 +173,36 @@ public class CommandMenuGui extends OverlayBase {
 			AtomicInteger i = new AtomicInteger(0);
 			Map<String, Integer> magicList = new HashMap<>();
 			PlayerData playerData = PlayerData.get(minecraft.player);
-			ModConfigs.magicDisplayedInCommandMenu.stream().filter(m -> playerData.getMagicsMap().containsKey(m)).toList().forEach(s -> {
-				magicList.put(s, i.getAndIncrement());
-			});
-			subMenu.getChildren().forEach(item -> {
-				item.setSorting(0);
-				if (magicList.containsKey(item.getId().toString())) {
-					item.setSorting(magicList.get(item.getId().toString()));
-					item.setMessage(Component.translatable(ModMagic.registry.get(item.getId()).getTranslationKey(playerData.getMagicLevel(item.getId()))));
-					item.setVisible(true);
-				} else {
-					item.setVisible(false);
+
+			if(Utils.getSpellsList(playerData).isEmpty()){
+				//Quit the submenu
+				if(subMenu.getId().equals(magic)) {
+					changeSubmenu(root, false);
+					return;
 				}
-			});
+			}
+
+			for(String s : Utils.getSpellsList(playerData)){
+				magicList.put(s, i.getAndIncrement());
+			}
+
+			List<CommandMenuItem> children = subMenu.getChildren();
+
+			for (CommandMenuItem item : children) {
+				int slot = Utils.getMagicSlotFromNameAndLevel(playerData.getEquippedMagics(), item.getId().toString(), Integer.parseInt(item.getData()));
+				ItemStack stack = playerData.getEquippedMagics().get(slot);
+				if (stack != null && stack.getItem() instanceof MagicSpellItem spell) {
+					item.setSorting(0);
+
+					if (magicList.containsKey(item.getId().toString())) {
+						item.setSorting(magicList.get(item.getId().toString()));
+						item.setMessage(Component.translatable(ModMagic.registry.get(item.getId()).getTranslationKey(spell.getLevel())));
+						item.setVisible(true);
+					} else {
+						item.setVisible(false);
+					}
+				}
+			}
 		};
 	}
 
@@ -200,12 +227,9 @@ public class CommandMenuGui extends OverlayBase {
 
 	public CommandMenuSubMenu.OnUpdate updateDriveForms() {
 		return (subMenu, guiGraphics) -> {
-			AtomicInteger i = new AtomicInteger(0);
 			Map<String, Integer> formList = new HashMap<>();
 			PlayerData playerData = PlayerData.get(minecraft.player);
-			playerData.getDriveFormMap().forEach((s, ints) -> {
-				formList.put(s, ModDriveForms.registry.get(ResourceLocation.parse(s)).getOrder());
-			});
+			playerData.getDriveFormMap().forEach((s, ints) -> formList.put(s, ModDriveForms.registry.get(ResourceLocation.parse(s)).getOrder()));
 			subMenu.getChildren().forEach(item -> {
 				item.setSorting(0);
 				if (formList.containsKey(item.getId().toString())) {
@@ -216,78 +240,6 @@ public class CommandMenuGui extends OverlayBase {
 				}
 			});
 		};
-	}
-
-	public CommandMenuItem.Builder[] createMagicFromRegistry() {
-		List<CommandMenuItem.Builder> magic = new ArrayList<>();
-		ModMagic.registry.forEach(magicRegistryObject -> magic.add(new CommandMenuItem.Builder(magicRegistryObject.getRegistryName(), Component.translatable(magicRegistryObject.getTranslationKey()), item -> {
-			PlayerData playerData = PlayerData.get(minecraft.player);
-			WorldData worldData = WorldData.getClient();
-			int[] mag = playerData.getMagicsMap().get(magicRegistryObject.getRegistryName().toString());
-			double cost = magicRegistryObject.getCost(mag[0], minecraft.player);
-
-			if (playerData.getMaxMP() == 0 || playerData.getRecharge() || cost > playerData.getMaxMP() && cost < 300) {
-				playErrorSound();
-				changeSubmenu(root, true);
-			} else { //cast / target selector
-                ArrayList<CommandMenuItem> targets = new ArrayList<>();
-
-                NeoForge.EVENT_BUS.post(new TargetSelectorEvent(commandMenuElements.get(currentSubmenu), targets));
-                //                                      if in a party                 and           magic has target selector                                             or has target selector populated
-				if ((worldData.getPartyFromMember(minecraft.player.getUUID()) != null && ModMagic.registry.get(magicRegistryObject.getRegistryName()).getHasToSelect()) || !targets.isEmpty()) { //Open party target selector
-					if (currentSubmenu.equals(target) && commandMenuElements.get(currentSubmenu).getSelected() != null) {//if is in target selector
-                        int level = playerData.getMagicLevel(magicRegistryObject.getRegistryName());
-                        String data = commandMenuElements.get(currentSubmenu).getSelected().getData();
-                        int targetID = Integer.parseInt(data);
-                        PacketHandler.sendToServer(new CSUseMagicPacket(magicRegistryObject.getRegistryName().toString(), targetID, level));
-
-						changeSubmenu(root, true);
-					} else {
-						changeSubmenu(target, true);
-						playInSound();
-						return;
-					}
-				} else { //Cast Magic
-					int level = playerData.getMagicLevel(magicRegistryObject.getRegistryName());
-					PacketHandler.sendToServer(new CSUseMagicPacket(magicRegistryObject.getRegistryName().toString(), level, InputHandler.lockOn));
-					changeSubmenu(root, true);
-				}
-				playSelectSound();
-			}
-		})
-			.onUpdate((item, guiGraphics) -> {
-				PlayerData playerData = PlayerData.get(minecraft.player);
-				Magic magicInst = ModMagic.registry.get(item.getId());
-				if (playerData.getMP() > 0 && !playerData.getRecharge()) {
-					item.setActive(true);
-					item.setTextColour(Color.WHITE);
-					double magCost = magicInst.getCost(playerData.getMagicLevel(item.getId()), Minecraft.getInstance().player);
-					if (playerData.getMP() <= magCost) {
-						if(playerData.getMaxMP() < magCost && magCost < 300){ //Cure case using all
-							item.setTextColour(Color.GRAY);
-						} else {
-							//Extra Cast
-							if(playerData.isAbilityEquipped(Strings.extraCast)){
-								if(magCost >= playerData.getMaxMP()){
-									item.setTextColour(Color.ORANGE);
-								} else {// if it's a normal magic
-									if(playerData.getMP() > 1 && playerData.getMP() - magCost < 1) { // If the player has more than 1MP and the magic would consume it all
-										item.setTextColour(Color.WHITE);
-									} else { //If the player has 1MP already orange
-										item.setTextColour(Color.ORANGE);
-									}
-								}
-							} else {
-								item.setTextColour(Color.ORANGE);
-							}
-						}
-					}
-				} else {
-					item.setTextColour(Color.WHITE);
-					item.setActive(false);
-				}
-			}).iconUV(160, 60)));
-		return magic.toArray(new CommandMenuItem.Builder[0]);
 	}
 
 	public CommandMenuItem.Builder[] createDriveFormsFromRegistry() {
@@ -348,6 +300,12 @@ public class CommandMenuGui extends OverlayBase {
 		return PlayerData.get(minecraft.player).getAlignment() != OrgMember.NONE;
 	}
 
+	public void onCancel(CommandMenuItem item, ResourceLocation submenu, GuiGraphics guiGraphics) {
+		if (item.getId().equals(attack)) {
+			PacketHandler.sendToServer(new CSSwapKeyblade());
+		}
+	}
+
 	public void updateRootItem(CommandMenuItem item, ResourceLocation submenu, GuiGraphics guiGraphics) {
 		PlayerData playerData = PlayerData.get(minecraft.player);
 		if (item.getId().equals(portals) && isOrgMode() && item.getParent().getSelected().equals(item)) {
@@ -355,7 +313,7 @@ public class CommandMenuGui extends OverlayBase {
 				ItemStack weapon = minecraft.player.getMainHandItem();
 				if (weapon.has(ModComponents.ARROWGUN_AMMO)) {
 					int ammo = weapon.getOrDefault(ModComponents.ARROWGUN_AMMO, 0);
-					drawString(guiGraphics, minecraft.font, ammo + "", item.getX() + 8 + (int) (item.getParent().getWidth() * (ModConfigs.cmXScale / 100D)), item.getY() + 4, 0xFFFFFF);
+					drawString(guiGraphics, minecraft.font, ammo + "", item.getX() + 8 + item.getParent().getWidth(), item.getY() + 4, 0xFFFFFF);
 				}
 			}
 		}
@@ -372,7 +330,14 @@ public class CommandMenuGui extends OverlayBase {
 			item.setTextColour(Color.WHITE);
 
 			//This first part of the condition is to avoid the code below from making it even darker
-			if(!playerData.getMagicsMap().isEmpty() && (playerData.getRecharge() || (playerData.getMaxMP() < Utils.getCheapestMagicCost(playerData.getMagicsMap(),minecraft.player)) && (Utils.getCheapestMagicCost(playerData.getMagicsMap(),minecraft.player)) < 300) && playerData.getMagicCooldownTicks() <= 0) { //Small hack to avoid gray and dark gray flicker when using last magic and going on recharge
+			double cheapest = Utils.getCheapestMagicCost(playerData.getEquippedMagics(), minecraft.player);
+
+			if(Utils.getSpellsList(playerData).isEmpty()){
+				item.setActive(false); //Doesn't allow opening submenu if empty
+				item.setMessage(Component.literal("???"));
+				return;
+			}
+			if((playerData.getRecharge() || playerData.getMaxMP() < cheapest && cheapest < 300) && playerData.getMagicCooldownTicks() <= 0) { //Small hack to avoid gray and dark gray flicker when using last magic and going on recharge
 				item.setTextColour(Color.GRAY); //Still allows to open submenu
 			}
 
@@ -382,41 +347,49 @@ public class CommandMenuGui extends OverlayBase {
 				return;
 			}
 
-			if(playerData.getMagicsMap().isEmpty()){
-				item.setActive(false);
-				item.setMessage(Component.literal("???"));
-			} else {
-				item.setActive(true);
-				item.setMessage(Component.translatable(Strings.Gui_CommandMenu_Magic));
-			}
-
+			item.setActive(true);
+			item.setMessage(Component.translatable(Strings.Gui_CommandMenu_Magic));
 		}
 
 		if (item.getId().equals(drive)){
-			if(playerData.getDriveFormMap().size() < 4){
+			//System.out.println(playerData.getDriveFormMap());
+			if(playerData.getDriveFormMap().size() <= Utils.getFakeForms().size() + 1){ //If no forms are unlocked (fake forms + anti)
 				item.setActive(false);
 				item.setMessage(Component.literal("???"));
-			} else {
+				return;
+			} else { //If any form is unlocked
+				if(minecraft.player.hasEffect(ModMobEffects.UNDERWORLD_CURSE)){
+					item.setActive(false);
+					return;
+				}
 				item.setActive(true);
 				Color color = playerData.getDP() >= Utils.getCheapestDriveCost(playerData,Utils.getVisibleDriveForms(minecraft.player)) ? Color.WHITE : Color.GRAY;
 				item.setTextColour(color);
 				item.setMessage(Component.translatable(Strings.Gui_CommandMenu_Drive));
 			}
-			if(!playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())) {
+			if(!playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())) { //while in a drive form
 				item.setVisible(false);
 				item.getParent().getChild(revert).setVisible(true);
 			}
 		}
 
 		if(item.getId().equals(limit)){
-			if (playerData.getLimitCooldownTicks() > 0) {
+			if (minecraft.player.hasEffect(ModMobEffects.UNDERWORLD_CURSE) || playerData.getLimitCooldownTicks() > 0) {
 				item.setActive(false);
 				return;
 			}
 		}
 
 		if (commandMenuElements.containsKey(submenu)) {
-			if (submenu.equals(items)) {
+			if (submenu.equals(magic)) {
+				item.setActive(false);
+				playerData.getEquippedMagics().forEach((integer, stack) -> {
+					if (!stack.isEmpty()) {
+						item.setActive(true);
+					}
+				});
+				return;
+			} else if (submenu.equals(items)) {
 				item.setActive(false);
 				playerData.getEquippedItems().forEach((integer, stack) -> {
 					if (!stack.isEmpty()) {
@@ -443,10 +416,7 @@ public class CommandMenuGui extends OverlayBase {
 
         //Self should always show in case using an addon
         targets.add(new CommandMenuItem.Builder(
-                ResourceLocation.fromNamespaceAndPath(
-                        KingdomKeys.MODID,
-                        minecraft.player.getDisplayName().getString().toLowerCase()
-                ),
+                ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, minecraft.player.getDisplayName().getString().toLowerCase()),
                 Component.literal(minecraft.player.getDisplayName().getString()),
                 item -> subMenu.getParent().getSelected().onEnter()
         ).setData(minecraft.player.getId()+"").build(subMenu));
@@ -500,6 +470,7 @@ public class CommandMenuGui extends OverlayBase {
 				playInSound();
 			}).iconUV(40, 60).build(subMenu));
 		});
+		subMenu.setSelected(subMenu.getFirst());
 	}
 
 	public void summonPortal(PortalData coords) {
@@ -525,6 +496,101 @@ public class CommandMenuGui extends OverlayBase {
 				}
 			}
 		}
+	}
+
+	public void createMagics(CommandMenuSubMenu subMenu) {
+		subMenu.getChildren().clear();
+
+		PlayerData playerData = PlayerData.get(minecraft.player);
+		WorldData worldData = WorldData.getClient();
+		for (Map.Entry<Integer, ItemStack> entry : playerData.getEquippedMagics().entrySet()) {
+			Integer slot = entry.getKey();
+			if(slot >= playerData.getMaxMagics())
+				break;
+
+			ItemStack stack = entry.getValue();
+			if (stack.isEmpty() || !(stack.getItem() instanceof MagicSpellItem spell))
+				continue;
+
+			ResourceLocation magicId = ResourceLocation.parse(spell.getMagic());
+			Magic magic = ModMagic.registry.get(magicId);
+
+			subMenu.addChild(
+					new CommandMenuItem.Builder(
+							ResourceLocation.parse(spell.getMagic()),
+							Component.translatable(magic.getTranslationKey(spell.getLevel())),
+							item -> {
+								int magLevel = spell.getLevel();
+								double cost = magic.getCost(magLevel, minecraft.player);
+
+								if (playerData.getMaxMP() == 0 || playerData.getRecharge() || cost > playerData.getMaxMP() && cost < 300) {
+									playErrorSound();
+									changeSubmenu(root, true);
+									return;
+								}
+
+								ArrayList<CommandMenuItem> targets = new ArrayList<>();
+								NeoForge.EVENT_BUS.post(new TargetSelectorEvent(commandMenuElements.get(currentSubmenu), targets));
+
+								boolean hasParty = worldData.getPartyFromMember(minecraft.player.getUUID()) != null;
+								boolean needsTarget = magic.getHasToSelect();
+
+								if ((hasParty && needsTarget) || !targets.isEmpty()) {
+									if (currentSubmenu.equals(target) && commandMenuElements.get(currentSubmenu).getSelected() != null) {
+										int targetID = Integer.parseInt(commandMenuElements.get(currentSubmenu).getSelected().getData());
+										PacketHandler.sendToServer(new CSUseMagicPacket(magicId.toString(), targetID, magLevel));
+										changeSubmenu(root, true);
+									} else {
+										changeSubmenu(target, true);
+										playInSound();
+										return;
+									}
+								} else {
+									PacketHandler.sendToServer(new CSUseMagicPacket(magicId.toString(), magLevel, InputHandler.lockOn));
+									changeSubmenu(root, true);
+								}
+
+								playSelectSound();
+							})
+							.onUpdate((item, guiGraphics) -> {
+								if (playerData.getMP() > 0 && !playerData.getRecharge()) {
+									item.setActive(true);
+									item.setTextColour(Color.WHITE);
+
+									int level = spell.getLevel();
+									double magCost = magic.getCost(level, minecraft.player);
+
+									if (playerData.getMP() <= magCost) {
+										if (playerData.getMaxMP() < magCost && magCost < 300) {
+											item.setTextColour(Color.GRAY);
+										} else {
+											if (playerData.isAbilityEquipped(Strings.extraCast)) {
+												if (magCost >= playerData.getMaxMP()) {
+													item.setTextColour(Color.ORANGE);
+												} else {
+													if (playerData.getMP() > 1 && playerData.getMP() - magCost < 1) {
+														item.setTextColour(Color.WHITE);
+													} else {
+														item.setTextColour(Color.ORANGE);
+													}
+												}
+											} else {
+												item.setTextColour(Color.ORANGE);
+											}
+										}
+									}
+								} else {
+									item.setTextColour(Color.WHITE);
+									item.setActive(false);
+								}
+							})
+							.setData(spell.getLevel() + "")
+							.iconUV(20, 60)
+							.build(subMenu)
+			);
+		}
+
+		subMenu.setSelected(subMenu.getFirst());
 	}
 
 	public void createItems(CommandMenuSubMenu subMenu) {
@@ -563,6 +629,7 @@ public class CommandMenuGui extends OverlayBase {
 							}).iconUV(10, 60)
 							.build(subMenu));
 		}});
+		subMenu.setSelected(subMenu.getFirst());
 	}
 
 	public void playSelectSound() {
@@ -590,7 +657,7 @@ public class CommandMenuGui extends OverlayBase {
 		Minecraft.getInstance().level.playSound(player, player.position().x(),player.position().y(),player.position().z(), sound, SoundSource.MASTER, 1.0f, 1.0f);
 	}
 
-	public void changeSubmenu(ResourceLocation submenu, boolean resetSelected) {
+	public boolean changeSubmenu(ResourceLocation submenu, boolean resetSelected) {
 		commandMenuElements.forEach((resourceLocation, subMenu) -> {
 			subMenu.setActive(false);
 		});
@@ -615,6 +682,7 @@ public class CommandMenuGui extends OverlayBase {
 			newSubmenu.close();
 			newSubmenu.setActive(true);
 			newSubmenu.onOpen();
+
 			if (newSubmenu.visibleSize() > 0) {
 				if (!currentSubmenu.equals(root)) {
 					newSubmenu.setVisible(false);
@@ -624,10 +692,14 @@ public class CommandMenuGui extends OverlayBase {
 				}
 				newSubmenu.setVisible(true);
 				currentSubmenu = submenu;
+				return true;
 			} else {
 				newSubmenu.setActive(false);
+				currentSubMenu.setActive(true);
+				return false;
 			}
 		}
+		return false;
 	}
 
 	public boolean antiFormCheck(PlayerData playerData, DriveForm driveForm) { //Only checks if form is not final
@@ -674,15 +746,20 @@ public class CommandMenuGui extends OverlayBase {
 	@Override
 	public void render(GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
 		super.render(guiGraphics, deltaTracker);
-		//textX = (int) (5 * ModConfigs.cmXScale / 100D) + ModConfigs.cmTextXOffset;
 		if (minecraft.player != null) {
+			ClientUtils.RC_ELEMENT.applyTransform(guiGraphics, minecraft.getWindow().getGuiScaledWidth(), minecraft.getWindow().getGuiScaledHeight());
+
 			drawReactionCommands(guiGraphics, deltaTracker);
+			ClientUtils.RC_ELEMENT.endTransform(guiGraphics);
+
+			ClientUtils.CM_ELEMENT.applyTransform(guiGraphics, minecraft.getWindow().getGuiScaledWidth(), minecraft.getWindow().getGuiScaledHeight());
 
 			List<CommandMenuSubMenu> submenus = commandMenuElements.values().stream().sorted(Comparator.comparingInt(CommandMenuSubMenu::getZ)).toList();
 			submenus.forEach(submenu -> {
 				submenu.render(guiGraphics, minecraft.getWindow().getGuiScaledWidth(), minecraft.getWindow().getGuiScaledHeight(), deltaTracker.getGameTimeDeltaPartialTick(true));
 				submenu.onUpdate(guiGraphics);
 			});
+			ClientUtils.CM_ELEMENT.endTransform(guiGraphics);
 		}
 	}
 
@@ -707,35 +784,98 @@ public class CommandMenuGui extends OverlayBase {
 		float alpha = 1F;
 		float scale = 1.05f;
 		PlayerData playerData = PlayerData.get(minecraft.player);
-		List<String> list = playerData.getReactionCommands();
+		LinkedHashMap<String, Integer> list = playerData.getReactionCommands();
         if(list.isEmpty())
             return;
 
-		for(int i = 0; i < list.size(); i++) {
+		ResourceLocation rcTexture = commandMenuElements.get(currentSubmenu).getTexture();
+
+		int i = 0;
+		for (Map.Entry<String, Integer> entry : list.entrySet()) {
 			gui.pose().pushPose();
 			{
 				float shade = i == reactionSelected ? 1F : 0.4F;
 				RenderSystem.setShaderColor(shade,shade,shade, alpha);
-				gui.pose().translate(0, commandMenuElements.get(currentSubmenu).getY()-20-(16*i), 0.5F);
+				gui.pose().translate(0, commandMenuElements.get(currentSubmenu).getY()-(16*i), 2F);
 				gui.pose().scale(scale, scale, scale);
 				gui.pose().pushPose();
 				{
-					ReactionCommand command = ModReactionCommands.registry.get(ResourceLocation.parse(list.get(i)));
-					drawString(gui, minecraft.font, Utils.translateToLocal(command.getTranslationKey()), (int) (5 * ModConfigs.cmXScale / 100D) + (ModConfigs.cmTextXOffset+5), 4, 0xFFFFFF);
+					ReactionCommand command = ModReactionCommands.registry.get(ResourceLocation.parse(entry.getKey()));
+					String time = "";
+					if (entry.getValue() > -1) {
+						time = String.format("%.1f", entry.getValue() / 20.0);
+						gui.pose().pushPose();
+						gui.pose().scale(0.6F, 0.8F, scale);
+						drawString(gui, minecraft.font, Component.literal(time).withStyle(ClientUtils.KK_Font_EXP), (int) ((TOP_WIDTH - ModConfigs.cmReactionEndRWidth) * 1.9F), 6, 0xFFFFFF);
+						gui.pose().popPose();
+					}
+					drawString(gui, minecraft.font, Utils.translateToLocal(command.getTranslationKey()), ModConfigs.cmTextXOffset + 15, 4, 0xFFFFFF);
 
-					gui.pose().scale(ModConfigs.cmXScale / 75F, 1, 1);
+					gui.pose().scale(1.33F, 1, 1);
 					RenderSystem.enableBlend();
-					blit(gui, commandMenuElements.get(currentSubmenu).getTexture(), 0, 0, 0, 45, ModConfigs.cmReactionEndLWidth, TOP_HEIGHT);
-					blit(gui, commandMenuElements.get(currentSubmenu).getTexture(), ModConfigs.cmReactionEndLWidth, 0, TOP_WIDTH - (ModConfigs.cmReactionEndLWidth + ModConfigs.cmReactionEndRWidth), TOP_HEIGHT, ModConfigs.cmReactionEndLWidth + 1, 45, 1, TOP_HEIGHT, 256, 256);
-					blit(gui, commandMenuElements.get(currentSubmenu).getTexture(), TOP_WIDTH - ModConfigs.cmReactionEndRWidth, 0, ModConfigs.cmReactionEndLWidth + 3, 45, ModConfigs.cmReactionEndRWidth, TOP_HEIGHT);
-					RenderSystem.disableBlend();
+					if (time.isEmpty()) {
+						drawRC(gui, rcTexture);
+					} else {
+						drawSC(gui, rcTexture, entry);
+					}
 
+					if(i == reactionSelected) {
+						gui.pose().pushPose();
+						{
+							gui.pose().scale(0.55F, 0.8F, 1);
+							blit(gui, rcTexture, 4, 4, 52, 45, 10, 10);
+							gui.drawString(minecraft.font, Component.literal(InputHandler.Keybinds.REACTION_COMMAND.getKeybind().getKey().getDisplayName().getString()).withStyle(ClientUtils.KK_Font_MENU), 6, 5, 0xFFFFFF, false);
+						}
+						gui.pose().popPose();
+					}
+
+					RenderSystem.disableBlend();
 				}
 				gui.pose().popPose();
-
 			}
 			gui.pose().popPose();
+			i++;
 		}
+
+		if(reactionSelected >= list.size()) {
+			reactionSelected = 0;
+		}
+
+	}
+
+	private void drawSC(GuiGraphics gui, ResourceLocation rcTexture, Map.Entry<String, Integer> entry) {
+		ReactionCommand command = ModReactionCommands.registry.get(ResourceLocation.parse(entry.getKey()));
+		int middleWidth = TOP_WIDTH - (ModConfigs.cmReactionEndLWidth + ModConfigs.cmReactionEndRWidth) + 1;
+		//Black bg bar
+		blit(gui, rcTexture, ModConfigs.cmReactionEndLWidth-2, 0, middleWidth+4, TOP_HEIGHT, 48, 45, 1, TOP_HEIGHT, 256, 256);
+
+		PlayerData playerData = PlayerData.get(minecraft.player);
+		int maxDuration = (int) (command.getDuration() + command.getDuration() * (playerData.getNumberOfAbilitiesEquipped(Strings.grandMagicExtender) * 0.25F));
+		float perc = 100F * entry.getValue() / maxDuration;
+		//Purple bar
+		Color color = new Color(command.getColor());
+		gui.setColor(color.getRed()/255F,color.getGreen()/255F,color.getBlue()/255F,1);
+		blit(gui, rcTexture, ModConfigs.cmReactionEndLWidth - 2, 0, (int) ((middleWidth+4) * perc / 100F), TOP_HEIGHT, 50, 45, 1, TOP_HEIGHT, 256, 256);
+		gui.setColor(1,1,1,1);
+
+		//Left
+		blit(gui, rcTexture, 0, 0, 24, 45, ModConfigs.cmReactionEndLWidth + 1, TOP_HEIGHT);
+		//Middle
+		blit(gui, rcTexture, ModConfigs.cmReactionEndLWidth, 0, middleWidth, TOP_HEIGHT, ModConfigs.cmReactionEndLWidth + 25, 45, 1, TOP_HEIGHT, 256, 256);
+		//Right
+		blit(gui, rcTexture, TOP_WIDTH - ModConfigs.cmReactionEndRWidth, 0, ModConfigs.cmReactionEndLWidth + 27, 45, ModConfigs.cmReactionEndRWidth, TOP_HEIGHT);
+
+	}
+
+	private void drawRC(GuiGraphics gui, ResourceLocation rcTexture) {
+		//Left
+		blit(gui, rcTexture, 0, 0, 0, 45, ModConfigs.cmReactionEndLWidth + 1, TOP_HEIGHT);
+
+		int middleWidth = TOP_WIDTH - (ModConfigs.cmReactionEndLWidth + ModConfigs.cmReactionEndRWidth) + 1;
+		//Middle
+		blit(gui, rcTexture, ModConfigs.cmReactionEndLWidth, 0, middleWidth, TOP_HEIGHT, ModConfigs.cmReactionEndLWidth + 1, 45, 1, TOP_HEIGHT, 256, 256);
+		//Right
+		blit(gui, rcTexture, TOP_WIDTH - ModConfigs.cmReactionEndRWidth, 0, ModConfigs.cmReactionEndLWidth + 3, 45, ModConfigs.cmReactionEndRWidth, TOP_HEIGHT);
 
 	}
 }

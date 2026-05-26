@@ -29,7 +29,7 @@ public class MagicStop extends Magic {
 
 	@Override
 	public void magicUse(LivingEntity player, Player caster, int level, float fullMPBlastMult, LivingEntity lockOnEntity) {
-		float dmg = /*ModCapabilities.getPlayer(player).isAbilityEquipped(Strings.waterBoost) ? getDamageMult(level) * 1.2F :*/ getDamageMult(level);
+		float dmg = getDamageMult(level);
 		dmg *= fullMPBlastMult;
 		
 		float radius = 2 + level;
@@ -58,7 +58,7 @@ public class MagicStop extends Magic {
                     if (livingEntity instanceof Mob) {
                         ((Mob) e).setNoAi(true);
                     }
-                    livingEntity.addEffect(new MobEffectInstance(ModMobEffects.STOP, (int) (100 + level * 20 * dmg), level, false, false, false)); // Stop
+                    livingEntity.addEffect(new MobEffectInstance(ModMobEffects.STOP, (int) (100 + getDamageMult(level) * 20 * dmg), level, false, false, false)); // Stop
                     globalData.setStopCaster(caster.getDisplayName().getString());
                     if (e instanceof ServerPlayer serverPlayer)
                         PacketHandler.sendTo(new SCSyncGlobalData(livingEntity), serverPlayer);

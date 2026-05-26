@@ -1,0 +1,19 @@
+{
+	"name": "Giga-Sombra",
+	"icon": "kingdomkeys:giga_shadow_spawn_egg",
+	"category": "kingdomkeys:pure_blooded",
+	"sortnum": 3,
+	"advancement": "kingdomkeys:obtain_keychain",
+	"pages": [
+		{
+			"type": "text",
+			"text": "Un $(heartless)Sincorazón$() grande similar a un $(l:kingdomkeys:heartless/pure_blooded/shadow)Sombra$(). Al igual que su $(l:kingdomkeys:heartless/pure_blooded/mega_shadow)predecesor$(), es bastante persistente y perseguirá a su objetivo. Si solo te causa el más mínimo daño, se desvanecerá de pura felicidad.$(p)$(lissa)$(l)$(o)[Primera aparición: Kingdom Hearts Final Mix]$()"
+		},
+		{
+			"type": "patchouli:entity",
+			"entity": "kingdomkeys:giga_shadow",
+			"scale": 0.85,
+			"offset": 0.35
+		}
+	]
+}

@@ -1,0 +1,20 @@
+{
+  "variants": {
+    "power=0":  { "model": "kingdomkeys:block/magic_targets/off" },
+    "power=1":  { "model": "kingdomkeys:block/magic_targets/fire" },
+    "power=2":  { "model": "kingdomkeys:block/magic_targets/ice" },
+    "power=3":  { "model": "kingdomkeys:block/magic_targets/water" },
+    "power=4":  { "model": "kingdomkeys:block/magic_targets/lightning" },
+    "power=5":  { "model": "kingdomkeys:block/magic_targets/air" },
+    "power=6":  { "model": "kingdomkeys:block/magic_targets/stop" },
+    "power=7":  { "model": "kingdomkeys:block/magic_targets/darkness" },
+    "power=8":  { "model": "kingdomkeys:block/magic_targets/light" },
+    "power=9":  { "model": "kingdomkeys:block/magic_targets/off" },
+    "power=10": { "model": "kingdomkeys:block/magic_targets/off" },
+    "power=11": { "model": "kingdomkeys:block/magic_targets/off" },
+    "power=12": { "model": "kingdomkeys:block/magic_targets/off" },
+    "power=13": { "model": "kingdomkeys:block/magic_targets/off" },
+    "power=14": { "model": "kingdomkeys:block/magic_targets/off" },
+    "power=15": { "model": "kingdomkeys:block/magic_targets/off" }
+  }
+}

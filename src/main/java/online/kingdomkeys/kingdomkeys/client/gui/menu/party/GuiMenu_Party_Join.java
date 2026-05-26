@@ -4,6 +4,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.sounds.SoundSource;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton.ButtonType;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
@@ -21,7 +22,7 @@ import java.util.List;
 
 public class GuiMenu_Party_Join extends MenuBackground {
 	MenuButton back;
-		
+	MenuBox box;
 	PlayerData playerData = PlayerData.get(minecraft.player);
 	WorldData worldData;
 	
@@ -55,7 +56,7 @@ public class GuiMenu_Party_Join extends MenuBackground {
 			if(p != null) {
 				if(p.getMembers().size() < p.getSize()) {
 					PacketHandler.sendToServer(new CSPartyAddMember(p, minecraft.player));
-					p.addMember(minecraft.player.getUUID(), minecraft.player.getDisplayName().getString());
+					p.addMember(minecraft.player.getUUID(), minecraft.player.getGameProfile().getName());
 	
 					minecraft.level.playSound(minecraft.player, minecraft.player.blockPosition(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
 					minecraft.setScreen(new GuiMenu_Party_Member());
@@ -77,7 +78,7 @@ public class GuiMenu_Party_Join extends MenuBackground {
 
 		float topBarHeight = (float) height * 0.17F;
 		int button_statsY = (int) topBarHeight + 5;
-		float buttonWidth = ((float) width * 0.1744F) - 20;
+		float buttonWidth = (box.getWidth() - 40);
 
 		for(int i = 0;i<renderables.size();i++) {
 			if(((AbstractWidget)renderables.get(i)).getMessage().getString().startsWith("[") || ((AbstractWidget)renderables.get(i)).getMessage().getString().startsWith("(P) [")) {
@@ -90,7 +91,7 @@ public class GuiMenu_Party_Join extends MenuBackground {
         for (String privateParty : privateParties) {
             Party p = worldData.getPartyFromName(privateParty);
             if (p != null) {
-                addRenderableWidget(parties[c] = new MenuButton((int) (width * 0.3F), button_statsY + (c++ * 18), (int) (buttonWidth * 2), "(P) [" + p.getMembers().size() + "/" + p.getSize() + "] " + p.getName(), ButtonType.BUTTON, (e) -> {
+                addRenderableWidget(parties[c] = new MenuButton(box.getX() + 10, button_statsY + (c++ * 18), (int) (buttonWidth), "(P) [" + p.getMembers().size() + "/" + p.getSize() + "] " + p.getName(), ButtonType.ROUNDBUTTON, (e) -> {
                     action("party:" + e.getMessage().getString());
                 }));
             }
@@ -100,8 +101,8 @@ public class GuiMenu_Party_Join extends MenuBackground {
 		List<Party> partiesList = worldData.getParties();
         for (Party p : partiesList) {
             if (p != null && !p.getPriv()) {
-                if (!privateParties.contains(p.getName())) {//TODO test this xD
-                    addRenderableWidget(parties[c] = new MenuButton((int) (width * 0.3F), button_statsY + (c++ * 18), (int) (buttonWidth * 2), "[" + p.getMembers().size() + "/" + p.getSize() + "] " + p.getName(), ButtonType.BUTTON, (e) -> {
+                if (!privateParties.contains(p.getName())) {
+                    addRenderableWidget(parties[c] = new MenuButton(box.getX() + 10, button_statsY + (c++ * 18), (int) (buttonWidth), "[" + p.getMembers().size() + "/" + p.getSize() + "] " + p.getName(), ButtonType.ROUNDBUTTON, (e) -> {
                         action("party:" + e.getMessage().getString());
                     }));
                 }
@@ -111,8 +112,6 @@ public class GuiMenu_Party_Join extends MenuBackground {
 
 	@Override
 	public void init() {
-		super.width = width;
-		super.height = height;
 		super.init();
 		this.renderables.clear();
 				
@@ -120,7 +119,7 @@ public class GuiMenu_Party_Join extends MenuBackground {
 		int button_statsY = (int) topBarHeight + 5;
 		float buttonPosX = (float) width * 0.03F;
 		float buttonWidth = ((float) width * 0.1744F) - 20;
-
+		box = new MenuBox((int)(width*0.25F), (int)topBarHeight, (int)(width*0.3F), (int) middleHeight,0.8F, new Color(255,128,255));
 		addRenderableWidget(back = new MenuButton((int) buttonPosX, button_statsY, (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), ButtonType.BUTTON, (e) -> { action("back"); }));
 		
 		updateButtons();
@@ -128,6 +127,7 @@ public class GuiMenu_Party_Join extends MenuBackground {
 
 	@Override
 	public void render(@NotNull GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
+		box.render(gui, mouseX, mouseY, partialTicks);
 		super.render(gui, mouseX, mouseY, partialTicks);
 		worldData = WorldData.getClient();
 		refreshParties();

@@ -32,6 +32,7 @@ public class LanguageENUS extends KKLanguageProvider {
         //Config category keys
         //CLIENT
         add(KingdomKeys.MODID + ".configuration.gui", "GUI related settings");
+        add(KingdomKeys.MODID + ".configuration.hud_data", "HUD data related settings, do NOT edit them from here");
         add(KingdomKeys.MODID + ".configuration.command_menu", "Command Menu settings");
         add(KingdomKeys.MODID + ".configuration.hp_bar", "Health Bar settings");
         add(KingdomKeys.MODID + ".configuration.mp_bar", "Magic Bar settings");
@@ -57,14 +58,14 @@ public class LanguageENUS extends KKLanguageProvider {
         //CLIENT
         addConfigKey(ModConfigs.getClientConfig().summonTogether, "Summon weapon and armor together");
         addConfigKey(ModConfigs.getClientConfig().auto3rdPersonShip, "Auto 3rd person ship");
+        addConfigKey(ModConfigs.getClientConfig().seasonalEvents, "Enable Seasonal Events");
         addConfigKey(ModConfigs.getClientConfig().showGuiToggle, "Toggle HUD visibility");
+        addConfigKey(ModConfigs.getClientConfig().customFont, "Toggle the custom font");
         addConfigKey(ModConfigs.getClientConfig().showDriveForms, "Drive Forms visibility");
         addConfigKey(ModConfigs.getClientConfig().magicDisplayedInCommandMenu, "Displayed Magic order in Command Menu");
         addConfigKey(ModConfigs.getClientConfig().cmTextXOffset, "Command Menu text X offset");
         addConfigKey(ModConfigs.getClientConfig().cmHeaderTextVisible, "Show Command Menu header text");
         addConfigKey(ModConfigs.getClientConfig().cmClassicColors, "Use classic Command Menu colors");
-        addConfigKey(ModConfigs.getClientConfig().cmXScale, "Command Menu X scale (%)");
-        addConfigKey(ModConfigs.getClientConfig().cmXPos, "Command Menu X position");
         addConfigKey(ModConfigs.getClientConfig().cmSelectedXOffset, "Command Menu selected X offset");
         addConfigKey(ModConfigs.getClientConfig().cmSubXOffset, "Command Menu submenu X offset (%)");
         addConfigKey(ModConfigs.getClientConfig().cmEndLWidth, "Command Menu left end segment width");
@@ -73,33 +74,13 @@ public class LanguageENUS extends KKLanguageProvider {
         addConfigKey(ModConfigs.getClientConfig().cmHeaderEndRWidth, "Command Menu header right end width");
         addConfigKey(ModConfigs.getClientConfig().cmReactionEndLWidth, "Reaction command left end width");
         addConfigKey(ModConfigs.getClientConfig().cmReactionEndRWidth, "Reaction command right end width");
-        addConfigKey(ModConfigs.getClientConfig().hpXPos, "Health Bar X position");
-        addConfigKey(ModConfigs.getClientConfig().hpYPos, "Health Bar Y position");
         addConfigKey(ModConfigs.getClientConfig().hpShowHearts, "Show hearts in Health Bar");
         addConfigKey(ModConfigs.getClientConfig().hpAlarm, "Low HP alarm volume");
-        addConfigKey(ModConfigs.getClientConfig().hpXScale, "Health Bar X scale (%)");
-        addConfigKey(ModConfigs.getClientConfig().mpXPos, "Magic Bar X position");
-        addConfigKey(ModConfigs.getClientConfig().mpYPos, "Magic Bar Y position");
-        addConfigKey(ModConfigs.getClientConfig().mpXScale, "Magic Bar X scale (%)");
-        addConfigKey(ModConfigs.getClientConfig().dpXPos, "Drive Bar X position");
-        addConfigKey(ModConfigs.getClientConfig().dpYPos, "Drive Bar Y position");
-        addConfigKey(ModConfigs.getClientConfig().dpXScale, "Drive Bar X scale (%)");
-        addConfigKey(ModConfigs.getClientConfig().dpYScale, "Drive Bar Y scale (%)");
-        addConfigKey(ModConfigs.getClientConfig().playerSkinXPos, "Player Skin X position");
-        addConfigKey(ModConfigs.getClientConfig().playerSkinYPos, "Player Skin Y position");
-        addConfigKey(ModConfigs.getClientConfig().lockOnXPos, "Lock-On HP X position");
-        addConfigKey(ModConfigs.getClientConfig().lockOnYPos, "Lock-On HP Y position");
-        addConfigKey(ModConfigs.getClientConfig().lockOnHPScale, "Lock-On HP bar scale (%)");
         addConfigKey(ModConfigs.getClientConfig().lockOnIconScale, "Lock-On icon scale (%)");
         addConfigKey(ModConfigs.getClientConfig().lockOnIconRotation, "Lock-On icon rotation speed");
         addConfigKey(ModConfigs.getClientConfig().lockOnHpPerBar, "Lock-On HP per bar");
-        addConfigKey(ModConfigs.getClientConfig().partyXPos, "Party HUD X position");
-        addConfigKey(ModConfigs.getClientConfig().partyYPos, "Party HUD Y position");
         addConfigKey(ModConfigs.getClientConfig().partyYDistance, "Party HUD Y offset");
-        addConfigKey(ModConfigs.getClientConfig().focusXPos, "Focus Bar X position");
-        addConfigKey(ModConfigs.getClientConfig().focusYPos, "Focus Bar Y position");
-        addConfigKey(ModConfigs.getClientConfig().focusXScale, "Focus Bar X scale (%)");
-        addConfigKey(ModConfigs.getClientConfig().focusYScale, "Focus Bar Y scale (%)");
+        addConfigKey(ModConfigs.getClientConfig().shoulderSurfingDecoupled, "Shoulder Surfing Mod: Use decoupled camera when not locked on");
 
         //COMMON
         addConfigKey(ModConfigs.getCommonConfig().recipeDropChance, "Recipe drop chance");
@@ -111,10 +92,6 @@ public class LanguageENUS extends KKLanguageProvider {
         addConfigKey(ModConfigs.getCommonConfig().focusPointsMultiplier, "Focus Points Multiplier");
         addConfigKey(ModConfigs.getCommonConfig().critMult, "Critical hit multiplier");
         addConfigKey(ModConfigs.getCommonConfig().needKeybladeForHeartless, "Need Keyblade to hurt KKMobs");
-        addConfigKey(ModConfigs.getCommonConfig().savePointMaterials, "Save point upgrade materials");
-        addConfigKey(ModConfigs.getCommonConfig().savePointRecovers, "Save point stats restore");
-        addConfigKey(ModConfigs.getCommonConfig().linkedSavePointRecovers, "Linked point stats restore");
-        addConfigKey(ModConfigs.getCommonConfig().warpPointRecovers, "Warp point stats restore");
         addConfigKey(ModConfigs.getCommonConfig().allowBlocksInHangarArea, "Allow blocks in hangar area");
         addConfigKey(ModConfigs.getCommonConfig().gummiBlocksDropPercent, "Gummi blocks dropped");
         addConfigKey(ModConfigs.getCommonConfig().heartlessSpawningMode, "Heartless spawning mode");
@@ -145,8 +122,9 @@ public class LanguageENUS extends KKLanguageProvider {
         addConfigKey(ModConfigs.getServerConfig().getExpFromShop, "Get synthesis exp. from shop");
         addConfigKey(ModConfigs.getServerConfig().orgEnabled, "Organization XIII system");
         addConfigKey(ModConfigs.getServerConfig().allowBoosts, "Stat boosts");
-        addConfigKey(ModConfigs.getServerConfig().allowPartyKO, "Party KO system (kinda buggy)");
+        addConfigKey(ModConfigs.getServerConfig().allowPartyKO, "Party KO system");
         addConfigKey(ModConfigs.getServerConfig().wayfinderParty, "Restrict Wayfinder to party");
+        addConfigKey(ModConfigs.getServerConfig().dragonLevel, "Allow the Enderdragon to level up");
         addConfigKey(ModConfigs.getServerConfig().hostileMobsLevel, "Hostile mobs level up (non KK enemies)");
         addConfigKey(ModConfigs.getServerConfig().shotlockMaxDist, "Shotlock max distance");
         addConfigKey(ModConfigs.getServerConfig().xpMultiplier, "XP Multiplier");
@@ -173,6 +151,7 @@ public class LanguageENUS extends KKLanguageProvider {
     	addAdvancement("obtain_magic","Like a Wizard!", "Obtain your first Magic Spell");
     	addAdvancement("obtain_org","Nobody wore this", "Obtain the organization robes");
     	addAdvancement("to_rod","Darkness within darkness awaits you", "Get sucked into the Realm of Darkness");
+        addAdvancement("obtain_winner_stick","Looks like my summer vacation is...", "Get a winner stick");
     	//addAdvancement("castle_oblivion_tp","How did I get here?", "Reach the forgotten land of Castle Oblivion");
 
         /**GUIS**/
@@ -274,12 +253,13 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Gui_Menu_Items_Equipment_Shotlock, "Shotlock");
         add(Gui_Menu_Items_Equipment_Accessories, "Accessories");
         add(Gui_Menu_Items_Equipment_Armor, "Armor");
+        add(Gui_Menu_Items_Equipment_Magic, "Magic");
         add(Gui_Menu_Items_Equipment_Pauldron, "Pauldron");
         add(Gui_Menu_Items_Equipment_Items, "Items");
         add(Gui_Menu_Customize, "Customize");
         add(Gui_Menu_Customize + ".shortcuts", "Shortcuts");
         add(Gui_Menu_Customize + ".shortcut", "Shortcut");
-        add(Gui_Menu_Customize + ".magic", "Magics");
+        add(Gui_Menu_Customize + ".magic", "Magic");
         add(Gui_Menu_Customize + ".unequip", "Unequip");
         add(Gui_Menu_Party, "Party");
         add(Gui_Menu_Party_Create, "Create party");
@@ -328,6 +308,23 @@ public class LanguageENUS extends KKLanguageProvider {
         
         add(Gui_Menu_Config, "Config");
         add(Gui_Menu_Config + ".bg", "Background");
+        add(Gui_Menu_Config + ".hud", "Adjust HUD");
+        add(Gui_Menu_Config + ".reset_defaults", "Reset to defaults");
+        add(Gui_Menu_Config + ".reset_rp", "Reset to resource pack");
+        add(Gui_Menu_Config + ".hud.help0", "Hold %s to see help");
+        add(Gui_Menu_Config + ".hud.help1", "First of all select the anchor point by clicking the element and SPACE");
+        add(Gui_Menu_Config + ".hud.help2", "LEFT CLICK and drag an element to move it");
+        add(Gui_Menu_Config + ".hud.help3", "Use ARROW KEYS to move it in bigger gaps");
+        add(Gui_Menu_Config + ".hud.help4", "Hold CTRL + ARROW KEYS to move it in tiny gaps");
+        add(Gui_Menu_Config + ".hud.help5", "Use SCROLL WHEEL to scale it up");
+        add(Gui_Menu_Config + ".hud.help6", "Hold X + SCROLL WHEEL to scale it horizontally");
+        add(Gui_Menu_Config + ".hud.help7", "Hold Y + SCROLL WHEEL to scale it vertically");
+        add(Gui_Menu_Config + ".hud.help8", "Use SHIFT + SCROLL WHEEL to rotate it");
+        add(Gui_Menu_Config + ".hud.help9", "Press LEFT ALT to show or hide outlines");
+        add(Gui_Menu_Config + ".hud.help10", "RIGHT CLICK on a selected item to reset it to Resourcepack defaults");
+        add(Gui_Menu_Config + ".hud.help11", "SHIFT + RIGHT CLICK on a selected item to reset it to base defaults");
+        add(Gui_Menu_Config + ".hud.help12", "Selected element data:");
+        add(Gui_Menu_Config + ".font", "Font");
         add(Gui_Menu_Config + ".command_menu", "Command Menu");
         add(Gui_Menu_Config + ".hp", "HP Bar");
         add(Gui_Menu_Config + ".mp", "MP Bar");
@@ -336,6 +333,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Gui_Menu_Config + ".lock_on_hp", "Lock On");
         add(Gui_Menu_Config + ".party", "Party");
         add(Gui_Menu_Config + ".focus", "Focus Bar");
+        add(Gui_Menu_Config + ".custom_font", "Custom Font");
         add(Gui_Menu_Config + ".classic_colors", "Classic colors");
         add(Gui_Menu_Config + ".x_scale", "X Scale");
         add(Gui_Menu_Config + ".y_scale", "Y Scale");
@@ -373,6 +371,10 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Gui_Menu_Style + ".kh2roxasdual", "Roxas (KH2)");
         add(Gui_Menu_Style + ".daysroxasdual", "Roxas (358/2 Days)");
 
+        //Melding
+        add(Gui_Melding, "Melding");
+        add(Gui_Melding_Meld, "Meld");
+
         //Synthesis
         add(Gui_Synthesis, "Item Workshop");
         add(Gui_Synthesis_Exp, "Exp");
@@ -409,11 +411,11 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Gui_CommandMenu_Drive_Revert, "Revert");
         add(Gui_CommandMenu_Limit, "Limit");
         add(Gui_CommandMenu_Target,"Target");
-        add(Gui_CommandMenu_Portals_Title, "Portals");
-        add(Gui_CommandMenu_Magic_Title, "Magic");
-        add(Gui_CommandMenu_Items_Title, "Items");
-        add(Gui_CommandMenu_Drive_Title, "Forms");
-        add(Gui_CommandMenu_Limit_Title, "Limits");
+        add(Gui_CommandMenu_Portals_Title, "PORTALS");
+        add(Gui_CommandMenu_Magic_Title, "MAGIC");
+        add(Gui_CommandMenu_Items_Title, "ITEMS");
+        add(Gui_CommandMenu_Drive_Title, "FORMS");
+        add(Gui_CommandMenu_Limit_Title, "LIMITS");
 
         add("kingdomkeys.helmet", "Helmet");
         add("kingdomkeys.chestplate", "Chestplate");
@@ -428,9 +430,10 @@ public class LanguageENUS extends KKLanguageProvider {
         add("gui.statboost.increased","Increased %s, now it's %s");
         add("gui.statboost.tooltip", "Increases %s by 1");
         		
-        add("gui.magicspell.unlock","Unlocks %s");
-        add("gui.magicspell.maxed", "%s is already maxed");
-        		
+        add("gui.magicspell.equip","Equip in the menu to use it");
+        add("gui.magicspell.exp","Experience: %s/%s");
+        add("gui.magicspell.exp_short","Exp: %s/%s");
+
         add("gui.driveformorb.tooltip", "Upgrades %s Form");
     	add("gui.driveformorb.upgrade", "%s Form has obtained %s exp");
 
@@ -486,6 +489,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Stats_LevelUp_FormGauge, "Form Gauge Powered Up!");
         add(Stats_LevelUp_MaxAccessories, "Gained accessory slot!");
         add(Stats_LevelUp_MaxArmors,"Gained armor slot!");
+        add(Stats_LevelUp_MaxMagics,"Gained spell slot!");
         add(Stats_LevelNext, "Next LV");
         add(Stats_MunnyGet, "Munny Get!");
 
@@ -504,6 +508,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addBlock(ModBlocks.pairBlox, "Pair Blox");
         addBlock(ModBlocks.infestedNormalBlox, "Infested Normal Blox");
         addBlock(ModBlocks.gummiMeteor, "Gummi Meteorite");
+        addBlock(ModBlocks.magicTarget, "Magic Target");
 
         //Ores
         addBlock(ModBlocks.blazingOre, "Blazing Ore");
@@ -561,8 +566,9 @@ public class LanguageENUS extends KKLanguageProvider {
         add("savepoint.drive","drive restoration");
         add("savepoint.upgrade","Savepoint %s speed is now at %s%%");
         add("savepoint.maxed","Savepoint %s speed is already maxed");
-        add("savepoint.upgrade_type","Savepoint upgraded to {0}");
+        add("savepoint.upgrade_type","Savepoint upgraded to %s");
         add("savepoint.max_upgrade","Max upgrade reached");
+        add("savepoint.unavailable","%s is not available on this savepoint");
 
         //Castle Oblivion
         addBlock(ModBlocks.cardDoor, "Card Door");
@@ -638,12 +644,17 @@ public class LanguageENUS extends KKLanguageProvider {
         addAbilityWithDesc(ModAbilities.AUTO_MASTER, "Auto Master", "Automatically sets the Reaction Command to Master in a pinch, if Master Form is usable.");
         addAbilityWithDesc(ModAbilities.AUTO_FINAL, "Auto Final", "Automatically sets the Reaction Command to Final in a pinch, if Final Form is usable.");
         addAbilityWithDesc(ModAbilities.STRIKE_RAID, "Strike Raid", "Right click while crouching to throw your keyblade, uses 10MP.");
+        addAbilityWithDesc(ModAbilities.FLOWSTEP, "Flowstep", "Right click while using shotlock to airstep to the last targeted entity.");
 
         addGrowthAbility(ModAbilities.HIGH_JUMP, "Now you can jump really high!", "High Jump LV.1", "High Jump LV.2", "High Jump LV.3", "High Jump MAX");
         addGrowthAbility(ModAbilities.QUICK_RUN, "If you press the action button while running you will sprint.", "Quick Run LV.1", "Quick Run LV.2", "Quick Run LV.3", "Quick Run MAX");
         addGrowthAbility(ModAbilities.DODGE_ROLL, "If you press the action button while walking you will dodge roll. ", "Dodge Roll LV.1", "Dodge Roll LV.2", "Dodge Roll LV.3", "Dodge Roll MAX");
         addGrowthAbility(ModAbilities.AERIAL_DODGE, "In the air you can press jump again to double jump.", "Aerial Dodge LV.1", "Aerial Dodge LV.2", "Aerial Dodge LV.3", "Aerial Dodge MAX");
         addGrowthAbility(ModAbilities.GLIDE,"In the air, hold the jump key to glide.", "Glide LV.1", "Glide LV.2", "Glide LV.3", "Glide MAX");
+        addAbilityWithDesc(ModAbilities.AIR_SLIDE, "Air slide", "Press the action button while in the air to dash forward. Stack more to increase the effect.");
+        addAbilityWithDesc(ModAbilities.WALL_KICK,"Wall Kick", "Air slide or aerial dodge into a wall to kick off it and enter flowmotion. Stack more to increase the rebounds.");
+        addAbilityWithDesc(ModAbilities.SUPERJUMP, "Superjump", "While in flowmotion, press jump to catapult into the air. Stack more to increase the effect.");
+        addAbilityWithDesc(ModAbilities.SUPERSLIDE, "Superslide", "While in flowmotion, press the action key to air dash a long distance. Stack more to increase the effect.");
 
         addAbilityWithDesc(ModAbilities.SCAN, "Scan", "Inspect the target's current HP.");
         addAbilityWithDesc(ModAbilities.ZERO_EXP, "Zero EXP", "Disables the gaining of experience.");
@@ -682,12 +693,13 @@ public class LanguageENUS extends KKLanguageProvider {
         addAbilityWithDesc(ModAbilities.THUNDAZA, "Thundaza", "Allows the user to get the Thundaza reaction command.");
         addAbilityWithDesc(ModAbilities.CURAZA, "Curaza", "Allows the user to get the Curaza reaction command.");
         addAbilityWithDesc(ModAbilities.GRAND_MAGIC_HASTE, "Grand Magic Haste", "Gives the user a higher chance to cast an upgraded magic. Stack the ability to increase the chance.");
+        addAbilityWithDesc(ModAbilities.GRAND_MAGIC_EXTENDER, "Grand Magic Extender", "Extend the availability period of grand magic commands. Stack the ability to increase the effect.");
         addAbilityWithDesc(ModAbilities.BERSERK_CHARGE, "Berserk Charge", "Gives the user +2 Strength when in MP recharge. Stack the ability to increase the effect.");
         addAbilityWithDesc(ModAbilities.LEAF_BRACER, "Leaf Bracer", "Casting Cure on yourself will continue even when attacked.");
         addAbilityWithDesc(ModAbilities.HP_GAIN, "HP Gain", "Restores a bit of HP when a shotlock impacts. Stack the ability to increase the effect.");
         addAbilityWithDesc(ModAbilities.ENDLESS_MAGIC, "Endless Magic", "Allows the user to reduce the cooldown between magic casts. Stack the ability to increase the effect.");
         addAbilityWithDesc(ModAbilities.DARK_DOMINATION, "Dark Domination", "Allows the user to control Antiform at will.");
-        addAbilityWithDesc(ModAbilities.MAGIC_LOCK_ON, "Magic Lock-On", "Allows the user to use some magics at the locked entity's position.");
+        addAbilityWithDesc(ModAbilities.MAGIC_LOCK_ON, "Magic Lock-On", "Allows the user to use some magic at the locked entity's position.");
         addAbilityWithDesc(ModAbilities.COMBO_PLUS, "Combo Plus", "Increases maximum combo by 1 when on the ground. Equip more to enable more combos");
         addAbilityWithDesc(ModAbilities.NEGATIVE_COMBO, "Negative Combo", "Decreases maximum combo on the ground and in midair by 1. Equip more to increase the effect.");
         addAbilityWithDesc(ModAbilities.FINISHING_PLUS, "Finishing Plus", "Unleash successive finishing moves after combos.");
@@ -1697,6 +1709,8 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModEntities.LARGE_BODY_EGG, "Large Body Spawn Egg");
         addItem(ModEntities.DIRE_PLANT_EGG, "Dire Plant Spawn Egg");
         addItem(ModEntities.SOLDIER_EGG, "Soldier Spawn Egg");
+        addItem(ModEntities.DESERTER_EGG, "Deserter Spawn Egg");
+        addItem(ModEntities.COMMANDER_EGG, "Commander Spawn Egg");
         addItem(ModEntities.WHITE_MUSHROOM_EGG, "White Mushroom Spawn Egg");
         addItem(ModEntities.BLACK_FUNGUS_EGG, "Black Fungus Spawn Egg");
         addItem(ModEntities.BLOX_BUG_EGG, "Blox Bug Spawn Egg");
@@ -1873,6 +1887,28 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.gravitySpell, "Gravity Spell");
         addItem(ModItems.stopSpell, "Stop Spell");
 
+        addItem(ModItems.firaSpell, "Fira Spell");
+        addItem(ModItems.blizzaraSpell, "Blizzara Spell");
+        addItem(ModItems.wateraSpell, "Watera Spell");
+        addItem(ModItems.thundaraSpell, "Thundara Spell");
+        addItem(ModItems.curaSpell, "Cura Spell");
+        addItem(ModItems.aeroraSpell, "Aerora Spell");
+        addItem(ModItems.magneraSpell, "Magnera Spell");
+        addItem(ModItems.refleraSpell, "Reflera Spell");
+        addItem(ModItems.graviraSpell, "Gravira Spell");
+        addItem(ModItems.stopraSpell, "Stopra Spell");
+
+        addItem(ModItems.firagaSpell, "Firaga Spell");
+        addItem(ModItems.blizzagaSpell, "Blizzaga Spell");
+        addItem(ModItems.watergaSpell, "Waterga Spell");
+        addItem(ModItems.thundagaSpell, "Thundaga Spell");
+        addItem(ModItems.curagaSpell, "Curaga Spell");
+        addItem(ModItems.aerogaSpell, "Aeroga Spell");
+        addItem(ModItems.magnegaSpell, "Magnega Spell");
+        addItem(ModItems.reflegaSpell, "Reflega Spell");
+        addItem(ModItems.gravigaSpell, "Graviga Spell");
+        addItem(ModItems.stopgaSpell, "Stopga Spell");
+
         //Drive form orbs
         addItem(ModItems.valorOrb, "Valor Form Orb");
         addItem(ModItems.wisdomOrb, "Wisdom Form Orb");
@@ -1892,8 +1928,10 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.iceCream, "Sea Salt Ice Cream");
         addItem(ModItems.winnerStick, "Winner Stick");
         addItem(ModItems.synthesisBag, "Synthesis Bag");
+        addItem(ModItems.magicsBag, "Spells Bag");
         addItem(ModItems.proofOfHeart, "Proof of Heart");
         addItem(ModItems.wayfinder, "Wayfinder");
+        addItem(ModItems.trainingDummy, "Training Scarecrow");
 
         add("patchouli.kingdomkeys.journal.name", "Jiminy's Journal");
         add("patchouli.kingdomkeys.journal.desc", "Thank Naminé.");
@@ -1939,6 +1977,8 @@ public class LanguageENUS extends KKLanguageProvider {
         addEntityType(ModEntities.TYPE_LARGE_BODY, "Large Body");
         addEntityType(ModEntities.TYPE_DIRE_PLANT, "Dire Plant");
         addEntityType(ModEntities.TYPE_SOLDIER, "Soldier");
+        addEntityType(ModEntities.TYPE_DESERTER, "Deserter");
+        addEntityType(ModEntities.TYPE_COMMANDER, "Commander");
         addEntityType(ModEntities.TYPE_WHITE_MUSHROOM, "White Mushroom");
         addEntityType(ModEntities.TYPE_BLACK_FUNGUS, "Black Fungus");
         addEntityType(ModEntities.TYPE_BLOX_BUG, "Blox Bug");
@@ -1949,6 +1989,9 @@ public class LanguageENUS extends KKLanguageProvider {
         addEntityType(ModEntities.TYPE_DRAGOON, "Dragoon");
         addEntityType(ModEntities.TYPE_MARLUXIA, "Marluxia");
 
+        addEntityType(ModEntities.TYPE_TRAINING_DUMMY, "Training Scarecrow");
+        addEntityType(ModEntities.TYPE_MAGIC_TARGET, "Magic Target");
+
         /**Biomes**/
         add("biome.kingdomkeys.dive_to_the_heart", "Dive to the Heart");
         add("biome.kingdomkeys.realm_of_darkness", "Realm of Darkness");
@@ -1958,6 +2001,8 @@ public class LanguageENUS extends KKLanguageProvider {
 
         /**JEI**/
         add("jei.category.kingdomkeys.synthesis", "Item Synthesis");
+        add("jei.category.kingdomkeys.melding", "Item Melding");
+        add("jei.category.kingdomkeys.savepoints", "Savepoint upgrades");
         add("jei.category.kingdomkeys.keyblade_summon", "Keyblade Summoning");
         add("jei.category.kingdomkeys.synthesis.locked", "Recipe not unlocked");
         add("jei.category.kingdomkeys.synthesis.unlocked", "Recipe unlocked");
@@ -2003,6 +2048,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add("message.chest.keyblade_set", "Your keyblade has been set to unlock this chest");
         add("message.chest.unlocked", "Chest has been unlocked");
         add("message.kingdomkeys.gui_toggle", "GUI display set to: %s");
+        add("message.wayfinder.player_not_found", "Player %s not found");
         add("message.wayfinder.your_wayfinder","This is your Wayfinder, hand it over to someone else");
         add("message.wayfinder.in_your_party","in your party");
         add("message.wayfinder.not_in_party","You are not in a party");
@@ -2010,6 +2056,11 @@ public class LanguageENUS extends KKLanguageProvider {
         add("message.wayfinder.player_not_online","Player %s is not online");
         add("message.wayfinder.owner","Owner: %s");
         add("message.wayfinder.cooldown","Cooldown: %s%%");
+        add("message.wayfinder.calling_for_help","%s is calling you, use their wayfinder!");
+        add("message.wayfinder.asking_other_for_help","Calling %s to come here");
+        add("message.wayfinder.player_has_no_wayfinder","%s does not have your wayfinder on them right now");
+        add("message.wayfinder.tooltip1", "Right click to teleport");
+        add("message.wayfinder.tooltip2", "Shift + right click to call");
         add("message.unlocked","Unlocked %s");
         add("message.magic_upgrade","%s has been upgraded to %s");
         add("message.magic_max_level","%s is already at the max level");
@@ -2088,8 +2139,8 @@ public class LanguageENUS extends KKLanguageProvider {
         add("death.attack.stop.item", "%2$s stopped the life of %1$s using %3$s");
         add("death.attack.offhand", "%1$s was slain by %2$s");
         add("death.attack.offhand.item", "%1$s was slain by %2$s using %3$s");
-        add("death.attack.air", "%1$s was blown away %2$s");
-        add("death.attack.air.item", "%1$s was blown away %2$s using %3$s");
+        add("death.attack.air", "%1$s was blown away by %2$s");
+        add("death.attack.air.item", "%1$s was blown away by %2$s using %3$s");
         add("death.attack.darkness", "%2$s lead %1$s into everlasting darkness");
         add("death.attack.darkness.item", "%2$s lead %1$s into everlasting darkness using %3$s");
         add("death.attack.lightning", "%2$s struck down %1$s, shocking!");
@@ -2109,6 +2160,6 @@ public class LanguageENUS extends KKLanguageProvider {
         addKKEffect(ModMobEffects.STOP, "Stop", "Prevents you to move, all the damage taken will be dealt at the same time once it runs out.");
         addKKEffect(ModMobEffects.GRAVITY, "Gravity", "Limits your movement while being flattened.");
         addKKEffect(ModMobEffects.KO, "KO", "Allows a player in your party to save you by casting Cure or using a Potion on you.");
-
+        addKKEffect(ModMobEffects.UNDERWORLD_CURSE, "Underworld's Curse", "Prevents the use of drive forms and limits.");
     }
 }

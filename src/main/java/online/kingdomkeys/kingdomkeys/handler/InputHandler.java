@@ -7,6 +7,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
@@ -14,7 +15,9 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.boss.EnderDragonPart;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
@@ -45,7 +48,6 @@ import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.*;
 import online.kingdomkeys.kingdomkeys.reactioncommands.ModReactionCommands;
 import online.kingdomkeys.kingdomkeys.reactioncommands.ReactionCommand;
-import online.kingdomkeys.kingdomkeys.util.IExtendedReach;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
 import org.lwjgl.glfw.GLFW;
@@ -60,7 +62,7 @@ public class InputHandler {
     @Nullable public List<Limit> limitsList;
     @Nullable public List<String> magicList;
     @Nullable public Map<Integer, ItemStack> itemsList;
-    @Nullable public List<String> reactionList;
+    @Nullable public LinkedHashMap<String, Integer> reactionList;
     
     @Nullable public static LivingEntity lockOn = null;
     public static int qrCooldown = 40;
@@ -86,8 +88,6 @@ public class InputHandler {
             globalData = GlobalData.get(player);
         }
     }
-
-    boolean canSwitchTarget = true;
 
     @SubscribeEvent
     public void handleKeyInputEvent(InputEvent.Key event) {
@@ -142,28 +142,6 @@ public class InputHandler {
                 if(KeyboardHelper.isScrollActivatorDown() && Utils.shouldRenderOverlay(player)) {
                     commandEnter();
                     event.setCanceled(true);
-                } else if(mc.screen == null){
-                    if (player != null) {
-                        ItemStack itemstack = player.getMainHandItem();
-                        if (!ItemStack.matches(itemstack, ItemStack.EMPTY)) {
-                            IExtendedReach ieri = itemstack.getItem() instanceof IExtendedReach ? (IExtendedReach) itemstack.getItem() : null;
-                            if (ieri != null) {
-                                float reach = ieri.getReach();
-                                HitResult rtr = getMouseOverExtended(reach);
-                                if (rtr != null) {
-                                    if (rtr instanceof EntityHitResult ertr) {
-                                        if (ertr.getEntity() != null && ertr.getEntity().invulnerableTime == 0) {
-                                            if (ertr.getEntity() != player) {
-                                                if(!ertr.getEntity().getPassengers().contains(player)) {
-                                                    PacketHandler.sendToServer(new CSExtendedReach(ertr.getEntity().getId()));
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
                 }
             }
 
@@ -200,7 +178,6 @@ public class InputHandler {
     }
 
     public void openMenu() {
-        //Minecraft.getInstance().setScreen(new OverlayConfigGui());
         PacketHandler.sendToServer(new CSOpenMenu());
     }
 
@@ -218,12 +195,10 @@ public class InputHandler {
                 } else {
                     PacketHandler.sendToServer(new CSSummonKeyblade()); // desummon
                 }
-            }
-            else {
+            } else {
                 PacketHandler.sendToServer(new CSSummonKeyblade());
             }
         } else {
-
             if(KingdomKeys.efmLoaded && Utils.findSummoned(player.getInventory(), playerData.getEquippedKeychain(DriveForm.NONE)) == -1) {
                 PacketHandler.sendToServer(new CSPlayAnimation(KKAnimations.DRIVE_SUMMON));
             } else {
@@ -251,21 +226,25 @@ public class InputHandler {
                     if (ertr.getEntity() instanceof LivingEntity && !(ertr.getEntity() instanceof SpawningOrbEntity)) {
                         lockOn = (LivingEntity) ertr.getEntity();
                         playSound(ModSounds.lockon.get());
+                    } else if(ertr.getEntity() instanceof EnderDragonPart part){
+                        if(part.parentMob != null){
+                            lockOn = part.parentMob;
+                            playSound(ModSounds.lockon.get());
+                        }
                     }
+
                 }
             }
         } else {
             lockOn = null;
+            playSound(ModSounds.lockoff.get());
         }
     }
 
     public void lockOnSwap() {
-        if(canSwitchTarget){
+        if(InputHandler.lockOn != null) {
             switchTarget(player.isCrouching());
         }
-        canSwitchTarget = !canSwitchTarget;
-
-        switchTarget(player.isCrouching());
     }
 
     private void switchTarget(boolean toRight) {
@@ -335,7 +314,8 @@ public class InputHandler {
         CommandMenuGui.cancel();
     }
 
-	public void commandAction() {
+    public static HitResult jumpRayTrace;
+    public void commandAction() {
     	if (qrCooldown <= 0 && (player.getDeltaMovement().x != 0 && player.getDeltaMovement().z != 0)) { // If player is moving do dodge roll / quick run
 			if (player.isSprinting()) { //If player is sprinting do quick run
 				if (playerData.isAbilityEquipped(Strings.quickRun) || playerData.getActiveDriveForm().equals(Strings.Form_Wisdom)) {
@@ -346,16 +326,35 @@ public class InputHandler {
 					dodgeRoll();
 				}
 			}
-		} else { // If player is not moving do guard
-			/*if (ABILITIES.getEquippedAbility(ModAbilities.guard)) {
-				if (player.getHeldItemMainhand() != null) {
-					// If the player holds a weapon
-					if (player.getHeldItemMainhand().getItem() instanceof ItemKeyblade || player.getHeldItemMainhand().getItem() instanceof IOrgWeapon) {
-						PacketDispatcher.sendToServer(new InvinciblePacket(20));
-					}
-				}
-			}*/
+
+
+
+		} else { // If player is not moving do guard (eventually lol)
+
 		}
+
+        if(qrCooldown <= 0){
+            if(playerData.isAbilityEquipped(Strings.airSlide) && !player.onGround()){
+                airSlide();
+            }
+        }
+
+        //Bounce off wall (X)
+        if(playerData.getHangingInWallTicks() > 0 && !playerData.hasBounced()) {
+            Vec3 look = player.getLookAngle();
+            Vec3 push = new Vec3(look.x, 0.5, look.z).normalize();
+            float pow = 0.5F + playerData.getNumberOfAbilitiesEquipped(Strings.superSlide) * 0.15F;
+            player.setDeltaMovement(push.scale(pow));
+            player.hasImpulse = true;
+            PacketHandler.sendToServer(new CSPlaySoundPacket(player.getX(), player.getY(), player.getZ(), ModSounds.wall_jump.get().getLocation(), SoundSource.PLAYERS));
+
+            PacketHandler.sendToServer(new CSSetBouncedPacket(true));
+            playerData.setBounced(true);
+            playerData.setAirDashed(false);
+            PacketHandler.sendToServer(new CSSetAirDashedPacket(false));
+            InputHandler.qrCooldown = 5;
+        }
+
     }
 
     public void quickRun() {
@@ -380,6 +379,26 @@ public class InputHandler {
         if (player.onGround()) {
             player.push(motionX * power, 0, motionZ * power);
             qrCooldown = 20;
+        }
+    }
+
+    public void airSlide() {
+        if(!playerData.hasAirDashed()) {
+            float yaw = player.getYRot();
+            float motionX = -Mth.sin(yaw / 180.0f * (float) Math.PI);
+            float motionZ = Mth.cos(yaw / 180.0f * (float) Math.PI);
+
+            double power = 0;
+
+            if (playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())) { //Base
+                power = playerData.getNumberOfAbilitiesEquipped(Strings.airSlide) * 0.5F;
+            }
+            player.push(motionX * power, 0, motionZ * power);
+            qrCooldown = 20;
+
+            playerData.setAirDashed(true);
+            PacketHandler.sendToServer(new CSSetAirDashedPacket(true));
+            PacketHandler.sendToServer(new CSPlaySoundPacket(player.getX(), player.getY(), player.getZ(), ModSounds.air_slide.get().getLocation(), SoundSource.PLAYERS));
         }
     }
 
@@ -413,13 +432,15 @@ public class InputHandler {
 					CommandMenuGui.reactionSelected = 0;
 			}
 		}
-	}
+        CommandMenuGui.INSTANCE.playMoveSound();
+    }
     
     public void reactionCommand() {
     	loadLists();
     	if(!reactionList.isEmpty()) {
 			PacketHandler.sendToServer(new CSUseReactionCommandPacket(CommandMenuGui.reactionSelected, InputHandler.lockOn));
-            String reactionName = PlayerData.get(player).getReactionCommands().get(CommandMenuGui.reactionSelected);
+            String reactionName = Utils.getRCNameFromIndex(player, CommandMenuGui.reactionSelected);
+
             ReactionCommand reaction = ModReactionCommands.registry.get(ResourceLocation.parse(reactionName));
             CommandMenuGui.reactionSelected = 0;
             if (reaction != null) {
@@ -454,7 +475,7 @@ public class InputHandler {
         if(playerData != null && worldData != null) {
             //this.magicsMap = Utils.getSortedMagics(playerData.getMagicsMap());
             this.portalCommands = worldData.getAllPortalsFromOwnerID(player.getUUID());
-            this.magicList = ModConfigs.magicDisplayedInCommandMenu.stream().filter(magic -> playerData.getMagicsMap().containsKey(magic)).toList();
+            this.magicList = ModConfigs.magicDisplayedInCommandMenu.stream().filter(magic -> playerData.getMagicsCastMap().containsKey(magic)).toList();
             this.limitsList = Utils.getSortedLimits(Utils.getPlayerLimitAttacks(player));
 
             if(worldData.getPartyFromMember(player.getUUID()) != null) {
@@ -488,6 +509,40 @@ public class InputHandler {
 
     public void playSound(SoundEvent sound) {
         level.playSound(player, player.position().x(),player.position().y(),player.position().z(), sound, SoundSource.MASTER, 1.0f, 1.0f);
+    }
+
+    public static HitResult pickExtend(Player player, double range) {
+        double d0 = range;
+        double d1 = Mth.square(d0);
+        Vec3 vec3 = player.getEyePosition(0);
+        HitResult hitresult = player.pick(d0, 0, false);
+        double d2 = hitresult.getLocation().distanceToSqr(vec3);
+        if (hitresult.getType() != HitResult.Type.MISS) {
+            d1 = d2;
+            d0 = Math.sqrt(d2);
+        }
+
+        Vec3 vec31 = player.getViewVector(0);
+        Vec3 vec32 = vec3.add(vec31.x * d0, vec31.y * d0, vec31.z * d0);
+        float f = 1.0F;
+        AABB aabb = player.getBoundingBox().expandTowards(vec31.scale(d0)).inflate(1.0, 1.0, 1.0);
+        EntityHitResult entityhitresult = ProjectileUtil.getEntityHitResult(
+                player, vec3, vec32, aabb, p_234237_ -> !p_234237_.isSpectator() && p_234237_.isPickable(), d1
+        );
+        return entityhitresult != null && entityhitresult.getLocation().distanceToSqr(vec3) < d2
+                ? filterHitResult(entityhitresult, vec3, range)
+                : filterHitResult(hitresult, vec3, range);
+    }
+
+    private static HitResult filterHitResult(HitResult hitResult, Vec3 pos, double blockInteractionRange) {
+        Vec3 vec3 = hitResult.getLocation();
+        if (!vec3.closerThan(pos, blockInteractionRange)) {
+            Vec3 vec31 = hitResult.getLocation();
+            Direction direction = Direction.getNearest(vec31.x - pos.x, vec31.y - pos.y, vec31.z - pos.z);
+            return BlockHitResult.miss(vec31, direction, BlockPos.containing(vec31));
+        } else {
+            return hitResult;
+        }
     }
 
     public static HitResult getMouseOverExtended(double dist) {
@@ -530,7 +585,8 @@ public class InputHandler {
             }
         }
 
-        if (bestBlockHit != null) return bestBlockHit;
+        if (bestBlockHit != null)
+            return bestBlockHit;
 
         HitResult bestEntityHit = null;
         double bestEntityDist = dist;
@@ -629,8 +685,6 @@ public class InputHandler {
 
         return dir.normalize();
     }
-
-
 
     public enum Keybinds {
         OPENMENU("key.kingdomkeys.openmenu", GLFW.GLFW_KEY_M),

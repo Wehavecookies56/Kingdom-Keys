@@ -19,6 +19,7 @@ import online.kingdomkeys.kingdomkeys.item.card.MapCardItem;
 import online.kingdomkeys.kingdomkeys.network.Packet;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCastleOblivionInteriorData;
+import online.kingdomkeys.kingdomkeys.network.stc.SCUpdateCORooms;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.Room;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.RoomData;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.RoomGenerator;
@@ -53,12 +54,13 @@ public record CSGenerateRoom(ItemStack stack, int slot, BlockPos pos) implements
 		BlockPos destination = newRoom.doors.get(te.getDirection().opposite()).pos();
 		CardDoorTileEntity destTe = (CardDoorTileEntity) level.getBlockEntity(destination);
 		te.openDoor(true);
+		te.getDestinationRoom().setGenerated(newRoom);
 		destTe.openDoor(true);
 		destTe.setDestinationRoom(te.getParentRoom());
 		player.getInventory().getItem(slot).shrink(1);
 
 		PacketHandler.sendTo(new SCSyncCastleOblivionInteriorData(cap, level), (ServerPlayer) player);
-
+		PacketHandler.sendTo(new SCUpdateCORooms(cap.getFloorByID(currentRoom.parentFloor).getRooms()), (ServerPlayer) player);
 		//player.teleportTo(destination.getX(), destination.getY(), destination.getZ());
 	}
 

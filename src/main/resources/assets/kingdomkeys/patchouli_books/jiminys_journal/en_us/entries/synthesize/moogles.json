@@ -6,18 +6,17 @@
 	"pages": [ 
 		{
 			"type": "text",
-			"text": "These $(item)little guys$() are here to help you with your $(thing)Synthesis$()! They can make anything you desire as long as you know the $(item)recipe$() and bring them the $(l:kingdomkeys:synthesize/materials)materials$(). They will also sometimes sell you useful $(l:kingdomkeys:customize/items)items$() such as Potions. If you give one $(thing)Moogle$() your materials, all $(thing)Moogles$() will have access to them, so don't worry about losing your materials."
+			"text": "These $(item)little guys$() are here to help you with your $(thing)Synthesis$()! They can make anything you desire as long as you know the $(l:kingdomkeys:synthesize/recipes)Recipe$() and bring them the $(l:kingdomkeys:synthesize/materials)Materials$(). They will also sometimes sell you useful $(l:kingdomkeys:customize/items)Items$() such as $(thing)Potions$(). If you give one $(thing)Moogle$() your materials, all $(thing)Moogles$() will have access to them, so don't worry about losing your materials."
 		},
 		{
 			"type": "patchouli:entity",
 			"entity": "kingdomkeys:moogle",
 			"scale": 0.9,
-			"name": "Moogle",
 			"offset": 0.5
 		},
 		{
 			"type": "text",
-			"text": "If you're having trouble finding them in the wild, You should consider keeping an $(thing)Anvil$() on you. Dropping one on a Moogle's head can help you make them your $(thing)permanent friend$()."
+			"text": "If you're having trouble finding them, you should consider keeping an $(thing)Anvil$() on you. Dropping one on a Moogle's head can help you make them your $(thing)permanent friend$(), a $(item)Moogle Projector$()."
 		},
 		{
             "type": "image",

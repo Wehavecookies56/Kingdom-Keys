@@ -1,16 +1,16 @@
 {
-	"name": "Other Org XIII Coats",
+	"name": "Org. XIII (Other)",
 	"icon": "kingdomkeys:xemnas_helmet",
 	"sortnum": 1,
 	"category": "kingdomkeys:armor",
 	"pages": [
 		{
 			"type": "text",
-			"text": "$(item)These coats$() share the same stats as the original coat and still let you join the Organization, they just give you added style. "
+			"text": "$(item)These coats$() share the same stats as the original coat and still let you join the Organization, they just give you added style.$(p)You can take on $(thing)Xemnas' style$() from the end of $(lissa)Kingdom Hearts II$() or take on the $(thing)Anti Coat style$() from $(lissa)Dream Drop Distance$()."
 		},
 		{
 			"type": "text",
-			"text": "You can take on $(thing)Xemnas' style$() from the end of $(lissa)Kingdom Hearts II$() or take on the $(thing)AntiCoat style$() from $(lissa)Dream Drop Distance$()."
+			"text": "You can take on $(thing)Xemnas' style$() from the end of $(lissa)Kingdom Hearts II$() or take on the $(thing)Anti Coat style$() from $(lissa)Dream Drop Distance$()."
 		},
 		{
 			"type":"crafting",
@@ -32,6 +32,5 @@
 			"recipe":"kingdomkeys:anticoat_leggings",
 			"recipe2":"kingdomkeys:anticoat_boots"
 		}
-
 	]
 }

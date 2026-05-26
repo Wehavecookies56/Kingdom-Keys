@@ -14,9 +14,12 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.HitResult;
+import online.kingdomkeys.kingdomkeys.damagesource.KKDamageTypes;
 import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
+import online.kingdomkeys.kingdomkeys.entity.MagicTargetEntity;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
+import online.kingdomkeys.kingdomkeys.entity.TrainingDummyEntity;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCRecalculateEyeHeight;
@@ -24,9 +27,8 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.util.List;
 
-public class GravigaEntity extends ThrowableProjectile {
+public class GravigaEntity extends BaseMagicProjectile {
 
-	int maxTicks = 100;
 	float dmgMult = 1;
 
 	public GravigaEntity(EntityType<? extends ThrowableProjectile> type, Level world) {
@@ -37,6 +39,7 @@ public class GravigaEntity extends ThrowableProjectile {
 	public GravigaEntity(Level world, LivingEntity player, float dmgMult) {
 		super(ModEntities.TYPE_GRAVIGA.get(), player, world);
 		this.dmgMult = dmgMult;
+		setDamageType(KKDamageTypes.DARKNESS);
 	}
 
 	@Override
@@ -46,10 +49,6 @@ public class GravigaEntity extends ThrowableProjectile {
 
 	@Override
 	public void tick() {
-		if (this.tickCount > maxTicks) {
-			this.remove(RemovalReason.KILLED);
-		}
-
 		if (tickCount > 2)
 			level().addParticle(ParticleTypes.DRAGON_BREATH, getX(), getY(), getZ(), 0, 0, 0);
 
@@ -58,6 +57,7 @@ public class GravigaEntity extends ThrowableProjectile {
 
 	@Override
 	protected void onHit(HitResult rtRes) {
+		super.onHit(rtRes);
 		if (!level().isClientSide) {
 			float radius = 3F;
 			double X = getX();
@@ -86,10 +86,11 @@ public class GravigaEntity extends ThrowableProjectile {
 							e.level().getServer().getPlayerList().getPlayers().forEach(player -> {
 								player.connection.send(new ClientboundUpdateMobEffectPacket(le.getId(), instance, false));
 							});
-							if (Utils.isHostile(e)) {
-                                float dmg = this.getOwner() instanceof Player player ? le.getMaxHealth() * DamageCalculation.getMagicDamage(player) / 100 : 2;
-                                dmg = Math.min(dmg, 99);
-                                e.hurt(e.damageSources().thrown(this, this.getOwner()), dmg * dmgMult);
+							if (Utils.isHostile(e) || e instanceof TrainingDummyEntity || e instanceof MagicTargetEntity) {
+								float ratio = dmgMult * (this.getOwner() instanceof Player ? DamageCalculation.getMagicDamage((Player) this.getOwner()) / 100 : 2);
+								float dmg = le.getHealth() * ratio;
+								dmg = Math.min(dmg, 99);
+								e.hurt(KKDamageTypes.getElementalDamage(KKDamageTypes.DARKNESS,this, this.getOwner()), dmg);
                             }
 
                             if (e instanceof ServerPlayer)

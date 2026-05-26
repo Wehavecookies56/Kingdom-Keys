@@ -10,6 +10,8 @@ import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
+import online.kingdomkeys.kingdomkeys.reactioncommands.ModReactionCommands;
+import online.kingdomkeys.kingdomkeys.reactioncommands.ReactionCommand;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public abstract class Magic {
@@ -61,6 +63,10 @@ public abstract class Magic {
     public boolean getMagicLockOn(int lvl) {
     	return data.getMagicLockOn(lvl);
     }
+
+	public int getMaxExp(int lvl) {
+		return data.getMaxExp(lvl);
+	}
     
     public Ability getGMAbility() {
     	if(gmAbility == null)
@@ -87,10 +93,14 @@ public abstract class Magic {
      */
     public final void onUse(LivingEntity player, Player caster, int level, LivingEntity lockOnEntity) {
     	PlayerData casterData = PlayerData.get(caster);
-    	float fullMPBlastMult = casterData.isAbilityEquipped(Strings.fullMPBlast) && casterData.getMP() >= casterData.getMaxMP() ? 1.5F: 1F;
-    	
+	    float fullMPBlastMult = 1F;
+
+	    if (casterData.isAbilityEquipped(Strings.fullMPBlast) && casterData.getMP() >= casterData.getMaxMP()) {
+		    int stacks = casterData.getNumberOfAbilitiesEquipped(Strings.fullMPBlast);
+		    fullMPBlastMult = (float) (2F - Math.pow(0.5F, stacks));
+	    }
     	//if(hasRC()) {// If the magic has a Grand Magic and the timer is not 1 (GM is not disabled in the config)
-		int maxLevel = casterData.getMagicLevel(name);
+		//int maxLevel = casterData.getMagicLevel(name);
     	if(level > maxLevel){ // Grand Magic, set GM variable to 0 and not consume MP
 			casterData.setMagicUses(name, 0);
 		} else { // If it's not using a grand magic add a point and remove MP
@@ -98,12 +108,16 @@ public abstract class Magic {
 			casterData.remMP(getCost(level, caster));
 
 			if(getMagicData() != null) { //If the magic exists and has data and has Grand Magic
-				if(getRCProb(casterData)) {// If the actual uses is equals or above the required
+				if(getRCProb(casterData, level)) {// If the actual uses is equals or above the required
 					//If player has max level magic (and doesnt have GM) don't give RC
 					if(!(getGMAbility() == null && level == getMaxLevel())) {
-						casterData.addReactionCommand(getRegistryName().toString(), caster);
+						ReactionCommand reactionCommand = ModReactionCommands.registry.get(ResourceLocation.parse(getRegistryName().toString()));
+						if(reactionCommand != null) {
+							int duration = (int) (reactionCommand.getDuration() + reactionCommand.getDuration() * (casterData.getNumberOfAbilitiesEquipped(Strings.grandMagicExtender) * 0.25F));
+							casterData.addReactionCommand(getRegistryName().toString(), caster, duration);
+						}
 					} else {
-						//System.out.println(level+" "+getMaxLevel()+" disabled RC");
+
 					}
 					casterData.setMagicUses(name, 0);
 					PacketHandler.sendTo(new SCSyncPlayerData(caster), (ServerPlayer)caster);
@@ -136,14 +150,13 @@ public abstract class Magic {
 
     protected abstract void playMagicCastSound(LivingEntity player, Player caster, int level);
 
-	private boolean getRCProb(PlayerData casterData) {
+	private boolean getRCProb(PlayerData casterData, int level) {
 		int prob = casterData.getNumberOfAbilitiesEquipped(Strings.grandMagicHaste) * 10;
 
-		if(gmAbility != null && casterData.isAbilityEquipped(gmAbility) && casterData.getMagicLevel(getRegistryName()) == getMaxLevel()) {
+		if(gmAbility != null && casterData.isAbilityEquipped(gmAbility) && level == getMaxLevel()) {
 			prob += casterData.getNumberOfAbilitiesEquipped(gmAbility) * 10;
 		}
 		prob += (casterData.getMagicUses(name)-1)*5;
-		//System.out.println(prob);
 		double num = Math.random()*100;
 		return num <= prob;
 	}

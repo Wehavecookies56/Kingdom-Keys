@@ -1,0 +1,16 @@
+{
+  "cost": 0,
+  "exp": 1000,
+  "ingredients": [
+    {
+      "material": "minecraft:dirt",
+      "quantity": "1"
+    }
+  ],
+  "output": {
+    "type": "item",
+    "item": "minecraft:diamond",
+    "quantity": 1
+  },
+  "tier": 1
+}

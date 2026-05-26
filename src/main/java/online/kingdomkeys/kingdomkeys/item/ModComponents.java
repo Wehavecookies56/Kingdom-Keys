@@ -18,8 +18,8 @@ public class ModComponents {
 
     public static final DeferredRegister.DataComponents COMPONENTS = DeferredRegister.createDataComponents(Registries.DATA_COMPONENT_TYPE, KingdomKeys.MODID);
 
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> SYNTH_BAG_LEVEL = COMPONENTS.registerComponentType("synth_bag_level", builder -> builder.persistent(ExtraCodecs.intRange(0, 3)).networkSynchronized(ByteBufCodecs.VAR_INT));
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> HANGAR_LEVEL = COMPONENTS.registerComponentType("hangar_level", builder -> builder.persistent(ExtraCodecs.intRange(0, 4)).networkSynchronized(ByteBufCodecs.VAR_INT));
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> BAG_LEVEL = COMPONENTS.registerComponentType("synth_bag_level", builder -> builder.persistent(ExtraCodecs.intRange(0, 3)).networkSynchronized(ByteBufCodecs.VAR_INT));
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> HANGAR_LEVEL = COMPONENTS.registerComponentType("hangar_level", builder -> builder.persistent(Codec.INT).networkSynchronized(ByteBufCodecs.VAR_INT));
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> HANGAR_FUEL = COMPONENTS.registerComponentType("hangar_fuel", builder -> builder.persistent(Codec.INT).networkSynchronized(ByteBufCodecs.VAR_INT));
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<ItemContainerContents>> INVENTORY = COMPONENTS.registerComponentType("inventory", builder -> builder.persistent(ItemContainerContents.CODEC).networkSynchronized(ItemContainerContents.STREAM_CODEC).cacheEncoding());
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<UUID>> KEYBLADE_ID = COMPONENTS.registerComponentType("keyblade_id", builder -> builder.persistent(UUIDUtil.CODEC).networkSynchronized(UUIDUtil.STREAM_CODEC).cacheEncoding());
@@ -42,4 +42,5 @@ public class ModComponents {
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Float>> GUMMI_DAMAGE = COMPONENTS.registerComponentType("gummi_damage", builder -> builder.persistent(Codec.FLOAT).networkSynchronized(ByteBufCodecs.FLOAT).cacheEncoding());
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> GUMMI_FUEL = COMPONENTS.registerComponentType("gummi_fuel", builder -> builder.persistent(Codec.INT).networkSynchronized(ByteBufCodecs.INT).cacheEncoding());
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<String>> BLUEPRINT_NAME = COMPONENTS.registerComponentType("blueprint_name", builder -> builder.persistent(Codec.STRING).networkSynchronized(ByteBufCodecs.STRING_UTF8).cacheEncoding());
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> MAGIC_EXP = COMPONENTS.registerComponentType("magic_exp", builder -> builder.persistent(Codec.INT).networkSynchronized(ByteBufCodecs.INT).cacheEncoding());
 }

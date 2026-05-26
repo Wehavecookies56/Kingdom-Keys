@@ -9,6 +9,7 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
@@ -61,15 +62,11 @@ public class AlignmentSelectionScreen extends Screen {
     }
 
     @Override
-    public boolean mouseScrolled(double mouseX, double mouseY, double deltaX, double deltaY)
-    {
-        if (deltaY > 0 && prev.visible)
-        {
+    public boolean mouseScrolled(double mouseX, double mouseY, double deltaX, double deltaY) {
+        if (deltaY > 0 && prev.visible){
             actionPerformed(PREV);
             return true;
-        }
-        else if  (deltaY < 0 && next.visible)
-        {
+        } else if  (deltaY < 0 && next.visible) {
             actionPerformed(NEXT);
             return true;
         }
@@ -198,30 +195,29 @@ public class AlignmentSelectionScreen extends Screen {
 
     @Override
     public void init() {
-    	addRenderableWidget(ok = Button.builder(Component.translatable("gui.org.ok"), (e) -> {
+    	addRenderableWidget(ok = new MenuButton(0,0,20,"gui.org.ok", MenuButton.ButtonType.ROUNDBUTTON, (e) -> {
 			actionPerformed(OK);
-		}).bounds(0, 0, 50, 20).build());
-    	
-        
-        addRenderableWidget(confirm = Button.builder(Component.translatable("gui.org.confirm"), (e) -> {
+		}).setCenterText());
+
+        addRenderableWidget(confirm = new MenuButton(0,0,60,"gui.org.confirm", MenuButton.ButtonType.ROUNDBUTTON, (e) -> {
 			actionPerformed(CONFIRM);
-		}).bounds(0, 0, 60, 20).build());
+		}).setCenterText());
+
+        addRenderableWidget(cancel = new MenuButton(0,0,60,"gui.org.cancel", MenuButton.ButtonType.ROUNDBUTTON, (e) -> {
+            actionPerformed(CANCEL);
+        }).setCenterText());
         
-        addRenderableWidget(cancel = Button.builder(Component.translatable("gui.org.cancel"), (e) -> {
-			actionPerformed(CANCEL);
-		}).bounds(0, 0, 60, 20).build());
-        
-        addRenderableWidget(next = Button.builder(Component.literal(">"), (e) -> {
+        addRenderableWidget(next = new MenuButton(0,0,0,">", MenuButton.ButtonType.ROUNDBUTTON, (e) -> {
 			actionPerformed(NEXT);
-		}).bounds(0, 0, 20, 20).build());
+		}).setCenterText());
                 
-        addRenderableWidget(prev = Button.builder(Component.literal("<"), (e) -> {
+        addRenderableWidget(prev = new MenuButton(0,0,0,"<", MenuButton.ButtonType.ROUNDBUTTON,  (e) -> {
 			actionPerformed(PREV);
-		}).bounds(0, 0, 20, 20).build());
+		}).setCenterText());
         
-        addRenderableWidget(select = Button.builder(Component.translatable("gui.org.select"), (e) -> {
+        addRenderableWidget(select = new MenuButton(0,0,40,"gui.org.select", MenuButton.ButtonType.ROUNDBUTTON,  (e) -> {
 			actionPerformed(SELECT);
-		}).bounds(0, 0, 70, 20).build());
+		}).setCenterText());
         
         updateButtons();
         super.init();

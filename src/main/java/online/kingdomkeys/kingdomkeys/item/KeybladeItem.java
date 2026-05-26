@@ -1,7 +1,6 @@
 package online.kingdomkeys.kingdomkeys.item;
 
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -53,6 +52,7 @@ import online.kingdomkeys.kingdomkeys.network.cts.CSAttackOffhandPacket;
 import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeData;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.Recipe;
 import online.kingdomkeys.kingdomkeys.util.IExtendedReach;
+import online.kingdomkeys.kingdomkeys.util.IOffHandRange;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.util.Iterator;
@@ -110,6 +110,10 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 		return 0;
 	}
 
+	public float setCritChance(float critChance){
+		return 10;
+	}
+
 	public void setKeybladeLevel(ItemStack stack, int level) {
 		stack.set(ModComponents.KEYBLADE_LEVEL, level);
 	}
@@ -117,6 +121,8 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 	public int getMaxLevel(){
 		return data.getMaxLevel();
 	}
+
+	public float getCritChance() {return data.getCritChance();}
 
 	public Item.Properties getProperties() {
 		return properties;
@@ -196,11 +202,10 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 	}
 
 	@Override
-	public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
+	public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
 		ItemStack itemstack = player.getItemInHand(hand);
-		Level level = player.level();
 		PlayerData playerData = PlayerData.get(player);
-		
+
 		if (player.isCrouching() && playerData.isAbilityEquipped(Strings.strikeRaid)) { //Throw keyblade
 			int slot = hand == InteractionHand.OFF_HAND ? player.getInventory().getContainerSize() - 1 : player.getInventory().selected;
 
@@ -235,12 +240,12 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 			}
         } else { //Attack offhand and wisdom attack
 			if (!player.getOffhandItem().isEmpty() && player.getOffhandItem().getItem() instanceof KeybladeItem) { // offhand kb attacking
-				if (world.isClientSide && !player.getOffhandItem().isEmpty() && player.getOffhandItem().getItem() instanceof KeybladeItem) { // if kb in offhand
-					HitResult rtr = player.getOffhandItem().getItem() instanceof IExtendedReach item ? InputHandler.getMouseOverExtended(item.getReach()) : Minecraft.getInstance().hitResult;
+				if (level.isClientSide && !player.getOffhandItem().isEmpty() && player.getOffhandItem().getItem() instanceof KeybladeItem) { // if kb in offhand
+					HitResult rtr = InputHandler.pickExtend(player, ((IOffHandRange)player).kingdom_Keys$getOffHandEntityInteractionRange());
 					if (rtr != null) {
 						if (rtr.getType() == Type.ENTITY) {
-							EntityHitResult ertr = (EntityHitResult) rtr;
 							if (!ItemStack.matches(player.getItemInHand(InteractionHand.OFF_HAND), ItemStack.EMPTY) && player.getItemInHand(InteractionHand.OFF_HAND).getItem() instanceof KeybladeItem && hand == InteractionHand.OFF_HAND) {
+								EntityHitResult ertr = (EntityHitResult) rtr;
 								if (ertr.getEntity() != null) {
 									PacketHandler.sendToServer(new CSAttackOffhandPacket(ertr.getEntity().getId()));
 									return InteractionResultHolder.success(itemstack);
@@ -255,19 +260,18 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 			} else { //Wisdom attack
 				if(playerData.getActiveDriveForm().equals(Strings.Form_Wisdom)) {
 					player.swing(hand);
-					if(!world.isClientSide) {
-						//System.out.println(DamageCalculation.getMagicDamage(player) * 0.1);
+					if(!level.isClientSide) {
 						ArrowgunShotEntity shot = new ArrowgunShotEntity(player.level(), player, DamageCalculation.getMagicDamage(player) * 0.1F);
 						shot.setShotType(1);
 						shot.shootFromRotation(player, player.getXRot(), player.getYRot(), 0, 3F, 0);
-						world.addFreshEntity(shot);
+						level.addFreshEntity(shot);
 						player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.wisdom_shot.get(), SoundSource.PLAYERS, 1F, 1F);
 
 					}
 				}
 			}
         }
-        return super.use(world, player, hand);
+        return super.use(level, player, hand);
     }
 
 	@Override

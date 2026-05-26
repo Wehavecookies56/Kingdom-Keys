@@ -7,13 +7,15 @@ import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.model.entity.ShadowModel;
+import online.kingdomkeys.kingdomkeys.client.render.HeartlessEyesLayerRenderer;
 import online.kingdomkeys.kingdomkeys.entity.mob.MegaShadowEntity;
 
 public class MegaShadowRenderer extends MobRenderer<MegaShadowEntity, ShadowModel<MegaShadowEntity>> {
 
 	public MegaShadowRenderer(EntityRendererProvider.Context context) {
-		super(context, new ShadowModel<>(context.bakeLayer(ShadowModel.LAYER_LOCATION)), 1F);
+		super(context, new ShadowModel<>(context.bakeLayer(ShadowModel.LAYER_LOCATION)), 0);
 		model.CYCLES_PER_BLOCK = 1;
+		this.addLayer(new HeartlessEyesLayerRenderer<>(this, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/mob/shadow_eyes.png")));
 	}
 
 	@Override

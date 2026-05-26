@@ -3,6 +3,7 @@ package online.kingdomkeys.kingdomkeys.handler;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -13,7 +14,9 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
@@ -50,6 +53,7 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.command.DimensionCommand;
+import online.kingdomkeys.kingdomkeys.command.ExpCommand;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.damagesource.KKDamageTypes;
 import online.kingdomkeys.kingdomkeys.damagesource.StopDamageSource;
@@ -65,13 +69,17 @@ import online.kingdomkeys.kingdomkeys.entity.EntityHelper.MobType;
 import online.kingdomkeys.kingdomkeys.entity.GummiShipEntity;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.SpawningMode;
+import online.kingdomkeys.kingdomkeys.entity.TrainingDummyEntity;
 import online.kingdomkeys.kingdomkeys.entity.block.SoRCoreTileEntity;
 import online.kingdomkeys.kingdomkeys.entity.drops.*;
 import online.kingdomkeys.kingdomkeys.entity.mob.*;
 import online.kingdomkeys.kingdomkeys.entity.organization.KKThrowableEntity;
+import online.kingdomkeys.kingdomkeys.integration.epicfight.EpicFightUtils;
 import online.kingdomkeys.kingdomkeys.item.*;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
 import online.kingdomkeys.kingdomkeys.item.organization.OrganizationDataLoader;
+import online.kingdomkeys.kingdomkeys.leveling.LevelingDataLoader;
+import online.kingdomkeys.kingdomkeys.leveling.ModLevels;
 import online.kingdomkeys.kingdomkeys.lib.*;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
 import online.kingdomkeys.kingdomkeys.limit.LimitDataLoader;
@@ -83,7 +91,9 @@ import online.kingdomkeys.kingdomkeys.network.cts.CSSetAirStepPacket;
 import online.kingdomkeys.kingdomkeys.network.stc.*;
 import online.kingdomkeys.kingdomkeys.reactioncommands.ModReactionCommands;
 import online.kingdomkeys.kingdomkeys.reactioncommands.ReactionCommand;
+import online.kingdomkeys.kingdomkeys.savepoint.SavePointDataLoader;
 import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeDataLoader;
+import online.kingdomkeys.kingdomkeys.synthesis.melding.MeldingRegistry;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopListRegistry;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.names.NamesListRegistry;
@@ -93,6 +103,7 @@ import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
 import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.CastleOblivionHandler;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModJsonRegistries;
+import org.joml.Vector3f;
 
 import java.util.*;
 
@@ -129,7 +140,6 @@ public class EntityEvents {
 	@SubscribeEvent
 	public void onEntityJoinWorld(EntityJoinLevelEvent e) {
 		if (e.getEntity() instanceof LivingEntity mob) {
-			
 			GlobalData mobData = GlobalData.get(mob);
 			if(mobData == null)
 				return;
@@ -138,6 +148,7 @@ public class EntityEvents {
 			if(player == null)
 				return;
 
+			//ROD
 			if (e.getLevel().dimension().location().getPath().equals("realm_of_darkness") && mob instanceof IKHMob ikhmob) {
 				if (ikhmob.getKHMobType() == MobType.HEARTLESS_PUREBLOOD) {
 					double dist = e.getEntity().position().distanceTo(new Vec3(0, 62, 0));
@@ -145,11 +156,17 @@ public class EntityEvents {
 					mobData.setLevel(level);
 				}
 			}
-			
+
+			//Set level based on config
 			if(mobData.getLevel() <= 0 && mob instanceof Monster && ModConfigs.SERVER.hostileMobsLevel.get()) {
 				mobData.setLevel(Utils.getRandomMobLevel(player));
 			}
 
+			if(mob instanceof EnderDragon && ModConfigs.SERVER.dragonLevel.get()) {
+				mobData.setLevel(Utils.getRandomMobLevel(player));
+			}
+
+			//Tamed mobs
 			if (mob instanceof OwnableEntity ownableEntity) {
 				if (mobData.getLevel() == 0) {
 					if (ownableEntity.getOwner() instanceof Player owner) {
@@ -159,9 +176,11 @@ public class EntityEvents {
 				}
 			}
 
+			//Apply stored level attributes
 			if (mobData.getLevel() > 0) {
 				int lvl = mobData.getLevel();
 				Utils.applyMobLevel(mob, lvl);
+
 				mob.setHealth(mob.getMaxHealth());
 				if (!mob.hasCustomName() && !(mob instanceof OwnableEntity)) {
 					if (ModConfigs.mobLevelName) {
@@ -174,22 +193,26 @@ public class EntityEvents {
 	}
 
 	public void checkRecipeMaterials(Player player) {
-		RecipeRegistry.getInstance().getValues().forEach(recipe -> recipe.getMaterials().keySet().forEach(item -> {
-			if (!item.builtInRegistryHolder().is(Tags.MATERIALS)) {
-				player.sendSystemMessage(Component.translatable(ChatFormatting.RED + "Recipe[" + recipe.getRegistryName().toString() + "] contains material(s) that are not present in the \"synthesis/materials\" tag you will be unable to create this recipe"));
-			}
-		}));
-		BuiltInRegistries.ITEM.entrySet().stream().filter(itemRegistryObject -> itemRegistryObject.getValue() instanceof KeybladeItem).map(itemRegistryObject -> (KeybladeItem)itemRegistryObject.getValue()).toList().forEach(keybladeItem -> {
-			if (keybladeItem.data != null) {
-				for (int i = 0; i < keybladeItem.data.getMaxLevel(); i++) {
-					keybladeItem.data.getLevelData(i).getMaterialList().keySet().forEach(item -> {
-						if (!item.builtInRegistryHolder().is(Tags.MATERIALS)) {
-							player.sendSystemMessage(Component.translatable(ChatFormatting.RED + "Keyblade level data[" + BuiltInRegistries.ITEM.getKey(keybladeItem) + "] contains material(s) that are not present in the \"synthesis/materials\" tag you will be unable to upgrade this keyblade"));
-						}
-					});
+		if (player.level().registryAccess().lookupOrThrow(Registries.ITEM).get(Tags.MATERIALS).isPresent()) {
+			RecipeRegistry.getInstance().getValues().forEach(recipe -> recipe.getMaterials().keySet().forEach(item -> {
+				if (!item.builtInRegistryHolder().is(Tags.MATERIALS)) {
+					player.sendSystemMessage(Component.translatable(ChatFormatting.RED + "Recipe[" + recipe.getRegistryName().toString() + "] contains material(s) that are not present in the \"synthesis/materials\" tag you will be unable to create this recipe"));
 				}
-			}
-		});
+			}));
+			BuiltInRegistries.ITEM.entrySet().stream().filter(itemRegistryObject -> itemRegistryObject.getValue() instanceof KeybladeItem).map(itemRegistryObject -> (KeybladeItem) itemRegistryObject.getValue()).toList().forEach(keybladeItem -> {
+				if (keybladeItem.data != null) {
+					for (int i = 0; i < keybladeItem.data.getMaxLevel(); i++) {
+						keybladeItem.data.getLevelData(i).getMaterialList().keySet().forEach(item -> {
+							if (!item.builtInRegistryHolder().is(Tags.MATERIALS)) {
+								player.sendSystemMessage(Component.translatable(ChatFormatting.RED + "Keyblade level data[" + BuiltInRegistries.ITEM.getKey(keybladeItem) + "] contains material(s) that are not present in the \"synthesis/materials\" tag you will be unable to upgrade this keyblade"));
+							}
+						});
+					}
+				}
+			});
+		} else {
+			player.sendSystemMessage(Component.translatable(ChatFormatting.RED + "The synthesis/materials tag failed to load due to a broken datapack please fix any issues otherwise synthesis will not function, check the log for what is wrong"));
+		}
 	}
 
 	@SubscribeEvent
@@ -208,14 +231,17 @@ public class EntityEvents {
 		if (player != null) {
 			// Sync all registries, important
 			PacketHandler.sendTo(new SCSyncKeybladeData(KeybladeDataLoader.names, KeybladeDataLoader.dataList), player);
+			PacketHandler.sendTo(new SCSyncLevelingData(LevelingDataLoader.names, LevelingDataLoader.dataList), player);
 			PacketHandler.sendTo(new SCSyncOrganizationData(OrganizationDataLoader.names, OrganizationDataLoader.dataList), player);
 			PacketHandler.sendTo(new SCSyncSynthesisData(RecipeRegistry.getInstance().getValues()), player);
+			PacketHandler.sendTo(new SCSyncMeldingData(MeldingRegistry.getInstance().getValues()), player);
 			PacketHandler.sendTo(new SCSyncMoogleNames(NamesListRegistry.getInstance()), player);
 			PacketHandler.sendTo(new SCSyncShopData(ShopListRegistry.getInstance().getValues()), player);
             PacketHandler.sendTo(new SCSyncSellData(SellListRegistry.getInstance().getValues()), player);
 			PacketHandler.sendTo(new SCSyncMagicData(MagicDataLoader.names, MagicDataLoader.dataList), player);
 			PacketHandler.sendTo(new SCSyncDriveFormData(DriveFormDataLoader.names, DriveFormDataLoader.dataList), player);
 			PacketHandler.sendTo(new SCSyncLimitData(LimitDataLoader.names, LimitDataLoader.dataList), player);
+			PacketHandler.sendTo(new SCSyncSavePointData(SavePointDataLoader.names, SavePointDataLoader.dataList), player);
 			ModJsonRegistries.registry.forEach(jsonRegistry -> {
 				PacketHandler.sendTo(new SCSyncJsonRegistry<>(jsonRegistry), player);
 			});
@@ -241,9 +267,12 @@ public class EntityEvents {
 			}
 
 			if (!player.level().isClientSide) { // Sync from server to client
+				Utils.updateOrgRobesTeam((ServerPlayer) player);
+
 				if (!playerData.getDriveFormMap().containsKey(DriveForm.NONE.toString())) { // One time event here :D
-					playerData.setDriveFormLevel(DriveForm.NONE.toString(), 1);
-					playerData.setDriveFormLevel(DriveForm.SYNCH_BLADE.toString(), 1);
+					Utils.getFakeForms().forEach(form -> {
+						playerData.setDriveFormLevel(form, 1);
+					});
 					playerData.setDriveFormLevel(Strings.Form_Anti, 1);
 
 					if (playerData.getEquippedItems().isEmpty()) {
@@ -253,6 +282,11 @@ public class EntityEvents {
 						}
 						playerData.equipAllItems(map, true);
 					}
+				}
+
+				if (!playerData.getDriveFormMap().containsKey(DriveForm.KB2.toString())) {
+					playerData.setDriveFormLevel(DriveForm.KB2.toString(), 1);
+					playerData.setDriveFormLevel(DriveForm.KB3.toString(), 1);
 				}
 
 				ModConfigs.startingRecipes.forEach(resourceLocation -> {
@@ -267,59 +301,55 @@ public class EntityEvents {
 					playerData.setDriveFormLevel(Strings.Form_Anti, 1);
 				}
 
-				if (!playerData.getDriveFormMap().containsKey(Strings.Form_Anti)) {
-					playerData.setDriveFormLevel(Strings.Form_Anti, 1);
-				}
-
 				// Old worlds stat conversion
 				if (playerData.getSoAState() == SoAState.COMPLETE) {
 					switch (playerData.getChosen()) {
-					case WARRIOR -> {
-						if (!playerData.getStrengthStat().hasModifier("choice") && !playerData.getStrengthStat().hasModifier("sacrifice")) {
-							playerData.setStrength(playerData.getStrength(false) - 1);
-							playerData.getStrengthStat().addModifier("choice", 1, false, false);
+						case WARRIOR -> {
+							if (!playerData.getStrengthStat().hasModifier("choice") && !playerData.getStrengthStat().hasModifier("sacrifice")) {
+								playerData.setStrength(playerData.getStrength(false) - 1);
+								playerData.getStrengthStat().addModifier("choice", 1, false, false);
+							}
 						}
-					}
-					case GUARDIAN -> {
-						if (!playerData.getDefenseStat().hasModifier("choice") && !playerData.getDefenseStat().hasModifier("sacrifice")) {
-							playerData.setDefense(playerData.getDefense(false) - 1);
-							playerData.getDefenseStat().addModifier("choice", 1, false, false);
+						case GUARDIAN -> {
+							if (!playerData.getDefenseStat().hasModifier("choice") && !playerData.getDefenseStat().hasModifier("sacrifice")) {
+								playerData.setDefense(playerData.getDefense(false) - 1);
+								playerData.getDefenseStat().addModifier("choice", 1, false, false);
+							}
 						}
-					}
-					case MYSTIC -> {
-						if (!playerData.getMagicStat().hasModifier("choice") && !playerData.getMagicStat().hasModifier("sacrifice")) {
-							playerData.setMagic(playerData.getMagic(false) - 1);
-							playerData.getMagicStat().addModifier("choice", 1, false, false);
+						case MYSTIC -> {
+							if (!playerData.getMagicStat().hasModifier("choice") && !playerData.getMagicStat().hasModifier("sacrifice")) {
+								playerData.setMagic(playerData.getMagic(false) - 1);
+								playerData.getMagicStat().addModifier("choice", 1, false, false);
+							}
 						}
-					}
 					}
 					switch (playerData.getSacrificed()) {
-					case WARRIOR -> {
-						if (!playerData.getStrengthStat().hasModifier("choice") && !playerData.getStrengthStat().hasModifier("sacrifice")) {
-							playerData.setStrength(playerData.getStrength(false) + 1);
-							playerData.getStrengthStat().addModifier("sacrifice", -1, false, false);
+						case WARRIOR -> {
+							if (!playerData.getStrengthStat().hasModifier("choice") && !playerData.getStrengthStat().hasModifier("sacrifice")) {
+								playerData.setStrength(playerData.getStrength(false) + 1);
+								playerData.getStrengthStat().addModifier("sacrifice", -1, false, false);
+							}
+						}
+						case GUARDIAN -> {
+							if (!playerData.getDefenseStat().hasModifier("choice") && !playerData.getDefenseStat().hasModifier("sacrifice")) {
+								playerData.setDefense(playerData.getDefense(false) + 1);
+								playerData.getDefenseStat().addModifier("sacrifice", -1, false, false);
+							}
+						}
+						case MYSTIC -> {
+							if (!playerData.getMagicStat().hasModifier("choice") && !playerData.getMagicStat().hasModifier("sacrifice")) {
+								playerData.setMagic(playerData.getMagic(false) + 1);
+								playerData.getMagicStat().addModifier("sacrifice", -1, false, false);
+							}
 						}
 					}
-					case GUARDIAN -> {
-						if (!playerData.getDefenseStat().hasModifier("choice") && !playerData.getDefenseStat().hasModifier("sacrifice")) {
-							playerData.setDefense(playerData.getDefense(false) + 1);
-							playerData.getDefenseStat().addModifier("sacrifice", -1, false, false);
-						}
-					}
-					case MYSTIC -> {
-						if (!playerData.getMagicStat().hasModifier("choice") && !playerData.getMagicStat().hasModifier("sacrifice")) {
-							playerData.setMagic(playerData.getMagic(false) + 1);
-							playerData.getMagicStat().addModifier("sacrifice", -1, false, false);
-						}
-					}
-					}
-
 				}
 
 				//Set org weapon keybladeIDs if they don't exist
 				if (!playerData.getEquippedWeapon().is(Items.AIR)) {
 					Utils.createKeybladeID(playerData.getEquippedWeapon());
 				}
+
 				playerData.getWeaponsUnlocked().forEach(itemStack -> {
 					if (itemStack.is(playerData.getEquippedWeapon().getItem())) {
 						Utils.copyKeybladeID(playerData.getEquippedWeapon(), itemStack);
@@ -334,7 +364,6 @@ public class EntityEvents {
 				}
 
 				// TODO (done) Fix for retrocompatibility, move above in a few versions
-
 				if (playerData.getEquippedKBArmors().isEmpty()) {
 					HashMap<Integer, ItemStack> map = new HashMap<Integer, ItemStack>();
 					for (int i = 0; i < 1; i++) {
@@ -365,6 +394,18 @@ public class EntityEvents {
 				}
 				playerData.equipAllArmors(armorsMap, true);
 
+				HashMap<Integer, ItemStack> magicsMap = (HashMap<Integer, ItemStack>) playerData.getEquippedMagics();
+				if (magicsMap.isEmpty()) {
+					for (int i = 0; i < 20; i++) {
+						magicsMap.put(i, ItemStack.EMPTY);
+					}
+				}
+				for (int i = magicsMap.size(); i < 20; i++) {
+					magicsMap.put(i, ItemStack.EMPTY);
+				}
+				playerData.equipAllMagics(magicsMap, true);
+
+
 				// Fills the map with empty stacks for every form that requires one.
 				playerData.getDriveFormMap().keySet().forEach(key -> {
 					// Make sure the form exists
@@ -381,6 +422,25 @@ public class EntityEvents {
 					}
 				});
 
+				//Data check, might be able to reduce the above code:
+				online.kingdomkeys.kingdomkeys.leveling.Level levelData = ModLevels.registry.get(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, playerData.getChosen().toString().toLowerCase()));
+				if(levelData != null) {// Only run if the player has made a choice
+					//If stored is -1 (default value in the capability) set it directly to the real version without fixing
+					KingdomKeys.LOGGER.debug("Player version: "+playerData.getVer()+" leveldata version: "+levelData.getVersion());
+					if (playerData.getVer() == -1)
+						playerData.setVer(levelData.getVersion());
+
+					//If the stored player version is different from the one in the file of it's choice (for example file got updated)
+					if (playerData.getVer() != levelData.getVersion()) {
+						//Run kkexp fix command
+						ExpCommand.fix(playerData, player);
+						player.level().playSound(null, player.blockPosition(), ModSounds.levelup.get(), SoundSource.MASTER, 1f, 1.0f);
+						KingdomKeys.LOGGER.info("Auto adjusted " + player.getDisplayName().getString() + " data from version " + playerData.getVer() + " to version " + levelData.getVersion());
+						player.sendSystemMessage(Component.translatable("Adjusted your data value from " + playerData.getVer() + " to version " + levelData.getVersion() + ", all your missing abilities have been added to you"));
+						playerData.setVer(levelData.getVersion());
+					}
+				}
+
 				PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
 				PacketHandler.sendTo(new SCSyncWorldData(player.getServer()), (ServerPlayer) player);
 				PacketHandler.syncToAllAround(player, playerData);
@@ -393,7 +453,6 @@ public class EntityEvents {
 					PacketHandler.sendTo(new SCUpdateCORooms(List.of()), (ServerPlayer) player);
 				}
 			}
-
 			PacketHandler.syncToAllAround(player, playerData);
 		}
 	}
@@ -407,28 +466,23 @@ public class EntityEvents {
 		//playerData.clearRecipes("all");
 		if (playerData != null) {
 			// Check if rc conditions match
-            ArrayList<ReactionCommand> rcList = new ArrayList<>();
+			//Tick RCs in list
+			for (String rcName : new ArrayList<>(playerData.getReactionCommands().keySet())) {
+				ReactionCommand rc = ModReactionCommands.registry.get(ResourceLocation.parse(rcName));
+				if (rc != null) {
+					rc.tick(player);
+				}
+			}
 
 			// Check commands from registry that need active check (can turn off based on conditions like drive forms when you are healed)
 			// Those will be available when joining the world too if the conditions are met
 			for (ReactionCommand rc : ModReactionCommands.registry) {
-				if (rc.needsConstantCheck() && rc.conditionsToAppear(player, player)){
-					rcList.add(rc);
+				if (rc.needsConstantCheck() && rc.conditionsToAppear(player, player)) {
+					playerData.addReactionCommand(rc.getName(), player);
 				}
 			}
 
-			// Check commands in player list
-			for (String rcName : playerData.getReactionCommands()) {
-				ReactionCommand rc = ModReactionCommands.registry.get(ResourceLocation.parse(rcName));
-				if (rc.conditionsToAppear(player, player)) {
-					rcList.add(rc);
-				}
-			}
-
-			playerData.setReactionCommands(new LinkedList<>());
-			for (ReactionCommand rc : rcList) {
-				playerData.addReactionCommand(rc.getName(), player);
-			}
+			//System.out.println(player.level().isClientSide+": "+playerData.getReactionCommands());
 
 			if (!player.level().isClientSide && player.tickCount == 5) { // TODO Check if it's necessary, I thought it was to set the max hp value but now it seems to work fine without it
 				PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
@@ -462,14 +516,12 @@ public class EntityEvents {
 			if (playerData.getCastedMagic() != null) {
 				if (playerData.getMagicCasttimeTicks() <= 0) {
 					Utils.castMagic castedMagic = playerData.getCastedMagic();
-                    System.out.println(castedMagic.player());
 					castedMagic.magic().magicUse(castedMagic.player(), castedMagic.caster(), castedMagic.level(), castedMagic.fullMPBlastMult(), castedMagic.lockOnEntity());
 					player.swing(InteractionHand.MAIN_HAND,true);
 					playerData.setCastedMagic(null);
 					PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
 				}
 			}
-
 
 			// Magic CD recharge system
 			if (playerData.getMagicCooldownTicks() > 0 && !player.level().isClientSide) {
@@ -554,6 +606,66 @@ public class EntityEvents {
 			}
 		}
 
+		//Flowmotion
+		if(!player.onGround() && Utils.isTouchingWall(player) && !playerData.getIsGliding()) {
+			if(playerData.hasAirDashed() && playerData.isAbilityEquipped(Strings.wallKick)) {
+				int grabs = playerData.getWallGrabs();
+				if(playerData.getHangingInWallTicks() == 0 && grabs < playerData.getNumberOfAbilitiesEquipped(Strings.wallKick)){
+					playerData.setBounced(false);
+					playerData.setHangingWallTicks(20);
+					playerData.setWallGrabs(grabs+1);
+					playerData.setFlowmotion(true);//TODO packet?
+					if(!player.level().isClientSide) {
+						//PacketHandler.syncToAllAround(player, playerData);
+						float radius = 0.5F;
+						for(int i = 0; i < 10; i++) {
+							((ServerLevel)player.level()).sendParticles(ParticleTypes.ELECTRIC_SPARK, player.getX() - Math.random() * (radius * 2) + radius, player.getY(), player.getZ() - Math.random() * (radius * 2) + radius, 100, 0, 0, 0, 0);
+						}
+					}
+
+					player.level().playSound(player, player.getX(), player.getY(), player.getZ(), ModSounds.wall_grab.get(), SoundSource.PLAYERS);
+					player.addEffect(new MobEffectInstance(MobEffects.GLOWING, 100, 1, false, false, false));
+					if(player.level().isClientSide) {
+						InputHandler.jumpRayTrace = InputHandler.getMouseOverExtendedStraight(20);
+					}
+				}
+			}
+			if(playerData.getHangingInWallTicks() > 0){
+				if(!playerData.hasBounced())
+					player.setDeltaMovement(0,0,0);
+			}
+
+		} else {
+			//If no longer touching wall reset
+			if(playerData.getHangingInWallTicks() > 0)
+				playerData.setHangingWallTicks(0);
+		}
+
+		//Ticker
+		if(playerData.getHangingInWallTicks() > 0){
+			playerData.setHangingWallTicks(playerData.getHangingInWallTicks() - 1);
+		}
+
+		if(playerData.inFlowmotion()) {
+			float radius = 0.3F;
+
+			if(!player.level().isClientSide()) {
+				((ServerLevel)player.level()).sendParticles(new DustParticleOptions(new Vector3f(1F, 0.5F, 1), 1F), player.getX() - Math.random() * (radius * 2) + radius, player.getY() + Math.random() * player.getBbHeight(), player.getZ() - Math.random() * (radius * 2) + radius, 1, 0, 0, 0, 0);
+				((ServerLevel)player.level()).sendParticles(new DustParticleOptions(new Vector3f(0.2F, 0.8F, 1), 1F), player.getX() - Math.random() * (radius * 2) + radius, player.getY() + Math.random() * player.getBbHeight(), player.getZ() - Math.random() * (radius * 2) + radius, 1, 0, 0, 0, 0);
+			}
+		}
+
+		//If in ground reset
+		if(player.onGround()){
+			if(player.hasEffect(MobEffects.GLOWING))
+				player.removeEffect(MobEffects.GLOWING);
+			playerData.setAirDashed(false);
+			playerData.setBounced(false);
+			playerData.setHangingWallTicks(0);
+			playerData.setWallGrabs(0);
+			playerData.setFlowmotion(false);
+		}
+
 	}
 
 	/**
@@ -605,7 +717,7 @@ public class EntityEvents {
 							player.setPos(pos.getCenter().subtract(0, 0.4, 0));
 							//player.addEffect(new MobEffectInstance(MobEffects.LEVITATION,0,0));
 							if (player.level().isClientSide) {
-								PacketHandler.sendToServer(new CSSetAirStepPacket(new BlockPos(0, 0, 0)));
+								PacketHandler.sendToServer(new CSSetAirStepPacket(new BlockPos(0, 0, 0), 0));
 								airstepTicks = -1;
 							}
 						}
@@ -670,23 +782,9 @@ public class EntityEvents {
 				} else { // When it finishes
 					if (playerData.getReflectActive() && !player.level().isClientSide()) {// If has been hit
 						// SPAWN ENTITY and apply damage
-						float dmgMult = 1;
-						float radius = 1;
-                        dmgMult = switch (playerData.getReflectLevel()) {
-                            case 0 -> {
-                                radius = 2.5F;
-                                yield 0.3F;
-                            }
-                            case 1 -> {
-                                radius = 3F;
-                                yield 0.5F;
-                            }
-                            case 2 -> {
-                                radius = 3.5F;
-                                yield 0.7F;
-                            }
-                            default -> dmgMult;
-                        };
+						float radius = 2F + playerData.getReflectLevel() * 0.5F;
+						float dmgMult = ModMagic.registry.get(ModMagic.REFLECT.get().getRegistryName()).getDamageMult(playerData.getReflectLevel());
+
 						List<Entity> list = player.level().getEntities(player, player.getBoundingBox().inflate(radius, radius, radius));
 						Party casterParty = WorldData.get(player.level().getServer()).getPartyFromMember(player.getUUID());
 
@@ -705,13 +803,13 @@ public class EntityEvents {
 							double z = Z + (radius * Math.sin(Math.toRadians(t)));
 							((ServerLevel) entity.level()).sendParticles(ParticleTypes.BUBBLE.getType(), x, Y + 1, z, 5, 0, 0, 0, 1);
 						}
-
 						if (!list.isEmpty()) {
-                            for (Entity e : list) {
-                                if (e instanceof LivingEntity) {
-                                    e.hurt(e.damageSources().playerAttack(player), DamageCalculation.getMagicDamage(player) * dmgMult * ModMagic.registry.get(ResourceLocation.parse(Strings.Magic_Reflect)).getDamageMult(playerData.getReflectLevel()));
-                                }
-                            }
+							DamageSource damageSource = KKDamageTypes.getElementalDamage(KKDamageTypes.AIR, player, player);
+							float dmg = DamageCalculation.getMagicDamage(player) * dmgMult;
+
+							for (Entity e : list) {
+								e.hurt(damageSource, dmg);
+							}
 							player.level().playSound(null, player.position().x(), player.position().y(), player.position().z(), ModSounds.reflect2.get(), SoundSource.PLAYERS, 1F, 1F);
 
 						}
@@ -738,7 +836,7 @@ public class EntityEvents {
 	}
 
 	public void addSynthesisMaterialToBag(IItemHandler inv, ItemEntityPickupEvent event, ItemStack bag) {
-		int bagLevel = bag.getOrDefault(ModComponents.SYNTH_BAG_LEVEL, 0);
+		int bagLevel = bag.getOrDefault(ModComponents.BAG_LEVEL, 0);
 		int maxSlots = switch (bagLevel) {
             case 0 -> 18;
             case 1 -> 36;
@@ -772,7 +870,7 @@ public class EntityEvents {
 	@SubscribeEvent
 	public void hitEntity(LivingDamageEvent.Pre event) {
 		if (event.getSource().getEntity() instanceof Player player) {
-
+            //First we calculate the weapon damage
 			ItemStack weapon = Utils.getWeaponDamageStack(event.getSource(), player);
 			if (weapon != null && !(event.getSource() instanceof StopDamageSource)) {
 				float dmg = 0;
@@ -782,10 +880,7 @@ public class EntityEvents {
 					dmg = DamageCalculation.getOrgStrengthDamage(player, weapon);
 				}
 
-				if (player.fallDistance > 0.0F && !player.onGround() && !player.onClimbable() && !player.isInWater() && !player.hasEffect(MobEffects.BLINDNESS) && !player.isPassenger()) { // Crit attack formula
-					dmg *= ModConfigs.critMult;
-					dmg += dmg * PlayerData.get(player).getNumberOfAbilitiesEquipped(Strings.criticalBoost) * 0.1F;
-				}
+				dmg *= EpicFightUtils.getCritMulti(player);
 				float newDMG = (event.getNewDamage() - 1) + dmg * player.getAttackStrengthScale(0);
 				event.setNewDamage(newDMG);
 			}
@@ -793,6 +888,24 @@ public class EntityEvents {
 			PlayerData playerData = PlayerData.get(player);
 			if (playerData != null && playerData.getActiveDriveForm().equals(Strings.Form_Anti)) {
 				event.setNewDamage(playerData.getStrength(true));
+			}
+
+			if(event.getEntity() instanceof TrainingDummyEntity dummy) {
+				dummy.recordDamage(player, event.getNewDamage(), event.getSource());
+
+				float maxDamage = 120f;
+				float damage = event.getNewDamage();
+				float normalized = Mth.clamp(damage / maxDamage, 0f, 1f);
+				float strength = (float) Math.pow(normalized, 0.7f);
+				strength = Math.max(strength, 0.08f);
+
+				dummy.getEntityData().set(TrainingDummyEntity.HIT_STRENGTH, strength);
+
+				int duration = (int)(8 + strength * 10);
+				dummy.getEntityData().set(TrainingDummyEntity.HIT_TICKS, duration);
+
+				if(dummy.getIgnoreCD())
+					dummy.invulnerableTime = 0;
 			}
 		}
 
@@ -813,7 +926,34 @@ public class EntityEvents {
 					PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
 				}
 			}
-		}
+
+            //KO Method
+            WorldData worldData = WorldData.get(player.getServer());
+            if (worldData != null && worldData.getPartyFromMember(player.getUUID()) != null) { //If the player gets hit and data is not null
+                Party p = worldData.getPartyFromMember(player.getUUID());
+                if (Utils.anyPartyMemberOnExcept(player, p, (ServerLevel) player.level())) { //If there's a party member on at this point
+                    if (ModConfigs.SERVER.allowPartyKO.get()) { //If KO is allowed
+                        if (player.getHealth() - event.getNewDamage() <= 0) { //If gets hit by a mortal attack
+                            if (!player.hasEffect(ModMobEffects.KO)) { // We only set KO if player gets hit enough to kill them (but doesn't kill them yet) while not KO already
+                                event.setNewDamage(0);
+                                player.removeAllEffects();
+                                player.setHealth(player.getMaxHealth());
+                                player.invulnerableTime = 40;
+                                player.getFoodData().setFoodLevel(10);
+                                player.getFoodData().setExhaustion(0);
+                                player.getFoodData().setSaturation(0);
+                                MobEffectInstance koInstance = new MobEffectInstance(ModMobEffects.KO, MobEffectInstance.INFINITE_DURATION, 0, false, false, false);
+                                player.addEffect(koInstance);
+                                player.level().playSound(null, player.blockPosition(), ModSounds.playerDeathHardcore.get(), SoundSource.PLAYERS);
+                            }
+                        }
+                        return;
+                    } else { //If config does not allow prevent KO from being applied
+                        player.removeEffect(ModMobEffects.KO);
+                    }
+                }
+            }
+        }
 
 		// This is outside as it should apply the formula if you have been hit by non player too
 		if (event.getEntity() instanceof Player player) {
@@ -841,7 +981,7 @@ public class EntityEvents {
 			if (Utils.isPlayerLowHP(player) && playerData.isAbilityEquipped(Strings.damageControl)) {
 				damage /= (1 + playerData.getNumberOfAbilitiesEquipped(Strings.damageControl));
 			}
-			
+
 			// Protect Abilities
 			float protectReduction;
 			if (playerData.isAbilityEquipped(Strings.protect)){
@@ -921,35 +1061,19 @@ public class EntityEvents {
 
 	}
 
-	// Prevent attack when stopped
+	@SubscribeEvent
+	public void onLivingEquipArmor(LivingEquipmentChangeEvent event) {
+		if(!event.getEntity().level().isClientSide() && event.getEntity() instanceof ServerPlayer player) {
+			if(event.getSlot().isArmor()){
+				Utils.updateOrgRobesTeam(player);
+			}
+		}
+	}
+
+		// Prevent attack when stopped
 	@SubscribeEvent
 	public void onLivingAttack(LivingIncomingDamageEvent event) {
 		if (!event.getEntity().level().isClientSide) {
-			if (event.getEntity() instanceof Player player) {
-				WorldData worldData = WorldData.get(player.getServer());
-				if (worldData != null && worldData.getPartyFromMember(player.getUUID()) != null) { //If the player gets hit and data is not null
-                    Party p = worldData.getPartyFromMember(player.getUUID());
-                    if (Utils.anyPartyMemberOnExcept(player, p, (ServerLevel) player.level())) { //If there's a party member on at this point
-                        if (ModConfigs.SERVER.allowPartyKO.get()) { //If KO is allowed
-                            if (!player.hasEffect(ModMobEffects.KO) && player.getHealth() - event.getAmount() <= 0) { // We only set KO if player gets hit enough to kill them (but doesn't kill them yet) while not KO already
-                                event.setCanceled(true);
-                                player.removeAllEffects();
-                                player.setHealth(player.getMaxHealth());
-                                player.invulnerableTime = 40;
-                                player.getFoodData().setFoodLevel(10);
-                                player.getFoodData().setExhaustion(0);
-                                player.getFoodData().setSaturation(0);
-                                MobEffectInstance koInstance = new MobEffectInstance(ModMobEffects.KO, MobEffectInstance.INFINITE_DURATION, 0, false, false, false);
-                                player.addEffect(koInstance);
-                                player.level().playSound(null, player.blockPosition(), ModSounds.playerDeathHardcore.get(), SoundSource.PLAYERS);
-                            }
-                        } else { //If config does not allow prevent KO from being applied
-                            player.removeEffect(ModMobEffects.KO);
-                        }
-                    }
-				}
-			}
-
 			if (event.getSource().getEntity() instanceof LivingEntity attacker) { // If attacker is a LivingEntity
                 LivingEntity target = event.getEntity();
 
@@ -971,25 +1095,25 @@ public class EntityEvents {
 					}
 				}
 
+                // Stop
 				GlobalData globalData = GlobalData.get(target);
 				if (globalData != null && event.getSource().getEntity() instanceof Player source) {
 					if (target.hasEffect(ModMobEffects.STOP)) {
 						if (target.getEffect(ModMobEffects.STOP).getDuration() > 0) {
 							float dmg = event.getAmount();
-							if (event.getSource().getEntity() instanceof Player) {
-								ItemStack stack = Utils.getWeaponDamageStack(event.getSource(), source);
-								if (stack != null) {
-									if (stack.getItem() instanceof KeybladeItem) {
-										dmg = DamageCalculation.getKBStrengthDamage((Player) event.getSource().getEntity(), stack);
-									} else if (stack.getItem() instanceof IOrgWeapon) {
-										dmg = DamageCalculation.getOrgStrengthDamage((Player) event.getSource().getEntity(), stack);
-									}
-								}
-
-								if (dmg == 0) {
-									dmg = event.getAmount();
+							ItemStack stack = Utils.getWeaponDamageStack(event.getSource(), source);
+							if (stack != null) {
+								if (stack.getItem() instanceof KeybladeItem) {
+									dmg = DamageCalculation.getKBStrengthDamage((Player) event.getSource().getEntity(), stack);
+								} else if (stack.getItem() instanceof IOrgWeapon) {
+									dmg = DamageCalculation.getOrgStrengthDamage((Player) event.getSource().getEntity(), stack);
 								}
 							}
+
+							if (dmg == 0) {
+								dmg = event.getAmount();
+							}
+
 							globalData.addDamage(dmg);
 							event.setCanceled(true);
 						}
@@ -1071,6 +1195,7 @@ public class EntityEvents {
 						double value = mob.getAttribute(Attributes.MAX_HEALTH).getValue() / 2;
 						double exp = Utils.randomWithRange(value * 0.8, value * 1.8);
 						playerData.addExperience(player, (int) (exp * ModConfigs.SERVER.xpMultiplier.get()), true, true);
+						Utils.addMagicExperience(player, (int) (exp * ModConfigs.SERVER.magicXPMultiplier.get()));
 
 						if (event.getEntity() instanceof WitherBoss) {
 							exp += 1500;
@@ -1082,7 +1207,7 @@ public class EntityEvents {
 								exp *= (1 + playerData.getNumberOfAbilitiesEquipped(Strings.experienceBoost));
 							}
 
-							XPEntity xp = new XPEntity(mob.level(), player, mob, exp);
+							XPEntity xp = new XPEntity(mob.level(), player, mob, Math.max(exp * ModConfigs.SERVER.xpMultiplier.get(), 1));//Ensures at least 1 xp is obtained
 							player.level().addFreshEntity(xp);
 						}
 					}
@@ -1154,10 +1279,17 @@ public class EntityEvents {
 					PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
 				}
 			}
-			// TODO check if works
-			if (event.getEntity() instanceof MoogleEntity && event.getSource().getMsgId().equals("anvil")) {
-				ItemEntity ie = new ItemEntity(event.getEntity().level(), event.getEntity().getX(), event.getEntity().getY(), event.getEntity().getZ(), new ItemStack(ModBlocks.moogleProjector.get()));
-				event.getEntity().level().addFreshEntity(ie);
+
+			if (event.getEntity() instanceof MoogleEntity moogle) {
+				ItemStack weapon = player != null ? player.getMainHandItem() : ItemStack.EMPTY;
+
+				boolean killedByAnvil = event.getSource().getMsgId().equals("anvil");
+				boolean killedByMace = !weapon.isEmpty() && weapon.getItem() instanceof MaceItem;
+
+				if (killedByAnvil || killedByMace) {
+					ItemEntity ie = new ItemEntity(event.getEntity().level(), moogle.getX(), moogle.getY(), moogle.getZ(), new ItemStack(ModBlocks.moogleProjector.get()));
+					event.getEntity().level().addFreshEntity(ie);
+				}
 			}
 
 			if (event.getSource().getEntity() instanceof IKHMob killerMob && ModConfigs.playerSpawnHeartless) {
@@ -1233,7 +1365,7 @@ public class EntityEvents {
 				if (!playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())) {
 					event.setDistance(0);
 				} else {
-					if (playerData.isAbilityEquipped(Strings.highJump) || playerData.isAbilityEquipped(Strings.aerialDodge) || playerData.isAbilityEquipped(Strings.glide)) {
+					if (playerData.isAbilityEquipped(Strings.highJump) || playerData.isAbilityEquipped(Strings.aerialDodge) || playerData.isAbilityEquipped(Strings.glide) || playerData.isAbilityEquipped(Strings.wallKick)) {
 						event.setDistance(0);
 					}
 				}
@@ -1327,8 +1459,10 @@ public class EntityEvents {
 			PacketHandler.syncToAllAround(localPlayer, globalData);
 			PlayerData targetPlayerData = PlayerData.get(targetPlayer);
 			GlobalData globalData2 = GlobalData.get(targetPlayer);
-			PacketHandler.syncToAllAround(targetPlayer, targetPlayerData);
-			PacketHandler.syncToAllAround(targetPlayer, globalData2);
+            if(targetPlayerData != null && globalData2 != null) {
+                PacketHandler.syncToAllAround(targetPlayer, targetPlayerData);
+                PacketHandler.syncToAllAround(targetPlayer, globalData2);
+            }
 		}
 
 		if(!localPlayer.level().isClientSide) {

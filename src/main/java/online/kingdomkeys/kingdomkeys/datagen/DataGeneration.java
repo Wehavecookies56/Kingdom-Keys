@@ -13,14 +13,14 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.damagesource.KKDamageTypes;
 import online.kingdomkeys.kingdomkeys.datagen.init.*;
 import online.kingdomkeys.kingdomkeys.datagen.provider.BaseLootTableProvider;
+import online.kingdomkeys.kingdomkeys.datagen.provider.MagicDataProvider;
 
 import java.util.Set;
 
-@EventBusSubscriber(bus=EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber()
 public class DataGeneration {
 
-	 private static final RegistrySetBuilder BUILDER = new RegistrySetBuilder()
-	            .add(Registries.DAMAGE_TYPE, KKDamageTypes::bootstrap);
+	 private static final RegistrySetBuilder BUILDER = new RegistrySetBuilder().add(Registries.DAMAGE_TYPE, KKDamageTypes::bootstrap);
 	 
     @SubscribeEvent
     public static void gatherData(GatherDataEvent event) {
@@ -45,11 +45,14 @@ public class DataGeneration {
         generator.addProvider(event.includeServer(), new KeybladeStats(generator, existingFileHelper));
         generator.addProvider(event.includeServer(), new BaseLootTableProvider(output, event.getLookupProvider()));
         generator.addProvider(event.includeServer(), new SynthesisRecipe(generator, existingFileHelper));
+        generator.addProvider(event.includeServer(), new MeldingRecipe(generator, existingFileHelper));
+        event.getGenerator().addProvider(event.includeServer(), new MagicDataProvider(output));
         //probably should use the forge provider generator.addProvider(event.includeServer(), new KKAdvancementProvider(generator.getPackOutput(), event.getLookupProvider(), ));
         generator.addProvider(event.includeClient(), new LanguageENUS(generator));
         generator.addProvider(event.includeClient(), new LanguageESES(generator));
         generator.addProvider(event.includeClient(), new LanguageENGB(generator));
         generator.addProvider(event.includeClient(), new Sounds(generator, existingFileHelper));
+        generator.addProvider(event.includeClient(), new BannerPatterns(generator, event.getLookupProvider(), existingFileHelper));
         
        // generator.addProvider(event.includeServer(), new DatapackBuiltinEntriesProvider(output, event.getLookupProvider(), BUILDER, Set.of(KingdomKeys.MODID)));
 

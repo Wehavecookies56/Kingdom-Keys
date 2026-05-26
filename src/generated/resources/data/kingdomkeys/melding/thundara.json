@@ -1,0 +1,11 @@
+{
+  "cost": 400,
+  "ingredient1": "kingdomkeys:spellthunder",
+  "ingredient2": "kingdomkeys:spellthunder",
+  "output": {
+    "type": "item",
+    "item": "kingdomkeys:spellthundara",
+    "quantity": 1
+  },
+  "tier": 2
+}

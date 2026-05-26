@@ -46,7 +46,7 @@ public record CSUseMagicPacket(String name, int level, int allyTarget, int locke
 	public void handle(IPayloadContext context) {
 		Player player = context.player();
 		PlayerData playerData = PlayerData.get(player);
-        if (NeoForge.EVENT_BUS.post(new MagicSpellCastEvent(player, ResourceLocation.parse(name))).isCanceled())
+        if (NeoForge.EVENT_BUS.post(new MagicSpellCastEvent(player, ResourceLocation.parse(name), level)).isCanceled())
             return;
 
 		if (playerData.getMP() >= 0 && !playerData.getRecharge()) {

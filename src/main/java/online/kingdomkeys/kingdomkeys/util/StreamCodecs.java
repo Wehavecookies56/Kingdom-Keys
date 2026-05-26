@@ -3,7 +3,6 @@ package online.kingdomkeys.kingdomkeys.util;
 import com.mojang.datafixers.util.Function8;
 import com.mojang.datafixers.util.Function9;
 import com.mojang.datafixers.util.Pair;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.Utf8String;
 import net.minecraft.network.codec.ByteBufCodecs;
@@ -18,27 +17,6 @@ import java.util.*;
 import java.util.function.Function;
 
 public class StreamCodecs {
-
-    public static final StreamCodec<FriendlyByteBuf, LinkedHashMap<String, int[]>> KNOWN_MAGIC = new StreamCodec<>() {
-        @Override
-        public LinkedHashMap<String, int[]> decode(FriendlyByteBuf buffer) {
-            LinkedHashMap<String, int[]> map = new LinkedHashMap<>();
-            CompoundTag tag = buffer.readNbt();
-            for (String magicName : tag.getAllKeys()) {
-                map.put(magicName, tag.getIntArray(magicName));
-            }
-            return map;
-        }
-
-        @Override
-        public void encode(FriendlyByteBuf buffer, LinkedHashMap<String, int[]> value) {
-            CompoundTag magic = new CompoundTag();
-            for (Map.Entry<String, int[]> pair : value.entrySet()) {
-                magic.putIntArray(pair.getKey(), pair.getValue());
-            }
-            buffer.writeNbt(magic);
-        }
-    };
 
     public static final StreamCodec<FriendlyByteBuf, Map<UUID, Pair<SavePointStorage.SavePoint, Instant>>> SAVE_POINTS = new StreamCodec<>() {
         @Override

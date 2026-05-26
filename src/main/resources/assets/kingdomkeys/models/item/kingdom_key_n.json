@@ -53,7 +53,7 @@
 		"gui": {
 			"parent": "item/generated",
 			"textures": {
-				"layer0": "kingdomkeys:item/keyblades/kingdom_key_n"
+				"layer0": "kingdomkeys:item/keyblades/kingdom_key_nightmare"
 			}
 		}
 	}

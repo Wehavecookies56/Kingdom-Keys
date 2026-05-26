@@ -2,6 +2,7 @@ package online.kingdomkeys.kingdomkeys.client.model.entity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
@@ -171,6 +172,9 @@ public class LargeBodyModel<T extends BaseKHEntity> extends EntityModel<T> {
 
     @Override
     public void setupAnim(T ent, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+        if(Minecraft.getInstance().isPaused())
+            return;
+        
         totalDistance += ent.distanceToSqr(ent.xOld, ent.yOld, ent.zOld);
 
         if(ent.distanceToSqr(ent.xOld, ent.yOld, ent.zOld) > 0) {

@@ -24,33 +24,22 @@ import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 
-public class BlizzardEntity extends ThrowableProjectile {
-
-	int maxTicks = 120;
-	float dmgMult = 1;
+public class BlizzardEntity extends BaseMagicProjectile {
 	int freezeTime;
 
 	public BlizzardEntity(EntityType<? extends ThrowableProjectile> type, Level world) {
 		super(type, world);
-		this.blocksBuilding = true;
 	}
 
 	public BlizzardEntity(Level world, LivingEntity player, float dmgMult, int freezeTime) {
 		super(ModEntities.TYPE_BLIZZARD.get(), player, world);
 		this.dmgMult = dmgMult;
 		this.freezeTime = freezeTime;
-	}
-
-	@Override
-	protected double getDefaultGravity() {
-		return 0D;
+		setDamageType(KKDamageTypes.ICE);
 	}
 
 	@Override
 	public void tick() {
-		if (this.tickCount > maxTicks) {
-			this.remove(RemovalReason.KILLED);
-		}
 		if(ModConfigs.blizzardChangeBlocks && !level().isClientSide) {
 			if (level().getBlockState(blockPosition()) == Blocks.WATER.defaultBlockState()) {
 				level().setBlockAndUpdate(blockPosition(), Blocks.ICE.defaultBlockState());
@@ -69,6 +58,7 @@ public class BlizzardEntity extends ThrowableProjectile {
 
 	@Override
 	protected void onHit(HitResult rtRes) {
+		super.onHit(rtRes);
 		if (!level().isClientSide) {
 			EntityHitResult ertResult = null;
 			BlockHitResult brtResult = null;
@@ -89,7 +79,7 @@ public class BlizzardEntity extends ThrowableProjectile {
 					}
 
 					if (p == null || (p.getMember(target.getUUID()) == null || p.getFriendlyFire())) { // If caster is not in a party || the party doesn't have the target in it || the party has FF on
-						float dmg = this.getOwner() instanceof Player ? DamageCalculation.getMagicDamage((Player) this.getOwner()) * 1.4F : 2;
+						float dmg = this.getOwner() instanceof Player ? DamageCalculation.getMagicDamage((Player) this.getOwner()) : 2;
 						target.hurt(KKDamageTypes.getElementalDamage(KKDamageTypes.ICE, this, this.getOwner()), dmg * dmgMult);
 						if (!target.isOnFire()) {
 							MobEffectInstance freeze = target.getEffect(ModMobEffects.FREEZE);
@@ -137,5 +127,4 @@ public class BlizzardEntity extends ThrowableProjectile {
 	protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
 
 	}
-
 }

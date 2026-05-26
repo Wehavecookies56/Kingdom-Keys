@@ -1,0 +1,14 @@
+{
+	"name": "¿Qué es un Incorpóreo?",
+	"icon": "kingdomkeys:evanescent_crystal",
+	"sortnum": 1,
+	"priority": true,
+	"category": "kingdomkeys:nobodies",
+	"advancement": "kingdomkeys:obtain_keychain",
+	"pages": [
+		{
+			"type": "text",
+			"text": "Un $(item)Incorpóreo$() es el recipiente que permanece, cuando el $(thing)corazón$() que está lleno de $(lissa)oscuridad$() se desconecta de su $(thing)ser completo$(). Cada $(heartless)Sincorazón$() que nace, también causa la creación de un $(thing)Incorpóreo$()."
+		}
+	]
+}

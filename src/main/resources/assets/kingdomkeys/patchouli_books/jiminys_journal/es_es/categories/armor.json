@@ -1,0 +1,6 @@
+{
+	"name": "Abrigos y Armadura",
+	"description": "Estas armaduras fabricables son poderosas y $(thing)nunca se romperán$(), aquí está cómo crear una armadura adecuada para un $(lissa)Guerrero de la Luz / Oscuridad$().",
+	"icon": "kingdomkeys:dark_riku_chestplate",
+	"sortnum": 11
+}

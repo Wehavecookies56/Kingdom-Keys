@@ -17,7 +17,7 @@ public class InvisibleEntityRenderer extends EntityRenderer<ThrowableProjectile>
 
 	public InvisibleEntityRenderer(EntityRendererProvider.Context context) {
 		super(context);
-		this.shadowRadius = 0.25F;
+		this.shadowRadius = 0F;
 	}
 
 	@Override

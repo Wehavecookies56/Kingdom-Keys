@@ -47,6 +47,8 @@ public class ItemModels extends ItemModelProvider {
 				standardKKArmor(path);
 			} else if (item instanceof KKAccessoryItem){
 				standardKKAccessory(path);
+			} else if (item instanceof MagicSpellItem){
+				standardMagic(path);
 			} else if (item instanceof KeybladeItem) {
 				// Keyblades already have models set up
 			} else if (item instanceof ShieldItem) {
@@ -123,7 +125,11 @@ public class ItemModels extends ItemModelProvider {
             case GummiHangarBlock gummiHangarBlock -> {
                 // skip - no texture/special block
             }
-            default ->
+			case MagicTargetBlock magicTargetBlock -> {
+				// manually generated version exists in main/resources
+			}
+
+			default ->
                 // fallback in case block item could not be generated as part of blockstates
                     standardBlockItem(path);
         }
@@ -148,8 +154,12 @@ public class ItemModels extends ItemModelProvider {
     void standardKKArmor(String name) {
 		standardItem(name, "kkarmors/");
 	}
-    void standardKKAccessory(String name) {
+	void standardKKAccessory(String name) {
 		standardItem(name, "kkaccessories/");
+	}
+
+	void standardMagic(String name) {
+		standardItem(name, "magic/");
 	}
 
 	void standardRecipe(String name) {

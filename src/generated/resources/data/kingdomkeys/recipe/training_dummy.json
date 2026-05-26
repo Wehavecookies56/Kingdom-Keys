@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "group": "kingdomkeys",
+  "key": {
+    "A": {
+      "item": "minecraft:armor_stand"
+    },
+    "H": {
+      "item": "minecraft:hay_block"
+    },
+    "S": {
+      "item": "kingdomkeys:wooden_stick"
+    },
+    "W": {
+      "item": "minecraft:wheat"
+    }
+  },
+  "pattern": [
+    " W ",
+    "SHS",
+    " A "
+  ],
+  "result": {
+    "count": 1,
+    "id": "kingdomkeys:training_dummy"
+  }
+}

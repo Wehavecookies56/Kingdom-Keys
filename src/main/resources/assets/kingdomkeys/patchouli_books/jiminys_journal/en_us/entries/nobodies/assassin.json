@@ -7,7 +7,7 @@
 	"pages": [
 		{
 			"type": "text",
-			"text": "$(item)An assassin.$() A high-ranking $(nobody)Nobody$(). It hides in the ground and attacks quietly from behind.$(p)It cannot be attacked while it is in the ground. When it starts running around, look out! It'll begin to unleash powerful attacks.$(p)$(lissa)$(l)$(o)[KH2]$()"
+			"text": "$(item)An assassin.$() A high-ranking $(nobody)Nobody$(). It hides in the ground and attacks quietly from behind.$(p)It cannot be attacked while it is in the ground. When it starts running around, look out! It'll begin to unleash powerful attacks.$(p)$(lissa)$(l)$(o)[First Appearance: Kingdom Hearts II]$()"
 		},
 		{
 			"type": "patchouli:entity",

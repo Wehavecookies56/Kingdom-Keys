@@ -3,6 +3,7 @@ package online.kingdomkeys.kingdomkeys.config;
 import com.google.common.collect.Lists;
 import net.neoforged.neoforge.common.ModConfigSpec;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.HUD.HUDElement;
 
 import java.util.List;
 
@@ -10,32 +11,28 @@ import java.util.List;
  * Config file for client only config options
  */
 public class ClientConfig {
+	public ModConfigSpec.ConfigValue<List<? extends Float>> hpHUDData, mpHUDData, cmHUDData, rcHUDData, driveHUDData, focusHUDData, partyHUDData, lockOnHUDData, portraitHUDData, munnyExpHUDData, levelUpHUDData, driveLevelHUDData, minimapHUDData;
 
-    public ModConfigSpec.BooleanValue cmHeaderTextVisible, cmClassicColors, auto3rdPersonShip, cmChangeColor;
-    public ModConfigSpec.IntValue cmTextXOffset, cmXScale, cmXPos, cmSelectedXOffset, cmSubXOffset, cmEndLWidth, cmEndRWidth, cmHeaderEndLWidth, cmHeaderEndRWidth, cmReactionEndLWidth, cmReactionEndRWidth;
+    public ModConfigSpec.BooleanValue cmHeaderTextVisible, cmClassicColors, auto3rdPersonShip, cmChangeColor, customFont;
+    public ModConfigSpec.IntValue cmTextXOffset, cmSelectedXOffset, cmSubXOffset, cmEndLWidth, cmEndRWidth, cmHeaderEndLWidth, cmHeaderEndRWidth, cmReactionEndLWidth, cmReactionEndRWidth;
     
     public ModConfigSpec.BooleanValue hpShowHearts;
     public ModConfigSpec.IntValue hpAlarm;
+
+
+    public ModConfigSpec.IntValue lockOnIconScale, lockOnIconRotation, lockOnHpPerBar;
     
-    public ModConfigSpec.IntValue hpXPos, hpYPos, hpXScale;
-    
-    public ModConfigSpec.IntValue mpXPos, mpYPos, mpXScale;
-    
-    public ModConfigSpec.IntValue dpXPos, dpYPos, dpXScale, dpYScale;
-    
-    public ModConfigSpec.IntValue playerSkinXPos, playerSkinYPos;
-    
-    public ModConfigSpec.IntValue lockOnXPos, lockOnYPos, lockOnHPScale, lockOnIconScale, lockOnIconRotation, lockOnHpPerBar;
-    
-    public ModConfigSpec.IntValue partyXPos, partyYPos, partyYDistance;
-    
-    public ModConfigSpec.IntValue focusXPos, focusYPos, focusXScale, focusYScale;
-    
+    public ModConfigSpec.IntValue partyYDistance;
+
     public ModConfigSpec.BooleanValue showDriveForms, summonTogether;
 
 	public ModConfigSpec.EnumValue<ModConfigs.ShowType> showGuiToggle;
 
 	public ModConfigSpec.ConfigValue<List<? extends String>> magicDisplayedInCommandMenu;
+
+	public ModConfigSpec.BooleanValue shoulderSurfingDecoupled;
+
+	public ModConfigSpec.BooleanValue seasonalEvents;
 
 	ClientConfig(final ModConfigSpec.Builder builder) {
 		summonTogether = builder
@@ -48,11 +45,76 @@ public class ClientConfig {
 				.translation(KingdomKeys.MODID + ".config.auto_third_person_ship")
 				.define("auto3rdPersonShip", true);
 
+		seasonalEvents = builder
+				.comment("Enable fun cosmetic seasonal events (disable if you hate fun, no judgement)")
+				.translation(KingdomKeys.MODID + ".config.seasonal_events")
+				.define("seasonalEvents", true);
+
+		builder.push("hud_data");
+		cmHUDData = builder
+				.comment("Command Menu HUD Data")
+				.translation(KingdomKeys.MODID + ".config.cm_hud_data")//X,Y,Width ,Height ,xScale, yScale,rotation,anchor (ordinal)
+				.defineList("cmHUDData", () -> HUDElement.getDefaultValues("CM"), o -> o instanceof Number);
+		rcHUDData = builder
+				.comment("Reaction Commands HUD Data")
+				.translation(KingdomKeys.MODID + ".config.rc_hud_data")//X,Y,Width ,Height ,xScale, yScale,rotation,anchor (ordinal)
+				.defineList("rcHUDData", () -> HUDElement.getDefaultValues("RC"), o -> o instanceof Number);
+		hpHUDData = builder
+				.comment("Health Bar HUD Data")
+				.translation(KingdomKeys.MODID + ".config.hp_hud_data")//X,Y,Width ,Height ,xScale, yScale,rotation,anchor (ordinal)
+				.defineList("hpHUDData", () -> HUDElement.getDefaultValues("HP"), o -> o instanceof Number);
+		mpHUDData = builder
+				.comment("Magic Bar HUD Data")
+				.translation(KingdomKeys.MODID + ".config.mp_hud_data")//X,Y,Width ,Height ,xScale, yScale,rotation,anchor (ordinal)
+				.defineList("mpHUDData", () -> HUDElement.getDefaultValues("MP"), o -> o instanceof Number);
+		driveHUDData = builder
+				.comment("Drive Bar HUD Data")
+				.translation(KingdomKeys.MODID + ".config.drive_hud_data")//X,Y,Width ,Height ,xScale, yScale,rotation,anchor (ordinal)
+				.defineList("driveHUDData", () -> HUDElement.getDefaultValues("Drive"), o -> o instanceof Number);
+		portraitHUDData = builder
+				.comment("Portrait HUD Data")
+				.translation(KingdomKeys.MODID + ".config.portrait_hud_data")//X,Y,Width ,Height ,xScale, yScale,rotation,anchor (ordinal)
+				.defineList("portraitHUDData", () -> HUDElement.getDefaultValues("Portrait"), o -> o instanceof Number);
+		lockOnHUDData = builder
+				.comment("Lock On HUD Data")
+				.translation(KingdomKeys.MODID + ".config.lock_on_hud_data")//X,Y,Width ,Height ,xScale, yScale,rotation,anchor (ordinal)
+				.defineList("lockOnHUDData", () -> HUDElement.getDefaultValues("LockOn"), o -> o instanceof Number);
+		partyHUDData = builder
+				.comment("Party HUD Data")
+				.translation(KingdomKeys.MODID + ".config.party_hud_data")//X,Y,Width ,Height ,xScale, yScale,rotation,anchor (ordinal)
+				.defineList("partyHUDData", () -> HUDElement.getDefaultValues("Party"), o -> o instanceof Number);
+		focusHUDData = builder
+				.comment("Focus Bar HUD Data")
+				.translation(KingdomKeys.MODID + ".config.focus_hud_data")//X,Y,Width ,Height ,xScale, yScale,rotation,anchor (ordinal)
+				.defineList("focusHUDData", () -> HUDElement.getDefaultValues("Focus"), o -> o instanceof Number);
+		munnyExpHUDData = builder
+				.comment("Munny get and Exp. for next level HUD Data")
+				.translation(KingdomKeys.MODID + ".config.munny_exp_hud_data")//X,Y,Width ,Height ,xScale, yScale,rotation,anchor (ordinal)
+				.defineList("munnyExpHUDData", () -> HUDElement.getDefaultValues("MunnyExp"), o -> o instanceof Number);
+		levelUpHUDData = builder
+				.comment("Level up notification HUD Data")
+				.translation(KingdomKeys.MODID + ".config.levelup_hud_data")//X,Y,Width ,Height ,xScale, yScale,rotation,anchor (ordinal)
+				.defineList("levelUpHUDData", () -> HUDElement.getDefaultValues("LevelUp"), o -> o instanceof Number);
+		driveLevelHUDData = builder
+				.comment("Drive form level up HUD Data")
+				.translation(KingdomKeys.MODID + ".config.drivelevel_hud_data")//X,Y,Width ,Height ,xScale, yScale,rotation,anchor (ordinal)
+				.defineList("driveLevelHUDData", () -> HUDElement.getDefaultValues("DriveLevel"), o -> o instanceof Number);
+		minimapHUDData = builder
+				.comment("Castle Oblivion Minimap HUD Data")
+				.translation(KingdomKeys.MODID + ".config.minimap_hud_data")//X,Y,Width ,Height ,xScale, yScale,rotation,anchor (ordinal)
+				.defineList("minimapHUDData", () -> HUDElement.getDefaultValues("Minimap"), o -> o instanceof Number);
+		builder.pop();
+
         builder.push("gui");
 			showGuiToggle = builder
 				.comment("Toggle HUD visibility, weapon option will show only while holding a Keyblade or Organization weapon")
 				.translation(KingdomKeys.MODID + ".config.show_gui_toggle")
 				.defineEnum("showGuiToggle", ModConfigs.ShowType.SHOW);
+
+			customFont = builder
+				.comment("Enable the custom font")
+				.translation(KingdomKeys.MODID + ".config.custom_font")
+				.define("customFont", true);
 
 			showDriveForms = builder
                 .comment("Drive Forms Visibility")
@@ -60,7 +122,7 @@ public class ClientConfig {
                 .define("showDriveForms", true);
 
 		builder.push("command_menu");
-            cmChangeColor = builder
+			cmChangeColor = builder
                     .comment("Allow the Command Menu to change colors based on nearby enemies")
                     .translation(KingdomKeys.MODID + ".config.cm_change_color")
                     .define("cmChangeColor", true);
@@ -84,16 +146,6 @@ public class ClientConfig {
 	                .comment("Command Menu classic color scheme")
 	                .translation(KingdomKeys.MODID + ".config.cm_classic_colors")
 	                .define("cmClassicColors", false);
-	        
-	        cmXScale = builder
-	                .comment("Command Menu X Scale %")
-	                .translation(KingdomKeys.MODID + ".config.cm_x_scale")
-	                .defineInRange("cmXScale", 100, -1000, 1000);
-	        
-	        cmXPos = builder
-	                .comment("Command Menu X Pos")
-	                .translation(KingdomKeys.MODID + ".config.cm_x_pos")
-	                .defineInRange("cmXPos", 0, -1000, 1000);
 	        
 	        cmSelectedXOffset = builder
 	                .comment("Command Menu Selected X Offset")
@@ -134,23 +186,9 @@ public class ClientConfig {
 				.comment("Reaction command right end segment width")
 				.translation(KingdomKeys.MODID + ".config.cm_reaction_end_r_width")
 				.defineInRange("cmReactionEndRWidth", 10, 0, 256);
-
-
-
 			builder.pop();
 	        
 	        builder.push("hp_bar");
-	        
-	        hpXPos = builder
-	                .comment("Health Bar X Pos")
-	                .translation(KingdomKeys.MODID + ".config.hp_x_pos")
-	                .defineInRange("hpXPos", 0, -1000, 1000);
-	        
-	        hpYPos = builder
-	                .comment("Health Bar Y Pos")
-	                .translation(KingdomKeys.MODID + ".config.hp_y_pos")
-	                .defineInRange("hpYPos", 0, -1000, 1000);
-	        
 	        hpShowHearts = builder
 	        		.comment("Show Hearts")
 	                .translation(KingdomKeys.MODID + ".config.hp_hearts")
@@ -160,144 +198,34 @@ public class ClientConfig {
 	        		.comment("Low HP Alarm Volume")
 	                .translation(KingdomKeys.MODID + ".config.hp_alarm")
 	                .defineInRange("hpAlarmVolume", 10, 0, 10);
-	        
-	        hpXScale = builder
-	                .comment("Health Bar X Scale")
-	                .translation(KingdomKeys.MODID + ".config.hp_x_scale")
-	                .defineInRange("hpXScale", 100, -1000, 1000);
-	        
-	        builder.pop();
-	        
-	        builder.push("mp_bar");
-	        
-	        mpXPos = builder
-	                .comment("Magic Bar X Pos")
-	                .translation(KingdomKeys.MODID + ".config.mp_x_pos")
-	                .defineInRange("mpXPos", 0, -1000, 1000);
-	        
-	        mpYPos = builder
-	                .comment("Magic Bar Y Pos")
-	                .translation(KingdomKeys.MODID + ".config.mp_y_pos")
-	                .defineInRange("mpYPos", 0, -1000, 1000);
-	        
-	        mpXScale = builder
-	                .comment("Magic Bar X Scale")
-	                .translation(KingdomKeys.MODID + ".config.mp_x_scale")
-	                .defineInRange("mpXScale", 100, -1000, 1000);
-	        
-	        builder.pop();
-	        
-	        builder.push("dp_bar");
-	        
-	        dpXPos = builder
-	                .comment("Drive Bar X Pos")
-	                .translation(KingdomKeys.MODID + ".config.dp_x_pos")
-	                .defineInRange("dpXPos", 0, -1000, 1000);
-	        
-	        dpYPos = builder
-	                .comment("Drive Bar Y Pos")
-	                .translation(KingdomKeys.MODID + ".config.dp_y_pos")
-	                .defineInRange("dpYPos", 0, -1000, 1000);
-	        
-	        dpXScale = builder
-	                .comment("Drive Bar X Scale")
-	                .translation(KingdomKeys.MODID + ".config.dp_x_scale")
-	                .defineInRange("dpXScale", 100, -1000, 1000);
-	        
-	        dpYScale = builder
-	                .comment("Drive Bar Y Scale")
-	                .translation(KingdomKeys.MODID + ".config.dp_y_scale")
-	                .defineInRange("dpYScale", 100, -1000, 1000);
-	        
-	        builder.pop();
-	        
-	        builder.push("player_skin");
-	        
-	        playerSkinXPos = builder
-	                .comment("Player Skin X Pos")
-	                .translation(KingdomKeys.MODID + ".config.player_skin_x_pos")
-	                .defineInRange("playerSkinXPos", 0, -1000, 1000);
-	        
-	        playerSkinYPos = builder
-	                .comment("Player Skin Y Pos")
-	                .translation(KingdomKeys.MODID + ".config.player_skin_y_pos")
-	                .defineInRange("playerSkinYPos", 0, -1000, 1000);
-	        
 	        builder.pop();
 	        
 	        builder.push("lock_on");
-	        
-	        lockOnXPos = builder
-	                .comment("Lock On HP X Pos")
-	                .translation(KingdomKeys.MODID + ".config.lock_on_x_pos")
-	                .defineInRange("lockOnXPos", 0, -1000, 1000);
-	        
-	        lockOnYPos = builder
-	                .comment("Lock On HP Y Pos")
-	                .translation(KingdomKeys.MODID + ".config.lock_on_y_pos")
-	                .defineInRange("lockOnYPos", 0, -1000, 1000);
-	        
-	        lockOnHPScale = builder
-	                .comment("Lock On HP Bar Scale")
-	                .translation(KingdomKeys.MODID + ".config.lock_on_hp_scale")
-	                .defineInRange("lockOnHPScale", 70, -1000, 1000);
-	        
 	        lockOnIconScale = builder
 	                .comment("Lock On Icon Scale")
 	                .translation(KingdomKeys.MODID + ".config.lock_on_icon_scale")
 	                .defineInRange("lockOnIconScale", 75, -1000, 1000);
-	        
 	        lockOnIconRotation = builder
 	                .comment("Lock On Icon Rotation Speed")
 	                .translation(KingdomKeys.MODID + ".config.lock_on_icon_rotation")
 	                .defineInRange("lockOnIconRotation", 16, -1000, 1000);
-	        
 	        lockOnHpPerBar = builder
 	                .comment("Lock On HP per bar")
 	                .translation(KingdomKeys.MODID + ".config.lock_on_hp_per_bar")
 	                .defineInRange("lockOnHpPerBar", 40, 10, 100);
-	        
+			if (KingdomKeys.shoulderSurfingLoaded) {
+				shoulderSurfingDecoupled = builder
+						.comment("Shoulder Surfing mod: Decoupled camera while not locked on")
+						.translation(KingdomKeys.MODID + ".config.shoulder_surfing_decoupled")
+						.define("shoulderSurfingDecoupled", true);
+			}
 	        builder.pop();
 	        
 	        builder.push("party");
-	        
-	        partyXPos = builder
-	                .comment("Party HUD X Pos")
-	                .translation(KingdomKeys.MODID + ".config.party_x_pos")
-	                .defineInRange("partyXPos", 0, -1000, 1000);
-	        
-	        partyYPos = builder
-	                .comment("Party HUD Y Pos")
-	                .translation(KingdomKeys.MODID + ".config.party_y_pos")
-	                .defineInRange("partyYPos", 0, -1000, 1000);
-	        
 	        partyYDistance = builder
 	                .comment("Party HUD Y Offset")
 	                .translation(KingdomKeys.MODID + ".config.party_y_offset")
-	                .defineInRange("partyYOffset", 60, -1000, 1000);
-	        
-	        builder.pop();
-	        
-	        builder.push("focus");
-	        focusXPos = builder
-	                .comment("Focus HUD X Pos")
-	                .translation(KingdomKeys.MODID + ".config.focus_x_pos")
-	                .defineInRange("focusXPos", 0, -1000, 1000);
-	        
-	        focusYPos = builder
-	                .comment("Focus HUD Y Pos")
-	                .translation(KingdomKeys.MODID + ".config.focus_y_pos")
-	                .defineInRange("focusYPos", 0, -1000, 1000);
-	        
-	        focusXScale = builder
-	                .comment("Focus Bar X Scale")
-	                .translation(KingdomKeys.MODID + ".config.focus_x_scale")
-	                .defineInRange("focusXScale", 100, -1000, 1000);
-	        
-	        focusYScale = builder
-	                .comment("Focus Bar Y Scale")
-	                .translation(KingdomKeys.MODID + ".config.focus_y_scale")
-	                .defineInRange("focusYScale", 100, -1000, 1000);
+	                .defineInRange("partyYOffset", 70, -1000, 1000);
 	        builder.pop();
     }
 

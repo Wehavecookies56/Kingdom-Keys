@@ -19,7 +19,6 @@ public class AeroEffect extends MobEffect {
 
     @Override
     public boolean applyEffectTick(LivingEntity pLivingEntity, int pAmplifier) {
-        //use amplifier for magic level
         switch(pAmplifier) {
             case 0:
 
@@ -27,30 +26,13 @@ public class AeroEffect extends MobEffect {
             case 1:
                 if (pLivingEntity.tickCount % 20 == 0) {
                     float radius = 0.4F;
-                    List<LivingEntity> list = Utils.getLivingEntitiesInRadius(pLivingEntity, radius);
-                    if (!list.isEmpty()) {
-                        for (Entity e : list) {
-                            if (pLivingEntity instanceof Player player) {
-                                e.hurt(KKDamageTypes.getElementalDamage(KKDamageTypes.AIR,player,player), DamageCalculation.getMagicDamage(player) * 0.033F);
-                                e.push(new Vec3(e.getX() - player.getX(),e.getY() - player.getY(),e.getZ() - player.getZ()).scale(1.1F));
-
-                            }
-                        }
-                    }
+                    hurtNearby(pLivingEntity, radius);
                 }
                 break;
             case 2:
                 if (pLivingEntity.tickCount % 10 == 0) {
                     float radius = 0.6F;
-                    List<LivingEntity> list = Utils.getLivingEntitiesInRadius(pLivingEntity, radius);
-                    if (!list.isEmpty()) {
-                        for (Entity e : list) {
-                            if (pLivingEntity instanceof Player player) {
-                                e.hurt(KKDamageTypes.getElementalDamage(KKDamageTypes.AIR,player,player), DamageCalculation.getMagicDamage(player) * 0.066F);
-                                e.push(new Vec3(e.getX() - player.getX(),e.getY() - player.getY(),e.getZ() - player.getZ()).scale(1.2F));
-                            }
-                        }
-                    }
+                    hurtNearby(pLivingEntity, radius);
                 }
                 break;
             case 3:
@@ -58,6 +40,16 @@ public class AeroEffect extends MobEffect {
                 break;
         }
         return super.applyEffectTick(pLivingEntity, pAmplifier);
+    }
+
+    void hurtNearby(LivingEntity pLivingEntity, float radius) {
+        List<LivingEntity> list = Utils.getLivingEntitiesInRadius(pLivingEntity, radius);
+        if (!list.isEmpty() && pLivingEntity instanceof Player player) {
+            for (Entity e : list) {
+                e.hurt(KKDamageTypes.getElementalDamage(KKDamageTypes.AIR,player,player), DamageCalculation.getMagicDamage(player) * 0.01F);
+                e.push(new Vec3(e.getX() - player.getX(),e.getY() - player.getY(),e.getZ() - player.getZ()).scale(1.1F));
+            }
+        }
     }
 
 

@@ -1,0 +1,11 @@
+{
+  "cost": 800,
+  "ingredient1": "kingdomkeys:spellwatera",
+  "ingredient2": "kingdomkeys:spellwatera",
+  "output": {
+    "type": "item",
+    "item": "kingdomkeys:spellwaterga",
+    "quantity": 1
+  },
+  "tier": 3
+}

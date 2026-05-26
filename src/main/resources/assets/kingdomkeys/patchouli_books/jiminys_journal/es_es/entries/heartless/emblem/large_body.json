@@ -1,0 +1,19 @@
+{
+	"name": "Grandullón",
+	"icon": "kingdomkeys:large_body_spawn_egg",
+	"category": "kingdomkeys:emblem",
+	"sortnum": 9,
+	"advancement": "kingdomkeys:obtain_keychain",
+	"pages": [
+		{
+			"type": "text",
+			"text": "$(heartless)Sincorazón$() grande y redondo. Parecen dóciles y tranquilos, pero se vuelven locos cuando se enfadan. Con su fuerza bruta, pueden infligir un gran daño, así que mantente alerta. $(thing)$(o)Siempre enfoca tus ataques en su parte trasera$().$(p)$(lissa)$(l)$(o)[Primera aparición: Kingdom Hearts]$()"
+		},
+		{
+			"type": "patchouli:entity",
+			"entity": "kingdomkeys:large_body",
+			"scale": 0.5,
+			"offset": 1
+		}
+	]
+}

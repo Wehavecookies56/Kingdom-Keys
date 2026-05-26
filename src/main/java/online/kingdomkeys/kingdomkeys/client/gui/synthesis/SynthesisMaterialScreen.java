@@ -115,7 +115,7 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 		boxL = new MenuBox((int) boxPosX, (int) topBarHeight, (int) boxWidth, (int) middleHeight,1F,  new Color(40, 4, 255));
 		boxR = new MenuBox(boxL.getX() + boxL.getWidth(), (int) topBarHeight, (int) (boxWidth), (int) middleHeight, 1F,new Color(69, 69, 69));
 
-		scrollBar = new MenuScrollBar((int) (boxPosX + boxWidth - 17), boxL.getY(), boxL.getPosY()+boxL.getHeight(), (int) middleHeight, 0);
+		scrollBar = new MenuScrollBar((int) (boxPosX + boxWidth - 17), boxL.getY(), boxL.getPosY()+boxL.getHeight(), (int) middleHeight, 0, true);
 		addRenderableWidget(scrollBar);
 
 		super.init();

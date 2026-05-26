@@ -110,7 +110,6 @@ public class PairBloxBlock extends FallingBlock {
 
 		// Check if both blox are different but not the final result one
 		if (other != null && state.getValue(PAIR) < 2 && other.getValue(PAIR) < 2 && state.getValue(PAIR) != other.getValue(PAIR)) {
-			//System.out.println("MERGE");
 			world.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
 			world.setBlockAndUpdate(positions[i], Blocks.AIR.defaultBlockState());
 			world.setBlockAndUpdate(positions[i], ModBlocks.pairBlox.get().defaultBlockState().setValue(PAIR, 2));

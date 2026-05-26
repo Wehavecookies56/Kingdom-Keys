@@ -76,9 +76,6 @@ public class GuiMenu_Party_None extends MenuBackground {
 
 	@Override
 	public void init() {
-		//TODO request packet to sync other players data
-		super.width = width;
-		super.height = height;
 		super.init();
 		this.renderables.clear();
 		
@@ -98,7 +95,6 @@ public class GuiMenu_Party_None extends MenuBackground {
 
 	@Override
 	public void render(@NotNull GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
-		//fill(125, ((-140 / 16) + 75) + 10, 200, ((-140 / 16) + 75) + 20, 0xFFFFFF);
 		super.render(gui, mouseX, mouseY, partialTicks);
 		worldData = WorldData.getClient();
 		drawParty(gui);
@@ -112,7 +108,7 @@ public class GuiMenu_Party_None extends MenuBackground {
 				drawPlayer(gui, i,member);
 			}
 		} else {
-			Member m = new Member(minecraft.player.getUUID(), minecraft.player.getDisplayName().getString());
+			Member m = new Member(minecraft.player.getUUID(), minecraft.player.getGameProfile().getName());
 			drawPlayer(gui, 0, m);
 		}
 	}
@@ -131,7 +127,7 @@ public class GuiMenu_Party_None extends MenuBackground {
 			{
 				RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 				if(member != null && player != null) {
-					ClientUtils.renderPlayerNoAnims(gui.pose(), (int) playerPosX, (int) playerPosY, (int) playerHeight / 2, 0, 0, player);
+					ClientUtils.renderEntity(gui.pose(), (int) playerPosX, (int) playerPosY, (int) playerHeight / 2, 0, 0, player);
 				}
 				RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 0.75F);
 			}

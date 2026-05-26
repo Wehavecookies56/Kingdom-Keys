@@ -9,12 +9,13 @@ import net.neoforged.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.magic.Magic;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class ReactionMagic extends ReactionCommand {
 	ResourceLocation magic;
 
 	public ReactionMagic(ResourceLocation registryName) {
-		super(registryName, false);
+		super(registryName, false, 20*20, 0x8800FF);
 		this.magic = registryName;		
 	}
 	
@@ -26,16 +27,18 @@ public class ReactionMagic extends ReactionCommand {
 	@Override
 	public String getTranslationKey() {
 		PlayerData playerData = PlayerData.get(Minecraft.getInstance().player);
-		int level = playerData.getMagicLevel(magic);
-		Magic mag = ModMagic.registry.get(magic);
+	    //Since we get the highest level we need to add one more to make -ga --> -za
+	    int level = Utils.getMagicHighestLevel(playerData.getEquippedMagics(),magic.toString()) + 1;
+
 		//Maybe this will have to be re-enabled if we give access to -za magic to players without reaction commands
 		/*if(level == mag.getMaxLevel()) { //If magic level is the same as the max keep it max
 			level = mag.getMaxLevel();
 		} else { //If magic level is not max increment it one level
 			level++;
 		}*/
-		level++;
-		if(mag.getGMAbility() != null && playerData.getNumberOfAbilitiesEquipped(mag.getGMAbility().getRegistryName().toString()) > 0) { //Get if the player has the -za
+
+	    Magic mag = ModMagic.registry.get(magic);
+	    if(mag.getGMAbility() != null && playerData.getNumberOfAbilitiesEquipped(mag.getGMAbility().getRegistryName().toString()) > 0) { //Get if the player has the -za
 			level = mag.getMaxLevel()+1;
 		}
 		
@@ -47,7 +50,7 @@ public class ReactionMagic extends ReactionCommand {
 	public void onUse(Player player, LivingEntity target, LivingEntity lockedOnEntity) {
 		Magic mag = ModMagic.registry.get(magic);
 		PlayerData playerData = PlayerData.get(player);
-		int level = playerData.getMagicLevel(magic);
+		int level = Utils.getMagicHighestLevel(playerData.getEquippedMagics(),magic.toString());
 		/*if(level == mag.getMaxLevel()) { //If magic level is the same as the max keep it max
 			level = mag.getMaxLevel();
 		} else { //If magic level is not max increment it one level

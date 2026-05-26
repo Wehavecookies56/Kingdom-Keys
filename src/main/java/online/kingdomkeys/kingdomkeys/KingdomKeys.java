@@ -40,6 +40,7 @@ import online.kingdomkeys.kingdomkeys.advancements.ModAdvancements;
 import online.kingdomkeys.kingdomkeys.api.event.client.CommandMenuEvent;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.block.ModEnergy;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.HUD.HUDElement;
 import online.kingdomkeys.kingdomkeys.client.gui.overlay.CommandMenuGui;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.command.ConvertOldForgeDataCommand;
@@ -51,8 +52,9 @@ import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.handler.EntityEvents;
-import online.kingdomkeys.kingdomkeys.integration.epicfight.EpicFightRendering;
+import online.kingdomkeys.kingdomkeys.integration.epicfight.init.ClientEpicFightIntegration;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.init.EpicFightIntegration;
+import online.kingdomkeys.kingdomkeys.integration.wildfire_gender.KKWildFireGender;
 import online.kingdomkeys.kingdomkeys.item.ICreativeTab;
 import online.kingdomkeys.kingdomkeys.item.ModArmorMaterials;
 import online.kingdomkeys.kingdomkeys.item.ModComponents;
@@ -68,8 +70,10 @@ import online.kingdomkeys.kingdomkeys.magic.MagicDataLoader;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.menu.ModMenus;
 import online.kingdomkeys.kingdomkeys.reactioncommands.ModReactionCommands;
+import online.kingdomkeys.kingdomkeys.savepoint.SavePointDataLoader;
 import online.kingdomkeys.kingdomkeys.shotlock.ModShotlocks;
 import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeDataLoader;
+import online.kingdomkeys.kingdomkeys.synthesis.melding.MeldingDataLoader;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeDataLoader;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopListDataLoader;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.names.NamesListLoader;
@@ -78,6 +82,7 @@ import online.kingdomkeys.kingdomkeys.world.SavePointStorage;
 import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.CastleOblivionHandler;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModJsonRegistries;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModRoomModifiers;
 import online.kingdomkeys.kingdomkeys.world.features.ModFeatures;
 import online.kingdomkeys.kingdomkeys.world.structure.ModStructures;
 import org.apache.logging.log4j.LogManager;
@@ -99,6 +104,8 @@ public class KingdomKeys {
 	public static boolean efmLoaded = false;
 
 	public static boolean patchouliLoaded = false;
+
+	public static boolean shoulderSurfingLoaded = false;
 
 	public static final DeferredRegister<CreativeModeTab> TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MODID);
 
@@ -217,6 +224,7 @@ public class KingdomKeys {
 		ModStructures.STRUCTURES.register(modEventBus);
 
 		ModJsonRegistries.JSON_REGISTRIES.register(modEventBus);
+		ModRoomModifiers.ROOM_MODIFIERS.register(modEventBus);
 		ModData.ATTACHMENT_TYPES.register(modEventBus);
 		ModComponents.COMPONENTS.register(modEventBus);
 		ModArmorMaterials.ARMOR_MATERIALS.register(modEventBus);
@@ -236,11 +244,26 @@ public class KingdomKeys {
 		if (ModList.get().isLoaded("epicfight")) {
 			efmLoaded = true;
 			EpicFightIntegration.initIntegration(modEventBus);
+			// NeoForge.EVENT_BUS.register(new EpicFightEvents());
+		}
+
+		if (ModList.get().isLoaded("wildfire_gender")) {
+			modEventBus.addListener(KKWildFireGender::registerCapabilities);
 		}
 
 		if (ModList.get().isLoaded("patchouli")) {
 			patchouliLoaded = true;
 		}
+
+		if (ModList.get().isLoaded("shouldersurfing")) {
+			shoulderSurfingLoaded = true;
+		}
+
+        if(ModList.get().isLoaded("supplementaries")){
+            KingdomKeys.LOGGER.warn("Supplementaries found, by default if you die while typing it sends the message with a - at the end.");
+            KingdomKeys.LOGGER.warn("We recommend to disable it if you play with the KO System enabled.");
+            KingdomKeys.LOGGER.warn("Change \"send_chat_on_death = true\" to false in supplementaries-client.toml.");
+        }
 
 		NeoForge.EVENT_BUS.register(this);
 		NeoForge.EVENT_BUS.register(new CastleOblivionHandler());
@@ -256,9 +279,11 @@ public class KingdomKeys {
 	private void modLoaded(final FMLLoadCompleteEvent event) {
 		if (FMLEnvironment.dist.isClient()) {
 			if (ModList.get().isLoaded("epicfight")) {
-				ModList.get().getModContainerById(KingdomKeys.MODID).get().getEventBus().addListener(EpicFightRendering::patchedRenderersEventModify);
+				ClientEpicFightIntegration.init();
+				//ModList.get().getModContainerById(KingdomKeys.MODID).get().getEventBus().addListener(EpicFightRendering::patchedRenderersEventModify);
 			}
 			NeoForge.EVENT_BUS.post(new CommandMenuEvent.Construct(CommandMenuGui.INSTANCE));
+			HUDElement.REGISTRY.forEach(HUDElement::loadFromConfig);
 		}
 	}
 
@@ -294,6 +319,7 @@ public class KingdomKeys {
 		event.addListener(new KeybladeDataLoader());
 		event.addListener(new OrganizationDataLoader());
 		event.addListener(new RecipeDataLoader());
+		event.addListener(new MeldingDataLoader());
 		event.addListener(new DriveFormDataLoader());
 		event.addListener(new MagicDataLoader());
 		event.addListener(new LevelingDataLoader());
@@ -301,11 +327,13 @@ public class KingdomKeys {
 		event.addListener(new ShopListDataLoader());
         event.addListener(new SellListDataLoader());
 		event.addListener(new LimitDataLoader());
+		event.addListener(new SavePointDataLoader());
 		ModJsonRegistries.registry.forEach(event::addListener);
 	}
 
 	public void findPacks(AddPackFindersEvent event) {
 		event.addPackFinders(ResourceLocation.fromNamespaceAndPath(MODID, "datapacks/disable_blox_gen"), PackType.SERVER_DATA, Component.literal("KK: Disable Blox Gen (Overworld)"), PackSource.FEATURE, false, Pack.Position.TOP);
 		event.addPackFinders(ResourceLocation.fromNamespaceAndPath(MODID, "datapacks/disable_blox_gen_end"), PackType.SERVER_DATA, Component.literal("KK: Disable Blox Gen (End)"), PackSource.FEATURE, false, Pack.Position.TOP);
+		event.addPackFinders(ResourceLocation.fromNamespaceAndPath(MODID, "datapacks/recipe_example"), PackType.SERVER_DATA, Component.literal("KK: Custom Synthesis Recipe Example"), PackSource.FEATURE, false, Pack.Position.TOP);
 	}
 }

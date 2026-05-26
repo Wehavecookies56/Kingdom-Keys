@@ -25,17 +25,6 @@ public class XPEntity extends Entity {
 		this.blocksBuilding = true;
 	}
 
-	@Override
-	protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
-		pBuilder.define(OWNER, Optional.of(Util.NIL_UUID));
-		pBuilder.define(EXP, 0);
-	}
-
-	public XPEntity(Level world) {
-		super(ModEntities.TYPE_XP.get(), world);
-		this.blocksBuilding = true;
-	}
-
 	public XPEntity(Level level, Player player, LivingEntity mob, double exp) {
 		super(ModEntities.TYPE_XP.get(), level);
 		this.setPos(mob.getX()+0.5,mob.getY(), mob.getZ()+0.5);
@@ -45,23 +34,20 @@ public class XPEntity extends Entity {
 
 	@Override
 	public void tick(){
-		if(this.tickCount < MAX_TICKS - 10) {
-			//this.setPos(getX(), getY() + 0.15, getZ());
-			//this.posY += 0.15;
-		} else {
-			//KingdomKeys.proxy.spawnDarkSmokeParticle(world, getPosX(), getPosY(), getPosZ(), 0, 0, 0, 0.1F);
-			//level.addParticle(ParticleTypes.DRAGON_BREATH, getX(), getY(), getZ(), 0, 0, 0);
-		}
-		
 		if(this.tickCount >= MAX_TICKS) {
 			this.remove(RemovalReason.KILLED);
 		}
-		
 		super.tick();
 	}
 	
 	private static final EntityDataAccessor<Optional<UUID>> OWNER = SynchedEntityData.defineId(XPEntity.class, EntityDataSerializers.OPTIONAL_UUID);
 	private static final EntityDataAccessor<Integer> EXP = SynchedEntityData.defineId(XPEntity.class, EntityDataSerializers.INT);
+
+	@Override
+	protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
+		pBuilder.define(OWNER, Optional.of(Util.NIL_UUID));
+		pBuilder.define(EXP, 0);
+	}
 
 	@Override
 	public void addAdditionalSaveData(CompoundTag compound) {
