@@ -6,7 +6,9 @@
   * Once they reach the max exp it displays it will level up one level.
   * When they reach max level they will be available to be used in melding.
   * Experience boost ability increases their exp gains.
-* Magics bag, to store all your magic spells without cluttering your inventory, works with the magic selection menu.
+* Magics bag, to store all your magic spells without cluttering your inventory, 
+  * Works with the magic selection and melding menus.
+* Master form EFM animation.
 * Common config option for gummi fuel consumption factor, defaulting to half of what it was before.
 * New achievement for when obtaining a winner stick.
 * New config option to limit shop inventory based on their tier to players which already meet it.
@@ -15,6 +17,7 @@
 * JEI recipe category for command melding.
 
 ### Changed:
+* Moogle Model thanks to Xephiro.
 * Savepoint configs have been moved to be data-driven for a cleaner look.
 * Savepoints will no longer restore any stat by default unless an item is used on them.
 * Magics are no longer stacked in the equipment menu due to them being all different now because of their experience.

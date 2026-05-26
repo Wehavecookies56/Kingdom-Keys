@@ -246,6 +246,9 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Gui_Menu_Items, "Items");
         add(Gui_Menu_Items_Equipment, "Equipment");
         add(Gui_Menu_Items_Equipment + ".desc", "Equip your weapon and various equipables.");
+        add(Gui_Menu_Items_Melding, "Melding");
+        add(Gui_Menu_Items_Melding + ".desc", "Combine various magics together to create new ones.");
+        add(Gui_Menu_Items_Melding_Meld, "Meld");
         add(Gui_Menu_Items_Stock, "Stock");
         add(Gui_Menu_Items_Stock + ".desc", "Check your inventory.");
         add(Gui_Menu_Items_Equipment_Weapon, "Weapon");
@@ -370,10 +373,6 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Gui_Menu_Style + ".ventus", "Ventus");
         add(Gui_Menu_Style + ".kh2roxasdual", "Roxas (KH2)");
         add(Gui_Menu_Style + ".daysroxasdual", "Roxas (358/2 Days)");
-
-        //Melding
-        add(Gui_Melding, "Melding");
-        add(Gui_Melding_Meld, "Meld");
 
         //Synthesis
         add(Gui_Synthesis, "Item Workshop");

@@ -16,7 +16,6 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuFilterable;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuScrollBar;
-import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuSelectMagicButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuStockItem;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
@@ -54,7 +53,7 @@ public class MeldingScreen extends MenuFilterable {
 	public static final int BAG_OFFSET = -2000;
 
 	public MeldingScreen() {
-		super(Strings.Gui_Melding, new Color(0, 0, 255));
+		super(Strings.Gui_Menu_Items_Melding, new Color(0, 0, 255));
 		drawSeparately = true;
 	}
 
@@ -146,7 +145,7 @@ public class MeldingScreen extends MenuFilterable {
 
 		buttonWidth = ((float) width * 0.1F);
 
-		meld = new MenuButton(boxR.getX() + boxR.getWidth() / 2 - (int) (buttonWidth + 22) / 2, boxR.getY() + boxR.getHeight() - 22, (int) buttonWidth, Strings.Gui_Melding_Meld, MenuButton.ButtonType.ROUNDBUTTON, (e) -> {
+		meld = new MenuButton(boxR.getX() + boxR.getWidth() / 2 - (int) (buttonWidth + 22) / 2, boxR.getY() + boxR.getHeight() - 22, (int) buttonWidth, Strings.Gui_Menu_Items_Melding_Meld, MenuButton.ButtonType.ROUNDBUTTON, (e) -> {
 			action("meld");
 		});
 		meld.setCenterText(true);
@@ -255,15 +254,12 @@ public class MeldingScreen extends MenuFilterable {
 				public void onPress() {
 					ItemStack clicked = stack.copy();
 
-					// Si ya hay 2 seleccionados y este no es uno de ellos -> bloquear
 					boolean alreadySelected = selectedSlot1 == slot || selectedSlot2 == slot;
-
 					if (!alreadySelected && !selected1.isEmpty() && !selected2.isEmpty()) {
 						return;
 					}
 
 					ItemStack base = !selected1.isEmpty() ? selected1 : selected2;
-
 					boolean compatible = base.isEmpty() || isCompatible(base, clicked) || ItemStack.isSameItemSameComponents(base, clicked) || alreadySelected;
 
 					if (!compatible)
