@@ -62,7 +62,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addConfigKey(ModConfigs.getClientConfig().showGuiToggle, "Toggle HUD visibility");
         addConfigKey(ModConfigs.getClientConfig().customFont, "Toggle the custom font");
         addConfigKey(ModConfigs.getClientConfig().showDriveForms, "Drive Forms visibility");
-        addConfigKey(ModConfigs.getClientConfig().magicDisplayedInCommandMenu, "Displayed Magic order in Command Menu");
+        addConfigKey(ModConfigs.getClientConfig().hiddenMagic, "Magic hidden in the Command Menu");
         addConfigKey(ModConfigs.getClientConfig().cmTextXOffset, "Command Menu text X offset");
         addConfigKey(ModConfigs.getClientConfig().cmHeaderTextVisible, "Show Command Menu header text");
         addConfigKey(ModConfigs.getClientConfig().cmClassicColors, "Use classic Command Menu colors");
@@ -262,7 +262,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Gui_Menu_Customize, "Customize");
         add(Gui_Menu_Customize + ".shortcuts", "Shortcuts");
         add(Gui_Menu_Customize + ".shortcut", "Shortcut");
-        add(Gui_Menu_Customize + ".magic", "Magic");
+        add(Gui_Menu_Customize + ".magic", "Magic Visibility");
         add(Gui_Menu_Customize + ".unequip", "Unequip");
         add(Gui_Menu_Party, "Party");
         add(Gui_Menu_Party_Create, "Create party");

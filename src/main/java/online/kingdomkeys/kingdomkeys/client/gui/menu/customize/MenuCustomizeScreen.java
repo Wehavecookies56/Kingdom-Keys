@@ -17,7 +17,7 @@ public class MenuCustomizeScreen extends MenuBackground {
 
     MenuBox box;
 
-    MenuButton shortcuts, back;
+    MenuButton shortcuts, magics, back;
 
     int buttonsX = 0;
 
@@ -29,7 +29,7 @@ public class MenuCustomizeScreen extends MenuBackground {
     protected void action(String string) {
         switch(string) {
             case "shortcuts" -> Minecraft.getInstance().setScreen(new MenuCustomizeShortcutsScreen()); //This time directly from client
-                //PacketHandler.sendToServer(new CSOpenShortcutsCustomize());
+            case "magics" -> Minecraft.getInstance().setScreen(new MenuCustomizeHiddenMagics());
             case "back" -> PacketHandler.sendToServer(new CSOpenMenu());
         }
     }
@@ -50,7 +50,8 @@ public class MenuCustomizeScreen extends MenuBackground {
         this.renderables.clear();
 
         addRenderableWidget(shortcuts = new MenuButton((int) buttonPosX, buttonPosY, (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Customize_Shortcuts), MenuButton.ButtonType.BUTTON, (e) -> action("shortcuts")));
-        addRenderableWidget(back = new MenuButton((int) buttonPosX, buttonPosY + (1 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), MenuButton.ButtonType.BUTTON, (e) -> action("back")));
+        addRenderableWidget(magics = new MenuButton((int) buttonPosX, buttonPosY+ (1 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Customize_Magic), MenuButton.ButtonType.BUTTON, (e) -> action("magics")));
+        addRenderableWidget(back = new MenuButton((int) buttonPosX, buttonPosY + (2 * 18), (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), MenuButton.ButtonType.BUTTON, (e) -> action("back")));
 
     }
 

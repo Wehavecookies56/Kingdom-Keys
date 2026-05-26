@@ -505,6 +505,9 @@ public class CommandMenuGui extends OverlayBase {
 		WorldData worldData = WorldData.getClient();
 		for (Map.Entry<Integer, ItemStack> entry : playerData.getEquippedMagics().entrySet()) {
 			Integer slot = entry.getKey();
+			if(ModConfigs.hiddenMagic.contains(slot))
+				continue;
+
 			if(slot >= playerData.getMaxMagics())
 				break;
 

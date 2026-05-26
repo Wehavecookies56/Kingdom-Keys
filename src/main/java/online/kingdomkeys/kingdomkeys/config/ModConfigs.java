@@ -52,7 +52,7 @@ public class ModConfigs {
         }
     }
 
-    public static List<String> magicDisplayedInCommandMenu;
+    public static List<? extends Integer> hiddenMagic;
     public static boolean cmHeaderTextVisible, cmClassicColors, hpShowHearts, showDriveForms, summonTogether, auto3rdPersonShip, cmChangeColor, customFont, shoulderSurfingDecoupled, seasonalEvents;
     public static int cmTextXOffset, cmSelectedXOffset, cmSubXOffset, hpAlarm, lockOnIconScale, lockOnIconRotation, lockOnHpPerBar, partyYDistance, cmEndLWidth, cmEndRWidth, cmHeaderEndLWidth, cmHeaderEndRWidth, cmReactionEndLWidth, cmReactionEndRWidth;
 
@@ -151,9 +151,9 @@ public class ModConfigs {
         bakeClient();
     }
     //Command Menu
-    public static void setMagicDisplayedInCommandMenu(List<String> value) {
-        CLIENT.magicDisplayedInCommandMenu.set(value);
-        CLIENT.magicDisplayedInCommandMenu.save();
+    public static void setHiddenMagic(List<Integer> value) {
+        CLIENT.hiddenMagic.set(value);
+        CLIENT.hiddenMagic.save();
         bakeClient();
     }
 
@@ -278,7 +278,8 @@ public class ModConfigs {
             ClientUtils.KK_Font_MENU = Style.EMPTY;
         }
 
-        magicDisplayedInCommandMenu = (List<String>) CLIENT.magicDisplayedInCommandMenu.get();
+        hiddenMagic = (List<Integer>) CLIENT.hiddenMagic.get();
+
         cmTextXOffset = CLIENT.cmTextXOffset.get();
         cmHeaderTextVisible = CLIENT.cmHeaderTextVisible.get();
         cmClassicColors = CLIENT.cmClassicColors.get();
@@ -312,6 +313,7 @@ public class ModConfigs {
             shoulderSurfingDecoupled = CLIENT.shoulderSurfingDecoupled.get();
         }
         seasonalEvents = CLIENT.seasonalEvents.get();
+        hiddenMagic = CLIENT.hiddenMagic.get();
     }
 
     public static boolean bombExplodeWithfire, keybladeOpenDoors, mobLevelingUp, playerSpawnHeartless,blizzardChangeBlocks, bossDespawnIfNoTarget, respawnROD, needKeybladeForHeartless, mobLevelName, allowBlocksInHangarArea, hideOrgNames;

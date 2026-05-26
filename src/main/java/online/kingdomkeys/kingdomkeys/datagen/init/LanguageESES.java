@@ -60,7 +60,7 @@ public class LanguageESES extends KKLanguageProvider {
         addConfigKey(ModConfigs.getClientConfig().auto3rdPersonShip, "3a persona automática en Nave Gummi");
         addConfigKey(ModConfigs.getClientConfig().showGuiToggle, "Cambiar visibilidad del HUD");
         addConfigKey(ModConfigs.getClientConfig().showDriveForms, "Visibilidad de Formas de Fusión");
-        addConfigKey(ModConfigs.getClientConfig().magicDisplayedInCommandMenu, "Orden de Magias en el Menú de Comandos");
+        addConfigKey(ModConfigs.getClientConfig().hiddenMagic, "Magias ocultas en el Menú de Comandos");
         addConfigKey(ModConfigs.getClientConfig().cmTextXOffset, "Menú de Comandos offset del texto X");
         addConfigKey(ModConfigs.getClientConfig().cmHeaderTextVisible, "Mostrar cabecera del Menú de Comandos");
         addConfigKey(ModConfigs.getClientConfig().customFont, "Muestra la fuente personalizada");
@@ -308,7 +308,7 @@ public class LanguageESES extends KKLanguageProvider {
         add(Gui_Menu_Customize, "Configuración");
         add(Gui_Menu_Customize + ".shortcuts", "Atajos");
         add(Gui_Menu_Customize + ".shortcut", "Atajo");
-        add(Gui_Menu_Customize + ".magic", "Magias");
+        add(Gui_Menu_Customize + ".magic", "Visibilidad de Magias");
         add(Gui_Menu_Customize + ".unequip", "Desequipar");
 
         //Party Sub-menu

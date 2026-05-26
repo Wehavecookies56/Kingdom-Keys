@@ -28,7 +28,7 @@ public class ClientConfig {
 
 	public ModConfigSpec.EnumValue<ModConfigs.ShowType> showGuiToggle;
 
-	public ModConfigSpec.ConfigValue<List<? extends String>> magicDisplayedInCommandMenu;
+	public ModConfigSpec.ConfigValue<List<? extends Integer>> hiddenMagic;
 
 	public ModConfigSpec.BooleanValue shoulderSurfingDecoupled;
 
@@ -127,10 +127,10 @@ public class ClientConfig {
                     .translation(KingdomKeys.MODID + ".config.cm_change_color")
                     .define("cmChangeColor", true);
 
-			magicDisplayedInCommandMenu = builder
-					.comment("The Magic to display in the Magic menu within the Command Menu")
-					.translation(KingdomKeys.MODID + ".config.cm_magic_display")
-					.defineList("magicDisplayedInCommandMenu", () -> Lists.newArrayList("kingdomkeys:magic_fire", "kingdomkeys:magic_blizzard", "kingdomkeys:magic_water", "kingdomkeys:magic_thunder", "kingdomkeys:magic_cure", "kingdomkeys:magic_aero", "kingdomkeys:magic_magnet", "kingdomkeys:magic_reflect", "kingdomkeys:magic_gravity", "kingdomkeys:magic_stop"), () -> "kingdomkeys:magic_fire", o -> o instanceof String);
+			hiddenMagic = builder
+					.comment("Magic to hide from the Command Menu")
+					.translation(KingdomKeys.MODID + ".config.cm_hidden_magic")
+					.defineList("hiddenMagic", () -> List.of(),obj -> obj instanceof Integer);
 	        
 	        cmTextXOffset = builder
 	                .comment("Command Menu Text X Offset")

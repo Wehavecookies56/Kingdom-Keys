@@ -15,6 +15,7 @@
 * New config option to set the amount of exp that magics get from mobs (separate from player exp).
 * JEI recipe category for savepoint upgrades.
 * JEI recipe category for command melding.
+* Added a screen to hide spells from the command menu.
 
 ### Changed:
 * Moogle Model thanks to Xephiro.
