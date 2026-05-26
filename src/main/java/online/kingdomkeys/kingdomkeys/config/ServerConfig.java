@@ -127,7 +127,7 @@ public class ServerConfig {
         magicXPMultiplier = builder
                 .comment("Magic spells XP Multiplier")
                 .translation(KingdomKeys.MODID + ".config.magic_xp_multiplier")
-                .defineInRange("magicXPMultiplier", 0.2F, 0, 1000);
+                .defineInRange("magicXPMultiplier", 0.4F, 0, 1000);
 
         heartMultiplier = builder
                 .comment("Hearts Multiplier")

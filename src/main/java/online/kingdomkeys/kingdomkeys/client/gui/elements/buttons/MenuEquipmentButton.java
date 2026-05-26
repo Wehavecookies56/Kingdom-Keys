@@ -183,11 +183,9 @@ public class MenuEquipmentButton extends Button {
                 float iconPosY = parent.height * 0.17F;
                 float iconHeight = parent.height * 0.3148F;
                 if (stack != null) {
-                	ItemStack item;
+                	ItemStack item = stack;
                     if (stack.getItem() instanceof IKeychain kc) {
                     	item = new ItemStack(kc.toSummon());
-                    } else {
-                    	item = stack;
                     }
                     
                     matrixStack.pushPose();

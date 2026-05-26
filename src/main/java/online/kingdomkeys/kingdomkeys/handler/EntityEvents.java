@@ -1192,24 +1192,24 @@ public class EntityEvents {
 					if (!playerData.isAbilityEquipped(Strings.zeroExp)) {
 						LivingEntity mob = event.getEntity();
 
-						double value = mob.getAttribute(Attributes.MAX_HEALTH).getValue() / 2;
-						double exp = Utils.randomWithRange(value * 0.8, value * 1.8);
-						playerData.addExperience(player, (int) (exp * ModConfigs.SERVER.xpMultiplier.get()), true, true);
-						Utils.addMagicExperience(player, (int) (exp * ModConfigs.SERVER.magicXPMultiplier.get()));
+						double health = mob.getAttributeValue(Attributes.MAX_HEALTH);
+						double baseExp = Utils.randomWithRange(health * 0.4D, health * 0.9D);
 
-						if (event.getEntity() instanceof WitherBoss) {
-							exp += 1500;
-							playerData.addExperience(player, (int) (exp * ModConfigs.SERVER.xpMultiplier.get()), true, true);
+						int clampedXP = (int) Math.max(baseExp * ModConfigs.SERVER.xpMultiplier.get(), 1);
+						int clampedMagicXP = (int) Math.max(baseExp * ModConfigs.SERVER.magicXPMultiplier.get(), 1);
+
+						if (mob instanceof WitherBoss) {
+							clampedXP += 1500;
 						}
 
-						if (!playerData.isAbilityEquipped(Strings.zeroExp)) {
-							if (playerData.getNumberOfAbilitiesEquipped(Strings.experienceBoost) > 0 && player.getHealth() <= player.getMaxHealth() / 2) {
-								exp *= (1 + playerData.getNumberOfAbilitiesEquipped(Strings.experienceBoost));
-							}
-
-							XPEntity xp = new XPEntity(mob.level(), player, mob, Math.max(exp * ModConfigs.SERVER.xpMultiplier.get(), 1));//Ensures at least 1 xp is obtained
-							player.level().addFreshEntity(xp);
+						if (playerData.getNumberOfAbilitiesEquipped(Strings.experienceBoost) > 0 && player.getHealth() <= player.getMaxHealth() / 2) {
+							clampedXP *= (1 + playerData.getNumberOfAbilitiesEquipped(Strings.experienceBoost));
+							clampedMagicXP *= (1 + playerData.getNumberOfAbilitiesEquipped(Strings.experienceBoost));
 						}
+
+						Utils.addMagicExperience(player, clampedMagicXP);
+						playerData.addExperience(player, clampedXP, true, true);
+						player.level().addFreshEntity(new XPEntity(mob.level(), player, mob, clampedXP));
 					}
 
 					LivingEntity entity = event.getEntity();
