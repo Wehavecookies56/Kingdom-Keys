@@ -123,6 +123,9 @@ public class MagicSpellItem extends Item implements IItemCategory {
 	}
 
 	public int getLocalExp(ItemStack stack) {
+		if(getMaxExpLevel() <= 1) {
+			return getMaxExp();
+		}
 		int expPerLevel = getMaxExp() / (getMaxExpLevel() - 1);
 		int exp = getExp(stack) % expPerLevel;
 		if(getExp(stack) >= getMaxExp()) {
@@ -141,6 +144,9 @@ public class MagicSpellItem extends Item implements IItemCategory {
 	}
 
 	public float getLocalPercent(ItemStack stack) {
+		if(getMaxExpLevel() <= 1) {
+			return 1;
+		}
 		int expPerLevel = getMaxExp() / (getMaxExpLevel() - 1);
 		float perc =  (float) getLocalExp(stack) / (float)expPerLevel;
 		if(getExp(stack) >= getMaxExp()) {

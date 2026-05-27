@@ -20,6 +20,7 @@
 * Org moogle texture missing the moogle itself.
 * Edge cases where magics did not have the new attributes (mainly datapack) to avoid a client crash.
 * Mythril Crystal and Mythril Gem had their recipes swapped.
+* Magics limited to 1 level won't crash anymore.
 
 
 # 2.7.11b
