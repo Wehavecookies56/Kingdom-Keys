@@ -164,6 +164,20 @@ public class MenuEquipmentButton extends Button {
             		gui.drawString(fr, "---", getX() + 15, getY() + 3, 0xFFFFFF);
             	}
             }
+
+	        // show magic level and exp level in the button
+	        if(stack != null && stack.getItem() instanceof MagicSpellItem spell && (parent instanceof MenuEquipmentScreen)) {
+		        String text = Utils.translateToLocal("gui.magicspell.lvl_short",spell.getLocalLevel(stack));
+		        int x = getX() + getWidth() - mc.font.width(text) - 4;
+		        gui.drawString(mc.font, text, x, getY() + 2, 0xFFFFFF);
+
+
+		        float percent = spell.getLocalPercent(stack);
+		        int barWidth = mc.font.width(text);
+		        int percentWidth = (int)(barWidth * percent);
+		        gui.blit(barTexture, getX() + getWidth() - barWidth - 5, getY() + getHeight() - 4, barWidth, 2, 161, 67, 1, 5, 256, 256);
+		        gui.blit(barTexture, getX() + getWidth() - barWidth - 5, getY() + getHeight() - 4, percentWidth, 2, 163, 67, 1, 5, 256, 256);
+	        }
             if (isHovered) {
                 matrixStack.pushPose();
                 {
@@ -235,6 +249,7 @@ public class MenuEquipmentButton extends Button {
                     } else {
                     	showData = false;
                     }
+
                     if(showData) {
                     	boolean showStr = true, showMag= true, showAP=true, showResistances = false, showExp = false;
                     	abilities.remove(null);
@@ -325,7 +340,7 @@ public class MenuEquipmentButton extends Button {
 							posY+=10;
 	                    }
 
-	                    if(showExp) {
+	                    if(showExp) { //Details
 							MagicSpellItem spell = (MagicSpellItem) stack.getItem();
 		                    if(parent instanceof MenuEquipmentScreen screen) {
 			                    float textX = screen.detailsBox.getX() + 10;
@@ -351,7 +366,7 @@ public class MenuEquipmentButton extends Button {
 			                    gui.blit(barTexture, (int) textX, (int) textY + 10, percentWidth, 5, 163, 67, 1, 5, 256, 256);
 							}
 	                    }
-	                    
+
 	                    if(showResistances && resistances != null) {
 	                    	int pos = 0;
 	                    	{

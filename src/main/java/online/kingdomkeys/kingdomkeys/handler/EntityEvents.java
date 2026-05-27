@@ -828,14 +828,24 @@ public class EntityEvents {
 				if (!ItemStack.matches(bag, ItemStack.EMPTY)) {
 					if (bag.getItem() == ModItems.synthesisBag.get()) {
 						IItemHandler inv = bag.getCapability(Capabilities.ItemHandler.ITEM, null);
-						addSynthesisMaterialToBag(inv, event, bag);
+						addItemToBag(inv, event, bag);
+					}
+				}
+			}
+		} else if (event.getItemEntity().getItem() != null && event.getItemEntity().getItem().getItem() instanceof MagicSpellItem) {
+			for (int i = 0; i < event.getPlayer().getInventory().getContainerSize(); i++) {
+				ItemStack bag = event.getPlayer().getInventory().getItem(i);
+				if (!ItemStack.matches(bag, ItemStack.EMPTY)) {
+					if (bag.getItem() == ModItems.magicsBag.get()) {
+						IItemHandler inv = bag.getCapability(Capabilities.ItemHandler.ITEM, null);
+						addItemToBag(inv, event, bag);
 					}
 				}
 			}
 		}
 	}
 
-	public void addSynthesisMaterialToBag(IItemHandler inv, ItemEntityPickupEvent event, ItemStack bag) {
+	public void addItemToBag(IItemHandler inv, ItemEntityPickupEvent event, ItemStack bag) {
 		int bagLevel = bag.getOrDefault(ModComponents.BAG_LEVEL, 0);
 		int maxSlots = switch (bagLevel) {
             case 0 -> 18;
@@ -845,23 +855,16 @@ public class EntityEvents {
             default -> 0;
         };
 
-        for (int j = 0; j < maxSlots; j++) {
-			ItemStack bagItem = inv.getStackInSlot(j);
+		for (int j = 0; j < maxSlots; j++) {
 			ItemStack pickUp = event.getItemEntity().getItem();
-			if (!ItemStack.matches(bagItem, ItemStack.EMPTY)) {
-				if (bagItem.getItem().equals(pickUp.getItem())) {
-					if (bagItem.getCount() < 64) {
-						if (bagItem.getCount() + pickUp.getCount() <= 64) {
-							ItemStack stack = new ItemStack(pickUp.copy().getItem(), pickUp.copy().getCount());
-							inv.insertItem(j, stack, false);
-							pickUp.setCount(0);
-							return;
-						}
-					}
-				}
-			} else if (ItemStack.matches(bagItem, ItemStack.EMPTY)) {
-				inv.insertItem(j, pickUp.copy(), false);
-				pickUp.setCount(0);
+			if (pickUp.isEmpty()) {
+				return;
+			}
+
+			pickUp = inv.insertItem(j, pickUp, false);
+			event.getItemEntity().setItem(pickUp);
+			if (pickUp.isEmpty()) {
+				event.getItemEntity().discard();
 				return;
 			}
 		}

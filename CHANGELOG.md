@@ -1,6 +1,31 @@
+# 2.7.11c
+### Added:
+* The ability for magic spells bag to suck in magic spells identically to how the synthesis bag does.
+
+### Changed:
+* Synthesis bag recipe to be similar to the new Magic Spells bag:
+  * LSL
+  * LDL
+  * LLL
+  * L = leather, D = **orange** dye, S = string
+* When a magic levels up to the max it will notify you with MAX rather than the level.
+  
+### Fixed:
+* Magic spells bag having no recipe, now it's crafted like this:
+  * LSL
+  * LDL
+  * LLL
+  * L = leather, D = **purple** dye, S = string
+* Magic spells from the new Magic spells bag being deposited into the moogle materials list if they happened to be ingredients too.
+* Org moogle texture missing the moogle itself.
+* Edge cases where magics did not have the new attributes (mainly datapack) to avoid a client crash.
+* Mythril Crystal and Mythril Gem had their recipes swapped.
+
+
 # 2.7.11b
 ### Fixed:
 * Server crashing when trying to start.
+
 
 # 2.7.11a
 ### Added:

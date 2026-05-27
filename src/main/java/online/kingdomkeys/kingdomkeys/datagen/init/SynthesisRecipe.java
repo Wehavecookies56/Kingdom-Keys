@@ -160,8 +160,8 @@ public class SynthesisRecipe extends SynthesisRecipeProvider {
         getBuilder(Strings.zeroOne).output(Strings.zeroOneChain, 1).addTier(3).addType("keyblade").addMaterial(lightning_crystal, 3).addMaterial(pulsing_gem, 4).addMaterial(lightning_stone, 2);
 
         // Items
-        getBuilder(Strings.SM_MythrilCrystal).output(Strings.SM_MythrilCrystal, 1).addTier(2).addType("item").addMaterial(betwixt_crystal, 1).addMaterial(betwixt_gem, 3).addMaterial(twilight_crystal, 1).addMaterial(twilight_gem, 3);
-        getBuilder(Strings.SM_MythrilGem).output(Strings.SM_MythrilGem, 1).addTier(2).addType("item").addMaterial(betwixt_crystal, 1).addMaterial(betwixt_gem, 3).addMaterial(twilight_crystal, 1).addMaterial(twilight_gem, 3).addMaterial(hungry_stone, 1);
+        getBuilder(Strings.SM_MythrilCrystal).output(Strings.SM_MythrilCrystal, 1).addTier(2).addType("item").addMaterial(betwixt_crystal, 1).addMaterial(betwixt_gem, 3).addMaterial(twilight_crystal, 1).addMaterial(twilight_gem, 3).addMaterial(hungry_stone, 1);
+        getBuilder(Strings.SM_MythrilGem).output(Strings.SM_MythrilGem, 1).addTier(2).addType("item").addMaterial(betwixt_crystal, 1).addMaterial(betwixt_gem, 3).addMaterial(twilight_crystal, 1).addMaterial(twilight_gem, 3);
         getBuilder(Strings.SM_MythrilStone).output(Strings.SM_MythrilStone, 1).addTier(1).addType("item").addMaterial(betwixt_stone, 1).addMaterial(betwixt_shard, 3).addMaterial(twilight_stone, 1).addMaterial(twilight_shard, 3).addMaterial(hungry_shard, 1);
         getBuilder(Strings.SM_MythrilShard).output(Strings.SM_MythrilShard, 1).addTier(1).addType("item").addMaterial(betwixt_stone, 1).addMaterial(betwixt_shard, 3).addMaterial(twilight_stone, 1).addMaterial(twilight_shard, 3);
 

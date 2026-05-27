@@ -128,6 +128,19 @@ public class MenuSelectMagicButton extends MenuButtonBase {
 
 			gui.drawString(minecraft.font, magicName, getX() + 15, getY() + 3, 0xFFFFFF);
 
+			// show magic level and exp level in the button
+			if(spell != null) {
+				String text = Utils.translateToLocal("gui.magicspell.lvl_short", spell.getLocalLevel(stack));
+				int x = getX() + getWidth() - minecraft.font.width(text) - 4;
+				gui.drawString(minecraft.font, text, x, getY() + 2, 0xFFFFFF);
+
+				float percent = spell.getLocalPercent(stack);
+				int barWidth = minecraft.font.width(text);
+				int percentWidth = (int) (barWidth * percent);
+				gui.blit(barTexture, getX() + getWidth() - barWidth - 5, getY() + getHeight() - 4, barWidth, 2, 161, 67, 1, 5, 256, 256);
+				gui.blit(barTexture, getX() + getWidth() - barWidth - 5, getY() + getHeight() - 4, percentWidth, 2, 163, 67, 1, 5, 256, 256);
+			}
+
 			if (isButtonRendered(mouseY) && (selected || isHovered)) { //Render stuff on the right
 				matrixStack.pushPose();
 				{

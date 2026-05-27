@@ -17,8 +17,8 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton.But
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
-import online.kingdomkeys.kingdomkeys.item.BagItem;
 import online.kingdomkeys.kingdomkeys.item.KeychainItem;
+import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.lib.Tags;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
@@ -117,7 +117,7 @@ public class SynthesisScreen extends MenuBackground implements IPlayerDataReques
 			}
 
 			//Requires player to open it to sync with the client but it works
-			if(player.getInventory().getItem(i).getItem() instanceof BagItem){
+			if(player.getInventory().getItem(i).getItem() == ModItems.synthesisBag.get()){
 				IItemHandler bagInv = player.getInventory().getItem(i).getCapability(Capabilities.ItemHandler.ITEM);
 				for (int j = 0; j < bagInv.getSlots(); j++) { //Check bag slots
 					ItemStack bagItem = bagInv.getStackInSlot(j);

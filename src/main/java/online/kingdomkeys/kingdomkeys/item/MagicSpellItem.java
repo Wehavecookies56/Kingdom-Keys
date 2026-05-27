@@ -80,7 +80,8 @@ public class MagicSpellItem extends Item implements IItemCategory {
 
 	public int getMaxExp() {
 		Magic magicInstance = ModMagic.registry.get(ResourceLocation.parse(magic));
-		return magicInstance.getMaxExp(getLevel());
+		int exp = magicInstance.getMaxExp(getLevel());
+		return exp == 0 ? 1 : exp;
 	}
 
 	/**
@@ -89,7 +90,8 @@ public class MagicSpellItem extends Item implements IItemCategory {
 	 */
 	public int getMaxExpLevel() {
 		Magic magicInstance = ModMagic.registry.get(ResourceLocation.parse(magic));
-		return magicInstance.getMaxExpLevel(getLevel());
+		int lvl = magicInstance.getMaxExpLevel(getLevel());
+		return lvl == 0 ? 1 : lvl;
 	}
 
 	/**

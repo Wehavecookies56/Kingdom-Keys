@@ -41,13 +41,10 @@ public class MenuMagicSelectorScreen extends MenuBackground {
 	Color colour;
 
 	public MenuMagicSelectorScreen(int slot, Color colour, int buttonColour) {
-
 		super(Strings.Gui_Menu_Items_Equipment_Magic, new Color(0, 0, 255));
-
 		drawSeparately = true;
 
 		minecraft = Minecraft.getInstance();
-
 		this.slot = slot;
 		this.colour = colour;
 		this.buttonColour = buttonColour;
@@ -55,11 +52,9 @@ public class MenuMagicSelectorScreen extends MenuBackground {
 
 	@Override
 	public void init() {
-
 		super.init();
 
 		buttonWidth = ((float) width * 0.07F);
-
 		float keybladesX = width * 0.2F;
 		float keybladesY = height * 0.175F;
 

@@ -733,15 +733,27 @@ public class Recipes extends RecipeProvider {
                 .unlockedBy("ice", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.ICE))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ModItems.synthesisBag.get())
-                .pattern("LSL")
-                .pattern("L L")
-                .pattern("LLL")
-                .define('S', Tags.Items.STRINGS)
-                .define('L', Tags.Items.LEATHERS)
-                .group("kingdomkeys")
-                .unlockedBy("leather", InventoryChangeTrigger.TriggerInstance.hasItems(Items.LEATHER))
-                .save(consumer);
+		ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ModItems.synthesisBag.get())
+				.pattern("LSL")
+				.pattern("LDL")
+				.pattern("LLL")
+				.define('S', Tags.Items.STRINGS)
+				.define('L', Tags.Items.LEATHERS)
+				.define('D', Items.ORANGE_DYE)
+				.group("kingdomkeys")
+				.unlockedBy("leather", InventoryChangeTrigger.TriggerInstance.hasItems(Items.LEATHER))
+				.save(consumer);
+
+		ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ModItems.magicsBag.get())
+				.pattern("LSL")
+				.pattern("LDL")
+				.pattern("LLL")
+				.define('S', Tags.Items.STRINGS)
+				.define('L', Tags.Items.LEATHERS)
+				.define('D', Items.PURPLE_DYE)
+				.group("kingdomkeys")
+				.unlockedBy("leather", InventoryChangeTrigger.TriggerInstance.hasItems(Items.LEATHER))
+				.save(consumer);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.woodenKeyblade.get())
                 .pattern(" WS")

@@ -242,8 +242,6 @@ public class MeldingScreen extends MenuFilterable {
 				})
 		);
 
-		ItemStack base = !selected1.isEmpty() ? selected1 : selected2;
-
 		for (int i = 0; i < entries.size(); i++) {
 			SlotEntry entry = entries.get(i);
 			ItemStack stack = entry.stack.copy();
@@ -280,7 +278,6 @@ public class MeldingScreen extends MenuFilterable {
 
 					ItemStack base = !getSelected1().isEmpty() ? getSelected1() : getSelected2();
 					boolean compatible = base.isEmpty() || isCompatible(base, stack) || ItemStack.isSameItemSameComponents(base, stack);
-
 					if (stack.getItem() instanceof MagicSpellItem spell) {
 						/*float percent = spell.getExpPercent(stack);
 						int red = (int) (255 * (1F - percent));
@@ -290,7 +287,7 @@ public class MeldingScreen extends MenuFilterable {
 
 						String text = Utils.translateToLocal("gui.magicspell.lvl_short",spell.getLocalLevel(stack));
 						int x = getX() + getWidth() - minecraft.font.width(text) - 4;
-						gui.drawString(minecraft.font, text, x, getY() + 3, color);
+						gui.drawString(minecraft.font, text, x, getY() + 2, color);
 
 						if (!spell.canMeld(stack)) {
 							textColor = ChatFormatting.DARK_GRAY;

@@ -967,7 +967,7 @@ public class Utils {
 			magic.addExp(stack, amount);
 
 			if(magic.getLocalLevel(stack) != oldLevel) { //If the level is different show notif
-				leveledMagics.add("M_"+stack.getHoverName().getString() +" "+ Utils.translateToLocal("gui.magicspell.lvl_short", magic.getLocalLevel(stack)));
+				leveledMagics.add("M_" + stack.getHoverName().getString() + " " + Utils.translateToLocal("gui.magicspell.lvl_short", magic.isMaxed(stack) ? "MAX" : magic.getLocalLevel(stack)));
 			}
 		}
 

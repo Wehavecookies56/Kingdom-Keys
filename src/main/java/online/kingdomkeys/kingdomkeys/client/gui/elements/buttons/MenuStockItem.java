@@ -17,6 +17,7 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuFilterable;
+import online.kingdomkeys.kingdomkeys.client.gui.menu.items.MeldingScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.synthesis.ShopScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.synthesis.SynthesisCreateScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.synthesis.SynthesisForgeScreen;
@@ -25,6 +26,7 @@ import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.KeychainItem;
+import online.kingdomkeys.kingdomkeys.item.MagicSpellItem;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.Recipe;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopItem;
@@ -48,8 +50,10 @@ public class MenuStockItem extends Button {
     public ChatFormatting textColor = ChatFormatting.WHITE;
 
     final ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
+	final ResourceLocation barTexture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
 
-    public MenuStockItem(MenuFilterable parent, ResourceLocation rl, ItemStack displayStack, int x, int y, int width, boolean showAmount, OnPress onPress) {
+
+	public MenuStockItem(MenuFilterable parent, ResourceLocation rl, ItemStack displayStack, int x, int y, int width, boolean showAmount, OnPress onPress) {
         super(new Builder(Component.literal(""), onPress).bounds(x, y, width, 14));
         this.parent = parent;
         this.rl = rl;
@@ -73,7 +77,7 @@ public class MenuStockItem extends Button {
         this.stack = stack;
         this.showAmount = showAmount;
     }
-    
+
     public MenuStockItem(MenuFilterable parent, ResourceLocation rl, ItemStack displayStack, int x, int y, int width, boolean showAmount, String customName) {
 		this(parent,rl,displayStack,x,y,width,showAmount);
 		this.customName = customName;
@@ -111,7 +115,7 @@ public class MenuStockItem extends Button {
                 matrixStack.pushPose();
                 {
                     RenderSystem.enableBlend();
-                    
+
                     matrixStack.translate(getX() + 0.6F, getY(), 0);
                     float scale = 0.5F;
                     matrixStack.scale(scale, scale, 1);
@@ -190,6 +194,15 @@ public class MenuStockItem extends Button {
                 }
             }
 
+            if(parent instanceof MeldingScreen){
+                if(stack.getItem() instanceof MagicSpellItem spell) {
+                    float percent = spell.getLocalPercent(stack);
+                    int barWidth = 24;
+                    int percentWidth = (int)(barWidth * percent);
+                    gui.blit(barTexture, getX() + getWidth() - barWidth - 5, getY() + getHeight() - 4, barWidth, 2, 161, 67, 1, 5, 256, 256);
+                    gui.blit(barTexture, getX() + getWidth() - barWidth - 5, getY() + getHeight() - 4, percentWidth, 2, 163, 67, 1, 5, 256, 256);
+                }
+            }
 
             if(parent instanceof ShopScreen shop){
                 displayTick = true;

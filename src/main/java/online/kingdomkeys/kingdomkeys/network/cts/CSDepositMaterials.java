@@ -13,7 +13,7 @@ import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
-import online.kingdomkeys.kingdomkeys.item.BagItem;
+import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.lib.Tags;
 import online.kingdomkeys.kingdomkeys.network.Packet;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
@@ -39,10 +39,10 @@ public record CSDepositMaterials(String inv, String name, int moogle) implements
 	private static void removeMaterial(IItemHandler bag, Player player, int i) {
 		PlayerData playerData = PlayerData.get(player);
         for (int j = 0; j < bag.getSlots(); j++) { //Check bag slots
-            ItemStack bagItem = bag.getStackInSlot(j);
-            if (!ItemStack.matches(bagItem, ItemStack.EMPTY)) { //If current bag slot is filled
-				if(bagItem.is(Tags.MATERIALS)) {
-            		playerData.addMaterial(bagItem.getItem(), bag.getStackInSlot(j).getCount());
+            ItemStack synthBag = bag.getStackInSlot(j);
+            if (!ItemStack.matches(synthBag, ItemStack.EMPTY)) { //If current bag slot is filled
+				if(synthBag.is(Tags.MATERIALS)) {
+            		playerData.addMaterial(synthBag.getItem(), bag.getStackInSlot(j).getCount());
             		bag.extractItem(j, bag.getStackInSlot(j).getCount(), false);
             	}
             }
@@ -63,7 +63,7 @@ public record CSDepositMaterials(String inv, String name, int moogle) implements
 					}
 
 					//Bag
-					if (stack != null && stack.getItem() instanceof BagItem) {
+					if (stack != null && stack.getItem() == ModItems.synthesisBag.get()) {
 						IItemHandler bag = stack.getCapability(Capabilities.ItemHandler.ITEM);
 						if (bag != null) {
 							removeMaterial(bag, player, i);
