@@ -150,13 +150,14 @@ public class GummiHangarTileEntity extends BlockEntity implements MenuProvider {
                 return;
 
             //If has some combustible store it
-            if (hangar.burnTime > 0) {
-                hangar.burnTime -= state.getValue(GummiHangarBlock.LEVEL) + 1;
-                if (hangar.burnTime < 0) {
-                    hangar.burnTime = 0;
-                }
-                hangar.energyStorage.receiveEnergy(state.getValue(GummiHangarBlock.LEVEL) + 1, false); //Since we reduce the ticks faster we should increase the amount each tick gives to compensate
-            }
+	        if (hangar.burnTime > 0 && hangar.energyStorage.getEnergyStored() < hangar.getMaxEnergy()) {
+		        int speed = state.getValue(GummiHangarBlock.LEVEL) + 1;
+		        hangar.burnTime -= speed;
+		        if (hangar.burnTime < 0) {
+			        hangar.burnTime = 0;
+		        }
+		        hangar.energyStorage.receiveEnergy(speed, false);
+	        }
             //If has finished consuming find a new combustible
             if (hangar.burnTime <= 0 && hangar.energyStorage.getEnergyStored() < hangar.getMaxEnergy()) {
                 hangar.maxBurnTime = 0;

@@ -1,6 +1,7 @@
 # 2.7.11c
 ### Added:
 * The ability for magic spells bag to suck in magic spells identically to how the synthesis bag does.
+* Visual indicator in the magic buttons to know their level and exp till next level.
 
 ### Changed:
 * Synthesis bag recipe to be similar to the new Magic Spells bag:
@@ -8,7 +9,7 @@
   * LDL
   * LLL
   * L = leather, D = **orange** dye, S = string
-* When a magic levels up to the max it will notify you with MAX rather than the level.
+* When a magic levels up to the max it will notify you with MAX instead of the level.
   
 ### Fixed:
 * Magic spells bag having no recipe, now it's crafted like this:
