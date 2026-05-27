@@ -437,6 +437,8 @@ public class LanguageENUS extends KKLanguageProvider {
         add("gui.driveformorb.tooltip", "Upgrades %s Form");
     	add("gui.driveformorb.upgrade", "%s Form has obtained %s exp");
 
+        //Spells bag
+        add("gui.spellsbag.complain","Only 1 spell bag should be in the inventory");
 
         //Proof of Heart
         add("gui.proofofheart.desc", "Use this to leave Organization XIII");

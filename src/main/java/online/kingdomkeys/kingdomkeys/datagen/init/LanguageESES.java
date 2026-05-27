@@ -494,6 +494,8 @@ public class LanguageESES extends KKLanguageProvider {
         add("gui.driveformorb.tooltip", "Mejora Forma %s");
         add("gui.driveformorb.upgrade", "Forma %s ha obtenido %s exp");
 
+        //Spells bag
+        add("gui.spellsbag.complain","Solo puedes tener 1 bolsa de hechizos en el inventario");
 
         //Proof of Heart
         add("gui.proofofheart.desc", "Úsalo para salir de la Organización XIII");

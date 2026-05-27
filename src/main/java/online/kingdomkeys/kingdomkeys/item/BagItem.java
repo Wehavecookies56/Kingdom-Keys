@@ -13,12 +13,12 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.api.item.IItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
-import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuSelectMagicButton;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.menu.BagMenu;
-import online.kingdomkeys.kingdomkeys.menu.ModMenus;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
 import online.kingdomkeys.kingdomkeys.util.Utils;
@@ -50,7 +50,7 @@ public class BagItem extends Item implements IItemCategory {
 
 		if (!level.isClientSide) {
 			PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
-			MenuProvider container = new SimpleMenuProvider((w, p, pl) -> new BagMenu(ModMenus.BAG.get(), w, p, bagStack, getValidator()), bagStack.getHoverName());
+			MenuProvider container = new SimpleMenuProvider((w, p, pl) -> new BagMenu(w, p, bagStack, getValidator()), bagStack.getHoverName());
 			player.openMenu(container, buf -> {
 				buf.writeBoolean(hand == InteractionHand.MAIN_HAND);
 				buf.writeEnum(type);
@@ -59,6 +59,7 @@ public class BagItem extends Item implements IItemCategory {
 		return InteractionResultHolder.consume(bagStack);
 	}
 
+	@OnlyIn(Dist.CLIENT)
 	@Override
 	public void appendHoverText(ItemStack stack, TooltipContext tooltipContext, List<Component> tooltip, TooltipFlag flagIn) {
 		Integer level = stack.get(ModComponents.BAG_LEVEL);
@@ -66,9 +67,9 @@ public class BagItem extends Item implements IItemCategory {
 			int bagLevel = level;
 			tooltip.add(Component.translatable(Utils.translateToLocal(Strings.Gui_Menu_Status_Level) + " " + (bagLevel + 1)));
 		}
-		if(type == Type.MAGICS_BAG) {
-			if(!Utils.hasOnlyOneBag(Minecraft.getInstance().player)){
-				tooltip.add(Component.literal("Only 1 magic bag should be in the inventory").withStyle(ChatFormatting.RED));
+		if (type == Type.MAGICS_BAG) {
+			if (!Utils.hasOnlyOneBag(Minecraft.getInstance().player)) {
+				tooltip.add(Component.translatable("gui.spellsbag.complain").withStyle(ChatFormatting.RED));
 			}
 		}
 		super.appendHoverText(stack, tooltipContext, tooltip, flagIn);

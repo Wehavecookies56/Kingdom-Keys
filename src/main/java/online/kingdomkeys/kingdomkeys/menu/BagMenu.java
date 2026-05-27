@@ -6,7 +6,6 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ClickType;
-import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.capabilities.Capabilities;
@@ -21,8 +20,8 @@ public class BagMenu extends AbstractContainerMenu {
 
 	public final ItemStack bag;
 
-	public BagMenu(MenuType<?> type, int windowId, Inventory playerInv, ItemStack bag, Predicate<ItemStack> validator) {
-		super(type, windowId);
+	public BagMenu(int windowId, Inventory playerInv, ItemStack bag, Predicate<ItemStack> validator) {
+		super(ModMenus.BAG.get(), windowId);
 		this.bag = bag;
 
 		BagInventory bagInv = (BagInventory) bag.getCapability(Capabilities.ItemHandler.ITEM);
@@ -64,7 +63,7 @@ public class BagMenu extends AbstractContainerMenu {
 			case MAGICS_BAG -> stack -> stack.getItem() instanceof MagicSpellItem;
 		};
 
-		return new BagMenu(ModMenus.BAG.get(), windowId, inv, bag, validator);
+		return new BagMenu(windowId, inv, bag, validator);
 	}
 
 	@Override

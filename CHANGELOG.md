@@ -1,3 +1,8 @@
+# 2.7.11b
+### Fixed:
+* Server crashing when trying to start.
+
+# 2.7.11a
 ### Added:
 * Command melding system, similar to how it works in Birth by Sleep.
 * Experience and levels system for magic spells:

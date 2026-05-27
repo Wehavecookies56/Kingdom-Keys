@@ -11,7 +11,6 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import online.kingdomkeys.kingdomkeys.datagen.builder.MeldingRecipeBuilder;
-import online.kingdomkeys.kingdomkeys.datagen.builder.SynthesisRecipeBuilder;
 
 import java.nio.file.Path;
 import java.util.ArrayList;

@@ -1,6 +1,5 @@
 package online.kingdomkeys.kingdomkeys.config;
 
-import com.google.common.collect.Lists;
 import net.neoforged.neoforge.common.ModConfigSpec;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.HUD.HUDElement;

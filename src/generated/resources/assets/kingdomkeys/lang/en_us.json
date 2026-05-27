@@ -1053,6 +1053,7 @@
   "gui.shop.price": "Price:",
   "gui.shop.sell": "Sell",
   "gui.shop.tier": "Tier:",
+  "gui.spellsbag.complain": "Only 1 spell bag should be in the inventory",
   "gui.statboost.increased": "Increased %s, now it's %s",
   "gui.statboost.tooltip": "Increases %s by 1",
   "gui.summonarmor.notenoughspace": "You don't have enough room in your inventory",
