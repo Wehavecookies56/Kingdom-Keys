@@ -822,49 +822,58 @@ public class EntityEvents {
 
 	@SubscribeEvent
 	public void entityPickup(ItemEntityPickupEvent.Pre event) {
-		if (event.getItemEntity().getItem() != null && event.getItemEntity().getItem().getItem() instanceof SynthesisItem) {
-			for (int i = 0; i < event.getPlayer().getInventory().getContainerSize(); i++) {
-				ItemStack bag = event.getPlayer().getInventory().getItem(i);
-				if (!ItemStack.matches(bag, ItemStack.EMPTY)) {
-					if (bag.getItem() == ModItems.synthesisBag.get()) {
-						IItemHandler inv = bag.getCapability(Capabilities.ItemHandler.ITEM, null);
-						addItemToBag(inv, event, bag);
+		if (event.getItemEntity().getItem() != null){
+			if(event.getItemEntity().getItem().getItem() instanceof SynthesisItem) {
+				for (int i = 0; i < event.getPlayer().getInventory().getContainerSize(); i++) {
+					ItemStack bag = event.getPlayer().getInventory().getItem(i);
+					if (!ItemStack.matches(bag, ItemStack.EMPTY)) {
+						if (bag.getItem() == ModItems.synthesisBag.get()) {
+							IItemHandler inv = bag.getCapability(Capabilities.ItemHandler.ITEM, null);
+							addToBag(inv, event, bag);
+						}
 					}
 				}
-			}
-		} else if (event.getItemEntity().getItem() != null && event.getItemEntity().getItem().getItem() instanceof MagicSpellItem) {
-			for (int i = 0; i < event.getPlayer().getInventory().getContainerSize(); i++) {
-				ItemStack bag = event.getPlayer().getInventory().getItem(i);
-				if (!ItemStack.matches(bag, ItemStack.EMPTY)) {
-					if (bag.getItem() == ModItems.magicsBag.get()) {
-						IItemHandler inv = bag.getCapability(Capabilities.ItemHandler.ITEM, null);
-						addItemToBag(inv, event, bag);
+			} else if(event.getItemEntity().getItem().getItem() instanceof MagicSpellItem) {
+				for (int i = 0; i < event.getPlayer().getInventory().getContainerSize(); i++) {
+					ItemStack bag = event.getPlayer().getInventory().getItem(i);
+					if (!ItemStack.matches(bag, ItemStack.EMPTY)) {
+						if (bag.getItem() == ModItems.magicsBag.get()) {
+							IItemHandler inv = bag.getCapability(Capabilities.ItemHandler.ITEM, null);
+							addToBag(inv, event, bag);
+						}
 					}
 				}
 			}
 		}
 	}
 
-	public void addItemToBag(IItemHandler inv, ItemEntityPickupEvent event, ItemStack bag) {
+	public void addToBag(IItemHandler inv, ItemEntityPickupEvent event, ItemStack bag) {
 		int bagLevel = bag.getOrDefault(ModComponents.BAG_LEVEL, 0);
 		int maxSlots = switch (bagLevel) {
-            case 0 -> 18;
-            case 1 -> 36;
-            case 2 -> 54;
-            case 3 -> 72;
-            default -> 0;
-        };
+			case 0 -> 18;
+			case 1 -> 36;
+			case 2 -> 54;
+			case 3 -> 72;
+			default -> 0;
+		};
 
 		for (int j = 0; j < maxSlots; j++) {
+			ItemStack bagItem = inv.getStackInSlot(j);
 			ItemStack pickUp = event.getItemEntity().getItem();
-			if (pickUp.isEmpty()) {
-				return;
-			}
-
-			pickUp = inv.insertItem(j, pickUp, false);
-			event.getItemEntity().setItem(pickUp);
-			if (pickUp.isEmpty()) {
-				event.getItemEntity().discard();
+			if (!ItemStack.matches(bagItem, ItemStack.EMPTY)) {
+				if (bagItem.getItem().equals(pickUp.getItem())) {
+					if (bagItem.getCount() < bagItem.getMaxStackSize()) {
+						if (bagItem.getCount() + pickUp.getCount() <= bagItem.getMaxStackSize()) {
+							ItemStack stack = new ItemStack(pickUp.copy().getItem(), pickUp.copy().getCount());
+							inv.insertItem(j, stack, false);
+							pickUp.setCount(0);
+							return;
+						}
+					}
+				}
+			} else if (ItemStack.matches(bagItem, ItemStack.EMPTY)) {
+				inv.insertItem(j, pickUp.copy(), false);
+				pickUp.setCount(0);
 				return;
 			}
 		}

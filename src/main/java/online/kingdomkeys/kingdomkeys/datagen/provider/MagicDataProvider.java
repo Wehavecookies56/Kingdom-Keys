@@ -95,6 +95,10 @@ public class MagicDataProvider implements DataProvider {
 				.level(3).cost(20).castTime(0).cooldown(20).damageMultiplier(1.0F).lockOn(false).maxExp(200).maxExpLevel(3).end()
 				.build());
 
+		magics.put("magic_darkfire", new MagicBuilder()
+				.level(0).cost(8).castTime(10).cooldown(5).damageMultiplier(0.5F).lockOn(true).maxExp(6600).maxExpLevel(5).end()
+				.build());
+
 		CompletableFuture<?>[] futures = magics.entrySet().stream().map(entry -> {
 			Path path = pathProvider.json(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, entry.getKey()));
 			return DataProvider.saveStable(cache, entry.getValue(), path);

@@ -2,6 +2,7 @@ package online.kingdomkeys.kingdomkeys.entity.magic;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -24,15 +25,15 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.util.List;
 
-public class FiragaEntity extends BaseMagicProjectile {
+public class DarkFiragaEntity extends BaseMagicProjectile {
 
-	public FiragaEntity(EntityType<? extends ThrowableProjectile> type, Level world) {
+	public DarkFiragaEntity(EntityType<? extends ThrowableProjectile> type, Level world) {
 		super(type, world);
 		this.blocksBuilding = true;
 	}
 
-	public FiragaEntity(Level world, LivingEntity player, float dmgMult, LivingEntity lockOnEntity) {
-		super(ModEntities.TYPE_FIRAGA.get(), player, world);
+	public DarkFiragaEntity(Level world, LivingEntity player, float dmgMult, LivingEntity lockOnEntity) {
+		super(ModEntities.TYPE_DARKFIRAGA.get(), player, world);
 		this.dmgMult = dmgMult;
 		this.lockOnEntity = lockOnEntity;
 		setDamageType(KKDamageTypes.FIRE);
@@ -64,7 +65,9 @@ public class FiragaEntity extends BaseMagicProjectile {
 					double x = getX() + (radius * Math.cos(Math.toRadians(s)) * Math.sin(Math.toRadians(t)));
 					double z = getZ() + (radius * Math.sin(Math.toRadians(s)) * Math.sin(Math.toRadians(t)));
 					double y = getY() + (radius * Math.cos(Math.toRadians(t)));
-					level().addParticle(ParticleTypes.FLAME, x, y, z, 0, 0, 0);
+					SimpleParticleType particle = ParticleTypes.SOUL_FIRE_FLAME;
+					if(Math.random() < 0.5D) particle = ParticleTypes.DRAGON_BREATH;
+					level().addParticle(particle, x, y, z, 0, 0, 0);
 				}
 			}
 		}
@@ -125,7 +128,8 @@ public class FiragaEntity extends BaseMagicProjectile {
 			List<Entity> list = level().getEntities(getOwner(), getBoundingBox().inflate(radius));
 			list = Utils.removePartyMembersFromList((Player)getOwner(), list);
 
-			((ServerLevel)level()).sendParticles(ParticleTypes.FLAME, getX(), getY(), getZ(), 500, Math.random() - 0.5D, Math.random() - 0.5D, Math.random() - 0.5D,0.1);
+			((ServerLevel)level()).sendParticles(ParticleTypes.SOUL_FIRE_FLAME, getX(), getY(), getZ(), 250, Math.random() - 0.5D, Math.random() - 0.5D, Math.random() - 0.5D,0.1);
+			((ServerLevel)level()).sendParticles(ParticleTypes.DRAGON_BREATH, getX(), getY(), getZ(), 250, Math.random() - 0.5D, Math.random() - 0.5D, Math.random() - 0.5D,0.1);
 			
 			if (!list.isEmpty()) {
                 for (Entity e : list) {

@@ -1,3 +1,7 @@
+# 2.7.11d
+### Fixed:
+* Synthesis bag materials duplicating.
+
 # 2.7.11c
 ### Added:
 * The ability for magic spells bag to suck in magic spells identically to how the synthesis bag does.

@@ -25,6 +25,7 @@ public class ModMagic {
 		MAGNET = MAGIC.register(ResourceLocation.parse(Strings.Magic_Magnet).getPath(), () -> new MagicMagnet(ResourceLocation.parse(Strings.Magic_Magnet), 3, null)),
 		REFLECT = MAGIC.register(ResourceLocation.parse(Strings.Magic_Reflect).getPath(), () -> new MagicReflect(ResourceLocation.parse(Strings.Magic_Reflect), 3, null)),
 		GRAVITY = MAGIC.register(ResourceLocation.parse(Strings.Magic_Gravity).getPath(), () -> new MagicGravity(ResourceLocation.parse(Strings.Magic_Gravity), 3, null)),
-		STOP = MAGIC.register(ResourceLocation.parse(Strings.Magic_Stop).getPath(), () -> new MagicStop(ResourceLocation.parse(Strings.Magic_Stop), 3, null))
+		STOP = MAGIC.register(ResourceLocation.parse(Strings.Magic_Stop).getPath(), () -> new MagicStop(ResourceLocation.parse(Strings.Magic_Stop), 3, null)),
+		DARK_FIRAGA = MAGIC.register(ResourceLocation.parse(Strings.Magic_DarkFire).getPath(), () -> new MagicFire(ResourceLocation.parse(Strings.Magic_DarkFire), 1, null))
 		;
 }

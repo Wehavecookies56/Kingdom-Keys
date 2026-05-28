@@ -66,7 +66,9 @@ public class Strings {
 
 		Magic_Stop = KingdomKeys.MODID + ":" + Mag_Prefix + "stop",
 		Magic_Stopra = KingdomKeys.MODID + ":" + Mag_Prefix + "stopra",
-		Magic_Stopga = KingdomKeys.MODID + ":" + Mag_Prefix + "stopga";
+		Magic_Stopga = KingdomKeys.MODID + ":" + Mag_Prefix + "stopga",
+
+		Magic_DarkFire = KingdomKeys.MODID + ":" + Mag_Prefix + "darkfire";
 																
     
     // Drive Forms
@@ -655,6 +657,8 @@ public class Strings {
 		SpellStop = "spellstop",
 		SpellStopra = "spellstopra",
 		SpellStopga = "spellstopga",
+
+		SpellDarkFiraga = "spelldarkfiraga",
 
 		StruggleSword = "struggle_sword",
 		StruggleWand = "struggle_wand",

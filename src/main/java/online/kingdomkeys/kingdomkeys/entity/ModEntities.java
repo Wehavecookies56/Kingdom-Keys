@@ -75,7 +75,8 @@ public class ModEntities {
     public static final Supplier<EntityType<FiraEntity>> TYPE_FIRA = createEntityType(FiraEntity::new, MobCategory.MISC,"entity_fira", 0.8F, 0.8F);
     public static final Supplier<EntityType<FiragaEntity>> TYPE_FIRAGA = createEntityType(FiragaEntity::new, MobCategory.MISC,"entity_firaga", 1.2F, 1.2F);
     public static final Supplier<EntityType<FirazaEntity>> TYPE_FIRAZA = createEntityType(FirazaEntity::new, MobCategory.MISC,"entity_firaza", 1.2F, 1.2F);
-    
+    public static final Supplier<EntityType<DarkFiragaEntity>> TYPE_DARKFIRAGA = createEntityType(DarkFiragaEntity::new, MobCategory.MISC,"entity_darkfiraga", 1.2F, 1.2F);
+
     public static final Supplier<EntityType<BlizzardEntity>> TYPE_BLIZZARD = createEntityType(BlizzardEntity::new, MobCategory.MISC,"entity_blizzard", 0.5F, 0.5F);
     public static final Supplier<EntityType<BlizzazaEntity>> TYPE_BLIZZAZA = createEntityType(BlizzazaEntity::new, MobCategory.MISC,"entity_blizzaza", 0.5F, 0.5F);
 
@@ -286,20 +287,26 @@ public class ModEntities {
         event.registerEntityRenderer(TYPE_FIRA.get(), InvisibleEntityRenderer::new);
         event.registerEntityRenderer(TYPE_FIRAGA.get(), InvisibleEntityRenderer::new);
         event.registerEntityRenderer(TYPE_FIRAZA.get(), InvisibleEntityRenderer::new);
+        event.registerEntityRenderer(TYPE_DARKFIRAGA.get(), InvisibleEntityRenderer::new);
+
         event.registerEntityRenderer(TYPE_BLIZZARD.get(), InvisibleEntityRenderer::new);
         event.registerEntityRenderer(TYPE_BLIZZAZA.get(), InvisibleEntityRenderer::new);
+
         event.registerEntityRenderer(TYPE_THUNDER.get(), InvisibleEntityRenderer::new);
         event.registerEntityRenderer(TYPE_THUNDARA.get(), InvisibleEntityRenderer::new);
         event.registerEntityRenderer(TYPE_THUNDAGA.get(), InvisibleEntityRenderer::new);
         event.registerEntityRenderer(TYPE_THUNDAZA.get(), InvisibleEntityRenderer::new);
         event.registerEntityRenderer(TYPE_THUNDERBOLT.get(), ThunderBoltEntityRenderer::new);
+
         event.registerEntityRenderer(TYPE_MAGNET.get(), MagnetEntityRenderer::new);
         event.registerEntityRenderer(TYPE_MAGNERA.get(), MagnetEntityRenderer::new);
         event.registerEntityRenderer(TYPE_MAGNEGA.get(), MagnetEntityRenderer::new);
+
         event.registerEntityRenderer(TYPE_WATER.get(), InvisibleEntityRenderer::new);
         event.registerEntityRenderer(TYPE_WATERA.get(), InvisibleEntityRenderer::new);
         event.registerEntityRenderer(TYPE_WATERGA.get(), InvisibleEntityRenderer::new);
         event.registerEntityRenderer(TYPE_WATERZA.get(), InvisibleEntityRenderer::new);
+
         event.registerEntityRenderer(TYPE_GRAVITY.get(), InvisibleEntityRenderer::new);
         event.registerEntityRenderer(TYPE_GRAVIRA.get(), InvisibleEntityRenderer::new);
         event.registerEntityRenderer(TYPE_GRAVIGA.get(), InvisibleEntityRenderer::new);

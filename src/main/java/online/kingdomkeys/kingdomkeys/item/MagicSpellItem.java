@@ -90,6 +90,10 @@ public class MagicSpellItem extends Item implements IItemCategory {
 	 */
 	public int getMaxExpLevel() {
 		Magic magicInstance = ModMagic.registry.get(ResourceLocation.parse(magic));
+		if(magicInstance == null){
+			System.out.println(magic+": magic not found");
+			return 1;
+		}
 		int lvl = magicInstance.getMaxExpLevel(getLevel());
 		return lvl == 0 ? 1 : lvl;
 	}

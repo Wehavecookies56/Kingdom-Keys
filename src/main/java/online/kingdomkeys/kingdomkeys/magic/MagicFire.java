@@ -7,10 +7,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
-import online.kingdomkeys.kingdomkeys.entity.magic.FiraEntity;
-import online.kingdomkeys.kingdomkeys.entity.magic.FiragaEntity;
-import online.kingdomkeys.kingdomkeys.entity.magic.FirazaEntity;
-import online.kingdomkeys.kingdomkeys.entity.magic.FireEntity;
+import online.kingdomkeys.kingdomkeys.entity.magic.*;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 
 public class MagicFire extends Magic {
@@ -24,6 +21,14 @@ public class MagicFire extends Magic {
 		float dmgMult = getDamageMult(level) + PlayerData.get(caster).getNumberOfAbilitiesEquipped(Strings.fireBoost) * 0.2F;
 		dmgMult *= fullMPBlastMult;
 		lockOnEntity = getMagicLockOn(level) ? lockOnEntity : null;
+
+		if(getRegistryName().toString().equals(Strings.Magic_DarkFire)){
+			DarkFiragaEntity darkFiraga = new DarkFiragaEntity(player.level(), player, dmgMult, lockOnEntity);
+			player.level().addFreshEntity(darkFiraga);
+			darkFiraga.shootFromRotation(player, player.getXRot(), player.getYRot(), 0, 2F, 0);
+			return;
+		}
+		//If it's dark firaga set level to 2 and set dark flames
 
 		switch (level) {
 		case 0:
