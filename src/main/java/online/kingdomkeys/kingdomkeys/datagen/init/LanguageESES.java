@@ -634,6 +634,8 @@ public class LanguageESES extends KKLanguageProvider {
         addMagic(ModMagic.REFLECT, "Reflejo", "Reflejo+", "Reflejo++");
         addMagic(ModMagic.GRAVITY, "Gravedad", "Gravedad+", "Gravedad++");
         addMagic(ModMagic.STOP, "Paro", "Paro+", "Paro++");
+        add(0,ModMagic.DARK_FIRAGA.get(),"Nigro Piro++");
+
 
         //Limits
         addLimit(ModLimits.LASER_CIRCLE, "C\u00edrculo L\u00e1ser");
@@ -948,6 +950,7 @@ public class LanguageESES extends KKLanguageProvider {
         addItem(ModItems.reflegaSpell, "Hechizo de Reflejo++");
         addItem(ModItems.gravigaSpell, "Hechizo de Gravedad++");
         addItem(ModItems.stopgaSpell, "Hechizo de Paro++");
+        addItem(ModItems.darkFiragaSpell, "Hechizo de Nigro Piro++");
 
         // Drive form orbs
         addItem(ModItems.valorOrb, "Orbe de Forma Valiente");

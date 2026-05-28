@@ -735,6 +735,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addMagic(ModMagic.REFLECT, "Reflect", "Reflera", "Reflega");
         addMagic(ModMagic.GRAVITY, "Gravity", "Gravira", "Graviga");
         addMagic(ModMagic.STOP, "Stop", "Stopra", "Stopga");
+        add(0,ModMagic.DARK_FIRAGA.get(),"Dark Firaga");
 
         //Drive Forms
         addDriveForm(ModDriveForms.VALOR, "Valor");
@@ -1910,6 +1911,8 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.reflegaSpell, "Reflega Spell");
         addItem(ModItems.gravigaSpell, "Graviga Spell");
         addItem(ModItems.stopgaSpell, "Stopga Spell");
+        addItem(ModItems.darkFiragaSpell, "Dark Firaga Spell");
+
 
         //Drive form orbs
         addItem(ModItems.valorOrb, "Valor Form Orb");
