@@ -16,7 +16,6 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
-import online.kingdomkeys.kingdomkeys.damagesource.KKDamageTypes;
 import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
@@ -36,7 +35,7 @@ public class FissionFiragaEntity extends FiragaEntity {
 		super(ModEntities.TYPE_FISSIONFIRAGA.get(), world, player, dmgMult, lockOnEntity);
 	}
 
-	public List<SimpleParticleType> getParticles(){
+	public List<SimpleParticleType> getParticles() {
 		return List.of(ParticleTypes.FLAME);
 	}
 
@@ -47,7 +46,7 @@ public class FissionFiragaEntity extends FiragaEntity {
 
 	@Override
 	protected void onHit(HitResult rtRes) {
-		super.onHit(rtRes);
+		//super.onHit(rtRes);
 		if (!level().isClientSide && getOwner() != null) {
 			EntityHitResult ertResult = null;
 			BlockHitResult brtResult = null;
@@ -61,12 +60,12 @@ public class FissionFiragaEntity extends FiragaEntity {
 			}
 
 			LivingEntity target = null;
-			if(ertResult != null && ertResult.getEntity() instanceof LivingEntity t){
+			if (ertResult != null && ertResult.getEntity() instanceof LivingEntity t) {
 				target = t;
 			}
 
 			if (target != null) {
-                if (target != getOwner()) {
+				if (target != getOwner()) {
 					if (target.getEffect(ModMobEffects.FREEZE) != null) {
 						target.removeEffect(ModMobEffects.FREEZE);
 					}
@@ -74,7 +73,7 @@ public class FissionFiragaEntity extends FiragaEntity {
 					if (getOwner() != null) {
 						p = WorldData.get(getOwner().getServer()).getPartyFromMember(getOwner().getUUID());
 					}
-					if(p == null || (p.getMember(target.getUUID()) == null || p.getFriendlyFire())) { //If caster is not in a party || the party doesn't have the target in it || the party has FF on
+					if (p == null || (p.getMember(target.getUUID()) == null || p.getFriendlyFire())) { //If caster is not in a party || the party doesn't have the target in it || the party has FF on
 						target.setRemainingFireTicks(15);
 						damageEntity(target);
 						target.invulnerableTime = 0;
@@ -83,46 +82,57 @@ public class FissionFiragaEntity extends FiragaEntity {
 			}
 
 			float radius = 2.5F;
-			
+
 			if (brtResult != null) {
 				BlockPos ogBlockPos = brtResult.getBlockPos();
 
-				for(int x=(int)(ogBlockPos.getX()-radius);x<ogBlockPos.getX()+radius;x++) {
-					for(int y=(int)(ogBlockPos.getY()-radius);y<ogBlockPos.getY()+radius;y++) {
-						for(int z=(int)(ogBlockPos.getZ()-radius);z<ogBlockPos.getZ()+radius;z++) {
-							BlockPos blockpos = new BlockPos(x,y,z);
+				for (int x = (int) (ogBlockPos.getX() - radius); x < ogBlockPos.getX() + radius; x++) {
+					for (int y = (int) (ogBlockPos.getY() - radius); y < ogBlockPos.getY() + radius; y++) {
+						for (int z = (int) (ogBlockPos.getZ() - radius); z < ogBlockPos.getZ() + radius; z++) {
+							BlockPos blockpos = new BlockPos(x, y, z);
 							BlockState blockstate = level().getBlockState(blockpos);
-							if(blockstate.getBlock() == Blocks.WET_SPONGE) {
+							if (blockstate.getBlock() == Blocks.WET_SPONGE) {
 								level().setBlockAndUpdate(blockpos, Blocks.SPONGE.defaultBlockState());
 							}
-							if(blockstate.hasProperty(BlockStateProperties.LIT))
-								level().setBlock(blockpos, blockstate.setValue(BlockStateProperties.LIT, true), 11);
+							if (blockstate.hasProperty(BlockStateProperties.LIT)) level().setBlock(blockpos, blockstate.setValue(BlockStateProperties.LIT, true), 11);
 						}
 					}
 				}
 			}
-			
+
 			List<Entity> list = level().getEntities(getOwner(), getBoundingBox().inflate(radius));
-			list = Utils.removePartyMembersFromList((Player)getOwner(), list);
-			if(target != null) { //If was direct impact remove the target from the explosion damage
+			list = Utils.removePartyMembersFromList((Player) getOwner(), list);
+			if (target != null) { //If was direct impact remove the target from the explosion damage
 				list.remove(target);
 			}
 
-			for(SimpleParticleType p : getParticles()) {
-				((ServerLevel)level()).sendParticles(p, getX(), getY(), getZ(), 200/getParticles().size(), Math.random() - 0.5D, Math.random() - 0.5D, Math.random() - 0.5D,0.1);
+			for (SimpleParticleType p : getParticles()) {
+				((ServerLevel) level()).sendParticles(p, getX(), getY(), getZ(), 100 / getParticles().size(), Math.random() - 0.5D, Math.random() - 0.5D, Math.random() - 0.5D, 0.1);
+			}
+
+			radius -= 1.5F;
+			for (int a = 0; a < 360; a += 5) {
+				double angle = Math.toRadians(a);
+				double dirX = Math.sin(angle);
+				double dirZ = Math.cos(angle);
+
+				double x = getX() + radius * dirX;
+				double z = getZ() + radius * dirZ;
+
+				((ServerLevel) level()).sendParticles(ParticleTypes.FLAME, x, getY(), z, 0, dirX * 0.15, 0, dirZ * 0.15, 1);
 			}
 
 			if (!list.isEmpty()) {
-                for (Entity e : list) {
-                    if (e instanceof LivingEntity ent) {
-                        e.setRemainingFireTicks(15);
+				for (Entity e : list) {
+					if (e instanceof LivingEntity ent) {
+						e.setRemainingFireTicks(15);
 						damageEntity(ent);
 
 						if (ent.getEffect(ModMobEffects.FREEZE) != null) {
 							ent.removeEffect(ModMobEffects.FREEZE);
 						}
-                    }
-                }
+					}
+				}
 			}
 
 			remove(RemovalReason.KILLED);

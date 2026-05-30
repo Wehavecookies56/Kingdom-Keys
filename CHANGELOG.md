@@ -12,6 +12,9 @@
   * Zero Graviga: Meldable with Zero Graviga + Zero Graviga / Zero Gravira + Thundara.
   * Blackout: Available in shop for 500 munny after unlocking Synthesis Rank C.
   * Poison: Available in shop for 500 munny after unlocking Synthesis Rank C.
+
+### Changed:
+* Firaga no longer has an AOE attack, Fission Firaga takes that.
   
 ### Fixed:
 * Selling would not work if the inventory was full.
