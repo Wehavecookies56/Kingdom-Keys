@@ -860,7 +860,9 @@ public class ModItems {
 			gravigaSpell =  createNewItem(Strings.SpellGraviga, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "gravity", 2)),
 			stopgaSpell =   createNewItem(Strings.SpellStopga, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "stop", 2)),
 
-			darkFiragaSpell = createNewItem(Strings.SpellDarkFiraga, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "darkfire", 0)),
+			darkFiragaSpell = createNewItem(Strings.SpellDarkFiraga, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_DarkFire, 0)),
+			tripleFiragaSpell = createNewItem(Strings.SpellTripleFiraga, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_TripleFire, 0)),
+			tripleBlizzagaSpell = createNewItem(Strings.SpellTripleBlizzaga, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_TripleBlizzard, 0)),
 
 			struggleSword = createNewItem(Strings.StruggleSword, () -> new SwordItem(new KeybladeItemTier(0),new Item.Properties().attributes(SwordItem.createAttributes(new KeybladeItemTier(0), 1, 1)).stacksTo(1))),
 			struggleWand = createNewItem(Strings.StruggleWand, () -> new SwordItem(new KeybladeItemTier(0), new Item.Properties().attributes(SwordItem.createAttributes(new KeybladeItemTier(0), 1, 1)).stacksTo(1))),

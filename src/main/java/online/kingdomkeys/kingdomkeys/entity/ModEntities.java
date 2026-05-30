@@ -29,10 +29,7 @@ import online.kingdomkeys.kingdomkeys.client.model.entity.*;
 import online.kingdomkeys.kingdomkeys.client.render.block.*;
 import online.kingdomkeys.kingdomkeys.client.render.entity.*;
 import online.kingdomkeys.kingdomkeys.client.render.entity.drops.*;
-import online.kingdomkeys.kingdomkeys.client.render.magic.HeartEntityRenderer;
-import online.kingdomkeys.kingdomkeys.client.render.magic.InvisibleEntityRenderer;
-import online.kingdomkeys.kingdomkeys.client.render.magic.MagnetEntityRenderer;
-import online.kingdomkeys.kingdomkeys.client.render.magic.ThunderBoltEntityRenderer;
+import online.kingdomkeys.kingdomkeys.client.render.magic.*;
 import online.kingdomkeys.kingdomkeys.client.render.org.*;
 import online.kingdomkeys.kingdomkeys.client.render.shotlock.UltimaCannonShotlockShotEntityRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.shotlock.VolleyShotlockShotEntityRenderer;
@@ -76,6 +73,8 @@ public class ModEntities {
     public static final Supplier<EntityType<FiragaEntity>> TYPE_FIRAGA = createEntityType(FiragaEntity::new, MobCategory.MISC,"entity_firaga", 1.2F, 1.2F);
     public static final Supplier<EntityType<FirazaEntity>> TYPE_FIRAZA = createEntityType(FirazaEntity::new, MobCategory.MISC,"entity_firaza", 1.2F, 1.2F);
     public static final Supplier<EntityType<DarkFiragaEntity>> TYPE_DARKFIRAGA = createEntityType(DarkFiragaEntity::new, MobCategory.MISC,"entity_darkfiraga", 1.2F, 1.2F);
+    public static final Supplier<EntityType<TripleFiragaControllerEntity>> TYPE_TRIPLE_FIRAGA_CONTROLLER = createEntityType(TripleFiragaControllerEntity::new, MobCategory.MISC,"entity_triple_firaga_controller", 0.5F, 0.5F);
+    public static final Supplier<EntityType<TripleBlizzagaControllerEntity>> TYPE_TRIPLE_BLIZZAGA_CONTROLLER = createEntityType(TripleBlizzagaControllerEntity::new, MobCategory.MISC,"entity_triple_blizzaga_controller", 0.5F, 0.5F);
 
     public static final Supplier<EntityType<BlizzardEntity>> TYPE_BLIZZARD = createEntityType(BlizzardEntity::new, MobCategory.MISC,"entity_blizzard", 0.5F, 0.5F);
     public static final Supplier<EntityType<BlizzazaEntity>> TYPE_BLIZZAZA = createEntityType(BlizzazaEntity::new, MobCategory.MISC,"entity_blizzaza", 0.5F, 0.5F);
@@ -193,7 +192,7 @@ public class ModEntities {
     //Nobodies
     public static final Supplier<EntityType<NobodyCreeperEntity>> TYPE_NOBODY_CREEPER = createEntityType(NobodyCreeperEntity::new, MobCategory.MONSTER, "nobody_creeper", 1F, 1.5F);
     public static final Supplier<Item> NOBODY_CREEPER_EGG = ModItems.ITEMS.register("nobody_creeper_spawn_egg", () -> new DeferredSpawnEggItem(TYPE_NOBODY_CREEPER, 0xb8bdc4, 0xfcfcfc, PROPERTIES));
-    public static final Supplier<EntityType<DuskEntity>> TYPE_DUSK = createEntityType(DuskEntity::new, MobCategory.MONSTER, "dusk", 1F, 1.8F);
+    public static final Supplier<EntityType<DuskEntity>> TYPE_DUSK = createEntityType(DuskEntity::new, MobCategory.MONSTER, "dusk", 0.7F, 1.8F);
     public static final Supplier<Item> DUSK_EGG = ModItems.ITEMS.register("dusk_spawn_egg", () -> new DeferredSpawnEggItem(TYPE_DUSK, 0xb8bdc4, 0xfcfcfc, PROPERTIES));
     public static final Supplier<EntityType<AssassinEntity>> TYPE_ASSASSIN = /*ENTITIES.register("assassin", () -> EntityType.Builder.of(AssassinEntity::new, MobCategory.CREATURE)
             .sized(0.75f, 0.35f).build("assassin"));*/
@@ -283,11 +282,13 @@ public class ModEntities {
         event.registerEntityRenderer(TYPE_DRIVEORB.get(), DriveOrbRenderer::new);
         event.registerEntityRenderer(TYPE_FOCUSORB.get(), FocusOrbRenderer::new);
         
-        event.registerEntityRenderer(TYPE_FIRE.get(), InvisibleEntityRenderer::new);
-        event.registerEntityRenderer(TYPE_FIRA.get(), InvisibleEntityRenderer::new);
-        event.registerEntityRenderer(TYPE_FIRAGA.get(), InvisibleEntityRenderer::new);
-        event.registerEntityRenderer(TYPE_FIRAZA.get(), InvisibleEntityRenderer::new);
-        event.registerEntityRenderer(TYPE_DARKFIRAGA.get(), InvisibleEntityRenderer::new);
+        event.registerEntityRenderer(TYPE_FIRE.get(), FireEntityRenderer::new);
+        event.registerEntityRenderer(TYPE_FIRA.get(), FireEntityRenderer::new);
+        event.registerEntityRenderer(TYPE_FIRAGA.get(), FireEntityRenderer::new);
+        event.registerEntityRenderer(TYPE_FIRAZA.get(), FireEntityRenderer::new);
+        event.registerEntityRenderer(TYPE_DARKFIRAGA.get(), FireEntityRenderer::new);
+        event.registerEntityRenderer(TYPE_TRIPLE_FIRAGA_CONTROLLER.get(), InvisibleEntityRenderer::new);
+        event.registerEntityRenderer(TYPE_TRIPLE_BLIZZAGA_CONTROLLER.get(), InvisibleEntityRenderer::new);
 
         event.registerEntityRenderer(TYPE_BLIZZARD.get(), InvisibleEntityRenderer::new);
         event.registerEntityRenderer(TYPE_BLIZZAZA.get(), InvisibleEntityRenderer::new);

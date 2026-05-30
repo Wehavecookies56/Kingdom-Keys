@@ -2,6 +2,7 @@ package online.kingdomkeys.kingdomkeys.entity.magic;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -32,10 +33,18 @@ public class FiragaEntity extends BaseMagicProjectile {
 	}
 
 	public FiragaEntity(Level world, LivingEntity player, float dmgMult, LivingEntity lockOnEntity) {
-		super(ModEntities.TYPE_FIRAGA.get(), player, world);
+		this(ModEntities.TYPE_FIRAGA.get(), world, player, dmgMult,lockOnEntity);
+	}
+
+	public FiragaEntity(EntityType<? extends FiragaEntity> entityType, Level world, LivingEntity player, float dmgMult, LivingEntity lockOnEntity) {
+		super(entityType, player, world);
 		this.dmgMult = dmgMult;
 		this.lockOnEntity = lockOnEntity;
 		setDamageType(KKDamageTypes.FIRE);
+	}
+
+	public List<SimpleParticleType> getParticles(){
+		return List.of(ParticleTypes.FLAME);
 	}
 
 	@Override
@@ -58,15 +67,18 @@ public class FiragaEntity extends BaseMagicProjectile {
 		}
 
 		if(tickCount > 2) {
-			float radius = 0.8F;
-			for (int t = 1; t < 360; t += 30) {
-				for (int s = 1; s < 360 ; s += 30) {
-					double x = getX() + (radius * Math.cos(Math.toRadians(s)) * Math.sin(Math.toRadians(t)));
-					double z = getZ() + (radius * Math.sin(Math.toRadians(s)) * Math.sin(Math.toRadians(t)));
-					double y = getY() + (radius * Math.cos(Math.toRadians(t)));
-					level().addParticle(ParticleTypes.FLAME, x, y, z, 0, 0, 0);
+			float radius = 0.6F;
+			for(int i = 0; i < 1; ++i) {
+				double t = Math.random() * 360;
+				double s = Math.random() * 360;
+				double x = getX() + (radius * Math.cos(Math.toRadians(s)) * Math.sin(Math.toRadians(t)));
+				double z = getZ() + (radius * Math.sin(Math.toRadians(s)) * Math.sin(Math.toRadians(t)));
+				double y = getY() + (radius * Math.cos(Math.toRadians(t)));
+				for (SimpleParticleType p : getParticles()) {
+					level().addParticle(p, x, y, z, 0, 0, 0);
 				}
 			}
+
 		}
 		super.tick();
 	}
@@ -86,7 +98,12 @@ public class FiragaEntity extends BaseMagicProjectile {
 				brtResult = (BlockHitResult) rtRes;
 			}
 
-			if (ertResult != null && ertResult.getEntity() instanceof LivingEntity target) {
+			LivingEntity target = null;
+			if(ertResult != null && ertResult.getEntity() instanceof LivingEntity t){
+				target = t;
+			}
+
+			if (target != null) {
                 if (target != getOwner()) {
 					if (target.getEffect(ModMobEffects.FREEZE) != null) {
 						target.removeEffect(ModMobEffects.FREEZE);
@@ -98,11 +115,12 @@ public class FiragaEntity extends BaseMagicProjectile {
 					if(p == null || (p.getMember(target.getUUID()) == null || p.getFriendlyFire())) { //If caster is not in a party || the party doesn't have the target in it || the party has FF on
 						target.setRemainingFireTicks(15);
 						damageEntity(target);
+						target.invulnerableTime = 0;
 					}
 				}
 			}
 
-			float radius = 2F;
+			float radius = 1.5F;
 			
 			if (brtResult != null) {
 				BlockPos ogBlockPos = brtResult.getBlockPos();
@@ -124,9 +142,14 @@ public class FiragaEntity extends BaseMagicProjectile {
 			
 			List<Entity> list = level().getEntities(getOwner(), getBoundingBox().inflate(radius));
 			list = Utils.removePartyMembersFromList((Player)getOwner(), list);
+			if(target != null) { //If was direct impact remove the target from the explosion damage
+				list.remove(target);
+			}
 
-			((ServerLevel)level()).sendParticles(ParticleTypes.FLAME, getX(), getY(), getZ(), 500, Math.random() - 0.5D, Math.random() - 0.5D, Math.random() - 0.5D,0.1);
-			
+			for(SimpleParticleType p : getParticles()) {
+				((ServerLevel)level()).sendParticles(p, getX(), getY(), getZ(), 200/getParticles().size(), Math.random() - 0.5D, Math.random() - 0.5D, Math.random() - 0.5D,0.1);
+			}
+
 			if (!list.isEmpty()) {
                 for (Entity e : list) {
                     if (e instanceof LivingEntity ent) {

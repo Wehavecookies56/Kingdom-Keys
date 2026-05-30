@@ -1,3 +1,14 @@
+# IDK
+### Added:
+* New magics:
+  * Dark Firaga: Meldable with whatever
+  * Triple Firaga: Meldable with whatever
+  * Triple Blizzaga: Meldable...
+  
+### Fixed:
+* Selling would no work if the inventory was full.
+* Blizzard not ignoring iframes.
+
 # 2.7.11d
 ### Fixed:
 * Synthesis bag materials duplicating.

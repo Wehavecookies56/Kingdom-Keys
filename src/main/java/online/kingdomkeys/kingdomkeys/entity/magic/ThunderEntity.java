@@ -24,7 +24,6 @@ import java.util.List;
 public class ThunderEntity extends BaseMagicProjectile {
 
 	int maxTicks = 20;
-	LivingEntity lockedOnEntity;
 
 	public ThunderEntity(EntityType<? extends ThrowableProjectile> type, Level world) {
 		super(type, world);
@@ -33,11 +32,11 @@ public class ThunderEntity extends BaseMagicProjectile {
 	public ThunderEntity(Level world, LivingEntity player, float dmgMult, LivingEntity lockedOnEntity) {
 		super(ModEntities.TYPE_THUNDER.get(), player, world);
 		this.dmgMult = dmgMult;
-		this.lockedOnEntity = lockedOnEntity;
+		this.lockOnEntity = lockedOnEntity;
 		this.damageType = KKDamageTypes.LIGHTNING;
 	}
 
-	List<LivingEntity> list = new ArrayList<LivingEntity>();
+	List<LivingEntity> list = new ArrayList<>();
 
 	@Override
 	public void tick() {
@@ -50,8 +49,8 @@ public class ThunderEntity extends BaseMagicProjectile {
 		if (!level().isClientSide && getOwner() != null) { // Only calculate and spawn lightning bolts server side
 			if (tickCount == 1) {
 				if(getOwner() instanceof Player p) {
-					if(lockedOnEntity != null) {
-						list = Utils.getLivingEntitiesInRadiusExcludingParty(p, lockedOnEntity, radius, radius, radius);
+					if(lockOnEntity != null) {
+						list = Utils.getLivingEntitiesInRadiusExcludingParty(p, lockOnEntity, radius, radius, radius);
 					} else {
 						list = Utils.getLivingEntitiesInRadiusExcludingParty(p, radius);
 					}
@@ -79,9 +78,9 @@ public class ThunderEntity extends BaseMagicProjectile {
 					}
 				} else {
 					int x,z;
-					if(lockedOnEntity != null) {
-						x = (int) lockedOnEntity.getX();
-						z = (int) lockedOnEntity.getZ();
+					if(lockOnEntity != null) {
+						x = (int) lockOnEntity.getX();
+						z = (int) lockOnEntity.getZ();
 					} else {
 						x = (int) getOwner().getX();
 						z = (int) getOwner().getZ();

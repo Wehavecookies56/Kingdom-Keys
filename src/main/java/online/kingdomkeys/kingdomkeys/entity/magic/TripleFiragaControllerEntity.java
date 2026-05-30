@@ -1,0 +1,91 @@
+package online.kingdomkeys.kingdomkeys.entity.magic;
+
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LightningBolt;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.ThrowableProjectile;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.Vec3;
+import online.kingdomkeys.kingdomkeys.damagesource.KKDamageTypes;
+import online.kingdomkeys.kingdomkeys.entity.ModEntities;
+import online.kingdomkeys.kingdomkeys.lib.Strings;
+import online.kingdomkeys.kingdomkeys.magic.Magic;
+import online.kingdomkeys.kingdomkeys.magic.MagicFire;
+import online.kingdomkeys.kingdomkeys.magic.ModMagic;
+import online.kingdomkeys.kingdomkeys.util.Utils;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class TripleFiragaControllerEntity extends BaseMagicProjectile {
+
+	public TripleFiragaControllerEntity(EntityType<? extends ThrowableProjectile> type, Level world) {
+		super(type, world);
+	}
+
+	public TripleFiragaControllerEntity(Level world, LivingEntity player, float dmgMult, LivingEntity lockedOnEntity) {
+		super(ModEntities.TYPE_TRIPLE_FIRAGA_CONTROLLER.get(), player, world);
+		this.dmgMult = dmgMult;
+		this.lockOnEntity = lockedOnEntity;
+		this.damageType = KKDamageTypes.FIRE;
+		maxTicks = 12;
+	}
+
+
+	@Override
+	public void tick() {
+		if (this.tickCount > maxTicks) {
+			this.remove(RemovalReason.KILLED);
+		}
+
+		float radius = 2F;
+
+		if (!level().isClientSide && getOwner() != null) { // Only calculate and spawn lightning bolts server side
+			if (tickCount % 4 == 0) {
+				if(getOwner() instanceof Player player) {
+					ThrowableProjectile firaga = new FiragaEntity(level(), player, dmgMult, lockOnEntity);
+					player.level().addFreshEntity(firaga);
+					firaga.shootFromRotation(player, player.getXRot(), player.getYRot(), 0, 2F, 0);
+					Magic fire = ModMagic.registry.get(ResourceLocation.parse(Strings.Magic_Fire));
+					fire.playMagicCastSound2(player,player,0);
+				}
+				/*if(fire != null) {
+					if(getOwner() instanceof Player p) {
+						//fire.onUse(p,p,0,lockOnEntity);
+						fire.magicUse(p, p, 0, 1, lockOnEntity);
+						fire.playMagicCastSound(p,p,0,0);
+					}
+				}*/
+				//float dmg = getTotalDamage();
+				/*ThunderBoltEntity shot = new ThunderBoltEntity(getOwner().level(), (LivingEntity) getOwner(), posX, getOwner().level().getHeight(Heightmap.Types.WORLD_SURFACE, posX, posZ), posZ, dmg);
+				level().addFreshEntity(shot);
+
+				BlockPos pos = new BlockPos(posX, getOwner().level().getHeight(Heightmap.Types.WORLD_SURFACE, posX, posZ), posZ);
+				LightningBolt lightningBoltEntity = EntityType.LIGHTNING_BOLT.create(this.level());
+				lightningBoltEntity.moveTo(Vec3.atBottomCenterOf(pos));
+				lightningBoltEntity.setVisualOnly(true);
+				lightningBoltEntity.setCause(getOwner() instanceof ServerPlayer ? (ServerPlayer) getOwner() : null);
+				this.level().addFreshEntity(lightningBoltEntity);*/
+
+			}
+		}
+
+		super.tick();
+	}
+
+	@Override
+	protected void onHit(HitResult result) {
+
+	}
+}

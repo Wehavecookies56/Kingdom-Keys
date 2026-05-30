@@ -88,6 +88,7 @@ public class BlizzardEntity extends BaseMagicProjectile {
 								duration += freeze.getDuration();
 							}
 							target.addEffect(new MobEffectInstance(ModMobEffects.FREEZE, duration, 0, false, false, false));
+							target.invulnerableTime = 0;
 						}
 					}
 				}

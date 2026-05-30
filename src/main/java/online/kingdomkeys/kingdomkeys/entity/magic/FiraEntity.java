@@ -2,6 +2,7 @@ package online.kingdomkeys.kingdomkeys.entity.magic;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
@@ -47,13 +48,13 @@ public class FiraEntity extends BaseMagicProjectile {
 		//world.addParticle(ParticleTypes.ENTITY_EFFECT, getPosX(), getPosY(), getPosZ(), 1, 1, 0);
 		if(tickCount > 2) {
 			float radius = 0.4F;
-			for (int t = 1; t < 360; t += 40) {
-				for (int s = 1; s < 360 ; s += 40) {
-					double x = getX() + (radius * Math.cos(Math.toRadians(s)) * Math.sin(Math.toRadians(t)));
-					double z = getZ() + (radius * Math.sin(Math.toRadians(s)) * Math.sin(Math.toRadians(t)));
-					double y = getY() + (radius * Math.cos(Math.toRadians(t)));
-					level().addParticle(ParticleTypes.FLAME, x, y, z, 0, 0, 0);
-				}
+			for(int i = 0; i < 1; ++i) {
+				double t = Math.random() * 360;
+				double s = Math.random() * 360;
+				double x = getX() + (radius * Math.cos(Math.toRadians(s)) * Math.sin(Math.toRadians(t)));
+				double z = getZ() + (radius * Math.sin(Math.toRadians(s)) * Math.sin(Math.toRadians(t)));
+				double y = getY() + (radius * Math.cos(Math.toRadians(t)));
+				level().addParticle(ParticleTypes.FLAME, x, y, z, 0, 0, 0);
 			}
 		}
 		

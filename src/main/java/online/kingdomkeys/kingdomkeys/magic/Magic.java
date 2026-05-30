@@ -152,6 +152,10 @@ public abstract class Magic {
 
     public abstract void magicUse(LivingEntity player, Player caster, int level, float fullMPBlastMult, LivingEntity lockOnEntity);
 
+	public void playMagicCastSound2(LivingEntity player, Player caster, int level) {
+		playMagicCastSound(player,caster,level);
+	}
+
     protected abstract void playMagicCastSound(LivingEntity player, Player caster, int level);
 
 	private boolean getRCProb(PlayerData casterData, int level) {

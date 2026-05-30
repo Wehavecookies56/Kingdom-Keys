@@ -68,7 +68,9 @@ public class Strings {
 		Magic_Stopra = KingdomKeys.MODID + ":" + Mag_Prefix + "stopra",
 		Magic_Stopga = KingdomKeys.MODID + ":" + Mag_Prefix + "stopga",
 
-		Magic_DarkFire = KingdomKeys.MODID + ":" + Mag_Prefix + "darkfire";
+		Magic_DarkFire = KingdomKeys.MODID + ":" + Mag_Prefix + "darkfire",
+		Magic_TripleFire = KingdomKeys.MODID + ":" + Mag_Prefix + "triplefire",
+		Magic_TripleBlizzard = KingdomKeys.MODID + ":" + Mag_Prefix + "tripleblizzard";
 																
     
     // Drive Forms
@@ -659,6 +661,8 @@ public class Strings {
 		SpellStopga = "spellstopga",
 
 		SpellDarkFiraga = "spelldarkfiraga",
+		SpellTripleFiraga = "spelltriplefiraga",
+		SpellTripleBlizzaga = "spelltripleblizzaga",
 
 		StruggleSword = "struggle_sword",
 		StruggleWand = "struggle_wand",

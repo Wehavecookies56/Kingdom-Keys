@@ -736,6 +736,8 @@ public class LanguageENUS extends KKLanguageProvider {
         addMagic(ModMagic.GRAVITY, "Gravity", "Gravira", "Graviga");
         addMagic(ModMagic.STOP, "Stop", "Stopra", "Stopga");
         add(0,ModMagic.DARK_FIRAGA.get(),"Dark Firaga");
+        add(0,ModMagic.TRIPLE_FIRAGA.get(),"Triple Firaga");
+        add(0,ModMagic.TRIPLE_BLIZZAGA.get(),"Triple Blizzaga");
 
         //Drive Forms
         addDriveForm(ModDriveForms.VALOR, "Valor");
@@ -1912,6 +1914,8 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.gravigaSpell, "Graviga Spell");
         addItem(ModItems.stopgaSpell, "Stopga Spell");
         addItem(ModItems.darkFiragaSpell, "Dark Firaga Spell");
+        addItem(ModItems.tripleFiragaSpell, "Triple Firaga Spell");
+        addItem(ModItems.tripleBlizzagaSpell, "Triple Blizzaga Spell");
 
 
         //Drive form orbs

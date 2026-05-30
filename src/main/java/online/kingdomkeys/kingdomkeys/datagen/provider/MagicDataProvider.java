@@ -7,6 +7,7 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.datagen.builder.MagicBuilder;
+import online.kingdomkeys.kingdomkeys.lib.Strings;
 
 import java.nio.file.Path;
 import java.util.LinkedHashMap;
@@ -95,9 +96,18 @@ public class MagicDataProvider implements DataProvider {
 				.level(3).cost(20).castTime(0).cooldown(20).damageMultiplier(1.0F).lockOn(false).maxExp(200).maxExpLevel(3).end()
 				.build());
 
-		magics.put("magic_darkfire", new MagicBuilder()
+		magics.put(ResourceLocation.parse(Strings.Magic_DarkFire).getPath(), new MagicBuilder()
 				.level(0).cost(8).castTime(10).cooldown(5).damageMultiplier(0.5F).lockOn(true).maxExp(6600).maxExpLevel(5).end()
 				.build());
+
+		magics.put(ResourceLocation.parse(Strings.Magic_TripleFire).getPath(), new MagicBuilder()
+				.level(0).cost(22).castTime(15).cooldown(120).damageMultiplier(0.4F).lockOn(true).maxExp(4200).maxExpLevel(4).end()
+				.build());
+
+		magics.put(ResourceLocation.parse(Strings.Magic_TripleBlizzard).getPath(), new MagicBuilder()
+				.level(0).cost(22).castTime(15).cooldown(120).damageMultiplier(0.3F).lockOn(true).maxExp(4200).maxExpLevel(4).end()
+				.build());
+
 
 		CompletableFuture<?>[] futures = magics.entrySet().stream().map(entry -> {
 			Path path = pathProvider.json(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, entry.getKey()));

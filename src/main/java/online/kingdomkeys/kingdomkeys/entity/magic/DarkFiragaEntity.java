@@ -25,7 +25,7 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.util.List;
 
-public class DarkFiragaEntity extends BaseMagicProjectile {
+public class DarkFiragaEntity extends FiragaEntity {
 
 	public DarkFiragaEntity(EntityType<? extends ThrowableProjectile> type, Level world) {
 		super(type, world);
@@ -33,118 +33,11 @@ public class DarkFiragaEntity extends BaseMagicProjectile {
 	}
 
 	public DarkFiragaEntity(Level world, LivingEntity player, float dmgMult, LivingEntity lockOnEntity) {
-		super(ModEntities.TYPE_DARKFIRAGA.get(), player, world);
-		this.dmgMult = dmgMult;
-		this.lockOnEntity = lockOnEntity;
-		setDamageType(KKDamageTypes.FIRE);
+		super(ModEntities.TYPE_DARKFIRAGA.get(), world, player, dmgMult, lockOnEntity);
 	}
 
 	@Override
-	protected double getDefaultGravity() {
-		return 0;
-	}
-
-	@Override
-	public void tick() {
-		if (this.tickCount > maxTicks) {
-			this.remove(RemovalReason.KILLED);
-		}
-
-		if(this.lockOnEntity != null && tickCount > 0) {
-			double x = (this.lockOnEntity.getX() - this.getX());
-			double y = (this.lockOnEntity.getY() - this.getY());
-			double z = (this.lockOnEntity.getZ() - this.getZ());
-            float trackingSpeed = 26F;
-            shoot(getDeltaMovement().x + x / trackingSpeed, getDeltaMovement().y + y / trackingSpeed, getDeltaMovement().z + z / trackingSpeed, 2F, 0);
-		}
-
-		if(tickCount > 2) {
-			float radius = 0.8F;
-			for (int t = 1; t < 360; t += 30) {
-				for (int s = 1; s < 360 ; s += 30) {
-					double x = getX() + (radius * Math.cos(Math.toRadians(s)) * Math.sin(Math.toRadians(t)));
-					double z = getZ() + (radius * Math.sin(Math.toRadians(s)) * Math.sin(Math.toRadians(t)));
-					double y = getY() + (radius * Math.cos(Math.toRadians(t)));
-					SimpleParticleType particle = ParticleTypes.SOUL_FIRE_FLAME;
-					if(Math.random() < 0.5D) particle = ParticleTypes.DRAGON_BREATH;
-					level().addParticle(particle, x, y, z, 0, 0, 0);
-				}
-			}
-		}
-		super.tick();
-	}
-
-	@Override
-	protected void onHit(HitResult rtRes) {
-		super.onHit(rtRes);
-		if (!level().isClientSide && getOwner() != null) {
-			EntityHitResult ertResult = null;
-			BlockHitResult brtResult = null;
-
-			if (rtRes instanceof EntityHitResult) {
-				ertResult = (EntityHitResult) rtRes;
-			}
-
-			if (rtRes instanceof BlockHitResult) {
-				brtResult = (BlockHitResult) rtRes;
-			}
-
-			if (ertResult != null && ertResult.getEntity() instanceof LivingEntity target) {
-                if (target != getOwner()) {
-					if (target.getEffect(ModMobEffects.FREEZE) != null) {
-						target.removeEffect(ModMobEffects.FREEZE);
-					}
-					Party p = null;
-					if (getOwner() != null) {
-						p = WorldData.get(getOwner().getServer()).getPartyFromMember(getOwner().getUUID());
-					}
-					if(p == null || (p.getMember(target.getUUID()) == null || p.getFriendlyFire())) { //If caster is not in a party || the party doesn't have the target in it || the party has FF on
-						target.setRemainingFireTicks(15);
-						damageEntity(target);
-					}
-				}
-			}
-
-			float radius = 2F;
-			
-			if (brtResult != null) {
-				BlockPos ogBlockPos = brtResult.getBlockPos();
-
-				for(int x=(int)(ogBlockPos.getX()-radius);x<ogBlockPos.getX()+radius;x++) {
-					for(int y=(int)(ogBlockPos.getY()-radius);y<ogBlockPos.getY()+radius;y++) {
-						for(int z=(int)(ogBlockPos.getZ()-radius);z<ogBlockPos.getZ()+radius;z++) {
-							BlockPos blockpos = new BlockPos(x,y,z);
-							BlockState blockstate = level().getBlockState(blockpos);
-							if(blockstate.getBlock() == Blocks.WET_SPONGE) {
-								level().setBlockAndUpdate(blockpos, Blocks.SPONGE.defaultBlockState());
-							}
-							if(blockstate.hasProperty(BlockStateProperties.LIT))
-								level().setBlock(blockpos, blockstate.setValue(BlockStateProperties.LIT, true), 11);
-						}
-					}
-				}
-			}
-			
-			List<Entity> list = level().getEntities(getOwner(), getBoundingBox().inflate(radius));
-			list = Utils.removePartyMembersFromList((Player)getOwner(), list);
-
-			((ServerLevel)level()).sendParticles(ParticleTypes.SOUL_FIRE_FLAME, getX(), getY(), getZ(), 250, Math.random() - 0.5D, Math.random() - 0.5D, Math.random() - 0.5D,0.1);
-			((ServerLevel)level()).sendParticles(ParticleTypes.DRAGON_BREATH, getX(), getY(), getZ(), 250, Math.random() - 0.5D, Math.random() - 0.5D, Math.random() - 0.5D,0.1);
-			
-			if (!list.isEmpty()) {
-                for (Entity e : list) {
-                    if (e instanceof LivingEntity ent) {
-                        e.setRemainingFireTicks(15);
-						damageEntity(ent);
-
-						if (ent.getEffect(ModMobEffects.FREEZE) != null) {
-							ent.removeEffect(ModMobEffects.FREEZE);
-						}
-                    }
-                }
-			}
-
-			remove(RemovalReason.KILLED);
-		}
+	public List<SimpleParticleType> getParticles() {
+		return List.of(ParticleTypes.DRAGON_BREATH, ParticleTypes.SOUL_FIRE_FLAME, ParticleTypes.SQUID_INK);
 	}
 }

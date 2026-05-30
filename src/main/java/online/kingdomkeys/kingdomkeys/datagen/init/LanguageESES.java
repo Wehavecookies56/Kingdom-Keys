@@ -635,6 +635,8 @@ public class LanguageESES extends KKLanguageProvider {
         addMagic(ModMagic.GRAVITY, "Gravedad", "Gravedad+", "Gravedad++");
         addMagic(ModMagic.STOP, "Paro", "Paro+", "Paro++");
         add(0,ModMagic.DARK_FIRAGA.get(),"Nigro Piro++");
+        add(0,ModMagic.TRIPLE_FIRAGA.get(),"Triple Piro++");
+        add(0,ModMagic.TRIPLE_BLIZZAGA.get(),"Triple Hielo++");
 
 
         //Limits
@@ -951,6 +953,8 @@ public class LanguageESES extends KKLanguageProvider {
         addItem(ModItems.gravigaSpell, "Hechizo de Gravedad++");
         addItem(ModItems.stopgaSpell, "Hechizo de Paro++");
         addItem(ModItems.darkFiragaSpell, "Hechizo de Nigro Piro++");
+        addItem(ModItems.tripleFiragaSpell, "Hechizo de Triple Piro++");
+        addItem(ModItems.tripleBlizzagaSpell, "Hechizo de Triple Hielo++");
 
         // Drive form orbs
         addItem(ModItems.valorOrb, "Orbe de Forma Valiente");
