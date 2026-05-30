@@ -25,13 +25,13 @@ public class MagicFiragaBurst extends Magic {
 
 		FiragaBurstControllerEntity firagaBurst = new FiragaBurstControllerEntity(player.level(), player, dmgMult, lockOnEntity);
 		player.level().addFreshEntity(firagaBurst);
-		firagaBurst.shootFromRotation(player, -90, player.getYRot(), 0, 0.3F, 0);
+		firagaBurst.shootFromRotation(player, -90, player.getYRot(), 0, 0.4F, 0);
 
 		//firagaBurst.setPos(player.getX(), player.getY()+3, player.getZ());
 	}
 	
 	@Override
 	protected void playMagicCastSound(LivingEntity player, Player caster, int level) {
-		player.level().playSound(null, player.position().x(), player.position().y(), player.position().z(), ModSounds.firaga.get(), SoundSource.PLAYERS, 1F, 0.8F);
+		player.level().playSound(null, player.position().x(), player.position().y(), player.position().z(), ModSounds.firagaBurst.get(), SoundSource.PLAYERS, 1F, 0.8F);
 	}
 }

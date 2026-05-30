@@ -135,6 +135,11 @@
       "kingdomkeys:magic/firaga"
     ]
   },
+  "magic/firagaburst": {
+    "sounds": [
+      "kingdomkeys:magic/firagaburst"
+    ]
+  },
   "magic/fire": {
     "sounds": [
       "kingdomkeys:magic/fire"

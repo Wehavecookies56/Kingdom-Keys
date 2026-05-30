@@ -66,6 +66,7 @@ public class ModSounds {
 			stopga = registerSound("magic/stopga"),
 	        zeroGravity = registerSound("magic/zerogravity"),
 	        poison = registerSound("magic/poison"),
+	        firagaBurst = registerSound("magic/firagaburst"),
 			
 			playerDeath = registerSound("player_death"),
 			playerDeathHardcore = registerSound("player_death_2"),
