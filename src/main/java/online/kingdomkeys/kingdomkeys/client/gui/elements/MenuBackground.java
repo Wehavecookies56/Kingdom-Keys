@@ -4,6 +4,7 @@ import com.mojang.authlib.GameProfile;
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Axis;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -16,6 +17,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
@@ -105,9 +107,59 @@ public class MenuBackground extends Screen {
     protected int buttonPosY;
     protected float buttonWidth;
 
+	public ItemStack reward = ItemStack.EMPTY;
+	public String rewardTitle = "";
+	public boolean showRewardPopup = false;
+	public int rewardPopupTicks;
+
+
+	public void showReward(ItemStack stack, String title) {
+		this.reward = stack.copy();
+		this.showRewardPopup = true;
+		this.rewardPopupTicks = 0;
+		this.rewardTitle = title;
+	}
+
+	@Override
+	public void tick() {
+		if (showRewardPopup) {
+			rewardPopupTicks++;
+		}
+		super.tick();
+	}
+
+
 	@Override
 	public Component getTitle() {
 		return title;
+	}
+
+	@Override
+	public boolean mouseClicked(double mouseX, double mouseY, int button) {
+		if (showRewardPopup) {
+			showRewardPopup = false;
+			player.playSound(ModSounds.menu_back.get(), 1.0f, 1.0f);
+			return true;
+		}
+		return super.mouseClicked(mouseX, mouseY, button);
+	}
+
+	@Override
+	public boolean mouseReleased(double mouseX, double mouseY, int button) {
+		if (showRewardPopup) return false;
+		return super.mouseReleased(mouseX, mouseY, button);
+	}
+
+	@Override
+	public boolean mouseDragged(double mouseX, double mouseY, int button, double dragX, double dragY) {
+		if (showRewardPopup) return false;
+		return super.mouseDragged(mouseX, mouseY, button, dragX, dragY);
+	}
+
+	@Override
+	public boolean mouseScrolled(double mouseX, double mouseY, double scrollX, double scrollY) {
+		if (showRewardPopup) return false;
+		return super.mouseScrolled(mouseX, mouseY, scrollX, scrollY);
 	}
 
 	//Separate method to render buttons in a different order
@@ -150,6 +202,8 @@ public class MenuBackground extends Screen {
 
 	@Override
 	public void render(@NotNull GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
+		if (showRewardPopup) mouseX = mouseY = 0;
+
 		this.renderBackground(gui, mouseX, mouseY, partialTicks);
 		if (!drawSeparately)
 			drawMenuBackground(gui, mouseX, mouseY, partialTicks);
@@ -157,6 +211,10 @@ public class MenuBackground extends Screen {
         for (Renderable renderable : this.renderables) {
             renderable.render(gui, mouseX, mouseY, partialTicks);
         }
+
+		if (showRewardPopup) {
+			renderRewardPopup(gui, mouseX, mouseY);
+		}
 	}
 
 	private void clearButtons() {
@@ -165,6 +223,65 @@ public class MenuBackground extends Screen {
 				((MenuButtonBase) btn).setSelected(false);
 			}
 		}
+	}
+
+	protected void renderRewardPopup(GuiGraphics gui, int mouseX, int mouseY) {
+		gui.pose().pushPose();
+		{
+			boolean isRare = rewardTitle.equals(Strings.Gui_Menu_Items_Melding_RareItemAcquired);
+			gui.pose().translate(0, 0, 300);
+			int popupWidth = 160;
+			int popupHeight = 180;
+
+			int x = (width - popupWidth) / 2;
+			int y = (height - popupHeight) / 2;
+
+			gui.fill(0, 0, width, height, 0xAA000000);
+			gui.fill(x, y, x + popupWidth, y + popupHeight, isRare ? 0xFF9c7406 : 0xFF202040);
+			gui.fill(x + 2, y + 2, x + popupWidth - 2, y + popupHeight - 2, isRare ? 0xFFd49c02 :0xFF404080);
+
+			gui.drawCenteredString(minecraft.font, Component.translatable(rewardTitle).withStyle(ClientUtils.KK_Font_EXP), width / 2, y + 10, 0xFFFF55);
+
+			float animTicks = rewardPopupTicks + minecraft.getTimer().getGameTimeDeltaPartialTick(false);
+
+			float duration = 20F;
+			float t = Math.min(animTicks / duration, 1F);
+
+			float scale;
+
+			if (t == 0F) {
+				scale = 0F;
+			} else {
+				float c4 = (float) (2 * Math.PI / 3);
+				scale = (float) (Math.pow(2, -10 * t) * Math.sin((t * 10 - 0.75F) * c4) + 1);
+			}
+
+			scale *= 8F;
+
+			float rotationT = Math.min(animTicks / 6F, 1F);
+			float rotation = (1F - rotationT) * 360F;
+
+			int itemCenterX = width / 2;
+			int itemCenterY = y + (popupHeight / 2);
+
+			int frameSize = 66;
+
+			gui.fill(itemCenterX - frameSize, itemCenterY - frameSize, itemCenterX + frameSize, itemCenterY + frameSize, 0xCC000000);
+
+			PoseStack pose = gui.pose();
+
+			pose.pushPose();
+			{
+				pose.translate(itemCenterX, itemCenterY, 200);
+				pose.mulPose(Axis.ZP.rotationDegrees(rotation));
+				pose.scale(scale, scale, scale);
+				gui.renderItem(reward, -8, -8);
+			}
+			pose.popPose();
+
+			gui.drawCenteredString(minecraft.font, reward.getHoverName(), width / 2, y + popupHeight - 15, 0xFFFFFF);
+		}
+		gui.pose().popPose();
 	}
 
 	public void drawBars(GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {

@@ -23,6 +23,7 @@ import online.kingdomkeys.kingdomkeys.client.gui.IPlayerDataRequester;
 import online.kingdomkeys.kingdomkeys.client.gui.OrgPortalGui;
 import online.kingdomkeys.kingdomkeys.client.gui.SavePointScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.castle_oblivion.CardSelectionScreen;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.MenuScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.NoChoiceMenuPopup;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.check.CheckStatusScreen;
@@ -81,7 +82,7 @@ public class ClientPacketHandler {
     public static void showRareMeld(SCShowRareMeld message) {
         Minecraft mc = Minecraft.getInstance();
 
-        if(mc.screen instanceof MeldingScreen screen){
+        if(mc.screen instanceof MenuBackground screen){
             screen.showReward(message.stack(), message.title());
         }
     }

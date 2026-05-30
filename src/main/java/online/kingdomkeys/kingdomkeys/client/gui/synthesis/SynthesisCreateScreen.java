@@ -146,6 +146,8 @@ public class SynthesisCreateScreen extends MenuFilterable {
 
 	@Override
 	public void render(@NotNull GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
+		if(showRewardPopup){ mouseX = mouseY = 0; }
+
 		drawMenuBackground(gui, mouseX, mouseY, partialTicks);
 		boxL.renderWidget(gui, mouseX, mouseY, partialTicks);
 		boxM.renderWidget(gui, mouseX, mouseY, partialTicks);
@@ -216,6 +218,10 @@ public class SynthesisCreateScreen extends MenuFilterable {
 
 		create.render(gui, mouseX,  mouseY,  partialTicks);
 		back.render(gui, mouseX, mouseY, partialTicks);
+
+		if (showRewardPopup) {
+			renderRewardPopup(gui, mouseX, mouseY);
+		}
 	}
 
 	@Override
@@ -376,6 +382,7 @@ public class SynthesisCreateScreen extends MenuFilterable {
 
 	@Override
 	public boolean mouseScrolled(double mouseX, double mouseY, double deltaX, double deltaY) {
+		if(showRewardPopup) return false;
 		if(mouseX >= boxL.getX() && mouseX <= scrollBar.getX()+ scrollBar.getWidth())
 			scrollBar.mouseScrolled(mouseX, mouseY, deltaX, deltaY);
 		if(mouseX >= boxRB.getX() && mouseX <= scrollBar2.getX()+ scrollBar2.getWidth())

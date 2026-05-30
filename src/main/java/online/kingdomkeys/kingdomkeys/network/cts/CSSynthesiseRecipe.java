@@ -21,6 +21,7 @@ import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.Packet;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCShowMessagesPacket;
+import online.kingdomkeys.kingdomkeys.network.stc.SCShowRareMeld;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncWorldData;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.Recipe;
@@ -82,6 +83,15 @@ public record CSSynthesiseRecipe(ResourceLocation name) implements Packet {
 					if (remainder > 0) {
 						player.getInventory().add(new ItemStack(i, remainder));
 					}
+
+					ItemStack visual;
+					if(stack.getItem() instanceof KeychainItem kc){
+						visual = new ItemStack(kc.getKeyblade());
+					} else {
+						visual = stack;
+					}
+					PacketHandler.sendTo(new SCShowRareMeld(visual.copy(), Strings.Gui_Menu_Items_Melding_ItemAcquired), (ServerPlayer) player);
+
 					if (i instanceof KeychainItem && ModConfigs.heartlessSpawningMode == SpawningMode.AFTER_KEYCHAIN) {
 						WorldData worldData = WorldData.get(player.getServer());
 						if (worldData.getHeartlessSpawnLevel() == 0) {
@@ -90,9 +100,7 @@ public record CSSynthesiseRecipe(ResourceLocation name) implements Packet {
 									new Utils.Title("", Strings.HeartlessIntro2),
 									new Utils.Title("", Strings.HeartlessIntro3));
 
-							//for(Player p : Utils.getAllPlayers(player.level().getServer())){
 							PacketHandler.sendToAll(new SCShowMessagesPacket(titles));
-							//}
 							Utils.playSoundToEveryone((ServerLevel) player.level(), SoundEvents.WITHER_SPAWN, 1F, 1F);
 						}
 						worldData.setHeartlessSpawnLevel(1);

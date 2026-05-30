@@ -50,11 +50,6 @@ public class MeldingScreen extends MenuFilterable {
 	private int selectedSlot2 = -1;
 	private int lastInventoryHash;
 
-	private ItemStack reward = ItemStack.EMPTY;
-	private String rewardTitle = "";
-	private boolean showRewardPopup = false;
-	private int rewardPopupTicks;
-
 	public MeldingScreen() {
 		super(Strings.Gui_Menu_Items_Melding, new Color(0, 0, 255));
 		drawSeparately = true;
@@ -77,20 +72,11 @@ public class MeldingScreen extends MenuFilterable {
 		}
 	}
 
-	public void showReward(ItemStack stack, String title) {
-		this.reward = stack.copy();
-		this.showRewardPopup = true;
-		this.rewardPopupTicks = 0;
-		this.rewardTitle = title;
-	}
+
 
 	@Override
 	public void tick() {
 		super.tick();
-
-		if (showRewardPopup) {
-			rewardPopupTicks++;
-		}
 
 		int hash = 1;
 		// Normal inventory
@@ -166,8 +152,6 @@ public class MeldingScreen extends MenuFilterable {
 		addRenderableWidget(meld);
 		buttonWidth = ((float) width * 0.07F);
 		addRenderableWidget(back = new MenuButton((int) this.buttonPosX, (int) topBarHeight + 10, (int) buttonWidth, Component.translatable(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, b -> minecraft.setScreen(new MenuItemsScreen())));
-
-
 	}
 
 	@Override
@@ -281,10 +265,6 @@ public class MeldingScreen extends MenuFilterable {
 					ItemStack base = !getSelected1().isEmpty() ? getSelected1() : getSelected2();
 					boolean compatible = base.isEmpty() || isCompatible(base, stack) || ItemStack.isSameItemSameComponents(base, stack);
 					if (stack.getItem() instanceof MagicSpellItem spell) {
-						/*float percent = spell.getExpPercent(stack);
-						int red = (int) (255 * (1F - percent));
-						int green = (int) (255 * percent);
-						int color = (red << 16) | (green << 8);*/
 						int color = spell.isMaxed(stack) ? 0x00FF00 : 0x555555;
 
 						String text = Utils.translateToLocal("gui.magicspell.lvl_short", spell.getLocalLevel(stack));
@@ -327,7 +307,8 @@ public class MeldingScreen extends MenuFilterable {
 
 	@Override
 	public void render(@NotNull GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
-		if (showRewardPopup) mouseX = mouseY = 0;
+		if(showRewardPopup){ mouseX = mouseY = 0; }
+
 		drawMenuBackground(gui, mouseX, mouseY, partialTicks);
 		boxL.renderWidget(gui, mouseX, mouseY, partialTicks);
 		boxMT.renderWidget(gui, mouseX, mouseY, partialTicks);
@@ -341,7 +322,6 @@ public class MeldingScreen extends MenuFilterable {
 		// Scroll
 		if (!inventory.isEmpty()) {
 			int listHeight = (inventory.get(inventory.size() - 1).getY() + 20) - inventory.get(0).getY() + 3;
-
 			scrollBar.setContentHeight(listHeight);
 		}
 
@@ -430,61 +410,7 @@ public class MeldingScreen extends MenuFilterable {
 		}
 	}
 
-	private void renderRewardPopup(GuiGraphics gui, int mouseX, int mouseY) {
-		gui.pose().pushPose();
-		{
-			boolean isRare = rewardTitle.equals(Strings.Gui_Menu_Items_Melding_RareItemAcquired);
-			gui.pose().translate(0, 0, 300);
-			int popupWidth = 160;
-			int popupHeight = 180;
 
-			int x = (width - popupWidth) / 2;
-			int y = (height - popupHeight) / 2;
-
-			gui.fill(0, 0, width, height, 0xAA000000);
-			gui.fill(x, y, x + popupWidth, y + popupHeight, isRare ? 0xFF9c7406 : 0xFF202040);
-			gui.fill(x + 2, y + 2, x + popupWidth - 2, y + popupHeight - 2, isRare ? 0xFFd49c02 :0xFF404080);
-
-			gui.drawCenteredString(minecraft.font, Component.translatable(rewardTitle).withStyle(ClientUtils.KK_Font_EXP), width / 2, y + 10, 0xFFFF55);
-
-			float animTicks = rewardPopupTicks + minecraft.getTimer().getGameTimeDeltaPartialTick(false);
-
-			float duration = 20F;
-
-			float t = Math.min(animTicks / duration, 1F);
-
-			float scale;
-
-			if (t == 0F) {
-				scale = 0F;
-			} else {
-				float c4 = (float) (2 * Math.PI / 3);
-				scale = (float) (Math.pow(2, -10 * t) * Math.sin((t * 10 - 0.75F) * c4) + 1);
-			}
-
-			scale *= 8F;
-			int itemCenterX = width / 2;
-			int itemCenterY = y + (popupHeight / 2);
-
-			int frameSize = 66;
-
-			gui.fill(itemCenterX - frameSize, itemCenterY - frameSize, itemCenterX + frameSize, itemCenterY + frameSize, 0xCC000000);
-
-			PoseStack pose = gui.pose();
-
-			pose.pushPose();
-			{
-				pose.translate(itemCenterX, itemCenterY, 200);
-				pose.scale(scale, scale, scale);
-
-				gui.renderItem(reward, -8, -8);
-			}
-			pose.popPose();
-
-			gui.drawCenteredString(minecraft.font, reward.getHoverName(), width / 2, y + popupHeight - 15, 0xFFFFFF);
-		}
-		gui.pose().popPose();
-	}
 
 	@Override
 	protected void renderSelectedData(GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
@@ -497,9 +423,9 @@ public class MeldingScreen extends MenuFilterable {
 
 	@Override
 	public boolean mouseClicked(double mouseX, double mouseY, int mouseButton) {
-		if (showRewardPopup) {
+		if(showRewardPopup){
 			showRewardPopup = false;
-			player.playSound(ModSounds.menu_back.get(), 1.0f, 1.0f);
+			player.playSound(ModSounds.menu_back.get(),1,1);
 			return true;
 		}
 		scrollBar.mouseClicked(mouseX, mouseY, mouseButton);
@@ -508,15 +434,14 @@ public class MeldingScreen extends MenuFilterable {
 
 	@Override
 	public boolean mouseReleased(double pMouseX, double pMouseY, int pButton) {
-		if (showRewardPopup) return false;
-
+		if(showRewardPopup) return false;
 		scrollBar.mouseReleased(pMouseX, pMouseY, pButton);
 		return super.mouseReleased(pMouseX, pMouseY, pButton);
 	}
 
 	@Override
 	public boolean mouseDragged(double pMouseX, double pMouseY, int pButton, double pDragX, double pDragY) {
-		if (showRewardPopup) return false;
+		if(showRewardPopup) return false;
 		scrollBar.mouseDragged(pMouseX, pMouseY, pButton, pDragX, pDragY);
 		updateScroll();
 		return super.mouseDragged(pMouseX, pMouseY, pButton, pDragX, pDragY);
@@ -530,7 +455,7 @@ public class MeldingScreen extends MenuFilterable {
 
 	@Override
 	public boolean mouseScrolled(double mouseX, double mouseY, double deltaX, double deltaY) {
-		if (showRewardPopup) return false;
+		if(showRewardPopup) return false;
 		if (mouseX >= boxL.getX() && mouseX <= scrollBar.getX() + scrollBar.getWidth()) scrollBar.mouseScrolled(mouseX, mouseY, deltaX, deltaY);
 		updateScroll();
 		return false;
