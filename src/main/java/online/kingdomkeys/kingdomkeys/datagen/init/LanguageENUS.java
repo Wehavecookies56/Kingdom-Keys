@@ -249,6 +249,8 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Gui_Menu_Items_Melding, "Melding");
         add(Gui_Menu_Items_Melding + ".desc", "Combine various magics together to create new ones.");
         add(Gui_Menu_Items_Melding_Meld, "Meld");
+        add(Gui_Menu_Items_Melding_ItemAcquired, "Item Obtained!");
+        add(Gui_Menu_Items_Melding_RareItemAcquired, "Rare Item Obtained!");
         add(Gui_Menu_Items_Stock, "Stock");
         add(Gui_Menu_Items_Stock + ".desc", "Check your inventory.");
         add(Gui_Menu_Items_Equipment_Weapon, "Weapon");

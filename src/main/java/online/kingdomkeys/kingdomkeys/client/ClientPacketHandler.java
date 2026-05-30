@@ -78,8 +78,12 @@ import java.util.Set;
 
 public class ClientPacketHandler {
 
-    public static void openMagicCustomize() {
-      //  Minecraft.getInstance().setScreen(new MenuCustomizeMagicScreen());
+    public static void showRareMeld(SCShowRareMeld message) {
+        Minecraft mc = Minecraft.getInstance();
+
+        if(mc.screen instanceof MeldingScreen screen){
+            screen.showReward(message.stack(), message.title());
+        }
     }
 
     public static void openShortcutsCustomize() {

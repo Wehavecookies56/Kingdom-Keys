@@ -293,6 +293,8 @@ public class LanguageESES extends KKLanguageProvider {
         add(Gui_Menu_Items_Melding, "Síntesis");
         add(Gui_Menu_Items_Melding + ".desc", "Combine distintos hechizos para crear de nuevos.");
         add(Gui_Menu_Items_Melding_Meld, "Sintetizar");
+        add(Gui_Menu_Items_Melding_ItemAcquired, "¡Item Obtenido!");
+        add(Gui_Menu_Items_Melding_RareItemAcquired, "¡Item Especial Obtenido!");
         add(Gui_Menu_Items_Stock, "Inventario");
         add(Gui_Menu_Items_Stock + ".desc", "Revisa tu inventario.");
         add(Gui_Menu_Items_Equipment_Weapon, "Arma");

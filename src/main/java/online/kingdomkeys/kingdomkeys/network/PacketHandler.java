@@ -65,6 +65,7 @@ public class PacketHandler {
 		client(SCOpenMenu.TYPE, SCOpenMenu.STREAM_CODEC);
 		client(SCSyncJsonRegistry.TYPE, SCSyncJsonRegistry.STREAM_CODEC);
 		client(SCZeroGravityPacket.TYPE, SCZeroGravityPacket.STREAM_CODEC);
+		client(SCShowRareMeld.TYPE, SCShowRareMeld.STREAM_CODEC);
 
 		server(CSAntiPointsPacket.TYPE, CSAntiPointsPacket.STREAM_CODEC);
 		server(CSAttackOffhandPacket.TYPE, CSAttackOffhandPacket.STREAM_CODEC);

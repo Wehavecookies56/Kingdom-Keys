@@ -5,7 +5,7 @@
   * Triple Firaga: Meldable with Firaga + Firaga / Firaga + Fira.
   * Crawling Firaga: Meldable with Firaga + Stopra.
   * Fission Firaga: Meldable with Firaga + Aerora / Fira + Aeroga.
-  * Firaga Burst: Meldable with Firaga + Aeroga / Firaga + Stopga.
+  * Firaga Burst: Meldable with Firaga + Aeroga (20%) / Firaga + Stopga (20%).
   * Triple Blizzaga: Meldable with Blizzaga + Blizzaga / Blizzaga + Blizzara.
   * Zero Gravity: Available in shop for 800 munny after unlocking Synthesis Rank B. 
   * Zero Gravira: Meldable with Zero Gravira + Zero Gravira / Magnet + Aero / Thunder + Zero Gravity.
