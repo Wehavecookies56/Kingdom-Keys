@@ -16,6 +16,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.gui.ConfirmChoiceMenuPopup;
 import online.kingdomkeys.kingdomkeys.client.gui.IPlayerDataRequester;
@@ -415,6 +416,15 @@ public class ClientPacketHandler {
             final Set<ResourceKey<Level>> levels = player.connection.levels();
             levels.addAll(message.addedDims());
             message.removedDims().forEach(levels::remove);
+        }
+    }
+
+    public static void zeroGravity(SCZeroGravityPacket message) {
+        LocalPlayer player = Minecraft.getInstance().player;
+        player.setNoGravity(message.value());
+
+        if(message.value()) {
+            player.addDeltaMovement(new Vec3(0, 1, 0));
         }
     }
 

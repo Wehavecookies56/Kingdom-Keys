@@ -50,7 +50,14 @@ public class MeldingRecipe extends MeldingRecipeProvider<MeldingRecipeBuilder> {
 		getBuilder("triple_blizzaga2").ingredient1(blizzagaSpell).ingredient2(blizzaraSpell).output(tripleBlizzagaSpell, 1).addCost(1200).addTier(4);
 
 		getBuilder("zero_gravity").ingredient1(firagaSpell).ingredient2(blackoutSpell).output(darkFiragaSpell, 1).addCost(1200).addTier(4);
+
 		getBuilder("zero_gravira").ingredient1(zeroGravitySpell).ingredient2(zeroGravitySpell).output(zeroGraviraSpell, 1).addCost(1200).addTier(4);
+		getBuilder("zero_gravira2").ingredient1(magnetSpell).ingredient2(aeroSpell).output(zeroGraviraSpell, 1).addCost(1600).addTier(4);
+		getBuilder("zero_gravira3").ingredient1(thunderSpell).ingredient2(zeroGravitySpell).output(zeroGraviraSpell, 1).addCost(1600).addTier(4);
+
 		getBuilder("zero_graviga").ingredient1(zeroGraviraSpell).ingredient2(zeroGraviraSpell).output(zeroGravigaSpell, 1).addCost(1200).addTier(4);
+		getBuilder("zero_graviga2").ingredient1(zeroGraviraSpell).ingredient2(thundaraSpell).output(zeroGravigaSpell, 1).addCost(1400).addTier(4);
+
+		getBuilder("blackout").ingredient1(zeroGraviraSpell).ingredient2(poisonSpell).output(blackoutSpell, 1).addCost(1600).addTier(4);
 	}
 }

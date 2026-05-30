@@ -1,0 +1,11 @@
+{
+  "cost": 1600,
+  "ingredient1": "kingdomkeys:spellmagnet",
+  "ingredient2": "kingdomkeys:spellaero",
+  "output": {
+    "type": "item",
+    "item": "kingdomkeys:spellzerogravira",
+    "quantity": 1
+  },
+  "tier": 4
+}

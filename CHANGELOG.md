@@ -1,14 +1,14 @@
 # 2.7.12a
 ### Added:
 * New magics:
-  * Dark Firaga: Meldable with Firaga + Blackout
-  * Triple Firaga: Meldable with Firaga + Firaga / Firaga + Fira
-  * Triple Blizzaga: Meldable with Blizzaga + Blizzaga / Blizzaga + Blizzara
-  * Zero Gravity: Meldable with 
-  * Zero Gravira: Meldable with Zero Gravira + Zero Gravira
-  * Zero Graviga: Meldable with Zero Graviga + Zero Graviga
-  * Blackout: Available in shop for 500 munny after unlocking Synthesis Rank C
-  * Poison: Available in shop for 500 munny after unlocking Synthesis Rank C
+  * Dark Firaga: Meldable with Firaga + Blackout.
+  * Triple Firaga: Meldable with Firaga + Firaga / Firaga + Fira.
+  * Triple Blizzaga: Meldable with Blizzaga + Blizzaga / Blizzaga + Blizzara.
+  * Zero Gravity: Available in shop for 800 munny after unlocking Synthesis Rank B. 
+  * Zero Gravira: Meldable with Zero Gravira + Zero Gravira / Magnet + Aero / Thunder + Zero Gravity.
+  * Zero Graviga: Meldable with Zero Graviga + Zero Graviga / Zero Gravira + Thundara.
+  * Blackout: Available in shop for 500 munny after unlocking Synthesis Rank C.
+  * Poison: Available in shop for 500 munny after unlocking Synthesis Rank C.
   
 ### Fixed:
 * Selling would not work if the inventory was full.
