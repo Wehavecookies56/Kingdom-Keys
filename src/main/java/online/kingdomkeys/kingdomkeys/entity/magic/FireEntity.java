@@ -2,6 +2,8 @@ package online.kingdomkeys.kingdomkeys.entity.magic;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
@@ -94,6 +96,8 @@ public class FireEntity extends BaseMagicProjectile {
 			if (brtResult != null) {
 				BlockPos blockpos = brtResult.getBlockPos();
 				BlockState blockstate = level().getBlockState(blockpos);
+
+				((ServerLevel)level()).sendParticles(ParticleTypes.FLAME, getX(), getY(), getZ(), 30, Math.random() - 0.5D, Math.random() - 0.5D, Math.random() - 0.5D,0.08);
 
 				if(blockstate.getBlock() == Blocks.WET_SPONGE) {
 					level().setBlockAndUpdate(blockpos, Blocks.SPONGE.defaultBlockState());

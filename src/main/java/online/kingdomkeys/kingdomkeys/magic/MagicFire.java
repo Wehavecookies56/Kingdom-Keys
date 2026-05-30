@@ -22,7 +22,7 @@ public class MagicFire extends Magic {
 		dmgMult *= fullMPBlastMult;
 		lockOnEntity = getMagicLockOn(level) ? lockOnEntity : null;
 
-		if(getRegistryName().toString().equals(Strings.Magic_DarkFire)){
+		if(getRegistryName().toString().equals(Strings.Magic_DarkFiraga)){
 			DarkFiragaEntity darkFiraga = new DarkFiragaEntity(player.level(), player, dmgMult, lockOnEntity);
 			player.level().addFreshEntity(darkFiraga);
 			darkFiraga.shootFromRotation(player, player.getXRot(), player.getYRot(), 0, 2F, 0);

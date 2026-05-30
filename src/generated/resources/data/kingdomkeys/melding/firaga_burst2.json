@@ -1,0 +1,11 @@
+{
+  "cost": 2600,
+  "ingredient1": "kingdomkeys:spellfiraga",
+  "ingredient2": "kingdomkeys:spellstopga",
+  "output": {
+    "type": "item",
+    "item": "kingdomkeys:spellfiragaburst",
+    "quantity": 1
+  },
+  "tier": 5
+}

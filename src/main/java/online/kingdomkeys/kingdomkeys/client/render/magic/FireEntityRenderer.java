@@ -30,58 +30,50 @@ public class FireEntityRenderer extends EntityRenderer<ThrowableProjectile> {
 
 	@Override
 	public void render(ThrowableProjectile entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
-
 		float targetScale = switch (entity) {
 			case FireEntity fire -> 0.5F;
 			case FiraEntity fira -> 0.8F;
 			case FiragaEntity firaga -> 1.2F;
 			case FirazaEntity firaza -> 2.0F;
+			case FiragaBurstControllerEntity firagaBurstController -> 4.0F;
 			default -> 1.0F;
 		};
 
 		float growTime = 5F;
-
-// 0 → 1 durante los primeros 5 ticks
 		float growth = Math.min((entity.tickCount + partialTicks) / growTime, 1F);
-
 		float scale = targetScale * growth;
 
 		poseStack.pushPose();
+		{
+			poseStack.translate(0, scale / 2.5F, 0);
+			poseStack.mulPose(entityRenderDispatcher.cameraOrientation());
 
-		// Altura ligera
-		poseStack.translate(0, scale/2.5F, 0);
+			//float spin = (entity.tickCount + partialTicks) * 0.6F;
+			//poseStack.mulPose(com.mojang.math.Axis.ZP.rotationDegrees(spin));
 
-		// Billboard hacia cámara
-		poseStack.mulPose(entityRenderDispatcher.cameraOrientation());
+			poseStack.scale(scale, scale, scale);
+			PoseStack.Pose pose = poseStack.last();
 
-		// Spin opcional
-		float spin = (entity.tickCount + partialTicks) * 0.6F;
-		poseStack.mulPose(com.mojang.math.Axis.ZP.rotationDegrees(spin));
+			VertexConsumer consumer = buffer.getBuffer(RenderType.entityTranslucentEmissive(getTextureLocation(entity)));
 
-		// Escala
-		poseStack.scale(scale, scale, scale);
-		PoseStack.Pose pose = poseStack.last();
+			int[] frames = {0, 1, 2, 3, 2, 1};
+			float speed = 0.005F;
 
-		VertexConsumer consumer = buffer.getBuffer(RenderType.entityTranslucentEmissive(getTextureLocation(entity)));
+			int index = (int) ((entity.tickCount + partialTicks) / speed) % frames.length;
+			int frame = frames[index];
 
-		int[] frames = {0, 1, 2, 3, 2, 1};
-		float speed = 0.005F;
+			float frameHeight = 1F / FRAME_COUNT;
 
-		int index = (int)((entity.tickCount + partialTicks) / speed) % frames.length;
-		int frame = frames[index];
+			float v0 = frame * frameHeight;
+			float v1 = v0 + frameHeight;
 
-		float frameHeight = 1F / FRAME_COUNT;
+			float size = 0.5F;
 
-		float v0 = frame * frameHeight;
-		float v1 = v0 + frameHeight;
-
-		float size = 0.5F;
-
-		vertex(consumer, pose, -size, -size, 0F, v1);
-		vertex(consumer, pose, size, -size, 1F, v1);
-		vertex(consumer, pose, size, size, 1F, v0);
-		vertex(consumer, pose, -size, size, 0F, v0);
-
+			vertex(consumer, pose, -size, -size, 0F, v1);
+			vertex(consumer, pose, size, -size, 1F, v1);
+			vertex(consumer, pose, size, size, 1F, v0);
+			vertex(consumer, pose, -size, size, 0F, v0);
+		}
 		poseStack.popPose();
 
 		super.render(entity, entityYaw, partialTicks, poseStack, buffer, packedLight);

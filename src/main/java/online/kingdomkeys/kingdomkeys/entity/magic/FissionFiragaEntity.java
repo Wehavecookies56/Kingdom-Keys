@@ -25,22 +25,15 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.util.List;
 
-public class FiragaEntity extends BaseMagicProjectile {
+public class FissionFiragaEntity extends FiragaEntity {
 
-	public FiragaEntity(EntityType<? extends ThrowableProjectile> type, Level world) {
+	public FissionFiragaEntity(EntityType<? extends ThrowableProjectile> type, Level world) {
 		super(type, world);
 		this.blocksBuilding = true;
 	}
 
-	public FiragaEntity(Level world, LivingEntity player, float dmgMult, LivingEntity lockOnEntity) {
-		this(ModEntities.TYPE_FIRAGA.get(), world, player, dmgMult,lockOnEntity);
-	}
-
-	public FiragaEntity(EntityType<? extends FiragaEntity> entityType, Level world, LivingEntity player, float dmgMult, LivingEntity lockOnEntity) {
-		super(entityType, player, world);
-		this.dmgMult = dmgMult;
-		this.lockOnEntity = lockOnEntity;
-		setDamageType(KKDamageTypes.FIRE);
+	public FissionFiragaEntity(Level world, LivingEntity player, float dmgMult, LivingEntity lockOnEntity) {
+		super(ModEntities.TYPE_FISSIONFIRAGA.get(), world, player, dmgMult, lockOnEntity);
 	}
 
 	public List<SimpleParticleType> getParticles(){
@@ -50,37 +43,6 @@ public class FiragaEntity extends BaseMagicProjectile {
 	@Override
 	protected double getDefaultGravity() {
 		return 0;
-	}
-
-	@Override
-	public void tick() {
-		if (this.tickCount > maxTicks) {
-			this.remove(RemovalReason.KILLED);
-		}
-
-		if(this.lockOnEntity != null && tickCount > 0) {
-			double x = (this.lockOnEntity.getX() - this.getX());
-			double y = (this.lockOnEntity.getY() - this.getY());
-			double z = (this.lockOnEntity.getZ() - this.getZ());
-            float trackingSpeed = 26F;
-            shoot(getDeltaMovement().x + x / trackingSpeed, getDeltaMovement().y + y / trackingSpeed, getDeltaMovement().z + z / trackingSpeed, 2F, 0);
-		}
-
-		if(tickCount > 2) {
-			float radius = 0.6F;
-			for(int i = 0; i < 1; ++i) {
-				double t = Math.random() * 360;
-				double s = Math.random() * 360;
-				double x = getX() + (radius * Math.cos(Math.toRadians(s)) * Math.sin(Math.toRadians(t)));
-				double z = getZ() + (radius * Math.sin(Math.toRadians(s)) * Math.sin(Math.toRadians(t)));
-				double y = getY() + (radius * Math.cos(Math.toRadians(t)));
-				for (SimpleParticleType p : getParticles()) {
-					level().addParticle(p, x, y, z, 0, 0, 0);
-				}
-			}
-
-		}
-		super.tick();
 	}
 
 	@Override
@@ -120,7 +82,7 @@ public class FiragaEntity extends BaseMagicProjectile {
 				}
 			}
 
-			float radius = 1.5F;
+			float radius = 2.5F;
 			
 			if (brtResult != null) {
 				BlockPos ogBlockPos = brtResult.getBlockPos();
@@ -150,7 +112,7 @@ public class FiragaEntity extends BaseMagicProjectile {
 				((ServerLevel)level()).sendParticles(p, getX(), getY(), getZ(), 200/getParticles().size(), Math.random() - 0.5D, Math.random() - 0.5D, Math.random() - 0.5D,0.1);
 			}
 
-			/*if (!list.isEmpty()) {
+			if (!list.isEmpty()) {
                 for (Entity e : list) {
                     if (e instanceof LivingEntity ent) {
                         e.setRemainingFireTicks(15);
@@ -161,7 +123,7 @@ public class FiragaEntity extends BaseMagicProjectile {
 						}
                     }
                 }
-			}*/
+			}
 
 			remove(RemovalReason.KILLED);
 		}

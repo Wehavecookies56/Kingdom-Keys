@@ -74,6 +74,10 @@ public class ModEntities {
     public static final Supplier<EntityType<FirazaEntity>> TYPE_FIRAZA = createEntityType(FirazaEntity::new, MobCategory.MISC,"entity_firaza", 1.2F, 1.2F);
     public static final Supplier<EntityType<DarkFiragaEntity>> TYPE_DARKFIRAGA = createEntityType(DarkFiragaEntity::new, MobCategory.MISC,"entity_darkfiraga", 1.2F, 1.2F);
     public static final Supplier<EntityType<TripleFiragaControllerEntity>> TYPE_TRIPLE_FIRAGA_CONTROLLER = createEntityType(TripleFiragaControllerEntity::new, MobCategory.MISC,"entity_triple_firaga_controller", 0.5F, 0.5F);
+    public static final Supplier<EntityType<CrawlingFiragaEntity>> TYPE_CRAWLINGFIRAGA = createEntityType(CrawlingFiragaEntity::new, MobCategory.MISC,"entity_crawlingfiraga", 1.2F, 1.2F);
+    public static final Supplier<EntityType<FissionFiragaEntity>> TYPE_FISSIONFIRAGA = createEntityType(FissionFiragaEntity::new, MobCategory.MISC,"entity_fissionfiraga", 1.2F, 1.2F);
+    public static final Supplier<EntityType<FiragaBurstControllerEntity>> TYPE_FIRAGABURST = createEntityType(FiragaBurstControllerEntity::new, MobCategory.MISC,"entity_firagaburst", 2F, 2F);
+
     public static final Supplier<EntityType<TripleBlizzagaControllerEntity>> TYPE_TRIPLE_BLIZZAGA_CONTROLLER = createEntityType(TripleBlizzagaControllerEntity::new, MobCategory.MISC,"entity_triple_blizzaga_controller", 0.5F, 0.5F);
 
     public static final Supplier<EntityType<BlizzardEntity>> TYPE_BLIZZARD = createEntityType(BlizzardEntity::new, MobCategory.MISC,"entity_blizzard", 0.5F, 0.5F);
@@ -288,6 +292,10 @@ public class ModEntities {
         event.registerEntityRenderer(TYPE_FIRAZA.get(), FireEntityRenderer::new);
         event.registerEntityRenderer(TYPE_DARKFIRAGA.get(), FireEntityRenderer::new);
         event.registerEntityRenderer(TYPE_TRIPLE_FIRAGA_CONTROLLER.get(), InvisibleEntityRenderer::new);
+        event.registerEntityRenderer(TYPE_CRAWLINGFIRAGA.get(), FireEntityRenderer::new);
+        event.registerEntityRenderer(TYPE_FISSIONFIRAGA.get(), FireEntityRenderer::new);
+        event.registerEntityRenderer(TYPE_FIRAGABURST.get(), FireEntityRenderer::new);
+
         event.registerEntityRenderer(TYPE_TRIPLE_BLIZZAGA_CONTROLLER.get(), InvisibleEntityRenderer::new);
 
         event.registerEntityRenderer(TYPE_BLIZZARD.get(), InvisibleEntityRenderer::new);

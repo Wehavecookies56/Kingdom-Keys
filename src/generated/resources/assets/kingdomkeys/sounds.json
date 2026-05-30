@@ -165,6 +165,11 @@
       "kingdomkeys:magic/magnet2"
     ]
   },
+  "magic/poison": {
+    "sounds": [
+      "kingdomkeys:magic/poison"
+    ]
+  },
   "magic/reflect1": {
     "sounds": [
       "kingdomkeys:magic/reflect1"

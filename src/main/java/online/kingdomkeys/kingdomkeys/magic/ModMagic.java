@@ -33,10 +33,15 @@ public class ModMagic {
 		GRAVITY = MAGIC.register(ResourceLocation.parse(Strings.Magic_Gravity).getPath(), () -> new MagicGravity(ResourceLocation.parse(Strings.Magic_Gravity), 3, null)),
 		ZERO_GRAVITY = MAGIC.register(ResourceLocation.parse(Strings.Magic_ZeroGravity).getPath(), () -> new MagicZeroGravity(ResourceLocation.parse(Strings.Magic_ZeroGravity), 3, null)),
 		STOP = MAGIC.register(ResourceLocation.parse(Strings.Magic_Stop).getPath(), () -> new MagicStop(ResourceLocation.parse(Strings.Magic_Stop), 3, null)),
-		DARK_FIRAGA = MAGIC.register(ResourceLocation.parse(Strings.Magic_DarkFire).getPath(), () -> new MagicFire(ResourceLocation.parse(Strings.Magic_DarkFire), 1, null)),
-		TRIPLE_FIRAGA = MAGIC.register(ResourceLocation.parse(Strings.Magic_TripleFire).getPath(), () -> new MagicTripleFire(ResourceLocation.parse(Strings.Magic_TripleFire), 1, null)),
-		TRIPLE_BLIZZAGA = MAGIC.register(ResourceLocation.parse(Strings.Magic_TripleBlizzard).getPath(), () -> new MagicTripleBlizzard(ResourceLocation.parse(Strings.Magic_TripleBlizzard), 1, null)),
+
+		DARK_FIRAGA = MAGIC.register(ResourceLocation.parse(Strings.Magic_DarkFiraga).getPath(), () -> new MagicFire(ResourceLocation.parse(Strings.Magic_DarkFiraga), 1, null)),
+		TRIPLE_FIRAGA = MAGIC.register(ResourceLocation.parse(Strings.Magic_TripleFiraga).getPath(), () -> new MagicTripleFiraga(ResourceLocation.parse(Strings.Magic_TripleFiraga), 1, null)),
+		CRAWLING_FIRAGA = MAGIC.register(ResourceLocation.parse(Strings.Magic_CrawlingFiraga).getPath(), () -> new MagicCrawlingFiraga(ResourceLocation.parse(Strings.Magic_CrawlingFiraga), 1, null)),
+		FISSION_FIRAGA = MAGIC.register(ResourceLocation.parse(Strings.Magic_FissionFiraga).getPath(), () -> new MagicFissionFiraga(ResourceLocation.parse(Strings.Magic_FissionFiraga), 1, null)),
+		FIRAGA_BURST = MAGIC.register(ResourceLocation.parse(Strings.Magic_FiragaBurst).getPath(), () -> new MagicFiragaBurst(ResourceLocation.parse(Strings.Magic_FiragaBurst), 1, null)),
+
+		TRIPLE_BLIZZAGA = MAGIC.register(ResourceLocation.parse(Strings.Magic_TripleBlizzard).getPath(), () -> new MagicTripleBlizzaga(ResourceLocation.parse(Strings.Magic_TripleBlizzard), 1, null)),
 		BLACKOUT = MAGIC.register(ResourceLocation.parse(Strings.Magic_Blackout).getPath(), () -> new MagicStatusEffectRadius(ResourceLocation.parse(Strings.Magic_Blackout), 1, null, MobEffects.DARKNESS, SoundEvents.BEACON_POWER_SELECT, ParticleTypes.SQUID_INK)),
-		POISON = MAGIC.register(ResourceLocation.parse(Strings.Magic_Poison).getPath(), () -> new MagicStatusEffectRadius(ResourceLocation.parse(Strings.Magic_Poison), 1, null, MobEffects.POISON, SoundEvents.BREEZE_IDLE_GROUND, new DustParticleOptions(new Vector3f(0.6F,0.3F,0.8F),1F)))
+		POISON = MAGIC.register(ResourceLocation.parse(Strings.Magic_Poison).getPath(), () -> new MagicStatusEffectRadius(ResourceLocation.parse(Strings.Magic_Poison), 1, null, MobEffects.POISON, ModSounds.poison.get(), new DustParticleOptions(new Vector3f(0.6F,0.3F,0.8F),1F)))
 		;
 }

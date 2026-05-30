@@ -737,6 +737,10 @@ public class LanguageENUS extends KKLanguageProvider {
         addMagic(ModMagic.STOP, "Stop", "Stopra", "Stopga");
         add(0,ModMagic.DARK_FIRAGA.get(),"Dark Firaga");
         add(0,ModMagic.TRIPLE_FIRAGA.get(),"Triple Firaga");
+        add(0,ModMagic.CRAWLING_FIRAGA.get(),"Crawling Firaga");
+        add(0,ModMagic.FISSION_FIRAGA.get(),"Fission Firaga");
+        add(0,ModMagic.FIRAGA_BURST.get(),"Firaga Burst");
+
         add(0,ModMagic.TRIPLE_BLIZZAGA.get(),"Triple Blizzaga");
         add(0,ModMagic.BLACKOUT.get(),"Blackout");
         add(0,ModMagic.POISON.get(),"Poison");
@@ -1916,8 +1920,13 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.reflegaSpell, "Reflega Spell");
         addItem(ModItems.gravigaSpell, "Graviga Spell");
         addItem(ModItems.stopgaSpell, "Stopga Spell");
+
         addItem(ModItems.darkFiragaSpell, "Dark Firaga Spell");
         addItem(ModItems.tripleFiragaSpell, "Triple Firaga Spell");
+        addItem(ModItems.crawlingFiragaSpell, "Crawling Firaga Spell");
+        addItem(ModItems.fissionFiragaSpell, "Fission Firaga Spell");
+        addItem(ModItems.firagaBurstSpell, "Firaga Burst Spell");
+
         addItem(ModItems.tripleBlizzagaSpell, "Triple Blizzaga Spell");
         addItem(ModItems.blackoutSpell, "Blackout Spell");
         addItem(ModItems.poisonSpell, "Poison Spell");
