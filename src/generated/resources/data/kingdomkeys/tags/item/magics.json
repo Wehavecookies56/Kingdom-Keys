@@ -32,6 +32,11 @@
     "kingdomkeys:spellstopga",
     "kingdomkeys:spelldarkfiraga",
     "kingdomkeys:spelltriplefiraga",
-    "kingdomkeys:spelltripleblizzaga"
+    "kingdomkeys:spelltripleblizzaga",
+    "kingdomkeys:spellblackout",
+    "kingdomkeys:spellpoison",
+    "kingdomkeys:spellzerogravity",
+    "kingdomkeys:spellzerogravira",
+    "kingdomkeys:spellzerograviga"
   ]
 }

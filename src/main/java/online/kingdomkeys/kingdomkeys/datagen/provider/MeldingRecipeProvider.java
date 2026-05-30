@@ -23,7 +23,6 @@ import java.util.function.Function;
 
 public abstract class MeldingRecipeProvider<T extends MeldingRecipeBuilder> implements DataProvider {
 
-    private static final Gson GSON = (new GsonBuilder()).setPrettyPrinting().create();
     protected final DataGenerator generator;
     protected final String modid;
     protected final Function<ResourceLocation, T> factory;
@@ -38,9 +37,7 @@ public abstract class MeldingRecipeProvider<T extends MeldingRecipeBuilder> impl
         this.existingFileHelper = existingFileHelper;
         this.factory = factory;
     }
-    public MeldingRecipeProvider(DataGenerator generator, String modid, BiFunction<ResourceLocation, ExistingFileHelper, T> builderFromModId, ExistingFileHelper existingFileHelper) {
-        this(generator, modid, loc->builderFromModId.apply(loc, existingFileHelper), existingFileHelper);
-    }
+
     protected abstract void registerRecipe();
 
     public T getBuilder(String path) {

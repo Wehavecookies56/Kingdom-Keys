@@ -64,13 +64,19 @@ public class Strings {
 		Magic_Gravira = KingdomKeys.MODID + ":" + Mag_Prefix + "gravira",
 		Magic_Graviga = KingdomKeys.MODID + ":" + Mag_Prefix + "graviga",
 
+		Magic_ZeroGravity = KingdomKeys.MODID + ":" + Mag_Prefix + "zerogravity",
+		Magic_ZeroGravira = KingdomKeys.MODID + ":" + Mag_Prefix + "zerogravira",
+		Magic_ZeroGraviga = KingdomKeys.MODID + ":" + Mag_Prefix + "zerograviga",
+
 		Magic_Stop = KingdomKeys.MODID + ":" + Mag_Prefix + "stop",
 		Magic_Stopra = KingdomKeys.MODID + ":" + Mag_Prefix + "stopra",
 		Magic_Stopga = KingdomKeys.MODID + ":" + Mag_Prefix + "stopga",
 
 		Magic_DarkFire = KingdomKeys.MODID + ":" + Mag_Prefix + "darkfire",
 		Magic_TripleFire = KingdomKeys.MODID + ":" + Mag_Prefix + "triplefire",
-		Magic_TripleBlizzard = KingdomKeys.MODID + ":" + Mag_Prefix + "tripleblizzard";
+		Magic_TripleBlizzard = KingdomKeys.MODID + ":" + Mag_Prefix + "tripleblizzard",
+		Magic_Blackout = KingdomKeys.MODID + ":" + Mag_Prefix + "blackout",
+		Magic_Poison = KingdomKeys.MODID + ":" + Mag_Prefix + "posion";
 																
     
     // Drive Forms
@@ -656,6 +662,10 @@ public class Strings {
 		SpellGravira = "spellgravira",
 		SpellGraviga = "spellgraviga",
 
+		SpellZeroGravity = "spellzerogravity",
+		SpellZeroGravira = "spellzerogravira",
+		SpellZeroGraviga = "spellzerograviga",
+
 		SpellStop = "spellstop",
 		SpellStopra = "spellstopra",
 		SpellStopga = "spellstopga",
@@ -663,6 +673,8 @@ public class Strings {
 		SpellDarkFiraga = "spelldarkfiraga",
 		SpellTripleFiraga = "spelltriplefiraga",
 		SpellTripleBlizzaga = "spelltripleblizzaga",
+		SpellBlackout = "spellblackout",
+		SpellPoison = "spellpoison",
 
 		StruggleSword = "struggle_sword",
 		StruggleWand = "struggle_wand",

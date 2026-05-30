@@ -64,6 +64,7 @@ public class ModSounds {
 	        stop = registerSound("magic/stop"),
     		stopra = registerSound("magic/stopra"),
 			stopga = registerSound("magic/stopga"),
+	        zeroGravity = registerSound("magic/zerogravity"),
 			
 			playerDeath = registerSound("player_death"),
 			playerDeathHardcore = registerSound("player_death_2"),

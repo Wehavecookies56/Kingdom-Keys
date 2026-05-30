@@ -39,5 +39,18 @@ public class MeldingRecipe extends MeldingRecipeProvider<MeldingRecipeBuilder> {
 		getBuilder("waterga").ingredient1(wateraSpell).ingredient2(wateraSpell).output(watergaSpell, 1).addCost(800).addTier(3);
 		getBuilder("magnega").ingredient1(magneraSpell).ingredient2(magneraSpell).output(magnegaSpell, 1).addCost(800).addTier(3);
 		getBuilder("reflega").ingredient1(refleraSpell).ingredient2(refleraSpell).output(reflegaSpell, 1).addCost(800).addTier(3);
+
+//BBS
+		getBuilder("dark_firaga").ingredient1(firagaSpell).ingredient2(blackoutSpell).output(darkFiragaSpell, 1).addCost(1200).addTier(4);
+
+		getBuilder("triple_firaga").ingredient1(firagaSpell).ingredient2(firagaSpell).output(tripleFiragaSpell, 1).addCost(1000).addTier(3);
+		getBuilder("triple_blizzaga").ingredient1(blizzagaSpell).ingredient2(blizzagaSpell).output(tripleBlizzagaSpell, 1).addCost(1000).addTier(3);
+
+		getBuilder("triple_firaga2").ingredient1(firagaSpell).ingredient2(firaSpell).output(tripleFiragaSpell, 1).addCost(1200).addTier(4);
+		getBuilder("triple_blizzaga2").ingredient1(blizzagaSpell).ingredient2(blizzaraSpell).output(tripleBlizzagaSpell, 1).addCost(1200).addTier(4);
+
+		getBuilder("zero_gravity").ingredient1(firagaSpell).ingredient2(blackoutSpell).output(darkFiragaSpell, 1).addCost(1200).addTier(4);
+		getBuilder("zero_gravira").ingredient1(zeroGravitySpell).ingredient2(zeroGravitySpell).output(zeroGraviraSpell, 1).addCost(1200).addTier(4);
+		getBuilder("zero_graviga").ingredient1(zeroGraviraSpell).ingredient2(zeroGraviraSpell).output(zeroGravigaSpell, 1).addCost(1200).addTier(4);
 	}
 }

@@ -2395,10 +2395,11 @@ public class Utils {
 				PacketHandler.sendTo(new SCSyncGlobalData(entity), (ServerPlayer) entity);
 		}
 
-		if(entity.level().isClientSide)
-			return;
+		if(effect.is(ModMobEffects.ZERO_GRAVITY)){
+			entity.setNoGravity(false);
+		}
 
-		if(effect != null) {
+		if(effect != null && !entity.level().isClientSide()) {
 			entity.level().getServer().getPlayerList().getPlayers().forEach(player -> {
 				player.connection.send(new ClientboundRemoveMobEffectPacket(entity.getId(), effect));
 			});

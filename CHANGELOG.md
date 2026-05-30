@@ -1,13 +1,19 @@
-# IDK
+# 2.7.12a
 ### Added:
 * New magics:
-  * Dark Firaga: Meldable with whatever
-  * Triple Firaga: Meldable with whatever
-  * Triple Blizzaga: Meldable...
+  * Dark Firaga: Meldable with Firaga + Blackout
+  * Triple Firaga: Meldable with Firaga + Firaga / Firaga + Fira
+  * Triple Blizzaga: Meldable with Blizzaga + Blizzaga / Blizzaga + Blizzara
+  * Zero Gravity: Meldable with 
+  * Zero Gravira: Meldable with Zero Gravira + Zero Gravira
+  * Zero Graviga: Meldable with Zero Graviga + Zero Graviga
+  * Blackout: Available in shop for 500 munny after unlocking Synthesis Rank C
+  * Poison: Available in shop for 500 munny after unlocking Synthesis Rank C
   
 ### Fixed:
-* Selling would no work if the inventory was full.
+* Selling would not work if the inventory was full.
 * Blizzard not ignoring iframes.
+* Moogle shop displaying Cost::
 
 # 2.7.11d
 ### Fixed:

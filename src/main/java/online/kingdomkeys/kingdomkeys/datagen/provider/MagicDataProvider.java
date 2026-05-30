@@ -108,6 +108,20 @@ public class MagicDataProvider implements DataProvider {
 				.level(0).cost(22).castTime(15).cooldown(120).damageMultiplier(0.3F).lockOn(true).maxExp(4200).maxExpLevel(4).end()
 				.build());
 
+		magics.put(ResourceLocation.parse(Strings.Magic_Blackout).getPath(), new MagicBuilder()
+				.level(0).cost(12).castTime(10).cooldown(20).damageMultiplier(0.3F).lockOn(false).maxExp(1800).maxExpLevel(3).end()
+				.build());
+
+		magics.put(ResourceLocation.parse(Strings.Magic_Poison).getPath(), new MagicBuilder()
+				.level(0).cost(12).castTime(10).cooldown(20).damageMultiplier(0.3F).lockOn(false).maxExp(1800).maxExpLevel(3).end()
+				.build());
+
+		magics.put(ResourceLocation.parse(Strings.Magic_ZeroGravity).getPath(), new MagicBuilder()
+				.level(0).cost(24).castTime(20).cooldown(40).damageMultiplier(2F).lockOn(true).maxExp(1800).maxExpLevel(3).end()
+				.level(1).cost(24).castTime(20).cooldown(40).damageMultiplier(4F).lockOn(true).maxExp(2400).maxExpLevel(3).end()
+				.level(2).cost(24).castTime(20).cooldown(40).damageMultiplier(6F).lockOn(true).maxExp(4200).maxExpLevel(4).end()
+				.level(3).cost(24).castTime(15).cooldown(40).damageMultiplier(1.0F).lockOn(true).maxExp(200).maxExpLevel(3).end()
+				.build());
 
 		CompletableFuture<?>[] futures = magics.entrySet().stream().map(entry -> {
 			Path path = pathProvider.json(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, entry.getKey()));

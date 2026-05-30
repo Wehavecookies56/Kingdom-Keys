@@ -190,6 +190,11 @@
       "kingdomkeys:magic/stopra"
     ]
   },
+  "magic/zerogravity": {
+    "sounds": [
+      "kingdomkeys:magic/zerogravity"
+    ]
+  },
   "menu_back": {
     "sounds": [
       "kingdomkeys:menu_back"

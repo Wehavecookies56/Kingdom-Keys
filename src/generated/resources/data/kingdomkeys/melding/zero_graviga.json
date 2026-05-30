@@ -1,0 +1,11 @@
+{
+  "cost": 1200,
+  "ingredient1": "kingdomkeys:spellzerogravira",
+  "ingredient2": "kingdomkeys:spellzerogravira",
+  "output": {
+    "type": "item",
+    "item": "kingdomkeys:spellzerograviga",
+    "quantity": 1
+  },
+  "tier": 4
+}

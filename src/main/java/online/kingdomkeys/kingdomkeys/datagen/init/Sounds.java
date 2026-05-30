@@ -72,6 +72,7 @@ public class Sounds extends SoundDefinitionsProvider {
         add(stop);
         add(stopra);
         add(stopga);
+        add(zeroGravity);
         
         add(playerDeath);
         add(playerDeathHardcore);

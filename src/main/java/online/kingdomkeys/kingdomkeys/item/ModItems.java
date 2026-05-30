@@ -846,8 +846,8 @@ public class ModItems {
 			aeroraSpell =   createNewItem(Strings.SpellAerora, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "aero", 1)),
 			magneraSpell =  createNewItem(Strings.SpellMagnera, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "magnet", 1)),
 			refleraSpell=   createNewItem(Strings.SpellReflera, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "reflect", 1)),
-			graviraSpell =  createNewItem(Strings.SpellGravira, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "gravity", 1)),
-			stopraSpell =   createNewItem(Strings.SpellStopra, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "stop", 1)),
+			graviraSpell =  createNewItem(Strings.SpellGravira, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Gravity, 1)),
+			stopraSpell =   createNewItem(Strings.SpellStopra, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Stop, 1)),
 
 			firagaSpell =   createNewItem(Strings.SpellFiraga, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "fire", 2)),
 			blizzagaSpell = createNewItem(Strings.SpellBlizzaga, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "blizzard", 2)),
@@ -863,6 +863,11 @@ public class ModItems {
 			darkFiragaSpell = createNewItem(Strings.SpellDarkFiraga, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_DarkFire, 0)),
 			tripleFiragaSpell = createNewItem(Strings.SpellTripleFiraga, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_TripleFire, 0)),
 			tripleBlizzagaSpell = createNewItem(Strings.SpellTripleBlizzaga, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_TripleBlizzard, 0)),
+			blackoutSpell = createNewItem(Strings.SpellBlackout, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Blackout, 0)),
+			poisonSpell = createNewItem(Strings.SpellPoison, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Poison, 0)),
+			zeroGravitySpell = createNewItem(Strings.SpellZeroGravity, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_ZeroGravity, 0)),
+			zeroGraviraSpell = createNewItem(Strings.SpellZeroGravira, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_ZeroGravity, 1)),
+			zeroGravigaSpell = createNewItem(Strings.SpellZeroGraviga, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_ZeroGravity, 2)),
 
 			struggleSword = createNewItem(Strings.StruggleSword, () -> new SwordItem(new KeybladeItemTier(0),new Item.Properties().attributes(SwordItem.createAttributes(new KeybladeItemTier(0), 1, 1)).stacksTo(1))),
 			struggleWand = createNewItem(Strings.StruggleWand, () -> new SwordItem(new KeybladeItemTier(0), new Item.Properties().attributes(SwordItem.createAttributes(new KeybladeItemTier(0), 1, 1)).stacksTo(1))),

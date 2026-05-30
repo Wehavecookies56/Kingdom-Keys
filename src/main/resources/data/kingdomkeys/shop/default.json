@@ -49,5 +49,8 @@
 	{"item": "kingdomkeys:power_band", "amount":1, "tier":4, "cost": 950},
 	{"item": "kingdomkeys:petite_ribbon", "amount":1, "tier":2, "cost": 5000},
 	{"item": "kingdomkeys:ribbon", "amount":1, "tier":3, "cost": 7500},
-	{"item": "kingdomkeys:grand_ribbon", "amount":1, "tier":5, "cost": 9001}
+	{"item": "kingdomkeys:grand_ribbon", "amount":1, "tier":5, "cost": 9001},
+
+	{"item": "kingdomkeys:spellblackout", "amount":1, "tier":2, "cost": 500},
+	{"item": "kingdomkeys:spellpoison", "amount":1, "tier":2, "cost": 500}
 ]

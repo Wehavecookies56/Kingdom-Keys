@@ -1,0 +1,11 @@
+{
+  "cost": 1200,
+  "ingredient1": "kingdomkeys:spellfiraga",
+  "ingredient2": "kingdomkeys:spellblackout",
+  "output": {
+    "type": "item",
+    "item": "kingdomkeys:spelldarkfiraga",
+    "quantity": 1
+  },
+  "tier": 4
+}
