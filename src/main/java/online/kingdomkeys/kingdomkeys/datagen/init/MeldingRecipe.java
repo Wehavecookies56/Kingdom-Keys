@@ -60,14 +60,11 @@ public class MeldingRecipe extends MeldingRecipeProvider<MeldingRecipeBuilder> {
 
 		getBuilder("blackout").ingredient1(zeroGraviraSpell).ingredient2(poisonSpell).output(blackoutSpell, 1).addCost(1600).addTier(4);
 
-		getBuilder("crawling_firaga").ingredient1(firagaSpell).ingredient2(stopraSpell).output(crawlingFiragaSpell, 1).addCost(1800).addTier(5);
-		//getBuilder("crawling_firaga2").ingredient1(firagaSpell).ingredient2(stopgaSpell).output(crawlingFiragaSpell, 1).addCost(1200).addTier(4);
+		getBuilder("crawling_firaga").ingredient1(firagaSpell).ingredient2(stopraSpell).output(crawlingFiragaSpell, 1).bonusOutput(firagaBurstSpell,1,20).addCost(1800).addTier(5);
+		getBuilder("crawling_firaga2").ingredient1(firagaSpell).ingredient2(stopgaSpell).output(crawlingFiragaSpell, 1).bonusOutput(firagaBurstSpell,1,20).addCost(1200).addTier(4);
 
-		getBuilder("fission_firaga").ingredient1(firaSpell).ingredient2(aerogaSpell).output(fissionFiragaSpell, 1).addCost(1000).addTier(4);
-		getBuilder("fission_firaga2").ingredient1(firagaSpell).ingredient2(aeroraSpell).output(fissionFiragaSpell, 1).addCost(1000).addTier(4);
-		//getBuilder("fission_firaga3").ingredient1(firagaSpell).ingredient2(aerogaSpell).output(fissionFiragaSpell, 1).addCost(1200).addTier(3);
-
-		getBuilder("firaga_burst").ingredient1(firagaSpell).ingredient2(aerogaSpell).output(firagaBurstSpell, 1).addCost(2600).addTier(5);
-		getBuilder("firaga_burst2").ingredient1(firagaSpell).ingredient2(stopgaSpell).output(firagaBurstSpell, 1).addCost(2600).addTier(5);
+		getBuilder("fission_firaga").ingredient1(firaSpell).ingredient2(aerogaSpell).output(fissionFiragaSpell, 1).bonusOutput(firagaBurstSpell,1,20).addCost(1000).addTier(4);
+		getBuilder("fission_firaga2").ingredient1(firagaSpell).ingredient2(aeroraSpell).output(fissionFiragaSpell, 1).bonusOutput(firagaBurstSpell,1,20).addCost(1000).addTier(4);
+		getBuilder("fission_firaga3").ingredient1(firagaSpell).ingredient2(aerogaSpell).output(fissionFiragaSpell, 1).bonusOutput(firagaBurstSpell,1,20).addCost(1200).addTier(3);
 	}
 }

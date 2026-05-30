@@ -33,6 +33,27 @@ public class MeldingDataDeserializer implements JsonDeserializer<Melding>{
 					out.setResult(keychain, outputObject.get("quantity").getAsInt());
 					out.setType(outputObject.get("type").getAsString());
 				}
+				case "output2" -> {
+					JsonObject outputObject = element.getAsJsonObject();
+
+					if (!outputObject.has("item") || !outputObject.has("quantity")) {
+						throw new JsonParseException("Output2 missing item/quantity: " + json);
+					}
+
+					Item result = BuiltInRegistries.ITEM.get(
+							ResourceLocation.parse(outputObject.get("item").getAsString())
+					);
+
+					int chance = outputObject.has("chance")
+							? outputObject.get("chance").getAsInt()
+							: 0;
+
+					out.setBonusResult(
+							result,
+							outputObject.get("quantity").getAsInt(),
+							chance
+					);
+				}
 				case "tier" -> out.setTier(element.getAsInt());
 			}
 		});

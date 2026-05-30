@@ -20,3 +20,4 @@
 * Selling would not work if the inventory was full.
 * Blizzard not ignoring iframes.
 * Moogle shop displaying Cost::
+* Crash related to Large Body attacker being null. 

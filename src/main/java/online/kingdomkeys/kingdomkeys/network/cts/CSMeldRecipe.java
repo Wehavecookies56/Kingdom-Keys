@@ -52,7 +52,20 @@ public record CSMeldRecipe(ResourceLocation recipe, int selected1, int selected2
 
 		playerData.setMunny(playerData.getMunny() - melding.getCost());
 
-		ItemStack result = new ItemStack(melding.getResult(), melding.getAmount());
+		ItemStack result;
+		if(melding.hasBonus()){
+			int rand = (int) (Math.random() * 100);
+			KingdomKeys.LOGGER.debug(melding.getRegistryName());
+			KingdomKeys.LOGGER.debug("Number: "+rand+" Bonus chance: " + melding.getBonusChance());
+			if(rand < melding.getBonusChance()){
+				result = new ItemStack(melding.getBonusResult(), melding.getBonusAmount());
+				KingdomKeys.LOGGER.debug("Rare Meld!");
+			} else {
+				result = new ItemStack(melding.getResult(), melding.getAmount());
+			}
+		} else {
+			result = new ItemStack(melding.getResult(), melding.getAmount());
+		}
 		player.getInventory().add(result);
 
 		PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
