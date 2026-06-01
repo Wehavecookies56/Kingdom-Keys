@@ -9,6 +9,7 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.damagesource.KKDamageTypes;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import online.kingdomkeys.kingdomkeys.util.Utils;
@@ -25,9 +26,10 @@ public class MagicDeepFreeze extends Magic {
 	@Override
     public void magicUse(LivingEntity player, Player caster, int level, float fullMPBlastMult, LivingEntity lockOnEntity) {
 		PlayerData playerData = PlayerData.get(caster);
-		int time = (int) (playerData.getMagic(true) * getRealDamageMult(level, caster));
-		int localLevel = Utils.getMagicHighestLocalLevel(playerData.getEquippedMagics(), getRegistryName().toString(), level);
-		float radius = 2 + (localLevel * 0.5F); //TODO change back to 2 and scale with magic level
+		float dmg = getRealDamageMult(level, caster);
+		dmg *= fullMPBlastMult;
+		int time = playerData.getMagic(true) * 2;
+		float radius = 2 + (getMagicLocalLevel(caster, level) * 0.2F);
 
 		for (int a = 0; a < 360; a += 5) {
 			double angle = Math.toRadians(a);
@@ -41,14 +43,14 @@ public class MagicDeepFreeze extends Magic {
 		}
 
 		List<LivingEntity> list = new ArrayList<>();
-
 		if(caster instanceof Player p) {
 			list = Utils.getLivingEntitiesInRadiusExcludingParty(p, radius);
 		}
 		list.remove(this);
 
 		for(LivingEntity e : list) {
-			e.addEffect(new MobEffectInstance(ModMobEffects.FREEZE, time, level, false, false, false));
+			e.addEffect(new MobEffectInstance(ModMobEffects.FREEZE, time, 50, false, false, false));
+			e.hurt(KKDamageTypes.getElementalDamage(KKDamageTypes.ICE, player, player), dmg);
 		}
 
 		player.swing(InteractionHand.MAIN_HAND);

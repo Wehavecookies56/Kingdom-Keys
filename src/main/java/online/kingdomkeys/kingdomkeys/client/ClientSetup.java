@@ -66,12 +66,10 @@ public class ClientSetup {
 
 	@SubscribeEvent
 	public static void addLayers(EntityRenderersEvent.AddLayers event) {
-		Minecraft mc = Minecraft.getInstance();
-		EntityRendererProvider.Context context = new EntityRendererProvider.Context(mc.getEntityRenderDispatcher(), mc.getItemRenderer(), mc.getBlockRenderer(), mc.gameRenderer.itemInHandRenderer, mc.getResourceManager(), mc.getEntityModels(), mc.font);
-
 		for(Entry<EntityType<?>, EntityRenderer<?>> entry : Minecraft.getInstance().getEntityRenderDispatcher().renderers.entrySet()) {
 			if(entry.getValue() instanceof LivingEntityRenderer renderer && !(entry.getValue() instanceof PlayerRenderer)) {
-				renderer.addLayer(new AeroLayerRenderer<LivingEntity>(renderer, event.getEntityModels()));
+				renderer.addLayer(new AeroLayerRenderer<>(renderer, event.getEntityModels()));
+				renderer.addLayer(new FreezeLayerRenderer<>(renderer, event.getEntityModels()));
 				renderer.addLayer(new KeybladeArmorRenderer<>(renderer, event.getEntityModels()));
 			}
 		}
@@ -82,6 +80,7 @@ public class ClientSetup {
 		renderer.addLayer(new ShoulderLayerRenderer<>(renderer, event.getEntityModels(),true));
 		renderer.addLayer(new KeybladeArmorRenderer<>(renderer, event.getEntityModels()));
 		renderer.addLayer(new AeroLayerRenderer<>(renderer, event.getEntityModels()));
+		renderer.addLayer(new FreezeLayerRenderer<>(renderer, event.getEntityModels()));
 
 		renderer = event.getSkin(PlayerSkin.Model.SLIM);
 		renderer.addLayer(new DriveLayerRenderer<>(renderer));
@@ -89,6 +88,7 @@ public class ClientSetup {
 		renderer.addLayer(new ShoulderLayerRenderer<>(renderer, event.getEntityModels(),false));
 		renderer.addLayer(new KeybladeArmorRenderer<>(renderer, event.getEntityModels()));
 		renderer.addLayer(new AeroLayerRenderer<>(renderer, event.getEntityModels()));
+		renderer.addLayer(new FreezeLayerRenderer<>(renderer, event.getEntityModels()));
 	}
 
 	@SubscribeEvent

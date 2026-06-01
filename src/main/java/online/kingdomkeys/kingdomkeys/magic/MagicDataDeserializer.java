@@ -40,7 +40,7 @@ public class MagicDataDeserializer implements JsonDeserializer<MagicData> {
 				case "max_exp"->
 					out.setMaxExp(level, element2.getAsInt());
 				case "max_exp_lvl"->
-					out.setMaxExpLevel(level, element2.getAsInt());
+					out.setMaxLocalLevel(level, element2.getAsInt());
 				}
 			});
 

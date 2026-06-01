@@ -80,15 +80,15 @@ public class MagicData {
 		return this.maxExp[lvl];
 	}
 
-	public int getMaxLocalLevel(int lvl) {
-		return this.maxLocalLevel[lvl];
-	}
-
 	public void setMaxExp(int lvl, int maxExp) {
 		this.maxExp[lvl] = maxExp;
 	}
 
-	public void setMaxExpLevel(int lvl, int maxExp) {
-		this.maxLocalLevel[lvl] = maxExp;
+	public int getMaxLocalLevel(int lvl) {
+		return this.maxLocalLevel[lvl];
+	}
+
+	public void setMaxLocalLevel(int lvl, int level) {
+		this.maxLocalLevel[lvl] = level;
 	}
 }

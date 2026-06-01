@@ -18,9 +18,8 @@ import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.block.Blocks;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.data.GlobalData;
@@ -30,15 +29,11 @@ import online.kingdomkeys.kingdomkeys.util.IDisabledAnimations;
 import java.awt.*;
 
 @OnlyIn(Dist.CLIENT)
-public class AeroLayerRenderer<T extends LivingEntity, M extends EntityModel<T>> extends RenderLayer<T, M> {
-	public static final ResourceLocation TEXTURE = ResourceLocation.withDefaultNamespace("textures/entity/trident_riptide.png");
+public class FreezeLayerRenderer<T extends LivingEntity, M extends EntityModel<T>> extends RenderLayer<T, M> {
 	private static final ResourceLocation ICE_TEXTURE = ResourceLocation.withDefaultNamespace("textures/block/ice.png");
-	private final ModelPart box;
 
-	public AeroLayerRenderer(RenderLayerParent<T, M> renderer, EntityModelSet entityModels) {
+	public FreezeLayerRenderer(RenderLayerParent<T, M> renderer, EntityModelSet entityModels) {
 		super(renderer);
-		ModelPart modelpart = entityModels.bakeLayer(ModelLayers.PLAYER_SPIN_ATTACK);
-		this.box = modelpart.getChild("box");
 	}
 
 	@Override
@@ -55,57 +50,28 @@ public class AeroLayerRenderer<T extends LivingEntity, M extends EntityModel<T>>
 
 	public void renderEntity(PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn, T entitylivingbaseIn, float ageInTicks) {
 		if (GlobalData.get(entitylivingbaseIn) != null) {
-			if (entitylivingbaseIn.hasEffect(ModMobEffects.AERO)) {
-				MobEffectInstance aero = entitylivingbaseIn.getEffect(ModMobEffects.AERO);
-				VertexConsumer vertexconsumer = bufferIn.getBuffer(RenderType.entityCutoutNoCull(TEXTURE));
+			if (entitylivingbaseIn.hasEffect(ModMobEffects.FREEZE)) {
+				if (entitylivingbaseIn.getEffect(ModMobEffects.FREEZE).getAmplifier() == 50) {
+					PoseStack freshPose = new PoseStack();
+					freshPose.pushPose();
+					{
+						float width = entitylivingbaseIn.getBbWidth() * 0.5F;
+						float height = entitylivingbaseIn.getBbHeight() * 1F;
 
-				for (int i = 1; i <= aero.getAmplifier() + 1; ++i) {
-					matrixStackIn.pushPose();
-					float f = ageInTicks * 20;
-					if (i % 2 == 0) f *= -1;
-					matrixStackIn.mulPose(Axis.YP.rotationDegrees(f));
-					float scale = 1;
-					switch (aero.getAmplifier()) {
-						case 0:
-							if (entitylivingbaseIn instanceof Player) {
-								scale = 0.75F * i;
-								matrixStackIn.scale(scale, scale * 1.2F, scale);
-								matrixStackIn.translate(0.0D, -0.4F + 0.8F * (float) i, 0.0D);
-							} else {
-								scale = 0.35F * i;
-								matrixStackIn.scale(scale, scale, scale);
+						Camera camera = Minecraft.getInstance().getEntityRenderDispatcher().camera;
 
-							}
-							break;
-						case 1:
-							if (entitylivingbaseIn instanceof Player) {
-								scale = 0.85F * i;
-								matrixStackIn.scale(scale, scale, scale);
-								matrixStackIn.translate(0.0D, -0.8F + 0.8F * (float) i, 0.0D);
-							} else {
-								scale = 0.45F * i;
-								matrixStackIn.scale(scale, scale, scale);
-							}
+						freshPose.translate(entitylivingbaseIn.getX() - camera.getPosition().x, entitylivingbaseIn.getY() - camera.getPosition().y, entitylivingbaseIn.getZ() - camera.getPosition().z);
+						freshPose.mulPose(Axis.YN.rotationDegrees(entitylivingbaseIn.yBodyRot));
 
-							break;
-						case 2:
-							if (entitylivingbaseIn instanceof Player) {
-								scale = 0.7F * i;
-								matrixStackIn.scale(scale, scale * 0.6F, scale);
-								matrixStackIn.translate(0.0D, -1.2F + 0.6F * (float) i, 0.0D);
-							} else {
-								scale = 0.55F * i;
-								matrixStackIn.scale(scale, scale * 0.6F, scale);
-							}
-							break;
+						freshPose.translate(-width, 0, -width);
+						freshPose.scale(width * 2, height, width * 2);
 
+						Minecraft.getInstance().getBlockRenderer().renderSingleBlock(Blocks.ICE.defaultBlockState(), freshPose, bufferIn, packedLightIn, OverlayTexture.NO_OVERLAY);
+
+						VertexConsumer iceConsumer = bufferIn.getBuffer(RenderType.entityTranslucent(ICE_TEXTURE));
+						getParentModel().renderToBuffer(matrixStackIn, iceConsumer, packedLightIn, OverlayTexture.NO_OVERLAY, 0xFFFFFFFF);
 					}
-					int color = -1;
-					if (entitylivingbaseIn.hurtTime > 0)
-						color = new Color(100, 255, 255).hashCode();
-
-					this.box.render(matrixStackIn, vertexconsumer, packedLightIn, OverlayTexture.NO_OVERLAY, color);
-					matrixStackIn.popPose();
+					freshPose.popPose();
 				}
 			}
 		}

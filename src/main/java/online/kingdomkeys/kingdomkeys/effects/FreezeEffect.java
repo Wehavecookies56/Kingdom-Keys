@@ -5,6 +5,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.phys.Vec3;
 import online.kingdomkeys.kingdomkeys.entity.mob.WhiteMushroomEntity;
 
 public class FreezeEffect extends MobEffect {
@@ -30,6 +31,10 @@ public class FreezeEffect extends MobEffect {
                 ServerLevel serverLevel = (ServerLevel) pLivingEntity.level();
                 serverLevel.sendParticles(ParticleTypes.SNOWFLAKE, pLivingEntity.getX() + (pLivingEntity.getRandom().nextDouble() * 0.5D), d1, pLivingEntity.getZ() + (pLivingEntity.getRandom().nextDouble() * 0.5D), 1, 0, 0, 0, 0);
             }
+        }
+
+        if(pAmplifier == 50) { //Todo change to lower ampli prolly
+            pLivingEntity.setDeltaMovement(Vec3.ZERO);
         }
         return true;
     }

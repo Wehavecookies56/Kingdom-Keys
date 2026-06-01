@@ -111,6 +111,11 @@ public abstract class Magic {
 
     }
 
+	public int getMagicLocalLevel(Player player, int lvl) {
+		PlayerData playerData = PlayerData.get(player);
+		return Utils.getMagicHighestLocalLevel(playerData.getEquippedMagics(), getRegistryName().toString(), lvl);
+	}
+
     /**
      * If player and caster are different it means the magic was casted from a target selector to another player in the party
      * @param player
