@@ -45,6 +45,6 @@ public class UltimaCannonShotlockShotEntityRenderer extends EntityRenderer<BaseS
 	@Nullable
 	@Override
 	public ResourceLocation getTextureLocation(BaseShotlockShotEntity entity) {
-		return ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/models/fire.png");
+		return ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/models/cube.png");
 	}
 }

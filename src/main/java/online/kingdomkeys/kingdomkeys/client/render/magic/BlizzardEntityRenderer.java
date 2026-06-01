@@ -40,6 +40,6 @@ public class BlizzardEntityRenderer extends EntityRenderer<BlizzardEntity> {
 	@Nullable
 	@Override
 	public ResourceLocation getTextureLocation(BlizzardEntity entity) {
-		return ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/models/fire.png");
+		return ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/models/cube.png");
 	}
 }

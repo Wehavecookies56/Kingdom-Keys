@@ -6,6 +6,9 @@
 # Changed:
 * Magics can now be casted even if your Max MP is lower.
 
+# Fixed:
+* Some entities using the new fire texture.
+
 # 2.7.12a
 ### Added:
 * New magics:

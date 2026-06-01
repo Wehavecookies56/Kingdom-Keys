@@ -46,6 +46,6 @@ public class VolleyShotlockShotEntityRenderer extends EntityRenderer<BaseShotloc
 	@Nullable
 	@Override
 	public ResourceLocation getTextureLocation(BaseShotlockShotEntity entity) {
-		return ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/models/fire.png");
+		return ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/models/cube.png");
 	}
 }

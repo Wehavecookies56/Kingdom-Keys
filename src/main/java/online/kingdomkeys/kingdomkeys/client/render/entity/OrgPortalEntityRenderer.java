@@ -68,6 +68,6 @@ public class OrgPortalEntityRenderer extends EntityRenderer<OrgPortalEntity> {
 	@Nullable
 	@Override
 	public ResourceLocation getTextureLocation(OrgPortalEntity entity) {
-		return ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/models/fire.png");
+		return ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/models/cube.png");
 	}
 }
