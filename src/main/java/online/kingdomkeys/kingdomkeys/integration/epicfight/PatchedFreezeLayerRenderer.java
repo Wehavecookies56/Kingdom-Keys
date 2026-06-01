@@ -5,9 +5,6 @@ import com.mojang.math.Axis;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
-import net.minecraft.client.model.geom.EntityModelSet;
-import net.minecraft.client.model.geom.ModelLayers;
-import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
@@ -19,28 +16,21 @@ import net.minecraft.world.entity.animal.IronGolem;
 import net.minecraft.world.entity.monster.*;
 import net.minecraft.world.entity.monster.hoglin.Hoglin;
 import net.minecraft.world.entity.monster.piglin.Piglin;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Blocks;
 import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import org.jetbrains.annotations.Nullable;
 import yesman.epicfight.api.client.model.Mesh;
 import yesman.epicfight.api.client.model.Meshes;
 import yesman.epicfight.api.utils.math.OpenMatrix4f;
-import yesman.epicfight.client.mesh.HumanoidMesh;
 import yesman.epicfight.client.renderer.EpicFightRenderTypes;
 import yesman.epicfight.client.renderer.patched.layer.PatchedLayer;
 import yesman.epicfight.gameasset.Armatures;
 import yesman.epicfight.world.capabilities.entitypatch.LivingEntityPatch;
 
 public class PatchedFreezeLayerRenderer<E extends LivingEntity, T extends LivingEntityPatch<E>, M extends EntityModel<E>> extends PatchedLayer<E, T, M, RenderLayer<E, M>> {
-	public static final ResourceLocation TEXTURE = ResourceLocation.withDefaultNamespace("textures/entity/trident_riptide.png");
 	private static final ResourceLocation ICE_TEXTURE = ResourceLocation.withDefaultNamespace("textures/block/ice.png");
 
-	private final ModelPart box;
-
 	public PatchedFreezeLayerRenderer() {
-		EntityModelSet models = Minecraft.getInstance().getEntityModels();
-		this.box = models.bakeLayer(ModelLayers.PLAYER_SPIN_ATTACK).getChild("box");
 	}
 
 	public static Meshes.MeshAccessor<? extends Mesh> getMesh(LivingEntity entity) {
@@ -49,21 +39,13 @@ public class PatchedFreezeLayerRenderer<E extends LivingEntity, T extends Living
 		}
 
 		if (entity instanceof Zombie) return Meshes.BIPED;
-
 		if (entity instanceof Skeleton) return Meshes.SKELETON;
-
 		if (entity instanceof Creeper) return Meshes.CREEPER;
-
 		if (entity instanceof EnderMan) return Meshes.ENDERMAN;
-
 		if (entity instanceof Spider) return Meshes.SPIDER;
-
 		if (entity instanceof IronGolem) return Meshes.IRON_GOLEM;
-
 		if (entity instanceof Piglin) return Meshes.PIGLIN;
-
 		if (entity instanceof Hoglin) return Meshes.HOGLIN;
-
 		return null;
 	}
 
@@ -89,15 +71,10 @@ public class PatchedFreezeLayerRenderer<E extends LivingEntity, T extends Living
 				Meshes.MeshAccessor<? extends Mesh> accessor = getMesh(entity);
 				if (accessor != null) {
 					Mesh mesh = accessor.get();
-					mesh.draw(poseStack, buffer, EpicFightRenderTypes.entityTranslucent(ICE_TEXTURE),    Mesh.DrawingFunction.NEW_ENTITY, packedLight, 1, 1, 1, 1, OverlayTexture.NO_OVERLAY, Armatures.BIPED.get(), poses);
+					mesh.draw(poseStack, buffer, EpicFightRenderTypes.entityTranslucent(ICE_TEXTURE), Mesh.DrawingFunction.NEW_ENTITY, packedLight, 1, 1, 1, 1, OverlayTexture.NO_OVERLAY, Armatures.BIPED.get(), poses);
 				}
 			}
 			freshPose.popPose();
 		}
 	}
-
-	public HumanoidMesh getModel(E e) {
-		return ((AbstractClientPlayer) e).getSkin().model() == PlayerSkin.Model.WIDE ? Meshes.BIPED.get() : Meshes.ALEX.get();
-	}
-
 }

@@ -1,7 +1,6 @@
 package online.kingdomkeys.kingdomkeys.magic;
 
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
@@ -9,13 +8,9 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
-import online.kingdomkeys.kingdomkeys.entity.magic.GravigaEntity;
-import online.kingdomkeys.kingdomkeys.entity.magic.GraviraEntity;
-import online.kingdomkeys.kingdomkeys.entity.magic.GravityEntity;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.util.ArrayList;
