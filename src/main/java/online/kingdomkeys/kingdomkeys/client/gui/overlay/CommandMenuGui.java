@@ -337,13 +337,18 @@ public class CommandMenuGui extends OverlayBase {
 				item.setMessage(Component.literal("???"));
 				return;
 			}
-			if((playerData.getRecharge() || playerData.getMaxMP() < cheapest && cheapest < 300) && playerData.getMagicCooldownTicks() <= 0) { //Small hack to avoid gray and dark gray flicker when using last magic and going on recharge
+
+			boolean allowUseMagicIfCostIsHigher = ModConfigs.SERVER.allowCastMagicIfTooExpensive.get();
+			boolean insufficientMP = cheapest > playerData.getMaxMP() && cheapest < 300;
+
+			if ((playerData.getRecharge() || (!allowUseMagicIfCostIsHigher && insufficientMP)) && playerData.getMagicCooldownTicks() <= 0) {
+				//if((playerData.getRecharge() || playerData.getMaxMP() < cheapest && cheapest < 300) && playerData.getMagicCooldownTicks() <= 0) { //Small hack to avoid gray and dark gray flicker when using last magic and going on recharge
 				item.setTextColour(Color.GRAY); //Still allows to open submenu
 			}
 
 			DriveForm form = ModDriveForms.registry.get(ResourceLocation.parse(playerData.getActiveDriveForm()));
 			if(playerData.getMagicCooldownTicks() > 0 || !form.canUseMagic()){
-				item.setActive(false); //Doesn't allow opening submenu while a magic is being casted and on CD
+				item.setActive(false); //Doesn't allow opening submenu while a magic is being casted or is in CD
 				return;
 			}
 
@@ -526,7 +531,10 @@ public class CommandMenuGui extends OverlayBase {
 								int magLevel = spell.getLevel();
 								double cost = magic.getCost(magLevel, minecraft.player);
 
-								if (playerData.getMaxMP() == 0 || playerData.getRecharge() || cost > playerData.getMaxMP() && cost < 300) {
+								boolean allowUseMagicIfCostIsHigher = ModConfigs.SERVER.allowCastMagicIfTooExpensive.get();
+								boolean insufficientMP = cost > playerData.getMaxMP() && cost < 300;
+
+								if (playerData.getMaxMP() == 0 || playerData.getRecharge() || (!allowUseMagicIfCostIsHigher && insufficientMP)) {
 									playErrorSound();
 									changeSubmenu(root, true);
 									return;
@@ -564,7 +572,10 @@ public class CommandMenuGui extends OverlayBase {
 									double magCost = magic.getCost(level, minecraft.player);
 
 									if (playerData.getMP() <= magCost) {
-										if (playerData.getMaxMP() < magCost && magCost < 300) {
+										boolean allowUseMagicIfCostIsHigher = ModConfigs.SERVER.allowCastMagicIfTooExpensive.get();
+										boolean insufficientMP = magCost > playerData.getMaxMP() && magCost < 300;
+
+										if (playerData.getMaxMP() == 0 || playerData.getRecharge() || (!allowUseMagicIfCostIsHigher && insufficientMP)) {
 											item.setTextColour(Color.GRAY);
 										} else {
 											if (playerData.isAbilityEquipped(Strings.extraCast)) {

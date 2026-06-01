@@ -28,7 +28,7 @@ public class CheckStatusScreen extends MenuBackground {
 	Button stats_player, stats_ability, stats_equipment;
 	List<MenuButton> dfStats = new ArrayList<>();
 
-	MenuColourBox level, totalExp, nextLevel, hp, mp, ap, driveGauge, str, mag, def, fRes, bRes, tRes, aRes, lRes, wRes, dRes, dfLevel, dfExp, dfNextLevel, dfFormGauge;
+	MenuColourBox path, level, totalExp, nextLevel, hp, mp, ap, driveGauge, str, mag, def, fRes, bRes, tRes, aRes, lRes, wRes, dRes, dfLevel, dfExp, dfNextLevel, dfFormGauge;
 
 	MenuBox box;
 
@@ -115,6 +115,7 @@ public class CheckStatusScreen extends MenuBackground {
 		//Stats
 		int c = 0;
 		int spacer = 14;
+		addRenderableWidget(path = new MenuColourBox(col1X,  button_statsY + (c++* spacer), box.getWidth() - 20, Utils.translateToLocal("Choice"),playerData.getChosen().toString(), 0x880088));
 
 		addRenderableWidget(level = new MenuColourBox(col1X, button_statsY + (c++* spacer), box.getWidth()/2 - 10, Utils.translateToLocal(Strings.Gui_Menu_Status_Level),"" + playerData.getLevel(), 0x000088));
 		addRenderableWidget(totalExp = new MenuColourBox(col1X,  button_statsY + (c++* spacer), box.getWidth()/2 - 10, Utils.translateToLocal(Strings.Gui_Menu_Status_TotalExp),"" + playerData.getExperience(), 0x000088));
@@ -125,7 +126,7 @@ public class CheckStatusScreen extends MenuBackground {
 		addRenderableWidget(ap = new MenuColourBox(col1X,  button_statsY + (c++* spacer), box.getWidth()/2 - 10, Utils.translateToLocal(Strings.Gui_Menu_Status_AP), Utils.getConsumedAP(playerData)+"/"+playerData.getMaxAP(true), 0x008800));
 		addRenderableWidget(driveGauge = new MenuColourBox(col1X,  button_statsY + (c++* spacer), box.getWidth()/2 - 10, Utils.translateToLocal(Strings.Gui_Menu_Status_DriveGauge),"" + (int) playerData.getMaxDP()/100, 0x008800));
 
-		c=0;
+		c=1;
 		addRenderableWidget(str = new MenuColourBox(col2X,  button_statsY + (c++* spacer), box.getWidth()/2 - 15, Utils.translateToLocal(Strings.Gui_Menu_Status_Strength),"" + playerData.getStrength(true), 0x880000));
 		addRenderableWidget(mag = new MenuColourBox(col2X,  button_statsY + (c++* spacer), box.getWidth()/2 - 15, Utils.translateToLocal(Strings.Gui_Menu_Status_Magic),"" + playerData.getMagic(true), 0x880000));
 		addRenderableWidget(def = new MenuColourBox(col2X,  button_statsY + (c++* spacer), box.getWidth()/2 - 15, Utils.translateToLocal(Strings.Gui_Menu_Status_Defense),"" + playerData.getDefense(true), 0x880000));

@@ -14,7 +14,7 @@ public class ServerConfig {
     public ModConfigSpec.ConfigValue<List<? extends Integer>> statsMultiplier;
 
     public ModConfigSpec.DoubleValue xpMultiplier, magicXPMultiplier, heartMultiplier, partyXPShare;
-    public ModConfigSpec.BooleanValue requireSynthTier, requireSynthTierShop, requireMeldingTier, projectorHasShop, savepointGlobal, getExpFromShop, orgEnabled, allowBoosts, allowPartyKO, wayfinderParty, hostileMobsLevel, dragonLevel, gummiShipFuelSystem, softLockOnMode;
+    public ModConfigSpec.BooleanValue requireSynthTier, requireSynthTierShop, requireMeldingTier, projectorHasShop, savepointGlobal, getExpFromShop, orgEnabled, allowBoosts, allowPartyKO, wayfinderParty, hostileMobsLevel, dragonLevel, gummiShipFuelSystem, softLockOnMode, allowCastMagicIfTooExpensive;
 
     ServerConfig(final ModConfigSpec.Builder builder) {
         builder.push("general");
@@ -114,6 +114,11 @@ public class ServerConfig {
                 .comment("Shotlock max distance for locking")
                 .translation(KingdomKeys.MODID + ".config.shotlock_max_dist")
                 .defineInRange("shotlockMaxDist", 200, 1, 1000);
+
+        allowCastMagicIfTooExpensive = builder
+                .comment("If true it will allow you to cast a magic which is too expensive even if you don't have the req. Max MP (eg. Stop at level 4)")
+                .translation(KingdomKeys.MODID + ".config.allow_magic_too_expensive")
+                .define("allowCastMagicIfTooExpensive", true);
 
         builder.pop();
 

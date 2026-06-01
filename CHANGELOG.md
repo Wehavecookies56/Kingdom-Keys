@@ -1,3 +1,11 @@
+# 2.7.12b:
+# Added:
+* Config option to revert the magic cost system change to what it was before.
+* A box in the Status screen to display the SOA choice. 
+
+# Changed:
+* Magics can now be casted even if your Max MP is lower.
+
 # 2.7.12a
 ### Added:
 * New magics:

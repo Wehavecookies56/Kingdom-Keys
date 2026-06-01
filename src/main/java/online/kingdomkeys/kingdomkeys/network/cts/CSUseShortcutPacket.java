@@ -13,6 +13,7 @@ import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.api.event.MagicSpellCastEvent;
+import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import online.kingdomkeys.kingdomkeys.item.MagicSpellItem;
@@ -63,7 +64,12 @@ public record CSUseShortcutPacket(int index, int lockOnTarget) implements Packet
 				Magic magic = ModMagic.registry.get(ResourceLocation.parse(magicName));
 				double cost = magic.getCost(level, player);
 
-				if (playerData.getMaxMP() == 0 || playerData.getRecharge() || (cost > playerData.getMaxMP() && cost < 300) || (cost < 300 && cost >= playerData.getMP() && playerData.isAbilityEquipped(Strings.mpSafety)) || playerData.getMagicCooldownTicks() > 0) {
+				boolean allowUseMagicIfCostIsHigher = ModConfigs.SERVER.allowCastMagicIfTooExpensive.get();
+				boolean insufficientMP = cost > playerData.getMaxMP() && cost < 300;
+
+				if (playerData.getMaxMP() == 0 || playerData.getRecharge() || ((!allowUseMagicIfCostIsHigher && insufficientMP)|| (cost < 300 && cost >= playerData.getMP() && playerData.isAbilityEquipped(Strings.mpSafety))) && playerData.getMagicCooldownTicks() <= 0){
+
+				//if (playerData.getMaxMP() == 0 || playerData.getRecharge() || (cost > playerData.getMaxMP() && cost < 300) || (cost < 300 && cost >= playerData.getMP() && playerData.isAbilityEquipped(Strings.mpSafety)) || playerData.getMagicCooldownTicks() > 0) {
 
 				} else {
 					if (NeoForge.EVENT_BUS.post(new MagicSpellCastEvent(player, ResourceLocation.parse(magicName), level)).isCanceled())

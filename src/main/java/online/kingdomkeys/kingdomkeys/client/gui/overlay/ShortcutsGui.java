@@ -59,7 +59,10 @@ public class ShortcutsGui extends OverlayBase {
 				}
 				DriveForm form = ModDriveForms.registry.get(ResourceLocation.parse(playerData.getActiveDriveForm()));
 
-				if (playerData.getMaxMP() == 0 || playerData.getRecharge() || (cost > playerData.getMaxMP() && cost < 300) || (cost < 300 && cost >= playerData.getMP() && playerData.isAbilityEquipped(Strings.mpSafety)) || playerData.getMagicCasttimeTicks() > 0 || playerData.getMagicCooldownTicks() > 0 || !form.canUseMagic()) {
+				boolean allowUseMagicIfCostIsHigher = ModConfigs.SERVER.allowCastMagicIfTooExpensive.get();
+				boolean insufficientMP = cost > playerData.getMaxMP() && cost < 300;
+
+				if (playerData.getMaxMP() == 0 || playerData.getRecharge() || ((!allowUseMagicIfCostIsHigher && insufficientMP)|| (cost < 300 && cost >= playerData.getMP() && playerData.isAbilityEquipped(Strings.mpSafety))) && playerData.getMagicCooldownTicks() <= 0 || !form.canUseMagic()){
 					colour = 0x888888;
 				}
 
