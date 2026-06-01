@@ -54,12 +54,10 @@ public class FireEntityRenderer extends EntityRenderer<ThrowableProjectile> {
 			poseStack.scale(scale, scale, scale);
 			PoseStack.Pose pose = poseStack.last();
 
-			VertexConsumer consumer = buffer.getBuffer(RenderType.entityTranslucentEmissive(getTextureLocation(entity)));
+			VertexConsumer consumer = buffer.getBuffer(RenderType.entityTranslucent(getTextureLocation(entity)));
 
 			int[] frames = {0, 1, 2, 3, 2, 1};
-			float speed = 0.005F;
-
-			int index = (int) ((entity.tickCount + partialTicks) / speed) % frames.length;
+			int index = (entity.tickCount / 2) % frames.length;
 			int frame = frames[index];
 
 			float frameHeight = 1F / FRAME_COUNT;

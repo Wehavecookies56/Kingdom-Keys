@@ -67,6 +67,8 @@ public class ModSounds {
 	        zeroGravity = registerSound("magic/zerogravity"),
 	        poison = registerSound("magic/poison"),
 	        firagaBurst = registerSound("magic/firagaburst"),
+			deepFreeze = registerSound("magic/deepfreeze"),
+			iceBarrage = registerSound("magic/icebarrage"),
 			
 			playerDeath = registerSound("player_death"),
 			playerDeathHardcore = registerSound("player_death_2"),

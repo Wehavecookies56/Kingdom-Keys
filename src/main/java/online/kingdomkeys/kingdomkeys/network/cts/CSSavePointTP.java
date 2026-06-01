@@ -2,6 +2,7 @@ package online.kingdomkeys.kingdomkeys.network.cts;
 
 import net.minecraft.core.UUIDUtil;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
@@ -42,6 +43,8 @@ public record CSSavePointTP(UUID currentSavePoint, UUID destinationSavePoint) im
                 return;
             }
             player.connection.teleport(destination.pos().getX() + 0.5D, destination.pos().getY()+0.07D, destination.pos().getZ() + 0.5D, player.getYRot(), player.getXRot());
+            player.setRespawnPosition(destination.dimension(), destination.pos().above(), 0F, true, false);
+            player.displayClientMessage(Component.translatable("block.minecraft.set_spawn"), true);
         }
     }
 

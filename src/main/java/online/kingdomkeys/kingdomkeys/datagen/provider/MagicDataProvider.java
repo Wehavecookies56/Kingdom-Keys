@@ -27,9 +27,9 @@ public class MagicDataProvider implements DataProvider {
 		Map<String, JsonObject> magics = new LinkedHashMap<>();
 
 		magics.put("magic_fire", new MagicBuilder()
-				.level(0).cost(8).castTime(10).cooldown(5).damageMultiplier(0.2F).lockOn(true).maxExp(1800).maxExpLevel(3).end()
-				.level(1).cost(8).castTime(10).cooldown(5).damageMultiplier(0.3F).lockOn(true).maxExp(2400).maxExpLevel(3).end()
-				.level(2).cost(8).castTime(10).cooldown(5).damageMultiplier(0.4F).lockOn(true).maxExp(4200).maxExpLevel(4).end()
+				.level(0).cost(8).castTime(10).cooldown(5).damageMultiplier(0.2F,0.25F).lockOn(true).maxExp(1800).maxExpLevel(3).end()
+				.level(1).cost(8).castTime(10).cooldown(5).damageMultiplier(0.3F, 0.35F).lockOn(true).maxExp(2400).maxExpLevel(3).end()
+				.level(2).cost(8).castTime(10).cooldown(5).damageMultiplier(0.4F, 0.45F).lockOn(true).maxExp(4200).maxExpLevel(4).end()
 				.level(3).cost(8).castTime(15).cooldown(10).damageMultiplier(1.0F).lockOn(true).maxExp(800).maxExpLevel(3).end()
 				.build());
 
@@ -121,6 +121,19 @@ public class MagicDataProvider implements DataProvider {
 		magics.put(ResourceLocation.parse(Strings.Magic_TripleBlizzard).getPath(), new MagicBuilder()
 				.level(0).cost(22).castTime(15).cooldown(120).damageMultiplier(0.3F).lockOn(true).maxExp(4200).maxExpLevel(4).end()
 				.build());
+
+		magics.put(ResourceLocation.parse(Strings.Magic_DeepFreeze).getPath(), new MagicBuilder()
+				.level(0).cost(22).castTime(12).cooldown(120).damageMultiplier(1.3F, 1.5F).lockOn(true).maxExp(4200).maxExpLevel(5).end()
+				.build());
+
+		magics.put(ResourceLocation.parse(Strings.Magic_Glacier).getPath(), new MagicBuilder()
+				.level(0).cost(22).castTime(15).cooldown(120).damageMultiplier(0.3F).lockOn(true).maxExp(4200).maxExpLevel(5).end()
+				.build());
+
+		magics.put(ResourceLocation.parse(Strings.Magic_IceBarrage).getPath(), new MagicBuilder()
+				.level(0).cost(22).castTime(15).cooldown(120).damageMultiplier(0.3F).lockOn(true).maxExp(4200).maxExpLevel(5).end()
+				.build());
+
 
 		magics.put(ResourceLocation.parse(Strings.Magic_Blackout).getPath(), new MagicBuilder()
 				.level(0).cost(12).castTime(10).cooldown(20).damageMultiplier(0.3F).lockOn(false).maxExp(1800).maxExpLevel(3).end()

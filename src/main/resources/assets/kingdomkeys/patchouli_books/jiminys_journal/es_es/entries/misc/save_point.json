@@ -14,7 +14,7 @@
 		},
 		{
 			"type": "text",
-			"text": "Si tienes más de un Punto de Guardado Enlazado o un Punto de Guardado Interdimensional agregado, puedes $(thing)teletransportarte entre ellos$(). Los Puntos de Guardado Enlazados pueden teletransportarte a cualquier punto de guardado dentro de la misma dimensión, mientras que los Puntos de Teletransporte pueden adicionalmente teletransportarte a otros Puntos de Teletransporte de otras Dimensiones.$(p)$(lissa)Romper$() un Punto de Guardado hará que $(lissa)pierdas todas las mejoras$()."
+			"text": "Si tienes más de un Punto de Guardado Enlazado o un Punto de Guardado Interdimensional agregado, puedes $(thing)teletransportarte entre ellos$(). Los Puntos de Guardado Enlazados pueden teletransportarte a cualquier punto de guardado dentro de la misma dimensión, mientras que los Puntos de Teletransporte pueden adicionalmente teletransportarte a otros Puntos de Teletransporte de otras Dimensiones.$(p)$(lissa)Romper$() un Punto de Guardado hará que $(lissa)deaparezca de la interfaz de todos los jugadores$()."
 		},
 		{
 			"type":"crafting",

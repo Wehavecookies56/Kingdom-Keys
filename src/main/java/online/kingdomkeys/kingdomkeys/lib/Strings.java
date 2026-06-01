@@ -74,12 +74,16 @@ public class Strings {
 
 		Magic_DarkFiraga = KingdomKeys.MODID + ":" + Mag_Prefix + "darkfiraga",
 		Magic_TripleFiraga = KingdomKeys.MODID + ":" + Mag_Prefix + "triplefiraga",
-		Magic_TripleBlizzard = KingdomKeys.MODID + ":" + Mag_Prefix + "tripleblizzaga",
 		Magic_Blackout = KingdomKeys.MODID + ":" + Mag_Prefix + "blackout",
 		Magic_Poison = KingdomKeys.MODID + ":" + Mag_Prefix + "posion",
 		Magic_CrawlingFiraga = KingdomKeys.MODID + ":" + Mag_Prefix + "crawlingfiraga",
 		Magic_FissionFiraga = KingdomKeys.MODID + ":" + Mag_Prefix + "fissionfiraga",
-		Magic_FiragaBurst = KingdomKeys.MODID + ":" + Mag_Prefix + "firagaburst";
+		Magic_FiragaBurst = KingdomKeys.MODID + ":" + Mag_Prefix + "firagaburst",
+
+		Magic_TripleBlizzard = KingdomKeys.MODID + ":" + Mag_Prefix + "tripleblizzaga",
+		Magic_DeepFreeze = KingdomKeys.MODID + ":" + Mag_Prefix + "deepfreeze",
+		Magic_Glacier = KingdomKeys.MODID + ":" + Mag_Prefix + "glacier",
+		Magic_IceBarrage = KingdomKeys.MODID + ":" + Mag_Prefix + "icebarrage";
 																
     
     // Drive Forms
@@ -677,12 +681,16 @@ public class Strings {
 
 		SpellDarkFiraga = "spelldarkfiraga",
 		SpellTripleFiraga = "spelltriplefiraga",
-		SpellTripleBlizzaga = "spelltripleblizzaga",
 		SpellBlackout = "spellblackout",
 		SpellPoison = "spellpoison",
 		SpellCrawlingFiraga = "spellcrawlingfiraga",
 		SpellFissionFiraga = "spellfissionfiraga",
 		SpellFiragaBurst = "spellfiragaburst",
+
+		SpellTripleBlizzaga = "spelltripleblizzaga",
+		SpellDeepFreeze = "spelldeepfreeze",
+		SpellGlacier = "spellglacier",
+		SpellIceBarrage = "spellicebarrage",
 
 		StruggleSword = "struggle_sword",
 		StruggleWand = "struggle_wand",

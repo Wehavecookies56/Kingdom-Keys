@@ -55,6 +55,27 @@ public abstract class Magic {
     public float getDamageMult(int lvl) {
     	return data.getDmgMult(lvl);
     }
+
+	public float getDamageMultMax(int lvl) {
+		return data.getDmgMultMax(lvl);
+	}
+
+	public float getRealDamageMult(int lvl, Player player) {
+		if (getMaxLocalLevel(lvl) <= 1) {
+			return getDamageMult(lvl);
+		}
+
+		PlayerData playerData = PlayerData.get(player);
+		int localLevel = Utils.getMagicHighestLocalLevel(playerData.getEquippedMagics(), getRegistryName().toString(), lvl);
+
+		float t = (float)(localLevel - 1) / (getMaxLocalLevel(lvl) - 1);
+		float base = getDamageMult(lvl);
+		float max = getDamageMultMax(lvl);
+
+		float dmg = base + (max - base) * t;
+		//System.out.println("localLevel=" + localLevel + " maxLevel=" + getMaxExpLevel(lvl) + " base=" + base + " max=" + max + " dmg=" + dmg);
+		return dmg;
+	}
     
     public boolean getHasToSelect() {
     	return hasTargetSelector;
@@ -68,8 +89,8 @@ public abstract class Magic {
 		return data.getMaxExp(lvl);
 	}
 
-	public int getMaxExpLevel(int lvl) {
-		return data.getMaxExpLevel(lvl);
+	public int getMaxLocalLevel(int lvl) {
+		return data.getMaxLocalLevel(lvl);
 	}
     
     public Ability getGMAbility() {

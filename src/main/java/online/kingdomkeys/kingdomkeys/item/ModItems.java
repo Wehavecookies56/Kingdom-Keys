@@ -865,7 +865,12 @@ public class ModItems {
 			crawlingFiragaSpell = createNewItem(Strings.SpellCrawlingFiraga, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_CrawlingFiraga, 0)),
 			fissionFiragaSpell = createNewItem(Strings.SpellFissionFiraga, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_FissionFiraga, 0)),
 			firagaBurstSpell = createNewItem(Strings.SpellFiragaBurst, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_FiragaBurst, 0)),
+
 			tripleBlizzagaSpell = createNewItem(Strings.SpellTripleBlizzaga, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_TripleBlizzard, 0)),
+			deepFreezeSpell = createNewItem(Strings.SpellDeepFreeze, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_DeepFreeze, 0)),
+			glacierSpell = createNewItem(Strings.SpellGlacier, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Glacier, 0)),
+			iceBarrageSpell = createNewItem(Strings.SpellIceBarrage, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_IceBarrage, 0)),
+
 			blackoutSpell = createNewItem(Strings.SpellBlackout, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Blackout, 0)),
 			poisonSpell = createNewItem(Strings.SpellPoison, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Poison, 0)),
 			zeroGravitySpell = createNewItem(Strings.SpellZeroGravity, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_ZeroGravity, 0)),

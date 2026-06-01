@@ -33,6 +33,8 @@ public class MagicDataDeserializer implements JsonDeserializer<MagicData> {
 					out.setCooldown(level, element2.getAsInt());
 				case "dmg_mult"->
 					out.setDmgMult(level, element2.getAsFloat());
+				case "dmg_mult_max" ->
+					out.setDmgMultMax(level, element2.getAsFloat());
 				case "magic_lock_on"->
 					out.setMagicLockon(level, element2.getAsBoolean());
 				case "max_exp"->

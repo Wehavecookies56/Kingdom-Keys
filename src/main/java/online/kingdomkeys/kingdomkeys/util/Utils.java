@@ -950,6 +950,22 @@ public class Utils {
 		return level;
 	}
 
+	public static int getMagicHighestLocalLevel(Map<Integer, ItemStack> equippedMagics, String commandMagicName, int typeLevel) {
+		if (equippedMagics.isEmpty()) return -1;
+
+		int level = -1;
+		for (Map.Entry<Integer, ItemStack> entry : equippedMagics.entrySet()) {
+			ItemStack stack = entry.getValue();
+			if (!stack.isEmpty() && stack.getItem() instanceof MagicSpellItem spell) {
+				if (spell.getMagic().equals(commandMagicName) && spell.getLevel() == typeLevel) {
+					level = Math.max(spell.getLocalLevel(stack), level);
+				}
+			}
+		}
+
+		return level;
+	}
+
 	public static void addMagicExperience(Player player, int amount) {
 		PlayerData playerData = PlayerData.get(player);
 		if(playerData == null)

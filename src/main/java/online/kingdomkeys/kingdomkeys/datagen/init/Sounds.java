@@ -75,6 +75,8 @@ public class Sounds extends SoundDefinitionsProvider {
         add(zeroGravity);
         add(poison);
         add(firagaBurst);
+        add(deepFreeze);
+        add(iceBarrage);
         
         add(playerDeath);
         add(playerDeathHardcore);

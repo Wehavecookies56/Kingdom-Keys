@@ -6,25 +6,26 @@ package online.kingdomkeys.kingdomkeys.magic;
 public class MagicData {
 
     float[] dmgMult = new float[4];
+	float[] dmgMultMax = new float[4];
     int[] cost = new int[4];
     int[] ct = new int[4];
     int[] cd = new int[4];
     boolean[] magicLockOn = new boolean[4];
 	int[] maxExp = new int[4];
-	int[] maxExpLevel = new int[4];
+	int[] maxLocalLevel = new int[4];
 
     public MagicData() {
 
     }
 
-    public MagicData(int level, int cost, int ct, int cd, float dmgMult, float magMult, boolean magicLockOn, int maxExp, int maxExpLevel) {
+    public MagicData(int level, int cost, int ct, int cd, float dmgMult, float magMult, boolean magicLockOn, int maxExp, int maxLocalLevel) {
     	this.cost[level] = cost;
     	this.ct[level] = ct;
     	this.cd[level] = cd;
 		this.dmgMult[level] = dmgMult;
 		this.magicLockOn[level] = magicLockOn;
 		this.maxExp[level] = maxExp;
-		this.maxExpLevel[level] = maxExpLevel;
+		this.maxLocalLevel[level] = maxLocalLevel;
 	}
 
     public int getCost(int lvl) {
@@ -59,6 +60,14 @@ public class MagicData {
 		this.dmgMult[lvl] = dmgMult;
 	}
 
+	public float getDmgMultMax(int lvl) {
+		return dmgMultMax[lvl] > 0 ? dmgMultMax[lvl] : dmgMult[lvl];
+	}
+
+	public void setDmgMultMax(int lvl, float dmgMult) {
+		this.dmgMultMax[lvl] = dmgMult;
+	}
+
 	public boolean getMagicLockOn(int lvl) {
 		return this.magicLockOn[lvl];
 	}
@@ -71,8 +80,8 @@ public class MagicData {
 		return this.maxExp[lvl];
 	}
 
-	public int getMaxExpLevel(int lvl) {
-		return this.maxExpLevel[lvl];
+	public int getMaxLocalLevel(int lvl) {
+		return this.maxLocalLevel[lvl];
 	}
 
 	public void setMaxExp(int lvl, int maxExp) {
@@ -80,6 +89,6 @@ public class MagicData {
 	}
 
 	public void setMaxExpLevel(int lvl, int maxExp) {
-		this.maxExpLevel[lvl] = maxExp;
+		this.maxLocalLevel[lvl] = maxExp;
 	}
 }

@@ -125,6 +125,11 @@
       "kingdomkeys:magic/cure"
     ]
   },
+  "magic/deepfreeze": {
+    "sounds": [
+      "kingdomkeys:magic/deepfreeze"
+    ]
+  },
   "magic/fira": {
     "sounds": [
       "kingdomkeys:magic/fira"
@@ -158,6 +163,11 @@
   "magic/gravity": {
     "sounds": [
       "kingdomkeys:magic/gravity"
+    ]
+  },
+  "magic/icebarrage": {
+    "sounds": [
+      "kingdomkeys:magic/icebarrage"
     ]
   },
   "magic/magnet1": {

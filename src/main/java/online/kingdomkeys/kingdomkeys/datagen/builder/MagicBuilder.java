@@ -46,6 +46,12 @@ public class MagicBuilder {
 			return this;
 		}
 
+		public LevelBuilder damageMultiplier(float value, float max) {
+			obj.addProperty("dmg_mult", value);
+			obj.addProperty("dmg_mult_max", max);
+			return this;
+		}
+
 		public LevelBuilder lockOn(boolean value) {
 			obj.addProperty("magic_lock_on", value);
 			return this;

@@ -1,13 +1,20 @@
 # 2.7.12b:
 # Added:
 * Config option to revert the magic cost system change to what it was before.
-* A box in the Status screen to display the SOA choice. 
+* A box in the Status screen to display the SOA choice.
+* Now magics increase their damage as they level up.
+* New Magics:
+  * Deep Freeze:
+  * Glacier:
+  * Ice Barrage:
 
 # Changed:
 * Magics can now be casted even if your Max MP is lower.
+* Normal and Warp Savepoints will now register the destination point as player respawn instead of the source one. 
 
 # Fixed:
 * Some entities using the new fire texture.
+* Patchouli Journal saying you lose upgrades when breaking savepoints (Used to be the case, not anymore). 
 
 # 2.7.12a
 ### Added:

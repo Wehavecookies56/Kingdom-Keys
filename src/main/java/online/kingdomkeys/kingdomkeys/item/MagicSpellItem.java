@@ -94,7 +94,7 @@ public class MagicSpellItem extends Item implements IItemCategory {
 			System.out.println(magic+": magic not found");
 			return 1;
 		}
-		int lvl = magicInstance.getMaxExpLevel(getLevel());
+		int lvl = magicInstance.getMaxLocalLevel(getLevel());
 		return lvl == 0 ? 1 : lvl;
 	}
 

@@ -65,7 +65,6 @@ public class FiragaBurstControllerEntity extends BaseMagicProjectile {
 						double targetX = getX() + Math.cos(angle) * distance;
 						double targetZ = getZ() + Math.sin(angle) * distance;
 
-						// Busca el suelo
 						BlockPos groundPos = level().getHeightmapPos(Heightmap.Types.MOTION_BLOCKING, BlockPos.containing(targetX, getY(), targetZ));
 						Vec3 targetPos = new Vec3(targetX, groundPos.getY() + 0.5D, targetZ);
 						FiragaEntity firaga = new FiragaEntity(level(), player, dmgMult * 0.4F, null);
