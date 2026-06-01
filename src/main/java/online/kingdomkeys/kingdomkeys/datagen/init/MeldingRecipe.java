@@ -44,10 +44,27 @@ public class MeldingRecipe extends MeldingRecipeProvider<MeldingRecipeBuilder> {
 		getBuilder("dark_firaga").ingredient1(firagaSpell).ingredient2(blackoutSpell).output(darkFiragaSpell, 1).addCost(1200).addTier(4);
 
 		getBuilder("triple_firaga").ingredient1(firagaSpell).ingredient2(firagaSpell).output(tripleFiragaSpell, 1).addCost(1000).addTier(3);
-		getBuilder("triple_blizzaga").ingredient1(blizzagaSpell).ingredient2(blizzagaSpell).output(tripleBlizzagaSpell, 1).addCost(1000).addTier(3);
-
 		getBuilder("triple_firaga2").ingredient1(firagaSpell).ingredient2(firaSpell).output(tripleFiragaSpell, 1).addCost(1200).addTier(4);
+
+		getBuilder("crawling_firaga").ingredient1(firagaSpell).ingredient2(stopraSpell).output(crawlingFiragaSpell, 1).bonusOutput(firagaBurstSpell,1,20).addCost(1800).addTier(5);
+		getBuilder("crawling_firaga2").ingredient1(firagaSpell).ingredient2(stopgaSpell).output(crawlingFiragaSpell, 1).bonusOutput(firagaBurstSpell,1,20).addCost(1200).addTier(4);
+
+		getBuilder("fission_firaga").ingredient1(firaSpell).ingredient2(aerogaSpell).output(fissionFiragaSpell, 1).bonusOutput(firagaBurstSpell,1,20).addCost(1000).addTier(4);
+		getBuilder("fission_firaga2").ingredient1(firagaSpell).ingredient2(aeroraSpell).output(fissionFiragaSpell, 1).bonusOutput(firagaBurstSpell,1,20).addCost(1000).addTier(4);
+		getBuilder("fission_firaga3").ingredient1(firagaSpell).ingredient2(aerogaSpell).output(fissionFiragaSpell, 1).bonusOutput(firagaBurstSpell,1,20).addCost(1200).addTier(3);
+
+
+		getBuilder("triple_blizzaga").ingredient1(blizzagaSpell).ingredient2(blizzagaSpell).output(tripleBlizzagaSpell, 1).addCost(1000).addTier(3);
 		getBuilder("triple_blizzaga2").ingredient1(blizzagaSpell).ingredient2(blizzaraSpell).output(tripleBlizzagaSpell, 1).addCost(1200).addTier(4);
+
+		getBuilder("deep_freeze").ingredient1(blizzagaSpell).ingredient2(tripleBlizzagaSpell).output(deepFreezeSpell, 1).addCost(1600).addTier(4);
+
+		getBuilder("glacier").ingredient1(blizzagaSpell).ingredient2(deepFreezeSpell).output(glacier, 1).addCost(1600).addTier(5);
+		getBuilder("glacier2").ingredient1(tripleBlizzagaSpell).ingredient2(deepFreezeSpell).output(glacier, 1).addCost(1200).addTier(4);
+
+		//getBuilder("ice_barrage").ingredient1(blizzagaSpell).ingredient2(deepFreezeSpell).output(glacier, 1).addCost(1600).addTier(5);
+		//getBuilder("ice_barrage2").ingredient1(blizzagaSpell).ingredient2(deepFreezeSpell).output(glacier, 1).addCost(1600).addTier(5);
+
 
 		getBuilder("zero_gravity").ingredient1(firagaSpell).ingredient2(blackoutSpell).output(darkFiragaSpell, 1).addCost(1200).addTier(4);
 
@@ -60,11 +77,6 @@ public class MeldingRecipe extends MeldingRecipeProvider<MeldingRecipeBuilder> {
 
 		getBuilder("blackout").ingredient1(zeroGraviraSpell).ingredient2(poisonSpell).output(blackoutSpell, 1).addCost(1600).addTier(4);
 
-		getBuilder("crawling_firaga").ingredient1(firagaSpell).ingredient2(stopraSpell).output(crawlingFiragaSpell, 1).bonusOutput(firagaBurstSpell,1,20).addCost(1800).addTier(5);
-		getBuilder("crawling_firaga2").ingredient1(firagaSpell).ingredient2(stopgaSpell).output(crawlingFiragaSpell, 1).bonusOutput(firagaBurstSpell,1,20).addCost(1200).addTier(4);
 
-		getBuilder("fission_firaga").ingredient1(firaSpell).ingredient2(aerogaSpell).output(fissionFiragaSpell, 1).bonusOutput(firagaBurstSpell,1,20).addCost(1000).addTier(4);
-		getBuilder("fission_firaga2").ingredient1(firagaSpell).ingredient2(aeroraSpell).output(fissionFiragaSpell, 1).bonusOutput(firagaBurstSpell,1,20).addCost(1000).addTier(4);
-		getBuilder("fission_firaga3").ingredient1(firagaSpell).ingredient2(aerogaSpell).output(fissionFiragaSpell, 1).bonusOutput(firagaBurstSpell,1,20).addCost(1200).addTier(3);
 	}
 }

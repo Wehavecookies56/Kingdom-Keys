@@ -69,6 +69,8 @@ public class ModSounds {
 	        firagaBurst = registerSound("magic/firagaburst"),
 			deepFreeze = registerSound("magic/deepfreeze"),
 			iceBarrage = registerSound("magic/icebarrage"),
+	        thundagaShot = registerSound("magic/thundagashot"),
+	        zap = registerSound("magic/zap"),
 			
 			playerDeath = registerSound("player_death"),
 			playerDeathHardcore = registerSound("player_death_2"),

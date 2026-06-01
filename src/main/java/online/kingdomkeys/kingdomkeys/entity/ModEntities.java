@@ -80,6 +80,8 @@ public class ModEntities {
 
     public static final Supplier<EntityType<TripleBlizzagaControllerEntity>> TYPE_TRIPLE_BLIZZAGA_CONTROLLER = createEntityType(TripleBlizzagaControllerEntity::new, MobCategory.MISC,"entity_triple_blizzaga_controller", 0.5F, 0.5F);
 
+    public static final Supplier<EntityType<ThundagaShotEntity>> TYPE_THUNDAGASHOT = createEntityType(ThundagaShotEntity::new, MobCategory.MISC,"entity_thundagashot", 0.5F, 0.5F);
+
     public static final Supplier<EntityType<BlizzardEntity>> TYPE_BLIZZARD = createEntityType(BlizzardEntity::new, MobCategory.MISC,"entity_blizzard", 0.5F, 0.5F);
     public static final Supplier<EntityType<BlizzazaEntity>> TYPE_BLIZZAZA = createEntityType(BlizzazaEntity::new, MobCategory.MISC,"entity_blizzaza", 0.5F, 0.5F);
 
@@ -286,18 +288,17 @@ public class ModEntities {
         event.registerEntityRenderer(TYPE_DRIVEORB.get(), DriveOrbRenderer::new);
         event.registerEntityRenderer(TYPE_FOCUSORB.get(), FocusOrbRenderer::new);
         
-        event.registerEntityRenderer(TYPE_FIRE.get(), FireEntityRenderer::new);
-        event.registerEntityRenderer(TYPE_FIRA.get(), FireEntityRenderer::new);
-        event.registerEntityRenderer(TYPE_FIRAGA.get(), FireEntityRenderer::new);
-        event.registerEntityRenderer(TYPE_FIRAZA.get(), FireEntityRenderer::new);
-        event.registerEntityRenderer(TYPE_DARKFIRAGA.get(), FireEntityRenderer::new);
+        event.registerEntityRenderer(TYPE_FIRE.get(), MagicEntityRenderer::new);
+        event.registerEntityRenderer(TYPE_FIRA.get(), MagicEntityRenderer::new);
+        event.registerEntityRenderer(TYPE_FIRAGA.get(), MagicEntityRenderer::new);
+        event.registerEntityRenderer(TYPE_FIRAZA.get(), MagicEntityRenderer::new);
+        event.registerEntityRenderer(TYPE_DARKFIRAGA.get(), MagicEntityRenderer::new);
         event.registerEntityRenderer(TYPE_TRIPLE_FIRAGA_CONTROLLER.get(), InvisibleEntityRenderer::new);
-        event.registerEntityRenderer(TYPE_CRAWLINGFIRAGA.get(), FireEntityRenderer::new);
-        event.registerEntityRenderer(TYPE_FISSIONFIRAGA.get(), FireEntityRenderer::new);
-        event.registerEntityRenderer(TYPE_FIRAGABURST.get(), FireEntityRenderer::new);
+        event.registerEntityRenderer(TYPE_CRAWLINGFIRAGA.get(), MagicEntityRenderer::new);
+        event.registerEntityRenderer(TYPE_FISSIONFIRAGA.get(), MagicEntityRenderer::new);
+        event.registerEntityRenderer(TYPE_FIRAGABURST.get(), MagicEntityRenderer::new);
 
         event.registerEntityRenderer(TYPE_TRIPLE_BLIZZAGA_CONTROLLER.get(), InvisibleEntityRenderer::new);
-
         event.registerEntityRenderer(TYPE_BLIZZARD.get(), InvisibleEntityRenderer::new);
         event.registerEntityRenderer(TYPE_BLIZZAZA.get(), InvisibleEntityRenderer::new);
 
@@ -306,6 +307,7 @@ public class ModEntities {
         event.registerEntityRenderer(TYPE_THUNDAGA.get(), InvisibleEntityRenderer::new);
         event.registerEntityRenderer(TYPE_THUNDAZA.get(), InvisibleEntityRenderer::new);
         event.registerEntityRenderer(TYPE_THUNDERBOLT.get(), ThunderBoltEntityRenderer::new);
+        event.registerEntityRenderer(TYPE_THUNDAGASHOT.get(), MagicEntityRenderer::new);
 
         event.registerEntityRenderer(TYPE_MAGNET.get(), MagnetEntityRenderer::new);
         event.registerEntityRenderer(TYPE_MAGNERA.get(), MagnetEntityRenderer::new);

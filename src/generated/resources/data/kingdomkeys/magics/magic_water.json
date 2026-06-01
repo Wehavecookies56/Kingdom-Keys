@@ -4,6 +4,7 @@
     "cooldown": 55,
     "cost": 12,
     "dmg_mult": 0.15,
+    "dmg_mult_max": 1.19,
     "magic_lock_on": false,
     "max_exp": 1800,
     "max_exp_lvl": 3
@@ -13,6 +14,7 @@
     "cooldown": 55,
     "cost": 12,
     "dmg_mult": 0.25,
+    "dmg_mult_max": 0.3,
     "magic_lock_on": false,
     "max_exp": 2400,
     "max_exp_lvl": 3
@@ -22,6 +24,7 @@
     "cooldown": 55,
     "cost": 12,
     "dmg_mult": 0.35,
+    "dmg_mult_max": 0.37,
     "magic_lock_on": false,
     "max_exp": 4200,
     "max_exp_lvl": 4
@@ -31,6 +34,7 @@
     "cooldown": 55,
     "cost": 12,
     "dmg_mult": 0.8,
+    "dmg_mult_max": 0.85,
     "magic_lock_on": false,
     "max_exp": 200,
     "max_exp_lvl": 3

@@ -636,17 +636,23 @@ public class LanguageESES extends KKLanguageProvider {
         addMagic(ModMagic.REFLECT, "Reflejo", "Reflejo+", "Reflejo++");
         addMagic(ModMagic.GRAVITY, "Gravedad", "Gravedad+", "Gravedad++");
         addMagic(ModMagic.STOP, "Paro", "Paro+", "Paro++");
-
-        add(0,ModMagic.DARK_FIRAGA.get(),"Nigro Piro++");
-        add(0,ModMagic.TRIPLE_FIRAGA.get(),"Triple Piro++");
-        add(0,ModMagic.CRAWLING_FIRAGA.get(),"Tardo Piro++");
-        add(0,ModMagic.FISSION_FIRAGA.get(),"Lluvia Piro++");
-        add(0,ModMagic.FIRAGA_BURST.get(),"Descarga Ígnea");
-
-        add(0,ModMagic.TRIPLE_BLIZZAGA.get(),"Triple Hielo++");
-        add(0,ModMagic.BLACKOUT.get(),"Blackout");
-        add(0,ModMagic.POISON.get(),"Toxis");
         addMagic(ModMagic.ZERO_GRAVITY, "Ingravidez", "Ingravidez+", "Ingravidez++");
+
+        add(0, ModMagic.DARK_FIRAGA.get(),"Nigro Piro++");
+        add(0, ModMagic.TRIPLE_FIRAGA.get(),"Triple Piro++");
+        add(0, ModMagic.CRAWLING_FIRAGA.get(),"Tardo Piro++");
+        add(0, ModMagic.FISSION_FIRAGA.get(),"Lluvia Piro++");
+        add(0, ModMagic.FIRAGA_BURST.get(),"Descarga Ígnea");
+
+        add(0, ModMagic.TRIPLE_BLIZZAGA.get(),"Triple Hielo++");
+        add(0, ModMagic.DEEP_FREEZE.get(),"Hipotermia");
+        add(0, ModMagic.GLACIER.get(),"Glaciar");
+        add(0, ModMagic.ICE_BARRAGE.get(),"Asalto Gélido");
+
+        add(0, ModMagic.THUNDAGA_SHOT.get(),"Tiro Electro++");
+
+        add(0, ModMagic.BLACKOUT.get(),"Blackout");
+        add(0, ModMagic.POISON.get(),"Toxis");
 
 
         //Limits
@@ -963,6 +969,10 @@ public class LanguageESES extends KKLanguageProvider {
         addItem(ModItems.gravigaSpell, "Hechizo de Gravedad++");
         addItem(ModItems.stopgaSpell, "Hechizo de Paro++");
 
+        addItem(ModItems.zeroGravitySpell, "Hechizo de Ingravidez");
+        addItem(ModItems.zeroGraviraSpell, "Hechizo de Ingravidez+");
+        addItem(ModItems.zeroGravigaSpell, "Hechizo de Ingravidez++");
+
         addItem(ModItems.darkFiragaSpell, "Hechizo de Nigro Piro++");
         addItem(ModItems.tripleFiragaSpell, "Hechizo de Triple Piro++");
         addItem(ModItems.crawlingFiragaSpell, "Hechizo de Tardo Piro++");
@@ -970,11 +980,15 @@ public class LanguageESES extends KKLanguageProvider {
         addItem(ModItems.firagaBurstSpell, "Hechizo de Descarga Ígnea");
 
         addItem(ModItems.tripleBlizzagaSpell, "Hechizo de Triple Hielo++");
+        addItem(ModItems.deepFreezeSpell, "Hechizo de Hipotermia");
+        addItem(ModItems.glacierSpell, "Hechizo de Glaciar");
+        addItem(ModItems.iceBarrageSpell, "Hechizo de Asalto Gélido");
+
+        addItem(ModItems.thundagaShotSpell, "Hechizo de Tiro Electro++");
+
         addItem(ModItems.blackoutSpell, "Hechizo de Apagón");
         addItem(ModItems.poisonSpell, "Hechizo de Toxis");
-        addItem(ModItems.zeroGravitySpell, "Hechizo de Ingravidez");
-        addItem(ModItems.zeroGraviraSpell, "Hechizo de Ingravidez+");
-        addItem(ModItems.zeroGravigaSpell, "Hechizo de Ingravidez++");
+
 
         // Drive form orbs
         addItem(ModItems.valorOrb, "Orbe de Forma Valiente");

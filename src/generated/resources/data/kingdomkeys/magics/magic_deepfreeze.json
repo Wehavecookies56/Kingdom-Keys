@@ -3,8 +3,8 @@
     "casttime": 12,
     "cooldown": 120,
     "cost": 22,
-    "dmg_mult": 1.3,
-    "dmg_mult_max": 1.5,
+    "dmg_mult": 0.3,
+    "dmg_mult_max": 3.8,
     "magic_lock_on": true,
     "max_exp": 4200,
     "max_exp_lvl": 5

@@ -19,8 +19,10 @@ import java.util.List;
 
 public class MagicDeepFreeze extends Magic {
 
-	public MagicDeepFreeze(ResourceLocation registryName, int maxLevel, String gmAbility) {
+	boolean launch;
+	public MagicDeepFreeze(ResourceLocation registryName, int maxLevel, String gmAbility, boolean launch) {
 		super(registryName, false, maxLevel, gmAbility);
+		this.launch = launch;
 	}
 
 	@Override
@@ -28,8 +30,9 @@ public class MagicDeepFreeze extends Magic {
 		PlayerData playerData = PlayerData.get(caster);
 		float dmg = getRealDamageMult(level, caster);
 		dmg *= fullMPBlastMult;
+
 		int time = playerData.getMagic(true) * 2;
-		float radius = 2 + (getMagicLocalLevel(caster, level) * 0.2F);
+		float radius = 3 + (getMagicLocalLevel(caster, level) * 0.2F);
 
 		for (int a = 0; a < 360; a += 5) {
 			double angle = Math.toRadians(a);
@@ -49,6 +52,10 @@ public class MagicDeepFreeze extends Magic {
 		list.remove(this);
 
 		for(LivingEntity e : list) {
+			if(launch){
+				e.addEffect(new MobEffectInstance(ModMobEffects.ZERO_GRAVITY, 5, 2, false, false, false));
+				e.setOnGround(false);
+			}
 			e.addEffect(new MobEffectInstance(ModMobEffects.FREEZE, time, 50, false, false, false));
 			e.hurt(KKDamageTypes.getElementalDamage(KKDamageTypes.ICE, player, player), dmg);
 		}

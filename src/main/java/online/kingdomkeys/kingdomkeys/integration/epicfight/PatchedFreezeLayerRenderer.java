@@ -21,6 +21,7 @@ import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import org.jetbrains.annotations.Nullable;
 import yesman.epicfight.api.client.model.Mesh;
 import yesman.epicfight.api.client.model.Meshes;
+import yesman.epicfight.api.client.model.Meshes.MeshAccessor;
 import yesman.epicfight.api.utils.math.OpenMatrix4f;
 import yesman.epicfight.client.renderer.EpicFightRenderTypes;
 import yesman.epicfight.client.renderer.patched.layer.PatchedLayer;
@@ -68,7 +69,7 @@ public class PatchedFreezeLayerRenderer<E extends LivingEntity, T extends Living
 
 				Minecraft.getInstance().getBlockRenderer().renderSingleBlock(Blocks.ICE.defaultBlockState(), freshPose, buffer, packedLight, OverlayTexture.NO_OVERLAY);
 
-				Meshes.MeshAccessor<? extends Mesh> accessor = getMesh(entity);
+				MeshAccessor<? extends Mesh> accessor = getMesh(entity);
 				if (accessor != null) {
 					Mesh mesh = accessor.get();
 					mesh.draw(poseStack, buffer, EpicFightRenderTypes.entityTranslucent(ICE_TEXTURE), Mesh.DrawingFunction.NEW_ENTITY, packedLight, 1, 1, 1, 1, OverlayTexture.NO_OVERLAY, Armatures.BIPED.get(), poses);

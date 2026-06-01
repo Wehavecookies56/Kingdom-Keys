@@ -5,6 +5,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.phys.Vec3;
 import online.kingdomkeys.kingdomkeys.entity.mob.WhiteMushroomEntity;
 
@@ -34,7 +35,15 @@ public class FreezeEffect extends MobEffect {
         }
 
         if(pAmplifier == 50) { //Todo change to lower ampli prolly
-            pLivingEntity.setDeltaMovement(Vec3.ZERO);
+            if(!pLivingEntity.hasEffect(ModMobEffects.ZERO_GRAVITY) && pLivingEntity.onGround()) {
+                pLivingEntity.setDeltaMovement(Vec3.ZERO);
+                pLivingEntity.hurtMarked = true;
+            }
+
+            if (pLivingEntity instanceof Mob m) {
+                m.setTarget(null);
+            }
+
         }
         return true;
     }

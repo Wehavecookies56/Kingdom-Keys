@@ -34,7 +34,7 @@ public class ZeroGravityEffect extends MobEffect {
 
     @Override
     public void onEffectStarted(LivingEntity livingEntity, int amplifier) {
-        livingEntity.addDeltaMovement(new Vec3(0,1,0));
+        livingEntity.addDeltaMovement(new Vec3(0,amplifier,0));
         livingEntity.setNoGravity(true);
 
         if(livingEntity instanceof ServerPlayer player) {

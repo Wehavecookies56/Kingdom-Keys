@@ -737,16 +737,23 @@ public class LanguageENUS extends KKLanguageProvider {
         addMagic(ModMagic.REFLECT, "Reflect", "Reflera", "Reflega");
         addMagic(ModMagic.GRAVITY, "Gravity", "Gravira", "Graviga");
         addMagic(ModMagic.STOP, "Stop", "Stopra", "Stopga");
-        add(0,ModMagic.DARK_FIRAGA.get(),"Dark Firaga");
-        add(0,ModMagic.TRIPLE_FIRAGA.get(),"Triple Firaga");
-        add(0,ModMagic.CRAWLING_FIRAGA.get(),"Crawling Firaga");
-        add(0,ModMagic.FISSION_FIRAGA.get(),"Fission Firaga");
-        add(0,ModMagic.FIRAGA_BURST.get(),"Firaga Burst");
-
-        add(0,ModMagic.TRIPLE_BLIZZAGA.get(),"Triple Blizzaga");
-        add(0,ModMagic.BLACKOUT.get(),"Blackout");
-        add(0,ModMagic.POISON.get(),"Poison");
         addMagic(ModMagic.ZERO_GRAVITY, "Zero Gravity", "Zero Gravira", "Zero Graviga");
+
+        add(0, ModMagic.DARK_FIRAGA.get(),"Dark Firaga");
+        add(0, ModMagic.TRIPLE_FIRAGA.get(),"Triple Firaga");
+        add(0, ModMagic.CRAWLING_FIRAGA.get(),"Crawling Firaga");
+        add(0, ModMagic.FISSION_FIRAGA.get(),"Fission Firaga");
+        add(0, ModMagic.FIRAGA_BURST.get(),"Firaga Burst");
+
+        add(0, ModMagic.TRIPLE_BLIZZAGA.get(),"Triple Blizzaga");
+        add(0, ModMagic.DEEP_FREEZE.get(),"Deep Freeze");
+        add(0, ModMagic.GLACIER.get(),"Glacier");
+        add(0, ModMagic.ICE_BARRAGE.get(),"Ice Barrage");
+
+        add(0, ModMagic.THUNDAGA_SHOT.get(),"Thundaga Shot");
+
+        add(0, ModMagic.BLACKOUT.get(),"Blackout");
+        add(0, ModMagic.POISON.get(),"Poison");
 
         //Drive Forms
         addDriveForm(ModDriveForms.VALOR, "Valor");
@@ -1930,6 +1937,12 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.firagaBurstSpell, "Firaga Burst Spell");
 
         addItem(ModItems.tripleBlizzagaSpell, "Triple Blizzaga Spell");
+        addItem(ModItems.deepFreezeSpell, "Deep Freeze Spell");
+        addItem(ModItems.glacierSpell, "Glacier Spell");
+        addItem(ModItems.iceBarrageSpell, "Ice Barrage Spell");
+
+        addItem(ModItems.thundagaShotSpell, "Thundaga Shot Spell");
+
         addItem(ModItems.blackoutSpell, "Blackout Spell");
         addItem(ModItems.poisonSpell, "Poison Spell");
         addItem(ModItems.zeroGravitySpell, "Zero Gravity Spell");

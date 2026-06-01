@@ -4,9 +4,8 @@
 * A box in the Status screen to display the SOA choice.
 * Now magics increase their damage as they level up.
 * New Magics:
-  * Deep Freeze:
-  * Glacier:
-  * Ice Barrage:
+  * Deep Freeze: Meldable with Blizzaga + Triple Blizzaga.
+  * Glacier: Meldable with Blizzaga + Deep Freeze / Triple Blizzaga + Deep Freeze.
 
 # Changed:
 * Magics can now be casted even if your Max MP is lower.
@@ -15,6 +14,7 @@
 # Fixed:
 * Some entities using the new fire texture.
 * Patchouli Journal saying you lose upgrades when breaking savepoints (Used to be the case, not anymore). 
+
 
 # 2.7.12a
 ### Added:

@@ -25,7 +25,7 @@ public class MagicZeroGravity extends Magic {
 	@Override
     public void magicUse(LivingEntity player, Player caster, int level, float fullMPBlastMult, LivingEntity lockOnEntity) {
 		int time = (int) (PlayerData.get(caster).getMagic(true) * getDamageMult(level));
-		float radius = level + 1.5F; //TODO change back to 1 and scale with magic level
+		float radius = level + 1 + (getMagicLocalLevel(caster, level) * 0.2F);
 
 		for(int a = 0; a < 360; a+=5) {
 			double x = player.getX() + radius * Math.sin(Math.toRadians(a));
@@ -43,9 +43,8 @@ public class MagicZeroGravity extends Magic {
 		list.remove(this);
 
 		for(LivingEntity e : list) {
-			e.addEffect(new MobEffectInstance(ModMobEffects.ZERO_GRAVITY, time, level, false, false, false));
+			e.addEffect(new MobEffectInstance(ModMobEffects.ZERO_GRAVITY, time, 1, false, false, false));
 		}
-
 
 		player.swing(InteractionHand.MAIN_HAND);
 	}

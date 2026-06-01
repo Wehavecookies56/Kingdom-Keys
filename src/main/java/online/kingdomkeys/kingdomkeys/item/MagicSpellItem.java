@@ -14,6 +14,7 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.api.item.IItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.magic.Magic;
@@ -91,7 +92,7 @@ public class MagicSpellItem extends Item implements IItemCategory {
 	public int getMaxExpLevel() {
 		Magic magicInstance = ModMagic.registry.get(ResourceLocation.parse(magic));
 		if(magicInstance == null){
-			System.out.println(magic+": magic not found");
+			KingdomKeys.LOGGER.error(magic+": magic not found");
 			return 1;
 		}
 		int lvl = magicInstance.getMaxLocalLevel(getLevel());

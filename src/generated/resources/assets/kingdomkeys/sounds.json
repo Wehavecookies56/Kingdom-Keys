@@ -210,6 +210,16 @@
       "kingdomkeys:magic/stopra"
     ]
   },
+  "magic/thundagashot": {
+    "sounds": [
+      "kingdomkeys:magic/thundagashot"
+    ]
+  },
+  "magic/zap": {
+    "sounds": [
+      "kingdomkeys:magic/zap"
+    ]
+  },
   "magic/zerogravity": {
     "sounds": [
       "kingdomkeys:magic/zerogravity"

@@ -4,6 +4,7 @@
     "cooldown": 150,
     "cost": 26,
     "dmg_mult": 0.1,
+    "dmg_mult_max": 0.15,
     "magic_lock_on": false,
     "max_exp": 6800,
     "max_exp_lvl": 5
