@@ -24,33 +24,27 @@ public class MagicSpark extends Magic {
         double outerRadius = 1.6;
         double baseHeight = -1;
         double heightStep = 0.5;
-        double speed = 0.5;
+        double speed = 0.3;
 
         switch (level) {
             case 0:
-                // === 2 orbs: one pair (north/south) ===
                 for (int i = 0; i < 2; i++) {
                     SparkEntity spark = new SparkEntity(player.level(), player, i, dmgMult);
-                    spark.setCaster(player.getDisplayName().getString());
 
-                    // 0 and PI → opposite
                     spark.setAngleOffset(i * Math.PI);
                     spark.setDirection(1); // both rotate the same way
                     spark.setOrbitRadius(baseRadius);
                     spark.setOrbitSpeed(speed);
                     spark.setVerticalOffset(baseHeight + 0.5);
                     player.level().addFreshEntity(spark);
-
                 }
                 player.level().playSound(null, player.blockPosition(), ModSounds.spark.get(), SoundSource.PLAYERS, 1F, 1F);
                 break;
 
             case 1:
-                // === 4 orbs: 2 pairs (north/south + east/west) ===
                 for (int i = 0; i < 2; i++) {
                     // pair 1: N/S
                     SparkEntity spark = new SparkEntity(player.level(), player, i, dmgMult);
-                    spark.setCaster(player.getDisplayName().getString());
                     spark.setAngleOffset(i * Math.PI);
                     spark.setDirection(1);
                     spark.setOrbitRadius(baseRadius);
@@ -61,7 +55,6 @@ public class MagicSpark extends Magic {
 
                     // pair 2: E/W → offset by 90°
                     SparkEntity spark2 = new SparkEntity(player.level(), player, i + 2, dmgMult);
-                    spark2.setCaster(player.getDisplayName().getString());
                     spark2.setAngleOffset(i * Math.PI + Math.PI / 2);
                     spark2.setDirection(1);
                     spark2.setOrbitRadius(baseRadius + 0.5);
@@ -78,7 +71,6 @@ public class MagicSpark extends Magic {
                 for (int pair = 0; pair < 3; pair++) {
                     for (int j = 0; j < 2; j++) {
                         SparkEntity spark = new SparkEntity(player.level(), player, pair * 2 + j, dmgMult);
-                        spark.setCaster(player.getDisplayName().getString());
 
                         // each pair is 180° apart; shift each pair by 120°
                         spark.setAngleOffset(j * Math.PI + (2 * Math.PI / 3) * pair);

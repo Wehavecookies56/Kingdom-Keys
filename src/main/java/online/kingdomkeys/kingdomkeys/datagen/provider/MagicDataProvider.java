@@ -177,6 +177,10 @@ public class MagicDataProvider implements DataProvider {
 				.level(0).cost(12).castTime(10).cooldown(20).damageMultiplier(0.3F, 0.4F).lockOn(false).maxExp(1800).maxExpLevel(5).end()
 				.build());
 
+		magics.put(ResourceLocation.parse(Strings.Magic_Esuna).getPath(), new MagicBuilder()
+				.level(0).cost(12).castTime(10).cooldown(20).damageMultiplier(0.3F).lockOn(false).maxExp(1800).maxExpLevel(1).end()
+				.build());
+
 		CompletableFuture<?>[] futures = magics.entrySet().stream().map(entry -> {
 			Path path = pathProvider.json(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, entry.getKey()));
 			return DataProvider.saveStable(cache, entry.getValue(), path);

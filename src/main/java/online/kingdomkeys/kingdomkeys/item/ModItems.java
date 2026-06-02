@@ -893,8 +893,10 @@ public class ModItems {
 
 			warpSpell = ITEMS.register(Strings.SpellWarp, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Warp,0)),
 
+			esunaSpell = ITEMS.register(Strings.SpellEsuna, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Esuna,0)),
 
-			struggleSword = createNewItem(Strings.StruggleSword, () -> new SwordItem(new KeybladeItemTier(0),new Item.Properties().attributes(SwordItem.createAttributes(new KeybladeItemTier(0), 1, 1)).stacksTo(1))),
+
+	struggleSword = createNewItem(Strings.StruggleSword, () -> new SwordItem(new KeybladeItemTier(0),new Item.Properties().attributes(SwordItem.createAttributes(new KeybladeItemTier(0), 1, 1)).stacksTo(1))),
 			struggleWand = createNewItem(Strings.StruggleWand, () -> new SwordItem(new KeybladeItemTier(0), new Item.Properties().attributes(SwordItem.createAttributes(new KeybladeItemTier(0), 1, 1)).stacksTo(1))),
 			struggleHammer = createNewItem(Strings.StruggleHammer, () -> new SwordItem(new KeybladeItemTier(0), new Item.Properties().attributes(SwordItem.createAttributes(new KeybladeItemTier(0), 1, 1)).stacksTo(1))),
 

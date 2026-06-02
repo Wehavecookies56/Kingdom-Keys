@@ -18,20 +18,10 @@ public class MagicWarp extends Magic {
 		float dmgMult = getDamageMult(level);
 		dmgMult *= fullMPBlastMult;
 
-		switch (level) {
-		case 0:
-
-			ThrowableProjectile warp = new WarpEntity(player.level(), player, dmgMult);
-			warp.setOwner(caster);
-			player.level().addFreshEntity(warp);
-			warp.shootFromRotation(player, player.getXRot(), player.getYRot(), 0, 0.75F, 0);
-			break;
-
-		case 1:
-
-			break;
-		}
-
+		ThrowableProjectile warp = new WarpEntity(player.level(), player, dmgMult);
+		warp.setOwner(caster);
+		player.level().addFreshEntity(warp);
+		warp.shootFromRotation(player, player.getXRot(), player.getYRot(), 0, 0.75F, 0);
 	}
 
 	@Override

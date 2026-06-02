@@ -755,6 +755,13 @@ public class LanguageENUS extends KKLanguageProvider {
         add(0, ModMagic.BLACKOUT.get(),"Blackout");
         add(0, ModMagic.POISON.get(),"Poison");
 
+        addMagic(ModMagic.BALLOON, "Balloon", "Balloonra", "Balloonga");
+        addMagic(ModMagic.SPARK, "Spark", "Sparkra", "Sparkga");
+        addMagic(ModMagic.MINE_SHIELD, "Mine Shield", "Mine Square", "Seeker Mine");
+
+        add(0, ModMagic.WARP.get(),"Warp");
+        add(0, ModMagic.ESUNA.get(),"Esuna");
+
         //Drive Forms
         addDriveForm(ModDriveForms.VALOR, "Valor");
         addDriveForm(ModDriveForms.WISDOM, "Wisdom");
@@ -1948,6 +1955,21 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.zeroGravitySpell, "Zero Gravity Spell");
         addItem(ModItems.zeroGraviraSpell, "Zero Gravira Spell");
         addItem(ModItems.zeroGravigaSpell, "Zero Graviga Spell");
+
+        addItem(ModItems.balloonSpell, "Balloon Spell");
+        addItem(ModItems.balloonraSpell, "Balloonra Spell");
+        addItem(ModItems.balloongaSpell, "Balloonga Spell");
+
+        addItem(ModItems.sparkSpell, "Spark Spell");
+        addItem(ModItems.sparkraSpell, "Sparkra Spell");
+        addItem(ModItems.sparkgaSpell, "Sparkga Spell");
+
+        addItem(ModItems.mineShieldSpell, "Mine Shield Spell");
+        addItem(ModItems.mineSquareSpell, "Mine Square Spell");
+        addItem(ModItems.mineSeekerSpell, "Seeker Mine Spell");
+
+        addItem(ModItems.warpSpell, "Warp Spell");
+        addItem(ModItems.esunaSpell, "Esuna Spell");
 
         //Drive form orbs
         addItem(ModItems.valorOrb, "Valor Form Orb");

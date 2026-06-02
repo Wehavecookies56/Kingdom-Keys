@@ -53,6 +53,7 @@ public class ModMagic {
 		BALLOON = MAGIC.register(ResourceLocation.parse(Strings.Magic_Balloon).getPath(), () -> new MagicBalloon(ResourceLocation.parse(Strings.Magic_Balloon), false, 3, null)),
 		SPARK = MAGIC.register(ResourceLocation.parse(Strings.Magic_Spark).getPath(), () -> new MagicSpark(ResourceLocation.parse(Strings.Magic_Spark), false, 3, null)),
 		MINE_SHIELD = MAGIC.register(ResourceLocation.parse(Strings.Magic_MineShield).getPath(), () -> new MagicMineShield(ResourceLocation.parse(Strings.Magic_MineShield), false, 3, null)),
-		WARP = MAGIC.register(ResourceLocation.parse(Strings.Magic_Warp).getPath(), () -> new MagicWarp(ResourceLocation.parse(Strings.Magic_Warp), false, 1, null))
+		WARP = MAGIC.register(ResourceLocation.parse(Strings.Magic_Warp).getPath(), () -> new MagicWarp(ResourceLocation.parse(Strings.Magic_Warp), false, 1, null)),
+		ESUNA = MAGIC.register(ResourceLocation.parse(Strings.Magic_Esuna).getPath(), () -> new MagicEsuna(ResourceLocation.parse(Strings.Magic_Esuna), false, 1, null))
 	;
 }

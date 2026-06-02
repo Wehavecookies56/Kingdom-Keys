@@ -19,16 +19,6 @@
       "kingdomkeys:arrowgunreload"
     ]
   },
-  "balloon": {
-    "sounds": [
-      "kingdomkeys:balloon"
-    ]
-  },
-  "balloon_bounce": {
-    "sounds": [
-      "kingdomkeys:balloon_bounce"
-    ]
-  },
   "buy": {
     "sounds": [
       "kingdomkeys:buy"
@@ -110,6 +100,16 @@
       "kingdomkeys:magic/aero2"
     ]
   },
+  "magic/balloon": {
+    "sounds": [
+      "kingdomkeys:magic/balloon"
+    ]
+  },
+  "magic/balloon_bounce": {
+    "sounds": [
+      "kingdomkeys:magic/balloon_bounce"
+    ]
+  },
   "magic/blizzaga": {
     "sounds": [
       "kingdomkeys:magic/blizzaga"
@@ -143,6 +143,11 @@
   "magic/deepfreeze": {
     "sounds": [
       "kingdomkeys:magic/deepfreeze"
+    ]
+  },
+  "magic/esuna": {
+    "sounds": [
+      "kingdomkeys:magic/esuna"
     ]
   },
   "magic/fira": {
@@ -195,6 +200,11 @@
       "kingdomkeys:magic/magnet2"
     ]
   },
+  "magic/player_cast": {
+    "sounds": [
+      "kingdomkeys:magic/player_cast"
+    ]
+  },
   "magic/poison": {
     "sounds": [
       "kingdomkeys:magic/poison"
@@ -208,6 +218,21 @@
   "magic/reflect2": {
     "sounds": [
       "kingdomkeys:magic/reflect2"
+    ]
+  },
+  "magic/spark": {
+    "sounds": [
+      "kingdomkeys:magic/spark"
+    ]
+  },
+  "magic/sparkga": {
+    "sounds": [
+      "kingdomkeys:magic/sparkga"
+    ]
+  },
+  "magic/sparkra": {
+    "sounds": [
+      "kingdomkeys:magic/sparkra"
     ]
   },
   "magic/stop": {
@@ -228,6 +253,11 @@
   "magic/thundagashot": {
     "sounds": [
       "kingdomkeys:magic/thundagashot"
+    ]
+  },
+  "magic/warp_hit_player": {
+    "sounds": [
+      "kingdomkeys:magic/warp_hit_player"
     ]
   },
   "magic/zap": {
@@ -300,11 +330,6 @@
         "name": "kingdomkeys:music/the_13th_floor",
         "stream": true
       }
-    ]
-  },
-  "player_cast": {
-    "sounds": [
-      "kingdomkeys:player_cast"
     ]
   },
   "player_death": {
@@ -527,21 +552,6 @@
       "kingdomkeys:shotlock_shot"
     ]
   },
-  "spark": {
-    "sounds": [
-      "kingdomkeys:spark"
-    ]
-  },
-  "sparkga": {
-    "sounds": [
-      "kingdomkeys:sparkga"
-    ]
-  },
-  "sparkra": {
-    "sounds": [
-      "kingdomkeys:sparkra"
-    ]
-  },
   "strike_raid": {
     "sounds": [
       "kingdomkeys:strike_raid"
@@ -575,11 +585,6 @@
   "wall_jump": {
     "sounds": [
       "kingdomkeys:wall_jump"
-    ]
-  },
-  "warp_hit_player": {
-    "sounds": [
-      "kingdomkeys:warp_hit_player"
     ]
   },
   "wisdom_shot": {

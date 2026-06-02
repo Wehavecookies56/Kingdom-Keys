@@ -91,8 +91,8 @@ public class Strings {
 		Magic_Balloon = KingdomKeys.MODID + ":" + Mag_Prefix + "balloon",
 		Magic_Warp = KingdomKeys.MODID + ":" + Mag_Prefix + "warp",
 		Magic_MineShield = KingdomKeys.MODID + ":" + Mag_Prefix + "mine_shield",
-		Magic_Spark = KingdomKeys.MODID + ":" + Mag_Prefix + "spark";
-
+		Magic_Spark = KingdomKeys.MODID + ":" + Mag_Prefix + "spark",
+		Magic_Esuna = KingdomKeys.MODID + ":" + Mag_Prefix + "esuna";
 
 	// Drive Forms
     public static final String
@@ -715,6 +715,8 @@ public class Strings {
 		SpellSparkga = "spellsparkga",
 
 		SpellWarp = "spellwarp",
+
+		SpellEsuna = "spellesuna",
 
 
 		StruggleSword = "struggle_sword",

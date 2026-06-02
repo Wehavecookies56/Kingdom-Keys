@@ -651,8 +651,16 @@ public class LanguageESES extends KKLanguageProvider {
 
         add(0, ModMagic.THUNDAGA_SHOT.get(),"Tiro Electro++");
 
-        add(0, ModMagic.BLACKOUT.get(),"Blackout");
+        add(0, ModMagic.BLACKOUT.get(),"Apagón");
         add(0, ModMagic.POISON.get(),"Toxis");
+
+        addMagic(ModMagic.BALLOON, "Globo", "Globo+", "Globo++");
+        addMagic(ModMagic.SPARK, "Chispa", "Chispa+", "Chispa++");
+        addMagic(ModMagic.MINE_SHIELD, "Escudo de Minas", "Cuadro de Minas", "Mina Astuta");
+
+        add(0, ModMagic.WARP.get(),"Exilio");
+        add(0, ModMagic.ESUNA.get(),"Esna");
+
 
 
         //Limits
@@ -989,6 +997,21 @@ public class LanguageESES extends KKLanguageProvider {
         addItem(ModItems.blackoutSpell, "Hechizo de Apagón");
         addItem(ModItems.poisonSpell, "Hechizo de Toxis");
 
+
+        addItem(ModItems.balloonSpell, "Hechizo de Globo");
+        addItem(ModItems.balloonraSpell, "Hechizo de Globo+");
+        addItem(ModItems.balloongaSpell, "Hechizo de Globo++");
+
+        addItem(ModItems.sparkSpell, "Hechizo de Chispa");
+        addItem(ModItems.sparkraSpell, "Hechizo de Chispa+");
+        addItem(ModItems.sparkgaSpell, "Hechizo de Chispa++");
+
+        addItem(ModItems.mineShieldSpell, "Hechizo de Escudo de Minas");
+        addItem(ModItems.mineSquareSpell, "Hechizo de Cuadro de Minas");
+        addItem(ModItems.mineSeekerSpell, "Hechizo de Mina Astuta");
+
+        addItem(ModItems.warpSpell, "Hechizo de Exilio");
+        addItem(ModItems.esunaSpell, "Hechizo de Esna");
 
         // Drive form orbs
         addItem(ModItems.valorOrb, "Orbe de Forma Valiente");

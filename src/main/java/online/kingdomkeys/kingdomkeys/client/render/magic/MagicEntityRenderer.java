@@ -17,7 +17,6 @@ import online.kingdomkeys.kingdomkeys.entity.magic.*;
 
 @OnlyIn(Dist.CLIENT)
 public class MagicEntityRenderer extends EntityRenderer<ThrowableProjectile> {
-
 	private static final ResourceLocation FIRE_TEXTURE = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/models/fire.png");
 	private static final ResourceLocation DARKFIRE_TEXTURE = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/models/darkfire.png");
 	private static final ResourceLocation THUNDAGASHOT_TEXTURE = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/models/thundagashot.png");
@@ -37,14 +36,13 @@ public class MagicEntityRenderer extends EntityRenderer<ThrowableProjectile> {
 			case FiragaEntity firaga -> 1.2F;
 			case FirazaEntity firaza -> 2.0F;
 			case FiragaBurstControllerEntity firagaBurstController -> 4.0F;
-			case ThundagaShotEntity thundagaShotEntity -> 1F;
+			case ThundagaShotEntity thundagaShotEntity -> 0.8F;
 			default -> 1.0F;
 		};
 
 		float growTime = 5F;
 		float growth = Math.min((entity.tickCount + partialTicks) / growTime, 1F);
 		float scale = targetScale * growth;
-
 
 		poseStack.pushPose();
 		{
@@ -69,7 +67,6 @@ public class MagicEntityRenderer extends EntityRenderer<ThrowableProjectile> {
 			float v1 = v0 + frameHeight;
 
 			float size = 0.5F;
-
 			vertex(consumer, pose, -size, -size, 0F, v1);
 			vertex(consumer, pose, size, -size, 1F, v1);
 			vertex(consumer, pose, size, size, 1F, v0);
@@ -86,9 +83,12 @@ public class MagicEntityRenderer extends EntityRenderer<ThrowableProjectile> {
 	}
 
 	private void vertex(VertexConsumer consumer, PoseStack.Pose pose, float x, float y, float u, float v) {
-		consumer.addVertex(pose, x, y, 0F).setColor(255, 255, 255, 255).setUv(u, v).setOverlay(OverlayTexture.NO_OVERLAY).setLight(0xF000F0).setNormal(pose, 0F, 1F, 0F);
+		vertex(consumer, pose, x, y, u, v, 255, 255, 255);
 	}
 
+	private void vertex(VertexConsumer consumer, PoseStack.Pose pose, float x, float y, float u, float v, int r, int g, int b) {
+		consumer.addVertex(pose, x, y, 0F).setColor(r, g, b, 255).setUv(u, v).setOverlay(OverlayTexture.NO_OVERLAY).setLight(0xF000F0).setNormal(pose, 0F, 1F, 0F);
+	}
 
 	private void renderElectricArcs(ThrowableProjectile entity, PoseStack poseStack, MultiBufferSource buffer) {
 		VertexConsumer consumer = buffer.getBuffer(RenderType.lines());

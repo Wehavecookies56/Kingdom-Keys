@@ -310,7 +310,7 @@ public class KKAnimations {
                             PacketHandler.sendToServer(new CSSummonKeyblade());
                         }
                 }, AnimationEvent.Side.BOTH)));
-        ZEXION_SUMMON = builder.nextAccessor("biped/living/zexion_summon", animationAccessor -> new ActionAnimation(0.05F, animationAccessor, Armatures.BIPED)
+        ZEXION_SUMMON = builder.nextAccessor("biped/living/organization/zexion/zexion_summon", animationAccessor -> new ActionAnimation(0.05F, animationAccessor, Armatures.BIPED)
                 .addProperty(AnimationProperty.ActionAnimationProperty.CANCELABLE_MOVE, true)
                 .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> 0.8F)
                 .addEvents(AnimationEvent.InTimeEvent.create(.15f, (ep, animation, arr) -> {

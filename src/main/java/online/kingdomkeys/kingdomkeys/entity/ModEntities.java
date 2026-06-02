@@ -108,8 +108,8 @@ public class ModEntities {
 
     public static final Supplier<EntityType<WarpEntity>> TYPE_WARP = createEntityType(WarpEntity::new, MobCategory.MISC,"entity_warp", 0.5F, 0.5F);
     public static final Supplier<EntityType<MeteorEntity>> TYPE_METEOR = createEntityType(MeteorEntity::new, MobCategory.MISC,"entity_meteor", 1.5F, 1.5F);
-    public static final Supplier<EntityType<SparkEntity>> TYPE_SPARK = createEntityType(SparkEntity::new, MobCategory.MISC,"entity_spark", 1.5F, 1.5F);
-    public static final Supplier<EntityType<MineEntity>> TYPE_MINE = createEntityType(MineEntity::new, MobCategory.MISC,"entity_mine", 1.0F, 1.0F);
+    public static final Supplier<EntityType<SparkEntity>> TYPE_SPARK = createEntityType(SparkEntity::new, MobCategory.MISC,"entity_spark", 0.5F, 0.5F);
+    public static final Supplier<EntityType<MineEntity>> TYPE_MINE = createEntityType(MineEntity::new, MobCategory.MISC,"entity_mine", 1.0F, 0.2F);
 
 
     public static final Supplier<EntityType<SeedBulletEntity>> TYPE_SEED_BULLET = createEntityType(SeedBulletEntity::new, MobCategory.MISC,"seed_bullet", 0.5F, 0.5F);

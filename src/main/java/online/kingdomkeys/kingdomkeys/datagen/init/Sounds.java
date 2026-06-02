@@ -87,6 +87,7 @@ public class Sounds extends SoundDefinitionsProvider {
         add(spark);
         add(sparkra);
         add(sparkga);
+        add(esuna);
 
         add(playerDeath);
         add(playerDeathHardcore);
