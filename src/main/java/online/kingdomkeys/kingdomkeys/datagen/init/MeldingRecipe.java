@@ -57,7 +57,7 @@ public class MeldingRecipe extends MeldingRecipeProvider<MeldingRecipeBuilder> {
 		getBuilder("triple_blizzaga").ingredient1(blizzagaSpell).ingredient2(blizzagaSpell).output(tripleBlizzagaSpell, 1).addCost(1000).addTier(3);
 		getBuilder("triple_blizzaga2").ingredient1(blizzagaSpell).ingredient2(blizzaraSpell).output(tripleBlizzagaSpell, 1).addCost(1200).addTier(4);
 
-		getBuilder("deep_freeze").ingredient1(blizzagaSpell).ingredient2(tripleBlizzagaSpell).output(deepFreezeSpell, 1).addCost(1800).addTier(5);
+		getBuilder("deep_freeze").ingredient1(blizzagaSpell).ingredient2(tripleBlizzagaSpell).output(deepFreezeSpell, 1).addCost(1400).addTier(4);
 
 		getBuilder("glacier").ingredient1(blizzagaSpell).ingredient2(deepFreezeSpell).output(glacier, 1).addCost(1600).addTier(5);
 		getBuilder("glacier2").ingredient1(tripleBlizzagaSpell).ingredient2(deepFreezeSpell).output(glacier, 1).addCost(1200).addTier(4);
@@ -70,11 +70,15 @@ public class MeldingRecipe extends MeldingRecipeProvider<MeldingRecipeBuilder> {
 
 		getBuilder("spark").ingredient1(thunderSpell).ingredient2(magnetSpell).output(sparkSpell, 1).addCost(800).addTier(3);
 		getBuilder("sparkra").ingredient1(thundaraSpell).ingredient2(magneraSpell).output(sparkraSpell, 1).addCost(1200).addTier(3);
-		getBuilder("sparkga").ingredient1(thundagaSpell).ingredient2(magnegaSpell).output(sparkgaSpell, 1).addCost(1200).addTier(4);
+		getBuilder("sparkra2").ingredient1(sparkSpell).ingredient2(sparkSpell).output(sparkraSpell, 1).addCost(1200).addTier(3);
+		getBuilder("sparkga").ingredient1(thundagaSpell).ingredient2(magnegaSpell).output(sparkgaSpell, 1).addCost(1600).addTier(4);
+		getBuilder("sparkga2").ingredient1(sparkraSpell).ingredient2(sparkraSpell).output(sparkgaSpell, 1).addCost(1600).addTier(4);
 
-		getBuilder("baloon").ingredient1(waterSpell).ingredient2(gravitySpell).output(balloonSpell, 1).addCost(800).addTier(3);
+		getBuilder("balloon").ingredient1(waterSpell).ingredient2(gravitySpell).output(balloonSpell, 1).addCost(800).addTier(3);
 		getBuilder("balloonra").ingredient1(wateraSpell).ingredient2(graviraSpell).output(balloonraSpell, 1).addCost(1200).addTier(3);
-		getBuilder("balloonga").ingredient1(watergaSpell).ingredient2(gravigaSpell).output(balloongaSpell, 1).addCost(1200).addTier(4);
+		getBuilder("balloonra2").ingredient1(balloonSpell).ingredient2(balloonSpell).output(balloonraSpell, 1).addCost(1200).addTier(3);
+		getBuilder("balloonga").ingredient1(watergaSpell).ingredient2(gravigaSpell).output(balloongaSpell, 1).addCost(1600).addTier(4);
+		getBuilder("balloonga2").ingredient1(balloonraSpell).ingredient2(balloonraSpell).output(balloongaSpell, 1).addCost(1600).addTier(4);
 
 		getBuilder("zero_gravity").ingredient1(firagaSpell).ingredient2(blackoutSpell).output(darkFiragaSpell, 1).addCost(1200).addTier(4);
 

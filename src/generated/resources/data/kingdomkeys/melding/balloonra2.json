@@ -1,0 +1,11 @@
+{
+  "cost": 1200,
+  "ingredient1": "kingdomkeys:spellballoon",
+  "ingredient2": "kingdomkeys:spellballoon",
+  "output": {
+    "type": "item",
+    "item": "kingdomkeys:spellballoonra",
+    "quantity": 1
+  },
+  "tier": 3
+}

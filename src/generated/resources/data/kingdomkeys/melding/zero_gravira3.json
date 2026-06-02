@@ -7,5 +7,10 @@
     "item": "kingdomkeys:spellzerogravira",
     "quantity": 1
   },
+  "output2": {
+    "chance": 10,
+    "item": "kingdomkeys:spellwarp",
+    "quantity": 1
+  },
   "tier": 4
 }

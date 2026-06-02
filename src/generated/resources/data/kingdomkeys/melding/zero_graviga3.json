@@ -1,14 +1,14 @@
 {
-  "cost": 1200,
+  "cost": 1400,
   "ingredient1": "kingdomkeys:spellzerogravity",
-  "ingredient2": "kingdomkeys:spellzerogravity",
+  "ingredient2": "kingdomkeys:spellzerogravira",
   "output": {
     "type": "item",
-    "item": "kingdomkeys:spellzerogravira",
+    "item": "kingdomkeys:spellzerograviga",
     "quantity": 1
   },
   "output2": {
-    "chance": 10,
+    "chance": 20,
     "item": "kingdomkeys:spellwarp",
     "quantity": 1
   },

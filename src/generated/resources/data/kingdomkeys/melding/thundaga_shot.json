@@ -1,0 +1,11 @@
+{
+  "cost": 100,
+  "ingredient1": "kingdomkeys:spellthundaga",
+  "ingredient2": "kingdomkeys:spellthundaga",
+  "output": {
+    "type": "item",
+    "item": "kingdomkeys:spellthundagashot",
+    "quantity": 1
+  },
+  "tier": 3
+}

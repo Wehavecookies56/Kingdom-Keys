@@ -8,11 +8,11 @@
   * Glacier: Meldable with Blizzaga + Deep Freeze / Triple Blizzaga + Deep Freeze.
   * Ported over from ReMind (Thanks to Xephiro)
     * Balloon: Melded with Water + Gravity.
-    * Balloonra: Melded with Watera + Gravira.
-    * Balloonga: Melded with Waterga + Graviga.
+    * Balloonra: Melded with Watera + Gravira / Balloon + Balloon.
+    * Balloonga: Melded with Waterga + Graviga / Balloonra + Balloonra.
     * Spark: Melded with Thunder + Magnet.
-    * Sparkra: Melded with Thundara + Magnera.
-    * Sparkga: Melded with Thundaga + Magnega.
+    * Sparkra: Melded with Thundara + Magnera / Spark + Spark.
+    * Sparkga: Melded with Thundaga + Magnega / Sparkra + Sparkra.
     * Mine Shield: Meldable with Fira + Zero Gravity.
     * Mine Square: Meldable with Fira + Stop.
     * Seeker Mine: Meldable with Mine Shield + Magnega / Mine Square + Magnega / Mine Shield + Mine Square.
