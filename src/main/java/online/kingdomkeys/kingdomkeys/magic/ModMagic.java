@@ -48,6 +48,11 @@ public class ModMagic {
 
 		TRIPLE_BLIZZAGA = MAGIC.register(ResourceLocation.parse(Strings.Magic_TripleBlizzard).getPath(), () -> new MagicTripleBlizzaga(ResourceLocation.parse(Strings.Magic_TripleBlizzard), 1, null)),
 		BLACKOUT = MAGIC.register(ResourceLocation.parse(Strings.Magic_Blackout).getPath(), () -> new MagicStatusEffectRadius(ResourceLocation.parse(Strings.Magic_Blackout), 1, null, MobEffects.DARKNESS, SoundEvents.BEACON_POWER_SELECT, ParticleTypes.SQUID_INK)),
-		POISON = MAGIC.register(ResourceLocation.parse(Strings.Magic_Poison).getPath(), () -> new MagicStatusEffectRadius(ResourceLocation.parse(Strings.Magic_Poison), 1, null, MobEffects.POISON, ModSounds.poison.get(), new DustParticleOptions(new Vector3f(0.6F,0.3F,0.8F),1F)))
-		;
+		POISON = MAGIC.register(ResourceLocation.parse(Strings.Magic_Poison).getPath(), () -> new MagicStatusEffectRadius(ResourceLocation.parse(Strings.Magic_Poison), 1, null, MobEffects.POISON, ModSounds.poison.get(), new DustParticleOptions(new Vector3f(0.6F,0.3F,0.8F),1F))),
+
+		BALLOON = MAGIC.register(ResourceLocation.parse(Strings.Magic_Balloon).getPath(), () -> new MagicBalloon(ResourceLocation.parse(Strings.Magic_Balloon), false, 3, null)),
+		SPARK = MAGIC.register(ResourceLocation.parse(Strings.Magic_Spark).getPath(), () -> new MagicSpark(ResourceLocation.parse(Strings.Magic_Spark), false, 3, null)),
+		MINE_SHIELD = MAGIC.register(ResourceLocation.parse(Strings.Magic_MineShield).getPath(), () -> new MagicMineShield(ResourceLocation.parse(Strings.Magic_MineShield), false, 3, null)),
+		WARP = MAGIC.register(ResourceLocation.parse(Strings.Magic_Warp).getPath(), () -> new MagicWarp(ResourceLocation.parse(Strings.Magic_Warp), false, 1, null))
+	;
 }

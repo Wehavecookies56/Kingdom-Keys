@@ -131,6 +131,7 @@ public class MagicSpellItem extends Item implements IItemCategory {
 		if(getMaxExpLevel() <= 1) {
 			return getMaxExp();
 		}
+
 		int expPerLevel = getMaxExp() / (getMaxExpLevel() - 1);
 		int exp = getExp(stack) % expPerLevel;
 		if(getExp(stack) >= getMaxExp()) {

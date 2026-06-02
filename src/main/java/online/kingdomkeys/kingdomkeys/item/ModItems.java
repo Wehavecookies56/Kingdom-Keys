@@ -879,6 +879,21 @@ public class ModItems {
 			zeroGraviraSpell = createNewItem(Strings.SpellZeroGravira, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_ZeroGravity, 1)),
 			zeroGravigaSpell = createNewItem(Strings.SpellZeroGraviga, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_ZeroGravity, 2)),
 
+			balloonSpell = ITEMS.register(Strings.SpellBalloon, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Balloon,0)),
+			balloonraSpell = ITEMS.register(Strings.SpellBalloonra, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Balloon,1)),
+			balloongaSpell = ITEMS.register(Strings.SpellBalloonga, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Balloon,2)),
+
+			sparkSpell = ITEMS.register(Strings.SpellSpark, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Spark,0)),
+			sparkraSpell = ITEMS.register(Strings.SpellSparkra, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Spark,1)),
+			sparkgaSpell = ITEMS.register(Strings.SpellSparkga, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Spark,2)),
+
+			mineShieldSpell = ITEMS.register(Strings.SpellMineShield, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_MineShield,0)),
+			mineSquareSpell = ITEMS.register(Strings.SpellMineSquare, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_MineShield,1)),
+			mineSeekerSpell = ITEMS.register(Strings.SpellMineSeeker, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_MineShield,2)),
+
+			warpSpell = ITEMS.register(Strings.SpellWarp, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Warp,0)),
+
+
 			struggleSword = createNewItem(Strings.StruggleSword, () -> new SwordItem(new KeybladeItemTier(0),new Item.Properties().attributes(SwordItem.createAttributes(new KeybladeItemTier(0), 1, 1)).stacksTo(1))),
 			struggleWand = createNewItem(Strings.StruggleWand, () -> new SwordItem(new KeybladeItemTier(0), new Item.Properties().attributes(SwordItem.createAttributes(new KeybladeItemTier(0), 1, 1)).stacksTo(1))),
 			struggleHammer = createNewItem(Strings.StruggleHammer, () -> new SwordItem(new KeybladeItemTier(0), new Item.Properties().attributes(SwordItem.createAttributes(new KeybladeItemTier(0), 1, 1)).stacksTo(1))),

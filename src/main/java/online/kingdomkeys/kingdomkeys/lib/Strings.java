@@ -86,7 +86,13 @@ public class Strings {
 		Magic_ThundagaShot = KingdomKeys.MODID + ":" + Mag_Prefix + "thundagashot",
 
 		Magic_Blackout = KingdomKeys.MODID + ":" + Mag_Prefix + "blackout",
-		Magic_Poison = KingdomKeys.MODID + ":" + Mag_Prefix + "posion";
+		Magic_Poison = KingdomKeys.MODID + ":" + Mag_Prefix + "posion",
+
+		Magic_Balloon = KingdomKeys.MODID + ":" + Mag_Prefix + "balloon",
+		Magic_Warp = KingdomKeys.MODID + ":" + Mag_Prefix + "warp",
+		Magic_MineShield = KingdomKeys.MODID + ":" + Mag_Prefix + "mine_shield",
+		Magic_Spark = KingdomKeys.MODID + ":" + Mag_Prefix + "spark";
+
 
 	// Drive Forms
     public static final String
@@ -695,6 +701,21 @@ public class Strings {
 		SpellIceBarrage = "spellicebarrage",
 
 		SpellThundagaShot = "spellthundagashot",
+
+		SpellBalloon = "spellballoon",
+		SpellBalloonra = "spellballoonra",
+		SpellBalloonga = "spellballoonga",
+
+		SpellMineShield = "spellmineshield",
+		SpellMineSquare = "spellminesquare",
+		SpellMineSeeker = "spellseekermine",
+
+		SpellSpark = "spellspark",
+		SpellSparkra = "spellsparkra",
+		SpellSparkga = "spellsparkga",
+
+		SpellWarp = "spellwarp",
+
 
 		StruggleSword = "struggle_sword",
 		StruggleWand = "struggle_wand",

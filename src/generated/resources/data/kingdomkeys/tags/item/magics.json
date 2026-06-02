@@ -44,6 +44,16 @@
     "kingdomkeys:spellpoison",
     "kingdomkeys:spellzerogravity",
     "kingdomkeys:spellzerogravira",
-    "kingdomkeys:spellzerograviga"
+    "kingdomkeys:spellzerograviga",
+    "kingdomkeys:spellballoon",
+    "kingdomkeys:spellballoonra",
+    "kingdomkeys:spellballoonga",
+    "kingdomkeys:spellspark",
+    "kingdomkeys:spellsparkra",
+    "kingdomkeys:spellsparkga",
+    "kingdomkeys:spellmineshield",
+    "kingdomkeys:spellminesquare",
+    "kingdomkeys:spellseekermine",
+    "kingdomkeys:spellwarp"
   ]
 }

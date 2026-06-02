@@ -80,7 +80,14 @@ public class Sounds extends SoundDefinitionsProvider {
         add(iceBarrage);
         add(thundagaShot);
         add(zap);
-        
+        add(balloon);
+        add(balloonBounce);
+        add(playerCast);
+        add(warpHitPlayer);
+        add(spark);
+        add(sparkra);
+        add(sparkga);
+
         add(playerDeath);
         add(playerDeathHardcore);
         add(invincible_hit);

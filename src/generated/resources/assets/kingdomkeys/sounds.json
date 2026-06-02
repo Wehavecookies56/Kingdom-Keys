@@ -19,6 +19,16 @@
       "kingdomkeys:arrowgunreload"
     ]
   },
+  "balloon": {
+    "sounds": [
+      "kingdomkeys:balloon"
+    ]
+  },
+  "balloon_bounce": {
+    "sounds": [
+      "kingdomkeys:balloon_bounce"
+    ]
+  },
   "buy": {
     "sounds": [
       "kingdomkeys:buy"
@@ -292,6 +302,11 @@
       }
     ]
   },
+  "player_cast": {
+    "sounds": [
+      "kingdomkeys:player_cast"
+    ]
+  },
   "player_death": {
     "sounds": [
       "kingdomkeys:player_death"
@@ -512,6 +527,21 @@
       "kingdomkeys:shotlock_shot"
     ]
   },
+  "spark": {
+    "sounds": [
+      "kingdomkeys:spark"
+    ]
+  },
+  "sparkga": {
+    "sounds": [
+      "kingdomkeys:sparkga"
+    ]
+  },
+  "sparkra": {
+    "sounds": [
+      "kingdomkeys:sparkra"
+    ]
+  },
   "strike_raid": {
     "sounds": [
       "kingdomkeys:strike_raid"
@@ -545,6 +575,11 @@
   "wall_jump": {
     "sounds": [
       "kingdomkeys:wall_jump"
+    ]
+  },
+  "warp_hit_player": {
+    "sounds": [
+      "kingdomkeys:warp_hit_player"
     ]
   },
   "wisdom_shot": {

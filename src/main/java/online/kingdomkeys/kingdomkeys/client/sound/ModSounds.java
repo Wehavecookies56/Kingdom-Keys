@@ -72,8 +72,17 @@ public class ModSounds {
 			iceBarrage = registerSound("magic/icebarrage"),
 	        thundagaShot = registerSound("magic/thundagashot"),
 	        zap = registerSound("magic/zap"),
-			
-			playerDeath = registerSound("player_death"),
+
+			balloon = registerSound("balloon"),
+			balloonBounce = registerSound("balloon_bounce"),
+			playerCast = registerSound("player_cast"),
+			warpHitPlayer = registerSound("warp_hit_player"),
+			spark = registerSound("spark"),
+			sparkra = registerSound("sparkra"),
+			sparkga = registerSound("sparkga"),
+
+
+	playerDeath = registerSound("player_death"),
 			playerDeathHardcore = registerSound("player_death_2"),
 		    invincible_hit = registerSound("invincible_hit"),
 			shotlock_lockon_start = registerSound("shotlock_lockon_start"),

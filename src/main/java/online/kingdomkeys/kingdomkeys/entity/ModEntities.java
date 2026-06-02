@@ -22,8 +22,7 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.client.ClientSetup;
-import online.kingdomkeys.kingdomkeys.client.model.BlizzardModel;
-import online.kingdomkeys.kingdomkeys.client.model.FireModel;
+import online.kingdomkeys.kingdomkeys.client.model.*;
 import online.kingdomkeys.kingdomkeys.client.model.armor.*;
 import online.kingdomkeys.kingdomkeys.client.model.entity.*;
 import online.kingdomkeys.kingdomkeys.client.render.block.*;
@@ -103,6 +102,15 @@ public class ModEntities {
     public static final Supplier<EntityType<GravityEntity>> TYPE_GRAVITY = createEntityType(GravityEntity::new, MobCategory.MISC,"entity_gravity", 0.5F, 0.5F);
     public static final Supplier<EntityType<GraviraEntity>> TYPE_GRAVIRA = createEntityType(GraviraEntity::new, MobCategory.MISC,"entity_gravira", 0.5F, 0.5F);
     public static final Supplier<EntityType<GravigaEntity>> TYPE_GRAVIGA = createEntityType(GravigaEntity::new, MobCategory.MISC,"entity_graviga", 0.5F, 0.5F);
+
+    public static final Supplier<EntityType<BalloonEntity>> TYPE_BALLOON = createEntityType(BalloonEntity::new, MobCategory.MISC, "entity_balloon", 0.5F, 0.5F);
+    public static final Supplier<EntityType<BalloongaEntity>> TYPE_BALLOONGA = createEntityType(BalloongaEntity::new, MobCategory.MISC, "entity_balloonga", 1F, 1F);
+
+    public static final Supplier<EntityType<WarpEntity>> TYPE_WARP = createEntityType(WarpEntity::new, MobCategory.MISC,"entity_warp", 0.5F, 0.5F);
+    public static final Supplier<EntityType<MeteorEntity>> TYPE_METEOR = createEntityType(MeteorEntity::new, MobCategory.MISC,"entity_meteor", 1.5F, 1.5F);
+    public static final Supplier<EntityType<SparkEntity>> TYPE_SPARK = createEntityType(SparkEntity::new, MobCategory.MISC,"entity_spark", 1.5F, 1.5F);
+    public static final Supplier<EntityType<MineEntity>> TYPE_MINE = createEntityType(MineEntity::new, MobCategory.MISC,"entity_mine", 1.0F, 1.0F);
+
 
     public static final Supplier<EntityType<SeedBulletEntity>> TYPE_SEED_BULLET = createEntityType(SeedBulletEntity::new, MobCategory.MISC,"seed_bullet", 0.5F, 0.5F);
     public static final Supplier<EntityType<ArrowgunShotEntity>> TYPE_ARROWGUN_SHOT = createEntityType(ArrowgunShotEntity::new, MobCategory.MISC,"arrowgun_shot", 0.1F, 0.1F);
@@ -322,6 +330,15 @@ public class ModEntities {
         event.registerEntityRenderer(TYPE_GRAVIRA.get(), InvisibleEntityRenderer::new);
         event.registerEntityRenderer(TYPE_GRAVIGA.get(), InvisibleEntityRenderer::new);
 
+        event.registerEntityRenderer(TYPE_BALLOON.get(), BalloonEntityRenderer::new);
+        event.registerEntityRenderer(TYPE_BALLOONGA.get(), BalloongaEntityRenderer::new);
+
+        event.registerEntityRenderer(TYPE_WARP.get(), InvisibleEntityRenderer::new);
+        event.registerEntityRenderer(TYPE_METEOR.get(), InvisibleEntityRenderer::new);
+        event.registerEntityRenderer(TYPE_SPARK.get(), SparkEntityRenderer::new);
+        event.registerEntityRenderer(TYPE_MINE.get(), MineEntityRenderer::new);
+
+
         event.registerEntityRenderer(TYPE_SAIX_SHOCKWAVE.get(),InvisibleEntityRenderer::new);
         
         event.registerEntityRenderer(TYPE_SPAWNING_ORB.get(), SpawningOrbRenderer::new);
@@ -417,8 +434,14 @@ public class ModEntities {
         event.registerLayerDefinition(NobodyCreeperModel.LAYER_LOCATION, NobodyCreeperModel::createBodyLayer);
         event.registerLayerDefinition(ShadowGlobModel.LAYER_LOCATION, ShadowGlobModel::createBodyLayer);
         event.registerLayerDefinition(ShadowModel.LAYER_LOCATION, ShadowModel::createBodyLayer);
+
         event.registerLayerDefinition(BlizzardModel.LAYER_LOCATION, BlizzardModel::createBodyLayer);
         event.registerLayerDefinition(FireModel.LAYER_LOCATION, FireModel::createBodyLayer);
+        event.registerLayerDefinition(BalloonModel.LAYER_LOCATION, BalloonModel::createBodyLayer);
+        event.registerLayerDefinition(BalloongaModel.LAYER_LOCATION, BalloongaModel::createBodyLayer);
+        event.registerLayerDefinition(SparkModel.LAYER_LOCATION, SparkModel::createBodyLayer);
+        event.registerLayerDefinition(MineModel.LAYER_LOCATION, MineModel::createBodyLayer);
+
         event.registerLayerDefinition(ArmorModel.LAYER_LOCATION_TOP, () -> ArmorModel.createBodyLayer(new CubeDeformation(0.5F)));
         event.registerLayerDefinition(ArmorModel.LAYER_LOCATION_BOTTOM, () -> ArmorModel.createBodyLayer(new CubeDeformation(0.25F)));
         event.registerLayerDefinition(VentusModel.LAYER_LOCATION_TOP, () -> VentusModel.createBodyLayer(new CubeDeformation(0.5F)));
