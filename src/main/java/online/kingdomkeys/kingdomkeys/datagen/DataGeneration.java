@@ -46,7 +46,7 @@ public class DataGeneration {
         generator.addProvider(event.includeServer(), new BaseLootTableProvider(output, event.getLookupProvider()));
         generator.addProvider(event.includeServer(), new SynthesisRecipe(generator, existingFileHelper));
         generator.addProvider(event.includeServer(), new MeldingRecipe(generator, existingFileHelper));
-        event.getGenerator().addProvider(event.includeServer(), new MagicDataProvider(output));
+        generator.addProvider(event.includeServer(), new MagicDataProvider(output));
         //probably should use the forge provider generator.addProvider(event.includeServer(), new KKAdvancementProvider(generator.getPackOutput(), event.getLookupProvider(), ));
         generator.addProvider(event.includeClient(), new LanguageENUS(generator));
         generator.addProvider(event.includeClient(), new LanguageESES(generator));

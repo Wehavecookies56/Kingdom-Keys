@@ -6,6 +6,18 @@
 * New Magics:
   * Deep Freeze: Meldable with Blizzaga + Triple Blizzaga.
   * Glacier: Meldable with Blizzaga + Deep Freeze / Triple Blizzaga + Deep Freeze.
+  * Ported over from ReMind (Thanks to Xephiro)
+    * Balloon: Melded with Water + Gravity.
+    * Balloonra: Melded with Watera + Gravira.
+    * Balloonga: Melded with Waterga + Graviga.
+    * Spark: Melded with Thunder + Magnet.
+    * Sparkra: Melded with Thundara + Magnera.
+    * Sparkga: Melded with Thundaga + Magnega.
+    * Mine Shield: Meldable with Fira + Zero Gravity.
+    * Mine Square: Meldable with Fira + Stop.
+    * Seeker Mine: Meldable with Mine Shield + Magnega / Mine Square + Magnega / Mine Shield + Mine Square.
+    * Warp: Meldable with the same recipes as Zero Gravira (10%) and Zero Gravira (20%).
+    * Esuna: Bought in the shop at tier C onwards.
 * New buy sound.
 * Basic magics to the shop at tiers B and A.
 * New crafting recipe to combine 8 recipes skipping 2 tiers (8 D-Tier into an A-Tier recipe).
@@ -13,10 +25,11 @@
 # Changed:
 * Magics can now be casted even if your Max MP is lower.
 * Normal and Warp Savepoints will now register the destination point as player respawn instead of the source one. 
-* Recipes will now stack up to x64.
+* Recipes will now stack up to 64.
 
 # Fixed:
 * Some entities using the new fire texture.
+* Fire texture flickering and rendering badly when there's water or clouds behind it.
 * Patchouli Journal saying you lose upgrades when breaking savepoints (Used to be the case, not anymore). 
 * Lock on will now lock off if the target's HP reaches 0 (helps on servers with CNPC where mobs still exist).
 
