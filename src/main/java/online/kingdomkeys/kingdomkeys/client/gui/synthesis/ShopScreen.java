@@ -68,7 +68,7 @@ public class ShopScreen extends MenuFilterable {
 		switch (string) {
 		case "create":
 			PacketHandler.sendToServer(new CSShopBuy(ResourceLocation.parse(parent.invFile), selectedItemStack));
-			minecraft.level.playSound(minecraft.player, minecraft.player.blockPosition(), ModSounds.itemget.get(), SoundSource.MASTER, 1.0f, 1.0f);
+			minecraft.level.playSound(minecraft.player, minecraft.player.blockPosition(), ModSounds.buy.get(), SoundSource.MASTER, 1.0f, 1.0f);
 			break;
 		}
 	}

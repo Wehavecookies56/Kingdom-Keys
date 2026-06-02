@@ -19,6 +19,11 @@
       "kingdomkeys:arrowgunreload"
     ]
   },
+  "buy": {
+    "sounds": [
+      "kingdomkeys:buy"
+    ]
+  },
   "drive": {
     "sounds": [
       "kingdomkeys:drive"

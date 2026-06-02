@@ -51,6 +51,17 @@
 	{"item": "kingdomkeys:ribbon", "amount":1, "tier":3, "cost": 7500},
 	{"item": "kingdomkeys:grand_ribbon", "amount":1, "tier":5, "cost": 9001},
 
+	{"item": "kingdomkeys:spellfire", "amount":1, "tier":4, "cost": 800},
+	{"item": "kingdomkeys:spellblizzard", "amount":1, "tier":4, "cost": 800},
+	{"item": "kingdomkeys:spellwater", "amount":1, "tier":4, "cost": 800},
+	{"item": "kingdomkeys:spellthunder", "amount":1, "tier":4, "cost": 800},
+	{"item": "kingdomkeys:spellcure", "amount":1, "tier":5, "cost": 1200},
+	{"item": "kingdomkeys:spellaero", "amount":1, "tier":5, "cost": 1200},
+	{"item": "kingdomkeys:spellmagnet", "amount":1, "tier":5, "cost": 1200},
+	{"item": "kingdomkeys:spellreflect", "amount":1, "tier":5, "cost": 1200},
+	{"item": "kingdomkeys:spellgravity", "amount":1, "tier":5, "cost": 1200},
+	{"item": "kingdomkeys:spellstop", "amount":1, "tier":5, "cost": 1200},
+
 	{"item": "kingdomkeys:spellzerogravity", "amount":1, "tier":3, "cost": 800},
 	{"item": "kingdomkeys:spellpoison", "amount":1, "tier":2, "cost": 500}
 ]

@@ -125,9 +125,11 @@ public class ClientEvents {
         }
 
         LivingEntity target = InputHandler.lockOn;
-        if (target.isRemoved()) {
+        if (target.getHealth() <= 0 || target.isRemoved()) {
             InputHandler.lockOn = null;
-            if (KingdomKeys.shoulderSurfingLoaded) {
+	        player.playSound(ModSounds.lockoff.get(), 1.0f, 1.0f);
+
+	        if (KingdomKeys.shoulderSurfingLoaded) {
                 KKShoulderSurfing.enableDecoupling();
             }
             return;
