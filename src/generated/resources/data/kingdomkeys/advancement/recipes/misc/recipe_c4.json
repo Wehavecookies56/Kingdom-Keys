@@ -3,7 +3,7 @@
   "criteria": {
     "has_the_recipe": {
       "conditions": {
-        "recipe": "kingdomkeys:recipe_c3"
+        "recipe": "kingdomkeys:recipe_c4"
       },
       "trigger": "minecraft:recipe_unlocked"
     },
@@ -26,7 +26,7 @@
   ],
   "rewards": {
     "recipes": [
-      "kingdomkeys:recipe_c3"
+      "kingdomkeys:recipe_c4"
     ]
   }
 }

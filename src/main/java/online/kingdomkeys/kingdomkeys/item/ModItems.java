@@ -892,14 +892,14 @@ public class ModItems {
 			
 			synthesisBag = createNewItem("synthesis_bag", () -> new BagItem(new Item.Properties().stacksTo(1), BagItem.Type.SYNTHESIS_BAG)),
 			magicsBag = createNewItem("magics_bag", () -> new BagItem(new Item.Properties().stacksTo(1), BagItem.Type.MAGICS_BAG)),
-			recipe = createNewItem("recipe", () -> new RecipeItem(0,new Item.Properties().stacksTo(16))),
-			recipeD = createNewItem("recipe_d", () -> new RecipeItem(1,new Item.Properties().stacksTo(16))),
-			recipeC = createNewItem("recipe_c", () -> new RecipeItem(2,new Item.Properties().stacksTo(16))),
-			recipeB = createNewItem("recipe_b", () -> new RecipeItem(3,new Item.Properties().stacksTo(16))),
-			recipeA = createNewItem("recipe_a", () -> new RecipeItem(4,new Item.Properties().stacksTo(16))),
-			recipeS = createNewItem("recipe_s", () -> new RecipeItem(5,new Item.Properties().stacksTo(16))),
-			recipeSS = createNewItem("recipe_ss", () -> new RecipeItem(6,new Item.Properties().stacksTo(16))),
-			recipeSSS = createNewItem("recipe_sss", () -> new RecipeItem(7,new Item.Properties().stacksTo(16))),
+			recipe = createNewItem("recipe", () -> new RecipeItem(0, new Item.Properties())),
+			recipeD = createNewItem("recipe_d", () -> new RecipeItem(1, new Item.Properties())),
+			recipeC = createNewItem("recipe_c", () -> new RecipeItem(2, new Item.Properties())),
+			recipeB = createNewItem("recipe_b", () -> new RecipeItem(3, new Item.Properties())),
+			recipeA = createNewItem("recipe_a", () -> new RecipeItem(4, new Item.Properties())),
+			recipeS = createNewItem("recipe_s", () -> new RecipeItem(5, new Item.Properties())),
+			recipeSS = createNewItem("recipe_ss", () -> new RecipeItem(6, new Item.Properties())),
+			recipeSSS = createNewItem("recipe_sss", () -> new RecipeItem(7, new Item.Properties())),
 
 			proofOfHeart = createNewItem("proof_of_heart", () -> new ProofOfHeartItem(new Item.Properties())),
 			

@@ -3,10 +3,16 @@
   "category": "misc",
   "ingredients": [
     {
-      "item": "kingdomkeys:recipe_s"
+      "item": "kingdomkeys:recipe_a"
     },
     {
-      "item": "kingdomkeys:recipe_s"
+      "item": "kingdomkeys:recipe_a"
+    },
+    {
+      "item": "kingdomkeys:recipe_a"
+    },
+    {
+      "item": "kingdomkeys:recipe_a"
     }
   ],
   "result": {

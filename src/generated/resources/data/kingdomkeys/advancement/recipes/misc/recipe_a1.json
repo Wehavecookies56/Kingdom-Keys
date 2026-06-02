@@ -3,15 +3,15 @@
   "criteria": {
     "has_the_recipe": {
       "conditions": {
-        "recipe": "kingdomkeys:recipe_b3"
+        "recipe": "kingdomkeys:recipe_a1"
       },
       "trigger": "minecraft:recipe_unlocked"
     },
-    "recipe_b": {
+    "recipe_a": {
       "conditions": {
         "items": [
           {
-            "items": "kingdomkeys:recipe_b"
+            "items": "kingdomkeys:recipe_a"
           }
         ]
       },
@@ -21,12 +21,12 @@
   "requirements": [
     [
       "has_the_recipe",
-      "recipe_b"
+      "recipe_a"
     ]
   ],
   "rewards": {
     "recipes": [
-      "kingdomkeys:recipe_b3"
+      "kingdomkeys:recipe_a1"
     ]
   }
 }
