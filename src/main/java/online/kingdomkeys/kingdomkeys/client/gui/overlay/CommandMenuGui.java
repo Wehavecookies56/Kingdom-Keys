@@ -558,6 +558,14 @@ public class CommandMenuGui extends OverlayBase {
 									}
 								} else {
 									PacketHandler.sendToServer(new CSUseMagicPacket(magicId.toString(), magLevel, InputHandler.lockOn));
+
+									for(int i=0;i<subMenu.getChildren().size();i++){
+										CommandMenuItem child = subMenu.getChild(i);
+										System.out.println(child.getId()+ " "+child.getData());
+										lastUsedMagic = magicId;
+										lastUsedMagicLevel = spell.getLevel();
+									}
+
 									changeSubmenu(root, true);
 								}
 
@@ -605,7 +613,17 @@ public class CommandMenuGui extends OverlayBase {
 		}
 
 		subMenu.setSelected(subMenu.getFirst());
+
+		for(CommandMenuItem child : subMenu.getChildren()) {
+			if(child.getId().equals(lastUsedMagic) && Integer.parseInt(child.getData()) == lastUsedMagicLevel) {
+				subMenu.setSelected(child);
+				break;
+			}
+		}
 	}
+
+	public static ResourceLocation lastUsedMagic;
+	public static int lastUsedMagicLevel;
 
 	public void createItems(CommandMenuSubMenu subMenu) {
 		subMenu.getChildren().clear();
