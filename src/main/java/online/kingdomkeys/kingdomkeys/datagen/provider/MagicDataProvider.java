@@ -106,11 +106,11 @@ public class MagicDataProvider implements DataProvider {
 				.build());
 
 		magics.put(ResourceLocation.parse(Strings.Magic_CrawlingFiraga).getPath(), new MagicBuilder()
-				.level(0).cost(12).castTime(10).cooldown(28).damageMultiplier(0.35F, 0.46F).lockOn(false).maxExp(4200).maxExpLevel(4).end()
+				.level(0).cost(12).castTime(10).cooldown(28).damageMultiplier(0.35F, 0.46F).lockOn(false).maxExp(4400).maxExpLevel(4).end()
 				.build());
 
 		magics.put(ResourceLocation.parse(Strings.Magic_FissionFiraga).getPath(), new MagicBuilder()
-				.level(0).cost(12).castTime(10).cooldown(24).damageMultiplier(0.35F,0.46F).lockOn(false).maxExp(4200).maxExpLevel(4).end()
+				.level(0).cost(12).castTime(10).cooldown(24).damageMultiplier(0.35F,0.46F).lockOn(false).maxExp(4600).maxExpLevel(4).end()
 				.build());
 
 		magics.put(ResourceLocation.parse(Strings.Magic_FiragaBurst).getPath(), new MagicBuilder()
@@ -123,20 +123,20 @@ public class MagicDataProvider implements DataProvider {
 				.build());
 
 		magics.put(ResourceLocation.parse(Strings.Magic_DeepFreeze).getPath(), new MagicBuilder()
-				.level(0).cost(22).castTime(12).cooldown(120).damageMultiplier(0.3F, 3.8F).lockOn(true).maxExp(4200).maxExpLevel(5).end()
+				.level(0).cost(22).castTime(12).cooldown(120).damageMultiplier(0.3F, 3.8F).lockOn(true).maxExp(6400).maxExpLevel(5).end()
 				.build());
 
 		magics.put(ResourceLocation.parse(Strings.Magic_Glacier).getPath(), new MagicBuilder()
-				.level(0).cost(22).castTime(15).cooldown(120).damageMultiplier(0.45F,0.55F).lockOn(true).maxExp(4200).maxExpLevel(5).end()
+				.level(0).cost(22).castTime(15).cooldown(120).damageMultiplier(0.45F,0.55F).lockOn(true).maxExp(7200).maxExpLevel(5).end()
 				.build());
 
 		magics.put(ResourceLocation.parse(Strings.Magic_IceBarrage).getPath(), new MagicBuilder()
-				.level(0).cost(22).castTime(15).cooldown(120).damageMultiplier(0.3F).lockOn(true).maxExp(4200).maxExpLevel(5).end()
+				.level(0).cost(22).castTime(15).cooldown(120).damageMultiplier(0.3F).lockOn(true).maxExp(6800).maxExpLevel(5).end()
 				.build());
 
 
 		magics.put(ResourceLocation.parse(Strings.Magic_ThundagaShot).getPath(), new MagicBuilder()
-				.level(0).cost(12).castTime(10).cooldown(20).damageMultiplier(0.5F,0.6F).lockOn(false).maxExp(1800).maxExpLevel(3).end()
+				.level(0).cost(12).castTime(10).cooldown(20).damageMultiplier(0.5F,0.6F).lockOn(false).maxExp(4200).maxExpLevel(4).end()
 				.build());
 
 
@@ -157,24 +157,24 @@ public class MagicDataProvider implements DataProvider {
 
 		magics.put(ResourceLocation.parse(Strings.Magic_Balloon).getPath(), new MagicBuilder()
 				.level(0).cost(12).castTime(10).cooldown(20).damageMultiplier(0.3F, 0.4F).lockOn(false).maxExp(1800).maxExpLevel(3).end()
-				.level(1).cost(12).castTime(10).cooldown(20).damageMultiplier(0.35F, 0.45F).lockOn(false).maxExp(1800).maxExpLevel(4).end()
-				.level(2).cost(12).castTime(10).cooldown(20).damageMultiplier(0.4F, 0.45F).lockOn(false).maxExp(1800).maxExpLevel(4).end()
+				.level(1).cost(12).castTime(10).cooldown(20).damageMultiplier(0.35F, 0.45F).lockOn(false).maxExp(2400).maxExpLevel(4).end()
+				.level(2).cost(12).castTime(10).cooldown(20).damageMultiplier(0.4F, 0.45F).lockOn(false).maxExp(4200).maxExpLevel(4).end()
 				.build());
 
 		magics.put(ResourceLocation.parse(Strings.Magic_Spark).getPath(), new MagicBuilder()
 				.level(0).cost(12).castTime(10).cooldown(20).damageMultiplier(0.3F, 0.4F).lockOn(false).maxExp(1800).maxExpLevel(3).end()
-				.level(1).cost(12).castTime(10).cooldown(20).damageMultiplier(0.35F, 0.45F).lockOn(false).maxExp(1800).maxExpLevel(4).end()
-				.level(2).cost(12).castTime(10).cooldown(20).damageMultiplier(0.4F, 0.45F).lockOn(false).maxExp(1800).maxExpLevel(4).end()
+				.level(1).cost(12).castTime(10).cooldown(20).damageMultiplier(0.35F, 0.45F).lockOn(false).maxExp(2400).maxExpLevel(4).end()
+				.level(2).cost(12).castTime(10).cooldown(20).damageMultiplier(0.4F, 0.45F).lockOn(false).maxExp(4200).maxExpLevel(4).end()
 				.build());
 
 		magics.put(ResourceLocation.parse(Strings.Magic_MineShield).getPath(), new MagicBuilder()
 				.level(0).cost(12).castTime(10).cooldown(20).damageMultiplier(0.3F, 0.4F).lockOn(false).maxExp(1800).maxExpLevel(4).end()
-				.level(1).cost(12).castTime(10).cooldown(20).damageMultiplier(0.35F, 0.45F).lockOn(false).maxExp(1800).maxExpLevel(4).end()
-				.level(2).cost(12).castTime(10).cooldown(20).damageMultiplier(0.35F, 0.45F).lockOn(false).maxExp(1800).maxExpLevel(4).end()
+				.level(1).cost(12).castTime(10).cooldown(20).damageMultiplier(0.35F, 0.45F).lockOn(false).maxExp(2500).maxExpLevel(4).end()
+				.level(2).cost(12).castTime(10).cooldown(20).damageMultiplier(0.35F, 0.45F).lockOn(false).maxExp(4600).maxExpLevel(4).end()
 				.build());
 
 		magics.put(ResourceLocation.parse(Strings.Magic_Warp).getPath(), new MagicBuilder()
-				.level(0).cost(12).castTime(10).cooldown(20).damageMultiplier(0.2F, 0.6F).lockOn(false).maxExp(1800).maxExpLevel(5).end()
+				.level(0).cost(12).castTime(10).cooldown(20).damageMultiplier(0.2F, 0.6F).lockOn(false).maxExp(8600).maxExpLevel(5).end()
 				.build());
 
 		magics.put(ResourceLocation.parse(Strings.Magic_Esuna).getPath(), new MagicBuilder()

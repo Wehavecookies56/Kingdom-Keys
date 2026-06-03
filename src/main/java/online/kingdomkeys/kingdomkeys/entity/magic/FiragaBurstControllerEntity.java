@@ -1,7 +1,6 @@
 package online.kingdomkeys.kingdomkeys.entity.magic;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -12,7 +11,6 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import online.kingdomkeys.kingdomkeys.damagesource.KKDamageTypes;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
-import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.magic.Magic;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.util.Utils;
@@ -20,7 +18,7 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 import java.util.List;
 
 public class FiragaBurstControllerEntity extends BaseMagicProjectile {
-	Magic fire = ModMagic.registry.get(ResourceLocation.parse(Strings.Magic_Fire));
+	Magic fire = ModMagic.FIRE.get();
 
 	public FiragaBurstControllerEntity(EntityType<? extends ThrowableProjectile> type, Level world) {
 		super(type, world);

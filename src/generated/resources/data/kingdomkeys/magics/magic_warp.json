@@ -6,7 +6,7 @@
     "dmg_mult": 0.2,
     "dmg_mult_max": 0.6,
     "magic_lock_on": false,
-    "max_exp": 1800,
+    "max_exp": 8600,
     "max_exp_lvl": 5
   }
 }

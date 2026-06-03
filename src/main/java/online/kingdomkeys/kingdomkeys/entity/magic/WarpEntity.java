@@ -118,7 +118,6 @@ public class WarpEntity extends BaseMagicProjectile {
 					}
 
 					//boolean chance = level().random.nextFloat() < (0.10F + localLevel * 0.1F);
-					System.out.println(chanceMulti);
 					boolean chance = level().random.nextFloat() < chanceMulti;
 					if (chance) {
 						if (e instanceof ServerPlayer player) {
