@@ -865,6 +865,7 @@
   "gui.melding.desc": "Combine various magics together to create new ones.",
   "gui.melding.item_acquired": "Item Obtained!",
   "gui.melding.meld": "Meld",
+  "gui.melding.meldables": "Filter",
   "gui.melding.rare_item_acquired": "Rare Item Obtained!",
   "gui.menu.accept": "Accept",
   "gui.menu.back": "Back",

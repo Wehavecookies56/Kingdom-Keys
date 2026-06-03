@@ -41,7 +41,7 @@ public class MeldingScreen extends MenuFilterable {
 	public static final int EQUIPPED_OFFSET = -1000;
 	public static final int BAG_OFFSET = -2000;
 	MenuBox boxL, boxMT, boxMB, boxR;
-	MenuButton meld;
+	MenuButton meld, filterMeldable;
 	private MenuButton back;
 	private ItemStack selected1 = ItemStack.EMPTY;
 	private ItemStack selected2 = ItemStack.EMPTY;
@@ -49,6 +49,8 @@ public class MeldingScreen extends MenuFilterable {
 	private int selectedSlot1 = -1;
 	private int selectedSlot2 = -1;
 	private int lastInventoryHash;
+
+	private boolean showOnlyPossibleMelds = false;
 
 	public MeldingScreen() {
 		super(Strings.Gui_Menu_Items_Melding, new Color(0, 0, 255));
@@ -71,7 +73,6 @@ public class MeldingScreen extends MenuFilterable {
 			}
 		}
 	}
-
 
 
 	@Override
@@ -106,6 +107,7 @@ public class MeldingScreen extends MenuFilterable {
 	}
 
 	private void handleSelection(ItemStack clicked, int slot) {
+		float scroll = scrollBar.scrollOffset;
 		if (selectedSlot1 == slot) { //Unselect first
 			selectedSlot1 = -1;
 			selected1 = ItemStack.EMPTY;
@@ -123,6 +125,8 @@ public class MeldingScreen extends MenuFilterable {
 		currentMelding = !selected1.isEmpty() && !selected2.isEmpty() ? findMelding(selected1, selected2) : null;
 
 		initItems();
+		scrollBar.scrollOffset = scroll;
+		updateScroll();
 	}
 
 	@Override
@@ -151,7 +155,13 @@ public class MeldingScreen extends MenuFilterable {
 		meld.setCenterText(true);
 		addRenderableWidget(meld);
 		buttonWidth = ((float) width * 0.07F);
-		addRenderableWidget(back = new MenuButton((int) this.buttonPosX, (int) topBarHeight + 10, (int) buttonWidth, Component.translatable(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, b -> minecraft.setScreen(new MenuItemsScreen())));
+
+		addRenderableWidget(filterMeldable = new MenuButton((int) this.buttonPosX, (int) topBarHeight+5 , (int) buttonWidth, Component.translatable(Strings.Gui_Menu_Items_Melding_Meldables).getString(), MenuButton.ButtonType.BUTTON, b -> {
+			showOnlyPossibleMelds = !showOnlyPossibleMelds;
+			initItems();
+		}));
+		addRenderableWidget(back = new MenuButton((int) this.buttonPosX, filterMeldable.getY() + 18, (int) buttonWidth, Component.translatable(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, b -> minecraft.setScreen(new MenuItemsScreen())));
+
 	}
 
 	@Override
@@ -217,6 +227,10 @@ public class MeldingScreen extends MenuFilterable {
 					}
 				}
 			}
+		}
+
+		if (showOnlyPossibleMelds) {
+			entries.removeIf(entry -> !canCurrentlyBeMelded(entry, entries));
 		}
 
 		entries.sort(Comparator.<SlotEntry>comparingInt(e -> {
@@ -307,7 +321,9 @@ public class MeldingScreen extends MenuFilterable {
 
 	@Override
 	public void render(@NotNull GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
-		if(showRewardPopup){ mouseX = mouseY = 0; }
+		if (showRewardPopup) {
+			mouseX = mouseY = 0;
+		}
 
 		drawMenuBackground(gui, mouseX, mouseY, partialTicks);
 		boxL.renderWidget(gui, mouseX, mouseY, partialTicks);
@@ -403,13 +419,13 @@ public class MeldingScreen extends MenuFilterable {
 		pose.popPose();
 
 		meld.render(gui, mouseX, mouseY, partialTicks);
+		filterMeldable.render(gui, mouseX, mouseY, partialTicks);
 		back.render(gui, mouseX, mouseY, partialTicks);
 
 		if (showRewardPopup) {
 			renderRewardPopup(gui, mouseX, mouseY);
 		}
 	}
-
 
 
 	@Override
@@ -423,9 +439,9 @@ public class MeldingScreen extends MenuFilterable {
 
 	@Override
 	public boolean mouseClicked(double mouseX, double mouseY, int mouseButton) {
-		if(showRewardPopup){
+		if (showRewardPopup) {
 			showRewardPopup = false;
-			player.playSound(ModSounds.menu_back.get(),1,1);
+			player.playSound(ModSounds.menu_back.get(), 1, 1);
 			return true;
 		}
 		scrollBar.mouseClicked(mouseX, mouseY, mouseButton);
@@ -434,14 +450,14 @@ public class MeldingScreen extends MenuFilterable {
 
 	@Override
 	public boolean mouseReleased(double pMouseX, double pMouseY, int pButton) {
-		if(showRewardPopup) return false;
+		if (showRewardPopup) return false;
 		scrollBar.mouseReleased(pMouseX, pMouseY, pButton);
 		return super.mouseReleased(pMouseX, pMouseY, pButton);
 	}
 
 	@Override
 	public boolean mouseDragged(double pMouseX, double pMouseY, int pButton, double pDragX, double pDragY) {
-		if(showRewardPopup) return false;
+		if (showRewardPopup) return false;
 		scrollBar.mouseDragged(pMouseX, pMouseY, pButton, pDragX, pDragY);
 		updateScroll();
 		return super.mouseDragged(pMouseX, pMouseY, pButton, pDragX, pDragY);
@@ -455,7 +471,7 @@ public class MeldingScreen extends MenuFilterable {
 
 	@Override
 	public boolean mouseScrolled(double mouseX, double mouseY, double deltaX, double deltaY) {
-		if(showRewardPopup) return false;
+		if (showRewardPopup) return false;
 		if (mouseX >= boxL.getX() && mouseX <= scrollBar.getX() + scrollBar.getWidth()) scrollBar.mouseScrolled(mouseX, mouseY, deltaX, deltaY);
 		updateScroll();
 		return false;
@@ -504,6 +520,30 @@ public class MeldingScreen extends MenuFilterable {
 			if (melding.getIngredient1() == item || melding.getIngredient2() == item) {
 				return true;
 			}
+		}
+
+		return false;
+	}
+
+	private boolean canCurrentlyBeMelded(SlotEntry entry, List<SlotEntry> allEntries) {
+		if (!(entry.stack.getItem() instanceof MagicSpellItem spell))
+			return false;
+
+		if (!spell.isMaxed(entry.stack))
+			return false;
+
+		for (SlotEntry other : allEntries) {
+			if (entry.slot == other.slot)
+				continue;
+
+			if (!(other.stack.getItem() instanceof MagicSpellItem otherSpell))
+				continue;
+
+			if (!otherSpell.isMaxed(other.stack))
+				continue;
+
+			if (findMelding(entry.stack, other.stack) != null)
+				return true;
 		}
 
 		return false;

@@ -857,6 +857,7 @@
   "gui.melding.desc": "Combine distintos hechizos para crear de nuevos.",
   "gui.melding.item_acquired": "¡Item Obtenido!",
   "gui.melding.meld": "Sintetizar",
+  "gui.melding.meldables": "Filtrar",
   "gui.melding.rare_item_acquired": "¡Item Especial Obtenido!",
   "gui.menu.accept": "Aceptar",
   "gui.menu.back": "Atrás",

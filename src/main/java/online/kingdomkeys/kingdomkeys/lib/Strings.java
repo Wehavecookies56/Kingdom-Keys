@@ -557,6 +557,7 @@ public class Strings {
 			// Melding
 			Gui_Menu_Items_Melding = "gui.melding",
 			Gui_Menu_Items_Melding_Meld = Gui_Menu_Items_Melding + ".meld",
+			Gui_Menu_Items_Melding_Meldables = Gui_Menu_Items_Melding + ".meldables",
 			Gui_Menu_Items_Melding_ItemAcquired = Gui_Menu_Items_Melding+ ".item_acquired",
 			Gui_Menu_Items_Melding_RareItemAcquired = Gui_Menu_Items_Melding+ ".rare_item_acquired",
 
