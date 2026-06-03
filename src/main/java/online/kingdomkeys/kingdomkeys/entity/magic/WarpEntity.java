@@ -117,7 +117,9 @@ public class WarpEntity extends BaseMagicProjectile {
 						continue;
 					}
 
-					boolean chance = level().random.nextFloat() < (0.10F + localLevel * 0.1F);
+					//boolean chance = level().random.nextFloat() < (0.10F + localLevel * 0.1F);
+					System.out.println(chanceMulti);
+					boolean chance = level().random.nextFloat() < chanceMulti;
 					if (chance) {
 						if (e instanceof ServerPlayer player) {
 							player.level().playSound(null, player.blockPosition(), ModSounds.warpHitPlayer.get(), SoundSource.PLAYERS, 1F, 1F);

@@ -24,7 +24,7 @@ public class MagicZeroGravity extends Magic {
 
 	@Override
     public void magicUse(LivingEntity player, Player caster, int level, float fullMPBlastMult, LivingEntity lockOnEntity) {
-		int time = (int) (PlayerData.get(caster).getMagic(true) * getDamageMult(level));
+		int time = (int) (PlayerData.get(caster).getMagic(true) * getRealDamageMult(level,caster));
 		float radius = level + 1 + (getMagicLocalLevel(caster, level) * 0.2F);
 
 		for(int a = 0; a < 360; a+=5) {

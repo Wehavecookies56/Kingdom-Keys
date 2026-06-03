@@ -42,7 +42,7 @@ public class ModMagic {
 
 		DEEP_FREEZE = MAGIC.register(ResourceLocation.parse(Strings.Magic_DeepFreeze).getPath(), () -> new MagicDeepFreeze(ResourceLocation.parse(Strings.Magic_DeepFreeze), 1, null,false)),
 		GLACIER = MAGIC.register(ResourceLocation.parse(Strings.Magic_Glacier).getPath(), () -> new MagicDeepFreeze(ResourceLocation.parse(Strings.Magic_Glacier), 1, null,true)),
-		ICE_BARRAGE = MAGIC.register(ResourceLocation.parse(Strings.Magic_IceBarrage).getPath(), () -> new MagicDeepFreeze(ResourceLocation.parse(Strings.Magic_IceBarrage), 1, null,false)),
+		ICE_BARRAGE = MAGIC.register(ResourceLocation.parse(Strings.Magic_IceBarrage).getPath(), () -> new MagicIceBarrage(ResourceLocation.parse(Strings.Magic_IceBarrage), 1, null,false)),
 
 		THUNDAGA_SHOT = MAGIC.register(ResourceLocation.parse(Strings.Magic_ThundagaShot).getPath(), () -> new MagicThundagaShot(ResourceLocation.parse(Strings.Magic_ThundagaShot), 1, null)),
 

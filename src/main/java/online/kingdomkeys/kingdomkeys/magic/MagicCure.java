@@ -30,7 +30,7 @@ public class MagicCure extends Magic {
 		PlayerData playerData = PlayerData.get(caster);
 		WorldData worldData = WorldData.get(player.getServer());
 
-		float amount = playerData.getMaxHP() * getDamageMult(level);
+		float amount = playerData.getMaxHP() * getRealDamageMult(level,caster);
 		if (playerData.getNumberOfAbilitiesEquipped(Strings.leafBracer) > 0)
 			player.invulnerableTime = 40;
 
@@ -47,8 +47,7 @@ public class MagicCure extends Magic {
 				Party party = worldData.getPartyFromMember(player.getUUID());
 				List<LivingEntity> list = Utils.getLivingEntitiesInRadius(player, 3);
 				if (!list.isEmpty()) {
-					for (int i = 0; i < list.size(); i++) {
-						LivingEntity e = list.get(i);
+					for (LivingEntity e : list) {
 						if (Utils.isEntityInParty(party, e) && e != player) {
 							e.heal(amount / 2);
 							Utils.reviveFromKO(e);
@@ -65,8 +64,7 @@ public class MagicCure extends Magic {
 				Party party = worldData.getPartyFromMember(player.getUUID());
 				List<LivingEntity> list = Utils.getLivingEntitiesInRadius(player, 5);
 				if (!list.isEmpty()) {
-					for (int i = 0; i < list.size(); i++) {
-						LivingEntity e = list.get(i);
+					for (LivingEntity e : list) {
 						if (Utils.isEntityInParty(party, e) && e != player) {
 							e.heal(amount / 2);
 							Utils.reviveFromKO(e);
@@ -86,9 +84,9 @@ public class MagicCure extends Magic {
 				Party party = worldData.getPartyFromMember(player.getUUID());
 				List<Member> list = party.getMembers();
 				if (!list.isEmpty()) { // Heal everyone in the party within reach
-					for (int i = 0; i < list.size(); i++) {
-						if (player.level().getPlayerByUUID(list.get(i).getUUID()) != null && player.distanceTo(player.level().getPlayerByUUID(list.get(i).getUUID())) < ModConfigs.SERVER.partyRangeLimit.get()) {
-							LivingEntity e = player.level().getPlayerByUUID(list.get(i).getUUID());
+					for (Member member : list) {
+						if (player.level().getPlayerByUUID(member.getUUID()) != null && player.distanceTo(player.level().getPlayerByUUID(member.getUUID())) < ModConfigs.SERVER.partyRangeLimit.get()) {
+							LivingEntity e = player.level().getPlayerByUUID(member.getUUID());
 							if (e != null && Utils.isEntityInParty(party, e) && e != player) {
 								e.heal(amount);
 								if (e instanceof Player targetPlayer)

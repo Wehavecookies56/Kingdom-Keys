@@ -19,7 +19,7 @@ public class MagicGravity extends Magic {
 
 	@Override
     public void magicUse(LivingEntity player, Player caster, int level, float fullMPBlastMult, LivingEntity lockOnEntity) {
-		float dmg = /*ModCapabilities.getPlayer(player).isAbilityEquipped(Strings.waterBoost) ? getDamageMult(level) * 1.2F :*/ getDamageMult(level);
+		float dmg = getRealDamageMult(level,caster);
 		dmg *= fullMPBlastMult;
 
 		switch (level) {

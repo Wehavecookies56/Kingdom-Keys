@@ -18,7 +18,7 @@ public class MagicMineShield extends Magic {
 
 	@Override
 	public void magicUse(LivingEntity player, Player caster, int level, float fullMPBlastMult, LivingEntity lockOnTarget) {
-		float dmgMult = getDamageMult(level) + PlayerData.get(caster).getNumberOfAbilitiesEquipped(Strings.fireBoost) * 0.2F;
+		float dmgMult = getRealDamageMult(level,caster) + PlayerData.get(caster).getNumberOfAbilitiesEquipped(Strings.fireBoost) * 0.2F;
 		dmgMult *= fullMPBlastMult;
 
 // Horizontal forward vector only

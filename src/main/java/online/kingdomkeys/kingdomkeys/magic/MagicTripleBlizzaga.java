@@ -16,7 +16,7 @@ public class MagicTripleBlizzaga extends Magic {
 
 	@Override
 	public void magicUse(LivingEntity player, Player caster, int level, float fullMPBlastMult, LivingEntity lockOnEntity) {
-		float dmgMult = getDamageMult(level) + PlayerData.get(caster).getNumberOfAbilitiesEquipped(Strings.blizzardBoost) * 0.2F;
+		float dmgMult = getRealDamageMult(level,caster) + PlayerData.get(caster).getNumberOfAbilitiesEquipped(Strings.blizzardBoost) * 0.2F;
 		dmgMult *= fullMPBlastMult;
 		lockOnEntity = getMagicLockOn(level) ? lockOnEntity : null;
 

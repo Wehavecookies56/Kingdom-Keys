@@ -29,7 +29,7 @@ public class MagicStop extends Magic {
 
 	@Override
 	public void magicUse(LivingEntity player, Player caster, int level, float fullMPBlastMult, LivingEntity lockOnEntity) {
-		float dmg = getDamageMult(level);
+		float dmg = getRealDamageMult(level,caster);
 		dmg *= fullMPBlastMult;
 		
 		float radius = 2 + level;

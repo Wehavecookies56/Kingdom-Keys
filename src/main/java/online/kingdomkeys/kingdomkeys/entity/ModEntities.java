@@ -83,6 +83,8 @@ public class ModEntities {
 
     public static final Supplier<EntityType<BlizzardEntity>> TYPE_BLIZZARD = createEntityType(BlizzardEntity::new, MobCategory.MISC,"entity_blizzard", 0.5F, 0.5F);
     public static final Supplier<EntityType<BlizzazaEntity>> TYPE_BLIZZAZA = createEntityType(BlizzazaEntity::new, MobCategory.MISC,"entity_blizzaza", 0.5F, 0.5F);
+    public static final Supplier<EntityType<IceBarrageControllerEntity>> TYPE_ICEBARRAGE = createEntityType(IceBarrageControllerEntity::new, MobCategory.MISC,"entity_icebarrage", 0.5F, 0.5F);
+    public static final Supplier<EntityType<IceSpikeEntity>> TYPE_ICESPIKE = createEntityType(IceSpikeEntity::new, MobCategory.MISC,"entity_icespike", 2F, 3F);
 
     public static final Supplier<EntityType<WaterEntity>> TYPE_WATER = createEntityType(WaterEntity::new, MobCategory.MISC,"entity_water", 0.5F, 0.5F);
     public static final Supplier<EntityType<WateraEntity>> TYPE_WATERA = createEntityType(WateraEntity::new, MobCategory.MISC,"entity_watera", 0.8F, 0.8F);
@@ -309,6 +311,8 @@ public class ModEntities {
         event.registerEntityRenderer(TYPE_TRIPLE_BLIZZAGA_CONTROLLER.get(), InvisibleEntityRenderer::new);
         event.registerEntityRenderer(TYPE_BLIZZARD.get(), InvisibleEntityRenderer::new);
         event.registerEntityRenderer(TYPE_BLIZZAZA.get(), InvisibleEntityRenderer::new);
+        event.registerEntityRenderer(TYPE_ICEBARRAGE.get(), IceBarrageEntityRenderer::new);
+        event.registerEntityRenderer(TYPE_ICESPIKE.get(), IceSpikeEntityRenderer::new);
 
         event.registerEntityRenderer(TYPE_THUNDER.get(), InvisibleEntityRenderer::new);
         event.registerEntityRenderer(TYPE_THUNDARA.get(), InvisibleEntityRenderer::new);
