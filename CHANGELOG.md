@@ -21,6 +21,7 @@
 * New buy sound.
 * Basic magics to the shop at tiers B and A.
 * New crafting recipe to combine 8 recipes skipping 2 tiers (8 D-Tier into an A-Tier recipe).
+* Simulated magic cursor memory for command menu.
 
 # Changed:
 * Magics can now be casted even if your Max MP is lower.
@@ -32,6 +33,7 @@
 * Fire texture flickering and rendering badly when there's water or clouds behind it.
 * Patchouli Journal saying you lose upgrades when breaking savepoints (Used to be the case, not anymore). 
 * Lock on will now lock off if the target's HP reaches 0 (helps on servers with CNPC where mobs still exist).
+* Magics in the Screen to hide them will display their proper level (Fire/fira/Firaga).
 
 
 # 2.7.12a
