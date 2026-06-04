@@ -651,6 +651,7 @@ public class LanguageESES extends KKLanguageProvider {
         add(0, ModMagic.ICE_BARRAGE.get(),"Asalto Gélido");
 
         add(0, ModMagic.THUNDAGA_SHOT.get(),"Tiro Electro++");
+        add(0, ModMagic.TRIPLE_PLASMA.get(),"Triplasma");
 
         add(0, ModMagic.BLACKOUT.get(),"Apagón");
         add(0, ModMagic.POISON.get(),"Toxis");
@@ -660,6 +661,7 @@ public class LanguageESES extends KKLanguageProvider {
         addMagic(ModMagic.MINE_SHIELD, "Escudo de Minas", "Cuadro de Minas", "Mina Astuta");
 
         add(0, ModMagic.WARP.get(),"Exilio");
+        add(0, ModMagic.FAITH.get(),"Sanctus");
         add(0, ModMagic.ESUNA.get(),"Esna");
 
 
@@ -994,6 +996,8 @@ public class LanguageESES extends KKLanguageProvider {
         addItem(ModItems.iceBarrageSpell, "Hechizo de Asalto Gélido");
 
         addItem(ModItems.thundagaShotSpell, "Hechizo de Tiro Electro++");
+        addItem(ModItems.triplePlasmaSpell, "Hechizo de Triplasma");
+
 
         addItem(ModItems.blackoutSpell, "Hechizo de Apagón");
         addItem(ModItems.poisonSpell, "Hechizo de Toxis");
@@ -1012,6 +1016,7 @@ public class LanguageESES extends KKLanguageProvider {
         addItem(ModItems.mineSeekerSpell, "Hechizo de Mina Astuta");
 
         addItem(ModItems.warpSpell, "Hechizo de Exilio");
+        addItem(ModItems.faithSpell, "Hechizo de Sanctus");
         addItem(ModItems.esunaSpell, "Hechizo de Esna");
 
         // Drive form orbs

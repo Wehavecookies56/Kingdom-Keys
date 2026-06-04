@@ -81,6 +81,8 @@ public class ModSounds {
 			sparkra = registerSound("magic/sparkra"),
 			sparkga = registerSound("magic/sparkga"),
 
+			lightBeam = registerSound("magic/light_beam"),
+
 			esuna = registerSound("magic/esuna"),
 
 			playerDeath = registerSound("player_death"),

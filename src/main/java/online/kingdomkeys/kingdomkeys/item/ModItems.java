@@ -872,6 +872,7 @@ public class ModItems {
 			iceBarrageSpell = createNewItem(Strings.SpellIceBarrage, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_IceBarrage, 0)),
 
 			thundagaShotSpell = createNewItem(Strings.SpellThundagaShot, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_ThundagaShot, 0)),
+			triplePlasmaSpell = createNewItem(Strings.SpellTriplePlasma, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_TriplePlasma, 0)),
 
 			blackoutSpell = createNewItem(Strings.SpellBlackout, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Blackout, 0)),
 			poisonSpell = createNewItem(Strings.SpellPoison, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Poison, 0)),
@@ -892,11 +893,12 @@ public class ModItems {
 			mineSeekerSpell = ITEMS.register(Strings.SpellMineSeeker, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_MineShield,2)),
 
 			warpSpell = ITEMS.register(Strings.SpellWarp, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Warp,0)),
+			faithSpell = ITEMS.register(Strings.SpellFaith, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Faith,0)),
 
 			esunaSpell = ITEMS.register(Strings.SpellEsuna, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Esuna,0)),
 
 
-	struggleSword = createNewItem(Strings.StruggleSword, () -> new SwordItem(new KeybladeItemTier(0),new Item.Properties().attributes(SwordItem.createAttributes(new KeybladeItemTier(0), 1, 1)).stacksTo(1))),
+			struggleSword = createNewItem(Strings.StruggleSword, () -> new SwordItem(new KeybladeItemTier(0),new Item.Properties().attributes(SwordItem.createAttributes(new KeybladeItemTier(0), 1, 1)).stacksTo(1))),
 			struggleWand = createNewItem(Strings.StruggleWand, () -> new SwordItem(new KeybladeItemTier(0), new Item.Properties().attributes(SwordItem.createAttributes(new KeybladeItemTier(0), 1, 1)).stacksTo(1))),
 			struggleHammer = createNewItem(Strings.StruggleHammer, () -> new SwordItem(new KeybladeItemTier(0), new Item.Properties().attributes(SwordItem.createAttributes(new KeybladeItemTier(0), 1, 1)).stacksTo(1))),
 

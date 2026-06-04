@@ -84,6 +84,7 @@ public class ThundagaShotEntity extends BaseMagicProjectile {
 					}
 					if (p == null || (p.getMember(target.getUUID()) == null || p.getFriendlyFire())) { //If caster is not in a party || the party doesn't have the target in it || the party has FF on
 						damageEntity(target);
+						target.invulnerableTime = 10;
 						level().playSound(null, position().x(), position().y(), position().z(), ModSounds.zap.get(), SoundSource.PLAYERS, 1F, 0.8F);
 					}
 				}
@@ -91,23 +92,6 @@ public class ThundagaShotEntity extends BaseMagicProjectile {
 
 			super.onHit(rtRes);
 			float radius = 2F;
-
-			if (brtResult != null) {
-				BlockPos ogBlockPos = brtResult.getBlockPos();
-
-				for (int x = (int) (ogBlockPos.getX() - radius); x < ogBlockPos.getX() + radius; x++) {
-					for (int y = (int) (ogBlockPos.getY() - radius); y < ogBlockPos.getY() + radius; y++) {
-						for (int z = (int) (ogBlockPos.getZ() - radius); z < ogBlockPos.getZ() + radius; z++) {
-							BlockPos blockpos = new BlockPos(x, y, z);
-							BlockState blockstate = level().getBlockState(blockpos);
-							if (blockstate.getBlock() == Blocks.WET_SPONGE) {
-								level().setBlockAndUpdate(blockpos, Blocks.SPONGE.defaultBlockState());
-							}
-							if (blockstate.hasProperty(BlockStateProperties.LIT)) level().setBlock(blockpos, blockstate.setValue(BlockStateProperties.LIT, true), 11);
-						}
-					}
-				}
-			}
 
 			List<Entity> list = level().getEntities(getOwner(), getBoundingBox().inflate(radius));
 			list = Utils.removePartyMembersFromList((Player) getOwner(), list);

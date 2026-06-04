@@ -84,12 +84,14 @@ public class Strings {
 		Magic_IceBarrage = KingdomKeys.MODID + ":" + Mag_Prefix + "icebarrage",
 
 		Magic_ThundagaShot = KingdomKeys.MODID + ":" + Mag_Prefix + "thundagashot",
+		Magic_TriplePlasma = KingdomKeys.MODID + ":" + Mag_Prefix + "tripleplasma",
 
 		Magic_Blackout = KingdomKeys.MODID + ":" + Mag_Prefix + "blackout",
 		Magic_Poison = KingdomKeys.MODID + ":" + Mag_Prefix + "posion",
 
 		Magic_Balloon = KingdomKeys.MODID + ":" + Mag_Prefix + "balloon",
 		Magic_Warp = KingdomKeys.MODID + ":" + Mag_Prefix + "warp",
+		Magic_Faith = KingdomKeys.MODID + ":" + Mag_Prefix + "faith",
 		Magic_MineShield = KingdomKeys.MODID + ":" + Mag_Prefix + "mine_shield",
 		Magic_Spark = KingdomKeys.MODID + ":" + Mag_Prefix + "spark",
 		Magic_Esuna = KingdomKeys.MODID + ":" + Mag_Prefix + "esuna";
@@ -702,6 +704,7 @@ public class Strings {
 		SpellIceBarrage = "spellicebarrage",
 
 		SpellThundagaShot = "spellthundagashot",
+		SpellTriplePlasma = "spelltripleplasma",
 
 		SpellBalloon = "spellballoon",
 		SpellBalloonra = "spellballoonra",
@@ -716,6 +719,7 @@ public class Strings {
 		SpellSparkga = "spellsparkga",
 
 		SpellWarp = "spellwarp",
+		SpellFaith = "spellfaith",
 
 		SpellEsuna = "spellesuna",
 

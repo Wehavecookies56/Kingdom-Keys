@@ -190,6 +190,11 @@
       "kingdomkeys:magic/icebarrage"
     ]
   },
+  "magic/light_beam": {
+    "sounds": [
+      "kingdomkeys:magic/light_beam"
+    ]
+  },
   "magic/magnet1": {
     "sounds": [
       "kingdomkeys:magic/magnet1"

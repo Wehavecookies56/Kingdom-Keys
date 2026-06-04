@@ -1,3 +1,10 @@
+# 2.7.13b:
+# Added:
+* New Magics:
+  * Faith (reworked from ReMind).
+  * Triple Plasma
+
+
 # 2.7.13a:
 # Added:
 * Config option to revert the magic cost system change to what it was before.

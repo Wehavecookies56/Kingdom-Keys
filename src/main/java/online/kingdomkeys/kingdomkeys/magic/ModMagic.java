@@ -43,10 +43,11 @@ public class ModMagic {
 		DEEP_FREEZE = MAGIC.register(ResourceLocation.parse(Strings.Magic_DeepFreeze).getPath(), () -> new MagicDeepFreeze(ResourceLocation.parse(Strings.Magic_DeepFreeze), 1, null,false)),
 		GLACIER = MAGIC.register(ResourceLocation.parse(Strings.Magic_Glacier).getPath(), () -> new MagicDeepFreeze(ResourceLocation.parse(Strings.Magic_Glacier), 1, null,true)),
 		ICE_BARRAGE = MAGIC.register(ResourceLocation.parse(Strings.Magic_IceBarrage).getPath(), () -> new MagicIceBarrage(ResourceLocation.parse(Strings.Magic_IceBarrage), 1, null,false)),
+		TRIPLE_BLIZZAGA = MAGIC.register(ResourceLocation.parse(Strings.Magic_TripleBlizzard).getPath(), () -> new MagicTripleBlizzaga(ResourceLocation.parse(Strings.Magic_TripleBlizzard), 1, null)),
 
 		THUNDAGA_SHOT = MAGIC.register(ResourceLocation.parse(Strings.Magic_ThundagaShot).getPath(), () -> new MagicThundagaShot(ResourceLocation.parse(Strings.Magic_ThundagaShot), 1, null)),
+		TRIPLE_PLASMA = MAGIC.register(ResourceLocation.parse(Strings.Magic_TriplePlasma).getPath(), () -> new MagicTriplePlasma(ResourceLocation.parse(Strings.Magic_TriplePlasma), 1, null)),
 
-		TRIPLE_BLIZZAGA = MAGIC.register(ResourceLocation.parse(Strings.Magic_TripleBlizzard).getPath(), () -> new MagicTripleBlizzaga(ResourceLocation.parse(Strings.Magic_TripleBlizzard), 1, null)),
 		BLACKOUT = MAGIC.register(ResourceLocation.parse(Strings.Magic_Blackout).getPath(), () -> new MagicStatusEffectRadius(ResourceLocation.parse(Strings.Magic_Blackout), 1, null, MobEffects.DARKNESS, SoundEvents.BEACON_POWER_SELECT, ParticleTypes.SQUID_INK)),
 		POISON = MAGIC.register(ResourceLocation.parse(Strings.Magic_Poison).getPath(), () -> new MagicStatusEffectRadius(ResourceLocation.parse(Strings.Magic_Poison), 1, null, MobEffects.POISON, ModSounds.poison.get(), new DustParticleOptions(new Vector3f(0.6F,0.3F,0.8F),1F))),
 
@@ -54,6 +55,9 @@ public class ModMagic {
 		SPARK = MAGIC.register(ResourceLocation.parse(Strings.Magic_Spark).getPath(), () -> new MagicSpark(ResourceLocation.parse(Strings.Magic_Spark), false, 3, null)),
 		MINE_SHIELD = MAGIC.register(ResourceLocation.parse(Strings.Magic_MineShield).getPath(), () -> new MagicMineShield(ResourceLocation.parse(Strings.Magic_MineShield), false, 3, null)),
 		WARP = MAGIC.register(ResourceLocation.parse(Strings.Magic_Warp).getPath(), () -> new MagicWarp(ResourceLocation.parse(Strings.Magic_Warp), false, 1, null)),
+
+		FAITH = MAGIC.register(ResourceLocation.parse(Strings.Magic_Faith).getPath(), () -> new MagicFaith(ResourceLocation.parse(Strings.Magic_Faith), false, 1, null)),
+
 		ESUNA = MAGIC.register(ResourceLocation.parse(Strings.Magic_Esuna).getPath(), () -> new MagicEsuna(ResourceLocation.parse(Strings.Magic_Esuna), false, 1, null))
 	;
 }

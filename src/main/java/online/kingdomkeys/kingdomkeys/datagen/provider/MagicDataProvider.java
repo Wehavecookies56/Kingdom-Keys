@@ -102,7 +102,7 @@ public class MagicDataProvider implements DataProvider {
 				.build());
 
 		magics.put(ResourceLocation.parse(Strings.Magic_TripleFiraga).getPath(), new MagicBuilder()
-				.level(0).cost(22).castTime(15).cooldown(120).damageMultiplier(0.4F, 0.47F).lockOn(true).maxExp(4200).maxExpLevel(4).end()
+				.level(0).cost(22).castTime(15).cooldown(120).damageMultiplier(0.4F, 0.47F).lockOn(true).maxExp(4600).maxExpLevel(4).end()
 				.build());
 
 		magics.put(ResourceLocation.parse(Strings.Magic_CrawlingFiraga).getPath(), new MagicBuilder()
@@ -119,7 +119,7 @@ public class MagicDataProvider implements DataProvider {
 
 
 		magics.put(ResourceLocation.parse(Strings.Magic_TripleBlizzard).getPath(), new MagicBuilder()
-				.level(0).cost(22).castTime(15).cooldown(120).damageMultiplier(0.3F,0.4F).lockOn(true).maxExp(4200).maxExpLevel(4).end()
+				.level(0).cost(22).castTime(15).cooldown(120).damageMultiplier(0.3F,0.4F).lockOn(true).maxExp(4600).maxExpLevel(4).end()
 				.build());
 
 		magics.put(ResourceLocation.parse(Strings.Magic_DeepFreeze).getPath(), new MagicBuilder()
@@ -139,6 +139,9 @@ public class MagicDataProvider implements DataProvider {
 				.level(0).cost(12).castTime(10).cooldown(20).damageMultiplier(0.5F,0.6F).lockOn(false).maxExp(4200).maxExpLevel(4).end()
 				.build());
 
+		magics.put(ResourceLocation.parse(Strings.Magic_TriplePlasma).getPath(), new MagicBuilder()
+				.level(0).cost(12).castTime(10).cooldown(20).damageMultiplier(0.3F,0.4F).lockOn(false).maxExp(4600).maxExpLevel(4).end()
+				.build());
 
 		magics.put(ResourceLocation.parse(Strings.Magic_Blackout).getPath(), new MagicBuilder()
 				.level(0).cost(12).castTime(10).cooldown(20).damageMultiplier(0.3F, 0.4F).lockOn(false).maxExp(1800).maxExpLevel(3).end()
@@ -175,6 +178,10 @@ public class MagicDataProvider implements DataProvider {
 
 		magics.put(ResourceLocation.parse(Strings.Magic_Warp).getPath(), new MagicBuilder()
 				.level(0).cost(12).castTime(10).cooldown(20).damageMultiplier(0.2F, 0.6F).lockOn(false).maxExp(8600).maxExpLevel(5).end()
+				.build());
+
+		magics.put(ResourceLocation.parse(Strings.Magic_Faith).getPath(), new MagicBuilder()
+				.level(0).cost(12).castTime(10).cooldown(200).damageMultiplier(0.3F, 0.9F).lockOn(false).maxExp(8600).maxExpLevel(6).end()
 				.build());
 
 		magics.put(ResourceLocation.parse(Strings.Magic_Esuna).getPath(), new MagicBuilder()

@@ -752,6 +752,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add(0, ModMagic.ICE_BARRAGE.get(),"Ice Barrage");
 
         add(0, ModMagic.THUNDAGA_SHOT.get(),"Thundaga Shot");
+        add(0, ModMagic.TRIPLE_PLASMA.get(),"Triple Plasma");
 
         add(0, ModMagic.BLACKOUT.get(),"Blackout");
         add(0, ModMagic.POISON.get(),"Poison");
@@ -761,6 +762,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addMagic(ModMagic.MINE_SHIELD, "Mine Shield", "Mine Square", "Seeker Mine");
 
         add(0, ModMagic.WARP.get(),"Warp");
+        add(0, ModMagic.FAITH.get(),"Faith");
         add(0, ModMagic.ESUNA.get(),"Esuna");
 
         //Drive Forms
@@ -1950,6 +1952,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.iceBarrageSpell, "Ice Barrage Spell");
 
         addItem(ModItems.thundagaShotSpell, "Thundaga Shot Spell");
+        addItem(ModItems.triplePlasmaSpell, "Triple Plasma Spell");
 
         addItem(ModItems.blackoutSpell, "Blackout Spell");
         addItem(ModItems.poisonSpell, "Poison Spell");
@@ -1970,6 +1973,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.mineSeekerSpell, "Seeker Mine Spell");
 
         addItem(ModItems.warpSpell, "Warp Spell");
+        addItem(ModItems.faithSpell, "Faith Spell");
         addItem(ModItems.esunaSpell, "Esuna Spell");
 
         //Drive form orbs

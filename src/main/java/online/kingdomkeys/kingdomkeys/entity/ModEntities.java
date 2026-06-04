@@ -80,6 +80,8 @@ public class ModEntities {
     public static final Supplier<EntityType<TripleBlizzagaControllerEntity>> TYPE_TRIPLE_BLIZZAGA_CONTROLLER = createEntityType(TripleBlizzagaControllerEntity::new, MobCategory.MISC,"entity_triple_blizzaga_controller", 0.5F, 0.5F);
 
     public static final Supplier<EntityType<ThundagaShotEntity>> TYPE_THUNDAGASHOT = createEntityType(ThundagaShotEntity::new, MobCategory.MISC,"entity_thundagashot", 0.5F, 0.5F);
+    public static final Supplier<EntityType<TriplePlasmaControllerEntity>> TYPE_TRIPLE_PLASMA_CONTROLLER = createEntityType(TriplePlasmaControllerEntity::new, MobCategory.MISC,"entity_triple_plasma_controller", 0.5F, 0.5F);
+
 
     public static final Supplier<EntityType<BlizzardEntity>> TYPE_BLIZZARD = createEntityType(BlizzardEntity::new, MobCategory.MISC,"entity_blizzard", 0.5F, 0.5F);
     public static final Supplier<EntityType<BlizzazaEntity>> TYPE_BLIZZAZA = createEntityType(BlizzazaEntity::new, MobCategory.MISC,"entity_blizzaza", 0.5F, 0.5F);
@@ -113,6 +115,8 @@ public class ModEntities {
     public static final Supplier<EntityType<SparkEntity>> TYPE_SPARK = createEntityType(SparkEntity::new, MobCategory.MISC,"entity_spark", 0.5F, 0.5F);
     public static final Supplier<EntityType<MineEntity>> TYPE_MINE = createEntityType(MineEntity::new, MobCategory.MISC,"entity_mine", 1.0F, 0.2F);
 
+    public static final Supplier<EntityType<FaithEntityController>> TYPE_FAITH = createEntityType(FaithEntityController::new, MobCategory.MISC,"entity_faith", 1.0F, 1F);
+    public static final Supplier<EntityType<FaithBeamEntity>> TYPE_FAITHBEAM = createEntityType(FaithBeamEntity::new, MobCategory.MISC,"entity_faithbeam", 1F, 2F);
 
     public static final Supplier<EntityType<SeedBulletEntity>> TYPE_SEED_BULLET = createEntityType(SeedBulletEntity::new, MobCategory.MISC,"seed_bullet", 0.5F, 0.5F);
     public static final Supplier<EntityType<ArrowgunShotEntity>> TYPE_ARROWGUN_SHOT = createEntityType(ArrowgunShotEntity::new, MobCategory.MISC,"arrowgun_shot", 0.1F, 0.1F);
@@ -320,6 +324,7 @@ public class ModEntities {
         event.registerEntityRenderer(TYPE_THUNDAZA.get(), InvisibleEntityRenderer::new);
         event.registerEntityRenderer(TYPE_THUNDERBOLT.get(), ThunderBoltEntityRenderer::new);
         event.registerEntityRenderer(TYPE_THUNDAGASHOT.get(), MagicEntityRenderer::new);
+        event.registerEntityRenderer(TYPE_TRIPLE_PLASMA_CONTROLLER.get(), InvisibleEntityRenderer::new);
 
         event.registerEntityRenderer(TYPE_MAGNET.get(), MagnetEntityRenderer::new);
         event.registerEntityRenderer(TYPE_MAGNERA.get(), MagnetEntityRenderer::new);
@@ -341,6 +346,9 @@ public class ModEntities {
         event.registerEntityRenderer(TYPE_METEOR.get(), InvisibleEntityRenderer::new);
         event.registerEntityRenderer(TYPE_SPARK.get(), SparkEntityRenderer::new);
         event.registerEntityRenderer(TYPE_MINE.get(), MineEntityRenderer::new);
+
+        event.registerEntityRenderer(TYPE_FAITH.get(), InvisibleEntityRenderer::new);
+        event.registerEntityRenderer(TYPE_FAITHBEAM.get(), FaithBeamEntityRenderer::new);
 
 
         event.registerEntityRenderer(TYPE_SAIX_SHOCKWAVE.get(),InvisibleEntityRenderer::new);
@@ -445,6 +453,7 @@ public class ModEntities {
         event.registerLayerDefinition(BalloongaModel.LAYER_LOCATION, BalloongaModel::createBodyLayer);
         event.registerLayerDefinition(SparkModel.LAYER_LOCATION, SparkModel::createBodyLayer);
         event.registerLayerDefinition(MineModel.LAYER_LOCATION, MineModel::createBodyLayer);
+        event.registerLayerDefinition(FaithBeamModel.LAYER_LOCATION, FaithBeamModel::createBodyLayer);
 
         event.registerLayerDefinition(ArmorModel.LAYER_LOCATION_TOP, () -> ArmorModel.createBodyLayer(new CubeDeformation(0.5F)));
         event.registerLayerDefinition(ArmorModel.LAYER_LOCATION_BOTTOM, () -> ArmorModel.createBodyLayer(new CubeDeformation(0.25F)));
