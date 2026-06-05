@@ -1,5 +1,7 @@
 package online.kingdomkeys.kingdomkeys.entity.magic;
 
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -21,12 +23,12 @@ import java.util.UUID;
 public class FaithBeamEntity extends BaseMagicProjectile {
 	private static final int EXPANSION_DURATION = 20;
 	private static final double ROTATION_SPEED = 0.25D;
+	private static final EntityDataAccessor<Boolean> EXPANDING = SynchedEntityData.defineId(FaithBeamEntity.class, EntityDataSerializers.BOOLEAN);
 	private final Set<UUID> hitTargets = new HashSet<>();
 	private double baseAngle;
 	private double centerX;
 	private double centerZ;
 	private double orbitRadius = 2D;
-	private boolean expanding = false;
 	private int expandingTicks;
 
 	public FaithBeamEntity(EntityType<? extends ThrowableProjectile> type, Level world) {
@@ -57,7 +59,7 @@ public class FaithBeamEntity extends BaseMagicProjectile {
 			return;
 		}
 
-		if (expanding) {
+		if (!level().isClientSide && entityData.get(EXPANDING)) {
 			expandingTicks++;
 
 			orbitRadius += 0.8D + expandingTicks * 0.01D;
@@ -67,18 +69,9 @@ public class FaithBeamEntity extends BaseMagicProjectile {
 			double targetZ = centerZ + Math.sin(baseAngle) * orbitRadius;
 
 			int groundY = level().getHeight(Heightmap.Types.WORLD_SURFACE, (int) Math.floor(targetX), (int) Math.floor(targetZ));
-
 			double targetY = groundY + 0.1D;
 
-			//float EXPANSION_SPEED = 0.5F;
-			//orbitRadius += EXPANSION_SPEED;
-
-			double dx = targetX - getX();
-			double dz = targetZ - getZ();
-
-			setDeltaMovement(dx * 0.4D, targetY, dz * 0.4D);
-			move(MoverType.SELF, getDeltaMovement());
-
+			setPos(targetX, targetY, targetZ);
 			damageNearbyEntities();
 		}
 
@@ -97,7 +90,7 @@ public class FaithBeamEntity extends BaseMagicProjectile {
 		double dz = getZ() - centerZ;
 
 		this.orbitRadius = Math.sqrt(dx * dx + dz * dz);
-		this.expanding = true;
+		entityData.set(EXPANDING, true);
 	}
 
 	private void damageNearbyEntities() {
@@ -130,6 +123,6 @@ public class FaithBeamEntity extends BaseMagicProjectile {
 
 	@Override
 	protected void defineSynchedData(SynchedEntityData.Builder builder) {
-
+		builder.define(EXPANDING, false);
 	}
 }

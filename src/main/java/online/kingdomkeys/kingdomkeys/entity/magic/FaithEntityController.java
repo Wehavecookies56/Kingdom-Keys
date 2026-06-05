@@ -9,6 +9,7 @@ import net.minecraft.world.level.levelgen.Heightmap.Types;
 import net.minecraft.world.phys.HitResult;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.damagesource.KKDamageTypes;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 
@@ -55,6 +56,11 @@ public class FaithEntityController extends BaseMagicProjectile {
 		if (getOwner() == null) {
 			remove(RemovalReason.KILLED);
 			return;
+		}
+
+		if(getOwner() instanceof Player player) {
+			PlayerData playerData = PlayerData.get(player);
+			playerData.setMagicCasttimeTicks(tickCount < 40 ? 10 : 0);
 		}
 
 		if (!level().isClientSide) {
