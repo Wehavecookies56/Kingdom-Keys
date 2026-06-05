@@ -8,6 +8,7 @@ public class DriveFormNone extends DriveForm {
     public DriveFormNone(ResourceLocation registryName, int order, boolean hasKeychain) {
         super(registryName, order, hasKeychain, false);
         this.color = new float[] { 0F, 0F, 0F };
+        this.isFakeForm = true;
     }
 
     @Override

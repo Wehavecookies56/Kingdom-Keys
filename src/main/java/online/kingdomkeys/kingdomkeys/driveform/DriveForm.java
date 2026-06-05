@@ -32,7 +32,8 @@ public abstract class DriveForm {
 	public static final float[] FINAL_JUMP_BOOST = { 0, 0.02F, 0.02F, 0.025F, 0.025F, 0.03F, 0.03F, 0.055F };
 	public static final float[] FINAL_GLIDE = { 0, -0.09F, -0.09F, -0.06F, -0.06F, -0.03F, -0.03F, -0.01F };
 	public static final float[] FINAL_GLIDE_SPEED = { 0, 1.8F, 1.8F, 2.8F, 2.8F, 3.6F, 3.6F, 5F };
-	
+
+	public boolean isFakeForm;
 	ResourceLocation name;
 	int maxLevel;
 	int order;
@@ -57,6 +58,10 @@ public abstract class DriveForm {
 
 	public DriveForm(String registryName, int order, boolean hasKeychain, boolean baseGrowth) {
 		this(ResourceLocation.parse(registryName), order, hasKeychain, baseGrowth);
+	}
+
+	public boolean isFakeForm(){
+		return this.isFakeForm;
 	}
 	
 	public void setDriveFormData(DriveFormData data) {

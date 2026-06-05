@@ -1975,12 +1975,7 @@ public class Utils {
 	}
 
 	public static List<String> getFakeForms(){
-		ArrayList<String> list = new ArrayList<>();
-		list.add(DriveForm.KB2.toString());
-		list.add(DriveForm.KB3.toString());
-		list.add(DriveForm.SYNCH_BLADE.toString());
-		list.add(DriveForm.NONE.toString());
-		return list;
+		return ModDriveForms.registry.stream().filter(form -> form.isFakeForm()).map(driveForm -> driveForm.getName()).toList();
 	}
 
 	public static String getTierFromInt(int tier) {
