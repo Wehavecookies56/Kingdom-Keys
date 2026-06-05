@@ -78,6 +78,7 @@ public class FaithEntityController extends BaseMagicProjectile {
 		}
 
 		if (tickCount == 40) {
+			playSound(ModSounds.lightBeam.get(),1,0.5F);
 			for (FaithBeamEntity beam : beams) {
 				if (beam != null && beam.isAlive()) {
 					beam.startExpanding(getOwner().getX(), getOwner().getZ());

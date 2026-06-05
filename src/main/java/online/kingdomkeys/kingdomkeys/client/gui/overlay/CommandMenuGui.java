@@ -559,9 +559,8 @@ public class CommandMenuGui extends OverlayBase {
 								} else {
 									PacketHandler.sendToServer(new CSUseMagicPacket(magicId.toString(), magLevel, InputHandler.lockOn));
 
+									//Cursor memory
 									for(int i=0;i<subMenu.getChildren().size();i++){
-										CommandMenuItem child = subMenu.getChild(i);
-										System.out.println(child.getId()+ " "+child.getData());
 										lastUsedMagic = magicId;
 										lastUsedMagicLevel = spell.getLevel();
 									}
@@ -572,25 +571,26 @@ public class CommandMenuGui extends OverlayBase {
 								playSelectSound();
 							})
 							.onUpdate((item, guiGraphics) -> {
-								if (playerData.getMP() > 0 && !playerData.getRecharge()) {
+								PlayerData playerData2 = PlayerData.get(minecraft.player);
+								if (playerData2.getMP() > 0 && !playerData2.getRecharge()) {
 									item.setActive(true);
 									item.setTextColour(Color.WHITE);
 
 									int level = spell.getLevel();
 									double magCost = magic.getCost(level, minecraft.player);
 
-									if (playerData.getMP() <= magCost) {
+									if (playerData2.getMP() <= magCost) {
 										boolean allowUseMagicIfCostIsHigher = ModConfigs.SERVER.allowCastMagicIfTooExpensive.get();
-										boolean insufficientMP = magCost > playerData.getMaxMP() && magCost < 300;
+										boolean insufficientMP = magCost > playerData2.getMaxMP() && magCost < 300;
 
-										if (playerData.getMaxMP() == 0 || playerData.getRecharge() || (!allowUseMagicIfCostIsHigher && insufficientMP)) {
+										if (playerData2.getMaxMP() == 0 || playerData2.getRecharge() || (!allowUseMagicIfCostIsHigher && insufficientMP)) {
 											item.setTextColour(Color.GRAY);
 										} else {
-											if (playerData.isAbilityEquipped(Strings.extraCast)) {
-												if (magCost >= playerData.getMaxMP()) {
+											if (playerData2.isAbilityEquipped(Strings.extraCast)) {
+												if (magCost >= playerData2.getMaxMP()) {
 													item.setTextColour(Color.ORANGE);
 												} else {
-													if (playerData.getMP() > 1 && playerData.getMP() - magCost < 1) {
+													if (playerData2.getMP() > 1 && playerData2.getMP() - magCost < 1) {
 														item.setTextColour(Color.WHITE);
 													} else {
 														item.setTextColour(Color.ORANGE);

@@ -2,8 +2,10 @@
 # Added:
 * New Magics:
   * Faith (reworked from ReMind).
-  * Triple Plasma
-
+  * Triple Plasma: Meldable with Thundaga Shot + Thundaga Shot
+# Fixed:
+* Status menu overlapping Form level and choice.
+* Magics not being able to be used again if MP Recharge was completed while the submenu was open the first time.
 
 # 2.7.13a:
 # Added:

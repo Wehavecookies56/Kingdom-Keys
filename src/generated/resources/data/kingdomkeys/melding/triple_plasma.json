@@ -1,0 +1,11 @@
+{
+  "cost": 1600,
+  "ingredient1": "kingdomkeys:spellthundagashot",
+  "ingredient2": "kingdomkeys:spellthundagashot",
+  "output": {
+    "type": "item",
+    "item": "kingdomkeys:spelltripleplasma",
+    "quantity": 1
+  },
+  "tier": 5
+}

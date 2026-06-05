@@ -141,7 +141,7 @@ public class MenuStatusScreen extends MenuBackground {
 		addRenderableWidget(dRes = new MenuColourBox(col2X,  button_statsY + (c++* spacer), box.getWidth()/2 - 15, Utils.translateToLocal(Strings.Gui_Menu_Status_DarkRes),Utils.getArmorsStat(playerData, "darkness")+"%", 0x887700));
 
 		//Drive Form specific data elements
-		c=0; 
+		c=1;
 		// Value not set here as this is generic for every form
 		addRenderableWidget(dfLevel = new MenuColourBox(col1X,  button_statsY + (c++* spacer), box.getWidth()/2 - 10,Utils.translateToLocal(Strings.Gui_Menu_Status_FormLevel),"", 0x000088));
 		addRenderableWidget(dfExp = new MenuColourBox(col1X,  button_statsY + (c++* spacer), box.getWidth()/2 - 10, Utils.translateToLocal(Strings.Gui_Menu_Status_TotalExp), "", 0x000088));

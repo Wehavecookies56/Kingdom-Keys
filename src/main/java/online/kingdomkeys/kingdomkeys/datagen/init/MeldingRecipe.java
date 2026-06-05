@@ -67,7 +67,8 @@ public class MeldingRecipe extends MeldingRecipeProvider<MeldingRecipeBuilder> {
 		getBuilder("ice_barrage2").ingredient1(blizzagaSpell).ingredient2(mineSquareSpell).output(iceBarrageSpell, 1).addCost(1600).addTier(5);
 
 
-		getBuilder("thundaga_shot").ingredient1(thundagaSpell).ingredient2(thundagaSpell).output(thundagaShotSpell, 1).addCost(100).addTier(3);
+		getBuilder("thundaga_shot").ingredient1(thundagaSpell).ingredient2(thundagaSpell).output(thundagaShotSpell, 1).addCost(1000).addTier(4);
+		getBuilder("triple_plasma").ingredient1(thundagaShotSpell).ingredient2(thundagaShotSpell).output(triplePlasmaSpell, 1).addCost(1600).addTier(5);
 
 		getBuilder("spark").ingredient1(thunderSpell).ingredient2(magnetSpell).output(sparkSpell, 1).addCost(800).addTier(3);
 		getBuilder("sparkra").ingredient1(thundaraSpell).ingredient2(magneraSpell).output(sparkraSpell, 1).addCost(1200).addTier(3);
