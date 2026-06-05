@@ -358,7 +358,7 @@ public class CommandMenuGui extends OverlayBase {
 
 		if (item.getId().equals(drive)){
 			//System.out.println(playerData.getDriveFormMap());
-			if(playerData.getDriveFormMap().size() <= Utils.getFakeForms().size() + 1){ //If no forms are unlocked (fake forms + anti)
+			if(playerData.getDriveFormMap().entrySet().stream().filter(entry -> ModDriveForms.registry.get(ResourceLocation.parse(entry.getKey())).displayInCommandMenu(minecraft.player)).toList().size() <= 0){ //If no forms are unlocked (fake forms + anti)
 				item.setActive(false);
 				item.setMessage(Component.literal("???"));
 				return;

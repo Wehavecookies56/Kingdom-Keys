@@ -6,6 +6,7 @@
 # Fixed:
 * Status menu overlapping Form level and choice.
 * Magics not being able to be used again if MP Recharge was completed while the submenu was open the first time.
+* Drive forms menu being accessible in addons before learning any visible form (crashing the game).
 
 # 2.7.13a:
 # Added:
