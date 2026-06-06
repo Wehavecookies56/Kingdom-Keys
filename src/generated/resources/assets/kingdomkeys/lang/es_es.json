@@ -978,6 +978,7 @@
   "gui.menu.status.ap": "PH",
   "gui.menu.status.blizzardres": "Resistencia Hielo",
   "gui.menu.status.blizzardresshort": "Res. Hielo",
+  "gui.menu.status.choice": "Elección",
   "gui.menu.status.darkres": "Resistencia Oscuridad",
   "gui.menu.status.darkresshort": "Res. Osc.",
   "gui.menu.status.defense": "Defensa",

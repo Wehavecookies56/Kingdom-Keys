@@ -115,7 +115,7 @@ public class CheckStatusScreen extends MenuBackground {
 		//Stats
 		int c = 0;
 		int spacer = 14;
-		addRenderableWidget(path = new MenuColourBox(col1X,  button_statsY + (c++* spacer), box.getWidth() - 20, Utils.translateToLocal("Choice"),playerData.getChosen().toString(), 0x880088));
+		addRenderableWidget(path = new MenuColourBox(col1X,  button_statsY + (c++* spacer), box.getWidth() - 20, Utils.translateToLocal(Strings.Gui_Menu_Status_Choice),playerData.getChosen().toString(), 0x880088));
 
 		addRenderableWidget(level = new MenuColourBox(col1X, button_statsY + (c++* spacer), box.getWidth()/2 - 10, Utils.translateToLocal(Strings.Gui_Menu_Status_Level),"" + playerData.getLevel(), 0x000088));
 		addRenderableWidget(totalExp = new MenuColourBox(col1X,  button_statsY + (c++* spacer), box.getWidth()/2 - 10, Utils.translateToLocal(Strings.Gui_Menu_Status_TotalExp),"" + playerData.getExperience(), 0x000088));

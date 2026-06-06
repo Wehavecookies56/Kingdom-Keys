@@ -499,6 +499,7 @@ public class Strings {
             
             Gui_Menu_Status = Gui_Menu + ".status",
             Gui_Menu_Status_Title = Gui_Menu_Status + ".title",
+            Gui_Menu_Status_Choice = Gui_Menu_Status + ".choice",
             Gui_Menu_Status_Level = Gui_Menu_Status + ".level",
             Gui_Menu_Status_TotalExp = Gui_Menu_Status + ".totalexp",
 			Gui_Menu_Status_NextLevel = Gui_Menu_Status + ".nextlevel",

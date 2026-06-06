@@ -181,7 +181,7 @@ public class MagicDataProvider implements DataProvider {
 				.build());
 
 		magics.put(ResourceLocation.parse(Strings.Magic_Faith).getPath(), new MagicBuilder()
-				.level(0).cost(12).castTime(10).cooldown(200).damageMultiplier(0.3F, 0.9F).lockOn(false).maxExp(8600).maxExpLevel(6).end()
+				.level(0).cost(12).castTime(10).cooldown(200).damageMultiplier(0.3F, 0.55F).lockOn(false).maxExp(9600).maxExpLevel(6).end()
 				.build());
 
 		magics.put(ResourceLocation.parse(Strings.Magic_Esuna).getPath(), new MagicBuilder()

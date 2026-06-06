@@ -1,7 +1,7 @@
 # 2.7.13b:
 # Added:
 * New Magics:
-  * Faith (reworked from ReMind).
+  * Faith (reworked from ReMind): Meldable with Aeroga + Curaga.
   * Triple Plasma: Meldable with Thundaga Shot + Thundaga Shot
 # Fixed:
 * Status menu overlapping Form level and choice.

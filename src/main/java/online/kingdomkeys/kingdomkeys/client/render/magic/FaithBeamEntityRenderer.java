@@ -1,7 +1,6 @@
 package online.kingdomkeys.kingdomkeys.client.render.magic;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -22,7 +21,7 @@ public class FaithBeamEntityRenderer extends EntityRenderer<ThrowableProjectile>
 
 	public FaithBeamEntityRenderer(EntityRendererProvider.Context context) {
 		super(context);
-		this.shadowRadius = 0.25F;
+		this.shadowRadius = 0F;
 		lightBeamModel = new FaithBeamModel<>(context.bakeLayer(FaithBeamModel.LAYER_LOCATION));
 	}
 

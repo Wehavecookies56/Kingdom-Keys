@@ -11,13 +11,14 @@ import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.damagesource.KKDamageTypes;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
-import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
+import online.kingdomkeys.kingdomkeys.lib.Strings;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class FaithEntityController extends BaseMagicProjectile {
-	private static final int BEAM_COUNT = 12;
+	//private static final int BEAM_COUNT = 12;
 	private static final int SPAWN_INTERVAL = 2;
 	private static final double START_RADIUS = 5D;
 
@@ -46,7 +47,9 @@ public class FaithEntityController extends BaseMagicProjectile {
 	public void setMaxTicks(int maxTicks) {
 		this.maxTicks = maxTicks;
 	}
-
+	private int getBeamCount(int level) {
+		return 6 + ((level - 1) / 2);
+	}
 	@Override
 	public void tick() {
 		if (this.tickCount > maxTicks) {
@@ -58,17 +61,19 @@ public class FaithEntityController extends BaseMagicProjectile {
 			return;
 		}
 
+		int beamCount = 6;
 		if(getOwner() instanceof Player player) {
 			PlayerData playerData = PlayerData.get(player);
 			playerData.setMagicCasttimeTicks(tickCount < 40 ? 10 : 0);
+			beamCount = getBeamCount(Utils.getMagicHighestLocalLevel(playerData.getEquippedMagics(), Strings.Magic_Faith, 0));
 		}
 
 		if (!level().isClientSide) {
 			if (tickCount % SPAWN_INTERVAL == 0) {
 				int beamIndex = tickCount / SPAWN_INTERVAL;
 
-				if (beamIndex <= BEAM_COUNT) {
-					double angle = (Math.PI * 2D / BEAM_COUNT) * beamIndex;
+				if (beamIndex <= beamCount) {
+					double angle = (Math.PI * 2D / beamCount) * beamIndex;
 
 					double x = getOwner().getX() + Math.cos(angle) * START_RADIUS;
 					double z = getOwner().getZ() + Math.sin(angle) * START_RADIUS;

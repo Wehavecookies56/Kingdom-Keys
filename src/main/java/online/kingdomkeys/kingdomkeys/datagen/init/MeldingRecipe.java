@@ -96,6 +96,7 @@ public class MeldingRecipe extends MeldingRecipeProvider<MeldingRecipeBuilder> {
 
 		getBuilder("blackout").ingredient1(zeroGraviraSpell).ingredient2(poisonSpell).output(blackoutSpell, 1).addCost(1600).addTier(4);
 
+		getBuilder("faith").ingredient1(aerogaSpell).ingredient2(curagaSpell).output(faithSpell, 1).addCost(3600).addTier(6);
 
 		getBuilder("mine_shield").ingredient1(firaSpell).ingredient2(zeroGravitySpell).output(mineShieldSpell, 1).addCost(1200).addTier(3);
 

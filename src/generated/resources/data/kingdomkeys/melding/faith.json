@@ -1,0 +1,11 @@
+{
+  "cost": 3600,
+  "ingredient1": "kingdomkeys:spellaeroga",
+  "ingredient2": "kingdomkeys:spellcuraga",
+  "output": {
+    "type": "item",
+    "item": "kingdomkeys:spellfaith",
+    "quantity": 1
+  },
+  "tier": 6
+}

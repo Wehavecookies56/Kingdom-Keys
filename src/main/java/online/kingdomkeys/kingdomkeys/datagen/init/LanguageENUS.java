@@ -283,6 +283,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Gui_Menu_Party_Leader_Disband, "Disband");
         add(Gui_Menu_Party_Member_Leave, "Leave");
         add(Gui_Menu_Status, "Status");
+        add(Gui_Menu_Status_Choice, "Choice");
         add(Gui_Menu_Status_Level, "Level");
         add(Gui_Menu_Status_TotalExp, "Experience");
         add(Gui_Menu_Status_NextLevel, "Next LV");

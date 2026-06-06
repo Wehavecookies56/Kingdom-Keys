@@ -332,7 +332,8 @@ public class LanguageESES extends KKLanguageProvider {
         add(Gui_Menu_Party_Member_Leave, "Abandonar");
 
         //Status Sub-menu
-        add(Gui_Menu_Status, "Condici\u00f3n");
+        add(Gui_Menu_Status, "Condición");
+        add(Gui_Menu_Status_Choice, "Elección");
         add(Gui_Menu_Status_Level, "Nivel");
         add(Gui_Menu_Status_TotalExp, "Experiencia");
         add(Gui_Menu_Status_NextLevel, "Siguiente Niv.");
