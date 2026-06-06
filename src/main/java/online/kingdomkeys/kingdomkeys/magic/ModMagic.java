@@ -4,11 +4,13 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.effect.MobEffects;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import org.joml.Vector3f;
 
@@ -39,10 +41,11 @@ public class ModMagic {
 		CRAWLING_FIRAGA = MAGIC.register(ResourceLocation.parse(Strings.Magic_CrawlingFiraga).getPath(), () -> new MagicCrawlingFiraga(ResourceLocation.parse(Strings.Magic_CrawlingFiraga), 1, null)),
 		FISSION_FIRAGA = MAGIC.register(ResourceLocation.parse(Strings.Magic_FissionFiraga).getPath(), () -> new MagicFissionFiraga(ResourceLocation.parse(Strings.Magic_FissionFiraga), 1, null)),
 		FIRAGA_BURST = MAGIC.register(ResourceLocation.parse(Strings.Magic_FiragaBurst).getPath(), () -> new MagicFiragaBurst(ResourceLocation.parse(Strings.Magic_FiragaBurst), 1, null)),
+		IGNITE = MAGIC.register(ResourceLocation.parse(Strings.Magic_Ignite).getPath(), () -> new MagicIgnite(ResourceLocation.parse(Strings.Magic_Ignite), 1, null)),
 
 		DEEP_FREEZE = MAGIC.register(ResourceLocation.parse(Strings.Magic_DeepFreeze).getPath(), () -> new MagicDeepFreeze(ResourceLocation.parse(Strings.Magic_DeepFreeze), 1, null,false)),
 		GLACIER = MAGIC.register(ResourceLocation.parse(Strings.Magic_Glacier).getPath(), () -> new MagicDeepFreeze(ResourceLocation.parse(Strings.Magic_Glacier), 1, null,true)),
-		ICE_BARRAGE = MAGIC.register(ResourceLocation.parse(Strings.Magic_IceBarrage).getPath(), () -> new MagicIceBarrage(ResourceLocation.parse(Strings.Magic_IceBarrage), 1, null,false)),
+		ICE_BARRAGE = MAGIC.register(ResourceLocation.parse(Strings.Magic_IceBarrage).getPath(), () -> new MagicIceBarrage(ResourceLocation.parse(Strings.Magic_IceBarrage), 1, null)),
 		TRIPLE_BLIZZAGA = MAGIC.register(ResourceLocation.parse(Strings.Magic_TripleBlizzard).getPath(), () -> new MagicTripleBlizzaga(ResourceLocation.parse(Strings.Magic_TripleBlizzard), 1, null)),
 
 		THUNDAGA_SHOT = MAGIC.register(ResourceLocation.parse(Strings.Magic_ThundagaShot).getPath(), () -> new MagicThundagaShot(ResourceLocation.parse(Strings.Magic_ThundagaShot), 1, null)),
@@ -56,8 +59,10 @@ public class ModMagic {
 		MINE_SHIELD = MAGIC.register(ResourceLocation.parse(Strings.Magic_MineShield).getPath(), () -> new MagicMineShield(ResourceLocation.parse(Strings.Magic_MineShield), false, 3, null)),
 		WARP = MAGIC.register(ResourceLocation.parse(Strings.Magic_Warp).getPath(), () -> new MagicWarp(ResourceLocation.parse(Strings.Magic_Warp), false, 1, null)),
 
+
 		FAITH = MAGIC.register(ResourceLocation.parse(Strings.Magic_Faith).getPath(), () -> new MagicFaith(ResourceLocation.parse(Strings.Magic_Faith), false, 1, null)),
 
+		BIND = MAGIC.register(ResourceLocation.parse(Strings.Magic_Bind).getPath(), () -> new MagicStatusEffectRadius(ResourceLocation.parse(Strings.Magic_Bind), 1, null, ModMobEffects.ZERO_GRAVITY, SoundEvents.BEACON_AMBIENT, ParticleTypes.ELECTRIC_SPARK)),
 		ESUNA = MAGIC.register(ResourceLocation.parse(Strings.Magic_Esuna).getPath(), () -> new MagicEsuna(ResourceLocation.parse(Strings.Magic_Esuna), false, 1, null))
 	;
 }

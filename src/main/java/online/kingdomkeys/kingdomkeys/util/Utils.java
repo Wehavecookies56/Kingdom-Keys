@@ -1359,6 +1359,7 @@ public class Utils {
     public static List<Entity> getEntitiesInRadius(Entity entity, float radius) {
         return entity.level().getEntities(entity, entity.getBoundingBox().inflate(radius), Entity::isAlive);
     }
+
 	public static List<LivingEntity> getLivingEntitiesInRadius(Entity entity, float radius) {
 		List<Entity> list = entity.level().getEntities(entity, entity.getBoundingBox().inflate(radius), Entity::isAlive);
 		List<LivingEntity> elList = new ArrayList<LivingEntity>();

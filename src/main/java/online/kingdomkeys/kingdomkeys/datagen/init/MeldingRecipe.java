@@ -54,6 +54,8 @@ public class MeldingRecipe extends MeldingRecipeProvider<MeldingRecipeBuilder> {
 		getBuilder("fission_firaga2").ingredient1(firagaSpell).ingredient2(aeroraSpell).output(fissionFiragaSpell, 1).bonusOutput(firagaBurstSpell,1,20).addCost(1000).addTier(4);
 		getBuilder("fission_firaga3").ingredient1(firagaSpell).ingredient2(aerogaSpell).output(fissionFiragaSpell, 1).bonusOutput(firagaBurstSpell,1,20).addCost(1200).addTier(3);
 
+		getBuilder("ignite").ingredient1(fireSpell).ingredient2(bindSpell).output(igniteSpell, 1).addCost(1200).addTier(4);
+
 
 		getBuilder("triple_blizzaga").ingredient1(blizzagaSpell).ingredient2(blizzagaSpell).output(tripleBlizzagaSpell, 1).addCost(1000).addTier(3);
 		getBuilder("triple_blizzaga2").ingredient1(blizzagaSpell).ingredient2(blizzaraSpell).output(tripleBlizzagaSpell, 1).addCost(1200).addTier(4);

@@ -117,6 +117,10 @@ public class MagicDataProvider implements DataProvider {
 				.level(0).cost(26).castTime(10).cooldown(150).damageMultiplier(0.1F, 0.15F).lockOn(false).maxExp(6800).maxExpLevel(5).end()
 				.build());
 
+		magics.put(ResourceLocation.parse(Strings.Magic_Ignite).getPath(), new MagicBuilder()
+				.level(0).cost(16).castTime(10).cooldown(30).damageMultiplier(30, 120).lockOn(true).maxExp(3400).maxExpLevel(4).end()
+				.build());
+
 
 		magics.put(ResourceLocation.parse(Strings.Magic_TripleBlizzard).getPath(), new MagicBuilder()
 				.level(0).cost(22).castTime(15).cooldown(120).damageMultiplier(0.3F,0.4F).lockOn(true).maxExp(4600).maxExpLevel(4).end()
@@ -187,6 +191,11 @@ public class MagicDataProvider implements DataProvider {
 		magics.put(ResourceLocation.parse(Strings.Magic_Esuna).getPath(), new MagicBuilder()
 				.level(0).cost(12).castTime(10).cooldown(20).damageMultiplier(0.3F).lockOn(false).maxExp(1800).maxExpLevel(1).end()
 				.build());
+
+		magics.put(ResourceLocation.parse(Strings.Magic_Bind).getPath(), new MagicBuilder()
+				.level(0).cost(8).castTime(10).cooldown(40).damageMultiplier(2,6).lockOn(false).maxExp(1800).maxExpLevel(3).end()
+				.build());
+
 
 		CompletableFuture<?>[] futures = magics.entrySet().stream().map(entry -> {
 			Path path = pathProvider.json(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, entry.getKey()));

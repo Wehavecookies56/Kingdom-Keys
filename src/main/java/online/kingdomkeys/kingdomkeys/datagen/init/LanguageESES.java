@@ -645,6 +645,7 @@ public class LanguageESES extends KKLanguageProvider {
         add(0, ModMagic.CRAWLING_FIRAGA.get(),"Tardo Piro++");
         add(0, ModMagic.FISSION_FIRAGA.get(),"Lluvia Piro++");
         add(0, ModMagic.FIRAGA_BURST.get(),"Descarga Ígnea");
+        add(0, ModMagic.IGNITE.get(),"Ignición");
 
         add(0, ModMagic.TRIPLE_BLIZZAGA.get(),"Triple Hielo++");
         add(0, ModMagic.DEEP_FREEZE.get(),"Hipotermia");
@@ -664,6 +665,7 @@ public class LanguageESES extends KKLanguageProvider {
         add(0, ModMagic.WARP.get(),"Exilio");
         add(0, ModMagic.FAITH.get(),"Sanctus");
         add(0, ModMagic.ESUNA.get(),"Esna");
+        add(0, ModMagic.BIND.get(),"Enlace");
 
 
 

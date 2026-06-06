@@ -77,6 +77,7 @@ public class Strings {
 		Magic_CrawlingFiraga = KingdomKeys.MODID + ":" + Mag_Prefix + "crawlingfiraga",
 		Magic_FissionFiraga = KingdomKeys.MODID + ":" + Mag_Prefix + "fissionfiraga",
 		Magic_FiragaBurst = KingdomKeys.MODID + ":" + Mag_Prefix + "firagaburst",
+		Magic_Ignite = KingdomKeys.MODID + ":" + Mag_Prefix + "ignite",
 
 		Magic_TripleBlizzard = KingdomKeys.MODID + ":" + Mag_Prefix + "tripleblizzaga",
 		Magic_DeepFreeze = KingdomKeys.MODID + ":" + Mag_Prefix + "deepfreeze",
@@ -94,6 +95,7 @@ public class Strings {
 		Magic_Faith = KingdomKeys.MODID + ":" + Mag_Prefix + "faith",
 		Magic_MineShield = KingdomKeys.MODID + ":" + Mag_Prefix + "mine_shield",
 		Magic_Spark = KingdomKeys.MODID + ":" + Mag_Prefix + "spark",
+		Magic_Bind = KingdomKeys.MODID + ":" + Mag_Prefix + "bind",
 		Magic_Esuna = KingdomKeys.MODID + ":" + Mag_Prefix + "esuna";
 
 	// Drive Forms
@@ -698,6 +700,7 @@ public class Strings {
 		SpellCrawlingFiraga = "spellcrawlingfiraga",
 		SpellFissionFiraga = "spellfissionfiraga",
 		SpellFiragaBurst = "spellfiragaburst",
+		SpellIgnite = "spellignite",
 
 		SpellTripleBlizzaga = "spelltripleblizzaga",
 		SpellDeepFreeze = "spelldeepfreeze",
@@ -723,6 +726,7 @@ public class Strings {
 		SpellFaith = "spellfaith",
 
 		SpellEsuna = "spellesuna",
+		SpellBind = "spellbind",
 
 
 		StruggleSword = "struggle_sword",

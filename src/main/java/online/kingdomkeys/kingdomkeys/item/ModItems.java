@@ -865,6 +865,7 @@ public class ModItems {
 			crawlingFiragaSpell = createNewItem(Strings.SpellCrawlingFiraga, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_CrawlingFiraga, 0)),
 			fissionFiragaSpell = createNewItem(Strings.SpellFissionFiraga, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_FissionFiraga, 0)),
 			firagaBurstSpell = createNewItem(Strings.SpellFiragaBurst, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_FiragaBurst, 0)),
+			igniteSpell = createNewItem(Strings.SpellIgnite, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Ignite, 0)),
 
 			tripleBlizzagaSpell = createNewItem(Strings.SpellTripleBlizzaga, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_TripleBlizzard, 0)),
 			deepFreezeSpell = createNewItem(Strings.SpellDeepFreeze, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_DeepFreeze, 0)),
@@ -896,6 +897,7 @@ public class ModItems {
 			faithSpell = ITEMS.register(Strings.SpellFaith, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Faith,0)),
 
 			esunaSpell = ITEMS.register(Strings.SpellEsuna, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Esuna,0)),
+			bindSpell = ITEMS.register(Strings.SpellBind, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Bind,0)),
 
 
 			struggleSword = createNewItem(Strings.StruggleSword, () -> new SwordItem(new KeybladeItemTier(0),new Item.Properties().attributes(SwordItem.createAttributes(new KeybladeItemTier(0), 1, 1)).stacksTo(1))),

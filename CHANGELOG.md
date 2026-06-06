@@ -1,15 +1,17 @@
 # 2.7.13b:
-# Added:
+## Added:
 * New Magics:
   * Faith (reworked from ReMind): Meldable with Aeroga + Curaga.
-  * Triple Plasma: Meldable with Thundaga Shot + Thundaga Shot
-# Fixed:
+  * Triple Plasma: Meldable with Thundaga Shot + Thundaga Shot.
+  * Bind: Bought in the shop at tier C onwards. 
+  * Ignite: Meldable with Fire + Bind.
+## Fixed:
 * Status menu overlapping Form level and choice.
 * Magics not being able to be used again if MP Recharge was completed while the submenu was open the first time.
 * Drive forms menu being accessible in addons before learning any visible form (crashing the game).
 
 # 2.7.13a:
-# Added:
+## Added:
 * Config option to revert the magic cost system change to what it was before.
 * A box in the Status screen to display the SOA choice.
 * A new button to the Melding screen to filter only available melding combinations.
@@ -34,12 +36,12 @@
 * New crafting recipe to combine 8 recipes skipping 2 tiers (8 D-Tier into an A-Tier recipe).
 * Simulated magic cursor memory for command menu.
 
-# Changed:
+## Changed:
 * Magics can now be casted even if your Max MP is lower.
 * Normal and Warp Savepoints will now register the destination point as player respawn instead of the source one. 
 * Recipes will now stack up to 64.
 
-# Fixed:
+## Fixed:
 * Some entities using the new fire texture.
 * Fire texture flickering and rendering badly when there's water or clouds behind it.
 * Patchouli Journal saying you lose upgrades when breaking savepoints (Used to be the case, not anymore). 

@@ -23,7 +23,6 @@ public class ZeroGravityEffect extends MobEffect {
         if(actualDuration > 2) {
             pLivingEntity.setDeltaMovement(new Vec3(0, 0, 0));
         }
-
         return super.applyEffectTick(pLivingEntity, pAmplifier);
     }
 

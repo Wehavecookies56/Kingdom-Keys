@@ -746,6 +746,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add(0, ModMagic.CRAWLING_FIRAGA.get(),"Crawling Firaga");
         add(0, ModMagic.FISSION_FIRAGA.get(),"Fission Firaga");
         add(0, ModMagic.FIRAGA_BURST.get(),"Firaga Burst");
+        add(0, ModMagic.IGNITE.get(),"Ignite");
 
         add(0, ModMagic.TRIPLE_BLIZZAGA.get(),"Triple Blizzaga");
         add(0, ModMagic.DEEP_FREEZE.get(),"Deep Freeze");
@@ -765,6 +766,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add(0, ModMagic.WARP.get(),"Warp");
         add(0, ModMagic.FAITH.get(),"Faith");
         add(0, ModMagic.ESUNA.get(),"Esuna");
+        add(0, ModMagic.BIND.get(),"Bind");
 
         //Drive Forms
         addDriveForm(ModDriveForms.VALOR, "Valor");
@@ -1946,6 +1948,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.crawlingFiragaSpell, "Crawling Firaga Spell");
         addItem(ModItems.fissionFiragaSpell, "Fission Firaga Spell");
         addItem(ModItems.firagaBurstSpell, "Firaga Burst Spell");
+        addItem(ModItems.igniteSpell, "Ignite Spell");
 
         addItem(ModItems.tripleBlizzagaSpell, "Triple Blizzaga Spell");
         addItem(ModItems.deepFreezeSpell, "Deep Freeze Spell");
@@ -1976,6 +1979,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.warpSpell, "Warp Spell");
         addItem(ModItems.faithSpell, "Faith Spell");
         addItem(ModItems.esunaSpell, "Esuna Spell");
+        addItem(ModItems.bindSpell, "Bind Spell");
 
         //Drive form orbs
         addItem(ModItems.valorOrb, "Valor Form Orb");

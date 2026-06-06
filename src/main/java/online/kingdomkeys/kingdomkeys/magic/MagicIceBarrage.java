@@ -9,7 +9,7 @@ import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.entity.magic.IceBarrageControllerEntity;
 
 public class MagicIceBarrage extends Magic {
-	public MagicIceBarrage(ResourceLocation registryName, int maxLevel, String gmAbility, boolean launch) {
+	public MagicIceBarrage(ResourceLocation registryName, int maxLevel, String gmAbility) {
 		super(registryName, false, maxLevel, gmAbility);
 	}
 
