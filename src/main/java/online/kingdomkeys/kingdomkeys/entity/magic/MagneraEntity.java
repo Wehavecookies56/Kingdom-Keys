@@ -43,9 +43,6 @@ public class MagneraEntity extends BaseMagicProjectile {
 		if (level() == null || WorldData.get(level().getServer()) == null)
 			return;
 
-
-		level().addParticle(ParticleTypes.BUBBLE, getX(), getY(), getZ(), 0, 0, 0);
-
 		if (tickCount >= 3) {
 			float radius = 2.5F;
 			if (tickCount < 25) {
@@ -53,18 +50,6 @@ public class MagneraEntity extends BaseMagicProjectile {
 			}
 			if (tickCount > maxTicks - 25) {
 				radius = (maxTicks - tickCount) / 10F;
-			}
-			double X = getX();
-			double Y = getY();
-			double Z = getZ();
-
-			for (int t = 1; t < 360; t += 30) {
-				for (int s = 1; s < 360; s += 30) {
-					double x = X + (radius * Math.cos(Math.toRadians(s + tickCount)) * Math.sin(Math.toRadians(t + tickCount)));
-					double z = Z + (radius * Math.sin(Math.toRadians(s + tickCount)) * Math.sin(Math.toRadians(t + tickCount)));
-					double y = Y + (radius * Math.cos(Math.toRadians(t + tickCount)));
-					level().addParticle(ParticleTypes.BUBBLE_POP, x, y + 1, z, 0, 0, 0);
-				}
 			}
 
 			this.setDeltaMovement(0, 0, 0);

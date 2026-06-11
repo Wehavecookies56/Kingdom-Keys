@@ -357,8 +357,8 @@ public class ModEntities {
         
         event.registerEntityRenderer(TYPE_MOOGLE.get(), MoogleRenderer::new);
         event.registerEntityRenderer(TYPE_SHADOW.get(), ShadowRenderer::new);
-        event.registerEntityRenderer(TYPE_MEGA_SHADOW.get(), MegaShadowRenderer::new);
-        event.registerEntityRenderer(TYPE_GIGA_SHADOW.get(), GigaShadowRenderer::new);
+        event.registerEntityRenderer(TYPE_MEGA_SHADOW.get(), ShadowRenderer::new);
+        event.registerEntityRenderer(TYPE_GIGA_SHADOW.get(), ShadowRenderer::new);
         event.registerEntityRenderer(TYPE_DARKBALL.get(), DarkballRenderer::new);
         event.registerEntityRenderer(TYPE_SHADOW_GLOB.get(), ShadowGlobRenderer::new);
         event.registerEntityRenderer(TYPE_LARGE_BODY.get(), LargeBodyRenderer::new);

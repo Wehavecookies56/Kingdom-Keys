@@ -1,3 +1,10 @@
+# 2.7.13c:
+## Added:
+* 
+## Changed:
+* Magnet visuals reworked with a ring of electricity similar to it's BBS style.
+* Shadows, Mega Shadows and Gigas Shadows will now transition into ground and out smoothly.
+
 # 2.7.13b:
 ## Added:
 * New Magics:
