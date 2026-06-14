@@ -104,6 +104,7 @@ public class ModMagic {
 			FAITH = MAGIC.register(ResourceLocation.parse(Strings.Magic_Faith).getPath(), () -> new MagicFaith(ResourceLocation.parse(Strings.Magic_Faith), false, 1, null)),
 
 			BIND = MAGIC.register(ResourceLocation.parse(Strings.Magic_Bind).getPath(), () -> new MagicStatusEffectRadius(ResourceLocation.parse(Strings.Magic_Bind), 1, null, ModMobEffects.ZERO_GRAVITY, SoundEvents.BEACON_AMBIENT, ParticleTypes.ELECTRIC_SPARK)),
+			CONFUSE = MAGIC.register(ResourceLocation.parse(Strings.Magic_Confuse).getPath(), () -> new MagicStatusEffectRadius(ResourceLocation.parse(Strings.Magic_Confuse), 1, null, ModMobEffects.CONFUSE, SoundEvents.BEACON_AMBIENT, ParticleTypes.EFFECT)),
 			ESUNA = MAGIC.register(ResourceLocation.parse(Strings.Magic_Esuna).getPath(), () -> new MagicEsuna(ResourceLocation.parse(Strings.Magic_Esuna), false, 1, null));
 
 	public static Registry<Magic> registry = MAGIC.makeRegistry(builder -> builder.sync(true));

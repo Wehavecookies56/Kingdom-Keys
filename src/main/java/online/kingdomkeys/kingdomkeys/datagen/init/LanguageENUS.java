@@ -811,6 +811,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add(ModMagic.WARP.get(),"Warp");
         add(ModMagic.FAITH.get(),"Faith");
         add(ModMagic.ESUNA.get(),"Esuna");
+        add(ModMagic.CONFUSE.get(),"Confuse");
         add(ModMagic.BIND.get(),"Bind");
 
         //Drive Forms
@@ -2024,6 +2025,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.warpSpell, "Warp Spell");
         addItem(ModItems.faithSpell, "Faith Spell");
         addItem(ModItems.esunaSpell, "Esuna Spell");
+        addItem(ModItems.confuseSpell, "Confuse Spell");
         addItem(ModItems.bindSpell, "Bind Spell");
 
         //Drive form orbs

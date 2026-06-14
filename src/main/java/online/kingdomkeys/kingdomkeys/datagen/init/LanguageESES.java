@@ -712,6 +712,7 @@ public class LanguageESES extends KKLanguageProvider {
         add(ModMagic.WARP.get(),"Exilio");
         add(ModMagic.FAITH.get(),"Sanctus");
         add(ModMagic.ESUNA.get(),"Esna");
+        add(ModMagic.CONFUSE.get(),"Confu");
         add(ModMagic.BIND.get(),"Enlace");
 
 
@@ -1068,6 +1069,9 @@ public class LanguageESES extends KKLanguageProvider {
         addItem(ModItems.warpSpell, "Hechizo de Exilio");
         addItem(ModItems.faithSpell, "Hechizo de Sanctus");
         addItem(ModItems.esunaSpell, "Hechizo de Esna");
+        addItem(ModItems.confuseSpell, "Hechizo de Confu");
+        addItem(ModItems.bindSpell, "Hechizo de Enlace");
+
 
         // Drive form orbs
         addItem(ModItems.valorOrb, "Orbe de Forma Valiente");

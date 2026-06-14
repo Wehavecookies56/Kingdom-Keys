@@ -665,8 +665,7 @@ public class CommandMenuGui extends OverlayBase {
 									item.setActive(false);
 								}
 							})
-							//.setData(spell.getLevel() + "")
-							.iconUV(20, 60)
+							.iconUV(type == MagicData.SpellType.PHYSICAL ? 30 : 20, 60)
 							.build(subMenu)
 			);
 		}

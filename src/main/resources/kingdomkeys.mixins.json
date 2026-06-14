@@ -21,7 +21,8 @@
     "epicfight.FirstPersonRendererMixin",
     "epicfight.PHumanoidRendererMixin",
     "epicfight.RenderEngineEventsMixin",
-    "wildfire_gender.GenderLayerMixin"
+    "wildfire_gender.GenderLayerMixin",
+    "client.KeyboardInputMixin"
   ],
   "minVersion": "0.8"
 }

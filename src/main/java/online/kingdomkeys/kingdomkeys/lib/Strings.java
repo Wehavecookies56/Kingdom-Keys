@@ -111,6 +111,7 @@ public class Strings {
 		Magic_Sparkga = KingdomKeys.MODID + ":" + Mag_Prefix + "sparkga",
 
 		Magic_Bind = KingdomKeys.MODID + ":" + Mag_Prefix + "bind",
+		Magic_Confuse = KingdomKeys.MODID + ":" + Mag_Prefix + "confuse",
 		Magic_Esuna = KingdomKeys.MODID + ":" + Mag_Prefix + "esuna";
 
 	// Drive Forms
@@ -741,6 +742,7 @@ public class Strings {
 		SpellFaith = "spellfaith",
 
 		SpellEsuna = "spellesuna",
+		SpellConfuse = "spellconfuse",
 		SpellBind = "spellbind",
 
 

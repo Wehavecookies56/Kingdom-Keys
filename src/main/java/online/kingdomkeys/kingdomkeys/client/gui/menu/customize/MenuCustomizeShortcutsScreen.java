@@ -94,7 +94,7 @@ public class MenuCustomizeShortcutsScreen extends MenuBackground {
 
 			Magic magic = ModMagic.registry.get(ResourceLocation.parse(spell.getMagic()));
 
-			MenuButton button = new MenuButton((int) (width * 0.32F), buttonPosY + (magics.size() * 18), (int) (buttonWidth * 0.8), Utils.translateToLocal(magic.getTranslationKey()), ButtonType.SUBBUTTON, (e) -> select(slot));
+			MenuButton button = new MenuButton((int) (width * 0.32F), buttonPosY + (magics.size() * 18), (int) (buttonWidth * 0.8), Utils.translateToLocal(magic.getTranslationKey()), ButtonType.ROUNDBUTTON, (e) -> select(slot));
 
 			button.setData(String.valueOf(slot));
 			magics.add(button);

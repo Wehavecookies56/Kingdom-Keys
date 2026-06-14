@@ -65,5 +65,6 @@
 	{"item": "kingdomkeys:spellzerogravity", "amount":1, "tier":3, "cost": 800},
 	{"item": "kingdomkeys:spellpoison", "amount":1, "tier":2, "cost": 500},
 	{"item": "kingdomkeys:spellesuna", "amount":1, "tier":2, "cost": 700},
-	{"item": "kingdomkeys:spellbind", "amount":1, "tier":2, "cost": 750}
+	{"item": "kingdomkeys:spellbind", "amount":1, "tier":2, "cost": 750},
+	{"item": "kingdomkeys:spellconfuse", "amount":1, "tier":2, "cost": 850}
 ]

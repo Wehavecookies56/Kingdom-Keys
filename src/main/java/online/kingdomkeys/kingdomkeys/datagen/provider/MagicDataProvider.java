@@ -53,7 +53,7 @@ public class MagicDataProvider implements DataProvider {
 		magics.put(ResourceLocation.parse(Strings.Magic_Curaga).getPath(), new MagicBuilder().cost(300).castTime(1).cooldown(20).damageMultiplier(0.75F, 0.8F).lockOn(false).maxExp(4200).maxExpLevel(4).nextTier(ModMagic.CURAZA.get().getRegistryName(), ModMagic.CURE.get().getRegistryName()).build());
 		magics.put(ResourceLocation.parse(Strings.Magic_Curaza).getPath(), new MagicBuilder().cost(300).castTime(1).cooldown(20).damageMultiplier(1.0F, 1.1F).lockOn(false).maxExp(200).maxExpLevel(3).build());
 
-		magics.put(ResourceLocation.parse(Strings.Magic_Aero).getPath(), new MagicBuilder().cost(12).spellType(MagicData.SpellType.PHYSICAL).castTime(10).cooldown(20).damageMultiplier(1.0F, 1.3F).lockOn(false).maxExp(1800).maxExpLevel(3).build());
+		magics.put(ResourceLocation.parse(Strings.Magic_Aero).getPath(), new MagicBuilder().cost(12).castTime(10).cooldown(20).damageMultiplier(1.0F, 1.3F).lockOn(false).maxExp(1800).maxExpLevel(3).build());
 		magics.put(ResourceLocation.parse(Strings.Magic_Aerora).getPath(), new MagicBuilder().cost(12).castTime(10).cooldown(20).damageMultiplier(1.5F, 1.7F).lockOn(false).maxExp(2400).maxExpLevel(3).build());
 		magics.put(ResourceLocation.parse(Strings.Magic_Aeroga).getPath(), new MagicBuilder().cost(12).castTime(10).cooldown(20).damageMultiplier(2.0F, 2.2F).lockOn(false).maxExp(4200).maxExpLevel(4).build());
 		//magics.put(ResourceLocation.parse(Strings.Magic_Aeroza).getPath(), new MagicBuilder().cost(12).castTime(10).cooldown(20).damageMultiplier(1.0F).lockOn(false).maxExp(200).maxExpLevel(3).build());
@@ -118,6 +118,7 @@ public class MagicDataProvider implements DataProvider {
 		magics.put(ResourceLocation.parse(Strings.Magic_Faith).getPath(), new MagicBuilder().cost(12).castTime(10).cooldown(200).damageMultiplier(0.3F, 0.55F).lockOn(false).maxExp(9600).maxExpLevel(6).build());
 		magics.put(ResourceLocation.parse(Strings.Magic_Esuna).getPath(), new MagicBuilder().cost(12).castTime(10).cooldown(20).damageMultiplier(0.3F).lockOn(false).maxExp(1800).maxExpLevel(1).build());
 		magics.put(ResourceLocation.parse(Strings.Magic_Bind).getPath(), new MagicBuilder().cost(8).castTime(10).cooldown(40).damageMultiplier(2F, 6F).lockOn(false).maxExp(1800).maxExpLevel(3).build());
+		magics.put(ResourceLocation.parse(Strings.Magic_Confuse).getPath(), new MagicBuilder().cost(14).castTime(15).cooldown(40).damageMultiplier(2F, 6F).lockOn(false).maxExp(1800).maxExpLevel(3).build());
 
 		CompletableFuture<?>[] futures = magics.entrySet().stream().map(entry -> {
 			Path path = pathProvider.json(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, entry.getKey()));
