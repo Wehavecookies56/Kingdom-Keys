@@ -516,7 +516,7 @@ public class EntityEvents {
 			if (playerData.getCastedMagic() != null) {
 				if (playerData.getMagicCasttimeTicks() <= 0) {
 					Utils.castMagic castedMagic = playerData.getCastedMagic();
-					castedMagic.magic().magicUse(castedMagic.player(), castedMagic.caster(), castedMagic.level(), castedMagic.fullMPBlastMult(), castedMagic.lockOnEntity());
+					castedMagic.magic().magicUse(castedMagic.player(), castedMagic.caster(), castedMagic.fullMPBlastMult(), castedMagic.lockOnEntity());
 					player.swing(InteractionHand.MAIN_HAND,true);
 					playerData.setCastedMagic(null);
 					PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
@@ -783,7 +783,7 @@ public class EntityEvents {
 					if (playerData.getReflectActive() && !player.level().isClientSide()) {// If has been hit
 						// SPAWN ENTITY and apply damage
 						float radius = 2F + playerData.getReflectLevel() * 0.5F;
-						float dmgMult = ModMagic.registry.get(ModMagic.REFLECT.get().getRegistryName()).getDamageMult(playerData.getReflectLevel());
+						float dmgMult = ModMagic.registry.get(ModMagic.REFLECT.get().getRegistryName()).getDamageMult(); //TODO reflect level?
 
 						List<Entity> list = player.level().getEntities(player, player.getBoundingBox().inflate(radius, radius, radius));
 						Party casterParty = WorldData.get(player.level().getServer()).getPartyFromMember(player.getUUID());

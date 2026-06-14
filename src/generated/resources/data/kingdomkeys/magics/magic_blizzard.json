@@ -1,42 +1,12 @@
 {
-  "0": {
-    "casttime": 10,
-    "cooldown": 20,
-    "cost": 10,
-    "dmg_mult": 0.3,
-    "dmg_mult_max": 0.32,
-    "magic_lock_on": false,
-    "max_exp": 1800,
-    "max_exp_lvl": 3
-  },
-  "1": {
-    "casttime": 10,
-    "cooldown": 20,
-    "cost": 10,
-    "dmg_mult": 0.25,
-    "dmg_mult_max": 0.27,
-    "magic_lock_on": false,
-    "max_exp": 2400,
-    "max_exp_lvl": 3
-  },
-  "2": {
-    "casttime": 10,
-    "cooldown": 20,
-    "cost": 10,
-    "dmg_mult": 0.2,
-    "dmg_mult_max": 0.22,
-    "magic_lock_on": false,
-    "max_exp": 4200,
-    "max_exp_lvl": 4
-  },
-  "3": {
-    "casttime": 15,
-    "cooldown": 20,
-    "cost": 10,
-    "dmg_mult": 0.8,
-    "dmg_mult_max": 0.9,
-    "magic_lock_on": false,
-    "max_exp": 200,
-    "max_exp_lvl": 3
-  }
+  "casttime": 10,
+  "cooldown": 20,
+  "cost": 10,
+  "dmg_mult": 0.3,
+  "dmg_mult_max": 0.32,
+  "magic_lock_on": false,
+  "magic_rc": "kingdomkeys:magic_blizzard",
+  "max_exp": 1800,
+  "max_lvl": 3,
+  "next_tier": "kingdomkeys:magic_blizzara"
 }

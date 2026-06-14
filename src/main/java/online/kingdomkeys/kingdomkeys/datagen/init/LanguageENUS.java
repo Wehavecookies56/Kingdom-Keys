@@ -729,44 +729,89 @@ public class LanguageENUS extends KKLanguageProvider {
         addShotlock(ModShotlocks.ULTIMA_CANNON, "Ultima Cannon");
 
         //Magic
-        addMagic(ModMagic.FIRE, "Fire", "Fira", "Firaga", "Firaza");
-        addMagic(ModMagic.BLIZZARD, "Blizzard", "Blizzara", "Blizzaga", "Blizzaza");
-        addMagic(ModMagic.WATER, "Water", "Watera", "Waterga", "Waterza");
-        addMagic(ModMagic.THUNDER, "Thunder", "Thundara", "Thundaga", "Thundaza");
-        addMagic(ModMagic.CURE, "Cure", "Cura", "Curaga", "Curaza");
-        addMagic(ModMagic.AERO, "Aero", "Aerora", "Aeroga");
-        addMagic(ModMagic.MAGNET, "Magnet", "Magnera", "Magnega");
-        addMagic(ModMagic.REFLECT, "Reflect", "Reflera", "Reflega");
-        addMagic(ModMagic.GRAVITY, "Gravity", "Gravira", "Graviga");
-        addMagic(ModMagic.STOP, "Stop", "Stopra", "Stopga");
-        addMagic(ModMagic.ZERO_GRAVITY, "Zero Gravity", "Zero Gravira", "Zero Graviga");
+        add(ModMagic.FIRE.get(), "Fire");
+        add(ModMagic.FIRA.get(), "Fira");
+        add(ModMagic.FIRAGA.get(), "Firaga");
+        add(ModMagic.FIRAZA.get(), "Firaza");
 
-        add(0, ModMagic.DARK_FIRAGA.get(),"Dark Firaga");
-        add(0, ModMagic.TRIPLE_FIRAGA.get(),"Triple Firaga");
-        add(0, ModMagic.CRAWLING_FIRAGA.get(),"Crawling Firaga");
-        add(0, ModMagic.FISSION_FIRAGA.get(),"Fission Firaga");
-        add(0, ModMagic.FIRAGA_BURST.get(),"Firaga Burst");
-        add(0, ModMagic.IGNITE.get(),"Ignite");
+        add(ModMagic.BLIZZARD.get(), "Blizzard");
+        add(ModMagic.BLIZZARA.get(), "Blizzara");
+        add(ModMagic.BLIZZAGA.get(), "Blizzaga");
+        add(ModMagic.BLIZZAZA.get(), "Blizzaza");
 
-        add(0, ModMagic.TRIPLE_BLIZZAGA.get(),"Triple Blizzaga");
-        add(0, ModMagic.DEEP_FREEZE.get(),"Deep Freeze");
-        add(0, ModMagic.GLACIER.get(),"Glacier");
-        add(0, ModMagic.ICE_BARRAGE.get(),"Ice Barrage");
+        add(ModMagic.WATER.get(), "Water");
+        add(ModMagic.WATERA.get(), "Watera");
+        add(ModMagic.WATERGA.get(), "Waterga");
+        add(ModMagic.WATERZA.get(), "Waterza");
 
-        add(0, ModMagic.THUNDAGA_SHOT.get(),"Thundaga Shot");
-        add(0, ModMagic.TRIPLE_PLASMA.get(),"Triple Plasma");
+        add(ModMagic.THUNDER.get(), "Thunder");
+        add(ModMagic.THUNDARA.get(), "Thundara");
+        add(ModMagic.THUNDAGA.get(), "Thundaga");
+        add(ModMagic.THUNDAZA.get(), "Thundaza");
 
-        add(0, ModMagic.BLACKOUT.get(),"Blackout");
-        add(0, ModMagic.POISON.get(),"Poison");
+        add(ModMagic.CURE.get(), "Cure");
+        add(ModMagic.CURA.get(), "Cura");
+        add(ModMagic.CURAGA.get(), "Curaga");
+        add(ModMagic.CURAZA.get(), "Curaza");
 
-        addMagic(ModMagic.BALLOON, "Balloon", "Balloonra", "Balloonga");
-        addMagic(ModMagic.SPARK, "Spark", "Sparkra", "Sparkga");
-        addMagic(ModMagic.MINE_SHIELD, "Mine Shield", "Mine Square", "Seeker Mine");
+        add(ModMagic.AERO.get(), "Aero");
+        add(ModMagic.AERORA.get(), "Aerora");
+        add(ModMagic.AEROGA.get(), "Aeroga");
 
-        add(0, ModMagic.WARP.get(),"Warp");
-        add(0, ModMagic.FAITH.get(),"Faith");
-        add(0, ModMagic.ESUNA.get(),"Esuna");
-        add(0, ModMagic.BIND.get(),"Bind");
+        add(ModMagic.MAGNET.get(), "Magnet");
+        add(ModMagic.MAGNERA.get(), "Magnera");
+        add(ModMagic.MAGNEGA.get(), "Magnega");
+
+        add(ModMagic.REFLECT.get(), "Reflect");
+        add(ModMagic.REFLERA.get(), "Reflera");
+        add(ModMagic.REFLEGA.get(), "Reflega");
+
+        add(ModMagic.GRAVITY.get(), "Gravity");
+        add(ModMagic.GRAVIRA.get(), "Gravira");
+        add(ModMagic.GRAVIGA.get(), "Graviga");
+
+        add(ModMagic.STOP.get(), "Stop");
+        add(ModMagic.STOPRA.get(), "Stopra");
+        add(ModMagic.STOPGA.get(), "Stopga");
+
+        add(ModMagic.ZERO_GRAVITY.get(), "Zero Gravity");
+        add(ModMagic.ZERO_GRAVIRA.get(), "Zero Gravira");
+        add(ModMagic.ZERO_GRAVIGA.get(), "Zero Graviga");
+
+        add(ModMagic.DARK_FIRAGA.get(),"Dark Firaga");
+        add(ModMagic.TRIPLE_FIRAGA.get(),"Triple Firaga");
+        add(ModMagic.CRAWLING_FIRAGA.get(),"Crawling Firaga");
+        add(ModMagic.FISSION_FIRAGA.get(),"Fission Firaga");
+        add(ModMagic.FIRAGA_BURST.get(),"Firaga Burst");
+        add(ModMagic.IGNITE.get(),"Ignite");
+
+        add(ModMagic.TRIPLE_BLIZZAGA.get(),"Triple Blizzaga");
+        add(ModMagic.DEEP_FREEZE.get(),"Deep Freeze");
+        add(ModMagic.GLACIER.get(),"Glacier");
+        add(ModMagic.ICE_BARRAGE.get(),"Ice Barrage");
+
+        add(ModMagic.THUNDAGA_SHOT.get(),"Thundaga Shot");
+        add(ModMagic.TRIPLE_PLASMA.get(),"Triple Plasma");
+
+        add(ModMagic.BLACKOUT.get(),"Blackout");
+        add(ModMagic.POISON.get(),"Poison");
+
+        add(ModMagic.BALLOON.get(), "Balloon");
+        add(ModMagic.BALLOONRA.get(), "Balloonra");
+        add(ModMagic.BALLOONGA.get(), "Balloonga");
+
+        add(ModMagic.SPARK.get(), "Spark");
+        add(ModMagic.SPARKRA.get(), "Sparkra");
+        add(ModMagic.SPARKGA.get(), "Sparkga");
+
+        add(ModMagic.MINE_SHIELD.get(), "Mine Shield");
+        add(ModMagic.MINE_SQUARE.get(), "Mine Square");
+        add(ModMagic.SEEKER_MINE.get(), "Seeker Mine");
+
+        add(ModMagic.WARP.get(),"Warp");
+        add(ModMagic.FAITH.get(),"Faith");
+        add(ModMagic.ESUNA.get(),"Esuna");
+        add(ModMagic.BIND.get(),"Bind");
 
         //Drive Forms
         addDriveForm(ModDriveForms.VALOR, "Valor");

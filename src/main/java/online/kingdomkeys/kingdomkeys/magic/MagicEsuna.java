@@ -15,12 +15,13 @@ import java.util.List;
 
 public class MagicEsuna extends Magic {
 
-	public MagicEsuna(ResourceLocation registryName, boolean hasToSelect, int maxLevel, String gmAbility) {
-		super(registryName, hasToSelect, maxLevel, gmAbility);
+	public MagicEsuna(ResourceLocation registryName, boolean hasToSelect, int tier, String gmAbility) {
+		super(registryName, hasToSelect, gmAbility);
+		setTier(tier);
 	}
 
 	@Override
-	public void magicUse(LivingEntity player, Player caster, int level, float fullMPBlastMult, LivingEntity lockOnTarget) {
+	public void magicUse(LivingEntity player, Player caster, float fullMPBlastMult, LivingEntity lockOnTarget) {
 		//caster.swing(InteractionHand.MAIN_HAND);
 		((ServerLevel) player.level()).sendParticles(ParticleTypes.SONIC_BOOM.getType(), player.getX(), player.getY() + 2.3D, player.getZ(), 5, 0D, 0D, 0D, 0D);
 
@@ -31,7 +32,7 @@ public class MagicEsuna extends Magic {
 			}
 		}
 
-		for(MobEffectInstance badEffect: effectsList){
+		for (MobEffectInstance badEffect : effectsList) {
 			player.removeEffect(badEffect.getEffect());
 		}
 
@@ -65,7 +66,7 @@ public class MagicEsuna extends Magic {
 	}
 
 	@Override
-	protected void playMagicCastSound(LivingEntity player, Player caster, int level) {
+	public void playMagicCastSound(LivingEntity player, Player caster) {
 		player.level().playSound(null, player.position().x(), player.position().y(), player.position().z(), ModSounds.esuna.get(), SoundSource.PLAYERS, 1F, 1F);
 	}
 }

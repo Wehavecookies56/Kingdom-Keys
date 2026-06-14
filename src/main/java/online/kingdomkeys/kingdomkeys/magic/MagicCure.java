@@ -20,91 +20,92 @@ import java.util.List;
 
 public class MagicCure extends Magic {
 
-	public MagicCure(ResourceLocation registryName, int maxLevel, String gmAbility) {
-		super(registryName, true, maxLevel, gmAbility);
+	public MagicCure(ResourceLocation registryName, int tier, String gmAbility) {
+		super(registryName, true, gmAbility);
+		setTier(tier);
 	}
 
 	@Override
-	public void magicUse(LivingEntity player, Player caster, int level, float fullMPBlastMult, LivingEntity lockOnEntity) {
+	public void magicUse(LivingEntity player, Player caster, float fullMPBlastMult, LivingEntity lockOnEntity) {
 		((ServerLevel) player.level()).sendParticles(ParticleTypes.HAPPY_VILLAGER.getType(), player.getX(), player.getY() + 2.3D, player.getZ(), 5, 0D, 0D, 0D, 0D);
 		PlayerData playerData = PlayerData.get(caster);
 		WorldData worldData = WorldData.get(player.getServer());
 
-		float amount = playerData.getMaxHP() * getRealDamageMult(level,caster);
+		float amount = playerData.getMaxHP() * getRealDamageMult(caster);
 		if (playerData.getNumberOfAbilitiesEquipped(Strings.leafBracer) > 0)
 			player.invulnerableTime = 40;
 
 		Utils.reviveFromKO(player);
-		switch (level) {
-		case 0:
-			player.heal(amount);
-			break;
-		case 1:
-			player.heal(amount);
+		switch (getTier()) {
+			case 0:
+				player.heal(amount);
+				break;
+			case 1:
+				player.heal(amount);
 
-			if (worldData.getPartyFromMember(player.getUUID()) != null) {
-				// heal everyone including user
-				Party party = worldData.getPartyFromMember(player.getUUID());
-				List<LivingEntity> list = Utils.getLivingEntitiesInRadius(player, 3);
-				if (!list.isEmpty()) {
-					for (LivingEntity e : list) {
-						if (Utils.isEntityInParty(party, e) && e != player) {
-							e.heal(amount / 2);
-							Utils.reviveFromKO(e);
-							player.level().playSound(null, e.position().x(), e.position().y(), e.position().z(), ModSounds.cura.get(), SoundSource.PLAYERS, 1F, 1F);
-						}
-					}
-				}
-			}
-			break;
-		case 2:
-			player.heal(amount);
-
-			if (worldData.getPartyFromMember(player.getUUID()) != null) {
-				Party party = worldData.getPartyFromMember(player.getUUID());
-				List<LivingEntity> list = Utils.getLivingEntitiesInRadius(player, 5);
-				if (!list.isEmpty()) {
-					for (LivingEntity e : list) {
-						if (Utils.isEntityInParty(party, e) && e != player) {
-							e.heal(amount / 2);
-							Utils.reviveFromKO(e);
-							player.level().playSound(null, e.position().x(), e.position().y(), e.position().z(), ModSounds.curaga.get(), SoundSource.PLAYERS, 1F, 1F);
-						}
-					}
-				}
-
-			}
-			break;
-		case 3:
-			player.heal(amount);
-            if(player instanceof Player p)
-			    p.getFoodData().eat(20, 10);
-
-			if (worldData.getPartyFromMember(player.getUUID()) != null) {
-				Party party = worldData.getPartyFromMember(player.getUUID());
-				List<Member> list = party.getMembers();
-				if (!list.isEmpty()) { // Heal everyone in the party within reach
-					for (Member member : list) {
-						if (player.level().getPlayerByUUID(member.getUUID()) != null && player.distanceTo(player.level().getPlayerByUUID(member.getUUID())) < ModConfigs.SERVER.partyRangeLimit.get()) {
-							LivingEntity e = player.level().getPlayerByUUID(member.getUUID());
-							if (e != null && Utils.isEntityInParty(party, e) && e != player) {
-								e.heal(amount);
-								if (e instanceof Player targetPlayer)
-									targetPlayer.getFoodData().eat(20, 10);
+				if (worldData.getPartyFromMember(player.getUUID()) != null) {
+					// heal everyone including user
+					Party party = worldData.getPartyFromMember(player.getUUID());
+					List<LivingEntity> list = Utils.getLivingEntitiesInRadius(player, 3);
+					if (!list.isEmpty()) {
+						for (LivingEntity e : list) {
+							if (Utils.isEntityInParty(party, e) && e != player) {
+								e.heal(amount / 2);
+								Utils.reviveFromKO(e);
+								player.level().playSound(null, e.position().x(), e.position().y(), e.position().z(), ModSounds.cura.get(), SoundSource.PLAYERS, 1F, 1F);
 							}
 						}
 					}
 				}
+				break;
+			case 2:
+				player.heal(amount);
 
-			}
-			break;
+				if (worldData.getPartyFromMember(player.getUUID()) != null) {
+					Party party = worldData.getPartyFromMember(player.getUUID());
+					List<LivingEntity> list = Utils.getLivingEntitiesInRadius(player, 5);
+					if (!list.isEmpty()) {
+						for (LivingEntity e : list) {
+							if (Utils.isEntityInParty(party, e) && e != player) {
+								e.heal(amount / 2);
+								Utils.reviveFromKO(e);
+								player.level().playSound(null, e.position().x(), e.position().y(), e.position().z(), ModSounds.curaga.get(), SoundSource.PLAYERS, 1F, 1F);
+							}
+						}
+					}
+
+				}
+				break;
+			case 3:
+				player.heal(amount);
+				if (player instanceof Player p)
+					p.getFoodData().eat(20, 10);
+
+				if (worldData.getPartyFromMember(player.getUUID()) != null) {
+					Party party = worldData.getPartyFromMember(player.getUUID());
+					List<Member> list = party.getMembers();
+					if (!list.isEmpty()) { // Heal everyone in the party within reach
+						for (Member member : list) {
+							if (player.level().getPlayerByUUID(member.getUUID()) != null && player.distanceTo(player.level().getPlayerByUUID(member.getUUID())) < ModConfigs.SERVER.partyRangeLimit.get()) {
+								LivingEntity e = player.level().getPlayerByUUID(member.getUUID());
+								if (e != null && Utils.isEntityInParty(party, e) && e != player) {
+									e.heal(amount);
+									if (e instanceof Player targetPlayer)
+										targetPlayer.getFoodData().eat(20, 10);
+								}
+							}
+						}
+					}
+
+				}
+				break;
 		}
 		caster.swing(InteractionHand.MAIN_HAND);
 	}
 
 	@Override
-	protected void playMagicCastSound(LivingEntity player, Player caster, int level) {
-		switch (level) {
+	public void playMagicCastSound(LivingEntity player, Player caster) {
+		switch (getTier()) {
 			case 0 -> player.level().playSound(null, player.position().x(), player.position().y(), player.position().z(), ModSounds.cure.get(), SoundSource.PLAYERS, 1F, 1F);
 			case 1 -> player.level().playSound(null, player.position().x(), player.position().y(), player.position().z(), ModSounds.cura.get(), SoundSource.PLAYERS, 1F, 1F);
 			case 2 -> player.level().playSound(null, player.position().x(), player.position().y(), player.position().z(), ModSounds.curaga.get(), SoundSource.PLAYERS, 1F, 1F);

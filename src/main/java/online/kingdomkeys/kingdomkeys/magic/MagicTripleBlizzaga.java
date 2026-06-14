@@ -10,22 +10,23 @@ import online.kingdomkeys.kingdomkeys.lib.Strings;
 
 public class MagicTripleBlizzaga extends Magic {
 
-	public MagicTripleBlizzaga(ResourceLocation registryName, int maxLevel, String gmAbility) {
-		super(registryName, false, maxLevel, gmAbility);
+	public MagicTripleBlizzaga(ResourceLocation registryName, int tier, String gmAbility) {
+		super(registryName, false, gmAbility);
+		setTier(tier);
 	}
 
 	@Override
-	public void magicUse(LivingEntity player, Player caster, int level, float fullMPBlastMult, LivingEntity lockOnEntity) {
-		float dmgMult = getRealDamageMult(level,caster) + PlayerData.get(caster).getNumberOfAbilitiesEquipped(Strings.blizzardBoost) * 0.2F;
+	public void magicUse(LivingEntity player, Player caster, float fullMPBlastMult, LivingEntity lockOnEntity) {
+		float dmgMult = getRealDamageMult(caster) + PlayerData.get(caster).getNumberOfAbilitiesEquipped(Strings.blizzardBoost) * 0.2F;
 		dmgMult *= fullMPBlastMult;
-		lockOnEntity = getMagicLockOn(level) ? lockOnEntity : null;
+		lockOnEntity = getMagicLockOn() ? lockOnEntity : null;
 
 		ThrowableProjectile tripleFiragaController = new TripleBlizzagaControllerEntity(player.level(), player, dmgMult, lockOnEntity);
 		player.level().addFreshEntity(tripleFiragaController);
 	}
-	
+
 	@Override
-	protected void playMagicCastSound(LivingEntity player, Player caster, int level) {
+	public void playMagicCastSound(LivingEntity player, Player caster) {
 
 	}
 }

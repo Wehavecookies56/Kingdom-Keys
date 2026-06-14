@@ -78,7 +78,7 @@ public class MagicLevelCommand extends BaseCommand{
 			}
 			PacketHandler.sendTo(new SCSyncPlayerData(player), player);
 			
-			String magicName = level > -1 ? Utils.translateToLocal(magicInstance.getTranslationKey(level)) : "N/A";
+			String magicName = level > -1 ? Utils.translateToLocal(magicInstance.getTranslationKey()) : "N/A";
 			context.getSource().sendSuccess(() -> Component.translatable("Set "+ Utils.translateToLocal(magicInstance.getTranslationKey())+" magic for " +player.getDisplayName().getString()+" to level "+level+" ("+magicName+")"), true);
 			player.sendSystemMessage(Component.translatable("Your "+Utils.translateToLocal(magicInstance.getTranslationKey())+" magic level is now "+level+" ("+magicName+")"));
 		}

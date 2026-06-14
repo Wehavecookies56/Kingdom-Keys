@@ -14,20 +14,21 @@ import online.kingdomkeys.kingdomkeys.network.stc.SCAeroSoundPacket;
 
 public class MagicAero extends Magic {
 
-	public MagicAero(ResourceLocation registryName, int maxLevel, String gmAbility) {
-		super(registryName, true, maxLevel, gmAbility);
+	public MagicAero(ResourceLocation registryName, int tier, String gmAbility) {
+		super(registryName, true, gmAbility);
+		setTier(tier);
 	}
 
 	@Override
-	public void magicUse(LivingEntity player, Player caster, int level, float fullMPBlastMult, LivingEntity lockOnEntity) {
-		int time = (int) (PlayerData.get(caster).getMaxMP() * (4F + getRealDamageMult(level,caster)/2F));
-		player.addEffect(new MobEffectInstance(ModMobEffects.AERO, time, level, false, false, false));
+	public void magicUse(LivingEntity player, Player caster, float fullMPBlastMult, LivingEntity lockOnEntity) {
+		int time = (int) (PlayerData.get(caster).getMaxMP() * (4F + getRealDamageMult(caster) / 2F));
+		player.addEffect(new MobEffectInstance(ModMobEffects.AERO, time, getTier(), false, false, false));
 		PacketHandler.sendToAll(new SCAeroSoundPacket(player.getId()));
 		caster.swing(InteractionHand.MAIN_HAND);
 	}
 
 	@Override
-	protected void playMagicCastSound(LivingEntity player, Player caster, int level) {
+	public void playMagicCastSound(LivingEntity player, Player caster) {
 		player.level().playSound(null, player.position().x(), player.position().y(), player.position().z(), ModSounds.aero1.get(), SoundSource.PLAYERS, 1F, 1F);
 	}
 

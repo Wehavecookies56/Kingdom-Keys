@@ -42,7 +42,7 @@ public class TriplePlasmaControllerEntity extends BaseMagicProjectile {
 					thunderShot.shootFromRotation(player, player.getXRot(), player.getYRot(), 0, 2F, 0);
 
 					Magic magic = ModMagic.THUNDAGA_SHOT.get();
-					magic.playMagicCastSound2(player,player,1);
+					magic.playMagicCastSound(player,player);
 				}
 			}
 		}

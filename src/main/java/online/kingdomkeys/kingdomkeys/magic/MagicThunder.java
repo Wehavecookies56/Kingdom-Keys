@@ -12,37 +12,38 @@ import online.kingdomkeys.kingdomkeys.lib.Strings;
 
 public class MagicThunder extends Magic {
 
-	public MagicThunder(ResourceLocation registryName, int maxLevel, String gmAbility) {
-		super(registryName, false, maxLevel, gmAbility);
+	public MagicThunder(ResourceLocation registryName, int tier, String gmAbility) {
+		super(registryName, false, gmAbility);
+		setTier(tier);
 	}
 
 	@Override
-	public void magicUse(LivingEntity player, Player caster, int level, float fullMPBlastMult, LivingEntity lockOnEntity) {
-		float dmgMult = getRealDamageMult(level,caster) + PlayerData.get(caster).getNumberOfAbilitiesEquipped(Strings.thunderBoost) * 0.2F;
+	public void magicUse(LivingEntity player, Player caster, float fullMPBlastMult, LivingEntity lockOnEntity) {
+		float dmgMult = getRealDamageMult(caster) + PlayerData.get(caster).getNumberOfAbilitiesEquipped(Strings.thunderBoost) * 0.2F;
 		dmgMult *= fullMPBlastMult;
 
-		switch(level) {
-		case 0:
-			ThunderEntity thunderController = new ThunderEntity(player.level(), player, dmgMult, lockOnEntity);
-			player.level().addFreshEntity(thunderController);
-			break;
-		case 1:
-			ThundaraEntity thundaraController = new ThundaraEntity(player.level(), player, dmgMult, lockOnEntity);
-			player.level().addFreshEntity(thundaraController);
-			break;
-		case 2:
-			ThundagaEntity thundagaController = new ThundagaEntity(player.level(), player, dmgMult, lockOnEntity);
-			player.level().addFreshEntity(thundagaController);
-			break;
-		case 3:
-			ThundazaEntity thundazaController = new ThundazaEntity(player.level(), player, dmgMult, lockOnEntity);
-			player.level().addFreshEntity(thundazaController);
-			break;
+		switch (getTier()) {
+			case 0:
+				ThunderEntity thunderController = new ThunderEntity(player.level(), player, dmgMult, lockOnEntity);
+				player.level().addFreshEntity(thunderController);
+				break;
+			case 1:
+				ThundaraEntity thundaraController = new ThundaraEntity(player.level(), player, dmgMult, lockOnEntity);
+				player.level().addFreshEntity(thundaraController);
+				break;
+			case 2:
+				ThundagaEntity thundagaController = new ThundagaEntity(player.level(), player, dmgMult, lockOnEntity);
+				player.level().addFreshEntity(thundagaController);
+				break;
+			case 3:
+				ThundazaEntity thundazaController = new ThundazaEntity(player.level(), player, dmgMult, lockOnEntity);
+				player.level().addFreshEntity(thundazaController);
+				break;
 		}
 	}
-	
+
 	@Override
-	protected void playMagicCastSound(LivingEntity player, Player caster, int level) {
+	public void playMagicCastSound(LivingEntity player, Player caster) {
 
 	}
 }

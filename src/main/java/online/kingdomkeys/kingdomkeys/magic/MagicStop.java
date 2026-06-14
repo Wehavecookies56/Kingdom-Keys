@@ -23,16 +23,17 @@ import java.util.List;
 
 public class MagicStop extends Magic {
 
-	public MagicStop(ResourceLocation registryName, int maxLevel, String gmAbility) {
-		super(registryName, false, maxLevel,  gmAbility);
+	public MagicStop(ResourceLocation registryName, int tier, String gmAbility) {
+		super(registryName, false, gmAbility);
+		setTier(tier);
 	}
 
 	@Override
-	public void magicUse(LivingEntity player, Player caster, int level, float fullMPBlastMult, LivingEntity lockOnEntity) {
-		float dmg = getRealDamageMult(level,caster);
+	public void magicUse(LivingEntity player, Player caster, float fullMPBlastMult, LivingEntity lockOnEntity) {
+		float dmg = getRealDamageMult(caster);
 		dmg *= fullMPBlastMult;
-		
-		float radius = 2 + level;
+
+		float radius = 2 + getTier();
 		List<Entity> list = player.level().getEntities(player, player.getBoundingBox().inflate(radius, radius, radius));
 		Party casterParty = WorldData.get(player.getServer()).getPartyFromMember(player.getUUID());
 
@@ -42,38 +43,38 @@ public class MagicStop extends Magic {
 			}
 		}
 
-        list.removeIf(e -> e instanceof MarluxiaEntity);
-		
+		list.removeIf(e -> e instanceof MarluxiaEntity);
+
 		//Cast stop model to player
 		GlobalData casterGlobalData = GlobalData.get(caster);
-		if(casterGlobalData != null) {
+		if (casterGlobalData != null) {
 			casterGlobalData.setStopModelTicks(10);
 			PacketHandler.syncToAllAround(caster, casterGlobalData);
 		}
 
 		if (!list.isEmpty()) {
-            for (Entity e : list) {
-                if (e instanceof LivingEntity livingEntity) {
-                    GlobalData globalData = GlobalData.get(livingEntity);
-                    if (livingEntity instanceof Mob) {
-                        ((Mob) e).setNoAi(true);
-                    }
-                    livingEntity.addEffect(new MobEffectInstance(ModMobEffects.STOP, (int) (100 + getDamageMult(level) * 20 * dmg), level, false, false, false)); // Stop
-                    globalData.setStopCaster(caster.getDisplayName().getString());
-                    if (e instanceof ServerPlayer serverPlayer)
-                        PacketHandler.sendTo(new SCSyncGlobalData(livingEntity), serverPlayer);
-                }
-            }
+			for (Entity e : list) {
+				if (e instanceof LivingEntity livingEntity) {
+					GlobalData globalData = GlobalData.get(livingEntity);
+					if (livingEntity instanceof Mob) {
+						((Mob) e).setNoAi(true);
+					}
+					livingEntity.addEffect(new MobEffectInstance(ModMobEffects.STOP, (int) (100 + getDamageMult() * 20 * dmg), getTier(), false, false, false)); // Stop
+					globalData.setStopCaster(caster.getDisplayName().getString());
+					if (e instanceof ServerPlayer serverPlayer)
+						PacketHandler.sendTo(new SCSyncGlobalData(livingEntity), serverPlayer);
+				}
+			}
 		}
 		player.swing(InteractionHand.MAIN_HAND);
 	}
-	
+
 	@Override
-	protected void playMagicCastSound(LivingEntity player, Player caster, int level) {
-		switch(level) {
-		case 0 -> player.level().playSound(null, player.position().x(), player.position().y(), player.position().z(), ModSounds.stop.get(), SoundSource.PLAYERS, 1F, 1F);
-		case 1 -> player.level().playSound(null, player.position().x(), player.position().y(), player.position().z(), ModSounds.stopra.get(), SoundSource.PLAYERS, 1F, 1F);
-		case 2 -> player.level().playSound(null, player.position().x(), player.position().y(), player.position().z(), ModSounds.stopga.get(), SoundSource.PLAYERS, 1F, 1F);
+	public void playMagicCastSound(LivingEntity player, Player caster) {
+		switch (getTier()) {
+			case 0 -> player.level().playSound(null, player.position().x(), player.position().y(), player.position().z(), ModSounds.stop.get(), SoundSource.PLAYERS, 1F, 1F);
+			case 1 -> player.level().playSound(null, player.position().x(), player.position().y(), player.position().z(), ModSounds.stopra.get(), SoundSource.PLAYERS, 1F, 1F);
+			case 2 -> player.level().playSound(null, player.position().x(), player.position().y(), player.position().z(), ModSounds.stopga.get(), SoundSource.PLAYERS, 1F, 1F);
 		}
 	}
 

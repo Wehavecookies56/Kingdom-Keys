@@ -31,22 +31,27 @@ public class Strings {
 		Magic_Fire = KingdomKeys.MODID + ":" + Mag_Prefix + "fire",
 		Magic_Fira = KingdomKeys.MODID + ":" + Mag_Prefix + "fira",
 		Magic_Firaga = KingdomKeys.MODID + ":" + Mag_Prefix + "firaga",
+		Magic_Firaza = KingdomKeys.MODID + ":" + Mag_Prefix + "firaza",
 
 		Magic_Blizzard = KingdomKeys.MODID + ":" + Mag_Prefix + "blizzard",
 		Magic_Blizzara = KingdomKeys.MODID + ":" + Mag_Prefix + "blizzara",
 		Magic_Blizzaga = KingdomKeys.MODID + ":" + Mag_Prefix + "blizzaga",
+		Magic_Blizzaza = KingdomKeys.MODID + ":" + Mag_Prefix + "blizzaza",
 
 		Magic_Water = KingdomKeys.MODID + ":" + Mag_Prefix + "water",
 		Magic_Watera = KingdomKeys.MODID + ":" + Mag_Prefix + "watera",
 		Magic_Waterga = KingdomKeys.MODID + ":" + Mag_Prefix + "waterga",
+		Magic_Waterza = KingdomKeys.MODID + ":" + Mag_Prefix + "waterza",
 
 		Magic_Thunder = KingdomKeys.MODID + ":" + Mag_Prefix + "thunder",
 		Magic_Thundara = KingdomKeys.MODID + ":" + Mag_Prefix + "thundara",
 		Magic_Thundaga = KingdomKeys.MODID + ":" + Mag_Prefix + "thundaga",
+		Magic_Thundaza = KingdomKeys.MODID + ":" + Mag_Prefix + "thundaza",
 
 		Magic_Cure = KingdomKeys.MODID + ":" + Mag_Prefix + "cure",
 		Magic_Cura = KingdomKeys.MODID + ":" + Mag_Prefix + "cura",
 		Magic_Curaga = KingdomKeys.MODID + ":" + Mag_Prefix + "curaga",
+		Magic_Curaza = KingdomKeys.MODID + ":" + Mag_Prefix + "curaza",
 
 		Magic_Aero = KingdomKeys.MODID + ":" + Mag_Prefix + "aero",
 		Magic_Aerora = KingdomKeys.MODID + ":" + Mag_Prefix + "aerora",
@@ -72,6 +77,7 @@ public class Strings {
 		Magic_Stopra = KingdomKeys.MODID + ":" + Mag_Prefix + "stopra",
 		Magic_Stopga = KingdomKeys.MODID + ":" + Mag_Prefix + "stopga",
 
+		//BBS / DDD
 		Magic_DarkFiraga = KingdomKeys.MODID + ":" + Mag_Prefix + "darkfiraga",
 		Magic_TripleFiraga = KingdomKeys.MODID + ":" + Mag_Prefix + "triplefiraga",
 		Magic_CrawlingFiraga = KingdomKeys.MODID + ":" + Mag_Prefix + "crawlingfiraga",
@@ -91,10 +97,19 @@ public class Strings {
 		Magic_Poison = KingdomKeys.MODID + ":" + Mag_Prefix + "posion",
 
 		Magic_Balloon = KingdomKeys.MODID + ":" + Mag_Prefix + "balloon",
+		Magic_Balloonra = KingdomKeys.MODID + ":" + Mag_Prefix + "balloonra",
+		Magic_Balloonga = KingdomKeys.MODID + ":" + Mag_Prefix + "balloonga",
+
 		Magic_Warp = KingdomKeys.MODID + ":" + Mag_Prefix + "warp",
 		Magic_Faith = KingdomKeys.MODID + ":" + Mag_Prefix + "faith",
 		Magic_MineShield = KingdomKeys.MODID + ":" + Mag_Prefix + "mine_shield",
+		Magic_MineSquare = KingdomKeys.MODID + ":" + Mag_Prefix + "mine_square",
+		Magic_SeekerMine = KingdomKeys.MODID + ":" + Mag_Prefix + "seeker_mine",
+
 		Magic_Spark = KingdomKeys.MODID + ":" + Mag_Prefix + "spark",
+		Magic_Sparkra = KingdomKeys.MODID + ":" + Mag_Prefix + "sparkra",
+		Magic_Sparkga = KingdomKeys.MODID + ":" + Mag_Prefix + "sparkga",
+
 		Magic_Bind = KingdomKeys.MODID + ":" + Mag_Prefix + "bind",
 		Magic_Esuna = KingdomKeys.MODID + ":" + Mag_Prefix + "esuna";
 

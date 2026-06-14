@@ -1,12 +1,10 @@
 {
-  "0": {
-    "casttime": 10,
-    "cooldown": 200,
-    "cost": 12,
-    "dmg_mult": 0.3,
-    "dmg_mult_max": 0.55,
-    "magic_lock_on": false,
-    "max_exp": 9600,
-    "max_exp_lvl": 6
-  }
+  "casttime": 10,
+  "cooldown": 200,
+  "cost": 12,
+  "dmg_mult": 0.3,
+  "dmg_mult_max": 0.55,
+  "magic_lock_on": false,
+  "max_exp": 9600,
+  "max_lvl": 6
 }

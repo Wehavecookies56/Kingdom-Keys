@@ -1,0 +1,12 @@
+{
+  "casttime": 1,
+  "cooldown": 20,
+  "cost": 300,
+  "dmg_mult": 0.75,
+  "dmg_mult_max": 0.8,
+  "magic_lock_on": false,
+  "magic_rc": "kingdomkeys:magic_cure",
+  "max_exp": 4200,
+  "max_lvl": 4,
+  "next_tier": "kingdomkeys:magic_curaza"
+}

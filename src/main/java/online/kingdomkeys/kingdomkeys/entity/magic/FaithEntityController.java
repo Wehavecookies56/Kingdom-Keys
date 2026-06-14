@@ -65,7 +65,7 @@ public class FaithEntityController extends BaseMagicProjectile {
 		if(getOwner() instanceof Player player) {
 			PlayerData playerData = PlayerData.get(player);
 			playerData.setMagicCasttimeTicks(tickCount < 40 ? 10 : 0);
-			beamCount = getBeamCount(Utils.getMagicHighestLocalLevel(playerData.getEquippedMagics(), Strings.Magic_Faith, 0));
+			beamCount = getBeamCount(Utils.getMagicHighestLocalLevel(playerData.getEquippedMagics(), Strings.Magic_Faith));
 		}
 
 		if (!level().isClientSide) {

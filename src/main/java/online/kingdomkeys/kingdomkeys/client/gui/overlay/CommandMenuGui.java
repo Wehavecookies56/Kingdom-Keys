@@ -189,14 +189,14 @@ public class CommandMenuGui extends OverlayBase {
 			List<CommandMenuItem> children = subMenu.getChildren();
 
 			for (CommandMenuItem item : children) {
-				int slot = Utils.getMagicSlotFromNameAndLevel(playerData.getEquippedMagics(), item.getId().toString(), Integer.parseInt(item.getData()));
+				int slot = Utils.getMagicSlotFromNameAndLevel(playerData.getEquippedMagics(), item.getId().toString());
 				ItemStack stack = playerData.getEquippedMagics().get(slot);
-				if (stack != null && stack.getItem() instanceof MagicSpellItem spell) {
+				if (stack != null && stack.getItem() instanceof MagicSpellItem) {
 					item.setSorting(0);
 
 					if (magicList.containsKey(item.getId().toString())) {
 						item.setSorting(magicList.get(item.getId().toString()));
-						item.setMessage(Component.translatable(ModMagic.registry.get(item.getId()).getTranslationKey(spell.getLevel())));
+						item.setMessage(Component.translatable(ModMagic.registry.get(item.getId()).getTranslationKey()));
 						item.setVisible(true);
 					} else {
 						item.setVisible(false);
@@ -526,10 +526,9 @@ public class CommandMenuGui extends OverlayBase {
 			subMenu.addChild(
 					new CommandMenuItem.Builder(
 							ResourceLocation.parse(spell.getMagic()),
-							Component.translatable(magic.getTranslationKey(spell.getLevel())),
+							Component.translatable(magic.getTranslationKey()),
 							item -> {
-								int magLevel = spell.getLevel();
-								double cost = magic.getCost(magLevel, minecraft.player);
+								double cost = magic.getCost(minecraft.player);
 
 								boolean allowUseMagicIfCostIsHigher = ModConfigs.SERVER.allowCastMagicIfTooExpensive.get();
 								boolean insufficientMP = cost > playerData.getMaxMP() && cost < 300;
@@ -549,7 +548,7 @@ public class CommandMenuGui extends OverlayBase {
 								if ((hasParty && needsTarget) || !targets.isEmpty()) {
 									if (currentSubmenu.equals(target) && commandMenuElements.get(currentSubmenu).getSelected() != null) {
 										int targetID = Integer.parseInt(commandMenuElements.get(currentSubmenu).getSelected().getData());
-										PacketHandler.sendToServer(new CSUseMagicPacket(magicId.toString(), targetID, magLevel));
+										PacketHandler.sendToServer(new CSUseMagicPacket(magicId.toString(), targetID));
 										changeSubmenu(root, true);
 									} else {
 										changeSubmenu(target, true);
@@ -557,12 +556,11 @@ public class CommandMenuGui extends OverlayBase {
 										return;
 									}
 								} else {
-									PacketHandler.sendToServer(new CSUseMagicPacket(magicId.toString(), magLevel, InputHandler.lockOn));
+									PacketHandler.sendToServer(new CSUseMagicPacket(magicId.toString(), InputHandler.lockOn));
 
 									//Cursor memory
 									for(int i=0;i<subMenu.getChildren().size();i++){
 										lastUsedMagic = magicId;
-										lastUsedMagicLevel = spell.getLevel();
 									}
 
 									changeSubmenu(root, true);
@@ -576,8 +574,7 @@ public class CommandMenuGui extends OverlayBase {
 									item.setActive(true);
 									item.setTextColour(Color.WHITE);
 
-									int level = spell.getLevel();
-									double magCost = magic.getCost(level, minecraft.player);
+									double magCost = magic.getCost(minecraft.player);
 
 									if (playerData2.getMP() <= magCost) {
 										boolean allowUseMagicIfCostIsHigher = ModConfigs.SERVER.allowCastMagicIfTooExpensive.get();
@@ -606,7 +603,7 @@ public class CommandMenuGui extends OverlayBase {
 									item.setActive(false);
 								}
 							})
-							.setData(spell.getLevel() + "")
+							//.setData(spell.getLevel() + "")
 							.iconUV(20, 60)
 							.build(subMenu)
 			);
@@ -615,7 +612,7 @@ public class CommandMenuGui extends OverlayBase {
 		subMenu.setSelected(subMenu.getFirst());
 
 		for(CommandMenuItem child : subMenu.getChildren()) {
-			if(child.getId().equals(lastUsedMagic) && Integer.parseInt(child.getData()) == lastUsedMagicLevel) {
+			if(child.getId().equals(lastUsedMagic)) {
 				subMenu.setSelected(child);
 				break;
 			}
@@ -623,7 +620,6 @@ public class CommandMenuGui extends OverlayBase {
 	}
 
 	public static ResourceLocation lastUsedMagic;
-	public static int lastUsedMagicLevel;
 
 	public void createItems(CommandMenuSubMenu subMenu) {
 		subMenu.getChildren().clear();

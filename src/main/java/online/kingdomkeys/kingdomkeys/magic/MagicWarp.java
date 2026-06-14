@@ -9,13 +9,14 @@ import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.entity.magic.WarpEntity;
 
 public class MagicWarp extends Magic {
-	public MagicWarp(ResourceLocation registryName, boolean hasToSelect, int maxLevel, String gmAbility) {
-		super(registryName, hasToSelect, maxLevel, gmAbility);
+	public MagicWarp(ResourceLocation registryName, boolean hasToSelect, int tier, String gmAbility) {
+		super(registryName, hasToSelect, gmAbility);
+		setTier(tier);
 	}
 
 	@Override
-	public void magicUse(LivingEntity player, Player caster, int level, float fullMPBlastMult, LivingEntity lockOnTarget) {
-		float warpChance = getRealDamageMult(level,caster);
+	public void magicUse(LivingEntity player, Player caster, float fullMPBlastMult, LivingEntity lockOnTarget) {
+		float warpChance = getRealDamageMult(caster);
 
 		ThrowableProjectile warp = new WarpEntity(player.level(), player, warpChance);
 		warp.setOwner(caster);
@@ -24,7 +25,7 @@ public class MagicWarp extends Magic {
 	}
 
 	@Override
-	protected void playMagicCastSound(LivingEntity player, Player caster, int level) {
+	public void playMagicCastSound(LivingEntity player, Player caster) {
 		player.level().playSound(null, player.position().x(), player.position().y(), player.position().z(), ModSounds.playerCast.get(), SoundSource.PLAYERS, 1F, 1F);
 	}
 }

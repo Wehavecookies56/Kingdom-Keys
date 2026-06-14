@@ -20,19 +20,21 @@ import java.util.List;
 public class MagicDeepFreeze extends Magic {
 
 	boolean launch;
-	public MagicDeepFreeze(ResourceLocation registryName, int maxLevel, String gmAbility, boolean launch) {
-		super(registryName, false, maxLevel, gmAbility);
+
+	public MagicDeepFreeze(ResourceLocation registryName, int tier, String gmAbility, boolean launch) {
+		super(registryName, false, gmAbility);
+		setTier(tier);
 		this.launch = launch;
 	}
 
 	@Override
-    public void magicUse(LivingEntity player, Player caster, int level, float fullMPBlastMult, LivingEntity lockOnEntity) {
+	public void magicUse(LivingEntity player, Player caster, float fullMPBlastMult, LivingEntity lockOnEntity) {
 		PlayerData playerData = PlayerData.get(caster);
-		float dmg = getRealDamageMult(level, caster);
+		float dmg = getRealDamageMult(caster);
 		dmg *= fullMPBlastMult;
 
 		int time = playerData.getMagic(true) * 2;
-		float radius = 3 + (getMagicLocalLevel(caster, level) * 0.2F);
+		float radius = 3 + (getMagicLocalLevel(caster) * 0.2F);
 
 		for (int a = 0; a < 360; a += 5) {
 			double angle = Math.toRadians(a);
@@ -46,13 +48,13 @@ public class MagicDeepFreeze extends Magic {
 		}
 
 		List<LivingEntity> list = new ArrayList<>();
-		if(caster instanceof Player p) {
+		if (caster instanceof Player p) {
 			list = Utils.getLivingEntitiesInRadiusExcludingParty(p, radius);
 		}
 		list.remove(this);
 
-		for(LivingEntity e : list) {
-			if(launch){
+		for (LivingEntity e : list) {
+			if (launch) {
 				e.addEffect(new MobEffectInstance(ModMobEffects.ZERO_GRAVITY, 5, 2, false, false, false));
 				e.setOnGround(false);
 			}
@@ -62,9 +64,9 @@ public class MagicDeepFreeze extends Magic {
 
 		player.swing(InteractionHand.MAIN_HAND);
 	}
-	
+
 	@Override
-	protected void playMagicCastSound(LivingEntity player, Player caster, int level) {
+	public void playMagicCastSound(LivingEntity player, Player caster) {
 		player.level().playSound(null, player.position().x(), player.position().y(), player.position().z(), ModSounds.deepFreeze.get(), SoundSource.PLAYERS, 1F, 1F);
 	}
 

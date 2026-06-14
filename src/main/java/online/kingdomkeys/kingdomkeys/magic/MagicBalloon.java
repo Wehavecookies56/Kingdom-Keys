@@ -14,17 +14,18 @@ import online.kingdomkeys.kingdomkeys.lib.Strings;
 
 public class MagicBalloon extends Magic {
 
-	public MagicBalloon(ResourceLocation registryName, boolean hasToSelect, int maxLevel, String gmAbility) {
-		super(registryName, hasToSelect, maxLevel, gmAbility);
+	public MagicBalloon(ResourceLocation registryName, boolean hasToSelect, int tier, String gmAbility) {
+		super(registryName, hasToSelect, gmAbility);
+		setTier(tier);
 	}
 
 	@Override
-	public void magicUse(LivingEntity player, Player caster, int level, float fullMPBlastMult, LivingEntity lockOnTarget) {
-		float dmgMult = getRealDamageMult(level,caster) + PlayerData.get(caster).getNumberOfAbilitiesEquipped(Strings.waterBoost) * 0.2F;
+	public void magicUse(LivingEntity player, Player caster, float fullMPBlastMult, LivingEntity lockOnEntity) {
+		float dmgMult = getRealDamageMult(caster) + PlayerData.get(caster).getNumberOfAbilitiesEquipped(Strings.waterBoost) * 0.2F;
 		caster.swing(InteractionHand.MAIN_HAND);
 
 		// Levels
-		switch (level) {
+		switch (getTier()) {
 			case 0:
 				for (int i = -45; i <= 45; i += 45) {
 					ThrowableProjectile balloon = new BalloonEntity(player.level(), player, dmgMult);
@@ -48,7 +49,7 @@ public class MagicBalloon extends Magic {
 	}
 
 	@Override
-	protected void playMagicCastSound(LivingEntity player, Player caster, int level) {
+	public void playMagicCastSound(LivingEntity player, Player caster) {
 		player.level().playSound(null, player.getX(), player.getY(), player.getZ(), ModSounds.balloon.get(), SoundSource.PLAYERS, 1F, 1F);
 	}
 }

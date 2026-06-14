@@ -1,0 +1,12 @@
+{
+  "casttime": 10,
+  "cooldown": 5,
+  "cost": 8,
+  "dmg_mult": 0.4,
+  "dmg_mult_max": 0.45,
+  "magic_lock_on": true,
+  "magic_rc": "kingdomkeys:magic_fire",
+  "max_exp": 4200,
+  "max_lvl": 4,
+  "next_tier": "kingdomkeys:magic_firaza"
+}

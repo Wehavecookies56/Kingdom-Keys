@@ -72,7 +72,7 @@ public class FiragaBurstControllerEntity extends BaseMagicProjectile {
 						level().addFreshEntity(firaga);
 					}
 
-					fire.playMagicCastSound2(player, player, 0);
+					fire.playMagicCastSound(player, player);
 				}
 			}
 		}

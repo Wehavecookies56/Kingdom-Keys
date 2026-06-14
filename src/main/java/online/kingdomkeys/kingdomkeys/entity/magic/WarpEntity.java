@@ -98,12 +98,6 @@ public class WarpEntity extends BaseMagicProjectile {
 					list.remove(getOwner());
 				}
 
-				int localLevel = 1;
-				if(getOwner() instanceof Player player) {
-					PlayerData playerData = PlayerData.get(player);
-					localLevel = Utils.getMagicHighestLocalLevel(playerData.getEquippedMagics(), Strings.Magic_Warp,0);
-				}
-
 				for (Entity e : list) {
 					if (!(e instanceof LivingEntity)) {
 						continue;

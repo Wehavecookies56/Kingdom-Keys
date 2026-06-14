@@ -25,16 +25,10 @@ import java.util.List;
 
 public class MagicSpellItem extends Item implements IItemCategory {
 	String magic;
-	int level;
 
-	public MagicSpellItem(Properties properties, String name, int level) {
+	public MagicSpellItem(Properties properties, String name) {
 		super(properties.stacksTo(1));
 		this.magic = name;
-		this.level = level;
-	}
-
-	public int getLevel(){
-		return level;
 	}
 
 	public String getMagic() {
@@ -44,7 +38,7 @@ public class MagicSpellItem extends Item implements IItemCategory {
 	@Override
 	public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
 		Magic magicInstance = ModMagic.registry.get(ResourceLocation.parse(magic));
-		player.displayClientMessage(Component.translatable("gui.magicspell.equip", Utils.translateToLocal(magicInstance.getTranslationKey(getLevel()))), true);
+		player.displayClientMessage(Component.translatable("gui.magicspell.equip", Utils.translateToLocal(magicInstance.getTranslationKey())), true);
 		/*if(player.getItemInHand(hand).getItem() instanceof MagicSpellItem spell){
 			spell.setExp(player.getItemInHand(hand), 1800);
 		}
@@ -81,7 +75,7 @@ public class MagicSpellItem extends Item implements IItemCategory {
 
 	public int getMaxExp() {
 		Magic magicInstance = ModMagic.registry.get(ResourceLocation.parse(magic));
-		int exp = magicInstance.getMaxExp(getLevel());
+		int exp = magicInstance.getMaxExp();
 		return exp == 0 ? 1 : exp;
 	}
 
@@ -95,7 +89,7 @@ public class MagicSpellItem extends Item implements IItemCategory {
 			KingdomKeys.LOGGER.error(magic+": magic not found");
 			return 1;
 		}
-		int lvl = magicInstance.getMaxLocalLevel(getLevel());
+		int lvl = magicInstance.getMaxLevel();
 		return lvl == 0 ? 1 : lvl;
 	}
 

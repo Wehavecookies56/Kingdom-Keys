@@ -9,24 +9,25 @@ import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.entity.magic.IceBarrageControllerEntity;
 
 public class MagicIceBarrage extends Magic {
-	public MagicIceBarrage(ResourceLocation registryName, int maxLevel, String gmAbility) {
-		super(registryName, false, maxLevel, gmAbility);
+	public MagicIceBarrage(ResourceLocation registryName, int tier, String gmAbility) {
+		super(registryName, false, gmAbility);
+		setTier(tier);
 	}
 
 	@Override
-    public void magicUse(LivingEntity player, Player caster, int level, float fullMPBlastMult, LivingEntity lockOnEntity) {
-		float dmgMult = getRealDamageMult(level, caster);
+	public void magicUse(LivingEntity player, Player caster, float fullMPBlastMult, LivingEntity lockOnEntity) {
+		float dmgMult = getRealDamageMult(caster);
 		dmgMult *= fullMPBlastMult;
-		lockOnEntity = getMagicLockOn(level) ? lockOnEntity : null;
+		lockOnEntity = getMagicLockOn() ? lockOnEntity : null;
 
 		IceBarrageControllerEntity iceBarrage = new IceBarrageControllerEntity(player.level(), player, dmgMult, lockOnEntity);
 		player.level().addFreshEntity(iceBarrage);
 
 		player.swing(InteractionHand.MAIN_HAND);
 	}
-	
+
 	@Override
-	protected void playMagicCastSound(LivingEntity player, Player caster, int level) {
+	public void playMagicCastSound(LivingEntity player, Player caster) {
 		player.level().playSound(null, player.position().x(), player.position().y(), player.position().z(), ModSounds.iceBarrage.get(), SoundSource.PLAYERS, 1F, 1F);
 	}
 

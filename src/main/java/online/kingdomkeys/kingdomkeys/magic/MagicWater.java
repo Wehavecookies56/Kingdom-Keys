@@ -14,16 +14,17 @@ import online.kingdomkeys.kingdomkeys.lib.Strings;
 
 public class MagicWater extends Magic {
 
-	public MagicWater(ResourceLocation registryName, int maxLevel, String gmAbility) {
-		super(registryName, false, maxLevel, gmAbility);
+	public MagicWater(ResourceLocation registryName, int tier, String gmAbility) {
+		super(registryName, false, gmAbility);
+		setTier(tier);
 	}
 
 	@Override
-	public void magicUse(LivingEntity player, Player caster, int level, float fullMPBlastMult, LivingEntity lockOnEntity) {
-		float dmgMult = getRealDamageMult(level,caster) + PlayerData.get(caster).getNumberOfAbilitiesEquipped(Strings.waterBoost) * 0.2F;
+	public void magicUse(LivingEntity player, Player caster, float fullMPBlastMult, LivingEntity lockOnEntity) {
+		float dmgMult = getRealDamageMult(caster) + PlayerData.get(caster).getNumberOfAbilitiesEquipped(Strings.waterBoost) * 0.2F;
 		dmgMult *= fullMPBlastMult;
 
-		switch(level) {
+		switch (getTier()) {
 			case 0 -> {
 				WaterEntity water = new WaterEntity(player.level(), player, dmgMult);
 				player.level().addFreshEntity(water);
@@ -41,15 +42,15 @@ public class MagicWater extends Magic {
 				player.level().addFreshEntity(waterza);
 			}
 		}
-		
-		if(player.isOnFire()) {
+
+		if (player.isOnFire()) {
 			player.clearFire();
 		}
 	}
-	
+
 	@Override
-	protected void playMagicCastSound(LivingEntity player, Player caster, int level) {
-		player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), SoundEvents.WATER_AMBIENT, SoundSource.PLAYERS, 1F, 1F);
+	public void playMagicCastSound(LivingEntity player, Player caster) {
+		player.level().playSound(null, player.position().x(), player.position().y(), player.position().z(), SoundEvents.WATER_AMBIENT, SoundSource.PLAYERS, 1F, 1F);
 	}
 
 }

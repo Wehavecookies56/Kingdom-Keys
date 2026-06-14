@@ -59,10 +59,9 @@ public record CSUseShortcutPacket(int index, int lockOnTarget) implements Packet
 				}
 
 				String magicName = spell.getMagic();
-				int level = spell.getLevel();
 
 				Magic magic = ModMagic.registry.get(ResourceLocation.parse(magicName));
-				double cost = magic.getCost(level, player);
+				double cost = magic.getCost( player);
 
 				boolean allowUseMagicIfCostIsHigher = ModConfigs.SERVER.allowCastMagicIfTooExpensive.get();
 				boolean insufficientMP = cost > playerData.getMaxMP() && cost < 300;
@@ -72,9 +71,9 @@ public record CSUseShortcutPacket(int index, int lockOnTarget) implements Packet
 				//if (playerData.getMaxMP() == 0 || playerData.getRecharge() || (cost > playerData.getMaxMP() && cost < 300) || (cost < 300 && cost >= playerData.getMP() && playerData.isAbilityEquipped(Strings.mpSafety)) || playerData.getMagicCooldownTicks() > 0) {
 
 				} else {
-					if (NeoForge.EVENT_BUS.post(new MagicSpellCastEvent(player, ResourceLocation.parse(magicName), level)).isCanceled())
+					if (NeoForge.EVENT_BUS.post(new MagicSpellCastEvent(player, ResourceLocation.parse(magicName))).isCanceled())
 						return;
-					magic.onUse(player, player, level, (LivingEntity) player.level().getEntity(lockOnTarget));
+					magic.onUse(player, player, (LivingEntity) player.level().getEntity(lockOnTarget));
 				}
 
 				PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);

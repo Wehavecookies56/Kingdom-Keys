@@ -47,11 +47,10 @@ public class ShortcutsGui extends OverlayBase {
 				}
 
 				String magicId = spell.getMagic();
-				int level = spell.getLevel();
 
 				Magic magic = ModMagic.registry.get(ResourceLocation.parse(magicId));
 
-				double cost = magic.getCost(level, minecraft.player);
+				double cost = magic.getCost(minecraft.player);
 				int colour = playerData.getMP() > cost ? 0xFFFFFF : 0xFF9900;
 
 				if (playerData.isAbilityEquipped(Strings.extraCast) && cost > playerData.getMP() && playerData.getMP() > 1 && cost < 300) {
@@ -66,7 +65,7 @@ public class ShortcutsGui extends OverlayBase {
 					colour = 0x888888;
 				}
 
-				drawString(guiGraphics, minecraft.font, Utils.translateToLocal(InputHandler.Keybinds.SCROLL_ACTIVATOR.keybinding.getKey().getName()) + " + " + (entry.getKey() + 1) + ": " + Utils.translateToLocal(magic.getTranslationKey(level)), (int) (5) + ModConfigs.cmTextXOffset, 4 + i * 10, colour);
+				drawString(guiGraphics, minecraft.font, Utils.translateToLocal(InputHandler.Keybinds.SCROLL_ACTIVATOR.keybinding.getKey().getName()) + " + " + (entry.getKey() + 1) + ": " + Utils.translateToLocal(magic.getTranslationKey()), 5 + ModConfigs.cmTextXOffset, 4 + i * 10, colour);
 				i++;
 			}
 		}

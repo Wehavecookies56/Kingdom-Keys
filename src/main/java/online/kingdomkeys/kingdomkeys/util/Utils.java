@@ -231,12 +231,10 @@ public class Utils {
 			if(stack != null && stack.getItem() instanceof MagicSpellItem spell) {
 				Magic m = ModMagic.registry.get(ResourceLocation.parse(spell.getMagic()));
 				if (m != null) {
-					int lvl = spell.getLevel();
-					if (m.getCost(lvl, player) == 300) { //If has cure return it since it's used to calculate whether to show magic available or not.
-						return m.getCost(lvl, player);
+					if (m.getCost(player) == 300) { //If has cure return it since it's used to calculate whether to show magic available or not.
+						return m.getCost(player);
 					}
-					min = Math.min(m.getCost(lvl, player), min);
-
+					min = Math.min(m.getCost(player), min);
 				}
 			}
 		}
@@ -921,13 +919,13 @@ public class Utils {
 		return result;
 	}
 
-	public static int getMagicSlotFromNameAndLevel(Map<Integer, ItemStack> equippedMagics, String commandMagicName, int level) {
+	public static int getMagicSlotFromNameAndLevel(Map<Integer, ItemStack> equippedMagics, String commandMagicName) {
 		if (equippedMagics.isEmpty()) return -1;
 
 		for (Map.Entry<Integer, ItemStack> entry : equippedMagics.entrySet()) {
 			ItemStack stack = entry.getValue();
 			if (!stack.isEmpty() && stack.getItem() instanceof MagicSpellItem spell) {
-				if (spell.getMagic().equals(commandMagicName) && spell.getLevel() == level) {
+				if (spell.getMagic().equals(commandMagicName)) {
 					return entry.getKey();
 				}
 			}
@@ -935,7 +933,7 @@ public class Utils {
 		return -1;
 	}
 
-	public static int getMagicHighestLevel(Map<Integer, ItemStack> equippedMagics, String commandMagicName) {
+	public static int getMagicHighestLocalLevel(Map<Integer, ItemStack> equippedMagics, String commandMagicName) {
 		if (equippedMagics.isEmpty()) return -1;
 
 		int level = -1;
@@ -943,21 +941,6 @@ public class Utils {
 			ItemStack stack = entry.getValue();
 			if (!stack.isEmpty() && stack.getItem() instanceof MagicSpellItem spell) {
 				if (spell.getMagic().equals(commandMagicName)) {
-					level = Math.max(spell.getLevel(),level);
-				}
-			}
-		}
-		return level;
-	}
-
-	public static int getMagicHighestLocalLevel(Map<Integer, ItemStack> equippedMagics, String commandMagicName, int typeLevel) {
-		if (equippedMagics.isEmpty()) return -1;
-
-		int level = -1;
-		for (Map.Entry<Integer, ItemStack> entry : equippedMagics.entrySet()) {
-			ItemStack stack = entry.getValue();
-			if (!stack.isEmpty() && stack.getItem() instanceof MagicSpellItem spell) {
-				if (spell.getMagic().equals(commandMagicName) && spell.getLevel() == typeLevel) {
 					level = Math.max(spell.getLocalLevel(stack), level);
 				}
 			}
@@ -1078,7 +1061,7 @@ public class Utils {
 		);
 	}
 
-	public record castMagic(LivingEntity player, Player caster, int level, float fullMPBlastMult, LivingEntity lockOnEntity, Magic magic) {}
+	public record castMagic(LivingEntity player, Player caster, float fullMPBlastMult, LivingEntity lockOnEntity, Magic magic) {}
 
 	public static ResourceLocation getItemRegistryName(Item item) {
 		return BuiltInRegistries.ITEM.getKey(item);

@@ -1,42 +1,10 @@
 {
-  "0": {
-    "casttime": 10,
-    "cooldown": 30,
-    "cost": 14,
-    "dmg_mult": 0.25,
-    "dmg_mult_max": 0.33,
-    "magic_lock_on": true,
-    "max_exp": 1800,
-    "max_exp_lvl": 3
-  },
-  "1": {
-    "casttime": 10,
-    "cooldown": 30,
-    "cost": 14,
-    "dmg_mult": 0.5,
-    "dmg_mult_max": 0.6,
-    "magic_lock_on": true,
-    "max_exp": 2400,
-    "max_exp_lvl": 3
-  },
-  "2": {
-    "casttime": 10,
-    "cooldown": 30,
-    "cost": 14,
-    "dmg_mult": 0.75,
-    "dmg_mult_max": 0.8,
-    "magic_lock_on": true,
-    "max_exp": 4200,
-    "max_exp_lvl": 4
-  },
-  "3": {
-    "casttime": 15,
-    "cooldown": 40,
-    "cost": 14,
-    "dmg_mult": 1.0,
-    "dmg_mult_max": 1.1,
-    "magic_lock_on": true,
-    "max_exp": 200,
-    "max_exp_lvl": 3
-  }
+  "casttime": 10,
+  "cooldown": 30,
+  "cost": 14,
+  "dmg_mult": 0.25,
+  "dmg_mult_max": 0.33,
+  "magic_lock_on": true,
+  "max_exp": 1800,
+  "max_lvl": 3
 }

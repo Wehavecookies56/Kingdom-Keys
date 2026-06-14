@@ -18,7 +18,7 @@ import online.kingdomkeys.kingdomkeys.network.Packet;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
 
-public record CSUseMagicPacket(String name, int level, int allyTarget, int lockedTarget) implements Packet {
+public record CSUseMagicPacket(String name, int allyTarget, int lockedTarget) implements Packet {
 
 	public static final Type<CSUseMagicPacket> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_use_magic"));
 
@@ -26,27 +26,25 @@ public record CSUseMagicPacket(String name, int level, int allyTarget, int locke
 			ByteBufCodecs.STRING_UTF8,
 			CSUseMagicPacket::name,
 			ByteBufCodecs.INT,
-			CSUseMagicPacket::level,
-			ByteBufCodecs.INT,
 			CSUseMagicPacket::allyTarget,
 			ByteBufCodecs.INT,
 			CSUseMagicPacket::lockedTarget,
 			CSUseMagicPacket::new
 	);
 
-	public CSUseMagicPacket(String name, int level, LivingEntity lockedTarget) {
-		this(name, level, -1, lockedTarget == null ? -1 : lockedTarget.getId());
+	public CSUseMagicPacket(String name, LivingEntity lockedTarget) {
+		this(name, -1, lockedTarget == null ? -1 : lockedTarget.getId());
 	}
 	
-	public CSUseMagicPacket(String name, int targetID, int level) {
-		this(name, level, targetID, -1);
+	public CSUseMagicPacket(String name, int targetID) {
+		this(name, targetID, -1);
 	}
 
 	@Override
 	public void handle(IPayloadContext context) {
 		Player player = context.player();
 		PlayerData playerData = PlayerData.get(player);
-        if (NeoForge.EVENT_BUS.post(new MagicSpellCastEvent(player, ResourceLocation.parse(name), level)).isCanceled())
+        if (NeoForge.EVENT_BUS.post(new MagicSpellCastEvent(player, ResourceLocation.parse(name))).isCanceled())
             return;
 
 		if (playerData.getMP() >= 0 && !playerData.getRecharge()) {
@@ -54,13 +52,13 @@ public record CSUseMagicPacket(String name, int level, int allyTarget, int locke
 
 			if(allyTarget == -1) { // Direct magic
 				if(lockedTarget > -1) {
-					ModMagic.registry.get(ResourceLocation.parse(name)).onUse(player, player, level, (LivingEntity) player.level().getEntity(lockedTarget));
+					ModMagic.registry.get(ResourceLocation.parse(name)).onUse(player, player, (LivingEntity) player.level().getEntity(lockedTarget));
 				} else {
-					ModMagic.registry.get(ResourceLocation.parse(name)).onUse(player, player, level, null);
+					ModMagic.registry.get(ResourceLocation.parse(name)).onUse(player, player, null);
 				}
 			} else { // On party member
 				LivingEntity allyTargetEntity = (LivingEntity) player.level().getEntity(allyTarget);
-				ModMagic.registry.get(ResourceLocation.parse(name)).onUse(allyTargetEntity, player, level, null);
+				ModMagic.registry.get(ResourceLocation.parse(name)).onUse(allyTargetEntity, player, null);
 			}
 		}
 

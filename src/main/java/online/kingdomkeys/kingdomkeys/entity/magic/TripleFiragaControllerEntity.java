@@ -42,8 +42,8 @@ public class TripleFiragaControllerEntity extends BaseMagicProjectile {
 					ThrowableProjectile firaga = new FiragaEntity(level(), player, dmgMult, lockOnEntity);
 					player.level().addFreshEntity(firaga);
 					firaga.shootFromRotation(player, player.getXRot(), player.getYRot(), 0, 2F, 0);
-					Magic fire = ModMagic.registry.get(ResourceLocation.parse(Strings.Magic_Fire));
-					fire.playMagicCastSound2(player,player,0);
+					Magic fire = ModMagic.FIRE.get();
+					fire.playMagicCastSound(player,player);
 				}
 				/*if(fire != null) {
 					if(getOwner() instanceof Player p) {

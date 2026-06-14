@@ -628,44 +628,91 @@ public class LanguageESES extends KKLanguageProvider {
         addAbilityWithDesc(ModAbilities.PROTECTGA, "Protectga", "Absorbs 40% of the damage taken.");
 
         //Magic
-        addMagic(ModMagic.FIRE, "Piro", "Piro+", "Piro++", "Piro+++");
-        addMagic(ModMagic.BLIZZARD, "Hielo", "Hielo+", "Hielo++", "Hielo+++");
-        addMagic(ModMagic.WATER, "Aqua", "Aqua+", "Aqua++", "Aqua+++");
-        addMagic(ModMagic.THUNDER, "Electro", "Electro+", "Electro++", "Electro+++");
-        addMagic(ModMagic.CURE, "Cura", "Cura+", "Cura++", "Cura+++");
-        addMagic(ModMagic.AERO, "Aero", "Aero+", "Aero++");
-        addMagic(ModMagic.MAGNET, "Magneto", "Magneto+", "Magneto++");
-        addMagic(ModMagic.REFLECT, "Reflejo", "Reflejo+", "Reflejo++");
-        addMagic(ModMagic.GRAVITY, "Gravedad", "Gravedad+", "Gravedad++");
-        addMagic(ModMagic.STOP, "Paro", "Paro+", "Paro++");
-        addMagic(ModMagic.ZERO_GRAVITY, "Ingravidez", "Ingravidez+", "Ingravidez++");
+        add(ModMagic.FIRE.get(), "Piro");
+        add(ModMagic.FIRA.get(), "Piro+");
+        add(ModMagic.FIRAGA.get(), "Piro++");
+        add(ModMagic.FIRAZA.get(), "Piro+++");
 
-        add(0, ModMagic.DARK_FIRAGA.get(),"Nigro Piro++");
-        add(0, ModMagic.TRIPLE_FIRAGA.get(),"Triple Piro++");
-        add(0, ModMagic.CRAWLING_FIRAGA.get(),"Tardo Piro++");
-        add(0, ModMagic.FISSION_FIRAGA.get(),"Lluvia Piro++");
-        add(0, ModMagic.FIRAGA_BURST.get(),"Descarga Ígnea");
-        add(0, ModMagic.IGNITE.get(),"Ignición");
+        add(ModMagic.BLIZZARD.get(), "Hielo");
+        add(ModMagic.BLIZZARA.get(), "Hielo+");
+        add(ModMagic.BLIZZAGA.get(), "Hielo++");
+        add(ModMagic.BLIZZAZA.get(), "Hielo+++");
 
-        add(0, ModMagic.TRIPLE_BLIZZAGA.get(),"Triple Hielo++");
-        add(0, ModMagic.DEEP_FREEZE.get(),"Hipotermia");
-        add(0, ModMagic.GLACIER.get(),"Glaciar");
-        add(0, ModMagic.ICE_BARRAGE.get(),"Asalto Gélido");
+        add(ModMagic.WATER.get(), "Aqua");
+        add(ModMagic.WATERA.get(), "Aqua+");
+        add(ModMagic.WATERGA.get(), "Aqua++");
+        add(ModMagic.WATERZA.get(), "Aqua+++");
 
-        add(0, ModMagic.THUNDAGA_SHOT.get(),"Tiro Electro++");
-        add(0, ModMagic.TRIPLE_PLASMA.get(),"Triplasma");
+        add(ModMagic.THUNDER.get(), "Electro");
+        add(ModMagic.THUNDARA.get(), "Electro+");
+        add(ModMagic.THUNDAGA.get(), "Electro++");
+        add(ModMagic.THUNDAZA.get(), "Electro+++");
 
-        add(0, ModMagic.BLACKOUT.get(),"Apagón");
-        add(0, ModMagic.POISON.get(),"Toxis");
+        add(ModMagic.CURE.get(), "Cura");
+        add(ModMagic.CURA.get(), "Cura+");
+        add(ModMagic.CURAGA.get(), "Cura++");
+        add(ModMagic.CURAZA.get(), "Cura+++");
 
-        addMagic(ModMagic.BALLOON, "Globo", "Globo+", "Globo++");
-        addMagic(ModMagic.SPARK, "Chispa", "Chispa+", "Chispa++");
-        addMagic(ModMagic.MINE_SHIELD, "Escudo de Minas", "Cuadro de Minas", "Mina Astuta");
+        add(ModMagic.AERO.get(), "Aero");
+        add(ModMagic.AERORA.get(), "Aero+");
+        add(ModMagic.AEROGA.get(), "Aero++");
 
-        add(0, ModMagic.WARP.get(),"Exilio");
-        add(0, ModMagic.FAITH.get(),"Sanctus");
-        add(0, ModMagic.ESUNA.get(),"Esna");
-        add(0, ModMagic.BIND.get(),"Enlace");
+        add(ModMagic.MAGNET.get(), "Magneto");
+        add(ModMagic.MAGNERA.get(), "Magneto+");
+        add(ModMagic.MAGNEGA.get(), "Magneto++");
+
+        add(ModMagic.REFLECT.get(), "Reflejo");
+        add(ModMagic.REFLERA.get(), "Reflejo+");
+        add(ModMagic.REFLEGA.get(), "Reflejo++");
+
+        add(ModMagic.GRAVITY.get(), "Gravedad");
+        add(ModMagic.GRAVIRA.get(), "Gravedad+");
+        add(ModMagic.GRAVIGA.get(), "Gravedad++");
+
+        add(ModMagic.STOP.get(), "Paro");
+        add(ModMagic.STOPRA.get(), "Paro+");
+        add(ModMagic.STOPGA.get(), "Paro++");
+
+        add(ModMagic.ZERO_GRAVITY.get(), "Ingravidez");
+        add(ModMagic.ZERO_GRAVIRA.get(), "Ingravidez+");
+        add(ModMagic.ZERO_GRAVIGA.get(), "Ingravidez++");
+
+
+
+        add(ModMagic.DARK_FIRAGA.get(),"Nigro Piro++");
+        add(ModMagic.TRIPLE_FIRAGA.get(),"Triple Piro++");
+        add(ModMagic.CRAWLING_FIRAGA.get(),"Tardo Piro++");
+        add(ModMagic.FISSION_FIRAGA.get(),"Lluvia Piro++");
+        add(ModMagic.FIRAGA_BURST.get(),"Descarga Ígnea");
+        add(ModMagic.IGNITE.get(),"Ignición");
+
+        add(ModMagic.TRIPLE_BLIZZAGA.get(),"Triple Hielo++");
+        add(ModMagic.DEEP_FREEZE.get(),"Hipotermia");
+        add(ModMagic.GLACIER.get(),"Glaciar");
+        add(ModMagic.ICE_BARRAGE.get(),"Asalto Gélido");
+
+        add(ModMagic.THUNDAGA_SHOT.get(),"Tiro Electro++");
+        add(ModMagic.TRIPLE_PLASMA.get(),"Triplasma");
+
+        add(ModMagic.BLACKOUT.get(),"Apagón");
+        add(ModMagic.POISON.get(),"Toxis");
+
+        add(ModMagic.BALLOON.get(), "Globo");
+        add(ModMagic.BALLOONRA.get(), "Globo+");
+        add(ModMagic.BALLOONGA.get(), "Globo++");
+
+        add(ModMagic.SPARK.get(), "Chispa");
+        add(ModMagic.SPARKRA.get(), "Chispa+");
+        add(ModMagic.SPARKGA.get(), "Chispa++");
+
+        add(ModMagic.MINE_SHIELD.get(), "Escudo de Minas");
+        add(ModMagic.MINE_SQUARE.get(), "Cuadro de Minas");
+        add(ModMagic.SEEKER_MINE.get(), "Mina Astuta");
+
+        add(ModMagic.WARP.get(),"Exilio");
+        add(ModMagic.FAITH.get(),"Sanctus");
+        add(ModMagic.ESUNA.get(),"Esna");
+        add(ModMagic.BIND.get(),"Enlace");
 
 
 

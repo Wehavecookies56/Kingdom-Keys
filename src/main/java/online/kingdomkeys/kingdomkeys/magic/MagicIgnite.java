@@ -12,19 +12,20 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 import java.util.List;
 
 public class MagicIgnite extends Magic {
-	public MagicIgnite(ResourceLocation registryName, int maxLevel, String gmAbility) {
-		super(registryName, false, maxLevel, gmAbility);
+	public MagicIgnite(ResourceLocation registryName, int tier, String gmAbility) {
+		super(registryName, false, gmAbility);
+		setTier(tier);
 	}
 
 	@Override
-	public void magicUse(LivingEntity player, Player caster, int level, float fullMPBlastMult, LivingEntity lockOnEntity) {
-		float dmgMult = getRealDamageMult(level, caster) * fullMPBlastMult;
+	public void magicUse(LivingEntity player, Player caster, float fullMPBlastMult, LivingEntity lockOnEntity) {
+		float dmgMult = getRealDamageMult(caster) * fullMPBlastMult;
 
 		PlayerData playerData = PlayerData.get(caster);
-		int localLevel = Utils.getMagicHighestLocalLevel(playerData.getEquippedMagics(), getRegistryName().toString(), 0);
+		int localLevel = Utils.getMagicHighestLocalLevel(playerData.getEquippedMagics(), getRegistryName().toString());
 		int radius = 3 + localLevel;
 
-		LivingEntity target = getMagicLockOn(level) && lockOnEntity != null ? lockOnEntity : getRandomEntity(caster, radius);
+		LivingEntity target = getMagicLockOn() && lockOnEntity != null ? lockOnEntity : getRandomEntity(caster, radius);
 		if (target != null) {
 			target.setRemainingFireTicks(Math.round(dmgMult));
 		}
@@ -40,7 +41,7 @@ public class MagicIgnite extends Magic {
 	}
 
 	@Override
-	protected void playMagicCastSound(LivingEntity player, Player caster, int level) {
+	public void playMagicCastSound(LivingEntity player, Player caster) {
 		player.level().playSound(null, player.position().x(), player.position().y(), player.position().z(), SoundEvents.GHAST_SHOOT, SoundSource.PLAYERS, 1F, 1F);
 	}
 

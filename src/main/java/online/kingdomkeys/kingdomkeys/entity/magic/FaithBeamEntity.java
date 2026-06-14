@@ -112,7 +112,7 @@ public class FaithBeamEntity extends BaseMagicProjectile {
 				float healAmount = 2;
 				if (getOwner() instanceof Player player) {
 					PlayerData playerData = PlayerData.get(player);
-					int localLevel = Utils.getMagicHighestLocalLevel(playerData.getEquippedMagics(), Strings.Magic_Faith, 0);
+					int localLevel = Utils.getMagicHighestLocalLevel(playerData.getEquippedMagics(), Strings.Magic_Faith);
 
 					float totalHealPercent = 0.4F + localLevel * 0.1F; //0.5F --> 1.0F
 					int beamCount = 6;

@@ -58,7 +58,7 @@ public class MenuCustomizeHiddenMagics extends MenuBackground {
 
 			if(!stack.isEmpty() && stack.getItem() instanceof MagicSpellItem spell) {
 				Magic magicInstance = ModMagic.registry.get(ResourceLocation.parse(spell.getMagic()));
-				magicName = Utils.translateToLocal(magicInstance.getTranslationKey(spell.getLevel()));
+				magicName = Utils.translateToLocal(magicInstance.getTranslationKey());
 			}
 
 			int column = index % 2;

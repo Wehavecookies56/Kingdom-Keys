@@ -1,94 +1,101 @@
 package online.kingdomkeys.kingdomkeys.magic;
 
+import net.minecraft.resources.ResourceLocation;
+
 /**
  * Stores the data loaded from the magics datapack
  */
 public class MagicData {
 
-    float[] dmgMult = new float[4];
-	float[] dmgMultMax = new float[4];
-    int[] cost = new int[4];
-    int[] ct = new int[4];
-    int[] cd = new int[4];
-    boolean[] magicLockOn = new boolean[4];
-	int[] maxExp = new int[4];
-	int[] maxLocalLevel = new int[4];
+	private float dmgMult;
+	private float dmgMultMax;
+	private int cost;
+	private int ct;
+	private int cd;
+	private boolean magicLockOn;
+	private int maxExp;
+	private int maxLevel;
+	private ResourceLocation nextTier, magicRC;
 
-    public MagicData() {
+	public MagicData() {}
 
-    }
-
-    public MagicData(int level, int cost, int ct, int cd, float dmgMult, float magMult, boolean magicLockOn, int maxExp, int maxLocalLevel) {
-    	this.cost[level] = cost;
-    	this.ct[level] = ct;
-    	this.cd[level] = cd;
-		this.dmgMult[level] = dmgMult;
-		this.magicLockOn[level] = magicLockOn;
-		this.maxExp[level] = maxExp;
-		this.maxLocalLevel[level] = maxLocalLevel;
+	public int getCost() {
+		return cost;
 	}
 
-    public int getCost(int lvl) {
-		return cost[lvl];
+	public void setCost(int cost) {
+		this.cost = cost;
 	}
 
-	public void setCost(int lvl, int cost) {
-		this.cost[lvl] = cost;
+	public int getCasttime() {
+		return ct;
 	}
 
-	public int getCasttime(int lvl) {
-		return ct[lvl];
+	public void setCasttime(int ct) {
+		this.ct = ct;
 	}
 
-	public void setCasttime(int lvl, int ct) {
-		this.ct[lvl] = ct;
+	public int getCooldown() {
+		return cd;
 	}
 
-	public int getCooldown(int lvl) {
-		return cd[lvl];
+	public void setCooldown(int cd) {
+		this.cd = cd;
 	}
 
-	public void setCooldown(int lvl, int cd) {
-		this.cd[lvl] = cd;
-	}
-	
-	public float getDmgMult(int lvl) {
-		return dmgMult[lvl];
+	public float getDmgMult() {
+		return dmgMult;
 	}
 
-	public void setDmgMult(int lvl, float dmgMult) {
-		this.dmgMult[lvl] = dmgMult;
+	public void setDmgMult(float dmgMult) {
+		this.dmgMult = dmgMult;
 	}
 
-	public float getDmgMultMax(int lvl) {
-		return dmgMultMax[lvl] > 0 ? dmgMultMax[lvl] : dmgMult[lvl];
+	public float getDmgMultMax() {
+		return dmgMultMax > 0 ? dmgMultMax : dmgMult;
 	}
 
-	public void setDmgMultMax(int lvl, float dmgMult) {
-		this.dmgMultMax[lvl] = dmgMult;
+	public void setDmgMultMax(float dmgMultMax) {
+		this.dmgMultMax = dmgMultMax;
 	}
 
-	public boolean getMagicLockOn(int lvl) {
-		return this.magicLockOn[lvl];
+	public boolean getMagicLockOn() {
+		return magicLockOn;
 	}
 
-	public void setMagicLockon(int lvl, boolean lockOn) {
-		this.magicLockOn[lvl] = lockOn;
+	public void setMagicLockon(boolean lockOn) {
+		this.magicLockOn = lockOn;
 	}
 
-	public int getMaxExp(int lvl) {
-		return this.maxExp[lvl];
+	public int getMaxExp() {
+		return maxExp;
 	}
 
-	public void setMaxExp(int lvl, int maxExp) {
-		this.maxExp[lvl] = maxExp;
+	public void setMaxExp(int maxExp) {
+		this.maxExp = maxExp;
 	}
 
-	public int getMaxLocalLevel(int lvl) {
-		return this.maxLocalLevel[lvl];
+	public int getMaxLevel() {
+		return maxLevel;
 	}
 
-	public void setMaxLocalLevel(int lvl, int level) {
-		this.maxLocalLevel[lvl] = level;
+	public void setMaxLevel(int level) {
+		this.maxLevel = level;
+	}
+
+	public ResourceLocation getNextTier() {
+		return nextTier;
+	}
+
+	public void setNextTier(ResourceLocation nextTier) {
+		this.nextTier = nextTier;
+	}
+
+	public ResourceLocation getMagicRC() {
+		return magicRC;
+	}
+
+	public void setMagicRC(ResourceLocation rc) {
+		this.magicRC = rc;
 	}
 }

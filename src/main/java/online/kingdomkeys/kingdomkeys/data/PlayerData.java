@@ -2342,7 +2342,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		this.castMagic = castMagic;
 		
 		if(castMagic != null) //If null it means we removing the magic so it doesnt fire more times, we don't need to set the casttime and crash in the attempt
-			this.magicCasttime = castMagic.magic().getCasttimeTicks(castMagic.level());
+			this.magicCasttime = castMagic.magic().getCasttimeTicks();
 	}
 
 	public castMagic getCastedMagic() {
