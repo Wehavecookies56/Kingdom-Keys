@@ -95,7 +95,7 @@ public class CommandMenuGui extends OverlayBase {
 					subMenu.setWidth(74);
 				})
 				.withChildren(
-						new CommandMenuItem.Builder(attack, Component.translatable(Strings.Gui_CommandMenu_Attack), opensSubmenu(attack)).onUpdate((item, guiGraphics) -> updateRootItem(item, null, guiGraphics)).iconUV(30, 60).onCancel(item -> onCancel(item, null, guiGraphics)),
+						new CommandMenuItem.Builder(attack, Component.translatable(Strings.Gui_CommandMenu_Attack), opensSubmenu(attack)).onUpdate((item, guiGraphics) -> updateRootItem(item, attack, guiGraphics)).iconUV(30, 60).onCancel(item -> onCancel(item, null, guiGraphics)),
 						new CommandMenuItem.Builder(portals, Component.translatable(Strings.Gui_CommandMenu_Portal), opensSubmenu(portals)).invisibleByDefault().onUpdate((item, guiGraphics) -> updateRootItem(item, portals, guiGraphics)).iconUV(40, 60),
 						new CommandMenuItem.Builder(magic, Component.translatable(Strings.Gui_CommandMenu_Magic), opensSubmenu(magic)).onUpdate((item, guiGraphics) -> updateRootItem(item, magic, guiGraphics)).iconUV(20, 60),
 						new CommandMenuItem.Builder(items, Component.translatable(Strings.Gui_CommandMenu_Items), opensSubmenu(items)).onUpdate((item, guiGraphics) -> updateRootItem(item, items, guiGraphics)).iconUV(10, 60),
@@ -222,15 +222,6 @@ public class CommandMenuGui extends OverlayBase {
 
 
 			List<CommandMenuItem> children = subMenu.getChildren();
-			/*System.out.println("SPELL LIST:");
-			for (String s : spellList.keySet()) {
-				System.out.println("  " + s);
-			}
-
-			System.out.println("CHILDREN:");
-			for (CommandMenuItem item : children) {
-				System.out.println("  " + item.getId());
-			}*/
 			for (CommandMenuItem item : children) {
 				int slot = Utils.getMagicSlotFromNameAndLevel(playerData.getEquippedMagics(), item.getId().toString());
 				ItemStack stack = playerData.getEquippedMagics().get(slot);
@@ -373,10 +364,12 @@ public class CommandMenuGui extends OverlayBase {
 
 		if (item.getId().equals(attack)) {
 			updateSpellCategory(item, playerData, MagicData.SpellType.PHYSICAL, Component.translatable(Strings.Gui_CommandMenu_Attack));
+			return;
 		}
 
 		if (item.getId().equals(magic)) {
 			updateSpellCategory(item, playerData, MagicData.SpellType.MAGIC, Component.translatable(Strings.Gui_CommandMenu_Magic));
+			return;
 		}
 
 		if (item.getId().equals(drive)) {
@@ -441,7 +434,7 @@ public class CommandMenuGui extends OverlayBase {
 
 		double cheapest = Utils.getCheapestMagicCost(playerData.getEquippedMagics(), minecraft.player, type);
 
-		if (Utils.getSpellsList(playerData, type).isEmpty()) {
+		if (Utils.getSpellsList(playerData, type).isEmpty() && type == MagicData.SpellType.MAGIC) { //Only set ??? to magic
 			item.setActive(false);
 			item.setMessage(Component.literal("???"));
 			return;

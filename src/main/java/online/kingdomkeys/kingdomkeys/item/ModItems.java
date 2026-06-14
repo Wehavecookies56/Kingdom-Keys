@@ -879,20 +879,20 @@ public class ModItems {
 			blackoutSpell = createNewItem(Strings.SpellBlackout, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Blackout)),
 			poisonSpell = createNewItem(Strings.SpellPoison, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Poison)),
 			zeroGravitySpell = createNewItem(Strings.SpellZeroGravity, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_ZeroGravity)),
-			zeroGraviraSpell = createNewItem(Strings.SpellZeroGravira, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_ZeroGravity)),
-			zeroGravigaSpell = createNewItem(Strings.SpellZeroGraviga, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_ZeroGravity)),
+			zeroGraviraSpell = createNewItem(Strings.SpellZeroGravira, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_ZeroGravira)),
+			zeroGravigaSpell = createNewItem(Strings.SpellZeroGraviga, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_ZeroGraviga)),
 
 			balloonSpell = ITEMS.register(Strings.SpellBalloon, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Balloon)),
-			balloonraSpell = ITEMS.register(Strings.SpellBalloonra, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Balloon)),
-			balloongaSpell = ITEMS.register(Strings.SpellBalloonga, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Balloon)),
+			balloonraSpell = ITEMS.register(Strings.SpellBalloonra, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Balloonra)),
+			balloongaSpell = ITEMS.register(Strings.SpellBalloonga, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Balloonga)),
 
 			sparkSpell = ITEMS.register(Strings.SpellSpark, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Spark)),
-			sparkraSpell = ITEMS.register(Strings.SpellSparkra, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Spark)),
-			sparkgaSpell = ITEMS.register(Strings.SpellSparkga, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Spark)),
+			sparkraSpell = ITEMS.register(Strings.SpellSparkra, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Sparkra)),
+			sparkgaSpell = ITEMS.register(Strings.SpellSparkga, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Sparkga)),
 
 			mineShieldSpell = ITEMS.register(Strings.SpellMineShield, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_MineShield)),
-			mineSquareSpell = ITEMS.register(Strings.SpellMineSquare, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_MineShield)),
-			mineSeekerSpell = ITEMS.register(Strings.SpellMineSeeker, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_MineShield)),
+			mineSquareSpell = ITEMS.register(Strings.SpellMineSquare, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_MineSquare)),
+			mineSeekerSpell = ITEMS.register(Strings.SpellMineSeeker, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_SeekerMine)),
 
 			warpSpell = ITEMS.register(Strings.SpellWarp, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Warp)),
 			faithSpell = ITEMS.register(Strings.SpellFaith, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Faith)),
