@@ -8,6 +8,7 @@ import net.minecraft.resources.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.datagen.builder.MagicBuilder;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
+import online.kingdomkeys.kingdomkeys.magic.MagicData;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 
 import java.nio.file.Path;
@@ -52,7 +53,7 @@ public class MagicDataProvider implements DataProvider {
 		magics.put(ResourceLocation.parse(Strings.Magic_Curaga).getPath(), new MagicBuilder().cost(300).castTime(1).cooldown(20).damageMultiplier(0.75F, 0.8F).lockOn(false).maxExp(4200).maxExpLevel(4).nextTier(ModMagic.CURAZA.get().getRegistryName(), ModMagic.CURE.get().getRegistryName()).build());
 		magics.put(ResourceLocation.parse(Strings.Magic_Curaza).getPath(), new MagicBuilder().cost(300).castTime(1).cooldown(20).damageMultiplier(1.0F, 1.1F).lockOn(false).maxExp(200).maxExpLevel(3).build());
 
-		magics.put(ResourceLocation.parse(Strings.Magic_Aero).getPath(), new MagicBuilder().cost(12).castTime(10).cooldown(20).damageMultiplier(1.0F, 1.3F).lockOn(false).maxExp(1800).maxExpLevel(3).build());
+		magics.put(ResourceLocation.parse(Strings.Magic_Aero).getPath(), new MagicBuilder().cost(12).spellType(MagicData.SpellType.PHYSICAL).castTime(10).cooldown(20).damageMultiplier(1.0F, 1.3F).lockOn(false).maxExp(1800).maxExpLevel(3).build());
 		magics.put(ResourceLocation.parse(Strings.Magic_Aerora).getPath(), new MagicBuilder().cost(12).castTime(10).cooldown(20).damageMultiplier(1.5F, 1.7F).lockOn(false).maxExp(2400).maxExpLevel(3).build());
 		magics.put(ResourceLocation.parse(Strings.Magic_Aeroga).getPath(), new MagicBuilder().cost(12).castTime(10).cooldown(20).damageMultiplier(2.0F, 2.2F).lockOn(false).maxExp(4200).maxExpLevel(4).build());
 		//magics.put(ResourceLocation.parse(Strings.Magic_Aeroza).getPath(), new MagicBuilder().cost(12).castTime(10).cooldown(20).damageMultiplier(1.0F).lockOn(false).maxExp(200).maxExpLevel(3).build());

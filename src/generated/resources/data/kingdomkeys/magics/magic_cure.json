@@ -8,5 +8,6 @@
   "magic_rc": "kingdomkeys:magic_cure",
   "max_exp": 1800,
   "max_lvl": 3,
-  "next_tier": "kingdomkeys:magic_cura"
+  "next_tier": "kingdomkeys:magic_cura",
+  "spell_type": "MAGIC"
 }

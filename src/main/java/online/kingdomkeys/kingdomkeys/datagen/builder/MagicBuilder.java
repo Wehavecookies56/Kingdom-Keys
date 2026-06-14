@@ -2,10 +2,20 @@ package online.kingdomkeys.kingdomkeys.datagen.builder;
 
 import com.google.gson.JsonObject;
 import net.minecraft.resources.ResourceLocation;
+import online.kingdomkeys.kingdomkeys.magic.MagicData;
 
 public class MagicBuilder {
 
 	private final JsonObject root = new JsonObject();
+
+	public MagicBuilder() {
+		root.addProperty("spell_type", "MAGIC");
+	}
+
+	public MagicBuilder spellType(MagicData.SpellType type) {
+		root.addProperty("spell_type", type.toString());
+		return this;
+	}
 
 	public MagicBuilder cost(int value) {
 		root.addProperty("cost", value);

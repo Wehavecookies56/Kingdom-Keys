@@ -33,6 +33,7 @@ public class MagicDataDeserializer implements JsonDeserializer<MagicData> {
 				case "max_lvl" -> out.setMaxLevel(element.getAsInt());
 				case "next_tier" -> out.setNextTier(ResourceLocation.parse(element.getAsString()));
 				case "magic_rc" -> out.setMagicRC(ResourceLocation.parse(element.getAsString()));
+				case "spell_type" -> out.setSpellType(MagicData.SpellType.valueOf(element.getAsString().toUpperCase()));
 			}
 		});
 

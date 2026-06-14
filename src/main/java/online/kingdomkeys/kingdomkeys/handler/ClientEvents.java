@@ -96,7 +96,10 @@ public class ClientEvents {
 	public void onEquipmentChange(EquipmentEvent.Magic e) {
 		CommandMenuSubMenu submenu = CommandMenuGui.commandMenuElements.get(CommandMenuGui.INSTANCE.currentSubmenu);
 		if(submenu.getId().equals(CommandMenuGui.INSTANCE.magic)) {
-			CommandMenuGui.INSTANCE.createMagics(submenu);
+			CommandMenuGui.INSTANCE.createMagicSpells(submenu);
+		}
+		if(submenu.getId().equals(CommandMenuGui.INSTANCE.attack)) {
+			CommandMenuGui.INSTANCE.createPhysicalSpells(submenu);
 		}
 	}
 

@@ -8,5 +8,6 @@
   "magic_rc": "kingdomkeys:magic_blizzard",
   "max_exp": 1800,
   "max_lvl": 3,
-  "next_tier": "kingdomkeys:magic_blizzara"
+  "next_tier": "kingdomkeys:magic_blizzara",
+  "spell_type": "MAGIC"
 }

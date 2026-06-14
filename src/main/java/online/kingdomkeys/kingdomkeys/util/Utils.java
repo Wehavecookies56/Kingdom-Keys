@@ -96,6 +96,7 @@ import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.limit.Limit;
 import online.kingdomkeys.kingdomkeys.limit.ModLimits;
 import online.kingdomkeys.kingdomkeys.magic.Magic;
+import online.kingdomkeys.kingdomkeys.magic.MagicData;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.menu.PauldronInventory;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
@@ -217,30 +218,43 @@ public class Utils {
 		return min;
 	}
 
-    public static double getCheapestMagicCost(Map<Integer, ItemStack> magicsMap, Player player) {
+	public static double getCheapestMagicCost(Map<Integer, ItemStack> magicsMap, Player player, MagicData.SpellType type) {
 		double min = 1000;
-	    PlayerData playerData = PlayerData.get(player);
-		if(playerData == null){
+
+		PlayerData playerData = PlayerData.get(player);
+		if (playerData == null) {
 			return 0;
 		}
 
-    	for (Entry<Integer, ItemStack> magic : magicsMap.entrySet()){
-			if(magic.getKey() >= playerData.getMaxMagics())
+		for (Entry<Integer, ItemStack> magic : magicsMap.entrySet()) {
+			if (magic.getKey() >= playerData.getMaxMagics())
 				break;
-		    ItemStack stack = playerData.getEquippedMagic(magic.getKey());
-			if(stack != null && stack.getItem() instanceof MagicSpellItem spell) {
+
+			ItemStack stack = playerData.getEquippedMagic(magic.getKey());
+
+			if (stack != null && stack.getItem() instanceof MagicSpellItem spell) {
 				Magic m = ModMagic.registry.get(ResourceLocation.parse(spell.getMagic()));
-				if (m != null) {
-					if (m.getCost(player) == 300) { //If has cure return it since it's used to calculate whether to show magic available or not.
-						return m.getCost(player);
-					}
-					min = Math.min(m.getCost(player), min);
+
+				if (m == null)
+					continue;
+
+				// Ignorar magias de otro tipo
+				if (m.getSpellType() != type)
+					continue;
+
+				double cost = m.getCost(player);
+
+				// Mantener el comportamiento especial de Cura
+				if (cost == 300) {
+					return cost;
 				}
+
+				min = Math.min(cost, min);
 			}
 		}
-        return min;
-    }
 
+		return min;
+	}
 	public static List<Component> getResistancesStats(ItemStack selectedItemStack) {
 		List<Component> stats = new ArrayList<>();
 
@@ -903,19 +917,28 @@ public class Utils {
 		return null;
 	}
 
-	public static List<String> getSpellsList(PlayerData playerData) {
+	public static List<String> getSpellsList(PlayerData playerData, MagicData.SpellType type) {
 		Map<Integer, ItemStack> equippedMagics = playerData.getEquippedMagics();
 		int maxMagics = playerData.getMaxMagics();
+
 		List<String> result = new ArrayList<>();
-		if(equippedMagics.isEmpty())
+
+		if (equippedMagics.isEmpty())
 			return result;
+
 		for (Map.Entry<Integer, ItemStack> entry : equippedMagics.entrySet()) {
-			if(entry.getKey() >= maxMagics)
+			if (entry.getKey() >= maxMagics)
 				break;
-			if(entry.getValue().getItem() instanceof MagicSpellItem spell) {
-				result.add(spell.getMagic());
+
+			if (entry.getValue().getItem() instanceof MagicSpellItem spell) {
+				Magic magic = ModMagic.registry.get(ResourceLocation.parse(spell.getMagic()));
+
+				if (magic != null && magic.getSpellType() == type) {
+					result.add(spell.getMagic());
+				}
 			}
 		}
+
 		return result;
 	}
 

@@ -41,7 +41,6 @@ public class MagicDataLoader extends SimpleJsonResourceReloadListener {
 					dataList.add(element.toString());
 					MagicData result = GSON_BUILDER.fromJson(element, MagicData.class);
 					names.add(resourceLocation.toString());
-					;
 					magic.setMagicData(result);
 					count.incrementAndGet();
 				} else {

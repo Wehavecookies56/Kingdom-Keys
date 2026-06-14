@@ -6,5 +6,6 @@
   "dmg_mult_max": 0.58,
   "magic_lock_on": false,
   "max_exp": 2400,
-  "max_lvl": 3
+  "max_lvl": 3,
+  "spell_type": "MAGIC"
 }

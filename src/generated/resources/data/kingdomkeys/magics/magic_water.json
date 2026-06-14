@@ -8,5 +8,6 @@
   "magic_rc": "kingdomkeys:magic_water",
   "max_exp": 1800,
   "max_lvl": 3,
-  "next_tier": "kingdomkeys:magic_watera"
+  "next_tier": "kingdomkeys:magic_watera",
+  "spell_type": "MAGIC"
 }

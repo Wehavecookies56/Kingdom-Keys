@@ -16,6 +16,12 @@ public class MagicData {
 	private int maxExp;
 	private int maxLevel;
 	private ResourceLocation nextTier, magicRC;
+	private SpellType spellType;
+
+	public enum SpellType {
+		PHYSICAL,
+		MAGIC
+	}
 
 	public MagicData() {}
 
@@ -97,5 +103,13 @@ public class MagicData {
 
 	public void setMagicRC(ResourceLocation rc) {
 		this.magicRC = rc;
+	}
+
+	public SpellType getSpellType() {
+		return spellType;
+	}
+
+	public void setSpellType(SpellType spellType) {
+		this.spellType = spellType;
 	}
 }

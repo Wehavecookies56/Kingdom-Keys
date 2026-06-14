@@ -94,6 +94,10 @@ public abstract class Magic {
 		return data.getMagicRC();
 	}
 
+	public MagicData.SpellType getSpellType() {
+		return data.getSpellType();
+	}
+
 	public Ability getGMAbility() {
 		if (gmAbility == null) return null;
 		return ModAbilities.registry.get(ResourceLocation.parse(gmAbility));

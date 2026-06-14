@@ -8,5 +8,6 @@
   "magic_rc": "kingdomkeys:magic_thunder",
   "max_exp": 4200,
   "max_lvl": 4,
-  "next_tier": "kingdomkeys:magic_thundaza"
+  "next_tier": "kingdomkeys:magic_thundaza",
+  "spell_type": "MAGIC"
 }

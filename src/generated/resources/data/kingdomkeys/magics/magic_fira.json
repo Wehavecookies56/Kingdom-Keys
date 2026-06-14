@@ -8,5 +8,6 @@
   "magic_rc": "kingdomkeys:magic_fire",
   "max_exp": 2400,
   "max_lvl": 3,
-  "next_tier": "kingdomkeys:magic_firaga"
+  "next_tier": "kingdomkeys:magic_firaga",
+  "spell_type": "MAGIC"
 }
