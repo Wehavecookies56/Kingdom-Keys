@@ -1,4 +1,4 @@
-# 2.7.13c / 2.8.0a:
+# 2.7.13c:
 ## Added:
 * Confuse spell: Bought in the shop at tier C onwards.
 * Command Menu Attack submenu, for spells that are defined as physical (only for addons right now). 
