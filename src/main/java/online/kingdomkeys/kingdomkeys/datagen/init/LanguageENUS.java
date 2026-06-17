@@ -16,6 +16,7 @@ import online.kingdomkeys.kingdomkeys.limit.ModLimits;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.reactioncommands.ModReactionCommands;
 import online.kingdomkeys.kingdomkeys.shotlock.ModShotlocks;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModRoomTypes;
 
 import static online.kingdomkeys.kingdomkeys.KingdomKeys.MODID;
 import static online.kingdomkeys.kingdomkeys.lib.Strings.*;
@@ -855,8 +856,24 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.treacherousRepository, "Treacherous Repository");
         addItem(ModItems.reposefulGrove, "Reposeful Grove");
 
+        addItem(ModItems.keyOfBeginnings, "Key of Beginnings");
+        addItem(ModItems.keyOfGuidance, "Key of Guidance");
+        addItem(ModItems.keyToTruth, "Key to Truth");
+        addItem(ModItems.keyToRewards, "Key to Rewards");
+
         addItem(ModItems.plainsCard,"Plains Card");
-        addItem(ModItems.netherCard,"Nether Card");
+        addItem(ModItems.theNetherCard,"The Nether Card");
+        addItem(ModItems.theEndCard,"The End Card");
+        addItem(ModItems.castleOblivionCard,"Castle Oblivion Card");
+        addItem(ModItems.oceanCard,"Ocean Card");
+        addItem(ModItems.desertCard,"Desert Card");
+        addItem(ModItems.snowyCard,"Snowy Card");
+        addItem(ModItems.badlandsCard,"Badlands Card");
+        addItem(ModItems.swampCard,"Swamp Card");
+        addItem(ModItems.caveCard,"Cave Card");
+        addItem(ModItems.mushroomFieldsCard,"Mushroom Fields Card");
+        addItem(ModItems.forestCard,"Forest Card");
+        addItem(ModItems.jungleCard,"Jungle Card");
 
         //Materials
         addItem(ModItems.blazing_shard, "Blazing Shard");
@@ -2280,5 +2297,39 @@ public class LanguageENUS extends KKLanguageProvider {
         addKKEffect(ModMobEffects.GRAVITY, "Gravity", "Limits your movement while being flattened.");
         addKKEffect(ModMobEffects.KO, "KO", "Allows a player in your party to save you by casting Cure or using a Potion on you.");
         addKKEffect(ModMobEffects.UNDERWORLD_CURSE, "Underworld's Curse", "Prevents the use of drive forms and limits.");
+
+        //CO Rooms
+        addRoom("almighty_darkness", "Almighty Darkness");
+        addRoom("bottomless_darkness", "Bottomless Darkness");
+        addRoom("feeble_darkness", "Feeble Darkness");
+        addRoom("looming_darkness", "Looming Darkness");
+        addRoom("sleeping_darkness", "Sleeping Darkness");
+        addRoom("teeming_darkness", "Teeming Darkness");
+        addRoom("tranquil_darkness", "Tranquil Darkness");
+
+        addRoom("alchemic_waking", "Alchemic Waking");
+        addRoom("martial_waking", "Martial Waking");
+        addRoom("sorcerous_waking", "Sorcerous Waking");
+        addRoom("stagnant_space", "Stagnant Space");
+        addRoom("weightless_space", "Weightless Space");
+
+        addRoom("calm_bounty", "Calm Bounty");
+        addRoom("false_bounty", "False Bounty");
+        addRoom("guarded_trove", "Guarded Trove");
+        addRoom("moments_reprieve", "Moment's Reprieve");
+        addRoom("moogle_room", "Moogle Room");
+        addRoom("prosperous_repository", "Prosperous Repository");
+        addRoom("reposeful_grove", "Reposeful Grove");
+        addRoom("treacherous_repository", "Treacherous Repository");
+
+        addRoom("unknown_room", "Unknown Room");
+        addRoom("conquerors_respite", "Conqueror's Respite");
+        addRoom("entrance_hall", "Entrance Hall %sF");
+
+        addRoom("room_of_beginnings", "Room of Beginnings");
+        addRoom("room_of_guidance", "Room of Guidance");
+        addRoom("room_of_rewards", "Room of Rewards");
+        addRoom("room_of_truth", "Room of Truth");
+
     }
 }

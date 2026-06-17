@@ -193,9 +193,9 @@ public class EntityEvents {
 	}
 
 	public void checkRecipeMaterials(Player player) {
-		if (player.level().registryAccess().lookupOrThrow(Registries.ITEM).get(Tags.MATERIALS).isPresent()) {
+		if (player.level().registryAccess().lookupOrThrow(Registries.ITEM).get(ModTags.MATERIALS).isPresent()) {
 			RecipeRegistry.getInstance().getValues().forEach(recipe -> recipe.getMaterials().keySet().forEach(item -> {
-				if (!item.builtInRegistryHolder().is(Tags.MATERIALS)) {
+				if (!item.builtInRegistryHolder().is(ModTags.MATERIALS)) {
 					player.sendSystemMessage(Component.translatable(ChatFormatting.RED + "Recipe[" + recipe.getRegistryName().toString() + "] contains material(s) that are not present in the \"synthesis/materials\" tag you will be unable to create this recipe"));
 				}
 			}));
@@ -203,7 +203,7 @@ public class EntityEvents {
 				if (keybladeItem.data != null) {
 					for (int i = 0; i < keybladeItem.data.getMaxLevel(); i++) {
 						keybladeItem.data.getLevelData(i).getMaterialList().keySet().forEach(item -> {
-							if (!item.builtInRegistryHolder().is(Tags.MATERIALS)) {
+							if (!item.builtInRegistryHolder().is(ModTags.MATERIALS)) {
 								player.sendSystemMessage(Component.translatable(ChatFormatting.RED + "Keyblade level data[" + BuiltInRegistries.ITEM.getKey(keybladeItem) + "] contains material(s) that are not present in the \"synthesis/materials\" tag you will be unable to upgrade this keyblade"));
 							}
 						});
@@ -1138,10 +1138,26 @@ public class EntityEvents {
 	@SubscribeEvent
 	public void onLivingDeathEvent(LivingDeathEvent event) {
 		if (!event.getEntity().level().isClientSide) {
+			LivingEntity entity = event.getEntity();
+			Level level = event.getEntity().level();
+
+			//Castle oblivion
+			if (CastleOblivionHandler.isInterior(level.dimension())) {
+				if (!(entity instanceof Player)) {
+					if (GlobalData.get(entity).getCastleOblivionMarker()) {
+						List<Item> cardDrops = ModTags.getItemsInTag(level, ModTags.MAP_CARD);
+						Item toDrop = cardDrops.get(Utils.randomWithRange(0, cardDrops.size()-1));
+						level.addFreshEntity(new ItemEntity(level, entity.getX(), entity.getY(), entity.getZ(), new ItemStack(toDrop)));
+						CastleOblivionData.InteriorData.get((ServerLevel) level).ifPresent(interiorData -> {
+							interiorData.getRoomAtPos(entity.blockPosition()).removeCurrentSpawn();
+						});
+					}
+				}
+			}
+
 			// EnderDragon killed makes heartless spawn if mode is 3
 			WorldData worldData = WorldData.get(event.getEntity().getServer());
 			if (event.getEntity() instanceof EnderDragon) {
-				LivingEntity entity = event.getEntity();
 				if (worldData.getHeartlessSpawnLevel() == 0 && ModConfigs.heartlessSpawningMode == SpawningMode.AFTER_DRAGON) {
 					worldData.setHeartlessSpawnLevel(1);
 				}
@@ -1192,7 +1208,6 @@ public class EntityEvents {
 						event.getEntity().level().addFreshEntity(heart);
 					}
 					if (heartless.getKHMobType() == MobType.HEARTLESS_PUREBLOOD && event.getEntity().level() instanceof ServerLevel) {
-						LivingEntity entity = event.getEntity();
 						for (int i = 0; i < 2; i++) {
 							((ServerLevel) entity.level()).sendParticles(ParticleTypes.SMOKE, entity.getX() + entity.level().random.nextDouble() / 2 - 0.25D, entity.getY() + entity.level().random.nextDouble() / 2 - 0.25D, entity.getZ() + entity.level().random.nextDouble() / 2 - 0.25D, 50, 0, -1, 0, 0.3);
 							((ServerLevel) entity.level()).sendParticles(ParticleTypes.SQUID_INK, entity.getX() + entity.level().random.nextDouble() / 2 - 0.25D, entity.getY() + entity.level().random.nextDouble() / 2 - 0.25D, entity.getZ() + entity.level().random.nextDouble() / 2 - 0.25D, 30, 0, -1, 0, 0.1);
@@ -1224,7 +1239,6 @@ public class EntityEvents {
 						player.level().addFreshEntity(new XPEntity(mob.level(), player, mob, clampedXP));
 					}
 
-					LivingEntity entity = event.getEntity();
 					double x = entity.getX();
 					double y = entity.getY();
 					double z = entity.getZ();
@@ -1348,8 +1362,7 @@ public class EntityEvents {
 			if (event.getEntity() instanceof MarluxiaEntity && event.getSource().getEntity() instanceof Player && event.getSource().getEntity().level().dimension().equals(ModDimensions.STATION_OF_SORROW)) {
 				ResourceKey<Level> dimension = ResourceKey.create(Registries.DIMENSION, ResourceLocation.withDefaultNamespace("overworld"));
 				BlockPos coords = DimensionCommand.getWorldCoords(player, dimension);
-				player.changeDimension(new DimensionTransition(player.getServer().getLevel(dimension), new Vec3(coords.getX(), coords.getY(), coords.getZ()), Vec3.ZERO, player.getYRot(), player.getXRot(), entity -> {
-				}));
+				player.changeDimension(new DimensionTransition(player.getServer().getLevel(dimension), new Vec3(coords.getX(), coords.getY(), coords.getZ()), Vec3.ZERO, player.getYRot(), player.getXRot(), e -> {}));
 			}
 		}
 	}

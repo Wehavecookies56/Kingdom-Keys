@@ -15,6 +15,8 @@ public class ModRoomModifiers {
     public static DeferredRegister<RoomModifier> ROOM_MODIFIERS = DeferredRegister.create(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "room_modifiers"), KingdomKeys.MODID);
     public static Registry<RoomModifier> registry = ROOM_MODIFIERS.makeRegistry(builder -> builder.sync(true));
 
-    public static final Supplier<RoomModifier> BLINDNESS = ROOM_MODIFIERS.register("blindness", () -> new EffectRoomModifier(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "blindness"), MobEffects.BLINDNESS));
+    public static final Supplier<RoomModifier>
+            BLINDNESS = ROOM_MODIFIERS.register("blindness", () -> new EffectRoomModifier(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "blindness"), MobEffects.BLINDNESS)),
+            WATER_BREATHING = ROOM_MODIFIERS.register("water_breathing", () -> new EffectRoomModifier(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "water_breathing"), MobEffects.WATER_BREATHING));
 
 }

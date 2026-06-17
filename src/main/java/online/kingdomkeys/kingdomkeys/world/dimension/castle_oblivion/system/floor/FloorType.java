@@ -5,12 +5,18 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.entity.EntityType;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.JsonRegistryObject;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModRoomModifiers;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModRoomTypes;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.RoomType;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.modifiers.RoomModifier;
 import org.jetbrains.annotations.Nullable;
 
 import java.awt.*;
@@ -25,6 +31,9 @@ public class FloorType extends JsonRegistryObject {
     private List<ResourceLocation> roomBlacklist;
     @Nullable private ResourceLocation startingRoom;
     @Nullable private ResourceLocation fixedLayout;
+    private List<ResourceLocation> globalModifiers;
+    @Nullable private ResourceLocation regularEnemies;
+    @Nullable private ResourceLocation strongEnemies;
 
     public FloorType(CompoundTag tag) {
         super(tag);
@@ -60,6 +69,28 @@ public class FloorType extends JsonRegistryObject {
 
     public List<RoomType> getRoomBlacklist() {
         return roomBlacklist.stream().map(resourceLocation -> ModRoomTypes.registry.get().getValue(resourceLocation)).toList();
+    }
+
+    public List<RoomModifier> getGlobalModifiers() {
+        return globalModifiers.stream().map(resourceLocation -> ModRoomModifiers.registry.get(resourceLocation)).toList();
+    }
+
+    public TagKey<EntityType<?>> getRegularEnemies() {
+        if (regularEnemies != null) {
+            return TagKey.create(Registries.ENTITY_TYPE, regularEnemies);
+        } else {
+            //fallback to default enemy pool
+            return TagKey.create(Registries.ENTITY_TYPE, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "castle_oblivion/regular_enemies"));
+        }
+    }
+
+    public TagKey<EntityType<?>> getStrongEnemies() {
+        if (strongEnemies != null) {
+            return TagKey.create(Registries.ENTITY_TYPE, strongEnemies);
+        } else {
+            //fallback to default enemy pool
+            return TagKey.create(Registries.ENTITY_TYPE, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "castle_oblivion/strong_enemies"));
+        }
     }
 
     @Nullable
@@ -109,6 +140,18 @@ public class FloorType extends JsonRegistryObject {
         if (fixedLayout != null) {
             tag.putString("fixed_layout", fixedLayout.toString());
         }
+
+        CompoundTag modifiers = new CompoundTag();
+        if (globalModifiers != null) {
+            globalModifiers.forEach(resourceLocation -> modifiers.putString(resourceLocation.toString(), resourceLocation.toString()));
+        }
+        tag.put("modifiers", modifiers);
+        if (regularEnemies != null) {
+            tag.putString("regular_enemies", regularEnemies.toString());
+        }
+        if (strongEnemies != null) {
+            tag.putString("strong_enemies", strongEnemies.toString());
+        }
         return tag;
     }
 
@@ -130,6 +173,14 @@ public class FloorType extends JsonRegistryObject {
         }
         if (tag.contains("fixed_layout")) {
             fixedLayout = ResourceLocation.parse(tag.getString("fixed_layout"));
+        }
+        globalModifiers = new ArrayList<>();
+        tag.getCompound("modifiers").getAllKeys().forEach(s -> globalModifiers.add(ResourceLocation.parse(s)));
+        if (tag.contains("regular_enemies")) {
+            regularEnemies = ResourceLocation.parse("regular_enemies");
+        }
+        if (tag.contains("strong_enemies")) {
+            strongEnemies = ResourceLocation.parse("strong_enemies");
         }
     }
 
@@ -208,10 +259,34 @@ public class FloorType extends JsonRegistryObject {
                         fixedLayout = ResourceLocation.parse(s);
                     }
                 }
+                case "global_modifiers" -> {
+                    JsonArray modifiers = entryElement.getAsJsonArray();
+                    globalModifiers = new ArrayList<>();
+                    modifiers.forEach(roomModifierElement -> globalModifiers.add(ResourceLocation.parse(roomModifierElement.getAsString())));
+                }
+                case "regular_enemies" -> {
+                    String s = entryElement.getAsString();
+                    if (s.startsWith("#")) {
+                        regularEnemies = ResourceLocation.parse(s.substring(1));
+                    } else {
+                        throw new JsonParseException("Value for regular enemies is not a tag");
+                    }
+                }
+                case "strong_enemies" -> {
+                    String s = entryElement.getAsString();
+                    if (s.startsWith("#")) {
+                        strongEnemies = ResourceLocation.parse(s.substring(1));
+                    } else {
+                        throw new JsonParseException("Value for strong enemies is not a tag");
+                    }
+                }
             }
         });
         if (roomBlacklist == null) {
             roomBlacklist = new ArrayList<>();
+        }
+        if (globalModifiers == null) {
+            globalModifiers = new ArrayList<>();
         }
         if (floorColour == null) {
             floorColour = Color.black;

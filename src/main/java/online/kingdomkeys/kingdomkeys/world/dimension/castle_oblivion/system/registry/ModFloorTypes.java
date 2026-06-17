@@ -14,7 +14,19 @@ public class ModFloorTypes {
     public static Supplier<FloorType>
             NONE = () -> registry.get().getValue(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "none")),
             PLAINS = () -> registry.get().getValue(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "plains")),
-            NETHER = () -> registry.get().getValue(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "nether"));
+            THE_NETHER = () -> registry.get().getValue(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "the_nether")),
+            THE_END = () -> registry.get().getValue(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "the_end")),
+            OCEAN = () -> registry.get().getValue(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "ocean")),
+            JUNGLE = () -> registry.get().getValue(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "jungle")),
+            DESERT = () -> registry.get().getValue(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "desert")),
+            FOREST = () -> registry.get().getValue(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "forest")),
+            CAVE = () -> registry.get().getValue(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cave")),
+            SWAMP = () -> registry.get().getValue(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "swamp")),
+            SNOWY = () -> registry.get().getValue(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "snowy")),
+            BADLANDS = () -> registry.get().getValue(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "badlands")),
+            MUSHROOM_FIELDS = () -> registry.get().getValue(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "mushroom_fields")),
+            CASTLE_OBLIVION = () -> registry.get().getValue(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "castle_oblivion"));
+
 
     public static boolean isFloorCompatible(FloorType floor, RoomType room) {
         return !floor.getRoomBlacklist().contains(room) && room.isFloorCompatible(floor);

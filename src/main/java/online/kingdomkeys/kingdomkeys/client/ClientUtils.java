@@ -98,6 +98,7 @@ public class ClientUtils {
     public static final HUDElement LEVELUP_ELEMENT = new HUDElement("LevelUp");
     public static final HUDElement DRIVELEVEL_ELEMENT = new HUDElement("DriveLevel");
     public static final HUDElement MINIMAP_ELEMENT = new HUDElement("Minimap");
+    public static final HUDElement ROOMNAME_ELEMENT = new HUDElement("RoomName");
 
     public static Entity getEntityByUUIDClient(UUID uuid) {
         Minecraft mc = Minecraft.getInstance();

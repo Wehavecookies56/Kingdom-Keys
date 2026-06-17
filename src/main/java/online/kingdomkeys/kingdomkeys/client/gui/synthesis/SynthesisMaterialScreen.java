@@ -22,7 +22,7 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuStockItem;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
-import online.kingdomkeys.kingdomkeys.lib.Tags;
+import online.kingdomkeys.kingdomkeys.lib.ModTags;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSCloseMoogleGUI;
 import online.kingdomkeys.kingdomkeys.network.cts.CSDepositMaterials;
@@ -76,7 +76,7 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 					ItemStack stack = player.getInventory().getItem(i);
 
 					if (!ItemStack.matches(stack, ItemStack.EMPTY)) {
-						if (stack.is(Tags.MATERIALS)) {
+						if (stack.is(ModTags.MATERIALS)) {
 							parent.playerData.addMaterial(stack.getItem(), stack.getCount());
 							player.getInventory().setItem(i, ItemStack.EMPTY);
 						}

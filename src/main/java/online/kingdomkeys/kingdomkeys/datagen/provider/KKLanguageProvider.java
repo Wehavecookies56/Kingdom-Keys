@@ -148,4 +148,8 @@ public abstract class KKLanguageProvider extends LanguageProvider {
         }
     }
 
+    public void addRoom(String roomName, String name) {
+        add("room." + roomName, name);
+    }
+
 }

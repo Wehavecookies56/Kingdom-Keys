@@ -10,7 +10,7 @@ import java.util.List;
  * Config file for client only config options
  */
 public class ClientConfig {
-	public ModConfigSpec.ConfigValue<List<? extends Float>> hpHUDData, mpHUDData, cmHUDData, rcHUDData, driveHUDData, focusHUDData, partyHUDData, lockOnHUDData, portraitHUDData, munnyExpHUDData, levelUpHUDData, driveLevelHUDData, minimapHUDData;
+	public ModConfigSpec.ConfigValue<List<? extends Float>> hpHUDData, mpHUDData, cmHUDData, rcHUDData, driveHUDData, focusHUDData, partyHUDData, lockOnHUDData, portraitHUDData, munnyExpHUDData, levelUpHUDData, driveLevelHUDData, minimapHUDData, roomNameHUDData;
 
     public ModConfigSpec.BooleanValue cmHeaderTextVisible, cmClassicColors, auto3rdPersonShip, cmChangeColor, customFont;
     public ModConfigSpec.IntValue cmTextXOffset, cmSelectedXOffset, cmSubXOffset, cmEndLWidth, cmEndRWidth, cmHeaderEndLWidth, cmHeaderEndRWidth, cmReactionEndLWidth, cmReactionEndRWidth;
@@ -102,6 +102,10 @@ public class ClientConfig {
 				.comment("Castle Oblivion Minimap HUD Data")
 				.translation(KingdomKeys.MODID + ".config.minimap_hud_data")//X,Y,Width ,Height ,xScale, yScale,rotation,anchor (ordinal)
 				.defineList("minimapHUDData", () -> HUDElement.getDefaultValues("Minimap"), o -> o instanceof Number);
+		roomNameHUDData = builder
+				.comment("Castle Oblivion Room Name HUD Data")
+				.translation(KingdomKeys.MODID + ".config.roomname_hud_data")//X,Y,Width ,Height ,xScale, yScale,rotation,anchor (ordinal)
+				.defineList("roomnameHUDData", () -> HUDElement.getDefaultValues("RoomName"), o -> o instanceof Number);
 		builder.pop();
 
         builder.push("gui");

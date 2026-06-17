@@ -14,7 +14,7 @@ import net.neoforged.neoforge.network.handling.IPayloadContext;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
-import online.kingdomkeys.kingdomkeys.lib.Tags;
+import online.kingdomkeys.kingdomkeys.lib.ModTags;
 import online.kingdomkeys.kingdomkeys.network.Packet;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCOpenMaterialsScreen;
@@ -41,7 +41,7 @@ public record CSDepositMaterials(String inv, String name, int moogle) implements
         for (int j = 0; j < bag.getSlots(); j++) { //Check bag slots
             ItemStack synthBag = bag.getStackInSlot(j);
             if (!ItemStack.matches(synthBag, ItemStack.EMPTY)) { //If current bag slot is filled
-				if(synthBag.is(Tags.MATERIALS)) {
+				if(synthBag.is(ModTags.MATERIALS)) {
             		playerData.addMaterial(synthBag.getItem(), bag.getStackInSlot(j).getCount());
             		bag.extractItem(j, bag.getStackInSlot(j).getCount(), false);
             	}
@@ -57,7 +57,7 @@ public record CSDepositMaterials(String inv, String name, int moogle) implements
 			for (int i = 0; i < player.getInventory().getContainerSize(); i++) {
 				ItemStack stack = player.getInventory().getItem(i);
 				if (!ItemStack.matches(stack, ItemStack.EMPTY)) {
-					if (stack.is(Tags.MATERIALS)) {
+					if (stack.is(ModTags.MATERIALS)) {
 						playerData.addMaterial(stack.getItem(), stack.getCount());
 						player.getInventory().setItem(i, ItemStack.EMPTY);
 					}

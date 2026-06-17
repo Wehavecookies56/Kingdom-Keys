@@ -29,11 +29,11 @@ public class CastleOblivionData {
             return new InteriorData();
         }
 
-        public static InteriorData get(ServerLevel level) {
+        public static Optional<InteriorData> get(ServerLevel level) {
             if (level.dimension().location().toString().contains("kingdomkeys:castle_oblivion_")) {
-                return level.getDataStorage().computeIfAbsent(new Factory<>(InteriorData::create, InteriorData::load), "kingdomkeys_interior_data");
+                return Optional.of(level.getDataStorage().computeIfAbsent(new Factory<>(InteriorData::create, InteriorData::load), "kingdomkeys_interior_data"));
             }
-            return null;
+            return Optional.empty();
         }
 
         public static InteriorData getClient(ClientLevel level) {
@@ -88,8 +88,8 @@ public class CastleOblivionData {
         public Room getRoomAtPos(BlockPos pos) {
             Floor floor = getFloorAtPos(pos);
             for (RoomData room : floor.getRooms()) {
-                Room r = room.getGenerated();
-                if (r != null) {
+                if (room.getGenerated().isPresent()) {
+                    Room r = room.getGenerated().get();
                     if (r.inRoom(pos)) {
                         return r;
                     }
@@ -100,12 +100,12 @@ public class CastleOblivionData {
 
         //get floor from the closest lobby, not a perfect method but as long as the floors are far enough apart it won't be an issue (foreshadowing, maybe)
         public Floor getFloorAtPos(BlockPos pos) {
-            Room closestEntrance = floors.getFirst().getEntranceHall().getGenerated();
-            if (closestEntrance != null) {
+            if (floors.getFirst().getEntranceHall().getGenerated().isPresent()) {
+                Room closestEntrance = floors.getFirst().getEntranceHall().getGenerated().get();
                 double closestDistance = closestEntrance.getPosition().distSqr(pos);
                 for (Floor floor : getFloors()) {
                     if (floor.getEntranceHallPosition().distSqr(pos) < closestDistance) {
-                        closestEntrance = floor.getEntranceHall().getGenerated();
+                        closestEntrance = floor.getEntranceHall().getGenerated().get();
                         closestDistance = floor.getEntranceHallPosition().distSqr(pos);
                     }
                 }

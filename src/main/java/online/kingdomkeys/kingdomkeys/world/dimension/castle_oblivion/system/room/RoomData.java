@@ -5,12 +5,13 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.item.Item;
 import online.kingdomkeys.kingdomkeys.data.CastleOblivionData;
+import online.kingdomkeys.kingdomkeys.item.card.KeycardType;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.floor.Floor;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class RoomData {
 
@@ -20,8 +21,6 @@ public class RoomData {
     Room generatedRoom;
     Type type;
 
-    int cardCost;
-
     public RoomData(RoomPos pos, Type type) {
         this(pos);
         this.type = type;
@@ -29,8 +28,7 @@ public class RoomData {
 
     public RoomData(RoomPos pos) {
         this.pos = pos;
-        doors = new HashMap<>();
-        this.cardCost = Utils.randomWithRange(0, 9);
+        doors = new HashMap<>(4);
     }
 
     public RoomData(CompoundTag tag) {
@@ -54,7 +52,7 @@ public class RoomData {
     }
 
     public Floor getParentFloor(ServerLevel level) {
-        return CastleOblivionData.InteriorData.get(level).getFloorByID(parent);
+        return CastleOblivionData.InteriorData.get(level).orElseThrow().getFloorByID(parent);
     }
 
     public void setParent(Floor parent) {
@@ -71,6 +69,10 @@ public class RoomData {
         doors.put(direction, new DoorData(this, doorType, direction));
     }
 
+    public void setDoor(DoorData.Type doorType, RoomDirection direction, KeycardType keycardType) {
+        doors.put(direction, new DoorData(this, doorType, direction, keycardType));
+    }
+
     public void setRemainingDoors(DoorData.Type doorType) {
         for (RoomDirection dir : RoomDirection.values()) {
             if (!doors.containsKey(dir)) {
@@ -79,6 +81,22 @@ public class RoomData {
         }
     }
 
+    public boolean hasRemaningDoors() {
+        return doors.size() < 4;
+    }
+
+    public List<RoomDirection> getRemainingDirections() {
+        if (hasRemaningDoors()) {
+            List<RoomDirection> remainingDirs = new ArrayList<>();
+            for (RoomDirection dir : RoomDirection.values()) {
+                if (!doors.containsKey(dir)) {
+                    remainingDirs.add(dir);
+                }
+            }
+            return remainingDirs;
+        }
+        return List.of();
+    }
 
     public DoorData getDoor(RoomDirection direction) {
         return doors.get(direction);
@@ -88,16 +106,12 @@ public class RoomData {
         return doors;
     }
 
-    public int getCardCost() {
-        return cardCost;
-    }
-
     public void setGenerated(Room room) {
         this.generatedRoom = room;
     }
 
-    public Room getGenerated() {
-        return generatedRoom;
+    public Optional<Room> getGenerated() {
+        return Optional.ofNullable(generatedRoom);
     }
 
     public CompoundTag serializeNBT() {
@@ -117,7 +131,6 @@ public class RoomData {
         if (generatedRoom != null) {
             tag.put("generated_room", generatedRoom.serializeNBT());
         }
-        tag.putInt("card_cost", cardCost);
         if (type != null) {
             tag.putInt("type", type.ordinal());
         }
@@ -137,14 +150,13 @@ public class RoomData {
         if (tag.getBoolean("generated")) {
             generatedRoom = new Room(tag.getCompound("generated_room"));
         }
-        cardCost = tag.getInt("card_cost");
         if (tag.contains("type")) {
             type = Type.values()[tag.getInt("type")];
         }
     }
 
     public enum Type {
-        ENTRANCE, EXIT, BOSS, NORMAL
+        ENTRANCE, EXIT, BOSS, NORMAL, ENCOUNTER
     }
 
     public static final StreamCodec<FriendlyByteBuf, RoomData> STREAM_CODEC = StreamCodec.composite(

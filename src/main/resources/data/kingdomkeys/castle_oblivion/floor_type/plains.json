@@ -1,5 +1,19 @@
 {
   "crit_path_length": 7,
   "colour": [ 122, 168, 255 ],
-  "music": "minecraft:music.game"
+  "music": "minecraft:music.game",
+  "key_doors": {
+    "none": [
+      {
+        "type": "RGB",
+        "criteria": "EQUAL",
+        "value": 7
+      },
+      {
+        "type": "Red",
+        "criteria": "LESSER",
+        "value": 3
+      }
+    ]
+  }
 }

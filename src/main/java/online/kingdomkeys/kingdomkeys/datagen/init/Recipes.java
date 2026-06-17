@@ -18,6 +18,7 @@ import net.neoforged.neoforge.common.Tags;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
+import online.kingdomkeys.kingdomkeys.lib.ModTags;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.util.List;
@@ -1298,7 +1299,7 @@ public class Recipes extends RecipeProvider {
 			for (int shape=0; shape<gummiBlocks.size();shape++) {
 				List<Supplier<Block>> blocks = gummiBlocks.get(shape);
 				ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, new ItemStack(blocks.get(i).get()))
-					.requires(ItemTagsGen.GUMMI_BLOCK_KEYS.get(shape))
+					.requires(ModTags.GUMMI_BLOCK_KEYS.get(shape))
 					.requires(dyes.get(i))
 					.group(KingdomKeys.MODID + "_gummi_blocks")
 					.unlockedBy("has_" + Utils.getBlockRegistryName(blocks.get(i).get()).getPath(), InventoryChangeTrigger.TriggerInstance.hasItems(blocks.get(i).get()))
@@ -1309,7 +1310,7 @@ public class Recipes extends RecipeProvider {
             for (int shape=0; shape<gummiShellBlocks.size();shape++) {
                 List<Supplier<Block>> blocks = gummiShellBlocks.get(shape);
                 ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, new ItemStack(blocks.get(i).get()))
-                        .requires(ItemTagsGen.GUMMI_SHELL_BLOCK_KEYS.get(shape))
+                        .requires(ModTags.GUMMI_SHELL_BLOCK_KEYS.get(shape))
                         .requires(dyes.get(i))
                         .group(KingdomKeys.MODID + "_gummi_blocks")
                         .unlockedBy("has_" + Utils.getBlockRegistryName(blocks.get(i).get()).getPath(), InventoryChangeTrigger.TriggerInstance.hasItems(blocks.get(i).get()))
@@ -1320,7 +1321,7 @@ public class Recipes extends RecipeProvider {
             for (int shape=0; shape<gummiDispelBlocks.size();shape++) {
                 List<Supplier<Block>> blocks = gummiDispelBlocks.get(shape);
                 ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, new ItemStack(blocks.get(i).get()))
-                        .requires(ItemTagsGen.GUMMI_DISPEL_BLOCK_KEYS.get(shape))
+                        .requires(ModTags.GUMMI_DISPEL_BLOCK_KEYS.get(shape))
                         .requires(dyes.get(i))
                         .group(KingdomKeys.MODID + "_gummi_blocks")
                         .unlockedBy("has_" + Utils.getBlockRegistryName(blocks.get(i).get()).getPath(), InventoryChangeTrigger.TriggerInstance.hasItems(blocks.get(i).get()))
@@ -1330,7 +1331,7 @@ public class Recipes extends RecipeProvider {
             for (int shape=0; shape<gummiDifferentBlocks.size();shape++) {
                 List<Supplier<Block>> blocks = gummiDifferentBlocks.get(shape);
                 ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, new ItemStack(blocks.get(i).get()))
-                        .requires(ItemTagsGen.GUMMI_DIFFERENT_BLOCK_KEYS.get(shape))
+                        .requires(ModTags.GUMMI_DIFFERENT_BLOCK_KEYS.get(shape))
                         .requires(dyes.get(i))
                         .group(KingdomKeys.MODID + "_gummi_blocks")
                         .unlockedBy("has_" + Utils.getBlockRegistryName(blocks.get(i).get()).getPath(), InventoryChangeTrigger.TriggerInstance.hasItems(blocks.get(i).get()))

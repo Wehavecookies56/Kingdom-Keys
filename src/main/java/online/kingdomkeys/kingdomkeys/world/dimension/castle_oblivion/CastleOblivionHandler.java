@@ -52,16 +52,18 @@ public class CastleOblivionHandler {
         if (!event.getLevel().isClientSide()) {
             if(event.getLevel().dimension().location().getNamespace().equals(KingdomKeys.MODID)) {//Attempt to alleviate load
                 if (event.getLevel().dimension().toString().contains(KingdomKeys.MODID + ":castle_oblivion_interior_")) {
-                    CastleOblivionData.InteriorData interiorData = CastleOblivionData.InteriorData.get((ServerLevel) event.getLevel());
-                    if (interiorData != null) {
+                    CastleOblivionData.InteriorData.get((ServerLevel) event.getLevel()).ifPresent(interiorData -> {
                         interiorData.getFloors().forEach(floor -> {
                             floor.getRooms().forEach(roomData -> {
-                                if (roomData.getGenerated() != null) {
-                                    roomData.getGenerated().tick(event.getLevel().getServer());
-                                }
+                                roomData.getGenerated().ifPresent(room -> {
+                                    floor.getType().getGlobalModifiers().forEach(roomModifier -> {
+                                        roomModifier.tick(room, Room.getPlayersInRoom(event.getLevel().getServer(), room));
+                                    });
+                                    room.tick((ServerLevel) event.getLevel());
+                                });
                             });
                         });
-                    }
+                    });
                 }
             }
         }
@@ -108,27 +110,27 @@ public class CastleOblivionHandler {
         if (player.level().getServer() != null) {
             player.changeDimension(new DimensionTransition(player.level().getServer().getLevel(CASTLE_OBLIVION), new Vec3(exitPos.getX(), exitPos.getY(), exitPos.getZ()), Vec3.ZERO, player.getYRot(), player.getXRot(), entity -> {}));
             NeoForge.EVENT_BUS.post(new CastleOblivionEvent.PlayerChangeRoomEvent(currentRoom, null, player));
-            NeoForge.EVENT_BUS.post(new CastleOblivionEvent.PlayerChangeFloorEvent(currentFloor, null, player));
+            NeoForge.EVENT_BUS.post(new CastleOblivionEvent.PlayerChangeFloorEvent(currentFloor, null, currentRoom, null, player));
         }
     }
 
     public static Room createFirstRoom(Player player, CardDoorTileEntity te) {
-        CastleOblivionData.InteriorData cap = CastleOblivionData.InteriorData.get((ServerLevel) player.level());
-        if (cap != null) {
-            Floor floor = cap.getFloorByID(te.getParentRoom().getParentID());
+        if (CastleOblivionData.InteriorData.get((ServerLevel) player.level()).isPresent()) {
+            CastleOblivionData.InteriorData interiorData = CastleOblivionData.InteriorData.get((ServerLevel) player.level()).get();
+            Floor floor = interiorData.getFloorByID(te.getParentRoom().getParentID());
             //check the room is actually the entrance hall
             if (te.getParentRoom().equals(floor.getEntranceHall())) {
                 //if size is 1 only the entrance hall room exists
                 if (floor.getGeneratedRooms().size() == 1) {
                     te.setDestinationRoom(floor.getRoom(new RoomPos(0, 1)));
-                    Room room = RoomGenerator.INSTANCE.generateRoom((ServerLevel) player.level(), floor.getRoom(new RoomPos(0, 1)), ModRoomTypes.SLEEPING_DARKNESS.get(), te.getParentRoom().getGenerated(), RoomDirection.NORTH);
+                    Room room = RoomGenerator.INSTANCE.generateRoom((ServerLevel) player.level(), floor.getRoom(new RoomPos(0, 1)), ModRoomTypes.UNKNOWN_ROOM.get(), te.getParentRoom().getGenerated().orElse(null), RoomDirection.NORTH, 0);
                     for (Player playerFromList : player.level().players()) {
                         PacketHandler.sendTo(new SCUpdateCORooms(floor.getRooms()), (ServerPlayer) playerFromList);
                     }
                     //TODO possibly define room type by the floor type :)
                     return room;
                 } else {
-                    return floor.getRoom(new RoomPos(0, 1)).getGenerated();
+                    return floor.getRoom(new RoomPos(0, 1)).getGenerated().orElse(null);
                 }
             }
         }
@@ -137,29 +139,30 @@ public class CastleOblivionHandler {
 
     public static void enterFirstRoom(Player player) {
         //todo world card stuff, instead should open world card gui then generate room based on world and teleport afterwards
-        CastleOblivionData.InteriorData cap = CastleOblivionData.InteriorData.get((ServerLevel) player.level());
-        if (cap != null) {
-            Room currentRoom = cap.getRoomAtPos(player.blockPosition());
-            Floor floor = cap.getFloorByID(currentRoom.parentFloor);
+        CastleOblivionData.InteriorData.get((ServerLevel) player.level()).ifPresent(interiorData -> {
+            Room currentRoom = interiorData.getRoomAtPos(player.blockPosition());
+            Floor floor = interiorData.getFloorByID(currentRoom.parentFloor);
             if (!currentRoom.getType().isEntranceHall()) {
                 KingdomKeys.LOGGER.info("something is wrong player should be in the entrance hall room");
             } else {
                 //if size is 1 only the entrance hall room exists
                 if (floor.getGeneratedRooms().size() > 1) {
-                    Room firstRoom = floor.getRoom(new RoomPos(0, 1)).getGenerated();
-                    BlockPos newPos = firstRoom.doors.get(RoomDirection.NORTH).pos();
-                    CardDoorTileEntity te = (CardDoorTileEntity) player.level().getBlockEntity(newPos);
-                    if (te != null) { //null check in case door is destroyed
-                        if (!NeoForge.EVENT_BUS.post(new CastleOblivionEvent.PlayerChangeRoomEvent(currentRoom, firstRoom, player)).isCanceled()) {
-                            newPos = newPos.offset(te.getDirection().toMCDirection().getNormal().multiply(2));
-                            te.openDoor(true);
-                            player.teleportTo(newPos.getX(), newPos.getY(), newPos.getZ());
-                            PacketHandler.sendTo(new SCSyncCastleOblivionInteriorData(cap, player.level()), (ServerPlayer) player);
+                    floor.getRoom(new RoomPos(0, 1)).getGenerated().ifPresent(firstRoom -> {
+                        BlockPos newPos = firstRoom.doors.get(RoomDirection.NORTH).pos();
+                        CardDoorTileEntity te = (CardDoorTileEntity) player.level().getBlockEntity(newPos);
+                        if (te != null) { //null check in case door is destroyed
+                            if (!NeoForge.EVENT_BUS.post(new CastleOblivionEvent.PlayerChangeRoomEvent(currentRoom, firstRoom, player)).isCanceled()) {
+                                newPos = newPos.offset(te.getDirection().toMCDirection().getNormal().multiply(2));
+                                te.openDoor(true);
+                                player.teleportTo(newPos.getX(), newPos.getY(), newPos.getZ());
+                                PacketHandler.sendTo(new SCSyncCastleOblivionInteriorData(interiorData, player.level()), (ServerPlayer) player);
+                            }
                         }
-                    }
+                    });
+
                 }
             }
-        }
+        });
     }
 
     public static boolean isExterior(ResourceKey<Level> level) {
@@ -196,12 +199,9 @@ public class CastleOblivionHandler {
         if (isExterior(event.getFrom())) {
             if (isInterior(event.getTo())) {
                 SCSyncCastleOblivionInteriorData.syncClients((ServerLevel) event.getEntity().level());
-                event.getEntity().sendSystemMessage(Component.translatable("I REPEAT, CASTLE OBLIVION IS WORK IN PROGRESS DON'T REPORT ANY ISSUES WITH IT YET PLEASE"));
-                event.getEntity().sendSystemMessage(Component.translatable("IF YOUR GAME CRASHES HERE IT'S EXPECTED, THE OUTSIDE PART IS PROBABLY SAFE FROM CRASHES BUT NOT HERE DEFINITELY NOT HERE"));
-                event.getEntity().sendSystemMessage(Component.translatable("THANK YOU AGAIN - Estelle"));
                 ServerLevel level = event.getEntity().level().getServer().getLevel(event.getTo());
                 Floor startFloor = Floor.getOrCreateFirstFloor(level);
-                NeoForge.EVENT_BUS.post(new CastleOblivionEvent.PlayerChangeFloorEvent(null, startFloor, event.getEntity()));
+                NeoForge.EVENT_BUS.post(new CastleOblivionEvent.PlayerChangeFloorEvent(null, startFloor, null, startFloor.getRoom(RoomPos.ZERO).getGenerated().orElse(null), event.getEntity()));
                 PacketHandler.sendTo(new SCUpdateCORooms(getCurrentFloor(event.getEntity()).getRooms()), (ServerPlayer) event.getEntity());
                 //startFloor.floorEntered(event.getEntity());
             }
@@ -213,34 +213,45 @@ public class CastleOblivionHandler {
     @SubscribeEvent
     public void joinWorld(PlayerEvent.PlayerLoggedInEvent event) {
         if (inInterior(event.getEntity())) {
-            PacketHandler.sendTo(new SCSyncCastleOblivionInteriorData(CastleOblivionData.InteriorData.get((ServerLevel) event.getEntity().level()), event.getEntity().level()), (ServerPlayer) event.getEntity());
+            PacketHandler.sendTo(new SCSyncCastleOblivionInteriorData(CastleOblivionData.InteriorData.get((ServerLevel) event.getEntity().level()).orElseThrow(), event.getEntity().level()), (ServerPlayer) event.getEntity());
         }
     }
 
     public static Floor getCurrentFloor(Player player) {
-        return CastleOblivionData.InteriorData.get((ServerLevel) player.level()).getFloorAtPos(player.blockPosition());
+        return CastleOblivionData.InteriorData.get((ServerLevel) player.level()).orElseThrow().getFloorAtPos(player.blockPosition());
     }
 
     @SubscribeEvent
     public void changedRoom(CastleOblivionEvent.PlayerChangeRoomEvent event) {
         if (event.getCurrentRoom() != null) {
             event.getCurrentRoom().getType().getModifiers().forEach(roomModifier -> roomModifier.onExit(event.getCurrentRoom(), event.getPlayer()));
+            CastleOblivionData.InteriorData.get(event.getInteriorLevel()).ifPresent(interiorData -> {
+                Floor floor = interiorData.getFloorByID(event.getCurrentRoom().parentFloor);
+                floor.getType().getGlobalModifiers().forEach(roomModifier -> roomModifier.onExit(event.getCurrentRoom(), event.getPlayer()));
+            });
         }
         if (event.getNewRoom() != null) {
             KingdomKeys.LOGGER.debug("Entered Room: {}", event.getNewRoom().getPosition());
             event.getNewRoom().getType().getModifiers().forEach(roomModifier -> roomModifier.onEnter(event.getNewRoom(), event.getPlayer()));
+            if (!event.getNewRoom().getType().isEntranceHall()) {
+                Floor floor = CastleOblivionData.InteriorData.get(event.getInteriorLevel()).orElseThrow().getFloorByID(event.getNewRoom().parentFloor);
+                floor.getType().getGlobalModifiers().forEach(roomModifier -> roomModifier.onEnter(event.getNewRoom(), event.getPlayer()));
+            }
         }
     }
 
     @SubscribeEvent
     public void generatedRoom(CastleOblivionEvent.RoomGeneratedEvent event) {
-        if (event.getGeneratedRoomData() != null) {
-            KingdomKeys.LOGGER.debug("Generated a new room: {}", event.getGeneratedRoomData().getGenerated());
-        }
+        event.getGeneratedRoomData().getGenerated().ifPresent(room -> {
+            KingdomKeys.LOGGER.debug("Generated a new room: {}={}", room.getType(), room.getStructure().getRegistryName());
+        });
     }
 
     @SubscribeEvent
     public void changeFloor(CastleOblivionEvent.PlayerChangeFloorEvent event) {
+        if (event.getCurrentFloor() != null) {
+            event.getCurrentFloor().getType().getGlobalModifiers().forEach(roomModifier -> roomModifier.onExit(event.getCurrentRoom(), event.getPlayer()));
+        }
         if(event.getNewFloor() != null) {
             PacketHandler.sendTo(new SCUpdateCORooms(event.getNewFloor().getRooms()), (ServerPlayer) event.getPlayer());
         }

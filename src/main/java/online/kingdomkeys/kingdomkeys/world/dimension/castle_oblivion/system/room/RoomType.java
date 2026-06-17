@@ -5,9 +5,15 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.entity.EntityType;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.floor.FloorType;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.JsonRegistryObject;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModFloorTypes;
@@ -16,6 +22,7 @@ import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.reg
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.modifiers.RoomModifier;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +38,10 @@ public class RoomType extends JsonRegistryObject {
     private List<ResourceLocation> compatibleFloors;
     private ResourceLocation fixedRoom;
     private ResourceLocation music;
+    private int numberOfEnemies;
+    private int simultaneousEnemies;
+    @Nullable private ResourceLocation regularEnemies;
+    @Nullable private ResourceLocation strongEnemies;
 
     public RoomType(CompoundTag tag) {
         super(tag);
@@ -46,6 +57,10 @@ public class RoomType extends JsonRegistryObject {
 
     public String getTranslationKey() {
         return "room." + registryName.getPath();
+    }
+
+    public MutableComponent getName(RoomData room) {
+        return isEntranceHall() ? Component.translatable(getTranslationKey(), room.getParentID() + 1) : Component.translatable(getTranslationKey());
     }
 
     public boolean isEntranceHall() {
@@ -100,6 +115,30 @@ public class RoomType extends JsonRegistryObject {
         }
     }
 
+    public int getNumberOfEnemies() {
+        return numberOfEnemies;
+    }
+
+    public int getSimultaneousEnemies() {
+        return simultaneousEnemies;
+    }
+
+    public TagKey<EntityType<?>> getRegularEnemies() {
+        if (regularEnemies != null) {
+            return TagKey.create(Registries.ENTITY_TYPE, regularEnemies);
+        } else {
+            return null;
+        }
+    }
+
+    public TagKey<EntityType<?>> getStrongEnemies() {
+        if (strongEnemies != null) {
+            return TagKey.create(Registries.ENTITY_TYPE, strongEnemies);
+        } else {
+            return null;
+        }
+    }
+
     @Override
     public CompoundTag serializeNBT() {
         CompoundTag tag = new CompoundTag();
@@ -130,6 +169,14 @@ public class RoomType extends JsonRegistryObject {
         }
         if (colour != null) {
             tag.putInt("colour", colour.getRGB());
+        }
+        tag.putInt("num_enemies", numberOfEnemies);
+        tag.putInt("sim_enemies", simultaneousEnemies);
+        if (regularEnemies != null) {
+            tag.putString("regular_enemies", regularEnemies.toString());
+        }
+        if (strongEnemies != null) {
+            tag.putString("strong_enemies", strongEnemies.toString());
         }
         return tag;
     }
@@ -162,6 +209,14 @@ public class RoomType extends JsonRegistryObject {
         }
         if (tag.contains("colour")) {
             colour = new Color(tag.getInt("colour"));
+        }
+        numberOfEnemies = tag.getInt("num_enemies");
+        simultaneousEnemies = tag.getInt("sim_enemies");
+        if (tag.contains("regular_enemies")) {
+            regularEnemies = ResourceLocation.parse("regular_enemies");
+        }
+        if (tag.contains("strong_enemies")) {
+            strongEnemies = ResourceLocation.parse("strong_enemies");
         }
     }
 
@@ -210,7 +265,8 @@ public class RoomType extends JsonRegistryObject {
                     }
                 }
                 case "enemies" -> {
-                    String s = entryElement.getAsString();
+                    JsonObject enemiesObj = entryElement.getAsJsonObject();
+                    String s = enemiesObj.get("type").getAsString();
                     if (!s.isEmpty()) {
                         try {
                             enemies = RoomEnemies.valueOf(s.toUpperCase());
@@ -220,6 +276,8 @@ public class RoomType extends JsonRegistryObject {
                     } else {
                         throw new JsonParseException("Category should not be empty");
                     }
+                    numberOfEnemies = enemiesObj.get("number_of_enemies").getAsInt();
+                    simultaneousEnemies = enemiesObj.get("simultaneous_enemies").getAsInt();
                 }
                 case "compatible_floors" -> {
                     JsonArray floors = entryElement.getAsJsonArray();
@@ -260,6 +318,22 @@ public class RoomType extends JsonRegistryObject {
                         } else {
                             throw new JsonParseException("Supplied music does not exist");
                         }
+                    }
+                }
+                case "regular_enemies" -> {
+                    String s = entryElement.getAsString();
+                    if (s.startsWith("#")) {
+                        regularEnemies = ResourceLocation.parse(s.substring(1));
+                    } else {
+                        throw new JsonParseException("Value for regular enemies is not a tag");
+                    }
+                }
+                case "strong_enemies" -> {
+                    String s = entryElement.getAsString();
+                    if (s.startsWith("#")) {
+                        strongEnemies = ResourceLocation.parse(s.substring(1));
+                    } else {
+                        throw new JsonParseException("Value for strong enemies is not a tag");
                     }
                 }
             }

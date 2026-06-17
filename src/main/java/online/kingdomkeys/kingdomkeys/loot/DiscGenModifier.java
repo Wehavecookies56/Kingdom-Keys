@@ -12,6 +12,7 @@ import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.neoforged.neoforge.common.loot.IGlobalLootModifier;
 import net.neoforged.neoforge.common.loot.LootModifier;
 import online.kingdomkeys.kingdomkeys.datagen.init.ItemTagsGen;
+import online.kingdomkeys.kingdomkeys.lib.ModTags;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
@@ -46,7 +47,7 @@ public class DiscGenModifier extends LootModifier {
         }
 
 		for(int i=0;i<2;i++) {
-			generatedLoot.add(new ItemStack(BuiltInRegistries.ITEM.getOrCreateTag(ItemTagsGen.MUSIC_DISCS).getRandomElement(context.getRandom()).get()));
+			generatedLoot.add(new ItemStack(BuiltInRegistries.ITEM.getOrCreateTag(ModTags.MUSIC_DISCS).getRandomElement(context.getRandom()).get()));
 			if(Math.random() > 0.5)
 				break;
 		}

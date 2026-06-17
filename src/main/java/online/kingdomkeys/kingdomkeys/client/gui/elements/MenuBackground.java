@@ -50,6 +50,9 @@ public class MenuBackground extends Screen {
 	protected Color color;
 	protected Component title;
 
+	protected Component dimension;
+	protected Component biome;
+
 	public boolean shouldCloseOnMenu;
 	
 	public MenuBackground(String name, Color rgb) {
@@ -301,21 +304,33 @@ public class MenuBackground extends Screen {
 	public void drawBiomeDim(GuiGraphics gui) {
 		if(player == null)
 			return;
+		if (CastleOblivionHandler.inInterior(player)) {
+			setLocationNames(Component.literal("Castle Oblivion").withStyle(ClientUtils.KK_Font_MENU).withStyle(ChatFormatting.UNDERLINE), Component.literal("???").withStyle(ClientUtils.KK_Font_MENU).withStyle(ChatFormatting.UNDERLINE));
+		}
 		gui.pose().pushPose();
 		{
-			String dimension = this.player.level().dimension().location().getPath().toUpperCase().replaceAll("_", " ");
-			ResourceLocation biomeLoc = ResourceLocation.parse(printBiome(this.minecraft.level.getBiome(this.player.blockPosition())));
+			Component biomeText;
+			Component dimText;
+			if (dimension == null && biome == null) {
+				String dimension = this.player.level().dimension().location().getPath().toUpperCase().replaceAll("_", " ");
+				ResourceLocation biomeLoc = ResourceLocation.parse(printBiome(this.minecraft.level.getBiome(this.player.blockPosition())));
 
-			String biome = "biome." + biomeLoc.getNamespace() + "." + biomeLoc.getPath();
-			if (Language.getInstance().has(biome)) {
-				biome = Utils.translateToLocal(biome);
+				String biome = "biome." + biomeLoc.getNamespace() + "." + biomeLoc.getPath();
+				if (Language.getInstance().has(biome)) {
+					biome = Utils.translateToLocal(biome);
+				} else {
+					biome = biomeLoc.toString();
+				}
+				dimText = Component.literal(dimension).withStyle(ClientUtils.KK_Font_MENU).withStyle(ChatFormatting.UNDERLINE);
+				biomeText = Component.literal(biome).withStyle(ClientUtils.KK_Font_MENU).withStyle(ChatFormatting.UNDERLINE);
 			} else {
-				biome = biomeLoc.toString();
+				biomeText = biome;
+				dimText = dimension;
+				biome = null;
+				dimension = null;
 			}
-			Component text = Component.literal(dimension).withStyle(ClientUtils.KK_Font_MENU).withStyle(ChatFormatting.UNDERLINE);
-			gui.drawString(minecraft.font, text, width - minecraft.font.width(text) - 5, 10, 0xF58B33);
-			text = Component.literal(biome).withStyle(ClientUtils.KK_Font_MENU).withStyle(ChatFormatting.UNDERLINE);
-			gui.drawString(minecraft.font, text, width - minecraft.font.width(text) - 5, 20, 0xF58B33);
+			gui.drawString(minecraft.font, dimText, width - minecraft.font.width(dimText) - 5, 10, 0xF58B33);
+			gui.drawString(minecraft.font, biomeText, width - minecraft.font.width(biomeText) - 5, 20, 0xF58B33);
 		}
 		gui.pose().popPose();
 	}
@@ -585,4 +600,11 @@ public class MenuBackground extends Screen {
 	private static String printBiome(Holder<Biome> p_205375_) {
 	      return p_205375_.unwrap().map((p_205377_) -> p_205377_.location().toString(), (p_205367_) -> "[unregistered " + p_205367_ + "]");
 	   }
+
+	public void setLocationNames(Component dimension, Component biome) {
+		if (dimension != null && biome != null) {
+			this.dimension = dimension;
+			this.biome = biome;
+		}
+	}
 }

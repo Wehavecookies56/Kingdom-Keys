@@ -7,6 +7,8 @@ import net.minecraft.nbt.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.packs.resources.Resource;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.StructureBlock;
 import net.minecraft.world.level.block.entity.StructureBlockEntity;
@@ -29,6 +31,7 @@ import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.reg
 import javax.annotation.Nullable;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class RoomGenerator {
@@ -38,22 +41,22 @@ public class RoomGenerator {
     private RoomGenerator() {}
 
     public Room generateNewFloor(ServerLevel level) {
-        CastleOblivionData.InteriorData interiorData = CastleOblivionData.InteriorData.get(level);
+        CastleOblivionData.InteriorData interiorData = CastleOblivionData.InteriorData.get(level).orElseThrow();
         Floor currentFloor = new Floor(level);
-        Room room = new Room(ModRoomTypes.ENTRANCE_HALL.get(), currentFloor.getFloorID(), RoomPos.ZERO);
+        Room room = new Room(ModRoomTypes.ENTRANCE_HALL.get(), currentFloor.getFloorID(), RoomPos.ZERO, 0);
         Floor prevFloor = interiorData.getFloorByID(currentFloor.getFloorID()-1);
         room.setPosition(prevFloor.getNorthernMostRoomPosition().relative(Direction.SOUTH, 512));
         return generateRoom(level, currentFloor.getRoom(RoomPos.ZERO), room, null);
     }
 
-    public Room generateRoom(ServerLevel level, RoomData data, RoomType type, @Nullable Room currentRoom, @Nullable RoomDirection doorDirection) {
+    public Room generateRoom(ServerLevel level, RoomData data, RoomType type, @Nullable Room currentRoom, @Nullable RoomDirection doorDirection, int valueUsed) {
         if (type.equals(ModRoomTypes.ENTRANCE_HALL.get()) && data.pos.equals(RoomPos.ZERO)) {
             KingdomKeys.LOGGER.warn("Tried to generate room type {} at entrance hall position", type.getRegistryName().toString());
             return null;
         }
-        CastleOblivionData.InteriorData interiorData = CastleOblivionData.InteriorData.get(level);
+        CastleOblivionData.InteriorData interiorData = CastleOblivionData.InteriorData.get(level).orElseThrow();
         Floor currentFloor = interiorData.getFloorByID(currentRoom.parentFloor);
-        Room room = new Room(type, currentFloor.getFloorID(), data.pos);
+        Room room = new Room(type, currentFloor.getFloorID(), data.pos, valueUsed);
         room.createRoomFromCard(type, level, currentRoom, doorDirection);
 
         return generateRoom(level, data, room, currentRoom);
@@ -61,7 +64,7 @@ public class RoomGenerator {
 
     private Room generateRoom(ServerLevel level, RoomData data, Room newRoom, @Nullable Room currentRoom) {
         try {
-            CastleOblivionData.InteriorData interiorData = CastleOblivionData.InteriorData.get(level);
+            CastleOblivionData.InteriorData interiorData = CastleOblivionData.InteriorData.get(level).orElseThrow();
             Floor currentFloor = interiorData.getFloorByID(newRoom.parentFloor);
             BlockPos pos = newRoom.position;
             List<RoomStructure> possibleRooms = ModRoomStructures.getCompatibleStructures(currentFloor.getType(), newRoom.type);
@@ -135,63 +138,48 @@ public class RoomGenerator {
                         //Replace data mode structure blocks with card doors
                         StructureBlockEntity be = new StructureBlockEntity(blockpos, state);
                         be.loadCustomOnly(block.getCompound("nbt"), level.registryAccess());
-
-                        BlockState cardDoorState = ModBlocks.cardDoor.get().defaultBlockState().setValue(CardDoorBlock.GENERATED, true);
-                        RoomDirection facing = switch (be.getMetaData()) {
-                            case "north" -> RoomDirection.SOUTH;
-                            case "west" -> RoomDirection.EAST;
-                            case "east" -> RoomDirection.WEST;
-                            case "south" -> RoomDirection.NORTH;
-                            default -> null;
-                        };
-                        if (facing != null) {
-                            cardDoorState = cardDoorState.setValue(CardDoorBlock.FACING, facing.toMCDirection().getOpposite());
-                            DoorData doorData = data.getDoor(facing);
-                            if (doorData != null && doorData.getType() != DoorData.Type.NONE) {
-                                newRoom.doors.put(facing, new Room.Door(doorData, blockpos.immutable()));
-                                //exit and entrance doors don't have adjacent rooms so no need to check
-                                if (doorData.getType() == DoorData.Type.EXIT || doorData.getType() == DoorData.Type.ENTRANCE) {
-                                    cardDoorState = cardDoorState.setValue(CardDoorBlock.OPEN, true);
-                                    level.setBlock(blockpos, cardDoorState, 2);
-                                    CardDoorTileEntity cardDoorTileEntity = new CardDoorTileEntity(blockpos, cardDoorState);
-                                    cardDoorTileEntity.setParent(data);
-                                    cardDoorTileEntity.setDirection(facing);
-                                    cardDoorTileEntity.setData(doorData);
-                                    cardDoorTileEntity.openDoor(false);
-                                    level.setBlockEntity(cardDoorTileEntity);
-                                } else if (doorData.getType() == DoorData.Type.HALL) {
-                                    level.setBlock(blockpos, cardDoorState, 2);
-                                    CardDoorTileEntity cardDoorTileEntity = new CardDoorTileEntity(blockpos, cardDoorState);
-                                    cardDoorTileEntity.setParent(data);
-                                    cardDoorTileEntity.setDirection(facing);
-                                    cardDoorTileEntity.setData(doorData);
-                                    level.setBlockEntity(cardDoorTileEntity);
-                                } else {
-                                    //check for adjacent rooms for non EXIT or ENTRANCE doors
-                                    RoomData adjacentRoom = currentFloor.getAdjacentRoom(data, facing);
-                                    if (adjacentRoom != null) {
-                                        if (adjacentRoom.getGenerated() != null) {
-                                            BlockPos adjacentDoorPos = adjacentRoom.getGenerated().doors.get(facing.opposite()).pos();
-                                            CardDoorTileEntity adjacentDoorTE = (CardDoorTileEntity) level.getBlockEntity(adjacentDoorPos);
-                                            if (adjacentDoorTE != null && adjacentDoorTE.isOpen()) {
-                                                cardDoorState = cardDoorState.setValue(CardDoorBlock.OPEN, true);
-                                                adjacentDoorTE.setDestinationRoom(data);
+                        if (be.getMetaData().equals("spawn")) {
+                            newRoom.addSpawnPoint(blockpos.immutable());
+                        } else {
+                            BlockState cardDoorState = ModBlocks.cardDoor.get().defaultBlockState().setValue(CardDoorBlock.GENERATED, true);
+                            RoomDirection facing = switch (be.getMetaData()) {
+                                case "north" -> RoomDirection.SOUTH;
+                                case "west" -> RoomDirection.EAST;
+                                case "east" -> RoomDirection.WEST;
+                                case "south" -> RoomDirection.NORTH;
+                                default -> null;
+                            };
+                            if (facing != null) {
+                                cardDoorState = cardDoorState.setValue(CardDoorBlock.FACING, facing.toMCDirection().getOpposite());
+                                DoorData doorData = data.getDoor(facing);
+                                if (doorData != null && doorData.getType() != DoorData.Type.NONE) {
+                                    newRoom.doors.put(facing, new Room.Door(doorData, blockpos.immutable()));
+                                    //exit and entrance doors don't have adjacent rooms so no need to check
+                                    if (doorData.getType() == DoorData.Type.EXIT || doorData.getType() == DoorData.Type.ENTRANCE) {
+                                        cardDoorState = cardDoorState.setValue(CardDoorBlock.OPEN, true);
+                                        new CardDoorTileEntityBuilder(blockpos, cardDoorState, data, facing, doorData).openDoor(false).build(level);
+                                    } else if (doorData.getType() == DoorData.Type.HALL) {
+                                        new CardDoorTileEntityBuilder(blockpos, cardDoorState, data, facing, doorData).build(level);
+                                    } else {
+                                        //check for adjacent rooms for non EXIT or ENTRANCE doors
+                                        RoomData adjacentRoom = currentFloor.getAdjacentRoom(data, facing);
+                                        if (adjacentRoom != null) {
+                                            if (adjacentRoom.getGenerated().isPresent()) {
+                                                BlockPos adjacentDoorPos = adjacentRoom.getGenerated().get().doors.get(facing.opposite()).pos();
+                                                CardDoorTileEntity adjacentDoorTE = (CardDoorTileEntity) level.getBlockEntity(adjacentDoorPos);
+                                                if (adjacentDoorTE != null && adjacentDoorTE.isOpen()) {
+                                                    cardDoorState = cardDoorState.setValue(CardDoorBlock.OPEN, true);
+                                                    adjacentDoorTE.setDestinationRoom(data);
+                                                }
+                                            }
+                                            if (adjacentRoom.getDoors().get(facing.opposite()) != null) {
+                                                new CardDoorTileEntityBuilder(blockpos, cardDoorState, data, facing, doorData).destination(adjacentRoom).openDoor(false).generateCardCriteria(newRoom).build(level);
                                             }
                                         }
-                                        if (adjacentRoom.getDoors().get(facing.opposite()) != null) {
-                                            level.setBlock(blockpos, cardDoorState, 2);
-                                            CardDoorTileEntity cardDoorTileEntity = new CardDoorTileEntity(blockpos, cardDoorState);
-                                            cardDoorTileEntity.setParent(data);
-                                            cardDoorTileEntity.setDirection(facing);
-                                            cardDoorTileEntity.setDestinationRoom(adjacentRoom);
-                                            cardDoorTileEntity.setData(doorData);
-                                            cardDoorTileEntity.openDoor(false);
-                                            level.setBlockEntity(cardDoorTileEntity);
-                                        }
                                     }
+                                } else {
+                                    level.setBlock(blockpos, Blocks.AIR.defaultBlockState(), 2);
                                 }
-                            } else {
-                                level.setBlock(blockpos, Blocks.AIR.defaultBlockState(), 2);
                             }
                         }
                     }
@@ -199,8 +187,9 @@ public class RoomGenerator {
                     level.setBlock(blockpos, state, 2);
                 }
             }
+            Collections.shuffle(newRoom.spawnPoints);
             data.setGenerated(newRoom);
-            CastleOblivionData.InteriorData.get(level).setDirty();
+            CastleOblivionData.InteriorData.get(level).orElseThrow().setDirty();
             SCSyncCastleOblivionInteriorData.syncClients(level);
             KingdomKeys.LOGGER.info("Generated room:{} at {}", newRoom.type.getRegistryName().toString(), pos);
             NeoForge.EVENT_BUS.post(new CastleOblivionEvent.RoomGeneratedEvent(level, data, currentRoom));
@@ -208,6 +197,40 @@ public class RoomGenerator {
         } catch (IOException e){
             e.printStackTrace();
             return null;
+        }
+    }
+
+    private static class CardDoorTileEntityBuilder {
+        final CardDoorTileEntity cardDoorTileEntity;
+
+        public CardDoorTileEntityBuilder (BlockPos pos, BlockState state, RoomData parent, RoomDirection facing, DoorData data) {
+            cardDoorTileEntity = new CardDoorTileEntity(pos, state);
+            cardDoorTileEntity.setParent(parent);
+            cardDoorTileEntity.setDirection(facing);
+            cardDoorTileEntity.setData(data);
+        }
+
+        public CardDoorTileEntityBuilder destination(RoomData destination) {
+            cardDoorTileEntity.setDestinationRoom(destination);
+            return this;
+        }
+
+        public CardDoorTileEntityBuilder openDoor(boolean setBlock) {
+            cardDoorTileEntity.openDoor(setBlock);
+            return this;
+        }
+
+        public CardDoorTileEntityBuilder generateCardCriteria(Room newRoom) {
+            cardDoorTileEntity.getData().generateCardCriteria(newRoom.valueUsed);
+            cardDoorTileEntity.setCurrentCriteria(cardDoorTileEntity.getData().getCardCriteria());
+            return this;
+        }
+
+        public CardDoorTileEntity build(Level level) {
+            level.setBlock(cardDoorTileEntity.getBlockPos(), cardDoorTileEntity.getBlockState(), Block.UPDATE_CLIENTS);
+            level.setBlockEntity(cardDoorTileEntity);
+            level.sendBlockUpdated(cardDoorTileEntity.getBlockPos(), cardDoorTileEntity.getBlockState(), cardDoorTileEntity.getBlockState(), Block.UPDATE_CLIENTS);
+            return cardDoorTileEntity;
         }
     }
 

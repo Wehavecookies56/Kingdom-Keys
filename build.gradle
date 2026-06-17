@@ -132,7 +132,7 @@ dependencies {
     runtimeOnly("vazkii.patchouli:Patchouli:1.21.1-92-NEOFORGE")
     implementation "curse.maven:epic-fight-mod-405076:7956628-sources"
     implementation "software.bernie.geckolib:geckolib-neoforge-${minecraft_version}:${geckolib_version}"
-    implementation "curse.maven:mekanism-268560:7132168"
+    //implementation "curse.maven:mekanism-268560:7132168"
     implementation "huge-structure-blocks-kk:huge-structure-blocks-kk:1.1.2"
     implementation "curse.maven:female-gender-neoforge-481655:5579007"
     implementation "curse.maven:gender-mod-epic-fight-compat-1489735:7778152"

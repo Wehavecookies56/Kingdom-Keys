@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "kingdomkeys:item/nether_card"
+    "layer0": "kingdomkeys:item/key_to_rewards"
   }
 }

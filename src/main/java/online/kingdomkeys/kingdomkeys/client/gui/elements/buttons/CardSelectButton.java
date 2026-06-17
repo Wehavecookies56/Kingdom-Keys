@@ -7,11 +7,13 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.castle_oblivion.CardSelectionScreen;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.item.card.CardCategory;
 import online.kingdomkeys.kingdomkeys.item.card.MapCardItem;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
@@ -21,8 +23,8 @@ public class CardSelectButton extends MenuButtonBase {
 
     private final ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
 
-    ItemStack stack;
-    MapCardItem card;
+    public ItemStack stack;
+    Item card;
 
     Minecraft minecraft;
     CardSelectionScreen parent;
@@ -31,7 +33,7 @@ public class CardSelectButton extends MenuButtonBase {
         super(x, y, widthIn, heightIn, Utils.translateToLocal(""), onPress);
         minecraft = Minecraft.getInstance();
         this.stack = stack;
-        card = (MapCardItem)stack.getItem();
+        card = stack.getItem();
         parent=cardSelectionScreen;
     }
 
@@ -40,8 +42,7 @@ public class CardSelectButton extends MenuButtonBase {
     public void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
         //if(!isSelected())
         isHovered = mouseX > getX() + 1 && mouseY >= getY() + 1 && mouseX < getX() + width - 1 && mouseY < getY() + height - 1;
-        active = card.getCardValue(stack) >= parent.te.getDestinationRoom().getCardCost() || card.getCardValue(stack) == 0;
-
+        active = parent.te.cardMatchesCriteria(stack);
         if(isHovered()) {
             selected = false;
         }
@@ -63,8 +64,12 @@ public class CardSelectButton extends MenuButtonBase {
                 matrixStack.translate(9, 10, 150);
                 int color = active ? 0xFFDD00 : 0xAAAAAA;
 
-                matrixStack.scale(0.7F,0.7F, 1);
-                guiGraphics.drawString(minecraft.font, ""+card.getCardValue(stack), 0, 0, color);
+                if (card instanceof MapCardItem mapCardItem) {
+                    matrixStack.scale(0.7F, 0.7F, 1);
+                    if (mapCardItem.getCategory() != CardCategory.YELLOW && mapCardItem.getCategory() != CardCategory.RGB) {
+                        guiGraphics.drawString(minecraft.font, "" + mapCardItem.getCardValue(stack), 0, 0, color);
+                    }
+                }
                 matrixStack.scale(0.4F,0.4F, 1);
                 guiGraphics.drawString(minecraft.font, "x"+stack.getCount(), -21, 11, 0xFFFFFF);
             }
@@ -83,13 +88,19 @@ public class CardSelectButton extends MenuButtonBase {
                 matrixStack.scale(0.7F,0.7F, 1);
                 matrixStack.translate(13, 14, 150);
 
-                guiGraphics.drawString(minecraft.font,""+card.getCardValue(stack), 0, 0, 0xFFDD00);
+                if (card instanceof MapCardItem mapCardItem) {
+                    if (mapCardItem.getCategory() != CardCategory.YELLOW && mapCardItem.getCategory() != CardCategory.RGB) {
+                        guiGraphics.drawString(minecraft.font, "" + mapCardItem.getCardValue(stack), 0, 0, 0xFFDD00);
+                    }
 
-                matrixStack.translate(-10, 9.5, 150);
-                matrixStack.scale(0.3F,0.3F, 1);
-                guiGraphics.drawString(minecraft.font,"Category: "+card.getRoomType().getCategory(), 0, 0, 0xFFFFFF);
-                guiGraphics.drawString(minecraft.font,"Room size: "+card.getRoomType().getSize(), 0, 10, 0xFFFFFF);
-                guiGraphics.drawString(minecraft.font,"Enemies: "+card.getRoomType().getEnemies(), 0, 20, 0xFFFFFF);
+                    matrixStack.translate(-10, 9.5, 150);
+                    matrixStack.scale(0.3F, 0.3F, 1);
+                    if (mapCardItem.getRoomType() != null) {
+                        guiGraphics.drawString(minecraft.font, "Category: " + mapCardItem.getRoomType().getCategory(), 0, 0, 0xFFFFFF);
+                        guiGraphics.drawString(minecraft.font, "Room size: " + mapCardItem.getRoomType().getSize(), 0, 10, 0xFFFFFF);
+                        guiGraphics.drawString(minecraft.font, "Enemies: " + mapCardItem.getRoomType().getEnemies(), 0, 20, 0xFFFFFF);
+                    }
+                }
             }
         }
         matrixStack.popPose();

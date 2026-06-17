@@ -20,7 +20,7 @@ import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.item.KeychainItem;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
-import online.kingdomkeys.kingdomkeys.lib.Tags;
+import online.kingdomkeys.kingdomkeys.lib.ModTags;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSCloseMoogleGUI;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopListRegistry;
@@ -112,7 +112,7 @@ public class SynthesisScreen extends MenuBackground implements IPlayerDataReques
 			if (!hasKeychain && player.getInventory().getItem(i).getItem() instanceof KeychainItem) {
 				hasKeychain = true;
 			}
-			if (!hasMaterial && player.getInventory().getItem(i).is(Tags.MATERIALS)) {
+			if (!hasMaterial && player.getInventory().getItem(i).is(ModTags.MATERIALS)) {
 				hasMaterial = true;
 			}
 
@@ -121,7 +121,7 @@ public class SynthesisScreen extends MenuBackground implements IPlayerDataReques
 				IItemHandler bagInv = player.getInventory().getItem(i).getCapability(Capabilities.ItemHandler.ITEM);
 				for (int j = 0; j < bagInv.getSlots(); j++) { //Check bag slots
 					ItemStack bagItem = bagInv.getStackInSlot(j);
-					if (!ItemStack.matches(bagItem, ItemStack.EMPTY) && bagItem.is(Tags.MATERIALS)) { //If current bag slot is filled
+					if (!ItemStack.matches(bagItem, ItemStack.EMPTY) && bagItem.is(ModTags.MATERIALS)) { //If current bag slot is filled
 						hasMaterial = true;
 					}
 				}

@@ -20,7 +20,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
-import online.kingdomkeys.kingdomkeys.lib.Tags;
+import online.kingdomkeys.kingdomkeys.lib.ModTags;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
 import online.kingdomkeys.kingdomkeys.util.Utils;
@@ -36,7 +36,7 @@ public class MaterialCommand extends BaseCommand { // kk_material <give/take> <m
 	private static final SuggestionProvider<CommandSourceStack> SUGGEST_MATERIALS = (context, builder) -> {
 		List<String> list = new ArrayList<>();
 		for (Map.Entry<ResourceKey<Item>, Item> itemEntry : BuiltInRegistries.ITEM.entrySet()) {
-			if (new ItemStack(itemEntry.getValue()).is(Tags.MATERIALS)) {
+			if (new ItemStack(itemEntry.getValue()).is(ModTags.MATERIALS)) {
 				list.add(itemEntry.getKey().location().toString());
 			}
 		}
@@ -109,7 +109,7 @@ public class MaterialCommand extends BaseCommand { // kk_material <give/take> <m
 
 		for (ServerPlayer player : players) {
 			PlayerData playerData = PlayerData.get(player);
-			for (Item material : Tags.getItemsInTag(player.level(), Tags.MATERIALS)) {
+			for (Item material : ModTags.getItemsInTag(player.level(), ModTags.MATERIALS)) {
 				playerData.addMaterial(material, amount);
 			}
 
@@ -160,7 +160,7 @@ public class MaterialCommand extends BaseCommand { // kk_material <give/take> <m
 
 		for (ServerPlayer player : players) {
 			PlayerData playerData = PlayerData.get(player);
-			for (Item material : Tags.getItemsInTag(player.level(), Tags.MATERIALS)) {
+			for (Item material : ModTags.getItemsInTag(player.level(), ModTags.MATERIALS)) {
 				playerData.setMaterial(material, amount);
 			}
 

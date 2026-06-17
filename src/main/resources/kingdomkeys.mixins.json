@@ -18,6 +18,7 @@
     "client.LivingEntityRendererMixin",
     "client.MinecraftMixin",
     "client.PlayerRendererMixin",
+    "client.MusicManagerMixin",
     "epicfight.FirstPersonRendererMixin",
     "epicfight.PHumanoidRendererMixin",
     "epicfight.RenderEngineEventsMixin",

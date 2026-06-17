@@ -9,9 +9,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.SwordItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.item.card.MapCardItem;
-import online.kingdomkeys.kingdomkeys.item.card.MinglingWorldsMapCardItem;
-import online.kingdomkeys.kingdomkeys.item.card.WorldCardItem;
+import online.kingdomkeys.kingdomkeys.item.card.*;
 import online.kingdomkeys.kingdomkeys.item.organization.*;
 import online.kingdomkeys.kingdomkeys.item.tier.KeybladeItemTier;
 import online.kingdomkeys.kingdomkeys.item.tier.WoodenKeybladeItemTier;
@@ -22,6 +20,7 @@ import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.reg
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModRoomTypes;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.RoomType;
 
+import java.util.Optional;
 import java.util.function.Supplier;
 
 public class ModItems {
@@ -1021,33 +1020,47 @@ public class ModItems {
 			gummiShipBlueprint = createNewItem(Strings.gummiShipBlueprint, () -> new GummiShipBlueprintItem(new Item.Properties())),
 
 			//map cards
-			tranquilDarkness = createMapCard(Strings.TranquilDarkness, ModRoomTypes.TRANQUIL_DARKNESS),
-			teemingDarkness = createMapCard(Strings.TeemingDarkness, ModRoomTypes.TEEMING_DARKNESS),
-			feebleDarkness = createMapCard(Strings.FeebleDarkness, ModRoomTypes.FEEBLE_DARKNESS),
-			almightyDarkness = createMapCard(Strings.AlmightyDarkness, ModRoomTypes.ALMIGHTY_DARKNESS),
-			sleepingDarkness = createMapCard(Strings.SleepingDarkness, ModRoomTypes.SLEEPING_DARKNESS),
-			loomingDarkness = createMapCard(Strings.LoomingDarkness, ModRoomTypes.LOOMING_DARKNESS),
-			bottomlessDarkness = createMapCard(Strings.BottomlessDarkness, ModRoomTypes.BOTTOMLESS_DARKNESS),
-			martialWaking = createMapCard(Strings.MartialWaking, ModRoomTypes.MARTIAL_WAKING),
-			sorcerousWaking = createMapCard(Strings.SorcerousWaking, ModRoomTypes.SORCEROUS_WAKING),
-			alchemicWaking = createMapCard(Strings.AlchemicWaking, ModRoomTypes.ALCHEMIC_WAKING),
-			stagnantSpace = createMapCard(Strings.StagnantSpace, ModRoomTypes.STAGNANT_SPACE),
-			weightlessSpace = createMapCard(Strings.WeightlessSpace, ModRoomTypes.WEIGHTLESS_SPACE),
-			calmBounty = createMapCard(Strings.CalmBounty, ModRoomTypes.CALM_BOUNTY),
-			guardedTrove = createMapCard(Strings.GuardedTrove, ModRoomTypes.GUARDED_TROVE),
-			falseBounty = createMapCard(Strings.FalseBounty, ModRoomTypes.FALSE_BOUNTY),
-			momentsReprieve = createMapCard(Strings.MomentsReprieve, ModRoomTypes.MOMENTS_REPRIEVE),
-			moogleRoom = createMapCard(Strings.MoogleRoom, ModRoomTypes.MOOGLE_ROOM),
-			prosperousRepository = createMapCard(Strings.ProsperousRepository, ModRoomTypes.PROSPEROUS_REPOSITORY),
-			treacherousRepository = createMapCard(Strings.TreacherousRepository, ModRoomTypes.TREACHEROUS_RESPOITORY),
-			reposefulGrove = createMapCard(Strings.ReposefulGrove, ModRoomTypes.REPOSEFUL_GROVE),
+			tranquilDarkness = createMapCard(Strings.TranquilDarkness, ModRoomTypes.TRANQUIL_DARKNESS, CardCategory.RED),
+			teemingDarkness = createMapCard(Strings.TeemingDarkness, ModRoomTypes.TEEMING_DARKNESS, CardCategory.RED),
+			feebleDarkness = createMapCard(Strings.FeebleDarkness, ModRoomTypes.FEEBLE_DARKNESS, CardCategory.RED),
+			almightyDarkness = createMapCard(Strings.AlmightyDarkness, ModRoomTypes.ALMIGHTY_DARKNESS, CardCategory.RED),
+			sleepingDarkness = createMapCard(Strings.SleepingDarkness, ModRoomTypes.SLEEPING_DARKNESS, CardCategory.RED),
+			loomingDarkness = createMapCard(Strings.LoomingDarkness, ModRoomTypes.LOOMING_DARKNESS, CardCategory.RED),
+			bottomlessDarkness = createMapCard(Strings.BottomlessDarkness, ModRoomTypes.BOTTOMLESS_DARKNESS, CardCategory.RED),
+			martialWaking = createMapCard(Strings.MartialWaking, ModRoomTypes.MARTIAL_WAKING, CardCategory.GREEN),
+			sorcerousWaking = createMapCard(Strings.SorcerousWaking, ModRoomTypes.SORCEROUS_WAKING, CardCategory.GREEN),
+			alchemicWaking = createMapCard(Strings.AlchemicWaking, ModRoomTypes.ALCHEMIC_WAKING, CardCategory.GREEN),
+			stagnantSpace = createMapCard(Strings.StagnantSpace, ModRoomTypes.STAGNANT_SPACE, CardCategory.GREEN),
+			weightlessSpace = createMapCard(Strings.WeightlessSpace, ModRoomTypes.WEIGHTLESS_SPACE, CardCategory.GREEN),
+			calmBounty = createMapCard(Strings.CalmBounty, ModRoomTypes.CALM_BOUNTY, CardCategory.BLUE),
+			guardedTrove = createMapCard(Strings.GuardedTrove, ModRoomTypes.GUARDED_TROVE, CardCategory.BLUE),
+			falseBounty = createMapCard(Strings.FalseBounty, ModRoomTypes.FALSE_BOUNTY, CardCategory.BLUE),
+			momentsReprieve = createMapCard(Strings.MomentsReprieve, ModRoomTypes.MOMENTS_REPRIEVE, CardCategory.BLUE),
+			moogleRoom = createMapCard(Strings.MoogleRoom, ModRoomTypes.MOOGLE_ROOM, CardCategory.BLUE),
+			prosperousRepository = createMapCard(Strings.ProsperousRepository, ModRoomTypes.PROSPEROUS_REPOSITORY, CardCategory.BLUE),
+			treacherousRepository = createMapCard(Strings.TreacherousRepository, ModRoomTypes.TREACHEROUS_RESPOITORY, CardCategory.BLUE),
+			reposefulGrove = createMapCard(Strings.ReposefulGrove, ModRoomTypes.REPOSEFUL_GROVE, CardCategory.BLUE),
 			minglingWorlds = ITEMS.register(Strings.MinglingWorlds, MinglingWorldsMapCardItem::new),
+
+			keyOfBeginnings = createKeyCard("key_of_beginnings", ModRoomTypes.ROOM_OF_BEGINNINGS, KeycardType.BEGINNINGS),
+			keyOfGuidance = createKeyCard("key_of_guidance", ModRoomTypes.ROOM_OF_GUIDANCE, KeycardType.GUIDANCE),
+			keyToTruth = createKeyCard("key_to_truth", ModRoomTypes.ROOM_OF_TRUTH, KeycardType.TRUTH),
+			keyToRewards = createKeyCard("key_to_rewards", ModRoomTypes.ROOM_OF_REWARDS, KeycardType.REWARDS),
 
 			//floor cards
 			plainsCard = createWorldCard(Strings.PlainsCard, ModFloorTypes.PLAINS),
-			netherCard = createWorldCard(Strings.NetherCard, ModFloorTypes.NETHER);
-
-
+			theNetherCard = createWorldCard(Strings.TheNetherCard, ModFloorTypes.THE_NETHER),
+			theEndCard = createWorldCard(Strings.TheEndCard, ModFloorTypes.THE_END),
+			desertCard = createWorldCard(Strings.DesertCard, ModFloorTypes.DESERT),
+			snowyCard = createWorldCard(Strings.SnowyCard, ModFloorTypes.SNOWY),
+			mushroomFieldsCard = createWorldCard(Strings.MushroomFieldsCard, ModFloorTypes.MUSHROOM_FIELDS),
+			oceanCard = createWorldCard(Strings.OceanCard, ModFloorTypes.OCEAN),
+			forestCard = createWorldCard(Strings.ForestCard, ModFloorTypes.FOREST),
+			jungleCard = createWorldCard(Strings.JungleCard, ModFloorTypes.JUNGLE),
+			badlandsCard = createWorldCard(Strings.BadlandsCard, ModFloorTypes.BADLANDS),
+			swampCard = createWorldCard(Strings.SwampCard, ModFloorTypes.SWAMP),
+			caveCard = createWorldCard(Strings.CaveCard, ModFloorTypes.CAVE),
+			castleOblivionCard = createWorldCard(Strings.CastleOblivionCard, ModFloorTypes.CASTLE_OBLIVION);
 
 	//Helper method to create item with the properties and registry name
 	public static Supplier<Item> createNewItem(String name, Item.Properties properties) {
@@ -1066,8 +1079,12 @@ public class ModItems {
 		return ITEMS.register(name, () -> new BaseArmorItem(material, slot, textureName));
 	}
 
-	private static Supplier<Item> createMapCard(String name, Supplier<RoomType> type) {
-		return ITEMS.register(name, () -> new MapCardItem(type));
+	private static Supplier<Item> createMapCard(String name, Supplier<RoomType> type, CardCategory category) {
+		return ITEMS.register(name, () -> new MapCardItem(type, category));
+	}
+
+	private static Supplier<Item> createKeyCard(String name, Supplier<RoomType> roomType, KeycardType type) {
+		return ITEMS.register(name, () -> new MapCardItem(roomType, type));
 	}
 
 	private static Supplier<Item> createWorldCard(String name, Supplier<FloorType> type) {

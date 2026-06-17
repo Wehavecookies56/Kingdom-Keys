@@ -1550,5 +1550,16 @@ public class Strings {
 	//World Cards
 	public static String
 			PlainsCard = "plains_card",
-			NetherCard = "nether_card";
+			TheNetherCard = "the_nether_card",
+			TheEndCard = "the_end_card",
+			CastleOblivionCard = "castle_oblivion_card",
+			DesertCard = "desert_card",
+			JungleCard = "jungle_card",
+			OceanCard = "ocean_card",
+			CaveCard = "cave_card",
+			SnowyCard = "snowy_card",
+			MushroomFieldsCard = "mushroom_fields_card",
+			ForestCard = "forest_card",
+			SwampCard = "swamp_card",
+			BadlandsCard = "badlands_card";
 }

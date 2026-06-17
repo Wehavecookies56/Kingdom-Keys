@@ -1,0 +1,22 @@
+{
+  "crit_path_length": 7,
+  "colour": [ 69, 173, 242 ],
+  "music": "minecraft:music.under_water",
+  "global_modifiers": [
+    "kingdomkeys:water_breathing"
+  ],
+  "key_doors": {
+    "none": [
+      {
+        "type": "RGB",
+        "criteria": "EQUAL",
+        "value": 7
+      },
+      {
+        "type": "Red",
+        "criteria": "LESSER",
+        "value": 3
+      }
+    ]
+  }
+}

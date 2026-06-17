@@ -1252,7 +1252,7 @@ public class LanguageESES extends KKLanguageProvider {
         addItem(ModItems.reposefulGrove, "Reposeful Grove");
 
         addItem(ModItems.plainsCard,"Carta de Llanuras");
-        addItem(ModItems.netherCard,"Carta de Nether");
+        addItem(ModItems.theNetherCard,"Carta de Nether");
 
         //Synthesis materials
         addItem(ModItems.blazing_shard, "Guijarro \u00edgneo");

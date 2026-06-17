@@ -144,6 +144,7 @@ public class PacketHandler {
 		server(CSSetAirDashedPacket.TYPE, CSSetAirDashedPacket.STREAM_CODEC);
 		server(CSSetBouncedPacket.TYPE, CSSetBouncedPacket.STREAM_CODEC);
 		server(CSSwapKeyblade.TYPE, CSSwapKeyblade.STREAM_CODEC);
+		server(CSConsumeCard.TYPE, CSConsumeCard.STREAM_CODEC);
 
 	}
 

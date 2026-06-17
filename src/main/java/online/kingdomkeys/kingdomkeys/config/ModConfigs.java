@@ -128,6 +128,7 @@ public class ModConfigs {
             case "LevelUp" -> CLIENT.levelUpHUDData.get();
             case "DriveLevel" -> CLIENT.driveLevelHUDData.get();
             case "Minimap" -> CLIENT.minimapHUDData.get();
+            case "RoomName" -> CLIENT.roomNameHUDData.get();
             default -> throw new IllegalStateException("Unexpected HUD value: " + name);
         };
     }

@@ -1,7 +1,11 @@
 {
   "size": "L",
   "category": "ENEMY",
-  "enemies": "L",
+  "enemies": {
+    "type": "L",
+    "number_of_enemies": 13,
+    "simultaneous_enemies": 6
+  },
   "colour": [0, 0, 0],
   "modifiers": [
     "kingdomkeys:blindness"

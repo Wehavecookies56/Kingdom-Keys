@@ -1,5 +1,9 @@
 {
   "size": "M",
   "category": "STATUS",
-  "enemies": "M"
+  "enemies": {
+    "type": "M",
+    "number_of_enemies": 8,
+    "simultaneous_enemies": 3
+  }
 }

@@ -5,9 +5,11 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.phys.Vec2;
 import net.neoforged.neoforge.common.NeoForge;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.api.event.client.MenuButtonRegisterEvent;
@@ -36,6 +38,7 @@ import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.CastleOblivionHandler;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModRoomTypes;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.DoorData;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.RoomData;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.RoomDirection;
@@ -201,8 +204,8 @@ public class MenuScreen extends MenuBackground {
 
 		RoomData currentRoom = null;
 		for (RoomData roomData : rooms) {
-			if (roomData.getGenerated() != null) {
-				if (roomData.getGenerated().inRoom(minecraft.player.blockPosition())) {
+			if (roomData.getGenerated().isPresent()) {
+				if (roomData.getGenerated().get().inRoom(minecraft.player.blockPosition())) {
 					currentRoom = roomData;
 					break;
 				}
@@ -225,6 +228,8 @@ public class MenuScreen extends MenuBackground {
 			centerOffsetY += -rotatedY;
 		}
 
+		Component tooltip = Component.empty();
+
 		enableScissor(mapX, mapY, mapW, mapH);
 
 		guiGraphics.pose().pushPose();
@@ -232,6 +237,11 @@ public class MenuScreen extends MenuBackground {
 			guiGraphics.pose().translate(originX + mapOffsetX + centerOffsetX, originY + mapOffsetY + centerOffsetY, 0);
 
 			guiGraphics.pose().mulPose(Axis.ZP.rotationDegrees(45));
+
+			float translatedMouseX = mouseX - (originX + mapOffsetX + centerOffsetX);
+			float translatedMouseY = mouseY - (originY + mapOffsetY + centerOffsetY);
+
+			Vec2 localMouse = inverseRotate45(translatedMouseX, translatedMouseY);
 
 			for (RoomData roomData : rooms) {
 				int x = -roomData.pos.x() * 2;
@@ -242,7 +252,9 @@ public class MenuScreen extends MenuBackground {
 
 				boolean isCurrent = roomData == currentRoom;
 
-				if (roomData.getGenerated() == null) {
+				if (roomData.getType() == RoomData.Type.ENCOUNTER) {
+					guiGraphics.setColor(0.95F, 0.7F, 0.2F, 1);
+				} else if (roomData.getGenerated() == null) {
 					guiGraphics.setColor(0.8F, 0.7F, 0.2F, 1);
 				} else if (isCurrent) {
 					guiGraphics.setColor(0.2F, 0.9F, 1F, 1);
@@ -252,6 +264,16 @@ public class MenuScreen extends MenuBackground {
 
 				guiGraphics.blit(ROOM_TEX, px, py, tileSize, tileSize, 0, 0, 16, 16, 16, 16);
 				guiGraphics.setColor(1, 1, 1, 1);
+
+				if (mouseX > box.getX() && mouseX < box.getX() + box.getWidth() && mouseY > box.getY() && mouseY < box.getY() + box.getHeight()){
+					if(localMouse.x >= px && localMouse.x < px + tileSize && localMouse.y >= py && localMouse.y < py + tileSize) {
+						tooltip = roomData.getGenerated().map(room -> {
+							String nameStr = room.getType().getTranslationKey();
+							return room.getType().isEntranceHall() ? Component.translatable(nameStr, roomData.getParentID() + 1) : Component.translatable(nameStr);
+						}).orElse(Component.literal("???"));
+						KingdomKeys.LOGGER.debug(roomData.getGenerated().map(room -> room.getType().getTranslationKey()).orElse("???"));
+					}
+				}
 
 				for (Map.Entry<RoomDirection, DoorData> entry : roomData.getDoors().entrySet()) {
 					RoomDirection dir = entry.getKey();
@@ -277,9 +299,9 @@ public class MenuScreen extends MenuBackground {
 
 					boolean open = false;
 
-					if (roomData.getGenerated() != null && neighbor.getGenerated() != null) {
-						CardDoorTileEntity te1 = roomData.getGenerated().getDoorTE(minecraft.level, dir);
-						CardDoorTileEntity te2 = neighbor.getGenerated().getDoorTE(minecraft.level, dir.opposite());
+					if (roomData.getGenerated().isPresent() && neighbor.getGenerated().isPresent()) {
+						CardDoorTileEntity te1 = roomData.getGenerated().get().getDoorTE(minecraft.level, dir);
+						CardDoorTileEntity te2 = neighbor.getGenerated().get().getDoorTE(minecraft.level, dir.opposite());
 
 						if (te1 != null && te1.isOpen())
 							open = true;
@@ -302,7 +324,20 @@ public class MenuScreen extends MenuBackground {
 		guiGraphics.pose().popPose();
 
 		RenderSystem.disableScissor();
+
+		if (!tooltip.getString().isEmpty()) {
+			guiGraphics.renderTooltip(minecraft.font, tooltip, mouseX, mouseY);
+		}
 	}
+
+	private static Vec2 inverseRotate45(float x, float y) {
+		float angle = (float) Math.toRadians(-45);
+		return new Vec2(
+				(float) (x * Math.cos(angle) - y * Math.sin(angle)),
+				(float) (x * Math.sin(angle) + y * Math.cos(angle))
+		);
+	}
+
 
 	private void drawKeybladeIcon(GuiGraphics guiGraphics, RoomData currentRoom, int tileSize) {
 		if (currentRoom != null) {

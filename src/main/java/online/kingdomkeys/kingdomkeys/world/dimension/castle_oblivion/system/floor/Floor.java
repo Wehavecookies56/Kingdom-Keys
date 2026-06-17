@@ -11,6 +11,7 @@ import online.kingdomkeys.kingdomkeys.block.CardDoorBlock;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.data.CastleOblivionData;
 import online.kingdomkeys.kingdomkeys.entity.block.CardDoorTileEntity;
+import online.kingdomkeys.kingdomkeys.item.card.KeycardType;
 import online.kingdomkeys.kingdomkeys.item.card.WorldCardItem;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModFloorTypes;
@@ -21,6 +22,8 @@ import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.roo
 
 import javax.annotation.Nullable;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Floor {
 
@@ -35,7 +38,7 @@ public class Floor {
     }
 
     public Floor(ServerLevel level) {
-        CastleOblivionData.InteriorData interiorData = CastleOblivionData.InteriorData.get(level);
+        CastleOblivionData.InteriorData interiorData = CastleOblivionData.InteriorData.get(level).orElseThrow();
         floorID = interiorData.getFloors().size();
         interiorData.addFloor(this);
         RoomData entranceHall = new RoomData(RoomPos.ZERO, RoomData.Type.ENTRANCE);
@@ -47,12 +50,12 @@ public class Floor {
     }
 
     public static Floor getOrCreateFirstFloor(ServerLevel level) {
-        CastleOblivionData.InteriorData capability = CastleOblivionData.InteriorData.get(level);
+        CastleOblivionData.InteriorData capability = CastleOblivionData.InteriorData.get(level).orElseThrow();
         //Only do this if there are no floors
         if (capability.getFloors().isEmpty()) {
             Floor floor = new Floor(level);
             RoomData data = floor.getRoom(RoomPos.ZERO);
-            Room room = new Room(ModRoomTypes.ENTRANCE_HALL.get(), floor.getFloorID(), RoomPos.ZERO);
+            Room room = new Room(ModRoomTypes.ENTRANCE_HALL.get(), floor.getFloorID(), RoomPos.ZERO, 0);
             room.setPosition(new BlockPos(0, 59, 0));
             BlockPos southDoor = new BlockPos(16, 60, 1); //door to exit CO
             BlockPos northDoor = new BlockPos(16, 63, 67); //door to first room
@@ -96,14 +99,14 @@ public class Floor {
 
     public boolean inFloor(BlockPos pos) {
         if (!rooms.isEmpty()) {
-            Room entrance = rooms.get(RoomPos.ZERO).getGenerated();
-            if (entrance != null) {
+            if (rooms.get(RoomPos.ZERO).getGenerated().isPresent()) {
+                Room entrance = rooms.get(RoomPos.ZERO).getGenerated().get();
                 int maxX = entrance.getPosition().getX() + entrance.getStructure().getWidth();
                 int minX = entrance.getPosition().getX();
                 int maxZ = entrance.getPosition().getZ() + entrance.getStructure().getDepth();
                 int minZ = entrance.getPosition().getZ();
                 for (Map.Entry<RoomPos, RoomData> roomData : rooms.entrySet()) {
-                    Room room = roomData.getValue().getGenerated();
+                    Room room = roomData.getValue().getGenerated().get();
                     int roomWidth = room.getStructure().getWidth();
                     int roomDepth = room.getStructure().getDepth();
                     BlockPos roomPos = room.getPosition();
@@ -128,7 +131,7 @@ public class Floor {
     }
 
     public BlockPos getEntranceHallPosition() {
-        return getRoom(RoomPos.ZERO).getGenerated().getPosition();
+        return getRoom(RoomPos.ZERO).getGenerated().map(Room::getPosition).orElse(null);
     }
 
     public RoomData getEntranceHall() {
@@ -144,14 +147,14 @@ public class Floor {
         rooms.put(entrance.pos, entrance);
         RoomDirection prevDir = RoomDirection.SOUTH;
         for (int i = 0; i < type.getCritPathLength(); i++) {
-            Map<RoomData, RoomDirection> adjRooms = getAdjacentRooms(currentRoom);
+            EnumMap<RoomDirection, RoomData> adjRooms = getAdjacentRooms(currentRoom);
             List<RoomDirection> directions = new ArrayList<>(List.of(RoomDirection.values()));
             //prevent rooms going into the hall
             if (currentRoom.pos.y() == 1) {
                 directions.remove(RoomDirection.SOUTH);
             }
             //remove directions that have a room already in that direction
-            for (RoomDirection direction : adjRooms.values()) {
+            for (RoomDirection direction : adjRooms.keySet()) {
                 directions.remove(direction);
             }
             //No more possible directions to continue so should intersect
@@ -185,12 +188,10 @@ public class Floor {
                         break;
                     }
                 }
-                //No possible directions to go so make this the exit room
+                //No possible directions to go so stop
                 if (deadEnd) {
                     if (!currentRoom.getDoors().containsKey(nextDir)) {
-                        currentRoom.setDoor(DoorData.Type.EXIT, nextDir);
-                        currentRoom.setRemainingDoors(DoorData.Type.NONE);
-                        currentRoom.finalizeType(RoomData.Type.EXIT);
+                        currentRoom.finalizeType(RoomData.Type.NORMAL);
                         exitRoom = currentRoom.pos;
                     }
                     //Otherwise go through intersecting rooms and add needed doors
@@ -201,6 +202,7 @@ public class Floor {
                         if (intersectedRoom != null) {
                             intersectedRoom.addDoor(DoorData.Type.NORMAL, nextDir);
                             intersectedRoom.addDoor(DoorData.Type.NORMAL, nextDir.opposite());
+                            KingdomKeys.LOGGER.debug("Intersection happened!");
                         }
                         pos = pos.add(nextDir);
                     }
@@ -214,10 +216,8 @@ public class Floor {
                             newRoom.setDoor(DoorData.Type.NORMAL, nextDir.opposite());
                             currentRoom.finalizeType(RoomData.Type.NORMAL);
                             currentRoom = newRoom;
-                            //final room needs extra door
-                            currentRoom.setDoor(DoorData.Type.EXIT, nextDir);
-                            currentRoom.setRemainingDoors(DoorData.Type.NONE);
-                            currentRoom.finalizeType(RoomData.Type.EXIT);
+                            //last room does not need next door
+                            currentRoom.finalizeType(RoomData.Type.NORMAL);
                             exitRoom = currentRoom.pos;
                         } else {
                             RoomData newRoom = new RoomData(pos);
@@ -238,10 +238,8 @@ public class Floor {
                 //create next room in direction with door at opposite direction
                 if (i == type.getCritPathLength() - 1) {
                     currentRoom = createRoomInDirection(currentRoom, nextDir);
-                    //final room needs extra door
-                    currentRoom.setDoor(DoorData.Type.EXIT, nextDir);
-                    currentRoom.setRemainingDoors(DoorData.Type.NONE);
-                    currentRoom.finalizeType(RoomData.Type.EXIT);
+                    //last room does not need next door
+                    currentRoom.finalizeType(RoomData.Type.NORMAL);
                     exitRoom = currentRoom.pos;
                 } else {
                     currentRoom.finalizeType(RoomData.Type.NORMAL);
@@ -251,11 +249,107 @@ public class Floor {
             currentRoom.setParent(this);
             rooms.put(currentRoom.pos, currentRoom);
         }
+        //create special encounter rooms for the key cards
 
-        currentRoom = entrance;
+        List<RoomData> possibleRoomsForKeyRooms = roomsWithRemainingDoors();
+
+        //check if there are 4 rooms for the key rooms, first one gives key of beginnings, second one gives key of guidance, third one gives key to truth, fourth one leads to exit room
+        //need to find rooms that have at least one spare door for these rooms
+        if (possibleRoomsForKeyRooms.size() < 4) {
+            //probably could happen in rare circumstances probably can handle it by forcefully extending the crit path
+            KingdomKeys.LOGGER.error("No rooms suitable for key rooms making floor impossible to complete");
+        } else {
+            //TODO maybe let floor type configure how many key rooms there are?
+            for (int i = 0; i < 3; i++) {
+                int index = Utils.randomWithRange(0, possibleRoomsForKeyRooms.size() - 1);
+                RoomData room = possibleRoomsForKeyRooms.get(index);
+                KeycardType keycardType = KeycardType.values()[i];;
+                RoomDirection direction = setRandomFreeDoor(room, DoorData.Type.KEY, keycardType);
+                if (direction != null) {
+                    RoomData newRoom = new RoomData(room.pos.add(direction), RoomData.Type.ENCOUNTER);
+                    //create door that goes back, fixed type as the only way to get in the room is by opening the door on the other side
+                    newRoom.setDoor(DoorData.Type.FIXED, direction.opposite());
+                    if (rooms.containsKey(newRoom.pos)) {
+                        //try again (potentially problematic...)
+                        possibleRoomsForKeyRooms.remove(index);
+                        i--;
+                        continue;
+                    }
+
+                    //room of truth to conqueror's respite
+                    if (i == 2) {
+                        EnumMap<RoomDirection, RoomData> adjacentRooms = getAdjacentRooms(newRoom);
+                        if (adjacentRooms.size() == 4) {
+                            //worst case scenario probably need to come up with a way to prevent this from happening
+                            KingdomKeys.LOGGER.error("Room of Truth generated in a position that does not allow conquerer's respite to generate");
+                        } else {
+                            for (RoomDirection dir : RoomDirection.values()) {
+                                if (!adjacentRooms.containsKey(dir)) {
+                                    RoomData exitRoom = new RoomData(newRoom.pos.add(dir), RoomData.Type.EXIT);
+                                    exitRoom.setDoor(DoorData.Type.FIXED, dir.opposite());
+                                    exitRoom.setDoor(DoorData.Type.EXIT, dir);
+                                    exitRoom.setRemainingDoors(DoorData.Type.NONE);
+                                    newRoom.setDoor(DoorData.Type.FIXED, dir);
+                                    rooms.put(exitRoom.pos, exitRoom);
+                                    KingdomKeys.LOGGER.info("Generated exit room");
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    //set the rest of the doors to none so there is only one entrance to the room
+                    newRoom.setRemainingDoors(DoorData.Type.NONE);
+                    rooms.put(newRoom.pos, newRoom);
+                    //check if room no longer has any remaining doors and remove it if so, as it should be possible to have more than one key room connected to the same room
+                    if (!room.hasRemaningDoors()) {
+                        possibleRoomsForKeyRooms.remove(index);
+                    }
+                } else {
+                    KingdomKeys.LOGGER.error("No free doors somehow");
+                    possibleRoomsForKeyRooms.remove(index);
+                    i--;
+                }
+            }
+            KingdomKeys.LOGGER.info("Generated key rooms");
+        }
+
         //todo bonus rooms
         for (int i = 0; i < type.getBonusRoomCount(); i++) {
 
+        }
+    }
+
+    public List<RoomData> roomsWithRemainingDoors() {
+        List<RoomData> list = new ArrayList<>();
+        rooms.values().forEach(room -> {
+            //first check if there are remaining doors
+            AtomicInteger freeCount = new AtomicInteger();
+                room.getRemainingDirections().forEach(roomDirection -> {
+                    if (getAdjacentRoom(room, roomDirection) == null) {
+                        freeCount.incrementAndGet();
+                    }
+                });
+
+                if (freeCount.get() > 0) {
+                    list.add(room);
+                }
+        });
+        return list;
+    }
+
+    //Set random remaining door and return the direction it was set for.
+    public RoomDirection setRandomFreeDoor(RoomData room, DoorData.Type doorType, @Nullable KeycardType keycardType) {
+        List<RoomDirection> remainingDirs = room.getRemainingDirections().stream().filter(roomDirection -> getAdjacentRoom(room, roomDirection) == null).toList();
+        if (!remainingDirs.isEmpty()) {
+            RoomDirection dir = remainingDirs.get(Utils.randomWithRange(0, remainingDirs.size() - 1));
+            if (keycardType != null) {
+                room.getDoors().put(dir, new DoorData(room, doorType, dir, keycardType));
+            } else {
+                room.getDoors().put(dir, new DoorData(room, doorType, dir));
+            }
+            return dir;
+        } else {
+            return null;
         }
     }
 
@@ -270,7 +364,7 @@ public class Floor {
     }
 
     public List<RoomData> getGeneratedRooms() {
-        return rooms.values().stream().filter(roomData -> roomData.getGenerated() != null).toList();
+        return rooms.values().stream().filter(roomData -> roomData.getGenerated().isPresent()).toList();
     }
 
     public RoomData getRoom(RoomPos pos) {
@@ -286,12 +380,12 @@ public class Floor {
         return null;
     }
 
-    public Map<RoomData, RoomDirection> getAdjacentRooms(RoomData room) {
-        Map<RoomData, RoomDirection> rooms = new HashMap<>();
-        for (int i = 0; i < RoomDirection.values().length; i++) {
-            RoomData roomData = getAdjacentRoom(room, RoomDirection.values()[i]);
+    public EnumMap<RoomDirection, RoomData> getAdjacentRooms(RoomData room) {
+        EnumMap<RoomDirection, RoomData> rooms = new EnumMap<>(RoomDirection.class);
+        for (RoomDirection dir : RoomDirection.values()) {
+            RoomData roomData = getAdjacentRoom(room, dir);
             if (roomData != null) {
-                rooms.put(roomData, RoomDirection.values()[i]);
+                rooms.put(dir, roomData);
             }
         }
         return rooms;
