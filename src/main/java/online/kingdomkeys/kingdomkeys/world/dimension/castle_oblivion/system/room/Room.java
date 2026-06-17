@@ -77,7 +77,8 @@ public class Room {
     //Clear room if needed, set type and position
     public void createRoomFromCard(RoomType type, ServerLevel level, Room currentRoom, RoomDirection doorDirection) {
         this.type = type;
-        clearRoom(level);
+        RoomData oldRoomData = getParent(CastleOblivionData.InteriorData.get(level).orElseThrow()).getRoom(roomPos);
+        oldRoomData.getGenerated().ifPresent(room -> room.clearRoom(level));
         Direction dir = doorDirection.toMCDirection();
         position = currentRoom.position.relative(dir, 128);
     }
@@ -178,10 +179,12 @@ public class Room {
         if (parent != null) {
             if (!shouldRoomTick(getPlayersInRoom(level.getServer(), this))) {
                 BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos(position.getX(), position.getY(), position.getZ());
-                for (int z = 0; z < structure.getWidth(); z++) {
+                //TODO kill entities
+                KingdomKeys.LOGGER.debug(pos);
+                for (int z = 0; z < structure.getWidth()+1; z++) {
                     for (int y = 0; y < 128; y++) {
-                        for (int x = 0; x < structure.getDepth(); x++) {
-                            pos.set(x, y, z);
+                        for (int x = 0; x < structure.getDepth()+1; x++) {
+                            pos.set(position.getX() + x, y, position.getZ() + z);
                             level.setBlock(pos, Blocks.AIR.defaultBlockState(), 2);
                         }
                     }
