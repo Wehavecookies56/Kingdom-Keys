@@ -3,6 +3,7 @@ package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.ro
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtOps;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
@@ -21,14 +22,13 @@ import online.kingdomkeys.kingdomkeys.entity.block.CardDoorTileEntity;
 import online.kingdomkeys.kingdomkeys.lib.ModTags;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.CastleOblivionHandler;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.encounter.Encounter;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.encounter.EncounterState;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.floor.Floor;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModRoomStructures;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModRoomTypes;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Room {
     RoomType type;
@@ -39,11 +39,11 @@ public class Room {
     public int parentFloor;
     int valueUsed;
 
-    Level level;
-
     List<BlockPos> spawnPoints;
 
     RoomPos roomPos;
+
+    Encounter encounter;
 
     //Constructor used when generating a room
     public Room(RoomType type, int parentFloor, RoomPos roomPos, int valueUsed) {
@@ -58,7 +58,7 @@ public class Room {
 
     //Deserialization constructor
     public Room(CompoundTag tag) {
-        this(ModRoomTypes.registry.get().getValue(ResourceLocation.parse(tag.getString("type"))), tag.getInt("parent"), new RoomPos(tag.getCompound("room_pos")), tag.getInt("value_used"));
+        this(ModRoomTypes.registry.get().getValue(ResourceLocation.parse(tag.getString("type"))), tag.getInt("parent"), RoomPos.deserializeNBT(tag.getCompound("room_pos")), tag.getInt("value_used"));
         deserializeNBT(tag);
     }
 
@@ -72,6 +72,14 @@ public class Room {
 
     public void setStructure(RoomStructure structure) {
         this.structure = structure;
+    }
+
+    public Optional<Encounter> getEncounter() {
+        if (getType().getCategory() == RoomCategory.ENCOUNTER) {
+            return Optional.of(encounter);
+        } else {
+            return Optional.empty();
+        }
     }
 
     //Clear room if needed, set type and position
@@ -221,6 +229,9 @@ public class Room {
         }
         tag.put("spawn_points", spawnPointsTag);
         tag.putInt("value_used", valueUsed);
+        if (encounter != null) {
+            tag.put("encounter", encounter.serializeNBT());
+        }
         return tag;
     }
 
@@ -239,6 +250,13 @@ public class Room {
         for (int i = 0; i < spawnPointsSize; i++) {
             spawnPoints.add(NbtUtils.readBlockPos(spawnPointsTag,"spawn_point_" + i).get());
         }
+        if (tag.contains("encounter")) {
+            encounter = new Encounter(tag);
+        }
+    }
+
+    public void setDoorLocks(ServerLevel level, boolean lock) {
+        doors.values().forEach(door -> door.setLock(level, lock));
     }
 
     public record Door(DoorData data, BlockPos pos) {
@@ -251,6 +269,14 @@ public class Room {
             tag.put("data", data.serializeNBT());
             tag.put("pos", NbtUtils.writeBlockPos(pos));
             return tag;
+        }
+
+        public void setLock(ServerLevel level, boolean lock) {
+            if (level.getBlockEntity(pos) instanceof CardDoorTileEntity cardDoorTileEntity) {
+                if (cardDoorTileEntity.isLocked() != lock) {
+                    cardDoorTileEntity.toggleDoorLock();
+                }
+            }
         }
     }
 

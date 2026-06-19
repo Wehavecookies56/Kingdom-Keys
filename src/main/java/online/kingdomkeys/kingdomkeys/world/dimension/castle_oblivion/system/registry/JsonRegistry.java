@@ -3,7 +3,13 @@ package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.re
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonParseException;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.DataResult;
+import com.mojang.serialization.JsonOps;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtException;
+import net.minecraft.nbt.NbtOps;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.packs.resources.ResourceManager;
@@ -24,23 +30,19 @@ public class JsonRegistry<T extends JsonRegistryObject> extends SimpleJsonResour
 
     private final ResourceLocation registryName;
     private Map<ResourceLocation, T> registry;
-    private final String folder;
     private final T emptyValue;
-    private final JsonDeserializer<T> deserializer;
-    private final Class<T> clazz;
+    private final Codec<T> codec;
 
-    public JsonRegistry(ResourceLocation registryName, String folder, JsonDeserializer<T> deserializer, Class<T> clazz, T emptyValue) {
-        super(new GsonBuilder().registerTypeAdapter(clazz, deserializer).setPrettyPrinting().create(), folder);
+    public JsonRegistry(ResourceLocation registryName, String folder, Codec<T> codec, Class<T> clazz, T emptyValue) {
+        super(new GsonBuilder().setPrettyPrinting().create(), folder);
         this.registryName = registryName;
         this.registry = new HashMap<>();
-        this.folder = folder;
         this.emptyValue = emptyValue;
-        this.deserializer = deserializer;
-        this.clazz = clazz;
+        this.codec = codec;
     }
 
-    public JsonRegistry(ResourceLocation registryName, String folder, JsonDeserializer<T> deserializer, Class<T> clazz) {
-        this(registryName, folder, deserializer, clazz, null);
+    public JsonRegistry(ResourceLocation registryName, String folder, Codec<T> codec, Class<T> clazz) {
+        this(registryName, folder, codec, clazz, null);
     }
 
     private void register(ResourceLocation key, T value) {
@@ -77,7 +79,7 @@ public class JsonRegistry<T extends JsonRegistryObject> extends SimpleJsonResour
         registry = new HashMap<>();
         AtomicInteger count = new AtomicInteger();
         pObject.forEach((resourceLocation, jsonElement) -> {
-            T result = new GsonBuilder().registerTypeAdapter(clazz, deserializer).setPrettyPrinting().create().fromJson(jsonElement, clazz);
+            T result = codec.parse(JsonOps.INSTANCE, jsonElement).getPartialOrThrow(JsonParseException::new);
             result.registryName = resourceLocation;
             register(resourceLocation, result);
             count.incrementAndGet();
@@ -93,24 +95,19 @@ public class JsonRegistry<T extends JsonRegistryObject> extends SimpleJsonResour
     public CompoundTag serializeNBT() {
         CompoundTag tag = new CompoundTag();
         registry.forEach((key, value) -> {
-            tag.put(key.toString(), value.serializeNBT());
+            codec.encodeStart(NbtOps.INSTANCE, value).resultOrPartial(KingdomKeys.LOGGER::error).ifPresent(encoded -> {
+                tag.put(key.toString(), encoded);
+            });
         });
         return tag;
     }
 
     public void deserializeNBT(CompoundTag tag) {
-        registry = new HashMap<>();
         tag.getAllKeys().forEach(key -> {
             ResourceLocation rl = ResourceLocation.parse(key);
-            try {
-                T value = clazz.getDeclaredConstructor(CompoundTag.class).newInstance(tag.getCompound(key));
-                value.registryName = rl;
-                registry.put(rl, value);
-            } catch (NoSuchMethodException e) {
-                KingdomKeys.LOGGER.error("Deserialization constructor is missing for type {}", clazz.toString());
-            } catch (InstantiationException | InvocationTargetException | IllegalAccessException e) {
-                throw new RuntimeException(e);
-            }
+            T value = codec.parse(NbtOps.INSTANCE, tag.getCompound(key)).getPartialOrThrow(NbtException::new);
+            value.registryName = rl;
+            registry.put(rl, value);
         });
     }
 }

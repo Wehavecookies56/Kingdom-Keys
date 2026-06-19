@@ -1,5 +1,18 @@
 package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room;
 
-public enum RoomCategory {
-    ENEMY, STATUS, BOUNTY, ENCOUNTER, SPECIAL, ANY
+import net.minecraft.util.StringRepresentable;
+
+public enum RoomCategory implements StringRepresentable {
+    ENEMY("ENEMY"), STATUS("STATUS"), BOUNTY("BOUNTY"), ENCOUNTER("ENCOUNTER"), SPECIAL("SPECIAL"), ANY("ANY");
+
+    final String name;
+
+    @Override
+    public String getSerializedName() {
+        return name;
+    }
+
+    RoomCategory(String name) {
+        this.name = name;
+    }
 }

@@ -314,7 +314,7 @@ public class Floor {
         }
 
         //todo bonus rooms
-        for (int i = 0; i < type.getBonusRoomCount(); i++) {
+        for (int i = 0; i < type.getBonusRooms().count(); i++) {
 
         }
     }
@@ -434,7 +434,7 @@ public class Floor {
             rooms.put(data.pos, data);
         }
         if (tag.contains("exit")) {
-            exitRoom = new RoomPos(tag.getCompound("exit"));
+            exitRoom = RoomPos.deserializeNBT(tag.getCompound("exit"));
         }
     }
 }

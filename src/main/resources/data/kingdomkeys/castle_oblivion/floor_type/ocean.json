@@ -1,8 +1,8 @@
 {
   "crit_path_length": 7,
-  "colour": [ 69, 173, 242 ],
+  "colour": "#45adf2",
   "music": "minecraft:music.under_water",
-  "global_modifiers": [
+  "modifiers": [
     "kingdomkeys:water_breathing"
   ],
   "key_doors": {

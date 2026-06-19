@@ -1,25 +1,10 @@
 package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.encounter;
 
+import com.google.gson.JsonElement;
+
 public class WaveEncounter extends Encounter {
 
-    int currentWave, totalWaves, enemiesRemaining;
-
-    public WaveEncounter(int waveCount) {
-
-    }
-
-    @Override
-    public void start() {
-
-    }
-
-    @Override
-    public void tick() {
-
-    }
-
-    @Override
-    public void end() {
-
+    public WaveEncounter(JsonElement element) {
+        super(element);
     }
 }

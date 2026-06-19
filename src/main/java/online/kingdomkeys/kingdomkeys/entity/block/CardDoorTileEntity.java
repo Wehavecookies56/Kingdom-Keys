@@ -33,6 +33,7 @@ public class CardDoorTileEntity extends BlockEntity {
     boolean updateCriteria = false;
 
     boolean open = false;
+    boolean locked = false;
     BlockPos destination;
     RoomData parent;
     RoomData destinationRoom;
@@ -50,6 +51,17 @@ public class CardDoorTileEntity extends BlockEntity {
 
     public boolean isOpen() {
         return open;
+    }
+
+    public boolean isLocked() {
+        return locked;
+    }
+
+    public void toggleDoorLock() {
+        locked = !locked;
+        if (level.getBlockState(getBlockPos()).getValue(CardDoorBlock.OPEN) == locked) {
+            level.setBlock(this.getBlockPos(), getBlockState().setValue(CardDoorBlock.OPEN, !locked), 2);
+        }
     }
 
     public void setParent(RoomData room) {

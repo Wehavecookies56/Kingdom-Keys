@@ -1,6 +1,6 @@
 {
   "crit_path_length": 7,
-  "colour": [ 122, 168, 255 ],
+  "colour": "#7aa8ff",
   "music": "minecraft:music.game",
   "key_doors": {
     "none": [

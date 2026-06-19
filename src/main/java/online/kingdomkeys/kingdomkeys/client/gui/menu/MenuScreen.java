@@ -271,7 +271,6 @@ public class MenuScreen extends MenuBackground {
 							String nameStr = room.getType().getTranslationKey();
 							return room.getType().isEntranceHall() ? Component.translatable(nameStr, roomData.getParentID() + 1) : Component.translatable(nameStr);
 						}).orElse(Component.literal("???"));
-						KingdomKeys.LOGGER.debug(roomData.getGenerated().map(room -> room.getType().getTranslationKey()).orElse("???"));
 					}
 				}
 

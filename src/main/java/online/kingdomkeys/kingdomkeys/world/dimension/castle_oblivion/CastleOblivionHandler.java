@@ -37,10 +37,7 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.world.dimension.DynamicDimensionManager;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.floor.Floor;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModRoomTypes;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.Room;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.RoomDirection;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.RoomGenerator;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.RoomPos;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.*;
 
 import java.util.List;
 
@@ -123,7 +120,7 @@ public class CastleOblivionHandler {
                 //if size is 1 only the entrance hall room exists
                 if (floor.getGeneratedRooms().size() == 1) {
                     te.setDestinationRoom(floor.getRoom(new RoomPos(0, 1)));
-                    Room room = RoomGenerator.INSTANCE.generateRoom((ServerLevel) player.level(), floor.getRoom(new RoomPos(0, 1)), ModRoomTypes.UNKNOWN_ROOM.get(), te.getParentRoom().getGenerated().orElse(null), RoomDirection.NORTH, 0);
+                    Room room = RoomGenerator.INSTANCE.generateRoom((ServerLevel) player.level(), floor.getRoom(new RoomPos(0, 1)), floor.getType().getStartingRoom(), te.getParentRoom().getGenerated().orElse(null), RoomDirection.NORTH, 0);
                     for (Player playerFromList : player.level().players()) {
                         PacketHandler.sendTo(new SCUpdateCORooms(floor.getRooms()), (ServerPlayer) playerFromList);
                     }
@@ -236,6 +233,10 @@ public class CastleOblivionHandler {
             if (!event.getNewRoom().getType().isEntranceHall()) {
                 Floor floor = CastleOblivionData.InteriorData.get(event.getInteriorLevel()).orElseThrow().getFloorByID(event.getNewRoom().parentFloor);
                 floor.getType().getGlobalModifiers().forEach(roomModifier -> roomModifier.onEnter(event.getNewRoom(), event.getPlayer()));
+            }
+
+            if (event.getNewRoom().getType().getCategory() == RoomCategory.ENCOUNTER) {
+
             }
         }
     }

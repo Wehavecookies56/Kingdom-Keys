@@ -78,11 +78,10 @@ public class CardDoorBlock extends BaseBlock implements EntityBlock, INoDataGen 
 	protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
     	//state.setValue(OPEN, true);
 		if (!level.isClientSide) {
-
 			if (state.getValue(GENERATED)) {
-				CastleOblivionData.InteriorData.get((ServerLevel) level).ifPresentOrElse(interiorData -> {
+				return CastleOblivionData.InteriorData.get((ServerLevel) level).map(interiorData -> {
 					CardDoorTileEntity te = (CardDoorTileEntity) level.getBlockEntity(pos);
-					if (te != null && te.getParentRoom() != null) {
+					if (te != null && te.getParentRoom() != null && !te.isLocked()) {
 						//TODO check type
 						// world card selection gui
 						// set world for floor
@@ -123,12 +122,15 @@ public class CardDoorBlock extends BaseBlock implements EntityBlock, INoDataGen 
 								}
 							}
 						}
+						return ItemInteractionResult.sidedSuccess(false);
 					}
-				}, () -> {
+					return ItemInteractionResult.FAIL;
+				}).orElseGet(() -> {
 					// open card gui
 					// set card?
 					// transport to door with same card?
 					// maybe just link 2 doors together somehow
+					return ItemInteractionResult.sidedSuccess(false);
 				});
 			}
 		}
@@ -148,7 +150,7 @@ public class CardDoorBlock extends BaseBlock implements EntityBlock, INoDataGen 
 				if (entity instanceof Player player) {
 					CastleOblivionData.InteriorData.get((ServerLevel) level).ifPresent(interiorData -> {
 						CardDoorTileEntity te = (CardDoorTileEntity) level.getBlockEntity(pos);
-						if (te != null && te.getParentRoom() != null && te.isOpen()) {
+						if (te != null && te.getParentRoom() != null && te.isOpen() && !te.isLocked()) {
 							if (te.getDestinationRoom() != null) {
 								RoomData data = te.getDestinationRoom();
 								data.getGenerated().ifPresent(newRoom -> {

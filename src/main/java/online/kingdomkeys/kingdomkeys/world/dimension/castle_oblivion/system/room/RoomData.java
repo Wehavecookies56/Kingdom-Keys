@@ -1,6 +1,7 @@
 package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room;
 
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
@@ -32,7 +33,7 @@ public class RoomData {
     }
 
     public RoomData(CompoundTag tag) {
-        this(new RoomPos(tag.getCompound("roompos")));
+        this(RoomPos.CODEC.parse(NbtOps.INSTANCE, tag.getCompound("roompos")).getOrThrow());
         deserializeNBT(tag);
     }
 
