@@ -1072,13 +1072,11 @@ public class ModItems {
 	}
 
 	public static Supplier<Item> createKeybladeItem(String name) {
-		DeferredItem<Item> item = ITEMS.register(name, () -> new KeybladeItem(new Item.Properties().stacksTo(1)));
-		return item;
+		return ITEMS.register(name, () -> new KeybladeItem(new Item.Properties().stacksTo(1)));
 	}
 
 	private static Supplier<Item> createArmorItem(String name, Holder<ArmorMaterial> material, ArmorItem.Type slot, String textureName) {
-		DeferredItem<Item> item = ITEMS.register(name, () -> new BaseArmorItem(material, slot, textureName));
-		return item;
+		return ITEMS.register(name, () -> new BaseArmorItem(material, slot, textureName));
 	}
 
 	private static Supplier<Item> createMapCard(String name, Supplier<RoomType> type, CardCategory category) {
