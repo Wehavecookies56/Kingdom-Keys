@@ -1,0 +1,11 @@
+{
+  "cost": 4600,
+  "ingredient1": "kingdomkeys:spellmagnega",
+  "ingredient2": "kingdomkeys:spellbind",
+  "output": {
+    "type": "item",
+    "item": "kingdomkeys:spellmini",
+    "quantity": 1
+  },
+  "tier": 5
+}

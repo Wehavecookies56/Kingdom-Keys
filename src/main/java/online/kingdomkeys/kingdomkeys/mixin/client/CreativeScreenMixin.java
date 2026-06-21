@@ -47,7 +47,7 @@ public abstract class CreativeScreenMixin extends EffectRenderingInventoryScreen
 		addCategoryButton(x += spacing, y, new ItemStack(ModBlocks.gummiHangar.get()), ICreativeTab.Tab.GUMMI);
 		addCategoryButton(x += spacing, y, new ItemStack(ModItems.blazing_crystal.get()), ICreativeTab.Tab.MATS);
 		addCategoryButton(x += spacing, y, new ItemStack(ModItems.tranquilDarkness.get()), ICreativeTab.Tab.CARDS);
-		addCategoryButton(x += spacing, y, new ItemStack(ModBlocks.normalBlox.get()), ICreativeTab.Tab.MISC);
+		addCategoryButton(x += spacing, y, new ItemStack(ModItems.iceCream.get()), ICreativeTab.Tab.MISC);
 	}
 
 	@Inject(method = "render", at = @At("HEAD"))

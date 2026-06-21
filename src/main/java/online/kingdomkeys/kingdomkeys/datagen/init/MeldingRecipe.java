@@ -108,5 +108,9 @@ public class MeldingRecipe extends MeldingRecipeProvider<MeldingRecipeBuilder> {
 		getBuilder("seeker_mine2").ingredient1(mineSquareSpell).ingredient2(magnegaSpell).output(mineSeekerSpell, 1).addCost(1800).addTier(5);
 		getBuilder("seeker_mine3").ingredient1(mineShieldSpell).ingredient2(mineSquareSpell).output(mineSeekerSpell, 1).addCost(1600).addTier(5);
 
+		getBuilder("mini").ingredient1(magneraSpell).ingredient2(warpSpell).output(miniSpell, 1).addCost(2600).addTier(5);
+		getBuilder("mini2").ingredient1(magnegaSpell).ingredient2(magnegaSpell).output(miniSpell, 1).addCost(3800).addTier(5);
+		getBuilder("mini3").ingredient1(magnegaSpell).ingredient2(bindSpell).output(miniSpell, 1).addCost(4600).addTier(5);
+
 	}
 }

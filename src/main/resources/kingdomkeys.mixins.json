@@ -22,6 +22,7 @@
     "epicfight.FirstPersonRendererMixin",
     "epicfight.PHumanoidRendererMixin",
     "epicfight.RenderEngineEventsMixin",
+    "epicfight.EpicFightScaleMixin",
     "wildfire_gender.GenderLayerMixin",
     "client.KeyboardInputMixin",
     "client.CreativeScreenMixin",

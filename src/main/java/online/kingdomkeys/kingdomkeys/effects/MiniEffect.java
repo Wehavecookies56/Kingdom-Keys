@@ -11,7 +11,7 @@ public class MiniEffect extends MobEffect {
 
 	public MiniEffect(MobEffectCategory category, int color) {
 		super(category, color);
-		addAttributeModifier(Attributes.SCALE, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "mini_scale"), -0.6D, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);
+		addAttributeModifier(Attributes.SCALE, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "mini_scale"), -0.3D, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);
 	}
 
 	@Override

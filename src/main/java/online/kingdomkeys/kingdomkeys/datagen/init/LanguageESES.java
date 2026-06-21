@@ -719,6 +719,8 @@ public class LanguageESES extends KKLanguageProvider {
         add(ModMagic.ESUNA.get(),"Esna");
         add(ModMagic.CONFUSE.get(),"Confu");
         add(ModMagic.BIND.get(),"Enlace");
+        add(ModMagic.MINI.get(),"Minimalia");
+
 
 
 
@@ -1076,6 +1078,7 @@ public class LanguageESES extends KKLanguageProvider {
         addItem(ModItems.esunaSpell, "Hechizo de Esna");
         addItem(ModItems.confuseSpell, "Hechizo de Confu");
         addItem(ModItems.bindSpell, "Hechizo de Enlace");
+        addItem(ModItems.miniSpell, "Hechizo de Minimalia");
 
 
         // Drive form orbs

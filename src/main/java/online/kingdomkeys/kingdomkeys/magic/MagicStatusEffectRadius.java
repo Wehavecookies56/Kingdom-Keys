@@ -36,8 +36,9 @@ public class MagicStatusEffectRadius extends Magic {
 	public void magicUse(LivingEntity player, Player caster, float fullMPBlastMult, LivingEntity lockOnEntity) {
 		int time = (int) (PlayerData.get(caster).getMaxMP() * (4F + getRealDamageMult(caster) / 2F)); //in ticks
 
-		if (getRegistryName().toString().equals(Strings.Magic_Bind))
+		if (getRegistryName().toString().equals(Strings.Magic_Bind) || getRegistryName().toString().equals(Strings.Magic_Mini))
 			time = (int) (PlayerData.get(caster).getMagic(true) * getRealDamageMult(caster));
+		System.out.println(time);
 
 		float radius = 2 + (Utils.getMagicHighestLocalLevel(PlayerData.get(caster).getEquippedMagics(), getRegistryName().toString()) * 0.2F);
 		for (int a = 0; a < 360; a += 5) {
