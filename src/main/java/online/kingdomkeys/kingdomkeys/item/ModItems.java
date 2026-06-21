@@ -7,6 +7,7 @@ import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.SwordItem;
+import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.item.card.*;
@@ -20,7 +21,6 @@ import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.reg
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModRoomTypes;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.RoomType;
 
-import java.util.Optional;
 import java.util.function.Supplier;
 
 public class ModItems {
@@ -1072,11 +1072,13 @@ public class ModItems {
 	}
 
 	public static Supplier<Item> createKeybladeItem(String name) {
-		return ITEMS.register(name, () -> new KeybladeItem(new Item.Properties().stacksTo(1)));
+		DeferredItem<Item> item = ITEMS.register(name, () -> new KeybladeItem(new Item.Properties().stacksTo(1)));
+		return item;
 	}
 
 	private static Supplier<Item> createArmorItem(String name, Holder<ArmorMaterial> material, ArmorItem.Type slot, String textureName) {
-		return ITEMS.register(name, () -> new BaseArmorItem(material, slot, textureName));
+		DeferredItem<Item> item = ITEMS.register(name, () -> new BaseArmorItem(material, slot, textureName));
+		return item;
 	}
 
 	private static Supplier<Item> createMapCard(String name, Supplier<RoomType> type, CardCategory category) {

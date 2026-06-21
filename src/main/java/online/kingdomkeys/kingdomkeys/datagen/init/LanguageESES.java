@@ -168,11 +168,16 @@ public class LanguageESES extends KKLanguageProvider {
 
 
         //Tabs
-        add("itemGroup.kingdomkeys_misc", "Kingdom Keys: Misc");
-        add("itemGroup.kingdomkeys_equipables", "Kingdom Keys: Equipables");
+        add("itemGroup.kingdomkeys", "Kingdom Keys");
         add("itemGroup.kingdomkeys_keyblades", "Kingdom Keys: Llaves Espada");
-        add("itemGroup.kingdomkeys_org_weapons", "Kingdom Keys: Organizaci\u00f3n");
+        add("itemGroup.kingdomkeys_keychains", "Kingdom Keys: Llaveros");
+        add("itemGroup.kingdomkeys_org_weapons", "Kingdom Keys: Organización");
+        add("itemGroup.kingdomkeys_armor", "Kingdom Keys: Armaduras");
+        add("itemGroup.kingdomkeys_equipables", "Kingdom Keys: Equipables");
         add("itemGroup.kingdomkeys_gummi", "Kingdom Keys: Bloques Gummi");
+        add("itemGroup.kingdomkeys_mats", "Kingdom Keys: MAteriales de Síntesis");
+        add("itemGroup.kingdomkeys_cards", "Kingdom Keys: Cartas");
+        add("itemGroup.kingdomkeys_misc", "Kingdom Keys: Misc");
 
         //Death messages
         add("keybladedamage.death", "%s fue asesinado por %s");

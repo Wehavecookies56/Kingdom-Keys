@@ -12,10 +12,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.repository.Pack;
 import net.minecraft.server.packs.repository.PackSource;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.*;
 import net.minecraft.world.level.levelgen.structure.pools.SinglePoolElement;
 import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElement;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
@@ -46,6 +43,7 @@ import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.command.ConvertOldForgeDataCommand;
 import online.kingdomkeys.kingdomkeys.command.ModCommands;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
+import online.kingdomkeys.kingdomkeys.creativetab.CreativeFilter;
 import online.kingdomkeys.kingdomkeys.data.ModData;
 import online.kingdomkeys.kingdomkeys.driveform.DriveFormDataLoader;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
@@ -55,14 +53,10 @@ import online.kingdomkeys.kingdomkeys.handler.EntityEvents;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.init.ClientEpicFightIntegration;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.init.EpicFightIntegration;
 import online.kingdomkeys.kingdomkeys.integration.wildfire_gender.KKWildFireGender;
-import online.kingdomkeys.kingdomkeys.item.ICreativeTab;
-import online.kingdomkeys.kingdomkeys.item.ModArmorMaterials;
-import online.kingdomkeys.kingdomkeys.item.ModComponents;
-import online.kingdomkeys.kingdomkeys.item.ModItems;
+import online.kingdomkeys.kingdomkeys.item.*;
 import online.kingdomkeys.kingdomkeys.item.organization.OrganizationDataLoader;
 import online.kingdomkeys.kingdomkeys.leveling.LevelingDataLoader;
 import online.kingdomkeys.kingdomkeys.leveling.ModLevels;
-import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.limit.LimitDataLoader;
 import online.kingdomkeys.kingdomkeys.limit.ModLimits;
 import online.kingdomkeys.kingdomkeys.loot.ModLootModifier;
@@ -78,7 +72,6 @@ import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeDataLoader;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopListDataLoader;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.names.NamesListLoader;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.sell.SellListDataLoader;
-import online.kingdomkeys.kingdomkeys.world.SavePointStorage;
 import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.CastleOblivionHandler;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModJsonRegistries;
@@ -88,11 +81,15 @@ import online.kingdomkeys.kingdomkeys.world.structure.ModStructures;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
+
+import static online.kingdomkeys.kingdomkeys.item.ICreativeTab.Tab.EQUIPABLES;
+import static online.kingdomkeys.kingdomkeys.item.ICreativeTab.Tab.GUMMI;
 
 @Mod("kingdomkeys")
 public class KingdomKeys {
@@ -112,92 +109,55 @@ public class KingdomKeys {
 	private static final Supplier<List<ItemStack>> kkItems = Suppliers.memoize(() -> ModItems.ITEMS.getEntries().stream().map(Supplier::get).map(ItemStack::new).toList());
 	private static final Supplier<List<ItemStack>> kkBlocks = Suppliers.memoize(() -> ModBlocks.BLOCKS.getEntries().stream().map(Supplier::get).map(ItemStack::new).toList());
 
-	private static final Supplier<List<ItemStack>> keyblades = Suppliers.memoize(() -> kkItems.get().stream().filter(item -> item.getItem() instanceof ICreativeTab tab && tab.getTab() == ICreativeTab.Tab.KEYBLADES).toList());
-	private static final Supplier<List<ItemStack>> orgWeapons = Suppliers.memoize(() -> kkItems.get().stream().filter(item -> item.getItem() instanceof ICreativeTab tab && tab.getTab() == ICreativeTab.Tab.ORGANIZATION).toList());
-	private static final Supplier<List<ItemStack>> keychains = Suppliers.memoize(() -> kkItems.get().stream().filter(item -> item.getItem() instanceof ICreativeTab tab && tab.getTab() == ICreativeTab.Tab.KEYCHAINS).toList());
-	private static final Supplier<List<ItemStack>> equipables = Suppliers.memoize(() -> kkItems.get().stream().filter(item -> item.getItem() instanceof ICreativeTab tab && tab.getTab() == ICreativeTab.Tab.EQUIPABLES).toList());
-	private static final Supplier<List<ItemStack>> gummi = Suppliers.memoize(() -> kkBlocks.get().stream().filter(stack -> {
-						if (!(stack.getItem() instanceof BlockItem block))
-							return false;
-						return block.getBlock() instanceof ICreativeTab tab && tab.getTab() == ICreativeTab.Tab.GUMMI;
-					}).toList());
+	private static List<ItemStack> getItemsForCategory(ICreativeTab.Tab category) {
+		if(category == null){
+			return kkItems.get();
+		}
+		return switch (category) {
+			case KEYBLADES -> kkItems.get().stream().filter(item -> item.getItem() instanceof ICreativeTab tab && tab.getTab() == ICreativeTab.Tab.KEYBLADES).toList();
+			case KEYCHAINS -> kkItems.get().stream().filter(item -> item.getItem() instanceof ICreativeTab tab && tab.getTab() == ICreativeTab.Tab.KEYCHAINS).toList();
+			case ORGANIZATION -> kkItems.get().stream().filter(item -> item.getItem() instanceof ICreativeTab tab && tab.getTab() == ICreativeTab.Tab.ORGANIZATION).toList();
+			case EQUIPABLES -> kkItems.get().stream().filter(item -> item.getItem() instanceof ICreativeTab tab && tab.getTab() == EQUIPABLES).toList();
+			case CARDS -> kkItems.get().stream().filter(item -> item.getItem() instanceof ICreativeTab tab && tab.getTab() == ICreativeTab.Tab.CARDS).toList();
+			case GUMMI -> kkBlocks.get().stream().filter(stack -> stack.getItem() instanceof BlockItem block && block.getBlock() instanceof ICreativeTab tab && tab.getTab() == GUMMI).toList();
+			case ARMORS -> kkItems.get().stream().filter(item -> item.getItem() instanceof ArmorItem).toList();
+			case MATS -> kkItems.get().stream().filter(item -> item.getItem() instanceof SynthesisItem).toList();
+			case MISC, NONE -> List.of();
+		};
+	}
 
-	private static final Supplier<List<ItemStack>> misc = Suppliers.memoize(() -> {
-		Set<Item> gummiItems = gummi.get().stream().map(ItemStack::getItem).collect(Collectors.toSet());
-		return kkItems.get().stream().filter(stack -> !(stack.getItem() instanceof ICreativeTab) && !gummiItems.contains(stack.getItem())).toList();
-	});
+	private static List<ItemStack> getMiscItems() {
+		Set<Item> categorizedItems = Arrays.stream(ICreativeTab.Tab.values())
+				.filter(tab -> tab != ICreativeTab.Tab.MISC)
+				.filter(tab -> tab != ICreativeTab.Tab.NONE)
+				.flatMap(tab -> getItemsForCategory(tab).stream())
+				.map(ItemStack::getItem)
+				.collect(Collectors.toSet());
 
-	@SuppressWarnings("unused")
-	public static final Supplier<CreativeModeTab>
-			keyblades_tab = TABS.register(Strings.keybladesGroup, () -> CreativeModeTab.builder()
-				.title(Component.translatable("itemGroup." + Strings.keybladesGroup))
-				.icon(() -> {
-					List<ItemStack> keybladesList = keyblades.get();
-					return keybladesList.get((int)(System.currentTimeMillis() / 1500) % keybladesList.size());
-				})
-				.displayItems(((params, output) -> {
-					keyblades.get().forEach(output::accept);
-					keychains.get().forEach(output::accept);
-				}))
-				.withSearchBar(71)
-			.backgroundTexture(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID,"textures/gui/container/tab_kk.png"))
-				.hideTitle()
-				.build()),
-			organization_tab = TABS.register(Strings.organizationGroup, () -> CreativeModeTab.builder()
-					.title(Component.translatable("itemGroup." + Strings.organizationGroup))
-					.icon(() -> {
-						List<ItemStack> orgWeaponsList = orgWeapons.get();
-						return orgWeaponsList.get((int)(System.currentTimeMillis() / 1500) % orgWeaponsList.size());
+		return kkItems.get().stream().filter(stack -> !categorizedItems.contains(stack.getItem())).toList();
+	}
+
+	public static List<ItemStack> getCurrentItems() {
+		if (CreativeFilter.currentCategory == ICreativeTab.Tab.MISC) {
+			return getMiscItems();
+		}
+
+		if (CreativeFilter.currentCategory == ICreativeTab.Tab.NONE) {
+			return List.of();
+		}
+
+		return getItemsForCategory(CreativeFilter.currentCategory);
+	}
+
+	public static final Supplier<CreativeModeTab> kingdomKeysTab =
+			TABS.register(MODID, () -> CreativeModeTab.builder()
+					.title(Component.translatable("itemGroup.kingdomkeys"))
+					.icon(() -> new ItemStack(ModItems.kingdomKey.get()))
+					.displayItems((params, output) -> {
+						System.out.println("DISPLAY ITEMS");
+						getCurrentItems().forEach(output::accept);
 					})
-					.displayItems(((params, output) -> {
-						orgWeapons.get().forEach(output::accept);
-					}))
-					.withSearchBar(71)
-					.backgroundTexture(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID,"textures/gui/container/tab_kk.png"))
-					.hideTitle()
-					.build()),
-			
-			equipables_tab = TABS.register(Strings.equipablesGroup, () -> CreativeModeTab.builder()
-					.title(Component.translatable("itemGroup." + Strings.equipablesGroup))
-					.icon(() -> {
-						List<ItemStack> equipablesList = equipables.get();
-						return equipablesList.get((int)(System.currentTimeMillis() / 1500) % equipablesList.size());
-					})
-					.displayItems(((params, output) -> {
-						equipables.get().forEach(output::accept);
-					}))
-					.withSearchBar(71)
-					.backgroundTexture(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID,"textures/gui/container/tab_kk.png"))
-					.hideTitle()
-					.build()),
-
-			misc_tab = TABS.register(Strings.miscGroup, () -> CreativeModeTab.builder()
-					.title(Component.translatable("itemGroup." + Strings.miscGroup))
-					.icon(() -> new ItemStack(ModBlocks.normalBlox.get()))
-					.displayItems(((params, output) -> {
-						misc.get().forEach(output::accept);
-						ItemStack linkedSavePoint = new ItemStack(ModBlocks.savepoint.get());
-						linkedSavePoint.set(ModComponents.SAVE_POINT_TIER, SavePointStorage.SavePointType.LINKED.getSerializedName().toUpperCase());
-						ItemStack warpPoint = new ItemStack(ModBlocks.savepoint.get());
-						warpPoint.set(ModComponents.SAVE_POINT_TIER, SavePointStorage.SavePointType.WARP.getSerializedName().toUpperCase());
-						output.accept(linkedSavePoint);
-						output.accept(warpPoint);
-					}))
-					.withSearchBar(71)
-					.backgroundTexture(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID,"textures/gui/container/tab_kk.png"))
-					.hideTitle()
-					.build()),
-				gummi_tab = TABS.register(Strings.gummiGroup, () -> CreativeModeTab.builder()
-						.title(Component.translatable("itemGroup." + Strings.gummiGroup))
-						.icon(() -> new ItemStack(ModBlocks.gummiHangar.get()))
-						.displayItems(((params, output) -> {
-							gummi.get().forEach(output::accept);
-						}))
-						.withSearchBar(71)
-						.backgroundTexture(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID,"textures/gui/container/tab_kk.png"))
-						.hideTitle()
-						.build());
-
+					.build());
 
 	public KingdomKeys(IEventBus modEventBus, ModContainer modContainer) {
 		ModMagic.MAGIC.register(modEventBus);

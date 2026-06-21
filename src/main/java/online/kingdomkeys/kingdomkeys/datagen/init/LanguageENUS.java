@@ -2263,11 +2263,16 @@ public class LanguageENUS extends KKLanguageProvider {
         add(InputHandler.Keybinds.LOCK_ON_SWAP, "Lock-on target swap");
 
         //Groups
-        add("itemGroup.kingdomkeys_misc", "Kingdom Keys: Misc");
-        add("itemGroup.kingdomkeys_equipables", "Kingdom Keys: Equipables");
+        add("itemGroup.kingdomkeys", "Kingdom Keys");
         add("itemGroup.kingdomkeys_keyblades", "Kingdom Keys: Keyblades");
+        add("itemGroup.kingdomkeys_keychains", "Kingdom Keys: Keychains");
         add("itemGroup.kingdomkeys_org_weapons", "Kingdom Keys: Organization");
+        add("itemGroup.kingdomkeys_armor", "Kingdom Keys: Armor");
+        add("itemGroup.kingdomkeys_equipables", "Kingdom Keys: Equipables");
         add("itemGroup.kingdomkeys_gummi", "Kingdom Keys: Gummi Blocks");
+        add("itemGroup.kingdomkeys_mats", "Kingdom Keys: Synthesis Materials");
+        add("itemGroup.kingdomkeys_cards", "Kingdom Keys: Cards");
+        add("itemGroup.kingdomkeys_misc", "Kingdom Keys: Misc");
 
         //Death Messages
         add("keybladedamage.death", "%s was slain by %s");

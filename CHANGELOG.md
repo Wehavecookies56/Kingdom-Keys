@@ -1,8 +1,9 @@
-# 2.7.13c:
+# 2.7.13c/2.8.0a:
 ## Added:
 * Confuse spell: Bought in the shop at tier C onwards.
-* Command Menu Attack submenu, for spells that are defined as physical (only for addons right now). 
+* Command Menu Attack submenu, for spells that are defined as physical (only for addons right now).
 ## Changed:
+* Creative menu tabs all merged back into one with sub categories.
 * Magnet visuals reworked with a ring of electricity similar to it's BBS style.
 * Shadows, Mega Shadows and Gigas Shadows will now transition in and out the ground smoothly.
 

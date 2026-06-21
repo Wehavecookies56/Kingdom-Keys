@@ -5,10 +5,12 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
+import online.kingdomkeys.kingdomkeys.item.ICreativeTab;
 import online.kingdomkeys.kingdomkeys.item.ModComponents;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.RoomType;
@@ -17,7 +19,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Supplier;
 
-public class MapCardItem extends Item {
+public class MapCardItem extends Item implements ICreativeTab {
     CardCategory category;
 
     private final Supplier<RoomType> type;
@@ -80,5 +82,10 @@ public class MapCardItem extends Item {
             pTooltipComponents.add(Component.translatable("Enemies: " + inst.getEnemies().ordinal()));
         }
         super.appendHoverText(pStack, tooltipContext, pTooltipComponents, pIsAdvanced);
+    }
+
+    @Override
+    public Tab getTab() {
+        return Tab.CARDS;
     }
 }

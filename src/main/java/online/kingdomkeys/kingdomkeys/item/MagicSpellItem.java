@@ -23,7 +23,7 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.util.List;
 
-public class MagicSpellItem extends Item implements IItemCategory {
+public class MagicSpellItem extends Item implements IItemCategory, ICreativeTab{
 	String magic;
 
 	public MagicSpellItem(Properties properties, String name) {
@@ -170,5 +170,10 @@ public class MagicSpellItem extends Item implements IItemCategory {
 
 	public boolean canMeld(ItemStack stack) {
 		return getExp(stack) >= getMaxExp();
+	}
+
+	@Override
+	public Tab getTab() {
+		return Tab.EQUIPABLES;
 	}
 }

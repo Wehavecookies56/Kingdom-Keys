@@ -23,7 +23,9 @@
     "epicfight.PHumanoidRendererMixin",
     "epicfight.RenderEngineEventsMixin",
     "wildfire_gender.GenderLayerMixin",
-    "client.KeyboardInputMixin"
+    "client.KeyboardInputMixin",
+    "client.CreativeScreenMixin",
+    "client.CreativeModeInventoryScreenInvoker"
   ],
   "minVersion": "0.8"
 }
