@@ -2,6 +2,7 @@ package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.ro
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
@@ -12,11 +13,9 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.entity.EntityType;
 import online.kingdomkeys.kingdomkeys.util.Codecs;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.encounter.RoomEncounter;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.floor.FloorType;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.JsonRegistryObject;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModFloorTypes;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModRoomModifiers;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModRoomStructures;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.*;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.modifiers.RoomModifier;
 
 import javax.annotation.Nullable;
@@ -30,16 +29,17 @@ public class RoomType extends JsonRegistryObject {
     private final boolean entranceHall;
     private final RoomSize size;
     private final RoomCategory category;
-    private final RoomEnemies enemies;
-    private final Color colour;
-    private final List<ResourceLocation> modifiers;
-    private final List<ResourceLocation> compatibleFloors;
-    private final ResourceLocation fixedRoom;
-    private final ResourceLocation music;
+    @Nullable private final RoomEnemies enemies;
+    @Nullable private final Color colour;
+    @Nullable private final List<ResourceLocation> modifiers;
+    @Nullable private final List<ResourceLocation> compatibleFloors;
+    @Nullable private final ResourceLocation fixedRoom;
+    @Nullable private final Holder<SoundEvent> music;
     private final int numberOfEnemies;
     private final int simultaneousEnemies;
     @Nullable private final TagKey<EntityType<?>> regularEnemies;
     @Nullable private final TagKey<EntityType<?>> strongEnemies;
+    @Nullable private final ResourceLocation encounter;
 
     public static final Codec<RoomType> CODEC = RecordCodecBuilder.create(roomTypeInstance ->
         roomTypeInstance.group(
@@ -51,17 +51,18 @@ public class RoomType extends JsonRegistryObject {
                 ResourceLocation.CODEC.listOf().optionalFieldOf("modifiers").forGetter(o -> Optional.ofNullable(o.modifiers)),
                 ResourceLocation.CODEC.listOf().optionalFieldOf("compatible").forGetter(o -> Optional.ofNullable(o.compatibleFloors)),
                 ResourceLocation.CODEC.optionalFieldOf("fixed_room").forGetter(o -> Optional.ofNullable(o.fixedRoom)),
-                ResourceLocation.CODEC.optionalFieldOf("music").forGetter(o -> Optional.ofNullable(o.music)),
+                SoundEvent.CODEC.optionalFieldOf("music").forGetter(o -> Optional.ofNullable(o.music)),
                 Codec.INT.optionalFieldOf("number_of_enemies").forGetter(o -> Optional.of(o.getNumberOfEnemies())),
                 Codec.INT.optionalFieldOf("simultaneous_enemies").forGetter(o -> Optional.of(o.getSimultaneousEnemies())),
                 TagKey.codec(Registries.ENTITY_TYPE).optionalFieldOf("regular_enemies").forGetter(o -> Optional.ofNullable(o.getRegularEnemies())),
-                TagKey.codec(Registries.ENTITY_TYPE).optionalFieldOf("strong_enemies").forGetter(o -> Optional.ofNullable(o.getStrongEnemies()))
+                TagKey.codec(Registries.ENTITY_TYPE).optionalFieldOf("strong_enemies").forGetter(o -> Optional.ofNullable(o.getStrongEnemies())),
+                ResourceLocation.CODEC.optionalFieldOf("encounter").forGetter(o -> Optional.ofNullable(o.encounter))
         ).apply(roomTypeInstance, RoomType::new)
     );
 
 
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-    private RoomType(RoomSize size, RoomCategory category, Optional<RoomEnemies> enemies, Optional<Boolean> entranceHall, Optional<Color> colour, Optional<List<ResourceLocation>> modifiers, Optional<List<ResourceLocation>> compatibleFloors, Optional<ResourceLocation> fixedRoom, Optional<ResourceLocation> music, Optional<Integer> numberOfEnemies, Optional<Integer> simultaneousEnemies, Optional<TagKey<EntityType<?>>> regularEnemies, Optional<TagKey<EntityType<?>>> strongEnemies) {
+    private RoomType(RoomSize size, RoomCategory category, Optional<RoomEnemies> enemies, Optional<Boolean> entranceHall, Optional<Color> colour, Optional<List<ResourceLocation>> modifiers, Optional<List<ResourceLocation>> compatibleFloors, Optional<ResourceLocation> fixedRoom, Optional<Holder<SoundEvent>> music, Optional<Integer> numberOfEnemies, Optional<Integer> simultaneousEnemies, Optional<TagKey<EntityType<?>>> regularEnemies, Optional<TagKey<EntityType<?>>> strongEnemies, Optional<ResourceLocation> encounter) {
         this.entranceHall = entranceHall.orElse(false);
         this.size = size;
         this.category = category;
@@ -75,6 +76,7 @@ public class RoomType extends JsonRegistryObject {
         this.simultaneousEnemies = simultaneousEnemies.orElse(0);
         this.regularEnemies = regularEnemies.orElse(null);
         this.strongEnemies = strongEnemies.orElse(null);
+        this.encounter = encounter.orElse(null);
     }
 
     public ResourceLocation getRegistryName() {
@@ -125,17 +127,18 @@ public class RoomType extends JsonRegistryObject {
         return compatibleFloors.stream().map(resourceLocation -> ModFloorTypes.registry.get().getValue(resourceLocation)).toList();
     }
 
-    public RoomStructure getFixedRoom() {
-        if (fixedRoom != null) {
-            return ModRoomStructures.registry.get().getValue(fixedRoom);
-        } else {
-            return null;
-        }
+    public Optional<RoomEncounter> getEncounter() {
+        return Optional.ofNullable(ModRoomEncounters.registry.get().getValue(encounter));
+    }
+
+    public Optional<RoomStructure> getFixedRoom() {
+        return Optional.ofNullable(ModRoomStructures.registry.get().getValue(fixedRoom));
+
     }
 
     public SoundEvent getMusic() {
         if (music != null) {
-            return BuiltInRegistries.SOUND_EVENT.get(music);
+            return music.value();
         } else {
             return null;
         }

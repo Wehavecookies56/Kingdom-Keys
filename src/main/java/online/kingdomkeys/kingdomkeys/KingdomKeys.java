@@ -74,6 +74,7 @@ import online.kingdomkeys.kingdomkeys.synthesis.shop.names.NamesListLoader;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.sell.SellListDataLoader;
 import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.CastleOblivionHandler;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModEncounterTypes;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModJsonRegistries;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModRoomModifiers;
 import online.kingdomkeys.kingdomkeys.world.features.ModFeatures;
@@ -182,6 +183,7 @@ public class KingdomKeys {
 
 		ModJsonRegistries.JSON_REGISTRIES.register(modEventBus);
 		ModRoomModifiers.ROOM_MODIFIERS.register(modEventBus);
+		ModEncounterTypes.ENCOUNTER_TYPES.register(modEventBus);
 		ModData.ATTACHMENT_TYPES.register(modEventBus);
 		ModComponents.COMPONENTS.register(modEventBus);
 		ModArmorMaterials.ARMOR_MATERIALS.register(modEventBus);
@@ -285,7 +287,10 @@ public class KingdomKeys {
         event.addListener(new SellListDataLoader());
 		event.addListener(new LimitDataLoader());
 		event.addListener(new SavePointDataLoader());
-		ModJsonRegistries.registry.forEach(event::addListener);
+		ModJsonRegistries.registry.forEach(jsonRegistry -> {
+			jsonRegistry.setRegistries(event.getRegistryAccess());
+			event.addListener(jsonRegistry);
+		});
 	}
 
 	public void findPacks(AddPackFindersEvent event) {

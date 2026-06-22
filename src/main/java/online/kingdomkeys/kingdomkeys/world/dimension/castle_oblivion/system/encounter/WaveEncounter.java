@@ -1,10 +1,198 @@
 package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.encounter;
 
-import com.google.gson.JsonElement;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.ArrayListDeque;
+import net.minecraft.util.StringRepresentable;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.MobSpawnType;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.data.GlobalData;
+import online.kingdomkeys.kingdomkeys.leveling.Stat;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModEncounterTypes;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.Room;
 
-public class WaveEncounter extends Encounter {
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
-    public WaveEncounter(JsonElement element) {
-        super(element);
+public class WaveEncounter implements Encounter {
+
+    List<List<Holder<EntityType<?>>>> waves;
+    int intervalTicks;
+    boolean shuffleWaveOrder;
+
+    public static final MapCodec<WaveEncounter> CODEC = RecordCodecBuilder.mapCodec(waveEncounterInstance ->
+        waveEncounterInstance.group(
+                BuiltInRegistries.ENTITY_TYPE.holderByNameCodec().listOf().listOf().fieldOf("waves").forGetter(WaveEncounter::getWaves),
+                Codec.INT.fieldOf("interval_ticks").forGetter(WaveEncounter::getIntervalTicks),
+                Codec.BOOL.optionalFieldOf("shuffle_order").forGetter(o -> Optional.of(o.shuffleWaveOrder))
+        ).apply(waveEncounterInstance, WaveEncounter::new)
+    );
+
+    @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
+    private WaveEncounter(List<List<Holder<EntityType<?>>>> waves, int intervalTicks, Optional<Boolean> shuffleWaveOrder) {
+        this.waves = waves;
+        this.intervalTicks = intervalTicks;
+        this.shuffleWaveOrder = shuffleWaveOrder.orElse(false);
+    }
+
+    public boolean shuffleWaveOrder() {
+        return shuffleWaveOrder;
+    }
+
+    public int getIntervalTicks() {
+        return intervalTicks;
+    }
+
+    public List<List<Holder<EntityType<?>>>> getWaves() {
+        return waves;
+    }
+
+    @Override
+    public MapCodec<? extends Encounter> codec() {
+        return CODEC;
+    }
+
+    @Override
+    public EncounterType<?, ?> type() {
+        return ModEncounterTypes.WAVE.get();
+    }
+
+    public static class Handler implements EncounterHandler<WaveEncounter, State> {
+
+        @Override
+        public State createState() {
+            return new State();
+        }
+
+        Queue<BlockPos> spawnPoints;
+
+        @Override
+        public void start(WaveEncounter encounter, State state, EncounterInstance instance, Room room, ServerLevel level) {
+            if (encounter.shuffleWaveOrder) {
+                state.shuffleOrder(encounter.waves.size());
+            }
+
+            //spawn first wave
+
+            createSpawnPointQueue(room);
+
+            room.setMobsRemaining(encounter.getWaves().stream().mapToInt(List::size).sum());
+
+            spawnWave(encounter, state, room, level);
+        }
+
+        @Override
+        public void tick(WaveEncounter encounter, State state, EncounterInstance instance, Room room, ServerLevel level) {
+            if (spawnPoints == null) {
+                createSpawnPointQueue(room);
+            }
+
+            //TODO interval ticks
+
+            if (room.getMobsRemaining() > 0 || state.currentWave < encounter.getWaves().size()) {
+                if (room.getCurrentlySpawned() <= 0) {
+                    state.nextWave();
+                    spawnWave(encounter, state, room, level);
+                }
+            } else {
+                instance.setComplete();
+            }
+        }
+
+        @Override
+        public void end(WaveEncounter encounter, State state, EncounterInstance instance, Room room, ServerLevel level) {
+
+        }
+
+        public void createSpawnPointQueue(Room room) {
+            spawnPoints = room.getSpawnPoints().stream().collect(Collectors.toCollection(ArrayListDeque::new));
+        }
+
+        public BlockPos getSpawnPoint() {
+            BlockPos next = spawnPoints.poll();
+            spawnPoints.offer(next);
+            return next;
+        }
+
+        public void spawnWave(WaveEncounter encounter, State state, Room room, ServerLevel level) {
+            if (state.currentWave < encounter.getWaves().size() && room.getCurrentlySpawned() <= 0) {
+                KingdomKeys.LOGGER.debug("Spawning wave {}", state.currentWave);
+                List<? extends EntityType<?>> currentWave = encounter.getWaves().get(state.getWaveIndex()).stream().map(Holder::value).toList();
+                currentWave.forEach(entityType -> {
+                    LivingEntity spawned = (LivingEntity) entityType.spawn(level, getSpawnPoint(), MobSpawnType.SPAWNER);
+                    GlobalData.get(spawned).setCastleOblivionMarker(true);
+                    KingdomKeys.LOGGER.debug("Spawned {}", spawned);
+                });
+                room.spawnMobs(currentWave.size());
+            }
+        }
+
+    }
+
+    public static class State implements EncounterState {
+
+        private int currentWave;
+        long waveEndTime;
+        List<Integer> shuffledOrder = new ArrayList<>();
+
+        public static final Codec<State> CODEC = RecordCodecBuilder.create(stateInstance ->
+                stateInstance.group(
+                        Codec.INT.fieldOf("current_wave").forGetter(State::getCurrentWave),
+                        Codec.INT.listOf().optionalFieldOf("shuffled_order").forGetter(o -> Optional.ofNullable(o.shuffledOrder)),
+                        Codec.LONG.fieldOf("wave_end_time").forGetter(State::getWaveEndTime)
+                ).apply(stateInstance, State::new)
+        );
+
+        public State() {
+            this.currentWave = 0;
+        }
+
+        public int getWaveIndex() {
+            if (shuffledOrder.isEmpty()) {
+                return currentWave;
+            } else {
+                if (currentWave >= shuffledOrder.size()) {
+                    throw new IllegalStateException("Current wave exceeds total wave count");
+                }
+                return shuffledOrder.get(currentWave);
+            }
+        }
+
+        public void shuffleOrder(int wavesSize) {
+            shuffledOrder = IntStream.range(0, wavesSize).boxed().collect(Collectors.toList());
+            Collections.shuffle(shuffledOrder);
+        }
+
+        @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
+        private State(int currentWave, Optional<List<Integer>> shuffledOrder, long waveEndTime) {
+            this.currentWave = currentWave;
+            this.shuffledOrder = shuffledOrder.orElse(new ArrayList<>());
+            this.waveEndTime = waveEndTime;
+        }
+
+        public int getCurrentWave() {
+            return currentWave;
+        }
+
+        public void nextWave() {
+            currentWave++;
+        }
+
+        public long getWaveEndTime() {
+            return waveEndTime;
+        }
     }
 }

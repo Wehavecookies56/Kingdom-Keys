@@ -24,8 +24,8 @@ public class ModRoomStructures {
             NETHER_S_1 = () -> registry.get().getValue(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "nether_s_1"));
 
     public static List<RoomStructure> getCompatibleStructures(FloorType floor, RoomType room) {
-        if (room.getFixedRoom() != null) {
-            return List.of(room.getFixedRoom());
+        if (room.getFixedRoom().isPresent()) {
+            return List.of(room.getFixedRoom().get());
         } else {
             for (RoomStructure rs : registry.get().getValues()) {
                 KingdomKeys.LOGGER.debug(rs.registryName + ":" + isStructureCompatible(floor, rs, room));

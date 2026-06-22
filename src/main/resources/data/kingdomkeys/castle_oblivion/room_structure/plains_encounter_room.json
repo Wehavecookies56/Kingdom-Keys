@@ -1,7 +1,7 @@
 {
-  "structure": "plains_s_1",
+  "structure": "plains_encounter",
   "size": "S",
-  "dimensions": [ 32, 32 ],
+  "dimensions": [ 24, 24 ],
   "categories": [
     "ENCOUNTER"
   ],

@@ -11,7 +11,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
-import online.kingdomkeys.kingdomkeys.client.gui.castle_oblivion.CardSelectionScreen;
+import online.kingdomkeys.kingdomkeys.client.gui.castle_oblivion.RoomSynthesisScreen;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.item.card.CardCategory;
 import online.kingdomkeys.kingdomkeys.item.card.MapCardItem;
@@ -27,14 +27,14 @@ public class CardSelectButton extends MenuButtonBase {
     Item card;
 
     Minecraft minecraft;
-    CardSelectionScreen parent;
+    RoomSynthesisScreen parent;
 
-    public CardSelectButton(int x, int y, int widthIn, int heightIn, ItemStack stack, CardSelectionScreen cardSelectionScreen, Button.OnPress onPress) {
+    public CardSelectButton(int x, int y, int widthIn, int heightIn, ItemStack stack, RoomSynthesisScreen roomSynthesisScreen, Button.OnPress onPress) {
         super(x, y, widthIn, heightIn, Utils.translateToLocal(""), onPress);
         minecraft = Minecraft.getInstance();
         this.stack = stack;
         card = stack.getItem();
-        parent=cardSelectionScreen;
+        parent=roomSynthesisScreen;
     }
 
     @ParametersAreNonnullByDefault

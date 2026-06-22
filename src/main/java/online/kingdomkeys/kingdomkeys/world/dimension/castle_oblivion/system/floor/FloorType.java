@@ -2,6 +2,7 @@ package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.fl
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
@@ -27,7 +28,7 @@ public class FloorType extends JsonRegistryObject {
     private final int critPathLength;
     private final CountChancePair bonusRooms, branches;
     private final Color floorColour;
-    @Nullable private final ResourceLocation music;
+    @Nullable private final Holder<SoundEvent> music;
     private final List<ResourceLocation> roomBlacklist;
     @Nullable private final ResourceLocation startingRoom;
     @Nullable private final ResourceLocation fixedLayout;
@@ -41,7 +42,7 @@ public class FloorType extends JsonRegistryObject {
                 Codecs.COLOR_CODEC_HEX.fieldOf("colour").forGetter(FloorType::getFloorColour),
                 CountChancePair.CODEC.optionalFieldOf("bonus_rooms").forGetter(o -> Optional.ofNullable(o.getBonusRooms())),
                 CountChancePair.CODEC.optionalFieldOf("branches").forGetter(o -> Optional.ofNullable(o.getBranches())),
-                ResourceLocation.CODEC.optionalFieldOf("music").forGetter(o -> Optional.ofNullable(o.music)),
+                SoundEvent.CODEC.optionalFieldOf("music").forGetter(o -> Optional.ofNullable(o.music)),
                 ResourceLocation.CODEC.listOf().optionalFieldOf("room_blacklist").forGetter(o -> Optional.ofNullable(o.roomBlacklist)),
                 ResourceLocation.CODEC.optionalFieldOf("starting_room").forGetter(o -> Optional.ofNullable(o.startingRoom)),
                 ResourceLocation.CODEC.optionalFieldOf("fixed_layout").forGetter(o -> Optional.ofNullable(o.fixedLayout)),
@@ -61,7 +62,7 @@ public class FloorType extends JsonRegistryObject {
     }
 
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-    public FloorType(int critPathLength, Color floorColour, Optional<CountChancePair> bonusRooms, Optional<CountChancePair> branches, Optional<ResourceLocation> music, Optional<List<ResourceLocation>> roomBlacklist, Optional<ResourceLocation> startingRoom, Optional<ResourceLocation> fixedLayout, Optional<List<ResourceLocation>> globalModifiers, Optional<TagKey<EntityType<?>>> regularEnemies, Optional<TagKey<EntityType<?>>> strongEnemies) {
+    public FloorType(int critPathLength, Color floorColour, Optional<CountChancePair> bonusRooms, Optional<CountChancePair> branches, Optional<Holder<SoundEvent>> music, Optional<List<ResourceLocation>> roomBlacklist, Optional<ResourceLocation> startingRoom, Optional<ResourceLocation> fixedLayout, Optional<List<ResourceLocation>> globalModifiers, Optional<TagKey<EntityType<?>>> regularEnemies, Optional<TagKey<EntityType<?>>> strongEnemies) {
         this.critPathLength = critPathLength;
         this.floorColour = floorColour;
         this.bonusRooms = bonusRooms.orElse(new CountChancePair(0, 0));
@@ -114,7 +115,7 @@ public class FloorType extends JsonRegistryObject {
     @Nullable
     public SoundEvent getMusic() {
         if (music != null) {
-            return BuiltInRegistries.SOUND_EVENT.get(music);
+            return music.value();
         } else {
             return null;
         }

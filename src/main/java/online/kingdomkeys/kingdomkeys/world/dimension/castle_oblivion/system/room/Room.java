@@ -2,12 +2,13 @@ package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.ro
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NbtOps;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -22,12 +23,12 @@ import online.kingdomkeys.kingdomkeys.entity.block.CardDoorTileEntity;
 import online.kingdomkeys.kingdomkeys.lib.ModTags;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.CastleOblivionHandler;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.encounter.Encounter;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.encounter.EncounterState;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.encounter.*;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.floor.Floor;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModRoomStructures;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModRoomTypes;
 
+import javax.annotation.Nullable;
 import java.util.*;
 
 public class Room {
@@ -43,7 +44,7 @@ public class Room {
 
     RoomPos roomPos;
 
-    Encounter encounter;
+    @Nullable EncounterInstance encounter;
 
     //Constructor used when generating a room
     public Room(RoomType type, int parentFloor, RoomPos roomPos, int valueUsed) {
@@ -62,6 +63,32 @@ public class Room {
         deserializeNBT(tag);
     }
 
+    public void roomEntered(@Nullable Room previousRoom, ServerPlayer player) {
+        if (previousRoom != null) {
+            previousRoom.getType().getModifiers().forEach(roomModifier -> roomModifier.onExit(previousRoom, player));
+            CastleOblivionData.InteriorData.get((ServerLevel) player.level()).ifPresent(interiorData -> {
+                Floor floor = interiorData.getFloorByID(previousRoom.parentFloor);
+                floor.getType().getGlobalModifiers().forEach(roomModifier -> roomModifier.onExit(previousRoom, player));
+            });
+        }
+        KingdomKeys.LOGGER.debug("Entered Room: {}", getPosition());
+        getType().getModifiers().forEach(roomModifier -> roomModifier.onEnter(this, player));
+        if (!getType().isEntranceHall()) {
+            Floor floor = CastleOblivionData.InteriorData.get((ServerLevel) player.level()).orElseThrow().getFloorByID(parentFloor);
+            floor.getType().getGlobalModifiers().forEach(roomModifier -> roomModifier.onEnter(this, player));
+        }
+        type.getEncounter().ifPresent(
+            roomEncounter -> getEncounter().ifPresentOrElse(instance -> {
+                if (!instance.isComplete()) {
+                    KingdomKeys.LOGGER.debug("Entered encounter room while in progress");
+                }
+            }, () -> {
+                encounter = roomEncounter.getEncounter().type().createInstance(roomEncounter);
+                encounter.start(this, (ServerLevel) player.level());
+            })
+        );
+    }
+
     public void removeCurrentSpawn() {
         currentlySpawned--;
     }
@@ -74,12 +101,8 @@ public class Room {
         this.structure = structure;
     }
 
-    public Optional<Encounter> getEncounter() {
-        if (getType().getCategory() == RoomCategory.ENCOUNTER) {
-            return Optional.of(encounter);
-        } else {
-            return Optional.empty();
-        }
+    public Optional<EncounterInstance> getEncounter() {
+        return Optional.ofNullable(encounter);
     }
 
     //Clear room if needed, set type and position
@@ -143,31 +166,63 @@ public class Room {
         KingdomKeys.LOGGER.debug("Found spawn point #{} [{}]", spawnPoints.size(), pos.toShortString());
     }
 
+    public int getMobsRemaining() {
+        return mobsRemaining;
+    }
+
+    public int getCurrentlySpawned() {
+        return currentlySpawned;
+    }
+
+    public void setMobsRemaining(int mobsRemaining) {
+        this.mobsRemaining = mobsRemaining;
+    }
+
+    public void spawnMobs(int toSpawn) {
+        if (mobsRemaining > 0) {
+            currentlySpawned += Math.min(toSpawn, mobsRemaining);
+            mobsRemaining -= currentlySpawned;
+        }
+    }
+
+    public List<BlockPos> getSpawnPoints() {
+        return spawnPoints;
+    }
+
     long ticksSinceLastSpawn;
 
     public void tick(ServerLevel level) {
         List<Player> players = getPlayersInRoom(level.getServer(), this);
         if (shouldRoomTick(players)) {
             type.getModifiers().forEach(roomModifier -> roomModifier.tick(this, players));
-
-            if (mobsRemaining > 0 && !spawnPoints.isEmpty()) {
-                if (currentlySpawned != type.getSimultaneousEnemies()) {
-                    ticksSinceLastSpawn++;
-                    if (ticksSinceLastSpawn > 100) {
-                        int spawnIndex = Utils.randomWithRange(0, spawnPoints.size()-1);
-                        BlockPos spawnPoint = spawnPoints.get(spawnIndex);
-                        TagKey<EntityType<?>> tag = getParent(CastleOblivionData.InteriorData.get(level).orElseThrow()).getType().getRegularEnemies();
-                        if (type.getRegularEnemies() != null) {
-                            tag = type.getRegularEnemies();
+            if (getEncounter().isPresent()) {
+                EncounterInstance encounterInstance = getEncounter().get();
+                if (!encounterInstance.isComplete()) {
+                    RoomEncounter roomEncounter = encounterInstance.getEncounter();
+                    EncounterHandler<Encounter, EncounterState> handler = getEncounter().get().getEncounter().getHandler();
+                    handler.tick(roomEncounter.getEncounter(), encounter.getState(), encounterInstance, this, level);
+                    encounterInstance.tick(this, level);
+                }
+            } else {
+                if (mobsRemaining > 0 && !spawnPoints.isEmpty()) {
+                    if (currentlySpawned != type.getSimultaneousEnemies()) {
+                        ticksSinceLastSpawn++;
+                        if (ticksSinceLastSpawn > 100) {
+                            int spawnIndex = Utils.randomWithRange(0, spawnPoints.size() - 1);
+                            BlockPos spawnPoint = spawnPoints.get(spawnIndex);
+                            TagKey<EntityType<?>> tag = getParent(CastleOblivionData.InteriorData.get(level).orElseThrow()).getType().getRegularEnemies();
+                            if (type.getRegularEnemies() != null) {
+                                tag = type.getRegularEnemies();
+                            }
+                            List<? extends EntityType<?>> entities = ModTags.getEntitiesInTag(level, tag);
+                            int toSpawn = Utils.randomWithRange(0, entities.size() - 1);
+                            LivingEntity spawned = (LivingEntity) entities.get(toSpawn).spawn(level, spawnPoint, MobSpawnType.SPAWNER);
+                            GlobalData.get(spawned).setCastleOblivionMarker(true);
+                            mobsRemaining--;
+                            currentlySpawned++;
+                            ticksSinceLastSpawn = 0;
+                            KingdomKeys.LOGGER.debug("Spawned {}", spawned.toString());
                         }
-                        List<? extends EntityType<?>> entities = ModTags.getEntitiesInTag(level, tag);
-                        int toSpawn = Utils.randomWithRange(0, entities.size()-1);
-                        LivingEntity spawned = (LivingEntity) entities.get(toSpawn).spawn(level, spawnPoint, MobSpawnType.SPAWNER);
-                        GlobalData.get(spawned).setCastleOblivionMarker(true);
-                        mobsRemaining--;
-                        currentlySpawned++;
-                        ticksSinceLastSpawn = 0;
-                        KingdomKeys.LOGGER.debug("Spawned {}", spawned.toString());
                     }
                 }
             }
@@ -251,12 +306,13 @@ public class Room {
             spawnPoints.add(NbtUtils.readBlockPos(spawnPointsTag,"spawn_point_" + i).get());
         }
         if (tag.contains("encounter")) {
-            encounter = new Encounter(tag);
+            encounter = new EncounterInstance(tag.getCompound("encounter"));
         }
     }
 
     public void setDoorLocks(ServerLevel level, boolean lock) {
         doors.values().forEach(door -> door.setLock(level, lock));
+        KingdomKeys.LOGGER.debug("Doors locked: {}", lock);
     }
 
     public record Door(DoorData data, BlockPos pos) {

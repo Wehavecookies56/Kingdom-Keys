@@ -14,5 +14,4 @@ public class Codecs {
     public static final Codec<Color> COLOR_CODEC_HEX = Codec.STRING.xmap(
             Color::decode,
             color -> String.format("#%06X", color.getRGB() & 0xFFFFFF));
-
 }

@@ -1,0 +1,15 @@
+{
+  "encounter": {
+    "type": "kingdomkeys:wave",
+    "interval_ticks": 100,
+    "waves": [
+      ["minecraft:zombie", "minecraft:creeper"],
+      ["minecraft:spider"]
+    ]
+  },
+  "rewards": [
+    {
+      "id": "kingdomkeys:key_to_truth"
+    }
+  ]
+}

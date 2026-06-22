@@ -2,6 +2,7 @@ package online.kingdomkeys.kingdomkeys.network.stc;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
@@ -16,7 +17,7 @@ public class SCSyncJsonRegistry<T extends JsonRegistryObject> implements Packet 
 
     public static final Type<SCSyncJsonRegistry<?>> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "sc_sync_json_registry"));
 
-    public static final StreamCodec<FriendlyByteBuf, SCSyncJsonRegistry<?>> STREAM_CODEC = StreamCodec.of((buffer, scSyncJsonRegistry) -> scSyncJsonRegistry.encode(buffer), SCSyncJsonRegistry::new);
+    public static final StreamCodec<RegistryFriendlyByteBuf, SCSyncJsonRegistry<?>> STREAM_CODEC = StreamCodec.of((buffer, scSyncJsonRegistry) -> scSyncJsonRegistry.encode(buffer), SCSyncJsonRegistry::new);
 
     JsonRegistry<T> registry;
 

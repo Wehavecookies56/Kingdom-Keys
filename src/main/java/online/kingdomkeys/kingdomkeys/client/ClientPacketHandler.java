@@ -22,7 +22,7 @@ import online.kingdomkeys.kingdomkeys.client.gui.ConfirmChoiceMenuPopup;
 import online.kingdomkeys.kingdomkeys.client.gui.IPlayerDataRequester;
 import online.kingdomkeys.kingdomkeys.client.gui.OrgPortalGui;
 import online.kingdomkeys.kingdomkeys.client.gui.SavePointScreen;
-import online.kingdomkeys.kingdomkeys.client.gui.castle_oblivion.CardSelectionScreen;
+import online.kingdomkeys.kingdomkeys.client.gui.castle_oblivion.RoomSynthesisScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.MenuScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.NoChoiceMenuPopup;
@@ -308,7 +308,7 @@ public class ClientPacketHandler {
     }
 
     public static void openCODoorGui(SCOpenCODoorGui message) {
-        Minecraft.getInstance().setScreen(new CardSelectionScreen((CardDoorTileEntity)Minecraft.getInstance().level.getBlockEntity(message.pos())));
+        Minecraft.getInstance().setScreen(new RoomSynthesisScreen((CardDoorTileEntity)Minecraft.getInstance().level.getBlockEntity(message.pos())));
     }
 
     public static void syncCastleOblivionInterior(SCSyncCastleOblivionInteriorData message) {

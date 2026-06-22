@@ -7,9 +7,11 @@ import com.google.gson.JsonParseException;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.JsonOps;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtException;
 import net.minecraft.nbt.NbtOps;
+import net.minecraft.resources.RegistryOps;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.packs.resources.ResourceManager;
@@ -33,7 +35,9 @@ public class JsonRegistry<T extends JsonRegistryObject> extends SimpleJsonResour
     private final T emptyValue;
     private final Codec<T> codec;
 
-    public JsonRegistry(ResourceLocation registryName, String folder, Codec<T> codec, Class<T> clazz, T emptyValue) {
+    private HolderLookup.Provider registries;
+
+    public JsonRegistry(ResourceLocation registryName, String folder, Codec<T> codec, T emptyValue) {
         super(new GsonBuilder().setPrettyPrinting().create(), folder);
         this.registryName = registryName;
         this.registry = new HashMap<>();
@@ -41,8 +45,14 @@ public class JsonRegistry<T extends JsonRegistryObject> extends SimpleJsonResour
         this.codec = codec;
     }
 
-    public JsonRegistry(ResourceLocation registryName, String folder, Codec<T> codec, Class<T> clazz) {
-        this(registryName, folder, codec, clazz, null);
+    public void setRegistries(HolderLookup.Provider registries) {
+        if (this.registries == null) {
+            this.registries = registries;
+        }
+    }
+
+    public JsonRegistry(ResourceLocation registryName, String folder, Codec<T> codec) {
+        this(registryName, folder, codec, null);
     }
 
     private void register(ResourceLocation key, T value) {
@@ -79,7 +89,7 @@ public class JsonRegistry<T extends JsonRegistryObject> extends SimpleJsonResour
         registry = new HashMap<>();
         AtomicInteger count = new AtomicInteger();
         pObject.forEach((resourceLocation, jsonElement) -> {
-            T result = codec.parse(JsonOps.INSTANCE, jsonElement).getPartialOrThrow(JsonParseException::new);
+            T result = codec.parse(RegistryOps.create(JsonOps.INSTANCE, registries), jsonElement).getPartialOrThrow(JsonParseException::new);
             result.registryName = resourceLocation;
             register(resourceLocation, result);
             count.incrementAndGet();
@@ -95,7 +105,7 @@ public class JsonRegistry<T extends JsonRegistryObject> extends SimpleJsonResour
     public CompoundTag serializeNBT() {
         CompoundTag tag = new CompoundTag();
         registry.forEach((key, value) -> {
-            codec.encodeStart(NbtOps.INSTANCE, value).resultOrPartial(KingdomKeys.LOGGER::error).ifPresent(encoded -> {
+            codec.encodeStart(RegistryOps.create(NbtOps.INSTANCE, registries), value).resultOrPartial(KingdomKeys.LOGGER::error).ifPresent(encoded -> {
                 tag.put(key.toString(), encoded);
             });
         });
@@ -105,7 +115,7 @@ public class JsonRegistry<T extends JsonRegistryObject> extends SimpleJsonResour
     public void deserializeNBT(CompoundTag tag) {
         tag.getAllKeys().forEach(key -> {
             ResourceLocation rl = ResourceLocation.parse(key);
-            T value = codec.parse(NbtOps.INSTANCE, tag.getCompound(key)).getPartialOrThrow(NbtException::new);
+            T value = codec.parse(RegistryOps.create(NbtOps.INSTANCE, registries), tag.getCompound(key)).getPartialOrThrow(NbtException::new);
             value.registryName = rl;
             registry.put(rl, value);
         });

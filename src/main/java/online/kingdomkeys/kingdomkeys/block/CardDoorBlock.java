@@ -161,6 +161,7 @@ public class CardDoorBlock extends BaseBlock implements EntityBlock, INoDataGen 
 										player.teleportTo(destination.getX(), destination.getY(), destination.getZ());
 										//player.moveTo(destination.getX(), destination.getY(), destination.getZ());
 										PacketHandler.sendTo(new SCSyncCastleOblivionInteriorData(interiorData, level), (ServerPlayer) player);
+										newRoom.roomEntered(interiorData.getRoomAtPos(te.getBlockPos()), (ServerPlayer) player);
 									}
 								});
 							} else if (te.getData().getType() != DoorData.Type.EXIT && te.getData().getType() != DoorData.Type.ENTRANCE) {
@@ -184,6 +185,7 @@ public class CardDoorBlock extends BaseBlock implements EntityBlock, INoDataGen 
 											//currFloor.floorExited(player);
 											//prevFloor.floorEntered(player);
 											PacketHandler.sendTo(new SCSyncCastleOblivionInteriorData(interiorData, level), (ServerPlayer) player);
+											destRoom.roomEntered(te.getParentRoom().getGenerated().get(), (ServerPlayer) player);
 										});
 									}
 								} else if (te.getData().getType() == DoorData.Type.EXIT) {
@@ -208,6 +210,7 @@ public class CardDoorBlock extends BaseBlock implements EntityBlock, INoDataGen 
 									//currFloor.floorExited(player);
 									//nextFloor.floorEntered(player);
 									PacketHandler.sendTo(new SCSyncCastleOblivionInteriorData(interiorData, level), (ServerPlayer) player);
+									destRoom.roomEntered(te.getParentRoom().getGenerated().get(), (ServerPlayer) player);
 								}
 							}
 						}
