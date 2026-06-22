@@ -120,6 +120,7 @@ public class MagicDataProvider implements DataProvider {
 		magics.put(ResourceLocation.parse(Strings.Magic_Bind).getPath(), new MagicBuilder().cost(8).castTime(10).cooldown(40).damageMultiplier(2F, 6F).lockOn(false).maxExp(1800).maxExpLevel(3).build());
 		magics.put(ResourceLocation.parse(Strings.Magic_Confuse).getPath(), new MagicBuilder().cost(14).castTime(15).cooldown(40).damageMultiplier(2F, 6F).lockOn(false).maxExp(1800).maxExpLevel(3).build());
 		magics.put(ResourceLocation.parse(Strings.Magic_Mini).getPath(), new MagicBuilder().cost(30).castTime(15).cooldown(70).damageMultiplier(2F, 6F).lockOn(false).maxExp(5800).maxExpLevel(4).build());
+		magics.put(ResourceLocation.parse(Strings.Magic_Slow).getPath(), new MagicBuilder().cost(30).castTime(15).cooldown(70).damageMultiplier(2F, 6F).lockOn(false).maxExp(1800).maxExpLevel(3).build());
 
 		CompletableFuture<?>[] futures = magics.entrySet().stream().map(entry -> {
 			Path path = pathProvider.json(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, entry.getKey()));

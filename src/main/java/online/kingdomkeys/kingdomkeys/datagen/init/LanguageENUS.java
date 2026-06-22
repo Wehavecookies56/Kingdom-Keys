@@ -815,6 +815,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add(ModMagic.CONFUSE.get(),"Confuse");
         add(ModMagic.BIND.get(),"Bind");
         add(ModMagic.MINI.get(),"Mini");
+        add(ModMagic.SLOW.get(),"Slow");
 
         //Drive Forms
         addDriveForm(ModDriveForms.VALOR, "Valor");
@@ -2046,6 +2047,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.confuseSpell, "Confuse Spell");
         addItem(ModItems.bindSpell, "Bind Spell");
         addItem(ModItems.miniSpell, "Mini Spell");
+        addItem(ModItems.slowSpell, "Slow Spell");
 
         //Drive form orbs
         addItem(ModItems.valorOrb, "Valor Form Orb");
@@ -2268,8 +2270,8 @@ public class LanguageENUS extends KKLanguageProvider {
         add("itemGroup.kingdomkeys", "Kingdom Keys");
         add("itemGroup.kingdomkeys_keyblades", "Kingdom Keys: Keyblades");
         add("itemGroup.kingdomkeys_keychains", "Kingdom Keys: Keychains");
-        add("itemGroup.kingdomkeys_org_weapons", "Kingdom Keys: Organization");
-        add("itemGroup.kingdomkeys_armor", "Kingdom Keys: Armor");
+        add("itemGroup.kingdomkeys_organization", "Kingdom Keys: Organization");
+        add("itemGroup.kingdomkeys_armors", "Kingdom Keys: Armor");
         add("itemGroup.kingdomkeys_equipables", "Kingdom Keys: Equipables");
         add("itemGroup.kingdomkeys_gummi", "Kingdom Keys: Gummi Blocks");
         add("itemGroup.kingdomkeys_mats", "Kingdom Keys: Synthesis Materials");

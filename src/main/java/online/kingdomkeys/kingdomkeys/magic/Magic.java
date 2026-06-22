@@ -41,7 +41,8 @@ public abstract class Magic {
 	public double getCost(Player player) {
 		PlayerData playerData = PlayerData.get(player);
 		double cost = data.getCost();
-		if (cost != 300) cost -= cost * playerData.getNumberOfAbilitiesEquipped(Strings.mpThrift) * 0.2;
+		if (cost != 300)
+			cost -= cost * playerData.getNumberOfAbilitiesEquipped(Strings.mpThrift) * 0.2;
 		return Math.max(1, cost);
 	}
 
@@ -65,9 +66,7 @@ public abstract class Magic {
 		float base = getDamageMult();
 		float max = getDamageMultMax();
 
-		float dmg = base + (max - base) * t;
-		//System.out.println("localLevel=" + localLevel + " maxLevel=" + getMaxExpLevel(lvl) + " base=" + base + " max=" + max + " dmg=" + dmg);
-		return dmg;
+		return base + (max - base) * t;
 	}
 
 	public boolean getHasToSelect() {
@@ -192,17 +191,13 @@ public abstract class Magic {
 
 	public Magic getNextTierMagic() {
 		ResourceLocation next = getNextTier();
-
-		if (next == null) return this;
+		if (next == null)
+			return this;
 
 		return ModMagic.registry.get(next);
 	}
 
 	public abstract void magicUse(LivingEntity player, Player caster, float fullMPBlastMult, LivingEntity lockOnEntity);
-
-	/*public void playMagicCastSound2(LivingEntity player, Player caster) {
-		playMagicCastSound(player,caster);
-	}*/
 
 	public abstract void playMagicCastSound(LivingEntity player, Player caster);
 
@@ -214,7 +209,6 @@ public abstract class Magic {
 		}
 		prob += (casterData.getMagicUses(name) - 1) * 5;
 		double num = Math.random() * 100;
-		System.out.println(num + " " + prob + " " + casterData.getMagicUses(name));
 		return num <= prob;
 	}
 

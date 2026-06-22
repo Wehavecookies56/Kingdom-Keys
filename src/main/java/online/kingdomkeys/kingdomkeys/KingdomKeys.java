@@ -153,10 +153,7 @@ public class KingdomKeys {
 			TABS.register(MODID, () -> CreativeModeTab.builder()
 					.title(Component.translatable("itemGroup.kingdomkeys"))
 					.icon(() -> new ItemStack(ModItems.kingdomKey.get()))
-					.displayItems((params, output) -> {
-						System.out.println("DISPLAY ITEMS");
-						getCurrentItems().forEach(output::accept);
-					})
+					.displayItems((params, output) -> getCurrentItems().forEach(output::accept))
 					.build());
 
 	public KingdomKeys(IEventBus modEventBus, ModContainer modContainer) {

@@ -1,8 +1,11 @@
 # 2.7.13c/2.8.0a:
 ## Added:
-* Confuse spell: Bought in the shop at tier C onwards.
-* Mini spell: Meldable with Magnera + Warp / Magnega + Magnega / Magnega + Bind.
+* New spells:
+  * Confuse spell: Bought in the shop at tier B onwards.
+  * Mini spell: Meldable with Magnera + Warp / Magnega + Magnega / Magnega + Bind.
+  * Slow spell: Bought in the shop at tier C onwards.
 * Command Menu Attack submenu, for spells that are defined as physical (only for addons right now).
+* New melding recipe for Crawling Fire / Firaga Burst: Firaga + Slow.
 ## Changed:
 * Creative menu tabs all merged back into one with sub categories.
 * Magnet visuals reworked with a ring of electricity similar to it's BBS style.

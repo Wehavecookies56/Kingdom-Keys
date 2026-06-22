@@ -171,8 +171,8 @@ public class LanguageESES extends KKLanguageProvider {
         add("itemGroup.kingdomkeys", "Kingdom Keys");
         add("itemGroup.kingdomkeys_keyblades", "Kingdom Keys: Llaves Espada");
         add("itemGroup.kingdomkeys_keychains", "Kingdom Keys: Llaveros");
-        add("itemGroup.kingdomkeys_org_weapons", "Kingdom Keys: Organización");
-        add("itemGroup.kingdomkeys_armor", "Kingdom Keys: Armaduras");
+        add("itemGroup.kingdomkeys_organization", "Kingdom Keys: Organización");
+        add("itemGroup.kingdomkeys_armors", "Kingdom Keys: Armaduras");
         add("itemGroup.kingdomkeys_equipables", "Kingdom Keys: Equipables");
         add("itemGroup.kingdomkeys_gummi", "Kingdom Keys: Bloques Gummi");
         add("itemGroup.kingdomkeys_mats", "Kingdom Keys: MAteriales de Síntesis");
@@ -720,7 +720,7 @@ public class LanguageESES extends KKLanguageProvider {
         add(ModMagic.CONFUSE.get(),"Confu");
         add(ModMagic.BIND.get(),"Enlace");
         add(ModMagic.MINI.get(),"Minimalia");
-
+        add(ModMagic.SLOW.get(),"Freno");
 
 
 
@@ -1079,6 +1079,7 @@ public class LanguageESES extends KKLanguageProvider {
         addItem(ModItems.confuseSpell, "Hechizo de Confu");
         addItem(ModItems.bindSpell, "Hechizo de Enlace");
         addItem(ModItems.miniSpell, "Hechizo de Minimalia");
+        addItem(ModItems.slowSpell, "Hechizo de Freno");
 
 
         // Drive form orbs
