@@ -45,6 +45,9 @@ import java.util.function.Supplier;
             return self();
         }
 
+        public MeldingRecipeBuilder output(Supplier<Item> item) {
+            return output(item,1);
+        }
         public MeldingRecipeBuilder output(Supplier<Item> item, int quantity) {
             Preconditions.checkNotNull(item);
             this.output = BuiltInRegistries.ITEM.getKey(item.get());

@@ -17,101 +17,101 @@ public class MeldingRecipe extends MeldingRecipeProvider<MeldingRecipeBuilder> {
 	@Override
 	protected void registerRecipe() {
 // Tier 2
-		getBuilder("fira").ingredient1(fireSpell).ingredient2(fireSpell).output(firaSpell, 1).addCost(400).addTier(2);
-		getBuilder("blizzara").ingredient1(blizzardSpell).ingredient2(blizzardSpell).output(blizzaraSpell, 1).addCost(400).addTier(2);
-		getBuilder("thundara").ingredient1(thunderSpell).ingredient2(thunderSpell).output(thundaraSpell, 1).addCost(400).addTier(2);
-		getBuilder("cura").ingredient1(cureSpell).ingredient2(cureSpell).output(curaSpell, 1).addCost(400).addTier(2);
-		getBuilder("aerora").ingredient1(aeroSpell).ingredient2(aeroSpell).output(aeroraSpell, 1).addCost(400).addTier(2);
-		getBuilder("gravira").ingredient1(gravitySpell).ingredient2(gravitySpell).output(graviraSpell, 1).addCost(400).addTier(2);
-		getBuilder("stopra").ingredient1(stopSpell).ingredient2(stopSpell).output(stopraSpell, 1).addCost(400).addTier(2);
-		getBuilder("watera").ingredient1(waterSpell).ingredient2(waterSpell).output(wateraSpell, 1).addCost(400).addTier(2);
-		getBuilder("magnera").ingredient1(magnetSpell).ingredient2(magnetSpell).output(magneraSpell, 1).addCost(400).addTier(2);
-		getBuilder("reflera").ingredient1(reflectSpell).ingredient2(reflectSpell).output(refleraSpell, 1).addCost(400).addTier(2);
+		getBuilder("fira").ingredient1(fireSpell).ingredient2(fireSpell).output(firaSpell).addCost(400).addTier(2);
+		getBuilder("blizzara").ingredient1(blizzardSpell).ingredient2(blizzardSpell).output(blizzaraSpell).addCost(400).addTier(2);
+		getBuilder("thundara").ingredient1(thunderSpell).ingredient2(thunderSpell).output(thundaraSpell).addCost(400).addTier(2);
+		getBuilder("cura").ingredient1(cureSpell).ingredient2(cureSpell).output(curaSpell).addCost(400).addTier(2);
+		getBuilder("aerora").ingredient1(aeroSpell).ingredient2(aeroSpell).output(aeroraSpell).addCost(400).addTier(2);
+		getBuilder("gravira").ingredient1(gravitySpell).ingredient2(gravitySpell).output(graviraSpell).addCost(400).addTier(2);
+		getBuilder("stopra").ingredient1(stopSpell).ingredient2(stopSpell).output(stopraSpell).addCost(400).addTier(2);
+		getBuilder("watera").ingredient1(waterSpell).ingredient2(waterSpell).output(wateraSpell).addCost(400).addTier(2);
+		getBuilder("magnera").ingredient1(magnetSpell).ingredient2(magnetSpell).output(magneraSpell).addCost(400).addTier(2);
+		getBuilder("reflera").ingredient1(reflectSpell).ingredient2(reflectSpell).output(refleraSpell).addCost(400).addTier(2);
 
 // Tier 3
-		getBuilder("firaga").ingredient1(firaSpell).ingredient2(firaSpell).output(firagaSpell, 1).addCost(800).addTier(3);
-		getBuilder("blizzaga").ingredient1(blizzaraSpell).ingredient2(blizzaraSpell).output(blizzagaSpell, 1).addCost(800).addTier(3);
-		getBuilder("thundaga").ingredient1(thundaraSpell).ingredient2(thundaraSpell).output(thundagaSpell, 1).addCost(800).addTier(3);
-		getBuilder("curaga").ingredient1(curaSpell).ingredient2(curaSpell).output(curagaSpell, 1).addCost(800).addTier(3);
-		getBuilder("aeroga").ingredient1(aeroraSpell).ingredient2(aeroraSpell).output(aerogaSpell, 1).addCost(800).addTier(3);
-		getBuilder("graviga").ingredient1(graviraSpell).ingredient2(graviraSpell).output(gravigaSpell, 1).addCost(800).addTier(3);
-		getBuilder("stopga").ingredient1(stopraSpell).ingredient2(stopraSpell).output(stopgaSpell, 1).addCost(800).addTier(3);
-		getBuilder("waterga").ingredient1(wateraSpell).ingredient2(wateraSpell).output(watergaSpell, 1).addCost(800).addTier(3);
-		getBuilder("magnega").ingredient1(magneraSpell).ingredient2(magneraSpell).output(magnegaSpell, 1).addCost(800).addTier(3);
-		getBuilder("reflega").ingredient1(refleraSpell).ingredient2(refleraSpell).output(reflegaSpell, 1).addCost(800).addTier(3);
+		getBuilder("firaga").ingredient1(firaSpell).ingredient2(firaSpell).output(firagaSpell).addCost(800).addTier(3);
+		getBuilder("blizzaga").ingredient1(blizzaraSpell).ingredient2(blizzaraSpell).output(blizzagaSpell).addCost(800).addTier(3);
+		getBuilder("thundaga").ingredient1(thundaraSpell).ingredient2(thundaraSpell).output(thundagaSpell).addCost(800).addTier(3);
+		getBuilder("curaga").ingredient1(curaSpell).ingredient2(curaSpell).output(curagaSpell).addCost(800).addTier(3);
+		getBuilder("aeroga").ingredient1(aeroraSpell).ingredient2(aeroraSpell).output(aerogaSpell).addCost(800).addTier(3);
+		getBuilder("graviga").ingredient1(graviraSpell).ingredient2(graviraSpell).output(gravigaSpell).addCost(800).addTier(3);
+		getBuilder("stopga").ingredient1(stopraSpell).ingredient2(stopraSpell).output(stopgaSpell).addCost(800).addTier(3);
+		getBuilder("waterga").ingredient1(wateraSpell).ingredient2(wateraSpell).output(watergaSpell).addCost(800).addTier(3);
+		getBuilder("magnega").ingredient1(magneraSpell).ingredient2(magneraSpell).output(magnegaSpell).addCost(800).addTier(3);
+		getBuilder("reflega").ingredient1(refleraSpell).ingredient2(refleraSpell).output(reflegaSpell).addCost(800).addTier(3);
 
 //BBS
-		getBuilder("dark_firaga").ingredient1(firagaSpell).ingredient2(blackoutSpell).output(darkFiragaSpell, 1).addCost(1200).addTier(4);
+		getBuilder("dark_firaga").ingredient1(firagaSpell).ingredient2(blackoutSpell).output(darkFiragaSpell).addCost(1200).addTier(4);
 
-		getBuilder("triple_firaga").ingredient1(firagaSpell).ingredient2(firagaSpell).output(tripleFiragaSpell, 1).addCost(1000).addTier(3);
-		getBuilder("triple_firaga2").ingredient1(firagaSpell).ingredient2(firaSpell).output(tripleFiragaSpell, 1).addCost(1200).addTier(4);
+		getBuilder("triple_firaga").ingredient1(firagaSpell).ingredient2(firagaSpell).output(tripleFiragaSpell).addCost(1000).addTier(3);
+		getBuilder("triple_firaga2").ingredient1(firagaSpell).ingredient2(firaSpell).output(tripleFiragaSpell).addCost(1200).addTier(4);
 
 		//Firaga bursts are here too
-		getBuilder("crawling_firaga").ingredient1(firagaSpell).ingredient2(stopraSpell).output(crawlingFiragaSpell, 1).bonusOutput(firagaBurstSpell,1,20).addCost(1800).addTier(5);
-		getBuilder("crawling_firaga2").ingredient1(firagaSpell).ingredient2(stopgaSpell).output(crawlingFiragaSpell, 1).bonusOutput(firagaBurstSpell,1,20).addCost(1200).addTier(4);
-		getBuilder("crawling_firaga3").ingredient1(firagaSpell).ingredient2(slowSpell).output(crawlingFiragaSpell, 1).bonusOutput(firagaBurstSpell,1,20).addCost(2000).addTier(4);
+		getBuilder("crawling_firaga").ingredient1(firagaSpell).ingredient2(stopraSpell).output(crawlingFiragaSpell).bonusOutput(firagaBurstSpell,1,20).addCost(1800).addTier(5);
+		getBuilder("crawling_firaga2").ingredient1(firagaSpell).ingredient2(stopgaSpell).output(crawlingFiragaSpell).bonusOutput(firagaBurstSpell,1,20).addCost(1200).addTier(4);
+		getBuilder("crawling_firaga3").ingredient1(firagaSpell).ingredient2(slowSpell).output(crawlingFiragaSpell).bonusOutput(firagaBurstSpell,1,20).addCost(2000).addTier(4);
 
-		getBuilder("fission_firaga").ingredient1(firaSpell).ingredient2(aerogaSpell).output(fissionFiragaSpell, 1).bonusOutput(firagaBurstSpell,1,20).addCost(1000).addTier(4);
-		getBuilder("fission_firaga2").ingredient1(firagaSpell).ingredient2(aeroraSpell).output(fissionFiragaSpell, 1).bonusOutput(firagaBurstSpell,1,20).addCost(1000).addTier(4);
-		getBuilder("fission_firaga3").ingredient1(firagaSpell).ingredient2(aerogaSpell).output(fissionFiragaSpell, 1).bonusOutput(firagaBurstSpell,1,20).addCost(1200).addTier(3);
+		getBuilder("fission_firaga").ingredient1(firaSpell).ingredient2(aerogaSpell).output(fissionFiragaSpell).bonusOutput(firagaBurstSpell,1,20).addCost(1000).addTier(4);
+		getBuilder("fission_firaga2").ingredient1(firagaSpell).ingredient2(aeroraSpell).output(fissionFiragaSpell).bonusOutput(firagaBurstSpell,1,20).addCost(1000).addTier(4);
+		getBuilder("fission_firaga3").ingredient1(firagaSpell).ingredient2(aerogaSpell).output(fissionFiragaSpell).bonusOutput(firagaBurstSpell,1,20).addCost(1200).addTier(3);
 
-		getBuilder("ignite").ingredient1(fireSpell).ingredient2(bindSpell).output(igniteSpell, 1).addCost(1200).addTier(4);
-
-
-		getBuilder("triple_blizzaga").ingredient1(blizzagaSpell).ingredient2(blizzagaSpell).output(tripleBlizzagaSpell, 1).addCost(1000).addTier(3);
-		getBuilder("triple_blizzaga2").ingredient1(blizzagaSpell).ingredient2(blizzaraSpell).output(tripleBlizzagaSpell, 1).addCost(1200).addTier(4);
-
-		getBuilder("deep_freeze").ingredient1(blizzagaSpell).ingredient2(tripleBlizzagaSpell).output(deepFreezeSpell, 1).addCost(1400).addTier(4);
-
-		getBuilder("glacier").ingredient1(blizzagaSpell).ingredient2(deepFreezeSpell).output(glacierSpell, 1).addCost(1600).addTier(5);
-		getBuilder("glacier2").ingredient1(tripleBlizzagaSpell).ingredient2(deepFreezeSpell).output(glacierSpell, 1).addCost(1200).addTier(4);
-
-		getBuilder("ice_barrage").ingredient1(blizzagaSpell).ingredient2(mineShieldSpell).output(iceBarrageSpell, 1).addCost(1600).addTier(5);
-		getBuilder("ice_barrage2").ingredient1(blizzagaSpell).ingredient2(mineSquareSpell).output(iceBarrageSpell, 1).addCost(1600).addTier(5);
+		getBuilder("ignite").ingredient1(fireSpell).ingredient2(bindSpell).output(igniteSpell).addCost(1200).addTier(4);
 
 
-		getBuilder("thundaga_shot").ingredient1(thundagaSpell).ingredient2(thundagaSpell).output(thundagaShotSpell, 1).addCost(1000).addTier(4);
-		getBuilder("triple_plasma").ingredient1(thundagaShotSpell).ingredient2(thundagaShotSpell).output(triplePlasmaSpell, 1).addCost(1600).addTier(5);
+		getBuilder("triple_blizzaga").ingredient1(blizzagaSpell).ingredient2(blizzagaSpell).output(tripleBlizzagaSpell).addCost(1000).addTier(3);
+		getBuilder("triple_blizzaga2").ingredient1(blizzagaSpell).ingredient2(blizzaraSpell).output(tripleBlizzagaSpell).addCost(1200).addTier(4);
 
-		getBuilder("spark").ingredient1(thunderSpell).ingredient2(magnetSpell).output(sparkSpell, 1).addCost(800).addTier(3);
-		getBuilder("sparkra").ingredient1(thundaraSpell).ingredient2(magneraSpell).output(sparkraSpell, 1).addCost(1200).addTier(3);
-		getBuilder("sparkra2").ingredient1(sparkSpell).ingredient2(sparkSpell).output(sparkraSpell, 1).addCost(1200).addTier(3);
-		getBuilder("sparkga").ingredient1(thundagaSpell).ingredient2(magnegaSpell).output(sparkgaSpell, 1).addCost(1600).addTier(4);
-		getBuilder("sparkga2").ingredient1(sparkraSpell).ingredient2(sparkraSpell).output(sparkgaSpell, 1).addCost(1600).addTier(4);
+		getBuilder("deep_freeze").ingredient1(blizzagaSpell).ingredient2(tripleBlizzagaSpell).output(deepFreezeSpell).addCost(1400).addTier(4);
 
-		getBuilder("balloon").ingredient1(waterSpell).ingredient2(gravitySpell).output(balloonSpell, 1).addCost(800).addTier(3);
-		getBuilder("balloonra").ingredient1(wateraSpell).ingredient2(graviraSpell).output(balloonraSpell, 1).addCost(1200).addTier(3);
-		getBuilder("balloonra2").ingredient1(balloonSpell).ingredient2(balloonSpell).output(balloonraSpell, 1).addCost(1200).addTier(3);
-		getBuilder("balloonga").ingredient1(watergaSpell).ingredient2(gravigaSpell).output(balloongaSpell, 1).addCost(1600).addTier(4);
-		getBuilder("balloonga2").ingredient1(balloonraSpell).ingredient2(balloonraSpell).output(balloongaSpell, 1).addCost(1600).addTier(4);
+		getBuilder("glacier").ingredient1(blizzagaSpell).ingredient2(deepFreezeSpell).output(glacierSpell).addCost(1600).addTier(5);
+		getBuilder("glacier2").ingredient1(tripleBlizzagaSpell).ingredient2(deepFreezeSpell).output(glacierSpell).addCost(1200).addTier(4);
+
+		getBuilder("ice_barrage").ingredient1(blizzagaSpell).ingredient2(mineShieldSpell).output(iceBarrageSpell).addCost(1600).addTier(5);
+		getBuilder("ice_barrage2").ingredient1(blizzagaSpell).ingredient2(mineSquareSpell).output(iceBarrageSpell).addCost(1600).addTier(5);
 
 
-		getBuilder("zero_gravity").ingredient1(firagaSpell).ingredient2(blackoutSpell).output(darkFiragaSpell, 1).addCost(1200).addTier(4);
+		getBuilder("thundaga_shot").ingredient1(thundagaSpell).ingredient2(thundagaSpell).output(thundagaShotSpell).addCost(1000).addTier(4);
+		getBuilder("triple_plasma").ingredient1(thundagaShotSpell).ingredient2(thundagaShotSpell).output(triplePlasmaSpell).addCost(1600).addTier(5);
+
+		getBuilder("spark").ingredient1(thunderSpell).ingredient2(magnetSpell).output(sparkSpell).addCost(800).addTier(3);
+		getBuilder("sparkra").ingredient1(thundaraSpell).ingredient2(magneraSpell).output(sparkraSpell).addCost(1200).addTier(3);
+		getBuilder("sparkra2").ingredient1(sparkSpell).ingredient2(sparkSpell).output(sparkraSpell).addCost(1200).addTier(3);
+		getBuilder("sparkga").ingredient1(thundagaSpell).ingredient2(magnegaSpell).output(sparkgaSpell).addCost(1600).addTier(4);
+		getBuilder("sparkga2").ingredient1(sparkraSpell).ingredient2(sparkraSpell).output(sparkgaSpell).addCost(1600).addTier(4);
+
+		getBuilder("balloon").ingredient1(waterSpell).ingredient2(gravitySpell).output(balloonSpell).addCost(800).addTier(3);
+		getBuilder("balloonra").ingredient1(wateraSpell).ingredient2(graviraSpell).output(balloonraSpell).addCost(1200).addTier(3);
+		getBuilder("balloonra2").ingredient1(balloonSpell).ingredient2(balloonSpell).output(balloonraSpell).addCost(1200).addTier(3);
+		getBuilder("balloonga").ingredient1(watergaSpell).ingredient2(gravigaSpell).output(balloongaSpell).addCost(1600).addTier(4);
+		getBuilder("balloonga2").ingredient1(balloonraSpell).ingredient2(balloonraSpell).output(balloongaSpell).addCost(1600).addTier(4);
+
+
+		getBuilder("zero_gravity").ingredient1(firagaSpell).ingredient2(blackoutSpell).output(darkFiragaSpell).addCost(1200).addTier(4);
 
 		//Warps are here too
-		getBuilder("zero_gravira").ingredient1(zeroGravitySpell).ingredient2(zeroGravitySpell).output(zeroGraviraSpell, 1).bonusOutput(warpSpell,1,10).addCost(1200).addTier(4);
-		getBuilder("zero_gravira2").ingredient1(magnetSpell).ingredient2(aeroSpell).output(zeroGraviraSpell, 1).addCost(1600).addTier(4);
-		getBuilder("zero_gravira3").ingredient1(thunderSpell).ingredient2(zeroGravitySpell).output(zeroGraviraSpell, 1).bonusOutput(warpSpell,1,10).addCost(1600).addTier(4);
+		getBuilder("zero_gravira").ingredient1(zeroGravitySpell).ingredient2(zeroGravitySpell).output(zeroGraviraSpell).bonusOutput(warpSpell,1,10).addCost(1200).addTier(4);
+		getBuilder("zero_gravira2").ingredient1(magnetSpell).ingredient2(aeroSpell).output(zeroGraviraSpell).addCost(1600).addTier(4);
+		getBuilder("zero_gravira3").ingredient1(thunderSpell).ingredient2(zeroGravitySpell).output(zeroGraviraSpell).bonusOutput(warpSpell,1,10).addCost(1600).addTier(4);
 
-		getBuilder("zero_graviga").ingredient1(zeroGraviraSpell).ingredient2(zeroGraviraSpell).output(zeroGravigaSpell, 1).bonusOutput(warpSpell,1,20).addCost(1200).addTier(4);
-		getBuilder("zero_graviga2").ingredient1(zeroGraviraSpell).ingredient2(thundaraSpell).output(zeroGravigaSpell, 1).bonusOutput(warpSpell,1,20).addCost(1400).addTier(4);
-		getBuilder("zero_graviga3").ingredient1(zeroGravitySpell).ingredient2(zeroGraviraSpell).output(zeroGravigaSpell, 1).bonusOutput(warpSpell,1,20).addCost(1400).addTier(4);
+		getBuilder("zero_graviga").ingredient1(zeroGraviraSpell).ingredient2(zeroGraviraSpell).output(zeroGravigaSpell).bonusOutput(warpSpell,1,20).addCost(1200).addTier(4);
+		getBuilder("zero_graviga2").ingredient1(zeroGraviraSpell).ingredient2(thundaraSpell).output(zeroGravigaSpell).bonusOutput(warpSpell,1,20).addCost(1400).addTier(4);
+		getBuilder("zero_graviga3").ingredient1(zeroGravitySpell).ingredient2(zeroGraviraSpell).output(zeroGravigaSpell).bonusOutput(warpSpell,1,20).addCost(1400).addTier(4);
 
-		getBuilder("blackout").ingredient1(zeroGraviraSpell).ingredient2(poisonSpell).output(blackoutSpell, 1).addCost(1600).addTier(4);
+		getBuilder("blackout").ingredient1(zeroGraviraSpell).ingredient2(poisonSpell).output(blackoutSpell).addCost(1600).addTier(4);
 
-		getBuilder("faith").ingredient1(aerogaSpell).ingredient2(curagaSpell).output(faithSpell, 1).addCost(3600).addTier(6);
+		getBuilder("faith").ingredient1(aerogaSpell).ingredient2(curagaSpell).output(faithSpell).addCost(3600).addTier(6);
 
-		getBuilder("mine_shield").ingredient1(firaSpell).ingredient2(zeroGravitySpell).output(mineShieldSpell, 1).addCost(1200).addTier(3);
+		getBuilder("mine_shield").ingredient1(firaSpell).ingredient2(zeroGravitySpell).output(mineShieldSpell).addCost(1200).addTier(3);
 
-		getBuilder("mine_square").ingredient1(firaSpell).ingredient2(stopSpell).output(mineSquareSpell, 1).addCost(1600).addTier(4);
+		getBuilder("mine_square").ingredient1(firaSpell).ingredient2(stopSpell).output(mineSquareSpell).addCost(1600).addTier(4);
 
-		getBuilder("seeker_mine").ingredient1(mineShieldSpell).ingredient2(magnegaSpell).output(mineSeekerSpell, 1).addCost(1800).addTier(5);
-		getBuilder("seeker_mine2").ingredient1(mineSquareSpell).ingredient2(magnegaSpell).output(mineSeekerSpell, 1).addCost(1800).addTier(5);
-		getBuilder("seeker_mine3").ingredient1(mineShieldSpell).ingredient2(mineSquareSpell).output(mineSeekerSpell, 1).addCost(1600).addTier(5);
+		getBuilder("seeker_mine").ingredient1(mineShieldSpell).ingredient2(magnegaSpell).output(mineSeekerSpell).addCost(1800).addTier(5);
+		getBuilder("seeker_mine2").ingredient1(mineSquareSpell).ingredient2(magnegaSpell).output(mineSeekerSpell).addCost(1800).addTier(5);
+		getBuilder("seeker_mine3").ingredient1(mineShieldSpell).ingredient2(mineSquareSpell).output(mineSeekerSpell).addCost(1600).addTier(5);
 
-		getBuilder("mini").ingredient1(magneraSpell).ingredient2(warpSpell).output(miniSpell, 1).addCost(2600).addTier(5);
-		getBuilder("mini2").ingredient1(magnegaSpell).ingredient2(magnegaSpell).output(miniSpell, 1).addCost(3800).addTier(5);
-		getBuilder("mini3").ingredient1(magnegaSpell).ingredient2(bindSpell).output(miniSpell, 1).addCost(4600).addTier(5);
+		getBuilder("mini").ingredient1(magneraSpell).ingredient2(warpSpell).output(miniSpell).addCost(2600).addTier(5);
+		getBuilder("mini2").ingredient1(magnegaSpell).ingredient2(magnegaSpell).output(miniSpell).addCost(3800).addTier(5);
+		getBuilder("mini3").ingredient1(magnegaSpell).ingredient2(bindSpell).output(miniSpell).addCost(4600).addTier(5);
 
 	}
 }
