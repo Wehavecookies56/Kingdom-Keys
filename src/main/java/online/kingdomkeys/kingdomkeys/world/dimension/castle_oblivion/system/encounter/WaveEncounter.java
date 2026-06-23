@@ -17,7 +17,9 @@ import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.level.saveddata.SavedData;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.data.CastleOblivionData;
 import online.kingdomkeys.kingdomkeys.data.GlobalData;
 import online.kingdomkeys.kingdomkeys.leveling.Stat;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModEncounterTypes;
@@ -137,6 +139,7 @@ public class WaveEncounter implements Encounter {
                     KingdomKeys.LOGGER.debug("Spawned {}", spawned);
                 });
                 room.spawnMobs(currentWave.size());
+                CastleOblivionData.InteriorData.get(level).ifPresent(SavedData::setDirty);
             }
         }
 

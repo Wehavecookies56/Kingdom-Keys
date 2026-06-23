@@ -216,6 +216,7 @@ public class CardDoorTileEntity extends BlockEntity {
                 this.currentCriteria.put(cardCategory, new DoorData.CardCriteria(criteriaEntry.getInt("value"), DoorData.CriteriaType.values()[criteriaEntry.getInt("type")]));
             }
         });
+        locked = pTag.getBoolean("locked");
     }
 
     @Override
@@ -249,6 +250,7 @@ public class CardDoorTileEntity extends BlockEntity {
             });
             pTag.put("criteria", criteria);
         }
+        pTag.putBoolean("locked", locked);
     }
 
     @Nullable
