@@ -467,7 +467,7 @@ public class CommandMenuGui extends OverlayBase {
 
 		//Self should always show in case using an addon
 		targets.add(new CommandMenuItem.Builder(
-				ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, minecraft.player.getDisplayName().getString().toLowerCase()),
+				ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, minecraft.player.getGameProfile().getName().toLowerCase()),
 				Component.literal(minecraft.player.getGameProfile().getName()),
 				item -> subMenu.getParent().getSelected().onEnter()
 		).setData(minecraft.player.getId() + "").build(subMenu));
