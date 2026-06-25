@@ -29,53 +29,40 @@ public class RoomType extends JsonRegistryObject {
     private final boolean entranceHall;
     private final RoomSize size;
     private final RoomCategory category;
-    @Nullable private final RoomEnemies enemies;
+    private final Enemies enemies;
     @Nullable private final Color colour;
     @Nullable private final List<ResourceLocation> modifiers;
     @Nullable private final List<ResourceLocation> compatibleFloors;
     @Nullable private final ResourceLocation fixedRoom;
     @Nullable private final Holder<SoundEvent> music;
-    private final int numberOfEnemies;
-    private final int simultaneousEnemies;
-    @Nullable private final TagKey<EntityType<?>> regularEnemies;
-    @Nullable private final TagKey<EntityType<?>> strongEnemies;
     @Nullable private final ResourceLocation encounter;
 
     public static final Codec<RoomType> CODEC = RecordCodecBuilder.create(roomTypeInstance ->
         roomTypeInstance.group(
                 StringRepresentable.fromEnum(RoomSize::values).fieldOf("size").forGetter(RoomType::getSize),
                 StringRepresentable.fromEnum(RoomCategory::values).fieldOf("category").forGetter(RoomType::getCategory),
-                StringRepresentable.fromEnum(RoomEnemies::values).optionalFieldOf("enemies").forGetter(o -> Optional.ofNullable(o.getEnemies())),
+                Enemies.CODEC.optionalFieldOf("enemies").forGetter(o -> Optional.ofNullable(o.getEnemiesProperties())),
                 Codec.BOOL.optionalFieldOf("entrance_hall").forGetter(o -> Optional.of(o.isEntranceHall())),
                 Codecs.COLOR_CODEC_HEX.optionalFieldOf("colour").forGetter(o -> Optional.ofNullable(o.getColour())),
                 ResourceLocation.CODEC.listOf().optionalFieldOf("modifiers").forGetter(o -> Optional.ofNullable(o.modifiers)),
                 ResourceLocation.CODEC.listOf().optionalFieldOf("compatible").forGetter(o -> Optional.ofNullable(o.compatibleFloors)),
                 ResourceLocation.CODEC.optionalFieldOf("fixed_room").forGetter(o -> Optional.ofNullable(o.fixedRoom)),
                 SoundEvent.CODEC.optionalFieldOf("music").forGetter(o -> Optional.ofNullable(o.music)),
-                Codec.INT.optionalFieldOf("number_of_enemies").forGetter(o -> Optional.of(o.getNumberOfEnemies())),
-                Codec.INT.optionalFieldOf("simultaneous_enemies").forGetter(o -> Optional.of(o.getSimultaneousEnemies())),
-                TagKey.codec(Registries.ENTITY_TYPE).optionalFieldOf("regular_enemies").forGetter(o -> Optional.ofNullable(o.getRegularEnemies())),
-                TagKey.codec(Registries.ENTITY_TYPE).optionalFieldOf("strong_enemies").forGetter(o -> Optional.ofNullable(o.getStrongEnemies())),
                 ResourceLocation.CODEC.optionalFieldOf("encounter").forGetter(o -> Optional.ofNullable(o.encounter))
         ).apply(roomTypeInstance, RoomType::new)
     );
 
-
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-    private RoomType(RoomSize size, RoomCategory category, Optional<RoomEnemies> enemies, Optional<Boolean> entranceHall, Optional<Color> colour, Optional<List<ResourceLocation>> modifiers, Optional<List<ResourceLocation>> compatibleFloors, Optional<ResourceLocation> fixedRoom, Optional<Holder<SoundEvent>> music, Optional<Integer> numberOfEnemies, Optional<Integer> simultaneousEnemies, Optional<TagKey<EntityType<?>>> regularEnemies, Optional<TagKey<EntityType<?>>> strongEnemies, Optional<ResourceLocation> encounter) {
+    private RoomType(RoomSize size, RoomCategory category, Optional<Enemies> enemies, Optional<Boolean> entranceHall, Optional<Color> colour, Optional<List<ResourceLocation>> modifiers, Optional<List<ResourceLocation>> compatibleFloors, Optional<ResourceLocation> fixedRoom, Optional<Holder<SoundEvent>> music, Optional<ResourceLocation> encounter) {
         this.entranceHall = entranceHall.orElse(false);
         this.size = size;
         this.category = category;
-        this.enemies = enemies.orElse(RoomEnemies.NONE);
+        this.enemies = enemies.orElse(new Enemies(RoomEnemies.NONE, 0, 0, null, null));
         this.colour = colour.orElse(null);
         this.modifiers = modifiers.orElse(new ArrayList<>());
         this.compatibleFloors = compatibleFloors.orElse(new ArrayList<>());
         this.fixedRoom = fixedRoom.orElse(null);
         this.music = music.orElse(null);
-        this.numberOfEnemies = numberOfEnemies.orElse(0);
-        this.simultaneousEnemies = simultaneousEnemies.orElse(0);
-        this.regularEnemies = regularEnemies.orElse(null);
-        this.strongEnemies = strongEnemies.orElse(null);
         this.encounter = encounter.orElse(null);
     }
 
@@ -99,8 +86,12 @@ public class RoomType extends JsonRegistryObject {
         return size;
     }
 
-    public RoomEnemies getEnemies() {
+    public Enemies getEnemiesProperties() {
         return enemies;
+    }
+
+    public RoomEnemies getEnemies() {
+        return enemies.roomEnemies;
     }
 
     public RoomCategory getCategory() {
@@ -145,18 +136,36 @@ public class RoomType extends JsonRegistryObject {
     }
 
     public int getNumberOfEnemies() {
-        return numberOfEnemies;
+        return enemies.numberOfEnemies;
     }
 
     public int getSimultaneousEnemies() {
-        return simultaneousEnemies;
+        return enemies.simultaneousEnemies;
     }
 
     public TagKey<EntityType<?>> getRegularEnemies() {
-        return regularEnemies;
+        return enemies.regularEnemies;
     }
 
     public TagKey<EntityType<?>> getStrongEnemies() {
-        return strongEnemies;
+        return enemies.strongEnemies;
+    }
+
+    public record Enemies(RoomEnemies roomEnemies, int numberOfEnemies, int simultaneousEnemies, TagKey<EntityType<?>> regularEnemies, TagKey<EntityType<?>> strongEnemies) {
+
+        public static final Codec<Enemies> CODEC = RecordCodecBuilder.create(instance ->
+                instance.group(
+                        StringRepresentable.fromEnum(RoomEnemies::values).optionalFieldOf("type").forGetter(o -> Optional.ofNullable(o.roomEnemies)),
+                        Codec.INT.optionalFieldOf("number_of_enemies").forGetter(o -> Optional.of(o.numberOfEnemies)),
+                        Codec.INT.optionalFieldOf("simultaneous_enemies").forGetter(o -> Optional.of(o.simultaneousEnemies)),
+                        TagKey.hashedCodec(Registries.ENTITY_TYPE).optionalFieldOf("regular_enemies").forGetter(o -> Optional.ofNullable(o.regularEnemies)),
+                        TagKey.hashedCodec(Registries.ENTITY_TYPE).optionalFieldOf("strong_enemies").forGetter(o -> Optional.ofNullable(o.strongEnemies))
+                ).apply(instance, Enemies::new)
+        );
+
+        @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
+        public Enemies(Optional<RoomEnemies> roomEnemies, Optional<Integer> numberOfEnemies, Optional<Integer> simultaneousEnemies, Optional<TagKey<EntityType<?>>> regularEnemies, Optional<TagKey<EntityType<?>>> strongEnemies) {
+            this(roomEnemies.orElse(RoomEnemies.NONE), numberOfEnemies.orElse(0), simultaneousEnemies.orElse(0), regularEnemies.orElse(null), strongEnemies.orElse(null));
+        }
     }
 }

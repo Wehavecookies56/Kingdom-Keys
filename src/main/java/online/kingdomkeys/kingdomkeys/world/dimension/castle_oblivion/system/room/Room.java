@@ -179,9 +179,6 @@ public class Room {
     }
 
     public void setMobsRemaining(int mobsRemaining) {
-        if (mobsRemaining > 4) {
-            KingdomKeys.LOGGER.debug("THIS SHOULD NOT HAPPEN RIGHT NOW {}", mobsRemaining);
-        }
         this.mobsRemaining = mobsRemaining;
     }
 

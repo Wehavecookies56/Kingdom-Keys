@@ -47,8 +47,8 @@ public class FloorType extends JsonRegistryObject {
                 ResourceLocation.CODEC.optionalFieldOf("starting_room").forGetter(o -> Optional.ofNullable(o.startingRoom)),
                 ResourceLocation.CODEC.optionalFieldOf("fixed_layout").forGetter(o -> Optional.ofNullable(o.fixedLayout)),
                 ResourceLocation.CODEC.listOf().optionalFieldOf("modifiers").forGetter(o -> Optional.ofNullable(o.globalModifiers)),
-                TagKey.codec(Registries.ENTITY_TYPE).optionalFieldOf("regular_enemies").forGetter(o -> Optional.ofNullable(o.getRegularEnemies())),
-                TagKey.codec(Registries.ENTITY_TYPE).optionalFieldOf("strong_enemies").forGetter(o -> Optional.ofNullable(o.getStrongEnemies()))
+                TagKey.hashedCodec(Registries.ENTITY_TYPE).optionalFieldOf("regular_enemies").forGetter(o -> Optional.ofNullable(o.getRegularEnemies())),
+                TagKey.hashedCodec(Registries.ENTITY_TYPE).optionalFieldOf("strong_enemies").forGetter(o -> Optional.ofNullable(o.getStrongEnemies()))
                 ).apply(floorTypeInstance, FloorType::new)
     );
 
