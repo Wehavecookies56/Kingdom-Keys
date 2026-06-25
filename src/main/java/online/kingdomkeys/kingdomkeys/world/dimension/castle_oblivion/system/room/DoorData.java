@@ -2,6 +2,7 @@ package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.ro
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.item.ItemStack;
 import online.kingdomkeys.kingdomkeys.item.card.CardCategory;
 import online.kingdomkeys.kingdomkeys.item.card.KeycardType;
@@ -134,15 +135,25 @@ public class DoorData {
         TOTAL multiple cards can be used to add up to the total value
         GREATER_NO_ZERO card needs to be greater or equal to the value
      */
-    public enum CriteriaType {
-        GREATER, LESSER, EQUAL, TOTAL, GREATER_NO_ZERO
+    public enum CriteriaType implements StringRepresentable {
+        GREATER("↑"), LESSER("↓"), EQUAL("="), TOTAL(""), GREATER_NO_ZERO("↑");
+
+        String name;
+
+        @Override
+        public String getSerializedName() {
+            return name;
+        }
+
+        CriteriaType(String name) {
+            this.name = name;
+        }
     }
 
     public record CardCriteria(int value, CriteriaType criteriaType) {
         @Override
         public String toString() {
-            String[] types = new String[]{"<", ">", "=", "", "<"};
-            return value + types[criteriaType.ordinal()];
+            return value + criteriaType.name;
         }
 
         public Component toDescriptiveString(boolean keycard) {
