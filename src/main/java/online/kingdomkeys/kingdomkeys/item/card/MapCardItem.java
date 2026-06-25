@@ -100,8 +100,8 @@ public class MapCardItem extends Item implements ICreativeTab {
     public void appendHoverText(ItemStack pStack, TooltipContext tooltipContext, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
         if (type != null && hasRandomValue) {
             RoomType inst = type.get();
-            pTooltipComponents.add(Component.translatable("Size: " + inst.getSize().ordinal()));
-            pTooltipComponents.add(Component.translatable("Enemies: " + inst.getEnemies().ordinal()));
+            pTooltipComponents.add(Component.translatable("Size: " + inst.getSize().name()));
+            pTooltipComponents.add(Component.translatable("Enemies: " + inst.getEnemies().name()));
         }
         super.appendHoverText(pStack, tooltipContext, pTooltipComponents, pIsAdvanced);
     }

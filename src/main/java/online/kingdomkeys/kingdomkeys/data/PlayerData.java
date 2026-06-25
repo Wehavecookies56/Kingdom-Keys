@@ -1309,7 +1309,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		if (equippedKeychains.containsKey(form)) {
 			return equippedKeychains.get(form);
 		}
-		return null;
+		return ItemStack.EMPTY;
 	}
 
 	public void equipAllKeychains(Map<ResourceLocation, ItemStack> keychains, boolean force) {

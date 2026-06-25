@@ -4,7 +4,8 @@
   "enemies": {
     "type": "L",
     "number_of_enemies": 13,
-    "simultaneous_enemies": 6
+    "simultaneous_enemies": 6,
+    "regular_enemies": "#kingdomkeys:castle_oblivion/bottomless_darkness"
   },
   "colour": "#000000",
   "modifiers": [
