@@ -28,7 +28,7 @@ public class ModRoomStructures {
             return List.of(room.getFixedRoom().get());
         } else {
             for (RoomStructure rs : registry.get().getValues()) {
-                KingdomKeys.LOGGER.debug(rs.registryName + ":" + isStructureCompatible(floor, rs, room));
+                KingdomKeys.LOGGER.debug("{}: compatible? {}", rs.registryName, isStructureCompatible(floor, rs, room));
             }
             return registry.get().getValues().stream().filter(s -> isStructureCompatible(floor, s, room)).toList();
         }
@@ -37,10 +37,12 @@ public class ModRoomStructures {
     public static boolean isStructureCompatible(FloorType floor, RoomStructure structure, RoomType type) {
         if (structure.getFloor() != null) {
             if (!ModFloorTypes.isFloorCompatible(floor, type) || !floor.registryName.equals(structure.getFloor().registryName)) {
+                KingdomKeys.LOGGER.debug("Floor was not compatible");
                 return false;
             }
         }
         if (structure.getRoomWhitelist().isEmpty()) {
+            KingdomKeys.LOGGER.debug("Size {}, Category {}, Floor {}", type.getSize() == structure.getSize(), structure.getCategories().contains(type.getCategory()), (structure.getFloor() == null || type.isFloorCompatible(structure.getFloor())));
             return type.getSize() == structure.getSize() && structure.getCategories().contains(type.getCategory()) && (structure.getFloor() == null || type.isFloorCompatible(structure.getFloor()));
         } else {
             return structure.getRoomWhitelist().contains(type);

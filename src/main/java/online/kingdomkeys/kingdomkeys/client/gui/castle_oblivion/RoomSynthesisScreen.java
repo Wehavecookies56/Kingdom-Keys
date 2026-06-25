@@ -17,6 +17,7 @@ import online.kingdomkeys.kingdomkeys.entity.block.CardDoorTileEntity;
 import online.kingdomkeys.kingdomkeys.item.card.CardCategory;
 import online.kingdomkeys.kingdomkeys.item.card.KeycardType;
 import online.kingdomkeys.kingdomkeys.item.card.MapCardItem;
+import online.kingdomkeys.kingdomkeys.item.card.MinglingWorldsMapCardItem;
 import online.kingdomkeys.kingdomkeys.lib.ModTags;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSConsumeCard;
@@ -129,9 +130,13 @@ public class RoomSynthesisScreen extends MenuBackground {
 		boxB.renderWidget(guiGraphics, mouseX, mouseY, partialTicks);
 		scrollBar.render(guiGraphics, mouseX, mouseY, partialTicks);
 
-		String text = "Criteria";
+		Component text = Component.translatable("Criteria");
+		if (te.getCurrentCriteria().size() == 1) {
+			Map.Entry<CardCategory, DoorData.CardCriteria> o = te.getCurrentCriteria().entrySet().stream().toList().getFirst();
+			text = o.getValue().toDescriptiveString(o.getKey() == CardCategory.YELLOW);
+		}
 		guiGraphics.drawCenteredString(minecraft.font, text, width / 2, 35, 0xFFFFFF);
-		text = "Available cards";
+		text = Component.translatable("Available cards");
 		guiGraphics.drawCenteredString(minecraft.font, text, boxB.getX() + boxB.getWidth() / 2, boxB.getY() - 10, 0xFFFFFF);
 
 		int iconSize = 72;
@@ -199,9 +204,15 @@ public class RoomSynthesisScreen extends MenuBackground {
 						matrixStack.translate(-10, 9.5, 150);
 						matrixStack.scale(0.3F, 0.3F, 1);
 						if (mapCardItem.getRoomType() != null) {
-							guiGraphics.drawString(minecraft.font, "Category: " + mapCardItem.getRoomType().getCategory(), 0, 0, 0xFFFFFF);
-							guiGraphics.drawString(minecraft.font, "Room size: " + mapCardItem.getRoomType().getSize(), 0, 10, 0xFFFFFF);
-							guiGraphics.drawString(minecraft.font, "Enemies: " + mapCardItem.getRoomType().getEnemies(), 0, 20, 0xFFFFFF);
+							boolean minglingWorlds = mapCardItem instanceof MinglingWorldsMapCardItem;
+							Component category = Component.translatable("Category: %s", (minglingWorlds ? "?" : mapCardItem.getRoomType().getCategory().toString()));
+							Component size = Component.translatable("Room size: %s", (minglingWorlds ? "?" : mapCardItem.getRoomType().getSize().toString()));
+							guiGraphics.drawString(minecraft.font, category, 0, 0, 0xFFFFFF);
+							guiGraphics.drawString(minecraft.font, size, 0, 10, 0xFFFFFF);
+							if (minglingWorlds || mapCardItem.getRoomType().getEnemies() != null) {
+								Component enemies = Component.translatable("Enemies: %s", (minglingWorlds ? "?" : mapCardItem.getRoomType().getEnemies().toString()));
+								guiGraphics.drawString(minecraft.font, enemies, 0, 20, 0xFFFFFF);
+							}
 						}
 					}
 				}

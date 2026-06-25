@@ -1,4 +1,5 @@
 {
   "size": "S",
-  "category": "ENCOUNTER"
+  "category": "ENCOUNTER",
+  "encounter": "kingdomkeys:room_of_truth"
 }

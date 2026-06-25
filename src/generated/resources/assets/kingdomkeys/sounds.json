@@ -321,6 +321,14 @@
       }
     ]
   },
+  "music/forgotten_challenge": {
+    "sounds": [
+      {
+        "name": "kingdomkeys:music/forgotten_challenge",
+        "stream": true
+      }
+    ]
+  },
   "music/lord_of_the_castle": {
     "sounds": [
       {

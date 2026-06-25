@@ -42,4 +42,8 @@ public class RoomEncounter extends JsonRegistryObject {
     public List<ItemStack> getRewards() {
         return rewards;
     }
+
+    public Optional<SoundEvent> getMusic() {
+        return Optional.of(music.value());
+    }
 }

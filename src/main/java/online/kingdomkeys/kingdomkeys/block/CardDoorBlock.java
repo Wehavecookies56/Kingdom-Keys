@@ -15,6 +15,8 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -96,6 +98,7 @@ public class CardDoorBlock extends BaseBlock implements EntityBlock, INoDataGen 
 									KingdomKeys.LOGGER.debug("Size: {}", te.getParentRoom().getParentFloor((ServerLevel) level).getRooms().size());
 									KingdomKeys.LOGGER.debug("{}: Num:{} Open? {}", level.isClientSide ? "Client" : "Server", te.getData(), te.isOpen());
 									PacketHandler.sendTo(new SCOpenCODoorGui(te.getBlockPos()), (ServerPlayer) player);
+									return ItemInteractionResult.sidedSuccess(false);
 								}
 							}
 							case FIXED -> {
@@ -111,18 +114,19 @@ public class CardDoorBlock extends BaseBlock implements EntityBlock, INoDataGen 
 										te.getParentRoom().getParentFloor((ServerLevel) level).setWorldCard(item);
 										te.openDoor(true);
 										CastleOblivionHandler.createFirstRoom(player, te);
+										return ItemInteractionResult.sidedSuccess(false);
 									}
 								}
 								//if open do nothing because world card has been set
 							}
 							case KEY -> {
 								//Key door requires key card + others, once open it cannot be interacted with
-								if (te.getDestinationRoom() != null) {
+								if (te.getDestinationRoom() != null && te.getDestinationRoom().getGenerated().isEmpty()) {
 									PacketHandler.sendTo(new SCOpenCODoorGui(te.getBlockPos()), (ServerPlayer) player);
+									return ItemInteractionResult.sidedSuccess(false);
 								}
 							}
 						}
-						return ItemInteractionResult.sidedSuccess(false);
 					}
 					return ItemInteractionResult.FAIL;
 				}).orElseGet(() -> {
@@ -150,11 +154,10 @@ public class CardDoorBlock extends BaseBlock implements EntityBlock, INoDataGen 
 				if (entity instanceof Player player) {
 					CastleOblivionData.InteriorData.get((ServerLevel) level).ifPresent(interiorData -> {
 						CardDoorTileEntity te = (CardDoorTileEntity) level.getBlockEntity(pos);
-						if (te != null && te.getParentRoom() != null && te.isOpen() && !te.isLocked()) {
+						if (te != null && te.getParentRoom() != null && te.isOpen() && !te.isLocked() && te.getDisableTicks() <= 0) {
 							if (te.getDestinationRoom() != null) {
 								RoomData data = te.getDestinationRoom();
 								data.getGenerated().ifPresent(newRoom -> {
-									KingdomKeys.LOGGER.debug(te.getDestinationRoom().getGenerated().get().getType().getTranslationKey());
 									if (!NeoForge.EVENT_BUS.post(new CastleOblivionEvent.PlayerChangeRoomEvent(interiorData.getRoomAtPos(te.getBlockPos()), newRoom, player)).isCanceled()) {
 										BlockPos destination = newRoom.doors.get(te.getDirection().opposite()).pos();
 										destination = destination.offset(te.getDirection().toMCDirection().getNormal().multiply(2));
@@ -162,6 +165,7 @@ public class CardDoorBlock extends BaseBlock implements EntityBlock, INoDataGen 
 										//player.moveTo(destination.getX(), destination.getY(), destination.getZ());
 										PacketHandler.sendTo(new SCSyncCastleOblivionInteriorData(interiorData, level), (ServerPlayer) player);
 										newRoom.roomEntered(interiorData.getRoomAtPos(te.getBlockPos()), (ServerPlayer) player);
+										te.setDisableTicks(100);
 									}
 								});
 							} else if (te.getData().getType() != DoorData.Type.EXIT && te.getData().getType() != DoorData.Type.ENTRANCE) {
@@ -172,6 +176,7 @@ public class CardDoorBlock extends BaseBlock implements EntityBlock, INoDataGen 
 									if (te.getParentRoom().getParentID() == 0) {
 										//on first floor so exit
 										CastleOblivionHandler.exitCastleOblivion(currFloor, te.getParentRoom().getGenerated().get(), player);
+										te.setDisableTicks(100);
 										//currFloor.floorExited(player);
 									} else {
 										//not on first floor so go to previous floor
@@ -186,6 +191,7 @@ public class CardDoorBlock extends BaseBlock implements EntityBlock, INoDataGen 
 											//prevFloor.floorEntered(player);
 											PacketHandler.sendTo(new SCSyncCastleOblivionInteriorData(interiorData, level), (ServerPlayer) player);
 											destRoom.roomEntered(te.getParentRoom().getGenerated().get(), (ServerPlayer) player);
+											te.setDisableTicks(100);
 										});
 									}
 								} else if (te.getData().getType() == DoorData.Type.EXIT) {
@@ -211,6 +217,7 @@ public class CardDoorBlock extends BaseBlock implements EntityBlock, INoDataGen 
 									//nextFloor.floorEntered(player);
 									PacketHandler.sendTo(new SCSyncCastleOblivionInteriorData(interiorData, level), (ServerPlayer) player);
 									destRoom.roomEntered(te.getParentRoom().getGenerated().get(), (ServerPlayer) player);
+									te.setDisableTicks(100);
 								}
 							}
 						}
@@ -245,5 +252,11 @@ public class CardDoorBlock extends BaseBlock implements EntityBlock, INoDataGen 
 		default:
 			return collisionShapeS;
 		}
+	}
+
+	@org.jetbrains.annotations.Nullable
+	@Override
+	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
+		return blockEntityType == ModEntities.TYPE_CARD_DOOR.get() ? CardDoorTileEntity::tick : null;
 	}
 }

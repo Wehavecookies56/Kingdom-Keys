@@ -102,7 +102,7 @@ public class JsonRegistry<T extends JsonRegistryObject> extends SimpleJsonResour
         }
     }
 
-    public CompoundTag serializeNBT() {
+    public CompoundTag serializeNBT(HolderLookup.Provider registries) {
         CompoundTag tag = new CompoundTag();
         registry.forEach((key, value) -> {
             codec.encodeStart(RegistryOps.create(NbtOps.INSTANCE, registries), value).resultOrPartial(KingdomKeys.LOGGER::error).ifPresent(encoded -> {
@@ -112,7 +112,7 @@ public class JsonRegistry<T extends JsonRegistryObject> extends SimpleJsonResour
         return tag;
     }
 
-    public void deserializeNBT(CompoundTag tag) {
+    public void deserializeNBT(CompoundTag tag, HolderLookup.Provider registries) {
         tag.getAllKeys().forEach(key -> {
             ResourceLocation rl = ResourceLocation.parse(key);
             T value = codec.parse(RegistryOps.create(NbtOps.INSTANCE, registries), tag.getCompound(key)).getPartialOrThrow(NbtException::new);

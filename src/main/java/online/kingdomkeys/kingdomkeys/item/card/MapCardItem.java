@@ -4,7 +4,10 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -72,6 +75,25 @@ public class MapCardItem extends Item implements ICreativeTab {
             return stack.get(ModComponents.CARD_VALUE);
         }
         return -1;
+    }
+
+    @Override
+    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand usedHand) {
+        if (player.isCreative() && player.isCrouching()) {
+            ItemStack card = player.getItemInHand(usedHand);
+            if (card.getItem() instanceof MapCardItem mapCardItem) {
+                if (mapCardItem.getCategory() != CardCategory.YELLOW && mapCardItem.getCategory() != CardCategory.RGB) {
+                    int value = MapCardItem.getCardValue(card);
+                    if (value == -1) {
+                        card.set(ModComponents.CARD_VALUE, 0);
+                    } else {
+                        value = value == 9 ? 0 : ++value;
+                        card.set(ModComponents.CARD_VALUE, value);
+                    }
+                }
+            }
+        }
+        return super.use(level, player, usedHand);
     }
 
     @Override

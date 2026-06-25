@@ -9,8 +9,10 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.level.biome.Biome;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.data.CastleOblivionData;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.encounter.EncounterInstance;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.floor.Floor;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.Room;
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -31,13 +33,7 @@ public class BiomeMixin {
                     Floor floor = interiorData.getFloorAtPos(Minecraft.getInstance().player.blockPosition());
                     Room room = interiorData.getRoomAtPos(Minecraft.getInstance().player.blockPosition());
                     if (floor != null) {
-                        SoundEvent music = null;
-                        if (floor.getType().getMusic() != null) {
-                            music = floor.getType().getMusic();
-                        }
-                        if (room != null && room.getType().getMusic() != null) {
-                            music = room.getType().getMusic();
-                        }
+                        SoundEvent music = getSoundEvent(floor, room);
                         if (music != null) {
                             cir.setReturnValue(Optional.of(new Music(Holder.direct(music), 0, 0, true)));
                         } else {
@@ -47,5 +43,26 @@ public class BiomeMixin {
                 }
             }
         }
+    }
+
+    private static @Nullable SoundEvent getSoundEvent(Floor floor, Room room) {
+        SoundEvent music = null;
+        if (floor.getType().getMusic() != null) {
+            music = floor.getType().getMusic();
+        }
+        if (room != null) {
+            if (room.getType().getMusic() != null) {
+                music = room.getType().getMusic();
+            }
+            if (room.getEncounter().isPresent()) {
+                EncounterInstance encounterInstance = room.getEncounter().get();
+                if (!encounterInstance.isComplete()) {
+                    if (encounterInstance.getEncounter().getMusic().isPresent()) {
+                        music = encounterInstance.getEncounter().getMusic().get();
+                    }
+                }
+            }
+        }
+        return music;
     }
 }

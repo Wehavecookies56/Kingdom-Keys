@@ -103,6 +103,7 @@ import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
 import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.CastleOblivionHandler;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModJsonRegistries;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.Room;
 import org.joml.Vector3f;
 
 import java.util.*;
@@ -1170,7 +1171,10 @@ public class EntityEvents {
 						Item toDrop = cardDrops.get(Utils.randomWithRange(0, cardDrops.size() - 1));
 						level.addFreshEntity(new ItemEntity(level, entity.getX(), entity.getY(), entity.getZ(), new ItemStack(toDrop)));
 						CastleOblivionData.InteriorData.get((ServerLevel) level).ifPresent(interiorData -> {
-							interiorData.getRoomAtPos(entity.blockPosition()).removeCurrentSpawn();
+							Room room = interiorData.getRoomAtPos(entity.blockPosition());
+							room.removeCurrentSpawn();
+							room.removeEntityFromCache(entity);
+							KingdomKeys.LOGGER.debug("CO spawned mob died {} remaining", room.getCurrentlySpawned());
 						});
 					}
 				}

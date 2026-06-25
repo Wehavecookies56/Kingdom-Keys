@@ -144,7 +144,7 @@ public class GummiHangarTileEntity extends BlockEntity implements MenuProvider {
 		return tag;
 	}
 
-    public static < T > void tick(Level level, BlockPos pos, BlockState state, T blockEntity) {
+    public static <T> void tick(Level level, BlockPos pos, BlockState state, T blockEntity) {
         if (blockEntity instanceof GummiHangarTileEntity hangar) {
             if (level == null || level.isClientSide)
                 return;

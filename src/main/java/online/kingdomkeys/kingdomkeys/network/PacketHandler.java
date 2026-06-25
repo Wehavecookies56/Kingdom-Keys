@@ -145,7 +145,7 @@ public class PacketHandler {
 		server(CSSetBouncedPacket.TYPE, CSSetBouncedPacket.STREAM_CODEC);
 		server(CSSwapKeyblade.TYPE, CSSwapKeyblade.STREAM_CODEC);
 		server(CSConsumeCard.TYPE, CSConsumeCard.STREAM_CODEC);
-
+		server(CSTeleport.TYPE, CSTeleport.STREAM_CODEC);
 	}
 
 	private static <T extends Packet> void client(CustomPacketPayload.Type<T> type, StreamCodec<? super RegistryFriendlyByteBuf, T> reader) {

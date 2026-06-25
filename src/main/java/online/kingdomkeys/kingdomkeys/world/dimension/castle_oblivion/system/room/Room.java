@@ -40,6 +40,8 @@ public class Room {
     public int parentFloor;
     int valueUsed;
 
+    List<LivingEntity> cachedEntities = new ArrayList<>();
+
     List<BlockPos> spawnPoints;
 
     RoomPos roomPos;
@@ -64,6 +66,10 @@ public class Room {
     }
 
     public void roomEntered(@Nullable Room previousRoom, ServerPlayer player) {
+        cachedEntities = getEntitiesInRoom((ServerLevel) player.level(), this);
+        if (currentlySpawned != cachedEntities.size()) {
+            currentlySpawned = cachedEntities.size();
+        }
         if (previousRoom != null) {
             previousRoom.getType().getModifiers().forEach(roomModifier -> roomModifier.onExit(previousRoom, player));
             CastleOblivionData.InteriorData.get((ServerLevel) player.level()).ifPresent(interiorData -> {
@@ -71,22 +77,20 @@ public class Room {
                 floor.getType().getGlobalModifiers().forEach(roomModifier -> roomModifier.onExit(previousRoom, player));
             });
         }
-        KingdomKeys.LOGGER.debug("Entered Room: {}", getPosition());
         getType().getModifiers().forEach(roomModifier -> roomModifier.onEnter(this, player));
         if (!getType().isEntranceHall()) {
             Floor floor = CastleOblivionData.InteriorData.get((ServerLevel) player.level()).orElseThrow().getFloorByID(parentFloor);
             floor.getType().getGlobalModifiers().forEach(roomModifier -> roomModifier.onEnter(this, player));
         }
-        type.getEncounter().ifPresent(
-            roomEncounter -> getEncounter().ifPresentOrElse(instance -> {
-                if (!instance.isComplete()) {
-                    KingdomKeys.LOGGER.debug("Entered encounter room while in progress");
+        type.getEncounter().ifPresent(roomEncounter -> {
+            //check if encounter is either not complete and start it again or if the encounter has not been started yet and start it
+            if ((getEncounter().isPresent() && !getEncounter().get().isComplete()) || getEncounter().isEmpty()) {
+                if (Room.getPlayersInRoom(player.server, this).size() == 1) {
+                    encounter = roomEncounter.getEncounter().type().createInstance(roomEncounter);
+                    encounter.start(this, (ServerLevel) player.level());
                 }
-            }, () -> {
-                encounter = roomEncounter.getEncounter().type().createInstance(roomEncounter);
-                encounter.start(this, (ServerLevel) player.level());
-            })
-        );
+            }
+        });
     }
 
     public void removeCurrentSpawn() {
@@ -175,6 +179,9 @@ public class Room {
     }
 
     public void setMobsRemaining(int mobsRemaining) {
+        if (mobsRemaining > 4) {
+            KingdomKeys.LOGGER.debug("THIS SHOULD NOT HAPPEN RIGHT NOW {}", mobsRemaining);
+        }
         this.mobsRemaining = mobsRemaining;
     }
 
@@ -191,13 +198,35 @@ public class Room {
 
     long ticksSinceLastSpawn;
 
+    public void addEntityToCache(LivingEntity entity) {
+        this.cachedEntities.add(entity);
+    }
+
+    public void removeEntityFromCache(LivingEntity entity) {
+        this.cachedEntities.remove(entity);
+    }
+
     public void tick(ServerLevel level) {
         List<Player> players = getPlayersInRoom(level.getServer(), this);
         if (shouldRoomTick(players)) {
+            if (ticksSinceLastSpawn > 100) {
+                boolean invalidCache = false;
+                for (LivingEntity entity : cachedEntities) {
+                    if (level.getEntity(entity.getId()) == null) {
+                        invalidCache = true;
+                    }
+                }
+                if (invalidCache || currentlySpawned != cachedEntities.size()) {
+                    cachedEntities = getEntitiesInRoom(level, this);
+                    currentlySpawned = cachedEntities.size();
+                    ticksSinceLastSpawn = 0;
+                }
+            }
             type.getModifiers().forEach(roomModifier -> roomModifier.tick(this, players));
             if (getEncounter().isPresent()) {
                 EncounterInstance encounterInstance = getEncounter().get();
                 if (!encounterInstance.isComplete()) {
+                    ticksSinceLastSpawn++;
                     RoomEncounter roomEncounter = encounterInstance.getEncounter();
                     EncounterHandler<Encounter, EncounterState> handler = getEncounter().get().getEncounter().getHandler();
                     handler.tick(roomEncounter.getEncounter(), encounter.getState(), encounterInstance, this, level);
@@ -216,7 +245,8 @@ public class Room {
                             }
                             List<? extends EntityType<?>> entities = ModTags.getEntitiesInTag(level, tag);
                             int toSpawn = Utils.randomWithRange(0, entities.size() - 1);
-                            LivingEntity spawned = (LivingEntity) entities.get(toSpawn).spawn(level, spawnPoint, MobSpawnType.SPAWNER);
+                            LivingEntity spawned = (LivingEntity) entities.get(toSpawn).spawn(level, spawnPoint, MobSpawnType.TRIAL_SPAWNER);
+                            cachedEntities.add(spawned);
                             GlobalData.get(spawned).setCastleOblivionMarker(true);
                             mobsRemaining--;
                             currentlySpawned++;
@@ -347,6 +377,22 @@ public class Room {
             }
         });
         return players;
+    }
+
+    public static List<LivingEntity> getEntitiesInRoom(ServerLevel level, Room room) {
+        List<LivingEntity> entities = new ArrayList<>();
+        level.getAllEntities().forEach(entity -> {
+            if (entity instanceof LivingEntity livingEntity) {
+                if (!(entity instanceof Player)) {
+                    if (GlobalData.get(livingEntity).getCastleOblivionMarker()) {
+                        if (room.inRoom(livingEntity.blockPosition())) {
+                            entities.add(livingEntity);
+                        }
+                    }
+                }
+            }
+        });
+        return entities;
     }
 
     @Override

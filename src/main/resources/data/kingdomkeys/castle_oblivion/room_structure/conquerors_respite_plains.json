@@ -1,0 +1,14 @@
+{
+  "structure": "plains_s_1",
+  "size": "SPECIAL",
+  "dimensions": [ 32, 32 ],
+  "categories": [
+    "SPECIAL"
+  ],
+  "white_list": [
+    "kingdomkeys:conquerors_respite"
+  ],
+  "floor": "kingdomkeys:plains",
+  "entrance_door": "west",
+  "exit_door": "south"
+}

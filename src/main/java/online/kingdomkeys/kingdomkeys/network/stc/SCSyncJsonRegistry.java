@@ -1,7 +1,6 @@
 package online.kingdomkeys.kingdomkeys.network.stc;
 
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
@@ -21,18 +20,18 @@ public class SCSyncJsonRegistry<T extends JsonRegistryObject> implements Packet 
 
     JsonRegistry<T> registry;
 
-    public SCSyncJsonRegistry(FriendlyByteBuf buf) {
+    public SCSyncJsonRegistry(RegistryFriendlyByteBuf buf) {
         ResourceLocation rl = buf.readResourceLocation();
         CompoundTag tag = buf.readNbt();
         JsonRegistry<T> registry = (JsonRegistry<T>) ModJsonRegistries.registry.get(rl);
         if (tag != null) {
-            registry.deserializeNBT(tag);
+            registry.deserializeNBT(tag, buf.registryAccess());
         }
     }
 
-    public void encode(FriendlyByteBuf buffer) {
+    public void encode(RegistryFriendlyByteBuf buffer) {
         buffer.writeResourceLocation(registry.getRegistryName());
-        buffer.writeNbt(registry.serializeNBT());
+        buffer.writeNbt(registry.serializeNBT(buffer.registryAccess()));
     }
 
     public SCSyncJsonRegistry(JsonRegistry<T> registry) {

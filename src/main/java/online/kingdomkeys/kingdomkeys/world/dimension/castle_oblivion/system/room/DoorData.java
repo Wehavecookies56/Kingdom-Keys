@@ -1,6 +1,8 @@
 package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room;
 
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.ItemStack;
 import online.kingdomkeys.kingdomkeys.item.card.CardCategory;
 import online.kingdomkeys.kingdomkeys.item.card.KeycardType;
 import online.kingdomkeys.kingdomkeys.util.Utils;
@@ -13,6 +15,7 @@ public class DoorData {
     Type type;
     RoomDirection direction;
     private final EnumMap<CardCategory, CardCriteria> cardCriteria;
+    boolean lockedByDefault;
 
     public DoorData(RoomData parent, Type type, RoomDirection direction) {
         this.type = type;
@@ -33,12 +36,21 @@ public class DoorData {
             //TODO maybe define this in the floor type json? rather than randomly assigning them
             for (int i = 0; i < 3; i++) {
                 int value;
-                //Random choice of criteria type
+                //Random choice of criteria type (excluding greater no zero)
                 CriteriaType type = CriteriaType.values()[Utils.randomWithRange(0, 3)];
                 if (type == CriteriaType.TOTAL) {
                     value = Utils.randomWithRange(9, 30);
                 } else {
                     value = Utils.randomWithRange(0, 9);
+                }
+                //If 0> criteria randomly chosen make it 0= instead as it's the same
+                if (type == CriteriaType.LESSER && value == 0) {
+                    type = CriteriaType.EQUAL;
+                }
+
+                //Replace greater with greater no zero so 0 cards can't be used
+                if (type == CriteriaType.GREATER) {
+                    type = CriteriaType.GREATER_NO_ZERO;
                 }
                 cardCriteria.put(CardCategory.values()[i], new CardCriteria(value, type));
             }
@@ -49,10 +61,14 @@ public class DoorData {
             }
             int value = 0;
             if (minValue != 0) {
-                value = Utils.randomWithRange(minValue, 9);
+                value = Utils.randomWithRange(minValue, Math.min(minValue + 2, 9));
             }
             cardCriteria.put(CardCategory.RGB, new CardCriteria(value, CriteriaType.GREATER));
         }
+    }
+
+    public void setLockedByDefault() {
+        this.lockedByDefault = true;
     }
 
     public EnumMap<CardCategory, CardCriteria> getCardCriteria() {
@@ -81,6 +97,7 @@ public class DoorData {
             criteria.put(roomCategory.name(), criteriaEntry);
         });
         tag.put("criteria", criteria);
+        tag.putBoolean("locked", lockedByDefault);
         return tag;
     }
 
@@ -94,6 +111,7 @@ public class DoorData {
                 this.cardCriteria.put(cardCategory, new CardCriteria(criteriaEntry.getInt("value"), CriteriaType.values()[criteriaEntry.getInt("type")]));
             }
         });
+        this.lockedByDefault = tag.getBoolean("locked");
     }
 
     /**
@@ -114,16 +132,30 @@ public class DoorData {
         LESSER card needs to be lesser or equal to the value
         EQUAL card needs to be the exact value
         TOTAL multiple cards can be used to add up to the total value
+        GREATER_NO_ZERO card needs to be greater or equal to the value
      */
     public enum CriteriaType {
-        GREATER, LESSER, EQUAL, TOTAL
+        GREATER, LESSER, EQUAL, TOTAL, GREATER_NO_ZERO
     }
 
     public record CardCriteria(int value, CriteriaType criteriaType) {
         @Override
         public String toString() {
-            String[] types = new String[]{"<", ">", "=", ""};
+            String[] types = new String[]{"<", ">", "=", "", "<"};
             return value + types[criteriaType.ordinal()];
+        }
+
+        public Component toDescriptiveString(boolean keycard) {
+            if (keycard) {
+                return Component.translatable("Criteria: %s", new ItemStack(KeycardType.values()[value].getCardForType()).getDisplayName());
+            }
+            return switch (criteriaType) {
+                case GREATER -> value == 0 ? Component.translatable("Criteria: A card with the number %s, or higher.", value) : Component.translatable("Criteria: A card with the number %s, or higher or 0.", value);
+                case LESSER -> Component.translatable("Criteria: A card with the number %s, or lower", value);
+                case EQUAL -> Component.translatable("Criteria: A card with the number 0.", value);
+                case TOTAL -> Component.translatable("Criteria: Cards with numbers totalling %s or higher.", value);
+                case GREATER_NO_ZERO -> Component.translatable("Criteria: A card with the number %s, or higher.", value);
+            };
         }
     }
 }

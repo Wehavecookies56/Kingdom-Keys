@@ -5,6 +5,10 @@ import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import online.kingdomkeys.kingdomkeys.data.CastleOblivionData;
+import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCastleOblivionInteriorData;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModRoomEncounters;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.Room;
 
@@ -48,16 +52,27 @@ public class EncounterInstance {
     }
 
     public void start(Room room, ServerLevel level) {
-        room.setDoorLocks(level, true);
-        encounter.getHandler().start(encounter.getEncounter(), getEncounter().getHandler().createState(), this, room, level);
+        if (!isComplete) {
+            Room.getPlayersInRoom(level.getServer(), room).forEach(player -> {
+                player.sendSystemMessage(Component.literal("ENCOUNTER START"));
+                CastleOblivionData.InteriorData.get(level).ifPresent(interiorData -> {
+                    interiorData.setDirty();
+                    interiorData.sendToClient(player);
+                });
+                PacketHandler.sendTo(new SCSyncCastleOblivionInteriorData(CastleOblivionData.InteriorData.get(level).get(), level), (ServerPlayer) player);
+            });
+            room.setDoorLocks(level, true);
+            encounter.getHandler().start(encounter.getEncounter(), getEncounter().getHandler().createState(), this, room, level);
+        }
     }
 
     public void tick(Room room, ServerLevel level) {
-        encounter.getHandler().tick(encounter.getEncounter(), state, this, room, level);
-        if (isComplete) {
+        if (!isComplete) {
+            encounter.getHandler().tick(encounter.getEncounter(), state, this, room, level);
+            activeTicks++;
+        } else {
             end(room, level);
         }
-        activeTicks++;
     }
 
     public void end(Room room, ServerLevel level) {
@@ -66,6 +81,10 @@ public class EncounterInstance {
         Room.getPlayersInRoom(level.getServer(), room).forEach(player -> {
             player.sendSystemMessage(Component.literal("ENCOUNTER COMPLETE"));
             getEncounter().getRewards().forEach(player::addItem);
+            CastleOblivionData.InteriorData.get(level).ifPresent(interiorData -> {
+                interiorData.setDirty();
+                interiorData.sendToClient(player);
+            });
         });
     }
 

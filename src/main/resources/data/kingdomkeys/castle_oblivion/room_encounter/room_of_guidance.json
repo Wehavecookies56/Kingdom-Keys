@@ -10,16 +10,7 @@
   },
   "rewards": [
     {
-      "id": "kingdomkeys:key_of_guidance"
-    },
-    {
-      "id": "kingdomkeys:tranquil_darkness",
-      "count": 64,
-      "components": [
-        {
-          "card_value": 9
-        }
-      ]
+      "id": "kingdomkeys:key_to_truth"
     }
   ],
   "music": "kingdomkeys:music/forgotten_challenge"

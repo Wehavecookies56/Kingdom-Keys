@@ -44,23 +44,30 @@ public record CSGenerateRoom(ItemStack stack, BlockPos pos) implements Packet {
 
 		CastleOblivionData.InteriorData.get((ServerLevel) level).ifPresent(interiorData -> {
 			CardDoorTileEntity te = (CardDoorTileEntity) player.level().getBlockEntity(pos);
-			if (!stack.isEmpty()) {
-				RoomType type = ((MapCardItem) stack.getItem()).getRoomType();
-				Room currentRoom = interiorData.getRoomAtPos(pos);
-				RoomData data = te.getParentRoom().getParentFloor((ServerLevel) level).getAdjacentRoom(te.getParentRoom(), te.getDirection());
-				Room newRoom = RoomGenerator.INSTANCE.generateRoom((ServerLevel) level, data, type, currentRoom, te.getDirection(), MapCardItem.getCardValue(stack));
-				if (newRoom != null) {
-					BlockPos destination = newRoom.doors.get(te.getDirection().opposite()).pos();
-					CardDoorTileEntity destTe = (CardDoorTileEntity) level.getBlockEntity(destination);
-					te.openDoor(true);
-					te.getDestinationRoom().setGenerated(newRoom);
-					destTe.openDoor(true);
-					destTe.setDestinationRoom(te.getParentRoom());
+			if (te != null) {
+				te.getParentRoom().getParentFloor((ServerLevel) level).getAdjacentRoom(te.getParentRoom(), te.getDirection()).ifPresent(data -> {
+					if (!stack.isEmpty() || data.getFixedType().isPresent()) {
+						RoomType type = ((MapCardItem) stack.getItem()).getRoomType();
+						if (data.getFixedType().isPresent()) {
+							type = data.getFixedType().get();
+						}
+						Room currentRoom = interiorData.getRoomAtPos(pos);
+						Room newRoom = RoomGenerator.INSTANCE.generateRoom((ServerLevel) level, data, type, currentRoom, te.getDirection(), MapCardItem.getCardValue(stack));
+						if (newRoom != null) {
+							BlockPos destination = newRoom.doors.get(te.getDirection().opposite()).pos();
+							CardDoorTileEntity destTe = (CardDoorTileEntity) level.getBlockEntity(destination);
+							te.openDoor(true);
+							te.getDestinationRoom().setGenerated(newRoom);
+							destTe.openDoor(true);
+							destTe.setDestinationRoom(te.getParentRoom());
 
-					PacketHandler.sendTo(new SCSyncCastleOblivionInteriorData(interiorData, level), (ServerPlayer) player);
-					PacketHandler.sendTo(new SCUpdateCORooms(interiorData.getFloorByID(currentRoom.parentFloor).getRooms()), (ServerPlayer) player);
-				}
-				//player.teleportTo(destination.getX(), destination.getY(), destination.getZ());
+							PacketHandler.sendTo(new SCSyncCastleOblivionInteriorData(interiorData, level), (ServerPlayer) player);
+							PacketHandler.sendTo(new SCUpdateCORooms(interiorData.getFloorByID(currentRoom.parentFloor).getRooms()), (ServerPlayer) player);
+						}
+						//player.teleportTo(destination.getX(), destination.getY(), destination.getZ());
+					}
+				});
+
 			}
 		});
 	}

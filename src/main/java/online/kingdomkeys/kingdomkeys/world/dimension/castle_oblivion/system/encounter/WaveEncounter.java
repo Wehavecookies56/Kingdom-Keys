@@ -92,8 +92,9 @@ public class WaveEncounter implements Encounter {
             createSpawnPointQueue(room);
 
             room.setMobsRemaining(encounter.getWaves().stream().mapToInt(List::size).sum());
+            KingdomKeys.LOGGER.debug("Wave encounter started with {} mobs total", room.getMobsRemaining());
 
-            spawnWave(encounter, state, room, level);
+            spawnWave(instance, encounter, state, room, level);
         }
 
         @Override
@@ -107,7 +108,7 @@ public class WaveEncounter implements Encounter {
             if (room.getMobsRemaining() > 0 || state.currentWave < encounter.getWaves().size()) {
                 if (room.getCurrentlySpawned() <= 0) {
                     state.nextWave();
-                    spawnWave(encounter, state, room, level);
+                    spawnWave(instance, encounter, state, room, level);
                 }
             } else {
                 instance.setComplete();
@@ -129,17 +130,30 @@ public class WaveEncounter implements Encounter {
             return next;
         }
 
-        public void spawnWave(WaveEncounter encounter, State state, Room room, ServerLevel level) {
-            if (state.currentWave < encounter.getWaves().size() && room.getCurrentlySpawned() <= 0) {
-                KingdomKeys.LOGGER.debug("Spawning wave {}", state.currentWave);
-                List<? extends EntityType<?>> currentWave = encounter.getWaves().get(state.getWaveIndex()).stream().map(Holder::value).toList();
-                currentWave.forEach(entityType -> {
-                    LivingEntity spawned = (LivingEntity) entityType.spawn(level, getSpawnPoint(), MobSpawnType.SPAWNER);
-                    GlobalData.get(spawned).setCastleOblivionMarker(true);
-                    KingdomKeys.LOGGER.debug("Spawned {}", spawned);
-                });
-                room.spawnMobs(currentWave.size());
-                CastleOblivionData.InteriorData.get(level).ifPresent(SavedData::setDirty);
+        public void spawnWave(EncounterInstance instance, WaveEncounter encounter, State state, Room room, ServerLevel level) {
+            if (room.getCurrentlySpawned() <= 0) {
+                if (state.currentWave < encounter.getWaves().size()) {
+                    KingdomKeys.LOGGER.debug("Spawning wave {}", state.currentWave);
+                    Room.getPlayersInRoom(level.getServer(), room).forEach(player -> {
+                        player.sendSystemMessage(Component.literal("WAVE " + (state.currentWave + 1)));
+                    });
+                    List<? extends EntityType<?>> currentWave = encounter.getWaves().get(state.getWaveIndex()).stream().map(Holder::value).toList();
+                    currentWave.forEach(entityType -> {
+                        LivingEntity spawned = (LivingEntity) entityType.spawn(level, getSpawnPoint(), MobSpawnType.TRIAL_SPAWNER);
+                        if (spawned != null && spawned.isAddedToLevel()) {
+                            room.addEntityToCache(spawned);
+                            GlobalData.get(spawned).setCastleOblivionMarker(true);
+                            KingdomKeys.LOGGER.debug("Spawned {}", spawned);
+                        } else {
+                            KingdomKeys.LOGGER.error("Failed to spawn {}", entityType);
+                            room.removeCurrentSpawn();
+                        }
+                    });
+                    room.spawnMobs(currentWave.size());
+                    CastleOblivionData.InteriorData.get(level).ifPresent(SavedData::setDirty);
+                } else {
+                    instance.setComplete();
+                }
             }
         }
 

@@ -33,6 +33,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 public class RoomGenerator {
 
@@ -67,57 +68,45 @@ public class RoomGenerator {
             CastleOblivionData.InteriorData interiorData = CastleOblivionData.InteriorData.get(level).orElseThrow();
             Floor currentFloor = interiorData.getFloorByID(newRoom.parentFloor);
             BlockPos pos = newRoom.position;
+            KingdomKeys.LOGGER.debug("Finding compatible structures for {}", newRoom.getType());
+            if (newRoom.getType() == ModRoomTypes.CONQUERORS_RESPITE.get()) {
+                KingdomKeys.LOGGER.debug("CR TRY");
+            }
             List<RoomStructure> possibleRooms = ModRoomStructures.getCompatibleStructures(currentFloor.getType(), newRoom.type);
             if (possibleRooms.isEmpty()) {
                 throw new IOException(String.format("No compatible room structure files found for %s", newRoom.type.getRegistryName()));
             }
             RoomStructure structureToGenerate = possibleRooms.get(Utils.randomWithRange(0, possibleRooms.size()-1));
+            KingdomKeys.LOGGER.debug("Found {} compatible structures, {} selected", possibleRooms.size(), structureToGenerate.getRegistryName());
             String floorFolder = structureToGenerate.getFloor() == null ? "all" : structureToGenerate.getFloor().getRegistryName().getPath();
-            Resource resource = level.getServer().getResourceManager().getResource(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "structure/castle_oblivion/rooms/" + floorFolder + "/" + structureToGenerate.getPath() + ".nbt")).get();
+            ResourceLocation structureFile = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "structure/castle_oblivion/rooms/" + floorFolder + "/" + structureToGenerate.getPath() + ".nbt");
+            Resource resource = level.getServer().getResourceManager().getResource(structureFile).orElseThrow(IOException::new);
+            KingdomKeys.LOGGER.debug("Generating structure file {}", structureFile);
             CompoundTag main = NbtIo.readCompressed(resource.open(), NbtAccounter.unlimitedHeap());
             newRoom.setStructure(structureToGenerate);
 
             ListTag size = main.getList("size", Tag.TAG_INT);
-
             ListTag palette = main.getList("palette", Tag.TAG_COMPOUND);
-
             ListTag blocks = main.getList("blocks", Tag.TAG_COMPOUND);
-
             List<BlockState> blockStates = new ArrayList<>();
 
             if (!newRoom.getType().isEntranceHall()) {
+                //Create room walls
+                int width = size.getInt(0);
+                int height = size.getInt(1);
+                int depth = size.getInt(2);
 
-                BlockPos northWallCorner = pos.north();
-                BlockPos bottomWallCorner = pos.below();
-                BlockPos topWallCorner = pos.above(size.getInt(1));
-                BlockPos eastWallCorner = pos.east(size.getInt(0));
-                BlockPos southWallCorner = pos.south(size.getInt(2));
-                BlockPos westWallCorner = pos.west();
+                List<Wall> walls = List.of(
+                        new Wall(pos.north(), pos.north().offset(width -1, height -1, 0), Direction.SOUTH),
+                        new Wall(pos.south(depth), pos.south(depth).offset(width -1, height -1, 0), Direction.NORTH),
+                        new Wall(pos.west(), pos.west().offset(0, height -1, depth - 1), Direction.EAST),
+                        new Wall(pos.east(width), pos.east(width).offset(0, height -1, depth - 1), Direction.WEST),
+                        new Wall(pos.below(), pos.below().offset(width -1, 0, depth -1), Direction.UP),
+                        new Wall(pos.above(height), pos.above(height).offset(width -1, 0, depth - 1), Direction.DOWN)
+                );
 
-                BlockPos.MutableBlockPos.betweenClosedStream(northWallCorner, new BlockPos(northWallCorner.getX() + size.getInt(0) - 1, northWallCorner.getY() + size.getInt(1) - 1, northWallCorner.getZ())).forEach(blockPos -> {
-                    level.setBlock(blockPos, ModBlocks.structureWall.get().defaultBlockState().setValue(StructureWallBlock.FACING, Direction.SOUTH), 2);
-                });
-
-                BlockPos.MutableBlockPos.betweenClosedStream(southWallCorner, new BlockPos(southWallCorner.getX() + size.getInt(0) - 1, southWallCorner.getY() + size.getInt(1) - 1, southWallCorner.getZ())).forEach(blockPos -> {
-                    level.setBlock(blockPos, ModBlocks.structureWall.get().defaultBlockState().setValue(StructureWallBlock.FACING, Direction.NORTH), 2);
-                });
-
-                BlockPos.MutableBlockPos.betweenClosedStream(westWallCorner, new BlockPos(westWallCorner.getX(), westWallCorner.getY() + size.getInt(1) - 1, westWallCorner.getZ() + size.getInt(2) - 1)).forEach(blockPos -> {
-                    level.setBlock(blockPos, ModBlocks.structureWall.get().defaultBlockState().setValue(StructureWallBlock.FACING, Direction.EAST), 2);
-                });
-
-                BlockPos.MutableBlockPos.betweenClosedStream(eastWallCorner, new BlockPos(eastWallCorner.getX(), eastWallCorner.getY() + size.getInt(1) - 1, eastWallCorner.getZ() + size.getInt(2) - 1)).forEach(blockPos -> {
-                    level.setBlock(blockPos, ModBlocks.structureWall.get().defaultBlockState().setValue(StructureWallBlock.FACING, Direction.WEST), 2);
-                });
-
-                BlockPos.MutableBlockPos.betweenClosedStream(bottomWallCorner, new BlockPos(bottomWallCorner.getX() + size.getInt(0) - 1, bottomWallCorner.getY(), bottomWallCorner.getZ() + size.getInt(2) - 1)).forEach(blockPos -> {
-                    level.setBlock(blockPos, ModBlocks.structureWall.get().defaultBlockState().setValue(StructureWallBlock.FACING, Direction.UP), 2);
-                });
-
-                BlockPos.MutableBlockPos.betweenClosedStream(topWallCorner, new BlockPos(topWallCorner.getX() + size.getInt(0) - 1, topWallCorner.getY(), topWallCorner.getZ() + size.getInt(2) - 1)).forEach(blockPos -> {
-                    level.setBlock(blockPos, ModBlocks.structureWall.get().defaultBlockState().setValue(StructureWallBlock.FACING, Direction.DOWN), 2);
-                });
-
+                walls.forEach(wall -> fillWall(level, wall.start, wall.end, wall.facing));
+                KingdomKeys.LOGGER.debug("Generated walls");
             }
 
             CompoundTag block = blocks.getCompound(0);
@@ -128,6 +117,7 @@ public class RoomGenerator {
                 block = palette.getCompound(i);
                 blockStates.add(NbtUtils.readBlockState(level.holderLookup(Registries.BLOCK),block));
             }
+            KingdomKeys.LOGGER.debug("Read block palette");
 
             for (int i = 0; i < blocks.size(); i++) {
                 block = blocks.getCompound(i);
@@ -150,6 +140,7 @@ public class RoomGenerator {
                                 default -> null;
                             };
                             if (facing != null) {
+                                KingdomKeys.LOGGER.debug("Generating card door facing {}", facing);
                                 cardDoorState = cardDoorState.setValue(CardDoorBlock.FACING, facing.toMCDirection().getOpposite());
                                 DoorData doorData = data.getDoor(facing);
                                 if (doorData != null && doorData.getType() != DoorData.Type.NONE) {
@@ -158,22 +149,25 @@ public class RoomGenerator {
                                     if (doorData.getType() == DoorData.Type.EXIT || doorData.getType() == DoorData.Type.ENTRANCE) {
                                         cardDoorState = cardDoorState.setValue(CardDoorBlock.OPEN, true);
                                         new CardDoorTileEntityBuilder(blockpos, cardDoorState, data, facing, doorData).openDoor(false).build(level);
+                                        KingdomKeys.LOGGER.debug("Placed open {} card door", doorData.getType());
                                     } else if (doorData.getType() == DoorData.Type.HALL) {
                                         new CardDoorTileEntityBuilder(blockpos, cardDoorState, data, facing, doorData).build(level);
+                                        KingdomKeys.LOGGER.debug("Placed entrance hall door");
                                     } else {
                                         //check for adjacent rooms for non EXIT or ENTRANCE doors
-                                        RoomData adjacentRoom = currentFloor.getAdjacentRoom(data, facing);
-                                        if (adjacentRoom != null) {
-                                            if (adjacentRoom.getGenerated().isPresent()) {
-                                                BlockPos adjacentDoorPos = adjacentRoom.getGenerated().get().doors.get(facing.opposite()).pos();
+                                        Optional<RoomData> adjacentRoom = currentFloor.getAdjacentRoom(data, facing);
+                                        if (adjacentRoom.isPresent()) {
+                                            if (adjacentRoom.get().getGenerated().isPresent()) {
+                                                BlockPos adjacentDoorPos = adjacentRoom.get().getGenerated().get().doors.get(facing.opposite()).pos();
                                                 CardDoorTileEntity adjacentDoorTE = (CardDoorTileEntity) level.getBlockEntity(adjacentDoorPos);
                                                 if (adjacentDoorTE != null && adjacentDoorTE.isOpen()) {
                                                     cardDoorState = cardDoorState.setValue(CardDoorBlock.OPEN, true);
                                                     adjacentDoorTE.setDestinationRoom(data);
                                                 }
                                             }
-                                            if (adjacentRoom.getDoors().get(facing.opposite()) != null) {
-                                                new CardDoorTileEntityBuilder(blockpos, cardDoorState, data, facing, doorData).destination(adjacentRoom).openDoor(false).generateCardCriteria(newRoom).build(level);
+                                            if (adjacentRoom.get().getDoors().get(facing.opposite()) != null) {
+                                                new CardDoorTileEntityBuilder(blockpos, cardDoorState, data, facing, doorData).destination(adjacentRoom.get()).openDoor(false).generateCardCriteria(newRoom).build(level);
+                                                KingdomKeys.LOGGER.debug("Placed normal card door");
                                             }
                                         }
                                     }
@@ -199,6 +193,13 @@ public class RoomGenerator {
             return null;
         }
     }
+
+    private static void fillWall(Level level, BlockPos start, BlockPos end, Direction facing) {
+        BlockState state = ModBlocks.structureWall.get().defaultBlockState().setValue(StructureWallBlock.FACING, facing);
+        BlockPos.betweenClosedStream(start, end).forEach(pos -> level.setBlock(pos, state, Block.UPDATE_CLIENTS));
+    }
+
+    record Wall(BlockPos start, BlockPos end, Direction facing) {}
 
     private static class CardDoorTileEntityBuilder {
         final CardDoorTileEntity cardDoorTileEntity;

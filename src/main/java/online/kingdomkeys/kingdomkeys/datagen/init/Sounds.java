@@ -135,6 +135,7 @@ public class Sounds extends SoundDefinitionsProvider {
         add(Music_Lord_Of_The_Castle, true);
         add(Music_Castle_Oblivion, true);
         add(Music_The_13th_Floor, true);
+        add(Music_Forgotten_Challenge, true);
     }
 
     public void add(Supplier<SoundEvent> sound) {

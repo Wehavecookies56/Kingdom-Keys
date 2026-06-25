@@ -7,12 +7,14 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.Item;
 import online.kingdomkeys.kingdomkeys.data.CastleOblivionData;
 import online.kingdomkeys.kingdomkeys.item.card.KeycardType;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.floor.Floor;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModRoomTypes;
 
 import java.util.*;
 
@@ -23,6 +25,7 @@ public class RoomData {
     int parent;
     Room generatedRoom;
     Type type;
+    RoomType fixedType;
 
     public RoomData(RoomPos pos, Type type) {
         this(pos);
@@ -69,6 +72,10 @@ public class RoomData {
     }
 
     public void setDoor(DoorData.Type doorType, RoomDirection direction) {
+        setDoor(doorType, direction, false);
+    }
+
+    public void setDoor(DoorData.Type doorType, RoomDirection direction, boolean locked) {
         doors.put(direction, new DoorData(this, doorType, direction));
     }
 
@@ -117,6 +124,14 @@ public class RoomData {
         return Optional.ofNullable(generatedRoom);
     }
 
+    public void setFixedType(RoomType type) {
+        this.fixedType = type;
+    }
+
+    public Optional<RoomType> getFixedType() {
+        return Optional.ofNullable(fixedType);
+    }
+
     public CompoundTag serializeNBT() {
         CompoundTag tag = new CompoundTag();
         tag.putInt("parent", parent);
@@ -137,6 +152,9 @@ public class RoomData {
         if (type != null) {
             tag.putInt("type", type.ordinal());
         }
+        if (fixedType != null) {
+            tag.putString("fixed_type", fixedType.getRegistryName().toString());
+        }
         return tag;
     }
 
@@ -155,6 +173,9 @@ public class RoomData {
         }
         if (tag.contains("type")) {
             type = Type.values()[tag.getInt("type")];
+        }
+        if (tag.contains("fixed_type")) {
+            fixedType = ModRoomTypes.registry.get().getValue(ResourceLocation.parse(tag.getString("fixed_type")));
         }
     }
 

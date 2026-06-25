@@ -2,6 +2,7 @@ package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.ro
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.StringRepresentable;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.floor.FloorType;
@@ -30,6 +31,9 @@ public class RoomStructure extends JsonRegistryObject {
     //whitelist specific rooms if empty no whitelist
     private final List<ResourceLocation> roomWhitelist;
 
+    @Nullable String entranceDoor;
+    @Nullable String exitDoor;
+
     public static final Codec<RoomStructure> CODEC = RecordCodecBuilder.create(roomStructureInstance ->
         roomStructureInstance.group(
                 Codec.STRING.fieldOf("structure").forGetter(RoomStructure::getPath),
@@ -37,18 +41,22 @@ public class RoomStructure extends JsonRegistryObject {
                 StringRepresentable.fromEnum(RoomCategory::values).listOf().fieldOf("categories").forGetter(RoomStructure::getCategories),
                 ResourceLocation.CODEC.optionalFieldOf("floor").forGetter(o -> Optional.ofNullable(o.floor)),
                 RoomDimensions.CODEC.fieldOf("dimensions").forGetter(RoomStructure::getDimensions),
-                ResourceLocation.CODEC.listOf().optionalFieldOf("room_white_list").forGetter(o -> Optional.ofNullable(o.roomWhitelist))
-        ).apply(roomStructureInstance, RoomStructure::new)
+                ResourceLocation.CODEC.listOf().optionalFieldOf("white_list").forGetter(o -> Optional.ofNullable(o.roomWhitelist)),
+                Codec.STRING.optionalFieldOf("entrance_door").forGetter(o -> Optional.ofNullable(o.entranceDoor)),
+                Codec.STRING.optionalFieldOf("exit_door").forGetter(o -> Optional.ofNullable(o.exitDoor))
+                ).apply(roomStructureInstance, RoomStructure::new)
     );
 
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-    private RoomStructure(String path, RoomSize size, List<RoomCategory> categories, Optional<ResourceLocation> floor, RoomDimensions dimensions, Optional<List<ResourceLocation>> roomWhitelist) {
+    private RoomStructure(String path, RoomSize size, List<RoomCategory> categories, Optional<ResourceLocation> floor, RoomDimensions dimensions, Optional<List<ResourceLocation>> roomWhitelist, Optional<String> entranceDoor, Optional<String> exitDoor) {
         this.path = path;
         this.size = size;
         this.categories = categories;
         this.floor = floor.orElse(null);
         this.dimensions = dimensions;
         this.roomWhitelist = roomWhitelist.orElse(new ArrayList<>());
+        this.entranceDoor = entranceDoor.orElse(null);
+        this.exitDoor = exitDoor.orElse(null);
     }
 
     public record RoomDimensions(int width, int depth) {
@@ -92,5 +100,13 @@ public class RoomStructure extends JsonRegistryObject {
 
     public List<RoomCategory> getCategories() {
         return categories;
+    }
+
+    public Optional<String> getEntranceDoor() {
+        return Optional.ofNullable(entranceDoor);
+    }
+
+    public Optional<String> getExitDoor() {
+        return Optional.ofNullable(exitDoor);
     }
 }

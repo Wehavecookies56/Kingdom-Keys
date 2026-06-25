@@ -4,12 +4,12 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.FixedBiomeSource;
@@ -29,6 +29,7 @@ import online.kingdomkeys.kingdomkeys.api.event.CastleOblivionEvent;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.data.CastleOblivionData;
 import online.kingdomkeys.kingdomkeys.entity.block.CardDoorTileEntity;
+import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCastleOblivionInteriorData;
@@ -36,7 +37,6 @@ import online.kingdomkeys.kingdomkeys.network.stc.SCUpdateCORooms;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.world.dimension.DynamicDimensionManager;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.floor.Floor;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModRoomTypes;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.*;
 
 import java.util.List;
@@ -119,12 +119,13 @@ public class CastleOblivionHandler {
             if (te.getParentRoom().equals(floor.getEntranceHall())) {
                 //if size is 1 only the entrance hall room exists
                 if (floor.getGeneratedRooms().size() == 1) {
-                    te.setDestinationRoom(floor.getRoom(new RoomPos(0, 1)));
-                    Room room = RoomGenerator.INSTANCE.generateRoom((ServerLevel) player.level(), floor.getRoom(new RoomPos(0, 1)), floor.getType().getStartingRoom(), te.getParentRoom().getGenerated().orElse(null), RoomDirection.NORTH, 0);
+                    RoomData destRoom = floor.getRoom(new RoomPos(0, 1));
+                    te.setDestinationRoom(destRoom);
+                    Room room = RoomGenerator.INSTANCE.generateRoom((ServerLevel) player.level(), destRoom, floor.getType().getStartingRoom(), te.getParentRoom().getGenerated().orElse(null), RoomDirection.NORTH, 0);
                     for (Player playerFromList : player.level().players()) {
                         PacketHandler.sendTo(new SCUpdateCORooms(floor.getRooms()), (ServerPlayer) playerFromList);
                     }
-                    //TODO possibly define room type by the floor type :)
+                    player.addItem(new ItemStack(ModItems.keyOfBeginnings.get()));
                     return room;
                 } else {
                     return floor.getRoom(new RoomPos(0, 1)).getGenerated().orElse(null);

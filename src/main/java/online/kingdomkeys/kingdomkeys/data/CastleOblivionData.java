@@ -8,8 +8,12 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.saveddata.SavedData;
+import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCastleOblivionInteriorData;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.floor.Floor;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.Room;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.RoomData;
@@ -51,6 +55,10 @@ public class CastleOblivionData {
 
         public static void clearClientCache() {
             clientCache = new HashMap<>();
+        }
+
+        public void sendToClient(Player player) {
+            PacketHandler.sendTo(new SCSyncCastleOblivionInteriorData(this, player.level()), (ServerPlayer) player);
         }
 
         @Override
@@ -102,11 +110,9 @@ public class CastleOblivionData {
         public Floor getFloorAtPos(BlockPos pos) {
             if (floors.getFirst().getEntranceHall().getGenerated().isPresent()) {
                 Room closestEntrance = floors.getFirst().getEntranceHall().getGenerated().get();
-                double closestDistance = closestEntrance.getPosition().distSqr(pos);
                 for (Floor floor : getFloors()) {
-                    if (floor.getEntranceHallPosition().distSqr(pos) < closestDistance) {
+                    if (floor.getEntranceHallPosition().getZ() < pos.getZ()) {
                         closestEntrance = floor.getEntranceHall().getGenerated().get();
-                        closestDistance = floor.getEntranceHallPosition().distSqr(pos);
                     }
                 }
                 return closestEntrance.getParent(this);

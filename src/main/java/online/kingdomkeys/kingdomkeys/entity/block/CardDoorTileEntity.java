@@ -5,20 +5,24 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.block.CardDoorBlock;
+import online.kingdomkeys.kingdomkeys.data.CastleOblivionData;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.item.card.CardCategory;
 import online.kingdomkeys.kingdomkeys.item.card.MapCardItem;
-import online.kingdomkeys.kingdomkeys.util.Utils;
+import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCastleOblivionInteriorData;
+import online.kingdomkeys.kingdomkeys.network.stc.SCUpdateCORooms;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.DoorData;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.RoomData;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.RoomDirection;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.RoomGenerator;
 
 import javax.annotation.Nullable;
 import java.util.Arrays;
@@ -42,6 +46,8 @@ public class CardDoorTileEntity extends BlockEntity {
     //copy criteria from data to save the cards that have been used
     EnumMap<CardCategory, DoorData.CardCriteria> currentCriteria;
 
+    int disableTicks;
+
     public void openDoor(boolean setBlock) {
         open = true;
         if (setBlock) {
@@ -58,6 +64,20 @@ public class CardDoorTileEntity extends BlockEntity {
     }
 
     public void toggleDoorLock() {
+        if (locked && destinationRoom.getFixedType().isPresent() && destinationRoom.getGenerated().isEmpty() && parent.getGenerated().isPresent()) {
+            openDoor(false);
+            destinationRoom.setGenerated(RoomGenerator.INSTANCE.generateRoom((ServerLevel) level, destinationRoom, destinationRoom.getFixedType().get(), parent.getGenerated().get(), direction, 0));
+            destinationRoom.getGenerated().ifPresent(room -> {
+                CastleOblivionData.InteriorData interiorData = CastleOblivionData.InteriorData.get((ServerLevel) level).orElseThrow();
+                PacketHandler.sendToAll(new SCSyncCastleOblivionInteriorData(interiorData, level));
+                PacketHandler.sendToAll(new SCUpdateCORooms(interiorData.getFloorByID(parent.getParentID()).getRooms()));
+                CardDoorTileEntity te = (CardDoorTileEntity) level.getBlockEntity(room.doors.get(direction.opposite()).pos());
+                if (te != null) {
+                    te.setDestinationRoom(parent);
+                    te.openDoor(true);
+                }
+            });
+        }
         locked = !locked;
         if (level.getBlockState(getBlockPos()).getValue(CardDoorBlock.OPEN) == locked) {
             level.setBlock(this.getBlockPos(), getBlockState().setValue(CardDoorBlock.OPEN, !locked), 2);
@@ -140,6 +160,7 @@ public class CardDoorTileEntity extends BlockEntity {
                     case TOTAL -> value != 0;
                     case GREATER -> value >= criteria.value() || value == 0;
                     case LESSER -> value <= criteria.value();
+                    case GREATER_NO_ZERO -> value >= criteria.value();
                 };
             }
             return matchFound;
@@ -187,6 +208,14 @@ public class CardDoorTileEntity extends BlockEntity {
 
     public void setData(DoorData data) {
         this.data = data;
+    }
+
+    public void setDisableTicks(int ticks) {
+        this.disableTicks = 100;
+    }
+
+    public int getDisableTicks() {
+        return disableTicks;
     }
 
     @Override
@@ -267,5 +296,15 @@ public class CardDoorTileEntity extends BlockEntity {
     @Override
     public void handleUpdateTag(CompoundTag tag, HolderLookup.Provider lookupProvider) {
         this.loadAdditional(tag, lookupProvider);
+    }
+
+    public static <T extends BlockEntity> void tick(Level level, BlockPos pos, BlockState state, T blockEntity) {
+        if (blockEntity instanceof CardDoorTileEntity cardDoorTileEntity) {
+            if (cardDoorTileEntity.isOpen() && !cardDoorTileEntity.isLocked()) {
+                if (cardDoorTileEntity.disableTicks > 0) {
+                    cardDoorTileEntity.disableTicks--;
+                }
+            }
+        }
     }
 }

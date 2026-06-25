@@ -5,11 +5,15 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec2;
+import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.common.NeoForge;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.api.event.client.MenuButtonRegisterEvent;
@@ -37,9 +41,12 @@ import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
+import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.cts.CSTeleport;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.CastleOblivionHandler;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModRoomTypes;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.DoorData;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.Room;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.RoomData;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.RoomDirection;
 import org.jetbrains.annotations.NotNull;
@@ -189,6 +196,8 @@ public class MenuScreen extends MenuBackground {
 
 	private int mapX, mapY, mapW, mapH;
 
+	private RoomData hoveredRoom = null;
+
 	public static List<RoomData> rooms = new ArrayList<>();
 	private static final ResourceLocation ROOM_TEX = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/co/room.png");
 
@@ -251,8 +260,11 @@ public class MenuScreen extends MenuBackground {
 				int py = y * tileSize;
 
 				boolean isCurrent = roomData == currentRoom;
-
-				if (roomData.getType() == RoomData.Type.ENCOUNTER) {
+				if (roomData.getType() == RoomData.Type.EXIT) {
+					guiGraphics.setColor(0.1F, 0.4F, 0.9F, 1);
+				} else if (roomData.getType() == RoomData.Type.ENTRANCE) {
+					guiGraphics.setColor(0.1F, 0.4F, 0.9F, 1);
+				} else if (roomData.getType() == RoomData.Type.ENCOUNTER) {
 					guiGraphics.setColor(0.95F, 0.7F, 0.2F, 1);
 				} else if (roomData.getGenerated() == null) {
 					guiGraphics.setColor(0.8F, 0.7F, 0.2F, 1);
@@ -267,6 +279,7 @@ public class MenuScreen extends MenuBackground {
 
 				if (mouseX > box.getX() && mouseX < box.getX() + box.getWidth() && mouseY > box.getY() && mouseY < box.getY() + box.getHeight()){
 					if(localMouse.x >= px && localMouse.x < px + tileSize && localMouse.y >= py && localMouse.y < py + tileSize) {
+						hoveredRoom = roomData;
 						tooltip = roomData.getGenerated().map(room -> {
 							String nameStr = room.getType().getTranslationKey();
 							return room.getType().isEntranceHall() ? Component.translatable(nameStr, roomData.getParentID() + 1) : Component.translatable(nameStr);
@@ -382,6 +395,16 @@ public class MenuScreen extends MenuBackground {
 	@Override
 	public boolean mouseClicked(double mouseX, double mouseY, int button) {
 		if (isInsideMap(mouseX, mouseY)) {
+			if (hoveredRoom != null && player.isCreative() && button == 1) {
+				hoveredRoom.getGenerated().ifPresent(room -> {
+					Map.Entry<RoomDirection, Room.Door> destination = room.doors.entrySet().stream().toList().getFirst();
+					BlockPos pos = room.doors.entrySet().stream().toList().getFirst().getValue().pos().relative(destination.getKey().opposite().toMCDirection(), 3);
+					String nameStr = room.getType().getTranslationKey();
+					player.sendSystemMessage(Component.translatable("Teleported to %s", room.getType().isEntranceHall() ? Component.translatable(nameStr, hoveredRoom.getParentID() + 1) : Component.translatable(nameStr)));
+					PacketHandler.sendToServer(new CSTeleport(new Vec3(pos.getX(), pos.getY(), pos.getZ())));
+					Minecraft.getInstance().setScreen(null);
+				});
+			}
 			draggingMap = true;
 			lastMouseX = mouseX;
 			lastMouseY = mouseY;

@@ -80,6 +80,7 @@ import online.kingdomkeys.kingdomkeys.util.IDisabledAnimations;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.CastleOblivionHandler;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.floor.Floor;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModRoomTypes;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.Room;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
@@ -90,7 +91,6 @@ import java.util.ArrayList;
 import java.util.function.Supplier;
 
 public class ClientEvents {
-
 
 	@SubscribeEvent
 	public void onEquipmentChange(EquipmentEvent.Magic e) {
@@ -986,13 +986,13 @@ public class ClientEvents {
 								Floor floor = room.getParent(cap);
 								if (floor != null) {
 									colour = floor.getType().getFloorColour();
-								}
+                                }
 							}
-						}
+                        }
 					}
 				}
 			}
-			return colour.getRGB();
+            return colour.getRGB();
 		}
 
 		public static int getGummiBlockColour(ItemStack stack, int tintIndex) {
