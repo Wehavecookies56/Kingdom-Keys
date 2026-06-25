@@ -1,5 +1,5 @@
 {
-  "structure": "plains_encounter",
+  "structure": "encounter",
   "size": "S",
   "dimensions": [ 24, 24 ],
   "categories": [

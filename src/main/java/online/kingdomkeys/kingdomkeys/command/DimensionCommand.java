@@ -78,10 +78,18 @@ public class DimensionCommand extends BaseCommand {
 			if (!FMLEnvironment.production) {
 				player.getInventory().add(new ItemStack(ModItems.plainsCard.get()));
 				player.getInventory().add(new ItemStack(ModItems.theNetherCard.get()));
-				ItemStack nineCard = new ItemStack(ModItems.tranquilDarkness.get());
-				nineCard.set(ModComponents.CARD_VALUE, 9);
-				nineCard.setCount(64);
-				player.getInventory().add(nineCard);
+				ItemStack nineRedCard = new ItemStack(ModItems.tranquilDarkness.get());
+				ItemStack nineGreenCard = new ItemStack(ModItems.martialWaking.get());
+				ItemStack nineBlueCard = new ItemStack(ModItems.calmBounty.get());
+				nineRedCard.set(ModComponents.CARD_VALUE, 9);
+				nineRedCard.setCount(64);
+				nineGreenCard.set(ModComponents.CARD_VALUE, 9);
+				nineGreenCard.setCount(64);
+				nineBlueCard.set(ModComponents.CARD_VALUE, 9);
+				nineBlueCard.setCount(64);
+				player.getInventory().add(nineRedCard);
+				player.getInventory().add(nineGreenCard);
+				player.getInventory().add(nineBlueCard);
 				return new BlockPos(-6, 90, 8);
 			} else {
 				return new BlockPos(-2, 90, -167);

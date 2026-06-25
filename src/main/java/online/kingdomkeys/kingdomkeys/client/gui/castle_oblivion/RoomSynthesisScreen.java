@@ -36,7 +36,7 @@ public class RoomSynthesisScreen extends MenuBackground {
 	public final CardDoorTileEntity te;
 	private final List<CardSelectButton> cards = new ArrayList<>();
 	private final DoorData.Type doorType;
-	MenuBox boxB;
+	MenuBox boxB, boxL;
 	MenuScrollBar scrollBar;
 
 	public RoomSynthesisScreen(CardDoorTileEntity te) {
@@ -58,6 +58,7 @@ public class RoomSynthesisScreen extends MenuBackground {
 		int cardBoxHeight = 65;
 
 		boxB = new MenuBox(bottomLeftBar.getWidth() - 20, height - cardBoxHeight - (int) (bottomBarHeight / 2), cardBoxWidth, cardBoxHeight, 1, new Color(100, 100, 100));
+		boxL = new MenuBox(boxB.getX() - 100, (int)topBarHeight, 100, (int)middleHeight, 1, new Color(100, 100, 100));
 		scrollBar = new MenuScrollBar(boxB.getX() + boxB.getWidth() - 17, boxB.getY(), boxB.getY() + boxB.getHeight(), (int) middleHeight, 0, true);
 
 		for (int i = 0; i < minecraft.player.getInventory().getContainerSize(); i++) {
@@ -94,9 +95,7 @@ public class RoomSynthesisScreen extends MenuBackground {
 		}
 
 		cards.forEach(this::addWidget);
-
 		updateScroll();
-
 	}
 
 	void updateCards() {
@@ -121,13 +120,14 @@ public class RoomSynthesisScreen extends MenuBackground {
 				}
 			}
 		}
-
+		updateScroll();
 	}
 
 	@Override
 	public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
 		super.render(guiGraphics, mouseX, mouseY, partialTicks);
 		boxB.renderWidget(guiGraphics, mouseX, mouseY, partialTicks);
+		boxL.renderWidget(guiGraphics, mouseX, mouseY, partialTicks);
 		scrollBar.render(guiGraphics, mouseX, mouseY, partialTicks);
 
 		Component text = Component.translatable("Criteria");
@@ -135,14 +135,14 @@ public class RoomSynthesisScreen extends MenuBackground {
 			Map.Entry<CardCategory, DoorData.CardCriteria> o = te.getCurrentCriteria().entrySet().stream().toList().getFirst();
 			text = o.getValue().toDescriptiveString(o.getKey() == CardCategory.YELLOW);
 		}
-		guiGraphics.drawCenteredString(minecraft.font, text, width / 2, 35, 0xFFFFFF);
+		guiGraphics.drawCenteredString(minecraft.font, text, width / 2, (int) topBarHeight-20, 0xFFFFFF);
 		text = Component.translatable("Available cards");
 		guiGraphics.drawCenteredString(minecraft.font, text, boxB.getX() + boxB.getWidth() / 2, boxB.getY() - 10, 0xFFFFFF);
 
 		int iconSize = 72;
 		int totalWidth = te.getCurrentCriteria().size() * iconSize;
 		int criteriaX = width / 2 - totalWidth / 2;
-		int criteriaY = 55;
+		int criteriaY = (int)topBarHeight + 10;
 		for (Map.Entry<CardCategory, DoorData.CardCriteria> critera : te.getCurrentCriteria().entrySet()) {
 			guiGraphics.pose().pushPose();
 			{
@@ -164,7 +164,8 @@ public class RoomSynthesisScreen extends MenuBackground {
 						RenderSystem.setShaderColor(colour.getRed(), colour.getGreen(), colour.getBlue(), 1);
 						guiGraphics.blit(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/co/card_outline.png"), 0, 0, 0, 0, 32, 32, 32, 32);
 						RenderSystem.setShaderColor(1, 1, 1, 1);
-						guiGraphics.drawString(minecraft.font, Component.literal(critera.getValue().toString()).withStyle(ClientUtils.KK_Font_EXP), 9, 14, 0xFFFFFF, false);
+						Component val = Component.literal(critera.getValue().toString()).withStyle(ClientUtils.KK_Font_EXP);
+						guiGraphics.drawString(minecraft.font, val, 16 - minecraft.font.width(val)/2, 14, 0xFFFFFF, false);
 						criteriaX += 72;
 					}
 				}
@@ -187,7 +188,7 @@ public class RoomSynthesisScreen extends MenuBackground {
 			matrixStack.pushPose();
 			{
 				if (hoveredCard.active) {
-					matrixStack.translate(30, 100, 0);
+					matrixStack.translate(boxL.getX()+25, boxL.getY()+27, 0);
 					guiGraphics.drawCenteredString(minecraft.font, Utils.translateToLocal(hoveredCard.stack.getItem().getName(hoveredCard.stack).getString()), 26, -20, 0xFFFFFF);
 
 					matrixStack.scale(5, 5, 1);
@@ -205,13 +206,22 @@ public class RoomSynthesisScreen extends MenuBackground {
 						matrixStack.scale(0.3F, 0.3F, 1);
 						if (mapCardItem.getRoomType() != null) {
 							boolean minglingWorlds = mapCardItem instanceof MinglingWorldsMapCardItem;
-							Component category = Component.translatable("Category: %s", (minglingWorlds ? "?" : mapCardItem.getRoomType().getCategory().toString()));
-							Component size = Component.translatable("Room size: %s", (minglingWorlds ? "?" : mapCardItem.getRoomType().getSize().toString()));
-							guiGraphics.drawString(minecraft.font, category, 0, 0, 0xFFFFFF);
-							guiGraphics.drawString(minecraft.font, size, 0, 10, 0xFFFFFF);
+							Component category = Component.translatable("CATEGORY");
+							String cat = minglingWorlds ? "? ? ?" : mapCardItem.getRoomType().getCategory().toString();
+							guiGraphics.drawString(minecraft.font, category, -15, 0, 0x888888);
+							guiGraphics.drawString(minecraft.font, cat, 0, 10, 0xFFFF00);
+
+							Component size = Component.translatable("ROOM SIZE");
+							String sizeStars = minglingWorlds ? "? ? ?" : mapCardItem.getRoomType().getSize().getStars();
+							guiGraphics.drawString(minecraft.font, size, -15, 20, 0x888888);
+							guiGraphics.drawString(minecraft.font, sizeStars, 0, 30, 0xFFFF00);
+
 							if (minglingWorlds || mapCardItem.getRoomType().getEnemies() != null) {
-								Component enemies = Component.translatable("Enemies: %s", (minglingWorlds ? "?" : mapCardItem.getRoomType().getEnemies().toString()));
-								guiGraphics.drawString(minecraft.font, enemies, 0, 20, 0xFFFFFF);
+								Component enemies = Component.translatable("ENEMIES");// (minglingWorlds ? "?" : mapCardItem.getRoomType().getEnemies().toString()));
+								String enemyStars = minglingWorlds ? "? ? ?" : mapCardItem.getRoomType().getEnemies().getStars();
+
+								guiGraphics.drawString(minecraft.font, enemies, -15, 40, 0x888888);
+								guiGraphics.drawString(minecraft.font, enemyStars, 0, 50, 0xFFFF00);
 							}
 						}
 					}
@@ -238,13 +248,13 @@ public class RoomSynthesisScreen extends MenuBackground {
 
 		//int rows = (cards.size() + CARDS_PER_ROW - 1) / CARDS_PER_ROW;
 
-		int firstY = 0, lastY = 0, heightDiff = 0;
+		int firstY, lastY, heightDiff = 0;
 		if (!cards.isEmpty()) {
 			firstY = cards.getFirst().getY();
 			lastY = cards.getLast().getY();
 			heightDiff = lastY - firstY;
 		}
-		System.out.println(firstY + " " + lastY + " " + heightDiff);
+		//System.out.println(firstY + " " + lastY + " " + heightDiff);
 		scrollBar.setContentHeight(heightDiff + 150);
 	}
 

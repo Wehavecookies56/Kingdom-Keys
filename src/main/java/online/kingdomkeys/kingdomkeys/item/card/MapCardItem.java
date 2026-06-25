@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.item.card;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
@@ -100,8 +101,8 @@ public class MapCardItem extends Item implements ICreativeTab {
     public void appendHoverText(ItemStack pStack, TooltipContext tooltipContext, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
         if (type != null && hasRandomValue) {
             RoomType inst = type.get();
-            pTooltipComponents.add(Component.translatable("Size: " + inst.getSize().name()));
-            pTooltipComponents.add(Component.translatable("Enemies: " + inst.getEnemies().name()));
+            pTooltipComponents.add(Component.translatable("Size: " + inst.getSize().getStars()).withStyle(ChatFormatting.YELLOW));
+            pTooltipComponents.add(Component.translatable("Enemies: " + inst.getEnemies().getStars()).withStyle(ChatFormatting.YELLOW));
         }
         super.appendHoverText(pStack, tooltipContext, pTooltipComponents, pIsAdvanced);
     }
