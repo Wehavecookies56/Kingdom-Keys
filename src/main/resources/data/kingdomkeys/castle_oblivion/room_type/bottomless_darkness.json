@@ -9,8 +9,6 @@
   },
   "colour": "#000000",
   "modifiers": [
-    "kingdomkeys:blindness",
-    "kingdomkeys:slowness",
-    "kingdomkeys:level_plus_2"
+    "kingdomkeys:blindness"
   ]
 }
