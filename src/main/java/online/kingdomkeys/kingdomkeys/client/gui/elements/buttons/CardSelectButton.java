@@ -51,11 +51,10 @@ public class CardSelectButton extends MenuButtonBase {
         {
             if(visible) {
                 matrixStack.translate(getX(), getY(), 0);
+                matrixStack.scale(3,3, 1);
                 if(isHovered && active) {
-                    matrixStack.scale(4,4, 1);
-                    matrixStack.translate(-2,-2, 20);
-                } else {
-                    matrixStack.scale(3,3, 1);
+                    matrixStack.scale(1.15F,1.15F, 1);
+                    matrixStack.translate(-1,-2, 20);
                 }
 
                 ClientUtils.drawItemAsIcon(stack, guiGraphics.pose(), 0,0, 16);

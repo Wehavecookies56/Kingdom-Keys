@@ -69,7 +69,7 @@ public class COMinimap extends OverlayBase {
         if (currentRoom != null) {
             MutableComponent roomName = currentRoom.getGenerated().map(room -> room.getType().getName(currentRoom).withStyle(ClientUtils.KK_Font_MENU)).orElse(Component.literal("???").withStyle(ClientUtils.KK_Font_MENU));
             ClientUtils.ROOMNAME_ELEMENT.applyTransform(guiGraphics, screenWidth, screenHeight);
-            guiGraphics.drawString(Minecraft.getInstance().font, roomName, 0, 0, 0xFFFFFF);
+            guiGraphics.drawString(Minecraft.getInstance().font, roomName, 50 - minecraft.font.width(roomName)/2, 0, 0xFFFFFF);
             ClientUtils.ROOMNAME_ELEMENT.endTransform(guiGraphics);
         }
     }

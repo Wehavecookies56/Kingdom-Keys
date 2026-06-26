@@ -12,6 +12,10 @@ public enum RoomCategory implements StringRepresentable {
         return name;
     }
 
+    public String getTranslationKey() {
+        return "co.category."+this.name.toLowerCase();
+    }
+
     RoomCategory(String name) {
         this.name = name;
     }
