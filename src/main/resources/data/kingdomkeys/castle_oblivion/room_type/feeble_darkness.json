@@ -5,5 +5,8 @@
     "type": "S",
     "number_of_enemies": 6,
     "simultaneous_enemies": 3
-  }
+  },
+  "modifiers": [
+    "kingdomkeys:level_minus_2"
+  ]
 }

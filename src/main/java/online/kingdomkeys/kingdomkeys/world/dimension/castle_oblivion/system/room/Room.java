@@ -10,12 +10,15 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.TagKey;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
+import net.neoforged.neoforge.event.EventHooks;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.data.CastleOblivionData;
 import online.kingdomkeys.kingdomkeys.data.GlobalData;
@@ -219,7 +222,7 @@ public class Room {
                     ticksSinceLastSpawn = 0;
                 }
             }
-            type.getModifiers().forEach(roomModifier -> roomModifier.tick(this, players));
+            modifierOnTick(players);
             if (getEncounter().isPresent()) {
                 EncounterInstance encounterInstance = getEncounter().get();
                 if (!encounterInstance.isComplete()) {
@@ -242,13 +245,23 @@ public class Room {
                             }
                             List<? extends EntityType<?>> entities = ModTags.getEntitiesInTag(level, tag);
                             int toSpawn = Utils.randomWithRange(0, entities.size() - 1);
-                            LivingEntity spawned = (LivingEntity) entities.get(toSpawn).spawn(level, spawnPoint, MobSpawnType.TRIAL_SPAWNER);
-                            cachedEntities.add(spawned);
-                            GlobalData.get(spawned).setCastleOblivionMarker(true);
-                            mobsRemaining--;
-                            currentlySpawned++;
-                            ticksSinceLastSpawn = 0;
-                            KingdomKeys.LOGGER.debug("Spawned {}", spawned.toString());
+                            LivingEntity spawned = (LivingEntity) entities.get(toSpawn).create(level);
+                            if (spawned != null) {
+                                cachedEntities.add(spawned);
+                                GlobalData globalData = GlobalData.get(spawned);
+                                globalData.setCastleOblivionMarker(true);
+                                globalData.setLevel(((parentFloor + 1) * 10) + Utils.randomWithRange(-3, 3));
+                                mobsRemaining--;
+                                currentlySpawned++;
+                                ticksSinceLastSpawn = 0;
+                                modifierOnSpawn(spawned);
+                                spawned.moveTo((double) spawnPoint.getX() + 0.5, spawnPoint.getY(), (double) spawnPoint.getZ() + 0.5, Mth.wrapDegrees(level.random.nextFloat() * 360.0F), 0.0F);
+                                level.addFreshEntityWithPassengers(spawned);
+                                if (spawned instanceof Mob spawnedMob) {
+                                    EventHooks.finalizeMobSpawn(spawnedMob, level, level.getCurrentDifficultyAt(spawned.blockPosition()), MobSpawnType.TRIAL_SPAWNER, null);
+                                }
+                                KingdomKeys.LOGGER.debug("Spawned {}", spawned.toString());
+                            }
                         }
                     }
                 }
@@ -390,6 +403,28 @@ public class Room {
             }
         });
         return entities;
+    }
+
+    //Modifier shortcut methods
+
+    public void modifierOnTick(List<Player> players) {
+        getType().getModifiers().forEach(roomModifier -> roomModifier.tick(this, players));
+    }
+
+    public void modifierOnGenerate(ServerLevel level) {
+        getType().getModifiers().forEach(roomModifier -> roomModifier.onGenerate(this, level));
+    }
+
+    public void modifierOnSpawn(LivingEntity spawned) {
+        getType().getModifiers().forEach(roomModifier -> roomModifier.onSpawn(this, spawned));
+    }
+
+    public void modifierOnEnter(Player player) {
+        getType().getModifiers().forEach(roomModifier -> roomModifier.onEnter(this, player));
+    }
+
+    public void modifierOnExit(Player player) {
+        getType().getModifiers().forEach(roomModifier -> roomModifier.onExit(this, player));
     }
 
     @Override

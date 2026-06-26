@@ -225,7 +225,7 @@ public class CastleOblivionHandler {
         Room newRoom = event.getNewRoom();
         Room currentRoom = event.getCurrentRoom();
         if (currentRoom != null) {
-            currentRoom.getType().getModifiers().forEach(roomModifier -> roomModifier.onExit(currentRoom, event.getPlayer()));
+            currentRoom.modifierOnExit(event.getPlayer());
             CastleOblivionData.InteriorData.get(event.getInteriorLevel()).ifPresent(interiorData -> {
                 Floor floor = interiorData.getFloorByID(currentRoom.parentFloor);
                 floor.getType().getGlobalModifiers().forEach(roomModifier -> roomModifier.onExit(currentRoom, event.getPlayer()));
@@ -233,14 +233,10 @@ public class CastleOblivionHandler {
         }
         if (newRoom != null) {
             KingdomKeys.LOGGER.debug("Entered Room: {}", newRoom.getPosition());
-            newRoom.getType().getModifiers().forEach(roomModifier -> roomModifier.onEnter(newRoom, event.getPlayer()));
+            newRoom.modifierOnEnter(event.getPlayer());
             if (!newRoom.getType().isEntranceHall()) {
                 Floor floor = CastleOblivionData.InteriorData.get(event.getInteriorLevel()).orElseThrow().getFloorByID(newRoom.parentFloor);
                 floor.getType().getGlobalModifiers().forEach(roomModifier -> roomModifier.onEnter(newRoom, event.getPlayer()));
-            }
-
-            if (newRoom.getType().getCategory() == RoomCategory.ENCOUNTER) {
-
             }
         }
     }

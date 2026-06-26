@@ -42,6 +42,7 @@ public class MoogleEntity extends PathfinderMob implements IEntityWithComplexSpa
 	String inv;
     String name;
     Player interacting;
+    boolean stationary = false;
 	
     public MoogleEntity(EntityType<? extends PathfinderMob> type, Level worldIn) {
         super(type, worldIn);
@@ -144,6 +145,17 @@ public class MoogleEntity extends PathfinderMob implements IEntityWithComplexSpa
     }
 
     @Override
+    public void travel(Vec3 travelVector) {
+        if (interacting != null || stationary) {
+            if (!this.onGround()) {
+                super.travel(Vec3.ZERO);
+            }
+        } else {
+            super.travel(travelVector);
+        }
+    }
+
+    @Override
     public InteractionResult interactAt(Player player, Vec3 vec, InteractionHand hand) {
         ItemStack itemstack = player.getItemInHand(hand);
         //Name tag
@@ -221,6 +233,7 @@ public class MoogleEntity extends PathfinderMob implements IEntityWithComplexSpa
         if (!name.isEmpty()) {
             tag.putString("name", name);
         }
+        tag.putBoolean("stationary", stationary);
     }
 
     @Override
@@ -231,5 +244,7 @@ public class MoogleEntity extends PathfinderMob implements IEntityWithComplexSpa
         if (name.isEmpty()) {
             setRandomName();
         }
+        stationary = tag.getBoolean("stationary");
+
     }
 }

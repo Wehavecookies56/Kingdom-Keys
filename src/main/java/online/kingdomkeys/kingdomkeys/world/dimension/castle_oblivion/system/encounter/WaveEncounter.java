@@ -13,15 +13,19 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.ArrayListDeque;
+import net.minecraft.util.Mth;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.level.saveddata.SavedData;
+import net.neoforged.neoforge.event.EventHooks;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.data.CastleOblivionData;
 import online.kingdomkeys.kingdomkeys.data.GlobalData;
 import online.kingdomkeys.kingdomkeys.leveling.Stat;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModEncounterTypes;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.Room;
 
@@ -139,10 +143,19 @@ public class WaveEncounter implements Encounter {
                     });
                     List<? extends EntityType<?>> currentWave = encounter.getWaves().get(state.getWaveIndex()).stream().map(Holder::value).toList();
                     currentWave.forEach(entityType -> {
-                        LivingEntity spawned = (LivingEntity) entityType.spawn(level, getSpawnPoint(), MobSpawnType.TRIAL_SPAWNER);
-                        if (spawned != null && spawned.isAddedToLevel()) {
+                        LivingEntity spawned = (LivingEntity) entityType.create(level);
+                        BlockPos spawnPoint = getSpawnPoint();
+                        if (spawned != null) {
                             room.addEntityToCache(spawned);
-                            GlobalData.get(spawned).setCastleOblivionMarker(true);
+                            GlobalData globalData = GlobalData.get(spawned);
+                            globalData.setCastleOblivionMarker(true);
+                            globalData.setLevel(((room.parentFloor+1) * 10) + Utils.randomWithRange(-3, 3));
+                            room.modifierOnSpawn(spawned);
+                            spawned.moveTo((double)spawnPoint.getX() + 0.5, spawnPoint.getY(), (double)spawnPoint.getZ() + 0.5, Mth.wrapDegrees(level.random.nextFloat() * 360.0F), 0.0F);
+                            level.addFreshEntityWithPassengers(spawned);
+                            if (spawned instanceof Mob spawnedMob) {
+                                EventHooks.finalizeMobSpawn(spawnedMob, level, level.getCurrentDifficultyAt(spawned.blockPosition()), MobSpawnType.TRIAL_SPAWNER, null);
+                            }
                             KingdomKeys.LOGGER.debug("Spawned {}", spawned);
                         } else {
                             KingdomKeys.LOGGER.error("Failed to spawn {}", entityType);

@@ -1,4 +1,7 @@
 {
   "size": "S",
-  "category": "BOUNTY"
+  "category": "BOUNTY",
+  "modifiers": [
+    "kingdomkeys:spawn_moogle"
+  ]
 }

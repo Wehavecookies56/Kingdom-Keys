@@ -1,29 +1,29 @@
 package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.modifiers;
 
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.Room;
 
 import java.util.List;
 
-public abstract class RoomModifier {
+public interface RoomModifier {
 
     //Do something when the player enters the room
-    public abstract void onEnter(Room room, Player player);
+    default void onEnter(Room room, Player player) {}
 
     //Do something when the room is generated
-    public abstract void onGenerate(Room room);
+    default void onGenerate(Room room, ServerLevel level) {}
 
     //Do something when the player exits the room
-    public abstract void onExit(Room room, Player player);
+    default void onExit(Room room, Player player) {}
 
     //Do something while the room ticks
-    public abstract void tick(Room room, List<Player> players);
+    default void tick(Room room, List<Player> players) {}
 
-    public ResourceLocation modifierName;
+    //Do something when a mob is spawned
+    default void onSpawn(Room room, LivingEntity spawned) {}
 
-    public RoomModifier(ResourceLocation modifierName) {
-        this.modifierName = modifierName;
-    }
-
+    ResourceLocation getModifierName();
 }

@@ -183,6 +183,7 @@ public class RoomGenerator {
             }
             Collections.shuffle(newRoom.spawnPoints);
             data.setGenerated(newRoom);
+            newRoom.modifierOnGenerate(level);
             CastleOblivionData.InteriorData.get(level).orElseThrow().setDirty();
             SCSyncCastleOblivionInteriorData.syncClients(level);
             KingdomKeys.LOGGER.info("Generated room:{} at {}", newRoom.type.getRegistryName().toString(), pos);

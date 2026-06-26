@@ -1,0 +1,6 @@
+[
+  {"names": "kingdomkeys:default"},
+  {"item": "kingdomkeys:tranquil_darkness", "amount": 1, "tier": 1, "cost": 200},
+  {"item": "kingdomkeys:mingling_worlds", "amount": 1, "tier": 1, "cost": 200},
+  {"item": "kingdomkeys:martial_waking", "amount": 1, "tier": 1, "cost": 200}
+]
