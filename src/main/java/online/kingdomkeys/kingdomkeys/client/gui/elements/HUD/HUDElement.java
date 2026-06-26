@@ -110,7 +110,6 @@ public class HUDElement {
         float x2 = px + sw;
         float y2 = py + sh;
 
-        // Normalizar rectángulo
         float minX = Math.min(x1, x2);
         float maxX = Math.max(x1, x2);
         float minY = Math.min(y1, y2);
@@ -295,7 +294,7 @@ public class HUDElement {
     }
 
     public static ArrayList<Float> getDefaultValues(String name){
-        return switch(name){
+        return switch(name){ // X, Y, W, H, sX, sY, rot, anc
             case "HP" -> Lists.newArrayList(13.8F, 3.8F, 916F, 254F,0.2F,0.2F, 0F, 8F);
             case "MP" -> Lists.newArrayList(53F, 8.6F, 142F, 12F,0.7F,0.5F, 0F, 8F);
             case "CM" -> Lists.newArrayList(5F, 5F, 70F, 75F, 1F,1F, 0F, 6F);
@@ -308,8 +307,8 @@ public class HUDElement {
             case "MunnyExp" -> Lists.newArrayList(0F, 0F, 80F, 60F, 1F, 1F, 0F, 0F);
             case "LevelUp" -> Lists.newArrayList(1F, 10F, 155F, 50F, 1F, 1F, 0F, 2F);
             case "DriveLevel" -> Lists.newArrayList(0F, -4F, 155F, 90F, 1F, 1F, 0F, 3F);
-            case "Minimap" -> Lists.newArrayList(2F, 2F, 100F, 100F, 1F, 1F, 0F, 2F);
-            case "RoomName" -> Lists.newArrayList(2F, 2F, 100F, 100F, 1F, 1F, 0F, 2F);
+            case "RoomName" -> Lists.newArrayList(2F, 138F, 100F, 10F, 1F, 1F, 0F, 8F);
+            case "Minimap" -> Lists.newArrayList(2F, 26F, 100F, 100F, 1F, 1F, 0F, 2F);
             default -> throw new IllegalStateException("Unexpected default HUD value: " + name);
         };
     }

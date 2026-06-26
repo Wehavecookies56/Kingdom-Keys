@@ -903,6 +903,7 @@ public class LanguageESES extends KKLanguageProvider {
         addReactionCommand(ModReactionCommands.SAVE, "Guardar");
 
         //Items
+        //Cards
         //Rings
         addItem(ModItems.abilityRing, "Anillo Diestro");
         addItem(ModItems.aquamarineRing, "Anillo de Aguamarina");
@@ -1236,32 +1237,49 @@ public class LanguageESES extends KKLanguageProvider {
         addItem(ModItems.ira_Leggings, "Pantalones de Ira");
         addItem(ModItems.ira_Boots, "Botas de Ira");
 
-        //Cards //TODO
-        add("item.mapcard.prefix", "(%s) %s");
-        addItem(ModItems.tranquilDarkness, "Tranquil Darkness");
-        addItem(ModItems.teemingDarkness, "Teeming Darkness");
-        addItem(ModItems.feebleDarkness, "Feeble Darkness");
-        addItem(ModItems.almightyDarkness, "Almighty Darkness");
-        addItem(ModItems.sleepingDarkness, "Sleeping Darkness");
-        addItem(ModItems.loomingDarkness, "Looming Darkness");
-        addItem(ModItems.bottomlessDarkness, "Bottomless Darkness");
-        addItem(ModItems.martialWaking, "Martial Waking");
-        addItem(ModItems.sorcerousWaking, "Sorcerous Waking");
-        addItem(ModItems.alchemicWaking, "Alchemic Waking");
-        addItem(ModItems.stagnantSpace, "Stagnant Space");
-        addItem(ModItems.weightlessSpace, "Weightless Space");
-        addItem(ModItems.calmBounty, "Calm Bounty");
-        addItem(ModItems.guardedTrove, "Guarded Trove");
-        addItem(ModItems.falseBounty, "False Bounty");
-        addItem(ModItems.momentsReprieve, "Moment's Reprieve");
-        addItem(ModItems.minglingWorlds, "Mingling Worlds");
-        addItem(ModItems.moogleRoom, "Moogle Room");
-        addItem(ModItems.prosperousRepository, "Prosperous Repository");
-        addItem(ModItems.treacherousRepository, "Treacherous Repository");
-        addItem(ModItems.reposefulGrove, "Reposeful Grove");
+        //Cards
+        addItem(ModItems.tranquilDarkness, "Oscuridad Tenue");
+        addItem(ModItems.teemingDarkness, "Oscuridad Total");
+        addItem(ModItems.feebleDarkness, "Oscuridad Lánguida");
+        addItem(ModItems.almightyDarkness, "Noche Cerrada");
+        addItem(ModItems.sleepingDarkness, "Oscuridad Latente");
+        addItem(ModItems.loomingDarkness, "Tinieblas");
+        addItem(ModItems.bottomlessDarkness, "Oscuridad Insondable");
+
+        addItem(ModItems.martialWaking, "Aula Marcial");
+        addItem(ModItems.sorcerousWaking, "Aula de Magia");
+        addItem(ModItems.alchemicWaking, "Aula Alquímica");
+        addItem(ModItems.stagnantSpace, "Ralentí");
+        addItem(ModItems.weightlessSpace, "Espacio Liviano");
+
+        addItem(ModItems.calmBounty, "Botín Fácil");
+        addItem(ModItems.guardedTrove, "Tesoro Custodiado");
+        addItem(ModItems.falseBounty, "Falso Botín");
+        addItem(ModItems.momentsReprieve, "Alivio Fugaz");
+        addItem(ModItems.minglingWorlds, "Multiverso");
+        addItem(ModItems.moogleRoom, "Casa Moguri");
+        addItem(ModItems.prosperousRepository, "Repositorio Próspero");
+        addItem(ModItems.treacherousRepository, "Repositorio Traicionero");
+        addItem(ModItems.reposefulGrove, "Arboleda Serena");
+
+        addItem(ModItems.keyOfBeginnings, "Llave Prístina");
+        addItem(ModItems.keyOfGuidance, "Llave Guía");
+        addItem(ModItems.keyToTruth, "Llave a la Verdad");
+        addItem(ModItems.keyToRewards, "Llave Recompensa");
 
         addItem(ModItems.plainsCard,"Carta de Llanuras");
-        addItem(ModItems.theNetherCard,"Carta de Nether");
+        addItem(ModItems.theNetherCard,"Carta del Nether");
+        addItem(ModItems.theEndCard,"Carta del Fín");
+        addItem(ModItems.castleOblivionCard,"Carta del Castillo del Olvido");
+        addItem(ModItems.oceanCard,"Carta del Océano");
+        addItem(ModItems.desertCard,"Carta del Desierto");
+        addItem(ModItems.snowyCard,"Carta de Nieve");
+        addItem(ModItems.badlandsCard,"Carta de Tierras Baldías");
+        addItem(ModItems.swampCard,"Carta de Pantano");
+        addItem(ModItems.caveCard,"Carta de Cueva");
+        addItem(ModItems.mushroomFieldsCard,"Carta de Campo de Champiñones");
+        addItem(ModItems.forestCard,"Carta de Bosque");
+        addItem(ModItems.jungleCard,"Carta de Jungla");
 
         //Synthesis materials
         addItem(ModItems.blazing_shard, "Guijarro \u00edgneo");
@@ -2274,6 +2292,25 @@ public class LanguageESES extends KKLanguageProvider {
         add(Strings.HeartlessIntro2, "Unido a la oscuridad...");
         add(Strings.HeartlessIntro3, "Y pronto perder\u00e1 la luz");
 
+        add("co.criteria_greater", "Condición: Una carta de valor %s, superior o 0.");
+        add("co.criteria_lesser", "Condición: Una carta de valor %s o inferior.");
+        add("co.criteria_equal", "Condición: Una carta de valor 0.");
+        add("co.criteria_total", "Condición: Cartas para sumar un totaL de %s o superior.");
+        add("co.criteria_greater_no_zero", "Condición: Una carta de valor %s o superior.");
+
+        add("co.available_cards", "Cartas disponibles");
+
+        add("co.category", "CATEGORÍA");
+        add("co.room_size", "TAMAÑO ESTANCIA");
+        add("co.enemies", "ENEMIGOS");
+
+        add("co.category.enemy", "ENEMIGO");
+        add("co.category.status", "ESTATUS");
+        add("co.category.bounty", "BOTÍN");
+        add("co.category.encounter", "ENCUENTRO");
+        add("co.category.special", "ESPECIAL");
+        add("co.category.any", "CUALQUIERA");
+
         //Biomes
         add("biome.kingdomkeys.dive_to_the_heart", "Descenso al Coraz\u00f3n");
         add("biome.kingdomkeys.realm_of_darkness", "Reino de la Oscuridad");
@@ -2288,6 +2325,42 @@ public class LanguageESES extends KKLanguageProvider {
         addKKEffect(ModMobEffects.GRAVITY, "Gravedad", "Limita tu movimiento mientras estás aplastado.");
         addKKEffect(ModMobEffects.KO, "KO", "Permite a un jugador en tu grupo salvarte usando Cura o una Poción en tí.");
         addKKEffect(ModMobEffects.UNDERWORLD_CURSE, "Maldición del inframundo", "Prevents the use of drive forms and limits.");
+        addKKEffect(ModMobEffects.ZERO_GRAVITY, "Ingravidez", "Te mantiene estacionario en el aire durante un tiempo.");
+        addKKEffect(ModMobEffects.CONFUSE, "Confuse", "Invierte tu movimiento.");
+        addKKEffect(ModMobEffects.MINI,"Mini","Reduce tu tamaño, vigila que no te pisen!");
+
+        //CO Rooms
+        addRoom("almighty_darkness", "Noche Cerrada");
+        addRoom("bottomless_darkness", "Oscuridad Insondable");
+        addRoom("feeble_darkness", "Oscuridad lánguida");
+        addRoom("looming_darkness", "Tinieblas");
+        addRoom("sleeping_darkness", "Oscuridad Latente");
+        addRoom("teeming_darkness", "Oscuridad Total");
+        addRoom("tranquil_darkness", "Oscuridad Tenue");
+
+        addRoom("alchemic_waking", "Aula Alquímica");
+        addRoom("martial_waking", "Aula Marcial");
+        addRoom("sorcerous_waking", "Aula de Magia");
+        addRoom("stagnant_space", "Ralentí");
+        addRoom("weightless_space", "Espacio Liviano");
+
+        addRoom("calm_bounty", "Botín Fácil");
+        addRoom("false_bounty", "Falso Botín");
+        addRoom("guarded_trove", "Tesoro Custodiado");
+        addRoom("moments_reprieve", "Alivio Fugaz");
+        addRoom("moogle_room", "Casa Moguri");
+        addRoom("prosperous_repository", "Repositorio Próspero");
+        addRoom("reposeful_grove", "Arboleda Serena");
+        addRoom("treacherous_repository", "Repositorio Traicionero");
+
+        addRoom("unknown_room", "Cuarto Desconocido");
+        addRoom("conquerors_respite", "Reposo del Triunfador");
+        addRoom("entrance_hall", "Entrada, planta %s");
+
+        addRoom("room_of_beginnings", "Cuarto de los Comienzos");
+        addRoom("room_of_guidance", "Cuarto de Guías");
+        addRoom("room_of_rewards", "Cuarto de Recompensas");
+        addRoom("room_of_truth", "Cuarto de la Verdad");
 
 
         //JEI

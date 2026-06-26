@@ -39,7 +39,6 @@ public class GuiOverlay extends OverlayBase {
 	public static UUID playerWhoLevels = Util.NIL_UUID;
 	public static long timeExp;
 	public static long timeMunny;
-	public static long timeLevelUp;
 	public static long timeDriveLevelUp;
 	public static int munnyGet;
 	int levelSeconds = 6;

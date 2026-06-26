@@ -2249,6 +2249,25 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Strings.HeartlessIntro1,"This world has been connected");
         add(Strings.HeartlessIntro2,"Tied to the darkness...");
         add(Strings.HeartlessIntro3,"Soon to be completely eclipsed");
+
+        add("co.criteria_greater", "Criteria: A card with the number %s or higher or 0.");
+        add("co.criteria_lesser", "Criteria: A card with the number %s or lower.");
+        add("co.criteria_equal", "Criteria: A card with the number 0.");
+        add("co.criteria_total", "Criteria: Cards with numbers totalling %s or higher.");
+        add("co.criteria_greater_no_zero", "Criteria: A card with the number %s or higher.");
+
+        add("co.available_cards", "Available cards");
+
+        add("co.category", "CATEGORY");
+        add("co.room_size", "ROOM SIZE");
+        add("co.enemies", "ENEMIES");
+
+        add("co.category.enemy", "ENEMY");
+        add("co.category.status", "STATUS");
+        add("co.category.bounty", "BOUNTY");
+        add("co.category.encounter", "ENCOUNTER");
+        add("co.category.special", "SPECIAL");
+        add("co.category.any", "ANY");
         
         //Controls
         add("key.categories.kingdomkeys", "Kingdom Keys");
@@ -2306,6 +2325,9 @@ public class LanguageENUS extends KKLanguageProvider {
         addKKEffect(ModMobEffects.GRAVITY, "Gravity", "Limits your movement while being flattened.");
         addKKEffect(ModMobEffects.KO, "KO", "Allows a player in your party to save you by casting Cure or using a Potion on you.");
         addKKEffect(ModMobEffects.UNDERWORLD_CURSE, "Underworld's Curse", "Prevents the use of drive forms and limits.");
+        addKKEffect(ModMobEffects.ZERO_GRAVITY, "Zero Gravity", "Locks you in the air for a few seconds.");
+        addKKEffect(ModMobEffects.CONFUSE, "Confuse", "Inverts your movement.");
+        addKKEffect(ModMobEffects.MINI,"Mini","Shrinks you down, watch out for others jumping on you!");
 
         //CO Rooms
         addRoom("almighty_darkness", "Almighty Darkness");

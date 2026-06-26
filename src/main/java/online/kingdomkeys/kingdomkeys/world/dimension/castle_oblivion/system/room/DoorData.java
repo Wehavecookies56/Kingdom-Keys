@@ -161,11 +161,11 @@ public class DoorData {
                 return Component.translatable("Criteria: %s", new ItemStack(KeycardType.values()[value].getCardForType()).getDisplayName());
             }
             return switch (criteriaType) {
-                case GREATER -> value == 0 ? Component.translatable("Criteria: A card with the number %s or higher.", value) : Component.translatable("Criteria: A card with the number %s or higher or 0.", value);
-                case LESSER -> Component.translatable("Criteria: A card with the number %s or lower", value);
-                case EQUAL -> Component.translatable("Criteria: A card with the number 0.", value);
-                case TOTAL -> Component.translatable("Criteria: Cards with numbers totalling %s or higher.", value);
-                case GREATER_NO_ZERO -> Component.translatable("Criteria: A card with the number %s or higher.", value);
+                case GREATER -> value == 0 ? Component.translatable("co.criteria_greater_no_zero", value) : Component.translatable("co.criteria_greater", value);
+                case LESSER -> Component.translatable("co.criteria_lesser", value);
+                case EQUAL -> Component.translatable("co.criteria_equal", value);
+                case TOTAL -> Component.translatable("co.criteria_total", value);
+                case GREATER_NO_ZERO -> Component.translatable("co.criteria_greater_no_zero", value);
             };
         }
     }

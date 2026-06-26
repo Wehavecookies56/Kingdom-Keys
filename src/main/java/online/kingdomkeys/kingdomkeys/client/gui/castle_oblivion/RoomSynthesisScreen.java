@@ -44,7 +44,7 @@ public class RoomSynthesisScreen extends MenuBackground {
 		this.te = te;
 		this.minecraft = Minecraft.getInstance();
 		this.doorType = te.getData().getType();
-		if (te.getCurrentCriteria() == null || te.getCurrentCriteria().isEmpty()) {
+		if ((te.getCurrentCriteria() == null) || te.getCurrentCriteria().isEmpty()) {
 			te.setCurrentCriteria(te.getData().getCardCriteria());
 		}
 	}
@@ -130,13 +130,14 @@ public class RoomSynthesisScreen extends MenuBackground {
 		boxL.renderWidget(guiGraphics, mouseX, mouseY, partialTicks);
 		scrollBar.render(guiGraphics, mouseX, mouseY, partialTicks);
 
-		Component text = Component.translatable("Criteria");
+		Component text = Component.literal("");
 		if (te.getCurrentCriteria().size() == 1) {
 			Map.Entry<CardCategory, DoorData.CardCriteria> o = te.getCurrentCriteria().entrySet().stream().toList().getFirst();
 			text = o.getValue().toDescriptiveString(o.getKey() == CardCategory.YELLOW);
 		}
-		guiGraphics.drawCenteredString(minecraft.font, text, width / 2, (int) topBarHeight-20, 0xFFFFFF);
-		text = Component.translatable("Available cards");
+		guiGraphics.drawString(minecraft.font, text, topRightBar.getPosX()+11, (int) topBarHeight-20, 0xFFFFFF);
+
+		text = Component.translatable("co.available_cards");
 		guiGraphics.drawCenteredString(minecraft.font, text, boxB.getX() + boxB.getWidth() / 2, boxB.getY() - 10, 0xFFFFFF);
 
 		int iconSize = 72;
@@ -199,30 +200,33 @@ public class RoomSynthesisScreen extends MenuBackground {
 
 					if (hoveredCard.card instanceof MapCardItem mapCardItem) {
 						if (mapCardItem.getCategory() != CardCategory.YELLOW && mapCardItem.getCategory() != CardCategory.RGB) {
-							guiGraphics.drawString(minecraft.font, "" + mapCardItem.getCardValue(hoveredCard.stack), 0, 0, 0xFFDD00);
+							matrixStack.pushPose();
+							matrixStack.scale(0.6F, 0.8F, 1);
+							guiGraphics.drawString(minecraft.font, Component.literal(mapCardItem.getCardValue(hoveredCard.stack)+"").withStyle(ClientUtils.KK_Font_EXP), 1, 3, 0xFFDD00);
+							matrixStack.popPose();
 						}
 
 						matrixStack.translate(-10, 9.5, 150);
 						matrixStack.scale(0.3F, 0.3F, 1);
 						if (mapCardItem.getRoomType() != null) {
 							boolean minglingWorlds = mapCardItem instanceof MinglingWorldsMapCardItem;
-							Component category = Component.translatable("CATEGORY");
+							Component category = Component.translatable("co.category");
 							String cat = minglingWorlds ? "? ? ?" : mapCardItem.getRoomType().getCategory().toString();
 							guiGraphics.drawString(minecraft.font, category, -15, 0, 0x888888);
-							guiGraphics.drawString(minecraft.font, cat, 0, 10, 0xFFFF00);
-
-							Component size = Component.translatable("ROOM SIZE");
-							String sizeStars = minglingWorlds ? "? ? ?" : mapCardItem.getRoomType().getSize().getStars();
-							guiGraphics.drawString(minecraft.font, size, -15, 20, 0x888888);
-							guiGraphics.drawString(minecraft.font, sizeStars, 0, 30, 0xFFFF00);
+							guiGraphics.drawString(minecraft.font, Component.literal(cat).withStyle(ClientUtils.KK_Font_EXP), 0, 10, 0xFFFF00);
 
 							if (minglingWorlds || mapCardItem.getRoomType().getEnemies() != null) {
-								Component enemies = Component.translatable("ENEMIES");// (minglingWorlds ? "?" : mapCardItem.getRoomType().getEnemies().toString()));
+								Component enemies = Component.translatable("co.enemies");
 								String enemyStars = minglingWorlds ? "? ? ?" : mapCardItem.getRoomType().getEnemies().getStars();
 
 								guiGraphics.drawString(minecraft.font, enemies, -15, 40, 0x888888);
-								guiGraphics.drawString(minecraft.font, enemyStars, 0, 50, 0xFFFF00);
+								guiGraphics.drawString(minecraft.font, Component.literal(enemyStars).withStyle(ClientUtils.KK_Font_EXP), 0, 50, 0xFFFF00);
 							}
+
+							Component size = Component.translatable("co.room_size");
+							String sizeStars = minglingWorlds ? "? ? ?" : mapCardItem.getRoomType().getSize().getStars();
+							guiGraphics.drawString(minecraft.font, size, -15, 20, 0x888888);
+							guiGraphics.drawString(minecraft.font, Component.literal(sizeStars).withStyle(ClientUtils.KK_Font_EXP), 0, 30, 0xFFFF00);
 						}
 					}
 				}
