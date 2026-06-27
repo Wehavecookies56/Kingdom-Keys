@@ -69,6 +69,7 @@ public class WorldData extends SavedData {
         }
         storage.put("struggles", struggles);
 
+        storage.putBoolean("mini_co_generated", miniCOGenerated);
         return storage;
     }
 
@@ -128,6 +129,8 @@ public class WorldData extends SavedData {
             KingdomKeys.LOGGER.warn("Discarded {} duplicate struggles while reading", struggleDupeCount);
         }
         data.setParties(partiesList);
+
+        data.miniCOGenerated = nbt.getBoolean("mini_co_generated");
         return data;
     }
 
@@ -149,6 +152,18 @@ public class WorldData extends SavedData {
 
     int heartlessSpawnLevel = 0;
     Map<UUID, PortalData> portals = new HashMap<UUID, PortalData>();
+
+
+    private boolean miniCOGenerated = false;
+
+    public boolean isMiniCOGenerated() {
+        return miniCOGenerated;
+    }
+
+    public void setMiniCOGenerated(boolean generated) {
+        this.miniCOGenerated = generated;
+        setDirty();
+    }
 
     public Map<UUID, PortalData> getPortals() {
         return portals;

@@ -2,6 +2,7 @@ package online.kingdomkeys.kingdomkeys.handler;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Vec3i;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
@@ -11,6 +12,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundUpdateMobEffectPacket;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
@@ -30,8 +32,17 @@ import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.enchantment.Enchantments;
+import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.Mirror;
+import net.minecraft.world.level.block.Rotation;
+import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 import net.minecraft.world.level.portal.DimensionTransition;
+import net.minecraft.world.level.saveddata.SavedData;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.bus.api.EventPriority;
@@ -46,8 +57,11 @@ import net.neoforged.neoforge.event.entity.player.ItemEntityPickupEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerXpEvent;
 import net.neoforged.neoforge.event.level.BlockEvent;
+import net.neoforged.neoforge.event.level.ChunkEvent;
+import net.neoforged.neoforge.event.level.LevelEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
+import net.neoforged.neoforge.event.tick.ServerTickEvent;
 import net.neoforged.neoforge.items.IItemHandler;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
@@ -123,6 +137,86 @@ public class EntityEvents {
 			}
 		}
 		return multiplier;
+	}
+
+	private static int pendingTicks = -1;
+
+	@SubscribeEvent
+	public void onChunkLoad(ChunkEvent.Load event) {
+		if (!(event.getLevel() instanceof ServerLevel level))
+			return;
+
+		if (level.dimension() != Level.OVERWORLD)
+			return;
+
+		if (event.getChunk().getPos().x != 6 || event.getChunk().getPos().z != 7)
+			return;
+
+		ChunkPos chunkPos = new ChunkPos(6, 7);
+		if (!level.hasChunk(chunkPos.x, chunkPos.z))
+			return;
+
+		WorldData worldData = WorldData.get(level.getServer());
+
+		if (!worldData.isMiniCOGenerated() && pendingTicks < 0) {
+			KingdomKeys.LOGGER.info("Pending Mini CO");
+			pendingTicks = 40;
+		}
+	}
+
+	@SubscribeEvent
+	public void onServerTick(ServerTickEvent.Post event) {
+		if (pendingTicks < 0)
+			return;
+
+		pendingTicks--;
+
+		if (pendingTicks > 0)
+			return;
+
+		ServerLevel level = event.getServer().overworld();
+
+		int y = level.getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, 96 + 16, 112 + 16);
+
+		if (y <= level.getMinBuildHeight()) {
+			KingdomKeys.LOGGER.info("Attempted to place too early, delaying placement");
+			pendingTicks = 20;
+			return;
+		}
+
+		if(generateMiniCO(level)) {
+			WorldData worldData = WorldData.get(level.getServer());
+			worldData.setMiniCOGenerated(true);
+			pendingTicks = -1;
+		}
+	}
+
+	private static boolean generateMiniCO(ServerLevel level) {
+		StructureTemplate template = level.getStructureManager().get(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "castle_oblivion/mini_co")).orElse(null);
+
+		if (template == null) {
+			KingdomKeys.LOGGER.error("Mini CO template is null, couldn't find a valid nbt file in castle_oblivion/mini_co");
+			return false;
+		}
+
+		int fixedX = 96;
+		int fixedZ = 112;
+
+		Vec3i size = template.getSize();
+
+		int centerX = fixedX + size.getX() / 2;
+		int centerZ = fixedZ + size.getZ() / 2;
+		int y = level.getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, centerX, centerZ) - 2;
+
+		BlockPos origin = new BlockPos(fixedX, y, fixedZ);
+
+		StructurePlaceSettings settings = new StructurePlaceSettings().setMirror(Mirror.NONE).setRotation(Rotation.NONE).setIgnoreEntities(true);
+
+		KingdomKeys.LOGGER.info("About to place Mini CO");
+		boolean placed = template.placeInWorld(level, origin, origin, settings, level.random, Block.UPDATE_ALL);
+
+		KingdomKeys.LOGGER.info("Placed Mini CO = {}", placed);
+		return placed;
 	}
 
 	@SubscribeEvent
