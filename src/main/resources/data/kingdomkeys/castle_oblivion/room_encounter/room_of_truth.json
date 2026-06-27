@@ -3,9 +3,11 @@
     "type": "kingdomkeys:wave",
     "interval_ticks": 100,
     "waves": [
-      ["minecraft:zombie", "minecraft:creeper"],
-      ["minecraft:spider"],
-      ["kingdomkeys:shadow"]
+      ["kingdomkeys:shadow", "kingdomkeys:large_body", "kingdomkeys:shadow", "kingdomkeys:soldier"],
+      ["kingdomkeys:soldier", "kingdomkeys:darkball", "kingdomkeys:green_requiem"],
+      ["kingdomkeys:red_nocturne", "kingdomkeys:blue_rhapsody", "kingdomkeys:yellow_opera"],
+      ["kingdomkeys:minute_bomb", "kingdomkeys:minute_bomb", "kingdomkeys:emerald_blues"],
+      ["kingdomkeys:large_body", "kingdomkeys:large_body", "kingdomkeys:shadow", "kingdomkeys:shadow", "kingdomkeys:shadow", "kingdomkeys:green_requiem"]
     ]
   },
   "rewards": [],

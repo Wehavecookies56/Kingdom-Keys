@@ -3,9 +3,9 @@
     "type": "kingdomkeys:wave",
     "interval_ticks": 100,
     "waves": [
-      ["minecraft:zombie", "minecraft:creeper"],
-      ["minecraft:spider"],
-      ["kingdomkeys:shadow"]
+      ["kingdomkeys:shadow", "kingdomkeys:large_body", "kingdomkeys:shadow"],
+      ["kingdomkeys:soldier", "kingdomkeys:soldier"],
+      ["kingdomkeys:red_nocturne", "kingdomkeys:dire_plant", "kingdomkeys:dire_plant", "kingdomkeys:dire_plant"]
     ]
   },
   "rewards": [

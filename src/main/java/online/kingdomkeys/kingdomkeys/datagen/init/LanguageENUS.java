@@ -2272,7 +2272,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add("co.category.special", "SPECIAL");
         add("co.category.any", "ANY");
 
-        add("co.door_succeed","");
+        add("co.door_succeed","Master the cards and make your way through the castle. From here on, you walk alone.");
         add("co.door_failed","Hold the card before you. The door will open, and beyond it a new world");
         
         //Controls

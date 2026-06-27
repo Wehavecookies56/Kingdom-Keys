@@ -713,7 +713,7 @@
   "co.criteria_lesser": "Criteria: A card with the number %s or lower.",
   "co.criteria_total": "Criteria: Cards with numbers totalling %s or higher.",
   "co.door_failed": "Hold the card before you. The door will open, and beyond it a new world",
-  "co.door_succeed": "",
+  "co.door_succeed": "Master the cards and make your way through the castle. From here on, you walk alone.",
   "co.enemies": "ENEMIES",
   "co.room_size": "ROOM SIZE",
   "container.gummi_hangar": "Gummi Hangar",

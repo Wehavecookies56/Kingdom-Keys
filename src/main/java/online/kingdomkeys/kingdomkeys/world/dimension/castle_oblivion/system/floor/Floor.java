@@ -41,11 +41,10 @@ public class Floor {
         CastleOblivionData.InteriorData interiorData = CastleOblivionData.InteriorData.get(level).orElseThrow();
         floorID = interiorData.getFloors().size();
         interiorData.addFloor(this);
-        RoomData entranceHall = new RoomData(RoomPos.ZERO, RoomData.Type.ENTRANCE);
+        RoomData entranceHall = new RoomData(floorID, RoomPos.ZERO, RoomData.Type.ENTRANCE);
         entranceHall.setDoor(DoorData.Type.ENTRANCE, RoomDirection.SOUTH);
         entranceHall.setDoor(DoorData.Type.HALL, RoomDirection.NORTH);
         entranceHall.setRemainingDoors(DoorData.Type.NONE);
-        entranceHall.setParent(this);
         rooms.put(entranceHall.pos, entranceHall);
     }
 
@@ -140,9 +139,8 @@ public class Floor {
     }
 
     public void generateLayout() {
-        RoomData entrance = new RoomData(new RoomPos(0, 1), RoomData.Type.NORMAL);
+        RoomData entrance = new RoomData(floorID, new RoomPos(0, 1), RoomData.Type.NORMAL);
         entrance.setDoor(DoorData.Type.FIXED, RoomDirection.SOUTH);
-        entrance.setParent(this);
         RoomData currentRoom = entrance;
         rooms.put(entrance.pos, entrance);
         RoomDirection prevDir = RoomDirection.SOUTH;
@@ -216,14 +214,14 @@ public class Floor {
                         currentRoom.setDoor(DoorData.Type.NORMAL, nextDir);
                         //create next room in direction with door at opposite direction
                         if (i == type.getCritPathLength() - 1) {
-                            RoomData newRoom = new RoomData(pos);
+                            RoomData newRoom = new RoomData(floorID, pos);
                             newRoom.setDoor(DoorData.Type.NORMAL, nextDir.opposite());
                             currentRoom.finalizeType(RoomData.Type.NORMAL);
                             currentRoom = newRoom;
                             //last room does not need next door
                             currentRoom.finalizeType(RoomData.Type.NORMAL);
                         } else {
-                            RoomData newRoom = new RoomData(pos);
+                            RoomData newRoom = new RoomData(floorID, pos);
                             newRoom.setDoor(DoorData.Type.NORMAL, nextDir.opposite());
                             currentRoom.finalizeType(RoomData.Type.NORMAL);
                             currentRoom = newRoom;
@@ -249,7 +247,6 @@ public class Floor {
                     currentRoom = createRoomInDirection(currentRoom, nextDir);
                 }
             }
-            currentRoom.setParent(this);
             rooms.put(currentRoom.pos, currentRoom);
         }
         //create special encounter rooms for the key cards
@@ -271,7 +268,7 @@ public class Floor {
                 KeycardType keycardType = KeycardType.values()[i];;
                 RoomDirection direction = setRandomFreeDoor(room, DoorData.Type.KEY, keycardType);
                 if (direction != null) {
-                    RoomData newRoom = new RoomData(room.pos.add(direction), RoomData.Type.ENCOUNTER);
+                    RoomData newRoom = new RoomData(floorID, room.pos.add(direction), RoomData.Type.ENCOUNTER);
                     //create door that goes back, fixed type as the only way to get in the room is by opening the door on the other side
                     newRoom.setDoor(DoorData.Type.FIXED, direction.opposite());
                     if (rooms.containsKey(newRoom.pos)) {
@@ -292,7 +289,7 @@ public class Floor {
                             KingdomKeys.LOGGER.debug("Generating conqueror's respite room");
                             for (RoomDirection dir : RoomDirection.values()) {
                                 if (!adjacentRooms.containsKey(dir)) {
-                                    RoomData exitRoom = new RoomData(newRoom.pos.add(dir), RoomData.Type.EXIT);
+                                    RoomData exitRoom = new RoomData(floorID, newRoom.pos.add(dir), RoomData.Type.EXIT);
                                     exitRoom.setFixedType(ModRoomTypes.CONQUERORS_RESPITE.get());
                                     exitRoom.setDoor(DoorData.Type.FIXED, dir.opposite());
                                     exitRoom.setDoor(DoorData.Type.EXIT, dir);
@@ -367,7 +364,7 @@ public class Floor {
     }
 
     public RoomData createRoomInDirection(RoomData prevRoom, RoomDirection direction) {
-        RoomData newRoom = new RoomData(RoomPos.inDirection(prevRoom.pos, direction));
+        RoomData newRoom = new RoomData(floorID, RoomPos.inDirection(prevRoom.pos, direction));
         newRoom.setDoor(DoorData.Type.NORMAL, direction.opposite());
         return newRoom;
     }

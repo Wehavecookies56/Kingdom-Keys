@@ -70,7 +70,7 @@ public class SoADoorBlock extends BaseBlock implements INoDataGen{
 					}));
 				}
 			} else {
-				player.displayClientMessage(Component.translatable("co.door_fail"),true);
+				player.displayClientMessage(Component.translatable("co.door_failed"),true);
 			}
 		}
 		return super.useItemOn(stack, state, level, pos, player, hand, hitResult);

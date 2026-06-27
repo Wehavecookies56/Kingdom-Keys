@@ -3,23 +3,13 @@
     "type": "kingdomkeys:wave",
     "interval_ticks": 100,
     "waves": [
-      ["minecraft:zombie", "minecraft:creeper"],
-      ["minecraft:spider"],
-      ["kingdomkeys:shadow"]
-    ]
+      ["kingdomkeys:shadow", "kingdomkeys:shadow", "kingdomkeys:shadow"],
+      ["kingdomkeys:red_nocturne", "kingdomkeys:blue_rhapsody", "kingdomkeys:shadow"],
+      ["kingdomkeys:shadow", "kingdomkeys:soldier", "kingdomkeys:shadow"]]
   },
   "rewards": [
     {
       "id": "kingdomkeys:key_of_guidance"
-    },
-    {
-      "id": "kingdomkeys:tranquil_darkness",
-      "count": 64,
-      "components": [
-        {
-          "card_value": 9
-        }
-      ]
     }
   ],
   "music": "kingdomkeys:music/forgotten_challenge"

@@ -172,7 +172,7 @@ public class CardDoorBlock extends BaseBlock implements EntityBlock, INoDataGen 
 							} else if (te.getData().getType() != DoorData.Type.EXIT && te.getData().getType() != DoorData.Type.ENTRANCE) {
 								KingdomKeys.LOGGER.error("Door [{}] missing destination room of type {}, something has gone wrong", te.getBlockPos().toShortString(), te.getData().getType());
 							} else {
-								Floor currFloor = interiorData.getFloorByID(te.getParentRoom().getParentID());
+								Floor currFloor = interiorData.getFloorByID(te.getParentRoom().getGenerated().get().parentFloor); //use parent from generated room
 								if (te.getData().getType() == DoorData.Type.ENTRANCE) {
 									if (te.getParentRoom().getParentID() == 0) {
 										//on first floor so exit

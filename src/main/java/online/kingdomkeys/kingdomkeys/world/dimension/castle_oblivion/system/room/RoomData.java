@@ -27,18 +27,19 @@ public class RoomData {
     Type type;
     RoomType fixedType;
 
-    public RoomData(RoomPos pos, Type type) {
-        this(pos);
+    public RoomData(int parent, RoomPos pos, Type type) {
+        this(parent, pos);
         this.type = type;
     }
 
-    public RoomData(RoomPos pos) {
+    public RoomData(int parent, RoomPos pos) {
+        this.parent = parent;
         this.pos = pos;
         doors = new HashMap<>(4);
     }
 
     public RoomData(CompoundTag tag) {
-        this(RoomPos.CODEC.parse(NbtOps.INSTANCE, tag.getCompound("roompos")).getOrThrow());
+        this(tag.getInt("parent"), RoomPos.CODEC.parse(NbtOps.INSTANCE, tag.getCompound("roompos")).getOrThrow());
         deserializeNBT(tag);
     }
 
