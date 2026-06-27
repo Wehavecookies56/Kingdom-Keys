@@ -1,6 +1,7 @@
 {
   "size": "S",
   "category": "BOUNTY",
+  "fixed_room": "kingdomkeys:plains_moogle_room",
   "modifiers": [
     "kingdomkeys:spawn_moogle"
   ]

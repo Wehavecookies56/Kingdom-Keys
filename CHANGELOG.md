@@ -1,4 +1,4 @@
-# 2.7.13c/2.8.0a:
+# 2.8.0a:
 ## Added:
 * New spells:
   * Confuse spell: Bought in the shop at tier B onwards.

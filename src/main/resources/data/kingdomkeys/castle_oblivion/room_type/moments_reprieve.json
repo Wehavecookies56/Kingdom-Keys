@@ -1,4 +1,5 @@
 {
   "size": "S",
-  "category": "BOUNTY"
+  "category": "BOUNTY",
+  "fixed_room": "kingdomkeys:plains_moments_reprieve"
 }
