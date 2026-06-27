@@ -1,6 +1,7 @@
 package online.kingdomkeys.kingdomkeys.block;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -25,12 +26,14 @@ import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.common.NeoForge;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.api.event.CastleOblivionEvent;
 import online.kingdomkeys.kingdomkeys.data.CastleOblivionData;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.block.CardDoorTileEntity;
+import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.item.card.CardCategory;
 import online.kingdomkeys.kingdomkeys.item.card.WorldCardItem;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
@@ -111,10 +114,14 @@ public class CardDoorBlock extends BaseBlock implements EntityBlock, INoDataGen 
 								if (!te.isOpen()) {
 									//TODO open world card gui
 									if (player.getItemInHand(hand).getItem() instanceof WorldCardItem item) {
-										te.getParentRoom().getParentFloor((ServerLevel) level).setWorldCard(item);
-										te.openDoor(true);
-										CastleOblivionHandler.createFirstRoom(player, te);
-										stack.consume(1, player);
+										if (!FMLEnvironment.production || item == ModItems.plainsCard.get()) {
+											te.getParentRoom().getParentFloor((ServerLevel) level).setWorldCard(item);
+											te.openDoor(true);
+											CastleOblivionHandler.createFirstRoom(player, te);
+											stack.consume(1, player);
+										} else {
+											player.sendSystemMessage(Component.literal("I did warn you, saved you from crashing/breaking your world"));
+										}
 										return ItemInteractionResult.sidedSuccess(false);
 									}
 								}

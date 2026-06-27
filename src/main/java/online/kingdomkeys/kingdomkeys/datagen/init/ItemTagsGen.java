@@ -145,7 +145,9 @@ public class ItemTagsGen extends ItemTagsProvider {
 
 			if (item instanceof MapCardItem mapCardItem) {
 				if (mapCardItem.getCategory() != CardCategory.YELLOW) {
-					add(MAP_CARD, item);
+					if (!mapCardItem.isWIP()) {
+						add(MAP_CARD, item);
+					}
 				} else {
 					add(KEY_CARD, item);
 				}

@@ -16,6 +16,7 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import online.kingdomkeys.kingdomkeys.item.ICreativeTab;
 import online.kingdomkeys.kingdomkeys.item.ModComponents;
+import online.kingdomkeys.kingdomkeys.lib.ModTags;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.RoomType;
 
@@ -29,9 +30,15 @@ public class MapCardItem extends Item implements ICreativeTab {
     private final Supplier<RoomType> type;
     boolean hasRandomValue;
     private KeycardType keycardType;
+    private boolean wip;
 
     public MapCardItem(Supplier<RoomType> type, CardCategory category) {
+        this(type, category, false);
+    }
+
+    public MapCardItem(Supplier<RoomType> type, CardCategory category, boolean wip) {
         super(new Properties().fireResistant());
+        this.wip = wip;
         this.type = type;
         this.category = category;
         this.hasRandomValue = true;
@@ -99,6 +106,9 @@ public class MapCardItem extends Item implements ICreativeTab {
 
     @Override
     public void appendHoverText(ItemStack pStack, TooltipContext tooltipContext, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
+        if (wip) {
+            pTooltipComponents.add(Component.translatable("DOES NOT WORK YET").withStyle(ChatFormatting.RED));
+        }
         if (type != null && hasRandomValue) {
             RoomType inst = type.get();
             pTooltipComponents.add(Component.translatable("Size: " + inst.getSize().getStars()).withStyle(ChatFormatting.YELLOW));
@@ -110,5 +120,9 @@ public class MapCardItem extends Item implements ICreativeTab {
     @Override
     public Tab getTab() {
         return Tab.CARDS;
+    }
+
+    public boolean isWIP() {
+        return wip;
     }
 }

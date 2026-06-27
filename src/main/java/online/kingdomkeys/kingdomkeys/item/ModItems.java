@@ -1025,22 +1025,22 @@ public class ModItems {
 			teemingDarkness = createMapCard(Strings.TeemingDarkness, ModRoomTypes.TEEMING_DARKNESS, CardCategory.RED),
 			feebleDarkness = createMapCard(Strings.FeebleDarkness, ModRoomTypes.FEEBLE_DARKNESS, CardCategory.RED),
 			almightyDarkness = createMapCard(Strings.AlmightyDarkness, ModRoomTypes.ALMIGHTY_DARKNESS, CardCategory.RED),
-			sleepingDarkness = createMapCard(Strings.SleepingDarkness, ModRoomTypes.SLEEPING_DARKNESS, CardCategory.RED),
+			sleepingDarkness = createMapCard(Strings.SleepingDarkness, ModRoomTypes.SLEEPING_DARKNESS, CardCategory.RED, true),
 			loomingDarkness = createMapCard(Strings.LoomingDarkness, ModRoomTypes.LOOMING_DARKNESS, CardCategory.RED),
 			bottomlessDarkness = createMapCard(Strings.BottomlessDarkness, ModRoomTypes.BOTTOMLESS_DARKNESS, CardCategory.RED),
 			martialWaking = createMapCard(Strings.MartialWaking, ModRoomTypes.MARTIAL_WAKING, CardCategory.GREEN),
-			sorcerousWaking = createMapCard(Strings.SorcerousWaking, ModRoomTypes.SORCEROUS_WAKING, CardCategory.GREEN),
-			alchemicWaking = createMapCard(Strings.AlchemicWaking, ModRoomTypes.ALCHEMIC_WAKING, CardCategory.GREEN),
+			sorcerousWaking = createMapCard(Strings.SorcerousWaking, ModRoomTypes.SORCEROUS_WAKING, CardCategory.GREEN, true),
+			alchemicWaking = createMapCard(Strings.AlchemicWaking, ModRoomTypes.ALCHEMIC_WAKING, CardCategory.GREEN, true),
 			stagnantSpace = createMapCard(Strings.StagnantSpace, ModRoomTypes.STAGNANT_SPACE, CardCategory.GREEN),
 			weightlessSpace = createMapCard(Strings.WeightlessSpace, ModRoomTypes.WEIGHTLESS_SPACE, CardCategory.GREEN),
-			calmBounty = createMapCard(Strings.CalmBounty, ModRoomTypes.CALM_BOUNTY, CardCategory.BLUE),
-			guardedTrove = createMapCard(Strings.GuardedTrove, ModRoomTypes.GUARDED_TROVE, CardCategory.BLUE),
-			falseBounty = createMapCard(Strings.FalseBounty, ModRoomTypes.FALSE_BOUNTY, CardCategory.BLUE),
+			calmBounty = createMapCard(Strings.CalmBounty, ModRoomTypes.CALM_BOUNTY, CardCategory.BLUE, true),
+			guardedTrove = createMapCard(Strings.GuardedTrove, ModRoomTypes.GUARDED_TROVE, CardCategory.BLUE, true),
+			falseBounty = createMapCard(Strings.FalseBounty, ModRoomTypes.FALSE_BOUNTY, CardCategory.BLUE, true),
 			momentsReprieve = createMapCard(Strings.MomentsReprieve, ModRoomTypes.MOMENTS_REPRIEVE, CardCategory.BLUE),
 			moogleRoom = createMapCard(Strings.MoogleRoom, ModRoomTypes.MOOGLE_ROOM, CardCategory.BLUE),
-			prosperousRepository = createMapCard(Strings.ProsperousRepository, ModRoomTypes.PROSPEROUS_REPOSITORY, CardCategory.BLUE),
-			treacherousRepository = createMapCard(Strings.TreacherousRepository, ModRoomTypes.TREACHEROUS_RESPOITORY, CardCategory.BLUE),
-			reposefulGrove = createMapCard(Strings.ReposefulGrove, ModRoomTypes.REPOSEFUL_GROVE, CardCategory.BLUE),
+			prosperousRepository = createMapCard(Strings.ProsperousRepository, ModRoomTypes.PROSPEROUS_REPOSITORY, CardCategory.BLUE, true),
+			treacherousRepository = createMapCard(Strings.TreacherousRepository, ModRoomTypes.TREACHEROUS_RESPOITORY, CardCategory.BLUE, true),
+			reposefulGrove = createMapCard(Strings.ReposefulGrove, ModRoomTypes.REPOSEFUL_GROVE, CardCategory.BLUE, true),
 			minglingWorlds = ITEMS.register(Strings.MinglingWorlds, MinglingWorldsMapCardItem::new),
 
 			keyOfBeginnings = createKeyCard("key_of_beginnings", ModRoomTypes.ROOM_OF_BEGINNINGS, KeycardType.BEGINNINGS),
@@ -1080,6 +1080,10 @@ public class ModItems {
 
 	private static Supplier<Item> createArmorItem(String name, Holder<ArmorMaterial> material, ArmorItem.Type slot, String textureName) {
 		return ITEMS.register(name, () -> new BaseArmorItem(material, slot, textureName));
+	}
+
+	private static Supplier<Item> createMapCard(String name, Supplier<RoomType> type, CardCategory category, boolean wip) {
+		return ITEMS.register(name, () -> new MapCardItem(type, category, wip));
 	}
 
 	private static Supplier<Item> createMapCard(String name, Supplier<RoomType> type, CardCategory category) {

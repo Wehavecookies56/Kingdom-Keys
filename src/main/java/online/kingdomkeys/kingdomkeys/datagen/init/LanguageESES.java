@@ -2314,7 +2314,7 @@ public class LanguageESES extends KKLanguageProvider {
         add("co.category.special", "ESPECIAL");
         add("co.category.any", "CUALQUIERA");
 
-        add("co.door_succeed","");
+        add("co.door_succeed","Domina las cartas y ábrete camino por el castillo. De ahora en adelante tendrás que apañártelas solo.");
         add("co.door_failed","Sujeta la carta ante ti. La puerta se abrirá y tras ella un nuevo mundo");
 
         //Biomes

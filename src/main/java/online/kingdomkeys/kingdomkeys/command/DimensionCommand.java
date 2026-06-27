@@ -90,6 +90,8 @@ public class DimensionCommand extends BaseCommand {
 				player.getInventory().add(nineRedCard);
 				player.getInventory().add(nineGreenCard);
 				player.getInventory().add(nineBlueCard);
+				player.getInventory().add(new ItemStack(ModItems.keyOfGuidance.get()));
+				player.getInventory().add(new ItemStack(ModItems.keyToTruth.get()));
 				return new BlockPos(-6, 90, 8);
 			} else {
 				return new BlockPos(-2, 90, -167);

@@ -266,8 +266,8 @@ public class MenuScreen extends MenuBackground {
 					guiGraphics.setColor(0.1F, 0.4F, 0.9F, 1);
 				} else if (roomData.getType() == RoomData.Type.ENCOUNTER) {
 					guiGraphics.setColor(0.95F, 0.7F, 0.2F, 1);
-				} else if (roomData.getGenerated() == null) {
-					guiGraphics.setColor(0.8F, 0.7F, 0.2F, 1);
+				} else if (roomData.getGenerated().isEmpty()) {
+					guiGraphics.setColor(0.31F, 0.31F, 0.27F, 1);
 				} else if (isCurrent) {
 					guiGraphics.setColor(0.2F, 0.9F, 1F, 1);
 				} else {

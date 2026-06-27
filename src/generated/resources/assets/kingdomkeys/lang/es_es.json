@@ -713,7 +713,7 @@
   "co.criteria_lesser": "Condición: Una carta de valor %s o inferior.",
   "co.criteria_total": "Condición: Cartas para sumar un totaL de %s o superior.",
   "co.door_failed": "Sujeta la carta ante ti. La puerta se abrirá y tras ella un nuevo mundo",
-  "co.door_succeed": "",
+  "co.door_succeed": "Domina las cartas y ábrete camino por el castillo. De ahora en adelante tendrás que apañártelas solo.",
   "co.enemies": "ENEMIGOS",
   "co.room_size": "TAMAÑO ESTANCIA",
   "container.gummi_hangar": "Hangar Gummi",
