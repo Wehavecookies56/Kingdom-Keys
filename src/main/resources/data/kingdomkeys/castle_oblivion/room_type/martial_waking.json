@@ -5,5 +5,8 @@
     "type": "M",
     "number_of_enemies": 8,
     "simultaneous_enemies": 3
-  }
+  },
+  "modifiers": [
+    "kingdomkeys:strength"
+  ]
 }

@@ -5,5 +5,8 @@
     "type": "M",
     "number_of_enemies": 10,
     "simultaneous_enemies": 4
-  }
+  },
+  "modifiers": [
+    "kingdomkeys:swiftness"
+  ]
 }

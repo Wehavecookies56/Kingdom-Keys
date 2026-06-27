@@ -304,11 +304,7 @@ public class Room {
                     for (int y = 0; y < height; y++) {
                         for (int x = 0; x < depth+1; x++) {
                             pos.set(position.getX() + x, position.getY() + y, position.getZ() + z);
-
-                            if (level.getBlockState(pos).getBlock() != Blocks.AIR) {
-                                level.setBlock(pos, Blocks.AIR.defaultBlockState(), 2);
-                                KingdomKeys.LOGGER.debug("replacing non air with air");
-                            }
+                            level.setBlock(pos, Blocks.AIR.defaultBlockState(), 2);
                         }
                     }
                 }
