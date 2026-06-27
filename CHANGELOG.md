@@ -6,59 +6,18 @@
   * Slow spell: Bought in the shop at tier C onwards.
 * Command Menu Attack submenu, for spells that are defined as physical (only for addons right now).
 * New melding recipe for Crawling Fire / Firaga Burst: Firaga + Slow.
+* Castle Oblivion system is now officially added an no longer in super WIP mode it is however, not complete:
+  * A single entrance structure generates in the overworld to open the door you need a World Card currently the only one obtainable is the Plains one which is crafted by a Biome Memory + Empty Card.
+  * Biome Memories are a rare drop from mobs in the specific biome for that memory so to get a Plains Biome Memory you need to kill mobs in a Plains biome.
+  * Once you enter the castle through the front entrance you can use the Plains Card on the door at the end of the Entrance Hall to generate the first floor. Currently the Plains floor is the only one implement more are to come.
+  * Opening doors requires Map Cards which you can get from killing mobs spawned within the castle. Rooms have a limited number of spawns and some rooms do not spawn mobs.
+  * When you use a card to open a door it will generate a new room with different properties depending on the card you use. Note not all cards have been implemented yet.
+  * You can change the type of already generated rooms by using another card on the open door which will completely regenerate the room with the new type
+  * Every floor has 3 key rooms which have multiple criteria and require a Keycard. These rooms have encounters with waves of heartless spawns after defeating all of them the doors will be unlocked and the next Keycard is granted and in the final one, Room of Truth, the door leading to Conqueror's Respite opens to then take you to the next floor as there is only one World Card implemented as of now this is as far as you can progress
+  * The system is highly customisable through data packs
+  * The majority of Plains rooms were built by the talented VentusJS absolute legend and lifesaver.
 ## Changed:
 * Creative menu tabs all merged back into one with sub categories.
 * Magnet visuals reworked with a ring of electricity similar to it's BBS style.
 * Shadows, Mega Shadows and Gigas Shadows will now transition in and out the ground smoothly.
-
-# 2.7.13b:
-## Added:
-* New Magics:
-  * Faith (reworked from ReMind): Meldable with Aeroga + Curaga.
-  * Triple Plasma: Meldable with Thundaga Shot + Thundaga Shot.
-  * Bind: Bought in the shop at tier C onwards. 
-  * Ignite: Meldable with Fire + Bind.
-## Fixed:
-* Status menu overlapping Form level and choice.
-* Magics not being able to be used again if MP Recharge was completed while the submenu was open the first time.
-* Drive forms menu being accessible in addons before learning any visible form (crashing the game).
-* Status menu Choice not being localized for translations.
-
-# 2.7.13a:
-## Added:
-* Config option to revert the magic cost system change to what it was before.
-* A box in the Status screen to display the SOA choice.
-* A new button to the Melding screen to filter only available melding combinations.
-* Now magics increase their damage as they level up.
-* New Magics:
-  * Deep Freeze: Meldable with Blizzaga + Triple Blizzaga.
-  * Glacier: Meldable with Blizzaga + Deep Freeze / Triple Blizzaga + Deep Freeze.
-  * Ported over from ReMind (Thanks to Xephiro)
-    * Balloon: Melded with Water + Gravity.
-    * Balloonra: Melded with Watera + Gravira / Balloon + Balloon.
-    * Balloonga: Melded with Waterga + Graviga / Balloonra + Balloonra.
-    * Spark: Melded with Thunder + Magnet.
-    * Sparkra: Melded with Thundara + Magnera / Spark + Spark.
-    * Sparkga: Melded with Thundaga + Magnega / Sparkra + Sparkra.
-    * Mine Shield: Meldable with Fira + Zero Gravity.
-    * Mine Square: Meldable with Fira + Stop.
-    * Seeker Mine: Meldable with Mine Shield + Magnega / Mine Square + Magnega / Mine Shield + Mine Square.
-    * Warp: Meldable with the same recipes as Zero Gravira (10%) and Zero Gravira (20%).
-    * Esuna: Bought in the shop at tier C onwards.
-* New buy sound.
-* Basic magics to the shop at tiers B and A.
-* New crafting recipe to combine 8 recipes skipping 2 tiers (8 D-Tier into an A-Tier recipe).
-* Simulated magic cursor memory for command menu.
-
-## Changed:
-* Magics can now be casted even if your Max MP is lower.
-* Normal and Warp Savepoints will now register the destination point as player respawn instead of the source one. 
-* Recipes will now stack up to 64.
-
-## Fixed:
-* Some entities using the new fire texture.
-* Fire texture flickering and rendering badly when there's water or clouds behind it.
-* Patchouli Journal saying you lose upgrades when breaking savepoints (Used to be the case, not anymore). 
-* Lock on will now lock off if the target's HP reaches 0 (helps on servers with CNPC where mobs still exist).
-* Magics in the Screen to hide them will display their proper level (Fire/fira/Firaga).
-* Scroll jumping when sleecting something on the melding screen.
+* Moogles now bob up and down giving a bit of life to them.
