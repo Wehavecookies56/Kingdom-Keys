@@ -149,10 +149,10 @@ public class EntityEvents {
 		if (level.dimension() != Level.OVERWORLD)
 			return;
 
-		if (event.getChunk().getPos().x != 6 || event.getChunk().getPos().z != 7)
+		if (event.getChunk().getPos().x != 13 || event.getChunk().getPos().z != 7)
 			return;
 
-		ChunkPos chunkPos = new ChunkPos(6, 7);
+		ChunkPos chunkPos = new ChunkPos(13, 7);
 		if (!level.hasChunk(chunkPos.x, chunkPos.z))
 			return;
 
@@ -176,7 +176,10 @@ public class EntityEvents {
 
 		ServerLevel level = event.getServer().overworld();
 
-		int y = level.getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, 96 + 16, 112 + 16);
+		int x = 208;
+		int z = 112;
+
+		int y = level.getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, x + 16, z + 16);
 
 		if (y <= level.getMinBuildHeight()) {
 			KingdomKeys.LOGGER.info("Attempted to place too early, delaying placement");
@@ -184,14 +187,14 @@ public class EntityEvents {
 			return;
 		}
 
-		if(generateMiniCO(level)) {
+		if(generateMiniCO(level, x, z)) {
 			WorldData worldData = WorldData.get(level.getServer());
 			worldData.setMiniCOGenerated(true);
 			pendingTicks = -1;
 		}
 	}
 
-	private static boolean generateMiniCO(ServerLevel level) {
+	private static boolean generateMiniCO(ServerLevel level, int x, int z) {
 		StructureTemplate template = level.getStructureManager().get(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "castle_oblivion/mini_co")).orElse(null);
 
 		if (template == null) {
@@ -199,16 +202,13 @@ public class EntityEvents {
 			return false;
 		}
 
-		int fixedX = 96;
-		int fixedZ = 112;
-
 		Vec3i size = template.getSize();
 
-		int centerX = fixedX + size.getX() / 2;
-		int centerZ = fixedZ + size.getZ() / 2;
+		int centerX = x + size.getX() / 2;
+		int centerZ = z + size.getZ() / 2;
 		int y = level.getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, centerX, centerZ) - 2;
 
-		BlockPos origin = new BlockPos(fixedX, y, fixedZ);
+		BlockPos origin = new BlockPos(x, y, z);
 
 		StructurePlaceSettings settings = new StructurePlaceSettings().setMirror(Mirror.NONE).setRotation(Rotation.NONE).setIgnoreEntities(true);
 
