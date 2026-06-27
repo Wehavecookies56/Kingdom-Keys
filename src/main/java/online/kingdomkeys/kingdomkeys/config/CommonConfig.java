@@ -24,6 +24,9 @@ public class CommonConfig {
 
     public ModConfigSpec.ConfigValue<List<? extends String>> playerSpawnHeartlessData;
     public ModConfigSpec.ConfigValue<List<? extends String>> startingRecipes;
+
+    public ModConfigSpec.BooleanValue generateCOEntrance;
+    public ModConfigSpec.IntValue coEntranceChunkX, coEntranceChunkZ;
     
     CommonConfig(final ModConfigSpec.Builder builder) {
 		builder.push("general");
@@ -62,6 +65,21 @@ public class CommonConfig {
                 .comment("When enabled players wearing the whole Organization XIII set will not show their playername on their head and in the Tab menu")
                 .translation(KingdomKeys.MODID + ".config.hide_org_names")
                 .define("hideOrgNames", true);
+
+        generateCOEntrance = builder
+                .comment("Generates the structure to enter Castle Oblivion")
+                .translation(KingdomKeys.MODID + ".config.generate_co_entrance")
+                .define("generateCOEntrance", true);
+
+        coEntranceChunkX = builder
+                .comment("Chunk X Co-ord to generate Castle Oblivion entrance")
+                .translation(KingdomKeys.MODID + ".config.co_entrance_chunk_x")
+                .defineInRange("coEntranceChunkX", 13, 0, 1000);
+
+        coEntranceChunkZ = builder
+                .comment("Chunk Z Co-ord to generate Castle Oblivion entrance")
+                .translation(KingdomKeys.MODID + ".config.co_entrance_chunk_z")
+                .defineInRange("coEntranceChunkZ", 7, 0, 1000);
 
         builder.pop();
 

@@ -317,12 +317,12 @@ public class ModConfigs {
         hiddenMagic = CLIENT.hiddenMagic.get();
     }
 
-    public static boolean bombExplodeWithfire, keybladeOpenDoors, mobLevelingUp, playerSpawnHeartless,blizzardChangeBlocks, bossDespawnIfNoTarget, respawnROD, needKeybladeForHeartless, mobLevelName, allowBlocksInHangarArea, hideOrgNames;
+    public static boolean bombExplodeWithfire, keybladeOpenDoors, mobLevelingUp, playerSpawnHeartless,blizzardChangeBlocks, bossDespawnIfNoTarget, respawnROD, needKeybladeForHeartless, mobLevelName, allowBlocksInHangarArea, hideOrgNames, generateCOEntrance;
 
     public static SpawningMode heartlessSpawningMode;
     public static List<String> mobSpawnRate;
 
-    public static int driveHeal, hpDropProbability, mpDropProbability, munnyDropProbability, driveDropProbability, focusDropProbability, gummiBlocksDropPercent, recipeDropChance, biomeMemoryDropChance;
+    public static int driveHeal, hpDropProbability, mpDropProbability, munnyDropProbability, driveDropProbability, focusDropProbability, gummiBlocksDropPercent, recipeDropChance, biomeMemoryDropChance, coEntranceChunkX, coEntranceChunkZ;
 
     public static double shotlockMult, critMult, drivePointsMultiplier, focusPointsMultiplier, fuelConsumeFactor;
 
@@ -375,6 +375,10 @@ public class ModConfigs {
         hideOrgNames = COMMON.hideOrgNames.get();
 
         fuelConsumeFactor = COMMON.fuelConsumeFactor.get();
+
+        generateCOEntrance = COMMON.generateCOEntrance.get();
+        coEntranceChunkX = COMMON.coEntranceChunkX.get();
+        coEntranceChunkZ = COMMON.coEntranceChunkZ.get();
     }
 
     @SubscribeEvent
