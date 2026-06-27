@@ -4,6 +4,5 @@
   "dimensions": [ 48, 48 ],
   "categories": [
     "ENEMY", "STATUS", "BOUNTY"
-  ],
-  "floor": "kingdomkeys:plains"
+  ]
 }

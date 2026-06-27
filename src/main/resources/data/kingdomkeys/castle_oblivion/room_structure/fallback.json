@@ -1,9 +1,10 @@
 {
-  "structure": "small_3",
+  "structure": "fallback_room",
   "size": "S",
   "dimensions": [ 32, 32 ],
   "categories": [
     "ENEMY", "STATUS", "BOUNTY"
   ],
-  "floor": "kingdomkeys:plains"
+  "floor_specific_structure": false,
+  "fallback": true
 }

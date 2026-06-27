@@ -25,11 +25,13 @@ public class RoomStructure extends JsonRegistryObject {
     //categories compatible with
     private final List<RoomCategory> categories;
     //floor compatible with, null if any
-    @Nullable private final ResourceLocation floor;
-    //structure x and z dimensions ignoring y
+    private final boolean floorSpecificStructure;
+    //structure x and z dimensions ignoring y //TODO remove and just get nbt structure dimensions
     RoomDimensions dimensions;
     //whitelist specific rooms if empty no whitelist
     private final List<ResourceLocation> roomWhitelist;
+    //fallback room will not be generated when searching for compatible structures
+    private final boolean fallback;
 
     @Nullable String entranceDoor;
     @Nullable String exitDoor;
@@ -39,24 +41,26 @@ public class RoomStructure extends JsonRegistryObject {
                 Codec.STRING.fieldOf("structure").forGetter(RoomStructure::getPath),
                 StringRepresentable.fromEnum(RoomSize::values).fieldOf("size").forGetter(RoomStructure::getSize),
                 StringRepresentable.fromEnum(RoomCategory::values).listOf().fieldOf("categories").forGetter(RoomStructure::getCategories),
-                ResourceLocation.CODEC.optionalFieldOf("floor").forGetter(o -> Optional.ofNullable(o.floor)),
+                Codec.BOOL.optionalFieldOf("floor_specific_structure").forGetter(o -> Optional.of(o.floorSpecificStructure)),
                 RoomDimensions.CODEC.fieldOf("dimensions").forGetter(RoomStructure::getDimensions),
                 ResourceLocation.CODEC.listOf().optionalFieldOf("white_list").forGetter(o -> Optional.ofNullable(o.roomWhitelist)),
                 Codec.STRING.optionalFieldOf("entrance_door").forGetter(o -> Optional.ofNullable(o.entranceDoor)),
-                Codec.STRING.optionalFieldOf("exit_door").forGetter(o -> Optional.ofNullable(o.exitDoor))
+                Codec.STRING.optionalFieldOf("exit_door").forGetter(o -> Optional.ofNullable(o.exitDoor)),
+                Codec.BOOL.optionalFieldOf("fallback").forGetter(o -> Optional.of(o.fallback))
                 ).apply(roomStructureInstance, RoomStructure::new)
     );
 
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-    private RoomStructure(String path, RoomSize size, List<RoomCategory> categories, Optional<ResourceLocation> floor, RoomDimensions dimensions, Optional<List<ResourceLocation>> roomWhitelist, Optional<String> entranceDoor, Optional<String> exitDoor) {
+    private RoomStructure(String path, RoomSize size, List<RoomCategory> categories, Optional<Boolean> floorSpecificStructure, RoomDimensions dimensions, Optional<List<ResourceLocation>> roomWhitelist, Optional<String> entranceDoor, Optional<String> exitDoor, Optional<Boolean> fallback) {
         this.path = path;
         this.size = size;
         this.categories = categories;
-        this.floor = floor.orElse(null);
+        this.floorSpecificStructure = floorSpecificStructure.orElse(true);
         this.dimensions = dimensions;
         this.roomWhitelist = roomWhitelist.orElse(new ArrayList<>());
         this.entranceDoor = entranceDoor.orElse(null);
         this.exitDoor = exitDoor.orElse(null);
+        this.fallback = fallback.orElse(false);
     }
 
     public record RoomDimensions(int width, int depth) {
@@ -70,12 +74,12 @@ public class RoomStructure extends JsonRegistryObject {
         return roomWhitelist.stream().map(resourceLocation -> ModRoomTypes.registry.get().getValue(resourceLocation)).toList();
     }
 
-    public FloorType getFloor() {
-        if (floor != null) {
-            return ModFloorTypes.registry.get().getValue(floor);
-        } else {
-            return null;
-        }
+    public boolean useFloorSpecificStructure() {
+        return floorSpecificStructure;
+    }
+
+    public boolean isFallback() {
+        return fallback;
     }
 
     public String getPath() {

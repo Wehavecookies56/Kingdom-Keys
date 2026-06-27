@@ -74,11 +74,12 @@ public class RoomGenerator {
             }
             List<RoomStructure> possibleRooms = ModRoomStructures.getCompatibleStructures(currentFloor.getType(), newRoom.type);
             if (possibleRooms.isEmpty()) {
-                throw new IOException(String.format("No compatible room structure files found for %s", newRoom.type.getRegistryName()));
+                KingdomKeys.LOGGER.warn("No compatible room structure files found for {}, using fallback room", newRoom.type.getRegistryName());
+                possibleRooms = ModRoomStructures.getFallbacks();
             }
             RoomStructure structureToGenerate = possibleRooms.get(Utils.randomWithRange(0, possibleRooms.size()-1));
             KingdomKeys.LOGGER.debug("Found {} compatible structures, {} selected", possibleRooms.size(), structureToGenerate.getRegistryName());
-            String floorFolder = structureToGenerate.getFloor() == null ? "all" : structureToGenerate.getFloor().getRegistryName().getPath();
+            String floorFolder = !structureToGenerate.useFloorSpecificStructure() ? "all" : currentFloor.getType().getRegistryName().getPath();
             ResourceLocation structureFile = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "structure/castle_oblivion/rooms/" + floorFolder + "/" + structureToGenerate.getPath() + ".nbt");
             Resource resource = level.getServer().getResourceManager().getResource(structureFile).orElseThrow(IOException::new);
             KingdomKeys.LOGGER.debug("Generating structure file {}", structureFile);

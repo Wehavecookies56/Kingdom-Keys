@@ -4,6 +4,5 @@
   "dimensions": [ 24, 24 ],
   "categories": [
     "ENCOUNTER"
-  ],
-  "floor": "kingdomkeys:plains"
+  ]
 }

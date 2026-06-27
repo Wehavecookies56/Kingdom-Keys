@@ -1,9 +1,8 @@
 {
-  "structure": "large_3",
+  "structure": "large_1",
   "size": "L",
   "dimensions": [ 64, 64 ],
   "categories": [
     "ENEMY", "STATUS", "BOUNTY"
-  ],
-  "floor": "kingdomkeys:plains"
+  ]
 }

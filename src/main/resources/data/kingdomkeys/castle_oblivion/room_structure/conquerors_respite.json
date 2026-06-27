@@ -8,7 +8,6 @@
   "white_list": [
     "kingdomkeys:conquerors_respite"
   ],
-  "floor": "kingdomkeys:plains",
   "entrance_door": "west",
   "exit_door": "south"
 }

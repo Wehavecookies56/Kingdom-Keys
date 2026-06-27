@@ -1,9 +1,8 @@
 {
-  "structure": "medium_3",
+  "structure": "medium_1",
   "size": "M",
   "dimensions": [ 48, 48 ],
   "categories": [
     "ENEMY", "STATUS", "BOUNTY"
-  ],
-  "floor": "kingdomkeys:plains"
+  ]
 }

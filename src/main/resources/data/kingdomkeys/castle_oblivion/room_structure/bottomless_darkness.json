@@ -5,6 +5,7 @@
   "categories": [
     "ENEMY"
   ],
+  "floor_specific_structure": false,
   "white_list": [
     "kingdomkeys:bottomless_darkness"
   ]

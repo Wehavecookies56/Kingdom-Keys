@@ -3,12 +3,12 @@ package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.ro
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NbtUtils;
+import net.minecraft.nbt.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EntityType;
@@ -32,6 +32,7 @@ import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.reg
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModRoomTypes;
 
 import javax.annotation.Nullable;
+import java.io.IOException;
 import java.util.*;
 
 public class Room {
@@ -282,13 +283,32 @@ public class Room {
         if (parent != null) {
             if (!shouldRoomTick(getPlayersInRoom(level.getServer(), this))) {
                 BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos(position.getX(), position.getY(), position.getZ());
-                //TODO kill entities
-                KingdomKeys.LOGGER.debug(pos);
-                for (int z = 0; z < structure.getWidth()+1; z++) {
-                    for (int y = 0; y < 128; y++) {
-                        for (int x = 0; x < structure.getDepth()+1; x++) {
-                            pos.set(position.getX() + x, y, position.getZ() + z);
-                            level.setBlock(pos, Blocks.AIR.defaultBlockState(), 2);
+                getEntitiesInRoom(level, this).forEach(LivingEntity::kill);
+                int width = structure.getWidth();
+                int height = 128;
+                int depth = structure.getDepth();
+                try {
+                    String floorFolder = !structure.useFloorSpecificStructure() ? "all" : parent.getType().getRegistryName().getPath();
+                    ResourceLocation structureFile = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "structure/castle_oblivion/rooms/" + floorFolder + "/" + structure.getPath() + ".nbt");
+                    Resource resource = level.getServer().getResourceManager().getResource(structureFile).orElseThrow(IOException::new);
+                    KingdomKeys.LOGGER.debug("Generating structure file {}", structureFile);
+                    CompoundTag main = NbtIo.readCompressed(resource.open(), NbtAccounter.unlimitedHeap());
+                    ListTag size = main.getList("size", Tag.TAG_INT);
+                    width = size.getInt(0);
+                    height = size.getInt(1);
+                    depth = size.getInt(2);
+                } catch (IOException e) {
+                    KingdomKeys.LOGGER.error("Failed to read structure file", e.fillInStackTrace());
+                }
+                for (int z = 0; z < width+1; z++) {
+                    for (int y = 0; y < height; y++) {
+                        for (int x = 0; x < depth+1; x++) {
+                            pos.set(position.getX() + x, position.getY() + y, position.getZ() + z);
+
+                            if (level.getBlockState(pos).getBlock() != Blocks.AIR) {
+                                level.setBlock(pos, Blocks.AIR.defaultBlockState(), 2);
+                                KingdomKeys.LOGGER.debug("replacing non air with air");
+                            }
                         }
                     }
                 }
