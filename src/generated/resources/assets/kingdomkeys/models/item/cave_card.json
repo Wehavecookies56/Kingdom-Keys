@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "kingdomkeys:item/cave_card"
+    "layer0": "kingdomkeys:item/cards/cave_card"
   }
 }

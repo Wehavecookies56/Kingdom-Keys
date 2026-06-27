@@ -72,6 +72,7 @@ import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeDataLoader;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopListDataLoader;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.names.NamesListLoader;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.sell.SellListDataLoader;
+import online.kingdomkeys.kingdomkeys.world.MiniCO;
 import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.CastleOblivionHandler;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModEncounterTypes;
@@ -234,6 +235,7 @@ public class KingdomKeys {
 
 		// Server
 		NeoForge.EVENT_BUS.register(new EntityEvents());
+		NeoForge.EVENT_BUS.register(new MiniCO());
 	}
 	private void modLoaded(final FMLLoadCompleteEvent event) {
 		if (FMLEnvironment.dist.isClient()) {

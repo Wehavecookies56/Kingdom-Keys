@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "empty_card": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:ender_eye"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "kingdomkeys:empty_card"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "empty_card"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "kingdomkeys:empty_card"
+    ]
+  }
+}

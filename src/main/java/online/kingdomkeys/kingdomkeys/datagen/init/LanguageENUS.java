@@ -863,6 +863,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.keyToTruth, "Key to Truth");
         addItem(ModItems.keyToRewards, "Key to Rewards");
 
+        addItem(ModItems.emptyCard,"Empty Card");
         addItem(ModItems.plainsCard,"Plains Card");
         addItem(ModItems.theNetherCard,"The Nether Card");
         addItem(ModItems.theEndCard,"The End Card");
@@ -876,6 +877,8 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.mushroomFieldsCard,"Mushroom Fields Card");
         addItem(ModItems.forestCard,"Forest Card");
         addItem(ModItems.jungleCard,"Jungle Card");
+
+        addItem(ModItems.plainsMemory,"Plains Memory");
 
         //Materials
         addItem(ModItems.blazing_shard, "Blazing Shard");
@@ -2268,6 +2271,9 @@ public class LanguageENUS extends KKLanguageProvider {
         add("co.category.encounter", "ENCOUNTER");
         add("co.category.special", "SPECIAL");
         add("co.category.any", "ANY");
+
+        add("co.door_succeed","");
+        add("co.door_failed","Hold the card before you. The door will open, and beyond it a new world");
         
         //Controls
         add("key.categories.kingdomkeys", "Kingdom Keys");

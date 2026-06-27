@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "kingdomkeys:item/badlands_card"
+    "layer0": "kingdomkeys:item/cards/badlands_card"
   }
 }

@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "kingdomkeys:item/feeble_darkness"
+    "layer0": "kingdomkeys:item/cards/feeble_darkness"
   }
 }

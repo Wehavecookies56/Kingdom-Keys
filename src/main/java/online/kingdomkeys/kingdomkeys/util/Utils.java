@@ -20,6 +20,7 @@ import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundPlayerInfoRemovePacket;
 import net.minecraft.network.protocol.game.ClientboundPlayerInfoUpdatePacket;
 import net.minecraft.network.protocol.game.ClientboundRemoveMobEffectPacket;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.FullChunkStatus;
@@ -52,6 +53,8 @@ import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.item.enchantment.ItemEnchantments;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.Rotation;
@@ -908,7 +911,7 @@ public class Utils {
 
 	public static String getRCNameFromIndex(Player player, int reactionSelected) {
 		int index = 0;
-		for (Map.Entry<String, Integer> entry : PlayerData.get(player).getReactionCommands().entrySet()) {
+		for (Entry<String, Integer> entry : PlayerData.get(player).getReactionCommands().entrySet()) {
 			if(index == reactionSelected) {
 				return entry.getKey();
 			}
@@ -926,7 +929,7 @@ public class Utils {
 		if (equippedMagics.isEmpty())
 			return result;
 
-		for (Map.Entry<Integer, ItemStack> entry : equippedMagics.entrySet()) {
+		for (Entry<Integer, ItemStack> entry : equippedMagics.entrySet()) {
 			if (entry.getKey() >= maxMagics)
 				break;
 
@@ -945,7 +948,7 @@ public class Utils {
 	public static int getMagicSlotFromNameAndLevel(Map<Integer, ItemStack> equippedMagics, String commandMagicName) {
 		if (equippedMagics.isEmpty()) return -1;
 
-		for (Map.Entry<Integer, ItemStack> entry : equippedMagics.entrySet()) {
+		for (Entry<Integer, ItemStack> entry : equippedMagics.entrySet()) {
 			ItemStack stack = entry.getValue();
 			if (!stack.isEmpty() && stack.getItem() instanceof MagicSpellItem spell) {
 				if (spell.getMagic().equals(commandMagicName)) {
@@ -960,7 +963,7 @@ public class Utils {
 		if (equippedMagics.isEmpty()) return -1;
 
 		int level = -1;
-		for (Map.Entry<Integer, ItemStack> entry : equippedMagics.entrySet()) {
+		for (Entry<Integer, ItemStack> entry : equippedMagics.entrySet()) {
 			ItemStack stack = entry.getValue();
 			if (!stack.isEmpty() && stack.getItem() instanceof MagicSpellItem spell) {
 				if (spell.getMagic().equals(commandMagicName)) {
@@ -997,6 +1000,17 @@ public class Utils {
 			player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.levelup.get(), SoundSource.MASTER, 0.5f, 1.0f);
 			PacketHandler.sendTo(new SCShowOverlayPacket("levelup", player.getUUID(), player.getGameProfile().getName(), playerData.getLevel(), playerData.getNotifColor(), leveledMagics), (ServerPlayer) player);
 		}
+	}
+
+	private static final Map<ResourceKey<Biome>, Item> MEMORY_BY_BIOME = Map.of(
+			Biomes.PLAINS, ModItems.plainsMemory.get()
+			//Biomes.DESERT, ModItems.desertCard,
+			//Biomes.FOREST, ModItems.forestCard,
+			//Biomes.JUNGLE, ModItems.jungleCard
+	);
+
+	public static Item getMemoryFromBiome(Holder<Biome> biome) {
+		return biome.unwrapKey().map(MEMORY_BY_BIOME::get).orElse(null);
 	}
 
 	public static class Title {

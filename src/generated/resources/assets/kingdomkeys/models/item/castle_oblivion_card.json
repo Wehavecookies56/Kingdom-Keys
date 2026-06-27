@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "kingdomkeys:item/castle_oblivion_card"
+    "layer0": "kingdomkeys:item/cards/castle_oblivion_card"
   }
 }

@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "kingdomkeys:item/key_to_truth"
+    "layer0": "kingdomkeys:item/cards/key_to_truth"
   }
 }

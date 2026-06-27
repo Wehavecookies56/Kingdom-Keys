@@ -1546,6 +1546,8 @@ public class Strings {
 			WeightlessSpace = "weightless_space";
 
 	//World Cards
+	public static String EmptyCard = "empty_card";
+
 	public static String
 			PlainsCard = "plains_card",
 			TheNetherCard = "the_nether_card",
@@ -1560,4 +1562,20 @@ public class Strings {
 			ForestCard = "forest_card",
 			SwampCard = "swamp_card",
 			BadlandsCard = "badlands_card";
+
+	//Biome Memories
+	public static String
+			PlainsMemory = "plains_memory",
+			TheNetherMemory = "the_nether_memory",
+			TheEndMemory = "the_end_memory",
+			CastleOblivionMemory = "castle_oblivion_memory",
+			DesertMemory = "desert_memory",
+			JungleMemory = "jungle_memory",
+			OceanMemory = "ocean_memory",
+			CaveMemory = "cave_memory",
+			SnowyMemory = "snowy_memory",
+			MushroomFieldsMemory = "mushroom_fields_memory",
+			ForestMemory = "forest_memory",
+			SwampMemory = "swamp_memory",
+			BadlandsMemory = "badlands_memory";
 }

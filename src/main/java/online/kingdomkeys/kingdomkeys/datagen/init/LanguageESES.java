@@ -1267,6 +1267,7 @@ public class LanguageESES extends KKLanguageProvider {
         addItem(ModItems.keyToTruth, "Llave a la Verdad");
         addItem(ModItems.keyToRewards, "Llave Recompensa");
 
+        addItem(ModItems.emptyCard,"Carta Vacía");
         addItem(ModItems.plainsCard,"Carta de Llanuras");
         addItem(ModItems.theNetherCard,"Carta del Nether");
         addItem(ModItems.theEndCard,"Carta del Fín");
@@ -1280,6 +1281,8 @@ public class LanguageESES extends KKLanguageProvider {
         addItem(ModItems.mushroomFieldsCard,"Carta de Campo de Champiñones");
         addItem(ModItems.forestCard,"Carta de Bosque");
         addItem(ModItems.jungleCard,"Carta de Jungla");
+
+        addItem(ModItems.plainsMemory,"Evocación de Llanuras");
 
         //Synthesis materials
         addItem(ModItems.blazing_shard, "Guijarro \u00edgneo");
@@ -2310,6 +2313,9 @@ public class LanguageESES extends KKLanguageProvider {
         add("co.category.encounter", "ENCUENTRO");
         add("co.category.special", "ESPECIAL");
         add("co.category.any", "CUALQUIERA");
+
+        add("co.door_succeed","");
+        add("co.door_failed","Sujeta la carta ante ti. La puerta se abrirá y tras ella un nuevo mundo");
 
         //Biomes
         add("biome.kingdomkeys.dive_to_the_heart", "Descenso al Coraz\u00f3n");

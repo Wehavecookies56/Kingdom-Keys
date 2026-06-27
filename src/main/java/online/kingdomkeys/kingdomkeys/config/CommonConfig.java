@@ -18,7 +18,7 @@ public class CommonConfig {
     public ModConfigSpec.EnumValue<SpawningMode> heartlessSpawningMode;
     public ModConfigSpec.ConfigValue<List<? extends String>> mobSpawnRate;
 
-    public ModConfigSpec.IntValue rodHeartlessLevelScale, rodHeartlessMaxLevel, driveHeal, recipeDropChance, gummiBlocksDropPercent, hpDropProbability, mpDropProbability, munnyDropProbability, driveDropProbability, focusDropProbability, mobLevelStats;
+    public ModConfigSpec.IntValue rodHeartlessLevelScale, rodHeartlessMaxLevel, driveHeal, recipeDropChance, biomeMemoryDropChance, gummiBlocksDropPercent, hpDropProbability, mpDropProbability, munnyDropProbability, driveDropProbability, focusDropProbability, mobLevelStats;
     public ModConfigSpec.BooleanValue respawnROD, mobLevelingUp, mobLevelName, bombExplodeWithFire, allowBlocksInHangarArea, keybladeOpenDoors, blizzardChangeBlocks, playerSpawnHeartless, bossDespawnIfNoTarget, needKeybladeForHeartless, hideOrgNames;
     public ModConfigSpec.DoubleValue drivePointsMultiplier, focusPointsMultiplier, shotlockMult, critMult, fuelConsumeFactor;
 
@@ -125,6 +125,11 @@ public class CommonConfig {
                 .comment("Recipe drop chance")
                 .translation(KingdomKeys.MODID + ".config.recipe_drop_chance")
                 .defineInRange("recipeDropChance", 2, 0, 100);
+
+        biomeMemoryDropChance = builder
+                .comment("Biome Memory drop chance")
+                .translation(KingdomKeys.MODID + ".config.biome_memory_drop_chance")
+                .defineInRange("biomeMemoryDropChance", 1, 0, 100);
 
         builder.push("spawning");
         heartlessSpawningMode = builder

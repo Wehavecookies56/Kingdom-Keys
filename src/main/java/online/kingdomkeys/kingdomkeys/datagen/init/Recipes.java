@@ -42,6 +42,22 @@ public class Recipes extends RecipeProvider {
 
 	@Override
 	protected void buildRecipes(RecipeOutput consumer, HolderLookup.Provider holderLookup) {
+		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.emptyCard.get())
+				.define('P', Items.PAPER)
+				.define('E', Items.ENDER_EYE)
+				.pattern("PPP")
+				.pattern("PEP")
+				.pattern("PPP")
+				.group("kingdomkeys")
+				.unlockedBy("empty_card", InventoryChangeTrigger.TriggerInstance.hasItems(Items.ENDER_EYE))
+				.save(consumer);
+
+		ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.plainsCard.get())
+				.requires(ModItems.emptyCard.get())
+				.requires(ModItems.plainsMemory.get())
+				.unlockedBy("plains_card", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.plainsMemory.get()))
+				.save(consumer);
+
 		ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModBlocks.magicTarget.get())
 				.requires(Blocks.TARGET)
 				.requires(Blocks.REDSTONE_BLOCK)

@@ -43,6 +43,7 @@ public class ModTags {
             SYNTHESIS_MATERIAL = bind("synthesis_material"),
             MAP_CARD = bind("map_card"),
             KEY_CARD = bind("key_card"),
+            BIOME_MEMORY = bind("biome_memory"),
 
             GUMMI_BLOCK_CUBE = bind("gummi_block_cube"),
             GUMMI_BLOCK_WEDGE = bind("gummi_block_wedge"),

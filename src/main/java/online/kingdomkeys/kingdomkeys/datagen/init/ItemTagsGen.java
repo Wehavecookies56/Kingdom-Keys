@@ -11,6 +11,7 @@ import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.item.*;
+import online.kingdomkeys.kingdomkeys.item.card.BiomeMemoryItem;
 import online.kingdomkeys.kingdomkeys.item.card.CardCategory;
 import online.kingdomkeys.kingdomkeys.item.card.MapCardItem;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
@@ -148,6 +149,10 @@ public class ItemTagsGen extends ItemTagsProvider {
 				} else {
 					add(KEY_CARD, item);
 				}
+			}
+
+			if (item instanceof BiomeMemoryItem) {
+				add(BIOME_MEMORY, item);
 			}
 
 		}

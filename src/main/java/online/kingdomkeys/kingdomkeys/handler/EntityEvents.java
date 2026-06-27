@@ -139,86 +139,6 @@ public class EntityEvents {
 		return multiplier;
 	}
 
-	private static int pendingTicks = -1;
-
-	@SubscribeEvent
-	public void onChunkLoad(ChunkEvent.Load event) {
-		if (!(event.getLevel() instanceof ServerLevel level))
-			return;
-
-		if (level.dimension() != Level.OVERWORLD)
-			return;
-
-		if (event.getChunk().getPos().x != 13 || event.getChunk().getPos().z != 7)
-			return;
-
-		ChunkPos chunkPos = new ChunkPos(13, 7);
-		if (!level.hasChunk(chunkPos.x, chunkPos.z))
-			return;
-
-		WorldData worldData = WorldData.get(level.getServer());
-
-		if (!worldData.isMiniCOGenerated() && pendingTicks < 0) {
-			KingdomKeys.LOGGER.info("Pending Mini CO");
-			pendingTicks = 40;
-		}
-	}
-
-	@SubscribeEvent
-	public void onServerTick(ServerTickEvent.Post event) {
-		if (pendingTicks < 0)
-			return;
-
-		pendingTicks--;
-
-		if (pendingTicks > 0)
-			return;
-
-		ServerLevel level = event.getServer().overworld();
-
-		int x = 208;
-		int z = 112;
-
-		int y = level.getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, x + 16, z + 16);
-
-		if (y <= level.getMinBuildHeight()) {
-			KingdomKeys.LOGGER.info("Attempted to place too early, delaying placement");
-			pendingTicks = 20;
-			return;
-		}
-
-		if(generateMiniCO(level, x, z)) {
-			WorldData worldData = WorldData.get(level.getServer());
-			worldData.setMiniCOGenerated(true);
-			pendingTicks = -1;
-		}
-	}
-
-	private static boolean generateMiniCO(ServerLevel level, int x, int z) {
-		StructureTemplate template = level.getStructureManager().get(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "castle_oblivion/mini_co")).orElse(null);
-
-		if (template == null) {
-			KingdomKeys.LOGGER.error("Mini CO template is null, couldn't find a valid nbt file in castle_oblivion/mini_co");
-			return false;
-		}
-
-		Vec3i size = template.getSize();
-
-		int centerX = x + size.getX() / 2;
-		int centerZ = z + size.getZ() / 2;
-		int y = level.getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, centerX, centerZ) - 2;
-
-		BlockPos origin = new BlockPos(x, y, z);
-
-		StructurePlaceSettings settings = new StructurePlaceSettings().setMirror(Mirror.NONE).setRotation(Rotation.NONE).setIgnoreEntities(true);
-
-		KingdomKeys.LOGGER.info("About to place Mini CO");
-		boolean placed = template.placeInWorld(level, origin, origin, settings, level.random, Block.UPDATE_ALL);
-
-		KingdomKeys.LOGGER.info("Placed Mini CO = {}", placed);
-		return placed;
-	}
-
 	@SubscribeEvent
 	public void soundPlayed(PlayLevelSoundEvent.AtEntity event) {
 		if (event.getEntity() instanceof Player player && event.getSound().value().getLocation().getPath().contains("step")) {
@@ -1393,6 +1313,13 @@ public class EntityEvents {
 					}
 
 					int num = Utils.randomWithRange(0, 99);
+					if (num < ModConfigs.biomeMemoryDropChance + Utils.getLootingLevel(player)) {
+						Item biomeMemoryItem = Utils.getMemoryFromBiome(level.getBiomeManager().getBiome(new BlockPos((int)x,(int)y,(int)z)));
+						if(biomeMemoryItem != null) {
+							ItemEntity ie = new ItemEntity(player.level(), x, y, z, new ItemStack(biomeMemoryItem));
+							player.level().addFreshEntity(ie);
+						}
+					}
 					if (num < ModConfigs.recipeDropChance + Utils.getLootingLevel(player)) {
 						Item recipeTier = ModItems.recipeD.get();
 						GlobalData mobData = GlobalData.get(entity);

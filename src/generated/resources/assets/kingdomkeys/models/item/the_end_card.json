@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "kingdomkeys:item/the_end_card"
+    "layer0": "kingdomkeys:item/cards/the_end_card"
   }
 }

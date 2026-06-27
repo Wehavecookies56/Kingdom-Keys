@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "kingdomkeys:item/reposeful_grove"
+    "layer0": "kingdomkeys:item/cards/reposeful_grove"
   }
 }

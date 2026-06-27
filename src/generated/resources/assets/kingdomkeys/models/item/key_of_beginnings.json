@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "kingdomkeys:item/key_of_beginnings"
+    "layer0": "kingdomkeys:item/cards/key_of_beginnings"
   }
 }

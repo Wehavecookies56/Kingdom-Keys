@@ -7,7 +7,6 @@ import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.SwordItem;
-import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.item.card.*;
@@ -1050,7 +1049,9 @@ public class ModItems {
 			keyToRewards = createKeyCard("key_to_rewards", ModRoomTypes.ROOM_OF_REWARDS, KeycardType.REWARDS),
 
 			//floor cards
+			emptyCard = createNewItem(Strings.EmptyCard, () -> new BiomeMemoryItem(new Item.Properties())),
 			plainsCard = createWorldCard(Strings.PlainsCard, ModFloorTypes.PLAINS),
+			plainsMemory = createNewItem(Strings.PlainsMemory, () -> new BiomeMemoryItem(new Item.Properties())),
 			theNetherCard = createWorldCard(Strings.TheNetherCard, ModFloorTypes.THE_NETHER),
 			theEndCard = createWorldCard(Strings.TheEndCard, ModFloorTypes.THE_END),
 			desertCard = createWorldCard(Strings.DesertCard, ModFloorTypes.DESERT),

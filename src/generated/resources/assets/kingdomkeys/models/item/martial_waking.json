@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "kingdomkeys:item/martial_waking"
+    "layer0": "kingdomkeys:item/cards/martial_waking"
   }
 }

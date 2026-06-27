@@ -70,6 +70,7 @@ public class WorldData extends SavedData {
         storage.put("struggles", struggles);
 
         storage.putBoolean("mini_co_generated", miniCOGenerated);
+        storage.putInt("mini_co_y", miniCOY);
         return storage;
     }
 
@@ -131,6 +132,7 @@ public class WorldData extends SavedData {
         data.setParties(partiesList);
 
         data.miniCOGenerated = nbt.getBoolean("mini_co_generated");
+        data.miniCOY = nbt.getInt("mini_co_y");
         return data;
     }
 
@@ -155,6 +157,7 @@ public class WorldData extends SavedData {
 
 
     private boolean miniCOGenerated = false;
+    private int miniCOY = Integer.MIN_VALUE;
 
     public boolean isMiniCOGenerated() {
         return miniCOGenerated;
@@ -162,6 +165,15 @@ public class WorldData extends SavedData {
 
     public void setMiniCOGenerated(boolean generated) {
         this.miniCOGenerated = generated;
+        setDirty();
+    }
+
+    public int getMiniCOY() {
+        return miniCOY;
+    }
+
+    public void setMiniCOY(int y) {
+        this.miniCOY = y;
         setDirty();
     }
 

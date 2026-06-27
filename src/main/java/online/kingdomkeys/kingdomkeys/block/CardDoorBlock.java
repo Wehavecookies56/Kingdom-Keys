@@ -114,6 +114,7 @@ public class CardDoorBlock extends BaseBlock implements EntityBlock, INoDataGen 
 										te.getParentRoom().getParentFloor((ServerLevel) level).setWorldCard(item);
 										te.openDoor(true);
 										CastleOblivionHandler.createFirstRoom(player, te);
+										stack.consume(1, player);
 										return ItemInteractionResult.sidedSuccess(false);
 									}
 								}
