@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "kingdomkeys:item/magic/spellesuna"
+    "layer0": "kingdomkeys:item/magic/cure"
   }
 }

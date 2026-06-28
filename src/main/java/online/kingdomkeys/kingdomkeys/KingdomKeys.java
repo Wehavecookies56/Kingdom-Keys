@@ -72,6 +72,7 @@ import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeDataLoader;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopListDataLoader;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.names.NamesListLoader;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.sell.SellListDataLoader;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.world.MiniCO;
 import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.CastleOblivionHandler;
@@ -83,15 +84,11 @@ import online.kingdomkeys.kingdomkeys.world.structure.ModStructures;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
-import static online.kingdomkeys.kingdomkeys.item.ICreativeTab.Tab.EQUIPABLES;
-import static online.kingdomkeys.kingdomkeys.item.ICreativeTab.Tab.GUMMI;
+import static online.kingdomkeys.kingdomkeys.item.ICreativeTab.Tab.*;
 
 @Mod("kingdomkeys")
 public class KingdomKeys {
@@ -99,64 +96,18 @@ public class KingdomKeys {
 	public static final Logger LOGGER = LogManager.getLogger();
 
 	public static final String MODID = "kingdomkeys";
-
-	public static boolean efmLoaded = false;
-
-	public static boolean patchouliLoaded = false;
-
-	public static boolean shoulderSurfingLoaded = false;
-
 	public static final DeferredRegister<CreativeModeTab> TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MODID);
-
-	private static final Supplier<List<ItemStack>> kkItems = Suppliers.memoize(() -> ModItems.ITEMS.getEntries().stream().map(Supplier::get).map(ItemStack::new).toList());
-	private static final Supplier<List<ItemStack>> kkBlocks = Suppliers.memoize(() -> ModBlocks.BLOCKS.getEntries().stream().map(Supplier::get).map(ItemStack::new).toList());
-
-	private static List<ItemStack> getItemsForCategory(ICreativeTab.Tab category) {
-		if(category == null){
-			return kkItems.get();
-		}
-		return switch (category) {
-			case KEYBLADES -> kkItems.get().stream().filter(item -> item.getItem() instanceof ICreativeTab tab && tab.getTab() == ICreativeTab.Tab.KEYBLADES).toList();
-			case KEYCHAINS -> kkItems.get().stream().filter(item -> item.getItem() instanceof ICreativeTab tab && tab.getTab() == ICreativeTab.Tab.KEYCHAINS).toList();
-			case ORGANIZATION -> kkItems.get().stream().filter(item -> item.getItem() instanceof ICreativeTab tab && tab.getTab() == ICreativeTab.Tab.ORGANIZATION).toList();
-			case EQUIPABLES -> kkItems.get().stream().filter(item -> item.getItem() instanceof ICreativeTab tab && tab.getTab() == EQUIPABLES).toList();
-			case CARDS -> kkItems.get().stream().filter(item -> item.getItem() instanceof ICreativeTab tab && tab.getTab() == ICreativeTab.Tab.CARDS).toList();
-			case GUMMI -> kkBlocks.get().stream().filter(stack -> stack.getItem() instanceof BlockItem block && block.getBlock() instanceof ICreativeTab tab && tab.getTab() == GUMMI).toList();
-			case ARMORS -> kkItems.get().stream().filter(item -> item.getItem() instanceof ArmorItem).toList();
-			case MATS -> kkItems.get().stream().filter(item -> item.getItem() instanceof SynthesisItem).toList();
-			case MISC, NONE -> List.of();
-		};
-	}
-
-	private static List<ItemStack> getMiscItems() {
-		Set<Item> categorizedItems = Arrays.stream(ICreativeTab.Tab.values())
-				.filter(tab -> tab != ICreativeTab.Tab.MISC)
-				.filter(tab -> tab != ICreativeTab.Tab.NONE)
-				.flatMap(tab -> getItemsForCategory(tab).stream())
-				.map(ItemStack::getItem)
-				.collect(Collectors.toSet());
-
-		return kkItems.get().stream().filter(stack -> !categorizedItems.contains(stack.getItem())).toList();
-	}
-
-	public static List<ItemStack> getCurrentItems() {
-		if (CreativeFilter.currentCategory == ICreativeTab.Tab.MISC) {
-			return getMiscItems();
-		}
-
-		if (CreativeFilter.currentCategory == ICreativeTab.Tab.NONE) {
-			return List.of();
-		}
-
-		return getItemsForCategory(CreativeFilter.currentCategory);
-	}
-
+	public static final Supplier<List<ItemStack>> kkItems = Suppliers.memoize(() -> ModItems.ITEMS.getEntries().stream().map(Supplier::get).map(ItemStack::new).toList());
+	public static final Supplier<List<ItemStack>> kkBlocks = Suppliers.memoize(() -> ModBlocks.BLOCKS.getEntries().stream().map(Supplier::get).map(ItemStack::new).toList());
 	public static final Supplier<CreativeModeTab> kingdomKeysTab =
 			TABS.register(MODID, () -> CreativeModeTab.builder()
 					.title(Component.translatable("itemGroup.kingdomkeys"))
 					.icon(() -> new ItemStack(ModItems.kingdomKey.get()))
-					.displayItems((params, output) -> getCurrentItems().forEach(output::accept))
+					.displayItems((params, output) -> Utils.getCurrentItems().forEach(output::accept))
 					.build());
+	public static boolean efmLoaded = false;
+	public static boolean patchouliLoaded = false;
+	public static boolean shoulderSurfingLoaded = false;
 
 	public KingdomKeys(IEventBus modEventBus, ModContainer modContainer) {
 		ModMagic.MAGIC.register(modEventBus);
@@ -170,12 +121,12 @@ public class KingdomKeys {
 		ModItems.ITEMS.register(modEventBus);
 		ModSounds.SOUNDS.register(modEventBus);
 		ModEntities.TILE_ENTITIES.register(modEventBus);
-        ModMenus.MENUS.register(modEventBus);
+		ModMenus.MENUS.register(modEventBus);
 		ModLootModifier.LOOT_MODIFIERS.register(modEventBus);
 		ModMobEffects.MOB_EFFECTS.register(modEventBus);
 		TABS.register(modEventBus);
 
-        ModEntities.ENTITIES.register(modEventBus);
+		ModEntities.ENTITIES.register(modEventBus);
 
 		ModFeatures.RULE_TESTS.register(modEventBus);
 		ModFeatures.FEATURES.register(modEventBus);
@@ -193,7 +144,7 @@ public class KingdomKeys {
 
 		modEventBus.addListener(this::modLoaded);
 		modEventBus.addListener(ModMenus::registerCapabilities);
-        modEventBus.addListener(ModEnergy::registerCapabilities);
+		modEventBus.addListener(ModEnergy::registerCapabilities);
 		modEventBus.addListener(this::findPacks);
 
 		if (FMLEnvironment.dist.isClient()) {
@@ -219,11 +170,11 @@ public class KingdomKeys {
 			shoulderSurfingLoaded = true;
 		}
 
-        if(ModList.get().isLoaded("supplementaries")){
-            KingdomKeys.LOGGER.warn("Supplementaries found, by default if you die while typing it sends the message with a - at the end.");
-            KingdomKeys.LOGGER.warn("We recommend to disable it if you play with the KO System enabled.");
-            KingdomKeys.LOGGER.warn("Change \"send_chat_on_death = true\" to false in supplementaries-client.toml.");
-        }
+		if (ModList.get().isLoaded("supplementaries")) {
+			KingdomKeys.LOGGER.warn("Supplementaries found, by default if you die while typing it sends the message with a - at the end.");
+			KingdomKeys.LOGGER.warn("We recommend to disable it if you play with the KO System enabled.");
+			KingdomKeys.LOGGER.warn("Change \"send_chat_on_death = true\" to false in supplementaries-client.toml.");
+		}
 
 		NeoForge.EVENT_BUS.register(this);
 		NeoForge.EVENT_BUS.register(new CastleOblivionHandler());
@@ -237,6 +188,7 @@ public class KingdomKeys {
 		NeoForge.EVENT_BUS.register(new EntityEvents());
 		NeoForge.EVENT_BUS.register(new MiniCO());
 	}
+
 	private void modLoaded(final FMLLoadCompleteEvent event) {
 		if (FMLEnvironment.dist.isClient()) {
 			if (ModList.get().isLoaded("epicfight")) {
@@ -268,7 +220,7 @@ public class KingdomKeys {
 		pat.rawTemplates = List.of(Pair.of(piece, weight));
 	}
 
-	
+
 	@SubscribeEvent
 	public void registerCommands(RegisterCommandsEvent event) {
 		CommandDispatcher<CommandSourceStack> dispatcher = event.getDispatcher();
@@ -286,7 +238,7 @@ public class KingdomKeys {
 		event.addListener(new LevelingDataLoader());
 		event.addListener(new NamesListLoader.Loader());
 		event.addListener(new ShopListDataLoader());
-        event.addListener(new SellListDataLoader());
+		event.addListener(new SellListDataLoader());
 		event.addListener(new LimitDataLoader());
 		event.addListener(new SavePointDataLoader());
 		ModJsonRegistries.registry.forEach(jsonRegistry -> {

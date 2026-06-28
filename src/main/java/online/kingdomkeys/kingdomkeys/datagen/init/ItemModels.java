@@ -21,8 +21,81 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
 public class ItemModels extends ItemModelProvider {
+	private static final Map<Item, String> SPELL_TEXTURES = Map.ofEntries(
+			// Fire
+			Map.entry(ModItems.fireSpell.get(), "fire"),
+			Map.entry(ModItems.firaSpell.get(), "fire"),
+			Map.entry(ModItems.firagaSpell.get(), "fire"),
+			Map.entry(ModItems.darkFiragaSpell.get(), "fire"),
+			Map.entry(ModItems.tripleFiragaSpell.get(), "fire"),
+			Map.entry(ModItems.crawlingFiragaSpell.get(), "fire"),
+			Map.entry(ModItems.fissionFiragaSpell.get(), "fire"),
+			Map.entry(ModItems.firagaBurstSpell.get(), "fire"),
+			Map.entry(ModItems.igniteSpell.get(), "fire"),
+
+			// Blizzard
+			Map.entry(ModItems.blizzardSpell.get(), "blizzard"),
+			Map.entry(ModItems.blizzaraSpell.get(), "blizzard"),
+			Map.entry(ModItems.blizzagaSpell.get(), "blizzard"),
+			Map.entry(ModItems.tripleBlizzagaSpell.get(), "blizzard"),
+			Map.entry(ModItems.deepFreezeSpell.get(), "blizzard"),
+			Map.entry(ModItems.glacierSpell.get(), "blizzard"),
+			Map.entry(ModItems.iceBarrageSpell.get(), "blizzard"),
+
+			// Water
+			Map.entry(ModItems.waterSpell.get(), "water"),
+			Map.entry(ModItems.wateraSpell.get(), "water"),
+			Map.entry(ModItems.watergaSpell.get(), "water"),
+
+			// Thunder
+			Map.entry(ModItems.thunderSpell.get(), "thunder"),
+			Map.entry(ModItems.thundaraSpell.get(), "thunder"),
+			Map.entry(ModItems.thundagaSpell.get(), "thunder"),
+			Map.entry(ModItems.thundagaShotSpell.get(), "thunder"),
+			Map.entry(ModItems.triplePlasmaSpell.get(), "thunder"),
+			Map.entry(ModItems.sparkSpell.get(), "thunder"),
+			Map.entry(ModItems.sparkraSpell.get(), "thunder"),
+			Map.entry(ModItems.sparkgaSpell.get(), "thunder"),
+
+			// Aero
+			Map.entry(ModItems.aeroSpell.get(), "aero"),
+			Map.entry(ModItems.aeroraSpell.get(), "aero"),
+			Map.entry(ModItems.aerogaSpell.get(), "aero"),
+
+			// Cure
+			Map.entry(ModItems.cureSpell.get(), "cure"),
+			Map.entry(ModItems.curaSpell.get(), "cure"),
+			Map.entry(ModItems.curagaSpell.get(), "cure"),
+			Map.entry(ModItems.esunaSpell.get(), "cure"),
+			Map.entry(ModItems.faithSpell.get(), "cure"),
+
+			// Gravity
+			Map.entry(ModItems.gravitySpell.get(), "gravity"),
+			Map.entry(ModItems.graviraSpell.get(), "gravity"),
+			Map.entry(ModItems.gravigaSpell.get(), "gravity"),
+			Map.entry(ModItems.zeroGravitySpell.get(), "gravity"),
+			Map.entry(ModItems.zeroGraviraSpell.get(), "gravity"),
+			Map.entry(ModItems.zeroGravigaSpell.get(), "gravity"),
+
+			// Magnet
+			Map.entry(ModItems.magnetSpell.get(), "magnet"),
+			Map.entry(ModItems.magneraSpell.get(), "magnet"),
+			Map.entry(ModItems.magnegaSpell.get(), "magnet"),
+
+			// Reflect
+			Map.entry(ModItems.reflectSpell.get(), "reflect"),
+			Map.entry(ModItems.refleraSpell.get(), "reflect"),
+			Map.entry(ModItems.reflegaSpell.get(), "reflect"),
+
+			// Stop
+			Map.entry(ModItems.stopSpell.get(), "stop"),
+			Map.entry(ModItems.stopraSpell.get(), "stop"),
+			Map.entry(ModItems.stopgaSpell.get(), "stop"),
+			Map.entry(ModItems.slowSpell.get(), "stop")
+	);
 
 	public ItemModels(DataGenerator generator, ExistingFileHelper existingFileHelper) {
 		super(generator.getPackOutput(), KingdomKeys.MODID, existingFileHelper);
@@ -50,8 +123,9 @@ public class ItemModels extends ItemModelProvider {
 				standardKKArmor(path);
 			} else if (item instanceof KKAccessoryItem){
 				standardKKAccessory(path);
-			} else if (item instanceof MagicSpellItem){
-				standardMagic(path);
+			} else if (item instanceof MagicSpellItem) {
+				String texture = SPELL_TEXTURES.getOrDefault(item, "generic");
+				standardMagic(path, texture);
 			} else if (item instanceof KeybladeItem) {
 				// Keyblades already have models set up
 			} else if (item instanceof ShieldItem) {
@@ -154,7 +228,7 @@ public class ItemModels extends ItemModelProvider {
     void standardKeychain(String name) {
 		standardItem(name, "keychains/");
 	}
-    
+
     void standardKKArmor(String name) {
 		standardItem(name, "kkarmors/");
 	}
@@ -162,8 +236,8 @@ public class ItemModels extends ItemModelProvider {
 		standardItem(name, "kkaccessories/");
 	}
 
-	void standardMagic(String name) {
-		standardItem(name, "magic/");
+	void standardMagic(String name, String element) {
+		standardMagicItem(name, "magic/", element);
 	}
 
 	void standardCard(String name) {
@@ -230,6 +304,11 @@ public class ItemModels extends ItemModelProvider {
 		standardItem(name, "");
 	}
 
+	void standardMagicItem(String name, String path, String element) {
+		System.out.println(element);
+		getBuilder(name).parent(new ModelFile.UncheckedModelFile("item/generated")).texture("layer0","item/"+ path + element);
+	}
+
     void standardItem(String name, String path) {
 		getBuilder(name).parent(new ModelFile.UncheckedModelFile("item/generated")).texture("layer0","item/"+ path + name);
 	}
@@ -237,7 +316,7 @@ public class ItemModels extends ItemModelProvider {
     void standardSpawnEggItem(String name) {
 		getBuilder(name).parent(new ModelFile.UncheckedModelFile("item/template_spawn_egg"));
     }
-    
+
     @Override
     public String getName() {
         return "Item Models";

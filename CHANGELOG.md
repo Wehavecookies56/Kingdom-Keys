@@ -1,3 +1,15 @@
+# 2.8.0b:
+## Added:
+* Glove icon on button hovering.
+* Magic spells elemental texture to identify them easily. 
+## Changed:
+* HP, MP, Drive and Munny textures.
+* Creative tab submenus icons will now cycle randomly.
+* Sorted magic spells in the creative menu.
+## Fixed:
+* Potential crash sometimes when the command menu would load before the config.
+* Ignite spell item not translated in Spanish.
+
 # 2.8.0a:
 ## Added:
 * New spells:

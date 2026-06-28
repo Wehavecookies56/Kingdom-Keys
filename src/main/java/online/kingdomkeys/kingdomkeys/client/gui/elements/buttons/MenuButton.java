@@ -169,8 +169,6 @@ public class MenuButton extends MenuButtonBase {
 
 		//Glove and dot
 		if(hovered) {
-
-
 			float ballScale = 0.5F;
 			int u = 0;
 			int v = 204;
@@ -197,10 +195,9 @@ public class MenuButton extends MenuButtonBase {
 				float y = centerY + (float)Math.sin(t * 2F) * radiusY;
 
 				float gloveX = x - getWidth() - 10;
-				float gloveY = getY() +3;
 				gui.pose().pushPose();
 				{
-					gui.pose().translate(gloveX, gloveY, 0);
+					gui.pose().translate(gloveX, getY() + 3, 0);
 					gui.blit(texture, 0, 0, 21, 204, 20, 20);
 				}
 				gui.pose().popPose();

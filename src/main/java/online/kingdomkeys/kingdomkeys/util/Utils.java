@@ -44,10 +44,7 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.monster.Slime;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ArmorItem;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
+import net.minecraft.world.item.*;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
@@ -80,6 +77,7 @@ import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.block.gummi.*;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
+import online.kingdomkeys.kingdomkeys.creativetab.CreativeFilter;
 import online.kingdomkeys.kingdomkeys.data.GlobalData;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.data.WorldData;
@@ -115,7 +113,58 @@ import java.util.*;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
+import static online.kingdomkeys.kingdomkeys.item.ICreativeTab.Tab.*;
+import static online.kingdomkeys.kingdomkeys.item.ICreativeTab.Tab.CARDS;
+import static online.kingdomkeys.kingdomkeys.item.ICreativeTab.Tab.EQUIPABLES;
+
 public class Utils {
+	public static List<ItemStack> getItemsForCategory(ICreativeTab.Tab category) {
+		if (category == null) {
+			List<ItemStack> list = new ArrayList<>();
+			list.addAll(KingdomKeys.kkItems.get());
+			list.addAll(KingdomKeys.kkBlocks.get());
+			return list;
+		}
+
+		return switch (category) {
+			case KEYBLADES -> KingdomKeys.kkItems.get().stream().filter(stack -> stack.getItem() instanceof ICreativeTab tab && tab.getTab() == KEYBLADES).toList();
+			case KEYCHAINS -> KingdomKeys.kkItems.get().stream().filter(stack -> stack.getItem() instanceof ICreativeTab tab && tab.getTab() == KEYCHAINS).toList();
+			case ORGANIZATION -> KingdomKeys.kkItems.get().stream().filter(stack -> stack.getItem() instanceof ICreativeTab tab && tab.getTab() == ORGANIZATION).toList();
+			case EQUIPABLES -> KingdomKeys.kkItems.get().stream().filter(stack -> stack.getItem() instanceof ICreativeTab tab && tab.getTab() == EQUIPABLES).toList();
+			case CARDS -> KingdomKeys.kkItems.get().stream().filter(stack -> stack.getItem() instanceof ICreativeTab tab && tab.getTab() == CARDS).toList();
+			case ARMORS -> KingdomKeys.kkItems.get().stream().filter(stack -> stack.getItem() instanceof ArmorItem).toList();
+			case MATS -> KingdomKeys.kkItems.get().stream().filter(stack -> stack.getItem() instanceof SynthesisItem).toList();
+			case GUMMI -> KingdomKeys.kkBlocks.get().stream().filter(stack -> stack.getItem() instanceof BlockItem block && block.getBlock() instanceof ICreativeTab tab && tab.getTab() == ICreativeTab.Tab.GUMMI).toList();
+			case MISC -> getMiscItems();
+			case NONE -> List.of();
+		};
+	}
+
+	private static List<ItemStack> getMiscItems() {
+		Set<Item> categorized = Arrays.stream(ICreativeTab.Tab.values())
+				.filter(tab -> tab != ICreativeTab.Tab.MISC && tab != ICreativeTab.Tab.NONE)
+				.flatMap(tab -> getItemsForCategory(tab).stream())
+				.map(ItemStack::getItem)
+				.collect(Collectors.toSet());
+
+		List<ItemStack> misc = new ArrayList<>();
+		misc.addAll(KingdomKeys.kkItems.get());
+		misc.addAll(KingdomKeys.kkBlocks.get());
+
+		return misc.stream().filter(stack -> !categorized.contains(stack.getItem())).toList();
+	}
+
+	public static List<ItemStack> getCurrentItems() {
+		if (CreativeFilter.currentCategory == ICreativeTab.Tab.MISC) {
+			return getMiscItems();
+		}
+
+		if (CreativeFilter.currentCategory == ICreativeTab.Tab.NONE) {
+			return List.of();
+		}
+
+		return getItemsForCategory(CreativeFilter.currentCategory);
+	}
 
 	public static int getRedstoneFromMagic(String type){
 		return switch(type){

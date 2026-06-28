@@ -39,14 +39,6 @@ public class MagicSpellItem extends Item implements IItemCategory, ICreativeTab{
 	public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
 		Magic magicInstance = ModMagic.registry.get(ResourceLocation.parse(magic));
 		player.displayClientMessage(Component.translatable("gui.magicspell.equip", Utils.translateToLocal(magicInstance.getTranslationKey())), true);
-		/*if(player.getItemInHand(hand).getItem() instanceof MagicSpellItem spell){
-			spell.setExp(player.getItemInHand(hand), 1800);
-		}
-		System.out.println("Level: " + getLocalLevel(player.getItemInHand(hand)));
-		System.out.println("Local Exp: " + getLocalExp(player.getItemInHand(hand)));
-		System.out.println("Percentage: " + getLocalPercent(player.getItemInHand(hand)));
-		System.out.println();
-*/
 		return InteractionResultHolder.success(player.getItemInHand(hand));
 	}
 
@@ -157,12 +149,13 @@ public class MagicSpellItem extends Item implements IItemCategory, ICreativeTab{
 
 	@Override
 	public ItemCategory getCategory() {
-		return ItemCategory.MISC;
+		return ItemCategory.EQUIPMENT;
 	}
 
 	public void setExp(ItemStack stack, int amount) {
 		stack.set(ModComponents.MAGIC_EXP.get(), amount);
 	}
+
 	public void addExp(ItemStack stack, int amount) {
 		int newExp = Math.min(getExp(stack) + amount, getMaxExp());
 		setExp(stack, newExp);

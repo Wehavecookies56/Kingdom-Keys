@@ -175,7 +175,7 @@ public class LanguageESES extends KKLanguageProvider {
         add("itemGroup.kingdomkeys_armors", "Kingdom Keys: Armaduras");
         add("itemGroup.kingdomkeys_equipables", "Kingdom Keys: Equipables");
         add("itemGroup.kingdomkeys_gummi", "Kingdom Keys: Bloques Gummi");
-        add("itemGroup.kingdomkeys_mats", "Kingdom Keys: MAteriales de Síntesis");
+        add("itemGroup.kingdomkeys_mats", "Kingdom Keys: Materiales de Síntesis");
         add("itemGroup.kingdomkeys_cards", "Kingdom Keys: Cartas");
         add("itemGroup.kingdomkeys_misc", "Kingdom Keys: Misc");
 
@@ -1048,6 +1048,7 @@ public class LanguageESES extends KKLanguageProvider {
         addItem(ModItems.crawlingFiragaSpell, "Hechizo de Tardo Piro++");
         addItem(ModItems.fissionFiragaSpell, "Hechizo de Lluvia Píro++");
         addItem(ModItems.firagaBurstSpell, "Hechizo de Descarga Ígnea");
+        addItem(ModItems.igniteSpell, "Hechizo de Ignición");
 
         addItem(ModItems.tripleBlizzagaSpell, "Hechizo de Triple Hielo++");
         addItem(ModItems.deepFreezeSpell, "Hechizo de Hipotermia");
