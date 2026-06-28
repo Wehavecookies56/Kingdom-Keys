@@ -27,7 +27,7 @@ public class SavePointBlockEntityRenderer implements BlockEntityRenderer<Savepoi
 		Vec3 center = Vec3.atCenterOf(be.getBlockPos()).add(0.5, 0.15, 0.5);
 		Vec3 origin = Vec3.atCenterOf(be.getBlockPos());
 
-		// Init
+		//Init
 		if (be.particles[0] == null) {
 			for (int i = 0; i < be.particles.length; i++) {
 				SavePointParticle p = new SavePointParticle();
@@ -36,8 +36,8 @@ public class SavePointBlockEntityRenderer implements BlockEntityRenderer<Savepoi
 				p.progress = i * Math.PI;
 
 				p.radius = 0.8;
-				p.rotationSpeed = 0.033; // antes 0.10
-				p.verticalSpeed = 0.0165; // antes 0.05
+				p.rotationSpeed = 0.1;
+				p.verticalSpeed = 0.05;
 
 				be.particles[i] = p;
 			}
@@ -45,12 +45,11 @@ public class SavePointBlockEntityRenderer implements BlockEntityRenderer<Savepoi
 
 		long gameTime = mc.level.getGameTime();
 
-		// Actualizar SOLO una vez por tick
+		//Update
 		if (gameTime != be.lastUpdateTick) {
 			be.lastUpdateTick = gameTime;
 
 			for (SavePointParticle p : be.particles) {
-
 				p.angle += p.rotationSpeed;
 				p.progress += p.verticalSpeed;
 
@@ -68,12 +67,9 @@ public class SavePointBlockEntityRenderer implements BlockEntityRenderer<Savepoi
 		Vec3 camera = mc.gameRenderer.getMainCamera().getPosition();
 
 		for (SavePointParticle p : be.particles) {
-
-			// Copia para interpolar solo la cabeza
 			Vec3[] trail = p.trail.clone();
 
 			if (trail[1] != null) {
-
 				double renderAngle = p.angle + partialTicks * p.rotationSpeed;
 				double renderProgress = p.progress + partialTicks * p.verticalSpeed;
 
@@ -109,7 +105,6 @@ public class SavePointBlockEntityRenderer implements BlockEntityRenderer<Savepoi
 	}
 
 	private void drawQuad(VertexConsumer buffer, Matrix4f pose, Vec3 p1, Vec3 p2, Vec3 offset, float r, float g, float b, float alpha) {
-
 		Vec3 p1A = p1.add(offset);
 		Vec3 p1B = p1.subtract(offset);
 
@@ -117,11 +112,8 @@ public class SavePointBlockEntityRenderer implements BlockEntityRenderer<Savepoi
 		Vec3 p2B = p2.subtract(offset);
 
 		buffer.addVertex(pose, (float) p1A.x, (float) p1A.y, (float) p1A.z).setColor(r, g, b, alpha).setNormal(0, 1, 0);
-
 		buffer.addVertex(pose, (float) p2A.x, (float) p2A.y, (float) p2A.z).setColor(r, g, b, alpha).setNormal(0, 1, 0);
-
 		buffer.addVertex(pose, (float) p2B.x, (float) p2B.y, (float) p2B.z).setColor(r, g, b, alpha).setNormal(0, 1, 0);
-
 		buffer.addVertex(pose, (float) p1B.x, (float) p1B.y, (float) p1B.z).setColor(r, g, b, alpha).setNormal(0, 1, 0);
 	}
 
