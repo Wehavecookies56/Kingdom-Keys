@@ -1521,6 +1521,11 @@ public class Strings {
     		HeartlessIntro2 = "heartless.intro.2", //Tied to the darkness...
     		HeartlessIntro3 = "heartless.intro.3"; //Soon to be completely eclipsed
 
+	public static String
+			COIntro1 = "co.intro.1", //In this place, to find is to lose
+			COIntro2 = "co.intro.2", //and to lose is to find.
+			COIntro3 = "co.intro.3"; //That is the way in Castle Oblivion
+
 	//Map Cards
 	public static String
 			TranquilDarkness = "tranquil_darkness",

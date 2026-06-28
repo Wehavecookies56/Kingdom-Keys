@@ -27,11 +27,13 @@ import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.api.event.CastleOblivionEvent;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
+import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.data.CastleOblivionData;
 import online.kingdomkeys.kingdomkeys.entity.block.CardDoorTileEntity;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.stc.SCShowMessagesPacket;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCastleOblivionInteriorData;
 import online.kingdomkeys.kingdomkeys.network.stc.SCUpdateCORooms;
 import online.kingdomkeys.kingdomkeys.util.Utils;
@@ -99,6 +101,16 @@ public class CastleOblivionHandler {
                 return new LevelStem(type, generator);
             }));
             player.changeDimension(new DimensionTransition(level, new Vec3(entrancePos.getX(), entrancePos.getY(), entrancePos.getZ()), Vec3.ZERO, player.getYRot(), player.getXRot(), entity -> {}));
+
+            if(player instanceof ServerPlayer sPlayer) {
+                List<Utils.Title> titles = List.of(
+                        new Utils.Title("Castle Oblivion","").setKHFont(),
+                        new Utils.Title("", Strings.COIntro1),
+                        new Utils.Title("", Strings.COIntro2),
+                        new Utils.Title("", Strings.COIntro3));
+
+                PacketHandler.sendTo(new SCShowMessagesPacket(titles), sPlayer);
+            }
         }
     }
 

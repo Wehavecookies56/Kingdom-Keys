@@ -13,6 +13,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.Style;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.Packet;
@@ -1065,6 +1066,7 @@ public class Utils {
 	public static class Title {
 		public String title, subtitle;
 		public int fadeIn = 10, fadeOut = 20, displayTime = 70;
+		public boolean titleFont;
 
 		public Title(String title, String subtitle, int fadeIn, int displayTime, int fadeOut) {
 			this.title = title;
@@ -1083,6 +1085,11 @@ public class Utils {
 			read(compound);
 		}
 
+		public Title setKHFont(){
+			this.titleFont = true;
+			return this;
+		}
+
 		public CompoundTag write() {
 			CompoundTag compound = new CompoundTag();
 			compound.putString("title", title);
@@ -1090,6 +1097,7 @@ public class Utils {
 			compound.putInt("fadein", fadeIn);
 			compound.putInt("fadeout", fadeOut);
 			compound.putInt("displaytime", displayTime);
+			compound.putBoolean("titlefont", titleFont);
 			return compound;
 		}
 
@@ -1099,6 +1107,7 @@ public class Utils {
 			this.fadeIn = tag.getInt("fadein");
 			this.fadeOut = tag.getInt("fadeout");
 			this.displayTime = tag.getInt("displaytime");
+			this.titleFont = tag.getBoolean("titlefont");
 		}
 
 		public static CompoundTag writeList(List<Title> titles) {
