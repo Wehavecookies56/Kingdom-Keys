@@ -430,6 +430,9 @@ public class CommandMenuGui extends OverlayBase {
 	}
 
 	private void updateSpellCategory(CommandMenuItem item, PlayerData playerData, MagicData.SpellType type, Component title) {
+		if (!ModConfigs.SERVER_SPEC.isLoaded())
+			return;
+
 		item.setTextColour(Color.WHITE);
 
 		double cheapest = Utils.getCheapestMagicCost(playerData.getEquippedMagics(), minecraft.player, type);
