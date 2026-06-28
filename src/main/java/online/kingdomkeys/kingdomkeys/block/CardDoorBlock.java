@@ -34,7 +34,6 @@ import online.kingdomkeys.kingdomkeys.data.CastleOblivionData;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.block.CardDoorTileEntity;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
-import online.kingdomkeys.kingdomkeys.item.card.CardCategory;
 import online.kingdomkeys.kingdomkeys.item.card.WorldCardItem;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCOpenCODoorGui;
@@ -44,7 +43,6 @@ import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.flo
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.*;
 
 import javax.annotation.Nullable;
-import java.util.EnumMap;
 import java.util.HashSet;
 
 public class CardDoorBlock extends BaseBlock implements EntityBlock, INoDataGen {

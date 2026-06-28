@@ -8,7 +8,8 @@ import online.kingdomkeys.kingdomkeys.item.card.CardCategory;
 import online.kingdomkeys.kingdomkeys.item.card.KeycardType;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.EnumMap;
 
 public class DoorData {
 

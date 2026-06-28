@@ -16,7 +16,6 @@ import online.kingdomkeys.kingdomkeys.limit.ModLimits;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.reactioncommands.ModReactionCommands;
 import online.kingdomkeys.kingdomkeys.shotlock.ModShotlocks;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModRoomTypes;
 
 import static online.kingdomkeys.kingdomkeys.KingdomKeys.MODID;
 import static online.kingdomkeys.kingdomkeys.lib.Strings.*;

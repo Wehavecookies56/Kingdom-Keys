@@ -1,6 +1,5 @@
 package online.kingdomkeys.kingdomkeys.entity.magic;
 
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
