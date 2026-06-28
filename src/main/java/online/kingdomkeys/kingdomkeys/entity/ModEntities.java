@@ -425,6 +425,7 @@ public class ModEntities {
         event.registerBlockEntityRenderer(TYPE_AIRSTEP_TARGET_TE.get(), AirstepTargetRenderer::new);
         event.registerBlockEntityRenderer(TYPE_GUMMI_HANGAR.get(), GummiHangarRenderer::new);
         event.registerBlockEntityRenderer(TYPE_GUMMI_CORE_TE.get(), GummiCoreRenderer::new);
+        event.registerBlockEntityRenderer(TYPE_SAVEPOINT.get(), SavePointBlockEntityRenderer::new);
     }
 
     @OnlyIn(Dist.CLIENT)

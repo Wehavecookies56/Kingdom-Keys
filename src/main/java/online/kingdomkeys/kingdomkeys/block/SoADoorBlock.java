@@ -70,7 +70,6 @@ public class SoADoorBlock extends BaseBlock implements INoDataGen{
 				if (serverlevel != null) {
 					sPlayer.changeDimension(new DimensionTransition(serverlevel, new Vec3(-2, 88, -167), Vec3.ZERO, 0,0, entity -> {}));
 				}
-
 			} else {
 				player.displayClientMessage(Component.translatable("co.door_failed"),true);
 			}

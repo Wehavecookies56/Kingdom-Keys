@@ -319,6 +319,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		storage.putBoolean("flowmotion", flowmotion);
 		storage.putBoolean("bounced", bounced);
 
+		storage.putInt("tutorial_flags", tutorialFlags);
 		return storage;
 	}
 
@@ -548,9 +549,11 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		this.setAirDashed(nbt.getBoolean("air_dashed"));
 		this.setFlowmotion(nbt.getBoolean("flowmotion"));
 		this.setBounced(nbt.getBoolean("bounced"));
+
+		this.setTutorialFlags(nbt.getInt("tutorial_flags"));
 	}
 
-	private int ver = -1, level = 1, exp = 0, expGiven = 0, maxHp = 20, remainingExp = 0, reflectTicks = 0, reflectLevel = 0, magicCasttime = 0, magicCooldown = 0, munny = 0, antipoints = 0, aerialDodgeTicks, synthLevel=1, synthExp, remainingSynthExp = 0,hangingWallTicks, wallGrabs;
+	private int ver = -1, level = 1, exp = 0, expGiven = 0, maxHp = 20, remainingExp = 0, reflectTicks = 0, reflectLevel = 0, magicCasttime = 0, magicCooldown = 0, munny = 0, antipoints = 0, aerialDodgeTicks, synthLevel=1, synthExp, remainingSynthExp = 0,hangingWallTicks, wallGrabs, tutorialFlags;
 	private BlockPos airStepPos = new BlockPos(0,0,0);
 	Stat strength = new Stat("strength", 1);
 	Stat magic = new Stat("magic",1);
@@ -2417,5 +2420,18 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 	}
 	public boolean inFlowmotion() {
 		return flowmotion;
+	}
+
+	public int getTutorialFlags(){
+		return tutorialFlags;
+	}
+	public void setTutorialFlags(int tutorialFlags) {
+		this.tutorialFlags = tutorialFlags;
+	}
+	public boolean hasSeenTutorial(int id) {
+		return (tutorialFlags & (1 << id)) != 0;
+	}
+	public void setSeenTutorial(int id) {
+		this.tutorialFlags = tutorialFlags | (1 << id);
 	}
 }

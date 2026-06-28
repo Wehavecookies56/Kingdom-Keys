@@ -10,7 +10,9 @@ import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
 import online.kingdomkeys.kingdomkeys.block.SavePointBlock;
+import online.kingdomkeys.kingdomkeys.client.render.block.SavePointBlockEntityRenderer;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.world.SavePointStorage;
 import org.jetbrains.annotations.Nullable;
@@ -21,6 +23,8 @@ import java.util.UUID;
 public class SavepointTileEntity extends BlockEntity {
 	public static float[] WARP_COLOR = new float[]{0.6F, 1F, 1F};
 	public static float[] SAVEPOINT_COLOR = new float[]{0.3F, 1F, 0.3F};
+	public SavePointBlockEntityRenderer.SavePointParticle[] particles = new SavePointBlockEntityRenderer.SavePointParticle[2];
+	public long lastUpdateTick = -1;
 
 	public SavepointTileEntity(BlockPos pos, BlockState state) {
 		super(ModEntities.TYPE_SAVEPOINT.get(), pos, state);
@@ -150,8 +154,8 @@ public class SavepointTileEntity extends BlockEntity {
 
 			float[] color = state.getValue(SavePointBlock.TIER) == SavePointStorage.SavePointType.WARP ? WARP_COLOR : SAVEPOINT_COLOR;
 
-			level.addParticle(new DustParticleOptions(new Vector3f(color[0],color[1],color[2]), 1F), x, (cy - 0.5) - (-savepoint.ticks / 1800F), z, 0.0D, 0.0D, 0.0D);
-			level.addParticle(new DustParticleOptions(new Vector3f(color[0],color[1],color[2]), 1F), x2, (cy + 0.5) - (savepoint.ticks / 1800F), z2, 0.0D, 0.0D, 0.0D);
+			//level.addParticle(new DustParticleOptions(new Vector3f(color[0],color[1],color[2]), 1F), x, (cy - 0.5) - (-savepoint.ticks / 1800F), z, 0.0D, 0.0D, 0.0D);
+			//level.addParticle(new DustParticleOptions(new Vector3f(color[0],color[1],color[2]), 1F), x2, (cy + 0.5) - (savepoint.ticks / 1800F), z2, 0.0D, 0.0D, 0.0D);
 		}
 	}
 }

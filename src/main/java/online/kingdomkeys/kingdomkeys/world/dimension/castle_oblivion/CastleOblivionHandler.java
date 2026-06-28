@@ -29,12 +29,15 @@ import online.kingdomkeys.kingdomkeys.api.event.CastleOblivionEvent;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.data.CastleOblivionData;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.entity.block.CardDoorTileEntity;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
+import online.kingdomkeys.kingdomkeys.lib.Constants;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCShowMessagesPacket;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCastleOblivionInteriorData;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
 import online.kingdomkeys.kingdomkeys.network.stc.SCUpdateCORooms;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.world.dimension.DynamicDimensionManager;
@@ -103,13 +106,20 @@ public class CastleOblivionHandler {
             player.changeDimension(new DimensionTransition(level, new Vec3(entrancePos.getX(), entrancePos.getY(), entrancePos.getZ()), Vec3.ZERO, player.getYRot(), player.getXRot(), entity -> {}));
 
             if(player instanceof ServerPlayer sPlayer) {
-                List<Utils.Title> titles = List.of(
-                        new Utils.Title("Castle Oblivion","").setKHFont(),
-                        new Utils.Title("", Strings.COIntro1),
-                        new Utils.Title("", Strings.COIntro2),
-                        new Utils.Title("", Strings.COIntro3));
+                PlayerData playerData = PlayerData.get(sPlayer);
+                System.out.println(playerData.getTutorialFlags());
+                if(!playerData.hasSeenTutorial(Constants.TUTORIAL_CO_LOBBY)) {
+                    List<Utils.Title> titles = List.of(
+                            new Utils.Title("", Strings.COIntro1),
+                            new Utils.Title("", Strings.COIntro2),
+                            new Utils.Title("", Strings.COIntro3),
+                            new Utils.Title("Castle Oblivion", "").setKHFont()
+                    );
 
-                PacketHandler.sendTo(new SCShowMessagesPacket(titles), sPlayer);
+                    PacketHandler.sendTo(new SCShowMessagesPacket(titles), sPlayer);
+                    playerData.setSeenTutorial(Constants.TUTORIAL_CO_LOBBY);
+                    PacketHandler.sendTo(new SCSyncPlayerData(player, playerData), sPlayer);
+                }
             }
         }
     }

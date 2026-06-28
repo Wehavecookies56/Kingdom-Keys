@@ -902,8 +902,6 @@ public class ClientUtils {
     private static final Map<UUID, Deque<Vec3>> FLOW_TRAILS = new HashMap<>();
     private static final Map<UUID, Deque<Vec3>> DASH_TRAILS = new HashMap<>();
 
-    private static final int MAX_POINTS = 200;
-
     private static Deque<Vec3> getTrail(TrailType type, Player player) {
         return switch(type){
             case FLOWMOTION -> FLOW_TRAILS.computeIfAbsent(player.getUUID(), k -> new ArrayDeque<>());
