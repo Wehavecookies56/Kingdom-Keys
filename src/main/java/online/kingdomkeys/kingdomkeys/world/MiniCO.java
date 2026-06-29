@@ -64,6 +64,11 @@ public class MiniCO {
 				return;
 
 			ServerLevel level = event.getServer().overworld();
+			WorldData worldData = WorldData.get(level.getServer());
+
+			if(worldData.isMiniCOGenerated())
+				return;
+			
 			int y = level.getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, (ModConfigs.coEntranceChunkX * 16) + 16, (ModConfigs.coEntranceChunkZ * 16) + 16);
 
 			if (y <= level.getMinBuildHeight()) {
@@ -73,7 +78,6 @@ public class MiniCO {
 			}
 
 			if (generateMiniCO(level)) {
-				WorldData worldData = WorldData.get(level.getServer());
 				worldData.setMiniCOGenerated(true);
 				worldData.setMiniCOY(y);
 				pendingTicks = -1;
@@ -82,6 +86,9 @@ public class MiniCO {
 	}
 
 	private static boolean generateMiniCO(ServerLevel level) {
+		if (level.dimension() != Level.OVERWORLD)
+			return false;
+
 		StructureTemplate template = level.getStructureManager().get(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "castle_oblivion/mini_co")).orElse(null);
 
 		if (template == null) {
