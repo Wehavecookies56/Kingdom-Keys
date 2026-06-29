@@ -90,11 +90,8 @@ import online.kingdomkeys.kingdomkeys.entity.GummiShipEntity;
 import online.kingdomkeys.kingdomkeys.entity.block.GummiHangarTileEntity;
 import online.kingdomkeys.kingdomkeys.item.*;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
-import online.kingdomkeys.kingdomkeys.lib.GummiStructure;
-import online.kingdomkeys.kingdomkeys.lib.Party;
+import online.kingdomkeys.kingdomkeys.lib.*;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
-import online.kingdomkeys.kingdomkeys.lib.SoAState;
-import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.limit.Limit;
 import online.kingdomkeys.kingdomkeys.limit.ModLimits;
 import online.kingdomkeys.kingdomkeys.magic.Magic;
@@ -102,9 +99,7 @@ import online.kingdomkeys.kingdomkeys.magic.MagicData;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.menu.PauldronInventory;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.stc.SCRecalculateEyeHeight;
-import online.kingdomkeys.kingdomkeys.network.stc.SCShowOverlayPacket;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncGlobalData;
+import online.kingdomkeys.kingdomkeys.network.stc.*;
 import online.kingdomkeys.kingdomkeys.shotlock.ModShotlocks;
 import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
@@ -1061,6 +1056,16 @@ public class Utils {
 
 	public static Item getMemoryFromBiome(Holder<Biome> biome) {
 		return biome.unwrapKey().map(MEMORY_BY_BIOME::get).orElse(null);
+	}
+
+	public static void showTutorial(ServerPlayer player, List<Title> tutorial) {
+		PlayerData playerData = PlayerData.get(player);
+		if(!playerData.hasSeenTutorial(Constants.TUTORIAL_CO_LOBBY)) {
+			PacketHandler.sendTo(new SCShowMessagesPacket(tutorial), player);
+
+			playerData.setSeenTutorial(Constants.TUTORIAL_CO_LOBBY);
+			PacketHandler.sendTo(new SCSyncPlayerData(player, playerData), player);
+		}
 	}
 
 	public static class Title {

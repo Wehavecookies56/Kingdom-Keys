@@ -106,20 +106,7 @@ public class CastleOblivionHandler {
             player.changeDimension(new DimensionTransition(level, new Vec3(entrancePos.getX(), entrancePos.getY(), entrancePos.getZ()), Vec3.ZERO, player.getYRot(), player.getXRot(), entity -> {}));
 
             if(player instanceof ServerPlayer sPlayer) {
-                PlayerData playerData = PlayerData.get(sPlayer);
-                System.out.println(playerData.getTutorialFlags());
-                if(!playerData.hasSeenTutorial(Constants.TUTORIAL_CO_LOBBY)) {
-                    List<Utils.Title> titles = List.of(
-                            new Utils.Title("", Strings.COIntro1),
-                            new Utils.Title("", Strings.COIntro2),
-                            new Utils.Title("", Strings.COIntro3),
-                            new Utils.Title("Castle Oblivion", "").setKHFont()
-                    );
-
-                    PacketHandler.sendTo(new SCShowMessagesPacket(titles), sPlayer);
-                    playerData.setSeenTutorial(Constants.TUTORIAL_CO_LOBBY);
-                    PacketHandler.sendTo(new SCSyncPlayerData(player, playerData), sPlayer);
-                }
+                Utils.showTutorial(sPlayer, Constants.TUTORIALS.get(Constants.TUTORIAL_CO_LOBBY));
             }
         }
     }

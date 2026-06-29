@@ -83,7 +83,7 @@ public class DrivePointsCommand extends BaseCommand{ //kk_dp <give/take/set> <am
 	}
 	private static int addValue(CommandContext<CommandSourceStack> context, int value, ServerPlayer player) throws CommandSyntaxException {
 		PlayerData playerData = PlayerData.get(player);
-		playerData.addDP(value);
+		playerData.addDP(player,value);
 		context.getSource().sendSuccess(() -> Component.translatable("Added "+value+" dp to "+player.getDisplayName().getString()), true);
 		
 		player.sendSystemMessage(Component.translatable("Your dp has been increased by "+value));

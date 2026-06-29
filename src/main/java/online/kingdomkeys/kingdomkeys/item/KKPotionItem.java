@@ -138,7 +138,7 @@ public class KKPotionItem extends Item implements IItemCategory, ICreativeTab {
     		break;
     	case DRIVE:
     		float dpAmount = (float) (percentage ? playerData.getMaxDP() * amount / 100 : amount);
-    		playerData.addDP(dpAmount);
+    		playerData.addDP(player, dpAmount);
     		player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.potion.get(), SoundSource.PLAYERS, 1, 1);
     		if(all) {
     			//Heal the rest of the party
@@ -151,7 +151,7 @@ public class KKPotionItem extends Item implements IItemCategory, ICreativeTab {
     						PlayerData targetData = PlayerData.get(target);
     						if(target.distanceTo(player) < ModConfigs.SERVER.partyRangeLimit.get()) {
 	    						dpAmount = (float) (percentage ? targetData.getMaxDP() * amount / 100 : amount);
-	    			        	targetData.addDP(dpAmount);
+	    			        	targetData.addDP(player,dpAmount);
 	    			    		player.level().playSound(null, target.blockPosition(), ModSounds.potion.get(), SoundSource.PLAYERS, 1, 1);
     						}
     			    		PacketHandler.syncToAllAround(target, targetData);

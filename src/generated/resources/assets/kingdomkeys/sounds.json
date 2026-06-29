@@ -29,6 +29,11 @@
       "kingdomkeys:drive"
     ]
   },
+  "drive_up": {
+    "sounds": [
+      "kingdomkeys:drive_up"
+    ]
+  },
   "error": {
     "sounds": [
       "kingdomkeys:error"
@@ -523,6 +528,11 @@
         "name": "kingdomkeys:records/the_other_promise",
         "stream": true
       }
+    ]
+  },
+  "revert": {
+    "sounds": [
+      "kingdomkeys:revert"
     ]
   },
   "savepoint": {

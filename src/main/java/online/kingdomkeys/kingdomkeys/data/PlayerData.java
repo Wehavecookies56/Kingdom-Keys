@@ -954,6 +954,16 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		this.dp = Utils.clamp(this.dp + dp, 0, this.maxDP);
 	}
 
+	public void addDP(Player player, double dp) {
+		int oldDrive = (int) (this.dp / 100);
+		this.dp = Utils.clamp(this.dp + dp, 0, this.maxDP);
+		int newDP = (int) (this.dp / 100);
+		System.out.println(oldDrive + " : " + newDP);
+		if(oldDrive < newDP) {
+			player.level().playSound(null,player.position().x,player.position().y, player.position().z, ModSounds.driveUp.get(), SoundSource.PLAYERS, 0.2F,1);
+		}
+	}
+
 	public void remDP(double dp) {
 		this.dp = Utils.clamp(this.dp - dp, 0, this.maxDP);
 	}

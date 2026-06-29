@@ -2248,14 +2248,15 @@ public class LanguageENUS extends KKLanguageProvider {
         add("soa.confirm.5", "Is this the form you choose?");
 
         //Heartless intro
-        add(Strings.HeartlessIntro1, "This world has been connected");
-        add(Strings.HeartlessIntro2, "Tied to the darkness...");
-        add(Strings.HeartlessIntro3, "Soon to be completely eclipsed");
+        add(HeartlessIntro1, "This world has been connected");
+        add(HeartlessIntro2, "Tied to the darkness...");
+        add(HeartlessIntro3, "Soon to be completely eclipsed");
 
         //CO intro
-        add(Strings.COIntro1, "In this place, to find is to lose");
-        add(Strings.COIntro2, "and to lose is to find.");
-        add(Strings.COIntro3, "That is the way in Castle Oblivion.");
+        add(COIntro1, "In this place, to find is to lose");
+        add(COIntro2, "and to lose is to find.");
+        add(COIntro3, "That is the way in Castle Oblivion.");
+        add(COIntroTitle, "Castle Oblivion");
 
         add("co.criteria_greater", "Criteria: A card with the number %s or higher or 0.");
         add("co.criteria_lesser", "Criteria: A card with the number %s or lower.");

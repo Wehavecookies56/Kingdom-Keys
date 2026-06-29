@@ -133,29 +133,4 @@ public class SavepointTileEntity extends BlockEntity {
 	public Packet<ClientGamePacketListener> getUpdatePacket() {
 		return ClientboundBlockEntityDataPacket.create(this);
 	}
-
-	public static <T> void tick(Level level, BlockPos pos, BlockState state, T blockEntity) {
-		if(blockEntity instanceof SavepointTileEntity savepoint) {
-			if (savepoint.ticks > 1800)
-				savepoint.ticks = 0;
-
-			// Don't do anything unless it's active
-			double r = 0.7D;
-			double cx = pos.getX() + 0.5;
-			double cy = pos.getY() + 0.5;
-			double cz = pos.getZ() + 0.5;
-
-			savepoint.ticks += 10; // Speed and distance between particles
-			double x = cx + (r * Math.cos(Math.toRadians(savepoint.ticks)));
-			double z = cz + (r * Math.sin(Math.toRadians(savepoint.ticks)));
-
-			double x2 = cx + (r * Math.cos(Math.toRadians(-savepoint.ticks)));
-			double z2 = cz + (r * Math.sin(Math.toRadians(-savepoint.ticks)));
-
-			float[] color = state.getValue(SavePointBlock.TIER) == SavePointStorage.SavePointType.WARP ? WARP_COLOR : SAVEPOINT_COLOR;
-
-			//level.addParticle(new DustParticleOptions(new Vector3f(color[0],color[1],color[2]), 1F), x, (cy - 0.5) - (-savepoint.ticks / 1800F), z, 0.0D, 0.0D, 0.0D);
-			//level.addParticle(new DustParticleOptions(new Vector3f(color[0],color[1],color[2]), 1F), x2, (cy + 0.5) - (savepoint.ticks / 1800F), z2, 0.0D, 0.0D, 0.0D);
-		}
-	}
 }

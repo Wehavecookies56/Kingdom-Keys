@@ -185,7 +185,7 @@ public abstract class DriveForm {
 	}
 
 	public SoundEvent getRevertSound() {
-		return ModSounds.unsummon.get();
+		return ModSounds.revert.get();
 	}
 
 	public void pushEntities(Player player) {

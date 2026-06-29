@@ -15,6 +15,8 @@ public class ModSounds {
 			alarm = registerSound("alarm"),
     		antidrive = registerSound("antidrive"),
     		drive = registerSound("drive"),
+		    revert = registerSound("revert"),
+		    driveUp = registerSound("drive_up"),
     	    error = registerSound("error"),
             //ether
     	    //hi-potion

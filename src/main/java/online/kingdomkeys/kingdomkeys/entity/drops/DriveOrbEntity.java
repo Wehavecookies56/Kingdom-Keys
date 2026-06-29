@@ -34,7 +34,7 @@ public class DriveOrbEntity extends ItemDropEntity {
 		if (playerData.isAbilityEquipped(Strings.driveBoost) && playerData.getRecharge())
 			finalValue *=2 ;
 		if(playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()))
-			playerData.addDP(finalValue);
+			playerData.addDP(player,finalValue);
 		else {
 			playerData.addFP(finalValue);
 			if (playerData.getActiveDriveForm().equals(Strings.Form_Master)) {

@@ -13,7 +13,7 @@ import org.joml.Matrix4f;
 
 public class SavePointBlockEntityRenderer implements BlockEntityRenderer<SavepointTileEntity> {
 
-	private static final float WIDTH = 0.03F;
+	private static final float WIDTH = 0.05F;
 
 	public SavePointBlockEntityRenderer(BlockEntityRendererProvider.Context context) {
 	}
@@ -53,7 +53,7 @@ public class SavePointBlockEntityRenderer implements BlockEntityRenderer<Savepoi
 				p.angle += p.rotationSpeed;
 				p.progress += p.verticalSpeed;
 
-				Vec3 head = center.add(Math.cos(p.angle) * p.radius, (Math.sin(p.progress) + 1.0) * 0.5, Math.sin(p.angle) * p.radius);
+				Vec3 head = center.add(Math.cos(p.angle) * p.radius, (Math.sin(p.progress) + 1.0) * 0.35, Math.sin(p.angle) * p.radius);
 
 				for (int i = p.trail.length - 1; i > 0; i--)
 					p.trail[i] = p.trail[i - 1];
@@ -64,7 +64,6 @@ public class SavePointBlockEntityRenderer implements BlockEntityRenderer<Savepoi
 
 		VertexConsumer consumer = bufferSource.getBuffer(RenderType.debugQuads());
 		Matrix4f pose = poseStack.last().pose();
-		Vec3 camera = mc.gameRenderer.getMainCamera().getPosition();
 
 		for (SavePointParticle p : be.particles) {
 			Vec3[] trail = p.trail.clone();
@@ -76,45 +75,70 @@ public class SavePointBlockEntityRenderer implements BlockEntityRenderer<Savepoi
 				trail[0] = center.add(Math.cos(renderAngle) * p.radius, (Math.sin(renderProgress) + 1.0) * 0.5, Math.sin(renderAngle) * p.radius);
 			}
 
-			renderTrail(trail, origin, pose, consumer, camera);
+			renderTrail(trail, origin, pose, consumer);
 		}
 	}
 
-	private void renderTrail(Vec3[] trail, Vec3 origin, Matrix4f pose, VertexConsumer consumer, Vec3 camera) {
+	private void renderTrail(Vec3[] trail, Vec3 origin, Matrix4f pose, VertexConsumer consumer) {
+		int count = trail.length;
 
-		for (int i = 0; i < trail.length - 1; i++) {
+		Vec3[] p0 = new Vec3[count];
+		Vec3[] p1 = new Vec3[count];
+		Vec3[] p2 = new Vec3[count];
+		Vec3[] p3 = new Vec3[count];
 
-			Vec3 p1 = trail[i];
-			Vec3 p2 = trail[i + 1];
+		for (int i = 1; i < count - 1; i++) {
+			Vec3 prev = trail[i - 1];
+			Vec3 curr = trail[i];
+			Vec3 next = trail[i + 1];
 
-			if (p1 == null || p2 == null) continue;
+			if (prev == null || curr == null || next == null) continue;
 
-			Vec3 dir = p2.subtract(p1).normalize();
-			Vec3 view = camera.subtract(p1).normalize();
+			Vec3 prev2 = (i >= 2) ? trail[i - 2] : prev;
+			Vec3 next2 = (i + 2 < count) ? trail[i + 2] : next;
 
-			Vec3 side = dir.cross(view);
+			Vec3 shortDir = next.subtract(prev).normalize();
+			Vec3 dir = shortDir;
 
-			if (side.lengthSqr() < 1E-5) continue;
+			if (prev2 != null && next2 != null) {
+				Vec3 longDir = next2.subtract(prev2).normalize();
+				dir = shortDir.scale(0.35).add(longDir.scale(0.65));
 
-			side = side.normalize().scale(WIDTH);
+				if (dir.lengthSqr() > 1E-5)
+					dir = dir.normalize();
+				else
+					dir = shortDir;
+			}
 
-			float alpha = 1F - i / (float) trail.length;
+			Vec3 upRef = Math.abs(dir.y) > 0.95 ? new Vec3(1, 0, 0) : new Vec3(0, 1, 0);
 
-			drawQuad(consumer, pose, p1.subtract(origin), p2.subtract(origin), side, 0.3F, 1.0F, 0.45F, alpha);
+			Vec3 side = dir.cross(upRef).normalize().scale(WIDTH);
+			Vec3 up = side.cross(dir).normalize().scale(WIDTH);
+
+			p0[i] = curr.add(side).add(up).subtract(origin);
+			p1[i] = curr.subtract(side).add(up).subtract(origin);
+			p2[i] = curr.subtract(side).subtract(up).subtract(origin);
+			p3[i] = curr.add(side).subtract(up).subtract(origin);
+		}
+
+		for (int i = 1; i < count - 2; i++) {
+			if (p0[i] == null || p0[i + 1] == null) continue;
+
+			float a1 = 1F - i / (float) count;
+			float a2 = 1F - (i + 1) / (float) count;
+
+			drawQuad(consumer, pose, p0[i], p1[i], p0[i + 1], p1[i + 1], 0.75F, 1F, 0.45F, a1, a2);
+			drawQuad(consumer, pose, p1[i], p2[i], p1[i + 1], p2[i + 1], 0.7F, 1F, 0.45F, a1, a2);
+			drawQuad(consumer, pose, p2[i], p3[i], p2[i + 1], p3[i + 1], 0.7F, 1F, 0.45F, a1, a2);
+			drawQuad(consumer, pose, p3[i], p0[i], p3[i + 1], p0[i + 1], 0.6F, 1F, 0.45F, a1, a2);
 		}
 	}
 
-	private void drawQuad(VertexConsumer buffer, Matrix4f pose, Vec3 p1, Vec3 p2, Vec3 offset, float r, float g, float b, float alpha) {
-		Vec3 p1A = p1.add(offset);
-		Vec3 p1B = p1.subtract(offset);
-
-		Vec3 p2A = p2.add(offset);
-		Vec3 p2B = p2.subtract(offset);
-
-		buffer.addVertex(pose, (float) p1A.x, (float) p1A.y, (float) p1A.z).setColor(r, g, b, alpha).setNormal(0, 1, 0);
-		buffer.addVertex(pose, (float) p2A.x, (float) p2A.y, (float) p2A.z).setColor(r, g, b, alpha).setNormal(0, 1, 0);
-		buffer.addVertex(pose, (float) p2B.x, (float) p2B.y, (float) p2B.z).setColor(r, g, b, alpha).setNormal(0, 1, 0);
-		buffer.addVertex(pose, (float) p1B.x, (float) p1B.y, (float) p1B.z).setColor(r, g, b, alpha).setNormal(0, 1, 0);
+	private void drawQuad(VertexConsumer buffer, Matrix4f pose, Vec3 left1, Vec3 right1, Vec3 left2, Vec3 right2, float r, float g, float b, float alpha1, float alpha2) {
+		buffer.addVertex(pose, (float) left1.x, (float) left1.y, (float) left1.z).setColor(r, g, b, alpha1).setNormal(0, 1, 0);
+		buffer.addVertex(pose, (float) left2.x, (float) left2.y, (float) left2.z).setColor(r, g, b, alpha2).setNormal(0, 1, 0);
+		buffer.addVertex(pose, (float) right2.x, (float) right2.y, (float) right2.z).setColor(r, g, b, alpha2).setNormal(0, 1, 0);
+		buffer.addVertex(pose, (float) right1.x, (float) right1.y, (float) right1.z).setColor(r, g, b, alpha1).setNormal(0, 1, 0);
 	}
 
 	public static class SavePointParticle {

@@ -256,20 +256,25 @@ public class MenuScreen extends MenuBackground {
 				int px = x * tileSize;
 				int py = y * tileSize;
 
+				Color roomColor;
+
 				boolean isCurrent = roomData == currentRoom;
-				if (roomData.getType() == RoomData.Type.EXIT) {
-					guiGraphics.setColor(0.1F, 0.4F, 0.9F, 1);
-				} else if (roomData.getType() == RoomData.Type.ENTRANCE) {
-					guiGraphics.setColor(0.1F, 0.4F, 0.9F, 1);
+
+				if (roomData.getType() == RoomData.Type.EXIT || roomData.getType() == RoomData.Type.ENTRANCE) {
+					roomColor = new Color(0.1F, 0.4F, 0.9F);
 				} else if (roomData.getType() == RoomData.Type.ENCOUNTER) {
-					guiGraphics.setColor(0.95F, 0.7F, 0.2F, 1);
-				} else if (roomData.getGenerated().isEmpty()) {
-					guiGraphics.setColor(0.31F, 0.31F, 0.27F, 1);
+					roomColor = new Color(0.95F, 0.7F, 0.2F);
 				} else if (isCurrent) {
-					guiGraphics.setColor(0.2F, 0.9F, 1F, 1);
+					roomColor = new Color(0.2F, 0.9F, 1F);
 				} else {
-					guiGraphics.setColor(0.9F, 0.9F, 0.8F, 1);
+					roomColor = new Color(0.9F, 0.9F, 0.8F);
 				}
+
+				if (roomData.getGenerated().isEmpty()) {
+					roomColor = roomColor.darker().darker().darker();
+				}
+
+				guiGraphics.setColor(roomColor.getRed() / 255F, roomColor.getGreen() / 255F, roomColor.getBlue() / 255F, 1F);
 
 				guiGraphics.blit(ROOM_TEX, px, py, tileSize, tileSize, 0, 0, 16, 16, 16, 16);
 				guiGraphics.setColor(1, 1, 1, 1);

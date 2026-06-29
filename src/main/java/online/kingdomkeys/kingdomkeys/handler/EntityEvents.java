@@ -958,7 +958,7 @@ public class EntityEvents {
 				}
 
 				if (playerData.isAbilityEquipped(Strings.damageDrive)) {
-					playerData.addDP((event.getNewDamage() * 0.2F) * playerData.getNumberOfAbilitiesEquipped(Strings.damageDrive));
+					playerData.addDP(player, (event.getNewDamage() * 0.2F) * playerData.getNumberOfAbilitiesEquipped(Strings.damageDrive));
 					PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
 				}
 			}

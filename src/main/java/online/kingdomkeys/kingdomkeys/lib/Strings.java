@@ -1524,7 +1524,8 @@ public class Strings {
 	public static String
 			COIntro1 = "co.intro.1", //In this place, to find is to lose
 			COIntro2 = "co.intro.2", //and to lose is to find.
-			COIntro3 = "co.intro.3"; //That is the way in Castle Oblivion
+			COIntro3 = "co.intro.3", //That is the way in Castle Oblivion
+			COIntroTitle = "co.intro.title";
 
 	//Map Cards
 	public static String

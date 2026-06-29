@@ -2292,14 +2292,15 @@ public class LanguageESES extends KKLanguageProvider {
         add("soa.confirm.3", "Has renunciado al");
         add("soa.confirm.5", "\u00bfEs esta la forma que quieres eligir?");
 
-        add(Strings.HeartlessIntro1, "Este mundo ha sido conectado");
-        add(Strings.HeartlessIntro2, "Unido a la oscuridad...");
-        add(Strings.HeartlessIntro3, "Y pronto perder\u00e1 la luz");
+        add(HeartlessIntro1, "Este mundo ha sido conectado");
+        add(HeartlessIntro2, "Unido a la oscuridad...");
+        add(HeartlessIntro3, "Y pronto perder\u00e1 la luz");
 
         //CO intro
-        add(Strings.COIntro1, "Aquí, encontrar es perder");
-        add(Strings.COIntro2, "y perder es encontrar.");
-        add(Strings.COIntro3, "Así son las cosas en el Castillo del Olvido.");
+        add(COIntro1, "Aquí, encontrar es perder");
+        add(COIntro2, "y perder es encontrar.");
+        add(COIntro3, "Así son las cosas en el Castillo del Olvido.");
+        add(COIntroTitle, "Castillo del Olvido");
 
         add("co.criteria_greater", "Condición: Una carta de valor %s, superior o 0.");
         add("co.criteria_lesser", "Condición: Una carta de valor %s o inferior.");

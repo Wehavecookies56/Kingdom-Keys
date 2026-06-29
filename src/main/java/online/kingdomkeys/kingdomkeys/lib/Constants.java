@@ -1,10 +1,26 @@
 package online.kingdomkeys.kingdomkeys.lib;
 
+import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.util.Utils;
+
+import java.util.List;
+import java.util.Map;
+
 public class Constants {
 
-    public static final int
-    TUTORIAL_CO_CASTLE = 0,
-    TUTORIAL_CO_LOBBY = 1;
+    public static final int TUTORIAL_CO_CASTLE = 0;
+    public static final int TUTORIAL_CO_LOBBY = 1;
+
+
+    public static final Map<Integer, List<Utils.Title>> TUTORIALS = Map.of(
+    TUTORIAL_CO_CASTLE, List.of(),
+
+    TUTORIAL_CO_LOBBY, List.of(
+            new Utils.Title("", Strings.COIntro1),
+            new Utils.Title("", Strings.COIntro2),
+            new Utils.Title("", Strings.COIntro3),
+            new Utils.Title(Strings.COIntroTitle, "").setKHFont()
+    ));
 
     public static final int
     // Input

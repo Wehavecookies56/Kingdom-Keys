@@ -25,6 +25,8 @@ public class Sounds extends SoundDefinitionsProvider {
         add(alarm);
         add(antidrive);
         add(drive);
+        add(revert);
+        add(driveUp);
         add(error);
         add(hp_orb);
         add(itemget);

@@ -417,7 +417,7 @@ public class SavePointBlock extends BaseBlock implements EntityBlock, INoDataGen
 				if (playerData.getDP() >= playerData.getMaxDP())
 					return false;
 
-				playerData.addDP(5);
+				playerData.addDP(player,5);
 				PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
 				return true;
 			}
@@ -437,11 +437,6 @@ public class SavePointBlock extends BaseBlock implements EntityBlock, INoDataGen
 		world.addParticle(ParticleTypes.HAPPY_VILLAGER, pos.getX() + 0.5, pos.getY() + 2.5, pos.getZ() + 0.2, 0.0D, 0.0D, 0.0D);
 		world.addParticle(ParticleTypes.HAPPY_VILLAGER, pos.getX() + 0.8, pos.getY() + 2.5, pos.getZ() + 0.5, 0.0D, 0.0D, 0.0D);
 		world.addParticle(ParticleTypes.HAPPY_VILLAGER, pos.getX() + 0.5, pos.getY() + 2.5, pos.getZ() + 0.8, 0.0D, 0.0D, 0.0D);
-	}
-
-	@Override
-	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-		return type == ModEntities.TYPE_SAVEPOINT.get() ? SavepointTileEntity::tick : null;
 	}
 	
 	@Nullable

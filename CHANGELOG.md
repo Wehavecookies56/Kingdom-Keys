@@ -2,12 +2,17 @@
 ## Added:
 * Glove icon on button hovering.
 * Magic spells elemental texture to identify them easily. 
+* Small introduction to Castle Oblivion
+* Trails to the Savepoint.
+* Sound when drive level goes up (Thanks to Xephiro).
+* Proper revert sound (Thanks to Xephiro again).
 ## Changed:
 * HP, MP, Drive and Munny textures.
 * Creative tab submenus icons will now cycle randomly.
 * Sorted magic spells in the creative menu.
 ## Fixed:
 * Potential crash sometimes when the command menu would load before the config.
+* Key rooms and exit didn't get darker when not opened yet. 
 * Ignite spell item not translated in Spanish.
 
 # 2.8.0a:
