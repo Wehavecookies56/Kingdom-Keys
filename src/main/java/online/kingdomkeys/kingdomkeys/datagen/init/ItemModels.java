@@ -155,12 +155,7 @@ public class ItemModels extends ItemModelProvider {
 				blockName = blockName.substring(0, blockName.length() - suffix.length());
 			}
 		}
-		String tier = "";
-		if(path.contains("shell")){
-			tier = "shell_";
-		} else if (path.contains("dispel")) {
-			tier = "dispel_";
-		}
+
         switch (block) {
 			case GummiBlockBase gummiBlockBase -> {
 				if (!blockName.contains("gummi_cube")) {
@@ -206,6 +201,12 @@ public class ItemModels extends ItemModelProvider {
 			case MagicTargetBlock magicTargetBlock -> {
 				// manually generated version exists in main/resources
 			}
+	        case SoADoorBlock door -> {
+		        // manually generated version exists in main/resources
+	        }
+	        case CardDoorBlock door -> {
+		        // manually generated version exists in main/resources
+	        }
 
 			default ->
                 // fallback in case block item could not be generated as part of blockstates
@@ -305,7 +306,6 @@ public class ItemModels extends ItemModelProvider {
 	}
 
 	void standardMagicItem(String name, String path, String element) {
-		System.out.println(element);
 		getBuilder(name).parent(new ModelFile.UncheckedModelFile("item/generated")).texture("layer0","item/"+ path + element);
 	}
 

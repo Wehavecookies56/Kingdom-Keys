@@ -1,3 +1,11 @@
+# 2.8.0c:
+## Added:
+
+## Changed:
+
+## Fixed:
+* Positioned Card door and Mysterious door in the inventory and in hand.
+
 # 2.8.0b:
 ## Added:
 * Glove icon on button hovering.
