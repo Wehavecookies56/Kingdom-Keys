@@ -54,7 +54,7 @@ public class ShopScreen extends MenuFilterable {
 		super(Strings.Gui_Shop_Main_Title, new Color(255, 0, 0));
 		drawSeparately = true;
 		this.parent = parent;
-		parent.playerData = playerData;
+		this.playerData = playerData;
 	}
 	
 	public ShopScreen(PlayerData playerData, String nbt, SynthesisScreen parent) {
@@ -153,8 +153,8 @@ public class ShopScreen extends MenuFilterable {
 		create.setCenterText(true);
 		addRenderableWidget(create);
 
-        addRenderableWidget(sell = new MenuButton((int)this.buttonPosX, this.buttonPosY, (int)(buttonWidth+15)/2, Component.translatable(Strings.Gui_Shop_Sell).getString(), MenuButton.ButtonType.BUTTON, b -> minecraft.setScreen(new SellScreen(parent.playerData, parent))));
-		addRenderableWidget(back = new MenuButton((int)this.buttonPosX, this.buttonPosY+18, (int)(buttonWidth+15)/2, Component.translatable(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, b -> minecraft.setScreen(new SynthesisScreen(parent.playerData, parent.invFile, parent.name, parent.moogle))));
+        addRenderableWidget(sell = new MenuButton((int)this.buttonPosX, this.buttonPosY, (int)(buttonWidth+15)/2, Component.translatable(Strings.Gui_Shop_Sell).getString(), MenuButton.ButtonType.BUTTON, b -> minecraft.setScreen(new SellScreen(playerData, parent))));
+		addRenderableWidget(back = new MenuButton((int)this.buttonPosX, this.buttonPosY+18, (int)(buttonWidth+15)/2, Component.translatable(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, b -> minecraft.setScreen(new SynthesisScreen(playerData, parent.invFile, parent.name, parent.moogle))));
 	}
 
 	@Override
@@ -194,7 +194,6 @@ public class ShopScreen extends MenuFilterable {
 				create.visible = true;			
 
 				create.active = enoughMunny && enoughTier;
-				System.out.println(enoughMunny);
 				if(minecraft.player.getInventory().getFreeSlot() == -1) { //TODO somehow make this detect in singleplayer the inventory changes
 					create.setMessage(Component.translatable(Strings.Gui_Shop_NoSpace));
 				}

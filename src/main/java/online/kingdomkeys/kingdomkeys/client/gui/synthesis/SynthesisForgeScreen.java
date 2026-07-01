@@ -49,7 +49,7 @@ public class SynthesisForgeScreen extends MenuFilterable {
 		super(Strings.Gui_Synthesis_Forge_Title, new Color(0, 255, 0));
 		drawSeparately = true;
 		this.parent = parent;
-		parent.playerData = playerData;
+		this.playerData = playerData;
 	}
 
 	protected void action(String string) {
@@ -129,7 +129,7 @@ public class SynthesisForgeScreen extends MenuFilterable {
 
 		buttonPosX -= 10;
 		buttonWidth = ((float)width * 0.07F);
-		addRenderableWidget(back = new MenuButton((int)this.buttonPosX, this.buttonPosY, (int)buttonWidth, Component.translatable(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, b -> minecraft.setScreen(new SynthesisScreen(parent.playerData, parent.invFile, parent.name, parent.moogle))));
+		addRenderableWidget(back = new MenuButton((int)this.buttonPosX, this.buttonPosY, (int)buttonWidth, Component.translatable(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, b -> minecraft.setScreen(new SynthesisScreen(playerData, parent.invFile, parent.name, parent.moogle))));
 
 		super.init();
 	}

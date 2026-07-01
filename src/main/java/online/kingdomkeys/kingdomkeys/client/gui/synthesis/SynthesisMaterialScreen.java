@@ -51,7 +51,7 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 		super(Strings.Gui_Synthesis_Materials, new Color(0,255,0));
 		drawPlayerInfo = true;
 		this.parent = parent;
-		parent.playerData = playerData;
+		this.playerData = playerData;
 	}
 	
 	public SynthesisMaterialScreen(PlayerData playerData, String inv, String name, int moogle) {
@@ -77,8 +77,8 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 
 					if (!ItemStack.matches(stack, ItemStack.EMPTY)) {
 						if (stack.is(ModTags.MATERIALS)) {
-							parent.playerData.addMaterial(stack.getItem(), stack.getCount());
-							parent.playerData.addTotalMaterial(stack.getItem(), stack.getCount());
+							playerData.addMaterial(stack.getItem(), stack.getCount());
+							playerData.addTotalMaterial(stack.getItem(), stack.getCount());
 							player.getInventory().setItem(i, ItemStack.EMPTY);
 						}
 					}
@@ -89,7 +89,7 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 			PacketHandler.sendToServer(new CSDepositMaterials(parent.invFile, parent.name, parent.moogle));
 			break;
 		case "back":
-			minecraft.setScreen(new SynthesisScreen(parent.playerData, parent.invFile, parent.name, parent.moogle));
+			minecraft.setScreen(new SynthesisScreen(playerData, parent.invFile, parent.name, parent.moogle));
 			break;
 		case "take":
 			ItemStack selectedItemstack = new ItemStack(BuiltInRegistries.ITEM.get(selectedRL));
@@ -140,7 +140,7 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 
 		List<ItemStack> items = new ArrayList<>();
 
-		for (Entry<ResourceLocation, Integer> mat : parent.playerData.getMaterialMap().entrySet()) {
+		for (Entry<ResourceLocation, Integer> mat : playerData.getMaterialMap().entrySet()) {
 			Item item = BuiltInRegistries.ITEM.get(mat.getKey());
 			items.add(new ItemStack(item, mat.getValue()));
 		}

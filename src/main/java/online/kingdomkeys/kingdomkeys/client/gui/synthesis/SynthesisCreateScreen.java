@@ -52,7 +52,7 @@ public class SynthesisCreateScreen extends MenuFilterable {
 		super(Strings.Gui_Synthesis_Synthesise_Title, new Color(0, 255, 0));
 		drawSeparately = true;
 		this.parent = parent;
-		parent.playerData = playerData;
+		this.playerData = playerData;
 	}
 
 	protected void action(String string) {
@@ -102,8 +102,8 @@ public class SynthesisCreateScreen extends MenuFilterable {
 		filterBar.buttons.forEach(this::addWidget);
 
 		List<ResourceLocation> items = new ArrayList<>();
-		for (int i = 0; i < parent.playerData.getKnownRecipeList().size(); i++) {
-			ResourceLocation itemName = parent.playerData.getKnownRecipeList().get(i);
+		for (int i = 0; i < playerData.getKnownRecipeList().size(); i++) {
+			ResourceLocation itemName = playerData.getKnownRecipeList().get(i);
 			Recipe recipe = RecipeRegistry.getInstance().getValue(itemName);
 			if(recipe != null) {
 				ResourceLocation recipeRL = recipe.getRegistryName();
@@ -140,7 +140,7 @@ public class SynthesisCreateScreen extends MenuFilterable {
 		});
 		create.setCenterText(true);
 		addRenderableWidget(create);
-		addRenderableWidget(back = new MenuButton((int)this.buttonPosX, this.buttonPosY, (int)buttonWidth/2, Component.translatable(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, b -> minecraft.setScreen(new SynthesisScreen(parent.playerData, parent.invFile, parent.name, parent.moogle))));
+		addRenderableWidget(back = new MenuButton((int)this.buttonPosX, this.buttonPosY, (int)buttonWidth/2, Component.translatable(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, b -> minecraft.setScreen(new SynthesisScreen(playerData, parent.invFile, parent.name, parent.moogle))));
 
 	}
 
