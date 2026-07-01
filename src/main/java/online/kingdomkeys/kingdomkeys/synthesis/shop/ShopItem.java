@@ -18,6 +18,7 @@ public class ShopItem {
     @Nullable int cost;
     @Nullable int tier;
 	@Nullable int matReq;
+	@Nullable boolean requireAll;
 
     public ShopItem() {
 
@@ -62,6 +63,14 @@ public class ShopItem {
 		this.matReq = matReq;
 	}
 
+	public boolean requireAll() {
+		return requireAll;
+	}
+
+	public void setRequireAll(boolean requireAll) {
+		this.requireAll = requireAll;
+	}
+
 	public int getTier() {
 		return tier;
 	}
@@ -78,6 +87,7 @@ public class ShopItem {
 		nbt.putInt("cost", cost);
 		nbt.putInt("tier", tier);
 		nbt.putInt("mat_req", matReq);
+		nbt.putBoolean("require_all", requireAll);
 		return nbt;
 	}
 
@@ -86,5 +96,6 @@ public class ShopItem {
 		this.setCost(nbt.getInt("cost"));
 		this.setTier(nbt.getInt("tier"));
 		this.setMatReq(nbt.getInt("mat_req"));
+		this.setRequireAll(nbt.getBoolean("require_all"));
 	}
 }

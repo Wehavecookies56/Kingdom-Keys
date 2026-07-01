@@ -474,6 +474,7 @@ public class EntityEvents {
 		/*System.out.println(playerData.getMaterialMap());
 		System.out.println(playerData.getTotalMaterialMap());
 		System.out.println("---");*/
+
 		if (playerData != null) {
 			// Check if rc conditions match
 			//Tick RCs in list

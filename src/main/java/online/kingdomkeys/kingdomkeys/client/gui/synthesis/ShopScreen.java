@@ -106,11 +106,13 @@ public class ShopScreen extends MenuFilterable {
 
 		boolean requireTier = ModConfigs.SERVER.requireSynthTierShop.get();
 		int synthLevel = playerData.getSynthLevel();
-
 		List<ShopItem> list = getShopList().getList().stream()
-				.filter(shopItem -> !requireTier || shopItem.getTier() <= synthLevel)
-				.filter(shopItem -> shopItem.getMatReq() <= playerData.getTotalMaterialAmount(shopItem.getResult()))
-				.toList();
+				.filter(shopItem -> {
+					boolean tierOk = !requireTier || shopItem.getTier() <= synthLevel;
+					boolean matsOk = shopItem.getMatReq() <= playerData.getTotalMaterialAmount(shopItem.getResult());
+
+					return shopItem.requireAll() ? (tierOk && matsOk) : (tierOk || matsOk);
+				}).toList();
 
 		List<ResourceLocation> items = new ArrayList<>();
 		for (ShopItem shopItem : list) {
@@ -178,23 +180,25 @@ public class ShopScreen extends MenuFilterable {
 			for(ShopItem shopItem : list) {
 				Item it = shopItem.getResult();
 
-				if(it instanceof KeychainItem) {
-					it = ((KeychainItem)it).getKeyblade();
+				if (it instanceof KeychainItem) {
+					it = ((KeychainItem) it).getKeyblade();
 				}
-				
-				if(ItemStack.isSameItem(new ItemStack(it,shopItem.getAmount()), selectedItemStack)) {
+
+				if (ItemStack.isSameItem(new ItemStack(it, shopItem.getAmount()), selectedItemStack)) {
 					item = shopItem;
 					break;
 				}
-				
-			}			
-			if(item != null) {
+			}
+			if (item != null) {
 				enoughMunny = playerData.getMunny() >= item.getCost();
 				enoughTier = !ModConfigs.SERVER.requireSynthTierShop.get() || playerData.getSynthLevel() >= item.getTier();
-				create.visible = true;			
+				boolean matsOk = item.getMatReq() <= playerData.getTotalMaterialAmount(item.getResult());
 
-				create.active = enoughMunny && enoughTier;
-				if(minecraft.player.getInventory().getFreeSlot() == -1) { //TODO somehow make this detect in singleplayer the inventory changes
+				enoughTier = item.requireAll() ? (enoughTier && matsOk) : (enoughTier || matsOk);
+				create.visible = true;
+				create.active = enoughMunny && enoughTier && matsOk;
+
+				if (minecraft.player.getInventory().getFreeSlot() == -1) {
 					create.setMessage(Component.translatable(Strings.Gui_Shop_NoSpace));
 				}
 			}

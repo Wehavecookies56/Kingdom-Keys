@@ -42,35 +42,12 @@ public class ShopListDataDeserializer implements JsonDeserializer<ShopList> {
 					shopItem.setTier(jsonObj.get("tier").getAsInt());
 					shopItem.setCost(jsonObj.get("cost").getAsInt());
 					shopItem.setMatReq(jsonObj.has("mat_req") ? jsonObj.get("mat_req").getAsInt() : 0);
+					shopItem.setRequireAll(jsonObj.has("condition") ? jsonObj.get("condition").getAsString().equals("all") : false);
 					out.addToList(shopItem);
 					KingdomKeys.LOGGER.info("OUTPUT: {}, TIER {}, QUANTITY: {}", shopItem.result, shopItem.tier, shopItem.amount);
 				}
 			}
         }
-        
-       /* jsonObject.forEach(entry -> {
-            JsonElement element = entry.getValue();
-            switch (entry.getKey()) {//Check for the first level key
-                    
-                case "cost":
-                	out.setCost(element.getAsInt());
-                	break;
-                
-                case "output":
-                	 JsonObject outputObject = element.getAsJsonObject();
-                     boolean valid = outputObject.get("item") != null && outputObject.get("quantity") != null;
-                     if(valid) {
-                    	 Item keychain = ForgeRegistries.ITEMS.getValue(new ResourceLocation(outputObject.get("item").getAsString()));
-                         out.setResult(keychain, outputObject.get("quantity").getAsInt());
-                         out.setType(outputObject.get("type").getAsString());
-                     }
-                    break;
-                    
-                case "tier":
-                	out.setTier(element.getAsInt());
-                	break;
-            }
-        });*/
         return out;
     }
 }
