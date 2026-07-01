@@ -43,6 +43,7 @@ public record CSDepositMaterials(String inv, String name, int moogle) implements
             if (!ItemStack.matches(synthBag, ItemStack.EMPTY)) { //If current bag slot is filled
 				if(synthBag.is(ModTags.MATERIALS)) {
             		playerData.addMaterial(synthBag.getItem(), bag.getStackInSlot(j).getCount());
+					playerData.addTotalMaterial(synthBag.getItem(), bag.getStackInSlot(j).getCount());
             		bag.extractItem(j, bag.getStackInSlot(j).getCount(), false);
             	}
             }
@@ -59,6 +60,7 @@ public record CSDepositMaterials(String inv, String name, int moogle) implements
 				if (!ItemStack.matches(stack, ItemStack.EMPTY)) {
 					if (stack.is(ModTags.MATERIALS)) {
 						playerData.addMaterial(stack.getItem(), stack.getCount());
+						playerData.addTotalMaterial(stack.getItem(), stack.getCount());
 						player.getInventory().setItem(i, ItemStack.EMPTY);
 					}
 

@@ -57,10 +57,13 @@ public record CSShopBuy(ResourceLocation inv, ItemStack itemStack) implements Pa
 				}
 
 			}
-			boolean enoughMunny = playerData.getMunny() >= item.getCost();
-			boolean enoughTier = !ModConfigs.SERVER.requireSynthTier.get() || playerData.getSynthLevel() >= item.getTier();
+			boolean requireTier = ModConfigs.SERVER.requireSynthTierShop.get();
+			int synthLevel = playerData.getSynthLevel();
 
-			if(enoughMunny && enoughTier) { //If the player has the materials substract them and give the item
+			boolean validItem = (!requireTier || item.getTier() <= synthLevel) && item.getMatReq() <= playerData.getTotalMaterialAmount(item.getResult());
+			boolean enoughMunny = playerData.getMunny() >= item.getCost();
+
+			if (validItem && enoughMunny) {
 				playerData.setMunny(playerData.getMunny() - item.getCost());
 
 				if(ModConfigs.SERVER.getExpFromShop.get())

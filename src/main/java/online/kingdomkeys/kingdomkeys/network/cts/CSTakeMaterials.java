@@ -38,13 +38,11 @@ public record CSTakeMaterials(ItemStack stack, int amount, String inv, String na
 		Player player = context.player();
 		PlayerData playerData = PlayerData.get(player);
 		if(!ItemStack.isSameItem(stack, ItemStack.EMPTY)) {
-			int amountToTake = amount;
-			if(playerData.getMaterialAmount(stack.getItem())<amount) {
-				amountToTake = playerData.getMaterialAmount(stack.getItem());
-			}
+			int amountToTake = Math.min(playerData.getMaterialAmount(stack.getItem()), amount);
 			ItemStack toAdd = stack.copy();
 			toAdd.setCount(amountToTake);
 			playerData.removeMaterial(stack.getItem(), amountToTake);
+			playerData.removeTotalMaterial(stack.getItem(), amountToTake);
 			player.getInventory().add(toAdd);
 		}
 		PacketHandler.sendTo(new SCOpenMaterialsScreen(playerData.serializeNBT(player.level().registryAccess()), inv, name, moogle), (ServerPlayer) player);

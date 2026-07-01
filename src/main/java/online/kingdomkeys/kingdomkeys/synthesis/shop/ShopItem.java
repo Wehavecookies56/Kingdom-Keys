@@ -17,7 +17,7 @@ public class ShopItem {
    // @Nullable String type;
     @Nullable int cost;
     @Nullable int tier;
-   
+	@Nullable int matReq;
 
     public ShopItem() {
 
@@ -26,19 +26,8 @@ public class ShopItem {
     public ShopItem(int cost, Item result, int amount) {
 		this.result = result;
 		this.amount = amount;
-		//this.type = type;
 		this.cost = cost;
 	}
-  /*  
-    public String getType() {
-    	return type;
-    }
-
-    public void setType(String type) {
-    	this.type = type;
-    }
-    */
-   
 
 	public Item getResult() {
 		return result;
@@ -64,7 +53,15 @@ public class ShopItem {
 	public void setCost(int cost) {
 		this.cost = cost;
 	}
-	
+
+	public int getMatReq() {
+		return matReq;
+	}
+
+	public void setMatReq(int matReq) {
+		this.matReq = matReq;
+	}
+
 	public int getTier() {
 		return tier;
 	}
@@ -80,14 +77,14 @@ public class ShopItem {
 		nbt.putInt("amount", amount);
 		nbt.putInt("cost", cost);
 		nbt.putInt("tier", tier);
-		//nbt.putString("type", getType());
+		nbt.putInt("mat_req", matReq);
 		return nbt;
 	}
 
 	public void deserializeNBT(CompoundTag nbt) {
 		this.setResult(BuiltInRegistries.ITEM.get(ResourceLocation.parse(nbt.getString("result"))), nbt.getInt("amount"));
-		//this.setType(nbt.getString("type"));
 		this.setCost(nbt.getInt("cost"));
 		this.setTier(nbt.getInt("tier"));
+		this.setMatReq(nbt.getInt("mat_req"));
 	}
 }

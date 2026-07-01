@@ -263,6 +263,14 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 				mats.remove(pair.getKey().toString());
 		}
 		storage.put("materials", mats);
+
+	    CompoundTag totalMats = new CompoundTag();
+	    for (Entry<ResourceLocation, Integer> pair : this.getTotalMaterialMap().entrySet()) {
+		    totalMats.putInt(pair.getKey().toString(), pair.getValue());
+		    if (totalMats.getInt(pair.getKey().toString()) == 0 && pair.getKey() != null)
+			    totalMats.remove(pair.getKey().toString());
+	    }
+	    storage.put("total_materials", totalMats);
 		storage.putInt("limitCooldownTicks", this.getLimitCooldownTicks());
 
 		CompoundTag shortcuts = new CompoundTag();
@@ -499,6 +507,11 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 			this.getMaterialMap().put(ResourceLocation.parse(mat), nbt.getCompound("materials").getInt(mat));
 		}
 
+		totalMaterials.clear();
+		for (String mat : nbt.getCompound("total_materials").getAllKeys()) {
+			this.getTotalMaterialMap().put(ResourceLocation.parse(mat), nbt.getCompound("total_materials").getInt(mat));
+		}
+
 		this.setLimitCooldownTicks(nbt.getInt("limitCooldownTicks"));
 
 		shortcutsMap.clear();
@@ -569,6 +582,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 	List<ResourceLocation> recipeList = new ArrayList<>();
 	LinkedHashMap<String, int[]> abilityMap = new LinkedHashMap<>(); //Key = name, value = {level, equipped},
     private TreeMap<ResourceLocation, Integer> materials = new TreeMap<>();
+	private TreeMap<ResourceLocation, Integer> totalMaterials = new TreeMap<>();
 	LinkedHashMap<String, Integer> reactionMap = new LinkedHashMap<>();
 	List<String> pAbilitiesList = new ArrayList<>();
 	List<String> pShotlocksList = new ArrayList<>();
@@ -1993,7 +2007,6 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 			recipeList.removeAll(list2);
 			break;
 		}
-		
 	}
 
 	public TreeMap<ResourceLocation, Integer> getMaterialMap() {
@@ -2061,6 +2074,75 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 	public void clearMaterials() {
 		this.materials.clear();
 	}
+
+
+
+	public TreeMap<ResourceLocation, Integer> getTotalMaterialMap() {
+		return totalMaterials;
+	}
+
+	public void setTotalMaterialMap(TreeMap<ResourceLocation, Integer> materialMap) {
+		this.totalMaterials = new TreeMap<>(materialMap);
+	}
+
+	public int getTotalMaterialAmount(Item material) {
+		ResourceLocation regName = BuiltInRegistries.ITEM.getKey(material);
+		if (totalMaterials.containsKey(regName)) {
+			return totalMaterials.get(regName);
+		}
+		return 0;
+	}
+
+	public void addTotalMaterial(Item material, int amount) {
+		ResourceLocation regName = BuiltInRegistries.ITEM.getKey(material);
+		if (totalMaterials.containsKey(regName)) {
+			int currAmount = totalMaterials.get(regName);
+			if (amount <= 0) {
+				totalMaterials.remove(regName);
+			} else {
+				totalMaterials.replace(regName, currAmount + amount);
+			}
+		} else {
+			if (amount <= 0) {
+				totalMaterials.remove(regName);
+			} else {
+				totalMaterials.put(regName, amount);
+			}
+		}
+	}
+
+	public void setTotalMaterial(Item material, int amount) {
+		ResourceLocation regName = BuiltInRegistries.ITEM.getKey(material);
+		if (totalMaterials.containsKey(regName)) {
+			if (amount <= 0)
+				totalMaterials.remove(regName);
+			else
+				totalMaterials.replace(regName, amount);
+		} else {
+			if (amount <= 0)
+				totalMaterials.remove(regName);
+			else
+				totalMaterials.put(regName, amount);
+		}
+	}
+
+	public void removeTotalMaterial(Item material, int amount) {
+		ResourceLocation regName = BuiltInRegistries.ITEM.getKey(material);
+		if (totalMaterials.containsKey(regName)) {
+			int currAmount = totalMaterials.get(regName);
+			if (amount > currAmount)
+				amount = currAmount;
+			totalMaterials.replace(regName, currAmount - amount);
+			if (totalMaterials.get(regName) <= 0) {
+				totalMaterials.remove(regName);
+			}
+		}
+	}
+
+	public void clearTotalMaterials() {
+		this.totalMaterials.clear();
+	}
+
 
 	//endregion
 

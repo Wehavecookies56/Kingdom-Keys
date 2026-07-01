@@ -39,6 +39,7 @@ import org.jetbrains.annotations.NotNull;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.LinkedList;
 import java.util.List;
 
 public class ShopScreen extends MenuFilterable {
@@ -102,28 +103,30 @@ public class ShopScreen extends MenuFilterable {
 		children().clear();
 		renderables.clear();
 		filterBar.buttons.forEach(this::addWidget);
-		
-		if(ModConfigs.SERVER.requireSynthTierShop.get()) {
-			getShopList().getList().removeIf(shopItem ->
-					shopItem.getTier() > playerData.getSynthLevel()
-			);
-		}
+
+		boolean requireTier = ModConfigs.SERVER.requireSynthTierShop.get();
+		int synthLevel = playerData.getSynthLevel();
+
+		List<ShopItem> list = getShopList().getList().stream()
+				.filter(shopItem -> !requireTier || shopItem.getTier() <= synthLevel)
+				.filter(shopItem -> shopItem.getMatReq() <= playerData.getTotalMaterialAmount(shopItem.getResult()))
+				.toList();
+
 		List<ResourceLocation> items = new ArrayList<>();
-		for (int i = 0; i < getShopList().getList().size(); i++) {
+		for (ShopItem shopItem : list) {
 			ResourceLocation itemName = null;
-			ShopItem shopItem = getShopList().getList().get(i);
-			if(shopItem != null) {
+			if (shopItem != null) {
 				ResourceLocation recipeRL = Utils.getItemRegistryName(shopItem.getResult());
 				ItemStack stack = new ItemStack(shopItem.getResult());
-	
+
 				if (shopItem.getResult() instanceof KeychainItem)
 					stack = new ItemStack(((KeychainItem) shopItem.getResult()).getKeyblade());
-	
+
 				if (filterItem(stack)) {
 					items.add(recipeRL);
 				}
 			} else {
-				KingdomKeys.LOGGER.error(itemName +" is not a valid recipe, check it");
+				KingdomKeys.LOGGER.error(itemName + " is not a valid recipe, check it");
 			}
 		}
 
@@ -186,13 +189,13 @@ public class ShopScreen extends MenuFilterable {
 				
 			}			
 			if(item != null) {
-				enoughMunny = parent.playerData.getMunny() >= item.getCost();
-				enoughTier = !ModConfigs.SERVER.requireSynthTierShop.get() || parent.playerData.getSynthLevel() >= item.getTier();
+				enoughMunny = playerData.getMunny() >= item.getCost();
+				enoughTier = !ModConfigs.SERVER.requireSynthTierShop.get() || playerData.getSynthLevel() >= item.getTier();
 				create.visible = true;			
 
 				create.active = enoughMunny && enoughTier;
+				System.out.println(enoughMunny);
 				if(minecraft.player.getInventory().getFreeSlot() == -1) { //TODO somehow make this detect in singleplayer the inventory changes
-					create.active = false;
 					create.setMessage(Component.translatable(Strings.Gui_Shop_NoSpace));
 				}
 			}

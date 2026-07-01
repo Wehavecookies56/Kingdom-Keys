@@ -78,6 +78,7 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 					if (!ItemStack.matches(stack, ItemStack.EMPTY)) {
 						if (stack.is(ModTags.MATERIALS)) {
 							parent.playerData.addMaterial(stack.getItem(), stack.getCount());
+							parent.playerData.addTotalMaterial(stack.getItem(), stack.getCount());
 							player.getInventory().setItem(i, ItemStack.EMPTY);
 						}
 					}

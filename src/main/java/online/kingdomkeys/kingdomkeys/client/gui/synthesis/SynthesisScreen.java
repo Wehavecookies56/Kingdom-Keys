@@ -33,8 +33,6 @@ public class SynthesisScreen extends MenuBackground implements IPlayerDataReques
 		
 	MenuButton synthesise, forge, materials, shop;
 
-	PlayerData playerData;
-	
 	String invFile = ModConfigs.SERVER.projectorHasShop.get() ? "kingdomkeys:default" : "";
 	int moogle = -1;
 

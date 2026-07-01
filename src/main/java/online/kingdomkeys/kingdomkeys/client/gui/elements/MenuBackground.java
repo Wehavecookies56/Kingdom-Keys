@@ -128,6 +128,8 @@ public class MenuBackground extends Screen {
 		if (showRewardPopup) {
 			rewardPopupTicks++;
 		}
+		playerData = PlayerData.get(player);
+
 		super.tick();
 	}
 

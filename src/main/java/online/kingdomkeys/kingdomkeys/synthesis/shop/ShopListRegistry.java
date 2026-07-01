@@ -57,7 +57,7 @@ public class ShopListRegistry {
     }
 
     public List<ShopList> getValues() {
-        return new LinkedList<ShopList>(registry.values());
+        return new LinkedList<>(registry.values());
     }
 
     public void setRegistry(Map<ResourceLocation, ShopList> registry) {

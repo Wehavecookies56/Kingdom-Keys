@@ -290,6 +290,10 @@ public class EntityEvents {
 					}
 				}
 
+				if(!playerData.getMaterialMap().isEmpty() && playerData.getTotalMaterialMap().isEmpty()){ //Shop req
+					playerData.setTotalMaterialMap(playerData.getMaterialMap());
+				}
+
 				if (!playerData.getDriveFormMap().containsKey(DriveForm.KB2.toString())) {
 					playerData.setDriveFormLevel(DriveForm.KB2.toString(), 1);
 					playerData.setDriveFormLevel(DriveForm.KB3.toString(), 1);
@@ -467,6 +471,9 @@ public class EntityEvents {
 		Player player = event.getEntity();
 		PlayerData playerData = PlayerData.get(player);
 		//playerData.clearRecipes("all");
+		/*System.out.println(playerData.getMaterialMap());
+		System.out.println(playerData.getTotalMaterialMap());
+		System.out.println("---");*/
 		if (playerData != null) {
 			// Check if rc conditions match
 			//Tick RCs in list
