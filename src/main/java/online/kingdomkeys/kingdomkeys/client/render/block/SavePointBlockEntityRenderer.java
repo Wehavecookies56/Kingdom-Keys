@@ -8,11 +8,15 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.world.phys.Vec3;
+import online.kingdomkeys.kingdomkeys.block.SavePointBlock;
 import online.kingdomkeys.kingdomkeys.entity.block.SavepointTileEntity;
+import online.kingdomkeys.kingdomkeys.world.SavePointStorage;
 import org.joml.Matrix4f;
 
 public class SavePointBlockEntityRenderer implements BlockEntityRenderer<SavepointTileEntity> {
+	private static final float[][] SAVEPOINT_COLORS = {{0.75F, 1.00F, 0.45F}, {0.70F, 1.00F, 0.45F}, {0.70F, 1.00F, 0.45F}, {0.60F, 1.00F, 0.45F}};
 
+	private static final float[][] WARP_COLORS = {{0.75F, 1.00F, 1.00F}, {0.65F, 0.95F, 1.00F}, {0.55F, 0.90F, 1.00F}, {0.45F, 0.85F, 1.00F}};
 	private static final float WIDTH = 0.05F;
 
 	public SavePointBlockEntityRenderer(BlockEntityRendererProvider.Context context) {
@@ -26,6 +30,8 @@ public class SavePointBlockEntityRenderer implements BlockEntityRenderer<Savepoi
 
 		Vec3 center = Vec3.atCenterOf(be.getBlockPos()).add(0.5, 0.15, 0.5);
 		Vec3 origin = Vec3.atCenterOf(be.getBlockPos());
+
+		float[][] colors = be.getBlockState().getValue(SavePointBlock.TIER) == SavePointStorage.SavePointType.WARP ? WARP_COLORS : SAVEPOINT_COLORS;
 
 		//Init
 		if (be.particles[0] == null) {
@@ -48,7 +54,6 @@ public class SavePointBlockEntityRenderer implements BlockEntityRenderer<Savepoi
 		//Update
 		if (gameTime != be.lastUpdateTick) {
 			be.lastUpdateTick = gameTime;
-
 			for (SavePointParticle p : be.particles) {
 				p.angle += p.rotationSpeed;
 				p.progress += p.verticalSpeed;
@@ -75,11 +80,11 @@ public class SavePointBlockEntityRenderer implements BlockEntityRenderer<Savepoi
 				trail[0] = center.add(Math.cos(renderAngle) * p.radius, (Math.sin(renderProgress) + 1.0) * 0.5, Math.sin(renderAngle) * p.radius);
 			}
 
-			renderTrail(trail, origin, pose, consumer);
+			renderTrail(trail, origin, pose, consumer, colors);
 		}
 	}
 
-	private void renderTrail(Vec3[] trail, Vec3 origin, Matrix4f pose, VertexConsumer consumer) {
+	private void renderTrail(Vec3[] trail, Vec3 origin, Matrix4f pose, VertexConsumer consumer, float[][] colors) {
 		int count = trail.length;
 
 		Vec3[] p0 = new Vec3[count];
@@ -127,10 +132,10 @@ public class SavePointBlockEntityRenderer implements BlockEntityRenderer<Savepoi
 			float a1 = 1F - i / (float) count;
 			float a2 = 1F - (i + 1) / (float) count;
 
-			drawQuad(consumer, pose, p0[i], p1[i], p0[i + 1], p1[i + 1], 0.75F, 1F, 0.45F, a1, a2);
-			drawQuad(consumer, pose, p1[i], p2[i], p1[i + 1], p2[i + 1], 0.7F, 1F, 0.45F, a1, a2);
-			drawQuad(consumer, pose, p2[i], p3[i], p2[i + 1], p3[i + 1], 0.7F, 1F, 0.45F, a1, a2);
-			drawQuad(consumer, pose, p3[i], p0[i], p3[i + 1], p0[i + 1], 0.6F, 1F, 0.45F, a1, a2);
+			drawQuad(consumer, pose, p0[i], p1[i], p0[i + 1], p1[i + 1], colors[0][0], colors[0][1], colors[0][2], a1, a2);
+			drawQuad(consumer, pose, p1[i], p2[i], p1[i + 1], p2[i + 1], colors[1][0], colors[1][1], colors[1][2], a1, a2);
+			drawQuad(consumer, pose, p2[i], p3[i], p2[i + 1], p3[i + 1], colors[2][0], colors[2][1], colors[2][2], a1, a2);
+			drawQuad(consumer, pose, p3[i], p0[i], p3[i + 1], p0[i + 1], colors[3][0], colors[3][1], colors[3][2], a1, a2);
 		}
 	}
 

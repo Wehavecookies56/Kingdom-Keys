@@ -1,6 +1,5 @@
 package online.kingdomkeys.kingdomkeys.lib;
 
-import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.util.List;

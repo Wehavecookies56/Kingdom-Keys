@@ -2,27 +2,21 @@ package online.kingdomkeys.kingdomkeys.entity.block;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.Vec3;
 import online.kingdomkeys.kingdomkeys.block.SavePointBlock;
 import online.kingdomkeys.kingdomkeys.client.render.block.SavePointBlockEntityRenderer;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.world.SavePointStorage;
 import org.jetbrains.annotations.Nullable;
-import org.joml.Vector3f;
 
 import java.util.UUID;
 
 public class SavepointTileEntity extends BlockEntity {
-	public static float[] WARP_COLOR = new float[]{0.6F, 1F, 1F};
-	public static float[] SAVEPOINT_COLOR = new float[]{0.3F, 1F, 0.3F};
 	public SavePointBlockEntityRenderer.SavePointParticle[] particles = new SavePointBlockEntityRenderer.SavePointParticle[2];
 	public long lastUpdateTick = -1;
 

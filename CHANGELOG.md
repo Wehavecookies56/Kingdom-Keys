@@ -5,6 +5,7 @@
 
 ## Fixed:
 * Positioned Card door and Mysterious door in the inventory and in hand.
+* Warp point having green trail.
 
 # 2.8.0b:
 ## Added:

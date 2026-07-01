@@ -13,7 +13,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.Style;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.Packet;
@@ -110,8 +109,6 @@ import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
 import static online.kingdomkeys.kingdomkeys.item.ICreativeTab.Tab.*;
-import static online.kingdomkeys.kingdomkeys.item.ICreativeTab.Tab.CARDS;
-import static online.kingdomkeys.kingdomkeys.item.ICreativeTab.Tab.EQUIPABLES;
 
 public class Utils {
 	public static List<ItemStack> getItemsForCategory(ICreativeTab.Tab category) {

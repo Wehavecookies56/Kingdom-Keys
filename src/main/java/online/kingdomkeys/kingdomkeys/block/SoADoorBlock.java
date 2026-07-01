@@ -27,14 +27,9 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import online.kingdomkeys.kingdomkeys.data.CastleOblivionData;
 import online.kingdomkeys.kingdomkeys.item.card.WorldCardItem;
-import online.kingdomkeys.kingdomkeys.lib.Strings;
-import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.stc.SCShowMessagesPacket;
-import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
 
 import javax.annotation.Nullable;
-import java.util.List;
 
 public class SoADoorBlock extends BaseBlock implements INoDataGen{
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
