@@ -9,6 +9,10 @@
   },
   "colour": "#000000",
   "modifiers": [
-    "kingdomkeys:blindness"
+    {
+      "type": "kingdomkeys:effect",
+      "effect": "minecraft:darkness",
+      "target": "PLAYER"
+    }
   ]
 }

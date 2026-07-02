@@ -1,7 +1,11 @@
 package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.modifiers;
 
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -12,22 +16,28 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
 import net.neoforged.neoforge.event.EventHooks;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModRoomModifiers;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.Room;
 
+import java.util.Optional;
 
-public class SpawnMobModifier extends RoomModifierBase {
+public class SpawnMobModifier implements RoomModifier {
 
     Holder<EntityType<?>> entityType;
     CompoundTag additionalData;
 
-    public SpawnMobModifier(ResourceLocation registryName, Holder<EntityType<?>> entityType, CompoundTag additionalData) {
-        super(registryName);
-        this.entityType = entityType;
-        this.additionalData = additionalData;
-    }
+    public static final MapCodec<SpawnMobModifier> CODEC = RecordCodecBuilder.mapCodec(instance ->
+        instance.group(
+            BuiltInRegistries.ENTITY_TYPE.holderByNameCodec().fieldOf("entity").forGetter(SpawnMobModifier::getEntityType),
+            CompoundTag.CODEC.optionalFieldOf("additional_data").forGetter(o -> Optional.ofNullable(o.getAdditionalData()))
+        ).apply(instance, SpawnMobModifier::new)
+    );
 
-    public SpawnMobModifier(ResourceLocation registryName, Holder<EntityType<?>> entityType) {
-        this(registryName, entityType, new CompoundTag());
+
+    @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
+    public SpawnMobModifier(Holder<EntityType<?>> entityType, Optional<CompoundTag> additionalData) {
+        this.entityType = entityType;
+        this.additionalData = additionalData.orElse(new CompoundTag());
     }
 
     @Override
@@ -44,6 +54,24 @@ public class SpawnMobModifier extends RoomModifierBase {
             }
             KingdomKeys.LOGGER.debug("Spawned {}", spawned);
         }
+    }
+
+    private Holder<EntityType<?>> getEntityType() {
+        return entityType;
+    }
+
+    private CompoundTag getAdditionalData() {
+        return additionalData;
+    }
+
+    @Override
+    public MapCodec<? extends RoomModifier> codec() {
+        return CODEC;
+    }
+
+    @Override
+    public RoomModifierType<? extends RoomModifier> type() {
+        return ModRoomModifiers.SPAWN.get();
     }
 
     public static CompoundTag createMoogleInv(ResourceLocation inv) {

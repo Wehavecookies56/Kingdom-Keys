@@ -30,7 +30,7 @@ public class RoomType extends JsonRegistryObject {
     private final RoomCategory category;
     private final Enemies enemies;
     @Nullable private final Color colour;
-    @Nullable private final List<ResourceLocation> modifiers;
+    @Nullable private final List<RoomModifier> modifiers;
     @Nullable private final List<ResourceLocation> compatibleFloors;
     @Nullable private final ResourceLocation fixedRoom;
     @Nullable private final Holder<SoundEvent> music;
@@ -43,7 +43,7 @@ public class RoomType extends JsonRegistryObject {
                 Enemies.CODEC.optionalFieldOf("enemies").forGetter(o -> Optional.ofNullable(o.getEnemiesProperties())),
                 Codec.BOOL.optionalFieldOf("entrance_hall").forGetter(o -> Optional.of(o.isEntranceHall())),
                 Codecs.COLOR_CODEC_HEX.optionalFieldOf("colour").forGetter(o -> Optional.ofNullable(o.getColour())),
-                ResourceLocation.CODEC.listOf().optionalFieldOf("modifiers").forGetter(o -> Optional.ofNullable(o.modifiers)),
+                RoomModifier.CODEC.listOf().optionalFieldOf("modifiers").forGetter(o -> Optional.ofNullable(o.modifiers)),
                 ResourceLocation.CODEC.listOf().optionalFieldOf("compatible").forGetter(o -> Optional.ofNullable(o.compatibleFloors)),
                 ResourceLocation.CODEC.optionalFieldOf("fixed_room").forGetter(o -> Optional.ofNullable(o.fixedRoom)),
                 SoundEvent.CODEC.optionalFieldOf("music").forGetter(o -> Optional.ofNullable(o.music)),
@@ -52,7 +52,7 @@ public class RoomType extends JsonRegistryObject {
     );
 
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-    private RoomType(RoomSize size, RoomCategory category, Optional<Enemies> enemies, Optional<Boolean> entranceHall, Optional<Color> colour, Optional<List<ResourceLocation>> modifiers, Optional<List<ResourceLocation>> compatibleFloors, Optional<ResourceLocation> fixedRoom, Optional<Holder<SoundEvent>> music, Optional<ResourceLocation> encounter) {
+    private RoomType(RoomSize size, RoomCategory category, Optional<Enemies> enemies, Optional<Boolean> entranceHall, Optional<Color> colour, Optional<List<RoomModifier>> modifiers, Optional<List<ResourceLocation>> compatibleFloors, Optional<ResourceLocation> fixedRoom, Optional<Holder<SoundEvent>> music, Optional<ResourceLocation> encounter) {
         this.entranceHall = entranceHall.orElse(false);
         this.size = size;
         this.category = category;
@@ -102,7 +102,7 @@ public class RoomType extends JsonRegistryObject {
     }
 
     public List<RoomModifier> getModifiers() {
-        return modifiers.stream().map(resourceLocation -> ModRoomModifiers.registry.get(resourceLocation)).toList();
+        return modifiers;
     }
 
     public boolean isFloorCompatible(FloorType floor) {

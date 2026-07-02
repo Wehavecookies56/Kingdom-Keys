@@ -7,6 +7,10 @@
     "simultaneous_enemies": 4
   },
   "modifiers": [
-    "kingdomkeys:swiftness"
+    {
+      "type": "kingdomkeys:effect",
+      "effect": "minecraft:speed",
+      "target": "MOB"
+    }
   ]
 }

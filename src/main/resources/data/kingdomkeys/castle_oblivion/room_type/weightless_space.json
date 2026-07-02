@@ -7,7 +7,15 @@
     "simultaneous_enemies": 3
   },
   "modifiers": [
-    "kingdomkeys:slow_falling",
-    "kingdomkeys:jump_boost"
+    {
+      "type": "kingdomkeys:effect",
+      "effect": "minecraft:slow_falling",
+      "target": "BOTH"
+    },
+    {
+      "type": "kingdomkeys:effect",
+      "effect": "minecraft:jump_boost",
+      "target": "BOTH"
+    }
   ]
 }

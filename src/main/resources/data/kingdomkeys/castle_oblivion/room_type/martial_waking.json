@@ -7,6 +7,10 @@
     "simultaneous_enemies": 3
   },
   "modifiers": [
-    "kingdomkeys:strength"
+    {
+      "type": "kingdomkeys:effect",
+      "effect": "minecraft:strength",
+      "target": "PLAYER"
+    }
   ]
 }

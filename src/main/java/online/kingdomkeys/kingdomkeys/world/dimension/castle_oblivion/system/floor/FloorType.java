@@ -31,7 +31,7 @@ public class FloorType extends JsonRegistryObject {
     private final List<ResourceLocation> roomBlacklist;
     @Nullable private final ResourceLocation startingRoom;
     @Nullable private final ResourceLocation fixedLayout;
-    private final List<ResourceLocation> globalModifiers;
+    private final List<RoomModifier> globalModifiers;
     @Nullable private final TagKey<EntityType<?>> regularEnemies;
     @Nullable private final TagKey<EntityType<?>> strongEnemies;
 
@@ -45,7 +45,7 @@ public class FloorType extends JsonRegistryObject {
                 ResourceLocation.CODEC.listOf().optionalFieldOf("room_blacklist").forGetter(o -> Optional.ofNullable(o.roomBlacklist)),
                 ResourceLocation.CODEC.optionalFieldOf("starting_room").forGetter(o -> Optional.ofNullable(o.startingRoom)),
                 ResourceLocation.CODEC.optionalFieldOf("fixed_layout").forGetter(o -> Optional.ofNullable(o.fixedLayout)),
-                ResourceLocation.CODEC.listOf().optionalFieldOf("modifiers").forGetter(o -> Optional.ofNullable(o.globalModifiers)),
+                RoomModifier.CODEC.listOf().optionalFieldOf("modifiers").forGetter(o -> Optional.ofNullable(o.globalModifiers)),
                 TagKey.hashedCodec(Registries.ENTITY_TYPE).optionalFieldOf("regular_enemies").forGetter(o -> Optional.ofNullable(o.getRegularEnemies())),
                 TagKey.hashedCodec(Registries.ENTITY_TYPE).optionalFieldOf("strong_enemies").forGetter(o -> Optional.ofNullable(o.getStrongEnemies()))
                 ).apply(floorTypeInstance, FloorType::new)
@@ -61,7 +61,7 @@ public class FloorType extends JsonRegistryObject {
     }
 
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-    public FloorType(int critPathLength, Color floorColour, Optional<CountChancePair> bonusRooms, Optional<CountChancePair> branches, Optional<Holder<SoundEvent>> music, Optional<List<ResourceLocation>> roomBlacklist, Optional<ResourceLocation> startingRoom, Optional<ResourceLocation> fixedLayout, Optional<List<ResourceLocation>> globalModifiers, Optional<TagKey<EntityType<?>>> regularEnemies, Optional<TagKey<EntityType<?>>> strongEnemies) {
+    public FloorType(int critPathLength, Color floorColour, Optional<CountChancePair> bonusRooms, Optional<CountChancePair> branches, Optional<Holder<SoundEvent>> music, Optional<List<ResourceLocation>> roomBlacklist, Optional<ResourceLocation> startingRoom, Optional<ResourceLocation> fixedLayout, Optional<List<RoomModifier>> globalModifiers, Optional<TagKey<EntityType<?>>> regularEnemies, Optional<TagKey<EntityType<?>>> strongEnemies) {
         this.critPathLength = critPathLength;
         this.floorColour = floorColour;
         this.bonusRooms = bonusRooms.orElse(new CountChancePair(0, 0));
@@ -96,7 +96,7 @@ public class FloorType extends JsonRegistryObject {
     }
 
     public List<RoomModifier> getGlobalModifiers() {
-        return globalModifiers.stream().map(resourceLocation -> ModRoomModifiers.registry.get(resourceLocation)).toList();
+        return globalModifiers;
     }
 
     public TagKey<EntityType<?>> getRegularEnemies() {

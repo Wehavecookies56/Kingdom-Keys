@@ -7,6 +7,14 @@
     "simultaneous_enemies": 3
   },
   "modifiers": [
-    "kingdomkeys:level_minus_2"
+    {
+      "type": "kingdomkeys:level",
+      "operations": [
+        {
+          "amount": 2,
+          "operator": "-"
+        }
+      ]
+    }
   ]
 }

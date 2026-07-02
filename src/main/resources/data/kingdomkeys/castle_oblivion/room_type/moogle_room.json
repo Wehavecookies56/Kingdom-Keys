@@ -3,6 +3,13 @@
   "category": "BOUNTY",
   "fixed_room": "kingdomkeys:plains_moogle_room",
   "modifiers": [
-    "kingdomkeys:spawn_moogle"
+    {
+      "type": "kingdomkeys:spawn",
+      "entity": "kingdomkeys:moogle",
+      "additional_data": {
+        "inv": "kingdomkeys:cards",
+        "stationary": true
+      }
+    }
   ]
 }

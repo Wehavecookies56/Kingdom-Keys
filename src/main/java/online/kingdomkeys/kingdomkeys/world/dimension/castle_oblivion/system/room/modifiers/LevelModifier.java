@@ -1,23 +1,33 @@
 package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.modifiers;
 
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.entity.LivingEntity;
 import online.kingdomkeys.kingdomkeys.data.GlobalData;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModRoomModifiers;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.Room;
 
 import java.util.List;
 
-public class LevelModifier extends RoomModifierBase {
+public class LevelModifier implements RoomModifier {
 
-    List<Operation> operations;
+    public enum Operator implements StringRepresentable {
+        ADD("+"), SUBTRACT("-"), MULTIPLY("*"), SET("=");
 
-    public enum Operator {
-        ADD, SUBTRACT, MULTIPLY, SET
-    }
+        final String name;
 
-    public LevelModifier(ResourceLocation registryName, List<Operation> operations) {
-        super(registryName);
-        this.operations = operations;
+        Operator(String name) {
+            this.name = name;
+        }
+
+        @Override
+        public String getSerializedName() {
+            return name;
+        }
     }
 
     public record Operation(int amount, Operator operator) {
@@ -29,6 +39,29 @@ public class LevelModifier extends RoomModifierBase {
                 case SET -> amount;
             };
         }
+
+        public static Codec<Operation> CODEC = RecordCodecBuilder.create(instance ->
+            instance.group(
+                Codec.INT.fieldOf("amount").forGetter(Operation::amount),
+                StringRepresentable.fromEnum(Operator::values).fieldOf("operator").forGetter(Operation::operator)
+            ).apply(instance, Operation::new)
+        );
+    }
+
+    List<Operation> operations;
+
+    public static final MapCodec<LevelModifier> CODEC = RecordCodecBuilder.mapCodec(instance ->
+            instance.group(
+                    Operation.CODEC.listOf().fieldOf("operations").forGetter(LevelModifier::getOperations)
+            ).apply(instance, LevelModifier::new)
+    );
+
+    private LevelModifier(List<Operation> operations) {
+        this.operations = operations;
+    }
+
+    private List<Operation> getOperations() {
+        return operations;
     }
 
     @Override
@@ -41,5 +74,15 @@ public class LevelModifier extends RoomModifierBase {
             }
             globalData.setLevel(level);
         }
+    }
+
+    @Override
+    public MapCodec<? extends RoomModifier> codec() {
+        return CODEC;
+    }
+
+    @Override
+    public RoomModifierType<? extends RoomModifier> type() {
+        return ModRoomModifiers.LEVEL.get();
     }
 }

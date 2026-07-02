@@ -3,7 +3,11 @@
   "colour": "#45adf2",
   "music": "minecraft:music.under_water",
   "modifiers": [
-    "kingdomkeys:water_breathing"
+    {
+      "type": "kingdomkeys:effect",
+      "effect": "minecraft:water_breathing",
+      "target": "BOTH"
+    }
   ],
   "key_doors": {
     "none": [
