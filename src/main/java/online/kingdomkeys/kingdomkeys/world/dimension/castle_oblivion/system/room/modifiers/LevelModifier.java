@@ -38,7 +38,7 @@ public class LevelModifier implements RoomModifier {
                 case SUBTRACT -> input - amount;
                 case MULTIPLY -> input * amount;
                 case SET -> amount;
-                case RAND -> amount + Utils.randomWithRange(-3, 3);
+                case RAND -> input + Utils.randomWithRange(-amount, amount);
             };
         }
 
