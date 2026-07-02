@@ -186,4 +186,13 @@ public class RoomData {
             RoomData::new
     );
 
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof RoomData roomData
+                && roomData.getParentID() == this.getParentID()
+                && roomData.pos.equals(this.pos)
+                && roomData.getDoors().size() == this.getDoors().size()
+                && roomData.getGenerated().isPresent() == this.getGenerated().isPresent()
+                && roomData.getType().equals(this.getType());
+    }
 }

@@ -171,7 +171,7 @@ public class CardDoorBlock extends BaseBlock implements EntityBlock, INoDataGen 
 										//player.moveTo(destination.getX(), destination.getY(), destination.getZ());
 										PacketHandler.sendTo(new SCSyncCastleOblivionInteriorData(interiorData, level), (ServerPlayer) player);
 										newRoom.roomEntered(interiorData.getRoomAtPos(te.getBlockPos()), (ServerPlayer) player);
-										te.setDisableTicks(100);
+										te.setDisableTicks(20);
 									}
 								});
 							} else if (te.getData().getType() != DoorData.Type.EXIT && te.getData().getType() != DoorData.Type.ENTRANCE) {
@@ -182,7 +182,7 @@ public class CardDoorBlock extends BaseBlock implements EntityBlock, INoDataGen 
 									if (te.getParentRoom().getParentID() == 0) {
 										//on first floor so exit
 										CastleOblivionHandler.exitCastleOblivion(currFloor, te.getParentRoom().getGenerated().get(), player);
-										te.setDisableTicks(100);
+										te.setDisableTicks(20);
 										//currFloor.floorExited(player);
 									} else {
 										//not on first floor so go to previous floor
@@ -197,7 +197,7 @@ public class CardDoorBlock extends BaseBlock implements EntityBlock, INoDataGen 
 											//prevFloor.floorEntered(player);
 											PacketHandler.sendTo(new SCSyncCastleOblivionInteriorData(interiorData, level), (ServerPlayer) player);
 											destRoom.roomEntered(te.getParentRoom().getGenerated().get(), (ServerPlayer) player);
-											te.setDisableTicks(100);
+											te.setDisableTicks(20);
 										});
 									}
 								} else if (te.getData().getType() == DoorData.Type.EXIT) {
@@ -223,7 +223,7 @@ public class CardDoorBlock extends BaseBlock implements EntityBlock, INoDataGen 
 									//nextFloor.floorEntered(player);
 									PacketHandler.sendTo(new SCSyncCastleOblivionInteriorData(interiorData, level), (ServerPlayer) player);
 									destRoom.roomEntered(te.getParentRoom().getGenerated().get(), (ServerPlayer) player);
-									te.setDisableTicks(100);
+									te.setDisableTicks(20);
 								}
 							}
 						}

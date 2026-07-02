@@ -211,7 +211,7 @@ public class CardDoorTileEntity extends BlockEntity {
     }
 
     public void setDisableTicks(int ticks) {
-        this.disableTicks = 100;
+        this.disableTicks = ticks;
     }
 
     public int getDisableTicks() {
