@@ -972,7 +972,6 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		int oldDrive = (int) (this.dp / 100);
 		this.dp = Utils.clamp(this.dp + dp, 0, this.maxDP);
 		int newDP = (int) (this.dp / 100);
-		System.out.println(oldDrive + " : " + newDP);
 		if(oldDrive < newDP) {
 			player.level().playSound(null,player.position().x,player.position().y, player.position().z, ModSounds.driveUp.get(), SoundSource.PLAYERS, 0.2F,1);
 		}

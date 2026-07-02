@@ -3,9 +3,16 @@
     "type": "kingdomkeys:wave",
     "interval_ticks": 100,
     "waves": [
-      ["kingdomkeys:shadow", "kingdomkeys:shadow", "kingdomkeys:shadow"],
-      ["kingdomkeys:red_nocturne", "kingdomkeys:blue_rhapsody", "kingdomkeys:shadow"],
-      ["kingdomkeys:shadow", "kingdomkeys:soldier", "kingdomkeys:shadow"]]
+      {
+        "spawns": [ "kingdomkeys:shadow", "kingdomkeys:shadow", "kingdomkeys:shadow"],
+      },
+      {
+        "spawns": ["kingdomkeys:red_nocturne", "kingdomkeys:blue_rhapsody", "kingdomkeys:shadow"]
+      },
+      {
+        "spawns": ["kingdomkeys:shadow", "kingdomkeys:soldier", "kingdomkeys:shadow"]
+      }
+    ]
   },
   "rewards": [
     {

@@ -14,6 +14,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.saveddata.SavedData;
 import net.neoforged.neoforge.event.EventHooks;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
@@ -22,27 +23,29 @@ import online.kingdomkeys.kingdomkeys.data.GlobalData;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModEncounterTypes;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.Room;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.modifiers.RoomModifier;
 
 import java.util.*;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class WaveEncounter implements Encounter {
 
-    List<List<Holder<EntityType<?>>>> waves;
+    List<Wave> waves;
     int intervalTicks;
     boolean shuffleWaveOrder;
 
     public static final MapCodec<WaveEncounter> CODEC = RecordCodecBuilder.mapCodec(waveEncounterInstance ->
         waveEncounterInstance.group(
-                BuiltInRegistries.ENTITY_TYPE.holderByNameCodec().listOf().listOf().fieldOf("waves").forGetter(WaveEncounter::getWaves),
+                Wave.CODEC.listOf().fieldOf("waves").forGetter(WaveEncounter::getWaves),
                 Codec.INT.fieldOf("interval_ticks").forGetter(WaveEncounter::getIntervalTicks),
                 Codec.BOOL.optionalFieldOf("shuffle_order").forGetter(o -> Optional.of(o.shuffleWaveOrder))
         ).apply(waveEncounterInstance, WaveEncounter::new)
     );
 
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-    private WaveEncounter(List<List<Holder<EntityType<?>>>> waves, int intervalTicks, Optional<Boolean> shuffleWaveOrder) {
+    private WaveEncounter(List<Wave> waves, int intervalTicks, Optional<Boolean> shuffleWaveOrder) {
         this.waves = waves;
         this.intervalTicks = intervalTicks;
         this.shuffleWaveOrder = shuffleWaveOrder.orElse(false);
@@ -56,7 +59,7 @@ public class WaveEncounter implements Encounter {
         return intervalTicks;
     }
 
-    public List<List<Holder<EntityType<?>>>> getWaves() {
+    public List<Wave> getWaves() {
         return waves;
     }
 
@@ -89,7 +92,7 @@ public class WaveEncounter implements Encounter {
 
             createSpawnPointQueue(room);
 
-            room.setMobsRemaining(encounter.getWaves().stream().mapToInt(List::size).sum());
+            room.setMobsRemaining(encounter.getWaves().stream().mapToInt(Wave::size).sum());
             KingdomKeys.LOGGER.debug("Wave encounter started with {} mobs total", room.getMobsRemaining());
 
             spawnWave(instance, encounter, state, room, level);
@@ -132,10 +135,17 @@ public class WaveEncounter implements Encounter {
             if (room.getCurrentlySpawned() <= 0) {
                 if (state.currentWave < encounter.getWaves().size()) {
                     KingdomKeys.LOGGER.debug("Spawning wave {}", state.currentWave);
+                    Wave currentWave = encounter.getWaves().get(state.getWaveIndex());
+                    if (state.getWaveIndex() > 0) {
+                        Wave prevWave = encounter.getWaves().get(state.getWaveIndex()-1);
+                        Room.getPlayersInRoom(level.getServer(), room).forEach(player -> {
+                            prevWave.onEnd(room, player);
+                        });
+                    }
                     Room.getPlayersInRoom(level.getServer(), room).forEach(player -> {
                         player.sendSystemMessage(Component.literal("WAVE " + (state.currentWave + 1)));
+                        currentWave.onStart(room, player);
                     });
-                    List<? extends EntityType<?>> currentWave = encounter.getWaves().get(state.getWaveIndex()).stream().map(Holder::value).toList();
                     currentWave.forEach(entityType -> {
                         LivingEntity spawned = (LivingEntity) entityType.create(level);
                         BlockPos spawnPoint = getSpawnPoint();
@@ -145,6 +155,7 @@ public class WaveEncounter implements Encounter {
                             globalData.setCastleOblivionMarker(true);
                             globalData.setLevel(((room.parentFloor+1) * 10) + Utils.randomWithRange(-3, 3));
                             room.modifierOnSpawn(spawned);
+                            currentWave.onSpawn(room, spawned);
                             spawned.moveTo((double)spawnPoint.getX() + 0.5, spawnPoint.getY(), (double)spawnPoint.getZ() + 0.5, Mth.wrapDegrees(level.random.nextFloat() * 360.0F), 0.0F);
                             level.addFreshEntityWithPassengers(spawned);
                             if (spawned instanceof Mob spawnedMob) {
@@ -159,11 +170,57 @@ public class WaveEncounter implements Encounter {
                     room.spawnMobs(currentWave.size());
                     CastleOblivionData.InteriorData.get(level).ifPresent(SavedData::setDirty);
                 } else {
+                    Room.getPlayersInRoom(level.getServer(), room).forEach(player -> {
+                        encounter.getWaves().getLast().onEnd(room, player);
+                    });
                     instance.setComplete();
                 }
             }
         }
 
+    }
+
+    record Wave(List<Holder<EntityType<?>>> spawns, List<RoomModifier> modifiers) {
+        public static final Codec<Wave> CODEC = RecordCodecBuilder.create(instance ->
+            instance.group(
+                BuiltInRegistries.ENTITY_TYPE.holderByNameCodec().listOf().fieldOf("spawns").forGetter(Wave::spawns),
+                RoomModifier.CODEC.listOf().optionalFieldOf("modifiers").forGetter(o -> Optional.ofNullable(o.modifiers()))
+            ).apply(instance, Wave::new)
+        );
+
+
+        @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
+        public Wave(List<Holder<EntityType<?>>> spawns, Optional<List<RoomModifier>> modifiers) {
+            this(spawns, modifiers.orElse(new ArrayList<>()));
+        }
+
+        public int size() {
+            return spawns.size();
+        }
+
+        public void forEach(Consumer<EntityType<?>> entityType) {
+            for (Holder<EntityType<?>> entityTypeHolder : spawns) {
+                entityType.accept(entityTypeHolder.value());
+            }
+        }
+
+        public void onStart(Room room, Player player) {
+            modifiers.forEach(modifier -> {
+                modifier.onEnter(room, player);
+            });
+        }
+
+        public void onEnd(Room room, Player player) {
+            modifiers.forEach(modifier -> {
+                modifier.onExit(room, player);
+            });
+        }
+
+        public void onSpawn(Room room, LivingEntity spawned) {
+            modifiers.forEach(modifier -> {
+                modifier.onSpawn(room, spawned);
+            });
+        }
     }
 
     public static class State implements EncounterState {

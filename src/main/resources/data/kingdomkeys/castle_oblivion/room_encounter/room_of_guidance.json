@@ -3,9 +3,15 @@
     "type": "kingdomkeys:wave",
     "interval_ticks": 100,
     "waves": [
-      ["kingdomkeys:shadow", "kingdomkeys:large_body", "kingdomkeys:shadow"],
-      ["kingdomkeys:soldier", "kingdomkeys:soldier"],
-      ["kingdomkeys:red_nocturne", "kingdomkeys:dire_plant", "kingdomkeys:dire_plant", "kingdomkeys:dire_plant"]
+      {
+        "spawns": ["kingdomkeys:shadow", "kingdomkeys:large_body", "kingdomkeys:shadow"]
+      },
+      {
+        "spawns": ["kingdomkeys:soldier", "kingdomkeys:soldier"]
+      },
+      {
+        "spawns": ["kingdomkeys:red_nocturne", "kingdomkeys:dire_plant", "kingdomkeys:dire_plant", "kingdomkeys:dire_plant"]
+      }
     ]
   },
   "rewards": [

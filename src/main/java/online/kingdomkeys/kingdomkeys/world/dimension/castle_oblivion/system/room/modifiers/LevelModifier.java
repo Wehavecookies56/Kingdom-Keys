@@ -8,6 +8,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.entity.LivingEntity;
 import online.kingdomkeys.kingdomkeys.data.GlobalData;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModRoomModifiers;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.Room;
 
@@ -16,7 +17,7 @@ import java.util.List;
 public class LevelModifier implements RoomModifier {
 
     public enum Operator implements StringRepresentable {
-        ADD("+"), SUBTRACT("-"), MULTIPLY("*"), SET("=");
+        ADD("+"), SUBTRACT("-"), MULTIPLY("*"), SET("="), RAND("rand");
 
         final String name;
 
@@ -37,6 +38,7 @@ public class LevelModifier implements RoomModifier {
                 case SUBTRACT -> input - amount;
                 case MULTIPLY -> input * amount;
                 case SET -> amount;
+                case RAND -> amount + Utils.randomWithRange(-3, 3);
             };
         }
 
