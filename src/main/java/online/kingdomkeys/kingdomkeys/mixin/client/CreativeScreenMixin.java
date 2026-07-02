@@ -67,7 +67,7 @@ public abstract class CreativeScreenMixin extends EffectRenderingInventoryScreen
 			CreativeModeInventoryScreen screen = (CreativeModeInventoryScreen) Minecraft.getInstance().screen;
 			KingdomKeys.kingdomKeysTab.get().buildContents(new CreativeModeTab.ItemDisplayParameters(Minecraft.getInstance().player.connection.enabledFeatures(), Minecraft.getInstance().options.operatorItemsTab().get(), Minecraft.getInstance().level.registryAccess()));
 
-			((CreativeModeInventoryScreenInvoker) screen).kk$selectTab(KingdomKeys.kingdomKeysTab.get());
+			screen.selectTab(KingdomKeys.kingdomKeysTab.get());
 		})));
 	}
 }

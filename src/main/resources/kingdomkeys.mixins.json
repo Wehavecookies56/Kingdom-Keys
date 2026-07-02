@@ -26,7 +26,7 @@
     "wildfire_gender.GenderLayerMixin",
     "client.KeyboardInputMixin",
     "client.CreativeScreenMixin",
-    "client.CreativeModeInventoryScreenInvoker"
+    "client.ClientLevelMixin"
   ],
   "minVersion": "0.8"
 }

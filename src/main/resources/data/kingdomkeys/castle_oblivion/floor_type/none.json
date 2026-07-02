@@ -8,5 +8,5 @@
     "count": 0,
     "chance": 0
   },
-  "colour": "#000000"
+  "biome_colours": "kingdomkeys:castle_oblivion"
 }

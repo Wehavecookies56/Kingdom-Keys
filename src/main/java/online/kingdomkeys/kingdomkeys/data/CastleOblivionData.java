@@ -40,11 +40,11 @@ public class CastleOblivionData {
             return Optional.empty();
         }
 
-        public static InteriorData getClient(ClientLevel level) {
+        public static Optional<InteriorData> getClient(ClientLevel level) {
             if (clientCache.containsKey(level.dimension())) {
-                return clientCache.get(level.dimension());
+                return Optional.of(clientCache.get(level.dimension()));
             }
-            return null;
+            return Optional.empty();
         }
 
         public static void setClientCache(ClientLevel level, InteriorData data) {

@@ -1,19 +1,5 @@
 {
   "crit_path_length": 7,
-  "colour": "#7aa8ff",
-  "music": "minecraft:music.game",
-  "key_doors": {
-    "none": [
-      {
-        "type": "RGB",
-        "criteria": "EQUAL",
-        "value": 7
-      },
-      {
-        "type": "Red",
-        "criteria": "LESSER",
-        "value": 3
-      }
-    ]
-  }
+  "biome_colours": "minecraft:plains",
+  "music": "minecraft:music.game"
 }

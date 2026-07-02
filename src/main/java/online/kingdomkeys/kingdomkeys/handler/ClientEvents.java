@@ -9,6 +9,7 @@ import net.minecraft.client.CameraType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.PlayerModel;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.GameRenderer;
@@ -971,26 +972,31 @@ public class ClientEvents {
             event.register(ModBusEvents::getGummiBlockColour, ModBlocks.gummiAeroSquares.stream().map(Supplier::get).toList().toArray(new Block[0]));
 		}
 
-		public static int getStructureWallColour(BlockState state, BlockAndTintGetter level, BlockPos pos, int tintIndex) {
+		public static int getStructureWallColour(BlockState state, BlockAndTintGetter blockAndTintGetter, BlockPos pos, int tintIndex) {
 			Color colour = Color.BLACK;
-			if (CastleOblivionHandler.inInterior(Minecraft.getInstance().player)) {
-				CastleOblivionData.InteriorData cap = CastleOblivionData.InteriorData.getClient(Minecraft.getInstance().level);
-				if (cap != null) {
-					if (!cap.getFloors().isEmpty()) {
-						Room room = cap.getRoomAtPos(pos);
-						if (room != null) {
-							if (room.getType().getColour() != null) {
-								colour = room.getType().getColour();
-							} else {
-								Floor floor = room.getParent(cap);
-								if (floor != null) {
-									colour = floor.getType().getFloorColour();
+            ClientLevel level = Minecraft.getInstance().level;
+            Player player = Minecraft.getInstance().player;
+            if (level != null && player != null) {
+                if (CastleOblivionHandler.inInterior(player)) {
+                    colour = CastleOblivionData.InteriorData.getClient(level).map(interiorData -> {
+                        if (!interiorData.getFloors().isEmpty()) {
+                            Room room = interiorData.getRoomAtPos(pos);
+                            if (room != null) {
+                                if (room.getType().getColour() != null) {
+                                    return room.getType().getColour();
+                                } else {
+                                    Floor floor = room.getParent(interiorData);
+                                    if (floor != null) {
+                                        int biomeColour = floor.getType().useFogColour() ? floor.getType().getFloorColour().value().getFogColor() : floor.getType().getFloorColour().value().getSkyColor();
+                                        return new Color(biomeColour);
+                                    }
                                 }
-							}
+                            }
                         }
-					}
-				}
-			}
+                        return Color.BLACK;
+                    }).orElse(Color.BLACK);
+                }
+            }
             return colour.getRGB();
 		}
 
