@@ -32,103 +32,112 @@ public class ShopDataProvider implements DataProvider {
 		names.addProperty("names", KingdomKeys.MODID + ":default");
 		defaultShop.add(names);
 
-		// Req
-		int req = 25;
+		// Mat Requirements
+		int reqShard = 30;
+		int reqStone = 25;
+		int reqGem = 20;
+		int reqCrystal = 15;
 		
-		// Materials
-		int shard = 80;
-		int stone = 120;
-		int gem = 180;
-		int crystal = 240;
+		// Tiers
+		int tierShard = 1;
+		int tierStone = 2;
+		int tierGem = 3;
+		int tierCrystal = 4;
+		
+		// Prices
+		int priceShard = 80;
+		int priceStone = 120;
+		int priceGem = 180;
+		int priceCrystal = 240;
+		defaultShop.add(shop(Strings.SM_BlazingShard, 1, tierShard, priceShard, reqShard, "all"));
+		defaultShop.add(shop(Strings.SM_BlazingStone, 1, tierStone, priceStone, reqStone, "all"));
+		defaultShop.add(shop(Strings.SM_BlazingGem, 1, tierGem, priceGem, reqGem, "all"));
+		defaultShop.add(shop(Strings.SM_BlazingCrystal, 1, tierCrystal, priceCrystal, reqCrystal, "all"));
+		
+		defaultShop.add(shop(Strings.SM_SoothingShard, 1, tierShard, priceShard, reqShard, "all"));
+		defaultShop.add(shop(Strings.SM_SoothingStone, 1, tierStone, priceStone, reqStone, "all"));
+		defaultShop.add(shop(Strings.SM_SoothingGem, 1, tierGem, priceGem, reqGem, "all"));
+		defaultShop.add(shop(Strings.SM_SoothingCrystal, 1, tierCrystal, priceCrystal, reqCrystal, "all"));
+		
+		defaultShop.add(shop(Strings.SM_WrithingShard, 1, tierShard, priceShard, reqShard, "all"));
+		defaultShop.add(shop(Strings.SM_WrithingStone, 1, tierStone, priceStone, reqStone, "all"));
+		defaultShop.add(shop(Strings.SM_WrithingGem, 1, tierGem, priceGem, reqGem, "all"));
+		defaultShop.add(shop(Strings.SM_WrithingCrystal, 1, tierCrystal, priceCrystal, reqCrystal, "all"));
+		
+		defaultShop.add(shop(Strings.SM_BetwixtShard, 1, tierShard, priceShard, reqShard, "all"));
+		defaultShop.add(shop(Strings.SM_BetwixtStone, 1, tierStone, priceStone, reqStone, "all"));
+		defaultShop.add(shop(Strings.SM_BetwixtGem, 1, tierGem, priceGem, reqGem, "all"));
+		defaultShop.add(shop(Strings.SM_BetwixtCrystal, 1, tierCrystal, priceCrystal, reqCrystal, "all"));
+		
+		defaultShop.add(shop(Strings.SM_WellspringShard, 1, tierShard, priceShard, reqShard, "all"));
+		defaultShop.add(shop(Strings.SM_WellspringStone, 1, tierStone, priceStone, reqStone, "all"));
+		defaultShop.add(shop(Strings.SM_WellspringGem, 1, tierGem, priceGem, reqGem, "all"));
+		defaultShop.add(shop(Strings.SM_WellspringCrystal, 1, tierCrystal, priceCrystal, reqCrystal, "all"));
+		
+		defaultShop.add(shop(Strings.SM_FrostShard, 1, tierShard, priceShard, reqShard, "all"));
+		defaultShop.add(shop(Strings.SM_FrostStone, 1, tierStone, priceStone, reqStone, "all"));
+		defaultShop.add(shop(Strings.SM_FrostGem, 1, tierGem, priceGem, reqGem, "all"));
+		defaultShop.add(shop(Strings.SM_FrostCrystal, 1, tierCrystal, priceCrystal, reqCrystal, "all"));
+		
+		defaultShop.add(shop(Strings.SM_LightningShard, 1, tierShard, priceShard, reqShard, "all"));
+		defaultShop.add(shop(Strings.SM_LightningStone, 1, tierStone, priceStone, reqStone, "all"));
+		defaultShop.add(shop(Strings.SM_LightningGem, 1, tierGem, priceGem, reqGem, "all"));
+		defaultShop.add(shop(Strings.SM_LightningCrystal, 1, tierCrystal, priceCrystal, reqCrystal, "all"));
+		
+		defaultShop.add(shop(Strings.SM_LucidShard, 1, tierShard, priceShard, reqShard, "all"));
+		defaultShop.add(shop(Strings.SM_LucidStone, 1, tierStone, priceStone, reqStone, "all"));
+		defaultShop.add(shop(Strings.SM_LucidGem, 1, tierGem, priceGem, reqGem, "all"));
+		defaultShop.add(shop(Strings.SM_LucidCrystal, 1, tierCrystal, priceCrystal, reqCrystal, "all"));
+		
+		defaultShop.add(shop(Strings.SM_HungryShard, 1, tierShard, priceShard, reqShard, "all"));
+		defaultShop.add(shop(Strings.SM_HungryStone, 1, tierStone, priceStone, reqStone, "all"));
+		defaultShop.add(shop(Strings.SM_HungryGem, 1, tierGem, priceGem, reqGem, "all"));
+		defaultShop.add(shop(Strings.SM_HungryCrystal, 1, tierCrystal, priceCrystal, reqCrystal, "all"));
+		
+		defaultShop.add(shop(Strings.SM_TwilightShard, 1, tierShard, priceShard, reqShard, "all"));
+		defaultShop.add(shop(Strings.SM_TwilightStone, 1, tierStone, priceStone, reqStone, "all"));
+		defaultShop.add(shop(Strings.SM_TwilightGem, 1, tierGem, priceGem, reqGem, "all"));
+		defaultShop.add(shop(Strings.SM_TwilightCrystal, 1, tierCrystal, priceCrystal, reqCrystal, "all"));
+		
+		// Mythril (synthesis only)
+		
+		defaultShop.add(shop(Strings.SM_TranquilityShard, 1, tierShard, priceShard, reqShard, "all"));
+		defaultShop.add(shop(Strings.SM_TranquilityStone, 1, tierStone, priceStone, reqStone, "all"));
+		defaultShop.add(shop(Strings.SM_TranquilityGem, 1, tierGem, priceGem, reqGem, "all"));
+		defaultShop.add(shop(Strings.SM_TranquilityCrystal, 1, tierCrystal, priceCrystal, reqCrystal, "all"));
+		
+		defaultShop.add(shop(Strings.SM_SinisterShard, 1, tierShard, priceShard, reqShard, "all"));
+		defaultShop.add(shop(Strings.SM_SinisterStone, 1, tierStone, priceStone, reqStone, "all"));
+		defaultShop.add(shop(Strings.SM_SinisterGem, 1, tierGem, priceGem, reqGem, "all"));
+		defaultShop.add(shop(Strings.SM_SinisterCrystal, 1, tierCrystal, priceCrystal, reqCrystal, "all"));
+		
+		defaultShop.add(shop(Strings.SM_StormyShard, 1, tierShard, priceShard, reqShard, "all"));
+		defaultShop.add(shop(Strings.SM_StormyStone, 1, tierStone, priceStone, reqStone, "all"));
+		defaultShop.add(shop(Strings.SM_StormyGem, 1, tierGem, priceGem, reqGem, "all"));
+		defaultShop.add(shop(Strings.SM_StormyCrystal, 1, tierCrystal, priceCrystal, reqCrystal, "all"));
+		
+		defaultShop.add(shop(Strings.SM_RemembranceShard, 1, tierShard, priceShard, reqShard, "all"));
+		defaultShop.add(shop(Strings.SM_RemembranceStone, 1, tierStone, priceStone, reqStone, "all"));
+		defaultShop.add(shop(Strings.SM_RemembranceGem, 1, tierGem, priceGem, reqGem, "all"));
+		defaultShop.add(shop(Strings.SM_RemembranceCrystal, 1, tierCrystal, priceCrystal, reqCrystal, "all"));
+		
+		defaultShop.add(shop(Strings.SM_PulsingShard, 1, tierShard, priceShard, reqShard, "all"));
+		defaultShop.add(shop(Strings.SM_PulsingStone, 1, tierStone, priceStone, reqStone, "all"));
+		defaultShop.add(shop(Strings.SM_PulsingGem, 1, tierGem, priceGem, reqGem, "all"));
+		defaultShop.add(shop(Strings.SM_PulsingCrystal, 1, tierCrystal, priceCrystal, reqCrystal, "all"));
+		
+		defaultShop.add(shop(Strings.SM_Orichalcum, 1, 5, 500, 30, "all"));
+		defaultShop.add(shop(Strings.SM_OrichalcumPlus, 1, 5, 2000, 30, "all"));
+		defaultShop.add(shop(Strings.SM_ManifestIllusion, 1, 5, 1500, 30, "all"));
+		defaultShop.add(shop(Strings.SM_LostIllusion, 1, 5, 2500, 30, "all"));
+		defaultShop.add(shop(Strings.SM_Fluorite, 1, 2, 300, 30, "all"));
+		defaultShop.add(shop(Strings.SM_Damascus, 1, 3, 600, 30, "all"));
+		defaultShop.add(shop(Strings.SM_Adamantite, 1, 4, 900, 30, "all"));
+		defaultShop.add(shop(Strings.SM_Electrum, 1, 5, 1200, 30, "all"));
+		defaultShop.add(shop(Strings.SM_EvanescentCrystal, 1, 5, 1800, 30, "all"));
+		defaultShop.add(shop(Strings.SM_IllusoryCrystal, 1, 5, 1800, 30, "all"));
 
-		defaultShop.add(shop(Strings.SM_BlazingShard, 1, 1, shard, req, "all"));
-		defaultShop.add(shop(Strings.SM_BlazingStone, 1, 2, stone, req, "all"));
-		defaultShop.add(shop(Strings.SM_BlazingGem, 1, 3, gem, req, "all"));
-		defaultShop.add(shop(Strings.SM_BlazingCrystal, 1, 4, crystal, req, "all"));
-
-		defaultShop.add(shop(Strings.SM_SoothingShard, 1, 1, shard, req, "all"));
-		defaultShop.add(shop(Strings.SM_SoothingStone, 1, 2, stone, req, "all"));
-		defaultShop.add(shop(Strings.SM_SoothingGem, 1, 3, gem, req, "all"));
-		defaultShop.add(shop(Strings.SM_SoothingCrystal, 1, 4, crystal, req, "all"));
-
-		defaultShop.add(shop(Strings.SM_WrithingShard, 1, 1, shard, req, "all"));
-		defaultShop.add(shop(Strings.SM_WrithingStone, 1, 2, stone, req, "all"));
-		defaultShop.add(shop(Strings.SM_WrithingGem, 1, 3, gem, req, "all"));
-		defaultShop.add(shop(Strings.SM_WrithingCrystal, 1, 4, crystal, req, "all"));
-
-		defaultShop.add(shop(Strings.SM_BetwixtShard, 1, 1, shard, req, "all"));
-		defaultShop.add(shop(Strings.SM_BetwixtStone, 1, 2, stone, req, "all"));
-		defaultShop.add(shop(Strings.SM_BetwixtGem, 1, 3, gem, req, "all"));
-		defaultShop.add(shop(Strings.SM_BetwixtCrystal, 1, 4, crystal, req, "all"));
-
-		defaultShop.add(shop(Strings.SM_WellspringShard, 1, 1, shard, req, "all"));
-		defaultShop.add(shop(Strings.SM_WellspringStone, 1, 2, stone, req, "all"));
-		defaultShop.add(shop(Strings.SM_WellspringGem, 1, 3, gem, req, "all"));
-		defaultShop.add(shop(Strings.SM_WellspringCrystal, 1, 4, crystal, req, "all"));
-
-		defaultShop.add(shop(Strings.SM_FrostShard, 1, 1, shard, req, "all"));
-		defaultShop.add(shop(Strings.SM_FrostStone, 1, 2, stone, req, "all"));
-		defaultShop.add(shop(Strings.SM_FrostGem, 1, 3, gem, req, "all"));
-		defaultShop.add(shop(Strings.SM_FrostCrystal, 1, 4, crystal, req, "all"));
-
-		defaultShop.add(shop(Strings.SM_LightningShard, 1, 1, shard, req, "all"));
-		defaultShop.add(shop(Strings.SM_LightningStone, 1, 2, stone, req, "all"));
-		defaultShop.add(shop(Strings.SM_LightningGem, 1, 3, gem, req, "all"));
-		defaultShop.add(shop(Strings.SM_LightningCrystal, 1, 4, crystal, req, "all"));
-
-		defaultShop.add(shop(Strings.SM_LucidShard, 1, 1, shard, req, "all"));
-		defaultShop.add(shop(Strings.SM_LucidStone, 1, 2, stone, req, "all"));
-		defaultShop.add(shop(Strings.SM_LucidGem, 1, 3, gem, req, "all"));
-		defaultShop.add(shop(Strings.SM_LucidCrystal, 1, 4, crystal, req, "all"));
-
-		defaultShop.add(shop(Strings.SM_HungryShard, 1, 1, shard, req, "all"));
-		defaultShop.add(shop(Strings.SM_HungryStone, 1, 2, stone, req, "all"));
-		defaultShop.add(shop(Strings.SM_HungryGem, 1, 3, gem, req, "all"));
-		defaultShop.add(shop(Strings.SM_HungryCrystal, 1, 4, crystal, req, "all"));
-
-		defaultShop.add(shop(Strings.SM_TwilightShard, 1, 1, shard, req, "all"));
-		defaultShop.add(shop(Strings.SM_TwilightStone, 1, 2, stone, req, "all"));
-		defaultShop.add(shop(Strings.SM_TwilightGem, 1, 3, gem, req, "all"));
-		defaultShop.add(shop(Strings.SM_TwilightCrystal, 1, 4, crystal, req, "all"));
-
-// Mythril is only synthesised
-		defaultShop.add(shop(Strings.SM_TranquilityShard, 1, 1, shard, req, "all"));
-		defaultShop.add(shop(Strings.SM_TranquilityStone, 1, 2, stone, req, "all"));
-		defaultShop.add(shop(Strings.SM_TranquilityGem, 1, 3, gem, req, "all"));
-		defaultShop.add(shop(Strings.SM_TranquilityCrystal, 1, 4, crystal, req, "all"));
-
-		defaultShop.add(shop(Strings.SM_SinisterShard, 1, 1, shard, req, "all"));
-		defaultShop.add(shop(Strings.SM_SinisterStone, 1, 2, stone, req, "all"));
-		defaultShop.add(shop(Strings.SM_SinisterGem, 1, 3, gem, req, "all"));
-		defaultShop.add(shop(Strings.SM_SinisterCrystal, 1, 4, crystal, req, "all"));
-
-		defaultShop.add(shop(Strings.SM_StormyShard, 1, 1, shard, req, "all"));
-		defaultShop.add(shop(Strings.SM_StormyStone, 1, 2, stone, req, "all"));
-		defaultShop.add(shop(Strings.SM_StormyGem, 1, 3, gem, req, "all"));
-		defaultShop.add(shop(Strings.SM_StormyCrystal, 1, 4, crystal, req, "all"));
-
-		defaultShop.add(shop(Strings.SM_RemembranceShard, 1, 1, shard, req, "all"));
-		defaultShop.add(shop(Strings.SM_RemembranceStone, 1, 2, stone, req, "all"));
-		defaultShop.add(shop(Strings.SM_RemembranceGem, 1, 3, gem, req, "all"));
-		defaultShop.add(shop(Strings.SM_RemembranceCrystal, 1, 4, crystal, req, "all"));
-
-		defaultShop.add(shop(Strings.SM_PulsingShard, 1, 1, shard, req, "all"));
-		defaultShop.add(shop(Strings.SM_PulsingStone, 1, 2, stone, req, "all"));
-		defaultShop.add(shop(Strings.SM_PulsingGem, 1, 3, gem, req, "all"));
-		defaultShop.add(shop(Strings.SM_PulsingCrystal, 1, 4, crystal, req, "all"));
-
-		//Other
-		defaultShop.add(shop(Strings.SM_Orichalcum, 1, 5, 500, req, "all"));
-		defaultShop.add(shop(Strings.SM_OrichalcumPlus, 1, 5, 2000, req, "all"));
-		defaultShop.add(shop(Strings.SM_ManifestIllusion, 1, 5, 1500, req, "all"));
-		defaultShop.add(shop(Strings.SM_LostIllusion, 1, 5, 2500, req, "all"));
-		defaultShop.add(shop(Strings.SM_Fluorite, 1, 2, 300, req, "all"));
-		defaultShop.add(shop(Strings.SM_Damascus, 1, 3, 600, req, "all"));
-		defaultShop.add(shop(Strings.SM_Adamantite, 1, 4, 900, req, "all"));
-		defaultShop.add(shop(Strings.SM_Electrum, 1, 5, 1200, req, "all"));
-		defaultShop.add(shop(Strings.SM_EvanescentCrystal, 1, 5, 1800, req, "all"));
-		defaultShop.add(shop(Strings.SM_IllusoryCrystal, 1, 5, 1800, req, "all"));
-
+		
 		// Consumables
 		defaultShop.add(shop(Strings.potion, 1, 1, 200));
 		defaultShop.add(shop(Strings.hiPotion, 1, 2, 400));
