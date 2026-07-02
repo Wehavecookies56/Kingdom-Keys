@@ -1,11 +1,16 @@
 # 2.8.0c:
 ## Added:
+* Shop datapack option to require having enough materials deposited or having obtained a magic spell (so it works like in KH2 and KH BBS respectively)
+  * By default, to be able to buy shards you need to have obtained a total of 30, stones 25, gems 20 and crystals 15 (Taking materials out substract the total).
 
 ## Changed:
+* Room modifiers are now customizable through JSON.
 
 ## Fixed:
+* Shop not displaying the new items if you had just leveled up the synthesis tier, where a relog was needed.
 * Positioned Card door and Mysterious door in the inventory and in hand.
 * Warp point having green trail.
+* Player losing Castle Oblivion data when relogging or switching dimensions.
 
 # 2.8.0b:
 ## Added:

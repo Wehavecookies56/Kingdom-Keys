@@ -7,7 +7,7 @@
     "condition": "all",
     "cost": 80,
     "item": "kingdomkeys:blazing_shard",
-    "mat_req": 25,
+    "mat_req": 30,
     "tier": 1
   },
   {
@@ -23,7 +23,7 @@
     "condition": "all",
     "cost": 180,
     "item": "kingdomkeys:blazing_gem",
-    "mat_req": 25,
+    "mat_req": 20,
     "tier": 3
   },
   {
@@ -31,7 +31,7 @@
     "condition": "all",
     "cost": 240,
     "item": "kingdomkeys:blazing_crystal",
-    "mat_req": 25,
+    "mat_req": 15,
     "tier": 4
   },
   {
@@ -39,7 +39,7 @@
     "condition": "all",
     "cost": 80,
     "item": "kingdomkeys:soothing_shard",
-    "mat_req": 25,
+    "mat_req": 30,
     "tier": 1
   },
   {
@@ -55,7 +55,7 @@
     "condition": "all",
     "cost": 180,
     "item": "kingdomkeys:soothing_gem",
-    "mat_req": 25,
+    "mat_req": 20,
     "tier": 3
   },
   {
@@ -63,7 +63,7 @@
     "condition": "all",
     "cost": 240,
     "item": "kingdomkeys:soothing_crystal",
-    "mat_req": 25,
+    "mat_req": 15,
     "tier": 4
   },
   {
@@ -71,7 +71,7 @@
     "condition": "all",
     "cost": 80,
     "item": "kingdomkeys:writhing_shard",
-    "mat_req": 25,
+    "mat_req": 30,
     "tier": 1
   },
   {
@@ -87,7 +87,7 @@
     "condition": "all",
     "cost": 180,
     "item": "kingdomkeys:writhing_gem",
-    "mat_req": 25,
+    "mat_req": 20,
     "tier": 3
   },
   {
@@ -95,7 +95,7 @@
     "condition": "all",
     "cost": 240,
     "item": "kingdomkeys:writhing_crystal",
-    "mat_req": 25,
+    "mat_req": 15,
     "tier": 4
   },
   {
@@ -103,7 +103,7 @@
     "condition": "all",
     "cost": 80,
     "item": "kingdomkeys:betwixt_shard",
-    "mat_req": 25,
+    "mat_req": 30,
     "tier": 1
   },
   {
@@ -119,7 +119,7 @@
     "condition": "all",
     "cost": 180,
     "item": "kingdomkeys:betwixt_gem",
-    "mat_req": 25,
+    "mat_req": 20,
     "tier": 3
   },
   {
@@ -127,7 +127,7 @@
     "condition": "all",
     "cost": 240,
     "item": "kingdomkeys:betwixt_crystal",
-    "mat_req": 25,
+    "mat_req": 15,
     "tier": 4
   },
   {
@@ -135,7 +135,7 @@
     "condition": "all",
     "cost": 80,
     "item": "kingdomkeys:wellspring_shard",
-    "mat_req": 25,
+    "mat_req": 30,
     "tier": 1
   },
   {
@@ -151,7 +151,7 @@
     "condition": "all",
     "cost": 180,
     "item": "kingdomkeys:wellspring_gem",
-    "mat_req": 25,
+    "mat_req": 20,
     "tier": 3
   },
   {
@@ -159,7 +159,7 @@
     "condition": "all",
     "cost": 240,
     "item": "kingdomkeys:wellspring_crystal",
-    "mat_req": 25,
+    "mat_req": 15,
     "tier": 4
   },
   {
@@ -167,7 +167,7 @@
     "condition": "all",
     "cost": 80,
     "item": "kingdomkeys:frost_shard",
-    "mat_req": 25,
+    "mat_req": 30,
     "tier": 1
   },
   {
@@ -183,7 +183,7 @@
     "condition": "all",
     "cost": 180,
     "item": "kingdomkeys:frost_gem",
-    "mat_req": 25,
+    "mat_req": 20,
     "tier": 3
   },
   {
@@ -191,7 +191,7 @@
     "condition": "all",
     "cost": 240,
     "item": "kingdomkeys:frost_crystal",
-    "mat_req": 25,
+    "mat_req": 15,
     "tier": 4
   },
   {
@@ -199,7 +199,7 @@
     "condition": "all",
     "cost": 80,
     "item": "kingdomkeys:lightning_shard",
-    "mat_req": 25,
+    "mat_req": 30,
     "tier": 1
   },
   {
@@ -215,7 +215,7 @@
     "condition": "all",
     "cost": 180,
     "item": "kingdomkeys:lightning_gem",
-    "mat_req": 25,
+    "mat_req": 20,
     "tier": 3
   },
   {
@@ -223,7 +223,7 @@
     "condition": "all",
     "cost": 240,
     "item": "kingdomkeys:lightning_crystal",
-    "mat_req": 25,
+    "mat_req": 15,
     "tier": 4
   },
   {
@@ -231,7 +231,7 @@
     "condition": "all",
     "cost": 80,
     "item": "kingdomkeys:lucid_shard",
-    "mat_req": 25,
+    "mat_req": 30,
     "tier": 1
   },
   {
@@ -247,7 +247,7 @@
     "condition": "all",
     "cost": 180,
     "item": "kingdomkeys:lucid_gem",
-    "mat_req": 25,
+    "mat_req": 20,
     "tier": 3
   },
   {
@@ -255,7 +255,7 @@
     "condition": "all",
     "cost": 240,
     "item": "kingdomkeys:lucid_crystal",
-    "mat_req": 25,
+    "mat_req": 15,
     "tier": 4
   },
   {
@@ -263,7 +263,7 @@
     "condition": "all",
     "cost": 80,
     "item": "kingdomkeys:hungry_shard",
-    "mat_req": 25,
+    "mat_req": 30,
     "tier": 1
   },
   {
@@ -279,7 +279,7 @@
     "condition": "all",
     "cost": 180,
     "item": "kingdomkeys:hungry_gem",
-    "mat_req": 25,
+    "mat_req": 20,
     "tier": 3
   },
   {
@@ -287,7 +287,7 @@
     "condition": "all",
     "cost": 240,
     "item": "kingdomkeys:hungry_crystal",
-    "mat_req": 25,
+    "mat_req": 15,
     "tier": 4
   },
   {
@@ -295,7 +295,7 @@
     "condition": "all",
     "cost": 80,
     "item": "kingdomkeys:twilight_shard",
-    "mat_req": 25,
+    "mat_req": 30,
     "tier": 1
   },
   {
@@ -311,7 +311,7 @@
     "condition": "all",
     "cost": 180,
     "item": "kingdomkeys:twilight_gem",
-    "mat_req": 25,
+    "mat_req": 20,
     "tier": 3
   },
   {
@@ -319,7 +319,7 @@
     "condition": "all",
     "cost": 240,
     "item": "kingdomkeys:twilight_crystal",
-    "mat_req": 25,
+    "mat_req": 15,
     "tier": 4
   },
   {
@@ -327,7 +327,7 @@
     "condition": "all",
     "cost": 80,
     "item": "kingdomkeys:tranquility_shard",
-    "mat_req": 25,
+    "mat_req": 30,
     "tier": 1
   },
   {
@@ -343,7 +343,7 @@
     "condition": "all",
     "cost": 180,
     "item": "kingdomkeys:tranquility_gem",
-    "mat_req": 25,
+    "mat_req": 20,
     "tier": 3
   },
   {
@@ -351,7 +351,7 @@
     "condition": "all",
     "cost": 240,
     "item": "kingdomkeys:tranquility_crystal",
-    "mat_req": 25,
+    "mat_req": 15,
     "tier": 4
   },
   {
@@ -359,7 +359,7 @@
     "condition": "all",
     "cost": 80,
     "item": "kingdomkeys:sinister_shard",
-    "mat_req": 25,
+    "mat_req": 30,
     "tier": 1
   },
   {
@@ -375,7 +375,7 @@
     "condition": "all",
     "cost": 180,
     "item": "kingdomkeys:sinister_gem",
-    "mat_req": 25,
+    "mat_req": 20,
     "tier": 3
   },
   {
@@ -383,7 +383,7 @@
     "condition": "all",
     "cost": 240,
     "item": "kingdomkeys:sinister_crystal",
-    "mat_req": 25,
+    "mat_req": 15,
     "tier": 4
   },
   {
@@ -391,7 +391,7 @@
     "condition": "all",
     "cost": 80,
     "item": "kingdomkeys:stormy_shard",
-    "mat_req": 25,
+    "mat_req": 30,
     "tier": 1
   },
   {
@@ -407,7 +407,7 @@
     "condition": "all",
     "cost": 180,
     "item": "kingdomkeys:stormy_gem",
-    "mat_req": 25,
+    "mat_req": 20,
     "tier": 3
   },
   {
@@ -415,7 +415,7 @@
     "condition": "all",
     "cost": 240,
     "item": "kingdomkeys:stormy_crystal",
-    "mat_req": 25,
+    "mat_req": 15,
     "tier": 4
   },
   {
@@ -423,7 +423,7 @@
     "condition": "all",
     "cost": 80,
     "item": "kingdomkeys:remembrance_shard",
-    "mat_req": 25,
+    "mat_req": 30,
     "tier": 1
   },
   {
@@ -439,7 +439,7 @@
     "condition": "all",
     "cost": 180,
     "item": "kingdomkeys:remembrance_gem",
-    "mat_req": 25,
+    "mat_req": 20,
     "tier": 3
   },
   {
@@ -447,7 +447,7 @@
     "condition": "all",
     "cost": 240,
     "item": "kingdomkeys:remembrance_crystal",
-    "mat_req": 25,
+    "mat_req": 15,
     "tier": 4
   },
   {
@@ -455,7 +455,7 @@
     "condition": "all",
     "cost": 80,
     "item": "kingdomkeys:pulsing_shard",
-    "mat_req": 25,
+    "mat_req": 30,
     "tier": 1
   },
   {
@@ -471,7 +471,7 @@
     "condition": "all",
     "cost": 180,
     "item": "kingdomkeys:pulsing_gem",
-    "mat_req": 25,
+    "mat_req": 20,
     "tier": 3
   },
   {
@@ -479,7 +479,7 @@
     "condition": "all",
     "cost": 240,
     "item": "kingdomkeys:pulsing_crystal",
-    "mat_req": 25,
+    "mat_req": 15,
     "tier": 4
   },
   {
@@ -487,7 +487,7 @@
     "condition": "all",
     "cost": 500,
     "item": "kingdomkeys:orichalcum",
-    "mat_req": 25,
+    "mat_req": 30,
     "tier": 5
   },
   {
@@ -495,7 +495,7 @@
     "condition": "all",
     "cost": 2000,
     "item": "kingdomkeys:orichalcumplus",
-    "mat_req": 25,
+    "mat_req": 30,
     "tier": 5
   },
   {
@@ -503,7 +503,7 @@
     "condition": "all",
     "cost": 1500,
     "item": "kingdomkeys:manifest_illusion",
-    "mat_req": 25,
+    "mat_req": 30,
     "tier": 5
   },
   {
@@ -511,7 +511,7 @@
     "condition": "all",
     "cost": 2500,
     "item": "kingdomkeys:lost_illusion",
-    "mat_req": 25,
+    "mat_req": 30,
     "tier": 5
   },
   {
@@ -519,7 +519,7 @@
     "condition": "all",
     "cost": 300,
     "item": "kingdomkeys:fluorite",
-    "mat_req": 25,
+    "mat_req": 30,
     "tier": 2
   },
   {
@@ -527,7 +527,7 @@
     "condition": "all",
     "cost": 600,
     "item": "kingdomkeys:damascus",
-    "mat_req": 25,
+    "mat_req": 30,
     "tier": 3
   },
   {
@@ -535,7 +535,7 @@
     "condition": "all",
     "cost": 900,
     "item": "kingdomkeys:adamantite",
-    "mat_req": 25,
+    "mat_req": 30,
     "tier": 4
   },
   {
@@ -543,7 +543,7 @@
     "condition": "all",
     "cost": 1200,
     "item": "kingdomkeys:electrum",
-    "mat_req": 25,
+    "mat_req": 30,
     "tier": 5
   },
   {
@@ -551,7 +551,7 @@
     "condition": "all",
     "cost": 1800,
     "item": "kingdomkeys:evanescent_crystal",
-    "mat_req": 25,
+    "mat_req": 30,
     "tier": 5
   },
   {
@@ -559,7 +559,7 @@
     "condition": "all",
     "cost": 1800,
     "item": "kingdomkeys:illusory_crystal",
-    "mat_req": 25,
+    "mat_req": 30,
     "tier": 5
   },
   {
@@ -846,63 +846,419 @@
   },
   {
     "amount": 1,
+    "condition": "all",
     "cost": 800,
     "item": "kingdomkeys:spellfire",
+    "mat_req": 1,
+    "tier": 2
+  },
+  {
+    "amount": 1,
+    "condition": "all",
+    "cost": 1200,
+    "item": "kingdomkeys:spellfira",
+    "mat_req": 1,
+    "tier": 3
+  },
+  {
+    "amount": 1,
+    "condition": "all",
+    "cost": 1800,
+    "item": "kingdomkeys:spellfiraga",
+    "mat_req": 1,
     "tier": 4
   },
   {
     "amount": 1,
+    "condition": "all",
+    "cost": 2400,
+    "item": "kingdomkeys:spelldarkfiraga",
+    "mat_req": 1,
+    "tier": 5
+  },
+  {
+    "amount": 1,
+    "condition": "all",
+    "cost": 2400,
+    "item": "kingdomkeys:spelltriplefiraga",
+    "mat_req": 1,
+    "tier": 5
+  },
+  {
+    "amount": 1,
+    "condition": "all",
+    "cost": 2400,
+    "item": "kingdomkeys:spellcrawlingfiraga",
+    "mat_req": 1,
+    "tier": 5
+  },
+  {
+    "amount": 1,
+    "condition": "all",
+    "cost": 2400,
+    "item": "kingdomkeys:spellfissionfiraga",
+    "mat_req": 1,
+    "tier": 5
+  },
+  {
+    "amount": 1,
+    "condition": "all",
+    "cost": 2800,
+    "item": "kingdomkeys:spellfiragaburst",
+    "mat_req": 1,
+    "tier": 6
+  },
+  {
+    "amount": 1,
+    "condition": "all",
     "cost": 800,
     "item": "kingdomkeys:spellblizzard",
+    "mat_req": 1,
+    "tier": 2
+  },
+  {
+    "amount": 1,
+    "condition": "all",
+    "cost": 1200,
+    "item": "kingdomkeys:spellblizzara",
+    "mat_req": 1,
+    "tier": 3
+  },
+  {
+    "amount": 1,
+    "condition": "all",
+    "cost": 1800,
+    "item": "kingdomkeys:spellblizzaga",
+    "mat_req": 1,
     "tier": 4
   },
   {
     "amount": 1,
+    "condition": "all",
+    "cost": 2400,
+    "item": "kingdomkeys:spelltripleblizzaga",
+    "mat_req": 1,
+    "tier": 5
+  },
+  {
+    "amount": 1,
+    "condition": "all",
+    "cost": 2400,
+    "item": "kingdomkeys:spelldeepfreeze",
+    "mat_req": 1,
+    "tier": 5
+  },
+  {
+    "amount": 1,
+    "condition": "all",
+    "cost": 2400,
+    "item": "kingdomkeys:spellicebarrage",
+    "mat_req": 1,
+    "tier": 5
+  },
+  {
+    "amount": 1,
+    "condition": "all",
+    "cost": 2800,
+    "item": "kingdomkeys:spellglacier",
+    "mat_req": 1,
+    "tier": 6
+  },
+  {
+    "amount": 1,
+    "condition": "all",
     "cost": 800,
     "item": "kingdomkeys:spellwater",
+    "mat_req": 1,
+    "tier": 2
+  },
+  {
+    "amount": 1,
+    "condition": "all",
+    "cost": 1200,
+    "item": "kingdomkeys:spellwatera",
+    "mat_req": 1,
+    "tier": 3
+  },
+  {
+    "amount": 1,
+    "condition": "all",
+    "cost": 1800,
+    "item": "kingdomkeys:spellwaterga",
+    "mat_req": 1,
     "tier": 4
   },
   {
     "amount": 1,
+    "condition": "all",
     "cost": 800,
     "item": "kingdomkeys:spellthunder",
+    "mat_req": 1,
+    "tier": 2
+  },
+  {
+    "amount": 1,
+    "condition": "all",
+    "cost": 1200,
+    "item": "kingdomkeys:spellthundara",
+    "mat_req": 1,
+    "tier": 3
+  },
+  {
+    "amount": 1,
+    "condition": "all",
+    "cost": 1800,
+    "item": "kingdomkeys:spellthundaga",
+    "mat_req": 1,
     "tier": 4
   },
   {
     "amount": 1,
-    "cost": 1200,
+    "condition": "all",
+    "cost": 2400,
+    "item": "kingdomkeys:spellthundagashot",
+    "mat_req": 1,
+    "tier": 5
+  },
+  {
+    "amount": 1,
+    "condition": "all",
+    "cost": 2800,
+    "item": "kingdomkeys:spelltripleplasma",
+    "mat_req": 1,
+    "tier": 6
+  },
+  {
+    "amount": 1,
+    "condition": "all",
+    "cost": 800,
     "item": "kingdomkeys:spellcure",
-    "tier": 5
+    "mat_req": 1,
+    "tier": 2
   },
   {
     "amount": 1,
+    "condition": "all",
     "cost": 1200,
+    "item": "kingdomkeys:spellcura",
+    "mat_req": 1,
+    "tier": 3
+  },
+  {
+    "amount": 1,
+    "condition": "all",
+    "cost": 1800,
+    "item": "kingdomkeys:spellcuraga",
+    "mat_req": 1,
+    "tier": 4
+  },
+  {
+    "amount": 1,
+    "condition": "all",
+    "cost": 800,
     "item": "kingdomkeys:spellaero",
-    "tier": 5
+    "mat_req": 1,
+    "tier": 2
   },
   {
     "amount": 1,
+    "condition": "all",
     "cost": 1200,
+    "item": "kingdomkeys:spellaerora",
+    "mat_req": 1,
+    "tier": 3
+  },
+  {
+    "amount": 1,
+    "condition": "all",
+    "cost": 1800,
+    "item": "kingdomkeys:spellaeroga",
+    "mat_req": 1,
+    "tier": 4
+  },
+  {
+    "amount": 1,
+    "condition": "all",
+    "cost": 800,
     "item": "kingdomkeys:spellmagnet",
-    "tier": 5
+    "mat_req": 1,
+    "tier": 2
   },
   {
     "amount": 1,
+    "condition": "all",
     "cost": 1200,
+    "item": "kingdomkeys:spellmagnera",
+    "mat_req": 1,
+    "tier": 3
+  },
+  {
+    "amount": 1,
+    "condition": "all",
+    "cost": 1800,
+    "item": "kingdomkeys:spellmagnega",
+    "mat_req": 1,
+    "tier": 4
+  },
+  {
+    "amount": 1,
+    "condition": "all",
+    "cost": 800,
     "item": "kingdomkeys:spellreflect",
-    "tier": 5
+    "mat_req": 1,
+    "tier": 2
   },
   {
     "amount": 1,
+    "condition": "all",
     "cost": 1200,
+    "item": "kingdomkeys:spellreflera",
+    "mat_req": 1,
+    "tier": 3
+  },
+  {
+    "amount": 1,
+    "condition": "all",
+    "cost": 1800,
+    "item": "kingdomkeys:spellreflega",
+    "mat_req": 1,
+    "tier": 4
+  },
+  {
+    "amount": 1,
+    "condition": "all",
+    "cost": 800,
     "item": "kingdomkeys:spellgravity",
-    "tier": 5
+    "mat_req": 1,
+    "tier": 2
   },
   {
     "amount": 1,
+    "condition": "all",
     "cost": 1200,
+    "item": "kingdomkeys:spellgravira",
+    "mat_req": 1,
+    "tier": 3
+  },
+  {
+    "amount": 1,
+    "condition": "all",
+    "cost": 1800,
+    "item": "kingdomkeys:spellgraviga",
+    "mat_req": 1,
+    "tier": 4
+  },
+  {
+    "amount": 1,
+    "condition": "all",
+    "cost": 800,
     "item": "kingdomkeys:spellstop",
-    "tier": 5
+    "mat_req": 1,
+    "tier": 2
+  },
+  {
+    "amount": 1,
+    "condition": "all",
+    "cost": 1200,
+    "item": "kingdomkeys:spellstopra",
+    "mat_req": 1,
+    "tier": 3
+  },
+  {
+    "amount": 1,
+    "condition": "all",
+    "cost": 1800,
+    "item": "kingdomkeys:spellstopga",
+    "mat_req": 1,
+    "tier": 4
+  },
+  {
+    "amount": 1,
+    "condition": "all",
+    "cost": 800,
+    "item": "kingdomkeys:spellballoon",
+    "mat_req": 1,
+    "tier": 2
+  },
+  {
+    "amount": 1,
+    "condition": "all",
+    "cost": 1200,
+    "item": "kingdomkeys:spellballoonra",
+    "mat_req": 1,
+    "tier": 3
+  },
+  {
+    "amount": 1,
+    "condition": "all",
+    "cost": 1800,
+    "item": "kingdomkeys:spellballoonga",
+    "mat_req": 1,
+    "tier": 4
+  },
+  {
+    "amount": 1,
+    "condition": "all",
+    "cost": 800,
+    "item": "kingdomkeys:spellmineshield",
+    "mat_req": 1,
+    "tier": 2
+  },
+  {
+    "amount": 1,
+    "condition": "all",
+    "cost": 1200,
+    "item": "kingdomkeys:spellminesquare",
+    "mat_req": 1,
+    "tier": 3
+  },
+  {
+    "amount": 1,
+    "condition": "all",
+    "cost": 1800,
+    "item": "kingdomkeys:spellseekermine",
+    "mat_req": 1,
+    "tier": 4
+  },
+  {
+    "amount": 1,
+    "condition": "all",
+    "cost": 800,
+    "item": "kingdomkeys:spellspark",
+    "mat_req": 1,
+    "tier": 2
+  },
+  {
+    "amount": 1,
+    "condition": "all",
+    "cost": 1200,
+    "item": "kingdomkeys:spellsparkra",
+    "mat_req": 1,
+    "tier": 3
+  },
+  {
+    "amount": 1,
+    "condition": "all",
+    "cost": 1800,
+    "item": "kingdomkeys:spellsparkga",
+    "mat_req": 1,
+    "tier": 4
+  },
+  {
+    "amount": 1,
+    "condition": "all",
+    "cost": 2800,
+    "item": "kingdomkeys:spellwarp",
+    "mat_req": 1,
+    "tier": 6
+  },
+  {
+    "amount": 1,
+    "condition": "all",
+    "cost": 2800,
+    "item": "kingdomkeys:spellfaith",
+    "mat_req": 1,
+    "tier": 6
   },
   {
     "amount": 1,

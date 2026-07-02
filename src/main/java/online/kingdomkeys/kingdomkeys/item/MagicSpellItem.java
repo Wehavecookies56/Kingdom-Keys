@@ -17,6 +17,7 @@ import net.neoforged.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.api.item.IItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.magic.Magic;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.util.Utils;
@@ -48,6 +49,13 @@ public class MagicSpellItem extends Item implements IItemCategory, ICreativeTab{
 		if(!stack.has(ModComponents.MAGIC_EXP)){
 			stack.set(ModComponents.MAGIC_EXP, 0);
 		}
+		if(entity instanceof Player player){
+			PlayerData playerData = PlayerData.get(player);
+			if(playerData.getTotalMaterialAmount(this) == 0){
+				playerData.setTotalMaterial(this,1);
+			}
+		}
+
 	}
 
 	@OnlyIn(Dist.CLIENT)
@@ -149,7 +157,7 @@ public class MagicSpellItem extends Item implements IItemCategory, ICreativeTab{
 
 	@Override
 	public ItemCategory getCategory() {
-		return ItemCategory.EQUIPMENT;
+		return ItemCategory.TOOL;
 	}
 
 	public void setExp(ItemStack stack, int amount) {

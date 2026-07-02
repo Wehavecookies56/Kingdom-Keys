@@ -385,38 +385,7 @@ public class Strings {
             ava = "ava",
             gula = "gula",
             invi = "invi",
-            ira = "ira"
-            ;
-
-    //Spells
-    public static final String
-            Spell_Fire = "spell.fire",
-            Spell_Fira = "spell.fira",
-            Spell_Firaga = "spell.firaga",
-
-            Spell_Blizzard = "spell.blizzard",
-            Spell_Blizzara = "spell.blizzara",
-            Spell_Blizzaga = "spell.blizzaga",
-
-            Spell_Thunder = "spell.thunder",
-            Spell_Thundara = "spell.thundara",
-            Spell_Thundaga = "spell.thundaga",
-
-            Spell_Cure = "spell.cure",
-            Spell_Cura = "spell.cura",
-            Spell_Curaga = "spell.curaga",
-
-            Spell_Gravity = "spell.gravity",
-            Spell_Gravira = "spell.gravira",
-            Spell_Graviga = "spell.graviga",
-
-            Spell_Aero = "spell.aero",
-            Spell_Aerora = "spell.aerora",
-            Spell_Aeroga = "spell.aeroga",
-
-            Spell_Stop = "spell.stop",
-            Spell_Stopra = "spell.stopra",
-            Spell_Stopga = "spell.stopga";
+            ira = "ira";
 
     //Level up messages
     public static final String

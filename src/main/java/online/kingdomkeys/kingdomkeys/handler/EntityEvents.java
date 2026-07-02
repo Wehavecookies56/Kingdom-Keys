@@ -867,7 +867,11 @@ public class EntityEvents {
 						}
 					}
 				}
-			} else if (event.getItemEntity().getItem().getItem() instanceof MagicSpellItem) {
+			} else if (event.getItemEntity().getItem().getItem() instanceof MagicSpellItem spell) {
+				PlayerData playerData = PlayerData.get(event.getPlayer());
+				if(playerData.getTotalMaterialAmount(spell) == 0){
+					playerData.setTotalMaterial(spell,1);
+				}
 				for (int i = 0; i < event.getPlayer().getInventory().getContainerSize(); i++) {
 					ItemStack bag = event.getPlayer().getInventory().getItem(i);
 					if (!ItemStack.matches(bag, ItemStack.EMPTY)) {
