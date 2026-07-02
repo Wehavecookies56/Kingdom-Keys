@@ -73,11 +73,4 @@ public class SpawnMobModifier implements RoomModifier {
     public RoomModifierType<? extends RoomModifier> type() {
         return ModRoomModifiers.SPAWN.get();
     }
-
-    public static CompoundTag createMoogleInv(ResourceLocation inv) {
-        CompoundTag tag = new CompoundTag();
-        tag.putString("inv", inv.toString());
-        tag.putBoolean("stationary", true);
-        return tag;
-    }
 }
