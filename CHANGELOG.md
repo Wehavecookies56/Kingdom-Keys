@@ -1,8 +1,8 @@
 # 2.8.0c:
 ## Added:
-* Shop datapack option to require having enough materials deposited or having obtained a magic spell (so it works like in KH2 and KH BBS respectively)
+* Shop datapack option to require having enough materials deposited or having obtained a magic spell (so it works like in KH2 and KH BBS respectively).
   * By default, to be able to buy shards you need to have obtained a total of 30, stones 25, gems 20 and crystals 15 (Taking materials out substract the total).
-
+* Custom colors for floor and room grass, foliage, water and sky.
 ## Changed:
 * Room modifiers are now customizable through JSON.
 
