@@ -163,7 +163,7 @@ public class CardDoorBlock extends BaseBlock implements EntityBlock, INoDataGen 
 						if (te != null && te.getParentRoom() != null && te.isOpen() && !te.isLocked() && te.getDisableTicks() <= 0) {
 							if (te.getDestinationRoom() != null) {
 								RoomData data = te.getDestinationRoom();
-								data.getGenerated().ifPresent(newRoom -> {
+								interiorData.getFloorByID(data.getParentID()).getRoom(data.pos).getGenerated().ifPresent(newRoom -> {
 									if (!NeoForge.EVENT_BUS.post(new CastleOblivionEvent.PlayerChangeRoomEvent(interiorData.getRoomAtPos(te.getBlockPos()), newRoom, player)).isCanceled()) {
 										BlockPos destination = newRoom.doors.get(te.getDirection().opposite()).pos();
 										destination = destination.offset(te.getDirection().toMCDirection().getNormal().multiply(2));
