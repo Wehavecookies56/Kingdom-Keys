@@ -19,6 +19,7 @@ import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.entity.block.CardDoorTileEntity;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.CastleOblivionHandler;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.DoorData;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.RoomData;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.RoomDirection;
@@ -40,7 +41,7 @@ public class COMinimap extends OverlayBase {
     public void render(GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
         super.render(guiGraphics, deltaTracker);
 
-        if (MenuScreen.rooms.isEmpty())
+        if (MenuScreen.rooms.isEmpty() || !CastleOblivionHandler.inInterior(minecraft.player))
             return;
 
         int screenWidth = Minecraft.getInstance().getWindow().getGuiScaledWidth();

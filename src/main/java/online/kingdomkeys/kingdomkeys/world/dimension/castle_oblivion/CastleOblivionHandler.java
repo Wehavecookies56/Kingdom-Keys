@@ -171,16 +171,12 @@ public class CastleOblivionHandler {
     @SubscribeEvent
     public void changeDimension(PlayerEvent.PlayerChangedDimensionEvent event) {
         //if player is entering the interior
-        if (isExterior(event.getFrom())) {
-            if (isInterior(event.getTo())) {
-                SCSyncCastleOblivionInteriorData.syncClients((ServerLevel) event.getEntity().level());
-                ServerLevel level = event.getEntity().level().getServer().getLevel(event.getTo());
-                Floor startFloor = Floor.getOrCreateFirstFloor(level);
-                NeoForge.EVENT_BUS.post(new CastleOblivionEvent.PlayerChangeFloorEvent(null, startFloor, null, startFloor.getRoom(RoomPos.ZERO).getGenerated().orElse(null), event.getEntity()));
-                PacketHandler.sendTo(new SCUpdateCORooms(getCurrentFloor(event.getEntity()).getRooms()), (ServerPlayer) event.getEntity());
-            }
-        } else {
-            PacketHandler.sendTo(new SCUpdateCORooms(List.of()), (ServerPlayer) event.getEntity());
+        if (isInterior(event.getTo())) {
+            SCSyncCastleOblivionInteriorData.syncClients((ServerLevel) event.getEntity().level());
+            ServerLevel level = event.getEntity().level().getServer().getLevel(event.getTo());
+            Floor startFloor = Floor.getOrCreateFirstFloor(level);
+            NeoForge.EVENT_BUS.post(new CastleOblivionEvent.PlayerChangeFloorEvent(null, startFloor, null, startFloor.getRoom(RoomPos.ZERO).getGenerated().orElse(null), event.getEntity()));
+            PacketHandler.sendTo(new SCUpdateCORooms(getCurrentFloor(event.getEntity()).getRooms()), (ServerPlayer) event.getEntity());
         }
     }
 
