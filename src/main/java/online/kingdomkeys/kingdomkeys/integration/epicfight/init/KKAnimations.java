@@ -28,19 +28,13 @@ import java.util.Map;
 public class KKAnimations {
 
     public static AnimationManager.AnimationAccessor<? extends StaticAnimation>
-        SORA_IDLE, VALOR_FORM_IDLE, WISDOM_FORM_IDLE, MASTER_FORM_IDLE, FINAL_FORM_IDLE, DEMYX_IDLE, LARXENE_IDLE,
-            LEXAEUS_IDLE, MARLUXIA_IDLE, ROXAS_IDLE, SAIX_IDLE, VEXEN_IDLE, XALDIN_IDLE, XEMNAS_IDLE, XIGBAR_IDLE, ZEXION_IDLE;
+        SORA_IDLE, VALOR_FORM_IDLE, WISDOM_FORM_IDLE, MASTER_FORM_IDLE, FINAL_FORM_IDLE, AXEL_IDLE, DEMYX_IDLE, LARXENE_IDLE,
+            LEXAEUS_IDLE, LUXORD_IDLE, MARLUXIA_IDLE, ROXAS_IDLE, SAIX_IDLE, VEXEN_IDLE, XALDIN_IDLE, XEMNAS_IDLE, XIGBAR_IDLE, ZEXION_IDLE;
     public static AnimationManager.AnimationAccessor<? extends StaticAnimation>
-        ROXAS_RUN, WISDOM_FORM_RUN, MASTER_FORM_WALK, XEMNAS_WALK, XEMNAS_RUN, XEMNAS_FLY, XIGBAR_WALK, XALDIN_WALK,
-            XALDIN_RUN, VEXEN_WALK,
-            LEXAEUS_WALK, LEXAEUS_RUN,
-            ZEXION_WALK, ZEXION_RUN,
-             SAIX_WALK, SAIX_RUN,
-            CHAKRAM_IDLE, CHAKRAM_RUN,
-            DEMYX_WALK, DEMYX_RUN,
-            LUXORD_IDLE, LUXORD_WALK, LUXORD_RUN,
-             MARLUXIA_WALK, MARLUXIA_RUN,
-             LARXENE_WALK, LARXENE_RUN;
+        ROXAS_RUN, WISDOM_FORM_RUN, MASTER_FORM_WALK, MASTER_FORM_RUN, XEMNAS_WALK, XEMNAS_RUN, XEMNAS_FLY, XIGBAR_WALK, XALDIN_WALK,
+            XALDIN_RUN, VEXEN_WALK, LEXAEUS_WALK, LEXAEUS_RUN, ZEXION_WALK, ZEXION_RUN,
+            SAIX_WALK, SAIX_RUN, AXEL_RUN, DEMYX_WALK, DEMYX_RUN, LUXORD_WALK, LUXORD_RUN, MARLUXIA_WALK, MARLUXIA_RUN,
+            LARXENE_WALK, LARXENE_RUN;
 
     public static AnimationManager.AnimationAccessor<ComboAttackAnimation>
             VALOR_AUTO1, VALOR_AUTO2, VALOR_AUTO3,
@@ -50,10 +44,11 @@ public class KKAnimations {
             ROXAS_AUTO1,
             SORA_AUTO1, SORA_AUTO2, SORA_AUTO3, SORA_FINISHER1,
             KK_SHIELD_AUTO1, KK_SHIELD_AUTO2, KK_SHIELD_AUTO3,
-            CHAKRAM_AUTO1;
+            AXEL_AUTO1;
 
     public static AnimationManager.AnimationAccessor<ActionAnimation>
-            DRIVE_SUMMON, SORA_SUMMON, XEMNAS_SUMMON, XIGBAR_SUMMON, XALDIN_SUMMON, VEXEN_SUMMON, LEXAEUS_SUMMON, ZEXION_SUMMON, SAIX_SUMMON, AXEL_SUMMON, DEMYX_SUMMON, LUXORD_SUMMON, MARLUXIA_SUMMON, LARXENE_SUMMON;
+            DRIVE_SUMMON, SORA_SUMMON, XEMNAS_SUMMON, XIGBAR_SUMMON, XALDIN_SUMMON, VEXEN_SUMMON, LEXAEUS_SUMMON,
+                ZEXION_SUMMON, SAIX_SUMMON, AXEL_SUMMON, DEMYX_SUMMON, LUXORD_SUMMON, MARLUXIA_SUMMON, LARXENE_SUMMON;
 
     public static AnimationManager.AnimationAccessor<AttackAnimation>
             WISDOM_FINISHER;
@@ -61,6 +56,10 @@ public class KKAnimations {
     public static Map<OrgMember, AnimationManager.AnimationAccessor<?>> orgMap = new HashMap<>();
     public static Map<SingleChoices, AnimationManager.AnimationAccessor<?>> singleKeybladeMap = new HashMap<>();
     public static Map<DualChoices, AnimationManager.AnimationAccessor<?>> dualKeybladeMap = new HashMap<>();
+
+    public static Map<?, ?> spellFireMap = new HashMap<>();
+    public static Map<?, ?> spellBlizzardMap = new HashMap<>();
+    public static Map<?, ?> spellThunderMap = new HashMap<>();
 
 
     private KKAnimations() {
@@ -99,6 +98,11 @@ public class KKAnimations {
 
     }
 
+    public static void initSpellFireMap() {
+
+    }
+
+
     private static void build(AnimationManager.AnimationBuilder builder) {
         AttackAnimation.JointColliderPair[] dualKeyblade = new AttackAnimation.JointColliderPair[]{AttackAnimation.JointColliderPair.of(Armatures.BIPED.get().toolR, KKCollider.KEYBLADE), AttackAnimation.JointColliderPair.of(Armatures.BIPED.get().toolL, KKCollider.KEYBLADE)};
         DRIVE_SUMMON = builder.nextAccessor("biped/living/forms/drive_summon", animationAccessor -> new ActionAnimation(0.05F, animationAccessor, Armatures.BIPED)
@@ -113,19 +117,19 @@ public class KKAnimations {
                 }, AnimationEvent.Side.BOTH)));
 
         VALOR_FORM_IDLE = builder.nextAccessor("biped/living/forms/valor_form/valor_idle", animationAccessor -> new StaticAnimation(true, animationAccessor, Armatures.BIPED));
-        VALOR_AUTO1 = builder.nextAccessor("biped/combat/valor_auto1", animationAccessor -> new ComboAttackAnimation(0.05F, animationAccessor, Armatures.BIPED,
+        VALOR_AUTO1 = builder.nextAccessor("biped/combat/forms/valor_form/valor_auto1", animationAccessor -> new ComboAttackAnimation(0.05F, animationAccessor, Armatures.BIPED,
                 new AttackAnimation.Phase(0.0F, 0.25F, 0.25F, 0.35F, 0.75F, Float.MAX_VALUE, false, InteractionHand.MAIN_HAND, dualKeyblade))
                 .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> 0.7F));
-        VALOR_AUTO2 = builder.nextAccessor("biped/combat/valor_auto2", animationAccessor -> new ComboAttackAnimation(0.05F, animationAccessor, Armatures.BIPED,
+        VALOR_AUTO2 = builder.nextAccessor("biped/combat/forms/valor_form/valor_auto2", animationAccessor -> new ComboAttackAnimation(0.05F, animationAccessor, Armatures.BIPED,
                 new AttackAnimation.Phase(0.0F, 0.25F, 0.25F, 0.35F, 0.75F, Float.MAX_VALUE, false, InteractionHand.MAIN_HAND, dualKeyblade))
                 .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> 0.7F));
-        VALOR_AUTO3 = builder.nextAccessor("biped/combat/valor_auto3", animationAccessor -> new ComboAttackAnimation(0.05F, animationAccessor, Armatures.BIPED,
+        VALOR_AUTO3 = builder.nextAccessor("biped/combat/forms/valor_form/valor_auto3", animationAccessor -> new ComboAttackAnimation(0.05F, animationAccessor, Armatures.BIPED,
                 new AttackAnimation.Phase(0.0F, 0.25F, 0.25F, 0.35F, 0.75F, Float.MAX_VALUE, false, InteractionHand.MAIN_HAND, dualKeyblade))
                 .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> 0.7F));
 
         WISDOM_FORM_IDLE = builder.nextAccessor("biped/living/forms/wisdom_form/wisdom_idle", animationAccessor -> new StaticAnimation(true, animationAccessor, Armatures.BIPED).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> 0.7F));
         WISDOM_FORM_RUN = builder.nextAccessor("biped/living/forms/wisdom_form/wisdom_run", animationAccessor -> new StaticAnimation(true, animationAccessor, Armatures.BIPED));
-        WISDOM_COMBO1 = builder.nextAccessor("biped/combat/wisdom_shoot", animationAccessor -> new ComboAttackAnimation(0.16F, 0.05F, 0.16F, 0.5F, KKCollider.NO, Armatures.BIPED.get().rootJoint, animationAccessor, Armatures.BIPED) {
+        WISDOM_COMBO1 = builder.nextAccessor("biped/combat/forms/wisdom_form/wisdom_shoot", animationAccessor -> new ComboAttackAnimation(0.16F, 0.05F, 0.16F, 0.5F, KKCollider.NO, Armatures.BIPED.get().rootJoint, animationAccessor, Armatures.BIPED) {
             @Override
             public boolean shouldPlayerMove(LocalPlayerPatch playerpatch) {
                 return true;
@@ -148,7 +152,7 @@ public class KKAnimations {
                                 WisdomProjectile.shoot(ep, Armatures.BIPED.get().toolR), AnimationEvent.Side.BOTH),
                         AnimationEvent.InTimeEvent.create(.3f, (ep, animation, arr) ->
                                 WisdomProjectile.shoot(ep, Armatures.BIPED.get().toolR), AnimationEvent.Side.BOTH)).addState(EntityState.MOVEMENT_LOCKED, false));
-        WISDOM_FINISHER = builder.nextAccessor("biped/combat/wisdom_finisher", animationAccessor -> new AttackAnimation(0.1F, 0.00F, 0.1f, 0.16F, 1.5F, KKCollider.NO, Armatures.BIPED.get().rootJoint, animationAccessor, Armatures.BIPED) {
+        WISDOM_FINISHER = builder.nextAccessor("biped/combat/forms/wisdom_form/wisdom_finisher", animationAccessor -> new AttackAnimation(0.1F, 0.00F, 0.1f, 0.16F, 1.5F, KKCollider.NO, Armatures.BIPED.get().rootJoint, animationAccessor, Armatures.BIPED) {
 
             @Override
             public boolean shouldPlayerMove(LocalPlayerPatch playerpatch) {
@@ -186,11 +190,12 @@ public class KKAnimations {
         MASTER_FORM_IDLE = builder.nextAccessor("biped/living/forms/master_form/master_form_idle", animationAccessor -> new StaticAnimation(true, animationAccessor, Armatures.BIPED));
         MASTER_FORM_WALK = builder.nextAccessor("biped/living/forms/master_form/master_form_walk", animationAccessor -> new StaticAnimation(true, animationAccessor, Armatures.BIPED)
                 .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> 1.4F));
-
+        MASTER_FORM_RUN = builder.nextAccessor("biped/living/forms/master_form/master_form_run", animationAccessor -> new StaticAnimation(true, animationAccessor, Armatures.BIPED)
+                .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> 1.5F));
 
 
         FINAL_FORM_IDLE = builder.nextAccessor("biped/living/forms/final_form/final_idle", animationAccessor -> new StaticAnimation(true, animationAccessor, Armatures.BIPED).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> .8f));
-        FINAL_AUTO1 = builder.nextAccessor("biped/combat/final_auto1", animationAccessor -> new ComboAttackAnimation(0.01F, animationAccessor, Armatures.BIPED,
+        FINAL_AUTO1 = builder.nextAccessor("biped/combat/forms/final_form/final_auto1", animationAccessor -> new ComboAttackAnimation(0.01F, animationAccessor, Armatures.BIPED,
                 new AttackAnimation.Phase(0.0F, 0.25F, 0.25F, 0.35F, 0.75F, Float.MAX_VALUE, false, InteractionHand.MAIN_HAND, dualKeyblade))
                 .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> .8f));
 
@@ -219,9 +224,9 @@ public class KKAnimations {
         KK_SHIELD_AUTO2 = builder.nextAccessor("biped/combat/kk_shield_auto_2", animationAccessor -> new ComboAttackAnimation(0.16F, 0.05F, 0.16F, 0.7F, null, Armatures.BIPED.get().toolR, animationAccessor, Armatures.BIPED));
         KK_SHIELD_AUTO3 = builder.nextAccessor("biped/combat/kk_shield_auto_3", animationAccessor -> new ComboAttackAnimation(0.16F, 0.05F, 0.16F, 0.7F, null, Armatures.BIPED.get().toolR, animationAccessor, Armatures.BIPED));
 
-        CHAKRAM_AUTO1 = builder.nextAccessor("biped/combat/chakram_auto_1", animationAccessor -> new ComboAttackAnimation(0.16F, 0.05F, 0.16F, 0.7F, null, Armatures.BIPED.get().toolR, animationAccessor, Armatures.BIPED));
-        CHAKRAM_IDLE = builder.nextAccessor("biped/living/organization/axel/axel_idle", animationAccessor -> new StaticAnimation(true, animationAccessor, Armatures.BIPED).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> .6f));
-        CHAKRAM_RUN = builder.nextAccessor("biped/living/organization/axel/axel_run", animationAccessor -> new StaticAnimation(true, animationAccessor, Armatures.BIPED));
+        AXEL_AUTO1 = builder.nextAccessor("biped/combat/chakram_auto_1", animationAccessor -> new ComboAttackAnimation(0.16F, 0.05F, 0.16F, 0.7F, null, Armatures.BIPED.get().toolR, animationAccessor, Armatures.BIPED));
+        AXEL_IDLE = builder.nextAccessor("biped/living/organization/axel/axel_idle", animationAccessor -> new StaticAnimation(true, animationAccessor, Armatures.BIPED).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> .6f));
+        AXEL_RUN = builder.nextAccessor("biped/living/organization/axel/axel_run", animationAccessor -> new StaticAnimation(true, animationAccessor, Armatures.BIPED));
 
         XIGBAR_WALK = builder.nextAccessor("biped/living/organization/xigbar/xigbar_walk", animationAccessor -> new StaticAnimation(true, animationAccessor, Armatures.BIPED));
         XIGBAR_IDLE = builder.nextAccessor("biped/living/organization/xigbar/xigbar_idle", animationAccessor -> new StaticAnimation(true, animationAccessor, Armatures.BIPED).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> .6f));
