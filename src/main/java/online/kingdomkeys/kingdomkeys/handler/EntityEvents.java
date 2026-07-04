@@ -456,8 +456,8 @@ public class EntityEvents {
 
 				Utils.RefreshAbilityAttributes(player, playerData);
 				if (player.level().dimension().location().getPath().contains("castle_oblivion_interior")) {
-					SCSyncCastleOblivionInteriorData.syncClients((ServerLevel) player.level());
-					PacketHandler.sendTo(new SCUpdateCORooms(CastleOblivionHandler.getCurrentFloor(player).getRooms()), (ServerPlayer) player);
+					//SCSyncCastleOblivionInteriorData.syncClients((ServerLevel) player.level());
+					//PacketHandler.sendTo(new SCUpdateCORooms(CastleOblivionHandler.getCurrentFloor(player).getRooms()), (ServerPlayer) player);
 				} else {
 					PacketHandler.sendTo(new SCUpdateCORooms(List.of()), (ServerPlayer) player);
 				}

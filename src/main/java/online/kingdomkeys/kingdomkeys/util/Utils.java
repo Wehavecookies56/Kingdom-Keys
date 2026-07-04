@@ -51,7 +51,6 @@ import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.item.enchantment.ItemEnchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.Rotation;
@@ -59,6 +58,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.level.chunk.LevelChunk;
+import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.scores.PlayerTeam;
@@ -1058,6 +1058,26 @@ public class Utils {
 			playerData.setSeenTutorial(Constants.TUTORIAL_CO_LOBBY);
 			PacketHandler.sendTo(new SCSyncPlayerData(player, playerData), player);
 		}
+	}
+
+	public static BlockPos getBlockPosYHeight(Level level, int posX, int posZ) {
+		int yPos = level.getHeight(Heightmap.Types.WORLD_SURFACE, posX, posZ);
+		BlockPos pos = new BlockPos(posX, yPos, posZ);
+
+		while (level.getBlockState(pos).is(ModBlocks.structureWall.get()) || level.getBlockState(pos).is(Blocks.AIR)) {
+			pos = pos.below();
+		}
+		return pos;
+	}
+
+	public static int getYHeight(Level level, int posX, int posZ) {
+		int yPos = level.getHeight(Heightmap.Types.WORLD_SURFACE, posX, posZ);
+		BlockPos pos = new BlockPos(posX, yPos, posZ);
+
+		while (level.getBlockState(pos).is(ModBlocks.structureWall.get()) || level.getBlockState(pos).is(Blocks.AIR)) {
+			pos = pos.below();
+		}
+		return pos.getY();
 	}
 
 	public static class Title {

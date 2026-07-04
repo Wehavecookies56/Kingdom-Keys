@@ -71,7 +71,7 @@ public class FaithBeamEntity extends BaseMagicProjectile {
 			double targetX = centerX + Math.cos(baseAngle) * orbitRadius;
 			double targetZ = centerZ + Math.sin(baseAngle) * orbitRadius;
 
-			int groundY = level().getHeight(Heightmap.Types.WORLD_SURFACE, (int) Math.floor(targetX), (int) Math.floor(targetZ));
+			int groundY = Utils.getYHeight(level(), (int) Math.floor(targetX), (int) Math.floor(targetZ));
 			double targetY = groundY + 0.1D;
 
 			setPos(targetX, targetY, targetZ);

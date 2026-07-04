@@ -77,7 +77,7 @@ public class FaithEntityController extends BaseMagicProjectile {
 
 					double x = getOwner().getX() + Math.cos(angle) * START_RADIUS;
 					double z = getOwner().getZ() + Math.sin(angle) * START_RADIUS;
-					int groundY = level().getHeight(Types.WORLD_SURFACE, (int) Math.floor(x), (int) Math.floor(z));
+					int groundY = Utils.getYHeight(level(), (int) Math.floor(x), (int) Math.floor(z));
 
 					FaithBeamEntity beam = new FaithBeamEntity(level(), (LivingEntity) getOwner(), dmgMult, x, groundY + 0.1D, z);
 					beam.setBaseAngle(angle);

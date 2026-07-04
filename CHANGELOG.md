@@ -4,9 +4,12 @@
   * By default, to be able to buy shards you need to have obtained a total of 30, stones 25, gems 20 and crystals 15 (Taking materials out substract the total).
   * By default, to be able to buy a spell you first need to obtain it through drop / melding / any method, and be the right tier (from C - SS, based on the spell tier).
 * Custom colors for floor and room grass, foliage, water and sky.
+* World card tag.
 
 ## Changed:
 * Room modifiers are now customizable through JSON.
+* Textures for world cards and biome memories.
+* Encounter waves from chat to title messages.
 
 ## Fixed:
 * Shop not displaying the new items if you had just leveled up the synthesis tier, where a relog was needed.
@@ -14,6 +17,8 @@
 * Warp point having green trail.
 * Player losing Castle Oblivion data when relogging or switching dimensions.
 * Wave encounters not resetting properly after dying/leaving mid fight.
+* Potentially fixed Conqueror's Respite issues.
+* Some magics like Thunder and Faith not working in Castle Oblivion rooms due to the ceiling.
 * Master's Defender model.
 * Some EFM animations.
 

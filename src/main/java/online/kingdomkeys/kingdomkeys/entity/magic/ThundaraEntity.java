@@ -92,10 +92,11 @@ public class ThundaraEntity extends BaseMagicProjectile {
 						x = (int) getOwner().getX();
 						z = (int) getOwner().getZ();
 					}
-					int y = getOwner().level().getHeight(Types.WORLD_SURFACE, x, z);
 
 					int posX = (int) (x + getOwner().level().random.nextInt((int) (radius*2)) - radius / 2)-1;
 					int posZ = (int) (z + getOwner().level().random.nextInt((int) (radius*2)) - radius / 2)-1;
+
+					int y = Utils.getYHeight(level(),posX,posZ);
 
 					for(int px=(int)(x-radius);px<x+radius;px++) {
 						for(int py=(int)(y-radius);py<y+radius;py++) {
@@ -112,10 +113,10 @@ public class ThundaraEntity extends BaseMagicProjectile {
 
 					float dmg = getTotalDamage();
 					dmg = Math.max(0.25F, dmg);
-					ThunderBoltEntity shot = new ThunderBoltEntity(getOwner().level(), (LivingEntity) getOwner(), posX, getOwner().level().getHeight(Types.WORLD_SURFACE, posX, posZ), posZ, dmg);
+					ThunderBoltEntity shot = new ThunderBoltEntity(getOwner().level(), (LivingEntity) getOwner(), posX, Utils.getYHeight(level(),posX,posZ), posZ, dmg);
 					level().addFreshEntity(shot);
 
-					BlockPos pos = new BlockPos(posX, getOwner().level().getHeight(Types.WORLD_SURFACE, posX, posZ), posZ);
+					BlockPos pos = Utils.getBlockPosYHeight(level(),posX,posZ);
 					LightningBolt lightningBoltEntity = EntityType.LIGHTNING_BOLT.create(this.level());
 					lightningBoltEntity.moveTo(Vec3.atBottomCenterOf(pos));
 					lightningBoltEntity.setVisualOnly(true);
