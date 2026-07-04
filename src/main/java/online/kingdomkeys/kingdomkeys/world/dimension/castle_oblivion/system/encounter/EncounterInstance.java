@@ -8,9 +8,13 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import online.kingdomkeys.kingdomkeys.data.CastleOblivionData;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.stc.SCShowMessagesPacket;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCastleOblivionInteriorData;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModRoomEncounters;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.Room;
+
+import java.util.List;
 
 public class EncounterInstance {
     private final RoomEncounter encounter;
@@ -54,7 +58,12 @@ public class EncounterInstance {
     public void start(Room room, ServerLevel level) {
         if (!isComplete) {
             Room.getPlayersInRoom(level.getServer(), room).forEach(player -> {
-                player.sendSystemMessage(Component.literal("ENCOUNTER START"));
+                List<Utils.Title> message = List.of(
+                        new Utils.Title("co.encounter.start", "")
+                );
+                PacketHandler.sendTo(new SCShowMessagesPacket(message), (ServerPlayer) player);
+
+                //player.sendSystemMessage(Component.translatable("co.encounter.start"));
                 CastleOblivionData.InteriorData.get(level).ifPresent(interiorData -> {
                     interiorData.setDirty();
                     interiorData.sendToClient(player);
@@ -79,7 +88,11 @@ public class EncounterInstance {
         room.setDoorLocks(level, false);
         encounter.getHandler().end(encounter.getEncounter(), state, this, room, level);
         Room.getPlayersInRoom(level.getServer(), room).forEach(player -> {
-            player.sendSystemMessage(Component.literal("ENCOUNTER COMPLETE"));
+            List<Utils.Title> message = List.of(
+                    new Utils.Title("co.encounter.end", "")
+            );
+            PacketHandler.sendTo(new SCShowMessagesPacket(message), (ServerPlayer) player);
+            //player.sendSystemMessage(Component.translatable("co.encounter.end"));
             getEncounter().getRewards().forEach(player::addItem);
             CastleOblivionData.InteriorData.get(level).ifPresent(interiorData -> {
                 interiorData.setDirty();

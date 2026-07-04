@@ -8,6 +8,7 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.ArrayListDeque;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EntityType;
@@ -20,6 +21,9 @@ import net.neoforged.neoforge.event.EventHooks;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.data.CastleOblivionData;
 import online.kingdomkeys.kingdomkeys.data.GlobalData;
+import online.kingdomkeys.kingdomkeys.lib.Strings;
+import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.stc.SCShowMessagesPacket;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModEncounterTypes;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.Room;
@@ -143,7 +147,11 @@ public class WaveEncounter implements Encounter {
                         });
                     }
                     Room.getPlayersInRoom(level.getServer(), room).forEach(player -> {
-                        player.sendSystemMessage(Component.literal("WAVE " + (state.currentWave + 1)));
+                        List<Utils.Title> message = List.of(
+                                new Utils.Title("co.encounter.wave", ""+(state.currentWave + 1))
+                        );
+                        PacketHandler.sendTo(new SCShowMessagesPacket(message), (ServerPlayer) player);
+                        //player.sendSystemMessage(Component.translatable("co.encounter.wave", state.currentWave + 1));
                         currentWave.onStart(room, player);
                     });
                     currentWave.forEach(entityType -> {

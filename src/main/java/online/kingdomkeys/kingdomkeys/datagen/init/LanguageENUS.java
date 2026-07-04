@@ -2279,7 +2279,11 @@ public class LanguageENUS extends KKLanguageProvider {
 
         add("co.door_succeed","Master the cards and make your way through the castle. From here on, you walk alone.");
         add("co.door_failed","Hold the card before you. The door will open, and beyond it a new world");
-        
+
+        add("co.encounter.wave", "Wave");
+        add("co.encounter.start", "Starting encounter");
+        add("co.encounter.end", "Finished encounter");
+
         //Controls
         add("key.categories.kingdomkeys", "Kingdom Keys");
         add(InputHandler.Keybinds.ACTION, "Action key");
