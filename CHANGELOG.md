@@ -2,7 +2,9 @@
 ## Added:
 * Shop datapack option to require having enough materials deposited or having obtained a magic spell (so it works like in KH2 and KH BBS respectively).
   * By default, to be able to buy shards you need to have obtained a total of 30, stones 25, gems 20 and crystals 15 (Taking materials out substract the total).
+  * By default, to be able to buy a spell you first need to obtain it through drop / melding / any method, and be the right tier (from C - SS, based on the spell tier).
 * Custom colors for floor and room grass, foliage, water and sky.
+
 ## Changed:
 * Room modifiers are now customizable through JSON.
 
@@ -11,6 +13,9 @@
 * Positioned Card door and Mysterious door in the inventory and in hand.
 * Warp point having green trail.
 * Player losing Castle Oblivion data when relogging or switching dimensions.
+* Wave encounters not resetting properly after dying/leaving mid fight.
+* Master's Defender model.
+* Some EFM animations.
 
 # 2.8.0b:
 ## Added:

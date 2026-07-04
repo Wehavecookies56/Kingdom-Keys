@@ -1055,6 +1055,7 @@ public class ModItems {
 			theNetherCard = createWorldCard(Strings.TheNetherCard, ModFloorTypes.THE_NETHER),
 			theEndCard = createWorldCard(Strings.TheEndCard, ModFloorTypes.THE_END),
 			desertCard = createWorldCard(Strings.DesertCard, ModFloorTypes.DESERT),
+			desertMemory = createNewItem(Strings.DesertMemory, () -> new BiomeMemoryItem(new Item.Properties())),
 			snowyCard = createWorldCard(Strings.SnowyCard, ModFloorTypes.SNOWY),
 			mushroomFieldsCard = createWorldCard(Strings.MushroomFieldsCard, ModFloorTypes.MUSHROOM_FIELDS),
 			oceanCard = createWorldCard(Strings.OceanCard, ModFloorTypes.OCEAN),
