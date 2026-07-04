@@ -40,6 +40,11 @@ public class SpawnMobModifier implements RoomModifier {
         this.additionalData = additionalData.orElse(new CompoundTag());
     }
 
+    public SpawnMobModifier(Holder<EntityType<?>> entityType, CompoundTag additionalData) {
+        this.entityType = entityType;
+        this.additionalData = additionalData;
+    }
+
     @Override
     public void onGenerate(Room room, ServerLevel level) {
         if (!room.getSpawnPoints().isEmpty()) {

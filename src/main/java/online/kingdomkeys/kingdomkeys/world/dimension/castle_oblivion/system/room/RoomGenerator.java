@@ -50,7 +50,7 @@ public class RoomGenerator {
         return generateRoom(level, currentFloor.getRoom(RoomPos.ZERO), room, null);
     }
 
-    public Room generateRoom(ServerLevel level, RoomData data, RoomType type, @Nullable Room currentRoom, @Nullable RoomDirection doorDirection, int valueUsed) {
+    public Room generateRoom(ServerLevel level, RoomData data, RoomType type, Room currentRoom, RoomDirection doorDirection, int valueUsed) {
         if (type.equals(ModRoomTypes.ENTRANCE_HALL.get()) && data.pos.equals(RoomPos.ZERO)) {
             KingdomKeys.LOGGER.warn("Tried to generate room type {} at entrance hall position", type.getRegistryName().toString());
             return null;

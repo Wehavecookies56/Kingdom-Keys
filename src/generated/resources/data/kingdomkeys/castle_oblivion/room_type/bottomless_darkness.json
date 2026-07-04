@@ -1,0 +1,19 @@
+{
+  "category": "ENEMY",
+  "colour": "#000000",
+  "enemies": {
+    "type": "L",
+    "number_of_enemies": 13,
+    "regular_enemies": "#kingdomkeys:castle_oblivion/bottomless_darkness",
+    "simultaneous_enemies": 6
+  },
+  "fixed_room": "kingdomkeys:bottomless_darkness",
+  "modifiers": [
+    {
+      "type": "kingdomkeys:effect",
+      "effect": "minecraft:darkness",
+      "target": "PLAYER"
+    }
+  ],
+  "size": "L"
+}

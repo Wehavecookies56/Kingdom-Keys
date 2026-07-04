@@ -1,9 +1,0 @@
-{
-  "size": "S",
-  "category": "BOUNTY",
-  "enemies": {
-    "type": "S",
-    "number_of_enemies": 5,
-    "simultaneous_enemies": 3
-  }
-}

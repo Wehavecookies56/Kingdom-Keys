@@ -58,7 +58,7 @@ public class LevelModifier implements RoomModifier {
             ).apply(instance, LevelModifier::new)
     );
 
-    private LevelModifier(List<Operation> operations) {
+    public LevelModifier(List<Operation> operations) {
         this.operations = operations;
     }
 

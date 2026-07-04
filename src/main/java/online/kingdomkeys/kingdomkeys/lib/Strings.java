@@ -1518,7 +1518,14 @@ public class Strings {
 			ProsperousRepository = "prosperous_repository",
 			TreacherousRepository = "treacherous_repository",
 			ReposefulGrove = "reposeful_grove",
-			WeightlessSpace = "weightless_space";
+			WeightlessSpace = "weightless_space",
+			UnknownRoom = "unknown_room",
+			ConquerorsRespite = "conquerors_respite",
+			EntranceHall = "entrance_hall",
+			RoomOfBeginnings = "room_of_beginnings",
+			RoomOfGuidance = "room_of_guidance",
+			RoomOfTruth = "room_of_truth",
+			RoomOfRewards = "room_of_rewards";
 
 	//World Cards
 	public static String EmptyCard = "empty_card";

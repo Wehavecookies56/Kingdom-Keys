@@ -10,6 +10,7 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.biome.Biome;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.lib.ModTags;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.JsonRegistryObject;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModRoomTypes;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.RoomType;
@@ -71,8 +72,8 @@ public class FloorType extends JsonRegistryObject {
         this.startingRoom = startingRoom.orElse(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "unknown_room"));
         this.fixedLayout = fixedLayout.orElse(null);
         this.globalModifiers = globalModifiers.orElse(new ArrayList<>());
-        this.regularEnemies = regularEnemies.orElse(TagKey.create(Registries.ENTITY_TYPE, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "castle_oblivion/regular_enemies")));
-        this.strongEnemies = strongEnemies.orElse(TagKey.create(Registries.ENTITY_TYPE, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "castle_oblivion/strong_enemies")));
+        this.regularEnemies = regularEnemies.orElse(ModTags.CO_REGULAR_ENEMIES);
+        this.strongEnemies = strongEnemies.orElse(ModTags.CO_STRONG_ENEMIES);
         this.useFogColour = useFogColour.orElse(false);
     }
 

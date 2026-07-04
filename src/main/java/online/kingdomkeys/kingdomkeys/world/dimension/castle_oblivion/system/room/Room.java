@@ -303,7 +303,7 @@ public class Room {
                     for (int y = 0; y < height; y++) {
                         for (int x = 0; x < depth+1; x++) {
                             pos.set(position.getX() + x, position.getY() + y, position.getZ() + z);
-                            level.setBlock(pos, Blocks.AIR.defaultBlockState(), 2);
+                            Utils.setBlockWithoutUpdate(level, pos, Blocks.AIR.defaultBlockState());
                         }
                     }
                 }

@@ -12,4 +12,9 @@ public abstract class JsonRegistryObject {
     public String toString() {
         return registryName.toString();
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof JsonRegistryObject jsonRegistryObject && jsonRegistryObject.registryName.equals(registryName);
+    }
 }

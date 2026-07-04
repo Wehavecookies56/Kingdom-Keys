@@ -14,69 +14,77 @@ import java.util.List;
 
 public class ModTags {
 
+    public static final TagKey<EntityType<?>>
+            EMBLEM_HEARTLESS = entity("emblem_heartless"),
+            HEARTLESS = entity("heartless"),
+            NOBODY = entity("nobody"),
+            CO_BOTTOMLESS_DARKNESS = entity("castle_oblivion/bottomless_darkness"),
+            CO_REGULAR_ENEMIES = entity("castle_oblivion/regular_enemies"),
+            CO_STRONG_ENEMIES = entity("castle_oblivion/strong_enemies");
+
     public static final TagKey<Item>
-            MATERIALS = bind("synthesis/materials"),
+            MATERIALS = item("synthesis/materials"),
 
-            XEMNAS = bind("organization/xemnas"),
-            XIGBAR = bind("organization/xigbar"),
-            XALDIN = bind("organization/xaldin"),
-            VEXEN = bind("organization/vexen"),
-            LEXAEUS = bind("organization/lexaeus"),
-            ZEXION = bind("organization/zexion"),
-            SAIX = bind("organization/saix"),
-            AXEL = bind("organization/axel"),
-            DEMYX = bind("organization/demyx"),
-            LUXORD = bind("organization/luxord"),
-            MARLUXIA = bind("organization/marluxia"),
-            LARXENE = bind("organization/larxene"),
-            ROXAS = bind("organization/roxas"),
+            XEMNAS = item("organization/xemnas"),
+            XIGBAR = item("organization/xigbar"),
+            XALDIN = item("organization/xaldin"),
+            VEXEN = item("organization/vexen"),
+            LEXAEUS = item("organization/lexaeus"),
+            ZEXION = item("organization/zexion"),
+            SAIX = item("organization/saix"),
+            AXEL = item("organization/axel"),
+            DEMYX = item("organization/demyx"),
+            LUXORD = item("organization/luxord"),
+            MARLUXIA = item("organization/marluxia"),
+            LARXENE = item("organization/larxene"),
+            ROXAS = item("organization/roxas"),
 
-            KEYBLADES = bind("keyblades"),
-            KEYCHAINS = bind("keychains"),
-            MAGICS = bind("magics"),
-            DRIVES = bind("drives"),
-            ORG = bind("org_weapons"),
-            PAULDRONS = bind("pauldrons"),
-            ACCESSORIES = bind("accessories"),
-            ARMORS = bind("armors"),
-            MUSIC_DISCS = bind("music_discs"),
-            SYNTHESIS_MATERIAL = bind("synthesis_material"),
-            MAP_CARD = bind("map_card"),
-            WORLD_CARD = bind("world_card"),
-            KEY_CARD = bind("key_card"),
-            BIOME_MEMORY = bind("biome_memory"),
+            KEYBLADES = item("keyblades"),
+            KEYCHAINS = item("keychains"),
+            MAGICS = item("magics"),
+            DRIVES = item("drives"),
+            ORG = item("org_weapons"),
+            PAULDRONS = item("pauldrons"),
+            ACCESSORIES = item("accessories"),
+            ARMORS = item("armors"),
+            MUSIC_DISCS = item("music_discs"),
+            SYNTHESIS_MATERIAL = item("synthesis_material"),
+            MAP_CARD = item("map_card"),
+            WORLD_CARD = item("world_card"),
+            KEY_CARD = item("key_card"),
+            BIOME_MEMORY = item("biome_memory"),
 
-            GUMMI_BLOCK_CUBE = bind("gummi_block_cube"),
-            GUMMI_BLOCK_WEDGE = bind("gummi_block_wedge"),
-            GUMMI_BLOCK_PYRAMID = bind("gummi_block_pyramid"),
-            GUMMI_BLOCK_CYLINDER = bind("gummi_block_cylinder"),
-            GUMMI_BLOCK_PIE = bind("gummi_block_pie"),
-            GUMMI_BLOCK_ROUND_CORNER = bind("gummi_block_round_corner"),
-            GUMMI_BLOCK_CONE = bind("gummi_block_cone"),
-            GUMMI_BLOCK_DOME = bind("gummi_block_dome"),
+            GUMMI_BLOCK_CUBE = item("gummi_block_cube"),
+            GUMMI_BLOCK_WEDGE = item("gummi_block_wedge"),
+            GUMMI_BLOCK_PYRAMID = item("gummi_block_pyramid"),
+            GUMMI_BLOCK_CYLINDER = item("gummi_block_cylinder"),
+            GUMMI_BLOCK_PIE = item("gummi_block_pie"),
+            GUMMI_BLOCK_ROUND_CORNER = item("gummi_block_round_corner"),
+            GUMMI_BLOCK_CONE = item("gummi_block_cone"),
+            GUMMI_BLOCK_DOME = item("gummi_block_dome"),
 
-            GUMMI_SHELL_BLOCK_CUBE = bind("gummi_shell_block_cube"),
-            GUMMI_SHELL_BLOCK_WEDGE = bind("gummi_shell_block_wedge"),
-            GUMMI_SHELL_BLOCK_PYRAMID = bind("gummi_shell_block_pyramid"),
-            GUMMI_SHELL_BLOCK_CYLINDER = bind("gummi_shell_block_cylinder"),
-            GUMMI_SHELL_BLOCK_PIE = bind("gummi_shell_block_pie"),
-            GUMMI_SHELL_BLOCK_ROUND_CORNER = bind("gummi_shell_block_round_corner"),
-            GUMMI_SHELL_BLOCK_CONE = bind("gummi_shell_block_cone"),
-            GUMMI_SHELL_BLOCK_DOME = bind("gummi_shell_block_dome"),
+            GUMMI_SHELL_BLOCK_CUBE = item("gummi_shell_block_cube"),
+            GUMMI_SHELL_BLOCK_WEDGE = item("gummi_shell_block_wedge"),
+            GUMMI_SHELL_BLOCK_PYRAMID = item("gummi_shell_block_pyramid"),
+            GUMMI_SHELL_BLOCK_CYLINDER = item("gummi_shell_block_cylinder"),
+            GUMMI_SHELL_BLOCK_PIE = item("gummi_shell_block_pie"),
+            GUMMI_SHELL_BLOCK_ROUND_CORNER = item("gummi_shell_block_round_corner"),
+            GUMMI_SHELL_BLOCK_CONE = item("gummi_shell_block_cone"),
+            GUMMI_SHELL_BLOCK_DOME = item("gummi_shell_block_dome"),
 
-            GUMMI_DISPEL_BLOCK_CUBE = bind("gummi_dispel_block_cube"),
-            GUMMI_DISPEL_BLOCK_WEDGE = bind("gummi_dispel_block_wedge"),
-            GUMMI_DISPEL_BLOCK_PYRAMID = bind("gummi_dispel_block_pyramid"),
-            GUMMI_DISPEL_BLOCK_CYLINDER = bind("gummi_dispel_block_cylinder"),
-            GUMMI_DISPEL_BLOCK_PIE = bind("gummi_dispel_block_pie"),
-            GUMMI_DISPEL_BLOCK_ROUND_CORNER = bind("gummi_dispel_block_round_corner"),
-            GUMMI_DISPEL_BLOCK_CONE = bind("gummi_dispel_block_cone"),
-            GUMMI_DISPEL_BLOCK_DOME = bind("gummi_dispel_block_dome"),
+            GUMMI_DISPEL_BLOCK_CUBE = item("gummi_dispel_block_cube"),
+            GUMMI_DISPEL_BLOCK_WEDGE = item("gummi_dispel_block_wedge"),
+            GUMMI_DISPEL_BLOCK_PYRAMID = item("gummi_dispel_block_pyramid"),
+            GUMMI_DISPEL_BLOCK_CYLINDER = item("gummi_dispel_block_cylinder"),
+            GUMMI_DISPEL_BLOCK_PIE = item("gummi_dispel_block_pie"),
+            GUMMI_DISPEL_BLOCK_ROUND_CORNER = item("gummi_dispel_block_round_corner"),
+            GUMMI_DISPEL_BLOCK_CONE = item("gummi_dispel_block_cone"),
+            GUMMI_DISPEL_BLOCK_DOME = item("gummi_dispel_block_dome"),
 
-            GUMMI_BLOCK_BUBBLE = bind("gummi_block_bubble"),
+            GUMMI_BLOCK_BUBBLE = item("gummi_block_bubble"),
 
-            GUMMI_BLOCK_AERO_TRIANGLE = bind("gummi_block_aero_triangle"),
-            GUMMI_BLOCK_AERO_SQUARE = bind("gummi_block_aero_square");
+            GUMMI_BLOCK_AERO_TRIANGLE = item("gummi_block_aero_triangle"),
+            GUMMI_BLOCK_AERO_SQUARE = item("gummi_block_aero_square");
 
     public static final List<TagKey<Item>>
             GUMMI_BLOCK_KEYS = List.of(GUMMI_BLOCK_CUBE, GUMMI_BLOCK_WEDGE, GUMMI_BLOCK_PYRAMID, GUMMI_BLOCK_CYLINDER, GUMMI_BLOCK_PIE, GUMMI_BLOCK_ROUND_CORNER, GUMMI_BLOCK_CONE, GUMMI_BLOCK_DOME, GUMMI_BLOCK_AERO_SQUARE, GUMMI_BLOCK_AERO_TRIANGLE),
@@ -120,8 +128,12 @@ public class ModTags {
         return null;
     }
 
-    private static TagKey<Item> bind(String pName) {
+    private static TagKey<Item> item(String pName) {
         return TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, pName));
+    }
+
+    private static TagKey<EntityType<?>> entity(String pName) {
+        return TagKey.create(Registries.ENTITY_TYPE, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, pName));
     }
 
 }

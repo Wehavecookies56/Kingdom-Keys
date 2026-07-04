@@ -1,9 +1,0 @@
-{
-  "size": "L",
-  "category": "ENEMY",
-  "enemies": {
-    "type": "L",
-    "number_of_enemies": 16,
-    "simultaneous_enemies": 6
-  }
-}
