@@ -79,7 +79,7 @@ public class CastleOblivionHandler {
 
     public static final ResourceKey<Level> CASTLE_OBLIVION = ResourceKey.create(Registries.DIMENSION, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "castle_oblivion"));
 
-    public static final Utils.BlockPosBounds entranceBounds = new Utils.BlockPosBounds(-10, 87, 11, -1, 100, 11);
+    public static final Utils.BlockPosBounds entranceBounds = new Utils.BlockPosBounds(-10, 85, 11, -1, 100, 11);
     public static final Utils.BlockPosBounds firstDoorBounds = new Utils.BlockPosBounds(15, 63, 67, 17, 66, 67);
 
     public static final BlockPos entrancePos = new BlockPos(16, 62, 3);
@@ -161,7 +161,7 @@ public class CastleOblivionHandler {
         if (!event.getEntity().level().isClientSide) {
             if (inExterior(event.getEntity())) {
                 //Enter interior
-                if (Utils.isPlayerWithin(event.getEntity(), entranceBounds)) {
+                if (entranceBounds.isPlayerWithin(event.getEntity())) {
                     enterCastleOblivion(event.getEntity());
                 }
             }

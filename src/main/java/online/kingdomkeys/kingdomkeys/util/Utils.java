@@ -1044,12 +1044,7 @@ public class Utils {
 		}
 	}
 
-	private static final Map<ResourceKey<Biome>, Item> MEMORY_BY_BIOME = Map.of(
-			Biomes.PLAINS, ModItems.plainsMemory.get()
-			//Biomes.DESERT, ModItems.desertCard,
-			//Biomes.FOREST, ModItems.forestCard,
-			//Biomes.JUNGLE, ModItems.jungleCard
-	);
+	public static final Map<ResourceKey<Biome>, Item> MEMORY_BY_BIOME = new HashMap<>();
 
 	public static Item getMemoryFromBiome(Holder<Biome> biome) {
 		return biome.unwrapKey().map(MEMORY_BY_BIOME::get).orElse(null);
@@ -2399,10 +2394,10 @@ public class Utils {
 		public BlockPosBounds(int minX, int minY, int minZ, int maxX, int maxY, int maxZ) {
 			this(new BlockPos(minX, minY, minZ), new BlockPos(maxX, maxY, maxZ));
 		}
-	}
 
-	public static boolean isPlayerWithin(Player player, BlockPosBounds bounds) {
-		return (int) player.getX() >= bounds.min.getX() && (int) player.getX() <= bounds.max.getX() && (int) player.getY() >= bounds.min.getY() && (int) player.getY() <= bounds.max.getY() && (int) player.getZ() >= bounds.min.getZ() && (int) player.getZ() <= bounds.max.getZ();
+		public boolean isPlayerWithin(Player player) {
+			return (int) player.getX() >= min.getX() && (int) player.getX() <= max.getX() && (int) player.getY() >= min.getY() && (int) player.getY() <= max.getY() && (int) player.getZ() >= min.getZ() && (int) player.getZ() <= max.getZ();
+		}
 	}
 
 	public static boolean isTouchingWall(Player player) {

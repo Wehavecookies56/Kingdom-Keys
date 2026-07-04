@@ -7,6 +7,7 @@ import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.SwordItem;
+import net.minecraft.world.level.biome.Biomes;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.item.card.*;
@@ -1049,13 +1050,13 @@ public class ModItems {
 			keyToRewards = createKeyCard("key_to_rewards", ModRoomTypes.ROOM_OF_REWARDS, KeycardType.REWARDS),
 
 			//floor cards
-			emptyCard = createNewItem(Strings.EmptyCard, () -> new BiomeMemoryItem(new Item.Properties())),
+			emptyCard = createNewItem(Strings.EmptyCard, () -> new BiomeMemoryItem(new Item.Properties(), null)),
 			plainsCard = createWorldCard(Strings.PlainsCard, ModFloorTypes.PLAINS, true),
-			plainsMemory = createNewItem(Strings.PlainsMemory, () -> new BiomeMemoryItem(new Item.Properties())),
+			plainsMemory = createNewItem(Strings.PlainsMemory, () -> new BiomeMemoryItem(new Item.Properties(), Biomes.PLAINS)),
 			theNetherCard = createWorldCard(Strings.TheNetherCard, ModFloorTypes.THE_NETHER),
 			theEndCard = createWorldCard(Strings.TheEndCard, ModFloorTypes.THE_END),
 			desertCard = createWorldCard(Strings.DesertCard, ModFloorTypes.DESERT, true),
-			desertMemory = createNewItem(Strings.DesertMemory, () -> new BiomeMemoryItem(new Item.Properties())),
+			desertMemory = createNewItem(Strings.DesertMemory, () -> new BiomeMemoryItem(new Item.Properties(), Biomes.DESERT)),
 			snowyCard = createWorldCard(Strings.SnowyCard, ModFloorTypes.SNOWY),
 			mushroomFieldsCard = createWorldCard(Strings.MushroomFieldsCard, ModFloorTypes.MUSHROOM_FIELDS),
 			oceanCard = createWorldCard(Strings.OceanCard, ModFloorTypes.OCEAN),
