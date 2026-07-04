@@ -1050,11 +1050,11 @@ public class ModItems {
 
 			//floor cards
 			emptyCard = createNewItem(Strings.EmptyCard, () -> new BiomeMemoryItem(new Item.Properties())),
-			plainsCard = createWorldCard(Strings.PlainsCard, ModFloorTypes.PLAINS),
+			plainsCard = createWorldCard(Strings.PlainsCard, ModFloorTypes.PLAINS, true),
 			plainsMemory = createNewItem(Strings.PlainsMemory, () -> new BiomeMemoryItem(new Item.Properties())),
 			theNetherCard = createWorldCard(Strings.TheNetherCard, ModFloorTypes.THE_NETHER),
 			theEndCard = createWorldCard(Strings.TheEndCard, ModFloorTypes.THE_END),
-			desertCard = createWorldCard(Strings.DesertCard, ModFloorTypes.DESERT),
+			desertCard = createWorldCard(Strings.DesertCard, ModFloorTypes.DESERT, true),
 			desertMemory = createNewItem(Strings.DesertMemory, () -> new BiomeMemoryItem(new Item.Properties())),
 			snowyCard = createWorldCard(Strings.SnowyCard, ModFloorTypes.SNOWY),
 			mushroomFieldsCard = createWorldCard(Strings.MushroomFieldsCard, ModFloorTypes.MUSHROOM_FIELDS),
@@ -1097,6 +1097,10 @@ public class ModItems {
 
 	private static Supplier<Item> createWorldCard(String name, Supplier<FloorType> type) {
 		return ITEMS.register(name, () -> new WorldCardItem(type));
+	}
+
+	private static Supplier<Item> createWorldCard(String name, Supplier<FloorType> type, boolean implemented) {
+		return ITEMS.register(name, () -> new WorldCardItem(type, implemented));
 	}
 	
 	private static Supplier<Item> createKeybladeArmorItem(String name, Holder<ArmorMaterial> material, ArmorItem.Type slot, String textureName) {

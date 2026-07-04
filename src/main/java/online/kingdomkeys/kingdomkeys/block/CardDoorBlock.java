@@ -35,6 +35,7 @@ import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.block.CardDoorTileEntity;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.item.card.WorldCardItem;
+import online.kingdomkeys.kingdomkeys.lib.ModTags;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCOpenCODoorGui;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCastleOblivionInteriorData;
@@ -112,7 +113,7 @@ public class CardDoorBlock extends BaseBlock implements EntityBlock, INoDataGen 
 								if (!te.isOpen()) {
 									//TODO open world card gui
 									if (player.getItemInHand(hand).getItem() instanceof WorldCardItem item) {
-										if (!FMLEnvironment.production || item == ModItems.plainsCard.get()) {
+										if (!FMLEnvironment.production || player.getItemInHand(hand).is(ModTags.WORLD_CARD)) {
 											te.getParentRoom().getParentFloor((ServerLevel) level).setWorldCard(item);
 											te.openDoor(true);
 											CastleOblivionHandler.createFirstRoom(player, te);

@@ -1,6 +1,7 @@
 {
   "values": [
     "kingdomkeys:empty_card",
-    "kingdomkeys:plains_memory"
+    "kingdomkeys:plains_memory",
+    "kingdomkeys:desert_memory"
   ]
 }

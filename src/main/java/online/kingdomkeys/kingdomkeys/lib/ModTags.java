@@ -42,6 +42,7 @@ public class ModTags {
             MUSIC_DISCS = bind("music_discs"),
             SYNTHESIS_MATERIAL = bind("synthesis_material"),
             MAP_CARD = bind("map_card"),
+            WORLD_CARD = bind("world_card"),
             KEY_CARD = bind("key_card"),
             BIOME_MEMORY = bind("biome_memory"),
 

@@ -14,6 +14,7 @@ import online.kingdomkeys.kingdomkeys.item.*;
 import online.kingdomkeys.kingdomkeys.item.card.BiomeMemoryItem;
 import online.kingdomkeys.kingdomkeys.item.card.CardCategory;
 import online.kingdomkeys.kingdomkeys.item.card.MapCardItem;
+import online.kingdomkeys.kingdomkeys.item.card.WorldCardItem;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
 import org.jetbrains.annotations.Nullable;
 
@@ -155,6 +156,12 @@ public class ItemTagsGen extends ItemTagsProvider {
 
 			if (item instanceof BiomeMemoryItem) {
 				add(BIOME_MEMORY, item);
+			}
+
+			if (item instanceof WorldCardItem worldCardItem) {
+				if (worldCardItem.implemented) {
+					add(WORLD_CARD, item);
+				}
 			}
 
 		}

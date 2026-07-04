@@ -15,10 +15,17 @@ import java.util.function.Supplier;
 public class WorldCardItem extends Item implements ICreativeTab {
 
     private final Supplier<FloorType> floorType;
+    //TODO Remove when we've done all of them
+    public boolean implemented;
 
-    public WorldCardItem(Supplier<FloorType> floorType) {
+    public WorldCardItem(Supplier<FloorType> floorType, boolean implemented) {
         super(new Properties());
         this.floorType = floorType;
+        this.implemented = implemented;
+    }
+
+    public WorldCardItem(Supplier<FloorType> floorType) {
+        this(floorType, false);
     }
 
     public FloorType getFloorType() {
@@ -32,7 +39,8 @@ public class WorldCardItem extends Item implements ICreativeTab {
 
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
-        if (stack.getItem() instanceof WorldCardItem worldCardItem && worldCardItem != ModItems.plainsCard.get()) {
+        //TODO Remove when all floors are done
+        if (stack.getItem() instanceof WorldCardItem worldCardItem && !worldCardItem.implemented) {
             tooltipComponents.add(Component.literal("DO NOT USE, NOT FUNCTIONAL YET").withStyle(ChatFormatting.RED));
         }
         super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);

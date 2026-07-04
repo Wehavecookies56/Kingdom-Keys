@@ -27,6 +27,7 @@ public class MapCardItem extends Item implements ICreativeTab {
     private final Supplier<RoomType> type;
     boolean hasRandomValue;
     private KeycardType keycardType;
+    //TODO remove when all cards are done
     private boolean wip;
 
     public MapCardItem(Supplier<RoomType> type, CardCategory category) {
@@ -103,6 +104,7 @@ public class MapCardItem extends Item implements ICreativeTab {
 
     @Override
     public void appendHoverText(ItemStack pStack, TooltipContext tooltipContext, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
+        //TODO remove when done
         if (wip) {
             pTooltipComponents.add(Component.translatable("DOES NOT WORK YET").withStyle(ChatFormatting.RED));
         }
