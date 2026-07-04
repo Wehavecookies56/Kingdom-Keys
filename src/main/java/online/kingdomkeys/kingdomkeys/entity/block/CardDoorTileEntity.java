@@ -66,9 +66,10 @@ public class CardDoorTileEntity extends BlockEntity {
     public void toggleDoorLock() {
         if (locked && destinationRoom.getFixedType().isPresent() && destinationRoom.getGenerated().isEmpty() && parent.getGenerated().isPresent()) {
             openDoor(false);
+            CastleOblivionData.InteriorData interiorData = CastleOblivionData.InteriorData.get((ServerLevel) level).orElseThrow();
+            destinationRoom = interiorData.getRoomByData(destinationRoom);
             destinationRoom.setGenerated(RoomGenerator.INSTANCE.generateRoom((ServerLevel) level, destinationRoom, destinationRoom.getFixedType().get(), parent.getGenerated().get(), direction, 0));
             destinationRoom.getGenerated().ifPresent(room -> {
-                CastleOblivionData.InteriorData interiorData = CastleOblivionData.InteriorData.get((ServerLevel) level).orElseThrow();
                 PacketHandler.sendToAll(new SCSyncCastleOblivionInteriorData(interiorData, level));
                 PacketHandler.sendToAll(new SCUpdateCORooms(interiorData.getFloorByID(parent.getParentID()).getRooms()));
                 CardDoorTileEntity te = (CardDoorTileEntity) level.getBlockEntity(room.doors.get(direction.opposite()).pos());
@@ -76,6 +77,7 @@ public class CardDoorTileEntity extends BlockEntity {
                     te.setDestinationRoom(parent);
                     te.openDoor(true);
                 }
+                interiorData.setDirty();
             });
         }
         locked = !locked;

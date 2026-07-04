@@ -17,6 +17,7 @@ import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCastleOblivionInteriorDa
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.floor.Floor;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.Room;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.RoomData;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.RoomPos;
 
 import java.util.*;
 
@@ -124,6 +125,10 @@ public class CastleOblivionData {
         public Floor getFloorByID(int id) {
             List<Floor> f = getFloors().stream().filter(floor -> floor.getFloorID() == id).toList();
             return !f.isEmpty() ? f.getFirst() : null;
+        }
+
+        public RoomData getRoomByData(RoomData data) {
+            return getFloorByID(data.getParentID()).getRoom(data.pos);
         }
 
         public boolean isInRoom(BlockPos pos) {
