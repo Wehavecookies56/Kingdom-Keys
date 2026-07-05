@@ -2289,7 +2289,6 @@ public class LanguageENUS extends KKLanguageProvider {
         add("co.door_failed","Hold the card before you. The door will open, and beyond it a new world");
 
         add("co.encounter.wave", "Wave");
-        add("co.encounter.start", "Starting encounter");
         add("co.encounter.end", "Finished encounter");
 
         //Controls

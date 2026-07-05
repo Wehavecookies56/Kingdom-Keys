@@ -57,12 +57,6 @@ public class EncounterInstance {
     public void start(Room room, ServerLevel level) {
         if (!isComplete) {
             Room.getPlayersInRoom(level.getServer(), room).forEach(player -> {
-                List<Utils.Title> message = List.of(
-                        new Utils.Title("co.encounter.start", "")
-                );
-                PacketHandler.sendTo(new SCShowMessagesPacket(message), (ServerPlayer) player);
-
-                //player.sendSystemMessage(Component.translatable("co.encounter.start"));
                 CastleOblivionData.InteriorData.get(level).ifPresent(interiorData -> {
                     interiorData.setDirty();
                     interiorData.sendToClient(player);

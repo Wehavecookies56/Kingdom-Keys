@@ -37,6 +37,7 @@ import net.minecraft.world.phys.Vec3;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.AnvilUpdateEvent;
 import net.neoforged.neoforge.event.OnDatapackSyncEvent;
 import net.neoforged.neoforge.event.PlayLevelSoundEvent;
@@ -50,6 +51,7 @@ import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import net.neoforged.neoforge.items.IItemHandler;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.api.event.CastleOblivionEvent;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.command.DimensionCommand;
@@ -102,8 +104,10 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
 import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.CastleOblivionHandler;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.floor.Floor;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModJsonRegistries;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.Room;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.RoomPos;
 import org.joml.Vector3f;
 
 import java.util.*;
@@ -455,11 +459,12 @@ public class EntityEvents {
 				PacketHandler.syncToAllAround(player, playerData);
 
 				Utils.RefreshAbilityAttributes(player, playerData);
-				if (player.level().dimension().location().getPath().contains("castle_oblivion_interior")) {
-					//SCSyncCastleOblivionInteriorData.syncClients((ServerLevel) player.level());
-					//PacketHandler.sendTo(new SCUpdateCORooms(CastleOblivionHandler.getCurrentFloor(player).getRooms()), (ServerPlayer) player);
-				} else {
-					PacketHandler.sendTo(new SCUpdateCORooms(List.of()), (ServerPlayer) player);
+				if (CastleOblivionHandler.isInterior(player.level().dimension())) {
+					SCSyncCastleOblivionInteriorData.syncClients((ServerLevel) player.level());
+					ServerLevel level = player.level().getServer().getLevel(player.level().dimension());
+					Floor startFloor = Floor.getOrCreateFirstFloor(level);
+					NeoForge.EVENT_BUS.post(new CastleOblivionEvent.PlayerChangeFloorEvent(null, startFloor, null, startFloor.getRoom(RoomPos.ZERO).getGenerated().orElse(null), player));
+					PacketHandler.sendTo(new SCUpdateCORooms(CastleOblivionHandler.getCurrentFloor(player).getRooms()), (ServerPlayer) player);
 				}
 			}
 			PacketHandler.syncToAllAround(player, playerData);

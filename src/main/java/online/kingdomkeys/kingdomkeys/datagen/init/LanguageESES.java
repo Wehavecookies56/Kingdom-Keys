@@ -2333,7 +2333,6 @@ public class LanguageESES extends KKLanguageProvider {
         add("co.door_failed","Sujeta la carta ante ti. La puerta se abrirá y tras ella un nuevo mundo");
 
         add("co.encounter.wave", "Oleada");
-        add("co.encounter.start", "Iniciando encuentro");
         add("co.encounter.end", "Encuentro terminado");
 
         //Biomes
