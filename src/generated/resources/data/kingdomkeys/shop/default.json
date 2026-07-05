@@ -38,70 +38,6 @@
     "amount": 1,
     "condition": "all",
     "cost": 80,
-    "item": "kingdomkeys:soothing_shard",
-    "mat_req": 30,
-    "tier": 1
-  },
-  {
-    "amount": 1,
-    "condition": "all",
-    "cost": 120,
-    "item": "kingdomkeys:soothing_stone",
-    "mat_req": 25,
-    "tier": 2
-  },
-  {
-    "amount": 1,
-    "condition": "all",
-    "cost": 180,
-    "item": "kingdomkeys:soothing_gem",
-    "mat_req": 20,
-    "tier": 3
-  },
-  {
-    "amount": 1,
-    "condition": "all",
-    "cost": 240,
-    "item": "kingdomkeys:soothing_crystal",
-    "mat_req": 15,
-    "tier": 4
-  },
-  {
-    "amount": 1,
-    "condition": "all",
-    "cost": 80,
-    "item": "kingdomkeys:writhing_shard",
-    "mat_req": 30,
-    "tier": 1
-  },
-  {
-    "amount": 1,
-    "condition": "all",
-    "cost": 120,
-    "item": "kingdomkeys:writhing_stone",
-    "mat_req": 25,
-    "tier": 2
-  },
-  {
-    "amount": 1,
-    "condition": "all",
-    "cost": 180,
-    "item": "kingdomkeys:writhing_gem",
-    "mat_req": 20,
-    "tier": 3
-  },
-  {
-    "amount": 1,
-    "condition": "all",
-    "cost": 240,
-    "item": "kingdomkeys:writhing_crystal",
-    "mat_req": 15,
-    "tier": 4
-  },
-  {
-    "amount": 1,
-    "condition": "all",
-    "cost": 80,
     "item": "kingdomkeys:betwixt_shard",
     "mat_req": 30,
     "tier": 1
@@ -134,38 +70,6 @@
     "amount": 1,
     "condition": "all",
     "cost": 80,
-    "item": "kingdomkeys:wellspring_shard",
-    "mat_req": 30,
-    "tier": 1
-  },
-  {
-    "amount": 1,
-    "condition": "all",
-    "cost": 120,
-    "item": "kingdomkeys:wellspring_stone",
-    "mat_req": 25,
-    "tier": 2
-  },
-  {
-    "amount": 1,
-    "condition": "all",
-    "cost": 180,
-    "item": "kingdomkeys:wellspring_gem",
-    "mat_req": 20,
-    "tier": 3
-  },
-  {
-    "amount": 1,
-    "condition": "all",
-    "cost": 240,
-    "item": "kingdomkeys:wellspring_crystal",
-    "mat_req": 15,
-    "tier": 4
-  },
-  {
-    "amount": 1,
-    "condition": "all",
-    "cost": 80,
     "item": "kingdomkeys:frost_shard",
     "mat_req": 30,
     "tier": 1
@@ -191,6 +95,38 @@
     "condition": "all",
     "cost": 240,
     "item": "kingdomkeys:frost_crystal",
+    "mat_req": 15,
+    "tier": 4
+  },
+  {
+    "amount": 1,
+    "condition": "all",
+    "cost": 80,
+    "item": "kingdomkeys:hungry_shard",
+    "mat_req": 30,
+    "tier": 1
+  },
+  {
+    "amount": 1,
+    "condition": "all",
+    "cost": 120,
+    "item": "kingdomkeys:hungry_stone",
+    "mat_req": 25,
+    "tier": 2
+  },
+  {
+    "amount": 1,
+    "condition": "all",
+    "cost": 180,
+    "item": "kingdomkeys:hungry_gem",
+    "mat_req": 20,
+    "tier": 3
+  },
+  {
+    "amount": 1,
+    "condition": "all",
+    "cost": 240,
+    "item": "kingdomkeys:hungry_crystal",
     "mat_req": 15,
     "tier": 4
   },
@@ -262,7 +198,7 @@
     "amount": 1,
     "condition": "all",
     "cost": 80,
-    "item": "kingdomkeys:hungry_shard",
+    "item": "kingdomkeys:pulsing_shard",
     "mat_req": 30,
     "tier": 1
   },
@@ -270,7 +206,7 @@
     "amount": 1,
     "condition": "all",
     "cost": 120,
-    "item": "kingdomkeys:hungry_stone",
+    "item": "kingdomkeys:pulsing_stone",
     "mat_req": 25,
     "tier": 2
   },
@@ -278,7 +214,7 @@
     "amount": 1,
     "condition": "all",
     "cost": 180,
-    "item": "kingdomkeys:hungry_gem",
+    "item": "kingdomkeys:pulsing_gem",
     "mat_req": 20,
     "tier": 3
   },
@@ -286,135 +222,7 @@
     "amount": 1,
     "condition": "all",
     "cost": 240,
-    "item": "kingdomkeys:hungry_crystal",
-    "mat_req": 15,
-    "tier": 4
-  },
-  {
-    "amount": 1,
-    "condition": "all",
-    "cost": 80,
-    "item": "kingdomkeys:twilight_shard",
-    "mat_req": 30,
-    "tier": 1
-  },
-  {
-    "amount": 1,
-    "condition": "all",
-    "cost": 120,
-    "item": "kingdomkeys:twilight_stone",
-    "mat_req": 25,
-    "tier": 2
-  },
-  {
-    "amount": 1,
-    "condition": "all",
-    "cost": 180,
-    "item": "kingdomkeys:twilight_gem",
-    "mat_req": 20,
-    "tier": 3
-  },
-  {
-    "amount": 1,
-    "condition": "all",
-    "cost": 240,
-    "item": "kingdomkeys:twilight_crystal",
-    "mat_req": 15,
-    "tier": 4
-  },
-  {
-    "amount": 1,
-    "condition": "all",
-    "cost": 80,
-    "item": "kingdomkeys:tranquility_shard",
-    "mat_req": 30,
-    "tier": 1
-  },
-  {
-    "amount": 1,
-    "condition": "all",
-    "cost": 120,
-    "item": "kingdomkeys:tranquility_stone",
-    "mat_req": 25,
-    "tier": 2
-  },
-  {
-    "amount": 1,
-    "condition": "all",
-    "cost": 180,
-    "item": "kingdomkeys:tranquility_gem",
-    "mat_req": 20,
-    "tier": 3
-  },
-  {
-    "amount": 1,
-    "condition": "all",
-    "cost": 240,
-    "item": "kingdomkeys:tranquility_crystal",
-    "mat_req": 15,
-    "tier": 4
-  },
-  {
-    "amount": 1,
-    "condition": "all",
-    "cost": 80,
-    "item": "kingdomkeys:sinister_shard",
-    "mat_req": 30,
-    "tier": 1
-  },
-  {
-    "amount": 1,
-    "condition": "all",
-    "cost": 120,
-    "item": "kingdomkeys:sinister_stone",
-    "mat_req": 25,
-    "tier": 2
-  },
-  {
-    "amount": 1,
-    "condition": "all",
-    "cost": 180,
-    "item": "kingdomkeys:sinister_gem",
-    "mat_req": 20,
-    "tier": 3
-  },
-  {
-    "amount": 1,
-    "condition": "all",
-    "cost": 240,
-    "item": "kingdomkeys:sinister_crystal",
-    "mat_req": 15,
-    "tier": 4
-  },
-  {
-    "amount": 1,
-    "condition": "all",
-    "cost": 80,
-    "item": "kingdomkeys:stormy_shard",
-    "mat_req": 30,
-    "tier": 1
-  },
-  {
-    "amount": 1,
-    "condition": "all",
-    "cost": 120,
-    "item": "kingdomkeys:stormy_stone",
-    "mat_req": 25,
-    "tier": 2
-  },
-  {
-    "amount": 1,
-    "condition": "all",
-    "cost": 180,
-    "item": "kingdomkeys:stormy_gem",
-    "mat_req": 20,
-    "tier": 3
-  },
-  {
-    "amount": 1,
-    "condition": "all",
-    "cost": 240,
-    "item": "kingdomkeys:stormy_crystal",
+    "item": "kingdomkeys:pulsing_crystal",
     "mat_req": 15,
     "tier": 4
   },
@@ -454,7 +262,7 @@
     "amount": 1,
     "condition": "all",
     "cost": 80,
-    "item": "kingdomkeys:pulsing_shard",
+    "item": "kingdomkeys:sinister_shard",
     "mat_req": 30,
     "tier": 1
   },
@@ -462,7 +270,7 @@
     "amount": 1,
     "condition": "all",
     "cost": 120,
-    "item": "kingdomkeys:pulsing_stone",
+    "item": "kingdomkeys:sinister_stone",
     "mat_req": 25,
     "tier": 2
   },
@@ -470,7 +278,7 @@
     "amount": 1,
     "condition": "all",
     "cost": 180,
-    "item": "kingdomkeys:pulsing_gem",
+    "item": "kingdomkeys:sinister_gem",
     "mat_req": 20,
     "tier": 3
   },
@@ -478,7 +286,199 @@
     "amount": 1,
     "condition": "all",
     "cost": 240,
-    "item": "kingdomkeys:pulsing_crystal",
+    "item": "kingdomkeys:sinister_crystal",
+    "mat_req": 15,
+    "tier": 4
+  },
+  {
+    "amount": 1,
+    "condition": "all",
+    "cost": 80,
+    "item": "kingdomkeys:soothing_shard",
+    "mat_req": 30,
+    "tier": 1
+  },
+  {
+    "amount": 1,
+    "condition": "all",
+    "cost": 120,
+    "item": "kingdomkeys:soothing_stone",
+    "mat_req": 25,
+    "tier": 2
+  },
+  {
+    "amount": 1,
+    "condition": "all",
+    "cost": 180,
+    "item": "kingdomkeys:soothing_gem",
+    "mat_req": 20,
+    "tier": 3
+  },
+  {
+    "amount": 1,
+    "condition": "all",
+    "cost": 240,
+    "item": "kingdomkeys:soothing_crystal",
+    "mat_req": 15,
+    "tier": 4
+  },
+  {
+    "amount": 1,
+    "condition": "all",
+    "cost": 80,
+    "item": "kingdomkeys:stormy_shard",
+    "mat_req": 30,
+    "tier": 1
+  },
+  {
+    "amount": 1,
+    "condition": "all",
+    "cost": 120,
+    "item": "kingdomkeys:stormy_stone",
+    "mat_req": 25,
+    "tier": 2
+  },
+  {
+    "amount": 1,
+    "condition": "all",
+    "cost": 180,
+    "item": "kingdomkeys:stormy_gem",
+    "mat_req": 20,
+    "tier": 3
+  },
+  {
+    "amount": 1,
+    "condition": "all",
+    "cost": 240,
+    "item": "kingdomkeys:stormy_crystal",
+    "mat_req": 15,
+    "tier": 4
+  },
+  {
+    "amount": 1,
+    "condition": "all",
+    "cost": 80,
+    "item": "kingdomkeys:tranquility_shard",
+    "mat_req": 30,
+    "tier": 1
+  },
+  {
+    "amount": 1,
+    "condition": "all",
+    "cost": 120,
+    "item": "kingdomkeys:tranquility_stone",
+    "mat_req": 25,
+    "tier": 2
+  },
+  {
+    "amount": 1,
+    "condition": "all",
+    "cost": 180,
+    "item": "kingdomkeys:tranquility_gem",
+    "mat_req": 20,
+    "tier": 3
+  },
+  {
+    "amount": 1,
+    "condition": "all",
+    "cost": 240,
+    "item": "kingdomkeys:tranquility_crystal",
+    "mat_req": 15,
+    "tier": 4
+  },
+  {
+    "amount": 1,
+    "condition": "all",
+    "cost": 80,
+    "item": "kingdomkeys:twilight_shard",
+    "mat_req": 30,
+    "tier": 1
+  },
+  {
+    "amount": 1,
+    "condition": "all",
+    "cost": 120,
+    "item": "kingdomkeys:twilight_stone",
+    "mat_req": 25,
+    "tier": 2
+  },
+  {
+    "amount": 1,
+    "condition": "all",
+    "cost": 180,
+    "item": "kingdomkeys:twilight_gem",
+    "mat_req": 20,
+    "tier": 3
+  },
+  {
+    "amount": 1,
+    "condition": "all",
+    "cost": 240,
+    "item": "kingdomkeys:twilight_crystal",
+    "mat_req": 15,
+    "tier": 4
+  },
+  {
+    "amount": 1,
+    "condition": "all",
+    "cost": 80,
+    "item": "kingdomkeys:wellspring_shard",
+    "mat_req": 30,
+    "tier": 1
+  },
+  {
+    "amount": 1,
+    "condition": "all",
+    "cost": 120,
+    "item": "kingdomkeys:wellspring_stone",
+    "mat_req": 25,
+    "tier": 2
+  },
+  {
+    "amount": 1,
+    "condition": "all",
+    "cost": 180,
+    "item": "kingdomkeys:wellspring_gem",
+    "mat_req": 20,
+    "tier": 3
+  },
+  {
+    "amount": 1,
+    "condition": "all",
+    "cost": 240,
+    "item": "kingdomkeys:wellspring_crystal",
+    "mat_req": 15,
+    "tier": 4
+  },
+  {
+    "amount": 1,
+    "condition": "all",
+    "cost": 80,
+    "item": "kingdomkeys:writhing_shard",
+    "mat_req": 30,
+    "tier": 1
+  },
+  {
+    "amount": 1,
+    "condition": "all",
+    "cost": 120,
+    "item": "kingdomkeys:writhing_stone",
+    "mat_req": 25,
+    "tier": 2
+  },
+  {
+    "amount": 1,
+    "condition": "all",
+    "cost": 180,
+    "item": "kingdomkeys:writhing_gem",
+    "mat_req": 20,
+    "tier": 3
+  },
+  {
+    "amount": 1,
+    "condition": "all",
+    "cost": 240,
+    "item": "kingdomkeys:writhing_crystal",
     "mat_req": 15,
     "tier": 4
   },
@@ -495,7 +495,7 @@
     "condition": "all",
     "cost": 2000,
     "item": "kingdomkeys:orichalcumplus",
-    "mat_req": 30,
+    "mat_req": 13,
     "tier": 5
   },
   {
@@ -511,7 +511,7 @@
     "condition": "all",
     "cost": 2500,
     "item": "kingdomkeys:lost_illusion",
-    "mat_req": 30,
+    "mat_req": 25,
     "tier": 5
   },
   {
@@ -519,7 +519,7 @@
     "condition": "all",
     "cost": 300,
     "item": "kingdomkeys:fluorite",
-    "mat_req": 30,
+    "mat_req": 35,
     "tier": 2
   },
   {
@@ -535,7 +535,7 @@
     "condition": "all",
     "cost": 900,
     "item": "kingdomkeys:adamantite",
-    "mat_req": 30,
+    "mat_req": 25,
     "tier": 4
   },
   {
@@ -543,7 +543,7 @@
     "condition": "all",
     "cost": 1200,
     "item": "kingdomkeys:electrum",
-    "mat_req": 30,
+    "mat_req": 20,
     "tier": 5
   },
   {
@@ -551,7 +551,7 @@
     "condition": "all",
     "cost": 1800,
     "item": "kingdomkeys:evanescent_crystal",
-    "mat_req": 30,
+    "mat_req": 15,
     "tier": 5
   },
   {
@@ -559,7 +559,7 @@
     "condition": "all",
     "cost": 1800,
     "item": "kingdomkeys:illusory_crystal",
-    "mat_req": 30,
+    "mat_req": 15,
     "tier": 5
   },
   {

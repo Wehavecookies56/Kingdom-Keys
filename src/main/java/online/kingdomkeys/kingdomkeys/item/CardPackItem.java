@@ -33,7 +33,6 @@ public class CardPackItem extends Item implements ICreativeTab{
 		for (int i = 0; i < 5; i++) {
 			cards.add(randomCard(player));
 		}
-
 		return cards;
 	}
 

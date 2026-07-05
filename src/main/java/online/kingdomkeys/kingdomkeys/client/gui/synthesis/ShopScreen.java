@@ -132,7 +132,7 @@ public class ShopScreen extends MenuFilterable {
 		}
 
 
-		items.sort(Comparator.comparing(Utils::getCategoryForShop).thenComparing(stackRL -> new ItemStack(BuiltInRegistries.ITEM.get(stackRL)).getHoverName().getContents().toString()));
+		//items.sort(Comparator.comparing(Utils::getCategoryForShop).thenComparing(stackRL -> new ItemStack(BuiltInRegistries.ITEM.get(stackRL)).getHoverName().getContents().toString()));
 
 		for (int i = 0; i < items.size(); i++) {
 			ItemStack itemStack = new ItemStack(BuiltInRegistries.ITEM.get(items.get(i)));

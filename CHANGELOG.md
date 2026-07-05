@@ -1,16 +1,19 @@
 # 2.8.1a:
 ## Added:
+* Desert Castle Oblivion floor, it's biome memory drops the same way but in the desert.
+* Card packs in cards  moogle shop and default shop (more expensive in the overworld), this should prevent being softlocked in Castle Oblivion.
 * Shop datapack option to require having enough materials deposited or having obtained a magic spell (so it works like in KH2 and KH BBS respectively).
   * By default, to be able to buy shards you need to have obtained a total of 30, stones 25, gems 20 and crystals 15 (Taking materials out substract the total).
   * By default, to be able to buy a spell you first need to obtain it through drop / melding / any method, and be the right tier (from C - SS, based on the spell tier).
 * Custom colors for floor and room grass, foliage, water and sky.
 * World card tag.
-* Card packs in Cards shop and default shops (more expensive in the overworld), this should prevent being softlocked in Castle Oblivion.
 ## Changed:
+* Shops are no longer sorted by item name, they take the order from the list json they are defined with.
 * Room modifiers are now customizable through JSON.
 * Textures for world cards and biome memories.
 * Encounter waves from chat to title messages.
 * Castle oblivion now has more lights with stained glass, giving a better look specially with some shaders.
+* Individual cards have been removed from the cards moogle shop.
 ## Fixed:
 * Shop not displaying the new items if you had just leveled up the synthesis tier, where a relog was needed.
 * Positioned Card door and Mysterious door in the inventory and in hand.

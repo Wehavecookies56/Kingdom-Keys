@@ -55,32 +55,32 @@ public class ShopDataProvider implements DataProvider {
 		defaultShop.add(names);
 
 		addMaterialSet(defaultShop, Strings.SM_Blazing);
-		addMaterialSet(defaultShop, Strings.SM_Soothing);
-		addMaterialSet(defaultShop, Strings.SM_Writhing);
 		addMaterialSet(defaultShop, Strings.SM_Betwixt);
-		addMaterialSet(defaultShop, Strings.SM_Wellspring);
 		addMaterialSet(defaultShop, Strings.SM_Frost);
+		addMaterialSet(defaultShop, Strings.SM_Hungry);
 		addMaterialSet(defaultShop, Strings.SM_Lightning);
 		addMaterialSet(defaultShop, Strings.SM_Lucid);
-		addMaterialSet(defaultShop, Strings.SM_Hungry);
-		addMaterialSet(defaultShop, Strings.SM_Twilight);
 		// Mythril only synthesis
-		addMaterialSet(defaultShop, Strings.SM_Tranquility);
-		addMaterialSet(defaultShop, Strings.SM_Sinister);
-		addMaterialSet(defaultShop, Strings.SM_Stormy);
-		addMaterialSet(defaultShop, Strings.SM_Remembrance);
 		addMaterialSet(defaultShop, Strings.SM_Pulsing);
-		
+		addMaterialSet(defaultShop, Strings.SM_Remembrance);
+		addMaterialSet(defaultShop, Strings.SM_Sinister);
+		addMaterialSet(defaultShop, Strings.SM_Soothing);
+		addMaterialSet(defaultShop, Strings.SM_Stormy);
+		addMaterialSet(defaultShop, Strings.SM_Tranquility);
+		addMaterialSet(defaultShop, Strings.SM_Twilight);
+		addMaterialSet(defaultShop, Strings.SM_Wellspring);
+		addMaterialSet(defaultShop, Strings.SM_Writhing);
+
 		defaultShop.add(shop(Strings.SM_Orichalcum, 1, 5, 500, 30, "all"));
-		defaultShop.add(shop(Strings.SM_OrichalcumPlus, 1, 5, 2000, 30, "all"));
+		defaultShop.add(shop(Strings.SM_OrichalcumPlus, 1, 5, 2000, 13, "all"));
 		defaultShop.add(shop(Strings.SM_ManifestIllusion, 1, 5, 1500, 30, "all"));
-		defaultShop.add(shop(Strings.SM_LostIllusion, 1, 5, 2500, 30, "all"));
-		defaultShop.add(shop(Strings.SM_Fluorite, 1, 2, 300, 30, "all"));
+		defaultShop.add(shop(Strings.SM_LostIllusion, 1, 5, 2500, 25, "all"));
+		defaultShop.add(shop(Strings.SM_Fluorite, 1, 2, 300, 35, "all"));
 		defaultShop.add(shop(Strings.SM_Damascus, 1, 3, 600, 30, "all"));
-		defaultShop.add(shop(Strings.SM_Adamantite, 1, 4, 900, 30, "all"));
-		defaultShop.add(shop(Strings.SM_Electrum, 1, 5, 1200, 30, "all"));
-		defaultShop.add(shop(Strings.SM_EvanescentCrystal, 1, 5, 1800, 30, "all"));
-		defaultShop.add(shop(Strings.SM_IllusoryCrystal, 1, 5, 1800, 30, "all"));
+		defaultShop.add(shop(Strings.SM_Adamantite, 1, 4, 900, 25, "all"));
+		defaultShop.add(shop(Strings.SM_Electrum, 1, 5, 1200, 20, "all"));
+		defaultShop.add(shop(Strings.SM_EvanescentCrystal, 1, 5, 1800, 15, "all"));
+		defaultShop.add(shop(Strings.SM_IllusoryCrystal, 1, 5, 1800, 15, "all"));
 		
 		// Consumables
 		defaultShop.add(shop(Strings.potion, 1, 1, 200));
