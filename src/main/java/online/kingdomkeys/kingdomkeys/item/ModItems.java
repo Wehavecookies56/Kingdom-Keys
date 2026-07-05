@@ -1049,7 +1049,13 @@ public class ModItems {
 			keyToTruth = createKeyCard("key_to_truth", ModRoomTypes.ROOM_OF_TRUTH, KeycardType.TRUTH),
 			keyToRewards = createKeyCard("key_to_rewards", ModRoomTypes.ROOM_OF_REWARDS, KeycardType.REWARDS),
 
-			//floor cards
+			redCardPack = createNewItem(Strings.RedCardPack, () -> new CardPackItem(new Item.Properties(), CardCategory.RED)),
+			greenCardPack = createNewItem(Strings.GreenCardPack, () -> new CardPackItem(new Item.Properties(), CardCategory.GREEN)),
+			blueCardPack = createNewItem(Strings.BlueCardPack, () -> new CardPackItem(new Item.Properties(), CardCategory.BLUE)),
+			randomCardPack = createNewItem(Strings.RandomCardPack, () -> new CardPackItem(new Item.Properties(), null)),
+
+
+		//floor cards
 			emptyCard = createNewItem(Strings.EmptyCard, () -> new BiomeMemoryItem(new Item.Properties(), null)),
 			plainsCard = createWorldCard(Strings.PlainsCard, ModFloorTypes.PLAINS, true),
 			plainsMemory = createNewItem(Strings.PlainsMemory, () -> new BiomeMemoryItem(new Item.Properties(), Biomes.PLAINS)),

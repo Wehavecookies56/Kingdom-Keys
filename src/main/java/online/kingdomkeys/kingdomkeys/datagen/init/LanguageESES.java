@@ -1268,6 +1268,11 @@ public class LanguageESES extends KKLanguageProvider {
         addItem(ModItems.keyToTruth, "Llave a la Verdad");
         addItem(ModItems.keyToRewards, "Llave Recompensa");
 
+        addItem(ModItems.redCardPack, "Pack de cartas rojas");
+        addItem(ModItems.greenCardPack, "Pack de cartas verdes");
+        addItem(ModItems.blueCardPack, "Pack de cartas azules");
+        addItem(ModItems.randomCardPack, "Pack de cartas aleatorias");
+
         addItem(ModItems.emptyCard,"Carta Vacía");
         addItem(ModItems.plainsCard,"Carta de Llanuras");
         addItem(ModItems.theNetherCard,"Carta del Nether");
@@ -2320,6 +2325,9 @@ public class LanguageESES extends KKLanguageProvider {
         add("co.category.encounter", "ENCUENTRO");
         add("co.category.special", "ESPECIAL");
         add("co.category.any", "CUALQUIERA");
+
+        add("gui.cardpacks.title", "Pack de Cartas");
+        add("co.card_pack.reveal_all", "Revelar todas");
 
         add("co.door_succeed","Domina las cartas y ábrete camino por el castillo. De ahora en adelante tendrás que apañártelas solo.");
         add("co.door_failed","Sujeta la carta ante ti. La puerta se abrirá y tras ella un nuevo mundo");

@@ -137,7 +137,7 @@ public class ItemModels extends ItemModelProvider {
 				standardSpawnEggItem(path);
 			} else if (item instanceof RecipeItem && !path.equals("recipe")) {
 				standardRecipe(path);
-			}   else if(item instanceof WorldCardItem || item instanceof MapCardItem || item instanceof BiomeMemoryItem){
+			}   else if(item instanceof WorldCardItem || item instanceof MapCardItem || item instanceof BiomeMemoryItem || item instanceof CardPackItem){
 				standardCard(path);
 			} else {
 				standardItem(path);

@@ -862,6 +862,11 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.keyToTruth, "Key to Truth");
         addItem(ModItems.keyToRewards, "Key to Rewards");
 
+        addItem(ModItems.redCardPack, "Red card pack");
+        addItem(ModItems.greenCardPack, "Green card pack");
+        addItem(ModItems.blueCardPack, "Blue cards pack");
+        addItem(ModItems.randomCardPack, "Random card pack");
+
         addItem(ModItems.emptyCard,"Empty Card");
         addItem(ModItems.plainsCard,"Plains Card");
         addItem(ModItems.theNetherCard,"The Nether Card");
@@ -2276,6 +2281,9 @@ public class LanguageENUS extends KKLanguageProvider {
         add("co.category.encounter", "ENCOUNTER");
         add("co.category.special", "SPECIAL");
         add("co.category.any", "ANY");
+
+        add("gui.cardpacks.title", "Card Pack");
+        add("co.card_pack.reveal_all", "Reveal all");
 
         add("co.door_succeed","Master the cards and make your way through the castle. From here on, you walk alone.");
         add("co.door_failed","Hold the card before you. The door will open, and beyond it a new world");

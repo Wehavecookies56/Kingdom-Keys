@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.function.Supplier;
 
 public class MapCardItem extends Item implements ICreativeTab {
-    CardCategory category;
+    public CardCategory category;
 
     private final Supplier<RoomType> type;
     boolean hasRandomValue;

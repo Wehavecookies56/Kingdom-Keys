@@ -3,8 +3,6 @@ package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.ro
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.entity.LivingEntity;
 import online.kingdomkeys.kingdomkeys.data.GlobalData;

@@ -13,8 +13,6 @@ import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.reg
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.Room;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Optional;
-
 public class EffectRoomModifier implements RoomModifier {
 
     Holder<MobEffect> effect;

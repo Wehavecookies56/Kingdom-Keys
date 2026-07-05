@@ -547,6 +547,9 @@ public class Strings {
 			Gui_Menu_Items_Melding_ItemAcquired = Gui_Menu_Items_Melding+ ".item_acquired",
 			Gui_Menu_Items_Melding_RareItemAcquired = Gui_Menu_Items_Melding+ ".rare_item_acquired",
 
+			// Card packs
+			Gui_CardPack_Title ="gui.cardpacks.title",
+
             // Synthesis
             Gui_Synthesis = "gui.synthesis",
 			Gui_Synthesis_Exp = Gui_Synthesis + ".exp",
@@ -1525,7 +1528,12 @@ public class Strings {
 			RoomOfBeginnings = "room_of_beginnings",
 			RoomOfGuidance = "room_of_guidance",
 			RoomOfTruth = "room_of_truth",
-			RoomOfRewards = "room_of_rewards";
+			RoomOfRewards = "room_of_rewards",
+
+			RedCardPack = "red_card_pack",
+			GreenCardPack = "green_card_pack",
+			BlueCardPack = "blue_card_pack",
+			RandomCardPack = "random_card_pack";
 
 	//World Cards
 	public static String EmptyCard = "empty_card";

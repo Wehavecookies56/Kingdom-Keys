@@ -213,7 +213,10 @@ public class ShopDataProvider implements DataProvider {
 		defaultShop.add(shop(Strings.SpellConfuse, 1, 3, 850));
 		defaultShop.add(shop(Strings.SpellSlow, 1, 2, 650));
 
-		
+		defaultShop.add(shop(Strings.RedCardPack, 1, 1, 3500));
+		defaultShop.add(shop(Strings.GreenCardPack, 1, 1, 3500));
+		defaultShop.add(shop(Strings.BlueCardPack, 1, 1, 3500));
+		defaultShop.add(shop(Strings.RandomCardPack, 1, 1, 3200));
 
 		shops.put("default", defaultShop);
 

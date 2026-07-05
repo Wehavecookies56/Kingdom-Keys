@@ -1295,5 +1295,29 @@
     "cost": 650,
     "item": "kingdomkeys:spellslow",
     "tier": 2
+  },
+  {
+    "amount": 1,
+    "cost": 3500,
+    "item": "kingdomkeys:red_card_pack",
+    "tier": 1
+  },
+  {
+    "amount": 1,
+    "cost": 3500,
+    "item": "kingdomkeys:green_card_pack",
+    "tier": 1
+  },
+  {
+    "amount": 1,
+    "cost": 3500,
+    "item": "kingdomkeys:blue_card_pack",
+    "tier": 1
+  },
+  {
+    "amount": 1,
+    "cost": 3200,
+    "item": "kingdomkeys:random_card_pack",
+    "tier": 1
   }
 ]
