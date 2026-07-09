@@ -137,7 +137,6 @@ public class CommonConfig {
                 .comment("Focus Points Drop Multiplier")
                 .translation(KingdomKeys.MODID + ".config.focus_points_multiplier")
                 .defineInRange("focusPointsMultiplier",1.0,0,100);
-        builder.pop();
 
         recipeDropChance = builder
                 .comment("Recipe drop chance")
@@ -148,6 +147,7 @@ public class CommonConfig {
                 .comment("Biome Memory drop chance")
                 .translation(KingdomKeys.MODID + ".config.biome_memory_drop_chance")
                 .defineInRange("biomeMemoryDropChance", 1, 0, 100);
+        builder.pop();
 
         builder.push("spawning");
         heartlessSpawningMode = builder

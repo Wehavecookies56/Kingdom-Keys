@@ -149,7 +149,6 @@ public class WaveEncounter implements Encounter {
                                 new Utils.Title("co.encounter.wave", ""+(state.currentWave + 1))
                         );
                         PacketHandler.sendTo(new SCShowMessagesPacket(message), (ServerPlayer) player);
-                        //player.sendSystemMessage(Component.translatable("co.encounter.wave", state.currentWave + 1));
                         currentWave.onStart(room, player);
                     });
                     currentWave.forEach(entityType -> {
