@@ -1,1 +1,1 @@
-online.kingdomkeys.kingdomkeys.integration.kubejs.KubeJSKKPlugin
+online.kingdomkeys.kingdomkeys.integration.kubejs.KubeJSKKPlugin kingdomkeys

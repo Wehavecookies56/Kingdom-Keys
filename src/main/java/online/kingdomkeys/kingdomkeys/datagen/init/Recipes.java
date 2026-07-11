@@ -21,7 +21,6 @@ import online.kingdomkeys.kingdomkeys.item.ModComponents;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.item.card.WorldCardItem;
 import online.kingdomkeys.kingdomkeys.lib.ModTags;
-import online.kingdomkeys.kingdomkeys.util.KKResourceLocation;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.util.List;
@@ -45,7 +44,7 @@ public class Recipes extends RecipeProvider {
 
 	private ItemStack createWorldCard(Item item, String floorType) {
 		ItemStack out = new ItemStack(item);
-		out.set(ModComponents.WORLD_CARD, new WorldCardItem.WorldCard(KKResourceLocation.of(floorType)));
+		out.set(ModComponents.WORLD_CARD, new WorldCardItem.WorldCard(KingdomKeys.rl(floorType)));
 		return out;
 	}
 

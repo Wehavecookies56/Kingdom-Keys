@@ -10,7 +10,6 @@ import net.minecraft.world.level.biome.Biomes;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.datagen.builder.FloorTypeBuilder;
 import online.kingdomkeys.kingdomkeys.datagen.provider.BaseProvider;
-import online.kingdomkeys.kingdomkeys.util.KKResourceLocation;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.modifiers.EffectRoomModifier;
 
 public class FloorTypesGen extends BaseProvider<FloorTypeBuilder> {
@@ -20,7 +19,7 @@ public class FloorTypesGen extends BaseProvider<FloorTypeBuilder> {
 
     @Override
     protected void build() {
-        createFloorType("none", 0, ResourceKey.create(Registries.BIOME, KKResourceLocation.of("castle_oblivion")));
+        createFloorType("none", 0, ResourceKey.create(Registries.BIOME, KingdomKeys.rl("castle_oblivion")));
         createFloorType("plains", 7, Biomes.PLAINS).music(SoundEvents.MUSIC_GAME.value());
         createFloorType("desert", 7, Biomes.DESERT).music(SoundEvents.MUSIC_BIOME_DESERT.value());
         createFloorType("ocean", 7, Biomes.OCEAN).music(SoundEvents.MUSIC_UNDER_WATER.value()).modifiers(new EffectRoomModifier(MobEffects.WATER_BREATHING, EffectRoomModifier.EffectType.BOTH, 0));

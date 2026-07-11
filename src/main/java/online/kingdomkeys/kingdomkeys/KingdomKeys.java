@@ -109,6 +109,13 @@ public class KingdomKeys {
 	public static boolean patchouliLoaded = false;
 	public static boolean shoulderSurfingLoaded = false;
 
+	public static ResourceLocation rl(String path) {
+		if (path.contains(":")) {
+			return ResourceLocation.parse(path);
+		}
+		return ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, path);
+	}
+
 	public KingdomKeys(IEventBus modEventBus, ModContainer modContainer) {
 		ModMagic.MAGIC.register(modEventBus);
 		ModDriveForms.DRIVE_FORMS.register(modEventBus);

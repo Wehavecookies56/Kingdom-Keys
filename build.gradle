@@ -31,13 +31,19 @@ repositories {
     }
 
     maven {
-        // saps.dev Maven (KubeJS and Rhino)
-        url = "https://maven.saps.dev/minecraft"
+        url "https://maven.latvian.dev/releases"
         content {
             includeGroup "dev.latvian.mods"
+            includeGroup "dev.latvian.apps"
         }
     }
 
+    maven {
+        url 'https://jitpack.io'
+        content {
+            includeGroup "com.github.rtyley"
+        }
+    }
     exclusiveContent {
         forRepository {
             maven {
@@ -139,6 +145,7 @@ dependencies {
     implementation "curse.maven:shoulder-surfing-reloaded-243190:8392364"
     implementation "curse.maven:tool-belt-260262:5929065"
     implementation "curse.maven:spark-361579:6225208"
+    implementation("dev.latvian.mods:kubejs-neoforge:$kubejs_version")
 }
 
 var generateModMetadata = tasks.register("generateModMetadata", ProcessResources) {

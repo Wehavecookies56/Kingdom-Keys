@@ -11,7 +11,6 @@ import online.kingdomkeys.kingdomkeys.datagen.provider.BaseProvider;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.lib.ModTags;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
-import online.kingdomkeys.kingdomkeys.util.KKResourceLocation;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.RoomCategory;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.RoomEnemies;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.RoomSize;
@@ -45,9 +44,9 @@ public class RoomTypesGen extends BaseProvider<RoomTypeBuilder> {
                 .colour(Color.BLACK);
         createRoomType(Strings.CalmBounty, RoomSize.S, RoomCategory.BOUNTY);
         createRoomType(Strings.ConquerorsRespite, RoomSize.SPECIAL, RoomCategory.SPECIAL)
-                .fixedRoom(KKResourceLocation.of(Strings.ConquerorsRespite));
+                .fixedRoom(KingdomKeys.rl(Strings.ConquerorsRespite));
         createRoomType(Strings.EntranceHall, RoomSize.SPECIAL, RoomCategory.SPECIAL)
-                .fixedRoom(KKResourceLocation.of(Strings.EntranceHall))
+                .fixedRoom(KingdomKeys.rl(Strings.EntranceHall))
                 .music(ModSounds.Music_The_13th_Floor.value())
                 .isEntranceHall();
         createRoomType(Strings.FalseBounty, RoomSize.S, RoomCategory.BOUNTY)
@@ -64,21 +63,21 @@ public class RoomTypesGen extends BaseProvider<RoomTypeBuilder> {
                 .enemies(new Enemies(RoomEnemies.M, 8, 3))
                 .modifiers(new EffectRoomModifier(MobEffects.DAMAGE_BOOST, EffectType.PLAYER, 1));
         createRoomType(Strings.MomentsReprieve, RoomSize.S, RoomCategory.BOUNTY)
-                .fixedRoom(KKResourceLocation.of(Strings.MomentsReprieve));
+                .fixedRoom(KingdomKeys.rl(Strings.MomentsReprieve));
         CompoundTag moogleData = new CompoundTag();
         moogleData.putString("inv", "kingdomkeys:cards");
         moogleData.putBoolean("stationary", true);
         createRoomType(Strings.MoogleRoom, RoomSize.S, RoomCategory.BOUNTY)
-                .fixedRoom(KKResourceLocation.of(Strings.MoogleRoom))
+                .fixedRoom(KingdomKeys.rl(Strings.MoogleRoom))
                 .modifiers(new SpawnMobModifier(ModEntities.TYPE_MOOGLE.getDelegate(), moogleData));
         createRoomType(Strings.ProsperousRepository, RoomSize.S, RoomCategory.BOUNTY);
         createRoomType(Strings.ReposefulGrove, RoomSize.M, RoomCategory.BOUNTY);
         createRoomType(Strings.RoomOfBeginnings, RoomSize.S, RoomCategory.ENCOUNTER)
-                .encounter(KKResourceLocation.of(Strings.RoomOfBeginnings));
+                .encounter(KingdomKeys.rl(Strings.RoomOfBeginnings));
         createRoomType(Strings.RoomOfGuidance, RoomSize.S, RoomCategory.ENCOUNTER)
-                .encounter(KKResourceLocation.of(Strings.RoomOfGuidance));
+                .encounter(KingdomKeys.rl(Strings.RoomOfGuidance));
         createRoomType(Strings.RoomOfTruth, RoomSize.S, RoomCategory.ENCOUNTER)
-                .encounter(KKResourceLocation.of(Strings.RoomOfTruth));        
+                .encounter(KingdomKeys.rl(Strings.RoomOfTruth));        
         createRoomType(Strings.RoomOfRewards, RoomSize.S, RoomCategory.BOUNTY);
         createRoomType(Strings.SleepingDarkness, RoomSize.S, RoomCategory.ENEMY)
                 .enemies(new Enemies(RoomEnemies.S, 5, 3));
