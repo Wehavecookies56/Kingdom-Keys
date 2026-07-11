@@ -917,6 +917,7 @@ public class ModItems {
 			
 			synthesisBag = createNewItem("synthesis_bag", () -> new BagItem(new Item.Properties().stacksTo(1), BagItem.Type.SYNTHESIS_BAG)),
 			magicsBag = createNewItem("magics_bag", () -> new BagItem(new Item.Properties().stacksTo(1), BagItem.Type.MAGICS_BAG)),
+			cardsBag = createNewItem("cards_bag", () -> new BagItem(new Item.Properties().stacksTo(1), BagItem.Type.CARDS_BAG)),
 			recipe = createNewItem("recipe", () -> new RecipeItem(0, new Item.Properties())),
 			recipeD = createNewItem("recipe_d", () -> new RecipeItem(1, new Item.Properties())),
 			recipeC = createNewItem("recipe_c", () -> new RecipeItem(2, new Item.Properties())),

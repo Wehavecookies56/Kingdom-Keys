@@ -217,10 +217,34 @@ public class Utils {
 		return -1;
 	}
 
-	public static boolean hasOnlyOneBag(Player player) {
+	public static int getCardsBagSlot(Player player, BagItem.Type type) {
+		NonNullList<ItemStack> items = player.getInventory().items;
+		for (int i = 0, itemsSize = items.size(); i < itemsSize; i++) {
+			ItemStack stack = items.get(i);
+			Item item = null;
+			if(type == BagItem.Type.MAGICS_BAG) {
+				item = ModItems.magicsBag.get();
+			} else if(type == BagItem.Type.CARDS_BAG){
+				item = ModItems.cardsBag.get();
+			}
+
+			if (stack.is(item)) {				return i;
+			}
+		}
+		return -1;
+	}
+
+	public static boolean hasOnlyOneBag(Player player, BagItem.Type type) {
 		boolean found = false;
 		for (ItemStack stack : player.getInventory().items) {
-			if (stack.is(ModItems.magicsBag.get())) {
+			Item item = null;
+			if(type == BagItem.Type.MAGICS_BAG) {
+				item = ModItems.magicsBag.get();
+			} else if(type == BagItem.Type.CARDS_BAG){
+				item = ModItems.cardsBag.get();
+			}
+
+			if (stack.is(item)) {
 				if (found) {
 					return false;
 				} else {

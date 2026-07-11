@@ -14,6 +14,7 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuScrollBar;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuSelectMagicButton;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
+import online.kingdomkeys.kingdomkeys.item.BagItem;
 import online.kingdomkeys.kingdomkeys.item.MagicSpellItem;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
@@ -98,7 +99,7 @@ public class MenuMagicSelectorScreen extends MenuBackground {
 			}
 
 			// Magic bag
-			if(Utils.hasOnlyOneBag(player)) {
+			if(Utils.hasOnlyOneBag(player, BagItem.Type.MAGICS_BAG)) {
 				ItemStack magicBag = ItemStack.EMPTY;
 
 				for (ItemStack stack : minecraft.player.getInventory().items) {

@@ -21,6 +21,7 @@ import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment.MenuMagicSelectorScreen;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
+import online.kingdomkeys.kingdomkeys.item.BagItem;
 import online.kingdomkeys.kingdomkeys.item.MagicSpellItem;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.menu.BagInventory;
@@ -51,7 +52,7 @@ public class MenuSelectMagicButton extends MenuButtonBase {
 
 					if (slot <= MenuMagicSelectorScreen.BAG_OFFSET) {
 						int bagSlot = Math.abs(slot - MenuMagicSelectorScreen.BAG_OFFSET);
-						if (!Utils.hasOnlyOneBag(player)) //Only one bag should be in the inv
+						if (!Utils.hasOnlyOneBag(player, BagItem.Type.MAGICS_BAG)) //Only one bag should be in the inv
 							return;
 
 						ItemStack magicBag = player.getInventory().getItem(Utils.getMagicBagSlot(player));

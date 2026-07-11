@@ -1,7 +1,7 @@
 # 2.8.1a:
 ## Added:
 * Desert Castle Oblivion floor, it's biome memory drops the same way but in the desert.
-* Card packs in cards  moogle shop and default shop (more expensive in the overworld), this should prevent being softlocked in Castle Oblivion.
+* Card packs in cards moogle shop and default shop (more expensive in the overworld), this should prevent being softlocked in Castle Oblivion.
 * Shop datapack option to require having enough materials deposited or having obtained a magic spell (so it works like in KH2 and KH BBS respectively).
   * By default, to be able to buy shards you need to have obtained a total of 30, stones 25, gems 20 and crystals 15 (Taking materials out substract the total).
   * By default, to be able to buy a spell you first need to obtain it through drop / melding / any method, and be the right tier (from C - SS, based on the spell tier).
@@ -24,6 +24,7 @@
 * Some magics like Thunder and Faith not working in Castle Oblivion rooms due to the ceiling.
 * Master's Defender model.
 * Some EFM animations.
+* Shoulder surfing compat to newer version.
 
 # 2.8.0b:
 ## Added:

@@ -442,7 +442,8 @@ public class LanguageENUS extends KKLanguageProvider {
     	add("gui.driveformorb.upgrade", "%s Form has obtained %s exp");
 
         //Spells bag
-        add("gui.spellsbag.complain","Only 1 spell bag should be in the inventory");
+        add("gui.spellsbag.complain","You should only have a single spells bag in your inventory");
+        add("gui.cardsbag.complain","You should only have a single cards bag in your inventory");
 
         //Proof of Heart
         add("gui.proofofheart.desc", "Use this to leave Organization XIII");

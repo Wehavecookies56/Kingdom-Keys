@@ -163,7 +163,7 @@ public class CardPackScreen extends MenuBackground {
 			return;
 		}
 
-		// Carta revelada
+		// Revealed card
 		gui.pose().pushPose();
 		{
 			float cx = x + CARD_W / 2f;

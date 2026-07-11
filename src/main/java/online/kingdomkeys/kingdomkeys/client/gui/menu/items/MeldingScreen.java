@@ -20,6 +20,7 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuStockItem;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
+import online.kingdomkeys.kingdomkeys.item.BagItem;
 import online.kingdomkeys.kingdomkeys.item.MagicSpellItem;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
@@ -205,7 +206,7 @@ public class MeldingScreen extends MenuFilterable {
 			entries.add(new SlotEntry(slot, stack.copy(), false, false));
 		}
 
-		if (Utils.hasOnlyOneBag(player)) {
+		if (Utils.hasOnlyOneBag(player, BagItem.Type.MAGICS_BAG)) {
 			ItemStack magicBag = ItemStack.EMPTY;
 
 			for (ItemStack stack : minecraft.player.getInventory().items) {

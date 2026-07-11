@@ -28,7 +28,7 @@ import java.util.Optional;
 
 public class BagScreen extends AbstractContainerScreen<BagMenu> {
 
-	private int[] texHeight = {140, 176, 212, 248};
+	private static final int[] TEX_HEIGHT = {140, 176, 212, 248};
 
 	private int bagLevel = 0;
 
@@ -42,7 +42,7 @@ public class BagScreen extends AbstractContainerScreen<BagMenu> {
 	@Override
 	protected void init() {
 		bagLevel = menu.bag.getOrDefault(ModComponents.BAG_LEVEL, 0);
-		imageHeight = texHeight[bagLevel];
+		imageHeight = TEX_HEIGHT[bagLevel];
 		imageWidth = 193;
 
 		super.init();
