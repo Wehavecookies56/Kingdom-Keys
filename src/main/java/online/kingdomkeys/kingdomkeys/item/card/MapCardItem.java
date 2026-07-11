@@ -2,7 +2,6 @@ package online.kingdomkeys.kingdomkeys.item.card;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.world.InteractionHand;
@@ -65,11 +64,18 @@ public class MapCardItem extends Item implements ICreativeTab {
     @Override
     public void inventoryTick(ItemStack pStack, Level pLevel, Entity pEntity, int pSlotId, boolean pIsSelected) {
         if (!pStack.has(ModComponents.CARD_VALUE)) {
-            generateValue(pStack);
-        } else if (hasRandomValue) {
-            pStack.set(DataComponents.ITEM_NAME, Component.translatable("item.mapcard.prefix", getCardValue(pStack), Component.translatable("item." + BuiltInRegistries.ITEM.getKey(this).getNamespace() + "." + BuiltInRegistries.ITEM.getKey(this).getPath())).setStyle(Style.EMPTY.withItalic(false)));
+            initialize(pStack);
         }
         super.inventoryTick(pStack, pLevel, pEntity, pSlotId, pIsSelected);
+    }
+
+    public void initialize(ItemStack stack) {
+        if (!stack.has(ModComponents.CARD_VALUE)) {
+            generateValue(stack);
+        }
+        if (hasRandomValue) {
+            stack.set(DataComponents.ITEM_NAME, Component.translatable("item.mapcard.prefix", getCardValue(stack), Component.translatable(stack.getDescriptionId())).setStyle(Style.EMPTY.withItalic(false)));
+        }
     }
 
     private void generateValue(ItemStack stack) {

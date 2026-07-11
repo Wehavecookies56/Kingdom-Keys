@@ -228,7 +228,8 @@ public class Utils {
 				item = ModItems.cardsBag.get();
 			}
 
-			if (stack.is(item)) {				return i;
+			if (stack.is(item)) {
+				return i;
 			}
 		}
 		return -1;

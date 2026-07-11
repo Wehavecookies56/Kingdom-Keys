@@ -27,13 +27,20 @@ public class CardPackItem extends Item implements ICreativeTab{
 		this.category = type;
 	}
 
-	private List<Item> generateCards(ServerPlayer player) {
-		List<Item> cards = new ArrayList<>();
+	private List<ItemStack> generateCards(ServerPlayer player) {
+		List<ItemStack> result = new ArrayList<>();
 
 		for (int i = 0; i < 5; i++) {
-			cards.add(randomCard(player));
+			Item item = randomCard(player);
+			ItemStack stack = new ItemStack(item);
+
+			if (item instanceof MapCardItem card) {
+				card.initialize(stack);
+			}
+			result.add(stack);
 		}
-		return cards;
+
+		return result;
 	}
 
 	private Item randomCard(ServerPlayer player) {
@@ -61,16 +68,16 @@ public class CardPackItem extends Item implements ICreativeTab{
 		if (!(player instanceof ServerPlayer serverPlayer))
 			return InteractionResultHolder.success(pack);
 
-		List<Item> cards = generateCards(serverPlayer);
-		for (Item item : cards) {
-			ItemStack card = new ItemStack(item);
+		List<ItemStack> cards = generateCards(serverPlayer);
+		for (ItemStack stack : cards) {
 
-			if (!serverPlayer.getInventory().add(card)) {
-				serverPlayer.drop(card, false);
+			if (!serverPlayer.getInventory().add(stack.copy())) {
+				serverPlayer.drop(stack.copy(), false);
 			}
+
 		}
 
-		PacketHandler.sendTo(new SCOpenCardPack(cards.stream().map(item -> item.builtInRegistryHolder().key().location()).toList()), serverPlayer);
+		PacketHandler.sendTo(new SCOpenCardPack(cards), serverPlayer);
 		pack.shrink(1);
 		return InteractionResultHolder.consume(pack);
 	}

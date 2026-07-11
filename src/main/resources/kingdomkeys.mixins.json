@@ -14,19 +14,19 @@
   ],
   "client": [
     "client.BiomeMixin",
+    "client.ClientLevelMixin",
+    "client.CreativeScreenMixin",
+    "client.KeyboardInputMixin",
     "client.LevelRendererMixin",
     "client.LivingEntityRendererMixin",
     "client.MinecraftMixin",
-    "client.PlayerRendererMixin",
     "client.MusicManagerMixin",
+    "client.PlayerRendererMixin",
+    "epicfight.EpicFightScaleMixin",
     "epicfight.FirstPersonRendererMixin",
     "epicfight.PHumanoidRendererMixin",
     "epicfight.RenderEngineEventsMixin",
-    "epicfight.EpicFightScaleMixin",
-    "wildfire_gender.GenderLayerMixin",
-    "client.KeyboardInputMixin",
-    "client.CreativeScreenMixin",
-    "client.ClientLevelMixin"
+    "wildfire_gender.GenderLayerMixin"
   ],
   "minVersion": "0.8"
 }
