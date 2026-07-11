@@ -51,7 +51,7 @@ public class SellScreen extends MenuFilterableIndexed {
 		super(Strings.Gui_Shop_Main_Title, new Color(0, 0, 255));
 		drawSeparately = true;
 		this.parent = parent;
-		parent.playerData = playerData;
+		this.playerData = playerData;
 	}
 
 	public SellScreen(PlayerData playerData, String nbt, SynthesisScreen parent) {
@@ -101,7 +101,7 @@ public class SellScreen extends MenuFilterableIndexed {
 		float filterPosY = height * 0.02F;
 		filterBar = new MenuFilterBar((int) filterPosX, (int) filterPosY, this);
 		filterBar.init();
-		scrollBar = new MenuScrollBar((int) (boxPosX + boxWidth - 17), scrollTop, scrollBot, (int) middleHeight, 0);
+		scrollBar = new MenuScrollBar((int) (boxPosX + boxWidth - 17), scrollTop, scrollBot, (int) middleHeight, 0, true);
 		addRenderableWidget(scrollBar);
 		initItems();
 		buttonPosX -= 10;
@@ -140,8 +140,8 @@ public class SellScreen extends MenuFilterableIndexed {
 		super.init();
 
 
-		addRenderableWidget(buy = new MenuButton((int)this.buttonPosX, this.buttonPosY, (int)(buttonWidth+15)/2, Component.translatable(Strings.Gui_Shop_Buy).getString(), MenuButton.ButtonType.BUTTON, b -> minecraft.setScreen(new ShopScreen(parent.playerData, parent))));
-		addRenderableWidget(back = new MenuButton((int)this.buttonPosX, this.buttonPosY+18, (int)(buttonWidth+15)/2, Component.translatable(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, b -> minecraft.setScreen(new SynthesisScreen(parent.playerData, parent.invFile, parent.name, parent.moogle))));
+		addRenderableWidget(buy = new MenuButton((int)this.buttonPosX, this.buttonPosY, (int)(buttonWidth+15)/2, Component.translatable(Strings.Gui_Shop_Buy).getString(), MenuButton.ButtonType.BUTTON, b -> minecraft.setScreen(new ShopScreen(playerData, parent))));
+		addRenderableWidget(back = new MenuButton((int)this.buttonPosX, this.buttonPosY+18, (int)(buttonWidth+15)/2, Component.translatable(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, b -> minecraft.setScreen(new SynthesisScreen(playerData, parent.invFile, parent.name, parent.moogle))));
 		addRenderableWidget(amountBox = new EditBox(minecraft.font, boxM.getX()+5, (int) (topBarHeight + middleHeight - 22), minecraft.font.width("#####"), 16, Component.translatable("test")) {
 			@Override
 			public boolean charTyped(char c, int i) {

@@ -1,0 +1,16 @@
+{
+	"name": "Niveles y Habilidades",
+	"icon": "kingdomkeys:apboost",
+	"sortnum": 2,
+	"category": "kingdomkeys:learning_the_menu",
+		"pages": [
+		{
+			"type": "text",
+			"text": "Ganarás XP al matar cualquier mob hostil. Cada vez que subas de nivel, recibirás aumentos de estadísticas y nuevas habilidades, las cuales podrás equipar desde la pestaña $(thing)Habilidades$() en tu menú."
+		},
+		{
+			"type": "text",
+			"text": "Estas habilidades costarán PH para equiparse. Nunca podrás exceder tus PH máximos, pero puedes aumentarlos subiendo de nivel, equipando accesorios que incrementan PH o sintetizando Impulsos Hábiles y usándolos en ti mismo.$(p)Las nuevas habilidades pueden darte diferentes opciones de movimiento, capacidades de combate o muchos otros efectos útiles. Lee sus descripciones y pruébalas a medida que avanzas."
+		}
+	]
+}

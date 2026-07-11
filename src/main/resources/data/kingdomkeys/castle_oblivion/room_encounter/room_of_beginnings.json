@@ -1,0 +1,23 @@
+{
+  "encounter": {
+    "type": "kingdomkeys:wave",
+    "interval_ticks": 100,
+    "waves": [
+      {
+        "spawns": [ "kingdomkeys:shadow", "kingdomkeys:shadow", "kingdomkeys:shadow"]
+      },
+      {
+        "spawns": ["kingdomkeys:red_nocturne", "kingdomkeys:blue_rhapsody", "kingdomkeys:shadow"]
+      },
+      {
+        "spawns": ["kingdomkeys:shadow", "kingdomkeys:soldier", "kingdomkeys:shadow"]
+      }
+    ]
+  },
+  "rewards": [
+    {
+      "id": "kingdomkeys:key_of_guidance"
+    }
+  ],
+  "music": "kingdomkeys:music/forgotten_challenge"
+}

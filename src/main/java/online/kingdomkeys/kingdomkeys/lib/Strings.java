@@ -3,13 +3,6 @@ package online.kingdomkeys.kingdomkeys.lib;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
 public class Strings {
-    //Item groups
-    public static final String
-            keybladesGroup = "kingdomkeys_keyblades",
-            organizationGroup = "kingdomkeys_org_weapons",
-            equipablesGroup = "kingdomkeys_equipables",
-            miscGroup = "kingdomkeys_misc",
-			gummiGroup = "kingdomkeys_gummi";
     // Records
     public static final String
 		    Disc_Duration_Desc = "disc.duration.desc",
@@ -26,20 +19,98 @@ public class Strings {
 
     // Magics
     public static final String
-    		Mag_Prefix = "magic_",
-    		Magic_Fire = KingdomKeys.MODID + ":" + Mag_Prefix + "fire",
-    		Magic_Blizzard = KingdomKeys.MODID + ":" + Mag_Prefix + "blizzard",
-			Magic_Water = KingdomKeys.MODID + ":" + Mag_Prefix + "water",
-			Magic_Thunder = KingdomKeys.MODID + ":" + Mag_Prefix + "thunder",
-			Magic_Cure = KingdomKeys.MODID + ":" + Mag_Prefix + "cure",
-			Magic_Aero = KingdomKeys.MODID + ":" + Mag_Prefix + "aero",
-			Magic_Magnet = KingdomKeys.MODID + ":" + Mag_Prefix + "magnet",
-			Magic_Reflect = KingdomKeys.MODID + ":" + Mag_Prefix + "reflect",
-			Magic_Gravity = KingdomKeys.MODID + ":" + Mag_Prefix + "gravity",
-			Magic_Stop = KingdomKeys.MODID + ":" + Mag_Prefix + "stop";
-																
-    
-    // Drive Forms
+		Mag_Prefix = "magic_",
+
+		Magic_Fire = KingdomKeys.MODID + ":" + Mag_Prefix + "fire",
+		Magic_Fira = KingdomKeys.MODID + ":" + Mag_Prefix + "fira",
+		Magic_Firaga = KingdomKeys.MODID + ":" + Mag_Prefix + "firaga",
+		Magic_Firaza = KingdomKeys.MODID + ":" + Mag_Prefix + "firaza",
+
+		Magic_Blizzard = KingdomKeys.MODID + ":" + Mag_Prefix + "blizzard",
+		Magic_Blizzara = KingdomKeys.MODID + ":" + Mag_Prefix + "blizzara",
+		Magic_Blizzaga = KingdomKeys.MODID + ":" + Mag_Prefix + "blizzaga",
+		Magic_Blizzaza = KingdomKeys.MODID + ":" + Mag_Prefix + "blizzaza",
+
+		Magic_Water = KingdomKeys.MODID + ":" + Mag_Prefix + "water",
+		Magic_Watera = KingdomKeys.MODID + ":" + Mag_Prefix + "watera",
+		Magic_Waterga = KingdomKeys.MODID + ":" + Mag_Prefix + "waterga",
+		Magic_Waterza = KingdomKeys.MODID + ":" + Mag_Prefix + "waterza",
+
+		Magic_Thunder = KingdomKeys.MODID + ":" + Mag_Prefix + "thunder",
+		Magic_Thundara = KingdomKeys.MODID + ":" + Mag_Prefix + "thundara",
+		Magic_Thundaga = KingdomKeys.MODID + ":" + Mag_Prefix + "thundaga",
+		Magic_Thundaza = KingdomKeys.MODID + ":" + Mag_Prefix + "thundaza",
+
+		Magic_Cure = KingdomKeys.MODID + ":" + Mag_Prefix + "cure",
+		Magic_Cura = KingdomKeys.MODID + ":" + Mag_Prefix + "cura",
+		Magic_Curaga = KingdomKeys.MODID + ":" + Mag_Prefix + "curaga",
+		Magic_Curaza = KingdomKeys.MODID + ":" + Mag_Prefix + "curaza",
+
+		Magic_Aero = KingdomKeys.MODID + ":" + Mag_Prefix + "aero",
+		Magic_Aerora = KingdomKeys.MODID + ":" + Mag_Prefix + "aerora",
+		Magic_Aeroga = KingdomKeys.MODID + ":" + Mag_Prefix + "aeroga",
+
+		Magic_Magnet = KingdomKeys.MODID + ":" + Mag_Prefix + "magnet",
+		Magic_Magnera = KingdomKeys.MODID + ":" + Mag_Prefix + "magnera",
+		Magic_Magnega = KingdomKeys.MODID + ":" + Mag_Prefix + "magnega",
+
+		Magic_Reflect = KingdomKeys.MODID + ":" + Mag_Prefix + "reflect",
+		Magic_Reflera = KingdomKeys.MODID + ":" + Mag_Prefix + "reflera",
+		Magic_Reflega = KingdomKeys.MODID + ":" + Mag_Prefix + "reflega",
+
+		Magic_Gravity = KingdomKeys.MODID + ":" + Mag_Prefix + "gravity",
+		Magic_Gravira = KingdomKeys.MODID + ":" + Mag_Prefix + "gravira",
+		Magic_Graviga = KingdomKeys.MODID + ":" + Mag_Prefix + "graviga",
+
+		Magic_ZeroGravity = KingdomKeys.MODID + ":" + Mag_Prefix + "zerogravity",
+		Magic_ZeroGravira = KingdomKeys.MODID + ":" + Mag_Prefix + "zerogravira",
+		Magic_ZeroGraviga = KingdomKeys.MODID + ":" + Mag_Prefix + "zerograviga",
+
+		Magic_Stop = KingdomKeys.MODID + ":" + Mag_Prefix + "stop",
+		Magic_Stopra = KingdomKeys.MODID + ":" + Mag_Prefix + "stopra",
+		Magic_Stopga = KingdomKeys.MODID + ":" + Mag_Prefix + "stopga",
+
+		//BBS / DDD
+		Magic_DarkFiraga = KingdomKeys.MODID + ":" + Mag_Prefix + "darkfiraga",
+		Magic_TripleFiraga = KingdomKeys.MODID + ":" + Mag_Prefix + "triplefiraga",
+		Magic_CrawlingFiraga = KingdomKeys.MODID + ":" + Mag_Prefix + "crawlingfiraga",
+		Magic_FissionFiraga = KingdomKeys.MODID + ":" + Mag_Prefix + "fissionfiraga",
+		Magic_FiragaBurst = KingdomKeys.MODID + ":" + Mag_Prefix + "firagaburst",
+		Magic_Ignite = KingdomKeys.MODID + ":" + Mag_Prefix + "ignite",
+
+		Magic_TripleBlizzard = KingdomKeys.MODID + ":" + Mag_Prefix + "tripleblizzaga",
+		Magic_DeepFreeze = KingdomKeys.MODID + ":" + Mag_Prefix + "deepfreeze",
+		Magic_Glacier = KingdomKeys.MODID + ":" + Mag_Prefix + "glacier",
+		Magic_IceBarrage = KingdomKeys.MODID + ":" + Mag_Prefix + "icebarrage",
+
+		Magic_ThundagaShot = KingdomKeys.MODID + ":" + Mag_Prefix + "thundagashot",
+		Magic_TriplePlasma = KingdomKeys.MODID + ":" + Mag_Prefix + "tripleplasma",
+
+		Magic_Blackout = KingdomKeys.MODID + ":" + Mag_Prefix + "blackout",
+		Magic_Poison = KingdomKeys.MODID + ":" + Mag_Prefix + "posion",
+
+		Magic_Balloon = KingdomKeys.MODID + ":" + Mag_Prefix + "balloon",
+		Magic_Balloonra = KingdomKeys.MODID + ":" + Mag_Prefix + "balloonra",
+		Magic_Balloonga = KingdomKeys.MODID + ":" + Mag_Prefix + "balloonga",
+
+		Magic_Warp = KingdomKeys.MODID + ":" + Mag_Prefix + "warp",
+		Magic_Faith = KingdomKeys.MODID + ":" + Mag_Prefix + "faith",
+		Magic_MineShield = KingdomKeys.MODID + ":" + Mag_Prefix + "mine_shield",
+		Magic_MineSquare = KingdomKeys.MODID + ":" + Mag_Prefix + "mine_square",
+		Magic_SeekerMine = KingdomKeys.MODID + ":" + Mag_Prefix + "seeker_mine",
+
+		Magic_Spark = KingdomKeys.MODID + ":" + Mag_Prefix + "spark",
+		Magic_Sparkra = KingdomKeys.MODID + ":" + Mag_Prefix + "sparkra",
+		Magic_Sparkga = KingdomKeys.MODID + ":" + Mag_Prefix + "sparkga",
+
+		Magic_Bind = KingdomKeys.MODID + ":" + Mag_Prefix + "bind",
+		Magic_Confuse = KingdomKeys.MODID + ":" + Mag_Prefix + "confuse",
+		Magic_Esuna = KingdomKeys.MODID + ":" + Mag_Prefix + "esuna",
+		Magic_Mini = KingdomKeys.MODID + ":" + Mag_Prefix + "mini",
+		Magic_Slow = KingdomKeys.MODID + ":" + Mag_Prefix + "slow";
+
+
+	// Drive Forms
     public static final String
     		DF_Prefix = "form_",
             Form_Valor = KingdomKeys.MODID+":"+DF_Prefix+"valor",
@@ -92,7 +163,12 @@ public class Strings {
     		dodgeRoll = KingdomKeys.MODID+":"+AB_Prefix +"dodge_roll",
     		aerialDodge = KingdomKeys.MODID+":"+AB_Prefix +"aerial_dodge",
     		glide = KingdomKeys.MODID+":"+AB_Prefix +"glide",
-    		
+
+			airSlide = KingdomKeys.MODID+":"+AB_Prefix +"air_slide",
+			wallKick = KingdomKeys.MODID+":"+AB_Prefix +"wall_kick",
+			superJump = KingdomKeys.MODID+":"+AB_Prefix +"superjump",
+			superSlide = KingdomKeys.MODID+":"+AB_Prefix +"superslide",
+
     		//Support
     		zeroExp = KingdomKeys.MODID+":"+AB_Prefix +"zero_exp",
     		scan = KingdomKeys.MODID+":"+AB_Prefix +"scan",
@@ -129,6 +205,7 @@ public class Strings {
     		jackpot = KingdomKeys.MODID+":"+AB_Prefix +"jackpot",
     		luckyLucky = KingdomKeys.MODID+":"+AB_Prefix +"lucky_lucky",
     		grandMagicHaste = KingdomKeys.MODID+":"+AB_Prefix +"grand_magic_haste",
+			grandMagicExtender = KingdomKeys.MODID+":"+AB_Prefix +"grand_magic_extender",
 			comboPlus = KingdomKeys.MODID + ":" + AB_Prefix +"combo_plus",
 			negativeCombo = KingdomKeys.MODID + ":" + AB_Prefix +"negative_combo",
 			finishingPlus = KingdomKeys.MODID + ":" + AB_Prefix +"finishing_plus",
@@ -308,38 +385,7 @@ public class Strings {
             ava = "ava",
             gula = "gula",
             invi = "invi",
-            ira = "ira"
-            ;
-
-    //Spells
-    public static final String
-            Spell_Fire = "spell.fire",
-            Spell_Fira = "spell.fira",
-            Spell_Firaga = "spell.firaga",
-
-            Spell_Blizzard = "spell.blizzard",
-            Spell_Blizzara = "spell.blizzara",
-            Spell_Blizzaga = "spell.blizzaga",
-
-            Spell_Thunder = "spell.thunder",
-            Spell_Thundara = "spell.thundara",
-            Spell_Thundaga = "spell.thundaga",
-
-            Spell_Cure = "spell.cure",
-            Spell_Cura = "spell.cura",
-            Spell_Curaga = "spell.curaga",
-
-            Spell_Gravity = "spell.gravity",
-            Spell_Gravira = "spell.gravira",
-            Spell_Graviga = "spell.graviga",
-
-            Spell_Aero = "spell.aero",
-            Spell_Aerora = "spell.aerora",
-            Spell_Aeroga = "spell.aeroga",
-
-            Spell_Stop = "spell.stop",
-            Spell_Stopra = "spell.stopra",
-            Spell_Stopga = "spell.stopga";
+            ira = "ira";
 
     //Level up messages
     public static final String
@@ -353,6 +399,7 @@ public class Strings {
 			Stats_LevelUp_HighJump = "stats.levelUpHighJump",
 			Stats_LevelUp_MaxAccessories = "stats.levelUpMaxAccessories",
 			Stats_LevelUp_MaxArmors = "stats.levelUpMaxArmors",
+		    Stats_LevelUp_MaxMagics = "stats.levelUpMaxMagics",
 			Stats_LevelNext = "stats.levelNext",
 			Stats_MunnyGet = "stats.munnyGet";
 
@@ -407,6 +454,7 @@ public class Strings {
             Gui_Menu_Items_Equipment_Shotlock = Gui_Menu_Items_Equipment + ".shotlock",
             Gui_Menu_Items_Equipment_Accessories = Gui_Menu_Items_Equipment + ".accessories",
             Gui_Menu_Items_Equipment_Armor = Gui_Menu_Items_Equipment + ".armor",
+            Gui_Menu_Items_Equipment_Magic = Gui_Menu_Items_Equipment + ".magic",
             Gui_Menu_Items_Equipment_Pauldron = Gui_Menu_Items_Equipment + ".pauldron",
             Gui_Menu_Items_Equipment_Items = Gui_Menu_Items_Equipment + ".items",
             
@@ -434,6 +482,7 @@ public class Strings {
             
             Gui_Menu_Status = Gui_Menu + ".status",
             Gui_Menu_Status_Title = Gui_Menu_Status + ".title",
+            Gui_Menu_Status_Choice = Gui_Menu_Status + ".choice",
             Gui_Menu_Status_Level = Gui_Menu_Status + ".level",
             Gui_Menu_Status_TotalExp = Gui_Menu_Status + ".totalexp",
 			Gui_Menu_Status_NextLevel = Gui_Menu_Status + ".nextlevel",
@@ -490,6 +539,16 @@ public class Strings {
             Gui_Shop_Buy_Price = Gui_Shop + ".price",
             Gui_Shop_Buy_Quantity = Gui_Shop_Buy + ".quantity",
             Gui_Shop_Sell = Gui_Shop + ".sell",
+
+			// Melding
+			Gui_Menu_Items_Melding = "gui.melding",
+			Gui_Menu_Items_Melding_Meld = Gui_Menu_Items_Melding + ".meld",
+			Gui_Menu_Items_Melding_Meldables = Gui_Menu_Items_Melding + ".meldables",
+			Gui_Menu_Items_Melding_ItemAcquired = Gui_Menu_Items_Melding+ ".item_acquired",
+			Gui_Menu_Items_Melding_RareItemAcquired = Gui_Menu_Items_Melding+ ".rare_item_acquired",
+
+			// Card packs
+			Gui_CardPack_Title ="gui.cardpacks.title",
 
             // Synthesis
             Gui_Synthesis = "gui.synthesis",
@@ -573,17 +632,89 @@ public class Strings {
         panacea = "panacea",
         
         synthesisBag = "synthesis_bag",
-        
-        SpellFire = "spellfire",
-        SpellBlizzard = "spellblizzard",
-        SpellWater = "spellwater",
-        SpellThunder = "spellthunder",
-        SpellCure = "spellcure",
-        SpellAero = "spellaero",
-        SpellMagnet = "spellmagnet",
-        SpellReflect = "spellreflect",
-        SpellGravity = "spellgravity",
-        SpellStop = "spellstop",
+
+		SpellFire = "spellfire",
+		SpellFira = "spellfira",
+		SpellFiraga = "spellfiraga",
+
+		SpellBlizzard = "spellblizzard",
+		SpellBlizzara = "spellblizzara",
+		SpellBlizzaga = "spellblizzaga",
+
+		SpellWater = "spellwater",
+		SpellWatera = "spellwatera",
+		SpellWaterga = "spellwaterga",
+
+		SpellThunder = "spellthunder",
+		SpellThundara = "spellthundara",
+		SpellThundaga = "spellthundaga",
+
+		SpellCure = "spellcure",
+		SpellCura = "spellcura",
+		SpellCuraga = "spellcuraga",
+
+		SpellAero = "spellaero",
+		SpellAerora = "spellaerora",
+		SpellAeroga = "spellaeroga",
+
+		SpellMagnet = "spellmagnet",
+		SpellMagnera = "spellmagnera",
+		SpellMagnega = "spellmagnega",
+
+		SpellReflect = "spellreflect",
+		SpellReflera = "spellreflera",
+		SpellReflega = "spellreflega",
+
+		SpellGravity = "spellgravity",
+		SpellGravira = "spellgravira",
+		SpellGraviga = "spellgraviga",
+
+		SpellZeroGravity = "spellzerogravity",
+		SpellZeroGravira = "spellzerogravira",
+		SpellZeroGraviga = "spellzerograviga",
+
+		SpellStop = "spellstop",
+		SpellStopra = "spellstopra",
+		SpellStopga = "spellstopga",
+
+		SpellDarkFiraga = "spelldarkfiraga",
+		SpellTripleFiraga = "spelltriplefiraga",
+		SpellBlackout = "spellblackout",
+		SpellPoison = "spellpoison",
+		SpellCrawlingFiraga = "spellcrawlingfiraga",
+		SpellFissionFiraga = "spellfissionfiraga",
+		SpellFiragaBurst = "spellfiragaburst",
+		SpellIgnite = "spellignite",
+
+		SpellTripleBlizzaga = "spelltripleblizzaga",
+		SpellDeepFreeze = "spelldeepfreeze",
+		SpellGlacier = "spellglacier",
+		SpellIceBarrage = "spellicebarrage",
+
+		SpellThundagaShot = "spellthundagashot",
+		SpellTriplePlasma = "spelltripleplasma",
+
+		SpellBalloon = "spellballoon",
+		SpellBalloonra = "spellballoonra",
+		SpellBalloonga = "spellballoonga",
+
+		SpellMineShield = "spellmineshield",
+		SpellMineSquare = "spellminesquare",
+		SpellMineSeeker = "spellseekermine",
+
+		SpellSpark = "spellspark",
+		SpellSparkra = "spellsparkra",
+		SpellSparkga = "spellsparkga",
+
+		SpellWarp = "spellwarp",
+		SpellFaith = "spellfaith",
+
+		SpellEsuna = "spellesuna",
+		SpellConfuse = "spellconfuse",
+		SpellBind = "spellbind",
+		SpellMini = "spellmini",
+		SpellSlow = "spellslow",
+
 
 		StruggleSword = "struggle_sword",
 		StruggleWand = "struggle_wand",
@@ -1362,6 +1493,12 @@ public class Strings {
     		HeartlessIntro2 = "heartless.intro.2", //Tied to the darkness...
     		HeartlessIntro3 = "heartless.intro.3"; //Soon to be completely eclipsed
 
+	public static String
+			COIntro1 = "co.intro.1", //In this place, to find is to lose
+			COIntro2 = "co.intro.2", //and to lose is to find.
+			COIntro3 = "co.intro.3", //That is the way in Castle Oblivion
+			COIntroTitle = "co.intro.title";
+
 	//Map Cards
 	public static String
 			TranquilDarkness = "tranquil_darkness",
@@ -1384,10 +1521,51 @@ public class Strings {
 			ProsperousRepository = "prosperous_repository",
 			TreacherousRepository = "treacherous_repository",
 			ReposefulGrove = "reposeful_grove",
-			WeightlessSpace = "weightless_space";
+			WeightlessSpace = "weightless_space",
+			UnknownRoom = "unknown_room",
+			ConquerorsRespite = "conquerors_respite",
+			EntranceHall = "entrance_hall",
+			RoomOfBeginnings = "room_of_beginnings",
+			RoomOfGuidance = "room_of_guidance",
+			RoomOfTruth = "room_of_truth",
+			RoomOfRewards = "room_of_rewards",
+
+			RedCardPack = "red_card_pack",
+			GreenCardPack = "green_card_pack",
+			BlueCardPack = "blue_card_pack",
+			RandomCardPack = "random_card_pack";
 
 	//World Cards
+	public static String EmptyCard = "empty_card";
+
 	public static String
 			PlainsCard = "plains_card",
-			NetherCard = "nether_card";
+			TheNetherCard = "the_nether_card",
+			TheEndCard = "the_end_card",
+			CastleOblivionCard = "castle_oblivion_card",
+			DesertCard = "desert_card",
+			JungleCard = "jungle_card",
+			OceanCard = "ocean_card",
+			CaveCard = "cave_card",
+			SnowyCard = "snowy_card",
+			MushroomFieldsCard = "mushroom_fields_card",
+			ForestCard = "forest_card",
+			SwampCard = "swamp_card",
+			BadlandsCard = "badlands_card";
+
+	//Biome Memories
+	public static String
+			PlainsMemory = "plains_memory",
+			TheNetherMemory = "the_nether_memory",
+			TheEndMemory = "the_end_memory",
+			CastleOblivionMemory = "castle_oblivion_memory",
+			DesertMemory = "desert_memory",
+			JungleMemory = "jungle_memory",
+			OceanMemory = "ocean_memory",
+			CaveMemory = "cave_memory",
+			SnowyMemory = "snowy_memory",
+			MushroomFieldsMemory = "mushroom_fields_memory",
+			ForestMemory = "forest_memory",
+			SwampMemory = "swamp_memory",
+			BadlandsMemory = "badlands_memory";
 }

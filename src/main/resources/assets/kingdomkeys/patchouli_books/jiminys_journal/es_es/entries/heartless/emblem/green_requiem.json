@@ -1,0 +1,19 @@
+{
+	"name": "Réquiem Verde",
+	"icon": "kingdomkeys:green_requiem_spawn_egg",
+	"category": "kingdomkeys:emblem",
+	"sortnum": 4,
+	"advancement": "kingdomkeys:obtain_keychain",
+	"pages": [
+		{
+			"type": "text",
+			"text": "Un $(heartless)Sincorazón$() Hechicero. Se curan a sí mismos y a otros $(thing)Sincorazón$() con Cura. Son lentos pero flotan alto en el aire y $(thing)$(o)absorben la mayoría de los ataques mágicos$().$(p)$(lissa)$(l)$(o)[Primera aparición: Kingdom Hearts]$()"
+		},
+		{
+			"type": "patchouli:entity",
+			"entity": "kingdomkeys:green_requiem",
+			"scale": 0.9,
+			"offset": 0.5
+		}
+	]
+}

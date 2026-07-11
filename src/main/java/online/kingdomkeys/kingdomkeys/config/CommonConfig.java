@@ -18,17 +18,18 @@ public class CommonConfig {
     public ModConfigSpec.EnumValue<SpawningMode> heartlessSpawningMode;
     public ModConfigSpec.ConfigValue<List<? extends String>> mobSpawnRate;
 
-    public ModConfigSpec.IntValue rodHeartlessLevelScale, rodHeartlessMaxLevel, driveHeal, recipeDropChance, gummiBlocksDropPercent, hpDropProbability, mpDropProbability, munnyDropProbability, driveDropProbability, focusDropProbability, mobLevelStats;
-    public ModConfigSpec.BooleanValue respawnROD, mobLevelingUp, mobLevelName, bombExplodeWithFire, allowBlocksInHangarArea, keybladeOpenDoors, blizzardChangeBlocks, playerSpawnHeartless, bossDespawnIfNoTarget, needKeybladeForHeartless;
-    public ModConfigSpec.DoubleValue drivePointsMultiplier, focusPointsMultiplier, shotlockMult, critMult;
+    public ModConfigSpec.IntValue rodHeartlessLevelScale, rodHeartlessMaxLevel, driveHeal, recipeDropChance, biomeMemoryDropChance, gummiBlocksDropPercent, hpDropProbability, mpDropProbability, munnyDropProbability, driveDropProbability, focusDropProbability, mobLevelStats;
+    public ModConfigSpec.BooleanValue respawnROD, mobLevelingUp, mobLevelName, bombExplodeWithFire, allowBlocksInHangarArea, keybladeOpenDoors, blizzardChangeBlocks, playerSpawnHeartless, bossDespawnIfNoTarget, needKeybladeForHeartless, hideOrgNames;
+    public ModConfigSpec.DoubleValue drivePointsMultiplier, focusPointsMultiplier, shotlockMult, critMult, fuelConsumeFactor;
 
     public ModConfigSpec.ConfigValue<List<? extends String>> playerSpawnHeartlessData;
-    public ModConfigSpec.ConfigValue<String> savePointMaterials, linkedSavePointRecovers, savePointRecovers, warpPointRecovers;
     public ModConfigSpec.ConfigValue<List<? extends String>> startingRecipes;
+
+    public ModConfigSpec.BooleanValue generateCOEntrance;
+    public ModConfigSpec.IntValue coEntranceChunkX, coEntranceChunkZ;
     
     CommonConfig(final ModConfigSpec.Builder builder) {
 		builder.push("general");
-
 
         bombExplodeWithFire = builder
                 .comment("Allow Bomb heartless to explode when lit on fire")
@@ -59,6 +60,27 @@ public class CommonConfig {
         		.comment("Force the player to need a Keyblade or an Organization weapon to hurt Heartless, and Nobodies")
                 .translation(KingdomKeys.MODID + ".config.need_keyblade_for_heartless")
                 .define("needKeybladeForHeartless", false);
+
+        hideOrgNames = builder
+                .comment("When enabled players wearing the whole Organization XIII set will not show their playername on their head and in the Tab menu")
+                .translation(KingdomKeys.MODID + ".config.hide_org_names")
+                .define("hideOrgNames", true);
+
+        generateCOEntrance = builder
+                .comment("Generates the structure to enter Castle Oblivion")
+                .translation(KingdomKeys.MODID + ".config.generate_co_entrance")
+                .define("generateCOEntrance", true);
+
+        coEntranceChunkX = builder
+                .comment("Chunk X Co-ord to generate Castle Oblivion entrance")
+                .translation(KingdomKeys.MODID + ".config.co_entrance_chunk_x")
+                .defineInRange("coEntranceChunkX", 13, 0, 1000);
+
+        coEntranceChunkZ = builder
+                .comment("Chunk Z Co-ord to generate Castle Oblivion entrance")
+                .translation(KingdomKeys.MODID + ".config.co_entrance_chunk_z")
+                .defineInRange("coEntranceChunkZ", 7, 0, 1000);
+
         builder.pop();
 
         builder.push("gummi");
@@ -72,28 +94,12 @@ public class CommonConfig {
                 .comment("Percentage of blocks dropped when the Gummi Ship gets destroyed")
                 .translation(KingdomKeys.MODID + ".config.gummi_blocks_drop_percent")
                 .defineInRange("gummiBlocksDropPercent",80,0,100);
-        builder.pop();
 
-        builder.push("savepoint");
-        savePointMaterials = builder
-                .comment("Materials used to upgrade save points (Default values: HP=kingdomkeys:orichalcum,MP=kingdomkeys:illusory_crystal,HUNGER=kingdomkeys:hungry_crystal,FOCUS=kingdomkeys:remembrance_crystal,DRIVE=kingdomkeys:evanescent_crystal,TIER=kingdomkeys:orichalcumplus)")
-                .translation(KingdomKeys.MODID + ".config.save_point_materials")
-                .define("savePointMaterials", "HP=kingdomkeys:orichalcum,MP=kingdomkeys:illusory_crystal,HUNGER=kingdomkeys:hungry_crystal,FOCUS=kingdomkeys:remembrance_crystal,DRIVE=kingdomkeys:evanescent_crystal,TIER=kingdomkeys:orichalcumplus", o -> o instanceof String);
+        fuelConsumeFactor = builder
+                .comment("Factor of fuel consumption, the higher the more it consumes")
+                .translation(KingdomKeys.MODID + ".config.fuel_consume_Factor")
+                .defineInRange("fuelConsumeFactor",0.1F,0,100);
 
-        savePointRecovers = builder
-                .comment("Stats restored when using a normal savepoint (Allowed values: HP,MP,HUNGER,FOCUS,DRIVE)")
-                .translation(KingdomKeys.MODID + ".config.normal_save_point_restore_list")
-                .define("normalSavePointRestoreList", "HP,MP", o -> o instanceof String);
-
-        linkedSavePointRecovers = builder
-                .comment("Stats restored when using a linked savepoint (Allowed values: HP,MP,HUNGER,FOCUS,DRIVE)")
-                .translation(KingdomKeys.MODID + ".config.full_save_point_restore_list")
-                .define("fullSavePointRestoreList", "HP,HUNGER,MP,FOCUS", o -> o instanceof String);
-
-        warpPointRecovers = builder
-                .comment("Stats restored when using a warp point (Allowed values: HP,MP,HUNGER,FOCUS,DRIVE)")
-                .translation(KingdomKeys.MODID + ".config.warp_point_restore_list")
-                .define("warpPointRestoreList", "HP,HUNGER,MP,FOCUS,DRIVE", o -> o instanceof String);
         builder.pop();
 
         builder.push("drops");
@@ -131,12 +137,17 @@ public class CommonConfig {
                 .comment("Focus Points Drop Multiplier")
                 .translation(KingdomKeys.MODID + ".config.focus_points_multiplier")
                 .defineInRange("focusPointsMultiplier",1.0,0,100);
-        builder.pop();
 
         recipeDropChance = builder
                 .comment("Recipe drop chance")
                 .translation(KingdomKeys.MODID + ".config.recipe_drop_chance")
                 .defineInRange("recipeDropChance", 2, 0, 100);
+
+        biomeMemoryDropChance = builder
+                .comment("Biome Memory drop chance")
+                .translation(KingdomKeys.MODID + ".config.biome_memory_drop_chance")
+                .defineInRange("biomeMemoryDropChance", 1, 0, 100);
+        builder.pop();
 
         builder.push("spawning");
         heartlessSpawningMode = builder

@@ -1,0 +1,16 @@
+{
+  "cost": 1600,
+  "ingredient1": "kingdomkeys:spellthunder",
+  "ingredient2": "kingdomkeys:spellzerogravity",
+  "output": {
+    "type": "item",
+    "item": "kingdomkeys:spellzerogravira",
+    "quantity": 1
+  },
+  "output2": {
+    "chance": 10,
+    "item": "kingdomkeys:spellwarp",
+    "quantity": 1
+  },
+  "tier": 4
+}

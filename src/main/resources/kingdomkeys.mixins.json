@@ -18,10 +18,15 @@
     "client.LivingEntityRendererMixin",
     "client.MinecraftMixin",
     "client.PlayerRendererMixin",
+    "client.MusicManagerMixin",
     "epicfight.FirstPersonRendererMixin",
     "epicfight.PHumanoidRendererMixin",
     "epicfight.RenderEngineEventsMixin",
-    "wildfire_gender.GenderLayerMixin"
+    "epicfight.EpicFightScaleMixin",
+    "wildfire_gender.GenderLayerMixin",
+    "client.KeyboardInputMixin",
+    "client.CreativeScreenMixin",
+    "client.ClientLevelMixin"
   ],
   "minVersion": "0.8"
 }

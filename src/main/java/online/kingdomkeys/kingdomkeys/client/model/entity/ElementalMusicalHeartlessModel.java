@@ -145,6 +145,9 @@ public class ElementalMusicalHeartlessModel<T extends BaseKHEntity> extends Enti
 
     @Override
     public void setupAnim(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+        if(Minecraft.getInstance().isPaused())
+            return;
+
         double[] animationShootFire = new double[]
                 {0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 160, 170, 180, 190, 200, 210, 220, 230, 240, 250, 260, 270, 280, 290, 300, 310, 320, 330, 340, 350, 360};
         double[] animationShootBlizzard = new double[]
@@ -154,73 +157,70 @@ public class ElementalMusicalHeartlessModel<T extends BaseKHEntity> extends Enti
         double[] animationMeleeAttack = new double[]
                 {0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 160, 170, 180, 190, 200, 210, 220, 230, 240, 250, 260, 270, 280, 290, 300, 310, 320, 330, 340, 350, 360, 370, 380, 390, 400, 410, 420, 430, 440, 450, 460, 470, 480, 490, 500, 510, 520, 530};
 
+        if(entityIn.getState() == 1) {
+            if (entityIn instanceof BaseElementalMusicalHeartlessEntity entity) {
+                if (entity.getElementToUse() == BaseElementalMusicalHeartlessEntity.Element.FIRE) {
+                    if (frame < animationShootFire.length) {
+                        this.Hat1.y = this.HatTop1.y = -0.2F;
+                        this.Hat1.yRot = degToRad(animationShootFire[(int) frame]);
+                        this.HatTop1.yRot = degToRad(animationShootFire[(animationShootFire.length - 1) - (int) frame]) * 2;
+                    } else {
+                        this.Hat1.yRot = this.HatTop1.yRot = degToRad(0);
+                        this.Hat1.y = this.HatTop1.y = 0F;
+                        frame = 0;
+                        entityIn.setState(0);
+                    }
 
-        if(!Minecraft.getInstance().isPaused()) {
-            if(entityIn.getState() == 1) {
-                if (entityIn instanceof BaseElementalMusicalHeartlessEntity entity) {
-                    if (entity.getElementToUse() == BaseElementalMusicalHeartlessEntity.Element.FIRE) {
-                        if (frame < animationShootFire.length) {
+                    this.frame += 0.7;
+                } else if (entity.getElementToUse() == BaseElementalMusicalHeartlessEntity.Element.BLIZZARD) {
+                    if (frame < animationShootBlizzard.length) {
+                        this.Body.xRot = degToRad(animationShootBlizzard[(int) frame]);
+
+                        if (frame > animationShootBlizzard.length - 16) {
                             this.Hat1.y = this.HatTop1.y = -0.2F;
                             this.Hat1.yRot = degToRad(animationShootFire[(int) frame]);
                             this.HatTop1.yRot = degToRad(animationShootFire[(animationShootFire.length - 1) - (int) frame]) * 2;
-                        } else {
-                            this.Hat1.yRot = this.HatTop1.yRot = degToRad(0);
-                            this.Hat1.y = this.HatTop1.y = 0F;
-                            frame = 0;
-                            entityIn.setState(0);
                         }
-
-                        this.frame += 0.7;
-                    } else if (entity.getElementToUse() == BaseElementalMusicalHeartlessEntity.Element.BLIZZARD) {
-                        if (frame < animationShootBlizzard.length) {
-                            this.Body.xRot = degToRad(animationShootBlizzard[(int) frame]);
-
-                            if (frame > animationShootBlizzard.length - 16) {
-                                this.Hat1.y = this.HatTop1.y = -0.2F;
-                                this.Hat1.yRot = degToRad(animationShootFire[(int) frame]);
-                                this.HatTop1.yRot = degToRad(animationShootFire[(animationShootFire.length - 1) - (int) frame]) * 2;
-                            }
-                        } else {
-                            this.Hat1.yRot = this.HatTop1.yRot = degToRad(0);
-                            this.Hat1.y = this.HatTop1.y = 0F;
-                            this.Body.xRot = degToRad(0);
-                            frame = 0;
-                            entityIn.setState(0);
-                        }
-
-                        this.frame += 0.6;
+                    } else {
+                        this.Hat1.yRot = this.HatTop1.yRot = degToRad(0);
+                        this.Hat1.y = this.HatTop1.y = 0F;
+                        this.Body.xRot = degToRad(0);
+                        frame = 0;
+                        entityIn.setState(0);
                     }
-                }
-            }
-            else if(entityIn.getState() == 2) {
-                if(frame < animationMeleeAttack.length) {
-                    this.Hat1.y = this.HatTop1.y = -0.6F;
-                    this.Body.xRot = degToRad(85);
-                    this.Body.yRot = degToRad(animationMeleeAttack[(int) frame]);
-                }
-                else {
-                    this.Body.xRot = degToRad(0);
-                    this.Hat1.yRot = this.Body.yRot = degToRad(0);
-                    this.Hat1.y = this.HatTop1.y = 0F;
-                    frame = 0;
-                    entityIn.setState(0);
-                }
 
-                this.frame += 1.2;
+                    this.frame += 0.6;
+                }
             }
-            else if(entityIn.getState() == 3) {
-                if(frame < animationMeleeAttack.length) {
-                    this.Body.xRot = degToRad(90);
-                    this.Body.zRot = degToRad(animationMeleeAttack[(int) frame]);
-                }
-                else {
-                    this.Body.xRot = this.Body.zRot = degToRad(0);
-                    frame = 0;
-                    entityIn.setState(0);
-                }
+        }
+        else if(entityIn.getState() == 2) {
+            if(frame < animationMeleeAttack.length) {
+                this.Hat1.y = this.HatTop1.y = -0.6F;
+                this.Body.xRot = degToRad(85);
+                this.Body.yRot = degToRad(animationMeleeAttack[(int) frame]);
+            }
+            else {
+                this.Body.xRot = degToRad(0);
+                this.Hat1.yRot = this.Body.yRot = degToRad(0);
+                this.Hat1.y = this.HatTop1.y = 0F;
+                frame = 0;
+                entityIn.setState(0);
+            }
 
-                this.frame += 1.2;
+            this.frame += 1.2;
+        }
+        else if(entityIn.getState() == 3) {
+            if(frame < animationMeleeAttack.length) {
+                this.Body.xRot = degToRad(90);
+                this.Body.zRot = degToRad(animationMeleeAttack[(int) frame]);
             }
+            else {
+                this.Body.xRot = this.Body.zRot = degToRad(0);
+                frame = 0;
+                entityIn.setState(0);
+            }
+
+            this.frame += 1.2;
         }
     }
 

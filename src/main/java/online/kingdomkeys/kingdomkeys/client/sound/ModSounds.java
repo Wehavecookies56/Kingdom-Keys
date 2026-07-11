@@ -15,6 +15,8 @@ public class ModSounds {
 			alarm = registerSound("alarm"),
     		antidrive = registerSound("antidrive"),
     		drive = registerSound("drive"),
+		    revert = registerSound("revert"),
+		    driveUp = registerSound("drive_up"),
     	    error = registerSound("error"),
             //ether
     	    //hi-potion
@@ -24,6 +26,7 @@ public class ModSounds {
             kupoliving = registerSound("kupoliving"),
             levelup = registerSound("levelup"),
             lockon = registerSound("lockon"),
+			lockoff = registerSound("lockoff"),
             menu_back = registerSound("menu_back"),
             menu_in = registerSound("menu_in"),
             menu_move = registerSound("menu_move"),
@@ -41,6 +44,7 @@ public class ModSounds {
             unsummon = registerSound("unsummon"),
 			portal = registerSound("portal"),
 	        laser = registerSound("laser"),
+            buy = registerSound("buy"),
 	        
 	        fire = registerSound("magic/fire"),
 	        fira = registerSound("magic/fira"),
@@ -63,7 +67,26 @@ public class ModSounds {
 	        stop = registerSound("magic/stop"),
     		stopra = registerSound("magic/stopra"),
 			stopga = registerSound("magic/stopga"),
-			
+	        zeroGravity = registerSound("magic/zerogravity"),
+	        poison = registerSound("magic/poison"),
+	        firagaBurst = registerSound("magic/firagaburst"),
+			deepFreeze = registerSound("magic/deepfreeze"),
+			iceBarrage = registerSound("magic/icebarrage"),
+	        thundagaShot = registerSound("magic/thundagashot"),
+	        zap = registerSound("magic/zap"),
+
+			balloon = registerSound("magic/balloon"),
+			balloonBounce = registerSound("magic/balloon_bounce"),
+			playerCast = registerSound("magic/player_cast"),
+			warpHitPlayer = registerSound("magic/warp_hit_player"),
+			spark = registerSound("magic/spark"),
+			sparkra = registerSound("magic/sparkra"),
+			sparkga = registerSound("magic/sparkga"),
+
+			lightBeam = registerSound("magic/light_beam"),
+
+			esuna = registerSound("magic/esuna"),
+
 			playerDeath = registerSound("player_death"),
 			playerDeathHardcore = registerSound("player_death_2"),
 		    invincible_hit = registerSound("invincible_hit"),
@@ -78,6 +101,10 @@ public class ModSounds {
 			keyblade_armor = registerSound("keyblade_armor"),
 			summon_armor = registerSound("summon_armor"),
 			unsummon_armor = registerSound("unsummon_armor"),
+
+			wall_jump = registerSound("wall_jump"),
+			wall_grab = registerSound("wall_grab"),
+			air_slide = registerSound("air_slide"),
 
             
             Record_Birth_by_Sleep_A_Link_to_the_Future = registerSound("records/birth_by_sleep_a_link_to_the_future"),
@@ -105,7 +132,8 @@ public class ModSounds {
 			Music_Dive_Into_The_Heart_Destati = registerSound("music/dive_into_the_heart_destati"),
     		Music_Lord_Of_The_Castle = registerSound("music/lord_of_the_castle"),
 			Music_Castle_Oblivion = registerSound("music/castle_oblivion"),
-			Music_The_13th_Floor = registerSound("music/the_13th_floor");
+			Music_The_13th_Floor = registerSound("music/the_13th_floor"),
+			Music_Forgotten_Challenge = registerSound("music/forgotten_challenge");
 
            /*
             Music_A_Day_In_Agrabah = registerSound("music.a_day_in_agrabah"),

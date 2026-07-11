@@ -1,0 +1,13 @@
+{
+  "casttime": 10,
+  "cooldown": 40,
+  "cost": 14,
+  "dmg_mult": 0.12,
+  "dmg_mult_max": 0.124,
+  "magic_lock_on": true,
+  "magic_rc": "kingdomkeys:magic_thunder",
+  "max_exp": 4200,
+  "max_lvl": 4,
+  "next_tier": "kingdomkeys:magic_thundaza",
+  "spell_type": "MAGIC"
+}

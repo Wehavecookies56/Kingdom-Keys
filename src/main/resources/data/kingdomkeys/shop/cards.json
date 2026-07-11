@@ -1,0 +1,7 @@
+[
+  {"names": "kingdomkeys:default"},
+  {"item": "kingdomkeys:red_card_pack", "amount": 1, "tier": 1, "cost": 2500},
+  {"item": "kingdomkeys:green_card_pack", "amount": 1, "tier": 1, "cost": 2500},
+  {"item": "kingdomkeys:blue_card_pack", "amount": 1, "tier": 1, "cost": 2500},
+  {"item": "kingdomkeys:random_card_pack", "amount": 1, "tier": 1, "cost": 2200}
+]

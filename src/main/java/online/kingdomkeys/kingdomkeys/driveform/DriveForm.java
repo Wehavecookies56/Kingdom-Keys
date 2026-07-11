@@ -6,7 +6,11 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.neoforged.neoforge.common.NeoForge;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.ability.Ability;
+import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
+import online.kingdomkeys.kingdomkeys.api.event.AbilityEvent;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
@@ -18,6 +22,8 @@ import java.util.List;
 public abstract class DriveForm {
 
 	public static final ResourceLocation NONE = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "none");
+	public static final ResourceLocation KB2 = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "kb2");
+	public static final ResourceLocation KB3 = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "kb3");
 	public static final ResourceLocation SYNCH_BLADE = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "synch_blade");
 
 	// Level 0-7 (0 unused)
@@ -26,7 +32,8 @@ public abstract class DriveForm {
 	public static final float[] FINAL_JUMP_BOOST = { 0, 0.02F, 0.02F, 0.025F, 0.025F, 0.03F, 0.03F, 0.055F };
 	public static final float[] FINAL_GLIDE = { 0, -0.09F, -0.09F, -0.06F, -0.06F, -0.03F, -0.03F, -0.01F };
 	public static final float[] FINAL_GLIDE_SPEED = { 0, 1.8F, 1.8F, 2.8F, 2.8F, 3.6F, 3.6F, 5F };
-	
+
+	public boolean isFakeForm;
 	ResourceLocation name;
 	int maxLevel;
 	int order;
@@ -51,6 +58,10 @@ public abstract class DriveForm {
 
 	public DriveForm(String registryName, int order, boolean hasKeychain, boolean baseGrowth) {
 		this(ResourceLocation.parse(registryName), order, hasKeychain, baseGrowth);
+	}
+
+	public boolean isFakeForm(){
+		return this.isFakeForm;
 	}
 	
 	public void setDriveFormData(DriveFormData data) {
@@ -155,7 +166,16 @@ public abstract class DriveForm {
 			// Summon Keyblades
 			if(getDriveSound() != null)
 				player.level().playSound(null, player.blockPosition(), getDriveSound(), SoundSource.MASTER, 1.0f, 1.0f);
+
 			pushEntities(player);
+
+			if (!getBaseGrowthAbilities()) {
+				NeoForge.EVENT_BUS.post(new AbilityEvent.Equip(ModAbilities.registry.get(ResourceLocation.parse(getDFAbilityForLevel(playerData.getDriveFormLevel(getName())))), playerData.getDriveFormLevel(getName()), player, false));
+			}
+			for (String abilityLoc : getDriveFormData().getAbilities()) {
+				Ability ability = ModAbilities.registry.get(ResourceLocation.parse(abilityLoc));
+				NeoForge.EVENT_BUS.post(new AbilityEvent.Equip(ability, 0, player, false));
+			}
 			PacketHandler.syncToAllAround(player, playerData);
 		}
 	}
@@ -165,7 +185,7 @@ public abstract class DriveForm {
 	}
 
 	public SoundEvent getRevertSound() {
-		return ModSounds.unsummon.get();
+		return ModSounds.revert.get();
 	}
 
 	public void pushEntities(Player player) {
@@ -201,7 +221,23 @@ public abstract class DriveForm {
 		PlayerData playerData = PlayerData.get(player);
 		playerData.setActiveDriveForm(DriveForm.NONE.toString());
 		if(getDriveSound() != null)
-			player.level().playSound(player, player.blockPosition(), getRevertSound(), SoundSource.MASTER, 1.0f, 1.0f);
+			player.level().playSound(null, player.blockPosition(), getRevertSound(), SoundSource.MASTER, 1.0f, 1.0f);
+
+		if(!getName().equals(ModDriveForms.ANTI.get().getName())) {
+			if (!getBaseGrowthAbilities()) {
+				Ability ability = ModAbilities.registry.get(ResourceLocation.parse(getDFAbilityForLevel(playerData.getDriveFormLevel(getName()))));
+				if(ability != null) {
+					NeoForge.EVENT_BUS.post(new AbilityEvent.Unequip(ability, playerData.getDriveFormLevel(getName()), player, false));
+				}
+			}
+			for (String abilityLoc : getDriveFormData().getAbilities()) {
+				Ability ability = ModAbilities.registry.get(ResourceLocation.parse(abilityLoc));
+				if(ability != null) {
+					NeoForge.EVENT_BUS.post(new AbilityEvent.Unequip(ability, 0, player, false));
+				}
+			}
+		}
+
 		if(!player.level().isClientSide) {
 			PacketHandler.syncToAllAround(player, playerData);
 		}

@@ -32,11 +32,10 @@ public class PacketHandler {
 		client(SCOpenChoiceScreen.TYPE, SCOpenChoiceScreen.STREAM_CODEC);
 		client(SCOpenCODoorGui.TYPE, SCOpenCODoorGui.STREAM_CODEC);
 		client(SCOpenEquipmentScreen.TYPE, SCOpenEquipmentScreen.STREAM_CODEC);
-		client(SCOpenMagicCustomize.TYPE, SCOpenMagicCustomize.STREAM_CODEC);
 		client(SCOpenMaterialsScreen.TYPE, SCOpenMaterialsScreen.STREAM_CODEC);
+		client(SCOpenCheckScreen.TYPE, SCOpenCheckScreen.STREAM_CODEC);
         client(SCOpenSellScreen.TYPE, SCOpenSellScreen.STREAM_CODEC);
 		client(SCOpenSavePointScreen.TYPE, SCOpenSavePointScreen.STREAM_CODEC);
-		client(SCOpenShortcutsCustomize.TYPE, SCOpenShortcutsCustomize.STREAM_CODEC);
 		client(SCOpenSynthesisGui.TYPE, SCOpenSynthesisGui.STREAM_CODEC);
 		client(SCRecalculateEyeHeight.TYPE, SCRecalculateEyeHeight.STREAM_CODEC);
 		client(SCShowMessagesPacket.TYPE, SCShowMessagesPacket.STREAM_CODEC);
@@ -47,6 +46,7 @@ public class PacketHandler {
 		client(SCSyncDriveFormData.TYPE, SCSyncDriveFormData.STREAM_CODEC);
 		client(SCSyncGlobalData.TYPE, SCSyncGlobalData.STREAM_CODEC);
 		client(SCSyncKeybladeData.TYPE, SCSyncKeybladeData.STREAM_CODEC);
+		client(SCSyncLevelingData.TYPE, SCSyncLevelingData.STREAM_CODEC);
 		client(SCSyncLimitData.TYPE, SCSyncLimitData.STREAM_CODEC);
 		client(SCSyncMagicData.TYPE, SCSyncMagicData.STREAM_CODEC);
 		client(SCSyncMoogleNames.TYPE, SCSyncMoogleNames.STREAM_CODEC);
@@ -55,6 +55,8 @@ public class PacketHandler {
 		client(SCSyncPlayerData.TYPE, SCSyncPlayerData.STREAM_CODEC);
 		client(SCSyncShopData.TYPE, SCSyncShopData.STREAM_CODEC);
         client(SCSyncSellData.TYPE, SCSyncSellData.STREAM_CODEC);
+		client(SCSyncSavePointData.TYPE, SCSyncSavePointData.STREAM_CODEC);
+		client(SCSyncMeldingData.TYPE, SCSyncMeldingData.STREAM_CODEC);
 		client(SCSyncSynthesisData.TYPE, SCSyncSynthesisData.STREAM_CODEC);
 		client(SCSyncWorldData.TYPE, SCSyncWorldData.STREAM_CODEC);
 		client(SCUpdateCORooms.TYPE, SCUpdateCORooms.STREAM_CODEC);
@@ -62,7 +64,9 @@ public class PacketHandler {
 		client(SCSendPlayerDataToClient.TYPE, SCSendPlayerDataToClient.STREAM_CODEC);
 		client(SCOpenMenu.TYPE, SCOpenMenu.STREAM_CODEC);
 		client(SCSyncJsonRegistry.TYPE, SCSyncJsonRegistry.STREAM_CODEC);
-
+		client(SCZeroGravityPacket.TYPE, SCZeroGravityPacket.STREAM_CODEC);
+		client(SCShowRareMeld.TYPE, SCShowRareMeld.STREAM_CODEC);
+		client(SCOpenCardPack.TYPE, SCOpenCardPack.STREAM_CODEC);
 
 		server(CSAntiPointsPacket.TYPE, CSAntiPointsPacket.STREAM_CODEC);
 		server(CSAttackOffhandPacket.TYPE, CSAttackOffhandPacket.STREAM_CODEC);
@@ -72,16 +76,14 @@ public class PacketHandler {
 		server(CSDepositMaterials.TYPE, CSDepositMaterials.STREAM_CODEC);
 		server(CSEquipAccessories.TYPE, CSEquipAccessories.STREAM_CODEC);
 		server(CSEquipArmor.TYPE, CSEquipArmor.STREAM_CODEC);
+		server(CSEquipMagic.TYPE, CSEquipMagic.STREAM_CODEC);
 		server(CSEquipItems.TYPE, CSEquipItems.STREAM_CODEC);
 		server(CSEquipKeychain.TYPE, CSEquipKeychain.STREAM_CODEC);
 		server(CSEquipShotlock.TYPE, CSEquipShotlock.STREAM_CODEC);
 		server(CSEquipShoulderArmor.TYPE, CSEquipShoulderArmor.STREAM_CODEC);
-		server(CSExtendedReach.TYPE, CSExtendedReach.STREAM_CODEC);
 		server(CSGenerateRoom.TYPE, CSGenerateRoom.STREAM_CODEC);
 		server(CSGiveUpKO.TYPE, CSGiveUpKO.STREAM_CODEC);
 		server(CSLevelUpKeybladePacket.TYPE, CSLevelUpKeybladePacket.STREAM_CODEC);
-		server(CSOpenMagicCustomize.TYPE, CSOpenMagicCustomize.STREAM_CODEC);
-		server(CSOpenShortcutsCustomize.TYPE, CSOpenShortcutsCustomize.STREAM_CODEC);
 		server(CSOrgPortalTPPacket.TYPE, CSOrgPortalTPPacket.STREAM_CODEC);
 		server(CSPartyAddMember.TYPE, CSPartyAddMember.STREAM_CODEC);
 		server(CSPartyCreate.TYPE, CSPartyCreate.STREAM_CODEC);
@@ -114,10 +116,11 @@ public class PacketHandler {
 		server(CSSyncAllClientDataPacket.TYPE, CSSyncAllClientDataPacket.STREAM_CODEC);
 		server(CSSyncArmorColor.TYPE, CSSyncArmorColor.STREAM_CODEC);
 		server(CSSynthesiseRecipe.TYPE, CSSynthesiseRecipe.STREAM_CODEC);
+		server(CSMeldRecipe.TYPE, CSMeldRecipe.STREAM_CODEC);
 		server(CSTakeMaterials.TYPE, CSTakeMaterials.STREAM_CODEC);
 		server(CSTravelToSoA.TYPE, CSTravelToSoA.STREAM_CODEC);
 		server(CSUnlockEquipOrgWeapon.TYPE, CSUnlockEquipOrgWeapon.STREAM_CODEC);
-		server(CSUpgradeSynthesisBagPacket.TYPE, CSUpgradeSynthesisBagPacket.STREAM_CODEC);
+		server(CSUpgradeBagPacket.TYPE, CSUpgradeBagPacket.STREAM_CODEC);
 		server(CSUseDriveFormPacket.TYPE, CSUseDriveFormPacket.STREAM_CODEC);
 		server(CSUseItemPacket.TYPE, CSUseItemPacket.STREAM_CODEC);
 		server(CSUseLimitPacket.TYPE, CSUseLimitPacket.STREAM_CODEC);
@@ -126,6 +129,7 @@ public class PacketHandler {
 		server(CSUseShortcutPacket.TYPE, CSUseShortcutPacket.STREAM_CODEC);
 		server(CSRequestPlayerDataFromServer.TYPE, CSRequestPlayerDataFromServer.STREAM_CODEC);
 		server(CSOpenMenu.TYPE, CSOpenMenu.STREAM_CODEC);
+		//server(CSOpenMeldingScreen.TYPE, CSOpenMeldingScreen.STREAM_CODEC);
 		server(CSBuildGummiShip.TYPE, CSBuildGummiShip.STREAM_CODEC);
 		server(CSEditGummiShip.TYPE, CSEditGummiShip.STREAM_CODEC);
 		server(CSImportExportGummiShip.TYPE, CSImportExportGummiShip.STREAM_CODEC);
@@ -135,6 +139,14 @@ public class PacketHandler {
         server(CSShowHangarLinesPacket.TYPE, CSShowHangarLinesPacket.STREAM_CODEC);
         server(CSGummiBoostPacket.TYPE, CSGummiBoostPacket.STREAM_CODEC);
         server(CSSetShotlockEnemyListPacket.TYPE, CSSetShotlockEnemyListPacket.STREAM_CODEC);
+		server(CSSetHangingWallTicksPacket.TYPE, CSSetHangingWallTicksPacket.STREAM_CODEC);
+		server(CSPlaySoundPacket.TYPE, CSPlaySoundPacket.STREAM_CODEC);
+		server(CSSetFlowmotionPacket.TYPE, CSSetFlowmotionPacket.STREAM_CODEC);
+		server(CSSetAirDashedPacket.TYPE, CSSetAirDashedPacket.STREAM_CODEC);
+		server(CSSetBouncedPacket.TYPE, CSSetBouncedPacket.STREAM_CODEC);
+		server(CSSwapKeyblade.TYPE, CSSwapKeyblade.STREAM_CODEC);
+		server(CSConsumeCard.TYPE, CSConsumeCard.STREAM_CODEC);
+		server(CSTeleport.TYPE, CSTeleport.STREAM_CODEC);
 	}
 
 	private static <T extends Packet> void client(CustomPacketPayload.Type<T> type, StreamCodec<? super RegistryFriendlyByteBuf, T> reader) {

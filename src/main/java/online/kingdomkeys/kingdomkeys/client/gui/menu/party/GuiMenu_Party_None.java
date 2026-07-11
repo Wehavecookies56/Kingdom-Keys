@@ -108,7 +108,7 @@ public class GuiMenu_Party_None extends MenuBackground {
 				drawPlayer(gui, i,member);
 			}
 		} else {
-			Member m = new Member(minecraft.player.getUUID(), minecraft.player.getDisplayName().getString());
+			Member m = new Member(minecraft.player.getUUID(), minecraft.player.getGameProfile().getName());
 			drawPlayer(gui, 0, m);
 		}
 	}

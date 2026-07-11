@@ -14,32 +14,38 @@ public class ReactionMagic extends ReactionCommand {
 	ResourceLocation magic;
 
 	public ReactionMagic(ResourceLocation registryName) {
-		super(registryName, false);
+		super(registryName, false, 20*20, 0x8800FF);
 		this.magic = registryName;		
 	}
 	
 	public String getMagicName() {
 		return magic.toString();
 	}
+
+	public void setMagic(ResourceLocation magic) {
+		this.magic = magic;
+	}
 	
     @OnlyIn(Dist.CLIENT)
 	@Override
 	public String getTranslationKey() {
 		PlayerData playerData = PlayerData.get(Minecraft.getInstance().player);
-		int level = playerData.getMagicLevel(magic);
-		Magic mag = ModMagic.registry.get(magic);
-		//Maybe this will have to be re-enabled if we give access to -za magic to players without reaction commands
-		/*if(level == mag.getMaxLevel()) { //If magic level is the same as the max keep it max
-			level = mag.getMaxLevel();
-		} else { //If magic level is not max increment it one level
-			level++;
-		}*/
-		level++;
-		if(mag.getGMAbility() != null && playerData.getNumberOfAbilitiesEquipped(mag.getGMAbility().getRegistryName().toString()) > 0) { //Get if the player has the -za
-			level = mag.getMaxLevel()+1;
-		}
+	    Magic mag = ModMagic.registry.get(magic);
+	    if(mag.getGMAbility() != null && playerData.getNumberOfAbilitiesEquipped(mag.getGMAbility().getRegistryName().toString()) > 0) { //Get if the player has the -za
+		    Magic current = mag;
+		    Magic next = current.getNextTierMagic();
+
+		    while (next != current) {
+			    current = next;
+			    next = current.getNextTierMagic();
+		    }
+
+		    mag = current;
+	    } else {
+		    mag = mag.getNextTierMagic();
+	    }
 		
-        return "magic." + magic.getNamespace() + "." + magic.getPath() + level+".name";
+        return mag.getTranslationKey();
 	}
 
 	
@@ -47,18 +53,34 @@ public class ReactionMagic extends ReactionCommand {
 	public void onUse(Player player, LivingEntity target, LivingEntity lockedOnEntity) {
 		Magic mag = ModMagic.registry.get(magic);
 		PlayerData playerData = PlayerData.get(player);
-		int level = playerData.getMagicLevel(magic);
+
+		//Get if player has za, if so get the next magic till it returns null and return the last non null value
+		//If doesn't have za get the immediately next magic
+		if(mag.getGMAbility() != null && playerData.getNumberOfAbilitiesEquipped(mag.getGMAbility().getRegistryName().toString()) > 0) { //Get if the player has the -za
+			Magic current = mag;
+			Magic next = current.getNextTierMagic();
+
+			while (next != current) {
+				current = next;
+				next = current.getNextTierMagic();
+			}
+
+			mag = current;
+		} else {
+			mag = mag.getNextTierMagic();
+		}
+		//int level = Utils.getMagicHighestLevel(playerData.getEquippedMagics(),magic.toString());
 		/*if(level == mag.getMaxLevel()) { //If magic level is the same as the max keep it max
 			level = mag.getMaxLevel();
 		} else { //If magic level is not max increment it one level
 			level++;
-		}*/
+		}
 		level++;
 		if(mag.getGMAbility() != null && playerData.getNumberOfAbilitiesEquipped(mag.getGMAbility().getRegistryName().toString()) > 0) { //Get if the player has the -za
 			level = mag.getMaxLevel()+1;
 		}
-		
-		mag.onUse(player, player, level, lockedOnEntity);
+		*/
+		mag.onUse(player, player, lockedOnEntity, true);
 		playerData.removeReactionCommand(getRegistryName().toString());
 	}
 
@@ -66,5 +88,4 @@ public class ReactionMagic extends ReactionCommand {
 	public boolean conditionsToAppear(Player player, LivingEntity target) {
 		return true;
 	}
-	
 }

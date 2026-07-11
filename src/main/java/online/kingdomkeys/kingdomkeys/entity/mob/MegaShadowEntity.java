@@ -14,7 +14,6 @@ import online.kingdomkeys.kingdomkeys.entity.mob.goal.ShadowGoal;
 
 public class MegaShadowEntity extends ShadowEntity {
 
-
     public MegaShadowEntity(EntityType<? extends Monster> type, Level worldIn) {
         super(type, worldIn);
         xpReward = 10;

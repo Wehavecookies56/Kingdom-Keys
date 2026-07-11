@@ -3,6 +3,9 @@
   "category": "equipment",
   "group": "kingdomkeys",
   "key": {
+    "D": {
+      "item": "minecraft:orange_dye"
+    },
     "L": {
       "tag": "c:leathers"
     },
@@ -12,7 +15,7 @@
   },
   "pattern": [
     "LSL",
-    "L L",
+    "LDL",
     "LLL"
   ],
   "result": {

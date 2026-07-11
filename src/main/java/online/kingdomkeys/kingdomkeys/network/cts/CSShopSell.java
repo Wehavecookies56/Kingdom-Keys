@@ -42,31 +42,28 @@ public record CSShopSell(int slot, int amount, String inv, String name, int moog
 	@Override
 	public void handle(IPayloadContext context) {
 		Player player = context.player();
-		if(player.getInventory().getFreeSlot() > -1) {
-			PlayerData playerData = PlayerData.get(player);
+		PlayerData playerData = PlayerData.get(player);
 
-			List<SellItem> list = SellListRegistry.getInstance().getRegistry().get(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "sell")).getList();
-            ItemStack playerStack = player.getInventory().getItem(slot);
+		List<SellItem> list = SellListRegistry.getInstance().getRegistry().get(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "sell")).getList();
+        ItemStack playerStack = player.getInventory().getItem(slot);
 
-            SellItem item = null;
-			for(SellItem shopItem : list) {
-				Item it = shopItem.getResult();
+        SellItem item = null;
+		for(SellItem shopItem : list) {
+			Item it = shopItem.getResult();
 
-				if(ItemStack.isSameItem(new ItemStack(it), playerStack)) {
-					item = shopItem;
-					break;
-				}
-
+			if(ItemStack.isSameItem(new ItemStack(it), playerStack)) {
+				item = shopItem;
+				break;
 			}
 
-            if(item != null && playerStack.getCount() >= amount) {
-                playerData.setMunny(playerData.getMunny() + item.getPrice() * amount);
-
-                player.getInventory().getItem(slot).setCount(player.getInventory().getItem(slot).getCount() - amount);
-                PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
-                PacketHandler.sendTo(new SCOpenSellScreen(playerData.serializeNBT(player.level().registryAccess()), inv, name, moogle), (ServerPlayer) player);
-            }
 		}
+
+        if(item != null && playerStack.getCount() >= amount) {
+            playerData.setMunny(playerData.getMunny() + item.getPrice() * amount);
+            player.getInventory().getItem(slot).setCount(player.getInventory().getItem(slot).getCount() - amount);
+            PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
+            PacketHandler.sendTo(new SCOpenSellScreen(playerData.serializeNBT(player.level().registryAccess()), inv, name, moogle), (ServerPlayer) player);
+        }
 	}
 
 	@Override

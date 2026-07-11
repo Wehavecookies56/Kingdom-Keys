@@ -1,0 +1,16 @@
+{
+	"name": "Bloque Fantasma",
+	"icon": "kingdomkeys:ghost_blox",
+	"sortnum": 7,
+	"category": "kingdomkeys:blox",
+	"pages": [
+		{
+			"type": "text",
+			"text": "Pueden ser utilizados con una $(thing)señal de redstone$() para abrir áreas y objetos ocultos. Cuando están encendidos, todos los bloques se vuelven intangibles y se pueden mover a voluntad, cuando están apagados se vuelven bloques sólidos. $(item)Los Bloques Fantasma$() pueden ser fabricados usando $(l:kingdomkeys:blox/normal)Bloques Normales$(), cualquier tipo de Cristal y un único Bloque de redstone."
+		},
+		{
+			"type":"crafting",
+			"recipe":"kingdomkeys:ghost_blox"
+		}
+	]
+}

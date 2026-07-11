@@ -56,7 +56,7 @@ public class GuiMenu_Party_Join extends MenuBackground {
 			if(p != null) {
 				if(p.getMembers().size() < p.getSize()) {
 					PacketHandler.sendToServer(new CSPartyAddMember(p, minecraft.player));
-					p.addMember(minecraft.player.getUUID(), minecraft.player.getDisplayName().getString());
+					p.addMember(minecraft.player.getUUID(), minecraft.player.getGameProfile().getName());
 	
 					minecraft.level.playSound(minecraft.player, minecraft.player.blockPosition(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
 					minecraft.setScreen(new GuiMenu_Party_Member());

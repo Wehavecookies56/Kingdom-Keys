@@ -1,0 +1,14 @@
+{
+	"name": "Estilo de Combate",
+	"icon": "kingdomkeys:wooden_keyblade",
+	"sortnum": 7,
+	"advancement": "kingdomkeys:soa",
+	"flag": "mod:epicfight",
+	"category": "kingdomkeys:learning_the_menu",
+		"pages": [
+		{
+			"type": "text",
+			"text": "Como tienes $(thing)Epic Fight$() instalado, puedes elegir un $(item)Estilo de Combate$() para portar una o dos Llaves Espada, lo que cambia la animación de ataque cuando estás en $(thing)modo de combate$()."
+		}
+	]
+}

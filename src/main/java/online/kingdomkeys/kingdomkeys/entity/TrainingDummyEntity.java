@@ -7,6 +7,7 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
@@ -49,6 +50,10 @@ public class TrainingDummyEntity extends LivingEntity {
 
     @Override
     public void tick() {
+        if (this.entityData.get(HIT_TICKS) > 0) {
+            this.entityData.set(HIT_TICKS, this.entityData.get(HIT_TICKS) - 1);
+        }
+
         super.tick();
         this.setDeltaMovement(Vec3.ZERO);
         this.setPos(this.getX(), this.getY(), this.getZ());
@@ -88,13 +93,41 @@ public class TrainingDummyEntity extends LivingEntity {
         if (level().isClientSide)
             return false;
 
+        Entity directEntity = source.getDirectEntity();
+        if (directEntity != null) {
+            //Calculate the position it has to bounce off
+            double dx = this.getX() - directEntity.getX();
+            double dz = this.getZ() - directEntity.getZ();
+
+            double length = Math.sqrt(dx * dx + dz * dz);
+
+            if (length > 0) {
+                dx /= length;
+                dz /= length;
+            }
+
+            float yaw = this.getYRot();
+            float rad = (float) Math.toRadians(-yaw);
+
+            float localX = (float)(dx * Math.cos(rad) - dz * Math.sin(rad));
+            float localZ = (float)(dx * Math.sin(rad) + dz * Math.cos(rad));
+
+            if (length > 0) {
+                this.entityData.set(HIT_DIR_X, localX);
+                this.entityData.set(HIT_DIR_Z, localZ);
+            }
+        }
+
         return super.hurt(source, amount);
     }
 
     @Override
-    public void animateHurt(float yaw) {
-
+    protected void playHurtSound(DamageSource source) {
+        this.playSound(SoundEvents.ARMOR_STAND_HIT, 1.0F, 1.0F);
     }
+
+    @Override
+    public void animateHurt(float yaw) {}
 
     @Override
     protected void actuallyHurt(DamageSource source, float amount) {
@@ -130,10 +163,20 @@ public class TrainingDummyEntity extends LivingEntity {
     @Override
     public void push(Entity entity) {}
 
+    public static final EntityDataAccessor<Float> HIT_DIR_X = SynchedEntityData.defineId(TrainingDummyEntity.class, EntityDataSerializers.FLOAT);
+    public static final EntityDataAccessor<Float> HIT_DIR_Z = SynchedEntityData.defineId(TrainingDummyEntity.class, EntityDataSerializers.FLOAT);
+
+    public static final EntityDataAccessor<Integer> HIT_TICKS = SynchedEntityData.defineId(TrainingDummyEntity.class, EntityDataSerializers.INT);
+    public static final EntityDataAccessor<Float> HIT_STRENGTH = SynchedEntityData.defineId(TrainingDummyEntity.class, EntityDataSerializers.FLOAT);
+
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
         builder.define(IGNORE_CD, false);
+        builder.define(HIT_DIR_X, 0f);
+        builder.define(HIT_DIR_Z, 0f);
+        builder.define(HIT_TICKS, 0);
+        builder.define(HIT_STRENGTH, 0f);
     }
 
     @Override
@@ -159,7 +202,7 @@ public class TrainingDummyEntity extends LivingEntity {
     public static AttributeSupplier.Builder registerAttributes() {
         return Mob.createLivingAttributes()
                 .add(Attributes.FOLLOW_RANGE, 35.0D)
-                .add(Attributes.MAX_HEALTH, 100.0D)
+                .add(Attributes.MAX_HEALTH, 10.0D)
                 .add(Attributes.MOVEMENT_SPEED, 0.28D)
                 ;
     }
@@ -178,5 +221,20 @@ public class TrainingDummyEntity extends LivingEntity {
 
     public boolean getIgnoreCD() {
         return this.entityData.get(IGNORE_CD);
+    }
+
+    public int getHitTicks() {
+        return this.entityData.get(HIT_TICKS);
+    }
+
+    public float getHitStrength() {
+        return this.entityData.get(HIT_STRENGTH);
+    }
+
+    public float getHitDirX(){
+        return this.entityData.get(HIT_DIR_X);
+    }
+    public float getHitDirZ(){
+        return this.entityData.get(HIT_DIR_Z);
     }
 }

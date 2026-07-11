@@ -117,6 +117,12 @@ public abstract class EquipmentEvent extends Event {
         }
     }
 
+    public static class Magic extends BaseEquipment {
+        public Magic(Player player, ItemStack previousStack, ItemStack newStack, int slotFrom, int slotTo) {
+            super(player, previousStack, newStack, slotFrom, slotTo);
+        }
+    }
+
     public static class Pauldron extends BaseEquipment {
         public Pauldron(Player player, ItemStack previousStack, ItemStack newStack, int slotFrom, int slotTo) {
             super(player, previousStack, newStack, slotFrom, slotTo);

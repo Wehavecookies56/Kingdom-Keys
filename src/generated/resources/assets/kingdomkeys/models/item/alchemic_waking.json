@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "kingdomkeys:item/alchemic_waking"
+    "layer0": "kingdomkeys:item/cards/alchemic_waking"
   }
 }

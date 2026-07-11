@@ -2,7 +2,6 @@ package online.kingdomkeys.kingdomkeys.integration.epicfight.capabilities;
 
 import online.kingdomkeys.kingdomkeys.integration.epicfight.enums.EpicKKWeaponEnum;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.enums.KKStyles;
-import online.kingdomkeys.kingdomkeys.integration.epicfight.init.EpicKKWeapons;
 import yesman.epicfight.api.animation.AnimationManager;
 import yesman.epicfight.api.animation.types.StaticAnimation;
 import yesman.epicfight.gameasset.Animations;

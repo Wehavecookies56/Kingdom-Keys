@@ -78,13 +78,12 @@ import org.joml.Quaternionf;
 
 import javax.annotation.Nullable;
 import java.io.FileNotFoundException;
-import java.util.Iterator;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class ClientUtils {
     public static Style KK_Font_EXP = Style.EMPTY.withFont(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "kk_font_exp"));
     public static Style KK_Font_MENU = Style.EMPTY.withFont(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "kk_font_menu"));
+    public static Style KK_Font_TITLE = Style.EMPTY.withFont(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "kk_font_title"));
 
     //Order is important for overlapping boxes, top to bottom
     public static final HUDElement DRIVE_ELEMENT = new HUDElement("Drive").setScale(0.8F,0.8F);
@@ -99,6 +98,7 @@ public class ClientUtils {
     public static final HUDElement MUNNYEXP_ELEMENT = new HUDElement("MunnyExp");
     public static final HUDElement LEVELUP_ELEMENT = new HUDElement("LevelUp");
     public static final HUDElement DRIVELEVEL_ELEMENT = new HUDElement("DriveLevel");
+    public static final HUDElement ROOMNAME_ELEMENT = new HUDElement("RoomName");
     public static final HUDElement MINIMAP_ELEMENT = new HUDElement("Minimap");
 
     public static Entity getEntityByUUIDClient(UUID uuid) {
@@ -772,6 +772,9 @@ public class ClientUtils {
         return playerData;
     }
 
+    /**
+     * Used in the KO system so it doesn't rotate
+     */
     public static void renderNameTag(LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> renderer, LivingEntity entity, String displayName, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, float partialTick) {
         EntityRenderDispatcher dispatcher = Minecraft.getInstance().getEntityRenderDispatcher();
 
@@ -886,6 +889,284 @@ public class ClientUtils {
             }
         }
 
+    }
+
+
+    /**
+     * Stuff for trails
+     */
+
+    public enum TrailType {
+        FLOWMOTION, DASH
+    }
+    private static final Map<UUID, Deque<Vec3>> FLOW_TRAILS = new HashMap<>();
+    private static final Map<UUID, Deque<Vec3>> DASH_TRAILS = new HashMap<>();
+
+    private static Deque<Vec3> getTrail(TrailType type, Player player) {
+        return switch(type){
+            case FLOWMOTION -> FLOW_TRAILS.computeIfAbsent(player.getUUID(), k -> new ArrayDeque<>());
+            case DASH -> DASH_TRAILS.computeIfAbsent(player.getUUID(), k -> new ArrayDeque<>());
+        };
+    }
+
+    public static void updateTrail(TrailType type, Player player, float partialTick, int MAX_POINTS) {
+        Deque<Vec3> trail = getTrail(type, player);
+        Vec3 pos = player.getPosition(partialTick);
+        trail.addLast(pos);
+
+        if (trail.size() > MAX_POINTS) {
+            trail.removeFirst();
+        }
+    }
+
+    public static void fadeTrail(TrailType type, Player player) {
+        Deque<Vec3> trail = getTrail(type, player);
+
+        if (!trail.isEmpty()) {
+            trail.removeFirst();
+        }
+    }
+
+    public static void renderTrail(TrailType type, Player player, PoseStack poseStack, MultiBufferSource bufferSource, float offsetAmount, float verticalOffset, float r, float g, float b, boolean oscillate) {
+        Deque<Vec3> trail = getTrail(type, player);
+
+        if (trail.size() < 2)
+            return;
+
+        poseStack.pushPose();
+        {
+            VertexConsumer buffer = bufferSource.getBuffer(RenderType.lines());
+            List<Vec3> points = new ArrayList<>(trail);
+            Matrix4f pose = poseStack.last().pose();
+
+            for (int i = 0; i < points.size() - 1; i++) {
+                Vec3 p1 = points.get(i);
+                Vec3 p2 = points.get(i + 1);
+
+                Vec3 dir = p2.subtract(p1).normalize();
+
+                Vec3 offset;
+
+                if (oscillate) {
+                    //Spiral
+                    Vec3 arbitrary = Math.abs(dir.y) < 0.99 ? new Vec3(0,1,0) : new Vec3(1,0,0);
+
+                    Vec3 right = dir.cross(arbitrary).normalize();
+                    Vec3 up = dir.cross(right).normalize();
+
+                    float t = i / (float) points.size();
+                    float angle = t * 10f + player.tickCount * 0.2f;
+                    float radius = 0.05f * offsetAmount;
+
+                    offset = right.scale((float)Math.cos(angle) * radius).add(up.scale((float)Math.sin(angle) * radius));
+                    offset = offset.add(new Vec3(0, verticalOffset, 0));
+                } else {
+                    //Fixed
+                    Vec3 worldUp = new Vec3(0, 1, 0);
+                    Vec3 side = dir.cross(worldUp).normalize().scale(0.05f);
+
+                    Vec3 horizontalOffset = side.scale(offsetAmount);
+                    Vec3 vertical = worldUp.scale(verticalOffset);
+
+                    offset = horizontalOffset.add(vertical);
+                }
+
+                // aplicar offset
+                Vec3 p1Final = p1.add(offset);
+                Vec3 p2Final = p2.add(offset);
+
+                float alpha = i / (float) points.size();
+
+                buffer.addVertex(pose, (float)p1Final.x, (float)p1Final.y, (float)p1Final.z)
+                        .setColor(r, g, b, alpha)
+                        .setUv(0f, 0f)
+                        .setUv2(0, 15728880)
+                        .setNormal(0f, 1f, 0f);
+
+                buffer.addVertex(pose, (float)p2Final.x, (float)p2Final.y, (float)p2Final.z)
+                        .setColor(r, g, b, alpha)
+                        .setUv(0f, 0f)
+                        .setUv2(0, 15728880)
+                        .setNormal(0f, 1f, 0f);
+            }
+        }
+        poseStack.popPose();
+    }
+
+    /**
+     * Render magnet blox mini trails
+     */
+    public static void renderMiniTrails(PoseStack poseStack, MultiBufferSource bufferSource, float partialTick) {
+        if(MINI_TRAILS.isEmpty())
+            return;
+
+        VertexConsumer buffer = bufferSource.getBuffer(RenderType.debugQuads());
+        Matrix4f pose = poseStack.last().pose();
+        Vec3 camPos = Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();
+
+        double maxDistanceSqr = 80 * 80;
+
+        for (MiniTrail t : MINI_TRAILS) {
+            Vec3 p1 = t.getPos(partialTick);
+            if (p1.distanceToSqr(camPos) > maxDistanceSqr)
+                continue;
+
+            float length = 0.5f;
+
+            Vec3 p2 = p1.add(t.dir.scale(length));
+
+            if (t.side.lengthSqr() < 0.0001)
+                t.side = new Vec3(0,1,0);
+
+            float alpha = 0.2F;
+            float width = 0.015f;
+
+            Vec3 off1 = t.side.scale(width);
+            Vec3 off2 = t.up.scale(width);
+
+            //We draw 2 quads to make a cross
+            drawQuad(buffer, pose, p1, p2, off1, t.r, t.g, t.b, alpha);
+            drawQuad(buffer, pose, p1, p2, off2, t.r, t.g, t.b, alpha);
+        }
+    }
+
+    /**
+     * Helper function to draw the quads
+     */
+    private static void drawQuad(VertexConsumer buffer, Matrix4f pose, Vec3 p1, Vec3 p2, Vec3 offset, float r, float g, float b, float alpha) {
+        Vec3 p1A = p1.add(offset);
+        Vec3 p1B = p1.subtract(offset);
+        Vec3 p2A = p2.add(offset);
+        Vec3 p2B = p2.subtract(offset);
+
+        buffer.addVertex(pose, (float)p1A.x, (float)p1A.y, (float)p1A.z)
+                .setColor(r, g, b, alpha)
+                .setNormal(0,1,0);
+
+        buffer.addVertex(pose, (float)p2A.x, (float)p2A.y, (float)p2A.z)
+                .setColor(r, g, b, alpha)
+                .setNormal(0,1,0);
+
+        buffer.addVertex(pose, (float)p2B.x, (float)p2B.y, (float)p2B.z)
+                .setColor(r, g, b, alpha)
+                .setNormal(0,1,0);
+
+        buffer.addVertex(pose, (float)p1B.x, (float)p1B.y, (float)p1B.z)
+                .setColor(r, g, b, alpha)
+                .setNormal(0,1,0);
+    }
+
+    /**
+     * Update the magnet blox mini trails
+     */
+    public static void updateMiniTrails() {
+        Minecraft mc = Minecraft.getInstance();
+
+        if (mc.player == null)
+            return;
+
+        Vec3 camPos = mc.gameRenderer.getMainCamera().getPosition();
+        double maxDistanceSqr = 80 * 80;
+
+        Iterator<MiniTrail> it = MINI_TRAILS.iterator();
+        while (it.hasNext()) {
+            MiniTrail t = it.next();
+            Vec3 pos = t.getPos(0);
+
+            if (pos.distanceToSqr(camPos) > maxDistanceSqr) {
+                it.remove();
+                continue;
+            }
+
+            float delta = mc.getTimer().getGameTimeDeltaTicks();
+            t.progress += t.speed * delta;
+
+            if (t.progress >= 1f) {
+                it.remove();
+            }
+        }
+    }
+
+    private static final List<MiniTrail> MINI_TRAILS = new ArrayList<>();
+
+    private static class MiniTrail {
+        Vec3 start;
+        Vec3 target;
+
+        float progress;
+        float speed;
+
+        float r, g, b;
+        boolean attract;
+
+        Vec3 dir;
+
+        Vec3 arbitrary;
+        Vec3 side;
+        Vec3 up;
+
+
+        public MiniTrail(Vec3 start, Vec3 target, float speed, boolean attract) {
+            this.start = start;
+            this.target = target;
+            this.progress = 0f;
+            this.speed = speed;
+            this.attract = attract;
+            this.dir = target.subtract(start).normalize();
+            this.arbitrary = Math.abs(dir.y) < 0.99 ? new Vec3(0,1,0) : new Vec3(1,0,0);
+            this.side = dir.cross(arbitrary).normalize();
+            this.up = side.cross(dir).normalize();
+
+            this.r = attract ? 1 : 0;
+            this.g = 0;
+            this.b = attract ? 0 : 1;
+        }
+
+        public Vec3 getPos(float partialTick) {
+            float p = Math.min(1f, progress + partialTick * speed);
+            return start.lerp(target, p);
+        }
+    }
+
+    public static void spawnRandomMiniTrail(BlockPos pos, Direction facing, int range, boolean attract) {
+        RandomSource rand = Minecraft.getInstance().level.getRandom();
+
+        Vec3 base = new Vec3(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
+
+        Vec3 forward = new Vec3(facing.getStepX(), facing.getStepY(), facing.getStepZ());
+        Vec3 arbitrary = Math.abs(forward.y) < 0.99 ? new Vec3(0,1,0) : new Vec3(1,0,0);
+
+        Vec3 right = forward.cross(arbitrary).normalize();
+        Vec3 up = forward.cross(right).normalize();
+
+        float spreadAmount = 0.4f;
+
+        Vec3[] offsets = new Vec3[] {
+                Vec3.ZERO,
+                right.add(up).normalize().scale(spreadAmount),
+                right.subtract(up).normalize().scale(spreadAmount),
+                right.scale(-1).add(up).normalize().scale(spreadAmount),
+                right.scale(-1).subtract(up).normalize().scale(spreadAmount)
+        };
+
+        Vec3 spread = offsets[rand.nextInt(offsets.length)];
+
+        Vec3 farPoint = base.add(forward.scale(range));
+
+        Vec3 start;
+        Vec3 target;
+
+        if (attract) {
+            start = farPoint.add(spread);
+            target = base.add(spread);
+        } else {
+            start = base.add(spread);
+            target = farPoint.add(spread);
+        }
+
+        float speed = 0.02f;
+
+        MINI_TRAILS.add(new MiniTrail(start, target, speed, attract));
     }
 }
 

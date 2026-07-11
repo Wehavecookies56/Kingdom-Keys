@@ -7,7 +7,7 @@
 	"pages": [
 		{
 			"type": "text",
-			"text": "$(item)A dragoon.$() A high-ranking $(nobody)Nobody$(). Jumping and parrying prove to be a good strategy to defeat them.$(p)$(lissa)$(l)$(o)[KH2]$()"
+			"text": "$(item)A dragoon.$() A high-ranking $(nobody)Nobody$(). Jumping and parrying prove to be a good strategy to defeat them.$(p)$(lissa)$(l)$(o)[First Appearance: Kingdom Hearts II]$()"
 		},
 		{
 			"type": "patchouli:entity",

@@ -1,0 +1,16 @@
+{
+	"name": "Bolsa de Síntesis",
+	"icon": "kingdomkeys:synthesis_bag",
+	"sortnum": 3,
+	"category": "kingdomkeys:synthesize",
+	"pages": [ 
+		{
+			"type": "text",
+			"text": "Esta $(item)familiar bolsa$() puede recoger y guardar automáticamente todos tus $(l:kingdomkeys:synthesize/materials)Materiales de Síntesis$(). Se puede fabricar fácilmente con 7 piezas de cuero y una cuerda, y se puede mejorar usando $(l:kingdomkeys:synthesize/munny)Platines$(), ampliando su capacidad."
+		},
+		{
+			"type":"crafting",
+			"recipe":"kingdomkeys:synthesis_bag"
+		}
+	]
+}

@@ -22,7 +22,7 @@ public class ReactionAutoForm extends ReactionCommand {
 	String form, abilityName;
 
 	public ReactionAutoForm(ResourceLocation registryName, String abilityName, String form) {
-		super(registryName, true);
+		super(registryName, true, -1);
 		this.form = form;
 		this.abilityName = abilityName;
 	}
@@ -72,8 +72,8 @@ public class ReactionAutoForm extends ReactionCommand {
 			}
 			
 			playerData.removeReactionCommand(getRegistryName().toString());
-			List<ReactionCommand> list = new ArrayList<ReactionCommand>();
-			for(String name : playerData.getReactionCommands()) {
+			List<ReactionCommand> list = new ArrayList<>();
+			for(String name : playerData.getReactionCommands().keySet()) {
 				ReactionCommand rc = ModReactionCommands.registry.get(ResourceLocation.parse(name));
 				if(rc instanceof ReactionAutoForm) {
 					list.add(rc);
@@ -83,7 +83,6 @@ public class ReactionAutoForm extends ReactionCommand {
 			for(ReactionCommand rc : list) {
 				if(rc instanceof ReactionAutoForm) {
 					playerData.removeReactionCommand(rc.getName());
-					
 				}
 			}
 		}

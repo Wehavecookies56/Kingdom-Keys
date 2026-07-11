@@ -1,0 +1,12 @@
+{
+	"name": "Materiales de Síntesis",
+	"icon": "kingdomkeys:orichalcum",
+	"sortnum": 2,
+	"category": "kingdomkeys:synthesize",
+	"pages": [ 
+		{
+			"type": "text",
+			"text": "Puedes encontrar $(item)Materiales$() en $(thing)Cuevas$(), $(thing)El Nether$() y $(thing)El End$(). Hay $(thing)20 tipos diferentes$(), cada uno con $(thing)4 rangos$() con los que trabajar. Cada $(l:kingdomkeys:synthesize/recipes)Receta$() requerirá una combinación diferente de Materiales, ¡así que lo mejor es recoger todo lo que encuentres! Recuerda que algunos materiales solo se pueden encontrar en $(thing)ciertos biomas y ubicaciones$()."
+		}
+	]
+}

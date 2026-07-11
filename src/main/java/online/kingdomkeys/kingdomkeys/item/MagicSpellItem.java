@@ -1,11 +1,12 @@
 package online.kingdomkeys.kingdomkeys.item;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -13,94 +14,167 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.api.item.IItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
-import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.magic.Magic;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
-import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class MagicSpellItem extends Item implements IItemCategory {
+public class MagicSpellItem extends Item implements IItemCategory, ICreativeTab{
 	String magic;
 
 	public MagicSpellItem(Properties properties, String name) {
-		super(properties);
+		super(properties.stacksTo(1));
 		this.magic = name;
+	}
+
+	public String getMagic() {
+		return magic;
 	}
 
 	@Override
 	public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
-		PlayerData playerData = PlayerData.get(player);
 		Magic magicInstance = ModMagic.registry.get(ResourceLocation.parse(magic));
-
-		if (!world.isClientSide) {
-			if (playerData != null && playerData.getMagicsMap() != null) {
-				if (!playerData.getMagicsMap().containsKey(magic)) {
-					playerData.getMagicsMap().put(magic, new int[] {0,0});
-					takeItem(player);
-					player.displayClientMessage(Component.translatable("message.unlocked", Utils.translateToLocal(magicInstance.getTranslationKey())), true);
-				} else {
-					int actualLevel = playerData.getMagicLevel(ResourceLocation.parse(magic));
-					if(actualLevel < magicInstance.getMaxLevel()) {
-						player.displayClientMessage(Component.translatable("message.magic_upgrade",Utils.translateToLocal(magicInstance.getTranslationKey(actualLevel)),Utils.translateToLocal(magicInstance.getTranslationKey(actualLevel+1))), true);
-						playerData.getMagicsMap().put(magic, new int[] {actualLevel+1,0});
-						takeItem(player);
-					} else {
-						player.displayClientMessage(Component.translatable("message.magic_max_level",Utils.translateToLocal(magicInstance.getTranslationKey(actualLevel))), true);
-					}
-				}
-				PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
-			}
-		} else { //For the client side
-			if (!playerData.getMagicsMap().containsKey(magic)) { // If the magic is not on the list
-				if(!ModConfigs.magicDisplayedInCommandMenu.contains(magic)) {
-					List<String> list = new ArrayList<>(ModConfigs.magicDisplayedInCommandMenu);
-					list.add(magic);
-					ModConfigs.setMagicDisplayedInCommandMenu(list);
-				}
-			}
-		}
-			
+		player.displayClientMessage(Component.translatable("gui.magicspell.equip", Utils.translateToLocal(magicInstance.getTranslationKey())), true);
 		return InteractionResultHolder.success(player.getItemInHand(hand));
 	}
 
-	private void takeItem(Player player) {
-		if (!ItemStack.matches(player.getMainHandItem(), ItemStack.EMPTY) && player.getMainHandItem().getItem() == this) {
-			player.getMainHandItem().shrink(1);
-		} else if (!ItemStack.matches(player.getOffhandItem(), ItemStack.EMPTY) && player.getOffhandItem().getItem() == this) {
-			player.getOffhandItem().shrink(1);
+	@Override
+	public void inventoryTick(ItemStack stack, Level level, Entity entity, int slotId, boolean isSelected) {
+		super.inventoryTick(stack, level, entity, slotId, isSelected);
+		if(!stack.has(ModComponents.MAGIC_EXP)){
+			stack.set(ModComponents.MAGIC_EXP, 0);
 		}
+		if(entity instanceof Player player){
+			PlayerData playerData = PlayerData.get(player);
+			if(playerData.getTotalMaterialAmount(this) == 0){
+				playerData.setTotalMaterial(this,1);
+			}
+		}
+
 	}
 
 	@OnlyIn(Dist.CLIENT)
 	@Override
 	public void appendHoverText(ItemStack stack, TooltipContext tooltipContext, List<Component> tooltip, TooltipFlag flagIn) {
-		Magic magicInstance = ModMagic.registry.get(ResourceLocation.parse(magic));
 		if(Minecraft.getInstance().player != null) {
-			PlayerData playerData = PlayerData.get(Minecraft.getInstance().player);
-	
-			int actualLevel = playerData.getMagicLevel(ResourceLocation.parse(magic));
-			if(!playerData.getMagicsMap().containsKey(magic)) {
-				actualLevel--;
-			}
-			
-			if(actualLevel < magicInstance.getMaxLevel()) {
-				tooltip.add(Component.translatable("gui.magicspell.unlock",Utils.translateToLocal(magicInstance.getTranslationKey(actualLevel+1))));
-			} else {
-				tooltip.add(Component.translatable("gui.magicspell.maxed",Utils.translateToLocal(magicInstance.getTranslationKey(actualLevel))));
-			}
+			tooltip.add(Component.translatable("gui.magicspell.lvl_short", getLocalLevel(stack)));
+			tooltip.add(Component.translatable("gui.magicspell.exp", getLocalExp(stack), getLocalMaxExp()));
+			tooltip.add(Component.translatable("gui.magicspell.equip").withStyle(ChatFormatting.GRAY));
 		}
 		super.appendHoverText(stack, tooltipContext, tooltip, flagIn);
 	}
 
+	public int getExp(ItemStack stack) {
+		return stack.getOrDefault(ModComponents.MAGIC_EXP.get(), 0);
+	}
+
+	public int getMaxExp() {
+		Magic magicInstance = ModMagic.registry.get(ResourceLocation.parse(magic));
+		int exp = magicInstance.getMaxExp();
+		return exp == 0 ? 1 : exp;
+	}
+
+	/**
+	 * Total of levels the magic can level up
+	 * @return
+	 */
+	public int getMaxExpLevel() {
+		Magic magicInstance = ModMagic.registry.get(ResourceLocation.parse(magic));
+		if(magicInstance == null){
+			KingdomKeys.LOGGER.error(magic+": magic not found");
+			return 1;
+		}
+		int lvl = magicInstance.getMaxLevel();
+		return lvl == 0 ? 1 : lvl;
+	}
+
+	/**
+	 * Global experience percentage
+	 * @param stack
+	 * @return
+	 */
+	public float getExpPercent(ItemStack stack) {
+		int exp = getExp(stack);
+		return (float) exp / getMaxExp();
+	}
+
+	// Fully maxed
+	public boolean isMaxed(ItemStack stack) {
+		return getExpPercent(stack) == 1;
+	}
+
+	//Local level based on the section
+	public int getLocalLevel(ItemStack stack) {
+		int maxLevel = getMaxExpLevel();
+		if(maxLevel <= 1) {
+			return 1;
+		}
+
+		float percent = (float)getExp(stack) / (float)getMaxExp();
+		int level = (int)(percent * (maxLevel - 1)) + 1;
+
+		return Math.min(level, maxLevel);
+	}
+
+	public int getLocalExp(ItemStack stack) {
+		if(getMaxExpLevel() <= 1) {
+			return getMaxExp();
+		}
+
+		int expPerLevel = getMaxExp() / (getMaxExpLevel() - 1);
+		int exp = getExp(stack) % expPerLevel;
+		if(getExp(stack) >= getMaxExp()) {
+			exp = getLocalMaxExp();
+		}
+		return exp;
+	}
+
+	public int getLocalMaxExp() {
+		int maxLevel = getMaxExpLevel();
+		if(maxLevel <= 1) {
+			return getMaxExp();
+		}
+
+		return getMaxExp() / (maxLevel - 1);
+	}
+
+	public float getLocalPercent(ItemStack stack) {
+		if(getMaxExpLevel() <= 1) {
+			return 1;
+		}
+		int expPerLevel = getMaxExp() / (getMaxExpLevel() - 1);
+		float perc =  (float) getLocalExp(stack) / (float)expPerLevel;
+		if(getExp(stack) >= getMaxExp()) {
+			perc = 1;
+		}
+		return perc;
+	}
+
 	@Override
 	public ItemCategory getCategory() {
-		return ItemCategory.MISC;
+		return ItemCategory.TOOL;
+	}
+
+	public void setExp(ItemStack stack, int amount) {
+		stack.set(ModComponents.MAGIC_EXP.get(), amount);
+	}
+
+	public void addExp(ItemStack stack, int amount) {
+		int newExp = Math.min(getExp(stack) + amount, getMaxExp());
+		setExp(stack, newExp);
+	}
+
+	public boolean canMeld(ItemStack stack) {
+		return getExp(stack) >= getMaxExp();
+	}
+
+	@Override
+	public Tab getTab() {
+		return Tab.EQUIPABLES;
 	}
 }

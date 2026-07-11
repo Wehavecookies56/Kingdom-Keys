@@ -1,0 +1,13 @@
+{
+  "casttime": 10,
+  "cooldown": 20,
+  "cost": 10,
+  "dmg_mult": 0.2,
+  "dmg_mult_max": 0.22,
+  "magic_lock_on": false,
+  "magic_rc": "kingdomkeys:magic_blizzard",
+  "max_exp": 4200,
+  "max_lvl": 4,
+  "next_tier": "kingdomkeys:magic_blizzaza",
+  "spell_type": "MAGIC"
+}

@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.client.gui.overlay;
 
+import com.mojang.authlib.GameProfile;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
@@ -7,6 +8,7 @@ import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.multiplayer.PlayerInfo;
+import net.minecraft.client.player.RemotePlayer;
 import net.minecraft.client.resources.DefaultPlayerSkin;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
@@ -20,6 +22,7 @@ import online.kingdomkeys.kingdomkeys.lib.Party.Member;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 //TODO cleanup + comments
 public class PartyHUDGui extends OverlayBase {
@@ -63,18 +66,19 @@ public class PartyHUDGui extends OverlayBase {
 		for (int i = 0; i < allies.size(); i++) {
 			Member member = allies.get(i);
 			Player playerAlly = player.level().getPlayerByUUID(member.getUUID());
-			renderFace(guiGraphics, playerAlly, screenWidth, screenHeight, scale, i);
+			renderFace(guiGraphics, playerAlly, member, scale, i);
 		}
 		ClientUtils.PARTY_ELEMENT.endTransform(guiGraphics);
 	}
 
-	public void renderFace(GuiGraphics gui, Player playerAlly, float screenWidth, float screenHeight, float scale, int i) {
-		ResourceLocation skin;
-		if (playerAlly != null) {
-			skin = getLocationSkin(playerAlly);
-		} else {
-			skin = ResourceLocation.withDefaultNamespace("textures/entity/player/wide/steve.png");
-		}
+	public void renderFace(GuiGraphics gui, Player playerAlly, Member member, float scale, int i) {
+		UUID uuid = member.getUUID();
+		String name = member.getUsername();
+
+		GameProfile profile = new GameProfile(uuid, name);
+		RemotePlayer fakePlayer = new RemotePlayer(Minecraft.getInstance().level, profile);
+
+		ResourceLocation skin = fakePlayer.getSkin().texture();
 
 		PoseStack pose = gui.pose();
 
@@ -102,8 +106,6 @@ public class PartyHUDGui extends OverlayBase {
 				this.blit(gui, skin, 0, 0, 160, 32, 32, 32);
 			}
 			pose.popPose();
-
-			String name = playerAlly == null ? "Out of range" : playerAlly.getDisplayName().getString();
 
 			pose.pushPose();
 			{

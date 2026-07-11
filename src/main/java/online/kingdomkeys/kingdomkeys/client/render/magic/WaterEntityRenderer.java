@@ -40,7 +40,7 @@ public class WaterEntityRenderer extends EntityRenderer<WaterEntity> {
 	@Nullable
 	@Override
 	public ResourceLocation getTextureLocation(WaterEntity entity) {
-		return ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/models/fire.png");
+		return ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/models/cube.png");
 	}
 
 }

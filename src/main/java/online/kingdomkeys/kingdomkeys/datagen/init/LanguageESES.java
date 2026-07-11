@@ -32,6 +32,7 @@ public class LanguageESES extends KKLanguageProvider {
         //Config category keys
         //CLIENT
         add(KingdomKeys.MODID + ".configuration.gui", "Ajustes de interfaz");
+        add(KingdomKeys.MODID + ".configuration.hud_data", "Ajustes de HUD, NO los edites desde aquí");
         add(KingdomKeys.MODID + ".configuration.command_menu", "Ajustes de Menú de Comandos");
         add(KingdomKeys.MODID + ".configuration.hp_bar", "Ajustes de Indicador de Vida");
         add(KingdomKeys.MODID + ".configuration.mp_bar", "Ajustes de Indicador de Magia");
@@ -59,7 +60,7 @@ public class LanguageESES extends KKLanguageProvider {
         addConfigKey(ModConfigs.getClientConfig().auto3rdPersonShip, "3a persona automática en Nave Gummi");
         addConfigKey(ModConfigs.getClientConfig().showGuiToggle, "Cambiar visibilidad del HUD");
         addConfigKey(ModConfigs.getClientConfig().showDriveForms, "Visibilidad de Formas de Fusión");
-        addConfigKey(ModConfigs.getClientConfig().magicDisplayedInCommandMenu, "Orden de Magias en el Menú de Comandos");
+        addConfigKey(ModConfigs.getClientConfig().hiddenMagic, "Magias ocultas en el Menú de Comandos");
         addConfigKey(ModConfigs.getClientConfig().cmTextXOffset, "Menú de Comandos offset del texto X");
         addConfigKey(ModConfigs.getClientConfig().cmHeaderTextVisible, "Mostrar cabecera del Menú de Comandos");
         addConfigKey(ModConfigs.getClientConfig().customFont, "Muestra la fuente personalizada");
@@ -89,10 +90,6 @@ public class LanguageESES extends KKLanguageProvider {
         addConfigKey(ModConfigs.getCommonConfig().focusPointsMultiplier, "Multiplicador de puntos de Tino");
         addConfigKey(ModConfigs.getCommonConfig().critMult, "Multiplicador de golpe crítico");
         addConfigKey(ModConfigs.getCommonConfig().needKeybladeForHeartless, "Llave espada necessaria para dañar Sincorazón");
-        addConfigKey(ModConfigs.getCommonConfig().savePointMaterials, "Materiales de mejora del Punto de Guardado");
-        addConfigKey(ModConfigs.getCommonConfig().savePointRecovers, "Estadísticas recuperadas en Punto de Guardado");
-        addConfigKey(ModConfigs.getCommonConfig().linkedSavePointRecovers, "Estadísticas recuperadas en Punto de Guardado Enlazado");
-        addConfigKey(ModConfigs.getCommonConfig().warpPointRecovers, "Estadísticas recuperadas en Punto de Guardado Enlazado Interdimensional");
         addConfigKey(ModConfigs.getCommonConfig().allowBlocksInHangarArea, "Permitir bloques en la zona del hangar");
         addConfigKey(ModConfigs.getCommonConfig().gummiBlocksDropPercent, "Bloques Gummi soltados");
         addConfigKey(ModConfigs.getCommonConfig().heartlessSpawningMode, "Modo de aparición de Sincorazón");
@@ -123,8 +120,9 @@ public class LanguageESES extends KKLanguageProvider {
         addConfigKey(ModConfigs.getServerConfig().getExpFromShop, "Obtener exp. de la tienda");
         addConfigKey(ModConfigs.getServerConfig().orgEnabled, "Sistema de la Organización XIII");
         addConfigKey(ModConfigs.getServerConfig().allowBoosts, "Impulsos de estadísticas");
-        addConfigKey(ModConfigs.getServerConfig().allowPartyKO, "Sistema de KO en grupo (kinda buggy)");
+        addConfigKey(ModConfigs.getServerConfig().allowPartyKO, "Sistema de KO en grupo");
         addConfigKey(ModConfigs.getServerConfig().wayfinderParty, "Restringir Siemprejuntos a grupo");
+        addConfigKey(ModConfigs.getServerConfig().dragonLevel, "Permite que el Dragón del End suba de nivel");
         addConfigKey(ModConfigs.getServerConfig().hostileMobsLevel, "Mobs hostiles suben de nivel (no enemigos de KK)");
         addConfigKey(ModConfigs.getServerConfig().shotlockMaxDist, "Distancia máxima de Tiro Certero");
         addConfigKey(ModConfigs.getServerConfig().xpMultiplier, "Multiplicador de XP");
@@ -145,10 +143,11 @@ public class LanguageESES extends KKLanguageProvider {
         addAdvancement("levelup100", "\u00a1En la cima!", "Alcanza el nivel 100");
         addAdvancement("obtain_drive", "\u00bfUna fusi\u00f3n?", "Obt\u00e9n tu primera forma de fusi\u00f3n");
         addAdvancement("obtain_keychain", "Estos moguris saben como trabajar", "Obt\u00e9n tu primer llavero");
-        addAdvancement("obtain_kiblade", "\u00a1Una llave para gobernarlos a todos!", "Obt\u00e9n la legendaria Llave Espada   ");
+        addAdvancement("obtain_kiblade", "\u00a1Una llave para gobernarlos a todos!", "Obt\u00e9n la legendaria Llave Espada \u03c7");
         addAdvancement("obtain_magic", "\u00a1Como un hechicero!", "Obt\u00e9n tu primera magia");
         addAdvancement("obtain_org", "Nadie visti\u00f3 esto", "Obt\u00e9n la ropa de la Organizaci\u00f3n");
         addAdvancement("to_rod", "La oscuridad te consumir\u00e1", "S\u00e9 absorbido al Reino de la Oscuridad");
+        addAdvancement("obtain_winner_stick","Supongo que mis vacaciones de verano...", "Obtén un palito de ganador");
         //addAdvancement("castle_oblivion_tp","How did I get here?", "Reach the forgotten land of Castle Oblivion");
 
         //Keybinds
@@ -169,16 +168,21 @@ public class LanguageESES extends KKLanguageProvider {
 
 
         //Tabs
-        add("itemGroup.kingdomkeys_misc", "Kingdom Keys: Misc");
-        add("itemGroup.kingdomkeys_equipables", "Kingdom Keys: Equipables");
+        add("itemGroup.kingdomkeys", "Kingdom Keys");
         add("itemGroup.kingdomkeys_keyblades", "Kingdom Keys: Llaves Espada");
-        add("itemGroup.kingdomkeys_org_weapons", "Kingdom Keys: Organizaci\u00f3n");
+        add("itemGroup.kingdomkeys_keychains", "Kingdom Keys: Llaveros");
+        add("itemGroup.kingdomkeys_organization", "Kingdom Keys: Organización");
+        add("itemGroup.kingdomkeys_armors", "Kingdom Keys: Armaduras");
+        add("itemGroup.kingdomkeys_equipables", "Kingdom Keys: Equipables");
         add("itemGroup.kingdomkeys_gummi", "Kingdom Keys: Bloques Gummi");
+        add("itemGroup.kingdomkeys_mats", "Kingdom Keys: Materiales de Síntesis");
+        add("itemGroup.kingdomkeys_cards", "Kingdom Keys: Cartas");
+        add("itemGroup.kingdomkeys_misc", "Kingdom Keys: Misc");
 
         //Death messages
         add("keybladedamage.death", "%s fue asesinado por %s");
         add("death.attack.air", "%1$s fue aireado por %2$s");
-        add("death.attack.air.item", "%1$s due aireado por %2$s usando %3$s");
+        add("death.attack.air.item", "%1$s fue aireado por %2$s usando %3$s");
         add("death.attack.darkness", "%2$s llev\u00f3 a %1$s a la oscuridad");
         add("death.attack.darkness.item", "%2$s llev\u00f3 a %1$s a la oscuridad usando %3$s");
         add("death.attack.fire", "%1$s sinti\u00f3 el calor de %2$s");
@@ -291,6 +295,12 @@ public class LanguageESES extends KKLanguageProvider {
         add(Gui_Menu_Items, "Objetos");
         add(Gui_Menu_Items_Equipment, "Equipamiento");
         add(Gui_Menu_Items_Equipment + ".desc", "Equipa tu arma y varios equipables.");
+        add(Gui_Menu_Items_Melding, "Síntesis");
+        add(Gui_Menu_Items_Melding + ".desc", "Combine distintos hechizos para crear de nuevos.");
+        add(Gui_Menu_Items_Melding_Meld, "Sintetizar");
+        add(Gui_Menu_Items_Melding_Meldables, "Filtrar");
+        add(Gui_Menu_Items_Melding_ItemAcquired, "¡Item Obtenido!");
+        add(Gui_Menu_Items_Melding_RareItemAcquired, "¡Item Especial Obtenido!");
         add(Gui_Menu_Items_Stock, "Inventario");
         add(Gui_Menu_Items_Stock + ".desc", "Revisa tu inventario.");
         add(Gui_Menu_Items_Equipment_Weapon, "Arma");
@@ -298,14 +308,15 @@ public class LanguageESES extends KKLanguageProvider {
         add(Gui_Menu_Items_Equipment_Shotlock, "Tiro Certero");
         add(Gui_Menu_Items_Equipment_Accessories, "Accesorios");
         add(Gui_Menu_Items_Equipment_Armor, "Armadura");
+        add(Gui_Menu_Items_Equipment_Magic, "Magias");
         add(Gui_Menu_Items_Equipment_Pauldron, "Hombrera");
         add(Gui_Menu_Items_Equipment_Items, "Objetos");
 
         //Customize Sub-menu
-        add(Gui_Menu_Customize, "Configuraci\u00f3n");
+        add(Gui_Menu_Customize, "Configuración");
         add(Gui_Menu_Customize + ".shortcuts", "Atajos");
         add(Gui_Menu_Customize + ".shortcut", "Atajo");
-        add(Gui_Menu_Customize + ".magic", "Magias");
+        add(Gui_Menu_Customize + ".magic", "Visibilidad de Magias");
         add(Gui_Menu_Customize + ".unequip", "Desequipar");
 
         //Party Sub-menu
@@ -326,7 +337,8 @@ public class LanguageESES extends KKLanguageProvider {
         add(Gui_Menu_Party_Member_Leave, "Abandonar");
 
         //Status Sub-menu
-        add(Gui_Menu_Status, "Condici\u00f3n");
+        add(Gui_Menu_Status, "Condición");
+        add(Gui_Menu_Status_Choice, "Elección");
         add(Gui_Menu_Status_Level, "Nivel");
         add(Gui_Menu_Status_TotalExp, "Experiencia");
         add(Gui_Menu_Status_NextLevel, "Siguiente Niv.");
@@ -362,7 +374,7 @@ public class LanguageESES extends KKLanguageProvider {
         add(Gui_Menu_Config + ".hud", "Ajustar HUD");
         add(Gui_Menu_Config + ".reset_defaults", "Reset por defecto");
         add(Gui_Menu_Config + ".reset_rp", "Reset de resource pack");
-        add(Gui_Menu_Config + ".hud.help0", "Mantén H para ver ayuda");
+        add(Gui_Menu_Config + ".hud.help0", "Mantén %s para ver ayuda");
         add(Gui_Menu_Config + ".hud.help1", "Primero selecciona el punto de anclaje seleccionando el elemento y ESPACIO");
         add(Gui_Menu_Config + ".hud.help2", "CLICK IZQUIERDO y arrastra un elemento para moverlo");
         add(Gui_Menu_Config + ".hud.help3", "Usa las FLECHAS para moverlo en incrementos grandes");
@@ -482,12 +494,17 @@ public class LanguageESES extends KKLanguageProvider {
         add("gui.statboost.increased","%s aumentada, ahora es %s");
         add("gui.statboost.tooltip", "aumenta %s en 1");
 
-        add("gui.magicspell.unlock","Desbloquea %s");
-        add("gui.magicspell.maxed", "%s está al máximo");
+        add("gui.magicspell.equip","Equípalo en el menú para usarlo");
+        add("gui.magicspell.exp","Experiencia: %s/%s");
+        add("gui.magicspell.exp_short","Exp: %s/%s");
+        add("gui.magicspell.lvl_short","Nv. %s");
+
 
         add("gui.driveformorb.tooltip", "Mejora Forma %s");
         add("gui.driveformorb.upgrade", "Forma %s ha obtenido %s exp");
 
+        //Spells bag
+        add("gui.spellsbag.complain","Solo puedes tener 1 bolsa de hechizos en el inventario");
 
         //Proof of Heart
         add("gui.proofofheart.desc", "Úsalo para salir de la Organización XIII");
@@ -541,8 +558,9 @@ public class LanguageESES extends KKLanguageProvider {
         add(Stats_LevelUp_FormGauge, "\u00a1Aumenta el indic. de Forma!");
         add(Stats_LevelUp_MaxAccessories, "\u00a1Espacio para accesorios +1!");
         add(Stats_LevelUp_MaxArmors, "\u00a1Espacio para armaduras +1!");
-        add(Stats_LevelNext, "Next LV");
-        add(Stats_MunnyGet, "Munny Get!");
+        add(Stats_LevelUp_MaxMagics,"\u00a1Espacio para hechizos +1!");
+        add(Stats_LevelNext, "Sig. nivel");
+        add(Stats_MunnyGet, "¡Platines!");
 
         //Abilities
         addAbilityWithDesc(ModAbilities.AUTO_VALOR, "Auto-valent\u00eda", "En casos de emergencia, si la Forma valiente est\u00e1 disponible, el comando de reacci\u00f3n cambia a Valiente.");
@@ -554,10 +572,14 @@ public class LanguageESES extends KKLanguageProvider {
         addAbilityWithDesc(ModAbilities.FLOWSTEP, "Paso fluido", "Click derecho mientras fijas un tiro certero para usar el modo ágil hacia el último enemigo fijado.");
 
         addGrowthAbility(ModAbilities.HIGH_JUMP, "¡Ahora saltarás más alto!", "Salto de altura 1", "Salto de altura 2", "Salto de altura 3", "Salto de altura MÁX");
-        addGrowthAbility(ModAbilities.QUICK_RUN, "Si pulsas X mientras corres harás un sprint.", "Carrera rápida 1", "Carrera rápida 2", "Carrera rápida 3", "Carrera rápida MÁX");
-        addGrowthAbility(ModAbilities.DODGE_ROLL, "Si pulsas X mientras caminas darás una voltereta.", "Voltereta 1", "Voltereta 2", "Voltereta 3", "Voltereta MÁX");
+        addGrowthAbility(ModAbilities.QUICK_RUN, "Si pulsas la tecla de acción mientras corres harás un sprint.", "Carrera rápida 1", "Carrera rápida 2", "Carrera rápida 3", "Carrera rápida MÁX");
+        addGrowthAbility(ModAbilities.DODGE_ROLL, "Si pulsas la tecla de acción mientras caminas darás una voltereta.", "Voltereta 1", "Voltereta 2", "Voltereta 3", "Voltereta MÁX");
         addGrowthAbility(ModAbilities.AERIAL_DODGE, "En el aire puedes volver a saltar para dar un doble salto.", "Regate aéreo 1", "Regate aéreo 2", "Regate aéreo 3", "Regate aéreo MÁX.");
         addGrowthAbility(ModAbilities.GLIDE, "En el aire, mantén pulsada la tecla de salto para planear.", "Planeador 1", "Planeador 2", "Planeador 3", "Superplaneador");
+        addAbilityWithDesc(ModAbilities.AIR_SLIDE, "Impulso aéreo", "Si pulsas la tecla de acción mientras estás en el aire podrás impulsarte hacia delante. Cuantos más activas, mayor efecto.");
+        addAbilityWithDesc(ModAbilities.WALL_KICK,"Rebote","Usa impulso aéreo contra una pared para propulsarte con ella y entrar en el Modo acróbata. Cuantos más activas, más rebotes.");
+        addAbilityWithDesc(ModAbilities.SUPERJUMP, "Supersalto", "En el Modo acróbata, pulsa el botón de salto para saltar muy, muy alto. Cuantos más activas, mayor efecto.");
+        addAbilityWithDesc(ModAbilities.SUPERSLIDE, "Superdeslizamiento", "En el Modo acróbata, pulsa la tecla de acción para darte mucho impulso en esa dirección. Cuantos más activas, mayor efecto.");
 
         addAbilityWithDesc(ModAbilities.SCAN, "Libra", "Muestra la VT actual del enemigo fijado.");
         addAbilityWithDesc(ModAbilities.ZERO_EXP, "Experiencia 0", "No ganas experiencia al derrotar enemigos.");
@@ -596,6 +618,7 @@ public class LanguageESES extends KKLanguageProvider {
         addAbilityWithDesc(ModAbilities.THUNDAZA, "Electro+++", "Permite al usuario obtener el comando de reacci\u00f3n Electro+++.");
         addAbilityWithDesc(ModAbilities.CURAZA, "Cura+++", "Permite al usuario obtener el comando de reacci\u00f3n Cura+++.");
         addAbilityWithDesc(ModAbilities.GRAND_MAGIC_HASTE, "Gran Prisa M\u00e1gica", "Otorga al usuario una probabilidad m\u00e1s alta para invocar una magia mejorada. Cuantas m\u00e1s activas, mayor probabilidad.");
+        addAbilityWithDesc(ModAbilities.GRAND_MAGIC_EXTENDER, "Gran magia extra", "Aumenta el tiempo de disponibilidad de los comandos de Gran magia. Cuantas más activas, mayor efecto.");
         addAbilityWithDesc(ModAbilities.BERSERK_CHARGE, "Carga de Locura", "Otorga al usuario +2 de Fuerza durante la Recarga de PM. Cuantas m\u00e1s activas, mayor efecto.");
         addAbilityWithDesc(ModAbilities.LEAF_BRACER, "Hoja Sana", "Utilizar Cura continuar\u00e1 a\u00fan que te ataquen.");
         addAbilityWithDesc(ModAbilities.HP_GAIN, "Saqueo VT", "Recuperas VT cuando impacta un Tiro Certero. Cuantas m\u00e1s activas, mayor efecto.");
@@ -610,16 +633,96 @@ public class LanguageESES extends KKLanguageProvider {
         addAbilityWithDesc(ModAbilities.PROTECTGA, "Protectga", "Absorbs 40% of the damage taken.");
 
         //Magic
-        addMagic(ModMagic.FIRE, "Piro", "Piro+", "Piro++", "Piro+++");
-        addMagic(ModMagic.BLIZZARD, "Hielo", "Hielo+", "Hielo++", "Hielo+++");
-        addMagic(ModMagic.WATER, "Aqua", "Aqua+", "Aqua++", "Aqua+++");
-        addMagic(ModMagic.THUNDER, "Electro", "Electro+", "Electro++", "Electro+++");
-        addMagic(ModMagic.CURE, "Cura", "Cura+", "Cura++", "Cura+++");
-        addMagic(ModMagic.AERO, "Aero", "Aero+", "Aero++");
-        addMagic(ModMagic.MAGNET, "Magneto", "Magneto+", "Magneto++");
-        addMagic(ModMagic.REFLECT, "Reflejo", "Reflejo+", "Reflejo++");
-        addMagic(ModMagic.GRAVITY, "Gravedad", "Gravedad+", "Gravedad++");
-        addMagic(ModMagic.STOP, "Paro", "Paro+", "Paro++");
+        add(ModMagic.FIRE.get(), "Piro");
+        add(ModMagic.FIRA.get(), "Piro+");
+        add(ModMagic.FIRAGA.get(), "Piro++");
+        add(ModMagic.FIRAZA.get(), "Piro+++");
+
+        add(ModMagic.BLIZZARD.get(), "Hielo");
+        add(ModMagic.BLIZZARA.get(), "Hielo+");
+        add(ModMagic.BLIZZAGA.get(), "Hielo++");
+        add(ModMagic.BLIZZAZA.get(), "Hielo+++");
+
+        add(ModMagic.WATER.get(), "Aqua");
+        add(ModMagic.WATERA.get(), "Aqua+");
+        add(ModMagic.WATERGA.get(), "Aqua++");
+        add(ModMagic.WATERZA.get(), "Aqua+++");
+
+        add(ModMagic.THUNDER.get(), "Electro");
+        add(ModMagic.THUNDARA.get(), "Electro+");
+        add(ModMagic.THUNDAGA.get(), "Electro++");
+        add(ModMagic.THUNDAZA.get(), "Electro+++");
+
+        add(ModMagic.CURE.get(), "Cura");
+        add(ModMagic.CURA.get(), "Cura+");
+        add(ModMagic.CURAGA.get(), "Cura++");
+        add(ModMagic.CURAZA.get(), "Cura+++");
+
+        add(ModMagic.AERO.get(), "Aero");
+        add(ModMagic.AERORA.get(), "Aero+");
+        add(ModMagic.AEROGA.get(), "Aero++");
+
+        add(ModMagic.MAGNET.get(), "Magneto");
+        add(ModMagic.MAGNERA.get(), "Magneto+");
+        add(ModMagic.MAGNEGA.get(), "Magneto++");
+
+        add(ModMagic.REFLECT.get(), "Reflejo");
+        add(ModMagic.REFLERA.get(), "Reflejo+");
+        add(ModMagic.REFLEGA.get(), "Reflejo++");
+
+        add(ModMagic.GRAVITY.get(), "Gravedad");
+        add(ModMagic.GRAVIRA.get(), "Gravedad+");
+        add(ModMagic.GRAVIGA.get(), "Gravedad++");
+
+        add(ModMagic.STOP.get(), "Paro");
+        add(ModMagic.STOPRA.get(), "Paro+");
+        add(ModMagic.STOPGA.get(), "Paro++");
+
+        add(ModMagic.ZERO_GRAVITY.get(), "Ingravidez");
+        add(ModMagic.ZERO_GRAVIRA.get(), "Ingravidez+");
+        add(ModMagic.ZERO_GRAVIGA.get(), "Ingravidez++");
+
+
+
+        add(ModMagic.DARK_FIRAGA.get(),"Nigro Piro++");
+        add(ModMagic.TRIPLE_FIRAGA.get(),"Triple Piro++");
+        add(ModMagic.CRAWLING_FIRAGA.get(),"Tardo Piro++");
+        add(ModMagic.FISSION_FIRAGA.get(),"Lluvia Piro++");
+        add(ModMagic.FIRAGA_BURST.get(),"Descarga Ígnea");
+        add(ModMagic.IGNITE.get(),"Ignición");
+
+        add(ModMagic.TRIPLE_BLIZZAGA.get(),"Triple Hielo++");
+        add(ModMagic.DEEP_FREEZE.get(),"Hipotermia");
+        add(ModMagic.GLACIER.get(),"Glaciar");
+        add(ModMagic.ICE_BARRAGE.get(),"Asalto Gélido");
+
+        add(ModMagic.THUNDAGA_SHOT.get(),"Tiro Electro++");
+        add(ModMagic.TRIPLE_PLASMA.get(),"Triplasma");
+
+        add(ModMagic.BLACKOUT.get(),"Apagón");
+        add(ModMagic.POISON.get(),"Toxis");
+
+        add(ModMagic.BALLOON.get(), "Globo");
+        add(ModMagic.BALLOONRA.get(), "Globo+");
+        add(ModMagic.BALLOONGA.get(), "Globo++");
+
+        add(ModMagic.SPARK.get(), "Chispa");
+        add(ModMagic.SPARKRA.get(), "Chispa+");
+        add(ModMagic.SPARKGA.get(), "Chispa++");
+
+        add(ModMagic.MINE_SHIELD.get(), "Escudo de Minas");
+        add(ModMagic.MINE_SQUARE.get(), "Cuadro de Minas");
+        add(ModMagic.SEEKER_MINE.get(), "Mina Astuta");
+
+        add(ModMagic.WARP.get(),"Exilio");
+        add(ModMagic.FAITH.get(),"Sanctus");
+        add(ModMagic.ESUNA.get(),"Esna");
+        add(ModMagic.CONFUSE.get(),"Confu");
+        add(ModMagic.BIND.get(),"Enlace");
+        add(ModMagic.MINI.get(),"Minimalia");
+        add(ModMagic.SLOW.get(),"Freno");
+
+
 
         //Limits
         addLimit(ModLimits.LASER_CIRCLE, "C\u00edrculo L\u00e1ser");
@@ -636,20 +739,20 @@ public class LanguageESES extends KKLanguageProvider {
         addShotlock(ModShotlocks.ULTIMA_CANNON, "Cañón Artema");
 
         //Blox
-        addBlock(ModBlocks.normalBlox, "Blox Normal");
-        addBlock(ModBlocks.hardBlox, "Blox Duro");
-        addBlock(ModBlocks.metalBlox, "Blox Met\u00e1lico");
-        addBlock(ModBlocks.dangerBlox, "Blox Peligroso");
-        addBlock(ModBlocks.bounceBlox, "Blox de Rebote");
-        addBlock(ModBlocks.blastBlox, "Blox Explosivo");
-        addBlock(ModBlocks.ghostBlox, "Blox Fantasma");
-        addBlock(ModBlocks.prizeBlox, "Blox de Premio");
-        addBlock(ModBlocks.rarePrizeBlox, "Blox de Premio Raro");
-        addBlock(ModBlocks.magnetBlox, "Blox Magn\u00e9tico");
+        addBlock(ModBlocks.normalBlox, "Bloque Normal");
+        addBlock(ModBlocks.hardBlox, "Bloque Duro");
+        addBlock(ModBlocks.metalBlox, "Bloque Met\u00e1lico");
+        addBlock(ModBlocks.dangerBlox, "Bloque Peligroso");
+        addBlock(ModBlocks.bounceBlox, "Bloque de Rebote");
+        addBlock(ModBlocks.blastBlox, "Bloque Explosivo");
+        addBlock(ModBlocks.ghostBlox, "Bloque Fantasma");
+        addBlock(ModBlocks.prizeBlox, "Bloque de Premio");
+        addBlock(ModBlocks.rarePrizeBlox, "Bloque de Premio Raro");
+        addBlock(ModBlocks.magnetBlox, "Bloque Magn\u00e9tico");
         addBlock(ModBlocks.pairBlox, "Bloque Emparejado");
-        addBlock(ModBlocks.infestedNormalBlox, "Blox Normal Infestado");
+        addBlock(ModBlocks.infestedNormalBlox, "Bloque Normal Infestado");
         addBlock(ModBlocks.gummiMeteor, "Meteorito Gummi");
-
+        addBlock(ModBlocks.magicTarget, "Diana Mágica");
 
         //Ores
         addBlock(ModBlocks.blazingOre, "Mena \u00edgnea");
@@ -708,7 +811,9 @@ public class LanguageESES extends KKLanguageProvider {
         add("savepoint.max_upgrade", "\u00faltimo nivel alcanzado");
         add("savepoint.maxed", "Velocidad de %s est\u00e1 al m\u00e1ximo");
         add("savepoint.upgrade", "La velocidad de %s est\u00e1 al %s%%");
-        add("savepoint.upgrade_type", "Punto de guardado mejorado a {0}");
+        add("savepoint.upgrade_type", "Punto de guardado mejorado a %s");
+        add("savepoint.unavailable","%s no está disponible en este punto de guardado");
+
 
         //Castle Oblivion
         addBlock(ModBlocks.cardDoor, "Puerta de Carta");
@@ -798,6 +903,7 @@ public class LanguageESES extends KKLanguageProvider {
         addReactionCommand(ModReactionCommands.SAVE, "Guardar");
 
         //Items
+        //Cards
         //Rings
         addItem(ModItems.abilityRing, "Anillo Diestro");
         addItem(ModItems.aquamarineRing, "Anillo de Aguamarina");
@@ -833,7 +939,7 @@ public class LanguageESES extends KKLanguageProvider {
         addItem(ModItems.cosmicChain, "Cadena C\u00f3smica");
         addItem(ModItems.darkAnklet, "Cadena Oscura");
         addItem(ModItems.divineBandanna, "Pa\u00f1uelo Divino");
-        addItem(ModItems.elvenBandanna, "Pa\u00f1uelo de Dende");
+        addItem(ModItems.elvenBandanna, "Pa\u00f1uelo de Duende");
         addItem(ModItems.firaBangle, "Brazal Piro+");
         addItem(ModItems.firagaBangle, "Brazal Piro++");
         addItem(ModItems.firagunBangle, "Brazal Piro+++");
@@ -874,7 +980,7 @@ public class LanguageESES extends KKLanguageProvider {
         add("item.kingdomkeys.potion", "Poci\u00f3n");
         add("item.kingdomkeys.hi_potion", "Ultrapoci\u00f3n");
         add("item.kingdomkeys.mega_potion", "Omnipoci\u00f3n");
-        add("item.kingdomkeys.ether", "\u00e9ter");
+        add("item.kingdomkeys.ether", "Éter");
         add("item.kingdomkeys.hi_ether", "Ultra\u00e9ter");
         add("item.kingdomkeys.mega_ether", "Omni\u00e9ter");
         add("item.kingdomkeys.elixir", "Elixir");
@@ -911,6 +1017,73 @@ public class LanguageESES extends KKLanguageProvider {
         addItem(ModItems.gravitySpell, "Hechizo de Gravedad");
         addItem(ModItems.stopSpell, "Hechizo de Paro");
 
+        addItem(ModItems.firaSpell, "Hechizo de Piro+");
+        addItem(ModItems.blizzaraSpell, "Hechizo de Hielo+");
+        addItem(ModItems.wateraSpell, "Hechizo de Aqua+");
+        addItem(ModItems.thundaraSpell, "Hechizo de Electro+");
+        addItem(ModItems.curaSpell, "Hechizo de Cura+");
+        addItem(ModItems.aeroraSpell, "Hechizo de Aero+");
+        addItem(ModItems.magneraSpell, "Hechizo de Magneto+");
+        addItem(ModItems.refleraSpell, "Hechizo de Reflejo+");
+        addItem(ModItems.graviraSpell, "Hechizo de Gravedad+");
+        addItem(ModItems.stopraSpell, "Hechizo de Paro+");
+
+        addItem(ModItems.firagaSpell, "Hechizo de Piro++");
+        addItem(ModItems.blizzagaSpell, "Hechizo de Hielo++");
+        addItem(ModItems.watergaSpell, "Hechizo de Aqua++");
+        addItem(ModItems.thundagaSpell, "Hechizo de Electro++");
+        addItem(ModItems.curagaSpell, "Hechizo de Cura++");
+        addItem(ModItems.aerogaSpell, "Hechizo de Aero++");
+        addItem(ModItems.magnegaSpell, "Hechizo de Magneto++");
+        addItem(ModItems.reflegaSpell, "Hechizo de Reflejo++");
+        addItem(ModItems.gravigaSpell, "Hechizo de Gravedad++");
+        addItem(ModItems.stopgaSpell, "Hechizo de Paro++");
+
+        addItem(ModItems.zeroGravitySpell, "Hechizo de Ingravidez");
+        addItem(ModItems.zeroGraviraSpell, "Hechizo de Ingravidez+");
+        addItem(ModItems.zeroGravigaSpell, "Hechizo de Ingravidez++");
+
+        addItem(ModItems.darkFiragaSpell, "Hechizo de Nigro Piro++");
+        addItem(ModItems.tripleFiragaSpell, "Hechizo de Triple Piro++");
+        addItem(ModItems.crawlingFiragaSpell, "Hechizo de Tardo Piro++");
+        addItem(ModItems.fissionFiragaSpell, "Hechizo de Lluvia Píro++");
+        addItem(ModItems.firagaBurstSpell, "Hechizo de Descarga Ígnea");
+        addItem(ModItems.igniteSpell, "Hechizo de Ignición");
+
+        addItem(ModItems.tripleBlizzagaSpell, "Hechizo de Triple Hielo++");
+        addItem(ModItems.deepFreezeSpell, "Hechizo de Hipotermia");
+        addItem(ModItems.glacierSpell, "Hechizo de Glaciar");
+        addItem(ModItems.iceBarrageSpell, "Hechizo de Asalto Gélido");
+
+        addItem(ModItems.thundagaShotSpell, "Hechizo de Tiro Electro++");
+        addItem(ModItems.triplePlasmaSpell, "Hechizo de Triplasma");
+
+
+        addItem(ModItems.blackoutSpell, "Hechizo de Apagón");
+        addItem(ModItems.poisonSpell, "Hechizo de Toxis");
+
+
+        addItem(ModItems.balloonSpell, "Hechizo de Globo");
+        addItem(ModItems.balloonraSpell, "Hechizo de Globo+");
+        addItem(ModItems.balloongaSpell, "Hechizo de Globo++");
+
+        addItem(ModItems.sparkSpell, "Hechizo de Chispa");
+        addItem(ModItems.sparkraSpell, "Hechizo de Chispa+");
+        addItem(ModItems.sparkgaSpell, "Hechizo de Chispa++");
+
+        addItem(ModItems.mineShieldSpell, "Hechizo de Escudo de Minas");
+        addItem(ModItems.mineSquareSpell, "Hechizo de Cuadro de Minas");
+        addItem(ModItems.mineSeekerSpell, "Hechizo de Mina Astuta");
+
+        addItem(ModItems.warpSpell, "Hechizo de Exilio");
+        addItem(ModItems.faithSpell, "Hechizo de Sanctus");
+        addItem(ModItems.esunaSpell, "Hechizo de Esna");
+        addItem(ModItems.confuseSpell, "Hechizo de Confu");
+        addItem(ModItems.bindSpell, "Hechizo de Enlace");
+        addItem(ModItems.miniSpell, "Hechizo de Minimalia");
+        addItem(ModItems.slowSpell, "Hechizo de Freno");
+
+
         // Drive form orbs
         addItem(ModItems.valorOrb, "Orbe de Forma Valiente");
         addItem(ModItems.wisdomOrb, "Orbe de Forma Sabia");
@@ -928,17 +1101,18 @@ public class LanguageESES extends KKLanguageProvider {
         addItem(ModItems.recipeSS, "Receta de clase SS");
         addItem(ModItems.recipeSSS, "Receta de clase SSS");
         addItem(ModItems.iceCream, "Helado de Sal Marina");
-        addItem(ModItems.winnerStick, "Palito de Ganador");
-        addItem(ModItems.synthesisBag, "Bolsa de S\u00edntesis");
-        addItem(ModItems.proofOfHeart, "Prueba de Coraz\u00f3n");
+        addItem(ModItems.winnerStick, "Palito de ganador");
+        addItem(ModItems.synthesisBag, "Bolsa de Síntesis");
+        addItem(ModItems.magicsBag, "Bolsa de Hechizos");
+        addItem(ModItems.proofOfHeart, "Prueba de Corazón");
         addItem(ModItems.wayfinder, "Siemprejuntos");
         addItem(ModItems.trainingDummy, "Espantapájaros de entrenamiento");
 
 
         //Patchouli
-        add("patchouli.kingdomkeys.journal.name", "Jiminy's Journal");
-        add("patchouli.kingdomkeys.journal.desc", "Thank Naminé.");
-        add("patchouli.kingdomkeys.journal.hello", "Welcome, Keyblade wielder to the $(thing)Kingdom Keys$() Mod.$(p)In this book, you'll find all info you need to get started, as well as helpful tips.");
+        add("patchouli.kingdomkeys.journal.name", "Diario de Pepito");
+        add("patchouli.kingdomkeys.journal.desc", "Dar las gracias a Naminé.");
+        add("patchouli.kingdomkeys.journal.hello", "Bienvenido, portador de la Llave Espada, al mod de $(thing)Kingdom Keys$().$(p)En este libro, encontrarás toda la información que necesitas para comenzar, así como consejos útiles.");
 
         //Music discs
         add("disc.duration.desc", "Duraci\u00f3n");
@@ -1064,32 +1238,57 @@ public class LanguageESES extends KKLanguageProvider {
         addItem(ModItems.ira_Leggings, "Pantalones de Ira");
         addItem(ModItems.ira_Boots, "Botas de Ira");
 
-        //Cards //TODO
-        add("item.mapcard.prefix", "(%s) %s");
-        addItem(ModItems.tranquilDarkness, "Tranquil Darkness");
-        addItem(ModItems.teemingDarkness, "Teeming Darkness");
-        addItem(ModItems.feebleDarkness, "Feeble Darkness");
-        addItem(ModItems.almightyDarkness, "Almighty Darkness");
-        addItem(ModItems.sleepingDarkness, "Sleeping Darkness");
-        addItem(ModItems.loomingDarkness, "Looming Darkness");
-        addItem(ModItems.bottomlessDarkness, "Bottomless Darkness");
-        addItem(ModItems.martialWaking, "Martial Waking");
-        addItem(ModItems.sorcerousWaking, "Sorcerous Waking");
-        addItem(ModItems.alchemicWaking, "Alchemic Waking");
-        addItem(ModItems.stagnantSpace, "Stagnant Space");
-        addItem(ModItems.weightlessSpace, "Weightless Space");
-        addItem(ModItems.calmBounty, "Calm Bounty");
-        addItem(ModItems.guardedTrove, "Guarded Trove");
-        addItem(ModItems.falseBounty, "False Bounty");
-        addItem(ModItems.momentsReprieve, "Moment's Reprieve");
-        addItem(ModItems.minglingWorlds, "Mingling Worlds");
-        addItem(ModItems.moogleRoom, "Moogle Room");
-        addItem(ModItems.prosperousRepository, "Prosperous Repository");
-        addItem(ModItems.treacherousRepository, "Treacherous Repository");
-        addItem(ModItems.reposefulGrove, "Reposeful Grove");
+        //Cards
+        addItem(ModItems.tranquilDarkness, "Oscuridad Tenue");
+        addItem(ModItems.teemingDarkness, "Oscuridad Total");
+        addItem(ModItems.feebleDarkness, "Oscuridad Lánguida");
+        addItem(ModItems.almightyDarkness, "Noche Cerrada");
+        addItem(ModItems.sleepingDarkness, "Oscuridad Latente");
+        addItem(ModItems.loomingDarkness, "Tinieblas");
+        addItem(ModItems.bottomlessDarkness, "Oscuridad Insondable");
 
+        addItem(ModItems.martialWaking, "Aula Marcial");
+        addItem(ModItems.sorcerousWaking, "Aula de Magia");
+        addItem(ModItems.alchemicWaking, "Aula Alquímica");
+        addItem(ModItems.stagnantSpace, "Ralentí");
+        addItem(ModItems.weightlessSpace, "Espacio Liviano");
+
+        addItem(ModItems.calmBounty, "Botín Fácil");
+        addItem(ModItems.guardedTrove, "Tesoro Custodiado");
+        addItem(ModItems.falseBounty, "Falso Botín");
+        addItem(ModItems.momentsReprieve, "Alivio Fugaz");
+        addItem(ModItems.minglingWorlds, "Multiverso");
+        addItem(ModItems.moogleRoom, "Casa Moguri");
+        addItem(ModItems.prosperousRepository, "Repositorio Próspero");
+        addItem(ModItems.treacherousRepository, "Repositorio Traicionero");
+        addItem(ModItems.reposefulGrove, "Arboleda Serena");
+
+        addItem(ModItems.keyOfBeginnings, "Llave Prístina");
+        addItem(ModItems.keyOfGuidance, "Llave Guía");
+        addItem(ModItems.keyToTruth, "Llave a la Verdad");
+        addItem(ModItems.keyToRewards, "Llave Recompensa");
+
+        addItem(ModItems.redCardPack, "Pack de cartas rojas");
+        addItem(ModItems.greenCardPack, "Pack de cartas verdes");
+        addItem(ModItems.blueCardPack, "Pack de cartas azules");
+        addItem(ModItems.randomCardPack, "Pack de cartas aleatorias");
+
+        addItem(ModItems.emptyCard,"Carta Vacía");
         addItem(ModItems.plainsCard,"Carta de Llanuras");
-        addItem(ModItems.netherCard,"Carta de Nether");
+        addItem(ModItems.theNetherCard,"Carta del Nether");
+        addItem(ModItems.theEndCard,"Carta del Fín");
+        addItem(ModItems.castleOblivionCard,"Carta del Castillo del Olvido");
+        addItem(ModItems.oceanCard,"Carta del Océano");
+        addItem(ModItems.desertCard,"Carta del Desierto");
+        addItem(ModItems.snowyCard,"Carta de Nieve");
+        addItem(ModItems.badlandsCard,"Carta de Tierras Baldías");
+        addItem(ModItems.swampCard,"Carta de Pantano");
+        addItem(ModItems.caveCard,"Carta de Cueva");
+        addItem(ModItems.mushroomFieldsCard,"Carta de Campo de Champiñones");
+        addItem(ModItems.forestCard,"Carta de Bosque");
+        addItem(ModItems.jungleCard,"Carta de Jungla");
+
+        addItem(ModItems.plainsMemory,"Evocación de Llanuras");
 
         //Synthesis materials
         addItem(ModItems.blazing_shard, "Guijarro \u00edgneo");
@@ -1243,12 +1442,12 @@ public class LanguageESES extends KKLanguageProvider {
         addItem(ModItems.hiddenDragon, "Drag\u00f3n Oculto");
         addItem(ModItems.hunnySpout, "Dulce Miel");
         addItem(ModItems.hyperdrive, "Hiperpropulsor");
-        addItem(ModItems.incompleteKiblade, "Llave Espada Incompleta");
+        addItem(ModItems.incompleteKiblade, "Llave Espada \u03c7 Incompleta");
         addItem(ModItems.invisKeyblade, "Llave Espada de Invi");
         addItem(ModItems.irasKeyblade, "Llave Espada de Ira");
         addItem(ModItems.jungleKing, "Artesana");
         addItem(ModItems.keybladeOfPeoplesHearts, "Llave Espada del Coraz\u00f3n");
-        addItem(ModItems.kiblade, "Llave Espada");
+        addItem(ModItems.kiblade, "Llave Espada \u03c7");
         addItem(ModItems.kingdomKey, "Cadena del Reino");
         addItem(ModItems.kingdomKeyD, "Cadena del Reino D");
         addItem(ModItems.kingdomKeyN, "Cadena del Reino Pesadilla");
@@ -1941,8 +2140,8 @@ public class LanguageESES extends KKLanguageProvider {
         addItem(ModItems.ampoule, "Bombilla");
 
         //Entities
-        addEntityType(ModEntities.TYPE_BLAST_BLOX,"Blox Explosivo Prendido");
-        addEntityType(ModEntities.TYPE_PAIR_BLOX, "Blox de Pareja");
+        addEntityType(ModEntities.TYPE_BLAST_BLOX,"Bloque Explosivo Prendido");
+        addEntityType(ModEntities.TYPE_PAIR_BLOX, "Bloque Emparejado");
 
         addEntityType(ModEntities.TYPE_BLIZZARD, "Hielo");
         addEntityType(ModEntities.TYPE_FIRE, "Piro");
@@ -1980,17 +2179,21 @@ public class LanguageESES extends KKLanguageProvider {
         addEntityType(ModEntities.TYPE_LARGE_BODY, "Grandull\u00f3n");
         addEntityType(ModEntities.TYPE_DIRE_PLANT, "Mala Hierba");
         addEntityType(ModEntities.TYPE_SOLDIER, "Soldado");
-        addEntityType(ModEntities.TYPE_DESERTOR, "Desertor");
+        addEntityType(ModEntities.TYPE_DESERTER, "Desertor");
         addEntityType(ModEntities.TYPE_COMMANDER, "Commander");
         addEntityType(ModEntities.TYPE_WHITE_MUSHROOM, "Seta Blanca");
         addEntityType(ModEntities.TYPE_BLACK_FUNGUS, "Hongo Negro");
-        addEntityType(ModEntities.TYPE_BLOX_BUG, "Error");
+        addEntityType(ModEntities.TYPE_BLOX_BUG, "Bloque de Error");
 
         addEntityType(ModEntities.TYPE_NOBODY_CREEPER, "Trepador");
         addEntityType(ModEntities.TYPE_DUSK, "Umbr\u00edo");
         addEntityType(ModEntities.TYPE_ASSASSIN, "Asesino");
         addEntityType(ModEntities.TYPE_DRAGOON, "Dragón");
         addEntityType(ModEntities.TYPE_MARLUXIA, "Marluxia");
+
+        addEntityType(ModEntities.TYPE_TRAINING_DUMMY, "Espantapájaros de entrenamiento");
+        addEntityType(ModEntities.TYPE_MAGIC_TARGET, "Diana Mágica");
+
 
         //Spawn eggs
         addItem(ModEntities.MOOGLE_EGG, "Generar Moguri");
@@ -2007,17 +2210,17 @@ public class LanguageESES extends KKLanguageProvider {
 
         addItem(ModEntities.RED_NOCTURNE_EGG, "Generar Nocturno Rojo");
         addItem(ModEntities.BLUE_RHAPSODY_EGG, "Generar Rapsodia Azul");
-        addItem(ModEntities.YELLOW_OPERA_EGG, "Generar \u00f3pera Amarilla");
+        addItem(ModEntities.YELLOW_OPERA_EGG, "Generar Ópera Amarilla");
         addItem(ModEntities.GREEN_REQUIEM_EGG, "Generar R\u00e9quiem Verde");
         addItem(ModEntities.EMERALD_BLUES_EGG, "Generar Blues Esmeralda");
         addItem(ModEntities.LARGE_BODY_EGG, "Generar Grandull\u00f3n");
         addItem(ModEntities.DIRE_PLANT_EGG, "Generar Mala Hierba");
         addItem(ModEntities.SOLDIER_EGG, "Generar Soldado");
-        addItem(ModEntities.DESERTOR_EGG, "Generar Desertor");
+        addItem(ModEntities.DESERTER_EGG, "Generar Desertor");
         addItem(ModEntities.COMMANDER_EGG, "Generar Comandante");
         addItem(ModEntities.WHITE_MUSHROOM_EGG, "Generar Seta Blanca");
         addItem(ModEntities.BLACK_FUNGUS_EGG, "Generar Hongo Negro");
-        addItem(ModEntities.BLOX_BUG_EGG, "Generar Error");
+        addItem(ModEntities.BLOX_BUG_EGG, "Generar Bloque de Error");
 
         addItem(ModEntities.NOBODY_CREEPER_EGG, "Generar Trepador");
         addItem(ModEntities.DUSK_EGG, "Generar Umbr\u00edo");
@@ -2038,13 +2241,20 @@ public class LanguageESES extends KKLanguageProvider {
         add("message.magic_max_level", "%s ya est\u00e1 en el m\u00e1ximo nivel");
         add("message.magic_upgrade", "%s ha mejorado a %s");
         add("message.unlocked", "Desbloqueado %s");
-        add("message.wayfinder.in_your_party", "en tu grupo");
-        add("message.wayfinder.not_in_party", "No est\u00e1s en un grupo");
-        add("message.wayfinder.player_not_in_party", "El jugador %s no est\u00e1 en tu grupo");
-        add("message.wayfinder.player_not_online", "El jugador %s no est\u00e1 en l\u00ednea");
-        add("message.wayfinder.your_wayfinder", "Este es tu siemprejuntos, d\u00e1selo a otro jugador");
+        add("message.wayfinder.player_not_found", "Jugador %s no encontrado");
+        add("message.wayfinder.in_your_party", "de tu grupo");
+        add("message.wayfinder.not_in_party", "No estás en un grupo");
+        add("message.wayfinder.player_not_in_party", "El jugador %s no está en tu grupo");
+        add("message.wayfinder.player_not_online", "El jugador %s no está en línea");
+        add("message.wayfinder.your_wayfinder", "Este es tu siemprejuntos, dáselo a otro jugador");
         add("message.wayfinder.owner","Propietario: %s");
         add("message.wayfinder.cooldown","Recarga: %s%%");
+        add("message.wayfinder.calling_for_help","%s te reclama, ¡usa su siemprejuntos!");
+        add("message.wayfinder.asking_other_for_help","Llamando a %s para venir aquí");
+        add("message.wayfinder.player_has_no_wayfinder","%s no tiene tu siemprejuntos encima ahora mismo");
+        add("message.wayfinder.tooltip1", "Click derecho para teletransportarte");
+        add("message.wayfinder.tooltip2", "Shift + click derecho para llamar");
+
         add("message.recipe.already_learnt", "Receta ya aprendida para %s");
         add("message.recipe.cant_learn_yet", "A\u00fan no puedes aprender esa receta");
         add("message.recipe.learnt", "Aprendida la receta de %s");
@@ -2087,9 +2297,43 @@ public class LanguageESES extends KKLanguageProvider {
         add("soa.confirm.3", "Has renunciado al");
         add("soa.confirm.5", "\u00bfEs esta la forma que quieres eligir?");
 
-        add(Strings.HeartlessIntro1, "Este mundo ha sido conectado");
-        add(Strings.HeartlessIntro2, "Unido a la oscuridad...");
-        add(Strings.HeartlessIntro3, "Y pronto perder\u00e1 la luz");
+        add(HeartlessIntro1, "Este mundo ha sido conectado");
+        add(HeartlessIntro2, "Unido a la oscuridad...");
+        add(HeartlessIntro3, "Y pronto perder\u00e1 la luz");
+
+        //CO intro
+        add(COIntro1, "Aquí, encontrar es perder");
+        add(COIntro2, "y perder es encontrar.");
+        add(COIntro3, "Así son las cosas en el Castillo del Olvido.");
+        add(COIntroTitle, "Castillo del Olvido");
+
+        add("co.criteria_greater", "Condición: Una carta de valor %s, superior o 0.");
+        add("co.criteria_lesser", "Condición: Una carta de valor %s o inferior.");
+        add("co.criteria_equal", "Condición: Una carta de valor 0.");
+        add("co.criteria_total", "Condición: Cartas para sumar un totaL de %s o superior.");
+        add("co.criteria_greater_no_zero", "Condición: Una carta de valor %s o superior.");
+
+        add("co.available_cards", "Cartas disponibles");
+
+        add("co.category", "CATEGORÍA");
+        add("co.room_size", "TAMAÑO ESTANCIA");
+        add("co.enemies", "ENEMIGOS");
+
+        add("co.category.enemy", "ENEMIGO");
+        add("co.category.status", "ESTATUS");
+        add("co.category.bounty", "BOTÍN");
+        add("co.category.encounter", "ENCUENTRO");
+        add("co.category.special", "ESPECIAL");
+        add("co.category.any", "CUALQUIERA");
+
+        add("gui.cardpacks.title", "Pack de Cartas");
+        add("co.card_pack.reveal_all", "Revelar todas");
+
+        add("co.door_succeed","Domina las cartas y ábrete camino por el castillo. De ahora en adelante tendrás que apañártelas solo.");
+        add("co.door_failed","Sujeta la carta ante ti. La puerta se abrirá y tras ella un nuevo mundo");
+
+        add("co.encounter.wave", "Oleada");
+        add("co.encounter.end", "Encuentro terminado");
 
         //Biomes
         add("biome.kingdomkeys.dive_to_the_heart", "Descenso al Coraz\u00f3n");
@@ -2104,9 +2348,49 @@ public class LanguageESES extends KKLanguageProvider {
         addKKEffect(ModMobEffects.STOP, "Paro", "Evita todo movimiento, todo el daño recibido se aplicará de golpe cuando el efecto termine.");
         addKKEffect(ModMobEffects.GRAVITY, "Gravedad", "Limita tu movimiento mientras estás aplastado.");
         addKKEffect(ModMobEffects.KO, "KO", "Permite a un jugador en tu grupo salvarte usando Cura o una Poción en tí.");
+        addKKEffect(ModMobEffects.UNDERWORLD_CURSE, "Maldición del inframundo", "Prevents the use of drive forms and limits.");
+        addKKEffect(ModMobEffects.ZERO_GRAVITY, "Ingravidez", "Te mantiene estacionario en el aire durante un tiempo.");
+        addKKEffect(ModMobEffects.CONFUSE, "Confuse", "Invierte tu movimiento.");
+        addKKEffect(ModMobEffects.MINI,"Mini","Reduce tu tamaño, vigila que no te pisen!");
+
+        //CO Rooms
+        addRoom("almighty_darkness", "Noche Cerrada");
+        addRoom("bottomless_darkness", "Oscuridad Insondable");
+        addRoom("feeble_darkness", "Oscuridad lánguida");
+        addRoom("looming_darkness", "Tinieblas");
+        addRoom("sleeping_darkness", "Oscuridad Latente");
+        addRoom("teeming_darkness", "Oscuridad Total");
+        addRoom("tranquil_darkness", "Oscuridad Tenue");
+
+        addRoom("alchemic_waking", "Aula Alquímica");
+        addRoom("martial_waking", "Aula Marcial");
+        addRoom("sorcerous_waking", "Aula de Magia");
+        addRoom("stagnant_space", "Ralentí");
+        addRoom("weightless_space", "Espacio Liviano");
+
+        addRoom("calm_bounty", "Botín Fácil");
+        addRoom("false_bounty", "Falso Botín");
+        addRoom("guarded_trove", "Tesoro Custodiado");
+        addRoom("moments_reprieve", "Alivio Fugaz");
+        addRoom("moogle_room", "Casa Moguri");
+        addRoom("prosperous_repository", "Repositorio Próspero");
+        addRoom("reposeful_grove", "Arboleda Serena");
+        addRoom("treacherous_repository", "Repositorio Traicionero");
+
+        addRoom("unknown_room", "Cuarto Desconocido");
+        addRoom("conquerors_respite", "Reposo del Triunfador");
+        addRoom("entrance_hall", "Entrada, planta %s");
+
+        addRoom("room_of_beginnings", "Cuarto de los Comienzos");
+        addRoom("room_of_guidance", "Cuarto de Guías");
+        addRoom("room_of_rewards", "Cuarto de Recompensas");
+        addRoom("room_of_truth", "Cuarto de la Verdad");
+
 
         //JEI
         add("jei.category.kingdomkeys.synthesis", "S\u00edntesis de Objetos");
+        add("jei.category.kingdomkeys.melding", "Síntesis de Ítems");
+        add("jei.category.kingdomkeys.savepoints", "Mejoras de Puntos de Guardado");
         add("jei.category.kingdomkeys.keyblade_summon", "Invocaci\u00f3n de Llave Espada");
         add("jei.category.kingdomkeys.synthesis.locked", "Receta no desbloqueada");
         add("jei.category.kingdomkeys.synthesis.unlocked", "Receta desbloqueada");

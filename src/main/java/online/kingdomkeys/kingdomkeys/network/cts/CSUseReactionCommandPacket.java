@@ -12,12 +12,12 @@ import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.api.event.ReactionCommandCastEvent;
-import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.network.Packet;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
 import online.kingdomkeys.kingdomkeys.reactioncommands.ModReactionCommands;
 import online.kingdomkeys.kingdomkeys.reactioncommands.ReactionCommand;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public record CSUseReactionCommandPacket(int index, int lockedOnEntity) implements Packet {
 
@@ -38,8 +38,11 @@ public record CSUseReactionCommandPacket(int index, int lockedOnEntity) implemen
 	@Override
 	public void handle(IPayloadContext context) {
 		Player player = context.player();
-		PlayerData playerData = PlayerData.get(player);
-		String reactionName = playerData.getReactionCommands().get(index);
+		String reactionName = Utils.getRCNameFromIndex(player, index);
+		if(reactionName == null) {
+			KingdomKeys.LOGGER.warn("Reaction command packet received a null reaction name!");
+			return;
+		}
 		ReactionCommand reaction = ModReactionCommands.registry.get(ResourceLocation.parse(reactionName));
         if (NeoForge.EVENT_BUS.post(new ReactionCommandCastEvent(player, ResourceLocation.parse(reactionName))).isCanceled())
             return;

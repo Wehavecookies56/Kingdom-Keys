@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.model.geom.ModelLayers;
@@ -28,13 +29,14 @@ import online.kingdomkeys.kingdomkeys.util.IDisabledAnimations;
 import java.awt.*;
 
 @OnlyIn(Dist.CLIENT)
-public class AeroLayerRenderer<T extends LivingEntity> extends RenderLayer<T, PlayerModel<T>> {
+public class AeroLayerRenderer<T extends LivingEntity, M extends EntityModel<T>> extends RenderLayer<T, M> {
 	public static final ResourceLocation TEXTURE = ResourceLocation.withDefaultNamespace("textures/entity/trident_riptide.png");
+	private static final ResourceLocation ICE_TEXTURE = ResourceLocation.withDefaultNamespace("textures/block/ice.png");
 	private final ModelPart box;
 
-	public AeroLayerRenderer(RenderLayerParent<T, PlayerModel<T>> p_174540_, EntityModelSet p_174541_) {
-		super(p_174540_);
-		ModelPart modelpart = p_174541_.bakeLayer(ModelLayers.PLAYER_SPIN_ATTACK);
+	public AeroLayerRenderer(RenderLayerParent<T, M> renderer, EntityModelSet entityModels) {
+		super(renderer);
+		ModelPart modelpart = entityModels.bakeLayer(ModelLayers.PLAYER_SPIN_ATTACK);
 		this.box = modelpart.getChild("box");
 	}
 
@@ -59,48 +61,47 @@ public class AeroLayerRenderer<T extends LivingEntity> extends RenderLayer<T, Pl
 				for (int i = 1; i <= aero.getAmplifier() + 1; ++i) {
 					matrixStackIn.pushPose();
 					float f = ageInTicks * 20;
-					if (i % 2 == 0)
-						f *= -1;
+					if (i % 2 == 0) f *= -1;
 					matrixStackIn.mulPose(Axis.YP.rotationDegrees(f));
 					float scale = 1;
 					switch (aero.getAmplifier()) {
-					case 0:
-						if (entitylivingbaseIn instanceof Player) {
-							scale = 0.75F * i;
-							matrixStackIn.scale(scale, scale * 1.2F, scale);
-							matrixStackIn.translate(0.0D, -0.4F + 0.8F * (float) i, 0.0D);
-						} else {
-							scale = 0.35F * i;
-							matrixStackIn.scale(scale, scale, scale);
+						case 0:
+							if (entitylivingbaseIn instanceof Player) {
+								scale = 0.75F * i;
+								matrixStackIn.scale(scale, scale * 1.2F, scale);
+								matrixStackIn.translate(0.0D, -0.4F + 0.8F * (float) i, 0.0D);
+							} else {
+								scale = 0.35F * i;
+								matrixStackIn.scale(scale, scale, scale);
 
-						}
-						break;
-					case 1:
-						if (entitylivingbaseIn instanceof Player) {
-							scale = 0.85F * i;
-							matrixStackIn.scale(scale, scale, scale);
-							matrixStackIn.translate(0.0D, -0.8F + 0.8F * (float) i, 0.0D);
-						} else {
-							scale = 0.45F * i;
-							matrixStackIn.scale(scale, scale, scale);
-						}
+							}
+							break;
+						case 1:
+							if (entitylivingbaseIn instanceof Player) {
+								scale = 0.85F * i;
+								matrixStackIn.scale(scale, scale, scale);
+								matrixStackIn.translate(0.0D, -0.8F + 0.8F * (float) i, 0.0D);
+							} else {
+								scale = 0.45F * i;
+								matrixStackIn.scale(scale, scale, scale);
+							}
 
-						break;
-					case 2:
-						if (entitylivingbaseIn instanceof Player) {
-							scale = 0.7F * i;
-							matrixStackIn.scale(scale, scale * 0.6F, scale);
-							matrixStackIn.translate(0.0D, -1.2F + 0.6F * (float) i, 0.0D);
-						} else {
-							scale = 0.55F * i;
-							matrixStackIn.scale(scale, scale * 0.6F, scale);
-						}
-						break;
+							break;
+						case 2:
+							if (entitylivingbaseIn instanceof Player) {
+								scale = 0.7F * i;
+								matrixStackIn.scale(scale, scale * 0.6F, scale);
+								matrixStackIn.translate(0.0D, -1.2F + 0.6F * (float) i, 0.0D);
+							} else {
+								scale = 0.55F * i;
+								matrixStackIn.scale(scale, scale * 0.6F, scale);
+							}
+							break;
 
 					}
 					int color = -1;
-					if(entitylivingbaseIn.hurtTime > 0)
-						color = new Color(100,255,255).hashCode();
+					if (entitylivingbaseIn.hurtTime > 0)
+						color = new Color(100, 255, 255).hashCode();
 
 					this.box.render(matrixStackIn, vertexconsumer, packedLightIn, OverlayTexture.NO_OVERLAY, color);
 					matrixStackIn.popPose();

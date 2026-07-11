@@ -31,7 +31,6 @@ public record CSSetShotlockEnemyListPacket(List<Utils.ShotlockPosition> shotlock
 		Player player = context.player();
 		PlayerData playerData = PlayerData.get(player);
 		playerData.setShotlockEnemies(shotlockEnemies);
-        //System.out.println(shotlockEnemies);
 		PacketHandler.syncToAllAround(player, playerData);
 	}
 

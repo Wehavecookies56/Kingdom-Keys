@@ -53,7 +53,7 @@ public class GummiHangarBlock extends BaseEntityBlock implements EntityBlock, IN
 	public static final DirectionProperty FACING = BlockStateProperties.FACING;
     public static final EnumProperty<LineDisplay> SHOW_LINES = EnumProperty.create("show_lines", LineDisplay.class);
 	public static final BooleanProperty DISPLAY_BLUEPRINT = BooleanProperty.create("display_blueprint");
-	public static final IntegerProperty LEVEL = IntegerProperty.create("size",0,4); //5 XS, 7 S, 9 M, 11 L, 13 XL
+	public static final IntegerProperty LEVEL = IntegerProperty.create("size",0,10); //5 XS (0), 7 S (1), 9 M (2), 11 L (3), 13 XL (4), (rest are for command only)
     public static final BooleanProperty ACTIVE = BooleanProperty.create("active");
 
 	public GummiHangarBlock(Properties properties) {
@@ -174,7 +174,9 @@ public class GummiHangarBlock extends BaseEntityBlock implements EntityBlock, IN
                     worldIn.setBlockAndUpdate(pos, state.setValue(ACTIVE, worldIn.hasNeighborSignal(pos)).setValue(LEVEL, stack.get(ModComponents.HANGAR_LEVEL)));
                     if(worldIn.getBlockEntity(pos) instanceof GummiHangarTileEntity TE){
                         TE.energyStorage = Utils.getEnergyStoragePerLevel(stack.get(ModComponents.HANGAR_LEVEL));
-                        TE.energyStorage.setEnergy(stack.get(ModComponents.HANGAR_FUEL));
+						if (stack.get(ModComponents.HANGAR_FUEL) != null) {
+							TE.energyStorage.setEnergy(stack.get(ModComponents.HANGAR_FUEL));
+						}
                     }
                 } else {
                     worldIn.setBlockAndUpdate(pos, state.setValue(ACTIVE, worldIn.hasNeighborSignal(pos)));

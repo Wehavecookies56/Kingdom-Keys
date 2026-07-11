@@ -44,7 +44,6 @@ public class MarluxiaGoal extends TargetGoal {
 
 	@Override
 	public boolean canContinueToUse() {
-		//System.out.println(mob.tickCount);
 		if(mob.tickCount < 100) {
 			mob.setDeltaMovement(0,0,0);
 			mob.setInvulnerable(true);
@@ -217,7 +216,6 @@ public class MarluxiaGoal extends TargetGoal {
 	}
 
 	public void useArmor(MarluxiaEntity entity, boolean ignoreRestriction) {
-		//System.out.println(armorUses);
 		if(armorUses < MAX_ARMOR_USES || ignoreRestriction) {
 			armorTicks = 0;
 			entity.setState(1);

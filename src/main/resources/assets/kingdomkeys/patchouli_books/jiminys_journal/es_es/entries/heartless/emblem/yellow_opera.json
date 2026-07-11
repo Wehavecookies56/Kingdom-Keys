@@ -1,0 +1,19 @@
+{
+	"name": "Ópera Amarilla",
+	"icon": "kingdomkeys:yellow_opera_spawn_egg",
+	"category": "kingdomkeys:emblem",
+	"sortnum": 3,
+	"advancement": "kingdomkeys:obtain_keychain",
+	"pages": [
+		{
+			"type": "text",
+			"text": "Un $(heartless)Sincorazón$() Hechicero. Además de atacar con Electro, se lanzan contra sus enemigos. $(thing)$(o)Absorben ataques de Electro$().$(p)$(lissa)$(l)$(o)[Primera aparición: Kingdom Hearts]$()"
+		},
+		{
+			"type": "patchouli:entity",
+			"entity": "kingdomkeys:yellow_opera",
+			"scale": 0.9,
+			"offset": 0.5
+		}
+	]
+}

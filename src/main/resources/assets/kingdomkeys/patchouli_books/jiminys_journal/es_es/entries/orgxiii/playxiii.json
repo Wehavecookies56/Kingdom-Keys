@@ -1,0 +1,20 @@
+{
+	"name": "Miembro de la Org. XIII",
+	"icon": "kingdomkeys:evanescent_crystal",
+	"sortnum": 2,
+	"category": "kingdomkeys:orgxiii",
+	"pages": [
+		{
+			"type": "text",
+			"text": "Notarás que tienes una moneda nueva llamada $(thing)Corazones$() en tu menú. Estos se obtienen al matar $(emblem)Sincorazón Emblemas$() y $(thing)Mobs hostiles$() y se utilizan para obtener nuevas $(thing)armas más fuertes$(). (Derrotar Mobs con tu Arma de la Organización te otorgará el doble de Corazones.)"
+		},
+		{
+			"type": "text",
+			"text": "También obtienes la habilidad de elaborar $(thing)Portales de la Organización$(), de los cuales puedes tener 3 activos al mismo tiempo y te permiten teletransportarte a donde quieras.$(p)Ten cuidado, porque otros jugadores, incluso fuera de los rangos de las Organizaciones, pueden seguirte a través de tu portal."
+		},
+		{
+			"type":"crafting",
+			"recipe":"kingdomkeys:org_portal"
+		}
+	]
+}

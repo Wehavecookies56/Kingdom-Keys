@@ -32,6 +32,7 @@ public class LanguageENUS extends KKLanguageProvider {
         //Config category keys
         //CLIENT
         add(KingdomKeys.MODID + ".configuration.gui", "GUI related settings");
+        add(KingdomKeys.MODID + ".configuration.hud_data", "HUD data related settings, do NOT edit them from here");
         add(KingdomKeys.MODID + ".configuration.command_menu", "Command Menu settings");
         add(KingdomKeys.MODID + ".configuration.hp_bar", "Health Bar settings");
         add(KingdomKeys.MODID + ".configuration.mp_bar", "Magic Bar settings");
@@ -57,10 +58,11 @@ public class LanguageENUS extends KKLanguageProvider {
         //CLIENT
         addConfigKey(ModConfigs.getClientConfig().summonTogether, "Summon weapon and armor together");
         addConfigKey(ModConfigs.getClientConfig().auto3rdPersonShip, "Auto 3rd person ship");
+        addConfigKey(ModConfigs.getClientConfig().seasonalEvents, "Enable Seasonal Events");
         addConfigKey(ModConfigs.getClientConfig().showGuiToggle, "Toggle HUD visibility");
         addConfigKey(ModConfigs.getClientConfig().customFont, "Toggle the custom font");
         addConfigKey(ModConfigs.getClientConfig().showDriveForms, "Drive Forms visibility");
-        addConfigKey(ModConfigs.getClientConfig().magicDisplayedInCommandMenu, "Displayed Magic order in Command Menu");
+        addConfigKey(ModConfigs.getClientConfig().hiddenMagic, "Magic hidden in the Command Menu");
         addConfigKey(ModConfigs.getClientConfig().cmTextXOffset, "Command Menu text X offset");
         addConfigKey(ModConfigs.getClientConfig().cmHeaderTextVisible, "Show Command Menu header text");
         addConfigKey(ModConfigs.getClientConfig().cmClassicColors, "Use classic Command Menu colors");
@@ -90,10 +92,6 @@ public class LanguageENUS extends KKLanguageProvider {
         addConfigKey(ModConfigs.getCommonConfig().focusPointsMultiplier, "Focus Points Multiplier");
         addConfigKey(ModConfigs.getCommonConfig().critMult, "Critical hit multiplier");
         addConfigKey(ModConfigs.getCommonConfig().needKeybladeForHeartless, "Need Keyblade to hurt KKMobs");
-        addConfigKey(ModConfigs.getCommonConfig().savePointMaterials, "Save point upgrade materials");
-        addConfigKey(ModConfigs.getCommonConfig().savePointRecovers, "Save point stats restore");
-        addConfigKey(ModConfigs.getCommonConfig().linkedSavePointRecovers, "Linked point stats restore");
-        addConfigKey(ModConfigs.getCommonConfig().warpPointRecovers, "Warp point stats restore");
         addConfigKey(ModConfigs.getCommonConfig().allowBlocksInHangarArea, "Allow blocks in hangar area");
         addConfigKey(ModConfigs.getCommonConfig().gummiBlocksDropPercent, "Gummi blocks dropped");
         addConfigKey(ModConfigs.getCommonConfig().heartlessSpawningMode, "Heartless spawning mode");
@@ -124,8 +122,9 @@ public class LanguageENUS extends KKLanguageProvider {
         addConfigKey(ModConfigs.getServerConfig().getExpFromShop, "Get synthesis exp. from shop");
         addConfigKey(ModConfigs.getServerConfig().orgEnabled, "Organization XIII system");
         addConfigKey(ModConfigs.getServerConfig().allowBoosts, "Stat boosts");
-        addConfigKey(ModConfigs.getServerConfig().allowPartyKO, "Party KO system (kinda buggy)");
+        addConfigKey(ModConfigs.getServerConfig().allowPartyKO, "Party KO system");
         addConfigKey(ModConfigs.getServerConfig().wayfinderParty, "Restrict Wayfinder to party");
+        addConfigKey(ModConfigs.getServerConfig().dragonLevel, "Allow the Enderdragon to level up");
         addConfigKey(ModConfigs.getServerConfig().hostileMobsLevel, "Hostile mobs level up (non KK enemies)");
         addConfigKey(ModConfigs.getServerConfig().shotlockMaxDist, "Shotlock max distance");
         addConfigKey(ModConfigs.getServerConfig().xpMultiplier, "XP Multiplier");
@@ -152,6 +151,7 @@ public class LanguageENUS extends KKLanguageProvider {
     	addAdvancement("obtain_magic","Like a Wizard!", "Obtain your first Magic Spell");
     	addAdvancement("obtain_org","Nobody wore this", "Obtain the organization robes");
     	addAdvancement("to_rod","Darkness within darkness awaits you", "Get sucked into the Realm of Darkness");
+        addAdvancement("obtain_winner_stick","Looks like my summer vacation is...", "Get a winner stick");
     	//addAdvancement("castle_oblivion_tp","How did I get here?", "Reach the forgotten land of Castle Oblivion");
 
         /**GUIS**/
@@ -246,6 +246,12 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Gui_Menu_Items, "Items");
         add(Gui_Menu_Items_Equipment, "Equipment");
         add(Gui_Menu_Items_Equipment + ".desc", "Equip your weapon and various equipables.");
+        add(Gui_Menu_Items_Melding, "Melding");
+        add(Gui_Menu_Items_Melding + ".desc", "Combine various magics together to create new ones.");
+        add(Gui_Menu_Items_Melding_Meld, "Meld");
+        add(Gui_Menu_Items_Melding_Meldables, "Filter");
+        add(Gui_Menu_Items_Melding_ItemAcquired, "Item Obtained!");
+        add(Gui_Menu_Items_Melding_RareItemAcquired, "Rare Item Obtained!");
         add(Gui_Menu_Items_Stock, "Stock");
         add(Gui_Menu_Items_Stock + ".desc", "Check your inventory.");
         add(Gui_Menu_Items_Equipment_Weapon, "Weapon");
@@ -253,12 +259,13 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Gui_Menu_Items_Equipment_Shotlock, "Shotlock");
         add(Gui_Menu_Items_Equipment_Accessories, "Accessories");
         add(Gui_Menu_Items_Equipment_Armor, "Armor");
+        add(Gui_Menu_Items_Equipment_Magic, "Magic");
         add(Gui_Menu_Items_Equipment_Pauldron, "Pauldron");
         add(Gui_Menu_Items_Equipment_Items, "Items");
         add(Gui_Menu_Customize, "Customize");
         add(Gui_Menu_Customize + ".shortcuts", "Shortcuts");
         add(Gui_Menu_Customize + ".shortcut", "Shortcut");
-        add(Gui_Menu_Customize + ".magic", "Magics");
+        add(Gui_Menu_Customize + ".magic", "Magic Visibility");
         add(Gui_Menu_Customize + ".unequip", "Unequip");
         add(Gui_Menu_Party, "Party");
         add(Gui_Menu_Party_Create, "Create party");
@@ -276,6 +283,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Gui_Menu_Party_Leader_Disband, "Disband");
         add(Gui_Menu_Party_Member_Leave, "Leave");
         add(Gui_Menu_Status, "Status");
+        add(Gui_Menu_Status_Choice, "Choice");
         add(Gui_Menu_Status_Level, "Level");
         add(Gui_Menu_Status_TotalExp, "Experience");
         add(Gui_Menu_Status_NextLevel, "Next LV");
@@ -310,7 +318,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Gui_Menu_Config + ".hud", "Adjust HUD");
         add(Gui_Menu_Config + ".reset_defaults", "Reset to defaults");
         add(Gui_Menu_Config + ".reset_rp", "Reset to resource pack");
-        add(Gui_Menu_Config + ".hud.help0", "Hold H to see help");
+        add(Gui_Menu_Config + ".hud.help0", "Hold %s to see help");
         add(Gui_Menu_Config + ".hud.help1", "First of all select the anchor point by clicking the element and SPACE");
         add(Gui_Menu_Config + ".hud.help2", "LEFT CLICK and drag an element to move it");
         add(Gui_Menu_Config + ".hud.help3", "Use ARROW KEYS to move it in bigger gaps");
@@ -425,12 +433,16 @@ public class LanguageENUS extends KKLanguageProvider {
         add("gui.statboost.increased","Increased %s, now it's %s");
         add("gui.statboost.tooltip", "Increases %s by 1");
         		
-        add("gui.magicspell.unlock","Unlocks %s");
-        add("gui.magicspell.maxed", "%s is already maxed");
-        		
+        add("gui.magicspell.equip","Equip in the menu to use it");
+        add("gui.magicspell.exp","Experience: %s/%s");
+        add("gui.magicspell.exp_short","Exp: %s/%s");
+        add("gui.magicspell.lvl_short","Lv. %s");
+
         add("gui.driveformorb.tooltip", "Upgrades %s Form");
     	add("gui.driveformorb.upgrade", "%s Form has obtained %s exp");
 
+        //Spells bag
+        add("gui.spellsbag.complain","Only 1 spell bag should be in the inventory");
 
         //Proof of Heart
         add("gui.proofofheart.desc", "Use this to leave Organization XIII");
@@ -483,6 +495,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Stats_LevelUp_FormGauge, "Form Gauge Powered Up!");
         add(Stats_LevelUp_MaxAccessories, "Gained accessory slot!");
         add(Stats_LevelUp_MaxArmors,"Gained armor slot!");
+        add(Stats_LevelUp_MaxMagics,"Gained spell slot!");
         add(Stats_LevelNext, "Next LV");
         add(Stats_MunnyGet, "Munny Get!");
 
@@ -501,6 +514,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addBlock(ModBlocks.pairBlox, "Pair Blox");
         addBlock(ModBlocks.infestedNormalBlox, "Infested Normal Blox");
         addBlock(ModBlocks.gummiMeteor, "Gummi Meteorite");
+        addBlock(ModBlocks.magicTarget, "Magic Target");
 
         //Ores
         addBlock(ModBlocks.blazingOre, "Blazing Ore");
@@ -558,8 +572,9 @@ public class LanguageENUS extends KKLanguageProvider {
         add("savepoint.drive","drive restoration");
         add("savepoint.upgrade","Savepoint %s speed is now at %s%%");
         add("savepoint.maxed","Savepoint %s speed is already maxed");
-        add("savepoint.upgrade_type","Savepoint upgraded to {0}");
+        add("savepoint.upgrade_type","Savepoint upgraded to %s");
         add("savepoint.max_upgrade","Max upgrade reached");
+        add("savepoint.unavailable","%s is not available on this savepoint");
 
         //Castle Oblivion
         addBlock(ModBlocks.cardDoor, "Card Door");
@@ -642,6 +657,10 @@ public class LanguageENUS extends KKLanguageProvider {
         addGrowthAbility(ModAbilities.DODGE_ROLL, "If you press the action button while walking you will dodge roll. ", "Dodge Roll LV.1", "Dodge Roll LV.2", "Dodge Roll LV.3", "Dodge Roll MAX");
         addGrowthAbility(ModAbilities.AERIAL_DODGE, "In the air you can press jump again to double jump.", "Aerial Dodge LV.1", "Aerial Dodge LV.2", "Aerial Dodge LV.3", "Aerial Dodge MAX");
         addGrowthAbility(ModAbilities.GLIDE,"In the air, hold the jump key to glide.", "Glide LV.1", "Glide LV.2", "Glide LV.3", "Glide MAX");
+        addAbilityWithDesc(ModAbilities.AIR_SLIDE, "Air slide", "Press the action button while in the air to dash forward. Stack more to increase the effect.");
+        addAbilityWithDesc(ModAbilities.WALL_KICK,"Wall Kick", "Air slide or aerial dodge into a wall to kick off it and enter flowmotion. Stack more to increase the rebounds.");
+        addAbilityWithDesc(ModAbilities.SUPERJUMP, "Superjump", "While in flowmotion, press jump to catapult into the air. Stack more to increase the effect.");
+        addAbilityWithDesc(ModAbilities.SUPERSLIDE, "Superslide", "While in flowmotion, press the action key to air dash a long distance. Stack more to increase the effect.");
 
         addAbilityWithDesc(ModAbilities.SCAN, "Scan", "Inspect the target's current HP.");
         addAbilityWithDesc(ModAbilities.ZERO_EXP, "Zero EXP", "Disables the gaining of experience.");
@@ -680,12 +699,13 @@ public class LanguageENUS extends KKLanguageProvider {
         addAbilityWithDesc(ModAbilities.THUNDAZA, "Thundaza", "Allows the user to get the Thundaza reaction command.");
         addAbilityWithDesc(ModAbilities.CURAZA, "Curaza", "Allows the user to get the Curaza reaction command.");
         addAbilityWithDesc(ModAbilities.GRAND_MAGIC_HASTE, "Grand Magic Haste", "Gives the user a higher chance to cast an upgraded magic. Stack the ability to increase the chance.");
+        addAbilityWithDesc(ModAbilities.GRAND_MAGIC_EXTENDER, "Grand Magic Extender", "Extend the availability period of grand magic commands. Stack the ability to increase the effect.");
         addAbilityWithDesc(ModAbilities.BERSERK_CHARGE, "Berserk Charge", "Gives the user +2 Strength when in MP recharge. Stack the ability to increase the effect.");
         addAbilityWithDesc(ModAbilities.LEAF_BRACER, "Leaf Bracer", "Casting Cure on yourself will continue even when attacked.");
         addAbilityWithDesc(ModAbilities.HP_GAIN, "HP Gain", "Restores a bit of HP when a shotlock impacts. Stack the ability to increase the effect.");
         addAbilityWithDesc(ModAbilities.ENDLESS_MAGIC, "Endless Magic", "Allows the user to reduce the cooldown between magic casts. Stack the ability to increase the effect.");
         addAbilityWithDesc(ModAbilities.DARK_DOMINATION, "Dark Domination", "Allows the user to control Antiform at will.");
-        addAbilityWithDesc(ModAbilities.MAGIC_LOCK_ON, "Magic Lock-On", "Allows the user to use some magics at the locked entity's position.");
+        addAbilityWithDesc(ModAbilities.MAGIC_LOCK_ON, "Magic Lock-On", "Allows the user to use some magic at the locked entity's position.");
         addAbilityWithDesc(ModAbilities.COMBO_PLUS, "Combo Plus", "Increases maximum combo by 1 when on the ground. Equip more to enable more combos");
         addAbilityWithDesc(ModAbilities.NEGATIVE_COMBO, "Negative Combo", "Decreases maximum combo on the ground and in midair by 1. Equip more to increase the effect.");
         addAbilityWithDesc(ModAbilities.FINISHING_PLUS, "Finishing Plus", "Unleash successive finishing moves after combos.");
@@ -709,16 +729,92 @@ public class LanguageENUS extends KKLanguageProvider {
         addShotlock(ModShotlocks.ULTIMA_CANNON, "Ultima Cannon");
 
         //Magic
-        addMagic(ModMagic.FIRE, "Fire", "Fira", "Firaga", "Firaza");
-        addMagic(ModMagic.BLIZZARD, "Blizzard", "Blizzara", "Blizzaga", "Blizzaza");
-        addMagic(ModMagic.WATER, "Water", "Watera", "Waterga", "Waterza");
-        addMagic(ModMagic.THUNDER, "Thunder", "Thundara", "Thundaga", "Thundaza");
-        addMagic(ModMagic.CURE, "Cure", "Cura", "Curaga", "Curaza");
-        addMagic(ModMagic.AERO, "Aero", "Aerora", "Aeroga");
-        addMagic(ModMagic.MAGNET, "Magnet", "Magnera", "Magnega");
-        addMagic(ModMagic.REFLECT, "Reflect", "Reflera", "Reflega");
-        addMagic(ModMagic.GRAVITY, "Gravity", "Gravira", "Graviga");
-        addMagic(ModMagic.STOP, "Stop", "Stopra", "Stopga");
+        add(ModMagic.FIRE.get(), "Fire");
+        add(ModMagic.FIRA.get(), "Fira");
+        add(ModMagic.FIRAGA.get(), "Firaga");
+        add(ModMagic.FIRAZA.get(), "Firaza");
+
+        add(ModMagic.BLIZZARD.get(), "Blizzard");
+        add(ModMagic.BLIZZARA.get(), "Blizzara");
+        add(ModMagic.BLIZZAGA.get(), "Blizzaga");
+        add(ModMagic.BLIZZAZA.get(), "Blizzaza");
+
+        add(ModMagic.WATER.get(), "Water");
+        add(ModMagic.WATERA.get(), "Watera");
+        add(ModMagic.WATERGA.get(), "Waterga");
+        add(ModMagic.WATERZA.get(), "Waterza");
+
+        add(ModMagic.THUNDER.get(), "Thunder");
+        add(ModMagic.THUNDARA.get(), "Thundara");
+        add(ModMagic.THUNDAGA.get(), "Thundaga");
+        add(ModMagic.THUNDAZA.get(), "Thundaza");
+
+        add(ModMagic.CURE.get(), "Cure");
+        add(ModMagic.CURA.get(), "Cura");
+        add(ModMagic.CURAGA.get(), "Curaga");
+        add(ModMagic.CURAZA.get(), "Curaza");
+
+        add(ModMagic.AERO.get(), "Aero");
+        add(ModMagic.AERORA.get(), "Aerora");
+        add(ModMagic.AEROGA.get(), "Aeroga");
+
+        add(ModMagic.MAGNET.get(), "Magnet");
+        add(ModMagic.MAGNERA.get(), "Magnera");
+        add(ModMagic.MAGNEGA.get(), "Magnega");
+
+        add(ModMagic.REFLECT.get(), "Reflect");
+        add(ModMagic.REFLERA.get(), "Reflera");
+        add(ModMagic.REFLEGA.get(), "Reflega");
+
+        add(ModMagic.GRAVITY.get(), "Gravity");
+        add(ModMagic.GRAVIRA.get(), "Gravira");
+        add(ModMagic.GRAVIGA.get(), "Graviga");
+
+        add(ModMagic.STOP.get(), "Stop");
+        add(ModMagic.STOPRA.get(), "Stopra");
+        add(ModMagic.STOPGA.get(), "Stopga");
+
+        add(ModMagic.ZERO_GRAVITY.get(), "Zero Gravity");
+        add(ModMagic.ZERO_GRAVIRA.get(), "Zero Gravira");
+        add(ModMagic.ZERO_GRAVIGA.get(), "Zero Graviga");
+
+        add(ModMagic.DARK_FIRAGA.get(),"Dark Firaga");
+        add(ModMagic.TRIPLE_FIRAGA.get(),"Triple Firaga");
+        add(ModMagic.CRAWLING_FIRAGA.get(),"Crawling Firaga");
+        add(ModMagic.FISSION_FIRAGA.get(),"Fission Firaga");
+        add(ModMagic.FIRAGA_BURST.get(),"Firaga Burst");
+        add(ModMagic.IGNITE.get(),"Ignite");
+
+        add(ModMagic.TRIPLE_BLIZZAGA.get(),"Triple Blizzaga");
+        add(ModMagic.DEEP_FREEZE.get(),"Deep Freeze");
+        add(ModMagic.GLACIER.get(),"Glacier");
+        add(ModMagic.ICE_BARRAGE.get(),"Ice Barrage");
+
+        add(ModMagic.THUNDAGA_SHOT.get(),"Thundaga Shot");
+        add(ModMagic.TRIPLE_PLASMA.get(),"Triple Plasma");
+
+        add(ModMagic.BLACKOUT.get(),"Blackout");
+        add(ModMagic.POISON.get(),"Poison");
+
+        add(ModMagic.BALLOON.get(), "Balloon");
+        add(ModMagic.BALLOONRA.get(), "Balloonra");
+        add(ModMagic.BALLOONGA.get(), "Balloonga");
+
+        add(ModMagic.SPARK.get(), "Spark");
+        add(ModMagic.SPARKRA.get(), "Sparkra");
+        add(ModMagic.SPARKGA.get(), "Sparkga");
+
+        add(ModMagic.MINE_SHIELD.get(), "Mine Shield");
+        add(ModMagic.MINE_SQUARE.get(), "Mine Square");
+        add(ModMagic.SEEKER_MINE.get(), "Seeker Mine");
+
+        add(ModMagic.WARP.get(),"Warp");
+        add(ModMagic.FAITH.get(),"Faith");
+        add(ModMagic.ESUNA.get(),"Esuna");
+        add(ModMagic.CONFUSE.get(),"Confuse");
+        add(ModMagic.BIND.get(),"Bind");
+        add(ModMagic.MINI.get(),"Mini");
+        add(ModMagic.SLOW.get(),"Slow");
 
         //Drive Forms
         addDriveForm(ModDriveForms.VALOR, "Valor");
@@ -761,8 +857,32 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.treacherousRepository, "Treacherous Repository");
         addItem(ModItems.reposefulGrove, "Reposeful Grove");
 
+        addItem(ModItems.keyOfBeginnings, "Key of Beginnings");
+        addItem(ModItems.keyOfGuidance, "Key of Guidance");
+        addItem(ModItems.keyToTruth, "Key to Truth");
+        addItem(ModItems.keyToRewards, "Key to Rewards");
+
+        addItem(ModItems.redCardPack, "Red card pack");
+        addItem(ModItems.greenCardPack, "Green card pack");
+        addItem(ModItems.blueCardPack, "Blue cards pack");
+        addItem(ModItems.randomCardPack, "Random card pack");
+
+        addItem(ModItems.emptyCard,"Empty Card");
         addItem(ModItems.plainsCard,"Plains Card");
-        addItem(ModItems.netherCard,"Nether Card");
+        addItem(ModItems.theNetherCard,"The Nether Card");
+        addItem(ModItems.theEndCard,"The End Card");
+        addItem(ModItems.castleOblivionCard,"Castle Oblivion Card");
+        addItem(ModItems.oceanCard,"Ocean Card");
+        addItem(ModItems.desertCard,"Desert Card");
+        addItem(ModItems.snowyCard,"Snowy Card");
+        addItem(ModItems.badlandsCard,"Badlands Card");
+        addItem(ModItems.swampCard,"Swamp Card");
+        addItem(ModItems.caveCard,"Cave Card");
+        addItem(ModItems.mushroomFieldsCard,"Mushroom Fields Card");
+        addItem(ModItems.forestCard,"Forest Card");
+        addItem(ModItems.jungleCard,"Jungle Card");
+
+        addItem(ModItems.plainsMemory,"Plains Memory");
 
         //Materials
         addItem(ModItems.blazing_shard, "Blazing Shard");
@@ -1695,7 +1815,8 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModEntities.LARGE_BODY_EGG, "Large Body Spawn Egg");
         addItem(ModEntities.DIRE_PLANT_EGG, "Dire Plant Spawn Egg");
         addItem(ModEntities.SOLDIER_EGG, "Soldier Spawn Egg");
-        addItem(ModEntities.DESERTOR_EGG, "Desertor Spawn Egg");
+        addItem(ModEntities.DESERTER_EGG, "Deserter Spawn Egg");
+        addItem(ModEntities.COMMANDER_EGG, "Commander Spawn Egg");
         addItem(ModEntities.WHITE_MUSHROOM_EGG, "White Mushroom Spawn Egg");
         addItem(ModEntities.BLACK_FUNGUS_EGG, "Black Fungus Spawn Egg");
         addItem(ModEntities.BLOX_BUG_EGG, "Blox Bug Spawn Egg");
@@ -1872,6 +1993,69 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.gravitySpell, "Gravity Spell");
         addItem(ModItems.stopSpell, "Stop Spell");
 
+        addItem(ModItems.firaSpell, "Fira Spell");
+        addItem(ModItems.blizzaraSpell, "Blizzara Spell");
+        addItem(ModItems.wateraSpell, "Watera Spell");
+        addItem(ModItems.thundaraSpell, "Thundara Spell");
+        addItem(ModItems.curaSpell, "Cura Spell");
+        addItem(ModItems.aeroraSpell, "Aerora Spell");
+        addItem(ModItems.magneraSpell, "Magnera Spell");
+        addItem(ModItems.refleraSpell, "Reflera Spell");
+        addItem(ModItems.graviraSpell, "Gravira Spell");
+        addItem(ModItems.stopraSpell, "Stopra Spell");
+
+        addItem(ModItems.firagaSpell, "Firaga Spell");
+        addItem(ModItems.blizzagaSpell, "Blizzaga Spell");
+        addItem(ModItems.watergaSpell, "Waterga Spell");
+        addItem(ModItems.thundagaSpell, "Thundaga Spell");
+        addItem(ModItems.curagaSpell, "Curaga Spell");
+        addItem(ModItems.aerogaSpell, "Aeroga Spell");
+        addItem(ModItems.magnegaSpell, "Magnega Spell");
+        addItem(ModItems.reflegaSpell, "Reflega Spell");
+        addItem(ModItems.gravigaSpell, "Graviga Spell");
+        addItem(ModItems.stopgaSpell, "Stopga Spell");
+
+        addItem(ModItems.darkFiragaSpell, "Dark Firaga Spell");
+        addItem(ModItems.tripleFiragaSpell, "Triple Firaga Spell");
+        addItem(ModItems.crawlingFiragaSpell, "Crawling Firaga Spell");
+        addItem(ModItems.fissionFiragaSpell, "Fission Firaga Spell");
+        addItem(ModItems.firagaBurstSpell, "Firaga Burst Spell");
+        addItem(ModItems.igniteSpell, "Ignite Spell");
+
+        addItem(ModItems.tripleBlizzagaSpell, "Triple Blizzaga Spell");
+        addItem(ModItems.deepFreezeSpell, "Deep Freeze Spell");
+        addItem(ModItems.glacierSpell, "Glacier Spell");
+        addItem(ModItems.iceBarrageSpell, "Ice Barrage Spell");
+
+        addItem(ModItems.thundagaShotSpell, "Thundaga Shot Spell");
+        addItem(ModItems.triplePlasmaSpell, "Triple Plasma Spell");
+
+        addItem(ModItems.blackoutSpell, "Blackout Spell");
+        addItem(ModItems.poisonSpell, "Poison Spell");
+        addItem(ModItems.zeroGravitySpell, "Zero Gravity Spell");
+        addItem(ModItems.zeroGraviraSpell, "Zero Gravira Spell");
+        addItem(ModItems.zeroGravigaSpell, "Zero Graviga Spell");
+
+        addItem(ModItems.balloonSpell, "Balloon Spell");
+        addItem(ModItems.balloonraSpell, "Balloonra Spell");
+        addItem(ModItems.balloongaSpell, "Balloonga Spell");
+
+        addItem(ModItems.sparkSpell, "Spark Spell");
+        addItem(ModItems.sparkraSpell, "Sparkra Spell");
+        addItem(ModItems.sparkgaSpell, "Sparkga Spell");
+
+        addItem(ModItems.mineShieldSpell, "Mine Shield Spell");
+        addItem(ModItems.mineSquareSpell, "Mine Square Spell");
+        addItem(ModItems.mineSeekerSpell, "Seeker Mine Spell");
+
+        addItem(ModItems.warpSpell, "Warp Spell");
+        addItem(ModItems.faithSpell, "Faith Spell");
+        addItem(ModItems.esunaSpell, "Esuna Spell");
+        addItem(ModItems.confuseSpell, "Confuse Spell");
+        addItem(ModItems.bindSpell, "Bind Spell");
+        addItem(ModItems.miniSpell, "Mini Spell");
+        addItem(ModItems.slowSpell, "Slow Spell");
+
         //Drive form orbs
         addItem(ModItems.valorOrb, "Valor Form Orb");
         addItem(ModItems.wisdomOrb, "Wisdom Form Orb");
@@ -1891,6 +2075,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.iceCream, "Sea Salt Ice Cream");
         addItem(ModItems.winnerStick, "Winner Stick");
         addItem(ModItems.synthesisBag, "Synthesis Bag");
+        addItem(ModItems.magicsBag, "Spells Bag");
         addItem(ModItems.proofOfHeart, "Proof of Heart");
         addItem(ModItems.wayfinder, "Wayfinder");
         addItem(ModItems.trainingDummy, "Training Scarecrow");
@@ -1939,7 +2124,8 @@ public class LanguageENUS extends KKLanguageProvider {
         addEntityType(ModEntities.TYPE_LARGE_BODY, "Large Body");
         addEntityType(ModEntities.TYPE_DIRE_PLANT, "Dire Plant");
         addEntityType(ModEntities.TYPE_SOLDIER, "Soldier");
-        addEntityType(ModEntities.TYPE_DESERTOR, "Desertor");
+        addEntityType(ModEntities.TYPE_DESERTER, "Deserter");
+        addEntityType(ModEntities.TYPE_COMMANDER, "Commander");
         addEntityType(ModEntities.TYPE_WHITE_MUSHROOM, "White Mushroom");
         addEntityType(ModEntities.TYPE_BLACK_FUNGUS, "Black Fungus");
         addEntityType(ModEntities.TYPE_BLOX_BUG, "Blox Bug");
@@ -1950,6 +2136,9 @@ public class LanguageENUS extends KKLanguageProvider {
         addEntityType(ModEntities.TYPE_DRAGOON, "Dragoon");
         addEntityType(ModEntities.TYPE_MARLUXIA, "Marluxia");
 
+        addEntityType(ModEntities.TYPE_TRAINING_DUMMY, "Training Scarecrow");
+        addEntityType(ModEntities.TYPE_MAGIC_TARGET, "Magic Target");
+
         /**Biomes**/
         add("biome.kingdomkeys.dive_to_the_heart", "Dive to the Heart");
         add("biome.kingdomkeys.realm_of_darkness", "Realm of Darkness");
@@ -1959,6 +2148,8 @@ public class LanguageENUS extends KKLanguageProvider {
 
         /**JEI**/
         add("jei.category.kingdomkeys.synthesis", "Item Synthesis");
+        add("jei.category.kingdomkeys.melding", "Item Melding");
+        add("jei.category.kingdomkeys.savepoints", "Savepoint upgrades");
         add("jei.category.kingdomkeys.keyblade_summon", "Keyblade Summoning");
         add("jei.category.kingdomkeys.synthesis.locked", "Recipe not unlocked");
         add("jei.category.kingdomkeys.synthesis.unlocked", "Recipe unlocked");
@@ -2004,6 +2195,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add("message.chest.keyblade_set", "Your keyblade has been set to unlock this chest");
         add("message.chest.unlocked", "Chest has been unlocked");
         add("message.kingdomkeys.gui_toggle", "GUI display set to: %s");
+        add("message.wayfinder.player_not_found", "Player %s not found");
         add("message.wayfinder.your_wayfinder","This is your Wayfinder, hand it over to someone else");
         add("message.wayfinder.in_your_party","in your party");
         add("message.wayfinder.not_in_party","You are not in a party");
@@ -2011,6 +2203,11 @@ public class LanguageENUS extends KKLanguageProvider {
         add("message.wayfinder.player_not_online","Player %s is not online");
         add("message.wayfinder.owner","Owner: %s");
         add("message.wayfinder.cooldown","Cooldown: %s%%");
+        add("message.wayfinder.calling_for_help","%s is calling you, use their wayfinder!");
+        add("message.wayfinder.asking_other_for_help","Calling %s to come here");
+        add("message.wayfinder.player_has_no_wayfinder","%s does not have your wayfinder on them right now");
+        add("message.wayfinder.tooltip1", "Right click to teleport");
+        add("message.wayfinder.tooltip2", "Shift + right click to call");
         add("message.unlocked","Unlocked %s");
         add("message.magic_upgrade","%s has been upgraded to %s");
         add("message.magic_max_level","%s is already at the max level");
@@ -2056,10 +2253,44 @@ public class LanguageENUS extends KKLanguageProvider {
         add("soa.confirm.5", "Is this the form you choose?");
 
         //Heartless intro
-        add(Strings.HeartlessIntro1,"This world has been connected");
-        add(Strings.HeartlessIntro2,"Tied to the darkness...");
-        add(Strings.HeartlessIntro3,"Soon to be completely eclipsed");
-        
+        add(HeartlessIntro1, "This world has been connected");
+        add(HeartlessIntro2, "Tied to the darkness...");
+        add(HeartlessIntro3, "Soon to be completely eclipsed");
+
+        //CO intro
+        add(COIntro1, "In this place, to find is to lose");
+        add(COIntro2, "and to lose is to find.");
+        add(COIntro3, "That is the way in Castle Oblivion.");
+        add(COIntroTitle, "Castle Oblivion");
+
+        add("co.criteria_greater", "Criteria: A card with the number %s or higher or 0.");
+        add("co.criteria_lesser", "Criteria: A card with the number %s or lower.");
+        add("co.criteria_equal", "Criteria: A card with the number 0.");
+        add("co.criteria_total", "Criteria: Cards with numbers totalling %s or higher.");
+        add("co.criteria_greater_no_zero", "Criteria: A card with the number %s or higher.");
+
+        add("co.available_cards", "Available cards");
+
+        add("co.category", "CATEGORY");
+        add("co.room_size", "ROOM SIZE");
+        add("co.enemies", "ENEMIES");
+
+        add("co.category.enemy", "ENEMY");
+        add("co.category.status", "STATUS");
+        add("co.category.bounty", "BOUNTY");
+        add("co.category.encounter", "ENCOUNTER");
+        add("co.category.special", "SPECIAL");
+        add("co.category.any", "ANY");
+
+        add("gui.cardpacks.title", "Card Pack");
+        add("co.card_pack.reveal_all", "Reveal all");
+
+        add("co.door_succeed","Master the cards and make your way through the castle. From here on, you walk alone.");
+        add("co.door_failed","Hold the card before you. The door will open, and beyond it a new world");
+
+        add("co.encounter.wave", "Wave");
+        add("co.encounter.end", "Finished encounter");
+
         //Controls
         add("key.categories.kingdomkeys", "Kingdom Keys");
         add(InputHandler.Keybinds.ACTION, "Action key");
@@ -2077,11 +2308,16 @@ public class LanguageENUS extends KKLanguageProvider {
         add(InputHandler.Keybinds.LOCK_ON_SWAP, "Lock-on target swap");
 
         //Groups
-        add("itemGroup.kingdomkeys_misc", "Kingdom Keys: Misc");
-        add("itemGroup.kingdomkeys_equipables", "Kingdom Keys: Equipables");
+        add("itemGroup.kingdomkeys", "Kingdom Keys");
         add("itemGroup.kingdomkeys_keyblades", "Kingdom Keys: Keyblades");
-        add("itemGroup.kingdomkeys_org_weapons", "Kingdom Keys: Organization");
+        add("itemGroup.kingdomkeys_keychains", "Kingdom Keys: Keychains");
+        add("itemGroup.kingdomkeys_organization", "Kingdom Keys: Organization");
+        add("itemGroup.kingdomkeys_armors", "Kingdom Keys: Armor");
+        add("itemGroup.kingdomkeys_equipables", "Kingdom Keys: Equipables");
         add("itemGroup.kingdomkeys_gummi", "Kingdom Keys: Gummi Blocks");
+        add("itemGroup.kingdomkeys_mats", "Kingdom Keys: Synthesis Materials");
+        add("itemGroup.kingdomkeys_cards", "Kingdom Keys: Cards");
+        add("itemGroup.kingdomkeys_misc", "Kingdom Keys: Misc");
 
         //Death Messages
         add("keybladedamage.death", "%s was slain by %s");
@@ -2089,8 +2325,8 @@ public class LanguageENUS extends KKLanguageProvider {
         add("death.attack.stop.item", "%2$s stopped the life of %1$s using %3$s");
         add("death.attack.offhand", "%1$s was slain by %2$s");
         add("death.attack.offhand.item", "%1$s was slain by %2$s using %3$s");
-        add("death.attack.air", "%1$s was blown away %2$s");
-        add("death.attack.air.item", "%1$s was blown away %2$s using %3$s");
+        add("death.attack.air", "%1$s was blown away by %2$s");
+        add("death.attack.air.item", "%1$s was blown away by %2$s using %3$s");
         add("death.attack.darkness", "%2$s lead %1$s into everlasting darkness");
         add("death.attack.darkness.item", "%2$s lead %1$s into everlasting darkness using %3$s");
         add("death.attack.lightning", "%2$s struck down %1$s, shocking!");
@@ -2110,6 +2346,43 @@ public class LanguageENUS extends KKLanguageProvider {
         addKKEffect(ModMobEffects.STOP, "Stop", "Prevents you to move, all the damage taken will be dealt at the same time once it runs out.");
         addKKEffect(ModMobEffects.GRAVITY, "Gravity", "Limits your movement while being flattened.");
         addKKEffect(ModMobEffects.KO, "KO", "Allows a player in your party to save you by casting Cure or using a Potion on you.");
+        addKKEffect(ModMobEffects.UNDERWORLD_CURSE, "Underworld's Curse", "Prevents the use of drive forms and limits.");
+        addKKEffect(ModMobEffects.ZERO_GRAVITY, "Zero Gravity", "Locks you in the air for a few seconds.");
+        addKKEffect(ModMobEffects.CONFUSE, "Confuse", "Inverts your movement.");
+        addKKEffect(ModMobEffects.MINI,"Mini","Shrinks you down, watch out for others jumping on you!");
+
+        //CO Rooms
+        addRoom("almighty_darkness", "Almighty Darkness");
+        addRoom("bottomless_darkness", "Bottomless Darkness");
+        addRoom("feeble_darkness", "Feeble Darkness");
+        addRoom("looming_darkness", "Looming Darkness");
+        addRoom("sleeping_darkness", "Sleeping Darkness");
+        addRoom("teeming_darkness", "Teeming Darkness");
+        addRoom("tranquil_darkness", "Tranquil Darkness");
+
+        addRoom("alchemic_waking", "Alchemic Waking");
+        addRoom("martial_waking", "Martial Waking");
+        addRoom("sorcerous_waking", "Sorcerous Waking");
+        addRoom("stagnant_space", "Stagnant Space");
+        addRoom("weightless_space", "Weightless Space");
+
+        addRoom("calm_bounty", "Calm Bounty");
+        addRoom("false_bounty", "False Bounty");
+        addRoom("guarded_trove", "Guarded Trove");
+        addRoom("moments_reprieve", "Moment's Reprieve");
+        addRoom("moogle_room", "Moogle Room");
+        addRoom("prosperous_repository", "Prosperous Repository");
+        addRoom("reposeful_grove", "Reposeful Grove");
+        addRoom("treacherous_repository", "Treacherous Repository");
+
+        addRoom("unknown_room", "Unknown Room");
+        addRoom("conquerors_respite", "Conqueror's Respite");
+        addRoom("entrance_hall", "Entrance Hall %sF");
+
+        addRoom("room_of_beginnings", "Room of Beginnings");
+        addRoom("room_of_guidance", "Room of Guidance");
+        addRoom("room_of_rewards", "Room of Rewards");
+        addRoom("room_of_truth", "Room of Truth");
 
     }
 }

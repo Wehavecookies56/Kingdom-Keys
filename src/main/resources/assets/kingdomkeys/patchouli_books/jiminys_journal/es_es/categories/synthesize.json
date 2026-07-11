@@ -1,0 +1,6 @@
+{
+	"name": "Aprendiendo a Fabricar",
+	"description": "En algún momento tendrás que mejorar tu Arsenal, $(thing)¡Kupo!$().$(p)Quizás quieras encontrar algunos $(l:kingdomkeys:synthesize/materials)Materiales$() y un $(l:kingdomkeys:synthesize/moogles)Moguri$(), ¡manos a la obra!",
+	"icon": "kingdomkeys:mythril_crystal",
+	"sortnum": 4
+}

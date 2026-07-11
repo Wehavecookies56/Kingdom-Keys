@@ -1,0 +1,16 @@
+{
+  "cost": 2000,
+  "ingredient1": "kingdomkeys:spellfiraga",
+  "ingredient2": "kingdomkeys:spellslow",
+  "output": {
+    "type": "item",
+    "item": "kingdomkeys:spellcrawlingfiraga",
+    "quantity": 1
+  },
+  "output2": {
+    "chance": 20,
+    "item": "kingdomkeys:spellfiragaburst",
+    "quantity": 1
+  },
+  "tier": 4
+}

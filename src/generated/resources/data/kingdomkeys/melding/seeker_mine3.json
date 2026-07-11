@@ -1,0 +1,11 @@
+{
+  "cost": 1600,
+  "ingredient1": "kingdomkeys:spellmineshield",
+  "ingredient2": "kingdomkeys:spellminesquare",
+  "output": {
+    "type": "item",
+    "item": "kingdomkeys:spellseekermine",
+    "quantity": 1
+  },
+  "tier": 5
+}

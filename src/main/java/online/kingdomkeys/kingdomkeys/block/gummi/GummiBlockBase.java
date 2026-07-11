@@ -106,7 +106,7 @@ public class GummiBlockBase extends BaseBlock implements ICreativeTab {
             //TODO handle multiblocks (need to set all the blocks to change
             newState = switch (placementType) {
                 case END -> newState.setValue(FACING, state.getValue(FACING));
-                case STANDARD -> state;
+                case STANDARD -> newState;
                 case EDGE -> newState.setValue(HORIZONTAL_FACING, state.getValue(HORIZONTAL_FACING)).setValue(QUARTER, state.getValue(QUARTER));
                 case CORNER -> newState.setValue(CORNER, state.getValue(CORNER)).setValue(HALF, state.getValue(HALF));
                 case PILLAR -> newState.setValue(AXIS, state.getValue(AXIS));

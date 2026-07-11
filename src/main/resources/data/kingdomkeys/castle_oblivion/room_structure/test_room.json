@@ -1,8 +1,0 @@
-{
-  "structure": "test_room",
-  "size": "M",
-  "dimensions": [ 32, 32 ],
-  "categories": [
-    "ENEMY", "STATUS", "BOUNTY"
-  ]
-}

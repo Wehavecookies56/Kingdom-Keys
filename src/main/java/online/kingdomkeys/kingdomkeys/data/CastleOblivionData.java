@@ -8,8 +8,12 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.saveddata.SavedData;
+import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCastleOblivionInteriorData;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.floor.Floor;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.Room;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.RoomData;
@@ -29,18 +33,18 @@ public class CastleOblivionData {
             return new InteriorData();
         }
 
-        public static InteriorData get(ServerLevel level) {
+        public static Optional<InteriorData> get(ServerLevel level) {
             if (level.dimension().location().toString().contains("kingdomkeys:castle_oblivion_")) {
-                return level.getDataStorage().computeIfAbsent(new Factory<>(InteriorData::create, InteriorData::load), "kingdomkeys_interior_data");
+                return Optional.of(level.getDataStorage().computeIfAbsent(new Factory<>(InteriorData::create, InteriorData::load), "kingdomkeys_interior_data"));
             }
-            return null;
+            return Optional.empty();
         }
 
-        public static InteriorData getClient(ClientLevel level) {
+        public static Optional<InteriorData> getClient(ClientLevel level) {
             if (clientCache.containsKey(level.dimension())) {
-                return clientCache.get(level.dimension());
+                return Optional.of(clientCache.get(level.dimension()));
             }
-            return null;
+            return Optional.empty();
         }
 
         public static void setClientCache(ClientLevel level, InteriorData data) {
@@ -51,6 +55,10 @@ public class CastleOblivionData {
 
         public static void clearClientCache() {
             clientCache = new HashMap<>();
+        }
+
+        public void sendToClient(Player player) {
+            PacketHandler.sendTo(new SCSyncCastleOblivionInteriorData(this, player.level()), (ServerPlayer) player);
         }
 
         @Override
@@ -88,8 +96,8 @@ public class CastleOblivionData {
         public Room getRoomAtPos(BlockPos pos) {
             Floor floor = getFloorAtPos(pos);
             for (RoomData room : floor.getRooms()) {
-                Room r = room.getGenerated();
-                if (r != null) {
+                if (room.getGenerated().isPresent()) {
+                    Room r = room.getGenerated().get();
                     if (r.inRoom(pos)) {
                         return r;
                     }
@@ -100,13 +108,11 @@ public class CastleOblivionData {
 
         //get floor from the closest lobby, not a perfect method but as long as the floors are far enough apart it won't be an issue (foreshadowing, maybe)
         public Floor getFloorAtPos(BlockPos pos) {
-            Room closestEntrance = floors.getFirst().getEntranceHall().getGenerated();
-            if (closestEntrance != null) {
-                double closestDistance = closestEntrance.getPosition().distSqr(pos);
+            if (floors.getFirst().getEntranceHall().getGenerated().isPresent()) {
+                Room closestEntrance = floors.getFirst().getEntranceHall().getGenerated().get();
                 for (Floor floor : getFloors()) {
-                    if (floor.getEntranceHallPosition().distSqr(pos) < closestDistance) {
-                        closestEntrance = floor.getEntranceHall().getGenerated();
-                        closestDistance = floor.getEntranceHallPosition().distSqr(pos);
+                    if (floor.getEntranceHallPosition().getZ() < pos.getZ()) {
+                        closestEntrance = floor.getEntranceHall().getGenerated().get();
                     }
                 }
                 return closestEntrance.getParent(this);
@@ -118,6 +124,10 @@ public class CastleOblivionData {
         public Floor getFloorByID(int id) {
             List<Floor> f = getFloors().stream().filter(floor -> floor.getFloorID() == id).toList();
             return !f.isEmpty() ? f.getFirst() : null;
+        }
+
+        public RoomData getRoomByData(RoomData data) {
+            return getFloorByID(data.getParentID()).getRoom(data.pos);
         }
 
         public boolean isInRoom(BlockPos pos) {

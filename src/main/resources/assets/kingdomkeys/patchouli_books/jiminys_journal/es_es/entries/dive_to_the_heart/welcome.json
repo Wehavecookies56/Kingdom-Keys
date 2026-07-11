@@ -1,0 +1,26 @@
+{
+	"name": "Escoge tu Camino",
+	"icon": "kingdomkeys:kingdom_key_chain",
+	"sortnum": 1,
+	"priority": true,
+	"category": "kingdomkeys:dive_to_the_heart",
+	"pages": [
+		{
+			"type": "text",
+			"text": "Empecemos con el paso más simple. Debes sumergirte en tu corazón y decidir tu camino, para hacerlo, presiona la tecla $(thing)[M] $()."
+		},
+        {
+            "type": "image",
+            "images": [
+                "kingdomkeys:journal/soa.png"
+            ],
+            "title": "Descenso al Corazón",
+            "border": true,
+			"centered": true,
+			"height": 64,
+			"width": 64,
+			"texture_height": 256,
+			"texture_width": 256
+        }
+	]
+}

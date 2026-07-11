@@ -6,11 +6,11 @@
 		"pages": [
 		{
 			"type": "text",
-			"text": "As you play the mod you'll gain XP toward your levels in Kingdom Keys by killing any hostile mob. Everytime you level up, you'll recieve stat increases and new abilities. These abilities can be equipped in the $(thing)Abilities$() tab in your menu. "
+			"text": "You will gain XP by killing any hostile mob. Every time you level up, you'll receive stat boosts and new abilities, which you can equip from the $(thing)Abilities$() tab in your menu."
 		},
 		{
 			"type": "text",
-			"text": "These abilities will cost AP to equip, you'll never be able to go over your max AP. You can increase your max AP by leveling up, putting on accessories that increase AP or synthesizing AP Boosts and using them on yourself. New abilities can give you different movement options, combat capabilities or many other useful effects. Always read new abilities you earn and test them as you go."
+			"text": "These abilities will cost AP to equip. You can never exceed your maximum AP, but you can increase it by leveling up, equipping accessories that increase AP, or synthesizing AP Boosts and using them on yourself. New abilities can give you different movement options, combat capabilities or many other useful effects. Read their descriptions and test them as you go."
 		}
 	]
 }

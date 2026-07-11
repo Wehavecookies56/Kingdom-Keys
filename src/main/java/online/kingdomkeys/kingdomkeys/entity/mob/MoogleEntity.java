@@ -1,6 +1,5 @@
 package online.kingdomkeys.kingdomkeys.entity.mob;
 
-import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
@@ -26,7 +25,6 @@ import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.entity.IEntityWithComplexSpawn;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
-import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCOpenSynthesisGui;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopList;
@@ -44,14 +42,12 @@ public class MoogleEntity extends PathfinderMob implements IEntityWithComplexSpa
 	String inv;
     String name;
     Player interacting;
+    boolean stationary = false;
 	
     public MoogleEntity(EntityType<? extends PathfinderMob> type, Level worldIn) {
         super(type, worldIn);
-        if (Utils.randomWithRange(0, 100) >= 98) {
-            inv = "kingdomkeys:special";
-        } else {
-            inv = "kingdomkeys:default";
-        }
+        inv = Utils.randomWithRange(0, 100) >= 98 ? "kingdomkeys:special" :  "kingdomkeys:default";
+
         setRandomName();
         if (name == null) {
             name = "";
@@ -149,11 +145,21 @@ public class MoogleEntity extends PathfinderMob implements IEntityWithComplexSpa
     }
 
     @Override
+    public void travel(Vec3 travelVector) {
+        if (interacting != null || stationary) {
+            if (!this.onGround()) {
+                super.travel(Vec3.ZERO);
+            }
+        } else {
+            super.travel(travelVector);
+        }
+    }
+
+    @Override
     public InteractionResult interactAt(Player player, Vec3 vec, InteractionHand hand) {
         ItemStack itemstack = player.getItemInHand(hand);
         //Name tag
         if (itemstack.getItem() == Items.NAME_TAG) {
-           // this.name = ""; //TODO Check if this is needed in the future
             return super.interactAt(player, vec, hand);
         }
 
@@ -227,6 +233,7 @@ public class MoogleEntity extends PathfinderMob implements IEntityWithComplexSpa
         if (!name.isEmpty()) {
             tag.putString("name", name);
         }
+        tag.putBoolean("stationary", stationary);
     }
 
     @Override
@@ -237,5 +244,7 @@ public class MoogleEntity extends PathfinderMob implements IEntityWithComplexSpa
         if (name.isEmpty()) {
             setRandomName();
         }
+        stationary = tag.getBoolean("stationary");
+
     }
 }

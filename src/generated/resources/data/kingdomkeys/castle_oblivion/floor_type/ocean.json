@@ -1,0 +1,12 @@
+{
+  "biome_colours": "minecraft:ocean",
+  "crit_path_length": 7,
+  "modifiers": [
+    {
+      "type": "kingdomkeys:effect",
+      "effect": "minecraft:water_breathing",
+      "target": "BOTH"
+    }
+  ],
+  "music": "minecraft:music.under_water"
+}

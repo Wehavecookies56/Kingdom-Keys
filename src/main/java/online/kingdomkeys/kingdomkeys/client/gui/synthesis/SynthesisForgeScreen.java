@@ -49,7 +49,7 @@ public class SynthesisForgeScreen extends MenuFilterable {
 		super(Strings.Gui_Synthesis_Forge_Title, new Color(0, 255, 0));
 		drawSeparately = true;
 		this.parent = parent;
-		parent.playerData = playerData;
+		this.playerData = playerData;
 	}
 
 	protected void action(String string) {
@@ -119,9 +119,9 @@ public class SynthesisForgeScreen extends MenuFilterable {
 		int scrollTop = (int) topBarHeight;
 		int scrollBot = (int) (scrollTop + middleHeight);
 
-		scrollBar = new MenuScrollBar((int) (boxPosX + boxWidth - 17), scrollTop, scrollBot, (int) middleHeight, 0);
+		scrollBar = new MenuScrollBar((int) (boxPosX + boxWidth - 17), scrollTop, scrollBot, (int) middleHeight, 0, true);
 		addRenderableWidget(scrollBar);
-		scrollBar2 = new MenuScrollBar(boxR.getX()+boxR.getWidth()- 17, scrollTop, scrollBot, (int) middleHeight, 0);
+		scrollBar2 = new MenuScrollBar(boxR.getX()+boxR.getWidth()- 17, scrollTop, scrollBot, (int) middleHeight, 0, false);
 		addRenderableWidget(scrollBar2);
 
 
@@ -129,7 +129,7 @@ public class SynthesisForgeScreen extends MenuFilterable {
 
 		buttonPosX -= 10;
 		buttonWidth = ((float)width * 0.07F);
-		addRenderableWidget(back = new MenuButton((int)this.buttonPosX, this.buttonPosY, (int)buttonWidth, Component.translatable(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, b -> minecraft.setScreen(new SynthesisScreen(parent.playerData, parent.invFile, parent.name, parent.moogle))));
+		addRenderableWidget(back = new MenuButton((int)this.buttonPosX, this.buttonPosY, (int)buttonWidth, Component.translatable(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, b -> minecraft.setScreen(new SynthesisScreen(playerData, parent.invFile, parent.name, parent.moogle))));
 
 		super.init();
 	}
@@ -142,7 +142,6 @@ public class SynthesisForgeScreen extends MenuFilterable {
 		inventory.clear();
 		children().clear();
 		renderables.clear();
-		//filterBar.buttons.forEach(this::addButton);
 
 		List<ItemStack> items = new ArrayList<>();
 		
@@ -179,7 +178,6 @@ public class SynthesisForgeScreen extends MenuFilterable {
 
 	@Override
 	public void render(@NotNull GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
-		PoseStack matrixStack = gui.pose();
 		drawMenuBackground(gui, mouseX, mouseY, partialTicks);
 		boxL.renderWidget(gui, mouseX, mouseY, partialTicks);
 		boxM.renderWidget(gui, mouseX, mouseY, partialTicks);
@@ -231,7 +229,7 @@ public class SynthesisForgeScreen extends MenuFilterable {
 	@Override
 	protected void renderSelectedData(GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
 		PoseStack matrixStack = gui.pose();
-		float tooltipPosX = width * 0.3333F;
+		float tooltipPosX = bottomRightBar.getPosX() + 8;
 		float tooltipPosY = height * 0.8F;
 
 		float iconPosX = boxR.getX();

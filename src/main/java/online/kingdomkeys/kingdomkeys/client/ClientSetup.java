@@ -6,14 +6,12 @@ import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.client.renderer.entity.EntityRenderer;
-import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.player.PlayerRenderer;
 import net.minecraft.client.resources.PlayerSkin;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
@@ -66,22 +64,21 @@ public class ClientSetup {
 
 	@SubscribeEvent
 	public static void addLayers(EntityRenderersEvent.AddLayers event) {
-		Minecraft mc = Minecraft.getInstance();
-		EntityRendererProvider.Context context = new EntityRendererProvider.Context(mc.getEntityRenderDispatcher(), mc.getItemRenderer(), mc.getBlockRenderer(), mc.gameRenderer.itemInHandRenderer, mc.getResourceManager(), mc.getEntityModels(), mc.font);
-
 		for(Entry<EntityType<?>, EntityRenderer<?>> entry : Minecraft.getInstance().getEntityRenderDispatcher().renderers.entrySet()) {
 			if(entry.getValue() instanceof LivingEntityRenderer renderer && !(entry.getValue() instanceof PlayerRenderer)) {
-				renderer.addLayer(new AeroLayerRenderer<LivingEntity>(renderer, event.getEntityModels()));
+				renderer.addLayer(new AeroLayerRenderer<>(renderer, event.getEntityModels()));
+				renderer.addLayer(new FreezeLayerRenderer<>(renderer, event.getEntityModels()));
 				renderer.addLayer(new KeybladeArmorRenderer<>(renderer, event.getEntityModels()));
 			}
 		}
-		
+
 		LivingEntityRenderer<Player, PlayerModel<Player>> renderer = event.getSkin(PlayerSkin.Model.WIDE);
 		renderer.addLayer(new DriveLayerRenderer<>(renderer));
 		renderer.addLayer(new StopLayerRenderer<>(renderer, event.getEntityModels()));
 		renderer.addLayer(new ShoulderLayerRenderer<>(renderer, event.getEntityModels(),true));
 		renderer.addLayer(new KeybladeArmorRenderer<>(renderer, event.getEntityModels()));
 		renderer.addLayer(new AeroLayerRenderer<>(renderer, event.getEntityModels()));
+		renderer.addLayer(new FreezeLayerRenderer<>(renderer, event.getEntityModels()));
 
 		renderer = event.getSkin(PlayerSkin.Model.SLIM);
 		renderer.addLayer(new DriveLayerRenderer<>(renderer));
@@ -89,6 +86,7 @@ public class ClientSetup {
 		renderer.addLayer(new ShoulderLayerRenderer<>(renderer, event.getEntityModels(),false));
 		renderer.addLayer(new KeybladeArmorRenderer<>(renderer, event.getEntityModels()));
 		renderer.addLayer(new AeroLayerRenderer<>(renderer, event.getEntityModels()));
+		renderer.addLayer(new FreezeLayerRenderer<>(renderer, event.getEntityModels()));
 	}
 
 	@SubscribeEvent
@@ -129,7 +127,7 @@ public class ClientSetup {
 			}
 		} else { //If mode is set to SHOW or WEAPON while holding one
 			if(o.equals(MP_BAR)) { //Remove MP Bar is magics map is empty
-				event.setCanceled(playerData.getMagicsMap().isEmpty());
+				event.setCanceled(playerData.getEquippedMagics().isEmpty());
 				return;
 			}
 			if(o.equals(SHOTLOCK)) {

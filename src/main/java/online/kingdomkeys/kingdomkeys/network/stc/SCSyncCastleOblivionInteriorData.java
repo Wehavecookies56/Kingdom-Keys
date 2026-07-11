@@ -31,7 +31,7 @@ public record SCSyncCastleOblivionInteriorData(CompoundTag data) implements Pack
 	}
 
 	public static void syncClients(ServerLevel level) {
-		PacketHandler.sendToAll(new SCSyncCastleOblivionInteriorData(CastleOblivionData.InteriorData.get(level), level));
+		PacketHandler.sendToAll(new SCSyncCastleOblivionInteriorData(CastleOblivionData.InteriorData.get(level).orElseThrow(() -> new RuntimeException("Tried to sync invalid interior data")), level));
 	}
 
 	@Override

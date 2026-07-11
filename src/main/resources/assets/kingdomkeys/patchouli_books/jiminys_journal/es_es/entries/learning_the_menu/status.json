@@ -1,0 +1,22 @@
+{
+	"name": "Comprobar tu Condición",
+	"icon": "kingdomkeys:shooting_star_chain",
+	"sortnum": 5,
+	"category": "kingdomkeys:learning_the_menu",
+		"pages": [
+		{
+			"type": "text",
+			"text": "La pestaña $(item)Condición$() en tu menú te permite ver tus estadísticas actuales y la cantidad de XP necesaria para subir de nivel tanto tú como tus $(drive)Formas$()."
+		},
+        {
+            "type": "image",
+			"texture_height": 20,
+			"texture_width": 300,
+            "images": [
+                "kingdomkeys:journal/status.png"
+            ],
+            "title": "Interfaz de Estado",
+            "border": true
+        }
+	]
+}

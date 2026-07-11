@@ -1,0 +1,6 @@
+{
+    "variants" : {
+        "kingdomkeys:textures/entity/mob/black_fungus.png" : "normal_sprite:kingdomkeys/black_fungus.png",
+		"kingdomkeys:textures/entity/mob/black_fungus_stone.png" : "normal_sprite:kingdomkeys/black_fungus.png"
+    }
+}

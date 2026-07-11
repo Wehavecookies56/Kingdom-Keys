@@ -1,0 +1,16 @@
+{
+	"name": "Bloque de Rebote",
+	"icon": "kingdomkeys:bounce_blox",
+	"sortnum": 5,
+	"category": "kingdomkeys:blox",
+	"pages": [
+		{
+			"type": "text",
+			"text": "$(item)Los Bloques de Rebote$() tienen mucho más MMPH que los Bloques de Slime, aumentando el $(thing)rebote aún más$() cuando se usan. Puedes fabricar Bloques de Rebote usando $(l:kingdomkeys:blox/normal)Bloques Normales$() y un único Bloque de Slime."
+		},
+		{
+			"type":"crafting",
+			"recipe":"kingdomkeys:bounce_blox"
+		}
+	]
+}

@@ -79,7 +79,6 @@ public class PlayerPortraitGui extends OverlayBase {
 
                 //3D render
 				float playerHeight = 50;
-                //System.out.println(ClientUtils.PORTRAIT_ELEMENT.x+" "+ClientUtils.PORTRAIT_ELEMENT.y);
                 ClientUtils.PORTRAIT_ELEMENT.applyTransform(guiGraphics,screenWidth, screenHeight);
                 float playerPosX = 16;
 				float playerPosY = 94;

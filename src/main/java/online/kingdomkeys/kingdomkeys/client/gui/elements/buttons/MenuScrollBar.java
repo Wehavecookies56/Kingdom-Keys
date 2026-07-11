@@ -21,7 +21,7 @@ public class MenuScrollBar extends Button {
 	private int contentHeight, handleHeight;
 
 	public float scrollOffset;
-
+	public boolean alwaysVisible;
 	//The top and bottom part of the handle that stick out touch the top and bottom of the bar 3 pixels from the middle part so this is so it stops before overlapping with the top/bottom texture
 	final int handleEndOffset = 3;
 
@@ -29,7 +29,7 @@ public class MenuScrollBar extends Button {
 
 	ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
 
-	public MenuScrollBar(int x, int y, int bottom, int visibleHeight, int contentHeight) {
+	public MenuScrollBar(int x, int y, int bottom, int visibleHeight, int contentHeight, boolean alwaysVisible) {
 		super(new Builder(Component.empty(),button -> {}).bounds(x, y, WIDTH, bottom-y));
 		this.visibleHeight = visibleHeight;
 		//The highest point on the scroll bar for the handle
@@ -39,6 +39,7 @@ public class MenuScrollBar extends Button {
 		handleY = handleYMax;
 		localHandleYMax = handleBottom - handleYMax + 1;
 		setContentHeight(contentHeight);
+		this.alwaysVisible = alwaysVisible;
 	}
 
 	public int getBottom() {
@@ -51,15 +52,11 @@ public class MenuScrollBar extends Button {
 	}
 
 	public void setHandleY(int handleY) {
-		if (handleY < handleYMax) {
-			this.handleY = handleYMax;
-		} else {
-			this.handleY = handleY;
-		}
+        this.handleY = Math.max(handleY, handleYMax);
 	}
 
 	public void setHandleHeight(int height) {
-		this.handleHeight = height;
+		this.handleHeight = Math.min(height,localHandleYMax);
 		if (handleY > getHandleBottom()) {
 			handleY = getHandleBottom() + 1;
 		} else if (handleY < handleYMax) {
@@ -99,7 +96,7 @@ public class MenuScrollBar extends Button {
 
 	@Override
 	public void renderWidget(@NotNull GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
-		if (visible && contentHeight > visibleHeight) {
+		if (visible && (alwaysVisible || contentHeight > visibleHeight)) {
 			//Bar background
 			RenderSystem.enableBlend();
 			RenderSystem.setShaderColor(1, 1, 1, 0.5F);
@@ -129,7 +126,7 @@ public class MenuScrollBar extends Button {
 	}
 
 	public void updateScroll() {
-		if (visible && contentHeight > visibleHeight) {
+		if (isVisible()) {
 			//get the local handle position so 0 is at the top of the scroll bar
 			localHandleY = handleY - handleYMax;
 			//percentage of how far down the bar the handle is
@@ -138,14 +135,14 @@ public class MenuScrollBar extends Button {
 			scrollOffset = totalScroll * (scrollPercent/100);
 			//KingdomKeys.LOGGER.debug("{}/{} = {}%, offset {}", localHandleY, (localHandleYMax - handleHeight), scrollPercent, scrollOffset);
 		} else {
-		scrollOffset = 0;
+			scrollOffset = 0;
 		}
 	}
 
 	@Override
 	public boolean mouseDragged(double mouseX, double mouseY, int button, double dragX, double dragY) {
 		if (button == 0) {
-			if (visible && contentHeight > visibleHeight) {
+			if (isVisible()) {
 				if (clickX >= getX() && clickX <= getX() + width) {
 					updateScroll();
 					if (active) {
@@ -185,7 +182,7 @@ public class MenuScrollBar extends Button {
 
 	@Override
 	public boolean mouseScrolled(double mouseX, double mouseY, double scrollX, double scrollY) {
-		if (visible && contentHeight > visibleHeight) {
+		if (isVisible()) {
 			int scrollFactor = 5;
 			int oldY = handleY;
 			if (scrollY > 0) {

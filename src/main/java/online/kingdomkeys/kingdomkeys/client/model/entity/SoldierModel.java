@@ -146,6 +146,9 @@ public class SoldierModel<T extends BaseKHEntity> extends EntityModel<T> {
 
     @Override
     public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+		if(Minecraft.getInstance().isPaused())
+			return;
+
     	//animation.set(1,new ModelAnimation(head, 0, -20, 20, 0, true, Angle.Z, null));
     	this.left_arm.y = -3;
     	this.right_arm.y = -3;
@@ -153,40 +156,37 @@ public class SoldierModel<T extends BaseKHEntity> extends EntityModel<T> {
     	this.right_leg.y = 8;
     	this.head.y = -4;
     	
-        if(!Minecraft.getInstance().isPaused()) {
-        	if(entity.getState() == 0) { //Normal, arms in front
-        		this.head.zRot = 0;
-        		this.head.yRot = 0;
-        		this.body.yRot = 0;
+		if(entity.getState() == 0) { //Normal, arms in front
+			this.head.zRot = 0;
+			this.head.yRot = 0;
+			this.body.yRot = 0;
 
-        		this.right_arm.xRot = (float) Math.toRadians(-90);
-        		this.left_arm.xRot = (float) Math.toRadians(-90);
-        		
-        		//this.right_arm.zRot = (float) Math.toRadians(90);
-        		//this.left_arm.zRot = (float) Math.toRadians(-90);
-        	} else if(entity.getState() == 1) {
-        		this.head.zRot = 0;
-        		this.body.yRot = (entity.tickCount)%360;
-        		this.right_arm.xRot = 0;//(float) Math.toRadians(90);
-        		this.left_arm.xRot = 0;//(float) Math.toRadians(-90);
+			this.right_arm.xRot = (float) Math.toRadians(-90);
+			this.left_arm.xRot = (float) Math.toRadians(-90);
 
-        		this.right_arm.zRot = (float) Math.toRadians(90);
-        		this.left_arm.zRot = (float) Math.toRadians(-90);
+			//this.right_arm.zRot = (float) Math.toRadians(90);
+			//this.left_arm.zRot = (float) Math.toRadians(-90);
+		} else if(entity.getState() == 1) {
+			this.head.zRot = 0;
+			this.body.yRot = (entity.tickCount)%360;
+			this.right_arm.xRot = 0;//(float) Math.toRadians(90);
+			this.left_arm.xRot = 0;//(float) Math.toRadians(-90);
 
-        		return;
-        	}
+			this.right_arm.zRot = (float) Math.toRadians(90);
+			this.left_arm.zRot = (float) Math.toRadians(-90);
 
-        	if(entity.distanceToSqr(entity.xOld, entity.yOld, entity.zOld) > 0) {
-                for (ModelAnimation m : animation) { //iterate through the legs array
-                    m.animate();
-                }
-        	} else {
-                for (ModelAnimation m : animation) { //iterate through the legs array
-                    m.setDefault();
-                }
-        	}
-	        
-        }	
+			return;
+		}
+
+		if(entity.distanceToSqr(entity.xOld, entity.yOld, entity.zOld) > 0) {
+			for (ModelAnimation m : animation) { //iterate through the legs array
+				m.animate();
+			}
+		} else {
+			for (ModelAnimation m : animation) { //iterate through the legs array
+				m.setDefault();
+			}
+		}
     }
 
 	@Override

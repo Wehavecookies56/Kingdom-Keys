@@ -69,6 +69,8 @@ public class WorldData extends SavedData {
         }
         storage.put("struggles", struggles);
 
+        storage.putBoolean("mini_co_generated", miniCOGenerated);
+        storage.putInt("mini_co_y", miniCOY);
         return storage;
     }
 
@@ -128,6 +130,9 @@ public class WorldData extends SavedData {
             KingdomKeys.LOGGER.warn("Discarded {} duplicate struggles while reading", struggleDupeCount);
         }
         data.setParties(partiesList);
+
+        data.miniCOGenerated = nbt.getBoolean("mini_co_generated");
+        data.miniCOY = nbt.getInt("mini_co_y");
         return data;
     }
 
@@ -149,6 +154,28 @@ public class WorldData extends SavedData {
 
     int heartlessSpawnLevel = 0;
     Map<UUID, PortalData> portals = new HashMap<UUID, PortalData>();
+
+
+    private boolean miniCOGenerated = false;
+    private int miniCOY = Integer.MIN_VALUE;
+
+    public boolean isMiniCOGenerated() {
+        return miniCOGenerated;
+    }
+
+    public void setMiniCOGenerated(boolean generated) {
+        this.miniCOGenerated = generated;
+        setDirty();
+    }
+
+    public int getMiniCOY() {
+        return miniCOY;
+    }
+
+    public void setMiniCOY(int y) {
+        this.miniCOY = y;
+        setDirty();
+    }
 
     public Map<UUID, PortalData> getPortals() {
         return portals;
@@ -244,7 +271,6 @@ public class WorldData extends SavedData {
         String key = Utils.getResourceName(party.getName());
         int pos = -1;
         for(int i = 0; i < parties.size();i++) {
-            //System.out.println(parties.get(i).getName()+":"+key);
             if(Utils.getResourceName(parties.get(i).getName()).equalsIgnoreCase(key)) {
                 pos = i;
                 break;
@@ -323,7 +349,6 @@ public class WorldData extends SavedData {
         String key = Utils.getResourceName(struggle.getName());
         int pos = -1;
         for(int i = 0; i < struggles.size();i++) {
-            //System.out.println(parties.get(i).getName()+":"+key);
             if(Utils.getResourceName(struggles.get(i).getName()).equalsIgnoreCase(key)) {
                 pos = i;
                 break;

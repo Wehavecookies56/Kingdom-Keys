@@ -1,0 +1,11 @@
+{
+  "cost": 1200,
+  "ingredient1": "kingdomkeys:spellfira",
+  "ingredient2": "kingdomkeys:spellzerogravity",
+  "output": {
+    "type": "item",
+    "item": "kingdomkeys:spellmineshield",
+    "quantity": 1
+  },
+  "tier": 3
+}

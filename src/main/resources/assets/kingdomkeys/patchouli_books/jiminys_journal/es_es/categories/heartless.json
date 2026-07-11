@@ -1,0 +1,7 @@
+{
+	"name": "Sincorazón",
+	"description": "Hay distintos tipos de $(thing)Sincorazón$(). En esta sección veremos $(l:kingdomkeys:heartless/heartless_info)qué son$() y $(thing)qué tipos hay$().",
+	"icon": "kingdomkeys:illusory_crystal",
+	"parent": "kingdomkeys:enemies",
+	"sortnum": 7
+}

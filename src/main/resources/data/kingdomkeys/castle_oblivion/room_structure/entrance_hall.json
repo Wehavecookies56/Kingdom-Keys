@@ -5,6 +5,7 @@
   "categories": [
     "SPECIAL"
   ],
+  "floor_specific_structure": false,
   "white_list": [
     "kingdomkeys:entrance_hall"
   ]

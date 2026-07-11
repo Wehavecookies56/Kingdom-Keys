@@ -37,6 +37,10 @@ public class RecipeDataDeserializer implements JsonDeserializer<Recipe> {
                 	out.setCost(element.getAsInt());
                 	break;
 
+                case "exp":
+                    out.setExp(element.getAsInt());
+                    break;
+
                 case "output":
                 	 JsonObject outputObject = element.getAsJsonObject();
                      boolean valid = outputObject.get("item") != null && outputObject.get("quantity") != null;

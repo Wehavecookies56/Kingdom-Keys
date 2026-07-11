@@ -1,0 +1,16 @@
+{
+	"name": "Pedestal",
+	"icon": "kingdomkeys:pedestal",
+	"sortnum": 5,
+	"category": "kingdomkeys:misc",
+	"pages": [
+		{
+			"type": "text",
+			"text": "$(item)El Pedestal$() es un bloque que puede ser usado para $(thing)mostrar un objeto$(), con $(thing)opciones personalizables$() como: $(thing)Escalar, Velocidad al flotar y Rotaciones$()."
+		},
+		{
+			"type":"crafting",
+			"recipe":"kingdomkeys:pedestal"
+		}
+	]
+}

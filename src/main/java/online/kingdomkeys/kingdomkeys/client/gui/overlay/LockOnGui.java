@@ -61,7 +61,10 @@ public class LockOnGui extends OverlayBase {
 
 	@SubscribeEvent
 	public static void renderOverlay(RenderGuiLayerEvent.Pre event) {
-		if (!ModConfigs.SERVER.softLockOnMode.get() && InputHandler.lockOn != null && event.getName().equals(VanillaGuiLayers.CROSSHAIR)) {
+		if(Minecraft.getInstance().level == null)
+			return;
+
+		if (InputHandler.lockOn != null && !ModConfigs.SERVER.softLockOnMode.get() && event.getName().equals(VanillaGuiLayers.CROSSHAIR)) {
 			event.setCanceled(true);
 		}
 	}

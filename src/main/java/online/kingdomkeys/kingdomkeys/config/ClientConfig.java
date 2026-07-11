@@ -1,6 +1,5 @@
 package online.kingdomkeys.kingdomkeys.config;
 
-import com.google.common.collect.Lists;
 import net.neoforged.neoforge.common.ModConfigSpec;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.HUD.HUDElement;
@@ -11,7 +10,7 @@ import java.util.List;
  * Config file for client only config options
  */
 public class ClientConfig {
-	public ModConfigSpec.ConfigValue<List<? extends Float>> hpHUDData, mpHUDData, cmHUDData, rcHUDData, driveHUDData, focusHUDData, partyHUDData, lockOnHUDData, portraitHUDData, munnyExpHUDData, levelUpHUDData, driveLevelHUDData, minimapHUDData;
+	public ModConfigSpec.ConfigValue<List<? extends Float>> hpHUDData, mpHUDData, cmHUDData, rcHUDData, driveHUDData, focusHUDData, partyHUDData, lockOnHUDData, portraitHUDData, munnyExpHUDData, levelUpHUDData, driveLevelHUDData, minimapHUDData, roomNameHUDData;
 
     public ModConfigSpec.BooleanValue cmHeaderTextVisible, cmClassicColors, auto3rdPersonShip, cmChangeColor, customFont;
     public ModConfigSpec.IntValue cmTextXOffset, cmSelectedXOffset, cmSubXOffset, cmEndLWidth, cmEndRWidth, cmHeaderEndLWidth, cmHeaderEndRWidth, cmReactionEndLWidth, cmReactionEndRWidth;
@@ -28,9 +27,11 @@ public class ClientConfig {
 
 	public ModConfigSpec.EnumValue<ModConfigs.ShowType> showGuiToggle;
 
-	public ModConfigSpec.ConfigValue<List<? extends String>> magicDisplayedInCommandMenu;
+	public ModConfigSpec.ConfigValue<List<? extends Integer>> hiddenMagic;
 
 	public ModConfigSpec.BooleanValue shoulderSurfingDecoupled;
+
+	public ModConfigSpec.BooleanValue seasonalEvents;
 
 	ClientConfig(final ModConfigSpec.Builder builder) {
 		summonTogether = builder
@@ -42,6 +43,11 @@ public class ClientConfig {
 				.comment("Automatically change to 3rd person when riding a gummi ship")
 				.translation(KingdomKeys.MODID + ".config.auto_third_person_ship")
 				.define("auto3rdPersonShip", true);
+
+		seasonalEvents = builder
+				.comment("Enable fun cosmetic seasonal events (disable if you hate fun, no judgement)")
+				.translation(KingdomKeys.MODID + ".config.seasonal_events")
+				.define("seasonalEvents", true);
 
 		builder.push("hud_data");
 		cmHUDData = builder
@@ -96,6 +102,10 @@ public class ClientConfig {
 				.comment("Castle Oblivion Minimap HUD Data")
 				.translation(KingdomKeys.MODID + ".config.minimap_hud_data")//X,Y,Width ,Height ,xScale, yScale,rotation,anchor (ordinal)
 				.defineList("minimapHUDData", () -> HUDElement.getDefaultValues("Minimap"), o -> o instanceof Number);
+		roomNameHUDData = builder
+				.comment("Castle Oblivion Room Name HUD Data")
+				.translation(KingdomKeys.MODID + ".config.roomname_hud_data")//X,Y,Width ,Height ,xScale, yScale,rotation,anchor (ordinal)
+				.defineList("roomnameHUDData", () -> HUDElement.getDefaultValues("RoomName"), o -> o instanceof Number);
 		builder.pop();
 
         builder.push("gui");
@@ -120,10 +130,10 @@ public class ClientConfig {
                     .translation(KingdomKeys.MODID + ".config.cm_change_color")
                     .define("cmChangeColor", true);
 
-			magicDisplayedInCommandMenu = builder
-					.comment("The Magic to display in the Magic menu within the Command Menu")
-					.translation(KingdomKeys.MODID + ".config.cm_magic_display")
-					.defineList("magicDisplayedInCommandMenu", () -> Lists.newArrayList("kingdomkeys:magic_fire", "kingdomkeys:magic_blizzard", "kingdomkeys:magic_water", "kingdomkeys:magic_thunder", "kingdomkeys:magic_cure", "kingdomkeys:magic_aero", "kingdomkeys:magic_magnet", "kingdomkeys:magic_reflect", "kingdomkeys:magic_gravity", "kingdomkeys:magic_stop"), () -> "kingdomkeys:magic_fire", o -> o instanceof String);
+			hiddenMagic = builder
+					.comment("Magic to hide from the Command Menu")
+					.translation(KingdomKeys.MODID + ".config.cm_hidden_magic")
+					.defineList("hiddenMagic", () -> List.of(),obj -> obj instanceof Integer);
 	        
 	        cmTextXOffset = builder
 	                .comment("Command Menu Text X Offset")

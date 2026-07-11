@@ -19,12 +19,9 @@ public record SCSyncOrgPortalPacket(BlockPos pos, BlockPos destPos, ResourceKey<
 	public static final Type<SCSyncOrgPortalPacket> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "sc_sync_org_portal"));
 
 	public static final StreamCodec<FriendlyByteBuf, SCSyncOrgPortalPacket> STREAM_CODEC = StreamCodec.composite(
-			BlockPos.STREAM_CODEC,
-			SCSyncOrgPortalPacket::pos,
-			BlockPos.STREAM_CODEC,
-			SCSyncOrgPortalPacket::destPos,
-			ResourceKey.streamCodec(Registries.DIMENSION),
-			SCSyncOrgPortalPacket::dimension,
+			BlockPos.STREAM_CODEC, SCSyncOrgPortalPacket::pos,
+			BlockPos.STREAM_CODEC, SCSyncOrgPortalPacket::destPos,
+			ResourceKey.streamCodec(Registries.DIMENSION), SCSyncOrgPortalPacket::dimension,
 			SCSyncOrgPortalPacket::new
 	);
 

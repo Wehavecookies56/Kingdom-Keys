@@ -13,14 +13,15 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.damagesource.KKDamageTypes;
 import online.kingdomkeys.kingdomkeys.datagen.init.*;
 import online.kingdomkeys.kingdomkeys.datagen.provider.BaseLootTableProvider;
+import online.kingdomkeys.kingdomkeys.datagen.provider.MagicDataProvider;
+import online.kingdomkeys.kingdomkeys.datagen.provider.ShopDataProvider;
 
 import java.util.Set;
 
 @EventBusSubscriber()
 public class DataGeneration {
 
-	 private static final RegistrySetBuilder BUILDER = new RegistrySetBuilder()
-	            .add(Registries.DAMAGE_TYPE, KKDamageTypes::bootstrap);
+	 private static final RegistrySetBuilder BUILDER = new RegistrySetBuilder().add(Registries.DAMAGE_TYPE, KKDamageTypes::bootstrap);
 	 
     @SubscribeEvent
     public static void gatherData(GatherDataEvent event) {
@@ -45,12 +46,17 @@ public class DataGeneration {
         generator.addProvider(event.includeServer(), new KeybladeStats(generator, existingFileHelper));
         generator.addProvider(event.includeServer(), new BaseLootTableProvider(output, event.getLookupProvider()));
         generator.addProvider(event.includeServer(), new SynthesisRecipe(generator, existingFileHelper));
+        generator.addProvider(event.includeServer(), new MeldingRecipe(generator, existingFileHelper));
+        generator.addProvider(event.includeServer(), new MagicDataProvider(output));
+        generator.addProvider(event.includeServer(), new ShopDataProvider(output));
         //probably should use the forge provider generator.addProvider(event.includeServer(), new KKAdvancementProvider(generator.getPackOutput(), event.getLookupProvider(), ));
         generator.addProvider(event.includeClient(), new LanguageENUS(generator));
         generator.addProvider(event.includeClient(), new LanguageESES(generator));
         generator.addProvider(event.includeClient(), new LanguageENGB(generator));
         generator.addProvider(event.includeClient(), new Sounds(generator, existingFileHelper));
         generator.addProvider(event.includeClient(), new BannerPatterns(generator, event.getLookupProvider(), existingFileHelper));
+        generator.addProvider(event.includeServer(), new FloorTypesGen(generator));
+        generator.addProvider(event.includeServer(), new RoomTypesGen(generator));
         
        // generator.addProvider(event.includeServer(), new DatapackBuiltinEntriesProvider(output, event.getLookupProvider(), BUILDER, Set.of(KingdomKeys.MODID)));
 

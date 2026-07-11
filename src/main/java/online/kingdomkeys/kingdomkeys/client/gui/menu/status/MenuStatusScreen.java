@@ -30,11 +30,8 @@ public class MenuStatusScreen extends MenuBackground {
 	Button stats_player, stats_back;
 	List<MenuButton> dfStats = new ArrayList<>();
 
-	MenuColourBox level, totalExp, nextLevel, hp, mp, ap, driveGauge, str, mag, def, fRes, bRes, tRes, aRes, lRes, wRes, dRes, dfLevel, dfExp, dfNextLevel, dfFormGauge;
+	MenuColourBox path, level, totalExp, nextLevel, hp, mp, ap, driveGauge, str, mag, def, fRes, bRes, tRes, aRes, lRes, wRes, dRes, dfLevel, dfExp, dfNextLevel, dfFormGauge;
 
-	MenuColourBox[] playerWidgets = { level, totalExp, nextLevel, hp, mp, ap, driveGauge, str, mag, def, fRes, bRes, tRes, lRes, wRes, dRes };
-
-	MenuColourBox[] dfWidgets = { dfLevel, dfExp, dfNextLevel, dfFormGauge };
 	MenuBox box;
 
 	public MenuStatusScreen() {
@@ -61,39 +58,16 @@ public class MenuStatusScreen extends MenuBackground {
         }
 		
 		//Select the widgets to show depending on the selected button
-		if (form.equals(DriveForm.NONE.toString())) {
-			form = DriveForm.NONE.toString();
-			dfLevel.visible = false;
-			dfExp.visible = false;
-			dfNextLevel.visible = false;
-			dfFormGauge.visible = false;
-			
-			level.visible = true;
-			totalExp.visible = true;
-			nextLevel.visible = true;
-			hp.visible = true;
-			mp.visible = true;
-			ap.visible = true;
-			driveGauge.visible = true;	
-		} else {
-			dfLevel.visible = true;
-			dfExp.visible = true;
-			dfNextLevel.visible = true;
-			dfFormGauge.visible = true;
-			
-			level.visible = false;
-			totalExp.visible = false;
-			nextLevel.visible = false;
-			hp.visible = false;
-			mp.visible = false;
-			ap.visible = false;
-			driveGauge.visible = false;
-			 
-			int remainingExp = playerData.getDriveFormLevel(form) == ModDriveForms.registry.get(ResourceLocation.parse(form)).getMaxLevel() ? 0 : ModDriveForms.registry.get(ResourceLocation.parse(form)).getLevelUpCost(playerData.getDriveFormLevel(form)+1) - playerData.getDriveFormExp(form);
+		boolean base = form.equals(DriveForm.NONE.toString());
+		dfLevel.visible = dfExp.visible = dfNextLevel.visible = dfFormGauge.visible = !base;
+		level.visible = totalExp.visible = nextLevel.visible = hp.visible = mp.visible = ap.visible = driveGauge.visible = base;
+
+		if(!base) {
+			int remainingExp = playerData.getDriveFormLevel(form) == ModDriveForms.registry.get(ResourceLocation.parse(form)).getMaxLevel() ? 0 : ModDriveForms.registry.get(ResourceLocation.parse(form)).getLevelUpCost(playerData.getDriveFormLevel(form) + 1) - playerData.getDriveFormExp(form);
 			dfLevel.setValue("" + playerData.getDriveFormLevel(form));
-			dfExp.setValue(""+playerData.getDriveFormExp(form));
-			dfNextLevel.setValue(""+remainingExp);
-			dfFormGauge.setValue(""+(2 + playerData.getDriveFormLevel(form)));
+			dfExp.setValue("" + playerData.getDriveFormExp(form));
+			dfNextLevel.setValue("" + remainingExp);
+			dfFormGauge.setValue("" + (2 + playerData.getDriveFormLevel(form)));
 		}
 	}
 
@@ -103,8 +77,7 @@ public class MenuStatusScreen extends MenuBackground {
 		this.renderables.clear();
 
 		int button_statsY = (int) topBarHeight + 5;
-		int button_stats_playerY = button_statsY;
-		int button_stats_formsY = button_stats_playerY + 18;
+		int button_stats_formsY = button_statsY + 18;
 
 		float buttonPosX = (float) width * 0.03F;
 		float subButtonPosX = buttonPosX + 10;
@@ -119,7 +92,7 @@ public class MenuStatusScreen extends MenuBackground {
 		int col1X = box.getX() + 10;
 		int col2X = box.getX() + box.getWidth()/2 + 5;
 
-		addRenderableWidget(stats_player = new MenuButton((int) buttonPosX, button_stats_playerY, (int) buttonWidth, minecraft.player.getDisplayName().getString(), ButtonType.BUTTON, (e) -> { action(DriveForm.NONE.toString()); }));
+		addRenderableWidget(stats_player = new MenuButton((int) buttonPosX, button_statsY, (int) buttonWidth, minecraft.player.getDisplayName().getString(), ButtonType.BUTTON, (e) -> { action(DriveForm.NONE.toString()); }));
 
 		int i;
 
@@ -143,17 +116,18 @@ public class MenuStatusScreen extends MenuBackground {
 		//Stats
 		int c = 0;
 		int spacer = 14;
-		
+		addRenderableWidget(path = new MenuColourBox(col1X,  button_statsY + (c++* spacer), box.getWidth() - 20, Utils.translateToLocal("Choice"),playerData.getChosen().toString(), 0x880088));
+
 		addRenderableWidget(level = new MenuColourBox(col1X, button_statsY + (c++* spacer), box.getWidth()/2 - 10, Utils.translateToLocal(Strings.Gui_Menu_Status_Level),"" + playerData.getLevel(), 0x000088));
 		addRenderableWidget(totalExp = new MenuColourBox(col1X,  button_statsY + (c++* spacer), box.getWidth()/2 - 10, Utils.translateToLocal(Strings.Gui_Menu_Status_TotalExp),"" + playerData.getExperience(), 0x000088));
 		addRenderableWidget(nextLevel = new MenuColourBox(col1X,  button_statsY + (c++* spacer), box.getWidth()/2 - 10, Utils.translateToLocal(Strings.Gui_Menu_Status_NextLevel),"" + playerData.getExpNeeded(playerData.getLevel(), playerData.getExperience()), 0x000088));
-		
+
 		addRenderableWidget(hp = new MenuColourBox(col1X,  button_statsY + (c++* spacer), box.getWidth()/2 - 10, Utils.translateToLocal(Strings.Gui_Menu_Status_HP),"" + (int) minecraft.player.getMaxHealth(), 0x008800));
 		addRenderableWidget(mp = new MenuColourBox(col1X,  button_statsY + (c++* spacer), box.getWidth()/2 - 10, Utils.translateToLocal(Strings.Gui_Menu_Status_MP),"" + (int) playerData.getMaxMP(), 0x008800));
 		addRenderableWidget(ap = new MenuColourBox(col1X,  button_statsY + (c++* spacer), box.getWidth()/2 - 10, Utils.translateToLocal(Strings.Gui_Menu_Status_AP), Utils.getConsumedAP(playerData)+"/"+playerData.getMaxAP(true), 0x008800));
 		addRenderableWidget(driveGauge = new MenuColourBox(col1X,  button_statsY + (c++* spacer), box.getWidth()/2 - 10, Utils.translateToLocal(Strings.Gui_Menu_Status_DriveGauge),"" + (int) playerData.getMaxDP()/100, 0x008800));
 		
-		c=0;
+		c=1;
 		addRenderableWidget(str = new MenuColourBox(col2X,  button_statsY + (c++* spacer), box.getWidth()/2 - 15, Utils.translateToLocal(Strings.Gui_Menu_Status_Strength),"" + playerData.getStrength(true), 0x880000));
 		addRenderableWidget(mag = new MenuColourBox(col2X,  button_statsY + (c++* spacer), box.getWidth()/2 - 15, Utils.translateToLocal(Strings.Gui_Menu_Status_Magic),"" + playerData.getMagic(true), 0x880000));
 		addRenderableWidget(def = new MenuColourBox(col2X,  button_statsY + (c++* spacer), box.getWidth()/2 - 15, Utils.translateToLocal(Strings.Gui_Menu_Status_Defense),"" + playerData.getDefense(true), 0x880000));
@@ -165,9 +139,9 @@ public class MenuStatusScreen extends MenuBackground {
 		addRenderableWidget(aRes = new MenuColourBox(col2X,  button_statsY + (c++* spacer), box.getWidth()/2 - 15, Utils.translateToLocal(Strings.Gui_Menu_Status_AirRes),Utils.getArmorsStat(playerData, "air")+"%", 0x887700));
 		addRenderableWidget(lRes = new MenuColourBox(col2X,  button_statsY + (c++* spacer), box.getWidth()/2 - 15, Utils.translateToLocal(Strings.Gui_Menu_Status_LightRes),Utils.getArmorsStat(playerData, "light")+"%", 0x887700));
 		addRenderableWidget(dRes = new MenuColourBox(col2X,  button_statsY + (c++* spacer), box.getWidth()/2 - 15, Utils.translateToLocal(Strings.Gui_Menu_Status_DarkRes),Utils.getArmorsStat(playerData, "darkness")+"%", 0x887700));
-		
+
 		//Drive Form specific data elements
-		c=0; 
+		c=1;
 		// Value not set here as this is generic for every form
 		addRenderableWidget(dfLevel = new MenuColourBox(col1X,  button_statsY + (c++* spacer), box.getWidth()/2 - 10,Utils.translateToLocal(Strings.Gui_Menu_Status_FormLevel),"", 0x000088));
 		addRenderableWidget(dfExp = new MenuColourBox(col1X,  button_statsY + (c++* spacer), box.getWidth()/2 - 10, Utils.translateToLocal(Strings.Gui_Menu_Status_TotalExp), "", 0x000088));

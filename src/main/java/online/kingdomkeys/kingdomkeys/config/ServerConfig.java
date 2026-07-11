@@ -8,13 +8,13 @@ import java.util.List;
 
 public class ServerConfig {
 
-    public ModConfigSpec.IntValue partyRangeLimit, partyMembersLimit, shotlockMaxDist;
+    public ModConfigSpec.IntValue partyRangeLimit, partyMembersLimit, shotlockMaxDist, wayfinderCD, wayfinderCDCall;
 
     public ModConfigSpec.ConfigValue<List<? extends String>> driveFormXPMultiplier;
     public ModConfigSpec.ConfigValue<List<? extends Integer>> statsMultiplier;
 
-    public ModConfigSpec.DoubleValue xpMultiplier, heartMultiplier, partyXPShare;
-    public ModConfigSpec.BooleanValue requireSynthTier, projectorHasShop, savepointGlobal, getExpFromShop, orgEnabled, allowBoosts, allowPartyKO, wayfinderParty, hostileMobsLevel, gummiShipFuelSystem, softLockOnMode;
+    public ModConfigSpec.DoubleValue xpMultiplier, magicXPMultiplier, heartMultiplier, partyXPShare;
+    public ModConfigSpec.BooleanValue requireSynthTier, requireSynthTierShop, requireMeldingTier, projectorHasShop, savepointGlobal, getExpFromShop, orgEnabled, allowBoosts, allowPartyKO, wayfinderParty, hostileMobsLevel, dragonLevel, gummiShipFuelSystem, softLockOnMode, allowCastMagicIfTooExpensive;
 
     ServerConfig(final ModConfigSpec.Builder builder) {
         builder.push("general");
@@ -40,9 +40,19 @@ public class ServerConfig {
                 .defineInRange("partyMembersLimit", 5, 1, 20);
                
         requireSynthTier = builder
-                .comment("If true players will only be able to synthesis items from their tier or lower, if false they can synthesise all regardless of their tier")
+                .comment("If true players will only be able to synthesise items from their tier or lower, if false they can synthesise all of them regardless of their tier")
                 .translation(KingdomKeys.MODID + ".config.require_synth_tier")
                 .define("requireSynthTier", false);
+
+        requireSynthTierShop = builder
+                .comment("If true players will only be able to buy items from their tier or lower, if false they can buy all of them regardless of their tier")
+                .translation(KingdomKeys.MODID + ".config.require_synth_tier_shop")
+                .define("requireSynthTierShop", true);
+
+        requireMeldingTier = builder
+                .comment("If true players will only be able to meld commands from their tier or lower, if false they can meld all of them regardless of their tier")
+                .translation(KingdomKeys.MODID + ".config.require_melding_tier")
+                .define("requireMeldingTier", true);
         
         projectorHasShop = builder
                 .comment("If true moogle projectors will have the default shop available, if false only the moogles will")
@@ -74,7 +84,17 @@ public class ServerConfig {
                 .comment("IMPORTANT! If supplementaries is installed we recommend to change in supplementaries-client.toml \"send_chat_on_death = true\" to false, since by default it sends a - at the end and might cause issues.")
                 .translation(KingdomKeys.MODID + ".config.allow_party_ko")
                 .define("allowPartyKO", true);
-        
+
+        wayfinderCD = builder
+                .comment("Cooldown (in seconds) for the Wayfinder after a successful teleport")
+                .translation(KingdomKeys.MODID + ".config.wayfinder_cd")
+                .defineInRange("wayfinderCD", 300,1,10000);
+
+        wayfinderCDCall = builder
+                .comment("Cooldown (in seconds) for the Wayfinder after a call")
+                .translation(KingdomKeys.MODID + ".config.wayfinder_cd_call")
+                .defineInRange("wayfinderCDCall", 30,1,10000);
+
         wayfinderParty = builder
                 .comment("If true then players will only be able to use the Wayfinder with other party members, if false with anyone")
                 .translation(KingdomKeys.MODID + ".config.wayfinder_party")
@@ -85,10 +105,20 @@ public class ServerConfig {
                 .translation(KingdomKeys.MODID + ".config.hostile_mobs_level")
                 .define("hostileMobsLevel", true);
 
+        dragonLevel = builder
+                .comment("If true the Enderdragon will level up too")
+                .translation(KingdomKeys.MODID + ".config.dragon_level")
+                .define("dragonLevel", true);
+
         shotlockMaxDist = builder
                 .comment("Shotlock max distance for locking")
                 .translation(KingdomKeys.MODID + ".config.shotlock_max_dist")
                 .defineInRange("shotlockMaxDist", 200, 1, 1000);
+
+        allowCastMagicIfTooExpensive = builder
+                .comment("If true it will allow you to cast a magic which is too expensive even if you don't have the req. Max MP (eg. Stop at level 4)")
+                .translation(KingdomKeys.MODID + ".config.allow_magic_too_expensive")
+                .define("allowCastMagicIfTooExpensive", true);
 
         builder.pop();
 
@@ -98,6 +128,11 @@ public class ServerConfig {
                 .comment("XP Multiplier")
                 .translation(KingdomKeys.MODID + ".config.xp_multiplier")
                 .defineInRange("xpMultiplier", 1F, 0, 1000);
+
+        magicXPMultiplier = builder
+                .comment("Magic spells XP Multiplier")
+                .translation(KingdomKeys.MODID + ".config.magic_xp_multiplier")
+                .defineInRange("magicXPMultiplier", 0.4F, 0, 1000);
 
         heartMultiplier = builder
                 .comment("Hearts Multiplier")

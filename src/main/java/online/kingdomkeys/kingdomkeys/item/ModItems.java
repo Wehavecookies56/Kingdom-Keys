@@ -7,11 +7,10 @@ import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.SwordItem;
+import net.minecraft.world.level.biome.Biomes;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.item.card.MapCardItem;
-import online.kingdomkeys.kingdomkeys.item.card.MinglingWorldsMapCardItem;
-import online.kingdomkeys.kingdomkeys.item.card.WorldCardItem;
+import online.kingdomkeys.kingdomkeys.item.card.*;
 import online.kingdomkeys.kingdomkeys.item.organization.*;
 import online.kingdomkeys.kingdomkeys.item.tier.KeybladeItemTier;
 import online.kingdomkeys.kingdomkeys.item.tier.WoodenKeybladeItemTier;
@@ -827,16 +826,82 @@ public class ModItems {
 			gummiMeteorFragment = createNewItem("gummi_meteor_fragment", new Item.Properties()),
 
 
-			fireSpell = createNewItem(Strings.SpellFire, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "fire")),
-			blizzardSpell = createNewItem(Strings.SpellBlizzard, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "blizzard")),
-			waterSpell = createNewItem(Strings.SpellWater, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "water")),
-			thunderSpell = createNewItem(Strings.SpellThunder, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "thunder")),
-			cureSpell = createNewItem(Strings.SpellCure, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "cure")),
-			aeroSpell = createNewItem(Strings.SpellAero, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "aero")),
-			magnetSpell = createNewItem(Strings.SpellMagnet, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "magnet")),
-			reflectSpell= createNewItem(Strings.SpellReflect, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "reflect")),
-			gravitySpell = createNewItem(Strings.SpellGravity, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "gravity")),
-			stopSpell = createNewItem(Strings.SpellStop, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.MODID + ":" + Strings.Mag_Prefix + "stop")),
+			fireSpell = createNewItem(Strings.SpellFire, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Fire)),
+			firaSpell = createNewItem(Strings.SpellFira, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Fira)),
+			firagaSpell = createNewItem(Strings.SpellFiraga, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Firaga)),
+			darkFiragaSpell = createNewItem(Strings.SpellDarkFiraga, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_DarkFiraga)),
+			tripleFiragaSpell = createNewItem(Strings.SpellTripleFiraga, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_TripleFiraga)),
+			crawlingFiragaSpell = createNewItem(Strings.SpellCrawlingFiraga, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_CrawlingFiraga)),
+			fissionFiragaSpell = createNewItem(Strings.SpellFissionFiraga, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_FissionFiraga)),
+			firagaBurstSpell = createNewItem(Strings.SpellFiragaBurst, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_FiragaBurst)),
+			igniteSpell = createNewItem(Strings.SpellIgnite, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Ignite)),
+
+			blizzardSpell = createNewItem(Strings.SpellBlizzard, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Blizzard)),
+			blizzaraSpell = createNewItem(Strings.SpellBlizzara, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Blizzara)),
+			blizzagaSpell = createNewItem(Strings.SpellBlizzaga, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Blizzaga)),
+			tripleBlizzagaSpell = createNewItem(Strings.SpellTripleBlizzaga, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_TripleBlizzard)),
+			deepFreezeSpell = createNewItem(Strings.SpellDeepFreeze, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_DeepFreeze)),
+			glacierSpell = createNewItem(Strings.SpellGlacier, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Glacier)),
+			iceBarrageSpell = createNewItem(Strings.SpellIceBarrage, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_IceBarrage)),
+
+			waterSpell = createNewItem(Strings.SpellWater, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Water)),
+			wateraSpell = createNewItem(Strings.SpellWatera, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Watera)),
+			watergaSpell = createNewItem(Strings.SpellWaterga, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Waterga)),
+
+			thunderSpell = createNewItem(Strings.SpellThunder, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Thunder)),
+			thundaraSpell = createNewItem(Strings.SpellThundara, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Thundara)),
+			thundagaSpell = createNewItem(Strings.SpellThundaga, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Thundaga)),
+			thundagaShotSpell = createNewItem(Strings.SpellThundagaShot, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_ThundagaShot)),
+			triplePlasmaSpell = createNewItem(Strings.SpellTriplePlasma, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_TriplePlasma)),
+			sparkSpell = ITEMS.register(Strings.SpellSpark, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Spark)),
+			sparkraSpell = ITEMS.register(Strings.SpellSparkra, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Sparkra)),
+			sparkgaSpell = ITEMS.register(Strings.SpellSparkga, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Sparkga)),
+
+			cureSpell = createNewItem(Strings.SpellCure, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Cure)),
+			curaSpell = createNewItem(Strings.SpellCura, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Cura)),
+			curagaSpell = createNewItem(Strings.SpellCuraga, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Curaga)),
+
+			aeroSpell = createNewItem(Strings.SpellAero, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Aero)),
+			aeroraSpell = createNewItem(Strings.SpellAerora, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Aerora)),
+			aerogaSpell = createNewItem(Strings.SpellAeroga, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Aeroga)),
+
+			magnetSpell = createNewItem(Strings.SpellMagnet, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Magnet)),
+			magneraSpell = createNewItem(Strings.SpellMagnera, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Magnera)),
+			magnegaSpell = createNewItem(Strings.SpellMagnega, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Magnega)),
+
+			reflectSpell = createNewItem(Strings.SpellReflect, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Reflect)),
+			refleraSpell = createNewItem(Strings.SpellReflera, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Reflera)),
+			reflegaSpell = createNewItem(Strings.SpellReflega, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Reflega)),
+
+			gravitySpell = createNewItem(Strings.SpellGravity, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Gravity)),
+			graviraSpell = createNewItem(Strings.SpellGravira, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Gravira)),
+			gravigaSpell = createNewItem(Strings.SpellGraviga, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Graviga)),
+			zeroGravitySpell = createNewItem(Strings.SpellZeroGravity, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_ZeroGravity)),
+			zeroGraviraSpell = createNewItem(Strings.SpellZeroGravira, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_ZeroGravira)),
+			zeroGravigaSpell = createNewItem(Strings.SpellZeroGraviga, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_ZeroGraviga)),
+
+			stopSpell = createNewItem(Strings.SpellStop, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Stop)),
+			stopraSpell = createNewItem(Strings.SpellStopra, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Stopra)),
+			stopgaSpell = createNewItem(Strings.SpellStopga, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Stopga)),
+
+			balloonSpell = ITEMS.register(Strings.SpellBalloon, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Balloon)),
+			balloonraSpell = ITEMS.register(Strings.SpellBalloonra, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Balloonra)),
+			balloongaSpell = ITEMS.register(Strings.SpellBalloonga, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Balloonga)),
+
+			mineShieldSpell = ITEMS.register(Strings.SpellMineShield, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_MineShield)),
+			mineSquareSpell = ITEMS.register(Strings.SpellMineSquare, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_MineSquare)),
+			mineSeekerSpell = ITEMS.register(Strings.SpellMineSeeker, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_SeekerMine)),
+
+			warpSpell = ITEMS.register(Strings.SpellWarp, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Warp)),
+			faithSpell = ITEMS.register(Strings.SpellFaith, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Faith)),
+
+			blackoutSpell = createNewItem(Strings.SpellBlackout, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Blackout)),
+			poisonSpell = createNewItem(Strings.SpellPoison, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Poison)),
+			esunaSpell = ITEMS.register(Strings.SpellEsuna, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Esuna)),
+			confuseSpell = ITEMS.register(Strings.SpellConfuse, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Confuse)),
+			bindSpell = ITEMS.register(Strings.SpellBind, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Bind)),
+			miniSpell = ITEMS.register(Strings.SpellMini, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Mini)),
+			slowSpell = ITEMS.register(Strings.SpellSlow, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Slow)),
 
 
 			struggleSword = createNewItem(Strings.StruggleSword, () -> new SwordItem(new KeybladeItemTier(0),new Item.Properties().attributes(SwordItem.createAttributes(new KeybladeItemTier(0), 1, 1)).stacksTo(1))),
@@ -850,15 +915,16 @@ public class ModItems {
 			masterOrb = createNewItem(Strings.LevelUpMaster, () -> new DriveFormOrbItem(new Item.Properties(), KingdomKeys.MODID+":form_master")),
 			finalOrb = createNewItem(Strings.LevelUpFinal, () -> new DriveFormOrbItem(new Item.Properties(), KingdomKeys.MODID+":form_final")),
 			
-			synthesisBag = createNewItem("synthesis_bag", () -> new SynthesisBagItem(new Item.Properties().stacksTo(1))),
-			recipe = createNewItem("recipe", () -> new RecipeItem(0,new Item.Properties().stacksTo(16))),
-			recipeD = createNewItem("recipe_d", () -> new RecipeItem(1,new Item.Properties().stacksTo(16))),
-			recipeC = createNewItem("recipe_c", () -> new RecipeItem(2,new Item.Properties().stacksTo(16))),
-			recipeB = createNewItem("recipe_b", () -> new RecipeItem(3,new Item.Properties().stacksTo(16))),
-			recipeA = createNewItem("recipe_a", () -> new RecipeItem(4,new Item.Properties().stacksTo(16))),
-			recipeS = createNewItem("recipe_s", () -> new RecipeItem(5,new Item.Properties().stacksTo(16))),
-			recipeSS = createNewItem("recipe_ss", () -> new RecipeItem(6,new Item.Properties().stacksTo(16))),
-			recipeSSS = createNewItem("recipe_sss", () -> new RecipeItem(7,new Item.Properties().stacksTo(16))),
+			synthesisBag = createNewItem("synthesis_bag", () -> new BagItem(new Item.Properties().stacksTo(1), BagItem.Type.SYNTHESIS_BAG)),
+			magicsBag = createNewItem("magics_bag", () -> new BagItem(new Item.Properties().stacksTo(1), BagItem.Type.MAGICS_BAG)),
+			recipe = createNewItem("recipe", () -> new RecipeItem(0, new Item.Properties())),
+			recipeD = createNewItem("recipe_d", () -> new RecipeItem(1, new Item.Properties())),
+			recipeC = createNewItem("recipe_c", () -> new RecipeItem(2, new Item.Properties())),
+			recipeB = createNewItem("recipe_b", () -> new RecipeItem(3, new Item.Properties())),
+			recipeA = createNewItem("recipe_a", () -> new RecipeItem(4, new Item.Properties())),
+			recipeS = createNewItem("recipe_s", () -> new RecipeItem(5, new Item.Properties())),
+			recipeSS = createNewItem("recipe_ss", () -> new RecipeItem(6, new Item.Properties())),
+			recipeSSS = createNewItem("recipe_sss", () -> new RecipeItem(7, new Item.Properties())),
 
 			proofOfHeart = createNewItem("proof_of_heart", () -> new ProofOfHeartItem(new Item.Properties())),
 			
@@ -956,33 +1022,56 @@ public class ModItems {
 			gummiShipBlueprint = createNewItem(Strings.gummiShipBlueprint, () -> new GummiShipBlueprintItem(new Item.Properties())),
 
 			//map cards
-			tranquilDarkness = createMapCard(Strings.TranquilDarkness, ModRoomTypes.TRANQUIL_DARKNESS),
-			teemingDarkness = createMapCard(Strings.TeemingDarkness, ModRoomTypes.TEEMING_DARKNESS),
-			feebleDarkness = createMapCard(Strings.FeebleDarkness, ModRoomTypes.FEEBLE_DARKNESS),
-			almightyDarkness = createMapCard(Strings.AlmightyDarkness, ModRoomTypes.ALMIGHTY_DARKNESS),
-			sleepingDarkness = createMapCard(Strings.SleepingDarkness, ModRoomTypes.SLEEPING_DARKNESS),
-			loomingDarkness = createMapCard(Strings.LoomingDarkness, ModRoomTypes.LOOMING_DARKNESS),
-			bottomlessDarkness = createMapCard(Strings.BottomlessDarkness, ModRoomTypes.BOTTOMLESS_DARKNESS),
-			martialWaking = createMapCard(Strings.MartialWaking, ModRoomTypes.MARTIAL_WAKING),
-			sorcerousWaking = createMapCard(Strings.SorcerousWaking, ModRoomTypes.SORCEROUS_WAKING),
-			alchemicWaking = createMapCard(Strings.AlchemicWaking, ModRoomTypes.ALCHEMIC_WAKING),
-			stagnantSpace = createMapCard(Strings.StagnantSpace, ModRoomTypes.STAGNANT_SPACE),
-			weightlessSpace = createMapCard(Strings.WeightlessSpace, ModRoomTypes.WEIGHTLESS_SPACE),
-			calmBounty = createMapCard(Strings.CalmBounty, ModRoomTypes.CALM_BOUNTY),
-			guardedTrove = createMapCard(Strings.GuardedTrove, ModRoomTypes.GUARDED_TROVE),
-			falseBounty = createMapCard(Strings.FalseBounty, ModRoomTypes.FALSE_BOUNTY),
-			momentsReprieve = createMapCard(Strings.MomentsReprieve, ModRoomTypes.MOMENTS_REPRIEVE),
-			moogleRoom = createMapCard(Strings.MoogleRoom, ModRoomTypes.MOOGLE_ROOM),
-			prosperousRepository = createMapCard(Strings.ProsperousRepository, ModRoomTypes.PROSPEROUS_REPOSITORY),
-			treacherousRepository = createMapCard(Strings.TreacherousRepository, ModRoomTypes.TREACHEROUS_RESPOITORY),
-			reposefulGrove = createMapCard(Strings.ReposefulGrove, ModRoomTypes.REPOSEFUL_GROVE),
+			tranquilDarkness = createMapCard(Strings.TranquilDarkness, ModRoomTypes.TRANQUIL_DARKNESS, CardCategory.RED),
+			teemingDarkness = createMapCard(Strings.TeemingDarkness, ModRoomTypes.TEEMING_DARKNESS, CardCategory.RED),
+			feebleDarkness = createMapCard(Strings.FeebleDarkness, ModRoomTypes.FEEBLE_DARKNESS, CardCategory.RED),
+			almightyDarkness = createMapCard(Strings.AlmightyDarkness, ModRoomTypes.ALMIGHTY_DARKNESS, CardCategory.RED),
+			sleepingDarkness = createMapCard(Strings.SleepingDarkness, ModRoomTypes.SLEEPING_DARKNESS, CardCategory.RED, true),
+			loomingDarkness = createMapCard(Strings.LoomingDarkness, ModRoomTypes.LOOMING_DARKNESS, CardCategory.RED),
+			bottomlessDarkness = createMapCard(Strings.BottomlessDarkness, ModRoomTypes.BOTTOMLESS_DARKNESS, CardCategory.RED),
+			martialWaking = createMapCard(Strings.MartialWaking, ModRoomTypes.MARTIAL_WAKING, CardCategory.GREEN),
+			sorcerousWaking = createMapCard(Strings.SorcerousWaking, ModRoomTypes.SORCEROUS_WAKING, CardCategory.GREEN, true),
+			alchemicWaking = createMapCard(Strings.AlchemicWaking, ModRoomTypes.ALCHEMIC_WAKING, CardCategory.GREEN, true),
+			stagnantSpace = createMapCard(Strings.StagnantSpace, ModRoomTypes.STAGNANT_SPACE, CardCategory.GREEN),
+			weightlessSpace = createMapCard(Strings.WeightlessSpace, ModRoomTypes.WEIGHTLESS_SPACE, CardCategory.GREEN),
+			calmBounty = createMapCard(Strings.CalmBounty, ModRoomTypes.CALM_BOUNTY, CardCategory.BLUE, true),
+			guardedTrove = createMapCard(Strings.GuardedTrove, ModRoomTypes.GUARDED_TROVE, CardCategory.BLUE, true),
+			falseBounty = createMapCard(Strings.FalseBounty, ModRoomTypes.FALSE_BOUNTY, CardCategory.BLUE, true),
+			momentsReprieve = createMapCard(Strings.MomentsReprieve, ModRoomTypes.MOMENTS_REPRIEVE, CardCategory.BLUE),
+			moogleRoom = createMapCard(Strings.MoogleRoom, ModRoomTypes.MOOGLE_ROOM, CardCategory.BLUE),
+			prosperousRepository = createMapCard(Strings.ProsperousRepository, ModRoomTypes.PROSPEROUS_REPOSITORY, CardCategory.BLUE, true),
+			treacherousRepository = createMapCard(Strings.TreacherousRepository, ModRoomTypes.TREACHEROUS_RESPOITORY, CardCategory.BLUE, true),
+			reposefulGrove = createMapCard(Strings.ReposefulGrove, ModRoomTypes.REPOSEFUL_GROVE, CardCategory.BLUE, true),
 			minglingWorlds = ITEMS.register(Strings.MinglingWorlds, MinglingWorldsMapCardItem::new),
 
-			//floor cards
-			plainsCard = createWorldCard(Strings.PlainsCard, ModFloorTypes.PLAINS),
-			netherCard = createWorldCard(Strings.NetherCard, ModFloorTypes.NETHER);
+			keyOfBeginnings = createKeyCard("key_of_beginnings", ModRoomTypes.ROOM_OF_BEGINNINGS, KeycardType.BEGINNINGS),
+			keyOfGuidance = createKeyCard("key_of_guidance", ModRoomTypes.ROOM_OF_GUIDANCE, KeycardType.GUIDANCE),
+			keyToTruth = createKeyCard("key_to_truth", ModRoomTypes.ROOM_OF_TRUTH, KeycardType.TRUTH),
+			keyToRewards = createKeyCard("key_to_rewards", ModRoomTypes.ROOM_OF_REWARDS, KeycardType.REWARDS),
+
+			redCardPack = createNewItem(Strings.RedCardPack, () -> new CardPackItem(new Item.Properties(), CardCategory.RED)),
+			greenCardPack = createNewItem(Strings.GreenCardPack, () -> new CardPackItem(new Item.Properties(), CardCategory.GREEN)),
+			blueCardPack = createNewItem(Strings.BlueCardPack, () -> new CardPackItem(new Item.Properties(), CardCategory.BLUE)),
+			randomCardPack = createNewItem(Strings.RandomCardPack, () -> new CardPackItem(new Item.Properties(), null)),
 
 
+		//floor cards
+			emptyCard = createNewItem(Strings.EmptyCard, () -> new BiomeMemoryItem(new Item.Properties(), null)),
+			plainsCard = createWorldCard(Strings.PlainsCard, ModFloorTypes.PLAINS, true),
+			plainsMemory = createNewItem(Strings.PlainsMemory, () -> new BiomeMemoryItem(new Item.Properties(), Biomes.PLAINS)),
+			theNetherCard = createWorldCard(Strings.TheNetherCard, ModFloorTypes.THE_NETHER),
+			theEndCard = createWorldCard(Strings.TheEndCard, ModFloorTypes.THE_END),
+			desertCard = createWorldCard(Strings.DesertCard, ModFloorTypes.DESERT, true),
+			desertMemory = createNewItem(Strings.DesertMemory, () -> new BiomeMemoryItem(new Item.Properties(), Biomes.DESERT)),
+			snowyCard = createWorldCard(Strings.SnowyCard, ModFloorTypes.SNOWY),
+			mushroomFieldsCard = createWorldCard(Strings.MushroomFieldsCard, ModFloorTypes.MUSHROOM_FIELDS),
+			oceanCard = createWorldCard(Strings.OceanCard, ModFloorTypes.OCEAN),
+			forestCard = createWorldCard(Strings.ForestCard, ModFloorTypes.FOREST),
+			jungleCard = createWorldCard(Strings.JungleCard, ModFloorTypes.JUNGLE),
+			badlandsCard = createWorldCard(Strings.BadlandsCard, ModFloorTypes.BADLANDS),
+			swampCard = createWorldCard(Strings.SwampCard, ModFloorTypes.SWAMP),
+			caveCard = createWorldCard(Strings.CaveCard, ModFloorTypes.CAVE),
+			castleOblivionCard = createWorldCard(Strings.CastleOblivionCard, ModFloorTypes.CASTLE_OBLIVION);
 
 	//Helper method to create item with the properties and registry name
 	public static Supplier<Item> createNewItem(String name, Item.Properties properties) {
@@ -1001,12 +1090,24 @@ public class ModItems {
 		return ITEMS.register(name, () -> new BaseArmorItem(material, slot, textureName));
 	}
 
-	private static Supplier<Item> createMapCard(String name, Supplier<RoomType> type) {
-		return ITEMS.register(name, () -> new MapCardItem(type));
+	private static Supplier<Item> createMapCard(String name, Supplier<RoomType> type, CardCategory category, boolean wip) {
+		return ITEMS.register(name, () -> new MapCardItem(type, category, wip));
+	}
+
+	private static Supplier<Item> createMapCard(String name, Supplier<RoomType> type, CardCategory category) {
+		return ITEMS.register(name, () -> new MapCardItem(type, category));
+	}
+
+	private static Supplier<Item> createKeyCard(String name, Supplier<RoomType> roomType, KeycardType type) {
+		return ITEMS.register(name, () -> new MapCardItem(roomType, type));
 	}
 
 	private static Supplier<Item> createWorldCard(String name, Supplier<FloorType> type) {
 		return ITEMS.register(name, () -> new WorldCardItem(type));
+	}
+
+	private static Supplier<Item> createWorldCard(String name, Supplier<FloorType> type, boolean implemented) {
+		return ITEMS.register(name, () -> new WorldCardItem(type, implemented));
 	}
 	
 	private static Supplier<Item> createKeybladeArmorItem(String name, Holder<ArmorMaterial> material, ArmorItem.Type slot, String textureName) {

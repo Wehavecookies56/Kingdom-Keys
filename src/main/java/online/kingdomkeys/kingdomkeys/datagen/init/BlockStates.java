@@ -229,10 +229,11 @@ public class BlockStates extends BlockStateProvider {
 				});
 			} else if (block instanceof INoDataGen) {
 				// Skip
+				System.out.println("Skipping: "+block.getName());
 			} else if (block instanceof KKOreBlock && name.endsWith("_n")) {
 				simpleNetherOre(itemRegistryObject);
 			} else if (block instanceof GummiBlockBase || name.contains("gummi_meteor")) {
-				simpleBlock(block, new ModelFile.UncheckedModelFile(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "block/"+name)));
+				simpleBlock(block, new ModelFile.UncheckedModelFile(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "block/" + name)));
 			} else {
 				simpleBlock(itemRegistryObject);
 			}

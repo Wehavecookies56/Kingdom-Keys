@@ -1,0 +1,17 @@
+{
+	"render_type": "minecraft:cutout",
+	"loader": "neoforge:obj",
+	"model": "kingdomkeys:models/block/card_door.obj",
+	"flip_v": true,
+	"transform": {
+		"translation": [ -0.6, -1, -0.5 ],
+		"scale": [ 0.22, 0.22, 0.22 ]
+	},
+	"display": {
+		"gui": {
+			"rotation": [0, -90, 0],
+			"translation": [3, -2, 0],
+			"scale": [1, 1, 1]
+		}
+	}
+}

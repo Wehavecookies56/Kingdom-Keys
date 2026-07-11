@@ -7,16 +7,10 @@
     },
     {
       "item": "kingdomkeys:recipe_c"
-    },
-    {
-      "item": "kingdomkeys:recipe_c"
-    },
-    {
-      "item": "kingdomkeys:recipe_c"
     }
   ],
   "result": {
     "count": 1,
-    "id": "kingdomkeys:recipe_a"
+    "id": "kingdomkeys:recipe_b"
   }
 }

@@ -1,0 +1,52 @@
+package online.kingdomkeys.kingdomkeys.network.cts;
+
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
+import online.kingdomkeys.kingdomkeys.item.ModComponents;
+import online.kingdomkeys.kingdomkeys.item.ModItems;
+import online.kingdomkeys.kingdomkeys.network.Packet;
+import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
+import online.kingdomkeys.kingdomkeys.util.Utils;
+
+public record CSUpgradeBagPacket() implements Packet {
+
+	public static final Type<CSUpgradeBagPacket> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_upgrade_synthesis_bag"));
+
+	public static final StreamCodec<FriendlyByteBuf, CSUpgradeBagPacket> STREAM_CODEC = StreamCodec.of((pBuffer, pValue) -> {}, pBuffer -> new CSUpgradeBagPacket());
+
+	@Override
+	public void handle(IPayloadContext context) {
+		Player player = context.player();
+
+		PlayerData playerData = PlayerData.get(player);
+		ItemStack stack = Utils.getItemInAnyHand(player, ModItems.synthesisBag.get());
+		if(stack == null || stack.isEmpty()){
+			stack = Utils.getItemInAnyHand(player, ModItems.magicsBag.get());
+		}
+
+		if(stack != null) {
+			int bagLevel = stack.get(ModComponents.BAG_LEVEL);
+
+			int cost = Utils.getBagCosts(bagLevel);
+			if (playerData.getMunny() >= cost) {
+				playerData.setMunny(playerData.getMunny() - cost);
+				stack.set(ModComponents.BAG_LEVEL, bagLevel+1);
+				PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
+			}
+		}
+	}
+
+	@Override
+	public Type<? extends CustomPacketPayload> type() {
+		return TYPE;
+	}
+}

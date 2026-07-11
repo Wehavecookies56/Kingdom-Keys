@@ -1,5 +1,5 @@
 {
-  "ability": "",
+  "ability": "kingdomkeys:ability_blizzard_boost",
   "base_stats": {
     "mag": 6,
     "str": 3

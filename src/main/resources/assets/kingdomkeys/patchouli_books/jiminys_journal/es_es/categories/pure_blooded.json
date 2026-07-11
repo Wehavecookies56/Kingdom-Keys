@@ -1,0 +1,7 @@
+{
+	"name": "Purasangre",
+	"description": "Lista completa de $(item)Sincorazón Purasangre$() que están presentes en el mod. ¡Consulta las entradas individuales para obtener más $(thing)información$() y $(thing)estrategias$() para cada uno!",
+	"icon": "kingdomkeys:way_to_the_dawn_chain",
+	"parent": "kingdomkeys:heartless",
+	"sortnum": 1
+}

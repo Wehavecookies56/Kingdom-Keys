@@ -1,0 +1,11 @@
+{
+  "cost": 1600,
+  "ingredient1": "kingdomkeys:spellzerogravira",
+  "ingredient2": "kingdomkeys:spellpoison",
+  "output": {
+    "type": "item",
+    "item": "kingdomkeys:spellblackout",
+    "quantity": 1
+  },
+  "tier": 4
+}

@@ -1,6 +1,7 @@
 package online.kingdomkeys.kingdomkeys.block;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -15,6 +16,8 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -23,17 +26,19 @@ import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.common.NeoForge;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.api.event.CastleOblivionEvent;
 import online.kingdomkeys.kingdomkeys.data.CastleOblivionData;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.block.CardDoorTileEntity;
 import online.kingdomkeys.kingdomkeys.item.card.WorldCardItem;
+import online.kingdomkeys.kingdomkeys.lib.ModTags;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCOpenCODoorGui;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCastleOblivionInteriorData;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.CastleOblivionHandler;
-import online.kingdomkeys.kingdomkeys.api.event.CastleOblivionEvent;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.floor.Floor;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.*;
 
@@ -75,25 +80,26 @@ public class CardDoorBlock extends BaseBlock implements EntityBlock, INoDataGen 
 	@Override
 	protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
     	//state.setValue(OPEN, true);
-    	//System.out.println("OPEN? "+state.getValue(OPEN));
 		if (!level.isClientSide) {
-
 			if (state.getValue(GENERATED)) {
-				CastleOblivionData.InteriorData cap = CastleOblivionData.InteriorData.get((ServerLevel) level);
-				if (cap != null) {
+				return CastleOblivionData.InteriorData.get((ServerLevel) level).map(interiorData -> {
 					CardDoorTileEntity te = (CardDoorTileEntity) level.getBlockEntity(pos);
-					if (te != null && te.getParentRoom() != null) {
+					if (te != null && te.getParentRoom() != null && !te.isLocked()) {
 						//TODO check type
 						// world card selection gui
 						// set world for floor
 						// create first room from entrance
 						// transport into room
+						if (te.getCurrentCriteria() == null || te.getCurrentCriteria().isEmpty()) {
+							te.setCurrentCriteria(te.getData().getCardCriteria());
+						}
 						switch (te.getData().getType()) {
 							case NORMAL -> {
 								if (te.getDestinationRoom() != null) {
-                                    KingdomKeys.LOGGER.debug("Size: {}", te.getParentRoom().getParentFloor((ServerLevel) level).getRooms().size());
-                                    KingdomKeys.LOGGER.debug("{}: Num:{} Open? {}", level.isClientSide ? "Client" : "Server", te.getDestinationRoom().getCardCost(), te.isOpen());
+									KingdomKeys.LOGGER.debug("Size: {}", te.getParentRoom().getParentFloor((ServerLevel) level).getRooms().size());
+									KingdomKeys.LOGGER.debug("{}: Num:{} Open? {}", level.isClientSide ? "Client" : "Server", te.getData(), te.isOpen());
 									PacketHandler.sendTo(new SCOpenCODoorGui(te.getBlockPos()), (ServerPlayer) player);
+									return ItemInteractionResult.sidedSuccess(false);
 								}
 							}
 							case FIXED -> {
@@ -106,21 +112,36 @@ public class CardDoorBlock extends BaseBlock implements EntityBlock, INoDataGen 
 								if (!te.isOpen()) {
 									//TODO open world card gui
 									if (player.getItemInHand(hand).getItem() instanceof WorldCardItem item) {
-										te.getParentRoom().getParentFloor((ServerLevel) level).setWorldCard(item);
-										te.openDoor(true);
-										CastleOblivionHandler.createFirstRoom(player, te);
+										if (!FMLEnvironment.production || player.getItemInHand(hand).is(ModTags.WORLD_CARD)) {
+											te.getParentRoom().getParentFloor((ServerLevel) level).setWorldCard(item);
+											te.openDoor(true);
+											CastleOblivionHandler.createFirstRoom(player, te);
+											stack.consume(1, player);
+										} else {
+											player.sendSystemMessage(Component.literal("I did warn you, saved you from crashing/breaking your world"));
+										}
+										return ItemInteractionResult.sidedSuccess(false);
 									}
 								}
 								//if open do nothing because world card has been set
 							}
+							case KEY -> {
+								//Key door requires key card + others, once open it cannot be interacted with
+								if (te.getDestinationRoom() != null && te.getDestinationRoom().getGenerated().isEmpty()) {
+									PacketHandler.sendTo(new SCOpenCODoorGui(te.getBlockPos()), (ServerPlayer) player);
+									return ItemInteractionResult.sidedSuccess(false);
+								}
+							}
 						}
 					}
-				}
-			} else {
-				// open card gui
-				// set card?
-				// transport to door with same card?
-				// maybe just link 2 doors together somehow
+					return ItemInteractionResult.FAIL;
+				}).orElseGet(() -> {
+					// open card gui
+					// set card?
+					// transport to door with same card?
+					// maybe just link 2 doors together somehow
+					return ItemInteractionResult.sidedSuccess(false);
+				});
 			}
 		}
 		return ItemInteractionResult.sidedSuccess(level.isClientSide);
@@ -137,55 +158,58 @@ public class CardDoorBlock extends BaseBlock implements EntityBlock, INoDataGen 
 		if(!level.isClientSide) {
 			if (state.getValue(GENERATED)) {
 				if (entity instanceof Player player) {
-					CastleOblivionData.InteriorData cap = CastleOblivionData.InteriorData.get((ServerLevel) level);
-					if (cap != null) {
+					CastleOblivionData.InteriorData.get((ServerLevel) level).ifPresent(interiorData -> {
 						CardDoorTileEntity te = (CardDoorTileEntity) level.getBlockEntity(pos);
-						if (te != null && te.getParentRoom() != null && te.isOpen()) {
+						if (te != null && te.getParentRoom() != null && te.isOpen() && !te.isLocked() && te.getDisableTicks() <= 0) {
 							if (te.getDestinationRoom() != null) {
 								RoomData data = te.getDestinationRoom();
-								Room newRoom = data.getGenerated();
-								if (newRoom != null) {
-									KingdomKeys.LOGGER.debug(te.getDestinationRoom().getGenerated().getType().getTranslationKey());
-									if (!NeoForge.EVENT_BUS.post(new CastleOblivionEvent.PlayerChangeRoomEvent(cap.getRoomAtPos(te.getBlockPos()), newRoom, player)).isCanceled()) {
+								interiorData.getFloorByID(data.getParentID()).getRoom(data.pos).getGenerated().ifPresent(newRoom -> {
+									if (!NeoForge.EVENT_BUS.post(new CastleOblivionEvent.PlayerChangeRoomEvent(interiorData.getRoomAtPos(te.getBlockPos()), newRoom, player)).isCanceled()) {
 										BlockPos destination = newRoom.doors.get(te.getDirection().opposite()).pos();
 										destination = destination.offset(te.getDirection().toMCDirection().getNormal().multiply(2));
 										player.teleportTo(destination.getX(), destination.getY(), destination.getZ());
 										//player.moveTo(destination.getX(), destination.getY(), destination.getZ());
-										PacketHandler.sendTo(new SCSyncCastleOblivionInteriorData(cap, level), (ServerPlayer) player);
+										PacketHandler.sendTo(new SCSyncCastleOblivionInteriorData(interiorData, level), (ServerPlayer) player);
+										newRoom.roomEntered(interiorData.getRoomAtPos(te.getBlockPos()), (ServerPlayer) player);
+										te.setDisableTicks(20);
 									}
-								}
+								});
 							} else if (te.getData().getType() != DoorData.Type.EXIT && te.getData().getType() != DoorData.Type.ENTRANCE) {
 								KingdomKeys.LOGGER.error("Door [{}] missing destination room of type {}, something has gone wrong", te.getBlockPos().toShortString(), te.getData().getType());
 							} else {
-								Floor currFloor = cap.getFloorByID(te.getParentRoom().getParentID());
+								Floor currFloor = interiorData.getFloorByID(te.getParentRoom().getGenerated().get().parentFloor); //use parent from generated room
 								if (te.getData().getType() == DoorData.Type.ENTRANCE) {
 									if (te.getParentRoom().getParentID() == 0) {
 										//on first floor so exit
-										CastleOblivionHandler.exitCastleOblivion(currFloor, te.getParentRoom().getGenerated(), player);
+										CastleOblivionHandler.exitCastleOblivion(currFloor, te.getParentRoom().getGenerated().get(), player);
+										te.setDisableTicks(20);
 										//currFloor.floorExited(player);
 									} else {
 										//not on first floor so go to previous floor
-										Floor prevFloor = cap.getFloorByID(te.getParentRoom().getParentID()-1);
-										Room destRoom = prevFloor.getExitRoom().getGenerated();
-										BlockPos destination = destRoom.getExitDoor();
-										destination = destination.offset(level.getBlockState(destination).getValue(FACING).getNormal().multiply(2));
-										player.teleportTo(destination.getX(), destination.getY(), destination.getZ());
-										NeoForge.EVENT_BUS.post(new CastleOblivionEvent.PlayerChangeRoomEvent(te.getParentRoom().getGenerated(), destRoom, player));
-										NeoForge.EVENT_BUS.post(new CastleOblivionEvent.PlayerChangeFloorEvent(currFloor, prevFloor, player));
-										//currFloor.floorExited(player);
-										//prevFloor.floorEntered(player);
-										PacketHandler.sendTo(new SCSyncCastleOblivionInteriorData(cap, level), (ServerPlayer) player);
+										Floor prevFloor = interiorData.getFloorByID(te.getParentRoom().getParentID()-1);
+										prevFloor.getExitRoom().getGenerated().ifPresent(destRoom -> {
+											BlockPos destination = destRoom.getExitDoor();
+											destination = destination.offset(level.getBlockState(destination).getValue(FACING).getNormal().multiply(2));
+											player.teleportTo(destination.getX(), destination.getY(), destination.getZ());
+											NeoForge.EVENT_BUS.post(new CastleOblivionEvent.PlayerChangeRoomEvent(te.getParentRoom().getGenerated().get(), destRoom, player));
+											NeoForge.EVENT_BUS.post(new CastleOblivionEvent.PlayerChangeFloorEvent(currFloor, prevFloor, te.getParentRoom().getGenerated().get(), destRoom, player));
+											//currFloor.floorExited(player);
+											//prevFloor.floorEntered(player);
+											PacketHandler.sendTo(new SCSyncCastleOblivionInteriorData(interiorData, level), (ServerPlayer) player);
+											destRoom.roomEntered(te.getParentRoom().getGenerated().get(), (ServerPlayer) player);
+											te.setDisableTicks(20);
+										});
 									}
 								} else if (te.getData().getType() == DoorData.Type.EXIT) {
 									Room destRoom;
 									Floor nextFloor;
 									//create new floor if at top floor
-									if (cap.getFloors().size() == currFloor.getFloorID()+1) {
+									if (interiorData.getFloors().size() == currFloor.getFloorID()+1) {
 										destRoom = RoomGenerator.INSTANCE.generateNewFloor((ServerLevel) level);
-										nextFloor = cap.getFloorByID(destRoom.parentFloor);
+										nextFloor = interiorData.getFloorByID(destRoom.parentFloor);
 									} else {
-										nextFloor = cap.getFloorByID(te.getParentRoom().getParentID()+1);
-										destRoom = nextFloor.getRoom(RoomPos.ZERO).getGenerated();
+										nextFloor = interiorData.getFloorByID(te.getParentRoom().getParentID()+1);
+										destRoom = nextFloor.getRoom(RoomPos.ZERO).getGenerated().get();
 									}
 									BlockPos entranceDoor = destRoom.doors.get(RoomDirection.SOUTH).pos();
 									entranceDoor = entranceDoor.offset(level.getBlockState(entranceDoor).getValue(FACING).getNormal().multiply(2));
@@ -193,15 +217,17 @@ public class CardDoorBlock extends BaseBlock implements EntityBlock, INoDataGen 
 										player.teleportTo(sl, entranceDoor.getX(), entranceDoor.getY(), entranceDoor.getZ(), new HashSet<>(), 0, 0);
 									}
 
-									NeoForge.EVENT_BUS.post(new CastleOblivionEvent.PlayerChangeRoomEvent(te.getParentRoom().getGenerated(), destRoom, player));
-									NeoForge.EVENT_BUS.post(new CastleOblivionEvent.PlayerChangeFloorEvent(currFloor, nextFloor, player));
+									NeoForge.EVENT_BUS.post(new CastleOblivionEvent.PlayerChangeRoomEvent(te.getParentRoom().getGenerated().get(), destRoom, player));
+									NeoForge.EVENT_BUS.post(new CastleOblivionEvent.PlayerChangeFloorEvent(currFloor, nextFloor, te.getParentRoom().getGenerated().get(), destRoom, player));
 									//currFloor.floorExited(player);
 									//nextFloor.floorEntered(player);
-									PacketHandler.sendTo(new SCSyncCastleOblivionInteriorData(cap, level), (ServerPlayer) player);
+									PacketHandler.sendTo(new SCSyncCastleOblivionInteriorData(interiorData, level), (ServerPlayer) player);
+									destRoom.roomEntered(te.getParentRoom().getGenerated().get(), (ServerPlayer) player);
+									te.setDisableTicks(20);
 								}
 							}
 						}
-					}
+					});
 				}
 			}
 		}
@@ -232,5 +258,11 @@ public class CardDoorBlock extends BaseBlock implements EntityBlock, INoDataGen 
 		default:
 			return collisionShapeS;
 		}
+	}
+
+	@org.jetbrains.annotations.Nullable
+	@Override
+	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
+		return blockEntityType == ModEntities.TYPE_CARD_DOOR.get() ? CardDoorTileEntity::tick : null;
 	}
 }

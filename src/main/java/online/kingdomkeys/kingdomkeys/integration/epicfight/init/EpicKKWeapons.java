@@ -20,7 +20,6 @@ import yesman.epicfight.registry.entries.EpicFightSounds;
 import yesman.epicfight.world.capabilities.EpicFightCapabilities;
 import yesman.epicfight.world.capabilities.item.CapabilityItem;
 import yesman.epicfight.world.capabilities.item.WeaponCapability;
-import yesman.epicfight.world.capabilities.item.WeaponCategory;
 
 import java.util.function.Function;
 
@@ -33,7 +32,7 @@ public class EpicKKWeapons {
                     .collider(ColliderPreset.SWORD)
                     .weaponCombinationPredicator(entityPatch -> EpicFightCapabilities.getItemStackCapability(entityPatch.getOriginal().getOffhandItem()).getWeaponCategory() == EpicKKWeaponEnum.KK_CHAKRAM)
                     .newStyleCombo(CapabilityItem.Styles.ONE_HAND, Animations.SWORD_DUAL_AUTO1, Animations.SWORD_AUTO2, Animations.SWORD_AUTO3, Animations.SWORD_DASH, Animations.DAGGER_AIR_SLASH)
-                    .newStyleCombo(CapabilityItem.Styles.TWO_HAND, KKAnimations.CHAKRAM_AUTO1, Animations.DAGGER_DUAL_AUTO2, Animations.DAGGER_DUAL_AUTO3, Animations.DAGGER_DUAL_AUTO4, Animations.DAGGER_DUAL_DASH, Animations.DAGGER_DUAL_AIR_SLASH)
+                    .newStyleCombo(CapabilityItem.Styles.TWO_HAND, KKAnimations.AXEL_AUTO1, Animations.DAGGER_DUAL_AUTO2, Animations.DAGGER_DUAL_AUTO3, Animations.DAGGER_DUAL_AUTO4, Animations.DAGGER_DUAL_DASH, Animations.DAGGER_DUAL_AIR_SLASH)
                     .newStyleCombo(CapabilityItem.Styles.MOUNT, Animations.SWORD_MOUNT_ATTACK).innateSkill(CapabilityItem.Styles.ONE_HAND, itemstack -> EpicFightSkills.EVISCERATE.get()).innateSkill(CapabilityItem.Styles.TWO_HAND, itemstack -> EpicFightSkills.BLADE_RUSH.get())
                     .livingMotionModifier(CapabilityItem.Styles.ONE_HAND, LivingMotions.BLOCK, Animations.SWORD_GUARD)
                     .livingMotionModifier(CapabilityItem.Styles.TWO_HAND, LivingMotions.BLOCK, Animations.SWORD_DUAL_GUARD);
@@ -66,27 +65,29 @@ public class EpicKKWeapons {
                     .hitSound(EpicFightSounds.BLADE_HIT.get()).collider(KKCollider.KEYBLADE)
                     .weaponCombinationPredicator(entityPatch -> EpicFightCapabilities.getItemStackCapability(entityPatch.getOriginal().getOffhandItem()).getWeaponCategory() == CapabilityItem.WeaponCategories.SWORD)
 
-                    .livingMotionModifier(KKStyles.SORA, LivingMotions.IDLE, KKAnimations.ROXAS_IDLE)
-                    .livingMotionModifier(KKStyles.RIKU, LivingMotions.IDLE, KKAnimations.ROXAS_IDLE)
-                    .livingMotionModifier(KKStyles.ROXAS, LivingMotions.IDLE, KKAnimations.ROXAS_IDLE)
-                    .livingMotionModifier(KKStyles.TERRA, LivingMotions.IDLE, KKAnimations.ROXAS_IDLE)
-                    .livingMotionModifier(KKStyles.AQUA, LivingMotions.IDLE, KKAnimations.ROXAS_IDLE)
-                    .livingMotionModifier(KKStyles.VENTUS, LivingMotions.IDLE, KKAnimations.ROXAS_IDLE)
+                    .livingMotionModifier(KKStyles.SORA, LivingMotions.IDLE, KKAnimations.SORA_IDLE)
+                    .livingMotionModifier(KKStyles.RIKU, LivingMotions.IDLE, KKAnimations.SORA_IDLE)
+                    .livingMotionModifier(KKStyles.ROXAS, LivingMotions.IDLE, KKAnimations.SORA_IDLE)
+                    .livingMotionModifier(KKStyles.TERRA, LivingMotions.IDLE, KKAnimations.SORA_IDLE)
+                    .livingMotionModifier(KKStyles.AQUA, LivingMotions.IDLE, KKAnimations.SORA_IDLE)
+                    .livingMotionModifier(KKStyles.VENTUS, LivingMotions.IDLE, KKAnimations.SORA_IDLE)
 
-                    .livingMotionModifier(KKStyles.KH2_ROXAS_DUAL, LivingMotions.IDLE, KKAnimations.VALOR_IDLE)
-                    .livingMotionModifier(KKStyles.DAYS_ROXAS_DUAL, LivingMotions.IDLE, KKAnimations.VALOR_IDLE)
+                    .livingMotionModifier(KKStyles.KH2_ROXAS_DUAL, LivingMotions.IDLE, KKAnimations.VALOR_FORM_IDLE)
+                    .livingMotionModifier(KKStyles.DAYS_ROXAS_DUAL, LivingMotions.IDLE, KKAnimations.VALOR_FORM_IDLE)
 
-                    .livingMotionModifier(KKStyles.VALOR, LivingMotions.IDLE, KKAnimations.VALOR_IDLE)
-                    .livingMotionModifier(KKStyles.WISDOM, LivingMotions.IDLE, KKAnimations.WISDOM_IDLE)
-                    .livingMotionModifier(KKStyles.MASTER, LivingMotions.IDLE, KKAnimations.MASTER_IDLE)
-                    .livingMotionModifier(KKStyles.FINAL, LivingMotions.IDLE, KKAnimations.FINAL_IDLE)
+                    .livingMotionModifier(KKStyles.VALOR, LivingMotions.IDLE, KKAnimations.VALOR_FORM_IDLE)
+                    .livingMotionModifier(KKStyles.WISDOM, LivingMotions.IDLE, KKAnimations.WISDOM_FORM_IDLE)
+                    .livingMotionModifier(KKStyles.MASTER, LivingMotions.IDLE, KKAnimations.MASTER_FORM_IDLE)
+                    .livingMotionModifier(KKStyles.FINAL, LivingMotions.IDLE, KKAnimations.FINAL_FORM_IDLE)
 
-                    .livingMotionModifier(KKStyles.WISDOM, LivingMotions.WALK, KKAnimations.WISDOM_RUN)
-                    .livingMotionModifier(KKStyles.FINAL, LivingMotions.WALK, KKAnimations.FINAL_IDLE)
+                    .livingMotionModifier(KKStyles.WISDOM, LivingMotions.WALK, KKAnimations.WISDOM_FORM_RUN)
+                    .livingMotionModifier(KKStyles.MASTER, LivingMotions.WALK, KKAnimations.MASTER_FORM_WALK)
+                    .livingMotionModifier(KKStyles.FINAL, LivingMotions.WALK, KKAnimations.FINAL_FORM_IDLE)
 
                     .livingMotionModifier(KKStyles.VALOR, LivingMotions.RUN, KKAnimations.ROXAS_RUN)
-                    .livingMotionModifier(KKStyles.WISDOM, LivingMotions.RUN, KKAnimations.WISDOM_RUN)
-                    .livingMotionModifier(KKStyles.FINAL, LivingMotions.RUN, KKAnimations.FINAL_IDLE)
+                    .livingMotionModifier(KKStyles.WISDOM, LivingMotions.RUN, KKAnimations.WISDOM_FORM_RUN)
+                    .livingMotionModifier(KKStyles.MASTER, LivingMotions.RUN, KKAnimations.MASTER_FORM_RUN)
+                    .livingMotionModifier(KKStyles.FINAL, LivingMotions.RUN, KKAnimations.FINAL_FORM_IDLE)
 
                     .newStyleCombo(KKStyles.VALOR, KKAnimations.VALOR_AUTO1, KKAnimations.VALOR_AUTO2, KKAnimations.VALOR_AUTO1, KKAnimations.VALOR_AUTO3, KKAnimations.VALOR_AUTO3, Animations.SWORD_DASH, Animations.SWORD_DUAL_AIR_SLASH)
                     .newStyleCombo(KKStyles.WISDOM, KKAnimations.WISDOM_COMBO1, KKAnimations.WISDOM_COMBO1, KKAnimations.WISDOM_COMBO1, KKAnimations.WISDOM_FINISHER, KKAnimations.WISDOM_FINISHER, KKAnimations.WISDOM_COMBO1, Animations.SWORD_AIR_SLASH)
@@ -136,6 +137,6 @@ public class EpicKKWeapons {
             event.getTypeEntry().put(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, EpicKKWeaponEnum.KK_CHAKRAM.toString().toLowerCase()), CHAKRAM);
             event.getTypeEntry().put(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, EpicKKWeaponEnum.KK_SHIELD.toString().toLowerCase()), KK_SHIELD);
             event.getTypeEntry().put(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, EpicKKWeaponEnum.KK_KEYBLADE.toString().toLowerCase()), KEYBLADE);
-        }, KingdomKeys.MODID, 1);
+        }, KingdomKeys.MODID);
     }
 }

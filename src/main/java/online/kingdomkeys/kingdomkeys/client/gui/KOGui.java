@@ -82,11 +82,9 @@ public class KOGui extends ChatScreen {
             }
         }
 
-     //   System.out.println(input.getValue());
 
-       /* Minecraft mc = Minecraft.getInstance();
-        int width = mc.getWindow().getGuiScaledWidth();
-        int height = mc.getWindow().getGuiScaledHeight();
+        /*int width = minecraft.getWindow().getGuiScaledWidth();
+        int height = minecraft.getWindow().getGuiScaledHeight();
 
         int layers = 50;
         int max = 140;

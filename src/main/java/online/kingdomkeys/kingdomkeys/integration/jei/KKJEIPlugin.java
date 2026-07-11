@@ -16,6 +16,9 @@ import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.item.KeychainItem;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
+import online.kingdomkeys.kingdomkeys.savepoint.ModSavePoints;
+import online.kingdomkeys.kingdomkeys.savepoint.SavePointData;
+import online.kingdomkeys.kingdomkeys.synthesis.melding.MeldingRegistry;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
 
 import java.util.ArrayList;
@@ -31,18 +34,25 @@ public class KKJEIPlugin implements IModPlugin {
 
     @Override
     public void registerCategories(IRecipeCategoryRegistration registration) {
+        registration.addRecipeCategories(new CommandMeldingCategory(registration.getJeiHelpers().getGuiHelper()));
+
         registration.addRecipeCategories(new SynthesisRecipeCategory(registration.getJeiHelpers().getGuiHelper()));
         registration.addRecipeCategories(new KeybladeSummonRecipeCategory(registration.getJeiHelpers().getGuiHelper()));
+        registration.addRecipeCategories(new SavepointUpgradeCategory(registration.getJeiHelpers().getGuiHelper()));
         //TODO make category for ore drops
     }
 
     @Override
     public void registerRecipeCatalysts(IRecipeCatalystRegistration registration) {
         //registration.addRecipeCatalyst(new ItemStack(ModBlocks.moogleProjector.get()), SynthesisRecipeCategory.TYPE);
+        registration.addRecipeCatalyst(new ItemStack(ModBlocks.savepoint.get()), SavepointUpgradeCategory.TYPE);
+
     }
 
     @Override
     public void registerRecipes(IRecipeRegistration registration) {
+        registration.addRecipes(CommandMeldingCategory.TYPE, MeldingRegistry.getInstance().getValues());
+
         List<Item> keychainsFromRegistry = BuiltInRegistries.ITEM.stream().filter(i -> i instanceof KeychainItem).toList();
         List<Item> orgWeapons = BuiltInRegistries.ITEM.stream().filter(i -> i instanceof IOrgWeapon).toList();
         List<KeychainItem> keychains = new ArrayList<>();
@@ -98,6 +108,13 @@ public class KKJEIPlugin implements IModPlugin {
         //Recipes
         registration.addRecipes(KeybladeSummonRecipeCategory.TYPE, keychains);
         registration.addRecipes(SynthesisRecipeCategory.TYPE, RecipeRegistry.getInstance().getValues());
+        List<SavePointData> recipes = new ArrayList<>();
+
+        recipes.add(ModSavePoints.NORMAL.getData());
+        recipes.add(ModSavePoints.LINKED.getData());
+        recipes.add(ModSavePoints.WARP.getData());
+
+        registration.addRecipes(SavepointUpgradeCategory.TYPE, recipes);
 
     }
 
@@ -111,7 +128,6 @@ public class KKJEIPlugin implements IModPlugin {
         public void addInfo(Item item, String text) {
             registration.addIngredientInfo(new ItemStack(item), VanillaTypes.ITEM_STACK, Component.translatable("jei.info.kingdomkeys." + text));
         }
-
         public void addInfo(Block item, String text) {
             registration.addIngredientInfo(new ItemStack(item), VanillaTypes.ITEM_STACK, Component.translatable("jei.info.kingdomkeys." + text));
         }

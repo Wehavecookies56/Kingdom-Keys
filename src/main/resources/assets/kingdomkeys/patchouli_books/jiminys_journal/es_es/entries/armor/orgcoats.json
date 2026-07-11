@@ -1,0 +1,36 @@
+{
+	"name": "Org. XIII (Otros)",
+	"icon": "kingdomkeys:xemnas_helmet",
+	"sortnum": 1,
+	"category": "kingdomkeys:armor",
+	"pages": [
+		{
+			"type": "text",
+			"text": "$(item)Estos abrigos$() comparten las mismas estadísticas que el abrigo original y aún te permiten unirte a la Organización, simplemente te dan un estilo agregado."
+		},
+		{
+			"type": "text",
+			"text": "Puedes adoptar el estilo de $(thing)Xemnas$() del final de $(lissa)Kingdom Hearts II$() o adoptar el estilo de $(thing)Anti Coat$() de $(lissa)Dream Drop Distance$()."
+		},
+		{
+			"type":"crafting",
+			"recipe":"kingdomkeys:xemnas_helmet",
+			"recipe2":"kingdomkeys:xemnas_chestplate"
+		},
+		{
+			"type":"crafting",
+			"recipe":"kingdomkeys:xemnas_leggings",
+			"recipe2":"kingdomkeys:xemnas_boots"
+		},
+		{
+			"type":"crafting",
+			"recipe":"kingdomkeys:anticoat_helmet",
+			"recipe2":"kingdomkeys:anticoat_chestplate"
+		},
+		{
+			"type":"crafting",
+			"recipe":"kingdomkeys:anticoat_leggings",
+			"recipe2":"kingdomkeys:anticoat_boots"
+		}
+	]
+}

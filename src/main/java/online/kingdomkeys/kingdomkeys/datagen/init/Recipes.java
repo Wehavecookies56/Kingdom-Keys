@@ -11,12 +11,14 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.neoforged.neoforge.common.Tags;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
+import online.kingdomkeys.kingdomkeys.lib.ModTags;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.util.List;
@@ -40,6 +42,28 @@ public class Recipes extends RecipeProvider {
 
 	@Override
 	protected void buildRecipes(RecipeOutput consumer, HolderLookup.Provider holderLookup) {
+		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.emptyCard.get())
+				.define('P', Items.PAPER)
+				.define('E', Items.ENDER_EYE)
+				.pattern("PPP")
+				.pattern("PEP")
+				.pattern("PPP")
+				.group("kingdomkeys")
+				.unlockedBy("empty_card", InventoryChangeTrigger.TriggerInstance.hasItems(Items.ENDER_EYE))
+				.save(consumer);
+
+		ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.plainsCard.get())
+				.requires(ModItems.emptyCard.get())
+				.requires(ModItems.plainsMemory.get())
+				.unlockedBy("plains_card", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.plainsMemory.get()))
+				.save(consumer);
+
+		ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModBlocks.magicTarget.get())
+				.requires(Blocks.TARGET)
+				.requires(Blocks.REDSTONE_BLOCK)
+				.unlockedBy("magic_target", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.TARGET))
+				.save(consumer);
+
 		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.terra_Shoulder.get())
 				.define('B', ItemTags.BUTTONS)
 				.define('I', Items.IRON_INGOT)
@@ -212,7 +236,108 @@ public class Recipes extends RecipeProvider {
 		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_BOOTS), Ingredient.of(Items.GRAY_DYE), RecipeCategory.COMBAT, ModItems.xehanort_Boots.get())
         .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_BOOTS))
         .save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "keyblade_armor_xehanort_boots_smithing"));
-    	
+
+		/*ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.firaSpell.get())
+				.requires(ModItems.fireSpell.get(), 2)
+				.unlockedBy("fira_spell", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.fireSpell.get()))
+				.save(consumer);
+
+		ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.firagaSpell.get())
+				.requires(ModItems.firaSpell.get(), 2)
+				.unlockedBy("fira_spell", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.firaSpell.get()))
+				.save(consumer);
+
+		ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.blizzaraSpell.get())
+				.requires(ModItems.blizzardSpell.get(), 2)
+				.unlockedBy("blizzara_spell", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.blizzardSpell.get()))
+				.save(consumer);
+
+		ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.blizzagaSpell.get())
+				.requires(ModItems.blizzaraSpell.get(), 2)
+				.unlockedBy("blizzaga_spell", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.blizzaraSpell.get()))
+				.save(consumer);
+
+		ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.wateraSpell.get())
+				.requires(ModItems.waterSpell.get(), 2)
+				.unlockedBy("watera_spell", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.waterSpell.get()))
+				.save(consumer);
+
+		ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.watergaSpell.get())
+				.requires(ModItems.wateraSpell.get(), 2)
+				.unlockedBy("waterga_spell", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.wateraSpell.get()))
+				.save(consumer);
+
+		ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.thundaraSpell.get())
+				.requires(ModItems.thunderSpell.get(), 2)
+				.unlockedBy("thundara_spell", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.thunderSpell.get()))
+				.save(consumer);
+
+		ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.thundagaSpell.get())
+				.requires(ModItems.thundaraSpell.get(), 2)
+				.unlockedBy("thundaga_spell", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.thundaraSpell.get()))
+				.save(consumer);
+
+		ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.curaSpell.get())
+				.requires(ModItems.cureSpell.get(), 2)
+				.unlockedBy("cura_spell", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.cureSpell.get()))
+				.save(consumer);
+
+		ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.curagaSpell.get())
+				.requires(ModItems.curaSpell.get(), 2)
+				.unlockedBy("curaga_spell", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.curaSpell.get()))
+				.save(consumer);
+
+		ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.aeroraSpell.get())
+				.requires(ModItems.aeroSpell.get(), 2)
+				.unlockedBy("aerora_spell", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.aeroSpell.get()))
+				.save(consumer);
+
+		ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.aerogaSpell.get())
+				.requires(ModItems.aeroraSpell.get(), 2)
+				.unlockedBy("aeroga_spell", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.aeroraSpell.get()))
+				.save(consumer);
+
+		ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.magneraSpell.get())
+				.requires(ModItems.magnetSpell.get(), 2)
+				.unlockedBy("magnera_spell", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.magnetSpell.get()))
+				.save(consumer);
+
+		ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.magnegaSpell.get())
+				.requires(ModItems.magneraSpell.get(), 2)
+				.unlockedBy("magnega_spell", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.magneraSpell.get()))
+				.save(consumer);
+
+		ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.refleraSpell.get())
+				.requires(ModItems.reflectSpell.get(), 2)
+				.unlockedBy("reflera_spell", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.reflectSpell.get()))
+				.save(consumer);
+
+		ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.reflegaSpell.get())
+				.requires(ModItems.refleraSpell.get(), 2)
+				.unlockedBy("reflega_spell", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.refleraSpell.get()))
+				.save(consumer);
+
+		ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.graviraSpell.get())
+				.requires(ModItems.gravitySpell.get(), 2)
+				.unlockedBy("gravira_spell", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.gravitySpell.get()))
+				.save(consumer);
+
+		ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.gravigaSpell.get())
+				.requires(ModItems.graviraSpell.get(), 2)
+				.unlockedBy("graviga_spell", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.graviraSpell.get()))
+				.save(consumer);
+
+		ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.stopraSpell.get())
+				.requires(ModItems.stopSpell.get(), 2)
+				.unlockedBy("stopra_spell", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.stopSpell.get()))
+				.save(consumer);
+
+		ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.stopgaSpell.get())
+				.requires(ModItems.stopraSpell.get(), 2)
+				.unlockedBy("stopga_spell", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.stopraSpell.get()))
+				.save(consumer);
+*/
+
         // blox
         ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.normalBlox.get())
                 .define('S', Tags.Items.STONES)
@@ -336,6 +461,17 @@ public class Recipes extends RecipeProvider {
 				.pattern("IRI")
 				.group("kingdomkeys")
 				.unlockedBy("crafter", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.CRAFTER))
+				.save(consumer);
+
+		ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ModItems.gummiShipBlueprint.get())
+				.define('G', Blocks.GLASS)
+				.define('F', ModItems.gummiMeteorFragment.get())
+				.define('R', Blocks.REDSTONE_BLOCK)
+				.pattern("GGG")
+				.pattern("FRF")
+				.pattern("GGG")
+				.group("kingdomkeys")
+				.unlockedBy("fragment", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.gummiMeteorFragment.get()))
 				.save(consumer);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.gummiCore.get())
@@ -495,117 +631,35 @@ public class Recipes extends RecipeProvider {
 			.unlockedBy("training_dummy", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.HAY_BLOCK))
 			.save(consumer);
 
-        //2 recipes upgrade
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.recipeC.get())
-        .requires(ModItems.recipeD.get())
-        .requires(ModItems.recipeD.get())
-        .unlockedBy("recipe_d", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.recipeD.get()))
-        .save(consumer);
-        
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.recipeB.get())
-        .requires(ModItems.recipeC.get())
-        .requires(ModItems.recipeC.get())
-        .unlockedBy("recipe_c", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.recipeC.get()))
-        .save(consumer);
-       
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.recipeA.get())
-        .requires(ModItems.recipeB.get())
-        .requires(ModItems.recipeB.get())
-        .unlockedBy("recipe_b", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.recipeB.get()))
-        .save(consumer);
-      
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.recipeS.get())
-        .requires(ModItems.recipeA.get())
-        .requires(ModItems.recipeA.get())
-        .unlockedBy("recipe_a", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.recipeA.get()))
-        .save(consumer);
-       
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.recipeSS.get())
-        .requires(ModItems.recipeS.get())
-        .requires(ModItems.recipeS.get())
-        .unlockedBy("recipe_s", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.recipeS.get()))
-        .save(consumer);
-        
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.recipeSSS.get())
-        .requires(ModItems.recipeSS.get())
-        .requires(ModItems.recipeSS.get())
-        .unlockedBy("recipe_ss", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.recipeSS.get()))
-        .save(consumer);
-      
-        
-        //4 recipes upgrade
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.recipeB.get())
-        .requires(ModItems.recipeD.get())
-        .requires(ModItems.recipeD.get())
-        .requires(ModItems.recipeD.get())
-        .requires(ModItems.recipeD.get())
-        .unlockedBy("recipe_d", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.recipeD.get()))
-        .save(consumer,ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID,"recipe_d2"));
-       
-	    ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.recipeA.get())
-        .requires(ModItems.recipeC.get())
-        .requires(ModItems.recipeC.get())
-        .requires(ModItems.recipeC.get())
-        .requires(ModItems.recipeC.get())
-        .unlockedBy("recipe_c", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.recipeC.get()))
-        .save(consumer,ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID,"recipe_c2"));
-		
-		ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.recipeS.get())
-        .requires(ModItems.recipeB.get())
-        .requires(ModItems.recipeB.get())
-        .requires(ModItems.recipeB.get())
-        .requires(ModItems.recipeB.get())
-        .unlockedBy("recipe_b", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.recipeB.get()))
-        .save(consumer,ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID,"recipe_b2"));
-		
-		ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.recipeSS.get())
-        .requires(ModItems.recipeA.get())
-        .requires(ModItems.recipeA.get())
-        .requires(ModItems.recipeA.get())
-        .requires(ModItems.recipeA.get())
-        .unlockedBy("recipe_a", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.recipeA.get()))
-        .save(consumer,ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID,"recipe_a2"));
-		
-		 ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.recipeSSS.get())
-        .requires(ModItems.recipeS.get())
-        .requires(ModItems.recipeS.get())
-        .requires(ModItems.recipeS.get())
-        .requires(ModItems.recipeS.get())
-        .unlockedBy("recipe_s", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.recipeS.get()))
-        .save(consumer,ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID,"recipe_s2"));
-		 
-		 
-		 //1 recipe downgrade
-		ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.recipeSS.get())
-        .requires(ModItems.recipeSSS.get())
-        .unlockedBy("recipe_sss", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.recipeSSS.get()))
-        .save(consumer,ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID,"recipe_sss3"));
-		
-		ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.recipeS.get())
-        .requires(ModItems.recipeSS.get())
-        .unlockedBy("recipe_ss", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.recipeSS.get()))
-        .save(consumer,ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID,"recipe_ss3"));
-		
-		ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.recipeA.get())
-        .requires(ModItems.recipeS.get())
-        .unlockedBy("recipe_s", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.recipeS.get()))
-        .save(consumer,ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID,"recipe_s3"));
-		
-		ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.recipeB.get())
-        .requires(ModItems.recipeA.get())
-        .unlockedBy("recipe_a", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.recipeA.get()))
-        .save(consumer,ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID,"recipe_a3"));
-		
-		ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.recipeC.get())
-        .requires(ModItems.recipeB.get())
-        .unlockedBy("recipe_b", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.recipeB.get()))
-        .save(consumer,ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID,"recipe_b3"));
-		
-		ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.recipeD.get())
-        .requires(ModItems.recipeC.get())
-        .unlockedBy("recipe_c", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.recipeC.get()))
-        .save(consumer,ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID,"recipe_c3"));
-			
+
+		addRecipeUpgrade(consumer, ModItems.recipeD.get(), ModItems.recipeC.get(), 2, "recipe_d");
+		addRecipeUpgrade(consumer, ModItems.recipeD.get(), ModItems.recipeB.get(), 4, "recipe_d");
+		addRecipeUpgrade(consumer, ModItems.recipeD.get(), ModItems.recipeA.get(), 8, "recipe_d");
+
+		addRecipeUpgrade(consumer, ModItems.recipeC.get(), ModItems.recipeB.get(), 2, "recipe_c");
+		addRecipeUpgrade(consumer, ModItems.recipeC.get(), ModItems.recipeA.get(), 4, "recipe_c");
+		addRecipeUpgrade(consumer, ModItems.recipeC.get(), ModItems.recipeS.get(), 8, "recipe_c");
+
+		addRecipeUpgrade(consumer, ModItems.recipeB.get(), ModItems.recipeA.get(), 2, "recipe_b");
+		addRecipeUpgrade(consumer, ModItems.recipeB.get(), ModItems.recipeS.get(), 4, "recipe_b");
+		addRecipeUpgrade(consumer, ModItems.recipeB.get(), ModItems.recipeSS.get(), 8, "recipe_b");
+
+		addRecipeUpgrade(consumer, ModItems.recipeA.get(), ModItems.recipeS.get(), 2, "recipe_a");
+		addRecipeUpgrade(consumer, ModItems.recipeA.get(), ModItems.recipeSS.get(), 4, "recipe_a");
+		addRecipeUpgrade(consumer, ModItems.recipeA.get(), ModItems.recipeSSS.get(), 8, "recipe_a");
+
+		addRecipeUpgrade(consumer, ModItems.recipeS.get(), ModItems.recipeSS.get(), 2, "recipe_s");
+		addRecipeUpgrade(consumer, ModItems.recipeS.get(), ModItems.recipeSSS.get(), 4, "recipe_s");
+
+		addRecipeUpgrade(consumer, ModItems.recipeSS.get(), ModItems.recipeSSS.get(), 2, "recipe_ss");
+
+		//Downgrades
+		addRecipeUpgrade(consumer, ModItems.recipeSSS.get(), ModItems.recipeSS.get(), 1, "recipe_sss");
+		addRecipeUpgrade(consumer, ModItems.recipeSS.get(), ModItems.recipeS.get(), 1, "recipe_ss");
+		addRecipeUpgrade(consumer, ModItems.recipeS.get(), ModItems.recipeA.get(), 1, "recipe_s");
+		addRecipeUpgrade(consumer, ModItems.recipeA.get(), ModItems.recipeB.get(), 1, "recipe_a");
+		addRecipeUpgrade(consumer, ModItems.recipeB.get(), ModItems.recipeC.get(), 1, "recipe_b");
+		addRecipeUpgrade(consumer, ModItems.recipeC.get(), ModItems.recipeD.get(), 1, "recipe_c");
 		
         ShapelessRecipeBuilder.shapeless(RecipeCategory.FOOD, ModItems.iceCream.get(), 3)
                 .requires(Tags.Items.RODS_WOODEN)
@@ -615,15 +669,27 @@ public class Recipes extends RecipeProvider {
                 .unlockedBy("ice", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.ICE))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ModItems.synthesisBag.get())
-                .pattern("LSL")
-                .pattern("L L")
-                .pattern("LLL")
-                .define('S', Tags.Items.STRINGS)
-                .define('L', Tags.Items.LEATHERS)
-                .group("kingdomkeys")
-                .unlockedBy("leather", InventoryChangeTrigger.TriggerInstance.hasItems(Items.LEATHER))
-                .save(consumer);
+		ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ModItems.synthesisBag.get())
+				.pattern("LSL")
+				.pattern("LDL")
+				.pattern("LLL")
+				.define('S', Tags.Items.STRINGS)
+				.define('L', Tags.Items.LEATHERS)
+				.define('D', Items.ORANGE_DYE)
+				.group("kingdomkeys")
+				.unlockedBy("leather", InventoryChangeTrigger.TriggerInstance.hasItems(Items.LEATHER))
+				.save(consumer);
+
+		ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ModItems.magicsBag.get())
+				.pattern("LSL")
+				.pattern("LDL")
+				.pattern("LLL")
+				.define('S', Tags.Items.STRINGS)
+				.define('L', Tags.Items.LEATHERS)
+				.define('D', Items.PURPLE_DYE)
+				.group("kingdomkeys")
+				.unlockedBy("leather", InventoryChangeTrigger.TriggerInstance.hasItems(Items.LEATHER))
+				.save(consumer);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.woodenKeyblade.get())
                 .pattern(" WS")
@@ -1249,7 +1315,7 @@ public class Recipes extends RecipeProvider {
 			for (int shape=0; shape<gummiBlocks.size();shape++) {
 				List<Supplier<Block>> blocks = gummiBlocks.get(shape);
 				ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, new ItemStack(blocks.get(i).get()))
-					.requires(ItemTagsGen.GUMMI_BLOCK_KEYS.get(shape))
+					.requires(ModTags.GUMMI_BLOCK_KEYS.get(shape))
 					.requires(dyes.get(i))
 					.group(KingdomKeys.MODID + "_gummi_blocks")
 					.unlockedBy("has_" + Utils.getBlockRegistryName(blocks.get(i).get()).getPath(), InventoryChangeTrigger.TriggerInstance.hasItems(blocks.get(i).get()))
@@ -1260,7 +1326,7 @@ public class Recipes extends RecipeProvider {
             for (int shape=0; shape<gummiShellBlocks.size();shape++) {
                 List<Supplier<Block>> blocks = gummiShellBlocks.get(shape);
                 ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, new ItemStack(blocks.get(i).get()))
-                        .requires(ItemTagsGen.GUMMI_SHELL_BLOCK_KEYS.get(shape))
+                        .requires(ModTags.GUMMI_SHELL_BLOCK_KEYS.get(shape))
                         .requires(dyes.get(i))
                         .group(KingdomKeys.MODID + "_gummi_blocks")
                         .unlockedBy("has_" + Utils.getBlockRegistryName(blocks.get(i).get()).getPath(), InventoryChangeTrigger.TriggerInstance.hasItems(blocks.get(i).get()))
@@ -1271,7 +1337,7 @@ public class Recipes extends RecipeProvider {
             for (int shape=0; shape<gummiDispelBlocks.size();shape++) {
                 List<Supplier<Block>> blocks = gummiDispelBlocks.get(shape);
                 ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, new ItemStack(blocks.get(i).get()))
-                        .requires(ItemTagsGen.GUMMI_DISPEL_BLOCK_KEYS.get(shape))
+                        .requires(ModTags.GUMMI_DISPEL_BLOCK_KEYS.get(shape))
                         .requires(dyes.get(i))
                         .group(KingdomKeys.MODID + "_gummi_blocks")
                         .unlockedBy("has_" + Utils.getBlockRegistryName(blocks.get(i).get()).getPath(), InventoryChangeTrigger.TriggerInstance.hasItems(blocks.get(i).get()))
@@ -1281,7 +1347,7 @@ public class Recipes extends RecipeProvider {
             for (int shape=0; shape<gummiDifferentBlocks.size();shape++) {
                 List<Supplier<Block>> blocks = gummiDifferentBlocks.get(shape);
                 ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, new ItemStack(blocks.get(i).get()))
-                        .requires(ItemTagsGen.GUMMI_DIFFERENT_BLOCK_KEYS.get(shape))
+                        .requires(ModTags.GUMMI_DIFFERENT_BLOCK_KEYS.get(shape))
                         .requires(dyes.get(i))
                         .group(KingdomKeys.MODID + "_gummi_blocks")
                         .unlockedBy("has_" + Utils.getBlockRegistryName(blocks.get(i).get()).getPath(), InventoryChangeTrigger.TriggerInstance.hasItems(blocks.get(i).get()))
@@ -1289,4 +1355,10 @@ public class Recipes extends RecipeProvider {
             }
 		}
     }
+
+	private void addRecipeUpgrade(RecipeOutput consumer, ItemLike input, ItemLike output, int amount, String id) {
+		ShapelessRecipeBuilder builder = ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, output);
+		builder.requires(input, amount);
+		builder.unlockedBy(id, InventoryChangeTrigger.TriggerInstance.hasItems(input)).save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, id + amount));
+	}
 }

@@ -1,0 +1,11 @@
+{
+  "cost": 1600,
+  "ingredient1": "kingdomkeys:spellblizzaga",
+  "ingredient2": "kingdomkeys:spellminesquare",
+  "output": {
+    "type": "item",
+    "item": "kingdomkeys:spellicebarrage",
+    "quantity": 1
+  },
+  "tier": 5
+}

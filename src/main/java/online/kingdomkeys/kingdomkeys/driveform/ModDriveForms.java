@@ -17,6 +17,8 @@ public class ModDriveForms {
 
 	public static final Supplier<DriveForm>
 		NONE = DRIVE_FORMS.register(DriveForm.NONE.getPath(), () -> new DriveFormNone(DriveForm.NONE, order++, true)),
+		KB2 = DRIVE_FORMS.register(DriveForm.KB2.getPath(), () -> new DriveFormNone(DriveForm.KB2, order++, true)),
+		KB3 = DRIVE_FORMS.register(DriveForm.KB3.getPath(), () -> new DriveFormNone(DriveForm.KB3, order++, true)),
 		SYNCH_BLADE = DRIVE_FORMS.register(DriveForm.SYNCH_BLADE.getPath(), () -> new DriveFormNone(DriveForm.SYNCH_BLADE, order++, true)),
 		VALOR = DRIVE_FORMS.register(Strings.DF_Prefix + "valor", () -> new DriveFormValor(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, Strings.DF_Prefix + "valor"), order++, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/models/armor/valor.png"), true, false)),
 		WISDOM = DRIVE_FORMS.register(Strings.DF_Prefix + "wisdom", () -> new DriveFormWisdom(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, Strings.DF_Prefix + "wisdom"), order++, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/models/armor/wisdom.png"), false, false)),

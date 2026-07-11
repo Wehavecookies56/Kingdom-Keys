@@ -1,0 +1,19 @@
+{
+	"name": "Dragón",
+	"icon": "kingdomkeys:dragoon_spawn_egg",
+	"category": "kingdomkeys:nobodies",
+	"sortnum": 4,
+	"advancement": "kingdomkeys:obtain_keychain",
+	"pages": [
+		{
+			"type": "text",
+			"text": "$(item)Un dragón.$() Un $(nobody)Incorpóreo$() de alto rango. Saltar y hacer bloqueos precisos prueban ser una buena estrategia para vencerlos.$(p)$(lissa)$(l)$(o)[Primera Aparición: Kingdom Hearts II]$()"
+		},
+		{
+			"type": "patchouli:entity",
+			"entity": "kingdomkeys:dragoon",
+			"scale": 0.8,
+			"offset": 0.5
+		}
+	]
+}

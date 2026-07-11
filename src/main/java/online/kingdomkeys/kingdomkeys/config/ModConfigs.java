@@ -52,8 +52,8 @@ public class ModConfigs {
         }
     }
 
-    public static List<String> magicDisplayedInCommandMenu;
-    public static boolean cmHeaderTextVisible, cmClassicColors, hpShowHearts, showDriveForms, summonTogether, auto3rdPersonShip, cmChangeColor, customFont, shoulderSurfingDecoupled;
+    public static List<? extends Integer> hiddenMagic;
+    public static boolean cmHeaderTextVisible, cmClassicColors, hpShowHearts, showDriveForms, summonTogether, auto3rdPersonShip, cmChangeColor, customFont, shoulderSurfingDecoupled, seasonalEvents;
     public static int cmTextXOffset, cmSelectedXOffset, cmSubXOffset, hpAlarm, lockOnIconScale, lockOnIconRotation, lockOnHpPerBar, partyYDistance, cmEndLWidth, cmEndRWidth, cmHeaderEndLWidth, cmHeaderEndRWidth, cmReactionEndLWidth, cmReactionEndRWidth;
 
     public static void setHUDData(String name, List<? extends Float> data){
@@ -128,6 +128,7 @@ public class ModConfigs {
             case "LevelUp" -> CLIENT.levelUpHUDData.get();
             case "DriveLevel" -> CLIENT.driveLevelHUDData.get();
             case "Minimap" -> CLIENT.minimapHUDData.get();
+            case "RoomName" -> CLIENT.roomNameHUDData.get();
             default -> throw new IllegalStateException("Unexpected HUD value: " + name);
         };
     }
@@ -151,9 +152,9 @@ public class ModConfigs {
         bakeClient();
     }
     //Command Menu
-    public static void setMagicDisplayedInCommandMenu(List<String> value) {
-        CLIENT.magicDisplayedInCommandMenu.set(value);
-        CLIENT.magicDisplayedInCommandMenu.save();
+    public static void setHiddenMagic(List<Integer> value) {
+        CLIENT.hiddenMagic.set(value);
+        CLIENT.hiddenMagic.save();
         bakeClient();
     }
 
@@ -278,7 +279,8 @@ public class ModConfigs {
             ClientUtils.KK_Font_MENU = Style.EMPTY;
         }
 
-        magicDisplayedInCommandMenu = (List<String>) CLIENT.magicDisplayedInCommandMenu.get();
+        hiddenMagic = (List<Integer>) CLIENT.hiddenMagic.get();
+
         cmTextXOffset = CLIENT.cmTextXOffset.get();
         cmHeaderTextVisible = CLIENT.cmHeaderTextVisible.get();
         cmClassicColors = CLIENT.cmClassicColors.get();
@@ -311,20 +313,21 @@ public class ModConfigs {
         if (KingdomKeys.shoulderSurfingLoaded) {
             shoulderSurfingDecoupled = CLIENT.shoulderSurfingDecoupled.get();
         }
+        seasonalEvents = CLIENT.seasonalEvents.get();
+        hiddenMagic = CLIENT.hiddenMagic.get();
     }
 
-    public static boolean bombExplodeWithfire, keybladeOpenDoors, mobLevelingUp, playerSpawnHeartless,blizzardChangeBlocks, bossDespawnIfNoTarget, respawnROD, needKeybladeForHeartless, mobLevelName, allowBlocksInHangarArea;
+    public static boolean bombExplodeWithfire, keybladeOpenDoors, mobLevelingUp, playerSpawnHeartless,blizzardChangeBlocks, bossDespawnIfNoTarget, respawnROD, needKeybladeForHeartless, mobLevelName, allowBlocksInHangarArea, hideOrgNames, generateCOEntrance;
 
     public static SpawningMode heartlessSpawningMode;
     public static List<String> mobSpawnRate;
 
-    public static int driveHeal, hpDropProbability, mpDropProbability, munnyDropProbability, driveDropProbability, focusDropProbability, gummiBlocksDropPercent, recipeDropChance;
+    public static int driveHeal, hpDropProbability, mpDropProbability, munnyDropProbability, driveDropProbability, focusDropProbability, gummiBlocksDropPercent, recipeDropChance, biomeMemoryDropChance, coEntranceChunkX, coEntranceChunkZ;
 
-    public static double shotlockMult, critMult, drivePointsMultiplier, focusPointsMultiplier;
+    public static double shotlockMult, critMult, drivePointsMultiplier, focusPointsMultiplier, fuelConsumeFactor;
 
     public static int mobLevelStats,rodHeartlessLevelScale, rodHeartlessMaxLevel;
     public static List<String> playerSpawnHeartlessData;
-    public static String savePointMaterials, linkedSavePointRecovers, savePointRecovers, warpPointRecovers;
 
     public static List<ResourceLocation> startingRecipes;
 
@@ -348,6 +351,8 @@ public class ModConfigs {
         critMult = COMMON.critMult.get();
 
         recipeDropChance = COMMON.recipeDropChance.get();
+        biomeMemoryDropChance = COMMON.biomeMemoryDropChance.get();
+
         hpDropProbability = COMMON.hpDropProbability.get();
         mpDropProbability = COMMON.mpDropProbability.get();
         munnyDropProbability = COMMON.munnyDropProbability.get();
@@ -362,15 +367,18 @@ public class ModConfigs {
         bossDespawnIfNoTarget = COMMON.bossDespawnIfNoTarget.get();
     	needKeybladeForHeartless = COMMON.needKeybladeForHeartless.get();
 
-        savePointMaterials = COMMON.savePointMaterials.get();
-        linkedSavePointRecovers = COMMON.linkedSavePointRecovers.get();
-        savePointRecovers = COMMON.savePointRecovers.get();
-        warpPointRecovers = COMMON.warpPointRecovers.get();
-
         startingRecipes = ((List<String>) COMMON.startingRecipes.get()).stream().map(ResourceLocation::parse).toList();
 
         allowBlocksInHangarArea = COMMON.allowBlocksInHangarArea.get();
         gummiBlocksDropPercent = COMMON.gummiBlocksDropPercent.get();
+
+        hideOrgNames = COMMON.hideOrgNames.get();
+
+        fuelConsumeFactor = COMMON.fuelConsumeFactor.get();
+
+        generateCOEntrance = COMMON.generateCOEntrance.get();
+        coEntranceChunkX = COMMON.coEntranceChunkX.get();
+        coEntranceChunkZ = COMMON.coEntranceChunkZ.get();
     }
 
     @SubscribeEvent

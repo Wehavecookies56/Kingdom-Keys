@@ -53,7 +53,7 @@ public class ShopScreen extends MenuFilterable {
 		super(Strings.Gui_Shop_Main_Title, new Color(255, 0, 0));
 		drawSeparately = true;
 		this.parent = parent;
-		parent.playerData = playerData;
+		this.playerData = playerData;
 	}
 	
 	public ShopScreen(PlayerData playerData, String nbt, SynthesisScreen parent) {
@@ -68,7 +68,7 @@ public class ShopScreen extends MenuFilterable {
 		switch (string) {
 		case "create":
 			PacketHandler.sendToServer(new CSShopBuy(ResourceLocation.parse(parent.invFile), selectedItemStack));
-			minecraft.level.playSound(minecraft.player, minecraft.player.blockPosition(), ModSounds.itemget.get(), SoundSource.MASTER, 1.0f, 1.0f);
+			minecraft.level.playSound(minecraft.player, minecraft.player.blockPosition(), ModSounds.buy.get(), SoundSource.MASTER, 1.0f, 1.0f);
 			break;
 		}
 	}
@@ -86,7 +86,7 @@ public class ShopScreen extends MenuFilterable {
 		float filterPosY = height * 0.02F;
 		filterBar = new MenuFilterBar((int) filterPosX, (int) filterPosY, this);
 		filterBar.init();
-		scrollBar = new MenuScrollBar((int) (boxPosX + boxWidth - 17), scrollTop, scrollBot, (int) middleHeight, 0);
+		scrollBar = new MenuScrollBar((int) (boxPosX + boxWidth - 17), scrollTop, scrollBot, (int) middleHeight, 0, true);
 		addRenderableWidget(scrollBar);
 		initItems();
 		buttonPosX -= 10;
@@ -102,28 +102,37 @@ public class ShopScreen extends MenuFilterable {
 		children().clear();
 		renderables.clear();
 		filterBar.buttons.forEach(this::addWidget);
-		
-		ShopList shopList = getShopList();
+
+		boolean requireTier = ModConfigs.SERVER.requireSynthTierShop.get();
+		int synthLevel = playerData.getSynthLevel();
+		List<ShopItem> list = getShopList().getList().stream()
+				.filter(shopItem -> {
+					boolean tierOk = !requireTier || shopItem.getTier() <= synthLevel;
+					boolean matsOk = shopItem.getMatReq() <= playerData.getTotalMaterialAmount(shopItem.getResult());
+
+					return shopItem.requireAll() ? (tierOk && matsOk) : (tierOk || matsOk);
+				}).toList();
 
 		List<ResourceLocation> items = new ArrayList<>();
-		for (int i = 0; i < shopList.getList().size(); i++) {
+		for (ShopItem shopItem : list) {
 			ResourceLocation itemName = null;
-			ShopItem shopItem = shopList.getList().get(i);
-			if(shopItem != null) {
+			if (shopItem != null) {
 				ResourceLocation recipeRL = Utils.getItemRegistryName(shopItem.getResult());
 				ItemStack stack = new ItemStack(shopItem.getResult());
-	
+
 				if (shopItem.getResult() instanceof KeychainItem)
 					stack = new ItemStack(((KeychainItem) shopItem.getResult()).getKeyblade());
-	
+
 				if (filterItem(stack)) {
 					items.add(recipeRL);
 				}
 			} else {
-				KingdomKeys.LOGGER.error(itemName +" is not a valid recipe, check it");
+				KingdomKeys.LOGGER.error(itemName + " is not a valid recipe, check it");
 			}
 		}
-		items.sort(Comparator.comparing(Utils::getCategoryForShop).thenComparing(stackRL -> new ItemStack(BuiltInRegistries.ITEM.get(stackRL)).getHoverName().getContents().toString()));
+
+
+		//items.sort(Comparator.comparing(Utils::getCategoryForShop).thenComparing(stackRL -> new ItemStack(BuiltInRegistries.ITEM.get(stackRL)).getHoverName().getContents().toString()));
 
 		for (int i = 0; i < items.size(); i++) {
 			ItemStack itemStack = new ItemStack(BuiltInRegistries.ITEM.get(items.get(i)));
@@ -145,8 +154,8 @@ public class ShopScreen extends MenuFilterable {
 		create.setCenterText(true);
 		addRenderableWidget(create);
 
-        addRenderableWidget(sell = new MenuButton((int)this.buttonPosX, this.buttonPosY, (int)(buttonWidth+15)/2, Component.translatable(Strings.Gui_Shop_Sell).getString(), MenuButton.ButtonType.BUTTON, b -> minecraft.setScreen(new SellScreen(parent.playerData, parent))));
-		addRenderableWidget(back = new MenuButton((int)this.buttonPosX, this.buttonPosY+18, (int)(buttonWidth+15)/2, Component.translatable(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, b -> minecraft.setScreen(new SynthesisScreen(parent.playerData, parent.invFile, parent.name, parent.moogle))));
+        addRenderableWidget(sell = new MenuButton((int)this.buttonPosX, this.buttonPosY, (int)(buttonWidth+15)/2, Component.translatable(Strings.Gui_Shop_Sell).getString(), MenuButton.ButtonType.BUTTON, b -> minecraft.setScreen(new SellScreen(playerData, parent))));
+		addRenderableWidget(back = new MenuButton((int)this.buttonPosX, this.buttonPosY+18, (int)(buttonWidth+15)/2, Component.translatable(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, b -> minecraft.setScreen(new SynthesisScreen(playerData, parent.invFile, parent.name, parent.moogle))));
 	}
 
 	@Override
@@ -170,24 +179,25 @@ public class ShopScreen extends MenuFilterable {
 			for(ShopItem shopItem : list) {
 				Item it = shopItem.getResult();
 
-				if(it instanceof KeychainItem) {
-					it = ((KeychainItem)it).getKeyblade();
+				if (it instanceof KeychainItem) {
+					it = ((KeychainItem) it).getKeyblade();
 				}
-				
-				if(ItemStack.isSameItem(new ItemStack(it,shopItem.getAmount()), selectedItemStack)) {
+
+				if (ItemStack.isSameItem(new ItemStack(it, shopItem.getAmount()), selectedItemStack)) {
 					item = shopItem;
 					break;
 				}
-				
-			}			
-			if(item != null) {
-				enoughMunny = parent.playerData.getMunny() >= item.getCost();
-				enoughTier = !ModConfigs.SERVER.requireSynthTier.get() || parent.playerData.getSynthLevel() >= item.getTier();
-				create.visible = true;			
+			}
+			if (item != null) {
+				enoughMunny = playerData.getMunny() >= item.getCost();
+				enoughTier = !ModConfigs.SERVER.requireSynthTierShop.get() || playerData.getSynthLevel() >= item.getTier();
+				boolean matsOk = item.getMatReq() <= playerData.getTotalMaterialAmount(item.getResult());
 
-				create.active = enoughMunny && enoughTier;
-				if(minecraft.player.getInventory().getFreeSlot() == -1) { //TODO somehow make this detect in singleplayer the inventory changes
-					create.active = false;
+				enoughTier = item.requireAll() ? (enoughTier && matsOk) : (enoughTier || matsOk);
+				create.visible = true;
+				create.active = enoughMunny && enoughTier && matsOk;
+
+				if (minecraft.player.getInventory().getFreeSlot() == -1) {
 					create.setMessage(Component.translatable(Strings.Gui_Shop_NoSpace));
 				}
 			}
@@ -223,8 +233,8 @@ public class ShopScreen extends MenuFilterable {
 
 		matrixStack.pushPose();
 		{
-			double offset = (boxM.getWidth()*0.1F);
-			matrixStack.translate(boxM.getX() + offset/2, iconPosY, 1);
+			double offset = boxM.getWidth() * 0.1F;
+			matrixStack.translate(boxM.getX() + offset / 2, iconPosY, 1);
 			
 			List<ShopItem> list = ShopListRegistry.getInstance().getRegistry().get(ResourceLocation.parse(parent.invFile)).getList();
 			ShopItem item = null;
@@ -234,23 +244,23 @@ public class ShopScreen extends MenuFilterable {
 				if(it instanceof KeychainItem) {
 					it = ((KeychainItem)it).getKeyblade();
 				}
-				
-				if(ItemStack.isSameItem(new ItemStack(it,shopItem.getAmount()), selectedItemStack)) {
+
+				if(ItemStack.isSameItem(new ItemStack(it, shopItem.getAmount()), selectedItemStack)) {
 					item = shopItem;
 					break;
 				}
-				
+
 			}
 			if(item != null) {
 				gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Shop_Buy_Cost)+" ", 2, -20, Color.yellow.getRGB());
 				String line = Utils.getFormattedNumber(item.getCost())+" "+Utils.translateToLocal(Strings.Gui_Menu_Main_Munny);
 				gui.drawString(minecraft.font, line, boxM.getWidth() - minecraft.font.width(line) - 10, -20, item.getCost() > playerData.getMunny() ? Color.RED.getRGB() : Color.GREEN.getRGB());
 
-				if(ModConfigs.SERVER.requireSynthTier.get()) {
+				/*if(ModConfigs.SERVER.requireSynthTierShop.get()) {
 					gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Shop_Tier) + " ", 2, -10, Color.yellow.getRGB());
 					line = Utils.getTierFromInt(item.getTier()) + " - " + (10 + item.getTier() * 2) + " " + Utils.translateToLocal(Strings.Gui_Synthesis_Exp);
 					gui.drawString(minecraft.font, line, boxM.getWidth() - minecraft.font.width(line) - 10, -10, item.getTier() > playerData.getSynthLevel() ? Color.RED.getRGB() : Color.GREEN.getRGB());
-				}
+				}*/
 				
 				matrixStack.pushPose();
 				{

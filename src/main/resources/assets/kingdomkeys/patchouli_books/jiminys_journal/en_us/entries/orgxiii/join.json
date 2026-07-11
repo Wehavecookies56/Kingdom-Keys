@@ -6,7 +6,7 @@
 	"pages": [
 		{
 			"type": "text",
-			"text": "$(item)Joining the Organization$() is fairly simple, you must craft all 4 pieces of the basic Organization Armor and equip all four of them at once. Once you make this decision, you cannot go back unless you defeat the Ender Dragon and obtain a $(l:kingdomkeys:orgxiii/leave)Proof of Heart$(). "
+			"text": "To become part of the $(item)Organization$(), you must craft all 4 pieces of the basic Organization Armor and equip all of them at once. Once you make this decision, you cannot go back unless you defeat the $(thing)Ender Dragon$() and obtain a $(l:kingdomkeys:orgxiii/leave)Proof of Heart$()."
 		},
 		{
 			"type": "text",

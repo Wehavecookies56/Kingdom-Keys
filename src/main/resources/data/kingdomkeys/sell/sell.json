@@ -9,7 +9,7 @@
 	{"item": "minecraft:emerald", "price": 960},
 	{"item": "minecraft:lapis_lazuli", "price": 30},
 	{"item": "minecraft:redstone", "price": 10},
-	{"item": "minecraft:netherite_ingot", "price": 10240},
+	{"item": "minecraft:netherite_ingot", "price": 1024},
 	
 	{"item": "kingdomkeys:potion", "price": 50},
 	{"item": "kingdomkeys:hi_potion", "price": 100},

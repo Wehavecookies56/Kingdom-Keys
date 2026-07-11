@@ -87,14 +87,8 @@ public abstract class KKLanguageProvider extends LanguageProvider {
         add(key.get(), value);
     }
 
-    public void add(int level, Magic key, String value) {
-        add(key.getTranslationKey(level), value);
-    }
-
-    public void addMagic(Supplier<Magic> key, String... value) {
-        for (int i = 0; i < value.length; i++) {
-            add(i, key.get(), value[i]);
-        }
+    public void add(Magic key, String value) {
+        add(key.getTranslationKey(), value);
     }
 
     public void add(InputHandler.Keybinds key, String value) {
@@ -152,6 +146,10 @@ public abstract class KKLanguageProvider extends LanguageProvider {
             }
             addBlock(blocks.get(i), String.format(name, colour));
         }
+    }
+
+    public void addRoom(String roomName, String name) {
+        add("room." + roomName, name);
     }
 
 }

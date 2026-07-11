@@ -1,0 +1,11 @@
+{
+  "structure": "moogle_room",
+  "size": "S",
+  "dimensions": [ 32, 32 ],
+  "categories": [
+    "BOUNTY"
+  ],
+  "white_list": [
+    "kingdomkeys:moogle_room"
+  ]
+}

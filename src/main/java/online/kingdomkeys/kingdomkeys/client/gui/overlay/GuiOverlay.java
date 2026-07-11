@@ -39,7 +39,6 @@ public class GuiOverlay extends OverlayBase {
 	public static UUID playerWhoLevels = Util.NIL_UUID;
 	public static long timeExp;
 	public static long timeMunny;
-	public static long timeLevelUp;
 	public static long timeDriveLevelUp;
 	public static int munnyGet;
 	int levelSeconds = 6;
@@ -112,7 +111,6 @@ public class GuiOverlay extends OverlayBase {
 		}
 	}
 
-
 	private void showExp(GuiGraphics gui) {
 		if(playerData != null) {
 			String reqExp = String.valueOf(playerData.getExpNeeded(playerData.getLevel(), playerData.getExperience()));
@@ -168,9 +166,7 @@ public class GuiOverlay extends OverlayBase {
 
 			for(int i = 0;i<actual;i++) {
 				totalSpace += 36*0.6F;
-
 				totalSpace += (int)(minecraft.font.lineHeight * 1.2f) * (levelUpList.get(i).messages1.size());
-			
 				totalSpace += 18*0.6F;
 			}
 			
@@ -243,7 +239,7 @@ public class GuiOverlay extends OverlayBase {
 				}
 				
 				if(message.startsWith("M_")) {
-					blit(gui, menuTexture, (int)x, (int)y-2, 87, 115, 12, 12);
+					blit(gui, menuTexture, (int)x, (int)y-3, 87, 115, 12, 12);
 					message = message.replace("M_", "");
 					x += 13;
 				}
@@ -303,7 +299,7 @@ public class GuiOverlay extends OverlayBase {
 				matrixStack.popPose();
 				
 				RenderSystem.setShaderColor(1,1,1, 1F);
-				showText(matrixStack, minecraft.player.getDisplayName().getString(), 140 - (minecraft.font.width(minecraft.player.getDisplayName().getString()) * 0.75f), sHeight / 3 + 4, 0, 0.75f, 0.75f, 1, 0xFFFFFF);
+				showText(matrixStack, minecraft.player.getGameProfile().getName(), 140 - (minecraft.font.width(minecraft.player.getGameProfile().getName()) * 0.75f), sHeight / 3 + 4, 0, 0.75f, 0.75f, 1, 0xFFFFFF);
 	
 				// Half
 				RenderSystem.setShaderColor(0.4F, 0.4F, 0.4F, 1F);

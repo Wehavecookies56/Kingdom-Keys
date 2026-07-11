@@ -10,6 +10,7 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
+import net.minecraft.world.phys.Vec3;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.model.entity.MoogleModel;
 import online.kingdomkeys.kingdomkeys.entity.mob.MoogleEntity;
@@ -29,6 +30,7 @@ public class MoogleRenderer extends MobRenderer<MoogleEntity, MoogleModel<Moogle
             VertexConsumer builder = bufferIn.getBuffer(this.model.renderType(this.getTextureLocation(entityIn)));
             matrixStackIn.popPose();
             {
+
     	       	float f = Mth.rotLerp(partialTicks, entityIn.yBodyRotO, entityIn.yBodyRot);
 	            float f7 = this.getBob(entityIn, partialTicks);
 	            this.setupRotations(entityIn, matrixStackIn, f7, f, partialTicks, entityIn.getScale());
@@ -41,7 +43,31 @@ public class MoogleRenderer extends MobRenderer<MoogleEntity, MoogleModel<Moogle
             }
             matrixStackIn.pushPose();
         } else {
-            super.render(entityIn, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
+            matrixStackIn.pushPose();
+            {
+                float time = entityIn.tickCount + partialTicks;
+                Vec3 vel = entityIn.getDeltaMovement();
+                float speed = (float)Math.sqrt(vel.x * vel.x + vel.z * vel.z);
+                float yawRad = (float)Math.toRadians(entityIn.getYRot());
+                float moveFactor = Mth.clamp(speed * 20.0F, 0.0F, 1.0F);
+                float idleFactor = 1.0F - moveFactor;
+                float localSwayX = Mth.cos(time * 0.1F) * 0.05F * moveFactor;
+                float localSwayZ = Mth.sin(time * 0.1F) * 0.02F * moveFactor;
+                float sin = Mth.sin(yawRad);
+                float cos = Mth.cos(yawRad);
+                float worldX = localSwayX * cos - localSwayZ * sin;
+                float worldZ = localSwayX * sin + localSwayZ * cos;
+                float baseBob = Mth.sin(time * 0.1F) * 0.1F;
+                float bob = baseBob * idleFactor;
+                matrixStackIn.translate(worldX, bob, worldZ);
+                float idleShadow = 0.20F;
+                float moveShadow = 0.15F;
+                float base = Mth.lerp(moveFactor, idleShadow, moveShadow);
+                float shadowBob = Mth.sin(entityIn.tickCount * 0.1F) * 0.02F;
+                shadowRadius = base + shadowBob * (1.0F - moveFactor);
+                super.render(entityIn, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
+            }
+            matrixStackIn.popPose();
         }
     }
 

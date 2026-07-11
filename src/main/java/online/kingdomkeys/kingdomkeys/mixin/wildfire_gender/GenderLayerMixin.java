@@ -1,11 +1,9 @@
 package online.kingdomkeys.kingdomkeys.mixin.wildfire_gender;
 
-import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.wildfire.render.GenderLayer;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
@@ -13,8 +11,6 @@ import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
-
-import java.util.Objects;
 
 @Mixin(GenderLayer.class)
 public class GenderLayerMixin<ENTITY extends LivingEntity> {

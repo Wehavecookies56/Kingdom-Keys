@@ -1,0 +1,14 @@
+{
+	"name": "¿Qué es un Sincorazón?",
+	"icon": "kingdomkeys:illusory_crystal",
+	"sortnum": 1,
+	"priority": true,
+	"category": "kingdomkeys:heartless",
+	"advancement": "kingdomkeys:obtain_keychain",
+	"pages": [
+		{
+			"type": "text",
+			"text": "Un $(item)Sincorazón$() es una manifestación viva de $(lissa)oscuridad$() que queda atrás de un $(thing)corazón$(), cuando un $(thing)ser completo$() pierde su $(thing)corazón$(), y luego se separa de su $(nobody)receptáculo vacío$()."
+		}
+	]
+}

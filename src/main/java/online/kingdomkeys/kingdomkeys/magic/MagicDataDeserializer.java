@@ -1,6 +1,7 @@
 package online.kingdomkeys.kingdomkeys.magic;
 
 import com.google.gson.*;
+import net.minecraft.resources.ResourceLocation;
 
 import java.lang.reflect.Type;
 
@@ -20,26 +21,22 @@ public class MagicDataDeserializer implements JsonDeserializer<MagicData> {
 
 		jsonObject.entrySet().forEach(entry -> {
 			JsonElement element = entry.getValue();
-			int level = Integer.parseInt(entry.getKey());
-			JsonObject jsonObject2 = entry.getValue().getAsJsonObject();
-			jsonObject2.entrySet().forEach(entry2 -> {
-				JsonElement element2 = entry2.getValue();
 
-				switch (entry2.getKey()) {
-				case "cost"->
-					out.setCost(level, element2.getAsInt());
-				case "casttime"->
-					out.setCasttime(level,element2.getAsInt());
-				case "cooldown"->
-					out.setCooldown(level, element2.getAsInt());
-				case "dmg_mult"->
-					out.setDmgMult(level, element2.getAsFloat());
-				case "magic_lock_on"->
-					out.setMagicLockon(level, element2.getAsBoolean());
-				}
-			});
-
+			switch (entry.getKey()) {
+				case "cost" -> out.setCost(element.getAsInt());
+				case "casttime" -> out.setCasttime(element.getAsInt());
+				case "cooldown" -> out.setCooldown(element.getAsInt());
+				case "dmg_mult" -> out.setDmgMult(element.getAsFloat());
+				case "dmg_mult_max" -> out.setDmgMultMax(element.getAsFloat());
+				case "magic_lock_on" -> out.setMagicLockon(element.getAsBoolean());
+				case "max_exp" -> out.setMaxExp(element.getAsInt());
+				case "max_lvl" -> out.setMaxLevel(element.getAsInt());
+				case "next_tier" -> out.setNextTier(ResourceLocation.parse(element.getAsString()));
+				case "magic_rc" -> out.setMagicRC(ResourceLocation.parse(element.getAsString()));
+				case "spell_type" -> out.setSpellType(MagicData.SpellType.valueOf(element.getAsString().toUpperCase()));
+			}
 		});
+
 		return out;
 	}
 }

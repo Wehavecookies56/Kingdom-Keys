@@ -1,0 +1,15 @@
+{
+  "materials": {
+    "HP": "kingdomkeys:orichalcum",
+    "MP": "kingdomkeys:illusory_crystal",
+    "FOCUS": "kingdomkeys:remembrance_crystal",
+    "HUNGER": "kingdomkeys:hungry_crystal",
+	"DRIVE": "kingdomkeys:evanescent_crystal",
+	"TIER": "kingdomkeys:orichalcumplus"
+  },
+  
+  "restores": [
+    "HP",
+    "MP"
+  ]
+}

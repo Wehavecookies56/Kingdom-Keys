@@ -1,0 +1,8 @@
+{
+  "structure": "medium_3",
+  "size": "M",
+  "dimensions": [ 48, 48 ],
+  "categories": [
+    "ENEMY", "STATUS", "BOUNTY"
+  ]
+}

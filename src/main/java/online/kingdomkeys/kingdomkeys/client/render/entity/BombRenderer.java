@@ -11,7 +11,10 @@ import net.minecraft.resources.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.model.entity.BombModel;
 import online.kingdomkeys.kingdomkeys.client.render.HeartlessEyesLayerRenderer;
-import online.kingdomkeys.kingdomkeys.entity.mob.*;
+import online.kingdomkeys.kingdomkeys.entity.mob.BaseBombEntity;
+import online.kingdomkeys.kingdomkeys.entity.mob.MinuteBombEntity;
+import online.kingdomkeys.kingdomkeys.entity.mob.SkaterBombEntity;
+import online.kingdomkeys.kingdomkeys.entity.mob.StormBombEntity;
 import org.joml.Matrix4f;
 
 public class BombRenderer extends MobRenderer<BaseBombEntity, BombModel<BaseBombEntity>> {

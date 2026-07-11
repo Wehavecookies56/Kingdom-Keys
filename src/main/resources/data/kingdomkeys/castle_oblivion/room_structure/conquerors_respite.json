@@ -1,0 +1,13 @@
+{
+  "structure": "conquerors_respite",
+  "size": "SPECIAL",
+  "dimensions": [ 32, 32 ],
+  "categories": [
+    "SPECIAL"
+  ],
+  "white_list": [
+    "kingdomkeys:conquerors_respite"
+  ],
+  "entrance_door": "west",
+  "exit_door": "south"
+}

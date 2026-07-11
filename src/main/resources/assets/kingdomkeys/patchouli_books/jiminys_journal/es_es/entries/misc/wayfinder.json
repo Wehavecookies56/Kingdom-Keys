@@ -1,0 +1,16 @@
+{
+	"name": "Siemprejuntos",
+	"icon": "kingdomkeys:wayfinder",
+	"sortnum": 3,
+	"category": "kingdomkeys:misc",
+	"pages": [
+		{
+			"type": "text",
+			"text": "Un $(item)Siemprejuntos$() es un objeto útil, diseñado para el uso de miembros en un $(l:kingdomkeys:learning_the_menu/party)Grupo$(). Con este puedes dar tu propio Siemprejuntos creado a otro jugador, el cual puede usar para $(thing)teletransportarse$() hasta ti en cualquier momento, siempre que $(thing)ambos estéis en línea$() y en el $(thing)mismo grupo$(). Sin embargo, debido a su característica tan potente, tiene un $(thing)largo tiempo de espera$() y requiere que llegues al $(lissa)End$()."
+		},
+		{
+			"type":"crafting",
+			"recipe":"kingdomkeys:wayfinder"
+		}
+	]
+}

@@ -1,0 +1,11 @@
+{
+  "cost": 1200,
+  "ingredient1": "kingdomkeys:spellspark",
+  "ingredient2": "kingdomkeys:spellspark",
+  "output": {
+    "type": "item",
+    "item": "kingdomkeys:spellsparkra",
+    "quantity": 1
+  },
+  "tier": 3
+}

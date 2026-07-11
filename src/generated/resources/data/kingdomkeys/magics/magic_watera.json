@@ -1,0 +1,13 @@
+{
+  "casttime": 0,
+  "cooldown": 55,
+  "cost": 12,
+  "dmg_mult": 0.25,
+  "dmg_mult_max": 0.3,
+  "magic_lock_on": false,
+  "magic_rc": "kingdomkeys:magic_water",
+  "max_exp": 2400,
+  "max_lvl": 3,
+  "next_tier": "kingdomkeys:magic_waterga",
+  "spell_type": "MAGIC"
+}

@@ -17,6 +17,7 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuFilterable;
+import online.kingdomkeys.kingdomkeys.client.gui.menu.items.MeldingScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.synthesis.ShopScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.synthesis.SynthesisCreateScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.synthesis.SynthesisForgeScreen;
@@ -25,6 +26,7 @@ import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.KeychainItem;
+import online.kingdomkeys.kingdomkeys.item.MagicSpellItem;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.Recipe;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopItem;
@@ -45,10 +47,13 @@ public class MenuStockItem extends Button {
     String customName = null;
     public int offsetY;
     public Color backgroundColor;
+    public ChatFormatting textColor = ChatFormatting.WHITE;
 
     final ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
+	final ResourceLocation barTexture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
 
-    public MenuStockItem(MenuFilterable parent, ResourceLocation rl, ItemStack displayStack, int x, int y, int width, boolean showAmount, OnPress onPress) {
+
+	public MenuStockItem(MenuFilterable parent, ResourceLocation rl, ItemStack displayStack, int x, int y, int width, boolean showAmount, OnPress onPress) {
         super(new Builder(Component.literal(""), onPress).bounds(x, y, width, 14));
         this.parent = parent;
         this.rl = rl;
@@ -72,7 +77,7 @@ public class MenuStockItem extends Button {
         this.stack = stack;
         this.showAmount = showAmount;
     }
-    
+
     public MenuStockItem(MenuFilterable parent, ResourceLocation rl, ItemStack displayStack, int x, int y, int width, boolean showAmount, String customName) {
 		this(parent,rl,displayStack,x,y,width,showAmount);
 		this.customName = customName;
@@ -110,7 +115,7 @@ public class MenuStockItem extends Button {
                 matrixStack.pushPose();
                 {
                     RenderSystem.enableBlend();
-                    
+
                     matrixStack.translate(getX() + 0.6F, getY(), 0);
                     float scale = 0.5F;
                     matrixStack.scale(scale, scale, 1);
@@ -146,22 +151,21 @@ public class MenuStockItem extends Button {
             }
             matrixStack.popPose();
 
-            ChatFormatting color = ChatFormatting.WHITE;
             PlayerData playerData = PlayerData.get(mc.player);
 
             boolean displayTick = false;
             if(parent instanceof SynthesisCreateScreen){
                 displayTick = true;
-                color = ChatFormatting.DARK_GRAY;
+                textColor = ChatFormatting.DARK_GRAY;
 
                 if(RecipeRegistry.getInstance().containsKey(rl)){
                     Recipe recipe = RecipeRegistry.getInstance().getValue(rl);
                     if((recipe.getTier() <= playerData.getSynthLevel() || !ModConfigs.SERVER.requireSynthTier.get()) && playerData.getMunny() >= recipe.getCost()) {
-                        color = ChatFormatting.WHITE;
+                        textColor = ChatFormatting.WHITE;
 
                         for (Map.Entry<Item, Integer> m : recipe.getMaterials().entrySet()) {
                             if (playerData.getMaterialAmount(m.getKey()) < m.getValue()) {
-                                color = ChatFormatting.DARK_GRAY;
+                                textColor = ChatFormatting.DARK_GRAY;
                             }
                         }
                     }
@@ -171,22 +175,32 @@ public class MenuStockItem extends Button {
 
             if(parent instanceof SynthesisForgeScreen){
                 displayTick = true;
-                color = ChatFormatting.DARK_GRAY;
+                textColor = ChatFormatting.DARK_GRAY;
                 if(stack.getItem() instanceof KeychainItem kcItem) {
                     KeybladeItem item = kcItem.getKeyblade();
                     if(item.getKeybladeLevel(stack) >= item.getMaxLevel()){
-                        color = ChatFormatting.GOLD;
+                        textColor = ChatFormatting.GOLD;
                     } else {
                         Iterator<Map.Entry<Item, Integer>> itMats = item.data.getLevelData(item.getKeybladeLevel(stack)).getMaterialList().entrySet().iterator();
-                        color = ChatFormatting.WHITE;
+                        textColor = ChatFormatting.WHITE;
                         while (itMats.hasNext()) { //Check if the player has the materials
                             Map.Entry<Item, Integer> m = itMats.next();
 
                             if (playerData.getMaterialAmount(m.getKey()) < m.getValue()) {
-                                color = ChatFormatting.DARK_GRAY;
+                                textColor = ChatFormatting.DARK_GRAY;
                             }
                         }
                     }
+                }
+            }
+
+            if(parent instanceof MeldingScreen){
+                if(stack.getItem() instanceof MagicSpellItem spell) {
+                    float percent = spell.getLocalPercent(stack);
+                    int barWidth = 24;
+                    int percentWidth = (int)(barWidth * percent);
+                    gui.blit(barTexture, getX() + getWidth() - barWidth - 5, getY() + getHeight() - 4, barWidth, 2, 161, 67, 1, 5, 256, 256);
+                    gui.blit(barTexture, getX() + getWidth() - barWidth - 5, getY() + getHeight() - 4, percentWidth, 2, 163, 67, 1, 5, 256, 256);
                 }
             }
 
@@ -195,7 +209,7 @@ public class MenuStockItem extends Button {
                 ShopList shopList = shop.getShopList();
                 for(ShopItem item : shopList.getList()){
                     if(rl.equals(Utils.getItemRegistryName(item.getResult()))){
-                        color = item.getCost() > playerData.getMunny() ? ChatFormatting.DARK_GRAY : ChatFormatting.WHITE;
+                        textColor = item.getCost() > playerData.getMunny() ? ChatFormatting.DARK_GRAY : ChatFormatting.WHITE;
                         break;
                     }
                 }
@@ -208,7 +222,7 @@ public class MenuStockItem extends Button {
                 rightMargin += mc.font.width(count);
             }
 
-            ClientUtils.drawScrollingString(gui,mc.font,Component.literal(color+(customName == null ? stack.getHoverName().getString() : customName)), getX() + 15, getX()+width-rightMargin, getY() + 3, 0xFFFFFF, false); //If it's a keychain it will show the keyblade name
+            ClientUtils.drawScrollingString(gui,mc.font,Component.literal(textColor+(customName == null ? stack.getHoverName().getString() : customName)), getX() + 15, getX()+width-rightMargin, getY() + 3, 0xFFFFFF, false); //If it's a keychain it will show the keyblade name
 
             if(displayTick) {
                 Set<String> recipeList = PlayerData.get(mc.player).getSynthesisedRecipes();

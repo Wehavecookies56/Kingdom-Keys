@@ -22,7 +22,6 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton.ButtonType;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuScrollBar;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.MenuScreen;
-import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
@@ -41,17 +40,14 @@ import java.util.List;
 public class MenuAbilitiesScreen extends MenuBackground {
 	String form = DriveForm.NONE.toString();
 
-	PlayerData playerData = PlayerData.get(minecraft.player);
 	LinkedHashMap<String, int[]> abilitiesMap;
     List<MenuAbilitiesButton> abilities = new ArrayList<>();
 
 	MenuBox box;
-	//Button prev, next;
 	MenuButton back, playerButton;
 	
 	List<MenuButton> driveSelector = new ArrayList<>();
 
-	int page = 0;
 	int itemsPerPage;
 
 	Ability hoveredAbility;
@@ -125,8 +121,6 @@ public class MenuAbilitiesScreen extends MenuBackground {
 
 	@Override
 	public void init() {
-		super.width = width;
-		super.height = height;
 		super.init();
 
 		renderables.clear();
@@ -156,13 +150,13 @@ public class MenuAbilitiesScreen extends MenuBackground {
 				if (level == 0 || ability.getType() == AbilityType.GROWTH) {
 					abilities.add(new MenuAbilitiesButton(buttonPosX, buttonPosY, buttonWidth, abilityName, ability.getType(), (e) -> {
 						action(ability, 0);
-					}));
+					}, player, playerData));
 				} else {
 					for (int j = 0; j < level; j++) {
 						int finalJ = j;
 						abilities.add(new MenuAbilitiesButton(buttonPosX, buttonPosY, buttonWidth, abilityName, finalJ, ability.getType(), (e) -> {
 							action(ability, finalJ);
-						}));
+						}, player, playerData));
 					}
 				}
 				abilities.get(i).visible = false;
@@ -175,7 +169,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 					for(String a : abilitiesList) {
 						Ability ability = ModAbilities.registry.get(ResourceLocation.parse(a));
 						if(ability != null) {
-							MenuAbilitiesButton aa = new MenuAbilitiesButton(buttonPosX, buttonPosY, buttonWidth, ability.getRegistryName().toString(), AbilityType.WEAPON, (e) -> { });
+							MenuAbilitiesButton aa = new MenuAbilitiesButton(buttonPosX, buttonPosY, buttonWidth, ability.getRegistryName().toString(), AbilityType.WEAPON, (e) -> { }, player, playerData);
 							abilities.add(aa);
 							aa.visible = false;
 						}
@@ -194,14 +188,14 @@ public class MenuAbilitiesScreen extends MenuBackground {
 						Ability ability = ModAbilities.registry.get(ResourceLocation.parse(a));
 						if (ability != null) { //Add weapon ability display
 							MenuAbilitiesButton aa = new MenuAbilitiesButton(buttonPosX, buttonPosY, buttonWidth, ability.getRegistryName().toString(), AbilityType.WEAPON, (e) -> {
-							});
+							}, player, playerData);
 							abilities.add(aa);
 							aa.visible = false;
 							
 							//If synch blade do it again
 							if(playerData.getAbilityMap().containsKey(Strings.synchBlade) && playerData.getAbilityMap().get(Strings.synchBlade)[1] > 0) { //Org synch blade
 								MenuAbilitiesButton aaa = new MenuAbilitiesButton(buttonPosX, buttonPosY, buttonWidth, ability.getRegistryName().toString(), AbilityType.WEAPON, (e) -> {
-								});
+								}, player, playerData);
 								abilities.add(aaa);
 								aaa.visible = false;
 							}
@@ -218,7 +212,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 						Ability ability = ModAbilities.registry.get(ResourceLocation.parse(a));
 						if (ability != null) {
 							MenuAbilitiesButton aa = new MenuAbilitiesButton(buttonPosX, buttonPosY, buttonWidth,  ability.getRegistryName().toString(), AbilityType.WEAPON, (e) -> {
-							});
+							}, player, playerData);
 							abilities.add(aa);
 							aa.visible = false;
 						}
@@ -226,7 +220,6 @@ public class MenuAbilitiesScreen extends MenuBackground {
 				}
 			} else { // Form keyblade abilities
 				if (ModDriveForms.registry.containsKey(ResourceLocation.parse(playerData.getActiveDriveForm())) && ModDriveForms.registry.get(ResourceLocation.parse(playerData.getActiveDriveForm())).hasKeychain()) {
-					//System.out.println(!ItemStack.matches(playerData.getEquippedKeychain(DriveForm.SYNCH_BLADE), ItemStack.EMPTY));
 					if (playerData.getDriveFormMap().containsKey(playerData.getActiveDriveForm()) && playerData.getEquippedKeychains().containsKey(ResourceLocation.parse(playerData.getActiveDriveForm())) && !ItemStack.matches(playerData.getEquippedKeychain(ResourceLocation.parse(playerData.getActiveDriveForm())), ItemStack.EMPTY)) {
 						ItemStack itemStack = playerData.getEquippedKeychain(ResourceLocation.parse(playerData.getActiveDriveForm()));
 						List<String> abilitiesList = Utils.getKeybladeAbilitiesAtLevel(itemStack.getItem(), ((IKeychain) itemStack.getItem()).toSummon().getKeybladeLevel(itemStack));
@@ -234,7 +227,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 							Ability ability = ModAbilities.registry.get(ResourceLocation.parse(a));
 							if (ability != null) {
 								MenuAbilitiesButton aa = new MenuAbilitiesButton(buttonPosX, buttonPosY, buttonWidth, ability.getRegistryName().toString(), AbilityType.WEAPON, (e) -> {
-								});
+								}, player, playerData);
 								abilities.add(aa);
 								aa.visible = false;
 							}
@@ -248,7 +241,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 				Ability ability = ModAbilities.registry.get(ResourceLocation.parse(a));
 				if (ability != null) {
 					MenuAbilitiesButton aa = new MenuAbilitiesButton(buttonPosX, buttonPosY, buttonWidth, ability.getRegistryName().toString(), AbilityType.ACCESSORY, (e) -> {
-					});
+					}, player, playerData);
 					abilities.add(aa);
 					aa.visible = false;
 				}
@@ -266,8 +259,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 					int level = abilitiesMap.get(abilityName)[0];
 					if (level == 0 || ability.getType() == AbilityType.GROWTH) {
 						MenuAbilitiesButton aa = new MenuAbilitiesButton(buttonPosX, buttonPosY, buttonWidth, abilityName, ability.getType(), (e) -> {
-						});
-						//System.out.println(level);
+						}, player, playerData);
 
 						abilities.add(aa);
 						aa.visible = false;
@@ -281,7 +273,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 					Ability ab = ModAbilities.registry.get(ResourceLocation.parse(growth));
 					if (ab != null) {
 						MenuAbilitiesButton aa = new MenuAbilitiesButton(buttonPosX, buttonPosY, buttonWidth, growth, ab.getType(), (e) -> {
-						});
+						}, player, playerData);
 						abilities.add(aa);
 						aa.visible = false;
 						aa.isVisual = true;
@@ -294,7 +286,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 					Ability ability = ModAbilities.registry.get(ResourceLocation.parse(a));
 					if (ability != null) {
 						MenuAbilitiesButton aa = new MenuAbilitiesButton(buttonPosX, buttonPosY, buttonWidth, ability.getRegistryName().toString(), ability.getType(), (e) -> {
-						});
+						}, player, playerData);
 						abilities.add(aa);
 						aa.visible = false;
 						aa.isVisual = true;
@@ -307,7 +299,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 				for(String a : abilitiesList) {
 					Ability ability = ModAbilities.registry.get(ResourceLocation.parse(a));
 					if(ability != null) {
-						MenuAbilitiesButton aa = new MenuAbilitiesButton(buttonPosX, buttonPosY, buttonWidth, ability.getRegistryName().toString(), AbilityType.WEAPON, (e) -> { });
+						MenuAbilitiesButton aa = new MenuAbilitiesButton(buttonPosX, buttonPosY, buttonWidth, ability.getRegistryName().toString(), AbilityType.WEAPON, (e) -> { }, player, playerData);
 						abilities.add(aa);
 						aa.visible = false;
 					}
@@ -323,7 +315,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 							Ability ability = ModAbilities.registry.get(ResourceLocation.parse(a));
 							if (ability != null) {
 								MenuAbilitiesButton aa = new MenuAbilitiesButton(buttonPosX, buttonPosY, buttonWidth, ability.getRegistryName().toString(), AbilityType.WEAPON, (e) -> {
-								});
+								}, player, playerData);
 								abilities.add(aa);
 								aa.visible = false;
 							}
@@ -355,7 +347,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 		}
 
         addRenderableWidget(back = new MenuButton((int)this.buttonPosX, this.buttonPosY + ((1+k) * 18), (int)this.buttonWidth, Component.translatable(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, b -> action("back")));
-		scrollBar = new MenuScrollBar((int) (boxPosX + boxWidth - 17), scrollTop, scrollBot, (int) middleHeight, 0);
+		scrollBar = new MenuScrollBar((int) (boxPosX + boxWidth - 17), scrollTop, scrollBot, (int) middleHeight, 0, true);
 		addRenderableWidget(scrollBar);
 		
 		updateButtons();
@@ -382,26 +374,26 @@ public class MenuAbilitiesScreen extends MenuBackground {
 
 		gui.enableScissor(0, (int) topBarHeight, width, (int) (topBarHeight + middleHeight));
 
-		for (int i = 0; i < abilities.size(); i++) {
-			if (abilities.get(i) != null) {
-				abilities.get(i).setY((int) (abilities.get(i).getY() - scrollBar.scrollOffset));
-				if (abilities.get(i).getY() < scrollBot && abilities.get(i).getY() >= scrollTop-20) {
-					abilities.get(i).active =true;
-                    String abilityName = abilities.get(i).getText();
-					Ability ability = ModAbilities.registry.get(ResourceLocation.parse(abilityName));
+        for (MenuAbilitiesButton menuAbilitiesButton : abilities) {
+            if (menuAbilitiesButton != null) {
+                menuAbilitiesButton.setY((int) (menuAbilitiesButton.getY() - scrollBar.scrollOffset));
+                if (menuAbilitiesButton.getY() < scrollBot && menuAbilitiesButton.getY() >= scrollTop - 20) {
+                    menuAbilitiesButton.active = true;
+                    String abilityName = menuAbilitiesButton.getText();
+                    Ability ability = ModAbilities.registry.get(ResourceLocation.parse(abilityName));
 
-					if (ability.getAPCost() > playerData.getMaxAP(true) - Utils.getConsumedAP(playerData)) {
-						abilities.get(i).active = abilities.get(i).equipped;
-					}
-					
-					if (abilities.get(i).abilityType == AbilityType.WEAPON || abilities.get(i).abilityType == AbilityType.ACCESSORY || form.equals(DriveForm.NONE.toString()) && playerData.isAbilityEquipped(abilities.get(i).getText(), abilitiesMap.get(abilities.get(i).getText())[0])) {
-						abilities.get(i).active = true;
-					}
+                    if (ability.getAPCost() > playerData.getMaxAP(true) - Utils.getConsumedAP(playerData)) {
+                        menuAbilitiesButton.active = menuAbilitiesButton.equipped;
+                    }
 
-					abilities.get(i).render(gui, mouseX, mouseY, partialTicks);
-				}
-			}
-		}
+                    if (menuAbilitiesButton.abilityType == AbilityType.WEAPON || menuAbilitiesButton.abilityType == AbilityType.ACCESSORY || form.equals(DriveForm.NONE.toString()) && playerData.isAbilityEquipped(menuAbilitiesButton.getText(), abilitiesMap.get(menuAbilitiesButton.getText())[0])) {
+                        menuAbilitiesButton.active = true;
+                    }
+
+                    menuAbilitiesButton.render(gui, mouseX, mouseY, partialTicks);
+                }
+            }
+        }
 		gui.disableScissor();
 
 		playerButton.render(gui, mouseX, mouseY, partialTicks);
@@ -457,74 +449,34 @@ public class MenuAbilitiesScreen extends MenuBackground {
 		matrixStack.pushPose();
 		{
 			matrixStack.translate((posX - 2) * scale - 20, posY * scale - 10, 0);
+			RenderSystem.setShaderColor(1, 1, 1, 1);
 
-			// Left
-			matrixStack.pushPose();
-			{
-				RenderSystem.setShaderColor(1, 1, 1, 1);
-				gui.blit(texture, 0, 0, 143, 67, 7, 25);
-			}
-			matrixStack.popPose();
+			gui.blit(texture, 0, 0, 143, 67, 7, 25); // Left
+			for (int j = 0; j < barWidth; j++)
+				gui.blit(texture, 7 + j, 0, 151, 67, 1, 25); // Middle
+			gui.blit(texture, 7 + barWidth, 0, 153, 67, 7, 25); // Right
 
-			// Middle
-			matrixStack.pushPose();
-			{
-				RenderSystem.setShaderColor(1, 1, 1, 1);
-				for (int j = 0; j < barWidth; j++)
-					gui.blit(texture, 7 + j, 0, 151, 67, 1, 25);
-			}
-			matrixStack.popPose();
-			// Right
-			matrixStack.pushPose();
-			{
-				RenderSystem.setShaderColor(1, 1, 1, 1);
-				gui.blit(texture, 7 + barWidth, 0, 153, 67, 7, 25);
-			}
-			matrixStack.popPose();
-
-			// Bar Background
-			matrixStack.pushPose();
-			{
-				RenderSystem.setShaderColor(1, 1, 1, 1);
-				for (int j = 0; j < barWidth; j++)
-					gui.blit(texture, j + 7, 17, 161, 67, 1, 25);
-			}
-			matrixStack.popPose();
+			for (int j = 0; j < barWidth; j++)
+				gui.blit(texture, j + 7, 17, 161, 67, 1, 25); // Bar Background
 
 			int requiredAP = (hoveredAbility != null) ? hoveredAbility.getAPCost() : 0;
 
 			if(hoveredType != AbilityType.WEAPON && hoveredType != AbilityType.ACCESSORY) {
 				if (hoveredAbility != null && playerData.isAbilityEquipped(hoveredAbility.getRegistryName().toString(), hoveredIndex)) { // If hovering an equipped ability
 					requiredAP *= -1;
-	
 					// Bar going to decrease (dark yellow section when hovering equipped ability)
-					matrixStack.pushPose();
-					{
-						int percent = (consumedAP) * barWidth / maxAP;
-						matrixStack.pushPose();
-						// RenderSystem.color(1, 1, 1,);
-						for (int j = 0; j < percent; j++)
-							gui.blit(texture, j + 7, 17, 165, 67, 1, 5);
-						matrixStack.popPose();
-	
-					}
-					matrixStack.popPose();
+					int percent = (consumedAP) * barWidth / maxAP;
+					for (int j = 0; j < percent; j++)
+						gui.blit(texture, j + 7, 17, 165, 67, 1, 5);
 				} else {
 					if(consumedAP + requiredAP <= playerData.getMaxAP(true)) {
 						// Bar going to increase (blue section when hovering unequipped ability)
-						matrixStack.pushPose();
-						{
-							int percent = (consumedAP + requiredAP) * barWidth / maxAP;
-							matrixStack.pushPose();
-							for (int j = 0; j < percent; j++)
-								gui.blit(texture, j + 7, 17, 167, 67, 1, 5);
-							matrixStack.popPose();
-						}
-						matrixStack.popPose();
+						int percent = (consumedAP + requiredAP) * barWidth / maxAP;
+						for (int j = 0; j < percent; j++)
+							gui.blit(texture, j + 7, 17, 167, 67, 1, 5);
 					}
 				}
 			}
-			RenderSystem.setShaderColor(1, 1, 1, 1F);
 
 			// Foreground
 			matrixStack.pushPose();

@@ -40,6 +40,6 @@ public class ThunderEntityRenderer extends EntityRenderer<ThunderEntity> {
 	@Nullable
 	@Override
 	public ResourceLocation getTextureLocation(ThunderEntity entity) {
-		return ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/models/fire.png");
+		return ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/models/cube.png");
 	}
 }

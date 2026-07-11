@@ -73,6 +73,10 @@ public class Party {
 		return this.addMember(entity.getUUID(), entity.getDisplayName().getString());
 	}
 
+	public Member addMember(Player entity) {
+		return this.addMember(entity.getUUID(), entity.getGameProfile().getName());
+	}
+
 	public Member addMember(UUID uuid, String username) {
 		Member member = new Member(uuid, username);
 		this.members.add(member);
@@ -206,6 +210,9 @@ public class Party {
 
 		public Member(LivingEntity entity) {
 			this(entity.getUUID(), entity.getDisplayName().getString());
+		}
+		public Member(Player entity) {
+			this(entity.getUUID(), entity.getGameProfile().getName());
 		}
 
 		public Member(UUID uuid, String username) {

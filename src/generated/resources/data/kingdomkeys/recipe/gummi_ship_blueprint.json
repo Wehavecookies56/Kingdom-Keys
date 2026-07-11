@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "kingdomkeys",
+  "key": {
+    "F": {
+      "item": "kingdomkeys:gummi_meteor_fragment"
+    },
+    "G": {
+      "item": "minecraft:glass"
+    },
+    "R": {
+      "item": "minecraft:redstone_block"
+    }
+  },
+  "pattern": [
+    "GGG",
+    "FRF",
+    "GGG"
+  ],
+  "result": {
+    "count": 1,
+    "id": "kingdomkeys:gummi_ship_blueprint"
+  }
+}

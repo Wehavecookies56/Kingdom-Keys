@@ -18,9 +18,9 @@ import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.item.KeychainItem;
-import online.kingdomkeys.kingdomkeys.item.SynthesisBagItem;
+import online.kingdomkeys.kingdomkeys.item.ModItems;
+import online.kingdomkeys.kingdomkeys.lib.ModTags;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
-import online.kingdomkeys.kingdomkeys.lib.Tags;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSCloseMoogleGUI;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopListRegistry;
@@ -33,8 +33,6 @@ public class SynthesisScreen extends MenuBackground implements IPlayerDataReques
 		
 	MenuButton synthesise, forge, materials, shop;
 
-	PlayerData playerData;
-	
 	String invFile = ModConfigs.SERVER.projectorHasShop.get() ? "kingdomkeys:default" : "";
 	int moogle = -1;
 
@@ -112,16 +110,16 @@ public class SynthesisScreen extends MenuBackground implements IPlayerDataReques
 			if (!hasKeychain && player.getInventory().getItem(i).getItem() instanceof KeychainItem) {
 				hasKeychain = true;
 			}
-			if (!hasMaterial && player.getInventory().getItem(i).is(Tags.MATERIALS)) {
+			if (!hasMaterial && player.getInventory().getItem(i).is(ModTags.MATERIALS)) {
 				hasMaterial = true;
 			}
 
 			//Requires player to open it to sync with the client but it works
-			if(player.getInventory().getItem(i).getItem() instanceof SynthesisBagItem){
+			if(player.getInventory().getItem(i).getItem() == ModItems.synthesisBag.get()){
 				IItemHandler bagInv = player.getInventory().getItem(i).getCapability(Capabilities.ItemHandler.ITEM);
 				for (int j = 0; j < bagInv.getSlots(); j++) { //Check bag slots
 					ItemStack bagItem = bagInv.getStackInSlot(j);
-					if (!ItemStack.matches(bagItem, ItemStack.EMPTY) && bagItem.is(Tags.MATERIALS)) { //If current bag slot is filled
+					if (!ItemStack.matches(bagItem, ItemStack.EMPTY) && bagItem.is(ModTags.MATERIALS)) { //If current bag slot is filled
 						hasMaterial = true;
 					}
 				}
@@ -148,8 +146,6 @@ public class SynthesisScreen extends MenuBackground implements IPlayerDataReques
 
 	@Override
 	public void render(@NotNull GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
-		
-		//fill(125, ((-140 / 16) + 75) + 10, 200, ((-140 / 16) + 75) + 20, 0xFFFFFF);
 		super.render(gui, mouseX, mouseY, partialTicks);
 	}
 	

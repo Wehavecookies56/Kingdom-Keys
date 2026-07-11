@@ -27,6 +27,7 @@ import online.kingdomkeys.kingdomkeys.api.item.IKeychain;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
+import online.kingdomkeys.kingdomkeys.client.gui.menu.check.CheckEquipmentScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment.MenuEquipmentScreen;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
@@ -47,17 +48,18 @@ public class MenuEquipmentButton extends Button {
     ItemStack stack;
     Shotlock shotlock;
     int colour, labelColour;
-    MenuEquipmentScreen parent;
+	MenuBackground parent;
     String label;
     boolean hasLabel;
     ItemCategory category;
 	public int offsetY;
 
 	final ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
+	final ResourceLocation barTexture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
 
-    public MenuEquipmentButton(ItemStack stack, int x, int y, int colour, Screen toOpen, ItemCategory category, MenuEquipmentScreen parent) {
+	public MenuEquipmentButton(ItemStack stack, int x, int y, int colour, Screen toOpen, ItemCategory category, MenuBackground parent) {
         super(new Builder(Component.literal(""), b -> {
-            if (b.visible && b.active) {
+            if (b.visible && b.active && !(parent instanceof CheckEquipmentScreen)) {
                 Minecraft.getInstance().setScreen(((MenuEquipmentButton)b).toOpen);
             }
         }).bounds(x, y, (int) (parent.width * 0.264f), 14));
@@ -70,16 +72,16 @@ public class MenuEquipmentButton extends Button {
         this.category = category;
     }
 
-    public MenuEquipmentButton(ItemStack stack, int x, int y, int colour, Screen toOpen, ItemCategory category, MenuEquipmentScreen parent, String label, int labelColour) {
+    public MenuEquipmentButton(ItemStack stack, int x, int y, int colour, Screen toOpen, ItemCategory category, MenuBackground parent, String label, int labelColour) {
         this(stack, x, y, colour, toOpen, category, parent);
         this.hasLabel = true;
         this.labelColour = labelColour;
         this.label = label;
     }
     
-    public MenuEquipmentButton(String shotlock, int x, int y, int colour, Screen toOpen, ItemCategory category, MenuEquipmentScreen parent) {
+    public MenuEquipmentButton(String shotlock, int x, int y, int colour, Screen toOpen, ItemCategory category, MenuBackground parent) {
     	super(new Builder(Component.literal(""), b -> {
-            if (b.visible && b.active) {
+		    if (b.visible && b.active && !(parent instanceof CheckEquipmentScreen)) {
                 Minecraft.getInstance().setScreen(((MenuEquipmentButton)b).toOpen);
             }
         }).bounds(x, y, (int) (parent.width * 0.264f), 14));
@@ -93,7 +95,7 @@ public class MenuEquipmentButton extends Button {
         this.category = category;
     }
 
-    public MenuEquipmentButton(String shotlock, int x, int y, int colour, Screen toOpen, ItemCategory category, MenuEquipmentScreen parent, String label, int labelColour) {
+    public MenuEquipmentButton(String shotlock, int x, int y, int colour, Screen toOpen, ItemCategory category, MenuBackground parent, String label, int labelColour) {
         this(shotlock, x, y, colour, toOpen, category, parent);
         this.hasLabel = true;
         this.labelColour = labelColour;
@@ -162,6 +164,20 @@ public class MenuEquipmentButton extends Button {
             		gui.drawString(fr, "---", getX() + 15, getY() + 3, 0xFFFFFF);
             	}
             }
+
+	        // show magic level and exp level in the button
+	        if(stack != null && stack.getItem() instanceof MagicSpellItem spell && (parent instanceof MenuEquipmentScreen)) {
+		        String text = Utils.translateToLocal("gui.magicspell.lvl_short",spell.getLocalLevel(stack));
+		        int x = getX() + getWidth() - mc.font.width(text) - 4;
+		        gui.drawString(mc.font, text, x, getY() + 2, 0xFFFFFF);
+
+
+		        float percent = spell.getLocalPercent(stack);
+		        int barWidth = mc.font.width(text);
+		        int percentWidth = (int)(barWidth * percent);
+		        gui.blit(barTexture, getX() + getWidth() - barWidth - 5, getY() + getHeight() - 4, barWidth, 2, 161, 67, 1, 5, 256, 256);
+		        gui.blit(barTexture, getX() + getWidth() - barWidth - 5, getY() + getHeight() - 4, percentWidth, 2, 163, 67, 1, 5, 256, 256);
+	        }
             if (isHovered) {
                 matrixStack.pushPose();
                 {
@@ -179,11 +195,9 @@ public class MenuEquipmentButton extends Button {
                 float iconPosY = parent.height * 0.17F;
                 float iconHeight = parent.height * 0.3148F;
                 if (stack != null) {
-                	ItemStack item;
+                	ItemStack item = stack;
                     if (stack.getItem() instanceof IKeychain kc) {
                     	item = new ItemStack(kc.toSummon());
-                    } else {
-                    	item = stack;
                     }
                     
                     matrixStack.pushPose();
@@ -225,6 +239,8 @@ public class MenuEquipmentButton extends Button {
                     	showData = true;
                     } else if (stack.getItem() instanceof KKPotionItem) {
                      	showData = true;
+					} else if (stack.getItem() instanceof MagicSpellItem) {
+						showData = true;
                     } else if (stack.getItem() instanceof KKAccessoryItem) {
                      	ap = ((KKAccessoryItem)stack.getItem()).getAp();
                      	strength = ((KKAccessoryItem)stack.getItem()).getStr();
@@ -233,8 +249,9 @@ public class MenuEquipmentButton extends Button {
                     } else {
                     	showData = false;
                     }
+
                     if(showData) {
-                    	boolean showStr = true, showMag= true, showAP=true, showResistances = false;
+                    	boolean showStr = true, showMag= true, showAP=true, showResistances = false, showExp = false;
                     	abilities.remove(null);
 	                    String strengthStr = String.valueOf(strength);
 	                    String magicStr = String.valueOf(magic);
@@ -289,6 +306,12 @@ public class MenuEquipmentButton extends Button {
 	                    	showStr = false;
 	                    	showMag = false;
 	                    }
+
+	                    if(stack.getItem() instanceof MagicSpellItem) {
+							showExp = true;
+		                    showStr = false;
+		                    showMag = false;
+	                    }
 	                    
 	                    if(showAP) {
 		                    gui.drawString(fr, Component.translatable(Strings.Gui_Menu_Status_AP).getString(), (int) strPosX, (int) posY, 0xEE8603);
@@ -316,7 +339,34 @@ public class MenuEquipmentButton extends Button {
 							gui.drawString(fr, "]", (int) strNumPosX + fr.width(magicStr) + fr.width(openBracket) + fr.width(totalMagicStr), (int) posY, 0xBF6004);
 							posY+=10;
 	                    }
-	                    
+
+	                    if(showExp) { //Details
+							MagicSpellItem spell = (MagicSpellItem) stack.getItem();
+		                    if(parent instanceof MenuEquipmentScreen screen) {
+			                    float textX = screen.detailsBox.getX() + 10;
+			                    float textY = screen.detailsBox.getY() + screen.detailsBox.getHeight() / 2F + 25;
+
+			                    Component text;
+			                    if(spell.isMaxed(stack)){
+				                    text = Component.translatable("gui.synthesis.exp").append(": MAX");
+			                    } else{
+				                    text = Component.translatable("gui.magicspell.exp_short", spell.getLocalExp(stack), spell.getLocalMaxExp());
+			                    }
+								gui.drawString(fr, text, (int) textX, (int) textY, 0xEEEE03);
+
+			                    text = Component.translatable("gui.magicspell.lvl_short", spell.getLocalLevel(stack));
+			                    float levelTextX = screen.detailsBox.getX() + screen.detailsBox.getWidth() * 0.8F - Minecraft.getInstance().font.width(text) + 10;
+			                    gui.drawString(fr, text, (int) levelTextX, (int) textY, 0xEEEE03);
+
+			                    float percent = spell.getLocalPercent(stack);
+			                    int barWidth = (int) (screen.detailsBox.getWidth() * 0.8F);
+			                    int percentWidth = (int)(barWidth * percent);
+
+			                    gui.blit(barTexture, (int) textX, (int) textY + 10, barWidth, 5, 161, 67, 1, 5, 256, 256);
+			                    gui.blit(barTexture, (int) textX, (int) textY + 10, percentWidth, 5, 163, 67, 1, 5, 256, 256);
+							}
+	                    }
+
 	                    if(showResistances && resistances != null) {
 	                    	int pos = 0;
 	                    	{

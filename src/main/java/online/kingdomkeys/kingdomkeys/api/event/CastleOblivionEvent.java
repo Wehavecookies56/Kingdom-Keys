@@ -37,6 +37,7 @@ public class CastleOblivionEvent extends Event {
         public Room getCurrentRoom() {
             return currentRoom;
         }
+
     }
 
     public static class PlayerChangeRoomEvent extends CastleOblivionEvent implements ICancellableEvent {
@@ -67,6 +68,8 @@ public class CastleOblivionEvent extends Event {
     public static class PlayerChangeFloorEvent extends CastleOblivionEvent implements ICancellableEvent {
         Floor currentFloor;
         Floor newFloor;
+        Room newRoom;
+        Room currentRoom;
 
         public Floor getCurrentFloor() {
             return currentFloor;
@@ -80,11 +83,21 @@ public class CastleOblivionEvent extends Event {
             return player;
         }
 
+        public Room getNewRoom() {
+            return newRoom;
+        }
+
+        public Room getCurrentRoom() {
+            return currentRoom;
+        }
+
         Player player;
-        public PlayerChangeFloorEvent(Floor currentFloor, Floor newFloor, Player player) {
+        public PlayerChangeFloorEvent(Floor currentFloor, Floor newFloor, Room currentRoom, Room newRoom, Player player) {
             super((ServerLevel) player.level());
             this.currentFloor = currentFloor;
             this.newFloor = newFloor;
+            this.currentRoom = currentRoom;
+            this.newRoom = newRoom;
             this.player = player;
         }
 

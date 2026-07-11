@@ -34,7 +34,6 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.entity.item.ItemTossEvent;
-import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.api.item.IItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
@@ -203,11 +202,10 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 	}
 
 	@Override
-	public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
+	public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
 		ItemStack itemstack = player.getItemInHand(hand);
-		Level level = player.level();
 		PlayerData playerData = PlayerData.get(player);
-		
+
 		if (player.isCrouching() && playerData.isAbilityEquipped(Strings.strikeRaid)) { //Throw keyblade
 			int slot = hand == InteractionHand.OFF_HAND ? player.getInventory().getContainerSize() - 1 : player.getInventory().selected;
 
@@ -242,7 +240,7 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 			}
         } else { //Attack offhand and wisdom attack
 			if (!player.getOffhandItem().isEmpty() && player.getOffhandItem().getItem() instanceof KeybladeItem) { // offhand kb attacking
-				if (world.isClientSide && !player.getOffhandItem().isEmpty() && player.getOffhandItem().getItem() instanceof KeybladeItem) { // if kb in offhand
+				if (level.isClientSide && !player.getOffhandItem().isEmpty() && player.getOffhandItem().getItem() instanceof KeybladeItem) { // if kb in offhand
 					HitResult rtr = InputHandler.pickExtend(player, ((IOffHandRange)player).kingdom_Keys$getOffHandEntityInteractionRange());
 					if (rtr != null) {
 						if (rtr.getType() == Type.ENTITY) {
@@ -262,19 +260,18 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 			} else { //Wisdom attack
 				if(playerData.getActiveDriveForm().equals(Strings.Form_Wisdom)) {
 					player.swing(hand);
-					if(!world.isClientSide) {
-						//System.out.println(DamageCalculation.getMagicDamage(player) * 0.1);
+					if(!level.isClientSide) {
 						ArrowgunShotEntity shot = new ArrowgunShotEntity(player.level(), player, DamageCalculation.getMagicDamage(player) * 0.1F);
 						shot.setShotType(1);
 						shot.shootFromRotation(player, player.getXRot(), player.getYRot(), 0, 3F, 0);
-						world.addFreshEntity(shot);
+						level.addFreshEntity(shot);
 						player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.wisdom_shot.get(), SoundSource.PLAYERS, 1F, 1F);
 
 					}
 				}
 			}
         }
-        return super.use(world, player, hand);
+        return super.use(level, player, hand);
     }
 
 	@Override

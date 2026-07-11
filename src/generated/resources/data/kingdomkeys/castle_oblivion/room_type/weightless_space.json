@@ -1,0 +1,21 @@
+{
+  "category": "STATUS",
+  "enemies": {
+    "type": "S",
+    "number_of_enemies": 5,
+    "simultaneous_enemies": 3
+  },
+  "modifiers": [
+    {
+      "type": "kingdomkeys:effect",
+      "effect": "minecraft:slow_falling",
+      "target": "BOTH"
+    },
+    {
+      "type": "kingdomkeys:effect",
+      "effect": "minecraft:jump_boost",
+      "target": "BOTH"
+    }
+  ],
+  "size": "M"
+}

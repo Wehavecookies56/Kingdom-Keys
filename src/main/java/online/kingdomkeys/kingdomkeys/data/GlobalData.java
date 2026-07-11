@@ -8,7 +8,6 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.world.entity.LivingEntity;
 import net.neoforged.neoforge.common.util.INBTSerializable;
 
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -19,7 +18,6 @@ public class GlobalData implements INBTSerializable<CompoundTag> {
 
 	private static Map<Integer, GlobalData> mobDataClientCache = new HashMap<>();
 
-    @Nullable
 	public static GlobalData get(LivingEntity entity) {
 		if (!entity.hasData(ModData.GLOBAL_DATA)) {
 			entity.setData(ModData.GLOBAL_DATA, new GlobalData());

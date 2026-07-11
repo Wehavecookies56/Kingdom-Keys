@@ -14,7 +14,7 @@ import online.kingdomkeys.kingdomkeys.network.Packet;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
 
-public record CSSetShortcutPacket(int position, int level, String magic) implements Packet {
+public record CSSetShortcutPacket(int position, int slot) implements Packet {
 	
 	public static final Type<CSSetShortcutPacket> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_set_shortcut"));
 
@@ -22,9 +22,7 @@ public record CSSetShortcutPacket(int position, int level, String magic) impleme
 			ByteBufCodecs.INT,
 			CSSetShortcutPacket::position,
 			ByteBufCodecs.INT,
-			CSSetShortcutPacket::level,
-			ByteBufCodecs.STRING_UTF8,
-			CSSetShortcutPacket::magic,
+			CSSetShortcutPacket::slot,
 			CSSetShortcutPacket::new
 	);
 
@@ -32,10 +30,10 @@ public record CSSetShortcutPacket(int position, int level, String magic) impleme
 	public void handle(IPayloadContext context) {
 		Player player = context.player();
 		PlayerData playerData = PlayerData.get(player);
-		if(magic.equals("")) {
+		if (slot < 0) {
 			playerData.removeShortcut(position);
 		} else {
-			playerData.changeShortcut(position, magic, level);
+			playerData.changeShortcut(position, slot);
 		}
 
 		PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);

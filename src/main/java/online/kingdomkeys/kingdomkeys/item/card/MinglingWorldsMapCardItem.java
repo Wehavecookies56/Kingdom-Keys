@@ -12,7 +12,7 @@ import java.util.List;
 
 public class MinglingWorldsMapCardItem extends MapCardItem {
     public MinglingWorldsMapCardItem() {
-        super(null);
+        super(null, CardCategory.BLUE);
     }
 
     @Override

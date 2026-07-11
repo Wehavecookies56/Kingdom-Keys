@@ -1,0 +1,13 @@
+{
+	"name": "Forma Final",
+	"icon": "kingdomkeys:levelupdrivefinal",
+	"sortnum": 5,
+	"category": "kingdomkeys:drive",
+	"advancement": "kingdomkeys:obtain_drive",
+	"pages": [
+		{
+			"type": "text",
+			"text": "Esta forma obtiene XP por cada $(nobody)Incorpóreo$() y $(thing)Enderman$() derrotado mientras estás en esta forma.$(p)Subir de nivel esta forma te recompensará con acceso permanente a la habilidad $(item)Planeador$()."
+		}
+	]
+}

@@ -1,0 +1,19 @@
+{
+	"name": "Blues Esmeralda",
+	"icon": "kingdomkeys:emerald_blues_spawn_egg",
+	"category": "kingdomkeys:emblem",
+	"sortnum": 5,
+	"advancement": "kingdomkeys:obtain_keychain",
+	"pages": [
+		{
+			"type": "text",
+			"text": "Ataca desde una distancia segura, mientras estás atento a su embestida repentina. Cuando su PS se vuelve bajo, se forma un tornado que atrae al enemigo. $(thing)$(o)Resiste fácilmente la magia$(), ¡así que no dudes en usar la Llave Espada!$(p)$(lissa)$(l)$(o)[Primera Aparición: Kingdom Hearts II]$()"
+		},
+		{
+			"type": "patchouli:entity",
+			"entity": "kingdomkeys:emerald_blues",
+			"scale": 0.6,
+			"offset": 0.8
+		}
+	]
+}

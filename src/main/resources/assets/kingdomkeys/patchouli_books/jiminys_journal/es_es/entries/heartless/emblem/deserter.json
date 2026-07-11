@@ -1,0 +1,17 @@
+{
+	"name": "Desertor",
+	"icon": "kingdomkeys:deserter_spawn_egg",
+	"category": "kingdomkeys:emblem",
+	"sortnum": 7,
+	"pages": [
+		{
+			"type": "text",
+			"text": "$(heartless)Sincorazón$() similares al $(l:kingdomkeys:heartless/emblem/soldier)Soldado$(). Evitan el combate directo (por eso tienen ese nombre). Sin embargo, se vuelven agresivos cuando los acorralas o uno de ellos es derrotado. $(thing)$(o)Usa bloqueo para pararlos o ataca con Hielo$().$(p)$(lissa)$(l)$(o)[Primera aparición: Kingdom Hearts 358/2 Days]$()"
+		},
+		{
+			"type": "patchouli:entity",
+			"entity": "kingdomkeys:deserter",
+			"scale": 0.6
+		}
+	]
+}

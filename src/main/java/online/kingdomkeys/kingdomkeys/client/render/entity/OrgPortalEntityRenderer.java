@@ -43,7 +43,7 @@ public class OrgPortalEntityRenderer extends EntityRenderer<OrgPortalEntity> {
 
 				float[] rgb = new float[] { 0.125F, 0.0F, 0.2F, 0.9F };
 
-				float ticks = entity.tickCount;
+				float ticks = entity.tickCount + partialTicks;
 		        if(ticks < 10) //Growing
 		        	matrixStackIn.scale(ticks*0.2f, ticks*0.2f, ticks*0.2f);
 		        else if(ticks > 90) //Disappearing
@@ -68,6 +68,6 @@ public class OrgPortalEntityRenderer extends EntityRenderer<OrgPortalEntity> {
 	@Nullable
 	@Override
 	public ResourceLocation getTextureLocation(OrgPortalEntity entity) {
-		return ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/models/fire.png");
+		return ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/models/cube.png");
 	}
 }

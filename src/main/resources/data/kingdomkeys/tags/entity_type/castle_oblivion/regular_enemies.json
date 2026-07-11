@@ -1,0 +1,13 @@
+{
+    "replace": false,
+    "values": [
+        "kingdomkeys:shadow",
+        "kingdomkeys:soldier",
+        "kingdomkeys:dire_plant",
+        "kingdomkeys:minute_bomb",
+        "kingdomkeys:red_nocturne",
+        "kingdomkeys:blue_rhapsody",
+        "kingdomkeys:yellow_opera",
+        "kingdomkeys:green_requiem"
+    ]
+}

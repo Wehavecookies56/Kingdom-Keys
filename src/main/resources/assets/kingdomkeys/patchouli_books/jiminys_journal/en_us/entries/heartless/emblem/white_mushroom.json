@@ -1,0 +1,17 @@
+{
+	"name": "White Mushroom",
+	"icon": "kingdomkeys:white_mushroom_spawn_egg",
+	"category": "kingdomkeys:emblem",
+	"sortnum": 15,
+	"pages": [
+		{
+			"type": "text",
+			"text": "These $(heartless)Heartless$() are non-hostile. These friendly and rare creatures will reward you if you use 3 magic spells correctly on them. $(thing)$(o)Pay attention to their animation, if you fail once, they will disappear$().$(p)$(lissa)$(l)$(o)[First Appearance: Kingdom Hearts]$()"
+		},
+		{
+			"type": "patchouli:entity",
+			"entity": "kingdomkeys:white_mushroom",
+			"scale": 0.8
+		}
+	]
+}

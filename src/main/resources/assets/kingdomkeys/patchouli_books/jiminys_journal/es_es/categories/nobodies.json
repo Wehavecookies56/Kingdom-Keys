@@ -1,0 +1,7 @@
+{
+	"name": "Incorpóreos",
+	"description": "Lista completa de $(item)Incorpóreos$() que están presentes en el mod. ¡Consulta las entradas individuales para obtener más $(thing)información$() y $(thing)estrategias$() para cada uno!",
+	"icon": "kingdomkeys:evanescent_crystal",
+	"parent": "kingdomkeys:enemies",
+	"sortnum": 8
+}

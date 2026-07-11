@@ -40,7 +40,7 @@ public class ThunderBoltEntityRenderer extends EntityRenderer<ThunderBoltEntity>
 	@Nullable
 	@Override
 	public ResourceLocation getTextureLocation(ThunderBoltEntity entity) {
-		return ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/models/fire.png");
+		return ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/models/cube.png");
 	}
 
 }

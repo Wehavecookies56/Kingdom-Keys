@@ -17,7 +17,7 @@ import online.kingdomkeys.kingdomkeys.api.event.EquipmentEvent;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
-import online.kingdomkeys.kingdomkeys.lib.Tags;
+import online.kingdomkeys.kingdomkeys.lib.ModTags;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSummonKeyblade;
 import online.kingdomkeys.kingdomkeys.network.cts.CSUnlockEquipOrgWeapon;
@@ -35,7 +35,7 @@ public class WeaponUnlockScreen extends Screen {
         super(Component.literal(""));
         this.member = member;
         if (member != Utils.OrgMember.NONE) {
-            this.weapons = Minecraft.getInstance().level.registryAccess().lookupOrThrow(Registries.ITEM).getOrThrow(Tags.getTagForMember(member)).stream().map(Holder::value).toList();
+            this.weapons = Minecraft.getInstance().level.registryAccess().lookupOrThrow(Registries.ITEM).getOrThrow(ModTags.getTagForMember(member)).stream().map(Holder::value).toList();
         } else {
             throw new IllegalStateException("Tried to open Weapon Unlock screen with no Org Member");
         }
@@ -177,7 +177,7 @@ public class WeaponUnlockScreen extends Screen {
     int startCost = 1000;
 
     public Item getStarterWeapon(Utils.OrgMember member) {
-        return Tags.getFirstItemInTag(Minecraft.getInstance().level, Tags.getTagForMember(member));
+        return ModTags.getFirstItemInTag(Minecraft.getInstance().level, ModTags.getTagForMember(member));
     }
 
     public boolean canUnlock() {

@@ -1,4 +1,9 @@
 {
+  "air_slide": {
+    "sounds": [
+      "kingdomkeys:air_slide"
+    ]
+  },
   "alarm": {
     "sounds": [
       "kingdomkeys:alarm"
@@ -14,9 +19,19 @@
       "kingdomkeys:arrowgunreload"
     ]
   },
+  "buy": {
+    "sounds": [
+      "kingdomkeys:buy"
+    ]
+  },
   "drive": {
     "sounds": [
       "kingdomkeys:drive"
+    ]
+  },
+  "drive_up": {
+    "sounds": [
+      "kingdomkeys:drive_up"
     ]
   },
   "error": {
@@ -70,6 +85,11 @@
       "kingdomkeys:levelup"
     ]
   },
+  "lockoff": {
+    "sounds": [
+      "kingdomkeys:lockoff"
+    ]
+  },
   "lockon": {
     "sounds": [
       "kingdomkeys:lockon"
@@ -83,6 +103,16 @@
   "magic/aero2": {
     "sounds": [
       "kingdomkeys:magic/aero2"
+    ]
+  },
+  "magic/balloon": {
+    "sounds": [
+      "kingdomkeys:magic/balloon"
+    ]
+  },
+  "magic/balloon_bounce": {
+    "sounds": [
+      "kingdomkeys:magic/balloon_bounce"
     ]
   },
   "magic/blizzaga": {
@@ -115,6 +145,16 @@
       "kingdomkeys:magic/cure"
     ]
   },
+  "magic/deepfreeze": {
+    "sounds": [
+      "kingdomkeys:magic/deepfreeze"
+    ]
+  },
+  "magic/esuna": {
+    "sounds": [
+      "kingdomkeys:magic/esuna"
+    ]
+  },
   "magic/fira": {
     "sounds": [
       "kingdomkeys:magic/fira"
@@ -123,6 +163,11 @@
   "magic/firaga": {
     "sounds": [
       "kingdomkeys:magic/firaga"
+    ]
+  },
+  "magic/firagaburst": {
+    "sounds": [
+      "kingdomkeys:magic/firagaburst"
     ]
   },
   "magic/fire": {
@@ -145,6 +190,16 @@
       "kingdomkeys:magic/gravity"
     ]
   },
+  "magic/icebarrage": {
+    "sounds": [
+      "kingdomkeys:magic/icebarrage"
+    ]
+  },
+  "magic/light_beam": {
+    "sounds": [
+      "kingdomkeys:magic/light_beam"
+    ]
+  },
   "magic/magnet1": {
     "sounds": [
       "kingdomkeys:magic/magnet1"
@@ -155,6 +210,16 @@
       "kingdomkeys:magic/magnet2"
     ]
   },
+  "magic/player_cast": {
+    "sounds": [
+      "kingdomkeys:magic/player_cast"
+    ]
+  },
+  "magic/poison": {
+    "sounds": [
+      "kingdomkeys:magic/poison"
+    ]
+  },
   "magic/reflect1": {
     "sounds": [
       "kingdomkeys:magic/reflect1"
@@ -163,6 +228,21 @@
   "magic/reflect2": {
     "sounds": [
       "kingdomkeys:magic/reflect2"
+    ]
+  },
+  "magic/spark": {
+    "sounds": [
+      "kingdomkeys:magic/spark"
+    ]
+  },
+  "magic/sparkga": {
+    "sounds": [
+      "kingdomkeys:magic/sparkga"
+    ]
+  },
+  "magic/sparkra": {
+    "sounds": [
+      "kingdomkeys:magic/sparkra"
     ]
   },
   "magic/stop": {
@@ -178,6 +258,26 @@
   "magic/stopra": {
     "sounds": [
       "kingdomkeys:magic/stopra"
+    ]
+  },
+  "magic/thundagashot": {
+    "sounds": [
+      "kingdomkeys:magic/thundagashot"
+    ]
+  },
+  "magic/warp_hit_player": {
+    "sounds": [
+      "kingdomkeys:magic/warp_hit_player"
+    ]
+  },
+  "magic/zap": {
+    "sounds": [
+      "kingdomkeys:magic/zap"
+    ]
+  },
+  "magic/zerogravity": {
+    "sounds": [
+      "kingdomkeys:magic/zerogravity"
     ]
   },
   "menu_back": {
@@ -222,6 +322,14 @@
     "sounds": [
       {
         "name": "kingdomkeys:music/dive_into_the_heart_destati",
+        "stream": true
+      }
+    ]
+  },
+  "music/forgotten_challenge": {
+    "sounds": [
+      {
+        "name": "kingdomkeys:music/forgotten_challenge",
         "stream": true
       }
     ]
@@ -422,6 +530,11 @@
       }
     ]
   },
+  "revert": {
+    "sounds": [
+      "kingdomkeys:revert"
+    ]
+  },
   "savepoint": {
     "sounds": [
       "kingdomkeys:savepoint"
@@ -485,6 +598,16 @@
   "unsummon_armor": {
     "sounds": [
       "kingdomkeys:unsummon_armor"
+    ]
+  },
+  "wall_grab": {
+    "sounds": [
+      "kingdomkeys:wall_grab"
+    ]
+  },
+  "wall_jump": {
+    "sounds": [
+      "kingdomkeys:wall_jump"
     ]
   },
   "wisdom_shot": {

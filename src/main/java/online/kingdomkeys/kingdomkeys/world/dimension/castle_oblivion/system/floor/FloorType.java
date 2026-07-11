@@ -1,60 +1,95 @@
 package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.floor;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.nbt.CompoundTag;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.core.Holder;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.level.biome.Biome;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.lib.ModTags;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.JsonRegistryObject;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModRoomTypes;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.RoomType;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.modifiers.RoomModifier;
 import org.jetbrains.annotations.Nullable;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class FloorType extends JsonRegistryObject {
 
-    private int critPathLength, bonusRoomsCount, bonusRoomsChance, branchCount, branchChance;
-    private Color floorColour;
-    @Nullable private ResourceLocation music;
-    private List<ResourceLocation> roomBlacklist;
-    @Nullable private ResourceLocation startingRoom;
-    @Nullable private ResourceLocation fixedLayout;
+    private final int critPathLength;
+    private final CountChancePair bonusRooms, branches;
+    private final Holder<Biome> floorColour;
+    @Nullable private final Holder<SoundEvent> music;
+    private final List<ResourceLocation> roomBlacklist;
+    @Nullable private final ResourceLocation startingRoom;
+    @Nullable private final ResourceLocation fixedLayout;
+    private final List<RoomModifier> globalModifiers;
+    @Nullable private final TagKey<EntityType<?>> regularEnemies;
+    @Nullable private final TagKey<EntityType<?>> strongEnemies;
+    private final boolean useFogColour;
 
-    public FloorType(CompoundTag tag) {
-        super(tag);
+    public static final Codec<FloorType> CODEC = RecordCodecBuilder.create(floorTypeInstance ->
+        floorTypeInstance.group(
+                Codec.INT.fieldOf("crit_path_length").forGetter(FloorType::getCritPathLength),
+                Biome.CODEC.fieldOf("biome_colours").forGetter(FloorType::getFloorColour),
+                CountChancePair.CODEC.optionalFieldOf("bonus_rooms").forGetter(o -> Optional.ofNullable(o.getBonusRooms())),
+                CountChancePair.CODEC.optionalFieldOf("branches").forGetter(o -> Optional.ofNullable(o.getBranches())),
+                SoundEvent.CODEC.optionalFieldOf("music").forGetter(o -> Optional.ofNullable(o.music)),
+                ResourceLocation.CODEC.listOf().optionalFieldOf("room_blacklist").forGetter(o -> Optional.ofNullable(o.roomBlacklist)),
+                ResourceLocation.CODEC.optionalFieldOf("starting_room").forGetter(o -> Optional.ofNullable(o.startingRoom)),
+                ResourceLocation.CODEC.optionalFieldOf("fixed_layout").forGetter(o -> Optional.ofNullable(o.fixedLayout)),
+                RoomModifier.CODEC.listOf().optionalFieldOf("modifiers").forGetter(o -> Optional.ofNullable(o.globalModifiers)),
+                TagKey.hashedCodec(Registries.ENTITY_TYPE).optionalFieldOf("regular_enemies").forGetter(o -> Optional.ofNullable(o.getRegularEnemies())),
+                TagKey.hashedCodec(Registries.ENTITY_TYPE).optionalFieldOf("strong_enemies").forGetter(o -> Optional.ofNullable(o.getStrongEnemies())),
+                Codec.BOOL.optionalFieldOf("use_fog_colour").forGetter(o -> Optional.of(o.useFogColour()))
+                ).apply(floorTypeInstance, FloorType::new)
+    );
+
+    public record CountChancePair(int count, int chance) {
+        public static final Codec<CountChancePair> CODEC = RecordCodecBuilder.create(countChancePairInstance ->
+                countChancePairInstance.group(
+                    Codec.INT.fieldOf("count").forGetter(CountChancePair::count),
+                    Codec.INT.fieldOf("chance").forGetter(CountChancePair::chance)
+                ).apply(countChancePairInstance, CountChancePair::new)
+        );
     }
 
-    public FloorType(JsonElement element) {
-        super(element);
+    @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
+    public FloorType(int critPathLength, Holder<Biome> floorColour, Optional<CountChancePair> bonusRooms, Optional<CountChancePair> branches, Optional<Holder<SoundEvent>> music, Optional<List<ResourceLocation>> roomBlacklist, Optional<ResourceLocation> startingRoom, Optional<ResourceLocation> fixedLayout, Optional<List<RoomModifier>> globalModifiers, Optional<TagKey<EntityType<?>>> regularEnemies, Optional<TagKey<EntityType<?>>> strongEnemies, Optional<Boolean> useFogColour) {
+        this.critPathLength = critPathLength;
+        this.floorColour = floorColour;
+        this.bonusRooms = bonusRooms.orElse(new CountChancePair(0, 0));
+        this.branches = branches.orElse(new CountChancePair(0, 0));
+        this.music = music.orElse(null);
+        this.roomBlacklist = roomBlacklist.orElse(new ArrayList<>());
+        this.startingRoom = startingRoom.orElse(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "unknown_room"));
+        this.fixedLayout = fixedLayout.orElse(null);
+        this.globalModifiers = globalModifiers.orElse(new ArrayList<>());
+        this.regularEnemies = regularEnemies.orElse(ModTags.CO_REGULAR_ENEMIES);
+        this.strongEnemies = strongEnemies.orElse(ModTags.CO_STRONG_ENEMIES);
+        this.useFogColour = useFogColour.orElse(false);
     }
 
     public int getCritPathLength() {
         return critPathLength;
     }
 
-    public int getBonusRoomCount() {
-        return bonusRoomsCount;
+    public CountChancePair getBonusRooms() {
+        return bonusRooms;
     }
 
-    public int getBonusRoomChance() {
-        return bonusRoomsChance;
+    public CountChancePair getBranches() {
+        return branches;
     }
 
-    public int getBranchCount() {
-        return branchCount;
-    }
-
-    public int getBranchChance() {
-        return branchChance;
-    }
-
-    public Color getFloorColour() {
+    public Holder<Biome> getFloorColour() {
         return floorColour;
     }
 
@@ -62,19 +97,30 @@ public class FloorType extends JsonRegistryObject {
         return roomBlacklist.stream().map(resourceLocation -> ModRoomTypes.registry.get().getValue(resourceLocation)).toList();
     }
 
-    @Nullable
+    public List<RoomModifier> getGlobalModifiers() {
+        return globalModifiers;
+    }
+
+    public boolean useFogColour() {
+        return useFogColour;
+    }
+
+    public TagKey<EntityType<?>> getRegularEnemies() {
+        return regularEnemies;
+    }
+
+    public TagKey<EntityType<?>> getStrongEnemies() {
+        return strongEnemies;
+    }
+
     public RoomType getStartingRoom() {
-        if (startingRoom != null) {
-            return ModRoomTypes.registry.get().getValue(startingRoom);
-        } else {
-            return null;
-        }
+        return ModRoomTypes.registry.get().getValue(startingRoom);
     }
 
     @Nullable
     public SoundEvent getMusic() {
         if (music != null) {
-            return BuiltInRegistries.SOUND_EVENT.get(music);
+            return music.value();
         } else {
             return null;
         }
@@ -83,139 +129,6 @@ public class FloorType extends JsonRegistryObject {
     @Nullable
     public ResourceLocation getFixedLayout() {
         return fixedLayout;
-    }
-
-    @Override
-    public CompoundTag serializeNBT() {
-        CompoundTag tag = new CompoundTag();
-
-        tag.putInt("crit_path", critPathLength);
-        tag.putInt("bonus_count", bonusRoomsCount);
-        tag.putInt("bonus_chance", bonusRoomsChance);
-        tag.putInt("branch_count", branchCount);
-        tag.putInt("branch_chance", branchCount);
-        tag.putInt("colour", floorColour.getRGB());
-        CompoundTag blacklist = new CompoundTag();
-        if (roomBlacklist != null) {
-            roomBlacklist.forEach(roomType -> blacklist.putString(roomType.toString(), roomType.toString()));
-        }
-        tag.put("blacklist", blacklist);
-        if (music != null) {
-            tag.putString("music", music.toString());
-        }
-        if (startingRoom != null) {
-            tag.putString("starting_room", startingRoom.toString());
-        }
-        if (fixedLayout != null) {
-            tag.putString("fixed_layout", fixedLayout.toString());
-        }
-        return tag;
-    }
-
-    @Override
-    public void deserializeNBT(CompoundTag tag) {
-        critPathLength = tag.getInt("crit_path");
-        bonusRoomsCount = tag.getInt("bonus_count");
-        bonusRoomsChance = tag.getInt("bonus_chance");
-        branchCount = tag.getInt("branch_count");
-        branchChance = tag.getInt("branch_chance");
-        floorColour = new Color(tag.getInt("colour"));
-        roomBlacklist = new ArrayList<>();
-        tag.getCompound("blacklist").getAllKeys().forEach(s -> roomBlacklist.add(ResourceLocation.parse(s)));
-        if (tag.contains("music")) {
-            music = ResourceLocation.parse(tag.getString("music"));
-        }
-        if (tag.contains("starting_room")) {
-            startingRoom = ResourceLocation.parse(tag.getString("starting_room"));
-        }
-        if (tag.contains("fixed_layout")) {
-            fixedLayout = ResourceLocation.parse(tag.getString("fixed_layout"));
-        }
-    }
-
-    @Override
-    public void deserializeJson(JsonElement element) throws JsonParseException {
-        JsonObject root = element.getAsJsonObject();
-        if (!root.has("crit_path_length")) {
-            throw new JsonParseException("Missing required element \"crit_path_length\"");
-        }
-        root.entrySet().forEach(entry -> {
-            JsonElement entryElement = entry.getValue();
-            switch (entry.getKey()) {
-                case "crit_path_length" -> {
-                    int length = entryElement.getAsInt();
-                    if (length < 0 || length > 25) {
-                        throw new JsonParseException("crit_path_length is out of range 0-25");
-                    }
-                    critPathLength = length;
-                }
-                case "bonus_rooms" -> {
-                    JsonObject bonusRooms = entryElement.getAsJsonObject();
-                    if (bonusRooms.has("count") && bonusRooms.has("chance")) {
-                        bonusRoomsCount = bonusRooms.get("count").getAsInt();
-                        bonusRoomsChance = bonusRooms.get("chance").getAsInt();
-                    } else {
-                        throw new JsonParseException("Missing either \"count\" or \"chance\" for bonus_rooms");
-                    }
-                }
-                case "branches" -> {
-                    JsonObject branches = entryElement.getAsJsonObject();
-                    if (branches.has("count") && branches.has("chance")) {
-                        branchCount = branches.get("count").getAsInt();
-                        branchCount = branches.get("chance").getAsInt();
-                    } else {
-                        throw new JsonParseException("Missing either \"count\" or \"chance\" for branches");
-                    }
-                }
-                case "colour" -> {
-                    JsonArray colourArray = entryElement.getAsJsonArray();
-                    if (colourArray.size() >= 3) { //ignore values after 3rd
-                        int r = Math.max(0, Math.min(colourArray.get(0).getAsInt(), 255));
-                        int g = Math.max(0, Math.min(colourArray.get(1).getAsInt(), 255));
-                        int b = Math.max(0, Math.min(colourArray.get(2).getAsInt(), 255));
-                        floorColour = new Color(r, g, b);
-                    } else {
-                        throw new JsonParseException("Colour should have 3 values");
-                    }
-                }
-                case "music" -> {
-                    String s = entryElement.getAsString();
-                    if (!s.isEmpty()) {
-                        if (BuiltInRegistries.SOUND_EVENT.containsKey(ResourceLocation.parse(s))) {
-                            music = ResourceLocation.parse(s);
-                        } else {
-                            throw new JsonParseException("Supplied music does not exist");
-                        }
-                    }
-                }
-                case "black_list" -> {
-                    JsonArray blackList = entryElement.getAsJsonArray();
-                    roomBlacklist = new ArrayList<>();
-                    blackList.forEach(roomTypeElement -> {
-                        String s = roomTypeElement.getAsString();
-                        roomBlacklist.add(ResourceLocation.parse(s));
-                    });
-                }
-                case "starting_room" -> {
-                    String s = entryElement.getAsString();
-                    if (!s.isEmpty()) {
-                        startingRoom = ResourceLocation.parse(s);
-                    }
-                }
-                case "fixed_layout" -> {
-                    String s = entryElement.getAsString();
-                    if (!s.isEmpty()) {
-                        fixedLayout = ResourceLocation.parse(s);
-                    }
-                }
-            }
-        });
-        if (roomBlacklist == null) {
-            roomBlacklist = new ArrayList<>();
-        }
-        if (floorColour == null) {
-            floorColour = Color.black;
-        }
     }
 
 }

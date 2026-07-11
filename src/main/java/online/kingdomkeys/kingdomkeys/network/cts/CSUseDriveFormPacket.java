@@ -9,9 +9,6 @@ import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.ability.Ability;
-import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
-import online.kingdomkeys.kingdomkeys.api.event.AbilityEvent;
 import online.kingdomkeys.kingdomkeys.api.event.DriveFormCastEvent;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
@@ -43,29 +40,10 @@ public record CSUseDriveFormPacket(String form) implements Packet {
 		} else { //if target is a normal form or revert
 			if (!playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()) && form.equals(DriveForm.NONE.toString())) { // If is in a drive form and the target is "" (player)
 				DriveForm form = ModDriveForms.registry.get(ResourceLocation.parse(playerData.getActiveDriveForm()));
-				System.out.println(form);
-				if(form.getName().equals(Strings.Form_Anti)) { //Antiform should not have any ability to check equipping
-					form.endDrive(player);
-					return;
-				}
-				if (!form.getBaseGrowthAbilities()) {
-					NeoForge.EVENT_BUS.post(new AbilityEvent.Unequip(ModAbilities.registry.get(ResourceLocation.parse(form.getDFAbilityForLevel(playerData.getDriveFormLevel(form.getName())))), playerData.getDriveFormLevel(form.getName()), player, false));
-				}
-				for (String abilityLoc : form.getDriveFormData().getAbilities()) {
-					Ability ability = ModAbilities.registry.get(ResourceLocation.parse(abilityLoc));
-					NeoForge.EVENT_BUS.post(new AbilityEvent.Unequip(ability, 0, player, false));
-				}
 				form.endDrive(player);
 			} else if (!form.equals(DriveForm.NONE.toString())) { // If is not in a form and wants to drive
 				DriveForm form = ModDriveForms.registry.get(ResourceLocation.parse(this.form));
 				form.initDrive(player);
-				if (!form.getBaseGrowthAbilities()) {
-					NeoForge.EVENT_BUS.post(new AbilityEvent.Equip(ModAbilities.registry.get(ResourceLocation.parse(form.getDFAbilityForLevel(playerData.getDriveFormLevel(form.getName())))), playerData.getDriveFormLevel(form.getName()), player, false));
-				}
-				for (String abilityLoc : form.getDriveFormData().getAbilities()) {
-					Ability ability = ModAbilities.registry.get(ResourceLocation.parse(abilityLoc));
-					NeoForge.EVENT_BUS.post(new AbilityEvent.Equip(ability, 0, player, false));
-				}
 			}
 		}
 	}

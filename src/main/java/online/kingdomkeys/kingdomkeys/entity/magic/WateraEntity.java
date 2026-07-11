@@ -2,10 +2,6 @@ package online.kingdomkeys.kingdomkeys.entity.magic;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.syncher.EntityDataAccessor;
-import net.minecraft.network.syncher.EntityDataSerializers;
-import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -24,64 +20,41 @@ import net.minecraft.world.phys.HitResult;
 import online.kingdomkeys.kingdomkeys.damagesource.KKDamageTypes;
 import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
-import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.util.List;
 
-public class WateraEntity extends ThrowableProjectile {
+public class WateraEntity extends BaseMagicProjectile {
 
-	int maxTicks = 100;
-    LivingEntity player;
-	String caster;
-	float dmgMult = 1;
-	
 	public WateraEntity(EntityType<? extends ThrowableProjectile> type, Level world) {
 		super(type, world);
-		this.blocksBuilding = true;
 	}
 
 	public WateraEntity(Level world, LivingEntity player, float dmgMult) {
 		super(ModEntities.TYPE_WATERA.get(), player, world);
-		this.player = player;
 		this.dmgMult = dmgMult;
-	}
-
-	@Override
-	protected double getDefaultGravity() {
-		return 0;
+		setDamageType(KKDamageTypes.WATER);
 	}
 
 	double a = 0;
 
 	@Override
 	public void tick() {
-		for (Player playerFromList : level().players()) {
-			if(playerFromList.getDisplayName().getString().equals(getCaster())) {
-				player = playerFromList;
-				break;
-			}
-		}
-		
-		if(player == null) 
+		if(getOwner() == null)
 			return;
-		
-		if (this.tickCount > maxTicks || player == null) {
-			this.remove(RemovalReason.KILLED);
-		}
-		
+
 		if(tickCount <= 1) {
 			this.setDeltaMovement(0, 0, 0);
 			
 		} else if (tickCount < 35) { //Shield
-			setPos(player.getX(), getY(), player.getZ());
+			setPos(getOwner().getX(), getY(), getOwner().getZ());
     		double radius = 1.2D;
 			double cx = getX();
 			double cy = getY();
 			double cz = getZ();
 
-			a+=50; //Speed and distance between particles
+			a += 50; //Speed and distance between particles
 			double x = cx + (radius * Math.cos(Math.toRadians(a)));
 			double z = cz + (radius * Math.sin(Math.toRadians(a)));
 
@@ -93,20 +66,19 @@ public class WateraEntity extends ThrowableProjectile {
 				((ServerLevel) level()).sendParticles(ParticleTypes.DOLPHIN, x2, (cy+0.5) - a / 1080D, z2, 1, 0,0,0, 0.5);
 			}
 			
-			List<Entity> list = this.level().getEntities(player, player.getBoundingBox().inflate(radius), Entity::isAlive);
+			List<Entity> list = this.level().getEntities(getOwner(), getOwner().getBoundingBox().inflate(radius), Entity::isAlive);
 			
-	        if (!list.isEmpty() && list.get(0) != this) {
-				float dmg = this.getOwner() instanceof Player ? DamageCalculation.getMagicDamage((Player) this.getOwner()) * 0.45F : 3;
+	        if (!list.isEmpty() && list.getFirst() != this) {
 				for (Entity e : list) {
-                    if (e instanceof LivingEntity) {
-                        e.hurt(e.damageSources().thrown(this, this.getOwner()), dmg * dmgMult);
-                    }
+                    if (e instanceof LivingEntity ent) {
+						damageEntity(ent);
+					}
                 }
 	        }
 
 		} else { //Projectile
-			shootFromRotation(player, player.getXRot(), player.getYRot(), 0, 2F, 0);
-			player.level().playSound(null, player.blockPosition(), SoundEvents.PLAYER_SWIM, SoundSource.PLAYERS, 1F, 1F);
+			shootFromRotation(getOwner(), getOwner().getXRot(), getOwner().getYRot(), 0, 1.25F, 0);
+			getOwner().level().playSound(null, getOwner().blockPosition(), SoundEvents.PLAYER_SWIM, SoundSource.PLAYERS, 1F, 1F);
 
 			hurtMarked = true;
 			float radius = 0.3F;
@@ -127,6 +99,7 @@ public class WateraEntity extends ThrowableProjectile {
 
 	@Override
 	protected void onHit(HitResult rtRes) {
+		super.onHit(rtRes);
 		if (!level().isClientSide) {
 
 			EntityHitResult ertResult = null;
@@ -151,8 +124,7 @@ public class WateraEntity extends ThrowableProjectile {
 							p = WorldData.get(getOwner().getServer()).getPartyFromMember(getOwner().getUUID());
 						}
 						if(p == null || (p.getMember(target.getUUID()) == null || p.getFriendlyFire())) { //If caster is not in a party || the party doesn't have the target in it || the party has FF on
-							float dmg = this.getOwner() instanceof Player ? DamageCalculation.getMagicDamage((Player) this.getOwner()) * 0.45F : 2;
-							target.hurt(KKDamageTypes.getElementalDamage(KKDamageTypes.WATER,this, this.getOwner()), dmg * dmgMult);
+							damageEntity(target);
 							remove(RemovalReason.KILLED);
 						}
 					}
@@ -196,16 +168,15 @@ public class WateraEntity extends ThrowableProjectile {
 					}
 				}
 
-				Party casterParty = WorldData.get(player.getServer()).getPartyFromMember(player.getUUID());
+				Party casterParty = WorldData.get(getOwner().getServer()).getPartyFromMember(getOwner().getUUID());
 
 				if (!list.isEmpty()) {
 					for (LivingEntity e : list) {
 						if (e.isOnFire()) {
 							e.clearFire();
 						} else {
-							if(!Utils.isEntityInParty(casterParty, e) && e != player) {
-								float dmg = this.getOwner() instanceof Player ? DamageCalculation.getMagicDamage((Player) this.getOwner()) * 0.35F : 2;
-								e.hurt(KKDamageTypes.getElementalDamage(KKDamageTypes.WATER,this, this.getOwner()), dmg * dmgMult);
+							if(!Utils.isEntityInParty(casterParty, e) && e != getOwner()) {
+								damageEntity(e);
 							}
 						}
 					}
@@ -213,50 +184,5 @@ public class WateraEntity extends ThrowableProjectile {
 			}
 			remove(RemovalReason.KILLED);
 		}
-	}
-
-	public int getMaxTicks() {
-		return maxTicks;
-	}
-
-	public void setMaxTicks(int maxTicks) {
-		this.maxTicks = maxTicks;
-	}
-
-	@Override
-	public void addAdditionalSaveData(CompoundTag compound) {
-		compound.putString("caster", this.getCaster());
-	}
-
-	@Override
-	public void readAdditionalSaveData(CompoundTag compound) {
-		this.setCaster(compound.getString("caster"));
-	}
-
-	private static final EntityDataAccessor<String> CASTER = SynchedEntityData.defineId(WateraEntity.class, EntityDataSerializers.STRING);
-
-	public String getCaster() {
-		return caster;
-	}
-
-	public void setCaster(String name) {
-		this.entityData.set(CASTER, name);
-		this.caster = name;
-	}
-
-	@Override
-	public void onSyncedDataUpdated(EntityDataAccessor<?> key) {
-		if (key.equals(CASTER)) {
-			this.caster = this.getCasterDataManager();
-		}
-	}
-
-	@Override
-	protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
-		pBuilder.define(CASTER, "");
-	}
-
-	public String getCasterDataManager() {
-		return this.entityData.get(CASTER);
 	}
 }

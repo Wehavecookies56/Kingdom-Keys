@@ -201,21 +201,23 @@ public class CommandMenuSubMenu {
     }
 
     public void onUpdate(GuiGraphics guiGraphics) {
-        getChildren().forEach(item -> item.onUpdate(guiGraphics));
-        if (getVisibleChildren().isEmpty()) {
-            setActive(false);
-        }
-        if (this.onUpdate != null) {
-            if (!NeoForge.EVENT_BUS.post(new CommandMenuEvent.SubmenuUpdate(getId(), this, guiGraphics)).isCanceled()) {
-                this.onUpdate.onUpdate(this, guiGraphics);
+        if (this.isVisible()) {
+            getChildren().forEach(item -> item.onUpdate(guiGraphics));
+            if (getVisibleChildren().isEmpty()) {
+                setActive(false);
             }
-        }
-        if (autoResize) {
-            setWidth(getMaxChildWidth());
-        }
-        if (getSelected() != null && !getSelected().isVisible()) {
-            if (getFirst() != null) {
-                setSelected(getFirst());
+            if (this.onUpdate != null) {
+                if (!NeoForge.EVENT_BUS.post(new CommandMenuEvent.SubmenuUpdate(getId(), this, guiGraphics)).isCanceled()) {
+                    this.onUpdate.onUpdate(this, guiGraphics);
+                }
+            }
+            if (autoResize) {
+                setWidth(getMaxChildWidth());
+            }
+            if (getSelected() != null && !getSelected().isVisible()) {
+                if (getFirst() != null) {
+                    setSelected(getFirst());
+                }
             }
         }
     }
@@ -494,8 +496,37 @@ public class CommandMenuSubMenu {
         setSelected(getChildren().get(nextIndex));
     }
 
+
+    ResourceLocation cachedTexture;
+    String cachedPlayerDimension;
+    long lastCacheTime = -1;
+
     public ResourceLocation getTexture() {
-        return ClientUtils.getResourceExistsOrDefault("textures/gui/commandmenu/%s.png", Minecraft.getInstance().level.dimension().location().getPath(), "default");
+        //long ns = System.nanoTime();
+
+        Minecraft mc = Minecraft.getInstance();
+        if (mc.level == null)
+            return cachedTexture;
+
+        long now = System.currentTimeMillis();
+
+        if (lastCacheTime != -1 && now - lastCacheTime < 10000) {
+            return cachedTexture;
+        }
+
+        String currDim = mc.level.dimension().location().getPath();
+
+        if (cachedTexture == null || !currDim.equals(cachedPlayerDimension)) {
+            cachedTexture = ClientUtils.getResourceExistsOrDefault("textures/gui/commandmenu/%s.png", currDim, "default");
+            cachedPlayerDimension = currDim;
+        }
+
+        lastCacheTime = now;
+
+       // System.out.println("Renewing texture into cache");
+       // System.out.println("Took: " + (System.nanoTime() - ns) + " ns");
+
+        return cachedTexture;
     }
 
     public void render(GuiGraphics guiGraphics, int screenWidth, int screenHeight, float partialTick) {
@@ -505,16 +536,16 @@ public class CommandMenuSubMenu {
             }
 
             RenderSystem.enableBlend();
-
+            ResourceLocation texture = getTexture(); //Potentially improve performance
             if (!NeoForge.EVENT_BUS.post(new CommandMenuEvent.SubmenuRender(getId(), this, guiGraphics, screenWidth, screenHeight, partialTick)).isCanceled()) {
                 guiGraphics.pose().translate(0, 0, getZ());
                 guiGraphics.setColor(getColour().getRed() / 255F, getColour().getGreen() / 255F, getColour().getBlue() / 255F, 1);
                 if (useFixedHeader) {
-                    guiGraphics.blit(getTexture(), getX(), getY(), 0, 70, 74, 15);
+                    guiGraphics.blit(texture, getX(), getY(), 0, 70, 74, 15);
                 } else {
-                    guiGraphics.blit(getTexture(), getX(), getY(), 0, 0, ModConfigs.cmHeaderEndLWidth, getHeight());
-                    guiGraphics.blit(getTexture(), getX() + ModConfigs.cmHeaderEndLWidth, getY(), getWidth() - (ModConfigs.cmHeaderEndLWidth + ModConfigs.cmHeaderEndRWidth), getHeight(), ModConfigs.cmHeaderEndLWidth + 1, 0, 1, getHeight(), 256, 256);
-                    guiGraphics.blit(getTexture(), getX() + getWidth() - ModConfigs.cmHeaderEndRWidth, getY(), ModConfigs.cmHeaderEndLWidth + 3, 0, ModConfigs.cmHeaderEndRWidth, getHeight());
+                    guiGraphics.blit(texture, getX(), getY(), 0, 0, ModConfigs.cmHeaderEndLWidth, getHeight());
+                    guiGraphics.blit(texture, getX() + ModConfigs.cmHeaderEndLWidth, getY(), getWidth() - (ModConfigs.cmHeaderEndLWidth + ModConfigs.cmHeaderEndRWidth), getHeight(), ModConfigs.cmHeaderEndLWidth + 1, 0, 1, getHeight(), 256, 256);
+                    guiGraphics.blit(texture, getX() + getWidth() - ModConfigs.cmHeaderEndRWidth, getY(), ModConfigs.cmHeaderEndLWidth + 3, 0, ModConfigs.cmHeaderEndRWidth, getHeight());
                 }
                 if (ModConfigs.cmHeaderTextVisible) {
                     guiGraphics.drawCenteredString(Minecraft.getInstance().font, getTitle(), getX() + ((getWidth() - 8) / 2) + 1, getY() + 4, 0xFFFFFF);

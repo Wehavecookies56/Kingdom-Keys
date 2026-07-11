@@ -31,7 +31,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class MenuEquipmentScreen extends MenuBackground {
 
-    MenuBox listBox, detailsBox;
+    public MenuBox listBox, detailsBox;
     Button back, showKeybladesButton;
     MenuScrollBar scrollBar;
 
@@ -81,6 +81,7 @@ public class MenuEquipmentScreen extends MenuBackground {
         Map<Integer, ItemStack> accessories = playerData.getEquippedAccessories();
         Map<Integer, ItemStack> kbArmor = playerData.getEquippedKBArmors();
         Map<Integer, ItemStack> armor = playerData.getEquippedArmors();
+	    Map<Integer, ItemStack> magics = playerData.getEquippedMagics();
 
         AtomicInteger offset = new AtomicInteger();
         AtomicInteger hidden = new AtomicInteger(0);
@@ -107,7 +108,6 @@ public class MenuEquipmentScreen extends MenuBackground {
                     hidden.getAndIncrement();            		
             	}
             }
-           
         } else {
         	showingKeyblades = true;
         }
@@ -116,9 +116,15 @@ public class MenuEquipmentScreen extends MenuBackground {
         if (keychains.get(DriveForm.NONE) != null) {
             MenuEquipmentButton firstSlot = new MenuEquipmentButton(keychains.get(DriveForm.NONE), (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement(), 0x880000, new MenuEquipmentSelectorScreen(DriveForm.NONE, new Color(112, 31, 35), 0x880000), ItemCategory.TOOL, this, Strings.Gui_Menu_Items_Equipment_Weapon, 0xFE8185);
             addRenderableWidget(firstSlot);
+            MenuEquipmentButton firstSlot1 = new MenuEquipmentButton(keychains.get(DriveForm.KB2), (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement(), 0x880000, new MenuEquipmentSelectorScreen(DriveForm.KB2, new Color(112, 31, 35), 0x880000), ItemCategory.TOOL, this);
+            addRenderableWidget(firstSlot1);
+            MenuEquipmentButton firstSlot2 = new MenuEquipmentButton(keychains.get(DriveForm.KB3), (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement(), 0x880000, new MenuEquipmentSelectorScreen(DriveForm.KB3, new Color(112, 31, 35), 0x880000), ItemCategory.TOOL, this);
+            addRenderableWidget(firstSlot2);
 
-            firstSlot.active = showingKeyblades;
-            firstSlot.visible = showingKeyblades;
+            firstSlot.active = firstSlot1.active = firstSlot2.active = showingKeyblades;
+            firstSlot.visible = firstSlot1.visible = firstSlot2.visible = showingKeyblades;
+            hidden.getAndIncrement();
+            hidden.getAndIncrement();
             hidden.getAndIncrement();
             
             //Synch blade
@@ -138,7 +144,7 @@ public class MenuEquipmentScreen extends MenuBackground {
         keychains.entrySet().stream().sorted(sortByFormOrder).forEachOrdered((entry) -> {
             ResourceLocation form = entry.getKey();
             ItemStack keychain = entry.getValue();
-            if (!form.equals(DriveForm.NONE) && !form.equals(DriveForm.SYNCH_BLADE) && ModDriveForms.registry.get(form).isSlotVisible(minecraft.player)) {
+            if (!Utils.getFakeForms().contains(form.toString()) && ModDriveForms.registry.get(form).isSlotVisible(minecraft.player)) {
             	MenuEquipmentButton button = new MenuEquipmentButton(keychain, (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement(), 0x006666, new MenuEquipmentSelectorScreen(form, new Color(10, 22, 22), 0x006666), ItemCategory.TOOL, this, ModDriveForms.registry.get(form).getTranslationKey(), 0x00BBBB);
                 addRenderableWidget(button);
 
@@ -164,8 +170,26 @@ public class MenuEquipmentScreen extends MenuBackground {
 	            MenuEquipmentButton kbArmorSlot = new MenuEquipmentButton(item, (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement(), 0xFF7200, new MenuKeybladeArmorSelectorScreen(0, new Color(255, 127, 0), 0xFF7200), ItemCategory.KBARMOR, this, Utils.translateToLocal(Strings.Gui_Menu_Items_Equipment_Pauldron), 0xFF9A3D);
 	            addRenderableWidget(kbArmorSlot);
         	});
-         }        
-        
+         }
+
+	    if (magics != null) {
+		    int c = 1;
+		    for (Map.Entry<Integer, ItemStack> entry : magics.entrySet()) {
+			    if (c > playerData.getMaxMagics())
+				    break;
+			    int slot = entry.getKey();
+			    ItemStack item = entry.getValue();
+			    MenuEquipmentButton magicSlot;
+			    if (slot == 0) {
+				    magicSlot = new MenuEquipmentButton(item, (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement(), 0xAA77FF, new MenuMagicSelectorScreen(slot, new Color(150, 130, 255), 0x8888AA), ItemCategory.MAGICS, this, Utils.translateToLocal(Strings.Gui_Menu_Items_Equipment_Magic), 0xBBAAFF);
+			    } else {
+				    magicSlot = new MenuEquipmentButton(item, (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement(), 0xAA77FF, new MenuMagicSelectorScreen(slot, new Color(150, 130, 255), 0x8888AA), ItemCategory.MAGICS, this);
+			    }
+			    addRenderableWidget(magicSlot);
+			    c++;
+		    }
+	    }
+
 		if (accessories != null) {
 			int c = 1;
 			for (Map.Entry<Integer, ItemStack> entry : accessories.entrySet()) {
@@ -224,8 +248,7 @@ public class MenuEquipmentScreen extends MenuBackground {
             }
         }
 
-        addRenderableWidget(scrollBar = new MenuScrollBar((int) (listBoxX+listBoxWidth-MenuScrollBar.WIDTH-2), (int) topBarHeight + 4, (int) (middleHeight + topBarHeight)-4, (int) middleHeight, (int) ((lastButtonY+28) - itemsY)));
-        
+        addRenderableWidget(scrollBar = new MenuScrollBar((int) (listBoxX+listBoxWidth-MenuScrollBar.WIDTH-2), (int) topBarHeight + 4, (int) (middleHeight + topBarHeight)-4, (int) middleHeight, (int) ((lastButtonY+28) - itemsY), true));
     }
 
     public void updateScroll() {

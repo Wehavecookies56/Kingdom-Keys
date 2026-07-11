@@ -1,0 +1,11 @@
+{
+  "casttime": 10,
+  "cooldown": 3,
+  "cost": 15,
+  "dmg_mult": 1.0,
+  "dmg_mult_max": 1.4,
+  "magic_lock_on": true,
+  "max_exp": 2400,
+  "max_lvl": 3,
+  "spell_type": "MAGIC"
+}

@@ -14,7 +14,7 @@ public class ModRoomTypes {
     public static final Supplier<RoomType>
             //Special
             ENTRANCE_HALL = () -> registry.get().getValue(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "entrance_hall")),
-            CONQUERERS_RESPITE = () -> registry.get().getValue(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "conquerers_respite")),
+            CONQUERORS_RESPITE = () -> registry.get().getValue(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "conquerors_respite")),
             UNKNOWN_ROOM = () -> registry.get().getValue(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "unknown_room")),
 
             //Enemy
@@ -41,5 +41,11 @@ public class ModRoomTypes {
             MOOGLE_ROOM = () -> registry.get().getValue(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "moogle_room")), //fixed room
             PROSPEROUS_REPOSITORY = () -> registry.get().getValue(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "prosperous_repository")),
             TREACHEROUS_RESPOITORY = () -> registry.get().getValue(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "treacherous_repository")),
-            REPOSEFUL_GROVE = () -> registry.get().getValue(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "reposeful_grove")); //fixed room
+            REPOSEFUL_GROVE = () -> registry.get().getValue(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "reposeful_grove")), //fixed room
+
+            //Key
+            ROOM_OF_BEGINNINGS = () -> registry.get().getValue(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "room_of_beginnings")),
+            ROOM_OF_GUIDANCE = () -> registry.get().getValue(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "room_of_guidance")),
+            ROOM_OF_TRUTH = () -> registry.get().getValue(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "room_of_truth")),
+            ROOM_OF_REWARDS = () -> registry.get().getValue(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "room_of_rewards"));
 }

@@ -4,12 +4,14 @@ import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.handler.InputHandler;
 import online.kingdomkeys.kingdomkeys.handler.KeyboardHelper;
+import online.kingdomkeys.kingdomkeys.item.MagicSpellItem;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.magic.Magic;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
@@ -33,10 +35,22 @@ public class ShortcutsGui extends OverlayBase {
 		if(KeyboardHelper.isScrollActivatorDown() && CommandMenuGui.INSTANCE.currentSubmenu == CommandMenuGui.INSTANCE.root && Minecraft.getInstance().screen == null) {
 			playerData = PlayerData.get(minecraft.player);
 			int i = 0;
-			for (Map.Entry<Integer, String> entry : playerData.getShortcutsMap().entrySet()) {
-				String[] data = entry.getValue().split(",");
-				Magic magic = ModMagic.registry.get(ResourceLocation.parse(data[0]));
-				double cost = magic.getCost(Integer.parseInt(data[1]), minecraft.player);
+			for (Map.Entry<Integer, Integer> entry : playerData.getShortcutsMap().entrySet()) {
+				if(entry.getValue() >= playerData.getMaxMagics())
+					continue;
+
+				int slot = entry.getValue();
+
+				ItemStack stack = playerData.getEquippedMagics().get(slot);
+				if (stack == null || stack.isEmpty() || !(stack.getItem() instanceof MagicSpellItem spell)) {
+					continue;
+				}
+
+				String magicId = spell.getMagic();
+
+				Magic magic = ModMagic.registry.get(ResourceLocation.parse(magicId));
+
+				double cost = magic.getCost(minecraft.player);
 				int colour = playerData.getMP() > cost ? 0xFFFFFF : 0xFF9900;
 
 				if (playerData.isAbilityEquipped(Strings.extraCast) && cost > playerData.getMP() && playerData.getMP() > 1 && cost < 300) {
@@ -44,11 +58,14 @@ public class ShortcutsGui extends OverlayBase {
 				}
 				DriveForm form = ModDriveForms.registry.get(ResourceLocation.parse(playerData.getActiveDriveForm()));
 
-				if (playerData.getMaxMP() == 0 || playerData.getRecharge() || cost > playerData.getMaxMP() && cost < 300 || cost < 300 && cost >= playerData.getMP() && playerData.isAbilityEquipped(Strings.mpSafety) || playerData.getMagicCasttimeTicks() > 0 || playerData.getMagicCooldownTicks() > 0 || !form.canUseMagic()) {
+				boolean allowUseMagicIfCostIsHigher = ModConfigs.SERVER.allowCastMagicIfTooExpensive.get();
+				boolean insufficientMP = cost > playerData.getMaxMP() && cost < 300;
+
+				if (playerData.getMaxMP() == 0 || playerData.getRecharge() || ((!allowUseMagicIfCostIsHigher && insufficientMP)|| (cost < 300 && cost >= playerData.getMP() && playerData.isAbilityEquipped(Strings.mpSafety))) && playerData.getMagicCooldownTicks() <= 0 || !form.canUseMagic()){
 					colour = 0x888888;
 				}
 
-				drawString(guiGraphics, minecraft.font, Utils.translateToLocal(InputHandler.Keybinds.SCROLL_ACTIVATOR.keybinding.getKey().getName()) + " + " + (entry.getKey() + 1) + ": " + Utils.translateToLocal(magic.getTranslationKey(Integer.parseInt(data[1]))), (int) (5) + ModConfigs.cmTextXOffset, 4 + i * 10, colour);
+				drawString(guiGraphics, minecraft.font, Utils.translateToLocal(InputHandler.Keybinds.SCROLL_ACTIVATOR.keybinding.getKey().getName()) + " + " + (entry.getKey() + 1) + ": " + Utils.translateToLocal(magic.getTranslationKey()), 5 + ModConfigs.cmTextXOffset, 4 + i * 10, colour);
 				i++;
 			}
 		}

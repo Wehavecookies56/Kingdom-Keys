@@ -127,15 +127,12 @@ public class ConfirmChoiceMenuPopup extends MenuPopup {
     }
 
     public String getStringForChoice(SoAState state) {
-        switch (state) {
-            case WARRIOR:
-                return Strings.SoA_ConfirmWarrior;
-            case GUARDIAN:
-                return Strings.SoA_ConfirmGuardian;
-            case MYSTIC:
-                return Strings.SoA_ConfirmMystic;
-        }
-        return "This ain't right";
+        return switch (state) {
+            case WARRIOR -> Strings.SoA_ConfirmWarrior;
+            case GUARDIAN -> Strings.SoA_ConfirmGuardian;
+            case MYSTIC -> Strings.SoA_ConfirmMystic;
+            default -> "This ain't right";
+        };
     }
 
     @Override
@@ -143,27 +140,16 @@ public class ConfirmChoiceMenuPopup extends MenuPopup {
         List<String> displayText = new ArrayList<>();
         if (state != SoAState.CONFIRM) {
             switch (choice) {
-                case WARRIOR:
-                    displayText.addAll(warrior);
-                    break;
-                case GUARDIAN:
-                    displayText.addAll(guardian);
-                    break;
-                case MYSTIC:
-                    displayText.addAll(mystic);
-                    break;
-                default:
-                    return Collections.singletonList("This ain't right");
+                case WARRIOR -> displayText.addAll(warrior);
+                case GUARDIAN -> displayText.addAll(guardian);
+                case MYSTIC -> displayText.addAll(mystic);
+                default -> { return Collections.singletonList("This ain't right"); }
             }
+
             switch (state) {
-                case CHOICE:
-                    displayText.add(choiceConfirm);
-                    break;
-                case SACRIFICE:
-                    displayText.add(sacrificeConfirm);
-                    break;
-                default:
-                    return Collections.singletonList("This ain't right");
+                case CHOICE -> displayText.add(choiceConfirm);
+                case SACRIFICE -> displayText.add(sacrificeConfirm);
+                default -> { return Collections.singletonList("This ain't right"); }
             }
         } else {
             PlayerData playerData = PlayerData.get(Minecraft.getInstance().player);

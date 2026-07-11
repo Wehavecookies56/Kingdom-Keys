@@ -18,13 +18,14 @@ public class ModCommands {
                 .then(FocusPointsCommand.register())
                 .then(HeartsCommand.register())
                 .then(LevelCommand.register())
-                .then(MagicLevelCommand.register())
+                //.then(MagicLevelCommand.register())
                 .then(MaterialCommand.register())
                 .then(MunnyCommand.register())
                 .then(PayMunnyCommand.register())
                 .then(RecipeCommand.register())
                 .then(WhisperInMyEarPinkHairMan.register())
                 .then(ConvertOldForgeDataCommand.register())
+		        .then(CheckCommand.register())
         );
     }
 

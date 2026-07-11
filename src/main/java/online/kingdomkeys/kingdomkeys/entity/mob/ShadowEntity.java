@@ -38,6 +38,18 @@ public class ShadowEntity extends BaseKHEntity {
         this.targetSelector.addGoal(4, shadowGoal);
     }
 
+    public float shadowAnim = 0;
+    public float prevShadowAnim = 0;
+
+    @Override
+    public void tick() {
+        super.tick();
+        prevShadowAnim = shadowAnim;
+
+        float target = getState() == 1 ? 1F : 0F;
+        shadowAnim += (target - shadowAnim) * 0.5F;
+    }
+
     public static AttributeSupplier.Builder registerAttributes() {
         return Mob.createLivingAttributes()
                 .add(Attributes.FOLLOW_RANGE, 35.0D)

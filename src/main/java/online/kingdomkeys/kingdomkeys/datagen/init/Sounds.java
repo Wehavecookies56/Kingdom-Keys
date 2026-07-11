@@ -25,6 +25,8 @@ public class Sounds extends SoundDefinitionsProvider {
         add(alarm);
         add(antidrive);
         add(drive);
+        add(revert);
+        add(driveUp);
         add(error);
         add(hp_orb);
         add(itemget);
@@ -32,6 +34,7 @@ public class Sounds extends SoundDefinitionsProvider {
         add(kupoliving);
         add(levelup);
         add(lockon);
+        add(lockoff);
         add(menu_back);
         add(menu_in);
         add(menu_move);
@@ -49,7 +52,8 @@ public class Sounds extends SoundDefinitionsProvider {
         add(unsummon);
         add(portal);
         add(laser);
-        
+        add(buy);
+
         add(fire);
         add(fira);
         add(firaga);
@@ -71,7 +75,23 @@ public class Sounds extends SoundDefinitionsProvider {
         add(stop);
         add(stopra);
         add(stopga);
-        
+        add(zeroGravity);
+        add(poison);
+        add(firagaBurst);
+        add(deepFreeze);
+        add(iceBarrage);
+        add(thundagaShot);
+        add(zap);
+        add(balloon);
+        add(balloonBounce);
+        add(playerCast);
+        add(warpHitPlayer);
+        add(spark);
+        add(sparkra);
+        add(sparkga);
+        add(lightBeam);
+        add(esuna);
+
         add(playerDeath);
         add(playerDeathHardcore);
         add(invincible_hit);
@@ -85,6 +105,9 @@ public class Sounds extends SoundDefinitionsProvider {
         add(keyblade_armor, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID,"keyblade_armor2"));
         add(summon_armor);
         add(unsummon_armor);
+        add(wall_jump);
+        add(wall_grab);
+        add(air_slide);
         
         //Music
         //Records
@@ -114,6 +137,7 @@ public class Sounds extends SoundDefinitionsProvider {
         add(Music_Lord_Of_The_Castle, true);
         add(Music_Castle_Oblivion, true);
         add(Music_The_13th_Floor, true);
+        add(Music_Forgotten_Challenge, true);
     }
 
     public void add(Supplier<SoundEvent> sound) {

@@ -6,11 +6,11 @@
 	"pages": [ 
 		{
 			"type": "text",
-			"text": "$(item)Recipes$() will sometimes drop from $(thing)hostile mobs$() when killed. These Recipes come in a few different tiers, ranging from D all the way to SSS, where Mobs with a higher Level, will drop recipes with a higher tier. Each Recipe holds new Keyblades, Armors and Accessories to be $(moogle)synthesized$()."
+			"text": "$(item)Recipes$() will sometimes drop from $(thing)hostile mobs$() when killed. These Recipes come in a few different tiers, ranging from D all the way to SSS, where Mobs with a higher Level, will drop recipes with a higher tier. Each Recipe holds new Keyblades, Armors and Accessories to be $(moogle)Synthesized$()."
 		},
 		{
 			"type": "text",
-			"text": "To increase the tier of a recipe, you can either combine 2 recipes of the same tier together to receive a recipe that is one tier higher than those you combined, combine 4 of the same tier together, to receive one that is 2 tiers higher, or craft one high-tier recipe, to turn it into a tier below it."
+			"text": "To increase the tier of a recipe, you can:$(p)$(thing)Combine 2$() recipes of the same tier to receive one of 1 higher tier.$(br)$(thing)Combine 4$() of the same tier to receive one of 2 higher tiers.$(br)Leave $(thing)only one$() recipe to turn it to a lower tier."
 		},
 		{
 			"type":"crafting",

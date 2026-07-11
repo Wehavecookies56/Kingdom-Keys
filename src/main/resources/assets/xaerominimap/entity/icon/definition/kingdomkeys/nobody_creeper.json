@@ -1,0 +1,7 @@
+{
+    "variants" : {
+		"kingdomkeys:textures/entity/mob/creeper.png" : "normal_sprite:kingdomkeys/creeper.png",
+		"kingdomkeys:textures/entity/mob/creeper_spear.png" : "normal_sprite:kingdomkeys/creeper.png",
+		"kingdomkeys:textures/entity/mob/creeper_sword.png" : "normal_sprite:kingdomkeys/creeper.png"
+    }
+}

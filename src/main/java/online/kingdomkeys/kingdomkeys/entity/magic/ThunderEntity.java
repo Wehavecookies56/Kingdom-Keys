@@ -1,11 +1,6 @@
 package online.kingdomkeys.kingdomkeys.entity.magic;
 
-import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.syncher.EntityDataAccessor;
-import net.minecraft.network.syncher.EntityDataSerializers;
-import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -16,97 +11,53 @@ import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.levelgen.Heightmap.Types;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
+import online.kingdomkeys.kingdomkeys.damagesource.KKDamageTypes;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
-import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 
-public class ThunderEntity extends ThrowableProjectile {
+public class ThunderEntity extends BaseMagicProjectile {
 
 	int maxTicks = 20;
-	float dmgMult = 1;
-	LivingEntity lockedOnEntity;
-	
+
 	public ThunderEntity(EntityType<? extends ThrowableProjectile> type, Level world) {
 		super(type, world);
-		this.blocksBuilding = true;
 	}
 
 	public ThunderEntity(Level world, LivingEntity player, float dmgMult, LivingEntity lockedOnEntity) {
 		super(ModEntities.TYPE_THUNDER.get(), player, world);
-		setCaster(player.getUUID());
 		this.dmgMult = dmgMult;
-		this.lockedOnEntity = lockedOnEntity;
+		this.lockOnEntity = lockedOnEntity;
+		this.damageType = KKDamageTypes.LIGHTNING;
 	}
 
-	public int getMaxTicks() {
-		return maxTicks;
-	}
-
-	public void setMaxTicks(int maxTicks) {
-		this.maxTicks = maxTicks;
-	}
-
-	private static final EntityDataAccessor<Optional<UUID>> OWNER = SynchedEntityData.defineId(ThunderEntity.class, EntityDataSerializers.OPTIONAL_UUID);
-
-	@Override
-	public void addAdditionalSaveData(CompoundTag compound) {
-		if (this.entityData.get(OWNER).isPresent()) {
-			compound.putString("OwnerUUID", this.entityData.get(OWNER).get().toString());
-		}
-	}
-
-	@Override
-	public void readAdditionalSaveData(CompoundTag compound) {
-		this.entityData.set(OWNER, Optional.of(UUID.fromString(compound.getString("OwnerUUID"))));
-	}
-
-	public Player getCaster() {
-		return this.getEntityData().get(OWNER).isPresent() ? this.level().getPlayerByUUID(this.getEntityData().get(OWNER).get()) : null;
-	}
-
-	public void setCaster(UUID uuid) {
-		this.entityData.set(OWNER, Optional.of(uuid));
-	}
-
-	@Override
-	protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
-		pBuilder.define(OWNER, Optional.of(Util.NIL_UUID));
-	}
-
-	List<LivingEntity> list = new ArrayList<LivingEntity>();
+	List<LivingEntity> list = new ArrayList<>();
 
 	@Override
 	public void tick() {
 		if (this.tickCount > maxTicks) {
 			this.remove(RemovalReason.KILLED);
 		}
-
-		if (getCaster() == null) {
-			remove(RemovalReason.KILLED);
-			return;
-		}
 		
 		float radius = 2F;
 
-		if (!level().isClientSide && getCaster() != null) { // Only calculate and spawn lightning bolts server side
+		if (!level().isClientSide && getOwner() != null) { // Only calculate and spawn lightning bolts server side
 			if (tickCount == 1) {
-				if(lockedOnEntity != null) {
-					list = Utils.getLivingEntitiesInRadiusExcludingParty(getCaster(), lockedOnEntity, radius, radius, radius);
-				} else {
-					list = Utils.getLivingEntitiesInRadiusExcludingParty(getCaster(), radius);
+				if(getOwner() instanceof Player p) {
+					if(lockOnEntity != null) {
+						list = Utils.getLivingEntitiesInRadiusExcludingParty(p, lockOnEntity, radius, radius, radius);
+					} else {
+						list = Utils.getLivingEntitiesInRadiusExcludingParty(p, radius);
+					}
 				}
 				list.remove(this);
 			}
 			
-			if (tickCount % 10 == 1) {
+			if (tickCount % 9 == 1) {
 				if (!list.isEmpty()) { //find random entity
 					int i = level().random.nextInt(list.size());
 					Entity e = list.get(i);
@@ -114,30 +65,30 @@ public class ThunderEntity extends ThrowableProjectile {
 						if(!e.isAlive()) {
 							list.remove(e);
 						}
-						float dmg = this.getOwner() instanceof Player ? DamageCalculation.getMagicDamage((Player) this.getOwner()) * 0.05F : 2;
-						ThunderBoltEntity shot = new ThunderBoltEntity(getCaster().level(), getCaster(), e.getX(), e.getY(), e.getZ(), dmg * dmgMult);
-						shot.setCaster(getCaster().getUUID());
+						float dmg = getTotalDamage();
+						ThunderBoltEntity shot = new ThunderBoltEntity(getOwner().level(), (LivingEntity) getOwner(), e.getX(), e.getY(), e.getZ(), dmg);
 						level().addFreshEntity(shot);
 
 						LightningBolt lightningBoltEntity = EntityType.LIGHTNING_BOLT.create(this.level());
 						lightningBoltEntity.setVisualOnly(true);
 						lightningBoltEntity.moveTo(Vec3.atBottomCenterOf(e.blockPosition()));
-						lightningBoltEntity.setCause(getCaster() instanceof ServerPlayer ? (ServerPlayer) getCaster() : null);
+						lightningBoltEntity.setCause(getOwner() instanceof ServerPlayer p ? p : null);
 						this.level().addFreshEntity(lightningBoltEntity);
 					}
 				} else {
 					int x,z;
-					if(lockedOnEntity != null) {
-						x = (int) lockedOnEntity.getX();
-						z = (int) lockedOnEntity.getZ();
+					if(lockOnEntity != null) {
+						x = (int) lockOnEntity.getX();
+						z = (int) lockOnEntity.getZ();
 					} else {
-						x = (int) getCaster().getX();
-						z = (int) getCaster().getZ();
+						x = (int) getOwner().getX();
+						z = (int) getOwner().getZ();
 					}
-					int y = getCaster().level().getHeight(Types.WORLD_SURFACE, x, z);
 
-					int posX = (int) (x + getCaster().level().random.nextInt((int) (radius*2)) - radius / 2)-1;
-					int posZ = (int) (z + getCaster().level().random.nextInt((int) (radius*2)) - radius / 2)-1;
+					int posX = (int) (x + getOwner().level().random.nextInt((int) (radius*2)) - radius / 2)-1;
+					int posZ = (int) (z + getOwner().level().random.nextInt((int) (radius*2)) - radius / 2)-1;
+
+					int y = Utils.getYHeight(level(),posX,posZ);
 
 					for(int px=(int)(x-radius);px<x+radius;px++) {
 						for(int py=(int)(y-radius);py<y+radius;py++) {
@@ -152,17 +103,16 @@ public class ThunderEntity extends ThrowableProjectile {
 						}
 					}
 
-					float dmg = this.getOwner() instanceof Player ? DamageCalculation.getMagicDamage((Player) this.getOwner()) * 0.06F : 2;
+					float dmg = getTotalDamage();
 					dmg = Math.max(0.1F, dmg);
-					ThunderBoltEntity shot = new ThunderBoltEntity(getCaster().level(), getCaster(), posX, getCaster().level().getHeight(Types.WORLD_SURFACE, posX, posZ), posZ, dmg * dmgMult);
-					shot.setCaster(getCaster().getUUID());
+					ThunderBoltEntity shot = new ThunderBoltEntity(getOwner().level(), (LivingEntity) getOwner(), posX, Utils.getYHeight(level(),posX,posZ), posZ, dmg);
 					level().addFreshEntity(shot);
 
-					BlockPos pos = new BlockPos(posX, getCaster().level().getHeight(Types.WORLD_SURFACE, posX, posZ), posZ);
+					BlockPos pos = Utils.getBlockPosYHeight(level(),posX,posZ);
 					LightningBolt lightningBoltEntity = EntityType.LIGHTNING_BOLT.create(this.level());
 					lightningBoltEntity.moveTo(Vec3.atBottomCenterOf(pos));
 					lightningBoltEntity.setVisualOnly(true);
-					lightningBoltEntity.setCause(getCaster() instanceof ServerPlayer ? (ServerPlayer) getCaster() : null);
+					lightningBoltEntity.setCause(getOwner() instanceof ServerPlayer ? (ServerPlayer) getOwner() : null);
 					this.level().addFreshEntity(lightningBoltEntity);
 				}
 			}
@@ -173,8 +123,7 @@ public class ThunderEntity extends ThrowableProjectile {
 
 	@Override
 	protected void onHit(HitResult result) {
-		// TODO Auto-generated method stub
-		
+
 	}
 
 }

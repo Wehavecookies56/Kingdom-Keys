@@ -1,0 +1,12 @@
+{
+	"name": "Usar Objetos",
+	"icon": "kingdomkeys:potion",
+	"category": "kingdomkeys:commands",
+	"sortnum": 2,
+	"pages": [
+		{
+			"type": "text",
+			"text": "Cuando $(l:kingdomkeys:learning_the_menu/item_tab)equipas objetos utilizables en tu menú$(), puedes usarlos rápidamente desde la pestaña de $(thing)Objetos$() en tu Menú de Comandos."
+		}
+	]
+}

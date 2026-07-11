@@ -35,7 +35,7 @@ public record CSPartyAddMember(String name, UUID memberUUID, String memberName) 
 	);
 
 	public CSPartyAddMember(Party party, Player member) {
-		this(party.getName(), member.getUUID(), member.getDisplayName().getString());
+		this(party.getName(), member.getUUID(), member.getGameProfile().getName());
 	}
 
 	@Override

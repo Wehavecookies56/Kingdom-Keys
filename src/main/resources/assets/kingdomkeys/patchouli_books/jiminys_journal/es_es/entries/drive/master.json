@@ -1,0 +1,13 @@
+{
+	"name": "Forma Maestra",
+	"icon": "kingdomkeys:levelupdrivemaster",
+	"sortnum": 4,
+	"category": "kingdomkeys:drive",
+	"advancement": "kingdomkeys:obtain_drive",
+	"pages": [
+		{
+			"type": "text",
+			"text": "Esta forma obtiene XP por cada $(thing)Orbe de Fusión$() recogido mientras estás en esta forma.$(p)Subir de nivel esta forma te recompensará con acceso permanente a la habilidad $(item)Regate Aéreo$()."
+		}
+	]
+}

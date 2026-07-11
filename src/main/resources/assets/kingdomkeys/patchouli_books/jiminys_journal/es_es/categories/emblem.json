@@ -1,0 +1,7 @@
+{
+	"name": "Emblema",
+	"description": "Lista completa de $(item)Sincorazón Emblema$() que están presentes en el mod. ¡Consulta las entradas individuales para obtener más $(thing)información$() y $(thing)estrategias$() para cada uno!",
+	"icon": "kingdomkeys:keyblade_of_peoples_hearts_chain",
+	"parent": "kingdomkeys:heartless",
+	"sortnum": 2
+}

@@ -32,14 +32,6 @@ public class ExpCommand extends BaseCommand { // kk_exp <give/take/set> <amount>
 
 		builder.then(Commands.literal("fix").then(Commands.argument("targets", EntityArgument.players()).executes(ExpCommand::fixValue)).executes(ExpCommand::fixValue));
 
-		/*
-		 * builder.then(Commands.literal("take") .then(Commands.argument("exp",
-		 * IntegerArgumentType.integer(1,Integer.MAX_VALUE))
-		 * .then(Commands.argument("targets", EntityArgument.players())
-		 * .executes(KKExpCommand::removeValue) ) .executes(KKExpCommand::removeValue) )
-		 * );
-		 */
-
 		KingdomKeys.LOGGER.warn("Registered command " + builder.getLiteral());
 		return builder;
 	}
@@ -76,12 +68,9 @@ public class ExpCommand extends BaseCommand { // kk_exp <give/take/set> <amount>
 		for (ServerPlayer player : players) {
 			PlayerData playerData = PlayerData.get(player);
 			playerData.addExperience(player, value, false, false);
-			player.level().playSound(null, player.blockPosition(), ModSounds.levelup.get(), SoundSource.MASTER, 1f, 1.0f);
-
 			PacketHandler.sendTo(new SCSyncPlayerData(player), player);
 
-			context.getSource().sendSuccess(() -> Component.translatable("Added " + value + " experience to " + player.getDisplayName().getString()), true);
-
+			context.getSource().sendSuccess(() -> Component.translatable("Given " + value + " experience to " + player.getDisplayName().getString()), true);
 			player.sendSystemMessage(Component.translatable("Your experience has been increased by " + value));
 		}
 		return 1;

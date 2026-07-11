@@ -9,7 +9,7 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.model.entity.SoldierModel;
 import online.kingdomkeys.kingdomkeys.client.render.HeartlessEyesLayerRenderer;
 import online.kingdomkeys.kingdomkeys.entity.mob.CommanderEntity;
-import online.kingdomkeys.kingdomkeys.entity.mob.DesertorEntity;
+import online.kingdomkeys.kingdomkeys.entity.mob.DeserterEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.SoldierEntity;
 
 public class SoldierRenderer<Type extends SoldierEntity> extends MobRenderer<Type, SoldierModel<Type>> {
@@ -32,7 +32,7 @@ public class SoldierRenderer<Type extends SoldierEntity> extends MobRenderer<Typ
 	protected void scale(Type entitylivingbaseIn, PoseStack matrixStackIn, float partialTickTime) {
 		if(entitylivingbaseIn instanceof CommanderEntity) {
 			matrixStackIn.scale(1F, 1F, 1F);
-		} else if(entitylivingbaseIn instanceof DesertorEntity) {
+		} else if(entitylivingbaseIn instanceof DeserterEntity) {
 			matrixStackIn.scale(0.5F, 0.5F, 0.5F);
 		} else {
 			matrixStackIn.scale(0.6F, 0.6F, 0.6F);

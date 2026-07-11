@@ -6,10 +6,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.core.Holder;
-import net.minecraft.core.Vec3i;
+import net.minecraft.core.*;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
@@ -18,7 +15,12 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.protocol.game.ClientboundPlayerInfoRemovePacket;
+import net.minecraft.network.protocol.game.ClientboundPlayerInfoUpdatePacket;
 import net.minecraft.network.protocol.game.ClientboundRemoveMobEffectPacket;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.FullChunkStatus;
@@ -30,6 +32,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
@@ -41,15 +44,13 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.monster.Slime;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ArmorItem;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
+import net.minecraft.world.item.*;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.item.enchantment.ItemEnchantments;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.Rotation;
@@ -57,8 +58,12 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.level.chunk.LevelChunk;
+import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.scores.PlayerTeam;
+import net.minecraft.world.scores.Scoreboard;
+import net.minecraft.world.scores.Team;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.common.util.BlockSnapshot;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
@@ -72,6 +77,7 @@ import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.block.gummi.*;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
+import online.kingdomkeys.kingdomkeys.creativetab.CreativeFilter;
 import online.kingdomkeys.kingdomkeys.data.GlobalData;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.data.WorldData;
@@ -83,19 +89,16 @@ import online.kingdomkeys.kingdomkeys.entity.GummiShipEntity;
 import online.kingdomkeys.kingdomkeys.entity.block.GummiHangarTileEntity;
 import online.kingdomkeys.kingdomkeys.item.*;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
-import online.kingdomkeys.kingdomkeys.lib.GummiStructure;
-import online.kingdomkeys.kingdomkeys.lib.Party;
+import online.kingdomkeys.kingdomkeys.lib.*;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
-import online.kingdomkeys.kingdomkeys.lib.SoAState;
-import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.limit.Limit;
 import online.kingdomkeys.kingdomkeys.limit.ModLimits;
 import online.kingdomkeys.kingdomkeys.magic.Magic;
+import online.kingdomkeys.kingdomkeys.magic.MagicData;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.menu.PauldronInventory;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.stc.SCRecalculateEyeHeight;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncGlobalData;
+import online.kingdomkeys.kingdomkeys.network.stc.*;
 import online.kingdomkeys.kingdomkeys.shotlock.ModShotlocks;
 import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
@@ -105,7 +108,70 @@ import java.util.*;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
+import static online.kingdomkeys.kingdomkeys.item.ICreativeTab.Tab.*;
+
 public class Utils {
+	public static List<ItemStack> getItemsForCategory(ICreativeTab.Tab category) {
+		if (category == null) {
+			List<ItemStack> list = new ArrayList<>();
+			list.addAll(KingdomKeys.kkItems.get());
+			list.addAll(KingdomKeys.kkBlocks.get());
+			return list;
+		}
+
+		return switch (category) {
+			case KEYBLADES -> KingdomKeys.kkItems.get().stream().filter(stack -> stack.getItem() instanceof ICreativeTab tab && tab.getTab() == KEYBLADES).toList();
+			case KEYCHAINS -> KingdomKeys.kkItems.get().stream().filter(stack -> stack.getItem() instanceof ICreativeTab tab && tab.getTab() == KEYCHAINS).toList();
+			case ORGANIZATION -> KingdomKeys.kkItems.get().stream().filter(stack -> stack.getItem() instanceof ICreativeTab tab && tab.getTab() == ORGANIZATION).toList();
+			case EQUIPABLES -> KingdomKeys.kkItems.get().stream().filter(stack -> stack.getItem() instanceof ICreativeTab tab && tab.getTab() == EQUIPABLES).toList();
+			case CARDS -> KingdomKeys.kkItems.get().stream().filter(stack -> stack.getItem() instanceof ICreativeTab tab && tab.getTab() == CARDS).toList();
+			case ARMORS -> KingdomKeys.kkItems.get().stream().filter(stack -> stack.getItem() instanceof ArmorItem).toList();
+			case MATS -> KingdomKeys.kkItems.get().stream().filter(stack -> stack.getItem() instanceof SynthesisItem).toList();
+			case GUMMI -> KingdomKeys.kkBlocks.get().stream().filter(stack -> stack.getItem() instanceof BlockItem block && block.getBlock() instanceof ICreativeTab tab && tab.getTab() == ICreativeTab.Tab.GUMMI).toList();
+			case MISC -> getMiscItems();
+			case NONE -> List.of();
+		};
+	}
+
+	private static List<ItemStack> getMiscItems() {
+		Set<Item> categorized = Arrays.stream(ICreativeTab.Tab.values())
+				.filter(tab -> tab != ICreativeTab.Tab.MISC && tab != ICreativeTab.Tab.NONE)
+				.flatMap(tab -> getItemsForCategory(tab).stream())
+				.map(ItemStack::getItem)
+				.collect(Collectors.toSet());
+
+		List<ItemStack> misc = new ArrayList<>();
+		misc.addAll(KingdomKeys.kkItems.get());
+		misc.addAll(KingdomKeys.kkBlocks.get());
+
+		return misc.stream().filter(stack -> !categorized.contains(stack.getItem())).toList();
+	}
+
+	public static List<ItemStack> getCurrentItems() {
+		if (CreativeFilter.currentCategory == ICreativeTab.Tab.MISC) {
+			return getMiscItems();
+		}
+
+		if (CreativeFilter.currentCategory == ICreativeTab.Tab.NONE) {
+			return List.of();
+		}
+
+		return getItemsForCategory(CreativeFilter.currentCategory);
+	}
+
+	public static int getRedstoneFromMagic(String type){
+		return switch(type){
+			case "fire" -> 1;
+			case "ice"-> 2;
+			case "water"-> 3;
+			case "lightning"-> 4;
+			case "air"-> 5;
+			case "stop"-> 6;
+			case "darkness"-> 7;
+			case "light"-> 8;
+			default -> 0;
+		};
+	}
 
     public static void removeNegativeEffects(Player player) {
         if (player.level().isClientSide)
@@ -119,6 +185,17 @@ public class Utils {
         }
     }
 
+	public static ItemStack getItemInInventory(Player player, Item item) {
+		ItemStack itemStack = ItemStack.EMPTY;
+
+		for (ItemStack stack : player.getInventory().items) {
+			if (stack.getItem() == item) {
+				itemStack = stack;
+				break;
+			}
+		}
+		return itemStack;
+	}
 
     public static ItemStack getItemInAnyHand(Player player, Item item) {
 		if(!player.getMainHandItem().isEmpty() && player.getMainHandItem().getItem() == item) {
@@ -129,8 +206,36 @@ public class Utils {
 		return null;
     }
 
+	public static int getMagicBagSlot(Player player) {
+		NonNullList<ItemStack> items = player.getInventory().items;
+		for (int i = 0, itemsSize = items.size(); i < itemsSize; i++) {
+			ItemStack stack = items.get(i);
+			if (stack.is(ModItems.magicsBag.get())) {
+				return i;
+			}
+		}
+		return -1;
+	}
+
+	public static boolean hasOnlyOneBag(Player player) {
+		boolean found = false;
+		for (ItemStack stack : player.getInventory().items) {
+			if (stack.is(ModItems.magicsBag.get())) {
+				if (found) {
+					return false;
+				} else {
+					found = true;
+				}
+			}
+		}
+		return found;
+	}
+
 	public static int getSavepointPercent(int ticks) {
-		return Math.round(100 - (((ticks-1) /(20F-1F)) * 100F));
+		int res = Math.round(100 - (((ticks-1) /(20F-1F)) * 100F));
+		if(res == 0)
+			res = 1;
+		return res;
 	}
 
 	public static final ResourceLocation mobLevelHPModifier = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "mob_level_hp");
@@ -158,23 +263,43 @@ public class Utils {
 		return min;
 	}
 
-    public static double getCheapestMagicCost(LinkedHashMap<String,int[]> magicsMap, Player player) {
+	public static double getCheapestMagicCost(Map<Integer, ItemStack> magicsMap, Player player, MagicData.SpellType type) {
 		double min = 1000;
 
-    	for (Entry<String,int[]> magic : magicsMap.entrySet()){
-			Magic m = ModMagic.registry.get(ResourceLocation.parse(magic.getKey()));
-			if(m != null){
-				int lvl = magic.getValue()[0];
-				if(m.getCost(lvl,player) == 300){ //If has cure return it since it's used to calculate whether to show magic available or not.
-					return m.getCost(lvl,player);
-				}
-				min = Math.min(m.getCost(lvl,player),min);
+		PlayerData playerData = PlayerData.get(player);
+		if (playerData == null) {
+			return 0;
+		}
 
+		for (Entry<Integer, ItemStack> magic : magicsMap.entrySet()) {
+			if (magic.getKey() >= playerData.getMaxMagics())
+				break;
+
+			ItemStack stack = playerData.getEquippedMagic(magic.getKey());
+
+			if (stack != null && stack.getItem() instanceof MagicSpellItem spell) {
+				Magic m = ModMagic.registry.get(ResourceLocation.parse(spell.getMagic()));
+
+				if (m == null)
+					continue;
+
+				// Ignorar magias de otro tipo
+				if (m.getSpellType() != type)
+					continue;
+
+				double cost = m.getCost(player);
+
+				// Mantener el comportamiento especial de Cura
+				if (cost == 300) {
+					return cost;
+				}
+
+				min = Math.min(cost, min);
 			}
 		}
-        return min;
-    }
 
+		return min;
+	}
 	public static List<Component> getResistancesStats(ItemStack selectedItemStack) {
 		List<Component> stats = new ArrayList<>();
 
@@ -757,6 +882,10 @@ public class Utils {
 		return blocks;
 	}
 
+	public static boolean isVanillaCrit(Player player) {
+		return player.fallDistance > 0.0F && !player.onGround() && !player.onClimbable() && !player.isInWater() && !player.hasEffect(MobEffects.BLINDNESS) && !player.isPassenger();
+	}
+
 	public static BlockState rotateBlock(BlockState state, Rotation rotation) {
 		// If block has custom rotate implementatio
 		BlockState rotated = state.rotate(rotation);
@@ -803,6 +932,7 @@ public class Utils {
             case 2 -> new int[]{ 120000, 180, 90 };
             case 3 -> new int[]{ 240000, 260, 130 };
             case 4 -> new int[]{ 400000, 350, 175 };
+			case 5,6,7,8,9,10 -> new int[]{ 1000000, 1000, 500 };
             default -> throw new IllegalStateException("Unexpected value for Utils#getFEPerLevel: " + lvl);
         };
     }
@@ -821,9 +951,139 @@ public class Utils {
         return armor.getMaterial().value().equipSound().value() == ModSounds.keyblade_armor.get();
     }
 
-    public static class Title {
+	public static String getRCNameFromIndex(Player player, int reactionSelected) {
+		int index = 0;
+		for (Entry<String, Integer> entry : PlayerData.get(player).getReactionCommands().entrySet()) {
+			if(index == reactionSelected) {
+				return entry.getKey();
+			}
+			index++;
+		}
+		return null;
+	}
+
+	public static List<String> getSpellsList(PlayerData playerData, MagicData.SpellType type) {
+		Map<Integer, ItemStack> equippedMagics = playerData.getEquippedMagics();
+		int maxMagics = playerData.getMaxMagics();
+
+		List<String> result = new ArrayList<>();
+
+		if (equippedMagics.isEmpty())
+			return result;
+
+		for (Entry<Integer, ItemStack> entry : equippedMagics.entrySet()) {
+			if (entry.getKey() >= maxMagics)
+				break;
+
+			if (entry.getValue().getItem() instanceof MagicSpellItem spell) {
+				Magic magic = ModMagic.registry.get(ResourceLocation.parse(spell.getMagic()));
+
+				if (magic != null && magic.getSpellType() == type) {
+					result.add(spell.getMagic());
+				}
+			}
+		}
+
+		return result;
+	}
+
+	public static int getMagicSlotFromNameAndLevel(Map<Integer, ItemStack> equippedMagics, String commandMagicName) {
+		if (equippedMagics.isEmpty()) return -1;
+
+		for (Entry<Integer, ItemStack> entry : equippedMagics.entrySet()) {
+			ItemStack stack = entry.getValue();
+			if (!stack.isEmpty() && stack.getItem() instanceof MagicSpellItem spell) {
+				if (spell.getMagic().equals(commandMagicName)) {
+					return entry.getKey();
+				}
+			}
+		}
+		return -1;
+	}
+
+	public static int getMagicHighestLocalLevel(Map<Integer, ItemStack> equippedMagics, String commandMagicName) {
+		if (equippedMagics.isEmpty()) return -1;
+
+		int level = -1;
+		for (Entry<Integer, ItemStack> entry : equippedMagics.entrySet()) {
+			ItemStack stack = entry.getValue();
+			if (!stack.isEmpty() && stack.getItem() instanceof MagicSpellItem spell) {
+				if (spell.getMagic().equals(commandMagicName)) {
+					level = Math.max(spell.getLocalLevel(stack), level);
+				}
+			}
+		}
+
+		return level;
+	}
+
+	public static void addMagicExperience(Player player, int amount) {
+		PlayerData playerData = PlayerData.get(player);
+		if(playerData == null)
+			return;
+
+		ArrayList<String> leveledMagics =  new ArrayList();
+		for (ItemStack stack : playerData.getEquippedMagics().values()) {
+			if (stack.isEmpty())
+				continue;
+
+			if (!(stack.getItem() instanceof MagicSpellItem magic))
+				continue;
+
+			int oldLevel = magic.getLocalLevel(stack);
+			magic.addExp(stack, amount);
+
+			if(magic.getLocalLevel(stack) != oldLevel) { //If the level is different show notif
+				leveledMagics.add("M_" + stack.getHoverName().getString() + " " + Utils.translateToLocal("gui.magicspell.lvl_short", magic.isMaxed(stack) ? "MAX" : magic.getLocalLevel(stack)));
+			}
+		}
+
+		if(!leveledMagics.isEmpty()){
+			player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.levelup.get(), SoundSource.MASTER, 0.5f, 1.0f);
+			PacketHandler.sendTo(new SCShowOverlayPacket("levelup", player.getUUID(), player.getGameProfile().getName(), playerData.getLevel(), playerData.getNotifColor(), leveledMagics), (ServerPlayer) player);
+		}
+	}
+
+	public static final Map<ResourceKey<Biome>, Item> MEMORY_BY_BIOME = new HashMap<>();
+
+	public static Item getMemoryFromBiome(Holder<Biome> biome) {
+		return biome.unwrapKey().map(MEMORY_BY_BIOME::get).orElse(null);
+	}
+
+	public static void showTutorial(ServerPlayer player, List<Title> tutorial) {
+		PlayerData playerData = PlayerData.get(player);
+		if(!playerData.hasSeenTutorial(Constants.TUTORIAL_CO_LOBBY)) {
+			PacketHandler.sendTo(new SCShowMessagesPacket(tutorial), player);
+
+			playerData.setSeenTutorial(Constants.TUTORIAL_CO_LOBBY);
+			PacketHandler.sendTo(new SCSyncPlayerData(player, playerData), player);
+		}
+	}
+
+	public static BlockPos getBlockPosYHeight(Level level, int posX, int posZ) {
+		int yPos = level.getHeight(Heightmap.Types.WORLD_SURFACE, posX, posZ);
+		BlockPos pos = new BlockPos(posX, yPos, posZ);
+
+		while (level.getBlockState(pos).is(ModBlocks.structureWall.get()) || level.getBlockState(pos).is(Blocks.AIR)) {
+			pos = pos.below();
+		}
+		return pos;
+	}
+
+	public static int getYHeight(Level level, int posX, int posZ) {
+		int yPos = level.getHeight(Heightmap.Types.WORLD_SURFACE, posX, posZ);
+		BlockPos pos = new BlockPos(posX, yPos, posZ);
+
+		while (level.getBlockState(pos).is(ModBlocks.structureWall.get()) || level.getBlockState(pos).is(Blocks.AIR)) {
+			pos = pos.below();
+		}
+		return pos.getY();
+	}
+
+	public static class Title {
 		public String title, subtitle;
 		public int fadeIn = 10, fadeOut = 20, displayTime = 70;
+		public boolean titleFont;
 
 		public Title(String title, String subtitle, int fadeIn, int displayTime, int fadeOut) {
 			this.title = title;
@@ -842,6 +1102,11 @@ public class Utils {
 			read(compound);
 		}
 
+		public Title setKHFont(){
+			this.titleFont = true;
+			return this;
+		}
+
 		public CompoundTag write() {
 			CompoundTag compound = new CompoundTag();
 			compound.putString("title", title);
@@ -849,6 +1114,7 @@ public class Utils {
 			compound.putInt("fadein", fadeIn);
 			compound.putInt("fadeout", fadeOut);
 			compound.putInt("displaytime", displayTime);
+			compound.putBoolean("titlefont", titleFont);
 			return compound;
 		}
 
@@ -858,6 +1124,7 @@ public class Utils {
 			this.fadeIn = tag.getInt("fadein");
 			this.fadeOut = tag.getInt("fadeout");
 			this.displayTime = tag.getInt("displaytime");
+			this.titleFont = tag.getBoolean("titlefont");
 		}
 
 		public static CompoundTag writeList(List<Title> titles) {
@@ -906,7 +1173,7 @@ public class Utils {
 		);
 	}
 
-	public record castMagic(LivingEntity player, Player caster, int level, float fullMPBlastMult, LivingEntity lockOnEntity, Magic magic) {}
+	public record castMagic(LivingEntity player, Player caster, float fullMPBlastMult, LivingEntity lockOnEntity, Magic magic) {}
 
 	public static ResourceLocation getItemRegistryName(Item item) {
 		return BuiltInRegistries.ITEM.getKey(item);
@@ -1145,7 +1412,7 @@ public class Utils {
 	public static Player getPlayerByName(Level world, String name) {
 		List<? extends Player> players = world.getServer() == null ? world.players() : getAllPlayers(world.getServer());
 		for (Player p : players) {
-			if (p.getDisplayName().getString().equalsIgnoreCase(name)) {
+			if (p.getGameProfile().getName().equalsIgnoreCase(name)) {
 				return p;
 			}
 		}
@@ -1176,9 +1443,7 @@ public class Utils {
 
 	public static List<Player> getAllPlayers(MinecraftServer ms) {
 		List<Player> list = new ArrayList<Player>();
-		Iterator<ServerLevel> it = ms.getAllLevels().iterator();
-		while (it.hasNext()) {
-			ServerLevel world = it.next();
+		for (ServerLevel world : ms.getAllLevels()) {
 			for (Player p : world.players()) {
 				list.add(p);
 			}
@@ -1189,6 +1454,7 @@ public class Utils {
     public static List<Entity> getEntitiesInRadius(Entity entity, float radius) {
         return entity.level().getEntities(entity, entity.getBoundingBox().inflate(radius), Entity::isAlive);
     }
+
 	public static List<LivingEntity> getLivingEntitiesInRadius(Entity entity, float radius) {
 		List<Entity> list = entity.level().getEntities(entity, entity.getBoundingBox().inflate(radius), Entity::isAlive);
 		List<LivingEntity> elList = new ArrayList<LivingEntity>();
@@ -1553,6 +1819,52 @@ public class Utils {
 		player.getAttributes().addTransientAttributeModifiers(map);
 	}
 
+	private static final String ORG_TEAM_ID = "kk_orgrobes";
+
+	public static PlayerTeam getOrCreateTeam(ServerLevel level) {
+		Scoreboard sb = level.getScoreboard();
+		PlayerTeam team = sb.getPlayerTeam(ORG_TEAM_ID);
+
+		if (team == null) {
+			team = sb.addPlayerTeam(ORG_TEAM_ID);
+			team.setNameTagVisibility(Team.Visibility.NEVER);
+			team.setCollisionRule(Team.CollisionRule.ALWAYS);
+		}
+		return team;
+	}
+
+	public static void updateOrgRobesTeam(ServerPlayer player) {
+		ServerLevel level = player.serverLevel();
+		Scoreboard sb = level.getScoreboard();
+		PlayerTeam team = getOrCreateTeam(level);
+
+		String name = player.getScoreboardName();
+		if(ModConfigs.hideOrgNames){
+			if (Utils.isWearingOrgRobes(player)) {
+				if (sb.getPlayersTeam(name) != team) {
+					sb.addPlayerToTeam(name, team);
+					updateTabName(player, true);
+				}
+			} else {
+				if (sb.getPlayersTeam(name) == team) {
+					sb.removePlayerFromTeam(name, team);
+					updateTabName(player, false);
+				}
+			}
+		} else {
+			//If config is false make sure everyone invisible is visible again
+			if (sb.getPlayersTeam(name) == team) {
+				sb.removePlayerFromTeam(name, team);
+				updateTabName(player, false);
+			}
+		}
+	}
+
+	public static void updateTabName(ServerPlayer player, boolean wearing) {                  // hide											//show
+		Packet<ClientGamePacketListener> packet = wearing ? new ClientboundPlayerInfoRemovePacket(List.of(player.getUUID())) : ClientboundPlayerInfoUpdatePacket.createPlayerInitializing(List.of(player));
+		player.server.getPlayerList().getPlayers().forEach(p -> p.connection.send(packet));
+	}
+
 	public static boolean isWearingOrgRobes(Player player) {
 		if (!ModConfigs.SERVER.orgEnabled.get())
 			return false;
@@ -1585,6 +1897,7 @@ public class Utils {
             case 2 -> "M";
             case 3 -> "L";
             case 4 -> "XL";
+			case 5,6,7,8,9,10 -> level+"";
             default -> "Unsuported value: " + level;
         };
     }
@@ -1713,6 +2026,7 @@ public class Utils {
 		playerData.setMaxAP(0);
 		playerData.setMaxAccessories(0);
 		playerData.setMaxArmors(0);
+		playerData.setMaxMagics(0);
 
 		playerData.clearAbilities();
 		SoAState.applyStatsForChoices(player, playerData, false);
@@ -1724,7 +2038,7 @@ public class Utils {
 	}
 
 	/**
-	 * Recalculate drive form levels
+	 * Recalculate drive form levels and permanent abilities and shotlocks
 	 * 
 	 * @param playerData
 	 * @param player
@@ -1734,7 +2048,7 @@ public class Utils {
         for (Entry<String, int[]> entry : driveForms.entrySet()) {
             int dfLevel = entry.getValue()[0];
             DriveForm form = ModDriveForms.registry.get(ResourceLocation.parse(entry.getKey()));
-            if (!form.getRegistryName().equals(DriveForm.NONE) && !form.getRegistryName().equals(DriveForm.SYNCH_BLADE)) {
+            if (!Utils.getFakeForms().contains(form.getRegistryName().toString())) {
                 for (int i = 1; i <= dfLevel; i++) {
                     String baseAbility = form.getBaseAbilityForLevel(i);
                     if (baseAbility != null && !baseAbility.equals("")) {
@@ -1744,8 +2058,20 @@ public class Utils {
             }
         }
 
+		playerData.getPAbilitiesList().forEach(a -> {
+			playerData.addAbility(a,false);
+		});
+
+		playerData.getPShotlocksList().forEach(s -> {
+			playerData.addShotlockToList(s,false);
+		});
+
 		player.heal(playerData.getMaxHP());
 		playerData.setMP(playerData.getMaxMP());
+	}
+
+	public static List<String> getFakeForms(){
+		return ModDriveForms.registry.stream().filter(form -> form.isFakeForm()).map(driveForm -> driveForm.getName()).toList();
 	}
 
 	public static String getTierFromInt(int tier) {
@@ -1851,7 +2177,7 @@ public class Utils {
 				}
 				if (membersOnline == 0) {
 					avgLevel = 1;
-					KingdomKeys.LOGGER.warn("0 members online for this party, this should not be happening, in world " + player.level().dimension().location());
+					KingdomKeys.LOGGER.warn("Party {} with 0 online members. Player={}, PartyMembers={}, Dimension={}", p.getName(), player.getGameProfile().getName(), p.getMembers().size(), player.level().dimension().location());
 				} else {
 					avgLevel = total / membersOnline;
 				}
@@ -2088,14 +2414,34 @@ public class Utils {
 		public BlockPosBounds(int minX, int minY, int minZ, int maxX, int maxY, int maxZ) {
 			this(new BlockPos(minX, minY, minZ), new BlockPos(maxX, maxY, maxZ));
 		}
+
+		public boolean isPlayerWithin(Player player) {
+			return (int) player.getX() >= min.getX() && (int) player.getX() <= max.getX() && (int) player.getY() >= min.getY() && (int) player.getY() <= max.getY() && (int) player.getZ() >= min.getZ() && (int) player.getZ() <= max.getZ();
+		}
 	}
 
-	public static boolean isPlayerWithin(Player player, BlockPosBounds bounds) {
-		return (int) player.getX() >= bounds.min.getX() && (int) player.getX() <= bounds.max.getX() && (int) player.getY() >= bounds.min.getY() && (int) player.getY() <= bounds.max.getY() && (int) player.getZ() >= bounds.min.getZ() && (int) player.getZ() <= bounds.max.getZ();
+	public static boolean isTouchingWall(Player player) {
+		if (player.onGround())
+			return false;
+
+		AABB box = player.getBoundingBox();
+		double yShrink = 0.2; // ignore 20% of the block's top and bottom to avoid false positives
+		AABB sideBox = new AABB(box.minX, box.minY + yShrink, box.minZ, box.maxX, box.maxY - yShrink, box.maxZ).inflate(0.05);
+
+		Level level = player.level();
+
+		return hasCollision(level, player, sideBox.move(0.1, 0, 0)) ||
+				hasCollision(level, player, sideBox.move(-0.1, 0, 0)) ||
+				hasCollision(level, player, sideBox.move(0, 0, 0.1)) ||
+				hasCollision(level, player, sideBox.move(0, 0, -0.1));
 	}
 
-	//TODO config option for people who hate fun
+	private static boolean hasCollision(Level level, Player player, AABB box) {
+		return level.getBlockCollisions(player, box).iterator().hasNext();
+	}
+
 	public static boolean isAprilFools() {
+		if (!ModConfigs.seasonalEvents) return false;
 		Calendar calendar = Calendar.getInstance();
 		return calendar.get(Calendar.MONTH) == Calendar.APRIL && calendar.get(Calendar.DAY_OF_MONTH) == 1;
 	}
@@ -2156,10 +2502,11 @@ public class Utils {
 				PacketHandler.sendTo(new SCSyncGlobalData(entity), (ServerPlayer) entity);
 		}
 
-		if(entity.level().isClientSide)
-			return;
+		if(effect.is(ModMobEffects.ZERO_GRAVITY)){
+			entity.setNoGravity(false);
+		}
 
-		if(effect != null) {
+		if(effect != null && !entity.level().isClientSide()) {
 			entity.level().getServer().getPlayerList().getPlayers().forEach(player -> {
 				player.connection.send(new ClientboundRemoveMobEffectPacket(entity.getId(), effect));
 			});

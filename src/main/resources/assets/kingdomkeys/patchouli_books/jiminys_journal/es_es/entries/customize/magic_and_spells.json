@@ -1,0 +1,17 @@
+{
+	"name": "Magia y Hechizos",
+	"icon": "kingdomkeys:spellfire",
+	"category": "kingdomkeys:commands",
+	"sortnum": 1,
+	"advancement": "kingdomkeys:obtain_magic",
+	"pages": [
+		{
+			"type": "text",
+			"text": "A medida que exploras el mundo, deberías encontrar $(l:kingdomkeys:blox/prize)Bloxes de Premio$(). Estos cubos pueden minarse con un pico y tienen la posibilidad de soltar $(item)Hechizos$(), $(l:kingdomkeys:customize/drive)Formas de Fusión$() y $(l:kingdomkeys:/syntheize/munny)Platines$()."
+		},
+		{
+			"type": "text",
+			"text": "Cuando equipes estos hechizos, pueden ser lanzados desde el menú de comandos, siempre que tengas PM suficiente para lanzarlos. Si te quedas sin PM, tardará un tiempo en recargarse.$(p)Normalmente recibirás tus $(thing)primeros PM con el Nivel 4$(). Antes de eso, no podrás lanzar ningún hechizo."
+		}
+	]
+}

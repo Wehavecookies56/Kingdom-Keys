@@ -1,0 +1,6 @@
+{
+	"name": "Enemigos",
+	"description": "Es importante conocer a tus $(item)Enemigos$(). En esta sección encontrarás todos los diferentes tipos de Mobs hostiles del mod de Kingdom Keys, como los $(heartless)Sincorazón$() e $(nobody)Incorpóreos$().",
+	"icon": "kingdomkeys:illusory_crystal",
+	"sortnum": 7
+}

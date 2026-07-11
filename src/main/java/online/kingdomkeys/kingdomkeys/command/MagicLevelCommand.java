@@ -71,14 +71,14 @@ public class MagicLevelCommand extends BaseCommand{
 			PlayerData playerData = PlayerData.get(player);
             
 			if(level <= magicInstance.getMaxLevel()) {
-				playerData.setMagicLevel(ResourceLocation.parse(magic), level, false);
+				//playerData.setMagicLevel(ResourceLocation.parse(magic), level, false);
 			} else {
 				context.getSource().sendSuccess(() -> Component.translatable("Level too high, max is '"+magicInstance.getMaxLevel()+"'"), true);
 				return 1;
 			}
 			PacketHandler.sendTo(new SCSyncPlayerData(player), player);
 			
-			String magicName = level > -1 ? Utils.translateToLocal(magicInstance.getTranslationKey(level)) : "N/A";
+			String magicName = level > -1 ? Utils.translateToLocal(magicInstance.getTranslationKey()) : "N/A";
 			context.getSource().sendSuccess(() -> Component.translatable("Set "+ Utils.translateToLocal(magicInstance.getTranslationKey())+" magic for " +player.getDisplayName().getString()+" to level "+level+" ("+magicName+")"), true);
 			player.sendSystemMessage(Component.translatable("Your "+Utils.translateToLocal(magicInstance.getTranslationKey())+" magic level is now "+level+" ("+magicName+")"));
 		}

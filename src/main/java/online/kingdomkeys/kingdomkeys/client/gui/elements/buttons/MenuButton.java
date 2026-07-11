@@ -167,7 +167,7 @@ public class MenuButton extends MenuButtonBase {
 			gui.blit(texture, getX() + i + endWidth, getY(), middleU, vPos, 1, height);
 		gui.blit(texture, getX() + endWidth + middleWidth, getY(), rightU, vPos, endWidth, height);
 
-		//Ball
+		//Glove and dot
 		if(hovered) {
 			float ballScale = 0.5F;
 			int u = 0;
@@ -194,12 +194,19 @@ public class MenuButton extends MenuButtonBase {
 				float x = centerX + (float)Math.cos(t * 3F + Math.PI / 2F) * radiusX;
 				float y = centerY + (float)Math.sin(t * 2F) * radiusY;
 
+				float gloveX = x - getWidth() - 10;
 				gui.pose().pushPose();
-				gui.pose().translate(x, y, 0);
-				gui.pose().scale(ballScale, ballScale, 1F);
-
-				gui.blit(texture, 0, 0, u, v, 15, 15);
-
+				{
+					gui.pose().translate(gloveX, getY() + 3, 0);
+					gui.blit(texture, 0, 0, 21, 204, 20, 20);
+				}
+				gui.pose().popPose();
+				gui.pose().pushPose();
+				{
+					gui.pose().translate(x, y, 0);
+					gui.pose().scale(ballScale, ballScale, 1F);
+					gui.blit(texture, 0, 0, u, v, 18, 16);
+				}
 				gui.pose().popPose();
 			}
 			gui.pose().popPose();
