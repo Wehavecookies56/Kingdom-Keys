@@ -78,6 +78,7 @@ import online.kingdomkeys.kingdomkeys.entity.mob.*;
 import online.kingdomkeys.kingdomkeys.entity.organization.KKThrowableEntity;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.EpicFightUtils;
 import online.kingdomkeys.kingdomkeys.item.*;
+import online.kingdomkeys.kingdomkeys.item.card.MapCardItem;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
 import online.kingdomkeys.kingdomkeys.item.organization.OrganizationDataLoader;
 import online.kingdomkeys.kingdomkeys.leveling.LevelingDataLoader;
@@ -886,7 +887,7 @@ public class EntityEvents {
 						}
 					}
 				}
-			}/* else if (event.getItemEntity().getItem().getItem() instanceof MapCardItem) {
+			} else if (event.getItemEntity().getItem().getItem() instanceof MapCardItem) {
 				for (int i = 0; i < event.getPlayer().getInventory().getContainerSize(); i++) {
 					ItemStack bag = event.getPlayer().getInventory().getItem(i);
 					if (!ItemStack.matches(bag, ItemStack.EMPTY)) {
@@ -896,7 +897,7 @@ public class EntityEvents {
 						}
 					}
 				}
-			}*/
+			}
 		}
 	}
 
@@ -910,25 +911,16 @@ public class EntityEvents {
 			default -> 0;
 		};
 
-		for (int j = 0; j < maxSlots; j++) {
-			ItemStack bagItem = inv.getStackInSlot(j);
-			ItemStack pickUp = event.getItemEntity().getItem();
-			if (!ItemStack.matches(bagItem, ItemStack.EMPTY)) {
-				if (bagItem.getItem().equals(pickUp.getItem())) {
-					if (bagItem.getCount() < bagItem.getMaxStackSize()) {
-						if (bagItem.getCount() + pickUp.getCount() <= bagItem.getMaxStackSize()) {
-							ItemStack stack = new ItemStack(pickUp.copy().getItem(), pickUp.copy().getCount());
-							inv.insertItem(j, stack, false);
-							pickUp.setCount(0);
-							return;
-						}
-					}
-				}
-			} else if (ItemStack.matches(bagItem, ItemStack.EMPTY)) {
-				inv.insertItem(j, pickUp.copy(), false);
-				pickUp.setCount(0);
-				return;
-			}
+		ItemStack remaining = event.getItemEntity().getItem().copy();
+
+		for (int j = 0; j < maxSlots && !remaining.isEmpty(); j++) {
+			remaining = inv.insertItem(j, remaining, false);
+		}
+
+		if (remaining.isEmpty()) {
+			event.getItemEntity().discard();
+		} else {
+			event.getItemEntity().setItem(remaining);
 		}
 	}
 

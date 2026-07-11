@@ -99,9 +99,8 @@ public class RoomSynthesisScreen extends MenuBackground {
 
 		boxB = new MenuBox(bottomLeftBar.getWidth() - 20, height - cardBoxHeight - (int)(bottomBarHeight / 2), cardBoxWidth, cardBoxHeight, 1, new Color(100, 100, 100));
 		boxL = new MenuBox(boxB.getX() - 100, (int)topBarHeight, 100, (int)middleHeight, 1, new Color(100, 100, 100));
-		scrollBar = new MenuScrollBar(boxB.getX() + boxB.getWidth() - 17, boxB.getY(), boxB.getY() + boxB.getHeight(), (int)middleHeight, 0, true);
-
-		// Inventario
+		scrollBar = new MenuScrollBar(boxB.getX() + boxB.getWidth() - 17, boxB.getY(), boxB.getY() + boxB.getHeight(), boxB.getHeight(), 0, true);
+		// Inventory
 		for (int i = 0; i < minecraft.player.getInventory().getContainerSize(); i++) {
 			ItemStack stack = minecraft.player.getInventory().getItem(i);
 
@@ -267,6 +266,8 @@ public class RoomSynthesisScreen extends MenuBackground {
 		int cardsStartX = boxB.getX() + 10;
 		int cardsStartY = boxB.getY() + 8;
 
+		int rows = (cards.size() + CARDS_PER_ROW - 1) / CARDS_PER_ROW;
+
 		for (int i = 0; i < cards.size(); i++) {
 			CardSelectButton card = cards.get(i);
 
@@ -277,16 +278,8 @@ public class RoomSynthesisScreen extends MenuBackground {
 			card.setY(cardsStartY + row * 50 - (int) scrollBar.scrollOffset);
 		}
 
-		//int rows = (cards.size() + CARDS_PER_ROW - 1) / CARDS_PER_ROW;
-
-		int firstY, lastY, heightDiff = 0;
-		if (!cards.isEmpty()) {
-			firstY = cards.getFirst().getY();
-			lastY = cards.getLast().getY();
-			heightDiff = lastY - firstY;
-		}
-		//System.out.println(firstY + " " + lastY + " " + heightDiff);
-		scrollBar.setContentHeight(heightDiff + 150);
+		int contentHeight = 15 + rows * 50;
+		scrollBar.setContentHeight(contentHeight);
 	}
 
 	@Override

@@ -2,7 +2,7 @@
 ## Added:
 * Desert Castle Oblivion floor, it's biome memory drops the same way but in the desert.
 * Card packs in cards moogle shop and default shop (more expensive in the overworld), this should prevent being softlocked in Castle Oblivion.
-* Map cards bag (currently will not pick up items due to an unknown bug).
+* Map cards bag.
 * Shop datapack option to require having enough materials deposited or having obtained a magic spell (so it works like in KH2 and KH BBS respectively).
   * By default, to be able to buy shards you need to have obtained a total of 30, stones 25, gems 20 and crystals 15 (Taking materials out substract the total).
   * By default, to be able to buy a spell you first need to obtain it through drop / melding / any method, and be the right tier (from C - SS, based on the spell tier).
@@ -18,10 +18,12 @@
 * Individual cards have been removed from the cards moogle shop.
 ## Fixed:
 * Shop not displaying the new items if you had just leveled up the synthesis tier, where a relog was needed.
+* Configs like recipe and memory drops not showing up in common config due to being outside a category.
 * Positioned Card door and Mysterious door in the inventory and in hand.
 * Warp point having green trail.
+* Card selector scroll bar not being accurate.
 * Player losing Castle Oblivion data when relogging or switching dimensions.
-* Wave encounters not resetting properly after dying/leaving mid fight.
+* Wave encounters not resetting properly after dying/leaving mid-fight.
 * Potentially fixed Conqueror's Respite issues.
 * Some magics like Thunder and Faith not working in Castle Oblivion rooms due to the ceiling.
 * Master's Defender model.
