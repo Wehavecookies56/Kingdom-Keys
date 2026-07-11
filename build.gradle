@@ -140,6 +140,7 @@ dependencies {
     implementation "software.bernie.geckolib:geckolib-neoforge-${minecraft_version}:${geckolib_version}"
     //implementation "curse.maven:mekanism-268560:7132168"
     implementation "huge-structure-blocks-kk:huge-structure-blocks-kk:1.1.2"
+    implementation "curse.maven:female-gender-neoforge-481655:5579007"
     implementation "curse.maven:shoulder-surfing-reloaded-243190:8392364"
     implementation "curse.maven:tool-belt-260262:5929065"
     implementation "curse.maven:spark-361579:6225208"
