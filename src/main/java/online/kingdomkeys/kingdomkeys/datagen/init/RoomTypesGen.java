@@ -35,8 +35,8 @@ public class RoomTypesGen extends BaseProvider<RoomTypeBuilder> {
     @Override
     protected void build() {
         createRoomType(Strings.AlchemicWaking, RoomSize.M, RoomCategory.STATUS)
-                .enemies(new Enemies(RoomEnemies.S, 6, 3, null, null));
-        createRoomType(Strings.AlmightyDarkness, RoomSize.M, RoomCategory.ENEMY).enemies(new Enemies(RoomEnemies.M, 7, 3, null, null))
+                .enemies(new Enemies(RoomEnemies.S, 6, 3));
+        createRoomType(Strings.AlmightyDarkness, RoomSize.M, RoomCategory.ENEMY).enemies(new Enemies(RoomEnemies.M, 7, 3))
                 .modifiers(new LevelModifier(List.of(new Operation(2, Operator.ADD))));
         createRoomType(Strings.BottomlessDarkness, RoomSize.L, RoomCategory.ENEMY)
                 .enemies(new Enemies(RoomEnemies.L, 13, 6, ModTags.CO_BOTTOMLESS_DARKNESS, null))
@@ -51,17 +51,17 @@ public class RoomTypesGen extends BaseProvider<RoomTypeBuilder> {
                 .music(ModSounds.Music_The_13th_Floor.value())
                 .isEntranceHall();
         createRoomType(Strings.FalseBounty, RoomSize.S, RoomCategory.BOUNTY)
-                .enemies(new Enemies(RoomEnemies.S, 5, 3, null, null));
+                .enemies(new Enemies(RoomEnemies.S, 5, 3));
         createRoomType(Strings.FeebleDarkness, RoomSize.M, RoomCategory.ENEMY)
-                .enemies(new Enemies(RoomEnemies.S, 6, 3, null, null))
+                .enemies(new Enemies(RoomEnemies.S, 6, 3))
                 .modifiers(new LevelModifier(List.of(new Operation(2, Operator.SUBTRACT))));
         createRoomType(Strings.GuardedTrove, RoomSize.S, RoomCategory.BOUNTY)
-                .enemies(new Enemies(RoomEnemies.M, 7, 3, null, null));
+                .enemies(new Enemies(RoomEnemies.M, 7, 3));
         createRoomType(Strings.LoomingDarkness, RoomSize.L, RoomCategory.ENEMY)
-                .enemies(new Enemies(RoomEnemies.M, 10, 4, null, null))
+                .enemies(new Enemies(RoomEnemies.M, 10, 4))
                 .modifiers(new EffectRoomModifier(MobEffects.MOVEMENT_SPEED, EffectType.MOB));
         createRoomType(Strings.MartialWaking, RoomSize.M, RoomCategory.STATUS)
-                .enemies(new Enemies(RoomEnemies.M, 8, 3, null, null))
+                .enemies(new Enemies(RoomEnemies.M, 8, 3))
                 .modifiers(new EffectRoomModifier(MobEffects.DAMAGE_BOOST, EffectType.PLAYER));
         createRoomType(Strings.MomentsReprieve, RoomSize.S, RoomCategory.BOUNTY)
                 .fixedRoom(KKResourceLocation.of(Strings.MomentsReprieve));
@@ -81,22 +81,22 @@ public class RoomTypesGen extends BaseProvider<RoomTypeBuilder> {
                 .encounter(KKResourceLocation.of(Strings.RoomOfTruth));        
         createRoomType(Strings.RoomOfRewards, RoomSize.S, RoomCategory.BOUNTY);
         createRoomType(Strings.SleepingDarkness, RoomSize.S, RoomCategory.ENEMY)
-                .enemies(new Enemies(RoomEnemies.S, 5, 3, null, null));
+                .enemies(new Enemies(RoomEnemies.S, 5, 3));
         createRoomType(Strings.SorcerousWaking, RoomSize.M, RoomCategory.STATUS)
-                .enemies(new Enemies(RoomEnemies.M, 8, 3, null, null));
+                .enemies(new Enemies(RoomEnemies.M, 8, 3));
         createRoomType(Strings.StagnantSpace, RoomSize.M, RoomCategory.STATUS)
-                .enemies(new Enemies(RoomEnemies.S, 5, 3, null, null))
+                .enemies(new Enemies(RoomEnemies.S, 5, 3))
                 .modifiers(new EffectRoomModifier(MobEffects.MOVEMENT_SLOWDOWN, EffectRoomModifier.EffectType.MOB));
         createRoomType(Strings.TeemingDarkness, RoomSize.L, RoomCategory.ENEMY)
-                .enemies(new Enemies(RoomEnemies.L, 16, 6, null, null));
+                .enemies(new Enemies(RoomEnemies.L, 16, 6));
         createRoomType(Strings.TranquilDarkness, RoomSize.M, RoomCategory.ENEMY)
-                .enemies(new Enemies(RoomEnemies.S, 6, 2, null, null));
+                .enemies(new Enemies(RoomEnemies.S, 6, 2));
         createRoomType(Strings.TreacherousRepository, RoomSize.S, RoomCategory.BOUNTY)
-                .enemies(new Enemies(RoomEnemies.M, 7, 3, null, null));
+                .enemies(new Enemies(RoomEnemies.M, 7, 3));
         createRoomType(Strings.UnknownRoom, RoomSize.S, RoomCategory.ENEMY)
-                .enemies(new Enemies(RoomEnemies.S, 4, 2, null, null));
+                .enemies(new Enemies(RoomEnemies.S, 4, 2));
         createRoomType(Strings.WeightlessSpace, RoomSize.M, RoomCategory.STATUS)
-                .enemies(new Enemies(RoomEnemies.S, 5, 3, null, null))
+                .enemies(new Enemies(RoomEnemies.S, 5, 3))
                 .modifiers(new EffectRoomModifier(MobEffects.SLOW_FALLING, EffectType.BOTH), new EffectRoomModifier(MobEffects.JUMP, EffectType.BOTH));
     }
 

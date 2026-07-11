@@ -1188,7 +1188,9 @@ public class EntityEvents {
 					if (GlobalData.get(entity).getCastleOblivionMarker()) {
 						List<Item> cardDrops = ModTags.getItemsInTag(level, ModTags.MAP_CARD);
 						Item toDrop = cardDrops.get(Utils.randomWithRange(0, cardDrops.size() - 1));
-						level.addFreshEntity(new ItemEntity(level, entity.getX(), entity.getY(), entity.getZ(), new ItemStack(toDrop)));
+						ItemStack dropStack = new ItemStack(toDrop);
+						MapCardItem.initialize(dropStack);
+						level.addFreshEntity(new ItemEntity(level, entity.getX(), entity.getY(), entity.getZ(), dropStack));
 						CastleOblivionData.InteriorData.get((ServerLevel) level).ifPresent(interiorData -> {
 							Room room = interiorData.getRoomAtPos(entity.blockPosition());
 							room.removeCurrentSpawn();

@@ -69,17 +69,21 @@ public class MapCardItem extends Item implements ICreativeTab {
         super.inventoryTick(pStack, pLevel, pEntity, pSlotId, pIsSelected);
     }
 
-    public void initialize(ItemStack stack) {
-        if (!stack.has(ModComponents.CARD_VALUE)) {
-            generateValue(stack);
-        }
-        if (hasRandomValue) {
-            stack.set(DataComponents.ITEM_NAME, Component.translatable("item.mapcard.prefix", getCardValue(stack), Component.translatable(stack.getDescriptionId())).setStyle(Style.EMPTY.withItalic(false)));
+    public static void initialize(ItemStack stack) {
+        if (stack.getItem() instanceof MapCardItem mapCardItem) {
+            if (!stack.has(ModComponents.CARD_VALUE)) {
+                generateValue(stack);
+            }
+            if (mapCardItem.hasRandomValue) {
+                stack.set(DataComponents.ITEM_NAME, Component.translatable("item.mapcard.prefix", getCardValue(stack), Component.translatable(stack.getDescriptionId())).setStyle(Style.EMPTY.withItalic(false)));
+            }
         }
     }
 
-    private void generateValue(ItemStack stack) {
-        stack.set(ModComponents.CARD_VALUE, hasRandomValue ? Utils.randomWithRange(0, 9) : keycardType.ordinal());
+    private static void generateValue(ItemStack stack) {
+        if (stack.getItem() instanceof MapCardItem mapCardItem) {
+            stack.set(ModComponents.CARD_VALUE, mapCardItem.hasRandomValue ? Utils.randomWithRange(0, 9) : mapCardItem.keycardType.ordinal());
+        }
     }
 
     public static int getCardValue(ItemStack stack) {

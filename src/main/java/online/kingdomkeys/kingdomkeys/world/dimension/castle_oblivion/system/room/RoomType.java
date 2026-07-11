@@ -59,7 +59,7 @@ public class RoomType extends JsonRegistryObject {
         this.entranceHall = entranceHall.orElse(false);
         this.size = size;
         this.category = category;
-        this.enemies = enemies.orElse(new Enemies(RoomEnemies.NONE, 0, 0, null, null));
+        this.enemies = enemies.orElse(new Enemies(RoomEnemies.NONE, 0, 0));
         this.colour = colour.orElse(null);
         this.modifiers = modifiers.orElse(new ArrayList<>());
         this.compatibleFloors = compatibleFloors.orElse(new ArrayList<>());
@@ -157,17 +157,21 @@ public class RoomType extends JsonRegistryObject {
 
         public static final Codec<Enemies> CODEC = RecordCodecBuilder.create(instance ->
                 instance.group(
-                        StringRepresentable.fromEnum(RoomEnemies::values).optionalFieldOf("type").forGetter(o -> Optional.ofNullable(o.roomEnemies)),
-                        Codec.INT.optionalFieldOf("number_of_enemies").forGetter(o -> Optional.of(o.numberOfEnemies)),
-                        Codec.INT.optionalFieldOf("simultaneous_enemies").forGetter(o -> Optional.of(o.simultaneousEnemies)),
+                        StringRepresentable.fromEnum(RoomEnemies::values).fieldOf("type").forGetter(Enemies::roomEnemies),
+                        Codec.INT.fieldOf("number_of_enemies").forGetter(Enemies::numberOfEnemies),
+                        Codec.INT.fieldOf("simultaneous_enemies").forGetter(Enemies::simultaneousEnemies),
                         TagKey.hashedCodec(Registries.ENTITY_TYPE).optionalFieldOf("regular_enemies").forGetter(o -> Optional.ofNullable(o.regularEnemies)),
                         TagKey.hashedCodec(Registries.ENTITY_TYPE).optionalFieldOf("strong_enemies").forGetter(o -> Optional.ofNullable(o.strongEnemies))
                 ).apply(instance, Enemies::new)
         );
 
         @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-        public Enemies(Optional<RoomEnemies> roomEnemies, Optional<Integer> numberOfEnemies, Optional<Integer> simultaneousEnemies, Optional<TagKey<EntityType<?>>> regularEnemies, Optional<TagKey<EntityType<?>>> strongEnemies) {
-            this(roomEnemies.orElse(RoomEnemies.NONE), numberOfEnemies.orElse(0), simultaneousEnemies.orElse(0), regularEnemies.orElse(null), strongEnemies.orElse(null));
+        public Enemies(RoomEnemies roomEnemies, int numberOfEnemies, int simultaneousEnemies, Optional<TagKey<EntityType<?>>> regularEnemies, Optional<TagKey<EntityType<?>>> strongEnemies) {
+            this(roomEnemies, numberOfEnemies, simultaneousEnemies, regularEnemies.orElse(null), strongEnemies.orElse(null));
+        }
+
+        public Enemies(RoomEnemies roomEnemies, int numberOfEnemies, int simultaneousEnemies) {
+            this(roomEnemies, numberOfEnemies, simultaneousEnemies, (TagKey<EntityType<?>>) null, null);
         }
     }
 }
