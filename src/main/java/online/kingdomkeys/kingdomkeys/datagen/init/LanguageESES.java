@@ -1105,6 +1105,7 @@ public class LanguageESES extends KKLanguageProvider {
         addItem(ModItems.winnerStick, "Palito de ganador");
         addItem(ModItems.synthesisBag, "Bolsa de Síntesis");
         addItem(ModItems.magicsBag, "Bolsa de Hechizos");
+        addItem(ModItems.cardsBag, "Bolsa de Cartas");
         addItem(ModItems.proofOfHeart, "Prueba de Corazón");
         addItem(ModItems.wayfinder, "Siemprejuntos");
         addItem(ModItems.trainingDummy, "Espantapájaros de entrenamiento");

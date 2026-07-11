@@ -2077,6 +2077,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.winnerStick, "Winner Stick");
         addItem(ModItems.synthesisBag, "Synthesis Bag");
         addItem(ModItems.magicsBag, "Spells Bag");
+        addItem(ModItems.cardsBag, "Cards Bag");
         addItem(ModItems.proofOfHeart, "Proof of Heart");
         addItem(ModItems.wayfinder, "Wayfinder");
         addItem(ModItems.trainingDummy, "Training Scarecrow");

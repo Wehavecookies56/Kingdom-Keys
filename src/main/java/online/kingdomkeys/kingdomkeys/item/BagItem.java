@@ -47,8 +47,8 @@ public class BagItem extends Item implements IItemCategory {
 	public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
 		ItemStack bagStack = player.getItemInHand(hand);
 		if (!bagStack.has(ModComponents.BAG_LEVEL)) {
-			if(bagStack.getItem() == ModItems.cardsBag.get()) //Cards bag start on lvl 2 since it's too small and either way it's a placeholder
-				bagStack.set(ModComponents.BAG_LEVEL, 2);
+			if(bagStack.getItem() == ModItems.cardsBag.get()) //Cards bag start on lvl 1 since it's too small and either way it's a placeholder
+				bagStack.set(ModComponents.BAG_LEVEL, 1);
 			else
 				bagStack.set(ModComponents.BAG_LEVEL, 0);
 		}

@@ -1,3 +1,7 @@
+# 2.8.1b:
+## Fixed:
+* Cards bag and desert card not having a crafting recipe.
+
 # 2.8.1a:
 ## Added:
 * Desert Castle Oblivion floor, it's biome memory drops the same way but in the desert.
