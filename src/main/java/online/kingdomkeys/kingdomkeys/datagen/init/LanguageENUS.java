@@ -884,6 +884,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.jungleCard,"Jungle Card");
 
         addItem(ModItems.plainsMemory,"Plains Memory");
+        addItem(ModItems.desertMemory,"Desert Memory");
 
         //Materials
         addItem(ModItems.blazing_shard, "Blazing Shard");

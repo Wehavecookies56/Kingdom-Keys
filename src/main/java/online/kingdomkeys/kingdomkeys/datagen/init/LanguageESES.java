@@ -1291,6 +1291,8 @@ public class LanguageESES extends KKLanguageProvider {
         addItem(ModItems.jungleCard,"Carta de Jungla");
 
         addItem(ModItems.plainsMemory,"Evocación de Llanuras");
+        addItem(ModItems.desertMemory,"Evocación de Desierto");
+
 
         //Synthesis materials
         addItem(ModItems.blazing_shard, "Guijarro \u00edgneo");

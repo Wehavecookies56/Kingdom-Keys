@@ -1,3 +1,6 @@
+# 2.8.1c:
+## Fixed:
+* Desert memory not being localized.
 # 2.8.1b:
 ## Fixed:
 * Cards bag and desert card not having a crafting recipe.
