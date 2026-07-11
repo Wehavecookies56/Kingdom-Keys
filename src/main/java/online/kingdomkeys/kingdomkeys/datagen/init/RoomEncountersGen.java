@@ -7,22 +7,16 @@ import net.minecraft.world.item.ItemStack;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.datagen.builder.RoomEncounterBuilder;
-import online.kingdomkeys.kingdomkeys.datagen.builder.RoomStructureBuilder;
 import online.kingdomkeys.kingdomkeys.datagen.provider.BaseProvider;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.encounter.Encounter;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.encounter.RoomEncounter;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.encounter.WaveEncounter;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.encounter.WaveEncounter.Wave;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.RoomCategory;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.RoomSize;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.RoomStructure;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.modifiers.RoomModifier;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class RoomEncountersGen extends BaseProvider<RoomEncounterBuilder> {
 

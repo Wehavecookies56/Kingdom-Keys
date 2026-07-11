@@ -1,12 +1,24 @@
 package online.kingdomkeys.kingdomkeys.item.card;
 
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.ChatFormatting;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.level.Level;
 import online.kingdomkeys.kingdomkeys.item.ICreativeTab;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.floor.FloorType;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModFloorTypes;
 
 import java.util.List;
 import java.util.function.Supplier;
@@ -43,5 +55,19 @@ public class WorldCardItem extends Item implements ICreativeTab {
             tooltipComponents.add(Component.literal("DO NOT USE, NOT FUNCTIONAL YET").withStyle(ChatFormatting.RED));
         }
         super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
+    }
+
+    @Override
+    public InteractionResult useOn(UseOnContext context) {
+        return super.useOn(context);
+    }
+
+    public record WorldCard(ResourceLocation floorType) {
+        public static final Codec<WorldCard> CODEC = ResourceLocation.CODEC.xmap(WorldCard::new, WorldCard::floorType);
+        public static final StreamCodec<ByteBuf, WorldCard> STREAM_CODEC = ResourceLocation.STREAM_CODEC.map(WorldCard::new, WorldCard::floorType);
+
+        public FloorType getFloorType() {
+            return ModFloorTypes.registry.get().getValue(floorType);
+        }
     }
 }

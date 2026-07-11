@@ -17,8 +17,11 @@ import net.minecraft.world.level.block.Blocks;
 import net.neoforged.neoforge.common.Tags;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
+import online.kingdomkeys.kingdomkeys.item.ModComponents;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
+import online.kingdomkeys.kingdomkeys.item.card.WorldCardItem;
 import online.kingdomkeys.kingdomkeys.lib.ModTags;
+import online.kingdomkeys.kingdomkeys.util.KKResourceLocation;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.util.List;
@@ -40,6 +43,12 @@ public class Recipes extends RecipeProvider {
         this.dataGenerator = dataGenerator;
     }
 
+	private ItemStack createWorldCard(Item item, String floorType) {
+		ItemStack out = new ItemStack(item);
+		out.set(ModComponents.WORLD_CARD, new WorldCardItem.WorldCard(KKResourceLocation.of(floorType)));
+		return out;
+	}
+
 	@Override
 	protected void buildRecipes(RecipeOutput consumer, HolderLookup.Provider holderLookup) {
 		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.emptyCard.get())
@@ -52,13 +61,13 @@ public class Recipes extends RecipeProvider {
 				.unlockedBy("empty_card", InventoryChangeTrigger.TriggerInstance.hasItems(Items.ENDER_EYE))
 				.save(consumer);
 
-		ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.plainsCard.get())
+		ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, createWorldCard(ModItems.plainsCard.get(), "plains"))
 				.requires(ModItems.emptyCard.get())
 				.requires(ModItems.plainsMemory.get())
 				.unlockedBy("plains_card", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.plainsMemory.get()))
 				.save(consumer);
 
-		ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.desertCard.get())
+		ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, createWorldCard(ModItems.desertCard.get(), "desert"))
 				.requires(ModItems.emptyCard.get())
 				.requires(ModItems.desertMemory.get())
 				.unlockedBy("desert_card", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.desertMemory.get()))

@@ -119,7 +119,7 @@ public class Floor {
         return false;
     }
 
-    public void setWorldCard(WorldCardItem card) {
+    public void setWorldCard(WorldCardItem.WorldCard card) {
         type = card.getFloorType();
         generateLayout();
     }

@@ -10,6 +10,7 @@ import net.minecraft.world.item.component.ItemContainerContents;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.item.card.WorldCardItem;
 import online.kingdomkeys.kingdomkeys.lib.GummiStructure;
 
 import java.util.UUID;
@@ -43,4 +44,5 @@ public class ModComponents {
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> GUMMI_FUEL = COMPONENTS.registerComponentType("gummi_fuel", builder -> builder.persistent(Codec.INT).networkSynchronized(ByteBufCodecs.INT).cacheEncoding());
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<String>> BLUEPRINT_NAME = COMPONENTS.registerComponentType("blueprint_name", builder -> builder.persistent(Codec.STRING).networkSynchronized(ByteBufCodecs.STRING_UTF8).cacheEncoding());
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> MAGIC_EXP = COMPONENTS.registerComponentType("magic_exp", builder -> builder.persistent(Codec.INT).networkSynchronized(ByteBufCodecs.INT).cacheEncoding());
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<WorldCardItem.WorldCard>> WORLD_CARD = COMPONENTS.registerComponentType("world_card", builder -> builder.persistent(WorldCardItem.WorldCard.CODEC).networkSynchronized(WorldCardItem.WorldCard.STREAM_CODEC).cacheEncoding());
 }
