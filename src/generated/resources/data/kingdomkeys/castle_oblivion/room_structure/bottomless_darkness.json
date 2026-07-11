@@ -1,11 +1,14 @@
 {
-  "structure": "bottomless_darkness",
-  "size": "L",
-  "dimensions": [ 64, 64 ],
   "categories": [
     "ENEMY"
   ],
+  "dimensions": [
+    64,
+    64
+  ],
   "floor_specific_structure": false,
+  "size": "L",
+  "structure": "bottomless_darkness",
   "white_list": [
     "kingdomkeys:bottomless_darkness"
   ]

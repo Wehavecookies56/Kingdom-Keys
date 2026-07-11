@@ -53,6 +53,12 @@ public class WaveEncounter implements Encounter {
         this.shuffleWaveOrder = shuffleWaveOrder.orElse(false);
     }
 
+    public WaveEncounter(List<Wave> waves, int intervalTicks, boolean shuffleWaveOrder) {
+        this.waves = waves;
+        this.intervalTicks = intervalTicks;
+        this.shuffleWaveOrder = shuffleWaveOrder;
+    }
+
     public boolean shuffleWaveOrder() {
         return shuffleWaveOrder;
     }
@@ -185,7 +191,7 @@ public class WaveEncounter implements Encounter {
 
     }
 
-    record Wave(List<Holder<EntityType<?>>> spawns, List<RoomModifier> modifiers) {
+    public record Wave(List<Holder<EntityType<?>>> spawns, List<RoomModifier> modifiers) {
         public static final Codec<Wave> CODEC = RecordCodecBuilder.create(instance ->
             instance.group(
                 BuiltInRegistries.ENTITY_TYPE.holderByNameCodec().listOf().fieldOf("spawns").forGetter(Wave::spawns),
@@ -197,6 +203,10 @@ public class WaveEncounter implements Encounter {
         @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
         public Wave(List<Holder<EntityType<?>>> spawns, Optional<List<RoomModifier>> modifiers) {
             this(spawns, modifiers.orElse(new ArrayList<>()));
+        }
+
+        public Wave(List<Holder<EntityType<?>>> spawns, RoomModifier... modifiers) {
+            this(spawns, Arrays.stream(modifiers).toList());
         }
 
         public int size() {

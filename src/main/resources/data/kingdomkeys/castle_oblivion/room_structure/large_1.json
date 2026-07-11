@@ -1,8 +1,0 @@
-{
-  "structure": "large_1",
-  "size": "L",
-  "dimensions": [ 64, 64 ],
-  "categories": [
-    "ENEMY", "STATUS", "BOUNTY"
-  ]
-}

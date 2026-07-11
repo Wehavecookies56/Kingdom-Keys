@@ -57,6 +57,8 @@ public class DataGeneration {
         generator.addProvider(event.includeClient(), new BannerPatterns(generator, event.getLookupProvider(), existingFileHelper));
         generator.addProvider(event.includeServer(), new FloorTypesGen(generator));
         generator.addProvider(event.includeServer(), new RoomTypesGen(generator));
+        generator.addProvider(event.includeServer(), new RoomStructuresGen(generator));
+        generator.addProvider(event.includeServer(), new RoomEncountersGen(generator));
         
        // generator.addProvider(event.includeServer(), new DatapackBuiltinEntriesProvider(output, event.getLookupProvider(), BUILDER, Set.of(KingdomKeys.MODID)));
 

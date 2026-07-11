@@ -8,11 +8,13 @@
   "modifiers": [
     {
       "type": "kingdomkeys:effect",
+      "amplifier": 0,
       "effect": "minecraft:slow_falling",
       "target": "BOTH"
     },
     {
       "type": "kingdomkeys:effect",
+      "amplifier": 3,
       "effect": "minecraft:jump_boost",
       "target": "BOTH"
     }

@@ -30,9 +30,6 @@ public class RoomStructure extends JsonRegistryObject {
     //fallback room will not be generated when searching for compatible structures
     private final boolean fallback;
 
-    @Nullable String entranceDoor;
-    @Nullable String exitDoor;
-
     public static final Codec<RoomStructure> CODEC = RecordCodecBuilder.create(roomStructureInstance ->
         roomStructureInstance.group(
                 Codec.STRING.fieldOf("structure").forGetter(RoomStructure::getPath),
@@ -41,22 +38,18 @@ public class RoomStructure extends JsonRegistryObject {
                 Codec.BOOL.optionalFieldOf("floor_specific_structure").forGetter(o -> Optional.of(o.floorSpecificStructure)),
                 RoomDimensions.CODEC.fieldOf("dimensions").forGetter(RoomStructure::getDimensions),
                 ResourceLocation.CODEC.listOf().optionalFieldOf("white_list").forGetter(o -> Optional.ofNullable(o.roomWhitelist)),
-                Codec.STRING.optionalFieldOf("entrance_door").forGetter(o -> Optional.ofNullable(o.entranceDoor)),
-                Codec.STRING.optionalFieldOf("exit_door").forGetter(o -> Optional.ofNullable(o.exitDoor)),
                 Codec.BOOL.optionalFieldOf("fallback").forGetter(o -> Optional.of(o.fallback))
                 ).apply(roomStructureInstance, RoomStructure::new)
     );
 
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-    private RoomStructure(String path, RoomSize size, List<RoomCategory> categories, Optional<Boolean> floorSpecificStructure, RoomDimensions dimensions, Optional<List<ResourceLocation>> roomWhitelist, Optional<String> entranceDoor, Optional<String> exitDoor, Optional<Boolean> fallback) {
+    private RoomStructure(String path, RoomSize size, List<RoomCategory> categories, Optional<Boolean> floorSpecificStructure, RoomDimensions dimensions, Optional<List<ResourceLocation>> roomWhitelist, Optional<Boolean> fallback) {
         this.path = path;
         this.size = size;
         this.categories = categories;
         this.floorSpecificStructure = floorSpecificStructure.orElse(true);
         this.dimensions = dimensions;
         this.roomWhitelist = roomWhitelist.orElse(new ArrayList<>());
-        this.entranceDoor = entranceDoor.orElse(null);
-        this.exitDoor = exitDoor.orElse(null);
         this.fallback = fallback.orElse(false);
     }
 
@@ -103,11 +96,8 @@ public class RoomStructure extends JsonRegistryObject {
         return categories;
     }
 
-    public Optional<String> getEntranceDoor() {
-        return Optional.ofNullable(entranceDoor);
-    }
+    public static final RoomDimensions S = new RoomDimensions(32, 32);
+    public static final RoomDimensions M = new RoomDimensions(48, 48);
+    public static final RoomDimensions L = new RoomDimensions(64, 64);
 
-    public Optional<String> getExitDoor() {
-        return Optional.ofNullable(exitDoor);
-    }
 }

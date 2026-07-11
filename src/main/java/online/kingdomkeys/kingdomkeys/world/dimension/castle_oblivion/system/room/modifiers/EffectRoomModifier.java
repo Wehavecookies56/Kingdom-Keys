@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.modifiers;
 
+import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.Holder;
@@ -13,11 +14,14 @@ import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.reg
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.Room;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Optional;
+
 public class EffectRoomModifier implements RoomModifier {
 
     Holder<MobEffect> effect;
 
     EffectType effectType;
+    int amplifier;
 
     public enum EffectType implements StringRepresentable {
         PLAYER("PLAYER"), MOB("MOB"), BOTH("BOTH");
@@ -37,13 +41,22 @@ public class EffectRoomModifier implements RoomModifier {
     public static final MapCodec<EffectRoomModifier> CODEC = RecordCodecBuilder.mapCodec(instance ->
             instance.group(
                     BuiltInRegistries.MOB_EFFECT.holderByNameCodec().fieldOf("effect").forGetter(EffectRoomModifier::getEffect),
-                    StringRepresentable.fromEnum(EffectType::values).fieldOf("target").forGetter(EffectRoomModifier::getEffectType)
+                    StringRepresentable.fromEnum(EffectType::values).fieldOf("target").forGetter(EffectRoomModifier::getEffectType),
+                    Codec.INT.optionalFieldOf("amplifier").forGetter(o -> Optional.of(o.amplifier))
             ).apply(instance, EffectRoomModifier::new)
     );
 
-    public EffectRoomModifier(Holder<MobEffect> effect, EffectType effectType) {
+    @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
+    private EffectRoomModifier(Holder<MobEffect> effect, EffectType effectType, Optional<Integer> amplifier) {
         this.effect = effect;
         this.effectType = effectType;
+        this.amplifier = amplifier.orElse(0);
+    }
+
+    public EffectRoomModifier(Holder<MobEffect> effect, EffectType effectType, int amplifier) {
+        this.effect = effect;
+        this.effectType = effectType;
+        this.amplifier = amplifier;
     }
 
     private Holder<MobEffect> getEffect() {
@@ -57,7 +70,7 @@ public class EffectRoomModifier implements RoomModifier {
     @Override
     public void onEnter(Room room, Player player) {
         if (effectType != EffectType.MOB) {
-            player.addEffect(new MobEffectInstance(effect, -1, 0, false, true, true));
+            player.addEffect(new MobEffectInstance(effect, -1, amplifier, false, true, true));
         }
     }
 
@@ -71,7 +84,7 @@ public class EffectRoomModifier implements RoomModifier {
     @Override
     public void onSpawn(Room room, LivingEntity spawned) {
         if (effectType != EffectType.PLAYER) {
-            spawned.addEffect(new MobEffectInstance(effect, -1, 0, false, true, true));
+            spawned.addEffect(new MobEffectInstance(effect, -1, amplifier, false, true, true));
         }
     }
 

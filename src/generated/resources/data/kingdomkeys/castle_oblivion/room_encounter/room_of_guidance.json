@@ -1,0 +1,40 @@
+{
+  "encounter": {
+    "type": "kingdomkeys:wave",
+    "interval_ticks": 100,
+    "shuffle_order": false,
+    "waves": [
+      {
+        "modifiers": [],
+        "spawns": [
+          "kingdomkeys:shadow",
+          "kingdomkeys:large_body",
+          "kingdomkeys:shadow"
+        ]
+      },
+      {
+        "modifiers": [],
+        "spawns": [
+          "kingdomkeys:soldier",
+          "kingdomkeys:soldier"
+        ]
+      },
+      {
+        "modifiers": [],
+        "spawns": [
+          "kingdomkeys:red_nocturne",
+          "kingdomkeys:dire_plant",
+          "kingdomkeys:dire_plant",
+          "kingdomkeys:dire_plant"
+        ]
+      }
+    ]
+  },
+  "music": "kingdomkeys:music/forgotten_challenge",
+  "rewards": [
+    {
+      "count": 1,
+      "id": "kingdomkeys:key_to_truth"
+    }
+  ]
+}

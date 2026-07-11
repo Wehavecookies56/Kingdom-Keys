@@ -4,6 +4,7 @@
   "modifiers": [
     {
       "type": "kingdomkeys:effect",
+      "amplifier": 0,
       "effect": "minecraft:water_breathing",
       "target": "BOTH"
     }

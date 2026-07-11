@@ -40,7 +40,7 @@ public class RoomTypesGen extends BaseProvider<RoomTypeBuilder> {
                 .modifiers(new LevelModifier(List.of(new Operation(2, Operator.ADD))));
         createRoomType(Strings.BottomlessDarkness, RoomSize.L, RoomCategory.ENEMY)
                 .enemies(new Enemies(RoomEnemies.L, 13, 6, ModTags.CO_BOTTOMLESS_DARKNESS, null))
-                .modifiers(new EffectRoomModifier(MobEffects.DARKNESS, EffectType.PLAYER))
+                .modifiers(new EffectRoomModifier(MobEffects.DARKNESS, EffectType.PLAYER, 0))
                 .fixedRoom(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, Strings.BottomlessDarkness))
                 .colour(Color.BLACK);
         createRoomType(Strings.CalmBounty, RoomSize.S, RoomCategory.BOUNTY);
@@ -59,10 +59,10 @@ public class RoomTypesGen extends BaseProvider<RoomTypeBuilder> {
                 .enemies(new Enemies(RoomEnemies.M, 7, 3));
         createRoomType(Strings.LoomingDarkness, RoomSize.L, RoomCategory.ENEMY)
                 .enemies(new Enemies(RoomEnemies.M, 10, 4))
-                .modifiers(new EffectRoomModifier(MobEffects.MOVEMENT_SPEED, EffectType.MOB));
+                .modifiers(new EffectRoomModifier(MobEffects.MOVEMENT_SPEED, EffectType.MOB, 0));
         createRoomType(Strings.MartialWaking, RoomSize.M, RoomCategory.STATUS)
                 .enemies(new Enemies(RoomEnemies.M, 8, 3))
-                .modifiers(new EffectRoomModifier(MobEffects.DAMAGE_BOOST, EffectType.PLAYER));
+                .modifiers(new EffectRoomModifier(MobEffects.DAMAGE_BOOST, EffectType.PLAYER, 1));
         createRoomType(Strings.MomentsReprieve, RoomSize.S, RoomCategory.BOUNTY)
                 .fixedRoom(KKResourceLocation.of(Strings.MomentsReprieve));
         CompoundTag moogleData = new CompoundTag();
@@ -86,7 +86,7 @@ public class RoomTypesGen extends BaseProvider<RoomTypeBuilder> {
                 .enemies(new Enemies(RoomEnemies.M, 8, 3));
         createRoomType(Strings.StagnantSpace, RoomSize.M, RoomCategory.STATUS)
                 .enemies(new Enemies(RoomEnemies.S, 5, 3))
-                .modifiers(new EffectRoomModifier(MobEffects.MOVEMENT_SLOWDOWN, EffectRoomModifier.EffectType.MOB));
+                .modifiers(new EffectRoomModifier(MobEffects.MOVEMENT_SLOWDOWN, EffectRoomModifier.EffectType.MOB, 0));
         createRoomType(Strings.TeemingDarkness, RoomSize.L, RoomCategory.ENEMY)
                 .enemies(new Enemies(RoomEnemies.L, 16, 6));
         createRoomType(Strings.TranquilDarkness, RoomSize.M, RoomCategory.ENEMY)
@@ -97,7 +97,7 @@ public class RoomTypesGen extends BaseProvider<RoomTypeBuilder> {
                 .enemies(new Enemies(RoomEnemies.S, 4, 2));
         createRoomType(Strings.WeightlessSpace, RoomSize.M, RoomCategory.STATUS)
                 .enemies(new Enemies(RoomEnemies.S, 5, 3))
-                .modifiers(new EffectRoomModifier(MobEffects.SLOW_FALLING, EffectType.BOTH), new EffectRoomModifier(MobEffects.JUMP, EffectType.BOTH));
+                .modifiers(new EffectRoomModifier(MobEffects.SLOW_FALLING, EffectType.BOTH, 0), new EffectRoomModifier(MobEffects.JUMP, EffectType.BOTH, 3));
     }
 
     @Override

@@ -11,6 +11,7 @@
   "modifiers": [
     {
       "type": "kingdomkeys:effect",
+      "amplifier": 0,
       "effect": "minecraft:darkness",
       "target": "PLAYER"
     }

@@ -1,10 +1,13 @@
 {
-  "structure": "moments_reprieve",
-  "size": "S",
-  "dimensions": [ 32, 32 ],
   "categories": [
     "BOUNTY"
   ],
+  "dimensions": [
+    32,
+    32
+  ],
+  "size": "S",
+  "structure": "moments_reprieve",
   "white_list": [
     "kingdomkeys:moments_reprieve"
   ]

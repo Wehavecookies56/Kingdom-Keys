@@ -1,0 +1,11 @@
+{
+  "categories": [
+    "ENCOUNTER"
+  ],
+  "dimensions": [
+    24,
+    24
+  ],
+  "size": "S",
+  "structure": "encounter"
+}

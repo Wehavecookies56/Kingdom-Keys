@@ -23,7 +23,7 @@ public class FloorTypesGen extends BaseProvider<FloorTypeBuilder> {
         createFloorType("none", 0, ResourceKey.create(Registries.BIOME, KKResourceLocation.of("castle_oblivion")));
         createFloorType("plains", 7, Biomes.PLAINS).music(SoundEvents.MUSIC_GAME.value());
         createFloorType("desert", 7, Biomes.DESERT).music(SoundEvents.MUSIC_BIOME_DESERT.value());
-        createFloorType("ocean", 7, Biomes.OCEAN).music(SoundEvents.MUSIC_UNDER_WATER.value()).modifiers(new EffectRoomModifier(MobEffects.WATER_BREATHING, EffectRoomModifier.EffectType.BOTH));
+        createFloorType("ocean", 7, Biomes.OCEAN).music(SoundEvents.MUSIC_UNDER_WATER.value()).modifiers(new EffectRoomModifier(MobEffects.WATER_BREATHING, EffectRoomModifier.EffectType.BOTH, 0));
         createFloorType("the_nether", 7, Biomes.NETHER_WASTES).music(SoundEvents.MUSIC_BIOME_NETHER_WASTES.value()).useFogColour();
     }
 

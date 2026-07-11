@@ -1,0 +1,13 @@
+{
+  "categories": [
+    "ENEMY",
+    "STATUS",
+    "BOUNTY"
+  ],
+  "dimensions": [
+    64,
+    64
+  ],
+  "size": "L",
+  "structure": "large_1"
+}

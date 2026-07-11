@@ -1,0 +1,55 @@
+{
+  "encounter": {
+    "type": "kingdomkeys:wave",
+    "interval_ticks": 100,
+    "shuffle_order": false,
+    "waves": [
+      {
+        "modifiers": [],
+        "spawns": [
+          "kingdomkeys:shadow",
+          "kingdomkeys:large_body",
+          "kingdomkeys:shadow",
+          "kingdomkeys:soldier"
+        ]
+      },
+      {
+        "modifiers": [],
+        "spawns": [
+          "kingdomkeys:soldier",
+          "kingdomkeys:darkball",
+          "kingdomkeys:green_requiem"
+        ]
+      },
+      {
+        "modifiers": [],
+        "spawns": [
+          "kingdomkeys:red_nocturne",
+          "kingdomkeys:blue_rhapsody",
+          "kingdomkeys:yellow_opera"
+        ]
+      },
+      {
+        "modifiers": [],
+        "spawns": [
+          "kingdomkeys:minute_bomb",
+          "kingdomkeys:minute_bomb",
+          "kingdomkeys:emerald_blues"
+        ]
+      },
+      {
+        "modifiers": [],
+        "spawns": [
+          "kingdomkeys:large_body",
+          "kingdomkeys:large_body",
+          "kingdomkeys:shadow",
+          "kingdomkeys:shadow",
+          "kingdomkeys:shadow",
+          "kingdomkeys:green_requiem"
+        ]
+      }
+    ]
+  },
+  "music": "kingdomkeys:music/forgotten_challenge",
+  "rewards": []
+}
