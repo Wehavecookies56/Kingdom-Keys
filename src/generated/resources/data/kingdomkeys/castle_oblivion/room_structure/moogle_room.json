@@ -2,10 +2,6 @@
   "categories": [
     "BOUNTY"
   ],
-  "dimensions": [
-    32,
-    32
-  ],
   "size": "S",
   "structure": "moogle_room",
   "white_list": [

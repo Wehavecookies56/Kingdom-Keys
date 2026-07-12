@@ -28,6 +28,10 @@ public class CastleOblivionData {
     public static class InteriorData extends SavedData {
 
         List<Floor> floors = new ArrayList<>();
+        //Value to check whether data needs to be updated.
+        int dataVersion = 1;
+
+        public static final int STORE_STRUCTURE_DIMS = 1;
 
         private static InteriorData create() {
             return new InteriorData();
@@ -57,6 +61,19 @@ public class CastleOblivionData {
             clientCache = new HashMap<>();
         }
 
+        public int getDataVersion() {
+            return dataVersion;
+        }
+
+        public boolean needsUpdate(int version) {
+            return dataVersion < version;
+        }
+
+        public void appliedUpdate(int version) {
+            this.dataVersion = version;
+            setDirty();
+        }
+
         public void sendToClient(Player player) {
             PacketHandler.sendTo(new SCSyncCastleOblivionInteriorData(this, player.level()), (ServerPlayer) player);
         }
@@ -64,6 +81,7 @@ public class CastleOblivionData {
         @Override
         public CompoundTag save(CompoundTag pTag, HolderLookup.Provider pRegistries) {
             CompoundTag tag = new CompoundTag();
+            tag.putInt("data_version", dataVersion);
             tag.putInt("floors_size", floors.size());
             for(int i = 0; i < floors.size(); i++) {
                 tag.put("floors_" + i, floors.get(i).serializeNBT());
@@ -73,6 +91,11 @@ public class CastleOblivionData {
 
         public static InteriorData load(CompoundTag tag, HolderLookup.Provider provider) {
             InteriorData data = InteriorData.create();
+            if (tag.contains("data_version")) {
+                data.dataVersion = tag.getInt("data_version");
+            } else {
+                data.dataVersion = 0;
+            }
             if (data.floors == null) {
                 data.floors = new ArrayList<>();
             }

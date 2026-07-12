@@ -181,7 +181,22 @@ public class CastleOblivionHandler {
     @SubscribeEvent
     public void joinWorld(PlayerEvent.PlayerLoggedInEvent event) {
         if (inInterior(event.getEntity())) {
-            PacketHandler.sendTo(new SCSyncCastleOblivionInteriorData(CastleOblivionData.InteriorData.get((ServerLevel) event.getEntity().level()).orElseThrow(), event.getEntity().level()), (ServerPlayer) event.getEntity());
+            CastleOblivionData.InteriorData interiorData = CastleOblivionData.InteriorData.get((ServerLevel) event.getEntity().level()).orElseThrow();
+            //backwards compatibility to store structure dimensions in room
+            if (interiorData.needsUpdate(CastleOblivionData.InteriorData.STORE_STRUCTURE_DIMS)) {
+                KingdomKeys.LOGGER.info("Updating outdated data");
+                interiorData.getFloors().forEach(floor -> {
+                    floor.getRooms().forEach(roomData -> {
+                        roomData.getGenerated().ifPresent(room -> {
+                            if (room.getDimensions().isEmpty()) {
+                                room.readDimensionsFromStructure((ServerLevel) event.getEntity().level());
+                            }
+                        });
+                    });
+                });
+                interiorData.appliedUpdate(CastleOblivionData.InteriorData.STORE_STRUCTURE_DIMS);
+            }
+            interiorData.sendToClient(event.getEntity());
         }
     }
 

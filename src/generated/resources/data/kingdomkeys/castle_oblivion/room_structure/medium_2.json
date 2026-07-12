@@ -4,10 +4,6 @@
     "STATUS",
     "BOUNTY"
   ],
-  "dimensions": [
-    48,
-    48
-  ],
   "size": "M",
   "structure": "medium_2"
 }

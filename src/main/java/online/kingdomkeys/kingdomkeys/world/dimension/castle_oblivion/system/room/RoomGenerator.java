@@ -69,22 +69,17 @@ public class RoomGenerator {
             Floor currentFloor = interiorData.getFloorByID(newRoom.parentFloor);
             BlockPos pos = newRoom.position;
             KingdomKeys.LOGGER.debug("Finding compatible structures for {}", newRoom.getType());
-            if (newRoom.getType() == ModRoomTypes.CONQUERORS_RESPITE.get()) {
-                KingdomKeys.LOGGER.debug("CR TRY");
-            }
-            List<RoomStructure> possibleRooms = ModRoomStructures.getCompatibleStructures(currentFloor.getType(), newRoom.type);
+            List<RoomStructure> possibleRooms = ModRoomStructures.getCompatibleStructures(level, currentFloor.getType(), newRoom.type);
             if (possibleRooms.isEmpty()) {
                 KingdomKeys.LOGGER.warn("No compatible room structure files found for {}, using fallback room", newRoom.type.getRegistryName());
                 possibleRooms = ModRoomStructures.getFallbacks();
             }
             RoomStructure structureToGenerate = possibleRooms.get(Utils.randomWithRange(0, possibleRooms.size()-1));
             KingdomKeys.LOGGER.debug("Found {} compatible structures, {} selected", possibleRooms.size(), structureToGenerate.getRegistryName());
-            String floorFolder = !structureToGenerate.useFloorSpecificStructure() ? "all" : currentFloor.getType().getRegistryName().getPath();
-            ResourceLocation structureFile = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "structure/castle_oblivion/rooms/" + floorFolder + "/" + structureToGenerate.getPath() + ".nbt");
-            Resource resource = level.getServer().getResourceManager().getResource(structureFile).orElseThrow(IOException::new);
-            KingdomKeys.LOGGER.debug("Generating structure file {}", structureFile);
+            Resource resource = structureToGenerate.getStructureFile(level, currentFloor.getType()).orElseThrow(IOException::new);
+            KingdomKeys.LOGGER.debug("Generating structure file {}:{}/{}.nbt", currentFloor.getType().getRegistryName().getNamespace(), structureToGenerate.useFloorSpecificStructure() ? currentFloor.getType().getRegistryName().getPath() : "all", structureToGenerate.getPath());
             CompoundTag main = NbtIo.readCompressed(resource.open(), NbtAccounter.unlimitedHeap());
-            newRoom.setStructure(structureToGenerate);
+            newRoom.setStructure(level, structureToGenerate);
 
             ListTag size = main.getList("size", Tag.TAG_INT);
             ListTag palette = main.getList("palette", Tag.TAG_COMPOUND);

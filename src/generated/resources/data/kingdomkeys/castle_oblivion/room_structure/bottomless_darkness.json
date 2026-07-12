@@ -2,10 +2,6 @@
   "categories": [
     "ENEMY"
   ],
-  "dimensions": [
-    64,
-    64
-  ],
   "floor_specific_structure": false,
   "size": "L",
   "structure": "bottomless_darkness",

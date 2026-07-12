@@ -1,12 +1,15 @@
 package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry;
 
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.packs.resources.Resource;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.floor.FloorType;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.RoomStructure;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.RoomType;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Supplier;
 
 public class ModRoomStructures {
@@ -37,14 +40,14 @@ public class ModRoomStructures {
 
 
 
-    public static List<RoomStructure> getCompatibleStructures(FloorType floor, RoomType room) {
+    public static List<RoomStructure> getCompatibleStructures(ServerLevel level, FloorType floor, RoomType room) {
         if (room.getFixedRoom().isPresent()) {
             return List.of(room.getFixedRoom().get());
         } else {
             for (RoomStructure rs : registry.get().getValues()) {
-                KingdomKeys.LOGGER.debug("{}: compatible? {}", rs.registryName, isStructureCompatible(floor, rs, room));
+                KingdomKeys.LOGGER.debug("{}: compatible? {}", rs.registryName, isStructureCompatible(level, floor, rs, room));
             }
-            return registry.get().getValues().stream().filter(s -> isStructureCompatible(floor, s, room) && !s.isFallback()).toList();
+            return registry.get().getValues().stream().filter(s -> isStructureCompatible(level, floor, s, room) && !s.isFallback()).toList();
         }
     }
 
@@ -52,13 +55,25 @@ public class ModRoomStructures {
         return registry.get().getValues().stream().filter(RoomStructure::isFallback).toList();
     }
 
-    public static boolean isStructureCompatible(FloorType floor, RoomStructure structure, RoomType type) {
+    public static boolean isStructureCompatible(ServerLevel level, FloorType floor, RoomStructure structure, RoomType type) {
         if (structure.isFallback()) {
             return false;
         }
         if (!ModFloorTypes.isFloorCompatible(floor, type)) {
             KingdomKeys.LOGGER.debug("Floor was not compatible");
             return false;
+        }
+        Optional<Resource> structureFile = structure.getStructureFile(level, floor);
+        if (structureFile.isEmpty()) {
+            return false;
+        }
+        if (structure.getDimensionsCache().isPresent()) {
+            RoomStructure.RoomDimensions dimensions = structure.getDimensionsCache().get();
+            //Max size is 126 as rooms are 128 blocks apart and walls need to fit so 126+2 would mean the rooms are touching
+            if (dimensions.width() > 126 || dimensions.depth() > 126) {
+                KingdomKeys.LOGGER.error("Structure exceeds maximum height/depth of 126 so it will never be generated");
+                return false;
+            }
         }
         if (structure.getRoomWhitelist().isEmpty()) {
             KingdomKeys.LOGGER.debug("Size {}, Category {}", type.getSize() == structure.getSize(), structure.getCategories().contains(type.getCategory()));

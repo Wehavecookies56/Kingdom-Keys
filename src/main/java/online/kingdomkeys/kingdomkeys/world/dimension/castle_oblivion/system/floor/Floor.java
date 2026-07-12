@@ -59,7 +59,7 @@ public class Floor {
             BlockPos northDoor = new BlockPos(16, 63, 67); //door to first room
             room.doors.put(RoomDirection.NORTH, new Room.Door(data.getDoor(RoomDirection.NORTH), northDoor));
             room.doors.put(RoomDirection.SOUTH, new Room.Door(data.getDoor(RoomDirection.SOUTH), southDoor));
-            room.setStructure(ModRoomStructures.ENTRANCE_HALL_1F.get());
+            room.setStructure(level, ModRoomStructures.ENTRANCE_HALL_1F.get());
             data.setGenerated(room);
             BlockState northState = ModBlocks.cardDoor.get().defaultBlockState().setValue(CardDoorBlock.FACING, Direction.NORTH).setValue(CardDoorBlock.GENERATED, true).setValue(CardDoorBlock.OPEN, false);
             BlockState southState = ModBlocks.cardDoor.get().defaultBlockState().setValue(CardDoorBlock.FACING, Direction.SOUTH).setValue(CardDoorBlock.GENERATED, true).setValue(CardDoorBlock.OPEN, true);
@@ -80,7 +80,7 @@ public class Floor {
             capability.setDirty();
             return floor;
         }
-        return capability.getFloors().get(0);
+        return capability.getFloors().getFirst();
     }
 
     public RoomData getExitRoom() {
@@ -95,23 +95,26 @@ public class Floor {
         return type != ModFloorTypes.NONE.get();
     }
 
+    //thought this would be useful but not sure if it really is as we don't use it so may remove
     public boolean inFloor(BlockPos pos) {
         if (!rooms.isEmpty()) {
             if (rooms.get(RoomPos.ZERO).getGenerated().isPresent()) {
                 Room entrance = rooms.get(RoomPos.ZERO).getGenerated().get();
-                int maxX = entrance.getPosition().getX() + entrance.getStructure().getWidth();
+                int maxX = entrance.getPosition().getX() + entrance.getWidth();
                 int minX = entrance.getPosition().getX();
-                int maxZ = entrance.getPosition().getZ() + entrance.getStructure().getDepth();
+                int maxZ = entrance.getPosition().getZ() + entrance.getDepth();
                 int minZ = entrance.getPosition().getZ();
                 for (Map.Entry<RoomPos, RoomData> roomData : rooms.entrySet()) {
-                    Room room = roomData.getValue().getGenerated().get();
-                    int roomWidth = room.getStructure().getWidth();
-                    int roomDepth = room.getStructure().getDepth();
-                    BlockPos roomPos = room.getPosition();
-                    minX = Math.min(minX, roomPos.getX());
-                    maxX = Math.max(maxX, roomPos.getX() + roomWidth);
-                    minZ = Math.min(minZ, roomPos.getZ());
-                    maxZ = Math.max(maxZ, roomPos.getZ() + roomDepth);
+                    Optional<Room> room = roomData.getValue().getGenerated();
+                    if (room.isPresent()) {
+                        int roomWidth = room.get().getWidth();
+                        int roomDepth = room.get().getDepth();
+                        BlockPos roomPos = room.get().getPosition();
+                        minX = Math.min(minX, roomPos.getX());
+                        maxX = Math.max(maxX, roomPos.getX() + roomWidth);
+                        minZ = Math.min(minZ, roomPos.getZ());
+                        maxZ = Math.max(maxZ, roomPos.getZ() + roomDepth);
+                    }
                 }
                 return pos.getX() >= minX && pos.getX() <= maxX && pos.getZ() >= minZ && pos.getZ() <= maxZ;
             }
@@ -129,7 +132,7 @@ public class Floor {
     }
 
     public BlockPos getEntranceHallPosition() {
-        return getRoom(RoomPos.ZERO).getGenerated().map(Room::getPosition).orElse(null);
+        return getEntranceHall().getGenerated().map(Room::getPosition).orElse(null);
     }
 
     public RoomData getEntranceHall() {
