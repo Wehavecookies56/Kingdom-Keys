@@ -1,0 +1,7 @@
+{
+  "structure": "example_room",
+  "size": "S",
+  "categories": [
+    "ENEMY", "STATUS", "BOUNTY"
+  ]
+}

@@ -94,6 +94,11 @@ public class RoomStructure extends JsonRegistryObject {
         String floorFolder = !this.useFloorSpecificStructure() ? "all" : floor.getRegistryName().getPath();
         ResourceLocation structureFile = ResourceLocation.fromNamespaceAndPath(floor.getRegistryName().getNamespace(), "structure/castle_oblivion/rooms/" + floorFolder + "/" + this.getPath() + ".nbt");
         Optional<Resource> out = level.getServer().getResourceManager().getResource(structureFile);
+        if (out.isEmpty() && !floor.getRegistryName().getNamespace().equals(KingdomKeys.MODID)) {
+            //try KK namespace as a fallback
+            structureFile = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "structure/castle_oblivion/rooms/" + floorFolder + "/" + this.getPath() + ".nbt");
+            out = level.getServer().getResourceManager().getResource(structureFile);
+        }
         if (out.isPresent()) {
             try {
                 CompoundTag main = NbtIo.readCompressed(out.get().open(), NbtAccounter.unlimitedHeap());
