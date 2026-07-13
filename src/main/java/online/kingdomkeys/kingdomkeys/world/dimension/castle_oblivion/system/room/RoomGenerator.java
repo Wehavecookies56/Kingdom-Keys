@@ -2,6 +2,7 @@ package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.ro
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.*;
 import net.minecraft.resources.ResourceLocation;
@@ -11,6 +12,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.StructureBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.entity.StructureBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.StructureMode;
@@ -175,6 +178,19 @@ public class RoomGenerator {
                     }
                 } else {
                     level.setBlock(blockpos, state, 2);
+                    //create block entity and load nbt
+                    if (block.contains("nbt")) {
+                        CompoundTag nbtData = block.getCompound("nbt");
+                        ResourceLocation blockEntityID = ResourceLocation.parse(nbtData.getString("id"));
+                        BlockEntityType<?> type = BuiltInRegistries.BLOCK_ENTITY_TYPE.get(blockEntityID);
+                        if (type != null) {
+                            BlockEntity blockEntity = type.create(blockpos, state);
+                            if (blockEntity != null) {
+                                blockEntity.loadCustomOnly(nbtData, level.registryAccess());
+                                level.setBlockEntity(blockEntity);
+                            }
+                        }
+                    }
                 }
             }
             Collections.shuffle(newRoom.spawnPoints);
