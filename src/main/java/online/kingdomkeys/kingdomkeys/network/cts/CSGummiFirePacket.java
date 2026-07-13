@@ -14,7 +14,7 @@ import online.kingdomkeys.kingdomkeys.network.Packet;
 
 public record CSGummiFirePacket(int entityID, boolean rightClick) implements Packet {
 
-	public static final Type<CSGummiFirePacket> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_gummi_fire"));
+	public static final Type<CSGummiFirePacket> TYPE = new Type<>(KingdomKeys.rl("cs_gummi_fire"));
 
 	public static final StreamCodec<FriendlyByteBuf, CSGummiFirePacket> STREAM_CODEC = StreamCodec.composite(
 			ByteBufCodecs.INT,

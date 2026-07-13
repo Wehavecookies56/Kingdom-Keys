@@ -12,7 +12,7 @@ import online.kingdomkeys.kingdomkeys.network.Packet;
 
 public record CSGiveUpKO() implements Packet {
 
-    public static final Type<CSGiveUpKO> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_give_up_ko"));
+    public static final Type<CSGiveUpKO> TYPE = new Type<>(KingdomKeys.rl("cs_give_up_ko"));
 
     public static final StreamCodec<FriendlyByteBuf, CSGiveUpKO> STREAM_CODEC = StreamCodec.of((pBuffer, pValue) -> {}, pBuffer -> new CSGiveUpKO());
 

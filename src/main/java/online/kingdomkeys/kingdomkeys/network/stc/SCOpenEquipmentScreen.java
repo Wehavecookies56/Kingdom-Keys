@@ -12,7 +12,7 @@ import online.kingdomkeys.kingdomkeys.network.Packet;
 
 public record SCOpenEquipmentScreen() implements Packet {
 
-    public static final Type<SCOpenEquipmentScreen> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "sc_open_equipment_screen"));
+    public static final Type<SCOpenEquipmentScreen> TYPE = new Type<>(KingdomKeys.rl("sc_open_equipment_screen"));
 
     public static final StreamCodec<FriendlyByteBuf, SCOpenEquipmentScreen> STREAM_CODEC = StreamCodec.of((pBuffer, pValue) -> {}, pBuffer -> new SCOpenEquipmentScreen());
 

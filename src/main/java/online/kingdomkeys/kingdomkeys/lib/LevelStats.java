@@ -19,15 +19,15 @@ public class LevelStats {
     		return;
     	}
     	
-    	Level levelData = ModLevels.registry.get(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, cap.getChosen().toString().toLowerCase()));
+    	Level levelData = ModLevels.registry.get(KingdomKeys.rl(cap.getChosen().toString().toLowerCase()));
 
 		if (levelData == null) {
-			KingdomKeys.LOGGER.error("Failed to get level from registry location {}, this should never happen", ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, cap.getChosen().toString().toLowerCase()));
+			KingdomKeys.LOGGER.error("Failed to get level from registry location {}, this should never happen", KingdomKeys.rl(cap.getChosen().toString().toLowerCase()));
 			return;
 		}
 
 		if (levelData.getLevelingData() == null) {
-			KingdomKeys.LOGGER.error("Failed to get leveling data from registry location {}, this means the data was not loaded from the json correctly", ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, cap.getChosen().toString().toLowerCase()));
+			KingdomKeys.LOGGER.error("Failed to get leveling data from registry location {}, this means the data was not loaded from the json correctly", KingdomKeys.rl(cap.getChosen().toString().toLowerCase()));
 			return;
 		}
 
@@ -55,18 +55,18 @@ public class LevelStats {
 			cap.addMaxMP(levelData.getMaxMp(level));
 		}
 
-        for (String ability : levelData.getAbilities(level)) {
+        for (ResourceLocation ability : levelData.getAbilities(level)) {
             if (ability != null) {
-                Ability a = ModAbilities.registry.get(ResourceLocation.parse(ability));
+                Ability a = ModAbilities.registry.get(ability);
                 if (a != null) {
                     cap.addAbility(ability, true);
                 }
             }
         }
 
-        for (String shotlock : levelData.getShotlocks(level)) {
+        for (ResourceLocation shotlock : levelData.getShotlocks(level)) {
             if (shotlock != null) {
-                Shotlock a = ModShotlocks.registry.get(ResourceLocation.parse(shotlock));
+                Shotlock a = ModShotlocks.registry.get(shotlock);
                 if (a != null) {
                     cap.addShotlockToList(shotlock, true);
                 }

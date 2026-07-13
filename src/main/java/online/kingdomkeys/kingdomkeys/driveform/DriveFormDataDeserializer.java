@@ -1,6 +1,7 @@
 package online.kingdomkeys.kingdomkeys.driveform;
 
 import com.google.gson.*;
+import net.minecraft.resources.ResourceLocation;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -46,7 +47,7 @@ public class DriveFormDataDeserializer implements JsonDeserializer<DriveFormData
 				break;
 			case "level_up":
 				JsonArray costs = element.getAsJsonArray();
-				List<Integer> levelsArray = new ArrayList<Integer>();
+				List<Integer> levelsArray = new ArrayList<>();
 				
 				for(int i= 0; i < costs.size(); i++) {
 					levelsArray.add(costs.get(i).getAsInt());
@@ -55,30 +56,30 @@ public class DriveFormDataDeserializer implements JsonDeserializer<DriveFormData
 				break;
 			case "abilities":
 				JsonArray abilities = element.getAsJsonArray();
-				List<String> abilitiesArray = new ArrayList<String>();
+				List<ResourceLocation> abilitiesArray = new ArrayList<>();
 				
 				for(int i= 0; i < abilities.size(); i++) {
-					abilitiesArray.add(abilities.get(i).getAsString());
+					abilitiesArray.add(ResourceLocation.parse(abilities.get(i).getAsString()));
 				}
 				out.setAbilities(abilitiesArray);
 				break;
 				
 			case "base_levelup_abilities":
 				JsonArray baseAbilities = element.getAsJsonArray();
-				List<String> baseAbilitiesArray = new ArrayList<String>();
+				List<ResourceLocation> baseAbilitiesArray = new ArrayList<>();
 				
 				for(int i= 0; i < baseAbilities.size(); i++) {
-					baseAbilitiesArray.add(baseAbilities.get(i).getAsString());
+					baseAbilitiesArray.add(ResourceLocation.parse(baseAbilities.get(i).getAsString()));
 				}
 				out.setBaseLevelUpAbilities(baseAbilitiesArray);
 				break;
 				
 			case "driveform_levelup_abilities":
 				JsonArray dfAbilities = element.getAsJsonArray();
-				List<String> dfAbilitiesArray = new ArrayList<String>();
+				List<ResourceLocation> dfAbilitiesArray = new ArrayList<>();
 				
 				for(int i= 0; i < dfAbilities.size(); i++) {
-					dfAbilitiesArray.add(dfAbilities.get(i).getAsString());
+					dfAbilitiesArray.add(ResourceLocation.parse(dfAbilities.get(i).getAsString()));
 				}
 				out.setDFLevelUpAbilities(dfAbilitiesArray);
 				break;

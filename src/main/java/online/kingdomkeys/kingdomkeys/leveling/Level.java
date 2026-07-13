@@ -2,8 +2,9 @@ package online.kingdomkeys.kingdomkeys.leveling;
 
 
 import net.minecraft.resources.ResourceLocation;
+import online.kingdomkeys.kingdomkeys.lib.KKRegistryObject;
 
-public class Level {
+public class Level implements KKRegistryObject {
 
 	ResourceLocation name;
 	int maxLevel;
@@ -51,15 +52,15 @@ public class Level {
 		return data.getMaxMp(level);
 	}
 
-	public String[] getAbilities(int level) {
+	public ResourceLocation[] getAbilities(int level) {
 		return data.getAbilities(level);
 	}
 
-	public String[] getShotlocks(int level) {
+	public ResourceLocation[] getShotlocks(int level) {
 		return data.getShotlocks(level);
 	}
 	
-	public String[] getSpells(int level) {
+	public ResourceLocation[] getSpells(int level) {
 		return data.getSpells(level);
 	}
 	
@@ -79,6 +80,7 @@ public class Level {
 		return data.getVersion();
 	}
 
+	@Override
 	public ResourceLocation getRegistryName() {
 		return name;
 	}

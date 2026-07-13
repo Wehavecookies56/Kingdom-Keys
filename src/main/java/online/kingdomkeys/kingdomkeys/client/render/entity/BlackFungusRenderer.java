@@ -15,7 +15,7 @@ public class BlackFungusRenderer<Type extends BlackFungusEntity> extends MobRend
 
 	public BlackFungusRenderer(EntityRendererProvider.Context context) {
         super(context, new WhiteMushroomModel<>(context.bakeLayer(WhiteMushroomModel.LAYER_LOCATION)), 0.5F);
-		this.addLayer(new HeartlessEyesLayerRenderer<>(this, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/mob/mushroom_eyes.png")));
+		this.addLayer(new HeartlessEyesLayerRenderer<>(this, KingdomKeys.rl("textures/entity/mob/mushroom_eyes.png")));
 	}
 
 	@Override
@@ -40,8 +40,8 @@ public class BlackFungusRenderer<Type extends BlackFungusEntity> extends MobRend
 	@Override
 	public ResourceLocation getTextureLocation(Type pEntity) {
 		if(pEntity.getState() == -4)
-			return ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/mob/black_fungus_stone.png");
-		return ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/mob/black_fungus.png");
+			return KingdomKeys.rl("textures/entity/mob/black_fungus_stone.png");
+		return KingdomKeys.rl("textures/entity/mob/black_fungus.png");
 	}
 
 }

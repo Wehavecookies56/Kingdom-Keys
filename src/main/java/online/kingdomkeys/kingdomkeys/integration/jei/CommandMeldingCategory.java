@@ -34,12 +34,12 @@ public class CommandMeldingCategory implements IRecipeCategory<Melding> {
 
 	public CommandMeldingCategory(IGuiHelper guiHelper) {
 		icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(ModItems.fireSpell.get()));
-		background = guiHelper.drawableBuilder(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/melding_recipe_bonus_background.png"), 0, 0, 114, 64).build();
+		background = guiHelper.drawableBuilder(KingdomKeys.rl("textures/gui/melding_recipe_bonus_background.png"), 0, 0, 114, 64).build();
 	}
 
 	private static String getDisplayName(Item item) {
 		if (item instanceof MagicSpellItem spell) {
-			Magic magic = ModMagic.registry.get(ResourceLocation.parse(spell.getMagic()));
+			Magic magic = ModMagic.registry.get(spell.getMagic());
 			return Utils.translateToLocal(magic.getTranslationKey());
 		}
 

@@ -6,6 +6,7 @@ import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.entity.organization.KKThrowableEntity;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
@@ -26,9 +27,9 @@ public class ScytheItem extends OrgSwordItem implements IOrgWeapon {
 		int slot = hand == InteractionHand.OFF_HAND ? player.getInventory().getContainerSize() - 1 : player.getInventory().selected;
 		PlayerData playerData = PlayerData.get(player);
 
-		if (stack != null && !playerData.getRecharge() && playerData.isAbilityEquipped(Strings.strikeRaid)) {
+		if (stack != null && !playerData.getRecharge() && playerData.isAbilityEquipped(ModAbilities.STRIKE_RAID)) {
 			int cost = 10;
-    		cost -= cost * playerData.getNumberOfAbilitiesEquipped(Strings.mpThrift) * 0.2;
+    		cost -= cost * playerData.getNumberOfAbilitiesEquipped(ModAbilities.MP_THRIFT) * 0.2;
 			playerData.remMP(Math.max(1, cost));
 			player.swing(hand);
 

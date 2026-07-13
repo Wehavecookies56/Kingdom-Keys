@@ -24,7 +24,7 @@ import java.util.ConcurrentModificationException;
 
 public record CSDepositMaterials(String inv, String name, int moogle) implements Packet {
 
-	public static final Type<CSDepositMaterials> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_deposit_materials"));
+	public static final Type<CSDepositMaterials> TYPE = new Type<>(KingdomKeys.rl("cs_deposit_materials"));
 
 	public static final StreamCodec<FriendlyByteBuf, CSDepositMaterials> STREAM_CODEC = StreamCodec.composite(
 			ByteBufCodecs.STRING_UTF8,

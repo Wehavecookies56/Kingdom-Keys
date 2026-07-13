@@ -15,7 +15,7 @@ import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 
 public record CSSetBouncedPacket(boolean bounced) implements Packet {
 
-	public static final Type<CSSetBouncedPacket> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_set_bounced"));
+	public static final Type<CSSetBouncedPacket> TYPE = new Type<>(KingdomKeys.rl("cs_set_bounced"));
 
 	public static final StreamCodec<FriendlyByteBuf, CSSetBouncedPacket> STREAM_CODEC = StreamCodec.composite(
 			ByteBufCodecs.BOOL, CSSetBouncedPacket::bounced,

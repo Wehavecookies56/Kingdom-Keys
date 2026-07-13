@@ -18,7 +18,7 @@ import online.kingdomkeys.kingdomkeys.entity.mob.BaseKHEntity;
  * Ported to 1.18 using Tabula, Blockbench and manual code editing - Wehavecookies56
  */
 public class ElementalMusicalHeartlessModel<T extends BaseKHEntity> extends EntityModel<T> {
-    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "elementalmusicalheartless"), "main");
+    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(KingdomKeys.rl("elementalmusicalheartless"), "main");
 
     private final ModelPart Body;
     private final ModelPart RightLeg;

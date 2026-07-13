@@ -26,7 +26,7 @@ public class DeserterEntity extends SoldierEntity {
 
     @OnlyIn(Dist.CLIENT)
     public ResourceLocation getTexture(){
-        return ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/mob/deserter.png");
+        return KingdomKeys.rl("textures/entity/mob/deserter.png");
     }
 
     @Override

@@ -31,7 +31,7 @@ public class SavepointUpgradeCategory implements IRecipeCategory<SavePointData> 
 
     public SavepointUpgradeCategory(IGuiHelper guiHelper) {
         icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(ModBlocks.savepoint.get()));
-        background = guiHelper.drawableBuilder(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/synthesis_recipe_background.png"), 0, 0, 170, 86).build();
+        background = guiHelper.drawableBuilder(KingdomKeys.rl("textures/gui/synthesis_recipe_background.png"), 0, 0, 170, 86).build();
     }
 
     @Override

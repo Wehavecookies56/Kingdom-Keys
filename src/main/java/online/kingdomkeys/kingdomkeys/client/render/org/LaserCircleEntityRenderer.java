@@ -20,7 +20,7 @@ public class LaserCircleEntityRenderer extends EntityRenderer<LaserCircleCoreEnt
 	@Nullable
 	@Override
 	public ResourceLocation getTextureLocation(LaserCircleCoreEntity entity) {
-		return ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/models/cube.png");
+		return KingdomKeys.rl("textures/entity/models/cube.png");
 	}
 
 }

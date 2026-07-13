@@ -37,7 +37,7 @@ public class MenuSelectKeybladeArmorButton extends MenuButtonBase {
 	int slot;
 	Minecraft minecraft;
 
-	final ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
+	final ResourceLocation texture = KingdomKeys.rl("textures/gui/menu/menu_button.png");
 
 	public MenuSelectKeybladeArmorButton(ItemStack stack, int slot, int x, int y, int widthIn, MenuKeybladeArmorSelectorScreen parent, int colour) {
 		super(x, y, widthIn, 20, "", b -> {

@@ -12,7 +12,7 @@ import online.kingdomkeys.kingdomkeys.client.ClientPacketHandler;
 import online.kingdomkeys.kingdomkeys.network.Packet;
 
 public record SCAeroSoundPacket(int entID) implements Packet {
-	public static final Type<SCAeroSoundPacket> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "sc_aero_sound"));
+	public static final Type<SCAeroSoundPacket> TYPE = new Type<>(KingdomKeys.rl("sc_aero_sound"));
 
 	public static final StreamCodec<FriendlyByteBuf, SCAeroSoundPacket> STREAM_CODEC = StreamCodec.composite(
 			ByteBufCodecs.INT,

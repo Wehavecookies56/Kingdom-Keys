@@ -22,7 +22,7 @@ public record SCSyncDriveFormData(List<String> names, List<String> data) impleme
 
 	public static final Gson GSON_BUILDER = new GsonBuilder().registerTypeAdapter(DriveFormData.class, new DriveFormDataDeserializer()).setPrettyPrinting().create();
 
-	public static final Type<SCSyncDriveFormData> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "sc_sync_drive_form_data"));
+	public static final Type<SCSyncDriveFormData> TYPE = new Type<>(KingdomKeys.rl("sc_sync_drive_form_data"));
 
 	public static final StreamCodec<FriendlyByteBuf, SCSyncDriveFormData> STREAM_CODEC = StreamCodec.composite(
 			ByteBufCodecs.collection(ArrayList::new, ByteBufCodecs.STRING_UTF8),

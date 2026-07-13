@@ -11,7 +11,7 @@ import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 
 public class MagicReflect extends Magic {
 
-	public MagicReflect(ResourceLocation registryName, int tier, String gmAbility) {
+	public MagicReflect(ResourceLocation registryName, int tier, ResourceLocation gmAbility) {
 		super(registryName, false, gmAbility);
 		setTier(tier);
 	}

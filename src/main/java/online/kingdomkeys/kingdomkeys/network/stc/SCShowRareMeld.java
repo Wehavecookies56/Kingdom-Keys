@@ -14,7 +14,7 @@ import online.kingdomkeys.kingdomkeys.network.Packet;
 
 public record SCShowRareMeld(ItemStack stack, String title) implements Packet {
 
-    public static final Type<SCShowRareMeld> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "sc_show_item"));
+    public static final Type<SCShowRareMeld> TYPE = new Type<>(KingdomKeys.rl("sc_show_item"));
 
     public static final StreamCodec<RegistryFriendlyByteBuf, SCShowRareMeld> STREAM_CODEC =
             StreamCodec.composite(

@@ -75,11 +75,11 @@ public class MoogleRenderer extends MobRenderer<MoogleEntity, MoogleModel<Moogle
     public ResourceLocation getTextureLocation(MoogleEntity entity) {
         if (!entity.isFakeMoogle()) {
         	if(isOrg(entity)) {
-        		return ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/mob/org_moogle.png");
+        		return KingdomKeys.rl("textures/entity/mob/org_moogle.png");
         	}
-            return ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/mob/moogle.png");
+            return KingdomKeys.rl("textures/entity/mob/moogle.png");
         } else {
-            return ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/mob/fake_moogle.png");
+            return KingdomKeys.rl("textures/entity/mob/fake_moogle.png");
         }
     }
 

@@ -22,7 +22,7 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public record CSEquipAccessories(int slotToEquipTo, int slotToEquipFrom) implements Packet {
 
-    public static final Type<CSEquipAccessories> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_equip_accessories"));
+    public static final Type<CSEquipAccessories> TYPE = new Type<>(KingdomKeys.rl("cs_equip_accessories"));
 
     public static final StreamCodec<FriendlyByteBuf, CSEquipAccessories> STREAM_CODEC = StreamCodec.composite(
             ByteBufCodecs.INT,

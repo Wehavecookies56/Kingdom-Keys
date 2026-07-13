@@ -22,7 +22,7 @@ import java.util.List;
 //TODO port new model
 @OnlyIn(Dist.CLIENT)
 public class SoldierModel<T extends BaseKHEntity> extends EntityModel<T> {
-    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "soldier"), "main");
+    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(KingdomKeys.rl("soldier"), "main");
     private final ModelPart right_leg;
 	private final ModelPart left_leg;
 	private final ModelPart body;

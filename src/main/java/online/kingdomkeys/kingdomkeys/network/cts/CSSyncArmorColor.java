@@ -14,7 +14,7 @@ import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 
 public record CSSyncArmorColor(int color, boolean glint) implements Packet {
 
-    public static final Type<CSSyncArmorColor> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_sync_armor_color"));
+    public static final Type<CSSyncArmorColor> TYPE = new Type<>(KingdomKeys.rl("cs_sync_armor_color"));
 
     public static final StreamCodec<FriendlyByteBuf, CSSyncArmorColor> STREAM_CODEC = StreamCodec.composite(
             ByteBufCodecs.INT,

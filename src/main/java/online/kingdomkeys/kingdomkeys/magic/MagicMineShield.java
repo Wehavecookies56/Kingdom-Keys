@@ -4,6 +4,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
+import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.entity.magic.MineEntity;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
@@ -12,14 +13,14 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 public class MagicMineShield extends Magic {
 	float forwardOffset = 2.0F;
 
-	public MagicMineShield(ResourceLocation registryName, boolean hasToSelect, int tier, String gmAbility) {
+	public MagicMineShield(ResourceLocation registryName, boolean hasToSelect, int tier, ResourceLocation gmAbility) {
 		super(registryName, false, gmAbility);
 		setTier(tier);
 	}
 
 	@Override
 	public void magicUse(LivingEntity player, Player caster, float fullMPBlastMult, LivingEntity lockOnTarget) {
-		float dmgMult = getRealDamageMult(caster) + PlayerData.get(caster).getNumberOfAbilitiesEquipped(Strings.fireBoost) * 0.2F;
+		float dmgMult = getRealDamageMult(caster) + PlayerData.get(caster).getNumberOfAbilitiesEquipped(ModAbilities.FIRE_BOOST) * 0.2F;
 		dmgMult *= fullMPBlastMult;
 
 // Horizontal forward vector only
@@ -33,7 +34,7 @@ public class MagicMineShield extends Magic {
 
 		switch (getTier()) {
 			case 0 -> { // Mine shield
-				int mineCount = 1 + (Utils.getMagicHighestLocalLevel(playerData.getEquippedMagics(), getRegistryName().toString()) * 2);
+				int mineCount = 1 + (Utils.getMagicHighestLocalLevel(playerData.getEquippedMagics(), getRegistryName()) * 2);
 
 				for (int i = 0; i < mineCount; i++) {
 					float offset = (i - (mineCount - 1) / 2.0F) * spacing;
@@ -48,7 +49,7 @@ public class MagicMineShield extends Magic {
 			}
 
 			case 1 -> { // Mine square
-				int mineCount = 2 + (Utils.getMagicHighestLocalLevel(playerData.getEquippedMagics(), getRegistryName().toString()) * 2);
+				int mineCount = 2 + (Utils.getMagicHighestLocalLevel(playerData.getEquippedMagics(), getRegistryName()) * 2);
 				float radius = mineCount * 0.5F;
 
 				base = player.position();
@@ -72,7 +73,7 @@ public class MagicMineShield extends Magic {
 			}
 
 			case 2 -> { // Seeker mine
-				int mineCount = 2 + (Utils.getMagicHighestLocalLevel(playerData.getEquippedMagics(), getRegistryName().toString()) * 2);
+				int mineCount = 2 + (Utils.getMagicHighestLocalLevel(playerData.getEquippedMagics(), getRegistryName()) * 2);
 				float radius = mineCount * 0.5F;
 
 				base = player.position();

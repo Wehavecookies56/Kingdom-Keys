@@ -14,7 +14,7 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
 public class VentusShoulderModel<T extends LivingEntity> extends HumanoidModel<T> {
 
-	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "ventus_shoulder"), "main");
+	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(KingdomKeys.rl("ventus_shoulder"), "main");
 
     public VentusShoulderModel(ModelPart root) {
         super(root);

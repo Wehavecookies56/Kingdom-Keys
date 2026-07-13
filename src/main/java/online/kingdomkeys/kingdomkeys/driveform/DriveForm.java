@@ -14,17 +14,18 @@ import online.kingdomkeys.kingdomkeys.api.event.AbilityEvent;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
-import online.kingdomkeys.kingdomkeys.lib.Strings;
+import online.kingdomkeys.kingdomkeys.lib.KKRegistryObject;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 
 import java.util.List;
+import java.util.Optional;
 
-public abstract class DriveForm {
+public abstract class DriveForm implements KKRegistryObject {
 
-	public static final ResourceLocation NONE = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "none");
-	public static final ResourceLocation KB2 = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "kb2");
-	public static final ResourceLocation KB3 = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "kb3");
-	public static final ResourceLocation SYNCH_BLADE = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "synch_blade");
+	public static final ResourceLocation NONE = KingdomKeys.rl("none");
+	public static final ResourceLocation KB2 = KingdomKeys.rl("kb2");
+	public static final ResourceLocation KB3 = KingdomKeys.rl("kb3");
+	public static final ResourceLocation SYNCH_BLADE = KingdomKeys.rl("synch_blade");
 
 	// Level 0-7 (0 unused)
 	public static final float[] VALOR_JUMP_BOOST = { 0, 0.02F, 0.02F, 0.03F, 0.03F, 0.04F, 0.04F, 0.06F };
@@ -76,10 +77,6 @@ public abstract class DriveForm {
 		return hasKeychain;
 	}
 
-	public String getName() {
-		return name.toString();
-	}
-
 	public String getTranslationKey() {
 		return translationKey;
 	}
@@ -112,16 +109,16 @@ public abstract class DriveForm {
 		return skinRL;
 	}
 
-	public String getBaseAbilityForLevel(int driveFormLevel) {
+	public Optional<ResourceLocation> getBaseAbilityForLevel(int driveFormLevel) {
 		if(driveFormLevel < 1)
-			return "";
-		return data.getBaseAbilityForLevel(driveFormLevel-1); //-1 so we don't have empty "" at the beginning of the file
+			return Optional.empty();
+		return Optional.of(data.getBaseAbilityForLevel(driveFormLevel-1)); //-1 so we don't have empty "" at the beginning of the file
 	}
 
-	public String getDFAbilityForLevel(int driveFormLevel) {
+	public Optional<ResourceLocation> getDFAbilityForLevel(int driveFormLevel) {
 		if(driveFormLevel < 1)
-			return "";
-		return data.getDFAbilityForLevel(driveFormLevel-1);
+			return Optional.empty();
+		return Optional.of(data.getDFAbilityForLevel(driveFormLevel-1));
 	}
 	
 	public int getLevelUpCost(int level) {
@@ -155,7 +152,7 @@ public abstract class DriveForm {
 	public void initDrive(Player player) {
 		if (!getRegistryName().equals(NONE)) {
             PlayerData playerData = PlayerData.get(player);
-			playerData.setActiveDriveForm(getName());
+			playerData.setActiveDriveForm(getRegistryName());
 			int cost = ModDriveForms.registry.get(getRegistryName()).getDriveCost();
 			playerData.remDP(cost);
 			playerData.setFP(300 + playerData.getDriveFormLevel(playerData.getActiveDriveForm()) * 100);
@@ -170,10 +167,10 @@ public abstract class DriveForm {
 			pushEntities(player);
 
 			if (!getBaseGrowthAbilities()) {
-				NeoForge.EVENT_BUS.post(new AbilityEvent.Equip(ModAbilities.registry.get(ResourceLocation.parse(getDFAbilityForLevel(playerData.getDriveFormLevel(getName())))), playerData.getDriveFormLevel(getName()), player, false));
+				NeoForge.EVENT_BUS.post(new AbilityEvent.Equip(ModAbilities.registry.get(getDFAbilityForLevel(playerData.getDriveFormLevel(getRegistryName())).get()), playerData.getDriveFormLevel(getRegistryName()), player, false));
 			}
-			for (String abilityLoc : getDriveFormData().getAbilities()) {
-				Ability ability = ModAbilities.registry.get(ResourceLocation.parse(abilityLoc));
+			for (ResourceLocation abilityLoc : getDriveFormData().getAbilities()) {
+				Ability ability = ModAbilities.registry.get(abilityLoc);
 				NeoForge.EVENT_BUS.post(new AbilityEvent.Equip(ability, 0, player, false));
 			}
 			PacketHandler.syncToAllAround(player, playerData);
@@ -206,7 +203,7 @@ public abstract class DriveForm {
 		if (!getRegistryName().equals(NONE)) {
 			double formDecrease = 0.2;
 			PlayerData playerData = PlayerData.get(player);
-			for (int i = 0; i < playerData.getNumberOfAbilitiesEquipped(Strings.formBoost); i++) {
+			for (int i = 0; i < playerData.getNumberOfAbilitiesEquipped(ModAbilities.FORM_BOOST); i++) {
 				formDecrease /= 1.2;
 			}
 			if (playerData.getFP() > 0) {
@@ -219,19 +216,19 @@ public abstract class DriveForm {
 
 	public void endDrive(Player player) {
 		PlayerData playerData = PlayerData.get(player);
-		playerData.setActiveDriveForm(DriveForm.NONE.toString());
+		playerData.setActiveDriveForm(DriveForm.NONE);
 		if(getDriveSound() != null)
 			player.level().playSound(null, player.blockPosition(), getRevertSound(), SoundSource.MASTER, 1.0f, 1.0f);
 
-		if(!getName().equals(ModDriveForms.ANTI.get().getName())) {
+		if(!getRegistryName().equals(ModDriveForms.ANTI.location())) {
 			if (!getBaseGrowthAbilities()) {
-				Ability ability = ModAbilities.registry.get(ResourceLocation.parse(getDFAbilityForLevel(playerData.getDriveFormLevel(getName()))));
+				Ability ability = ModAbilities.registry.get(getDFAbilityForLevel(playerData.getDriveFormLevel(getRegistryName())).get());
 				if(ability != null) {
-					NeoForge.EVENT_BUS.post(new AbilityEvent.Unequip(ability, playerData.getDriveFormLevel(getName()), player, false));
+					NeoForge.EVENT_BUS.post(new AbilityEvent.Unequip(ability, playerData.getDriveFormLevel(getRegistryName()), player, false));
 				}
 			}
-			for (String abilityLoc : getDriveFormData().getAbilities()) {
-				Ability ability = ModAbilities.registry.get(ResourceLocation.parse(abilityLoc));
+			for (ResourceLocation abilityLoc : getDriveFormData().getAbilities()) {
+				Ability ability = ModAbilities.registry.get(abilityLoc);
 				if(ability != null) {
 					NeoForge.EVENT_BUS.post(new AbilityEvent.Unequip(ability, 0, player, false));
 				}
@@ -254,6 +251,7 @@ public abstract class DriveForm {
 		return data.speedMult;
 	}
 
+	@Override
 	public ResourceLocation getRegistryName() {
 		return name;
 	}

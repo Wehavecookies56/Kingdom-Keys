@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.synthesis.keybladeforge;
 
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import online.kingdomkeys.kingdomkeys.item.KeychainItem;
 
@@ -16,7 +17,7 @@ public class KeybladeData {
 	public KeychainItem keychain;
     //The level 0 stats
     int baseStrength, baseMagic;
-    String baseAbility;
+    ResourceLocation baseAbility;
     float reach;
     float critChance;
     //List of upgrades for the keyblade
@@ -50,7 +51,7 @@ public class KeybladeData {
     }
     
     //Returns the base ability if level is 0
-    public String getLevelAbility(int level) {
+    public ResourceLocation getLevelAbility(int level) {
         return level == 0 ? baseAbility : levels.get(level-1).getAbility();
     }
     
@@ -70,11 +71,11 @@ public class KeybladeData {
     	}
     }
     
-    public void setBaseAbility(String ability) {
+    public void setBaseAbility(ResourceLocation ability) {
     	this.baseAbility = ability;
     }
     
-    public String getBaseAbility() {
+    public ResourceLocation getBaseAbility() {
     	return baseAbility;
     }
 

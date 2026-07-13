@@ -15,7 +15,7 @@ import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 
 public record CSSetFlowmotionPacket(boolean flowmotion) implements Packet {
 
-	public static final Type<CSSetFlowmotionPacket> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_set_flowmotion"));
+	public static final Type<CSSetFlowmotionPacket> TYPE = new Type<>(KingdomKeys.rl("cs_set_flowmotion"));
 
 	public static final StreamCodec<FriendlyByteBuf, CSSetFlowmotionPacket> STREAM_CODEC = StreamCodec.composite(
 			ByteBufCodecs.BOOL, CSSetFlowmotionPacket::flowmotion,

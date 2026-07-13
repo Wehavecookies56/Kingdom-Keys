@@ -22,7 +22,7 @@ public record SCSyncMagicData(List<String> names, List<String> data) implements 
 
 	public static final Gson GSON_BUILDER = new GsonBuilder().registerTypeAdapter(MagicData.class, new MagicDataDeserializer()).setPrettyPrinting().create();
 
-	public static final Type<SCSyncMagicData> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "sc_sync_magic_data"));
+	public static final Type<SCSyncMagicData> TYPE = new Type<>(KingdomKeys.rl("sc_sync_magic_data"));
 
 	public static final StreamCodec<FriendlyByteBuf, SCSyncMagicData> STREAM_CODEC = StreamCodec.composite(
 			ByteBufCodecs.collection(ArrayList::new, ByteBufCodecs.STRING_UTF8),

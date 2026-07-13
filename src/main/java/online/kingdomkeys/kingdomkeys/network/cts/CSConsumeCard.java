@@ -19,7 +19,7 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public record CSConsumeCard(BlockPos doorTE, int slot) implements Packet {
 
-    public static final Type<CSConsumeCard> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_consume_card"));
+    public static final Type<CSConsumeCard> TYPE = new Type<>(KingdomKeys.rl("cs_consume_card"));
 
     public static final StreamCodec<RegistryFriendlyByteBuf, CSConsumeCard> STREAM_CODEC = StreamCodec.composite(
             BlockPos.STREAM_CODEC,

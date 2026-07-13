@@ -7,6 +7,7 @@ import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import yesman.epicfight.EpicFight;
@@ -49,9 +50,9 @@ public class ComboExtender extends Skill {
             PlayerData playerCapabilities = PlayerData.get(player);
             event.cancel();
             AnimationManager.AnimationAccessor<? extends AttackAnimation> attackMotion;
-            skill.numberOfComboPlus = playerCapabilities.getNumberOfAbilitiesEquipped(Strings.comboPlus);
-            skill.numberOfNegativeCombo = playerCapabilities.getNumberOfAbilitiesEquipped(Strings.negativeCombo);
-            skill.numberOfFinishingPlus = playerCapabilities.getNumberOfAbilitiesEquipped(Strings.finishingPlus);
+            skill.numberOfComboPlus = playerCapabilities.getNumberOfAbilitiesEquipped(ModAbilities.COMBO_PLUS);
+            skill.numberOfNegativeCombo = playerCapabilities.getNumberOfAbilitiesEquipped(ModAbilities.NEGATIVE_COMBO);
+            skill.numberOfFinishingPlus = playerCapabilities.getNumberOfAbilitiesEquipped(ModAbilities.FINISHING_PLUS);
             skill.totalComboOffset = skill.numberOfComboPlus - skill.numberOfNegativeCombo;
 
             CapabilityItem cap = spp.getHoldingItemCapability(InteractionHand.MAIN_HAND);

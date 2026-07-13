@@ -38,7 +38,7 @@ import online.kingdomkeys.kingdomkeys.util.IOffHandRange;
 
 public record CSAttackOffhandPacket(int entityId) implements Packet {
 
-	public static final Type<CSAttackOffhandPacket> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_attack_off_hand"));
+	public static final Type<CSAttackOffhandPacket> TYPE = new Type<>(KingdomKeys.rl("cs_attack_off_hand"));
 
 	public static final StreamCodec<FriendlyByteBuf, CSAttackOffhandPacket> STREAM_CODEC = StreamCodec.composite(
 			ByteBufCodecs.INT,

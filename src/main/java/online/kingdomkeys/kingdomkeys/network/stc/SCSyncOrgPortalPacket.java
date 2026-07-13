@@ -16,7 +16,7 @@ import online.kingdomkeys.kingdomkeys.network.Packet;
 
 public record SCSyncOrgPortalPacket(BlockPos pos, BlockPos destPos, ResourceKey<Level> dimension) implements Packet {
 
-	public static final Type<SCSyncOrgPortalPacket> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "sc_sync_org_portal"));
+	public static final Type<SCSyncOrgPortalPacket> TYPE = new Type<>(KingdomKeys.rl("sc_sync_org_portal"));
 
 	public static final StreamCodec<FriendlyByteBuf, SCSyncOrgPortalPacket> STREAM_CODEC = StreamCodec.composite(
 			BlockPos.STREAM_CODEC, SCSyncOrgPortalPacket::pos,

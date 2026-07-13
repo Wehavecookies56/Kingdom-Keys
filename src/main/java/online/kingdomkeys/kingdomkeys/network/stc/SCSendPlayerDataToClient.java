@@ -16,7 +16,7 @@ import online.kingdomkeys.kingdomkeys.network.Packet;
 
 public record SCSendPlayerDataToClient(CompoundTag playerData) implements Packet {
 
-    public static final Type<SCSendPlayerDataToClient> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "sc_send_player_data_to_client"));
+    public static final Type<SCSendPlayerDataToClient> TYPE = new Type<>(KingdomKeys.rl("sc_send_player_data_to_client"));
 
     public static final StreamCodec<FriendlyByteBuf, SCSendPlayerDataToClient> STREAM_CODEC = StreamCodec.composite(
             ByteBufCodecs.COMPOUND_TAG,

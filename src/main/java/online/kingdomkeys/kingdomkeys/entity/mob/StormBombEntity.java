@@ -19,7 +19,7 @@ public class StormBombEntity extends BaseBombEntity {
     @OnlyIn(Dist.CLIENT)
     @Override
     public ResourceLocation getTexture() {
-        return ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/mob/storm_bomb.png");
+        return KingdomKeys.rl("textures/entity/mob/storm_bomb.png");
     }
 
     public static AttributeSupplier.Builder registerAttributes() {

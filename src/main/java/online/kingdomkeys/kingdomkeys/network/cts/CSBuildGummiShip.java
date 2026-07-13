@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
 
 public record CSBuildGummiShip(String name, int containerID) implements Packet {
 
-	public static final Type<CSBuildGummiShip> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_create_gummi_ship"));
+	public static final Type<CSBuildGummiShip> TYPE = new Type<>(KingdomKeys.rl("cs_create_gummi_ship"));
 
 	public static final StreamCodec<FriendlyByteBuf, CSBuildGummiShip> STREAM_CODEC = StreamCodec.composite(
 			ByteBufCodecs.STRING_UTF8,

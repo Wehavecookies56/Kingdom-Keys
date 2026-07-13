@@ -39,7 +39,7 @@ public class MenuSelectPotionButton extends MenuButtonBase {
 	int slot;
 	Minecraft minecraft;
 
-	final ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
+	final ResourceLocation texture = KingdomKeys.rl("textures/gui/menu/menu_button.png");
 
 	public MenuSelectPotionButton(ItemStack stack, int slot, int x, int y, int widthIn, MenuPotionSelectorScreen parent, int colour) {
 		super(x, y, widthIn, 20, "", b -> {

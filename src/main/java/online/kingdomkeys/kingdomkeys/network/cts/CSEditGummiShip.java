@@ -26,7 +26,7 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public record CSEditGummiShip(String name, int containerID) implements Packet {
 
-	public static final Type<CSEditGummiShip> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_edit_gummi_ship"));
+	public static final Type<CSEditGummiShip> TYPE = new Type<>(KingdomKeys.rl("cs_edit_gummi_ship"));
 
 	public static final StreamCodec<FriendlyByteBuf, CSEditGummiShip> STREAM_CODEC = StreamCodec.composite(
 			ByteBufCodecs.STRING_UTF8,

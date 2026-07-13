@@ -14,7 +14,7 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
 public class TerraShoulderModel<T extends LivingEntity> extends HumanoidModel<T> {
 
-	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "terra_shoulder"), "main");
+	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(KingdomKeys.rl("terra_shoulder"), "main");
 
     public TerraShoulderModel(ModelPart root) {
         super(root);

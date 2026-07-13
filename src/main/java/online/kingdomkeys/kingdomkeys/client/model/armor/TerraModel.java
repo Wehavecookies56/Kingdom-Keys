@@ -13,8 +13,8 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
 public class TerraModel<T extends LivingEntity> extends ArmorBaseModel<T> {
 
-    public static final ModelLayerLocation LAYER_LOCATION_TOP = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "terra_top"), "main");
-    public static final ModelLayerLocation LAYER_LOCATION_BOTTOM = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "terra_bottom"), "main");
+    public static final ModelLayerLocation LAYER_LOCATION_TOP = new ModelLayerLocation(KingdomKeys.rl("terra_top"), "main");
+    public static final ModelLayerLocation LAYER_LOCATION_BOTTOM = new ModelLayerLocation(KingdomKeys.rl("terra_bottom"), "main");
     
     public final ModelPart head;
     public final ModelPart body;

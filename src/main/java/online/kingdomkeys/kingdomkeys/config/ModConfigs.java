@@ -272,8 +272,8 @@ public class ModConfigs {
     public static void bakeClient() {
         customFont = CLIENT.customFont.get();
         if(customFont) {
-            ClientUtils.KK_Font_EXP = Style.EMPTY.withFont(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "kk_font_exp"));
-            ClientUtils.KK_Font_MENU = Style.EMPTY.withFont(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "kk_font_menu"));
+            ClientUtils.KK_Font_EXP = Style.EMPTY.withFont(KingdomKeys.rl("kk_font_exp"));
+            ClientUtils.KK_Font_MENU = Style.EMPTY.withFont(KingdomKeys.rl("kk_font_menu"));
         } else {
             ClientUtils.KK_Font_EXP = Style.EMPTY;
             ClientUtils.KK_Font_MENU = Style.EMPTY;

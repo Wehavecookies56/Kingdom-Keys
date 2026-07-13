@@ -196,7 +196,7 @@ public class MenuScreen extends MenuBackground {
 	private RoomData hoveredRoom = null;
 
 	public static List<RoomData> rooms = new ArrayList<>();
-	private static final ResourceLocation ROOM_TEX = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/co/room.png");
+	private static final ResourceLocation ROOM_TEX = KingdomKeys.rl("textures/gui/co/room.png");
 
 	public void renderMap(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
 		if (!CastleOblivionHandler.inInterior(getMinecraft().player) || rooms.isEmpty())

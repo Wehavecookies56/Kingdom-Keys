@@ -46,7 +46,7 @@ public class MenuSelectArmorButton extends MenuButtonBase {
 	int slot;
 	Minecraft minecraft;
 
-	final ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
+	final ResourceLocation texture = KingdomKeys.rl("textures/gui/menu/menu_button.png");
 
 	public MenuSelectArmorButton(ItemStack stack, int slot, int x, int y, int widthIn, MenuArmorSelectorScreen parent, int colour) {
 		super(x, y, widthIn, 20, "", b -> {
@@ -160,7 +160,7 @@ public class MenuSelectArmorButton extends MenuButtonBase {
 				int ap = 0;
 				ImmutableMap<KKResistanceType, Integer> resistances = null;
 
-				List<String> abilities = new ArrayList<String>();
+				List<ResourceLocation> abilities = new ArrayList<>();
 				boolean showData = true;
 				if (stack.getItem() instanceof IKeychain) {
 					strength = ((IKeychain) stack.getItem()).toSummon().getStrength(stack);

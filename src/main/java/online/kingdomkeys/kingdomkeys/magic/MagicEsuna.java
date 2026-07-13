@@ -15,7 +15,7 @@ import java.util.List;
 
 public class MagicEsuna extends Magic {
 
-	public MagicEsuna(ResourceLocation registryName, boolean hasToSelect, int tier, String gmAbility) {
+	public MagicEsuna(ResourceLocation registryName, boolean hasToSelect, int tier, ResourceLocation gmAbility) {
 		super(registryName, hasToSelect, gmAbility);
 		setTier(tier);
 	}

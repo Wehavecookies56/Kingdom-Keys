@@ -17,7 +17,7 @@ import java.util.List;
 
 public record SCSyncSynthesisData(List<Recipe> recipes) implements Packet {
 
-	public static final Type<SCSyncSynthesisData> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "sc_sync_synthesis_data"));
+	public static final Type<SCSyncSynthesisData> TYPE = new Type<>(KingdomKeys.rl("sc_sync_synthesis_data"));
 
 	public static final StreamCodec<FriendlyByteBuf, SCSyncSynthesisData> STREAM_CODEC = StreamCodec.composite(
 			ByteBufCodecs.collection(ArrayList::new, Recipe.STREAM_CODEC),

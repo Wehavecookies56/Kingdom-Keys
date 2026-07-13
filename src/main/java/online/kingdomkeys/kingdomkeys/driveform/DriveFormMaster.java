@@ -8,6 +8,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
@@ -31,8 +32,8 @@ public class DriveFormMaster extends DriveForm {
 
 		if (playerData != null) {
 			// Drive Form abilities
-			DriveForm form = ModDriveForms.registry.get(ResourceLocation.parse(playerData.getActiveDriveForm()));
-			if (playerData.getActiveDriveForm().equals(Strings.Form_Master) || (playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()) || form.getBaseGrowthAbilities()) && (playerData.getDriveFormMap().containsKey(Strings.Form_Master) && playerData.getDriveFormLevel(Strings.Form_Master) >= 3 && playerData.getEquippedAbilityLevel(Strings.aerialDodge) != null && playerData.getEquippedAbilityLevel(Strings.aerialDodge)[1] > 0)) {
+			DriveForm form = ModDriveForms.registry.get(playerData.getActiveDriveForm());
+			if (playerData.isFormActive(ModDriveForms.MASTER) || (playerData.isFormActive(ModDriveForms.NONE) || form.getBaseGrowthAbilities()) && (playerData.getDriveFormMap().containsKey(ModDriveForms.MASTER.location()) && playerData.getDriveFormLevel(ModDriveForms.MASTER.location()) >= 3 && playerData.getEquippedAbilityLevel(ModAbilities.AERIAL_DODGE.location()) != null && playerData.getEquippedAbilityLevel(ModAbilities.AERIAL_DODGE.location())[1] > 0)) {
 				handleAerialDodge(player, playerData);
 			}
 		}
@@ -49,7 +50,7 @@ public class DriveFormMaster extends DriveForm {
 						if (!playerData.hasJumpedAerialDodge()) {
 							playerData.setHasJumpedAerialDodge(true);
 							player.jumpFromGround();
-							int jumpLevel = playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()) ? playerData.getDriveFormLevel(Strings.Form_Master) - 2 : playerData.getDriveFormLevel(Strings.Form_Master);// TODO eventually replace it with the skill
+							int jumpLevel = playerData.isFormActive(ModDriveForms.NONE) ? playerData.getDriveFormLevel(ModDriveForms.MASTER.location()) - 2 : playerData.getDriveFormLevel(ModDriveForms.MASTER.location());// TODO eventually replace it with the skill
 							float boost = DriveForm.MASTER_AERIAL_DODGE_BOOST[jumpLevel];
 							player.setDeltaMovement(player.getDeltaMovement().multiply(new Vec3(boost, boost, boost)));
 							PacketHandler.sendToServer(new CSSetAerialDodgeTicksPacket(true, 10));

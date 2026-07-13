@@ -62,7 +62,7 @@ public class PatchedShoulderLayerRenderer<E extends LivingEntity, T extends Livi
                     //Item doesn't matter
                     epicfight_shoulderModels.put(armor.getItem(), HumanoidModelBaker.bakeArmor(player, armor, (ArmorItem) ModItems.terra_Helmet.get(), EquipmentSlot.CHEST, emRenderLayer.getParentModel(), model, emRenderLayer.getParentModel(), Meshes.BIPED.get()));
                 }
-                texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/models/armor/"+armorName+"_shoulder.png");
+                texture = KingdomKeys.rl("textures/models/armor/"+armorName+"_shoulder.png");
                 model.setAllVisible(true);
                 AbstractClientPlayer clientPlayer = (AbstractClientPlayer) player;
                 boolean steve = clientPlayer.getSkin().model() == PlayerSkin.Model.WIDE;

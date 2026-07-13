@@ -23,7 +23,7 @@ public class MenuBar extends Screen {
         minecraft = Minecraft.getInstance();
     }
 
-    private final ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
+    private final ResourceLocation texture = KingdomKeys.rl("textures/gui/menu/menu_button.png");
 
     private final int borderSize = 10;
     private final int

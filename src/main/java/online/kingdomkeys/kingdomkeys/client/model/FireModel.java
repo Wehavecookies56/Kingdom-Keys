@@ -13,7 +13,7 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
 public class FireModel<T extends Entity> extends EntityModel<T> {
 
-	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "fire"), "main");
+	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(KingdomKeys.rl("fire"), "main");
 	private final ModelPart fist;
 
 	public FireModel(ModelPart root) {

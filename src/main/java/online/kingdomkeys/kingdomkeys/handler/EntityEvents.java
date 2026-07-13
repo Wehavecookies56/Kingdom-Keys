@@ -128,7 +128,7 @@ public class EntityEvents {
 				multiplier = 2;
 			}
 		}
-		multiplier += playerData.getNumberOfAbilitiesEquipped(ModAbilities.LUCKY_LUCKY.get().getRegistryName().toString());
+		multiplier += playerData.getNumberOfAbilitiesEquipped(ModAbilities.LUCKY_STRIKE);
 		return multiplier;
 	}
 
@@ -148,7 +148,7 @@ public class EntityEvents {
 	public void onXPPickup(PlayerXpEvent.XpChange e) {
 		if (e.getEntity() instanceof Player player && player.getHealth() <= player.getMaxHealth() / 2) {
 			PlayerData playerData = PlayerData.get(player);
-			e.setAmount(e.getAmount() * (playerData.getNumberOfAbilitiesEquipped(Strings.experienceBoost) + 1));
+			e.setAmount(e.getAmount() * (playerData.getNumberOfAbilitiesEquipped(ModAbilities.EXPERIENCE_BOOST) + 1));
 		}
 	}
 
@@ -282,11 +282,11 @@ public class EntityEvents {
 			if (!player.level().isClientSide) { // Sync from server to client
 				Utils.updateOrgRobesTeam((ServerPlayer) player);
 
-				if (!playerData.getDriveFormMap().containsKey(DriveForm.NONE.toString())) { // One time event here :D
+				if (!playerData.getDriveFormMap().containsKey(DriveForm.NONE)) { // One time event here :D
 					Utils.getFakeForms().forEach(form -> {
 						playerData.setDriveFormLevel(form, 1);
 					});
-					playerData.setDriveFormLevel(Strings.Form_Anti, 1);
+					playerData.setDriveFormLevel(ModDriveForms.ANTI.location(), 1);
 
 					if (playerData.getEquippedItems().isEmpty()) {
 						HashMap<Integer, ItemStack> map = new HashMap<>();
@@ -301,9 +301,9 @@ public class EntityEvents {
 					playerData.setTotalMaterialMap(playerData.getMaterialMap());
 				}
 
-				if (!playerData.getDriveFormMap().containsKey(DriveForm.KB2.toString())) {
-					playerData.setDriveFormLevel(DriveForm.KB2.toString(), 1);
-					playerData.setDriveFormLevel(DriveForm.KB3.toString(), 1);
+				if (!playerData.getDriveFormMap().containsKey(DriveForm.KB2)) {
+					playerData.setDriveFormLevel(DriveForm.KB2, 1);
+					playerData.setDriveFormLevel(DriveForm.KB3, 1);
 				}
 
 				ModConfigs.startingRecipes.forEach(resourceLocation -> {
@@ -314,8 +314,8 @@ public class EntityEvents {
 					}
 				});
 
-				if (!playerData.getDriveFormMap().containsKey(Strings.Form_Anti)) {
-					playerData.setDriveFormLevel(Strings.Form_Anti, 1);
+				if (!playerData.getDriveFormMap().containsKey(ModDriveForms.ANTI.location())) {
+					playerData.setDriveFormLevel(ModDriveForms.ANTI.location(), 1);
 				}
 
 				// Old worlds stat conversion
@@ -376,8 +376,8 @@ public class EntityEvents {
 				});
 
 				// Added for old world retrocompatibility
-				if (!playerData.getDriveFormMap().containsKey(DriveForm.SYNCH_BLADE.toString())) {
-					playerData.setDriveFormLevel(DriveForm.SYNCH_BLADE.toString(), 1);
+				if (!playerData.getDriveFormMap().containsKey(DriveForm.SYNCH_BLADE)) {
+					playerData.setDriveFormLevel(DriveForm.SYNCH_BLADE, 1);
 				}
 
 				// TODO (done) Fix for retrocompatibility, move above in a few versions
@@ -426,13 +426,13 @@ public class EntityEvents {
 				// Fills the map with empty stacks for every form that requires one.
 				playerData.getDriveFormMap().keySet().forEach(key -> {
 					// Make sure the form exists
-					if (ModDriveForms.registry.containsKey(ResourceLocation.parse(key))) {
+					if (ModDriveForms.registry.containsKey(key)) {
 						// Check if it requires a slot
-						if (ModDriveForms.registry.get(ResourceLocation.parse(key)).hasKeychain()) {
+						if (ModDriveForms.registry.get(key).hasKeychain()) {
 							// Check if the player has form
 							if (playerData.getDriveFormMap().containsKey(key)) {
-								if (!playerData.getEquippedKeychains().containsKey(ResourceLocation.parse(key))) {
-									playerData.setNewKeychain(ResourceLocation.parse(key), ItemStack.EMPTY);
+								if (!playerData.getEquippedKeychains().containsKey(key)) {
+									playerData.setNewKeychain(key, ItemStack.EMPTY);
 								}
 							}
 						}
@@ -440,7 +440,7 @@ public class EntityEvents {
 				});
 
 				//Data check, might be able to reduce the above code:
-				online.kingdomkeys.kingdomkeys.leveling.Level levelData = ModLevels.registry.get(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, playerData.getChosen().toString().toLowerCase()));
+				online.kingdomkeys.kingdomkeys.leveling.Level levelData = ModLevels.registry.get(KingdomKeys.rl(playerData.getChosen().toString().toLowerCase()));
 				if (levelData != null) {// Only run if the player has made a choice
 					//If stored is -1 (default value in the capability) set it directly to the real version without fixing
 					KingdomKeys.LOGGER.debug("Player version: " + playerData.getVer() + " leveldata version: " + levelData.getVersion());
@@ -486,8 +486,8 @@ public class EntityEvents {
 		if (playerData != null) {
 			// Check if rc conditions match
 			//Tick RCs in list
-			for (String rcName : new ArrayList<>(playerData.getReactionCommands().keySet())) {
-				ReactionCommand rc = ModReactionCommands.registry.get(ResourceLocation.parse(rcName));
+			for (ResourceLocation rcName : new ArrayList<>(playerData.getReactionCommands().keySet())) {
+				ReactionCommand rc = ModReactionCommands.registry.get(rcName);
 				if (rc != null) {
 					rc.tick(player);
 				}
@@ -497,7 +497,7 @@ public class EntityEvents {
 			// Those will be available when joining the world too if the conditions are met
 			for (ReactionCommand rc : ModReactionCommands.registry) {
 				if (rc.needsConstantCheck() && rc.conditionsToAppear(player, player)) {
-					playerData.addReactionCommand(rc.getName(), player);
+					playerData.addReactionCommand(rc.getRegistryName(), player);
 				}
 			}
 
@@ -508,18 +508,18 @@ public class EntityEvents {
 			}
 
 			// Anti form FP code done here
-			if (playerData.getActiveDriveForm().equals(Strings.Form_Anti)) {
+			if (playerData.isFormActive(ModDriveForms.ANTI)) {
 				if (playerData.getFP() > 0) {
 					playerData.setFP(playerData.getFP() - 0.3);
 				} else {
-					playerData.setActiveDriveForm(DriveForm.NONE.toString());
+					playerData.setActiveDriveForm(DriveForm.NONE);
 					player.level().playSound(player, player.position().x(), player.position().y(), player.position().z(), ModSounds.unsummon.get(), SoundSource.MASTER, 1.0f, 1.0f);
 					if (!player.level().isClientSide) {
 						PacketHandler.syncToAllAround(player, playerData);
 					}
 				}
-			} else if (!playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())) {
-				ModDriveForms.registry.get(ResourceLocation.parse(playerData.getActiveDriveForm())).updateDrive(player);
+			} else if (!playerData.isFormActive(ModDriveForms.NONE)) {
+				ModDriveForms.registry.get(playerData.getActiveDriveForm()).updateDrive(player);
 			}
 			// Limit recharge system
 			if (playerData.getLimitCooldownTicks() > 0 && !player.level().isClientSide) {
@@ -587,12 +587,12 @@ public class EntityEvents {
 				}
 
 				// Treasure Magnet
-				if (playerData.isAbilityEquipped(Strings.treasureMagnet) && !player.isCrouching() && player.getInventory().getFreeSlot() > -1) {
+				if (playerData.isAbilityEquipped(ModAbilities.TREASURE_MAGNET) && !player.isCrouching() && player.getInventory().getFreeSlot() > -1) {
 					double x = player.getX();
 					double y = player.getY() + 0.75;
 					double z = player.getZ();
 
-					float range = 1 + playerData.getNumberOfAbilitiesEquipped(Strings.treasureMagnet);
+					float range = 1 + playerData.getNumberOfAbilitiesEquipped(ModAbilities.TREASURE_MAGNET);
 
 					List<ItemEntity> items = player.level().getEntitiesOfClass(ItemEntity.class, new AABB(x - range, y - range, z - range, x + range, y + range, z + range));
 					int pulled = 0;
@@ -626,9 +626,9 @@ public class EntityEvents {
 
 		//Flowmotion
 		if (!player.onGround() && Utils.isTouchingWall(player) && !playerData.getIsGliding()) {
-			if (playerData.hasAirDashed() && playerData.isAbilityEquipped(Strings.wallKick)) {
+			if (playerData.hasAirDashed() && playerData.isAbilityEquipped(ModAbilities.WALL_KICK)) {
 				int grabs = playerData.getWallGrabs();
-				if (playerData.getHangingInWallTicks() == 0 && grabs < playerData.getNumberOfAbilitiesEquipped(Strings.wallKick)) {
+				if (playerData.getHangingInWallTicks() == 0 && grabs < playerData.getNumberOfAbilitiesEquipped(ModAbilities.WALL_KICK)) {
 					playerData.setBounced(false);
 					playerData.setHangingWallTicks(20);
 					playerData.setWallGrabs(grabs + 1);
@@ -742,8 +742,8 @@ public class EntityEvents {
 				playerData = PlayerData.get(player);
 				if (playerData != null) {
 					// Drive form speed
-					if (!playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())) {
-						DriveForm form = ModDriveForms.registry.get(ResourceLocation.parse(playerData.getActiveDriveForm()));
+					if (!playerData.isFormActive(ModDriveForms.NONE)) {
+						DriveForm form = ModDriveForms.registry.get(playerData.getActiveDriveForm());
 						if (player.onGround() && player.getBlockStateOn().getFriction(player.level(), player.blockPosition(), player) <= 0.6F) {
 							player.setDeltaMovement(player.getDeltaMovement().multiply(new Vec3(form.getSpeedMult(), 1, form.getSpeedMult())));
 						}
@@ -825,7 +825,7 @@ public class EntityEvents {
 					if (playerData.getReflectActive() && !player.level().isClientSide()) {// If has been hit
 						// SPAWN ENTITY and apply damage
 						float radius = 2F + playerData.getReflectLevel() * 0.5F;
-						float dmgMult = ModMagic.registry.get(ModMagic.REFLECT.get().getRegistryName()).getDamageMult(); //TODO reflect level?
+						float dmgMult = ModMagic.registry.get(ModMagic.REFLECT.location()).getDamageMult(); //TODO reflect level?
 
 						List<Entity> list = player.level().getEntities(player, player.getBoundingBox().inflate(radius, radius, radius));
 						Party casterParty = WorldData.get(player.level().getServer()).getPartyFromMember(player.getUUID());
@@ -945,7 +945,7 @@ public class EntityEvents {
 			}
 
 			PlayerData playerData = PlayerData.get(player);
-			if (playerData != null && playerData.getActiveDriveForm().equals(Strings.Form_Anti)) {
+			if (playerData != null && playerData.isFormActive(ModDriveForms.ANTI)) {
 				event.setNewDamage(playerData.getStrength(true));
 			}
 
@@ -973,13 +973,13 @@ public class EntityEvents {
 			if (playerData == null) return;
 
 			if (playerData.getReflectTicks() <= 0) { // If is casting reflect
-				if (playerData.isAbilityEquipped(Strings.mpRage)) {
-					playerData.addMP((event.getNewDamage() * 0.2F) * playerData.getNumberOfAbilitiesEquipped(Strings.mpRage));
+				if (playerData.isAbilityEquipped(ModAbilities.MP_RAGE)) {
+					playerData.addMP((event.getNewDamage() * 0.2F) * playerData.getNumberOfAbilitiesEquipped(ModAbilities.MP_RAGE));
 					PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
 				}
 
-				if (playerData.isAbilityEquipped(Strings.damageDrive)) {
-					playerData.addDP(player, (event.getNewDamage() * 0.2F) * playerData.getNumberOfAbilitiesEquipped(Strings.damageDrive));
+				if (playerData.isAbilityEquipped(ModAbilities.DAMAGE_DRIVE)) {
+					playerData.addDP(player, (event.getNewDamage() * 0.2F) * playerData.getNumberOfAbilitiesEquipped(ModAbilities.DAMAGE_DRIVE));
 					PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
 				}
 			}
@@ -1035,28 +1035,28 @@ public class EntityEvents {
 			}
 
 			// Damage Control
-			if (Utils.isPlayerLowHP(player) && playerData.isAbilityEquipped(Strings.damageControl)) {
-				damage /= (1 + playerData.getNumberOfAbilitiesEquipped(Strings.damageControl));
+			if (Utils.isPlayerLowHP(player) && playerData.isAbilityEquipped(ModAbilities.DAMAGE_CONTROL)) {
+				damage /= (1 + playerData.getNumberOfAbilitiesEquipped(ModAbilities.DAMAGE_CONTROL));
 			}
 
 			// Protect Abilities
 			float protectReduction;
-			if (playerData.isAbilityEquipped(Strings.protect)) {
+			if (playerData.isAbilityEquipped(ModAbilities.PROTECT)) {
 				protectReduction = damage * 0.1F;
 				damage -= protectReduction;
 			}
-			if (playerData.isAbilityEquipped(Strings.protectra)) {
+			if (playerData.isAbilityEquipped(ModAbilities.PROTECTRA)) {
 				protectReduction = damage * 0.2F;
 				damage -= protectReduction;
 			}
-			if (playerData.isAbilityEquipped(Strings.protectga)) {
+			if (playerData.isAbilityEquipped(ModAbilities.PROTECTGA)) {
 				protectReduction = damage * 0.4F;
 				damage -= protectReduction;
 			}
 
 			// Has to evaluate last
 			// Second chance (will save the player from a damage that would've killed him as long as he had 2 hp or more)
-			if (playerData.isAbilityEquipped(Strings.secondChance)) {
+			if (playerData.isAbilityEquipped(ModAbilities.SECOND_CHANCE)) {
 				if (damage >= player.getHealth() && player.getHealth() > 1) {
 					if (player.hasEffect(MobEffects.REGENERATION)) {
 						player.removeEffect(MobEffects.REGENERATION);
@@ -1262,7 +1262,7 @@ public class EntityEvents {
 				}
 
 				if (event.getEntity().getClassification(false) == MobCategory.MONSTER) {
-					if (!playerData.isAbilityEquipped(Strings.zeroExp)) {
+					if (!playerData.isAbilityEquipped(ModAbilities.ZERO_EXP)) {
 						LivingEntity mob = event.getEntity();
 
 						double health = mob.getAttributeValue(Attributes.MAX_HEALTH);
@@ -1275,9 +1275,9 @@ public class EntityEvents {
 							clampedXP += 1500;
 						}
 
-						if (playerData.getNumberOfAbilitiesEquipped(Strings.experienceBoost) > 0 && player.getHealth() <= player.getMaxHealth() / 2) {
-							clampedXP *= (1 + playerData.getNumberOfAbilitiesEquipped(Strings.experienceBoost));
-							clampedMagicXP *= (1 + playerData.getNumberOfAbilitiesEquipped(Strings.experienceBoost));
+						if (playerData.getNumberOfAbilitiesEquipped(ModAbilities.EXPERIENCE_BOOST) > 0 && player.getHealth() <= player.getMaxHealth() / 2) {
+							clampedXP *= (1 + playerData.getNumberOfAbilitiesEquipped(ModAbilities.EXPERIENCE_BOOST));
+							clampedMagicXP *= (1 + playerData.getNumberOfAbilitiesEquipped(ModAbilities.EXPERIENCE_BOOST));
 						}
 
 						Utils.addMagicExperience(player, clampedMagicXP);
@@ -1291,33 +1291,33 @@ public class EntityEvents {
 
 					if (entity.level().random.nextInt(100) <= ModConfigs.munnyDropProbability) {
 						int num = (int) Utils.randomWithRange(5, entity.getMaxHealth() / 5);
-						num += playerData.getNumberOfAbilitiesEquipped(Strings.jackpot) * 1.2;
+						num += playerData.getNumberOfAbilitiesEquipped(ModAbilities.JACKPOT) * 1.2;
 						// reduce munny value by 2 for each level of drive converter
-						num /= (1 + playerData.getNumberOfAbilitiesEquipped(Strings.driveConverter));
+						num /= (1 + playerData.getNumberOfAbilitiesEquipped(ModAbilities.DRIVE_CONVERTER));
 						entity.level().addFreshEntity(new MunnyEntity(event.getEntity().level(), x, y, z, num));
 					}
 
 					if (entity.level().random.nextInt(100) <= ModConfigs.hpDropProbability) {
 						int num = (int) Utils.randomWithRange(entity.getMaxHealth() / 10, entity.getMaxHealth() / 5);
-						num += playerData.getNumberOfAbilitiesEquipped(Strings.jackpot) * 1.2;
+						num += playerData.getNumberOfAbilitiesEquipped(ModAbilities.JACKPOT) * 1.2;
 						entity.level().addFreshEntity(new HPOrbEntity(event.getEntity().level(), x, y, z, num));
 					}
 
 					if (entity.level().random.nextInt(100) <= ModConfigs.mpDropProbability) {
 						int num = (int) Utils.randomWithRange(entity.getMaxHealth() / 10, entity.getMaxHealth() / 5);
-						num += playerData.getNumberOfAbilitiesEquipped(Strings.jackpot) * 1.2;
+						num += playerData.getNumberOfAbilitiesEquipped(ModAbilities.JACKPOT) * 1.2;
 						entity.level().addFreshEntity(new MPOrbEntity(event.getEntity().level(), x, y, z, num));
 					}
 
 					if (entity.level().random.nextInt(100) <= ModConfigs.driveDropProbability) {
 						int num = (int) (Utils.randomWithRange(entity.getMaxHealth() * 0.1F, entity.getMaxHealth() * 0.25F) * ModConfigs.drivePointsMultiplier);
-						num += num * playerData.getNumberOfAbilitiesEquipped(Strings.driveConverter) * 0.5;
+						num += num * playerData.getNumberOfAbilitiesEquipped(ModAbilities.JACKPOT) * 0.5;
 						entity.level().addFreshEntity(new DriveOrbEntity(event.getEntity().level(), x, y, z, num));
 					}
 
 					if (entity.level().random.nextInt(100) <= ModConfigs.focusDropProbability) {
 						int num = (int) (Utils.randomWithRange(entity.getMaxHealth() * 0.1F, entity.getMaxHealth() * 0.25F) * ModConfigs.focusPointsMultiplier);
-						num += num * playerData.getNumberOfAbilitiesEquipped(Strings.focusConverter) * 0.25;
+						num += num * playerData.getNumberOfAbilitiesEquipped(ModAbilities.JACKPOT) * 0.25;
 						entity.level().addFreshEntity(new FocusOrbEntity(event.getEntity().level(), x, y, z, num));
 					}
 
@@ -1430,10 +1430,10 @@ public class EntityEvents {
 			PlayerData playerData = PlayerData.get(player);
 			// Check to prevent edge case crash
 			if (playerData != null && playerData.getActiveDriveForm() != null) {
-				if (!playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())) {
+				if (!playerData.getActiveDriveForm().equals(DriveForm.NONE)) {
 					event.setDistance(0);
 				} else {
-					if (playerData.isAbilityEquipped(Strings.highJump) || playerData.isAbilityEquipped(Strings.aerialDodge) || playerData.isAbilityEquipped(Strings.glide) || playerData.isAbilityEquipped(Strings.wallKick)) {
+					if (playerData.isAbilityEquipped(ModAbilities.HIGH_JUMP) || playerData.isAbilityEquipped(ModAbilities.AERIAL_DODGE) || playerData.isAbilityEquipped(ModAbilities.GLIDE) || playerData.isAbilityEquipped(ModAbilities.WALL_KICK)) {
 						event.setDistance(0);
 					}
 				}
@@ -1484,7 +1484,7 @@ public class EntityEvents {
 			if (!event.isEndConquered() && !nPlayer.level().isClientSide()) {
 				if (playerData.getRespawnROD() && ModConfigs.respawnROD) {
 					ServerPlayer sPlayer = (ServerPlayer) nPlayer;
-					ResourceKey<Level> dimension = ResourceKey.create(Registries.DIMENSION, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "realm_of_darkness"));
+					ResourceKey<Level> dimension = ResourceKey.create(Registries.DIMENSION, KingdomKeys.rl("realm_of_darkness"));
 					ServerLevel serverlevel = ((ServerLevel) sPlayer.level()).getServer().getLevel(dimension);
 					BlockPos pos = serverlevel.getSharedSpawnPos();
 					sPlayer.changeDimension(new DimensionTransition(serverlevel, new Vec3(pos.getX(), pos.getY(), pos.getZ()), Vec3.ZERO, sPlayer.getYRot(), sPlayer.getXRot(), entity -> {

@@ -24,15 +24,15 @@ import yesman.epicfight.gameasset.Armatures;
 import yesman.epicfight.world.capabilities.entitypatch.LivingEntityPatch;
 
 public class PatchedDriveLayerRenderer<E extends LivingEntity, T extends LivingEntityPatch<E>, M extends EntityModel<E>> extends PatchedLayer<E, T, M, RenderLayer<E, M>> {
-    private static final ResourceLocation ANTI_EYES = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/models/armor/anti_eyes.png");
+    private static final ResourceLocation ANTI_EYES = KingdomKeys.rl("textures/models/armor/anti_eyes.png");
 
     public PatchedDriveLayerRenderer() {  }
 
     @Override
     public void renderLayer(T entityPatch, E entity, RenderLayer<E, M> emRenderLayer, PoseStack poseStack, MultiBufferSource multiBufferSource, int i, OpenMatrix4f[] openMatrix4fs, float bob, float v, float v1, float v2) {
-        if(ModConfigs.showDriveForms && entity != null && !PlayerData.get((Player) entity).getActiveDriveForm().equals(DriveForm.NONE.toString())) {
-            String drive = PlayerData.get((Player) entity).getActiveDriveForm();
-            DriveForm form = ModDriveForms.registry.get(ResourceLocation.parse(drive));
+        if(ModConfigs.showDriveForms && entity != null && !PlayerData.get((Player) entity).isFormActive(ModDriveForms.NONE)) {
+            ResourceLocation drive = PlayerData.get((Player) entity).getActiveDriveForm();
+            DriveForm form = ModDriveForms.registry.get(drive);
             if (form.getTextureLocation((Player) entity) != null) {
                 HumanoidMesh model = getModel(entity);
                 model.draw(poseStack, multiBufferSource, EpicFightRenderTypes.entityCutoutNoCull(form.getTextureLocation((Player) entity)), i, 1, 1, 1, 1, OverlayTexture.NO_OVERLAY, Armatures.BIPED.get(), openMatrix4fs);

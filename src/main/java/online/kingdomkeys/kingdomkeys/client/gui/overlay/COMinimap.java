@@ -29,7 +29,7 @@ import java.util.Map;
 public class COMinimap extends OverlayBase {
     public static final LayeredDraw.Layer INSTANCE = new COMinimap();
 
-    private static final ResourceLocation ROOM_TEX = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/co/room.png");
+    private static final ResourceLocation ROOM_TEX = KingdomKeys.rl("textures/gui/co/room.png");
 
     public RoomData currentRoom = null;
 

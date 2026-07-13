@@ -21,21 +21,22 @@ import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.awt.*;
+import java.util.Optional;
 
 public class MenuSelectShotlockButton extends MenuButtonBase {
 
-	String shotlockName;
+	ResourceLocation shotlockName;
 	boolean selected;
 	int colour, labelColour;
 	MenuShotlockSelectorScreen parent;
 	Minecraft minecraft;
 
-	final ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
+	final ResourceLocation texture = KingdomKeys.rl("textures/gui/menu/menu_button.png");
 
-	public MenuSelectShotlockButton(String shotlockName, int x, int y, int widthIn, MenuShotlockSelectorScreen parent, int colour) {
+	public MenuSelectShotlockButton(ResourceLocation shotlockName, int x, int y, int widthIn, MenuShotlockSelectorScreen parent, int colour) {
 		super(x, y, widthIn, 20, "", b -> {
 			if (b.visible && b.active) {
-				PacketHandler.sendToServer(new CSEquipShotlock(shotlockName));
+				PacketHandler.sendToServer(new CSEquipShotlock(Optional.ofNullable(shotlockName)));
 			} else {
 				Minecraft.getInstance().setScreen(new MenuEquipmentScreen());
 			}
@@ -60,8 +61,8 @@ public class MenuSelectShotlockButton extends MenuButtonBase {
 		ItemCategory category = ItemCategory.SHOTLOCK;
 		
 		Shotlock shotlock = null;
-		if(shotlockName != null && !shotlockName.equals("")) {
-			shotlock = ModShotlocks.registry.get(ResourceLocation.parse(shotlockName));
+		if(shotlockName != null) {
+			shotlock = ModShotlocks.registry.get(shotlockName);
 		}
 		
 		if (visible) {
@@ -102,7 +103,7 @@ public class MenuSelectShotlockButton extends MenuButtonBase {
 			}
 			Lighting.setupForFlatItems();
 			float labelWidth = parent.width * 0.18F;
-			RenderSystem.setShaderTexture(0, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/menu/menu_button.png"));
+			RenderSystem.setShaderTexture(0, KingdomKeys.rl("textures/gui/menu/menu_button.png"));
 			matrixStack.pushPose();
 			{
 				RenderSystem.enableBlend();

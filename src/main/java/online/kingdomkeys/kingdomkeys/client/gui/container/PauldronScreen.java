@@ -63,7 +63,7 @@ public class PauldronScreen extends AbstractContainerScreen<PauldronMenu> {
 
         int xPos = (width - imageWidth) / 2;
         int yPos = (height / 2) - (imageHeight / 2);
-        guiGraphics.blit(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/pauldron_inv.png"), xPos, yPos, 0, 0, imageWidth, imageHeight);
+        guiGraphics.blit(KingdomKeys.rl("textures/gui/pauldron_inv.png"), xPos, yPos, 0, 0, imageWidth, imageHeight);
         LocalPlayer clone = new LocalPlayer(minecraft, minecraft.level, minecraft.getConnection(), minecraft.player.getStats(), minecraft.player.getRecipeBook(), false, false);
         clone.getInventory().armor.set(3, menu.pauldronInv.getStackInSlot(0));
         clone.getInventory().armor.set(2, menu.pauldronInv.getStackInSlot(1));

@@ -16,7 +16,7 @@ public class SoldierRenderer<Type extends SoldierEntity> extends MobRenderer<Typ
 
 	public SoldierRenderer(EntityRendererProvider.Context context) {
         super(context, new SoldierModel<>(context.bakeLayer(SoldierModel.LAYER_LOCATION)), 0.5F);
-		this.addLayer(new HeartlessEyesLayerRenderer<>(this, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/mob/soldier_eyes.png")));
+		this.addLayer(new HeartlessEyesLayerRenderer<>(this, KingdomKeys.rl("textures/entity/mob/soldier_eyes.png")));
 	}
 
 	@Override

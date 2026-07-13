@@ -20,7 +20,7 @@ import online.kingdomkeys.kingdomkeys.util.StreamCodecs;
 
 public record CSOrgPortalTPPacket(ResourceKey<Level> dim, Vec3 pos) implements Packet {
 
-	public static final Type<CSOrgPortalTPPacket> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_org_portal_tp"));
+	public static final Type<CSOrgPortalTPPacket> TYPE = new Type<>(KingdomKeys.rl("cs_org_portal_tp"));
 
 	public static final StreamCodec<FriendlyByteBuf, CSOrgPortalTPPacket> STREAM_CODEC = StreamCodec.composite(
 			ResourceKey.streamCodec(Registries.DIMENSION),

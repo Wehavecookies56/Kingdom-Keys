@@ -40,7 +40,7 @@ public class RoomTypesGen extends BaseProvider<RoomTypeBuilder> {
         createRoomType(Strings.BottomlessDarkness, RoomSize.L, RoomCategory.ENEMY)
                 .enemies(new Enemies(RoomEnemies.L, 13, 6, ModTags.CO_BOTTOMLESS_DARKNESS, null))
                 .modifiers(new EffectRoomModifier(MobEffects.DARKNESS, EffectType.PLAYER, 0))
-                .fixedRoom(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, Strings.BottomlessDarkness))
+                .fixedRoom(KingdomKeys.rl(Strings.BottomlessDarkness))
                 .colour(Color.BLACK);
         createRoomType(Strings.CalmBounty, RoomSize.S, RoomCategory.BOUNTY);
         createRoomType(Strings.ConquerorsRespite, RoomSize.SPECIAL, RoomCategory.SPECIAL)

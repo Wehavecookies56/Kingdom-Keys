@@ -13,7 +13,7 @@ import online.kingdomkeys.kingdomkeys.network.Packet;
 
 public record CSAntiPointsPacket(int points) implements Packet {
 
-	public static final Type<CSAntiPointsPacket> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_anti_points"));
+	public static final Type<CSAntiPointsPacket> TYPE = new Type<>(KingdomKeys.rl("cs_anti_points"));
 
 	public static final StreamCodec<FriendlyByteBuf, CSAntiPointsPacket> STREAM_CODEC = StreamCodec.composite(
 			ByteBufCodecs.INT,

@@ -46,7 +46,7 @@ public class BlueRhapsodyEntity extends BaseElementalMusicalHeartlessEntity {
     @OnlyIn(Dist.CLIENT)
     @Override
     public ResourceLocation getTexture() {
-        return ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/mob/blue_rhapsody.png");
+        return KingdomKeys.rl("textures/entity/mob/blue_rhapsody.png");
     }
 
     @Override

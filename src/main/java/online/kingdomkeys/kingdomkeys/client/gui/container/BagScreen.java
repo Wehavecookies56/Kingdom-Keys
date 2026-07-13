@@ -110,6 +110,6 @@ public class BagScreen extends AbstractContainerScreen<BagMenu> {
 		int yPos = topPos;
 
 		String textureBase = "textures/gui/synthesis_bag_";
-		gui.blit(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, textureBase + bagLevel + ".png"), xPos, yPos, 0, 0, imageWidth, imageHeight);
+		gui.blit(KingdomKeys.rl(textureBase + bagLevel + ".png"), xPos, yPos, 0, 0, imageWidth, imageHeight);
 	}
 }

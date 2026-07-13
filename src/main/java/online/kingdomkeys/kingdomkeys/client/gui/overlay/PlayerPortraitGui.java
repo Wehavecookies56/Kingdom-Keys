@@ -15,6 +15,7 @@ import net.minecraft.world.item.Items;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
+import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.entity.GummiShipEntity;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.util.Utils;
@@ -48,7 +49,7 @@ public class PlayerPortraitGui extends OverlayBase {
         }
 
 		if (playerData != null) {
-			if (playerData.getActiveDriveForm().equals(Strings.Form_Anti)) {
+			if (playerData.isFormActive(ModDriveForms.ANTI)) {
 				RenderSystem.setShaderColor(0.2F, 0.2F, 0.2F, 1F);
 			}
 
@@ -66,7 +67,7 @@ public class PlayerPortraitGui extends OverlayBase {
                     RenderSystem.enableBlend();
                     float scaleX = 0.18F, scaleY = 0.18F;
                     poseStack.scale(scaleX, scaleY, 0);
-                    ResourceLocation circle = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/portrait.png");
+                    ResourceLocation circle = KingdomKeys.rl("textures/gui/portrait.png");
                     blit(guiGraphics, circle, -39, -39, 0, 0, 256, 256);
                     RenderSystem.disableBlend();
                     ClientUtils.PORTRAIT_ELEMENT.endTransform(guiGraphics);

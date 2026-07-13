@@ -33,7 +33,7 @@ public class GuiMenu_Party_None extends MenuBackground {
 
 	Party party;
 
-	final ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
+	final ResourceLocation texture = KingdomKeys.rl("textures/gui/menu/menu_button.png");
 
 	//Not in party
 	//0 = not in party

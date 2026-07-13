@@ -14,7 +14,7 @@ import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 
 public record CSSetGlidingPacket(boolean gliding) implements Packet {
 
-	public static final Type<CSSetGlidingPacket> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_set_gliding"));
+	public static final Type<CSSetGlidingPacket> TYPE = new Type<>(KingdomKeys.rl("cs_set_gliding"));
 
 	public static final StreamCodec<FriendlyByteBuf, CSSetGlidingPacket> STREAM_CODEC = StreamCodec.composite(
 			ByteBufCodecs.BOOL,

@@ -29,7 +29,7 @@ public class KingdomHeartsSkyRenderer {
             Matrix4f matrix4f1 = poseStack.last().pose();
             RenderSystem.setShader(GameRenderer::getPositionTexShader);
             float f12 = 50.0F;
-            RenderSystem.setShaderTexture(0, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/environment/kingdom_hearts.png"));
+            RenderSystem.setShaderTexture(0, KingdomKeys.rl("textures/environment/kingdom_hearts.png"));
             int k = 0; //moon phase
             int l = k % 4;
             int i1 = k / 4 % 2;

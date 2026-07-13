@@ -18,7 +18,7 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
  * Ported to 1.18 using Tabula, Blockbench and manual code editing - Wehavecookies56
  */
 public class DuskModel<T extends Entity> extends EntityModel<T> {
-    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "dusk"), "main");
+    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(KingdomKeys.rl("dusk"), "main");
     private final ModelPart RightLegUpper;
     private final ModelPart RightLegThigh;
     private final ModelPart RightLegMiddle;

@@ -16,7 +16,7 @@ import online.kingdomkeys.kingdomkeys.util.StreamCodecs;
 
 public record CSPedestalConfig(BlockPos tileEntityPos, float rotationSpeed, float bobSpeed, float savedRotation, float savedHeight, float baseHeight, float scale, boolean pause, boolean flipped) implements Packet {
 
-    public static final Type<CSPedestalConfig> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_pedestal_config"));
+    public static final Type<CSPedestalConfig> TYPE = new Type<>(KingdomKeys.rl("cs_pedestal_config"));
 
     public static final StreamCodec<FriendlyByteBuf, CSPedestalConfig> STREAM_CODEC = StreamCodecs.composite(
             BlockPos.STREAM_CODEC,

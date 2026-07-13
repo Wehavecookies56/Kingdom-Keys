@@ -26,7 +26,7 @@ import java.util.List;
 
 public record CSShopBuy(ResourceLocation inv, ItemStack itemStack) implements Packet {
 
-	public static final Type<CSShopBuy> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_shop_buy"));
+	public static final Type<CSShopBuy> TYPE = new Type<>(KingdomKeys.rl("cs_shop_buy"));
 
 	public static final StreamCodec<RegistryFriendlyByteBuf, CSShopBuy> STREAM_CODEC = StreamCodec.composite(
 			ResourceLocation.STREAM_CODEC,

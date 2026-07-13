@@ -8,8 +8,9 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
+import online.kingdomkeys.kingdomkeys.lib.KKRegistryObject;
 
-public abstract class ReactionCommand {
+public abstract class ReactionCommand implements KKRegistryObject {
 	ResourceLocation name;
 	int duration;
 	int color;
@@ -35,10 +36,6 @@ public abstract class ReactionCommand {
 
 	public SoundEvent getUseSound(Player player, LivingEntity target) {
 		return ModSounds.menu_in.get();
-	}
-
-	public String getName() {
-		return name.toString();
 	}
 
 	public boolean needsConstantCheck() {
@@ -72,21 +69,22 @@ public abstract class ReactionCommand {
 		PlayerData playerData = PlayerData.get(player);
 
 		if(duration > -1){
-			if(playerData.getReactionCommands().containsKey(getName())){
-                playerData.getReactionCommands().compute(name.toString(), (k, duration) -> duration - 1);
+			if(playerData.getReactionCommands().containsKey(getRegistryName())){
+                playerData.getReactionCommands().compute(name, (k, duration) -> duration - 1);
 
 				//Remove cuz it expired
-				if(playerData.getReactionCommands().get(getName()) == 0){
-					playerData.getReactionCommands().remove(getName());
+				if(playerData.getReactionCommands().get(getRegistryName()) == 0){
+					playerData.getReactionCommands().remove(getRegistryName());
 				}
 			}
 		}
 
 		if (!conditionsToAppear(player, player)) {
-			playerData.getReactionCommands().remove(getName());
+			playerData.getReactionCommands().remove(getRegistryName());
 		}
 	}
-	
+
+	@Override
 	public ResourceLocation getRegistryName() {
 		return name;
 	}

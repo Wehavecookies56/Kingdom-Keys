@@ -15,7 +15,7 @@ import online.kingdomkeys.kingdomkeys.network.stc.SCSyncWorldData;
 
 public record CSStruggleSettings(Struggle struggle) implements Packet {
 
-	public static final Type<CSStruggleSettings> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_struggle_settings"));
+	public static final Type<CSStruggleSettings> TYPE = new Type<>(KingdomKeys.rl("cs_struggle_settings"));
 
 	public static final StreamCodec<FriendlyByteBuf, CSStruggleSettings> STREAM_CODEC = StreamCodec.composite(
 			Struggle.STREAM_CODEC,

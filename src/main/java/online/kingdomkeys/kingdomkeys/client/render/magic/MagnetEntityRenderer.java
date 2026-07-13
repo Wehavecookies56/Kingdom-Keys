@@ -23,7 +23,7 @@ import javax.annotation.Nullable;
 
 @OnlyIn(Dist.CLIENT)
 public class MagnetEntityRenderer extends EntityRenderer<ThrowableProjectile> {
-	public static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/models/magnet.png");
+	public static final ResourceLocation TEXTURE = KingdomKeys.rl("textures/entity/models/magnet.png");
 	MagnetModel magnetModel;
 
 	public MagnetEntityRenderer(EntityRendererProvider.Context context) {

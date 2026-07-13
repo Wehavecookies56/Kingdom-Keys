@@ -14,7 +14,7 @@ import yesman.epicfight.world.capabilities.entitypatch.player.ServerPlayerPatch;
 
 public record CSPlayAnimation(int animation) implements Packet {
 
-    public static final Type<CSPlayAnimation> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_play_animation"));
+    public static final Type<CSPlayAnimation> TYPE = new Type<>(KingdomKeys.rl("cs_play_animation"));
 
     public static final StreamCodec<FriendlyByteBuf, CSPlayAnimation> STREAM_CODEC = StreamCodec.composite(
             ByteBufCodecs.INT,

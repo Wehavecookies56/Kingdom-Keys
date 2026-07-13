@@ -18,6 +18,7 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
+import java.util.Optional;
 
 public class MenuShotlockSelectorScreen extends MenuBackground {
 
@@ -56,7 +57,8 @@ public class MenuShotlockSelectorScreen extends MenuBackground {
 		
 		int pos = 0;
 		PlayerData playerData = PlayerData.get(minecraft.player);
-		Shotlock equippedShotlock = ModShotlocks.registry.get(ResourceLocation.parse(playerData.getEquippedShotlock()));//playerData.getEquippedKeychain(form);
+
+		Shotlock equippedShotlock = playerData.getEquippedShotlock().map(location -> ModShotlocks.registry.get(location)).orElse(null);
 		//If the equipped keychain is a keychain get the keyblade's translation key, otherwise ---
 		String equippedShotlockName = equippedShotlock == null ? "---" : equippedShotlock.getTranslationKey();
 		
@@ -64,10 +66,10 @@ public class MenuShotlockSelectorScreen extends MenuBackground {
 		addRenderableWidget(new MenuColourBox((int) listX, (int) listY + (itemHeight * (pos-1)), (int) (keybladesWidth - (listX - keybladesX)*2), Utils.translateToLocal(equippedShotlockName),equippedShotlock == null ? "N/A" : "Max: "+equippedShotlock.getMaxLocks(), buttonColour));
 		
 		if(equippedShotlock != null)
-			addRenderableWidget(new MenuSelectShotlockButton("", (int) listX, (int) listY + (itemHeight * pos++), 150, this, buttonColour));
+			addRenderableWidget(new MenuSelectShotlockButton(null, (int) listX, (int) listY + (itemHeight * pos++), 150, this, buttonColour));
 
-		for(String sName : Utils.getSortedShotlocks(playerData.getShotlockList())) {
-			if(equippedShotlock == null || !sName.equals(equippedShotlock.getName())) {
+		for(ResourceLocation sName : Utils.getSortedShotlocks(playerData.getShotlockList())) {
+			if(equippedShotlock == null || !sName.equals(equippedShotlock.getRegistryName())) {
 				addRenderableWidget(new MenuSelectShotlockButton(sName, (int) listX, (int) listY + (itemHeight * pos++), 150, this, buttonColour));
 			}
 		}

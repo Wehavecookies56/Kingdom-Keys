@@ -93,19 +93,19 @@ public class Recipes extends RecipeProvider {
 
     	SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_HELMET), Ingredient.of(Items.ORANGE_DYE), RecipeCategory.COMBAT, ModItems.terra_Helmet.get())
         .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_HELMET))
-        .save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "keyblade_armor_terra_helmet_smithing"));
+        .save(consumer, KingdomKeys.rl("keyblade_armor_terra_helmet_smithing"));
 
 		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_CHESTPLATE), Ingredient.of(Items.ORANGE_DYE), RecipeCategory.COMBAT, ModItems.terra_Chestplate.get())
         .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_CHESTPLATE))
-        .save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "keyblade_armor_terra_chestplate_smithing"));
+        .save(consumer, KingdomKeys.rl("keyblade_armor_terra_chestplate_smithing"));
 
 		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_LEGGINGS), Ingredient.of(Items.ORANGE_DYE), RecipeCategory.COMBAT, ModItems.terra_Leggings.get())
         .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_LEGGINGS))
-        .save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "keyblade_armor_terra_leggings_smithing"));
+        .save(consumer, KingdomKeys.rl("keyblade_armor_terra_leggings_smithing"));
 
 		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_BOOTS), Ingredient.of(Items.ORANGE_DYE), RecipeCategory.COMBAT, ModItems.terra_Boots.get())
         .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_BOOTS))
-        .save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "keyblade_armor_terra_boots_smithing"));
+        .save(consumer, KingdomKeys.rl("keyblade_armor_terra_boots_smithing"));
 
     	//Aqua
 		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.aqua_Shoulder.get())
@@ -122,19 +122,19 @@ public class Recipes extends RecipeProvider {
 
 		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_HELMET), Ingredient.of(Items.BLUE_DYE), RecipeCategory.COMBAT, ModItems.aqua_Helmet.get())
         .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_HELMET))
-        .save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "keyblade_armor_aqua_helmet_smithing"));
+        .save(consumer, KingdomKeys.rl("keyblade_armor_aqua_helmet_smithing"));
 
 		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_CHESTPLATE), Ingredient.of(Items.BLUE_DYE), RecipeCategory.COMBAT, ModItems.aqua_Chestplate.get())
         .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_CHESTPLATE))
-        .save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "keyblade_armor_aqua_chestplate_smithing"));
+        .save(consumer, KingdomKeys.rl("keyblade_armor_aqua_chestplate_smithing"));
 
 		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_LEGGINGS), Ingredient.of(Items.BLUE_DYE), RecipeCategory.COMBAT, ModItems.aqua_Leggings.get())
         .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_LEGGINGS))
-        .save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "keyblade_armor_aqua_leggings_smithing"));
+        .save(consumer, KingdomKeys.rl("keyblade_armor_aqua_leggings_smithing"));
 
 		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_BOOTS), Ingredient.of(Items.BLUE_DYE), RecipeCategory.COMBAT, ModItems.aqua_Boots.get())
         .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_BOOTS))
-        .save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "keyblade_armor_aqua_boots_smithing"));
+        .save(consumer, KingdomKeys.rl("keyblade_armor_aqua_boots_smithing"));
 
     	//Ventus
 		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.ventus_Shoulder.get())
@@ -151,19 +151,19 @@ public class Recipes extends RecipeProvider {
 
 		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_HELMET), Ingredient.of(Items.LIME_DYE), RecipeCategory.COMBAT, ModItems.ventus_Helmet.get())
         .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_HELMET))
-        .save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "keyblade_armor_ventus_helmet_smithing"));
+        .save(consumer, KingdomKeys.rl("keyblade_armor_ventus_helmet_smithing"));
 
 		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_CHESTPLATE), Ingredient.of(Items.LIME_DYE), RecipeCategory.COMBAT, ModItems.ventus_Chestplate.get())
         .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_CHESTPLATE))
-        .save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "keyblade_armor_ventus_chestplate_smithing"));
+        .save(consumer, KingdomKeys.rl("keyblade_armor_ventus_chestplate_smithing"));
 
 		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_LEGGINGS), Ingredient.of(Items.LIME_DYE), RecipeCategory.COMBAT, ModItems.ventus_Leggings.get())
         .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_LEGGINGS))
-        .save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "keyblade_armor_ventus_leggings_smithing"));
+        .save(consumer, KingdomKeys.rl("keyblade_armor_ventus_leggings_smithing"));
 
 		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_BOOTS), Ingredient.of(Items.LIME_DYE), RecipeCategory.COMBAT, ModItems.ventus_Boots.get())
         .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_BOOTS))
-        .save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "keyblade_armor_ventus_boots_smithing"));
+        .save(consumer, KingdomKeys.rl("keyblade_armor_ventus_boots_smithing"));
 
     	//Nightmare Ventus
 		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.nightmareVentus_Shoulder.get())
@@ -180,19 +180,19 @@ public class Recipes extends RecipeProvider {
 
 		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_HELMET), Ingredient.of(Items.BLACK_DYE), RecipeCategory.COMBAT, ModItems.nightmareVentus_Helmet.get())
         .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_HELMET))
-        .save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "keyblade_armor_nightmare_ventus_helmet_smithing"));
+        .save(consumer, KingdomKeys.rl("keyblade_armor_nightmare_ventus_helmet_smithing"));
 
 		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_CHESTPLATE), Ingredient.of(Items.BLACK_DYE), RecipeCategory.COMBAT, ModItems.nightmareVentus_Chestplate.get())
         .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_CHESTPLATE))
-        .save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "keyblade_armor_nightmare_ventus_chestplate_smithing"));
+        .save(consumer, KingdomKeys.rl("keyblade_armor_nightmare_ventus_chestplate_smithing"));
 
 		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_LEGGINGS), Ingredient.of(Items.BLACK_DYE), RecipeCategory.COMBAT, ModItems.nightmareVentus_Leggings.get())
         .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_LEGGINGS))
-        .save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "keyblade_armor_nightmare_ventus_leggings_smithing"));
+        .save(consumer, KingdomKeys.rl("keyblade_armor_nightmare_ventus_leggings_smithing"));
 
 		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_BOOTS), Ingredient.of(Items.BLACK_DYE), RecipeCategory.COMBAT, ModItems.nightmareVentus_Boots.get())
         .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_BOOTS))
-        .save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "keyblade_armor_nightmare_ventus_boots_smithing"));
+        .save(consumer, KingdomKeys.rl("keyblade_armor_nightmare_ventus_boots_smithing"));
 
     	//Eraqus
 		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.eraqus_Shoulder.get())
@@ -209,19 +209,19 @@ public class Recipes extends RecipeProvider {
 
 		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_HELMET), Ingredient.of(Items.WHITE_DYE), RecipeCategory.COMBAT, ModItems.eraqus_Helmet.get())
         .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_HELMET))
-        .save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "keyblade_armor_eraqus_helmet_smithing"));
+        .save(consumer, KingdomKeys.rl("keyblade_armor_eraqus_helmet_smithing"));
 
 		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_CHESTPLATE), Ingredient.of(Items.WHITE_DYE), RecipeCategory.COMBAT, ModItems.eraqus_Chestplate.get())
         .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_CHESTPLATE))
-        .save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "keyblade_armor_eraqus_chestplate_smithing"));
+        .save(consumer, KingdomKeys.rl("keyblade_armor_eraqus_chestplate_smithing"));
 
 		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_LEGGINGS), Ingredient.of(Items.WHITE_DYE), RecipeCategory.COMBAT, ModItems.eraqus_Leggings.get())
         .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_LEGGINGS))
-        .save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "keyblade_armor_eraqus_leggings_smithing"));
+        .save(consumer, KingdomKeys.rl("keyblade_armor_eraqus_leggings_smithing"));
 
 		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_BOOTS), Ingredient.of(Items.WHITE_DYE), RecipeCategory.COMBAT, ModItems.eraqus_Boots.get())
         .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_BOOTS))
-        .save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "keyblade_armor_eraqus_boots_smithing"));
+        .save(consumer, KingdomKeys.rl("keyblade_armor_eraqus_boots_smithing"));
 
     	//Xehanort
 		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.xehanort_Shoulder.get())
@@ -238,19 +238,19 @@ public class Recipes extends RecipeProvider {
 
 		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_HELMET), Ingredient.of(Items.GRAY_DYE), RecipeCategory.COMBAT, ModItems.xehanort_Helmet.get())
         .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_HELMET))
-        .save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "keyblade_armor_xehanort_helmet_smithing"));
+        .save(consumer, KingdomKeys.rl("keyblade_armor_xehanort_helmet_smithing"));
 
 		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_CHESTPLATE), Ingredient.of(Items.GRAY_DYE), RecipeCategory.COMBAT, ModItems.xehanort_Chestplate.get())
         .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_CHESTPLATE))
-        .save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "keyblade_armor_xehanort_chestplate_smithing"));
+        .save(consumer, KingdomKeys.rl("keyblade_armor_xehanort_chestplate_smithing"));
 
 		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_LEGGINGS), Ingredient.of(Items.GRAY_DYE), RecipeCategory.COMBAT, ModItems.xehanort_Leggings.get())
         .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_LEGGINGS))
-        .save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "keyblade_armor_xehanort_leggings_smithing"));
+        .save(consumer, KingdomKeys.rl("keyblade_armor_xehanort_leggings_smithing"));
 
 		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_BOOTS), Ingredient.of(Items.GRAY_DYE), RecipeCategory.COMBAT, ModItems.xehanort_Boots.get())
         .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_BOOTS))
-        .save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "keyblade_armor_xehanort_boots_smithing"));
+        .save(consumer, KingdomKeys.rl("keyblade_armor_xehanort_boots_smithing"));
 
 		/*ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.firaSpell.get())
 				.requires(ModItems.fireSpell.get(), 2)
@@ -1274,7 +1274,7 @@ public class Recipes extends RecipeProvider {
 						SingleItemRecipeBuilder.stonecutting(Ingredient.of(gummiBlocks.get(i).get(k).get()), RecipeCategory.BUILDING_BLOCKS, gummiBlocks.get(j).get(k).get())
 							.group(KingdomKeys.MODID + "_gummi_blocks")
 							.unlockedBy("has_" + Utils.getBlockRegistryName(gummiBlocks.get(i).get(k).get()).getPath(), InventoryChangeTrigger.TriggerInstance.hasItems(gummiBlocks.get(i).get(k).get()))
-							.save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, Utils.getBlockRegistryName(gummiBlocks.get(j).get(k).get()).getPath() + "_from_" + Utils.getBlockRegistryName(gummiBlocks.get(i).get(k).get()).getPath().replace("_" + DyeColor.values()[k].getName(), "").replace("gummi_", "")));
+							.save(consumer, KingdomKeys.rl(Utils.getBlockRegistryName(gummiBlocks.get(j).get(k).get()).getPath() + "_from_" + Utils.getBlockRegistryName(gummiBlocks.get(i).get(k).get()).getPath().replace("_" + DyeColor.values()[k].getName(), "").replace("gummi_", "")));
 					}
 				}
 			}
@@ -1286,7 +1286,7 @@ public class Recipes extends RecipeProvider {
                         SingleItemRecipeBuilder.stonecutting(Ingredient.of(gummiShellBlocks.get(i).get(k).get()), RecipeCategory.BUILDING_BLOCKS, gummiShellBlocks.get(j).get(k).get())
                                 .group(KingdomKeys.MODID + "_gummi_blocks")
                                 .unlockedBy("has_" + Utils.getBlockRegistryName(gummiShellBlocks.get(i).get(k).get()).getPath(), InventoryChangeTrigger.TriggerInstance.hasItems(gummiShellBlocks.get(i).get(k).get()))
-                                .save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, Utils.getBlockRegistryName(gummiShellBlocks.get(j).get(k).get()).getPath() + "_from_" + Utils.getBlockRegistryName(gummiShellBlocks.get(i).get(k).get()).getPath().replace("_" + DyeColor.values()[k].getName(), "").replace("gummi_", "")));
+                                .save(consumer, KingdomKeys.rl(Utils.getBlockRegistryName(gummiShellBlocks.get(j).get(k).get()).getPath() + "_from_" + Utils.getBlockRegistryName(gummiShellBlocks.get(i).get(k).get()).getPath().replace("_" + DyeColor.values()[k].getName(), "").replace("gummi_", "")));
                     }
                 }
             }
@@ -1298,7 +1298,7 @@ public class Recipes extends RecipeProvider {
                         SingleItemRecipeBuilder.stonecutting(Ingredient.of(gummiDispelBlocks.get(i).get(k).get()), RecipeCategory.BUILDING_BLOCKS, gummiDispelBlocks.get(j).get(k).get())
                                 .group(KingdomKeys.MODID + "_gummi_blocks")
                                 .unlockedBy("has_" + Utils.getBlockRegistryName(gummiDispelBlocks.get(i).get(k).get()).getPath(), InventoryChangeTrigger.TriggerInstance.hasItems(gummiDispelBlocks.get(i).get(k).get()))
-                                .save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, Utils.getBlockRegistryName(gummiDispelBlocks.get(j).get(k).get()).getPath() + "_from_" + Utils.getBlockRegistryName(gummiDispelBlocks.get(i).get(k).get()).getPath().replace("_" + DyeColor.values()[k].getName(), "").replace("gummi_", "")));
+                                .save(consumer, KingdomKeys.rl(Utils.getBlockRegistryName(gummiDispelBlocks.get(j).get(k).get()).getPath() + "_from_" + Utils.getBlockRegistryName(gummiDispelBlocks.get(i).get(k).get()).getPath().replace("_" + DyeColor.values()[k].getName(), "").replace("gummi_", "")));
                     }
                 }
             }
@@ -1345,7 +1345,7 @@ public class Recipes extends RecipeProvider {
 					.requires(dyes.get(i))
 					.group(KingdomKeys.MODID + "_gummi_blocks")
 					.unlockedBy("has_" + Utils.getBlockRegistryName(blocks.get(i).get()).getPath(), InventoryChangeTrigger.TriggerInstance.hasItems(blocks.get(i).get()))
-					.save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, Utils.getBlockRegistryName(blocks.get(i).get()).getPath() + "_from_dye"));
+					.save(consumer, KingdomKeys.rl(Utils.getBlockRegistryName(blocks.get(i).get()).getPath() + "_from_dye"));
 			}
 
             //Shell block + dye ? shell dyed
@@ -1356,7 +1356,7 @@ public class Recipes extends RecipeProvider {
                         .requires(dyes.get(i))
                         .group(KingdomKeys.MODID + "_gummi_blocks")
                         .unlockedBy("has_" + Utils.getBlockRegistryName(blocks.get(i).get()).getPath(), InventoryChangeTrigger.TriggerInstance.hasItems(blocks.get(i).get()))
-                        .save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, Utils.getBlockRegistryName(blocks.get(i).get()).getPath() + "_from_dye"));
+                        .save(consumer, KingdomKeys.rl(Utils.getBlockRegistryName(blocks.get(i).get()).getPath() + "_from_dye"));
             }
 
             //Dispel block + dye = dispel dyed
@@ -1367,7 +1367,7 @@ public class Recipes extends RecipeProvider {
                         .requires(dyes.get(i))
                         .group(KingdomKeys.MODID + "_gummi_blocks")
                         .unlockedBy("has_" + Utils.getBlockRegistryName(blocks.get(i).get()).getPath(), InventoryChangeTrigger.TriggerInstance.hasItems(blocks.get(i).get()))
-                        .save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, Utils.getBlockRegistryName(blocks.get(i).get()).getPath() + "_from_dye"));
+                        .save(consumer, KingdomKeys.rl(Utils.getBlockRegistryName(blocks.get(i).get()).getPath() + "_from_dye"));
             }
 
             for (int shape=0; shape<gummiDifferentBlocks.size();shape++) {
@@ -1377,7 +1377,7 @@ public class Recipes extends RecipeProvider {
                         .requires(dyes.get(i))
                         .group(KingdomKeys.MODID + "_gummi_blocks")
                         .unlockedBy("has_" + Utils.getBlockRegistryName(blocks.get(i).get()).getPath(), InventoryChangeTrigger.TriggerInstance.hasItems(blocks.get(i).get()))
-                        .save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, Utils.getBlockRegistryName(blocks.get(i).get()).getPath() + "_from_dye"));
+                        .save(consumer, KingdomKeys.rl(Utils.getBlockRegistryName(blocks.get(i).get()).getPath() + "_from_dye"));
             }
 		}
     }
@@ -1385,6 +1385,6 @@ public class Recipes extends RecipeProvider {
 	private void addRecipeUpgrade(RecipeOutput consumer, ItemLike input, ItemLike output, int amount, String id) {
 		ShapelessRecipeBuilder builder = ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, output);
 		builder.requires(input, amount);
-		builder.unlockedBy(id, InventoryChangeTrigger.TriggerInstance.hasItems(input)).save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, id + amount));
+		builder.unlockedBy(id, InventoryChangeTrigger.TriggerInstance.hasItems(input)).save(consumer, KingdomKeys.rl(id + amount));
 	}
 }

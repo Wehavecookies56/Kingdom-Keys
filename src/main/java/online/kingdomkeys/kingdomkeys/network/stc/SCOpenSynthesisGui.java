@@ -14,7 +14,7 @@ import online.kingdomkeys.kingdomkeys.network.Packet;
 
 public record SCOpenSynthesisGui(CompoundTag playerData, String inv, String name, int moogle) implements Packet {
 
-	public static final Type<SCOpenSynthesisGui> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "sc_open_synthesis_gui"));
+	public static final Type<SCOpenSynthesisGui> TYPE = new Type<>(KingdomKeys.rl("sc_open_synthesis_gui"));
 
 	public static final StreamCodec<FriendlyByteBuf, SCOpenSynthesisGui> STREAM_CODEC = StreamCodec.composite(
 			ByteBufCodecs.COMPOUND_TAG,

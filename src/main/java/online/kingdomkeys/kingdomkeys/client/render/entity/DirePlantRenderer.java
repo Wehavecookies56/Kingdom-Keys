@@ -16,7 +16,7 @@ public class DirePlantRenderer extends MobRenderer<DirePlantEntity, DirePlantMod
 
     @Override
     public ResourceLocation getTextureLocation(DirePlantEntity entity) {
-        return ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/mob/dire_plant.png");
+        return KingdomKeys.rl("textures/entity/mob/dire_plant.png");
     }
 
     @Override

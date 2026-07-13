@@ -18,6 +18,6 @@ public class ModBannerPatterns {
             NOBODY_FILLED = PATTERNS.register("nobody_filled", () -> createBanner("nobody_filled"));
 
     public static BannerPattern createBanner(String name){
-        return new BannerPattern(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, name), name);
+        return new BannerPattern(KingdomKeys.rl(name), name);
     }
 }

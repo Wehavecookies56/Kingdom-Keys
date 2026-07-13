@@ -17,12 +17,14 @@ import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCOpenEquipmentScreen;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
 
-public record CSEquipShotlock(String shotlock) implements Packet {
+import java.util.Optional;
 
-    public static final Type<CSEquipShotlock> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_equip_shotlock"));
+public record CSEquipShotlock(Optional<ResourceLocation> shotlock) implements Packet {
+
+    public static final Type<CSEquipShotlock> TYPE = new Type<>(KingdomKeys.rl("cs_equip_shotlock"));
 
     public static final StreamCodec<FriendlyByteBuf, CSEquipShotlock> STREAM_CODEC = StreamCodec.composite(
-            ByteBufCodecs.STRING_UTF8,
+            ByteBufCodecs.optional(ResourceLocation.STREAM_CODEC),
             CSEquipShotlock::shotlock,
             CSEquipShotlock::new
     );
@@ -31,9 +33,9 @@ public record CSEquipShotlock(String shotlock) implements Packet {
     public void handle(IPayloadContext context) {
         Player player = context.player();
         PlayerData playerData = PlayerData.get(player);
-        if (!NeoForge.EVENT_BUS.post(new EquipmentEvent.Shotlock(player, ResourceLocation.parse(playerData.getEquippedShotlock()), ResourceLocation.parse(shotlock))).isCanceled()) {
-            if (playerData.getShotlockList().contains(shotlock) || shotlock.equals("")) {
-                playerData.setEquippedShotlock(shotlock);
+        if (!NeoForge.EVENT_BUS.post(new EquipmentEvent.Shotlock(player, playerData.getEquippedShotlock().orElse(null), shotlock.orElse(null))).isCanceled()) {
+            if (shotlock.isEmpty() || playerData.getShotlockList().contains(shotlock.get())) {
+                playerData.setEquippedShotlock(shotlock.orElse(null));
             }
             PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
             PacketHandler.sendTo(new SCOpenEquipmentScreen(), (ServerPlayer) player);

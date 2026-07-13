@@ -32,7 +32,7 @@ public class KeybladeDataDeserializer implements JsonDeserializer<KeybladeData> 
 		JsonObject jsonObject = json.getAsJsonObject();
 		jsonObject.entrySet().forEach(entry -> {
 			JsonElement element = entry.getValue();
-			List<String> abilities = new ArrayList<String>();
+			List<ResourceLocation> abilities = new ArrayList<>();
 
 			switch (entry.getKey()) {
 			case "ability":
@@ -41,7 +41,7 @@ public class KeybladeDataDeserializer implements JsonDeserializer<KeybladeData> 
 					Ability ability = ModAbilities.registry.get(ResourceLocation.parse(element.getAsString()));
 					// Make sure the item is valid
 					if (ability != null) {
-						out.setBaseAbility(ability.getRegistryName().toString());
+						out.setBaseAbility(ability.getRegistryName());
 					}
 				}
 				break;
@@ -126,7 +126,7 @@ public class KeybladeDataDeserializer implements JsonDeserializer<KeybladeData> 
 				case "ability":
 					String name = levelElement.getAsString();
 					if(ModAbilities.registry.containsKey(ResourceLocation.parse(name))) {
-						level.setAbility(levelElement.getAsString());
+						level.setAbility(ResourceLocation.parse(levelElement.getAsString()));
 					} else {
 						KingdomKeys.LOGGER.error("Ability "+name+" does not exist for keyblade "+ out.keychain);
 					}

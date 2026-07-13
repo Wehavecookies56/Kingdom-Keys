@@ -17,7 +17,7 @@ import java.util.List;
 
 public record SCSyncShopData(List<ShopList> list) implements Packet {
 
-	public static final Type<SCSyncShopData> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "sc_sync_shop_data"));
+	public static final Type<SCSyncShopData> TYPE = new Type<>(KingdomKeys.rl("sc_sync_shop_data"));
 
 	public static final StreamCodec<FriendlyByteBuf, SCSyncShopData> STREAM_CODEC = StreamCodec.composite(
 			ByteBufCodecs.collection(ArrayList::new, ShopList.STREAM_CODEC),

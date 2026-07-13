@@ -40,7 +40,7 @@ public class KKDamageTypes {
     }
 
     private static ResourceKey<DamageType> register(String name){
-        return ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, name));
+        return ResourceKey.create(Registries.DAMAGE_TYPE, KingdomKeys.rl(name));
     }
 
 }

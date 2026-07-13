@@ -96,7 +96,7 @@ public class RoomStructure extends JsonRegistryObject {
         Optional<Resource> out = level.getServer().getResourceManager().getResource(structureFile);
         if (out.isEmpty() && !floor.getRegistryName().getNamespace().equals(KingdomKeys.MODID)) {
             //try KK namespace as a fallback
-            structureFile = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "structure/castle_oblivion/rooms/" + floorFolder + "/" + this.getPath() + ".nbt");
+            structureFile = KingdomKeys.rl("structure/castle_oblivion/rooms/" + floorFolder + "/" + this.getPath() + ".nbt");
             out = level.getServer().getResourceManager().getResource(structureFile);
         }
         if (out.isPresent()) {

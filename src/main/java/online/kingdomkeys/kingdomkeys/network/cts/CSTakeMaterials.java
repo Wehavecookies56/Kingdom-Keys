@@ -17,7 +17,7 @@ import online.kingdomkeys.kingdomkeys.network.stc.SCOpenMaterialsScreen;
 
 public record CSTakeMaterials(ItemStack stack, int amount, String inv, String name, int moogle) implements Packet {
 	
-	public static final Type<CSTakeMaterials> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_take_materials"));
+	public static final Type<CSTakeMaterials> TYPE = new Type<>(KingdomKeys.rl("cs_take_materials"));
 
 	public static final StreamCodec<RegistryFriendlyByteBuf, CSTakeMaterials> STREAM_CODEC = StreamCodec.composite(
 			ItemStack.STREAM_CODEC,

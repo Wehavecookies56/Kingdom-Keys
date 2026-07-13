@@ -22,7 +22,7 @@ import javax.annotation.Nullable;
 
 @OnlyIn(Dist.CLIENT)
 public class SparkEntityRenderer extends EntityRenderer<SparkEntity> {
-	private static final ResourceLocation THUNDAGASHOT_TEXTURE = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/models/thundagashot.png");
+	private static final ResourceLocation THUNDAGASHOT_TEXTURE = KingdomKeys.rl("textures/entity/models/thundagashot.png");
 	private static final int FRAME_COUNT = 4;
 	SparkModel<Entity> sparkModel;
 

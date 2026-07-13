@@ -50,7 +50,7 @@ public enum SoAState {
             
             if (remove) {
 				KingdomKeys.LOGGER.info("Removing old choice? " + sacrifice);
-				removeNonStatsData(ModLevels.registry.get(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, sacrifice.toString().toLowerCase())), playerData);
+				removeNonStatsData(ModLevels.registry.get(KingdomKeys.rl(sacrifice.toString().toLowerCase())), playerData);
 				KingdomKeys.LOGGER.info(playerData.getAbilityMap());
 				playerData.getStrengthStat().removeModifier("choice");
 				playerData.getMagicStat().removeModifier("choice");
@@ -63,8 +63,8 @@ public enum SoAState {
 				playerData.getMaxAPStat().removeModifier("sacrifice");
 				playerData.setSoAState(NONE);
 			} else {
-				Level choiceData = ModLevels.registry.get(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, choice.toString().toLowerCase()));
-				Level sacrificeData = ModLevels.registry.get(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, sacrifice.toString().toLowerCase()));
+				Level choiceData = ModLevels.registry.get(KingdomKeys.rl(choice.toString().toLowerCase()));
+				Level sacrificeData = ModLevels.registry.get(KingdomKeys.rl(sacrifice.toString().toLowerCase()));
 				addForChoice(1, choiceData, playerData);
 				addForChoice(0, sacrificeData, playerData);
 			}
@@ -95,18 +95,18 @@ public enum SoAState {
 			playerData.addMaxMP(choice.getMaxMp(choiceLevel));
 		}
 
-        for (String ability : choice.getAbilities(choiceLevel)) {
+        for (ResourceLocation ability : choice.getAbilities(choiceLevel)) {
             if (ability != null) {
-                Ability a = ModAbilities.registry.get(ResourceLocation.parse(ability));
+                Ability a = ModAbilities.registry.get(ability);
                 if (a != null) {
                     playerData.addAbility(ability, true);
                 }
             }
         }
 
-        for (String shotlock : choice.getShotlocks(choiceLevel)) {
+        for (ResourceLocation shotlock : choice.getShotlocks(choiceLevel)) {
             if (shotlock != null) {
-                Shotlock a = ModShotlocks.registry.get(ResourceLocation.parse(shotlock));
+                Shotlock a = ModShotlocks.registry.get(shotlock);
                 if (a != null) {
                     playerData.addShotlockToList(shotlock, true);
                 }
@@ -144,18 +144,18 @@ public enum SoAState {
     
     public static void removeNonStatsData(Level levelData, PlayerData playerData) {
         //levelData.getAbilities(0);
-        for (String ability : levelData.getAbilities(0)) {
+        for (ResourceLocation ability : levelData.getAbilities(0)) {
             if (ability != null) {
-                Ability a = ModAbilities.registry.get(ResourceLocation.parse(ability));
+                Ability a = ModAbilities.registry.get(ability);
                 if (a != null) {
                     playerData.removeAbility(ability);
                 }
             }
         }
         //levelData.getShotlocks(0);
-        for (String shotlock : levelData.getShotlocks(0)) {
+        for (ResourceLocation shotlock : levelData.getShotlocks(0)) {
             if (shotlock != null) {
-                Shotlock a = ModShotlocks.registry.get(ResourceLocation.parse(shotlock));
+                Shotlock a = ModShotlocks.registry.get(shotlock);
                 if (a != null) {
                     playerData.removeShotlockFromList(shotlock);
                 }
@@ -176,18 +176,18 @@ public enum SoAState {
         }*/
 
        // levelData.getAbilities(1);
-        for (String ability : levelData.getAbilities(1)) {
+        for (ResourceLocation ability : levelData.getAbilities(1)) {
             if (ability != null) {
-                Ability a = ModAbilities.registry.get(ResourceLocation.parse(ability));
+                Ability a = ModAbilities.registry.get(ability);
                 if (a != null) {
                     playerData.removeAbility(ability);
                 }
             }
         }
         //levelData.getShotlocks(1);
-        for (String shotlock : levelData.getShotlocks(1)) {
+        for (ResourceLocation shotlock : levelData.getShotlocks(1)) {
             if (shotlock != null) {
-                Shotlock a = ModShotlocks.registry.get(ResourceLocation.parse(shotlock));
+                Shotlock a = ModShotlocks.registry.get(shotlock);
                 if (a != null) {
                     playerData.removeShotlockFromList(shotlock);
                 }

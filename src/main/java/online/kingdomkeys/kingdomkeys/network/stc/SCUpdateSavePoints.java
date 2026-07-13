@@ -19,7 +19,7 @@ import java.util.UUID;
 
 public record SCUpdateSavePoints(Map<UUID, Pair<SavePointStorage.SavePoint, Instant>> savePoints) implements Packet {
 
-    public static final Type<SCUpdateSavePoints> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "sc_update_save_points"));
+    public static final Type<SCUpdateSavePoints> TYPE = new Type<>(KingdomKeys.rl("sc_update_save_points"));
 
     public static final StreamCodec<FriendlyByteBuf, SCUpdateSavePoints> STREAM_CODEC = StreamCodec.composite(
             StreamCodecs.SAVE_POINTS,

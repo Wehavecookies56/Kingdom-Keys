@@ -12,7 +12,7 @@ import online.kingdomkeys.kingdomkeys.network.Packet;
 
 public record SCOpenAlignmentScreen() implements Packet {
 
-	public static final Type<SCOpenAlignmentScreen> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "sc_open_alignment_screen"));
+	public static final Type<SCOpenAlignmentScreen> TYPE = new Type<>(KingdomKeys.rl("sc_open_alignment_screen"));
 	public static final StreamCodec<FriendlyByteBuf, SCOpenAlignmentScreen> STREAM_CODEC = StreamCodec.of((pBuffer, pValue) -> {}, pBuffer -> new SCOpenAlignmentScreen());
 
 	@Override

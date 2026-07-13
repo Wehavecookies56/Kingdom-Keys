@@ -57,7 +57,7 @@ public class MenuCustomizeHiddenMagics extends MenuBackground {
 			String magicName = "---";
 
 			if(!stack.isEmpty() && stack.getItem() instanceof MagicSpellItem spell) {
-				Magic magicInstance = ModMagic.registry.get(ResourceLocation.parse(spell.getMagic()));
+				Magic magicInstance = ModMagic.registry.get(spell.getMagic());
 				magicName = Utils.translateToLocal(magicInstance.getTranslationKey());
 			}
 

@@ -3,6 +3,7 @@ package online.kingdomkeys.kingdomkeys.magic;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.entity.magic.ThundagaEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.ThundaraEntity;
@@ -12,14 +13,14 @@ import online.kingdomkeys.kingdomkeys.lib.Strings;
 
 public class MagicThunder extends Magic {
 
-	public MagicThunder(ResourceLocation registryName, int tier, String gmAbility) {
+	public MagicThunder(ResourceLocation registryName, int tier, ResourceLocation gmAbility) {
 		super(registryName, false, gmAbility);
 		setTier(tier);
 	}
 
 	@Override
 	public void magicUse(LivingEntity player, Player caster, float fullMPBlastMult, LivingEntity lockOnEntity) {
-		float dmgMult = getRealDamageMult(caster) + PlayerData.get(caster).getNumberOfAbilitiesEquipped(Strings.thunderBoost) * 0.2F;
+		float dmgMult = getRealDamageMult(caster) + PlayerData.get(caster).getNumberOfAbilitiesEquipped(ModAbilities.THUNDER_BOOST) * 0.2F;
 		dmgMult *= fullMPBlastMult;
 
 		switch (getTier()) {

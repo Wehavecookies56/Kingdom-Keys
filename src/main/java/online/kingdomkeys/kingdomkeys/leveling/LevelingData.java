@@ -1,5 +1,8 @@
 package online.kingdomkeys.kingdomkeys.leveling;
 
+import net.minecraft.resources.ResourceLocation;
+
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -12,9 +15,9 @@ public class LevelingData {
 	int[] ap = new int[101];
 	int[] maxhp = new int[101];
 	int[] maxmp = new int[101];
-	String[][] abilities = new String[101][5];
-	String[][] shotlocks = new String[101][5];
-	String[][] spells = new String[101][5];
+	ResourceLocation[][] abilities = new ResourceLocation[101][5];
+	ResourceLocation[][] shotlocks = new ResourceLocation[101][5];
+	ResourceLocation[][] spells = new ResourceLocation[101][5];
 	int[] maxAccessories = new int[101];
 	int[] maxArmors = new int[101];
 	int[] maxMagics = new int[101];
@@ -24,7 +27,7 @@ public class LevelingData {
 
 	}
 
-	public LevelingData(int ver, int level, int str, int mag, int def, int ap, int maxhp, int maxmp, List<String> abilities, List<String> shotlocks, List<String> spells, int maxAccessories, int maxArmors, int maxSpells) {
+	public LevelingData(int ver, int level, int str, int mag, int def, int ap, int maxhp, int maxmp, List<ResourceLocation> abilities, List<ResourceLocation> shotlocks, List<ResourceLocation> spells, int maxAccessories, int maxArmors, int maxSpells) {
 		this.version = ver;
 		this.mag[level] = mag;
 		this.def[level] = def;
@@ -32,9 +35,9 @@ public class LevelingData {
 		this.ap[level] = ap;
 		this.maxhp[level] = maxhp;
 		this.maxmp[level] = maxmp;
-		this.abilities[level] = (String[]) abilities.toArray();
-		this.shotlocks[level] = (String[]) shotlocks.toArray();
-		this.spells[level] = (String[]) spells.toArray();
+		this.abilities[level] = (ResourceLocation[]) abilities.toArray();
+		this.shotlocks[level] = (ResourceLocation[]) shotlocks.toArray();
+		this.spells[level] = (ResourceLocation[]) spells.toArray();
 		this.maxAccessories[level] = maxAccessories;
 		this.maxArmors[level] = maxArmors;
 		this.maxMagics[level] = maxSpells;
@@ -88,27 +91,27 @@ public class LevelingData {
 		this.maxmp[lvl] = amount;
 	}
 
-	public String[] getAbilities(int lvl) {
+	public ResourceLocation[] getAbilities(int lvl) {
 		return abilities[lvl];
 	}
 
-	public void setAbilities(int lvl, String[] abilities) {
+	public void setAbilities(int lvl, ResourceLocation[] abilities) {
 		this.abilities[lvl] = abilities;
 	}
 
-	public String[] getShotlocks(int lvl) {
+	public ResourceLocation[] getShotlocks(int lvl) {
 		return shotlocks[lvl];
 	}
 
-	public void setShotlocks(int lvl, String[] shotlocks) {
+	public void setShotlocks(int lvl, ResourceLocation[] shotlocks) {
 		this.shotlocks[lvl] = shotlocks;
 	}
 	
-	public String[] getSpells(int lvl) {
+	public ResourceLocation[] getSpells(int lvl) {
 		return spells[lvl];
 	}
 	
-	public void setSpells(int lvl, String[] spells) {
+	public void setSpells(int lvl, ResourceLocation[] spells) {
 		this.spells[lvl] = spells;
 	}
 	public int getMaxAccessories(int lvl) {

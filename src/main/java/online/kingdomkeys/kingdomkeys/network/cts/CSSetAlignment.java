@@ -21,7 +21,7 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public record CSSetAlignment(Utils.OrgMember alignment) implements Packet {
 
-    public static final Type<CSSetAlignment> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_set_alignment"));
+    public static final Type<CSSetAlignment> TYPE = new Type<>(KingdomKeys.rl("cs_set_alignment"));
 
     public static final StreamCodec<FriendlyByteBuf, CSSetAlignment> STREAM_CODEC = StreamCodec.composite(
             Utils.OrgMember.STREAM_CODEC,
@@ -89,7 +89,7 @@ public record CSSetAlignment(Utils.OrgMember alignment) implements Packet {
             }
             playerData.unlockWeapon(stack);
             playerData.equipWeapon(stack);
-            playerData.setActiveDriveForm(DriveForm.NONE.toString());
+            playerData.setActiveDriveForm(DriveForm.NONE);
             PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
         }
     }

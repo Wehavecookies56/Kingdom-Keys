@@ -3,6 +3,7 @@ package online.kingdomkeys.kingdomkeys.integration.epicfight;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
@@ -24,7 +25,7 @@ public class EpicFightUtils {
 
     public static float getCritMulti(Player player) {
         PlayerData data = PlayerData.get(player);
-        float critBoost = data.getNumberOfAbilitiesEquipped(Strings.criticalBoost) * 0.1f;
+        float critBoost = data.getNumberOfAbilitiesEquipped(ModAbilities.CRITICAL_BOOST) * 0.1f;
 
         boolean isEpicFightMode = false;
 

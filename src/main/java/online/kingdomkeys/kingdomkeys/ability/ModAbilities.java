@@ -5,18 +5,17 @@ import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.Ability.AbilityType;
+import online.kingdomkeys.kingdomkeys.lib.KKSupplier;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
-
-import java.util.function.Supplier;
 
 public class ModAbilities {
 
-	public static DeferredRegister<Ability> ABILITIES = DeferredRegister.create(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "abilities"), KingdomKeys.MODID);
+	public static DeferredRegister<Ability> ABILITIES = DeferredRegister.create(KingdomKeys.rl("abilities"), KingdomKeys.MODID);
 	public static Registry<Ability> registry = ABILITIES.makeRegistry(builder -> builder.sync(true));
 
 	public static int order = 0;
 
-	public static final Supplier<Ability>
+	public static final KKSupplier<Ability>
 	//Action
 			AUTO_VALOR = createAbility(Strings.autoValor, 1, AbilityType.ACTION),
 			AUTO_WISDOM = createAbility(Strings.autoWisdom, 1, AbilityType.ACTION),
@@ -56,7 +55,7 @@ public class ModAbilities {
 			FORM_BOOST = createAbility(Strings.formBoost, 3, AbilityType.SUPPORT),
 			FULL_MP_BLAST = createAbility(Strings.fullMPBlast, 2, AbilityType.SUPPORT),
 			MP_THRIFT = createAbility(Strings.mpThrift, 2, AbilityType.SUPPORT),
-			LUCKY_LUCKY = createAbility(Strings.luckyLucky, 5, AbilityType.SUPPORT),
+			LUCKY_STRIKE = createAbility(Strings.luckyStrike, 5, AbilityType.SUPPORT),
 			JACKPOT = createAbility(Strings.jackpot, 4, AbilityType.SUPPORT),
 			FIRE_BOOST = createAbility(Strings.fireBoost, 3, AbilityType.SUPPORT),
 			BLIZZARD_BOOST = createAbility(Strings.blizzardBoost, 4, AbilityType.SUPPORT),
@@ -93,7 +92,7 @@ public class ModAbilities {
 		
 
 
-	public static Supplier<Ability> createAbility(String name, int apCost, AbilityType type) {
-		return ABILITIES.register(name.substring(12), () -> new Ability(ResourceLocation.parse(name), apCost, type, order++));
+	private static KKSupplier<Ability> createAbility(String name, int apCost, AbilityType type) {
+		return new KKSupplier<>(ABILITIES.register(name, () -> new Ability(KingdomKeys.rl(name), apCost, type, order++)));
 	}
 }

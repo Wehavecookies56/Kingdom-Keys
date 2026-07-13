@@ -41,7 +41,7 @@ public class EpicKKWeapons {
     public static final Function<Item, WeaponCapability.Builder> KEYBLADE = item ->
             WeaponCapability.builder()
                     .category(CapabilityItem.WeaponCategories.SWORD).styleProvider(playerpatch ->
-                            switch (PlayerData.get((Player) playerpatch.getOriginal()).getActiveDriveForm()) {
+                            switch (PlayerData.get((Player) playerpatch.getOriginal()).getActiveDriveForm().toString()) {
                                 case Strings.Form_Valor -> KKStyles.VALOR;
                                 case Strings.Form_Master -> KKStyles.MASTER;
                                 case Strings.Form_Wisdom -> KKStyles.WISDOM;
@@ -134,9 +134,9 @@ public class EpicKKWeapons {
 
     public static void register() {
         EpicFightEventHooks.Registry.WEAPON_CAPABILITY_PRESET.registerEvent(event -> {
-            event.getTypeEntry().put(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, EpicKKWeaponEnum.KK_CHAKRAM.toString().toLowerCase()), CHAKRAM);
-            event.getTypeEntry().put(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, EpicKKWeaponEnum.KK_SHIELD.toString().toLowerCase()), KK_SHIELD);
-            event.getTypeEntry().put(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, EpicKKWeaponEnum.KK_KEYBLADE.toString().toLowerCase()), KEYBLADE);
+            event.getTypeEntry().put(KingdomKeys.rl(EpicKKWeaponEnum.KK_CHAKRAM.toString().toLowerCase()), CHAKRAM);
+            event.getTypeEntry().put(KingdomKeys.rl(EpicKKWeaponEnum.KK_SHIELD.toString().toLowerCase()), KK_SHIELD);
+            event.getTypeEntry().put(KingdomKeys.rl(EpicKKWeaponEnum.KK_KEYBLADE.toString().toLowerCase()), KEYBLADE);
         }, KingdomKeys.MODID);
     }
 }

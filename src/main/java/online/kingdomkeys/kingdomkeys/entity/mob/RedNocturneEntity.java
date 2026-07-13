@@ -47,7 +47,7 @@ public class RedNocturneEntity extends BaseElementalMusicalHeartlessEntity {
     @OnlyIn(Dist.CLIENT)
     @Override
     public ResourceLocation getTexture() {
-        return ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/mob/red_nocturne.png");
+        return KingdomKeys.rl("textures/entity/mob/red_nocturne.png");
     }
 
     @Override

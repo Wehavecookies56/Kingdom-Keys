@@ -2,6 +2,7 @@ package online.kingdomkeys.kingdomkeys.item;
 
 import com.google.common.collect.ImmutableMap;
 import net.minecraft.core.Holder;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
@@ -10,6 +11,7 @@ import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.level.biome.Biomes;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.item.card.*;
 import online.kingdomkeys.kingdomkeys.item.organization.*;
 import online.kingdomkeys.kingdomkeys.item.tier.KeybladeItemTier;
@@ -826,82 +828,82 @@ public class ModItems {
 			gummiMeteorFragment = createNewItem("gummi_meteor_fragment", new Item.Properties()),
 
 
-			fireSpell = createNewItem(Strings.SpellFire, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Fire)),
-			firaSpell = createNewItem(Strings.SpellFira, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Fira)),
-			firagaSpell = createNewItem(Strings.SpellFiraga, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Firaga)),
-			darkFiragaSpell = createNewItem(Strings.SpellDarkFiraga, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_DarkFiraga)),
-			tripleFiragaSpell = createNewItem(Strings.SpellTripleFiraga, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_TripleFiraga)),
-			crawlingFiragaSpell = createNewItem(Strings.SpellCrawlingFiraga, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_CrawlingFiraga)),
-			fissionFiragaSpell = createNewItem(Strings.SpellFissionFiraga, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_FissionFiraga)),
-			firagaBurstSpell = createNewItem(Strings.SpellFiragaBurst, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_FiragaBurst)),
-			igniteSpell = createNewItem(Strings.SpellIgnite, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Ignite)),
+			fireSpell = createNewItem(Strings.SpellFire, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Fire))),
+			firaSpell = createNewItem(Strings.SpellFira, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Fira))),
+			firagaSpell = createNewItem(Strings.SpellFiraga, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Firaga))),
+			darkFiragaSpell = createNewItem(Strings.SpellDarkFiraga, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_DarkFiraga))),
+			tripleFiragaSpell = createNewItem(Strings.SpellTripleFiraga, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_TripleFiraga))),
+			crawlingFiragaSpell = createNewItem(Strings.SpellCrawlingFiraga, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_CrawlingFiraga))),
+			fissionFiragaSpell = createNewItem(Strings.SpellFissionFiraga, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_FissionFiraga))),
+			firagaBurstSpell = createNewItem(Strings.SpellFiragaBurst, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_FiragaBurst))),
+			igniteSpell = createNewItem(Strings.SpellIgnite, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Ignite))),
 
-			blizzardSpell = createNewItem(Strings.SpellBlizzard, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Blizzard)),
-			blizzaraSpell = createNewItem(Strings.SpellBlizzara, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Blizzara)),
-			blizzagaSpell = createNewItem(Strings.SpellBlizzaga, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Blizzaga)),
-			tripleBlizzagaSpell = createNewItem(Strings.SpellTripleBlizzaga, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_TripleBlizzard)),
-			deepFreezeSpell = createNewItem(Strings.SpellDeepFreeze, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_DeepFreeze)),
-			glacierSpell = createNewItem(Strings.SpellGlacier, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Glacier)),
-			iceBarrageSpell = createNewItem(Strings.SpellIceBarrage, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_IceBarrage)),
+			blizzardSpell = createNewItem(Strings.SpellBlizzard, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Blizzard))),
+			blizzaraSpell = createNewItem(Strings.SpellBlizzara, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Blizzara))),
+			blizzagaSpell = createNewItem(Strings.SpellBlizzaga, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Blizzaga))),
+			tripleBlizzagaSpell = createNewItem(Strings.SpellTripleBlizzaga, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_TripleBlizzard))),
+			deepFreezeSpell = createNewItem(Strings.SpellDeepFreeze, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_DeepFreeze))),
+			glacierSpell = createNewItem(Strings.SpellGlacier, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Glacier))),
+			iceBarrageSpell = createNewItem(Strings.SpellIceBarrage, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_IceBarrage))),
 
-			waterSpell = createNewItem(Strings.SpellWater, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Water)),
-			wateraSpell = createNewItem(Strings.SpellWatera, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Watera)),
-			watergaSpell = createNewItem(Strings.SpellWaterga, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Waterga)),
+			waterSpell = createNewItem(Strings.SpellWater, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Water))),
+			wateraSpell = createNewItem(Strings.SpellWatera, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Watera))),
+			watergaSpell = createNewItem(Strings.SpellWaterga, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Waterga))),
 
-			thunderSpell = createNewItem(Strings.SpellThunder, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Thunder)),
-			thundaraSpell = createNewItem(Strings.SpellThundara, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Thundara)),
-			thundagaSpell = createNewItem(Strings.SpellThundaga, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Thundaga)),
-			thundagaShotSpell = createNewItem(Strings.SpellThundagaShot, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_ThundagaShot)),
-			triplePlasmaSpell = createNewItem(Strings.SpellTriplePlasma, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_TriplePlasma)),
-			sparkSpell = ITEMS.register(Strings.SpellSpark, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Spark)),
-			sparkraSpell = ITEMS.register(Strings.SpellSparkra, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Sparkra)),
-			sparkgaSpell = ITEMS.register(Strings.SpellSparkga, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Sparkga)),
+			thunderSpell = createNewItem(Strings.SpellThunder, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Thunder))),
+			thundaraSpell = createNewItem(Strings.SpellThundara, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Thundara))),
+			thundagaSpell = createNewItem(Strings.SpellThundaga, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Thundaga))),
+			thundagaShotSpell = createNewItem(Strings.SpellThundagaShot, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_ThundagaShot))),
+			triplePlasmaSpell = createNewItem(Strings.SpellTriplePlasma, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_TriplePlasma))),
+			sparkSpell = ITEMS.register(Strings.SpellSpark, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Spark))),
+			sparkraSpell = ITEMS.register(Strings.SpellSparkra, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Sparkra))),
+			sparkgaSpell = ITEMS.register(Strings.SpellSparkga, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Sparkga))),
 
-			cureSpell = createNewItem(Strings.SpellCure, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Cure)),
-			curaSpell = createNewItem(Strings.SpellCura, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Cura)),
-			curagaSpell = createNewItem(Strings.SpellCuraga, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Curaga)),
+			cureSpell = createNewItem(Strings.SpellCure, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Cure))),
+			curaSpell = createNewItem(Strings.SpellCura, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Cura))),
+			curagaSpell = createNewItem(Strings.SpellCuraga, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Curaga))),
 
-			aeroSpell = createNewItem(Strings.SpellAero, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Aero)),
-			aeroraSpell = createNewItem(Strings.SpellAerora, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Aerora)),
-			aerogaSpell = createNewItem(Strings.SpellAeroga, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Aeroga)),
+			aeroSpell = createNewItem(Strings.SpellAero, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Aero))),
+			aeroraSpell = createNewItem(Strings.SpellAerora, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Aerora))),
+			aerogaSpell = createNewItem(Strings.SpellAeroga, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Aeroga))),
 
-			magnetSpell = createNewItem(Strings.SpellMagnet, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Magnet)),
-			magneraSpell = createNewItem(Strings.SpellMagnera, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Magnera)),
-			magnegaSpell = createNewItem(Strings.SpellMagnega, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Magnega)),
+			magnetSpell = createNewItem(Strings.SpellMagnet, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Magnet))),
+			magneraSpell = createNewItem(Strings.SpellMagnera, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Magnera))),
+			magnegaSpell = createNewItem(Strings.SpellMagnega, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Magnega))),
 
-			reflectSpell = createNewItem(Strings.SpellReflect, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Reflect)),
-			refleraSpell = createNewItem(Strings.SpellReflera, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Reflera)),
-			reflegaSpell = createNewItem(Strings.SpellReflega, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Reflega)),
+			reflectSpell = createNewItem(Strings.SpellReflect, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Reflect))),
+			refleraSpell = createNewItem(Strings.SpellReflera, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Reflera))),
+			reflegaSpell = createNewItem(Strings.SpellReflega, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Reflega))),
 
-			gravitySpell = createNewItem(Strings.SpellGravity, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Gravity)),
-			graviraSpell = createNewItem(Strings.SpellGravira, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Gravira)),
-			gravigaSpell = createNewItem(Strings.SpellGraviga, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Graviga)),
-			zeroGravitySpell = createNewItem(Strings.SpellZeroGravity, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_ZeroGravity)),
-			zeroGraviraSpell = createNewItem(Strings.SpellZeroGravira, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_ZeroGravira)),
-			zeroGravigaSpell = createNewItem(Strings.SpellZeroGraviga, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_ZeroGraviga)),
+			gravitySpell = createNewItem(Strings.SpellGravity, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Gravity))),
+			graviraSpell = createNewItem(Strings.SpellGravira, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Gravira))),
+			gravigaSpell = createNewItem(Strings.SpellGraviga, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Graviga))),
+			zeroGravitySpell = createNewItem(Strings.SpellZeroGravity, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_ZeroGravity))),
+			zeroGraviraSpell = createNewItem(Strings.SpellZeroGravira, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_ZeroGravira))),
+			zeroGravigaSpell = createNewItem(Strings.SpellZeroGraviga, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_ZeroGraviga))),
 
-			stopSpell = createNewItem(Strings.SpellStop, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Stop)),
-			stopraSpell = createNewItem(Strings.SpellStopra, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Stopra)),
-			stopgaSpell = createNewItem(Strings.SpellStopga, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Stopga)),
+			stopSpell = createNewItem(Strings.SpellStop, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Stop))),
+			stopraSpell = createNewItem(Strings.SpellStopra, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Stopra))),
+			stopgaSpell = createNewItem(Strings.SpellStopga, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Stopga))),
 
-			balloonSpell = ITEMS.register(Strings.SpellBalloon, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Balloon)),
-			balloonraSpell = ITEMS.register(Strings.SpellBalloonra, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Balloonra)),
-			balloongaSpell = ITEMS.register(Strings.SpellBalloonga, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Balloonga)),
+			balloonSpell = ITEMS.register(Strings.SpellBalloon, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Balloon))),
+			balloonraSpell = ITEMS.register(Strings.SpellBalloonra, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Balloonra))),
+			balloongaSpell = ITEMS.register(Strings.SpellBalloonga, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Balloonga))),
 
-			mineShieldSpell = ITEMS.register(Strings.SpellMineShield, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_MineShield)),
-			mineSquareSpell = ITEMS.register(Strings.SpellMineSquare, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_MineSquare)),
-			mineSeekerSpell = ITEMS.register(Strings.SpellMineSeeker, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_SeekerMine)),
+			mineShieldSpell = ITEMS.register(Strings.SpellMineShield, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_MineShield))),
+			mineSquareSpell = ITEMS.register(Strings.SpellMineSquare, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_MineSquare))),
+			mineSeekerSpell = ITEMS.register(Strings.SpellMineSeeker, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_SeekerMine))),
 
-			warpSpell = ITEMS.register(Strings.SpellWarp, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Warp)),
-			faithSpell = ITEMS.register(Strings.SpellFaith, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Faith)),
+			warpSpell = ITEMS.register(Strings.SpellWarp, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Warp))),
+			faithSpell = ITEMS.register(Strings.SpellFaith, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Faith))),
 
-			blackoutSpell = createNewItem(Strings.SpellBlackout, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Blackout)),
-			poisonSpell = createNewItem(Strings.SpellPoison, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Poison)),
-			esunaSpell = ITEMS.register(Strings.SpellEsuna, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Esuna)),
-			confuseSpell = ITEMS.register(Strings.SpellConfuse, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Confuse)),
-			bindSpell = ITEMS.register(Strings.SpellBind, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Bind)),
-			miniSpell = ITEMS.register(Strings.SpellMini, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Mini)),
-			slowSpell = ITEMS.register(Strings.SpellSlow, () -> new MagicSpellItem(new Item.Properties(), Strings.Magic_Slow)),
+			blackoutSpell = createNewItem(Strings.SpellBlackout, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Blackout))),
+			poisonSpell = createNewItem(Strings.SpellPoison, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Poison))),
+			esunaSpell = ITEMS.register(Strings.SpellEsuna, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Esuna))),
+			confuseSpell = ITEMS.register(Strings.SpellConfuse, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Confuse))),
+			bindSpell = ITEMS.register(Strings.SpellBind, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Bind))),
+			miniSpell = ITEMS.register(Strings.SpellMini, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Mini))),
+			slowSpell = ITEMS.register(Strings.SpellSlow, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Slow))),
 
 
 			struggleSword = createNewItem(Strings.StruggleSword, () -> new SwordItem(new KeybladeItemTier(0),new Item.Properties().attributes(SwordItem.createAttributes(new KeybladeItemTier(0), 1, 1)).stacksTo(1))),
@@ -909,11 +911,11 @@ public class ModItems {
 			struggleHammer = createNewItem(Strings.StruggleHammer, () -> new SwordItem(new KeybladeItemTier(0), new Item.Properties().attributes(SwordItem.createAttributes(new KeybladeItemTier(0), 1, 1)).stacksTo(1))),
 
 			
-			valorOrb = createNewItem(Strings.LevelUpValor, () -> new DriveFormOrbItem(new Item.Properties(), KingdomKeys.MODID+":form_valor")),
-			wisdomOrb = createNewItem(Strings.LevelUpWisdom, () -> new DriveFormOrbItem(new Item.Properties(), KingdomKeys.MODID+":form_wisdom")),
-			limitOrb = createNewItem(Strings.LevelUpLimit, () -> new DriveFormOrbItem(new Item.Properties(), KingdomKeys.MODID+":form_limit")),
-			masterOrb = createNewItem(Strings.LevelUpMaster, () -> new DriveFormOrbItem(new Item.Properties(), KingdomKeys.MODID+":form_master")),
-			finalOrb = createNewItem(Strings.LevelUpFinal, () -> new DriveFormOrbItem(new Item.Properties(), KingdomKeys.MODID+":form_final")),
+			valorOrb = createNewItem(Strings.LevelUpValor, () -> new DriveFormOrbItem(new Item.Properties(), KingdomKeys.rl(Strings.Form_Valor))),
+			wisdomOrb = createNewItem(Strings.LevelUpWisdom, () -> new DriveFormOrbItem(new Item.Properties(), KingdomKeys.rl(Strings.Form_Wisdom))),
+			limitOrb = createNewItem(Strings.LevelUpLimit, () -> new DriveFormOrbItem(new Item.Properties(), KingdomKeys.rl(Strings.Form_Limit))),
+			masterOrb = createNewItem(Strings.LevelUpMaster, () -> new DriveFormOrbItem(new Item.Properties(), KingdomKeys.rl(Strings.Form_Master))),
+			finalOrb = createNewItem(Strings.LevelUpFinal, () -> new DriveFormOrbItem(new Item.Properties(), KingdomKeys.rl(Strings.Form_Final))),
 			
 			synthesisBag = createNewItem("synthesis_bag", () -> new BagItem(new Item.Properties().stacksTo(1), BagItem.Type.SYNTHESIS_BAG)),
 			magicsBag = createNewItem("magics_bag", () -> new BagItem(new Item.Properties().stacksTo(1), BagItem.Type.MAGICS_BAG)),
@@ -962,11 +964,11 @@ public class ModItems {
 			starCharm = createNewItem(Strings.starCharm, () -> new KKAccessoryItem(new Item.Properties().stacksTo(1), 5, 2, 2, null)),
 			cosmicArts = createNewItem(Strings.cosmicArts, () -> new KKAccessoryItem(new Item.Properties().stacksTo(1), 7, 2, 2, null)),
 			fullBloom = createNewItem(Strings.fullBloom, () -> new KKAccessoryItem(new Item.Properties().stacksTo(1), 5, 3, 0, null)),
-			fullBloomPlus = createNewItem(Strings.fullBloomPlus, () -> new KKAccessoryItem(new Item.Properties().stacksTo(1), 5, 3, 0, new String[] {Strings.mpHaste})),
+			fullBloomPlus = createNewItem(Strings.fullBloomPlus, () -> new KKAccessoryItem(new Item.Properties().stacksTo(1), 5, 3, 0, new ResourceLocation[] {KingdomKeys.rl(Strings.mpHaste)})),
 			shadowArchive = createNewItem(Strings.shadowArchive, () -> new KKAccessoryItem(new Item.Properties().stacksTo(1), 5, 0, 3, null)),
-			shadowArchivePlus = createNewItem(Strings.shadowArchivePlus, () -> new KKAccessoryItem(new Item.Properties().stacksTo(1), 5, 0, 3, new String[] {Strings.mpRage})),
-    		drawRing = createNewItem(Strings.drawRing, () -> new KKAccessoryItem(new Item.Properties().stacksTo(1), 0, 0, 0, new String[] {Strings.treasureMagnet})),
-    		luckyRing = createNewItem(Strings.luckyRing, () -> new KKAccessoryItem(new Item.Properties().stacksTo(1), 0, 0, 0, new String[] {Strings.luckyLucky})),
+			shadowArchivePlus = createNewItem(Strings.shadowArchivePlus, () -> new KKAccessoryItem(new Item.Properties().stacksTo(1), 5, 0, 3, new ResourceLocation[] {KingdomKeys.rl(Strings.mpRage)})),
+    		drawRing = createNewItem(Strings.drawRing, () -> new KKAccessoryItem(new Item.Properties().stacksTo(1), 0, 0, 0, new ResourceLocation[] {KingdomKeys.rl(Strings.treasureMagnet)})),
+    		luckyRing = createNewItem(Strings.luckyRing, () -> new KKAccessoryItem(new Item.Properties().stacksTo(1), 0, 0, 0, new ResourceLocation[] {KingdomKeys.rl(Strings.luckyStrike)})),
 
 			sardonyxRing = createNewItem(Strings.sardonyxRing, () -> new KKAccessoryItem(new Item.Properties().stacksTo(1), 1, 1, 0, null)),
 			garnetRing = createNewItem(Strings.garnetRing, () -> new KKAccessoryItem(new Item.Properties().stacksTo(1), 4, 1, 0, null)),

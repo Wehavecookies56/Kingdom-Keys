@@ -33,6 +33,6 @@ public class SeedBulletRenderer extends EntityRenderer<SeedBulletEntity> {
 
     @Override
     public ResourceLocation getTextureLocation(SeedBulletEntity entity) {
-		return ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/models/cube.png");
+		return KingdomKeys.rl("textures/entity/models/cube.png");
     }
 }

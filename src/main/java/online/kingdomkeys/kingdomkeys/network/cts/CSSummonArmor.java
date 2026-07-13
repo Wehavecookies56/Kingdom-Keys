@@ -28,7 +28,7 @@ import java.util.UUID;
 
 public record CSSummonArmor(boolean forceDesummon) implements Packet {
 
-	public static final Type<CSSummonArmor> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_summon_armor"));
+	public static final Type<CSSummonArmor> TYPE = new Type<>(KingdomKeys.rl("cs_summon_armor"));
 
 	public static final StreamCodec<FriendlyByteBuf, CSSummonArmor> STREAM_CODEC = StreamCodec.composite(
 			ByteBufCodecs.BOOL,

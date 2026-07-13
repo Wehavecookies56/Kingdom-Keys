@@ -28,7 +28,7 @@ public class DriveFormLimit extends DriveForm {
 		if (!event.getEntity().level().isClientSide && event.getEntity() instanceof Monster) {
 			if (event.getSource().getEntity() instanceof Player player) {
                 PlayerData playerData = PlayerData.get(player);
-				if (playerData != null && playerData.getActiveDriveForm().equals(Strings.Form_Limit) && playerData.hasShotMaxShotlock()) {
+				if (playerData != null && playerData.isFormActive(ModDriveForms.LIMIT) && playerData.hasShotMaxShotlock()) {
 					double mult = Double.parseDouble(ModConfigs.SERVER.driveFormXPMultiplier.get().get(2).split(",")[1]);
 					playerData.setDriveFormExp(player, playerData.getActiveDriveForm(), (int) (playerData.getDriveFormExp(playerData.getActiveDriveForm()) + (1*mult)));
 					playerData.setHasShotMaxShotlock(false);

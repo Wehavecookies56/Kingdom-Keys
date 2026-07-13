@@ -33,8 +33,8 @@ import java.awt.*;
 
 public class MenuSelectMagicButton extends MenuButtonBase {
 
-	final ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
-	final ResourceLocation barTexture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
+	final ResourceLocation texture = KingdomKeys.rl("textures/gui/menu/menu_button.png");
+	final ResourceLocation barTexture = KingdomKeys.rl("textures/gui/menu/menu_button.png");
 	public int slot;
 	public ItemStack stack;
 	boolean selected;

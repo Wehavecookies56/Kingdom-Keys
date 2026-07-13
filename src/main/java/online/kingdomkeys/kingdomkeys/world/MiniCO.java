@@ -89,7 +89,7 @@ public class MiniCO {
 		if (level.dimension() != Level.OVERWORLD)
 			return false;
 
-		StructureTemplate template = level.getStructureManager().get(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "castle_oblivion/mini_co")).orElse(null);
+		StructureTemplate template = level.getStructureManager().get(KingdomKeys.rl("castle_oblivion/mini_co")).orElse(null);
 
 		if (template == null) {
 			KingdomKeys.LOGGER.error("Mini CO template is null, couldn't find a valid nbt file in castle_oblivion/mini_co");

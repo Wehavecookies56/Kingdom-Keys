@@ -611,7 +611,7 @@ public class LanguageESES extends KKLanguageProvider {
         addAbilityWithDesc(ModAbilities.MP_THRIFT, "Ahorrar PM", "Reduce el coste m\u00e1gico en un 20%. Cuantas m\u00e1s activas, mayor efecto.");
         addAbilityWithDesc(ModAbilities.CRITICAL_BOOST, "Extracr\u00edticos", "Aumenta el da\u00f1o inflingido por golpes cr\u00edticos en un 10%. Cuantas m\u00e1s activas, mayor efecto.");
         addAbilityWithDesc(ModAbilities.JACKPOT, "M\u00e1s Premios", "Incrementa el valor de los premios de VT, PM y Platines. Cuantas m\u00e1s activas, mayor efecto.");
-        addAbilityWithDesc(ModAbilities.LUCKY_LUCKY, "Buena Suerte", "Trae suerte, fortuna y saqueo al portador, aumentando la cantidad de objetos recolectados. Cuantas m\u00e1s activas, mayor efecto.");
+        addAbilityWithDesc(ModAbilities.LUCKY_STRIKE, "Buena Suerte", "Trae suerte, fortuna y saqueo al portador, aumentando la cantidad de objetos recolectados. Cuantas m\u00e1s activas, mayor efecto.");
         addAbilityWithDesc(ModAbilities.ITEM_BOOST, "Extraobjetos", "Aumenta el efecto de los objetos de cura en la batalla en un 50%. Cuantos m\u00e1s activas, mayor efecto.");
         addAbilityWithDesc(ModAbilities.FIRAZA, "Piro+++", "Permite al usuario obtener el comando de reacci\u00f3n Piro+++.");
         addAbilityWithDesc(ModAbilities.BLIZZAZA, "Hielo+++", "Permite al usuario obtener el comando de reacci\u00f3n Hielo+++.");

@@ -25,6 +25,7 @@ import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.portal.DimensionTransition;
 import net.minecraft.world.phys.Vec3;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.data.GlobalData;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.data.WorldData;
@@ -52,7 +53,7 @@ public class SpawningOrbEntity extends Monster {
 			if(playerData == null)
 				return;
 
-            int randomTimes = worldIn.random.nextInt(playerData.getNumberOfAbilitiesEquipped(Strings.encounterPlus)+1);
+            int randomTimes = worldIn.random.nextInt(playerData.getNumberOfAbilitiesEquipped(ModAbilities.ENCOUNTER_PLUS)+1);
 
             for(int i=0;i<=randomTimes;i++) {
                 this.mobs.add(ModEntities.getRandomEnemy(playerData.getLevel(), level()));
@@ -151,7 +152,7 @@ public class SpawningOrbEntity extends Monster {
 	@Override
 	public void playerTouch(Player nPlayer) {
 		if(getPortal()) {
-			ResourceKey<Level> dimension = ResourceKey.create(Registries.DIMENSION, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "realm_of_darkness"));
+			ResourceKey<Level> dimension = ResourceKey.create(Registries.DIMENSION, KingdomKeys.rl("realm_of_darkness"));
 			PlayerData playerData = PlayerData.get(nPlayer);
 			if(playerData == null)
 				return;

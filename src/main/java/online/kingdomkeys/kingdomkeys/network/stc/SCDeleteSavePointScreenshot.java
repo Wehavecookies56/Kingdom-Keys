@@ -16,7 +16,7 @@ import java.util.UUID;
 
 public record SCDeleteSavePointScreenshot(String name, UUID uuid) implements Packet {
 
-    public static final Type<SCDeleteSavePointScreenshot> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "sc_delete_save_point_screenshot"));
+    public static final Type<SCDeleteSavePointScreenshot> TYPE = new Type<>(KingdomKeys.rl("sc_delete_save_point_screenshot"));
 
     public static final StreamCodec<FriendlyByteBuf, SCDeleteSavePointScreenshot> STREAM_CODEC = StreamCodec.composite(
             ByteBufCodecs.STRING_UTF8,

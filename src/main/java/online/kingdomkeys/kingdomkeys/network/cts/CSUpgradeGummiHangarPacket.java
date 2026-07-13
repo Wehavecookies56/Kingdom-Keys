@@ -24,7 +24,7 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public record CSUpgradeGummiHangarPacket(int containerID) implements Packet {
 
-	public static final Type<CSUpgradeGummiHangarPacket> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_upgrade_gummi_ship"));
+	public static final Type<CSUpgradeGummiHangarPacket> TYPE = new Type<>(KingdomKeys.rl("cs_upgrade_gummi_ship"));
 
 	public static final StreamCodec<FriendlyByteBuf, CSUpgradeGummiHangarPacket> STREAM_CODEC = StreamCodec.composite(
 			ByteBufCodecs.INT,

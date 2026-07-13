@@ -94,11 +94,11 @@ public class ShotlockGUI extends OverlayBase {
                     RenderSystem.setShaderColor(1, 1, 1, 1);
 
                 // Base
-                this.blit(guiGraphics, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/focus.png"), 0, 0,0, 0, guiWidth, guiHeight);
+                this.blit(guiGraphics, KingdomKeys.rl("textures/gui/focus.png"), 0, 0,0, 0, guiWidth, guiHeight);
                 RenderSystem.setShaderColor(1, 1, 1, 1);
 
-                RenderSystem.setShaderTexture(0, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/focus_fill.png"));
-                RenderSystem.setShaderTexture(1, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/focus_mask.png"));
+                RenderSystem.setShaderTexture(0, KingdomKeys.rl("textures/gui/focus_fill.png"));
+                RenderSystem.setShaderTexture(1, KingdomKeys.rl("textures/gui/focus_mask.png"));
 
                 ClientSetup.shotlockShader.setSampler("Sampler0", 0);
                 ClientSetup.shotlockShader.setSampler("Sampler1", 1);
@@ -143,8 +143,8 @@ public class ShotlockGUI extends OverlayBase {
             RenderSystem.enableBlend();
             RenderSystem.defaultBlendFunc();
 
-            RenderSystem.setShaderTexture(0, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/focus_bar_fill.png"));
-            RenderSystem.setShaderTexture(1, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/focus_bar_mask.png"));
+            RenderSystem.setShaderTexture(0, KingdomKeys.rl("textures/gui/focus_bar_fill.png"));
+            RenderSystem.setShaderTexture(1, KingdomKeys.rl("textures/gui/focus_bar_mask.png"));
 
             ClientSetup.focusShader.setSampler("Sampler0", 0);
             ClientSetup.focusShader.setSampler("Sampler1", 1);
@@ -174,8 +174,8 @@ public class ShotlockGUI extends OverlayBase {
         {
             RenderSystem.enableBlend();
             RenderSystem.defaultBlendFunc();
-            RenderSystem.setShaderTexture(0, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/focus_cost_fill.png"));
-            RenderSystem.setShaderTexture(1, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/focus_bar_mask.png"));
+            RenderSystem.setShaderTexture(0, KingdomKeys.rl("textures/gui/focus_cost_fill.png"));
+            RenderSystem.setShaderTexture(1, KingdomKeys.rl("textures/gui/focus_bar_mask.png"));
             ClientSetup.focusShader.setSampler("Sampler0", 0);
             ClientSetup.focusShader.setSampler("Sampler1", 1);
             ClientSetup.focusShader.safeGetUniform("FocusPercentage").set(focusPercentage);
@@ -203,7 +203,7 @@ public class ShotlockGUI extends OverlayBase {
         {
             RenderSystem.enableBlend();
             RenderSystem.setShader(GameRenderer::getPositionTexShader);
-            RenderSystem.setShaderTexture(0, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/focus_bar_outline.png"));
+            RenderSystem.setShaderTexture(0, KingdomKeys.rl("textures/gui/focus_bar_outline.png"));
 
             Matrix4f matrix = poseStack.last().pose();
             Tesselator tesselator = Tesselator.getInstance();

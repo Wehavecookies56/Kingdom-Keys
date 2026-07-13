@@ -24,7 +24,7 @@ import java.util.List;
  */
 
 public class AssassinModel<T extends AssassinEntity> extends EntityModel<T> {
-    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "assassin"), "main");
+    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(KingdomKeys.rl("assassin"), "main");
 
     private final ModelPart bodyBot;
     private final ModelPart bodyTop;

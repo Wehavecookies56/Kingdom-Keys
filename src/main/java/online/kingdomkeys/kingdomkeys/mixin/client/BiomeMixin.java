@@ -27,7 +27,7 @@ public class BiomeMixin {
     public void replaceBiomeMusic(CallbackInfoReturnable<Optional<Music>> cir) {
         Holder<Biome> currentBiome = Minecraft.getInstance().level.getBiome(Minecraft.getInstance().player.blockPosition());
         if (currentBiome.isBound()) {
-            if (currentBiome.is(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "castle_oblivion_interior"))) {
+            if (currentBiome.is(KingdomKeys.rl("castle_oblivion_interior"))) {
                 CastleOblivionData.InteriorData.getClient(Minecraft.getInstance().level).ifPresent(interiorData -> {
                     if (!interiorData.getFloors().isEmpty()) {
                         Floor floor = interiorData.getFloorAtPos(Minecraft.getInstance().player.blockPosition());

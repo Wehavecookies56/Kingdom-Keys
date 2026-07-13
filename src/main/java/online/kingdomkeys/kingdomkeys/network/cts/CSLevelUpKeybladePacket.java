@@ -24,7 +24,7 @@ import java.util.UUID;
 
 public record CSLevelUpKeybladePacket(ItemStack stack) implements Packet {
 
-	public static final Type<CSLevelUpKeybladePacket> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_level_up_keyblade"));
+	public static final Type<CSLevelUpKeybladePacket> TYPE = new Type<>(KingdomKeys.rl("cs_level_up_keyblade"));
 
 	public static final StreamCodec<RegistryFriendlyByteBuf, CSLevelUpKeybladePacket> STREAM_CODEC = StreamCodec.composite(
 			ItemStack.STREAM_CODEC,

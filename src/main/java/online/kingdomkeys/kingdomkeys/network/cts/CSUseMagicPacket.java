@@ -20,7 +20,7 @@ import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
 
 public record CSUseMagicPacket(String name, int allyTarget, int lockedTarget) implements Packet {
 
-	public static final Type<CSUseMagicPacket> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_use_magic"));
+	public static final Type<CSUseMagicPacket> TYPE = new Type<>(KingdomKeys.rl("cs_use_magic"));
 
 	public static final StreamCodec<FriendlyByteBuf, CSUseMagicPacket> STREAM_CODEC = StreamCodec.composite(
 			ByteBufCodecs.STRING_UTF8,

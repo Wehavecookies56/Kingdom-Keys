@@ -7,6 +7,7 @@ import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.entity.organization.SaixShockwave;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
@@ -27,7 +28,7 @@ public class ClaymoreItem extends OrgSwordItem implements IOrgWeapon {
             if (!player.isShiftKeyDown()) {
                 // Right-Click Attack
                 int cost = 5;
-                cost -= cost * playerData.getNumberOfAbilitiesEquipped(Strings.mpThrift) * 0.2;
+                cost -= cost * playerData.getNumberOfAbilitiesEquipped(ModAbilities.MP_THRIFT) * 0.2;
                 playerData.remMP(Math.max(1, cost));
 
                 for(int i = -20; i <= 20; i+=20) {

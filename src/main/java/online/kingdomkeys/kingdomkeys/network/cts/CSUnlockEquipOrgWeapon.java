@@ -19,7 +19,7 @@ import java.util.UUID;
 
 public record CSUnlockEquipOrgWeapon(ItemStack weapon, int cost, boolean unlock) implements Packet {
 
-    public static final Type<CSUnlockEquipOrgWeapon> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_unlock_equip_org_weapon"));
+    public static final Type<CSUnlockEquipOrgWeapon> TYPE = new Type<>(KingdomKeys.rl("cs_unlock_equip_org_weapon"));
 
     public static final StreamCodec<RegistryFriendlyByteBuf, CSUnlockEquipOrgWeapon> STREAM_CODEC = StreamCodec.composite(
             ItemStack.STREAM_CODEC,

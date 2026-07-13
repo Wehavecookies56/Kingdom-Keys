@@ -72,7 +72,7 @@ public class SavePointScreen extends MenuBackground {
         this.savePoints = savePoints;
         this.create = create;
         savePoints.forEach((uuid, savePoint) -> {
-            savePointScreenshots.put(uuid, new Screenshot(Minecraft.getInstance().getTextureManager(), ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "save_points/" + uuid)));
+            savePointScreenshots.put(uuid, new Screenshot(Minecraft.getInstance().getTextureManager(), KingdomKeys.rl("save_points/" + uuid)));
         });
         if (!create) {
             current = savePoints.get(tileEntity.getID()).getFirst();
@@ -96,7 +96,7 @@ public class SavePointScreen extends MenuBackground {
             init();
             updateButtons();
             savePoints.forEach((uuid, savePoint) -> {
-                savePointScreenshots.put(uuid, new Screenshot(Minecraft.getInstance().getTextureManager(), ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "save_points/" + uuid)));
+                savePointScreenshots.put(uuid, new Screenshot(Minecraft.getInstance().getTextureManager(), KingdomKeys.rl("save_points/" + uuid)));
             });
             loadSavePointScreenshots();
         }

@@ -23,7 +23,7 @@ import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
 
 public record CSSpawnOrgPortalPacket(BlockPos pos, BlockPos destPos, ResourceKey<Level> dimension) implements Packet {
 
-	public static final Type<CSSpawnOrgPortalPacket> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_spawn_org_portal"));
+	public static final Type<CSSpawnOrgPortalPacket> TYPE = new Type<>(KingdomKeys.rl("cs_spawn_org_portal"));
 
 	public static final StreamCodec<FriendlyByteBuf, CSSpawnOrgPortalPacket> STREAM_CODEC = StreamCodec.composite(
 			BlockPos.STREAM_CODEC,

@@ -24,7 +24,7 @@ import static online.kingdomkeys.kingdomkeys.block.gummi.GummiHangarBlock.DISPLA
 
 public record CSImportExportGummiShip(String name, int containerID, boolean export) implements Packet {
 
-	public static final Type<CSImportExportGummiShip> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_import_export_gummi_ship"));
+	public static final Type<CSImportExportGummiShip> TYPE = new Type<>(KingdomKeys.rl("cs_import_export_gummi_ship"));
 
 	public static final StreamCodec<FriendlyByteBuf, CSImportExportGummiShip> STREAM_CODEC = StreamCodec.composite(
 			ByteBufCodecs.STRING_UTF8,

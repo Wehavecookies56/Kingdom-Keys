@@ -256,7 +256,7 @@ public class HUDElement {
         HUDAnchorPosition defAnchor = HUDAnchorPosition.values()[defaults.get(7).intValue()];
 
         try {
-            ResourceLocation rl = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "hud/" + name.toLowerCase() + ".json");
+            ResourceLocation rl = KingdomKeys.rl("hud/" + name.toLowerCase() + ".json");
             Resource resource = Minecraft.getInstance().getResourceManager().getResourceOrThrow(rl);
             KingdomKeys.LOGGER.info("Found RP config for "+name);
             try (Reader reader = new InputStreamReader(resource.open())) {

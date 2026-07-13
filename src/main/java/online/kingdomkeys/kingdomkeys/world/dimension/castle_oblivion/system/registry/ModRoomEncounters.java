@@ -11,6 +11,6 @@ public class ModRoomEncounters {
     public static final Supplier<JsonRegistry<RoomEncounter>> registry = ModJsonRegistries.ROOM_ENCOUNTER;
 
     public static final Supplier<RoomEncounter>
-        ROOM_OF_BEGINNINGS = () -> registry.get().getValue(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "room_of_beginnings"));
+        ROOM_OF_BEGINNINGS = () -> registry.get().getValue(KingdomKeys.rl("room_of_beginnings"));
 
 }

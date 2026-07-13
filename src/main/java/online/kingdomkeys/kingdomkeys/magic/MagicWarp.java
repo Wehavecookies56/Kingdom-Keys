@@ -9,7 +9,7 @@ import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.entity.magic.WarpEntity;
 
 public class MagicWarp extends Magic {
-	public MagicWarp(ResourceLocation registryName, boolean hasToSelect, int tier, String gmAbility) {
+	public MagicWarp(ResourceLocation registryName, boolean hasToSelect, int tier, ResourceLocation gmAbility) {
 		super(registryName, hasToSelect, gmAbility);
 		setTier(tier);
 	}

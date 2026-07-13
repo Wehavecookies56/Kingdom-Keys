@@ -221,7 +221,7 @@ public class ShopDataProvider implements DataProvider {
 		shops.put("default", defaultShop);
 
 		CompletableFuture<?>[] futures = shops.entrySet().stream().map(entry -> {
-			Path path = pathProvider.json(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, entry.getKey()));
+			Path path = pathProvider.json(KingdomKeys.rl(entry.getKey()));
 			return DataProvider.saveStable(cache, entry.getValue(), path);
 		}).toArray(CompletableFuture[]::new);
 

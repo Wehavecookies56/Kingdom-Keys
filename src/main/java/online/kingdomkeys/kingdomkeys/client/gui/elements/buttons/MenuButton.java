@@ -19,7 +19,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import java.awt.*;
 
 public class MenuButton extends MenuButtonBase {
-	private final ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
+	private final ResourceLocation texture = KingdomKeys.rl("textures/gui/menu/menu_button.png");
 	private final int endWidth = 11;
 
 	private final int bLeftU = 0;

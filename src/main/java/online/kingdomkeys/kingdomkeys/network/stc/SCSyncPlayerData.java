@@ -20,7 +20,7 @@ public record SCSyncPlayerData(int player, CompoundTag data) implements Packet {
 		this(player.getId(), PlayerData.get(player).serializeNBT(player.level().registryAccess()));
 	}
 
-	public static final Type<SCSyncPlayerData> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "sc_sync_player_data"));
+	public static final Type<SCSyncPlayerData> TYPE = new Type<>(KingdomKeys.rl("sc_sync_player_data"));
 
 	public static final StreamCodec<FriendlyByteBuf, SCSyncPlayerData> STREAM_CODEC = StreamCodec.composite(
 			ByteBufCodecs.INT,

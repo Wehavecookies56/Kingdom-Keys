@@ -19,7 +19,7 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public record CSUpgradeBagPacket() implements Packet {
 
-	public static final Type<CSUpgradeBagPacket> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_upgrade_synthesis_bag"));
+	public static final Type<CSUpgradeBagPacket> TYPE = new Type<>(KingdomKeys.rl("cs_upgrade_synthesis_bag"));
 
 	public static final StreamCodec<FriendlyByteBuf, CSUpgradeBagPacket> STREAM_CODEC = StreamCodec.of((pBuffer, pValue) -> {}, pBuffer -> new CSUpgradeBagPacket());
 

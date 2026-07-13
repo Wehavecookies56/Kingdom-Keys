@@ -49,8 +49,8 @@ public class MenuStockItem extends Button {
     public Color backgroundColor;
     public ChatFormatting textColor = ChatFormatting.WHITE;
 
-    final ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
-	final ResourceLocation barTexture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
+    final ResourceLocation texture = KingdomKeys.rl("textures/gui/menu/menu_button.png");
+	final ResourceLocation barTexture = KingdomKeys.rl("textures/gui/menu/menu_button.png");
 
 
 	public MenuStockItem(MenuFilterable parent, ResourceLocation rl, ItemStack displayStack, int x, int y, int width, boolean showAmount, OnPress onPress) {

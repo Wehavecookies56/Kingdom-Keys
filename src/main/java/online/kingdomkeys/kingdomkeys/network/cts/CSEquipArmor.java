@@ -21,7 +21,7 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public record CSEquipArmor(int slotToEquipTo, int slotToEquipFrom) implements Packet {
 
-    public static final CustomPacketPayload.Type<CSEquipArmor> TYPE = new CustomPacketPayload.Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_equip_armor"));
+    public static final CustomPacketPayload.Type<CSEquipArmor> TYPE = new CustomPacketPayload.Type<>(KingdomKeys.rl("cs_equip_armor"));
 
     public static final StreamCodec<FriendlyByteBuf, CSEquipArmor> STREAM_CODEC = StreamCodec.composite(
             ByteBufCodecs.INT,

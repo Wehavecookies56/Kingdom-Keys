@@ -43,7 +43,7 @@ public class MenuBackground extends Screen {
 	public Player player;
 	public PlayerData playerData;
 	
-	public static final ResourceLocation PLAYER_BOX_TEXTURE = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
+	public static final ResourceLocation PLAYER_BOX_TEXTURE = KingdomKeys.rl("textures/gui/menu/menu_button.png");
 	int selected;
 	
 	String tip = null;
@@ -419,8 +419,8 @@ public class MenuBackground extends Screen {
 		
 	}
 
-	public static final ResourceLocation menu = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
-	public static final ResourceLocation menubg = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/menu/menu_background.png");
+	public static final ResourceLocation menu = KingdomKeys.rl("textures/gui/menu/menu_button.png");
+	public static final ResourceLocation menubg = KingdomKeys.rl("textures/gui/menu/menu_background.png");
 
 	public static String getWorldMinutes(Level world) {
 		int time = (int) Math.abs((world.getGameTime() + 6000) % 24000);

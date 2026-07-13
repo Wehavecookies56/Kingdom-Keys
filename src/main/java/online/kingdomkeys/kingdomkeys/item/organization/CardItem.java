@@ -7,6 +7,7 @@ import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.entity.organization.KKThrowableEntity;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
@@ -28,7 +29,7 @@ public class CardItem extends OrgSwordItem implements IOrgWeapon {
 
         if (stack != null && !playerData.getRecharge()) {
             int cost = 10;
-            cost -= cost * playerData.getNumberOfAbilitiesEquipped(Strings.mpThrift) * 0.2;
+            cost -= cost * playerData.getNumberOfAbilitiesEquipped(ModAbilities.MP_THRIFT) * 0.2;
             playerData.remMP(Math.max(1, cost));
             player.swing(hand);
 
@@ -51,7 +52,7 @@ public class CardItem extends OrgSwordItem implements IOrgWeapon {
                     }
 
 
-                    entity.setData(DamageCalculation.getMagicDamage(player) * (playerData.getNumberOfAbilitiesEquipped(Strings.luckyLucky) * 0.2f), player.getUUID(), slot, stack);
+                    entity.setData(DamageCalculation.getMagicDamage(player) * (playerData.getNumberOfAbilitiesEquipped(ModAbilities.LUCKY_STRIKE) * 0.2f), player.getUUID(), slot, stack);
                     entity.setPos(player.position().x, player.getEyePosition().y, player.position().z);
 
                    //entity.setItem(stack);

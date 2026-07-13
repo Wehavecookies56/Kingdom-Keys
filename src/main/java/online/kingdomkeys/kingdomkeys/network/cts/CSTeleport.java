@@ -15,7 +15,7 @@ import online.kingdomkeys.kingdomkeys.network.Packet;
 
 public record CSTeleport(Vec3 pos) implements Packet {
 
-    public static final Type<CSTeleport> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_teleport"));
+    public static final Type<CSTeleport> TYPE = new Type<>(KingdomKeys.rl("cs_teleport"));
 
     public static final StreamCodec<FriendlyByteBuf, CSTeleport> STREAM_CODEC = StreamCodec.composite(
             ByteBufCodecs.fromCodec(Vec3.CODEC),

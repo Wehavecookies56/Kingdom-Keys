@@ -22,7 +22,7 @@ public record SCSyncKeybladeData(List<String> names, List<String> data) implemen
 	
     public static final Gson GSON_BUILDER = new GsonBuilder().registerTypeAdapter(KeybladeData.class, new KeybladeDataDeserializer()).setPrettyPrinting().create();
 
-	public static final Type<SCSyncKeybladeData> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "sc_sync_keyblade_data"));
+	public static final Type<SCSyncKeybladeData> TYPE = new Type<>(KingdomKeys.rl("sc_sync_keyblade_data"));
 
 	public static final StreamCodec<FriendlyByteBuf, SCSyncKeybladeData> STREAM_CODEC = StreamCodec.composite(
 			ByteBufCodecs.collection(ArrayList::new, ByteBufCodecs.STRING_UTF8),

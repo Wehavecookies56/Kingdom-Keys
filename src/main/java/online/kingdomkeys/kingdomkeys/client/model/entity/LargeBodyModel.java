@@ -18,7 +18,7 @@ import online.kingdomkeys.kingdomkeys.entity.mob.BaseKHEntity;
  * Ported to 1.18 using Tabula, Blockbench and manual code editing - Wehavecookies56
  */
 public class LargeBodyModel<T extends BaseKHEntity> extends EntityModel<T> {
-    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "largebodymodel"), "main");
+    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(KingdomKeys.rl("largebodymodel"), "main");
 
     private final ModelPart neck4;
     private final ModelPart neck3;

@@ -12,7 +12,7 @@ import online.kingdomkeys.kingdomkeys.network.Packet;
 
 public record SCRecalculateEyeHeight() implements Packet {
 
-	public static final Type<SCRecalculateEyeHeight> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "sc_recalculate_eye_height"));
+	public static final Type<SCRecalculateEyeHeight> TYPE = new Type<>(KingdomKeys.rl("sc_recalculate_eye_height"));
 
 	public static final StreamCodec<FriendlyByteBuf, SCRecalculateEyeHeight> STREAM_CODEC = StreamCodec.of((pBuffer, pValue) -> {}, pBuffer -> new SCRecalculateEyeHeight());
 

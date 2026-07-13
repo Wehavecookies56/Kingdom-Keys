@@ -16,7 +16,7 @@ import online.kingdomkeys.kingdomkeys.network.Packet;
 
 public record SCSyncWorldData(CompoundTag data) implements Packet {
 
-	public static final Type<SCSyncWorldData> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "sc_sync_world_data"));
+	public static final Type<SCSyncWorldData> TYPE = new Type<>(KingdomKeys.rl("sc_sync_world_data"));
 
 	public static final StreamCodec<FriendlyByteBuf, SCSyncWorldData> STREAM_CODEC = StreamCodec.composite(
 			ByteBufCodecs.COMPOUND_TAG,

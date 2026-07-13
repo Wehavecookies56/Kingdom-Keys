@@ -18,7 +18,7 @@ import static online.kingdomkeys.kingdomkeys.block.gummi.GummiHangarBlock.SHOW_L
 
 public record CSShowHangarLinesPacket(int containerID) implements Packet {
 
-	public static final Type<CSShowHangarLinesPacket> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_show_hangar_lines"));
+	public static final Type<CSShowHangarLinesPacket> TYPE = new Type<>(KingdomKeys.rl("cs_show_hangar_lines"));
 
 	public static final StreamCodec<FriendlyByteBuf, CSShowHangarLinesPacket> STREAM_CODEC = StreamCodec.composite(
 			ByteBufCodecs.INT,

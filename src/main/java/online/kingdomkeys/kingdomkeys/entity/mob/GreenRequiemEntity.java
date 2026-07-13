@@ -44,7 +44,7 @@ public class GreenRequiemEntity extends BaseElementalMusicalHeartlessEntity {
     @OnlyIn(Dist.CLIENT)
     @Override
     public ResourceLocation getTexture() {
-        return ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/mob/green_requiem.png");
+        return KingdomKeys.rl("textures/entity/mob/green_requiem.png");
     }
 
     @Override

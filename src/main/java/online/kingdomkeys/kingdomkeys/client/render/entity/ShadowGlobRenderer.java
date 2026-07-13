@@ -16,7 +16,7 @@ public class ShadowGlobRenderer extends MobRenderer<ShadowGlobEntity, ShadowGlob
 
     @Override
     public ResourceLocation getTextureLocation(ShadowGlobEntity entity) {
-        return ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/mob/shadow_glob.png");
+        return KingdomKeys.rl("textures/entity/mob/shadow_glob.png");
     }
 
     @Override

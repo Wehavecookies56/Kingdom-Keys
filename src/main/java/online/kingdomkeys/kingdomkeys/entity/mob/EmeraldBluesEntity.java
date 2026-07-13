@@ -40,7 +40,7 @@ public class EmeraldBluesEntity extends BaseElementalMusicalHeartlessEntity {
     @OnlyIn(Dist.CLIENT)
     @Override
     public ResourceLocation getTexture() {
-        return ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/mob/emerald_blues.png");
+        return KingdomKeys.rl("textures/entity/mob/emerald_blues.png");
     }
 
     @Override

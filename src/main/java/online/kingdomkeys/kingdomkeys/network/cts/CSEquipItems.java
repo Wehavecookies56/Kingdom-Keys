@@ -20,7 +20,7 @@ import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
 
 public record CSEquipItems(int slotToEquipTo, int slotToEquipFrom) implements Packet {
 
-    public static final Type<CSEquipItems> TYPE = new CustomPacketPayload.Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_equip_items"));
+    public static final Type<CSEquipItems> TYPE = new CustomPacketPayload.Type<>(KingdomKeys.rl("cs_equip_items"));
 
     public static final StreamCodec<FriendlyByteBuf, CSEquipItems> STREAM_CODEC = StreamCodec.composite(
             ByteBufCodecs.INT,

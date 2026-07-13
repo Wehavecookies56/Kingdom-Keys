@@ -21,7 +21,7 @@ import java.util.List;
 
 @OnlyIn(Dist.CLIENT)
 public class DragoonModel<T extends BaseKHEntity> extends EntityModel<T> {
-    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "dragoon"), "main");
+    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(KingdomKeys.rl("dragoon"), "main");
     private final ModelPart right_leg;
 	private final ModelPart left_leg;
 	private final ModelPart body;

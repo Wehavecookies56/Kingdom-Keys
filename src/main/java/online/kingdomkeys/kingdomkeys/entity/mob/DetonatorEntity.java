@@ -19,7 +19,7 @@ public class DetonatorEntity extends BaseBombEntity {
     @OnlyIn(Dist.CLIENT)
     @Override
     public ResourceLocation getTexture() {
-        return ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/mob/detonator.png");
+        return KingdomKeys.rl("textures/entity/mob/detonator.png");
     }
 
     public static AttributeSupplier.Builder registerAttributes() {

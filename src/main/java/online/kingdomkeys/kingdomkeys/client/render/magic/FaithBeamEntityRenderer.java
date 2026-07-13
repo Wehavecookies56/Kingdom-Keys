@@ -16,7 +16,7 @@ import online.kingdomkeys.kingdomkeys.client.model.FaithBeamModel;
 import javax.annotation.Nullable;
 
 public class FaithBeamEntityRenderer extends EntityRenderer<ThrowableProjectile> {
-	public static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/models/light_pillar.png");
+	public static final ResourceLocation TEXTURE = KingdomKeys.rl("textures/entity/models/light_pillar.png");
 	FaithBeamModel<Entity> lightBeamModel;
 
 	public FaithBeamEntityRenderer(EntityRendererProvider.Context context) {

@@ -12,11 +12,11 @@ public class LargeBodyRenderer extends MobRenderer<LargeBodyEntity, LargeBodyMod
 
     public LargeBodyRenderer(EntityRendererProvider.Context context) {
         super(context, new LargeBodyModel<>(context.bakeLayer(LargeBodyModel.LAYER_LOCATION)), 1F);
-        this.addLayer(new HeartlessEyesLayerRenderer<>(this, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/mob/large_body_eyes.png")));
+        this.addLayer(new HeartlessEyesLayerRenderer<>(this, KingdomKeys.rl("textures/entity/mob/large_body_eyes.png")));
     }
 
     @Override
     public ResourceLocation getTextureLocation(LargeBodyEntity entity) {
-        return ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/mob/large_body.png");
+        return KingdomKeys.rl("textures/entity/mob/large_body.png");
     }
 }

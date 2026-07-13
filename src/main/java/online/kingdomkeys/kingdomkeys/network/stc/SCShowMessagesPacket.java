@@ -17,7 +17,7 @@ import java.util.List;
 
 public record SCShowMessagesPacket(List<Title> titles) implements Packet {
 
-	public static final Type<SCShowMessagesPacket> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "sc_show_messages"));
+	public static final Type<SCShowMessagesPacket> TYPE = new Type<>(KingdomKeys.rl("sc_show_messages"));
 
 	public static final StreamCodec<FriendlyByteBuf, SCShowMessagesPacket> STREAM_CODEC = StreamCodec.composite(
 			ByteBufCodecs.collection(ArrayList::new, Title.STREAM_CODEC),

@@ -14,7 +14,7 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
 public class AquaShoulderModel<T extends LivingEntity> extends HumanoidModel<T> {
 
-	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "aqua_shoulder"), "main");
+	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(KingdomKeys.rl("aqua_shoulder"), "main");
 
     public AquaShoulderModel(ModelPart root) {
         super(root);

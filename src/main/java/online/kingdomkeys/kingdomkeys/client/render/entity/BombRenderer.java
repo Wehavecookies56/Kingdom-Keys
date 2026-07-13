@@ -21,7 +21,7 @@ public class BombRenderer extends MobRenderer<BaseBombEntity, BombModel<BaseBomb
 
     public BombRenderer(EntityRendererProvider.Context context) {
         super(context, new BombModel<>(context.bakeLayer(BombModel.LAYER_LOCATION)), 0.35F);
-        this.addLayer(new HeartlessEyesLayerRenderer<>(this, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/mob/bomb_eyes.png")));
+        this.addLayer(new HeartlessEyesLayerRenderer<>(this, KingdomKeys.rl("textures/entity/mob/bomb_eyes.png")));
     }
 
     @Override

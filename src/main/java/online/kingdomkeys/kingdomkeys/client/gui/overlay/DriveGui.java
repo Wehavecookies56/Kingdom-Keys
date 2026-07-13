@@ -10,6 +10,7 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
+import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.util.Utils;
@@ -19,7 +20,7 @@ import java.awt.*;
 
 public class DriveGui extends OverlayBase {
 
-	private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/drivebar.png");
+	private static final ResourceLocation TEXTURE = KingdomKeys.rl("textures/gui/drivebar.png");
 
 	public static final DriveGui INSTANCE = new DriveGui();
 
@@ -53,9 +54,9 @@ public class DriveGui extends OverlayBase {
 
 		if (playerData.getDriveFormMap() != null &&
 				playerData.getActiveDriveForm() != null &&
-				!playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())) {
+				!playerData.isFormActive(ModDriveForms.NONE)) {
 
-			if (playerData.getActiveDriveForm().equals(Strings.Form_Anti)) {
+			if (playerData.isFormActive(ModDriveForms.ANTI)) {
 				currForm = (ONE_VALUE * fp) - getCurrBar(fp, 1000) * GUI_LENGTH;
 			} else {
 				currForm = (ONE_VALUE * fp) - getCurrBar(fp, 300 + (playerData.getDriveFormMap().get(playerData.getActiveDriveForm())[0] * 100)) * GUI_LENGTH;
@@ -96,7 +97,7 @@ public class DriveGui extends OverlayBase {
 			blit(guiGraphics, TEXTURE, 0, 0, 0, 135, 98, 18);
 
 		} else { //Hides yellow meter, level number and balls
-			int bu = playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()) ? 0 : 98;
+			int bu = playerData.isFormActive(ModDriveForms.NONE) ? 0 : 98;
 			int bv = playerData.getAlignment() == OrgMember.NONE ? 0 : 68;
 
 			//Background
@@ -105,15 +106,15 @@ public class DriveGui extends OverlayBase {
 			guiGraphics.setColor(1, 1F, 1F, 1);
 
 			// Yellow meter
-			int meterWidth = !playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()) ? (int) currForm : (int) currDrive;
-			int driveU = playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()) ? 0 : 98;
+			int meterWidth = !playerData.isFormActive(ModDriveForms.NONE) ? (int) currForm : (int) currDrive;
+			int driveU = playerData.isFormActive(ModDriveForms.NONE) ? 0 : 98;
 			int driveV = playerData.getAlignment() != OrgMember.NONE ? 86 : 18;
 
 			blit(guiGraphics, TEXTURE, 35, -2, driveU, driveV, meterWidth, guiHeight);
 
 			//Level number
 			int numPos;
-			if (playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())) {
+			if (playerData.isFormActive(ModDriveForms.NONE)) {
 				numPos = getCurrBar(dp == 1000 ? 900 : dp, (int) playerData.getMaxDP() / 100) * 10;
 			} else {
 				numPos = 100 + getCurrBar(fp, Utils.getDriveFormLevel(playerData.getDriveFormMap(), playerData.getActiveDriveForm()) + 2) * 10;
@@ -126,7 +127,7 @@ public class DriveGui extends OverlayBase {
 			}
 
 			//Balls
-			if (playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())) {
+			if (playerData.isFormActive(ModDriveForms.NONE)) {
 				float ballScale = 0.4F;
 				int u = 55;
 				int v = playerData.getAlignment() == OrgMember.NONE ? 22 : 90;
@@ -166,7 +167,7 @@ public class DriveGui extends OverlayBase {
 			}
 
 			// MAX icon
-			if (playerData.getDP() >= playerData.getMaxDP() && playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())) {
+			if (playerData.getDP() >= playerData.getMaxDP() && playerData.isFormActive(ModDriveForms.NONE)) {
 				decimalColor = prevMaxDriveTicks + (maxDriveTicks - prevMaxDriveTicks) * deltaTracker.getGameTimeDeltaPartialTick(true);
 
 				Color c = Color.getHSBColor(decimalColor, 1F, 1F);

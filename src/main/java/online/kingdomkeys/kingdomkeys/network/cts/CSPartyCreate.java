@@ -15,7 +15,7 @@ import online.kingdomkeys.kingdomkeys.network.stc.SCSyncWorldData;
 
 public record CSPartyCreate(Party party) implements Packet {
 
-	public static final Type<CSPartyCreate> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_party_create"));
+	public static final Type<CSPartyCreate> TYPE = new Type<>(KingdomKeys.rl("cs_party_create"));
 
 	public static final StreamCodec<FriendlyByteBuf, CSPartyCreate> STREAM_CODEC = StreamCodec.composite(
 			Party.STREAM_CODEC,

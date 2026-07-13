@@ -23,7 +23,7 @@ public record SCSyncLevelingData(List<String> names, List<String> data) implemen
 
 	public static final Gson GSON_BUILDER = new GsonBuilder().registerTypeAdapter(LevelingData.class, new LevelingDataDeserializer()).setPrettyPrinting().create();
 
-	public static final Type<SCSyncLevelingData> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "sc_sync_leveling_data"));
+	public static final Type<SCSyncLevelingData> TYPE = new Type<>(KingdomKeys.rl("sc_sync_leveling_data"));
 
 	public static final StreamCodec<FriendlyByteBuf, SCSyncLevelingData> STREAM_CODEC = StreamCodec.composite(
 			ByteBufCodecs.collection(ArrayList::new, ByteBufCodecs.STRING_UTF8),

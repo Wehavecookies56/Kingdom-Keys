@@ -90,7 +90,7 @@ public class PatchedArmourLayerRenderer<E extends LivingEntity, T extends Living
                     SkinnedMesh modelAnimated = epicfight_armorModels.get(item);
                     String armorName = Utils.getItemRegistryName(item).getPath().substring(0,Utils.getItemRegistryName(item).getPath().indexOf("_"));
                     String textureIndex = i == 1 ? "2" : "1";
-                    texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/models/armor/"+armorName+textureIndex+".png");
+                    texture = KingdomKeys.rl("textures/models/armor/"+armorName+textureIndex+".png");
                     //VertexConsumer vertexconsumer = EpicFightRenderTypes.getArmorFoilBufferTriangles(multiBufferSource, RenderType.entityCutoutNoCull(texture), false, glint && itemStack.isEnchanted());
                     VertexConsumer bufferBuilder = multiBufferSource.getBuffer(EpicFightRenderTypes.getTriangulated(EpicFightRenderTypes.armorCutoutNoCull(texture)));
                     modelAnimated.drawPosed(poseStack, bufferBuilder, Mesh.DrawingFunction.NEW_ENTITY, packedLightIn, red, green, blue, 1, OverlayTexture.NO_OVERLAY, Armatures.BIPED.get(), poses);

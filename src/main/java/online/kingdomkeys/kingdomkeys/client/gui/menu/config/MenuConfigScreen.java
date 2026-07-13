@@ -701,7 +701,7 @@ public class MenuConfigScreen extends MenuBackground {
 						matrixStack.translate(-(width*0.35F), 4, 0);
 						RenderSystem.enableBlend();
 						RenderSystem.setShaderColor((float) notifColorRed.getValue() / 255F, (float) notifColorGreen.getValue() / 255F, (float) notifColorBlue.getValue() / 255F, 1F);
-						ResourceLocation levelUpTexture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/levelup.png");
+						ResourceLocation levelUpTexture = KingdomKeys.rl("textures/gui/levelup.png");
 
 						// Top
 						matrixStack.pushPose();

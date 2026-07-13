@@ -16,7 +16,7 @@ import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
 
 public record CSOpenMenu() implements Packet {
 
-    public static final Type<CSOpenMenu> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_open_menu"));
+    public static final Type<CSOpenMenu> TYPE = new Type<>(KingdomKeys.rl("cs_open_menu"));
     public static final StreamCodec<FriendlyByteBuf, CSOpenMenu> STREAM_CODEC = StreamCodec.of((pBuffer, pValue) -> {}, pBuffer -> new CSOpenMenu());
 
 

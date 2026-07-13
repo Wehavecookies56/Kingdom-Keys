@@ -13,7 +13,7 @@ import online.kingdomkeys.kingdomkeys.network.Packet;
 
 public record SCZeroGravityPacket(boolean value) implements Packet {
 
-    public static final Type<SCZeroGravityPacket> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "sc_zero_gravity"));
+    public static final Type<SCZeroGravityPacket> TYPE = new Type<>(KingdomKeys.rl("sc_zero_gravity"));
 
     public static final StreamCodec<FriendlyByteBuf, SCZeroGravityPacket> STREAM_CODEC = StreamCodec.composite(
             ByteBufCodecs.BOOL, SCZeroGravityPacket::value,

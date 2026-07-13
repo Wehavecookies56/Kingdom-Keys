@@ -21,7 +21,7 @@ import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
 
 public record CSUseLimitPacket(ResourceLocation limit, int targetID) implements Packet {
 	
-	public static final Type<CSUseLimitPacket> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_use_limit_packet"));
+	public static final Type<CSUseLimitPacket> TYPE = new Type<>(KingdomKeys.rl("cs_use_limit_packet"));
 
 	public static final StreamCodec<FriendlyByteBuf, CSUseLimitPacket> STREAM_CODEC = StreamCodec.composite(
 			ResourceLocation.STREAM_CODEC,

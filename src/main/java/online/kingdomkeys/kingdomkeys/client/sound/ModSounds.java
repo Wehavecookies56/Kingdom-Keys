@@ -195,7 +195,7 @@ public class ModSounds {
                     */
 
     public static DeferredHolder<SoundEvent, SoundEvent> registerSound(String name) {
-        final ResourceLocation soundID = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, name);
+        final ResourceLocation soundID = KingdomKeys.rl(name);
         return SOUNDS.register(name, () -> SoundEvent.createVariableRangeEvent(soundID));
     }
 }

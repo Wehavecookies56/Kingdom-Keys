@@ -17,6 +17,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.common.NeoForgeMod;
+import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
@@ -93,7 +94,7 @@ public abstract class ItemDropEntity extends Entity {
 			PlayerData playerData = PlayerData.get(closestPlayer);
 			if (playerData != null) {
 
-				double maxDist = 8 + (playerData.getNumberOfAbilitiesEquipped(Strings.treasureMagnet) * 2);
+				double maxDist = 8 + (playerData.getNumberOfAbilitiesEquipped(ModAbilities.TREASURE_MAGNET) * 2);
 				double maxDistSqr = maxDist * maxDist;
 
 				double dx = this.closestPlayer.getX() - this.getX();

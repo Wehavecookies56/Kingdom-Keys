@@ -54,8 +54,8 @@ public class MenuEquipmentButton extends Button {
     ItemCategory category;
 	public int offsetY;
 
-	final ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
-	final ResourceLocation barTexture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
+	final ResourceLocation texture = KingdomKeys.rl("textures/gui/menu/menu_button.png");
+	final ResourceLocation barTexture = KingdomKeys.rl("textures/gui/menu/menu_button.png");
 
 	public MenuEquipmentButton(ItemStack stack, int x, int y, int colour, Screen toOpen, ItemCategory category, MenuBackground parent) {
         super(new Builder(Component.literal(""), b -> {
@@ -79,7 +79,7 @@ public class MenuEquipmentButton extends Button {
         this.label = label;
     }
     
-    public MenuEquipmentButton(String shotlock, int x, int y, int colour, Screen toOpen, ItemCategory category, MenuBackground parent) {
+    public MenuEquipmentButton(ResourceLocation shotlock, int x, int y, int colour, Screen toOpen, ItemCategory category, MenuBackground parent) {
     	super(new Builder(Component.literal(""), b -> {
 		    if (b.visible && b.active && !(parent instanceof CheckEquipmentScreen)) {
                 Minecraft.getInstance().setScreen(((MenuEquipmentButton)b).toOpen);
@@ -87,7 +87,7 @@ public class MenuEquipmentButton extends Button {
         }).bounds(x, y, (int) (parent.width * 0.264f), 14));
     	
     	this.stack = null;
-        this.shotlock = !shotlock.isEmpty() ? ModShotlocks.registry.get(ResourceLocation.parse(shotlock)) : null;
+        this.shotlock = shotlock != null ? ModShotlocks.registry.get(shotlock) : null;
         this.colour = colour;
         this.toOpen = toOpen;
         this.parent = parent;
@@ -95,7 +95,7 @@ public class MenuEquipmentButton extends Button {
         this.category = category;
     }
 
-    public MenuEquipmentButton(String shotlock, int x, int y, int colour, Screen toOpen, ItemCategory category, MenuBackground parent, String label, int labelColour) {
+    public MenuEquipmentButton(ResourceLocation shotlock, int x, int y, int colour, Screen toOpen, ItemCategory category, MenuBackground parent, String label, int labelColour) {
         this(shotlock, x, y, colour, toOpen, category, parent);
         this.hasLabel = true;
         this.labelColour = labelColour;
@@ -217,7 +217,7 @@ public class MenuEquipmentButton extends Button {
 					int ap = 0;
 					ImmutableMap<KKResistanceType, Integer> resistances = null;
 
-					List<String> abilities = new ArrayList<>();
+					List<ResourceLocation> abilities = new ArrayList<>();
 					boolean showData = true;
 					if (stack.getItem() instanceof IKeychain) {
 						strength = ((IKeychain) stack.getItem()).toSummon().getStrength(stack);
@@ -438,7 +438,7 @@ public class MenuEquipmentButton extends Button {
 						if(!abilities.isEmpty()) {
 							gui.drawString(fr, ChatFormatting.UNDERLINE + Component.translatable(Strings.Gui_Menu_Status_Abilities).getString(), (int) abiPosX, (int) posY, 0xEE8603);
 							for(int i = 0; i < abilities.size();i++) {
-								Ability ability = ModAbilities.registry.get(ResourceLocation.parse(abilities.get(i)));
+								Ability ability = ModAbilities.registry.get(abilities.get(i));
 								if(ability != null) {
 									gui.blit(texture, (int) strPosX - 2, (int) posY + ((i + 1) * 12) - 4, 73, 102, 12, 12);
 									gui.drawString(fr, Utils.translateToLocal(ability.getTranslationKey()), (int) strPosX + 14, (int) posY + ((i + 1) * 12) - 1, 0xFFFFFF);

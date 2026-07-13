@@ -18,24 +18,24 @@ public class ModRoomStructures {
 
     public static final Supplier<RoomStructure>
             //all
-            ENTRANCE_HALL_1F = () -> registry.get().getValue(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "entrance_hall_1f")),
-            ENTRANCE_HALL = () -> registry.get().getValue(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "entrance_hall")),
-            BOTTOMLESS_DARKNESS = () -> registry.get().getValue(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "bottomless_darkness")),
-            FALLBACK = () -> registry.get().getValue(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "fallback")),
+            ENTRANCE_HALL_1F = () -> registry.get().getValue(KingdomKeys.rl("entrance_hall_1f")),
+            ENTRANCE_HALL = () -> registry.get().getValue(KingdomKeys.rl("entrance_hall")),
+            BOTTOMLESS_DARKNESS = () -> registry.get().getValue(KingdomKeys.rl("bottomless_darkness")),
+            FALLBACK = () -> registry.get().getValue(KingdomKeys.rl("fallback")),
 
             //floor specific
-            SMALL_1 = () -> registry.get().getValue(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "small_1")),
-            SMALL_2 = () -> registry.get().getValue(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "small_2")),
-            SMALL_3 = () -> registry.get().getValue(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "small_3")),
-            MEDIUM_1 = () -> registry.get().getValue(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "medium_1")),
-            MEDIUM_2 = () -> registry.get().getValue(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "medium_2")),
-            MEDIUM_3 = () -> registry.get().getValue(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "medium_3")),
-            LARGE_1 = () -> registry.get().getValue(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "large_1")),
-            LARGE_2 = () -> registry.get().getValue(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "large_2")),
-            LARGE_3 = () -> registry.get().getValue(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "large_3")),
+            SMALL_1 = () -> registry.get().getValue(KingdomKeys.rl("small_1")),
+            SMALL_2 = () -> registry.get().getValue(KingdomKeys.rl("small_2")),
+            SMALL_3 = () -> registry.get().getValue(KingdomKeys.rl("small_3")),
+            MEDIUM_1 = () -> registry.get().getValue(KingdomKeys.rl("medium_1")),
+            MEDIUM_2 = () -> registry.get().getValue(KingdomKeys.rl("medium_2")),
+            MEDIUM_3 = () -> registry.get().getValue(KingdomKeys.rl("medium_3")),
+            LARGE_1 = () -> registry.get().getValue(KingdomKeys.rl("large_1")),
+            LARGE_2 = () -> registry.get().getValue(KingdomKeys.rl("large_2")),
+            LARGE_3 = () -> registry.get().getValue(KingdomKeys.rl("large_3")),
 
-            MOOGLE_ROOM = () -> registry.get().getValue(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "moogle_room")),
-            MOMENTS_REPRIEVE = () -> registry.get().getValue(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "moments_reprieve"));
+            MOOGLE_ROOM = () -> registry.get().getValue(KingdomKeys.rl("moogle_room")),
+            MOMENTS_REPRIEVE = () -> registry.get().getValue(KingdomKeys.rl("moments_reprieve"));
 
 
 

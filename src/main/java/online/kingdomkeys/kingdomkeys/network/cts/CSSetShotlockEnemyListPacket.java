@@ -18,7 +18,7 @@ import java.util.List;
 
 public record CSSetShotlockEnemyListPacket(List<Utils.ShotlockPosition> shotlockEnemies) implements Packet {
 
-	public static final Type<CSSetShotlockEnemyListPacket> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_set_shotlock_enemy_list"));
+	public static final Type<CSSetShotlockEnemyListPacket> TYPE = new Type<>(KingdomKeys.rl("cs_set_shotlock_enemy_list"));
 
     public static final StreamCodec<FriendlyByteBuf, CSSetShotlockEnemyListPacket> STREAM_CODEC = StreamCodec.composite(
             ByteBufCodecs.collection(ArrayList::new, Utils.ShotlockPosition.STREAM_CODEC),

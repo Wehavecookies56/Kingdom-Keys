@@ -18,7 +18,7 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public record CSSwapKeyblade() implements Packet {
 
-    public static final Type<CSSwapKeyblade> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_swap_keyblade"));
+    public static final Type<CSSwapKeyblade> TYPE = new Type<>(KingdomKeys.rl("cs_swap_keyblade"));
 
     public static final StreamCodec<FriendlyByteBuf, CSSwapKeyblade> STREAM_CODEC = StreamCodec.of((pBuffer, pValue) -> {}, pBuffer -> new CSSwapKeyblade());
 

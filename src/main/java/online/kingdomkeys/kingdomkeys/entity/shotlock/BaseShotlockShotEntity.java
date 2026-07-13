@@ -11,6 +11,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.HitResult;
+import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 
@@ -59,8 +60,8 @@ public class BaseShotlockShotEntity extends ThrowableProjectile{
 			if(getOwner() != null && getOwner() instanceof Player owner) {
 	    		PlayerData playerData = PlayerData.get(owner);
 	    		if(playerData != null) {
-	    			if(playerData.getNumberOfAbilitiesEquipped(Strings.hpGain) > 0) {
-	    				owner.heal(playerData.getNumberOfAbilitiesEquipped(Strings.hpGain)*2);
+	    			if(playerData.getNumberOfAbilitiesEquipped(ModAbilities.HP_GAIN) > 0) {
+	    				owner.heal(playerData.getNumberOfAbilitiesEquipped(ModAbilities.HP_GAIN)*2);
 	    			}
 	    		}
 	    	}

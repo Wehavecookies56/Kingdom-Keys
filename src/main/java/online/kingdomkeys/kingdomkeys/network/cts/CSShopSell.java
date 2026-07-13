@@ -23,7 +23,7 @@ import java.util.List;
 
 public record CSShopSell(int slot, int amount, String inv, String name, int moogle) implements Packet {
 
-	public static final Type<CSShopSell> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_shop_sell"));
+	public static final Type<CSShopSell> TYPE = new Type<>(KingdomKeys.rl("cs_shop_sell"));
 
 	public static final StreamCodec<RegistryFriendlyByteBuf, CSShopSell> STREAM_CODEC = StreamCodec.composite(
             ByteBufCodecs.INT,
@@ -44,7 +44,7 @@ public record CSShopSell(int slot, int amount, String inv, String name, int moog
 		Player player = context.player();
 		PlayerData playerData = PlayerData.get(player);
 
-		List<SellItem> list = SellListRegistry.getInstance().getRegistry().get(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "sell")).getList();
+		List<SellItem> list = SellListRegistry.getInstance().getRegistry().get(KingdomKeys.rl("sell")).getList();
         ItemStack playerStack = player.getInventory().getItem(slot);
 
         SellItem item = null;

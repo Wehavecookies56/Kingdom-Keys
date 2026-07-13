@@ -69,7 +69,7 @@ public class FloorType extends JsonRegistryObject {
         this.branches = branches.orElse(new CountChancePair(0, 0));
         this.music = music.orElse(null);
         this.roomBlacklist = roomBlacklist.orElse(new ArrayList<>());
-        this.startingRoom = startingRoom.orElse(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "unknown_room"));
+        this.startingRoom = startingRoom.orElse(KingdomKeys.rl("unknown_room"));
         this.fixedLayout = fixedLayout.orElse(null);
         this.globalModifiers = globalModifiers.orElse(new ArrayList<>());
         this.regularEnemies = regularEnemies.orElse(ModTags.CO_REGULAR_ENEMIES);

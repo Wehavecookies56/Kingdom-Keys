@@ -13,7 +13,7 @@ import online.kingdomkeys.kingdomkeys.network.Packet;
 
 public record SCShowOrgPortalGUI(BlockPos pos) implements Packet {
 
-	public static final Type<SCShowOrgPortalGUI> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "sc_show_org_portal_gui"));
+	public static final Type<SCShowOrgPortalGUI> TYPE = new Type<>(KingdomKeys.rl("sc_show_org_portal_gui"));
 
 	public static final StreamCodec<FriendlyByteBuf, SCShowOrgPortalGUI> STREAM_CODEC = StreamCodec.composite(
 			BlockPos.STREAM_CODEC,

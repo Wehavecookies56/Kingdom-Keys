@@ -13,7 +13,7 @@ import online.kingdomkeys.kingdomkeys.network.Packet;
 
 public record CSCloseMoogleGUI(int moogle) implements Packet {
 
-    public static final Type<CSCloseMoogleGUI> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_close_moogle_gui"));
+    public static final Type<CSCloseMoogleGUI> TYPE = new Type<>(KingdomKeys.rl("cs_close_moogle_gui"));
 
     public static final StreamCodec<FriendlyByteBuf, CSCloseMoogleGUI> STREAM_CODEC = StreamCodec.composite(
             ByteBufCodecs.INT,

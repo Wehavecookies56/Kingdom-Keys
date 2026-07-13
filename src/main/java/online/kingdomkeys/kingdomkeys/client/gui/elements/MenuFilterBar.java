@@ -24,7 +24,7 @@ public class MenuFilterBar {
 
     int x, y, startX, allX, consumableX, toolX, buildingX, equipmentX, accessoriesX, miscX, endX;
 
-    final ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
+    final ResourceLocation texture = KingdomKeys.rl("textures/gui/menu/menu_button.png");
 
     public MenuFilterBar(int x, int y, MenuFilterable parent) {
         this.x = x;

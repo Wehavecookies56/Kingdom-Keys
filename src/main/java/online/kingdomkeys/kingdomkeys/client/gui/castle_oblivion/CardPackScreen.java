@@ -23,7 +23,7 @@ public class CardPackScreen extends MenuBackground {
 	private static final int CARD_SPACING = 44;
 	private static final int CARD_COUNT = 5;
 
-	private static final ResourceLocation CARD_BACK = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/co/card_back.png");
+	private static final ResourceLocation CARD_BACK = KingdomKeys.rl("textures/gui/co/card_back.png");
 	private static final int CARD_W = 32;
 	private static final int CARD_H = 32;
 	private final List<ItemStack> cards;

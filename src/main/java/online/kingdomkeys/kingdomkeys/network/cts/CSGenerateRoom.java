@@ -25,7 +25,7 @@ import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.roo
 
 public record CSGenerateRoom(ItemStack stack, BlockPos pos) implements Packet {
 
-	public static final Type<CSGenerateRoom> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_generate_room"));
+	public static final Type<CSGenerateRoom> TYPE = new Type<>(KingdomKeys.rl("cs_generate_room"));
 
 	public static final StreamCodec<RegistryFriendlyByteBuf, CSGenerateRoom> STREAM_CODEC = StreamCodec.composite(
 			ItemStack.STREAM_CODEC,

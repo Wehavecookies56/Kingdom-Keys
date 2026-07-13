@@ -17,7 +17,7 @@ public class KeybladeBuilder extends ModelFile {
     private ResourceLocation keychain;
     private int baseStr, baseMag;
     private String desc;
-    private String baseAbility;
+    private ResourceLocation baseAbility;
     private float reach;
     private final ArrayList<KeybladeLevel> keybladeLevels = new ArrayList<>();
 
@@ -76,7 +76,7 @@ public class KeybladeBuilder extends ModelFile {
         return self();
     }
 
-    public KeybladeBuilder ability(String ability) {
+    public KeybladeBuilder ability(ResourceLocation ability) {
         this.baseAbility = ability;
         return self();
     }
@@ -96,7 +96,9 @@ public class KeybladeBuilder extends ModelFile {
         JsonObject root = new JsonObject();
         JsonObject baseStat = new JsonObject();
         JsonArray levels = new JsonArray();
-        root.addProperty("ability", baseAbility);
+        if (baseAbility != null) {
+            root.addProperty("ability", baseAbility.toString());
+        }
         root.addProperty("reach", reach);
         
         if (this.keychain != null) {
@@ -122,7 +124,7 @@ public class KeybladeBuilder extends ModelFile {
                    recipe.add(matObj); });
             obj1.add("recipe", recipe);
             if (k.getAbility() != null)
-                obj1.addProperty("ability", k.getAbility());
+                obj1.addProperty("ability", k.getAbility().toString());
 
         }
         root.add("levels", levels);

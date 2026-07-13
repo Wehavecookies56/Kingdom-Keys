@@ -5,6 +5,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
@@ -46,22 +47,22 @@ public class ShortcutsGui extends OverlayBase {
 					continue;
 				}
 
-				String magicId = spell.getMagic();
+				ResourceLocation magicId = spell.getMagic();
 
-				Magic magic = ModMagic.registry.get(ResourceLocation.parse(magicId));
+				Magic magic = ModMagic.registry.get(magicId);
 
 				double cost = magic.getCost(minecraft.player);
 				int colour = playerData.getMP() > cost ? 0xFFFFFF : 0xFF9900;
 
-				if (playerData.isAbilityEquipped(Strings.extraCast) && cost > playerData.getMP() && playerData.getMP() > 1 && cost < 300) {
+				if (playerData.isAbilityEquipped(ModAbilities.EXTRA_CAST) && cost > playerData.getMP() && playerData.getMP() > 1 && cost < 300) {
 					colour = 0xFFFFFF;
 				}
-				DriveForm form = ModDriveForms.registry.get(ResourceLocation.parse(playerData.getActiveDriveForm()));
+				DriveForm form = ModDriveForms.registry.get(playerData.getActiveDriveForm());
 
 				boolean allowUseMagicIfCostIsHigher = ModConfigs.SERVER.allowCastMagicIfTooExpensive.get();
 				boolean insufficientMP = cost > playerData.getMaxMP() && cost < 300;
 
-				if (playerData.getMaxMP() == 0 || playerData.getRecharge() || ((!allowUseMagicIfCostIsHigher && insufficientMP)|| (cost < 300 && cost >= playerData.getMP() && playerData.isAbilityEquipped(Strings.mpSafety))) && playerData.getMagicCooldownTicks() <= 0 || !form.canUseMagic()){
+				if (playerData.getMaxMP() == 0 || playerData.getRecharge() || ((!allowUseMagicIfCostIsHigher && insufficientMP)|| (cost < 300 && cost >= playerData.getMP() && playerData.isAbilityEquipped(ModAbilities.MP_SAFETY))) && playerData.getMagicCooldownTicks() <= 0 || !form.canUseMagic()){
 					colour = 0x888888;
 				}
 

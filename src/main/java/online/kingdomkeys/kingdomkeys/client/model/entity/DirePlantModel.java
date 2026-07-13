@@ -17,7 +17,7 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
  * Ported to 1.18 using Tabula, Blockbench and manual code editing - Wehavecookies56
  */
 public class DirePlantModel<T extends Entity> extends EntityModel<T> {
-    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "direplant"), "main");
+    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(KingdomKeys.rl("direplant"), "main");
     private final ModelPart body;
     private final ModelPart body2;
     private final ModelPart body3;

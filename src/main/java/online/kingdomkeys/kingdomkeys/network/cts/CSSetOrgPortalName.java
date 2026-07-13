@@ -20,7 +20,7 @@ import java.util.UUID;
 
 public record CSSetOrgPortalName(BlockPos pos, String name) implements Packet {
 
-    public static final Type<CSSetOrgPortalName> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_set_org_portal_name"));
+    public static final Type<CSSetOrgPortalName> TYPE = new Type<>(KingdomKeys.rl("cs_set_org_portal_name"));
 
     public static final StreamCodec<FriendlyByteBuf, CSSetOrgPortalName> STREAM_CODEC = StreamCodec.composite(
             BlockPos.STREAM_CODEC,

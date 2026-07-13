@@ -5,10 +5,11 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
+import online.kingdomkeys.kingdomkeys.lib.KKRegistryObject;
 
 import java.util.List;
 
-public abstract class Shotlock {
+public abstract class Shotlock implements KKRegistryObject {
 
 	ResourceLocation name;
 	int order;
@@ -28,10 +29,6 @@ public abstract class Shotlock {
 
 	public Shotlock(String registryName, int order, int cooldown, int max) {
 		this(ResourceLocation.parse(registryName), order, cooldown, max);
-	}
-
-	public String getName() {
-		return name.toString();
 	}
 	
 	public String getTranslationKey() {
@@ -58,6 +55,7 @@ public abstract class Shotlock {
 		}
     }
 
+	@Override
     public ResourceLocation getRegistryName() {
 		return name;
 	}

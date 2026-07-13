@@ -14,7 +14,7 @@ import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 
 public record CSSetNotifColor(int color) implements Packet {
 
-    public static final Type<CSSetNotifColor> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_set_notif_color"));
+    public static final Type<CSSetNotifColor> TYPE = new Type<>(KingdomKeys.rl("cs_set_notif_color"));
 
     public static final StreamCodec<FriendlyByteBuf, CSSetNotifColor> STREAM_CODEC = StreamCodec.composite(
             ByteBufCodecs.INT,

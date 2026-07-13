@@ -13,12 +13,12 @@ public class DarkballRenderer extends MobRenderer<DarkballEntity, DarkballModel<
 
     public DarkballRenderer(EntityRendererProvider.Context context) {
         super(context, new DarkballModel<>(context.bakeLayer(DarkballModel.LAYER_LOCATION)), 0);
-        this.addLayer(new HeartlessEyesLayerRenderer<>(this, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/mob/darkball_eyes.png")));
+        this.addLayer(new HeartlessEyesLayerRenderer<>(this, KingdomKeys.rl("textures/entity/mob/darkball_eyes.png")));
     }
 
     @Override
     public ResourceLocation getTextureLocation(DarkballEntity entity) {
-        return ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/mob/darkball.png");
+        return KingdomKeys.rl("textures/entity/mob/darkball.png");
     }
 
     @Override

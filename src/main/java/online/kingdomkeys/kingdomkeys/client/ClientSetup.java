@@ -91,19 +91,19 @@ public class ClientSetup {
 
 	@SubscribeEvent
 	public static void registerOverlays(RegisterGuiLayersEvent event) {
-		event.registerBelow(VanillaGuiLayers.CHAT, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "shortcuts"), ShortcutsGui.INSTANCE);
-		event.registerBelow(VanillaGuiLayers.CHAT, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "command_menu"), CommandMenuGui.INSTANCE);
-        event.registerBelow(VanillaGuiLayers.CHAT, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "player_portrait"), PlayerPortraitGui.INSTANCE);
-		event.registerBelow(VanillaGuiLayers.CHAT, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "hp_bar"), HPGui.INSTANCE);
-        event.registerBelow(VanillaGuiLayers.CHAT, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "gummi_hud"), GummiHUD.INSTANCE);
-        event.registerBelow(VanillaGuiLayers.CHAT, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "mp_bar"), MPGui.INSTANCE);
-		event.registerBelow(VanillaGuiLayers.CHAT, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "drive_bar"), DriveGui.INSTANCE);
-		event.registerBelow(VanillaGuiLayers.CHAT, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "kk_notifications"), GuiOverlay.INSTANCE);
-		event.registerBelow(VanillaGuiLayers.CROSSHAIR, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "lock_on"), LockOnGui.INSTANCE);
-		event.registerBelow(VanillaGuiLayers.CHAT, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "party_info"), PartyHUDGui.INSTANCE);
-		event.registerBelow(VanillaGuiLayers.CROSSHAIR, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "shotlock"), ShotlockGUI.INSTANCE);
-		event.registerBelow(VanillaGuiLayers.TITLE, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "station_of_awakening_messages"), SoAMessages.INSTANCE);
-		event.registerBelow(VanillaGuiLayers.CHAT, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "castle_oblivion_minimap"), COMinimap.INSTANCE);
+		event.registerBelow(VanillaGuiLayers.CHAT, KingdomKeys.rl("shortcuts"), ShortcutsGui.INSTANCE);
+		event.registerBelow(VanillaGuiLayers.CHAT, KingdomKeys.rl("command_menu"), CommandMenuGui.INSTANCE);
+        event.registerBelow(VanillaGuiLayers.CHAT, KingdomKeys.rl("player_portrait"), PlayerPortraitGui.INSTANCE);
+		event.registerBelow(VanillaGuiLayers.CHAT, KingdomKeys.rl("hp_bar"), HPGui.INSTANCE);
+        event.registerBelow(VanillaGuiLayers.CHAT, KingdomKeys.rl("gummi_hud"), GummiHUD.INSTANCE);
+        event.registerBelow(VanillaGuiLayers.CHAT, KingdomKeys.rl("mp_bar"), MPGui.INSTANCE);
+		event.registerBelow(VanillaGuiLayers.CHAT, KingdomKeys.rl("drive_bar"), DriveGui.INSTANCE);
+		event.registerBelow(VanillaGuiLayers.CHAT, KingdomKeys.rl("kk_notifications"), GuiOverlay.INSTANCE);
+		event.registerBelow(VanillaGuiLayers.CROSSHAIR, KingdomKeys.rl("lock_on"), LockOnGui.INSTANCE);
+		event.registerBelow(VanillaGuiLayers.CHAT, KingdomKeys.rl("party_info"), PartyHUDGui.INSTANCE);
+		event.registerBelow(VanillaGuiLayers.CROSSHAIR, KingdomKeys.rl("shotlock"), ShotlockGUI.INSTANCE);
+		event.registerBelow(VanillaGuiLayers.TITLE, KingdomKeys.rl("station_of_awakening_messages"), SoAMessages.INSTANCE);
+		event.registerBelow(VanillaGuiLayers.CHAT, KingdomKeys.rl("castle_oblivion_minimap"), COMinimap.INSTANCE);
 	}
 
 	@SubscribeEvent
@@ -148,16 +148,16 @@ public class ClientSetup {
     @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
     public static void setupClient(FMLClientSetupEvent event) {
-		COMMAND_MENU = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "command_menu");
-		PLAYER_PORTRAIT = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "player_portrait");
-		HP_BAR = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "hp_bar");
-		MP_BAR = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "mp_bar");
-		DRIVE_BAR = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "drive_bar");
-		KK_NOTIFICATIONS = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "kk_notifications");
-		LOCK_ON = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "lock_on");
-		PARTY_INFO = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "party_info");
-		SHOTLOCK = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "shotlock");
-		STATION_OF_AWAKENING_MESSAGES = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "station_of_awakening_messages");
+		COMMAND_MENU = KingdomKeys.rl("command_menu");
+		PLAYER_PORTRAIT = KingdomKeys.rl("player_portrait");
+		HP_BAR = KingdomKeys.rl("hp_bar");
+		MP_BAR = KingdomKeys.rl("mp_bar");
+		DRIVE_BAR = KingdomKeys.rl("drive_bar");
+		KK_NOTIFICATIONS = KingdomKeys.rl("kk_notifications");
+		LOCK_ON = KingdomKeys.rl("lock_on");
+		PARTY_INFO = KingdomKeys.rl("party_info");
+		SHOTLOCK = KingdomKeys.rl("shotlock");
+		STATION_OF_AWAKENING_MESSAGES = KingdomKeys.rl("station_of_awakening_messages");
 
 		NeoForge.EVENT_BUS.addListener(ClientSetup::renderOverlays);
 		NeoForge.EVENT_BUS.register(GuiOverlay.INSTANCE);
@@ -171,9 +171,9 @@ public class ClientSetup {
 	@OnlyIn(Dist.CLIENT)
 	@SubscribeEvent
 	public static void modelRegistry(ModelEvent.RegisterAdditional event) {
-		event.register(ModelResourceLocation.standalone(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "entity/portal")));
-		event.register(ModelResourceLocation.standalone(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "block/station_of_awakening")));
-		event.register(ModelResourceLocation.standalone(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "entity/heart")));
+		event.register(ModelResourceLocation.standalone(KingdomKeys.rl("entity/portal")));
+		event.register(ModelResourceLocation.standalone(KingdomKeys.rl("block/station_of_awakening")));
+		event.register(ModelResourceLocation.standalone(KingdomKeys.rl("entity/heart")));
 	}
 
 	public static ShaderInstance hpShader, focusShader, shotlockShader, gummiHPShader;

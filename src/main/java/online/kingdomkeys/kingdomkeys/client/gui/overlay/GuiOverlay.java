@@ -35,7 +35,7 @@ public class GuiOverlay extends OverlayBase {
 
 	public static boolean showDriveLevelUp;
 	//public static WorldTeleporter teleport;
-	public static String driveForm = "";
+	public static ResourceLocation driveForm = null;
 	public static UUID playerWhoLevels = Util.NIL_UUID;
 	public static long timeExp;
 	public static long timeMunny;
@@ -48,8 +48,8 @@ public class GuiOverlay extends OverlayBase {
 
 	PlayerData playerData;
 
-	ResourceLocation levelUpTexture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/levelup.png");
-	ResourceLocation menuTexture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
+	ResourceLocation levelUpTexture = KingdomKeys.rl("textures/gui/levelup.png");
+	ResourceLocation menuTexture = KingdomKeys.rl("textures/gui/menu/menu_button.png");
 
 	public static class LevelUpData{
 		public String playerName; //In case player is unloaded from the client
@@ -270,7 +270,7 @@ public class GuiOverlay extends OverlayBase {
 		if(playerData == null || driveForm == null)
 			return;
 
-		DriveForm drive = ModDriveForms.registry.get(ResourceLocation.parse(driveForm));
+		DriveForm drive = ModDriveForms.registry.get(driveForm);
 		float[] driveColor = drive.getDriveColor();
 
 		matrixStack.pushPose();
@@ -363,7 +363,7 @@ public class GuiOverlay extends OverlayBase {
 				}
 				matrixStack.popPose();
 				
-				String formName = Utils.translateToLocal(ModDriveForms.registry.get(ResourceLocation.parse(driveForm)).getTranslationKey());
+				String formName = Utils.translateToLocal(ModDriveForms.registry.get(driveForm).getTranslationKey());
 				RenderSystem.setShaderColor(1,1,1, 1F);
 				showText(matrixStack, "LV.", 2 + (minecraft.font.width("LV. ") * 0.75f) + 20, sHeight / 3 + 29 + heightBase + 4, 0, 0.75f, 0.75f, 1, 0xE3D000);
 				showText(matrixStack, "" + playerData.getDriveFormLevel(driveForm), 2 * 0.75f + (minecraft.font.width("999") * 0.75f) + 32, sHeight / 3 + 29 + heightBase + 4, 0, 0.75f, 0.75f, 1, 0xFFFFFF);

@@ -129,7 +129,7 @@ public class PartyHUDGui extends OverlayBase {
 				float val = playerAlly.getHealth();
 				float max = playerAlly.getMaxHealth();
 
-				ResourceLocation hptexture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/hpbar.png");
+				ResourceLocation hptexture = KingdomKeys.rl("textures/gui/hpbar.png");
 
 				// top
 				pose.pushPose();
@@ -175,7 +175,7 @@ public class PartyHUDGui extends OverlayBase {
 					max = (float) playerData.getMaxMP();
 
 					ResourceLocation mptexture =
-							ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/mpbar.png");
+							KingdomKeys.rl("textures/gui/mpbar.png");
 
 					pose.translate(20, 0, 1);
 

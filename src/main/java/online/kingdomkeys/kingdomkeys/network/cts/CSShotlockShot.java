@@ -20,7 +20,7 @@ import java.util.List;
 
 public record CSShotlockShot(List<Utils.ShotlockPosition> shotlockEnemies, double cost) implements Packet {
 	
-	public static final Type<CSShotlockShot> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_shotlock_shot"));
+	public static final Type<CSShotlockShot> TYPE = new Type<>(KingdomKeys.rl("cs_shotlock_shot"));
 
 	public static final StreamCodec<FriendlyByteBuf, CSShotlockShot> STREAM_CODEC = StreamCodec.composite(
 			ByteBufCodecs.collection(ArrayList::new, Utils.ShotlockPosition.STREAM_CODEC),

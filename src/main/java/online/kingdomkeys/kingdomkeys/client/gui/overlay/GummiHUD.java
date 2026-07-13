@@ -162,8 +162,8 @@ public class GummiHUD extends OverlayBase {
     }
 
     private void drawHPBackground(PoseStack poseStack, float maxHealthPercentage) {
-        RenderSystem.setShaderTexture(0, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/hp_gummi_background.png"));
-        RenderSystem.setShaderTexture(1, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/hp_gummi_mask.png"));
+        RenderSystem.setShaderTexture(0, KingdomKeys.rl("textures/gui/hp_gummi_background.png"));
+        RenderSystem.setShaderTexture(1, KingdomKeys.rl("textures/gui/hp_gummi_mask.png"));
 
         ClientSetup.gummiHPShader.setSampler("Sampler0", 0);
         ClientSetup.gummiHPShader.setSampler("Sampler1", 1);
@@ -193,11 +193,11 @@ public class GummiHUD extends OverlayBase {
         BufferBuilder buffer = tesselator.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
 
         if (minecraft.player.level().getLevelData().isHardcore())
-            RenderSystem.setShaderTexture(0, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/hp_gummi_fill_h.png"));
+            RenderSystem.setShaderTexture(0, KingdomKeys.rl("textures/gui/hp_gummi_fill_h.png"));
         else
-            RenderSystem.setShaderTexture(0, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/hp_gummi_fill.png"));
+            RenderSystem.setShaderTexture(0, KingdomKeys.rl("textures/gui/hp_gummi_fill.png"));
 
-        RenderSystem.setShaderTexture(1, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/hp_gummi_mask.png"));
+        RenderSystem.setShaderTexture(1, KingdomKeys.rl("textures/gui/hp_gummi_mask.png"));
 
         ClientSetup.gummiHPShader.setSampler("Sampler0", 0);
         ClientSetup.gummiHPShader.setSampler("Sampler1", 1);
@@ -236,8 +236,8 @@ public class GummiHUD extends OverlayBase {
             RenderSystem.enableBlend();
             RenderSystem.defaultBlendFunc();
 
-            RenderSystem.setShaderTexture(0, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/hp_gummi_fill.png"));
-            RenderSystem.setShaderTexture(1, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/hp_gummi_mask.png"));
+            RenderSystem.setShaderTexture(0, KingdomKeys.rl("textures/gui/hp_gummi_fill.png"));
+            RenderSystem.setShaderTexture(1, KingdomKeys.rl("textures/gui/hp_gummi_mask.png"));
 
             ClientSetup.gummiHPShader.setSampler("Sampler0", 0);
             ClientSetup.gummiHPShader.setSampler("Sampler1", 1);
@@ -267,8 +267,8 @@ public class GummiHUD extends OverlayBase {
         int barWidth = 916;
         int barHeight = 254;
 
-        RenderSystem.setShaderTexture(0, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/hp_gummi_outline.png"));
-        RenderSystem.setShaderTexture(1, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/hp_gummi_outline_mask.png"));
+        RenderSystem.setShaderTexture(0, KingdomKeys.rl("textures/gui/hp_gummi_outline.png"));
+        RenderSystem.setShaderTexture(1, KingdomKeys.rl("textures/gui/hp_gummi_outline_mask.png"));
 
         ClientSetup.gummiHPShader.setSampler("Sampler0", 0);
         ClientSetup.gummiHPShader.setSampler("Sampler1", 1);

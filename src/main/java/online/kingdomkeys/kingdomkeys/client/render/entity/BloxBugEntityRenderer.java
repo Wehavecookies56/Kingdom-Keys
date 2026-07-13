@@ -10,7 +10,7 @@ import software.bernie.geckolib.renderer.layer.AutoGlowingGeoLayer;
 
 public class BloxBugEntityRenderer extends GeoEntityRenderer<BloxBugEntity> {
     public BloxBugEntityRenderer(EntityRendererProvider.Context renderManager) {
-        super(renderManager, new DefaultedEntityGeoModel<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "heartless/blox_bug")));
+        super(renderManager, new DefaultedEntityGeoModel<>(KingdomKeys.rl("heartless/blox_bug")));
         addRenderLayer(new AutoGlowingGeoLayer<>(this));
     }
 }

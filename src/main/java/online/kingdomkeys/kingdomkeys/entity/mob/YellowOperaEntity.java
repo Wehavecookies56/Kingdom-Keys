@@ -49,7 +49,7 @@ public class YellowOperaEntity extends BaseElementalMusicalHeartlessEntity {
     @OnlyIn(Dist.CLIENT)
     @Override
     public ResourceLocation getTexture() {
-        return ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/mob/yellow_opera.png");
+        return KingdomKeys.rl("textures/entity/mob/yellow_opera.png");
     }
 
     @Override

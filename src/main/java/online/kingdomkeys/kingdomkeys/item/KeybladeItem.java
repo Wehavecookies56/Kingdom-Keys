@@ -34,6 +34,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.entity.item.ItemTossEvent;
+import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.api.item.IItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
@@ -41,6 +42,7 @@ import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
+import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.entity.organization.ArrowgunShotEntity;
 import online.kingdomkeys.kingdomkeys.entity.organization.KKThrowableEntity;
 import online.kingdomkeys.kingdomkeys.handler.InputHandler;
@@ -148,10 +150,10 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 					}
 					if (mainChain != null) {
 						ItemStack formChain = null;
-						if (!playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())) {
-							formChain = playerData.getEquippedKeychain(ResourceLocation.parse(playerData.getActiveDriveForm()));
+						if (!playerData.isFormActive(ModDriveForms.NONE)) {
+							formChain = playerData.getEquippedKeychain(playerData.getActiveDriveForm());
 						} else {
-							if(playerData.isAbilityEquipped(Strings.synchBlade)) {
+							if(playerData.isAbilityEquipped(ModAbilities.SYNCH_BLADE)) {
 								formChain = playerData.getEquippedKeychain(DriveForm.SYNCH_BLADE);
 							}
 						}
@@ -206,12 +208,12 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 		ItemStack itemstack = player.getItemInHand(hand);
 		PlayerData playerData = PlayerData.get(player);
 
-		if (player.isCrouching() && playerData.isAbilityEquipped(Strings.strikeRaid)) { //Throw keyblade
+		if (player.isCrouching() && playerData.isAbilityEquipped(ModAbilities.STRIKE_RAID)) { //Throw keyblade
 			int slot = hand == InteractionHand.OFF_HAND ? player.getInventory().getContainerSize() - 1 : player.getInventory().selected;
 
 			if (itemstack != null && !playerData.getRecharge()) {
 				int cost = 10;
-	    		cost -= (int) (cost * playerData.getNumberOfAbilitiesEquipped(Strings.mpThrift) * 0.2);
+	    		cost -= (int) (cost * playerData.getNumberOfAbilitiesEquipped(ModAbilities.MP_THRIFT) * 0.2);
 				playerData.remMP(Math.max(1, cost));
 				
 				if (!level.isClientSide) {
@@ -258,7 +260,7 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 					}
 				}
 			} else { //Wisdom attack
-				if(playerData.getActiveDriveForm().equals(Strings.Form_Wisdom)) {
+				if(playerData.isFormActive(ModDriveForms.WISDOM)) {
 					player.swing(hand);
 					if(!level.isClientSide) {
 						ArrowgunShotEntity shot = new ArrowgunShotEntity(player.level(), player, DamageCalculation.getMagicDamage(player) * 0.1F);

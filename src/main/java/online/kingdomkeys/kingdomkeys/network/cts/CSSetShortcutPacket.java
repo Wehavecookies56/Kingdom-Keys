@@ -16,7 +16,7 @@ import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
 
 public record CSSetShortcutPacket(int position, int slot) implements Packet {
 	
-	public static final Type<CSSetShortcutPacket> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_set_shortcut"));
+	public static final Type<CSSetShortcutPacket> TYPE = new Type<>(KingdomKeys.rl("cs_set_shortcut"));
 
 	public static final StreamCodec<FriendlyByteBuf, CSSetShortcutPacket> STREAM_CODEC = StreamCodec.composite(
 			ByteBufCodecs.INT,

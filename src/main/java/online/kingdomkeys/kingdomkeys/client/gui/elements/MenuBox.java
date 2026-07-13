@@ -28,7 +28,7 @@ public class MenuBox extends AbstractWidget{
         this.alpha = alpha;
     }
 
-    private final ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
+    private final ResourceLocation texture = KingdomKeys.rl("textures/gui/menu/menu_button.png");
 
     private final int borderSize = 24;
     private final int

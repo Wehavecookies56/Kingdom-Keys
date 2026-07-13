@@ -20,7 +20,7 @@ public class ArrowRainCoreEntityRenderer extends EntityRenderer<ArrowRainCoreEnt
 	@Nullable
 	@Override
 	public ResourceLocation getTextureLocation(ArrowRainCoreEntity entity) {
-		return ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/models/cube.png");
+		return KingdomKeys.rl("textures/entity/models/cube.png");
 	}
 
 }

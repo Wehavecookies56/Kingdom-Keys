@@ -16,7 +16,7 @@ import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 
 public record CSSetAirStepPacket(BlockPos pos, float focusCost) implements Packet {
 
-	public static final Type<CSSetAirStepPacket> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_set_air_step"));
+	public static final Type<CSSetAirStepPacket> TYPE = new Type<>(KingdomKeys.rl("cs_set_air_step"));
 
 	public static final StreamCodec<FriendlyByteBuf, CSSetAirStepPacket> STREAM_CODEC = StreamCodec.composite(
 			BlockPos.STREAM_CODEC,

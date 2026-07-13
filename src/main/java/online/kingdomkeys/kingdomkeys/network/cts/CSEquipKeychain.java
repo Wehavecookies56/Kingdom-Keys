@@ -21,7 +21,7 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public record CSEquipKeychain(ResourceLocation slotToEquipTo, int slotToEquipFrom) implements Packet {
 
-    public static final Type<CSEquipKeychain> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_equip_keychain"));
+    public static final Type<CSEquipKeychain> TYPE = new Type<>(KingdomKeys.rl("cs_equip_keychain"));
 
     public static final StreamCodec<FriendlyByteBuf, CSEquipKeychain> STREAM_CODEC = StreamCodec.composite(
             ResourceLocation.STREAM_CODEC,

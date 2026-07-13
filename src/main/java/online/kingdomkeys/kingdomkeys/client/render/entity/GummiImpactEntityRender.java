@@ -82,6 +82,6 @@ public class GummiImpactEntityRender extends EntityRenderer<GummiImpactEntity> {
     @Nullable
 	@Override
 	public ResourceLocation getTextureLocation(GummiImpactEntity entity) {
-        return ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/gummi_water.png");
+        return KingdomKeys.rl("textures/entity/gummi_water.png");
 	}
 }

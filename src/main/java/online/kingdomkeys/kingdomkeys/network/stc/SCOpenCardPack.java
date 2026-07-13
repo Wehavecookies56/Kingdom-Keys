@@ -16,7 +16,7 @@ import java.util.List;
 
 public record SCOpenCardPack(List<ItemStack> cards) implements Packet {
 
-	public static final Type<SCOpenCardPack> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "sc_open_card_pack"));
+	public static final Type<SCOpenCardPack> TYPE = new Type<>(KingdomKeys.rl("sc_open_card_pack"));
 
 	public static final StreamCodec<RegistryFriendlyByteBuf, SCOpenCardPack> STREAM_CODEC = StreamCodec.composite(
 			ItemStack.OPTIONAL_STREAM_CODEC.apply(ByteBufCodecs.list()), SCOpenCardPack::cards,

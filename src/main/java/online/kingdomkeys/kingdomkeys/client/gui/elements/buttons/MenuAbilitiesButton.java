@@ -22,7 +22,7 @@ import java.awt.*;
 
 public class MenuAbilitiesButton extends MenuButtonBase {
 
-	private final ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
+	private final ResourceLocation texture = KingdomKeys.rl("textures/gui/menu/menu_button.png");
 	private final int endWidth = 11;
 
 	private final int leftU = 47;
@@ -150,7 +150,7 @@ public class MenuAbilitiesButton extends MenuButtonBase {
 		matrixStack.pushPose();
 		{
 			RenderSystem.setShaderColor(1, 1, 1, 1);
-			equipped = playerData.isAbilityEquipped(text, index) || isVisual;
+			equipped = playerData.isAbilityEquipped(ResourceLocation.parse(text), index) || isVisual;
 			if(!equipped && abilityType != AbilityType.WEAPON && abilityType != AbilityType.ACCESSORY) {
 				gui.blit(texture, getX()+6, getY()+4, 74, 102, 12, 12);
 			} else {

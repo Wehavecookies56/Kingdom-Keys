@@ -16,7 +16,7 @@ import online.kingdomkeys.kingdomkeys.network.Packet;
 
 public record SCOpenSellScreen(CompoundTag playerData, String inv, String name, int moogle) implements Packet {
 
-    public static final Type<SCOpenSellScreen> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "sc_open_sell_screen"));
+    public static final Type<SCOpenSellScreen> TYPE = new Type<>(KingdomKeys.rl("sc_open_sell_screen"));
 
     public static final StreamCodec<FriendlyByteBuf, SCOpenSellScreen> STREAM_CODEC = StreamCodec.composite(
             ByteBufCodecs.COMPOUND_TAG,

@@ -52,7 +52,7 @@ public class ShoulderLayerRenderer<T extends LivingEntity, M extends HumanoidMod
 				if (armorName.isEmpty() || !ItemStack.isSameItem(player.getInventory().getItem(38), ItemStack.EMPTY) || player.isInvisible())
 					return;
 
-				texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/models/armor/" + armorName + "_shoulder.png");
+				texture = KingdomKeys.rl("textures/models/armor/" + armorName + "_shoulder.png");
 				VertexConsumer vertexconsumer = ItemRenderer.getFoilBuffer(bufferIn, RenderType.entityCutoutNoCull(texture), false, false);
 				model = models.get(armorName);
 

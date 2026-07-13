@@ -25,7 +25,7 @@ public class WhiteMushroomRenderer<Type extends WhiteMushroomEntity> extends Mob
 
 	public WhiteMushroomRenderer(EntityRendererProvider.Context context) {
         super(context, new WhiteMushroomModel<>(context.bakeLayer(WhiteMushroomModel.LAYER_LOCATION)), 0.8F);
-		this.addLayer(new HeartlessEyesLayerRenderer<>(this, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/mob/mushroom_eyes.png")));
+		this.addLayer(new HeartlessEyesLayerRenderer<>(this, KingdomKeys.rl("textures/entity/mob/mushroom_eyes.png")));
 	}
 
 	int prevState = 0;
@@ -40,7 +40,7 @@ public class WhiteMushroomRenderer<Type extends WhiteMushroomEntity> extends Mob
 					ticksDespawning = entity.tickCount;
 				}
 				VertexConsumer buffer = bufferIn.getBuffer(Sheets.translucentCullBlockSheet());
-				BakedModel model = Minecraft.getInstance().getModelManager().getModel(ModelResourceLocation.standalone(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "entity/portal")));
+				BakedModel model = Minecraft.getInstance().getModelManager().getModel(ModelResourceLocation.standalone(KingdomKeys.rl("entity/portal")));
 
 				matrixStackIn.pushPose();
 				{
@@ -81,7 +81,7 @@ public class WhiteMushroomRenderer<Type extends WhiteMushroomEntity> extends Mob
 
 	@Override
 	public ResourceLocation getTextureLocation(Type pEntity) {
-		return ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/mob/white_mushroom.png");
+		return KingdomKeys.rl("textures/entity/mob/white_mushroom.png");
 	}
 
 }

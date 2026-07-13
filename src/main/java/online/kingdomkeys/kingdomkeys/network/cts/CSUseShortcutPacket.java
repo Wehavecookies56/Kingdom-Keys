@@ -12,6 +12,7 @@ import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.api.event.MagicSpellCastEvent;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
@@ -26,7 +27,7 @@ import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
 
 public record CSUseShortcutPacket(int index, int lockOnTarget) implements Packet {
 
-	public static final Type<CSUseShortcutPacket> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_use_shortcut"));
+	public static final Type<CSUseShortcutPacket> TYPE = new Type<>(KingdomKeys.rl("cs_use_shortcut"));
 
 	public static final StreamCodec<FriendlyByteBuf, CSUseShortcutPacket> STREAM_CODEC = StreamCodec.composite(
 			ByteBufCodecs.INT,
@@ -58,20 +59,20 @@ public record CSUseShortcutPacket(int index, int lockOnTarget) implements Packet
 					return;
 				}
 
-				String magicName = spell.getMagic();
+				ResourceLocation magicName = spell.getMagic();
 
-				Magic magic = ModMagic.registry.get(ResourceLocation.parse(magicName));
+				Magic magic = ModMagic.registry.get(magicName);
 				double cost = magic.getCost( player);
 
 				boolean allowUseMagicIfCostIsHigher = ModConfigs.SERVER.allowCastMagicIfTooExpensive.get();
 				boolean insufficientMP = cost > playerData.getMaxMP() && cost < 300;
 
-				if (playerData.getMaxMP() == 0 || playerData.getRecharge() || ((!allowUseMagicIfCostIsHigher && insufficientMP)|| (cost < 300 && cost >= playerData.getMP() && playerData.isAbilityEquipped(Strings.mpSafety))) && playerData.getMagicCooldownTicks() <= 0){
+				if (playerData.getMaxMP() == 0 || playerData.getRecharge() || ((!allowUseMagicIfCostIsHigher && insufficientMP)|| (cost < 300 && cost >= playerData.getMP() && playerData.isAbilityEquipped(ModAbilities.MP_SAFETY))) && playerData.getMagicCooldownTicks() <= 0){
 
 				//if (playerData.getMaxMP() == 0 || playerData.getRecharge() || (cost > playerData.getMaxMP() && cost < 300) || (cost < 300 && cost >= playerData.getMP() && playerData.isAbilityEquipped(Strings.mpSafety)) || playerData.getMagicCooldownTicks() > 0) {
 
 				} else {
-					if (NeoForge.EVENT_BUS.post(new MagicSpellCastEvent(player, ResourceLocation.parse(magicName))).isCanceled())
+					if (NeoForge.EVENT_BUS.post(new MagicSpellCastEvent(player, magicName)).isCanceled())
 						return;
 					magic.onUse(player, player, (LivingEntity) player.level().getEntity(lockOnTarget));
 				}

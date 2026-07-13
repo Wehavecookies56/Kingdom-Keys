@@ -18,7 +18,7 @@ public class MenuFilterButton extends Button {
     int iconSize = 20;
     MenuFilterBar parent;
 
-    final ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
+    final ResourceLocation texture = KingdomKeys.rl("textures/gui/menu/menu_button.png");
 
 
     public MenuFilterButton(MenuFilterBar parent, int x, int y, ItemCategory category) {

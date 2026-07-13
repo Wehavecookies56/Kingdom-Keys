@@ -13,7 +13,7 @@ import online.kingdomkeys.kingdomkeys.entity.magic.GravityEntity;
 
 public class MagicGravity extends Magic {
 
-	public MagicGravity(ResourceLocation registryName, int tier, String gmAbility) {
+	public MagicGravity(ResourceLocation registryName, int tier, ResourceLocation gmAbility) {
 		super(registryName, false, gmAbility);
 		setTier(tier);
 	}

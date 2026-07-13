@@ -8,6 +8,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
+import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.api.item.IItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
@@ -52,7 +53,7 @@ public class KKPotionItem extends Item implements IItemCategory, ICreativeTab {
 		switch(type) {
     	case HP:
         	float hpAmount = (float) (percentage ? player.getMaxHealth() * amount / 100 : amount);
-        	hpAmount += hpAmount * playerData.getNumberOfAbilitiesEquipped(Strings.itemBoost) / 2;
+        	hpAmount += hpAmount * playerData.getNumberOfAbilitiesEquipped(ModAbilities.ITEM_BOOST) / 2;
         	player.heal(hpAmount);
     		player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.potion.get(), SoundSource.PLAYERS, 1, 1);
 			Utils.reviveFromKO(player);
@@ -67,7 +68,7 @@ public class KKPotionItem extends Item implements IItemCategory, ICreativeTab {
     						Player target = player.level().getPlayerByUUID(m.getUUID());
     						if(target.distanceTo(player) < ModConfigs.SERVER.partyRangeLimit.get()) {
 	    			        	hpAmount = (float) (percentage ? target.getMaxHealth() * amount / 100 : amount);
-	    			        	hpAmount += hpAmount * playerData.getNumberOfAbilitiesEquipped(Strings.itemBoost) / 2;
+	    			        	hpAmount += hpAmount * playerData.getNumberOfAbilitiesEquipped(ModAbilities.ITEM_BOOST) / 2;
 	    						target.heal(hpAmount);
 	    						Utils.reviveFromKO(target);
 
@@ -105,7 +106,7 @@ public class KKPotionItem extends Item implements IItemCategory, ICreativeTab {
     	case HPMP:
     		mpAmount = (float) (percentage ? playerData.getMaxMP() * amount / 100 : amount);
     		hpAmount = (float) (percentage ? player.getMaxHealth() * amount / 100 : amount);
-        	hpAmount += hpAmount * playerData.getNumberOfAbilitiesEquipped(Strings.itemBoost) / 2;
+        	hpAmount += hpAmount * playerData.getNumberOfAbilitiesEquipped(ModAbilities.ITEM_BOOST) / 2;
 
     		playerData.addMP(mpAmount);
 			Utils.reviveFromKO(player);
@@ -123,7 +124,7 @@ public class KKPotionItem extends Item implements IItemCategory, ICreativeTab {
     						if(target.distanceTo(player) < ModConfigs.SERVER.partyRangeLimit.get()) {
 	    						mpAmount = (float) (percentage ? targetData.getMaxMP() * amount / 100 : amount);
 	    						hpAmount = (float) (percentage ? target.getMaxHealth() * amount / 100 : amount);
-	    			        	hpAmount += hpAmount * playerData.getNumberOfAbilitiesEquipped(Strings.itemBoost) / 2;
+	    			        	hpAmount += hpAmount * playerData.getNumberOfAbilitiesEquipped(ModAbilities.ITEM_BOOST) / 2;
 	    			        	Utils.reviveFromKO(target);
 	    			        	targetData.addMP(mpAmount);
 	    						target.heal(hpAmount);

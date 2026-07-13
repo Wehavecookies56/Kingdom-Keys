@@ -38,7 +38,7 @@ import java.util.Optional;
 
 public class GummiHangarScreen extends AbstractContainerScreen<GummiHangarMenu> {
 	private static final DecimalFormat df = new DecimalFormat("0.00", DecimalFormatSymbols.getInstance(Locale.US));
-	private static final ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/gummi_hangar.png");
+	private static final ResourceLocation texture = KingdomKeys.rl("textures/gui/gummi_hangar.png");
 
 	public GummiHangarScreen(GummiHangarMenu container, Inventory inventory, Component title) {
 		super(container, inventory, title);
@@ -333,7 +333,7 @@ public class GummiHangarScreen extends AbstractContainerScreen<GummiHangarMenu> 
                 if(menu.TE.maxBurnTime > 0) {
                     float progress = ((float) menu.TE.burnTime / menu.TE.maxBurnTime) * 14;
                     int v = (int) progress+1;
-                    blit(gui, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/gummi_hangar.png"), 152, 39 + 14 - v, 242, 14 - v, 14, v);
+                    blit(gui, KingdomKeys.rl("textures/gui/gummi_hangar.png"), 152, 39 + 14 - v, 242, 14 - v, 14, v);
                 }
             }
             gui.pose().popPose();
@@ -348,7 +348,7 @@ public class GummiHangarScreen extends AbstractContainerScreen<GummiHangarMenu> 
                 float max = menu.getMaxEnergy();
                 float fill = Mth.clamp(val / max, 0F, 1F);
 
-                ResourceLocation tex = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/hpbar.png");
+                ResourceLocation tex = KingdomKeys.rl("textures/gui/hpbar.png");
 
                 gui.pose().translate(165.5, 79, 1);
                 gui.pose().scale(scaleX, scaleY, 1);

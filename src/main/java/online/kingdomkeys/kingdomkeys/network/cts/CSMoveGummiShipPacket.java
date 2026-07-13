@@ -19,7 +19,7 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public record CSMoveGummiShipPacket(String direction, int containerID) implements Packet {
 
-	public static final Type<CSMoveGummiShipPacket> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_move_gummi_ship"));
+	public static final Type<CSMoveGummiShipPacket> TYPE = new Type<>(KingdomKeys.rl("cs_move_gummi_ship"));
 
 	public static final StreamCodec<FriendlyByteBuf, CSMoveGummiShipPacket> STREAM_CODEC = StreamCodec.composite(
 			ByteBufCodecs.STRING_UTF8,

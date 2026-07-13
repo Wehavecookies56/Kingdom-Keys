@@ -18,7 +18,7 @@ import java.util.List;
 
 public class MagicZeroGravity extends Magic {
 
-	public MagicZeroGravity(ResourceLocation registryName, int tier, String gmAbility) {
+	public MagicZeroGravity(ResourceLocation registryName, int tier, ResourceLocation gmAbility) {
 		super(registryName, false, gmAbility);
 		setTier(tier);
 	}

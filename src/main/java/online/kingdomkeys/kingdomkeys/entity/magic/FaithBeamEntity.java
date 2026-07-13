@@ -16,6 +16,7 @@ import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
+import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.util.HashSet;
@@ -111,7 +112,7 @@ public class FaithBeamEntity extends BaseMagicProjectile {
 				float healAmount = 2;
 				if (getOwner() instanceof Player player) {
 					PlayerData playerData = PlayerData.get(player);
-					int localLevel = Utils.getMagicHighestLocalLevel(playerData.getEquippedMagics(), Strings.Magic_Faith);
+					int localLevel = Utils.getMagicHighestLocalLevel(playerData.getEquippedMagics(), ModMagic.FAITH.location());
 
 					float totalHealPercent = 0.4F + localLevel * 0.1F; //0.5F --> 1.0F
 					int beamCount = 6;

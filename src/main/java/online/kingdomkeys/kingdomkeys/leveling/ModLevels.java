@@ -4,17 +4,22 @@ import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.lib.KKSupplier;
 
 import java.util.function.Supplier;
 
 public class ModLevels {
 
-	public static DeferredRegister<Level> LEVELS = DeferredRegister.create(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "levels"), KingdomKeys.MODID);
+	public static DeferredRegister<Level> LEVELS = DeferredRegister.create(KingdomKeys.rl("levels"), KingdomKeys.MODID);
 	public static Registry<Level> registry = LEVELS.makeRegistry(builder -> builder.sync(true));
 
 
-	public static final Supplier<Level>
-		WARRIOR = LEVELS.register("warrior", () -> new Level(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "warrior"))),
-		MYSTIC = LEVELS.register("mystic", () -> new Level(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "mystic"))),
-		GUARDIAN = LEVELS.register("guardian", () -> new Level(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "guardian")));
+	public static final KKSupplier<Level>
+		WARRIOR = register("warrior", () -> new Level(KingdomKeys.rl("warrior"))),
+		MYSTIC = register("mystic", () -> new Level(KingdomKeys.rl("mystic"))),
+		GUARDIAN = register("guardian", () -> new Level(KingdomKeys.rl("guardian")));
+
+	private static KKSupplier<Level> register(String name, Supplier<Level> levelSupplier) {
+		return new KKSupplier<>(LEVELS.register(name, levelSupplier));
+	}
 }

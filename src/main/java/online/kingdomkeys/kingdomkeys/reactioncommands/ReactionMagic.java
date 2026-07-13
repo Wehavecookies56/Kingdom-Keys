@@ -31,7 +31,7 @@ public class ReactionMagic extends ReactionCommand {
 	public String getTranslationKey() {
 		PlayerData playerData = PlayerData.get(Minecraft.getInstance().player);
 	    Magic mag = ModMagic.registry.get(magic);
-	    if(mag.getGMAbility() != null && playerData.getNumberOfAbilitiesEquipped(mag.getGMAbility().getRegistryName().toString()) > 0) { //Get if the player has the -za
+	    if(mag.getGMAbility().isPresent() && playerData.getNumberOfAbilitiesEquipped(mag.getGMAbility().get().getRegistryName()) > 0) { //Get if the player has the -za
 		    Magic current = mag;
 		    Magic next = current.getNextTierMagic();
 
@@ -56,7 +56,7 @@ public class ReactionMagic extends ReactionCommand {
 
 		//Get if player has za, if so get the next magic till it returns null and return the last non null value
 		//If doesn't have za get the immediately next magic
-		if(mag.getGMAbility() != null && playerData.getNumberOfAbilitiesEquipped(mag.getGMAbility().getRegistryName().toString()) > 0) { //Get if the player has the -za
+		if(mag.getGMAbility().isPresent() && playerData.getNumberOfAbilitiesEquipped(mag.getGMAbility().get().getRegistryName()) > 0) { //Get if the player has the -za
 			Magic current = mag;
 			Magic next = current.getNextTierMagic();
 
@@ -81,7 +81,7 @@ public class ReactionMagic extends ReactionCommand {
 		}
 		*/
 		mag.onUse(player, player, lockedOnEntity, true);
-		playerData.removeReactionCommand(getRegistryName().toString());
+		playerData.removeReactionCommand(getRegistryName());
 	}
 
 	@Override

@@ -78,10 +78,10 @@ public class AbilityCommand extends BaseCommand { // kingdomkeys ability <give/t
 		for (ServerPlayer player : players) {
 			PlayerData playerData = PlayerData.get(player);
 			if (permanent) {
-				playerData.addPAbility(abilityName);
+				playerData.addPAbility(a.getRegistryName());
 				player.sendSystemMessage(Component.translatable("You have been given the ability '" + Utils.translateToLocal(a.getTranslationKey()) + "' permanently"));
 			} else {
-				playerData.addAbility(abilityName, true);
+				playerData.addAbility(a.getRegistryName(), true);
 				player.sendSystemMessage(Component.translatable("You have been given the ability '" + Utils.translateToLocal(a.getTranslationKey()) + "'"));
 			}
 			if (player != context.getSource().getPlayerOrException()) {
@@ -98,8 +98,8 @@ public class AbilityCommand extends BaseCommand { // kingdomkeys ability <give/t
 
 		for (ServerPlayer player : players) {
 			PlayerData playerData = PlayerData.get(player);
-			playerData.removePAbility(ability);
-			playerData.removeAbility(ability);
+			playerData.removePAbility(ResourceLocation.parse(ability));
+			playerData.removeAbility(ResourceLocation.parse(ability));
 
 			if (player != context.getSource().getPlayerOrException()) {
 				context.getSource().sendSuccess(() -> Component.translatable("Removed ability '" + Utils.translateToLocal(ability) + "' from " + player.getDisplayName().getString()), true);

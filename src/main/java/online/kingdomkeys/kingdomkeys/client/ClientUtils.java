@@ -81,9 +81,9 @@ import java.io.FileNotFoundException;
 import java.util.*;
 
 public class ClientUtils {
-    public static Style KK_Font_EXP = Style.EMPTY.withFont(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "kk_font_exp"));
-    public static Style KK_Font_MENU = Style.EMPTY.withFont(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "kk_font_menu"));
-    public static Style KK_Font_TITLE = Style.EMPTY.withFont(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "kk_font_title"));
+    public static Style KK_Font_EXP = Style.EMPTY.withFont(KingdomKeys.rl("kk_font_exp"));
+    public static Style KK_Font_MENU = Style.EMPTY.withFont(KingdomKeys.rl("kk_font_menu"));
+    public static Style KK_Font_TITLE = Style.EMPTY.withFont(KingdomKeys.rl("kk_font_title"));
 
     //Order is important for overlapping boxes, top to bottom
     public static final HUDElement DRIVE_ELEMENT = new HUDElement("Drive").setScale(0.8F,0.8F);
@@ -137,7 +137,7 @@ public class ClientUtils {
 
     public static boolean getResourceExists(String path){
         try {
-            Minecraft.getInstance().getResourceManager().getResourceOrThrow(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, path));
+            Minecraft.getInstance().getResourceManager().getResourceOrThrow(KingdomKeys.rl(path));
             return true;
         } catch (FileNotFoundException e) {
             return false;
@@ -145,7 +145,7 @@ public class ClientUtils {
     }
 
     public static ResourceLocation getResourceExistsOrDefault(String path, String name, String defaultName){
-        return ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, String.format(path, getResourceExists(String.format(path, name)) ? name : defaultName));
+        return KingdomKeys.rl(String.format(path, getResourceExists(String.format(path, name)) ? name : defaultName));
     }
 
     public static void drawXOnFace(PoseStack stack, VertexConsumer builder, double x, double y, double z, Direction face) {
@@ -573,17 +573,17 @@ public class ClientUtils {
     }
 
     public static final RenderType LOCK_ON_INDICATOR = RenderType.create(KingdomKeys.MODID + ":lock_on_indicator", DefaultVertexFormat.POSITION_TEX, VertexFormat.Mode.QUADS, 256, false, false,
-            RenderType.CompositeState.builder().setShaderState(RenderStateShard.POSITION_TEX_SHADER).setTextureState(new RenderStateShard.TextureStateShard(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/lockon_0.png"),
+            RenderType.CompositeState.builder().setShaderState(RenderStateShard.POSITION_TEX_SHADER).setTextureState(new RenderStateShard.TextureStateShard(KingdomKeys.rl("textures/gui/lockon_0.png"),
                             false, false)).setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY).setDepthTestState(RenderStateShard.NO_DEPTH_TEST).setWriteMaskState(RenderStateShard.COLOR_WRITE).setLightmapState(RenderStateShard.NO_LIGHTMAP)
                     .setOverlayState(RenderStateShard.NO_OVERLAY).createCompositeState(true));
 
     public static final RenderType LOCK_ON_INNER = RenderType.create(KingdomKeys.MODID + ":lock_on_inner", DefaultVertexFormat.POSITION_TEX, VertexFormat.Mode.QUADS, 256, false, false,
-            RenderType.CompositeState.builder().setShaderState(RenderStateShard.POSITION_TEX_SHADER).setTextureState(new RenderStateShard.TextureStateShard(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/lockon_1.png"),
+            RenderType.CompositeState.builder().setShaderState(RenderStateShard.POSITION_TEX_SHADER).setTextureState(new RenderStateShard.TextureStateShard(KingdomKeys.rl("textures/gui/lockon_1.png"),
                             false, false)).setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY).setDepthTestState(RenderStateShard.NO_DEPTH_TEST).setWriteMaskState(RenderStateShard.COLOR_WRITE).setLightmapState(RenderStateShard.NO_LIGHTMAP)
                     .setOverlayState(RenderStateShard.NO_OVERLAY).createCompositeState(true));
 
     public static final RenderType SHOTLOCK_INDICATOR = RenderType.create(KingdomKeys.MODID + ":shotlock_indicator", DefaultVertexFormat.POSITION_TEX, VertexFormat.Mode.QUADS, 256, false, false,
-            RenderType.CompositeState.builder().setShaderState(RenderStateShard.POSITION_TEX_SHADER).setTextureState(new RenderStateShard.TextureStateShard(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/shotlock_indicator.png"),
+            RenderType.CompositeState.builder().setShaderState(RenderStateShard.POSITION_TEX_SHADER).setTextureState(new RenderStateShard.TextureStateShard(KingdomKeys.rl("textures/gui/shotlock_indicator.png"),
                             false, false)).setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY).setDepthTestState(RenderStateShard.NO_DEPTH_TEST).setWriteMaskState(RenderStateShard.COLOR_WRITE).setLightmapState(RenderStateShard.NO_LIGHTMAP)
                     .setOverlayState(RenderStateShard.NO_OVERLAY).createCompositeState(true));
 
@@ -809,7 +809,7 @@ public class ClientUtils {
         VertexConsumer buffer = bufferIn.getBuffer(Sheets.translucentCullBlockSheet());
         matrixStackIn.pushPose();
         {
-            BakedModel model = Minecraft.getInstance().getModelManager().getModel(ModelResourceLocation.standalone(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "entity/heart")));
+            BakedModel model = Minecraft.getInstance().getModelManager().getModel(ModelResourceLocation.standalone(KingdomKeys.rl("entity/heart")));
             matrixStackIn.scale(0.005F, 0.005F, 0.005F);
             matrixStackIn.translate(0, 300, 0);
             matrixStackIn.mulPose(Axis.YP.rotationDegrees(entitylivingbaseIn.tickCount*5));

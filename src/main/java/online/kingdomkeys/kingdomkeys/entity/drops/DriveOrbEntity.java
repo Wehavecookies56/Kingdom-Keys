@@ -6,10 +6,12 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
+import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
@@ -31,13 +33,13 @@ public class DriveOrbEntity extends ItemDropEntity {
 	void onPickup(Player player) {
 		PlayerData playerData = PlayerData.get(player);
 		float finalValue = value;
-		if (playerData.isAbilityEquipped(Strings.driveBoost) && playerData.getRecharge())
+		if (playerData.isAbilityEquipped(ModAbilities.DRIVE_BOOST) && playerData.getRecharge())
 			finalValue *=2 ;
-		if(playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()))
+		if(playerData.isFormActive(ModDriveForms.NONE))
 			playerData.addDP(player,finalValue);
 		else {
 			playerData.addFP(finalValue);
-			if (playerData.getActiveDriveForm().equals(Strings.Form_Master)) {
+			if (playerData.isFormActive(ModDriveForms.MASTER)) {
 				double mult = Double.parseDouble(ModConfigs.SERVER.driveFormXPMultiplier.get().get(3).split(",")[1]);
 				playerData.setDriveFormExp(player, playerData.getActiveDriveForm(), (int) (playerData.getDriveFormExp(playerData.getActiveDriveForm()) + (Math.max(1, (value/10F) * mult)))); //Ensure at least 1 point
 				PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer)player);

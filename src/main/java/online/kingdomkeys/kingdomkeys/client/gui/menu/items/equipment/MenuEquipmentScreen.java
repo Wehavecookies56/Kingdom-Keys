@@ -6,6 +6,7 @@ import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
@@ -76,7 +77,7 @@ public class MenuEquipmentScreen extends MenuBackground {
         addRenderableWidget(back = new MenuButton((int)buttonPosX, playerData.getAlignment() == OrgMember.NONE ? buttonPosY : buttonPosY+20, (int)buttonWidth, Component.translatable(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, b -> minecraft.setScreen(new MenuItemsScreen())));
 
         Map<ResourceLocation, ItemStack> keychains = playerData.getEquippedKeychains();
-        List<String> shotlocks = Utils.getSortedShotlocks(playerData.getShotlockList());
+        List<ResourceLocation> shotlocks = Utils.getSortedShotlocks(playerData.getShotlockList());
         Map<Integer, ItemStack> items = playerData.getEquippedItems();
         Map<Integer, ItemStack> accessories = playerData.getEquippedAccessories();
         Map<Integer, ItemStack> kbArmor = playerData.getEquippedKBArmors();
@@ -94,7 +95,7 @@ public class MenuEquipmentScreen extends MenuBackground {
 
             addRenderableWidget(showKeybladesButton = new MenuButton((int)buttonPosX, buttonPosY, 45, Component.translatable(Strings.Gui_Menu_Items_Equipment_Weapon_Keyblades).getString(), MenuButton.ButtonType.BUTTON, b -> {showingKeyblades = !showingKeyblades; init();}));
             
-            if(keychains.get(DriveForm.SYNCH_BLADE) != null && playerData.isAbilityEquipped(Strings.synchBlade) && (playerData.getEquippedWeapon() != null)) {
+            if(keychains.get(DriveForm.SYNCH_BLADE) != null && playerData.isAbilityEquipped(ModAbilities.SYNCH_BLADE) && (playerData.getEquippedWeapon() != null)) {
             	if(playerData.getEquippedWeapon().getItem() instanceof KeybladeItem) { // Synch blade button when org member (should only appear when using Roxas weapon)
             		MenuEquipmentButton sbSlot = new MenuEquipmentButton(keychains.get(DriveForm.SYNCH_BLADE), (int) itemsX, (int) itemsY +  (offset.get() - hidden.get()) + itemHeight * (offset.getAndIncrement() - hidden.get()), 0x880000, new MenuEquipmentSelectorScreen(DriveForm.SYNCH_BLADE, new Color(112, 31, 35), 0x880000), ItemCategory.TOOL, this, "ability.ability_synch_blade.name", 0xFE8185);
                     addRenderableWidget(sbSlot);
@@ -128,7 +129,7 @@ public class MenuEquipmentScreen extends MenuBackground {
             hidden.getAndIncrement();
             
             //Synch blade
-            if (playerData.getAlignment() == Utils.OrgMember.NONE && playerData.getEquippedAbilityLevel(Strings.synchBlade)[1] > 0) {
+            if (playerData.getAlignment() == Utils.OrgMember.NONE && playerData.getEquippedAbilityLevel(ModAbilities.SYNCH_BLADE.location())[1] > 0) {
             	MenuEquipmentButton sbSlot = new MenuEquipmentButton(keychains.get(DriveForm.SYNCH_BLADE), (int) itemsX, (int) itemsY +  (offset.get()) + itemHeight * (offset.getAndIncrement() ), 0x880000, new MenuEquipmentSelectorScreen(DriveForm.SYNCH_BLADE, new Color(112, 31, 35), 0x880000), ItemCategory.TOOL, this, "ability.ability_synch_blade.name", 0xFE8185);
                 addRenderableWidget(sbSlot);
                 
@@ -144,7 +145,7 @@ public class MenuEquipmentScreen extends MenuBackground {
         keychains.entrySet().stream().sorted(sortByFormOrder).forEachOrdered((entry) -> {
             ResourceLocation form = entry.getKey();
             ItemStack keychain = entry.getValue();
-            if (!Utils.getFakeForms().contains(form.toString()) && ModDriveForms.registry.get(form).isSlotVisible(minecraft.player)) {
+            if (!Utils.getFakeForms().contains(form) && ModDriveForms.registry.get(form).isSlotVisible(minecraft.player)) {
             	MenuEquipmentButton button = new MenuEquipmentButton(keychain, (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement(), 0x006666, new MenuEquipmentSelectorScreen(form, new Color(10, 22, 22), 0x006666), ItemCategory.TOOL, this, ModDriveForms.registry.get(form).getTranslationKey(), 0x00BBBB);
                 addRenderableWidget(button);
 
@@ -158,8 +159,8 @@ public class MenuEquipmentScreen extends MenuBackground {
         if(!showingKeyblades)
         	offset.set(offset.get() - hidden.get());
                 
-        if (shotlocks != null) {
-            MenuEquipmentButton shotlockSlot = new MenuEquipmentButton(playerData.getEquippedShotlock(), (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement(), 0x11FF44, new MenuShotlockSelectorScreen(new Color(17, 255, 100), 0x44FF99), ItemCategory.SHOTLOCK, this, Strings.Gui_Menu_Items_Equipment_Shotlock, 0x81FEAA);
+        if (!shotlocks.isEmpty()) {
+            MenuEquipmentButton shotlockSlot = new MenuEquipmentButton(playerData.getEquippedShotlock().orElse(null), (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement(), 0x11FF44, new MenuShotlockSelectorScreen(new Color(17, 255, 100), 0x44FF99), ItemCategory.SHOTLOCK, this, Strings.Gui_Menu_Items_Equipment_Shotlock, 0x81FEAA);
             addRenderableWidget(shotlockSlot);
         }
         

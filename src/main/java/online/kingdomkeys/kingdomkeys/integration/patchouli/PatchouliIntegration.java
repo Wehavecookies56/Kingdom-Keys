@@ -6,7 +6,7 @@ import vazkii.patchouli.api.PatchouliAPI;
 
 public class PatchouliIntegration {
 
-    public static final ResourceLocation BOOK_ID = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "jiminys_journal");
+    public static final ResourceLocation BOOK_ID = KingdomKeys.rl("jiminys_journal");
 
     public static void openJournal() {
         PatchouliAPI.get().openBookGUI(BOOK_ID);

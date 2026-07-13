@@ -17,7 +17,7 @@ public class ElementalMusicalHeartlessRenderer extends MobRenderer<BaseElemental
 
     public ElementalMusicalHeartlessRenderer(EntityRendererProvider.Context context) {
         super(context, new ElementalMusicalHeartlessModel<>(context.bakeLayer(ElementalMusicalHeartlessModel.LAYER_LOCATION)), 0.35F);
-        this.addLayer(new HeartlessEyesLayerRenderer<>(this, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/mob/musical_heartless_eyes.png")));
+        this.addLayer(new HeartlessEyesLayerRenderer<>(this, KingdomKeys.rl("textures/entity/mob/musical_heartless_eyes.png")));
     }
 
     @Override

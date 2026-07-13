@@ -14,7 +14,7 @@ import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.reg
 
 public class SCSyncJsonRegistry<T extends JsonRegistryObject> implements Packet {
 
-    public static final Type<SCSyncJsonRegistry<?>> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "sc_sync_json_registry"));
+    public static final Type<SCSyncJsonRegistry<?>> TYPE = new Type<>(KingdomKeys.rl("sc_sync_json_registry"));
 
     public static final StreamCodec<RegistryFriendlyByteBuf, SCSyncJsonRegistry<?>> STREAM_CODEC = StreamCodec.of((buffer, scSyncJsonRegistry) -> scSyncJsonRegistry.encode(buffer), SCSyncJsonRegistry::new);
 

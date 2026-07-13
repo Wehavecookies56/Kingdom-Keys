@@ -79,10 +79,10 @@ public class ShotlockCommand extends BaseCommand { // kingdomkeys shotlock <give
 		for (ServerPlayer player : players) {
 			PlayerData playerData = PlayerData.get(player);
 			if (permanent) {
-				playerData.addPShotlock(shotlockName);
+				playerData.addPShotlock(a.getRegistryName());
 				player.sendSystemMessage(Component.translatable("You have been given the shotlock '" + Utils.translateToLocal(a.getTranslationKey()) + "' permanently"));
 			} else {
-				playerData.addShotlockToList(shotlockName, true);
+				playerData.addShotlockToList(a.getRegistryName(), true);
 				player.sendSystemMessage(Component.translatable("You have been given the shotlock '" + Utils.translateToLocal(a.getTranslationKey()) + "'"));
 			}
 
@@ -100,8 +100,8 @@ public class ShotlockCommand extends BaseCommand { // kingdomkeys shotlock <give
 
 		for (ServerPlayer player : players) {
 			PlayerData playerData = PlayerData.get(player);
-			playerData.removePShotlockFromList(shotlock);
-			playerData.removeShotlockFromList(shotlock);
+			playerData.removePShotlockFromList(ResourceLocation.parse(shotlock));
+			playerData.removeShotlockFromList(ResourceLocation.parse(shotlock));
 
 			if (player != context.getSource().getPlayerOrException()) {
 				context.getSource().sendSuccess(() -> Component.translatable("Removed shotlock '" + Utils.translateToLocal(shotlock) + "' from " + player.getDisplayName().getString()), true);

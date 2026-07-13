@@ -59,7 +59,7 @@ public class MeldingRegistry {
 	}
 
 	public List<Melding> getValues() {
-		return new LinkedList<Melding>(registry.values());
+		return new LinkedList<>(registry.values());
 	}
 
 	public void setRegistry(Map<ResourceLocation, Melding> registry) {

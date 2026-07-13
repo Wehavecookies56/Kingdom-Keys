@@ -17,7 +17,7 @@ import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 
 public record CSSetHangingWallTicksPacket(int wallGrabs, int ticks) implements Packet {
 
-	public static final Type<CSSetHangingWallTicksPacket> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_set_hanging_wall_ticks"));
+	public static final Type<CSSetHangingWallTicksPacket> TYPE = new Type<>(KingdomKeys.rl("cs_set_hanging_wall_ticks"));
 
 	public static final StreamCodec<FriendlyByteBuf, CSSetHangingWallTicksPacket> STREAM_CODEC = StreamCodec.composite(
 			ByteBufCodecs.INT,

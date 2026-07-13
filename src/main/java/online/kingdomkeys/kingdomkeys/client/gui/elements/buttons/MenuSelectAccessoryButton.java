@@ -49,7 +49,7 @@ public class MenuSelectAccessoryButton extends MenuButtonBase {
 	int slot;
 	Minecraft minecraft;
 
-	ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
+	ResourceLocation texture = KingdomKeys.rl("textures/gui/menu/menu_button.png");
 
 	public MenuSelectAccessoryButton(ItemStack stack, int slot, int x, int y, int widthIn, MenuAccessorySelectorScreen parent, int colour) {
 		super(x, y, widthIn, 20, "", b -> {
@@ -179,7 +179,7 @@ public class MenuSelectAccessoryButton extends MenuButtonBase {
 				int strength = 0;
 				int magic = 0;
 				int ap = 0;
-				List<String> abilities = new ArrayList<String>();
+				List<ResourceLocation> abilities = new ArrayList<>();
 				boolean showData = true;
 				if (stack.getItem() instanceof IKeychain) {
 					strength = ((IKeychain) stack.getItem()).toSummon().getStrength(stack);
@@ -284,7 +284,7 @@ public class MenuSelectAccessoryButton extends MenuButtonBase {
 					if (!abilities.isEmpty()) {
 						gui.drawString(fr, Component.translatable(Strings.Gui_Menu_Status_Abilities).getString(), (int) abiPosX, (int) posY, 0xEE8603);
 						for (int i = 0; i < abilities.size(); i++) {
-							Ability ability = ModAbilities.registry.get(ResourceLocation.parse(abilities.get(i)));
+							Ability ability = ModAbilities.registry.get(abilities.get(i));
 							gui.blit(texture, (int) strPosX - 2, (int) posY + ((i + 1) * 12) - 4, 73, 102, 12, 12);
 							gui.drawString(fr, Utils.translateToLocal(ability.getTranslationKey()), (int) strPosX + 14, (int) posY + ((i + 1) * 12) - 1, 0xFFFFFF);
 						}

@@ -20,7 +20,7 @@ import java.util.UUID;
 
 public record CSSavePointTP(UUID currentSavePoint, UUID destinationSavePoint) implements Packet {
 
-    public static final Type<CSSavePointTP> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_save_point_tp"));
+    public static final Type<CSSavePointTP> TYPE = new Type<>(KingdomKeys.rl("cs_save_point_tp"));
 
     public static final StreamCodec<FriendlyByteBuf, CSSavePointTP> STREAM_CODEC = StreamCodec.composite(
             UUIDUtil.STREAM_CODEC,

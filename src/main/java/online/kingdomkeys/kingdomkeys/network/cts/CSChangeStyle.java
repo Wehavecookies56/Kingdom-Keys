@@ -17,7 +17,7 @@ import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 
 public record CSChangeStyle(String style, String handStyle) implements Packet {
 
-    public static final Type<CSChangeStyle> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_change_style"));
+    public static final Type<CSChangeStyle> TYPE = new Type<>(KingdomKeys.rl("cs_change_style"));
 
     public static final StreamCodec<FriendlyByteBuf, CSChangeStyle> STREAM_CODEC = StreamCodec.composite(
             ByteBufCodecs.STRING_UTF8,

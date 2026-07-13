@@ -17,9 +17,9 @@ import online.kingdomkeys.kingdomkeys.entity.magic.*;
 
 @OnlyIn(Dist.CLIENT)
 public class MagicEntityRenderer extends EntityRenderer<ThrowableProjectile> {
-	private static final ResourceLocation FIRE_TEXTURE = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/models/fire.png");
-	private static final ResourceLocation DARKFIRE_TEXTURE = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/models/darkfire.png");
-	private static final ResourceLocation THUNDAGASHOT_TEXTURE = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/models/thundagashot.png");
+	private static final ResourceLocation FIRE_TEXTURE = KingdomKeys.rl("textures/entity/models/fire.png");
+	private static final ResourceLocation DARKFIRE_TEXTURE = KingdomKeys.rl("textures/entity/models/darkfire.png");
+	private static final ResourceLocation THUNDAGASHOT_TEXTURE = KingdomKeys.rl("textures/entity/models/thundagashot.png");
 
 	private static final int FRAME_COUNT = 4;
 

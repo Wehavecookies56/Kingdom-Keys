@@ -22,7 +22,7 @@ public record SCSyncOrganizationData(List<String> names, List<String> data) impl
 	
     public static final Gson GSON_BUILDER = new GsonBuilder().registerTypeAdapter(OrganizationData.class, new OrganizationDataDeserializer()).setPrettyPrinting().create();
 
-	public static final CustomPacketPayload.Type<SCSyncOrganizationData> TYPE = new CustomPacketPayload.Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "sc_sync_organization_data"));
+	public static final CustomPacketPayload.Type<SCSyncOrganizationData> TYPE = new CustomPacketPayload.Type<>(KingdomKeys.rl("sc_sync_organization_data"));
 
 	public static final StreamCodec<FriendlyByteBuf, SCSyncOrganizationData> STREAM_CODEC = StreamCodec.composite(
 			ByteBufCodecs.collection(ArrayList::new, ByteBufCodecs.STRING_UTF8),

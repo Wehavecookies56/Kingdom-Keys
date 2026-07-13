@@ -16,12 +16,12 @@ import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.Packet;
 
-public record CSUseDriveFormPacket(String form) implements Packet {
+public record CSUseDriveFormPacket(ResourceLocation form) implements Packet {
 
-	public static final Type<CSUseDriveFormPacket> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_use_drive_form"));
+	public static final Type<CSUseDriveFormPacket> TYPE = new Type<>(KingdomKeys.rl("cs_use_drive_form"));
 
 	public static final StreamCodec<FriendlyByteBuf, CSUseDriveFormPacket> STREAM_CODEC = StreamCodec.composite(
-			ByteBufCodecs.STRING_UTF8,
+			ResourceLocation.STREAM_CODEC,
 			CSUseDriveFormPacket::form,
 			CSUseDriveFormPacket::new
 	);
@@ -31,18 +31,18 @@ public record CSUseDriveFormPacket(String form) implements Packet {
 		Player player = context.player();
 		PlayerData playerData = PlayerData.get(player);
 
-        if (NeoForge.EVENT_BUS.post(new DriveFormCastEvent(player, ResourceLocation.parse(form))).isCanceled())
+        if (NeoForge.EVENT_BUS.post(new DriveFormCastEvent(player, form)).isCanceled())
             return;
 
-		if (form.equals(Strings.Form_Anti)) { //If target is antiform
-			DriveForm form = ModDriveForms.registry.get(ResourceLocation.parse(Strings.Form_Anti));
+		if (form.equals(ModDriveForms.ANTI.location())) { //If target is antiform
+			DriveForm form = ModDriveForms.ANTI.get();
 			form.initDrive(player);
 		} else { //if target is a normal form or revert
-			if (!playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()) && form.equals(DriveForm.NONE.toString())) { // If is in a drive form and the target is "" (player)
-				DriveForm form = ModDriveForms.registry.get(ResourceLocation.parse(playerData.getActiveDriveForm()));
+			if (!playerData.isFormActive(ModDriveForms.NONE) && form.equals(DriveForm.NONE)) { // If is in a drive form and the target is "" (player)
+				DriveForm form = ModDriveForms.registry.get(playerData.getActiveDriveForm());
 				form.endDrive(player);
-			} else if (!form.equals(DriveForm.NONE.toString())) { // If is not in a form and wants to drive
-				DriveForm form = ModDriveForms.registry.get(ResourceLocation.parse(this.form));
+			} else if (!form.equals(DriveForm.NONE)) { // If is not in a form and wants to drive
+				DriveForm form = ModDriveForms.registry.get(this.form);
 				form.initDrive(player);
 			}
 		}

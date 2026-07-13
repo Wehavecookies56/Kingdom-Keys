@@ -20,7 +20,7 @@ import online.kingdomkeys.kingdomkeys.entity.mob.BaseKHEntity;
 
 public class NobodyCreeperModel<T extends BaseKHEntity> extends EntityModel<T> {
 
-    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "nobodycreeper"), "main");
+    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(KingdomKeys.rl("nobodycreeper"), "main");
     public final ModelPart BodyLower;
     public final ModelPart BodyMiddle;
     public final ModelPart LeftLegUpper;

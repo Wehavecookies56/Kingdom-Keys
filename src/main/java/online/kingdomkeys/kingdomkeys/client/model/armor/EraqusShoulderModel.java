@@ -14,7 +14,7 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
 public class EraqusShoulderModel<T extends LivingEntity> extends HumanoidModel<T> {
 
-	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "eraqus_shoulder"), "main");
+	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(KingdomKeys.rl("eraqus_shoulder"), "main");
 
     public EraqusShoulderModel(ModelPart root) {
         super(root);

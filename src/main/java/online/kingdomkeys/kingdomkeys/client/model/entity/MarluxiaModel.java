@@ -15,7 +15,7 @@ import online.kingdomkeys.kingdomkeys.entity.mob.BaseKHEntity;
 //TODO port new model
 @OnlyIn(Dist.CLIENT)
 public class MarluxiaModel<T extends BaseKHEntity> extends HumanoidModel<T> {
-    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "marluxia"), "main");
+    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(KingdomKeys.rl("marluxia"), "main");
     private final ModelPart head;
 	private final ModelPart body;
 	private final ModelPart hat;

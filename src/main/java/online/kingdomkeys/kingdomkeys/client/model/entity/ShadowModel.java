@@ -17,7 +17,7 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
  * Ported to 1.18 using Blockbench - Wehavecookies56
  */
 public class ShadowModel<Type extends Entity> extends EntityModel<Type> {
-	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "shadow"), "main");
+	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(KingdomKeys.rl("shadow"), "main");
 	private final ModelPart UpperBody;
 	private final ModelPart LowerBody;
 	private final ModelPart LowerHead;

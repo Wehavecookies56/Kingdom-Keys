@@ -27,7 +27,7 @@ public class MenuScrollBar extends Button {
 
 	public static final int WIDTH = 14;
 
-	ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
+	ResourceLocation texture = KingdomKeys.rl("textures/gui/menu/menu_button.png");
 
 	public MenuScrollBar(int x, int y, int bottom, int visibleHeight, int contentHeight, boolean alwaysVisible) {
 		super(new Builder(Component.empty(),button -> {}).bounds(x, y, WIDTH, bottom-y));

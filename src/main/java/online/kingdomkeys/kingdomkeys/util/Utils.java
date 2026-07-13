@@ -263,8 +263,8 @@ public class Utils {
 		return res;
 	}
 
-	public static final ResourceLocation mobLevelHPModifier = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "mob_level_hp");
-	public static final ResourceLocation mobLevelAttackModifier = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "mob_level_attack");
+	public static final ResourceLocation mobLevelHPModifier = KingdomKeys.rl("mob_level_hp");
+	public static final ResourceLocation mobLevelAttackModifier = KingdomKeys.rl("mob_level_attack");
 
 	public static ItemStack getWhiteMushroomReward() {
 		ArrayList<Item> list = new ArrayList<>();
@@ -279,7 +279,7 @@ public class Utils {
 	}
 
 	public static int getCheapestDriveCost(PlayerData playerData, List<DriveForm> driveFormMap) {
-		int min = playerData.isAbilityEquipped(Strings.darkDomination) ? ModDriveForms.ANTI.get().getDriveCost() : 1000;
+		int min = playerData.isAbilityEquipped(ModAbilities.DARK_DOMINATION) ? ModDriveForms.ANTI.get().getDriveCost() : 1000;
 		for(DriveForm form : driveFormMap){
 			if(form != null && form.getDriveFormData() != null && form != ModDriveForms.ANTI.get()) {
 				min = Math.min(form.getDriveCost(), min);
@@ -303,7 +303,7 @@ public class Utils {
 			ItemStack stack = playerData.getEquippedMagic(magic.getKey());
 
 			if (stack != null && stack.getItem() instanceof MagicSpellItem spell) {
-				Magic m = ModMagic.registry.get(ResourceLocation.parse(spell.getMagic()));
+				Magic m = ModMagic.registry.get(spell.getMagic());
 
 				if (m == null)
 					continue;
@@ -976,9 +976,9 @@ public class Utils {
         return armor.getMaterial().value().equipSound().value() == ModSounds.keyblade_armor.get();
     }
 
-	public static String getRCNameFromIndex(Player player, int reactionSelected) {
+	public static ResourceLocation getRCNameFromIndex(Player player, int reactionSelected) {
 		int index = 0;
-		for (Entry<String, Integer> entry : PlayerData.get(player).getReactionCommands().entrySet()) {
+		for (Entry<ResourceLocation, Integer> entry : PlayerData.get(player).getReactionCommands().entrySet()) {
 			if(index == reactionSelected) {
 				return entry.getKey();
 			}
@@ -987,11 +987,11 @@ public class Utils {
 		return null;
 	}
 
-	public static List<String> getSpellsList(PlayerData playerData, MagicData.SpellType type) {
+	public static List<ResourceLocation> getSpellsList(PlayerData playerData, MagicData.SpellType type) {
 		Map<Integer, ItemStack> equippedMagics = playerData.getEquippedMagics();
 		int maxMagics = playerData.getMaxMagics();
 
-		List<String> result = new ArrayList<>();
+		List<ResourceLocation> result = new ArrayList<>();
 
 		if (equippedMagics.isEmpty())
 			return result;
@@ -1001,7 +1001,7 @@ public class Utils {
 				break;
 
 			if (entry.getValue().getItem() instanceof MagicSpellItem spell) {
-				Magic magic = ModMagic.registry.get(ResourceLocation.parse(spell.getMagic()));
+				Magic magic = ModMagic.registry.get(spell.getMagic());
 
 				if (magic != null && magic.getSpellType() == type) {
 					result.add(spell.getMagic());
@@ -1012,7 +1012,7 @@ public class Utils {
 		return result;
 	}
 
-	public static int getMagicSlotFromNameAndLevel(Map<Integer, ItemStack> equippedMagics, String commandMagicName) {
+	public static int getMagicSlotFromNameAndLevel(Map<Integer, ItemStack> equippedMagics, ResourceLocation commandMagicName) {
 		if (equippedMagics.isEmpty()) return -1;
 
 		for (Entry<Integer, ItemStack> entry : equippedMagics.entrySet()) {
@@ -1026,7 +1026,7 @@ public class Utils {
 		return -1;
 	}
 
-	public static int getMagicHighestLocalLevel(Map<Integer, ItemStack> equippedMagics, String commandMagicName) {
+	public static int getMagicHighestLocalLevel(Map<Integer, ItemStack> equippedMagics, ResourceLocation commandMagicName) {
 		if (equippedMagics.isEmpty()) return -1;
 
 		int level = -1;
@@ -1047,7 +1047,7 @@ public class Utils {
 		if(playerData == null)
 			return;
 
-		ArrayList<String> leveledMagics =  new ArrayList();
+		ArrayList<String> leveledMagics = new ArrayList<>();
 		for (ItemStack stack : playerData.getEquippedMagics().values()) {
 			if (stack.isEmpty())
 				continue;
@@ -1357,12 +1357,12 @@ public class Utils {
 		);
 	}
 
-	public static int getDriveFormLevel(Map<String, int[]> map, String driveForm) {
+	public static int getDriveFormLevel(Map<ResourceLocation, int[]> map, ResourceLocation driveForm) {
 		if(map.get(driveForm) == null) {
 			KingdomKeys.LOGGER.error("The drive form map doesn't contain " + driveForm);
 			return 0;
 		}
-		if (driveForm.equals(Strings.Form_Anti))
+		if (driveForm.equals(ModDriveForms.ANTI.get().getRegistryName()))
 			return 7;
 		return map.get(driveForm)[0];
 	}
@@ -1379,10 +1379,10 @@ public class Utils {
 		return map;
 	}
 
-	public static LinkedHashMap<String, int[]> getSortedAbilities(LinkedHashMap<String, int[]> abilities) {
+	public static LinkedHashMap<ResourceLocation, int[]> getSortedAbilities(LinkedHashMap<ResourceLocation, int[]> abilities) {
         return abilities.entrySet().stream().sorted((entry, entry2) -> {
-			Ability ability = ModAbilities.registry.get(ResourceLocation.parse(entry.getKey()));
-			Ability ability2 = ModAbilities.registry.get(ResourceLocation.parse(entry2.getKey()));
+			Ability ability = ModAbilities.registry.get(entry.getKey());
+			Ability ability2 = ModAbilities.registry.get(entry2.getKey());
 			if (ability != null && ability2 != null) {
                 return ability.compareTo(ability2);
 			}
@@ -1390,11 +1390,11 @@ public class Utils {
 		}).collect(Collectors.toMap(Entry::getKey, Entry::getValue, (value, value2) -> value, LinkedHashMap::new));
 	}
 
-	public static LinkedHashMap<String, int[]> getSortedDriveForms(LinkedHashMap<String, int[]> driveFormsMap, List<DriveForm> visibleForms) {
+	public static LinkedHashMap<ResourceLocation, int[]> getSortedDriveForms(LinkedHashMap<ResourceLocation, int[]> driveFormsMap, List<DriveForm> visibleForms) {
 		List<DriveForm> list = new ArrayList<>();
 
-        for (String entry : driveFormsMap.keySet()) {
-			DriveForm form = ModDriveForms.registry.get(ResourceLocation.parse(entry));
+        for (ResourceLocation entry : driveFormsMap.keySet()) {
+			DriveForm form = ModDriveForms.registry.get(entry);
 			if (visibleForms.contains(form)) { // Should only add the form if it is visible
 				list.add(form);
 			}
@@ -1402,9 +1402,9 @@ public class Utils {
 
 		list.sort(Comparator.comparingInt(DriveForm::getOrder));
 
-		LinkedHashMap<String, int[]> map = new LinkedHashMap<>();
+		LinkedHashMap<ResourceLocation, int[]> map = new LinkedHashMap<>();
         for (DriveForm driveForm : list) {
-            map.put(driveForm.getRegistryName().toString(), driveFormsMap.get(driveForm.getRegistryName().toString()));
+            map.put(driveForm.getRegistryName(), driveFormsMap.get(driveForm.getRegistryName()));
         }
 
 		return map;
@@ -1428,9 +1428,9 @@ public class Utils {
 		return newList;
 	}
 
-	public static List<String> getSortedShotlocks(List<String> list) {
-		List<String> newList = new ArrayList<>(list);
-		newList.sort((Comparator.comparingInt(a -> ModShotlocks.registry.get(ResourceLocation.parse(a)).getOrder())));
+	public static List<ResourceLocation> getSortedShotlocks(List<ResourceLocation> list) {
+		List<ResourceLocation> newList = new ArrayList<>(list);
+		newList.sort((Comparator.comparingInt(a -> ModShotlocks.registry.get(a).getOrder())));
 		return newList;
 	}
 
@@ -1751,8 +1751,8 @@ public class Utils {
 		return res;
 	}
 
-	public static List<String> getAccessoriesAbilities(PlayerData playerData) {
-		List<String> res = new ArrayList<String>();
+	public static List<ResourceLocation> getAccessoriesAbilities(PlayerData playerData) {
+		List<ResourceLocation> res = new ArrayList<>();
 		int c = 1;
 		for (Entry<Integer, ItemStack> entry : playerData.getEquippedAccessories().entrySet()) {
 			if (c > playerData.getMaxAccessories())
@@ -1815,9 +1815,9 @@ public class Utils {
 
 	public static int getConsumedAP(PlayerData playerData) {
 		int ap = 0;
-		LinkedHashMap<String, int[]> map = playerData.getAbilityMap();
-        for (Entry<String, int[]> entry : map.entrySet()) {
-            Ability a = ModAbilities.registry.get(ResourceLocation.parse(entry.getKey()));
+		LinkedHashMap<ResourceLocation, int[]> map = playerData.getAbilityMap();
+        for (Entry<ResourceLocation, int[]> entry : map.entrySet()) {
+            Ability a = ModAbilities.registry.get(entry.getKey());
             ap += a.getAPCost() * Integer.bitCount(entry.getValue()[1]);
         }
 		return ap;
@@ -1825,9 +1825,9 @@ public class Utils {
 
 	public static double getMPHasteValue(PlayerData playerData) {
 		int val = 0;
-		val += (2 * playerData.getNumberOfAbilitiesEquipped(Strings.mpHaste));
-		val += (4 * playerData.getNumberOfAbilitiesEquipped(Strings.mpHastera));
-		val += (6 * playerData.getNumberOfAbilitiesEquipped(Strings.mpHastega));
+		val += (2 * playerData.getNumberOfAbilitiesEquipped(ModAbilities.MP_HASTE));
+		val += (4 * playerData.getNumberOfAbilitiesEquipped(ModAbilities.MP_HASTERA));
+		val += (6 * playerData.getNumberOfAbilitiesEquipped(ModAbilities.MP_HASTEGA));
 		return val;
 	}
 
@@ -1838,7 +1838,7 @@ public class Utils {
 		Multimap<Holder<Attribute>, AttributeModifier> map = HashMultimap.create();
 
 		// Luck - affects things like chest loot, separate from looting or fortune.
-		AttributeModifier attributemodifier = new AttributeModifier(ResourceLocation.parse(Strings.luckyLucky), playerData.getNumberOfAbilitiesEquipped(Strings.luckyLucky), AttributeModifier.Operation.ADD_VALUE);
+		AttributeModifier attributemodifier = new AttributeModifier(ModAbilities.LUCKY_STRIKE.location(), playerData.getNumberOfAbilitiesEquipped(ModAbilities.LUCKY_STRIKE), AttributeModifier.Operation.ADD_VALUE);
 		map.put(Attributes.LUCK, attributemodifier);
 
 		player.getAttributes().addTransientAttributeModifiers(map);
@@ -1943,8 +1943,8 @@ public class Utils {
 
 	public static Shotlock getPlayerShotlock(Player player) {
 		PlayerData playerData = PlayerData.get(player);
-		if (!playerData.getEquippedShotlock().isEmpty()) {
-			return ModShotlocks.registry.get(ResourceLocation.parse(playerData.getEquippedShotlock()));
+		if (playerData.getEquippedShotlock().isPresent()) {
+			return ModShotlocks.registry.get(playerData.getEquippedShotlock().get());
 		} else {
 			return null;
 		}
@@ -1960,7 +1960,7 @@ public class Utils {
 
 	// Gets items excluding AIR
 	public static Map<Integer, ItemStack> getEquippedItems(Map<Integer, ItemStack> equippedItems) {
-		Map<Integer, ItemStack> finalMap = new HashMap<Integer, ItemStack>(equippedItems);
+		Map<Integer, ItemStack> finalMap = new HashMap<>(equippedItems);
 		for (Entry<Integer, ItemStack> entry : equippedItems.entrySet()) {
 			ItemStack stack = entry.getValue();
 			if (ItemStack.matches(stack, ItemStack.EMPTY)) {
@@ -1984,7 +1984,7 @@ public class Utils {
 	}
 
 	public static List<Entity> removeFriendlyEntities(List<Entity> list) {
-		List<Entity> list2 = new ArrayList<Entity>();
+		List<Entity> list2 = new ArrayList<>();
 		for (Entity e : list) {
 			if (e instanceof Monster || e instanceof Player) {
 				list2.add(e);
@@ -1997,8 +1997,8 @@ public class Utils {
 		return e instanceof Monster || e instanceof Player || e instanceof Slime;
 	}
 
-	public static List<String> getKeybladeAbilitiesAtLevel(Item item, int level) {
-		ArrayList<String> abilities = new ArrayList<String>();
+	public static List<ResourceLocation> getKeybladeAbilitiesAtLevel(Item item, int level) {
+		ArrayList<ResourceLocation> abilities = new ArrayList<>();
 		KeybladeItem keyblade = null;
 		if (item instanceof IKeychain) {
 			keyblade = ((IKeychain) item).toSummon();
@@ -2008,7 +2008,7 @@ public class Utils {
 
 		if (keyblade != null) {
 			for (int i = 0; i <= level; i++) {
-				String a = keyblade.data.getLevelAbility(i);
+				ResourceLocation a = keyblade.data.getLevelAbility(i);
 				if (a != null) {
 					abilities.add(a);
 				}
@@ -2017,11 +2017,11 @@ public class Utils {
 		return abilities;
 	}
 
-	public static List<String> getOrgWeaponAbilities(Item item) {
-		ArrayList<String> abilities = new ArrayList<String>();
+	public static List<ResourceLocation> getOrgWeaponAbilities(Item item) {
+		ArrayList<ResourceLocation> abilities = new ArrayList<>();
 		KeybladeItem keyblade = null;
 		if (item instanceof IOrgWeapon org) {
-			String[] a = org.getOrganizationData().getAbilities();
+			ResourceLocation[] a = org.getOrganizationData().getAbilities();
 			if (a != null) {
 				abilities.addAll(Arrays.asList(a));
 			}
@@ -2056,7 +2056,7 @@ public class Utils {
 		playerData.clearAbilities();
 		SoAState.applyStatsForChoices(player, playerData, false);
 
-		playerData.setEquippedShotlock("");
+		playerData.setEquippedShotlock(null);
 		playerData.getShotlockList().clear();
 
 		// playerData.addAbility(Strings.zeroExp, false);
@@ -2069,16 +2069,15 @@ public class Utils {
 	 * @param player
 	 */
 	public static void restartLevel2(PlayerData playerData, Player player) { // calculates drive forms
-		LinkedHashMap<String, int[]> driveForms = playerData.getDriveFormMap();
-        for (Entry<String, int[]> entry : driveForms.entrySet()) {
+		LinkedHashMap<ResourceLocation, int[]> driveForms = playerData.getDriveFormMap();
+        for (Entry<ResourceLocation, int[]> entry : driveForms.entrySet()) {
             int dfLevel = entry.getValue()[0];
-            DriveForm form = ModDriveForms.registry.get(ResourceLocation.parse(entry.getKey()));
-            if (!Utils.getFakeForms().contains(form.getRegistryName().toString())) {
+            DriveForm form = ModDriveForms.registry.get(entry.getKey());
+            if (!Utils.getFakeForms().contains(form.getRegistryName())) {
                 for (int i = 1; i <= dfLevel; i++) {
-                    String baseAbility = form.getBaseAbilityForLevel(i);
-                    if (baseAbility != null && !baseAbility.equals("")) {
-                        playerData.addAbility(baseAbility, false);
-                    }
+					form.getBaseAbilityForLevel(i).ifPresent(baseAbility -> {
+						playerData.addAbility(baseAbility, false);
+					});
                 }
             }
         }
@@ -2095,8 +2094,8 @@ public class Utils {
 		playerData.setMP(playerData.getMaxMP());
 	}
 
-	public static List<String> getFakeForms(){
-		return ModDriveForms.registry.stream().filter(form -> form.isFakeForm()).map(driveForm -> driveForm.getName()).toList();
+	public static List<ResourceLocation> getFakeForms(){
+		return ModDriveForms.registry.stream().filter(DriveForm::isFakeForm).map(DriveForm::getRegistryName).toList();
 	}
 
 	public static String getTierFromInt(int tier) {
@@ -2134,7 +2133,7 @@ public class Utils {
 		if (!ItemStack.isSameItem(player.getOffhandItem(), ItemStack.EMPTY) && player.getOffhandItem().isEnchanted()) {
 			lvl += EnchantmentHelper.getTagEnchantmentLevel(player.registryAccess().holderOrThrow(Enchantments.LOOTING), player.getOffhandItem());
 		}
-		lvl += PlayerData.get(player).getNumberOfAbilitiesEquipped(Strings.luckyLucky);
+		lvl += PlayerData.get(player).getNumberOfAbilitiesEquipped(ModAbilities.LUCKY_STRIKE);
 		return lvl;
 	}
 
@@ -2240,7 +2239,7 @@ public class Utils {
 	public static void summonKeyblade(Player player, boolean forceDesummon, ResourceLocation formToSummonFrom) {
 		PlayerData playerData = PlayerData.get(player);
 
-		if(playerData.getActiveDriveForm().equals(Strings.Form_Anti))
+		if(playerData.isFormActive(ModDriveForms.ANTI))
 			return;
 
 		ItemStack heldStack = player.getMainHandItem();
@@ -2257,7 +2256,7 @@ public class Utils {
 				extraChain = playerData.getEquippedKeychain(formToSummonFrom);
 			}
 		} else {
-			if(playerData.isAbilityEquipped(Strings.synchBlade)) {
+			if(playerData.isAbilityEquipped(ModAbilities.SYNCH_BLADE)) {
 				if(playerData.getAlignment() == OrgMember.NONE || playerData.getEquippedWeapon() != null && playerData.getEquippedWeapon().getItem() instanceof KeybladeItem && playerData.getEquippedKeychain(DriveForm.SYNCH_BLADE) != null) {
 					extraChain = playerData.getEquippedKeychain(DriveForm.SYNCH_BLADE);
 				} else {
@@ -2355,7 +2354,7 @@ public class Utils {
 					} else {
 						playerData.equipKeychain(DriveForm.NONE, chain);
 					}
-					if(playerData.isAbilityEquipped(Strings.synchBlade) && extraChain != null && !extraChain.is(Items.AIR)) {
+					if(playerData.isAbilityEquipped(ModAbilities.SYNCH_BLADE) && extraChain != null && !extraChain.is(Items.AIR)) {
 						player.getInventory().setItem(40, ItemStack.EMPTY);
 					}
 					player.getInventory().setItem(slotSummoned, ItemStack.EMPTY);

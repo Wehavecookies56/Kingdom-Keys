@@ -16,7 +16,7 @@ import online.kingdomkeys.kingdomkeys.network.Packet;
 
 public record SCOpenChoiceScreen(SoAState choice, SoAState state, BlockPos pos) implements Packet {
 
-	public static final Type<SCOpenChoiceScreen> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "sc_open_choice_screen"));
+	public static final Type<SCOpenChoiceScreen> TYPE = new Type<>(KingdomKeys.rl("sc_open_choice_screen"));
 
 	public static final StreamCodec<FriendlyByteBuf, SCOpenChoiceScreen> STREAM_CODEC = StreamCodec.composite(
 		SoAState.STREAM_CODEC,

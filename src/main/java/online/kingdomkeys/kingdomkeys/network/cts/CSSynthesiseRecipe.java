@@ -35,7 +35,7 @@ import java.util.Map.Entry;
 
 public record CSSynthesiseRecipe(ResourceLocation name) implements Packet {
 
-	public static final Type<CSSynthesiseRecipe> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_synthesis_recipe"));
+	public static final Type<CSSynthesiseRecipe> TYPE = new Type<>(KingdomKeys.rl("cs_synthesis_recipe"));
 
 	public static final StreamCodec<FriendlyByteBuf, CSSynthesiseRecipe> STREAM_CODEC = StreamCodec.composite(
 			ResourceLocation.STREAM_CODEC,

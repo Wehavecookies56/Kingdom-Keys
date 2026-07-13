@@ -14,7 +14,7 @@ import online.kingdomkeys.kingdomkeys.network.Packet;
 
 public record CSGummiBoostPacket(int entityID) implements Packet {
 
-	public static final Type<CSGummiBoostPacket> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_gummi_boost"));
+	public static final Type<CSGummiBoostPacket> TYPE = new Type<>(KingdomKeys.rl("cs_gummi_boost"));
 
 	public static final StreamCodec<FriendlyByteBuf, CSGummiBoostPacket> STREAM_CODEC = StreamCodec.composite(
 			ByteBufCodecs.INT,

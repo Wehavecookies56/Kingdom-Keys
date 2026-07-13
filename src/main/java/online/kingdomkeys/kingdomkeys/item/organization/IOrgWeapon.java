@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.item.organization;
 
+import net.minecraft.resources.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public interface IOrgWeapon {
@@ -20,6 +21,6 @@ public interface IOrgWeapon {
     //Get magic from the data based on level
     int getMagic();
     
-    void setAbilities(String[] abilities);
-    String[] getAbilities();
+    void setAbilities(ResourceLocation[] abilities);
+    ResourceLocation[] getAbilities();
 }

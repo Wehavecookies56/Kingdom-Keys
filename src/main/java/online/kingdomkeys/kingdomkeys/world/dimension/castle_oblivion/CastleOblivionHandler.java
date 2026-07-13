@@ -75,7 +75,7 @@ public class CastleOblivionHandler {
         }
     }
 
-    public static final ResourceKey<Level> CASTLE_OBLIVION = ResourceKey.create(Registries.DIMENSION, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "castle_oblivion"));
+    public static final ResourceKey<Level> CASTLE_OBLIVION = ResourceKey.create(Registries.DIMENSION, KingdomKeys.rl("castle_oblivion"));
 
     public static final Utils.BlockPosBounds entranceBounds = new Utils.BlockPosBounds(-10, 85, 11, -1, 100, 11);
     public static final Utils.BlockPosBounds firstDoorBounds = new Utils.BlockPosBounds(15, 63, 67, 17, 66, 67);
@@ -86,12 +86,12 @@ public class CastleOblivionHandler {
     //Creates the interior dimension and teleports the player to it
     public static void enterCastleOblivion(Player player) {
         if (player.level().getServer() != null) {
-            ResourceLocation dimName = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "castle_oblivion_interior_" + player.getStringUUID());
+            ResourceLocation dimName = KingdomKeys.rl("castle_oblivion_interior_" + player.getStringUUID());
             CastleOblivionData.ExteriorData.get(player.getServer()).addInterior(player.getUUID(), dimName);
             RegistryAccess registryAccess = player.level().registryAccess();
             ResourceKey<Level> dimension = ResourceKey.create(Registries.DIMENSION, dimName);
-            Holder<DimensionType> type = registryAccess.registryOrThrow(Registries.DIMENSION_TYPE).getHolderOrThrow(ResourceKey.create(Registries.DIMENSION_TYPE, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "castle_oblivion")));
-            Holder<Biome> biome = registryAccess.registryOrThrow(Registries.BIOME).getHolderOrThrow(ResourceKey.create(Registries.BIOME, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, Strings.castleOblivionInterior)));
+            Holder<DimensionType> type = registryAccess.registryOrThrow(Registries.DIMENSION_TYPE).getHolderOrThrow(ResourceKey.create(Registries.DIMENSION_TYPE, KingdomKeys.rl("castle_oblivion")));
+            Holder<Biome> biome = registryAccess.registryOrThrow(Registries.BIOME).getHolderOrThrow(ResourceKey.create(Registries.BIOME, KingdomKeys.rl(Strings.castleOblivionInterior)));
             //Create new dimension if it doesn't exist
             ServerLevel level = DynamicDimensionManager.getOrCreateLevel(player.level().getServer(), dimension, ((minecraftServer, levelStemResourceKey) -> {
                 ChunkGenerator generator = new CastleOblivionInteriorChunkGenerator(new FixedBiomeSource(biome));

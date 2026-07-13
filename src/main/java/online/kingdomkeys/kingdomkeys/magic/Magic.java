@@ -7,6 +7,7 @@ import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
+import online.kingdomkeys.kingdomkeys.lib.KKRegistryObject;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
@@ -14,16 +15,18 @@ import online.kingdomkeys.kingdomkeys.reactioncommands.ModReactionCommands;
 import online.kingdomkeys.kingdomkeys.reactioncommands.ReactionMagic;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
-public abstract class Magic {
+import java.util.Optional;
+
+public abstract class Magic implements KKRegistryObject {
 	int tier;
 	ResourceLocation name;
 	boolean hasTargetSelector;
 	String translationKey;
-	String gmAbility;
+	ResourceLocation gmAbility;
 
 	private MagicData data;
 
-	public Magic(ResourceLocation registryName, boolean hasToSelect, String gmAbility) {
+	public Magic(ResourceLocation registryName, boolean hasToSelect, ResourceLocation gmAbility) {
 		this.name = registryName;
 		this.hasTargetSelector = hasToSelect;
 		this.gmAbility = gmAbility;
@@ -42,7 +45,7 @@ public abstract class Magic {
 		PlayerData playerData = PlayerData.get(player);
 		double cost = data.getCost();
 		if (cost != 300)
-			cost -= cost * playerData.getNumberOfAbilitiesEquipped(Strings.mpThrift) * 0.2;
+			cost -= cost * playerData.getNumberOfAbilitiesEquipped(ModAbilities.MP_THRIFT) * 0.2;
 		return Math.max(1, cost);
 	}
 
@@ -60,7 +63,7 @@ public abstract class Magic {
 		}
 
 		PlayerData playerData = PlayerData.get(player);
-		int localLevel = Utils.getMagicHighestLocalLevel(playerData.getEquippedMagics(), getRegistryName().toString());
+		int localLevel = Utils.getMagicHighestLocalLevel(playerData.getEquippedMagics(), getRegistryName());
 
 		float t = (float) (localLevel - 1) / (getMaxLevel() - 1);
 		float base = getDamageMult();
@@ -97,9 +100,9 @@ public abstract class Magic {
 		return data.getSpellType();
 	}
 
-	public Ability getGMAbility() {
-		if (gmAbility == null) return null;
-		return ModAbilities.registry.get(ResourceLocation.parse(gmAbility));
+	public Optional<Ability> getGMAbility() {
+		if (gmAbility == null) return Optional.empty();
+		return Optional.ofNullable(ModAbilities.registry.get(gmAbility));
 	}
 
 	public MagicData getMagicData() {
@@ -124,7 +127,7 @@ public abstract class Magic {
 
 	public int getMagicLocalLevel(Player player) {
 		PlayerData playerData = PlayerData.get(player);
-		return Utils.getMagicHighestLocalLevel(playerData.getEquippedMagics(), getRegistryName().toString());
+		return Utils.getMagicHighestLocalLevel(playerData.getEquippedMagics(), getRegistryName());
 	}
 
 	/**
@@ -138,8 +141,8 @@ public abstract class Magic {
 		PlayerData casterData = PlayerData.get(caster);
 		float fullMPBlastMult = 1F;
 
-		if (casterData.isAbilityEquipped(Strings.fullMPBlast) && casterData.getMP() >= casterData.getMaxMP()) {
-			int stacks = casterData.getNumberOfAbilitiesEquipped(Strings.fullMPBlast);
+		if (casterData.isAbilityEquipped(ModAbilities.FULL_MP_BLAST) && casterData.getMP() >= casterData.getMaxMP()) {
+			int stacks = casterData.getNumberOfAbilitiesEquipped(ModAbilities.FULL_MP_BLAST);
 			fullMPBlastMult = (float) (2F - Math.pow(0.5F, stacks));
 		}
 		if (!isRC) {
@@ -147,14 +150,14 @@ public abstract class Magic {
 			casterData.remMP(getCost(caster));
 
 			if (getMagicData() != null && getRCProb(casterData)) {
-				if (getGMAbility() != null) {
+				if (getGMAbility().isPresent()) {
 					ReactionMagic reactionCommand = (ReactionMagic) ModReactionCommands.registry.get(getMagicRC());
 
 					if (reactionCommand != null) {
-						int duration = (int) (reactionCommand.getDuration() + reactionCommand.getDuration() * (casterData.getNumberOfAbilitiesEquipped(Strings.grandMagicExtender) * 0.25F));
+						int duration = (int) (reactionCommand.getDuration() + reactionCommand.getDuration() * (casterData.getNumberOfAbilitiesEquipped(ModAbilities.GRAND_MAGIC_EXTENDER) * 0.25F));
 
 						reactionCommand.setMagic(getRegistryName());
-						casterData.addReactionCommand(getMagicRC().toString(), caster, duration);
+						casterData.addReactionCommand(getMagicRC(), caster, duration);
 					}
 				}
 
@@ -163,17 +166,17 @@ public abstract class Magic {
 			}
 		}
 
-		int cd = (int) (data.getCooldown() * (1 - casterData.getNumberOfAbilitiesEquipped(Strings.endlessMagic) * 0.2));
+		int cd = (int) (data.getCooldown() * (1 - casterData.getNumberOfAbilitiesEquipped(ModAbilities.ENDLESS_MAGIC) * 0.2));
 		casterData.setMagicCooldownTicks(Math.max(cd, 5));
 
-		if (casterData.isAbilityEquipped(Strings.wizardsRuse)) { //Wizard's Ruse has a chance to heal the player based on the amount of stacked abilities and amount healed based on the cost of the ability
+		if (casterData.isAbilityEquipped(ModAbilities.WIZARDS_RUSE)) { //Wizard's Ruse has a chance to heal the player based on the amount of stacked abilities and amount healed based on the cost of the ability
 			double num = player.level().random.nextDouble();
-			if (num < (0.25 + (0.125 * (casterData.getNumberOfAbilitiesEquipped(Strings.wizardsRuse) - 1)))) {
+			if (num < (0.25 + (0.125 * (casterData.getNumberOfAbilitiesEquipped(ModAbilities.WIZARDS_RUSE) - 1)))) {
 				caster.heal((int) getCost(caster) / 2F);
 			}
 		}
 
-		if (!casterData.isAbilityEquipped(Strings.magicLockOn)) {
+		if (!casterData.isAbilityEquipped(ModAbilities.MAGIC_LOCK_ON)) {
 			lockOnEntity = null;
 		}
 
@@ -202,7 +205,7 @@ public abstract class Magic {
 	public abstract void playMagicCastSound(LivingEntity player, Player caster);
 
 	private boolean getRCProb(PlayerData casterData) {
-		int prob = casterData.getNumberOfAbilitiesEquipped(Strings.grandMagicHaste) * 10;
+		int prob = casterData.getNumberOfAbilitiesEquipped(ModAbilities.GRAND_MAGIC_HASTE) * 10;
 
 		if (gmAbility != null && casterData.isAbilityEquipped(gmAbility)) {
 			prob += casterData.getNumberOfAbilitiesEquipped(gmAbility) * 10;
@@ -212,6 +215,7 @@ public abstract class Magic {
 		return num <= prob;
 	}
 
+	@Override
 	public ResourceLocation getRegistryName() {
 		return name;
 	}

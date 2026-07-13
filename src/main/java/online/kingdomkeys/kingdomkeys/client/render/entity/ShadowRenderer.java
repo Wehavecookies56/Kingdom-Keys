@@ -17,12 +17,12 @@ public class ShadowRenderer<Type extends ShadowEntity> extends MobRenderer<Type,
     public ShadowRenderer(EntityRendererProvider.Context context) {
         super(context, new ShadowModel<>(context.bakeLayer(ShadowModel.LAYER_LOCATION)), 0);
         model.CYCLES_PER_BLOCK = 1;
-        this.addLayer(new HeartlessEyesLayerRenderer<>(this, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/mob/shadow_eyes.png")));
+        this.addLayer(new HeartlessEyesLayerRenderer<>(this, KingdomKeys.rl("textures/entity/mob/shadow_eyes.png")));
     }
 
     @Override
     public ResourceLocation getTextureLocation(ShadowEntity entity) {
-        return ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/mob/shadow.png");
+        return KingdomKeys.rl("textures/entity/mob/shadow.png");
     }
 
     @Override

@@ -48,7 +48,7 @@ public class WeaponUnlockScreen extends Screen {
     List<Item> weapons;
     int current = 0;
 
-    private final ResourceLocation GLOW = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/org/glow.png");
+    private final ResourceLocation GLOW = KingdomKeys.rl("textures/gui/org/glow.png");
 
     @Override
     protected void renderBlurredBackground(float pPartialTick) {

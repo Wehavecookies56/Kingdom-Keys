@@ -22,7 +22,7 @@ public record SCSyncLimitData(List<String> names, List<String> data) implements 
 
 	public static final Gson GSON_BUILDER = new GsonBuilder().registerTypeAdapter(LimitData.class, new LimitDataDeserializer()).setPrettyPrinting().create();
 
-	public static final Type<SCSyncLimitData> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "sc_sync_limit_data"));
+	public static final Type<SCSyncLimitData> TYPE = new Type<>(KingdomKeys.rl("sc_sync_limit_data"));
 
 	public static final StreamCodec<FriendlyByteBuf, SCSyncLimitData> STREAM_CODEC = StreamCodec.composite(
 			ByteBufCodecs.collection(ArrayList::new, ByteBufCodecs.STRING_UTF8),

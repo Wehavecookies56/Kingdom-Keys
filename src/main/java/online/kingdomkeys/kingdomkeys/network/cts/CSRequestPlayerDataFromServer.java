@@ -11,7 +11,7 @@ import online.kingdomkeys.kingdomkeys.network.stc.SCSendPlayerDataToClient;
 
 public record CSRequestPlayerDataFromServer() implements Packet {
 
-    public static final Type<CSRequestPlayerDataFromServer> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "sc_request_player_data_from_server"));
+    public static final Type<CSRequestPlayerDataFromServer> TYPE = new Type<>(KingdomKeys.rl("sc_request_player_data_from_server"));
     public static final StreamCodec<FriendlyByteBuf, CSRequestPlayerDataFromServer> STREAM_CODEC = StreamCodec.of((pBuffer, pValue) -> {}, pBuffer -> new CSRequestPlayerDataFromServer());
 
     @Override

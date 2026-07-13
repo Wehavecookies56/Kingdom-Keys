@@ -73,9 +73,9 @@ public class MenuEquipmentSelectorScreen extends MenuBackground {
 		//Adds the form current keychain (base too as it's DriveForm.NONE)
 		String ability = "N/A";
 		if(!ItemStack.matches(equippedKeychain, ItemStack.EMPTY)) {
-			List<String> abilities = Utils.getKeybladeAbilitiesAtLevel(equippedKeychain.getItem(), ((IKeychain) equippedKeychain.getItem()).toSummon().getKeybladeLevel(equippedKeychain));
+			List<ResourceLocation> abilities = Utils.getKeybladeAbilitiesAtLevel(equippedKeychain.getItem(), ((IKeychain) equippedKeychain.getItem()).toSummon().getKeybladeLevel(equippedKeychain));
 			if(!abilities.isEmpty()) {
-				Ability a = ModAbilities.registry.get(ResourceLocation.parse(abilities.get(0)));
+				Ability a = ModAbilities.registry.get(abilities.get(0));
 				ability = Utils.translateToLocal(a.getTranslationKey());
 			}
 		}

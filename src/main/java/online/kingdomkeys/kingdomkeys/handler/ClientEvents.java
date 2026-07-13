@@ -47,6 +47,7 @@ import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.api.event.EquipmentEvent;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.block.gummi.GummiBlockBase;
@@ -62,6 +63,7 @@ import online.kingdomkeys.kingdomkeys.data.CastleOblivionData;
 import online.kingdomkeys.kingdomkeys.data.GlobalData;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.data.WorldData;
+import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import online.kingdomkeys.kingdomkeys.entity.GummiShipEntity;
 import online.kingdomkeys.kingdomkeys.entity.KKVehicleEntity;
@@ -304,7 +306,7 @@ public class ClientEvents {
                                 }
                             }
 
-                            float pow = 0.35F + playerData.getNumberOfAbilitiesEquipped(Strings.superJump) * 0.15F;
+                            float pow = 0.35F + playerData.getNumberOfAbilitiesEquipped(ModAbilities.SUPERJUMP) * 0.15F;
                             double horizontalStrength = 0.25;
                             double verticalStrength = baseY * pow;
 
@@ -626,9 +628,9 @@ public class ClientEvents {
 						}
 					}
 					
-					if(playerData.getActiveDriveForm().equals(Strings.Form_Anti)) {
+					if(playerData.isFormActive(ModDriveForms.ANTI)) {
 						player.level().addParticle(ParticleTypes.SMOKE, player.getX()+player.level().random.nextDouble() - 0.5D, player.getY()+player.level().random.nextDouble() *2D, player.getZ()+player.level().random.nextDouble() - 0.5D, (player.level().random.nextDouble() - 0.5D)*0.2, 0.1, (player.level().random.nextDouble() - 0.5D)*0.2);
-					} else if(playerData.getActiveDriveForm().equals(Strings.Form_Wisdom)) {
+					} else if(playerData.isFormActive(ModDriveForms.WISDOM)) {
 						player.level().addParticle(new DustParticleOptions(new Vector3f(0F,1F,1F),1F), player.getX(), player.getY(), player.getZ(), 0, 0.3, 0);
 					}
                 }
@@ -820,7 +822,7 @@ public class ClientEvents {
                     //Airstep to entity
                     if (ertr.getEntity() instanceof LivingEntity target) {
                         float distance = mc.player.distanceTo(target);
-                        if(playerData.isAbilityEquipped(Strings.flowStep) && distance / costDivider <= playerData.getFocus()) { //Only able to target enemies that are as far as focus can take you to
+                        if(playerData.isAbilityEquipped(ModAbilities.FLOWSTEP) && distance / costDivider <= playerData.getFocus()) { //Only able to target enemies that are as far as focus can take you to
                             if (lockedAirStepEntity != target) {
                                 player.level().playSound(player, player.position().x(), player.position().y(), player.position().z(), ModSounds.shotlock_lockon.get(), SoundSource.PLAYERS, 1F, 0.6F);
                             }

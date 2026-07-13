@@ -20,7 +20,7 @@ import java.util.Set;
 
 public record SCSyncDimensionLists(Set<ResourceKey<Level>> addedDims, Set<ResourceKey<Level>> removedDims) implements Packet {
 
-    public static final Type<SCSyncDimensionLists> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "sc_sync_dimension_lists"));
+    public static final Type<SCSyncDimensionLists> TYPE = new Type<>(KingdomKeys.rl("sc_sync_dimension_lists"));
 
     public static final StreamCodec<FriendlyByteBuf, SCSyncDimensionLists> STREAM_CODEC = StreamCodec.composite(
             ByteBufCodecs.collection(HashSet::new, ResourceKey.streamCodec(Registries.DIMENSION)),

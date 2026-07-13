@@ -14,7 +14,7 @@ import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 
 public record CSSetAerialDodgeTicksPacket(boolean hasJumped, int ticks) implements Packet {
 
-	public static final Type<CSSetAerialDodgeTicksPacket> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_set_aerial_dodge_ticks"));
+	public static final Type<CSSetAerialDodgeTicksPacket> TYPE = new Type<>(KingdomKeys.rl("cs_set_aerial_dodge_ticks"));
 
 	public static final StreamCodec<FriendlyByteBuf, CSSetAerialDodgeTicksPacket> STREAM_CODEC = StreamCodec.composite(
 			ByteBufCodecs.BOOL,

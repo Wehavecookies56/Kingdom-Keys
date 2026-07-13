@@ -19,8 +19,8 @@ public class AtlasProvider extends SpriteSourceProvider {
 
 	@Override
 	protected void gather() {
-		atlas(SpriteSourceProvider.BLOCKS_ATLAS).addSource(new SingleFile(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "entity/models/heart"), Optional.empty()));
-		atlas(SpriteSourceProvider.BLOCKS_ATLAS).addSource(new SingleFile(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "entity/models/portal"), Optional.empty()));
+		atlas(SpriteSourceProvider.BLOCKS_ATLAS).addSource(new SingleFile(KingdomKeys.rl("entity/models/heart"), Optional.empty()));
+		atlas(SpriteSourceProvider.BLOCKS_ATLAS).addSource(new SingleFile(KingdomKeys.rl("entity/models/portal"), Optional.empty()));
 
        /* atlas(SpriteSourceProvider.BLOCKS_ATLAS)
                 .addSource(new DirectoryLister("banner_pattern", "banner_pattern/"))

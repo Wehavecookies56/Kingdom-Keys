@@ -22,7 +22,7 @@ import java.util.UUID;
 
 public record CSPartyAddMember(String name, UUID memberUUID, String memberName) implements Packet {
 
-	public static final Type<CSPartyAddMember> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_party_add_member"));
+	public static final Type<CSPartyAddMember> TYPE = new Type<>(KingdomKeys.rl("cs_party_add_member"));
 
 	public static final StreamCodec<FriendlyByteBuf, CSPartyAddMember> STREAM_CODEC = StreamCodec.composite(
 			ByteBufCodecs.STRING_UTF8,

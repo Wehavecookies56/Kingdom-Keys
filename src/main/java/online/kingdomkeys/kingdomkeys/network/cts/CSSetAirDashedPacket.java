@@ -15,7 +15,7 @@ import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 
 public record CSSetAirDashedPacket(boolean airDashed) implements Packet {
 
-	public static final Type<CSSetAirDashedPacket> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_set_airdashed"));
+	public static final Type<CSSetAirDashedPacket> TYPE = new Type<>(KingdomKeys.rl("cs_set_airdashed"));
 
 	public static final StreamCodec<FriendlyByteBuf, CSSetAirDashedPacket> STREAM_CODEC = StreamCodec.composite(
 			ByteBufCodecs.BOOL, CSSetAirDashedPacket::airDashed,

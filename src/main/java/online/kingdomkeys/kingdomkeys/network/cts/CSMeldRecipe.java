@@ -25,7 +25,7 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public record CSMeldRecipe(ResourceLocation recipe, int selected1, int selected2) implements Packet {
 
-	public static final Type<CSMeldRecipe> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_meld_recipe"));
+	public static final Type<CSMeldRecipe> TYPE = new Type<>(KingdomKeys.rl("cs_meld_recipe"));
 
 	public static final StreamCodec<FriendlyByteBuf, CSMeldRecipe> STREAM_CODEC = StreamCodec.composite(ResourceLocation.STREAM_CODEC, CSMeldRecipe::recipe, ByteBufCodecs.INT, CSMeldRecipe::selected1, ByteBufCodecs.INT, CSMeldRecipe::selected2, CSMeldRecipe::new);
 

@@ -13,7 +13,7 @@ import online.kingdomkeys.kingdomkeys.handler.ClientEvents;
 
 public class MPGui extends OverlayBase {
 	public static final MPGui INSTANCE = new MPGui();
-	private static final ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/mpbar.png");
+	private static final ResourceLocation texture = KingdomKeys.rl("textures/gui/mpbar.png");
 	private PlayerData playerData;
 
 	private MPGui() {

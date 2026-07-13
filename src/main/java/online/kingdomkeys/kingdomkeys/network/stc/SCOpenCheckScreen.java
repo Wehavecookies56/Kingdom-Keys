@@ -19,7 +19,7 @@ import java.util.UUID;
 
 public record SCOpenCheckScreen(CompoundTag playerData, UUID uuid, String name) implements Packet {
 
-    public static final Type<SCOpenCheckScreen> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "sc_open_check_screen"));
+    public static final Type<SCOpenCheckScreen> TYPE = new Type<>(KingdomKeys.rl("sc_open_check_screen"));
 
     public static final StreamCodec<FriendlyByteBuf, SCOpenCheckScreen> STREAM_CODEC = StreamCodec.composite(
             ByteBufCodecs.COMPOUND_TAG, SCOpenCheckScreen::playerData,

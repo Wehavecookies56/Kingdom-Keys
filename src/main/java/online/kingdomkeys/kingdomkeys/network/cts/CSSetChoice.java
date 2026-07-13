@@ -20,7 +20,7 @@ import online.kingdomkeys.kingdomkeys.network.Packet;
 
 public record CSSetChoice(SoAState state, SoAState choice, BlockPos pedestal, boolean confirm) implements Packet {
 
-    public static final Type<CSSetChoice> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_set_choice"));
+    public static final Type<CSSetChoice> TYPE = new Type<>(KingdomKeys.rl("cs_set_choice"));
 
     public static final StreamCodec<FriendlyByteBuf, CSSetChoice> STREAM_CODEC = StreamCodec.composite(
             SoAState.STREAM_CODEC,

@@ -24,7 +24,7 @@ import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public record CSEquipMagic(int slotToEquipTo, int slotToEquipFrom) implements Packet {
-	public static final Type<CSEquipMagic> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_equip_magic"));
+	public static final Type<CSEquipMagic> TYPE = new Type<>(KingdomKeys.rl("cs_equip_magic"));
 	public static final StreamCodec<FriendlyByteBuf, CSEquipMagic> STREAM_CODEC = StreamCodec.composite(ByteBufCodecs.INT, CSEquipMagic::slotToEquipTo, ByteBufCodecs.INT, CSEquipMagic::slotToEquipFrom, CSEquipMagic::new);
 
 	@Override

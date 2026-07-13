@@ -19,7 +19,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class PedestalScreen extends AbstractContainerScreen<PedestalMenu> {
 
-	private static final ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/pedestal.png");
+	private static final ResourceLocation texture = KingdomKeys.rl("textures/gui/pedestal.png");
 
     public PedestalScreen(PedestalMenu container, Inventory inventory, Component title) {
         super(container, inventory, title);

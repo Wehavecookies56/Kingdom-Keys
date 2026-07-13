@@ -27,6 +27,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.client.event.InputEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.api.event.client.KKInputEvent;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.client.gui.overlay.CommandMenuGui;
@@ -61,7 +62,7 @@ public class InputHandler {
     @Nullable public List<Member> targetsList;
     @Nullable public List<Limit> limitsList;
     @Nullable public Map<Integer, ItemStack> itemsList;
-    @Nullable public LinkedHashMap<String, Integer> reactionList;
+    @Nullable public LinkedHashMap<ResourceLocation, Integer> reactionList;
     
     @Nullable public static LivingEntity lockOn = null;
     public static int qrCooldown = 40;
@@ -181,10 +182,10 @@ public class InputHandler {
     }
 
     public void summonKeyblade() {
-        if (playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())) {
+        if (playerData.isFormActive(ModDriveForms.NONE)) {
             if(KingdomKeys.efmLoaded) {
                 if(Utils.findSummoned(player.getInventory(), playerData.getEquippedKeychain(DriveForm.NONE)) == -1 && playerData.getAlignment() == OrgMember.NONE) {
-                    if (!playerData.isAbilityEquipped(Strings.synchBlade)) {
+                    if (!playerData.isAbilityEquipped(ModAbilities.SYNCH_BLADE)) {
                         PacketHandler.sendToServer(new CSPlayAnimation(KKAnimations.singleKeybladeMap.get(playerData.getSingleStyle())));
                     } else {
                         PacketHandler.sendToServer(new CSPlayAnimation(KKAnimations.dualKeybladeMap.get(playerData.getDualStyle())));
@@ -201,7 +202,7 @@ public class InputHandler {
             if(KingdomKeys.efmLoaded && Utils.findSummoned(player.getInventory(), playerData.getEquippedKeychain(DriveForm.NONE)) == -1) {
                 PacketHandler.sendToServer(new CSPlayAnimation(KKAnimations.DRIVE_SUMMON));
             } else {
-                PacketHandler.sendToServer(new CSSummonKeyblade(ResourceLocation.parse(playerData.getActiveDriveForm())));
+                PacketHandler.sendToServer(new CSSummonKeyblade(playerData.getActiveDriveForm()));
             }
         }
 
@@ -317,11 +318,11 @@ public class InputHandler {
     public void commandAction() {
     	if (qrCooldown <= 0 && (player.getDeltaMovement().x != 0 && player.getDeltaMovement().z != 0)) { // If player is moving do dodge roll / quick run
 			if (player.isSprinting()) { //If player is sprinting do quick run
-				if (playerData.isAbilityEquipped(Strings.quickRun) || playerData.getActiveDriveForm().equals(Strings.Form_Wisdom)) {
+				if (playerData.isAbilityEquipped(ModAbilities.QUICK_RUN) || playerData.isFormActive(ModDriveForms.WISDOM)) {
 					quickRun();
 				}
 			} else { //If player is moving without sprinting do dodge roll
-				if (playerData.isAbilityEquipped(Strings.dodgeRoll) || playerData.getActiveDriveForm().equals(Strings.Form_Limit)) {
+				if (playerData.isAbilityEquipped(ModAbilities.DODGE_ROLL) || playerData.isFormActive(ModDriveForms.LIMIT)) {
 					dodgeRoll();
 				}
 			}
@@ -333,7 +334,7 @@ public class InputHandler {
 		}
 
         if(qrCooldown <= 0){
-            if(playerData.isAbilityEquipped(Strings.airSlide) && !player.onGround()){
+            if(playerData.isAbilityEquipped(ModAbilities.AIR_SLIDE) && !player.onGround()){
                 airSlide();
             }
         }
@@ -342,7 +343,7 @@ public class InputHandler {
         if(playerData.getHangingInWallTicks() > 0 && !playerData.hasBounced()) {
             Vec3 look = player.getLookAngle();
             Vec3 push = new Vec3(look.x, 0.5, look.z).normalize();
-            float pow = 0.5F + playerData.getNumberOfAbilitiesEquipped(Strings.superSlide) * 0.15F;
+            float pow = 0.5F + playerData.getNumberOfAbilitiesEquipped(ModAbilities.SUPERSLIDE) * 0.15F;
             player.setDeltaMovement(push.scale(pow));
             player.hasImpulse = true;
             PacketHandler.sendToServer(new CSPlaySoundPacket(player.getX(), player.getY(), player.getZ(), ModSounds.wall_jump.get().getLocation(), SoundSource.PLAYERS));
@@ -361,15 +362,15 @@ public class InputHandler {
         float motionX = -Mth.sin(yaw / 180.0f * (float) Math.PI);
         float motionZ = Mth.cos(yaw / 180.0f * (float) Math.PI);
 
-        int wisdomLevel = playerData.getDriveFormLevel(Strings.Form_Wisdom);
+        int wisdomLevel = playerData.getDriveFormLevel(ModDriveForms.WISDOM.location());
 
         double power = 0;
-        DriveForm form = ModDriveForms.registry.get(ResourceLocation.parse(playerData.getActiveDriveForm()));
+        DriveForm form = ModDriveForms.registry.get(playerData.getActiveDriveForm());
 
         // Wisdom Form
-        if (playerData.getActiveDriveForm().equals(Strings.Form_Wisdom)) {
+        if (playerData.isFormActive(ModDriveForms.WISDOM)) {
             power = Constants.WISDOM_QR[wisdomLevel];
-        } else if (playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()) || form.getBaseGrowthAbilities()) { //Base
+        } else if (playerData.isFormActive(ModDriveForms.NONE) || form.getBaseGrowthAbilities()) { //Base
             if (wisdomLevel > 2) {
                 power = Constants.WISDOM_QR[wisdomLevel - 2];
             }
@@ -389,8 +390,8 @@ public class InputHandler {
 
             double power = 0;
 
-            if (playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())) { //Base
-                power = playerData.getNumberOfAbilitiesEquipped(Strings.airSlide) * 0.5F;
+            if (playerData.isFormActive(ModDriveForms.NONE)) { //Base
+                power = playerData.getNumberOfAbilitiesEquipped(ModAbilities.AIR_SLIDE) * 0.5F;
             }
             player.push(motionX * power, 0, motionZ * power);
             qrCooldown = 20;
@@ -402,13 +403,13 @@ public class InputHandler {
     }
 
     public void dodgeRoll() {
-        int limitLevel = playerData.getDriveFormLevel(Strings.Form_Limit);
+        int limitLevel = playerData.getDriveFormLevel(ModDriveForms.LIMIT.location());
         double power = 0;
-        DriveForm form = ModDriveForms.registry.get(ResourceLocation.parse(playerData.getActiveDriveForm()));
+        DriveForm form = ModDriveForms.registry.get(playerData.getActiveDriveForm());
 
-        if (playerData.getActiveDriveForm().equals(Strings.Form_Limit)) {
+        if (playerData.isFormActive(ModDriveForms.LIMIT)) {
             power = Constants.LIMIT_DR[limitLevel];
-        } else if (playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()) || form.getBaseGrowthAbilities()) { //Base
+        } else if (playerData.isFormActive(ModDriveForms.NONE) || form.getBaseGrowthAbilities()) { //Base
             if (limitLevel > 2) {
                 power = Constants.LIMIT_DR[limitLevel - 2];
             }
@@ -438,9 +439,9 @@ public class InputHandler {
     	loadLists();
     	if(!reactionList.isEmpty()) {
 			PacketHandler.sendToServer(new CSUseReactionCommandPacket(CommandMenuGui.reactionSelected, InputHandler.lockOn));
-            String reactionName = Utils.getRCNameFromIndex(player, CommandMenuGui.reactionSelected);
+            ResourceLocation reactionName = Utils.getRCNameFromIndex(player, CommandMenuGui.reactionSelected);
 
-            ReactionCommand reaction = ModReactionCommands.registry.get(ResourceLocation.parse(reactionName));
+            ReactionCommand reaction = ModReactionCommands.registry.get(reactionName);
             CommandMenuGui.reactionSelected = 0;
             if (reaction != null) {
                 playSound(reaction.getUseSound(player, InputHandler.lockOn));
@@ -451,7 +452,7 @@ public class InputHandler {
 	}
 
     public void otherKeyPressed(InputEvent.Key event) {
-        DriveForm form = ModDriveForms.registry.get(ResourceLocation.parse(playerData.getActiveDriveForm()));
+        DriveForm form = ModDriveForms.registry.get(playerData.getActiveDriveForm());
 
         if (KeyboardHelper.isScrollActivatorDown() && event.getKey() > 320 && event.getKey() < 330) {
             if (globalData != null && !player.hasEffect(ModMobEffects.STOP)) {

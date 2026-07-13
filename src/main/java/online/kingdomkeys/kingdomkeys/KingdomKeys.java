@@ -210,11 +210,11 @@ public class KingdomKeys {
 	@SubscribeEvent
 	public void addMoogleHouse(ServerAboutToStartEvent event) {
 		ConvertOldForgeDataCommand.run = false;
-		addPieceToPattern(event.getServer().registryAccess(), ResourceLocation.withDefaultNamespace("village/plains/houses"), ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "village/moogle_house_plains"), 2);
-		addPieceToPattern(event.getServer().registryAccess(), ResourceLocation.withDefaultNamespace("village/desert/houses"), ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "village/moogle_house_desert"), 2);
-		addPieceToPattern(event.getServer().registryAccess(), ResourceLocation.withDefaultNamespace("village/savanna/houses"), ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "village/moogle_house_savanna"), 2);
-		addPieceToPattern(event.getServer().registryAccess(), ResourceLocation.withDefaultNamespace("village/snowy/houses"), ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "village/moogle_house_snowy"), 2);
-		addPieceToPattern(event.getServer().registryAccess(), ResourceLocation.withDefaultNamespace("village/taiga/houses"), ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "village/moogle_house_taiga"), 2);
+		addPieceToPattern(event.getServer().registryAccess(), ResourceLocation.withDefaultNamespace("village/plains/houses"), KingdomKeys.rl("village/moogle_house_plains"), 2);
+		addPieceToPattern(event.getServer().registryAccess(), ResourceLocation.withDefaultNamespace("village/desert/houses"), KingdomKeys.rl("village/moogle_house_desert"), 2);
+		addPieceToPattern(event.getServer().registryAccess(), ResourceLocation.withDefaultNamespace("village/savanna/houses"), KingdomKeys.rl("village/moogle_house_savanna"), 2);
+		addPieceToPattern(event.getServer().registryAccess(), ResourceLocation.withDefaultNamespace("village/snowy/houses"), KingdomKeys.rl("village/moogle_house_snowy"), 2);
+		addPieceToPattern(event.getServer().registryAccess(), ResourceLocation.withDefaultNamespace("village/taiga/houses"), KingdomKeys.rl("village/moogle_house_taiga"), 2);
 	}
 
 	public void addPieceToPattern(RegistryAccess registryAccess, ResourceLocation pattern, ResourceLocation structure, int weight) {

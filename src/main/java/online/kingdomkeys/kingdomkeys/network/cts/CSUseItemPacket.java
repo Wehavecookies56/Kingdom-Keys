@@ -21,7 +21,7 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public record CSUseItemPacket(int slot, String target) implements Packet {
 
-	public static final Type<CSUseItemPacket> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_use_item"));
+	public static final Type<CSUseItemPacket> TYPE = new Type<>(KingdomKeys.rl("cs_use_item"));
 
 	public static final StreamCodec<FriendlyByteBuf, CSUseItemPacket> STREAM_CODEC = StreamCodec.composite(
 			ByteBufCodecs.INT,

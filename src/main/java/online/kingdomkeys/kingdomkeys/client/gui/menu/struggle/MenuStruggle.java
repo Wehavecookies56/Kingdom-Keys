@@ -37,7 +37,7 @@ public class MenuStruggle extends MenuBackground {
 
 	MenuButton create, join, settings;
 
-	final ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
+	final ResourceLocation texture = KingdomKeys.rl("textures/gui/menu/menu_button.png");
 
 	protected void action(buttons buttonID) {
 		switch (buttonID) {

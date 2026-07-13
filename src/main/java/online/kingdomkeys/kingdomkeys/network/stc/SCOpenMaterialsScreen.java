@@ -16,7 +16,7 @@ import online.kingdomkeys.kingdomkeys.network.Packet;
 
 public record SCOpenMaterialsScreen(CompoundTag playerData, String inv, String name, int moogle) implements Packet {
 
-    public static final Type<SCOpenMaterialsScreen> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "sc_open_materials_screen"));
+    public static final Type<SCOpenMaterialsScreen> TYPE = new Type<>(KingdomKeys.rl("sc_open_materials_screen"));
 
     public static final StreamCodec<FriendlyByteBuf, SCOpenMaterialsScreen> STREAM_CODEC = StreamCodec.composite(
             ByteBufCodecs.COMPOUND_TAG,

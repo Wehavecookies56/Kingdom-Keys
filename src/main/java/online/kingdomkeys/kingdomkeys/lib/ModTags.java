@@ -129,11 +129,11 @@ public class ModTags {
     }
 
     private static TagKey<Item> item(String pName) {
-        return TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, pName));
+        return TagKey.create(Registries.ITEM, KingdomKeys.rl(pName));
     }
 
     private static TagKey<EntityType<?>> entity(String pName) {
-        return TagKey.create(Registries.ENTITY_TYPE, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, pName));
+        return TagKey.create(Registries.ENTITY_TYPE, KingdomKeys.rl(pName));
     }
 
 }
