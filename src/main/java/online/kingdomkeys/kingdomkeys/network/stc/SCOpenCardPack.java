@@ -1,6 +1,5 @@
 package online.kingdomkeys.kingdomkeys.network.stc;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
@@ -10,7 +9,7 @@ import net.minecraft.world.item.ItemStack;
 import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.client.gui.castle_oblivion.CardPackScreen;
+import online.kingdomkeys.kingdomkeys.client.ClientPacketHandler;
 import online.kingdomkeys.kingdomkeys.network.Packet;
 
 import java.util.List;
@@ -26,7 +25,7 @@ public record SCOpenCardPack(List<ItemStack> cards) implements Packet {
 	@Override
 	public void handle(IPayloadContext context) {
 		if (FMLEnvironment.dist.isClient()) {
-			context.enqueueWork(() -> Minecraft.getInstance().setScreen(new CardPackScreen(cards)));
+			ClientPacketHandler.openCardPack(this);
 		}
 	}
 

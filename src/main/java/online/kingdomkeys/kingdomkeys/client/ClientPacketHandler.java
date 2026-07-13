@@ -22,6 +22,7 @@ import online.kingdomkeys.kingdomkeys.client.gui.ConfirmChoiceMenuPopup;
 import online.kingdomkeys.kingdomkeys.client.gui.IPlayerDataRequester;
 import online.kingdomkeys.kingdomkeys.client.gui.OrgPortalGui;
 import online.kingdomkeys.kingdomkeys.client.gui.SavePointScreen;
+import online.kingdomkeys.kingdomkeys.client.gui.castle_oblivion.CardPackScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.castle_oblivion.RoomSynthesisScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.MenuScreen;
@@ -431,6 +432,10 @@ public class ClientPacketHandler {
         if(message.value()) {
             player.addDeltaMovement(new Vec3(0, 1, 0));
         }
+    }
+
+    public static void openCardPack(SCOpenCardPack message) {
+        Minecraft.getInstance().setScreen(new CardPackScreen(message.cards()));
     }
 
 }
