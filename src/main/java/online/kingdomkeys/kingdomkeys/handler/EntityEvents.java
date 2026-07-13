@@ -51,6 +51,7 @@ import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import net.neoforged.neoforge.items.IItemHandler;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.api.event.CastleOblivionEvent;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
@@ -127,6 +128,7 @@ public class EntityEvents {
 				multiplier = 2;
 			}
 		}
+		multiplier += playerData.getNumberOfAbilitiesEquipped(ModAbilities.LUCKY_LUCKY.get().getRegistryName().toString());
 		return multiplier;
 	}
 
