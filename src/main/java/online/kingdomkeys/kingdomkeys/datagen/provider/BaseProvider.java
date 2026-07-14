@@ -6,6 +6,7 @@ import net.minecraft.data.DataGenerator;
 import net.minecraft.data.DataProvider;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.datagen.builder.BuilderBase;
 import org.jetbrains.annotations.NotNull;
 
@@ -46,7 +47,7 @@ public abstract class BaseProvider<T extends BuilderBase> implements DataProvide
 
     protected ResourceLocation getLocation(String path) {
         Preconditions.checkNotNull(path, "Path must not be null");
-        return path.contains(":") ? ResourceLocation.parse(path) : ResourceLocation.fromNamespaceAndPath(modid, path);
+        return path.contains(":") ? KingdomKeys.rl(path) : KingdomKeys.rl(modid, path);
     }
 
     protected T addBuilder(T builder) {

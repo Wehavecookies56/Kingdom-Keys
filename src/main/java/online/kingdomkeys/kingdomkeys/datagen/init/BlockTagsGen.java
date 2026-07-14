@@ -145,6 +145,6 @@ public class BlockTagsGen extends BlockTagsProvider {
 	}
 
 	 private static TagKey<Block> create(String pName) {
-	      return TagKey.create(Registries.BLOCK, ResourceLocation.parse(pName));
+	      return TagKey.create(Registries.BLOCK, KingdomKeys.rl(pName));
 	   }
 }

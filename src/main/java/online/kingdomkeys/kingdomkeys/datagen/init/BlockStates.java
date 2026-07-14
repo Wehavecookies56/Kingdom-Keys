@@ -254,7 +254,7 @@ public class BlockStates extends BlockStateProvider {
 
 	public ModelFile netherCubeAll(Block block) {
 		ResourceLocation name = BuiltInRegistries.BLOCK.getKey(block);
-		return models().cubeAll(name.getPath(), ResourceLocation.fromNamespaceAndPath(name.getNamespace(), ModelProvider.BLOCK_FOLDER + "/" + name.getPath() + "ether"));
+		return models().cubeAll(name.getPath(), KingdomKeys.rl(name.getNamespace(), ModelProvider.BLOCK_FOLDER + "/" + name.getPath() + "ether"));
 	}
 
 	public void simpleNetherOre(Supplier<? extends Block> blockSupplier) {

@@ -315,7 +315,7 @@ public class MenuBackground extends Screen {
 			Component dimText;
 			if (dimension == null && biome == null) {
 				String dimension = this.player.level().dimension().location().getPath().toUpperCase().replaceAll("_", " ");
-				ResourceLocation biomeLoc = ResourceLocation.parse(printBiome(this.minecraft.level.getBiome(this.player.blockPosition())));
+				ResourceLocation biomeLoc = KingdomKeys.rl(printBiome(this.minecraft.level.getBiome(this.player.blockPosition())));
 
 				String biome = "biome." + biomeLoc.getNamespace() + "." + biomeLoc.getPath();
 				if (Language.getInstance().has(biome)) {

@@ -61,7 +61,7 @@ public class MagicLevelCommand extends BaseCommand{
 		int level = IntegerArgumentType.getInteger(context, "level");
 		String magic = StringArgumentType.getString(context, "magic");
 		
-		Magic magicInstance = ModMagic.registry.get(ResourceLocation.parse(magic));
+		Magic magicInstance = ModMagic.registry.get(KingdomKeys.rl(magic));
 		if(magicInstance == null) {
 			context.getSource().sendSuccess(() -> Component.translatable("Unknown magic '"+magic+"'"), true);
 			return 1;
@@ -71,7 +71,7 @@ public class MagicLevelCommand extends BaseCommand{
 			PlayerData playerData = PlayerData.get(player);
             
 			if(level <= magicInstance.getMaxLevel()) {
-				//playerData.setMagicLevel(ResourceLocation.parse(magic), level, false);
+				//playerData.setMagicLevel(KingdomKeys.rl(magic), level, false);
 			} else {
 				context.getSource().sendSuccess(() -> Component.translatable("Level too high, max is '"+magicInstance.getMaxLevel()+"'"), true);
 				return 1;

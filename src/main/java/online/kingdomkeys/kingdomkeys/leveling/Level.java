@@ -24,10 +24,6 @@ public class Level implements KKRegistryObject {
 		return data;
 	}
 
-	public String getName() {
-		return name.toString();
-	}
-
 	public int getStr(int level) {
 		return data.getStr(level);
 	}

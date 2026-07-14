@@ -4,6 +4,7 @@ import com.google.gson.*;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Type;
@@ -45,7 +46,7 @@ public class RecipeDataDeserializer implements JsonDeserializer<Recipe> {
                 	 JsonObject outputObject = element.getAsJsonObject();
                      boolean valid = outputObject.get("item") != null && outputObject.get("quantity") != null;
                      if(valid) {
-                    	 Item keychain = BuiltInRegistries.ITEM.get(ResourceLocation.parse(outputObject.get("item").getAsString()));
+                    	 Item keychain = BuiltInRegistries.ITEM.get(KingdomKeys.rl(outputObject.get("item").getAsString()));
                          out.setResult(keychain, outputObject.get("quantity").getAsInt());
                          out.setType(outputObject.get("type").getAsString());
                      }
@@ -69,7 +70,7 @@ public class RecipeDataDeserializer implements JsonDeserializer<Recipe> {
             int quantity = 0;
             boolean valid = ingredientObject.get("material") != null && ingredientObject.get("quantity") != null;
             if (valid) {
-                m = BuiltInRegistries.ITEM.get(ResourceLocation.parse(ingredientObject.get("material").getAsString()));
+                m = BuiltInRegistries.ITEM.get(KingdomKeys.rl(ingredientObject.get("material").getAsString()));
                 if (m == null) {
                     throw new JsonParseException("Material supplied in recipe cannot be found in the registry" + json);
                 } else {

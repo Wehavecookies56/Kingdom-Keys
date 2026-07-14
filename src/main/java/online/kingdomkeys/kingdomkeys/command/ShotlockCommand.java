@@ -70,7 +70,7 @@ public class ShotlockCommand extends BaseCommand { // kingdomkeys shotlock <give
 		String shotlockName = StringArgumentType.getString(context, "shotlock");
 		boolean permanent = BoolArgumentType.getBool(context, "permanent");
 
-		Shotlock a = ModShotlocks.registry.get(ResourceLocation.parse(shotlockName));
+		Shotlock a = ModShotlocks.registry.get(KingdomKeys.rl(shotlockName));
 		if(a == null){
 			context.getSource().sendFailure(Component.literal("Shotlock '"+shotlockName+ "' does not exist"));
 			return 0;
@@ -100,13 +100,13 @@ public class ShotlockCommand extends BaseCommand { // kingdomkeys shotlock <give
 
 		for (ServerPlayer player : players) {
 			PlayerData playerData = PlayerData.get(player);
-			playerData.removePShotlockFromList(ResourceLocation.parse(shotlock));
-			playerData.removeShotlockFromList(ResourceLocation.parse(shotlock));
+			playerData.removePShotlockFromList(KingdomKeys.rl(shotlock));
+			playerData.removeShotlockFromList(KingdomKeys.rl(shotlock));
 
 			if (player != context.getSource().getPlayerOrException()) {
 				context.getSource().sendSuccess(() -> Component.translatable("Removed shotlock '" + Utils.translateToLocal(shotlock) + "' from " + player.getDisplayName().getString()), true);
 			}
-			Shotlock a = ModShotlocks.registry.get(ResourceLocation.parse(shotlock));
+			Shotlock a = ModShotlocks.registry.get(KingdomKeys.rl(shotlock));
 			player.sendSystemMessage(Component.translatable("Your shotlock '" + Utils.translateToLocal(a.getTranslationKey()) + "' has been taken away"));
 			PacketHandler.sendTo(new SCSyncPlayerData(player), player);
 		}

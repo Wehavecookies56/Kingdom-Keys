@@ -19,15 +19,15 @@ public class LevelStats {
     		return;
     	}
     	
-    	Level levelData = ModLevels.registry.get(KingdomKeys.rl(cap.getChosen().toString().toLowerCase()));
+    	Level levelData = ModLevels.registry.get(KingdomKeys.rl(cap.getChosen().getSerializedName()));
 
 		if (levelData == null) {
-			KingdomKeys.LOGGER.error("Failed to get level from registry location {}, this should never happen", KingdomKeys.rl(cap.getChosen().toString().toLowerCase()));
+			KingdomKeys.LOGGER.error("Failed to get level from registry location {}, this should never happen", KingdomKeys.rl(cap.getChosen().getSerializedName()));
 			return;
 		}
 
 		if (levelData.getLevelingData() == null) {
-			KingdomKeys.LOGGER.error("Failed to get leveling data from registry location {}, this means the data was not loaded from the json correctly", KingdomKeys.rl(cap.getChosen().toString().toLowerCase()));
+			KingdomKeys.LOGGER.error("Failed to get leveling data from registry location {}, this means the data was not loaded from the json correctly", KingdomKeys.rl(cap.getChosen().getSerializedName()));
 			return;
 		}
 
@@ -76,13 +76,13 @@ public class LevelStats {
        /* levelData.getSpells(level); // TODO spells
         for (String magic : levelData.getSpells(level)) {
             if (magic != null) {
-                Magic magicInstance = ModMagic.registry.get(ResourceLocation.parse(magic));
+                Magic magicInstance = ModMagic.registry.get(KingdomKeys.rl(magic));
                 if (magicInstance != null) {
                     if (cap != null && cap.getMagicsCastMap() != null) {
                         if (!cap.getMagicsCastMap().containsKey(magic)) {
-                            cap.setMagicLevel(ResourceLocation.parse(magic), cap.getMagicLevel(ResourceLocation.parse(magic)), true);
+                            cap.setMagicLevel(KingdomKeys.rl(magic), cap.getMagicLevel(KingdomKeys.rl(magic)), true);
                         } else {
-                            cap.setMagicLevel(ResourceLocation.parse(magic), cap.getMagicLevel(ResourceLocation.parse(magic)) + 1, true);
+                            cap.setMagicLevel(KingdomKeys.rl(magic), cap.getMagicLevel(KingdomKeys.rl(magic)) + 1, true);
                         }
                     }
                 }

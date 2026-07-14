@@ -7,6 +7,7 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
@@ -116,7 +117,7 @@ public class Recipe {
 	}
 
 	public void deserializeNBT(CompoundTag nbt) {
-		this.setResult(BuiltInRegistries.ITEM.get(ResourceLocation.parse(nbt.getString("result"))), nbt.getInt("amount"));
+		this.setResult(BuiltInRegistries.ITEM.get(KingdomKeys.rl(nbt.getString("result"))), nbt.getInt("amount"));
 		this.setType(nbt.getString("type"));
 		this.setCost(nbt.getInt("cost"));
 		if (nbt.contains("exp")) {
@@ -125,7 +126,7 @@ public class Recipe {
 		this.setTier(nbt.getInt("tier"));
 		Map<Item, Integer> ingredients = new HashMap<>();
 		for (int i = 0; i < nbt.getInt("ingredients_size"); i++) {
-			ingredients.put(BuiltInRegistries.ITEM.get(ResourceLocation.parse(nbt.getString("ingredient_material_" + i))), nbt.getInt("ingredient_amount_" + i));
+			ingredients.put(BuiltInRegistries.ITEM.get(KingdomKeys.rl(nbt.getString("ingredient_material_" + i))), nbt.getInt("ingredient_amount_" + i));
 		}
 		this.setMaterials(ingredients);
 		this.setRegistryName(nbt.getString("regname"));
@@ -135,11 +136,7 @@ public class Recipe {
 		return registryName;
 	}
 	public void setRegistryName(String registryName) {
-		this.registryName = ResourceLocation.parse(registryName);
-	}
-
-	public void setRegistryName(String namespace, String path) {
-		this.registryName = ResourceLocation.fromNamespaceAndPath(namespace, path);
+		this.registryName = KingdomKeys.rl(registryName);
 	}
 
 	public void setRegistryName(ResourceLocation registryName) {

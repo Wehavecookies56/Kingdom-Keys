@@ -2,6 +2,7 @@ package online.kingdomkeys.kingdomkeys.magic;
 
 import com.google.gson.*;
 import net.minecraft.resources.ResourceLocation;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
 import java.lang.reflect.Type;
 
@@ -31,8 +32,8 @@ public class MagicDataDeserializer implements JsonDeserializer<MagicData> {
 				case "magic_lock_on" -> out.setMagicLockon(element.getAsBoolean());
 				case "max_exp" -> out.setMaxExp(element.getAsInt());
 				case "max_lvl" -> out.setMaxLevel(element.getAsInt());
-				case "next_tier" -> out.setNextTier(ResourceLocation.parse(element.getAsString()));
-				case "magic_rc" -> out.setMagicRC(ResourceLocation.parse(element.getAsString()));
+				case "next_tier" -> out.setNextTier(KingdomKeys.rl(element.getAsString()));
+				case "magic_rc" -> out.setMagicRC(KingdomKeys.rl(element.getAsString()));
 				case "spell_type" -> out.setSpellType(MagicData.SpellType.valueOf(element.getAsString().toUpperCase()));
 			}
 		});

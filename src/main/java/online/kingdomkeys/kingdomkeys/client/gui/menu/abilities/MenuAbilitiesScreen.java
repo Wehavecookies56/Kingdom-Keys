@@ -74,7 +74,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 			Minecraft.getInstance().setScreen(new MenuScreen(playerData));
 			break;
 		default:
-			form = ResourceLocation.parse(string);
+			form = KingdomKeys.rl(string);
 			init();
 			break;
 		}
@@ -110,7 +110,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 		
 		playerButton.active = !form.equals(DriveForm.NONE); //If form is empty we assume it's the player stats view
         for (MenuButton menuButton : driveSelector) {//Iterate through all the buttons to update their state
-            menuButton.active = !form.equals(ResourceLocation.parse(menuButton.getData())) && playerData.getDriveFormMap().containsKey(ResourceLocation.parse(menuButton.getData())); //If the form stored in class is the same as the button name (handling prefix and such) and you have that form unlocked
+            menuButton.active = !form.equals(KingdomKeys.rl(menuButton.getData())) && playerData.getDriveFormMap().containsKey(KingdomKeys.rl(menuButton.getData())); //If the form stored in class is the same as the button name (handling prefix and such) and you have that form unlocked
             menuButton.setSelected(!menuButton.active); //Set it selected if it's not active (so it renders a bit to the right)
         }
 
@@ -380,13 +380,13 @@ public class MenuAbilitiesScreen extends MenuBackground {
                 if (menuAbilitiesButton.getY() < scrollBot && menuAbilitiesButton.getY() >= scrollTop - 20) {
                     menuAbilitiesButton.active = true;
                     String abilityName = menuAbilitiesButton.getText();
-                    Ability ability = ModAbilities.registry.get(ResourceLocation.parse(abilityName));
+                    Ability ability = ModAbilities.registry.get(KingdomKeys.rl(abilityName));
 
                     if (ability.getAPCost() > playerData.getMaxAP(true) - Utils.getConsumedAP(playerData)) {
                         menuAbilitiesButton.active = menuAbilitiesButton.equipped;
                     }
 
-                    if (menuAbilitiesButton.abilityType == AbilityType.WEAPON || menuAbilitiesButton.abilityType == AbilityType.ACCESSORY || form.equals(DriveForm.NONE) && playerData.isAbilityEquipped(ResourceLocation.parse(menuAbilitiesButton.getText()), abilitiesMap.get(ResourceLocation.parse(menuAbilitiesButton.getText()))[0])) {
+                    if (menuAbilitiesButton.abilityType == AbilityType.WEAPON || menuAbilitiesButton.abilityType == AbilityType.ACCESSORY || form.equals(DriveForm.NONE) && playerData.isAbilityEquipped(KingdomKeys.rl(menuAbilitiesButton.getText()), abilitiesMap.get(KingdomKeys.rl(menuAbilitiesButton.getText()))[0])) {
                         menuAbilitiesButton.active = true;
                     }
 
@@ -415,7 +415,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 		
 		//Get all the abilities and set their text
 		for (int i = 0; i < abilities.size(); i++) {
-			ResourceLocation abilityName = ResourceLocation.parse(abilities.get(i).getText());
+			ResourceLocation abilityName = KingdomKeys.rl(abilities.get(i).getText());
 			Ability ability = ModAbilities.registry.get(abilityName);
 
 			String lvl = "";

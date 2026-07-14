@@ -5,6 +5,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuColourBox;
@@ -44,7 +45,7 @@ public class CheckStatusScreen extends MenuBackground {
 		else if (string.equals("abilities"))
 			Minecraft.getInstance().setScreen(new CheckAbilitiesScreen(playerData, player));
 		else
-			form = ResourceLocation.parse(string);
+			form = KingdomKeys.rl(string);
 
 		updateButtons();
 	}
@@ -52,7 +53,7 @@ public class CheckStatusScreen extends MenuBackground {
 	private void updateButtons() {
 		stats_player.active = !form.equals(DriveForm.NONE); //If form is empty we assume it's the player stats view
 		for (MenuButton dfStat : dfStats) {//Iterate through all the buttons to update their state
-			dfStat.active = !form.equals(ResourceLocation.parse(dfStat.getData())) && playerData.getDriveFormMap().containsKey(ResourceLocation.parse(dfStat.getData())); //If the form stored in class is the same as the button name (handling prefix and such) and you have that form unlocked
+			dfStat.active = !form.equals(KingdomKeys.rl(dfStat.getData())) && playerData.getDriveFormMap().containsKey(KingdomKeys.rl(dfStat.getData())); //If the form stored in class is the same as the button name (handling prefix and such) and you have that form unlocked
 			dfStat.setSelected(!dfStat.active); //Set it selected if it's not active (so it renders a bit to the right)
 		}
 

@@ -24,6 +24,6 @@ public class ModShotlocks {
 	;
 
 	private static KKSupplier<Shotlock> register(String name, Supplier<Shotlock> shotlockSupplier) {
-		return new KKSupplier<>(SHOTLOCKS.register(name, shotlockSupplier));
+		return new KKSupplier<>(KingdomKeys.rl(SHOTLOCKS.getNamespace(), name), SHOTLOCKS.register(name, shotlockSupplier));
 	}
 }

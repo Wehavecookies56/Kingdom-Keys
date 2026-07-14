@@ -66,7 +66,7 @@ public class MaterialCommand extends BaseCommand { // kk_material <give/take> <m
 
 	private static int addMaterial(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
 		Collection<ServerPlayer> players = getPlayers(context, 5);
-		ResourceLocation materialName = ResourceLocation.parse(context.getArgument("material", String.class));
+		ResourceLocation materialName = KingdomKeys.rl(context.getArgument("material", String.class));
 		int amount = IntegerArgumentType.getInteger(context, "amount");
 		Item material = BuiltInRegistries.ITEM.get(materialName);
 		if(material == null){
@@ -87,7 +87,7 @@ public class MaterialCommand extends BaseCommand { // kk_material <give/take> <m
 
 	private static int takeMaterial(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
 		Collection<ServerPlayer> players = getPlayers(context, 5);
-		ResourceLocation materialName = ResourceLocation.parse(context.getArgument("material", String.class));
+		ResourceLocation materialName = KingdomKeys.rl(context.getArgument("material", String.class));
 		int amount = IntegerArgumentType.getInteger(context, "amount");
 		Item material = BuiltInRegistries.ITEM.get(materialName);
 
@@ -138,7 +138,7 @@ public class MaterialCommand extends BaseCommand { // kk_material <give/take> <m
 
 	private static int setMaterial(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
 		Collection<ServerPlayer> players = getPlayers(context, 5);
-		ResourceLocation materialName = ResourceLocation.parse(context.getArgument("material", String.class));
+		ResourceLocation materialName = KingdomKeys.rl(context.getArgument("material", String.class));
 		int amount = IntegerArgumentType.getInteger(context, "amount");
 		Item material = BuiltInRegistries.ITEM.get(materialName);
 

@@ -72,6 +72,6 @@ public class EntityTagsGen extends EntityTypeTagsProvider {
 	}
 	
 	private static TagKey<EntityType<?>> create(String pName) {
-		return TagKey.create(Registries.ENTITY_TYPE, ResourceLocation.parse(pName));
+		return TagKey.create(Registries.ENTITY_TYPE, KingdomKeys.rl(pName));
 	}
 }

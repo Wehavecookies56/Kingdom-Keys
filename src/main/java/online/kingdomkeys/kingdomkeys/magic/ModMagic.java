@@ -21,30 +21,30 @@ public class ModMagic {
 
 	public static DeferredRegister<Magic> MAGIC = DeferredRegister.create(KingdomKeys.rl("magics"), KingdomKeys.MODID);
 	public static final KKSupplier<Magic>
-			FIRE = register(Strings.Magic_Fire, () -> new MagicFire(KingdomKeys.rl(Strings.Magic_Fire), 0, KingdomKeys.rl(Strings.firaza))),
-			FIRA = register(Strings.Magic_Fira, () -> new MagicFire(KingdomKeys.rl(Strings.Magic_Fira), 1, KingdomKeys.rl(Strings.firaza))),
-			FIRAGA = register(Strings.Magic_Firaga, () -> new MagicFire(KingdomKeys.rl(Strings.Magic_Firaga), 2, KingdomKeys.rl(Strings.firaza))),
-			FIRAZA = register(Strings.Magic_Firaza, () -> new MagicFire(KingdomKeys.rl(Strings.Magic_Firaza), 3, KingdomKeys.rl(Strings.firaza))),
+			FIRE = register(Strings.Magic_Fire, () -> new MagicFire(KingdomKeys.rl(Strings.Magic_Fire), 0, ModAbilities.FIRAZA.location())),
+			FIRA = register(Strings.Magic_Fira, () -> new MagicFire(KingdomKeys.rl(Strings.Magic_Fira), 1, ModAbilities.FIRAZA.location())),
+			FIRAGA = register(Strings.Magic_Firaga, () -> new MagicFire(KingdomKeys.rl(Strings.Magic_Firaga), 2, ModAbilities.FIRAZA.location())),
+			FIRAZA = register(Strings.Magic_Firaza, () -> new MagicFire(KingdomKeys.rl(Strings.Magic_Firaza), 3, ModAbilities.FIRAZA.location())),
 
-			BLIZZARD = register(Strings.Magic_Blizzard, () -> new MagicBlizzard(KingdomKeys.rl(Strings.Magic_Blizzard), 0, KingdomKeys.rl(Strings.blizzaza))),
-			BLIZZARA = register(Strings.Magic_Blizzara, () -> new MagicBlizzard(KingdomKeys.rl(Strings.Magic_Blizzara), 1, KingdomKeys.rl(Strings.blizzaza))),
-			BLIZZAGA = register(Strings.Magic_Blizzaga, () -> new MagicBlizzard(KingdomKeys.rl(Strings.Magic_Blizzaga), 2, KingdomKeys.rl(Strings.blizzaza))),
-			BLIZZAZA = register(Strings.Magic_Blizzaza, () -> new MagicBlizzard(KingdomKeys.rl(Strings.Magic_Blizzaza), 3, KingdomKeys.rl(Strings.blizzaza))),
+			BLIZZARD = register(Strings.Magic_Blizzard, () -> new MagicBlizzard(KingdomKeys.rl(Strings.Magic_Blizzard), 0, ModAbilities.BLIZZAZA.location())),
+			BLIZZARA = register(Strings.Magic_Blizzara, () -> new MagicBlizzard(KingdomKeys.rl(Strings.Magic_Blizzara), 1, ModAbilities.BLIZZAZA.location())),
+			BLIZZAGA = register(Strings.Magic_Blizzaga, () -> new MagicBlizzard(KingdomKeys.rl(Strings.Magic_Blizzaga), 2, ModAbilities.BLIZZAZA.location())),
+			BLIZZAZA = register(Strings.Magic_Blizzaza, () -> new MagicBlizzard(KingdomKeys.rl(Strings.Magic_Blizzaza), 3, ModAbilities.BLIZZAZA.location())),
 
-			WATER = register(Strings.Magic_Water, () -> new MagicWater(KingdomKeys.rl(Strings.Magic_Water), 0, KingdomKeys.rl(Strings.waterza))),
-			WATERA = register(Strings.Magic_Watera, () -> new MagicWater(KingdomKeys.rl(Strings.Magic_Watera), 1, KingdomKeys.rl(Strings.waterza))),
-			WATERGA = register(Strings.Magic_Waterga, () -> new MagicWater(KingdomKeys.rl(Strings.Magic_Waterga), 2, KingdomKeys.rl(Strings.waterza))),
-			WATERZA = register(Strings.Magic_Waterza, () -> new MagicWater(KingdomKeys.rl(Strings.Magic_Waterza), 3, KingdomKeys.rl(Strings.waterza))),
+			WATER = register(Strings.Magic_Water, () -> new MagicWater(KingdomKeys.rl(Strings.Magic_Water), 0, ModAbilities.WATERZA.location())),
+			WATERA = register(Strings.Magic_Watera, () -> new MagicWater(KingdomKeys.rl(Strings.Magic_Watera), 1, ModAbilities.WATERZA.location())),
+			WATERGA = register(Strings.Magic_Waterga, () -> new MagicWater(KingdomKeys.rl(Strings.Magic_Waterga), 2, ModAbilities.WATERZA.location())),
+			WATERZA = register(Strings.Magic_Waterza, () -> new MagicWater(KingdomKeys.rl(Strings.Magic_Waterza), 3, ModAbilities.WATERZA.location())),
 
-			THUNDER = register(Strings.Magic_Thunder, () -> new MagicThunder(KingdomKeys.rl(Strings.Magic_Thunder), 0, KingdomKeys.rl(Strings.thundaza))),
-			THUNDARA = register(Strings.Magic_Thundara, () -> new MagicThunder(KingdomKeys.rl(Strings.Magic_Thundara), 1, KingdomKeys.rl(Strings.thundaza))),
-			THUNDAGA = register(Strings.Magic_Thundaga, () -> new MagicThunder(KingdomKeys.rl(Strings.Magic_Thundaga), 2, KingdomKeys.rl(Strings.thundaza))),
-			THUNDAZA = register(Strings.Magic_Thundaza, () -> new MagicThunder(KingdomKeys.rl(Strings.Magic_Thundaza), 3, KingdomKeys.rl(Strings.thundaza))),
+			THUNDER = register(Strings.Magic_Thunder, () -> new MagicThunder(KingdomKeys.rl(Strings.Magic_Thunder), 0, ModAbilities.THUNDAZA.location())),
+			THUNDARA = register(Strings.Magic_Thundara, () -> new MagicThunder(KingdomKeys.rl(Strings.Magic_Thundara), 1, ModAbilities.THUNDAZA.location())),
+			THUNDAGA = register(Strings.Magic_Thundaga, () -> new MagicThunder(KingdomKeys.rl(Strings.Magic_Thundaga), 2, ModAbilities.THUNDAZA.location())),
+			THUNDAZA = register(Strings.Magic_Thundaza, () -> new MagicThunder(KingdomKeys.rl(Strings.Magic_Thundaza), 3, ModAbilities.THUNDAZA.location())),
 
-			CURE = register(Strings.Magic_Cure, () -> new MagicCure(KingdomKeys.rl(Strings.Magic_Cure), 0, KingdomKeys.rl(Strings.curaza))),
-			CURA = register(Strings.Magic_Cura, () -> new MagicCure(KingdomKeys.rl(Strings.Magic_Cura), 1, KingdomKeys.rl(Strings.curaza))),
-			CURAGA = register(Strings.Magic_Curaga, () -> new MagicCure(KingdomKeys.rl(Strings.Magic_Curaga), 2, KingdomKeys.rl(Strings.curaza))),
-			CURAZA = register(Strings.Magic_Curaza, () -> new MagicCure(KingdomKeys.rl(Strings.Magic_Curaza), 3, KingdomKeys.rl(Strings.curaza))),
+			CURE = register(Strings.Magic_Cure, () -> new MagicCure(KingdomKeys.rl(Strings.Magic_Cure), 0, ModAbilities.CURAZA.location())),
+			CURA = register(Strings.Magic_Cura, () -> new MagicCure(KingdomKeys.rl(Strings.Magic_Cura), 1, ModAbilities.CURAZA.location())),
+			CURAGA = register(Strings.Magic_Curaga, () -> new MagicCure(KingdomKeys.rl(Strings.Magic_Curaga), 2, ModAbilities.CURAZA.location())),
+			CURAZA = register(Strings.Magic_Curaza, () -> new MagicCure(KingdomKeys.rl(Strings.Magic_Curaza), 3, ModAbilities.CURAZA.location())),
 
 			AERO = register(Strings.Magic_Aero, () -> new MagicAero(KingdomKeys.rl(Strings.Magic_Aero), 0, null)),
 			AERORA = register(Strings.Magic_Aerora, () -> new MagicAero(KingdomKeys.rl(Strings.Magic_Aerora), 1, null)),
@@ -115,6 +115,6 @@ public class ModMagic {
 	public static int order = 0;
 
 	private static KKSupplier<Magic> register(String name, Supplier<Magic> magicSupplier) {
-		return new KKSupplier<>(MAGIC.register(name, magicSupplier));
+		return new KKSupplier<>(KingdomKeys.rl(MAGIC.getNamespace(), name), MAGIC.register(name, magicSupplier));
 	}
 }

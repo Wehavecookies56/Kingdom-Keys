@@ -2,6 +2,7 @@ package online.kingdomkeys.kingdomkeys.driveform;
 
 import com.google.gson.*;
 import net.minecraft.resources.ResourceLocation;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -59,7 +60,7 @@ public class DriveFormDataDeserializer implements JsonDeserializer<DriveFormData
 				List<ResourceLocation> abilitiesArray = new ArrayList<>();
 				
 				for(int i= 0; i < abilities.size(); i++) {
-					abilitiesArray.add(ResourceLocation.parse(abilities.get(i).getAsString()));
+					abilitiesArray.add(KingdomKeys.rl(abilities.get(i).getAsString()));
 				}
 				out.setAbilities(abilitiesArray);
 				break;
@@ -69,7 +70,7 @@ public class DriveFormDataDeserializer implements JsonDeserializer<DriveFormData
 				List<ResourceLocation> baseAbilitiesArray = new ArrayList<>();
 				
 				for(int i= 0; i < baseAbilities.size(); i++) {
-					baseAbilitiesArray.add(ResourceLocation.parse(baseAbilities.get(i).getAsString()));
+					baseAbilitiesArray.add(KingdomKeys.rl(baseAbilities.get(i).getAsString()));
 				}
 				out.setBaseLevelUpAbilities(baseAbilitiesArray);
 				break;
@@ -79,7 +80,7 @@ public class DriveFormDataDeserializer implements JsonDeserializer<DriveFormData
 				List<ResourceLocation> dfAbilitiesArray = new ArrayList<>();
 				
 				for(int i= 0; i < dfAbilities.size(); i++) {
-					dfAbilitiesArray.add(ResourceLocation.parse(dfAbilities.get(i).getAsString()));
+					dfAbilitiesArray.add(KingdomKeys.rl(dfAbilities.get(i).getAsString()));
 				}
 				out.setDFLevelUpAbilities(dfAbilitiesArray);
 				break;

@@ -3,6 +3,7 @@ package online.kingdomkeys.kingdomkeys.shotlock;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.lib.KKRegistryObject;
@@ -28,7 +29,7 @@ public abstract class Shotlock implements KKRegistryObject {
 	}
 
 	public Shotlock(String registryName, int order, int cooldown, int max) {
-		this(ResourceLocation.parse(registryName), order, cooldown, max);
+		this(KingdomKeys.rl(registryName), order, cooldown, max);
 	}
 	
 	public String getTranslationKey() {

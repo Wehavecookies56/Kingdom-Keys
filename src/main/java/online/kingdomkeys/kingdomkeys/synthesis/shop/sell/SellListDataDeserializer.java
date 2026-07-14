@@ -28,7 +28,7 @@ public class SellListDataDeserializer implements JsonDeserializer<SellList> {
         	SellItem shopItem = new SellItem();
         	JsonObject jsonObj = e.getAsJsonObject();
             if (jsonObj.get("item") != null) {
-                Item item = BuiltInRegistries.ITEM.get(ResourceLocation.parse(jsonObj.get("item").getAsString()));
+                Item item = BuiltInRegistries.ITEM.get(KingdomKeys.rl(jsonObj.get("item").getAsString()));
                 shopItem.setResult(item);
                 shopItem.setPrice(jsonObj.get("price").getAsInt());
                 out.addToList(shopItem);

@@ -20,6 +20,6 @@ public class ModLevels {
 		GUARDIAN = register("guardian", () -> new Level(KingdomKeys.rl("guardian")));
 
 	private static KKSupplier<Level> register(String name, Supplier<Level> levelSupplier) {
-		return new KKSupplier<>(LEVELS.register(name, levelSupplier));
+		return new KKSupplier<>(KingdomKeys.rl(LEVELS.getNamespace(), name), LEVELS.register(name, levelSupplier));
 	}
 }

@@ -69,7 +69,7 @@ public class AbilityCommand extends BaseCommand { // kingdomkeys ability <give/t
 		String abilityName = StringArgumentType.getString(context, "ability");
 		boolean permanent = BoolArgumentType.getBool(context, "permanent");
 
-		Ability a = ModAbilities.registry.get(ResourceLocation.parse(abilityName));
+		Ability a = ModAbilities.registry.get(KingdomKeys.rl(abilityName));
 		if(a == null) {
 			context.getSource().sendFailure(Component.literal("Ability '"+abilityName+ "' does not exist"));
 			return 0;
@@ -98,13 +98,13 @@ public class AbilityCommand extends BaseCommand { // kingdomkeys ability <give/t
 
 		for (ServerPlayer player : players) {
 			PlayerData playerData = PlayerData.get(player);
-			playerData.removePAbility(ResourceLocation.parse(ability));
-			playerData.removeAbility(ResourceLocation.parse(ability));
+			playerData.removePAbility(KingdomKeys.rl(ability));
+			playerData.removeAbility(KingdomKeys.rl(ability));
 
 			if (player != context.getSource().getPlayerOrException()) {
 				context.getSource().sendSuccess(() -> Component.translatable("Removed ability '" + Utils.translateToLocal(ability) + "' from " + player.getDisplayName().getString()), true);
 			}
-			Ability a = ModAbilities.registry.get(ResourceLocation.parse(ability));
+			Ability a = ModAbilities.registry.get(KingdomKeys.rl(ability));
 			player.sendSystemMessage(Component.translatable("Your ability '" + Utils.translateToLocal(a.getTranslationKey()) + "' has been taken away"));
 			PacketHandler.sendTo(new SCSyncPlayerData(player), player);
 		}

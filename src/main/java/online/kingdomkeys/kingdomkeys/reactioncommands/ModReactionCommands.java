@@ -34,6 +34,6 @@ public class ModReactionCommands {
 		SAVE = register("save_rc", () -> new ReactionSave(KingdomKeys.rl("save_rc")));
 
 	private static KKSupplier<ReactionCommand> register(String name, Supplier<ReactionCommand> reactionCommandSupplier) {
-		return new KKSupplier<>(REACTION_COMMANDS.register(name, reactionCommandSupplier));
+		return new KKSupplier<>(KingdomKeys.rl(REACTION_COMMANDS.getNamespace(), name), REACTION_COMMANDS.register(name, reactionCommandSupplier));
 	}
 }

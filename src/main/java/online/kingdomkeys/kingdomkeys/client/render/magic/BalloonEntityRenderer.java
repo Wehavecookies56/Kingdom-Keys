@@ -16,7 +16,7 @@ import online.kingdomkeys.kingdomkeys.client.model.BalloonModel;
 import javax.annotation.Nullable;
 
 public class BalloonEntityRenderer extends EntityRenderer<ThrowableProjectile> {
-    public static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID,"textures/entity/models/balloon.png");
+    public static final ResourceLocation TEXTURE = KingdomKeys.rl("textures/entity/models/balloon.png");
     BalloonModel<Entity> balloonModel;
 
     public BalloonEntityRenderer(EntityRendererProvider.Context context){

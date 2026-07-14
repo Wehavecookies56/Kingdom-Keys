@@ -41,7 +41,7 @@ public class SavePointStorage extends SavedData {
                     nbt.getString("NAME"),
                     new BlockPos(nbt.getInt("POSX"), nbt.getInt("POSY"), nbt.getInt("POSZ")),
                     Pair.of(nbt.getUUID("OWNER_UUID"), nbt.getString("OWNER_NAME")),
-                    ResourceKey.create(Registries.DIMENSION, ResourceLocation.parse(nbt.getString("DIM"))),
+                    ResourceKey.create(Registries.DIMENSION, KingdomKeys.rl(nbt.getString("DIM"))),
                     nbt.getBoolean("GLOBAL"),
                     getCreatedTime(nbt)
             );

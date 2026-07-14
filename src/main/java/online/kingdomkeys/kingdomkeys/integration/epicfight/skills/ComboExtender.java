@@ -25,7 +25,7 @@ import java.util.List;
 
 public class ComboExtender extends Skill {
 	private final DeferredHolder<SkillDataKey<?>, SkillDataKey<Integer>> combo = EpicFightSkillDataKeys.COMBO_COUNTER;
-	public static final DeferredRegister<SkillDataKey<?>> DATA_KEYS = DeferredRegister.create(ResourceLocation.fromNamespaceAndPath(EpicFight.MODID, "skill_data_keys"), KingdomKeys.MODID);
+	public static final DeferredRegister<SkillDataKey<?>> DATA_KEYS = DeferredRegister.create(KingdomKeys.rl(EpicFight.MODID, "skill_data_keys"), KingdomKeys.MODID);
 	public static final DeferredHolder<SkillDataKey<?>, SkillDataKey<Integer>> FINISHER_DATA = DATA_KEYS.register("finisher_data", () -> SkillDataKey.createSkillDataKey(ByteBufCodecs.INT, 0, false, ComboExtender.class));
 	//private final SkillDataKey<Integer> finisherData = SkillDataKey.createDataKey(ValueType.INTEGER);
 	public int numberOfNegativeCombo = 0;

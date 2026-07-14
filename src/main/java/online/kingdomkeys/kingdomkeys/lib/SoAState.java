@@ -4,6 +4,7 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
@@ -14,11 +15,13 @@ import online.kingdomkeys.kingdomkeys.leveling.ModLevels;
 import online.kingdomkeys.kingdomkeys.shotlock.ModShotlocks;
 import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
 
-public enum SoAState {
-    NONE((byte)0), CHOICE((byte)1), SACRIFICE((byte)2), CONFIRM((byte)3), COMPLETE((byte)4), WARRIOR((byte)5), GUARDIAN((byte)6), MYSTIC((byte)7);
+public enum SoAState implements StringRepresentable {
+    NONE("none", (byte)0), CHOICE("choice", (byte)1), SACRIFICE("sacrifice", (byte)2), CONFIRM("confirm", (byte)3), COMPLETE("complete", (byte)4), WARRIOR("warrior", (byte)5), GUARDIAN("guardian", (byte)6), MYSTIC("mystic", (byte)7);
 
+    private final String name;
     private final byte b;
-    SoAState(byte b) {
+    SoAState(String name, byte b) {
+        this.name = name;
         this.b = b;
     }
     public byte get() {
@@ -50,7 +53,7 @@ public enum SoAState {
             
             if (remove) {
 				KingdomKeys.LOGGER.info("Removing old choice? " + sacrifice);
-				removeNonStatsData(ModLevels.registry.get(KingdomKeys.rl(sacrifice.toString().toLowerCase())), playerData);
+				removeNonStatsData(ModLevels.registry.get(KingdomKeys.rl(sacrifice.getSerializedName())), playerData);
 				KingdomKeys.LOGGER.info(playerData.getAbilityMap());
 				playerData.getStrengthStat().removeModifier("choice");
 				playerData.getMagicStat().removeModifier("choice");
@@ -63,8 +66,8 @@ public enum SoAState {
 				playerData.getMaxAPStat().removeModifier("sacrifice");
 				playerData.setSoAState(NONE);
 			} else {
-				Level choiceData = ModLevels.registry.get(KingdomKeys.rl(choice.toString().toLowerCase()));
-				Level sacrificeData = ModLevels.registry.get(KingdomKeys.rl(sacrifice.toString().toLowerCase()));
+				Level choiceData = ModLevels.registry.get(KingdomKeys.rl(choice.getSerializedName()));
+				Level sacrificeData = ModLevels.registry.get(KingdomKeys.rl(sacrifice.getSerializedName()));
 				addForChoice(1, choiceData, playerData);
 				addForChoice(0, sacrificeData, playerData);
 			}
@@ -116,13 +119,13 @@ public enum SoAState {
 		// TODO magic spell earning from level up
         /*for (String magic : choice.getSpells(choiceLevel)) {
             if (magic != null) {
-                Magic magicInstance = ModMagic.registry.get(ResourceLocation.parse(magic));
+                Magic magicInstance = ModMagic.registry.get(KingdomKeys.rl(magic));
                 if (magicInstance != null) {
                     if (playerData != null && playerData.getMagicsCastMap() != null) {
                         if (!playerData.getMagicsCastMap().containsKey(magic)) {
-                            playerData.setMagicLevel(ResourceLocation.parse(magic), playerData.getMagicLevel(ResourceLocation.parse(magic)), true);
+                            playerData.setMagicLevel(KingdomKeys.rl(magic), playerData.getMagicLevel(KingdomKeys.rl(magic)), true);
                         } else {
-                            playerData.setMagicLevel(ResourceLocation.parse(magic), playerData.getMagicLevel(ResourceLocation.parse(magic)) + 1, true);
+                            playerData.setMagicLevel(KingdomKeys.rl(magic), playerData.getMagicLevel(KingdomKeys.rl(magic)) + 1, true);
                         }
                     }
                 }
@@ -164,11 +167,11 @@ public enum SoAState {
         /*levelData.getSpells(0); //TODO spells to remove
         for (String magic : levelData.getSpells(0)) {
             if (magic != null) {
-                Magic magicInstance = ModMagic.registry.get(ResourceLocation.parse(magic));
+                Magic magicInstance = ModMagic.registry.get(KingdomKeys.rl(magic));
                 if (magicInstance != null) {
                     if (playerData != null && playerData.getMagicsCastMap() != null) {
                         if (playerData.getMagicsCastMap().containsKey(magic)) {
-                            playerData.setMagicLevel(ResourceLocation.parse(magic), playerData.getMagicLevel(ResourceLocation.parse(magic)) - 1, true);
+                            playerData.setMagicLevel(KingdomKeys.rl(magic), playerData.getMagicLevel(KingdomKeys.rl(magic)) - 1, true);
                         }
                     }
                 }
@@ -196,15 +199,20 @@ public enum SoAState {
         //levelData.getSpells(1); //TODO initial spells
         /*for (String magic : levelData.getSpells(1)) {
             if (magic != null) {
-                Magic magicInstance = ModMagic.registry.get(ResourceLocation.parse(magic));
+                Magic magicInstance = ModMagic.registry.get(KingdomKeys.rl(magic));
                 if (magicInstance != null) {
                     if (playerData != null && playerData.getMagicsCastMap() != null) {
                         if (playerData.getMagicsCastMap().containsKey(magic)) {
-                            playerData.setMagicLevel(ResourceLocation.parse(magic), playerData.getMagicLevel(ResourceLocation.parse(magic)) - 1, true);
+                            playerData.setMagicLevel(KingdomKeys.rl(magic), playerData.getMagicLevel(KingdomKeys.rl(magic)) - 1, true);
                         }
                     }
                 }
             }
         }*/
+    }
+
+    @Override
+    public String getSerializedName() {
+        return name;
     }
 }

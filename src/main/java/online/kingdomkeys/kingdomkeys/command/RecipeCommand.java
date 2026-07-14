@@ -86,13 +86,13 @@ public class RecipeCommand extends BaseCommand { /// kk_recipe <give/take> <reci
 		Collection<ServerPlayer> players = getPlayers(context, 4);
 		String recipe = StringArgumentType.getString(context, "recipe");
 
-		if(!RecipeRegistry.getInstance().containsKey(ResourceLocation.parse(recipe))){
+		if(!RecipeRegistry.getInstance().containsKey(KingdomKeys.rl(recipe))){
 			context.getSource().sendFailure(Component.literal("Recipe '"+recipe+ "' does not exist"));
 			return 0;
 		}
 		for (ServerPlayer player : players) {
 			PlayerData playerData = PlayerData.get(player);
-			playerData.addKnownRecipe(ResourceLocation.parse(recipe));
+			playerData.addKnownRecipe(KingdomKeys.rl(recipe));
 			if (player != context.getSource().getPlayerOrException()) {
 				context.getSource().sendSuccess(() -> Component.translatable("Added '" + Utils.translateToLocal(recipe) + "' recipe to " + player.getDisplayName().getString()), true);
 			}
@@ -108,7 +108,7 @@ public class RecipeCommand extends BaseCommand { /// kk_recipe <give/take> <reci
 
 		for (ServerPlayer player : players) {
 			PlayerData playerData = PlayerData.get(player);
-			playerData.removeKnownRecipe(ResourceLocation.parse(recipe));
+			playerData.removeKnownRecipe(KingdomKeys.rl(recipe));
 			if (player != context.getSource().getPlayerOrException()) {
 				context.getSource().sendSuccess(() -> Component.translatable("Removed recipe '" + Utils.translateToLocal(recipe) + "' from " + player.getDisplayName().getString()), true);
 			}

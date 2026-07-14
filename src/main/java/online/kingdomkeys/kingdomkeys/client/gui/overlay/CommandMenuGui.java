@@ -492,10 +492,7 @@ public class CommandMenuGui extends OverlayBase {
 					)
 					.forEach(playerAlly -> {
 						targets.add(new CommandMenuItem.Builder(
-								ResourceLocation.fromNamespaceAndPath(
-										KingdomKeys.MODID,
-										playerAlly.getGameProfile().getName().toLowerCase()
-								),
+								KingdomKeys.rl(playerAlly.getGameProfile().getName().toLowerCase()),
 								Component.literal(playerAlly.getGameProfile().getName()),
 								item -> subMenu.getParent().getSelected().onEnter()
 						).setData(playerAlly.getId() + "").build(subMenu));
@@ -514,7 +511,7 @@ public class CommandMenuGui extends OverlayBase {
 		worldData.getAllPortalsFromOwnerID(minecraft.player.getUUID()).forEach(uuid -> {
 			PortalData portalData = worldData.getPortalFromUUID(uuid);
 			String rlUUID = uuid.toString().replaceAll("-", "_");
-			subMenu.addChild(new CommandMenuItem.Builder(ResourceLocation.parse(rlUUID), Component.translatable(portalData.getName()), item -> {
+			subMenu.addChild(new CommandMenuItem.Builder(KingdomKeys.rl(rlUUID), Component.translatable(portalData.getName()), item -> {
 				PortalData portal = worldData.getPortalFromUUID(UUID.fromString(item.getId().getPath().replaceAll("_", "-")));
 				if (!portal.getPos().equals(new BlockPos(0, 0, 0))) { //If the portal is not default coords
 					summonPortal(portal);

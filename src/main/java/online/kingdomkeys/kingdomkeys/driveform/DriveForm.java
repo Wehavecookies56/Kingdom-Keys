@@ -58,7 +58,7 @@ public abstract class DriveForm implements KKRegistryObject {
 	}
 
 	public DriveForm(String registryName, int order, boolean hasKeychain, boolean baseGrowth) {
-		this(ResourceLocation.parse(registryName), order, hasKeychain, baseGrowth);
+		this(KingdomKeys.rl(registryName), order, hasKeychain, baseGrowth);
 	}
 
 	public boolean isFakeForm(){

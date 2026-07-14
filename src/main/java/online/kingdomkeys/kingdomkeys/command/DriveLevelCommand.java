@@ -61,7 +61,7 @@ public class DriveLevelCommand extends BaseCommand{
 	private static int setValue(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
 		Collection<ServerPlayer> players = getPlayers(context, 5);
 		int level = IntegerArgumentType.getInteger(context, "level");
-		ResourceLocation form = ResourceLocation.parse(StringArgumentType.getString(context, "form"));
+		ResourceLocation form = KingdomKeys.rl(StringArgumentType.getString(context, "form"));
 
 		if(!ModDriveForms.registry.keySet().stream().toList().contains(form)) {
 			context.getSource().sendFailure(Component.literal("Form '"+form+ "' does not exist"));

@@ -7,6 +7,7 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.data.CastleOblivionData;
 import online.kingdomkeys.kingdomkeys.item.card.KeycardType;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.floor.Floor;
@@ -172,7 +173,7 @@ public class RoomData {
             type = Type.values()[tag.getInt("type")];
         }
         if (tag.contains("fixed_type")) {
-            fixedType = ModRoomTypes.registry.get().getValue(ResourceLocation.parse(tag.getString("fixed_type")));
+            fixedType = ModRoomTypes.registry.get().getValue(KingdomKeys.rl(tag.getString("fixed_type")));
         }
     }
 

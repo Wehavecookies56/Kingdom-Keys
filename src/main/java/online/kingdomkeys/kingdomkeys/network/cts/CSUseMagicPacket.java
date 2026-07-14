@@ -44,7 +44,7 @@ public record CSUseMagicPacket(String name, int allyTarget, int lockedTarget) im
 	public void handle(IPayloadContext context) {
 		Player player = context.player();
 		PlayerData playerData = PlayerData.get(player);
-        if (NeoForge.EVENT_BUS.post(new MagicSpellCastEvent(player, ResourceLocation.parse(name))).isCanceled())
+        if (NeoForge.EVENT_BUS.post(new MagicSpellCastEvent(player, KingdomKeys.rl(name))).isCanceled())
             return;
 
 		if (playerData.getMP() >= 0 && !playerData.getRecharge()) {
@@ -52,13 +52,13 @@ public record CSUseMagicPacket(String name, int allyTarget, int lockedTarget) im
 
 			if(allyTarget == -1) { // Direct magic
 				if(lockedTarget > -1) {
-					ModMagic.registry.get(ResourceLocation.parse(name)).onUse(player, player, (LivingEntity) player.level().getEntity(lockedTarget));
+					ModMagic.registry.get(KingdomKeys.rl(name)).onUse(player, player, (LivingEntity) player.level().getEntity(lockedTarget));
 				} else {
-					ModMagic.registry.get(ResourceLocation.parse(name)).onUse(player, player, null);
+					ModMagic.registry.get(KingdomKeys.rl(name)).onUse(player, player, null);
 				}
 			} else { // On party member
 				LivingEntity allyTargetEntity = (LivingEntity) player.level().getEntity(allyTarget);
-				ModMagic.registry.get(ResourceLocation.parse(name)).onUse(allyTargetEntity, player, null);
+				ModMagic.registry.get(KingdomKeys.rl(name)).onUse(allyTargetEntity, player, null);
 			}
 		}
 

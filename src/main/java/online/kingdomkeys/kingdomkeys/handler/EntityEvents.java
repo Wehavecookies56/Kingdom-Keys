@@ -440,7 +440,7 @@ public class EntityEvents {
 				});
 
 				//Data check, might be able to reduce the above code:
-				online.kingdomkeys.kingdomkeys.leveling.Level levelData = ModLevels.registry.get(KingdomKeys.rl(playerData.getChosen().toString().toLowerCase()));
+				online.kingdomkeys.kingdomkeys.leveling.Level levelData = ModLevels.registry.get(KingdomKeys.rl(playerData.getChosen().getSerializedName()));
 				if (levelData != null) {// Only run if the player has made a choice
 					//If stored is -1 (default value in the capability) set it directly to the real version without fixing
 					KingdomKeys.LOGGER.debug("Player version: " + playerData.getVer() + " leveldata version: " + levelData.getVersion());

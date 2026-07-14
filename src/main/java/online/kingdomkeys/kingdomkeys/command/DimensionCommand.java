@@ -50,7 +50,7 @@ public class DimensionCommand extends BaseCommand {
 	private static int changeDim(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
 		Collection<ServerPlayer> players = getPlayers(context, 3);
 		String dim = StringArgumentType.getString(context, "dim");
-		ResourceKey<Level> dimension = ResourceKey.create(Registries.DIMENSION, ResourceLocation.parse(dim));
+		ResourceKey<Level> dimension = ResourceKey.create(Registries.DIMENSION, KingdomKeys.rl(dim));
 		if (!ServerLifecycleHooks.getCurrentServer().levelKeys().stream().toList().contains(dimension)) {
 			context.getSource().sendFailure(Component.literal("Dimension '"+dim+ "' does not exist"));
 			return 0;

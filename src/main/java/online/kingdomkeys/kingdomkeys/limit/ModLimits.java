@@ -26,6 +26,6 @@ public class ModLimits {
 	;
 
 	private static KKSupplier<Limit> register(String name, Supplier<Limit> limitSupplier) {
-		return new KKSupplier<>(LIMITS.register(name, limitSupplier));
+		return new KKSupplier<>(KingdomKeys.rl(LIMITS.getNamespace(), name), LIMITS.register(name, limitSupplier));
 	}
 }

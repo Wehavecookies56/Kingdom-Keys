@@ -29,7 +29,7 @@ public class MeldingDataDeserializer implements JsonDeserializer<Melding>{
 						throw new JsonParseException("Output missing item/quantity: " + json);
 					}
 
-					Item keychain = BuiltInRegistries.ITEM.get(ResourceLocation.parse(outputObject.get("item").getAsString()));
+					Item keychain = BuiltInRegistries.ITEM.get(KingdomKeys.rl(outputObject.get("item").getAsString()));
 					out.setResult(keychain, outputObject.get("quantity").getAsInt());
 					out.setType(outputObject.get("type").getAsString());
 				}
@@ -41,7 +41,7 @@ public class MeldingDataDeserializer implements JsonDeserializer<Melding>{
 					}
 
 					Item result = BuiltInRegistries.ITEM.get(
-							ResourceLocation.parse(outputObject.get("item").getAsString())
+							KingdomKeys.rl(outputObject.get("item").getAsString())
 					);
 
 					int chance = outputObject.has("chance")
@@ -62,7 +62,7 @@ public class MeldingDataDeserializer implements JsonDeserializer<Melding>{
 	}
 
 	private static @NotNull Item getIngredient(JsonElement element) {
-		ResourceLocation id = ResourceLocation.parse(element.getAsString());
+		ResourceLocation id = KingdomKeys.rl(element.getAsString());
 		Item item = BuiltInRegistries.ITEM.get(id);
 		if (item == Items.AIR) {
 			throw new JsonParseException("Material supplied in recipe cannot be found in registry: " + id);

@@ -102,7 +102,7 @@ public class Sounds extends SoundDefinitionsProvider {
         add(shotlock_shot);
         add(strike_raid);
         add(wisdom_shot);
-        add(keyblade_armor, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID,"keyblade_armor2"));
+        add(keyblade_armor, KingdomKeys.rl("keyblade_armor2"));
         add(summon_armor);
         add(unsummon_armor);
         add(wall_jump);

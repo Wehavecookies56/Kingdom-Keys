@@ -2,6 +2,7 @@ package online.kingdomkeys.kingdomkeys.item.organization;
 
 import com.google.gson.*;
 import net.minecraft.resources.ResourceLocation;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -50,7 +51,7 @@ public class OrganizationDataDeserializer implements JsonDeserializer<Organizati
 					List<ResourceLocation> abilitiesArray = new ArrayList<>();
 					
 					for(int i= 0; i < abilities.size(); i++) {
-						abilitiesArray.add(ResourceLocation.parse(abilities.get(i).getAsString()));
+						abilitiesArray.add(KingdomKeys.rl(abilities.get(i).getAsString()));
 					}
 					out.setAbilities(abilitiesArray.toArray(new ResourceLocation[0]));
 					break;

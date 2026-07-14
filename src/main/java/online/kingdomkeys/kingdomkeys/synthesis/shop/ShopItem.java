@@ -4,6 +4,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import javax.annotation.Nullable;
@@ -92,7 +93,7 @@ public class ShopItem {
 	}
 
 	public void deserializeNBT(CompoundTag nbt) {
-		this.setResult(BuiltInRegistries.ITEM.get(ResourceLocation.parse(nbt.getString("result"))), nbt.getInt("amount"));
+		this.setResult(BuiltInRegistries.ITEM.get(KingdomKeys.rl(nbt.getString("result"))), nbt.getInt("amount"));
 		this.setCost(nbt.getInt("cost"));
 		this.setTier(nbt.getInt("tier"));
 		this.setMatReq(nbt.getInt("mat_req"));

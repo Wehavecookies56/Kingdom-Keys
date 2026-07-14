@@ -92,7 +92,7 @@ public class RoomStructure extends JsonRegistryObject {
     //gets structure file and caches structure dimensions if file exists
     public Optional<Resource> getStructureFile(ServerLevel level, FloorType floor) {
         String floorFolder = !this.useFloorSpecificStructure() ? "all" : floor.getRegistryName().getPath();
-        ResourceLocation structureFile = ResourceLocation.fromNamespaceAndPath(floor.getRegistryName().getNamespace(), "structure/castle_oblivion/rooms/" + floorFolder + "/" + this.getPath() + ".nbt");
+        ResourceLocation structureFile = KingdomKeys.rl(floor.getRegistryName().getNamespace(), "structure/castle_oblivion/rooms/" + floorFolder + "/" + this.getPath() + ".nbt");
         Optional<Resource> out = level.getServer().getResourceManager().getResource(structureFile);
         if (out.isEmpty() && !floor.getRegistryName().getNamespace().equals(KingdomKeys.MODID)) {
             //try KK namespace as a fallback

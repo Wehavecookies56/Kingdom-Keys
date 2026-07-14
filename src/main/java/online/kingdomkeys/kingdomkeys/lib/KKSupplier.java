@@ -7,8 +7,10 @@ import java.util.function.Supplier;
 public class KKSupplier<T extends KKRegistryObject> implements Supplier<T> {
 
     Supplier<T> supplier;
+    ResourceLocation location;
 
-    public KKSupplier(Supplier<T> supplier) {
+    public KKSupplier(ResourceLocation location, Supplier<T> supplier) {
+        this.location = location;
         this.supplier = supplier;
     }
 
@@ -18,6 +20,6 @@ public class KKSupplier<T extends KKRegistryObject> implements Supplier<T> {
     }
 
     public ResourceLocation location() {
-        return get().getRegistryName();
+        return location;
     }
 }

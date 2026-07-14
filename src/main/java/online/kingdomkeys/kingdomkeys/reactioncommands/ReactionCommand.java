@@ -6,6 +6,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.lib.KKRegistryObject;
@@ -31,7 +32,7 @@ public abstract class ReactionCommand implements KKRegistryObject {
 	}
 
 	public ReactionCommand(String registryName, boolean constantCheck, int duration) {
-		this(ResourceLocation.parse(registryName), constantCheck, duration);
+		this(KingdomKeys.rl(registryName), constantCheck, duration);
 	}
 
 	public SoundEvent getUseSound(Player player, LivingEntity target) {

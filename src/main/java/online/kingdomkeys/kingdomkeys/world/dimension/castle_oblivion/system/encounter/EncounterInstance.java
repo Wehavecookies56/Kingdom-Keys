@@ -5,6 +5,7 @@ import net.minecraft.nbt.NbtOps;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.data.CastleOblivionData;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCShowMessagesPacket;
@@ -105,7 +106,7 @@ public class EncounterInstance {
     }
 
     public EncounterInstance(CompoundTag tag) {
-        encounter = ModRoomEncounters.registry.get().getValue(ResourceLocation.parse(tag.getString("room_encounter")));
+        encounter = ModRoomEncounters.registry.get().getValue(KingdomKeys.rl(tag.getString("room_encounter")));
         state = encounter.encounter.type().decodeStart(NbtOps.INSTANCE, tag.getCompound("state")).getOrThrow();
         activeTicks = tag.getLong("active_ticks");
         isComplete = tag.getBoolean("complete");

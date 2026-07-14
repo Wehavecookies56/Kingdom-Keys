@@ -14,6 +14,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.entity.IEntityWithComplexSpawn;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSOrgPortalTPPacket;
@@ -122,7 +123,7 @@ public class OrgPortalEntity extends Entity implements IEntityWithComplexSpawn {
 
         if (hasDestination) {
             destinationPos = buffer.readBlockPos();
-            destinationDim = ResourceKey.create(Registries.DIMENSION, ResourceLocation.parse(buffer.readUtf(100)));
+            destinationDim = ResourceKey.create(Registries.DIMENSION, KingdomKeys.rl(buffer.readUtf(100)));
             shouldTeleport = buffer.readBoolean();
         } else {
             destinationPos = null;

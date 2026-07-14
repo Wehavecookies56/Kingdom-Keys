@@ -181,7 +181,7 @@ public class RoomGenerator {
                     //create block entity and load nbt
                     if (block.contains("nbt")) {
                         CompoundTag nbtData = block.getCompound("nbt");
-                        ResourceLocation blockEntityID = ResourceLocation.parse(nbtData.getString("id"));
+                        ResourceLocation blockEntityID = KingdomKeys.rl(nbtData.getString("id"));
                         BlockEntityType<?> type = BuiltInRegistries.BLOCK_ENTITY_TYPE.get(blockEntityID);
                         if (type != null) {
                             BlockEntity blockEntity = type.create(blockpos, state);

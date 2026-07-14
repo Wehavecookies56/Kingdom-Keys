@@ -5,6 +5,7 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
 import javax.annotation.Nullable;
 import java.util.LinkedList;
@@ -82,7 +83,7 @@ public class ShopList {
 		}
 		this.setRegistryName(nbt.getString("regname"));
 		if (nbt.contains("names")) {
-			this.setNames(ResourceLocation.parse(nbt.getString("names")));
+			this.setNames(KingdomKeys.rl(nbt.getString("names")));
 		}
 	}
 
@@ -90,11 +91,7 @@ public class ShopList {
 		return registryName;
 	}
 	public void setRegistryName(String registryName) {
-		this.registryName = ResourceLocation.parse(registryName);
-	}
-
-	public void setRegistryName(String namespace, String path) {
-		this.registryName = ResourceLocation.fromNamespaceAndPath(namespace, path);
+		this.registryName = KingdomKeys.rl(registryName);
 	}
 
 	public void setRegistryName(ResourceLocation registryName) {

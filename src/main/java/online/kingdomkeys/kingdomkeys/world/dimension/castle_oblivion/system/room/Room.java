@@ -65,7 +65,7 @@ public class Room {
 
     //Deserialization constructor
     public Room(CompoundTag tag) {
-        this(ModRoomTypes.registry.get().getValue(ResourceLocation.parse(tag.getString("type"))), tag.getInt("parent"), RoomPos.deserializeNBT(tag.getCompound("room_pos")), tag.getInt("value_used"));
+        this(ModRoomTypes.registry.get().getValue(KingdomKeys.rl(tag.getString("type"))), tag.getInt("parent"), RoomPos.deserializeNBT(tag.getCompound("room_pos")), tag.getInt("value_used"));
         deserializeNBT(tag);
     }
 
@@ -345,7 +345,7 @@ public class Room {
         for (int i = 0; i < doorPosSize; i++) {
             doors.put(RoomDirection.values()[doorPosTag.getInt("direction_" + i)], new Door(doorPosTag.getCompound("door_" + i)));
         }
-        structure = ModRoomStructures.registry.get().getValue(ResourceLocation.parse(tag.getString("structure")));
+        structure = ModRoomStructures.registry.get().getValue(KingdomKeys.rl(tag.getString("structure")));
         CompoundTag spawnPointsTag = tag.getCompound("spawn_points");
         int spawnPointsSize = tag.getInt("spawn_points_size");
         for (int i = 0; i < spawnPointsSize; i++) {

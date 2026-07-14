@@ -181,16 +181,16 @@ public class ClientSetup {
 	@SubscribeEvent
 	public static void registerShaders(RegisterShadersEvent event) {
 		try {
-			event.registerShader(new ShaderInstance(event.getResourceProvider(), ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID,"hp"), DefaultVertexFormat.POSITION_TEX), shaderInstance -> {
+			event.registerShader(new ShaderInstance(event.getResourceProvider(), KingdomKeys.rl("hp"), DefaultVertexFormat.POSITION_TEX), shaderInstance -> {
                 hpShader = shaderInstance;
 			});
-            event.registerShader(new ShaderInstance(event.getResourceProvider(), ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID,"focus"), DefaultVertexFormat.POSITION_TEX), shaderInstance -> {
+            event.registerShader(new ShaderInstance(event.getResourceProvider(), KingdomKeys.rl("focus"), DefaultVertexFormat.POSITION_TEX), shaderInstance -> {
                 focusShader = shaderInstance;
             });
-            event.registerShader(new ShaderInstance(event.getResourceProvider(), ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID,"shotlock"), DefaultVertexFormat.POSITION_TEX), shaderInstance -> {
+            event.registerShader(new ShaderInstance(event.getResourceProvider(), KingdomKeys.rl("shotlock"), DefaultVertexFormat.POSITION_TEX), shaderInstance -> {
                 shotlockShader = shaderInstance;
             });
-            event.registerShader(new ShaderInstance(event.getResourceProvider(), ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID,"gummi_hp"), DefaultVertexFormat.POSITION_TEX), shaderInstance -> {
+            event.registerShader(new ShaderInstance(event.getResourceProvider(), KingdomKeys.rl("gummi_hp"), DefaultVertexFormat.POSITION_TEX), shaderInstance -> {
                 gummiHPShader = shaderInstance;
             });
 		} catch (IOException e) {

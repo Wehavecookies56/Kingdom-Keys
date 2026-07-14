@@ -60,13 +60,13 @@ public class ShopScreen extends MenuFilterable {
 	}
 
 	public ShopList getShopList(){
-		return ShopListRegistry.getInstance().getRegistry().get(ResourceLocation.parse(parent.invFile));
+		return ShopListRegistry.getInstance().getRegistry().get(KingdomKeys.rl(parent.invFile));
 	}
 
 	protected void action(String string) {
 		switch (string) {
 		case "create":
-			PacketHandler.sendToServer(new CSShopBuy(ResourceLocation.parse(parent.invFile), selectedItemStack));
+			PacketHandler.sendToServer(new CSShopBuy(KingdomKeys.rl(parent.invFile), selectedItemStack));
 			minecraft.level.playSound(minecraft.player, minecraft.player.blockPosition(), ModSounds.buy.get(), SoundSource.MASTER, 1.0f, 1.0f);
 			break;
 		}
@@ -173,7 +173,7 @@ public class ShopScreen extends MenuFilterable {
 		if (selectedItemStack != ItemStack.EMPTY) {
 			boolean enoughMunny = false;
 			boolean enoughTier = false;
-			List<ShopItem> list = ShopListRegistry.getInstance().getRegistry().get(ResourceLocation.parse(parent.invFile)).getList();
+			List<ShopItem> list = ShopListRegistry.getInstance().getRegistry().get(KingdomKeys.rl(parent.invFile)).getList();
 			ShopItem item = null;
 			for(ShopItem shopItem : list) {
 				Item it = shopItem.getResult();
@@ -235,7 +235,7 @@ public class ShopScreen extends MenuFilterable {
 			double offset = boxM.getWidth() * 0.1F;
 			matrixStack.translate(boxM.getX() + offset / 2, iconPosY, 1);
 			
-			List<ShopItem> list = ShopListRegistry.getInstance().getRegistry().get(ResourceLocation.parse(parent.invFile)).getList();
+			List<ShopItem> list = ShopListRegistry.getInstance().getRegistry().get(KingdomKeys.rl(parent.invFile)).getList();
 			ShopItem item = null;
 			for(ShopItem shopItem : list) {
 				Item it = shopItem.getResult();

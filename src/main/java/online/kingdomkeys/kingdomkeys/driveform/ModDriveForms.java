@@ -30,6 +30,6 @@ public class ModDriveForms {
 		;
 
 	private static KKSupplier<DriveForm> register(String path, Supplier<DriveForm> formSupplier) {
-		return new KKSupplier<>(DRIVE_FORMS.register(path, formSupplier));
+		return new KKSupplier<>(KingdomKeys.rl(DRIVE_FORMS.getNamespace(), path), DRIVE_FORMS.register(path, formSupplier));
 	}
 }

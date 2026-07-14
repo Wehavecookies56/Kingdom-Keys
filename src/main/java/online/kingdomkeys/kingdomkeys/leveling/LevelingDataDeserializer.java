@@ -62,7 +62,7 @@ public class LevelingDataDeserializer implements JsonDeserializer<LevelingData> 
 	private ResourceLocation[] toRLArray(JsonArray array) {
 		ResourceLocation[] out = new ResourceLocation[array.size()];
 		for (int i = 0; i < array.size(); i++) {
-			out[i] = ResourceLocation.parse(array.get(i).getAsString());
+			out[i] = KingdomKeys.rl(array.get(i).getAsString());
 		}
 		return out;
 	}

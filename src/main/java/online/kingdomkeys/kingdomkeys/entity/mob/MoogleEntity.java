@@ -23,6 +23,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.entity.IEntityWithComplexSpawn;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
@@ -55,7 +56,7 @@ public class MoogleEntity extends PathfinderMob implements IEntityWithComplexSpa
     }
 
     public void setRandomName() {
-        ShopList shop = ShopListRegistry.getInstance().getValue(ResourceLocation.parse(inv));
+        ShopList shop = ShopListRegistry.getInstance().getValue(KingdomKeys.rl(inv));
         if (shop != null) {
             List<String> names = NamesListRegistry.getInstance().getValue(shop.getNames());
             if (names != null && !names.isEmpty()) {

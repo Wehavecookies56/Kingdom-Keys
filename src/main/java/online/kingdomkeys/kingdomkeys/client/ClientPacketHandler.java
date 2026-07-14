@@ -146,7 +146,7 @@ public class ClientPacketHandler {
 
     public static void syncDriveFormData(SCSyncDriveFormData message) {
         for (int i = 0; i < message.names().size(); i++) {
-            DriveForm driveform = ModDriveForms.registry.get(ResourceLocation.parse(message.names().get(i)));
+            DriveForm driveform = ModDriveForms.registry.get(KingdomKeys.rl(message.names().get(i)));
             String d = message.data().get(i);
             BufferedReader br = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(d.getBytes())));
 
@@ -193,7 +193,7 @@ public class ClientPacketHandler {
 
     public static void syncKeybladeData(SCSyncKeybladeData message) {
         for (int i = 0; i < message.names().size(); i++) {
-            KeybladeItem keyblade = (KeybladeItem) BuiltInRegistries.ITEM.get(ResourceLocation.parse(message.names().get(i)));
+            KeybladeItem keyblade = (KeybladeItem) BuiltInRegistries.ITEM.get(KingdomKeys.rl(message.names().get(i)));
             String d = message.data().get(i);
             BufferedReader br = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(d.getBytes())));
 
@@ -214,7 +214,7 @@ public class ClientPacketHandler {
 
     public static void syncMagicData(SCSyncMagicData message) {
         for (int i = 0; i < message.names().size(); i++) {
-            Magic magic = ModMagic.registry.get(ResourceLocation.parse(message.names().get(i)));
+            Magic magic = ModMagic.registry.get(KingdomKeys.rl(message.names().get(i)));
             String d = message.data().get(i);
             BufferedReader br = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(d.getBytes())));
 
@@ -233,7 +233,7 @@ public class ClientPacketHandler {
 
     public static void syncLevelingData(SCSyncLevelingData message) {
         for (int i = 0; i < message.names().size(); i++) {
-            online.kingdomkeys.kingdomkeys.leveling.Level level = ModLevels.registry.get(ResourceLocation.parse(message.names().get(i)));
+            online.kingdomkeys.kingdomkeys.leveling.Level level = ModLevels.registry.get(KingdomKeys.rl(message.names().get(i)));
             String d = message.data().get(i);
             BufferedReader br = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(d.getBytes())));
 
@@ -251,7 +251,7 @@ public class ClientPacketHandler {
 
     public static void syncLimitData(SCSyncLimitData message) {
         for (int i = 0; i < message.names().size(); i++) {
-            Limit limit = ModLimits.registry.get(ResourceLocation.parse(message.names().get(i)));
+            Limit limit = ModLimits.registry.get(KingdomKeys.rl(message.names().get(i)));
             String d = message.data().get(i);
             BufferedReader br = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(d.getBytes())));
 
@@ -270,7 +270,7 @@ public class ClientPacketHandler {
 
     public static void syncSavePointData(SCSyncSavePointData message) {
         for (int i = 0; i < message.names().size(); i++) {
-            SavePoint savepoint = ModSavePoints.registry.get(ResourceLocation.parse(message.names().get(i)));
+            SavePoint savepoint = ModSavePoints.registry.get(KingdomKeys.rl(message.names().get(i)));
             String d = message.data().get(i);
             BufferedReader br = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(d.getBytes())));
 
@@ -290,7 +290,7 @@ public class ClientPacketHandler {
 
     public static void syncOrgData(SCSyncOrganizationData message) {
         for (int i = 0; i < message.names().size(); i++) {
-            IOrgWeapon weapon = (IOrgWeapon) BuiltInRegistries.ITEM.get(ResourceLocation.parse(message.names().get(i)));
+            IOrgWeapon weapon = (IOrgWeapon) BuiltInRegistries.ITEM.get(KingdomKeys.rl(message.names().get(i)));
 
             String d = message.data().get(i);
             BufferedReader br = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(d.getBytes())));

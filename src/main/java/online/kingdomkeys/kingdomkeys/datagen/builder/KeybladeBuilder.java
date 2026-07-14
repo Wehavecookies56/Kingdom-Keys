@@ -7,6 +7,7 @@ import com.google.gson.JsonObject;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.client.model.generators.ModelFile;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.datagen.init.KeybladeStats;
 import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeLevel;
 
@@ -33,9 +34,9 @@ public class KeybladeBuilder extends ModelFile {
         Preconditions.checkNotNull(keyChain, "Texture must not be null");
         ResourceLocation asLoc;
         if (keyChain.contains(":")) {
-            asLoc = ResourceLocation.parse(keyChain);
+            asLoc = KingdomKeys.rl(keyChain);
         } else {
-            asLoc = ResourceLocation.fromNamespaceAndPath(getLocation().getNamespace(), keyChain);
+            asLoc = KingdomKeys.rl(getLocation().getNamespace(), keyChain);
         }
         return keychain(asLoc);
     }

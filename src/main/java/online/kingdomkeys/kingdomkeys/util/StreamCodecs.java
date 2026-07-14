@@ -9,6 +9,7 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.phys.Vec3;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.network.stc.SCOpenSavePointScreen;
 import online.kingdomkeys.kingdomkeys.world.SavePointStorage;
 
@@ -42,7 +43,7 @@ public class StreamCodecs {
             int size = buffer.readInt();
             for (int i = 0; i < size; i++) {
                 int valueSize = buffer.readInt();
-                ResourceLocation location = ResourceLocation.parse(buffer.readUtf());
+                ResourceLocation location = KingdomKeys.rl(buffer.readUtf());
                 List<String> list = new ArrayList<>();
                 for (int j = 0; j < valueSize; j++) {
                     list.add(buffer.readUtf());

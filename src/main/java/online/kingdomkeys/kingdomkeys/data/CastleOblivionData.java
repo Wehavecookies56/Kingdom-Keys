@@ -12,6 +12,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.saveddata.SavedData;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCastleOblivionInteriorData;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.floor.Floor;
@@ -200,7 +201,7 @@ public class CastleOblivionData {
             int size = tag.getInt("interiors_size");
             data.interiors.clear();
             for (int i = 0; i < size; i++) {
-                data.interiors.put(tag.getUUID("interior_uuid_" + i), ResourceLocation.parse(tag.getString("interior_dimensionrl_" + i)));
+                data.interiors.put(tag.getUUID("interior_uuid_" + i), KingdomKeys.rl(tag.getString("interior_dimensionrl_" + i)));
             }
             return data;
         }

@@ -433,7 +433,7 @@ public class Floor {
 
     public void deserializeNBT(CompoundTag tag) {
         floorID = tag.getInt("id");
-        type = ModJsonRegistries.FLOOR_TYPE.get().getValue(ResourceLocation.parse(tag.getString("floor_type")));
+        type = ModJsonRegistries.FLOOR_TYPE.get().getValue(KingdomKeys.rl(tag.getString("floor_type")));
         rooms.clear();
         int roomssize = tag.getInt("rooms_size");
         CompoundTag roomsTag = tag.getCompound("rooms");

@@ -368,7 +368,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		this.setDP(nbt.getDouble("dp"));
 		this.setMaxDP(nbt.getDouble("max_dp"));
 		this.setFP(nbt.getDouble("fp"));
-		this.setActiveDriveForm(ResourceLocation.parse(nbt.getString("drive_form")));
+		this.setActiveDriveForm(KingdomKeys.rl(nbt.getString("drive_form")));
 		this.setAntiPoints(nbt.getInt("anti_points"));
 		this.setReflectTicks(nbt.getInt("reflect_ticks"), nbt.getInt("reflect_level"));
 		this.setReflectActive(nbt.getBoolean("reflect_active"));
@@ -378,7 +378,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		this.setSacrifice(SoAState.fromByte(nbt.getByte("soa_sacrifice")));
 		CompoundTag returnCompound = nbt.getCompound("soa_return_pos");
 		this.setReturnLocation(new Vec3(returnCompound.getDouble("x"), returnCompound.getDouble("y"), returnCompound.getDouble("z")));
-		this.setReturnDimension(ResourceKey.create(Registries.DIMENSION, ResourceLocation.parse(nbt.getString("soa_return_dim"))));
+		this.setReturnDimension(ResourceKey.create(Registries.DIMENSION, KingdomKeys.rl(nbt.getString("soa_return_dim"))));
 		CompoundTag choicePedestal = nbt.getCompound("soa_choice_pedestal");
 		this.setChoicePedestal(new BlockPos(choicePedestal.getInt("x"), choicePedestal.getInt("y"), choicePedestal.getInt("z")));
 		CompoundTag sacrificePedestal = nbt.getCompound("soa_sacrifice_pedestal");
@@ -386,14 +386,14 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 
 		recipeList.clear();
 		for (String key : nbt.getCompound("recipes").getAllKeys()) {
-			this.getKnownRecipeList().add(ResourceLocation.parse(key));
+			this.getKnownRecipeList().add(KingdomKeys.rl(key));
 		}
 		Collections.sort(recipeList);
 
 		magicCastMap.clear();
 		for (String magicName : nbt.getCompound("magic_casts").getAllKeys()) {
 			int casts = nbt.getCompound("magic_casts").getInt(magicName);
-			ResourceLocation location = ResourceLocation.parse(magicName);
+			ResourceLocation location = KingdomKeys.rl(magicName);
 			if (ModMagic.registry.containsKey(location)) {
 				this.getMagicsCastMap().put(location, casts);
 			}
@@ -401,7 +401,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 
 		shotlockList.clear();
 		for (String key : nbt.getCompound("shotlocks").getAllKeys()) {
-			ResourceLocation location = ResourceLocation.parse(key);
+			ResourceLocation location = KingdomKeys.rl(key);
 			if (ModShotlocks.registry.containsKey(location)) {
 				this.getShotlockList().add(location);
 			}
@@ -411,14 +411,14 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		ListTag shList = nbt.getList("permanent_shotlocks", Tag.TAG_STRING);
 		for (int i = 0; i < shList.size(); i++) {
 			String shotlockName = shList.getString(i);
-			ResourceLocation id = ResourceLocation.parse(shotlockName);
+			ResourceLocation id = KingdomKeys.rl(shotlockName);
 			if (ModShotlocks.registry.containsKey(id)) {
 				pShotlocksList.add(id);
 			}
 		}
 
 		String shotlock = nbt.getString("equipped_shotlock");
-		ResourceLocation shotlockRL = !shotlock.isEmpty() ? ResourceLocation.parse(shotlock) : null;
+		ResourceLocation shotlockRL = !shotlock.isEmpty() ? KingdomKeys.rl(shotlock) : null;
 		this.setEquippedShotlock(shotlockRL);
 
         shotlockEnemies.clear();
@@ -431,7 +431,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 
 		driveForms.clear();
 		for (String driveFormName : nbt.getCompound("drive_forms").getAllKeys()) {
-			ResourceLocation location = ResourceLocation.parse(driveFormName);
+			ResourceLocation location = KingdomKeys.rl(driveFormName);
 			if (ModDriveForms.registry.containsKey(location)) {
 				this.getDriveFormMap().put(location, nbt.getCompound("drive_forms").getIntArray(driveFormName));
 			}
@@ -439,7 +439,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 
 		abilityMap.clear();
 		for (String abilityName : nbt.getCompound("abilities").getAllKeys()) {
-			ResourceLocation location = ResourceLocation.parse(abilityName);
+			ResourceLocation location = KingdomKeys.rl(abilityName);
 			if (ModAbilities.registry.containsKey(location)) {
 				this.getAbilityMap().put(location, nbt.getCompound("abilities").getIntArray(abilityName));
 			}
@@ -450,7 +450,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 
 		for (int i = 0; i < list.size(); i++) {
 			String abilityName = list.getString(i);
-			ResourceLocation id = ResourceLocation.parse(abilityName);
+			ResourceLocation id = KingdomKeys.rl(abilityName);
 			if (ModAbilities.registry.containsKey(id)) {
 				pAbilitiesList.add(id);
 			}
@@ -462,12 +462,12 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 			CompoundTag entryTag = rcList.getCompound(i);
 			String key = entryTag.getString("key");
 			int value = entryTag.getInt("value");
-			this.getReactionCommands().put(ResourceLocation.parse(key), value);
+			this.getReactionCommands().put(KingdomKeys.rl(key), value);
 		}
 
 		equippedKeychains.clear();
 		CompoundTag keychainsNBT = nbt.getCompound("keychains");
-		keychainsNBT.getAllKeys().forEach((chain) -> this.setNewKeychain(ResourceLocation.parse(chain), ItemStack.parseOptional(provider, keychainsNBT.getCompound(chain))));
+		keychainsNBT.getAllKeys().forEach((chain) -> this.setNewKeychain(KingdomKeys.rl(chain), ItemStack.parseOptional(provider, keychainsNBT.getCompound(chain))));
 
 		equippedItems.clear();
 		CompoundTag itemsNBT = nbt.getCompound("items");
@@ -507,12 +507,12 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 
 		materials.clear();
 		for (String mat : nbt.getCompound("materials").getAllKeys()) {
-			this.getMaterialMap().put(ResourceLocation.parse(mat), nbt.getCompound("materials").getInt(mat));
+			this.getMaterialMap().put(KingdomKeys.rl(mat), nbt.getCompound("materials").getInt(mat));
 		}
 
 		totalMaterials.clear();
 		for (String mat : nbt.getCompound("total_materials").getAllKeys()) {
-			this.getTotalMaterialMap().put(ResourceLocation.parse(mat), nbt.getCompound("total_materials").getInt(mat));
+			this.getTotalMaterialMap().put(KingdomKeys.rl(mat), nbt.getCompound("total_materials").getInt(mat));
 		}
 
 		this.setLimitCooldownTicks(nbt.getInt("limitCooldownTicks"));
@@ -549,7 +549,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 
 		synthesisedRecipes.clear();
 		for (String key : nbt.getCompound("synthesised_recipes").getAllKeys()) {
-			if (RecipeRegistry.getInstance().getRegistry().containsKey(ResourceLocation.parse(key))) {
+			if (RecipeRegistry.getInstance().getRegistry().containsKey(KingdomKeys.rl(key))) {
 				this.getSynthesisedRecipes().add(key);
 			}
 		}
@@ -1683,7 +1683,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 	}
 
 	public void unlockWeapon(String registryName) {
-		Item weapon = BuiltInRegistries.ITEM.get(ResourceLocation.parse(registryName));
+		Item weapon = BuiltInRegistries.ITEM.get(KingdomKeys.rl(registryName));
 		if (weapon != null) {
 			ItemStack weaponUnlock = new ItemStack(weapon);
 			if (!weaponUnlocks.contains(weaponUnlock)) {
@@ -1972,7 +1972,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		this.synthesisedRecipes = synthesisedRecipes;
 	}
 	public void addSynthesisedRecipe(String recipe){
-		if(RecipeRegistry.getInstance().containsKey(ResourceLocation.parse(recipe)))
+		if(RecipeRegistry.getInstance().containsKey(KingdomKeys.rl(recipe)))
 			this.synthesisedRecipes.add(recipe);
 		else
 			KingdomKeys.LOGGER.warn("Recipe does not exist");
@@ -2219,7 +2219,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		if(choice.get() > 4) {
 			//After choice has been set, set the player's version to the default value from the datapack, as if it's a new player no fixing is needed, and if it's an old player who changed it with command he should have been fixed by it (?)
 			//KingdomKeys.LOGGER.debug("[DEBUG] Set choice: "+choice);
-			online.kingdomkeys.kingdomkeys.leveling.Level levelData = ModLevels.registry.get(KingdomKeys.rl(choice.toString().toLowerCase()));
+			online.kingdomkeys.kingdomkeys.leveling.Level levelData = ModLevels.registry.get(KingdomKeys.rl(choice.getSerializedName()));
 			if(levelData == null) {
 				//KingdomKeys.LOGGER.debug("[DEBUG] levelData is null, choice "+choice+" does not exist or there was an error");
 				return;
