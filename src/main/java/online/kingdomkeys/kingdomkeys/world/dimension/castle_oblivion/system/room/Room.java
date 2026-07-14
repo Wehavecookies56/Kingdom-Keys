@@ -162,6 +162,10 @@ public class Room {
         return valueUsed;
     }
 
+    public void setValueUsed(int valueUsed) {
+        this.valueUsed = valueUsed;
+    }
+
     public RoomData getRoomData(CastleOblivionData.InteriorData data) {
         return getParent(data).getRoom(getRoomPos());
     }

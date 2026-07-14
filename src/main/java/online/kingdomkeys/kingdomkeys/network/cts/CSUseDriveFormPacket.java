@@ -38,7 +38,7 @@ public record CSUseDriveFormPacket(ResourceLocation form) implements Packet {
 			DriveForm form = ModDriveForms.ANTI.get();
 			form.initDrive(player);
 		} else { //if target is a normal form or revert
-			if (!playerData.isFormActive(ModDriveForms.NONE) && form.equals(DriveForm.NONE)) { // If is in a drive form and the target is "" (player)
+			if (!playerData.noFormActive() && form.equals(DriveForm.NONE)) { // If is in a drive form and the target is "" (player)
 				DriveForm form = ModDriveForms.registry.get(playerData.getActiveDriveForm());
 				form.endDrive(player);
 			} else if (!form.equals(DriveForm.NONE)) { // If is not in a form and wants to drive

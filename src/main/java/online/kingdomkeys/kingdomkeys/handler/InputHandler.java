@@ -182,7 +182,7 @@ public class InputHandler {
     }
 
     public void summonKeyblade() {
-        if (playerData.isFormActive(ModDriveForms.NONE)) {
+        if (playerData.noFormActive()) {
             if(KingdomKeys.efmLoaded) {
                 if(Utils.findSummoned(player.getInventory(), playerData.getEquippedKeychain(DriveForm.NONE)) == -1 && playerData.getAlignment() == OrgMember.NONE) {
                     if (!playerData.isAbilityEquipped(ModAbilities.SYNCH_BLADE)) {
@@ -370,7 +370,7 @@ public class InputHandler {
         // Wisdom Form
         if (playerData.isFormActive(ModDriveForms.WISDOM)) {
             power = Constants.WISDOM_QR[wisdomLevel];
-        } else if (playerData.isFormActive(ModDriveForms.NONE) || form.getBaseGrowthAbilities()) { //Base
+        } else if (playerData.noFormActive() || form.getBaseGrowthAbilities()) { //Base
             if (wisdomLevel > 2) {
                 power = Constants.WISDOM_QR[wisdomLevel - 2];
             }
@@ -390,7 +390,7 @@ public class InputHandler {
 
             double power = 0;
 
-            if (playerData.isFormActive(ModDriveForms.NONE)) { //Base
+            if (playerData.noFormActive()) { //Base
                 power = playerData.getNumberOfAbilitiesEquipped(ModAbilities.AIR_SLIDE) * 0.5F;
             }
             player.push(motionX * power, 0, motionZ * power);
@@ -409,7 +409,7 @@ public class InputHandler {
 
         if (playerData.isFormActive(ModDriveForms.LIMIT)) {
             power = Constants.LIMIT_DR[limitLevel];
-        } else if (playerData.isFormActive(ModDriveForms.NONE) || form.getBaseGrowthAbilities()) { //Base
+        } else if (playerData.noFormActive() || form.getBaseGrowthAbilities()) { //Base
             if (limitLevel > 2) {
                 power = Constants.LIMIT_DR[limitLevel - 2];
             }

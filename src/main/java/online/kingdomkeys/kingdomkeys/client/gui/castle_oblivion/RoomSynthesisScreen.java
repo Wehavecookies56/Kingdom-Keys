@@ -228,7 +228,7 @@ public class RoomSynthesisScreen extends MenuBackground {
 						if (mapCardItem.getCategory() != CardCategory.YELLOW && mapCardItem.getCategory() != CardCategory.RGB) {
 							matrixStack.pushPose();
 							matrixStack.scale(0.6F, 0.8F, 1);
-							guiGraphics.drawString(minecraft.font, Component.literal(mapCardItem.getCardValue(hoveredCard.stack)+"").withStyle(ClientUtils.KK_Font_EXP), 1, 3, 0xFFDD00);
+							guiGraphics.drawString(minecraft.font, Component.literal(MapCardItem.getCardValue(hoveredCard.stack)+"").withStyle(ClientUtils.KK_Font_EXP), 1, 3, 0xFFDD00);
 							matrixStack.popPose();
 						}
 

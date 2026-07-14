@@ -12,6 +12,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.item.ICreativeTab;
 import online.kingdomkeys.kingdomkeys.item.ModComponents;
 import online.kingdomkeys.kingdomkeys.util.Utils;
@@ -63,7 +64,7 @@ public class MapCardItem extends Item implements ICreativeTab {
 
     @Override
     public void inventoryTick(ItemStack pStack, Level pLevel, Entity pEntity, int pSlotId, boolean pIsSelected) {
-        if (!pStack.has(ModComponents.CARD_VALUE)) {
+        if (!pStack.has(ModComponents.CARD_VALUE) || (pEntity instanceof Player player && player.isCreative())) {
             initialize(pStack);
         }
         super.inventoryTick(pStack, pLevel, pEntity, pSlotId, pIsSelected);

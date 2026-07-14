@@ -33,7 +33,7 @@ public class DriveFormMaster extends DriveForm {
 		if (playerData != null) {
 			// Drive Form abilities
 			DriveForm form = ModDriveForms.registry.get(playerData.getActiveDriveForm());
-			if (playerData.isFormActive(ModDriveForms.MASTER) || (playerData.isFormActive(ModDriveForms.NONE) || form.getBaseGrowthAbilities()) && (playerData.getDriveFormMap().containsKey(ModDriveForms.MASTER.location()) && playerData.getDriveFormLevel(ModDriveForms.MASTER.location()) >= 3 && playerData.getEquippedAbilityLevel(ModAbilities.AERIAL_DODGE.location()) != null && playerData.getEquippedAbilityLevel(ModAbilities.AERIAL_DODGE.location())[1] > 0)) {
+			if (playerData.isFormActive(ModDriveForms.MASTER) || (playerData.noFormActive() || form.getBaseGrowthAbilities()) && (playerData.getDriveFormMap().containsKey(ModDriveForms.MASTER.location()) && playerData.getDriveFormLevel(ModDriveForms.MASTER.location()) >= 3 && playerData.getEquippedAbilityLevel(ModAbilities.AERIAL_DODGE.location()) != null && playerData.getEquippedAbilityLevel(ModAbilities.AERIAL_DODGE.location())[1] > 0)) {
 				handleAerialDodge(player, playerData);
 			}
 		}
@@ -50,7 +50,7 @@ public class DriveFormMaster extends DriveForm {
 						if (!playerData.hasJumpedAerialDodge()) {
 							playerData.setHasJumpedAerialDodge(true);
 							player.jumpFromGround();
-							int jumpLevel = playerData.isFormActive(ModDriveForms.NONE) ? playerData.getDriveFormLevel(ModDriveForms.MASTER.location()) - 2 : playerData.getDriveFormLevel(ModDriveForms.MASTER.location());// TODO eventually replace it with the skill
+							int jumpLevel = playerData.noFormActive() ? playerData.getDriveFormLevel(ModDriveForms.MASTER.location()) - 2 : playerData.getDriveFormLevel(ModDriveForms.MASTER.location());// TODO eventually replace it with the skill
 							float boost = DriveForm.MASTER_AERIAL_DODGE_BOOST[jumpLevel];
 							player.setDeltaMovement(player.getDeltaMovement().multiply(new Vec3(boost, boost, boost)));
 							PacketHandler.sendToServer(new CSSetAerialDodgeTicksPacket(true, 10));

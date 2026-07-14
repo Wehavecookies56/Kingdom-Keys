@@ -49,7 +49,7 @@ public class ReactionAutoForm extends ReactionCommand {
 			player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.drive.get(), SoundSource.PLAYERS, 1F, 1F);
 			PlayerData playerData = PlayerData.get(player);
 			
-			if (!playerData.isFormActive(ModDriveForms.NONE) && form.equals(DriveForm.NONE)) { // If is in a drive form and the target is "" (player)
+			if (!playerData.noFormActive() && form.equals(DriveForm.NONE)) { // If is in a drive form and the target is "" (player)
 				DriveForm forma = ModDriveForms.registry.get(playerData.getActiveDriveForm());
 				forma.endDrive(player);
 				if (!forma.getBaseGrowthAbilities()) {
@@ -94,7 +94,7 @@ public class ReactionAutoForm extends ReactionCommand {
 		if(playerData != null) {
 			if(Utils.isPlayerLowHP(player)) {
 				if(playerData.getAlignment() == OrgMember.NONE) {
-					if(playerData.isFormActive(ModDriveForms.NONE)) {
+					if(playerData.noFormActive()) {
 						if(playerData.getDP() >= ModDriveForms.registry.get(form).getDriveCost()) {
                             return playerData.getEquippedAbilityLevel(abilityName)[1] > 0;
 						}

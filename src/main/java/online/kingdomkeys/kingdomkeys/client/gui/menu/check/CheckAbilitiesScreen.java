@@ -183,7 +183,7 @@ public class CheckAbilitiesScreen extends MenuBackground {
 			}
 			
 			//Synch blade Keyblade
-			if (playerData.isFormActive(ModDriveForms.NONE)){
+			if (playerData.noFormActive()){
 				if(playerData.getAbilityMap().containsKey(ModAbilities.SYNCH_BLADE.location()) && playerData.getAbilityMap().get(ModAbilities.SYNCH_BLADE.location())[1] > 0 && !ItemStack.matches(playerData.getEquippedKeychain(DriveForm.SYNCH_BLADE), ItemStack.EMPTY)) {
 					List<ResourceLocation> abilitiesList = Utils.getKeybladeAbilitiesAtLevel(playerData.getEquippedKeychain(DriveForm.SYNCH_BLADE).getItem(), ((IKeychain) playerData.getEquippedKeychain(DriveForm.SYNCH_BLADE).getItem()).toSummon().getKeybladeLevel(playerData.getEquippedKeychain(DriveForm.SYNCH_BLADE)));
 					for (ResourceLocation a : abilitiesList) {

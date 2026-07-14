@@ -150,7 +150,7 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 					}
 					if (mainChain != null) {
 						ItemStack formChain = null;
-						if (!playerData.isFormActive(ModDriveForms.NONE)) {
+						if (!playerData.noFormActive()) {
 							formChain = playerData.getEquippedKeychain(playerData.getActiveDriveForm());
 						} else {
 							if(playerData.isAbilityEquipped(ModAbilities.SYNCH_BLADE)) {

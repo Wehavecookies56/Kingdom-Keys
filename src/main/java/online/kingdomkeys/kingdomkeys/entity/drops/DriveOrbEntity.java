@@ -35,7 +35,7 @@ public class DriveOrbEntity extends ItemDropEntity {
 		float finalValue = value;
 		if (playerData.isAbilityEquipped(ModAbilities.DRIVE_BOOST) && playerData.getRecharge())
 			finalValue *=2 ;
-		if(playerData.isFormActive(ModDriveForms.NONE))
+		if(playerData.noFormActive())
 			playerData.addDP(player,finalValue);
 		else {
 			playerData.addFP(finalValue);

@@ -20,7 +20,7 @@ public class NoDriveEffect extends MobEffect {
             PlayerData playerData = PlayerData.get(player);
             if(playerData != null){
                 DriveForm form = ModDriveForms.registry.get(playerData.getActiveDriveForm());
-                if(form != null && !playerData.isFormActive(ModDriveForms.NONE)){
+                if(form != null && !playerData.noFormActive()){
                     form.endDrive(player);
                 }
             }

@@ -6,8 +6,8 @@ import java.util.function.Supplier;
 
 public class KKSupplier<T extends KKRegistryObject> implements Supplier<T> {
 
-    Supplier<T> supplier;
-    ResourceLocation location;
+    final Supplier<T> supplier;
+    final ResourceLocation location;
 
     public KKSupplier(ResourceLocation location, Supplier<T> supplier) {
         this.location = location;

@@ -1017,6 +1017,10 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		return driveForm;
 	}
 
+	public boolean noFormActive() {
+		return isFormActive(ModDriveForms.NONE);
+	}
+
 	public boolean isFormActive(KKSupplier<DriveForm> form) {
 		return getActiveDriveForm().equals(form.location());
 	}

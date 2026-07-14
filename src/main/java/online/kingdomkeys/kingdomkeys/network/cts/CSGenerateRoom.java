@@ -10,18 +10,24 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.data.CastleOblivionData;
 import online.kingdomkeys.kingdomkeys.entity.block.CardDoorTileEntity;
+import online.kingdomkeys.kingdomkeys.item.card.CardCategory;
 import online.kingdomkeys.kingdomkeys.item.card.MapCardItem;
 import online.kingdomkeys.kingdomkeys.network.Packet;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCastleOblivionInteriorData;
 import online.kingdomkeys.kingdomkeys.network.stc.SCUpdateCORooms;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.DoorData;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.Room;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.RoomGenerator;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.RoomType;
+
+import java.util.EnumMap;
+import java.util.Optional;
 
 public record CSGenerateRoom(ItemStack stack, BlockPos pos) implements Packet {
 
@@ -50,14 +56,38 @@ public record CSGenerateRoom(ItemStack stack, BlockPos pos) implements Packet {
 							type = data.getFixedType().get();
 						}
 						Room currentRoom = interiorData.getRoomAtPos(pos);
-						Room newRoom = RoomGenerator.INSTANCE.generateRoom((ServerLevel) level, data, type, currentRoom, te.getDirection(), MapCardItem.getCardValue(stack));
+						int cardValue = MapCardItem.getCardValue(stack);
+						int currentValue = currentRoom.getValueUsed();
+						Optional<EnumMap<CardCategory, DoorData.CardCriteria>> oldCriteria = data.getGenerated().map(oldRoom -> {
+							BlockPos oldDoorPos = data.getGenerated().get().doors.get(te.getDirection().opposite()).pos();
+							CardDoorTileEntity oldTE = (CardDoorTileEntity) level.getBlockEntity(oldDoorPos);
+							if (oldTE != null) {
+								return oldTE.getData().getCardCriteria();
+							}
+                            return null;
+                        });
+						Room newRoom = RoomGenerator.INSTANCE.generateRoom((ServerLevel) level, data, type, currentRoom, te.getDirection(), cardValue);
 						if (newRoom != null) {
 							BlockPos destination = newRoom.doors.get(te.getDirection().opposite()).pos();
 							CardDoorTileEntity destTe = (CardDoorTileEntity) level.getBlockEntity(destination);
 							te.openDoor(true);
 							te.getDestinationRoom().setGenerated(newRoom);
+							currentRoom.setValueUsed(cardValue);
 							destTe.openDoor(true);
 							destTe.setDestinationRoom(te.getParentRoom());
+							if (te.getData().getType() == DoorData.Type.NORMAL) {
+								te.getData().generateCardCriteria(cardValue);
+								oldCriteria.ifPresentOrElse(criteria -> {
+									destTe.getData().generateCardCriteria(criteria);
+								}, () -> {
+									destTe.getData().generateCardCriteria(currentValue);
+								});
+								destTe.setCurrentCriteria(destTe.getData().getCardCriteria());
+							}
+
+							interiorData.setDirty();
+							level.sendBlockUpdated(pos, level.getBlockState(pos), level.getBlockState(pos), Block.UPDATE_CLIENTS);
+							level.sendBlockUpdated(destination, level.getBlockState(destination), level.getBlockState(destination), Block.UPDATE_CLIENTS);
 
 							PacketHandler.sendTo(new SCSyncCastleOblivionInteriorData(interiorData, level), (ServerPlayer) player);
 							PacketHandler.sendTo(new SCUpdateCORooms(interiorData.getFloorByID(currentRoom.parentFloor).getRooms()), (ServerPlayer) player);

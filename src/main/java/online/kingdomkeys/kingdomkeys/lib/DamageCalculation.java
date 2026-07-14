@@ -39,7 +39,7 @@ public class DamageCalculation {
             
             if(keyblade != null) {
 	            damage = (float) (keyblade.getMagic(stack) + playerData.getMagic(true));
-	            if(!playerData.isFormActive(ModDriveForms.NONE)) {
+	            if(!playerData.noFormActive()) {
 	            	DriveForm form = ModDriveForms.registry.get(playerData.getActiveDriveForm());
 	            	damage *= form.getMagMult();
 	            }
@@ -137,7 +137,7 @@ public class DamageCalculation {
             if(keyblade != null) {
                 damage = (float) (keyblade.getStrength(stack) + playerData.getStrength(true));
 	
-	            if(!playerData.isFormActive(ModDriveForms.NONE)) {
+	            if(!playerData.noFormActive()) {
 	            	DriveForm form = ModDriveForms.registry.get(playerData.getActiveDriveForm());
 	            	damage *= form.getStrMult();
 	            }

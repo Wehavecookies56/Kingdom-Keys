@@ -113,7 +113,7 @@ public class CommandMenuGui extends OverlayBase {
 							if (item.isVisible()) {
 								PlayerData playerData = PlayerData.get(minecraft.player);
 								item.setActive(!(playerData.isFormActive(ModDriveForms.ANTI) && !playerData.isAbilityEquipped(ModAbilities.DARK_DOMINATION) && EntityEvents.threatLevel == EntityEvents.ThreatLevel.HOSTILES));
-								if (PlayerData.get(minecraft.player).isFormActive(ModDriveForms.NONE)) {
+								if (PlayerData.get(minecraft.player).noFormActive()) {
 									item.setVisible(false);
 									item.getParent().getChild(drive).setVisible(true);
 								}
@@ -389,7 +389,7 @@ public class CommandMenuGui extends OverlayBase {
 				item.setTextColour(color);
 				item.setMessage(Component.translatable(Strings.Gui_CommandMenu_Drive));
 			}
-			if (!playerData.isFormActive(ModDriveForms.NONE)) { //while in a drive form
+			if (!playerData.noFormActive()) { //while in a drive form
 				item.setVisible(false);
 				item.getParent().getChild(revert).setVisible(true);
 			}

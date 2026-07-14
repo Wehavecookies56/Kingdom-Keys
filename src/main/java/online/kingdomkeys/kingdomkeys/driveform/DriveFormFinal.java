@@ -60,7 +60,7 @@ public class DriveFormFinal extends DriveForm {
 			}
 
 			DriveForm form = ModDriveForms.registry.get(playerData.getActiveDriveForm());
-			if (playerData.isFormActive(ModDriveForms.FINAL) || (playerData.isFormActive(ModDriveForms.NONE) || form.getBaseGrowthAbilities()) && (playerData.getDriveFormMap().containsKey(ModDriveForms.FINAL.location()) && playerData.getDriveFormLevel(ModDriveForms.FINAL.location()) >= 3 && playerData.getEquippedAbilityLevel(ModAbilities.GLIDE.location()) != null && playerData.getEquippedAbilityLevel(ModAbilities.GLIDE.location())[1] > 0)) {
+			if (playerData.isFormActive(ModDriveForms.FINAL) || (playerData.noFormActive() || form.getBaseGrowthAbilities()) && (playerData.getDriveFormMap().containsKey(ModDriveForms.FINAL.location()) && playerData.getDriveFormLevel(ModDriveForms.FINAL.location()) >= 3 && playerData.getEquippedAbilityLevel(ModAbilities.GLIDE.location()) != null && playerData.getEquippedAbilityLevel(ModAbilities.GLIDE.location())[1] > 0)) {
 				handleGlide(player, playerData);
 			}
 
@@ -121,7 +121,7 @@ public class DriveFormFinal extends DriveForm {
 		}
 
 		if (playerData.getIsGliding()) {
-			int glideLevel = playerData.isFormActive(ModDriveForms.NONE) ? playerData.getDriveFormLevel(ModDriveForms.FINAL.location()) - 2 : playerData.getDriveFormLevel(ModDriveForms.FINAL.location());
+			int glideLevel = playerData.noFormActive() ? playerData.getDriveFormLevel(ModDriveForms.FINAL.location()) - 2 : playerData.getDriveFormLevel(ModDriveForms.FINAL.location());
 			float glide = DriveForm.FINAL_GLIDE[glideLevel];
 			float limit = DriveForm.FINAL_GLIDE_SPEED[glideLevel];
 

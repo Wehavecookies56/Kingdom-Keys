@@ -69,7 +69,18 @@ public class DoorData {
         }
     }
 
-    public void setLockedByDefault() {
+    public void generateCardCriteria(EnumMap<CardCategory, CardCriteria> oldCriteria) {
+        if (oldCriteria.size() == cardCriteria.size()) {
+            for (CardCategory category : oldCriteria.keySet()) {
+                if (!cardCriteria.containsKey(category)) {
+                    return;
+                }
+            }
+            cardCriteria.putAll(oldCriteria);
+        }
+    }
+
+        public void setLockedByDefault() {
         this.lockedByDefault = true;
     }
 

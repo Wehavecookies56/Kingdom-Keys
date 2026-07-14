@@ -518,7 +518,7 @@ public class EntityEvents {
 						PacketHandler.syncToAllAround(player, playerData);
 					}
 				}
-			} else if (!playerData.isFormActive(ModDriveForms.NONE)) {
+			} else if (!playerData.noFormActive()) {
 				ModDriveForms.registry.get(playerData.getActiveDriveForm()).updateDrive(player);
 			}
 			// Limit recharge system
@@ -742,7 +742,7 @@ public class EntityEvents {
 				playerData = PlayerData.get(player);
 				if (playerData != null) {
 					// Drive form speed
-					if (!playerData.isFormActive(ModDriveForms.NONE)) {
+					if (!playerData.noFormActive()) {
 						DriveForm form = ModDriveForms.registry.get(playerData.getActiveDriveForm());
 						if (player.onGround() && player.getBlockStateOn().getFriction(player.level(), player.blockPosition(), player) <= 0.6F) {
 							player.setDeltaMovement(player.getDeltaMovement().multiply(new Vec3(form.getSpeedMult(), 1, form.getSpeedMult())));
