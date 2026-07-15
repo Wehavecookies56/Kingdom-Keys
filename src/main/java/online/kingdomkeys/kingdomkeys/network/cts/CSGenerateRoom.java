@@ -57,15 +57,6 @@ public record CSGenerateRoom(ItemStack stack, BlockPos pos) implements Packet {
 						}
 						Room currentRoom = interiorData.getRoomAtPos(pos);
 						int cardValue = MapCardItem.getCardValue(stack);
-						int currentValue = currentRoom.getValueUsed();
-						Optional<EnumMap<CardCategory, DoorData.CardCriteria>> oldCriteria = data.getGenerated().map(oldRoom -> {
-							BlockPos oldDoorPos = data.getGenerated().get().doors.get(te.getDirection().opposite()).pos();
-							CardDoorTileEntity oldTE = (CardDoorTileEntity) level.getBlockEntity(oldDoorPos);
-							if (oldTE != null) {
-								return oldTE.getData().getCardCriteria();
-							}
-                            return null;
-                        });
 						Room newRoom = RoomGenerator.INSTANCE.generateRoom((ServerLevel) level, data, type, currentRoom, te.getDirection(), cardValue);
 						if (newRoom != null) {
 							BlockPos destination = newRoom.doors.get(te.getDirection().opposite()).pos();
@@ -75,16 +66,6 @@ public record CSGenerateRoom(ItemStack stack, BlockPos pos) implements Packet {
 							currentRoom.setValueUsed(cardValue);
 							destTe.openDoor(true);
 							destTe.setDestinationRoom(te.getParentRoom());
-							if (te.getData().getType() == DoorData.Type.NORMAL) {
-								te.getData().generateCardCriteria(cardValue);
-								oldCriteria.ifPresentOrElse(criteria -> {
-									destTe.getData().generateCardCriteria(criteria);
-								}, () -> {
-									destTe.getData().generateCardCriteria(currentValue);
-								});
-								destTe.setCurrentCriteria(destTe.getData().getCardCriteria());
-							}
-
 							interiorData.setDirty();
 							level.sendBlockUpdated(pos, level.getBlockState(pos), level.getBlockState(pos), Block.UPDATE_CLIENTS);
 							level.sendBlockUpdated(destination, level.getBlockState(destination), level.getBlockState(destination), Block.UPDATE_CLIENTS);
