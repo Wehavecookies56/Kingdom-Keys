@@ -9,10 +9,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
@@ -305,7 +302,9 @@ public class Room {
         if (parent != null) {
             if (!shouldRoomTick(getPlayersInRoom(level.getServer(), this))) {
                 BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos(position.getX(), position.getY(), position.getZ());
-                getEntitiesInRoom(level, this).forEach(LivingEntity::kill);
+                getAllEntitiesInRoom(level, this).forEach(entity -> {
+                    entity.remove(Entity.RemovalReason.DISCARDED);
+                });
                 for (int z = 0; z < getWidth()+1; z++) {
                     for (int y = 0; y < 256; y++) {
                         for (int x = 0; x < getDepth()+1; x++) {
@@ -417,6 +416,22 @@ public class Room {
             }
         });
         return players;
+    }
+
+    public static List<Entity> getAllEntitiesInRoom(ServerLevel level, Room room) {
+        List<Entity> entities = new ArrayList<>();
+        level.getAllEntities().forEach(entity -> {
+            if (room.inRoom(entity.blockPosition())) {
+                if (entity instanceof LivingEntity livingEntity) {
+                    if (!(entity instanceof Player)) {
+                        entities.add(livingEntity);
+                    }
+                } else {
+                    entities.add(entity);
+                }
+            }
+        });
+        return entities;
     }
 
     public static List<LivingEntity> getEntitiesInRoom(ServerLevel level, Room room) {

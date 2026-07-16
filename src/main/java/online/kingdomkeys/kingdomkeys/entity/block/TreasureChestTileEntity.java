@@ -11,11 +11,16 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.TagKey;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -26,10 +31,16 @@ import net.minecraft.world.level.storage.loot.parameters.LootContextParam;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.event.EventHooks;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.data.CastleOblivionData;
+import online.kingdomkeys.kingdomkeys.data.GlobalData;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.lib.ModTags;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.CastleOblivionHandler;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.Room;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.RoomType;
 
 import javax.annotation.Nullable;
@@ -80,7 +91,25 @@ public class TreasureChestTileEntity extends BlockEntity {
 
     public boolean open(Player player) {
         if (isTrapped()) {
-            trapEntity.spawn((ServerLevel) level, getBlockPos(), MobSpawnType.TRIAL_SPAWNER);
+            LivingEntity toSpawn = (LivingEntity) trapEntity.create(level);
+            if (toSpawn != null) {
+                GlobalData globalData = GlobalData.get(toSpawn);
+                if (CastleOblivionHandler.isInterior(level.dimension())) {
+                    CastleOblivionData.InteriorData.get((ServerLevel) level).ifPresent(interiorData -> {
+                        Room room = interiorData.getRoomAtPos(getBlockPos());
+                        room.addEntityToCache(toSpawn);
+                        globalData.setLevel(((room.parentFloor + 1) * 10) + 5 + Utils.randomWithRange(-3, 3));
+                        room.modifierOnSpawn(toSpawn);
+                        globalData.setCastleOblivionMarker(true);
+                    });
+                }
+                toSpawn.moveTo((double) getBlockPos().getX() + 0.5, getBlockPos().getY(), (double) getBlockPos().getZ() + 0.5, Mth.wrapDegrees(level.random.nextFloat() * 360.0F), 0.0F);
+                level.playSound(null, getBlockPos(), ModSounds.portal.get(), SoundSource.HOSTILE, 2,2F);
+                ((ServerLevel) level).addFreshEntityWithPassengers(toSpawn);
+                if (toSpawn instanceof Mob spawnedMob) {
+                    EventHooks.finalizeMobSpawn(spawnedMob, (ServerLevel) level, level.getCurrentDifficultyAt(getBlockPos()), MobSpawnType.TRIAL_SPAWNER, null);
+                }
+            }
             trapEntity = null;
             level.setBlock(getBlockPos(), Blocks.AIR.defaultBlockState(), Block.UPDATE_ALL);
             return true;

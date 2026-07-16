@@ -38,6 +38,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class RoomGenerator {
 
@@ -119,27 +120,13 @@ public class RoomGenerator {
             }
             KingdomKeys.LOGGER.debug("Read block palette");
 
-            int chestsCreated = 0;
-            int totalChestsToCreate = 0;
-                    RoomType.Treasure treasure = newRoom.getType().getTreasure().orElse(null);
-            if (treasure != null) {
-                totalChestsToCreate = treasure.count() + treasure.trappedCount();
-            }
+            RoomType.Treasure treasure = newRoom.getType().getTreasure().orElse(null);
 
             for (int i = 0; i < blocks.size(); i++) {
                 block = blocks.getCompound(i);
                 blockpos.set(block.getList("pos", 3).getInt(0) + pos.getX(), block.getList("pos", 3).getInt(1) + pos.getY(), block.getList("pos", 3).getInt(2) + pos.getZ());
                 state = blockStates.get(block.getInt("state"));
                 if (state.getBlock() == ModBlocks.treasureChest.get()) {
-                    if (treasure != null) {
-                        if (chestsCreated < totalChestsToCreate) {
-                            level.setBlock(blockpos, state, 2);
-                            TreasureChestTileEntity.create(level, blockpos, state, treasure, chestsCreated >= treasure.count());
-                            chestsCreated++;
-                            TreasureChestTileEntity treasureChestTileEntity = (TreasureChestTileEntity) level.getBlockEntity(pos);
-                            KingdomKeys.LOGGER.debug("test");
-                        }
-                    }
                     newRoom.addTreasurePoint(blockpos.immutable(), state);
                 } else if (state.getBlock() == Blocks.STRUCTURE_BLOCK) {
                     if (state.getValue(StructureBlock.MODE).equals(StructureMode.DATA)) {
@@ -219,6 +206,18 @@ public class RoomGenerator {
             }
             if (newRoom.treasurePoints.isEmpty() && treasure != null) {
                 KingdomKeys.LOGGER.warn("Room Structure contains no treasure chests for Room Type that contains treasures");
+            } else {
+                if (treasure != null) {
+                    final int totalChestsToCreate = treasure.count() + treasure.trappedCount();
+                    AtomicInteger chestsCreated = new AtomicInteger();
+                    newRoom.treasurePoints.forEach(treasurePoint -> {
+                        if (chestsCreated.get() < totalChestsToCreate) {
+                            level.setBlock(treasurePoint.pos(), treasurePoint.state(), 2);
+                            TreasureChestTileEntity.create(level, treasurePoint.pos(), treasurePoint.state(), treasure, chestsCreated.get() >= treasure.count());
+                            chestsCreated.getAndIncrement();
+                        }
+                    });
+                }
             }
             data.setGenerated(newRoom);
             newRoom.modifierOnGenerate(level);

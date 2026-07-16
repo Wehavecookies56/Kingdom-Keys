@@ -8,6 +8,7 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.ArrayListDeque;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EntityType;
@@ -18,6 +19,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.saveddata.SavedData;
 import net.neoforged.neoforge.event.EventHooks;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.data.CastleOblivionData;
 import online.kingdomkeys.kingdomkeys.data.GlobalData;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
@@ -162,6 +164,7 @@ public class WaveEncounter implements Encounter {
                             currentWave.onSpawn(room, spawned);
                             spawned.moveTo((double)spawnPoint.getX() + 0.5, spawnPoint.getY(), (double)spawnPoint.getZ() + 0.5, Mth.wrapDegrees(level.random.nextFloat() * 360.0F), 0.0F);
                             level.addFreshEntityWithPassengers(spawned);
+                            level.playSound(null, spawnPoint, ModSounds.portal.get(), SoundSource.HOSTILE, 2, 2);
                             if (spawned instanceof Mob spawnedMob) {
                                 EventHooks.finalizeMobSpawn(spawnedMob, level, level.getCurrentDifficultyAt(spawned.blockPosition()), MobSpawnType.TRIAL_SPAWNER, null);
                             }

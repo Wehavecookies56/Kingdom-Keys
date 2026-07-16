@@ -9,8 +9,11 @@
 ## Changed:
 * Entry to Castle Oblivion is denied if you're on peaceful difficulty.
 * Stock now displays overflow instead of the player's inventory.
+* Regenerating rooms in Castle Oblivion clears all entities so it no longer leaves dropped items everywhere.
 
 ## Fixed:
-* Castle Oblivion door criteria values match COM's mechanics, the doors within a generated room will be +1 the value of the card until it reaches 9 then will be 0. 
+* Castle Oblivion door criteria values match COM's mechanics, the doors within a generated room will be +1 the value of the card until it reaches 9 then will be 0.
 * 0 doors now need 0 rather than any value.
+* All For One scaling when on the ground.
+* Made some sound effects mono fixing the sound attenuation.
 * Button rendering method, improving performance while in the M menu.

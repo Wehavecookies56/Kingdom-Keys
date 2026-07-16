@@ -1187,7 +1187,7 @@ public class ClientUtils {
         } else if (guispritescaling instanceof GuiSpriteScaling.NineSlice guispritescaling$nineslice) {
             blitNineSlicedSprite(guiGraphics, bufferbuilder, textureatlassprite, guispritescaling$nineslice, x, y, width, height, blitOffset, innerStretch);
         }
-
+        BufferUploader.drawWithShader(bufferbuilder.buildOrThrow());
     }
 
     private static void blitNineSlicedSprite(GuiGraphics guiGraphics, BufferBuilder bufferbuilder, TextureAtlasSprite sprite, GuiSpriteScaling.NineSlice nineSlice, int x, int y, int width, int height, int blitOffset, boolean innerStretch) {
@@ -1219,7 +1219,6 @@ public class ClientUtils {
             blitNineSliceInnerSegment(guiGraphics, bufferbuilder, sprite, x + i, y + k, width - j - i, height - l - k, i, k, nineSlice.width() - j - i, nineSlice.height() - l - k, nineSlice.width(), nineSlice.height(), blitOffset, innerStretch);
             blitNineSliceInnerSegment(guiGraphics, bufferbuilder, sprite, x + width - j, y + k, i, height - l - k, nineSlice.width() - j, k, j, nineSlice.height() - l - k, nineSlice.width(), nineSlice.height(), blitOffset, innerStretch);
         }
-        BufferUploader.drawWithShader(bufferbuilder.buildOrThrow());
     }
 
     private static void blitNineSliceInnerSegment(GuiGraphics guiGraphics, BufferBuilder bufferBuilder, TextureAtlasSprite sprite, int x, int y, int width, int height, int uPosition, int vPosition, int spriteWidth, int spriteHeight, int nineSliceWidth, int nineSliceHeight, int blitOffset, boolean innerStretch) {

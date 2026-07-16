@@ -50,7 +50,7 @@ public class TreasureChestBlock extends BaseEntityBlock implements INoDataGen {
                 }
             }
         }
-        return super.useItemOn(stack, state, level, pos, player, hand, hitResult);
+        return ItemInteractionResult.sidedSuccess(true);
     }
 
     @Override

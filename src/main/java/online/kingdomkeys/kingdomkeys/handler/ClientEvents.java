@@ -123,7 +123,7 @@ public class ClientEvents {
         Minecraft mc = Minecraft.getInstance();
         Player player = mc.player;
 
-        if (mc == null || mc.level == null || player == null || InputHandler.lockOn == null) {
+        if (mc.level == null || player == null || InputHandler.lockOn == null) {
             if (KingdomKeys.shoulderSurfingLoaded) {
                 KKShoulderSurfing.enableDecoupling();
             }
@@ -145,10 +145,12 @@ public class ClientEvents {
             KKShoulderSurfing.disableDecoupling();
         }
 
-        if (ModConfigs.SERVER.softLockOnMode.get())
-            softLockOn(player, target);
-        else
-            hardLockOn(player, target);
+        if (ModConfigs.SERVER_SPEC.isLoaded()) {
+            if (ModConfigs.SERVER.softLockOnMode.get())
+                softLockOn(player, target);
+            else
+                hardLockOn(player, target);
+        }
 
     }
 
