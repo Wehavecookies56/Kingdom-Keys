@@ -8,7 +8,6 @@
   "modifiers": [
     {
       "type": "kingdomkeys:effect",
-      "amplifier": 0,
       "effect": "minecraft:speed",
       "target": "MOB"
     }

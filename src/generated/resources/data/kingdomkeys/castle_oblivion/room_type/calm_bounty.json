@@ -1,4 +1,8 @@
 {
   "category": "BOUNTY",
-  "size": "S"
+  "size": "S",
+  "treasure": {
+    "count": 1,
+    "treasure": "kingdomkeys:castle_oblivion/standard_treasure"
+  }
 }

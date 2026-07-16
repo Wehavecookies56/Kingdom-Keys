@@ -14,8 +14,6 @@ import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.reg
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.Room;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Optional;
-
 public class EffectRoomModifier implements RoomModifier {
 
     Holder<MobEffect> effect;
@@ -42,16 +40,9 @@ public class EffectRoomModifier implements RoomModifier {
             instance.group(
                     BuiltInRegistries.MOB_EFFECT.holderByNameCodec().fieldOf("effect").forGetter(EffectRoomModifier::getEffect),
                     StringRepresentable.fromEnum(EffectType::values).fieldOf("target").forGetter(EffectRoomModifier::getEffectType),
-                    Codec.INT.optionalFieldOf("amplifier").forGetter(o -> Optional.of(o.amplifier))
+                    Codec.INT.optionalFieldOf("amplifier", 0).forGetter(EffectRoomModifier::getAmplifier)
             ).apply(instance, EffectRoomModifier::new)
     );
-
-    @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-    private EffectRoomModifier(Holder<MobEffect> effect, EffectType effectType, Optional<Integer> amplifier) {
-        this.effect = effect;
-        this.effectType = effectType;
-        this.amplifier = amplifier.orElse(0);
-    }
 
     public EffectRoomModifier(Holder<MobEffect> effect, EffectType effectType, int amplifier) {
         this.effect = effect;
@@ -65,6 +56,10 @@ public class EffectRoomModifier implements RoomModifier {
 
     private EffectType getEffectType() {
         return effectType;
+    }
+
+    public int getAmplifier() {
+        return amplifier;
     }
 
     @Override

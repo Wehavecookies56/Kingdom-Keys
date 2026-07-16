@@ -42,16 +42,9 @@ public class WaveEncounter implements Encounter {
         waveEncounterInstance.group(
                 Wave.CODEC.listOf().fieldOf("waves").forGetter(WaveEncounter::getWaves),
                 Codec.INT.fieldOf("interval_ticks").forGetter(WaveEncounter::getIntervalTicks),
-                Codec.BOOL.optionalFieldOf("shuffle_order").forGetter(o -> Optional.of(o.shuffleWaveOrder))
+                Codec.BOOL.optionalFieldOf("shuffle_order", false).forGetter(WaveEncounter::shuffleWaveOrder)
         ).apply(waveEncounterInstance, WaveEncounter::new)
     );
-
-    @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-    private WaveEncounter(List<Wave> waves, int intervalTicks, Optional<Boolean> shuffleWaveOrder) {
-        this.waves = waves;
-        this.intervalTicks = intervalTicks;
-        this.shuffleWaveOrder = shuffleWaveOrder.orElse(false);
-    }
 
     public WaveEncounter(List<Wave> waves, int intervalTicks, boolean shuffleWaveOrder) {
         this.waves = waves;
@@ -195,15 +188,9 @@ public class WaveEncounter implements Encounter {
         public static final Codec<Wave> CODEC = RecordCodecBuilder.create(instance ->
             instance.group(
                 BuiltInRegistries.ENTITY_TYPE.holderByNameCodec().listOf().fieldOf("spawns").forGetter(Wave::spawns),
-                RoomModifier.CODEC.listOf().optionalFieldOf("modifiers").forGetter(o -> Optional.ofNullable(o.modifiers()))
+                RoomModifier.CODEC.listOf().optionalFieldOf("modifiers", new ArrayList<>()).forGetter(Wave::modifiers)
             ).apply(instance, Wave::new)
         );
-
-
-        @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-        public Wave(List<Holder<EntityType<?>>> spawns, Optional<List<RoomModifier>> modifiers) {
-            this(spawns, modifiers.orElse(new ArrayList<>()));
-        }
 
         public Wave(List<Holder<EntityType<?>>> spawns, RoomModifier... modifiers) {
             this(spawns, Arrays.stream(modifiers).toList());
@@ -247,7 +234,7 @@ public class WaveEncounter implements Encounter {
         public static final Codec<State> CODEC = RecordCodecBuilder.create(stateInstance ->
                 stateInstance.group(
                         Codec.INT.fieldOf("current_wave").forGetter(State::getCurrentWave),
-                        Codec.INT.listOf().optionalFieldOf("shuffled_order").forGetter(o -> Optional.ofNullable(o.shuffledOrder)),
+                        Codec.INT.listOf().optionalFieldOf("shuffled_order", new ArrayList<>()).forGetter(o -> o.shuffledOrder),
                         Codec.LONG.fieldOf("wave_end_time").forGetter(State::getWaveEndTime)
                 ).apply(stateInstance, State::new)
         );
@@ -272,10 +259,9 @@ public class WaveEncounter implements Encounter {
             Collections.shuffle(shuffledOrder);
         }
 
-        @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-        private State(int currentWave, Optional<List<Integer>> shuffledOrder, long waveEndTime) {
+        private State(int currentWave, List<Integer> shuffledOrder, long waveEndTime) {
             this.currentWave = currentWave;
-            this.shuffledOrder = shuffledOrder.orElse(new ArrayList<>());
+            this.shuffledOrder = shuffledOrder;
             this.waveEndTime = waveEndTime;
         }
 

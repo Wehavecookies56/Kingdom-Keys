@@ -76,7 +76,6 @@ public class ModRoomStructures {
             }
         }
         if (structure.getRoomWhitelist().isEmpty()) {
-            KingdomKeys.LOGGER.debug("Size {}, Category {}", type.getSize() == structure.getSize(), structure.getCategories().contains(type.getCategory()));
             return type.getSize() == structure.getSize() && structure.getCategories().contains(type.getCategory());
         } else {
             return structure.getRoomWhitelist().contains(type);

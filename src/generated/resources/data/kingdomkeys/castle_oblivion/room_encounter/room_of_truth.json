@@ -2,10 +2,8 @@
   "encounter": {
     "type": "kingdomkeys:wave",
     "interval_ticks": 100,
-    "shuffle_order": false,
     "waves": [
       {
-        "modifiers": [],
         "spawns": [
           "kingdomkeys:shadow",
           "kingdomkeys:large_body",
@@ -14,7 +12,6 @@
         ]
       },
       {
-        "modifiers": [],
         "spawns": [
           "kingdomkeys:soldier",
           "kingdomkeys:darkball",
@@ -22,7 +19,6 @@
         ]
       },
       {
-        "modifiers": [],
         "spawns": [
           "kingdomkeys:red_nocturne",
           "kingdomkeys:blue_rhapsody",
@@ -30,7 +26,6 @@
         ]
       },
       {
-        "modifiers": [],
         "spawns": [
           "kingdomkeys:minute_bomb",
           "kingdomkeys:minute_bomb",
@@ -38,7 +33,6 @@
         ]
       },
       {
-        "modifiers": [],
         "spawns": [
           "kingdomkeys:large_body",
           "kingdomkeys:large_body",

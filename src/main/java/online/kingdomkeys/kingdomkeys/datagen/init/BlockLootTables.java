@@ -28,9 +28,9 @@ import java.util.function.BiConsumer;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
-public class LootTables extends BlockLootSubProvider {
+public class BlockLootTables extends BlockLootSubProvider {
 
-	public LootTables(HolderLookup.Provider provider) {
+	public BlockLootTables(HolderLookup.Provider provider) {
 		super(Set.of(), FeatureFlags.DEFAULT_FLAGS, provider);
 	}
 

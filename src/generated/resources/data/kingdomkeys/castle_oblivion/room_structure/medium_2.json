@@ -1,8 +1,7 @@
 {
   "categories": [
     "ENEMY",
-    "STATUS",
-    "BOUNTY"
+    "STATUS"
   ],
   "size": "M",
   "structure": "medium_2"

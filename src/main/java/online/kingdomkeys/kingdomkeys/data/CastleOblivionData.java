@@ -15,6 +15,7 @@ import net.minecraft.world.level.saveddata.SavedData;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCastleOblivionInteriorData;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.CastleOblivionHandler;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.floor.Floor;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.Room;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.RoomData;
@@ -39,7 +40,7 @@ public class CastleOblivionData {
         }
 
         public static Optional<InteriorData> get(ServerLevel level) {
-            if (level.dimension().location().toString().contains("kingdomkeys:castle_oblivion_")) {
+            if (CastleOblivionHandler.isInterior(level.dimension())) {
                 return Optional.of(level.getDataStorage().computeIfAbsent(new Factory<>(InteriorData::create, InteriorData::load), "kingdomkeys_interior_data"));
             }
             return Optional.empty();

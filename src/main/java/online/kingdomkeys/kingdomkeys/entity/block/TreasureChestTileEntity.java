@@ -3,14 +3,34 @@ package online.kingdomkeys.kingdomkeys.entity.block;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.loot.LootParams;
+import net.minecraft.world.level.storage.loot.LootTable;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParam;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
+import net.minecraft.world.phys.Vec3;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
+import online.kingdomkeys.kingdomkeys.lib.ModTags;
+import online.kingdomkeys.kingdomkeys.util.Utils;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.RoomType;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -25,16 +45,29 @@ public class TreasureChestTileEntity extends BlockEntity {
         super(ModEntities.TYPE_TREASURE_CHEST.get(), pos, blockState);
     }
 
-    public boolean isTrapped() {
+    public static void create(ServerLevel level, BlockPos pos, BlockState blockState, RoomType.Treasure treasure, boolean trapped) {
+        TreasureChestTileEntity te = new TreasureChestTileEntity(pos, blockState);
+        if (trapped) {
+            TagKey<EntityType<?>> trapEntities = treasure.trappedEntities();
+            if (treasure.trappedEntities() == null) {
+                trapEntities = ModTags.CO_REGULAR_ENEMIES;
+            }
+            List<? extends EntityType<?>> toSpawn = ModTags.getEntitiesInTag(level, trapEntities);
+            te.setTrapEntity(toSpawn.get(Utils.randomWithRange(0, toSpawn.size()-1)));
+        } else {
+            LootTable table = level.getServer().reloadableRegistries().getLootTable(ResourceKey.create(Registries.LOOT_TABLE, treasure.lootTable()));
+            if (table.equals(LootTable.EMPTY)) {
+                throw new IllegalArgumentException("Invalid loot table for treasure");
+            }
+            LootParams params = new LootParams.Builder(level).withParameter(LootContextParams.ORIGIN, Vec3.atCenterOf(pos)).create(LootContextParamSets.CHEST);
+
+            te.setTreasure(table.getRandomItems(params));
+        }
+        level.setBlockEntity(te);
+    }
+
+    private boolean isTrapped() {
         return trapEntity != null;
-    }
-
-    public EntityType<?> getTrapEntity() {
-        return trapEntity;
-    }
-
-    public List<ItemStack> getTreasure() {
-        return treasure;
     }
 
     public void setTrapEntity(EntityType<?> trapEntity) {
@@ -42,7 +75,22 @@ public class TreasureChestTileEntity extends BlockEntity {
     }
 
     public void setTreasure(List<ItemStack> treasure) {
-        this.treasure = treasure;
+        this.treasure = new ArrayList<>(treasure);
+    }
+
+    public boolean open(Player player) {
+        if (isTrapped()) {
+            trapEntity.spawn((ServerLevel) level, getBlockPos(), MobSpawnType.TRIAL_SPAWNER);
+            trapEntity = null;
+            level.setBlock(getBlockPos(), Blocks.AIR.defaultBlockState(), Block.UPDATE_ALL);
+            return true;
+        } else if (!treasure.isEmpty()) {
+            Utils.giveItems((ServerPlayer) player, treasure);
+            treasure = new ArrayList<>();
+            level.setBlock(getBlockPos(), Blocks.AIR.defaultBlockState(), Block.UPDATE_ALL);
+            return true;
+        }
+        return false;
     }
 
     @Override

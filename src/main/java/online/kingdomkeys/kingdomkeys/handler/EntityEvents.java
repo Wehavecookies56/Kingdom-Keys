@@ -1211,7 +1211,7 @@ public class EntityEvents {
 				}
 
 				for (Player p : entity.level().players()) {
-					entity.level().addFreshEntity(new ItemEntity(entity.level(), p.getX(), p.getY(), p.getZ(), new ItemStack(ModItems.proofOfHeart.get(), 1)));
+					Utils.giveItems((ServerPlayer) p, new ItemStack(ModItems.proofOfHeart.get()));
 				}
 			}
 

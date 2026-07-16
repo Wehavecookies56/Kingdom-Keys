@@ -14,6 +14,7 @@ import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.RoomCategory;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.RoomEnemies;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.RoomSize;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.RoomType;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.RoomType.Enemies;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.modifiers.EffectRoomModifier;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.modifiers.EffectRoomModifier.EffectType;
@@ -42,7 +43,8 @@ public class RoomTypesGen extends BaseProvider<RoomTypeBuilder> {
                 .modifiers(new EffectRoomModifier(MobEffects.DARKNESS, EffectType.PLAYER, 0))
                 .fixedRoom(KingdomKeys.rl(Strings.BottomlessDarkness))
                 .colour(Color.BLACK);
-        createRoomType(Strings.CalmBounty, RoomSize.S, RoomCategory.BOUNTY);
+        createRoomType(Strings.CalmBounty, RoomSize.S, RoomCategory.BOUNTY)
+                .treasure(new RoomType.Treasure(KingdomKeys.rl("castle_oblivion/standard_treasure"), 1));
         createRoomType(Strings.ConquerorsRespite, RoomSize.SPECIAL, RoomCategory.SPECIAL)
                 .fixedRoom(KingdomKeys.rl(Strings.ConquerorsRespite));
         createRoomType(Strings.EntranceHall, RoomSize.SPECIAL, RoomCategory.SPECIAL)
@@ -50,11 +52,13 @@ public class RoomTypesGen extends BaseProvider<RoomTypeBuilder> {
                 .music(ModSounds.Music_The_13th_Floor.value())
                 .isEntranceHall();
         createRoomType(Strings.FalseBounty, RoomSize.S, RoomCategory.BOUNTY)
+                .treasure(new RoomType.Treasure(KingdomKeys.rl("castle_oblivion/standard_treasure"), 1, 2, ModTags.CO_STRONG_ENEMIES))
                 .enemies(new Enemies(RoomEnemies.S, 5, 3));
         createRoomType(Strings.FeebleDarkness, RoomSize.M, RoomCategory.ENEMY)
                 .enemies(new Enemies(RoomEnemies.S, 6, 3))
                 .modifiers(new LevelModifier(List.of(new Operation(2, Operator.SUBTRACT))));
         createRoomType(Strings.GuardedTrove, RoomSize.S, RoomCategory.BOUNTY)
+                .treasure(new RoomType.Treasure(KingdomKeys.rl("castle_oblivion/standard_treasure"), 1))
                 .enemies(new Enemies(RoomEnemies.M, 7, 3));
         createRoomType(Strings.LoomingDarkness, RoomSize.L, RoomCategory.ENEMY)
                 .enemies(new Enemies(RoomEnemies.M, 10, 4))
@@ -78,7 +82,8 @@ public class RoomTypesGen extends BaseProvider<RoomTypeBuilder> {
                 .encounter(KingdomKeys.rl(Strings.RoomOfGuidance));
         createRoomType(Strings.RoomOfTruth, RoomSize.S, RoomCategory.ENCOUNTER)
                 .encounter(KingdomKeys.rl(Strings.RoomOfTruth));        
-        createRoomType(Strings.RoomOfRewards, RoomSize.S, RoomCategory.BOUNTY);
+        createRoomType(Strings.RoomOfRewards, RoomSize.S, RoomCategory.BOUNTY)
+                .treasure(new RoomType.Treasure(KingdomKeys.rl("castle_oblivion/standard_treasure"), 2));
         createRoomType(Strings.SleepingDarkness, RoomSize.S, RoomCategory.ENEMY)
                 .enemies(new Enemies(RoomEnemies.S, 5, 3));
         createRoomType(Strings.SorcerousWaking, RoomSize.M, RoomCategory.STATUS)

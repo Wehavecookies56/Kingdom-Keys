@@ -208,6 +208,10 @@ public class ItemModels extends ItemModelProvider {
 		        // manually generated version exists in main/resources
 	        }
 
+			case TreasureChestBlock treasureChestBlock -> {
+				getBuilder("treasure_chest").parent(new ModelFile.UncheckedModelFile(KingdomKeys.MODID + ":block/magical_chest"));
+			}
+
 			default ->
                 // fallback in case block item could not be generated as part of blockstates
                     standardBlockItem(path);

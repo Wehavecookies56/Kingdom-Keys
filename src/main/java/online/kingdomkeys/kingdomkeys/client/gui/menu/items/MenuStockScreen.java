@@ -144,9 +144,10 @@ public class MenuStockScreen extends MenuFilterable {
         addRenderableWidget(back = new MenuButton((int)buttonPosX, buttonPosY, (int)buttonWidth, Component.translatable(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, b -> minecraft.setScreen(new MenuItemsScreen())));
 
         List<ItemStack> items = new ArrayList<>();
-        for (int i = 0; i < player.getInventory().getContainerSize(); i++) {
-            if (filterItem(player.getInventory().getItem(i))) {
-                items.add(player.getInventory().getItem(i));
+        List<ItemStack> overflow = playerData.getOverflowForDisplay();
+        for (int i = 0; i < overflow.size(); i++) {
+            if (filterItem(overflow.get(i))) {
+                items.add(overflow.get(i));
             }
         }
         items.sort(Comparator.comparing(Utils::getCategoryForStack).thenComparing(stack -> stack.getHoverName().getContents().toString()));
@@ -160,16 +161,6 @@ public class MenuStockScreen extends MenuFilterable {
             	//Right col
                 MenuStockItem item2 = new MenuStockItem(this, items.get(i+1), (int) invPosX + inventory.get(i).getWidth(), (int) invPosY + (i * 7),itemWidth, true);
                 //item2.setBackgroundColor(new Color(30,30,100));
-                inventory.add(item2);
-            }
-        }
-        List<ItemStack> overflow = playerData.getOverflowForDisplay();
-        for (int i = items.size(); i < overflow.size(); i += 2) {
-            int j = i + items.size();
-            MenuStockItem item = new MenuStockItem(this, overflow.get(i), (int) invPosX, (int) invPosY + (j * 7), itemWidth, true);
-            inventory.add(item);
-            if (i + 1 < overflow.size()) {
-                MenuStockItem item2 = new MenuStockItem(this, overflow.get(i+1), (int) invPosX + inventory.get(i).getWidth(), (int) invPosY + (j * 7),itemWidth, true);
                 inventory.add(item2);
             }
         }

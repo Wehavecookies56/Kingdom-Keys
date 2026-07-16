@@ -2537,6 +2537,10 @@ public class Utils {
 		}
 	}
 
+	public static void giveItems(ServerPlayer player, List<ItemStack> itemStacks) {
+		giveItems(player, itemStacks.toArray(new ItemStack[0]));
+	}
+
 	public static void giveItems(ServerPlayer player, ItemStack... items) {
 		Arrays.stream(items).forEach(stack -> {
 			if (!tryToAddItem(player, stack)) {
@@ -2547,9 +2551,9 @@ public class Utils {
 					playerData.addToOverflow(stack);
 				}
 			}
-			//send to client
-			PacketHandler.sendTo(new SCDisplayGivenItems(Arrays.stream(items).toList()), player);
 		});
+		//send to client
+		PacketHandler.sendTo(new SCDisplayGivenItems(Arrays.stream(items).toList()), player);
 	}
 
 	//

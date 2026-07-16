@@ -16,8 +16,10 @@ import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.event.EventHooks;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.data.CastleOblivionData;
 import online.kingdomkeys.kingdomkeys.data.GlobalData;
 import online.kingdomkeys.kingdomkeys.entity.block.CardDoorTileEntity;
@@ -45,6 +47,9 @@ public class Room {
     List<LivingEntity> cachedEntities = new ArrayList<>();
 
     List<BlockPos> spawnPoints;
+    List<TreasurePoint> treasurePoints;
+
+    public record TreasurePoint(BlockPos pos, BlockState state) {}
 
     RoomPos roomPos;
 
@@ -59,6 +64,7 @@ public class Room {
         this.doors = new HashMap<>();
         this.roomPos = roomPos;
         this.spawnPoints = new ArrayList<>();
+        this.treasurePoints = new ArrayList<>();
         this.valueUsed = valueUsed;
         this.mobsRemaining = type.getNumberOfEnemies();
     }
@@ -179,6 +185,13 @@ public class Room {
         KingdomKeys.LOGGER.debug("Found spawn point #{} [{}]", spawnPoints.size(), pos.toShortString());
     }
 
+    public void addTreasurePoint(BlockPos pos, BlockState state) {
+        if (state.is(ModBlocks.treasureChest.get())) {
+            this.treasurePoints.add(new TreasurePoint(pos, state));
+            KingdomKeys.LOGGER.debug("Found treasure point #{} [{}]", treasurePoints.size(), pos.toShortString());
+        }
+    }
+
     public int getMobsRemaining() {
         return mobsRemaining;
     }
@@ -196,6 +209,10 @@ public class Room {
             currentlySpawned += Math.min(toSpawn, mobsRemaining);
             mobsRemaining -= currentlySpawned;
         }
+    }
+
+    public List<TreasurePoint> getTreasurePoints() {
+        return treasurePoints;
     }
 
     public List<BlockPos> getSpawnPoints() {

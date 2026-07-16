@@ -26,7 +26,7 @@ import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.block.TreasureChestTileEntity;
 import org.jetbrains.annotations.Nullable;
 
-public class TreasureChestBlock extends BaseEntityBlock {
+public class TreasureChestBlock extends BaseEntityBlock implements INoDataGen {
 
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
     public static final BooleanProperty BIG = BooleanProperty.create("big");
@@ -37,14 +37,17 @@ public class TreasureChestBlock extends BaseEntityBlock {
 
     public TreasureChestBlock(Properties properties) {
         super(properties);
+        registerDefaultState(this.defaultBlockState().setValue(FACING, Direction.NORTH).setValue(BIG, false));
     }
 
     @Override
     protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
-        TreasureChestTileEntity te = (TreasureChestTileEntity) level.getBlockEntity(pos);
-        if (te != null) {
-            if (!te.getTreasure().isEmpty()) {
-                return ItemInteractionResult.CONSUME;
+        if (!level.isClientSide()) {
+            TreasureChestTileEntity te = (TreasureChestTileEntity) level.getBlockEntity(pos);
+            if (te != null) {
+                if (te.open(player)) {
+                    return ItemInteractionResult.CONSUME;
+                }
             }
         }
         return super.useItemOn(stack, state, level, pos, player, hand, hitResult);

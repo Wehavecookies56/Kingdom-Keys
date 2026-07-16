@@ -42,20 +42,19 @@ public class RoomStructure extends JsonRegistryObject {
                 Codec.STRING.fieldOf("structure").forGetter(RoomStructure::getPath),
                 StringRepresentable.fromEnum(RoomSize::values).fieldOf("size").forGetter(RoomStructure::getSize),
                 StringRepresentable.fromEnum(RoomCategory::values).listOf().fieldOf("categories").forGetter(RoomStructure::getCategories),
-                Codec.BOOL.optionalFieldOf("floor_specific_structure").forGetter(o -> Optional.of(o.floorSpecificStructure)),
-                ResourceLocation.CODEC.listOf().optionalFieldOf("white_list").forGetter(o -> Optional.ofNullable(o.roomWhitelist)),
-                Codec.BOOL.optionalFieldOf("fallback").forGetter(o -> Optional.of(o.fallback))
+                Codec.BOOL.optionalFieldOf("floor_specific_structure", true).forGetter(RoomStructure::useFloorSpecificStructure),
+                ResourceLocation.CODEC.listOf().optionalFieldOf("white_list", new ArrayList<>()).forGetter(o -> o.roomWhitelist),
+                Codec.BOOL.optionalFieldOf("fallback", false).forGetter(RoomStructure::isFallback)
                 ).apply(roomStructureInstance, RoomStructure::new)
     );
 
-    @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-    private RoomStructure(String path, RoomSize size, List<RoomCategory> categories, Optional<Boolean> floorSpecificStructure, Optional<List<ResourceLocation>> roomWhitelist, Optional<Boolean> fallback) {
+    private RoomStructure(String path, RoomSize size, List<RoomCategory> categories, boolean floorSpecificStructure, List<ResourceLocation> roomWhitelist, boolean fallback) {
         this.path = path;
         this.size = size;
         this.categories = categories;
-        this.floorSpecificStructure = floorSpecificStructure.orElse(true);
-        this.roomWhitelist = roomWhitelist.orElse(new ArrayList<>());
-        this.fallback = fallback.orElse(false);
+        this.floorSpecificStructure = floorSpecificStructure;
+        this.roomWhitelist = roomWhitelist;
+        this.fallback = fallback;
     }
 
     public record RoomDimensions(int width, int height, int depth) {

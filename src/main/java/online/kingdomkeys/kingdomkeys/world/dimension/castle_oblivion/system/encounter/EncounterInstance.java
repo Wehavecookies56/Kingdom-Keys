@@ -1,12 +1,24 @@
 package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.encounter;
 
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.block.ModBlocks;
+import online.kingdomkeys.kingdomkeys.block.TreasureChestBlock;
 import online.kingdomkeys.kingdomkeys.data.CastleOblivionData;
+import online.kingdomkeys.kingdomkeys.entity.ModEntities;
+import online.kingdomkeys.kingdomkeys.entity.block.TreasureChestTileEntity;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCShowMessagesPacket;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCastleOblivionInteriorData;
@@ -81,18 +93,38 @@ public class EncounterInstance {
     public void end(Room room, ServerLevel level) {
         room.setDoorLocks(level, false);
         encounter.getHandler().end(encounter.getEncounter(), state, this, room, level);
-        Room.getPlayersInRoom(level.getServer(), room).forEach(player -> {
+        List<Player> players = Room.getPlayersInRoom(level.getServer(),  room);
+        if (!room.getTreasurePoints().isEmpty()) {
+            spawnRewardsChest(level, room.getTreasurePoints().getFirst(), getEncounter().getRewards());
+        } else if (!room.getSpawnPoints().isEmpty()) {
+            //fallback to spawn points
+            spawnRewardsChest(level, new Room.TreasurePoint(room.getSpawnPoints().getFirst(), ModBlocks.treasureChest.get().defaultBlockState().setValue(TreasureChestBlock.FACING, Direction.getRandom(RandomSource.create()))), getEncounter().getRewards());
+        } else if (!players.isEmpty()) {
+            //give reward to one player as fallback if room has no spawn point for a chest
+            Utils.giveItems((ServerPlayer) players.getFirst(), getEncounter().getRewards());
+        }
+
+        players.forEach(player -> {
             List<Utils.Title> message = List.of(
                     new Utils.Title("co.encounter.end", "")
             );
             PacketHandler.sendTo(new SCShowMessagesPacket(message), (ServerPlayer) player);
-            //player.sendSystemMessage(Component.translatable("co.encounter.end"));
-            getEncounter().getRewards().forEach(player::addItem);
             CastleOblivionData.InteriorData.get(level).ifPresent(interiorData -> {
                 interiorData.setDirty();
                 interiorData.sendToClient(player);
             });
         });
+    }
+
+    public void spawnRewardsChest(ServerLevel level, Room.TreasurePoint treasurePoint, List<ItemStack> treasure) {
+        if (!treasure.isEmpty() && level.getBlockState(treasurePoint.pos()).is(Blocks.AIR)) {
+
+            BlockState chest = treasurePoint.state();
+            TreasureChestTileEntity treasureChestTileEntity = new TreasureChestTileEntity(treasurePoint.pos(), chest);
+            treasureChestTileEntity.setTreasure(treasure);
+            level.setBlock(treasurePoint.pos(), chest, Block.UPDATE_ALL);
+            level.setBlockEntity(treasureChestTileEntity);
+        }
     }
 
     public CompoundTag serializeNBT(){

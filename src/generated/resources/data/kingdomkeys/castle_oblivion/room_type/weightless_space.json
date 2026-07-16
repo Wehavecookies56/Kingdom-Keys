@@ -8,7 +8,6 @@
   "modifiers": [
     {
       "type": "kingdomkeys:effect",
-      "amplifier": 0,
       "effect": "minecraft:slow_falling",
       "target": "BOTH"
     },

@@ -25,17 +25,18 @@ public class RoomStructuresGen extends BaseProvider<RoomStructureBuilder> {
         createRoomStructure("entrance_hall", "entrance_hall", RoomSize.SPECIAL, List.of(RoomCategory.SPECIAL)).notFloorSpecific().roomWhitelist(KingdomKeys.rl("entrance_hall"));
         createRoomStructure("entrance_hall_1f", "entrance_hall_1f", RoomSize.SPECIAL, List.of(RoomCategory.SPECIAL)).notFloorSpecific().roomWhitelist(KingdomKeys.rl("entrance_hall"));
         createRoomStructure("fallback", "fallback_room", RoomSize.S, List.of(RoomCategory.ENEMY, RoomCategory.STATUS, RoomCategory.BOUNTY)).notFloorSpecific().fallback();
-        createRoomStructure("large_1", "large_1", RoomSize.L, List.of(RoomCategory.ENEMY, RoomCategory.STATUS, RoomCategory.BOUNTY));
-        createRoomStructure("large_2", "large_2", RoomSize.L, List.of(RoomCategory.ENEMY, RoomCategory.STATUS, RoomCategory.BOUNTY));
-        createRoomStructure("large_3", "large_3", RoomSize.L, List.of(RoomCategory.ENEMY, RoomCategory.STATUS, RoomCategory.BOUNTY));
-        createRoomStructure("medium_1", "medium_1", RoomSize.M, List.of(RoomCategory.ENEMY, RoomCategory.STATUS, RoomCategory.BOUNTY));
-        createRoomStructure("medium_2", "medium_2", RoomSize.M, List.of(RoomCategory.ENEMY, RoomCategory.STATUS, RoomCategory.BOUNTY));
-        createRoomStructure("medium_3", "medium_3", RoomSize.M, List.of(RoomCategory.ENEMY, RoomCategory.STATUS, RoomCategory.BOUNTY));
+        createRoomStructure("large_1", "large_1", RoomSize.L, List.of(RoomCategory.ENEMY, RoomCategory.STATUS));
+        createRoomStructure("large_2", "large_2", RoomSize.L, List.of(RoomCategory.ENEMY, RoomCategory.STATUS));
+        createRoomStructure("large_3", "large_3", RoomSize.L, List.of(RoomCategory.ENEMY, RoomCategory.STATUS));
+        createRoomStructure("medium_1", "medium_1", RoomSize.M, List.of(RoomCategory.ENEMY, RoomCategory.STATUS));
+        createRoomStructure("medium_2", "medium_2", RoomSize.M, List.of(RoomCategory.ENEMY, RoomCategory.STATUS));
+        createRoomStructure("medium_3", "medium_3", RoomSize.M, List.of(RoomCategory.ENEMY, RoomCategory.STATUS));
         createRoomStructure("moments_reprieve", "moments_reprieve", RoomSize.S, List.of(RoomCategory.BOUNTY)).roomWhitelist(KingdomKeys.rl("moments_reprieve"));
         createRoomStructure("moogle_room", "moogle_room", RoomSize.S, List.of(RoomCategory.BOUNTY)).roomWhitelist(KingdomKeys.rl("moogle_room"));
-        createRoomStructure("small_1", "small_1", RoomSize.S, List.of(RoomCategory.ENEMY, RoomCategory.STATUS, RoomCategory.BOUNTY));
-        createRoomStructure("small_2", "small_2", RoomSize.S, List.of(RoomCategory.ENEMY, RoomCategory.STATUS, RoomCategory.BOUNTY));
-        createRoomStructure("small_3", "small_3", RoomSize.S, List.of(RoomCategory.ENEMY, RoomCategory.STATUS, RoomCategory.BOUNTY));
+        createRoomStructure("small_1", "small_1", RoomSize.S, List.of(RoomCategory.ENEMY, RoomCategory.STATUS));
+        createRoomStructure("small_2", "small_2", RoomSize.S, List.of(RoomCategory.ENEMY, RoomCategory.STATUS));
+        createRoomStructure("small_3", "small_3", RoomSize.S, List.of(RoomCategory.ENEMY, RoomCategory.STATUS));
+        createRoomStructure("treasure_1", "treasure", RoomSize.S, List.of(RoomCategory.BOUNTY));
     }
 
     @Override

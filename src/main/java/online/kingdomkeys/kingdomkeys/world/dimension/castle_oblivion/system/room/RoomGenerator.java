@@ -25,6 +25,7 @@ import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.block.StructureWallBlock;
 import online.kingdomkeys.kingdomkeys.data.CastleOblivionData;
 import online.kingdomkeys.kingdomkeys.entity.block.CardDoorTileEntity;
+import online.kingdomkeys.kingdomkeys.entity.block.TreasureChestTileEntity;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCastleOblivionInteriorData;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.floor.Floor;
@@ -118,11 +119,29 @@ public class RoomGenerator {
             }
             KingdomKeys.LOGGER.debug("Read block palette");
 
+            int chestsCreated = 0;
+            int totalChestsToCreate = 0;
+                    RoomType.Treasure treasure = newRoom.getType().getTreasure().orElse(null);
+            if (treasure != null) {
+                totalChestsToCreate = treasure.count() + treasure.trappedCount();
+            }
+
             for (int i = 0; i < blocks.size(); i++) {
                 block = blocks.getCompound(i);
                 blockpos.set(block.getList("pos", 3).getInt(0) + pos.getX(), block.getList("pos", 3).getInt(1) + pos.getY(), block.getList("pos", 3).getInt(2) + pos.getZ());
                 state = blockStates.get(block.getInt("state"));
-                if (state.getBlock() == Blocks.STRUCTURE_BLOCK) {
+                if (state.getBlock() == ModBlocks.treasureChest.get()) {
+                    if (treasure != null) {
+                        if (chestsCreated < totalChestsToCreate) {
+                            level.setBlock(blockpos, state, 2);
+                            TreasureChestTileEntity.create(level, blockpos, state, treasure, chestsCreated >= treasure.count());
+                            chestsCreated++;
+                            TreasureChestTileEntity treasureChestTileEntity = (TreasureChestTileEntity) level.getBlockEntity(pos);
+                            KingdomKeys.LOGGER.debug("test");
+                        }
+                    }
+                    newRoom.addTreasurePoint(blockpos.immutable(), state);
+                } else if (state.getBlock() == Blocks.STRUCTURE_BLOCK) {
                     if (state.getValue(StructureBlock.MODE).equals(StructureMode.DATA)) {
                         //Replace data mode structure blocks with card doors
                         StructureBlockEntity be = new StructureBlockEntity(blockpos, state);
@@ -194,11 +213,19 @@ public class RoomGenerator {
                 }
             }
             Collections.shuffle(newRoom.spawnPoints);
+            Collections.shuffle(newRoom.treasurePoints);
+            if (newRoom.spawnPoints.isEmpty() && newRoom.getType().getEnemies() != RoomEnemies.NONE) {
+                KingdomKeys.LOGGER.warn("Room Structure contains no spawn points for Room Type that contains enemies");
+            }
+            if (newRoom.treasurePoints.isEmpty() && treasure != null) {
+                KingdomKeys.LOGGER.warn("Room Structure contains no treasure chests for Room Type that contains treasures");
+            }
             data.setGenerated(newRoom);
             newRoom.modifierOnGenerate(level);
             CastleOblivionData.InteriorData.get(level).orElseThrow().setDirty();
             SCSyncCastleOblivionInteriorData.syncClients(level);
             KingdomKeys.LOGGER.info("Generated room:{} at {}", newRoom.type.getRegistryName().toString(), pos);
+            KingdomKeys.LOGGER.info("Room has {} spawn points, {} treasure points", newRoom.spawnPoints.size(), newRoom.treasurePoints.size());
             NeoForge.EVENT_BUS.post(new CastleOblivionEvent.RoomGeneratedEvent(level, data, currentRoom));
             return newRoom;
         } catch (IOException e){
