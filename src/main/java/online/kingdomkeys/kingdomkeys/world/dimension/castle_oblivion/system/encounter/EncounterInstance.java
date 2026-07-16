@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.encounter;
 
+import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -94,14 +95,16 @@ public class EncounterInstance {
         room.setDoorLocks(level, false);
         encounter.getHandler().end(encounter.getEncounter(), state, this, room, level);
         List<Player> players = Room.getPlayersInRoom(level.getServer(),  room);
-        if (!room.getTreasurePoints().isEmpty()) {
-            spawnRewardsChest(level, room.getTreasurePoints().getFirst(), getEncounter().getRewards());
-        } else if (!room.getSpawnPoints().isEmpty()) {
-            //fallback to spawn points
-            spawnRewardsChest(level, new Room.TreasurePoint(room.getSpawnPoints().getFirst(), ModBlocks.treasureChest.get().defaultBlockState().setValue(TreasureChestBlock.FACING, Direction.getRandom(RandomSource.create()))), getEncounter().getRewards());
-        } else if (!players.isEmpty()) {
-            //give reward to one player as fallback if room has no spawn point for a chest
-            Utils.giveItems((ServerPlayer) players.getFirst(), getEncounter().getRewards());
+        if (!encounter.getRewards().isEmpty()) {
+            if (!room.getTreasurePoints().isEmpty()) {
+                spawnRewardsChest(level, room.getTreasurePoints().getFirst(), getEncounter().getRewards());
+            } else if (!room.getSpawnPoints().isEmpty()) {
+                //fallback to spawn points
+                spawnRewardsChest(level, new Room.TreasurePoint(room.getSpawnPoints().getFirst(), ModBlocks.treasureChest.get().defaultBlockState().setValue(TreasureChestBlock.FACING, Util.getRandom(Direction.Plane.HORIZONTAL.stream().toList(), RandomSource.create()))), getEncounter().getRewards());
+            } else if (!players.isEmpty()) {
+                //give reward to one player as fallback if room has no spawn point for a chest
+                Utils.giveItems((ServerPlayer) players.getFirst(), getEncounter().getRewards());
+            }
         }
 
         players.forEach(player -> {
