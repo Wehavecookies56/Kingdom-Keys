@@ -835,6 +835,7 @@ public class CommandMenuGui extends OverlayBase {
 	@Override
 	public void render(GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
 		super.render(guiGraphics, deltaTracker);
+		guiGraphics.managed = true;
 		if (minecraft.player != null) {
 			ClientUtils.RC_ELEMENT.applyTransform(guiGraphics, minecraft.getWindow().getGuiScaledWidth(), minecraft.getWindow().getGuiScaledHeight());
 
@@ -850,6 +851,8 @@ public class CommandMenuGui extends OverlayBase {
 			});
 			ClientUtils.CM_ELEMENT.endTransform(guiGraphics);
 		}
+		guiGraphics.flush();
+		guiGraphics.managed = false;
 	}
 
 	public void drawReactionCommands(GuiGraphics gui, DeltaTracker deltaTracker) {
@@ -926,9 +929,9 @@ public class CommandMenuGui extends OverlayBase {
 		float perc = 100F * entry.getValue() / maxDuration;
 		//Purple bar
 		Color color = new Color(command.getColor());
-		gui.setColor(color.getRed() / 255F, color.getGreen() / 255F, color.getBlue() / 255F, 1);
+		RenderSystem.setShaderColor(color.getRed() / 255F, color.getGreen() / 255F, color.getBlue() / 255F, 1);
 		blit(gui, rcTexture, ModConfigs.cmReactionEndLWidth - 2, 0, (int) ((middleWidth + 4) * perc / 100F), TOP_HEIGHT, 50, 45, 1, TOP_HEIGHT, 256, 256);
-		gui.setColor(1, 1, 1, 1);
+		RenderSystem.setShaderColor(1, 1, 1, 1);
 
 		//Left
 		blit(gui, rcTexture, 0, 0, 24, 45, ModConfigs.cmReactionEndLWidth + 1, TOP_HEIGHT);

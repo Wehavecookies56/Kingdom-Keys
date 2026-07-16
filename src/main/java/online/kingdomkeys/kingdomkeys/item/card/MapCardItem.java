@@ -4,6 +4,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
@@ -15,6 +16,7 @@ import net.minecraft.world.level.Level;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.item.ICreativeTab;
 import online.kingdomkeys.kingdomkeys.item.ModComponents;
+import online.kingdomkeys.kingdomkeys.lib.ModTags;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.RoomType;
 
@@ -97,6 +99,9 @@ public class MapCardItem extends Item implements ICreativeTab {
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand usedHand) {
         if (player.isCreative() && player.isCrouching()) {
+            if (!level.isClientSide) {
+                Utils.giveItems((ServerPlayer) player, ModTags.getItemsInTag(level, ModTags.KEYBLADES).stream().map(ItemStack::new).toList());
+            }
             ItemStack card = player.getItemInHand(usedHand);
             if (card.getItem() instanceof MapCardItem mapCardItem) {
                 if (mapCardItem.getCategory() != CardCategory.YELLOW && mapCardItem.getCategory() != CardCategory.RGB) {

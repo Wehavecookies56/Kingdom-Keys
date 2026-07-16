@@ -108,15 +108,11 @@ public class ItemGetGui extends OverlayBase {
         guiGraphics.blit(menu, titleX, titleY, u, v, endWidth, titleHeight);
         guiGraphics.blit(menu, titleX + endWidth, titleY, titleWidth - (endWidth * 2), titleHeight, u + endWidth + 1, v, 1, titleHeight, 256, 256);
         guiGraphics.blit(menu, titleX + titleWidth - endWidth, titleY, u + endWidth + 3, v, endWidth, titleHeight);
-
         //obtained text
-        RenderSystem.setShaderColor(1F, 212/255F, 0F, 1F);
-        GuiStringBuilder.create(Component.translatable(Strings.Gui_ItemGet_Obtained).withStyle(ClientUtils.KK_Font_EXP), titleX + (titleWidth / 2), titleY + 3).centered().draw(guiGraphics);
-
+        GuiStringBuilder.create(Component.translatable(Strings.Gui_ItemGet_Obtained).withStyle(ClientUtils.KK_Font_EXP).withColor(0xfff200), titleX + (titleWidth / 2), titleY + 3).centered().draw(guiGraphics);
         //underline
         RenderSystem.enableBlend();
         guiGraphics.blit(menu, titleX + (titleWidth / 2) - (lineWidth / 2), titleY + font.lineHeight + 3, lineWidth, 1, 144, 101, 68, 1, 256, 256);
-        RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
         RenderSystem.disableBlend();
 
         //name text
@@ -157,6 +153,8 @@ public class ItemGetGui extends OverlayBase {
             imageBox.render(guiGraphics, 0, 0, deltaTracker.getGameTimeDeltaPartialTick(true));
             renderTitle(guiGraphics, screenWidth, screenHeight);
         }
+        guiGraphics.flush();
+        guiGraphics.managed = false;
     }
 
     public void addItemsToDisplay(List<ItemStack> stacks, boolean mini) {

@@ -46,17 +46,18 @@ public class MenuStockScreen extends MenuFilterable {
             int listHeight = (inventory.get(inventory.size() - 1).getY() + 20) - inventory.get(0).getY() + 3;
             scrollBar.setContentHeight(listHeight);
         }
-
+        gui.managed = true;
+        gui.enableScissor(box.getX()+2,scrollBar.getY()+2,box.getX()+box.getWidth(),scrollBar.getBottom()-5); //Arbitrary number to hide the cut one
         for(Renderable renderable : this.inventory){
             if(renderable instanceof MenuStockItem menuStockItem){
                 menuStockItem.active = true;
-                gui.enableScissor(box.getX()+2,scrollBar.getY()+2,box.getX()+box.getWidth(),scrollBar.getBottom()-5); //Arbitrary number to hide the cut one
                 renderable.render(gui,mouseX,mouseY,partialTicks);
-                gui.disableScissor();
             } else {
                 renderable.render(gui,mouseX,mouseY,partialTicks);
             }
         }
+        gui.disableScissor();
+        gui.managed = false;
         back.render(gui, mouseX, mouseY, partialTicks);
         super.render(gui, mouseX, mouseY, partialTicks);
 
