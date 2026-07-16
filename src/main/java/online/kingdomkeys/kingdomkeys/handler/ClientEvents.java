@@ -57,6 +57,7 @@ import online.kingdomkeys.kingdomkeys.client.gui.KOGui;
 import online.kingdomkeys.kingdomkeys.client.gui.StopGui;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.CommandMenuSubMenu;
 import online.kingdomkeys.kingdomkeys.client.gui.overlay.CommandMenuGui;
+import online.kingdomkeys.kingdomkeys.client.gui.overlay.ItemGetGui;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.CastleOblivionData;
@@ -663,6 +664,12 @@ public class ClientEvents {
     @SubscribeEvent
     public void clientTickPre(ClientTickEvent.Pre event) {
         Minecraft mc = Minecraft.getInstance();
+
+        if (mc.level == null) {
+            ItemGetGui.INSTANCE.clearItems();
+        } else {
+            ItemGetGui.INSTANCE.tick();
+        }
 
         if (mc.level != null)
             selectedSlot = Minecraft.getInstance().player.getInventory().selected;

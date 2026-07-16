@@ -4,24 +4,19 @@ import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.DefaultVertexFormat;
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.blaze3d.vertex.VertexFormat;
+import com.mojang.blaze3d.vertex.*;
 import com.mojang.math.Axis;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiSpriteManager;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.player.AbstractClientPlayer;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderStateShard;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.Sheets;
+import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.EntityRenderer;
@@ -29,6 +24,8 @@ import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlas;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.resources.metadata.gui.GuiSpriteScaling;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.core.BlockPos;
@@ -39,6 +36,7 @@ import net.minecraft.network.chat.FormattedText;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
@@ -79,6 +77,7 @@ import org.joml.Quaternionf;
 import javax.annotation.Nullable;
 import java.io.FileNotFoundException;
 import java.util.*;
+import java.util.function.Function;
 
 public class ClientUtils {
     public static Style KK_Font_EXP = Style.EMPTY.withFont(KingdomKeys.rl("kk_font_exp"));
@@ -100,6 +99,7 @@ public class ClientUtils {
     public static final HUDElement DRIVELEVEL_ELEMENT = new HUDElement("DriveLevel");
     public static final HUDElement ROOMNAME_ELEMENT = new HUDElement("RoomName");
     public static final HUDElement MINIMAP_ELEMENT = new HUDElement("Minimap");
+    public static final HUDElement ITEMGET_ELEMENT = new HUDElement("ItemGet");
 
     public static Entity getEntityByUUIDClient(UUID uuid) {
         Minecraft mc = Minecraft.getInstance();
@@ -1168,6 +1168,111 @@ public class ClientUtils {
 
         MINI_TRAILS.add(new MiniTrail(start, target, speed, attract));
     }
+
+    //copy of GuiGraphics blit methods but modified to batch render and with innerStretch boolean to replicate the 1.21.2+ mcmeta property
+    public static void blitSprite(GuiGraphics guiGraphics, ResourceLocation sprite, int x, int y, int width, int height, boolean innerStretch) {
+        blitSprite(guiGraphics, sprite, x, y, width, height, 0, innerStretch);
+    }
+
+    public static void blitSprite(GuiGraphics guiGraphics, ResourceLocation sprite, int x, int y, int width, int height, int blitOffset, boolean innerStretch) {
+        GuiSpriteManager sprites = Minecraft.getInstance().getGuiSprites();
+        TextureAtlasSprite textureatlassprite = sprites.getSprite(sprite);
+        GuiSpriteScaling guispritescaling = sprites.getSpriteScaling(textureatlassprite);
+        BufferBuilder bufferbuilder = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
+        if (guispritescaling instanceof GuiSpriteScaling.Stretch) {
+            blitSprite(guiGraphics, bufferbuilder, textureatlassprite, x, y, width, height, blitOffset);
+        } else if (guispritescaling instanceof GuiSpriteScaling.Tile) {
+            GuiSpriteScaling.Tile guispritescaling$tile = (GuiSpriteScaling.Tile)guispritescaling;
+            blitTiledSprite(guiGraphics, bufferbuilder, textureatlassprite, x, y, width, height, 0, 0, guispritescaling$tile.width(), guispritescaling$tile.height(), guispritescaling$tile.width(), guispritescaling$tile.height(), blitOffset);
+        } else if (guispritescaling instanceof GuiSpriteScaling.NineSlice guispritescaling$nineslice) {
+            blitNineSlicedSprite(guiGraphics, bufferbuilder, textureatlassprite, guispritescaling$nineslice, x, y, width, height, blitOffset, innerStretch);
+        }
+
+    }
+
+    private static void blitNineSlicedSprite(GuiGraphics guiGraphics, BufferBuilder bufferbuilder, TextureAtlasSprite sprite, GuiSpriteScaling.NineSlice nineSlice, int x, int y, int width, int height, int blitOffset, boolean innerStretch) {
+        RenderSystem.setShaderTexture(0, sprite.atlasLocation());
+        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        GuiSpriteScaling.NineSlice.Border guispritescaling$nineslice$border = nineSlice.border();
+        int i = Math.min(guispritescaling$nineslice$border.left(), width / 2);
+        int j = Math.min(guispritescaling$nineslice$border.right(), width / 2);
+        int k = Math.min(guispritescaling$nineslice$border.top(), height / 2);
+        int l = Math.min(guispritescaling$nineslice$border.bottom(), height / 2);
+        if (width == nineSlice.width() && height == nineSlice.height()) {
+            blitSprite(guiGraphics, bufferbuilder, sprite, nineSlice.width(), nineSlice.height(), 0, 0, x, y, width, height, blitOffset);
+        } else if (height == nineSlice.height()) {
+            blitSprite(guiGraphics, bufferbuilder, sprite, nineSlice.width(), nineSlice.height(), 0, 0, x, y, i, height, blitOffset);
+            blitTiledSprite(guiGraphics, bufferbuilder, sprite, x + i, y, width - j - i, height, i, 0, nineSlice.width() - j - i, nineSlice.height(), nineSlice.width(), nineSlice.height(), blitOffset);
+            blitSprite(guiGraphics, bufferbuilder, sprite, nineSlice.width(), nineSlice.height(), nineSlice.width() - j, 0, x + width - j, y, j, height, blitOffset);
+        } else if (width == nineSlice.width()) {
+            blitSprite(guiGraphics, bufferbuilder, sprite, nineSlice.width(), nineSlice.height(), 0, 0, x, y, width, k, blitOffset);
+            blitTiledSprite(guiGraphics, bufferbuilder, sprite, x, y + k, width, height - l - k, 0, k, nineSlice.width(), nineSlice.height() - l - k, nineSlice.width(), nineSlice.height(), blitOffset);
+            blitSprite(guiGraphics, bufferbuilder, sprite, nineSlice.width(), nineSlice.height(), 0, nineSlice.height() - l, x, y + height - l, width, l, blitOffset);
+        } else {
+            blitSprite(guiGraphics, bufferbuilder, sprite, nineSlice.width(), nineSlice.height(), 0, 0, x, y, i, k, blitOffset);
+            blitNineSliceInnerSegment(guiGraphics, bufferbuilder, sprite, x + i, y, width - j - i, k, i, 0, nineSlice.width() - j - i, k, nineSlice.width(), nineSlice.height(), blitOffset, innerStretch);
+            blitSprite(guiGraphics, bufferbuilder, sprite, nineSlice.width(), nineSlice.height(), nineSlice.width() - j, 0, x + width - j, y, j, k, blitOffset);
+            blitSprite(guiGraphics, bufferbuilder, sprite, nineSlice.width(), nineSlice.height(), 0, nineSlice.height() - l, x, y + height - l, i, l, blitOffset);
+            blitNineSliceInnerSegment(guiGraphics, bufferbuilder, sprite, x + i, y + height - l, width - j - i, l, i, nineSlice.height() - l, nineSlice.width() - j - i, l, nineSlice.width(), nineSlice.height(), blitOffset, innerStretch);
+            blitSprite(guiGraphics, bufferbuilder, sprite, nineSlice.width(), nineSlice.height(), nineSlice.width() - j, nineSlice.height() - l, x + width - j, y + height - l, j, l, blitOffset);
+            blitNineSliceInnerSegment(guiGraphics, bufferbuilder, sprite, x, y + k, i, height - l - k, 0, k, i, nineSlice.height() - l - k, nineSlice.width(), nineSlice.height(), blitOffset, innerStretch);
+            blitNineSliceInnerSegment(guiGraphics, bufferbuilder, sprite, x + i, y + k, width - j - i, height - l - k, i, k, nineSlice.width() - j - i, nineSlice.height() - l - k, nineSlice.width(), nineSlice.height(), blitOffset, innerStretch);
+            blitNineSliceInnerSegment(guiGraphics, bufferbuilder, sprite, x + width - j, y + k, i, height - l - k, nineSlice.width() - j, k, j, nineSlice.height() - l - k, nineSlice.width(), nineSlice.height(), blitOffset, innerStretch);
+        }
+        BufferUploader.drawWithShader(bufferbuilder.buildOrThrow());
+    }
+
+    private static void blitNineSliceInnerSegment(GuiGraphics guiGraphics, BufferBuilder bufferBuilder, TextureAtlasSprite sprite, int x, int y, int width, int height, int uPosition, int vPosition, int spriteWidth, int spriteHeight, int nineSliceWidth, int nineSliceHeight, int blitOffset, boolean innerStretch) {
+        if (width > 0 && height > 0) {
+            if (innerStretch) {
+                innerBlit(guiGraphics, bufferBuilder, sprite.atlasLocation(), x, x + width, y, y + height, sprite.getU((float)uPosition / (float)nineSliceWidth), sprite.getU((float)(uPosition + spriteWidth) / (float)nineSliceWidth), sprite.getV((float)vPosition / (float)nineSliceHeight), sprite.getV((float)(vPosition + spriteHeight) / (float)nineSliceHeight), blitOffset);
+            } else {
+                blitTiledSprite(guiGraphics, bufferBuilder, sprite, x, y, width, height, uPosition, vPosition, spriteWidth, spriteHeight, nineSliceWidth, nineSliceHeight, blitOffset);
+            }
+        }
+
+    }
+
+    private static void blitTiledSprite(GuiGraphics guiGraphics, BufferBuilder bufferBuilder, TextureAtlasSprite sprite, int x, int y, int width, int height, int uPosition, int vPosition, int spriteWidth, int spriteHeight, int nineSliceWidth, int nineSliceHeight, int blitOffset) {
+        if (width > 0 && height > 0) {
+            if (spriteWidth <= 0 || spriteHeight <= 0) {
+                throw new IllegalArgumentException("Tiled sprite texture size must be positive, got " + spriteWidth + "x" + spriteHeight);
+            }
+
+            for(int i = 0; i < width; i += spriteWidth) {
+                int j = Math.min(spriteWidth, width - i);
+
+                for(int k = 0; k < height; k += spriteHeight) {
+                    int l = Math.min(spriteHeight, height - k);
+                    blitSprite(guiGraphics, bufferBuilder, sprite, nineSliceWidth, nineSliceHeight, uPosition, vPosition, x + i, y + k, j, l, blitOffset);
+                }
+            }
+        }
+
+    }
+
+    private static void blitSprite(GuiGraphics guiGraphics, BufferBuilder bufferBuilder, TextureAtlasSprite sprite, int x, int y, int width, int height, int blitOffset) {
+        if (width != 0 && height != 0) {
+            innerBlit(guiGraphics, bufferBuilder, sprite.atlasLocation(), x, x + width, y, y + height, sprite.getU0(), sprite.getU1(), sprite.getV0(), sprite.getV1(), blitOffset);
+        }
+
+    }
+
+    private static void blitSprite(GuiGraphics guiGraphics, BufferBuilder bufferBuilder, TextureAtlasSprite sprite, int textureWidth, int textureHeight, int uPosition, int vPosition, int x, int y, int uWidth, int vHeight, int blitOffset) {
+        if (uWidth != 0 && vHeight != 0) {
+            innerBlit(guiGraphics, bufferBuilder, sprite.atlasLocation(), x, x + uWidth, y, y + vHeight, sprite.getU((float)uPosition / (float)textureWidth), sprite.getU((float)(uPosition + uWidth) / (float)textureWidth), sprite.getV((float)vPosition / (float)textureHeight), sprite.getV((float)(vPosition + vHeight) / (float)textureHeight), blitOffset);
+        }
+
+    }
+
+    private static void innerBlit(GuiGraphics guiGraphics, BufferBuilder bufferBuilder, ResourceLocation atlasLocation, int x1, int x2, int y1, int y2, float minU, float maxU, float minV, float maxV, int blitOffset) {
+        Matrix4f matrix4f = guiGraphics.pose().last().pose();
+        bufferBuilder.addVertex(matrix4f, (float)x1, (float)y1, (float)blitOffset).setUv(minU, minV);
+        bufferBuilder.addVertex(matrix4f, (float)x1, (float)y2, (float)blitOffset).setUv(minU, maxV);
+        bufferBuilder.addVertex(matrix4f, (float)x2, (float)y2, (float)blitOffset).setUv(maxU, maxV);
+        bufferBuilder.addVertex(matrix4f, (float)x2, (float)y1, (float)blitOffset).setUv(maxU, minV);
+    }
+
 }
 
 

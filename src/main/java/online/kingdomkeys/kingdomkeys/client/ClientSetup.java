@@ -104,6 +104,7 @@ public class ClientSetup {
 		event.registerBelow(VanillaGuiLayers.CROSSHAIR, KingdomKeys.rl("shotlock"), ShotlockGUI.INSTANCE);
 		event.registerBelow(VanillaGuiLayers.TITLE, KingdomKeys.rl("station_of_awakening_messages"), SoAMessages.INSTANCE);
 		event.registerBelow(VanillaGuiLayers.CHAT, KingdomKeys.rl("castle_oblivion_minimap"), COMinimap.INSTANCE);
+		event.registerAbove(VanillaGuiLayers.CHAT, KingdomKeys.rl("item_get"), ItemGetGui.INSTANCE);
 	}
 
 	@SubscribeEvent

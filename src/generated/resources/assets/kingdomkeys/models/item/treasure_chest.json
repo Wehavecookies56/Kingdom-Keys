@@ -1,0 +1,12 @@
+{
+  "parent": "kingdomkeys:block/treasure_chest",
+  "display": {
+    "gui": {
+      "translation": [
+        -0.25,
+        1,
+        0
+      ]
+    }
+  }
+}

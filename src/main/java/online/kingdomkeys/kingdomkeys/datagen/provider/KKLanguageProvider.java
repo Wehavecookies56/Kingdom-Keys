@@ -6,6 +6,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.common.ModConfigSpec;
 import net.neoforged.neoforge.common.data.LanguageProvider;
@@ -17,6 +18,7 @@ import online.kingdomkeys.kingdomkeys.limit.Limit;
 import online.kingdomkeys.kingdomkeys.magic.Magic;
 import online.kingdomkeys.kingdomkeys.reactioncommands.ReactionCommand;
 import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.util.List;
 import java.util.Map;
@@ -49,6 +51,11 @@ public abstract class KKLanguageProvider extends LanguageProvider {
             add(i+1, key.get(), value[i]);
         }
         add(key.get().getDescTranslationKey(), description);
+    }
+
+    public void addItem(Supplier<? extends Item> item, String name, String description) {
+        addItem(item, name);
+        add(Utils.createDescriptionKey(new ItemStack(item.get())), description);
     }
 
     public void addAbilityDesc(Supplier<Ability> key, String value) {

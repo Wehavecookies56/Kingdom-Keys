@@ -486,6 +486,10 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Gui_KO_Die, "Give Up");
         add(Gui_KO_Quit, "Exit");
 
+        //Item Get screen
+        add(Gui_ItemGet_Obtained, "OBTAINED");
+        add(Gui_ItemGet_Dismiss, "<Press anything to hide>");
+
         //Level up messages
         add(Stats_LevelUp_Str, "Strength increased!");
         add(Stats_LevelUp_Def, "Defense increased!");
@@ -836,37 +840,37 @@ public class LanguageENUS extends KKLanguageProvider {
         /**Items**/
         //Cards
         add("item.mapcard.prefix", "(%s) %s");
-        addItem(ModItems.tranquilDarkness, "Tranquil Darkness");
-        addItem(ModItems.teemingDarkness, "Teeming Darkness");
-        addItem(ModItems.feebleDarkness, "Feeble Darkness");
-        addItem(ModItems.almightyDarkness, "Almighty Darkness");
-        addItem(ModItems.sleepingDarkness, "Sleeping Darkness");
-        addItem(ModItems.loomingDarkness, "Looming Darkness");
-        addItem(ModItems.bottomlessDarkness, "Bottomless Darkness");
-        addItem(ModItems.martialWaking, "Martial Waking");
-        addItem(ModItems.sorcerousWaking, "Sorcerous Waking");
-        addItem(ModItems.alchemicWaking, "Alchemic Waking");
-        addItem(ModItems.stagnantSpace, "Stagnant Space");
-        addItem(ModItems.weightlessSpace, "Weightless Space");
-        addItem(ModItems.calmBounty, "Calm Bounty");
-        addItem(ModItems.guardedTrove, "Guarded Trove");
-        addItem(ModItems.falseBounty, "False Bounty");
-        addItem(ModItems.momentsReprieve, "Moment's Reprieve");
-        addItem(ModItems.minglingWorlds, "Mingling Worlds");
-        addItem(ModItems.moogleRoom, "Moogle Room");
-        addItem(ModItems.prosperousRepository, "Prosperous Repository");
-        addItem(ModItems.treacherousRepository, "Treacherous Repository");
-        addItem(ModItems.reposefulGrove, "Reposeful Grove");
+        addItem(ModItems.tranquilDarkness, "Tranquil Darkness", "A room where only a few Heartless appear.");
+        addItem(ModItems.teemingDarkness, "Teeming Darkness", "A room where many Heartless appear. Enemies often drop enemy cards in this room.");
+        addItem(ModItems.feebleDarkness, "Feeble Darkness", "A room where Heartless with weak cards appear.");
+        addItem(ModItems.almightyDarkness, "Almighty Darkness", "A room where Heartless with strong cards appear. Enemies often drop enemy cards in this room.");
+        addItem(ModItems.sleepingDarkness, "Sleeping Darkness", "A room where Heartless are drowsy and easy to ambush.");
+        addItem(ModItems.loomingDarkness, "Looming Darkness", "A room where Heartless attack relentlessly. Enemies often drop enemy cards in this room.");
+        addItem(ModItems.bottomlessDarkness, "Bottomless Darkness", "A pitch-dark room where many Heartless appear.");
+        addItem(ModItems.martialWaking, "Martial Waking", "A room where attacks are more effective.");
+        addItem(ModItems.sorcerousWaking, "Sorcerous Waking", "A room where spells are more effective.");
+        addItem(ModItems.alchemicWaking, "Alchemic Waking", "A room where items are more effective.");
+        addItem(ModItems.stagnantSpace, "Stagnant Space", "A room where the Heartless move slowly.");
+        addItem(ModItems.weightlessSpace, "Weightless Space", "A room where gravity feels weaker.");
+        addItem(ModItems.calmBounty, "Calm Bounty", "A room containing treasure.");
+        addItem(ModItems.guardedTrove, "Guarded Trove", "A room where treasure is guarded by Heartless.");
+        addItem(ModItems.falseBounty, "False Bounty", "A room where only one treasure chest is real. Opening a fake chest leads to battle with Heartless.");
+        addItem(ModItems.momentsReprieve, "Moment's Reprieve", "A room where you can save your progress. No Heartless.");
+        addItem(ModItems.minglingWorlds, "Mingling Worlds", "A room where anything could happen.");
+        addItem(ModItems.moogleRoom, "Moogle Room", "A room where you can trade cards at the Moogle Shop.");
+        addItem(ModItems.prosperousRepository, "Prosperous Repository", "A room containing ores.");
+        addItem(ModItems.treacherousRepository, "Treacherous Repository", "A room where ores are guarded by Heartless.");
+        addItem(ModItems.reposefulGrove, "Reposeful Grove", "A room where peaceful mobs appear.");
 
-        addItem(ModItems.keyOfBeginnings, "Key of Beginnings");
-        addItem(ModItems.keyOfGuidance, "Key of Guidance");
-        addItem(ModItems.keyToTruth, "Key to Truth");
-        addItem(ModItems.keyToRewards, "Key to Rewards");
+        addItem(ModItems.keyOfBeginnings, "Key of Beginnings", "A room where untold stories unfold.");
+        addItem(ModItems.keyOfGuidance, "Key of Guidance", "A room where untold stories unfold.");
+        addItem(ModItems.keyToTruth, "Key to Truth", "A room where untold stories unfold.");
+        addItem(ModItems.keyToRewards, "Key to Rewards", "Allows access to a secret room with rare cards and sleights.");
 
-        addItem(ModItems.redCardPack, "Red card pack");
-        addItem(ModItems.greenCardPack, "Green card pack");
-        addItem(ModItems.blueCardPack, "Blue cards pack");
-        addItem(ModItems.randomCardPack, "Random card pack");
+        addItem(ModItems.redCardPack, "Red card pack", "A pack of 5 red Map Cards, open to reveal them.");
+        addItem(ModItems.greenCardPack, "Green card pack", "A pack of 5 hreen Map Cards, open to reveal them.");
+        addItem(ModItems.blueCardPack, "Blue cards pack", "A pack of 5 blue Map Cards, open to reveal them.");
+        addItem(ModItems.randomCardPack, "Random card pack", "A pack of 5 Map Cards of any color, open to reveal them.");
 
         addItem(ModItems.emptyCard,"Empty Card");
         addItem(ModItems.plainsCard,"Plains Card");
@@ -2059,11 +2063,11 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.slowSpell, "Slow Spell");
 
         //Drive form orbs
-        addItem(ModItems.valorOrb, "Valor Form Orb");
-        addItem(ModItems.wisdomOrb, "Wisdom Form Orb");
-        addItem(ModItems.limitOrb, "Limit Form Orb");
-        addItem(ModItems.masterOrb, "Master Form Orb");
-        addItem(ModItems.finalOrb, "Final Form Orb");
+        addItem(ModItems.valorOrb, "Valor Form Orb", "Orb containing Valor Form\nA Form specializing in physical attacks.");
+        addItem(ModItems.wisdomOrb, "Wisdom Form Orb", "Orb containing Wisdom Form\nA Form specializing in magic attacks.");
+        addItem(ModItems.limitOrb, "Limit Form Orb", "Orb containing Limit Form\nA Form specializing in Limit attacks.");
+        addItem(ModItems.masterOrb, "Master Form Orb", "Orb containing Master Form\nA Form that handles both the Keyblade and magic.");
+        addItem(ModItems.finalOrb, "Final Form Orb", "Orb containing Final Form\nA Form that unleashes the Keyblade's true power.");
 
         //Other
         addItem(ModItems.recipe, "Recipe");

@@ -6,10 +6,7 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.StringTag;
-import net.minecraft.nbt.Tag;
+import net.minecraft.nbt.*;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -326,6 +323,8 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		storage.putBoolean("bounced", bounced);
 
 		storage.putInt("tutorial_flags", tutorialFlags);
+
+		storage.put("overflow", ItemStack.CODEC.listOf().encodeStart(NbtOps.INSTANCE, overflow.stream().toList()).getPartialOrThrow());
 		return storage;
 	}
 
@@ -567,6 +566,12 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		this.setBounced(nbt.getBoolean("bounced"));
 
 		this.setTutorialFlags(nbt.getInt("tutorial_flags"));
+
+		if (nbt.contains("overflow")) {
+			this.overflow = new ArrayDeque<>(ItemStack.CODEC.listOf().parse(NbtOps.INSTANCE, nbt.get("overflow")).getPartialOrThrow());
+		} else {
+			this.overflow = new ArrayDeque<>();
+		}
 	}
 
 	private int ver = -1, level = 1, exp = 0, expGiven = 0, maxHp = 20, remainingExp = 0, reflectTicks = 0, reflectLevel = 0, magicCasttime = 0, magicCooldown = 0, munny = 0, antipoints = 0, aerialDodgeTicks, synthLevel=1, synthExp, remainingSynthExp = 0,hangingWallTicks, wallGrabs, tutorialFlags;
@@ -643,6 +648,8 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 	Utils.castMagic castMagic = null;
 
 	private Set<String> synthesisedRecipes = new HashSet<>();
+
+	private Queue<ItemStack> overflow = new ArrayDeque<>();
 
 	public int getVer(){
 		return ver;
@@ -1418,6 +1425,22 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		if (!equippedItems.containsKey(slot)) {
 			equippedItems.put(slot, stack);
 		}
+	}
+
+	public Queue<ItemStack> getOverflow() {
+		return overflow;
+	}
+
+	public ItemStack getNextOverflow() {
+		return overflow.poll();
+	}
+
+	public void addToOverflow(ItemStack stack) {
+		overflow.add(stack);
+	}
+
+	public List<ItemStack> getOverflowForDisplay() {
+		return new ArrayList<>(overflow);
 	}
 
 	//endregion

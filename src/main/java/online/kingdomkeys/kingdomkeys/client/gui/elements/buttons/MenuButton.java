@@ -163,8 +163,7 @@ public class MenuButton extends MenuButtonBase {
 		vPos = hovered || selected ? selVPos : vPos;
 
 		gui.blit(texture, getX(), getY(), leftU, vPos, endWidth, height);
-		for (int i = 0; i < middleWidth; i++)
-			gui.blit(texture, getX() + i + endWidth, getY(), middleU, vPos, 1, height);
+		gui.blit(texture, getX() + endWidth, getY(), middleWidth, height, middleU, vPos, 1, height, 256, 256);
 		gui.blit(texture, getX() + endWidth + middleWidth, getY(), rightU, vPos, endWidth, height);
 
 		//Glove and dot

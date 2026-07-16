@@ -32,6 +32,7 @@ import online.kingdomkeys.kingdomkeys.client.gui.menu.customize.MenuCustomizeSho
 import online.kingdomkeys.kingdomkeys.client.gui.menu.items.MeldingScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment.MenuEquipmentScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.organization.AlignmentSelectionScreen;
+import online.kingdomkeys.kingdomkeys.client.gui.overlay.ItemGetGui;
 import online.kingdomkeys.kingdomkeys.client.gui.overlay.SoAMessages;
 import online.kingdomkeys.kingdomkeys.client.gui.synthesis.SellScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.synthesis.SynthesisMaterialScreen;
@@ -436,6 +437,10 @@ public class ClientPacketHandler {
 
     public static void openCardPack(SCOpenCardPack message) {
         Minecraft.getInstance().setScreen(new CardPackScreen(message.cards()));
+    }
+
+    public static void displayItems(SCDisplayGivenItems message) {
+        ItemGetGui.INSTANCE.addItemsToDisplay(message.items(), false);
     }
 
 }

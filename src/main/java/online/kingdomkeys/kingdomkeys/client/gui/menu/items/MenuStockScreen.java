@@ -163,8 +163,17 @@ public class MenuStockScreen extends MenuFilterable {
                 inventory.add(item2);
             }
         }
+        List<ItemStack> overflow = playerData.getOverflowForDisplay();
+        for (int i = items.size(); i < overflow.size(); i += 2) {
+            int j = i + items.size();
+            MenuStockItem item = new MenuStockItem(this, overflow.get(i), (int) invPosX, (int) invPosY + (j * 7), itemWidth, true);
+            inventory.add(item);
+            if (i + 1 < overflow.size()) {
+                MenuStockItem item2 = new MenuStockItem(this, overflow.get(i+1), (int) invPosX + inventory.get(i).getWidth(), (int) invPosY + (j * 7),itemWidth, true);
+                inventory.add(item2);
+            }
+        }
         inventory.forEach(this::addWidget);
-
     }
 
     @Override

@@ -609,9 +609,14 @@ public class Strings {
 			//KO Screen
 			Gui_KO = "gui.ko",
 			Gui_KO_Die = Gui_KO + ".give_up",
-			Gui_KO_Quit = Gui_KO + ".exit";
+			Gui_KO_Quit = Gui_KO + ".exit",
 
-    //Items
+			//Item get
+			Gui_ItemGet_Obtained = "gui.itemget.obtained",
+			Gui_ItemGet_Dismiss = "gui.itemget.dismiss";
+
+
+	//Items
 
     public static final String
         iceCream = "ice_cream",

@@ -2537,4 +2537,54 @@ public class Utils {
 		}
 	}
 
+	public static void giveItems(ServerPlayer player, ItemStack... items) {
+		Arrays.stream(items).forEach(stack -> {
+			if (!tryToAddItem(player, stack)) {
+				//no space so add to overflow
+				PlayerData playerData = PlayerData.get(player);
+				if (playerData != null) {
+					//you could say this is a stack overflow
+					playerData.addToOverflow(stack);
+				}
+			}
+			//send to client
+			PacketHandler.sendTo(new SCDisplayGivenItems(Arrays.stream(items).toList()), player);
+		});
+	}
+
+	//
+	public static boolean tryToAddItem(ServerPlayer player, ItemStack item) {
+		//first pass try to find any stackable slots
+		for (ItemStack stack : player.getInventory().items) {
+			if (ItemStack.isSameItemSameComponents(item, stack)) {
+				int remaining = stack.getMaxStackSize() - stack.getCount();
+				if (remaining != 0) {
+					//stack as much as possible
+					int toAdd = Math.min(remaining, item.getCount());
+					item.shrink(toAdd);
+					stack.grow(toAdd);
+					if (item.getCount() == 0) {
+						//no items left in stack
+						return true;
+					}
+				}
+			}
+		}
+		//second pass try to find any empty slots
+		for (int i = 0; i < player.getInventory().items.size(); ++i) {
+			if (player.getInventory().getItem(i).isEmpty()) {
+				//free slot found
+				player.getInventory().setItem(i, item);
+				return true;
+			}
+		}
+		//no free space
+		return false;
+	}
+
+	public static String createDescriptionKey(ItemStack stack) {
+		ResourceLocation key = BuiltInRegistries.ITEM.getKey(stack.getItem());
+		return "item." + key.getNamespace() + "." + key.getPath() + ".desc";
+	}
+
 }

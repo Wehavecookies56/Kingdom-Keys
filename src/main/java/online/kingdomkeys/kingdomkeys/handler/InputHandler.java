@@ -31,6 +31,7 @@ import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.api.event.client.KKInputEvent;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.client.gui.overlay.CommandMenuGui;
+import online.kingdomkeys.kingdomkeys.client.gui.overlay.ItemGetGui;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.GlobalData;
@@ -98,6 +99,10 @@ public class InputHandler {
             if(playerData == null)
                 return;
 
+            if (event.getAction() == 1 && event.getKey() != GLFW.GLFW_KEY_PRINT_SCREEN && event.getKey() != mc.options.keyUp.getKey().getValue() && event.getKey() != mc.options.keyDown.getKey().getValue() && event.getKey() != mc.options.keyLeft.getKey().getValue() && event.getKey() != mc.options.keyRight.getKey().getValue()) {
+                ItemGetGui.INSTANCE.click();
+            }
+
             if (key != null) {
                 if (!NeoForge.EVENT_BUS.post(new KKInputEvent.Pre(key, this)).isCanceled()) {
                     switch (key) {
@@ -138,6 +143,10 @@ public class InputHandler {
     public void handleMouseInputEvent(InputEvent.MouseButton.Pre event) {
         init();
         if(level != null){
+            if (event.getAction() == 1) {
+                ItemGetGui.INSTANCE.click();
+            }
+
             if (event.getButton() == Constants.LEFT_MOUSE && event.getAction() == 1) {
                 if(KeyboardHelper.isScrollActivatorDown() && Utils.shouldRenderOverlay(player)) {
                     commandEnter();
