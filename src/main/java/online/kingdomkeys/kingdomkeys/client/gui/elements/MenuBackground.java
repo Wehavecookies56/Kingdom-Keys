@@ -473,7 +473,7 @@ public class MenuBackground extends Screen {
 
 	public void drawPlayer(GuiGraphics gui,@Nullable Party party, int order, Party.Member member) {
 		PoseStack matrixStack = gui.pose();
-		int count =  party == null ? CastleOblivionHandler.inInterior(getMinecraft().player) ? 3 : 1 : party.getMembers().size(); //Map space
+		int count = party == null ? CastleOblivionHandler.inInterior(getMinecraft().player) ? 3 : 1 : party.getMembers().size(); //Map space
 
 		boolean multiRow = count > 5;
 
@@ -562,16 +562,11 @@ public class MenuBackground extends Screen {
 				RenderSystem.enableBlend();
 
 				gui.blit(PLAYER_BOX_TEXTURE, infoBoxPosX, infoBoxPosY, 123,67,11,22);
-
-				for(int i=0;i<infoBoxWidth;i++)
-					gui.blit(PLAYER_BOX_TEXTURE, infoBoxPosX + 11 + i, infoBoxPosY, 135,67,2,22);
-
+				gui.blit(PLAYER_BOX_TEXTURE, infoBoxPosX + 11, infoBoxPosY, infoBoxWidth, 22, 135,67,1,22,256,256);
 				gui.blit(PLAYER_BOX_TEXTURE, infoBoxPosX + 11 + infoBoxWidth, infoBoxPosY,137,67,3,22);
+
 				gui.blit(PLAYER_BOX_TEXTURE, infoBoxPosX, infoBoxPosY + 22,123,90,3,35);
-
-				for(int i=0;i<infoBoxWidth+8;i++)
-					gui.blit(PLAYER_BOX_TEXTURE, infoBoxPosX + 3 + i, infoBoxPosY + 22,127,90,2,35);
-
+				gui.blit(PLAYER_BOX_TEXTURE, infoBoxPosX + 3, infoBoxPosY + 22, infoBoxWidth+8, 35,127,90,1,35,256,256);
 				gui.blit(PLAYER_BOX_TEXTURE, infoBoxPosX + 3 + infoBoxWidth + 8, infoBoxPosY + 22,129,90,3,35);
 
 				RenderSystem.disableBlend();
