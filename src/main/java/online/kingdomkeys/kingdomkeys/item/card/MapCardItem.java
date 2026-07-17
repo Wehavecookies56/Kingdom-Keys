@@ -99,9 +99,6 @@ public class MapCardItem extends Item implements ICreativeTab {
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand usedHand) {
         if (player.isCreative() && player.isCrouching()) {
-            if (!level.isClientSide) {
-                Utils.giveItems((ServerPlayer) player, ModTags.getItemsInTag(level, ModTags.KEYBLADES).stream().map(ItemStack::new).toList());
-            }
             ItemStack card = player.getItemInHand(usedHand);
             if (card.getItem() instanceof MapCardItem mapCardItem) {
                 if (mapCardItem.getCategory() != CardCategory.YELLOW && mapCardItem.getCategory() != CardCategory.RGB) {

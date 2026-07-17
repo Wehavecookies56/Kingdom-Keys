@@ -267,7 +267,7 @@ public class Floor {
                 KingdomKeys.LOGGER.debug("Generating Key room no. {}", i);
                 int index = Utils.randomWithRange(0, possibleRoomsForKeyRooms.size() - 1);
                 RoomData room = possibleRoomsForKeyRooms.get(index);
-                KeycardType keycardType = KeycardType.values()[i];;
+                KeycardType keycardType = KeycardType.values()[i];
                 RoomDirection direction = setRandomFreeDoor(room, DoorData.Type.KEY, keycardType);
                 if (direction != null) {
                     RoomData newRoom = new RoomData(floorID, room.pos.add(direction), RoomData.Type.ENCOUNTER);
