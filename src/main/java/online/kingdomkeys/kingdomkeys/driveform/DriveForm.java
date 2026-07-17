@@ -200,17 +200,19 @@ public abstract class DriveForm implements KKRegistryObject {
 	}
 
 	public void updateDrive(Player player) {
-		if (!getRegistryName().equals(NONE)) {
-			double formDecrease = 0.2;
-			PlayerData playerData = PlayerData.get(player);
-			for (int i = 0; i < playerData.getNumberOfAbilitiesEquipped(ModAbilities.FORM_BOOST); i++) {
-				formDecrease /= 1.2;
-			}
-			if (playerData.getFP() > 0) {
-				playerData.setFP(playerData.getFP() - formDecrease);
-			} else {
-				endDrive(player);
-			}
+		if (getRegistryName().equals(NONE))
+			return;
+
+		double formDecrease = 0.2;
+		PlayerData playerData = PlayerData.get(player);
+		int driveBoosts = playerData.getNumberOfAbilitiesEquipped(ModAbilities.FORM_BOOST);
+		for (int i = 0; i < driveBoosts; i++) {
+			formDecrease /= 1.2;
+		}
+		if (playerData.getFP() > 0) {
+			playerData.setFP(playerData.getFP() - formDecrease);
+		} else {
+			endDrive(player);
 		}
 	}
 
