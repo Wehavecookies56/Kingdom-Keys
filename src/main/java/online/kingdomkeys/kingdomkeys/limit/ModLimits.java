@@ -1,7 +1,6 @@
 package online.kingdomkeys.kingdomkeys.limit;
 
 import net.minecraft.core.Registry;
-import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.lib.KKSupplier;
@@ -22,7 +21,9 @@ public class ModLimits {
 		LASER_DOME = register(Strings.LaserDome, () -> new LimitLaserDome(KingdomKeys.rl(Strings.LaserDome), order++, OrgMember.XEMNAS)),
 		ARROW_RAIN = register(Strings.ArrowRain, () -> new LimitArrowRain(KingdomKeys.rl(Strings.ArrowRain), order++, OrgMember.XIGBAR)),
 		SLOW_THUNDER_TRAIL = register(Strings.SlowThunderTrail, () -> new LimitThunderTrail(KingdomKeys.rl(Strings.SlowThunderTrail), order++, OrgMember.LARXENE, 0.7F)),
-		FAST_THUNDER_TRAIL = register(Strings.FastThunderTrail, () -> new LimitThunderTrail(KingdomKeys.rl(Strings.FastThunderTrail), order++, OrgMember.LARXENE, 1.2F))
+		FAST_THUNDER_TRAIL = register(Strings.FastThunderTrail, () -> new LimitThunderTrail(KingdomKeys.rl(Strings.FastThunderTrail), order++, OrgMember.LARXENE, 1.2F)),
+		FLAME_WHEEL = register(Strings.FlameRing, () -> new LimitFlameRing(KingdomKeys.rl(Strings.FlameRing), order++, OrgMember.AXEL)),
+		FIRE_WALL = register(Strings.FlameWall, () -> new LimitFlameWall(KingdomKeys.rl(Strings.FlameWall), order++, OrgMember.AXEL))
 	;
 
 	private static KKSupplier<Limit> register(String name, Supplier<Limit> limitSupplier) {

@@ -67,6 +67,7 @@ public class ModEntities {
     public static final DeferredHolder<EntityType<?>, EntityType<MPOrbEntity>> TYPE_MPORB = createEntityType(MPOrbEntity::new, MobCategory.MISC,"entity_mp_orb", 0.25F, 0.25F);
     public static final DeferredHolder<EntityType<?>, EntityType<DriveOrbEntity>> TYPE_DRIVEORB = createEntityType(DriveOrbEntity::new, MobCategory.MISC,"entity_drive_orb", 0.25F, 0.25F);
     public static final DeferredHolder<EntityType<?>, EntityType<FocusOrbEntity>> TYPE_FOCUSORB = createEntityType(FocusOrbEntity::new, MobCategory.MISC,"entity_focus_orb", 0.25F, 0.25F);
+    public static final DeferredHolder<EntityType<?>, EntityType<CardItemEntity>> TYPE_CARD_ITEM = createEntityType(CardItemEntity::new, MobCategory.MISC,"entity_card_drop", 0.25F, 0.25F);
 
     public static final DeferredHolder<EntityType<?>, EntityType<FireEntity>> TYPE_FIRE = createEntityType(FireEntity::new, MobCategory.MISC,"entity_fire", 0.5F, 0.5F);
     public static final DeferredHolder<EntityType<?>, EntityType<FiraEntity>> TYPE_FIRA = createEntityType(FiraEntity::new, MobCategory.MISC,"entity_fira", 0.8F, 0.8F);
@@ -232,8 +233,11 @@ public class ModEntities {
     public static final DeferredHolder<EntityType<?>, EntityType<LaserDomeShotEntity>> TYPE_LASER_SHOT = createEntityType(LaserDomeShotEntity::new, MobCategory.MISC,"entity_laser_dome_shot", 0.5F, 0.5F);
     public static final DeferredHolder<EntityType<?>, EntityType<ArrowRainCoreEntity>> TYPE_ARROW_RAIN = createEntityType(ArrowRainCoreEntity::new, MobCategory.MISC,"entity_arrow_rain_core", 0.5F, 0.5F);
     public static final DeferredHolder<EntityType<?>, EntityType<ThunderTrailCoreEntity>> TYPE_THUNDER_TRAIL = createEntityType(ThunderTrailCoreEntity::new, MobCategory.MISC,"entity_thunder_trail_core", 0.5F, 0.5F);
-    
-	public static final DeferredHolder<EntityType<?>, EntityType<DarkVolleyCoreEntity>> TYPE_SHOTLOCK_DARK_VOLLEY = createEntityType(DarkVolleyCoreEntity::new, MobCategory.MISC, "entity_shotlock_volley_core", 0.5F, 0.5F);
+    public static final DeferredHolder<EntityType<?>, EntityType<FlameRingCoreEntity>> TYPE_FLAME_RING = createEntityType(FlameRingCoreEntity::new, MobCategory.MISC,"entity_flame_ring_core", 0.5F, 0.5F);
+    public static final DeferredHolder<EntityType<?>, EntityType<FlameWallCoreEntity>> TYPE_FLAME_WALL = createEntityType(FlameWallCoreEntity::new, MobCategory.MISC,"entity_flame_wall_core", 0.5F, 0.5F);
+
+
+    public static final DeferredHolder<EntityType<?>, EntityType<DarkVolleyCoreEntity>> TYPE_SHOTLOCK_DARK_VOLLEY = createEntityType(DarkVolleyCoreEntity::new, MobCategory.MISC, "entity_shotlock_volley_core", 0.5F, 0.5F);
 	public static final DeferredHolder<EntityType<?>, EntityType<RagnarokCoreEntity>> TYPE_SHOTLOCK_CIRCULAR = createEntityType(RagnarokCoreEntity::new, MobCategory.MISC, "entity_shotlock_circular_core", 0.5F, 0.5F);
 	public static final DeferredHolder<EntityType<?>, EntityType<SonicBladeCoreEntity>> TYPE_SHOTLOCK_SONIC_BLADE = createEntityType(SonicBladeCoreEntity::new, MobCategory.MISC, "entity_shotlock_sonic_blade_core", 0.5F, 0.5F);
 	public static final DeferredHolder<EntityType<?>, EntityType<PrismRainCoreEntity>> TYPE_PRISM_RAIN = createEntityType(PrismRainCoreEntity::new, MobCategory.MISC, "entity_shotlock_prism_rain", 0.5F, 0.5F);
@@ -259,25 +263,12 @@ public class ModEntities {
      * @return The EntityType created
      */
     public static <T extends Entity> DeferredHolder<EntityType<?>, EntityType<T>> createEntityType(EntityType.EntityFactory<T> factory, MobCategory classification, String name, float sizeX, float sizeY) {
-        return ENTITIES.register(name, () -> EntityType.Builder.of(factory, classification)
-                .setShouldReceiveVelocityUpdates(false)
-                .setUpdateInterval(1)
-                .setTrackingRange(8)
-                .sized(sizeX, sizeY)
-                .build(name));
+        return ENTITIES.register(name, () -> EntityType.Builder.of(factory, classification).setShouldReceiveVelocityUpdates(false).setUpdateInterval(1).setTrackingRange(8).sized(sizeX, sizeY).build(name));
     }
 
     public static <T extends Entity> DeferredHolder<EntityType<?>, EntityType<T>> createEntityTypeImmuneToFire(EntityType.EntityFactory<T> factory, MobCategory classification, String name, float sizeX, float sizeY) {
-        return ENTITIES.register(name, () -> EntityType.Builder.of(factory, classification)
-                .setShouldReceiveVelocityUpdates(true)
-                .setUpdateInterval(1)
-                .setTrackingRange(128)
-                .sized(sizeX, sizeY)
-                .fireImmune()
-                .build(name));
+        return ENTITIES.register(name, () -> EntityType.Builder.of(factory, classification).setShouldReceiveVelocityUpdates(true).setUpdateInterval(1).setTrackingRange(128).sized(sizeX, sizeY).fireImmune().build(name));
     }
-
-
 
     public static void addToGroup(EntityHelper.MobType group, EntityType<?> type, int level) {
         switch (group) {
@@ -302,6 +293,7 @@ public class ModEntities {
         event.registerEntityRenderer(TYPE_MPORB.get(), MPOrbRenderer::new);
         event.registerEntityRenderer(TYPE_DRIVEORB.get(), DriveOrbRenderer::new);
         event.registerEntityRenderer(TYPE_FOCUSORB.get(), FocusOrbRenderer::new);
+        event.registerEntityRenderer(TYPE_CARD_ITEM.get(), CardItemRenderer::new);
         
         event.registerEntityRenderer(TYPE_FIRE.get(), MagicEntityRenderer::new);
         event.registerEntityRenderer(TYPE_FIRA.get(), MagicEntityRenderer::new);
@@ -404,6 +396,9 @@ public class ModEntities {
         event.registerEntityRenderer(TYPE_LASER_SHOT.get(), LaserDomeShotEntityRenderer::new);
         event.registerEntityRenderer(TYPE_ARROW_RAIN.get(), ArrowRainCoreEntityRenderer::new);
         event.registerEntityRenderer(TYPE_THUNDER_TRAIL.get(), InvisibleEntityRenderer::new);
+        event.registerEntityRenderer(TYPE_FLAME_RING.get(), InvisibleEntityRenderer::new);
+        event.registerEntityRenderer(TYPE_FLAME_WALL.get(), InvisibleEntityRenderer::new);
+
         event.registerEntityRenderer(TYPE_SHOTLOCK_DARK_VOLLEY.get(), InvisibleEntityRenderer::new);
         event.registerEntityRenderer(TYPE_SHOTLOCK_CIRCULAR.get(), InvisibleEntityRenderer::new);
         event.registerEntityRenderer(TYPE_SHOTLOCK_SONIC_BLADE.get(), InvisibleEntityRenderer::new);

@@ -731,6 +731,8 @@ public class LanguageESES extends KKLanguageProvider {
         addLimit(ModLimits.ARROW_RAIN, "Lluvia Flechada");
         addLimit(ModLimits.SLOW_THUNDER_TRAIL, "Estela El\u00e9ctrica Lenta");
         addLimit(ModLimits.FAST_THUNDER_TRAIL, "Estela El\u00e9ctrica Veloz");
+        addLimit(ModLimits.FLAME_WHEEL, "Anillo de Llamas");
+        addLimit(ModLimits.FIRE_WALL, "Jaula de Fuego");
 
         //Shotlocks
         addShotlock(ModShotlocks.RAGNAROK, "Ragnarok");

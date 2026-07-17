@@ -1,18 +1,21 @@
 package online.kingdomkeys.kingdomkeys.reactioncommands;
 
+import com.google.common.base.Suppliers;
 import net.minecraft.core.Registry;
-import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.lib.KKSupplier;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 
+import java.util.List;
 import java.util.function.Supplier;
 
 public class ModReactionCommands {
 
 	public static DeferredRegister<ReactionCommand> REACTION_COMMANDS = DeferredRegister.create(KingdomKeys.rl("reactioncommands"), KingdomKeys.MODID);
 	public static Registry<ReactionCommand> registry = REACTION_COMMANDS.makeRegistry(builder -> builder.sync(true));
+
+	public static final Supplier<List<ReactionCommand>> CONSTANT_CHECK_COMMANDS = Suppliers.memoize(() -> registry.stream().filter(ReactionCommand::needsConstantCheck).toList());
 
 	public static final KKSupplier<ReactionCommand>
 		AUTO_VALOR = register(Strings.autoValorRC, () -> new ReactionAutoForm(KingdomKeys.rl(Strings.autoValorRC), KingdomKeys.rl(Strings.autoValor), KingdomKeys.rl(Strings.Form_Valor))),

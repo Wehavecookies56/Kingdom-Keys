@@ -1411,15 +1411,16 @@ public class Utils {
 	}
 
 	public static List<Limit> getPlayerLimitAttacks(Player player) {
-//		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-		List<Limit> limits = new ArrayList<>(ModLimits.registry.stream().toList());
-		// TODO change when we have more member limits
-		/*
-		 * for(Limit val : ModLimits.registry.getValues()) {
-		 * System.out.println(val.getName()); if(val.getOwner() ==
-		 * playerData.getAlignment()) { limits.add(val); break; } }
-		 */
-		return limits;
+		/*PlayerData playerData = PlayerData.get(player);
+		List<Limit> limits = new ArrayList<>();
+		for (Limit limit : ModLimits.registry) {
+			if (limit.getOwner() == playerData.getAlignment()) {
+				limits.add(limit);
+			}
+		}*/
+		//TODO remove and uncomment the rest for per member filter
+		return new ArrayList<>(ModLimits.registry.stream().toList());
+		//return limits;
 	}
 
 	public static List<Limit> getSortedLimits(List<Limit> list) {

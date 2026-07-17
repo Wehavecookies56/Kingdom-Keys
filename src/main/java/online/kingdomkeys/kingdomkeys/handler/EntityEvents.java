@@ -154,6 +154,24 @@ public class EntityEvents {
 
 	@SubscribeEvent
 	public void onEntityJoinWorld(EntityJoinLevelEvent e) {
+		if(e.getEntity() instanceof ItemEntity itemEntity) {
+			if (!(itemEntity.getItem().getItem() instanceof MapCardItem))
+				return;
+
+			if (itemEntity instanceof CardItemEntity)
+				return;
+
+			if (e.getLevel().isClientSide())
+				return;
+
+			CardItemEntity card = new CardItemEntity(e.getLevel(), itemEntity.getX(), itemEntity.getY(), itemEntity.getZ(), itemEntity.getItem().copy());
+			card.setDeltaMovement(itemEntity.getDeltaMovement());
+			card.setPickUpDelay(40);
+			card.setTarget(itemEntity.getTarget());
+
+			e.setCanceled(true);
+			e.getLevel().addFreshEntity(card);
+		}
 		if (e.getEntity() instanceof LivingEntity mob) {
 			GlobalData mobData = GlobalData.get(mob);
 			if (mobData == null) return;
@@ -495,13 +513,11 @@ public class EntityEvents {
 
 			// Check commands from registry that need active check (can turn off based on conditions like drive forms when you are healed)
 			// Those will be available when joining the world too if the conditions are met
-			for (ReactionCommand rc : ModReactionCommands.registry) {
-				if (rc.needsConstantCheck() && rc.conditionsToAppear(player, player)) {
+			for (ReactionCommand rc : ModReactionCommands.CONSTANT_CHECK_COMMANDS.get()) {
+				if (rc.conditionsToAppear(player, player)) {
 					playerData.addReactionCommand(rc.getRegistryName(), player);
 				}
 			}
-
-			//System.out.println(player.level().isClientSide+": "+playerData.getReactionCommands());
 
 			if (!player.level().isClientSide && player.tickCount == 5) { // TODO Check if it's necessary, I thought it was to set the max hp value but now it seems to work fine without it
 				PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
@@ -1211,7 +1227,7 @@ public class EntityEvents {
 				}
 
 				for (Player p : entity.level().players()) {
-					Utils.giveItems((ServerPlayer) p, new ItemStack(ModItems.proofOfHeart.get()));
+					entity.level().addFreshEntity(new ItemEntity(entity.level(), p.getX(), p.getY(), p.getZ(), new ItemStack(ModItems.proofOfHeart.get(), 1)));
 				}
 			}
 

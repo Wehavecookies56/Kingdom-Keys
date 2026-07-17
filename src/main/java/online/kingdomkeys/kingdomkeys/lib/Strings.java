@@ -1,7 +1,5 @@
 package online.kingdomkeys.kingdomkeys.lib;
 
-import online.kingdomkeys.kingdomkeys.KingdomKeys;
-
 public class Strings {
     // Records
     public static final String
@@ -126,7 +124,9 @@ public class Strings {
        		LaserDome = "laser_dome",
        		ArrowRain = "arrow_rain",
 			SlowThunderTrail = "slow_thunder_trail",
-			FastThunderTrail = "fast_thunder_trail";
+			FastThunderTrail = "fast_thunder_trail",
+		    FlameRing = "flame_ring",
+			FlameWall = "flame_wall";
        
     // Shotlocks
        public static final String

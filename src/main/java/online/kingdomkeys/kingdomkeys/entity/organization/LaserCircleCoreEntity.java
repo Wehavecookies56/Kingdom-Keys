@@ -31,14 +31,11 @@ public class LaserCircleCoreEntity extends ThrowableProjectile {
 	float dmg;
 
 	float radius = 4;
-	int space;
-	int shotsPerTick;
 
 	public LaserCircleCoreEntity(EntityType<? extends ThrowableProjectile> type, Level world) {
 		super(type, world);
 		this.blocksBuilding = true;
 	}
-
 
 	public LaserCircleCoreEntity(Level world, Player player, LivingEntity target, float dmg) {
 		super(ModEntities.TYPE_LASER_CIRCLE.get(), player, world);
@@ -57,8 +54,6 @@ public class LaserCircleCoreEntity extends ThrowableProjectile {
 		if (this.tickCount > maxTicks || getCaster() == null) {
 			this.remove(RemovalReason.KILLED);
 		}
-
-		//level.addParticle(ParticleTypes.BUBBLE, getX(), getY(), getZ(), 0, 0, 0);
 
 		double X = getX();
 		double Y = getY();
@@ -180,7 +175,7 @@ public class LaserCircleCoreEntity extends ThrowableProjectile {
 
 	@Override
 	protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
-		pBuilder.define(OWNER, Optional.of(new UUID(0L, 0L)));
-		pBuilder.define(TARGET, Optional.of(new UUID(0L, 0L)));
+		pBuilder.define(OWNER, Optional.empty());
+		pBuilder.define(TARGET, Optional.empty());
 	}
 }

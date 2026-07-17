@@ -725,6 +725,8 @@ public class LanguageENUS extends KKLanguageProvider {
         addLimit(ModLimits.ARROW_RAIN, "Arrow Rain");
         addLimit(ModLimits.SLOW_THUNDER_TRAIL, "Slow Thunder Trail");
         addLimit(ModLimits.FAST_THUNDER_TRAIL, "Fast Thunder Trail");
+        addLimit(ModLimits.FLAME_WHEEL, "Ring of Flames");
+        addLimit(ModLimits.FIRE_WALL, "Fire wall");
 
         //Shotlocks
         addShotlock(ModShotlocks.RAGNAROK, "Ragnarok");
