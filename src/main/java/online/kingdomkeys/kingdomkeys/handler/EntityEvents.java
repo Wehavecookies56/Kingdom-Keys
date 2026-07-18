@@ -546,7 +546,8 @@ public class EntityEvents {
 			}
 
 			// Magic Casttime
-			if (playerData.getMagicCasttimeTicks() > 0 && !player.level().isClientSide) playerData.remMagicCasttimeTicks(1);
+			if (playerData.getMagicCasttimeTicks() > 0 && !player.level().isClientSide)
+				playerData.remMagicCasttimeTicks(1);
 			if (playerData.getCastedMagic() != null) {
 				if (playerData.getMagicCasttimeTicks() <= 0) {
 					Utils.castMagic castedMagic = playerData.getCastedMagic();

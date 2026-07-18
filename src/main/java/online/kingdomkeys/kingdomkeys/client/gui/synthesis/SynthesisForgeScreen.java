@@ -56,7 +56,7 @@ public class SynthesisForgeScreen extends MenuFilterable {
 		switch (string) {
 		case "upgrade":
 			PlayerData playerData = PlayerData.get(minecraft.player);
-			minecraft.level.playSound(minecraft.player, minecraft.player.blockPosition(), ModSounds.itemget.get(), SoundSource.MASTER, 1.0f, 1.0f);
+			minecraft.level.playSound(minecraft.player, minecraft.player.blockPosition(), ModSounds.buy.get(), SoundSource.MASTER, 1.0f, 1.0f);
 
 			ItemStack stack = selectedItemStack.copy();
 			KeychainItem kcItem = (KeychainItem) stack.getItem();

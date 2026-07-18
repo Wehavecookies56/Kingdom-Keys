@@ -14,7 +14,7 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_shard",
+          "material": "kingdomkeys:lucid_crystal",
           "quantity": 2
         }
       ],
@@ -28,7 +28,7 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_shard",
+          "material": "kingdomkeys:lucid_crystal",
           "quantity": 3
         }
       ],
@@ -42,8 +42,8 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_shard",
-          "quantity": 4
+          "material": "kingdomkeys:lucid_crystal",
+          "quantity": 3
         }
       ],
       "str": 10
@@ -56,8 +56,12 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_stone",
-          "quantity": 1
+          "material": "kingdomkeys:lucid_crystal",
+          "quantity": 4
+        },
+        {
+          "material": "kingdomkeys:writhing_gem",
+          "quantity": 4
         }
       ],
       "str": 11
@@ -70,12 +74,12 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_stone",
-          "quantity": 2
+          "material": "kingdomkeys:lucid_crystal",
+          "quantity": 4
         },
         {
-          "material": "kingdomkeys:writhing_stone",
-          "quantity": 2
+          "material": "kingdomkeys:writhing_gem",
+          "quantity": 6
         }
       ],
       "str": 11
@@ -88,12 +92,34 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_stone",
+          "material": "kingdomkeys:lucid_crystal",
+          "quantity": 5
+        },
+        {
+          "material": "kingdomkeys:writhing_gem",
+          "quantity": 7
+        }
+      ],
+      "str": 12
+    },
+    {
+      "mag": 4,
+      "recipe": [
+        {
+          "material": "kingdomkeys:adamantite",
+          "quantity": 1
+        },
+        {
+          "material": "kingdomkeys:lucid_crystal",
+          "quantity": 5
+        },
+        {
+          "material": "kingdomkeys:writhing_gem",
+          "quantity": 8
+        },
+        {
+          "material": "kingdomkeys:writhing_crystal",
           "quantity": 3
-        },
-        {
-          "material": "kingdomkeys:writhing_stone",
-          "quantity": 2
         }
       ],
       "str": 12
@@ -106,30 +132,16 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_gem",
-          "quantity": 1
+          "material": "kingdomkeys:lucid_crystal",
+          "quantity": 6
         },
         {
           "material": "kingdomkeys:writhing_gem",
-          "quantity": 1
-        }
-      ],
-      "str": 12
-    },
-    {
-      "mag": 4,
-      "recipe": [
-        {
-          "material": "kingdomkeys:adamantite",
-          "quantity": 1
+          "quantity": 10
         },
         {
-          "material": "kingdomkeys:wellspring_gem",
-          "quantity": 2
-        },
-        {
-          "material": "kingdomkeys:writhing_gem",
-          "quantity": 2
+          "material": "kingdomkeys:writhing_crystal",
+          "quantity": 5
         }
       ],
       "str": 13
@@ -142,12 +154,16 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_gem",
-          "quantity": 3
+          "material": "kingdomkeys:lucid_crystal",
+          "quantity": 6
         },
         {
           "material": "kingdomkeys:writhing_gem",
-          "quantity": 2
+          "quantity": 11
+        },
+        {
+          "material": "kingdomkeys:writhing_crystal",
+          "quantity": 7
         }
       ],
       "str": 13
@@ -160,12 +176,16 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_crystal",
-          "quantity": 1
+          "material": "kingdomkeys:lucid_crystal",
+          "quantity": 6
+        },
+        {
+          "material": "kingdomkeys:writhing_gem",
+          "quantity": 12
         },
         {
           "material": "kingdomkeys:writhing_crystal",
-          "quantity": 1
+          "quantity": 9
         }
       ],
       "str": 14

@@ -15,7 +15,7 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_shard",
+          "material": "kingdomkeys:lucid_crystal",
           "quantity": 2
         }
       ],
@@ -29,7 +29,7 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_shard",
+          "material": "kingdomkeys:lucid_crystal",
           "quantity": 3
         }
       ],
@@ -43,8 +43,8 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_shard",
-          "quantity": 4
+          "material": "kingdomkeys:lucid_crystal",
+          "quantity": 3
         }
       ],
       "str": 5
@@ -57,25 +57,11 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_stone",
-          "quantity": 1
-        }
-      ],
-      "str": 6
-    },
-    {
-      "mag": 5,
-      "recipe": [
-        {
-          "material": "kingdomkeys:damascus",
-          "quantity": 1
+          "material": "kingdomkeys:lucid_crystal",
+          "quantity": 4
         },
         {
-          "material": "kingdomkeys:wellspring_stone",
-          "quantity": 2
-        },
-        {
-          "material": "kingdomkeys:writhing_stone",
+          "material": "kingdomkeys:frost_crystal",
           "quantity": 2
         }
       ],
@@ -89,12 +75,30 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_stone",
+          "material": "kingdomkeys:lucid_crystal",
+          "quantity": 4
+        },
+        {
+          "material": "kingdomkeys:frost_crystal",
           "quantity": 3
+        }
+      ],
+      "str": 6
+    },
+    {
+      "mag": 5,
+      "recipe": [
+        {
+          "material": "kingdomkeys:damascus",
+          "quantity": 1
         },
         {
-          "material": "kingdomkeys:writhing_stone",
-          "quantity": 2
+          "material": "kingdomkeys:lucid_crystal",
+          "quantity": 5
+        },
+        {
+          "material": "kingdomkeys:frost_crystal",
+          "quantity": 4
         }
       ],
       "str": 7
@@ -107,11 +111,15 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_gem",
-          "quantity": 1
+          "material": "kingdomkeys:lucid_crystal",
+          "quantity": 5
         },
         {
-          "material": "kingdomkeys:writhing_gem",
+          "material": "kingdomkeys:frost_crystal",
+          "quantity": 4
+        },
+        {
+          "material": "kingdomkeys:writhing_crystal",
           "quantity": 1
         }
       ],
@@ -125,11 +133,15 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_gem",
-          "quantity": 2
+          "material": "kingdomkeys:lucid_crystal",
+          "quantity": 6
         },
         {
-          "material": "kingdomkeys:writhing_gem",
+          "material": "kingdomkeys:frost_crystal",
+          "quantity": 5
+        },
+        {
+          "material": "kingdomkeys:writhing_crystal",
           "quantity": 2
         }
       ],
@@ -143,12 +155,16 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_gem",
-          "quantity": 3
+          "material": "kingdomkeys:lucid_crystal",
+          "quantity": 6
         },
         {
-          "material": "kingdomkeys:writhing_gem",
-          "quantity": 2
+          "material": "kingdomkeys:frost_crystal",
+          "quantity": 6
+        },
+        {
+          "material": "kingdomkeys:writhing_crystal",
+          "quantity": 3
         }
       ],
       "str": 8
@@ -161,12 +177,16 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_crystal",
-          "quantity": 1
+          "material": "kingdomkeys:lucid_crystal",
+          "quantity": 6
+        },
+        {
+          "material": "kingdomkeys:frost_crystal",
+          "quantity": 6
         },
         {
           "material": "kingdomkeys:writhing_crystal",
-          "quantity": 1
+          "quantity": 3
         }
       ],
       "str": 9

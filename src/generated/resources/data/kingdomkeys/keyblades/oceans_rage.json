@@ -15,8 +15,8 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_shard",
-          "quantity": 2
+          "material": "kingdomkeys:lightning_stone",
+          "quantity": 5
         }
       ],
       "str": 5
@@ -29,8 +29,8 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_shard",
-          "quantity": 3
+          "material": "kingdomkeys:lightning_stone",
+          "quantity": 7
         }
       ],
       "str": 6
@@ -43,8 +43,8 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_shard",
-          "quantity": 4
+          "material": "kingdomkeys:lightning_stone",
+          "quantity": 8
         }
       ],
       "str": 6
@@ -57,8 +57,12 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_stone",
-          "quantity": 1
+          "material": "kingdomkeys:lightning_stone",
+          "quantity": 9
+        },
+        {
+          "material": "kingdomkeys:frost_shard",
+          "quantity": 5
         }
       ],
       "str": 7
@@ -71,12 +75,12 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_stone",
-          "quantity": 2
+          "material": "kingdomkeys:lightning_stone",
+          "quantity": 10
         },
         {
-          "material": "kingdomkeys:writhing_stone",
-          "quantity": 2
+          "material": "kingdomkeys:frost_shard",
+          "quantity": 7
         }
       ],
       "str": 7
@@ -89,12 +93,12 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_stone",
-          "quantity": 3
+          "material": "kingdomkeys:lightning_stone",
+          "quantity": 11
         },
         {
-          "material": "kingdomkeys:writhing_stone",
-          "quantity": 2
+          "material": "kingdomkeys:frost_shard",
+          "quantity": 9
         }
       ],
       "str": 8
@@ -107,12 +111,12 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_gem",
-          "quantity": 1
+          "material": "kingdomkeys:lightning_stone",
+          "quantity": 12
         },
         {
-          "material": "kingdomkeys:writhing_gem",
-          "quantity": 1
+          "material": "kingdomkeys:frost_shard",
+          "quantity": 10
         }
       ],
       "str": 8
@@ -125,12 +129,12 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_gem",
-          "quantity": 2
+          "material": "kingdomkeys:lightning_stone",
+          "quantity": 13
         },
         {
-          "material": "kingdomkeys:writhing_gem",
-          "quantity": 2
+          "material": "kingdomkeys:frost_shard",
+          "quantity": 12
         }
       ],
       "str": 9
@@ -143,12 +147,12 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_gem",
-          "quantity": 3
+          "material": "kingdomkeys:lightning_stone",
+          "quantity": 14
         },
         {
-          "material": "kingdomkeys:writhing_gem",
-          "quantity": 2
+          "material": "kingdomkeys:frost_shard",
+          "quantity": 14
         }
       ],
       "str": 9
@@ -161,12 +165,12 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_crystal",
-          "quantity": 1
+          "material": "kingdomkeys:lightning_stone",
+          "quantity": 15
         },
         {
-          "material": "kingdomkeys:writhing_crystal",
-          "quantity": 1
+          "material": "kingdomkeys:frost_shard",
+          "quantity": 15
         }
       ],
       "str": 10

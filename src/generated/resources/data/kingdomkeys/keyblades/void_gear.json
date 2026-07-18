@@ -14,8 +14,8 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_shard",
-          "quantity": 2
+          "material": "kingdomkeys:writhing_shard",
+          "quantity": 1
         }
       ],
       "str": 9
@@ -28,8 +28,8 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_shard",
-          "quantity": 3
+          "material": "kingdomkeys:writhing_shard",
+          "quantity": 2
         }
       ],
       "str": 10
@@ -42,8 +42,8 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_shard",
-          "quantity": 4
+          "material": "kingdomkeys:writhing_shard",
+          "quantity": 2
         }
       ],
       "str": 10
@@ -56,8 +56,12 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_stone",
-          "quantity": 1
+          "material": "kingdomkeys:writhing_shard",
+          "quantity": 2
+        },
+        {
+          "material": "kingdomkeys:sinister_crystal",
+          "quantity": 4
         }
       ],
       "str": 11
@@ -70,12 +74,12 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_stone",
+          "material": "kingdomkeys:writhing_shard",
           "quantity": 2
         },
         {
-          "material": "kingdomkeys:writhing_stone",
-          "quantity": 2
+          "material": "kingdomkeys:sinister_crystal",
+          "quantity": 6
         }
       ],
       "str": 11
@@ -88,12 +92,12 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_stone",
+          "material": "kingdomkeys:writhing_shard",
           "quantity": 3
         },
         {
-          "material": "kingdomkeys:writhing_stone",
-          "quantity": 2
+          "material": "kingdomkeys:sinister_crystal",
+          "quantity": 7
         }
       ],
       "str": 12
@@ -106,12 +110,16 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_gem",
-          "quantity": 1
+          "material": "kingdomkeys:writhing_shard",
+          "quantity": 3
         },
         {
-          "material": "kingdomkeys:writhing_gem",
-          "quantity": 1
+          "material": "kingdomkeys:sinister_crystal",
+          "quantity": 8
+        },
+        {
+          "material": "kingdomkeys:sinister_shard",
+          "quantity": 5
         }
       ],
       "str": 12
@@ -124,12 +132,16 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_gem",
-          "quantity": 2
+          "material": "kingdomkeys:writhing_shard",
+          "quantity": 3
         },
         {
-          "material": "kingdomkeys:writhing_gem",
-          "quantity": 2
+          "material": "kingdomkeys:sinister_crystal",
+          "quantity": 10
+        },
+        {
+          "material": "kingdomkeys:sinister_shard",
+          "quantity": 9
         }
       ],
       "str": 13
@@ -142,12 +154,16 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_gem",
+          "material": "kingdomkeys:writhing_shard",
           "quantity": 3
         },
         {
-          "material": "kingdomkeys:writhing_gem",
-          "quantity": 2
+          "material": "kingdomkeys:sinister_crystal",
+          "quantity": 11
+        },
+        {
+          "material": "kingdomkeys:sinister_shard",
+          "quantity": 12
         }
       ],
       "str": 13
@@ -160,12 +176,16 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_crystal",
-          "quantity": 1
+          "material": "kingdomkeys:writhing_shard",
+          "quantity": 3
         },
         {
-          "material": "kingdomkeys:writhing_crystal",
-          "quantity": 1
+          "material": "kingdomkeys:sinister_crystal",
+          "quantity": 12
+        },
+        {
+          "material": "kingdomkeys:sinister_shard",
+          "quantity": 15
         }
       ],
       "str": 14
