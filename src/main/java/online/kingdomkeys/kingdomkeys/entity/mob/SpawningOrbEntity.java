@@ -47,38 +47,38 @@ public class SpawningOrbEntity extends Monster {
 	public SpawningOrbEntity(EntityType<? extends SpawningOrbEntity> type, Level worldIn) {
 		super(type, worldIn);
 		Player player = Utils.getClosestPlayer(this, worldIn);
-		
+
 		if(player != null) {
 			PlayerData playerData = PlayerData.get(player);
 			if(playerData == null)
 				return;
 
-            int randomTimes = worldIn.random.nextInt(playerData.getNumberOfAbilitiesEquipped(ModAbilities.ENCOUNTER_PLUS)+1);
+			int randomTimes = worldIn.random.nextInt(playerData.getNumberOfAbilitiesEquipped(ModAbilities.ENCOUNTER_PLUS)+1);
 
-            for(int i=0;i<=randomTimes;i++) {
-                this.mobs.add(ModEntities.getRandomEnemy(playerData.getLevel(), level()));
+			for(int i=0;i<=randomTimes;i++) {
+				this.mobs.add(ModEntities.getRandomEnemy(playerData.getLevel(), level()));
 
-                int randomLevel = Utils.getRandomMobLevel(player);
-                GlobalData mobData = GlobalData.get(mobs.get(i));
-                if(mobData != null) {
-                    mobData.setLevel(randomLevel);
-                    PacketHandler.syncToAllAround(mobs.get(i), mobData);
-                }
-            }
+				int randomLevel = Utils.getRandomMobLevel(player);
+				GlobalData mobData = GlobalData.get(mobs.get(i));
+				if(mobData != null) {
+					mobData.setLevel(randomLevel);
+					PacketHandler.syncToAllAround(mobs.get(i), mobData);
+				}
+			}
 
-            //Portal type is based on the first mob type
-            setEntityType(((IKHMob)this.mobs.getFirst()).getKHMobType().name());
-        }
+			//Portal type is based on the first mob type
+			setEntityType(((IKHMob)this.mobs.getFirst()).getKHMobType().name());
+		}
 	}
 
 	@Override
 	public void tick() {
-        if(tickCount == 1 && !level().isClientSide && this.mobs != null && !this.mobs.isEmpty()) {
-            float prob = 0.8F;
-            if(level().dimension().location().equals(Level.NETHER.location()))
-                prob = 0.14F;
-            if(level().dimension().location().equals(Level.END.location()))
-                prob = 0.20F;
+		if(tickCount == 1 && !level().isClientSide && this.mobs != null && !this.mobs.isEmpty()) {
+			float prob = 0.8F;
+			if(level().dimension().location().equals(Level.NETHER.location()))
+				prob = 0.14F;
+			if(level().dimension().location().equals(Level.END.location()))
+				prob = 0.20F;
 
 			if(level().random.nextDouble() < prob) {
 				setPortal(true);
@@ -93,16 +93,16 @@ public class SpawningOrbEntity extends Monster {
 			double z = getZ() + (level().random.nextDouble() - 0.5) * 2;
 			level().addParticle(particle, x, y, z, 0.0D, 0.0D, 0.0D);
 		}
-		
+
 		if(tickCount == 70) {
 			if(!level().isClientSide) {
-                if (this.mobs != null && !this.mobs.isEmpty()) {
-                    for (Monster mob : mobs) {
-                        mob.setPos(this.getX(), this.getY(), this.getZ());
-                        mob.heal(mob.getMaxHealth());
-                        level().addFreshEntity(mob);
-                    }
-                }
+				if (this.mobs != null && !this.mobs.isEmpty()) {
+					for (Monster mob : mobs) {
+						mob.setPos(this.getX(), this.getY(), this.getZ());
+						mob.heal(mob.getMaxHealth());
+						level().addFreshEntity(mob);
+					}
+				}
 			} else {
 				float radius = 0.5F;
 				double X = getX();
@@ -110,44 +110,47 @@ public class SpawningOrbEntity extends Monster {
 				double Z = getZ();
 
 				for (int t = 1; t < 360; t += 20) {
+					double radT = Math.toRadians(t);
+					double sinT = Math.sin(radT);
+					double y = Y + (radius * Math.cos(radT)) +1;
 					for (int s = 1; s < 360 ; s += 20) {
-						double x = X + (radius * Math.cos(Math.toRadians(s)) * Math.sin(Math.toRadians(t)));
-						double z = Z + (radius * Math.sin(Math.toRadians(s)) * Math.sin(Math.toRadians(t)));
-						double y = Y + (radius * Math.cos(Math.toRadians(t))) +1;
+						double radS = Math.toRadians(s);
+						double x = X + (radius * Math.cos(radS) * sinT);
+						double z = Z + (radius * Math.sin(radS) * sinT);
 						level().addParticle(particle, x, y, z, (level().random.nextDouble()-0.5) / 4,  (level().random.nextDouble()-0.5) / 4,  (level().random.nextDouble()-0.5) / 4);
 					}
 				}
 			}
 		}
-		
+
 		if(tickCount >= 100) {
 			remove(RemovalReason.KILLED);
 		}
 
 		super.tick();
 	}
-	
+
 	public void setPortal(boolean portal) {
 		this.portal = portal;
 	}
-	
+
 	public boolean getPortal() {
 		return portal;
 	}
 
 
-    @Override
-    public boolean hurt(DamageSource source, float amount) {
-        return false;
-    }
+	@Override
+	public boolean hurt(DamageSource source, float amount) {
+		return false;
+	}
 
-    @Override
-    public boolean checkSpawnRules(LevelAccessor worldIn, MobSpawnType spawnReasonIn) {
-        if(worldIn instanceof Level level)
-            return WorldData.get(level.getServer()).getHeartlessSpawnLevel() > 0;
-        else
-            return true;
-    }
+	@Override
+	public boolean checkSpawnRules(LevelAccessor worldIn, MobSpawnType spawnReasonIn) {
+		if(worldIn instanceof Level level)
+			return WorldData.get(level.getServer()).getHeartlessSpawnLevel() > 0;
+		else
+			return true;
+	}
 
 	@Override
 	public void playerTouch(Player nPlayer) {
@@ -161,14 +164,14 @@ public class SpawningOrbEntity extends Monster {
 			if(!nPlayer.level().isClientSide()) {
 				PacketHandler.sendTo(new SCSyncPlayerData(nPlayer), (ServerPlayer)nPlayer);
 			}
-			
+
 			BlockPos coords = nPlayer.getServer().getLevel(dimension).getSharedSpawnPos();
 			nPlayer.changeDimension(new DimensionTransition(nPlayer.getServer().getLevel(dimension), new Vec3(coords.getX(), coords.getY(), coords.getZ()), Vec3.ZERO, nPlayer.getYRot(), nPlayer.getXRot(), entity -> {}));
 			nPlayer.sendSystemMessage(Component.translatable("You have been teleported to " + dimension.location()));
 		}
 		super.playerTouch(nPlayer);
 	}
-	
+
 	public static AttributeSupplier.Builder registerAttributes() {
 		return Mob.createLivingAttributes()
 				.add(Attributes.FOLLOW_RANGE, 35.0D)

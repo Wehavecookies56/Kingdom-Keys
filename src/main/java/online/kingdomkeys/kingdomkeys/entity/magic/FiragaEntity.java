@@ -62,8 +62,8 @@ public class FiragaEntity extends BaseMagicProjectile {
 			double x = (this.lockOnEntity.getX() - this.getX());
 			double y = (this.lockOnEntity.getY() - this.getY());
 			double z = (this.lockOnEntity.getZ() - this.getZ());
-            float trackingSpeed = 26F;
-            shoot(getDeltaMovement().x + x / trackingSpeed, getDeltaMovement().y + y / trackingSpeed, getDeltaMovement().z + z / trackingSpeed, 2F, 0);
+			float trackingSpeed = 26F;
+			shoot(getDeltaMovement().x + x / trackingSpeed, getDeltaMovement().y + y / trackingSpeed, getDeltaMovement().z + z / trackingSpeed, 2F, 0);
 		}
 
 		if(tickCount > 2) {
@@ -71,9 +71,12 @@ public class FiragaEntity extends BaseMagicProjectile {
 			for(int i = 0; i < 1; ++i) {
 				double t = Math.random() * 360;
 				double s = Math.random() * 360;
-				double x = getX() + (radius * Math.cos(Math.toRadians(s)) * Math.sin(Math.toRadians(t)));
-				double z = getZ() + (radius * Math.sin(Math.toRadians(s)) * Math.sin(Math.toRadians(t)));
-				double y = getY() + (radius * Math.cos(Math.toRadians(t)));
+				double radT = Math.toRadians(t);
+				double sinT = Math.sin(radT);
+				double radS = Math.toRadians(s);
+				double x = getX() + (radius * Math.cos(radS) * sinT);
+				double z = getZ() + (radius * Math.sin(radS) * sinT);
+				double y = getY() + (radius * Math.cos(radT));
 				for (SimpleParticleType p : getParticles()) {
 					level().addParticle(p, x, y, z, 0, 0, 0);
 				}
@@ -104,7 +107,7 @@ public class FiragaEntity extends BaseMagicProjectile {
 			}
 
 			if (target != null) {
-                if (target != getOwner()) {
+				if (target != getOwner()) {
 					if (target.getEffect(ModMobEffects.FREEZE) != null) {
 						target.removeEffect(ModMobEffects.FREEZE);
 					}
@@ -121,7 +124,7 @@ public class FiragaEntity extends BaseMagicProjectile {
 			}
 
 			float radius = 1.5F;
-			
+
 			if (brtResult != null) {
 				BlockPos ogBlockPos = brtResult.getBlockPos();
 
@@ -139,7 +142,7 @@ public class FiragaEntity extends BaseMagicProjectile {
 					}
 				}
 			}
-			
+
 			List<Entity> list = level().getEntities(getOwner(), getBoundingBox().inflate(radius));
 			list = Utils.removePartyMembersFromList((Player)getOwner(), list);
 			if(target != null) { //If was direct impact remove the target from the explosion damage

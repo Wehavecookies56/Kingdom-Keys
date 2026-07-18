@@ -44,9 +44,12 @@ public class ThundagaShotEntity extends BaseMagicProjectile {
 		for (int i = 0; i < 1; ++i) {
 			double t = Math.random() * 360;
 			double s = Math.random() * 360;
-			double x = getX() + (radius * Math.cos(Math.toRadians(s)) * Math.sin(Math.toRadians(t)));
-			double z = getZ() + (radius * Math.sin(Math.toRadians(s)) * Math.sin(Math.toRadians(t)));
-			double y = getY() + (radius * Math.cos(Math.toRadians(t)));
+			double radT = Math.toRadians(t);
+			double sinT = Math.sin(radT);
+			double radS = Math.toRadians(s);
+			double x = getX() + (radius * Math.cos(radS) * sinT);
+			double z = getZ() + (radius * Math.sin(radS) * sinT);
+			double y = getY() + (radius * Math.cos(radT));
 			level().addParticle(ParticleTypes.ELECTRIC_SPARK, x, y, z, 0, 0, 0);
 		}
 		super.tick();

@@ -66,10 +66,13 @@ public class BlizzazaEntity extends BaseMagicProjectile {
 		if (tickCount > 2) {
 			float radius = 0.5F;
 			for (int t = 1; t < 360; t += 50) {
+				double radT = Math.toRadians(t);
+				double sinT = Math.sin(radT);
+				double y = getY() + (radius * Math.cos(radT));
 				for (int s = 1; s < 360 ; s += 50) {
-					double x = getX() + (radius * Math.cos(Math.toRadians(s)) * Math.sin(Math.toRadians(t)));
-					double z = getZ() + (radius * Math.sin(Math.toRadians(s)) * Math.sin(Math.toRadians(t)));
-					double y = getY() + (radius * Math.cos(Math.toRadians(t)));
+					double radS = Math.toRadians(s);
+					double x = getX() + (radius * Math.cos(radS) * sinT);
+					double z = getZ() + (radius * Math.sin(radS) * sinT);
 					level().addParticle(ParticleTypes.CLOUD, x,y,z, 0, 0, 0);
 				}
 			}
@@ -123,22 +126,25 @@ public class BlizzazaEntity extends BaseMagicProjectile {
 				List<LivingEntity> list = Utils.getLivingEntitiesInRadius(this, radius);
 				int r = 2;
 				for (int t = 1; t < 360; t += 20) {
+					double radT = Math.toRadians(t);
+					double sinT = Math.sin(radT);
+					double y = getY() + (r * Math.cos(radT));
 					for (int s = 1; s < 360 ; s += 20) {
-						double x = getX() + (r * Math.cos(Math.toRadians(s)) * Math.sin(Math.toRadians(t)));
-						double z = getZ() + (r * Math.sin(Math.toRadians(s)) * Math.sin(Math.toRadians(t)));
-						double y = getY() + (r * Math.cos(Math.toRadians(t)));
+						double radS = Math.toRadians(s);
+						double x = getX() + (r * Math.cos(radS) * sinT);
+						double z = getZ() + (r * Math.sin(radS) * sinT);
 						((ServerLevel) level()).sendParticles(ParticleTypes.CLOUD, x, y+1, z, 1, 0,0,0, 0);
 					}
 				}
-				
+
 				for(float i = -5; i <= 5; i+=0.5F) {
 					((ServerLevel) level()).sendParticles(ParticleTypes.CLOUD, getX(), getY()+i, getZ(), 3, 0,0,0, 0.2);
 				}
-				
+
 				for(float i = -5; i <= 5; i+=0.5F) {
 					((ServerLevel) level()).sendParticles(ParticleTypes.CLOUD, getX()+i, getY(), getZ(), 3, 0,0,0, 0.2);
 				}
-				
+
 				for(float i = -5; i <= 5; i+=0.5F) {
 					((ServerLevel) level()).sendParticles(ParticleTypes.CLOUD, getX(), getY(), getZ()+i, 3, 0,0,0, 0.2);
 				}
@@ -146,11 +152,11 @@ public class BlizzazaEntity extends BaseMagicProjectile {
 				Party casterParty = WorldData.get(player.getServer()).getPartyFromMember(player.getUUID());
 
 				if (!list.isEmpty()) {
-                    for (LivingEntity e : list) {
-                        if (e.isOnFire()) {
-                            e.clearFire();
-                        } else {
-                            if (!Utils.isEntityInParty(casterParty, e) && e != getOwner()) {
+					for (LivingEntity e : list) {
+						if (e.isOnFire()) {
+							e.clearFire();
+						} else {
+							if (!Utils.isEntityInParty(casterParty, e) && e != getOwner()) {
 								damageEntity(e);
 
 								MobEffectInstance freeze = e.getEffect(ModMobEffects.FREEZE);
@@ -160,9 +166,9 @@ public class BlizzazaEntity extends BaseMagicProjectile {
 								}
 
 								e.addEffect(new MobEffectInstance(ModMobEffects.FREEZE, duration, 0, false, false));
-                            }
-                        }
-                    }
+							}
+						}
+					}
 				}
 			}
 			remove(RemovalReason.KILLED);

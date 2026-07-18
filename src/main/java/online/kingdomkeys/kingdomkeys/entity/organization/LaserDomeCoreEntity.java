@@ -64,10 +64,13 @@ public class LaserDomeCoreEntity extends ThrowableProjectile {
 		if (getCaster() != null) {
 			if (tickCount >= 0 && tickCount < 20) {
 				double t = tickCount * 5;
+				double radT = Math.toRadians(t);
+				double sinT = Math.sin(radT);
+				double y = Y + (radius * Math.cos(radT));
 				for (int s = 1; s < 360; s += space) {
-					double x = X + (radius * Math.cos(Math.toRadians(s)) * Math.sin(Math.toRadians(t)));
-					double z = Z + (radius * Math.sin(Math.toRadians(s)) * Math.sin(Math.toRadians(t)));
-					double y = Y + (radius * Math.cos(Math.toRadians(t)));
+					double radS = Math.toRadians(s);
+					double x = X + (radius * Math.cos(radS) * sinT);
+					double z = Z + (radius * Math.sin(radS) * sinT);
 					LaserDomeShotEntity bullet = new LaserDomeShotEntity(level(), getCaster(), dmg);
 					bullet.setPos(x, y, z);
 					bullet.setMaxTicks(maxTicks - 20);
@@ -95,7 +98,7 @@ public class LaserDomeCoreEntity extends ThrowableProjectile {
 					usedIndexes.add(num);
 
 					int targetIndex = random.nextInt(targetList.size());
-                    Entity target = targetList.get(targetIndex);
+					Entity target = targetList.get(targetIndex);
 
 					if (target != null && target.isAlive() && getCaster() != null) {
 						LaserDomeShotEntity bullet = list.get(num);

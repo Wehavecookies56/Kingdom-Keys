@@ -1,5 +1,5 @@
 {
-	"cost":350,
-	"cooldown":700,
+	"cost":300,
+	"cooldown":300,
 	"dmg_mult":1.0
 }

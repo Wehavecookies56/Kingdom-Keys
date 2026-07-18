@@ -24,7 +24,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 public class FlameWallCoreEntity extends ThrowableProjectile {
-	private static final int MAX_TICKS = 120;
+	private static final int MAX_TICKS = 300;
 	private static final int PARTICLE_INTERVAL_TICKS = 4;
 	private static final int DAMAGE_INTERVAL_TICKS = 10;
 	private static final float RADIUS = 4.0F;

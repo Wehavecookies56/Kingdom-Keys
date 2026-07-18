@@ -74,7 +74,7 @@ public class FlameRingCoreEntity extends ThrowableProjectile {
 
 	private void spawnRingParticles(float radius) {
 		if (!(level() instanceof ServerLevel serverLevel)) return;
-		int points = 16;
+		int points = 32;
 		for (int i = 0; i < points; i++) {
 			double angle = (2 * Math.PI / points) * i;
 			double x = getX() + radius * Math.cos(angle);

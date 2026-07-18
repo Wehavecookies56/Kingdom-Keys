@@ -504,10 +504,12 @@ public class EntityEvents {
 		if (playerData != null) {
 			// Check if rc conditions match
 			//Tick RCs in list
-			for (ResourceLocation rcName : new ArrayList<>(playerData.getReactionCommands().keySet())) {
-				ReactionCommand rc = ModReactionCommands.registry.get(rcName);
-				if (rc != null) {
-					rc.tick(player);
+			if (!playerData.getReactionCommands().isEmpty()) { //Skip allocation if list is empty
+				for (ResourceLocation rcName : new ArrayList<>(playerData.getReactionCommands().keySet())) {
+					ReactionCommand rc = ModReactionCommands.registry.get(rcName);
+					if (rc != null) {
+						rc.tick(player);
+					}
 				}
 			}
 
@@ -830,10 +832,13 @@ public class EntityEvents {
 					double Z = entity.getZ();
 
 					for (int t = 1; t < 360; t += 20) {
+						double radT = Math.toRadians(t);
+						double sinT = Math.sin(radT);
+						double y = Y + (radius * Math.cos(radT));
 						for (int s = 1; s < 360; s += 20) {
-							double x = X + (radius * Math.cos(Math.toRadians(s)) * Math.sin(Math.toRadians(t)));
-							double z = Z + (radius * Math.sin(Math.toRadians(s)) * Math.sin(Math.toRadians(t)));
-							double y = Y + (radius * Math.cos(Math.toRadians(t)));
+							double radS = Math.toRadians(s);
+							double x = X + (radius * Math.cos(radS) * sinT);
+							double z = Z + (radius * Math.sin(radS) * sinT);
 							entity.level().addParticle(ParticleTypes.BUBBLE_POP, x, y + 1, z, 0, 0, 0);
 						}
 					}
@@ -858,8 +863,9 @@ public class EntityEvents {
 						double Z = entity.getZ();
 
 						for (int t = 1; t < 360; t += 20) {
-							double x = X + (radius * Math.cos(Math.toRadians(t)));
-							double z = Z + (radius * Math.sin(Math.toRadians(t)));
+							double radT = Math.toRadians(t);
+							double x = X + (radius * Math.cos(radT));
+							double z = Z + (radius * Math.sin(radT));
 							((ServerLevel) entity.level()).sendParticles(ParticleTypes.BUBBLE.getType(), x, Y + 1, z, 5, 0, 0, 0, 1);
 						}
 						if (!list.isEmpty()) {

@@ -41,7 +41,7 @@ public class FireEntity extends BaseMagicProjectile {
 			double x = (this.lockOnEntity.getX() - this.getX());
 			double y = (this.lockOnEntity.getY() - this.getY());
 			double z = (this.lockOnEntity.getZ() - this.getZ());
-            float trackingSpeed = 40F;
+			float trackingSpeed = 40F;
 			shoot(getDeltaMovement().x + x / trackingSpeed, getDeltaMovement().y + y / trackingSpeed, getDeltaMovement().z + z / trackingSpeed, 2F, 0);
 		}
 		//world.addParticle(ParticleTypes.ENTITY_EFFECT, getPosX(), getPosY(), getPosZ(), 1, 1, 0);
@@ -49,12 +49,15 @@ public class FireEntity extends BaseMagicProjectile {
 		for (int i = 0; i < 1; ++i) {
 			double t = Math.random() * 360;
 			double s = Math.random() * 360;
-			double x = getX() + (radius * Math.cos(Math.toRadians(s)) * Math.sin(Math.toRadians(t)));
-			double z = getZ() + (radius * Math.sin(Math.toRadians(s)) * Math.sin(Math.toRadians(t)));
-			double y = getY() + (radius * Math.cos(Math.toRadians(t)));
+			double radT = Math.toRadians(t);
+			double sinT = Math.sin(radT);
+			double radS = Math.toRadians(s);
+			double x = getX() + (radius * Math.cos(radS) * sinT);
+			double z = getZ() + (radius * Math.sin(radS) * sinT);
+			double y = getY() + (radius * Math.cos(radT));
 			level().addParticle(ParticleTypes.FLAME, x, y, z, 0, 0, 0);
 		}
-		
+
 		super.tick();
 	}
 
@@ -75,7 +78,7 @@ public class FireEntity extends BaseMagicProjectile {
 
 			if (ertResult != null && ertResult.getEntity() instanceof LivingEntity target) {
 
-                if (target != getOwner()) {
+				if (target != getOwner()) {
 					if (target.getEffect(ModMobEffects.FREEZE) != null) {
 						target.removeEffect(ModMobEffects.FREEZE);
 					}

@@ -33,29 +33,32 @@ public class FirazaEntity extends BaseMagicProjectile {
 	public FirazaEntity(Level world, LivingEntity player, float dmgMult, LivingEntity lockOnEntity) {
 		super(ModEntities.TYPE_FIRAZA.get(), player, world);
 		this.dmgMult = dmgMult;
-        this.lockOnEntity = lockOnEntity;
+		this.lockOnEntity = lockOnEntity;
 		setDamageType(KKDamageTypes.FIRE);
 	}
 
 	@Override
 	public void tick() {
 		if(this.lockOnEntity != null && tickCount > 0) {
-            double x = (this.lockOnEntity.getX() - this.getX());
-            double y = (this.lockOnEntity.getY() - this.getY());
-            double z = (this.lockOnEntity.getZ() - this.getZ());
-            float trackingSpeed = 20F;
-            shoot(getDeltaMovement().x + x / trackingSpeed, getDeltaMovement().y + y / trackingSpeed, getDeltaMovement().z + z / trackingSpeed, 2F, 0);
-        }
+			double x = (this.lockOnEntity.getX() - this.getX());
+			double y = (this.lockOnEntity.getY() - this.getY());
+			double z = (this.lockOnEntity.getZ() - this.getZ());
+			float trackingSpeed = 20F;
+			shoot(getDeltaMovement().x + x / trackingSpeed, getDeltaMovement().y + y / trackingSpeed, getDeltaMovement().z + z / trackingSpeed, 2F, 0);
+		}
 
-        //world.addParticle(ParticleTypes.ENTITY_EFFECT, getPosX(), getPosY(), getPosZ(), 1, 1, 0);
+		//world.addParticle(ParticleTypes.ENTITY_EFFECT, getPosX(), getPosY(), getPosZ(), 1, 1, 0);
 		if(tickCount > 2) {
 			float radius = 1F;
 			for(int i = 0; i < 1; ++i) {
 				double t = Math.random() * 360;
 				double s = Math.random() * 360;
-				double x = getX() + (radius * Math.cos(Math.toRadians(s)) * Math.sin(Math.toRadians(t)));
-				double z = getZ() + (radius * Math.sin(Math.toRadians(s)) * Math.sin(Math.toRadians(t)));
-				double y = getY() + (radius * Math.cos(Math.toRadians(t)));
+				double radT = Math.toRadians(t);
+				double sinT = Math.sin(radT);
+				double radS = Math.toRadians(s);
+				double x = getX() + (radius * Math.cos(radS) * sinT);
+				double z = getZ() + (radius * Math.sin(radS) * sinT);
+				double y = getY() + (radius * Math.cos(radT));
 				level().addParticle(ParticleTypes.FLAME, x, y, z, 0, 0, 0);
 			}
 		}
@@ -78,7 +81,7 @@ public class FirazaEntity extends BaseMagicProjectile {
 			}
 
 			if (ertResult != null && ertResult.getEntity() instanceof LivingEntity target) {
-                if (target != getOwner()) {
+				if (target != getOwner()) {
 					if (target.getEffect(ModMobEffects.FREEZE) != null) {
 						target.removeEffect(ModMobEffects.FREEZE);
 					}
@@ -92,9 +95,9 @@ public class FirazaEntity extends BaseMagicProjectile {
 					}
 				}
 			}
-			
+
 			float radius = 6F;
-			
+
 			if (brtResult != null) {
 				BlockPos ogBlockPos = brtResult.getBlockPos();
 
@@ -113,23 +116,23 @@ public class FirazaEntity extends BaseMagicProjectile {
 					}
 				}
 			}
-			
+
 			if(getOwner() instanceof Player) {
 				List<LivingEntity> list = Utils.getLivingEntitiesInRadiusExcludingParty((Player) getOwner(), radius);
-	
-				((ServerLevel)level()).sendParticles(ParticleTypes.FLAME, getX(), getY(), getZ(), 1000, Math.random() - 0.5D, Math.random() - 0.5D, Math.random() - 0.5D, 0.3);
-				
-				if (!list.isEmpty()) {
-                    for (Entity e : list) {
-                        if (e instanceof LivingEntity ent) {
-                            e.setRemainingFireTicks(25);
-                            damageEntity(ent);
 
-                            if (ent.getEffect(ModMobEffects.FREEZE) != null) {
-                                ent.removeEffect(ModMobEffects.FREEZE);
-                            }
-                        }
-                    }
+				((ServerLevel)level()).sendParticles(ParticleTypes.FLAME, getX(), getY(), getZ(), 1000, Math.random() - 0.5D, Math.random() - 0.5D, Math.random() - 0.5D, 0.3);
+
+				if (!list.isEmpty()) {
+					for (Entity e : list) {
+						if (e instanceof LivingEntity ent) {
+							e.setRemainingFireTicks(25);
+							damageEntity(ent);
+
+							if (ent.getEffect(ModMobEffects.FREEZE) != null) {
+								ent.removeEffect(ModMobEffects.FREEZE);
+							}
+						}
+					}
 				}
 			}
 			remove(RemovalReason.KILLED);

@@ -44,34 +44,37 @@ public class WaterEntity extends BaseMagicProjectile {
 
 		if(tickCount <= 1) {
 			this.setDeltaMovement(0, 0, 0);
-			
+
 		} else if (tickCount < 50) { //Shield
 			setPos(getOwner().getX(), getY(), getOwner().getZ());
-    		double radius = 1D;
+			double radius = 1D;
 			double cx = getX();
 			double cy = getY();
 			double cz = getZ();
 
 			a += 40; //Speed and distance between particles
-			double x = cx + (radius * Math.cos(Math.toRadians(a)));
-			double z = cz + (radius * Math.sin(Math.toRadians(a)));
+			double radA = Math.toRadians(a);
+			double cosA = Math.cos(radA);
+			double sinA = Math.sin(radA);
+			double x = cx + (radius * cosA);
+			double z = cz + (radius * sinA);
 
-			double x2 = cx + (radius * Math.cos(Math.toRadians(-a)));
-			double z2 = cz + (radius * Math.sin(Math.toRadians(-a)));
+			double x2 = cx + (radius * cosA);
+			double z2 = cz + (radius * -sinA);
 
 			if(!level().isClientSide) {
 				((ServerLevel) level()).sendParticles(ParticleTypes.DRIPPING_WATER, x,  (cy+0.5) - a / 1080D, z, 1, 0,0,0, 0.5);
 				((ServerLevel) level()).sendParticles(ParticleTypes.DOLPHIN, x2, (cy+0.5) - a / 1080D, z2, 1, 0,0,0, 0.5);
 			}
-			
+
 			List<Entity> list = this.level().getEntities(getOwner(), getOwner().getBoundingBox().inflate(radius), Entity::isAlive);
-	        if (!list.isEmpty() && list.getFirst() != this) {
-                for (Entity entity : list) {
-                    if (entity instanceof LivingEntity e) {
-	                    damageEntity(e);
-                    }
-                }
-	        }
+			if (!list.isEmpty() && list.getFirst() != this) {
+				for (Entity entity : list) {
+					if (entity instanceof LivingEntity e) {
+						damageEntity(e);
+					}
+				}
+			}
 
 		} else { //Projectile
 			shootFromRotation(getOwner(), getOwner().getXRot(), getOwner().getYRot(), 0, 1F, 0);
@@ -80,10 +83,13 @@ public class WaterEntity extends BaseMagicProjectile {
 			hurtMarked = true;
 			float radius = 0.2F;
 			for (int t = 1; t < 360; t += 30) {
+				double radT = Math.toRadians(t);
+				double sinT = Math.sin(radT);
+				double y = getY() + (radius * Math.cos(radT));
 				for (int s = 1; s < 360 ; s += 30) {
-					double x = getX() + (radius * Math.cos(Math.toRadians(s)) * Math.sin(Math.toRadians(t)));
-					double z = getZ() + (radius * Math.sin(Math.toRadians(s)) * Math.sin(Math.toRadians(t)));
-					double y = getY() + (radius * Math.cos(Math.toRadians(t)));
+					double radS = Math.toRadians(s);
+					double x = getX() + (radius * Math.cos(radS) * sinT);
+					double z = getZ() + (radius * Math.sin(radS) * sinT);
 					if(!level().isClientSide)
 						((ServerLevel) level()).sendParticles(ParticleTypes.DOLPHIN, x, y, z, 1, 0,0,0, 0.5);
 				}
@@ -112,7 +118,7 @@ public class WaterEntity extends BaseMagicProjectile {
 
 			if (ertResult != null && ertResult.getEntity() != null && ertResult.getEntity() instanceof LivingEntity target) {
 
-                if (target.isOnFire()) {
+				if (target.isOnFire()) {
 					target.clearFire();
 				} else {
 					if (target != getOwner()) {
@@ -129,7 +135,7 @@ public class WaterEntity extends BaseMagicProjectile {
 			} else { // Block (not ERTR)
 				remove(RemovalReason.KILLED);
 			}
-			
+
 			if (brtResult != null) {
 				BlockPos blockpos = brtResult.getBlockPos();
 				BlockState blockstate = level().getBlockState(blockpos);
