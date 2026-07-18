@@ -9,11 +9,14 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.items.IItemHandler;
 import online.kingdomkeys.kingdomkeys.item.card.CardCategory;
 import online.kingdomkeys.kingdomkeys.item.card.MapCardItem;
 import online.kingdomkeys.kingdomkeys.lib.ModTags;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCOpenCardPack;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -70,16 +73,37 @@ public class CardPackItem extends Item implements ICreativeTab{
 
 		List<ItemStack> cards = generateCards(serverPlayer);
 		for (ItemStack stack : cards) {
-
-			if (!serverPlayer.getInventory().add(stack.copy())) {
-				serverPlayer.drop(stack.copy(), false);
-			}
-
+			giveCard(serverPlayer, stack.copy());
 		}
 
 		PacketHandler.sendTo(new SCOpenCardPack(cards), serverPlayer);
 		pack.shrink(1);
 		return InteractionResultHolder.consume(pack);
+	}
+
+	private void giveCard(ServerPlayer player, ItemStack stack) {
+		if (Utils.hasOnlyOneBag(player, BagItem.Type.CARDS_BAG)) {
+			ItemStack bag = player.getInventory().getItem(Utils.getCardsBagSlot(player, BagItem.Type.CARDS_BAG));
+			IItemHandler inv = bag.getCapability(Capabilities.ItemHandler.ITEM);
+
+			if (inv != null) {
+				ItemStack remaining = stack.copy();
+
+				for (int i = 0; i < inv.getSlots() && !remaining.isEmpty(); i++) {
+					remaining = inv.insertItem(i, remaining, false);
+				}
+
+				if (remaining.isEmpty()) {
+					return;
+				}
+
+				stack = remaining;
+			}
+		}
+
+		if (!player.getInventory().add(stack)) {
+			player.drop(stack, false);
+		}
 	}
 
 	@Override
