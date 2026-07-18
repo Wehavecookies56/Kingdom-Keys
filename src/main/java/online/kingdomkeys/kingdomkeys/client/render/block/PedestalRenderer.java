@@ -10,35 +10,46 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.AABB;
-import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.items.IItemHandler;
 import online.kingdomkeys.kingdomkeys.entity.block.PedestalTileEntity;
 import online.kingdomkeys.kingdomkeys.item.KeychainItem;
 
+import java.util.Map;
+import java.util.WeakHashMap;
+
 public class PedestalRenderer implements BlockEntityRenderer<PedestalTileEntity> {
 
-    private ItemRenderer renderItem;
+	private final ItemRenderer renderItem;
 
-    public PedestalRenderer(BlockEntityRendererProvider.Context context) {
+	private static final class CachedModel {
+		final Item item;
+		final BakedModel model;
+		CachedModel(Item item, BakedModel model) {
+			this.item = item;
+			this.model = model;
+		}
+	}
+	private final Map<PedestalTileEntity, CachedModel> modelCache = new WeakHashMap<>();
 
+	public PedestalRenderer(BlockEntityRendererProvider.Context context) {
+		this.renderItem = Minecraft.getInstance().getItemRenderer();
 	}
 
 	@Override
 	public void render(PedestalTileEntity tileEntityIn, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn) {
-	    this.renderItem = Minecraft.getInstance().getItemRenderer();
-
-	    if (!tileEntityIn.isStationOfAwakeningMarker()) {
-			IItemHandler itemHandler = tileEntityIn.getLevel().getCapability(Capabilities.ItemHandler.BLOCK, tileEntityIn.getBlockPos(), null);
+		if (!tileEntityIn.isStationOfAwakeningMarker()) {
+			IItemHandler itemHandler = tileEntityIn.inventory.get();
 			if (itemHandler != null) {
 				if (!itemHandler.getStackInSlot(0).isEmpty()) {
 					renderItem(tileEntityIn, matrixStackIn, bufferIn, partialTicks, itemHandler.getStackInSlot(0).getItem() instanceof KeychainItem ? new ItemStack(((KeychainItem) itemHandler.getStackInSlot(0).getItem()).getKeyblade()) : itemHandler.getStackInSlot(0), combinedLightIn);
 				}
 			}
 		} else {
-	    	if (!tileEntityIn.hide) {
+			if (!tileEntityIn.hide) {
 				renderItem(tileEntityIn, matrixStackIn, bufferIn, partialTicks, tileEntityIn.getDisplayStack(), combinedLightIn);
 			}
 		}
@@ -47,7 +58,6 @@ public class PedestalRenderer implements BlockEntityRenderer<PedestalTileEntity>
 	private void renderItem(PedestalTileEntity tileEntity, PoseStack matrixStack, MultiBufferSource buffer, float partialTicks, ItemStack toRender, int combinedLightIn) {
 		matrixStack.pushPose();
 		{
-			RenderSystem.setShaderColor(1, 1, 1, 1);
 			float height, rotation;
 			if (!tileEntity.isPaused()) {
 				float lerpedTicks = tileEntity.previousTicks + (tileEntity.ticksExisted() - tileEntity.previousTicks) * partialTicks;
@@ -63,18 +73,33 @@ public class PedestalRenderer implements BlockEntityRenderer<PedestalTileEntity>
 			matrixStack.mulPose(Axis.YP.rotationDegrees(rotation));
 			matrixStack.scale(tileEntity.getScale(), tileEntity.getScale(), tileEntity.getScale());
 			if(tileEntity.isFlipped()) {
-	        	matrixStack.mulPose(Axis.ZP.rotationDegrees(180F));
+				matrixStack.mulPose(Axis.ZP.rotationDegrees(180F));
 				matrixStack.translate(0, -0.6F, 0);
-
 			}
-			BakedModel model = renderItem.getModel(toRender, tileEntity.getLevel(), null, 1);
+			BakedModel model = getOrResolveModel(tileEntity, toRender);
 			renderItem.render(toRender, ItemDisplayContext.FIXED, false, matrixStack, buffer, combinedLightIn, OverlayTexture.NO_OVERLAY, model);
 		}
 		matrixStack.popPose();
 	}
 
+	private BakedModel getOrResolveModel(PedestalTileEntity tileEntity, ItemStack toRender) {
+		Item item = toRender.getItem();
+		CachedModel cached = modelCache.get(tileEntity);
+		if (cached != null && cached.item == item) {
+			return cached.model;
+		}
+		BakedModel model = renderItem.getModel(toRender, tileEntity.getLevel(), null, 1);
+		modelCache.put(tileEntity, new CachedModel(item, model));
+		return model;
+	}
+
 	@Override
 	public AABB getRenderBoundingBox(PedestalTileEntity blockEntity) {
 		return new AABB(blockEntity.getBlockPos()).expandTowards(0, 5, 0);
+	}
+
+	@Override
+	public int getViewDistance() {
+		return 32;
 	}
 }

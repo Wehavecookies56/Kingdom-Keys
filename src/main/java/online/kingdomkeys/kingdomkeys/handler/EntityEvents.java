@@ -504,7 +504,7 @@ public class EntityEvents {
 		if (playerData != null) {
 			// Check if rc conditions match
 			//Tick RCs in list
-			if (!playerData.getReactionCommands().isEmpty()) { //Skip allocation if list is empty
+			if (!playerData.getReactionCommands().isEmpty()) {
 				for (ResourceLocation rcName : new ArrayList<>(playerData.getReactionCommands().keySet())) {
 					ReactionCommand rc = ModReactionCommands.registry.get(rcName);
 					if (rc != null) {
@@ -626,7 +626,7 @@ public class EntityEvents {
 						Vec3 entityVector = new Vec3(item.getX(), item.getY() - item.getBbHeight() / 2, item.getZ());
 						Vec3 finalVector = new Vec3(x, y, z).subtract(entityVector);
 
-						if (Math.sqrt(x * x + y * y + z * z) > 1) {
+						if (finalVector.length() > 1) {
 							finalVector = finalVector.normalize();
 						}
 

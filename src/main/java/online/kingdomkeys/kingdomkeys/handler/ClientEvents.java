@@ -61,7 +61,6 @@ import online.kingdomkeys.kingdomkeys.client.gui.overlay.ItemGetGui;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.CastleOblivionData;
-import online.kingdomkeys.kingdomkeys.data.GlobalData;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
@@ -106,7 +105,7 @@ public class ClientEvents {
 		}
 	}
 
-    @SubscribeEvent
+	@SubscribeEvent
 	public void onEntityJoinWorld(EntityJoinLevelEvent e) {
 		if (e.getEntity() instanceof LivingEntity ent) {
 			if (e.getLevel().isClientSide) {
@@ -118,270 +117,265 @@ public class ClientEvents {
 		}
 	}
 
-    @SubscribeEvent
-    public void onRenderTick(RenderFrameEvent.Pre event) {
-        Minecraft mc = Minecraft.getInstance();
-        Player player = mc.player;
+	@SubscribeEvent
+	public void onRenderTick(RenderFrameEvent.Pre event) {
+		Minecraft mc = Minecraft.getInstance();
+		Player player = mc.player;
 
-        if (mc.level == null || player == null || InputHandler.lockOn == null) {
-            if (KingdomKeys.shoulderSurfingLoaded) {
-                KKShoulderSurfing.enableDecoupling();
-            }
-            return;
-        }
+		if (mc.level == null || player == null || InputHandler.lockOn == null) {
+			if (KingdomKeys.shoulderSurfingLoaded) {
+				KKShoulderSurfing.enableDecoupling();
+			}
+			return;
+		}
 
-        LivingEntity target = InputHandler.lockOn;
-        if (target.getHealth() <= 0 || target.isRemoved()) {
-            InputHandler.lockOn = null;
-	        player.playSound(ModSounds.lockoff.get(), 1.0f, 1.0f);
+		LivingEntity target = InputHandler.lockOn;
+		if (target.getHealth() <= 0 || target.isRemoved()) {
+			InputHandler.lockOn = null;
+			player.playSound(ModSounds.lockoff.get(), 1.0f, 1.0f);
 
-	        if (KingdomKeys.shoulderSurfingLoaded) {
-                KKShoulderSurfing.enableDecoupling();
-            }
-            return;
-        }
+			if (KingdomKeys.shoulderSurfingLoaded) {
+				KKShoulderSurfing.enableDecoupling();
+			}
+			return;
+		}
 
-        if (KingdomKeys.shoulderSurfingLoaded) {
-            KKShoulderSurfing.disableDecoupling();
-        }
+		if (KingdomKeys.shoulderSurfingLoaded) {
+			KKShoulderSurfing.disableDecoupling();
+		}
 
-        if (ModConfigs.SERVER_SPEC.isLoaded()) {
-            if (ModConfigs.SERVER.softLockOnMode.get())
-                softLockOn(player, target);
-            else
-                hardLockOn(player, target);
-        }
+		if (ModConfigs.SERVER_SPEC.isLoaded()) {
+			if (ModConfigs.SERVER.softLockOnMode.get())
+				softLockOn(player, target);
+			else
+				hardLockOn(player, target);
+		}
 
-    }
+	}
 
-    /**
-     * New method to allow moving the camera slightly
-     * @param player
-     * @param target
-     */
-    private void softLockOn(Player player, LivingEntity target) {
-        Minecraft mc = Minecraft.getInstance();
+	/**
+	 * New method to allow moving the camera slightly
+	 * @param player
+	 * @param target
+	 */
+	private void softLockOn(Player player, LivingEntity target) {
+		Minecraft mc = Minecraft.getInstance();
 
-        double verticalFovDeg = mc.options.fov().get();
-        double verticalFovRad = Math.toRadians(verticalFovDeg);
+		double verticalFovDeg = mc.options.fov().get();
+		double verticalFovRad = Math.toRadians(verticalFovDeg);
 
-        Window window = mc.getWindow();
-        double aspect = (double) window.getGuiScaledWidth() / window.getGuiScaledHeight();
+		Window window = mc.getWindow();
+		double aspect = (double) window.getGuiScaledWidth() / window.getGuiScaledHeight();
 
-        double horizontalFovRad = 2.0 * Math.atan(Math.tan(verticalFovRad / 2.0) * aspect);
-        double horizontalFovDeg = Math.toDegrees(horizontalFovRad);
+		double horizontalFovRad = 2.0 * Math.atan(Math.tan(verticalFovRad / 2.0) * aspect);
+		double horizontalFovDeg = Math.toDegrees(horizontalFovRad);
 
-        float maxYawOffset = (float) horizontalFovDeg * 0.4f;
-        float maxPitchOffset = (float) verticalFovDeg * 0.4f;
+		float maxYawOffset = (float) horizontalFovDeg * 0.4f;
+		float maxPitchOffset = (float) verticalFovDeg * 0.4f;
 
-        final float CORRECTION_SMOOTH = 0.15f;
+		final float CORRECTION_SMOOTH = 0.15f;
 
-        double dx = target.getX() - player.getX();
-        double dz = target.getZ() - player.getZ();
-        double dy = (target.getY() + target.getBbHeight() * 0.5) - (player.getY() + player.getEyeHeight());
+		double dx = target.getX() - player.getX();
+		double dz = target.getZ() - player.getZ();
+		double dy = (target.getY() + target.getBbHeight() * 0.5) - (player.getY() + player.getEyeHeight());
 
-        float targetYaw = (float) (Math.toDegrees(Math.atan2(dz, dx)) - 90.0);
-        float targetPitch = (float) (-Math.toDegrees(Math.atan2(dy, Math.sqrt(dx * dx + dz * dz))));
+		float targetYaw = (float) (Math.toDegrees(Math.atan2(dz, dx)) - 90.0);
+		float targetPitch = (float) (-Math.toDegrees(Math.atan2(dy, Math.sqrt(dx * dx + dz * dz))));
 
-        float currentYaw = player.getYRot();
-        float currentPitch = player.getXRot();
+		float currentYaw = player.getYRot();
+		float currentPitch = player.getXRot();
 
-        float yawDiff = Mth.wrapDegrees(targetYaw - currentYaw);
-        float pitchDiff = targetPitch - currentPitch;
+		float yawDiff = Mth.wrapDegrees(targetYaw - currentYaw);
+		float pitchDiff = targetPitch - currentPitch;
 
-        float yawCorrection = 0f;
-        float pitchCorrection = 0f;
+		float yawCorrection = 0f;
+		float pitchCorrection = 0f;
 
-        if (yawDiff > maxYawOffset) {
-            yawCorrection = yawDiff - maxYawOffset;
-        } else if (yawDiff < -maxYawOffset) {
-            yawCorrection = yawDiff + maxYawOffset;
-        }
+		if (yawDiff > maxYawOffset) {
+			yawCorrection = yawDiff - maxYawOffset;
+		} else if (yawDiff < -maxYawOffset) {
+			yawCorrection = yawDiff + maxYawOffset;
+		}
 
-        if (pitchDiff > maxPitchOffset) {
-            pitchCorrection = pitchDiff - maxPitchOffset;
-        } else if (pitchDiff < -maxPitchOffset) {
-            pitchCorrection = pitchDiff + maxPitchOffset;
-        }
+		if (pitchDiff > maxPitchOffset) {
+			pitchCorrection = pitchDiff - maxPitchOffset;
+		} else if (pitchDiff < -maxPitchOffset) {
+			pitchCorrection = pitchDiff + maxPitchOffset;
+		}
 
-        if (yawCorrection != 0 || pitchCorrection != 0) {
-            player.setYRot(currentYaw + yawCorrection * CORRECTION_SMOOTH);
-            player.setXRot(currentPitch + pitchCorrection * CORRECTION_SMOOTH);
-            if (KingdomKeys.shoulderSurfingLoaded) {
-                KKShoulderSurfing.setCameraPos(currentYaw, currentPitch, yawCorrection, pitchCorrection, CORRECTION_SMOOTH);
-            }
+		if (yawCorrection != 0 || pitchCorrection != 0) {
+			player.setYRot(currentYaw + yawCorrection * CORRECTION_SMOOTH);
+			player.setXRot(currentPitch + pitchCorrection * CORRECTION_SMOOTH);
+			if (KingdomKeys.shoulderSurfingLoaded) {
+				KKShoulderSurfing.setCameraPos(currentYaw, currentPitch, yawCorrection, pitchCorrection, CORRECTION_SMOOTH);
+			}
 
-            player.yRotO = currentYaw;
-            player.xRotO = currentPitch;
+			player.yRotO = currentYaw;
+			player.xRotO = currentPitch;
 
-            if (player.getVehicle() != null) {
-                player.getVehicle().onPassengerTurned(player);
-            }
-        }
-    }
+			if (player.getVehicle() != null) {
+				player.getVehicle().onPassengerTurned(player);
+			}
+		}
+	}
 
-    /**
-     * Old method to lock the camera strictly on the entity
-     * @param player
-     * @param target
-     */
-    private void hardLockOn(Player player, LivingEntity target) {
-        double dx = target.getX() - player.getX();
-        double dz = target.getZ() - player.getZ();
-        double dy = (target.getY() + target.getBbHeight() * 0.5) - (player.getY() + player.getEyeHeight());
+	/**
+	 * Old method to lock the camera strictly on the entity
+	 * @param player
+	 * @param target
+	 */
+	private void hardLockOn(Player player, LivingEntity target) {
+		double dx = target.getX() - player.getX();
+		double dz = target.getZ() - player.getZ();
+		double dy = (target.getY() + target.getBbHeight() * 0.5) - (player.getY() + player.getEyeHeight());
 
-        double angleYaw = Math.toDegrees(Math.atan2(dz, dx)) - 90.0;
-        double anglePitch = -Math.toDegrees(Math.atan2(dy, Math.sqrt(dx * dx + dz * dz)));
+		double angleYaw = Math.toDegrees(Math.atan2(dz, dx)) - 90.0;
+		double anglePitch = -Math.toDegrees(Math.atan2(dy, Math.sqrt(dx * dx + dz * dz)));
 
-        float currentYaw = player.getYRot();
-        float currentPitch = player.getXRot();
+		float currentYaw = player.getYRot();
+		float currentPitch = player.getXRot();
 
-        float yawDifference = Mth.wrapDegrees((float) angleYaw - currentYaw);
-        float pitchDifference = (float) anglePitch - currentPitch;
+		float yawDifference = Mth.wrapDegrees((float) angleYaw - currentYaw);
+		float pitchDifference = (float) anglePitch - currentPitch;
 
-        float smoothFactor = 0.2F;
+		float smoothFactor = 0.2F;
 
-        float newYaw = currentYaw + yawDifference * smoothFactor;
-        float newPitch = currentPitch + pitchDifference * smoothFactor;
+		float newYaw = currentYaw + yawDifference * smoothFactor;
+		float newPitch = currentPitch + pitchDifference * smoothFactor;
 
-        player.setYRot(newYaw);
-        player.setXRot(newPitch);
+		player.setYRot(newYaw);
+		player.setXRot(newPitch);
 
-        if (KingdomKeys.shoulderSurfingLoaded) {
-            KKShoulderSurfing.setCameraPos(currentYaw, currentPitch, 0, 0, 0);
-        }
+		if (KingdomKeys.shoulderSurfingLoaded) {
+			KKShoulderSurfing.setCameraPos(currentYaw, currentPitch, 0, 0, 0);
+		}
 
-        player.yRotO = currentYaw;
-        player.xRotO = currentPitch;
+		player.yRotO = currentYaw;
+		player.xRotO = currentPitch;
 
-        if (player.getVehicle() != null) {
-            player.getVehicle().onPassengerTurned(player);
-        }
-    }
+		if (player.getVehicle() != null) {
+			player.getVehicle().onPassengerTurned(player);
+		}
+	}
 
 	@SubscribeEvent
 	public void onCameraSetup(CalculateDetachedCameraDistanceEvent event) {
 		Camera camera = event.getCamera();
 		Entity viewEntity = camera.getEntity();
-        if (viewEntity instanceof Player player && player.getVehicle() instanceof GummiShipEntity ship) {
-            if(ship.structure != null){
-                Vec3i realSize = Utils.getRealGummiStructureSize(ship.structure);
-                int maxSize = Math.max(Math.max(realSize.getX(), realSize.getY()), realSize.getZ());
+		if (viewEntity instanceof Player player && player.getVehicle() instanceof GummiShipEntity ship) {
+			if(ship.structure != null){
+				Vec3i realSize = Utils.getRealGummiStructureSize(ship.structure);
+				int maxSize = Math.max(Math.max(realSize.getX(), realSize.getY()), realSize.getZ());
 
-                if (Minecraft.getInstance().options.getCameraType() == CameraType.THIRD_PERSON_BACK) {
-                    event.setDistance(maxSize * 1.2F);
-                } else if(Minecraft.getInstance().options.getCameraType() == CameraType.THIRD_PERSON_FRONT) {
-                    event.setDistance(maxSize * 0.8F);
-                }
+				if (Minecraft.getInstance().options.getCameraType() == CameraType.THIRD_PERSON_BACK) {
+					event.setDistance(maxSize * 1.2F);
+				} else if(Minecraft.getInstance().options.getCameraType() == CameraType.THIRD_PERSON_FRONT) {
+					event.setDistance(maxSize * 0.8F);
+				}
 
-            }
-        }
+			}
+		}
 	}
 
-    boolean handledCamera = false;
-    public static CameraType prevCamera = CameraType.FIRST_PERSON;
+	boolean handledCamera = false;
+	public static CameraType prevCamera = CameraType.FIRST_PERSON;
 
 
-    @SubscribeEvent
+	@SubscribeEvent
 	public void onLivingUpdate(EntityTickEvent.Pre event) {
 		if(event.getEntity() instanceof LocalPlayer player){
 			if(player.getControlledVehicle() instanceof KKVehicleEntity vehicle) {
 				vehicle.setInput(player.input.left, player.input.right, player.input.up, player.input.down, Minecraft.getInstance().options.keyJump.isDown(), Minecraft.getInstance().options.keySprint.isDown(), player.getXRot(), player.getYRot());
 			}
 
-            //From wall hang to bounce up with jump (SPACE)
-            PlayerData playerData = PlayerData.get(player);
-            if(playerData != null) {
-                if (playerData.getHangingInWallTicks() > 0) {
-                    if(Minecraft.getInstance().options.keyJump.isDown()) {
-                        if(!playerData.hasBounced()) { //If has not bounced before bounce
-                            Vec3 look = player.getLookAngle();
+			//From wall hang to bounce up with jump (SPACE)
+			PlayerData playerData = PlayerData.get(player);
+			if(playerData != null) {
+				if (playerData.getHangingInWallTicks() > 0) {
+					if(Minecraft.getInstance().options.keyJump.isDown()) {
+						if(!playerData.hasBounced()) { //If has not bounced before bounce
+							Vec3 look = player.getLookAngle();
 
-                            Vec3 horizontalDir = new Vec3(-look.x, 0, -look.z).normalize();
-                            double baseY = 1.5;
+							Vec3 horizontalDir = new Vec3(-look.x, 0, -look.z).normalize();
+							double baseY = 1.5;
 
-                            if (InputHandler.jumpRayTrace instanceof BlockHitResult blockHitResult) {
-                                switch (blockHitResult.getDirection()) {
-                                    case NORTH -> horizontalDir = new Vec3(0, 0, -1);
-                                    case SOUTH -> horizontalDir = new Vec3(0, 0, 1);
-                                    case WEST  -> horizontalDir = new Vec3(-1, 0, 0);
-                                    case EAST  -> horizontalDir = new Vec3(1, 0, 0);
-                                }
-                            }
+							if (InputHandler.jumpRayTrace instanceof BlockHitResult blockHitResult) {
+								switch (blockHitResult.getDirection()) {
+									case NORTH -> horizontalDir = new Vec3(0, 0, -1);
+									case SOUTH -> horizontalDir = new Vec3(0, 0, 1);
+									case WEST  -> horizontalDir = new Vec3(-1, 0, 0);
+									case EAST  -> horizontalDir = new Vec3(1, 0, 0);
+								}
+							}
 
-                            float pow = 0.35F + playerData.getNumberOfAbilitiesEquipped(ModAbilities.SUPERJUMP) * 0.15F;
-                            double horizontalStrength = 0.25;
-                            double verticalStrength = baseY * pow;
+							float pow = 0.35F + playerData.getNumberOfAbilitiesEquipped(ModAbilities.SUPERJUMP) * 0.15F;
+							double horizontalStrength = 0.25;
+							double verticalStrength = baseY * pow;
 
-                            Vec3 push = new Vec3(horizontalDir.x * horizontalStrength, verticalStrength, horizontalDir.z * horizontalStrength);
+							Vec3 push = new Vec3(horizontalDir.x * horizontalStrength, verticalStrength, horizontalDir.z * horizontalStrength);
 
-                            player.setDeltaMovement(push);
-                            player.hasImpulse = true;
-                            PacketHandler.sendToServer(new CSPlaySoundPacket(player.getX(), player.getY(), player.getZ(), ModSounds.wall_jump.get().getLocation(), SoundSource.PLAYERS));
+							player.setDeltaMovement(push);
+							player.hasImpulse = true;
+							PacketHandler.sendToServer(new CSPlaySoundPacket(player.getX(), player.getY(), player.getZ(), ModSounds.wall_jump.get().getLocation(), SoundSource.PLAYERS));
 
-                            PacketHandler.sendToServer(new CSSetBouncedPacket(true));
-                            playerData.setBounced(true);
-                            playerData.setAirDashed(false);
-                            PacketHandler.sendToServer(new CSSetAirDashedPacket(false));
-                            InputHandler.qrCooldown = 5;
-                        }
-                    }
-                }
-            }
+							PacketHandler.sendToServer(new CSSetBouncedPacket(true));
+							playerData.setBounced(true);
+							playerData.setAirDashed(false);
+							PacketHandler.sendToServer(new CSSetAirDashedPacket(false));
+							InputHandler.qrCooldown = 5;
+						}
+					}
+				}
+			}
 
-        }
+		}
 
-		if (event.getEntity() instanceof LivingEntity livingEntity) {
-            GlobalData globalData = GlobalData.get((LivingEntity) event.getEntity());
-            if (globalData != null) {
-                if (livingEntity == Minecraft.getInstance().player) {
-                    if (livingEntity.hasEffect(ModMobEffects.KO)) {
-                        if (livingEntity.level().isClientSide) {
-                            if (livingEntity.isDeadOrDying())
-                                return;
+		if (event.getEntity() instanceof Player player) {
+			if (player == Minecraft.getInstance().player) {
+				if (player.hasEffect(ModMobEffects.KO)) {
+					if (player.level().isClientSide) {
+						if (player.isDeadOrDying())
+							return;
 
-                            //Force the 3rd person view when KO
-                            if (!handledCamera) {
-                                // Store and swap camera if needed
-                                prevCamera = Minecraft.getInstance().options.getCameraType();
-                                Minecraft.getInstance().options.setCameraType(CameraType.THIRD_PERSON_BACK);
-                                handledCamera = true;
-                            }
+						//Force the 3rd person view when KO
+						if (!handledCamera) {
+							// Store and swap camera if needed
+							prevCamera = Minecraft.getInstance().options.getCameraType();
+							Minecraft.getInstance().options.setCameraType(CameraType.THIRD_PERSON_BACK);
+							handledCamera = true;
+						}
 
-                            if (!(Minecraft.getInstance().screen instanceof KOGui))
-                                Minecraft.getInstance().setScreen(new KOGui());
-                        }
-                    } else { //If doesn't have KO
-                        if (handledCamera) {
-                            Minecraft.getInstance().options.setCameraType(prevCamera);
-                            handledCamera = false;
-                        }
-                    }
-                }
-                if (event.getEntity() instanceof Player player) {
-                    if (player.hasEffect(ModMobEffects.STOP)) {
-                        if (event.getEntity().level().isClientSide && player == Minecraft.getInstance().player) {
-                            if (Minecraft.getInstance().screen == null)
-                                Minecraft.getInstance().setScreen(new StopGui());
-                        }
-                        event.setCanceled(true);
-                    }
-                    PlayerData playerData = PlayerData.get(player);
-                    if (playerData != null) {
-                        if (playerData.getMagicCasttimeTicks() > 0) {
-                            player.setDeltaMovement(0, 0, 0);
-                        }
-                    }
-                }
-            }
+						if (!(Minecraft.getInstance().screen instanceof KOGui))
+							Minecraft.getInstance().setScreen(new KOGui());
+					}
+				} else { //If doesn't have KO
+					if (handledCamera) {
+						Minecraft.getInstance().options.setCameraType(prevCamera);
+						handledCamera = false;
+					}
+				}
+			}
+			if (player.hasEffect(ModMobEffects.STOP)) {
+				if (player.level().isClientSide && player == Minecraft.getInstance().player) {
+					if (Minecraft.getInstance().screen == null)
+						Minecraft.getInstance().setScreen(new StopGui());
+				}
+				event.setCanceled(true);
+			}
+			PlayerData playerData = PlayerData.get(player);
+			if (playerData != null) {
+				if (playerData.getMagicCasttimeTicks() > 0) {
+					player.setDeltaMovement(0, 0, 0);
+				}
+			}
 
-            if (event.getEntity() == Minecraft.getInstance().player) { //Local player
-                if (InputHandler.qrCooldown > 0) {
-                    InputHandler.qrCooldown -= 1;
-                }
-            }
-        }
-    }
+			if (player == Minecraft.getInstance().player) { //Local player
+				if (InputHandler.qrCooldown > 0) {
+					InputHandler.qrCooldown -= 1;
+				}
+			}
+		}
+	}
 
 
 	@SubscribeEvent
@@ -389,7 +383,7 @@ public class ClientEvents {
 		Minecraft mc = Minecraft.getInstance();
 		LocalPlayer player = mc.player;
 		if (player == null || mc.level == null || mc.options.hideGui)
-            return;
+			return;
 
 		if (!(player.getMainHandItem().getItem() instanceof BlockItem blockItem) || event.getTarget().getDirection() == Direction.DOWN || event.getTarget().getDirection() == Direction.UP)
 			return;
@@ -446,173 +440,173 @@ public class ClientEvents {
 		}
 	}
 
-    @SubscribeEvent
-    public void onRenderLevel(RenderLevelStageEvent event) {
-        if (event.getStage() != RenderLevelStageEvent.Stage.AFTER_ENTITIES)
-            return;
+	@SubscribeEvent
+	public void onRenderLevel(RenderLevelStageEvent event) {
+		if (event.getStage() != RenderLevelStageEvent.Stage.AFTER_ENTITIES)
+			return;
 
-        Minecraft mc = Minecraft.getInstance();
-        Player player = mc.player;
-        if (player == null)
-            return;
+		Minecraft mc = Minecraft.getInstance();
+		Player player = mc.player;
+		if (player == null)
+			return;
 
-        PoseStack poseStack = event.getPoseStack();
-        MultiBufferSource.BufferSource buffer = mc.renderBuffers().bufferSource();
-        PlayerData localPlayerData = PlayerData.get(player);
+		PoseStack poseStack = event.getPoseStack();
+		MultiBufferSource.BufferSource buffer = mc.renderBuffers().bufferSource();
+		PlayerData localPlayerData = PlayerData.get(player);
 
-        float partialTicks = mc.getTimer().getGameTimeDeltaPartialTick(false);
-        // Lock on
-        if (InputHandler.lockOn != null && ModConfigs.SERVER.softLockOnMode.get()) {
-            ClientUtils.drawLockOnIndicator(InputHandler.lockOn.getId(), poseStack, buffer, partialTicks);
-        }
+		float partialTicks = mc.getTimer().getGameTimeDeltaPartialTick(false);
+		// Lock on
+		if (InputHandler.lockOn != null && ModConfigs.SERVER.softLockOnMode.get()) {
+			ClientUtils.drawLockOnIndicator(InputHandler.lockOn.getId(), poseStack, buffer, partialTicks);
+		}
 
-        // Single shotlock indicator (Ultima cannon)
-        Shotlock shotlock = Utils.getPlayerShotlock(mc.player);
-        if (shotlock != null) {
-            boolean singleLock = shotlock.getMaxLocks() == 1;
+		// Single shotlock indicator (Ultima cannon)
+		Shotlock shotlock = Utils.getPlayerShotlock(mc.player);
+		if (shotlock != null) {
+			boolean singleLock = shotlock.getMaxLocks() == 1;
 
-            if (tempShotlockEntity != null || (singleLock && !localPlayerData.getShotlockEnemies().isEmpty())) {
-                int entityID = tempShotlockEntity == null ? localPlayerData.getShotlockEnemies().getFirst().id() : tempShotlockEntity.getId();
-                ClientUtils.drawSingleShotlockIndicator(entityID, poseStack, buffer, partialTicks);
-            }
+			if (tempShotlockEntity != null || (singleLock && !localPlayerData.getShotlockEnemies().isEmpty())) {
+				int entityID = tempShotlockEntity == null ? localPlayerData.getShotlockEnemies().getFirst().id() : tempShotlockEntity.getId();
+				ClientUtils.drawSingleShotlockIndicator(entityID, poseStack, buffer, partialTicks);
+			}
 
-            //Normal shotlocks
-            if (focusing && !singleLock && localPlayerData.getShotlockEnemies() != null && !localPlayerData.getShotlockEnemies().isEmpty()) {
-                for (Utils.ShotlockPosition sh : localPlayerData.getShotlockEnemies()) {
-                    ClientUtils.drawShotlockIndicator(sh, poseStack, buffer, partialTicks);
-                }
-            }
+			//Normal shotlocks
+			if (focusing && !singleLock && localPlayerData.getShotlockEnemies() != null && !localPlayerData.getShotlockEnemies().isEmpty()) {
+				for (Utils.ShotlockPosition sh : localPlayerData.getShotlockEnemies()) {
+					ClientUtils.drawShotlockIndicator(sh, poseStack, buffer, partialTicks);
+				}
+			}
 
-            if (lockedAirStepEntity != null) {
-                ClientUtils.drawAirstepIndicator(lockedAirStepEntity.getId(), poseStack, buffer, partialTicks);
-            }
-        }
+			if (lockedAirStepEntity != null) {
+				ClientUtils.drawAirstepIndicator(lockedAirStepEntity.getId(), poseStack, buffer, partialTicks);
+			}
+		}
 
-	    Camera camera = mc.gameRenderer.getMainCamera();
-	    Vec3 camPos = camera.getPosition();
+		Camera camera = mc.gameRenderer.getMainCamera();
+		Vec3 camPos = camera.getPosition();
 
-        //Flowmotion trails
-        for (Player p : mc.level.players()) {
-	        if (p.distanceToSqr(mc.player) > 100 * 100) //Only update and render trails if the player currently iterating is closer than 100 blocks
+		//Flowmotion trails
+		for (Player p : mc.level.players()) {
+			if (p.distanceToSqr(mc.player) > 100 * 100) //Only update and render trails if the player currently iterating is closer than 100 blocks
 				continue;
-            PlayerData playerData = PlayerData.get(p);
+			PlayerData playerData = PlayerData.get(p);
 			if(playerData == null)
 				continue;
 
-            float partialTick = event.getPartialTick().getGameTimeDeltaPartialTick(false);
-            if (playerData.inFlowmotion()) {
-                ClientUtils.updateTrail(ClientUtils.TrailType.FLOWMOTION, p, partialTick, 200);
-            } else {
-                ClientUtils.fadeTrail(ClientUtils.TrailType.FLOWMOTION, p);
-            }
+			float partialTick = event.getPartialTick().getGameTimeDeltaPartialTick(false);
+			if (playerData.inFlowmotion()) {
+				ClientUtils.updateTrail(ClientUtils.TrailType.FLOWMOTION, p, partialTick, 200);
+			} else {
+				ClientUtils.fadeTrail(ClientUtils.TrailType.FLOWMOTION, p);
+			}
 
-            if (playerData.hasAirDashed()) {
-                ClientUtils.updateTrail(ClientUtils.TrailType.DASH, p, partialTick, 50);
-            } else {
-                ClientUtils.fadeTrail(ClientUtils.TrailType.DASH, p);
-            }
-
-
-            poseStack.pushPose();
-            {
-                poseStack.translate(-camPos.x, -camPos.y, -camPos.z);
-                ClientUtils.renderTrail(ClientUtils.TrailType.FLOWMOTION, p, poseStack, buffer, -5F,0,1F,0.2F,1F, false);
-                ClientUtils.renderTrail(ClientUtils.TrailType.FLOWMOTION, p, poseStack, buffer, 0F,0,0.2F,0.6F,1F, false);
-                ClientUtils.renderTrail(ClientUtils.TrailType.FLOWMOTION, p, poseStack, buffer, 5F,0,1F,0.2F,1F, false);
-
-                ClientUtils.renderTrail(ClientUtils.TrailType.FLOWMOTION, p, poseStack, buffer, -5F,0,1F,0.2F,1F, true);
-                ClientUtils.renderTrail(ClientUtils.TrailType.FLOWMOTION, p, poseStack, buffer, 5F,0,1F,0.2F,1F, true);
-
-                //DASH
-                //Legs
-                ClientUtils.renderTrail(ClientUtils.TrailType.DASH, p, poseStack, buffer, -4F,0.2F,1F,1F,1F, false);
-                ClientUtils.renderTrail(ClientUtils.TrailType.DASH, p, poseStack, buffer, 4F,0.2F,1F,1F,1F, false);
-
-                //Shoulders
-                ClientUtils.renderTrail(ClientUtils.TrailType.DASH, p, poseStack, buffer, -7F,1.2F,1F,1F,1F, false);
-                ClientUtils.renderTrail(ClientUtils.TrailType.DASH, p, poseStack, buffer, 7F,1.2F,1F,1F,1F, false);
-
-                //Body
-                ClientUtils.renderTrail(ClientUtils.TrailType.DASH, p, poseStack, buffer, 0,1.8F,1F,1F,1F, false);
-            }
-            poseStack.popPose();
-        }
+			if (playerData.hasAirDashed()) {
+				ClientUtils.updateTrail(ClientUtils.TrailType.DASH, p, partialTick, 50);
+			} else {
+				ClientUtils.fadeTrail(ClientUtils.TrailType.DASH, p);
+			}
 
 
+			poseStack.pushPose();
+			{
+				poseStack.translate(-camPos.x, -camPos.y, -camPos.z);
+				ClientUtils.renderTrail(ClientUtils.TrailType.FLOWMOTION, p, poseStack, buffer, -5F,0,1F,0.2F,1F, false);
+				ClientUtils.renderTrail(ClientUtils.TrailType.FLOWMOTION, p, poseStack, buffer, 0F,0,0.2F,0.6F,1F, false);
+				ClientUtils.renderTrail(ClientUtils.TrailType.FLOWMOTION, p, poseStack, buffer, 5F,0,1F,0.2F,1F, false);
 
-	    poseStack.pushPose();
-	    {
-		    poseStack.translate(-camPos.x, -camPos.y, -camPos.z);
-		    //Magnet blox trails
-		    ClientUtils.updateMiniTrails();
-		    ClientUtils.renderMiniTrails(poseStack, buffer, partialTicks);
-	    }
-	    poseStack.popPose();
-    }
+				ClientUtils.renderTrail(ClientUtils.TrailType.FLOWMOTION, p, poseStack, buffer, -5F,0,1F,0.2F,1F, true);
+				ClientUtils.renderTrail(ClientUtils.TrailType.FLOWMOTION, p, poseStack, buffer, 5F,0,1F,0.2F,1F, true);
 
-    @SubscribeEvent(priority = EventPriority.HIGHEST)
+				//DASH
+				//Legs
+				ClientUtils.renderTrail(ClientUtils.TrailType.DASH, p, poseStack, buffer, -4F,0.2F,1F,1F,1F, false);
+				ClientUtils.renderTrail(ClientUtils.TrailType.DASH, p, poseStack, buffer, 4F,0.2F,1F,1F,1F, false);
+
+				//Shoulders
+				ClientUtils.renderTrail(ClientUtils.TrailType.DASH, p, poseStack, buffer, -7F,1.2F,1F,1F,1F, false);
+				ClientUtils.renderTrail(ClientUtils.TrailType.DASH, p, poseStack, buffer, 7F,1.2F,1F,1F,1F, false);
+
+				//Body
+				ClientUtils.renderTrail(ClientUtils.TrailType.DASH, p, poseStack, buffer, 0,1.8F,1F,1F,1F, false);
+			}
+			poseStack.popPose();
+		}
+
+
+
+		poseStack.pushPose();
+		{
+			poseStack.translate(-camPos.x, -camPos.y, -camPos.z);
+			//Magnet blox trails
+			ClientUtils.updateMiniTrails();
+			ClientUtils.renderMiniTrails(poseStack, buffer, partialTicks);
+		}
+		poseStack.popPose();
+	}
+
+	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public void RenderEntity(RenderLivingEvent.Pre<? extends LivingEntity, ? extends EntityModel<? extends LivingEntity>> event) {
 		if(event.getEntity() != null) {
 			if(event.getEntity() instanceof Player player) {
 				PlayerData playerData = PlayerData.get(player);
-                if(player.getVehicle() != null && player.getVehicle() instanceof GummiShipEntity ship){
-                    LocalPlayer localPlayer = Minecraft.getInstance().player;
-                    //Stop rendering players if they are in different ships than the local player
-                    if(localPlayer.getVehicle() != ship) { //make other players invis
-                        event.setCanceled(true);
-                    } else { //For same ship only make em invis in 3rd person
-                        if (Minecraft.getInstance().options.getCameraType() != CameraType.FIRST_PERSON) { //Make it so
-                            event.setCanceled(true);
-                        }
-                    }
-                }
+				if(player.getVehicle() != null && player.getVehicle() instanceof GummiShipEntity ship){
+					LocalPlayer localPlayer = Minecraft.getInstance().player;
+					//Stop rendering players if they are in different ships than the local player
+					if(localPlayer.getVehicle() != ship) { //make other players invis
+						event.setCanceled(true);
+					} else { //For same ship only make em invis in 3rd person
+						if (Minecraft.getInstance().options.getCameraType() != CameraType.FIRST_PERSON) { //Make it so
+							event.setCanceled(true);
+						}
+					}
+				}
 
 				if(player.hasEffect(ModMobEffects.KO)) {
 					LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> renderer = (LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>>) Minecraft.getInstance().getEntityRenderDispatcher().getRenderer((AbstractClientPlayer) player);
 					if (!((IDisabledAnimations) renderer).kingdom_Keys$isDisabled()) {
-                        //Cancel the vanilla animation
-                        event.setCanceled(true);
+						//Cancel the vanilla animation
+						event.setCanceled(true);
 
-                        PoseStack pose = event.getPoseStack();
-                        MultiBufferSource buffer = event.getMultiBufferSource();
-                        int light = event.getPackedLight();
+						PoseStack pose = event.getPoseStack();
+						MultiBufferSource buffer = event.getMultiBufferSource();
+						int light = event.getPackedLight();
 
-                        pose.pushPose();
-                        {
-                            float MAX = 100;
-                            float MAX2 = 35;
+						pose.pushPose();
+						{
+							float MAX = 100;
+							float MAX2 = 35;
 
-                            double t = player.tickCount % MAX;
-                            double t2 = player.tickCount % MAX2;
+							double t = player.tickCount % MAX;
+							double t2 = player.tickCount % MAX2;
 
-                            double bob = (t < MAX / 2) ? (t / (MAX / 2D)) : ((MAX - t) / (MAX / 2D));
-                            double bob2 = (t2 < MAX2 / 2) ? (t2 / (MAX2 / 2D)) : ((MAX2 - t2) / (MAX2 / 2D));
+							double bob = (t < MAX / 2) ? (t / (MAX / 2D)) : ((MAX - t) / (MAX / 2D));
+							double bob2 = (t2 < MAX2 / 2) ? (t2 / (MAX2 / 2D)) : ((MAX2 - t2) / (MAX2 / 2D));
 
-                            //Render body
-                            pose.pushPose();
-                            {
-                                pose.mulPose(Axis.XP.rotationDegrees(90));
-                                pose.mulPose(Axis.ZP.rotationDegrees(90));
+							//Render body
+							pose.pushPose();
+							{
+								pose.mulPose(Axis.XP.rotationDegrees(90));
+								pose.mulPose(Axis.ZP.rotationDegrees(90));
 
-                                pose.translate(0, -0.5, bob * 0.3 - 0.8F);
+								pose.translate(0, -0.5, bob * 0.3 - 0.8F);
 
-                                ResourceLocation tex = ((AbstractClientPlayer) player).getSkin().texture();
-                                renderer.getModel().renderToBuffer(pose, buffer.getBuffer(RenderType.entityCutout(tex)), light, LivingEntityRenderer.getOverlayCoords(player, 0), 0xffffff);
-                            }
-                            pose.popPose();
+								ResourceLocation tex = ((AbstractClientPlayer) player).getSkin().texture();
+								renderer.getModel().renderToBuffer(pose, buffer.getBuffer(RenderType.entityCutout(tex)), light, LivingEntityRenderer.getOverlayCoords(player, 0), 0xffffff);
+							}
+							pose.popPose();
 
-                            String name = player.getDisplayName().getString();
+							String name = player.getDisplayName().getString();
 
-                            ClientUtils.renderNameTag(renderer, player, name, pose, buffer, light, event.getPartialTick());
+							ClientUtils.renderNameTag(renderer, player, name, pose, buffer, light, event.getPartialTick());
 
-                            pose.translate(0, -bob2 * 0.15 - 0.8F + 0.9F, 0);
-                            ClientUtils.renderHeart(pose,buffer,player);
+							pose.translate(0, -bob2 * 0.15 - 0.8F + 0.9F, 0);
+							ClientUtils.renderHeart(pose,buffer,player);
 
-                        }
-                        pose.popPose();
+						}
+						pose.popPose();
 					}
 				}
-				
+
 				if(playerData != null) {
 					if(!playerData.getAirStep().equals(new BlockPos(0,0,0))){
 						Color c = new Color(playerData.getNotifColor());
@@ -624,19 +618,19 @@ public class ClientEvents {
 					if(playerData.getAerialDodgeTicks() > 0) {
 						LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> renderer = (LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>>) Minecraft.getInstance().getEntityRenderDispatcher().getRenderer((AbstractClientPlayer) player);
 						if (!((IDisabledAnimations) renderer).kingdom_Keys$isDisabled()) {
-                            float partialTicks = event.getPartialTick();
-                            float time = player.tickCount + partialTicks;
+							float partialTicks = event.getPartialTick();
+							float time = player.tickCount + partialTicks;
 
-                            event.getPoseStack().mulPose(Axis.YP.rotationDegrees(-time * 100));
+							event.getPoseStack().mulPose(Axis.YP.rotationDegrees(-time * 100));
 						}
 					}
-					
+
 					if(playerData.isFormActive(ModDriveForms.ANTI)) {
 						player.level().addParticle(ParticleTypes.SMOKE, player.getX()+player.level().random.nextDouble() - 0.5D, player.getY()+player.level().random.nextDouble() *2D, player.getZ()+player.level().random.nextDouble() - 0.5D, (player.level().random.nextDouble() - 0.5D)*0.2, 0.1, (player.level().random.nextDouble() - 0.5D)*0.2);
 					} else if(playerData.isFormActive(ModDriveForms.WISDOM)) {
 						player.level().addParticle(new DustParticleOptions(new Vector3f(0F,1F,1F),1F), player.getX(), player.getY(), player.getZ(), 0, 0.3, 0);
 					}
-                }
+				}
 			}
 		}
 	}
@@ -657,68 +651,68 @@ public class ClientEvents {
         ClientUtils.renderTrail(player, event.getPoseStack(), event.getMultiBufferSource(), event.getPartialTick());
     }*/
 
-    private static int selectedSlot = 0;
+	private static int selectedSlot = 0;
 
 	private static long timeSinceLastshot = 0;
 
-    public static int gummiBoostCD;
+	public static int gummiBoostCD;
 
-    @SubscribeEvent
-    public void clientTickPre(ClientTickEvent.Pre event) {
-        Minecraft mc = Minecraft.getInstance();
+	@SubscribeEvent
+	public void clientTickPre(ClientTickEvent.Pre event) {
+		Minecraft mc = Minecraft.getInstance();
 
-        if (mc.level == null) {
-            ItemGetGui.INSTANCE.clearItems();
-        } else {
-            ItemGetGui.INSTANCE.tick();
-        }
+		if (mc.level == null) {
+			ItemGetGui.INSTANCE.clearItems();
+		} else {
+			ItemGetGui.INSTANCE.tick();
+		}
 
-        if (mc.level != null)
-            selectedSlot = Minecraft.getInstance().player.getInventory().selected;
+		if (mc.level != null)
+			selectedSlot = Minecraft.getInstance().player.getInventory().selected;
 
-        if (mc.player == null || !(mc.player.getVehicle() instanceof GummiShipEntity ship))
-            return;
+		if (mc.player == null || !(mc.player.getVehicle() instanceof GummiShipEntity ship))
+			return;
 
-        if (ship.shipStats == null)
-            return;
+		if (ship.shipStats == null)
+			return;
 
-        if (timeSinceLastshot > 0) {
-            timeSinceLastshot--;
-        }
+		if (timeSinceLastshot > 0) {
+			timeSinceLastshot--;
+		}
 
-        if(ship.getFuel() > 0) {
-            if(!ship.shipStats.firepower().isEmpty()){
-                int baseTicks = 14;
-                int weaponCount = Math.max(1, ship.shipStats.firepower().size());
-                int delayTicks = Math.max(1, Math.round(baseTicks / (float)weaponCount));
+		if(ship.getFuel() > 0) {
+			if(!ship.shipStats.firepower().isEmpty()){
+				int baseTicks = 14;
+				int weaponCount = Math.max(1, ship.shipStats.firepower().size());
+				int delayTicks = Math.max(1, Math.round(baseTicks / (float)weaponCount));
 
-                if (EpicFightUtils.isAttacking() && timeSinceLastshot <= 0) {
-                    timeSinceLastshot = delayTicks;
-                    PacketHandler.sendToServer(new CSGummiFirePacket(ship.getId(), false));
-                }
-            }
+				if (EpicFightUtils.isAttacking() && timeSinceLastshot <= 0) {
+					timeSinceLastshot = delayTicks;
+					PacketHandler.sendToServer(new CSGummiFirePacket(ship.getId(), false));
+				}
+			}
 
-            if(gummiBoostCD <= 0) {
-                if (InputHandler.Keybinds.ACTION.getKeybind().isDown()) { //TODO check for booster block
-                    float yaw = ship.getYRot();
-                    float motionX = -Mth.sin(yaw / 180.0f * (float) Math.PI);
-                    float motionZ = Mth.cos(yaw / 180.0f * (float) Math.PI);
-                    double power = ship.shipStats.getEffectiveSpeed()*10;
-                    ship.push(motionX * power, 0, motionZ * power);
-                    PacketHandler.sendToServer(new CSGummiBoostPacket(ship.getId()));
-                    gummiBoostCD = 5 * 20;
-                }
-            } else {
-                gummiBoostCD--;
-            }
-        }
-    }
+			if(gummiBoostCD <= 0) {
+				if (InputHandler.Keybinds.ACTION.getKeybind().isDown()) { //TODO check for booster block
+					float yaw = ship.getYRot();
+					float motionX = -Mth.sin(yaw / 180.0f * (float) Math.PI);
+					float motionZ = Mth.cos(yaw / 180.0f * (float) Math.PI);
+					double power = ship.shipStats.getEffectiveSpeed()*10;
+					ship.push(motionX * power, 0, motionZ * power);
+					PacketHandler.sendToServer(new CSGummiBoostPacket(ship.getId()));
+					gummiBoostCD = 5 * 20;
+				}
+			} else {
+				gummiBoostCD--;
+			}
+		}
+	}
 
-    public static float ballRot = 0;
-    public static float prevBallRot = 0;
+	public static float ballRot = 0;
+	public static float prevBallRot = 0;
 
-    public static float visualMP = 0;
-    public static float prevVisualMP = 0;
+	public static float visualMP = 0;
+	public static float prevVisualMP = 0;
 
 	@SubscribeEvent
 	public void clientTickPost(ClientTickEvent.Post event) {
@@ -728,29 +722,29 @@ public class ClientEvents {
 			}
 		}
 
-        prevBallRot = ballRot;
-        ballRot = (ballRot + 5F) % 360f;
+		prevBallRot = ballRot;
+		ballRot = (ballRot + 5F) % 360f;
 
-        if (ballRot >= 360F)
-            ballRot -= 360F;
+		if (ballRot >= 360F)
+			ballRot -= 360F;
 
-        if(Minecraft.getInstance().player == null)
-            return;
-        PlayerData playerData = PlayerData.get(Minecraft.getInstance().player);
-        if(playerData == null)
-            return;
+		if(Minecraft.getInstance().player == null)
+			return;
+		PlayerData playerData = PlayerData.get(Minecraft.getInstance().player);
+		if(playerData == null)
+			return;
 
-        float targetMP = (float) playerData.getMP();
+		float targetMP = (float) playerData.getMP();
 
-        prevVisualMP = visualMP;
+		prevVisualMP = visualMP;
 
-        if (targetMP < 1) {
-            visualMP = targetMP;
-            prevVisualMP = visualMP;
-        } else {
-            visualMP += (targetMP - visualMP) * 0.2F;
-        }
-    }
+		if (targetMP < 1) {
+			visualMP = targetMP;
+			prevVisualMP = visualMP;
+		} else {
+			visualMP += (targetMP - visualMP) * 0.2F;
+		}
+	}
 
 	public static boolean focusing = false;
 	int focusingTicks = 0;
@@ -761,7 +755,7 @@ public class ClientEvents {
 
 	int cooldownTicks = 0;
 	public static BlockPos lockedAirStep = new BlockPos(0,0,0);
-    private LivingEntity lockedAirStepEntity = null;
+	private LivingEntity lockedAirStepEntity = null;
 
 	@SubscribeEvent
 	public void PlayerTick(PlayerTickEvent.Post event) {
@@ -782,24 +776,24 @@ public class ClientEvents {
 					// Has started focusing
 					focusGaugeTemp = playerData.getFocus();
 					//playerData.setShotlockEnemies();
-                    PacketHandler.sendToServer(new CSSetShotlockEnemyListPacket(new ArrayList<>()));
-                    player.level().playSound(player, player.position().x(),player.position().y(),player.position().z(), ModSounds.shotlock_lockon_start.get(), SoundSource.PLAYERS, 1F, 1F);
+					PacketHandler.sendToServer(new CSSetShotlockEnemyListPacket(new ArrayList<>()));
+					player.level().playSound(player, player.position().x(),player.position().y(),player.position().z(), ModSounds.shotlock_lockon_start.get(), SoundSource.PLAYERS, 1F, 1F);
 				}
-				
+
 				if(focusingTicks == 5) {
 					player.level().playSound(player, player.position().x(),player.position().y(),player.position().z(), ModSounds.shotlock_lockon_idle.get(), SoundSource.PLAYERS, 1F, 1F);
 				}
 				focusingTicks++;
-				
+
 				if(focusGaugeTemp > 0)
 					focusGaugeTemp-=0.8;
 
 				HitResult rt = InputHandler.getMouseOverExtended(ModConfigs.SERVER.shotlockMaxDist.get());
-                if (rt == null) {
-                    lockedAirStep = BlockPos.ZERO;
-                    lockedAirStepEntity = null;
-                    return;
-                }
+				if (rt == null) {
+					lockedAirStep = BlockPos.ZERO;
+					lockedAirStepEntity = null;
+					return;
+				}
 
 				if (rt instanceof BlockHitResult blockResult) { //Airstep
 					tempShotlockEntity = null;
@@ -813,7 +807,7 @@ public class ClientEvents {
 						if (mc.options.keyUse.isDown()) {
 							PacketHandler.sendToServer(new CSSetAirStepPacket(blockResult.getBlockPos(), 0));
 							lockedAirStep = new BlockPos(0, 0, 0);
-                            lockedAirStepEntity = null;
+							lockedAirStepEntity = null;
 							cooldownTicks = 20;
 							focusingAnEntityTicks = 0;
 							focusingTicks = 0;
@@ -825,36 +819,36 @@ public class ClientEvents {
 					}
 				}
 
-                float costDivider = 3;
-                //If looking at an entity
+				float costDivider = 3;
+				//If looking at an entity
 				if (rt instanceof EntityHitResult ertr && focusGaugeTemp > 0 && cooldownTicks <= 0) {
-                    //Airstep to entity
-                    if (ertr.getEntity() instanceof LivingEntity target) {
-                        float distance = mc.player.distanceTo(target);
-                        if(playerData.isAbilityEquipped(ModAbilities.FLOWSTEP) && distance / costDivider <= playerData.getFocus()) { //Only able to target enemies that are as far as focus can take you to
-                            if (lockedAirStepEntity != target) {
-                                player.level().playSound(player, player.position().x(), player.position().y(), player.position().z(), ModSounds.shotlock_lockon.get(), SoundSource.PLAYERS, 1F, 0.6F);
-                            }
-                            lockedAirStepEntity = target;
-                            lockedAirStep = BlockPos.ZERO;
+					//Airstep to entity
+					if (ertr.getEntity() instanceof LivingEntity target) {
+						float distance = mc.player.distanceTo(target);
+						if(playerData.isAbilityEquipped(ModAbilities.FLOWSTEP) && distance / costDivider <= playerData.getFocus()) { //Only able to target enemies that are as far as focus can take you to
+							if (lockedAirStepEntity != target) {
+								player.level().playSound(player, player.position().x(), player.position().y(), player.position().z(), ModSounds.shotlock_lockon.get(), SoundSource.PLAYERS, 1F, 0.6F);
+							}
+							lockedAirStepEntity = target;
+							lockedAirStep = BlockPos.ZERO;
 
-                            if (mc.options.keyUse.isDown()) {
-                                float focusCost = mc.player.distanceTo(target) / costDivider;
-                                PacketHandler.sendToServer(new CSSetAirStepPacket(target.blockPosition(), focusCost));
+							if (mc.options.keyUse.isDown()) {
+								float focusCost = mc.player.distanceTo(target) / costDivider;
+								PacketHandler.sendToServer(new CSSetAirStepPacket(target.blockPosition(), focusCost));
 
-                                lockedAirStepEntity = null;
-                                cooldownTicks = 40;
-                                focusingAnEntityTicks = 0;
-                                focusingTicks = 0;
-                                focusing = false;
-                                tempShotlockEntity = null;
-                                focusGaugeTemp = playerData.getFocus();
-                                return;
-                            }
-                        }
-                    }
+								lockedAirStepEntity = null;
+								cooldownTicks = 40;
+								focusingAnEntityTicks = 0;
+								focusingTicks = 0;
+								focusing = false;
+								tempShotlockEntity = null;
+								focusGaugeTemp = playerData.getFocus();
+								return;
+							}
+						}
+					}
 
-                    //Ultimate shotlock
+					//Ultimate shotlock
 					if(shotlock.getMaxLocks() == 1 && playerData.getShotlockEnemies().size() < shotlock.getMaxLocks()){
 						if (ertr.getEntity() instanceof LivingEntity target) {
 							if(target != tempShotlockEntity){
@@ -866,13 +860,13 @@ public class ClientEvents {
 							Party p = WorldData.getClient().getPartyFromMember(player.getUUID());
 							if (p == null || (p.getMember(target.getUUID()) == null || p.getFriendlyFire())) { // If caster is not in a party || the party doesn't have the target in it || the party has FF on
 								if(focusingAnEntityTicks >= shotlock.getCooldown()) {
-                                    float halfWidth = target.getBbWidth() * 0.5F;
-                                    float height = target.getBbHeight();
-                                    float ox = Mth.nextFloat(player.getRandom(), -halfWidth, halfWidth);
-                                    float oy = Mth.nextFloat(player.getRandom(), 0.0F, height);
-                                    float oz = Mth.nextFloat(player.getRandom(), -halfWidth, halfWidth);
+									float halfWidth = target.getBbWidth() * 0.5F;
+									float height = target.getBbHeight();
+									float ox = Mth.nextFloat(player.getRandom(), -halfWidth, halfWidth);
+									float oy = Mth.nextFloat(player.getRandom(), 0.0F, height);
+									float oz = Mth.nextFloat(player.getRandom(), -halfWidth, halfWidth);
 
-                                    playerData.addShotlockEnemy(new Utils.ShotlockPosition(target.getId(), ox, oy, oz));
+									playerData.addShotlockEnemy(new Utils.ShotlockPosition(target.getId(), ox, oy, oz));
 									player.level().playSound(player, player.position().x(), player.position().y(), player.position().z(), ModSounds.shotlock_lockon_all.get(), SoundSource.PLAYERS, 1F, 1F);
 									cost = playerData.getFocus() - focusGaugeTemp;
 									tempShotlockEntity = null;
@@ -880,19 +874,19 @@ public class ClientEvents {
 								focusingAnEntityTicks++;
 							}
 						}
-                    // Locking on
+						// Locking on
 					} else if (focusingTicks % shotlock.getCooldown() == 1 && playerData.getShotlockEnemies().size() < shotlock.getMaxLocks()) {
 						Party p = WorldData.getClient().getPartyFromMember(player.getUUID());
 						if (ertr.getEntity() instanceof LivingEntity target) {
 							if (p == null || (p.getMember(target.getUUID()) == null || p.getFriendlyFire())) { // If caster is not in a party || the party doesn't have the target in it || the party has FF on
-                                float halfWidth = target.getBbWidth() * 0.5F;
-                                float height = target.getBbHeight();
-                                float ox = Mth.nextFloat(player.getRandom(), -halfWidth, halfWidth);
-                                float oy = Mth.nextFloat(player.getRandom(), 0.0F, height);
-                                float oz = Mth.nextFloat(player.getRandom(), -halfWidth, halfWidth);
+								float halfWidth = target.getBbWidth() * 0.5F;
+								float height = target.getBbHeight();
+								float ox = Mth.nextFloat(player.getRandom(), -halfWidth, halfWidth);
+								float oy = Mth.nextFloat(player.getRandom(), 0.0F, height);
+								float oz = Mth.nextFloat(player.getRandom(), -halfWidth, halfWidth);
 
-                                playerData.addShotlockEnemy(new Utils.ShotlockPosition(target.getId(), ox, oy, oz));
-                                PacketHandler.sendToServer(new CSSetShotlockEnemyListPacket(playerData.getShotlockEnemies()));
+								playerData.addShotlockEnemy(new Utils.ShotlockPosition(target.getId(), ox, oy, oz));
+								PacketHandler.sendToServer(new CSSetShotlockEnemyListPacket(playerData.getShotlockEnemies()));
 								player.level().playSound(player, player.position().x(), player.position().y(), player.position().z(), ModSounds.shotlock_lockon.get(), SoundSource.PLAYERS, 1F, 1F);
 								cost = playerData.getFocus() - focusGaugeTemp;
 								tempShotlockEntity = null;
@@ -904,7 +898,7 @@ public class ClientEvents {
 						}
 					}
 				}
-				
+
 				if(EpicFightUtils.isAttacking()) {
 					if (focusingTicks > 0) {
 						// Has finished shotlocking, send packet to spawn entities and track enemies
@@ -919,13 +913,13 @@ public class ClientEvents {
 					focusingTicks = 0;
 					focusingAnEntityTicks = 0;
 					tempShotlockEntity = null;
-                    lockedAirStepEntity = null;
-                    focusGaugeTemp = playerData.getFocus();
+					lockedAirStepEntity = null;
+					focusGaugeTemp = playerData.getFocus();
 					playerData.setShotlockEnemies(new ArrayList<>());
 				}
 			} else { //No longer focusing (released wheel button)
 				lockedAirStep = new BlockPos(0,0,0);
-                lockedAirStepEntity = null;
+				lockedAirStepEntity = null;
 				focusingTicks = 0;
 				focusingAnEntityTicks = 0;
 				tempShotlockEntity = null;
@@ -938,7 +932,7 @@ public class ClientEvents {
 			}
 		}
 	}
-	
+
 	public void blit(PoseStack matrixStack, int x, int y, int uOffset, int vOffset, int uWidth, int vHeight) {
 		blit(matrixStack, x, y, 0, (float) uOffset, (float) vOffset, uWidth, vHeight, 256, 256);
 	}
@@ -961,7 +955,7 @@ public class ClientEvents {
 		RenderSystem.enableBlend();
 		BufferUploader.drawWithShader(bufferbuilder.build());
 	}
-	
+
 	@SubscribeEvent
 	public void PlayerClick(InputEvent.InteractionKeyMappingTriggered event) {
 		if(event.isPickBlock()) {
@@ -979,36 +973,36 @@ public class ClientEvents {
 			event.register(ModBusEvents::getStructureWallColour, ModBlocks.structureWall.get());
 			event.register(ModBusEvents::getGummiBlockColour, ModBlocks.gummiBlocks.get().stream().map(Supplier::get).toList().toArray(new Block[0]));
 			event.register(ModBusEvents::getGummiBlockColour, ModBlocks.gummiBubbleHelms.stream().map(Supplier::get).toList().toArray(new Block[0]));
-            event.register(ModBusEvents::getGummiBlockColour, ModBlocks.gummiAeroTriangles.stream().map(Supplier::get).toList().toArray(new Block[0]));
-            event.register(ModBusEvents::getGummiBlockColour, ModBlocks.gummiAeroSquares.stream().map(Supplier::get).toList().toArray(new Block[0]));
+			event.register(ModBusEvents::getGummiBlockColour, ModBlocks.gummiAeroTriangles.stream().map(Supplier::get).toList().toArray(new Block[0]));
+			event.register(ModBusEvents::getGummiBlockColour, ModBlocks.gummiAeroSquares.stream().map(Supplier::get).toList().toArray(new Block[0]));
 		}
 
 		public static int getStructureWallColour(BlockState state, BlockAndTintGetter blockAndTintGetter, BlockPos pos, int tintIndex) {
 			Color colour = Color.BLACK;
-            ClientLevel level = Minecraft.getInstance().level;
-            Player player = Minecraft.getInstance().player;
-            if (level != null && player != null) {
-                if (CastleOblivionHandler.inInterior(player)) {
-                    colour = CastleOblivionData.InteriorData.getClient(level).map(interiorData -> {
-                        if (!interiorData.getFloors().isEmpty()) {
-                            Room room = interiorData.getRoomAtPos(pos);
-                            if (room != null) {
-                                if (room.getType().getColour() != null) {
-                                    return room.getType().getColour();
-                                } else {
-                                    Floor floor = room.getParent(interiorData);
-                                    if (floor != null) {
-                                        int biomeColour = floor.getType().useFogColour() ? floor.getType().getFloorColour().value().getFogColor() : floor.getType().getFloorColour().value().getSkyColor();
-                                        return new Color(biomeColour);
-                                    }
-                                }
-                            }
-                        }
-                        return Color.BLACK;
-                    }).orElse(Color.BLACK);
-                }
-            }
-            return colour.getRGB();
+			ClientLevel level = Minecraft.getInstance().level;
+			Player player = Minecraft.getInstance().player;
+			if (level != null && player != null) {
+				if (CastleOblivionHandler.inInterior(player)) {
+					colour = CastleOblivionData.InteriorData.getClient(level).map(interiorData -> {
+						if (!interiorData.getFloors().isEmpty()) {
+							Room room = interiorData.getRoomAtPos(pos);
+							if (room != null) {
+								if (room.getType().getColour() != null) {
+									return room.getType().getColour();
+								} else {
+									Floor floor = room.getParent(interiorData);
+									if (floor != null) {
+										int biomeColour = floor.getType().useFogColour() ? floor.getType().getFloorColour().value().getFogColor() : floor.getType().getFloorColour().value().getSkyColor();
+										return new Color(biomeColour);
+									}
+								}
+							}
+						}
+						return Color.BLACK;
+					}).orElse(Color.BLACK);
+				}
+			}
+			return colour.getRGB();
 		}
 
 		public static int getGummiBlockColour(ItemStack stack, int tintIndex) {
@@ -1040,9 +1034,9 @@ public class ClientEvents {
 			}, ModItems.wayfinder.get());
 			event.register(ModBusEvents::getGummiBlockColour, ModBlocks.gummiBlocks.get().stream().map(Supplier::get).toList().toArray(new Block[0]));
 			event.register(ModBusEvents::getGummiBlockColour, ModBlocks.gummiBubbleHelms.stream().map(Supplier::get).toList().toArray(new Block[0]));
-            event.register(ModBusEvents::getGummiBlockColour, ModBlocks.gummiAeroTriangles.stream().map(Supplier::get).toList().toArray(new Block[0]));
-            event.register(ModBusEvents::getGummiBlockColour, ModBlocks.gummiAeroSquares.stream().map(Supplier::get).toList().toArray(new Block[0]));
-        }
+			event.register(ModBusEvents::getGummiBlockColour, ModBlocks.gummiAeroTriangles.stream().map(Supplier::get).toList().toArray(new Block[0]));
+			event.register(ModBusEvents::getGummiBlockColour, ModBlocks.gummiAeroSquares.stream().map(Supplier::get).toList().toArray(new Block[0]));
+		}
 	}
 
 	@SubscribeEvent
