@@ -135,24 +135,26 @@ public class LanguageENUS extends KKLanguageProvider {
 
 
         //Advancements
-    	addAdvancement("root","Welcome to Kingdom Keys!", "Install Kingdom Keys");
-    	addAdvancement("to_soa","Is this... my heart?!", "Deep dive into your heart");
-    	addAdvancement("choice","A sword, shield and staff?", "Make a choice");
-    	addAdvancement("obtain_recipe","I better take this to a Moogle", "Obtain a recipe");
-    	addAdvancement("obtain_projector","A sacrifice had to be made", "Obtain a moogle projector");
-    	addAdvancement("summon_keyblade","Am I the choosen one?", "Summon your keyblade");
-    	addAdvancement("upgrade_keyblade","It can be even stronger", "Upgrade your keyblade through the use of the Keyblade Forge");
-    	addAdvancement("levelup1","Woah!", "Level up");
-    	addAdvancement("levelup50","Halfway there", "Reach level 50");
-    	addAdvancement("levelup100","I'm at the top!", "Reach level 100");
-    	addAdvancement("obtain_drive","Do I need a license?", "Obtain your first Drive Form orb");
-    	addAdvancement("obtain_keychain","These moogles know how to work", "Obtain your first keychain");
-    	addAdvancement("obtain_kiblade","One key to rule them all!", "Obtain the legendary \u03c7-Blade");
-    	addAdvancement("obtain_magic","Like a Wizard!", "Obtain your first Magic Spell");
-    	addAdvancement("obtain_org","Nobody wore this", "Obtain the organization robes");
-    	addAdvancement("to_rod","Darkness within darkness awaits you", "Get sucked into the Realm of Darkness");
+        addAdvancement("root","Welcome to Kingdom Keys!", "Install Kingdom Keys");
+        addAdvancement("to_soa","Is this... my heart?!", "Deep dive into your heart");
+        addAdvancement("choice","A sword, shield and staff?", "Make a choice");
+        addAdvancement("obtain_recipe","I better take this to a Moogle", "Obtain a recipe");
+        addAdvancement("obtain_projector","A sacrifice had to be made", "Obtain a moogle projector");
+        addAdvancement("summon_keyblade","Am I the choosen one?", "Summon your keyblade");
+        addAdvancement("upgrade_keyblade","It can be even stronger", "Upgrade your keyblade through the use of the Keyblade Forge");
+        addAdvancement("levelup1","Woah!", "Level up");
+        addAdvancement("levelup50","Halfway there", "Reach level 50");
+        addAdvancement("levelup100","I'm at the top!", "Reach level 100");
+        addAdvancement("obtain_drive","Do I need a license?", "Obtain your first Drive Form orb");
+        addAdvancement("obtain_keychain","These moogles know how to work", "Obtain your first keychain");
+        addAdvancement("obtain_kiblade","One key to rule them all!", "Obtain the legendary \u03c7-Blade");
+        addAdvancement("obtain_magic","Like a Wizard!", "Obtain your first Magic Spell");
+        addAdvancement("obtain_org","Nobody wore this", "Obtain the organization robes");
+        addAdvancement("to_rod","Darkness within darkness awaits you", "Get sucked into the Realm of Darkness");
         addAdvancement("obtain_winner_stick","Looks like my summer vacation is...", "Get a winner stick");
-    	//addAdvancement("castle_oblivion_tp","How did I get here?", "Reach the forgotten land of Castle Oblivion");
+        addAdvancement("munny_millionaire","Munnillionare!", "Accumulate 1,000,000 munny");
+        addAdvancement("dual_wield_oblivion_oathkeeper","Bonds of Light and Darkness", "Wield Oblivion and Oathkeeper at the same time");
+        addAdvancement("castle_oblivion_tp","How did I get here?", "Reach the forgotten land of Castle Oblivion");
 
         /**GUIS**/
         //Containers
@@ -220,7 +222,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Gui_Menu_Back + ".desc", "Go back to the previous menu.");
         add(Gui_Menu_Accept, "Accept");
         add(Gui_Menu_Main_Title, "Menu");
-        
+
         add(Gui_Menu_Main_Button_Items, "Items");
         add(Gui_Menu_Main_Button_Items + ".desc", "Access to your equipables (weapon, potions...) and your inventory.");
         add(Gui_Menu_Main_Button_Abilities, "Abilities");
@@ -237,7 +239,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Gui_Menu_Main_Button_Config + ".desc", "Configure various graphical aspects of the HUD.");
         add(Gui_Menu_Main_Button_Style, "Combat Style");
         add(Gui_Menu_Main_Button_Style + ".desc", "Set your combat style with Epic Fight");
-        
+
         add(Gui_Menu_Main_Synthesis_Tier, "Synthesis Tier");
         add(Gui_Menu_Main_Munny, "Munny");
         add(Gui_Menu_Main_Hearts, "Hearts");
@@ -312,7 +314,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Gui_Menu_Status_FormGauge, "Form Gauge");
         add(Gui_Menu_Status_Abilities, "Abilities");
         add(Gui_Menu_Status_Ability, "Ability");
-        
+
         add(Gui_Menu_Config, "Config");
         add(Gui_Menu_Config + ".bg", "Background");
         add(Gui_Menu_Config + ".hud", "Adjust HUD");
@@ -424,22 +426,22 @@ public class LanguageENUS extends KKLanguageProvider {
         add("kingdomkeys.chestplate", "Chestplate");
         add("kingdomkeys.leggings", "Leggings");
         add("kingdomkeys.boots", "Boots");
-        
+
         //Synthesis Bag
         add("gui.synthesisbag.upgrade", "Upgrade size");
         add("gui.synthesisbag.munny", "Munny");
         add("gui.synthesisbag.notenoughmunny", "Not enough munny");
-        
+
         add("gui.statboost.increased","Increased %s, now it's %s");
         add("gui.statboost.tooltip", "Increases %s by 1");
-        		
+
         add("gui.magicspell.equip","Equip in the menu to use it");
         add("gui.magicspell.exp","Experience: %s/%s");
         add("gui.magicspell.exp_short","Exp: %s/%s");
         add("gui.magicspell.lvl_short","Lv. %s");
 
         add("gui.driveformorb.tooltip", "Upgrades %s Form");
-    	add("gui.driveformorb.upgrade", "%s Form has obtained %s exp");
+        add("gui.driveformorb.upgrade", "%s Form has obtained %s exp");
 
         //Spells bag
         add("gui.spellsbag.complain","You should only have a single spells bag in your inventory");
@@ -591,7 +593,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addBlock(ModBlocks.castleOblivionPillar, "Oblivion Pillar");
         addBlock(ModBlocks.castleOblivionStairs, "Oblivion Stairs");
         addBlock(ModBlocks.castleOblivionSlab, "Oblivion Slab");
-        
+
         //Realm of Darkness
         addBlock(ModBlocks.rodCrackedStone, "Dark Cracked Stone");
         addBlock(ModBlocks.rodSand, "Dark Sand");
@@ -830,7 +832,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addDriveForm(ModDriveForms.MASTER, "Master");
         addDriveForm(ModDriveForms.FINAL, "Final");
         addDriveForm(ModDriveForms.ANTI, "Antiform");
-        
+
         //Reaction Commands
         addReactionCommand(ModReactionCommands.AUTO_VALOR, "Auto Valor");
         addReactionCommand(ModReactionCommands.AUTO_WISDOM, "Auto Wisdom");
@@ -1742,7 +1744,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.executiveRing, "Executive Ring");
         addItem(ModItems.starCharm, "Star Charm");
         addItem(ModItems.luckyRing, "Lucky Ring");
-        
+
         addItem(ModItems.fireBangle, "Fire Bangle");
         addItem(ModItems.blizzardArmlet, "Blizzard Armlet");
         addItem(ModItems.thunderTrinket, "Thunder Trinket");
@@ -1834,16 +1836,16 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModEntities.ASSASSIN_EGG, "Assassin Spawn Egg");
         addItem(ModEntities.DRAGOON_EGG, "Dragoon Spawn Egg");
         addItem(ModEntities.MARLUXIA_EGG, "Marluxia Spawn Egg");
-        
+
 
         //Armour
         add("gui.summonarmor.notenoughspace", "You don't have enough room in your inventory");
-        
+
         addItem(ModItems.organizationRobe_Helmet, "Organization Hood");
         addItem(ModItems.organizationRobe_Chestplate, "Organization Coat");
         addItem(ModItems.organizationRobe_Leggings, "Organization Leggings");
         addItem(ModItems.organizationRobe_Boots, "Organization Boots");
-        
+
         addItem(ModItems.terra_Helmet, "Terra Helmet");
         addItem(ModItems.terra_Chestplate, "Terra Chestplate");
         addItem(ModItems.terra_Leggings, "Terra Leggings");
@@ -1890,7 +1892,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.vanitas_Chestplate, "Vanitas Chestplate");
         addItem(ModItems.vanitas_Leggings, "Vanitas Leggings");
         addItem(ModItems.vanitas_Boots, "Vanitas Boots");
-        
+
         addItem(ModItems.vanitas_Remnant_Helmet, "Vanitas Remnant Helmet");
         addItem(ModItems.vanitas_Remnant_Chestplate, "Vanitas Remnant Chestplate");
         addItem(ModItems.vanitas_Remnant_Leggings, "Vanitas Remnant Leggings");
@@ -2110,7 +2112,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addEntityType(ModEntities.TYPE_MPORB, "MP Orb");
         addEntityType(ModEntities.TYPE_DRIVEORB, "DP Orb");
         addEntityType(ModEntities.TYPE_MUNNY, "Munny");
-        
+
         addEntityType(ModEntities.TYPE_SPAWNING_ORB, "Spawning Orb");
 
         addEntityType(ModEntities.TYPE_MOOGLE, "Moogle");

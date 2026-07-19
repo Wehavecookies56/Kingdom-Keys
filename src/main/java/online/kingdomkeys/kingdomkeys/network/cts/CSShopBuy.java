@@ -68,7 +68,7 @@ public record CSShopBuy(ResourceLocation inv, ItemStack itemStack) implements Pa
 
 			boolean enoughMunny = playerData.getMunny() >= item.getCost();
 			if (validItem && enoughMunny) {
-				playerData.setMunny(playerData.getMunny() - item.getCost());
+				playerData.setMunny(playerData.getMunny() - item.getCost(), (ServerPlayer) player);
 
 				if(ModConfigs.SERVER.getExpFromShop.get())
 					playerData.addSynthExperience(10 + item.getTier()*2);

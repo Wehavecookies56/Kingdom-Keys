@@ -41,7 +41,7 @@ public record CSUpgradeBagPacket() implements Packet {
 
 			int cost = Utils.getBagCosts(bagLevel);
 			if (playerData.getMunny() >= cost) {
-				playerData.setMunny(playerData.getMunny() - cost);
+				playerData.setMunny(playerData.getMunny() - cost, (ServerPlayer) player);
 				stack.set(ModComponents.BAG_LEVEL, bagLevel+1);
 				PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
 			}

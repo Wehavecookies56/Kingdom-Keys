@@ -83,7 +83,7 @@ public record CSMeldRecipe(ResourceLocation recipe, int selected1, int selected2
 		consumeMagic(player, playerData, selected1);
 		consumeMagic(player, playerData, selected2);
 
-		playerData.setMunny(playerData.getMunny() - melding.getCost());
+		playerData.setMunny(playerData.getMunny() - melding.getCost(), (ServerPlayer) player);
 
 		ItemStack result;
 		if (melding.hasBonus()) {

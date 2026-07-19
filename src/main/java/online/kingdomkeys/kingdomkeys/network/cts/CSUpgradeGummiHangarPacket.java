@@ -48,7 +48,7 @@ public record CSUpgradeGummiHangarPacket(int containerID) implements Packet {
 			PlayerData playerData = PlayerData.get(player);
 
 			if (playerData.getMunny() >= cost) {
-				playerData.setMunny(playerData.getMunny() - cost);
+				playerData.setMunny(playerData.getMunny() - cost, (ServerPlayer) player);
 				level.setBlockAndUpdate(origin,hangar.setValue(GummiHangarBlock.LEVEL, lvl + 1));
 
                 // Update TE energystorage

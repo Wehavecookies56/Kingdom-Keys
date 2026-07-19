@@ -102,6 +102,7 @@ import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopListRegistry;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.names.NamesListRegistry;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.sell.SellListRegistry;
+import online.kingdomkeys.kingdomkeys.advancements.ModAdvancements;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
 import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
@@ -1144,6 +1145,9 @@ public class EntityEvents {
 		if (!event.getEntity().level().isClientSide() && event.getEntity() instanceof ServerPlayer player) {
 			if (event.getSlot().isArmor()) {
 				Utils.updateOrgRobesTeam(player);
+			}
+			if (event.getSlot() == EquipmentSlot.MAINHAND || event.getSlot() == EquipmentSlot.OFFHAND) {
+				ModAdvancements.triggerDualWield(player, player.getMainHandItem().getItem(), player.getOffhandItem().getItem());
 			}
 		}
 	}

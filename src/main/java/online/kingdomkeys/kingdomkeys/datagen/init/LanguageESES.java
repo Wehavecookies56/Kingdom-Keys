@@ -148,7 +148,9 @@ public class LanguageESES extends KKLanguageProvider {
         addAdvancement("obtain_org", "Nadie visti\u00f3 esto", "Obt\u00e9n la ropa de la Organizaci\u00f3n");
         addAdvancement("to_rod", "La oscuridad te consumir\u00e1", "S\u00e9 absorbido al Reino de la Oscuridad");
         addAdvancement("obtain_winner_stick","Supongo que mis vacaciones de verano...", "Obtén un palito de ganador");
-        //addAdvancement("castle_oblivion_tp","How did I get here?", "Reach the forgotten land of Castle Oblivion");
+        addAdvancement("munny_millionaire","¡Platinario!", "Acumula 1.000.000 platines");
+        addAdvancement("dual_wield_oblivion_oathkeeper","Lazos de luz y oscuridad", "Blande Recuerdos Lejanos y Prometida a la vez");
+        addAdvancement("castle_oblivion_tp","How did I get here?", "Alcanza el territorio abandonado del Castillo del Olvido");
 
         //Keybinds
         add("key.categories.kingdomkeys", "Kingdom Keys");

@@ -59,7 +59,7 @@ public record CSShopSell(int slot, int amount, String inv, String name, int moog
 		}
 
         if(item != null && playerStack.getCount() >= amount) {
-            playerData.setMunny(playerData.getMunny() + item.getPrice() * amount);
+            playerData.setMunny(playerData.getMunny() + item.getPrice() * amount, (ServerPlayer) player);
             player.getInventory().getItem(slot).setCount(player.getInventory().getItem(slot).getCount() - amount);
             PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
             PacketHandler.sendTo(new SCOpenSellScreen(playerData.serializeNBT(player.level().registryAccess()), inv, name, moogle), (ServerPlayer) player);

@@ -38,8 +38,8 @@ public class MunnyCommand extends BaseCommand { // kk_munny <give/take/set/pay> 
 						.then(Commands.argument("targets", EntityArgument.players())
 								.executes(MunnyCommand::removeValue))
 						.executes(MunnyCommand::removeValue)));
-		
-	
+
+
 
 		KingdomKeys.LOGGER.warn("Registered command " + builder.getLiteral());
 		return builder;
@@ -57,7 +57,7 @@ public class MunnyCommand extends BaseCommand { // kk_munny <give/take/set/pay> 
 
 	private static int setValue(CommandContext<CommandSourceStack> context, int value, ServerPlayer player) throws CommandSyntaxException {
 		PlayerData playerData = PlayerData.get(player);
-		playerData.setMunny(value);
+		playerData.setMunny(value, player);
 
 		context.getSource().sendSuccess(() -> Component.translatable("Set " + player.getDisplayName().getString() + " munny to " + value), true);
 
@@ -79,7 +79,7 @@ public class MunnyCommand extends BaseCommand { // kk_munny <give/take/set/pay> 
 
 	private static int addValue(CommandContext<CommandSourceStack> context, int value, ServerPlayer player) throws CommandSyntaxException {
 		PlayerData playerData = PlayerData.get(player);
-		playerData.setMunny(playerData.getMunny() + value);
+		playerData.setMunny(playerData.getMunny() + value, player);
 
 		context.getSource().sendSuccess(() -> Component.translatable("Added " + value + " munny to " + player.getDisplayName().getString()), true);
 
@@ -101,7 +101,7 @@ public class MunnyCommand extends BaseCommand { // kk_munny <give/take/set/pay> 
 
 	private static int removeValue(CommandContext<CommandSourceStack> context, int value, ServerPlayer player) throws CommandSyntaxException {
 		PlayerData playerData = PlayerData.get(player);
-		playerData.setMunny(playerData.getMunny() - value);
+		playerData.setMunny(playerData.getMunny() - value, player);
 
 		context.getSource().sendSuccess(() -> Component.translatable("Taken " + value + " munny from " + player.getDisplayName().getString()), true);
 
