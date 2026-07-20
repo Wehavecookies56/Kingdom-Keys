@@ -19,7 +19,7 @@ public class KKWeaponCapabilities extends WeaponCapability {
     public KKWeaponCapabilities(WeaponCapability.Builder builder) {
         super(builder);
         guardMap.put(EpicKKWeaponEnum.KK_KEYBLADE.toString()+ Styles.TWO_HAND, new GuardObject(Animations.SWORD_DUAL_GUARD_HIT, Animations.BIPED_COMMON_NEUTRALIZED, Animations.SWORD_DUAL_GUARD_HIT));
-        guardMap.put(EpicKKWeaponEnum.KK_KEYBLADE.toString()+ KKStyles.VALOR, new GuardObject(Animations.SWORD_DUAL_GUARD_HIT, Animations.BIPED_COMMON_NEUTRALIZED, Animations.SWORD_DUAL_GUARD_HIT));
+        guardMap.put(EpicKKWeaponEnum.KK_KEYBLADE.toString()+ KKStyles.VALOR_FORM, new GuardObject(Animations.SWORD_DUAL_GUARD_HIT, Animations.BIPED_COMMON_NEUTRALIZED, Animations.SWORD_DUAL_GUARD_HIT));
         guardMap.put(EpicKKWeaponEnum.KK_KEYBLADE.toString()+ Styles.ONE_HAND, new GuardObject(Animations.SWORD_GUARD_HIT, Animations.BIPED_COMMON_NEUTRALIZED, Animations.SWORD_GUARD_HIT));
         guardMap.put(EpicKKWeaponEnum.KK_CHAKRAM.toString()+ Styles.TWO_HAND, new GuardObject(Animations.SWORD_DUAL_GUARD_HIT, Animations.BIPED_COMMON_NEUTRALIZED, Animations.SWORD_DUAL_GUARD_HIT));
         guardMap.put(EpicKKWeaponEnum.KK_CHAKRAM.toString()+ Styles.ONE_HAND, new GuardObject(Animations.SWORD_GUARD_HIT, Animations.BIPED_COMMON_NEUTRALIZED, Animations.SWORD_GUARD_HIT));
