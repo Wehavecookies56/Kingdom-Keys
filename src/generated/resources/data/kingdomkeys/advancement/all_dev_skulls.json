@@ -13,9 +13,9 @@
       },
       "trigger": "kingdomkeys:craft_profile_head"
     },
-    "stel312": {
+    "stel1034": {
       "conditions": {
-        "name": "stel312"
+        "name": "stel1034"
       },
       "trigger": "kingdomkeys:craft_profile_head"
     },
@@ -56,7 +56,7 @@
       "wyndftw"
     ],
     [
-      "stel312"
+      "stel1034"
     ],
     [
       "xephirovt"

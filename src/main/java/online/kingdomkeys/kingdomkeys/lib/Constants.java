@@ -18,7 +18,7 @@ public class Constants {
             new DevRecipe("Estelleste", ModItems.orichalcumplus.get(), ModItems.mythril_crystal.get()),
             new DevRecipe("Abelatox", ModItems.orichalcum.get(), ModItems.blazing_crystal.get()),
             new DevRecipe("wyndftw", ModItems.remembrance_crystal.get(), ModItems.pulsing_crystal.get()),
-            new DevRecipe("stel312", ModItems.soothing_crystal.get(), ModItems.tranquility_crystal.get()),
+            new DevRecipe("stel1034", ModItems.soothing_crystal.get(), ModItems.tranquility_crystal.get()),
             new DevRecipe("XephiroVT", ModItems.sinister_crystal.get(), ModItems.writhing_crystal.get())
     );
 

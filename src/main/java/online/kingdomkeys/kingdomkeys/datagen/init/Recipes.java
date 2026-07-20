@@ -83,9 +83,6 @@ public class Recipes extends RecipeProvider {
 				.unlockedBy("desert_card", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.desertMemory.get()))
 				.save(consumer);
 
-
-
-
 		for (Constants.DevRecipe dev : Constants.devRecipes) {
 			ShapelessRecipeBuilder.shapeless(RecipeCategory.DECORATIONS, createDevSkull(dev.name()))
 					.requires(Items.WITHER_SKELETON_SKULL)

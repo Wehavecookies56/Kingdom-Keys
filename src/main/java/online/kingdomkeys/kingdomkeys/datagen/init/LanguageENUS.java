@@ -165,7 +165,7 @@ public class LanguageENUS extends KKLanguageProvider {
     	addAdvancement("craft_estelleste_skull","The mastermind", "Craft a tribute skull for Estelleste");
     	addAdvancement("craft_abelatox_skull","The blamed", "Craft a tribute skull for Abelatox");
         addAdvancement("craft_wyndftw_skull","The forgotten", "Craft a tribute skull for wyndftw");
-        addAdvancement("craft_stel312_skull","The blender", "Craft a tribute skull for stel312");
+        addAdvancement("craft_stel1034_skull","The blender", "Craft a tribute skull for stel312");
         addAdvancement("craft_xephirovt_skull","The helping hand", "Craft a tribute skull for XephiroVT");
     	addAdvancement("all_dev_skulls","Hall of Creators", "Craft all of the creators' tribute skulls");
 

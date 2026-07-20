@@ -162,7 +162,7 @@ public class LanguageESES extends KKLanguageProvider {
         addAdvancement("craft_estelleste_skull","La mente maestra", "Fabrica una calavera tributo a Estelleste");
         addAdvancement("craft_abelatox_skull","El culpado", "Fabrica una calavera tributo a Abelatox");
         addAdvancement("craft_wyndftw_skull","El olvidado", "Fabrica una calavera tributo a wyndftw");
-        addAdvancement("craft_stel312_skull","El escultor", "Fabrica una calavera tributo a stel312");
+        addAdvancement("craft_stel1034_skull","El escultor", "Fabrica una calavera tributo a stel312");
         addAdvancement("craft_xephirovt_skull","La mano amiga", "Fabrica una calavera tributo a XephiroVT");
         addAdvancement("all_dev_skulls","Salón de los creadores", "Fabrica las calaveras tributo de todos los creadores");
 

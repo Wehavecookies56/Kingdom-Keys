@@ -16,7 +16,9 @@
 * Regenerating rooms in Castle Oblivion clears all entities so it no longer leaves dropped items everywhere.
 * Opening card packs will deposit the cards in the Cards bag if it has some space.
 * Recipes for Keyblade Forge level ups are now different for each Keyblade.
+* Gummi ship controls are now more 3D, similar to elytra.
 * Slightly optimized some parts of the code.
+* Updated Keyblade weapon to match new EFM declarations.
 
 ## Fixed:
 * Castle Oblivion door criteria values match COM's mechanics, the doors within a generated room will be +1 the value of the card until it reaches 9 then will be 0.

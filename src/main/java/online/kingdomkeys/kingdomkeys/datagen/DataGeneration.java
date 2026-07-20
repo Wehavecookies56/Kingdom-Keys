@@ -6,6 +6,7 @@ import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.common.data.AdvancementProvider;
 import net.neoforged.neoforge.common.data.DatapackBuiltinEntriesProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
@@ -13,7 +14,6 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.damagesource.KKDamageTypes;
 import online.kingdomkeys.kingdomkeys.datagen.init.*;
 import online.kingdomkeys.kingdomkeys.datagen.provider.BaseLootTableProvider;
-import online.kingdomkeys.kingdomkeys.datagen.provider.KKAdvancementProvider;
 import online.kingdomkeys.kingdomkeys.datagen.provider.MagicDataProvider;
 import online.kingdomkeys.kingdomkeys.datagen.provider.ShopDataProvider;
 
@@ -51,7 +51,7 @@ public class DataGeneration {
         generator.addProvider(event.includeServer(), new MeldingRecipe(generator, existingFileHelper));
         generator.addProvider(event.includeServer(), new MagicDataProvider(output));
         generator.addProvider(event.includeServer(), new ShopDataProvider(output));
-        generator.addProvider(event.includeServer(), new KKAdvancementProvider(output, event.getLookupProvider(), existingFileHelper));
+        generator.addProvider(event.includeServer(), new AdvancementProvider(output, event.getLookupProvider(), existingFileHelper, List.of(new AdvancementsGen())));
         generator.addProvider(event.includeClient(), new LanguageENUS(generator));
         generator.addProvider(event.includeClient(), new LanguageESES(generator));
         generator.addProvider(event.includeClient(), new LanguageENGB(generator));

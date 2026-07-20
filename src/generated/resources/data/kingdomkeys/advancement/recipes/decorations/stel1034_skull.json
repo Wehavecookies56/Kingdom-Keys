@@ -3,7 +3,7 @@
   "criteria": {
     "has_the_recipe": {
       "conditions": {
-        "recipe": "kingdomkeys:stel312_skull"
+        "recipe": "kingdomkeys:stel1034_skull"
       },
       "trigger": "minecraft:recipe_unlocked"
     },
@@ -26,7 +26,7 @@
   ],
   "rewards": {
     "recipes": [
-      "kingdomkeys:stel312_skull"
+      "kingdomkeys:stel1034_skull"
     ]
   }
 }
