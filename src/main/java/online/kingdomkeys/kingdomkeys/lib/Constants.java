@@ -1,5 +1,7 @@
 package online.kingdomkeys.kingdomkeys.lib;
 
+import net.minecraft.world.item.Item;
+import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.util.List;
@@ -10,6 +12,15 @@ public class Constants {
     public static final int TUTORIAL_CO_CASTLE = 0;
     public static final int TUTORIAL_CO_LOBBY = 1;
 
+    public record DevRecipe(String name, Item material1, Item material2) {}
+
+    public static final List<DevRecipe> devRecipes = List.of(
+            new DevRecipe("Wehavecookies56", ModItems.orichalcumplus.get(), ModItems.mythril_crystal.get()),
+            new DevRecipe("Abelatox", ModItems.orichalcum.get(), ModItems.blazing_crystal.get()),
+            new DevRecipe("wyndftw", ModItems.remembrance_crystal.get(), ModItems.pulsing_crystal.get()),
+            new DevRecipe("stel312", ModItems.soothing_crystal.get(), ModItems.tranquility_crystal.get()),
+            new DevRecipe("XephiroVT", ModItems.sinister_crystal.get(), ModItems.writhing_crystal.get())
+    );
 
     public static final Map<Integer, List<Utils.Title>> TUTORIALS = Map.of(
     TUTORIAL_CO_CASTLE, List.of(),

@@ -6,16 +6,16 @@
       "item": "minecraft:wither_skeleton_skull"
     },
     {
-      "item": "kingdomkeys:orichalcumplus"
+      "item": "kingdomkeys:remembrance_crystal"
     },
     {
-      "item": "kingdomkeys:mythril_crystal"
+      "item": "kingdomkeys:pulsing_crystal"
     }
   ],
   "result": {
     "components": {
       "minecraft:profile": {
-        "name": "Wehavecookies56"
+        "name": "wyndftw"
       }
     },
     "count": 1,

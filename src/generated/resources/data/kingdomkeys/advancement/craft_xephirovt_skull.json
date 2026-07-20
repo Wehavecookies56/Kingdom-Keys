@@ -1,0 +1,40 @@
+{
+  "parent": "kingdomkeys:craft_stel312_skull",
+  "criteria": {
+    "crafted": {
+      "conditions": {
+        "name": "XephiroVT"
+      },
+      "trigger": "kingdomkeys:craft_profile_head"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "description": {
+      "translate": "advancements.kingdomkeys.craft_xephirovt_skull.desc"
+    },
+    "frame": "goal",
+    "hidden": true,
+    "icon": {
+      "components": {
+        "minecraft:profile": {
+          "name": "XephiroVT"
+        }
+      },
+      "count": 1,
+      "id": "minecraft:player_head"
+    },
+    "title": {
+      "translate": "advancements.kingdomkeys.craft_xephirovt_skull"
+    }
+  },
+  "requirements": [
+    [
+      "crafted"
+    ]
+  ],
+  "rewards": {
+    "experience": 50
+  },
+  "sends_telemetry_event": true
+}

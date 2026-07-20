@@ -162,9 +162,12 @@ public class LanguageENUS extends KKLanguageProvider {
     	addAdvancement("obtain_all_drive_forms","Drive Master", "Obtain every Drive Form");
     	addAdvancement("max_keyblade_level","Fully Forged", "Level a keyblade up to its maximum level");
     	addAdvancement("reach_castle_oblivion","Naught but memories", "Set foot in Castle Oblivion");
-    	addAdvancement("craft_wehavecookies56_skull","A Cookie for the Creator", "Craft a tribute skull for Wehavecookies56");
-    	addAdvancement("craft_abelatox_skull","A Toast to the Creator", "Craft a tribute skull for Abelatox");
-    	addAdvancement("both_dev_skulls","Hall of Creators", "Craft both creators' tribute skulls");
+    	addAdvancement("craft_wehavecookies56_skull","The mastermind", "Craft a tribute skull for Wehavecookies56");
+    	addAdvancement("craft_abelatox_skull","The blamed", "Craft a tribute skull for Abelatox");
+        addAdvancement("craft_wyndftw_skull","The forgotten", "Craft a tribute skull for wyndftw");
+        addAdvancement("craft_stel312_skull","The blender", "Craft a tribute skull for stel312");
+        addAdvancement("craft_xephirovt_skull","The helping hand", "Craft a tribute skull for XephiroVT");
+    	addAdvancement("all_dev_skulls","Hall of Creators", "Craft all of the creators' tribute skulls");
 
         /**GUIS**/
         //Containers

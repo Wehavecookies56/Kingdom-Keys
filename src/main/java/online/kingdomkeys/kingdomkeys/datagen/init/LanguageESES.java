@@ -159,9 +159,12 @@ public class LanguageESES extends KKLanguageProvider {
         addAdvancement("obtain_all_drive_forms","Maestro de las Formas", "Obtén todas las Formas de Fusión");
         addAdvancement("max_keyblade_level","Forjada a fuego", "Sube una llave espada hasta su nivel máximo");
         addAdvancement("reach_castle_oblivion","Solo quedan recuerdos", "Pon un pie en el Castillo del Olvido");
-        addAdvancement("craft_wehavecookies56_skull","Una galleta para el creador", "Fabrica una calavera tributo a Wehavecookies56");
-        addAdvancement("craft_abelatox_skull","Un brindis por el creador", "Fabrica una calavera tributo a Abelatox");
-        addAdvancement("both_dev_skulls","Salón de los creadores", "Fabrica las calaveras tributo de ambos creadores");
+        addAdvancement("craft_wehavecookies56_skull","La mente maestra", "Fabrica una calavera tributo a Wehavecookies56");
+        addAdvancement("craft_abelatox_skull","El culpado", "Fabrica una calavera tributo a Abelatox");
+        addAdvancement("craft_wyndftw_skull","El olvidado", "Fabrica una calavera tributo a wyndftw");
+        addAdvancement("craft_stel312_skull","El escultor", "Fabrica una calavera tributo a stel312");
+        addAdvancement("craft_xephirovt_skull","La mano amiga", "Fabrica una calavera tributo a XephiroVT");
+        addAdvancement("all_dev_skulls","Salón de los creadores", "Fabrica las calaveras tributo de todos los creadores");
 
         //Keybinds
         add("key.categories.kingdomkeys", "Kingdom Keys");

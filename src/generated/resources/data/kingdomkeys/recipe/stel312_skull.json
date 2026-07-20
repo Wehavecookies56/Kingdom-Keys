@@ -6,16 +6,16 @@
       "item": "minecraft:wither_skeleton_skull"
     },
     {
-      "item": "kingdomkeys:orichalcumplus"
+      "item": "kingdomkeys:soothing_crystal"
     },
     {
-      "item": "kingdomkeys:mythril_crystal"
+      "item": "kingdomkeys:tranquility_crystal"
     }
   ],
   "result": {
     "components": {
       "minecraft:profile": {
-        "name": "Wehavecookies56"
+        "name": "stel312"
       }
     },
     "count": 1,

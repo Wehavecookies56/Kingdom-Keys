@@ -23,6 +23,7 @@ import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.item.ModComponents;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.item.card.WorldCardItem;
+import online.kingdomkeys.kingdomkeys.lib.Constants;
 import online.kingdomkeys.kingdomkeys.lib.ModTags;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
@@ -82,21 +83,17 @@ public class Recipes extends RecipeProvider {
 				.unlockedBy("desert_card", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.desertMemory.get()))
 				.save(consumer);
 
-		// Tribute heads for the mod's creators.
-		ShapelessRecipeBuilder.shapeless(RecipeCategory.DECORATIONS, createDevSkull("Wehavecookies56"))
-				.requires(Items.WITHER_SKELETON_SKULL)
-				.requires(ModItems.orichalcum.get())
-				.requires(ModItems.mythril_gem.get())
-				.unlockedBy("wither_skeleton_skull", InventoryChangeTrigger.TriggerInstance.hasItems(Items.WITHER_SKELETON_SKULL))
-				.save(consumer, KingdomKeys.rl("wehavecookies56_skull"));
 
-		ShapelessRecipeBuilder.shapeless(RecipeCategory.DECORATIONS, createDevSkull("Abelatox"))
-				.requires(Items.WITHER_SKELETON_SKULL)
-				.requires(ModItems.electrum.get())
-				.requires(ModItems.adamantite.get())
-				.unlockedBy("wither_skeleton_skull", InventoryChangeTrigger.TriggerInstance.hasItems(Items.WITHER_SKELETON_SKULL))
-				.save(consumer, KingdomKeys.rl("abelatox_skull"));
-		
+
+
+		for (Constants.DevRecipe dev : Constants.devRecipes) {
+			ShapelessRecipeBuilder.shapeless(RecipeCategory.DECORATIONS, createDevSkull(dev.name()))
+					.requires(Items.WITHER_SKELETON_SKULL)
+					.requires(dev.material1())
+					.requires(dev.material2())
+					.unlockedBy("wither_skeleton_skull", InventoryChangeTrigger.TriggerInstance.hasItems(Items.WITHER_SKELETON_SKULL))
+					.save(consumer, KingdomKeys.rl(dev.name().toLowerCase() + "_skull"));
+		}
 
 		ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModBlocks.magicTarget.get())
 				.requires(Blocks.TARGET)

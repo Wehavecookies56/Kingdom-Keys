@@ -6,16 +6,16 @@
       "item": "minecraft:wither_skeleton_skull"
     },
     {
-      "item": "kingdomkeys:orichalcumplus"
+      "item": "kingdomkeys:sinister_crystal"
     },
     {
-      "item": "kingdomkeys:mythril_crystal"
+      "item": "kingdomkeys:writhing_crystal"
     }
   ],
   "result": {
     "components": {
       "minecraft:profile": {
-        "name": "Wehavecookies56"
+        "name": "XephiroVT"
       }
     },
     "count": 1,
