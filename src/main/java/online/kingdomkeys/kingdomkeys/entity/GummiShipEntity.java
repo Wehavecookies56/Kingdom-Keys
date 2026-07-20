@@ -48,18 +48,18 @@ import java.util.Map;
 public class GummiShipEntity extends KKVehicleEntity implements IEntityWithComplexSpawn {
 
 	CompoundTag data;
-    int fuel;
+	int fuel;
 	public GummiStructure structure;
 	public ShipStats shipStats;
 
-    public GummiShipEntity(EntityType<? extends Entity> type, Level world) {
+	public GummiShipEntity(EntityType<? extends Entity> type, Level world) {
 		super(type, world);
 	}
 
-    public record ShipStats(float speed, int weight, int armour, List<Vec3> firepower, HashMap<GummiWeaponBlock.ShotType,Integer> impact, List<Vec3> passengerSlots, int mobility) {
+	public record ShipStats(float speed, int weight, int armour, List<Vec3> firepower, HashMap<GummiWeaponBlock.ShotType,Integer> impact, List<Vec3> passengerSlots, int mobility) {
 		public float getEffectiveSpeed(){
-            return speed() / (weight() * 0.5F);
-        }
+			return speed() / (weight() * 0.5F);
+		}
 	}
 
 	public GummiShipEntity(Level world, GummiStructure gummiStruct) {
@@ -71,79 +71,81 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 
 	int weaponCounter = 0;
 	public void fire(Player player, boolean rightClick) {
-        if (getFuel() <= 0)
-            return;
+		if (getFuel() <= 0)
+			return;
 
-        boolean xEven = Utils.isStructureEven(structure)[0];
-        boolean zEven = Utils.isStructureEven(structure)[1];
+		boolean xEven = Utils.isStructureEven(structure)[0];
+		boolean zEven = Utils.isStructureEven(structure)[1];
 
-        Vec3 weaponPos = shipStats.firepower.get(weaponCounter);
-        BlockState weapon = structure.getBlocks()[(int) weaponPos.x][(int) weaponPos.y][(int) weaponPos.z];
+		Vec3 weaponPos = shipStats.firepower.get(weaponCounter);
+		BlockState weapon = structure.getBlocks()[(int) weaponPos.x][(int) weaponPos.y][(int) weaponPos.z];
 
-        Quarter quarter = weapon.getValue(GummiWeaponBlock.QUARTER);
+		Quarter quarter = weapon.getValue(GummiWeaponBlock.QUARTER);
 
-        float xOff = 0, zOff = 0;
-        if(weapon.getBlock() instanceof GummiWeaponBlock mb && mb.isMultiBlock()){
-            xOff = mb.getOffsetToCannon()[0];
-            zOff = mb.getOffsetToCannon()[2];
-        }
+		float xOff = 0, zOff = 0;
+		if(weapon.getBlock() instanceof GummiWeaponBlock mb && mb.isMultiBlock()){
+			xOff = mb.getOffsetToCannon()[0];
+			zOff = mb.getOffsetToCannon()[2];
+		}
 
-        if(quarter == Quarter.TOP){
-            xOff *= -1;
-            zOff *= -1;
-        }
+		if(quarter == Quarter.TOP){
+			xOff *= -1;
+			zOff *= -1;
+		}
 
-        Vec3 posInShip = new Vec3(structure.getWidth() / 2 - weaponPos.x() + (xEven ? -0.5F : 0)+xOff, (structure.getHeight() / 2F) + weaponPos.y() - structure.getHeight() / 2, structure.getDepth() / 2 - weaponPos.z() + (zEven ? 0F : 0.5F) + 0.5F + zOff).yRot(-this.getYRot() * ((float) Math.PI / 180F));
-        Vec3 weaponPosWorld = posInShip.add(getX(), getY(), getZ());
-        Vec3 lookDir = player.getLookAngle();
-        Vec3 eyePos = player.getEyePosition(1.0f);
-        Vec3 targetPoint = eyePos.add(lookDir.scale(60)); //Higher the number the further away they converge
-        Vec3 compensatedDir = targetPoint.subtract(weaponPosWorld).normalize();
+		Vec3 posInShip = new Vec3(structure.getWidth() / 2 - weaponPos.x() + (xEven ? -0.5F : 0)+xOff, (structure.getHeight() / 2F) + weaponPos.y() - structure.getHeight() / 2, structure.getDepth() / 2 - weaponPos.z() + (zEven ? 0F : 0.5F) + 0.5F + zOff)
+				.xRot(-this.getXRot() * ((float) Math.PI / 180F))
+				.yRot(-this.getYRot() * ((float) Math.PI / 180F));
+		Vec3 weaponPosWorld = posInShip.add(getX(), getY(), getZ());
+		Vec3 lookDir = player.getLookAngle();
+		Vec3 eyePos = player.getEyePosition(1.0f);
+		Vec3 targetPoint = eyePos.add(lookDir.scale(60)); //Higher the number the further away they converge
+		Vec3 compensatedDir = targetPoint.subtract(weaponPosWorld).normalize();
 
-        if (weapon.getBlock() instanceof GummiWeaponBlock wpn && getFuel() > wpn.getFuelPerShot()) {
-            wpn.shoot(player, player.level(), this, weaponPosWorld, compensatedDir);
-            weaponCounter++;
-            if (weaponCounter >= shipStats.firepower().size())
-                weaponCounter = 0;
-        }
+		if (weapon.getBlock() instanceof GummiWeaponBlock wpn && getFuel() > wpn.getFuelPerShot()) {
+			wpn.shoot(player, player.level(), this, weaponPosWorld, compensatedDir);
+			weaponCounter++;
+			if (weaponCounter >= shipStats.firepower().size())
+				weaponCounter = 0;
+		}
 	}
 
-    public void boost(Player player){
-        // Seems entity push is not needed in server
-        if(shipStats.impact() == null || shipStats.impact().isEmpty()){
-            return;
-        }
-        int size = 0;
-        if(shipStats.impact().containsKey(GummiWeaponBlock.ShotType.WATER)){
-            size+=1;
-        }
-        if(shipStats.impact().containsKey(GummiWeaponBlock.ShotType.WATERA)){
-            size+=2;
-        }
-        if(shipStats.impact().containsKey(GummiWeaponBlock.ShotType.WATERGA)){
-            size+=4;
-        }
+	public void boost(Player player){
+		// Seems entity push is not needed in server
+		if(shipStats.impact() == null || shipStats.impact().isEmpty()){
+			return;
+		}
+		int size = 0;
+		if(shipStats.impact().containsKey(GummiWeaponBlock.ShotType.WATER)){
+			size+=1;
+		}
+		if(shipStats.impact().containsKey(GummiWeaponBlock.ShotType.WATERA)){
+			size+=2;
+		}
+		if(shipStats.impact().containsKey(GummiWeaponBlock.ShotType.WATERGA)){
+			size+=4;
+		}
 
-        int power = 0;
-        for(Map.Entry<GummiWeaponBlock.ShotType,Integer> e : shipStats.impact().entrySet()){
-            power += e.getValue();
-        }
+		int power = 0;
+		for(Map.Entry<GummiWeaponBlock.ShotType,Integer> e : shipStats.impact().entrySet()){
+			power += e.getValue();
+		}
 
-        size *= 2; //Scale it for wider area
+		size *= 2; //Scale it for wider area
 
-        GummiImpactEntity shot = new GummiImpactEntity(level(), player, power);
-        level().addFreshEntity(shot);
-        shot.setPos(position());
-        shot.shootFromRotation(this, getXRot(), getYRot() - size, 0, 3F, 0);
+		GummiImpactEntity shot = new GummiImpactEntity(level(), player, power);
+		level().addFreshEntity(shot);
+		shot.setPos(position());
+		shot.shootFromRotation(this, getXRot(), getYRot() - size, 0, 3F, 0);
 
-        GummiImpactEntity shot2 = new GummiImpactEntity(level(), player, power);
-        level().addFreshEntity(shot2);
-        shot2.setPos(position());
-        shot2.shootFromRotation(this, getXRot(), getYRot() + size, 0, 3F, 0);
+		GummiImpactEntity shot2 = new GummiImpactEntity(level(), player, power);
+		level().addFreshEntity(shot2);
+		shot2.setPos(position());
+		shot2.shootFromRotation(this, getXRot(), getYRot() + size, 0, 3F, 0);
 
-        shot.setLinked(shot2);
-        shot2.setLinked(shot);
-    }
+		shot.setLinked(shot2);
+		shot2.setLinked(shot);
+	}
 
 	@Override
 	public boolean hurt(DamageSource source, float amount) {
@@ -157,17 +159,17 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 				if(source.getEntity() instanceof Player player && structure != null){
 					if(player.isCrouching() && structure.getOwnerID().equals(player.getUUID()) && player.getMainHandItem().getItem() == ModItems.gummiPhone.get()){
 						ItemStack stack = player.getMainHandItem();
-                        if(stack.has(ModComponents.GUMMI_STRUCTURE)){
-                            player.displayClientMessage(Component.translatable("There's already a gummi ship stored in your gummi phone"), true);
-                        } else {
-                            stack.set(ModComponents.GUMMI_STRUCTURE, structure);
-                            stack.set(ModComponents.GUMMI_DAMAGE, getDamage());
-                            stack.set(ModComponents.GUMMI_FUEL, getFuel());
+						if(stack.has(ModComponents.GUMMI_STRUCTURE)){
+							player.displayClientMessage(Component.translatable("There's already a gummi ship stored in your gummi phone"), true);
+						} else {
+							stack.set(ModComponents.GUMMI_STRUCTURE, structure);
+							stack.set(ModComponents.GUMMI_DAMAGE, getDamage());
+							stack.set(ModComponents.GUMMI_FUEL, getFuel());
 
-                            player.displayClientMessage(Component.translatable("Stored gummi ship in your gummi phone"), true);
-                            ((ServerLevel) level()).sendParticles(ParticleTypes.FIREWORK, this.getX(), this.getY() + 1, this.getZ(), Utils.getRealGummiStructureSize(structure).getX() * Utils.getRealGummiStructureSize(structure).getY() * Utils.getRealGummiStructureSize(structure).getZ(), 0, 0, 0, 0.2);
-                            this.kill();
-                        }
+							player.displayClientMessage(Component.translatable("Stored gummi ship in your gummi phone"), true);
+							((ServerLevel) level()).sendParticles(ParticleTypes.FIREWORK, this.getX(), this.getY() + 1, this.getZ(), Utils.getRealGummiStructureSize(structure).getX() * Utils.getRealGummiStructureSize(structure).getY() * Utils.getRealGummiStructureSize(structure).getZ(), 0, 0, 0, 0.2);
+							this.kill();
+						}
 						return false;
 					}
 				}
@@ -204,27 +206,27 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 					BlockState state = structure.getBlocks()[x][y][z];
 					if (state != null && !state.isAir()) {
 						Block block = state.getBlock();
-                        if(block instanceof GummiBlockBase gummi) {
-                            if (gummi.getPlacementType() == GummiPlacementType.MULTIBLOCK2D) {
-                                if (!(state.getValue(GummiBlockBase.X) == 0 && state.getValue(GummiBlockBase.Z) == 0)) {
-                                    continue; //skip fake blocks
-                                }
-                            } else if (gummi.getPlacementType() == GummiPlacementType.MULTIBLOCK3D) {
-                                if (!(state.getValue(GummiBlockBase.X) == 0 && state.getValue(GummiBlockBase.Y) == 0 && state.getValue(GummiBlockBase.Z) == 0)) {
-                                    continue; //skip fake blocks
-                                }
-                            }
-                        }
+						if(block instanceof GummiBlockBase gummi) {
+							if (gummi.getPlacementType() == GummiPlacementType.MULTIBLOCK2D) {
+								if (!(state.getValue(GummiBlockBase.X) == 0 && state.getValue(GummiBlockBase.Z) == 0)) {
+									continue; //skip fake blocks
+								}
+							} else if (gummi.getPlacementType() == GummiPlacementType.MULTIBLOCK3D) {
+								if (!(state.getValue(GummiBlockBase.X) == 0 && state.getValue(GummiBlockBase.Y) == 0 && state.getValue(GummiBlockBase.Z) == 0)) {
+									continue; //skip fake blocks
+								}
+							}
+						}
 
 
-                        if (block.builtInRegistryHolder().is(BlockTagsGen.GUMMI_DROPS)) {
-                            items.add(block.asItem());
-                        } else {
-                            int number = level().random.nextInt(100);
-                            if (number < ModConfigs.gummiBlocksDropPercent) {
-                                items.add(block.asItem());
-                            }
-                        }
+						if (block.builtInRegistryHolder().is(BlockTagsGen.GUMMI_DROPS)) {
+							items.add(block.asItem());
+						} else {
+							int number = level().random.nextInt(100);
+							if (number < ModConfigs.gummiBlocksDropPercent) {
+								items.add(block.asItem());
+							}
+						}
 
 					}
 				}
@@ -317,7 +319,9 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 		boolean xEven = isXEven == 1;
 		boolean zEven = isZEven == 1;
 
-		return (new Vec3(structure.getWidth()/2-x + (xEven ? -0.5F: 0), (structure.getHeight()/2F)+y-structure.getHeight()/2, structure.getDepth()/2-z + (zEven ? 0.5F: 0))).yRot(-this.getYRot() * 0.017453292F);
+		return (new Vec3(structure.getWidth()/2-x + (xEven ? -0.5F: 0), (structure.getHeight()/2F)+y-structure.getHeight()/2, structure.getDepth()/2-z + (zEven ? 0.5F: 0)))
+				.xRot(-this.getXRot() * 0.017453292F)
+				.yRot(-this.getYRot() * 0.017453292F);
 	}
 
 	public float currentSpeed = 0F;
@@ -333,12 +337,17 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 	private final float ascendAcceleration = 0.04F;
 	private final float descendAcceleration = 0.04F;
 
+	// How far up/down the ship is allowed to tilt to follow the pilot's look direction, and how fast
+	// (degrees per tick) it turns to catch up to that target pitch.
+	private final float maxShipPitch = 60F;
+	private final float pitchTurnRate = 3F;
+
 	@Override
 	void controlBoat() {
-        if(getFuel() <= 0){
-            inputLeft = inputRight = inputUp = inputForward = inputBackward = false;
-            inputDown = true;
-        }
+		if(getFuel() <= 0){
+			inputLeft = inputRight = inputUp = inputForward = inputBackward = false;
+			inputDown = true;
+		}
 
 		if (this.isVehicle()) {
 			//Forward / Backwards
@@ -357,20 +366,20 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 			} else {
 				if (delta > 0) {
 					// Forward
-                    if(currentSpeed < shipStats.speed()) { //Top cap so it doesn't go faster than intended
-                        currentSpeed += delta * acceleration;
-                    } else {
-                        currentSpeed = shipStats.speed();
-                    }
+					if(currentSpeed < shipStats.speed()) { //Top cap so it doesn't go faster than intended
+						currentSpeed += delta * acceleration;
+					} else {
+						currentSpeed = shipStats.speed();
+					}
 					if (currentSpeed > targetSpeed)
 						currentSpeed = targetSpeed;
-                } else {
+				} else {
 					// Backwards
-                    if(currentSpeed > -shipStats.speed()) {
-                        currentSpeed += delta * deceleration;
-                    } else {
-                        currentSpeed = -shipStats.speed();
-                    }
+					if(currentSpeed > -shipStats.speed()) {
+						currentSpeed += delta * deceleration;
+					} else {
+						currentSpeed = -shipStats.speed();
+					}
 					if (currentSpeed < targetSpeed)
 						currentSpeed = targetSpeed;
 				}
@@ -404,6 +413,14 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 			this.deltaRotation = currentRotationSpeed;
 			this.setYRot(this.getYRot() + this.deltaRotation);
 
+			// Pitch - the ship smoothly tilts to match where the pilot is looking (cameraX is the
+			// controlling player's xRot/pitch, sent every tick from setInput). This is what lets the
+			// ship point up/down instead of only ever flying level.
+			float targetPitch = Mth.clamp(this.cameraX, -maxShipPitch, maxShipPitch);
+			float pitchDelta = Mth.wrapDegrees(targetPitch - this.getXRot());
+			float pitchStep = Mth.clamp(pitchDelta, -pitchTurnRate, pitchTurnRate);
+			this.setXRot(this.getXRot() + pitchStep);
+
 			// UP / Down
 			float targetVertical = 0;
 
@@ -432,7 +449,12 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 				}
 			}
 
-			this.setDeltaMovement(this.getDeltaMovement().add((Mth.sin(-this.getYRot() * 0.017453292F) * currentSpeed), currentVerticalSpeed,(Math.cos(this.getYRot() * 0.017453292F) * currentSpeed)));
+			// Forward/backward movement now follows the ship's full look direction (yaw AND pitch),
+			// same idea as swimming: pressing forward moves you where you're pointed, not just flat.
+			// The dedicated up/down keys (currentVerticalSpeed) still add extra vertical thrust on top
+			// of that, for fine hovering/climbing control regardless of where you're looking.
+			Vec3 lookDirection = this.calculateViewVector(this.getXRot(), this.getYRot());
+			this.setDeltaMovement(this.getDeltaMovement().add(lookDirection.scale(currentSpeed)).add(0, currentVerticalSpeed, 0));
 		}
 	}
 
@@ -453,16 +475,22 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 	@Override
 	public void tick() {
 		super.tick();
-        //setFuel(200);
+		//setFuel(200);
 		if (structure == null || structure.getBlocks().length == 0) {
 			this.kill();
 		} else {
 			boolean empty = true;
+			BlockState[][][] blocks = structure.getBlocks();
+			// Stop scanning as soon as we find the first non-null block - we only need to know
+			// whether the structure is empty or not, no need to keep checking every remaining cell
+			// (this runs every tick, for every gummi ship, and ships can easily be 20x20x20+ cells).
+			outer:
 			for (int x = 0; x < structure.getWidth(); x++) {
 				for (int y = 0; y < structure.getHeight(); y++) {
 					for (int z = 0; z < structure.getDepth(); z++) {
-						if (structure.getBlocks()[x][y][z] != null) {
+						if (blocks[x][y][z] != null) {
 							empty = false;
+							break outer;
 						}
 					}
 				}
@@ -474,32 +502,32 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 			}
 		}
 
-        if(!level().isClientSide && this.shipStats != null) {
-            int fuelConsumption = (int)(shipStats.speed * ModConfigs.fuelConsumeFactor);
+		if(!level().isClientSide && this.shipStats != null) {
+			int fuelConsumption = (int)(shipStats.speed * ModConfigs.fuelConsumeFactor);
 
-            if(getYRot() != prevRot){ //If rotates remove half of what moving takes
-                remFuel((int) Math.max(fuelConsumption * 0.3F,1));
-            }
-            boolean moved = this.position().distanceToSqr(prevX, prevY, prevZ) > 0.0001D;
-            //If moves take as much fuel as engine power the ship has
-            if (moved && !getPassengers().isEmpty() && getFuel() > 0) {
-                if(getY() < prevY){//If it's landing use 70% of the fuel it should
-                    remFuel((int) Math.max(fuelConsumption * 0.7F,1));
-                } else if(getY() > prevY){//If it's taking off use 130% of the fuel it should
-                    remFuel((int) Math.max(fuelConsumption * 1.3F,1));
-                } else {
-                    remFuel(fuelConsumption);
-                }
+			if(getYRot() != prevRot){ //If rotates remove half of what moving takes
+				remFuel((int) Math.max(fuelConsumption * 0.3F,1));
+			}
+			boolean moved = this.position().distanceToSqr(prevX, prevY, prevZ) > 0.0001D;
+			//If moves take as much fuel as engine power the ship has
+			if (moved && !getPassengers().isEmpty() && getFuel() > 0) {
+				if(getY() < prevY){//If it's landing use 70% of the fuel it should
+					remFuel((int) Math.max(fuelConsumption * 0.7F,1));
+				} else if(getY() > prevY){//If it's taking off use 130% of the fuel it should
+					remFuel((int) Math.max(fuelConsumption * 1.3F,1));
+				} else {
+					remFuel(fuelConsumption);
+				}
 
-            }
+			}
 
-            prevX = getX();
-            prevY = getY();
-            prevZ = getZ();
-            prevRot = getYRot();
-        }
+			prevX = getX();
+			prevY = getY();
+			prevZ = getZ();
+			prevRot = getYRot();
+		}
 	}
-    private double prevX, prevY, prevZ, prevRot;
+	private double prevX, prevY, prevZ, prevRot;
 
 	@Override
 	public InteractionResult interact(Player player, InteractionHand hand) {
@@ -510,24 +538,24 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 	}
 
 	public static AttributeSupplier.Builder registerAttributes() {
-        return Mob.createLivingAttributes()
-                .add(Attributes.MAX_HEALTH, 20.0D)
-                .add(Attributes.MOVEMENT_SPEED, 1.0D)
-                .add(Attributes.KNOCKBACK_RESISTANCE, 1000.0D)
-                .add(Attributes.FOLLOW_RANGE, 0.0D)
-                .add(Attributes.ATTACK_DAMAGE, 0.0D)
+		return Mob.createLivingAttributes()
+				.add(Attributes.MAX_HEALTH, 20.0D)
+				.add(Attributes.MOVEMENT_SPEED, 1.0D)
+				.add(Attributes.KNOCKBACK_RESISTANCE, 1000.0D)
+				.add(Attributes.FOLLOW_RANGE, 0.0D)
+				.add(Attributes.ATTACK_DAMAGE, 0.0D)
 				.add(Attributes.ATTACK_KNOCKBACK, 1.0D)
-                ;
-    }
+				;
+	}
 	private static final EntityDataAccessor<CompoundTag> DATA = SynchedEntityData.defineId(GummiShipEntity.class, EntityDataSerializers.COMPOUND_TAG);
-    private static final EntityDataAccessor<Integer> FUEL = SynchedEntityData.defineId(GummiShipEntity.class, EntityDataSerializers.INT);
+	private static final EntityDataAccessor<Integer> FUEL = SynchedEntityData.defineId(GummiShipEntity.class, EntityDataSerializers.INT);
 
-    @Override
-    protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
-        super.defineSynchedData(pBuilder);
-        pBuilder.define(DATA, new CompoundTag());
-        pBuilder.define(FUEL, 0);
-    }
+	@Override
+	protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
+		super.defineSynchedData(pBuilder);
+		pBuilder.define(DATA, new CompoundTag());
+		pBuilder.define(FUEL, 0);
+	}
 
 	public CompoundTag getData() {
 		return data;
@@ -538,30 +566,30 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 		structure = new GummiStructure(level().registryAccess(), struct);
 	}
 
-    public int getFuel() {
-        return ModConfigs.SERVER.gummiShipFuelSystem.get() ? fuel : 100000;
-    }
+	public int getFuel() {
+		return ModConfigs.SERVER.gummiShipFuelSystem.get() ? fuel : 100000;
+	}
 
-    public void setFuel(int fuel) {
-        this.entityData.set(FUEL, fuel);
-        this.fuel = fuel;
-    }
+	public void setFuel(int fuel) {
+		this.entityData.set(FUEL, fuel);
+		this.fuel = fuel;
+	}
 
-    public void addFuel(int fuel) {
-        setFuel(Math.min(getFuel() + fuel, getMaxFuel()));
-    }
+	public void addFuel(int fuel) {
+		setFuel(Math.min(getFuel() + fuel, getMaxFuel()));
+	}
 
-    public void remFuel(int fuel) {
-        setFuel(Math.max(getFuel() - fuel,0));
-    }
+	public void remFuel(int fuel) {
+		setFuel(Math.max(getFuel() - fuel,0));
+	}
 
-    public int getMaxFuel(){
-        return Utils.getFEStatsPerLevel(getShipLevel())[0]/2;
-    }
+	public int getMaxFuel(){
+		return Utils.getFEStatsPerLevel(getShipLevel())[0]/2;
+	}
 
-    public int getShipLevel(){
-        return ((structure.getWidth() - 5) / 2);
-    }
+	public int getShipLevel(){
+		return ((structure.getWidth() - 5) / 2);
+	}
 
 	@Override
 	public void onSyncedDataUpdated(EntityDataAccessor<?> key) {
@@ -570,36 +598,36 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 			CompoundTag tag = this.entityData.get(DATA);
 			structure = new GummiStructure(level().registryAccess(), tag);
 		}
-        if (key.equals(FUEL)) {
-            this.fuel = this.entityData.get(FUEL);
-        }
+		if (key.equals(FUEL)) {
+			this.fuel = this.entityData.get(FUEL);
+		}
 	}
 
 	@Override
 	public void addAdditionalSaveData(CompoundTag compound) {
 		compound.put("data",structure.serializeNBT(this.level().registryAccess()));
-        compound.putInt("fuel", fuel);
+		compound.putInt("fuel", fuel);
 	}
 
 	@Override
 	public void readAdditionalSaveData(CompoundTag compound) {
 		this.setData(compound.getCompound("data"));
-        this.setFuel(compound.getInt("fuel"));
+		this.setFuel(compound.getInt("fuel"));
 	}
 
 	public CompoundTag getDataManager() {
 		return this.entityData.get(DATA);
 	}
 
-    public int getFuelManager() {
-        return this.entityData.get(FUEL);
-    }
+	public int getFuelManager() {
+		return this.entityData.get(FUEL);
+	}
 
 	@Override
 	public void writeSpawnData(RegistryFriendlyByteBuf buf) {
 		CompoundTag nbt = structure.serializeNBT(level().registryAccess());
 		buf.writeNbt(nbt);
-        buf.writeInt(fuel);
+		buf.writeInt(fuel);
 	}
 
 	@Override
@@ -609,6 +637,6 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 			structure = new GummiStructure(level().registryAccess(), nbt);
 			this.setData(nbt);
 		}
-        this.setFuel(buf.readInt());
-    }
+		this.setFuel(buf.readInt());
+	}
 }

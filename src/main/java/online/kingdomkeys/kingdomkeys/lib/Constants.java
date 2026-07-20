@@ -15,7 +15,7 @@ public class Constants {
     public record DevRecipe(String name, Item material1, Item material2) {}
 
     public static final List<DevRecipe> devRecipes = List.of(
-            new DevRecipe("Wehavecookies56", ModItems.orichalcumplus.get(), ModItems.mythril_crystal.get()),
+            new DevRecipe("Estelleste", ModItems.orichalcumplus.get(), ModItems.mythril_crystal.get()),
             new DevRecipe("Abelatox", ModItems.orichalcum.get(), ModItems.blazing_crystal.get()),
             new DevRecipe("wyndftw", ModItems.remembrance_crystal.get(), ModItems.pulsing_crystal.get()),
             new DevRecipe("stel312", ModItems.soothing_crystal.get(), ModItems.tranquility_crystal.get()),

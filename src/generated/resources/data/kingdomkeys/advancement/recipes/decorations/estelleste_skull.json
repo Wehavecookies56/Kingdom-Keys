@@ -3,7 +3,7 @@
   "criteria": {
     "has_the_recipe": {
       "conditions": {
-        "recipe": "kingdomkeys:wehavecookies56_skull"
+        "recipe": "kingdomkeys:estelleste_skull"
       },
       "trigger": "minecraft:recipe_unlocked"
     },
@@ -26,7 +26,7 @@
   ],
   "rewards": {
     "recipes": [
-      "kingdomkeys:wehavecookies56_skull"
+      "kingdomkeys:estelleste_skull"
     ]
   }
 }

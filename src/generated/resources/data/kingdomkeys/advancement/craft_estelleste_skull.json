@@ -3,7 +3,7 @@
   "criteria": {
     "crafted": {
       "conditions": {
-        "name": "Wehavecookies56"
+        "name": "Estelleste"
       },
       "trigger": "kingdomkeys:craft_profile_head"
     }
@@ -11,21 +11,21 @@
   "display": {
     "announce_to_chat": false,
     "description": {
-      "translate": "advancements.kingdomkeys.craft_wehavecookies56_skull.desc"
+      "translate": "advancements.kingdomkeys.craft_estelleste_skull.desc"
     },
     "frame": "goal",
     "hidden": true,
     "icon": {
       "components": {
         "minecraft:profile": {
-          "name": "Wehavecookies56"
+          "name": "Estelleste"
         }
       },
       "count": 1,
       "id": "minecraft:player_head"
     },
     "title": {
-      "translate": "advancements.kingdomkeys.craft_wehavecookies56_skull"
+      "translate": "advancements.kingdomkeys.craft_estelleste_skull"
     }
   },
   "requirements": [

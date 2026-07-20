@@ -84,7 +84,7 @@ public class KKProviderConditionals  {
                             (livingEntityPatch) ->
                                     PlayerData.get((Player) livingEntityPatch.getOriginal()).getSingleStyle() == SingleChoices.RIKU &&
                                             !(livingEntityPatch.getOriginal().getOffhandItem().getItem() instanceof KeybladeItem) &&
-                                            PlayerData.get((Player) livingEntityPatch.getOriginal()).getActiveDriveForm() == DriveForm.NONE.toString()
+                                            PlayerData.get((Player) livingEntityPatch.getOriginal()).noFormActive()
                             , true)
     );
     public static final DeferredConditional ROXAS_STYLE = CONDITIONALS.registerConditional(

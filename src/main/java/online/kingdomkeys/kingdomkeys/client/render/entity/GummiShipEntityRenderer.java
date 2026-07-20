@@ -16,6 +16,7 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 import net.minecraft.world.level.block.TransparentBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.client.model.data.ModelData;
@@ -60,7 +61,9 @@ public class GummiShipEntityRenderer extends EntityRenderer<GummiShipEntity> {
 				int w = entityIn.structure.getWidth();
 				int h = entityIn.structure.getHeight();
 				int d = entityIn.structure.getDepth();
+				float xRot = Mth.lerp(partialTicks, entityIn.xRotO, entityIn.getXRot());
 				matrixStackIn.mulPose(Axis.YP.rotationDegrees(180.0F - entityYaw));
+				matrixStackIn.mulPose(Axis.XP.rotationDegrees(-xRot));
 				matrixStackIn.translate(-w / 2.0, 0, -d / 2.0);
 
 				boolean xEven, zEven;
@@ -78,7 +81,7 @@ public class GummiShipEntityRenderer extends EntityRenderer<GummiShipEntity> {
 						for (int z = 0; z < d; z++) {
 							BlockState state = entityIn.structure.getBlocks()[x][y][z];
 							if (state == null || state.isAir())
-                                continue;
+								continue;
 							matrixStackIn.pushPose();
 							{
 								matrixStackIn.translate(xEven ? x+0.5F : x, y, zEven ? z-0.5F : z);

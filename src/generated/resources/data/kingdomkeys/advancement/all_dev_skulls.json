@@ -7,15 +7,15 @@
       },
       "trigger": "kingdomkeys:craft_profile_head"
     },
-    "stel312": {
+    "estelleste": {
       "conditions": {
-        "name": "stel312"
+        "name": "Estelleste"
       },
       "trigger": "kingdomkeys:craft_profile_head"
     },
-    "wehavecookies56": {
+    "stel312": {
       "conditions": {
-        "name": "Wehavecookies56"
+        "name": "stel312"
       },
       "trigger": "kingdomkeys:craft_profile_head"
     },
@@ -47,7 +47,7 @@
   },
   "requirements": [
     [
-      "wehavecookies56"
+      "estelleste"
     ],
     [
       "abelatox"
