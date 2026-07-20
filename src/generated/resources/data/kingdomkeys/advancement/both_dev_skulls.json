@@ -1,0 +1,42 @@
+{
+  "parent": "kingdomkeys:craft_abelatox_skull",
+  "criteria": {
+    "abelatox": {
+      "conditions": {
+        "name": "Abelatox"
+      },
+      "trigger": "kingdomkeys:craft_profile_head"
+    },
+    "wehavecookies56": {
+      "conditions": {
+        "name": "Wehavecookies56"
+      },
+      "trigger": "kingdomkeys:craft_profile_head"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.kingdomkeys.both_dev_skulls.desc"
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "minecraft:player_head"
+    },
+    "title": {
+      "translate": "advancements.kingdomkeys.both_dev_skulls"
+    }
+  },
+  "requirements": [
+    [
+      "wehavecookies56"
+    ],
+    [
+      "abelatox"
+    ]
+  ],
+  "rewards": {
+    "experience": 200
+  },
+  "sends_telemetry_event": true
+}

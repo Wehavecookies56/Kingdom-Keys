@@ -1,0 +1,34 @@
+{
+  "parent": "kingdomkeys:summon_keyblade",
+  "criteria": {
+    "upgrade_keyblade": {
+      "conditions": {
+        "level": 2
+      },
+      "trigger": "kingdomkeys:keyblade_level"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "description": {
+      "translate": "advancements.kingdomkeys.upgrade_keyblade.desc"
+    },
+    "frame": "goal",
+    "icon": {
+      "count": 1,
+      "id": "kingdomkeys:kingdom_key_d"
+    },
+    "title": {
+      "translate": "advancements.kingdomkeys.upgrade_keyblade"
+    }
+  },
+  "requirements": [
+    [
+      "upgrade_keyblade"
+    ]
+  ],
+  "rewards": {
+    "experience": 100
+  },
+  "sends_telemetry_event": true
+}

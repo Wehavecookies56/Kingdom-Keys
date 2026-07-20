@@ -1,0 +1,60 @@
+{
+  "parent": "kingdomkeys:soa",
+  "criteria": {
+    "struggle_hammer": {
+      "conditions": {
+        "items": [
+          {
+            "items": "kingdomkeys:struggle_hammer"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "struggle_sword": {
+      "conditions": {
+        "items": [
+          {
+            "items": "kingdomkeys:struggle_sword"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "struggle_wand": {
+      "conditions": {
+        "items": [
+          {
+            "items": "kingdomkeys:struggle_wand"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "description": {
+      "translate": "advancements.kingdomkeys.get_struggle_weapon.desc"
+    },
+    "frame": "goal",
+    "icon": {
+      "count": 1,
+      "id": "kingdomkeys:struggle_sword"
+    },
+    "title": {
+      "translate": "advancements.kingdomkeys.get_struggle_weapon"
+    }
+  },
+  "requirements": [
+    [
+      "struggle_sword",
+      "struggle_hammer",
+      "struggle_wand"
+    ]
+  ],
+  "rewards": {
+    "experience": 80
+  },
+  "sends_telemetry_event": true
+}

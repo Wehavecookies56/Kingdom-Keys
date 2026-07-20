@@ -10,6 +10,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.advancements.ModAdvancements;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.KeychainItem;
@@ -54,6 +55,7 @@ public record CSLevelUpKeybladePacket(ItemStack stack) implements Packet {
 				playerData.removeMaterial(m.getKey(), m.getValue());
 			}
 			kcItem.setKeybladeLevel(stack, kcItem.getKeybladeLevel(stack)+1);
+			ModAdvancements.triggerKeybladeLevel((ServerPlayer) player, kcItem.getKeybladeLevel(stack));
 
 			//Sync that level to the keyblade
 			int id = Utils.findSummoned(player.getInventory(),stack);

@@ -1,0 +1,38 @@
+{
+  "parent": "kingdomkeys:soa",
+  "criteria": {
+    "obtain_winner_stick": {
+      "conditions": {
+        "items": [
+          {
+            "items": "kingdomkeys:winner_stick"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "description": {
+      "translate": "advancements.kingdomkeys.obtain_winner_stick.desc"
+    },
+    "frame": "goal",
+    "icon": {
+      "count": 1,
+      "id": "kingdomkeys:ice_cream"
+    },
+    "title": {
+      "translate": "advancements.kingdomkeys.obtain_winner_stick"
+    }
+  },
+  "requirements": [
+    [
+      "obtain_winner_stick"
+    ]
+  ],
+  "rewards": {
+    "experience": 250
+  },
+  "sends_telemetry_event": true
+}

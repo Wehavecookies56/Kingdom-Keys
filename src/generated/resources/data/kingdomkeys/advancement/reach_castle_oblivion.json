@@ -1,0 +1,34 @@
+{
+  "parent": "kingdomkeys:root",
+  "criteria": {
+    "reach_castle_oblivion": {
+      "conditions": {
+        "to": "kingdomkeys:castle_oblivion"
+      },
+      "trigger": "minecraft:changed_dimension"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "description": {
+      "translate": "advancements.kingdomkeys.reach_castle_oblivion.desc"
+    },
+    "frame": "goal",
+    "icon": {
+      "count": 1,
+      "id": "minecraft:ender_pearl"
+    },
+    "title": {
+      "translate": "advancements.kingdomkeys.reach_castle_oblivion"
+    }
+  },
+  "requirements": [
+    [
+      "reach_castle_oblivion"
+    ]
+  ],
+  "rewards": {
+    "experience": 60
+  },
+  "sends_telemetry_event": true
+}

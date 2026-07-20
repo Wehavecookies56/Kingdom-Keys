@@ -1,0 +1,38 @@
+{
+  "parent": "kingdomkeys:soa",
+  "criteria": {
+    "obtain_projector": {
+      "conditions": {
+        "items": [
+          {
+            "items": "kingdomkeys:moogle_projector"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "description": {
+      "translate": "advancements.kingdomkeys.obtain_projector.desc"
+    },
+    "frame": "goal",
+    "icon": {
+      "count": 1,
+      "id": "kingdomkeys:moogle_projector"
+    },
+    "title": {
+      "translate": "advancements.kingdomkeys.obtain_projector"
+    }
+  },
+  "requirements": [
+    [
+      "obtain_projector"
+    ]
+  ],
+  "rewards": {
+    "experience": 20
+  },
+  "sends_telemetry_event": true
+}

@@ -86,7 +86,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		return data;
 	}
 
-	@Nullable
+    @Nullable
 	public static PlayerData get(Player player) {
 		if (!player.hasData(ModData.PLAYER_DATA)) {
 			player.setData(ModData.PLAYER_DATA, new PlayerData());
@@ -94,7 +94,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		return player.getData(ModData.PLAYER_DATA);
 	}
 
-	@Override
+    @Override
 	public CompoundTag serializeNBT(HolderLookup.Provider provider) {
 		CompoundTag storage = new CompoundTag();
 		storage.putInt("data_ver", this.getVer());
@@ -169,17 +169,17 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 
 		storage.putString("equipped_shotlock", this.getEquippedShotlock().map(ResourceLocation::toString).orElse(""));
 
-		CompoundTag targetShotlocks = new CompoundTag();
-		for (int i=0; i< this.getShotlockEnemies().size(); i++) {
-			Utils.ShotlockPosition shotlock = getShotlockEnemies().get(i);
-			CompoundTag tag1 = new CompoundTag();
-			tag1.putInt("id", shotlock.id());
-			tag1.putFloat("x", shotlock.x());
-			tag1.putFloat("y", shotlock.y());
-			tag1.putFloat("z", shotlock.z());
-			targetShotlocks.put("target"+i, tag1);
-		}//TODO a
-		storage.put("target_shotlocks", targetShotlocks);
+        CompoundTag targetShotlocks = new CompoundTag();
+        for (int i=0; i< this.getShotlockEnemies().size(); i++) {
+            Utils.ShotlockPosition shotlock = getShotlockEnemies().get(i);
+            CompoundTag tag1 = new CompoundTag();
+            tag1.putInt("id", shotlock.id());
+            tag1.putFloat("x", shotlock.x());
+            tag1.putFloat("y", shotlock.y());
+            tag1.putFloat("z", shotlock.z());
+            targetShotlocks.put("target"+i, tag1);
+        }//TODO a
+        storage.put("target_shotlocks", targetShotlocks);
 
 		CompoundTag forms = new CompoundTag();
 		for (Entry<ResourceLocation, int[]> pair : this.getDriveFormMap().entrySet()) {
@@ -220,7 +220,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		CompoundTag accessories = new CompoundTag();
 		this.getEquippedAccessories().forEach((slot, accessory) -> accessories.put(slot.toString(), accessory.saveOptional(provider)));
 		storage.put("accessories", accessories);
-
+		
 		CompoundTag kbArmors = new CompoundTag();
 		this.getEquippedKBArmors().forEach((slot, kbArmor) -> kbArmors.put(slot.toString(), kbArmor.saveOptional(provider)));
 		storage.put("kbarmors", kbArmors);
@@ -229,13 +229,13 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		this.getEquippedArmors().forEach((slot, armor) -> armors.put(slot.toString(), armor.saveOptional(provider)));
 		storage.put("armors", armors);
 
-		CompoundTag equippedMagics = new CompoundTag();
-		this.getEquippedMagics().forEach((slot, magic) -> equippedMagics.put(slot.toString(), magic.saveOptional(provider)));
-		storage.put("equipped_magics", equippedMagics);
+	    CompoundTag equippedMagics = new CompoundTag();
+	    this.getEquippedMagics().forEach((slot, magic) -> equippedMagics.put(slot.toString(), magic.saveOptional(provider)));
+	    storage.put("equipped_magics", equippedMagics);
 
 		storage.putInt("max_accessories", this.getMaxAccessories());
 		storage.putInt("max_armors", this.getMaxArmors());
-		storage.putInt("max_magics", this.getMaxMagics());
+	    storage.putInt("max_magics", this.getMaxMagics());
 
 		storage.putInt("hearts", this.getHearts());
 		storage.putInt("org_alignment", this.getAlignmentIndex());
@@ -259,13 +259,13 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		}
 		storage.put("materials", mats);
 
-		CompoundTag totalMats = new CompoundTag();
-		for (Entry<ResourceLocation, Integer> pair : this.getTotalMaterialMap().entrySet()) {
-			totalMats.putInt(pair.getKey().toString(), pair.getValue());
-			if (totalMats.getInt(pair.getKey().toString()) == 0 && pair.getKey() != null)
-				totalMats.remove(pair.getKey().toString());
-		}
-		storage.put("total_materials", totalMats);
+	    CompoundTag totalMats = new CompoundTag();
+	    for (Entry<ResourceLocation, Integer> pair : this.getTotalMaterialMap().entrySet()) {
+		    totalMats.putInt(pair.getKey().toString(), pair.getValue());
+		    if (totalMats.getInt(pair.getKey().toString()) == 0 && pair.getKey() != null)
+			    totalMats.remove(pair.getKey().toString());
+	    }
+	    storage.put("total_materials", totalMats);
 		storage.putInt("limitCooldownTicks", this.getLimitCooldownTicks());
 
 		CompoundTag shortcuts = new CompoundTag();
@@ -281,9 +281,9 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 
 		storage.putInt("armor_color", armorColor);
 		storage.putBoolean("armor_glint", armorGlint);
-
+		
 		storage.putBoolean("respawn_rod", respawnROD);
-
+		
 		storage.putInt("notif_color", notifColor);
 
 		CompoundTag airstepCompound = new CompoundTag();
@@ -420,13 +420,13 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		ResourceLocation shotlockRL = !shotlock.isEmpty() ? KingdomKeys.rl(shotlock) : null;
 		this.setEquippedShotlock(shotlockRL);
 
-		shotlockEnemies.clear();
-		int targetsSize = nbt.getCompound("target_shotlocks").getAllKeys().size();
-		for (int i = 0; i < targetsSize; i++) {
-			CompoundTag tag1 = nbt.getCompound("target_shotlocks").getCompound("target"+i);
-			Utils.ShotlockPosition pos = new Utils.ShotlockPosition(tag1.getInt("id"),tag1.getFloat("x"),tag1.getFloat("y"),tag1.getFloat("z"));
-			this.shotlockEnemies.add(pos);
-		}
+        shotlockEnemies.clear();
+        int targetsSize = nbt.getCompound("target_shotlocks").getAllKeys().size();
+        for (int i = 0; i < targetsSize; i++) {
+            CompoundTag tag1 = nbt.getCompound("target_shotlocks").getCompound("target"+i);
+            Utils.ShotlockPosition pos = new Utils.ShotlockPosition(tag1.getInt("id"),tag1.getFloat("x"),tag1.getFloat("y"),tag1.getFloat("z"));
+            this.shotlockEnemies.add(pos);
+        }
 
 		driveForms.clear();
 		for (String driveFormName : nbt.getCompound("drive_forms").getAllKeys()) {
@@ -491,7 +491,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		this.setMaxAccessories(nbt.getInt("max_accessories"));
 		this.setMaxArmors(nbt.getInt("max_armors"));
 		this.setMaxMagics(nbt.getInt("max_magics"));
-
+		
 		this.setHearts(nbt.getInt("hearts"));
 		this.setAlignment(nbt.getInt("org_alignment"));
 		this.equipWeapon(ItemStack.parseOptional(provider, nbt.getCompound("org_equipped_weapon")));
@@ -589,7 +589,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 	boolean hasShotMaxShotlock = false;
 	List<ResourceLocation> recipeList = new ArrayList<>();
 	LinkedHashMap<ResourceLocation, int[]> abilityMap = new LinkedHashMap<>(); //Key = name, value = {level, equipped},
-	private TreeMap<ResourceLocation, Integer> materials = new TreeMap<>();
+    private TreeMap<ResourceLocation, Integer> materials = new TreeMap<>();
 	private TreeMap<ResourceLocation, Integer> totalMaterials = new TreeMap<>();
 	LinkedHashMap<ResourceLocation, Integer> reactionMap = new LinkedHashMap<>();
 	List<ResourceLocation> pAbilitiesList = new ArrayList<>();
@@ -702,17 +702,17 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 						exp *= (1 + getNumberOfAbilitiesEquipped(ModAbilities.EXPERIENCE_BOOST));
 					}
 
-				} else { //Player not in a party or shareXP is false (command)
+                } else { //Player not in a party or shareXP is false (command)
 					if(getNumberOfAbilitiesEquipped(ModAbilities.EXPERIENCE_BOOST) > 0 && player.getHealth() <= player.getMaxHealth() / 2 && shareXP) { //if shareXP is false means it gets here because of the command
 						exp *= (1 + getNumberOfAbilitiesEquipped(ModAbilities.EXPERIENCE_BOOST));
 					}
-				}
-				this.exp += exp;
+                }
+                this.exp += exp;
 
-				while (this.getExpNeeded(this.getLevel(), this.exp) <= 0 && this.getLevel() != 100) {
+                while (this.getExpNeeded(this.getLevel(), this.exp) <= 0 && this.getLevel() != 100) {
 					setLevel(this.getLevel() + 1);
 					if(player instanceof ServerPlayer svPlayer) {
-						ModAdvancements.levelUp.trigger(svPlayer, this.getLevel());
+				       ModAdvancements.levelUp.trigger(svPlayer, this.getLevel());
 					}
 					levelUpStatsAndDisplayMessage(player, sound);
 					PacketHandler.sendTo(new SCShowOverlayPacket("levelup", player.getUUID(), player.getGameProfile().getName(), getLevel(), getNotifColor(), new ArrayList<>(getMessages())), (ServerPlayer) player);
@@ -830,16 +830,16 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		int res = 0;
 		for(Entry<Integer, ItemStack> accessory : getEquippedAccessories().entrySet()) {
 			if(!ItemStack.matches(accessory.getValue(), ItemStack.EMPTY) && accessory.getValue().getItem() instanceof KKAccessoryItem a) {
-				switch(type) {
-					case "ap":
-						res += a.getAp();
-						break;
-					case "str":
-						res += a.getStr();
-						break;
-					case "mag":
-						res += a.getMag();
-						break;
+                switch(type) {
+				case "ap":
+					res += a.getAp();
+					break;
+				case "str":
+					res += a.getStr();
+					break;
+				case "mag":
+					res += a.getMag();
+					break;
 				}
 
 			}
@@ -1283,7 +1283,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 	}
 
 	public void removeShotlockFromList(ResourceLocation shotlock) {
-		shotlockList.remove(shotlock);
+        shotlockList.remove(shotlock);
 	}
 
 	public void removePShotlockFromList(ResourceLocation shotlock) {
@@ -1354,7 +1354,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		if (getEquippedKeychain(form) != null) {
 			if (ItemStack.matches(stack, ItemStack.EMPTY) | stack.getItem() instanceof IKeychain) {
 				//If there is more than 1 item in the stack don't handle it
-				return stack.getCount() <= 1;
+                return stack.getCount() <= 1;
 			}
 		}
 		return false;
@@ -1402,7 +1402,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		if (getEquippedItem(slot) != null) {
 			if (ItemStack.matches(stack, ItemStack.EMPTY) || stack.getItem() instanceof KKPotionItem) {
 				//If there is more than 1 item in the stack don't handle it
-				return stack.getCount() <= 1;
+                return stack.getCount() <= 1;
 			}
 		}
 		return false;
@@ -1466,7 +1466,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		if (getEquippedAccessory(slot) != null) {
 			if (ItemStack.matches(stack, ItemStack.EMPTY) || stack.getItem() instanceof KKAccessoryItem) {
 				//If there is more than 1 item in the stack don't handle it
-				return stack.getCount() <= 1;
+                return stack.getCount() <= 1;
 			}
 		}
 		return false;
@@ -1514,7 +1514,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		if (getEquippedKBArmor(slot) != null) {
 			if (ItemStack.matches(stack, ItemStack.EMPTY) || stack.getItem() instanceof PauldronItem) {
 				//If there is more than 1 item in the stack don't handle it
-				return stack.getCount() <= 1;
+                return stack.getCount() <= 1;
 			}
 		}
 		return false;
@@ -1575,7 +1575,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		if (getEquippedArmor(slot) != null) {
 			if (ItemStack.matches(stack, ItemStack.EMPTY) || stack.getItem() instanceof KKArmorItem) {
 				//If there is more than 1 item in the stack don't handle it
-				return stack.getCount() <= 1;
+                return stack.getCount() <= 1;
 			}
 		}
 		return false;
@@ -1594,7 +1594,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		}
 	}
 
-	//Magic equippables
+//Magic equippables
 	public Map<Integer, ItemStack> getEquippedMagics() {
 		return equippedMagics;
 	}
@@ -2015,30 +2015,30 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 
 	public void clearRecipes(String type) {
 		switch(type) {
-			case "all":
-				this.recipeList.clear();
-				break;
-			case "keyblade":
-				List<ResourceLocation> list = new ArrayList<>();
-				for(ResourceLocation rl : recipeList) {
-					Recipe r = RecipeRegistry.getInstance().getValue(rl);
-					if(r.getType().equals("keyblade")) {
-						list.add(rl);
-					}
+		case "all":
+			this.recipeList.clear();
+			break;
+		case "keyblade":
+			List<ResourceLocation> list = new ArrayList<>();
+			for(ResourceLocation rl : recipeList) {
+				Recipe r = RecipeRegistry.getInstance().getValue(rl);
+				if(r.getType().equals("keyblade")) {
+					list.add(rl);
 				}
-				recipeList.removeAll(list);
-				break;
-
-			case "item":
-				List<ResourceLocation> list2 = new ArrayList<>();
-				for(ResourceLocation rl : recipeList) {
-					Recipe r = RecipeRegistry.getInstance().getValue(rl);
-					if(r.getType().equals("item")) {
-						list2.add(rl);
-					}
+			}
+			recipeList.removeAll(list);
+			break;
+			
+		case "item":
+			List<ResourceLocation> list2 = new ArrayList<>();
+			for(ResourceLocation rl : recipeList) {
+				Recipe r = RecipeRegistry.getInstance().getValue(rl);
+				if(r.getType().equals("item")) {
+					list2.add(rl);
 				}
-				recipeList.removeAll(list2);
-				break;
+			}
+			recipeList.removeAll(list2);
+			break;
 		}
 	}
 
@@ -2053,7 +2053,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 	public int getMaterialAmount(Item material) {
 		ResourceLocation regName = BuiltInRegistries.ITEM.getKey(material);
 		if (materials.containsKey(regName)) {
-			return materials.get(regName);
+            return materials.get(regName);
 		}
 		return 0;
 	}
@@ -2063,15 +2063,15 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		if (materials.containsKey(regName)) {
 			int currAmount = materials.get(regName);
 			if (amount <= 0) {
-				materials.remove(regName);
+	 			materials.remove(regName);
 			} else {
-				materials.replace(regName, currAmount + amount);
+	 			materials.replace(regName, currAmount + amount);
 			}
 		} else {
 			if (amount <= 0) {
-				materials.remove(regName);
+	 			materials.remove(regName);
 			} else {
-				materials.put(regName, amount);
+	 			materials.put(regName, amount);
 			}
 		}
 	}
@@ -2079,15 +2079,15 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 	public void setMaterial(Item material, int amount) {
 		ResourceLocation regName = BuiltInRegistries.ITEM.getKey(material);
 		if (materials.containsKey(regName)) {
-			if (amount <= 0)
-				materials.remove(regName);
-			else
-				materials.replace(regName, amount);
+	 		if (amount <= 0)
+		 		materials.remove(regName);
+	 		else
+	 			materials.replace(regName, amount);
 		} else {
-			if (amount <= 0)
-				materials.remove(regName);
-			else
-				materials.put(regName, amount);
+	 		if (amount <= 0)
+		 		materials.remove(regName);
+	 		else
+		 		materials.put(regName, amount);
 		}
 	}
 
@@ -2300,7 +2300,6 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 
 	public void setReactionCommands(LinkedHashMap<ResourceLocation, Integer> list) {
 		this.reactionMap = list;
-
 	}
 
 	public boolean addReactionCommand(ResourceLocation command, Player player) {
@@ -2407,7 +2406,6 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 
 	public void setRespawnROD(boolean respawn) {
 		this.respawnROD = respawn;
-
 	}
 
 	//endregion

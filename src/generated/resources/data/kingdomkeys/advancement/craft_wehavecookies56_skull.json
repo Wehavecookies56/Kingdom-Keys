@@ -1,0 +1,40 @@
+{
+  "parent": "kingdomkeys:root",
+  "criteria": {
+    "crafted": {
+      "conditions": {
+        "name": "Wehavecookies56"
+      },
+      "trigger": "kingdomkeys:craft_profile_head"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "description": {
+      "translate": "advancements.kingdomkeys.craft_wehavecookies56_skull.desc"
+    },
+    "frame": "goal",
+    "hidden": true,
+    "icon": {
+      "components": {
+        "minecraft:profile": {
+          "name": "Wehavecookies56"
+        }
+      },
+      "count": 1,
+      "id": "minecraft:player_head"
+    },
+    "title": {
+      "translate": "advancements.kingdomkeys.craft_wehavecookies56_skull"
+    }
+  },
+  "requirements": [
+    [
+      "crafted"
+    ]
+  ],
+  "rewards": {
+    "experience": 50
+  },
+  "sends_telemetry_event": true
+}

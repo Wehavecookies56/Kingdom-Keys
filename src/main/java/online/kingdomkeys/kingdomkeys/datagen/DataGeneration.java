@@ -13,9 +13,11 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.damagesource.KKDamageTypes;
 import online.kingdomkeys.kingdomkeys.datagen.init.*;
 import online.kingdomkeys.kingdomkeys.datagen.provider.BaseLootTableProvider;
+import online.kingdomkeys.kingdomkeys.datagen.provider.KKAdvancementProvider;
 import online.kingdomkeys.kingdomkeys.datagen.provider.MagicDataProvider;
 import online.kingdomkeys.kingdomkeys.datagen.provider.ShopDataProvider;
 
+import java.util.List;
 import java.util.Set;
 
 @EventBusSubscriber()
@@ -49,7 +51,7 @@ public class DataGeneration {
         generator.addProvider(event.includeServer(), new MeldingRecipe(generator, existingFileHelper));
         generator.addProvider(event.includeServer(), new MagicDataProvider(output));
         generator.addProvider(event.includeServer(), new ShopDataProvider(output));
-        //probably should use the forge provider generator.addProvider(event.includeServer(), new KKAdvancementProvider(generator.getPackOutput(), event.getLookupProvider(), ));
+        generator.addProvider(event.includeServer(), new KKAdvancementProvider(output, event.getLookupProvider(), existingFileHelper));
         generator.addProvider(event.includeClient(), new LanguageENUS(generator));
         generator.addProvider(event.includeClient(), new LanguageESES(generator));
         generator.addProvider(event.includeClient(), new LanguageENGB(generator));

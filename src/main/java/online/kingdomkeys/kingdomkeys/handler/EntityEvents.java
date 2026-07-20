@@ -29,6 +29,7 @@ import net.minecraft.world.entity.monster.Slime;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
+import net.minecraft.world.item.component.ResolvableProfile;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.portal.DimensionTransition;
@@ -1517,6 +1518,17 @@ public class EntityEvents {
 					sPlayer.changeDimension(new DimensionTransition(serverlevel, new Vec3(pos.getX(), pos.getY(), pos.getZ()), Vec3.ZERO, sPlayer.getYRot(), sPlayer.getXRot(), entity -> {
 					}));
 				}
+			}
+		}
+	}
+
+	@SubscribeEvent
+	public void onItemCrafted(PlayerEvent.ItemCraftedEvent event) {
+		if (!event.getEntity().level().isClientSide() && event.getEntity() instanceof ServerPlayer player) {
+			ItemStack crafted = event.getCrafting();
+			if (crafted.getItem() == Items.PLAYER_HEAD && crafted.has(DataComponents.PROFILE)) {
+				ResolvableProfile profile = crafted.get(DataComponents.PROFILE);
+				profile.name().ifPresent(name -> ModAdvancements.triggerCraftProfileHead(player, name));
 			}
 		}
 	}

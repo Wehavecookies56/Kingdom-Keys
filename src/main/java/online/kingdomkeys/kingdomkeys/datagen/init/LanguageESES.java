@@ -130,6 +130,7 @@ public class LanguageESES extends KKLanguageProvider {
         addConfigKey(ModConfigs.getServerConfig().partyXPShare, "Compartir XP en grupo");
         addConfigKey(ModConfigs.getServerConfig().driveFormXPMultiplier, "Multiplicador de XP para Formas de Fusión");
         addConfigKey(ModConfigs.getServerConfig().statsMultiplier, "Multiplicador de Estadísticas");
+
         //Advancements
         addAdvancement("root", "\u00a1Bienvenido a Kingdom Keys!", "Instala Kingdom Keys");
         addAdvancement("to_soa", "Es esto... \u00bfmi coraz\u00f3n?!", "Descende a tu coraz\u00f3n");
@@ -148,9 +149,19 @@ public class LanguageESES extends KKLanguageProvider {
         addAdvancement("obtain_org", "Nadie visti\u00f3 esto", "Obt\u00e9n la ropa de la Organizaci\u00f3n");
         addAdvancement("to_rod", "La oscuridad te consumir\u00e1", "S\u00e9 absorbido al Reino de la Oscuridad");
         addAdvancement("obtain_winner_stick","Supongo que mis vacaciones de verano...", "Obtén un palito de ganador");
-        addAdvancement("munny_millionaire","¡Platinario!", "Acumula 1.000.000 platines");
-        addAdvancement("dual_wield_oblivion_oathkeeper","Lazos de luz y oscuridad", "Blande Recuerdos Lejanos y Prometida a la vez");
-        addAdvancement("castle_oblivion_tp","How did I get here?", "Alcanza el territorio abandonado del Castillo del Olvido");
+        addAdvancement("munny_millionaire","¡Platinario!", "Acumula 1.000.000 de munny");
+        addAdvancement("dual_wield_oblivion_oathkeeper","Lazos de luz y oscuridad", "Blande Oblivion y Oathkeeper al mismo tiempo");
+        addAdvancement("get_stick","Eso es un palo", "Fabrica un palo de madera");
+        addAdvancement("get_struggle_weapon","Empezando con dificultades", "Fabrica un bate de Struggle");
+        addAdvancement("get_pauldron","Armadura a voluntad", "Obtén una hombrera");
+        addAdvancement("play_music_disc","Sonando ahora", "Obtén uno de los discos de música del mod");
+        addAdvancement("open_menu","Descubriendo el menú", "Abre el menú principal");
+        addAdvancement("obtain_all_drive_forms","Maestro de las Formas", "Obtén todas las Formas de Fusión");
+        addAdvancement("max_keyblade_level","Forjada a fuego", "Sube una llave espada hasta su nivel máximo");
+        addAdvancement("reach_castle_oblivion","Solo quedan recuerdos", "Pon un pie en el Castillo del Olvido");
+        addAdvancement("craft_wehavecookies56_skull","Una galleta para el creador", "Fabrica una calavera tributo a Wehavecookies56");
+        addAdvancement("craft_abelatox_skull","Un brindis por el creador", "Fabrica una calavera tributo a Abelatox");
+        addAdvancement("both_dev_skulls","Salón de los creadores", "Fabrica las calaveras tributo de ambos creadores");
 
         //Keybinds
         add("key.categories.kingdomkeys", "Kingdom Keys");

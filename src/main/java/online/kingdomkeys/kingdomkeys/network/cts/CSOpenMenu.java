@@ -7,6 +7,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.advancements.ModAdvancements;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.lib.SoAState;
 import online.kingdomkeys.kingdomkeys.network.Packet;
@@ -28,6 +29,7 @@ public record CSOpenMenu() implements Packet {
                 PacketHandler.sendTo(new SCOpenMenu(playerData.serializeNBT(context.player().level().registryAccess()), false), (ServerPlayer) context.player());
             }
         } else {
+            ModAdvancements.triggerOpenMenu((ServerPlayer) context.player());
             PacketHandler.sendTo(new SCOpenMenu(playerData.serializeNBT(context.player().level().registryAccess()), true), (ServerPlayer) context.player());
         }
     }

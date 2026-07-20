@@ -1,0 +1,38 @@
+{
+  "parent": "kingdomkeys:soa",
+  "criteria": {
+    "obtain_keychain": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#kingdomkeys:keychains"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "description": {
+      "translate": "advancements.kingdomkeys.obtain_keychain.desc"
+    },
+    "frame": "goal",
+    "icon": {
+      "count": 1,
+      "id": "kingdomkeys:kingdom_key_chain"
+    },
+    "title": {
+      "translate": "advancements.kingdomkeys.obtain_keychain"
+    }
+  },
+  "requirements": [
+    [
+      "obtain_keychain"
+    ]
+  ],
+  "rewards": {
+    "experience": 30
+  },
+  "sends_telemetry_event": true
+}

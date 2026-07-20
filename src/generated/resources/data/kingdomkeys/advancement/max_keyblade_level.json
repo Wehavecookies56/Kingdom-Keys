@@ -1,0 +1,33 @@
+{
+  "parent": "kingdomkeys:upgrade_keyblade",
+  "criteria": {
+    "max_keyblade_level": {
+      "conditions": {
+        "level": 10
+      },
+      "trigger": "kingdomkeys:keyblade_level"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.kingdomkeys.max_keyblade_level.desc"
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "kingdomkeys:oathkeeper"
+    },
+    "title": {
+      "translate": "advancements.kingdomkeys.max_keyblade_level"
+    }
+  },
+  "requirements": [
+    [
+      "max_keyblade_level"
+    ]
+  ],
+  "rewards": {
+    "experience": 300
+  },
+  "sends_telemetry_event": true
+}

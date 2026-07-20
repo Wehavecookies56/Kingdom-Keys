@@ -24,7 +24,7 @@ public class PayMunnyCommand extends BaseCommand { // kk_paymunny <player> <valu
 
 		builder.then(Commands.argument("targets", EntityArgument.players())
 				.then(Commands.argument("value", IntegerArgumentType.integer(1, Integer.MAX_VALUE))
-						.executes(PayMunnyCommand::payValue)));
+					.executes(PayMunnyCommand::payValue)));
 
 		KingdomKeys.LOGGER.warn("Registered command " + builder.getLiteral());
 		return builder;

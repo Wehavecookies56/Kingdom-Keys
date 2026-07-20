@@ -11,6 +11,12 @@ import net.minecraft.world.item.Item;
 
 import java.util.Optional;
 
+/**
+ * Fires whenever a player's held items change (main hand or off hand), and is satisfied if the two
+ * items given in the advancement JSON ({@code item_a}/{@code item_b}) are currently held one in each
+ * hand, in either order (e.g. Oblivion in one hand and Oathkeeper in the other, regardless of which
+ * hand holds which).
+ */
 public class KKDualWieldTrigger extends SimpleCriterionTrigger<KKDualWieldTrigger.TriggerInstance> {
 	public static final Codec<KKDualWieldTrigger.TriggerInstance> CODEC = RecordCodecBuilder.create(i -> i.group(
 			EntityPredicate.ADVANCEMENT_CODEC.optionalFieldOf("player").forGetter(c -> c.player),

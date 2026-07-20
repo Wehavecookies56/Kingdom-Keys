@@ -1,0 +1,34 @@
+{
+  "parent": "kingdomkeys:first_level_up",
+  "criteria": {
+    "levelup": {
+      "conditions": {
+        "level": 50
+      },
+      "trigger": "kingdomkeys:level_up"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "description": {
+      "translate": "advancements.kingdomkeys.levelup50.desc"
+    },
+    "frame": "goal",
+    "icon": {
+      "count": 1,
+      "id": "kingdomkeys:incomplete_kiblade"
+    },
+    "title": {
+      "translate": "advancements.kingdomkeys.levelup50"
+    }
+  },
+  "requirements": [
+    [
+      "levelup"
+    ]
+  ],
+  "rewards": {
+    "experience": 50
+  },
+  "sends_telemetry_event": true
+}

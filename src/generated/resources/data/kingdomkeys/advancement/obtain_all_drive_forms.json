@@ -1,0 +1,89 @@
+{
+  "parent": "kingdomkeys:obtain_drive",
+  "criteria": {
+    "finale": {
+      "conditions": {
+        "items": [
+          {
+            "items": "kingdomkeys:levelupdrivefinal"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "limit": {
+      "conditions": {
+        "items": [
+          {
+            "items": "kingdomkeys:levelupdrivelimit"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "master": {
+      "conditions": {
+        "items": [
+          {
+            "items": "kingdomkeys:levelupdrivemaster"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "valor": {
+      "conditions": {
+        "items": [
+          {
+            "items": "kingdomkeys:levelupdrivevalor"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "wisdom": {
+      "conditions": {
+        "items": [
+          {
+            "items": "kingdomkeys:levelupdrivewisdom"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.kingdomkeys.obtain_all_drive_forms.desc"
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "kingdomkeys:levelupdrivefinal"
+    },
+    "title": {
+      "translate": "advancements.kingdomkeys.obtain_all_drive_forms"
+    }
+  },
+  "requirements": [
+    [
+      "valor"
+    ],
+    [
+      "wisdom"
+    ],
+    [
+      "limit"
+    ],
+    [
+      "master"
+    ],
+    [
+      "finale"
+    ]
+  ],
+  "rewards": {
+    "experience": 150
+  },
+  "sends_telemetry_event": true
+}

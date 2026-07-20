@@ -1,0 +1,165 @@
+{
+  "parent": "kingdomkeys:soa",
+  "criteria": {
+    "anti_boots": {
+      "conditions": {
+        "items": [
+          {
+            "items": "kingdomkeys:anticoat_boots"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "anti_chestplate": {
+      "conditions": {
+        "items": [
+          {
+            "items": "kingdomkeys:anticoat_chestplate"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "anti_helmet": {
+      "conditions": {
+        "items": [
+          {
+            "items": "kingdomkeys:anticoat_helmet"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "anti_leggings": {
+      "conditions": {
+        "items": [
+          {
+            "items": "kingdomkeys:anticoat_leggings"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "org_boots": {
+      "conditions": {
+        "items": [
+          {
+            "items": "kingdomkeys:organization_boots"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "org_chestplate": {
+      "conditions": {
+        "items": [
+          {
+            "items": "kingdomkeys:organization_chestplate"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "org_helmet": {
+      "conditions": {
+        "items": [
+          {
+            "items": "kingdomkeys:organization_helmet"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "org_leggings": {
+      "conditions": {
+        "items": [
+          {
+            "items": "kingdomkeys:organization_leggings"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "xemnas_boots": {
+      "conditions": {
+        "items": [
+          {
+            "items": "kingdomkeys:xemnas_boots"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "xemnas_chestplate": {
+      "conditions": {
+        "items": [
+          {
+            "items": "kingdomkeys:xemnas_chestplate"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "xemnas_helmet": {
+      "conditions": {
+        "items": [
+          {
+            "items": "kingdomkeys:xemnas_helmet"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "xemnas_leggings": {
+      "conditions": {
+        "items": [
+          {
+            "items": "kingdomkeys:xemnas_leggings"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "description": {
+      "translate": "advancements.kingdomkeys.obtain_org.desc"
+    },
+    "frame": "goal",
+    "icon": {
+      "count": 1,
+      "id": "kingdomkeys:organization_helmet"
+    },
+    "title": {
+      "translate": "advancements.kingdomkeys.obtain_org"
+    }
+  },
+  "requirements": [
+    [
+      "org_helmet",
+      "xemnas_helmet",
+      "anti_helmet"
+    ],
+    [
+      "org_chestplate",
+      "xemnas_chestplate",
+      "anti_chestplate"
+    ],
+    [
+      "org_leggings",
+      "xemnas_leggings",
+      "anti_leggings"
+    ],
+    [
+      "org_boots",
+      "xemnas_boots",
+      "anti_boots"
+    ]
+  ],
+  "rewards": {
+    "experience": 80
+  },
+  "sends_telemetry_event": true
+}

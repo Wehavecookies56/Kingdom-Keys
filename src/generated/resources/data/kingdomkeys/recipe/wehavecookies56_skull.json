@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "minecraft:wither_skeleton_skull"
+    },
+    {
+      "item": "kingdomkeys:orichalcum"
+    },
+    {
+      "item": "kingdomkeys:mythril_gem"
+    }
+  ],
+  "result": {
+    "components": {
+      "minecraft:profile": {
+        "name": "Wehavecookies56"
+      }
+    },
+    "count": 1,
+    "id": "minecraft:player_head"
+  }
+}

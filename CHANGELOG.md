@@ -7,6 +7,8 @@
 * Item Overflow, items given to the player such as the Keycards will go into your overflow inventory if you have no inventory space. Overflow inventory can be accessed in the Stock menu.
 * 2 Axel-themed limits: Ring of Flames and Flame Wall.
 * Dropped cards will now bounce similar to how they do in Chain of Memories.
+* A bunch of new advancements.
+* Recipe to craft the dev heads.
 
 ## Changed:
 * Entry to Castle Oblivion is denied if you're on peaceful difficulty.

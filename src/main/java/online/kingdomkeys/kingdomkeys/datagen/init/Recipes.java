@@ -1,7 +1,9 @@
 package online.kingdomkeys.kingdomkeys.datagen.init;
 
+import com.mojang.authlib.properties.PropertyMap;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.recipes.*;
 import net.minecraft.resources.ResourceLocation;
@@ -10,6 +12,7 @@ import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.component.ResolvableProfile;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
@@ -24,6 +27,7 @@ import online.kingdomkeys.kingdomkeys.lib.ModTags;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Supplier;
 
@@ -45,6 +49,12 @@ public class Recipes extends RecipeProvider {
 	private ItemStack createWorldCard(Item item, String floorType) {
 		ItemStack out = new ItemStack(item);
 		out.set(ModComponents.WORLD_CARD, new WorldCardItem.WorldCard(KingdomKeys.rl(floorType)));
+		return out;
+	}
+
+	private ItemStack createDevSkull(String username) {
+		ItemStack out = new ItemStack(Items.PLAYER_HEAD);
+		out.set(DataComponents.PROFILE, new ResolvableProfile(Optional.of(username), Optional.empty(), new PropertyMap()));
 		return out;
 	}
 
@@ -71,6 +81,21 @@ public class Recipes extends RecipeProvider {
 				.requires(ModItems.desertMemory.get())
 				.unlockedBy("desert_card", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.desertMemory.get()))
 				.save(consumer);
+
+		// Tribute heads for the mod's creators.
+		ShapelessRecipeBuilder.shapeless(RecipeCategory.DECORATIONS, createDevSkull("Wehavecookies56"))
+				.requires(Items.WITHER_SKELETON_SKULL)
+				.requires(ModItems.orichalcum.get())
+				.requires(ModItems.mythril_gem.get())
+				.unlockedBy("wither_skeleton_skull", InventoryChangeTrigger.TriggerInstance.hasItems(Items.WITHER_SKELETON_SKULL))
+				.save(consumer, KingdomKeys.rl("wehavecookies56_skull"));
+
+		ShapelessRecipeBuilder.shapeless(RecipeCategory.DECORATIONS, createDevSkull("Abelatox"))
+				.requires(Items.WITHER_SKELETON_SKULL)
+				.requires(ModItems.electrum.get())
+				.requires(ModItems.adamantite.get())
+				.unlockedBy("wither_skeleton_skull", InventoryChangeTrigger.TriggerInstance.hasItems(Items.WITHER_SKELETON_SKULL))
+				.save(consumer, KingdomKeys.rl("abelatox_skull"));
 		
 
 		ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModBlocks.magicTarget.get())

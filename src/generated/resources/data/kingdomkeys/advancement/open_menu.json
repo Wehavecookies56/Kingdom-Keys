@@ -1,0 +1,31 @@
+{
+  "parent": "kingdomkeys:soa",
+  "criteria": {
+    "open_menu": {
+      "trigger": "kingdomkeys:open_menu"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "description": {
+      "translate": "advancements.kingdomkeys.open_menu.desc"
+    },
+    "frame": "goal",
+    "icon": {
+      "count": 1,
+      "id": "kingdomkeys:kingdom_key"
+    },
+    "title": {
+      "translate": "advancements.kingdomkeys.open_menu"
+    }
+  },
+  "requirements": [
+    [
+      "open_menu"
+    ]
+  ],
+  "rewards": {
+    "experience": 5
+  },
+  "sends_telemetry_event": true
+}
