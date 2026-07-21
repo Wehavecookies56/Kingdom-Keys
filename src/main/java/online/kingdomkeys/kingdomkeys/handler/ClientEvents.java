@@ -278,6 +278,7 @@ public class ClientEvents {
 	}
 
 	boolean handledCamera = false;
+	boolean prevPickItemDown = false;
 	public static CameraType prevCamera = CameraType.FIRST_PERSON;
 
 
@@ -286,6 +287,14 @@ public class ClientEvents {
 		if(event.getEntity() instanceof LocalPlayer player){
 			if(player.getControlledVehicle() instanceof KKVehicleEntity vehicle) {
 				vehicle.setInput(player.input.left, player.input.right, player.input.up, player.input.down, Minecraft.getInstance().options.keyJump.isDown(), Minecraft.getInstance().options.keySprint.isDown(), player.getXRot(), player.getYRot());
+
+				if (vehicle instanceof GummiShipEntity) {
+					boolean pickItemDown = Minecraft.getInstance().options.keyPickItem.isDown();
+					if (pickItemDown && !prevPickItemDown) {
+						PacketHandler.sendToServer(new CSToggleFlightModePacket());
+					}
+					prevPickItemDown = pickItemDown;
+				}
 			}
 
 			//From wall hang to bounce up with jump (SPACE)
@@ -331,6 +340,11 @@ public class ClientEvents {
 		}
 
 		if (event.getEntity() instanceof Player player) {
+			// Everything below only ever applies to players (KO/STOP effects, magic cast-time lock),
+			// so we check for Player first instead of fetching GlobalData for every single LivingEntity
+			// (every mob, animal, etc.) ticking client-side each tick - GlobalData.get() also lazily
+			// attaches a GlobalData instance to whatever entity it's called on, which we don't want to
+			// do to every nearby mob just to immediately discard the result.
 			if (player == Minecraft.getInstance().player) {
 				if (player.hasEffect(ModMobEffects.KO)) {
 					if (player.level().isClientSide) {

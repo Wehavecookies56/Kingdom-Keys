@@ -784,6 +784,7 @@
   "container.gummi_hangar.shiptoobig": "Esta Nave Gummi es demasiado grande",
   "container.gummi_hangar.singlecore": "La estructura solo puede tener un núcle, detectados ",
   "container.gummi_hangar.weight": "Peso",
+  "container.gummi_ship.3d_flight": "Vuelo 3D",
   "container.gummi_ship.armor": "Coraza",
   "container.gummi_ship.backwards": "Marcha atrás",
   "container.gummi_ship.boost": "Turbo",

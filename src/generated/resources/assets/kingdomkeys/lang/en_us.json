@@ -784,6 +784,7 @@
   "container.gummi_hangar.shiptoobig": "This Gummi Ship is too big",
   "container.gummi_hangar.singlecore": "Structure must contain a single core, currently has ",
   "container.gummi_hangar.weight": "Weight",
+  "container.gummi_ship.3d_flight": "3D flight",
   "container.gummi_ship.armor": "Armor",
   "container.gummi_ship.backwards": "Backwards",
   "container.gummi_ship.boost": "Boost",

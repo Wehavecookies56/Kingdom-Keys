@@ -152,7 +152,6 @@ public class GummiHangarRenderer implements BlockEntityRenderer<GummiHangarTileE
                                     {
                                         matrixStackIn.translate(x, y, z);
                                         ClientUtils.renderSingleBlock(s, matrixStackIn, bufferIn, 0xF000F0, OverlayTexture.NO_OVERLAY, ModelData.EMPTY, RenderType.translucent(), 0.75F);
-
                                     }
                                     matrixStackIn.popPose();
                                 }

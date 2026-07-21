@@ -343,7 +343,7 @@ public class InputHandler {
 		}
 
         if(qrCooldown <= 0){
-            if(playerData.isAbilityEquipped(ModAbilities.AIR_SLIDE) && !player.onGround()){
+            if(playerData.isAbilityEquipped(ModAbilities.AIR_SLIDE) && !player.onGround() && player.getControlledVehicle() == null){
                 airSlide();
             }
         }

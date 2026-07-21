@@ -262,6 +262,7 @@ public class LanguageESES extends KKLanguageProvider {
         add("container.gummi_ship.up", "Subir");
         add("container.gummi_ship.down", "Bajar");
         add("container.gummi_ship.boost", "Turbo");
+        add("container.gummi_ship.3d_flight", "Vuelo 3D");
 
         add("container.gummi_ship.coords", "Coords");
         add("container.gummi_ship.facing", "Orientación");

@@ -103,6 +103,7 @@ public class GummiHUD extends OverlayBase {
             drawString(guiGraphics, minecraft.font, minecraft.options.keyJump.getKey().getDisplayName().getString()+": "+Utils.translateToLocal("container.gummi_ship.up"), x, 10*y++, ship.inputUp ? 0xAA0000 : 0xFFFFFF);
             drawString(guiGraphics, minecraft.font, minecraft.options.keySprint.getKey().getDisplayName().getString()+": "+Utils.translateToLocal("container.gummi_ship.down"), x, 10*y++, ship.inputDown ? 0xAA0000 : 0xFFFFFF);
             drawString(guiGraphics, minecraft.font, InputHandler.Keybinds.ACTION.getKeybind().getKey().getDisplayName().getString() +": "+Utils.translateToLocal("container.gummi_ship.boost")+" ["+ (ClientEvents.gummiBoostCD == 0 ? Utils.translateToLocal("container.gummi_ship.ready") :  Utils.translateToLocal("container.gummi_ship.not_ready"))+"]", x, 10*y++, InputHandler.Keybinds.ACTION.getKeybind().isDown() || ClientEvents.gummiBoostCD > 0 ? 0xAA0000 : 0xFFFFFF);
+            drawString(guiGraphics, minecraft.font, minecraft.options.keyPickItem.getKey().getDisplayName().getString()+": "+Utils.translateToLocal("container.gummi_ship.3d_flight"), x, 10*y++, ship.isFlightType3D() ? 0x00AA00 : 0xAA0000);
         } else {
             //Restore camera if needed
             if(handledCamera && ModConfigs.auto3rdPersonShip){

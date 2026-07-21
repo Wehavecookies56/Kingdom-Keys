@@ -1,4 +1,6 @@
 ## Added:
+* Toggle Gummi Ship flight mode with pick block key (by default middle mouse click).
+  * In that flight mode the ship follows the camera, similar to elytra.
 * Treasure chest block, this is a special type of chest that has no GUI and will give the player items when right clicked, these are intended for Castle Oblivion room generation and cannot be created.
 * Calm Bounty, False Bounty, Guarded Trove map cards implemented.
 * Castle Oblivion Room Types have a treasure property to specify the loot and trapped chests.
@@ -16,7 +18,6 @@
 * Regenerating rooms in Castle Oblivion clears all entities so it no longer leaves dropped items everywhere.
 * Opening card packs will deposit the cards in the Cards bag if it has some space.
 * Recipes for Keyblade Forge level ups are now different for each Keyblade.
-* Gummi ship controls are now more 3D, similar to elytra.
 * Slightly optimized some parts of the code.
 * Updated Keyblade weapon to match new EFM declarations.
 
@@ -26,3 +27,4 @@
 * All For One scaling when on the ground.
 * Made some sound effects mono fixing the sound attenuation.
 * Button rendering method, improving performance while in the M menu.
+* Being able to use air dash while in a vehicle.

@@ -329,7 +329,7 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 	private final float deceleration = 0.02F;
 	private final float brake = 0.5F;
 
-	public boolean flightType3D = true;
+	//private boolean flightType3D = false;
 
 	public float currentRotationSpeed = 0F;
 	private final float legacyRotationAcceleration = 0.08F;
@@ -389,7 +389,7 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 				}
 			}
 
-			if (this.flightType3D) {
+			if (isFlightType3D()) {
 				float previousYRot = this.getYRot();
 				float yawTurnRate = baseYawTurnRate * (getShipStats().mobility() * 0.05F);
 				float yawDelta = Mth.wrapDegrees(this.cameraY - this.getYRot());
@@ -465,7 +465,7 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 				}
 			}
 
-			if (this.flightType3D) {
+			if (isFlightType3D()) {
 				float targetStrafe = 0;
 				if (this.inputLeft)
 					targetStrafe = -getEffectiveSpeed();
@@ -592,12 +592,14 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 	}
 	private static final EntityDataAccessor<CompoundTag> DATA = SynchedEntityData.defineId(GummiShipEntity.class, EntityDataSerializers.COMPOUND_TAG);
 	private static final EntityDataAccessor<Integer> FUEL = SynchedEntityData.defineId(GummiShipEntity.class, EntityDataSerializers.INT);
+	private static final EntityDataAccessor<Boolean> FLIGHT_TYPE_3D = SynchedEntityData.defineId(GummiShipEntity.class, EntityDataSerializers.BOOLEAN);
 
 	@Override
 	protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
 		super.defineSynchedData(pBuilder);
 		pBuilder.define(DATA, new CompoundTag());
 		pBuilder.define(FUEL, 0);
+		pBuilder.define(FLIGHT_TYPE_3D, false);
 	}
 
 	public CompoundTag getData() {
@@ -630,6 +632,14 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 		return Utils.getFEStatsPerLevel(getShipLevel())[0]/2;
 	}
 
+	public boolean isFlightType3D() {
+		return this.entityData.get(FLIGHT_TYPE_3D);
+	}
+
+	public void setFlightType3D(boolean flightType3D) {
+		this.entityData.set(FLIGHT_TYPE_3D, flightType3D);
+	}
+
 	public int getShipLevel(){
 		return ((structure.getWidth() - 5) / 2);
 	}
@@ -650,12 +660,14 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 	public void addAdditionalSaveData(CompoundTag compound) {
 		compound.put("data",structure.serializeNBT(this.level().registryAccess()));
 		compound.putInt("fuel", fuel);
+		compound.putBoolean("flightType3D", isFlightType3D());
 	}
 
 	@Override
 	public void readAdditionalSaveData(CompoundTag compound) {
 		this.setData(compound.getCompound("data"));
 		this.setFuel(compound.getInt("fuel"));
+		this.setFlightType3D(!compound.contains("flightType3D") || compound.getBoolean("flightType3D"));
 	}
 
 	public CompoundTag getDataManager() {
@@ -671,6 +683,7 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 		CompoundTag nbt = structure.serializeNBT(level().registryAccess());
 		buf.writeNbt(nbt);
 		buf.writeInt(fuel);
+		buf.writeBoolean(isFlightType3D());
 	}
 
 	@Override
@@ -681,11 +694,12 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 			this.setData(nbt);
 		}
 		this.setFuel(buf.readInt());
+		this.setFlightType3D(buf.readBoolean());
 	}
 
 	@Override
 	protected void positionRider(Entity passenger, Entity.MoveFunction callback) {
-		if (this.flightType3D) {
+		if (isFlightType3D()) {
 			if (!this.hasPassenger(passenger)) return;
 			Vec3 offset = this.getPassengerAttachmentPoint(passenger, passenger.getDimensions(Pose.SITTING), 1.0F);
 			Vec3 worldPos = new Vec3(this.getX() + offset.x, this.getY() + offset.y, this.getZ() + offset.z);
@@ -697,7 +711,7 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 
 	@Override
 	public void onPassengerTurned(Entity entityToUpdate) {
-		if (!this.flightType3D) {
+		if (!isFlightType3D()) {
 			super.onPassengerTurned(entityToUpdate);
 		}
 	}

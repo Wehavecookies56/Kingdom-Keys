@@ -216,6 +216,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add("container.gummi_ship.up", "Up");
         add("container.gummi_ship.down", "Down");
         add("container.gummi_ship.boost", "Boost");
+        add("container.gummi_ship.3d_flight", "3D flight");
 
         add("container.gummi_ship.coords", "Coords");
         add("container.gummi_ship.facing", "Facing");

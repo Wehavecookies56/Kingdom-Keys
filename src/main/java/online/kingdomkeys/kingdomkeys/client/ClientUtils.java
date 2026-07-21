@@ -36,7 +36,6 @@ import net.minecraft.network.chat.FormattedText;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
@@ -46,7 +45,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
@@ -77,7 +75,6 @@ import org.joml.Quaternionf;
 import javax.annotation.Nullable;
 import java.io.FileNotFoundException;
 import java.util.*;
-import java.util.function.Function;
 
 public class ClientUtils {
     public static Style KK_Font_EXP = Style.EMPTY.withFont(KingdomKeys.rl("kk_font_exp"));
@@ -830,7 +827,7 @@ public class ClientUtils {
             switch (rendershape) {
                 case MODEL:
                     BakedModel bakedmodel = Minecraft.getInstance().getBlockRenderer().getBlockModel(state);
-                    int i = Minecraft.getInstance().getBlockRenderer().blockColors.getColor(state, (BlockAndTintGetter)null, (BlockPos)null, 0);
+                    int i = Minecraft.getInstance().getBlockRenderer().blockColors.getColor(state, null, null, 0);
                     float r = (float)(i >> 16 & 255) / 255.0F;
                     float g = (float)(i >> 8 & 255) / 255.0F;
                     float b = (float)(i & 255) / 255.0F;
@@ -855,17 +852,14 @@ public class ClientUtils {
         RandomSource randomsource = RandomSource.create();
         long i = 42L;
         Direction[] var15 = Direction.values();
-        int var16 = var15.length;
 
-        for(int var17 = 0; var17 < var16; ++var17) {
-            Direction direction = var15[var17];
-            randomsource.setSeed(42L);
-            renderQuadList(pose, consumer, red, green, blue, alpha, model.getQuads(state, direction, randomsource, modelData, renderType), packedLight, packedOverlay);
-        }
+	    for (Direction direction : var15) {
+		    randomsource.setSeed(i);
+		    renderQuadList(pose, consumer, red, green, blue, alpha, model.getQuads(state, direction, randomsource, modelData, renderType), packedLight, packedOverlay);
+	    }
 
-        randomsource.setSeed(42L);
+        randomsource.setSeed(i);
         renderQuadList(pose, consumer, red, green, blue, alpha, model.getQuads(state, (Direction)null, randomsource, modelData, renderType), packedLight, packedOverlay);
-
     }
 
     /**
@@ -876,8 +870,8 @@ public class ClientUtils {
         float f;
         float f1;
         float f2;
-        for(Iterator var8 = quads.iterator(); var8.hasNext(); consumer.putBulkData(pose, bakedquad, f, f1, f2, alpha, packedLight, packedOverlay)) {
-            bakedquad = (BakedQuad)var8.next();
+        for(Iterator<BakedQuad> var8 = quads.iterator(); var8.hasNext(); consumer.putBulkData(pose, bakedquad, f, f1, f2, alpha, packedLight, packedOverlay)) {
+            bakedquad = var8.next();
             if (bakedquad.isTinted()) {
                 f = Mth.clamp(red, 0.0F, 1.0F);
                 f1 = Mth.clamp(green, 0.0F, 1.0F);
