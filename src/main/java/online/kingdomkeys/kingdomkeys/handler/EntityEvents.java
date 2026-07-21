@@ -110,8 +110,11 @@ import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.CastleOblivionHandler;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.floor.Floor;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModJsonRegistries;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModRoomModifiers;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.Room;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.RoomPos;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.modifiers.DropModifier;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.modifiers.RoomModifier;
 import org.joml.Vector3f;
 
 import java.util.*;
@@ -1216,13 +1219,33 @@ public class EntityEvents {
 			if (CastleOblivionHandler.isInterior(level.dimension())) {
 				if (!(entity instanceof Player)) {
 					if (GlobalData.get(entity).getCastleOblivionMarker()) {
-						List<Item> cardDrops = ModTags.getItemsInTag(level, ModTags.MAP_CARD);
-						Item toDrop = cardDrops.get(Utils.randomWithRange(0, cardDrops.size() - 1));
-						ItemStack dropStack = new ItemStack(toDrop);
-						MapCardItem.initialize(dropStack);
-						level.addFreshEntity(new ItemEntity(level, entity.getX(), entity.getY(), entity.getZ(), dropStack));
 						CastleOblivionData.InteriorData.get((ServerLevel) level).ifPresent(interiorData -> {
 							Room room = interiorData.getRoomAtPos(entity.blockPosition());
+
+							boolean replaced = false;
+							List<DropModifier> modifiers =  room.getModifiers(ModRoomModifiers.DROP.get());
+							for (DropModifier dropModifier : modifiers) {
+								boolean shouldDrop = true;
+								if (dropModifier.getChance() < 100) {
+									shouldDrop = Utils.randomWithRange(1, 100) < dropModifier.getChance();
+								}
+								if (shouldDrop) {
+									level.addFreshEntity(new ItemEntity(level, entity.getX(), entity.getY(), entity.getZ(), dropModifier.getItem()));
+									//if any of the modifiers replace the drops then the rest can be ignored
+									if (!replaced) {
+										replaced = dropModifier.replaceCard();
+									}
+								}
+							}
+
+							if (!replaced) {
+								List<Item> cardDrops = ModTags.getItemsInTag(level, ModTags.MAP_CARD);
+								Item toDrop = cardDrops.get(Utils.randomWithRange(0, cardDrops.size() - 1));
+								ItemStack dropStack = new ItemStack(toDrop);
+								MapCardItem.initialize(dropStack);
+								level.addFreshEntity(new ItemEntity(level, entity.getX(), entity.getY(), entity.getZ(), dropStack));
+							}
+
 							room.removeCurrentSpawn();
 							room.removeEntityFromCache(entity);
 							KingdomKeys.LOGGER.debug("CO spawned mob died {} remaining", room.getCurrentlySpawned());

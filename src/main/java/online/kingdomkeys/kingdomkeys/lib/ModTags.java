@@ -19,6 +19,8 @@ public class ModTags {
             HEARTLESS = entity("heartless"),
             NOBODY = entity("nobody"),
             CO_BOTTOMLESS_DARKNESS = entity("castle_oblivion/bottomless_darkness"),
+            CO_WHITE_ROOM = entity("castle_oblivion/white_room"),
+            CO_BLACK_ROOM = entity("castle_oblivion/black_room"),
             CO_REGULAR_ENEMIES = entity("castle_oblivion/regular_enemies"),
             CO_STRONG_ENEMIES = entity("castle_oblivion/strong_enemies");
 

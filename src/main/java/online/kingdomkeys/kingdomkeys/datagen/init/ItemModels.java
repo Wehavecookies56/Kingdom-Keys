@@ -15,6 +15,7 @@ import online.kingdomkeys.kingdomkeys.block.gummi.GummiHangarBlock;
 import online.kingdomkeys.kingdomkeys.item.*;
 import online.kingdomkeys.kingdomkeys.item.card.BiomeMemoryItem;
 import online.kingdomkeys.kingdomkeys.item.card.MapCardItem;
+import online.kingdomkeys.kingdomkeys.item.card.RouletteBonusItem;
 import online.kingdomkeys.kingdomkeys.item.card.WorldCardItem;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
@@ -137,7 +138,7 @@ public class ItemModels extends ItemModelProvider {
 				standardSpawnEggItem(path);
 			} else if (item instanceof RecipeItem && !path.equals("recipe")) {
 				standardRecipe(path);
-			}   else if(item instanceof WorldCardItem || item instanceof MapCardItem || item instanceof BiomeMemoryItem || item instanceof CardPackItem){
+			}   else if(item instanceof WorldCardItem || item instanceof MapCardItem || item instanceof BiomeMemoryItem || item instanceof CardPackItem || item instanceof RouletteBonusItem){
 				standardCard(path);
 			} else {
 				standardItem(path);

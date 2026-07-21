@@ -20,28 +20,31 @@ public class ModRoomTypes {
             //Enemy
             TRANQUIL_DARKNESS = () -> registry.get().getValue(KingdomKeys.rl("tranquil_darkness")),
             TEEMING_DARKNESS = () -> registry.get().getValue(KingdomKeys.rl("teeming_darkness")),
-            FEEBLE_DARKNESS = () -> registry.get().getValue(KingdomKeys.rl("feeble_darkness")), //add weakness modifier
-            ALMIGHTY_DARKNESS = () -> registry.get().getValue(KingdomKeys.rl("almighty_darkness")), //strength modifier
-            SLEEPING_DARKNESS = () -> registry.get().getValue(KingdomKeys.rl("sleeping_darkness")), //stop modifier
-            LOOMING_DARKNESS = () -> registry.get().getValue(KingdomKeys.rl("looming_darkness")), //speed modifier
-            BOTTOMLESS_DARKNESS = () -> registry.get().getValue(KingdomKeys.rl("bottomless_darkness")), //blindness modifier
+            FEEBLE_DARKNESS = () -> registry.get().getValue(KingdomKeys.rl("feeble_darkness")),
+            ALMIGHTY_DARKNESS = () -> registry.get().getValue(KingdomKeys.rl("almighty_darkness")),
+            SLEEPING_DARKNESS = () -> registry.get().getValue(KingdomKeys.rl("sleeping_darkness")),
+            LOOMING_DARKNESS = () -> registry.get().getValue(KingdomKeys.rl("looming_darkness")),
+            WHITE_ROOM = () -> registry.get().getValue(KingdomKeys.rl("white_room")),
+            BLACK_ROOM = () -> registry.get().getValue(KingdomKeys.rl("black_room")),
+            BOTTOMLESS_DARKNESS = () -> registry.get().getValue(KingdomKeys.rl("bottomless_darkness")),
+            ROULETTE_ROOM = () -> registry.get().getValue(KingdomKeys.rl("roulette_room")),
 
             //Status
-            MARTIAL_WAKING = () -> registry.get().getValue(KingdomKeys.rl("martial_waking")), //player strength modifier
-            SORCEROUS_WAKING = () -> registry.get().getValue(KingdomKeys.rl("sorcerous_waking")), //magic modifier
-            ALCHEMIC_WAKING = () -> registry.get().getValue(KingdomKeys.rl("alchemic_waking")), //item modifier
-            STAGNANT_SPACE = () -> registry.get().getValue(KingdomKeys.rl("stagnant_space")), //slow modifier
-            WEIGHTLESS_SPACE = () -> registry.get().getValue(KingdomKeys.rl("weightless_space")), //jump modifier
+            MARTIAL_WAKING = () -> registry.get().getValue(KingdomKeys.rl("martial_waking")),
+            SORCEROUS_WAKING = () -> registry.get().getValue(KingdomKeys.rl("sorcerous_waking")),
+            ALCHEMIC_WAKING = () -> registry.get().getValue(KingdomKeys.rl("alchemic_waking")),
+            STAGNANT_SPACE = () -> registry.get().getValue(KingdomKeys.rl("stagnant_space")),
+            WEIGHTLESS_SPACE = () -> registry.get().getValue(KingdomKeys.rl("weightless_space")),
 
             //Bounty
-            CALM_BOUNTY = () -> registry.get().getValue(KingdomKeys.rl("calm_bounty")), //fixed room
-            GUARDED_TROVE = () -> registry.get().getValue(KingdomKeys.rl("guarded_trove")), //fixed room
-            FALSE_BOUNTY = () -> registry.get().getValue(KingdomKeys.rl("false_bounty")), //fixed room
-            MOMENTS_REPRIEVE = () -> registry.get().getValue(KingdomKeys.rl("moments_reprieve")), //fixed room
-            MOOGLE_ROOM = () -> registry.get().getValue(KingdomKeys.rl("moogle_room")), //fixed room
+            CALM_BOUNTY = () -> registry.get().getValue(KingdomKeys.rl("calm_bounty")),
+            GUARDED_TROVE = () -> registry.get().getValue(KingdomKeys.rl("guarded_trove")),
+            FALSE_BOUNTY = () -> registry.get().getValue(KingdomKeys.rl("false_bounty")),
+            MOMENTS_REPRIEVE = () -> registry.get().getValue(KingdomKeys.rl("moments_reprieve")),
+            MOOGLE_ROOM = () -> registry.get().getValue(KingdomKeys.rl("moogle_room")),
             PROSPEROUS_REPOSITORY = () -> registry.get().getValue(KingdomKeys.rl("prosperous_repository")),
             TREACHEROUS_RESPOITORY = () -> registry.get().getValue(KingdomKeys.rl("treacherous_repository")),
-            REPOSEFUL_GROVE = () -> registry.get().getValue(KingdomKeys.rl("reposeful_grove")), //fixed room
+            REPOSEFUL_GROVE = () -> registry.get().getValue(KingdomKeys.rl("reposeful_grove")),
 
             //Key
             ROOM_OF_BEGINNINGS = () -> registry.get().getValue(KingdomKeys.rl("room_of_beginnings")),

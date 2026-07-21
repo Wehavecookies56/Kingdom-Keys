@@ -1418,12 +1418,25 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		return overflow;
 	}
 
-	public ItemStack getNextOverflow() {
+	public ItemStack takeNextOverflow() {
 		return overflow.poll();
 	}
 
-	public void addToOverflow(ItemStack stack) {
-		overflow.add(stack);
+	public ItemStack checkNextOverflow() { return overflow.peek(); }
+
+	public static final int OVERFLOW_CAPACITY = 100;
+
+	public boolean overflowFull() {
+		return overflow.size() >= OVERFLOW_CAPACITY;
+	}
+
+	public boolean addToOverflow(ItemStack stack) {
+		if (!overflowFull()) {
+			overflow.add(stack);
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	public List<ItemStack> getOverflowForDisplay() {

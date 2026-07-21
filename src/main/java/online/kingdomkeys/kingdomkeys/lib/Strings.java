@@ -1512,7 +1512,10 @@ public class Strings {
 			AlmightyDarkness = "almighty_darkness",
 			SleepingDarkness = "sleeping_darkness",
 			LoomingDarkness = "looming_darkness",
+			WhiteRoom = "white_room",
+			BlackRoom = "black_room",
 			BottomlessDarkness = "bottomless_darkness",
+			RouletteRoom = "roulette_room",
 			MartialWaking = "martial_waking",
 			SorcerousWaking = "sorcerous_waking",
 			AlchemicWaking = "alchemic_waking",
@@ -1538,7 +1541,8 @@ public class Strings {
 			RedCardPack = "red_card_pack",
 			GreenCardPack = "green_card_pack",
 			BlueCardPack = "blue_card_pack",
-			RandomCardPack = "random_card_pack";
+			RandomCardPack = "random_card_pack",
+			RouletteBonus = "roulette_bonus";
 
 	//World Cards
 	public static String EmptyCard = "empty_card";

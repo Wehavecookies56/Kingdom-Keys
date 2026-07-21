@@ -4,11 +4,13 @@ import net.minecraft.data.DataGenerator;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.item.ItemStack;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.datagen.builder.RoomTypeBuilder;
 import online.kingdomkeys.kingdomkeys.datagen.provider.BaseProvider;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
+import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.lib.ModTags;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.RoomCategory;
@@ -16,6 +18,7 @@ import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.roo
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.RoomSize;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.RoomType;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.RoomType.Enemies;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.modifiers.DropModifier;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.modifiers.EffectRoomModifier;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.modifiers.EffectRoomModifier.EffectType;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.modifiers.LevelModifier;
@@ -38,6 +41,8 @@ public class RoomTypesGen extends BaseProvider<RoomTypeBuilder> {
                 .enemies(new Enemies(RoomEnemies.S, 6, 3));
         createRoomType(Strings.AlmightyDarkness, RoomSize.M, RoomCategory.ENEMY).enemies(new Enemies(RoomEnemies.M, 7, 3))
                 .modifiers(new LevelModifier(List.of(new Operation(2, Operator.ADD))));
+        createRoomType(Strings.BlackRoom, RoomSize.S, RoomCategory.ENEMY)
+                .enemies(new Enemies(RoomEnemies.S, 3, 3, ModTags.CO_BLACK_ROOM, null));
         createRoomType(Strings.BottomlessDarkness, RoomSize.L, RoomCategory.ENEMY)
                 .enemies(new Enemies(RoomEnemies.L, 13, 6, ModTags.CO_BOTTOMLESS_DARKNESS, null))
                 .modifiers(new EffectRoomModifier(MobEffects.DARKNESS, EffectType.PLAYER, 0))
@@ -84,6 +89,9 @@ public class RoomTypesGen extends BaseProvider<RoomTypeBuilder> {
                 .encounter(KingdomKeys.rl(Strings.RoomOfTruth));        
         createRoomType(Strings.RoomOfRewards, RoomSize.S, RoomCategory.BOUNTY)
                 .treasure(new RoomType.Treasure(KingdomKeys.rl("castle_oblivion/standard_treasure"), 2));
+        createRoomType(Strings.RouletteRoom, RoomSize.L, RoomCategory.ENEMY)
+                .enemies(new Enemies(RoomEnemies.M, 10, 3))
+                .modifiers(new DropModifier(new ItemStack(ModItems.rouletteBonus.get()), true, 50));
         createRoomType(Strings.SleepingDarkness, RoomSize.S, RoomCategory.ENEMY)
                 .enemies(new Enemies(RoomEnemies.S, 5, 3));
         createRoomType(Strings.SorcerousWaking, RoomSize.M, RoomCategory.STATUS)
@@ -102,6 +110,8 @@ public class RoomTypesGen extends BaseProvider<RoomTypeBuilder> {
         createRoomType(Strings.WeightlessSpace, RoomSize.M, RoomCategory.STATUS)
                 .enemies(new Enemies(RoomEnemies.S, 5, 3))
                 .modifiers(new EffectRoomModifier(MobEffects.SLOW_FALLING, EffectType.BOTH, 0), new EffectRoomModifier(MobEffects.JUMP, EffectType.BOTH, 3));
+        createRoomType(Strings.WhiteRoom, RoomSize.L, RoomCategory.ENEMY)
+                .enemies(new Enemies(RoomEnemies.S, 3, 3, ModTags.CO_WHITE_ROOM, null));
     }
 
     @Override

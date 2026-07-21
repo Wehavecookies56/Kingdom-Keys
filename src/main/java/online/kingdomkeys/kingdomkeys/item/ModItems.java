@@ -29,6 +29,7 @@ public class ModItems {
 
 	public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(KingdomKeys.MODID);
 
+	//region Keyblades
     public static final Supplier<Item>
 			abaddonPlasma = createKeybladeItem(Strings.abaddonPlasma),
 			abyssalTide = createKeybladeItem(Strings.abyssalTide),
@@ -173,13 +174,13 @@ public class ModItems {
 			youngXehanortsKeyblade = createKeybladeItem(Strings.youngXehanortsKeyblade),
 			zeroOne = createKeybladeItem(Strings.zeroOne),
 
-			dreamShield = createNewItem(Strings.dreamShield, () -> new KKShieldItem(new Item.Properties().stacksTo(1))),
-			dreamStaff = createNewItem(Strings.dreamStaff, () -> new SwordItem(new KeybladeItemTier(0), new Item.Properties().attributes(SwordItem.createAttributes(new KeybladeItemTier(0), 2, 1)).stacksTo(1))),
-			dreamSword = createNewItem(Strings.dreamSword, () -> new SwordItem(new KeybladeItemTier(0), new Item.Properties().attributes(SwordItem.createAttributes(new KeybladeItemTier(0), 2, 1)).stacksTo(1))),
-
+			//special
 			k111 = createKeybladeItem(Strings.k111),
-			retribution = createKeybladeItem(Strings.retribution),
-			
+			retribution = createKeybladeItem(Strings.retribution);
+	//endregion
+
+	//region Keychains
+	public static final Supplier<Item>
 			abaddonPlasmaChain = createNewItem(Strings.abaddonPlasmaChain, KeychainItem::new),
 			abyssalTideChain = createNewItem(Strings.abyssalTideChain, KeychainItem::new),
 			acedsKeybladeChain = createNewItem(Strings.acedsKeybladeChain, KeychainItem::new),
@@ -323,9 +324,11 @@ public class ModItems {
 
 			//Custom Keychains
 			k111c = createNewItem(Strings.k111c, KeychainItem::new),
-			retributionChain = createNewItem(Strings.retributionChain, KeychainItem::new),
+			retributionChain = createNewItem(Strings.retributionChain, KeychainItem::new);
+	//endregion
 
-			
+	//region Org weapons
+	public static final Supplier<Item>
 			malice = createNewItem(Strings.malice, EtherealBladeItem::new),
 			sanction = createNewItem(Strings.sanction, EtherealBladeItem::new),
 			overlord = createNewItem(Strings.overlord, EtherealBladeItem::new),
@@ -624,9 +627,22 @@ public class ModItems {
 			volDeNuit = createNewItem(Strings.volDeNuit, KnifeItem::new),
 			foudre = createNewItem(Strings.foudre, KnifeItem::new),
 			demoiselle = createNewItem(Strings.demoiselle, KnifeItem::new),
-			ampoule = createNewItem(Strings.ampoule, KnifeItem::new),
+			ampoule = createNewItem(Strings.ampoule, KnifeItem::new);
+	//endregion
 
+	//region Other weapons
+	public static final Supplier<Item>
+			dreamShield = createNewItem(Strings.dreamShield, () -> new KKShieldItem(new Item.Properties().stacksTo(1))),
+			dreamStaff = createNewItem(Strings.dreamStaff, () -> new SwordItem(new KeybladeItemTier(0), new Item.Properties().attributes(SwordItem.createAttributes(new KeybladeItemTier(0), 2, 1)).stacksTo(1))),
+			dreamSword = createNewItem(Strings.dreamSword, () -> new SwordItem(new KeybladeItemTier(0), new Item.Properties().attributes(SwordItem.createAttributes(new KeybladeItemTier(0), 2, 1)).stacksTo(1))),
 
+			struggleSword = createNewItem(Strings.StruggleSword, () -> new SwordItem(new KeybladeItemTier(0),new Item.Properties().attributes(SwordItem.createAttributes(new KeybladeItemTier(0), 1, 1)).stacksTo(1))),
+			struggleWand = createNewItem(Strings.StruggleWand, () -> new SwordItem(new KeybladeItemTier(0), new Item.Properties().attributes(SwordItem.createAttributes(new KeybladeItemTier(0), 1, 1)).stacksTo(1))),
+			struggleHammer = createNewItem(Strings.StruggleHammer, () -> new SwordItem(new KeybladeItemTier(0), new Item.Properties().attributes(SwordItem.createAttributes(new KeybladeItemTier(0), 1, 1)).stacksTo(1)));
+	//endregion
+
+	//region Armour
+	public static final Supplier<Item>
 			organizationRobe_Helmet = createArmorItem(Strings.organization+"_"+Strings.helmet, ModArmorMaterials.ORGANIZATION, ArmorItem.Type.HELMET, Strings.organization),
 			organizationRobe_Chestplate = createArmorItem(Strings.organization+"_"+Strings.chestplate, ModArmorMaterials.ORGANIZATION, ArmorItem.Type.CHESTPLATE, Strings.organization),
 			organizationRobe_Leggings = createArmorItem(Strings.organization+"_"+Strings.leggings, ModArmorMaterials.ORGANIZATION, ArmorItem.Type.LEGGINGS, Strings.organization),
@@ -721,13 +737,11 @@ public class ModItems {
 			ira_Helmet = createArmorItem(Strings.ira+"_"+Strings.helmet, ModArmorMaterials.VANITY, ArmorItem.Type.HELMET, Strings.ira),
 			ira_Chestplate = createArmorItem(Strings.ira+"_"+Strings.chestplate, ModArmorMaterials.VANITY, ArmorItem.Type.CHESTPLATE, Strings.ira),
 			ira_Leggings = createArmorItem(Strings.ira+"_"+Strings.leggings, ModArmorMaterials.VANITY, ArmorItem.Type.LEGGINGS, Strings.ira),
-			ira_Boots = createArmorItem(Strings.ira+"_"+Strings.boots, ModArmorMaterials.VANITY, ArmorItem.Type.BOOTS, Strings.ira),
+			ira_Boots = createArmorItem(Strings.ira+"_"+Strings.boots, ModArmorMaterials.VANITY, ArmorItem.Type.BOOTS, Strings.ira);
+			//endregion
 
-			iceCream = createNewItem(Strings.iceCream, () -> new KKIceCreamItem(new Item.Properties().food(new FoodProperties.Builder().fast().saturationModifier(2.0f).nutrition(2).alwaysEdible().build()))),
-			winnerStick = createNewItem(Strings.winnerStick, () -> new Item(new Item.Properties())),
-
-			trainingDummy = createNewItem(Strings.trainingDummy, () -> new TrainingDummyItem(new Item.Properties())),
-
+	//region Records
+	public static final Supplier<Item>
 			disc_Birth_by_Sleep_A_Link_to_the_Future = createNewItem(Strings.Disc_Birth_by_Sleep_A_Link_to_the_Future, () -> new KKRecordItem(ModJukeboxSongs.BIRTH_BY_SLEEP_A_LINK_TO_THE_FUTURE)),
 			disc_Dream_Drop_Distance_The_Next_Awakening = createNewItem(Strings.Disc_Dream_Drop_Distance_The_Next_Awakening, () -> new KKRecordItem(ModJukeboxSongs.DREAM_DROP_DISTANCE_THE_NEXT_AWAKENING)),
 			disc_Hikari_KINGDOM_Instrumental_Version = createNewItem(Strings.Disc_Hikari_KINGDOM_Instrumental_Version, () -> new KKRecordItem(ModJukeboxSongs.HIKARI_KINGDOM_INSTRUMENTAL_VERSION)),
@@ -748,8 +762,11 @@ public class ModItems {
 			disc_Forgotten_Challenge_Recoded = createNewItem(Strings.Disc_Forgotten_Challenge_Recoded, () -> new KKRecordItem(ModJukeboxSongs.FORGOTTEN_CHALLENGE_RECODED)),
 			disc_Anger_Unchained = createNewItem(Strings.Disc_Anger_Unchained, () -> new KKRecordItem(ModJukeboxSongs.ANGER_UNCHAINED)),
 			disc_Hunter_Of_The_Dark = createNewItem(Strings.Disc_Hunter_Of_The_Dark, () -> new KKRecordItem(ModJukeboxSongs.HUNTER_OF_THE_DARK)),
-			disc_Destati = createNewItem(Strings.Disc_Destati, () -> new KKRecordItem(ModJukeboxSongs.DESTATI)),
+			disc_Destati = createNewItem(Strings.Disc_Destati, () -> new KKRecordItem(ModJukeboxSongs.DESTATI));
+	//endregion
 
+	//region Synth mats
+	public static final Supplier<Item>
 			blazing_crystal = createNewItem(Strings.SM_BlazingCrystal, () -> new SynthesisItem(new Item.Properties(), Strings.SM_Rank_S)),
 			blazing_gem = createNewItem(Strings.SM_BlazingGem, () -> new SynthesisItem(new Item.Properties(), Strings.SM_Rank_A)),
 			blazing_stone = createNewItem(Strings.SM_BlazingStone, () -> new SynthesisItem(new Item.Properties(), Strings.SM_Rank_B)),
@@ -823,11 +840,11 @@ public class ModItems {
 			adamantite = createNewItem(Strings.SM_Adamantite, () -> new SynthesisItem(new Item.Properties(), Strings.SM_Rank_A)),
 			electrum = createNewItem(Strings.SM_Electrum, () -> new SynthesisItem(new Item.Properties(), Strings.SM_Rank_S)),
 			evanescent_crystal = createNewItem(Strings.SM_EvanescentCrystal, () -> new SynthesisItem(new Item.Properties(), Strings.SM_Rank_S)),
-			illusory_crystal = createNewItem(Strings.SM_IllusoryCrystal, () -> new SynthesisItem(new Item.Properties(), Strings.SM_Rank_S)),
+			illusory_crystal = createNewItem(Strings.SM_IllusoryCrystal, () -> new SynthesisItem(new Item.Properties(), Strings.SM_Rank_S));
+	//endregion
 
-			gummiMeteorFragment = createNewItem("gummi_meteor_fragment", new Item.Properties()),
-
-
+	//region Spells
+	public static final Supplier<Item>
 			fireSpell = createNewItem(Strings.SpellFire, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Fire))),
 			firaSpell = createNewItem(Strings.SpellFira, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Fira))),
 			firagaSpell = createNewItem(Strings.SpellFiraga, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Firaga))),
@@ -903,23 +920,27 @@ public class ModItems {
 			confuseSpell = ITEMS.register(Strings.SpellConfuse, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Confuse))),
 			bindSpell = ITEMS.register(Strings.SpellBind, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Bind))),
 			miniSpell = ITEMS.register(Strings.SpellMini, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Mini))),
-			slowSpell = ITEMS.register(Strings.SpellSlow, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Slow))),
+			slowSpell = ITEMS.register(Strings.SpellSlow, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Slow)));
+	//endregion
 
-
-			struggleSword = createNewItem(Strings.StruggleSword, () -> new SwordItem(new KeybladeItemTier(0),new Item.Properties().attributes(SwordItem.createAttributes(new KeybladeItemTier(0), 1, 1)).stacksTo(1))),
-			struggleWand = createNewItem(Strings.StruggleWand, () -> new SwordItem(new KeybladeItemTier(0), new Item.Properties().attributes(SwordItem.createAttributes(new KeybladeItemTier(0), 1, 1)).stacksTo(1))),
-			struggleHammer = createNewItem(Strings.StruggleHammer, () -> new SwordItem(new KeybladeItemTier(0), new Item.Properties().attributes(SwordItem.createAttributes(new KeybladeItemTier(0), 1, 1)).stacksTo(1))),
-
-			
+	//region Forms
+	public static final Supplier<Item>
 			valorOrb = createNewItem(Strings.LevelUpValor, () -> new DriveFormOrbItem(new Item.Properties(), KingdomKeys.rl(Strings.Form_Valor))),
 			wisdomOrb = createNewItem(Strings.LevelUpWisdom, () -> new DriveFormOrbItem(new Item.Properties(), KingdomKeys.rl(Strings.Form_Wisdom))),
 			limitOrb = createNewItem(Strings.LevelUpLimit, () -> new DriveFormOrbItem(new Item.Properties(), KingdomKeys.rl(Strings.Form_Limit))),
 			masterOrb = createNewItem(Strings.LevelUpMaster, () -> new DriveFormOrbItem(new Item.Properties(), KingdomKeys.rl(Strings.Form_Master))),
-			finalOrb = createNewItem(Strings.LevelUpFinal, () -> new DriveFormOrbItem(new Item.Properties(), KingdomKeys.rl(Strings.Form_Final))),
-			
+			finalOrb = createNewItem(Strings.LevelUpFinal, () -> new DriveFormOrbItem(new Item.Properties(), KingdomKeys.rl(Strings.Form_Final)));
+	//endregion
+
+	//region Bags
+	public static final Supplier<Item>
 			synthesisBag = createNewItem("synthesis_bag", () -> new BagItem(new Item.Properties().stacksTo(1), BagItem.Type.SYNTHESIS_BAG)),
 			magicsBag = createNewItem("magics_bag", () -> new BagItem(new Item.Properties().stacksTo(1), BagItem.Type.MAGICS_BAG)),
-			cardsBag = createNewItem("cards_bag", () -> new BagItem(new Item.Properties().stacksTo(1), BagItem.Type.CARDS_BAG)),
+			cardsBag = createNewItem("cards_bag", () -> new BagItem(new Item.Properties().stacksTo(1), BagItem.Type.CARDS_BAG));
+	//endregion
+
+	//region Recipes
+	public static final Supplier<Item>
 			recipe = createNewItem("recipe", () -> new RecipeItem(0, new Item.Properties())),
 			recipeD = createNewItem("recipe_d", () -> new RecipeItem(1, new Item.Properties())),
 			recipeC = createNewItem("recipe_c", () -> new RecipeItem(2, new Item.Properties())),
@@ -927,10 +948,11 @@ public class ModItems {
 			recipeA = createNewItem("recipe_a", () -> new RecipeItem(4, new Item.Properties())),
 			recipeS = createNewItem("recipe_s", () -> new RecipeItem(5, new Item.Properties())),
 			recipeSS = createNewItem("recipe_ss", () -> new RecipeItem(6, new Item.Properties())),
-			recipeSSS = createNewItem("recipe_sss", () -> new RecipeItem(7, new Item.Properties())),
+			recipeSSS = createNewItem("recipe_sss", () -> new RecipeItem(7, new Item.Properties()));
+	//endregion
 
-			proofOfHeart = createNewItem("proof_of_heart", () -> new ProofOfHeartItem(new Item.Properties())),
-			
+	//region Consumable items
+	public static final Supplier<Item>
 			potion = createNewItem(Strings.potion, () -> new KKPotionItem(new Item.Properties().stacksTo(1), KKPotionItem.PotionType.HP, 30, true, false)),
 			hiPotion = createNewItem(Strings.hiPotion, () -> new KKPotionItem(new Item.Properties().stacksTo(1), KKPotionItem.PotionType.HP, 60, true, false)),
 			megaPotion = createNewItem(Strings.megaPotion, () -> new KKPotionItem(new Item.Properties().stacksTo(1), KKPotionItem.PotionType.HP, 40, true, true)),
@@ -943,13 +965,19 @@ public class ModItems {
 			hiDriveRecovery = createNewItem(Strings.hiDriveRecovery, () -> new KKPotionItem(new Item.Properties().stacksTo(1), KKPotionItem.PotionType.DRIVE, 1000, false, false)),
 			refocuser = createNewItem(Strings.refocuser, () -> new KKPotionItem(new Item.Properties().stacksTo(1), KKPotionItem.PotionType.FOCUS, 40, true, false)),
 			hiRefocuser = createNewItem(Strings.hiRefocuser, () -> new KKPotionItem(new Item.Properties().stacksTo(1), KKPotionItem.PotionType.FOCUS, 100, true, false)),
-            panacea = createNewItem(Strings.panacea, () -> new KKPotionItem(new Item.Properties().stacksTo(1), KKPotionItem.PotionType.PANACEA, 1, false, false)),
-			
-    		powerBoost = createNewItem(Strings.powerBoost, () -> new StatUpgradeItem(new Item.Properties(), Strings.powerBoost)),
+            panacea = createNewItem(Strings.panacea, () -> new KKPotionItem(new Item.Properties().stacksTo(1), KKPotionItem.PotionType.PANACEA, 1, false, false));
+	//endregion
+
+	//region Boosts
+	public static final Supplier<Item>
+			powerBoost = createNewItem(Strings.powerBoost, () -> new StatUpgradeItem(new Item.Properties(), Strings.powerBoost)),
 			magicBoost = createNewItem(Strings.magicBoost, () -> new StatUpgradeItem(new Item.Properties(), Strings.magicBoost)),
 			defenseBoost = createNewItem(Strings.defenseBoost, () -> new StatUpgradeItem(new Item.Properties(), Strings.defenseBoost)),
-			apBoost = createNewItem(Strings.apBoost, () -> new StatUpgradeItem(new Item.Properties(), Strings.apBoost)),
-			
+			apBoost = createNewItem(Strings.apBoost, () -> new StatUpgradeItem(new Item.Properties(), Strings.apBoost));
+	//endregion
+
+	//region Accessories
+	public static final Supplier<Item>
 			abilityRing = createNewItem(Strings.abilityRing, () -> new KKAccessoryItem(new Item.Properties().stacksTo(1), 1, 0, 0, null)),
 			engineersRing = createNewItem(Strings.engineersRing, () -> new KKAccessoryItem(new Item.Properties().stacksTo(1), 2, 0, 0, null)),
 			techniciansRing = createNewItem(Strings.techniciansRing, () -> new KKAccessoryItem(new Item.Properties().stacksTo(1), 3, 0, 0, null)),
@@ -983,8 +1011,11 @@ public class ModItems {
 			soldierEarring = createNewItem(Strings.soldierEarring, () -> new KKAccessoryItem(new Item.Properties().stacksTo(1), 4, 2, 0, null)),
 			mageEarring = createNewItem(Strings.mageEarring, () -> new KKAccessoryItem(new Item.Properties().stacksTo(1), 4, 0, 2, null)),
 			slayerEarring = createNewItem(Strings.slayerEarring, () -> new KKAccessoryItem(new Item.Properties().stacksTo(1), 5, 1, 2, null)),
-			fencerEarring = createNewItem(Strings.fencerEarring, () -> new KKAccessoryItem(new Item.Properties().stacksTo(1), 5, 2, 1, null)),
+			fencerEarring = createNewItem(Strings.fencerEarring, () -> new KKAccessoryItem(new Item.Properties().stacksTo(1), 5, 2, 1, null));
+	//endregion
 
+	//region KK Armour
+	public static final Supplier<Item>
 			fireBangle = createNewItem(Strings.fireBangle, () -> new KKArmorItem(new Item.Properties().stacksTo(1), 1, ImmutableMap.of(KKResistanceType.fire, 20))),
 			firaBangle = createNewItem(Strings.firaBangle, () -> new KKArmorItem(new Item.Properties().stacksTo(1),2, ImmutableMap.of(KKResistanceType.fire,20))),
 			firagaBangle = createNewItem(Strings.firagaBangle, () -> new KKArmorItem(new Item.Properties().stacksTo(1),3, ImmutableMap.of(KKResistanceType.fire,20))),
@@ -1018,25 +1049,32 @@ public class ModItems {
 			midnightAnklet = createNewItem(Strings.midnightAnklet, () -> new KKArmorItem(new Item.Properties().stacksTo(1),3, ImmutableMap.of(KKResistanceType.darkness,20))),
 			chaosAnklet = createNewItem(Strings.chaosAnklet, () -> new KKArmorItem(new Item.Properties().stacksTo(1),3, ImmutableMap.of(KKResistanceType.darkness, 25))),
 			protectBelt = createNewItem(Strings.protectBelt, () -> new KKArmorItem(new Item.Properties().stacksTo(1),3, ImmutableMap.of())),
-			gaiaBelt = createNewItem(Strings.gaiaBelt, () -> new KKArmorItem(new Item.Properties().stacksTo(1),3, ImmutableMap.of(KKResistanceType.lightning,20,KKResistanceType.darkness,20))),
-			
-			wayfinder = createNewItem(Strings.wayfinder, () -> new WayfinderItem(new Item.Properties().stacksTo(1))),
-    		gummiPhone = createNewItem(Strings.gummiPhone, () -> new GummiPhoneItem(new Item.Properties().stacksTo(1))),
-			gummiShipBlueprint = createNewItem(Strings.gummiShipBlueprint, () -> new GummiShipBlueprintItem(new Item.Properties())),
+			gaiaBelt = createNewItem(Strings.gaiaBelt, () -> new KKArmorItem(new Item.Properties().stacksTo(1),3, ImmutableMap.of(KKResistanceType.lightning,20,KKResistanceType.darkness,20)));
+	//endregion
 
+	//region CO Cards
+	public static final Supplier<Item>
 			//map cards
+			//red
 			tranquilDarkness = createMapCard(Strings.TranquilDarkness, ModRoomTypes.TRANQUIL_DARKNESS, CardCategory.RED),
 			teemingDarkness = createMapCard(Strings.TeemingDarkness, ModRoomTypes.TEEMING_DARKNESS, CardCategory.RED),
 			feebleDarkness = createMapCard(Strings.FeebleDarkness, ModRoomTypes.FEEBLE_DARKNESS, CardCategory.RED),
 			almightyDarkness = createMapCard(Strings.AlmightyDarkness, ModRoomTypes.ALMIGHTY_DARKNESS, CardCategory.RED),
 			sleepingDarkness = createMapCard(Strings.SleepingDarkness, ModRoomTypes.SLEEPING_DARKNESS, CardCategory.RED, true),
 			loomingDarkness = createMapCard(Strings.LoomingDarkness, ModRoomTypes.LOOMING_DARKNESS, CardCategory.RED),
+			whiteRoom = createMapCard(Strings.WhiteRoom, ModRoomTypes.WHITE_ROOM, CardCategory.RED),
+			blackRoom = createMapCard(Strings.BlackRoom, ModRoomTypes.BLACK_ROOM, CardCategory.RED),
 			bottomlessDarkness = createMapCard(Strings.BottomlessDarkness, ModRoomTypes.BOTTOMLESS_DARKNESS, CardCategory.RED),
+			rouletteRoom = createMapCard(Strings.RouletteRoom, ModRoomTypes.ROULETTE_ROOM, CardCategory.RED),
+
+			//green
 			martialWaking = createMapCard(Strings.MartialWaking, ModRoomTypes.MARTIAL_WAKING, CardCategory.GREEN),
 			sorcerousWaking = createMapCard(Strings.SorcerousWaking, ModRoomTypes.SORCEROUS_WAKING, CardCategory.GREEN, true),
 			alchemicWaking = createMapCard(Strings.AlchemicWaking, ModRoomTypes.ALCHEMIC_WAKING, CardCategory.GREEN, true),
 			stagnantSpace = createMapCard(Strings.StagnantSpace, ModRoomTypes.STAGNANT_SPACE, CardCategory.GREEN),
 			weightlessSpace = createMapCard(Strings.WeightlessSpace, ModRoomTypes.WEIGHTLESS_SPACE, CardCategory.GREEN),
+
+			//blue
 			calmBounty = createMapCard(Strings.CalmBounty, ModRoomTypes.CALM_BOUNTY, CardCategory.BLUE),
 			guardedTrove = createMapCard(Strings.GuardedTrove, ModRoomTypes.GUARDED_TROVE, CardCategory.BLUE),
 			falseBounty = createMapCard(Strings.FalseBounty, ModRoomTypes.FALSE_BOUNTY, CardCategory.BLUE),
@@ -1047,18 +1085,13 @@ public class ModItems {
 			reposefulGrove = createMapCard(Strings.ReposefulGrove, ModRoomTypes.REPOSEFUL_GROVE, CardCategory.BLUE, true),
 			minglingWorlds = ITEMS.register(Strings.MinglingWorlds, MinglingWorldsMapCardItem::new),
 
+			//keycard
 			keyOfBeginnings = createKeyCard("key_of_beginnings", ModRoomTypes.ROOM_OF_BEGINNINGS, KeycardType.BEGINNINGS),
 			keyOfGuidance = createKeyCard("key_of_guidance", ModRoomTypes.ROOM_OF_GUIDANCE, KeycardType.GUIDANCE),
 			keyToTruth = createKeyCard("key_to_truth", ModRoomTypes.ROOM_OF_TRUTH, KeycardType.TRUTH),
 			keyToRewards = createKeyCard("key_to_rewards", ModRoomTypes.ROOM_OF_REWARDS, KeycardType.REWARDS),
 
-			redCardPack = createNewItem(Strings.RedCardPack, () -> new CardPackItem(new Item.Properties(), CardCategory.RED)),
-			greenCardPack = createNewItem(Strings.GreenCardPack, () -> new CardPackItem(new Item.Properties(), CardCategory.GREEN)),
-			blueCardPack = createNewItem(Strings.BlueCardPack, () -> new CardPackItem(new Item.Properties(), CardCategory.BLUE)),
-			randomCardPack = createNewItem(Strings.RandomCardPack, () -> new CardPackItem(new Item.Properties(), null)),
-
-
-		//floor cards
+			//floor cards
 			emptyCard = createNewItem(Strings.EmptyCard, () -> new BiomeMemoryItem(new Item.Properties(), null)),
 			plainsCard = createWorldCard(Strings.PlainsCard, ModFloorTypes.PLAINS, true),
 			plainsMemory = createNewItem(Strings.PlainsMemory, () -> new BiomeMemoryItem(new Item.Properties(), Biomes.PLAINS)),
@@ -1074,7 +1107,27 @@ public class ModItems {
 			badlandsCard = createWorldCard(Strings.BadlandsCard, ModFloorTypes.BADLANDS),
 			swampCard = createWorldCard(Strings.SwampCard, ModFloorTypes.SWAMP),
 			caveCard = createWorldCard(Strings.CaveCard, ModFloorTypes.CAVE),
-			castleOblivionCard = createWorldCard(Strings.CastleOblivionCard, ModFloorTypes.CASTLE_OBLIVION);
+			castleOblivionCard = createWorldCard(Strings.CastleOblivionCard, ModFloorTypes.CASTLE_OBLIVION),
+
+			//others
+			redCardPack = createNewItem(Strings.RedCardPack, () -> new CardPackItem(new Item.Properties(), CardCategory.RED)),
+			greenCardPack = createNewItem(Strings.GreenCardPack, () -> new CardPackItem(new Item.Properties(), CardCategory.GREEN)),
+			blueCardPack = createNewItem(Strings.BlueCardPack, () -> new CardPackItem(new Item.Properties(), CardCategory.BLUE)),
+			randomCardPack = createNewItem(Strings.RandomCardPack, () -> new CardPackItem(new Item.Properties(), null)),
+			rouletteBonus = createNewItem(Strings.RouletteBonus, () -> new RouletteBonusItem());
+	//endregion
+
+	//region Others
+	public static final Supplier<Item>
+			wayfinder = createNewItem(Strings.wayfinder, () -> new WayfinderItem(new Item.Properties().stacksTo(1))),
+			gummiPhone = createNewItem(Strings.gummiPhone, () -> new GummiPhoneItem(new Item.Properties().stacksTo(1))),
+			gummiShipBlueprint = createNewItem(Strings.gummiShipBlueprint, () -> new GummiShipBlueprintItem(new Item.Properties())),
+			proofOfHeart = createNewItem("proof_of_heart", () -> new ProofOfHeartItem(new Item.Properties())),
+			iceCream = createNewItem(Strings.iceCream, () -> new KKIceCreamItem(new Item.Properties().food(new FoodProperties.Builder().fast().saturationModifier(2.0f).nutrition(2).alwaysEdible().build()))),
+			winnerStick = createNewItem(Strings.winnerStick, () -> new Item(new Item.Properties())),
+			trainingDummy = createNewItem(Strings.trainingDummy, () -> new TrainingDummyItem(new Item.Properties())),
+			gummiMeteorFragment = createNewItem("gummi_meteor_fragment", new Item.Properties());
+	//endregion
 
 	//Helper method to create item with the properties and registry name
 	public static Supplier<Item> createNewItem(String name, Item.Properties properties) {

@@ -15,6 +15,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
@@ -23,6 +24,7 @@ import online.kingdomkeys.kingdomkeys.client.gui.IPlayerDataRequester;
 import online.kingdomkeys.kingdomkeys.client.gui.OrgPortalGui;
 import online.kingdomkeys.kingdomkeys.client.gui.SavePointScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.castle_oblivion.CardPackScreen;
+import online.kingdomkeys.kingdomkeys.client.gui.castle_oblivion.MapCardRouletteScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.castle_oblivion.RoomSynthesisScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.MenuScreen;
@@ -78,6 +80,7 @@ import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.InputStreamReader;
+import java.util.List;
 import java.util.Set;
 
 public class ClientPacketHandler {
@@ -446,6 +449,10 @@ public class ClientPacketHandler {
 
     public static void displayItems(SCDisplayGivenItems message) {
         ItemGetGui.INSTANCE.addItemsToDisplay(message.items(), false);
+    }
+
+    public static void openCardRoulette(List<ItemStack> cards) {
+        Minecraft.getInstance().setScreen(new MapCardRouletteScreen(cards));
     }
 
 }

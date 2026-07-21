@@ -27,6 +27,8 @@ import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.enc
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.floor.Floor;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModRoomStructures;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModRoomTypes;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.modifiers.RoomModifier;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.modifiers.RoomModifierType;
 
 import javax.annotation.Nullable;
 import java.io.IOException;
@@ -98,6 +100,19 @@ public class Room {
                 }
             }
         });
+    }
+
+    //gets a list of modifiers of type, returns empty list if none exist
+    public <T extends RoomModifier> List<T> getModifiers(RoomModifierType<?> type) {
+        List<T> modifiers = new ArrayList<>();
+        if (!getType().getModifiers().isEmpty()) {
+            for (RoomModifier modifier : getType().getModifiers()) {
+                if (modifier.type().equals(type)) {
+                    modifiers.add((T) modifier);
+                }
+            }
+        }
+        return modifiers;
     }
 
     public void removeCurrentSpawn() {

@@ -69,6 +69,7 @@ public class PacketHandler {
 		client(SCShowRareMeld.TYPE, SCShowRareMeld.STREAM_CODEC);
 		client(SCOpenCardPack.TYPE, SCOpenCardPack.STREAM_CODEC);
 		client(SCDisplayGivenItems.TYPE, SCDisplayGivenItems.STREAM_CODEC);
+		client(SCOpenCardRoulette.TYPE, SCOpenCardRoulette.STREAM_CODEC);
 
 		server(CSAntiPointsPacket.TYPE, CSAntiPointsPacket.STREAM_CODEC);
 		server(CSAttackOffhandPacket.TYPE, CSAttackOffhandPacket.STREAM_CODEC);
@@ -153,6 +154,7 @@ public class PacketHandler {
 		server(CSSwapKeyblade.TYPE, CSSwapKeyblade.STREAM_CODEC);
 		server(CSConsumeCard.TYPE, CSConsumeCard.STREAM_CODEC);
 		server(CSTeleport.TYPE, CSTeleport.STREAM_CODEC);
+		server(CSGiveMapCard.TYPE, CSGiveMapCard.STREAM_CODEC);
 	}
 
 	private static <T extends Packet> void client(CustomPacketPayload.Type<T> type, StreamCodec<? super RegistryFriendlyByteBuf, T> reader) {

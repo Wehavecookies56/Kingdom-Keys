@@ -263,5 +263,6 @@ public class KingdomKeys {
 		event.addPackFinders(KingdomKeys.rl("datapacks/disable_blox_gen_end"), PackType.SERVER_DATA, Component.literal("KK: Disable Blox Gen (End)"), PackSource.FEATURE, false, Pack.Position.TOP);
 		event.addPackFinders(KingdomKeys.rl("datapacks/recipe_example"), PackType.SERVER_DATA, Component.literal("KK: Custom Synthesis Recipe Example"), PackSource.FEATURE, false, Pack.Position.TOP);
 		event.addPackFinders(KingdomKeys.rl("datapacks/co_floor_example"), PackType.SERVER_DATA, Component.literal("KK: Custom CO Floor Example"), PackSource.FEATURE, false, Pack.Position.TOP);
+		event.addPackFinders(KingdomKeys.rl("datapacks/disable_spawns"), PackType.SERVER_DATA, Component.literal("KK: Disable all mob spawns"), PackSource.FEATURE, false, Pack.Position.TOP);
 	}
 }

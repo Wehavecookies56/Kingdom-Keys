@@ -865,7 +865,10 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.almightyDarkness, "Almighty Darkness", "A room where Heartless with strong cards appear. Enemies often drop enemy cards in this room.");
         addItem(ModItems.sleepingDarkness, "Sleeping Darkness", "A room where Heartless are drowsy and easy to ambush.");
         addItem(ModItems.loomingDarkness, "Looming Darkness", "A room where Heartless attack relentlessly. Enemies often drop enemy cards in this room.");
+        addItem(ModItems.whiteRoom, "White Room", "A room where only White Mushrooms appear. What happens when you defeat White Mushrooms?");
+        addItem(ModItems.blackRoom, "Black Room", "A room where only Black Fungi appear. What happens when you defeat Black Fungi? ");
         addItem(ModItems.bottomlessDarkness, "Bottomless Darkness", "A pitch-dark room where many Heartless appear.");
+        addItem(ModItems.rouletteRoom, "Roulette Room", "A room where victory often leads to Roulette Bonuses.");
         addItem(ModItems.martialWaking, "Martial Waking", "A room where attacks are more effective.");
         addItem(ModItems.sorcerousWaking, "Sorcerous Waking", "A room where spells are more effective.");
         addItem(ModItems.alchemicWaking, "Alchemic Waking", "A room where items are more effective.");
@@ -890,6 +893,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.greenCardPack, "Green card pack", "A pack of 5 hreen Map Cards, open to reveal them.");
         addItem(ModItems.blueCardPack, "Blue cards pack", "A pack of 5 blue Map Cards, open to reveal them.");
         addItem(ModItems.randomCardPack, "Random card pack", "A pack of 5 Map Cards of any color, open to reveal them.");
+        addItem(ModItems.rouletteBonus, "Roulette Bonus", "Grants a random Map Card through a roulette.");
 
         addItem(ModItems.emptyCard,"Empty Card");
         addItem(ModItems.plainsCard,"Plains Card");
@@ -2379,12 +2383,15 @@ public class LanguageENUS extends KKLanguageProvider {
 
         //CO Rooms
         addRoom("almighty_darkness", "Almighty Darkness");
+        addRoom("black_room", "Black Room");
         addRoom("bottomless_darkness", "Bottomless Darkness");
         addRoom("feeble_darkness", "Feeble Darkness");
         addRoom("looming_darkness", "Looming Darkness");
+        addRoom("roulette_room", "Roulette Room");
         addRoom("sleeping_darkness", "Sleeping Darkness");
         addRoom("teeming_darkness", "Teeming Darkness");
         addRoom("tranquil_darkness", "Tranquil Darkness");
+        addRoom("white_room", "White Room");
 
         addRoom("alchemic_waking", "Alchemic Waking");
         addRoom("martial_waking", "Martial Waking");
