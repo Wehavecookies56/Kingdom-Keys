@@ -1451,10 +1451,12 @@ public class EntityEvents {
 
 	@SubscribeEvent
 	public void onFall(LivingFallEvent event) {
-		if (event.getEntity() instanceof Player player) {
-			if (player.getVehicle() instanceof GummiShipEntity) {
+		if (event.getEntity() instanceof LivingEntity entity) {
+			if (entity.getVehicle() instanceof GummiShipEntity) {
 				event.setDistance(0);
 			}
+		}
+		if (event.getEntity() instanceof Player player) {
 			PlayerData playerData = PlayerData.get(player);
 			// Check to prevent edge case crash
 			if (playerData != null && playerData.getActiveDriveForm() != null) {

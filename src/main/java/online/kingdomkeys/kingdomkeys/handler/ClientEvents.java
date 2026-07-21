@@ -977,6 +977,9 @@ public class ClientEvents {
 			if(mc.player.getMainHandItem() != null && Utils.getPlayerShotlock(mc.player) != null && (mc.player.getMainHandItem().getItem() instanceof KeybladeItem || mc.player.getMainHandItem().getItem() instanceof IOrgWeapon)){
 				event.setCanceled(true);
 			}
+			if(mc.player.getControlledVehicle() != null && mc.player.getControlledVehicle() instanceof GummiShipEntity){
+				event.setCanceled(true);
+			}
 		}
 	}
 

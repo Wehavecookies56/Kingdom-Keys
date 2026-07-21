@@ -146,12 +146,19 @@ public class GummiHangarRenderer implements BlockEntityRenderer<GummiHangarTileE
                         for (int x = 0; x < w; x++) {
                             for (int y = 0; y < h; y++) {
                                 for (int z = 0; z < d; z++) {
-                                    BlockState s = struct.getBlocks()[x][y][z];
-                                    if (s == null || s.isAir()) continue;
+                                    BlockState expected = struct.getBlocks()[x][y][z];
+                                    if (expected == null || expected.isAir())
+                                        continue;
+
+                                    BlockPos worldPos = TE.getBlockPos().offset(offsetX + x, y, offsetZ + z);
+                                    BlockState current = TE.getLevel().getBlockState(worldPos);
+                                    if (current.equals(expected))
+                                        continue;
+
                                     matrixStackIn.pushPose();
                                     {
                                         matrixStackIn.translate(x, y, z);
-                                        ClientUtils.renderSingleBlock(s, matrixStackIn, bufferIn, 0xF000F0, OverlayTexture.NO_OVERLAY, ModelData.EMPTY, RenderType.translucent(), 0.75F);
+                                        ClientUtils.renderSingleBlock(expected, matrixStackIn, bufferIn, 0xF000F0, OverlayTexture.NO_OVERLAY, ModelData.EMPTY, 0.75F);
                                     }
                                     matrixStackIn.popPose();
                                 }

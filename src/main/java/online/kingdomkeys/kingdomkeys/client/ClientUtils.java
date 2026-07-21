@@ -818,10 +818,12 @@ public class ClientUtils {
         matrixStackIn.popPose();
     }
 
+    public static final RenderType shipHologramRenderType = RenderType.entityTranslucentCull(TextureAtlas.LOCATION_BLOCKS);
+
     /**
      * Copied from {@link net.minecraft.client.renderer.block.BlockRenderDispatcher#renderSingleBlock(BlockState, PoseStack, MultiBufferSource, int, int, ModelData, RenderType)} modified to use alpha
      */
-    public static void renderSingleBlock(BlockState state, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, int packedOverlay, ModelData modelData, RenderType renderType, float alpha) {
+    public static void renderSingleBlock(BlockState state, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, int packedOverlay, ModelData modelData, float alpha) {
         RenderShape rendershape = state.getRenderShape();
         if (rendershape != RenderShape.INVISIBLE) {
             switch (rendershape) {
@@ -832,17 +834,14 @@ public class ClientUtils {
                     float g = (float)(i >> 8 & 255) / 255.0F;
                     float b = (float)(i & 255) / 255.0F;
 
-                    for (RenderType rt : bakedmodel.getRenderTypes(state, RandomSource.create(42L), modelData)) {
-                        renderModel(poseStack.last(), bufferSource.getBuffer(renderType != null ? renderType : RenderTypeHelper.getEntityRenderType(rt, false)), state, bakedmodel, r, g, b, alpha, packedLight, packedOverlay, modelData, rt);
-                    }
-
+                    VertexConsumer consumer = bufferSource.getBuffer(shipHologramRenderType);
+                    renderModel(poseStack.last(), consumer, state, bakedmodel, r, g, b, alpha, packedLight, packedOverlay, modelData, shipHologramRenderType);
                     return;
                 case ENTITYBLOCK_ANIMATED:
                     ItemStack stack = new ItemStack(state.getBlock());
                     IClientItemExtensions.of(stack).getCustomRenderer().renderByItem(stack, ItemDisplayContext.NONE, poseStack, bufferSource, packedLight, packedOverlay);
             }
         }
-
     }
 
     /**

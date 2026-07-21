@@ -1,7 +1,9 @@
 ## Added:
+* A bunch of new advancements.
 * Toggle Gummi Ship flight mode with pick block key (by default middle mouse click).
   * In that flight mode the ship follows the camera, similar to elytra.
-* Treasure chest block, this is a special type of chest that has no GUI and will give the player items when right clicked, these are intended for Castle Oblivion room generation and cannot be created.
+* Recipe to craft the dev heads.
+* Treasure chest block, this is a special type of chest that has no GUI and will give the player items when right-clicked, these are intended for Castle Oblivion room generation and cannot be created.
 * Calm Bounty, False Bounty, Guarded Trove map cards implemented.
 * Castle Oblivion Room Types have a treasure property to specify the loot and trapped chests.
 * Encounter rooms spawn a treasure chest on completion with the rewards.
@@ -9,8 +11,6 @@
 * Item Overflow, items given to the player such as the Keycards will go into your overflow inventory if you have no inventory space. Overflow inventory can be accessed in the Stock menu.
 * 2 Axel-themed limits: Ring of Flames and Flame Wall.
 * Dropped cards will now bounce similar to how they do in Chain of Memories.
-* A bunch of new advancements.
-* Recipe to craft the dev heads.
 
 ## Changed:
 * Entry to Castle Oblivion is denied if you're on peaceful difficulty.
@@ -28,3 +28,5 @@
 * Made some sound effects mono fixing the sound attenuation.
 * Button rendering method, improving performance while in the M menu.
 * Being able to use air dash while in a vehicle.
+* Removed ship fall damage for non player entities.
+* Fixed Gummi Hangar hologram not rendering.
