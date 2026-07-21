@@ -13,7 +13,6 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton.But
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.data.WorldData;
-import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.lib.Struggle;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
@@ -32,17 +31,17 @@ public class StruggleSettings extends MenuBackground {
 	byte pSize = Struggle.PARTICIPANTS_LIMIT;
 	int dmgMult = 100;
 	BlockPos pos1, pos2;
-	
+
 	BlockPos boardPos;
-	
+
 	Button togglePriv, accept, size;
 	MenuButton back;
-		
+
 	final PlayerData playerData = PlayerData.get(minecraft.player);
 	WorldData worldData;
-	
+
 	Struggle struggle;
-		
+
 	public StruggleSettings(BlockPos pos) {
 		super("Struggle Settings", new Color(252, 173, 3));
 		drawPlayerInfo = true;
@@ -52,51 +51,51 @@ public class StruggleSettings extends MenuBackground {
 
 	protected void action(String string) {
 		switch(string) {
-		case "back":
-			minecraft.level.playSound(minecraft.player, minecraft.player.blockPosition(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
-			minecraft.setScreen(new MenuStruggle(boardPos));
-			break;
-		case "togglePriv":
-			priv = !priv;
-			break;
-		case "dmg_mult":
-			dmgMult = 1;//TODO
-			break;
-		case "accept":
-			//struggle.setPriv(priv);
-			struggle.setSize(pSize);
-			struggle.setDamageMult(dmgMult);
-			struggle.setName(nameBox.getValue());
-			
-			pos1 = Utils.stringArrayToBlockPos(pos1Box.getValue().split(","));
-			pos2 = Utils.stringArrayToBlockPos(pos2Box.getValue().split(","));
-			
-			struggle.setC1(pos1);
-			struggle.setC2(pos2);
+			case "back":
+				minecraft.level.playSound(minecraft.player, minecraft.player.blockPosition(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
+				minecraft.setScreen(new MenuStruggle(boardPos));
+				break;
+			case "togglePriv":
+				priv = !priv;
+				break;
+			case "dmg_mult":
+				dmgMult = 1;//TODO
+				break;
+			case "accept":
+				//struggle.setPriv(priv);
+				struggle.setSize(pSize);
+				struggle.setDamageMult(dmgMult);
+				struggle.setName(nameBox.getValue());
 
-			PacketHandler.sendToServer(new CSStruggleSettings(struggle));
-			
-			minecraft.level.playSound(minecraft.player, minecraft.player.blockPosition(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
-			minecraft.setScreen(new MenuStruggle(boardPos));
-			
-			break;
-		case "size":
-			if(pSize == Struggle.PARTICIPANTS_LIMIT) {
-				pSize = 2;
-			} else {
-				pSize++;
-			}
-			size.setMessage(Component.translatable(pSize+""));
-			break;
+				pos1 = Utils.stringArrayToBlockPos(pos1Box.getValue().split(","));
+				pos2 = Utils.stringArrayToBlockPos(pos2Box.getValue().split(","));
+
+				struggle.setC1(pos1);
+				struggle.setC2(pos2);
+
+				PacketHandler.sendToServer(new CSStruggleSettings(struggle));
+
+				minecraft.level.playSound(minecraft.player, minecraft.player.blockPosition(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
+				minecraft.setScreen(new MenuStruggle(boardPos));
+
+				break;
+			case "size":
+				if(pSize == Struggle.PARTICIPANTS_LIMIT) {
+					pSize = 2;
+				} else {
+					pSize++;
+				}
+				size.setMessage(Component.translatable(pSize+""));
+				break;
 		}
-		
+
 		updateButtons();
 	}
 
 	private void updateButtons() {
 		if(struggle == null)
 			return;
-		
+
 		size.setMessage(Component.translatable(pSize+""));
 		nameBox.setValue(struggle.getName());
 		dmgMultBox.setValue(dmgMult+"");
@@ -115,19 +114,19 @@ public class StruggleSettings extends MenuBackground {
 		super.height = height;
 		super.init();
 		this.renderables.clear();
-		
+
 		//Get struggle from name stored in the block
 		struggle = worldData.getStruggleFromBlockPos(boardPos);
 		if(struggle != null) {
 			//priv = struggle.getPriv();
 			pSize = struggle.getSize();
 			dmgMult = struggle.getDamageMult();
-			
+
 			float topBarHeight = (float) height * 0.17F;
 			int button_statsY = (int) topBarHeight + 5;
 			float buttonPosX = (float) width * 0.03F;
 			float buttonWidth = ((float) width * 0.1744F) - 20;
-	
+
 			addRenderableWidget(nameBox = new EditBox(minecraft.font, (int)(width*0.25), button_statsY + (18), 100, 16, Component.literal("")) {
 				@Override
 				public boolean charTyped(char c, int i) {
@@ -135,16 +134,16 @@ public class StruggleSettings extends MenuBackground {
 					checkAvailable();
 					return true;
 				}
-				
+
 				@Override
 				public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
 					super.keyPressed(keyCode, scanCode, modifiers);
 					checkAvailable();
 					return true;
 				}
-				
+
 			});
-			
+
 			addRenderableWidget(size = Button.builder(Component.literal(""), (e) -> {
 				action("size");
 			}).bounds((int) (width * 0.25 - 2 + 100 + 4), button_statsY + (18)-2, 20, 20).build());
@@ -176,11 +175,11 @@ public class StruggleSettings extends MenuBackground {
 				@Override
 				public void renderWidget(@NotNull GuiGraphics gui, int pMouseX, int pMouseY, float pPartialTick) {
 					RenderSystem.setShaderColor(1, 1, 1, 1);
-					super.render(gui, pMouseX, pMouseY, pPartialTick);
+					super.renderWidget(gui, pMouseX, pMouseY, pPartialTick);
 				}
 
 			});
-			
+
 			addRenderableWidget(pos1Box = new EditBox(minecraft.font, (int) (width * 0.25), button_statsY + (5 * 18), 100, 15, Component.literal("")) {
 				@Override
 				public boolean charTyped(char c, int i) {
@@ -206,11 +205,11 @@ public class StruggleSettings extends MenuBackground {
 				@Override
 				public void renderWidget(@NotNull GuiGraphics gui, int pMouseX, int pMouseY, float pPartialTick) {
 					RenderSystem.setShaderColor(1, 1, 1, 1);
-					super.render(gui, pMouseX, pMouseY, pPartialTick);
+					super.renderWidget(gui, pMouseX, pMouseY, pPartialTick);
 				}
 
 			});
-			
+
 			addRenderableWidget(pos2Box = new EditBox(minecraft.font, (int) (width * 0.25) + 110, button_statsY + (5 * 18), 100, 15, Component.literal("")) {
 				@Override
 				public boolean charTyped(char c, int i) {
@@ -236,27 +235,28 @@ public class StruggleSettings extends MenuBackground {
 				@Override
 				public void renderWidget(@NotNull GuiGraphics gui, int pMouseX, int pMouseY, float pPartialTick) {
 					RenderSystem.setShaderColor(1, 1, 1, 1);
-					super.render(gui, pMouseX, pMouseY, pPartialTick);
+					super.renderWidget(gui, pMouseX, pMouseY, pPartialTick);
 				}
 
 			});
-			
-			
+
+
 			addRenderableWidget(accept = Button.builder(Component.literal(""), (e) -> {
 				action("accept");
 			}).bounds((int) (width*0.25)-2, button_statsY + (6 * 18), 130, 20).build());
-			
+
 			addRenderableWidget(back = new MenuButton((int) buttonPosX, button_statsY, (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), ButtonType.BUTTON, (e) -> { action("back"); }));
 		}
-		
+
 		updateButtons();
 	}
-	
+
 	private boolean checkAvailable() {
 		if(nameBox.getValue() != null && !nameBox.getValue().equals("")) {
-			Party p = worldData.getPartyFromName(nameBox.getValue());
-			accept.active = p == null;	
-			return p == null;
+			Struggle s = worldData.getStruggleFromName(nameBox.getValue());
+			boolean available = s == null || nameBox.getValue().equals(struggle.getName());
+			accept.active = available;
+			return available;
 		}
 		return false;
 	}
@@ -265,11 +265,17 @@ public class StruggleSettings extends MenuBackground {
 	public void render(@NotNull GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
 		super.render(gui, mouseX, mouseY, partialTicks);
 		worldData = WorldData.getClient();
-		struggle = worldData.getStruggleFromBlockPos(boardPos);
-		
+		Struggle latest = worldData.getStruggleFromBlockPos(boardPos);
+		if (latest != null && nameBox == null) {
+			// The struggle wasn't synced from the server yet when this screen first opened
+			// (e.g. right after creating it). Now that it is, build the widgets.
+			this.init();
+		}
+		struggle = latest;
+
 		int buttonX = (int)(width*0.25);
 		gui.drawString(minecraft.font, Utils.translateToLocal("Struggle name and size"), buttonX, (int)(height * 0.21), 0xFFFFFF);
 		gui.drawString(minecraft.font, Utils.translateToLocal("Damage multiplier"), buttonX, (int)(height * 0.202) + 38, 0xFFFFFF);
 	}
-	
+
 }

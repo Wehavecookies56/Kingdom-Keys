@@ -9,15 +9,13 @@ import net.minecraft.sounds.SoundSource;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton.ButtonType;
-import online.kingdomkeys.kingdomkeys.client.gui.menu.party.GuiMenu_Party_Leader;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
-import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.data.WorldData;
-import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
+import online.kingdomkeys.kingdomkeys.lib.Struggle;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.cts.CSPartyCreate;
+import online.kingdomkeys.kingdomkeys.network.cts.CSStruggleCreate;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import org.jetbrains.annotations.NotNull;
 
@@ -26,18 +24,15 @@ import java.awt.*;
 public class StruggleCreate extends MenuBackground {
 	BlockPos boardPos;
 
-	boolean priv = false;
-	int pSize = ModConfigs.SERVER.partyMembersLimit.get();
-	
+	int size = 2;
+
 	EditBox tfName;
-	Button togglePriv, accept, size;
+	Button accept, sizeButton;
 	MenuButton back;
-		
+
 	final PlayerData playerData = PlayerData.get(minecraft.player);
 	WorldData worldData;
-	
-	Party party;
-		
+
 	public StruggleCreate(BlockPos pos) {
 		super("Start Struggle", new Color(252, 173, 3));
 		drawPlayerInfo = true;
@@ -51,71 +46,55 @@ public class StruggleCreate extends MenuBackground {
 			minecraft.level.playSound(minecraft.player, minecraft.player.blockPosition(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
 			minecraft.setScreen(new MenuStruggle(boardPos));
 			break;
-		case "togglePriv":
-			priv = !priv;
-			break;
 		case "accept":
-			if(!tfName.getValue().equals("") && checkAvailable()) { //Accept Party creation
-				Party localParty = new Party(tfName.getValue(), minecraft.player.getUUID(), minecraft.player.getName().getString(), priv, Byte.parseByte(size.getMessage().getString()));
-				PacketHandler.sendToServer(new CSPartyCreate(localParty));
-				
+			if(!tfName.getValue().equals("") && checkAvailable()) {
+				Struggle struggle = new Struggle(boardPos, tfName.getValue(), minecraft.player.getUUID(), minecraft.player.getName().getString(), false, (byte) size);
+				PacketHandler.sendToServer(new CSStruggleCreate(struggle));
+
 				minecraft.level.playSound(minecraft.player, minecraft.player.blockPosition(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
-				minecraft.setScreen(new GuiMenu_Party_Leader());
+				// Straight to Settings so the owner can define the arena corners right away.
+				minecraft.setScreen(new StruggleSettings(boardPos));
 			}
 			break;
 		case "size":
-			if(pSize == ModConfigs.SERVER.partyMembersLimit.get()) {
-				pSize = 2;
+			if(size >= Struggle.PARTICIPANTS_LIMIT) {
+				size = 2;
 			} else {
-				pSize++;
+				size++;
 			}
-			size.setMessage(Component.translatable(pSize+""));
+			sizeButton.setMessage(Component.literal(size+""));
 			break;
 		}
-		
+
 		updateButtons();
 	}
 
 	private void updateButtons() {
-		//IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
-		togglePriv.setMessage(priv ? Component.translatable(Utils.translateToLocal(Strings.Gui_Menu_Party_Create_Accessibility_Private)) : Component.translatable(Utils.translateToLocal(Strings.Gui_Menu_Party_Create_Accessibility_Public)));
-
-		
-		//TBName
-		togglePriv.visible = true;
 		accept.visible = true;
 		tfName.visible = true;
-		size.visible = true;
+		sizeButton.visible = true;
 	}
 
 	@Override
 	public void init() {
-		//TODO request packet to sync other players data
 		super.init();
 		this.renderables.clear();
-		
-		party = worldData.getPartyFromMember(minecraft.player.getUUID());
-		
+
 		float topBarHeight = (float) height * 0.17F;
 		int button_statsY = (int) topBarHeight + 5;
 		float buttonPosX = (float) width * 0.03F;
 		float buttonWidth = ((float) width * 0.1744F) - 20;
 
-
-		addRenderableWidget(togglePriv = Button.builder(Component.literal(""), (e) -> {
-			action("togglePriv");
-		}).bounds((int) (width*0.25)-2, button_statsY + (3 * 18), 100, 20).build());
-		
 		addRenderableWidget(accept = Button.builder(Component.translatable(Utils.translateToLocal(Strings.Gui_Menu_Accept)), (e) -> {
 			action("accept");
 		}).bounds((int) (width*0.25)-2, button_statsY + (5 * 18), 100, 20).build());
-		
-		addRenderableWidget(size = Button.builder(Component.translatable(ModConfigs.SERVER.partyMembersLimit.get()+""), (e) -> {
+
+		addRenderableWidget(sizeButton = Button.builder(Component.literal(size+""), (e) -> {
 			action("size");
 		}).bounds((int) (width * 0.25 - 2 + 100 + 4), button_statsY + (3 * 18), 20, 20).build());
-		
+
 		addRenderableWidget(back = new MenuButton((int) buttonPosX, button_statsY, (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), ButtonType.BUTTON, (e) -> { action("back"); }));
-		
+
 		addRenderableWidget(tfName = new EditBox(minecraft.font, (int)(width*0.25), (int)(height*0.25), 100, 15, Component.literal("")) {
 			@Override
 			public boolean charTyped(char c, int i) {
@@ -123,40 +102,36 @@ public class StruggleCreate extends MenuBackground {
 				checkAvailable();
 				return true;
 			}
-			
+
 			@Override
 			public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
 				super.keyPressed(keyCode, scanCode, modifiers);
 				checkAvailable();
 				return true;
 			}
-			
+
 		});
-		
+
 		updateButtons();
 	}
-	
+
 	private boolean checkAvailable() {
 		if(tfName.getValue() != null && !tfName.getValue().equals("")) {
-			Party p = worldData.getPartyFromName(tfName.getValue());
-			accept.active = p == null;	
-			return p == null;
+			Struggle s = worldData.getStruggleFromName(tfName.getValue());
+			accept.active = s == null;
+			return s == null;
 		}
 		return false;
 	}
 
 	@Override
 	public void render(@NotNull GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
-		
-		//fill(125, ((-140 / 16) + 75) + 10, 200, ((-140 / 16) + 75) + 20, 0xFFFFFF);
 		super.render(gui, mouseX, mouseY, partialTicks);
 		worldData = WorldData.getClient();
-		party = worldData.getPartyFromMember(minecraft.player.getUUID());
-		
+
 		int buttonX = (int)(width*0.25);
-		
+
 		gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Party_Create_Name), buttonX, (int)(height * 0.2), 0xFFFFFF);
-		gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Party_Create_Accessibility), buttonX, (int)(height * 0.35), 0xFFFFFF);
 	}
-	
+
 }

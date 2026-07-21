@@ -331,6 +331,11 @@ public class WorldData extends SavedData {
         setDirty();
     }
 
+    public void removeStruggleParticipant(Struggle struggle, UUID entityId) {
+        struggle.removeParticipant(entityId);
+        setDirty();
+    }
+
     public void addStruggle(Struggle struggle) {
         String key = Utils.getResourceName(struggle.getName());
         boolean found = false;

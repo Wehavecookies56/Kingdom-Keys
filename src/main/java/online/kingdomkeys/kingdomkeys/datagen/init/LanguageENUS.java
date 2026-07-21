@@ -152,22 +152,22 @@ public class LanguageENUS extends KKLanguageProvider {
     	addAdvancement("obtain_org","Nobody wore this", "Obtain the organization robes");
     	addAdvancement("to_rod","Darkness within darkness awaits you", "Get sucked into the Realm of Darkness");
         addAdvancement("obtain_winner_stick","Looks like my summer vacation is...", "Get a winner stick");
-    	addAdvancement("munny_millionaire","Munnillionare!", "Accumulate 1,000,000 munny");
-    	addAdvancement("dual_wield_oblivion_oathkeeper","Bonds of Light and Darkness", "Wield Oblivion and Oathkeeper at the same time");
-    	addAdvancement("get_stick","That's a stick", "Craft a wooden stick");
+        addAdvancement("munny_millionaire","Munnillionare!", "Accumulate 1,000,000 munny");
+        addAdvancement("dual_wield_oblivion_oathkeeper","Bonds of Light and Darkness", "Wield Oblivion and Oathkeeper at the same time");
+        addAdvancement("get_stick","That's a stick", "Craft a wooden stick");
         addAdvancement("get_struggle_weapon","Beginning to struggle", "Craft a Struggle bat");
-    	addAdvancement("get_pauldron","Armor on demand", "Obtain a pauldron");
-    	addAdvancement("play_music_disc","Now Playing", "Obtain one of the mod's music discs");
-    	addAdvancement("open_menu","Exploring the menu", "Open the main menu");
-    	addAdvancement("obtain_all_drive_forms","Drive Master", "Obtain every Drive Form");
-    	addAdvancement("max_keyblade_level","Fully Forged", "Level a keyblade up to its maximum level");
-    	addAdvancement("reach_castle_oblivion","Naught but memories", "Set foot in Castle Oblivion");
-    	addAdvancement("craft_estelleste_skull","The mastermind", "Craft a tribute skull for Estelleste");
-    	addAdvancement("craft_abelatox_skull","The blamed", "Craft a tribute skull for Abelatox");
+        addAdvancement("get_pauldron","Armor on demand", "Obtain a pauldron");
+        addAdvancement("play_music_disc","Now Playing", "Obtain one of the mod's music discs");
+        addAdvancement("open_menu","Exploring the menu", "Open the main menu");
+        addAdvancement("obtain_all_drive_forms","Drive Master", "Obtain every Drive Form");
+        addAdvancement("max_keyblade_level","Fully Forged", "Level a keyblade up to its maximum level");
+        addAdvancement("reach_castle_oblivion","Naught but memories", "Set foot in Castle Oblivion");
+        addAdvancement("craft_estelleste_skull","The mastermind", "Craft a tribute skull for Estelleste");
+        addAdvancement("craft_abelatox_skull","The blamed", "Craft a tribute skull for Abelatox");
         addAdvancement("craft_wyndftw_skull","The forgotten", "Craft a tribute skull for wyndftw");
         addAdvancement("craft_stel1034_skull","The blender", "Craft a tribute skull for stel312");
         addAdvancement("craft_xephirovt_skull","The helping hand", "Craft a tribute skull for XephiroVT");
-    	addAdvancement("all_dev_skulls","Hall of Creators", "Craft all of the creators' tribute skulls");
+        addAdvancement("all_dev_skulls","Hall of Creators", "Craft all of the creators' tribute skulls");
 
         /**GUIS**/
         //Containers
@@ -574,6 +574,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addBlock(ModBlocks.mosaic_stained_glass, "Mosaic Stained Glass");
         addBlock(ModBlocks.orgPortal, "Organization Portal");
         addBlock(ModBlocks.moogleProjector, "Moogle Projector");
+        addBlock(ModBlocks.struggleBoard, "Struggle Board");
         addBlock(ModBlocks.station_of_awakening_core, "Station of Awakening Platform Core");
         addBlock(ModBlocks.magicalChest, "Magical Chest");
         addBlock(ModBlocks.pedestal, "Pedestal");

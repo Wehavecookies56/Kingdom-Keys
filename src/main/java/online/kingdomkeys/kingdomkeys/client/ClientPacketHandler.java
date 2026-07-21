@@ -28,6 +28,7 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.MenuScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.NoChoiceMenuPopup;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.check.CheckStatusScreen;
+import online.kingdomkeys.kingdomkeys.client.gui.menu.struggle.MenuStruggle;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.customize.MenuCustomizeShortcutsScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.items.MeldingScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment.MenuEquipmentScreen;
@@ -311,6 +312,10 @@ public class ClientPacketHandler {
 
     public static void openCODoorGui(SCOpenCODoorGui message) {
         Minecraft.getInstance().setScreen(new RoomSynthesisScreen((CardDoorTileEntity)Minecraft.getInstance().level.getBlockEntity(message.pos())));
+    }
+
+    public static void openStruggleMenu(SCOpenStruggleMenu message) {
+        Minecraft.getInstance().setScreen(new MenuStruggle(message.pos()));
     }
 
     public static void syncCastleOblivionInterior(SCSyncCastleOblivionInteriorData message) {

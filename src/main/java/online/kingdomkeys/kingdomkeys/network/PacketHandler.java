@@ -31,10 +31,11 @@ public class PacketHandler {
 		client(SCOpenAlignmentScreen.TYPE, SCOpenAlignmentScreen.STREAM_CODEC);
 		client(SCOpenChoiceScreen.TYPE, SCOpenChoiceScreen.STREAM_CODEC);
 		client(SCOpenCODoorGui.TYPE, SCOpenCODoorGui.STREAM_CODEC);
+		client(SCOpenStruggleMenu.TYPE, SCOpenStruggleMenu.STREAM_CODEC);
 		client(SCOpenEquipmentScreen.TYPE, SCOpenEquipmentScreen.STREAM_CODEC);
 		client(SCOpenMaterialsScreen.TYPE, SCOpenMaterialsScreen.STREAM_CODEC);
 		client(SCOpenCheckScreen.TYPE, SCOpenCheckScreen.STREAM_CODEC);
-		client(SCOpenSellScreen.TYPE, SCOpenSellScreen.STREAM_CODEC);
+        client(SCOpenSellScreen.TYPE, SCOpenSellScreen.STREAM_CODEC);
 		client(SCOpenSavePointScreen.TYPE, SCOpenSavePointScreen.STREAM_CODEC);
 		client(SCOpenSynthesisGui.TYPE, SCOpenSynthesisGui.STREAM_CODEC);
 		client(SCRecalculateEyeHeight.TYPE, SCRecalculateEyeHeight.STREAM_CODEC);
@@ -54,7 +55,7 @@ public class PacketHandler {
 		client(SCSyncOrgPortalPacket.TYPE, SCSyncOrgPortalPacket.STREAM_CODEC);
 		client(SCSyncPlayerData.TYPE, SCSyncPlayerData.STREAM_CODEC);
 		client(SCSyncShopData.TYPE, SCSyncShopData.STREAM_CODEC);
-		client(SCSyncSellData.TYPE, SCSyncSellData.STREAM_CODEC);
+        client(SCSyncSellData.TYPE, SCSyncSellData.STREAM_CODEC);
 		client(SCSyncSavePointData.TYPE, SCSyncSavePointData.STREAM_CODEC);
 		client(SCSyncMeldingData.TYPE, SCSyncMeldingData.STREAM_CODEC);
 		client(SCSyncSynthesisData.TYPE, SCSyncSynthesisData.STREAM_CODEC);
@@ -89,6 +90,9 @@ public class PacketHandler {
 		server(CSOrgPortalTPPacket.TYPE, CSOrgPortalTPPacket.STREAM_CODEC);
 		server(CSPartyAddMember.TYPE, CSPartyAddMember.STREAM_CODEC);
 		server(CSPartyCreate.TYPE, CSPartyCreate.STREAM_CODEC);
+		server(CSStruggleCreate.TYPE, CSStruggleCreate.STREAM_CODEC);
+		server(CSStruggleJoin.TYPE, CSStruggleJoin.STREAM_CODEC);
+		server(CSStruggleLeave.TYPE, CSStruggleLeave.STREAM_CODEC);
 		server(CSPartyDisband.TYPE, CSPartyDisband.STREAM_CODEC);
 		server(CSPartyInvite.TYPE, CSPartyInvite.STREAM_CODEC);
 		server(CSPartyLeave.TYPE, CSPartyLeave.STREAM_CODEC);
@@ -109,7 +113,7 @@ public class PacketHandler {
 		server(CSSetOrgPortalName.TYPE, CSSetOrgPortalName.STREAM_CODEC);
 		server(CSSetShortcutPacket.TYPE, CSSetShortcutPacket.STREAM_CODEC);
 		server(CSShopBuy.TYPE, CSShopBuy.STREAM_CODEC);
-		server(CSShopSell.TYPE, CSShopSell.STREAM_CODEC);
+        server(CSShopSell.TYPE, CSShopSell.STREAM_CODEC);
 		server(CSShotlockShot.TYPE, CSShotlockShot.STREAM_CODEC);
 		server(CSSpawnOrgPortalPacket.TYPE, CSSpawnOrgPortalPacket.STREAM_CODEC);
 		server(CSStruggleSettings.TYPE, CSStruggleSettings.STREAM_CODEC);
@@ -138,9 +142,9 @@ public class PacketHandler {
 		server(CSUpgradeGummiHangarPacket.TYPE, CSUpgradeGummiHangarPacket.STREAM_CODEC);
 		server(CSGummiFirePacket.TYPE, CSGummiFirePacket.STREAM_CODEC);
 		server(CSMoveGummiShipPacket.TYPE, CSMoveGummiShipPacket.STREAM_CODEC);
-		server(CSShowHangarLinesPacket.TYPE, CSShowHangarLinesPacket.STREAM_CODEC);
-		server(CSGummiBoostPacket.TYPE, CSGummiBoostPacket.STREAM_CODEC);
-		server(CSSetShotlockEnemyListPacket.TYPE, CSSetShotlockEnemyListPacket.STREAM_CODEC);
+        server(CSShowHangarLinesPacket.TYPE, CSShowHangarLinesPacket.STREAM_CODEC);
+        server(CSGummiBoostPacket.TYPE, CSGummiBoostPacket.STREAM_CODEC);
+        server(CSSetShotlockEnemyListPacket.TYPE, CSSetShotlockEnemyListPacket.STREAM_CODEC);
 		server(CSSetHangingWallTicksPacket.TYPE, CSSetHangingWallTicksPacket.STREAM_CODEC);
 		server(CSPlaySoundPacket.TYPE, CSPlaySoundPacket.STREAM_CODEC);
 		server(CSSetFlowmotionPacket.TYPE, CSSetFlowmotionPacket.STREAM_CODEC);

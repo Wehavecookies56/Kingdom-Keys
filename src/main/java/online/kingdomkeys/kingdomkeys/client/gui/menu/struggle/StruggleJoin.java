@@ -8,13 +8,12 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton.ButtonType;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
-import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.data.WorldData;
-import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
+import online.kingdomkeys.kingdomkeys.lib.Struggle;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.cts.CSPartyAddMember;
+import online.kingdomkeys.kingdomkeys.network.cts.CSStruggleJoin;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import org.jetbrains.annotations.NotNull;
 
@@ -24,16 +23,13 @@ import java.util.List;
 public class StruggleJoin extends MenuBackground {
 	BlockPos boardPos;
 
-	boolean priv = false;
-	int pSize = ModConfigs.SERVER.partyMembersLimit.get();
-	
 	MenuButton back;
-		
+
 	PlayerData playerData = PlayerData.get(minecraft.player);
 	WorldData worldData;
-	
-	MenuButton[] parties = new MenuButton[100];
-	
+
+	MenuButton[] matches = new MenuButton[100];
+
 	public StruggleJoin(BlockPos pos) {
 		super("Join Struggle", new Color(252, 173, 3));
 		drawPlayerInfo = true;
@@ -42,47 +38,39 @@ public class StruggleJoin extends MenuBackground {
 	}
 
 	protected void action(String string) {
-		//Clear list as it should never be seen unless in phase 2
-		for(int i=0;i<parties.length;i++) {
-			if(parties[i] != null) {
-				parties[i].visible = false;
+		//Clear list, it gets rebuilt every call
+		for(int i=0;i<matches.length;i++) {
+			if(matches[i] != null) {
+				matches[i].visible = false;
 			}
 		}
-		
+
 		switch(string) {
 		case "back":
 			minecraft.level.playSound(minecraft.player, minecraft.player.blockPosition(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
-			minecraft.setScreen(new MenuStruggle(boardPos));			
+			minecraft.setScreen(new MenuStruggle(boardPos));
 			break;
 		}
-		
-		if(string.startsWith("party:")) {
+
+		if(string.startsWith("struggle:")) {
 			String[] data = string.split(":");
-			String partyName = data[1].substring(data[1].indexOf("]")+2);
-			Party p = worldData.getPartyFromName(partyName);
-			if(p != null) {
-				if(p.getMembers().size() < p.getSize()) {
-					PacketHandler.sendToServer(new CSPartyAddMember(p, minecraft.player));
-					p.addMember(minecraft.player.getUUID(), minecraft.player.getDisplayName().getString());
-	
-					minecraft.level.playSound(minecraft.player, minecraft.player.blockPosition(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
-					minecraft.setScreen(null);
-				} else {
-					
-				}
+			String struggleName = data[1].substring(data[1].indexOf("]")+2);
+			Struggle s = worldData.getStruggleFromName(struggleName);
+			if(s != null && s.getParticipants().size() < s.getSize() && !s.hasParticipant(minecraft.player.getUUID())) {
+				PacketHandler.sendToServer(new CSStruggleJoin(s.getName()));
+
+				minecraft.level.playSound(minecraft.player, minecraft.player.blockPosition(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
+				minecraft.setScreen(null);
 			}
 		}
 		updateButtons();
 	}
 
 	private void updateButtons() {
-		refreshParties();
+		refreshMatches();
 	}
 
-	private void refreshParties() {
-		playerData = PlayerData.get(minecraft.player);
-		List<String> privateParties = playerData.getPartiesInvited();
-		
+	private void refreshMatches() {
 		worldData = WorldData.getClient();
 
 		float topBarHeight = (float) height * 0.17F;
@@ -90,31 +78,21 @@ public class StruggleJoin extends MenuBackground {
 		float buttonWidth = ((float) width * 0.1744F) - 20;
 
 		for(int i = 0;i<renderables.size();i++) {
-			if(((AbstractWidget)renderables.get(i)).getMessage().getString().startsWith("[") || ((AbstractWidget)renderables.get(i)).getMessage().getString().startsWith("(P) [")) {
+			if(((AbstractWidget)renderables.get(i)).getMessage().getString().startsWith("[")) {
 				renderables.remove(i);
 			}
 		}
-		
-		//Show private parties
+
+		List<Struggle> matchList = worldData.getStruggles();
 		int c = 0;
-		int j = 0;
-		for(j = 0;j<privateParties.size();j++) {
-			Party p = worldData.getPartyFromName(privateParties.get(j));
-			if(p != null) {
-				addRenderableWidget(parties[c++] = new MenuButton((int)(width * 0.3F), button_statsY + (j * 18), (int)(buttonWidth * 2), "(P) ["+p.getMembers().size()+"/"+p.getSize()+"] "+p.getName(), ButtonType.BUTTON, (e) -> { action("party:"+e.getMessage().getString()); }));
+		for(int i=0;i<matchList.size();i++) {
+			Struggle s = matchList.get(i);
+			if(s != null) {
+				addRenderableWidget(matches[c] = new MenuButton((int)(width * 0.3F), button_statsY + (c * 18), (int)(buttonWidth * 2), "["+s.getParticipants().size()+"/"+s.getSize()+"] "+s.getName(), ButtonType.BUTTON, (e) -> { action("struggle:"+e.getMessage().getString()); }));
+				c++;
 			}
 		}
-		//Show the buttons to join public parties
-		List<Party> partiesList = worldData.getParties();
-		for(int i=0;i<partiesList.size();i++) {
-			if(partiesList.get(i) != null && !partiesList.get(i).getPriv()) {
-				Party p = partiesList.get(i);
-				if(!privateParties.contains(p.getName())){//TODO test this xD
-					addRenderableWidget(parties[c++] = new MenuButton((int)(width * 0.3F), button_statsY + ((i+j) * 18), (int)(buttonWidth * 2), "["+p.getMembers().size()+"/"+p.getSize()+"] "+p.getName(), ButtonType.BUTTON, (e) -> { action("party:"+e.getMessage().getString()); }));
-				}
-			}
-		}
-	}	
+	}
 
 	@Override
 	public void init() {
@@ -122,14 +100,14 @@ public class StruggleJoin extends MenuBackground {
 		super.height = height;
 		super.init();
 		this.renderables.clear();
-				
+
 		float topBarHeight = (float) height * 0.17F;
 		int button_statsY = (int) topBarHeight + 5;
 		float buttonPosX = (float) width * 0.03F;
 		float buttonWidth = ((float) width * 0.1744F) - 20;
 
 		addRenderableWidget(back = new MenuButton((int) buttonPosX, button_statsY, (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), ButtonType.BUTTON, (e) -> { action("back"); }));
-		
+
 		updateButtons();
 	}
 
@@ -137,8 +115,8 @@ public class StruggleJoin extends MenuBackground {
 	public void render(@NotNull GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
 		super.render(gui, mouseX, mouseY, partialTicks);
 		worldData = WorldData.getClient();
-		refreshParties();
+		refreshMatches();
 	}
-	
-	
+
+
 }

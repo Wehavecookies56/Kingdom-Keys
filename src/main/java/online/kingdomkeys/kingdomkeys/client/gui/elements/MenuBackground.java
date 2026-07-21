@@ -463,7 +463,7 @@ public class MenuBackground extends Screen {
 			Party.Member m = new Party.Member(this.player.getUUID(), this.player.getDisplayName().getString());
 			drawPlayer(gui, null,0, m);
 		} else {
-			Party party =  worldData.getPartyFromMember(this.player.getUUID());
+			Party party = worldData.getPartyFromMember(this.player.getUUID());
 			for(int i=0;i<party.getMembers().size();i++) {
 				Party.Member member = party.getMembers().get(i);
 				drawPlayer(gui, party, i, member);

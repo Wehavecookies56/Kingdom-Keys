@@ -811,6 +811,7 @@ public class LanguageESES extends KKLanguageProvider {
         addBlock(ModBlocks.mosaic_stained_glass, "Mosaico de Cristal Tintado");
         addBlock(ModBlocks.orgPortal, "Portal de la Organizaci\u00f3n");
         addBlock(ModBlocks.moogleProjector, "Proyector de Moguri");
+        addBlock(ModBlocks.struggleBoard, "Tablón de Combate");
         addBlock(ModBlocks.station_of_awakening_core, "N\u00facleo de Estaci\u00f3n del Despertar");
         addBlock(ModBlocks.magicalChest, "Cofre M\u00e1gico");
         addBlock(ModBlocks.pedestal, "Pedestal");
