@@ -329,11 +329,15 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 	private final float deceleration = 0.02F;
 	private final float brake = 0.5F;
 
+	public boolean flightType3D = true;
+
 	public float currentRotationSpeed = 0F;
-	private final float rotationAcceleration = 0.08F;
-	private final float rotationDeceleration = 0.08F;
+	private final float legacyRotationAcceleration = 0.08F;
+	private final float legacyRotationDeceleration = 0.08F;
+	private final float baseYawTurnRate = 3F;
 
 	public float currentVerticalSpeed = 0F;
+	public float currentStrafeSpeed = 0F;
 	private final float ascendAcceleration = 0.04F;
 	private final float descendAcceleration = 0.04F;
 
@@ -385,41 +389,53 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 				}
 			}
 
-			// Left / Right
-			float targetRotation = 0F;
+			if (this.flightType3D) {
+				float previousYRot = this.getYRot();
+				float yawTurnRate = baseYawTurnRate * (getShipStats().mobility() * 0.05F);
+				float yawDelta = Mth.wrapDegrees(this.cameraY - this.getYRot());
+				float yawStep = Mth.clamp(yawDelta, -yawTurnRate, yawTurnRate);
+				this.setYRot(this.getYRot() + yawStep);
+				this.currentRotationSpeed = yawStep;
+				this.deltaRotation = this.getYRot() - previousYRot;
 
-			if (this.inputLeft)
-				targetRotation = -getEffectiveSpeed() * 3 * (getShipStats().mobility()*0.05F); //TODO change blocks for wings maybe?
-			else if (this.inputRight)
-				targetRotation = getEffectiveSpeed() * 3 * (getShipStats().mobility()*0.05F);
-
-			float rotationDelta = targetRotation - currentRotationSpeed;
-			if(targetRotation == 0){
-				currentRotationSpeed += rotationDelta * brake;
-				if (Math.abs(currentRotationSpeed) < targetRotation)
-					currentRotationSpeed = targetRotation;
-
+				float targetPitch = Mth.clamp(this.cameraX, -maxShipPitch, maxShipPitch);
+				float pitchDelta = Mth.wrapDegrees(targetPitch - this.getXRot());
+				float pitchStep = Mth.clamp(pitchDelta, -pitchTurnRate, pitchTurnRate);
+				this.setXRot(this.getXRot() + pitchStep);
 			} else {
-				if (rotationDelta > 0) {
-					currentRotationSpeed += rotationDelta * rotationAcceleration;
-					if (currentRotationSpeed > targetRotation)
+				// ============ Original 2D key-steered flight ============
+				// Left / Right
+				float targetRotation = 0F;
+
+				if (this.inputLeft)
+					targetRotation = -getEffectiveSpeed() * 3 * (getShipStats().mobility()*0.05F);
+				else if (this.inputRight)
+					targetRotation = getEffectiveSpeed() * 3 * (getShipStats().mobility()*0.05F);
+
+				float rotationDelta = targetRotation - currentRotationSpeed;
+				if(targetRotation == 0){
+					currentRotationSpeed += rotationDelta * brake;
+					if (Math.abs(currentRotationSpeed) < targetRotation)
 						currentRotationSpeed = targetRotation;
 				} else {
-					currentRotationSpeed += rotationDelta * rotationDeceleration;
-					if (currentRotationSpeed < targetRotation)
-						currentRotationSpeed = targetRotation;
+					if (rotationDelta > 0) {
+						currentRotationSpeed += rotationDelta * legacyRotationAcceleration;
+						if (currentRotationSpeed > targetRotation)
+							currentRotationSpeed = targetRotation;
+					} else {
+						currentRotationSpeed += rotationDelta * legacyRotationDeceleration;
+						if (currentRotationSpeed < targetRotation)
+							currentRotationSpeed = targetRotation;
+					}
 				}
-			}
-			this.deltaRotation = currentRotationSpeed;
-			this.setYRot(this.getYRot() + this.deltaRotation);
+				this.deltaRotation = currentRotationSpeed;
+				this.setYRot(this.getYRot() + this.deltaRotation);
 
-			// Pitch - the ship smoothly tilts to match where the pilot is looking (cameraX is the
-			// controlling player's xRot/pitch, sent every tick from setInput). This is what lets the
-			// ship point up/down instead of only ever flying level.
-			float targetPitch = Mth.clamp(this.cameraX, -maxShipPitch, maxShipPitch);
-			float pitchDelta = Mth.wrapDegrees(targetPitch - this.getXRot());
-			float pitchStep = Mth.clamp(pitchDelta, -pitchTurnRate, pitchTurnRate);
-			this.setXRot(this.getXRot() + pitchStep);
+				// Re-level the pitch back to 0 ("parking") instead of following the camera.
+				float pitchDelta = Mth.wrapDegrees(0F - this.getXRot());
+				float pitchStep = Mth.clamp(pitchDelta, -pitchTurnRate, pitchTurnRate);
+				this.setXRot(this.getXRot() + pitchStep);
+			}
 
 			// UP / Down
 			float targetVertical = 0;
@@ -449,12 +465,39 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 				}
 			}
 
-			// Forward/backward movement now follows the ship's full look direction (yaw AND pitch),
-			// same idea as swimming: pressing forward moves you where you're pointed, not just flat.
-			// The dedicated up/down keys (currentVerticalSpeed) still add extra vertical thrust on top
-			// of that, for fine hovering/climbing control regardless of where you're looking.
-			Vec3 lookDirection = this.calculateViewVector(this.getXRot(), this.getYRot());
-			this.setDeltaMovement(this.getDeltaMovement().add(lookDirection.scale(currentSpeed)).add(0, currentVerticalSpeed, 0));
+			if (this.flightType3D) {
+				float targetStrafe = 0;
+				if (this.inputLeft)
+					targetStrafe = -getEffectiveSpeed();
+				else if (this.inputRight)
+					targetStrafe = getEffectiveSpeed();
+
+				float strafeDelta = targetStrafe - currentStrafeSpeed;
+				if (targetStrafe == 0) {
+					currentStrafeSpeed += strafeDelta * brake;
+					if (Math.abs(currentStrafeSpeed) < 0.001F) currentStrafeSpeed = 0;
+				} else {
+					if (strafeDelta > 0) {
+						currentStrafeSpeed += strafeDelta * ascendAcceleration;
+						if (currentStrafeSpeed > targetStrafe) currentStrafeSpeed = targetStrafe;
+					} else {
+						currentStrafeSpeed += strafeDelta * descendAcceleration;
+						if (currentStrafeSpeed < targetStrafe) currentStrafeSpeed = targetStrafe;
+					}
+				}
+
+				// Forward/backward follows the ship's look direction (yaw + pitch).
+				// A/D strafe laterally with their own independent speed, not tied to currentSpeed.
+				Vec3 lookDirection = this.calculateViewVector(this.getXRot(), this.getYRot());
+				Vec3 strafeDirection = lookDirection.cross(new Vec3(0, 1, 0)).normalize();
+				this.setDeltaMovement(this.getDeltaMovement()
+						.add(lookDirection.scale(currentSpeed))
+						.add(strafeDirection.scale(currentStrafeSpeed))
+						.add(0, currentVerticalSpeed, 0));
+			} else {
+				currentStrafeSpeed = 0;
+				this.setDeltaMovement(this.getDeltaMovement().add((Mth.sin(-this.getYRot() * 0.017453292F) * currentSpeed), currentVerticalSpeed,(Math.cos(this.getYRot() * 0.017453292F) * currentSpeed)));
+			}
 		}
 	}
 
@@ -638,5 +681,24 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 			this.setData(nbt);
 		}
 		this.setFuel(buf.readInt());
+	}
+
+	@Override
+	protected void positionRider(Entity passenger, Entity.MoveFunction callback) {
+		if (this.flightType3D) {
+			if (!this.hasPassenger(passenger)) return;
+			Vec3 offset = this.getPassengerAttachmentPoint(passenger, passenger.getDimensions(Pose.SITTING), 1.0F);
+			Vec3 worldPos = new Vec3(this.getX() + offset.x, this.getY() + offset.y, this.getZ() + offset.z);
+			callback.accept(passenger, worldPos.x, worldPos.y, worldPos.z);
+		} else {
+			super.positionRider(passenger, callback);
+		}
+	}
+
+	@Override
+	public void onPassengerTurned(Entity entityToUpdate) {
+		if (!this.flightType3D) {
+			super.onPassengerTurned(entityToUpdate);
+		}
 	}
 }
