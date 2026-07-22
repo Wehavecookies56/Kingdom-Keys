@@ -2,7 +2,6 @@ package online.kingdomkeys.kingdomkeys.mixin.client;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.Holder;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.Music;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;

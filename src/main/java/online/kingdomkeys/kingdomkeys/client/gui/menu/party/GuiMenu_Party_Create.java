@@ -10,7 +10,6 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton.ButtonType;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
-import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Strings;

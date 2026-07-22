@@ -3,7 +3,6 @@ package online.kingdomkeys.kingdomkeys.magic;
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.effect.MobEffects;
 import net.neoforged.neoforge.registries.DeferredRegister;

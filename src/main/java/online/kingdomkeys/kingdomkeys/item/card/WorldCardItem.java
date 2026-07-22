@@ -1,21 +1,16 @@
 package online.kingdomkeys.kingdomkeys.item.card;
 
 import com.mojang.serialization.Codec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.ChatFormatting;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
-import net.minecraft.world.level.Level;
 import online.kingdomkeys.kingdomkeys.item.ICreativeTab;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.floor.FloorType;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModFloorTypes;

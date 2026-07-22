@@ -4,7 +4,6 @@ import dev.latvian.mods.kubejs.item.ItemBuilder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ShieldItem;
 import online.kingdomkeys.kingdomkeys.item.organization.*;
 import online.kingdomkeys.kingdomkeys.lib.ModTags;
 

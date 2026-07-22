@@ -13,7 +13,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.HitResult;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
-import online.kingdomkeys.kingdomkeys.lib.Strings;
 
 import java.util.Optional;
 import java.util.UUID;

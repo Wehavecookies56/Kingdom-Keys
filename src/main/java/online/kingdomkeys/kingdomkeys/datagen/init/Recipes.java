@@ -6,8 +6,6 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.recipes.*;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;

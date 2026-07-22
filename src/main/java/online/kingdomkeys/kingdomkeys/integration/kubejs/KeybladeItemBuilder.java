@@ -1,7 +1,6 @@
 package online.kingdomkeys.kingdomkeys.integration.kubejs;
 
 import dev.latvian.mods.kubejs.item.ItemBuilder;
-import dev.latvian.mods.kubejs.item.custom.HandheldItemBuilder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Item;

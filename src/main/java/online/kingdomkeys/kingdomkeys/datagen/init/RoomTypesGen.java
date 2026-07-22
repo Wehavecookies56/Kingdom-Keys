@@ -2,7 +2,6 @@ package online.kingdomkeys.kingdomkeys.datagen.init;
 
 import net.minecraft.data.DataGenerator;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.item.ItemStack;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;

@@ -14,7 +14,6 @@ import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.lib.Struggle;
 
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 /**

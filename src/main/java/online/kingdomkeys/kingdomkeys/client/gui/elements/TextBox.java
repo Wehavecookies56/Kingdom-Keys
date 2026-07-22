@@ -10,7 +10,6 @@ import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.util.GuiStringBuilder;
 
 import java.util.function.Consumer;
-import java.util.function.Function;
 
 public class TextBox extends AbstractWidget {
 

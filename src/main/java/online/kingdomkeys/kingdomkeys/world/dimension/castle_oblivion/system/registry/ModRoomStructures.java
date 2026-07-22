@@ -1,6 +1,5 @@
 package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry;
 
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.packs.resources.Resource;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;

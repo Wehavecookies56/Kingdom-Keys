@@ -4,7 +4,6 @@ import com.google.gson.JsonObject;
 import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataProvider;
 import net.minecraft.data.PackOutput;
-import net.minecraft.resources.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.datagen.builder.MagicBuilder;
 import online.kingdomkeys.kingdomkeys.lib.Strings;

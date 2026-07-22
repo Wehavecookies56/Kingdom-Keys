@@ -2,7 +2,6 @@ package online.kingdomkeys.kingdomkeys.synthesis.shop.sell;
 
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.util.Utils;

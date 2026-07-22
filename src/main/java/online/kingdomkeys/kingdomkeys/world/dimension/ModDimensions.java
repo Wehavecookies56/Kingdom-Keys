@@ -3,7 +3,6 @@ package online.kingdomkeys.kingdomkeys.world.dimension;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.neoforged.neoforge.registries.DeferredRegister;

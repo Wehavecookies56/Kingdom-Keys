@@ -7,7 +7,6 @@ import yesman.epicfight.api.ex_cap.data.Moveset;
 import yesman.epicfight.gameasset.Animations;
 import yesman.epicfight.registry.deferred.MovesetRegister;
 import yesman.epicfight.registry.deferred.holders.DeferredMoveset;
-import yesman.epicfight.registry.entries.EpicFightMovesets;
 
 public class KKMoveSets {
     public static final MovesetRegister MOVESETS = MovesetRegister.create(KingdomKeys.MODID);

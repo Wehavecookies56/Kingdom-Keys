@@ -1,7 +1,6 @@
 package online.kingdomkeys.kingdomkeys.lib;
 
 import net.minecraft.core.RegistryAccess;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.player.Player;

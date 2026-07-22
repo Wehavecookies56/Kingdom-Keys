@@ -11,7 +11,6 @@ import online.kingdomkeys.kingdomkeys.entity.magic.WaterEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.WateraEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.WatergaEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.WaterzaEntity;
-import online.kingdomkeys.kingdomkeys.lib.Strings;
 
 public class MagicWater extends Magic {
 

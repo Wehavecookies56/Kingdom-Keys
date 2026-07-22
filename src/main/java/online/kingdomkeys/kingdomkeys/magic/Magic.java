@@ -8,7 +8,6 @@ import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.lib.KKRegistryObject;
-import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
 import online.kingdomkeys.kingdomkeys.reactioncommands.ModReactionCommands;

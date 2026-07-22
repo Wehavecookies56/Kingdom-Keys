@@ -1,7 +1,6 @@
 package online.kingdomkeys.kingdomkeys.magic;
 
 import com.google.gson.*;
-import net.minecraft.resources.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
 import java.lang.reflect.Type;

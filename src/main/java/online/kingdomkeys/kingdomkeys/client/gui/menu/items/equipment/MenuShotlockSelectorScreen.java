@@ -18,7 +18,6 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
-import java.util.Optional;
 
 public class MenuShotlockSelectorScreen extends MenuBackground {
 

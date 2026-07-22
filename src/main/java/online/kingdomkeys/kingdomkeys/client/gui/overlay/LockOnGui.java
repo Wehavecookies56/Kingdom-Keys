@@ -26,7 +26,6 @@ import online.kingdomkeys.kingdomkeys.data.GlobalData;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import online.kingdomkeys.kingdomkeys.handler.InputHandler;
-import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 @EventBusSubscriber(value = Dist.CLIENT)

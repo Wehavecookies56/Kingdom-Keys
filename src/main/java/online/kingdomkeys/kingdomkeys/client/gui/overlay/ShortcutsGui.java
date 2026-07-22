@@ -13,7 +13,6 @@ import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.handler.InputHandler;
 import online.kingdomkeys.kingdomkeys.handler.KeyboardHelper;
 import online.kingdomkeys.kingdomkeys.item.MagicSpellItem;
-import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.magic.Magic;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.util.Utils;

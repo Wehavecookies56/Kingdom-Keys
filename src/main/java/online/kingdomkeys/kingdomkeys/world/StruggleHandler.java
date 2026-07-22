@@ -24,14 +24,7 @@ import online.kingdomkeys.kingdomkeys.network.stc.SCShowMessagesPacket;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncWorldData;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class StruggleHandler {

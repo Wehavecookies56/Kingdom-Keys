@@ -11,7 +11,6 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.item.ItemStack;
 import online.kingdomkeys.kingdomkeys.util.Codecs;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.encounter.RoomEncounter;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.floor.FloorType;

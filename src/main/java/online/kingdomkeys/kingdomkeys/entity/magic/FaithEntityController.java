@@ -10,7 +10,6 @@ import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.damagesource.KKDamageTypes;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
-import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 

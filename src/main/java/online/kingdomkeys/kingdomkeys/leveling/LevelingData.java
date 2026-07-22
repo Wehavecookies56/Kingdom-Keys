@@ -2,7 +2,6 @@ package online.kingdomkeys.kingdomkeys.leveling;
 
 import net.minecraft.resources.ResourceLocation;
 
-import java.util.Arrays;
 import java.util.List;
 
 /**

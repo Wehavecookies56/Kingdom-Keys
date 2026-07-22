@@ -6,7 +6,6 @@ import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.entity.magic.FaithEntityController;
-import online.kingdomkeys.kingdomkeys.lib.Strings;
 
 public class MagicFaith extends Magic {
 

@@ -1,6 +1,5 @@
 package online.kingdomkeys.kingdomkeys.client.gui.menu.struggle;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.core.BlockPos;
@@ -11,7 +10,6 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton.ButtonType;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
-import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.lib.Struggle;

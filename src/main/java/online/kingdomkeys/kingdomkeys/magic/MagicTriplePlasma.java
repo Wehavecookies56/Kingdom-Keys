@@ -7,7 +7,6 @@ import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.entity.magic.TriplePlasmaControllerEntity;
-import online.kingdomkeys.kingdomkeys.lib.Strings;
 
 public class MagicTriplePlasma extends Magic {
 

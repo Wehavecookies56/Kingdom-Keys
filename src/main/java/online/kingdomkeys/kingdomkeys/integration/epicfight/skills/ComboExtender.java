@@ -1,7 +1,6 @@
 package online.kingdomkeys.kingdomkeys.integration.epicfight.skills;
 
 import net.minecraft.network.codec.ByteBufCodecs;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.registries.DeferredHolder;
@@ -9,7 +8,6 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
-import online.kingdomkeys.kingdomkeys.lib.Strings;
 import yesman.epicfight.EpicFight;
 import yesman.epicfight.api.animation.AnimationManager;
 import yesman.epicfight.api.animation.types.AttackAnimation;

@@ -13,8 +13,6 @@ import yesman.epicfight.api.ex_cap.provider.ProviderConditional;
 import yesman.epicfight.registry.deferred.ProviderConditionalRegister;
 import yesman.epicfight.registry.deferred.holders.DeferredConditional;
 
-import java.util.Objects;
-
 public class KKProviderConditionals  {
     public static final ProviderConditionalRegister CONDITIONALS = ProviderConditionalRegister.create(KingdomKeys.MODID);
 

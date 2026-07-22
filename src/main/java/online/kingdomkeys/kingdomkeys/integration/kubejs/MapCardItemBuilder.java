@@ -5,7 +5,6 @@ import dev.latvian.mods.kubejs.item.ItemBuilder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import online.kingdomkeys.kingdomkeys.item.card.CardCategory;
-import online.kingdomkeys.kingdomkeys.item.card.KeycardType;
 import online.kingdomkeys.kingdomkeys.item.card.MapCardItem;
 import online.kingdomkeys.kingdomkeys.lib.ModTags;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModRoomTypes;

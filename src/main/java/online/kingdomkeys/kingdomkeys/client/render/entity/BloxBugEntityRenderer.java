@@ -1,7 +1,6 @@
 package online.kingdomkeys.kingdomkeys.client.render.entity;
 
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.resources.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.entity.mob.BloxBugEntity;
 import software.bernie.geckolib.model.DefaultedEntityGeoModel;

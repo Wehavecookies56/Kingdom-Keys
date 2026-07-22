@@ -1,6 +1,5 @@
 package online.kingdomkeys.kingdomkeys.integration.epicfight.init;
 
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;

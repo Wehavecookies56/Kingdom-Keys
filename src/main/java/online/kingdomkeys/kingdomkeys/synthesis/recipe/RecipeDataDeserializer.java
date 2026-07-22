@@ -2,7 +2,6 @@ package online.kingdomkeys.kingdomkeys.synthesis.recipe;
 
 import com.google.gson.*;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import org.jetbrains.annotations.NotNull;

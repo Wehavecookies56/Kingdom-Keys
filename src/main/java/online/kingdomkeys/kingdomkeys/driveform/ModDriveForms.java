@@ -1,7 +1,6 @@
 package online.kingdomkeys.kingdomkeys.driveform;
 
 import net.minecraft.core.Registry;
-import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.lib.KKSupplier;

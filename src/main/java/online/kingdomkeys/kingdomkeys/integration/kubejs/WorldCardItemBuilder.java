@@ -3,7 +3,6 @@ package online.kingdomkeys.kingdomkeys.integration.kubejs;
 import dev.latvian.mods.kubejs.error.KubeRuntimeException;
 import dev.latvian.mods.kubejs.item.ItemBuilder;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Item;
 import online.kingdomkeys.kingdomkeys.item.card.WorldCardItem;
 import online.kingdomkeys.kingdomkeys.lib.ModTags;

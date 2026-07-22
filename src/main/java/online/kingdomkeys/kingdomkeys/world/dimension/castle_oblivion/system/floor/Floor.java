@@ -3,7 +3,6 @@ package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.fl
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.state.BlockState;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;

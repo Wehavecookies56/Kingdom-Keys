@@ -10,7 +10,6 @@ import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.entity.magic.BlizzardEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.BlizzazaEntity;
-import online.kingdomkeys.kingdomkeys.lib.Strings;
 
 public class MagicBlizzard extends Magic {
 

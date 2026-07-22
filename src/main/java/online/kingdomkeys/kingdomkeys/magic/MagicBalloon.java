@@ -11,7 +11,6 @@ import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.entity.magic.BalloonEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.BalloongaEntity;
-import online.kingdomkeys.kingdomkeys.lib.Strings;
 
 public class MagicBalloon extends Magic {
 

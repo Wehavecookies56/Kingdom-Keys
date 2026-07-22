@@ -6,7 +6,6 @@ import net.minecraft.client.CameraType;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;

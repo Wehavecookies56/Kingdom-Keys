@@ -2,7 +2,6 @@ package online.kingdomkeys.kingdomkeys.client.gui.menu.customize;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;

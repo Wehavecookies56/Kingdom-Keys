@@ -1,13 +1,11 @@
 package online.kingdomkeys.kingdomkeys.datagen.init;
 
 import net.minecraft.data.DataGenerator;
-import net.minecraft.resources.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.datagen.builder.RoomStructureBuilder;
 import online.kingdomkeys.kingdomkeys.datagen.provider.BaseProvider;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.RoomCategory;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.RoomSize;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.RoomStructure;
 
 import java.util.List;
 

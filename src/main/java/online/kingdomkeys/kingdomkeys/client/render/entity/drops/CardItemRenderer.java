@@ -5,11 +5,9 @@ import com.mojang.math.Axis;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.ItemEntityRenderer;
-import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.item.ItemEntity;
-import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 
 public class CardItemRenderer extends ItemEntityRenderer {

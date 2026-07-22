@@ -75,7 +75,6 @@ import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.item.WayfinderItem;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
 import online.kingdomkeys.kingdomkeys.lib.Party;
-import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.*;
 import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;

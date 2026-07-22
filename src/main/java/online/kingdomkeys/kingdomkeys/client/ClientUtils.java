@@ -51,7 +51,6 @@ import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.client.ClientHooks;
-import net.neoforged.neoforge.client.RenderTypeHelper;
 import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 import net.neoforged.neoforge.client.model.data.ModelData;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;

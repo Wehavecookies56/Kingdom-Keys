@@ -1,11 +1,9 @@
 package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.encounter;
 
 import net.minecraft.Util;
-import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.RandomSource;
@@ -18,7 +16,6 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.block.TreasureChestBlock;
 import online.kingdomkeys.kingdomkeys.data.CastleOblivionData;
-import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.block.TreasureChestTileEntity;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCShowMessagesPacket;

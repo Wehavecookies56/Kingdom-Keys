@@ -9,7 +9,6 @@ import online.kingdomkeys.kingdomkeys.entity.magic.ThundagaEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.ThundaraEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.ThundazaEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.ThunderEntity;
-import online.kingdomkeys.kingdomkeys.lib.Strings;
 
 public class MagicThunder extends Magic {
 
