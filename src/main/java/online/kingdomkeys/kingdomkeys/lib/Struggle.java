@@ -8,6 +8,8 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.Item;
+import online.kingdomkeys.kingdomkeys.item.ModItems;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -23,6 +25,7 @@ public class Struggle {
 	//private boolean priv;
 	private byte size;
 	private int damageMult;
+	private boolean inProgress;
 	public BlockPos blockPos, c1,c2;
 
 	public Struggle() {
@@ -92,6 +95,26 @@ public class Struggle {
 		return this.damageMult;
 	}
 
+	public void setInProgress(boolean inProgress) {
+		this.inProgress = inProgress;
+	}
+
+	public boolean isInProgress() {
+		return this.inProgress;
+	}
+
+	/** True once the owner has set two different corners for the arena. */
+	public boolean isConfigured() {
+		return this.c1 != null && this.c2 != null && !this.c1.equals(this.c2);
+	}
+
+	/** The Struggle weapon matching a player's Station of Awakening choice (sword/wand/hammer). */
+	public static Item weaponFor(SoAState chosen) {
+		if (chosen == SoAState.MYSTIC) return ModItems.struggleWand.get();
+		if (chosen == SoAState.GUARDIAN) return ModItems.struggleHammer.get();
+		return ModItems.struggleSword.get(); // WARRIOR, and fallback for anyone without a choice yet
+	}
+
 	public Participant addParticipant(LivingEntity entity) {
 		return this.addParticipant(entity.getUUID(), entity.getDisplayName().getString());
 	}
@@ -143,6 +166,7 @@ public class Struggle {
 		//partyNBT.putBoolean("private", this.priv);
 		struggleNBT.putByte("size", this.size);
 		struggleNBT.putInt("dmg_mult", this.damageMult);
+		struggleNBT.putBoolean("in_progress", this.inProgress);
 		struggleNBT.putIntArray("posArray", new int[] {this.blockPos.getX(),this.blockPos.getY(),this.blockPos.getZ()});
 		struggleNBT.putIntArray("c1", new int[] {this.c1.getX(),this.c1.getY(),this.c1.getZ()});
 		struggleNBT.putIntArray("c2", new int[] {this.c2.getX(),this.c2.getY(),this.c2.getZ()});
@@ -153,6 +177,8 @@ public class Struggle {
 			participantNBT.putUUID("id", participant.getUUID());
 			participantNBT.putString("username", participant.getUsername());
 			participantNBT.putBoolean("isOwner", participant.isOwner());
+			participantNBT.putBoolean("ready", participant.isReady());
+			participantNBT.putInt("score", participant.getScore());
 			participants.add(participantNBT);
 		}
 		struggleNBT.put("participants", participants);
@@ -165,6 +191,7 @@ public class Struggle {
 		//this.setPriv(nbt.getBoolean("private"));
 		this.setSize(nbt.getByte("size"));
 		this.setDamageMult(nbt.getInt("dmg_mult"));
+		this.setInProgress(nbt.getBoolean("in_progress"));
 		int[] posArray = nbt.getIntArray("posArray");
 		this.setPos(new BlockPos(posArray[0],posArray[1],posArray[2]));
 		
@@ -180,6 +207,8 @@ public class Struggle {
 			Struggle.Participant participant = this.addParticipant(participantNBT.getUUID("id"), participantNBT.getString("username"));
 			if (participantNBT.getBoolean("isOwner"))
 				participant.setIsOwner();
+			participant.setReady(participantNBT.getBoolean("ready"));
+			participant.setScore(participantNBT.contains("score") ? participantNBT.getInt("score") : 100);
 		}
 
 	}
@@ -188,6 +217,8 @@ public class Struggle {
 		private final UUID uuid;
 		private final String username;
 		private boolean isOwner;
+		private boolean ready;
+		private int score = 100;
 
 		public Participant(LivingEntity entity) {
 			this(entity.getUUID(), entity.getDisplayName().getString());
@@ -213,6 +244,22 @@ public class Struggle {
 
 		public String getUsername() {
 			return this.username;
+		}
+
+		public void setReady(boolean ready) {
+			this.ready = ready;
+		}
+
+		public boolean isReady() {
+			return this.ready;
+		}
+
+		public void setScore(int score) {
+			this.score = Math.max(0, score);
+		}
+
+		public int getScore() {
+			return this.score;
 		}
 	}
 

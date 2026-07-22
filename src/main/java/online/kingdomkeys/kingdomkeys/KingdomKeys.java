@@ -76,6 +76,7 @@ import online.kingdomkeys.kingdomkeys.synthesis.shop.names.NamesListLoader;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.sell.SellListDataLoader;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.world.MiniCO;
+import online.kingdomkeys.kingdomkeys.world.StruggleHandler;
 import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.CastleOblivionHandler;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModEncounterTypes;
@@ -198,6 +199,7 @@ public class KingdomKeys {
 		// Server
 		NeoForge.EVENT_BUS.register(new EntityEvents());
 		NeoForge.EVENT_BUS.register(new MiniCO());
+		NeoForge.EVENT_BUS.register(new StruggleHandler());
 	}
 
 	private void modLoaded(final FMLLoadCompleteEvent event) {
@@ -263,6 +265,5 @@ public class KingdomKeys {
 		event.addPackFinders(KingdomKeys.rl("datapacks/disable_blox_gen_end"), PackType.SERVER_DATA, Component.literal("KK: Disable Blox Gen (End)"), PackSource.FEATURE, false, Pack.Position.TOP);
 		event.addPackFinders(KingdomKeys.rl("datapacks/recipe_example"), PackType.SERVER_DATA, Component.literal("KK: Custom Synthesis Recipe Example"), PackSource.FEATURE, false, Pack.Position.TOP);
 		event.addPackFinders(KingdomKeys.rl("datapacks/co_floor_example"), PackType.SERVER_DATA, Component.literal("KK: Custom CO Floor Example"), PackSource.FEATURE, false, Pack.Position.TOP);
-		event.addPackFinders(KingdomKeys.rl("datapacks/disable_spawns"), PackType.SERVER_DATA, Component.literal("KK: Disable all mob spawns"), PackSource.FEATURE, false, Pack.Position.TOP);
 	}
 }

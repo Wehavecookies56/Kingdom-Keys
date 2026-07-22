@@ -11,6 +11,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.player.RemotePlayer;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.locale.Language;
 import net.minecraft.network.chat.Component;
@@ -30,6 +31,7 @@ import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.handler.InputHandler;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
+import online.kingdomkeys.kingdomkeys.lib.Struggle;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.CastleOblivionHandler;
@@ -37,15 +39,16 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.awt.*;
+import java.util.List;
 import java.util.UUID;
 
 public class MenuBackground extends Screen {
 	public Player player;
 	public PlayerData playerData;
-	
+
 	public static final ResourceLocation PLAYER_BOX_TEXTURE = KingdomKeys.rl("textures/gui/menu/menu_button.png");
 	int selected;
-	
+
 	String tip = null;
 	protected Color color;
 	protected Component title;
@@ -54,7 +57,7 @@ public class MenuBackground extends Screen {
 	protected Component biome;
 
 	public boolean shouldCloseOnMenu;
-	
+
 	public MenuBackground(String name, Color rgb) {
 		super(Component.translatable(name));
 		minecraft = Minecraft.getInstance();
@@ -85,7 +88,7 @@ public class MenuBackground extends Screen {
 		}
 		return false;
 	}
-	
+
 	public boolean drawPlayerInfo;
 
 	public MenuBar bottomLeftBar, bottomRightBar, topLeftBar, topRightBar;
@@ -104,11 +107,11 @@ public class MenuBackground extends Screen {
 	protected float middleHeight;
 
 	public boolean drawSeparately = false;
-	
+
 	//GUIs variables
 	protected float buttonPosX;
-    protected int buttonPosY;
-    protected float buttonWidth;
+	protected int buttonPosY;
+	protected float buttonWidth;
 
 	public ItemStack reward = ItemStack.EMPTY;
 	public String rewardTitle = "";
@@ -213,9 +216,9 @@ public class MenuBackground extends Screen {
 		if (!drawSeparately)
 			drawMenuBackground(gui, mouseX, mouseY, partialTicks);
 
-        for (Renderable renderable : this.renderables) {
-            renderable.render(gui, mouseX, mouseY, partialTicks);
-        }
+		for (Renderable renderable : this.renderables) {
+			renderable.render(gui, mouseX, mouseY, partialTicks);
+		}
 
 		if (showRewardPopup) {
 			renderRewardPopup(gui, mouseX, mouseY);
@@ -392,7 +395,7 @@ public class MenuBackground extends Screen {
 		}
 		gui.pose().popPose();
 	}
-	
+
 	public void drawTip (GuiGraphics gui) {
 		tip = null;
 
@@ -408,7 +411,7 @@ public class MenuBackground extends Screen {
 				}
 			}
 		}
-		
+
 		if(tip != null) {
 			gui.pose().pushPose();
 			{
@@ -416,7 +419,7 @@ public class MenuBackground extends Screen {
 			}
 			gui.pose().popPose();
 		}
-		
+
 	}
 
 	public static final ResourceLocation menu = KingdomKeys.rl("textures/gui/menu/menu_button.png");
@@ -451,29 +454,43 @@ public class MenuBackground extends Screen {
 		bottomRightBar = new MenuBar((int) (bottomLeftBarWidth + bottomGap), (int) (topBarHeight + middleHeight), (int) bottomRightBarWidth + 10, (int) bottomBarHeight + 10, false);
 
 		buttonPosX = (float) width * 0.03F;
-	    buttonPosY = (int)topBarHeight+5;
-	    buttonWidth = ((float)width * 0.1744F)-22;
+		buttonPosY = (int)topBarHeight+5;
+		buttonWidth = ((float)width * 0.1744F)-22;
 
-	    tooltipPosX = bottomRightBar.getPosX() + 15;
+		tooltipPosX = bottomRightBar.getPosX() + 15;
 		tooltipPosY = bottomRightBar.getPosY() + 15;
 	}
 
 	public void drawParty(@Nullable WorldData worldData, GuiGraphics gui) {
 		if(worldData == null || worldData.getPartyFromMember(this.player.getUUID()) == null) {
-			Party.Member m = new Party.Member(this.player.getUUID(), this.player.getDisplayName().getString());
-			drawPlayer(gui, null,0, m);
+			int count = CastleOblivionHandler.inInterior(getMinecraft().player) ? 3 : 1;
+			drawPlayer(gui, count, 0, this.player.getUUID(), this.player.getDisplayName().getString());
 		} else {
-			Party party = worldData.getPartyFromMember(this.player.getUUID());
+			Party party =  worldData.getPartyFromMember(this.player.getUUID());
 			for(int i=0;i<party.getMembers().size();i++) {
 				Party.Member member = party.getMembers().get(i);
-				drawPlayer(gui, party, i, member);
+				drawPlayer(gui, party.getMembers().size(), i, member.getUUID(), member.getUsername());
 			}
 		}
 	}
 
-	public void drawPlayer(GuiGraphics gui,@Nullable Party party, int order, Party.Member member) {
+	/** Same idea as {@link #drawParty}, but for the active members of a Struggle match anchored at boardPos. */
+	public void drawStruggle(@Nullable WorldData worldData, GuiGraphics gui, BlockPos boardPos) {
+		Struggle struggle = worldData == null ? null : worldData.getStruggleFromBlockPos(boardPos);
+		if (struggle == null || struggle.getParticipants().isEmpty()) {
+			drawPlayer(gui, 1, 0, this.player.getUUID(), this.player.getDisplayName().getString());
+			return;
+		}
+
+		List<Struggle.Participant> participants = struggle.getParticipants();
+		for (int i = 0; i < participants.size(); i++) {
+			Struggle.Participant participant = participants.get(i);
+			drawPlayer(gui, participants.size(), i, participant.getUUID(), participant.getUsername());
+		}
+	}
+
+	public void drawPlayer(GuiGraphics gui, int count, int order, UUID memberUUID, String memberUsername) {
 		PoseStack matrixStack = gui.pose();
-		int count = party == null ? CastleOblivionHandler.inInterior(getMinecraft().player) ? 3 : 1 : party.getMembers().size(); //Map space
 
 		boolean multiRow = count > 5;
 
@@ -515,17 +532,14 @@ public class MenuBackground extends Screen {
 			playerPosX += spacingX * 0.5F;
 		float playerPosY = (height * 0.45F) + (row * spacingY);
 
-		Player player = Utils.getPlayerByName(minecraft.level, member.getUsername());
+		Player player = Utils.getPlayerByName(minecraft.level, memberUsername);
 
 		String level = "LV: N/A";
 		String hp = "HP: N/A";
 		String mp = "MP: N/A";
 
 		if(player == null) {
-			UUID uuid = member.getUUID();
-			String name = member.getUsername();
-
-			GameProfile profile = new GameProfile(uuid, name);
+			GameProfile profile = new GameProfile(memberUUID, memberUsername);
 			player = new RemotePlayer(Minecraft.getInstance().level, profile);
 		} else {
 			PlayerData playerData = PlayerData.get(player);
@@ -548,7 +562,7 @@ public class MenuBackground extends Screen {
 
 			RenderSystem.setShaderColor(1F,1F,1F,1F);
 
-			if(member != null && player != null) {
+			if(player != null) {
 				ClientUtils.renderEntity(gui.pose(), (int)playerPosX, (int)playerPosY, (int)playerHeight/2, 0,0, player);
 			}
 
@@ -581,7 +595,7 @@ public class MenuBackground extends Screen {
 				matrixStack.pushPose();
 				{
 					matrixStack.translate(infoBoxPosX + 10, infoBoxPosY + ((22 / 2) - minecraft.font.lineHeight / 2), 1);
-					gui.drawString(minecraft.font, member.getUsername(),0,0,0xFFFFFF);
+					gui.drawString(minecraft.font, memberUsername,0,0,0xFFFFFF);
 				}
 				matrixStack.popPose();
 
@@ -595,8 +609,8 @@ public class MenuBackground extends Screen {
 	}
 
 	private static String printBiome(Holder<Biome> p_205375_) {
-	      return p_205375_.unwrap().map((p_205377_) -> p_205377_.location().toString(), (p_205367_) -> "[unregistered " + p_205367_ + "]");
-	   }
+		return p_205375_.unwrap().map((p_205377_) -> p_205377_.location().toString(), (p_205367_) -> "[unregistered " + p_205367_ + "]");
+	}
 
 	public void setLocationNames(Component dimension, Component biome) {
 		if (dimension != null && biome != null) {

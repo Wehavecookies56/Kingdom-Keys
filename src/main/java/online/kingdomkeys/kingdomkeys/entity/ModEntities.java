@@ -66,6 +66,7 @@ public class ModEntities {
     public static final DeferredHolder<EntityType<?>, EntityType<HPOrbEntity>> TYPE_HPORB = createEntityType(HPOrbEntity::new, MobCategory.MISC,"entity_hp_orb", 0.25F, 0.25F);
     public static final DeferredHolder<EntityType<?>, EntityType<MPOrbEntity>> TYPE_MPORB = createEntityType(MPOrbEntity::new, MobCategory.MISC,"entity_mp_orb", 0.25F, 0.25F);
     public static final DeferredHolder<EntityType<?>, EntityType<DriveOrbEntity>> TYPE_DRIVEORB = createEntityType(DriveOrbEntity::new, MobCategory.MISC,"entity_drive_orb", 0.25F, 0.25F);
+    public static final DeferredHolder<EntityType<?>, EntityType<StruggleOrbEntity>> TYPE_STRUGGLE_ORB = createEntityType(StruggleOrbEntity::new, MobCategory.MISC,"entity_struggle_orb", 0.25F, 0.25F);
     public static final DeferredHolder<EntityType<?>, EntityType<FocusOrbEntity>> TYPE_FOCUSORB = createEntityType(FocusOrbEntity::new, MobCategory.MISC,"entity_focus_orb", 0.25F, 0.25F);
     public static final DeferredHolder<EntityType<?>, EntityType<CardItemEntity>> TYPE_CARD_ITEM = createEntityType(CardItemEntity::new, MobCategory.MISC,"entity_card_drop", 0.25F, 0.25F);
 
@@ -292,6 +293,7 @@ public class ModEntities {
         event.registerEntityRenderer(TYPE_HPORB.get(), HPOrbRenderer::new);
         event.registerEntityRenderer(TYPE_MPORB.get(), MPOrbRenderer::new);
         event.registerEntityRenderer(TYPE_DRIVEORB.get(), DriveOrbRenderer::new);
+        event.registerEntityRenderer(TYPE_STRUGGLE_ORB.get(), StruggleOrbRenderer::new);
         event.registerEntityRenderer(TYPE_FOCUSORB.get(), FocusOrbRenderer::new);
         event.registerEntityRenderer(TYPE_CARD_ITEM.get(), CardItemRenderer::new);
         

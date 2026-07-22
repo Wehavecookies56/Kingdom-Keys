@@ -1,23 +1,17 @@
 package online.kingdomkeys.kingdomkeys.client.gui.menu.struggle;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton.ButtonType;
-import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.data.WorldData;
-import online.kingdomkeys.kingdomkeys.lib.Party;
-import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.lib.Struggle;
-import online.kingdomkeys.kingdomkeys.util.Utils;
+import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.cts.CSStruggleReady;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
@@ -30,13 +24,13 @@ public class MenuStruggle extends MenuBackground {
 		minecraft = Minecraft.getInstance();
 		boardPos = pos;
 	}
-
+	
 
 	public enum buttons {
-		CREATE, JOIN, SETTINGS
-	}
+		CREATE, JOIN, SETTINGS, READY
+    }
 
-	MenuButton create, join, settings;
+	MenuButton create, join, settings, ready;
 
 	final ResourceLocation texture = KingdomKeys.rl("textures/gui/menu/menu_button.png");
 
@@ -45,7 +39,12 @@ public class MenuStruggle extends MenuBackground {
 			case CREATE -> minecraft.setScreen(new StruggleCreate(boardPos));
 			case JOIN -> minecraft.setScreen(new StruggleJoin(boardPos));
 			case SETTINGS -> minecraft.setScreen(new StruggleSettings(boardPos));
-
+			case READY -> {
+				Struggle s = WorldData.getClient().getStruggleFromBlockPos(boardPos);
+				if (s != null) {
+					PacketHandler.sendToServer(new CSStruggleReady(s.getName()));
+				}
+			}
 		}
 		updateButtons();
 	}
@@ -65,21 +64,33 @@ public class MenuStruggle extends MenuBackground {
 		addRenderableWidget(create = new MenuButton((int) buttonPosX, start, (int) buttonWidth, "Create match", ButtonType.BUTTON, true, (e) -> {action(buttons.CREATE);}));
 		addRenderableWidget(join = new MenuButton((int) buttonPosX, start + 18 * ++pos, (int) buttonWidth, "Join match", ButtonType.BUTTON, true, (e) -> {action(buttons.JOIN);}));
 		addRenderableWidget(settings = new MenuButton((int) buttonPosX, start + 18 * ++pos, (int) buttonWidth, "Struggle Settings", ButtonType.BUTTON, true, (e) -> {action(buttons.SETTINGS);}));
+		addRenderableWidget(ready = new MenuButton((int) buttonPosX, start + 18 * ++pos, (int) buttonWidth, "Ready", ButtonType.BUTTON, true, (e) -> {action(buttons.READY);}));
 
 		updateButtons();
 	}
 
 	private void updateButtons() {
 		Struggle s = WorldData.getClient().getStruggleFromBlockPos(boardPos);
+		boolean isParticipant = s != null && s.hasParticipant(minecraft.player.getUUID());
+
 		create.visible = (s == null);
-		join.visible = (s != null) && !s.hasParticipant(minecraft.player.getUUID());
+		join.visible = (s != null) && !isParticipant;
 		settings.visible = (s != null) && s.getOwner() != null && s.getOwner().getUUID().equals(minecraft.player.getUUID());
+
+		// Only usable once the arena corners are set, there are at least 2 combatants, and it's not
+		// already fighting - matches the conditions StruggleHandler checks server-side to start.
+		ready.visible = isParticipant && !s.isInProgress() && s.isConfigured() && s.getParticipants().size() >= 2;
+		if (ready.visible) {
+			boolean isReady = s.getParticipant(minecraft.player.getUUID()).isReady();
+			ready.setMessage(net.minecraft.network.chat.Component.literal(isReady ? "Cancel Ready" : "Ready"));
+		}
 	}
 
 	@Override
 	public void render(@NotNull GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
 		super.render(gui, mouseX, mouseY, partialTicks);
-		Party.Member m = new Party.Member(this.player.getUUID(), this.player.getDisplayName().getString());
-		drawPlayer(gui, null,0, m);
+		updateButtons();
+		drawStruggle(WorldData.getClient(), gui, boardPos);
 	}
+
 }

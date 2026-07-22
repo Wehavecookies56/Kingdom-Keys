@@ -62,11 +62,11 @@ public class MenuScreen extends MenuBackground {
 		this.playerData = playerData;
 	}
 
-    private final ArrayList<MenuButton> menuButtons = new ArrayList<>();
+	private final ArrayList<MenuButton> menuButtons = new ArrayList<>();
 
-    public enum buttons {
+	public enum buttons {
 		ITEMS, ABILITIES, CUSTOMIZE, PARTY, STATUS, JOURNAL, CONFIG, STYLES
-    }
+	}
 
 	PlayerData playerData;
 
@@ -120,27 +120,27 @@ public class MenuScreen extends MenuBackground {
 
 		float buttonX = (float) width * 0.03F;
 		float buttonWidth = ((float) width * 0.1744F) - 22;
-        menuButtons.clear();
-        menuButtons.add(items = new MenuButton((int) buttonX, startY + 18 * pos++, (int) buttonWidth, Strings.Gui_Menu_Main_Button_Items, ButtonType.BUTTON, true, e -> action(buttons.ITEMS)));
-        menuButtons.add(abilities = new MenuButton((int) buttonX, startY + 18 * pos++, (int) buttonWidth, Strings.Gui_Menu_Main_Button_Abilities, ButtonType.BUTTON, true, e -> action(buttons.ABILITIES)));
-        menuButtons.add(customize = new MenuButton((int) buttonX, startY + 18 * pos++, (int) buttonWidth, Strings.Gui_Menu_Main_Button_Customize, ButtonType.BUTTON, true, e -> action(buttons.CUSTOMIZE)));
-        menuButtons.add(party = new MenuButton((int) buttonX, startY + 18 * pos++, (int) buttonWidth, Strings.Gui_Menu_Main_Button_Party, ButtonType.BUTTON, true, e -> action(buttons.PARTY)));
-        menuButtons.add(status = new MenuButton((int) buttonX, startY + 18 * pos++, (int) buttonWidth, Strings.Gui_Menu_Main_Button_Status, ButtonType.BUTTON, true, e -> action(buttons.STATUS)));
-        menuButtons.add(journal = new MenuButton((int) buttonX, startY + 18 * pos++, (int) buttonWidth, Strings.Gui_Menu_Main_Button_Journal, ButtonType.BUTTON, true, e -> action(buttons.JOURNAL)));
+		menuButtons.clear();
+		menuButtons.add(items = new MenuButton((int) buttonX, startY + 18 * pos++, (int) buttonWidth, Strings.Gui_Menu_Main_Button_Items, ButtonType.BUTTON, true, e -> action(buttons.ITEMS)));
+		menuButtons.add(abilities = new MenuButton((int) buttonX, startY + 18 * pos++, (int) buttonWidth, Strings.Gui_Menu_Main_Button_Abilities, ButtonType.BUTTON, true, e -> action(buttons.ABILITIES)));
+		menuButtons.add(customize = new MenuButton((int) buttonX, startY + 18 * pos++, (int) buttonWidth, Strings.Gui_Menu_Main_Button_Customize, ButtonType.BUTTON, true, e -> action(buttons.CUSTOMIZE)));
+		menuButtons.add(party = new MenuButton((int) buttonX, startY + 18 * pos++, (int) buttonWidth, Strings.Gui_Menu_Main_Button_Party, ButtonType.BUTTON, true, e -> action(buttons.PARTY)));
+		menuButtons.add(status = new MenuButton((int) buttonX, startY + 18 * pos++, (int) buttonWidth, Strings.Gui_Menu_Main_Button_Status, ButtonType.BUTTON, true, e -> action(buttons.STATUS)));
+		menuButtons.add(journal = new MenuButton((int) buttonX, startY + 18 * pos++, (int) buttonWidth, Strings.Gui_Menu_Main_Button_Journal, ButtonType.BUTTON, true, e -> action(buttons.JOURNAL)));
 
-        if (KingdomKeys.efmLoaded) {
-            menuButtons.add(style = new MenuButton((int) buttonX, startY + 18 * pos++, (int) buttonWidth, Strings.Gui_Menu_Main_Button_Style, ButtonType.BUTTON, true, e -> action(buttons.STYLES)));
-        }
+		if (KingdomKeys.efmLoaded) {
+			menuButtons.add(style = new MenuButton((int) buttonX, startY + 18 * pos++, (int) buttonWidth, Strings.Gui_Menu_Main_Button_Style, ButtonType.BUTTON, true, e -> action(buttons.STYLES)));
+		}
 
-        menuButtons.add(config = new MenuButton((int) buttonX, startY + 18 * pos++, (int) buttonWidth, Strings.Gui_Menu_Main_Button_Config, ButtonType.BUTTON, true, e -> action(buttons.CONFIG)));
+		menuButtons.add(config = new MenuButton((int) buttonX, startY + 18 * pos++, (int) buttonWidth, Strings.Gui_Menu_Main_Button_Config, ButtonType.BUTTON, true, e -> action(buttons.CONFIG)));
 
-        NeoForge.EVENT_BUS.post(new MenuButtonRegisterEvent(this, menuButtons));
+		NeoForge.EVENT_BUS.post(new MenuButtonRegisterEvent(this, menuButtons));
 
-        for (MenuButton button : menuButtons) {
-            addRenderableWidget(button);
-        }
+		for (MenuButton button : menuButtons) {
+			addRenderableWidget(button);
+		}
 
-        updateButtons();
+		updateButtons();
 
 		int sw = Minecraft.getInstance().getWindow().getGuiScaledWidth();
 		int sh = Minecraft.getInstance().getWindow().getGuiScaledHeight();
@@ -176,8 +176,8 @@ public class MenuScreen extends MenuBackground {
 		pose.pushPose();
 		{
 			pose.translate(0, 0, 0);
-			Party.Member m = new Party.Member(minecraft.player.getUUID(), minecraft.player.getDisplayName().getString());
-			drawPlayer(gui, null, 0, m);
+			int count = CastleOblivionHandler.inInterior(minecraft.player) ? 3 : 1;
+			drawPlayer(gui, count, 0, minecraft.player.getUUID(), minecraft.player.getDisplayName().getString());
 		}
 		pose.popPose();
 
