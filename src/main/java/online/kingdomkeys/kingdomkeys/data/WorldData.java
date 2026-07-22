@@ -352,6 +352,15 @@ public class WorldData extends SavedData {
         return null;
     }
 
+    public Struggle getStruggleFromActiveCombatant(UUID memId) {
+        for (Struggle struggle : this.struggles) {
+            if (struggle.isInProgress() && struggle.getActiveCombatantIds().contains(memId)) {
+                return struggle;
+            }
+        }
+        return null;
+    }
+
     public void addStruggleParticipant(Struggle struggle, LivingEntity entity) {
         struggle.addParticipant(entity);
         setDirty();

@@ -4,6 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
@@ -93,9 +94,8 @@ public class StruggleHUDGui extends OverlayBase {
 
 	private void drawTimer(GuiGraphics gui, Struggle struggle, int centerX, int y) {
 		int seconds = Math.max(0, struggle.getRoundSecondsLeft());
-		String timeText = String.format("%d:%02d", seconds / 60, seconds % 60);
-		drawCenteredString(gui, font, "TIME", centerX, y, 0xFFFFFF);
-		drawCenteredString(gui, font, timeText, centerX, y + font.lineHeight + 2, 0xFFD900);
+		MutableComponent timeText = Component.literal(String.format("%d:%02d", seconds / 60, seconds % 60));
+		gui.drawString(font,timeText.withStyle(ClientUtils.KK_Font_EXP), centerX - font.width(timeText) / 2, y, 0xFFD900);
 	}
 
 	/**

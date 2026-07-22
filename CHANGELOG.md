@@ -1,4 +1,5 @@
 ## Added:
+* Struggle! Craft the board 
 * A bunch of new advancements.
 * Toggle Gummi Ship flight mode with pick block key (by default middle mouse click).
   * In that flight mode the ship follows the camera, similar to elytra.

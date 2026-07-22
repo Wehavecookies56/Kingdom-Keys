@@ -26,7 +26,6 @@ public class GuiMenu_Party_Kick extends MenuBackground {
 	MenuBox box;
 	MenuButton back;
 		
-	final PlayerData playerData = PlayerData.get(minecraft.player);
 	WorldData worldData;
 	Party party;
 	

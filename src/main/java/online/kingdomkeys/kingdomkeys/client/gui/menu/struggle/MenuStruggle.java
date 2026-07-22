@@ -139,8 +139,9 @@ public class MenuStruggle extends MenuBackground {
 
 		Struggle s = WorldData.getClient().getStruggleFromBlockPos(boardPos);
 		if (s != null) {
-			// Same spot/style Party uses for "[members/size] party name" - here also showing the mode.
-			gui.drawString(minecraft.font, Component.literal("[" + s.getParticipants().size() + "/" + s.getSize() + "] " + s.getName() + " (" + modeLabel(s.getMode()) + ")").withStyle(ClientUtils.KK_Font_EXP), (int) (topLeftBarWidth + topGap) + 5, 10, 0xFF9900);
+			float scale = 1.5F;
+			gui.pose().scale(scale, scale, 1);
+			gui.drawString(minecraft.font, Component.literal("[" + s.getParticipants().size() + "/" + s.getSize() + "] " + s.getName() + " (" + modeLabel(s.getMode()) + ")").withStyle(ClientUtils.KK_Font_EXP), (int) (topLeftBar.getWidth() / scale + topGap) + 5, 10, 0xFF9900);
 
 			boolean isParticipant = s.hasParticipant(minecraft.player.getUUID());
 			if (isParticipant && !ready.visible && !s.isInProgress()) {

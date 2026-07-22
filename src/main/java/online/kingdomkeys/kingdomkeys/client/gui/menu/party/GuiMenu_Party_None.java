@@ -27,13 +27,9 @@ import java.awt.*;
 public class GuiMenu_Party_None extends MenuBackground {
 	
 	MenuButton back, create, join;
-		
-	final PlayerData playerData = PlayerData.get(minecraft.player);
 	WorldData worldData;
 
 	Party party;
-
-	final ResourceLocation texture = KingdomKeys.rl("textures/gui/menu/menu_button.png");
 
 	//Not in party
 	//0 = not in party
@@ -49,7 +45,7 @@ public class GuiMenu_Party_None extends MenuBackground {
 		worldData = WorldData.getClient();
 	}
 
-	protected void action(String string) {		
+	protected void action(String string) {
 		switch(string) {
 		case "back":
 			PacketHandler.sendToServer(new CSOpenMenu());

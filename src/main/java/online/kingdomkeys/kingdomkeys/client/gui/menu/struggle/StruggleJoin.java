@@ -39,9 +39,9 @@ public class StruggleJoin extends MenuBackground {
 
 	protected void action(String string) {
 		//Clear list, it gets rebuilt every call
-		for(int i=0;i<matches.length;i++) {
-			if(matches[i] != null) {
-				matches[i].visible = false;
+		for (MenuButton match : matches) {
+			if (match != null) {
+				match.visible = false;
 			}
 		}
 

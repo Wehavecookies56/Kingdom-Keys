@@ -13,6 +13,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.tick.ServerTickEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.block.StruggleBoardBlock;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.entity.drops.StruggleOrbEntity;
@@ -52,9 +53,14 @@ public class StruggleHandler {
 	public void onServerTick(ServerTickEvent.Post event) {
 		MinecraftServer server = event.getServer();
 		WorldData worldData = WorldData.get(server);
+		ServerLevel overworld = server.overworld();
 
 		for (Struggle struggle : new ArrayList<>(worldData.getStruggles())) {
-			tick(server, server.overworld(), worldData, struggle);
+			if (cleanupIfOrphaned(server, overworld, worldData, struggle)) {
+				continue; // struggle is gone now, nothing left to tick for it
+			}
+
+			tick(server, overworld, worldData, struggle);
 
 			// While a match is running, keep every combatant's weapon slot selected no matter what they try to switch to - this is what makes them "unable to change" out of the Struggle weapon.
 			if (struggle.isInProgress()) {
@@ -75,6 +81,31 @@ public class StruggleHandler {
 				}
 			}
 		}
+	}
+
+	private boolean cleanupIfOrphaned(MinecraftServer server, ServerLevel level, WorldData worldData, Struggle struggle) {
+		BlockPos pos = struggle.getPos();
+		if (pos == null || !level.isLoaded(pos))
+			return false;
+		if (level.getBlockState(pos).getBlock() instanceof StruggleBoardBlock)
+			return false;
+
+		if (struggle.isInProgress()) {
+			for (UUID id : new ArrayList<>(struggle.getActiveCombatantIds())) {
+				ServerPlayer player = server.getPlayerList().getPlayer(id);
+				if (player != null)
+					removeWeapon(player);
+			}
+		}
+
+		KingdomKeys.LOGGER.info("Removed orphaned Struggle '{}' - its board block at {} is gone", struggle.getName(), pos);
+		if (struggle.getC1() != null && struggle.getC2() != null) {
+			worldData.saveStruggleCorners(pos, struggle.getC1(), struggle.getC2());
+		}
+		worldData.removeStruggle(struggle);
+		worldData.setDirty();
+		PacketHandler.sendToAll(new SCSyncWorldData(server));
+		return true;
 	}
 
 	/**
@@ -288,7 +319,7 @@ public class StruggleHandler {
 		List<UUID> everyone = struggle.getParticipants().stream().map(Struggle.Participant::getUUID).collect(Collectors.toList());
 		activeCombatants.put(name, everyone);
 		countdowns.put(name, COUNTDOWN_TICKS);
-		KingdomKeys.LOGGER.debug("Struggle '{}' countdown started", name);
+		online.kingdomkeys.kingdomkeys.KingdomKeys.LOGGER.debug("Struggle '{}' countdown started", name);
 		sendTitle(server, everyone, "kingdomkeys.struggle.ffa.starting", "");
 	}
 

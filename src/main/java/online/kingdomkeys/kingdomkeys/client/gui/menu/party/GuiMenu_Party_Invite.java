@@ -113,9 +113,6 @@ public class GuiMenu_Party_Invite extends MenuBackground {
 
 	@Override
 	public void init() {
-		//TODO request packet to sync other players data
-		super.width = width;
-		super.height = height;
 		super.init();
 		this.renderables.clear();
 				
@@ -126,7 +123,7 @@ public class GuiMenu_Party_Invite extends MenuBackground {
 
 		box = new MenuBox((int)(width*0.25F), (int)topBarHeight, (int)(width*0.3F), (int) middleHeight,0.8F, new Color(255,128,255));
 		addRenderableWidget(back = new MenuButton((int) buttonPosX, button_statsY, (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), ButtonType.BUTTON, (e) -> { action("back"); }));
-		
+
 		updateButtons();
 	}
 

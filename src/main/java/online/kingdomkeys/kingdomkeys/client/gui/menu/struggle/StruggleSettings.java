@@ -31,7 +31,8 @@ public class StruggleSettings extends MenuBackground {
 	int dmgMult = 100;
 	int roundTimeSeconds = 60;
 	int startingScore = 100;
-	BlockPos pos1, pos2, spectatorPos;
+	BlockPos pos1, pos2;
+	Struggle.Mode selectedMode = Struggle.Mode.DUEL;
 
 	BlockPos boardPos;
 
@@ -61,6 +62,7 @@ public class StruggleSettings extends MenuBackground {
 				struggle.setDamageMult(dmgMult);
 				struggle.setRoundTimeSeconds(roundTimeSeconds);
 				struggle.setStartingScore(startingScore);
+				struggle.setMode(selectedMode);
 				struggle.setName(nameBox.getValue());
 
 				pos1 = Utils.stringArrayToBlockPos(pos1Box.getValue().split(","));
@@ -82,7 +84,7 @@ public class StruggleSettings extends MenuBackground {
 
 				break;
 			case "size":
-				if (struggle.getMode() == Struggle.Mode.DUEL)
+				if (selectedMode == Struggle.Mode.DUEL)
 					break;
 				if(pSize == Struggle.PARTICIPANTS_LIMIT) {
 					pSize = 2;
@@ -93,12 +95,12 @@ public class StruggleSettings extends MenuBackground {
 				break;
 			case "mode":
 				Struggle.Mode[] modes = Struggle.Mode.values();
-				struggle.setMode(modes[(struggle.getMode().ordinal() + 1) % modes.length]);
-				if (struggle.getMode() == Struggle.Mode.DUEL) {
+				selectedMode = modes[(selectedMode.ordinal() + 1) % modes.length];
+				if (selectedMode == Struggle.Mode.DUEL) {
 					pSize = 2;
 					size.active = false;
 				}
-				modeButton.setMessage(Component.literal(modeLabel(struggle.getMode())));
+				modeButton.setMessage(Component.literal(modeLabel(selectedMode)));
 				break;
 		}
 
@@ -113,7 +115,7 @@ public class StruggleSettings extends MenuBackground {
 		if(struggle == null)
 			return;
 
-		boolean isDuel = struggle.getMode() == Struggle.Mode.DUEL;
+		boolean isDuel = selectedMode == Struggle.Mode.DUEL;
 		if (isDuel)
 			pSize = 2;
 
@@ -134,7 +136,7 @@ public class StruggleSettings extends MenuBackground {
 		accept.setMessage(Component.literal(Utils.translateToLocal(Strings.Gui_Menu_Accept)));
 		accept.visible = true;
 		size.visible = true;
-		modeButton.setMessage(Component.literal(modeLabel(struggle.getMode())));
+		modeButton.setMessage(Component.literal(modeLabel(selectedMode)));
 		modeButton.visible = true;
 	}
 
@@ -162,12 +164,6 @@ public class StruggleSettings extends MenuBackground {
 				super.keyPressed(keyCode, scanCode, modifiers);
 				onChange.accept(Utils.getInt(getValue()));
 				return true;
-			}
-
-			@Override
-			public void renderWidget(@NotNull GuiGraphics gui, int pMouseX, int pMouseY, float pPartialTick) {
-				RenderSystem.setShaderColor(1, 1, 1, 1);
-				super.renderWidget(gui, pMouseX, pMouseY, pPartialTick);
 			}
 		};
 		addRenderableWidget(box);
@@ -197,12 +193,6 @@ public class StruggleSettings extends MenuBackground {
 				super.keyPressed(keyCode, scanCode, modifiers);
 				return true;
 			}
-
-			@Override
-			public void renderWidget(@NotNull GuiGraphics gui, int pMouseX, int pMouseY, float pPartialTick) {
-				RenderSystem.setShaderColor(1, 1, 1, 1);
-				super.renderWidget(gui, pMouseX, pMouseY, pPartialTick);
-			}
 		};
 		addRenderableWidget(box);
 		return box;
@@ -220,12 +210,13 @@ public class StruggleSettings extends MenuBackground {
 			dmgMult = struggle.getDamageMult();
 			roundTimeSeconds = struggle.getRoundTimeSeconds();
 			startingScore = struggle.getStartingScore();
+			selectedMode = struggle.getMode();
 
 			int button_statsY = (int) topBarHeight + 5;
 			float buttonPosX = (float) width * 0.03F;
 			float buttonWidth = ((float) width * 0.1744F) - 20;
 
-			box = new MenuBox((int) (width * 0.25F), (int) topBarHeight, (int) (width * 0.5F), (int) middleHeight, 0.8F, new Color(252, 173, 3));
+			box = new MenuBox((int) (width * 0.25F), (int) topBarHeight, 250, (int) middleHeight, 0.8F, new Color(252, 173, 3));
 			int boxX = box.getX() + 10;
 
 			addRenderableWidget(nameBox = new EditBox(minecraft.font, boxX, button_statsY + 18, 100, 16, Component.literal("")) {
@@ -287,7 +278,6 @@ public class StruggleSettings extends MenuBackground {
 		worldData = WorldData.getClient();
 		Struggle latest = worldData.getStruggleFromBlockPos(boardPos);
 		if (latest != null && nameBox == null) {
-			// The struggle wasn't synced from the server yet when this screen first opened (e.g. right after creating it). Now that it is, build the widgets.
 			this.init();
 		}
 		struggle = latest;

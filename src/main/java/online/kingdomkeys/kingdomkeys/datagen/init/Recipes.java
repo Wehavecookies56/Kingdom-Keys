@@ -7,6 +7,7 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.recipes.*;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
@@ -91,6 +92,17 @@ public class Recipes extends RecipeProvider {
 					.unlockedBy("wither_skeleton_skull", InventoryChangeTrigger.TriggerInstance.hasItems(Items.WITHER_SKELETON_SKULL))
 					.save(consumer, KingdomKeys.rl(dev.name().toLowerCase() + "_skull"));
 		}
+
+		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModBlocks.struggleBoard.get())
+				.define('W', ItemTags.PLANKS)
+				.define('D', ModItems.trainingDummy.get())
+				.pattern("WWW")
+				.pattern("WDW")
+				.pattern("WWW")
+				.group(KingdomKeys.MODID)
+				.unlockedBy("struggle_board", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.trainingDummy.get()))
+				.save(consumer);
+
 
 		ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModBlocks.magicTarget.get())
 				.requires(Blocks.TARGET)

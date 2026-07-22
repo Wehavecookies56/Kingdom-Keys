@@ -958,16 +958,10 @@ public class EntityEvents {
 	public void hitEntity(LivingDamageEvent.Pre event) {
 		if (event.getSource().getEntity() instanceof Player attacker && event.getEntity() instanceof Player victim) {
 			WorldData worldData = WorldData.get(attacker.getServer());
-			Struggle struggle = worldData.getStruggleFromParticipant(attacker.getUUID());
-			boolean isStruggleHit = struggle != null && struggle.isInProgress()
-					&& struggle.getActiveCombatantIds().contains(attacker.getUUID())
-					&& struggle.getActiveCombatantIds().contains(victim.getUUID());
-			if (KingdomKeys.LOGGER.isDebugEnabled()) {
-				KingdomKeys.LOGGER.debug("Struggle hit check: attacker={} victim={} struggleFound={} inProgress={} activeCombatants={} result={}",
-						attacker.getGameProfile().getName(), victim.getGameProfile().getName(),
-						struggle != null, struggle != null && struggle.isInProgress(),
-						struggle != null ? struggle.getActiveCombatantIds() : "n/a", isStruggleHit);
-			}
+			Struggle struggle = worldData.getStruggleFromActiveCombatant(attacker.getUUID());
+			boolean isStruggleHit = struggle != null && struggle.isInProgress() && struggle.getActiveCombatantIds().contains(attacker.getUUID()) && struggle.getActiveCombatantIds().contains(victim.getUUID());
+
+			KingdomKeys.LOGGER.debug("Struggle hit check: attacker={} victim={} struggleFound={} inProgress={} activeCombatants={} result={}", attacker.getGameProfile().getName(), victim.getGameProfile().getName(), struggle != null, struggle != null && struggle.isInProgress(), struggle != null ? struggle.getActiveCombatantIds() : "n/a", isStruggleHit);
 			if (isStruggleHit) {
 				float originalDamage = event.getNewDamage();
 				event.setNewDamage(0); // never actually hurt each other during a Struggle match
