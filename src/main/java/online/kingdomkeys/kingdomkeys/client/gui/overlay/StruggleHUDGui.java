@@ -10,13 +10,22 @@ import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.lib.Struggle;
 
+import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
+/**
+ * KH2-style "ORBS" counter + round timer, shown while the local player is one of the active combatants
+ * in an in-progress Struggle match. With exactly 2 combatants (DUEL/TOURNAMENT) they're shown in the
+ * classic left/right layout; with more (FFA) they're listed down the right side instead.
+ */
 public class StruggleHUDGui extends OverlayBase {
 
 	public static final StruggleHUDGui INSTANCE = new StruggleHUDGui();
 
 	private static final ResourceLocation ORB_TEXTURE = KingdomKeys.rl("textures/entity/struggle_orb.png");
-	private static final int ORB_SIZE = 20;
+	private static final int ORB_SIZE = 20; // on-screen display size
+	private static final int ORB_TEXTURE_RESOLUTION = 16; // actual struggle_orb.png size
 
 	private StruggleHUDGui() {
 		super();
@@ -30,17 +39,38 @@ public class StruggleHUDGui extends OverlayBase {
 
 		WorldData worldData = WorldData.getClient();
 		Struggle struggle = worldData.getStruggleFromParticipant(player.getUUID());
-		if (struggle == null || !struggle.isInProgress() || struggle.getParticipants().size() < 2) return;
+		if (struggle == null || !struggle.isInProgress()) return;
 
-		Struggle.Participant left = struggle.getParticipants().get(0);
-		Struggle.Participant right = struggle.getParticipants().get(1);
+		List<Struggle.Participant> combatants = struggle.getActiveCombatantIds().stream()
+				.map(struggle::getParticipant)
+				.filter(java.util.Objects::nonNull)
+				.collect(Collectors.toList());
+		if (combatants.size() < 2) return;
 
 		int screenWidth = minecraft.getWindow().getGuiScaledWidth();
 		int margin = 12;
 		int y = 12;
 
-		drawSide(guiGraphics, left, margin, y, true);
-		drawSide(guiGraphics, right, screenWidth - margin, y, false);
+		drawTimer(guiGraphics, struggle, screenWidth / 2, y);
+
+		if (combatants.size() == 2) {
+			drawSide(guiGraphics, combatants.get(0), margin, y, true);
+			drawSide(guiGraphics, combatants.get(1), screenWidth - margin, y, false);
+		} else {
+			// FFA with more than 2 fighters - list everyone down the right side instead.
+			int listY = y;
+			for (Struggle.Participant participant : combatants) {
+				drawSide(guiGraphics, participant, screenWidth - margin, listY, false);
+				listY += ORB_SIZE + font.lineHeight + 8;
+			}
+		}
+	}
+
+	private void drawTimer(GuiGraphics gui, Struggle struggle, int centerX, int y) {
+		int seconds = Math.max(0, struggle.getRoundSecondsLeft());
+		String timeText = String.format("%d:%02d", seconds / 60, seconds % 60);
+		drawCenteredString(gui, font, "TIME", centerX, y, 0xFFFFFF);
+		drawCenteredString(gui, font, timeText, centerX, y + font.lineHeight + 2, 0xFFD900);
 	}
 
 	/**
@@ -53,8 +83,7 @@ public class StruggleHUDGui extends OverlayBase {
 		String scoreText = String.valueOf(participant.getScore());
 		int textWidth = font.width(scoreText);
 
-		String label = "ORBS";
-		int labelWidth = font.width(label);
+		String label = combatantsLabel(participant);
 
 		int iconX = fromLeft ? anchorX : anchorX - ORB_SIZE;
 		int textX = fromLeft ? anchorX + ORB_SIZE + 4 : anchorX - ORB_SIZE - 4 - textWidth;
@@ -65,10 +94,14 @@ public class StruggleHUDGui extends OverlayBase {
 		int iconY = y + font.lineHeight + 2;
 
 		RenderSystem.setShaderColor(((color >> 16) & 0xFF) / 255F, ((color >> 8) & 0xFF) / 255F, (color & 0xFF) / 255F, 1F);
-		this.blit(gui, ORB_TEXTURE, iconX, iconY, 0, 0, ORB_SIZE, ORB_SIZE);
+		this.blit(gui, ORB_TEXTURE, iconX, iconY, ORB_SIZE, ORB_SIZE, 0, 0, ORB_TEXTURE_RESOLUTION, ORB_TEXTURE_RESOLUTION, ORB_TEXTURE_RESOLUTION, ORB_TEXTURE_RESOLUTION);
 		RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
 
 		gui.drawString(font, scoreText, textX, iconY + (ORB_SIZE / 2) - (font.lineHeight / 2), color);
+	}
+
+	private String combatantsLabel(Struggle.Participant participant) {
+		return participant.getUsername();
 	}
 
 	private int colorFor(Struggle.Participant participant) {

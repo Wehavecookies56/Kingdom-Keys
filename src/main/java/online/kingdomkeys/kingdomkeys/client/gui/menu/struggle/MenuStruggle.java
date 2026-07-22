@@ -3,15 +3,20 @@ package online.kingdomkeys.kingdomkeys.client.gui.menu.struggle;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton.ButtonType;
 import online.kingdomkeys.kingdomkeys.data.WorldData;
+import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.lib.Struggle;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.cts.CSStruggleDelete;
 import online.kingdomkeys.kingdomkeys.network.cts.CSStruggleReady;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
@@ -20,17 +25,17 @@ public class MenuStruggle extends MenuBackground {
 	BlockPos boardPos;
 
 	public MenuStruggle(BlockPos pos) {
-		super("Menu", new Color(252, 173, 3));
+		super(Utils.translateToLocal(Strings.Gui_Menu_Struggle_Menu_Title), new Color(252, 173, 3));
 		minecraft = Minecraft.getInstance();
 		boardPos = pos;
 	}
 	
 
 	public enum buttons {
-		CREATE, JOIN, SETTINGS, READY
+		CREATE, JOIN, SETTINGS, READY, DELETE
     }
 
-	MenuButton create, join, settings, ready;
+	MenuButton create, join, settings, ready, delete;
 
 	final ResourceLocation texture = KingdomKeys.rl("textures/gui/menu/menu_button.png");
 
@@ -43,6 +48,12 @@ public class MenuStruggle extends MenuBackground {
 				Struggle s = WorldData.getClient().getStruggleFromBlockPos(boardPos);
 				if (s != null) {
 					PacketHandler.sendToServer(new CSStruggleReady(s.getName()));
+				}
+			}
+			case DELETE -> {
+				Struggle s = WorldData.getClient().getStruggleFromBlockPos(boardPos);
+				if (s != null) {
+					PacketHandler.sendToServer(new CSStruggleDelete(s.getName()));
 				}
 			}
 		}
@@ -61,10 +72,11 @@ public class MenuStruggle extends MenuBackground {
 		float buttonPosX = (float) width * 0.03F;
 		float buttonWidth = ((float) width * 0.1744F) - 22;
 
-		addRenderableWidget(create = new MenuButton((int) buttonPosX, start, (int) buttonWidth, "Create match", ButtonType.BUTTON, true, (e) -> {action(buttons.CREATE);}));
-		addRenderableWidget(join = new MenuButton((int) buttonPosX, start + 18 * ++pos, (int) buttonWidth, "Join match", ButtonType.BUTTON, true, (e) -> {action(buttons.JOIN);}));
-		addRenderableWidget(settings = new MenuButton((int) buttonPosX, start + 18 * ++pos, (int) buttonWidth, "Struggle Settings", ButtonType.BUTTON, true, (e) -> {action(buttons.SETTINGS);}));
-		addRenderableWidget(ready = new MenuButton((int) buttonPosX, start + 18 * ++pos, (int) buttonWidth, "Ready", ButtonType.BUTTON, true, (e) -> {action(buttons.READY);}));
+		addRenderableWidget(create = new MenuButton((int) buttonPosX, start, (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Struggle_Create_Button), ButtonType.BUTTON, true, (e) -> {action(buttons.CREATE);}));
+		addRenderableWidget(join = new MenuButton((int) buttonPosX, start + 18 * ++pos, (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Struggle_Join_Button), ButtonType.BUTTON, true, (e) -> {action(buttons.JOIN);}));
+		addRenderableWidget(settings = new MenuButton((int) buttonPosX, start + 18 * ++pos, (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Struggle_Settings_Button), ButtonType.BUTTON, true, (e) -> {action(buttons.SETTINGS);}));
+		addRenderableWidget(ready = new MenuButton((int) buttonPosX, start + 18 * ++pos, (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Struggle_Ready), ButtonType.BUTTON, true, (e) -> {action(buttons.READY);}));
+		addRenderableWidget(delete = new MenuButton((int) buttonPosX, start + 18 * ++pos, (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Struggle_Delete_Button), ButtonType.BUTTON, true, (e) -> {action(buttons.DELETE);}));
 
 		updateButtons();
 	}
@@ -72,18 +84,28 @@ public class MenuStruggle extends MenuBackground {
 	private void updateButtons() {
 		Struggle s = WorldData.getClient().getStruggleFromBlockPos(boardPos);
 		boolean isParticipant = s != null && s.hasParticipant(minecraft.player.getUUID());
+		boolean isOwner = s != null && s.getOwner() != null && s.getOwner().getUUID().equals(minecraft.player.getUUID());
 
 		create.visible = (s == null);
 		join.visible = (s != null) && !isParticipant;
-		settings.visible = (s != null) && s.getOwner() != null && s.getOwner().getUUID().equals(minecraft.player.getUUID());
+		settings.visible = isOwner;
+		delete.visible = isOwner;
 
 		// Only usable once the arena corners are set, there are at least 2 combatants, and it's not
 		// already fighting - matches the conditions StruggleHandler checks server-side to start.
 		ready.visible = isParticipant && !s.isInProgress() && s.isConfigured() && s.getParticipants().size() >= 2;
 		if (ready.visible) {
 			boolean isReady = s.getParticipant(minecraft.player.getUUID()).isReady();
-			ready.setMessage(net.minecraft.network.chat.Component.literal(isReady ? "Cancel Ready" : "Ready"));
+			ready.setMessage(Component.literal(isReady ? Utils.translateToLocal(Strings.Gui_Menu_Struggle_Cancel_Ready) : Utils.translateToLocal(Strings.Gui_Menu_Struggle_Ready)));
 		}
+	}
+
+	private String modeLabel(Struggle.Mode mode) {
+		return switch (mode) {
+			case DUEL -> Utils.translateToLocal(Strings.Gui_Menu_Struggle_Mode_Duel);
+			case TOURNAMENT -> Utils.translateToLocal(Strings.Gui_Menu_Struggle_Mode_Tournament);
+			case FFA -> Utils.translateToLocal(Strings.Gui_Menu_Struggle_Mode_Ffa);
+		};
 	}
 
 	@Override
@@ -91,6 +113,12 @@ public class MenuStruggle extends MenuBackground {
 		super.render(gui, mouseX, mouseY, partialTicks);
 		updateButtons();
 		drawStruggle(WorldData.getClient(), gui, boardPos);
+
+		Struggle s = WorldData.getClient().getStruggleFromBlockPos(boardPos);
+		if (s != null) {
+			// Same spot/style Party uses for "[members/size] party name" - here also showing the mode.
+			gui.drawString(minecraft.font, Component.literal("[" + s.getParticipants().size() + "/" + s.getSize() + "] " + s.getName() + " (" + modeLabel(s.getMode()) + ")").withStyle(ClientUtils.KK_Font_EXP), (int) (topLeftBarWidth + topGap) + 5, 10, 0xFF9900);
+		}
 	}
 
 }

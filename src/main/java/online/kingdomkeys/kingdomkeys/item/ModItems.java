@@ -29,8 +29,8 @@ public class ModItems {
 
 	public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(KingdomKeys.MODID);
 
-	//Keyblades
-    public static final Supplier<Item>
+	//region Keyblades
+	public static final Supplier<Item>
 			abaddonPlasma = createKeybladeItem(Strings.abaddonPlasma),
 			abyssalTide = createKeybladeItem(Strings.abyssalTide),
 			acedsKeyblade = createKeybladeItem(Strings.acedsKeyblade),
@@ -174,13 +174,13 @@ public class ModItems {
 			youngXehanortsKeyblade = createKeybladeItem(Strings.youngXehanortsKeyblade),
 			zeroOne = createKeybladeItem(Strings.zeroOne),
 
-			dreamShield = createNewItem(Strings.dreamShield, () -> new KKShieldItem(new Item.Properties().stacksTo(1))),
-			dreamStaff = createNewItem(Strings.dreamStaff, () -> new SwordItem(new KeybladeItemTier(0), new Item.Properties().attributes(SwordItem.createAttributes(new KeybladeItemTier(0), 2, 1)).stacksTo(1))),
-			dreamSword = createNewItem(Strings.dreamSword, () -> new SwordItem(new KeybladeItemTier(0), new Item.Properties().attributes(SwordItem.createAttributes(new KeybladeItemTier(0), 2, 1)).stacksTo(1))),
+	//special
+	k111 = createKeybladeItem(Strings.k111),
+			retribution = createKeybladeItem(Strings.retribution);
+	//endregion
 
-			k111 = createKeybladeItem(Strings.k111),
-			retribution = createKeybladeItem(Strings.retribution),
-			
+	//region Keychains
+	public static final Supplier<Item>
 			abaddonPlasmaChain = createNewItem(Strings.abaddonPlasmaChain, KeychainItem::new),
 			abyssalTideChain = createNewItem(Strings.abyssalTideChain, KeychainItem::new),
 			acedsKeybladeChain = createNewItem(Strings.acedsKeybladeChain, KeychainItem::new),
@@ -243,7 +243,7 @@ public class ModItems {
 			kibladeChain = createNewItem(Strings.kibladeChain, KeychainItem::new),
 			kingdomKeyChain = createNewItem(Strings.kingdomKeyChain, KeychainItem::new),
 			kingdomKeyDChain = createNewItem(Strings.kingdomKeyDChain, KeychainItem::new),
-            kingdomKeyNChain = createNewItem(Strings.kingdomKeyNChain, KeychainItem::new),
+			kingdomKeyNChain = createNewItem(Strings.kingdomKeyNChain, KeychainItem::new),
 			knockoutPunchChain = createNewItem(Strings.knockoutPunchChain, KeychainItem::new),
 			ladyLuckChain = createNewItem(Strings.ladyLuckChain, KeychainItem::new),
 			leviathanChain = createNewItem(Strings.leviathanChain, KeychainItem::new),
@@ -322,11 +322,13 @@ public class ModItems {
 			youngXehanortsKeybladeChain = createNewItem(Strings.youngXehanortsKeybladeChain, KeychainItem::new),
 			zeroOneChain = createNewItem(Strings.zeroOneChain, KeychainItem::new),
 
-			//Custom Keychains
-			k111c = createNewItem(Strings.k111c, KeychainItem::new),
-			retributionChain = createNewItem(Strings.retributionChain, KeychainItem::new),
+	//Custom Keychains
+	k111c = createNewItem(Strings.k111c, KeychainItem::new),
+			retributionChain = createNewItem(Strings.retributionChain, KeychainItem::new);
+	//endregion
 
-			//Org
+	//region Org weapons
+	public static final Supplier<Item>
 			malice = createNewItem(Strings.malice, EtherealBladeItem::new),
 			sanction = createNewItem(Strings.sanction, EtherealBladeItem::new),
 			overlord = createNewItem(Strings.overlord, EtherealBladeItem::new),
@@ -351,8 +353,8 @@ public class ModItems {
 			interdiction = createNewItem(Strings.interdiction, EtherealBladeItem::new),
 			roundFan = createNewItem(Strings.roundFan, EtherealBladeItem::new),
 			absolute = createNewItem(Strings.absolute, EtherealBladeItem::new),
-			
-			standalone = createNewItem(Strings.standalone, ArrowgunItem::new),
+
+	standalone = createNewItem(Strings.standalone, ArrowgunItem::new),
 			killerbee = createNewItem(Strings.killerbee, ArrowgunItem::new),
 			stingray = createNewItem(Strings.stingray, ArrowgunItem::new),
 			counterweight = createNewItem(Strings.counterweight, ArrowgunItem::new),
@@ -376,8 +378,8 @@ public class ModItems {
 			sharpshooter = createNewItem(Strings.sharpshooter, ArrowgunItem::new),
 			dryer = createNewItem(Strings.dryer, ArrowgunItem::new),
 			trumpet = createNewItem(Strings.trumpet, ArrowgunItem::new),
-			
-			zephyr = createNewItem(Strings.zephyr, LanceItem::new),
+
+	zephyr = createNewItem(Strings.zephyr, LanceItem::new),
 			moonglade = createNewItem(Strings.moonglade, LanceItem::new),
 			aer = createNewItem(Strings.aer, LanceItem::new),
 			nescience = createNewItem(Strings.nescience, LanceItem::new),
@@ -401,8 +403,8 @@ public class ModItems {
 			lindworm = createNewItem(Strings.lindworm, LanceItem::new),
 			broom = createNewItem(Strings.broom, LanceItem::new),
 			wyvern = createNewItem(Strings.wyvern, LanceItem::new),
-			
-			testerZero = createNewItem(Strings.testerZero, OrgShieldItem::new),
+
+	testerZero = createNewItem(Strings.testerZero, OrgShieldItem::new),
 			productOne = createNewItem(Strings.productOne, OrgShieldItem::new),
 			deepFreeze = createNewItem(Strings.deepFreeze, OrgShieldItem::new),
 			cryoliteShield = createNewItem(Strings.cryoliteShield, OrgShieldItem::new),
@@ -426,8 +428,8 @@ public class ModItems {
 			frozenPride = createNewItem(Strings.frozenPride, OrgShieldItem::new),
 			potLid = createNewItem(Strings.potLid, OrgShieldItem::new),
 			snowman = createNewItem(Strings.snowman, OrgShieldItem::new),
-			
-			reticence = createNewItem(Strings.reticence, AxeSwordItem::new),
+
+	reticence = createNewItem(Strings.reticence, AxeSwordItem::new),
 			goliath = createNewItem(Strings.goliath, AxeSwordItem::new),
 			copperRed = createNewItem(Strings.copperRed, AxeSwordItem::new),
 			daybreak = createNewItem(Strings.daybreak, AxeSwordItem::new),
@@ -451,8 +453,8 @@ public class ModItems {
 			skysplitter = createNewItem(Strings.skysplitter, AxeSwordItem::new),
 			bleepBloopBop = createNewItem(Strings.bleepBloopBop, AxeSwordItem::new),
 			monolith = createNewItem(Strings.monolith, AxeSwordItem::new),
-			
-			blackPrimer = createNewItem(Strings.blackPrimer, LexiconItem::new),
+
+	blackPrimer = createNewItem(Strings.blackPrimer, LexiconItem::new),
 			whiteTome = createNewItem(Strings.whiteTome, LexiconItem::new),
 			illicitResearch = createNewItem(Strings.illicitResearch, LexiconItem::new),
 			buriedSecrets = createNewItem(Strings.buriedSecrets, LexiconItem::new),
@@ -476,8 +478,8 @@ public class ModItems {
 			bookOfRetribution = createNewItem(Strings.bookOfRetribution, LexiconItem::new),
 			midnightSnack = createNewItem(Strings.midnightSnack, LexiconItem::new),
 			dearDiary = createNewItem(Strings.dearDiary, LexiconItem::new),
-			
-			newMoon = createNewItem(Strings.newMoon, ClaymoreItem::new),
+
+	newMoon = createNewItem(Strings.newMoon, ClaymoreItem::new),
 			werewolf = createNewItem(Strings.werewolf, ClaymoreItem::new),
 			artemis = createNewItem(Strings.artemis, ClaymoreItem::new),
 			luminary = createNewItem(Strings.luminary, ClaymoreItem::new),
@@ -501,8 +503,8 @@ public class ModItems {
 			lunatic = createNewItem(Strings.lunatic, ClaymoreItem::new),
 			justDesserts = createNewItem(Strings.justDesserts, ClaymoreItem::new),
 			bunnymoon = createNewItem(Strings.bunnymoon, ClaymoreItem::new),
-			
-			ashes = createNewItem(Strings.ashes, ChakramItem::new),
+
+	ashes = createNewItem(Strings.ashes, ChakramItem::new),
 			doldrums = createNewItem(Strings.doldrums, ChakramItem::new),
 			delayedAction = createNewItem(Strings.delayedAction, ChakramItem::new),
 			diveBombers = createNewItem(Strings.diveBombers, ChakramItem::new),
@@ -526,8 +528,8 @@ public class ModItems {
 			eternalFlames = createNewItem(Strings.eternalFlames, ChakramItem::new),
 			pizzaCut = createNewItem(Strings.pizzaCut, ChakramItem::new),
 			conformers = createNewItem(Strings.conformers, ChakramItem::new),
-			
-			basicModel = createNewItem(Strings.basicModel, SitarItem::new),
+
+	basicModel = createNewItem(Strings.basicModel, SitarItem::new),
 			tuneUp = createNewItem(Strings.tuneUp, SitarItem::new),
 			quartet = createNewItem(Strings.quartet, SitarItem::new),
 			quintet = createNewItem(Strings.quintet, SitarItem::new),
@@ -551,8 +553,8 @@ public class ModItems {
 			arpeggio = createNewItem(Strings.arpeggio, SitarItem::new),
 			princeOfAwesome = createNewItem(Strings.princeOfAwesome, SitarItem::new),
 			afterSchool = createNewItem(Strings.afterSchool, SitarItem::new),
-			
-			theFool = createNewItem(Strings.theFool, CardItem::new),
+
+	theFool = createNewItem(Strings.theFool, CardItem::new),
 			theMagician = createNewItem(Strings.theMagician, CardItem::new),
 			theStar = createNewItem(Strings.theStar, CardItem::new),
 			theMoon = createNewItem(Strings.theMoon, CardItem::new),
@@ -576,8 +578,8 @@ public class ModItems {
 			fairGame = createNewItem(Strings.fairGame, CardItem::new),
 			finestFantasy13 = createNewItem(Strings.finestFantasy13, CardItem::new),
 			highRollersSecret = createNewItem(Strings.highRollersSecret, CardItem::new),
-			
-			fickleErica = createNewItem(Strings.fickleErica, ScytheItem::new),
+
+	fickleErica = createNewItem(Strings.fickleErica, ScytheItem::new),
 			jiltedAnemone = createNewItem(Strings.jiltedAnemone, ScytheItem::new),
 			proudAmaryllis = createNewItem(Strings.proudAmaryllis, ScytheItem::new),
 			madSafflower = createNewItem(Strings.madSafflower, ScytheItem::new),
@@ -601,8 +603,8 @@ public class ModItems {
 			gracefulDahlia = createNewItem(Strings.gracefulDahlia, ScytheItem::new),
 			stirringLadle = createNewItem(Strings.stirringLadle, ScytheItem::new),
 			daintyBellflowers = createNewItem(Strings.daintyBellflowers, ScytheItem::new),
-			
-			trancheuse = createNewItem(Strings.trancheuse, KnifeItem::new),
+
+	trancheuse = createNewItem(Strings.trancheuse, KnifeItem::new),
 			orage = createNewItem(Strings.orage, KnifeItem::new),
 			tourbillon = createNewItem(Strings.tourbillon, KnifeItem::new),
 			tempete = createNewItem(Strings.tempete, KnifeItem::new),
@@ -625,106 +627,121 @@ public class ModItems {
 			volDeNuit = createNewItem(Strings.volDeNuit, KnifeItem::new),
 			foudre = createNewItem(Strings.foudre, KnifeItem::new),
 			demoiselle = createNewItem(Strings.demoiselle, KnifeItem::new),
-			ampoule = createNewItem(Strings.ampoule, KnifeItem::new),
+			ampoule = createNewItem(Strings.ampoule, KnifeItem::new);
+	//endregion
 
-			//Armors
+	//region Other weapons
+	public static final Supplier<Item>
+			dreamShield = createNewItem(Strings.dreamShield, () -> new KKShieldItem(new Item.Properties().stacksTo(1))),
+			dreamStaff = createNewItem(Strings.dreamStaff, () -> new SwordItem(new KeybladeItemTier(0), new Item.Properties().attributes(SwordItem.createAttributes(new KeybladeItemTier(0), 2, 1)).stacksTo(1))),
+			dreamSword = createNewItem(Strings.dreamSword, () -> new SwordItem(new KeybladeItemTier(0), new Item.Properties().attributes(SwordItem.createAttributes(new KeybladeItemTier(0), 2, 1)).stacksTo(1))),
+
+			struggleSword = createNewItem(Strings.StruggleSword, () -> new SwordItem(new KeybladeItemTier(0, 2000),new Item.Properties().attributes(SwordItem.createAttributes(new KeybladeItemTier(0, 2000), 1, 1)).stacksTo(1))),
+			struggleWand = createNewItem(Strings.StruggleWand, () -> new SwordItem(new KeybladeItemTier(0, 2000), new Item.Properties().attributes(SwordItem.createAttributes(new KeybladeItemTier(0, 2000), 1, 1)).stacksTo(1))),
+			struggleHammer = createNewItem(Strings.StruggleHammer, () -> new SwordItem(new KeybladeItemTier(0, 2000), new Item.Properties().attributes(SwordItem.createAttributes(new KeybladeItemTier(0, 2000), 1, 1)).stacksTo(1)));
+	//endregion
+
+	//region Armour
+	public static final Supplier<Item>
 			organizationRobe_Helmet = createArmorItem(Strings.organization+"_"+Strings.helmet, ModArmorMaterials.ORGANIZATION, ArmorItem.Type.HELMET, Strings.organization),
 			organizationRobe_Chestplate = createArmorItem(Strings.organization+"_"+Strings.chestplate, ModArmorMaterials.ORGANIZATION, ArmorItem.Type.CHESTPLATE, Strings.organization),
 			organizationRobe_Leggings = createArmorItem(Strings.organization+"_"+Strings.leggings, ModArmorMaterials.ORGANIZATION, ArmorItem.Type.LEGGINGS, Strings.organization),
 			organizationRobe_Boots = createArmorItem(Strings.organization+"_"+Strings.boots, ModArmorMaterials.ORGANIZATION, ArmorItem.Type.BOOTS, Strings.organization),
 
-			xemnas_Helmet = createArmorItem(Strings.xemnas+"_"+Strings.helmet, ModArmorMaterials.ORGANIZATION, ArmorItem.Type.HELMET, Strings.xemnas),
+	xemnas_Helmet = createArmorItem(Strings.xemnas+"_"+Strings.helmet, ModArmorMaterials.ORGANIZATION, ArmorItem.Type.HELMET, Strings.xemnas),
 			xemnas_Chestplate = createArmorItem(Strings.xemnas+"_"+Strings.chestplate, ModArmorMaterials.ORGANIZATION, ArmorItem.Type.CHESTPLATE, Strings.xemnas),
 			xemnas_Leggings = createArmorItem(Strings.xemnas+"_"+Strings.leggings, ModArmorMaterials.ORGANIZATION, ArmorItem.Type.LEGGINGS, Strings.xemnas),
 			xemnas_Boots = createArmorItem(Strings.xemnas+"_"+Strings.boots, ModArmorMaterials.ORGANIZATION, ArmorItem.Type.BOOTS, Strings.xemnas),
-					
-			antiCoat_Helmet = createArmorItem(Strings.antiCoat+"_"+Strings.helmet, ModArmorMaterials.ORGANIZATION, ArmorItem.Type.HELMET, Strings.antiCoat),
+
+	antiCoat_Helmet = createArmorItem(Strings.antiCoat+"_"+Strings.helmet, ModArmorMaterials.ORGANIZATION, ArmorItem.Type.HELMET, Strings.antiCoat),
 			antiCoat_Chestplate = createArmorItem(Strings.antiCoat+"_"+Strings.chestplate, ModArmorMaterials.ORGANIZATION, ArmorItem.Type.CHESTPLATE, Strings.antiCoat),
 			antiCoat_Leggings = createArmorItem(Strings.antiCoat+"_"+Strings.leggings, ModArmorMaterials.ORGANIZATION, ArmorItem.Type.LEGGINGS, Strings.antiCoat),
 			antiCoat_Boots = createArmorItem(Strings.antiCoat+"_"+Strings.boots, ModArmorMaterials.ORGANIZATION, ArmorItem.Type.BOOTS, Strings.antiCoat),
-					
-			terra_Helmet = createKeybladeArmorItem(Strings.terra+"_"+Strings.helmet, ModArmorMaterials.KEYBLADE, ArmorItem.Type.HELMET, Strings.terra),
+
+	terra_Helmet = createKeybladeArmorItem(Strings.terra+"_"+Strings.helmet, ModArmorMaterials.KEYBLADE, ArmorItem.Type.HELMET, Strings.terra),
 			terra_Chestplate = createKeybladeArmorItem(Strings.terra+"_"+Strings.chestplate, ModArmorMaterials.KEYBLADE, ArmorItem.Type.CHESTPLATE, Strings.terra),
 			terra_Leggings = createKeybladeArmorItem(Strings.terra+"_"+Strings.leggings, ModArmorMaterials.KEYBLADE, ArmorItem.Type.LEGGINGS, Strings.terra),
 			terra_Boots = createKeybladeArmorItem(Strings.terra+"_"+Strings.boots, ModArmorMaterials.KEYBLADE,ArmorItem.Type.BOOTS, Strings.terra),
 			terra_Shoulder = createNewItem(Strings.terra+"_shoulder", () -> new PauldronItem(new Item.Properties().stacksTo(1), Strings.terra, new Item[]{terra_Boots.get(),terra_Leggings.get(),terra_Chestplate.get(),terra_Helmet.get()})),
 
-			aqua_Helmet = createKeybladeArmorItem(Strings.aqua+"_"+Strings.helmet, ModArmorMaterials.KEYBLADE, ArmorItem.Type.HELMET, Strings.aqua),
+	aqua_Helmet = createKeybladeArmorItem(Strings.aqua+"_"+Strings.helmet, ModArmorMaterials.KEYBLADE, ArmorItem.Type.HELMET, Strings.aqua),
 			aqua_Chestplate = createKeybladeArmorItem(Strings.aqua+"_"+Strings.chestplate, ModArmorMaterials.KEYBLADE, ArmorItem.Type.CHESTPLATE, Strings.aqua),
 			aqua_Leggings = createKeybladeArmorItem(Strings.aqua+"_"+Strings.leggings, ModArmorMaterials.KEYBLADE, ArmorItem.Type.LEGGINGS, Strings.aqua),
 			aqua_Boots = createKeybladeArmorItem(Strings.aqua+"_"+Strings.boots, ModArmorMaterials.KEYBLADE, ArmorItem.Type.BOOTS, Strings.aqua),
 			aqua_Shoulder = createNewItem(Strings.aqua+"_shoulder", () -> new PauldronItem(new Item.Properties().stacksTo(1), Strings.aqua, new Item[]{aqua_Boots.get(),aqua_Leggings.get(),aqua_Chestplate.get(),aqua_Helmet.get()})),
 
-			ventus_Helmet = createKeybladeArmorItem(Strings.ventus+"_"+Strings.helmet, ModArmorMaterials.KEYBLADE, ArmorItem.Type.HELMET, Strings.ventus),
+	ventus_Helmet = createKeybladeArmorItem(Strings.ventus+"_"+Strings.helmet, ModArmorMaterials.KEYBLADE, ArmorItem.Type.HELMET, Strings.ventus),
 			ventus_Chestplate = createKeybladeArmorItem(Strings.ventus+"_"+Strings.chestplate, ModArmorMaterials.KEYBLADE, ArmorItem.Type.CHESTPLATE, Strings.ventus),
 			ventus_Leggings = createKeybladeArmorItem(Strings.ventus+"_"+Strings.leggings, ModArmorMaterials.KEYBLADE, ArmorItem.Type.LEGGINGS, Strings.ventus),
 			ventus_Boots = createKeybladeArmorItem(Strings.ventus+"_"+Strings.boots, ModArmorMaterials.KEYBLADE, ArmorItem.Type.BOOTS, Strings.ventus),
 			ventus_Shoulder = createNewItem(Strings.ventus+"_shoulder", () -> new PauldronItem(new Item.Properties().stacksTo(1), Strings.ventus, new Item[]{ventus_Boots.get(),ventus_Leggings.get(),ventus_Chestplate.get(),ventus_Helmet.get()})),
-			
-			nightmareVentus_Helmet = createKeybladeArmorItem(Strings.nightmareVentus+"_"+Strings.helmet, ModArmorMaterials.KEYBLADE, ArmorItem.Type.HELMET, Strings.nightmareVentus),
+
+	nightmareVentus_Helmet = createKeybladeArmorItem(Strings.nightmareVentus+"_"+Strings.helmet, ModArmorMaterials.KEYBLADE, ArmorItem.Type.HELMET, Strings.nightmareVentus),
 			nightmareVentus_Chestplate = createKeybladeArmorItem(Strings.nightmareVentus+"_"+Strings.chestplate, ModArmorMaterials.KEYBLADE, ArmorItem.Type.CHESTPLATE, Strings.nightmareVentus),
 			nightmareVentus_Leggings = createKeybladeArmorItem(Strings.nightmareVentus+"_"+Strings.leggings, ModArmorMaterials.KEYBLADE, ArmorItem.Type.LEGGINGS, Strings.nightmareVentus),
 			nightmareVentus_Boots = createKeybladeArmorItem(Strings.nightmareVentus+"_"+Strings.boots, ModArmorMaterials.KEYBLADE, ArmorItem.Type.BOOTS, Strings.nightmareVentus),
 			nightmareVentus_Shoulder = createNewItem(Strings.nightmareVentus+"_shoulder", () -> new PauldronItem(new Item.Properties().stacksTo(1), Strings.nightmareVentus, new Item[]{nightmareVentus_Boots.get(),nightmareVentus_Leggings.get(),nightmareVentus_Chestplate.get(),nightmareVentus_Helmet.get()})),
 
-			eraqus_Helmet = createKeybladeArmorItem(Strings.eraqus+"_"+Strings.helmet, ModArmorMaterials.KEYBLADE, ArmorItem.Type.HELMET, Strings.eraqus),
+	eraqus_Helmet = createKeybladeArmorItem(Strings.eraqus+"_"+Strings.helmet, ModArmorMaterials.KEYBLADE, ArmorItem.Type.HELMET, Strings.eraqus),
 			eraqus_Chestplate = createKeybladeArmorItem(Strings.eraqus+"_"+Strings.chestplate, ModArmorMaterials.KEYBLADE, ArmorItem.Type.CHESTPLATE, Strings.eraqus),
 			eraqus_Leggings = createKeybladeArmorItem(Strings.eraqus+"_"+Strings.leggings, ModArmorMaterials.KEYBLADE, ArmorItem.Type.LEGGINGS, Strings.eraqus),
 			eraqus_Boots = createKeybladeArmorItem(Strings.eraqus+"_"+Strings.boots, ModArmorMaterials.KEYBLADE, ArmorItem.Type.BOOTS, Strings.eraqus),
 			eraqus_Shoulder = createNewItem(Strings.eraqus+"_shoulder", () -> new PauldronItem(new Item.Properties().stacksTo(1), Strings.eraqus, new Item[]{eraqus_Boots.get(),eraqus_Leggings.get(),eraqus_Chestplate.get(),eraqus_Helmet.get()})),
-			
-			xehanort_Helmet = createKeybladeArmorItem(Strings.xehanort+"_"+Strings.helmet, ModArmorMaterials.KEYBLADE, ArmorItem.Type.HELMET, Strings.xehanort),
+
+	xehanort_Helmet = createKeybladeArmorItem(Strings.xehanort+"_"+Strings.helmet, ModArmorMaterials.KEYBLADE, ArmorItem.Type.HELMET, Strings.xehanort),
 			xehanort_Chestplate = createKeybladeArmorItem(Strings.xehanort+"_"+Strings.chestplate, ModArmorMaterials.KEYBLADE, ArmorItem.Type.CHESTPLATE, Strings.xehanort),
 			xehanort_Leggings = createKeybladeArmorItem(Strings.xehanort+"_"+Strings.leggings, ModArmorMaterials.KEYBLADE, ArmorItem.Type.LEGGINGS, Strings.xehanort),
 			xehanort_Boots = createKeybladeArmorItem(Strings.xehanort+"_"+Strings.boots, ModArmorMaterials.KEYBLADE, ArmorItem.Type.BOOTS, Strings.xehanort),
 			xehanort_Shoulder = createNewItem(Strings.xehanort+"_shoulder", () -> new PauldronItem(new Item.Properties().stacksTo(1), Strings.xehanort, new Item[]{xehanort_Boots.get(),xehanort_Leggings.get(),xehanort_Chestplate.get(),xehanort_Helmet.get()})),
 
-			ux_Helmet = createKeybladeArmorItem(Strings.ux+"_"+Strings.helmet, ModArmorMaterials.KEYBLADE, ArmorItem.Type.HELMET, Strings.ux),
+	ux_Helmet = createKeybladeArmorItem(Strings.ux+"_"+Strings.helmet, ModArmorMaterials.KEYBLADE, ArmorItem.Type.HELMET, Strings.ux),
 			ux_Chestplate = createKeybladeArmorItem(Strings.ux+"_"+Strings.chestplate, ModArmorMaterials.KEYBLADE, ArmorItem.Type.CHESTPLATE, Strings.ux),
 			ux_Leggings = createKeybladeArmorItem(Strings.ux+"_"+Strings.leggings, ModArmorMaterials.KEYBLADE, ArmorItem.Type.LEGGINGS, Strings.ux),
 			ux_Boots = createKeybladeArmorItem(Strings.ux+"_"+Strings.boots, ModArmorMaterials.KEYBLADE, ArmorItem.Type.BOOTS, Strings.ux),
 			ux_Shoulder = createNewItem(Strings.ux+"_shoulder", () -> new PauldronItem(new Item.Properties().stacksTo(1), Strings.ux, new Item[]{ux_Boots.get(),ux_Leggings.get(),ux_Chestplate.get(),ux_Helmet.get()})),
-					
-			vanitas_Helmet = createArmorItem(Strings.vanitas+"_"+Strings.helmet, ModArmorMaterials.VANITY, ArmorItem.Type.HELMET, Strings.vanitas),
+
+	vanitas_Helmet = createArmorItem(Strings.vanitas+"_"+Strings.helmet, ModArmorMaterials.VANITY, ArmorItem.Type.HELMET, Strings.vanitas),
 			vanitas_Chestplate = createArmorItem(Strings.vanitas+"_"+Strings.chestplate, ModArmorMaterials.VANITY, ArmorItem.Type.CHESTPLATE, Strings.vanitas),
 			vanitas_Leggings = createArmorItem(Strings.vanitas+"_"+Strings.leggings, ModArmorMaterials.VANITY, ArmorItem.Type.LEGGINGS, Strings.vanitas),
 			vanitas_Boots = createArmorItem(Strings.vanitas+"_"+Strings.boots, ModArmorMaterials.VANITY, ArmorItem.Type.BOOTS, Strings.vanitas),
 
-			vanitas_Remnant_Helmet = createArmorItem(Strings.vanitasRemnant+"_"+Strings.helmet, ModArmorMaterials.VANITY, ArmorItem.Type.HELMET, Strings.vanitasRemnant),
+	vanitas_Remnant_Helmet = createArmorItem(Strings.vanitasRemnant+"_"+Strings.helmet, ModArmorMaterials.VANITY, ArmorItem.Type.HELMET, Strings.vanitasRemnant),
 			vanitas_Remnant_Chestplate = createArmorItem(Strings.vanitasRemnant+"_"+Strings.chestplate, ModArmorMaterials.VANITY, ArmorItem.Type.CHESTPLATE, Strings.vanitasRemnant),
 			vanitas_Remnant_Leggings = createArmorItem(Strings.vanitasRemnant+"_"+Strings.leggings, ModArmorMaterials.VANITY, ArmorItem.Type.LEGGINGS, Strings.vanitasRemnant),
 			vanitas_Remnant_Boots = createArmorItem(Strings.vanitasRemnant+"_"+Strings.boots, ModArmorMaterials.VANITY, ArmorItem.Type.BOOTS, Strings.vanitasRemnant),
-			
-			dark_Riku_Chestplate = createArmorItem(Strings.darkRiku+"_"+Strings.chestplate, ModArmorMaterials.VANITY, ArmorItem.Type.CHESTPLATE, Strings.darkRiku),
+
+	dark_Riku_Chestplate = createArmorItem(Strings.darkRiku+"_"+Strings.chestplate, ModArmorMaterials.VANITY, ArmorItem.Type.CHESTPLATE, Strings.darkRiku),
 			dark_Riku_Leggings = createArmorItem(Strings.darkRiku+"_"+Strings.leggings, ModArmorMaterials.VANITY, ArmorItem.Type.LEGGINGS, Strings.darkRiku),
 			dark_Riku_Boots = createArmorItem(Strings.darkRiku+"_"+Strings.boots, ModArmorMaterials.VANITY, ArmorItem.Type.BOOTS, Strings.darkRiku),
-			
-			aced_Helmet = createArmorItem(Strings.aced+"_"+Strings.helmet, ModArmorMaterials.VANITY, ArmorItem.Type.HELMET, Strings.aced),
+
+	aced_Helmet = createArmorItem(Strings.aced+"_"+Strings.helmet, ModArmorMaterials.VANITY, ArmorItem.Type.HELMET, Strings.aced),
 			aced_Chestplate = createArmorItem(Strings.aced+"_"+Strings.chestplate, ModArmorMaterials.VANITY, ArmorItem.Type.CHESTPLATE, Strings.aced),
 			aced_Leggings = createArmorItem(Strings.aced+"_"+Strings.leggings, ModArmorMaterials.VANITY, ArmorItem.Type.LEGGINGS, Strings.aced),
 			aced_Boots = createArmorItem(Strings.aced+"_"+Strings.boots, ModArmorMaterials.VANITY, ArmorItem.Type.BOOTS, Strings.aced),
-					
-			ava_Helmet = createArmorItem(Strings.ava+"_"+Strings.helmet, ModArmorMaterials.VANITY, ArmorItem.Type.HELMET, Strings.ava),
+
+	ava_Helmet = createArmorItem(Strings.ava+"_"+Strings.helmet, ModArmorMaterials.VANITY, ArmorItem.Type.HELMET, Strings.ava),
 			ava_Chestplate = createArmorItem(Strings.ava+"_"+Strings.chestplate, ModArmorMaterials.VANITY, ArmorItem.Type.CHESTPLATE, Strings.ava),
 			ava_Leggings = createArmorItem(Strings.ava+"_"+Strings.leggings, ModArmorMaterials.VANITY, ArmorItem.Type.LEGGINGS, Strings.ava),
 			ava_Boots = createArmorItem(Strings.ava+"_"+Strings.boots, ModArmorMaterials.VANITY, ArmorItem.Type.BOOTS, Strings.ava),
-					
-			gula_Helmet = createArmorItem(Strings.gula+"_"+Strings.helmet, ModArmorMaterials.VANITY, ArmorItem.Type.HELMET, Strings.gula),
+
+	gula_Helmet = createArmorItem(Strings.gula+"_"+Strings.helmet, ModArmorMaterials.VANITY, ArmorItem.Type.HELMET, Strings.gula),
 			gula_Chestplate = createArmorItem(Strings.gula+"_"+Strings.chestplate, ModArmorMaterials.VANITY, ArmorItem.Type.CHESTPLATE, Strings.gula),
 			gula_Leggings = createArmorItem(Strings.gula+"_"+Strings.leggings, ModArmorMaterials.VANITY, ArmorItem.Type.LEGGINGS, Strings.gula),
 			gula_Boots = createArmorItem(Strings.gula+"_"+Strings.boots, ModArmorMaterials.VANITY, ArmorItem.Type.BOOTS, Strings.gula),
-					
-			invi_Helmet = createArmorItem(Strings.invi+"_"+Strings.helmet, ModArmorMaterials.VANITY, ArmorItem.Type.HELMET, Strings.invi),
+
+	invi_Helmet = createArmorItem(Strings.invi+"_"+Strings.helmet, ModArmorMaterials.VANITY, ArmorItem.Type.HELMET, Strings.invi),
 			invi_Chestplate = createArmorItem(Strings.invi+"_"+Strings.chestplate, ModArmorMaterials.VANITY, ArmorItem.Type.CHESTPLATE, Strings.invi),
 			invi_Leggings = createArmorItem(Strings.invi+"_"+Strings.leggings, ModArmorMaterials.VANITY, ArmorItem.Type.LEGGINGS, Strings.invi),
 			invi_Boots = createArmorItem(Strings.invi+"_"+Strings.boots, ModArmorMaterials.VANITY, ArmorItem.Type.BOOTS, Strings.invi),
-			
-			ira_Helmet = createArmorItem(Strings.ira+"_"+Strings.helmet, ModArmorMaterials.VANITY, ArmorItem.Type.HELMET, Strings.ira),
+
+	ira_Helmet = createArmorItem(Strings.ira+"_"+Strings.helmet, ModArmorMaterials.VANITY, ArmorItem.Type.HELMET, Strings.ira),
 			ira_Chestplate = createArmorItem(Strings.ira+"_"+Strings.chestplate, ModArmorMaterials.VANITY, ArmorItem.Type.CHESTPLATE, Strings.ira),
 			ira_Leggings = createArmorItem(Strings.ira+"_"+Strings.leggings, ModArmorMaterials.VANITY, ArmorItem.Type.LEGGINGS, Strings.ira),
-			ira_Boots = createArmorItem(Strings.ira+"_"+Strings.boots, ModArmorMaterials.VANITY, ArmorItem.Type.BOOTS, Strings.ira),
+			ira_Boots = createArmorItem(Strings.ira+"_"+Strings.boots, ModArmorMaterials.VANITY, ArmorItem.Type.BOOTS, Strings.ira);
+	//endregion
 
-			//Discs
+	//region Records
+	public static final Supplier<Item>
 			disc_Birth_by_Sleep_A_Link_to_the_Future = createNewItem(Strings.Disc_Birth_by_Sleep_A_Link_to_the_Future, () -> new KKRecordItem(ModJukeboxSongs.BIRTH_BY_SLEEP_A_LINK_TO_THE_FUTURE)),
 			disc_Dream_Drop_Distance_The_Next_Awakening = createNewItem(Strings.Disc_Dream_Drop_Distance_The_Next_Awakening, () -> new KKRecordItem(ModJukeboxSongs.DREAM_DROP_DISTANCE_THE_NEXT_AWAKENING)),
 			disc_Hikari_KINGDOM_Instrumental_Version = createNewItem(Strings.Disc_Hikari_KINGDOM_Instrumental_Version, () -> new KKRecordItem(ModJukeboxSongs.HIKARI_KINGDOM_INSTRUMENTAL_VERSION)),
@@ -732,8 +749,8 @@ public class ModItems {
 			disc_Musique_pour_la_tristesse_de_Xion = createNewItem(Strings.Disc_Musique_pour_la_tristesse_de_Xion, () -> new KKRecordItem(ModJukeboxSongs.MUSIQUE_POUR_LA_TRISTESSE_DE_XION)),
 			disc_No_More_Bugs_Bug_Version = createNewItem(Strings.Disc_No_More_Bugs_Bug_Version, () -> new KKRecordItem(ModJukeboxSongs.NO_MORE_BUGS_BUG_VERSION)),
 			disc_Organization_XIII = createNewItem(Strings.Disc_Organization_XIII, () -> new KKRecordItem(ModJukeboxSongs.ORGANIZATION_XIII)),
-			
-			disc_Dearly_Beloved_UX = createNewItem(Strings.Disc_Dearly_Beloved_UX, () -> new KKRecordItem(ModJukeboxSongs.DEARLY_BELOVED_UX)),
+
+	disc_Dearly_Beloved_UX = createNewItem(Strings.Disc_Dearly_Beloved_UX, () -> new KKRecordItem(ModJukeboxSongs.DEARLY_BELOVED_UX)),
 			disc_Passion_Instrumental = createNewItem(Strings.Disc_Passion_Instrumental, () -> new KKRecordItem(ModJukeboxSongs.PASSION_INSTRUMENTAL)),
 			disc_Rage_Awakened = createNewItem(Strings.Disc_Rage_Awakened, () -> new KKRecordItem(ModJukeboxSongs.RAGE_AWAKENED)),
 			disc_The_Other_Promise = createNewItem(Strings.Disc_The_Other_Promise, () -> new KKRecordItem(ModJukeboxSongs.THE_OTHER_PROMISE)),
@@ -745,9 +762,11 @@ public class ModItems {
 			disc_Forgotten_Challenge_Recoded = createNewItem(Strings.Disc_Forgotten_Challenge_Recoded, () -> new KKRecordItem(ModJukeboxSongs.FORGOTTEN_CHALLENGE_RECODED)),
 			disc_Anger_Unchained = createNewItem(Strings.Disc_Anger_Unchained, () -> new KKRecordItem(ModJukeboxSongs.ANGER_UNCHAINED)),
 			disc_Hunter_Of_The_Dark = createNewItem(Strings.Disc_Hunter_Of_The_Dark, () -> new KKRecordItem(ModJukeboxSongs.HUNTER_OF_THE_DARK)),
-			disc_Destati = createNewItem(Strings.Disc_Destati, () -> new KKRecordItem(ModJukeboxSongs.DESTATI)),
+			disc_Destati = createNewItem(Strings.Disc_Destati, () -> new KKRecordItem(ModJukeboxSongs.DESTATI));
+	//endregion
 
-			//Synthesis mats
+	//region Synth mats
+	public static final Supplier<Item>
 			blazing_crystal = createNewItem(Strings.SM_BlazingCrystal, () -> new SynthesisItem(new Item.Properties(), Strings.SM_Rank_S)),
 			blazing_gem = createNewItem(Strings.SM_BlazingGem, () -> new SynthesisItem(new Item.Properties(), Strings.SM_Rank_A)),
 			blazing_stone = createNewItem(Strings.SM_BlazingStone, () -> new SynthesisItem(new Item.Properties(), Strings.SM_Rank_B)),
@@ -821,9 +840,11 @@ public class ModItems {
 			adamantite = createNewItem(Strings.SM_Adamantite, () -> new SynthesisItem(new Item.Properties(), Strings.SM_Rank_A)),
 			electrum = createNewItem(Strings.SM_Electrum, () -> new SynthesisItem(new Item.Properties(), Strings.SM_Rank_S)),
 			evanescent_crystal = createNewItem(Strings.SM_EvanescentCrystal, () -> new SynthesisItem(new Item.Properties(), Strings.SM_Rank_S)),
-			illusory_crystal = createNewItem(Strings.SM_IllusoryCrystal, () -> new SynthesisItem(new Item.Properties(), Strings.SM_Rank_S)),
+			illusory_crystal = createNewItem(Strings.SM_IllusoryCrystal, () -> new SynthesisItem(new Item.Properties(), Strings.SM_Rank_S));
+	//endregion
 
-			//Magic spells
+	//region Spells
+	public static final Supplier<Item>
 			fireSpell = createNewItem(Strings.SpellFire, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Fire))),
 			firaSpell = createNewItem(Strings.SpellFira, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Fira))),
 			firagaSpell = createNewItem(Strings.SpellFiraga, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Firaga))),
@@ -834,7 +855,7 @@ public class ModItems {
 			firagaBurstSpell = createNewItem(Strings.SpellFiragaBurst, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_FiragaBurst))),
 			igniteSpell = createNewItem(Strings.SpellIgnite, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Ignite))),
 
-			blizzardSpell = createNewItem(Strings.SpellBlizzard, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Blizzard))),
+	blizzardSpell = createNewItem(Strings.SpellBlizzard, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Blizzard))),
 			blizzaraSpell = createNewItem(Strings.SpellBlizzara, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Blizzara))),
 			blizzagaSpell = createNewItem(Strings.SpellBlizzaga, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Blizzaga))),
 			tripleBlizzagaSpell = createNewItem(Strings.SpellTripleBlizzaga, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_TripleBlizzard))),
@@ -842,11 +863,11 @@ public class ModItems {
 			glacierSpell = createNewItem(Strings.SpellGlacier, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Glacier))),
 			iceBarrageSpell = createNewItem(Strings.SpellIceBarrage, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_IceBarrage))),
 
-			waterSpell = createNewItem(Strings.SpellWater, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Water))),
+	waterSpell = createNewItem(Strings.SpellWater, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Water))),
 			wateraSpell = createNewItem(Strings.SpellWatera, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Watera))),
 			watergaSpell = createNewItem(Strings.SpellWaterga, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Waterga))),
 
-			thunderSpell = createNewItem(Strings.SpellThunder, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Thunder))),
+	thunderSpell = createNewItem(Strings.SpellThunder, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Thunder))),
 			thundaraSpell = createNewItem(Strings.SpellThundara, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Thundara))),
 			thundagaSpell = createNewItem(Strings.SpellThundaga, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Thundaga))),
 			thundagaShotSpell = createNewItem(Strings.SpellThundagaShot, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_ThundagaShot))),
@@ -855,60 +876,71 @@ public class ModItems {
 			sparkraSpell = ITEMS.register(Strings.SpellSparkra, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Sparkra))),
 			sparkgaSpell = ITEMS.register(Strings.SpellSparkga, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Sparkga))),
 
-			cureSpell = createNewItem(Strings.SpellCure, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Cure))),
+	cureSpell = createNewItem(Strings.SpellCure, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Cure))),
 			curaSpell = createNewItem(Strings.SpellCura, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Cura))),
 			curagaSpell = createNewItem(Strings.SpellCuraga, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Curaga))),
 
-			aeroSpell = createNewItem(Strings.SpellAero, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Aero))),
+	aeroSpell = createNewItem(Strings.SpellAero, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Aero))),
 			aeroraSpell = createNewItem(Strings.SpellAerora, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Aerora))),
 			aerogaSpell = createNewItem(Strings.SpellAeroga, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Aeroga))),
 
-			magnetSpell = createNewItem(Strings.SpellMagnet, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Magnet))),
+	magnetSpell = createNewItem(Strings.SpellMagnet, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Magnet))),
 			magneraSpell = createNewItem(Strings.SpellMagnera, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Magnera))),
 			magnegaSpell = createNewItem(Strings.SpellMagnega, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Magnega))),
 
-			reflectSpell = createNewItem(Strings.SpellReflect, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Reflect))),
+	reflectSpell = createNewItem(Strings.SpellReflect, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Reflect))),
 			refleraSpell = createNewItem(Strings.SpellReflera, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Reflera))),
 			reflegaSpell = createNewItem(Strings.SpellReflega, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Reflega))),
 
-			gravitySpell = createNewItem(Strings.SpellGravity, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Gravity))),
+	gravitySpell = createNewItem(Strings.SpellGravity, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Gravity))),
 			graviraSpell = createNewItem(Strings.SpellGravira, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Gravira))),
 			gravigaSpell = createNewItem(Strings.SpellGraviga, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Graviga))),
 			zeroGravitySpell = createNewItem(Strings.SpellZeroGravity, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_ZeroGravity))),
 			zeroGraviraSpell = createNewItem(Strings.SpellZeroGravira, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_ZeroGravira))),
 			zeroGravigaSpell = createNewItem(Strings.SpellZeroGraviga, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_ZeroGraviga))),
 
-			stopSpell = createNewItem(Strings.SpellStop, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Stop))),
+	stopSpell = createNewItem(Strings.SpellStop, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Stop))),
 			stopraSpell = createNewItem(Strings.SpellStopra, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Stopra))),
 			stopgaSpell = createNewItem(Strings.SpellStopga, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Stopga))),
 
-			balloonSpell = ITEMS.register(Strings.SpellBalloon, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Balloon))),
+	balloonSpell = ITEMS.register(Strings.SpellBalloon, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Balloon))),
 			balloonraSpell = ITEMS.register(Strings.SpellBalloonra, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Balloonra))),
 			balloongaSpell = ITEMS.register(Strings.SpellBalloonga, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Balloonga))),
 
-			mineShieldSpell = ITEMS.register(Strings.SpellMineShield, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_MineShield))),
+	mineShieldSpell = ITEMS.register(Strings.SpellMineShield, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_MineShield))),
 			mineSquareSpell = ITEMS.register(Strings.SpellMineSquare, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_MineSquare))),
 			mineSeekerSpell = ITEMS.register(Strings.SpellMineSeeker, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_SeekerMine))),
 
-			warpSpell = ITEMS.register(Strings.SpellWarp, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Warp))),
+	warpSpell = ITEMS.register(Strings.SpellWarp, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Warp))),
 			faithSpell = ITEMS.register(Strings.SpellFaith, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Faith))),
 
-			blackoutSpell = createNewItem(Strings.SpellBlackout, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Blackout))),
+	blackoutSpell = createNewItem(Strings.SpellBlackout, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Blackout))),
 			poisonSpell = createNewItem(Strings.SpellPoison, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Poison))),
 			esunaSpell = ITEMS.register(Strings.SpellEsuna, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Esuna))),
 			confuseSpell = ITEMS.register(Strings.SpellConfuse, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Confuse))),
 			bindSpell = ITEMS.register(Strings.SpellBind, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Bind))),
 			miniSpell = ITEMS.register(Strings.SpellMini, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Mini))),
-			slowSpell = ITEMS.register(Strings.SpellSlow, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Slow))),
+			slowSpell = ITEMS.register(Strings.SpellSlow, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Slow)));
+	//endregion
 
-			//Drive forms
+	//region Forms
+	public static final Supplier<Item>
 			valorOrb = createNewItem(Strings.LevelUpValor, () -> new DriveFormOrbItem(new Item.Properties(), KingdomKeys.rl(Strings.Form_Valor))),
 			wisdomOrb = createNewItem(Strings.LevelUpWisdom, () -> new DriveFormOrbItem(new Item.Properties(), KingdomKeys.rl(Strings.Form_Wisdom))),
 			limitOrb = createNewItem(Strings.LevelUpLimit, () -> new DriveFormOrbItem(new Item.Properties(), KingdomKeys.rl(Strings.Form_Limit))),
 			masterOrb = createNewItem(Strings.LevelUpMaster, () -> new DriveFormOrbItem(new Item.Properties(), KingdomKeys.rl(Strings.Form_Master))),
-			finalOrb = createNewItem(Strings.LevelUpFinal, () -> new DriveFormOrbItem(new Item.Properties(), KingdomKeys.rl(Strings.Form_Final))),
+			finalOrb = createNewItem(Strings.LevelUpFinal, () -> new DriveFormOrbItem(new Item.Properties(), KingdomKeys.rl(Strings.Form_Final)));
+	//endregion
 
-			//Recipes
+	//region Bags
+	public static final Supplier<Item>
+			synthesisBag = createNewItem("synthesis_bag", () -> new BagItem(new Item.Properties().stacksTo(1), BagItem.Type.SYNTHESIS_BAG)),
+			magicsBag = createNewItem("magics_bag", () -> new BagItem(new Item.Properties().stacksTo(1), BagItem.Type.MAGICS_BAG)),
+			cardsBag = createNewItem("cards_bag", () -> new BagItem(new Item.Properties().stacksTo(1), BagItem.Type.CARDS_BAG));
+	//endregion
+
+	//region Recipes
+	public static final Supplier<Item>
 			recipe = createNewItem("recipe", () -> new RecipeItem(0, new Item.Properties())),
 			recipeD = createNewItem("recipe_d", () -> new RecipeItem(1, new Item.Properties())),
 			recipeC = createNewItem("recipe_c", () -> new RecipeItem(2, new Item.Properties())),
@@ -916,9 +948,11 @@ public class ModItems {
 			recipeA = createNewItem("recipe_a", () -> new RecipeItem(4, new Item.Properties())),
 			recipeS = createNewItem("recipe_s", () -> new RecipeItem(5, new Item.Properties())),
 			recipeSS = createNewItem("recipe_ss", () -> new RecipeItem(6, new Item.Properties())),
-			recipeSSS = createNewItem("recipe_sss", () -> new RecipeItem(7, new Item.Properties())),
+			recipeSSS = createNewItem("recipe_sss", () -> new RecipeItem(7, new Item.Properties()));
+	//endregion
 
-			//Consumables
+	//region Consumable items
+	public static final Supplier<Item>
 			potion = createNewItem(Strings.potion, () -> new KKPotionItem(new Item.Properties().stacksTo(1), KKPotionItem.PotionType.HP, 30, true, false)),
 			hiPotion = createNewItem(Strings.hiPotion, () -> new KKPotionItem(new Item.Properties().stacksTo(1), KKPotionItem.PotionType.HP, 60, true, false)),
 			megaPotion = createNewItem(Strings.megaPotion, () -> new KKPotionItem(new Item.Properties().stacksTo(1), KKPotionItem.PotionType.HP, 40, true, true)),
@@ -931,15 +965,19 @@ public class ModItems {
 			hiDriveRecovery = createNewItem(Strings.hiDriveRecovery, () -> new KKPotionItem(new Item.Properties().stacksTo(1), KKPotionItem.PotionType.DRIVE, 1000, false, false)),
 			refocuser = createNewItem(Strings.refocuser, () -> new KKPotionItem(new Item.Properties().stacksTo(1), KKPotionItem.PotionType.FOCUS, 40, true, false)),
 			hiRefocuser = createNewItem(Strings.hiRefocuser, () -> new KKPotionItem(new Item.Properties().stacksTo(1), KKPotionItem.PotionType.FOCUS, 100, true, false)),
-            panacea = createNewItem(Strings.panacea, () -> new KKPotionItem(new Item.Properties().stacksTo(1), KKPotionItem.PotionType.PANACEA, 1, false, false)),
+			panacea = createNewItem(Strings.panacea, () -> new KKPotionItem(new Item.Properties().stacksTo(1), KKPotionItem.PotionType.PANACEA, 1, false, false));
+	//endregion
 
-			//Boosters
-    		powerBoost = createNewItem(Strings.powerBoost, () -> new StatUpgradeItem(new Item.Properties(), Strings.powerBoost)),
+	//region Boosts
+	public static final Supplier<Item>
+			powerBoost = createNewItem(Strings.powerBoost, () -> new StatUpgradeItem(new Item.Properties(), Strings.powerBoost)),
 			magicBoost = createNewItem(Strings.magicBoost, () -> new StatUpgradeItem(new Item.Properties(), Strings.magicBoost)),
 			defenseBoost = createNewItem(Strings.defenseBoost, () -> new StatUpgradeItem(new Item.Properties(), Strings.defenseBoost)),
-			apBoost = createNewItem(Strings.apBoost, () -> new StatUpgradeItem(new Item.Properties(), Strings.apBoost)),
+			apBoost = createNewItem(Strings.apBoost, () -> new StatUpgradeItem(new Item.Properties(), Strings.apBoost));
+	//endregion
 
-			//Accessories
+	//region Accessories
+	public static final Supplier<Item>
 			abilityRing = createNewItem(Strings.abilityRing, () -> new KKAccessoryItem(new Item.Properties().stacksTo(1), 1, 0, 0, null)),
 			engineersRing = createNewItem(Strings.engineersRing, () -> new KKAccessoryItem(new Item.Properties().stacksTo(1), 2, 0, 0, null)),
 			techniciansRing = createNewItem(Strings.techniciansRing, () -> new KKAccessoryItem(new Item.Properties().stacksTo(1), 3, 0, 0, null)),
@@ -957,13 +995,14 @@ public class ModItems {
 			fullBloomPlus = createNewItem(Strings.fullBloomPlus, () -> new KKAccessoryItem(new Item.Properties().stacksTo(1), 5, 3, 0, new ResourceLocation[] {ModAbilities.MP_HASTE.location()})),
 			shadowArchive = createNewItem(Strings.shadowArchive, () -> new KKAccessoryItem(new Item.Properties().stacksTo(1), 5, 0, 3, null)),
 			shadowArchivePlus = createNewItem(Strings.shadowArchivePlus, () -> new KKAccessoryItem(new Item.Properties().stacksTo(1), 5, 0, 3, new ResourceLocation[] {ModAbilities.MP_RAGE.location()})),
-    		drawRing = createNewItem(Strings.drawRing, () -> new KKAccessoryItem(new Item.Properties().stacksTo(1), 0, 0, 0, new ResourceLocation[] {ModAbilities.TREASURE_MAGNET.location()})),
-    		luckyRing = createNewItem(Strings.luckyRing, () -> new KKAccessoryItem(new Item.Properties().stacksTo(1), 0, 0, 0, new ResourceLocation[] {ModAbilities.LUCKY_STRIKE.location()})),
-			sardonyxRing = createNewItem(Strings.sardonyxRing, () -> new KKAccessoryItem(new Item.Properties().stacksTo(1), 1, 1, 0, null)),
+			drawRing = createNewItem(Strings.drawRing, () -> new KKAccessoryItem(new Item.Properties().stacksTo(1), 0, 0, 0, new ResourceLocation[] {ModAbilities.TREASURE_MAGNET.location()})),
+			luckyRing = createNewItem(Strings.luckyRing, () -> new KKAccessoryItem(new Item.Properties().stacksTo(1), 0, 0, 0, new ResourceLocation[] {ModAbilities.LUCKY_STRIKE.location()})),
+
+	sardonyxRing = createNewItem(Strings.sardonyxRing, () -> new KKAccessoryItem(new Item.Properties().stacksTo(1), 1, 1, 0, null)),
 			garnetRing = createNewItem(Strings.garnetRing, () -> new KKAccessoryItem(new Item.Properties().stacksTo(1), 4, 1, 0, null)),
 			diamondRing = createNewItem(Strings.diamondRing, () -> new KKAccessoryItem(new Item.Properties().stacksTo(1), 5, 1, 0, null)),
 			tourmalineRing = createNewItem(Strings.tourmalineRing, () -> new KKAccessoryItem(new Item.Properties().stacksTo(1), 2, 0, 1, null)),
-			silverRing = createNewItem(Strings.silverRing, () -> new KKAccessoryItem(new Item.Properties().stacksTo(1), 1, 0, 1, null)),		
+			silverRing = createNewItem(Strings.silverRing, () -> new KKAccessoryItem(new Item.Properties().stacksTo(1), 1, 0, 1, null)),
 			goldRing = createNewItem(Strings.goldRing, () -> new KKAccessoryItem(new Item.Properties().stacksTo(1), 2, 1, 0, null)),
 			platinumRing = createNewItem(Strings.platinumRing, () -> new KKAccessoryItem(new Item.Properties().stacksTo(1), 3, 0, 1, null)),
 			mythrilRing = createNewItem(Strings.mythrilRing, () -> new KKAccessoryItem(new Item.Properties().stacksTo(1), 4, 0, 1, null)),
@@ -972,9 +1011,11 @@ public class ModItems {
 			soldierEarring = createNewItem(Strings.soldierEarring, () -> new KKAccessoryItem(new Item.Properties().stacksTo(1), 4, 2, 0, null)),
 			mageEarring = createNewItem(Strings.mageEarring, () -> new KKAccessoryItem(new Item.Properties().stacksTo(1), 4, 0, 2, null)),
 			slayerEarring = createNewItem(Strings.slayerEarring, () -> new KKAccessoryItem(new Item.Properties().stacksTo(1), 5, 1, 2, null)),
-			fencerEarring = createNewItem(Strings.fencerEarring, () -> new KKAccessoryItem(new Item.Properties().stacksTo(1), 5, 2, 1, null)),
+			fencerEarring = createNewItem(Strings.fencerEarring, () -> new KKAccessoryItem(new Item.Properties().stacksTo(1), 5, 2, 1, null));
+	//endregion
 
-			//Armor (equipable)
+	//region KK Armour
+	public static final Supplier<Item>
 			fireBangle = createNewItem(Strings.fireBangle, () -> new KKArmorItem(new Item.Properties().stacksTo(1), 1, ImmutableMap.of(KKResistanceType.fire, 20))),
 			firaBangle = createNewItem(Strings.firaBangle, () -> new KKArmorItem(new Item.Properties().stacksTo(1),2, ImmutableMap.of(KKResistanceType.fire,20))),
 			firagaBangle = createNewItem(Strings.firagaBangle, () -> new KKArmorItem(new Item.Properties().stacksTo(1),3, ImmutableMap.of(KKResistanceType.fire,20))),
@@ -1008,9 +1049,13 @@ public class ModItems {
 			midnightAnklet = createNewItem(Strings.midnightAnklet, () -> new KKArmorItem(new Item.Properties().stacksTo(1),3, ImmutableMap.of(KKResistanceType.darkness,20))),
 			chaosAnklet = createNewItem(Strings.chaosAnklet, () -> new KKArmorItem(new Item.Properties().stacksTo(1),3, ImmutableMap.of(KKResistanceType.darkness, 25))),
 			protectBelt = createNewItem(Strings.protectBelt, () -> new KKArmorItem(new Item.Properties().stacksTo(1),3, ImmutableMap.of())),
-			gaiaBelt = createNewItem(Strings.gaiaBelt, () -> new KKArmorItem(new Item.Properties().stacksTo(1),3, ImmutableMap.of(KKResistanceType.lightning,20,KKResistanceType.darkness,20))),
+			gaiaBelt = createNewItem(Strings.gaiaBelt, () -> new KKArmorItem(new Item.Properties().stacksTo(1),3, ImmutableMap.of(KKResistanceType.lightning,20,KKResistanceType.darkness,20)));
+	//endregion
 
-			//Red cards
+	//region CO Cards
+	public static final Supplier<Item>
+			//map cards
+			//red
 			tranquilDarkness = createMapCard(Strings.TranquilDarkness, ModRoomTypes.TRANQUIL_DARKNESS, CardCategory.RED),
 			teemingDarkness = createMapCard(Strings.TeemingDarkness, ModRoomTypes.TEEMING_DARKNESS, CardCategory.RED),
 			feebleDarkness = createMapCard(Strings.FeebleDarkness, ModRoomTypes.FEEBLE_DARKNESS, CardCategory.RED),
@@ -1022,15 +1067,15 @@ public class ModItems {
 			bottomlessDarkness = createMapCard(Strings.BottomlessDarkness, ModRoomTypes.BOTTOMLESS_DARKNESS, CardCategory.RED),
 			rouletteRoom = createMapCard(Strings.RouletteRoom, ModRoomTypes.ROULETTE_ROOM, CardCategory.RED),
 
-			//Green cards
-			martialWaking = createMapCard(Strings.MartialWaking, ModRoomTypes.MARTIAL_WAKING, CardCategory.GREEN),
+	//green
+	martialWaking = createMapCard(Strings.MartialWaking, ModRoomTypes.MARTIAL_WAKING, CardCategory.GREEN),
 			sorcerousWaking = createMapCard(Strings.SorcerousWaking, ModRoomTypes.SORCEROUS_WAKING, CardCategory.GREEN, true),
 			alchemicWaking = createMapCard(Strings.AlchemicWaking, ModRoomTypes.ALCHEMIC_WAKING, CardCategory.GREEN, true),
 			stagnantSpace = createMapCard(Strings.StagnantSpace, ModRoomTypes.STAGNANT_SPACE, CardCategory.GREEN),
 			weightlessSpace = createMapCard(Strings.WeightlessSpace, ModRoomTypes.WEIGHTLESS_SPACE, CardCategory.GREEN),
 
-			//Blue cards
-			calmBounty = createMapCard(Strings.CalmBounty, ModRoomTypes.CALM_BOUNTY, CardCategory.BLUE),
+	//blue
+	calmBounty = createMapCard(Strings.CalmBounty, ModRoomTypes.CALM_BOUNTY, CardCategory.BLUE),
 			guardedTrove = createMapCard(Strings.GuardedTrove, ModRoomTypes.GUARDED_TROVE, CardCategory.BLUE),
 			falseBounty = createMapCard(Strings.FalseBounty, ModRoomTypes.FALSE_BOUNTY, CardCategory.BLUE),
 			momentsReprieve = createMapCard(Strings.MomentsReprieve, ModRoomTypes.MOMENTS_REPRIEVE, CardCategory.BLUE),
@@ -1040,21 +1085,14 @@ public class ModItems {
 			reposefulGrove = createMapCard(Strings.ReposefulGrove, ModRoomTypes.REPOSEFUL_GROVE, CardCategory.BLUE, true),
 			minglingWorlds = ITEMS.register(Strings.MinglingWorlds, MinglingWorldsMapCardItem::new),
 
-			//Key cards
-			keyOfBeginnings = createKeyCard("key_of_beginnings", ModRoomTypes.ROOM_OF_BEGINNINGS, KeycardType.BEGINNINGS),
+	//keycard
+	keyOfBeginnings = createKeyCard("key_of_beginnings", ModRoomTypes.ROOM_OF_BEGINNINGS, KeycardType.BEGINNINGS),
 			keyOfGuidance = createKeyCard("key_of_guidance", ModRoomTypes.ROOM_OF_GUIDANCE, KeycardType.GUIDANCE),
 			keyToTruth = createKeyCard("key_to_truth", ModRoomTypes.ROOM_OF_TRUTH, KeycardType.TRUTH),
 			keyToRewards = createKeyCard("key_to_rewards", ModRoomTypes.ROOM_OF_REWARDS, KeycardType.REWARDS),
 
-			//Card packs
-			redCardPack = createNewItem(Strings.RedCardPack, () -> new CardPackItem(new Item.Properties(), CardCategory.RED)),
-			greenCardPack = createNewItem(Strings.GreenCardPack, () -> new CardPackItem(new Item.Properties(), CardCategory.GREEN)),
-			blueCardPack = createNewItem(Strings.BlueCardPack, () -> new CardPackItem(new Item.Properties(), CardCategory.BLUE)),
-			randomCardPack = createNewItem(Strings.RandomCardPack, () -> new CardPackItem(new Item.Properties(), null)),
-			rouletteBonus = createNewItem(Strings.RouletteBonus, () -> new RouletteBonusItem()),
-
-		//floor cards
-			emptyCard = createNewItem(Strings.EmptyCard, () -> new BiomeMemoryItem(new Item.Properties(), null)),
+	//floor cards
+	emptyCard = createNewItem(Strings.EmptyCard, () -> new BiomeMemoryItem(new Item.Properties(), null)),
 			plainsCard = createWorldCard(Strings.PlainsCard, ModFloorTypes.PLAINS, true),
 			plainsMemory = createNewItem(Strings.PlainsMemory, () -> new BiomeMemoryItem(new Item.Properties(), Biomes.PLAINS)),
 			theNetherCard = createWorldCard(Strings.TheNetherCard, ModFloorTypes.THE_NETHER),
@@ -1071,23 +1109,25 @@ public class ModItems {
 			caveCard = createWorldCard(Strings.CaveCard, ModFloorTypes.CAVE),
 			castleOblivionCard = createWorldCard(Strings.CastleOblivionCard, ModFloorTypes.CASTLE_OBLIVION),
 
-			//Bags
-			synthesisBag = createNewItem("synthesis_bag", () -> new BagItem(new Item.Properties().stacksTo(1), BagItem.Type.SYNTHESIS_BAG)),
-			magicsBag = createNewItem("magics_bag", () -> new BagItem(new Item.Properties().stacksTo(1), BagItem.Type.MAGICS_BAG)),
-			cardsBag = createNewItem("cards_bag", () -> new BagItem(new Item.Properties().stacksTo(1), BagItem.Type.CARDS_BAG)),
+	//others
+	redCardPack = createNewItem(Strings.RedCardPack, () -> new CardPackItem(new Item.Properties(), CardCategory.RED)),
+			greenCardPack = createNewItem(Strings.GreenCardPack, () -> new CardPackItem(new Item.Properties(), CardCategory.GREEN)),
+			blueCardPack = createNewItem(Strings.BlueCardPack, () -> new CardPackItem(new Item.Properties(), CardCategory.BLUE)),
+			randomCardPack = createNewItem(Strings.RandomCardPack, () -> new CardPackItem(new Item.Properties(), null)),
+			rouletteBonus = createNewItem(Strings.RouletteBonus, () -> new RouletteBonusItem());
+	//endregion
 
-			//Misc
+	//region Others
+	public static final Supplier<Item>
 			wayfinder = createNewItem(Strings.wayfinder, () -> new WayfinderItem(new Item.Properties().stacksTo(1))),
 			gummiPhone = createNewItem(Strings.gummiPhone, () -> new GummiPhoneItem(new Item.Properties().stacksTo(1))),
 			gummiShipBlueprint = createNewItem(Strings.gummiShipBlueprint, () -> new GummiShipBlueprintItem(new Item.Properties())),
 			proofOfHeart = createNewItem("proof_of_heart", () -> new ProofOfHeartItem(new Item.Properties())),
-			struggleSword = createNewItem(Strings.StruggleSword, () -> new SwordItem(new KeybladeItemTier(0, 2000),new Item.Properties().attributes(SwordItem.createAttributes(new KeybladeItemTier(0, 2000), 1, 1)).stacksTo(1))),
-			struggleWand = createNewItem(Strings.StruggleWand, () -> new SwordItem(new KeybladeItemTier(0, 2000), new Item.Properties().attributes(SwordItem.createAttributes(new KeybladeItemTier(0, 2000), 1, 1)).stacksTo(1))),
-			struggleHammer = createNewItem(Strings.StruggleHammer, () -> new SwordItem(new KeybladeItemTier(0, 2000), new Item.Properties().attributes(SwordItem.createAttributes(new KeybladeItemTier(0, 2000), 1, 1)).stacksTo(1))),
-			gummiMeteorFragment = createNewItem("gummi_meteor_fragment", new Item.Properties()),
 			iceCream = createNewItem(Strings.iceCream, () -> new KKIceCreamItem(new Item.Properties().food(new FoodProperties.Builder().fast().saturationModifier(2.0f).nutrition(2).alwaysEdible().build()))),
 			winnerStick = createNewItem(Strings.winnerStick, () -> new Item(new Item.Properties())),
-			trainingDummy = createNewItem(Strings.trainingDummy, () -> new TrainingDummyItem(new Item.Properties()));
+			trainingDummy = createNewItem(Strings.trainingDummy, () -> new TrainingDummyItem(new Item.Properties())),
+			gummiMeteorFragment = createNewItem("gummi_meteor_fragment", new Item.Properties());
+	//endregion
 
 	//Helper method to create item with the properties and registry name
 	public static Supplier<Item> createNewItem(String name, Item.Properties properties) {
@@ -1125,7 +1165,7 @@ public class ModItems {
 	private static Supplier<Item> createWorldCard(String name, Supplier<FloorType> type, boolean implemented) {
 		return ITEMS.register(name, () -> new WorldCardItem(type, implemented));
 	}
-	
+
 	private static Supplier<Item> createKeybladeArmorItem(String name, Holder<ArmorMaterial> material, ArmorItem.Type slot, String textureName) {
 		return ITEMS.register(name, () -> new KeybladeArmorItem(material, slot, textureName));
 	}

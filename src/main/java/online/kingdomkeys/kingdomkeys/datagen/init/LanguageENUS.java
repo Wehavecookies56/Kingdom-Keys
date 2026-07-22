@@ -2321,6 +2321,32 @@ public class LanguageENUS extends KKLanguageProvider {
         add("co.encounter.wave", "Wave");
         add("co.encounter.end", "Finished encounter");
 
+        add("kingdomkeys.struggle.starting", "Struggle starting...");
+        add("kingdomkeys.struggle.tournament.next_match", "Next tournament match starting...");
+        add("kingdomkeys.struggle.ffa.starting", "Free for all starting...");
+        add("kingdomkeys.struggle.go", "GO!");
+        add("kingdomkeys.struggle.win", "You win!");
+        add("kingdomkeys.struggle.lose", "You lose!");
+        add("kingdomkeys.struggle.tournament.bye", "You got a bye this round!");
+        add("kingdomkeys.struggle.tournament.champion", "Tournament Champion:");
+
+        add(Strings.Gui_Menu_Struggle_Menu_Title, "Struggle");
+        add(Strings.Gui_Menu_Struggle_Create_Title, "Start Struggle");
+        add(Strings.Gui_Menu_Struggle_Join_Title, "Join Struggle");
+        add(Strings.Gui_Menu_Struggle_Settings_Title, "Struggle Settings");
+        add(Strings.Gui_Menu_Struggle_Create_Button, "Create match");
+        add(Strings.Gui_Menu_Struggle_Join_Button, "Join match");
+        add(Strings.Gui_Menu_Struggle_Settings_Button, "Struggle Settings");
+        add(Strings.Gui_Menu_Struggle_Delete_Button, "Delete match");
+        add(Strings.Gui_Menu_Struggle_Ready, "Ready");
+        add(Strings.Gui_Menu_Struggle_Cancel_Ready, "Cancel Ready");
+        add(Strings.Gui_Menu_Struggle_Name_And_Size, "Struggle name and size");
+        add(Strings.Gui_Menu_Struggle_Damage_Mult, "Damage multiplier");
+        add(Strings.Gui_Menu_Struggle_Mode, "Mode");
+        add(Strings.Gui_Menu_Struggle_Mode_Duel, "Duel");
+        add(Strings.Gui_Menu_Struggle_Mode_Tournament, "Tournament");
+        add(Strings.Gui_Menu_Struggle_Mode_Ffa, "Free For All");
+
         //Controls
         add("key.categories.kingdomkeys", "Kingdom Keys");
         add(InputHandler.Keybinds.ACTION, "Action key");

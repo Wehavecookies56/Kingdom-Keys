@@ -34,7 +34,7 @@ public class StruggleSettings extends MenuBackground {
 
 	BlockPos boardPos;
 
-	Button togglePriv, accept, size;
+	Button togglePriv, accept, size, modeButton;
 	MenuButton back;
 
 	final PlayerData playerData = PlayerData.get(minecraft.player);
@@ -43,7 +43,7 @@ public class StruggleSettings extends MenuBackground {
 	Struggle struggle;
 
 	public StruggleSettings(BlockPos pos) {
-		super("Struggle Settings", new Color(252, 173, 3));
+		super(Utils.translateToLocal(Strings.Gui_Menu_Struggle_Settings_Title), new Color(252, 173, 3));
 		drawPlayerInfo = true;
 		worldData = WorldData.getClient();
 		boardPos = pos;
@@ -87,9 +87,22 @@ public class StruggleSettings extends MenuBackground {
 				}
 				size.setMessage(Component.translatable(pSize+""));
 				break;
+			case "mode":
+				Struggle.Mode[] modes = Struggle.Mode.values();
+				struggle.setMode(modes[(struggle.getMode().ordinal() + 1) % modes.length]);
+				modeButton.setMessage(Component.literal(modeLabel(struggle.getMode())));
+				break;
 		}
 
 		updateButtons();
+	}
+
+	private String modeLabel(Struggle.Mode mode) {
+		return switch (mode) {
+			case DUEL -> Utils.translateToLocal(Strings.Gui_Menu_Struggle_Mode_Duel);
+			case TOURNAMENT -> Utils.translateToLocal(Strings.Gui_Menu_Struggle_Mode_Tournament);
+			case FFA -> Utils.translateToLocal(Strings.Gui_Menu_Struggle_Mode_Ffa);
+		};
 	}
 
 	private void updateButtons() {
@@ -103,9 +116,11 @@ public class StruggleSettings extends MenuBackground {
 			pos1Box.setValue(struggle.c1.getX()+","+struggle.c1.getY()+","+struggle.c1.getZ());
 			pos2Box.setValue(struggle.c2.getX()+","+struggle.c2.getY()+","+struggle.c2.getZ());
 		}
-		accept.setMessage(Component.translatable("Accept"));
+		accept.setMessage(Component.translatable(Strings.Gui_Menu_Accept));
 		accept.visible = true;
 		size.visible = true;
+		modeButton.setMessage(Component.literal(modeLabel(struggle.getMode())));
+		modeButton.visible = true;
 	}
 
 	@Override
@@ -126,8 +141,9 @@ public class StruggleSettings extends MenuBackground {
 			int button_statsY = (int) topBarHeight + 5;
 			float buttonPosX = (float) width * 0.03F;
 			float buttonWidth = ((float) width * 0.1744F) - 20;
+			int buttonX = (int) (width * 0.25);
 
-			addRenderableWidget(nameBox = new EditBox(minecraft.font, (int)(width*0.25), button_statsY + (18), 100, 16, Component.literal("")) {
+			addRenderableWidget(nameBox = new EditBox(minecraft.font, buttonX, button_statsY + 18, 100, 16, Component.literal("")) {
 				@Override
 				public boolean charTyped(char c, int i) {
 					super.charTyped(c, i);
@@ -146,9 +162,15 @@ public class StruggleSettings extends MenuBackground {
 
 			addRenderableWidget(size = Button.builder(Component.literal(""), (e) -> {
 				action("size");
-			}).bounds((int) (width * 0.25 - 2 + 100 + 4), button_statsY + (18)-2, 20, 20).build());
+			}).bounds(buttonX - 2 + 100 + 4, button_statsY + 18 - 2, 20, 20).build());
 
-			addRenderableWidget(dmgMultBox = new EditBox(minecraft.font, (int) (width * 0.25), button_statsY + (3 * 18), 30, 15, Component.literal("")) {
+			addRenderableWidget(modeButton = Button.builder(Component.literal(""), (e) -> {
+				action("mode");
+			}).bounds(buttonX + 130, button_statsY + 18 - 2, 100, 20).build());
+
+			// Damage multiplier box sits right next to its own label instead of on its own row.
+			int dmgMultLabelWidth = minecraft.font.width(Utils.translateToLocal(Strings.Gui_Menu_Struggle_Damage_Mult));
+			addRenderableWidget(dmgMultBox = new EditBox(minecraft.font, buttonX + dmgMultLabelWidth + 10, button_statsY + (2 * 18), 40, 15, Component.literal("")) {
 				@Override
 				public boolean charTyped(char c, int i) {
 					if (Utils.isNumber(c) || c == '-') {
@@ -180,7 +202,7 @@ public class StruggleSettings extends MenuBackground {
 
 			});
 
-			addRenderableWidget(pos1Box = new EditBox(minecraft.font, (int) (width * 0.25), button_statsY + (5 * 18), 100, 15, Component.literal("")) {
+			addRenderableWidget(pos1Box = new EditBox(minecraft.font, buttonX, button_statsY + (3 * 18), 100, 15, Component.literal("")) {
 				@Override
 				public boolean charTyped(char c, int i) {
 					if (Utils.isNumber(c) || c == '-' || c == ',') {
@@ -210,7 +232,7 @@ public class StruggleSettings extends MenuBackground {
 
 			});
 
-			addRenderableWidget(pos2Box = new EditBox(minecraft.font, (int) (width * 0.25) + 110, button_statsY + (5 * 18), 100, 15, Component.literal("")) {
+			addRenderableWidget(pos2Box = new EditBox(minecraft.font, buttonX + 110, button_statsY + (3 * 18), 100, 15, Component.literal("")) {
 				@Override
 				public boolean charTyped(char c, int i) {
 					if (Utils.isNumber(c) || c == '-' || c == ',') {
@@ -243,7 +265,7 @@ public class StruggleSettings extends MenuBackground {
 
 			addRenderableWidget(accept = Button.builder(Component.literal(""), (e) -> {
 				action("accept");
-			}).bounds((int) (width*0.25)-2, button_statsY + (6 * 18), 130, 20).build());
+			}).bounds(buttonX - 2, button_statsY + (4 * 18), 130, 20).build());
 
 			addRenderableWidget(back = new MenuButton((int) buttonPosX, button_statsY, (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), ButtonType.BUTTON, (e) -> { action("back"); }));
 		}
@@ -273,9 +295,12 @@ public class StruggleSettings extends MenuBackground {
 		}
 		struggle = latest;
 
-		int buttonX = (int)(width*0.25);
-		gui.drawString(minecraft.font, Utils.translateToLocal("Struggle name and size"), buttonX, (int)(height * 0.21), 0xFFFFFF);
-		gui.drawString(minecraft.font, Utils.translateToLocal("Damage multiplier"), buttonX, (int)(height * 0.202) + 38, 0xFFFFFF);
+		float topBarHeight = (float) height * 0.17F;
+		int button_statsY = (int) topBarHeight + 5;
+		int buttonX = (int) (width * 0.25);
+
+		gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Struggle_Name_And_Size), buttonX, button_statsY + 4, 0xFFFFFF);
+		gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Struggle_Damage_Mult), buttonX, button_statsY + (2 * 18) + 4, 0xFFFFFF);
 	}
 
 }

@@ -32,6 +32,12 @@ public record CSStruggleCreate(Struggle struggle) implements Packet {
 		if (worldData.getStruggleFromName(struggle.getName()) != null)
 			return; // name taken
 
+		BlockPos[] savedCorners = worldData.getSavedStruggleCorners(boardPos);
+		if (savedCorners != null) {
+			struggle.setC1(savedCorners[0]);
+			struggle.setC2(savedCorners[1]);
+		}
+
 		worldData.addStruggle(struggle);
 		PacketHandler.sendToAll(new SCSyncWorldData(player.getServer()));
 	}

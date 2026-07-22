@@ -20,12 +20,29 @@ public class Struggle {
 
 	public static final byte PARTICIPANTS_LIMIT = 8;
 
+	/**
+	 * DUEL: classic 1v1 at c1/c2, same match can be re-readied and fought again indefinitely.
+	 * TOURNAMENT: single-elimination bracket among every participant (byes if the count is odd),
+	 *             fought as a sequence of 1v1s at c1/c2 until only one player ("the champion") remains.
+	 * FFA: every ready participant fights at once, scattered across the c1/c2 area.
+	 */
+	public enum Mode {
+		DUEL, TOURNAMENT, FFA
+	}
+
 	private String name;
 	private final List<Participant> participants = new ArrayList<>();
 	//private boolean priv;
 	private byte size;
 	private int damageMult;
 	private boolean inProgress;
+	private Mode mode = Mode.DUEL;
+	/** Seconds left in the current round, for the HUD countdown. -1 while no round is running. */
+	private int roundSecondsLeft = -1;
+	/** Tournament-only: remaining UUIDs in fighting order (winners go to the back, losers drop out). */
+	private final List<UUID> tournamentQueue = new ArrayList<>();
+	/** Who is actually fighting in the currently running match (subset of participants). For the HUD. */
+	private final List<UUID> activeCombatantIds = new ArrayList<>();
 	public BlockPos blockPos, c1,c2;
 
 	public Struggle() {
@@ -103,6 +120,30 @@ public class Struggle {
 		return this.inProgress;
 	}
 
+	public void setMode(Mode mode) {
+		this.mode = mode;
+	}
+
+	public Mode getMode() {
+		return this.mode;
+	}
+
+	public void setRoundSecondsLeft(int seconds) {
+		this.roundSecondsLeft = seconds;
+	}
+
+	public int getRoundSecondsLeft() {
+		return this.roundSecondsLeft;
+	}
+
+	public List<UUID> getTournamentQueue() {
+		return this.tournamentQueue;
+	}
+
+	public List<UUID> getActiveCombatantIds() {
+		return this.activeCombatantIds;
+	}
+
 	/** True once the owner has set two different corners for the arena. */
 	public boolean isConfigured() {
 		return this.c1 != null && this.c2 != null && !this.c1.equals(this.c2);
@@ -131,6 +172,7 @@ public class Struggle {
 			this.participants.removeAll(this.participants);
 		else*/
 			this.participants.remove(participant);
+		this.tournamentQueue.remove(id);
 	}
 
 	public Participant getParticipant(UUID id) {
@@ -160,6 +202,19 @@ public class Struggle {
 		return -1;
 	}
 
+	/**
+	 * Clears the roster/scores/queue but keeps the arena (c1/c2), name, size, damage multiplier and
+	 * mode intact, so the board can be readied up again without redoing the setup. Used after a
+	 * tournament crowns a champion.
+	 */
+	public void resetForNewMatch() {
+		this.participants.clear();
+		this.tournamentQueue.clear();
+		this.activeCombatantIds.clear();
+		this.inProgress = false;
+		this.roundSecondsLeft = -1;
+	}
+
 	public CompoundTag write() {
 		CompoundTag struggleNBT = new CompoundTag();
 		struggleNBT.putString("name", this.getName());
@@ -167,6 +222,8 @@ public class Struggle {
 		struggleNBT.putByte("size", this.size);
 		struggleNBT.putInt("dmg_mult", this.damageMult);
 		struggleNBT.putBoolean("in_progress", this.inProgress);
+		struggleNBT.putString("mode", this.mode.name());
+		struggleNBT.putInt("round_seconds_left", this.roundSecondsLeft);
 		struggleNBT.putIntArray("posArray", new int[] {this.blockPos.getX(),this.blockPos.getY(),this.blockPos.getZ()});
 		struggleNBT.putIntArray("c1", new int[] {this.c1.getX(),this.c1.getY(),this.c1.getZ()});
 		struggleNBT.putIntArray("c2", new int[] {this.c2.getX(),this.c2.getY(),this.c2.getZ()});
@@ -183,6 +240,22 @@ public class Struggle {
 		}
 		struggleNBT.put("participants", participants);
 
+		ListTag queue = new ListTag();
+		for (UUID uuid : this.tournamentQueue) {
+			CompoundTag entry = new CompoundTag();
+			entry.putUUID("id", uuid);
+			queue.add(entry);
+		}
+		struggleNBT.put("tournament_queue", queue);
+
+		ListTag activeCombatants = new ListTag();
+		for (UUID uuid : this.activeCombatantIds) {
+			CompoundTag entry = new CompoundTag();
+			entry.putUUID("id", uuid);
+			activeCombatants.add(entry);
+		}
+		struggleNBT.put("active_combatants", activeCombatants);
+
 		return struggleNBT;
 	}
 
@@ -192,6 +265,12 @@ public class Struggle {
 		this.setSize(nbt.getByte("size"));
 		this.setDamageMult(nbt.getInt("dmg_mult"));
 		this.setInProgress(nbt.getBoolean("in_progress"));
+		try {
+			this.setMode(nbt.contains("mode") ? Mode.valueOf(nbt.getString("mode")) : Mode.DUEL);
+		} catch (IllegalArgumentException e) {
+			this.setMode(Mode.DUEL);
+		}
+		this.setRoundSecondsLeft(nbt.contains("round_seconds_left") ? nbt.getInt("round_seconds_left") : -1);
 		int[] posArray = nbt.getIntArray("posArray");
 		this.setPos(new BlockPos(posArray[0],posArray[1],posArray[2]));
 		
@@ -211,6 +290,17 @@ public class Struggle {
 			participant.setScore(participantNBT.contains("score") ? participantNBT.getInt("score") : 100);
 		}
 
+		this.tournamentQueue.clear();
+		ListTag queue = nbt.getList("tournament_queue", Tag.TAG_COMPOUND);
+		for (int j = 0; j < queue.size(); j++) {
+			this.tournamentQueue.add(queue.getCompound(j).getUUID("id"));
+		}
+
+		this.activeCombatantIds.clear();
+		ListTag activeCombatants = nbt.getList("active_combatants", Tag.TAG_COMPOUND);
+		for (int j = 0; j < activeCombatants.size(); j++) {
+			this.activeCombatantIds.add(activeCombatants.getCompound(j).getUUID("id"));
+		}
 	}
 
 	public static class Participant {

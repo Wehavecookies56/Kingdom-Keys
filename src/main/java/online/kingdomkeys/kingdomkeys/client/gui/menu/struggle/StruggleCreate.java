@@ -25,16 +25,17 @@ public class StruggleCreate extends MenuBackground {
 	BlockPos boardPos;
 
 	int size = 2;
+	Struggle.Mode mode = Struggle.Mode.DUEL;
 
 	EditBox tfName;
-	Button accept, sizeButton;
+	Button accept, sizeButton, modeButton;
 	MenuButton back;
 
 	final PlayerData playerData = PlayerData.get(minecraft.player);
 	WorldData worldData;
 
 	public StruggleCreate(BlockPos pos) {
-		super("Start Struggle", new Color(252, 173, 3));
+		super(Utils.translateToLocal(Strings.Gui_Menu_Struggle_Create_Title), new Color(252, 173, 3));
 		drawPlayerInfo = true;
 		worldData = WorldData.getClient();
 		this.boardPos = pos;
@@ -49,6 +50,7 @@ public class StruggleCreate extends MenuBackground {
 		case "accept":
 			if(!tfName.getValue().equals("") && checkAvailable()) {
 				Struggle struggle = new Struggle(boardPos, tfName.getValue(), minecraft.player.getUUID(), minecraft.player.getName().getString(), false, (byte) size);
+				struggle.setMode(mode);
 				PacketHandler.sendToServer(new CSStruggleCreate(struggle));
 
 				minecraft.level.playSound(minecraft.player, minecraft.player.blockPosition(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
@@ -64,15 +66,29 @@ public class StruggleCreate extends MenuBackground {
 			}
 			sizeButton.setMessage(Component.literal(size+""));
 			break;
+		case "mode":
+			Struggle.Mode[] modes = Struggle.Mode.values();
+			mode = modes[(mode.ordinal() + 1) % modes.length];
+			modeButton.setMessage(Component.literal(modeLabel(mode)));
+			break;
 		}
 
 		updateButtons();
+	}
+
+	private String modeLabel(Struggle.Mode mode) {
+		return switch (mode) {
+			case DUEL -> Utils.translateToLocal(Strings.Gui_Menu_Struggle_Mode_Duel);
+			case TOURNAMENT -> Utils.translateToLocal(Strings.Gui_Menu_Struggle_Mode_Tournament);
+			case FFA -> Utils.translateToLocal(Strings.Gui_Menu_Struggle_Mode_Ffa);
+		};
 	}
 
 	private void updateButtons() {
 		accept.visible = true;
 		tfName.visible = true;
 		sizeButton.visible = true;
+		modeButton.visible = true;
 	}
 
 	@Override
@@ -92,6 +108,10 @@ public class StruggleCreate extends MenuBackground {
 		addRenderableWidget(sizeButton = Button.builder(Component.literal(size+""), (e) -> {
 			action("size");
 		}).bounds((int) (width * 0.25 - 2 + 100 + 4), button_statsY + (3 * 18), 20, 20).build());
+
+		addRenderableWidget(modeButton = Button.builder(Component.literal(modeLabel(mode)), (e) -> {
+			action("mode");
+		}).bounds((int) (width * 0.25) - 2, button_statsY + (4 * 18), 100, 20).build());
 
 		addRenderableWidget(back = new MenuButton((int) buttonPosX, button_statsY, (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), ButtonType.BUTTON, (e) -> { action("back"); }));
 
@@ -131,7 +151,7 @@ public class StruggleCreate extends MenuBackground {
 
 		int buttonX = (int)(width*0.25);
 
-		gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Party_Create_Name), buttonX, (int)(height * 0.2), 0xFFFFFF);
+		gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Struggle_Name_And_Size), buttonX, (int)(height * 0.2), 0xFFFFFF);
 	}
 
 }

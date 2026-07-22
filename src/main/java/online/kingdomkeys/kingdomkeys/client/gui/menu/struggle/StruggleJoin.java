@@ -31,7 +31,7 @@ public class StruggleJoin extends MenuBackground {
 	MenuButton[] matches = new MenuButton[100];
 
 	public StruggleJoin(BlockPos pos) {
-		super("Join Struggle", new Color(252, 173, 3));
+		super(Utils.translateToLocal(Strings.Gui_Menu_Struggle_Join_Title), new Color(252, 173, 3));
 		drawPlayerInfo = true;
 		worldData = WorldData.getClient();
 		boardPos = pos;

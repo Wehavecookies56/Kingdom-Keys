@@ -2359,6 +2359,32 @@ public class LanguageESES extends KKLanguageProvider {
         add("co.encounter.wave", "Oleada");
         add("co.encounter.end", "Encuentro terminado");
 
+        add("kingdomkeys.struggle.starting", "¡Empieza el Struggle...!");
+        add("kingdomkeys.struggle.tournament.next_match", "Siguiente combate del torneo...");
+        add("kingdomkeys.struggle.ffa.starting", "¡Empieza el todos contra todos...!");
+        add("kingdomkeys.struggle.go", "¡YA!");
+        add("kingdomkeys.struggle.win", "¡Has ganado!");
+        add("kingdomkeys.struggle.lose", "Has perdido");
+        add("kingdomkeys.struggle.tournament.bye", "¡Pasas de ronda sin combatir!");
+        add("kingdomkeys.struggle.tournament.champion", "Campeón del torneo:");
+
+        add(Strings.Gui_Menu_Struggle_Menu_Title, "Struggle");
+        add(Strings.Gui_Menu_Struggle_Create_Title, "Empezar Struggle");
+        add(Strings.Gui_Menu_Struggle_Join_Title, "Unirse a un Struggle");
+        add(Strings.Gui_Menu_Struggle_Settings_Title, "Ajustes del Struggle");
+        add(Strings.Gui_Menu_Struggle_Create_Button, "Crear partida");
+        add(Strings.Gui_Menu_Struggle_Join_Button, "Unirse a partida");
+        add(Strings.Gui_Menu_Struggle_Settings_Button, "Ajustes del Struggle");
+        add(Strings.Gui_Menu_Struggle_Delete_Button, "Eliminar partida");
+        add(Strings.Gui_Menu_Struggle_Ready, "Listo");
+        add(Strings.Gui_Menu_Struggle_Cancel_Ready, "Cancelar listo");
+        add(Strings.Gui_Menu_Struggle_Name_And_Size, "Nombre y tamaño del Struggle");
+        add(Strings.Gui_Menu_Struggle_Damage_Mult, "Multiplicador de daño");
+        add(Strings.Gui_Menu_Struggle_Mode, "Modo");
+        add(Strings.Gui_Menu_Struggle_Mode_Duel, "Duelo");
+        add(Strings.Gui_Menu_Struggle_Mode_Tournament, "Torneo");
+        add(Strings.Gui_Menu_Struggle_Mode_Ffa, "Todos contra todos");
+
         //Biomes
         add("biome.kingdomkeys.dive_to_the_heart", "Descenso al Coraz\u00f3n");
         add("biome.kingdomkeys.realm_of_darkness", "Reino de la Oscuridad");

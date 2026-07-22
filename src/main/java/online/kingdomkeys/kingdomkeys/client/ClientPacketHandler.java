@@ -321,6 +321,10 @@ public class ClientPacketHandler {
         Minecraft.getInstance().setScreen(new MenuStruggle(message.pos()));
     }
 
+    public static void closeScreen() {
+        Minecraft.getInstance().setScreen(null);
+    }
+
     public static void syncCastleOblivionInterior(SCSyncCastleOblivionInteriorData message) {
         ClientLevel world = Minecraft.getInstance().level;
         CastleOblivionData.InteriorData.setClientCache(world, CastleOblivionData.InteriorData.load(message.data(), world.registryAccess()));
