@@ -32,7 +32,6 @@ public class Struggle {
 
 	private String name;
 	private final List<Participant> participants = new ArrayList<>();
-	//private boolean priv;
 	private byte size;
 	private int damageMult;
 	private boolean inProgress;
@@ -56,7 +55,8 @@ public class Struggle {
 	private final List<List<UUID>> bracket = new ArrayList<>();
 	/** Who is actually fighting in the currently running match (subset of participants). For the HUD. */
 	private final List<UUID> activeCombatantIds = new ArrayList<>();
-	public BlockPos blockPos, c1,c2;
+	public BlockPos blockPos, c1, c2;
+	public BlockPos spectatorPos;
 
 	public Struggle() {
 
@@ -69,7 +69,6 @@ public class Struggle {
 	public Struggle(BlockPos blockPos, String name, UUID leaderId, String username, boolean priv, byte size) {
 		this.name = name;
 		this.addParticipant(leaderId, username).setIsOwner();
-		//this.priv = priv;
 		this.size = size;
 		this.damageMult = 100;
 		this.blockPos = blockPos;
@@ -99,6 +98,15 @@ public class Struggle {
 
 	public BlockPos getC2() {
 		return this.c2;
+	}
+
+	public void setSpectatorPos(BlockPos pos) {
+		this.spectatorPos = pos;
+	}
+
+	@Nullable
+	public BlockPos getSpectatorPos() {
+		return this.spectatorPos;
 	}
 	
 	public void setName(String name) {
@@ -252,7 +260,6 @@ public class Struggle {
 	public CompoundTag write() {
 		CompoundTag struggleNBT = new CompoundTag();
 		struggleNBT.putString("name", this.getName());
-		//partyNBT.putBoolean("private", this.priv);
 		struggleNBT.putByte("size", this.size);
 		struggleNBT.putInt("dmg_mult", this.damageMult);
 		struggleNBT.putBoolean("in_progress", this.inProgress);
@@ -263,6 +270,10 @@ public class Struggle {
 		struggleNBT.putIntArray("posArray", new int[] {this.blockPos.getX(),this.blockPos.getY(),this.blockPos.getZ()});
 		struggleNBT.putIntArray("c1", new int[] {this.c1.getX(),this.c1.getY(),this.c1.getZ()});
 		struggleNBT.putIntArray("c2", new int[] {this.c2.getX(),this.c2.getY(),this.c2.getZ()});
+		struggleNBT.putBoolean("has_spectator_pos", this.spectatorPos != null);
+		if (this.spectatorPos != null) {
+			struggleNBT.putIntArray("spectator_pos", new int[] {this.spectatorPos.getX(), this.spectatorPos.getY(), this.spectatorPos.getZ()});
+		}
 
 		ListTag participants = new ListTag();
 		for (Struggle.Participant participant : this.getParticipants()) {
@@ -310,7 +321,6 @@ public class Struggle {
 
 	public void read(CompoundTag nbt) {
 		this.setName(nbt.getString("name"));
-		//this.setPriv(nbt.getBoolean("private"));
 		this.setSize(nbt.getByte("size"));
 		this.setDamageMult(nbt.getInt("dmg_mult"));
 		this.setInProgress(nbt.getBoolean("in_progress"));
@@ -330,6 +340,13 @@ public class Struggle {
 		
 		int[] c2Array = nbt.getIntArray("c2");
 		this.setC2(new BlockPos(c2Array[0],c2Array[1],c2Array[2]));
+
+		if (nbt.getBoolean("has_spectator_pos")) {
+			int[] specArray = nbt.getIntArray("spectator_pos");
+			this.setSpectatorPos(new BlockPos(specArray[0], specArray[1], specArray[2]));
+		} else {
+			this.setSpectatorPos(null);
+		}
 		
 		ListTag participants = nbt.getList("participants", Tag.TAG_COMPOUND);
 		for (int j = 0; j < participants.size(); j++) {
@@ -417,8 +434,7 @@ public class Struggle {
 	}
 
 	public static final StreamCodec<FriendlyByteBuf, Struggle> STREAM_CODEC = StreamCodec.composite(
-			ByteBufCodecs.COMPOUND_TAG,
-			Struggle::write,
+			ByteBufCodecs.COMPOUND_TAG, Struggle::write,
 			Struggle::new
 	);
 }

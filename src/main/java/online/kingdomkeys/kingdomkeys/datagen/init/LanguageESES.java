@@ -2385,9 +2385,10 @@ public class LanguageESES extends KKLanguageProvider {
         add(Strings.Gui_Menu_Struggle_Cancel_Ready, "Cancelar listo");
         add(Strings.Gui_Menu_Struggle_Name_And_Size, "Nombre y tamaño del Struggle");
         add(Strings.Gui_Menu_Struggle_Name, "Nombre del Struggle");
-        add(Strings.Gui_Menu_Struggle_Damage_Mult, "Multiplicador de daño");
+        add(Strings.Gui_Menu_Struggle_Damage_Mult, "Multiplicador de orbes (%)");
         add(Strings.Gui_Menu_Struggle_Round_Time, "Duración de la ronda (segundos)");
         add(Strings.Gui_Menu_Struggle_Starting_Score, "Orbes iniciales");
+        add(Strings.Gui_Menu_Struggle_Spectator_Pos, "Zona de espectadores (x,y,z)");
         add(Strings.Gui_Menu_Struggle_Mode, "Modo");
         add(Strings.Gui_Menu_Struggle + ".duel", "Duelo");
         add(Strings.Gui_Menu_Struggle + ".tournament", "Torneo");

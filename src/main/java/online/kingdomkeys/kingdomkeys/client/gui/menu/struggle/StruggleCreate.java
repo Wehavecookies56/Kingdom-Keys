@@ -112,8 +112,7 @@ public class StruggleCreate extends MenuBackground {
 		super.render(gui, mouseX, mouseY, partialTicks);
 		worldData = WorldData.getClient();
 
-		int buttonX = (int)(width*0.25);
-
+		int buttonX = (int)(width * 0.25);
 		gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Struggle_Name), buttonX, (int)(height * 0.2), 0xFFFFFF);
 	}
 

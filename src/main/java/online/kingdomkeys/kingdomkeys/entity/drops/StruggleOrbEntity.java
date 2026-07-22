@@ -16,11 +16,23 @@ import online.kingdomkeys.kingdomkeys.lib.Struggle;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncWorldData;
 
+/**
+ * The KH2-style "orb" popped out when landing a hit in a Struggle match - same falling/bouncing
+ * physics and billboard rendering as {@link HPOrbEntity}/{@link DriveOrbEntity}, tinted with whichever
+ * color it was spawned with (the victim's notification color).
+ *
+ * Unlike a normal drop, picking this up isn't automatic/for anyone: only the players ACTIVELY fighting
+ * in the Struggle match this orb belongs to can collect it (checked server-side via
+ * {@code struggle.getActiveCombatantIds()}, not just "any registered participant" - e.g. other players
+ * waiting their turn in a Tournament must NOT be able to steal orbs from a fight that isn't theirs), and
+ * each orb picked up is worth exactly 1 point added to whoever grabbed it - not necessarily the one who
+ * landed the original hit. Anyone else just walks through it, same as KH2.
+ */
 public class StruggleOrbEntity extends ItemDropEntity {
 
 	private static final EntityDataAccessor<Integer> COLOR = SynchedEntityData.defineId(StruggleOrbEntity.class, EntityDataSerializers.INT);
 
-	/** Name of the Struggle match this orb belongs to - only its participants can pick it up. */
+	/** Name of the Struggle match this orb belongs to - only its ACTIVE combatants can pick it up. */
 	private String struggleName = "";
 
 	public StruggleOrbEntity(Level worldIn, double x, double y, double z, int color, String struggleName) {
@@ -68,8 +80,8 @@ public class StruggleOrbEntity extends ItemDropEntity {
 		if (!this.level().isClientSide) {
 			WorldData worldData = WorldData.get(entityIn.getServer());
 			Struggle struggle = worldData.getStruggleFromName(this.struggleName);
-			if (struggle == null || !struggle.hasParticipant(entityIn.getUUID())) {
-				return; // not a participant of this match (or it no longer exists) - can't pick this up
+			if (struggle == null || !struggle.getActiveCombatantIds().contains(entityIn.getUUID())) {
+				return; // not actively fighting in this match (or it no longer exists) - can't pick this up
 			}
 		}
 		super.playerTouch(entityIn);
@@ -79,7 +91,7 @@ public class StruggleOrbEntity extends ItemDropEntity {
 	void onPickup(Player player) {
 		WorldData worldData = WorldData.get(player.getServer());
 		Struggle struggle = worldData.getStruggleFromName(this.struggleName);
-		if (struggle == null) return;
+		if (struggle == null || !struggle.getActiveCombatantIds().contains(player.getUUID())) return;
 
 		Struggle.Participant participant = struggle.getParticipant(player.getUUID());
 		if (participant == null) return;

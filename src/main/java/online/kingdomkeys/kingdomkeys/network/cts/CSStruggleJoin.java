@@ -33,11 +33,14 @@ public record CSStruggleJoin(String struggleName) implements Packet {
 		Player player = context.player();
 		WorldData worldData = WorldData.get(player.getServer());
 		Struggle struggle = worldData.getStruggleFromName(struggleName);
-		if (struggle == null) return;
-		if (struggle.hasParticipant(player.getUUID())) return;
-		if (struggle.getParticipants().size() >= struggle.getSize()) return;
-		// Struggle no longer copies/clears inventories - the weapon just goes into a free hotbar slot,
-		// so joining requires having room for it in the first place.
+		if (struggle == null)
+			return;
+		if (struggle.hasParticipant(player.getUUID()))
+			return;
+		if (struggle.getParticipants().size() >= struggle.getSize())
+			return;
+		if (struggle.getMode() == Struggle.Mode.DUEL && struggle.getParticipants().size() >= 2)
+			return;
 		if (StruggleHandler.findEmptyHotbarSlot(player.getInventory()) == -1) {
 			PacketHandler.sendTo(new SCShowMessagesPacket(List.of(new Utils.Title("kingdomkeys.struggle.no_hotbar_space", ""))), (ServerPlayer) player);
 			return;

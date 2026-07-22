@@ -10,7 +10,9 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.AABB;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.tick.ServerTickEvent;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.entity.drops.StruggleOrbEntity;
@@ -60,12 +62,57 @@ public class StruggleHandler {
 					Integer slot = weaponSlots.get(id);
 					if (slot == null) continue;
 					ServerPlayer player = server.getPlayerList().getPlayer(id);
-					if (player != null) {
-						player.getInventory().selected = slot;
+					if (player == null) continue;
+
+					player.getInventory().selected = slot;
+
+					Item expectedWeapon = Struggle.weaponFor(PlayerData.get(player).getChosen());
+					ItemStack current = player.getInventory().items.get(slot);
+					if (current.isEmpty() || current.getItem() != expectedWeapon) {
+						player.getInventory().items.set(slot, new ItemStack(expectedWeapon));
+						player.inventoryMenu.broadcastChanges();
 					}
 				}
 			}
 		}
+	}
+
+	/**
+	 * If someone disconnects while actively fighting, they lose immediately (in a 1v1 - Duel or a
+	 * Tournament match - the other combatant is declared the winner right away; in FFA with more than 2
+	 * still fighting, they're just removed and everyone else keeps going). Either way they're also
+	 * removed from the match's roster entirely, win or not.
+	 */
+	@SubscribeEvent
+	public void onPlayerLoggedOut(PlayerEvent.PlayerLoggedOutEvent event) {
+		if (!(event.getEntity() instanceof ServerPlayer player)) return;
+		MinecraftServer server = player.getServer();
+		if (server == null) return;
+		WorldData worldData = WorldData.get(server);
+		UUID id = player.getUUID();
+
+		for (Struggle struggle : new ArrayList<>(worldData.getStruggles())) {
+			if (struggle.isInProgress() && struggle.getActiveCombatantIds().contains(id)) {
+				List<UUID> activeIds = struggle.getActiveCombatantIds();
+				if (activeIds.size() <= 2) {
+					List<Struggle.Participant> combatants = activeIds.stream().map(struggle::getParticipant).filter(Objects::nonNull).collect(Collectors.toList());
+					Struggle.Participant winner = combatants.stream().filter(p -> !p.getUUID().equals(id)).findFirst().orElse(null);
+					if (winner != null) {
+						endMatch(server, worldData, struggle, winner, combatants);
+					}
+				} else {
+					// FFA with others still fighting - just drop them, everyone else keeps going.
+					activeIds.remove(id);
+				}
+			}
+
+			if (struggle.hasParticipant(id)) {
+				worldData.removeStruggleParticipant(struggle, id);
+			}
+		}
+
+		worldData.setDirty();
+		PacketHandler.sendToAll(new SCSyncWorldData(server));
 	}
 
 	/** First empty hotbar slot (0-8), or -1 if the hotbar is completely full. */
@@ -111,6 +158,7 @@ public class StruggleHandler {
 		if (p1.isReady() && p2.isReady()) {
 			activeCombatants.put(name, List.of(p1.getUUID(), p2.getUUID()));
 			countdowns.put(name, COUNTDOWN_TICKS);
+			KingdomKeys.LOGGER.debug("Struggle '{}' countdown started", name);
 			sendTitle(server, activeCombatants.get(name), "kingdomkeys.struggle.starting", "");
 		}
 	}
@@ -224,6 +272,7 @@ public class StruggleHandler {
 		List<UUID> pair = List.of(round.get(next[1]), round.get(next[1] + 1));
 		activeCombatants.put(name, pair);
 		countdowns.put(name, COUNTDOWN_TICKS);
+		KingdomKeys.LOGGER.debug("Struggle '{}' countdown started", name);
 		sendTitle(server, pair, "kingdomkeys.struggle.tournament.next_match", "");
 	}
 
@@ -239,6 +288,7 @@ public class StruggleHandler {
 		List<UUID> everyone = struggle.getParticipants().stream().map(Struggle.Participant::getUUID).collect(Collectors.toList());
 		activeCombatants.put(name, everyone);
 		countdowns.put(name, COUNTDOWN_TICKS);
+		KingdomKeys.LOGGER.debug("Struggle '{}' countdown started", name);
 		sendTitle(server, everyone, "kingdomkeys.struggle.ffa.starting", "");
 	}
 
@@ -283,15 +333,10 @@ public class StruggleHandler {
 			}
 
 			BlockPos spawn = spawnPositions.get(i);
-			player.teleportTo(spawn.getX() + 0.5, spawn.getY(), spawn.getZ() + 0.5);
-
-			if (facingPairs) {
-				BlockPos opponentSpawn = spawnPositions.get(i == 0 ? 1 : 0);
-				float yaw = yawTowards(spawn, opponentSpawn);
-				player.setYRot(yaw);
-				player.setYHeadRot(yaw);
-				player.setXRot(0F);
-			}
+			float yaw = facingPairs ? yawTowards(spawn, spawnPositions.get(i == 0 ? 1 : 0)) : player.getYRot();
+			float pitch = facingPairs ? 0F : player.getXRot();
+			player.teleportTo(level, spawn.getX() + 0.5, spawn.getY(), spawn.getZ() + 0.5, java.util.Set.of(), yaw, pitch);
+			player.setYHeadRot(yaw);
 
 			PacketHandler.sendTo(new SCCloseScreen(), player); // close any open UI (menus, inventory, etc)
 		}
@@ -305,9 +350,12 @@ public class StruggleHandler {
 		struggle.getActiveCombatantIds().addAll(combatantIds);
 		roundTicksLeft.put(struggle.getName(), roundTicks);
 		worldData.setDirty();
+		KingdomKeys.LOGGER.debug("Struggle '{}' match STARTED, combatants={}", struggle.getName(), combatantIds);
 		PacketHandler.sendToAll(new SCSyncWorldData(server));
 	}
 
+	/** The yaw (in degrees) to look from `from` towards `to`, so combatants can be turned to face each
+	 * other instead of just facing wherever the board happened to be facing. */
 	private float yawTowards(BlockPos from, BlockPos to) {
 		double dx = to.getX() - from.getX();
 		double dz = to.getZ() - from.getZ();
@@ -342,15 +390,8 @@ public class StruggleHandler {
 
 	private void tickRound(MinecraftServer server, WorldData worldData, Struggle struggle, String name) {
 		List<UUID> combatantIds = activeCombatants.getOrDefault(name, List.of());
-		List<Struggle.Participant> combatants = combatantIds.stream()
-				.map(struggle::getParticipant)
-				.filter(Objects::nonNull)
-				.collect(Collectors.toList());
+		List<Struggle.Participant> combatants = combatantIds.stream().map(struggle::getParticipant).filter(Objects::nonNull).collect(Collectors.toList());
 
-		// The win threshold is the total orbs "in play": if everyone starts with the same amount, the
-		// first to collect it ALL (i.e. take every orb from everyone else) wins - matches KH2's classic
-		// "first to 200" only when starting orbs are 100 and there are 2 combatants; scales properly with
-		// custom starting orbs and with FFA's higher player count.
 		int winScore = struggle.getStartingScore() * Math.max(1, combatants.size());
 		Struggle.Participant winner = combatants.stream().filter(p -> p.getScore() >= winScore).findFirst().orElse(null);
 
@@ -401,6 +442,15 @@ public class StruggleHandler {
 		player.inventoryMenu.broadcastChanges();
 	}
 
+	/** Sends a combatant out of the arena once their match is over, if the owner set a spectator spot
+	 * for this board - otherwise they're just left wherever they ended up fighting. */
+	private void teleportToSpectatorArea(Struggle struggle, ServerPlayer player) {
+		BlockPos pos = struggle.getSpectatorPos();
+		if (pos != null) {
+			player.teleportTo(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
+		}
+	}
+
 	/** Duel/FFA tie at time-up: everyone just goes back to normal, no winner/loser declared. */
 	private void endMatchDraw(MinecraftServer server, WorldData worldData, Struggle struggle, List<Struggle.Participant> combatants) {
 		for (Struggle.Participant participant : combatants) {
@@ -408,6 +458,7 @@ public class StruggleHandler {
 			if (player != null) {
 				removeWeapon(player);
 				sendTitle(server, List.of(participant.getUUID()), "kingdomkeys.struggle.draw", "");
+				teleportToSpectatorArea(struggle, player);
 			}
 			participant.setReady(false);
 			participant.setScore(struggle.getStartingScore());
@@ -418,6 +469,7 @@ public class StruggleHandler {
 		roundTicksLeft.remove(struggle.getName());
 		struggle.setRoundSecondsLeft(-1);
 		struggle.setInProgress(false);
+		KingdomKeys.LOGGER.debug("Struggle '{}' match ENDED (draw)", struggle.getName());
 
 		despawnOrbs(server.overworld(), struggle);
 
@@ -432,6 +484,7 @@ public class StruggleHandler {
 				removeWeapon(player);
 				boolean won = participant.getUUID().equals(winner.getUUID());
 				sendTitle(server, List.of(participant.getUUID()), won ? "kingdomkeys.struggle.win" : "kingdomkeys.struggle.lose", "");
+				teleportToSpectatorArea(struggle, player);
 			}
 			participant.setReady(false);
 			participant.setScore(struggle.getStartingScore());
@@ -442,6 +495,7 @@ public class StruggleHandler {
 		roundTicksLeft.remove(struggle.getName());
 		struggle.setRoundSecondsLeft(-1);
 		struggle.setInProgress(false);
+		KingdomKeys.LOGGER.debug("Struggle '{}' match ENDED, winner={}", struggle.getName(), winner.getUsername());
 
 		despawnOrbs(server.overworld(), struggle);
 

@@ -36,6 +36,7 @@ public record CSStruggleSettings(Struggle struggle) implements Packet {
 		p.setName(struggle.getName());
 		p.setC1(struggle.c1);
 		p.setC2(struggle.c2);
+		p.setSpectatorPos(struggle.getSpectatorPos());
 		p.setMode(struggle.getMode());
 
 		PacketHandler.sendToAll(new SCSyncWorldData(player.getServer()));

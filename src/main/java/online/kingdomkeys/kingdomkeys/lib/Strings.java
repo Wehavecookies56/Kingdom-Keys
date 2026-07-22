@@ -497,6 +497,8 @@ public class Strings {
             Gui_Menu_Struggle_Damage_Mult = Gui_Menu_Struggle + ".damage_mult",
             Gui_Menu_Struggle_Round_Time = Gui_Menu_Struggle + ".round_time",
             Gui_Menu_Struggle_Starting_Score = Gui_Menu_Struggle + ".starting_score",
+            Gui_Menu_Struggle_Corners_Pos = Gui_Menu_Struggle + ".corners_pos",
+            Gui_Menu_Struggle_Spectator_Pos = Gui_Menu_Struggle + ".spectator_pos",
             Gui_Menu_Struggle_Mode = Gui_Menu_Struggle + ".mode",
             
             Gui_Menu_Status = Gui_Menu + ".status",

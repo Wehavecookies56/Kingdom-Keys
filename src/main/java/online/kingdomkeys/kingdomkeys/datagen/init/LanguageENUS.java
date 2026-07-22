@@ -2347,9 +2347,11 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Strings.Gui_Menu_Struggle_Cancel_Ready, "Cancel Ready");
         add(Strings.Gui_Menu_Struggle_Name_And_Size, "Struggle name and size");
         add(Strings.Gui_Menu_Struggle_Name, "Struggle name");
-        add(Strings.Gui_Menu_Struggle_Damage_Mult, "Damage multiplier");
+        add(Strings.Gui_Menu_Struggle_Damage_Mult, "Orb multiplier (%)");
         add(Strings.Gui_Menu_Struggle_Round_Time, "Round time (seconds)");
         add(Strings.Gui_Menu_Struggle_Starting_Score, "Starting orbs");
+        add(Strings.Gui_Menu_Struggle_Corners_Pos, "Corners (x,y,z)");
+        add(Strings.Gui_Menu_Struggle_Spectator_Pos, "Spectators (x,y,z)");
         add(Strings.Gui_Menu_Struggle_Mode, "Mode");
         add(Strings.Gui_Menu_Struggle + ".duel", "Duel");
         add(Strings.Gui_Menu_Struggle + ".tournament", "Tournament");
