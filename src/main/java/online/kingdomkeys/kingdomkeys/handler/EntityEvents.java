@@ -956,31 +956,33 @@ public class EntityEvents {
 
 	@SubscribeEvent
 	public void hitEntity(LivingDamageEvent.Pre event) {
-		// Struggle combat: fully separate from the normal damage pipeline. No real HP damage - instead,
-		// the one hit drops orbs equal to the points they lose (KH2-style), and picking an orb up (only
-		// the two participants can) is what actually adds a point, not landing the hit itself.
 		if (event.getSource().getEntity() instanceof Player attacker && event.getEntity() instanceof Player victim) {
 			WorldData worldData = WorldData.get(attacker.getServer());
 			Struggle struggle = worldData.getStruggleFromParticipant(attacker.getUUID());
-			if (struggle != null && struggle.isInProgress() && struggle.hasParticipant(victim.getUUID())) {
+			if (struggle != null && struggle.isInProgress()
+					&& struggle.getActiveCombatantIds().contains(attacker.getUUID())
+					&& struggle.getActiveCombatantIds().contains(victim.getUUID())) {
 				float originalDamage = event.getNewDamage();
 				event.setNewDamage(0); // never actually hurt each other during a Struggle match
 
 				PlayerData attackerData = PlayerData.get(attacker);
 				Item expectedWeapon = Struggle.weaponFor(attackerData.getChosen());
 				if (attacker.getMainHandItem().getItem() == expectedWeapon) {
-					int points = Mth.clamp(Math.round(originalDamage * struggle.getDamageMult() / 100F), 1, 50);
+					int rawPoints = Mth.clamp(Math.round(originalDamage * struggle.getDamageMult() / 100F), 1, 50);
 
 					Struggle.Participant victimParticipant = struggle.getParticipant(victim.getUUID());
-					victimParticipant.setScore(victimParticipant.getScore() - points);
-					worldData.setDirty();
-					PacketHandler.sendToAll(new SCSyncWorldData(attacker.getServer()));
+					int points = Math.min(rawPoints, victimParticipant.getScore());
+					if (points > 0) {
+						victimParticipant.setScore(victimParticipant.getScore() - points);
+						worldData.setDirty();
+						PacketHandler.sendToAll(new SCSyncWorldData(attacker.getServer()));
 
-					PlayerData victimData = PlayerData.get(victim);
-					int orbColor = victimData != null ? victimData.getNotifColor() : 0xFFFFFF;
-					for (int i = 0; i < points; i++) {
-						StruggleOrbEntity orb = new StruggleOrbEntity(victim.level(), victim.getX(), victim.getY() + victim.getBbHeight() / 2, victim.getZ(), orbColor, struggle.getName());
-						victim.level().addFreshEntity(orb);
+						PlayerData victimData = PlayerData.get(victim);
+						int orbColor = victimData != null ? victimData.getNotifColor() : 0xFFFFFF;
+						for (int i = 0; i < points; i++) {
+							StruggleOrbEntity orb = new StruggleOrbEntity(victim.level(), victim.getX(), victim.getY() + victim.getBbHeight() / 2, victim.getZ(), orbColor, struggle.getName());
+							victim.level().addFreshEntity(orb);
+						}
 					}
 				}
 				return; // this hit was fully handled as struggle combat, skip the normal damage pipeline below

@@ -25,11 +25,13 @@ import java.awt.*;
 public class StruggleSettings extends MenuBackground {
 
 	EditBox nameBox, pos1Box, pos2Box;
-	EditBox dmgMultBox;
+	EditBox dmgMultBox, roundTimeBox, startingScoreBox;
 
 	boolean priv = false;
 	byte pSize = Struggle.PARTICIPANTS_LIMIT;
 	int dmgMult = 100;
+	int roundTimeSeconds = 60;
+	int startingScore = 100;
 	BlockPos pos1, pos2;
 
 	BlockPos boardPos;
@@ -58,13 +60,12 @@ public class StruggleSettings extends MenuBackground {
 			case "togglePriv":
 				priv = !priv;
 				break;
-			case "dmg_mult":
-				dmgMult = 1;//TODO
-				break;
 			case "accept":
 				//struggle.setPriv(priv);
 				struggle.setSize(pSize);
 				struggle.setDamageMult(dmgMult);
+				struggle.setRoundTimeSeconds(roundTimeSeconds);
+				struggle.setStartingScore(startingScore);
 				struggle.setName(nameBox.getValue());
 
 				pos1 = Utils.stringArrayToBlockPos(pos1Box.getValue().split(","));
@@ -98,11 +99,7 @@ public class StruggleSettings extends MenuBackground {
 	}
 
 	private String modeLabel(Struggle.Mode mode) {
-		return switch (mode) {
-			case DUEL -> Utils.translateToLocal(Strings.Gui_Menu_Struggle_Mode_Duel);
-			case TOURNAMENT -> Utils.translateToLocal(Strings.Gui_Menu_Struggle_Mode_Tournament);
-			case FFA -> Utils.translateToLocal(Strings.Gui_Menu_Struggle_Mode_Ffa);
-		};
+		return Utils.translateToLocal(Strings.Gui_Menu_Struggle + "." + mode.name().toLowerCase());
 	}
 
 	private void updateButtons() {
@@ -112,6 +109,8 @@ public class StruggleSettings extends MenuBackground {
 		size.setMessage(Component.translatable(pSize+""));
 		nameBox.setValue(struggle.getName());
 		dmgMultBox.setValue(dmgMult+"");
+		roundTimeBox.setValue(roundTimeSeconds+"");
+		startingScoreBox.setValue(startingScore+"");
 		if(struggle.c1 != null && struggle.c2 != null) {
 			pos1Box.setValue(struggle.c1.getX()+","+struggle.c1.getY()+","+struggle.c1.getZ());
 			pos2Box.setValue(struggle.c2.getX()+","+struggle.c2.getY()+","+struggle.c2.getZ());
@@ -121,6 +120,42 @@ public class StruggleSettings extends MenuBackground {
 		size.visible = true;
 		modeButton.setMessage(Component.literal(modeLabel(struggle.getMode())));
 		modeButton.visible = true;
+	}
+
+	/** A small numeric-only EditBox, used for damage mult/round time/starting score alike. */
+	private EditBox numberBox(int x, int y, int width, java.util.function.IntConsumer onChange) {
+		EditBox box = new EditBox(minecraft.font, x, y, width, 15, Component.literal("")) {
+			@Override
+			public boolean charTyped(char c, int i) {
+				if (Utils.isNumber(c) || c == '-') {
+					String text = new StringBuilder(this.getValue()).insert(this.getCursorPosition(), c).toString();
+					if (Utils.getInt(text) < 100000 && Utils.getInt(text) > -100000) {
+						super.charTyped(c, i);
+						onChange.accept(Utils.getInt(getValue()));
+						return true;
+					} else {
+						return false;
+					}
+				} else {
+					return false;
+				}
+			}
+
+			@Override
+			public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+				super.keyPressed(keyCode, scanCode, modifiers);
+				onChange.accept(Utils.getInt(getValue()));
+				return true;
+			}
+
+			@Override
+			public void renderWidget(@NotNull GuiGraphics gui, int pMouseX, int pMouseY, float pPartialTick) {
+				RenderSystem.setShaderColor(1, 1, 1, 1);
+				super.renderWidget(gui, pMouseX, pMouseY, pPartialTick);
+			}
+		};
+		addRenderableWidget(box);
+		return box;
 	}
 
 	@Override
@@ -136,6 +171,8 @@ public class StruggleSettings extends MenuBackground {
 			//priv = struggle.getPriv();
 			pSize = struggle.getSize();
 			dmgMult = struggle.getDamageMult();
+			roundTimeSeconds = struggle.getRoundTimeSeconds();
+			startingScore = struggle.getStartingScore();
 
 			float topBarHeight = (float) height * 0.17F;
 			int button_statsY = (int) topBarHeight + 5;
@@ -168,41 +205,18 @@ public class StruggleSettings extends MenuBackground {
 				action("mode");
 			}).bounds(buttonX + 130, button_statsY + 18 - 2, 100, 20).build());
 
-			// Damage multiplier box sits right next to its own label instead of on its own row.
+			// Each of these labels+boxes sits on its own row, box positioned right after its own label
+			// (label width measured so the box never overlaps the text, whatever language it's in).
 			int dmgMultLabelWidth = minecraft.font.width(Utils.translateToLocal(Strings.Gui_Menu_Struggle_Damage_Mult));
-			addRenderableWidget(dmgMultBox = new EditBox(minecraft.font, buttonX + dmgMultLabelWidth + 10, button_statsY + (2 * 18), 40, 15, Component.literal("")) {
-				@Override
-				public boolean charTyped(char c, int i) {
-					if (Utils.isNumber(c) || c == '-') {
-						String text = new StringBuilder(this.getValue()).insert(this.getCursorPosition(), c).toString();
-						if (Utils.getInt(text) < 1000 && Utils.getInt(text) > -1000) {
-							super.charTyped(c, i);
-							dmgMult = Utils.getInt(getValue());
-							return true;
-						} else {
-							return false;
-						}
-					} else {
-						return false;
-					}
-				}
+			dmgMultBox = numberBox(buttonX + dmgMultLabelWidth + 10, button_statsY + (2 * 18), 40, v -> dmgMult = v);
 
-				@Override
-				public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-					super.keyPressed(keyCode, scanCode, modifiers);
-					dmgMult = Utils.getInt(getValue());
-					return true;
-				}
+			int roundTimeLabelWidth = minecraft.font.width(Utils.translateToLocal(Strings.Gui_Menu_Struggle_Round_Time));
+			roundTimeBox = numberBox(buttonX + roundTimeLabelWidth + 10, button_statsY + (3 * 18), 40, v -> roundTimeSeconds = v);
 
-				@Override
-				public void renderWidget(@NotNull GuiGraphics gui, int pMouseX, int pMouseY, float pPartialTick) {
-					RenderSystem.setShaderColor(1, 1, 1, 1);
-					super.renderWidget(gui, pMouseX, pMouseY, pPartialTick);
-				}
+			int startingScoreLabelWidth = minecraft.font.width(Utils.translateToLocal(Strings.Gui_Menu_Struggle_Starting_Score));
+			startingScoreBox = numberBox(buttonX + startingScoreLabelWidth + 10, button_statsY + (4 * 18), 40, v -> startingScore = v);
 
-			});
-
-			addRenderableWidget(pos1Box = new EditBox(minecraft.font, buttonX, button_statsY + (3 * 18), 100, 15, Component.literal("")) {
+			addRenderableWidget(pos1Box = new EditBox(minecraft.font, buttonX, button_statsY + (5 * 18), 100, 15, Component.literal("")) {
 				@Override
 				public boolean charTyped(char c, int i) {
 					if (Utils.isNumber(c) || c == '-' || c == ',') {
@@ -232,7 +246,7 @@ public class StruggleSettings extends MenuBackground {
 
 			});
 
-			addRenderableWidget(pos2Box = new EditBox(minecraft.font, buttonX + 110, button_statsY + (3 * 18), 100, 15, Component.literal("")) {
+			addRenderableWidget(pos2Box = new EditBox(minecraft.font, buttonX + 110, button_statsY + (5 * 18), 100, 15, Component.literal("")) {
 				@Override
 				public boolean charTyped(char c, int i) {
 					if (Utils.isNumber(c) || c == '-' || c == ',') {
@@ -265,7 +279,7 @@ public class StruggleSettings extends MenuBackground {
 
 			addRenderableWidget(accept = Button.builder(Component.literal(""), (e) -> {
 				action("accept");
-			}).bounds(buttonX - 2, button_statsY + (4 * 18), 130, 20).build());
+			}).bounds(buttonX - 2, button_statsY + (6 * 18), 130, 20).build());
 
 			addRenderableWidget(back = new MenuButton((int) buttonPosX, button_statsY, (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), ButtonType.BUTTON, (e) -> { action("back"); }));
 		}
@@ -301,6 +315,8 @@ public class StruggleSettings extends MenuBackground {
 
 		gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Struggle_Name_And_Size), buttonX, button_statsY + 4, 0xFFFFFF);
 		gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Struggle_Damage_Mult), buttonX, button_statsY + (2 * 18) + 4, 0xFFFFFF);
+		gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Struggle_Round_Time), buttonX, button_statsY + (3 * 18) + 4, 0xFFFFFF);
+		gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Struggle_Starting_Score), buttonX, button_statsY + (4 * 18) + 4, 0xFFFFFF);
 	}
 
 }

@@ -31,6 +31,8 @@ public record CSStruggleSettings(Struggle struggle) implements Packet {
 
 		p.setSize(struggle.getSize());
 		p.setDamageMult(struggle.getDamageMult());
+		p.setRoundTimeSeconds(struggle.getRoundTimeSeconds());
+		p.setStartingScore(struggle.getStartingScore());
 		p.setName(struggle.getName());
 		p.setC1(struggle.c1);
 		p.setC2(struggle.c2);

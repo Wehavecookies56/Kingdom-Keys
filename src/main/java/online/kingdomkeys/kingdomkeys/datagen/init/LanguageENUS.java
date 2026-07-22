@@ -2329,6 +2329,10 @@ public class LanguageENUS extends KKLanguageProvider {
         add("kingdomkeys.struggle.lose", "You lose!");
         add("kingdomkeys.struggle.tournament.bye", "You got a bye this round!");
         add("kingdomkeys.struggle.tournament.champion", "Tournament Champion:");
+        add("kingdomkeys.struggle.tournament.round_winner", "Round winner:");
+        add("kingdomkeys.struggle.no_hotbar_space", "Free up a hotbar slot first!");
+        add("kingdomkeys.struggle.tie.overtime", "Tied! Sudden death!");
+        add("kingdomkeys.struggle.draw", "Draw!");
 
         add(Strings.Gui_Menu_Struggle_Menu_Title, "Struggle");
         add(Strings.Gui_Menu_Struggle_Create_Title, "Start Struggle");
@@ -2338,14 +2342,18 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Strings.Gui_Menu_Struggle_Join_Button, "Join match");
         add(Strings.Gui_Menu_Struggle_Settings_Button, "Struggle Settings");
         add(Strings.Gui_Menu_Struggle_Delete_Button, "Delete match");
+        add(Strings.Gui_Menu_Struggle_Leave_Button, "Leave match");
         add(Strings.Gui_Menu_Struggle_Ready, "Ready");
         add(Strings.Gui_Menu_Struggle_Cancel_Ready, "Cancel Ready");
         add(Strings.Gui_Menu_Struggle_Name_And_Size, "Struggle name and size");
+        add(Strings.Gui_Menu_Struggle_Name, "Struggle name");
         add(Strings.Gui_Menu_Struggle_Damage_Mult, "Damage multiplier");
+        add(Strings.Gui_Menu_Struggle_Round_Time, "Round time (seconds)");
+        add(Strings.Gui_Menu_Struggle_Starting_Score, "Starting orbs");
         add(Strings.Gui_Menu_Struggle_Mode, "Mode");
-        add(Strings.Gui_Menu_Struggle_Mode_Duel, "Duel");
-        add(Strings.Gui_Menu_Struggle_Mode_Tournament, "Tournament");
-        add(Strings.Gui_Menu_Struggle_Mode_Ffa, "Free For All");
+        add(Strings.Gui_Menu_Struggle + ".duel", "Duel");
+        add(Strings.Gui_Menu_Struggle + ".tournament", "Tournament");
+        add(Strings.Gui_Menu_Struggle + ".ffa", "Free For All");
 
         //Controls
         add("key.categories.kingdomkeys", "Kingdom Keys");
@@ -2406,8 +2414,6 @@ public class LanguageENUS extends KKLanguageProvider {
         addKKEffect(ModMobEffects.ZERO_GRAVITY, "Zero Gravity", "Locks you in the air for a few seconds.");
         addKKEffect(ModMobEffects.CONFUSE, "Confuse", "Inverts your movement.");
         addKKEffect(ModMobEffects.MINI,"Mini","Shrinks you down, watch out for others jumping on you!");
-        addKKEffect(ModMobEffects.SORCEROUS_WAKING, "Sorcerous Waking", "Increases the effectiveness of magic.");
-        addKKEffect(ModMobEffects.ALCHEMIC_WAKING, "Alchemic Waking", "Increases the effectiveness of consumable items.");
 
         //CO Rooms
         addRoom("almighty_darkness", "Almighty Darkness");

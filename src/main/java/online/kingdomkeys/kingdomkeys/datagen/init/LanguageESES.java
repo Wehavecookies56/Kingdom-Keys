@@ -2367,6 +2367,10 @@ public class LanguageESES extends KKLanguageProvider {
         add("kingdomkeys.struggle.lose", "Has perdido");
         add("kingdomkeys.struggle.tournament.bye", "¡Pasas de ronda sin combatir!");
         add("kingdomkeys.struggle.tournament.champion", "Campeón del torneo:");
+        add("kingdomkeys.struggle.tournament.round_winner", "Gana la ronda:");
+        add("kingdomkeys.struggle.no_hotbar_space", "¡Libera un hueco en la barra de acceso rápido!");
+        add("kingdomkeys.struggle.tie.overtime", "¡Empate! ¡Muerte súbita!");
+        add("kingdomkeys.struggle.draw", "¡Empate!");
 
         add(Strings.Gui_Menu_Struggle_Menu_Title, "Struggle");
         add(Strings.Gui_Menu_Struggle_Create_Title, "Empezar Struggle");
@@ -2376,14 +2380,18 @@ public class LanguageESES extends KKLanguageProvider {
         add(Strings.Gui_Menu_Struggle_Join_Button, "Unirse a partida");
         add(Strings.Gui_Menu_Struggle_Settings_Button, "Ajustes del Struggle");
         add(Strings.Gui_Menu_Struggle_Delete_Button, "Eliminar partida");
+        add(Strings.Gui_Menu_Struggle_Leave_Button, "Abandonar partida");
         add(Strings.Gui_Menu_Struggle_Ready, "Listo");
         add(Strings.Gui_Menu_Struggle_Cancel_Ready, "Cancelar listo");
         add(Strings.Gui_Menu_Struggle_Name_And_Size, "Nombre y tamaño del Struggle");
+        add(Strings.Gui_Menu_Struggle_Name, "Nombre del Struggle");
         add(Strings.Gui_Menu_Struggle_Damage_Mult, "Multiplicador de daño");
+        add(Strings.Gui_Menu_Struggle_Round_Time, "Duración de la ronda (segundos)");
+        add(Strings.Gui_Menu_Struggle_Starting_Score, "Orbes iniciales");
         add(Strings.Gui_Menu_Struggle_Mode, "Modo");
-        add(Strings.Gui_Menu_Struggle_Mode_Duel, "Duelo");
-        add(Strings.Gui_Menu_Struggle_Mode_Tournament, "Torneo");
-        add(Strings.Gui_Menu_Struggle_Mode_Ffa, "Todos contra todos");
+        add(Strings.Gui_Menu_Struggle + ".duel", "Duelo");
+        add(Strings.Gui_Menu_Struggle + ".tournament", "Torneo");
+        add(Strings.Gui_Menu_Struggle + ".ffa", "Todos contra todos");
 
         //Biomes
         add("biome.kingdomkeys.dive_to_the_heart", "Descenso al Coraz\u00f3n");

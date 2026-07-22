@@ -3,9 +3,11 @@ package online.kingdomkeys.kingdomkeys.client.gui.overlay;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.lib.Struggle;
@@ -15,9 +17,10 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 /**
- * KH2-style "ORBS" counter + round timer, shown while the local player is one of the active combatants
- * in an in-progress Struggle match. With exactly 2 combatants (DUEL/TOURNAMENT) they're shown in the
- * classic left/right layout; with more (FFA) they're listed down the right side instead.
+ * KH2-style "ORBS" counter + round timer, shown to anyone within {@link #SPECTATE_RANGE} blocks of an
+ * in-progress Struggle match (combatants and spectators alike), so bystanders can follow the fight too.
+ * With exactly 2 combatants (DUEL/TOURNAMENT) they're shown in the classic left/right layout; with more
+ * (FFA) they're listed down the right side instead.
  */
 public class StruggleHUDGui extends OverlayBase {
 
@@ -26,6 +29,7 @@ public class StruggleHUDGui extends OverlayBase {
 	private static final ResourceLocation ORB_TEXTURE = KingdomKeys.rl("textures/entity/struggle_orb.png");
 	private static final int ORB_SIZE = 20; // on-screen display size
 	private static final int ORB_TEXTURE_RESOLUTION = 16; // actual struggle_orb.png size
+	private static final double SPECTATE_RANGE = 50.0;
 
 	private StruggleHUDGui() {
 		super();
@@ -35,17 +39,16 @@ public class StruggleHUDGui extends OverlayBase {
 	public void render(GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
 		super.render(guiGraphics, deltaTracker);
 		Player player = minecraft.player;
-		if (player == null) return;
+		if (player == null)
+			return;
 
-		WorldData worldData = WorldData.getClient();
-		Struggle struggle = worldData.getStruggleFromParticipant(player.getUUID());
-		if (struggle == null || !struggle.isInProgress()) return;
+		Struggle struggle = findNearbyMatch(player);
+		if (struggle == null)
+			return;
 
-		List<Struggle.Participant> combatants = struggle.getActiveCombatantIds().stream()
-				.map(struggle::getParticipant)
-				.filter(java.util.Objects::nonNull)
-				.collect(Collectors.toList());
-		if (combatants.size() < 2) return;
+		List<Struggle.Participant> combatants = struggle.getActiveCombatantIds().stream().map(struggle::getParticipant).filter(java.util.Objects::nonNull).collect(Collectors.toList());
+		if (combatants.size() < 2)
+			return;
 
 		int screenWidth = minecraft.getWindow().getGuiScaledWidth();
 		int margin = 12;
@@ -64,6 +67,28 @@ public class StruggleHUDGui extends OverlayBase {
 				listY += ORB_SIZE + font.lineHeight + 8;
 			}
 		}
+	}
+
+	/** The nearest in-progress Struggle whose arena is within {@link #SPECTATE_RANGE} blocks, if any. */
+	private Struggle findNearbyMatch(Player player) {
+		WorldData worldData = WorldData.getClient();
+		Struggle nearest = null;
+		double nearestDistSqr = SPECTATE_RANGE * SPECTATE_RANGE;
+
+		for (Struggle struggle : worldData.getStruggles()) {
+			if (!struggle.isInProgress() || struggle.getC1() == null || struggle.getC2() == null) continue;
+
+			double centerX = (struggle.getC1().getX() + struggle.getC2().getX()) / 2.0;
+			double centerY = (struggle.getC1().getY() + struggle.getC2().getY()) / 2.0;
+			double centerZ = (struggle.getC1().getZ() + struggle.getC2().getZ()) / 2.0;
+			double distSqr = player.distanceToSqr(centerX, centerY, centerZ);
+
+			if (distSqr <= nearestDistSqr) {
+				nearest = struggle;
+				nearestDistSqr = distSqr;
+			}
+		}
+		return nearest;
 	}
 
 	private void drawTimer(GuiGraphics gui, Struggle struggle, int centerX, int y) {
@@ -86,7 +111,7 @@ public class StruggleHUDGui extends OverlayBase {
 		String label = combatantsLabel(participant);
 
 		int iconX = fromLeft ? anchorX : anchorX - ORB_SIZE;
-		int textX = fromLeft ? anchorX + ORB_SIZE + 4 : anchorX - ORB_SIZE - 4 - textWidth;
+		int textX = fromLeft ? anchorX + ORB_SIZE + 4 : anchorX - ORB_SIZE - 10 - textWidth;
 		int widgetCenter = fromLeft ? anchorX + (ORB_SIZE + 4 + textWidth) / 2 : anchorX - (ORB_SIZE + 4 + textWidth) / 2;
 
 		drawCenteredString(gui, font, label, widgetCenter, y, 0xFFFFFF);
@@ -97,7 +122,7 @@ public class StruggleHUDGui extends OverlayBase {
 		this.blit(gui, ORB_TEXTURE, iconX, iconY, ORB_SIZE, ORB_SIZE, 0, 0, ORB_TEXTURE_RESOLUTION, ORB_TEXTURE_RESOLUTION, ORB_TEXTURE_RESOLUTION, ORB_TEXTURE_RESOLUTION);
 		RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
 
-		gui.drawString(font, scoreText, textX, iconY + (ORB_SIZE / 2) - (font.lineHeight / 2), color);
+		gui.drawString(font, Component.literal(scoreText).withStyle(ClientUtils.KK_Font_EXP), textX, iconY + (ORB_SIZE / 2) - (font.lineHeight / 2), color);
 	}
 
 	private String combatantsLabel(Struggle.Participant participant) {

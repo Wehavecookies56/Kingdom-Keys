@@ -37,10 +37,23 @@ public class Struggle {
 	private int damageMult;
 	private boolean inProgress;
 	private Mode mode = Mode.DUEL;
+	/** Length of a round in seconds, configurable per match in Settings. Defaults to 60 (KH2-style). */
+	private int roundTimeSeconds = 60;
+	/** Orbs/points each combatant starts a round with, configurable per match in Settings. Default 100. */
+	private int startingScore = 100;
 	/** Seconds left in the current round, for the HUD countdown. -1 while no round is running. */
 	private int roundSecondsLeft = -1;
 	/** Tournament-only: remaining UUIDs in fighting order (winners go to the back, losers drop out). */
 	private final List<UUID> tournamentQueue = new ArrayList<>();
+	/**
+	 * Tournament-only: the actual single-elimination bracket. bracket.get(0) is the first round (size =
+	 * next power of 2 >= participant count, extra slots are byes), each following round is half the
+	 * size of the previous, initially all empty (null) until winners are placed in them. The very last
+	 * round always has exactly 1 slot - once that's filled, the tournament is over.
+	 * A null entry means "empty"/"not decided yet" (either an unused bye slot, or a future round slot
+	 * waiting on an earlier match).
+	 */
+	private final List<List<UUID>> bracket = new ArrayList<>();
 	/** Who is actually fighting in the currently running match (subset of participants). For the HUD. */
 	private final List<UUID> activeCombatantIds = new ArrayList<>();
 	public BlockPos blockPos, c1,c2;
@@ -128,6 +141,22 @@ public class Struggle {
 		return this.mode;
 	}
 
+	public void setRoundTimeSeconds(int seconds) {
+		this.roundTimeSeconds = Math.max(5, seconds);
+	}
+
+	public int getRoundTimeSeconds() {
+		return this.roundTimeSeconds;
+	}
+
+	public void setStartingScore(int score) {
+		this.startingScore = Math.max(1, score);
+	}
+
+	public int getStartingScore() {
+		return this.startingScore;
+	}
+
 	public void setRoundSecondsLeft(int seconds) {
 		this.roundSecondsLeft = seconds;
 	}
@@ -138,6 +167,10 @@ public class Struggle {
 
 	public List<UUID> getTournamentQueue() {
 		return this.tournamentQueue;
+	}
+
+	public List<List<UUID>> getBracket() {
+		return this.bracket;
 	}
 
 	public List<UUID> getActiveCombatantIds() {
@@ -210,6 +243,7 @@ public class Struggle {
 	public void resetForNewMatch() {
 		this.participants.clear();
 		this.tournamentQueue.clear();
+		this.bracket.clear();
 		this.activeCombatantIds.clear();
 		this.inProgress = false;
 		this.roundSecondsLeft = -1;
@@ -224,6 +258,8 @@ public class Struggle {
 		struggleNBT.putBoolean("in_progress", this.inProgress);
 		struggleNBT.putString("mode", this.mode.name());
 		struggleNBT.putInt("round_seconds_left", this.roundSecondsLeft);
+		struggleNBT.putInt("round_time_seconds", this.roundTimeSeconds);
+		struggleNBT.putInt("starting_score", this.startingScore);
 		struggleNBT.putIntArray("posArray", new int[] {this.blockPos.getX(),this.blockPos.getY(),this.blockPos.getZ()});
 		struggleNBT.putIntArray("c1", new int[] {this.c1.getX(),this.c1.getY(),this.c1.getZ()});
 		struggleNBT.putIntArray("c2", new int[] {this.c2.getX(),this.c2.getY(),this.c2.getZ()});
@@ -248,6 +284,19 @@ public class Struggle {
 		}
 		struggleNBT.put("tournament_queue", queue);
 
+		ListTag bracketNBT = new ListTag();
+		for (List<UUID> round : this.bracket) {
+			ListTag roundNBT = new ListTag();
+			for (UUID uuid : round) {
+				CompoundTag slot = new CompoundTag();
+				slot.putBoolean("empty", uuid == null);
+				if (uuid != null) slot.putUUID("id", uuid);
+				roundNBT.add(slot);
+			}
+			bracketNBT.add(roundNBT);
+		}
+		struggleNBT.put("bracket", bracketNBT);
+
 		ListTag activeCombatants = new ListTag();
 		for (UUID uuid : this.activeCombatantIds) {
 			CompoundTag entry = new CompoundTag();
@@ -271,6 +320,8 @@ public class Struggle {
 			this.setMode(Mode.DUEL);
 		}
 		this.setRoundSecondsLeft(nbt.contains("round_seconds_left") ? nbt.getInt("round_seconds_left") : -1);
+		this.setRoundTimeSeconds(nbt.contains("round_time_seconds") ? nbt.getInt("round_time_seconds") : 60);
+		this.setStartingScore(nbt.contains("starting_score") ? nbt.getInt("starting_score") : 100);
 		int[] posArray = nbt.getIntArray("posArray");
 		this.setPos(new BlockPos(posArray[0],posArray[1],posArray[2]));
 		
@@ -294,6 +345,18 @@ public class Struggle {
 		ListTag queue = nbt.getList("tournament_queue", Tag.TAG_COMPOUND);
 		for (int j = 0; j < queue.size(); j++) {
 			this.tournamentQueue.add(queue.getCompound(j).getUUID("id"));
+		}
+
+		this.bracket.clear();
+		ListTag bracketNBT = nbt.getList("bracket", Tag.TAG_LIST);
+		for (int r = 0; r < bracketNBT.size(); r++) {
+			ListTag roundNBT = (ListTag) bracketNBT.get(r);
+			List<UUID> round = new ArrayList<>();
+			for (int j = 0; j < roundNBT.size(); j++) {
+				CompoundTag slot = roundNBT.getCompound(j);
+				round.add(slot.getBoolean("empty") ? null : slot.getUUID("id"));
+			}
+			this.bracket.add(round);
 		}
 
 		this.activeCombatantIds.clear();

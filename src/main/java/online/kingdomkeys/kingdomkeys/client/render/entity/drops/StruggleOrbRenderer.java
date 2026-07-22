@@ -17,7 +17,7 @@ import org.joml.Matrix4f;
 
 public class StruggleOrbRenderer extends EntityItemDropRenderer {
 
-	private static final ResourceLocation TEXTURE = KingdomKeys.rl("textures/entity/struggle_orb.png");
+	private static final ResourceLocation TEXTURE = KingdomKeys.rl("textures/entity/gummi_fire.png");
 
 	public StruggleOrbRenderer(EntityRendererProvider.Context context) {
 		super(context);
@@ -42,7 +42,7 @@ public class StruggleOrbRenderer extends EntityItemDropRenderer {
 			matrixStackIn.translate(0.0D, 0.1F, 0.0D);
 			matrixStackIn.mulPose(this.entityRenderDispatcher.cameraOrientation());
 			matrixStackIn.mulPose(Axis.YP.rotationDegrees(180.0F));
-			matrixStackIn.scale(0.3F, 0.3F, 0.3F);
+			matrixStackIn.scale(0.5F, 0.5F, 0.5F);
 			VertexConsumer ivertexbuilder = bufferIn.getBuffer(RenderType.entityTranslucent(getTextureLocation(entityIn)));
 			PoseStack.Pose matrixstack$entry = matrixStackIn.last();
 			Matrix4f matrix4f = matrixstack$entry.pose();

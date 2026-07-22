@@ -39,7 +39,9 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.awt.*;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 public class MenuBackground extends Screen {
@@ -482,36 +484,47 @@ public class MenuBackground extends Screen {
 			return;
 		}
 
+		if (struggle.getMode() == Struggle.Mode.TOURNAMENT && !struggle.getBracket().isEmpty()) {
+			drawTournamentBracket(gui, struggle);
+			return;
+		}
+
 		List<Struggle.Participant> participants = struggle.getParticipants();
+		if (participants.size() == 2) {
+			drawVersus(gui, participants.get(0), participants.get(1));
+			return;
+		}
+
 		for (int i = 0; i < participants.size(); i++) {
 			Struggle.Participant participant = participants.get(i);
 			drawPlayer(gui, participants.size(), i, participant.getUUID(), participant.getUsername());
 		}
 	}
 
-	public void drawPlayer(GuiGraphics gui, int count, int order, UUID memberUUID, String memberUsername) {
-		PoseStack matrixStack = gui.pose();
-
+	private int layoutColumns(int count) {
 		boolean multiRow = count > 5;
+		return multiRow ? (int) Math.ceil(count / 2.0) : count;
+	}
 
-		int columns;
+	/** Same grid math {@link #drawPlayer} uses to place a model, exposed so other layouts (VS, bracket
+	 * "next up" row) can line other elements (like a "VS" label) up with it exactly. */
+	private float[] computeLayoutPosition(int count, int order) {
+		boolean multiRow = count > 5;
+		int columns = layoutColumns(count);
 		int row;
 		int col;
 
 		if (!multiRow) {
-			columns = count;
 			row = 1;
 			col = order;
 		} else {
-			columns = (int)Math.ceil(count / 2.0);
 			row = order / columns;
 			col = order % columns;
 		}
+
 		float layoutLeft = width * 0.2F;
 		float layoutWidth = width * 0.8F;
-		float layoutRight = layoutLeft + layoutWidth;
 		float playerHeight = height * 0.45F;
-
 		float scale = Math.max(1.0F - (columns * 0.08F), 0.55F);
 
 		float minSpacing = playerHeight * 0.65F * scale;
@@ -521,7 +534,6 @@ public class MenuBackground extends Screen {
 		float spacingY = height * 0.20F;
 
 		float usedWidth = (columns - 1) * spacingX;
-
 		if (multiRow)
 			usedWidth += spacingX * 0.5F;
 
@@ -531,6 +543,131 @@ public class MenuBackground extends Screen {
 		if (multiRow && row == 1)
 			playerPosX += spacingX * 0.5F;
 		float playerPosY = (height * 0.45F) + (row * spacingY);
+
+		return new float[]{playerPosX, playerPosY};
+	}
+
+	/** Two combatants side by side with a "VS" between them, so it's obvious who's fighting who. */
+	private void drawVersus(GuiGraphics gui, Struggle.Participant left, Struggle.Participant right) {
+		drawPlayer(gui, 2, 0, left.getUUID(), left.getUsername());
+		drawPlayer(gui, 2, 1, right.getUUID(), right.getUsername());
+
+		float[] leftPos = computeLayoutPosition(2, 0);
+		float[] rightPos = computeLayoutPosition(2, 1);
+		int centerX = (int) ((leftPos[0] + rightPos[0]) / 2F);
+		int centerY = (int) ((leftPos[1] + rightPos[1]) / 2F);
+
+		gui.drawCenteredString(minecraft.font, "VS", centerX, centerY, 0xFFD900);
+	}
+
+	private void drawTournamentBracket(GuiGraphics gui, Struggle struggle) {
+		List<List<UUID>> bracket = struggle.getBracket();
+		if (bracket.isEmpty())
+			return;
+
+		int rounds = bracket.size();
+		float layoutLeft = width * 0.12F;
+		float layoutRight = width * 0.88F;
+		float layoutTop = height * 0.22F;
+		float layoutBottom = height * 0.82F;
+		float roundSpacing = rounds > 1 ? (layoutRight - layoutLeft) / (rounds - 1) : 0;
+
+		// Precompute every slot's Y position up front, since the connecting lines need to know both
+		// this round's and the next round's positions at once.
+		float[][] slotY = new float[rounds][];
+		for (int r = 0; r < rounds; r++) {
+			int slotCount = bracket.get(r).size();
+			float spacing = (layoutBottom - layoutTop) / slotCount;
+			slotY[r] = new float[slotCount];
+			for (int i = 0; i < slotCount; i++) {
+				slotY[r][i] = layoutTop + spacing * (i + 0.5F);
+			}
+		}
+
+		int lineColor = 0x66FFFFFF;
+		for (int r = 0; r < rounds - 1; r++) {
+			float x1 = layoutLeft + roundSpacing * r;
+			float xElbow = x1 + roundSpacing * 0.5F;
+			float x2 = layoutLeft + roundSpacing * (r + 1);
+			List<UUID> round = bracket.get(r);
+			for (int i = 0; i < round.size(); i += 2) {
+				float y1 = slotY[r][i];
+				float y2 = slotY[r][i + 1];
+				float yMid = (y1 + y2) / 2F;
+				gui.fill((int) x1, (int) y1, (int) xElbow, (int) y1 + 1, lineColor);
+				gui.fill((int) x1, (int) y2, (int) xElbow, (int) y2 + 1, lineColor);
+				gui.fill((int) xElbow, (int) Math.min(y1, y2), (int) xElbow + 1, (int) Math.max(y1, y2), lineColor);
+				gui.fill((int) xElbow, (int) yMid, (int) x2, (int) yMid + 1, lineColor);
+			}
+		}
+
+		Set<UUID> eliminated = bracketEliminated(bracket);
+		for (int r = 0; r < rounds; r++) {
+			List<UUID> round = bracket.get(r);
+			float x = layoutLeft + roundSpacing * r;
+			for (int i = 0; i < round.size(); i++) {
+				UUID id = round.get(i);
+				if (id == null) continue;
+				Struggle.Participant participant = struggle.getParticipant(id);
+				String name = participant != null ? participant.getUsername() : "?";
+				int color = eliminated.contains(id) ? 0x808080 : 0xFFFFFF;
+				gui.drawString(minecraft.font, name, (int) x + 2, (int) slotY[r][i] - minecraft.font.lineHeight / 2, color);
+			}
+		}
+
+		int[] next = bracketNextMatch(bracket);
+		if (next != null) {
+			float x = layoutLeft + roundSpacing * next[0] + roundSpacing * 0.5F;
+			float y = (slotY[next[0]][next[1]] + slotY[next[0]][next[1] + 1]) / 2F;
+			gui.drawCenteredString(minecraft.font, "VS", (int) x, (int) y - minecraft.font.lineHeight / 2, 0xFFD900);
+		}
+	}
+
+	/** A participant is eliminated if a completed pair they were in decided someone else as the winner. */
+	private Set<UUID> bracketEliminated(List<List<UUID>> bracket) {
+		Set<UUID> eliminated = new HashSet<>();
+		for (int r = 0; r < bracket.size() - 1; r++) {
+			List<UUID> round = bracket.get(r);
+			List<UUID> nextRound = bracket.get(r + 1);
+			for (int i = 0; i < round.size(); i += 2) {
+				UUID a = round.get(i);
+				UUID b = round.get(i + 1);
+				if (a == null || b == null) continue;
+				UUID winner = nextRound.get(i / 2);
+				if (winner == null) continue;
+				if (!winner.equals(a)) eliminated.add(a);
+				if (!winner.equals(b)) eliminated.add(b);
+			}
+		}
+		return eliminated;
+	}
+
+	/** The first pair with two real players whose winner hasn't been decided yet - mirrors the same
+	 * search StruggleHandler does server-side to pick the next match to fight. */
+	private int[] bracketNextMatch(List<List<UUID>> bracket) {
+		for (int r = 0; r < bracket.size() - 1; r++) {
+			List<UUID> round = bracket.get(r);
+			List<UUID> nextRound = bracket.get(r + 1);
+			for (int i = 0; i < round.size(); i += 2) {
+				UUID a = round.get(i);
+				UUID b = round.get(i + 1);
+				if (a != null && b != null && nextRound.get(i / 2) == null) {
+					return new int[]{r, i};
+				}
+			}
+		}
+		return null;
+	}
+
+	public void drawPlayer(GuiGraphics gui, int count, int order, UUID memberUUID, String memberUsername) {
+		PoseStack matrixStack = gui.pose();
+
+		int columns = layoutColumns(count);
+		float scale = Math.max(1.0F - (columns * 0.08F), 0.55F);
+		float playerHeight = height * 0.45F;
+		float[] pos = computeLayoutPosition(count, order);
+		float playerPosX = pos[0];
+		float playerPosY = pos[1];
 
 		Player player = Utils.getPlayerByName(minecraft.level, memberUsername);
 

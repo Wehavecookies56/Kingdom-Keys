@@ -16,16 +16,6 @@ import online.kingdomkeys.kingdomkeys.lib.Struggle;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncWorldData;
 
-/**
- * The KH2-style "orb" popped out when landing a hit in a Struggle match - same falling/bouncing
- * physics and billboard rendering as {@link HPOrbEntity}/{@link DriveOrbEntity}, tinted with whichever
- * color it was spawned with (the victim's notification color).
- *
- * Unlike a normal drop, picking this up isn't automatic/for anyone: only the two participants of the
- * Struggle it belongs to can collect it (checked server-side by {@code struggleName}), and each orb
- * picked up is worth exactly 1 point added to whoever grabbed it - not necessarily the one who landed
- * the original hit. Anyone else just walks through it, same as KH2.
- */
 public class StruggleOrbEntity extends ItemDropEntity {
 
 	private static final EntityDataAccessor<Integer> COLOR = SynchedEntityData.defineId(StruggleOrbEntity.class, EntityDataSerializers.INT);
@@ -55,6 +45,10 @@ public class StruggleOrbEntity extends ItemDropEntity {
 
 	public int getColor() {
 		return this.entityData.get(COLOR);
+	}
+
+	public String getStruggleName() {
+		return this.struggleName;
 	}
 
 	@Override
