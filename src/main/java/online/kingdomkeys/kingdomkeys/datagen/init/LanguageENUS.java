@@ -2406,6 +2406,8 @@ public class LanguageENUS extends KKLanguageProvider {
         addKKEffect(ModMobEffects.ZERO_GRAVITY, "Zero Gravity", "Locks you in the air for a few seconds.");
         addKKEffect(ModMobEffects.CONFUSE, "Confuse", "Inverts your movement.");
         addKKEffect(ModMobEffects.MINI,"Mini","Shrinks you down, watch out for others jumping on you!");
+        addKKEffect(ModMobEffects.SORCEROUS_WAKING, "Sorcerous Waking", "Increases the effectiveness of magic.");
+        addKKEffect(ModMobEffects.ALCHEMIC_WAKING, "Alchemic Waking", "Increases the effectiveness of consumable items.");
 
         //CO Rooms
         addRoom("almighty_darkness", "Almighty Darkness");

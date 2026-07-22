@@ -4,6 +4,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
@@ -17,6 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MapCardRouletteScreen extends Screen {
+
+    private static final ResourceLocation OUTLINE = KingdomKeys.rl("textures/gui/co/card_outline.png");
 
     public static class CardIcon {
         ItemStack card;
@@ -70,7 +73,6 @@ public class MapCardRouletteScreen extends Screen {
         int screenHeight = minecraft.screen.height;
 
         int radius = 180;
-        float currentAngle = 0;
         int centerX = 0;
         int centerY = screenHeight - (radius / 2);
 
@@ -93,7 +95,7 @@ public class MapCardRouletteScreen extends Screen {
         guiGraphics.pose().pushPose();
         guiGraphics.pose().translate((int) outlineX - 8, (int) outlineY - 8, 1000);
         guiGraphics.pose().scale(2, 2, 0);
-        guiGraphics.blit(KingdomKeys.rl("textures/gui/co/card_outline.png"), 0, 0, 0, 0, 32, 32, 32, 32);
+        guiGraphics.blit(OUTLINE, 0, 0, 0, 0, 32, 32, 32, 32);
         guiGraphics.pose().popPose();
 
         int screenWidth = minecraft.screen.width;

@@ -2,6 +2,7 @@ package online.kingdomkeys.kingdomkeys.item;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -15,6 +16,7 @@ import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.data.WorldData;
+import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
@@ -50,10 +52,19 @@ public class KKPotionItem extends Item implements IItemCategory, ICreativeTab {
     public void potionEffect (Player player) {
     	PlayerData playerData = PlayerData.get(player);
 
+		int itemBoosts = playerData.getNumberOfAbilitiesEquipped(ModAbilities.ITEM_BOOST);
+		if (player.hasEffect(ModMobEffects.ALCHEMIC_WAKING)) {
+			MobEffectInstance effectInstance = player.getEffect(ModMobEffects.ALCHEMIC_WAKING);
+			itemBoosts += 1;
+			if (effectInstance != null) {
+				itemBoosts += effectInstance.getAmplifier();
+			}
+		}
+
 		switch(type) {
     	case HP:
         	float hpAmount = (float) (percentage ? player.getMaxHealth() * amount / 100 : amount);
-        	hpAmount += hpAmount * playerData.getNumberOfAbilitiesEquipped(ModAbilities.ITEM_BOOST) / 2;
+        	hpAmount += hpAmount * itemBoosts / 2;
         	player.heal(hpAmount);
     		player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.potion.get(), SoundSource.PLAYERS, 1, 1);
 			Utils.reviveFromKO(player);
@@ -68,7 +79,7 @@ public class KKPotionItem extends Item implements IItemCategory, ICreativeTab {
     						Player target = player.level().getPlayerByUUID(m.getUUID());
     						if(target.distanceTo(player) < ModConfigs.SERVER.partyRangeLimit.get()) {
 	    			        	hpAmount = (float) (percentage ? target.getMaxHealth() * amount / 100 : amount);
-	    			        	hpAmount += hpAmount * playerData.getNumberOfAbilitiesEquipped(ModAbilities.ITEM_BOOST) / 2;
+	    			        	hpAmount += hpAmount * itemBoosts / 2;
 	    						target.heal(hpAmount);
 	    						Utils.reviveFromKO(target);
 
@@ -81,6 +92,7 @@ public class KKPotionItem extends Item implements IItemCategory, ICreativeTab {
     		break;
     	case MP:
         	float mpAmount = (float) (percentage ? playerData.getMaxMP() * amount / 100 : amount);
+			mpAmount += mpAmount * itemBoosts / 2;
     		playerData.addMP(mpAmount);
     		player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.ether.get(), SoundSource.PLAYERS, 1, 1);
     		if(all) {
@@ -94,7 +106,8 @@ public class KKPotionItem extends Item implements IItemCategory, ICreativeTab {
     						PlayerData targetData = PlayerData.get(target);
     						if(target.distanceTo(player) < ModConfigs.SERVER.partyRangeLimit.get()) {
 	    						mpAmount = (float) (percentage ? targetData.getMaxMP() * amount / 100 : amount);
-	    			        	targetData.addMP(mpAmount);
+								mpAmount += mpAmount * itemBoosts / 2;
+								targetData.addMP(mpAmount);
 	    			    		player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.ether.get(), SoundSource.PLAYERS, 1, 1);
     						}
     			    		PacketHandler.syncToAllAround(target, targetData);
@@ -106,7 +119,8 @@ public class KKPotionItem extends Item implements IItemCategory, ICreativeTab {
     	case HPMP:
     		mpAmount = (float) (percentage ? playerData.getMaxMP() * amount / 100 : amount);
     		hpAmount = (float) (percentage ? player.getMaxHealth() * amount / 100 : amount);
-        	hpAmount += hpAmount * playerData.getNumberOfAbilitiesEquipped(ModAbilities.ITEM_BOOST) / 2;
+        	hpAmount += hpAmount * itemBoosts / 2;
+			mpAmount += mpAmount * itemBoosts / 2;
 
     		playerData.addMP(mpAmount);
 			Utils.reviveFromKO(player);
@@ -124,8 +138,9 @@ public class KKPotionItem extends Item implements IItemCategory, ICreativeTab {
     						if(target.distanceTo(player) < ModConfigs.SERVER.partyRangeLimit.get()) {
 	    						mpAmount = (float) (percentage ? targetData.getMaxMP() * amount / 100 : amount);
 	    						hpAmount = (float) (percentage ? target.getMaxHealth() * amount / 100 : amount);
-	    			        	hpAmount += hpAmount * playerData.getNumberOfAbilitiesEquipped(ModAbilities.ITEM_BOOST) / 2;
-	    			        	Utils.reviveFromKO(target);
+	    			        	hpAmount += hpAmount * itemBoosts / 2;
+								mpAmount += mpAmount * itemBoosts / 2;
+								Utils.reviveFromKO(target);
 	    			        	targetData.addMP(mpAmount);
 	    						target.heal(hpAmount);
                                 player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.potion.get(), SoundSource.PLAYERS, 1, 1);
@@ -139,7 +154,9 @@ public class KKPotionItem extends Item implements IItemCategory, ICreativeTab {
     		break;
     	case DRIVE:
     		float dpAmount = (float) (percentage ? playerData.getMaxDP() * amount / 100 : amount);
-    		playerData.addDP(player, dpAmount);
+			dpAmount += dpAmount * itemBoosts / 2;
+
+			playerData.addDP(player, dpAmount);
     		player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.potion.get(), SoundSource.PLAYERS, 1, 1);
     		if(all) {
     			//Heal the rest of the party
@@ -152,7 +169,8 @@ public class KKPotionItem extends Item implements IItemCategory, ICreativeTab {
     						PlayerData targetData = PlayerData.get(target);
     						if(target.distanceTo(player) < ModConfigs.SERVER.partyRangeLimit.get()) {
 	    						dpAmount = (float) (percentage ? targetData.getMaxDP() * amount / 100 : amount);
-	    			        	targetData.addDP(player,dpAmount);
+								dpAmount += dpAmount * itemBoosts / 2;
+								targetData.addDP(player,dpAmount);
 	    			    		player.level().playSound(null, target.blockPosition(), ModSounds.potion.get(), SoundSource.PLAYERS, 1, 1);
     						}
     			    		PacketHandler.syncToAllAround(target, targetData);
@@ -163,7 +181,9 @@ public class KKPotionItem extends Item implements IItemCategory, ICreativeTab {
     		break;
     	case FOCUS:
     		float focusAmount = (float) (percentage ? playerData.getMaxFocus() * amount / 100 : amount);
-    		playerData.addFocus(focusAmount);
+			focusAmount += focusAmount * itemBoosts / 2;
+
+			playerData.addFocus(focusAmount);
     		player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.potion.get(), SoundSource.PLAYERS, 1, 1);
     		if(all) {
     			//Heal the rest of the party
@@ -176,7 +196,8 @@ public class KKPotionItem extends Item implements IItemCategory, ICreativeTab {
     						PlayerData targetData = PlayerData.get(target);
     						if(target.distanceTo(player) < ModConfigs.SERVER.partyRangeLimit.get()) {
 	    						focusAmount = (float) (percentage ? targetData.getMaxFocus() * amount / 100 : amount);
-	    			        	targetData.addFocus(focusAmount);
+								focusAmount += focusAmount * itemBoosts / 2;
+								targetData.addFocus(focusAmount);
                                 player.level().playSound(null, target.blockPosition(), ModSounds.potion.get(), SoundSource.PLAYERS, 1, 1);
     						}
     			    		PacketHandler.syncToAllAround(target, targetData);

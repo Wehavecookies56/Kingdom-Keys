@@ -9,6 +9,7 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.datagen.builder.RoomTypeBuilder;
 import online.kingdomkeys.kingdomkeys.datagen.provider.BaseProvider;
+import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.lib.ModTags;
@@ -38,7 +39,8 @@ public class RoomTypesGen extends BaseProvider<RoomTypeBuilder> {
     @Override
     protected void build() {
         createRoomType(Strings.AlchemicWaking, RoomSize.M, RoomCategory.STATUS)
-                .enemies(new Enemies(RoomEnemies.S, 6, 3));
+                .enemies(new Enemies(RoomEnemies.S, 6, 3))
+                .modifiers(new EffectRoomModifier(ModMobEffects.ALCHEMIC_WAKING, EffectType.PLAYER, 0));
         createRoomType(Strings.AlmightyDarkness, RoomSize.M, RoomCategory.ENEMY).enemies(new Enemies(RoomEnemies.M, 7, 3))
                 .modifiers(new LevelModifier(List.of(new Operation(2, Operator.ADD))));
         createRoomType(Strings.BlackRoom, RoomSize.S, RoomCategory.ENEMY)
@@ -95,7 +97,8 @@ public class RoomTypesGen extends BaseProvider<RoomTypeBuilder> {
         createRoomType(Strings.SleepingDarkness, RoomSize.S, RoomCategory.ENEMY)
                 .enemies(new Enemies(RoomEnemies.S, 5, 3));
         createRoomType(Strings.SorcerousWaking, RoomSize.M, RoomCategory.STATUS)
-                .enemies(new Enemies(RoomEnemies.M, 8, 3));
+                .enemies(new Enemies(RoomEnemies.M, 8, 3))
+                .modifiers(new EffectRoomModifier(ModMobEffects.SORCEROUS_WAKING, EffectType.PLAYER, 0));
         createRoomType(Strings.StagnantSpace, RoomSize.M, RoomCategory.STATUS)
                 .enemies(new Enemies(RoomEnemies.S, 5, 3))
                 .modifiers(new EffectRoomModifier(MobEffects.MOVEMENT_SLOWDOWN, EffectRoomModifier.EffectType.MOB, 0));

@@ -43,6 +43,8 @@ public class RoomSynthesisScreen extends MenuBackground {
 	MenuBox boxB, boxL;
 	MenuScrollBar scrollBar;
 
+	private static final ResourceLocation OUTLINE = KingdomKeys.rl("textures/gui/co/card_outline.png");
+
 	public RoomSynthesisScreen(CardDoorTileEntity te) {
 		super("Room Synthesis", new Color(100, 100, 100));
 		this.te = te;
@@ -189,7 +191,7 @@ public class RoomSynthesisScreen extends MenuBackground {
 							default -> throw new IllegalStateException("Unexpected value: " + critera.getKey());
 						};
 						RenderSystem.setShaderColor(colour.getRed(), colour.getGreen(), colour.getBlue(), 1);
-						guiGraphics.blit(KingdomKeys.rl("textures/gui/co/card_outline.png"), 0, 0, 0, 0, 32, 32, 32, 32);
+						guiGraphics.blit(OUTLINE, 0, 0, 0, 0, 32, 32, 32, 32);
 						RenderSystem.setShaderColor(1, 1, 1, 1);
 						Component val = Component.literal(critera.getValue().toString()).withStyle(ClientUtils.KK_Font_EXP);
 						guiGraphics.drawString(minecraft.font, val, 16 - minecraft.font.width(val)/2, 14, 0xFFFFFF, false);
