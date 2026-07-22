@@ -4,6 +4,7 @@ import com.mojang.blaze3d.platform.Window;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import com.mojang.math.Axis;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Camera;
 import net.minecraft.client.CameraType;
 import net.minecraft.client.Minecraft;
@@ -83,7 +84,10 @@ import online.kingdomkeys.kingdomkeys.util.IDisabledAnimations;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.CastleOblivionHandler;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.floor.Floor;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModRoomModifiers;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.Room;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.RoomData;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.modifiers.RoomModifier;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.lwjgl.glfw.GLFW;
@@ -1060,6 +1064,40 @@ public class ClientEvents {
 	public void closeScreen(ScreenEvent.Closing event) {
 		if (event.getScreen() instanceof StopGui) {
 			GLFW.glfwSetInputMode(Minecraft.getInstance().getWindow().getWindow(), GLFW.GLFW_CURSOR, GLFW.GLFW_CURSOR_NORMAL);
+		}
+	}
+
+
+	@SubscribeEvent
+	public void debugInfo(CustomizeGuiOverlayEvent.DebugText event) {
+		Minecraft mc = Minecraft.getInstance();
+		Player player = mc.player;
+		ClientLevel level = mc.level;
+
+		if (CastleOblivionHandler.isInterior(level.dimension())) {
+			CastleOblivionData.InteriorData.getClient(level).ifPresent(interiorData -> {
+				event.getLeft().add("");
+				event.getLeft().add(ChatFormatting.UNDERLINE + "Castle Oblivion Info");
+				Room room = interiorData.getRoomAtPos(player.blockPosition());
+				if (room == null) {
+					event.getLeft().add("Floor: N/A, Room: N/A");
+				} else {
+					Floor floor = interiorData.getFloorByID(room.parentFloor);
+					RoomData data = room.getRoomData(interiorData);
+					event.getLeft().add("Floor: " + room.parentFloor + ", Room: " + room + " " + data.pos);
+					if (!room.getType().getModifiers().isEmpty()) {
+						StringBuilder modifiers = new StringBuilder("Modifiers [");
+						for (RoomModifier modifier : room.getType().getModifiers()) {
+							modifiers.append(ModRoomModifiers.registry.getKey(modifier.type()));
+							modifiers.append(", ");
+						}
+						event.getLeft().add(modifiers.substring(0, modifiers.length()-2) + "]");
+					}
+					if (room.getEncounter().isPresent()) {
+						event.getLeft().add("Encounter: " + room.getEncounter().get().getEncounter().getRegistryName() + " Complete: " + room.getEncounter().get().isComplete());
+					}
+				}
+			});
 		}
 	}
 

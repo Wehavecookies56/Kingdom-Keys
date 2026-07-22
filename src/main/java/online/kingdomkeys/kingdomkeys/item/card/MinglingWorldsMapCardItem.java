@@ -17,7 +17,7 @@ public class MinglingWorldsMapCardItem extends MapCardItem {
 
     @Override
     public RoomType getRoomType() {
-        List<RoomType> types = ModRoomTypes.registry.get().getValues().stream().filter(roomType -> roomType.getCategory() != RoomCategory.SPECIAL).toList();
+        List<RoomType> types = ModRoomTypes.registry.get().getValues().stream().filter(roomType -> roomType.getCategory() != RoomCategory.SPECIAL).filter(roomType -> roomType.getCategory() != RoomCategory.ENCOUNTER).toList();
         return types.get(Utils.randomWithRange(0, types.size()-1));
     }
 
