@@ -65,7 +65,7 @@ public class WhiteMushroomEntity extends BaseKHEntity {
                     setState(-3); //Set to victory pose
 
                     boolean givenItem = false;
-                    ItemStack reward = Utils.getWhiteMushroomReward();
+                    ItemStack reward = Utils.getWhiteMushroomReward((ServerLevel) level(), blockPosition());
                     if (lastUsed != null) {
                         Entity lastUsedEntity = ((ServerLevel)level()).getEntity(lastUsed);
                         Player player = null;

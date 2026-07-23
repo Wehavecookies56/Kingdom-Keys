@@ -8,7 +8,9 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.*;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
@@ -61,6 +63,10 @@ import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.level.storage.loot.LootParams;
+import net.minecraft.world.level.storage.loot.LootTable;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.scores.PlayerTeam;
 import net.minecraft.world.scores.Scoreboard;
 import net.minecraft.world.scores.Team;
@@ -266,16 +272,11 @@ public class Utils {
 	public static final ResourceLocation mobLevelHPModifier = KingdomKeys.rl("mob_level_hp");
 	public static final ResourceLocation mobLevelAttackModifier = KingdomKeys.rl("mob_level_attack");
 
-	public static ItemStack getWhiteMushroomReward() {
-		ArrayList<Item> list = new ArrayList<>();
-		list.add(ModItems.orichalcum.get());
-		list.add(ModItems.orichalcumplus.get());
-		list.add(ModItems.evanescent_crystal.get());
-		list.add(ModItems.illusory_crystal.get());
-
-		Random rand = new Random();
-		Item item = list.get(rand.nextInt(list.size()));
-		return new ItemStack(item,rand.nextInt(3)+1);
+	public static ItemStack getWhiteMushroomReward(ServerLevel level, BlockPos pos) {
+		LootTable table = level.getServer().reloadableRegistries().getLootTable(ResourceKey.create(Registries.LOOT_TABLE, KingdomKeys.rl("entities/white_mushroom_reward")));
+		LootParams params = new LootParams.Builder(level).withParameter(LootContextParams.ORIGIN, Vec3.atCenterOf(pos)).create(LootContextParamSets.CHEST);
+		List<ItemStack> items = table.getRandomItems(params);
+		return items.isEmpty() ? ItemStack.EMPTY : items.get(0);
 	}
 
 	public static int getCheapestDriveCost(PlayerData playerData, List<DriveForm> driveFormMap) {

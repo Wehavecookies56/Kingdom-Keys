@@ -98,7 +98,7 @@ public class InputHandler {
             if(playerData == null)
                 return;
 
-            if (event.getAction() == 1 && event.getKey() != GLFW.GLFW_KEY_PRINT_SCREEN && event.getKey() != mc.options.keyUp.getKey().getValue() && event.getKey() != mc.options.keyDown.getKey().getValue() && event.getKey() != mc.options.keyLeft.getKey().getValue() && event.getKey() != mc.options.keyRight.getKey().getValue()) {
+            if (event.getAction() == 1 && event.getKey() != GLFW.GLFW_KEY_PRINT_SCREEN && event.getKey() != GLFW.GLFW_KEY_LEFT_ALT && event.getKey() != mc.options.keyUp.getKey().getValue() && event.getKey() != mc.options.keyDown.getKey().getValue() && event.getKey() != mc.options.keyLeft.getKey().getValue() && event.getKey() != mc.options.keyRight.getKey().getValue()) {
                 ItemGetGui.INSTANCE.click();
             }
 

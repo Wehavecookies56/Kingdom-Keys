@@ -852,6 +852,7 @@ public class CommandMenuGui extends OverlayBase {
 			ClientUtils.CM_ELEMENT.endTransform(guiGraphics);
 		}
 		guiGraphics.flush();
+
 		guiGraphics.managed = false;
 	}
 

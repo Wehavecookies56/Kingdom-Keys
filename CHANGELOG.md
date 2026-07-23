@@ -21,6 +21,7 @@
 * Recipes for Keyblade Forge level ups are now different for each Keyblade.
 * Slightly optimized some parts of the code.
 * Updated Keyblade weapon to match new EFM declarations.
+* White Mushroom rewards are now data driven, by default the loot table is composed by orichalcum, orichalcum plus, illusory crystal, evanescent crystal, manifest illusion and lost illusion, and they drop from 1 up to 2 or 3 of one material.
 
 ## Fixed:
 * Castle Oblivion door criteria values match COM's mechanics, the doors within a generated room will be +1 the value of the card until it reaches 9 then will be 0.
