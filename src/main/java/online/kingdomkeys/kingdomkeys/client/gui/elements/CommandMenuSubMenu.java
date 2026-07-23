@@ -552,6 +552,7 @@ public class CommandMenuSubMenu {
                 }
             }
             renderChildren(guiGraphics, screenWidth, screenHeight, partialTick);
+            guiGraphics.flush();
 
             RenderSystem.disableBlend();
         }

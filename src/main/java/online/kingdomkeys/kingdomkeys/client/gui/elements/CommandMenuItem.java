@@ -256,9 +256,10 @@ public class CommandMenuItem {
         guiGraphics.blit(cmTexture, isThisSelectedMenu ? x + getWidth() - ModConfigs.cmEndRWidth + ModConfigs.cmSelectedXOffset : x + getWidth() - ModConfigs.cmEndRWidth, y, ModConfigs.cmEndLWidth + 4, isThisSelectedMenu ? 30 : 15, ModConfigs.cmEndRWidth, 15);
         Color textColour = parent.isActive() ? this.textColour : this.textColour.darker().darker();
         RenderSystem.setShaderColor(textColour.getRed() / 255F, textColour.getGreen() / 255F, textColour.getBlue() / 255F, 1);
-        guiGraphics.drawString(font, getMessage(), isThisSelectedMenu ? x + ModConfigs.cmSelectedXOffset + 6 + ModConfigs.cmTextXOffset : x + ModConfigs.cmTextXOffset + 6, y + 4, isActive() ? Color.WHITE.getRGB() : Color.WHITE.darker().darker().getRGB());
+        guiGraphics.drawString(font, getMessage(), isThisSelectedMenu ? x + ModConfigs.cmSelectedXOffset + 6 + ModConfigs.cmTextXOffset : x + ModConfigs.cmTextXOffset + 6, y + 4, isActive() ? textColour.getRGB() : textColour.darker().darker().getRGB());
+        RenderSystem.setShaderColor(1,1,1, 1);
         //System.out.println(this.getId()+"'s parent "+parent.isActive());
-       if (this.hasIcon && this.getParent().getSelected().equals(this)) {
+        if (this.hasIcon && this.getParent().getSelected().equals(this)) {
            float speed = 0.15f;
            float amplitude = 2f;
            float time = Minecraft.getInstance().player.tickCount + partialTick;

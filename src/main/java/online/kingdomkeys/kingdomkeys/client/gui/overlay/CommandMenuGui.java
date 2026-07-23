@@ -917,6 +917,7 @@ public class CommandMenuGui extends OverlayBase {
 			reactionSelected = 0;
 		}
 
+		guiGraphics.flush();
 	}
 
 	private void drawSC(GuiGraphics gui, ResourceLocation rcTexture, Map.Entry<ResourceLocation, Integer> entry) {
