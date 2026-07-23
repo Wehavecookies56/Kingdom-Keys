@@ -919,68 +919,66 @@ public class ClientUtils {
         }
     }
 
+    private static final float TRAIL_WIDTH = 0.03F;
+
     public static void renderTrail(TrailType type, Player player, PoseStack poseStack, MultiBufferSource bufferSource, float offsetAmount, float verticalOffset, float r, float g, float b, boolean oscillate) {
         Deque<Vec3> trail = getTrail(type, player);
 
         if (trail.size() < 2)
             return;
 
+        Vec3[] spine = new Vec3[trail.size()];
+        int idx = 0;
+        Iterator<Vec3> it = trail.descendingIterator();
+        while (it.hasNext()) {
+            spine[idx++] = it.next();
+        }
+
+        int count = spine.length;
+        Vec3[] offsetPoints = new Vec3[count];
+
+        for (int i = 0; i < count; i++) {
+            Vec3 curr = spine[i];
+            Vec3 prev = i < count - 1 ? spine[i + 1] : curr;
+            Vec3 next = i > 0 ? spine[i - 1] : curr;
+
+            Vec3 dirVec = next.subtract(prev);
+            Vec3 dir = dirVec.lengthSqr() < 1E-6 ? new Vec3(0, 0, 1) : dirVec.normalize();
+
+            Vec3 offset;
+
+            if (oscillate) {
+                //Spiral
+                Vec3 arbitrary = Math.abs(dir.y) < 0.99 ? new Vec3(0,1,0) : new Vec3(1,0,0);
+
+                Vec3 right = dir.cross(arbitrary).normalize();
+                Vec3 up = dir.cross(right).normalize();
+
+                float t = i / (float) count;
+                float angle = t * 10f + player.tickCount * 0.2f;
+                float radius = 0.05f * offsetAmount;
+
+                offset = right.scale((double)Math.cos(angle) * radius).add(up.scale((double)Math.sin(angle) * radius));
+                offset = offset.add(new Vec3(0, verticalOffset, 0));
+            } else {
+                //Fixed
+                Vec3 worldUp = new Vec3(0, 1, 0);
+                Vec3 side = dir.cross(worldUp).normalize().scale(0.05f);
+
+                Vec3 horizontalOffset = side.scale(offsetAmount);
+                Vec3 vertical = worldUp.scale(verticalOffset);
+
+                offset = horizontalOffset.add(vertical);
+            }
+
+            offsetPoints[i] = curr.add(offset);
+        }
+
         poseStack.pushPose();
         {
-            VertexConsumer buffer = bufferSource.getBuffer(RenderType.lines());
-            List<Vec3> points = new ArrayList<>(trail);
+            VertexConsumer buffer = bufferSource.getBuffer(RenderType.debugQuads());
             Matrix4f pose = poseStack.last().pose();
-
-            for (int i = 0; i < points.size() - 1; i++) {
-                Vec3 p1 = points.get(i);
-                Vec3 p2 = points.get(i + 1);
-
-                Vec3 dir = p2.subtract(p1).normalize();
-
-                Vec3 offset;
-
-                if (oscillate) {
-                    //Spiral
-                    Vec3 arbitrary = Math.abs(dir.y) < 0.99 ? new Vec3(0,1,0) : new Vec3(1,0,0);
-
-                    Vec3 right = dir.cross(arbitrary).normalize();
-                    Vec3 up = dir.cross(right).normalize();
-
-                    float t = i / (float) points.size();
-                    float angle = t * 10f + player.tickCount * 0.2f;
-                    float radius = 0.05f * offsetAmount;
-
-                    offset = right.scale((float)Math.cos(angle) * radius).add(up.scale((float)Math.sin(angle) * radius));
-                    offset = offset.add(new Vec3(0, verticalOffset, 0));
-                } else {
-                    //Fixed
-                    Vec3 worldUp = new Vec3(0, 1, 0);
-                    Vec3 side = dir.cross(worldUp).normalize().scale(0.05f);
-
-                    Vec3 horizontalOffset = side.scale(offsetAmount);
-                    Vec3 vertical = worldUp.scale(verticalOffset);
-
-                    offset = horizontalOffset.add(vertical);
-                }
-
-                // aplicar offset
-                Vec3 p1Final = p1.add(offset);
-                Vec3 p2Final = p2.add(offset);
-
-                float alpha = i / (float) points.size();
-
-                buffer.addVertex(pose, (float)p1Final.x, (float)p1Final.y, (float)p1Final.z)
-                        .setColor(r, g, b, alpha)
-                        .setUv(0f, 0f)
-                        .setUv2(0, 15728880)
-                        .setNormal(0f, 1f, 0f);
-
-                buffer.addVertex(pose, (float)p2Final.x, (float)p2Final.y, (float)p2Final.z)
-                        .setColor(r, g, b, alpha)
-                        .setUv(0f, 0f)
-                        .setUv2(0, 15728880)
-                        .setNormal(0f, 1f, 0f);
-            }
+            TrailRenderer.render(offsetPoints, Vec3.ZERO, pose, buffer, r, g, b, TRAIL_WIDTH);
         }
         poseStack.popPose();
     }

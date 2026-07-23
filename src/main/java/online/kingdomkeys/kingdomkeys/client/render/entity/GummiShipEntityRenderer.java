@@ -14,15 +14,22 @@ import net.minecraft.client.renderer.block.BlockRenderDispatcher;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.block.TransparentBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.client.model.data.ModelData;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.block.gummi.GummiEngineBlock;
 import online.kingdomkeys.kingdomkeys.entity.GummiShipEntity;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+import org.joml.Matrix4f;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class GummiShipEntityRenderer extends EntityRenderer<GummiShipEntity> {
 	public GummiShipEntityRenderer(EntityRendererProvider.Context context) {
@@ -51,8 +58,20 @@ public class GummiShipEntityRenderer extends EntityRenderer<GummiShipEntity> {
 					.createCompositeState(true)
 	);
 
+	// Engine/thruster exhaust flash - simple vanilla flame particles spawned at each engine block's
+	// real world position while the ship is moving. (A custom smooth-ribbon trail was tried here first,
+	// re-using the same TrailRenderer the Savepoint uses, but the ribbon mesh kept degenerating into a
+	// stray "stretches off to infinity" artifact that wasn't worth chasing further - plain particles are
+	// far simpler and give a perfectly reasonable exhaust flash on their own.)
+	private static final double MOVING_THRESHOLD_SQR = 0.0025D; // ~0.05 blocks/tick before particles kick in
+	private static final Map<Integer, Long> LAST_PARTICLE_TICK = new HashMap<>();
+
 	@Override
 	public void render(GummiShipEntity entityIn, float entityYaw, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn) {
+		boolean spawnParticles = entityIn.getDeltaMovement().lengthSqr() >= MOVING_THRESHOLD_SQR
+				&& shouldSpawnParticlesThisTick(entityIn);
+		Vec3 camPos = Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();
+
 		matrixStackIn.pushPose();
 		{
 			CompoundTag data = entityIn.getDataManager();
@@ -85,6 +104,20 @@ public class GummiShipEntityRenderer extends EntityRenderer<GummiShipEntity> {
 							matrixStackIn.pushPose();
 							{
 								matrixStackIn.translate(xEven ? x+0.5F : x, y, zEven ? z-0.5F : z);
+
+								if (spawnParticles && state.getBlock() instanceof GummiEngineBlock) {
+									// Same block-center capture that worked fine for attaching the
+									// (now reverted) trail: +0.5 on every axis to reach the center of
+									// the block instead of its corner, then read the world position
+									// straight off the already-fully-transformed matrix.
+									matrixStackIn.pushPose();
+									matrixStackIn.translate(0.5, 0.5, 0.5);
+									Matrix4f m = matrixStackIn.last().pose();
+									Vec3 worldPos = camPos.add(m.m30(), m.m31(), m.m32());
+									entityIn.level().addParticle(ParticleTypes.FLAME, worldPos.x, worldPos.y, worldPos.z, 0, 0, 0);
+									matrixStackIn.popPose();
+								}
+
 								RenderType renderType = ItemBlockRenderTypes.getRenderType(state, false);
 								if(state.getBlock() instanceof TransparentBlock && Minecraft.getInstance().player.getVehicle() == entityIn && Minecraft.getInstance().options.getCameraType() == CameraType.FIRST_PERSON){
 									renderType = CUSTOM_TINTED_GLASS2;
@@ -98,6 +131,16 @@ public class GummiShipEntityRenderer extends EntityRenderer<GummiShipEntity> {
 			}
 		}
 		matrixStackIn.popPose();
+	}
+
+	/** Caps particle spawning to once per game tick (render() runs every frame, which would otherwise
+	 * spam far more particles than needed at high framerates). */
+	private boolean shouldSpawnParticlesThisTick(GummiShipEntity entityIn) {
+		long gameTime = entityIn.level().getGameTime();
+		Long last = LAST_PARTICLE_TICK.get(entityIn.getId());
+		if (last != null && last == gameTime) return false;
+		LAST_PARTICLE_TICK.put(entityIn.getId(), gameTime);
+		return true;
 	}
 
 	@Override
