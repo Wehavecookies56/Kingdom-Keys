@@ -49,7 +49,9 @@ public abstract class Limit implements KKRegistryObject {
 		return owner;
 	}
 
-	public abstract void onUse(Player player, LivingEntity target);
+	public void onUse(Player player, LivingEntity target) {
+		//CD ticks already applied in the UseLimitPacket
+	}
 	
 	public LimitData getLimitData() {
 		return data;

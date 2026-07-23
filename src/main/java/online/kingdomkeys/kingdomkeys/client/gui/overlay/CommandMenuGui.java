@@ -322,11 +322,13 @@ public class CommandMenuGui extends OverlayBase {
 				item.setActive(true);
 			}
 			Limit limit = ModLimits.registry.get(item.getId());
-			item.setMessage(Component.literal(Component.translatable(limit.getTranslationKey()).getString() + "  "));
-			item.setActive(playerData.getDP() >= limit.getCost());
-			if (item.getParent().isVisible()) {
-				String cost = String.valueOf(ModLimits.registry.get(item.getId()).getCost() / 100);
-				drawString(guiGraphics, font, cost, item.getX() + item.getWidth() - font.width(cost) - 16, item.getY() + 4, item.isActive() ? new Color(0, 255, 255).getRGB() : new Color(0, 255, 255).darker().darker().getRGB());
+			if(Utils.getPlayerLimitAttacks(minecraft.player).contains(limit)) {
+				item.setMessage(Component.literal(Component.translatable(limit.getTranslationKey()).getString() + "  "));
+				item.setActive(playerData.getDP() >= limit.getCost());
+				if (item.getParent().isVisible()) {
+					String cost = String.valueOf(ModLimits.registry.get(item.getId()).getCost() / 100);
+					drawString(guiGraphics, font, cost, item.getX() + item.getWidth() - font.width(cost) - 16, item.getY() + 4, item.isActive() ? new Color(0, 255, 255).getRGB() : new Color(0, 255, 255).darker().darker().getRGB());
+				}
 			}
 		}).iconUV(0, 60)));
 		return limits.toArray(new CommandMenuItem.Builder[0]);

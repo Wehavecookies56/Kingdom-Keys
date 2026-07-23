@@ -126,7 +126,19 @@ public class Strings {
 			SlowThunderTrail = "slow_thunder_trail",
 			FastThunderTrail = "fast_thunder_trail",
 		    FlameRing = "flame_ring",
-			FlameWall = "flame_wall";
+			FlameWall = "flame_wall",
+			LanceStorm = "lance_storm",
+			BerserkClaymore = "berserk_claymore",
+			FallingSpear = "falling_spear",
+			IcePillars = "ice_pillars",
+			Powerup = "powerup",
+			RockyPillars = "rocky_pillars",
+			WaterWall = "water_wall",
+			WaterTrail = "water_trail",
+			CardRing = "card_ring",
+			ScytheDash = "scythe_dash",
+			PetalVoid = "petal_void",
+			LightBarrage = "light_barrage";
        
     // Shotlocks
        public static final String
@@ -142,9 +154,8 @@ public class Strings {
        		autoWisdomRC = "rc_auto_wisdom",
        		autoLimitRC = "rc_auto_limit",
        		autoMasterRC = "rc_auto_master",
-       		autoFinalRC = "rc_auto_final",
-       		firazaRC = "rc_firaga";
-       
+       		autoFinalRC = "rc_auto_final";
+
     // Abilities
     public static final String
     		AB_Prefix = "ability_",

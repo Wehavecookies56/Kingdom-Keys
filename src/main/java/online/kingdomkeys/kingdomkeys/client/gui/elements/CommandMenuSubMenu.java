@@ -502,7 +502,6 @@ public class CommandMenuSubMenu {
     long lastCacheTime = -1;
 
     public ResourceLocation getTexture() {
-        //long ns = System.nanoTime();
 
         Minecraft mc = Minecraft.getInstance();
         if (mc.level == null)
@@ -522,10 +521,6 @@ public class CommandMenuSubMenu {
         }
 
         lastCacheTime = now;
-
-       // System.out.println("Renewing texture into cache");
-       // System.out.println("Took: " + (System.nanoTime() - ns) + " ns");
-
         return cachedTexture;
     }
 

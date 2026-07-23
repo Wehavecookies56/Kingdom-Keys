@@ -234,7 +234,21 @@ public class ModEntities {
     public static final DeferredHolder<EntityType<?>, EntityType<LaserDomeShotEntity>> TYPE_LASER_SHOT = createEntityType(LaserDomeShotEntity::new, MobCategory.MISC,"entity_laser_dome_shot", 0.5F, 0.5F);
     public static final DeferredHolder<EntityType<?>, EntityType<ArrowRainCoreEntity>> TYPE_ARROW_RAIN = createEntityType(ArrowRainCoreEntity::new, MobCategory.MISC,"entity_arrow_rain_core", 0.5F, 0.5F);
     public static final DeferredHolder<EntityType<?>, EntityType<ThunderTrailCoreEntity>> TYPE_THUNDER_TRAIL = createEntityType(ThunderTrailCoreEntity::new, MobCategory.MISC,"entity_thunder_trail_core", 0.5F, 0.5F);
+    public static final DeferredHolder<EntityType<?>, EntityType<WaterTrailCoreEntity>> TYPE_WATER_TRAIL = createEntityType(WaterTrailCoreEntity::new, MobCategory.MISC,"entity_water_trail_core", 0.5F, 0.5F);
+    public static final DeferredHolder<EntityType<?>, EntityType<FallingSpearCoreEntity>> TYPE_FALLING_SPEAR = createEntityType(FallingSpearCoreEntity::new, MobCategory.MISC,"entity_falling_spear_core", 0.5F, 0.5F);
+    public static final DeferredHolder<EntityType<?>, EntityType<WaterWallCoreEntity>> TYPE_WATER_WALL = createEntityType(WaterWallCoreEntity::new, MobCategory.MISC,"entity_water_wall_core", 0.5F, 0.5F);
+    public static final DeferredHolder<EntityType<?>, EntityType<CardRingCoreEntity>> TYPE_CARD_RING = createEntityType(CardRingCoreEntity::new, MobCategory.MISC,"entity_card_ring_core", 0.5F, 0.5F);
+    public static final DeferredHolder<EntityType<?>, EntityType<IcePillarsCoreEntity>> TYPE_ICE_PILLARS = createEntityType(IcePillarsCoreEntity::new, MobCategory.MISC,"entity_ice_pillars_core", 0.5F, 0.5F);
+    public static final DeferredHolder<EntityType<?>, EntityType<RockyPillarsCoreEntity>> TYPE_ROCKY_PILLARS = createEntityType(RockyPillarsCoreEntity::new, MobCategory.MISC,"entity_rocky_pillars_core", 0.5F, 0.5F);
+    public static final DeferredHolder<EntityType<?>, EntityType<LightOrbEntity>> TYPE_LIGHT_ORB = createEntityType(LightOrbEntity::new, MobCategory.MISC,"entity_light_orb", 0.25F, 0.25F);
+    public static final DeferredHolder<EntityType<?>, EntityType<LightBarrageCoreEntity>> TYPE_LIGHT_BARRAGE = createEntityType(LightBarrageCoreEntity::new, MobCategory.MISC,"entity_light_barrage_core", 0.5F, 0.5F);
+    public static final DeferredHolder<EntityType<?>, EntityType<online.kingdomkeys.kingdomkeys.entity.organization.PillarEntity>> TYPE_PILLAR = createEntityType(online.kingdomkeys.kingdomkeys.entity.organization.PillarEntity::new, MobCategory.MISC,"entity_pillar", 1.0F, 4.0F);
+    public static final DeferredHolder<EntityType<?>, EntityType<online.kingdomkeys.kingdomkeys.entity.organization.PetalLauncherCoreEntity>> TYPE_PETAL_LAUNCHER = createEntityType(online.kingdomkeys.kingdomkeys.entity.organization.PetalLauncherCoreEntity::new, MobCategory.MISC,"entity_petal_launcher_core", 0.7F, 0.2F);
+    public static final DeferredHolder<EntityType<?>, EntityType<online.kingdomkeys.kingdomkeys.entity.organization.ScytheDashCoreEntity>> TYPE_SCYTHE_DASH = createEntityType(online.kingdomkeys.kingdomkeys.entity.organization.ScytheDashCoreEntity::new, MobCategory.MISC,"entity_scythe_dash_core", 0.5F, 1.8F);
+    public static final DeferredHolder<EntityType<?>, EntityType<online.kingdomkeys.kingdomkeys.entity.organization.PetalAscendTrailEntity>> TYPE_PETAL_ASCEND_TRAIL = createEntityType(online.kingdomkeys.kingdomkeys.entity.organization.PetalAscendTrailEntity::new, MobCategory.MISC,"entity_petal_ascend_trail", 0.5F, 1.8F);
     public static final DeferredHolder<EntityType<?>, EntityType<FlameRingCoreEntity>> TYPE_FLAME_RING = createEntityType(FlameRingCoreEntity::new, MobCategory.MISC,"entity_flame_ring_core", 0.5F, 0.5F);
+    public static final DeferredHolder<EntityType<?>, EntityType<LanceStormCoreEntity>> TYPE_LANCE_STORM = createEntityType(LanceStormCoreEntity::new, MobCategory.MISC,"entity_lance_storm_core", 0.5F, 0.5F);
+    public static final DeferredHolder<EntityType<?>, EntityType<ClaymoreDropCoreEntity>> TYPE_CLAYMORE_DROP = createEntityType(ClaymoreDropCoreEntity::new, MobCategory.MISC,"entity_claymore_drop_core", 0.5F, 0.5F);
     public static final DeferredHolder<EntityType<?>, EntityType<FlameWallCoreEntity>> TYPE_FLAME_WALL = createEntityType(FlameWallCoreEntity::new, MobCategory.MISC,"entity_flame_wall_core", 0.5F, 0.5F);
 
 
@@ -398,7 +412,21 @@ public class ModEntities {
         event.registerEntityRenderer(TYPE_LASER_SHOT.get(), LaserDomeShotEntityRenderer::new);
         event.registerEntityRenderer(TYPE_ARROW_RAIN.get(), ArrowRainCoreEntityRenderer::new);
         event.registerEntityRenderer(TYPE_THUNDER_TRAIL.get(), InvisibleEntityRenderer::new);
+        event.registerEntityRenderer(TYPE_WATER_TRAIL.get(), InvisibleEntityRenderer::new);
+        event.registerEntityRenderer(TYPE_FALLING_SPEAR.get(), InvisibleEntityRenderer::new);
+        event.registerEntityRenderer(TYPE_WATER_WALL.get(), InvisibleEntityRenderer::new);
+        event.registerEntityRenderer(TYPE_CARD_RING.get(), InvisibleEntityRenderer::new);
+        event.registerEntityRenderer(TYPE_ICE_PILLARS.get(), InvisibleEntityRenderer::new);
+        event.registerEntityRenderer(TYPE_ROCKY_PILLARS.get(), InvisibleEntityRenderer::new);
+        event.registerEntityRenderer(TYPE_LIGHT_ORB.get(), InvisibleEntityRenderer::new);
+        event.registerEntityRenderer(TYPE_LIGHT_BARRAGE.get(), InvisibleEntityRenderer::new);
+        event.registerEntityRenderer(TYPE_PILLAR.get(), online.kingdomkeys.kingdomkeys.client.render.entity.PillarEntityRenderer::new);
+        event.registerEntityRenderer(TYPE_PETAL_LAUNCHER.get(), InvisibleEntityRenderer::new);
+        event.registerEntityRenderer(TYPE_SCYTHE_DASH.get(), online.kingdomkeys.kingdomkeys.client.render.entity.ScytheDashCoreEntityRenderer::new);
+        event.registerEntityRenderer(TYPE_PETAL_ASCEND_TRAIL.get(), online.kingdomkeys.kingdomkeys.client.render.entity.PetalAscendTrailEntityRenderer::new);
         event.registerEntityRenderer(TYPE_FLAME_RING.get(), InvisibleEntityRenderer::new);
+        event.registerEntityRenderer(TYPE_LANCE_STORM.get(), online.kingdomkeys.kingdomkeys.client.render.entity.LanceStormCoreEntityRenderer::new);
+        event.registerEntityRenderer(TYPE_CLAYMORE_DROP.get(), online.kingdomkeys.kingdomkeys.client.render.entity.ClaymoreDropCoreEntityRenderer::new);
         event.registerEntityRenderer(TYPE_FLAME_WALL.get(), InvisibleEntityRenderer::new);
 
         event.registerEntityRenderer(TYPE_SHOTLOCK_DARK_VOLLEY.get(), InvisibleEntityRenderer::new);

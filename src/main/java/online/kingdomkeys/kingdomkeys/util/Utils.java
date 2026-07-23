@@ -8,7 +8,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.*;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
@@ -61,12 +60,12 @@ import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.level.levelgen.Heightmap;
-import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.scores.PlayerTeam;
 import net.minecraft.world.scores.Scoreboard;
 import net.minecraft.world.scores.Team;
@@ -83,6 +82,7 @@ import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.block.gummi.*;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
+import online.kingdomkeys.kingdomkeys.config.ServerConfig;
 import online.kingdomkeys.kingdomkeys.creativetab.CreativeFilter;
 import online.kingdomkeys.kingdomkeys.data.GlobalData;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
@@ -1412,16 +1412,10 @@ public class Utils {
 	}
 
 	public static List<Limit> getPlayerLimitAttacks(Player player) {
-		/*PlayerData playerData = PlayerData.get(player);
-		List<Limit> limits = new ArrayList<>();
-		for (Limit limit : ModLimits.registry) {
-			if (limit.getOwner() == playerData.getAlignment()) {
-				limits.add(limit);
-			}
-		}*/
-		//TODO remove and uncomment the rest for per member filter
-		return new ArrayList<>(ModLimits.registry.stream().toList());
-		//return limits;
+		if(!ModConfigs.getServerConfig().allowAllOrgLimits.getAsBoolean())
+			return new ArrayList<>(ModLimits.registry.stream().toList());
+
+		return ModLimits.registry.stream().filter(limit -> limit.getOwner() == PlayerData.get(player).getAlignment()).collect(Collectors.toList());
 	}
 
 	public static List<Limit> getSortedLimits(List<Limit> list) {

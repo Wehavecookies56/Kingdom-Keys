@@ -14,7 +14,7 @@ public class ServerConfig {
     public ModConfigSpec.ConfigValue<List<? extends Integer>> statsMultiplier;
 
     public ModConfigSpec.DoubleValue xpMultiplier, magicXPMultiplier, heartMultiplier, partyXPShare;
-    public ModConfigSpec.BooleanValue requireSynthTier, requireSynthTierShop, requireMeldingTier, projectorHasShop, savepointGlobal, getExpFromShop, orgEnabled, allowBoosts, allowPartyKO, wayfinderParty, hostileMobsLevel, dragonLevel, gummiShipFuelSystem, softLockOnMode, allowCastMagicIfTooExpensive;
+    public ModConfigSpec.BooleanValue requireSynthTier, requireSynthTierShop, requireMeldingTier, projectorHasShop, savepointGlobal, getExpFromShop, orgEnabled, allowBoosts, allowPartyKO, wayfinderParty, hostileMobsLevel, dragonLevel, gummiShipFuelSystem, softLockOnMode, allowCastMagicIfTooExpensive, allowAllOrgLimits;
 
     ServerConfig(final ModConfigSpec.Builder builder) {
         builder.push("general");
@@ -119,6 +119,11 @@ public class ServerConfig {
                 .comment("If true it will allow you to cast a magic which is too expensive even if you don't have the req. Max MP (eg. Stop at level 4)")
                 .translation(KingdomKeys.MODID + ".config.allow_magic_too_expensive")
                 .define("allowCastMagicIfTooExpensive", true);
+
+        allowAllOrgLimits = builder
+                .comment("If true it will allow any Organization XIII member to use any limit, if false only the associated member ones")
+                .translation(KingdomKeys.MODID + ".config.allow_all_org_limits")
+                .define("allowAllOrgLimits", false);
 
         builder.pop();
 

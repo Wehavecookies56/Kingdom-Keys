@@ -741,15 +741,26 @@ public class LanguageESES extends KKLanguageProvider {
         add(ModMagic.SLOW.get(),"Freno");
 
 
-
         //Limits
-        addLimit(ModLimits.LASER_CIRCLE, "C\u00edrculo L\u00e1ser");
-        addLimit(ModLimits.LASER_DOME, "C\u00fapula L\u00e1ser");
+        addLimit(ModLimits.LASER_CIRCLE, "Círculo Láser");
+        addLimit(ModLimits.LASER_DOME, "Cúpula Láser");
         addLimit(ModLimits.ARROW_RAIN, "Lluvia Flechada");
-        addLimit(ModLimits.SLOW_THUNDER_TRAIL, "Estela El\u00e9ctrica Lenta");
-        addLimit(ModLimits.FAST_THUNDER_TRAIL, "Estela El\u00e9ctrica Veloz");
+        addLimit(ModLimits.SLOW_THUNDER_TRAIL, "Estela Relámpago Lenta");
+        addLimit(ModLimits.FAST_THUNDER_TRAIL, "Estela Relámpago Veloz");
         addLimit(ModLimits.FLAME_WHEEL, "Anillo de Llamas");
         addLimit(ModLimits.FIRE_WALL, "Jaula de Fuego");
+        addLimit(ModLimits.LANCE_STORM, "Tormenta de Lanzas");
+        addLimit(ModLimits.FALLING_SPEAR, "Lanza Caída");
+        addLimit(ModLimits.BERSERK_CLAYMORE, "Claymore Salvaje");
+        addLimit(ModLimits.POWERUP, "Potenciación");
+        addLimit(ModLimits.ROCKY_PILLARS, "Pilares Rocosos");
+        addLimit(ModLimits.ICE_PILLARS, "Pilares Gélidos");
+        addLimit(ModLimits.WATER_TRAIL, "Estela de Agua");
+        addLimit(ModLimits.WATER_WALL, "Jaula de Agua");
+        addLimit(ModLimits.CARD_RING, "Jaula de Cartas");
+        addLimit(ModLimits.SCYTHE_DASH, "Esprint de Guadaña");
+        addLimit(ModLimits.PETAL_VOID, "Vacío de Pétalos");
+        addLimit(ModLimits.LIGHT_BARRAGE, "Ráfaga de Luz");
 
         //Shotlocks
         addShotlock(ModShotlocks.RAGNAROK, "Ragnarok");

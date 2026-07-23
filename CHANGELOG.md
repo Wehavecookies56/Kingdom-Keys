@@ -1,5 +1,20 @@
 ## Added:
-* Struggle! Craft the board 
+* Struggle! Craft the board and play around with your friends! (Multiplayer only)
+  * Includes 3 modes, winner needs to either collect all the enemy orbs (and their own) in the match or end with the most orbs when the timer ends:
+    * Duel: 1v1, can be repeated.
+    * Tournament: Up to 8 players, bracket style tournament, if two players tie there's an overtime.
+    * Free for All: Up to 8 players, all vs all.
+* A bunch of limits:
+  * Xaldin: Lance Storm and Fallen Spear.
+  * Vexen: Icy Pillars.
+  * Lexaeus: Powerup and Rocky Pillars.
+  * Saïx: Berserker Claymore.
+  * Axel: Ring of Flames and Flame Wall.
+  * Demyx: Water Trail and Water Wall.
+  * Luxord: Card Wall.
+  * Marluxia: Scythe Dash and Petal Void.
+  * Roxas: Light Barrage.
+* New ServerConfig option to limit Organization limit attacks to their member only.
 * A bunch of new advancements.
 * Toggle Gummi Ship flight mode with pick block key (by default middle mouse click).
   * In that flight mode the ship follows the camera, similar to elytra.
@@ -10,7 +25,6 @@
 * Encounter rooms spawn a treasure chest on completion with the rewards.
 * Obtained item display can be dismissed by pressing a mouse button or key.
 * Item Overflow, items given to the player such as the Keycards will go into your overflow inventory if you have no inventory space. Overflow inventory can be accessed in the Stock menu.
-* 2 Axel-themed limits: Ring of Flames and Flame Wall.
 * Dropped cards will now bounce similar to how they do in Chain of Memories.
 
 ## Changed:
@@ -22,6 +36,7 @@
 * Slightly optimized some parts of the code.
 * Updated Keyblade weapon to match new EFM declarations.
 * White Mushroom rewards are now data driven, by default the loot table is composed by orichalcum, orichalcum plus, illusory crystal, evanescent crystal, manifest illusion and lost illusion, and they drop from 1 up to 2 or 3 of one material.
+* Datagen'd Org limits.
 
 ## Fixed:
 * Castle Oblivion door criteria values match COM's mechanics, the doors within a generated room will be +1 the value of the card until it reaches 9 then will be 0.
@@ -32,3 +47,4 @@
 * Being able to use air dash while in a vehicle.
 * Removed ship fall damage for non player entities.
 * Fixed Gummi Hangar hologram not rendering.
+* Orientation of thrown lances and cards.

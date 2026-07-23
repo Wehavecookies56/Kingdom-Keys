@@ -14,6 +14,7 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.damagesource.KKDamageTypes;
 import online.kingdomkeys.kingdomkeys.datagen.init.*;
 import online.kingdomkeys.kingdomkeys.datagen.provider.BaseLootTableProvider;
+import online.kingdomkeys.kingdomkeys.datagen.provider.LimitDataProvider;
 import online.kingdomkeys.kingdomkeys.datagen.provider.MagicDataProvider;
 import online.kingdomkeys.kingdomkeys.datagen.provider.ShopDataProvider;
 
@@ -50,6 +51,7 @@ public class DataGeneration {
         generator.addProvider(event.includeServer(), new SynthesisRecipe(generator, existingFileHelper));
         generator.addProvider(event.includeServer(), new MeldingRecipe(generator, existingFileHelper));
         generator.addProvider(event.includeServer(), new MagicDataProvider(output));
+        generator.addProvider(event.includeServer(), new LimitDataProvider(output));
         generator.addProvider(event.includeServer(), new ShopDataProvider(output));
         generator.addProvider(event.includeServer(), new AdvancementProvider(output, event.getLookupProvider(), existingFileHelper, List.of(new AdvancementsGen())));
         generator.addProvider(event.includeClient(), new LanguageENUS(generator));

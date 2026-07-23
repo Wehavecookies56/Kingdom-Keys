@@ -33,6 +33,7 @@ import java.util.UUID;
 
 public class KKThrowableEntity extends ThrowableItemProjectile {
 	private static final EntityDataAccessor<Integer> ROTATION_POINT = SynchedEntityData.defineId(KKThrowableEntity.class, EntityDataSerializers.INT);
+	private static final EntityDataAccessor<Boolean> STATIONARY = SynchedEntityData.defineId(KKThrowableEntity.class, EntityDataSerializers.BOOLEAN);
 
 	Set<LivingEntity> hitSet = new HashSet<>();
 	
@@ -44,6 +45,22 @@ public class KKThrowableEntity extends ThrowableItemProjectile {
 	float dmg;
 	Player owner;
 	int rotationPoint;
+
+	public void setStationary(boolean stationary) {
+		this.entityData.set(STATIONARY, stationary);
+	}
+
+	public boolean isStationary() {
+		return this.entityData.get(STATIONARY);
+	}
+
+	private static final EntityDataAccessor<Float> FROZEN_YAW = SynchedEntityData.defineId(KKThrowableEntity.class, EntityDataSerializers.FLOAT);
+
+	public void setFrozenYaw(float yaw) {
+		this.entityData.set(FROZEN_YAW, yaw);
+		this.setYRot(yaw);
+		this.setYHeadRot(yaw);
+	}
 
 	public KKThrowableEntity(Level world) {
 		super(ModEntities.TYPE_KK_THROWABLE.get(), world);
@@ -79,6 +96,13 @@ public class KKThrowableEntity extends ThrowableItemProjectile {
 	@Override
 	public void tick() {
 		super.tick();
+		if (isStationary()) {
+			// super.tick() just recomputed yaw/pitch from the (zero) movement vector, resetting it back
+			// to the default orientation - reassert the rotation we actually want every single tick.
+			float yaw = this.entityData.get(FROZEN_YAW);
+			this.setYRot(yaw);
+			this.setYHeadRot(yaw);
+		}
 		if(!level().isClientSide) {
 			if (getProjOwner() == null) {
 				this.remove(RemovalReason.KILLED);
@@ -93,12 +117,14 @@ public class KKThrowableEntity extends ThrowableItemProjectile {
 				((ServerLevel) level()).sendParticles(ParticleTypes.ELECTRIC_SPARK,getX(),getY()+0.3F,getZ(),1, 0,0,0,0);
 			}
 
-			if (tickCount > 30) {
-				setReturn();
-			}
-	
-			if (Math.max(Math.abs(getDeltaMovement().x), Math.max(Math.abs(getDeltaMovement().y), Math.abs(getDeltaMovement().z))) < 0.1) {
-				setReturn();
+			if (!isStationary()) {
+				if (tickCount > 30) {
+					setReturn();
+				}
+
+				if (Math.max(Math.abs(getDeltaMovement().x), Math.max(Math.abs(getDeltaMovement().y), Math.abs(getDeltaMovement().z))) < 0.1) {
+					setReturn();
+				}
 			}
 	
 			if (returning) {
@@ -211,6 +237,7 @@ public class KKThrowableEntity extends ThrowableItemProjectile {
 
 		compound.putInt("slot", slot);
 		compound.putFloat("damage", dmg);
+		compound.putBoolean("stationary", isStationary());
 	}
 
 	@Override
@@ -225,6 +252,9 @@ public class KKThrowableEntity extends ThrowableItemProjectile {
 
 		slot = compound.getInt("slot");
 		dmg = compound.getFloat("damage");
+		if (compound.contains("stationary")) {
+			setStationary(compound.getBoolean("stationary"));
+		}
 	}
 	
 	public int getRotationPoint() {
@@ -240,15 +270,9 @@ public class KKThrowableEntity extends ThrowableItemProjectile {
 	protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
 		super.defineSynchedData(pBuilder);
 		pBuilder.define(ROTATION_POINT, 0);
+		pBuilder.define(STATIONARY, false);
+		pBuilder.define(FROZEN_YAW, 0F);
 	}
-
-	/*@Override
-	public ItemStack getItem() {
-		if (originalItem == null) {
-			originalItem = entityData.get(ITEMSTACK);
-		}
-		return originalItem;
-	}*/
 
 	@Override
 	protected Item getDefaultItem() {

@@ -39,6 +39,10 @@ public class WhiteMushroomEntity extends BaseKHEntity {
     @Override
     public boolean hurt(DamageSource source, float amount) {
         if(!level().isClientSide()){
+            if(source.getDirectEntity() == null || !(source.getDirectEntity() instanceof Player)){
+                setState(-2);
+                return false;
+            }
             lastUsed = source.getEntity().getUUID();
             if (source.is(KKDamageTypes.FIRE)) {
                 extinguishFire();
