@@ -24,7 +24,7 @@ import online.kingdomkeys.kingdomkeys.entity.mob.WhiteMushroomEntity;
 public class WhiteMushroomRenderer<Type extends WhiteMushroomEntity> extends MobRenderer<Type, WhiteMushroomModel<Type>> {
 
 	public WhiteMushroomRenderer(EntityRendererProvider.Context context) {
-        super(context, new WhiteMushroomModel<>(context.bakeLayer(WhiteMushroomModel.LAYER_LOCATION)), 0.8F);
+        super(context, new WhiteMushroomModel<>(context.bakeLayer(WhiteMushroomModel.LAYER_LOCATION)), 0.5F);
 		this.addLayer(new HeartlessEyesLayerRenderer<>(this, KingdomKeys.rl("textures/entity/mob/mushroom_eyes.png")));
 	}
 

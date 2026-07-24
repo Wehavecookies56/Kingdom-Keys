@@ -31,7 +31,6 @@ import online.kingdomkeys.kingdomkeys.client.render.entity.*;
 import online.kingdomkeys.kingdomkeys.client.render.entity.drops.*;
 import online.kingdomkeys.kingdomkeys.client.render.magic.*;
 import online.kingdomkeys.kingdomkeys.client.render.org.*;
-import online.kingdomkeys.kingdomkeys.client.render.shotlock.UltimaCannonShotlockShotEntityRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.shotlock.VolleyShotlockShotEntityRenderer;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper.MobType;
@@ -436,7 +435,7 @@ public class ModEntities {
         event.registerEntityRenderer(TYPE_SHOTLOCK_SONIC_BLADE.get(), InvisibleEntityRenderer::new);
         event.registerEntityRenderer(TYPE_PRISM_RAIN.get(), InvisibleEntityRenderer::new);
         event.registerEntityRenderer(TYPE_VOLLEY_SHOTLOCK_SHOT.get(), VolleyShotlockShotEntityRenderer::new);
-        event.registerEntityRenderer(TYPE_ULTIMA_CANNON_SHOT.get(), UltimaCannonShotlockShotEntityRenderer::new);
+        event.registerEntityRenderer(TYPE_ULTIMA_CANNON_SHOT.get(), MagicEntityRenderer::new);
         event.registerEntityRenderer(TYPE_RAGNAROK_SHOTLOCK_SHOT.get(), VolleyShotlockShotEntityRenderer::new);
         
         event.registerEntityRenderer(TYPE_GUMMI_SHIP.get(), GummiShipEntityRenderer::new);

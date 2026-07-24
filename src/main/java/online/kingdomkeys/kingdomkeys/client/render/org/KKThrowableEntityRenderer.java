@@ -93,14 +93,14 @@ public class KKThrowableEntityRenderer extends EntityRenderer<KKThrowableEntity>
 					if (entityIn.getRotationPoint() == 0) {
 						poseStack.scale(10, 10, 10);
 
-						poseStack.mulPose(Axis.YP.rotationDegrees(-90F));
+						poseStack.mulPose(Axis.YP.rotationDegrees(0F));
 						poseStack.mulPose(Axis.XP.rotation(rotation));
 					}
 
 					if (entityIn.getRotationPoint() == 1) {
 						poseStack.scale(2, 2, 2);
 
-						poseStack.mulPose(Axis.YP.rotationDegrees(0F));
+						poseStack.mulPose(Axis.YP.rotationDegrees(90F));
 						poseStack.mulPose(Axis.ZP.rotation(rotation));
 					}
 

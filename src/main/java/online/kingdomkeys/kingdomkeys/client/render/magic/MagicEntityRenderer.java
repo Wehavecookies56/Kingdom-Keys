@@ -14,12 +14,14 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.entity.magic.*;
+import online.kingdomkeys.kingdomkeys.entity.shotlock.UltimaCannonShotEntity;
 
 @OnlyIn(Dist.CLIENT)
 public class MagicEntityRenderer extends EntityRenderer<ThrowableProjectile> {
 	private static final ResourceLocation FIRE_TEXTURE = KingdomKeys.rl("textures/entity/models/fire.png");
 	private static final ResourceLocation DARKFIRE_TEXTURE = KingdomKeys.rl("textures/entity/models/darkfire.png");
 	private static final ResourceLocation THUNDAGASHOT_TEXTURE = KingdomKeys.rl("textures/entity/models/thundagashot.png");
+	private static final ResourceLocation ULTIMA_CANNON_TEXTURE = KingdomKeys.rl("textures/entity/models/ultimacannon.png");
 
 	private static final int FRAME_COUNT = 4;
 
@@ -37,6 +39,7 @@ public class MagicEntityRenderer extends EntityRenderer<ThrowableProjectile> {
 			case FirazaEntity firaza -> 2.0F;
 			case FiragaBurstControllerEntity firagaBurstController -> 4.0F;
 			case ThundagaShotEntity thundagaShotEntity -> 0.8F;
+			case UltimaCannonShotEntity ultimaCannonShotEntity -> 5F;
 			default -> 1.0F;
 		};
 
@@ -47,10 +50,10 @@ public class MagicEntityRenderer extends EntityRenderer<ThrowableProjectile> {
 		poseStack.pushPose();
 		{
 			poseStack.translate(0, scale / 2.5F, 0);
+			if(entity instanceof UltimaCannonShotEntity) {
+				poseStack.translate(0, -2, 0);
+			}
 			poseStack.mulPose(entityRenderDispatcher.cameraOrientation());
-
-			//float spin = (entity.tickCount + partialTicks) * 0.6F;
-			//poseStack.mulPose(com.mojang.math.Axis.ZP.rotationDegrees(spin));
 
 			poseStack.scale(scale, scale, scale);
 			PoseStack.Pose pose = poseStack.last();
@@ -73,6 +76,10 @@ public class MagicEntityRenderer extends EntityRenderer<ThrowableProjectile> {
 			vertex(consumer, pose, -size, size, 0F, v0);
 
 			if (entity instanceof ThundagaShotEntity && entity.tickCount > 1) {
+				renderElectricArcs(entity, poseStack, buffer);
+			}
+			if (entity instanceof UltimaCannonShotEntity && entity.tickCount > 1) {
+				poseStack.scale(0.5F,0.5F,0.5F);
 				renderElectricArcs(entity, poseStack, buffer);
 			}
 		}
@@ -144,11 +151,11 @@ public class MagicEntityRenderer extends EntityRenderer<ThrowableProjectile> {
 
 	@Override
 	public ResourceLocation getTextureLocation(ThrowableProjectile entity) {
-		if (entity instanceof DarkFiragaEntity) {
-			return DARKFIRE_TEXTURE;
-		} else if (entity instanceof ThundagaShotEntity) {
-			return THUNDAGASHOT_TEXTURE;
-		}
-		return FIRE_TEXTURE;
+		return switch (entity) {
+			case DarkFiragaEntity darkFiragaEntity -> DARKFIRE_TEXTURE;
+			case ThundagaShotEntity thundagaShotEntity -> THUNDAGASHOT_TEXTURE;
+			case UltimaCannonShotEntity ultimaCannonShotEntity -> ULTIMA_CANNON_TEXTURE;
+			default -> FIRE_TEXTURE;
+		};
 	}
 }

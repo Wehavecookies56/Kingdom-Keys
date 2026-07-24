@@ -33,10 +33,51 @@ public class BaseShotlockShotEntity extends ThrowableProjectile{
 		this.blocksBuilding = true;
 	}
 
+	private static final EntityDataAccessor<Float> INITIAL_YAW = SynchedEntityData.defineId(BaseShotlockShotEntity.class, EntityDataSerializers.FLOAT);
+	private static final EntityDataAccessor<Float> INITIAL_PITCH = SynchedEntityData.defineId(BaseShotlockShotEntity.class, EntityDataSerializers.FLOAT);
+
 	public BaseShotlockShotEntity(EntityType<? extends ThrowableProjectile> type, Level world, LivingEntity player, Entity target, double dmg) {
 		super(type, player, world);
 		this.dmg = (float)dmg;
 		setTarget(target.getId());
+
+		// Face the same way the caster is looking right away, instead of defaulting to yaw/pitch 0
+		// (north, level) until it actually starts moving. Regular entity rotation only reliably syncs
+		// to the client through the normal movement packets, which don't fire while the entity is just
+		// sitting there with zero velocity (e.g. during a charge-up phase) - so a stationary entity's
+		// initial yaw/pitch set server-side never actually reaches the client that way. Syncing it
+		// through SynchedEntityData instead guarantees it always replicates, regardless of movement.
+		this.entityData.set(INITIAL_YAW, player.getYRot());
+		this.entityData.set(INITIAL_PITCH, player.getXRot());
+		this.setYRot(player.getYRot());
+		this.setXRot(player.getXRot());
+		this.yRotO = this.getYRot();
+		this.xRotO = this.getXRot();
+	}
+
+	public float getInitialYaw() {
+		return this.entityData.get(INITIAL_YAW);
+	}
+
+	public float getInitialPitch() {
+		return this.entityData.get(INITIAL_PITCH);
+	}
+
+	/** super.tick() (the base projectile's own tick) recomputes yaw/pitch from the current velocity
+	 * every tick - while the shot is still sitting there with zero velocity (e.g. during a charge-up
+	 * phase before it starts homing), that resets the rotation back to the default (0,0 - facing
+	 * north) almost immediately, undoing the constructor's initial orientation. Call this right after
+	 * super.tick() for as long as it hasn't started actually moving yet, to keep facing the direction
+	 * it was created with until real movement takes over. */
+	protected void reassertInitialRotationIfStationary() {
+		if (getDeltaMovement().lengthSqr() < 1.0E-6) {
+			float yaw = getInitialYaw();
+			float pitch = getInitialPitch();
+			this.setYRot(yaw);
+			this.setXRot(pitch);
+			this.yRotO = yaw;
+			this.xRotO = pitch;
+		}
 	}
 
 	@Override
@@ -86,13 +127,13 @@ public class BaseShotlockShotEntity extends ThrowableProjectile{
 	protected void onHit(HitResult pResult) {
 		if(!level().isClientSide) {
 			if(getOwner() != null && getOwner() instanceof Player owner) {
-	    		PlayerData playerData = PlayerData.get(owner);
-	    		if(playerData != null) {
-	    			if(playerData.getNumberOfAbilitiesEquipped(ModAbilities.HP_GAIN) > 0) {
-	    				owner.heal(playerData.getNumberOfAbilitiesEquipped(ModAbilities.HP_GAIN)*2);
-	    			}
-	    		}
-	    	}
+				PlayerData playerData = PlayerData.get(owner);
+				if(playerData != null) {
+					if(playerData.getNumberOfAbilitiesEquipped(ModAbilities.HP_GAIN) > 0) {
+						owner.heal(playerData.getNumberOfAbilitiesEquipped(ModAbilities.HP_GAIN)*2);
+					}
+				}
+			}
 		}
 	}
 	@Override
@@ -157,7 +198,7 @@ public class BaseShotlockShotEntity extends ThrowableProjectile{
 	public int getColor() {
 		return this.getEntityData().get(COLOR);
 	}
-	
+
 	public void setColor(int color) {
 		this.entityData.set(COLOR, color);
 	}
@@ -168,5 +209,7 @@ public class BaseShotlockShotEntity extends ThrowableProjectile{
 		pBuilder.define(TARGET, 0);
 		pBuilder.define(COLOR, 0);
 		pBuilder.define(ELEMENT, "");
+		pBuilder.define(INITIAL_YAW, 0F);
+		pBuilder.define(INITIAL_PITCH, 0F);
 	}
 }

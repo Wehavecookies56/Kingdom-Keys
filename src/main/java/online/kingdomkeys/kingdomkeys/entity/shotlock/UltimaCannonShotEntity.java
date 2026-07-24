@@ -3,6 +3,8 @@ package online.kingdomkeys.kingdomkeys.entity.shotlock;
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -20,6 +22,9 @@ import java.util.List;
 
 public class UltimaCannonShotEntity extends BaseShotlockShotEntity {
 
+	private static final int CHARGE_TICKS = 30;
+	private boolean launchSoundPlayed = false;
+
 	public UltimaCannonShotEntity(EntityType<? extends ThrowableProjectile> type, Level world) {
 		super(type, world);
 		this.blocksBuilding = true;
@@ -34,17 +39,57 @@ public class UltimaCannonShotEntity extends BaseShotlockShotEntity {
 		if (this.tickCount > maxTicks) {
 			this.remove(RemovalReason.KILLED);
 		}
-		
-		if(tickCount > 1) {
-			Color color = new Color(getColor());
-			level().addParticle(new DustParticleOptions(new Vector3f(color.getRed()/255F, color.getGreen()/255F, color.getBlue()/255F), 1F), getX(), getY(), getZ(), 1,1,1);
+
+		if (tickCount == 1) {
+			level().playSound(null, getX(), getY(), getZ(), SoundEvents.BEACON_ACTIVATE, SoundSource.PLAYERS, 1F, 0.6F);
 		}
-		
+
+		if (tickCount <= CHARGE_TICKS) {
+			spawnChargeParticles();
+		} else {
+			if (!launchSoundPlayed) {
+				launchSoundPlayed = true;
+				level().playSound(null, getX(), getY(), getZ(), SoundEvents.BEACON_POWER_SELECT, SoundSource.PLAYERS, 1F, 0.9F);
+			}
+			spawnTrailParticles();
+		}
+
 		if(tickCount > 30 && tickCount % 10 == 0) {
 			updateMovement();
 		}
-		
+
 		super.tick();
+		reassertInitialRotationIfStationary();
+	}
+
+	/** A small sphere of energy that visibly grows over CHARGE_TICKS, so the buildup actually reads as
+	 * "charging" instead of the projectile just silently sitting there for half a second. */
+	private void spawnChargeParticles() {
+		if (!(level() instanceof ServerLevel serverLevel)) return;
+
+		float progress = tickCount / (float) CHARGE_TICKS;
+		double radius = progress * 0.9D;
+		Color color = new Color(getColor());
+
+		int points = 10;
+		double angleBase = Math.toRadians(tickCount * 35D);
+		for (int i = 0; i < points; i++) {
+			double angle = angleBase + (2 * Math.PI / points) * i;
+			double x = getX() + Math.cos(angle) * radius;
+			double y = getY() + Math.sin(angle * 1.7D) * radius * 0.6D;
+			double z = getZ() + Math.sin(angle) * radius;
+			serverLevel.sendParticles(new DustParticleOptions(new Vector3f(color.getRed() / 255F, color.getGreen() / 255F, color.getBlue() / 255F), 1.3F), x, y, z, 1, 0, 0, 0, 0);
+		}
+		serverLevel.sendParticles(ParticleTypes.END_ROD, getX(), getY(), getZ(), 2, 0.1, 0.1, 0.1, 0.01);
+	}
+
+	/** A real trail (count + spread) rather than one particle a tick. */
+	private void spawnTrailParticles() {
+		if (!(level() instanceof ServerLevel serverLevel)) return;
+
+		Color color = new Color(getColor());
+		serverLevel.sendParticles(new DustParticleOptions(new Vector3f(color.getRed() / 255F, color.getGreen() / 255F, color.getBlue() / 255F), 1.4F), getX(), getY(), getZ(), 6, 0.25, 0.25, 0.25, 0.02);
+		serverLevel.sendParticles(ParticleTypes.END_ROD, getX(), getY(), getZ(), 3, 0.15, 0.15, 0.15, 0.02);
 	}
 
 	private void updateMovement() {
@@ -65,23 +110,40 @@ public class UltimaCannonShotEntity extends BaseShotlockShotEntity {
 			if (rtRes instanceof EntityHitResult ertResult) {
 				if (ertResult.getEntity() instanceof LivingEntity target) {
 					if (target != getOwner()) {
-						target.hurt(target.damageSources().thrown(this, this.getOwner()), dmg);
+						target.hurt(buildDamageSource(target), dmg);
 					}
 				}
 			}
-			for(int i = 0; i < 6; i++) {
-				((ServerLevel) level()).sendParticles(ParticleTypes.END_ROD, getX(), getY(), getZ(), 500, Math.random()*5 - 2.5F, Math.random()*5 - 2.5F, Math.random()*5 - 2.5F, 0.1);
+
+			if (level() instanceof ServerLevel serverLevel) {
+				serverLevel.sendParticles(ParticleTypes.END_ROD, getX(), getY(), getZ(), 350, 2.5, 2.5, 2.5, 0.15);
+				serverLevel.sendParticles(ParticleTypes.FLASH, getX(), getY(), getZ(), 1, 0, 0, 0, 0);
+
+				// Expanding shockwave rings, several radii at once rather than animated over time -
+				// gives a real sense of the blast's actual size instead of just a particle cloud.
+				int ringPoints = 28;
+				for (float radius : new float[]{1.5F, 3F, 4.5F, 6F}) {
+					for (int i = 0; i < ringPoints; i++) {
+						double angle = (2 * Math.PI / ringPoints) * i;
+						double x = getX() + Math.cos(angle) * radius;
+						double z = getZ() + Math.sin(angle) * radius;
+						serverLevel.sendParticles(ParticleTypes.END_ROD, x, getY(), z, 1, 0, 0, 0, 0);
+					}
+				}
 			}
+
+			level().playSound(null, getX(), getY(), getZ(), SoundEvents.WITHER_SHOOT, SoundSource.PLAYERS, 1F, 0.5F);
+			level().playSound(null, getX(), getY(), getZ(), SoundEvents.GENERIC_EXPLODE, SoundSource.PLAYERS, 1.3F, 0.8F);
 
 			List<Entity> list = level().getEntities(getOwner(), getBoundingBox().inflate(8));
 			list = Utils.removePartyMembersFromList((Player) getOwner(), list);
 
 			if (!list.isEmpty()) {
-                for (Entity e : list) {
-                    if (e instanceof LivingEntity) { //If distance is 3 or less do full damage otherwise scale it down
-						e.hurt(e.damageSources().thrown(this, this.getOwner()), dmg / e.distanceTo(this) > 5 ? e.distanceTo(this):1F);
-                    }
-                }
+				for (Entity e : list) {
+					if (e instanceof LivingEntity livingEntity) { //If distance is 3 or less do full damage otherwise scale it down
+						livingEntity.hurt(buildDamageSource(livingEntity), dmg / e.distanceTo(this) > 5 ? e.distanceTo(this):1F);
+					}
+				}
 			}
 
 		}
