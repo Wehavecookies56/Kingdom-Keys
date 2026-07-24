@@ -4,6 +4,7 @@ import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
+import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.enums.DualChoices;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.enums.KKStyles;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.enums.SingleChoices;
@@ -21,7 +22,8 @@ public class KKProviderConditionals  {
             () -> ProviderConditional.createCustom(KKStyles.FINAL_FORM,
                 (livingEntityPatch) ->
                         PlayerData.get((Player)
-                                livingEntityPatch.getOriginal()).getActiveDriveForm().equals(Strings.Form_Final)
+                                livingEntityPatch.getOriginal()).isFormActive(ModDriveForms.FINAL) &&
+                                livingEntityPatch.getOriginal().getOffhandItem().getItem() instanceof KeybladeItem
                 , true)
     );
     public static final DeferredConditional MASTER_FORM_STYLE = CONDITIONALS.registerConditional(
@@ -29,7 +31,7 @@ public class KKProviderConditionals  {
             () ->  ProviderConditional.createCustom(KKStyles.MASTER_FORM,
                 (livingEntityPatch) ->
                         PlayerData.get((Player)
-                                livingEntityPatch.getOriginal()).getActiveDriveForm().equals(Strings.Form_Master) &&
+                                livingEntityPatch.getOriginal()).isFormActive(ModDriveForms.MASTER)&&
                                 livingEntityPatch.getOriginal().getOffhandItem().getItem() instanceof KeybladeItem
                 , true)
 
@@ -40,7 +42,7 @@ public class KKProviderConditionals  {
             () -> ProviderConditional.createCustom(KKStyles.WISDOM_FORM,
                 (livingEntityPatch) ->
                         PlayerData.get((Player)
-                                livingEntityPatch.getOriginal()).getActiveDriveForm().equals(Strings.Form_Wisdom)
+                                livingEntityPatch.getOriginal()).isFormActive(ModDriveForms.WISDOM)
                 , true)
     );
 
@@ -49,7 +51,7 @@ public class KKProviderConditionals  {
             () ->  ProviderConditional.createCustom(KKStyles.VALOR_FORM,
                 (livingEntityPatch) ->
                         PlayerData.get((Player)
-                                livingEntityPatch.getOriginal()).getActiveDriveForm().equals(Strings.Form_Valor) &&
+                                livingEntityPatch.getOriginal()).isFormActive(ModDriveForms.VALOR) &&
                                 livingEntityPatch.getOriginal().getOffhandItem().getItem() instanceof KeybladeItem
                 , true)
     );
@@ -60,7 +62,7 @@ public class KKProviderConditionals  {
                  ProviderConditional.createCustom(KKStyles.ANTI_FORM,
                 (livingEntityPatch) ->
                         PlayerData.get((Player)
-                                livingEntityPatch.getOriginal()).getActiveDriveForm().equals(Strings.Form_Anti)
+                                livingEntityPatch.getOriginal()).isFormActive(ModDriveForms.ANTI)
                 , true)
     );
 
@@ -71,7 +73,7 @@ public class KKProviderConditionals  {
                             (livingEntityPatch) ->
                                 PlayerData.get((Player) livingEntityPatch.getOriginal()).getSingleStyle() == SingleChoices.SORA &&
                                         !(livingEntityPatch.getOriginal().getOffhandItem().getItem() instanceof KeybladeItem) &&
-                                        PlayerData.get((Player) livingEntityPatch.getOriginal()).getActiveDriveForm().equals(DriveForm.NONE.toString())
+                                        PlayerData.get((Player) livingEntityPatch.getOriginal()).noFormActive()
                             , true)
     );
 
@@ -92,7 +94,7 @@ public class KKProviderConditionals  {
                             (livingEntityPatch) ->
                                     PlayerData.get((Player) livingEntityPatch.getOriginal()).getSingleStyle() == SingleChoices.ROXAS &&
                                             !(livingEntityPatch.getOriginal().getOffhandItem().getItem() instanceof KeybladeItem) &&
-                                            PlayerData.get((Player) livingEntityPatch.getOriginal()).getActiveDriveForm().equals(DriveForm.NONE.toString())
+                                            PlayerData.get((Player) livingEntityPatch.getOriginal()).noFormActive()
                             , true)
     );
     public static final DeferredConditional AQUA_STYLE = CONDITIONALS.registerConditional(
@@ -102,7 +104,7 @@ public class KKProviderConditionals  {
                             (livingEntityPatch) ->
                                     PlayerData.get((Player) livingEntityPatch.getOriginal()).getSingleStyle() == SingleChoices.AQUA &&
                                             !(livingEntityPatch.getOriginal().getOffhandItem().getItem() instanceof KeybladeItem) &&
-                                            PlayerData.get((Player) livingEntityPatch.getOriginal()).getActiveDriveForm().equals(DriveForm.NONE.toString())
+                                            PlayerData.get((Player) livingEntityPatch.getOriginal()).noFormActive()
                             , true)
     );
     public static final DeferredConditional TERRA_STYLE = CONDITIONALS.registerConditional(
@@ -112,7 +114,7 @@ public class KKProviderConditionals  {
                             (livingEntityPatch) ->
                                     PlayerData.get((Player) livingEntityPatch.getOriginal()).getSingleStyle() == SingleChoices.TERRA &&
                                             !(livingEntityPatch.getOriginal().getOffhandItem().getItem() instanceof KeybladeItem) &&
-                                            PlayerData.get((Player) livingEntityPatch.getOriginal()).getActiveDriveForm().equals(DriveForm.NONE.toString())
+                                            PlayerData.get((Player) livingEntityPatch.getOriginal()).noFormActive()
                             , true)
     );
     public static final DeferredConditional VENTUS_STYLE = CONDITIONALS.registerConditional(
@@ -122,7 +124,7 @@ public class KKProviderConditionals  {
                             (livingEntityPatch) ->
                                     PlayerData.get((Player) livingEntityPatch.getOriginal()).getSingleStyle() == SingleChoices.VENTUS &&
                                             !(livingEntityPatch.getOriginal().getOffhandItem().getItem() instanceof KeybladeItem) &&
-                                            PlayerData.get((Player) livingEntityPatch.getOriginal()).getActiveDriveForm().equals(DriveForm.NONE.toString())
+                                            PlayerData.get((Player) livingEntityPatch.getOriginal()).noFormActive()
                             , true)
     );
 
@@ -133,7 +135,7 @@ public class KKProviderConditionals  {
                             (livingEntityPatch) ->
                                     PlayerData.get((Player) livingEntityPatch.getOriginal()).getDualStyle() == DualChoices.KH2_ROXAS_DUAL &&
                                             (livingEntityPatch.getOriginal().getOffhandItem().getItem() instanceof KeybladeItem) &&
-                                            PlayerData.get((Player) livingEntityPatch.getOriginal()).getActiveDriveForm().equals(DriveForm.NONE.toString())
+                                            PlayerData.get((Player) livingEntityPatch.getOriginal()).noFormActive()
                             , true)
     );
 
@@ -144,7 +146,7 @@ public class KKProviderConditionals  {
                             (livingEntityPatch) ->
                                     PlayerData.get((Player) livingEntityPatch.getOriginal()).getDualStyle() == DualChoices.DAYS_ROXAS_DUAL &&
                                             (livingEntityPatch.getOriginal().getOffhandItem().getItem() instanceof KeybladeItem) &&
-                                            PlayerData.get((Player) livingEntityPatch.getOriginal()).getActiveDriveForm().equals(DriveForm.NONE.toString())
+                                            PlayerData.get((Player) livingEntityPatch.getOriginal()).noFormActive()
                             , true)
     );
 

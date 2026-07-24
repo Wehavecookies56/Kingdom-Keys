@@ -62,4 +62,10 @@ public class KKMoveSets {
             .addLivingMotionModifier(LivingMotions.WALK, KKAnimations.SORA_IDLE)
             .addMountAttacks(Animations.SWORD_MOUNT_ATTACK)
             .setPassiveSkill(KKSkills.comboExtender));
+    public static final DeferredMoveset CHAKRAM_MOVESET = MOVESETS.registerMoveset("chakram", () -> Moveset.builder()
+            .addComboAttacks(KKAnimations.AXEL_AUTO1, Animations.DAGGER_DUAL_AUTO2, Animations.DAGGER_DUAL_AUTO3, Animations.DAGGER_DUAL_AUTO4,
+                    Animations.DAGGER_DUAL_DASH, Animations.DAGGER_DUAL_AIR_SLASH)
+            .addLivingMotionModifier(LivingMotions.BLOCK, Animations.SWORD_DUAL_GUARD)
+            .addMountAttacks(Animations.SWORD_MOUNT_ATTACK)
+            .setPassiveSkill(KKSkills.comboExtender));
 }
