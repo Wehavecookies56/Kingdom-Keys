@@ -160,6 +160,26 @@ public class Strings {
 			MeteorShower = "meteor_shower",
 			Multivortex = "multivortex",
 			Lightbloom = "lightbloom";
+
+	// Shotlock items
+	public static final String
+			ShotlockItemDarkVolley = "shotlock_dark_volley",
+			ShotlockItemRagnarok = "shotlock_ragnarok",
+			ShotlockItemSonicShadow = "shotlock_sonic_shadow",
+			ShotlockItemPrismRain = "shotlock_prism_rain",
+			ShotlockItemUltimaCannon = "shotlock_ultima_cannon",
+			ShotlockItemFlameSalvo = "shotlock_flame_salvo",
+			ShotlockItemAbsoluteZero = "shotlock_absolute_zero",
+			ShotlockItemThunderstorm = "shotlock_thunderstorm",
+			ShotlockItemChaosSnake = "shotlock_chaos_snake",
+			ShotlockItemBubbleBlaster = "shotlock_bubble_blaster",
+			ShotlockItemBioBarrage = "shotlock_bio_barrage",
+			ShotlockItemPulseBomb = "shotlock_pulse_bomb",
+			ShotlockItemPhotonCharge = "shotlock_photon_charge",
+			ShotlockItemLightningRay = "shotlock_lightning_ray",
+			ShotlockItemMeteorShower = "shotlock_meteor_shower",
+			ShotlockItemMultivortex = "shotlock_multivortex",
+			ShotlockItemLightbloom = "shotlock_lightbloom";
     
     // Reaction Commands
        public static final String

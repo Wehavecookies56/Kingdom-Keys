@@ -77,7 +77,6 @@ public class MenuEquipmentScreen extends MenuBackground {
         addRenderableWidget(back = new MenuButton((int)buttonPosX, playerData.getAlignment() == OrgMember.NONE ? buttonPosY : buttonPosY+20, (int)buttonWidth, Component.translatable(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, b -> minecraft.setScreen(new MenuItemsScreen())));
 
         Map<ResourceLocation, ItemStack> keychains = playerData.getEquippedKeychains();
-        List<ResourceLocation> shotlocks = Utils.getSortedShotlocks(playerData.getShotlockList());
         Map<Integer, ItemStack> items = playerData.getEquippedItems();
         Map<Integer, ItemStack> accessories = playerData.getEquippedAccessories();
         Map<Integer, ItemStack> kbArmor = playerData.getEquippedKBArmors();
@@ -159,10 +158,8 @@ public class MenuEquipmentScreen extends MenuBackground {
         if(!showingKeyblades)
         	offset.set(offset.get() - hidden.get());
                 
-        if (!shotlocks.isEmpty()) {
-            MenuEquipmentButton shotlockSlot = new MenuEquipmentButton(playerData.getEquippedShotlock().orElse(null), (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement(), 0x11FF44, new MenuShotlockSelectorScreen(new Color(17, 255, 100), 0x44FF99), ItemCategory.SHOTLOCK, this, Strings.Gui_Menu_Items_Equipment_Shotlock, 0x81FEAA);
-            addRenderableWidget(shotlockSlot);
-        }
+        MenuEquipmentButton shotlockSlot = new MenuEquipmentButton(playerData.getEquippedShotlock(), (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement(), 0x11FF44, new MenuShotlockSelectorScreen(new Color(17, 255, 100), 0x44FF99), ItemCategory.SHOTLOCK, this, Strings.Gui_Menu_Items_Equipment_Shotlock, 0x81FEAA);
+        addRenderableWidget(shotlockSlot);
         
         if(kbArmor != null) {
         	kbArmor.entrySet().stream().forEachOrdered((entry) -> {

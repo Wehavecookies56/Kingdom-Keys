@@ -515,6 +515,8 @@ public class LanguageESES extends KKLanguageProvider {
         add("gui.magicspell.exp","Experiencia: %s/%s");
         add("gui.magicspell.exp_short","Exp: %s/%s");
         add("gui.magicspell.lvl_short","Nv. %s");
+        add("gui.shotlockitem.equip","Equípalo en el menú para usarlo");
+        add("gui.shotlockitem.max_locks","Máx. Bloqueos: %s");
 
 
         add("gui.driveformorb.tooltip", "Mejora Forma %s");
@@ -1049,6 +1051,25 @@ public class LanguageESES extends KKLanguageProvider {
         add("potion.desc.beginning", "Restaurar\u00e1 %s%s de %s ");
         add("potion.desc.toall", "a todos los miembros del grupo en rango");
         add("potion.desc.toone", "al miembro del grupo elegido");
+
+        // Shotlocks
+        addItem(ModItems.ragnarokShotlock, "Tiro Certero de Ragnarok");
+        addItem(ModItems.darkVolleyShotlock, "Tiro Certero de Volea Umbría");
+        addItem(ModItems.prismRainShotlock, "Tiro Certero de Chorro Irisado");
+        addItem(ModItems.sonicShadowShotlock, "Tiro Certero de Sombra Sónica");
+        addItem(ModItems.ultimaCannonShotlock, "Tiro Certero de Cañón Artema");
+        addItem(ModItems.meteorShowerShotlock, "Tiro Certero de Lluvia Meteórica");
+        addItem(ModItems.multivortexShotlock, "Tiro Certero de Multivórtice");
+        addItem(ModItems.lightbloomShotlock, "Tiro Certero de Fogonazo");
+        addItem(ModItems.flameSalvoShotlock, "Tiro Certero de Salva Ígnea");
+        addItem(ModItems.absoluteZeroShotlock, "Tiro Certero de Cero Absoluto");
+        addItem(ModItems.thunderstormShotlock, "Tiro Certero de Tronada");
+        addItem(ModItems.chaosSnakeShotlock, "Tiro Certero de Súbito Caos");
+        addItem(ModItems.bubbleBlasterShotlock, "Tiro Certero de Tiro Burbuja");
+        addItem(ModItems.bioBarrageShotlock, "Tiro Certero de Biodescarga");
+        addItem(ModItems.pulseBombShotlock, "Tiro Certero de Bomba de Pulso");
+        addItem(ModItems.photonChargeShotlock, "Tiro Certero de Carga Fotónica");
+        addItem(ModItems.lightningRayShotlock, "Tiro Certero de Rayo Célere");
 
         // Spell orbs
         addItem(ModItems.fireSpell, "Hechizo de Piro");

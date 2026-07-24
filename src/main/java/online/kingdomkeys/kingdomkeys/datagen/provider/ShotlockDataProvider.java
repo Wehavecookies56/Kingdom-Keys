@@ -13,6 +13,12 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
+/**
+ * Max Locks and Max Level below are the real BBS values (destinyislands.com/khwiki) - Max Level is now
+ * used as-is for each Shotlock's own leveling cap, rather than the uniform "3" from before. cooldownMin
+ * is the fastest lock-on speed once the item hits that max level (a flat 40% faster than the base
+ * cooldown across the board, since BBS doesn't document actual lock speed in ticks).
+ */
 public class ShotlockDataProvider implements DataProvider {
 
 	private final PackOutput.PathProvider pathProvider;
@@ -25,37 +31,38 @@ public class ShotlockDataProvider implements DataProvider {
 	public CompletableFuture<?> run(CachedOutput cache) {
 		Map<String, JsonObject> shotlocks = new LinkedHashMap<>();
 
-		// Volley family (Terra/Aqua) - BBS Max Locks: Dark Volley 18, Prism Rain 16
-		shotlocks.put(Strings.DarkVolley, new ShotlockBuilder().cooldown(4).max(18).damageMultiplier(0.9F).build());
-		shotlocks.put(Strings.PrismRain, new ShotlockBuilder().cooldown(4).max(16).damageMultiplier(1.0F).build());
-		// Volley family reskins - BBS Max Locks: Chaos Snake 20, Bubble Blaster 15, Bio Barrage 8, Pulse Bomb 20
-		shotlocks.put(Strings.ChaosSnake, new ShotlockBuilder().cooldown(3).max(20).damageMultiplier(0.8F).build());
-		shotlocks.put(Strings.BubbleBlaster, new ShotlockBuilder().cooldown(4).max(15).damageMultiplier(1.1F).build());
-		shotlocks.put(Strings.BioBarrage, new ShotlockBuilder().cooldown(8).max(8).damageMultiplier(2.0F).build());
-		shotlocks.put(Strings.PulseBomb, new ShotlockBuilder().cooldown(3).max(20).damageMultiplier(0.8F).build());
+		// Volley family (Terra/Aqua) - BBS Max Locks/Max LV: Dark Volley 18/5, Prism Rain 16/5
+		shotlocks.put(Strings.DarkVolley, new ShotlockBuilder().cooldown(4).cooldownMax(2).maxLocks(18).damageMultiplier(0.9F).damageMultiplierMax(1.08F).maxExp(2400).maxLevel(5).build());
+		shotlocks.put(Strings.PrismRain, new ShotlockBuilder().cooldown(4).cooldownMax(2).maxLocks(16).damageMultiplier(1.0F).damageMultiplierMax(1.2F).maxExp(2400).maxLevel(5).build());
+		// Volley family reskins - BBS Max Locks/Max LV: Chaos Snake 20/4, Bubble Blaster 15/5, Bio Barrage 8/4, Pulse Bomb 20/5
+		shotlocks.put(Strings.ChaosSnake, new ShotlockBuilder().cooldown(3).cooldownMax(2).maxLocks(20).damageMultiplier(0.8F).damageMultiplierMax(0.96F).maxExp(2400).maxLevel(4).build());
+		shotlocks.put(Strings.BubbleBlaster, new ShotlockBuilder().cooldown(4).cooldownMax(2).maxLocks(15).damageMultiplier(1.1F).damageMultiplierMax(1.32F).maxExp(2400).maxLevel(5).build());
+		shotlocks.put(Strings.BioBarrage, new ShotlockBuilder().cooldown(8).cooldownMax(5).maxLocks(8).damageMultiplier(2.0F).damageMultiplierMax(2.4F).maxExp(2400).maxLevel(4).build());
+		shotlocks.put(Strings.PulseBomb, new ShotlockBuilder().cooldown(3).cooldownMax(2).maxLocks(20).damageMultiplier(0.8F).damageMultiplierMax(0.96F).maxExp(2400).maxLevel(5).build());
 
-		// Ragnarok/salvo family - BBS Max Locks: Ragnarok 16, Flame Salvo 15, Thunderstorm 5
-		shotlocks.put(Strings.Ragnarok, new ShotlockBuilder().cooldown(4).max(16).damageMultiplier(1.0F).build());
-		shotlocks.put(Strings.FlameSalvo, new ShotlockBuilder().cooldown(4).max(15).damageMultiplier(1.1F).element("fire").build());
-		shotlocks.put(Strings.Thunderstorm, new ShotlockBuilder().cooldown(13).max(5).damageMultiplier(3.2F).element("lightning").build());
+		// Ragnarok/salvo family - BBS Max Locks/Max LV: Ragnarok 16/4, Flame Salvo 15/4, Thunderstorm 5/4
+		shotlocks.put(Strings.Ragnarok, new ShotlockBuilder().cooldown(4).cooldownMax(2).maxLocks(16).damageMultiplier(1.0F).damageMultiplierMax(1.2F).maxExp(2400).maxLevel(4).build());
+		shotlocks.put(Strings.FlameSalvo, new ShotlockBuilder().cooldown(4).cooldownMax(2).maxLocks(15).damageMultiplier(1.1F).damageMultiplierMax(1.32F).maxExp(2400).maxLevel(4).element("fire").build());
+		shotlocks.put(Strings.Thunderstorm, new ShotlockBuilder().cooldown(13).cooldownMax(8).maxLocks(5).damageMultiplier(3.2F).damageMultiplierMax(3.84F).maxExp(2400).maxLevel(4).element("lightning").build());
 
-		// Sonic Blade/rush family - BBS Max Locks: Sonic Shadow 10, Absolute Zero 12, Photon Charge 15, Lightning Ray 18
-		shotlocks.put(Strings.SonicShadow, new ShotlockBuilder().cooldown(6).max(10).damageMultiplier(1.6F).element("darkness").build());
-		shotlocks.put(Strings.AbsoluteZero, new ShotlockBuilder().cooldown(5).max(12).damageMultiplier(1.3F).element("ice").build());
-		shotlocks.put(Strings.PhotonCharge, new ShotlockBuilder().cooldown(4).max(15).damageMultiplier(1.1F).element("light").build());
-		shotlocks.put(Strings.LightningRay, new ShotlockBuilder().cooldown(4).max(18).damageMultiplier(0.9F).element("lightning").build());
+		// Sonic Blade/rush family - BBS Max Locks/Max LV: Sonic Shadow 10/5, Absolute Zero 12/4, Photon Charge 15/4, Lightning Ray 18/4
+		shotlocks.put(Strings.SonicShadow, new ShotlockBuilder().cooldown(6).cooldownMax(4).maxLocks(10).damageMultiplier(1.6F).damageMultiplierMax(1.92F).maxExp(2400).maxLevel(5).element("darkness").build());
+		shotlocks.put(Strings.AbsoluteZero, new ShotlockBuilder().cooldown(5).cooldownMax(3).maxLocks(12).damageMultiplier(1.3F).damageMultiplierMax(1.56F).maxExp(2400).maxLevel(4).element("ice").build());
+		shotlocks.put(Strings.PhotonCharge, new ShotlockBuilder().cooldown(4).cooldownMax(2).maxLocks(15).damageMultiplier(1.1F).damageMultiplierMax(1.32F).maxExp(2400).maxLevel(4).element("light").build());
+		shotlocks.put(Strings.LightningRay, new ShotlockBuilder().cooldown(4).cooldownMax(2).maxLocks(18).damageMultiplier(0.9F).damageMultiplierMax(1.08F).maxExp(2400).maxLevel(4).element("lightning").build());
 
-		// Meteor Shower (its own Volley-family thing, no direct sibling) - BBS Max Locks: 30, the highest of any Shotlock
-		shotlocks.put(Strings.MeteorShower, new ShotlockBuilder().cooldown(2).max(30).damageMultiplier(0.5F).build());
+		// Meteor Shower (its own Volley-family thing, no direct sibling) - BBS Max Locks/Max LV: 30/4, the highest lock count of any Shotlock
+		shotlocks.put(Strings.MeteorShower, new ShotlockBuilder().cooldown(2).cooldownMax(1).maxLocks(30).damageMultiplier(0.5F).damageMultiplierMax(0.6F).maxExp(2400).maxLevel(4).build());
 
-		// Multivortex - Ragnarok family. "Six blades" was just flavor for how flashy it looks, not an
-		// actual lock limit - same baseline as Ragnarok/Prism Rain.
-		shotlocks.put(Strings.Multivortex, new ShotlockBuilder().cooldown(4).max(16).damageMultiplier(1.0F).element("light").build());
-		// Lightbloom - Volley family, thin light bolts
-		shotlocks.put(Strings.Lightbloom, new ShotlockBuilder().cooldown(4).max(15).damageMultiplier(1.1F).element("light").build());
+		// Multivortex - BBS Max Locks/Max LV: 30/6 (corrected - it's Ventus's ULTIMATE Shotlock with the
+		// same 30 max locks as Meteor Shower, not the 16 I'd guessed earlier from "six blades" flavor text)
+		shotlocks.put(Strings.Multivortex, new ShotlockBuilder().cooldown(2).cooldownMax(1).maxLocks(30).damageMultiplier(0.5F).damageMultiplierMax(0.6F).maxExp(2400).maxLevel(6).element("light").build());
+		// Lightbloom - BBS Max Locks/Max LV: 20/6 (corrected - Aqua's ultimate Shotlock, not 15)
+		shotlocks.put(Strings.Lightbloom, new ShotlockBuilder().cooldown(3).cooldownMax(2).maxLocks(20).damageMultiplier(0.8F).damageMultiplierMax(0.96F).maxExp(2400).maxLevel(6).element("light").build());
 
-		// Not a family shotlock - untouched behavior-wise, kept at its original values.
-		shotlocks.put(Strings.UltimaCannon, new ShotlockBuilder().cooldown(40).max(1).damageMultiplier(1.0F).build());
+		// Not a family shotlock - max locks kept at its original design value (1, a single ultimate
+		// shot) rather than BBS's 16, but Max LV 6 (BBS's real value) still applies for leveling.
+		shotlocks.put(Strings.UltimaCannon, new ShotlockBuilder().cooldown(40).cooldownMax(25).maxLocks(1).damageMultiplier(1.0F).damageMultiplierMax(1.2F).maxExp(2400).maxLevel(6).build());
 
 		CompletableFuture<?>[] futures = shotlocks.entrySet().stream().map(entry -> {
 			Path path = pathProvider.json(KingdomKeys.rl(entry.getKey()));

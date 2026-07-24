@@ -107,31 +107,6 @@ public enum SoAState implements StringRepresentable {
             }
         }
 
-        for (ResourceLocation shotlock : choice.getShotlocks(choiceLevel)) {
-            if (shotlock != null) {
-                Shotlock a = ModShotlocks.registry.get(shotlock);
-                if (a != null) {
-                    playerData.addShotlockToList(shotlock, true);
-                }
-            }
-        }
-
-		// TODO magic spell earning from level up
-        /*for (String magic : choice.getSpells(choiceLevel)) {
-            if (magic != null) {
-                Magic magicInstance = ModMagic.registry.get(KingdomKeys.rl(magic));
-                if (magicInstance != null) {
-                    if (playerData != null && playerData.getMagicsCastMap() != null) {
-                        if (!playerData.getMagicsCastMap().containsKey(magic)) {
-                            playerData.setMagicLevel(KingdomKeys.rl(magic), playerData.getMagicLevel(KingdomKeys.rl(magic)), true);
-                        } else {
-                            playerData.setMagicLevel(KingdomKeys.rl(magic), playerData.getMagicLevel(KingdomKeys.rl(magic)) + 1, true);
-                        }
-                    }
-                }
-            }
-        }*/
-
         if (choice.getMaxAccessories(choiceLevel) != 0) {
 			playerData.addMaxAccessories(choice.getMaxAccessories(choiceLevel));
 		}
@@ -146,7 +121,6 @@ public enum SoAState implements StringRepresentable {
 	}
     
     public static void removeNonStatsData(Level levelData, PlayerData playerData) {
-        //levelData.getAbilities(0);
         for (ResourceLocation ability : levelData.getAbilities(0)) {
             if (ability != null) {
                 Ability a = ModAbilities.registry.get(ability);
@@ -155,30 +129,7 @@ public enum SoAState implements StringRepresentable {
                 }
             }
         }
-        //levelData.getShotlocks(0);
-        for (ResourceLocation shotlock : levelData.getShotlocks(0)) {
-            if (shotlock != null) {
-                Shotlock a = ModShotlocks.registry.get(shotlock);
-                if (a != null) {
-                    playerData.removeShotlockFromList(shotlock);
-                }
-            }
-        }
-        /*levelData.getSpells(0); //TODO spells to remove
-        for (String magic : levelData.getSpells(0)) {
-            if (magic != null) {
-                Magic magicInstance = ModMagic.registry.get(KingdomKeys.rl(magic));
-                if (magicInstance != null) {
-                    if (playerData != null && playerData.getMagicsCastMap() != null) {
-                        if (playerData.getMagicsCastMap().containsKey(magic)) {
-                            playerData.setMagicLevel(KingdomKeys.rl(magic), playerData.getMagicLevel(KingdomKeys.rl(magic)) - 1, true);
-                        }
-                    }
-                }
-            }
-        }*/
 
-       // levelData.getAbilities(1);
         for (ResourceLocation ability : levelData.getAbilities(1)) {
             if (ability != null) {
                 Ability a = ModAbilities.registry.get(ability);
@@ -187,28 +138,6 @@ public enum SoAState implements StringRepresentable {
                 }
             }
         }
-        //levelData.getShotlocks(1);
-        for (ResourceLocation shotlock : levelData.getShotlocks(1)) {
-            if (shotlock != null) {
-                Shotlock a = ModShotlocks.registry.get(shotlock);
-                if (a != null) {
-                    playerData.removeShotlockFromList(shotlock);
-                }
-            }
-        }
-        //levelData.getSpells(1); //TODO initial spells
-        /*for (String magic : levelData.getSpells(1)) {
-            if (magic != null) {
-                Magic magicInstance = ModMagic.registry.get(KingdomKeys.rl(magic));
-                if (magicInstance != null) {
-                    if (playerData != null && playerData.getMagicsCastMap() != null) {
-                        if (playerData.getMagicsCastMap().containsKey(magic)) {
-                            playerData.setMagicLevel(KingdomKeys.rl(magic), playerData.getMagicLevel(KingdomKeys.rl(magic)) - 1, true);
-                        }
-                    }
-                }
-            }
-        }*/
     }
 
     @Override

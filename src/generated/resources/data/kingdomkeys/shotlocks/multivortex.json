@@ -1,6 +1,10 @@
 {
-  "cooldown": 4,
-  "dmg_mult": 1.0,
+  "cooldown": 2,
+  "cooldown_max": 1,
+  "dmg_mult": 0.5,
+  "dmg_mult_max": 0.6,
   "element": "light",
-  "max": 16
+  "max": 30,
+  "max_exp": 2400,
+  "max_level": 6
 }

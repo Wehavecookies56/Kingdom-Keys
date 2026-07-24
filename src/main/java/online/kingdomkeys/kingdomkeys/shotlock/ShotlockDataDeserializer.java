@@ -15,11 +15,23 @@ public class ShotlockDataDeserializer implements JsonDeserializer<ShotlockData> 
 			case "cooldown":
 				out.setCooldown(element.getAsInt());
 				break;
+			case "cooldown_max":
+				out.setCooldownMax(element.getAsInt());
+				break;
 			case "max":
 				out.setMax(element.getAsInt());
 				break;
 			case "dmg_mult":
 				out.setDmgMult(element.getAsFloat());
+				break;
+			case "dmg_mult_max":
+				out.setDmgMultMax(element.getAsFloat());
+				break;
+			case "max_exp":
+				out.setMaxExp(element.getAsInt());
+				break;
+			case "max_level":
+				out.setMaxLevel(element.getAsInt());
 				break;
 			case "element":
 				out.setElement(element.getAsString());

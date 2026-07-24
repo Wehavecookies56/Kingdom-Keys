@@ -876,7 +876,7 @@ public class ClientEvents {
 							tempShotlockEntity = target;
 							Party p = WorldData.getClient().getPartyFromMember(player.getUUID());
 							if (p == null || (p.getMember(target.getUUID()) == null || p.getFriendlyFire())) { // If caster is not in a party || the party doesn't have the target in it || the party has FF on
-								if(focusingAnEntityTicks >= shotlock.getCooldown()) {
+								if(focusingAnEntityTicks >= shotlock.getRealCooldown(player)) {
 									float halfWidth = target.getBbWidth() * 0.5F;
 									float height = target.getBbHeight();
 									float ox = Mth.nextFloat(player.getRandom(), -halfWidth, halfWidth);
@@ -892,7 +892,7 @@ public class ClientEvents {
 							}
 						}
 						// Locking on
-					} else if (focusingTicks % shotlock.getCooldown() == 1 && playerData.getShotlockEnemies().size() < shotlock.getMaxLocks()) {
+					} else if (focusingTicks % shotlock.getRealCooldown(player) == 1 && playerData.getShotlockEnemies().size() < shotlock.getMaxLocks()) {
 						Party p = WorldData.getClient().getPartyFromMember(player.getUUID());
 						if (ertr.getEntity() instanceof LivingEntity target) {
 							if (p == null || (p.getMember(target.getUUID()) == null || p.getFriendlyFire())) { // If caster is not in a party || the party doesn't have the target in it || the party has FF on
