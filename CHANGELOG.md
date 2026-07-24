@@ -10,6 +10,7 @@
   * Xaldin: Lance Storm and Fallen Spear.
   * Vexen: Icy Pillars.
   * Lexaeus: Powerup and Rocky Pillars.
+  * Zexion: Illusory Meteor.
   * Saïx: Berserker Claymore.
   * Axel: Ring of Flames and Flame Wall.
   * Demyx: Water Trail and Water Wall.

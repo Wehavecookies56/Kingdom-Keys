@@ -138,7 +138,8 @@ public class Strings {
 			CardRing = "card_ring",
 			ScytheDash = "scythe_dash",
 			PetalVoid = "petal_void",
-			LightBarrage = "light_barrage";
+			LightBarrage = "light_barrage",
+			IllusoryMeteor = "illusory_meteor";
        
     // Shotlocks
        public static final String
@@ -147,7 +148,6 @@ public class Strings {
        		SonicShadow = "sonic_shadow",
        		PrismRain = "prism_rain",
 			UltimaCannon = "ultima_cannon",
-		    MeteorShower = "meteor_shower",
 			FlameSalvo = "flame_salvo",
 			AbsoluteZero = "absolute_zero",
 			Thunderstorm = "thunderstorm",
@@ -156,8 +156,9 @@ public class Strings {
 			BioBarrage = "bio_barrage",
 			PulseBomb = "pulse_bomb",
 			PhotonCharge = "photon_charge",
-			LightningRay = "lightning_ray";
-
+			LightningRay = "lightning_ray",
+			MeteorShower = "meteor_shower";
+    
     // Reaction Commands
        public static final String
        		autoValorRC = "rc_auto_valor",

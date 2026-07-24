@@ -68,6 +68,9 @@ public class LimitDataProvider implements DataProvider {
 		// Roxas
 		limits.put(Strings.LightBarrage, new LimitBuilder().cost(300).cooldown(400).damageMultiplier(1.0F).build());
 
+		// Zexion
+		limits.put(Strings.IllusoryMeteor, new LimitBuilder().cost(300).cooldown(200).damageMultiplier(1.0F).build());
+
 		CompletableFuture<?>[] futures = limits.entrySet().stream().map(entry -> {
 			Path path = pathProvider.json(KingdomKeys.rl(entry.getKey()));
 			return DataProvider.saveStable(cache, entry.getValue(), path);

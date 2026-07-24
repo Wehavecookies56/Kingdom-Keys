@@ -34,6 +34,7 @@ public class ModLimits {
 		WATER_WALL = register(Strings.WaterWall, () -> new LimitWaterWall(KingdomKeys.rl(Strings.WaterWall), order++, OrgMember.DEMYX)),
 		CARD_RING = register(Strings.CardRing, () -> new LimitCardRing(KingdomKeys.rl(Strings.CardRing), order++, OrgMember.LUXORD)),
 		LIGHT_BARRAGE = register(Strings.LightBarrage, () -> new LimitLightBarrage(KingdomKeys.rl(Strings.LightBarrage), order++, OrgMember.ROXAS)),
+		ILLUSORY_METEOR = register(Strings.IllusoryMeteor, () -> new LimitDarkMeteor(KingdomKeys.rl(Strings.IllusoryMeteor), order++, OrgMember.ZEXION)),
 		SCYTHE_DASH = register(Strings.ScytheDash, () -> new LimitScytheDash(KingdomKeys.rl(Strings.ScytheDash), order++, OrgMember.MARLUXIA)),
 		PETAL_VOID = register(Strings.PetalVoid, () -> new LimitPetalLaunchers(KingdomKeys.rl(Strings.PetalVoid), order++, OrgMember.MARLUXIA))
 	;

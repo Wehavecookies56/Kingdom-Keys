@@ -756,6 +756,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addLimit(ModLimits.SCYTHE_DASH, "Scythe Dash");
         addLimit(ModLimits.PETAL_VOID, "Petal Void");
         addLimit(ModLimits.LIGHT_BARRAGE, "Light Barrage");
+        addLimit(ModLimits.ILLUSORY_METEOR, "Illusory Meteor");
 
         //Shotlocks
         addShotlock(ModShotlocks.RAGNAROK, "Ragnarok");

@@ -95,17 +95,17 @@ public class ModEntities {
     public static final DeferredHolder<EntityType<?>, EntityType<WateraEntity>> TYPE_WATERA = createEntityType(WateraEntity::new, MobCategory.MISC,"entity_watera", 0.8F, 0.8F);
     public static final DeferredHolder<EntityType<?>, EntityType<WatergaEntity>> TYPE_WATERGA = createEntityType(WatergaEntity::new, MobCategory.MISC,"entity_waterga", 1F, 1F);
     public static final DeferredHolder<EntityType<?>, EntityType<WaterzaEntity>> TYPE_WATERZA = createEntityType(WaterzaEntity::new, MobCategory.MISC,"entity_waterza", 1F, 1F);
-    
+
     public static final DeferredHolder<EntityType<?>, EntityType<ThunderEntity>> TYPE_THUNDER = createEntityType(ThunderEntity::new, MobCategory.MISC,"entity_thunder", 0.5F, 0.5F);
     public static final DeferredHolder<EntityType<?>, EntityType<ThundaraEntity>> TYPE_THUNDARA = createEntityType(ThundaraEntity::new, MobCategory.MISC,"entity_thundara", 0.5F, 0.5F);
     public static final DeferredHolder<EntityType<?>, EntityType<ThundagaEntity>> TYPE_THUNDAGA = createEntityType(ThundagaEntity::new, MobCategory.MISC,"entity_thundaga", 0.5F, 0.5F);
     public static final DeferredHolder<EntityType<?>, EntityType<ThundazaEntity>> TYPE_THUNDAZA = createEntityType(ThundazaEntity::new, MobCategory.MISC,"entity_thundaza", 0.5F, 0.5F);
     public static final DeferredHolder<EntityType<?>, EntityType<ThunderBoltEntity>> TYPE_THUNDERBOLT = createEntityType(ThunderBoltEntity::new, MobCategory.MISC,"entity_thunderbolt", 0.5F, 0.5F);
-    
+
     public static final DeferredHolder<EntityType<?>, EntityType<MagnetEntity>> TYPE_MAGNET = createEntityType(MagnetEntity::new, MobCategory.MISC,"entity_magnet", 1F, 1F);
     public static final DeferredHolder<EntityType<?>, EntityType<MagneraEntity>> TYPE_MAGNERA = createEntityType(MagneraEntity::new, MobCategory.MISC,"entity_magnera", 1.5F, 1.5F);
     public static final DeferredHolder<EntityType<?>, EntityType<MagnegaEntity>> TYPE_MAGNEGA = createEntityType(MagnegaEntity::new, MobCategory.MISC,"entity_magnega", 2F, 2F);
-    
+
     public static final DeferredHolder<EntityType<?>, EntityType<GravityEntity>> TYPE_GRAVITY = createEntityType(GravityEntity::new, MobCategory.MISC,"entity_gravity", 0.5F, 0.5F);
     public static final DeferredHolder<EntityType<?>, EntityType<GraviraEntity>> TYPE_GRAVIRA = createEntityType(GraviraEntity::new, MobCategory.MISC,"entity_gravira", 0.5F, 0.5F);
     public static final DeferredHolder<EntityType<?>, EntityType<GravigaEntity>> TYPE_GRAVIGA = createEntityType(GravigaEntity::new, MobCategory.MISC,"entity_graviga", 0.5F, 0.5F);
@@ -127,14 +127,14 @@ public class ModEntities {
     public static final DeferredHolder<EntityType<?>, EntityType<SaixShockwave>> TYPE_SAIX_SHOCKWAVE = createEntityType(SaixShockwave::new, MobCategory.MISC,"saix_shockwave", 1.5F,3.5F);
 
     public static final DeferredHolder<EntityType<?>, EntityType<OrgPortalEntity>> TYPE_ORG_PORTAL = createEntityType(OrgPortalEntity::new, MobCategory.MISC,"entity_org_portal", 1F, 3.5F);
-    
+
    // public static final DeferredHolder<EntityType<?>, EntityType<ChakramEntity>> TYPE_CHAKRAM = createEntityType(ChakramEntity::new, ChakramEntity::new, MobCategory.MISC,"entity_chakram", 1.3F, 0.5F);
     public static final DeferredHolder<EntityType<?>, EntityType<KKThrowableEntity>> TYPE_KK_THROWABLE = ENTITIES.register("entity_chakram",
     		() -> EntityType.Builder.<KKThrowableEntity>of((e,w)->new KKThrowableEntity(w), MobCategory.MISC).sized(2.5F, 0.75F).clientTrackingRange(10)
                     .build("entity_chakram"));
 
     public static final DeferredHolder<EntityType<?>, EntityType<LanceEntity>> TYPE_LANCE = createEntityType(LanceEntity::new, MobCategory.MISC,"entity_lance", 0.5F, 0.5F);
-    
+
     public static final DeferredHolder<EntityType<?>, EntityType<HeartEntity>> TYPE_HEART = createEntityType(HeartEntity::new, MobCategory.MISC, "heart", 1F, 1F);
     public static final DeferredHolder<EntityType<?>, EntityType<XPEntity>> TYPE_XP = createEntityType(XPEntity::new, MobCategory.MISC, "xp", 1F, 1F);
     public static final DeferredHolder<EntityType<?>, EntityType<TrainingDummyEntity>> TYPE_TRAINING_DUMMY = createEntityType(TrainingDummyEntity::new, MobCategory.MISC, "training_dummy", 1F, 2F);
@@ -227,7 +227,7 @@ public class ModEntities {
     //Bosses
     public static final DeferredHolder<EntityType<?>, EntityType<MarluxiaEntity>> TYPE_MARLUXIA = createEntityTypeImmuneToFire(MarluxiaEntity::new, MobCategory.MONSTER, "marluxia", 1F, 2F);
     public static final Supplier<Item> MARLUXIA_EGG = ModItems.ITEMS.register("marluxia_spawn_egg", () -> new DeferredSpawnEggItem(TYPE_MARLUXIA, 0xc9c9c9, 0xFF00FF, PROPERTIES));
-    
+
     //Limits
     public static final DeferredHolder<EntityType<?>, EntityType<LaserCircleCoreEntity>> TYPE_LASER_CIRCLE = createEntityType(LaserCircleCoreEntity::new, MobCategory.MISC,"entity_laser_circle_core", 0.5F, 0.5F);
     public static final DeferredHolder<EntityType<?>, EntityType<LaserDomeCoreEntity>> TYPE_LASER_DOME = createEntityType(LaserDomeCoreEntity::new, MobCategory.MISC,"entity_laser_dome_core", 0.5F, 0.5F);
@@ -242,10 +242,11 @@ public class ModEntities {
     public static final DeferredHolder<EntityType<?>, EntityType<RockyPillarsCoreEntity>> TYPE_ROCKY_PILLARS = createEntityType(RockyPillarsCoreEntity::new, MobCategory.MISC,"entity_rocky_pillars_core", 0.5F, 0.5F);
     public static final DeferredHolder<EntityType<?>, EntityType<LightOrbEntity>> TYPE_LIGHT_ORB = createEntityType(LightOrbEntity::new, MobCategory.MISC,"entity_light_orb", 0.25F, 0.25F);
     public static final DeferredHolder<EntityType<?>, EntityType<LightBarrageCoreEntity>> TYPE_LIGHT_BARRAGE = createEntityType(LightBarrageCoreEntity::new, MobCategory.MISC,"entity_light_barrage_core", 0.5F, 0.5F);
-    public static final DeferredHolder<EntityType<?>, EntityType<online.kingdomkeys.kingdomkeys.entity.organization.PillarEntity>> TYPE_PILLAR = createEntityType(online.kingdomkeys.kingdomkeys.entity.organization.PillarEntity::new, MobCategory.MISC,"entity_pillar", 1.0F, 4.0F);
-    public static final DeferredHolder<EntityType<?>, EntityType<online.kingdomkeys.kingdomkeys.entity.organization.PetalLauncherCoreEntity>> TYPE_PETAL_LAUNCHER = createEntityType(online.kingdomkeys.kingdomkeys.entity.organization.PetalLauncherCoreEntity::new, MobCategory.MISC,"entity_petal_launcher_core", 0.7F, 0.2F);
-    public static final DeferredHolder<EntityType<?>, EntityType<online.kingdomkeys.kingdomkeys.entity.organization.ScytheDashCoreEntity>> TYPE_SCYTHE_DASH = createEntityType(online.kingdomkeys.kingdomkeys.entity.organization.ScytheDashCoreEntity::new, MobCategory.MISC,"entity_scythe_dash_core", 0.5F, 1.8F);
-    public static final DeferredHolder<EntityType<?>, EntityType<online.kingdomkeys.kingdomkeys.entity.organization.PetalAscendTrailEntity>> TYPE_PETAL_ASCEND_TRAIL = createEntityType(online.kingdomkeys.kingdomkeys.entity.organization.PetalAscendTrailEntity::new, MobCategory.MISC,"entity_petal_ascend_trail", 0.5F, 1.8F);
+    public static final DeferredHolder<EntityType<?>, EntityType<PillarEntity>> TYPE_PILLAR = createEntityType(PillarEntity::new, MobCategory.MISC,"entity_pillar", 1.0F, 4.0F);
+    public static final DeferredHolder<EntityType<?>, EntityType<PetalLauncherCoreEntity>> TYPE_PETAL_LAUNCHER = createEntityType(PetalLauncherCoreEntity::new, MobCategory.MISC,"entity_petal_launcher_core", 0.7F, 0.2F);
+    public static final DeferredHolder<EntityType<?>, EntityType<ScytheDashCoreEntity>> TYPE_SCYTHE_DASH = createEntityType(ScytheDashCoreEntity::new, MobCategory.MISC,"entity_scythe_dash_core", 0.5F, 1.8F);
+    public static final DeferredHolder<EntityType<?>, EntityType<PetalAscendTrailEntity>> TYPE_PETAL_ASCEND_TRAIL = createEntityType(PetalAscendTrailEntity::new, MobCategory.MISC,"entity_petal_ascend_trail", 0.5F, 1.8F);
+    public static final DeferredHolder<EntityType<?>, EntityType<IllusoryMeteorCoreEntity>> TYPE_ILLUSORY_METEOR = createEntityType(IllusoryMeteorCoreEntity::new, MobCategory.MISC,"entity_illusory_meteor_core", 1.0F, 1.0F);
     public static final DeferredHolder<EntityType<?>, EntityType<FlameRingCoreEntity>> TYPE_FLAME_RING = createEntityType(FlameRingCoreEntity::new, MobCategory.MISC,"entity_flame_ring_core", 0.5F, 0.5F);
     public static final DeferredHolder<EntityType<?>, EntityType<LanceStormCoreEntity>> TYPE_LANCE_STORM = createEntityType(LanceStormCoreEntity::new, MobCategory.MISC,"entity_lance_storm_core", 0.5F, 0.5F);
     public static final DeferredHolder<EntityType<?>, EntityType<ClaymoreDropCoreEntity>> TYPE_CLAYMORE_DROP = createEntityType(ClaymoreDropCoreEntity::new, MobCategory.MISC,"entity_claymore_drop_core", 0.5F, 0.5F);
@@ -420,13 +421,14 @@ public class ModEntities {
         event.registerEntityRenderer(TYPE_ROCKY_PILLARS.get(), InvisibleEntityRenderer::new);
         event.registerEntityRenderer(TYPE_LIGHT_ORB.get(), InvisibleEntityRenderer::new);
         event.registerEntityRenderer(TYPE_LIGHT_BARRAGE.get(), InvisibleEntityRenderer::new);
-        event.registerEntityRenderer(TYPE_PILLAR.get(), online.kingdomkeys.kingdomkeys.client.render.entity.PillarEntityRenderer::new);
+        event.registerEntityRenderer(TYPE_PILLAR.get(), PillarEntityRenderer::new);
         event.registerEntityRenderer(TYPE_PETAL_LAUNCHER.get(), InvisibleEntityRenderer::new);
-        event.registerEntityRenderer(TYPE_SCYTHE_DASH.get(), online.kingdomkeys.kingdomkeys.client.render.entity.ScytheDashCoreEntityRenderer::new);
-        event.registerEntityRenderer(TYPE_PETAL_ASCEND_TRAIL.get(), online.kingdomkeys.kingdomkeys.client.render.entity.PetalAscendTrailEntityRenderer::new);
+        event.registerEntityRenderer(TYPE_SCYTHE_DASH.get(), ScytheDashCoreEntityRenderer::new);
+        event.registerEntityRenderer(TYPE_PETAL_ASCEND_TRAIL.get(), PetalAscendTrailEntityRenderer::new);
+        event.registerEntityRenderer(TYPE_ILLUSORY_METEOR.get(), InvisibleEntityRenderer::new);
         event.registerEntityRenderer(TYPE_FLAME_RING.get(), InvisibleEntityRenderer::new);
-        event.registerEntityRenderer(TYPE_LANCE_STORM.get(), online.kingdomkeys.kingdomkeys.client.render.entity.LanceStormCoreEntityRenderer::new);
-        event.registerEntityRenderer(TYPE_CLAYMORE_DROP.get(), online.kingdomkeys.kingdomkeys.client.render.entity.ClaymoreDropCoreEntityRenderer::new);
+        event.registerEntityRenderer(TYPE_LANCE_STORM.get(), LanceStormCoreEntityRenderer::new);
+        event.registerEntityRenderer(TYPE_CLAYMORE_DROP.get(), ClaymoreDropCoreEntityRenderer::new);
         event.registerEntityRenderer(TYPE_FLAME_WALL.get(), InvisibleEntityRenderer::new);
 
         event.registerEntityRenderer(TYPE_SHOTLOCK_DARK_VOLLEY.get(), InvisibleEntityRenderer::new);

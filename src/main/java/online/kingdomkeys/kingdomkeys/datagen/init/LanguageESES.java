@@ -761,6 +761,7 @@ public class LanguageESES extends KKLanguageProvider {
         addLimit(ModLimits.SCYTHE_DASH, "Esprint de Guadaña");
         addLimit(ModLimits.PETAL_VOID, "Vacío de Pétalos");
         addLimit(ModLimits.LIGHT_BARRAGE, "Ráfaga de Luz");
+        addLimit(ModLimits.ILLUSORY_METEOR, "Meteoro Ilusorio");
 
         //Shotlocks
         addShotlock(ModShotlocks.RAGNAROK, "Ragnarok");
