@@ -23,7 +23,7 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.util.List;
 
-public class ShotlockItem extends Item implements IItemCategory, ICreativeTab {
+public class ShotlockItem extends Item implements IItemCategory, ICreativeTab, ILevelableItem {
 	ResourceLocation shotlock;
 
 	public ShotlockItem(Properties properties, ResourceLocation name) {
@@ -77,9 +77,6 @@ public class ShotlockItem extends Item implements IItemCategory, ICreativeTab {
 		return exp == 0 ? 1 : exp;
 	}
 
-	/**
-	 * Total of levels the Shotlock can level up
-	 */
 	public int getMaxExpLevel() {
 		Shotlock shotlockInstance = ModShotlocks.registry.get(shotlock);
 		if (shotlockInstance == null) {
@@ -90,20 +87,17 @@ public class ShotlockItem extends Item implements IItemCategory, ICreativeTab {
 		return lvl == 0 ? 1 : lvl;
 	}
 
-	/**
-	 * Global experience percentage
-	 */
 	public float getExpPercent(ItemStack stack) {
 		int exp = getExp(stack);
 		return (float) exp / getMaxExp();
 	}
 
-	// Fully maxed
+	@Override
 	public boolean isMaxed(ItemStack stack) {
 		return getExpPercent(stack) == 1;
 	}
 
-	//Local level based on the section
+	@Override
 	public int getLocalLevel(ItemStack stack) {
 		int maxLevel = getMaxExpLevel();
 		if (maxLevel <= 1) {
@@ -116,6 +110,7 @@ public class ShotlockItem extends Item implements IItemCategory, ICreativeTab {
 		return Math.min(level, maxLevel);
 	}
 
+	@Override
 	public int getLocalExp(ItemStack stack) {
 		if (getMaxExpLevel() <= 1) {
 			return getMaxExp();
@@ -129,6 +124,7 @@ public class ShotlockItem extends Item implements IItemCategory, ICreativeTab {
 		return exp;
 	}
 
+	@Override
 	public int getLocalMaxExp() {
 		int maxLevel = getMaxExpLevel();
 		if (maxLevel <= 1) {
@@ -138,6 +134,7 @@ public class ShotlockItem extends Item implements IItemCategory, ICreativeTab {
 		return getMaxExp() / (maxLevel - 1);
 	}
 
+	@Override
 	public float getLocalPercent(ItemStack stack) {
 		if (getMaxExpLevel() <= 1) {
 			return 1;

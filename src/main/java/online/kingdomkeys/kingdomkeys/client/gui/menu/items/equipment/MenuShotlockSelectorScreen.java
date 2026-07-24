@@ -24,7 +24,7 @@ import java.util.List;
 public class MenuShotlockSelectorScreen extends MenuBackground {
 
 	public MenuScrollBar scrollBar;
-	public MenuBox boxL;
+	public MenuBox boxL, boxR;
 	Button back;
 	MenuColourBox equipped;
 	List<MenuSelectShotlockButton> widgets = new ArrayList<>();
@@ -44,11 +44,15 @@ public class MenuShotlockSelectorScreen extends MenuBackground {
 	public void init() {
 		super.init();
 		buttonWidth = ((float) width * 0.07F);
-		float keybladesX = width * 0.2432F;
+		float keybladesX = width * 0.2F;
 		float keybladesY = height * 0.175F;
-		float keybladesWidth = width * 0.5F;
+		float keybladesWidth = width * 0.35F;
 		float keybladesHeight = height * 0.5972F;
-		float listX = width * 0.2546F;
+
+		float detailsX = width * 0.55F;
+		float detailsWidth = width * 0.2F;
+
+		float listX = width * 0.21F;
 		float listY = height * 0.2546F;
 
 		widgets.clear();
@@ -81,6 +85,7 @@ public class MenuShotlockSelectorScreen extends MenuBackground {
 		widgets.forEach(this::addWidget);
 
 		boxL = new MenuBox((int) keybladesX, (int) keybladesY, (int) keybladesWidth, (int) keybladesHeight, 0.6F, colour);
+		boxR = new MenuBox((int) detailsX, (int) keybladesY, (int) detailsWidth, (int) keybladesHeight, 0.6F, colour);
 
 		int scrollYPos = (int) listY;
 		int listHeight = 0;
@@ -102,6 +107,7 @@ public class MenuShotlockSelectorScreen extends MenuBackground {
 	public void render(@NotNull GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
 		drawMenuBackground(gui, mouseX, mouseY, partialTicks);
 		boxL.renderWidget(gui, mouseX, mouseY, partialTicks);
+		boxR.renderWidget(gui, mouseX, mouseY, partialTicks);
 		equipped.render(gui, mouseX, mouseY, partialTicks);
 		scrollBar.render(gui, mouseX, mouseY, partialTicks);
 		back.render(gui, mouseX, mouseY, partialTicks);
@@ -110,6 +116,7 @@ public class MenuShotlockSelectorScreen extends MenuBackground {
 			gui.enableScissor(boxL.getX() + 2, scrollBar.getY(), boxL.getX() + boxL.getWidth(), scrollBar.getBottom() + 1);
 			renderable.render(gui, mouseX, mouseY, partialTicks);
 			gui.disableScissor();
+			renderable.renderData(gui, mouseX, mouseY, partialTicks);
 		}
 	}
 

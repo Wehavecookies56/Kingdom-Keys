@@ -165,8 +165,8 @@ public class MenuEquipmentButton extends Button {
             	}
             }
 
-	        // show magic level and exp level in the button
-	        if(stack != null && stack.getItem() instanceof MagicSpellItem spell && (parent instanceof MenuEquipmentScreen)) {
+	        // show level and exp for any levelable item (Magic, Shotlock) in the button
+	        if(stack != null && stack.getItem() instanceof ILevelableItem spell && (parent instanceof MenuEquipmentScreen)) {
 		        String text = Utils.translateToLocal("gui.magicspell.lvl_short",spell.getLocalLevel(stack));
 		        int x = getX() + getWidth() - mc.font.width(text) - 4;
 		        gui.drawString(mc.font, text, x, getY() + 2, 0xFFFFFF);
@@ -241,6 +241,8 @@ public class MenuEquipmentButton extends Button {
                      	showData = true;
 					} else if (stack.getItem() instanceof MagicSpellItem) {
 						showData = true;
+                    } else if (stack.getItem() instanceof ShotlockItem) {
+                        showData = true;
                     } else if (stack.getItem() instanceof KKAccessoryItem) {
                      	ap = ((KKAccessoryItem)stack.getItem()).getAp();
                      	strength = ((KKAccessoryItem)stack.getItem()).getStr();
@@ -307,7 +309,7 @@ public class MenuEquipmentButton extends Button {
 	                    	showMag = false;
 	                    }
 
-	                    if(stack.getItem() instanceof MagicSpellItem) {
+	                    if(stack.getItem() instanceof ILevelableItem) {
 							showExp = true;
 		                    showStr = false;
 		                    showMag = false;
@@ -341,7 +343,7 @@ public class MenuEquipmentButton extends Button {
 	                    }
 
 	                    if(showExp) { //Details
-							MagicSpellItem spell = (MagicSpellItem) stack.getItem();
+							ILevelableItem spell = (ILevelableItem) stack.getItem();
 		                    if(parent instanceof MenuEquipmentScreen screen) {
 			                    float textX = screen.detailsBox.getX() + 10;
 			                    float textY = screen.detailsBox.getY() + screen.detailsBox.getHeight() / 2F + 25;

@@ -24,7 +24,7 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.util.List;
 
-public class MagicSpellItem extends Item implements IItemCategory, ICreativeTab{
+public class MagicSpellItem extends Item implements IItemCategory, ICreativeTab, ILevelableItem{
 	ResourceLocation magic;
 
 	public MagicSpellItem(Properties properties, ResourceLocation name) {
@@ -79,10 +79,6 @@ public class MagicSpellItem extends Item implements IItemCategory, ICreativeTab{
 		return exp == 0 ? 1 : exp;
 	}
 
-	/**
-	 * Total of levels the magic can level up
-	 * @return
-	 */
 	public int getMaxExpLevel() {
 		Magic magicInstance = ModMagic.registry.get(magic);
 		if(magicInstance == null){
@@ -93,22 +89,17 @@ public class MagicSpellItem extends Item implements IItemCategory, ICreativeTab{
 		return lvl == 0 ? 1 : lvl;
 	}
 
-	/**
-	 * Global experience percentage
-	 * @param stack
-	 * @return
-	 */
 	public float getExpPercent(ItemStack stack) {
 		int exp = getExp(stack);
 		return (float) exp / getMaxExp();
 	}
 
-	// Fully maxed
+	@Override
 	public boolean isMaxed(ItemStack stack) {
 		return getExpPercent(stack) == 1;
 	}
 
-	//Local level based on the section
+	@Override
 	public int getLocalLevel(ItemStack stack) {
 		int maxLevel = getMaxExpLevel();
 		if(maxLevel <= 1) {
@@ -121,6 +112,7 @@ public class MagicSpellItem extends Item implements IItemCategory, ICreativeTab{
 		return Math.min(level, maxLevel);
 	}
 
+	@Override
 	public int getLocalExp(ItemStack stack) {
 		if(getMaxExpLevel() <= 1) {
 			return getMaxExp();
@@ -134,6 +126,7 @@ public class MagicSpellItem extends Item implements IItemCategory, ICreativeTab{
 		return exp;
 	}
 
+	@Override
 	public int getLocalMaxExp() {
 		int maxLevel = getMaxExpLevel();
 		if(maxLevel <= 1) {
@@ -143,6 +136,7 @@ public class MagicSpellItem extends Item implements IItemCategory, ICreativeTab{
 		return getMaxExp() / (maxLevel - 1);
 	}
 
+	@Override
 	public float getLocalPercent(ItemStack stack) {
 		if(getMaxExpLevel() <= 1) {
 			return 1;

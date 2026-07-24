@@ -1053,25 +1053,25 @@ public class LanguageESES extends KKLanguageProvider {
         add("potion.desc.toone", "al miembro del grupo elegido");
 
         // Shotlocks
-        addItem(ModItems.ragnarokShotlock, "Tiro Certero de Ragnarok");
-        addItem(ModItems.darkVolleyShotlock, "Tiro Certero de Volea Umbría");
-        addItem(ModItems.prismRainShotlock, "Tiro Certero de Chorro Irisado");
-        addItem(ModItems.sonicShadowShotlock, "Tiro Certero de Sombra Sónica");
-        addItem(ModItems.ultimaCannonShotlock, "Tiro Certero de Cañón Artema");
-        addItem(ModItems.meteorShowerShotlock, "Tiro Certero de Lluvia Meteórica");
-        addItem(ModItems.multivortexShotlock, "Tiro Certero de Multivórtice");
-        addItem(ModItems.lightbloomShotlock, "Tiro Certero de Fogonazo");
-        addItem(ModItems.flameSalvoShotlock, "Tiro Certero de Salva Ígnea");
-        addItem(ModItems.absoluteZeroShotlock, "Tiro Certero de Cero Absoluto");
-        addItem(ModItems.thunderstormShotlock, "Tiro Certero de Tronada");
-        addItem(ModItems.chaosSnakeShotlock, "Tiro Certero de Súbito Caos");
-        addItem(ModItems.bubbleBlasterShotlock, "Tiro Certero de Tiro Burbuja");
-        addItem(ModItems.bioBarrageShotlock, "Tiro Certero de Biodescarga");
-        addItem(ModItems.pulseBombShotlock, "Tiro Certero de Bomba de Pulso");
-        addItem(ModItems.photonChargeShotlock, "Tiro Certero de Carga Fotónica");
-        addItem(ModItems.lightningRayShotlock, "Tiro Certero de Rayo Célere");
+        addItem(ModItems.ragnarokShotlock, "Ragnarok");
+        addItem(ModItems.darkVolleyShotlock, "Volea Umbría");
+        addItem(ModItems.prismRainShotlock, "Chorro Irisado");
+        addItem(ModItems.sonicShadowShotlock, "Sombra Sónica");
+        addItem(ModItems.ultimaCannonShotlock, "Cañón Artema");
+        addItem(ModItems.meteorShowerShotlock, "Lluvia Meteórica");
+        addItem(ModItems.multivortexShotlock, "Multivórtice");
+        addItem(ModItems.lightbloomShotlock, "Fogonazo");
+        addItem(ModItems.flameSalvoShotlock, "Salva Ígnea");
+        addItem(ModItems.absoluteZeroShotlock, "Cero Absoluto");
+        addItem(ModItems.thunderstormShotlock, "Tronada");
+        addItem(ModItems.chaosSnakeShotlock, "Súbito Caos");
+        addItem(ModItems.bubbleBlasterShotlock, "Tiro Burbuja");
+        addItem(ModItems.bioBarrageShotlock, "Biodescarga");
+        addItem(ModItems.pulseBombShotlock, "Bomba de Pulso");
+        addItem(ModItems.photonChargeShotlock, "Carga Fotónica");
+        addItem(ModItems.lightningRayShotlock, "Rayo Célere");
 
-        // Spell orbs
+º       // Spell orbs
         addItem(ModItems.fireSpell, "Hechizo de Piro");
         addItem(ModItems.blizzardSpell, "Hechizo de Hielo");
         addItem(ModItems.waterSpell, "Hechizo de Aqua");

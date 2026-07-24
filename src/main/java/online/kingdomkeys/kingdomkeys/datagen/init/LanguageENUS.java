@@ -2038,23 +2038,23 @@ public class LanguageENUS extends KKLanguageProvider {
         add("potion.desc.toone", "to the chosen party member");
 
         //Shotlocks
-        addItem(ModItems.ragnarokShotlock, "Ragnarok Shotlock");
-        addItem(ModItems.darkVolleyShotlock, "Dark Volley Shotlock");
-        addItem(ModItems.prismRainShotlock, "Prism Rain Shotlock");
-        addItem(ModItems.sonicShadowShotlock, "Sonic Shadow Shotlock");
-        addItem(ModItems.ultimaCannonShotlock, "Ultima Cannon Shotlock");
-        addItem(ModItems.meteorShowerShotlock, "Meteor Shower Shotlock");
-        addItem(ModItems.multivortexShotlock, "Multivortex Shotlock");
-        addItem(ModItems.lightbloomShotlock, "Lightbloom Shotlock");
-        addItem(ModItems.flameSalvoShotlock, "Flame Salvo Shotlock");
-        addItem(ModItems.absoluteZeroShotlock, "Absolute Zero Shotlock");
-        addItem(ModItems.thunderstormShotlock, "Thunderstorm Shotlock");
-        addItem(ModItems.chaosSnakeShotlock, "Chaos Snake Shotlock");
-        addItem(ModItems.bubbleBlasterShotlock, "Bubble Blaster Shotlock");
-        addItem(ModItems.bioBarrageShotlock, "Bio Barrage Shotlock");
-        addItem(ModItems.pulseBombShotlock, "Pulse Bomb Shotlock");
-        addItem(ModItems.photonChargeShotlock, "Photon Charge Shotlock");
-        addItem(ModItems.lightningRayShotlock, "Lightning Ray Shotlock");
+        addItem(ModItems.ragnarokShotlock, "Ragnarok");
+        addItem(ModItems.darkVolleyShotlock, "Dark Volley");
+        addItem(ModItems.prismRainShotlock, "Prism Rain");
+        addItem(ModItems.sonicShadowShotlock, "Sonic Shadow");
+        addItem(ModItems.ultimaCannonShotlock, "Ultima Cannon");
+        addItem(ModItems.meteorShowerShotlock, "Meteor Shower");
+        addItem(ModItems.multivortexShotlock, "Multivortex");
+        addItem(ModItems.lightbloomShotlock, "Lightbloom");
+        addItem(ModItems.flameSalvoShotlock, "Flame Salvo");
+        addItem(ModItems.absoluteZeroShotlock, "Absolute Zero");
+        addItem(ModItems.thunderstormShotlock, "Thunderstorm");
+        addItem(ModItems.chaosSnakeShotlock, "Chaos Snake");
+        addItem(ModItems.bubbleBlasterShotlock, "Bubble Blaster");
+        addItem(ModItems.bioBarrageShotlock, "Bio Barrage");
+        addItem(ModItems.pulseBombShotlock, "Pulse Bomb");
+        addItem(ModItems.photonChargeShotlock, "Photon Charge");
+        addItem(ModItems.lightningRayShotlock, "Lightning Ray");
 
         //Spell orbs
         addItem(ModItems.fireSpell, "Fire Spell");

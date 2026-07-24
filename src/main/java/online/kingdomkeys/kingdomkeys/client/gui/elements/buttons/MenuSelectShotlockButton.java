@@ -4,9 +4,11 @@ import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.client.sounds.SoundManager;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -14,6 +16,7 @@ import net.neoforged.neoforge.common.NeoForge;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.api.event.EquipmentEvent;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
+import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment.MenuShotlockSelectorScreen;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
@@ -27,7 +30,6 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 import java.awt.*;
 
 public class MenuSelectShotlockButton extends MenuButtonBase {
-
 	final ResourceLocation texture = KingdomKeys.rl("textures/gui/menu/menu_button.png");
 	public int slot;
 	public ItemStack stack;
@@ -119,26 +121,59 @@ public class MenuSelectShotlockButton extends MenuButtonBase {
 				}
 				matrixStack.popPose();
 			}
-			Lighting.setupForFlatItems();
+		}
+	}
 
-			float labelWidth = parent.width * 0.18F;
-			RenderSystem.setShaderColor(1, 1, 1, 1);
+	public void renderData(GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
+		Font fr = minecraft.font;
+		Shotlock shotlock = (stack == null || stack.isEmpty() || !(stack.getItem() instanceof ShotlockItem shotlockItem)) ? null : ModShotlocks.registry.get(shotlockItem.getShotlock());
+		PoseStack matrixStack = gui.pose();
+
+		if (isButtonRendered(mouseY) && (selected || isHovered) && shotlock != null) {
+			float iconPosX = parent.width * 0.565F;
+			float iconPosY = parent.height * 0.20F;
+			float iconHeight = parent.height * 0.3148F;
+			Lighting.setupForFlatItems();
 			matrixStack.pushPose();
 			{
-				RenderSystem.enableBlend();
-				RenderSystem.setShaderColor(col.getRed() / 255F, col.getGreen() / 255F, col.getBlue() / 255F, 1);
-				matrixStack.translate(getX() + width + 14, getY(), 0);
-				matrixStack.scale(0.5F, 0.5F, 1);
-
-				gui.blit(texture, 0, 0, 219, 34, 15, 28);
-				gui.blit(texture, 14, 0, (int) ((labelWidth * 2) - (17 + 14)), 28, 186, 34, 2, 28, 256, 256);
-				gui.blit(texture, (int) ((labelWidth * 2) - 17), 0, 186, 34, 17, 28);
+				matrixStack.translate(iconPosX, iconPosY, 0);
+				matrixStack.scale(0.0625F * iconHeight, 0.0625F * iconHeight, 1);
+				ClientUtils.drawItemAsIcon(stack, matrixStack, 0, 0, 16);
 			}
 			matrixStack.popPose();
-			String label = shotlock == null ? "N/A" : "Max: " + shotlock.getMaxLocks();
-			float centerX = (labelWidth / 2) - (minecraft.font.width(label) / 2);
-			gui.drawString(minecraft.font, label, (int) (getX() + width + centerX) + 14, getY() + 3, labelColour);
+
+			float strPosX = parent.boxR.getX() + 10;
+			float posY = parent.boxR.getY() + parent.boxR.getHeight() / 2F + 20;
+
+			Component maxLocksText = Component.translatable("gui.shotlockitem.max_locks", shotlock.getMaxLocks());
+			gui.drawString(fr, maxLocksText, (int) strPosX, (int) posY, 0xEEEE03);
+			posY += 20;
+
+			ShotlockItem shotlockItem = (ShotlockItem) stack.getItem();
+			if (shotlock.getMaxLevel() > 1) {
+				Component text;
+				if (shotlockItem.isMaxed(stack)) {
+					text = Component.translatable("gui.synthesis.exp").append(": MAX");
+				} else {
+					text = Component.translatable("gui.magicspell.exp_short", shotlockItem.getLocalExp(stack), shotlockItem.getLocalMaxExp());
+				}
+				gui.drawString(fr, text, (int) strPosX, (int) posY, 0xEEEE03);
+
+				text = Component.translatable("gui.magicspell.lvl_short", shotlockItem.getLocalLevel(stack));
+				gui.drawString(fr, text, (int) strPosX, (int) posY - 10, 0xEEEE03);
+
+				float percent = shotlockItem.getLocalPercent(stack);
+				int barWidth = (int) (parent.boxR.getWidth() * 0.8F);
+				int percentWidth = (int) (barWidth * percent);
+
+				gui.blit(texture, (int) strPosX, (int) posY + 10, barWidth, 5, 161, 67, 1, 5, 256, 256);
+				gui.blit(texture, (int) strPosX, (int) posY + 10, percentWidth, 5, 163, 67, 1, 5, 256, 256);
+			}
 		}
+	}
+
+	public boolean isButtonRendered(double mouseY) {
+		return mouseY >= parent.scrollBar.getY() && mouseY <= parent.scrollBar.getBottom() + 2;
 	}
 
 	@Override
