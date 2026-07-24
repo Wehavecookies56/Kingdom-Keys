@@ -47,8 +47,7 @@ public class LevelingDataDeserializer implements JsonDeserializer<LevelingData> 
 					case "maxhp" -> out.setMaxHp(level, element.getAsInt());
 					case "maxmp" -> out.setMaxMp(level, element.getAsInt());
 					case "abilities" -> out.setAbilities(level, toRLArray(element.getAsJsonArray()));
-					case "shotlocks" -> out.setShotlocks(level, toRLArray(element.getAsJsonArray()));
-					case "spells" -> out.setSpells(level, toRLArray(element.getAsJsonArray()));
+					case "items" -> out.setItems(level, toItemGrantArray(element.getAsJsonArray()));
 					case "max_accessories" -> out.setMaxAccessories(level, element.getAsInt());
 					case "max_armors" -> out.setMaxArmors(level, element.getAsInt());
 					case "max_magics" -> out.setMaxMagics(level, element.getAsInt());
@@ -63,6 +62,17 @@ public class LevelingDataDeserializer implements JsonDeserializer<LevelingData> 
 		ResourceLocation[] out = new ResourceLocation[array.size()];
 		for (int i = 0; i < array.size(); i++) {
 			out[i] = KingdomKeys.rl(array.get(i).getAsString());
+		}
+		return out;
+	}
+
+	private ItemGrant[] toItemGrantArray(JsonArray array) {
+		ItemGrant[] out = new ItemGrant[array.size()];
+		for (int i = 0; i < array.size(); i++) {
+			JsonObject entry = array.get(i).getAsJsonObject();
+			ResourceLocation item = KingdomKeys.rl(entry.get("item").getAsString());
+			int amount = entry.has("amount") ? entry.get("amount").getAsInt() : 1;
+			out[i] = new ItemGrant(item, amount);
 		}
 		return out;
 	}

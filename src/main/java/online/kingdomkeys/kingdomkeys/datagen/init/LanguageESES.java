@@ -1071,7 +1071,7 @@ public class LanguageESES extends KKLanguageProvider {
         addItem(ModItems.photonChargeShotlock, "Carga Fotónica");
         addItem(ModItems.lightningRayShotlock, "Rayo Célere");
 
-º       // Spell orbs
+        // Spell orbs
         addItem(ModItems.fireSpell, "Hechizo de Piro");
         addItem(ModItems.blizzardSpell, "Hechizo de Hielo");
         addItem(ModItems.waterSpell, "Hechizo de Aqua");

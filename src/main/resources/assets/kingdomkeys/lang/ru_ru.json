@@ -2420,7 +2420,7 @@
   "savepoint.maxed": "Скорость точки сохранения %s уже максимальна",
   "savepoint.upgrade": "Скорость точки сохранения %s теперь %s%%",
   "savepoint.upgrade_type": "Точка сохранения улучшена до {0}",
-  "shotlock.circular_shotlock.name": "Рагнарёк",
+  "shotlock.ragnarok.name": "Рагнарёк",
   "shotlock.dark_volley.name": "Тёмный залп",
   "shotlock.prism_rain.name": "Призматический дождь",
   "shotlock.sonic_shadow.name": "Звуковая тень",

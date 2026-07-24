@@ -73,13 +73,13 @@ public class LevelingBuilder {
 		return this;
 	}
 
-	public LevelingBuilder shotlocks(KKSupplier<?>... refs) {
-		addToArray("shotlocks", toRegistryNames(refs));
-		return this;
-	}
-
-	public LevelingBuilder spells(KKSupplier<?>... refs) {
-		addToArray("spells", toRegistryNames(refs));
+	public LevelingBuilder item(java.util.function.Supplier<? extends net.minecraft.world.item.Item> item, int amount) {
+		JsonArray array = current.has("items") ? current.getAsJsonArray("items") : new JsonArray();
+		JsonObject entry = new JsonObject();
+		entry.addProperty("item", net.minecraft.core.registries.BuiltInRegistries.ITEM.getKey(item.get()).toString());
+		entry.addProperty("amount", amount);
+		array.add(entry);
+		current.add("items", array);
 		return this;
 	}
 

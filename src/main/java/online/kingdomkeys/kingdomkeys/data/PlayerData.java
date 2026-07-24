@@ -47,8 +47,6 @@ import online.kingdomkeys.kingdomkeys.network.stc.SCShowOverlayPacket;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
 import online.kingdomkeys.kingdomkeys.reactioncommands.ModReactionCommands;
 import online.kingdomkeys.kingdomkeys.reactioncommands.ReactionCommand;
-import online.kingdomkeys.kingdomkeys.shotlock.ModShotlocks;
-import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.Recipe;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
 import online.kingdomkeys.kingdomkeys.util.Utils;
@@ -1227,14 +1225,6 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 	public void remMagicUses(ResourceLocation name, int uses) {
 		setMagicUses(name, getMagicUses(name) - uses);
 	}
-
-	public void notifyShotlockUnlocked(ResourceLocation shotlock) {
-		Shotlock shotlockInstance = ModShotlocks.registry.get(shotlock);
-		if (shotlockInstance != null) {
-			messages.add("S_" + shotlockInstance.getTranslationKey());
-		}
-	}
-
 
 	public void setMunny(int amount) {
 		this.munny = amount;

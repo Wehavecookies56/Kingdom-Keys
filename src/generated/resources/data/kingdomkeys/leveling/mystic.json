@@ -60,8 +60,11 @@
     },
     "11": {
       "str": 1,
-      "shotlocks": [
-        "kingdomkeys:circular_shotlock"
+      "items": [
+        {
+          "item": "kingdomkeys:shotlock_ragnarok",
+          "amount": 1
+        }
       ]
     },
     "12": {
@@ -94,8 +97,11 @@
       "abilities": [
         "kingdomkeys:ability_damage_drive"
       ],
-      "shotlocks": [
-        "kingdomkeys:meteor_shower"
+      "items": [
+        {
+          "item": "kingdomkeys:shotlock_meteor_shower",
+          "amount": 1
+        }
       ]
     },
     "16": {
@@ -136,8 +142,11 @@
         "kingdomkeys:ability_jackpot",
         "kingdomkeys:ability_grand_magic_extender"
       ],
-      "shotlocks": [
-        "kingdomkeys:chaos_snake"
+      "items": [
+        {
+          "item": "kingdomkeys:shotlock_chaos_snake",
+          "amount": 1
+        }
       ]
     },
     "21": {
@@ -177,8 +186,11 @@
       "abilities": [
         "kingdomkeys:ability_drive_boost"
       ],
-      "shotlocks": [
-        "kingdomkeys:pulse_bomb"
+      "items": [
+        {
+          "item": "kingdomkeys:shotlock_pulse_bomb",
+          "amount": 1
+        }
       ]
     },
     "26": {
@@ -210,8 +222,11 @@
       "abilities": [
         "kingdomkeys:ability_air_slide"
       ],
-      "shotlocks": [
-        "kingdomkeys:dark_volley"
+      "items": [
+        {
+          "item": "kingdomkeys:shotlock_dark_volley",
+          "amount": 1
+        }
       ]
     },
     "30": {
@@ -245,8 +260,11 @@
       "abilities": [
         "kingdomkeys:ability_strike_raid"
       ],
-      "shotlocks": [
-        "kingdomkeys:lightning_ray"
+      "items": [
+        {
+          "item": "kingdomkeys:shotlock_lightning_ray",
+          "amount": 1
+        }
       ]
     },
     "34": {
@@ -296,8 +314,11 @@
       "abilities": [
         "kingdomkeys:ability_leaf_bracer"
       ],
-      "shotlocks": [
-        "kingdomkeys:bubble_blaster"
+      "items": [
+        {
+          "item": "kingdomkeys:shotlock_bubble_blaster",
+          "amount": 1
+        }
       ]
     },
     "41": {
@@ -326,8 +347,11 @@
       "abilities": [
         "kingdomkeys:ability_air_slide"
       ],
-      "shotlocks": [
-        "kingdomkeys:flame_salvo"
+      "items": [
+        {
+          "item": "kingdomkeys:shotlock_flame_salvo",
+          "amount": 1
+        }
       ]
     },
     "46": {
@@ -362,8 +386,11 @@
       "abilities": [
         "kingdomkeys:ability_synch_blade"
       ],
-      "shotlocks": [
-        "kingdomkeys:photon_charge"
+      "items": [
+        {
+          "item": "kingdomkeys:shotlock_photon_charge",
+          "amount": 1
+        }
       ]
     },
     "51": {
@@ -403,8 +430,11 @@
     "58": {
       "def": 1,
       "mag": 1,
-      "shotlocks": [
-        "kingdomkeys:absolute_zero"
+      "items": [
+        {
+          "item": "kingdomkeys:shotlock_absolute_zero",
+          "amount": 1
+        }
       ]
     },
     "59": {
@@ -437,8 +467,11 @@
     "65": {
       "str": 1,
       "maxhp": 5,
-      "shotlocks": [
-        "kingdomkeys:sonic_shadow"
+      "items": [
+        {
+          "item": "kingdomkeys:shotlock_sonic_shadow",
+          "amount": 1
+        }
       ]
     },
     "66": {
@@ -459,8 +492,11 @@
     "69": {
       "str": 1,
       "ap": 1,
-      "shotlocks": [
-        "kingdomkeys:prism_rain"
+      "items": [
+        {
+          "item": "kingdomkeys:shotlock_prism_rain",
+          "amount": 1
+        }
       ]
     },
     "70": {
@@ -490,8 +526,11 @@
       "str": 1,
       "maxhp": 5,
       "ap": 1,
-      "shotlocks": [
-        "kingdomkeys:bio_barrage"
+      "items": [
+        {
+          "item": "kingdomkeys:shotlock_bio_barrage",
+          "amount": 1
+        }
       ]
     },
     "76": {
@@ -542,8 +581,11 @@
       "abilities": [
         "kingdomkeys:ability_finishing_plus"
       ],
-      "shotlocks": [
-        "kingdomkeys:thunderstorm"
+      "items": [
+        {
+          "item": "kingdomkeys:shotlock_thunderstorm",
+          "amount": 1
+        }
       ]
     },
     "86": {
@@ -600,10 +642,19 @@
     "98": {
       "def": 1,
       "mag": 1,
-      "shotlocks": [
-        "kingdomkeys:ultima_cannon",
-        "kingdomkeys:lightbloom",
-        "kingdomkeys:multivortex"
+      "items": [
+        {
+          "item": "kingdomkeys:shotlock_ultima_cannon",
+          "amount": 1
+        },
+        {
+          "item": "kingdomkeys:shotlock_lightbloom",
+          "amount": 1
+        },
+        {
+          "item": "kingdomkeys:shotlock_multivortex",
+          "amount": 1
+        }
       ]
     },
     "99": {

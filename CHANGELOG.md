@@ -26,6 +26,7 @@
   * Special Style: Ultima Cannon, Lightbloom, Multivortex.
 * Toggle Gummi Ship flight mode with pick block key (by default middle mouse click).
   * In that flight mode the ship follows the camera, similar to elytra.
+* Possibility to give items on player level up through datapack (and removed old shotlock and spell ones since they are items now).
 * Recipe to craft the dev heads.
 * Treasure chest block, this is a special type of chest that has no GUI and will give the player items when right-clicked, these are intended for Castle Oblivion room generation and cannot be created.
 * Calm Bounty, False Bounty, Guarded Trove map cards implemented.
@@ -36,6 +37,7 @@
 * Dropped cards will now bounce similar to how they do in Chain of Memories.
 
 ## Changed:
+* Shotlocks are now levelable items like magic spells, increasing their damage and lock speed.
 * Entry to Castle Oblivion is denied if you're on peaceful difficulty.
 * Stock now displays overflow instead of the player's inventory.
 * Regenerating rooms in Castle Oblivion clears all entities so it no longer leaves dropped items everywhere.

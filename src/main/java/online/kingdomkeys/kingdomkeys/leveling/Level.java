@@ -52,12 +52,8 @@ public class Level implements KKRegistryObject {
 		return data.getAbilities(level);
 	}
 
-	public ResourceLocation[] getShotlocks(int level) {
-		return data.getShotlocks(level);
-	}
-	
-	public ResourceLocation[] getSpells(int level) {
-		return data.getSpells(level);
+	public ItemGrant[] getItems(int level) {
+		return data.getItems(level);
 	}
 	
 	public int getMaxAccessories(int level) {

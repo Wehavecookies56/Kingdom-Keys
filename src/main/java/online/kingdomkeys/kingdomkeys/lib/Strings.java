@@ -144,7 +144,7 @@ public class Strings {
     // Shotlocks
        public static final String
        		DarkVolley = "dark_volley",
-       		Ragnarok = "circular_shotlock",
+       		Ragnarok = "ragnarok",
        		SonicShadow = "sonic_shadow",
        		PrismRain = "prism_rain",
 			UltimaCannon = "ultima_cannon",

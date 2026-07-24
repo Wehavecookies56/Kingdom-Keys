@@ -2211,7 +2211,7 @@
   "savepoint.upgrade": "Die %s-Wiederherstellungsrate beträgt nun %s%%",
   "savepoint.upgrade_type": "Speicherpunkt wurde zum {0} aufgewertet",
 
-  "shotlock.circular_shotlock.name": "Ragnarök",
+  "shotlock.ragnarok.name": "Ragnarök",
   "shotlock.dark_volley.name": "Düsterhagel",
   "shotlock.prism_rain.name": "Prismaregen",
   "shotlock.sonic_shadow.name": "Schallschatten", //Terra BBS First

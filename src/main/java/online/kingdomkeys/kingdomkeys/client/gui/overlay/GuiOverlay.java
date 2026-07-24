@@ -62,7 +62,7 @@ public class GuiOverlay extends OverlayBase {
 		public List<String> messages2 = new ArrayList<>();
 		public int color;
 	}
-	
+
 	@Override
 	public void render(GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
 		super.render(guiGraphics, deltaTracker);
@@ -145,7 +145,7 @@ public class GuiOverlay extends OverlayBase {
 		if (System.currentTimeMillis()/1000 > (timeMunny + 4))
 			showMunny = false;
 	}
-	
+
 	private void showLevelUp(GuiGraphics gui, DeltaTracker deltaTracker, int actual) {
 		final int LEVULUP_WIDTH = 155;
 
@@ -159,7 +159,7 @@ public class GuiOverlay extends OverlayBase {
 		String name = levelData.playerName;
 		int lvl = levelData.lvl;
 
-		PoseStack matrixStack = gui.pose();		
+		PoseStack matrixStack = gui.pose();
 		matrixStack.pushPose();
 		{
 			int totalSpace = 0;
@@ -169,7 +169,7 @@ public class GuiOverlay extends OverlayBase {
 				totalSpace += (int)(minecraft.font.lineHeight * 1.2f) * (levelUpList.get(i).messages1.size());
 				totalSpace += 18*0.6F;
 			}
-			
+
 			matrixStack.translate(0, totalSpace , 0);
 
 			float notifXPos = levelData.prevNotifTicks + (levelData.notifTicks - levelData.prevNotifTicks) * deltaTracker.getGameTimeDeltaPartialTick(true);
@@ -231,31 +231,37 @@ public class GuiOverlay extends OverlayBase {
 					message = message.replace("A_", "");
 					x += 13;
 				}
-				
+
 				if(message.startsWith("S_")) {
 					blit(gui, menuTexture, (int)x, (int)y-2, 100, 102, 12, 12);
 					message = message.replace("S_", "");
 					x += 13;
 				}
-				
+
 				if(message.startsWith("M_")) {
 					blit(gui, menuTexture, (int)x, (int)y-3, 87, 115, 12, 12);
 					message = message.replace("M_", "");
 					x += 13;
 				}
-				
+
 				if(message.startsWith("C_")) {
 					blit(gui, menuTexture, (int)x, (int)y-2, 87, 129, 12, 12);
 					message = message.replace("C_", "");
 					x += 13;
 				}
-				
+
 				if(message.startsWith("R_")) {
 					blit(gui, menuTexture, (int)x, (int)y-2, 101, 129, 12, 12);
 					message = message.replace("R_", "");
 					x += 13;
 				}
-				
+
+				if(message.startsWith("I_")) {
+					blit(gui, menuTexture, (int)x, (int)y-2, 101, 115, 12, 12);
+					message = message.replace("I_", "");
+					x += 13;
+				}
+
 				showText(matrixStack, Utils.translateToLocal(message), x, y, 0, 0.8f, 0.8f, 1, 0xFFFFFF);
 			}
 			RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
@@ -278,7 +284,7 @@ public class GuiOverlay extends OverlayBase {
 			float driveNotifXPos = prevDriveNotifTicks + (driveNotifTicks - prevDriveNotifTicks) * deltaTracker.getGameTimeDeltaPartialTick(true);
 			if(driveNotifXPos > LEVULUP_WIDTH)
 				driveNotifXPos = LEVULUP_WIDTH;
-			
+
 			matrixStack.translate(driveNotifXPos - LEVULUP_WIDTH, -90, 0);
 			int heightBase = (int) (minecraft.font.lineHeight * 1.1F) * driveLevelData.messages1.size();
 			int heightDF = (int) (minecraft.font.lineHeight * 1.1F) * driveLevelData.messages2.size();
@@ -297,10 +303,10 @@ public class GuiOverlay extends OverlayBase {
 					blit(gui, levelUpTexture, 0, 0, 0, 51, 256, 36);
 				}
 				matrixStack.popPose();
-				
+
 				RenderSystem.setShaderColor(1,1,1, 1F);
 				showText(matrixStack, minecraft.player.getGameProfile().getName(), 140 - (minecraft.font.width(minecraft.player.getGameProfile().getName()) * 0.75f), sHeight / 3 + 4, 0, 0.75f, 0.75f, 1, 0xFFFFFF);
-	
+
 				// Half
 				RenderSystem.setShaderColor(0.4F, 0.4F, 0.4F, 1F);
 				matrixStack.pushPose();
@@ -310,7 +316,7 @@ public class GuiOverlay extends OverlayBase {
 					blit(gui, levelUpTexture, 0, 0, 0, 51+36, 256, 1);
 				}
 				matrixStack.popPose();
-	
+
 				// Bottom
 				RenderSystem.setShaderColor(0.4F, 0.4F, 0.4F, 1F);
 				matrixStack.pushPose();
@@ -320,7 +326,7 @@ public class GuiOverlay extends OverlayBase {
 					blit(gui, levelUpTexture, 0, 0, 0, 51+37, 256, 14);
 				}
 				matrixStack.popPose();
-				
+
 				// Text
 				RenderSystem.setShaderColor(0.4F, 0.4F, 0.4F, 1F);
 				for (int i = 0; i < driveLevelData.messages1.size(); i++) {
@@ -336,7 +342,7 @@ public class GuiOverlay extends OverlayBase {
 
 					showText(matrixStack, Utils.translateToLocalFormatted(message), x, y, 0, 0.8f, 0.8f, 1, 0xFFFFFF);
 				}
-				
+
 				// Icon
 				RenderSystem.setShaderColor(0.8F, 0.8F, 0.8F, 1F);
 				matrixStack.pushPose();
@@ -349,7 +355,7 @@ public class GuiOverlay extends OverlayBase {
 
 			}
 			matrixStack.popPose();
-			
+
 //Form Abilities	
 			matrixStack.pushPose();
 			{
@@ -362,13 +368,13 @@ public class GuiOverlay extends OverlayBase {
 					blit(gui, levelUpTexture, 0, 0, 0, 51, 256, 36);
 				}
 				matrixStack.popPose();
-				
+
 				String formName = Utils.translateToLocal(ModDriveForms.registry.get(driveForm).getTranslationKey());
 				RenderSystem.setShaderColor(1,1,1, 1F);
 				showText(matrixStack, "LV.", 2 + (minecraft.font.width("LV. ") * 0.75f) + 20, sHeight / 3 + 29 + heightBase + 4, 0, 0.75f, 0.75f, 1, 0xE3D000);
 				showText(matrixStack, "" + playerData.getDriveFormLevel(driveForm), 2 * 0.75f + (minecraft.font.width("999") * 0.75f) + 32, sHeight / 3 + 29 + heightBase + 4, 0, 0.75f, 0.75f, 1, 0xFFFFFF);
 				showText(matrixStack, formName, 140 - (minecraft.font.width(formName) * 0.75f), sHeight / 3 + 29 + heightBase + 4, 0, 0.75f, 0.75f, 1, 0xFFFFFF);
-				
+
 				// Half
 				RenderSystem.setShaderColor(driveColor[0], driveColor[1], driveColor[2], 1F);
 				matrixStack.pushPose();
@@ -378,7 +384,7 @@ public class GuiOverlay extends OverlayBase {
 					blit(gui, levelUpTexture, 0, 0, 0, 51+36, 256, 1);
 				}
 				matrixStack.popPose();
-				
+
 				// Bottom
 				RenderSystem.setShaderColor(driveColor[0], driveColor[1], driveColor[2], 1F);
 				matrixStack.pushPose();
@@ -388,7 +394,7 @@ public class GuiOverlay extends OverlayBase {
 					blit(gui, levelUpTexture, 0, 0, 0, 51+37, 256, 14);
 				}
 				matrixStack.popPose();
-				
+
 				// Text
 				matrixStack.pushPose();
 				{
@@ -396,9 +402,9 @@ public class GuiOverlay extends OverlayBase {
 					RenderSystem.setShaderColor(driveColor[0], driveColor[1], driveColor[2], 1F);
 					for (int i = 0; i < driveLevelData.messages2.size(); i++) {
 						String message = driveLevelData.messages2.get(i);
-						
+
 						float x = 33;
-						float y = minecraft.font.lineHeight * 1.1F * i; 
+						float y = minecraft.font.lineHeight * 1.1F * i;
 						RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
 
 						if(message.startsWith("A_")) {
@@ -411,7 +417,7 @@ public class GuiOverlay extends OverlayBase {
 					RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
 				}
 				matrixStack.popPose();
-				
+
 				// Icon
 				RenderSystem.setShaderColor(driveColor[0], driveColor[1], driveColor[2], 1F);
 				matrixStack.pushPose();
@@ -427,7 +433,7 @@ public class GuiOverlay extends OverlayBase {
 		RenderSystem.setShaderColor(1,1,1,1);
 
 		matrixStack.popPose();
-		
+
 		if (System.currentTimeMillis()/1000 > (timeDriveLevelUp + levelSeconds))
 			showDriveLevelUp = false;
 
@@ -442,19 +448,19 @@ public class GuiOverlay extends OverlayBase {
 		}
 		matrixStack.popPose();
 	}
-	
+
 	public static float notifTicks = 0;
 	public static float prevNotifTicks = 0;
-	
+
 	public static float driveNotifTicks = 0;
 	public static float prevDriveNotifTicks = 0;
-	
+
 	@SubscribeEvent
 	public void ClientTick(ClientTickEvent.Post event) {
 		if(Minecraft.getInstance().isPaused()) {
 			return;
 		}
-		
+
 		for(LevelUpData notif : levelUpList) {
 			if(notif.sliding) {//If sliding in
 				notif.prevNotifTicks = notif.notifTicks;
@@ -466,7 +472,7 @@ public class GuiOverlay extends OverlayBase {
 				}
 			}
 		}
-		
+
 		if(showDriveLevelUp) {
 			prevDriveNotifTicks = driveNotifTicks;
 			driveNotifTicks += 50;

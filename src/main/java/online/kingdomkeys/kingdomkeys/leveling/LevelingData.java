@@ -2,8 +2,6 @@ package online.kingdomkeys.kingdomkeys.leveling;
 
 import net.minecraft.resources.ResourceLocation;
 
-import java.util.List;
-
 /**
  * Stores the data loaded from the leveling datapack
  */
@@ -15,32 +13,13 @@ public class LevelingData {
 	int[] maxhp = new int[101];
 	int[] maxmp = new int[101];
 	ResourceLocation[][] abilities = new ResourceLocation[101][5];
-	ResourceLocation[][] shotlocks = new ResourceLocation[101][5];
-	ResourceLocation[][] spells = new ResourceLocation[101][5];
+	ItemGrant[][] items = new ItemGrant[101][];
 	int[] maxAccessories = new int[101];
 	int[] maxArmors = new int[101];
 	int[] maxMagics = new int[101];
 	int version;
 
-	public LevelingData() {
-
-	}
-
-	public LevelingData(int ver, int level, int str, int mag, int def, int ap, int maxhp, int maxmp, List<ResourceLocation> abilities, List<ResourceLocation> shotlocks, List<ResourceLocation> spells, int maxAccessories, int maxArmors, int maxSpells) {
-		this.version = ver;
-		this.mag[level] = mag;
-		this.def[level] = def;
-		this.str[level] = str;
-		this.ap[level] = ap;
-		this.maxhp[level] = maxhp;
-		this.maxmp[level] = maxmp;
-		this.abilities[level] = (ResourceLocation[]) abilities.toArray();
-		this.shotlocks[level] = (ResourceLocation[]) shotlocks.toArray();
-		this.spells[level] = (ResourceLocation[]) spells.toArray();
-		this.maxAccessories[level] = maxAccessories;
-		this.maxArmors[level] = maxArmors;
-		this.maxMagics[level] = maxSpells;
-	}
+	public LevelingData() {}
 
 	public int getStr(int lvl) {
 		return str[lvl];
@@ -98,25 +77,18 @@ public class LevelingData {
 		this.abilities[lvl] = abilities;
 	}
 
-	public ResourceLocation[] getShotlocks(int lvl) {
-		return shotlocks[lvl];
+	public ItemGrant[] getItems(int lvl) {
+		return items[lvl] == null ? new ItemGrant[0] : items[lvl];
 	}
 
-	public void setShotlocks(int lvl, ResourceLocation[] shotlocks) {
-		this.shotlocks[lvl] = shotlocks;
+	public void setItems(int lvl, ItemGrant[] items) {
+		this.items[lvl] = items;
 	}
-	
-	public ResourceLocation[] getSpells(int lvl) {
-		return spells[lvl];
-	}
-	
-	public void setSpells(int lvl, ResourceLocation[] spells) {
-		this.spells[lvl] = spells;
-	}
+
 	public int getMaxAccessories(int lvl) {
 		return maxAccessories[lvl];
 	}
-	
+
 	public void setMaxAccessories(int lvl, int amount) {
 		this.maxAccessories[lvl] = amount;
 	}
