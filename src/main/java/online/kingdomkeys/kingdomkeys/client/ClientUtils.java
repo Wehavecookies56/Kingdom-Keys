@@ -657,7 +657,7 @@ public class ClientUtils {
             poseStack.translate(x - camPos.x, y - camPos.y + target.getBbHeight() * 0.5, z - camPos.z);
             poseStack.mulPose(mc.getEntityRenderDispatcher().cameraOrientation());
 
-            float size = 1.5F + shotlock.getCooldown() * 0.2F - ClientEvents.focusingAnEntityTicks * 0.2F;
+            float size = 1.5F + shotlock.getRealCooldown(mc.player) * 0.2F - ClientEvents.focusingAnEntityTicks * 0.2F;
             Matrix4f mat = poseStack.last().pose();
             drawTexturedModalRect2DPlane(mat, buffer.getBuffer(ULTIMATE_SHOTLOCK_INDICATOR), -size, -size, size, size, 0, 0, 256, 256);
         }
@@ -740,7 +740,7 @@ public class ClientUtils {
             poseStack.translate(x - camPos.x, y - camPos.y + target.getBbHeight() * 0.5, z - camPos.z);
             poseStack.mulPose(mc.getEntityRenderDispatcher().cameraOrientation());
 
-            float size = 1.5F + shotlock.getCooldown() * 0.2F - ClientEvents.focusingAnEntityTicks * 0.2F;
+            float size = 1.5F + shotlock.getRealCooldown(mc.player) * 0.2F - ClientEvents.focusingAnEntityTicks * 0.2F;
             Matrix4f mat = poseStack.last().pose();
             drawTexturedModalRect2DPlane(mat, buffer.getBuffer(AIRSTEP_INDICATOR), -size, -size, size, size, 0, 0, 256, 256);
         }

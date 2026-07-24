@@ -1,6 +1,10 @@
 {
   "cooldown": 5,
+  "cooldown_max": 3,
   "dmg_mult": 1.3,
+  "dmg_mult_max": 1.56,
   "element": "ice",
-  "max": 12
+  "max": 12,
+  "max_exp": 2400,
+  "max_level": 4
 }

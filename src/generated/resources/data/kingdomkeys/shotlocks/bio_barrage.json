@@ -1,5 +1,9 @@
 {
   "cooldown": 8,
+  "cooldown_max": 5,
   "dmg_mult": 2.0,
-  "max": 8
+  "dmg_mult_max": 2.4,
+  "max": 8,
+  "max_exp": 2400,
+  "max_level": 4
 }

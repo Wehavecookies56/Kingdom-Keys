@@ -935,6 +935,27 @@ public class ModItems {
 			slowSpell = ITEMS.register(Strings.SpellSlow, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Slow)));
 	//endregion
 
+	//region Shotlock items
+	public static final Supplier<Item>
+			darkVolleyShotlock = createNewItem(Strings.ShotlockItemDarkVolley, () -> new ShotlockItem(new Item.Properties(), KingdomKeys.rl(Strings.DarkVolley))),
+			ragnarokShotlock = createNewItem(Strings.ShotlockItemRagnarok, () -> new ShotlockItem(new Item.Properties(), KingdomKeys.rl(Strings.Ragnarok))),
+			sonicShadowShotlock = createNewItem(Strings.ShotlockItemSonicShadow, () -> new ShotlockItem(new Item.Properties(), KingdomKeys.rl(Strings.SonicShadow))),
+			prismRainShotlock = createNewItem(Strings.ShotlockItemPrismRain, () -> new ShotlockItem(new Item.Properties(), KingdomKeys.rl(Strings.PrismRain))),
+			ultimaCannonShotlock = createNewItem(Strings.ShotlockItemUltimaCannon, () -> new ShotlockItem(new Item.Properties(), KingdomKeys.rl(Strings.UltimaCannon))),
+			flameSalvoShotlock = createNewItem(Strings.ShotlockItemFlameSalvo, () -> new ShotlockItem(new Item.Properties(), KingdomKeys.rl(Strings.FlameSalvo))),
+			absoluteZeroShotlock = createNewItem(Strings.ShotlockItemAbsoluteZero, () -> new ShotlockItem(new Item.Properties(), KingdomKeys.rl(Strings.AbsoluteZero))),
+			thunderstormShotlock = createNewItem(Strings.ShotlockItemThunderstorm, () -> new ShotlockItem(new Item.Properties(), KingdomKeys.rl(Strings.Thunderstorm))),
+			chaosSnakeShotlock = createNewItem(Strings.ShotlockItemChaosSnake, () -> new ShotlockItem(new Item.Properties(), KingdomKeys.rl(Strings.ChaosSnake))),
+			bubbleBlasterShotlock = createNewItem(Strings.ShotlockItemBubbleBlaster, () -> new ShotlockItem(new Item.Properties(), KingdomKeys.rl(Strings.BubbleBlaster))),
+			bioBarrageShotlock = createNewItem(Strings.ShotlockItemBioBarrage, () -> new ShotlockItem(new Item.Properties(), KingdomKeys.rl(Strings.BioBarrage))),
+			pulseBombShotlock = createNewItem(Strings.ShotlockItemPulseBomb, () -> new ShotlockItem(new Item.Properties(), KingdomKeys.rl(Strings.PulseBomb))),
+			photonChargeShotlock = createNewItem(Strings.ShotlockItemPhotonCharge, () -> new ShotlockItem(new Item.Properties(), KingdomKeys.rl(Strings.PhotonCharge))),
+			lightningRayShotlock = createNewItem(Strings.ShotlockItemLightningRay, () -> new ShotlockItem(new Item.Properties(), KingdomKeys.rl(Strings.LightningRay))),
+			meteorShowerShotlock = createNewItem(Strings.ShotlockItemMeteorShower, () -> new ShotlockItem(new Item.Properties(), KingdomKeys.rl(Strings.MeteorShower))),
+			multivortexShotlock = createNewItem(Strings.ShotlockItemMultivortex, () -> new ShotlockItem(new Item.Properties(), KingdomKeys.rl(Strings.Multivortex))),
+			lightbloomShotlock = createNewItem(Strings.ShotlockItemLightbloom, () -> new ShotlockItem(new Item.Properties(), KingdomKeys.rl(Strings.Lightbloom)));
+	//endregion
+
 	//region Forms
 	public static final Supplier<Item>
 			valorOrb = createNewItem(Strings.LevelUpValor, () -> new DriveFormOrbItem(new Item.Properties(), KingdomKeys.rl(Strings.Form_Valor))),
@@ -1180,6 +1201,18 @@ public class ModItems {
 
 	private static Supplier<Item> createKeybladeArmorItem(String name, Holder<ArmorMaterial> material, ArmorItem.Type slot, String textureName) {
 		return ITEMS.register(name, () -> new KeybladeArmorItem(material, slot, textureName));
+	}
+
+	/** Finds the ShotlockItem linked to a given Shotlock, if one's registered - used when granting a
+	 * Shotlock item to a player (e.g. on level up) without needing a hand-maintained lookup table. */
+	public static Item getShotlockItem(net.minecraft.resources.ResourceLocation shotlock) {
+		for (var holder : ITEMS.getEntries()) {
+			Item item = holder.get();
+			if (item instanceof ShotlockItem shotlockItem && shotlockItem.getShotlock().equals(shotlock)) {
+				return item;
+			}
+		}
+		return null;
 	}
 
 }

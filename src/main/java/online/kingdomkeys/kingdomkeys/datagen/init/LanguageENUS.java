@@ -453,6 +453,8 @@ public class LanguageENUS extends KKLanguageProvider {
         add("gui.magicspell.exp","Experience: %s/%s");
         add("gui.magicspell.exp_short","Exp: %s/%s");
         add("gui.magicspell.lvl_short","Lv. %s");
+        add("gui.shotlockitem.equip","Equip in the menu to use it");
+        add("gui.shotlockitem.max_locks","Max Locks: %s");
 
         add("gui.driveformorb.tooltip", "Upgrades %s Form");
         add("gui.driveformorb.upgrade", "%s Form has obtained %s exp");
@@ -2034,6 +2036,25 @@ public class LanguageENUS extends KKLanguageProvider {
         add("potion.desc.beginning", "Will restore %s%s %s ");
         add("potion.desc.toall", "to all your party members in range");
         add("potion.desc.toone", "to the chosen party member");
+
+        //Shotlocks
+        addItem(ModItems.ragnarokShotlock, "Ragnarok Shotlock");
+        addItem(ModItems.darkVolleyShotlock, "Dark Volley Shotlock");
+        addItem(ModItems.prismRainShotlock, "Prism Rain Shotlock");
+        addItem(ModItems.sonicShadowShotlock, "Sonic Shadow Shotlock");
+        addItem(ModItems.ultimaCannonShotlock, "Ultima Cannon Shotlock");
+        addItem(ModItems.meteorShowerShotlock, "Meteor Shower Shotlock");
+        addItem(ModItems.multivortexShotlock, "Multivortex Shotlock");
+        addItem(ModItems.lightbloomShotlock, "Lightbloom Shotlock");
+        addItem(ModItems.flameSalvoShotlock, "Flame Salvo Shotlock");
+        addItem(ModItems.absoluteZeroShotlock, "Absolute Zero Shotlock");
+        addItem(ModItems.thunderstormShotlock, "Thunderstorm Shotlock");
+        addItem(ModItems.chaosSnakeShotlock, "Chaos Snake Shotlock");
+        addItem(ModItems.bubbleBlasterShotlock, "Bubble Blaster Shotlock");
+        addItem(ModItems.bioBarrageShotlock, "Bio Barrage Shotlock");
+        addItem(ModItems.pulseBombShotlock, "Pulse Bomb Shotlock");
+        addItem(ModItems.photonChargeShotlock, "Photon Charge Shotlock");
+        addItem(ModItems.lightningRayShotlock, "Lightning Ray Shotlock");
 
         //Spell orbs
         addItem(ModItems.fireSpell, "Fire Spell");

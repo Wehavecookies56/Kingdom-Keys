@@ -1069,6 +1069,28 @@ public class Utils {
 		}
 	}
 
+
+	public static void addShotlockExperience(Player player, int amount) {
+		PlayerData playerData = PlayerData.get(player);
+		if (playerData == null)
+			return;
+
+		ItemStack equipped = playerData.getEquippedShotlock();
+		if (equipped == null || equipped.isEmpty() || !(equipped.getItem() instanceof online.kingdomkeys.kingdomkeys.item.ShotlockItem shotlockItem))
+			return;
+
+		int oldLevel = shotlockItem.getLocalLevel(equipped);
+		shotlockItem.addExp(equipped, amount);
+
+		if (shotlockItem.getLocalLevel(equipped) != oldLevel) {
+			ArrayList<String> leveledShotlocks = new ArrayList<>();
+			leveledShotlocks.add("S_" + equipped.getHoverName().getString() + " " + Utils.translateToLocal("gui.magicspell.lvl_short", shotlockItem.isMaxed(equipped) ? "MAX" : shotlockItem.getLocalLevel(equipped)));
+
+			player.level().playSound(null, player.position().x(), player.position().y(), player.position().z(), ModSounds.levelup.get(), SoundSource.MASTER, 0.5f, 1.0f);
+			PacketHandler.sendTo(new SCShowOverlayPacket("levelup", player.getUUID(), player.getGameProfile().getName(), playerData.getLevel(), playerData.getNotifColor(), leveledShotlocks), (ServerPlayer) player);
+		}
+	}
+
 	public static final Map<ResourceKey<Biome>, Item> MEMORY_BY_BIOME = new HashMap<>();
 
 	public static Item getMemoryFromBiome(Holder<Biome> biome) {
@@ -1420,12 +1442,6 @@ public class Utils {
 	public static List<Limit> getSortedLimits(List<Limit> list) {
 		List<Limit> newList = new ArrayList<>(list);
 		newList.sort(Comparator.comparingInt(Limit::getOrder));
-		return newList;
-	}
-
-	public static List<ResourceLocation> getSortedShotlocks(List<ResourceLocation> list) {
-		List<ResourceLocation> newList = new ArrayList<>(list);
-		newList.sort((Comparator.comparingInt(a -> ModShotlocks.registry.get(a).getOrder())));
 		return newList;
 	}
 
@@ -1938,8 +1954,9 @@ public class Utils {
 
 	public static Shotlock getPlayerShotlock(Player player) {
 		PlayerData playerData = PlayerData.get(player);
-		if (playerData.getEquippedShotlock().isPresent()) {
-			return ModShotlocks.registry.get(playerData.getEquippedShotlock().get());
+		net.minecraft.world.item.ItemStack equipped = playerData.getEquippedShotlock();
+		if (equipped != null && equipped.getItem() instanceof online.kingdomkeys.kingdomkeys.item.ShotlockItem shotlockItem) {
+			return ModShotlocks.registry.get(shotlockItem.getShotlock());
 		} else {
 			return null;
 		}
@@ -2051,8 +2068,7 @@ public class Utils {
 		playerData.clearAbilities();
 		SoAState.applyStatsForChoices(player, playerData, false);
 
-		playerData.setEquippedShotlock(null);
-		playerData.getShotlockList().clear();
+		playerData.equipShotlock(net.minecraft.world.item.ItemStack.EMPTY);
 
 		// playerData.addAbility(Strings.zeroExp, false);
 	}
@@ -2079,10 +2095,6 @@ public class Utils {
 
 		playerData.getPAbilitiesList().forEach(a -> {
 			playerData.addAbility(a,false);
-		});
-
-		playerData.getPShotlocksList().forEach(s -> {
-			playerData.addShotlockToList(s,false);
 		});
 
 		player.heal(playerData.getMaxHP());

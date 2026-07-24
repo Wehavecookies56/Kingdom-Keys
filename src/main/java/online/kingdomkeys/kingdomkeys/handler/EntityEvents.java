@@ -1366,6 +1366,7 @@ public class EntityEvents {
 						}
 
 						Utils.addMagicExperience(player, clampedMagicXP);
+						Utils.addShotlockExperience(player, clampedMagicXP);
 						playerData.addExperience(player, clampedXP, true, true);
 						player.level().addFreshEntity(new XPEntity(mob.level(), player, mob, clampedXP));
 					}

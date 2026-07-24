@@ -48,12 +48,78 @@ public abstract class Shotlock implements KKRegistryObject {
 		return data.getCooldown();
 	}
 
+	/** Same idea as getRealDamageMult(...) - interpolates between the base cooldown and the fastest one
+	 * (data.getCooldownMin()) based on the equipped item's current level, so a leveled-up Shotlock
+	 * locks on faster. Falls back to the flat getCooldown() if this Shotlock doesn't level up. */
+	public int getRealCooldown(Player player) {
+		if (getMaxLevel() <= 1) {
+			return getCooldown();
+		}
+
+		online.kingdomkeys.kingdomkeys.data.PlayerData playerData = online.kingdomkeys.kingdomkeys.data.PlayerData.get(player);
+		net.minecraft.world.item.ItemStack equipped = playerData.getEquippedShotlock();
+
+		int localLevel = 1;
+		if (equipped != null && equipped.getItem() instanceof online.kingdomkeys.kingdomkeys.item.ShotlockItem shotlockItem && shotlockItem.getShotlock().equals(getRegistryName())) {
+			localLevel = shotlockItem.getLocalLevel(equipped);
+		}
+
+		float t = (float) (localLevel - 1) / (getMaxLevel() - 1);
+		int base = getCooldown();
+		int min = data.getCooldownMax();
+
+		return Math.max(1, Math.round(base + (min - base) * t));
+	}
+
 	public int getOrder() {
 		return order;
 	}
 
 	public int getMaxLocks() {
 		return data.getMax();
+	}
+
+	/** Total exp needed to go from level 1 to getMaxLevel(). */
+	public int getMaxExp() {
+		return data.getMaxExp();
+	}
+
+	/** How many levels this Shotlock's item can reach - 1 means it doesn't level up at all. */
+	public int getMaxLevel() {
+		return data.getMaxLevel();
+	}
+
+	public float getDamageMult() {
+		return data.getDmgMult();
+	}
+
+	public float getDamageMultMax() {
+		return data.getDmgMultMax();
+	}
+
+	/** Same idea as Magic.getRealDamageMult(...) - interpolates between getDamageMult() and
+	 * getDamageMultMax() based on the equipped item's current level, so a Shotlock that's been used
+	 * enough actually hits harder. Falls back to the flat getDamageMult() if this Shotlock doesn't
+	 * level up (getMaxLevel() <= 1), or if the player doesn't have this specific Shotlock equipped for
+	 * whatever reason. */
+	public float getRealDamageMult(Player player) {
+		if (getMaxLevel() <= 1) {
+			return getDamageMult();
+		}
+
+		online.kingdomkeys.kingdomkeys.data.PlayerData playerData = online.kingdomkeys.kingdomkeys.data.PlayerData.get(player);
+		net.minecraft.world.item.ItemStack equipped = playerData.getEquippedShotlock();
+
+		int localLevel = 1;
+		if (equipped != null && equipped.getItem() instanceof online.kingdomkeys.kingdomkeys.item.ShotlockItem shotlockItem && shotlockItem.getShotlock().equals(getRegistryName())) {
+			localLevel = shotlockItem.getLocalLevel(equipped);
+		}
+
+		float t = (float) (localLevel - 1) / (getMaxLevel() - 1);
+		float base = getDamageMult();
+		float max = getDamageMultMax();
+
+		return base + (max - base) * t;
 	}
 
 	/** Which KKDamageTypes entry this Shotlock deals, or null for the default generic/blended damage
@@ -78,7 +144,7 @@ public abstract class Shotlock implements KKRegistryObject {
 	}
 
 	public float getDamage(Player player){
-		return (DamageCalculation.getMagicDamage(player)*0.7F + DamageCalculation.getStrengthDamage(player)*0.3F) * (float) ModConfigs.shotlockMult * data.getDmgMult();
+		return (DamageCalculation.getMagicDamage(player)*0.7F + DamageCalculation.getStrengthDamage(player)*0.3F) * (float) ModConfigs.shotlockMult * getRealDamageMult(player);
 	}
 
 	public abstract void doPartialShotlock(Player player, List<Entity> targetList);

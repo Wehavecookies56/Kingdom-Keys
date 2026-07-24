@@ -38,6 +38,6 @@ public class ShotlockSonicBlade extends Shotlock {
 
 	@Override
 	public float getDamage(Player player) {
-		return (float) (DamageCalculation.getStrengthDamage(player) * ModConfigs.shotlockMult) * getShotlockData().getDmgMult();
+		return (float) (DamageCalculation.getStrengthDamage(player) * ModConfigs.shotlockMult) * getRealDamageMult(player);
 	}
 }

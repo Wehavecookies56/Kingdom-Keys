@@ -68,7 +68,16 @@ public class LevelStats {
             if (shotlock != null) {
                 Shotlock a = ModShotlocks.registry.get(shotlock);
                 if (a != null) {
-                    cap.addShotlockToList(shotlock, true);
+                    net.minecraft.world.item.Item shotlockItem = online.kingdomkeys.kingdomkeys.item.ModItems.getShotlockItem(shotlock);
+                    if (shotlockItem != null) {
+                        net.minecraft.world.item.ItemStack stack = new net.minecraft.world.item.ItemStack(shotlockItem);
+                        if (!player.getInventory().add(stack)) {
+                            player.drop(stack, false);
+                        }
+                        cap.notifyShotlockUnlocked(shotlock);
+                    } else {
+                        KingdomKeys.LOGGER.warn("No ShotlockItem registered for shotlock {}, player won't receive an item for it", shotlock);
+                    }
                 }
             }
         }

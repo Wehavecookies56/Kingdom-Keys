@@ -154,19 +154,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		}
 		storage.put("magic_casts", magics);
 
-		CompoundTag shotlocks = new CompoundTag();
-		for (ResourceLocation shotlock : this.getShotlockList()) {
-			shotlocks.putInt(shotlock.toString(), 0);
-		}
-		storage.put("shotlocks", shotlocks);
-
-		ListTag shList = new ListTag();
-		for (ResourceLocation s : this.getPShotlocksList()) {
-			shList.add(StringTag.valueOf(s.toString()));
-		}
-		storage.put("permanent_shotlocks", shList);
-
-		storage.putString("equipped_shotlock", this.getEquippedShotlock().map(ResourceLocation::toString).orElse(""));
+		storage.put("equipped_shotlock", this.getEquippedShotlock().saveOptional(provider));
 
         CompoundTag targetShotlocks = new CompoundTag();
         for (int i=0; i< this.getShotlockEnemies().size(); i++) {
@@ -397,27 +385,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 			}
 		}
 
-		shotlockList.clear();
-		for (String key : nbt.getCompound("shotlocks").getAllKeys()) {
-			ResourceLocation location = KingdomKeys.rl(key);
-			if (ModShotlocks.registry.containsKey(location)) {
-				this.getShotlockList().add(location);
-			}
-		}
-
-		pShotlocksList.clear();
-		ListTag shList = nbt.getList("permanent_shotlocks", Tag.TAG_STRING);
-		for (int i = 0; i < shList.size(); i++) {
-			String shotlockName = shList.getString(i);
-			ResourceLocation id = KingdomKeys.rl(shotlockName);
-			if (ModShotlocks.registry.containsKey(id)) {
-				pShotlocksList.add(id);
-			}
-		}
-
-		String shotlock = nbt.getString("equipped_shotlock");
-		ResourceLocation shotlockRL = !shotlock.isEmpty() ? KingdomKeys.rl(shotlock) : null;
-		this.setEquippedShotlock(shotlockRL);
+		this.equippedShotlock = ItemStack.parseOptional(provider, nbt.getCompound("equipped_shotlock"));
 
         shotlockEnemies.clear();
         int targetsSize = nbt.getCompound("target_shotlocks").getAllKeys().size();
@@ -583,7 +551,6 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 	private ResourceLocation driveForm = DriveForm.NONE;
 	LinkedHashMap<ResourceLocation, int[]> driveForms = new LinkedHashMap<>(); //Key = name, value=  {level, experience}
 	LinkedHashMap<ResourceLocation, Integer> magicCastMap = new LinkedHashMap<>(); //Key = name, value=  {level, uses_in_combo}
-	List<ResourceLocation> shotlockList = new ArrayList<>();
 	List<Utils.ShotlockPosition> shotlockEnemies = new ArrayList<>();
 	boolean hasShotMaxShotlock = false;
 	List<ResourceLocation> recipeList = new ArrayList<>();
@@ -592,10 +559,9 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 	private TreeMap<ResourceLocation, Integer> totalMaterials = new TreeMap<>();
 	LinkedHashMap<ResourceLocation, Integer> reactionMap = new LinkedHashMap<>();
 	List<ResourceLocation> pAbilitiesList = new ArrayList<>();
-	List<ResourceLocation> pShotlocksList = new ArrayList<>();
 
 	List<String> partyList = new ArrayList<>();
-	ResourceLocation equippedShotlock = null;
+	ItemStack equippedShotlock = ItemStack.EMPTY;
 
 	LinkedHashMap<Integer,Integer> shortcutsMap = new LinkedHashMap<>(); //Key = magic name, value=  {position, level}
 
@@ -1262,44 +1228,11 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		setMagicUses(name, getMagicUses(name) - uses);
 	}
 
-	public List<ResourceLocation> getShotlockList() {
-		return shotlockList;
-	}
-
-	public void setShotlockList(List<ResourceLocation> list) {
-		this.shotlockList = list;
-	}
-
-	public void addShotlockToList(ResourceLocation shotlock, boolean notification) {
-		Shotlock shotlockthis = ModShotlocks.registry.get(shotlock);
-		if(notification) {
-			messages.add("S_"+shotlockthis.getTranslationKey());
+	public void notifyShotlockUnlocked(ResourceLocation shotlock) {
+		Shotlock shotlockInstance = ModShotlocks.registry.get(shotlock);
+		if (shotlockInstance != null) {
+			messages.add("S_" + shotlockInstance.getTranslationKey());
 		}
-
-		if (!shotlockList.contains(shotlock)) {
-			shotlockList.add(shotlock);
-		}
-	}
-
-	public void removeShotlockFromList(ResourceLocation shotlock) {
-        shotlockList.remove(shotlock);
-	}
-
-	public void removePShotlockFromList(ResourceLocation shotlock) {
-		pShotlocksList.remove(shotlock);
-	}
-
-	public List<ResourceLocation> getPShotlocksList() {
-		return pShotlocksList;
-	}
-
-	public void setPShotlocksList(List<ResourceLocation> set) {
-		this.pShotlocksList = set;
-	}
-
-	public void addPShotlock(ResourceLocation shotlock) {
-		pShotlocksList.add(shotlock);
-		addShotlockToList(shotlock, false);
 	}
 
 
@@ -2274,12 +2207,26 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 
 	//region Shotlock, cast time, reaction commands
 
-	public Optional<ResourceLocation> getEquippedShotlock() {
-		return Optional.ofNullable(equippedShotlock);
+	public ItemStack getEquippedShotlock() {
+		return equippedShotlock;
 	}
 
-	public void setEquippedShotlock(ResourceLocation shotlock) {
-		this.equippedShotlock = shotlock;
+	public ItemStack equipShotlock(ItemStack stack) {
+		//Item can be empty stack to unequip
+		if (canEquipShotlock(stack)) {
+			ItemStack previous = getEquippedShotlock();
+			equippedShotlock = stack;
+			return previous;
+		}
+		return null;
+	}
+
+	public boolean canEquipShotlock(ItemStack stack) {
+		if (ItemStack.matches(stack, ItemStack.EMPTY) || stack.getItem() instanceof online.kingdomkeys.kingdomkeys.item.ShotlockItem) {
+			//If there is more than 1 item in the stack don't handle it
+			return stack.getCount() <= 1;
+		}
+		return false;
 	}
 
 	public void setMagicCasttimeTicks(int ticks) {
