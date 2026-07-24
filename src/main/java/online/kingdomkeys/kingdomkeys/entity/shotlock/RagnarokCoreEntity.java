@@ -4,7 +4,9 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
@@ -22,9 +24,19 @@ import java.util.UUID;
 public class RagnarokCoreEntity extends ThrowableProjectile {
 
 	int maxTicks = 100;
-	List<RagnarokShotEntity> list = new ArrayList<RagnarokShotEntity>();
-	List<Entity> targetList = new ArrayList<Entity>();
+	List<RagnarokShotEntity> list = new ArrayList<>();
+	List<Entity> targetList = new ArrayList<>();
 	float dmg;
+	private int shotColor = 16757273;
+	private ResourceKey<DamageType> element = null;
+
+	public void setShotColor(int color) {
+		this.shotColor = color;
+	}
+
+	public void setElement(ResourceKey<DamageType> element) {
+		this.element = element;
+	}
 
 	public RagnarokCoreEntity(EntityType<? extends ThrowableProjectile> type, Level world) {
 		super(type, world);
@@ -65,7 +77,8 @@ public class RagnarokCoreEntity extends ThrowableProjectile {
 					Entity target = getTargets().get(i);
 					if(target != null) {
 						RagnarokShotEntity bullet = new RagnarokShotEntity(level(), getCaster(), target, dmg);
-						bullet.setColor(16757273);
+						bullet.setColor(shotColor);
+						bullet.setElement(element);
 						float r = 0.3F;
 						double offset_amount = -1.5;
 						double alpha = Math.toRadians(getCaster().getYRot());

@@ -1412,7 +1412,7 @@ public class Utils {
 	}
 
 	public static List<Limit> getPlayerLimitAttacks(Player player) {
-		if(!ModConfigs.getServerConfig().allowAllOrgLimits.getAsBoolean())
+		if(ModConfigs.getServerConfig().allowAllOrgLimits.getAsBoolean())
 			return new ArrayList<>(ModLimits.registry.stream().toList());
 
 		return ModLimits.registry.stream().filter(limit -> limit.getOwner() == PlayerData.get(player).getAlignment()).collect(Collectors.toList());

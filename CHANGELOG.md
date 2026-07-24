@@ -1,9 +1,11 @@
 ## Added:
 * Struggle! Craft the board and play around with your friends! (Multiplayer only)
-  * Includes 3 modes, winner needs to either collect all the enemy orbs (and their own) in the match or end with the most orbs when the timer ends:
+  * Firstly you need to specify the corners of the arena, where the 1 vs 1 matches will use as spawn points.
+  * Includes 3 modes, the winner needs to either collect all the enemy orbs (and their own) in the match or end with the most orbs when the timer ends:
     * Duel: 1v1, can be repeated.
     * Tournament: Up to 8 players, bracket style tournament, if two players tie there's an overtime.
     * Free for All: Up to 8 players, all vs all.
+  * You can specify the amount of initial orbs and timer,
 * A bunch of limits:
   * Xaldin: Lance Storm and Fallen Spear.
   * Vexen: Icy Pillars.
@@ -16,6 +18,10 @@
   * Roxas: Light Barrage.
 * New ServerConfig option to limit Organization limit attacks to their member only.
 * A bunch of new advancements.
+* A bunch of new Shotlocks:
+  * Volley style: Meteor Shower, Flame Salvo, Chaos Snake. 
+  * Dashing style: Absolute Zero, Photon Charge, Lightning Ray. 
+  * Circular style: Bubble Blaster, Bio Barrage, Thunderstorm, Pulse Bomb.
 * Toggle Gummi Ship flight mode with pick block key (by default middle mouse click).
   * In that flight mode the ship follows the camera, similar to elytra.
 * Recipe to craft the dev heads.

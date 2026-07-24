@@ -65,6 +65,7 @@ import online.kingdomkeys.kingdomkeys.network.stc.*;
 import online.kingdomkeys.kingdomkeys.savepoint.ModSavePoints;
 import online.kingdomkeys.kingdomkeys.savepoint.SavePoint;
 import online.kingdomkeys.kingdomkeys.savepoint.SavePointData;
+import online.kingdomkeys.kingdomkeys.shotlock.ShotlockData;
 import online.kingdomkeys.kingdomkeys.sound.AeroSoundInstance;
 import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeData;
 import online.kingdomkeys.kingdomkeys.synthesis.melding.MeldingRegistry;
@@ -268,6 +269,25 @@ public class ClientPacketHandler {
                 continue;
             }
             limit.setLimitData(result);
+            IOUtils.closeQuietly(br);
+        }
+    }
+
+    public static void syncShotlockData(online.kingdomkeys.kingdomkeys.network.stc.SCSyncShotlockData message) {
+        for (int i = 0; i < message.names().size(); i++) {
+            online.kingdomkeys.kingdomkeys.shotlock.Shotlock shotlock = online.kingdomkeys.kingdomkeys.shotlock.ModShotlocks.registry.get(KingdomKeys.rl(message.names().get(i)));
+            String d = message.data().get(i);
+            BufferedReader br = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(d.getBytes())));
+
+            ShotlockData result;
+            try {
+                result = SCSyncShotlockData.GSON_BUILDER.fromJson(br, online.kingdomkeys.kingdomkeys.shotlock.ShotlockData.class);
+
+            } catch (JsonParseException e) {
+                KingdomKeys.LOGGER.error("Error parsing shotlock json file {}: {}", message.names().get(i), e);
+                continue;
+            }
+            shotlock.setShotlockData(result);
             IOUtils.closeQuietly(br);
         }
     }

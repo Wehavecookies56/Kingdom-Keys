@@ -764,10 +764,20 @@ public class LanguageESES extends KKLanguageProvider {
 
         //Shotlocks
         addShotlock(ModShotlocks.RAGNAROK, "Ragnarok");
-        addShotlock(ModShotlocks.DARK_VOLLEY, "Volea Umbr\u00eda");
+        addShotlock(ModShotlocks.DARK_VOLLEY, "Volea Umbría");
         addShotlock(ModShotlocks.PRISM_RAIN, "Chorro Irisado");
         addShotlock(ModShotlocks.SONIC_SHADOW, "Sombra Sónica");
         addShotlock(ModShotlocks.ULTIMA_CANNON, "Cañón Artema");
+        addShotlock(ModShotlocks.METEOR_SHOWER, "Lluvia Meteórica");
+        addShotlock(ModShotlocks.FLAME_SALVO, "Salva Ígnea");
+        addShotlock(ModShotlocks.ABSOLUTE_ZERO, "Cero Absoluto");
+        addShotlock(ModShotlocks.THUNDERSTORM, "Tronada");
+        addShotlock(ModShotlocks.CHAOS_SNAKE, "Súbito Caos");
+        addShotlock(ModShotlocks.BUBBLE_BLASTER, "Tiro Burbuja");
+        addShotlock(ModShotlocks.BIO_BARRAGE, "Biodescarga");
+        addShotlock(ModShotlocks.PULSE_BOMB, "Bomba de Pulso");
+        addShotlock(ModShotlocks.PHOTON_CHARGE, "Carga Fotónica");
+        addShotlock(ModShotlocks.LIGHTNING_RAY, "Rayo Célere");
 
         //Blox
         addBlock(ModBlocks.normalBlox, "Bloque Normal");

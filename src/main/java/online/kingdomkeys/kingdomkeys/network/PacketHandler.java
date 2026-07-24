@@ -50,6 +50,7 @@ public class PacketHandler {
 		client(SCSyncKeybladeData.TYPE, SCSyncKeybladeData.STREAM_CODEC);
 		client(SCSyncLevelingData.TYPE, SCSyncLevelingData.STREAM_CODEC);
 		client(SCSyncLimitData.TYPE, SCSyncLimitData.STREAM_CODEC);
+		client(SCSyncShotlockData.TYPE, SCSyncShotlockData.STREAM_CODEC);
 		client(SCSyncMagicData.TYPE, SCSyncMagicData.STREAM_CODEC);
 		client(SCSyncMoogleNames.TYPE, SCSyncMoogleNames.STREAM_CODEC);
 		client(SCSyncOrganizationData.TYPE, SCSyncOrganizationData.STREAM_CODEC);

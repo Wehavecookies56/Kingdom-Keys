@@ -23,9 +23,39 @@ import java.util.UUID;
 public class DarkVolleyCoreEntity extends ThrowableProjectile {
 
 	int maxTicks = 260;
-	List<VolleyShotEntity> list = new ArrayList<VolleyShotEntity>();
-	List<Entity> targetList = new ArrayList<Entity>();
+	List<VolleyShotEntity> list = new ArrayList<>();
+	List<Entity> targetList = new ArrayList<>();
 	float dmg;
+	private int shotColor = 4921675;
+	private net.minecraft.resources.ResourceKey<net.minecraft.world.damagesource.DamageType> element = null;
+	private boolean zigzag = false;
+	private boolean waterVisual = false;
+	private boolean applyPoison = false;
+	private boolean explodeOnHit = false;
+
+	public void setShotColor(int color) {
+		this.shotColor = color;
+	}
+
+	public void setElement(net.minecraft.resources.ResourceKey<net.minecraft.world.damagesource.DamageType> element) {
+		this.element = element;
+	}
+
+	public void setZigzag(boolean zigzag) {
+		this.zigzag = zigzag;
+	}
+
+	public void setWaterVisual(boolean waterVisual) {
+		this.waterVisual = waterVisual;
+	}
+
+	public void setApplyPoison(boolean applyPoison) {
+		this.applyPoison = applyPoison;
+	}
+
+	public void setExplodeOnHit(boolean explodeOnHit) {
+		this.explodeOnHit = explodeOnHit;
+	}
 
 	public DarkVolleyCoreEntity(EntityType<? extends ThrowableProjectile> type, Level world) {
 		super(type, world);
@@ -65,7 +95,12 @@ public class DarkVolleyCoreEntity extends ThrowableProjectile {
 				Entity target = getTargets().get(i++);
 				if(target != null) {
 					VolleyShotEntity bullet = new VolleyShotEntity(level(), getCaster(), target, dmg);
-					bullet.setColor(4921675);
+					bullet.setColor(shotColor);
+					bullet.setElement(element);
+					bullet.setZigzag(zigzag);
+					bullet.setWaterVisual(waterVisual);
+					bullet.setApplyPoison(applyPoison);
+					bullet.setExplodeOnHit(explodeOnHit);
 					bullet.setPos(Utils.randomWithRange(this.getX()-2, this.getX()+2), Utils.randomWithRange(this.getY()-2, this.getY()+2)+1F, Utils.randomWithRange(this.getZ()-2, this.getZ()+2));
 					bullet.setMaxTicks(maxTicks + 20);
 					//bullet.shoot(this.getPosX() - bullet.getPosX(), this.getPosY() - bullet.getPosY(), this.getPosZ() - bullet.getPosZ(), 0.001f, 0);

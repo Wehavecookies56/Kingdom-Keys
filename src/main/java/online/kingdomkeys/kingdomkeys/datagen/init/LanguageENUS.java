@@ -763,6 +763,16 @@ public class LanguageENUS extends KKLanguageProvider {
         addShotlock(ModShotlocks.PRISM_RAIN, "Prism Rain");
         addShotlock(ModShotlocks.SONIC_SHADOW, "Sonic Shadow");
         addShotlock(ModShotlocks.ULTIMA_CANNON, "Ultima Cannon");
+        addShotlock(ModShotlocks.METEOR_SHOWER, "Meteor Shower");
+        addShotlock(ModShotlocks.FLAME_SALVO, "Flame Salvo");
+        addShotlock(ModShotlocks.ABSOLUTE_ZERO, "Absolute Zero");
+        addShotlock(ModShotlocks.THUNDERSTORM, "Thunderstorm");
+        addShotlock(ModShotlocks.CHAOS_SNAKE, "Chaos Snake");
+        addShotlock(ModShotlocks.BUBBLE_BLASTER, "Bubble Blaster");
+        addShotlock(ModShotlocks.BIO_BARRAGE, "Bio Barrage");
+        addShotlock(ModShotlocks.PULSE_BOMB, "Pulse Bomb");
+        addShotlock(ModShotlocks.PHOTON_CHARGE, "Photon Charge");
+        addShotlock(ModShotlocks.LIGHTNING_RAY, "Lightning Ray");
 
         //Magic
         add(ModMagic.FIRE.get(), "Fire");

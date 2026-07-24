@@ -9,31 +9,35 @@ import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.entity.shotlock.SonicBladeCoreEntity;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 
+import java.awt.Color;
 import java.util.List;
 
-public class ShotlockSonicBlade extends Shotlock {
+public class ShotlockAbsoluteZero extends Shotlock {
 
-	public ShotlockSonicBlade(ResourceLocation registryName, int order) {
+	private static final Color TRAIL_COLOR = new Color(180, 225, 255);
+
+	public ShotlockAbsoluteZero(ResourceLocation registryName, int order) {
 		super(registryName, order);
 	}
 
 	@Override
 	public void onUse(Player player, List<Entity> targetList) {
-		player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.portal.get(), SoundSource.PLAYERS, 1F, 1F);
-		super.onUse(player,targetList);
+		player.level().playSound(null, player.position().x(), player.position().y(), player.position().z(), ModSounds.portal.get(), SoundSource.PLAYERS, 1F, 1.2F);
+		super.onUse(player, targetList);
 	}
 
 	@Override
 	public void doPartialShotlock(Player player, List<Entity> targetList) {
 		SonicBladeCoreEntity core = new SonicBladeCoreEntity(player.level(), player, targetList, getDamage(player));
 		core.setElement(getElement());
+		core.setParticleColor(TRAIL_COLOR);
 		core.setPos(player.getX(), player.getY(), player.getZ());
 		player.level().addFreshEntity(core);
 	}
 
 	@Override
 	public void doFullShotlock(Player player, List<Entity> targetList) {
-		doPartialShotlock(player,targetList);
+		doPartialShotlock(player, targetList);
 	}
 
 	@Override

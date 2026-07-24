@@ -8,8 +8,8 @@ import online.kingdomkeys.kingdomkeys.entity.shotlock.UltimaCannonShotEntity;
 import java.util.List;
 
 public class ShotlockUltimaCannon extends Shotlock {
-    public ShotlockUltimaCannon(ResourceLocation registryName, int order, int cooldown, int max) {
-        super(registryName, order, cooldown, max);
+    public ShotlockUltimaCannon(ResourceLocation registryName, int order) {
+        super(registryName, order);
     }
 
     @Override

@@ -6,6 +6,11 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageType;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -13,6 +18,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
+import online.kingdomkeys.kingdomkeys.damagesource.KKDamageTypes;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import org.joml.Vector3f;
 
@@ -27,6 +33,23 @@ public class SonicBladeCoreEntity extends ThrowableProjectile{
 	List<VolleyShotEntity> list = new ArrayList<>();
 	List<Entity> targetList = new ArrayList<>();
 	float dmg;
+	private ResourceKey<DamageType> element = null; // null = original generic damage - set to a KKDamageTypes entry for elemental reskins (e.g. Absolute Zero)
+	private Color particleColor = new Color(255,255,255);
+
+	public void setElement(ResourceKey<DamageType> element) {
+		this.element = element;
+	}
+
+	public void setParticleColor(Color color) {
+		this.particleColor = color;
+	}
+
+	private DamageSource buildDamageSource(LivingEntity target) {
+		if (element != null) {
+			return KKDamageTypes.getElementalDamage(element, this, getOwner());
+		}
+		return target.damageSources().thrown(this, getOwner());
+	}
 	
 	public SonicBladeCoreEntity(EntityType<? extends ThrowableProjectile> type, Level world) {
 		super(type, world);
@@ -78,9 +101,43 @@ public class SonicBladeCoreEntity extends ThrowableProjectile{
 			this.remove(RemovalReason.KILLED);
 		}
 		
-		if(tickCount > 1 && getOwner() != null) {
-			Color color = new Color(255,255,255);
-			level().addParticle(new DustParticleOptions(new Vector3f(color.getRed()/255F, color.getGreen()/255F, color.getBlue()/255F), 1F), getOwner().getX(), getOwner().getY()+1, getOwner().getZ(), 1,1,1);
+		if(tickCount > 1 && getOwner() != null && level() instanceof ServerLevel serverLevel) {
+			double ex = getOwner().getX();
+			double ey = getOwner().getY() + 1;
+			double ez = getOwner().getZ();
+			Color color = particleColor;
+
+			// Base color cloud, now with actual spread/count instead of one lonely particle a tick.
+			serverLevel.sendParticles(new DustParticleOptions(new Vector3f(color.getRed()/255F, color.getGreen()/255F, color.getBlue()/255F), 1.2F), ex, ey, ez, 5, 0.35, 0.5, 0.35, 0.02);
+
+			// An actual orbiting ring around the caster - matches BBS's own description of these as
+			// "dashing around surrounded by an elemental aura" instead of just a particle color swap.
+			double angleBase = Math.toRadians(tickCount * 25D);
+			for (int i = 0; i < 4; i++) {
+				double angle = angleBase + i * (Math.PI / 2D);
+				double ox = ex + Math.cos(angle) * 0.7D;
+				double oz = ez + Math.sin(angle) * 0.7D;
+
+				if (element != null && element.equals(KKDamageTypes.ICE)) {
+					serverLevel.sendParticles(net.minecraft.core.particles.ParticleTypes.SNOWFLAKE, ox, ey, oz, 2, 0.05, 0.15, 0.05, 0.01);
+				} else if (element != null && element.equals(KKDamageTypes.LIGHT)) {
+					serverLevel.sendParticles(net.minecraft.core.particles.ParticleTypes.END_ROD, ox, ey, oz, 2, 0.05, 0.1, 0.05, 0.01);
+				} else if (element != null && element.equals(KKDamageTypes.LIGHTNING)) {
+					serverLevel.sendParticles(net.minecraft.core.particles.ParticleTypes.ELECTRIC_SPARK, ox, ey, oz, 2, 0.05, 0.15, 0.05, 0.02);
+				} else if (element != null && element.equals(KKDamageTypes.DARKNESS)) {
+					serverLevel.sendParticles(net.minecraft.core.particles.ParticleTypes.SQUID_INK, ox, ey, oz, 1, 0.05, 0.1, 0.05, 0.005);
+					serverLevel.sendParticles(net.minecraft.core.particles.ParticleTypes.SMOKE, ox, ey, oz, 1, 0.05, 0.1, 0.05, 0.005);
+				}
+			}
+
+			// A little extra punctuation on top of the ring, unique per element.
+			if (element != null && element.equals(KKDamageTypes.ICE)) {
+				serverLevel.sendParticles(net.minecraft.core.particles.ParticleTypes.ITEM_SNOWBALL, ex, ey, ez, 3, 0.3, 0.3, 0.3, 0.02);
+			} else if (element != null && element.equals(KKDamageTypes.LIGHT)) {
+				serverLevel.sendParticles(net.minecraft.core.particles.ParticleTypes.FLASH, ex, ey, ez, 1, 0, 0, 0, 0);
+			} else if (element != null && element.equals(KKDamageTypes.LIGHTNING)) {
+				serverLevel.sendParticles(net.minecraft.core.particles.ParticleTypes.CRIT, ex, ey, ez, 4, 0.3, 0.4, 0.3, 0.05);
+			}
 		}
 		
 		if(tickCount % 4 == 0) {
@@ -90,7 +147,10 @@ public class SonicBladeCoreEntity extends ThrowableProjectile{
     		list.remove(getOwner());
     		
             for(LivingEntity enemy : list) {
-            	enemy.hurt(enemy.damageSources().thrown(this, this.getOwner()), dmg);
+            	enemy.hurt(buildDamageSource(enemy), dmg);
+            	if (element != null && element.equals(KKDamageTypes.ICE)) {
+            		enemy.addEffect(new MobEffectInstance(online.kingdomkeys.kingdomkeys.effects.ModMobEffects.FREEZE, 40, 50, false, true, true));
+				}
 			}
 
 		}

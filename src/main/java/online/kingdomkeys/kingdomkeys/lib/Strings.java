@@ -146,8 +146,18 @@ public class Strings {
        		Ragnarok = "circular_shotlock",
        		SonicShadow = "sonic_shadow",
        		PrismRain = "prism_rain",
-			UltimaCannon = "ultima_cannon";
-    
+			UltimaCannon = "ultima_cannon",
+		    MeteorShower = "meteor_shower",
+			FlameSalvo = "flame_salvo",
+			AbsoluteZero = "absolute_zero",
+			Thunderstorm = "thunderstorm",
+			ChaosSnake = "chaos_snake",
+			BubbleBlaster = "bubble_blaster",
+			BioBarrage = "bio_barrage",
+			PulseBomb = "pulse_bomb",
+			PhotonCharge = "photon_charge",
+			LightningRay = "lightning_ray";
+
     // Reaction Commands
        public static final String
        		autoValorRC = "rc_auto_valor",

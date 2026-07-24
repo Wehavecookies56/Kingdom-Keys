@@ -1,0 +1,6 @@
+{
+  "cooldown": 4,
+  "dmg_mult": 0.9,
+  "element": "lightning",
+  "max": 18
+}

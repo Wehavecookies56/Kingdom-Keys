@@ -1,6 +1,12 @@
 package online.kingdomkeys.kingdomkeys.entity.shotlock;
 
 import net.minecraft.core.particles.DustParticleOptions;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -8,13 +14,35 @@ import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.Vec3;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import org.joml.Vector3f;
 
 import java.awt.*;
 
 public class VolleyShotEntity extends BaseShotlockShotEntity {
-	
+	private boolean zigzag = false;
+	private boolean waterVisual = false;
+	private boolean applyPoison = false;
+	private boolean explodeOnHit = false;
+	private int zigzagPhase = 0;
+
+	public void setZigzag(boolean zigzag) {
+		this.zigzag = zigzag;
+	}
+
+	public void setWaterVisual(boolean waterVisual) {
+		this.waterVisual = waterVisual;
+	}
+
+	public void setApplyPoison(boolean applyPoison) {
+		this.applyPoison = applyPoison;
+	}
+
+	public void setExplodeOnHit(boolean explodeOnHit) {
+		this.explodeOnHit = explodeOnHit;
+	}
+
 	public VolleyShotEntity(EntityType<? extends ThrowableProjectile> type, Level world) {
 		super(type, world);
 		this.blocksBuilding = true;
@@ -33,6 +61,11 @@ public class VolleyShotEntity extends BaseShotlockShotEntity {
 		if(tickCount > 1) {
 			Color color = new Color(getColor());
 			level().addParticle(new DustParticleOptions(new Vector3f(color.getRed()/255F, color.getGreen()/255F, color.getBlue()/255F), 1F), getX(), getY(), getZ(), 1,1,1);
+
+			if (waterVisual && level() instanceof net.minecraft.server.level.ServerLevel serverLevel) {
+				serverLevel.sendParticles(ParticleTypes.SPLASH, getX(), getY(), getZ(), 4, 0.2, 0.2, 0.2, 0.05);
+				serverLevel.sendParticles(ParticleTypes.FALLING_WATER, getX(), getY(), getZ(), 2, 0.15, 0.15, 0.15, 0.01);
+			}
 		}
 		
 		if(tickCount % 10 == 0) {
@@ -40,12 +73,34 @@ public class VolleyShotEntity extends BaseShotlockShotEntity {
 		}
 		
 		super.tick();
+		applySpiralWobble();
 	}
 
 	private void updateMovement() {
 		if(getTarget() != null) {
 			if(getTarget().isAlive()) {
-				this.shoot(getTarget().getX() - this.getX(), (getTarget().getY() + (getTarget().getBbHeight() / 2.0F) - this.getBbHeight()) - getY() + 0.5, getTarget().getZ() - this.getZ(), 1, 0);
+				double dx = getTarget().getX() - this.getX();
+				double dy = (getTarget().getY() + (getTarget().getBbHeight() / 2.0F) - this.getBbHeight()) - getY() + 0.5;
+				double dz = getTarget().getZ() - this.getZ();
+
+				if (zigzag) {
+					// Adds a perpendicular offset that flips side each update, weaving toward the
+					// target instead of a straight/spiral line - it still ends up hitting the target,
+					// same as the wobble, just a much wider and more deliberate weave.
+					Vec3 dir = new Vec3(dx, dy, dz);
+					if (dir.lengthSqr() > 1E-6) {
+						dir = dir.normalize();
+						Vec3 upRef = Math.abs(dir.y) > 0.95 ? new Vec3(1, 0, 0) : new Vec3(0, 1, 0);
+						Vec3 side = dir.cross(upRef).normalize();
+						float sign = (zigzagPhase++ % 2 == 0) ? 1F : -1F;
+						Vec3 offset = side.scale(sign * 0.9D);
+						dx += offset.x;
+						dy += offset.y;
+						dz += offset.z;
+					}
+				}
+
+				this.shoot(dx, dy, dz, 1, 0);
 			} else {
 				if(getOwner() != null)
 					this.shootFromRotation(this, getOwner().getXRot(), getOwner().getYRot(), 0, 1, 0); // Work in progress
@@ -61,7 +116,17 @@ public class VolleyShotEntity extends BaseShotlockShotEntity {
 				if (ertResult.getEntity() instanceof LivingEntity target) {
                     if (target != getOwner()) {
 						target.invulnerableTime = 0;
-						target.hurt(target.damageSources().thrown(this, this.getOwner()), dmg);
+						target.hurt(buildDamageSource(target), dmg);
+
+						if (applyPoison) {
+							target.addEffect(new MobEffectInstance(MobEffects.POISON, 100, 0, false, true, true));
+						}
+
+						if (explodeOnHit && level() instanceof ServerLevel serverLevel) {
+							serverLevel.sendParticles(ParticleTypes.EXPLOSION, getX(), getY(), getZ(), 1, 0, 0, 0, 0);
+							level().playSound(null, blockPosition(), SoundEvents.GENERIC_EXPLODE.value(), SoundSource.PLAYERS, 0.6F, 1.3F);
+						}
+
 						super.remove(RemovalReason.KILLED);
 					}
 				}

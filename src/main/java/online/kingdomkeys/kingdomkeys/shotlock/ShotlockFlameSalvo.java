@@ -7,21 +7,25 @@ import online.kingdomkeys.kingdomkeys.entity.shotlock.RagnarokCoreEntity;
 
 import java.util.List;
 
-public class ShotlockRagnarok extends Shotlock {
+public class ShotlockFlameSalvo extends Shotlock {
 
-	public ShotlockRagnarok(ResourceLocation registryName, int order) {
+	private static final int SHOT_COLOR = 0xFF5A1E;
+
+	public ShotlockFlameSalvo(ResourceLocation registryName, int order) {
 		super(registryName, order);
 	}
 
 	@Override
 	public void doPartialShotlock(Player player, List<Entity> targetList) {
 		RagnarokCoreEntity core = new RagnarokCoreEntity(player.level(), player, targetList, getDamage(player));
+		core.setShotColor(SHOT_COLOR);
+		core.setElement(getElement());
 		core.setPos(player.getX(), player.getY(), player.getZ());
 		player.level().addFreshEntity(core);
 	}
 
 	@Override
 	public void doFullShotlock(Player player, List<Entity> targetList) {
-		doPartialShotlock(player,targetList);
+		doPartialShotlock(player, targetList);
 	}
 }
