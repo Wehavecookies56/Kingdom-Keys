@@ -25,18 +25,8 @@ import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
-/**
- * Zexion's Limit: a zone of pure darkness settles over an area - anyone caught inside keeps taking
- * darkness damage for as long as they stay in it, while meteors of shadow keep crashing down at random
- * points within the same radius. Purely visual/entity-based like the Pillars Limits - no real blocks
- * are ever placed, meteors are tracked internally and rendered with particles only.
- */
 public class IllusoryMeteorCoreEntity extends ThrowableProjectile {
 
 	private static final int DURATION_TICKS = 100; // ~5s total

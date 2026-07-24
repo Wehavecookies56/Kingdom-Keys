@@ -9,7 +9,7 @@ import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.entity.shotlock.SonicBladeCoreEntity;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 
-import java.awt.Color;
+import java.awt.*;
 import java.util.List;
 
 public class ShotlockAbsoluteZero extends Shotlock {

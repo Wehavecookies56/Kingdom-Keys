@@ -4,7 +4,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.Item;
-import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
 import java.util.function.Supplier;
 
