@@ -21,10 +21,14 @@ import org.joml.Vector3f;
 import java.awt.*;
 
 public class VolleyShotEntity extends BaseShotlockShotEntity {
+	private static final int RADIAL_RETARGET_DELAY_TICKS = 30; // ~1.5s before it starts homing in on the target
+	private static final double RADIAL_BURST_SPEED = 0.8D;
+
 	private boolean zigzag = false;
 	private boolean waterVisual = false;
 	private boolean applyPoison = false;
 	private boolean explodeOnHit = false;
+	private boolean radialBurst = false;
 	private int zigzagPhase = 0;
 
 	public void setZigzag(boolean zigzag) {
@@ -41,6 +45,10 @@ public class VolleyShotEntity extends BaseShotlockShotEntity {
 
 	public void setExplodeOnHit(boolean explodeOnHit) {
 		this.explodeOnHit = explodeOnHit;
+	}
+
+	public void setRadialBurst(boolean radialBurst) {
+		this.radialBurst = radialBurst;
 	}
 
 	public VolleyShotEntity(EntityType<? extends ThrowableProjectile> type, Level world) {
@@ -68,7 +76,20 @@ public class VolleyShotEntity extends BaseShotlockShotEntity {
 			}
 		}
 		
-		if(tickCount % 10 == 0) {
+		if(tickCount == 1 && radialBurst) {
+			// A random outward direction, mostly horizontal (a little vertical spread) so it reads as
+			// "bursting outward around the caster" rather than firing straight up/down half the time.
+			double angle = level().random.nextDouble() * 2 * Math.PI;
+			double upness = (level().random.nextDouble() - 0.3D) * 0.6D;
+			Vec3 dir = new Vec3(Math.cos(angle), upness, Math.sin(angle)).normalize();
+			this.setDeltaMovement(dir.scale(RADIAL_BURST_SPEED));
+		}
+
+		if (radialBurst) {
+			if (tickCount >= RADIAL_RETARGET_DELAY_TICKS && (tickCount - RADIAL_RETARGET_DELAY_TICKS) % 10 == 0) {
+				updateMovement();
+			}
+		} else if (tickCount % 10 == 0) {
 			updateMovement();
 		}
 		

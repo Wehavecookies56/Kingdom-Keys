@@ -32,6 +32,7 @@ public class DarkVolleyCoreEntity extends ThrowableProjectile {
 	private boolean waterVisual = false;
 	private boolean applyPoison = false;
 	private boolean explodeOnHit = false;
+	private boolean radialBurst = false;
 
 	public void setShotColor(int color) {
 		this.shotColor = color;
@@ -55,6 +56,10 @@ public class DarkVolleyCoreEntity extends ThrowableProjectile {
 
 	public void setExplodeOnHit(boolean explodeOnHit) {
 		this.explodeOnHit = explodeOnHit;
+	}
+
+	public void setRadialBurst(boolean radialBurst) {
+		this.radialBurst = radialBurst;
 	}
 
 	public DarkVolleyCoreEntity(EntityType<? extends ThrowableProjectile> type, Level world) {
@@ -101,6 +106,7 @@ public class DarkVolleyCoreEntity extends ThrowableProjectile {
 					bullet.setWaterVisual(waterVisual);
 					bullet.setApplyPoison(applyPoison);
 					bullet.setExplodeOnHit(explodeOnHit);
+					bullet.setRadialBurst(radialBurst);
 					bullet.setPos(Utils.randomWithRange(this.getX()-2, this.getX()+2), Utils.randomWithRange(this.getY()-2, this.getY()+2)+1F, Utils.randomWithRange(this.getZ()-2, this.getZ()+2));
 					bullet.setMaxTicks(maxTicks + 20);
 					//bullet.shoot(this.getPosX() - bullet.getPosX(), this.getPosY() - bullet.getPosY(), this.getPosZ() - bullet.getPosZ(), 0.001f, 0);

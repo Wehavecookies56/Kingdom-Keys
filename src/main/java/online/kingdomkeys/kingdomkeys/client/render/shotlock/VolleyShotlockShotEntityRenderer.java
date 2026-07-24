@@ -2,11 +2,14 @@ package online.kingdomkeys.kingdomkeys.client.render.shotlock;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemDisplayContext;
+import net.minecraft.world.item.ItemStack;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
@@ -29,6 +32,25 @@ public class VolleyShotlockShotEntityRenderer extends EntityRenderer<BaseShotloc
 
 	@Override
 	public void render(BaseShotlockShotEntity entity, float entityYaw, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn) {
+		ItemStack visualItem = entity.getVisualItem();
+		if (!visualItem.isEmpty()) {
+			matrixStackIn.pushPose();
+			{
+				matrixStackIn.translate(0, 0.05, 0);
+				matrixStackIn.mulPose(Axis.YP.rotationDegrees(entity.yRotO + (entity.getYRot() - entity.yRotO)));
+				matrixStackIn.mulPose(Axis.XN.rotationDegrees(entity.xRotO + (entity.getXRot() - entity.xRotO)));
+
+				float spin = (entity.tickCount + partialTicks) * 25F;
+				matrixStackIn.mulPose(Axis.ZP.rotationDegrees(spin));
+
+				// Full bright (0xF000F0) so it reads as genuinely glowing rather than just lit normally.
+				Minecraft.getInstance().getItemRenderer().renderStatic(visualItem, ItemDisplayContext.FIXED, 0xF000F0, OverlayTexture.NO_OVERLAY, matrixStackIn, bufferIn, entity.level(), entity.getId());
+			}
+			matrixStackIn.popPose();
+			super.render(entity, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
+			return;
+		}
+
 		matrixStackIn.pushPose();
     	{	
     		matrixStackIn.translate(0, 0.05, 0);

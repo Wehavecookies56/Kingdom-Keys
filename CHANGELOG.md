@@ -23,7 +23,7 @@
   * Volley style: Meteor Shower, Flame Salvo, Chaos Snake. 
   * Dashing style: Sonic Blade, Absolute Zero, Photon Charge, Lightning Ray. 
   * Circular style: Bubble Blaster, Bio Barrage, Thunderstorm, Pulse Bomb.
-  * Special Style: Ultima Cannon.
+  * Special Style: Ultima Cannon, Lightbloom, Multivortex.
 * Toggle Gummi Ship flight mode with pick block key (by default middle mouse click).
   * In that flight mode the ship follows the camera, similar to elytra.
 * Recipe to craft the dev heads.
@@ -42,6 +42,7 @@
 * Opening card packs will deposit the cards in the Cards bag if it has some space.
 * Recipes for Keyblade Forge level ups are now different for each Keyblade.
 * Slightly optimized some parts of the code.
+* Moved Portals command menu entry to the bottom for org, below Limits.
 * Updated Keyblade weapon to match new EFM declarations.
 * White Mushroom rewards are now data driven, by default the loot table is composed by orichalcum, orichalcum plus, illusory crystal, evanescent crystal, manifest illusion and lost illusion, and they drop from 1 up to 2 or 3 of one material.
 * Datagen'd Org limits, leveling paths, sell, shop and driveforms.

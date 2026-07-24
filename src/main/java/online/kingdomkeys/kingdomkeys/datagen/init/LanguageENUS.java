@@ -765,6 +765,8 @@ public class LanguageENUS extends KKLanguageProvider {
         addShotlock(ModShotlocks.SONIC_SHADOW, "Sonic Shadow");
         addShotlock(ModShotlocks.ULTIMA_CANNON, "Ultima Cannon");
         addShotlock(ModShotlocks.METEOR_SHOWER, "Meteor Shower");
+        addShotlock(ModShotlocks.MULTIVORTEX, "Multivortex");
+        addShotlock(ModShotlocks.LIGHTBLOOM, "Lightbloom");
         addShotlock(ModShotlocks.FLAME_SALVO, "Flame Salvo");
         addShotlock(ModShotlocks.ABSOLUTE_ZERO, "Absolute Zero");
         addShotlock(ModShotlocks.THUNDERSTORM, "Thunderstorm");

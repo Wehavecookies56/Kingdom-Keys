@@ -605,7 +605,9 @@
       "def": 1,
       "mag": 1,
       "shotlocks": [
-        "kingdomkeys:ultima_cannon"
+        "kingdomkeys:ultima_cannon",
+        "kingdomkeys:lightbloom",
+        "kingdomkeys:multivortex"
       ]
     },
     "99": {

@@ -11,6 +11,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.HitResult;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
@@ -29,6 +30,7 @@ public class RagnarokCoreEntity extends ThrowableProjectile {
 	float dmg;
 	private int shotColor = 16757273;
 	private ResourceKey<DamageType> element = null;
+	private ItemStack visualItem = ItemStack.EMPTY;
 
 	public void setShotColor(int color) {
 		this.shotColor = color;
@@ -36,6 +38,10 @@ public class RagnarokCoreEntity extends ThrowableProjectile {
 
 	public void setElement(ResourceKey<DamageType> element) {
 		this.element = element;
+	}
+
+	public void setVisualItem(ItemStack stack) {
+		this.visualItem = stack;
 	}
 
 	public RagnarokCoreEntity(EntityType<? extends ThrowableProjectile> type, Level world) {
@@ -79,6 +85,7 @@ public class RagnarokCoreEntity extends ThrowableProjectile {
 						RagnarokShotEntity bullet = new RagnarokShotEntity(level(), getCaster(), target, dmg);
 						bullet.setColor(shotColor);
 						bullet.setElement(element);
+						bullet.setVisualItem(visualItem);
 						float r = 0.3F;
 						double offset_amount = -1.5;
 						double alpha = Math.toRadians(getCaster().getYRot());

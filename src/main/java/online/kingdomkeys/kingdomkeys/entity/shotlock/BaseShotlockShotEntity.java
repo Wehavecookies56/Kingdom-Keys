@@ -16,6 +16,7 @@ import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.item.ItemStack;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.damagesource.KKDamageTypes;
@@ -63,12 +64,6 @@ public class BaseShotlockShotEntity extends ThrowableProjectile{
 		return this.entityData.get(INITIAL_PITCH);
 	}
 
-	/** super.tick() (the base projectile's own tick) recomputes yaw/pitch from the current velocity
-	 * every tick - while the shot is still sitting there with zero velocity (e.g. during a charge-up
-	 * phase before it starts homing), that resets the rotation back to the default (0,0 - facing
-	 * north) almost immediately, undoing the constructor's initial orientation. Call this right after
-	 * super.tick() for as long as it hasn't started actually moving yet, to keep facing the direction
-	 * it was created with until real movement takes over. */
 	protected void reassertInitialRotationIfStationary() {
 		if (getDeltaMovement().lengthSqr() < 1.0E-6) {
 			float yaw = getInitialYaw();
@@ -127,13 +122,13 @@ public class BaseShotlockShotEntity extends ThrowableProjectile{
 	protected void onHit(HitResult pResult) {
 		if(!level().isClientSide) {
 			if(getOwner() != null && getOwner() instanceof Player owner) {
-				PlayerData playerData = PlayerData.get(owner);
-				if(playerData != null) {
-					if(playerData.getNumberOfAbilitiesEquipped(ModAbilities.HP_GAIN) > 0) {
-						owner.heal(playerData.getNumberOfAbilitiesEquipped(ModAbilities.HP_GAIN)*2);
-					}
-				}
-			}
+	    		PlayerData playerData = PlayerData.get(owner);
+	    		if(playerData != null) {
+	    			if(playerData.getNumberOfAbilitiesEquipped(ModAbilities.HP_GAIN) > 0) {
+	    				owner.heal(playerData.getNumberOfAbilitiesEquipped(ModAbilities.HP_GAIN)*2);
+	    			}
+	    		}
+	    	}
 		}
 	}
 	@Override
@@ -159,6 +154,15 @@ public class BaseShotlockShotEntity extends ThrowableProjectile{
 	private static final EntityDataAccessor<Integer> COLOR = SynchedEntityData.defineId(BaseShotlockShotEntity.class, EntityDataSerializers.INT);
 
 	private static final EntityDataAccessor<String> ELEMENT = SynchedEntityData.defineId(BaseShotlockShotEntity.class, EntityDataSerializers.STRING);
+	private static final EntityDataAccessor<ItemStack> VISUAL_ITEM = SynchedEntityData.defineId(BaseShotlockShotEntity.class, EntityDataSerializers.ITEM_STACK);
+
+	public void setVisualItem(ItemStack stack) {
+		this.entityData.set(VISUAL_ITEM, stack == null ? ItemStack.EMPTY : stack);
+	}
+
+	public ItemStack getVisualItem() {
+		return this.entityData.get(VISUAL_ITEM);
+	}
 
 	public void setElement(ResourceKey<DamageType> element) {
 		this.entityData.set(ELEMENT, element == null ? "" : element.location().toString());
@@ -198,7 +202,7 @@ public class BaseShotlockShotEntity extends ThrowableProjectile{
 	public int getColor() {
 		return this.getEntityData().get(COLOR);
 	}
-
+	
 	public void setColor(int color) {
 		this.entityData.set(COLOR, color);
 	}
@@ -209,6 +213,7 @@ public class BaseShotlockShotEntity extends ThrowableProjectile{
 		pBuilder.define(TARGET, 0);
 		pBuilder.define(COLOR, 0);
 		pBuilder.define(ELEMENT, "");
+		pBuilder.define(VISUAL_ITEM, ItemStack.EMPTY);
 		pBuilder.define(INITIAL_YAW, 0F);
 		pBuilder.define(INITIAL_PITCH, 0F);
 	}

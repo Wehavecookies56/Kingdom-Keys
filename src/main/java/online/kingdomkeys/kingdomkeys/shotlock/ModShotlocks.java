@@ -29,7 +29,9 @@ public class ModShotlocks {
 		PULSE_BOMB = register(Strings.PulseBomb, () -> new ShotlockPulseBomb(KingdomKeys.rl(Strings.PulseBomb), order++)),
 		PHOTON_CHARGE = register(Strings.PhotonCharge, () -> new ShotlockPhotonCharge(KingdomKeys.rl(Strings.PhotonCharge), order++)),
 		LIGHTNING_RAY = register(Strings.LightningRay, () -> new ShotlockLightningRay(KingdomKeys.rl(Strings.LightningRay), order++)),
-		METEOR_SHOWER = register(Strings.MeteorShower, () -> new ShotlockMeteorShower(KingdomKeys.rl(Strings.MeteorShower), order++))
+		METEOR_SHOWER = register(Strings.MeteorShower, () -> new ShotlockMeteorShower(KingdomKeys.rl(Strings.MeteorShower), order++)),
+		MULTIVORTEX = register(Strings.Multivortex, () -> new ShotlockMultivortex(KingdomKeys.rl(Strings.Multivortex), order++)),
+		LIGHTBLOOM = register(Strings.Lightbloom, () -> new ShotlockLightbloom(KingdomKeys.rl(Strings.Lightbloom), order++))
 	;
 
 	private static KKSupplier<Shotlock> register(String name, Supplier<Shotlock> shotlockSupplier) {

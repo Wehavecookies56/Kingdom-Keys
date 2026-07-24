@@ -770,6 +770,8 @@ public class LanguageESES extends KKLanguageProvider {
         addShotlock(ModShotlocks.SONIC_SHADOW, "Sombra Sónica");
         addShotlock(ModShotlocks.ULTIMA_CANNON, "Cañón Artema");
         addShotlock(ModShotlocks.METEOR_SHOWER, "Lluvia Meteórica");
+        addShotlock(ModShotlocks.MULTIVORTEX, "Multivórtice");
+        addShotlock(ModShotlocks.LIGHTBLOOM, "Fogonazo");
         addShotlock(ModShotlocks.FLAME_SALVO, "Salva Ígnea");
         addShotlock(ModShotlocks.ABSOLUTE_ZERO, "Cero Absoluto");
         addShotlock(ModShotlocks.THUNDERSTORM, "Tronada");

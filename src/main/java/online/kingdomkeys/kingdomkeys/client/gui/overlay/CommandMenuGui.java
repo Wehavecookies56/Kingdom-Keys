@@ -97,7 +97,6 @@ public class CommandMenuGui extends OverlayBase {
 				})
 				.withChildren(
 						new CommandMenuItem.Builder(attack, Component.translatable(Strings.Gui_CommandMenu_Attack), opensSubmenu(attack)).onUpdate((item, guiGraphics) -> updateRootItem(item, attack, guiGraphics)).iconUV(30, 60).onCancel(item -> onCancel(item, null, guiGraphics)),
-						new CommandMenuItem.Builder(portals, Component.translatable(Strings.Gui_CommandMenu_Portal), opensSubmenu(portals)).invisibleByDefault().onUpdate((item, guiGraphics) -> updateRootItem(item, portals, guiGraphics)).iconUV(40, 60),
 						new CommandMenuItem.Builder(magic, Component.translatable(Strings.Gui_CommandMenu_Magic), opensSubmenu(magic)).onUpdate((item, guiGraphics) -> updateRootItem(item, magic, guiGraphics)).iconUV(20, 60),
 						new CommandMenuItem.Builder(items, Component.translatable(Strings.Gui_CommandMenu_Items), opensSubmenu(items)).onUpdate((item, guiGraphics) -> updateRootItem(item, items, guiGraphics)).iconUV(10, 60),
 						new CommandMenuItem.Builder(drive, Component.translatable(Strings.Gui_CommandMenu_Drive), opensSubmenu(drive)).onUpdate((item, guiGraphics) -> updateRootItem(item, drive, guiGraphics)).iconUV(0, 60),
@@ -119,8 +118,9 @@ public class CommandMenuGui extends OverlayBase {
 								}
 							}
 						}).iconUV(0, 60),
-						new CommandMenuItem.Builder(limit, Component.translatable(Strings.Gui_CommandMenu_Limit), opensSubmenu(limit)).invisibleByDefault().onUpdate((item, guiGraphics) -> updateRootItem(item, limit, guiGraphics)).iconUV(0, 60)
-				).build();
+						new CommandMenuItem.Builder(limit, Component.translatable(Strings.Gui_CommandMenu_Limit), opensSubmenu(limit)).invisibleByDefault().onUpdate((item, guiGraphics) -> updateRootItem(item, limit, guiGraphics)).iconUV(0, 60),
+						new CommandMenuItem.Builder(portals, Component.translatable(Strings.Gui_CommandMenu_Portal), opensSubmenu(portals)).invisibleByDefault().onUpdate((item, guiGraphics) -> updateRootItem(item, portals, guiGraphics)).iconUV(40, 60)
+						).build();
 		CommandMenuSubMenu attackSubmenu = new CommandMenuSubMenu.Builder(attack, Component.translatable(Strings.Gui_CommandMenu_Attack).withStyle(ClientUtils.KK_Font_EXP))
 				.colour(new Color(255, 0, 51))
 				.onUpdate(updatePhysical())

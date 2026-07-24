@@ -157,7 +157,9 @@ public class Strings {
 			PulseBomb = "pulse_bomb",
 			PhotonCharge = "photon_charge",
 			LightningRay = "lightning_ray",
-			MeteorShower = "meteor_shower";
+			MeteorShower = "meteor_shower",
+			Multivortex = "multivortex",
+			Lightbloom = "lightbloom";
     
     // Reaction Commands
        public static final String

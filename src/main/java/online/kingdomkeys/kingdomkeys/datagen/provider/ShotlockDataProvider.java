@@ -48,6 +48,12 @@ public class ShotlockDataProvider implements DataProvider {
 		// Meteor Shower (its own Volley-family thing, no direct sibling) - BBS Max Locks: 30, the highest of any Shotlock
 		shotlocks.put(Strings.MeteorShower, new ShotlockBuilder().cooldown(2).max(30).damageMultiplier(0.5F).build());
 
+		// Multivortex - Ragnarok family. "Six blades" was just flavor for how flashy it looks, not an
+		// actual lock limit - same baseline as Ragnarok/Prism Rain.
+		shotlocks.put(Strings.Multivortex, new ShotlockBuilder().cooldown(4).max(16).damageMultiplier(1.0F).element("light").build());
+		// Lightbloom - Volley family, thin light bolts
+		shotlocks.put(Strings.Lightbloom, new ShotlockBuilder().cooldown(4).max(15).damageMultiplier(1.1F).element("light").build());
+
 		// Not a family shotlock - untouched behavior-wise, kept at its original values.
 		shotlocks.put(Strings.UltimaCannon, new ShotlockBuilder().cooldown(40).max(1).damageMultiplier(1.0F).build());
 

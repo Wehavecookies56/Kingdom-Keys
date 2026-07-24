@@ -112,13 +112,19 @@ public abstract class DriveForm implements KKRegistryObject {
 	public Optional<ResourceLocation> getBaseAbilityForLevel(int driveFormLevel) {
 		if(driveFormLevel < 1)
 			return Optional.empty();
-		return Optional.of(data.getBaseAbilityForLevel(driveFormLevel-1)); //-1 so we don't have empty "" at the beginning of the file
+		ResourceLocation ability = data.getBaseAbilityForLevel(driveFormLevel - 1);
+		if(ability.getPath().isEmpty())
+			return Optional.empty();
+		return Optional.of(ability);
 	}
 
 	public Optional<ResourceLocation> getDFAbilityForLevel(int driveFormLevel) {
 		if(driveFormLevel < 1)
 			return Optional.empty();
-		return Optional.of(data.getDFAbilityForLevel(driveFormLevel-1));
+		ResourceLocation ability = data.getDFAbilityForLevel(driveFormLevel - 1);
+		if(ability.getPath().isEmpty())
+			return Optional.empty();
+		return Optional.of(ability);
 	}
 	
 	public int getLevelUpCost(int level) {

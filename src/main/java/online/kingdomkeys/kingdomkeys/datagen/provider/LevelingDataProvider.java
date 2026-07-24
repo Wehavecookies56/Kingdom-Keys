@@ -179,7 +179,7 @@ public class LevelingDataProvider implements DataProvider {
 			.level(95).str(1).maxHp(5)
 			.level(96).mag(1).maxMp(4).ap(1).abilities(ModAbilities.COMBO_PLUS)
 			.level(97).str(1)
-			.level(98).def(1).mag(1).shotlocks(ModShotlocks.ULTIMA_CANNON)
+			.level(98).def(1).mag(1).shotlocks(ModShotlocks.ULTIMA_CANNON, ModShotlocks.LIGHTBLOOM, ModShotlocks.MULTIVORTEX)
 			.level(99).str(1).ap(1)
 			.level(100).str(10).def(10).mag(10).maxHp(5).maxMp(4)
 			.build();
@@ -285,7 +285,7 @@ public class LevelingDataProvider implements DataProvider {
 			.level(95).str(1).maxHp(5)
 			.level(96).mag(1).maxMp(4).ap(1).abilities(ModAbilities.COMBO_PLUS)
 			.level(97).str(1)
-			.level(98).def(1).mag(1).shotlocks(ModShotlocks.ULTIMA_CANNON)
+			.level(98).def(1).mag(1).shotlocks(ModShotlocks.ULTIMA_CANNON, ModShotlocks.LIGHTBLOOM, ModShotlocks.MULTIVORTEX)
 			.level(99).str(1).ap(1).abilities(ModAbilities.LUCKY_STRIKE)
 			.level(100).str(10).def(10).mag(10).maxHp(5).maxMp(4)
 			.build();
@@ -391,7 +391,7 @@ public class LevelingDataProvider implements DataProvider {
 			.level(95).str(1).maxHp(5)
 			.level(96).mag(1).maxMp(4).ap(1).abilities(ModAbilities.COMBO_PLUS)
 			.level(97).str(1)
-			.level(98).def(1).mag(1).shotlocks(ModShotlocks.ULTIMA_CANNON)
+			.level(98).def(1).mag(1).shotlocks(ModShotlocks.ULTIMA_CANNON, ModShotlocks.LIGHTBLOOM, ModShotlocks.MULTIVORTEX)
 			.level(99).str(1).ap(1)
 			.level(100).str(10).def(10).mag(10).maxHp(5).maxMp(4)
 			.build();
