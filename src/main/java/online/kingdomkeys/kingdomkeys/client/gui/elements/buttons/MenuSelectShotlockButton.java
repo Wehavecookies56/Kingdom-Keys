@@ -26,11 +26,6 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.awt.*;
 
-/**
- * Same idea as MenuSelectMagicButton, but for the single Shotlock slot - picks an ItemStack (a
- * ShotlockItem) from an inventory slot and equips it, instead of picking a Shotlock directly from a
- * "known shotlocks" list.
- */
 public class MenuSelectShotlockButton extends MenuButtonBase {
 
 	final ResourceLocation texture = KingdomKeys.rl("textures/gui/menu/menu_button.png");

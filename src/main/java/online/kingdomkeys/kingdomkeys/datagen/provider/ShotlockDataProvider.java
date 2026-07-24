@@ -13,12 +13,6 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
-/**
- * Max Locks and Max Level below are the real BBS values (destinyislands.com/khwiki) - Max Level is now
- * used as-is for each Shotlock's own leveling cap, rather than the uniform "3" from before. cooldownMin
- * is the fastest lock-on speed once the item hits that max level (a flat 40% faster than the base
- * cooldown across the board, since BBS doesn't document actual lock speed in ticks).
- */
 public class ShotlockDataProvider implements DataProvider {
 
 	private final PackOutput.PathProvider pathProvider;

@@ -21,11 +21,6 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Same idea as MenuMagicSelectorScreen, but for the single Shotlock slot - lists ShotlockItems found in
- * the player's inventory instead of picking directly from a "known shotlocks" list, and there's no bag
- * support since Shotlocks don't have their own storage bag the way Magics do.
- */
 public class MenuShotlockSelectorScreen extends MenuBackground {
 
 	public MenuScrollBar scrollBar;

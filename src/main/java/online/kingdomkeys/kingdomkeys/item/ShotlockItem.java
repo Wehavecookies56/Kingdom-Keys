@@ -23,12 +23,6 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.util.List;
 
-/**
- * The item counterpart to a Shotlock, following the exact same pattern as MagicSpellItem - including
- * the exp/level tracking (a Shotlock's item can now level up in your inventory the same way a
- * MagicSpellItem does, making its real damage multiplier climb from Shotlock.getDamageMult() toward
- * Shotlock.getDamageMultMax() as it levels).
- */
 public class ShotlockItem extends Item implements IItemCategory, ICreativeTab {
 	ResourceLocation shotlock;
 

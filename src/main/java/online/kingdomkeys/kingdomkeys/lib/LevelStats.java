@@ -2,16 +2,18 @@ package online.kingdomkeys.kingdomkeys.lib;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
+import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.leveling.Level;
 import online.kingdomkeys.kingdomkeys.leveling.ModLevels;
 import online.kingdomkeys.kingdomkeys.shotlock.ModShotlocks;
 import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
 
-/** Mainly here just to reduce the size of {@link PlayerData} */
 public class LevelStats {
 
     public static void applyStatsForLevel(int level, Player player, PlayerData cap) {
@@ -68,9 +70,9 @@ public class LevelStats {
             if (shotlock != null) {
                 Shotlock a = ModShotlocks.registry.get(shotlock);
                 if (a != null) {
-                    net.minecraft.world.item.Item shotlockItem = online.kingdomkeys.kingdomkeys.item.ModItems.getShotlockItem(shotlock);
+                    Item shotlockItem = ModItems.getShotlockItem(shotlock);
                     if (shotlockItem != null) {
-                        net.minecraft.world.item.ItemStack stack = new net.minecraft.world.item.ItemStack(shotlockItem);
+                        ItemStack stack = new ItemStack(shotlockItem);
                         if (!player.getInventory().add(stack)) {
                             player.drop(stack, false);
                         }
@@ -81,22 +83,6 @@ public class LevelStats {
                 }
             }
         }
-
-       /* levelData.getSpells(level); // TODO spells
-        for (String magic : levelData.getSpells(level)) {
-            if (magic != null) {
-                Magic magicInstance = ModMagic.registry.get(KingdomKeys.rl(magic));
-                if (magicInstance != null) {
-                    if (cap != null && cap.getMagicsCastMap() != null) {
-                        if (!cap.getMagicsCastMap().containsKey(magic)) {
-                            cap.setMagicLevel(KingdomKeys.rl(magic), cap.getMagicLevel(KingdomKeys.rl(magic)), true);
-                        } else {
-                            cap.setMagicLevel(KingdomKeys.rl(magic), cap.getMagicLevel(KingdomKeys.rl(magic)) + 1, true);
-                        }
-                    }
-                }
-            }
-        }*/
 
         if (levelData.getMaxAccessories(level) > 0) {
 			cap.addMaxAccessories(levelData.getMaxAccessories(level));
