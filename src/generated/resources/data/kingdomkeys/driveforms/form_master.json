@@ -1,0 +1,42 @@
+{
+  "abilities": [
+    "kingdomkeys:ability_synch_blade",
+    "kingdomkeys:ability_treasure_magnet",
+    "kingdomkeys:ability_treasure_magnet",
+    "kingdomkeys:ability_mp_hastera"
+  ],
+  "ap": 1,
+  "base_levelup_abilities": [
+    "",
+    "kingdomkeys:ability_auto_master",
+    "kingdomkeys:ability_aerial_dodge",
+    "kingdomkeys:ability_superslide",
+    "kingdomkeys:ability_aerial_dodge",
+    "kingdomkeys:ability_superslide",
+    "kingdomkeys:ability_aerial_dodge"
+  ],
+  "can_go_anti": true,
+  "can_use_magic": true,
+  "cost": 400,
+  "driveform_levelup_abilities": [
+    "kingdomkeys:ability_aerial_dodge",
+    "",
+    "kingdomkeys:ability_aerial_dodge",
+    "",
+    "kingdomkeys:ability_aerial_dodge",
+    "",
+    "kingdomkeys:ability_aerial_dodge"
+  ],
+  "level_up": [
+    0,
+    60,
+    240,
+    456,
+    726,
+    1050,
+    1500
+  ],
+  "mag_mult": 1.2,
+  "speed_mult": 1.3,
+  "str_mult": 1.2
+}

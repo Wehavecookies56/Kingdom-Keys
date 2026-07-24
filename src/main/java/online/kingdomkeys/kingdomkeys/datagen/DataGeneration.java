@@ -13,12 +13,7 @@ import net.neoforged.neoforge.data.event.GatherDataEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.damagesource.KKDamageTypes;
 import online.kingdomkeys.kingdomkeys.datagen.init.*;
-import online.kingdomkeys.kingdomkeys.datagen.provider.BaseLootTableProvider;
-import online.kingdomkeys.kingdomkeys.datagen.provider.LimitDataProvider;
-import online.kingdomkeys.kingdomkeys.datagen.provider.LevelingDataProvider;
-import online.kingdomkeys.kingdomkeys.datagen.provider.ShotlockDataProvider;
-import online.kingdomkeys.kingdomkeys.datagen.provider.MagicDataProvider;
-import online.kingdomkeys.kingdomkeys.datagen.provider.ShopDataProvider;
+import online.kingdomkeys.kingdomkeys.datagen.provider.*;
 
 import java.util.List;
 import java.util.Set;
@@ -57,6 +52,8 @@ public class DataGeneration {
         generator.addProvider(event.includeServer(), new LevelingDataProvider(output));
         generator.addProvider(event.includeServer(), new ShotlockDataProvider(output));
         generator.addProvider(event.includeServer(), new ShopDataProvider(output));
+        generator.addProvider(event.includeServer(), new SellDataProvider(output));
+        generator.addProvider(event.includeServer(), new DriveFormDataProvider(output));
         generator.addProvider(event.includeServer(), new AdvancementProvider(output, event.getLookupProvider(), existingFileHelper, List.of(new AdvancementsGen())));
         generator.addProvider(event.includeClient(), new LanguageENUS(generator));
         generator.addProvider(event.includeClient(), new LanguageESES(generator));

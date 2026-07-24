@@ -1,0 +1,39 @@
+{
+  "abilities": [
+    "kingdomkeys:ability_synch_blade"
+  ],
+  "ap": 1,
+  "base_levelup_abilities": [
+    "",
+    "kingdomkeys:ability_auto_valor",
+    "kingdomkeys:ability_high_jump",
+    "kingdomkeys:ability_superjump",
+    "kingdomkeys:ability_high_jump",
+    "kingdomkeys:ability_superjump",
+    "kingdomkeys:ability_high_jump"
+  ],
+  "can_go_anti": true,
+  "can_use_magic": false,
+  "cost": 300,
+  "driveform_levelup_abilities": [
+    "kingdomkeys:ability_high_jump",
+    "",
+    "kingdomkeys:ability_high_jump",
+    "",
+    "kingdomkeys:ability_high_jump",
+    "",
+    "kingdomkeys:ability_high_jump"
+  ],
+  "level_up": [
+    0,
+    80,
+    240,
+    520,
+    968,
+    1528,
+    2200
+  ],
+  "mag_mult": 1.0,
+  "speed_mult": 1.4,
+  "str_mult": 1.2
+}

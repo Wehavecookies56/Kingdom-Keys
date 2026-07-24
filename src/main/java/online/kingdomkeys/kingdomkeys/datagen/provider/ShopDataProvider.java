@@ -6,10 +6,13 @@ import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataProvider;
 import net.minecraft.data.PackOutput;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.datagen.builder.ShopBuilder;
+import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 
 import java.nio.file.Path;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
@@ -80,7 +83,7 @@ public class ShopDataProvider implements DataProvider {
 		defaultShop.add(shop(Strings.SM_Electrum, 1, 5, 1200, 20, "all"));
 		defaultShop.add(shop(Strings.SM_EvanescentCrystal, 1, 5, 1800, 15, "all"));
 		defaultShop.add(shop(Strings.SM_IllusoryCrystal, 1, 5, 1800, 15, "all"));
-		
+
 		// Consumables
 		defaultShop.add(shop(Strings.potion, 1, 1, 200));
 		defaultShop.add(shop(Strings.hiPotion, 1, 2, 400));
@@ -218,6 +221,10 @@ public class ShopDataProvider implements DataProvider {
 		defaultShop.add(shop(Strings.RandomCardPack, 1, 1, 3200));
 
 		shops.put("default", defaultShop);
+		shops.put("cards", buildCardsShop());
+		shops.put("special", buildSpecialShop());
+		shops.put("names/default", buildDefaultNames());
+		shops.put("names/special", buildSpecialNames());
 
 		CompletableFuture<?>[] futures = shops.entrySet().stream().map(entry -> {
 			Path path = pathProvider.json(KingdomKeys.rl(entry.getKey()));
@@ -254,4 +261,53 @@ public class ShopDataProvider implements DataProvider {
 		obj.addProperty("condition", condition);
 		return obj;
 	}
+
+	private static JsonArray buildDefaultNames() {
+		JsonArray array = new JsonArray();
+		List.of(
+				"Artemicion", "Elmina", "Good King Moggle Mog XII", "Gumo", "Gurdy", "Horne",
+				"Hurdy", "Kumop", "Kupatete", "Kupcha Kupa", "Kupdi Koop", "Kupele",
+				"Kupeliont", "Kupert", "Kupignol", "Kupignot", "Kupilfin", "Kupirate",
+				"Kupiruru", "Kupivolo", "Kupka Kopp", "Kupka Kupp", "Kupli Kipp", "Kupli Kuki",
+				"Kuplo Kopp", "Kuplu Kopo", "Kupni Kapp", "Kupo", "Kupofried", "Kupold",
+				"Kupqu Kogi", "Kupta Kapa", "Kupuckl", "Mog", "Mogaga", "Mogbo",
+				"Mogcha", "Mogcid", "Mogek", "Mogella", "Mogeuge", "Mogga",
+				"Moggel", "Moggie", "Moggiza", "Moghan", "Mogiosh", "Mogjiro",
+				"Mogkon", "Mogkul", "Moglen", "Mogleo", "Moglin", "Mogloo",
+				"Mogmill", "Mogmont", "Mogmug", "Mogmul Mogbelly", "Mogmum", "Mogmune",
+				"Mognay", "Mognell", "Mogok", "Mogomo", "Mogoon", "Mogoosh",
+				"Mogoot", "Mogpep", "Mogpo the Magnificent", "Mogret", "Mogric", "Mogroe",
+				"Mogsby", "Mogson", "Mogsy", "Mogta", "Mogtaro", "Mogtha",
+				"Mogtillo", "Mogtoe", "Moguire", "Mogukk", "Mogule", "Mogupp",
+				"Moguppo", "Mogwin", "Mogwon", "Mogzin", "Mogzun", "Mojito",
+				"Monsieur Kupont", "Montblanc", "Monty", "Moony", "Morlock", "Mosh",
+				"Nektar", "Nono", "Nutsy", "Pukla Puki", "Pukna Pako", "Pukni Pakk",
+				"Pukno Poki", "Puksi Piko", "Pukty Piko", "Pukwa Pika", "Riko Kupenreich", "Sorbet",
+				"Stiltzkin", "The Great Kupellion", "Toto Kupeliaure"
+		).forEach(array::add);
+		return array;
+	}
+
+	private static JsonArray buildSpecialNames() {
+		JsonArray array = new JsonArray();
+		List.of("Mogstelle CXI", "Kupabel CXII", "Kupthan CXIII", "Mogwynd CXIV", "Mogxeph CXV").forEach(array::add);
+		return array;
+	}
+
+	private static JsonArray buildCardsShop() {
+		return new ShopBuilder()
+				.names("kingdomkeys:default")
+				.item(ModItems.redCardPack, 1, 1, 2500)
+				.item(ModItems.greenCardPack, 1, 1, 2500)
+				.item(ModItems.blueCardPack, 1, 1, 2500)
+				.item(ModItems.randomCardPack, 1, 1, 2200).build();
+	}
+
+	private static JsonArray buildSpecialShop() {
+		return new ShopBuilder()
+				.names("kingdomkeys:special")
+				.item(ModItems.k111c, 1, 1, 10111)
+				.item(ModItems.retributionChain, 1, 1, 9001).build();
+	}
+
 }
