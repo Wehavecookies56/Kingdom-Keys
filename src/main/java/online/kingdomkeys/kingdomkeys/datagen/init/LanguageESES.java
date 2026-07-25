@@ -2410,6 +2410,7 @@ public class LanguageESES extends KKLanguageProvider {
         add("kingdomkeys.struggle.go", "¡YA!");
         add("kingdomkeys.struggle.win", "¡Has ganado!");
         add("kingdomkeys.struggle.lose", "Has perdido");
+        add("kingdomkeys.struggle.chat.winner", "[Struggle] ¡El ganador del %2$s de %1$s es %3$s!");
         add("kingdomkeys.struggle.tournament.bye", "¡Pasas de ronda sin combatir!");
         add("kingdomkeys.struggle.tournament.champion", "Campeón del torneo:");
         add("kingdomkeys.struggle.tournament.round_winner", "Gana la ronda:");

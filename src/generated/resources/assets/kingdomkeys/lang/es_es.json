@@ -2505,6 +2505,7 @@
   "kingdomkeys.configuration.synthesis": "Ajustes de síntesis",
   "kingdomkeys.helmet": "Casco",
   "kingdomkeys.leggings": "Grebas",
+  "kingdomkeys.struggle.chat.winner": "[Struggle] ¡El ganador del %2$s de %1$s es %3$s!",
   "kingdomkeys.struggle.draw": "¡Empate!",
   "kingdomkeys.struggle.ffa.starting": "¡Empieza el todos contra todos...!",
   "kingdomkeys.struggle.go": "¡YA!",

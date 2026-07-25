@@ -1,6 +1,7 @@
 package online.kingdomkeys.kingdomkeys.world;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -16,6 +17,7 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.block.StruggleBoardBlock;
 import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.entity.drops.StruggleOrbEntity;
+import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.lib.Struggle;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCCloseScreen;
@@ -523,7 +525,9 @@ public class StruggleHandler {
 
 		despawnOrbs(server.overworld(), struggle);
 
-		if (struggle.getMode() == Struggle.Mode.TOURNAMENT) {
+		if (struggle.getMode() != Struggle.Mode.TOURNAMENT) {
+			announceWinner(server, struggle, winner.getUsername());
+		} else {
 			handleTournamentAdvance(server, worldData, struggle, winner, combatants);
 		}
 
@@ -531,11 +535,6 @@ public class StruggleHandler {
 		PacketHandler.sendToAll(new SCSyncWorldData(server));
 	}
 
-	/**
-	 * Removes any leftover orbs from this match so they don't linger around after the fight (or get
-	 * picked up outside of combat). Scoped to a generous area around the arena rather than the whole
-	 * level, both for performance and because orbs only ever spawn there in the first place.
-	 */
 	private void despawnOrbs(ServerLevel level, Struggle struggle) {
 		BlockPos c1 = struggle.getC1();
 		BlockPos c2 = struggle.getC2();
@@ -577,6 +576,7 @@ public class StruggleHandler {
 			String championName = champion != null ? champion.getUsername() : "?";
 			List<UUID> everyone = struggle.getParticipants().stream().map(Struggle.Participant::getUUID).collect(Collectors.toList());
 			sendTitle(server, everyone, "kingdomkeys.struggle.tournament.champion", championName);
+			announceWinner(server, struggle, championName);
 
 			struggle.getBracket().clear();
 		} else {
@@ -602,5 +602,10 @@ public class StruggleHandler {
 				PacketHandler.sendTo(new SCShowMessagesPacket(titles), player);
 			}
 		}
+	}
+	private static void announceWinner(MinecraftServer server, Struggle struggle, String winnerName) {
+		Component modeLabel = Component.translatable(Strings.Gui_Menu_Struggle + "." + struggle.getMode().name().toLowerCase());
+		Component message = Component.translatable("kingdomkeys.struggle.chat.winner", struggle.getName(), modeLabel, winnerName);
+		server.getPlayerList().broadcastSystemMessage(message, false);
 	}
 }

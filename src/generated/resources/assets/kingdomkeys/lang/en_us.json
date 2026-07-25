@@ -2561,6 +2561,7 @@
   "kingdomkeys.configuration.synthesis": "Synthesis settings",
   "kingdomkeys.helmet": "Helmet",
   "kingdomkeys.leggings": "Leggings",
+  "kingdomkeys.struggle.chat.winner": "[Struggle] Winner of %1$s's %2$s is %3$s!",
   "kingdomkeys.struggle.draw": "Draw!",
   "kingdomkeys.struggle.ffa.starting": "Free for all starting...",
   "kingdomkeys.struggle.go": "GO!",

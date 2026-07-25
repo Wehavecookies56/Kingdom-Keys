@@ -2373,6 +2373,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add("kingdomkeys.struggle.go", "GO!");
         add("kingdomkeys.struggle.win", "You win!");
         add("kingdomkeys.struggle.lose", "You lose!");
+        add("kingdomkeys.struggle.chat.winner", "[Struggle] Winner of %1$s's %2$s is %3$s!");
         add("kingdomkeys.struggle.tournament.bye", "You got a bye this round!");
         add("kingdomkeys.struggle.tournament.champion", "Tournament Champion:");
         add("kingdomkeys.struggle.tournament.round_winner", "Round winner:");
