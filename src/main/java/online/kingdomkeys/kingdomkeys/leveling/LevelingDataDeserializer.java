@@ -1,7 +1,9 @@
 package online.kingdomkeys.kingdomkeys.leveling;
 
 import com.google.gson.*;
+import com.mojang.serialization.JsonOps;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
 import java.lang.reflect.Type;
@@ -47,7 +49,7 @@ public class LevelingDataDeserializer implements JsonDeserializer<LevelingData> 
 					case "maxhp" -> out.setMaxHp(level, element.getAsInt());
 					case "maxmp" -> out.setMaxMp(level, element.getAsInt());
 					case "abilities" -> out.setAbilities(level, toRLArray(element.getAsJsonArray()));
-					case "items" -> out.setItems(level, toItemGrantArray(element.getAsJsonArray()));
+					case "items" -> out.setItems(level, toItemStackArray(element.getAsJsonArray()));
 					case "max_accessories" -> out.setMaxAccessories(level, element.getAsInt());
 					case "max_armors" -> out.setMaxArmors(level, element.getAsInt());
 					case "max_magics" -> out.setMaxMagics(level, element.getAsInt());
@@ -66,13 +68,10 @@ public class LevelingDataDeserializer implements JsonDeserializer<LevelingData> 
 		return out;
 	}
 
-	private ItemGrant[] toItemGrantArray(JsonArray array) {
-		ItemGrant[] out = new ItemGrant[array.size()];
+	private ItemStack[] toItemStackArray(JsonArray array) {
+		ItemStack[] out = new ItemStack[array.size()];
 		for (int i = 0; i < array.size(); i++) {
-			JsonObject entry = array.get(i).getAsJsonObject();
-			ResourceLocation item = KingdomKeys.rl(entry.get("item").getAsString());
-			int amount = entry.has("amount") ? entry.get("amount").getAsInt() : 1;
-			out[i] = new ItemGrant(item, amount);
+			out[i] = ItemStack.CODEC.parse(JsonOps.INSTANCE, array.get(i)).getPartialOrThrow(JsonParseException::new);
 		}
 		return out;
 	}

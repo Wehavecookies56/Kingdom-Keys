@@ -1,18 +1,14 @@
 package online.kingdomkeys.kingdomkeys.lib;
 
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.leveling.Level;
-import online.kingdomkeys.kingdomkeys.leveling.ItemGrant;
 import online.kingdomkeys.kingdomkeys.leveling.ModLevels;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
@@ -68,17 +64,12 @@ public class LevelStats {
 			}
 		}
 
-		for (ItemGrant grant : levelData.getItems(level)) {
-			if (grant != null) {
-				Item item = BuiltInRegistries.ITEM.get(grant.item());
-				if (item != null && item != Items.AIR) {
-					ItemStack stack = new ItemStack(item, grant.amount());
-					Utils.giveItems((ServerPlayer) player, new ItemStack(item, grant.amount()));
-					String itemName = stack.getHoverName().getString();
-					cap.getMessages().add("I_" + itemName + (grant.amount() > 1 ? " x" + grant.amount() : ""));
-				} else {
-					KingdomKeys.LOGGER.warn("No item registered for {}, player won't receive it", grant.item());
-				}
+		for (ItemStack stack : levelData.getItems(level)) {
+			if (stack != null && !stack.isEmpty()) {
+				ItemStack toGive = stack.copy();
+				Utils.giveItems((ServerPlayer) player, toGive);
+				String itemName = toGive.getHoverName().getString();
+				cap.getMessages().add("I_" + itemName + (toGive.getCount() > 1 ? " x" + toGive.getCount() : ""));
 			}
 		}
 

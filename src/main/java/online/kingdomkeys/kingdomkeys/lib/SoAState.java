@@ -12,8 +12,6 @@ import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.leveling.Level;
 import online.kingdomkeys.kingdomkeys.leveling.ModLevels;
-import online.kingdomkeys.kingdomkeys.shotlock.ModShotlocks;
-import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
 
 public enum SoAState implements StringRepresentable {
     NONE("none", (byte)0), CHOICE("choice", (byte)1), SACRIFICE("sacrifice", (byte)2), CONFIRM("confirm", (byte)3), COMPLETE("complete", (byte)4), WARRIOR("warrior", (byte)5), GUARDIAN("guardian", (byte)6), MYSTIC("mystic", (byte)7);

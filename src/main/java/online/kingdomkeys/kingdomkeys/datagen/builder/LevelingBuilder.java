@@ -3,8 +3,9 @@ package online.kingdomkeys.kingdomkeys.datagen.builder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import net.minecraft.core.registries.BuiltInRegistries;
+import com.mojang.serialization.JsonOps;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import online.kingdomkeys.kingdomkeys.lib.KKSupplier;
 
 import java.util.function.Supplier;
@@ -78,11 +79,13 @@ public class LevelingBuilder {
 	}
 
 	public LevelingBuilder item(Supplier<? extends Item> item, int amount) {
+		return item(new ItemStack(item.get(), amount));
+	}
+
+	public LevelingBuilder item(ItemStack stack) {
 		JsonArray array = current.has("items") ? current.getAsJsonArray("items") : new JsonArray();
-		JsonObject entry = new JsonObject();
-		entry.addProperty("item", BuiltInRegistries.ITEM.getKey(item.get()).toString());
-		entry.addProperty("amount", amount);
-		array.add(entry);
+		JsonElement encoded = ItemStack.CODEC.encodeStart(JsonOps.INSTANCE, stack).getPartialOrThrow(msg -> new IllegalStateException("Failed to encode item grant " + stack + ": " + msg));
+		array.add(encoded);
 		current.add("items", array);
 		return this;
 	}

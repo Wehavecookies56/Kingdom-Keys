@@ -1,6 +1,7 @@
 package online.kingdomkeys.kingdomkeys.leveling;
 
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
 
 public class LevelingData {
 	int[] str = new int[101];
@@ -10,7 +11,7 @@ public class LevelingData {
 	int[] maxhp = new int[101];
 	int[] maxmp = new int[101];
 	ResourceLocation[][] abilities = new ResourceLocation[101][5];
-	ItemGrant[][] items = new ItemGrant[101][];
+	ItemStack[][] items = new ItemStack[101][];
 	int[] maxAccessories = new int[101];
 	int[] maxArmors = new int[101];
 	int[] maxMagics = new int[101];
@@ -74,11 +75,11 @@ public class LevelingData {
 		this.abilities[lvl] = abilities;
 	}
 
-	public ItemGrant[] getItems(int lvl) {
-		return items[lvl] == null ? new ItemGrant[0] : items[lvl];
+	public ItemStack[] getItems(int lvl) {
+		return items[lvl] == null ? new ItemStack[0] : items[lvl];
 	}
 
-	public void setItems(int lvl, ItemGrant[] items) {
+	public void setItems(int lvl, ItemStack[] items) {
 		this.items[lvl] = items;
 	}
 

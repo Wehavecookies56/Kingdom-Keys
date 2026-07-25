@@ -2,6 +2,7 @@ package online.kingdomkeys.kingdomkeys.leveling;
 
 
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
 import online.kingdomkeys.kingdomkeys.lib.KKRegistryObject;
 
 public class Level implements KKRegistryObject {
@@ -52,7 +53,7 @@ public class Level implements KKRegistryObject {
 		return data.getAbilities(level);
 	}
 
-	public ItemGrant[] getItems(int level) {
+	public ItemStack[] getItems(int level) {
 		return data.getItems(level);
 	}
 	

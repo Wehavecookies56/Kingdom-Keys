@@ -1,27 +1,17 @@
 package online.kingdomkeys.kingdomkeys.integration.epicfight.init;
 
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.item.Item;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.integration.epicfight.capabilities.ShieldCapabilities;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.enums.EpicKKWeaponEnum;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.enums.KKStyles;
 import yesman.epicfight.EpicFight;
-import yesman.epicfight.api.animation.LivingMotions;
-import yesman.epicfight.api.event.EpicFightEventHooks;
-import yesman.epicfight.gameasset.Animations;
 import yesman.epicfight.gameasset.ColliderPreset;
 import yesman.epicfight.registry.deferred.ItemPresetRegister;
 import yesman.epicfight.registry.deferred.holders.DeferredWeapon;
 import yesman.epicfight.registry.entries.EpicFightMovesets;
-import yesman.epicfight.registry.entries.EpicFightSkills;
 import yesman.epicfight.registry.entries.EpicFightSounds;
-import yesman.epicfight.world.capabilities.EpicFightCapabilities;
 import yesman.epicfight.world.capabilities.item.CapabilityItem;
 import yesman.epicfight.world.capabilities.item.WeaponCapability;
 
-import java.util.function.Function;
 public class EpicKKWeapons {
 
     public static final ItemPresetRegister WEAPONS = ItemPresetRegister.create(KingdomKeys.MODID);
