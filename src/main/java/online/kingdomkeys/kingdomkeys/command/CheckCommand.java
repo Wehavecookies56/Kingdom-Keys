@@ -43,7 +43,9 @@ public class CheckCommand extends BaseCommand {
             }
 
             context.getSource().sendSuccess(() -> Component.literal("Checking data from player "+ target.getName().getString()), true);
-            PacketHandler.sendTo(new SCOpenCheckScreen(playerData, target), sender);
+            SCOpenCheckScreen packet = new SCOpenCheckScreen(playerData, target);
+            KingdomKeys.LOGGER.warn("[DEBUG check] serialized NBT has {} keys: {}", packet.playerData().size(), packet.playerData().getAllKeys());
+            PacketHandler.sendTo(packet, sender);
         } else {
             context.getSource().sendFailure(Component.literal("Command must be run by a player"));
         }

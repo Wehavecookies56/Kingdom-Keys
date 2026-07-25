@@ -427,86 +427,23 @@ public class CheckAbilitiesScreen extends MenuBackground {
 		matrixStack.pushPose();
 		{
 			matrixStack.translate((posX - 2) * scale - 20, posY * scale - 10, 0);
+			RenderSystem.setShaderColor(1, 1, 1, 1);
 
-			// Left
-			matrixStack.pushPose();
-			{
-				RenderSystem.setShaderColor(1, 1, 1, 1);
-				gui.blit(Constants.MENU_TEXTURE, 0, 0, 143, 67, 7, 25);
-			}
-			matrixStack.popPose();
+			gui.blit(Constants.MENU_TEXTURE, 0, 0, 143, 67, 7, 25); // Left
+			gui.blit(Constants.MENU_TEXTURE, 7, 0, barWidth, 25, 151, 67, 1, 25,256,256); // Middle
+			gui.blit(Constants.MENU_TEXTURE, 7 + barWidth, 0, 153, 67, 7, 25); // Right
 
-			// Middle
-			matrixStack.pushPose();
-			{
-				RenderSystem.setShaderColor(1, 1, 1, 1);
-				for (int j = 0; j < barWidth; j++)
-					gui.blit(Constants.MENU_TEXTURE, 7 + j, 0, 151, 67, 1, 25);
-			}
-			matrixStack.popPose();
-			// Right
-			matrixStack.pushPose();
-			{
-				RenderSystem.setShaderColor(1, 1, 1, 1);
-				gui.blit(Constants.MENU_TEXTURE, 7 + barWidth, 0, 153, 67, 7, 25);
-			}
-			matrixStack.popPose();
-
-			// Bar Background
-			matrixStack.pushPose();
-			{
-				RenderSystem.setShaderColor(1, 1, 1, 1);
-				for (int j = 0; j < barWidth; j++)
-					gui.blit(Constants.MENU_TEXTURE, j + 7, 17, 161, 67, 1, 25);
-			}
-			matrixStack.popPose();
+			gui.blit(Constants.MENU_TEXTURE, 7, 17, barWidth, 25, 161, 67, 1, 25,256,256); // Bar Background
 
 			int requiredAP = (hoveredAbility != null) ? hoveredAbility.getAPCost() : 0;
-
-			if(hoveredType != AbilityType.WEAPON && hoveredType != AbilityType.ACCESSORY) {
-				if (hoveredAbility != null && playerData.isAbilityEquipped(hoveredAbility.getRegistryName(), hoveredIndex)) { // If hovering an equipped ability
-					requiredAP *= -1;
-	
-					// Bar going to decrease (dark yellow section when hovering equipped ability)
-					matrixStack.pushPose();
-					{
-						int percent = (consumedAP) * barWidth / maxAP;
-						matrixStack.pushPose();
-						// RenderSystem.color(1, 1, 1,);
-						for (int j = 0; j < percent; j++)
-							gui.blit(Constants.MENU_TEXTURE, j + 7, 17, 165, 67, 1, 5);
-						matrixStack.popPose();
-	
-					}
-					matrixStack.popPose();
-				} else {
-					if(consumedAP + requiredAP <= playerData.getMaxAP(true)) {
-						// Bar going to increase (blue section when hovering unequipped ability)
-						matrixStack.pushPose();
-						{
-							if(maxAP > 0){
-								int percent = (consumedAP + requiredAP) * barWidth / maxAP;
-								for (int j = 0; j < percent; j++)
-									gui.blit(Constants.MENU_TEXTURE, j + 7, 17, 167, 67, 1, 5);
-							}
-						}
-						matrixStack.popPose();
-					}
-				}
-			}
-			RenderSystem.setShaderColor(1, 1, 1, 1F);
 
 			// Foreground
 			matrixStack.pushPose();
 			{
-				if(maxAP > 0) {
-					int percent = (consumedAP) * barWidth / maxAP;
-					if (requiredAP < 0)
-						percent = (consumedAP + requiredAP) * barWidth / maxAP;
-
-					for (int j = 0; j < percent; j++)
-						gui.blit(Constants.MENU_TEXTURE, j + 7, 17, 163, 67, 1, 5);
-				}
+				int percent = (consumedAP) * barWidth / maxAP;
+				if (requiredAP < 0)
+					percent = (consumedAP + requiredAP) * barWidth / maxAP;
+				gui.blit(Constants.MENU_TEXTURE, 7, 17, percent, 5, 163, 67, 1, 5,256,256);
 			}
 			matrixStack.popPose();
 
@@ -517,22 +454,12 @@ public class CheckAbilitiesScreen extends MenuBackground {
 				gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_AP)+": " + consumedAP + "/" + maxAP, 16, 5, 0xFFFFFF);
 			}
 			matrixStack.popPose();
-			
 		}
 		matrixStack.popPose();
 	}
 
 	private @NotNull MenuAbilitiesButton getMenuAbilitiesButton(int i, String text, Ability ability) {
 		MenuAbilitiesButton button = abilities.get(i);
-
-				/*if (ability.getAPCost() > playerData.getMaxAP(true) - consumedAP) {
-					button.active = button.equipped;
-				}
-				
-				if (button.abilityType == AbilityType.WEAPON || button.abilityType == AbilityType.ACCESSORY || form.equals(DriveForm.NONE.toString()) && playerData.isAbilityEquipped(abilities.get(i).getText(), abilitiesMap.get(abilities.get(i).getText())[0])) {
-					button.active = true;
-				}*/
-
 		button.setMessage(Component.translatable(text));
 		button.setAP(ability.getAPCost());
 		return button;

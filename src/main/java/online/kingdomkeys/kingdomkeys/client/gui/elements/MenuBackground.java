@@ -71,9 +71,12 @@ public class MenuBackground extends Screen {
 		this.playerData = PlayerData.get(this.player);
 	}
 
+	protected boolean isCheckScreen = false;
+
 	public void setPlayerData(Player player, PlayerData playerData) {
 		this.player = player;
 		this.playerData = playerData;
+		this.isCheckScreen = true;
 	}
 
 	@Override
@@ -133,7 +136,9 @@ public class MenuBackground extends Screen {
 		if (showRewardPopup) {
 			rewardPopupTicks++;
 		}
-		playerData = PlayerData.get(player);
+		if (!isCheckScreen) {
+			playerData = PlayerData.get(player);
+		}
 
 		super.tick();
 	}

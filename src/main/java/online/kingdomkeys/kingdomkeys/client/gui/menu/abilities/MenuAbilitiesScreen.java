@@ -451,12 +451,10 @@ public class MenuAbilitiesScreen extends MenuBackground {
 			RenderSystem.setShaderColor(1, 1, 1, 1);
 
 			gui.blit(Constants.MENU_TEXTURE, 0, 0, 143, 67, 7, 25); // Left
-			for (int j = 0; j < barWidth; j++)
-				gui.blit(Constants.MENU_TEXTURE, 7 + j, 0, 151, 67, 1, 25); // Middle
+			gui.blit(Constants.MENU_TEXTURE, 7, 0, barWidth, 25, 151, 67, 1, 25,256,256); // Middle
 			gui.blit(Constants.MENU_TEXTURE, 7 + barWidth, 0, 153, 67, 7, 25); // Right
 
-			for (int j = 0; j < barWidth; j++)
-				gui.blit(Constants.MENU_TEXTURE, j + 7, 17, 161, 67, 1, 25); // Bar Background
+			gui.blit(Constants.MENU_TEXTURE, 7, 17, barWidth, 25, 161, 67, 1, 25,256,256); // Bar Background
 
 			int requiredAP = (hoveredAbility != null) ? hoveredAbility.getAPCost() : 0;
 
@@ -465,14 +463,12 @@ public class MenuAbilitiesScreen extends MenuBackground {
 					requiredAP *= -1;
 					// Bar going to decrease (dark yellow section when hovering equipped ability)
 					int percent = (consumedAP) * barWidth / maxAP;
-					for (int j = 0; j < percent; j++)
-						gui.blit(Constants.MENU_TEXTURE, j + 7, 17, 165, 67, 1, 5);
+					gui.blit(Constants.MENU_TEXTURE, 7, 17, percent, 5, 165, 67, 1, 5,256,256);
 				} else {
 					if(consumedAP + requiredAP <= playerData.getMaxAP(true)) {
 						// Bar going to increase (blue section when hovering unequipped ability)
 						int percent = (consumedAP + requiredAP) * barWidth / maxAP;
-						for (int j = 0; j < percent; j++)
-							gui.blit(Constants.MENU_TEXTURE, j + 7, 17, 167, 67, 1, 5);
+						gui.blit(Constants.MENU_TEXTURE, 7, 17, percent, 5, 167, 67, 1, 5,256,256);
 					}
 				}
 			}
@@ -483,9 +479,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 				int percent = (consumedAP) * barWidth / maxAP;
 				if (requiredAP < 0)
 					percent = (consumedAP + requiredAP) * barWidth / maxAP;
-				
-				for (int j = 0; j < percent; j++)
-					gui.blit(Constants.MENU_TEXTURE, j + 7, 17, 163, 67, 1, 5);
+				gui.blit(Constants.MENU_TEXTURE, 7, 17, percent, 5, 163, 67, 1, 5,256,256);
 			}
 			matrixStack.popPose();
 

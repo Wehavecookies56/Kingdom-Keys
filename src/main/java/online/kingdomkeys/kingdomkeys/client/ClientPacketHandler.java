@@ -361,7 +361,7 @@ public class ClientPacketHandler {
 
     public static void openSavePointScreen(SCOpenSavePointScreen message) {
         Minecraft.getInstance().setScreen(new SavePointScreen((SavepointTileEntity) Minecraft.getInstance().level.getBlockEntity(message.tileEntity()), message.savePoints(), message.create()));
-            }
+    }
 
     public static void updateSavePoints(SCUpdateSavePoints message) {
         if (Minecraft.getInstance().screen instanceof SavePointScreen savePointScreen) {
@@ -424,6 +424,7 @@ public class ClientPacketHandler {
 
     public static void openCheckScreen(SCOpenCheckScreen message) {
         Minecraft mc = Minecraft.getInstance();
+        KingdomKeys.LOGGER.warn("[DEBUG check] received NBT has {} keys: {}", message.playerData().size(), message.playerData().getAllKeys());
         GameProfile profile = new GameProfile(message.uuid(), message.name());
         Player target = new RemotePlayer(Minecraft.getInstance().level, profile);
 

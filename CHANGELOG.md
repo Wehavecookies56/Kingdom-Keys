@@ -62,3 +62,4 @@
 * Fixed Gummi Hangar hologram not rendering.
 * Orientation of thrown lances, scythes and cards.
 * Gummi Ship performance issues, sacrificing a bit the visuals.
+* Check command not displaying the proper data.
