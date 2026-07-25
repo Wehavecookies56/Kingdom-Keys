@@ -75,12 +75,14 @@ import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.item.WayfinderItem;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
 import online.kingdomkeys.kingdomkeys.lib.Party;
+import online.kingdomkeys.kingdomkeys.lib.Struggle;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.*;
 import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
 import online.kingdomkeys.kingdomkeys.sound.AlarmSoundInstance;
 import online.kingdomkeys.kingdomkeys.util.IDisabledAnimations;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+import online.kingdomkeys.kingdomkeys.world.StruggleHandler;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.CastleOblivionHandler;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.floor.Floor;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModRoomModifiers;
@@ -731,11 +733,39 @@ public class ClientEvents {
 	public static float visualMP = 0;
 	public static float prevVisualMP = 0;
 
+	private static boolean isLockedInStruggle(Player player) {
+		WorldData clientData = WorldData.getClient();
+		if (clientData == null)
+			return false;
+		for (Struggle struggle : clientData.getStruggles()) {
+			if (struggle.isInProgress() && struggle.getActiveCombatantIds().contains(player.getUUID())) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	@SubscribeEvent
+	public void onMouseScroll(InputEvent.MouseScrollingEvent event) {
+		Player player = Minecraft.getInstance().player;
+		if (player != null && isLockedInStruggle(player)) {
+			event.setCanceled(true);
+		}
+	}
+
 	@SubscribeEvent
 	public void clientTickPost(ClientTickEvent.Post event) {
 		if (Minecraft.getInstance().level != null) {
 			if (KeyboardHelper.isScrollActivatorDown()) {
 				Minecraft.getInstance().player.getInventory().selected = selectedSlot;
+			}
+
+			Player localPlayer = Minecraft.getInstance().player;
+			if (localPlayer != null && isLockedInStruggle(localPlayer)) {
+				StruggleHandler.WeaponSlot weaponSlot = StruggleHandler.findAnyWeaponSlot(localPlayer.getInventory());
+				if (weaponSlot != null) {
+					localPlayer.getInventory().selected = weaponSlot.slot();
+				}
 			}
 		}
 

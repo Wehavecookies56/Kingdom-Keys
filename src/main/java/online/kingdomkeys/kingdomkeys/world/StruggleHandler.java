@@ -38,14 +38,13 @@ public class StruggleHandler {
 	private static final Map<String, Integer> announceDelay = new HashMap<>();
 	/** Who is (about to be) actually fighting right now, keyed by struggle name. */
 	private static final Map<String, List<UUID>> activeCombatants = new HashMap<>();
-	/** Which hotbar slot (0-8) each currently-fighting player's Struggle weapon is in, and which of the
-	 * 3 possible weapons it is (remembered per-player so the mid-match "did they lose it" safety net in
-	 * tick() below knows what to put back, since it's no longer tied to their Warrior/Guardian/Mystic
-	 * choice - any of the 3 is valid). */
-	public record WeaponSlot(int slot, Item weapon) {
-	}
+	public record WeaponSlot(int slot, Item weapon) {}
 
 	private static final Map<UUID, WeaponSlot> weaponSlots = new HashMap<>();
+
+	public static boolean isWeaponLocked(UUID id) {
+		return weaponSlots.containsKey(id);
+	}
 
 	@SubscribeEvent
 	public void onServerTick(ServerTickEvent.Post event) {
@@ -317,7 +316,7 @@ public class StruggleHandler {
 		List<UUID> everyone = struggle.getParticipants().stream().map(Struggle.Participant::getUUID).collect(Collectors.toList());
 		activeCombatants.put(name, everyone);
 		countdowns.put(name, COUNTDOWN_TICKS);
-		online.kingdomkeys.kingdomkeys.KingdomKeys.LOGGER.debug("Struggle '{}' countdown started", name);
+		KingdomKeys.LOGGER.debug("Struggle '{}' countdown started", name);
 		sendTitle(server, everyone, "kingdomkeys.struggle.ffa.starting", "");
 	}
 
@@ -579,9 +578,7 @@ public class StruggleHandler {
 			List<UUID> everyone = struggle.getParticipants().stream().map(Struggle.Participant::getUUID).collect(Collectors.toList());
 			sendTitle(server, everyone, "kingdomkeys.struggle.tournament.champion", championName);
 
-			// Free up the board for a new match, but remember the arena so it doesn't need reconfiguring.
-			worldData.saveStruggleCorners(struggle.getPos(), struggle.getC1(), struggle.getC2());
-			worldData.removeStruggle(struggle);
+			struggle.getBracket().clear();
 		} else {
 			// Announce who won this round and hold off starting the next match's countdown for a bit,
 			// so the announcement is actually visible instead of being instantly replaced.

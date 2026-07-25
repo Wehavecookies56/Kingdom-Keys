@@ -1090,7 +1090,7 @@
   "gui.menu.struggle.reason_waiting": "Esperando a que se una al menos un jugador más.",
   "gui.menu.struggle.round_time": "Duración de la ronda (segundos)",
   "gui.menu.struggle.settings_button": "Ajustes del Struggle",
-  "gui.menu.struggle.settings_button.desc": "Configura las esquinas de la arena, el modo y demás ajustes - solo el propietario.",
+  "gui.menu.struggle.settings_button.desc": "Configura las esquinas de la arena, el modo y demás ajustes [Solo el dueño].",
   "gui.menu.struggle.settings_title": "Ajustes del Struggle",
   "gui.menu.struggle.spectator_pos": "Zona de espectadores (x,y,z)",
   "gui.menu.struggle.starting_score": "Orbes iniciales",

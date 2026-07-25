@@ -1101,7 +1101,7 @@
   "gui.menu.struggle.reason_waiting": "Waiting for at least one more player to join.",
   "gui.menu.struggle.round_time": "Round time (seconds)",
   "gui.menu.struggle.settings_button": "Struggle Settings",
-  "gui.menu.struggle.settings_button.desc": "Configure the arena corners, mode, and other match settings - owner only.",
+  "gui.menu.struggle.settings_button.desc": "Configure the arena corners, mode, and other match settings [Owner only].",
   "gui.menu.struggle.settings_title": "Struggle Settings",
   "gui.menu.struggle.spectator_pos": "Spectators (x,y,z)",
   "gui.menu.struggle.starting_score": "Starting orbs",
