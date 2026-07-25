@@ -27,6 +27,7 @@
 * Toggle Gummi Ship flight mode with pick block key (by default middle mouse click).
   * In that flight mode the ship follows the camera, similar to elytra.
 * Possibility to give items on player level up through datapack (and removed old shotlock and spell ones since they are items now).
+* Scroll bar to shotlock equipment screen.
 * Recipe to craft the dev heads.
 * Treasure chest block, this is a special type of chest that has no GUI and will give the player items when right-clicked, these are intended for Castle Oblivion room generation and cannot be created.
 * Calm Bounty, False Bounty, Guarded Trove map cards implemented.

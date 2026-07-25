@@ -2,9 +2,6 @@ package online.kingdomkeys.kingdomkeys.leveling;
 
 import net.minecraft.resources.ResourceLocation;
 
-/**
- * Stores the data loaded from the leveling datapack
- */
 public class LevelingData {
 	int[] str = new int[101];
 	int[] mag = new int[101];

@@ -63,7 +63,7 @@ public class AdvancementsGen implements AdvancementProvider.AdvancementGenerator
 	@Override
 	public void generate(HolderLookup.Provider registries, Consumer<AdvancementHolder> saver, ExistingFileHelper existingFileHelper) {
 		AdvancementHolder root = Advancement.Builder.advancement()
-				.display(new ItemStack(ModItems.kingdomKey.get()), Component.translatable("advancements.kingdomkeys.root"), Component.translatable("advancements.kingdomkeys.root.desc"), ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/block/rod_sand.png"), AdvancementType.TASK, true, true, false)
+				.display(new ItemStack(ModItems.kingdomKey.get()), Component.translatable("advancements.kingdomkeys.root"), Component.translatable("advancements.kingdomkeys.root.desc"), KingdomKeys.rl("textures/block/rod_sand.png"), AdvancementType.TASK, true, true, false)
 				.addCriterion("tick", PlayerTrigger.TriggerInstance.tick())
 				.rewards(AdvancementRewards.Builder.experience(0)
 						.addLootTable(ResourceKey.create(Registries.LOOT_TABLE, KingdomKeys.rl("grant_book_on_first_join"))))

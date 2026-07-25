@@ -3,7 +3,11 @@ package online.kingdomkeys.kingdomkeys.datagen.builder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.world.item.Item;
 import online.kingdomkeys.kingdomkeys.lib.KKSupplier;
+
+import java.util.function.Supplier;
 
 public class LevelingBuilder {
 
@@ -73,10 +77,10 @@ public class LevelingBuilder {
 		return this;
 	}
 
-	public LevelingBuilder item(java.util.function.Supplier<? extends net.minecraft.world.item.Item> item, int amount) {
+	public LevelingBuilder item(Supplier<? extends Item> item, int amount) {
 		JsonArray array = current.has("items") ? current.getAsJsonArray("items") : new JsonArray();
 		JsonObject entry = new JsonObject();
-		entry.addProperty("item", net.minecraft.core.registries.BuiltInRegistries.ITEM.getKey(item.get()).toString());
+		entry.addProperty("item", BuiltInRegistries.ITEM.getKey(item.get()).toString());
 		entry.addProperty("amount", amount);
 		array.add(entry);
 		current.add("items", array);

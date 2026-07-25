@@ -62,8 +62,6 @@ public class UltimaCannonShotEntity extends BaseShotlockShotEntity {
 		reassertInitialRotationIfStationary();
 	}
 
-	/** A small sphere of energy that visibly grows over CHARGE_TICKS, so the buildup actually reads as
-	 * "charging" instead of the projectile just silently sitting there for half a second. */
 	private void spawnChargeParticles() {
 		if (!(level() instanceof ServerLevel serverLevel)) return;
 
@@ -83,9 +81,9 @@ public class UltimaCannonShotEntity extends BaseShotlockShotEntity {
 		serverLevel.sendParticles(ParticleTypes.END_ROD, getX(), getY(), getZ(), 2, 0.1, 0.1, 0.1, 0.01);
 	}
 
-	/** A real trail (count + spread) rather than one particle a tick. */
 	private void spawnTrailParticles() {
-		if (!(level() instanceof ServerLevel serverLevel)) return;
+		if (!(level() instanceof ServerLevel serverLevel))
+			return;
 
 		Color color = new Color(getColor());
 		serverLevel.sendParticles(new DustParticleOptions(new Vector3f(color.getRed() / 255F, color.getGreen() / 255F, color.getBlue() / 255F), 1.4F), getX(), getY(), getZ(), 6, 0.25, 0.25, 0.25, 0.02);
@@ -119,8 +117,6 @@ public class UltimaCannonShotEntity extends BaseShotlockShotEntity {
 				serverLevel.sendParticles(ParticleTypes.END_ROD, getX(), getY(), getZ(), 350, 2.5, 2.5, 2.5, 0.15);
 				serverLevel.sendParticles(ParticleTypes.FLASH, getX(), getY(), getZ(), 1, 0, 0, 0, 0);
 
-				// Expanding shockwave rings, several radii at once rather than animated over time -
-				// gives a real sense of the blast's actual size instead of just a particle cloud.
 				int ringPoints = 28;
 				for (float radius : new float[]{1.5F, 3F, 4.5F, 6F}) {
 					for (int i = 0; i < ringPoints; i++) {

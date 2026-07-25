@@ -42,12 +42,6 @@ public class BaseShotlockShotEntity extends ThrowableProjectile{
 		this.dmg = (float)dmg;
 		setTarget(target.getId());
 
-		// Face the same way the caster is looking right away, instead of defaulting to yaw/pitch 0
-		// (north, level) until it actually starts moving. Regular entity rotation only reliably syncs
-		// to the client through the normal movement packets, which don't fire while the entity is just
-		// sitting there with zero velocity (e.g. during a charge-up phase) - so a stationary entity's
-		// initial yaw/pitch set server-side never actually reaches the client that way. Syncing it
-		// through SynchedEntityData instead guarantees it always replicates, regardless of movement.
 		this.entityData.set(INITIAL_YAW, player.getYRot());
 		this.entityData.set(INITIAL_PITCH, player.getXRot());
 		this.setYRot(player.getYRot());

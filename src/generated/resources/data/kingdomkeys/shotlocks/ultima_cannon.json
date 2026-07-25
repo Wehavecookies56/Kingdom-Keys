@@ -1,9 +1,10 @@
 {
   "cooldown": 40,
-  "cooldown_max": 25,
+  "cooldown_max": 30,
   "dmg_mult": 1.0,
   "dmg_mult_max": 1.2,
+  "element": "fire",
   "max": 1,
-  "max_exp": 2400,
+  "max_exp": 12000,
   "max_level": 6
 }

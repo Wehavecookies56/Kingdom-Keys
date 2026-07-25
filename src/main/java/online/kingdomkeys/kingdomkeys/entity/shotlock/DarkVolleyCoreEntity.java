@@ -4,7 +4,9 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
@@ -27,7 +29,7 @@ public class DarkVolleyCoreEntity extends ThrowableProjectile {
 	List<Entity> targetList = new ArrayList<>();
 	float dmg;
 	private int shotColor = 4921675;
-	private net.minecraft.resources.ResourceKey<net.minecraft.world.damagesource.DamageType> element = null;
+	private ResourceKey<DamageType> element = null;
 	private boolean zigzag = false;
 	private boolean waterVisual = false;
 	private boolean applyPoison = false;
@@ -38,7 +40,7 @@ public class DarkVolleyCoreEntity extends ThrowableProjectile {
 		this.shotColor = color;
 	}
 
-	public void setElement(net.minecraft.resources.ResourceKey<net.minecraft.world.damagesource.DamageType> element) {
+	public void setElement(ResourceKey<DamageType> element) {
 		this.element = element;
 	}
 

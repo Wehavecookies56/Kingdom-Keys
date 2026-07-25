@@ -4,6 +4,6 @@
   "dmg_mult": 1.0,
   "dmg_mult_max": 1.2,
   "max": 16,
-  "max_exp": 2400,
+  "max_exp": 6400,
   "max_level": 4
 }

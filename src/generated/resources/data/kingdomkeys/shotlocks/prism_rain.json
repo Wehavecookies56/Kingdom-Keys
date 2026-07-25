@@ -3,7 +3,8 @@
   "cooldown_max": 2,
   "dmg_mult": 1.0,
   "dmg_mult_max": 1.2,
+  "element": "light",
   "max": 16,
-  "max_exp": 2400,
+  "max_exp": 8600,
   "max_level": 5
 }

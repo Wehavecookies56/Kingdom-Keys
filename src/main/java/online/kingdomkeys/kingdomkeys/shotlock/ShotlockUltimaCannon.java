@@ -25,6 +25,7 @@ public class ShotlockUltimaCannon extends Shotlock {
         Vec3 lookAngle = player.getLookAngle();
         Vec3 flatForward = new Vec3(lookAngle.x, lookAngle.y, lookAngle.z).normalize();
         Vec3 spawnPos = player.position().add(flatForward.scale(2D));
+        shot.setElement(getElement());
 
         shot.setPos(spawnPos.x, spawnPos.y + player.getEyeHeight(), spawnPos.z);
         shot.setColor(13353527);
