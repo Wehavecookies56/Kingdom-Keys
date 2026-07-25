@@ -13,6 +13,7 @@ import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.lib.Struggle;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCOpenStruggleMenu;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncWorldData;
 
 public class StruggleBoardBlock extends BaseBlock {
 
@@ -35,6 +36,8 @@ public class StruggleBoardBlock extends BaseBlock {
 			Struggle struggle = worldData.getStruggleFromBlockPos(pos);
 			if (struggle != null) {
 				worldData.removeStruggle(struggle);
+				worldData.setDirty();
+				PacketHandler.sendToAll(new SCSyncWorldData(level.getServer()));
 			}
 		}
 		super.onRemove(state, level, pos, newState, isMoving);

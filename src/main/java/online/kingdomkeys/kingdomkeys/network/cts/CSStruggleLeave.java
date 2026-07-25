@@ -30,6 +30,7 @@ public record CSStruggleLeave(String struggleName) implements Packet {
 			return;
 
 		worldData.removeStruggleParticipant(struggle, player.getUUID());
+		worldData.setDirty();
 		PacketHandler.sendToAll(new SCSyncWorldData(player.getServer()));
 	}
 

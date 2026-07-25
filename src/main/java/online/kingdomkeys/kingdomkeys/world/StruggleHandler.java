@@ -14,7 +14,6 @@ import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.tick.ServerTickEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.block.StruggleBoardBlock;
-import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.entity.drops.StruggleOrbEntity;
 import online.kingdomkeys.kingdomkeys.lib.Struggle;
@@ -39,8 +38,14 @@ public class StruggleHandler {
 	private static final Map<String, Integer> announceDelay = new HashMap<>();
 	/** Who is (about to be) actually fighting right now, keyed by struggle name. */
 	private static final Map<String, List<UUID>> activeCombatants = new HashMap<>();
-	/** Which hotbar slot (0-8) each currently-fighting player's Struggle weapon is in. */
-	private static final Map<UUID, Integer> weaponSlots = new HashMap<>();
+	/** Which hotbar slot (0-8) each currently-fighting player's Struggle weapon is in, and which of the
+	 * 3 possible weapons it is (remembered per-player so the mid-match "did they lose it" safety net in
+	 * tick() below knows what to put back, since it's no longer tied to their Warrior/Guardian/Mystic
+	 * choice - any of the 3 is valid). */
+	public record WeaponSlot(int slot, Item weapon) {
+	}
+
+	private static final Map<UUID, WeaponSlot> weaponSlots = new HashMap<>();
 
 	@SubscribeEvent
 	public void onServerTick(ServerTickEvent.Post event) {
@@ -58,17 +63,16 @@ public class StruggleHandler {
 			// While a match is running, keep every combatant's weapon slot selected no matter what they try to switch to - this is what makes them "unable to change" out of the Struggle weapon.
 			if (struggle.isInProgress()) {
 				for (UUID id : struggle.getActiveCombatantIds()) {
-					Integer slot = weaponSlots.get(id);
-					if (slot == null) continue;
+					WeaponSlot weaponSlot = weaponSlots.get(id);
+					if (weaponSlot == null) continue;
 					ServerPlayer player = server.getPlayerList().getPlayer(id);
 					if (player == null) continue;
 
-					player.getInventory().selected = slot;
+					player.getInventory().selected = weaponSlot.slot();
 
-					Item expectedWeapon = Struggle.weaponFor(PlayerData.get(player).getChosen());
-					ItemStack current = player.getInventory().items.get(slot);
-					if (current.isEmpty() || current.getItem() != expectedWeapon) {
-						player.getInventory().items.set(slot, new ItemStack(expectedWeapon));
+					ItemStack current = player.getInventory().items.get(weaponSlot.slot());
+					if (current.isEmpty() || current.getItem() != weaponSlot.weapon()) {
+						player.getInventory().items.set(weaponSlot.slot(), new ItemStack(weaponSlot.weapon()));
 						player.inventoryMenu.broadcastChanges();
 					}
 				}
@@ -139,12 +143,13 @@ public class StruggleHandler {
 		PacketHandler.sendToAll(new SCSyncWorldData(server));
 	}
 
-	/** First empty hotbar slot (0-8), or -1 if the hotbar is completely full. */
-	public static int findEmptyHotbarSlot(Inventory inventory) {
+	public static WeaponSlot findAnyWeaponSlot(Inventory inventory) {
 		for (int i = 0; i < 9; i++) {
-			if (inventory.items.get(i).isEmpty()) return i;
+			Item item = inventory.items.get(i).getItem();
+			if (Struggle.weapons().contains(item))
+				return new WeaponSlot(i, item);
 		}
-		return -1;
+		return null;
 	}
 
 	private void tick(MinecraftServer server, ServerLevel level, WorldData worldData, Struggle struggle) {
@@ -347,13 +352,12 @@ public class StruggleHandler {
 			participant.setReady(false);
 
 			Inventory inventory = player.getInventory();
-			int slot = findEmptyHotbarSlot(inventory);
-			if (slot != -1) {
-				Item weapon = Struggle.weaponFor(PlayerData.get(player).getChosen());
-				inventory.items.set(slot, new ItemStack(weapon));
-				inventory.selected = slot;
-				weaponSlots.put(player.getUUID(), slot);
-				player.inventoryMenu.broadcastChanges();
+			WeaponSlot weaponSlot = findAnyWeaponSlot(inventory);
+			if (weaponSlot != null) {
+				inventory.selected = weaponSlot.slot();
+				weaponSlots.put(player.getUUID(), weaponSlot);
+			} else {
+				KingdomKeys.LOGGER.warn("Struggle combatant {} lost their weapon between readying up and match start - fighting bare-handed", player.getName().getString());
 			}
 
 			BlockPos spawn = spawnPositions.get(i);
@@ -456,14 +460,11 @@ public class StruggleHandler {
 
 	/** Removes the weapon from a combatant's hotbar (if they still have it there) and frees their slot,
 	 * WITHOUT touching anything else in their inventory - there's nothing else to restore. */
+	/** Stops tracking/locking a combatant's weapon slot once their match ends - the weapon is their own
+	 * item now (not a temporary gift), so it stays in their inventory; this just lifts the "selection
+	 * locked to this slot" restriction from tick() above. */
 	private void removeWeapon(ServerPlayer player) {
-		Integer slot = weaponSlots.remove(player.getUUID());
-		if (slot == null) return;
-		Inventory inventory = player.getInventory();
-		if (slot < inventory.items.size()) {
-			inventory.items.set(slot, ItemStack.EMPTY);
-		}
-		player.inventoryMenu.broadcastChanges();
+		weaponSlots.remove(player.getUUID());
 	}
 
 	/** Sends a combatant out of the arena once their match is over, if the owner set a spectator spot

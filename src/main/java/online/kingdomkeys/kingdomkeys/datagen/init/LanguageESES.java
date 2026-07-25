@@ -2413,7 +2413,7 @@ public class LanguageESES extends KKLanguageProvider {
         add("kingdomkeys.struggle.tournament.bye", "¡Pasas de ronda sin combatir!");
         add("kingdomkeys.struggle.tournament.champion", "Campeón del torneo:");
         add("kingdomkeys.struggle.tournament.round_winner", "Gana la ronda:");
-        add("kingdomkeys.struggle.no_hotbar_space", "¡Libera un hueco en la barra de acceso rápido!");
+        add("kingdomkeys.struggle.no_weapon", "¡Necesitas tener tu bate de Struggle en la barra de items!");
         add("kingdomkeys.struggle.tie.overtime", "¡Empate! ¡Muerte súbita!");
         add("kingdomkeys.struggle.draw", "¡Empate!");
 
@@ -2422,11 +2422,19 @@ public class LanguageESES extends KKLanguageProvider {
         add(Strings.Gui_Menu_Struggle_Join_Title, "Unirse a un Struggle");
         add(Strings.Gui_Menu_Struggle_Settings_Title, "Ajustes del Struggle");
         add(Strings.Gui_Menu_Struggle_Create_Button, "Crear partida");
+        add(Strings.Gui_Menu_Struggle_Create_Button + ".desc", "Crea una nueva partida de Struggle en este tablero.");
         add(Strings.Gui_Menu_Struggle_Join_Button, "Unirse a partida");
+        add(Strings.Gui_Menu_Struggle_Join_Button + ".desc", "Únete a la partida de Struggle que hay montada aquí.");
         add(Strings.Gui_Menu_Struggle_Settings_Button, "Ajustes del Struggle");
+        add(Strings.Gui_Menu_Struggle_Settings_Button + ".desc", "Configura las esquinas de la arena, el modo y demás ajustes [Solo el dueño].");
         add(Strings.Gui_Menu_Struggle_Delete_Button, "Eliminar partida");
+        add(Strings.Gui_Menu_Struggle_Delete_Button + ".desc", "Cancela y elimina esta partida por completo [Solo el dueño].");
         add(Strings.Gui_Menu_Struggle_Leave_Button, "Abandonar partida");
+        add(Strings.Gui_Menu_Struggle_Leave_Button + ".desc", "Abandona la partida sin terminarla para los demás.");
         add(Strings.Gui_Menu_Struggle_Ready, "Listo");
+        add(Strings.Gui_Menu_Struggle_Ready + ".desc", "Márcate como listo - la partida empieza cuando todos lo estén.");
+        add(Strings.Gui_Menu_Struggle_Reason_Not_Configured, "El dueño no ha configurado las esquinas de la arena en Ajustes.");
+        add(Strings.Gui_Menu_Struggle_Reason_Waiting, "Esperando a que se una al menos un jugador más.");
         add(Strings.Gui_Menu_Struggle_Cancel_Ready, "Cancelar listo");
         add(Strings.Gui_Menu_Struggle_Name_And_Size, "Nombre y tamaño del Struggle");
         add(Strings.Gui_Menu_Struggle_Name, "Nombre del Struggle");

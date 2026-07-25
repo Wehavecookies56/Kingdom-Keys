@@ -20,12 +20,6 @@ public class Struggle {
 
 	public static final byte PARTICIPANTS_LIMIT = 8;
 
-	/**
-	 * DUEL: classic 1v1 at c1/c2, same match can be re-readied and fought again indefinitely.
-	 * TOURNAMENT: single-elimination bracket among every participant (byes if the count is odd),
-	 *             fought as a sequence of 1v1s at c1/c2 until only one player ("the champion") remains.
-	 * FFA: every ready participant fights at once, scattered across the c1/c2 area.
-	 */
 	public enum Mode {
 		DUEL, TOURNAMENT, FFA
 	}
@@ -36,13 +30,9 @@ public class Struggle {
 	private int damageMult;
 	private boolean inProgress;
 	private Mode mode = Mode.DUEL;
-	/** Length of a round in seconds, configurable per match in Settings. Defaults to 60 (KH2-style). */
 	private int roundTimeSeconds = 60;
-	/** Orbs/points each combatant starts a round with, configurable per match in Settings. Default 100. */
 	private int startingScore = 100;
-	/** Seconds left in the current round, for the HUD countdown. -1 while no round is running. */
-	private int roundSecondsLeft = -1;
-	/** Tournament-only: remaining UUIDs in fighting order (winners go to the back, losers drop out). */
+	private int roundSecondsLeft = -1; //-1 when not in match
 	private final List<UUID> tournamentQueue = new ArrayList<>();
 	/**
 	 * Tournament-only: the actual single-elimination bracket. bracket.get(0) is the first round (size =
@@ -53,10 +43,12 @@ public class Struggle {
 	 * waiting on an earlier match).
 	 */
 	private final List<List<UUID>> bracket = new ArrayList<>();
-	/** Who is actually fighting in the currently running match (subset of participants). For the HUD. */
 	private final List<UUID> activeCombatantIds = new ArrayList<>();
 	public BlockPos blockPos, c1, c2;
 	public BlockPos spectatorPos;
+	/** Who created (and can configure/delete) this match - separate from participants now, since the
+	 * owner can set up the arena without necessarily fighting in it themselves. */
+	private UUID ownerId;
 
 	public Struggle() {
 
@@ -68,7 +60,7 @@ public class Struggle {
 
 	public Struggle(BlockPos blockPos, String name, UUID leaderId, String username, boolean priv, byte size) {
 		this.name = name;
-		this.addParticipant(leaderId, username).setIsOwner();
+		this.ownerId = leaderId;
 		this.size = size;
 		this.damageMult = 100;
 		this.blockPos = blockPos;
@@ -83,7 +75,7 @@ public class Struggle {
 	public BlockPos getPos() {
 		return this.blockPos;
 	}
-	
+
 	public void setC1(BlockPos pos) {
 		this.c1 = pos;
 	}
@@ -91,7 +83,7 @@ public class Struggle {
 	public BlockPos getC1() {
 		return this.c1;
 	}
-	
+
 	public void setC2(BlockPos pos) {
 		this.c2 = pos;
 	}
@@ -108,14 +100,14 @@ public class Struggle {
 	public BlockPos getSpectatorPos() {
 		return this.spectatorPos;
 	}
-	
+
 	public void setName(String name) {
 		this.name = name;
 	}
 
 	public String getName() {
 		return this.name;
-	}	
+	}
 
 	public void setSize(byte size) {
 		this.size = size;
@@ -191,10 +183,10 @@ public class Struggle {
 	}
 
 	/** The Struggle weapon matching a player's Station of Awakening choice (sword/wand/hammer). */
-	public static Item weaponFor(SoAState chosen) {
-		if (chosen == SoAState.MYSTIC) return ModItems.struggleWand.get();
-		if (chosen == SoAState.GUARDIAN) return ModItems.struggleHammer.get();
-		return ModItems.struggleSword.get(); // WARRIOR, and fallback for anyone without a choice yet
+	/** All 3 valid Struggle weapons - any of them can be used, regardless of the player's Warrior/
+	 * Guardian/Mystic choice. */
+	public static List<Item> weapons() {
+		return List.of(ModItems.struggleSword.get(), ModItems.struggleHammer.get(), ModItems.struggleWand.get());
 	}
 
 	public Participant addParticipant(LivingEntity entity) {
@@ -212,7 +204,7 @@ public class Struggle {
 		/*if (participant.isLeader())
 			this.participants.removeAll(this.participants);
 		else*/
-			this.participants.remove(participant);
+		this.participants.remove(participant);
 		this.tournamentQueue.remove(id);
 	}
 
@@ -225,8 +217,8 @@ public class Struggle {
 	}
 
 	@Nullable
-	public Participant getOwner() {
-		return this.participants.stream().filter(participant -> participant.isOwner()).findFirst().orElse(null);
+	public UUID getOwnerId() {
+		return this.ownerId;
 	}
 
 	public List<Participant> getParticipants() {
@@ -275,12 +267,15 @@ public class Struggle {
 			struggleNBT.putIntArray("spectator_pos", new int[] {this.spectatorPos.getX(), this.spectatorPos.getY(), this.spectatorPos.getZ()});
 		}
 
+		if (this.ownerId != null) {
+			struggleNBT.putUUID("owner_id", this.ownerId);
+		}
+
 		ListTag participants = new ListTag();
 		for (Struggle.Participant participant : this.getParticipants()) {
 			CompoundTag participantNBT = new CompoundTag();
 			participantNBT.putUUID("id", participant.getUUID());
 			participantNBT.putString("username", participant.getUsername());
-			participantNBT.putBoolean("isOwner", participant.isOwner());
 			participantNBT.putBoolean("ready", participant.isReady());
 			participantNBT.putInt("score", participant.getScore());
 			participants.add(participantNBT);
@@ -334,10 +329,10 @@ public class Struggle {
 		this.setStartingScore(nbt.contains("starting_score") ? nbt.getInt("starting_score") : 100);
 		int[] posArray = nbt.getIntArray("posArray");
 		this.setPos(new BlockPos(posArray[0],posArray[1],posArray[2]));
-		
+
 		int[] c1Array = nbt.getIntArray("c1");
 		this.setC1(new BlockPos(c1Array[0],c1Array[1],c1Array[2]));
-		
+
 		int[] c2Array = nbt.getIntArray("c2");
 		this.setC2(new BlockPos(c2Array[0],c2Array[1],c2Array[2]));
 
@@ -347,15 +342,22 @@ public class Struggle {
 		} else {
 			this.setSpectatorPos(null);
 		}
-		
+
+		this.ownerId = nbt.hasUUID("owner_id") ? nbt.getUUID("owner_id") : null;
+
+		this.participants.clear();
 		ListTag participants = nbt.getList("participants", Tag.TAG_COMPOUND);
 		for (int j = 0; j < participants.size(); j++) {
 			CompoundTag participantNBT = participants.getCompound(j);
 			Struggle.Participant participant = this.addParticipant(participantNBT.getUUID("id"), participantNBT.getString("username"));
-			if (participantNBT.getBoolean("isOwner"))
-				participant.setIsOwner();
 			participant.setReady(participantNBT.getBoolean("ready"));
 			participant.setScore(participantNBT.contains("score") ? participantNBT.getInt("score") : 100);
+			// Migration: matches saved before ownerId was split out from the participants list used to
+			// mark the owner with a per-participant "isOwner" flag - recover it from there if we don't
+			// already have an owner_id from the new format.
+			if (this.ownerId == null && participantNBT.getBoolean("isOwner")) {
+				this.ownerId = participant.getUUID();
+			}
 		}
 
 		this.tournamentQueue.clear();
@@ -386,7 +388,6 @@ public class Struggle {
 	public static class Participant {
 		private final UUID uuid;
 		private final String username;
-		private boolean isOwner;
 		private boolean ready;
 		private int score = 100;
 
@@ -397,15 +398,6 @@ public class Struggle {
 		public Participant(UUID uuid, String username) {
 			this.uuid = uuid;
 			this.username = username;
-		}
-
-		public Participant setIsOwner() {
-			this.isOwner = true;
-			return this;
-		}
-
-		public boolean isOwner() {
-			return this.isOwner;
 		}
 
 		public UUID getUUID() {

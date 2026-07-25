@@ -967,9 +967,7 @@ public class EntityEvents {
 				float originalDamage = event.getNewDamage();
 				event.setNewDamage(0); // never actually hurt each other during a Struggle match
 
-				PlayerData attackerData = PlayerData.get(attacker);
-				Item expectedWeapon = Struggle.weaponFor(attackerData.getChosen());
-				if (attacker.getMainHandItem().getItem() == expectedWeapon) {
+				if (Struggle.weapons().contains(attacker.getMainHandItem().getItem())) {
 					int rawPoints = Mth.clamp(Math.round(originalDamage * struggle.getDamageMult() / 100F), 1, 50);
 
 					Struggle.Participant victimParticipant = struggle.getParticipant(victim.getUUID());

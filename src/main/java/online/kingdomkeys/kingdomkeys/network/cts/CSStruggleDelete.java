@@ -29,10 +29,11 @@ public record CSStruggleDelete(String struggleName) implements Packet {
 		Struggle struggle = worldData.getStruggleFromName(struggleName);
 		if (struggle == null)
 			return;
-		if (struggle.getOwner() == null || !struggle.getOwner().getUUID().equals(player.getUUID()))
+		if (struggle.getOwnerId() == null || !struggle.getOwnerId().equals(player.getUUID()))
 			return;
 
 		worldData.removeStruggle(struggle);
+		worldData.setDirty();
 		PacketHandler.sendToAll(new SCSyncWorldData(player.getServer()));
 	}
 

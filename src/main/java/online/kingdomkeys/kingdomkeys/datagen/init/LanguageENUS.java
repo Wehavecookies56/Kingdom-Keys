@@ -2376,7 +2376,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add("kingdomkeys.struggle.tournament.bye", "You got a bye this round!");
         add("kingdomkeys.struggle.tournament.champion", "Tournament Champion:");
         add("kingdomkeys.struggle.tournament.round_winner", "Round winner:");
-        add("kingdomkeys.struggle.no_hotbar_space", "Free up a hotbar slot first!");
+        add("kingdomkeys.struggle.no_weapon", "You need your Struggle weapon in your hotbar!");
         add("kingdomkeys.struggle.tie.overtime", "Tied! Sudden death!");
         add("kingdomkeys.struggle.draw", "Draw!");
 
@@ -2385,11 +2385,19 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Strings.Gui_Menu_Struggle_Join_Title, "Join Struggle");
         add(Strings.Gui_Menu_Struggle_Settings_Title, "Struggle Settings");
         add(Strings.Gui_Menu_Struggle_Create_Button, "Create match");
+        add(Strings.Gui_Menu_Struggle_Create_Button + ".desc", "Set up a new Struggle match on this board.");
         add(Strings.Gui_Menu_Struggle_Join_Button, "Join match");
+        add(Strings.Gui_Menu_Struggle_Join_Button + ".desc", "Join the Struggle match currently set up here.");
         add(Strings.Gui_Menu_Struggle_Settings_Button, "Struggle Settings");
+        add(Strings.Gui_Menu_Struggle_Settings_Button + ".desc", "Configure the arena corners, mode, and other match settings [Owner only].");
         add(Strings.Gui_Menu_Struggle_Delete_Button, "Delete match");
+        add(Strings.Gui_Menu_Struggle_Delete_Button + ".desc", "Cancel and remove this match entirely [Owner only].");
         add(Strings.Gui_Menu_Struggle_Leave_Button, "Leave match");
+        add(Strings.Gui_Menu_Struggle_Leave_Button + ".desc", "Leave the match without ending it for everyone else.");
         add(Strings.Gui_Menu_Struggle_Ready, "Ready");
+        add(Strings.Gui_Menu_Struggle_Ready + ".desc", "Mark yourself as ready - the match starts once everyone is.");
+        add(Strings.Gui_Menu_Struggle_Reason_Not_Configured, "The owner has not set the arena corners in Settings yet.");
+        add(Strings.Gui_Menu_Struggle_Reason_Waiting, "Waiting for at least one more player to join.");
         add(Strings.Gui_Menu_Struggle_Cancel_Ready, "Cancel Ready");
         add(Strings.Gui_Menu_Struggle_Name_And_Size, "Struggle name and size");
         add(Strings.Gui_Menu_Struggle_Name, "Struggle name");

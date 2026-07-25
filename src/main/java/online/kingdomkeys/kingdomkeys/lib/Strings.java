@@ -536,6 +536,8 @@ public class Strings {
             Gui_Menu_Struggle_Leave_Button = Gui_Menu_Struggle + ".leave_button",
             Gui_Menu_Struggle_Ready = Gui_Menu_Struggle + ".ready",
             Gui_Menu_Struggle_Cancel_Ready = Gui_Menu_Struggle + ".cancel_ready",
+            Gui_Menu_Struggle_Reason_Not_Configured = Gui_Menu_Struggle + ".reason_not_configured",
+            Gui_Menu_Struggle_Reason_Waiting = Gui_Menu_Struggle + ".reason_waiting",
             Gui_Menu_Struggle_Name_And_Size = Gui_Menu_Struggle + ".name_and_size",
             Gui_Menu_Struggle_Name = Gui_Menu_Struggle + ".name",
             Gui_Menu_Struggle_Damage_Mult = Gui_Menu_Struggle + ".damage_mult",

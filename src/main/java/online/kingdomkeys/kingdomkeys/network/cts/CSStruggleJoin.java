@@ -40,8 +40,8 @@ public record CSStruggleJoin(String struggleName) implements Packet {
 			return;
 		if (struggle.getMode() == Struggle.Mode.DUEL && struggle.getParticipants().size() >= 2)
 			return;
-		if (StruggleHandler.findEmptyHotbarSlot(player.getInventory()) == -1) {
-			PacketHandler.sendTo(new SCShowMessagesPacket(List.of(new Utils.Title("kingdomkeys.struggle.no_hotbar_space", ""))), (ServerPlayer) player);
+		if (StruggleHandler.findAnyWeaponSlot(player.getInventory()) == null) {
+			PacketHandler.sendTo(new SCShowMessagesPacket(List.of(new Utils.Title("kingdomkeys.struggle.no_weapon", ""))), (ServerPlayer) player);
 			return;
 		}
 

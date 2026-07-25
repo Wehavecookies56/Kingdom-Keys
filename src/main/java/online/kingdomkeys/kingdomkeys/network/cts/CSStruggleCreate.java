@@ -39,6 +39,7 @@ public record CSStruggleCreate(Struggle struggle) implements Packet {
 		}
 
 		worldData.addStruggle(struggle);
+		worldData.setDirty();
 		PacketHandler.sendToAll(new SCSyncWorldData(player.getServer()));
 	}
 
