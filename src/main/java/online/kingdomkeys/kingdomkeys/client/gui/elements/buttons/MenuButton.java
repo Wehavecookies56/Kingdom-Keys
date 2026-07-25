@@ -13,13 +13,13 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.handler.ClientEvents;
+import online.kingdomkeys.kingdomkeys.lib.Constants;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.awt.*;
 
 public class MenuButton extends MenuButtonBase {
-	private final ResourceLocation texture = KingdomKeys.rl("textures/gui/menu/menu_button.png");
 	private final int endWidth = 11;
 
 	private final int bLeftU = 0;
@@ -101,7 +101,7 @@ public class MenuButton extends MenuButtonBase {
 				RenderSystem.setShaderColor(1, 1, 1, 1);
 
 				RenderSystem.enableBlend();
-				RenderSystem.setShaderTexture(0, texture);
+				RenderSystem.setShaderTexture(0, Constants.MENU_TEXTURE);
 
 				int btnMargin = 8;
 				int textX = getX() + btnMargin;
@@ -162,53 +162,13 @@ public class MenuButton extends MenuButtonBase {
 
 		vPos = hovered || selected ? selVPos : vPos;
 
-		gui.blit(texture, getX(), getY(), leftU, vPos, endWidth, height);
-		gui.blit(texture, getX() + endWidth, getY(), middleWidth, height, middleU, vPos, 1, height, 256, 256);
-		gui.blit(texture, getX() + endWidth + middleWidth, getY(), rightU, vPos, endWidth, height);
+		gui.blit(Constants.MENU_TEXTURE, getX(), getY(), leftU, vPos, endWidth, height);
+		gui.blit(Constants.MENU_TEXTURE, getX() + endWidth, getY(), middleWidth, height, middleU, vPos, 1, height, 256, 256);
+		gui.blit(Constants.MENU_TEXTURE, getX() + endWidth + middleWidth, getY(), rightU, vPos, endWidth, height);
 
 		//Glove and dot
 		if(hovered) {
-			float ballScale = 0.5F;
-			int u = 0;
-			int v = 204;
-
-			gui.pose().pushPose();
-			{
-				float radiusX = 4.5F;
-				float radiusY = 6F;
-				float centerX = getX() + getWidth() - radiusX -3;
-				float centerY = getY() + 3;
-
-				float delta = ClientEvents.ballRot - ClientEvents.prevBallRot;
-
-				if (delta < -180F)
-					delta += 360F;
-				if (delta > 180F)
-					delta -= 360F;
-
-				float interpRot = ClientEvents.prevBallRot + delta * partialTicks;
-
-				float t = (float)Math.toRadians(-interpRot);
-
-				float x = centerX + (float)Math.cos(t * 3F + Math.PI / 2F) * radiusX;
-				float y = centerY + (float)Math.sin(t * 2F) * radiusY;
-
-				float gloveX = x - getWidth() - 10;
-				gui.pose().pushPose();
-				{
-					gui.pose().translate(gloveX, getY() + 3, 0);
-					gui.blit(texture, 0, 0, 21, 204, 20, 20);
-				}
-				gui.pose().popPose();
-				gui.pose().pushPose();
-				{
-					gui.pose().translate(x, y, 0);
-					gui.pose().scale(ballScale, ballScale, 1F);
-					gui.blit(texture, 0, 0, u, v, 18, 16);
-				}
-				gui.pose().popPose();
-			}
-			gui.pose().popPose();
+			ClientUtils.drawGloveAndDot(gui,getX(),getY(),getWidth(),partialTicks);
 		}
 	}
 

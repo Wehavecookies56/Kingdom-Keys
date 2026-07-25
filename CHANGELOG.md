@@ -36,6 +36,7 @@
 * Obtained item display can be dismissed by pressing a mouse button or key.
 * Item Overflow, items given to the player such as the Keycards will go into your overflow inventory if you have no inventory space. Overflow inventory can be accessed in the Stock menu.
 * Dropped cards will now bounce similar to how they do in Chain of Memories.
+* Glove and dot indicator for abilities.
 
 ## Changed:
 * Shotlocks are now levelable items like magic spells, increasing their damage and lock speed.

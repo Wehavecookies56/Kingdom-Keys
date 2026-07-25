@@ -33,6 +33,7 @@ import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.item.*;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
+import online.kingdomkeys.kingdomkeys.lib.Constants;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
@@ -50,9 +51,6 @@ public class MenuEquipmentButton extends Button {
 	boolean hasLabel;
 	ItemCategory category;
 	public int offsetY;
-
-	final ResourceLocation texture = KingdomKeys.rl("textures/gui/menu/menu_button.png");
-	final ResourceLocation barTexture = KingdomKeys.rl("textures/gui/menu/menu_button.png");
 
 	public MenuEquipmentButton(ItemStack stack, int x, int y, int colour, Screen toOpen, ItemCategory category, MenuBackground parent) {
 		super(new Builder(Component.literal(""), b -> {
@@ -110,17 +108,17 @@ public class MenuEquipmentButton extends Button {
 				matrixStack.scale(0.5F, 0.5F, 1);
 				//Gradient Background
 				int pWidth = (int) (((gradientWidth + itemWidth + 5) * 2) / (4F));
-				gui.blit(texture, -pWidth+14, -1, pWidth, (int) ((height * 2) * 1.1F), 166, 63, 32, 1, 256, 256);
+				gui.blit(Constants.MENU_TEXTURE, -pWidth+14, -1, pWidth, (int) ((height * 2) * 1.1F), 166, 63, 32, 1, 256, 256);
 
 				//Left item slot
-				gui.blit(texture, 0, 0, 166, 34, 18, 28);
+				gui.blit(Constants.MENU_TEXTURE, 0, 0, 166, 34, 18, 28);
 				//Middle item slot
-				gui.blit(texture, 16, 0, (int) ((itemWidth * 2) - (17 * 2)+2), 28, 186, 34, 2, 28, 256, 256);
+				gui.blit(Constants.MENU_TEXTURE, 16, 0, (int) ((itemWidth * 2) - (17 * 2)+2), 28, 186, 34, 2, 28, 256, 256);
 				//Right item slot
-				gui.blit(texture, (int)(itemWidth * 2) - 17, 0, 186, 34, 17, 28);
+				gui.blit(Constants.MENU_TEXTURE, (int)(itemWidth * 2) - 17, 0, 186, 34, 17, 28);
 				RenderSystem.setShaderColor(1, 1, 1, 1);
 				//Icon
-				gui.blit(texture, 6, 4, category.getU(), category.getV(), 20, 20);
+				gui.blit(Constants.MENU_TEXTURE, 6, 4, category.getU(), category.getV(), 20, 20);
 			}
 			matrixStack.popPose();
 			if (stack != null) {
@@ -145,8 +143,8 @@ public class MenuEquipmentButton extends Button {
 				float percent = spell.getLocalPercent(stack);
 				int barWidth = mc.font.width(text);
 				int percentWidth = (int)(barWidth * percent);
-				gui.blit(barTexture, getX() + getWidth() - barWidth - 5, getY() + getHeight() - 4, barWidth, 2, 161, 67, 1, 5, 256, 256);
-				gui.blit(barTexture, getX() + getWidth() - barWidth - 5, getY() + getHeight() - 4, percentWidth, 2, 163, 67, 1, 5, 256, 256);
+				gui.blit(Constants.MENU_TEXTURE, getX() + getWidth() - barWidth - 5, getY() + getHeight() - 4, barWidth, 2, 161, 67, 1, 5, 256, 256);
+				gui.blit(Constants.MENU_TEXTURE, getX() + getWidth() - barWidth - 5, getY() + getHeight() - 4, percentWidth, 2, 163, 67, 1, 5, 256, 256);
 			}
 			if (isHovered) {
 				matrixStack.pushPose();
@@ -154,11 +152,11 @@ public class MenuEquipmentButton extends Button {
 					matrixStack.translate(getX() + 0.6F, getY(), 0);
 					matrixStack.scale(0.5F, 0.5F, 1);
 					//Left selected
-					gui.blit(texture, 0, 0, 128, 34, 18, 28);
+					gui.blit(Constants.MENU_TEXTURE, 0, 0, 128, 34, 18, 28);
 					//Middle selected
-					gui.blit(texture, 16, 0, (int) ((itemWidth * 2) - (17 * 2)+1), 28, 148, 34, 2, 28, 256, 256);
+					gui.blit(Constants.MENU_TEXTURE, 16, 0, (int) ((itemWidth * 2) - (17 * 2)+1), 28, 148, 34, 2, 28, 256, 256);
 					//Right selected
-					gui.blit(texture, (int)(itemWidth * 2) - 17, 0, 148, 34, 17, 28);
+					gui.blit(Constants.MENU_TEXTURE, (int)(itemWidth * 2) - 17, 0, 148, 34, 17, 28);
 				}
 				matrixStack.popPose();
 				float iconPosX = parent.width * 0.6374F;
@@ -334,8 +332,8 @@ public class MenuEquipmentButton extends Button {
 								int barWidth = (int) (screen.detailsBox.getWidth() * 0.8F);
 								int percentWidth = (int)(barWidth * percent);
 
-								gui.blit(barTexture, (int) textX, (int) textY + 10, barWidth, 5, 161, 67, 1, 5, 256, 256);
-								gui.blit(barTexture, (int) textX, (int) textY + 10, percentWidth, 5, 163, 67, 1, 5, 256, 256);
+								gui.blit(Constants.MENU_TEXTURE, (int) textX, (int) textY + 10, barWidth, 5, 161, 67, 1, 5, 256, 256);
+								gui.blit(Constants.MENU_TEXTURE, (int) textX, (int) textY + 10, percentWidth, 5, 163, 67, 1, 5, 256, 256);
 							}
 						}
 
@@ -412,7 +410,7 @@ public class MenuEquipmentButton extends Button {
 							for(int i = 0; i < abilities.size();i++) {
 								Ability ability = ModAbilities.registry.get(abilities.get(i));
 								if(ability != null) {
-									gui.blit(texture, (int) strPosX - 2, (int) posY + ((i + 1) * 12) - 4, 73, 102, 12, 12);
+									gui.blit(Constants.MENU_TEXTURE, (int) strPosX - 2, (int) posY + ((i + 1) * 12) - 4, 73, 102, 12, 12);
 									gui.drawString(fr, Utils.translateToLocal(ability.getTranslationKey()), (int) strPosX + 14, (int) posY + ((i + 1) * 12) - 1, 0xFFFFFF);
 								} else {
 									KingdomKeys.LOGGER.error("Ability "+abilities.get(i)+" does not exist for weapon "+stack.getItem());
@@ -463,12 +461,12 @@ public class MenuEquipmentButton extends Button {
 					matrixStack.scale(0.5F, 0.5F, 1);
 
 					//Left label
-					gui.blit(texture, 0, 0, 166, 34, 17, 28);
+					gui.blit(Constants.MENU_TEXTURE, 0, 0, 166, 34, 17, 28);
 					//Middle label
-					gui.blit(texture, 17, 0, (int) ((labelWidth * 2) - (17 + 14)), 28, 184, 34, 1, 28, 256, 256);
+					gui.blit(Constants.MENU_TEXTURE, 17, 0, (int) ((labelWidth * 2) - (17 + 14)), 28, 184, 34, 1, 28, 256, 256);
 
 					//Right label
-					gui.blit(texture, (int)(labelWidth * 2) - 14, 0, 204, 34, 14, 28);
+					gui.blit(Constants.MENU_TEXTURE, (int)(labelWidth * 2) - 14, 0, 204, 34, 14, 28);
 				}
 				matrixStack.popPose();
 				float centerX = (labelWidth / 2) - (fr.width(Utils.translateToLocal(label)) / 2);

@@ -23,6 +23,7 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuScrollBar;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
+import online.kingdomkeys.kingdomkeys.lib.Constants;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSOpenMenu;
@@ -53,8 +54,6 @@ public class CheckAbilitiesScreen extends MenuBackground {
 	AbilityType hoveredType;
 
 	MenuScrollBar scrollBar;
-
-	final ResourceLocation texture = KingdomKeys.rl("textures/gui/menu/menu_button.png");
 
 	public CheckAbilitiesScreen() {
 		super(Strings.Gui_Menu_Main_Button_Abilities, new Color(0,0,255));
@@ -433,7 +432,7 @@ public class CheckAbilitiesScreen extends MenuBackground {
 			matrixStack.pushPose();
 			{
 				RenderSystem.setShaderColor(1, 1, 1, 1);
-				gui.blit(texture, 0, 0, 143, 67, 7, 25);
+				gui.blit(Constants.MENU_TEXTURE, 0, 0, 143, 67, 7, 25);
 			}
 			matrixStack.popPose();
 
@@ -442,14 +441,14 @@ public class CheckAbilitiesScreen extends MenuBackground {
 			{
 				RenderSystem.setShaderColor(1, 1, 1, 1);
 				for (int j = 0; j < barWidth; j++)
-					gui.blit(texture, 7 + j, 0, 151, 67, 1, 25);
+					gui.blit(Constants.MENU_TEXTURE, 7 + j, 0, 151, 67, 1, 25);
 			}
 			matrixStack.popPose();
 			// Right
 			matrixStack.pushPose();
 			{
 				RenderSystem.setShaderColor(1, 1, 1, 1);
-				gui.blit(texture, 7 + barWidth, 0, 153, 67, 7, 25);
+				gui.blit(Constants.MENU_TEXTURE, 7 + barWidth, 0, 153, 67, 7, 25);
 			}
 			matrixStack.popPose();
 
@@ -458,7 +457,7 @@ public class CheckAbilitiesScreen extends MenuBackground {
 			{
 				RenderSystem.setShaderColor(1, 1, 1, 1);
 				for (int j = 0; j < barWidth; j++)
-					gui.blit(texture, j + 7, 17, 161, 67, 1, 25);
+					gui.blit(Constants.MENU_TEXTURE, j + 7, 17, 161, 67, 1, 25);
 			}
 			matrixStack.popPose();
 
@@ -475,7 +474,7 @@ public class CheckAbilitiesScreen extends MenuBackground {
 						matrixStack.pushPose();
 						// RenderSystem.color(1, 1, 1,);
 						for (int j = 0; j < percent; j++)
-							gui.blit(texture, j + 7, 17, 165, 67, 1, 5);
+							gui.blit(Constants.MENU_TEXTURE, j + 7, 17, 165, 67, 1, 5);
 						matrixStack.popPose();
 	
 					}
@@ -488,7 +487,7 @@ public class CheckAbilitiesScreen extends MenuBackground {
 							if(maxAP > 0){
 								int percent = (consumedAP + requiredAP) * barWidth / maxAP;
 								for (int j = 0; j < percent; j++)
-									gui.blit(texture, j + 7, 17, 167, 67, 1, 5);
+									gui.blit(Constants.MENU_TEXTURE, j + 7, 17, 167, 67, 1, 5);
 							}
 						}
 						matrixStack.popPose();
@@ -506,7 +505,7 @@ public class CheckAbilitiesScreen extends MenuBackground {
 						percent = (consumedAP + requiredAP) * barWidth / maxAP;
 
 					for (int j = 0; j < percent; j++)
-						gui.blit(texture, j + 7, 17, 163, 67, 1, 5);
+						gui.blit(Constants.MENU_TEXTURE, j + 7, 17, 163, 67, 1, 5);
 				}
 			}
 			matrixStack.popPose();

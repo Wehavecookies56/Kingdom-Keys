@@ -39,8 +39,6 @@ public class MenuStruggle extends MenuBackground {
 
 	MenuButton create, join, settings, ready, delete, leave;
 
-	final ResourceLocation texture = KingdomKeys.rl("textures/gui/menu/menu_button.png");
-
 	protected void action(buttons buttonID) {
 		switch (buttonID) {
 			case CREATE -> minecraft.setScreen(new StruggleCreate(boardPos));

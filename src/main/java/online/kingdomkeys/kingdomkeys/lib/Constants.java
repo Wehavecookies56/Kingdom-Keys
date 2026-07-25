@@ -1,6 +1,8 @@
 package online.kingdomkeys.kingdomkeys.lib;
 
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
@@ -8,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 public class Constants {
+    public static final ResourceLocation MENU_TEXTURE = KingdomKeys.rl("textures/gui/menu/menu_button.png");
 
     public static final int TUTORIAL_CO_CASTLE = 0;
     public static final int TUTORIAL_CO_LOBBY = 1;

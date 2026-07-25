@@ -24,6 +24,7 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuScrollBar;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.MenuScreen;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
+import online.kingdomkeys.kingdomkeys.lib.Constants;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSOpenMenu;
@@ -56,8 +57,6 @@ public class MenuAbilitiesScreen extends MenuBackground {
 
 	MenuScrollBar scrollBar;
 
-	final ResourceLocation texture = KingdomKeys.rl("textures/gui/menu/menu_button.png");
-	
 	public MenuAbilitiesScreen() {
 		super(Strings.Gui_Menu_Main_Button_Abilities, new Color(0,0,255));
 	}
@@ -451,13 +450,13 @@ public class MenuAbilitiesScreen extends MenuBackground {
 			matrixStack.translate((posX - 2) * scale - 20, posY * scale - 10, 0);
 			RenderSystem.setShaderColor(1, 1, 1, 1);
 
-			gui.blit(texture, 0, 0, 143, 67, 7, 25); // Left
+			gui.blit(Constants.MENU_TEXTURE, 0, 0, 143, 67, 7, 25); // Left
 			for (int j = 0; j < barWidth; j++)
-				gui.blit(texture, 7 + j, 0, 151, 67, 1, 25); // Middle
-			gui.blit(texture, 7 + barWidth, 0, 153, 67, 7, 25); // Right
+				gui.blit(Constants.MENU_TEXTURE, 7 + j, 0, 151, 67, 1, 25); // Middle
+			gui.blit(Constants.MENU_TEXTURE, 7 + barWidth, 0, 153, 67, 7, 25); // Right
 
 			for (int j = 0; j < barWidth; j++)
-				gui.blit(texture, j + 7, 17, 161, 67, 1, 25); // Bar Background
+				gui.blit(Constants.MENU_TEXTURE, j + 7, 17, 161, 67, 1, 25); // Bar Background
 
 			int requiredAP = (hoveredAbility != null) ? hoveredAbility.getAPCost() : 0;
 
@@ -467,13 +466,13 @@ public class MenuAbilitiesScreen extends MenuBackground {
 					// Bar going to decrease (dark yellow section when hovering equipped ability)
 					int percent = (consumedAP) * barWidth / maxAP;
 					for (int j = 0; j < percent; j++)
-						gui.blit(texture, j + 7, 17, 165, 67, 1, 5);
+						gui.blit(Constants.MENU_TEXTURE, j + 7, 17, 165, 67, 1, 5);
 				} else {
 					if(consumedAP + requiredAP <= playerData.getMaxAP(true)) {
 						// Bar going to increase (blue section when hovering unequipped ability)
 						int percent = (consumedAP + requiredAP) * barWidth / maxAP;
 						for (int j = 0; j < percent; j++)
-							gui.blit(texture, j + 7, 17, 167, 67, 1, 5);
+							gui.blit(Constants.MENU_TEXTURE, j + 7, 17, 167, 67, 1, 5);
 					}
 				}
 			}
@@ -486,7 +485,7 @@ public class MenuAbilitiesScreen extends MenuBackground {
 					percent = (consumedAP + requiredAP) * barWidth / maxAP;
 				
 				for (int j = 0; j < percent; j++)
-					gui.blit(texture, j + 7, 17, 163, 67, 1, 5);
+					gui.blit(Constants.MENU_TEXTURE, j + 7, 17, 163, 67, 1, 5);
 			}
 			matrixStack.popPose();
 

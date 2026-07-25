@@ -54,6 +54,7 @@ import net.neoforged.neoforge.client.ClientHooks;
 import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 import net.neoforged.neoforge.client.model.data.ModelData;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.HUD.*;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
@@ -61,6 +62,7 @@ import online.kingdomkeys.kingdomkeys.handler.ClientEvents;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.KeychainItem;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
+import online.kingdomkeys.kingdomkeys.lib.Constants;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
@@ -76,6 +78,61 @@ import java.io.FileNotFoundException;
 import java.util.*;
 
 public class ClientUtils {
+    public static void drawCategoryIcon(GuiGraphics gui, ItemCategory category, float x, float y, float scale) {
+        PoseStack matrixStack = gui.pose();
+        matrixStack.pushPose();
+        {
+            matrixStack.translate(x, y, 0);
+            matrixStack.scale(scale, scale, 1);
+            gui.blit(Constants.MENU_TEXTURE, 0, 0, category.getU(), category.getV(), 20, 20);
+        }
+        matrixStack.popPose();
+    }
+
+    public static void drawGloveAndDot(GuiGraphics gui, float ox, float oy, float width, float partialTicks) {
+        float ballScale = 0.5F;
+        int u = 0;
+        int v = 204;
+
+        gui.pose().pushPose();
+        {
+            float radiusX = 4.5F;
+            float radiusY = 6F;
+            float centerX = ox + width - radiusX -3;
+            float centerY = oy + 3;
+
+            float delta = ClientEvents.ballRot - ClientEvents.prevBallRot;
+
+            if (delta < -180F)
+                delta += 360F;
+            if (delta > 180F)
+                delta -= 360F;
+
+            float interpRot = ClientEvents.prevBallRot + delta * partialTicks;
+
+            float t = (float)Math.toRadians(-interpRot);
+
+            float x = centerX + (float)Math.cos(t * 3F + Math.PI / 2F) * radiusX;
+            float y = centerY + (float)Math.sin(t * 2F) * radiusY;
+
+            float gloveX = x - width - 10;
+            gui.pose().pushPose();
+            {
+                gui.pose().translate(gloveX, oy + 3, 0);
+                gui.blit(Constants.MENU_TEXTURE, 0, 0, 21, 204, 20, 14);
+            }
+            gui.pose().popPose();
+            gui.pose().pushPose();
+            {
+                gui.pose().translate(x, y, 0);
+                gui.pose().scale(ballScale, ballScale, 1F);
+                gui.blit(Constants.MENU_TEXTURE, 0, 0, u, v, 18, 16);
+            }
+            gui.pose().popPose();
+        }
+        gui.pose().popPose();
+    }
+
     public static Style KK_Font_EXP = Style.EMPTY.withFont(KingdomKeys.rl("kk_font_exp"));
     public static Style KK_Font_MENU = Style.EMPTY.withFont(KingdomKeys.rl("kk_font_menu"));
     public static Style KK_Font_TITLE = Style.EMPTY.withFont(KingdomKeys.rl("kk_font_title"));

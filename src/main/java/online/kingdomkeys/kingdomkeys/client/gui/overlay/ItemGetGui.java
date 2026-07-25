@@ -16,6 +16,7 @@ import online.kingdomkeys.kingdomkeys.api.item.IItemCategory;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.TextBox;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.lib.Constants;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.util.GuiStringBuilder;
 import online.kingdomkeys.kingdomkeys.util.Utils;
@@ -27,7 +28,6 @@ public class ItemGetGui extends OverlayBase {
     public static final ItemGetGui INSTANCE = new ItemGetGui();
 
     private static final ResourceLocation glow = KingdomKeys.rl("textures/gui/org/glow.png");
-    private static final ResourceLocation menu = KingdomKeys.rl("textures/gui/menu/menu_button.png");
     private static Queue<ItemStack> items = new ArrayDeque<>();
     private float ticks = 0;
     private ItemStack current;
@@ -105,14 +105,14 @@ public class ItemGetGui extends OverlayBase {
         int endWidth = 14;
         int lineWidth = titleWidth / 2;
         //box
-        guiGraphics.blit(menu, titleX, titleY, u, v, endWidth, titleHeight);
-        guiGraphics.blit(menu, titleX + endWidth, titleY, titleWidth - (endWidth * 2), titleHeight, u + endWidth + 1, v, 1, titleHeight, 256, 256);
-        guiGraphics.blit(menu, titleX + titleWidth - endWidth, titleY, u + endWidth + 3, v, endWidth, titleHeight);
+        guiGraphics.blit(Constants.MENU_TEXTURE, titleX, titleY, u, v, endWidth, titleHeight);
+        guiGraphics.blit(Constants.MENU_TEXTURE, titleX + endWidth, titleY, titleWidth - (endWidth * 2), titleHeight, u + endWidth + 1, v, 1, titleHeight, 256, 256);
+        guiGraphics.blit(Constants.MENU_TEXTURE, titleX + titleWidth - endWidth, titleY, u + endWidth + 3, v, endWidth, titleHeight);
         //obtained text
         GuiStringBuilder.create(Component.translatable(Strings.Gui_ItemGet_Obtained).withStyle(ClientUtils.KK_Font_EXP).withColor(0xfff200), titleX + (titleWidth / 2), titleY + 3).centered().draw(guiGraphics);
         //underline
         RenderSystem.enableBlend();
-        guiGraphics.blit(menu, titleX + (titleWidth / 2) - (lineWidth / 2), titleY + font.lineHeight + 3, lineWidth, 1, 144, 101, 68, 1, 256, 256);
+        guiGraphics.blit(Constants.MENU_TEXTURE, titleX + (titleWidth / 2) - (lineWidth / 2), titleY + font.lineHeight + 3, lineWidth, 1, 144, 101, 68, 1, 256, 256);
         RenderSystem.disableBlend();
 
         //name text

@@ -12,6 +12,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
@@ -22,7 +23,9 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 public class GuiOverlay extends OverlayBase {
@@ -49,7 +52,6 @@ public class GuiOverlay extends OverlayBase {
 	PlayerData playerData;
 
 	ResourceLocation levelUpTexture = KingdomKeys.rl("textures/gui/levelup.png");
-	ResourceLocation menuTexture = KingdomKeys.rl("textures/gui/menu/menu_button.png");
 
 	public static class LevelUpData{
 		public String playerName; //In case player is unloaded from the client
@@ -226,41 +228,11 @@ public class GuiOverlay extends OverlayBase {
 				String message = levelData.messages1.get(i);
 				float x = 5;
 				float y = minecraft.font.lineHeight * 1.2f * i + 23;
-				if(message.startsWith("A_")) {
-					blit(gui, menuTexture, (int)x, (int)y-2, 74, 102, 12, 12);
-					message = message.replace("A_", "");
+				String strippedMessage = drawMessagePrefixIcon(gui, message, x, y-2);
+				if (!strippedMessage.equals(message)) {
 					x += 13;
 				}
-
-				if(message.startsWith("S_")) {
-					blit(gui, menuTexture, (int)x, (int)y-2, 100, 102, 12, 12);
-					message = message.replace("S_", "");
-					x += 13;
-				}
-
-				if(message.startsWith("M_")) {
-					blit(gui, menuTexture, (int)x, (int)y-3, 87, 115, 12, 12);
-					message = message.replace("M_", "");
-					x += 13;
-				}
-
-				if(message.startsWith("C_")) {
-					blit(gui, menuTexture, (int)x, (int)y-2, 87, 129, 12, 12);
-					message = message.replace("C_", "");
-					x += 13;
-				}
-
-				if(message.startsWith("R_")) {
-					blit(gui, menuTexture, (int)x, (int)y-2, 101, 129, 12, 12);
-					message = message.replace("R_", "");
-					x += 13;
-				}
-
-				if(message.startsWith("I_")) {
-					blit(gui, menuTexture, (int)x, (int)y-2, 101, 115, 12, 12);
-					message = message.replace("I_", "");
-					x += 13;
-				}
+				message = strippedMessage;
 
 				showText(matrixStack, Utils.translateToLocal(message), x, y, 0, 0.8f, 0.8f, 1, 0xFFFFFF);
 			}
@@ -335,10 +307,12 @@ public class GuiOverlay extends OverlayBase {
 					float y = sHeight / 3 + minecraft.font.lineHeight * 1.1F * i + 23;
 					if(message.startsWith("A_")) {
 						RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
-						blit(gui, menuTexture, (int)x, (int)y-3, 74, 102, 12, 12);
-						message = message.replace("A_", "");
+					}
+					String strippedMessage = drawMessagePrefixIcon(gui, message, x, y-3);
+					if (!strippedMessage.equals(message)) {
 						x += 13;
 					}
+					message = strippedMessage;
 
 					showText(matrixStack, Utils.translateToLocalFormatted(message), x, y, 0, 0.8f, 0.8f, 1, 0xFFFFFF);
 				}
@@ -407,11 +381,11 @@ public class GuiOverlay extends OverlayBase {
 						float y = minecraft.font.lineHeight * 1.1F * i;
 						RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
 
-						if(message.startsWith("A_")) {
-							blit(gui, menuTexture, (int)x, (int)y-2, 74, 102, 12, 12);
-							message = message.replace("A_", "");
+						String strippedMessage2 = drawMessagePrefixIcon(gui, message, x, y-2);
+						if (!strippedMessage2.equals(message)) {
 							x += 13;
 						}
+						message = strippedMessage2;
 						showText(matrixStack, Utils.translateToLocalFormatted(message), x, y, 0, 0.8f, 0.8f, 1, 0xFFFFFF);
 					}
 					RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
@@ -439,6 +413,27 @@ public class GuiOverlay extends OverlayBase {
 
 	}
 
+	private static final Map<String, ItemCategory> MESSAGE_ICON_PREFIXES = new LinkedHashMap<>();
+	static {
+		MESSAGE_ICON_PREFIXES.put("A_", ItemCategory.ABILITIES);
+		MESSAGE_ICON_PREFIXES.put("S_", ItemCategory.SHOTLOCK);
+		MESSAGE_ICON_PREFIXES.put("M_", ItemCategory.MAGICS);
+		MESSAGE_ICON_PREFIXES.put("C_", ItemCategory.ACCESSORIES);
+		MESSAGE_ICON_PREFIXES.put("R_", ItemCategory.EQUIPMENT);
+		MESSAGE_ICON_PREFIXES.put("I_", ItemCategory.ITEMSTACK);
+	}
+
+	private String drawMessagePrefixIcon(GuiGraphics gui, String message, float x, float y) {
+		for (Map.Entry<String, ItemCategory> entry : MESSAGE_ICON_PREFIXES.entrySet()) {
+			if (message.startsWith(entry.getKey())) {
+				ClientUtils.drawCategoryIcon(gui, entry.getValue(), x, y, 0.5F);
+				return message.substring(entry.getKey().length());
+			}
+		}
+		return message;
+	}
+
+
 	private void showText(PoseStack matrixStack, String text, float tX, float tY, float tZ, float sX, float sY, float sZ, int color) {
 		matrixStack.pushPose();
 		{
@@ -448,9 +443,6 @@ public class GuiOverlay extends OverlayBase {
 		}
 		matrixStack.popPose();
 	}
-
-	public static float notifTicks = 0;
-	public static float prevNotifTicks = 0;
 
 	public static float driveNotifTicks = 0;
 	public static float prevDriveNotifTicks = 0;

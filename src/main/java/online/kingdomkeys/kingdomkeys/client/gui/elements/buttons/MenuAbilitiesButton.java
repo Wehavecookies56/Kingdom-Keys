@@ -12,8 +12,12 @@ import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.Ability.AbilityType;
+import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
+import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
+import online.kingdomkeys.kingdomkeys.handler.ClientEvents;
+import online.kingdomkeys.kingdomkeys.lib.Constants;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
@@ -22,7 +26,6 @@ import java.awt.*;
 
 public class MenuAbilitiesButton extends MenuButtonBase {
 
-	private final ResourceLocation texture = KingdomKeys.rl("textures/gui/menu/menu_button.png");
 	private final int endWidth = 11;
 
 	private final int leftU = 47;
@@ -76,9 +79,9 @@ public class MenuAbilitiesButton extends MenuButtonBase {
 			
 			// RenderSystem.enableAlpha();
 			RenderSystem.enableBlend();
-			RenderSystem.setShaderTexture(0, texture);
+			RenderSystem.setShaderTexture(0, Constants.MENU_TEXTURE);
 			if (isHovered && active) { //Hovered button
-				drawButton(gui, isHovered);
+				drawButton(gui, isHovered, partialTicks);
 				gui.drawString(minecraft.font, getMessage().getString().substring(getMessage().getString().indexOf(":")+1), getX() + 20, getY() + 6, new Color(255, 255, 255).hashCode());
 				if(abilityType != AbilityType.WEAPON && abilityType != AbilityType.ACCESSORY) {
 					gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_AP), getX() +endWidth + middleWidth+ apMiddleWidth-5, getY() + 6, new Color(255, 255, 0).hashCode());
@@ -86,14 +89,14 @@ public class MenuAbilitiesButton extends MenuButtonBase {
 				}
 			} else {
 				if(active) {//Not hovered but fully visible
-					drawButton(gui, isHovered);
+					drawButton(gui, isHovered, partialTicks);
 					gui.drawString(minecraft.font, getMessage(), getX() + 20, getY() + 6, new Color(255, 255, 255).hashCode());
 					if(abilityType != AbilityType.WEAPON && abilityType != AbilityType.ACCESSORY) {
 						gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_AP), getX() +endWidth + middleWidth+ apMiddleWidth-5, getY() + 6, new Color(255, 255, 0).hashCode());
 						gui.drawString(minecraft.font, ap+"", getX() +endWidth + middleWidth+ apMiddleWidth+10, getY() + 6, new Color(255,255,255).hashCode());
 					}
 				} else {//Not hovered and selected (not fully visible)
-					drawButton(gui, isHovered);
+					drawButton(gui, isHovered, partialTicks);
 					gui.drawString(minecraft.font, getMessage(), getX() + 20, getY() + 6, new Color(100,100,100).hashCode());
 					if(abilityType != AbilityType.WEAPON && abilityType != AbilityType.ACCESSORY) {
 						gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_AP), getX() +endWidth + middleWidth+ apMiddleWidth-5, getY() + 6, new Color(255, 255, 0).hashCode());
@@ -128,23 +131,23 @@ public class MenuAbilitiesButton extends MenuButtonBase {
 		}
 	}
 
-	private void drawButton(GuiGraphics gui, boolean hovered) {
+	private void drawButton(GuiGraphics gui, boolean hovered, float partialTicks) {
 		//Ability name
 		PoseStack matrixStack = gui.pose();
 		matrixStack.pushPose();
 		{
-			gui.blit(texture, getX(), getY(), leftU, vPos, endWidth, height);
-			gui.blit(texture, getX() + endWidth, getY(), middleWidth, height, middleU, vPos, 1, height, 256, 256);
-			gui.blit(texture, getX() + endWidth + middleWidth, getY(), rightU, vPos, endWidth, height);
+			gui.blit(Constants.MENU_TEXTURE, getX(), getY(), leftU, vPos, endWidth, height);
+			gui.blit(Constants.MENU_TEXTURE, getX() + endWidth, getY(), middleWidth, height, middleU, vPos, 1, height, 256, 256);
+			gui.blit(Constants.MENU_TEXTURE, getX() + endWidth + middleWidth, getY(), rightU, vPos, endWidth, height);
 		}
 		matrixStack.popPose();
 		
 		if(abilityType != AbilityType.WEAPON && abilityType != AbilityType.ACCESSORY) {
 			//AP Cost
 			RenderSystem.setShaderColor(0.3F, 0.24F, 0, 1.0F);
-			gui.blit(texture, getX() + middleWidth + endWidth + 10, getY() - 1, 72, 117, endWidth, height);
-			gui.blit(texture, getX() + middleWidth + endWidth + 19, getY(), apMiddleWidth, height, middleU, vPos, 1, height, 256, 256);
-			gui.blit(texture, getX() + endWidth + middleWidth + apMiddleWidth + 19, getY(), rightU, vPos, endWidth, height);
+			gui.blit(Constants.MENU_TEXTURE, getX() + middleWidth + endWidth + 10, getY() - 1, 72, 117, endWidth, height);
+			gui.blit(Constants.MENU_TEXTURE, getX() + middleWidth + endWidth + 19, getY(), apMiddleWidth, height, middleU, vPos, 1, height, 256, 256);
+			gui.blit(Constants.MENU_TEXTURE, getX() + endWidth + middleWidth + apMiddleWidth + 19, getY(), rightU, vPos, endWidth, height);
 		}
 		//Equipped/Unequipped icon
 		matrixStack.pushPose();
@@ -152,23 +155,27 @@ public class MenuAbilitiesButton extends MenuButtonBase {
 			RenderSystem.setShaderColor(1, 1, 1, 1);
 			equipped = playerData.isAbilityEquipped(KingdomKeys.rl(text), index) || isVisual;
 			if(!equipped && abilityType != AbilityType.WEAPON && abilityType != AbilityType.ACCESSORY) {
-				gui.blit(texture, getX()+6, getY()+4, 74, 102, 12, 12);
+				ClientUtils.drawCategoryIcon(gui, ItemCategory.ABILITIES, getX()+6, getY()+4, 0.6F);
 			} else {
-				gui.blit(texture, getX()+6, getY()+4, 87, 102, 12, 12);
+				ClientUtils.drawCategoryIcon(gui, ItemCategory.ABILITIES_EQUIPPED, getX()+6, getY()+4, 0.6F);
 			}
 		}
 		matrixStack.popPose();
 		
-		//Hovered outline
+		//Glove and dot
 		if(hovered) {
+			//Hovered outline
 			matrixStack.pushPose();
 			{
 				RenderSystem.setShaderColor(1, 1, 1, 1);
-				gui.blit(texture, getX(), getY(), leftU, selectedVPos, endWidth, height);
-				gui.blit(texture, getX() + endWidth, getY(), middleWidth, height, middleU, selectedVPos, 1, height, 256, 256);
-				gui.blit(texture, getX() + endWidth + middleWidth, getY(), rightU, selectedVPos, endWidth, height);
+				gui.blit(Constants.MENU_TEXTURE, getX(), getY(), leftU, selectedVPos, endWidth, height);
+				gui.blit(Constants.MENU_TEXTURE, getX() + endWidth, getY(), middleWidth, height, middleU, selectedVPos, 1, height, 256, 256);
+				gui.blit(Constants.MENU_TEXTURE, getX() + endWidth + middleWidth, getY(), rightU, selectedVPos, endWidth, height);
 			}
 			matrixStack.popPose();
+
+			ClientUtils.drawGloveAndDot(gui,getX(),getY(),getWidth(),partialTicks);
+
 		}
 		
 	}

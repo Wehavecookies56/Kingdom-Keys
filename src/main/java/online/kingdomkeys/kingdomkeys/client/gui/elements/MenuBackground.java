@@ -29,6 +29,7 @@ import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.handler.InputHandler;
+import online.kingdomkeys.kingdomkeys.lib.Constants;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.lib.Struggle;
@@ -48,7 +49,6 @@ public class MenuBackground extends Screen {
 	public Player player;
 	public PlayerData playerData;
 
-	public static final ResourceLocation PLAYER_BOX_TEXTURE = KingdomKeys.rl("textures/gui/menu/menu_button.png");
 	int selected;
 
 	String tip = null;
@@ -424,7 +424,6 @@ public class MenuBackground extends Screen {
 
 	}
 
-	public static final ResourceLocation menu = KingdomKeys.rl("textures/gui/menu/menu_button.png");
 	public static final ResourceLocation menubg = KingdomKeys.rl("textures/gui/menu/menu_background.png");
 
 	public static String getWorldMinutes(Level world) {
@@ -712,13 +711,13 @@ public class MenuBackground extends Screen {
 
 				RenderSystem.enableBlend();
 
-				gui.blit(PLAYER_BOX_TEXTURE, infoBoxPosX, infoBoxPosY, 123,67,11,22);
-				gui.blit(PLAYER_BOX_TEXTURE, infoBoxPosX + 11, infoBoxPosY, infoBoxWidth, 22, 135,67,1,22,256,256);
-				gui.blit(PLAYER_BOX_TEXTURE, infoBoxPosX + 11 + infoBoxWidth, infoBoxPosY,137,67,3,22);
+				gui.blit(Constants.MENU_TEXTURE, infoBoxPosX, infoBoxPosY, 123,67,11,22);
+				gui.blit(Constants.MENU_TEXTURE, infoBoxPosX + 11, infoBoxPosY, infoBoxWidth, 22, 135,67,1,22,256,256);
+				gui.blit(Constants.MENU_TEXTURE, infoBoxPosX + 11 + infoBoxWidth, infoBoxPosY,137,67,3,22);
 
-				gui.blit(PLAYER_BOX_TEXTURE, infoBoxPosX, infoBoxPosY + 22,123,90,3,35);
-				gui.blit(PLAYER_BOX_TEXTURE, infoBoxPosX + 3, infoBoxPosY + 22, infoBoxWidth+8, 35,127,90,1,35,256,256);
-				gui.blit(PLAYER_BOX_TEXTURE, infoBoxPosX + 3 + infoBoxWidth + 8, infoBoxPosY + 22,129,90,3,35);
+				gui.blit(Constants.MENU_TEXTURE, infoBoxPosX, infoBoxPosY + 22,123,90,3,35);
+				gui.blit(Constants.MENU_TEXTURE, infoBoxPosX + 3, infoBoxPosY + 22, infoBoxWidth+8, 35,127,90,1,35,256,256);
+				gui.blit(Constants.MENU_TEXTURE, infoBoxPosX + 3 + infoBoxWidth + 8, infoBoxPosY + 22,129,90,3,35);
 
 				RenderSystem.disableBlend();
 			}

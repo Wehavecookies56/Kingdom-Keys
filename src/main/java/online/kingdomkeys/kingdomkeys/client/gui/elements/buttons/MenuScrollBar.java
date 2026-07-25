@@ -9,6 +9,7 @@ import net.minecraft.resources.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
+import online.kingdomkeys.kingdomkeys.lib.Constants;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
@@ -26,8 +27,6 @@ public class MenuScrollBar extends Button {
 	final int handleEndOffset = 3;
 
 	public static final int WIDTH = 14;
-
-	ResourceLocation texture = KingdomKeys.rl("textures/gui/menu/menu_button.png");
 
 	public MenuScrollBar(int x, int y, int bottom, int visibleHeight, int contentHeight, boolean alwaysVisible) {
 		super(new Builder(Component.empty(),button -> {}).bounds(x, y, WIDTH, bottom-y));
@@ -107,21 +106,21 @@ public class MenuScrollBar extends Button {
 			RenderSystem.setShaderColor(1, 1, 1, 1);
 
 			//Top of bar
-			ClientUtils.blitScaled(texture, gui, getX(), getY(), barTopUV.X, barTopUV.Y, barTopBotDims.X, barTopBotDims.Y, 1);
+			ClientUtils.blitScaled(Constants.MENU_TEXTURE, gui, getX(), getY(), barTopUV.X, barTopUV.Y, barTopBotDims.X, barTopBotDims.Y, 1);
 
 			//Handle top
-			ClientUtils.blitScaled(texture, gui, getX(), handleY - handleDims.Y, handleTopUV.X, handleTopUV.Y, handleDims.X, handleDims.Y, 1);
+			ClientUtils.blitScaled(Constants.MENU_TEXTURE, gui, getX(), handleY - handleDims.Y, handleTopUV.X, handleTopUV.Y, handleDims.X, handleDims.Y, 1);
 
 			//Handle middle
 			for (int i = 0; i < handleHeight; i++) {
-				ClientUtils.blitScaled(texture, gui, getX(), handleY, handleMiddleUV.X, handleMiddleUV.Y, handleDims.X, 1, 1, handleHeight);
+				ClientUtils.blitScaled(Constants.MENU_TEXTURE, gui, getX(), handleY, handleMiddleUV.X, handleMiddleUV.Y, handleDims.X, 1, 1, handleHeight);
 			}
 
 			//Handle bottom
-			ClientUtils.blitScaled(texture, gui, getX(), handleY + handleHeight, handleBottomUV.X, handleBottomUV.Y, handleDims.X, handleDims.Y, 1);
+			ClientUtils.blitScaled(Constants.MENU_TEXTURE, gui, getX(), handleY + handleHeight, handleBottomUV.X, handleBottomUV.Y, handleDims.X, handleDims.Y, 1);
 
 			//Bottom of bar
-			ClientUtils.blitScaled(texture, gui, getX(), bottom - barTopBotDims.Y, barBottomUV.X, barBottomUV.Y, barTopBotDims.X, barTopBotDims.Y, 1);
+			ClientUtils.blitScaled(Constants.MENU_TEXTURE, gui, getX(), bottom - barTopBotDims.Y, barBottomUV.X, barBottomUV.Y, barTopBotDims.X, barTopBotDims.Y, 1);
 		}
 	}
 
