@@ -35,6 +35,11 @@ public class StruggleHUDGui extends OverlayBase {
 		super();
 	}
 
+	// Milliseconds interpolation
+	private String lastTimedStruggle = null;
+	private int lastSyncedSeconds = -1;
+	private long lastSyncedGameTime = 0;
+
 	@Override
 	public void render(GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
 		super.render(guiGraphics, deltaTracker);
@@ -93,7 +98,22 @@ public class StruggleHUDGui extends OverlayBase {
 
 	private void drawTimer(GuiGraphics gui, Struggle struggle, int centerX, int y) {
 		int seconds = Math.max(0, struggle.getRoundSecondsLeft());
-		MutableComponent timeText = Component.literal(String.format("%d:%02d", seconds / 60, seconds % 60));
+		long gameTime = minecraft.level.getGameTime();
+
+		if (!struggle.getName().equals(lastTimedStruggle) || seconds != lastSyncedSeconds) {
+			lastTimedStruggle = struggle.getName();
+			lastSyncedSeconds = seconds;
+			lastSyncedGameTime = gameTime;
+		}
+
+		long elapsedMs = (gameTime - lastSyncedGameTime) * 50L; // 1 tick = 50ms
+		long msRemaining = Math.max(0, seconds * 1000L - elapsedMs);
+
+		long minutes = msRemaining / 60000L;
+		long secs = (msRemaining % 60000L) / 1000L;
+		long centis = (msRemaining % 1000L) / 10L;
+
+		MutableComponent timeText = Component.literal(String.format("%02d'%02d\"%02d", minutes, secs, centis));
 		gui.drawString(font,timeText.withStyle(ClientUtils.KK_Font_EXP), centerX - font.width(timeText) / 2, y, 0xFFD900);
 	}
 
