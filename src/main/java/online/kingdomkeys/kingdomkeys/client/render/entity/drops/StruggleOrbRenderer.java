@@ -17,7 +17,7 @@ import org.joml.Matrix4f;
 
 public class StruggleOrbRenderer extends EntityItemDropRenderer {
 
-	private static final ResourceLocation TEXTURE = KingdomKeys.rl("textures/entity/gummi_fire.png");
+	private static final ResourceLocation TEXTURE = KingdomKeys.rl("textures/entity/struggle_orb.png");
 
 	public StruggleOrbRenderer(EntityRendererProvider.Context context) {
 		super(context);

@@ -59,6 +59,13 @@ public class StruggleHandler {
 				continue; // struggle is gone now, nothing left to tick for it
 			}
 
+			// Once a minute, drop anyone still listed as a participant who isn't actually online -
+			// covers the disconnect event not firing cleanly (e.g. the server getting shut down
+			// abruptly while players were still connected).
+			if (server.getTickCount() % 1200 == 0) {
+				removeOfflineParticipants(server, worldData, struggle);
+			}
+
 			tick(server, overworld, worldData, struggle);
 
 			// While a match is running, keep every combatant's weapon slot selected no matter what they try to switch to - this is what makes them "unable to change" out of the Struggle weapon.
@@ -106,12 +113,6 @@ public class StruggleHandler {
 		return true;
 	}
 
-	/**
-	 * If someone disconnects while actively fighting, they lose immediately (in a 1v1 - Duel or a
-	 * Tournament match - the other combatant is declared the winner right away; in FFA with more than 2
-	 * still fighting, they're just removed and everyone else keeps going). Either way they're also
-	 * removed from the match's roster entirely, win or not.
-	 */
 	@SubscribeEvent
 	public void onPlayerLoggedOut(PlayerEvent.PlayerLoggedOutEvent event) {
 		if (!(event.getEntity() instanceof ServerPlayer player)) return;
@@ -121,23 +122,44 @@ public class StruggleHandler {
 		UUID id = player.getUUID();
 
 		for (Struggle struggle : new ArrayList<>(worldData.getStruggles())) {
-			if (struggle.isInProgress() && struggle.getActiveCombatantIds().contains(id)) {
-				List<UUID> activeIds = struggle.getActiveCombatantIds();
-				if (activeIds.size() <= 2) {
-					List<Struggle.Participant> combatants = activeIds.stream().map(struggle::getParticipant).filter(Objects::nonNull).collect(Collectors.toList());
-					Struggle.Participant winner = combatants.stream().filter(p -> !p.getUUID().equals(id)).findFirst().orElse(null);
-					if (winner != null) {
-						endMatch(server, worldData, struggle, winner, combatants);
-					}
-				} else {
-					// FFA with others still fighting - just drop them, everyone else keeps going.
-					activeIds.remove(id);
-				}
-			}
+			removePlayerFromStruggle(server, worldData, struggle, id);
+		}
 
-			if (struggle.hasParticipant(id)) {
-				worldData.removeStruggleParticipant(struggle, id);
+		worldData.setDirty();
+		PacketHandler.sendToAll(new SCSyncWorldData(server));
+	}
+
+	private void removePlayerFromStruggle(MinecraftServer server, WorldData worldData, Struggle struggle, UUID id) {
+		if (struggle.isInProgress() && struggle.getActiveCombatantIds().contains(id)) {
+			List<UUID> activeIds = struggle.getActiveCombatantIds();
+			if (activeIds.size() <= 2) {
+				List<Struggle.Participant> combatants = activeIds.stream().map(struggle::getParticipant).filter(Objects::nonNull).collect(Collectors.toList());
+				Struggle.Participant winner = combatants.stream().filter(p -> !p.getUUID().equals(id)).findFirst().orElse(null);
+				if (winner != null) {
+					endMatch(server, worldData, struggle, winner, combatants);
+				}
+			} else {
+				// FFA with others still fighting - just drop them, everyone else keeps going.
+				activeIds.remove(id);
 			}
+		}
+
+		if (struggle.hasParticipant(id)) {
+			worldData.removeStruggleParticipant(struggle, id);
+		}
+	}
+
+	private void removeOfflineParticipants(MinecraftServer server, WorldData worldData, Struggle struggle) {
+		List<UUID> offline = struggle.getParticipants().stream()
+				.map(Struggle.Participant::getUUID)
+				.filter(participantId -> server.getPlayerList().getPlayer(participantId) == null)
+				.collect(Collectors.toList());
+
+		if (offline.isEmpty())
+			return;
+
+		for (UUID id : offline) {
+			removePlayerFromStruggle(server, worldData, struggle, id);
 		}
 
 		worldData.setDirty();
