@@ -11,6 +11,42 @@
 		{
 			"type": "text",
 			"text": "Estos conjuntos de armadura pueden ser fabricados en el estilo de $(#cc7a22)Terra$(), $(#335cc1)Aqua$(), $(#80d11d)Ventus$(), $(#b6b6c9)Eraqus$(), $(#5d5d5d)Xehanort$() y $(#1a1827)Ventus Pesadilla$(). Entra en una Mesa de Forja y combina $(thing)armadura de netherita$() con $(thing)molde de herrería de mejora$() con un tinte $(#cc7a22)naranja$(), $(#335cc1)azul$(), $(#80d11d)verde lima$(), $(#b6b6c9)blanco$() o $(#5d5d5d)gris$() y $(#1a1827)negro$(), respectivamente.$(p)Además, una Hombrera puede encantarse agarrándola y presionando clic derecho, mientras llevas un conjunto de armadura con los encantamientos deseados. $(thing)Atención$(): ¡La armadura que llevas actualmente será desencantada en el proceso!"
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "kingdomkeys:terra_shoulder",
+			"link_recipe": true,
+			"text": "En la $(thing)Mesa de Forja$(), combina una pieza de $(item)armadura de netherita$(), una $(item)plantilla de mejora$() y un tinte $(#cc7a22)naranja$() para obtener cada pieza del set de $(thing)Terra$(). Con las 4 piezas puedes fabricar esta hombrera."
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "kingdomkeys:aqua_shoulder",
+			"link_recipe": true,
+			"text": "En la $(thing)Mesa de Forja$(), combina una pieza de $(item)armadura de netherita$(), una $(item)plantilla de mejora$() y un tinte $(#335cc1)azul$() para obtener cada pieza del set de $(thing)Aqua$(). Con las 4 piezas puedes fabricar esta hombrera."
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "kingdomkeys:ventus_shoulder",
+			"link_recipe": true,
+			"text": "En la $(thing)Mesa de Forja$(), combina una pieza de $(item)armadura de netherita$(), una $(item)plantilla de mejora$() y un tinte $(#80d11d)verde lima$() para obtener cada pieza del set de $(thing)Ventus$(). Con las 4 piezas puedes fabricar esta hombrera."
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "kingdomkeys:eraqus_shoulder",
+			"link_recipe": true,
+			"text": "En la $(thing)Mesa de Forja$(), combina una pieza de $(item)armadura de netherita$(), una $(item)plantilla de mejora$() y un tinte $(#b6b6c9)blanco$() para obtener cada pieza del set de $(thing)Eraqus$(). Con las 4 piezas puedes fabricar esta hombrera."
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "kingdomkeys:xehanort_shoulder",
+			"link_recipe": true,
+			"text": "En la $(thing)Mesa de Forja$(), combina una pieza de $(item)armadura de netherita$(), una $(item)plantilla de mejora$() y un tinte $(#5d5d5d)gris$() para obtener cada pieza del set de $(thing)Xehanort$(). Con las 4 piezas puedes fabricar esta hombrera."
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "kingdomkeys:nightmareventus_shoulder",
+			"link_recipe": true,
+			"text": "En la $(thing)Mesa de Forja$(), combina una pieza de $(item)armadura de netherita$(), una $(item)plantilla de mejora$() y un tinte $(#1a1827)negro$() para obtener cada pieza del set de $(thing)Pesadilla de Ventus$(). Con las 4 piezas puedes fabricar esta hombrera."
 		}
 	]
 }

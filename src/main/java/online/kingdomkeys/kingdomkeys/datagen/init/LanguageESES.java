@@ -1640,11 +1640,11 @@ public class LanguageESES extends KKLanguageProvider {
         addItem(ModItems.dreamSword, "Espada de Ensue\u00f1o");
         addItem(ModItems.dreamStaff, "Bast\u00f3n de Ensue\u00f1o");
         addItem(ModItems.dreamShield, "Escudo de Ensue\u00f1o");
-        addItem(ModItems.struggleSword, "Espada de Struggle");
+        addItem(ModItems.struggleSword, "Bate de Struggle");
         addItem(ModItems.struggleWand, "Varita de Struggle");
         addItem(ModItems.struggleHammer, "Martillo de Struggle");
         addItem(ModItems.k111, "K111");
-        addItem(ModItems.retribution, "Retribuci\u00f3n");
+        addItem(ModItems.retribution, "Retribución");
 
         //Keychains
         addItem(ModItems.abaddonPlasmaChain, "Llavero de Plasma de Abad\u00f3n");

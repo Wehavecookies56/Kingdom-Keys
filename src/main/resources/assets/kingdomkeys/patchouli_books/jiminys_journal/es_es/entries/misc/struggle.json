@@ -1,0 +1,28 @@
+{
+	"name": "Struggle",
+	"icon": "kingdomkeys:struggle_board",
+	"sortnum": 8,
+	"category": "kingdomkeys:misc",
+	"pages": [
+		{
+			"type": "patchouli:text",
+			"text": "El $(thing)Struggle$() es un combate amistoso entre jugadores con bates de juguete. Coloca un $(item)Tablón de Struggle$() y haz clic derecho para crear una partida: serás el dueño y podrás configurar las esquinas de la arena y el modo de juego.$(p)Hay tres modos: $(thing)Duelo$() (1 contra 1), $(thing)Torneo$() (cuadro por rondas) y $(thing)Todos contra todos$()."
+		},
+		{
+			"type": "patchouli:text",
+			"text": "Para participar necesitas llevar en la hotbar una de las tres armas: $(item)Bate de Struggle$(), $(item)Martillo de Struggle$() o $(item)Varita de Struggle$(). Durante el combate quedarás fijado a esa arma y no podrás cambiar de objeto.$(p)Al golpear a un rival le quitas orbes; quien más tenga cuando acabe el tiempo gana. El ganador se anuncia por el chat."
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "kingdomkeys:struggle_poster",
+			"link_recipe": true,
+			"text": "Guarda la posición de un tablero con $(thing)agacharte + clic derecho$(), colócalo en una pared y sintoniza una $(item)brújula$() con él para volver a encontrar la arena."
+		},
+		{
+			"type": "patchouli:link",
+			"url": "https://kingdomkeys.online/blocks/struggle/",
+			"link_text": "Abrir la wiki",
+			"text": "Reglas, puntuación y ajustes al detalle en la wiki externa."
+		}
+	]
+}

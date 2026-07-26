@@ -1,0 +1,28 @@
+{
+	"name": "Struggle",
+	"icon": "kingdomkeys:struggle_board",
+	"sortnum": 8,
+	"category": "kingdomkeys:misc",
+	"pages": [
+		{
+			"type": "patchouli:text",
+			"text": "$(thing)Struggle$() is a friendly player-versus-player match fought with toy bats. Place a $(item)Struggle Board$() and right-click it to create a match: you become the owner and get to set the arena corners and the game mode.$(p)There are three modes: $(thing)Duel$() (1v1), $(thing)Tournament$() (round-based bracket) and $(thing)Free For All$()."
+		},
+		{
+			"type": "patchouli:text",
+			"text": "To take part you need one of the three weapons in your hotbar: $(item)Struggle Sword$(), $(item)Struggle Hammer$() or $(item)Struggle Wand$(). During a match you're locked to that weapon and can't switch items.$(p)Hitting an opponent knocks orbs off them; whoever holds the most when time runs out wins. The winner is announced in chat."
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "kingdomkeys:struggle_poster",
+			"link_recipe": true,
+			"text": "Save a board's location with $(thing)sneak + right-click$(), place it on a wall, then tune a $(item)compass$() to it to find the arena again."
+		},
+		{
+			"type": "patchouli:link",
+			"url": "https://kingdomkeys.online/blocks/struggle/",
+			"link_text": "Open the wiki",
+			"text": "Full rules, scoring and settings are on the external wiki."
+		}
+	]
+}
