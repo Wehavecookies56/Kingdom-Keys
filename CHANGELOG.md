@@ -7,7 +7,7 @@
     * Free for All: Up to 8 players, all vs all.
   * You can specify the amount of initial orbs and timer, corners and spectator coords.
 * Struggle posters:
-  * Craft them and shift + right click on a Struggle board to store it's coordenates in the poster.
+  * Craft them and shift + right click on a Struggle board to store its coordinates in the poster.
   * Then place the poster on a wall and right click it with a compass.
   * The compass will now point towards the struggle board.
 * A bunch of limits:
@@ -35,9 +35,10 @@
 * Recipe to craft the dev heads.
 * Treasure chest block, this is a special type of chest that has no GUI and will give the player items when right-clicked, these are intended for Castle Oblivion room generation and cannot be created.
 * Calm Bounty, False Bounty, Guarded Trove map cards implemented.
+* White Room, Black Room and Roulette Room map cards added alongside the Roulette Bonus item and a new modifier type kingdomkeys:drop for adding custom drops for enemies in rooms.
 * Castle Oblivion Room Types have a treasure property to specify the loot and trapped chests.
 * Encounter rooms spawn a treasure chest on completion with the rewards.
-* Obtained item display can be dismissed by pressing a mouse button or key.
+* Obtained item display can be dismissed by pressing a mouse button or key. The item description box will use "item.<namespace>.<itemname>.desc" if it exists in the lang file otherwise will use the tooltip.
 * Item Overflow, items given to the player such as the Keycards will go into your overflow inventory if you have no inventory space. Overflow inventory can be accessed in the Stock menu.
 * Dropped cards will now bounce similar to how they do in Chain of Memories.
 * Glove and dot indicator for abilities.
@@ -49,11 +50,11 @@
 * Regenerating rooms in Castle Oblivion clears all entities so it no longer leaves dropped items everywhere.
 * Opening card packs will deposit the cards in the Cards bag if it has some space.
 * Recipes for Keyblade Forge level ups are now different for each Keyblade.
-* Slightly optimized some parts of the code.
+* Slightly optimized some parts of the code. This includes some of the GUIs which should run a bit faster now.
 * Moved Portals command menu entry to the bottom for org, below Limits.
 * Updated Keyblade weapon to match new EFM declarations.
 * White Mushroom rewards are now data driven, by default the loot table is composed by orichalcum, orichalcum plus, illusory crystal, evanescent crystal, manifest illusion and lost illusion, and they drop from 1 up to 2 or 3 of one material.
-* Datagen'd Org limits, leveling paths, sell, shop and driveforms.
+* Datagen'd Org limits, leveling paths, sell, shop, driveforms, room types, room structures, room encounters and floor types (not that this makes any difference for players).
 
 ## Fixed:
 * Castle Oblivion door criteria values match COM's mechanics, the doors within a generated room will be +1 the value of the card until it reaches 9 then will be 0.
