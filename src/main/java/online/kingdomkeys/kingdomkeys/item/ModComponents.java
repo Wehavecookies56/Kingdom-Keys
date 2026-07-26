@@ -1,6 +1,7 @@
 package online.kingdomkeys.kingdomkeys.item;
 
 import com.mojang.serialization.Codec;
+import net.minecraft.core.GlobalPos;
 import net.minecraft.core.UUIDUtil;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.Registries;
@@ -37,6 +38,7 @@ public class ModComponents {
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> SAVE_POINT_MAGIC = COMPONENTS.registerComponentType("save_point_magic", builder -> builder.persistent(Codec.INT).networkSynchronized(ByteBufCodecs.INT));
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> SAVE_POINT_HUNGER = COMPONENTS.registerComponentType("save_point_hunger", builder -> builder.persistent(Codec.INT).networkSynchronized(ByteBufCodecs.INT));
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> SAVE_POINT_DRIVE = COMPONENTS.registerComponentType("save_point_drive", builder -> builder.persistent(Codec.INT).networkSynchronized(ByteBufCodecs.INT));
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<GlobalPos>> POSTER_TARGET = COMPONENTS.registerComponentType("poster_target", builder -> builder.persistent(GlobalPos.CODEC).networkSynchronized(GlobalPos.STREAM_CODEC));
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> SAVE_POINT_FOCUS = COMPONENTS.registerComponentType("save_point_focus", builder -> builder.persistent(Codec.INT).networkSynchronized(ByteBufCodecs.INT));
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> PAULDRON_CREATED = COMPONENTS.registerComponentType("pauldron_created", builder -> builder.persistent(Codec.BOOL).networkSynchronized(ByteBufCodecs.BOOL).cacheEncoding());
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<GummiStructure>> GUMMI_STRUCTURE = COMPONENTS.registerComponentType("gummi_structure", builder -> builder.persistent(GummiStructure.CODEC).networkSynchronized(GummiStructure.STREAM_CODEC).cacheEncoding());

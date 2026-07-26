@@ -588,6 +588,10 @@ public class LanguageENUS extends KKLanguageProvider {
         addBlock(ModBlocks.sorCore, "Station of Sorrow Core");
         addBlock(ModBlocks.dataPortal, "Data Portal");
         addBlock(ModBlocks.airstepTarget, "Airstep point");
+        addItem(ModItems.struggle_poster, "Struggle Poster");
+        add("kingdomkeys.item.struggle_poster.saved", "Struggle board location saved!");
+        add("kingdomkeys.item.struggle_poster.no_target", "This poster hasn't been tuned to anything yet.");
+        add("kingdomkeys.item.struggle_poster.retuned", "Compass re-tuned to the saved location!");
 
         add("savepoint.healing","healing");
         add("savepoint.magic","magic restoration");

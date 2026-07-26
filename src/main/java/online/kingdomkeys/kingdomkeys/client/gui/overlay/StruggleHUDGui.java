@@ -117,11 +117,6 @@ public class StruggleHUDGui extends OverlayBase {
 		gui.drawString(font,timeText.withStyle(ClientUtils.KK_Font_EXP), centerX - font.width(timeText) / 2, y, 0xFFD900);
 	}
 
-	/**
-	 * @param anchorX for the left side, the left edge of the whole widget; for the right side, the
-	 *                right edge of the whole widget (everything is laid out growing away from it).
-	 * @param fromLeft true = icon then number (grows rightward), false = number then icon (grows leftward)
-	 */
 	private void drawSide(GuiGraphics gui, Struggle.Participant participant, int anchorX, int y, boolean fromLeft) {
 		int color = colorFor(participant);
 		String scoreText = String.valueOf(participant.getScore());

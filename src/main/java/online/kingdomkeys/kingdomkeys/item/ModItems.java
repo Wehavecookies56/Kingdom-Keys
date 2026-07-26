@@ -1159,7 +1159,8 @@ public class ModItems {
 			iceCream = createNewItem(Strings.iceCream, () -> new KKIceCreamItem(new Item.Properties().food(new FoodProperties.Builder().fast().saturationModifier(2.0f).nutrition(2).alwaysEdible().build()))),
 			winnerStick = createNewItem(Strings.winnerStick, () -> new Item(new Item.Properties())),
 			trainingDummy = createNewItem(Strings.trainingDummy, () -> new TrainingDummyItem(new Item.Properties())),
-			gummiMeteorFragment = createNewItem("gummi_meteor_fragment", new Item.Properties());
+			gummiMeteorFragment = createNewItem("gummi_meteor_fragment", new Item.Properties()),
+			struggle_poster = createNewItem("struggle_poster", () -> new PosterItem(new Item.Properties().stacksTo(1)));
 	//endregion
 
 	//Helper method to create item with the properties and registry name

@@ -139,6 +139,7 @@ public class ModEntities {
     public static final DeferredHolder<EntityType<?>, EntityType<TrainingDummyEntity>> TYPE_TRAINING_DUMMY = createEntityType(TrainingDummyEntity::new, MobCategory.MISC, "training_dummy", 1F, 2F);
     public static final DeferredHolder<EntityType<?>, EntityType<DamageNumberEntity>> TYPE_DAMAGE_NUMBER = createEntityType(DamageNumberEntity::new, MobCategory.MISC, "damage_number", 1F, 1F);
     public static final DeferredHolder<EntityType<?>, EntityType<MagicTargetEntity>> TYPE_MAGIC_TARGET = createEntityTypeImmuneToFire(MagicTargetEntity::new, MobCategory.MISC, "magic_target", 1F, 1F);
+    public static final DeferredHolder<EntityType<?>, EntityType<PosterEntity>> TYPE_POSTER = ENTITIES.register("struggle_poster", () -> EntityType.Builder.<PosterEntity>of(PosterEntity::new, MobCategory.MISC).sized(1F, 1F).clientTrackingRange(10).build("struggle_poster"));
 
     //Mobs
     public static final Item.Properties PROPERTIES = new Item.Properties();
@@ -301,6 +302,7 @@ public class ModEntities {
     public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
         //Entities
         event.registerEntityRenderer(TYPE_BLAST_BLOX.get(), BlastBloxRenderer::new);
+        event.registerEntityRenderer(TYPE_POSTER.get(), online.kingdomkeys.kingdomkeys.client.render.entity.PosterEntityRenderer::new);
 
         event.registerEntityRenderer(TYPE_PAIR_BLOX.get(), PairBloxRenderer::new);
         event.registerEntityRenderer(TYPE_MUNNY.get(), MunnyRenderer::new);

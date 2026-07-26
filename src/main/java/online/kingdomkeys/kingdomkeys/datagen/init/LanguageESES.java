@@ -849,6 +849,10 @@ public class LanguageESES extends KKLanguageProvider {
         addBlock(ModBlocks.sorCore, "N\u00facleo de Estaci\u00f3n del Pesar");
         addBlock(ModBlocks.dataPortal, "Portal de Datos");
         addBlock(ModBlocks.airstepTarget, "Punto de modo \u00e1gil");
+        addItem(ModItems.struggle_poster, "Póster de Struggle");
+        add("kingdomkeys.item.struggle_poster.saved", "¡Ubicación del tablero de Struggle guardada!");
+        add("kingdomkeys.item.struggle_poster.no_target", "Este póster todavía no está sintonizado con nada.");
+        add("kingdomkeys.item.struggle_poster.retuned", "¡Brújula resintonizada con la ubicación del Struggle!");
 
         add("savepoint.drive", "recuperaci\u00f3n de fusi\u00f3n");
         add("savepoint.feed", "alimentaci\u00f3n");
