@@ -178,8 +178,9 @@ public class SoldierModel<T extends BaseKHEntity> extends EntityModel<T> {
 		}
 
 		if(entity.distanceToSqr(entity.xOld, entity.yOld, entity.zOld) > 0) {
+			float clock = ageInTicks + entity.getId() * 7F;
 			for (ModelAnimation m : animation) { //iterate through the legs array
-				m.animate();
+				m.animate(clock);
 			}
 		} else {
 			for (ModelAnimation m : animation) { //iterate through the legs array

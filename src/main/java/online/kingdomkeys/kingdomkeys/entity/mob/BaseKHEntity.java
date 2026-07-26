@@ -25,6 +25,7 @@ import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
 public class BaseKHEntity extends Monster implements IKHMob {
 
 	public static final String FINAL_MIX_VARIANT = "fm";
+	public double animFrame; //Here so it's not shared between multiple entities
 
 	public BaseKHEntity(EntityType<? extends Monster> type, Level worldIn) {
 		super(type, worldIn);

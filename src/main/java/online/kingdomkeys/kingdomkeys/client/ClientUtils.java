@@ -316,43 +316,37 @@ public class ClientUtils {
             return defVal + ": " + actVal + " " + increasing;
         }
 
-		public void animate() {
-            if(model != null) {
-                if(increasing) { //animnation increase
-                    actVal += 2;
-                    if(actVal >= maxVal) {
-                        increasing = false;
-                    }
-                } else { //Animation decrease
-                    actVal -= 2;
-                    if(actVal <= minVal) {
-                        increasing = true;
-                    }
-                }
-                switch(angle) {
-                case X:
-                    model.xRot = (float) Math.toRadians(actVal);
-                    if(modelCounterpart != null) {
-                        modelCounterpart.xRot = (float) Math.toRadians(defVal*2-actVal);
-                    }
-                	break;
-                case Y:
-                    model.yRot = (float) Math.toRadians(actVal);
-                    if(modelCounterpart != null) {
-                        modelCounterpart.yRot = (float) Math.toRadians(defVal*2-actVal);
-                    }
-                	break;
-                case Z:
-                    model.zRot = (float) Math.toRadians(actVal);
-                    if(modelCounterpart != null) {
-                        modelCounterpart.zRot = (float) Math.toRadians(defVal*2-actVal);
-                    }
-                	break;
-                }
+		public void animate(float clock) {
+			if (model == null)
+                return;
+			float span = maxVal - minVal;
+			if (span <= 0) {
+				setDefault();
+				return;
 			}
-            
+
+			float travelled = (clock * 2F) % (2F * span);
+			actVal = minVal + (travelled <= span ? travelled : 2F * span - travelled);
+			apply(actVal);
 		}
-		
+
+		private void apply(float value) {
+			switch(angle) {
+			case X:
+				model.xRot = (float) Math.toRadians(value);
+				if(modelCounterpart != null) modelCounterpart.xRot = (float) Math.toRadians(defVal*2-value);
+				break;
+			case Y:
+				model.yRot = (float) Math.toRadians(value);
+				if(modelCounterpart != null) modelCounterpart.yRot = (float) Math.toRadians(defVal*2-value);
+				break;
+			case Z:
+				model.zRot = (float) Math.toRadians(value);
+				if(modelCounterpart != null) modelCounterpart.zRot = (float) Math.toRadians(defVal*2-value);
+				break;
+			}
+		}
+
 		public void setDefault() {
             if(model != null) {
                 switch(angle) {

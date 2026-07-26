@@ -28,6 +28,8 @@
   * Dashing style: Sonic Blade, Absolute Zero, Photon Charge, Lightning Ray. 
   * Circular style: Bubble Blaster, Bio Barrage, Thunderstorm, Pulse Bomb.
   * Special Style: Ultima Cannon, Lightbloom, Multivortex.
+* Final Mix variants system heartless have a small chance to spawn with their FM variant texture, starting with Large Body and Soldier.
+  * Percentage configurable in a server-config option.
 * Toggle Gummi Ship flight mode with pick block key (by default middle mouse click).
   * In that flight mode the ship follows the camera, similar to elytra.
 * Possibility to give items on player level up through datapack (and removed old shotlock and spell ones since they are items now).
@@ -62,6 +64,7 @@
 * 0 doors now need 0 rather than any value.
 * All For One scaling when on the ground.
 * Made some sound effects mono fixing the sound attenuation.
+* Some enemies sharing animation data, resulting in for example soldiers bobbing their head way faster if there were a few being rendered at the same time.
 * Button rendering method, improving performance while in the M menu.
 * Being able to use air dash while in a vehicle.
 * Removed ship fall damage for non player entities.
