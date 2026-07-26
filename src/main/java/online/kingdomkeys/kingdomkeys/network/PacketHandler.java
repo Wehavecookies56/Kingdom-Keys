@@ -115,6 +115,7 @@ public class PacketHandler {
 		server(CSSetEquippedAbilityPacket.TYPE, CSSetEquippedAbilityPacket.STREAM_CODEC);
 		server(CSSetGlidingPacket.TYPE, CSSetGlidingPacket.STREAM_CODEC);
 		server(CSSetNotifColor.TYPE, CSSetNotifColor.STREAM_CODEC);
+		server(CSSetCrownOffset.TYPE, CSSetCrownOffset.STREAM_CODEC);
 		server(CSSetOrgPortalName.TYPE, CSSetOrgPortalName.STREAM_CODEC);
 		server(CSSetShortcutPacket.TYPE, CSSetShortcutPacket.STREAM_CODEC);
 		server(CSShopBuy.TYPE, CSShopBuy.STREAM_CODEC);

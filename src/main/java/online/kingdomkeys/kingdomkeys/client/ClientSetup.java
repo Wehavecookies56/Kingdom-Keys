@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.client;
 
+import online.kingdomkeys.kingdomkeys.client.render.CrownLayerRenderer;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.PlayerModel;
@@ -67,6 +68,7 @@ public class ClientSetup {
 		for(Entry<EntityType<?>, EntityRenderer<?>> entry : Minecraft.getInstance().getEntityRenderDispatcher().renderers.entrySet()) {
 			if(entry.getValue() instanceof LivingEntityRenderer renderer && !(entry.getValue() instanceof PlayerRenderer)) {
 				renderer.addLayer(new AeroLayerRenderer<>(renderer, event.getEntityModels()));
+				renderer.addLayer(new CrownLayerRenderer<>(renderer, event.getEntityModels()));
 				renderer.addLayer(new FreezeLayerRenderer<>(renderer, event.getEntityModels()));
 				renderer.addLayer(new KeybladeArmorRenderer<>(renderer, event.getEntityModels()));
 			}
@@ -78,6 +80,7 @@ public class ClientSetup {
 		renderer.addLayer(new ShoulderLayerRenderer<>(renderer, event.getEntityModels(),true));
 		renderer.addLayer(new KeybladeArmorRenderer<>(renderer, event.getEntityModels()));
 		renderer.addLayer(new AeroLayerRenderer<>(renderer, event.getEntityModels()));
+		renderer.addLayer(new CrownLayerRenderer<>(renderer, event.getEntityModels()));
 		renderer.addLayer(new FreezeLayerRenderer<>(renderer, event.getEntityModels()));
 
 		renderer = event.getSkin(PlayerSkin.Model.SLIM);
@@ -86,6 +89,7 @@ public class ClientSetup {
 		renderer.addLayer(new ShoulderLayerRenderer<>(renderer, event.getEntityModels(),false));
 		renderer.addLayer(new KeybladeArmorRenderer<>(renderer, event.getEntityModels()));
 		renderer.addLayer(new AeroLayerRenderer<>(renderer, event.getEntityModels()));
+		renderer.addLayer(new CrownLayerRenderer<>(renderer, event.getEntityModels()));
 		renderer.addLayer(new FreezeLayerRenderer<>(renderer, event.getEntityModels()));
 	}
 

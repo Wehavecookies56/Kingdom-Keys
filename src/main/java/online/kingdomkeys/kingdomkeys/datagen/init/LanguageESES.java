@@ -2724,6 +2724,10 @@ public class LanguageESES extends KKLanguageProvider {
 
         // Generic GUI
         add("kingdomkeys.gui.hud_editor.title", "Editor de HUD");
+        add("kingdomkeys.gui.config.color_picker", "Selector de color");
+        add("gui.menu.config.armor_color", "Color de la armadura");
+        add("kingdomkeys.gui.config.crown_position", "Posición de corona");
+        add("kingdomkeys.gui.config.crown_rotation", "Rotación de corona");
         add("kingdomkeys.gui.no_options", "Sin opciones");
         add("kingdomkeys.gui.pedestal.reset", "Restablecer");
         add("kingdomkeys.gui.weapon_unlock.equip", "Equipar");

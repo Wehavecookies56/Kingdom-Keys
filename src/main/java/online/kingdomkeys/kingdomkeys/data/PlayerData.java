@@ -270,6 +270,12 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		storage.putBoolean("respawn_rod", respawnROD);
 		
 		storage.putInt("notif_color", notifColor);
+		storage.putString("crown", this.crown);
+		storage.putFloat("crown_offset_x", this.crownOffsetX);
+		storage.putFloat("crown_offset_z", this.crownOffsetZ);
+		storage.putFloat("crown_rotation_x", this.crownRotationX);
+		storage.putFloat("crown_rotation_y", this.crownRotationY);
+		storage.putFloat("crown_rotation_z", this.crownRotationZ);
 
 		CompoundTag airstepCompound = new CompoundTag();
 		Vec3 airstepVec = this.getAirStep().getCenter();
@@ -499,6 +505,13 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		this.setArmorGlint(nbt.getBoolean("armor_glint"));
 		this.setRespawnROD(nbt.getBoolean("respawn_rod"));
 		this.setNotifColor(nbt.getInt("notif_color"));
+		this.setCrown(nbt.getString("crown"));
+		this.crownOffsetX = nbt.getFloat("crown_offset_x");
+		this.crownOffsetZ = nbt.getFloat("crown_offset_z");
+		this.crownRotationX = nbt.getFloat("crown_rotation_x");
+		// "crown_rotation" was the old single-axis key; fall back to it so existing saves keep their spin.
+		this.crownRotationY = nbt.contains("crown_rotation_y") ? nbt.getFloat("crown_rotation_y") : nbt.getFloat("crown_rotation");
+		this.crownRotationZ = nbt.getFloat("crown_rotation_z");
 
 		CompoundTag airStepCompound = nbt.getCompound("airstep_pos_compound");
 		this.setAirStep(new BlockPos((int)airStepCompound.getDouble("x"), (int)airStepCompound.getDouble("y"), (int)airStepCompound.getDouble("z")));
@@ -605,6 +618,15 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 
 	private boolean respawnROD = false;
 	private int notifColor = 16777215;
+	/** Cosmetic crown texture name ("bronze", "silver", "gold"...). Empty = no crown.
+	 * Stored as a plain string so adding a new crown only needs a PNG, no code change. */
+	private String crown = "";
+	/** Where the crown sits on top of the head, in model units (16 = one block). Only X (left/right)
+	 * and Z (forward/back) - the height is always the top of the head, so there is no Y here.
+	 * The tilt lives in the crownRotationX/Y/Z fields below. */
+	private float crownOffsetX = 0F, crownOffsetZ = 0F;
+	/** Crown tilt on all three axes, in degrees: X pitches it forward/back, Y spins it, Z rolls it. */
+	private float crownRotationX = 0F, crownRotationY = 0F, crownRotationZ = 0F;
 
 	private Map<UUID, Instant> discoveredSavePoints = new HashMap<>();
 
@@ -1468,6 +1490,45 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 
 	public void setNotifColor(int color) {
 		this.notifColor = color;
+	}
+
+	public String getCrown() {
+		return crown == null ? "" : crown;
+	}
+
+	public void setCrown(String crown) {
+		this.crown = crown == null ? "" : crown;
+	}
+
+	public float getCrownOffsetX() {
+		return crownOffsetX;
+	}
+
+	public float getCrownOffsetZ() {
+		return crownOffsetZ;
+	}
+
+	public float getCrownRotationX() {
+		return crownRotationX;
+	}
+
+	public float getCrownRotationY() {
+		return crownRotationY;
+	}
+
+	public float getCrownRotationZ() {
+		return crownRotationZ;
+	}
+
+	public void setCrownOffset(float x, float z) {
+		this.crownOffsetX = x;
+		this.crownOffsetZ = z;
+	}
+
+	public void setCrownRotation(float x, float y, float z) {
+		this.crownRotationX = x;
+		this.crownRotationY = y;
+		this.crownRotationZ = z;
 	}
 
 	public int getArmorColor() {

@@ -2706,6 +2706,10 @@ public class LanguageENUS extends KKLanguageProvider {
 
         // Generic GUI
         add("kingdomkeys.gui.hud_editor.title", "HUD Editor");
+        add("kingdomkeys.gui.config.color_picker", "Colour picker");
+        add("gui.menu.config.armor_color", "Armour colour");
+        add("kingdomkeys.gui.config.crown_position", "Crown position");
+        add("kingdomkeys.gui.config.crown_rotation", "Crown rotation");
         add("kingdomkeys.gui.no_options", "No options");
         add("kingdomkeys.gui.pedestal.reset", "Reset");
         add("kingdomkeys.gui.weapon_unlock.equip", "Equip");

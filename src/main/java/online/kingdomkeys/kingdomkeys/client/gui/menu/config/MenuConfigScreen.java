@@ -13,6 +13,8 @@ import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.client.gui.widget.ExtendedSlider;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.ColorPickerWidget;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.CrownPositionWidget;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.EditBoxLength;
@@ -24,6 +26,7 @@ import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSOpenMenu;
+import online.kingdomkeys.kingdomkeys.network.cts.CSSetCrownOffset;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSetNotifColor;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSyncArmorColor;
 import online.kingdomkeys.kingdomkeys.util.Utils;
@@ -38,14 +41,18 @@ import java.util.Map;
 public class MenuConfigScreen extends MenuBackground {
 			
 	enum ActualWindow {
-		FONT, COMMAND_MENU, HP, PLAYER, LOCK_ON_HP, PARTY, IMPORT_EXPORT
+		PLAYER, FONT, COMMAND_MENU, HP, LOCK_ON_HP, PARTY, IMPORT_EXPORT
 	}
 
-	ActualWindow window = ActualWindow.FONT;
+	ActualWindow window = ActualWindow.PLAYER;
 	
 	MenuButton back, fontButton, commandMenuButton, hpButton, playerSkinButton, lockOnButton, partyButton, impExButton;
 	Button backgroundButton, adjustHUDButton;
 	MenuBox box;
+
+	//PlayerSkin
+	Button glintButton;
+	boolean glint;
 
 	//Font
 	Button customFontButton;
@@ -61,11 +68,6 @@ public class MenuConfigScreen extends MenuBackground {
 	Button hpShowHeartsButton;
 	boolean hpShowHearts;
 
-	//PlayerSkin
-	ExtendedSlider armorColorRed, armorColorGreen, armorColorBlue, notifColorRed, notifColorGreen, notifColorBlue;
-	Button glintButton;
-	boolean glint;
-
 	//Lock On
 	EditBox lockOnIconScaleBox, lockOnIconRotationBox, lockOnHpPerBarBox;
 
@@ -80,6 +82,9 @@ public class MenuConfigScreen extends MenuBackground {
 	List<AbstractWidget> commandMenuList = new ArrayList<>();
 	List<AbstractWidget> hpList = new ArrayList<>();
 	List<AbstractWidget> playerSkinList = new ArrayList<>();
+	CrownPositionWidget crownPosition;
+	ExtendedSlider crownRotX, crownRotY, crownRotZ;
+	ColorPickerWidget notifColorPicker, armorColorPicker;
 	List<AbstractWidget> lockOnList = new ArrayList<>();
 	List<AbstractWidget> partyList = new ArrayList<>();
 	List<AbstractWidget> impExpList = new ArrayList<>();
@@ -148,10 +153,10 @@ public class MenuConfigScreen extends MenuBackground {
 		initParty();
 		initImpExp();
 		int y = 0;
+		addRenderableWidget(playerSkinButton = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + y++ * 18, (int) buttonWidth, Utils.translateToLocal("gui.menu.config.player_skin"), ButtonType.BUTTON, (e) -> { window = ActualWindow.PLAYER; }));
 		addRenderableWidget(fontButton = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + y++ * 18, (int) buttonWidth, Utils.translateToLocal("gui.menu.config.font"), ButtonType.BUTTON, (e) -> { window = ActualWindow.FONT; }));
 		addRenderableWidget(commandMenuButton = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + y++ * 18, (int) buttonWidth, Utils.translateToLocal("gui.menu.config.command_menu"), ButtonType.BUTTON, (e) -> { window = ActualWindow.COMMAND_MENU; }));
 		addRenderableWidget(hpButton = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + + y++ * 18, (int) buttonWidth, Utils.translateToLocal("gui.menu.config.hp"), ButtonType.BUTTON, (e) -> { window = ActualWindow.HP; }));
-		addRenderableWidget(playerSkinButton = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + y++ * 18, (int) buttonWidth, Utils.translateToLocal("gui.menu.config.player_skin"), ButtonType.BUTTON, (e) -> { window = ActualWindow.PLAYER; }));
 		addRenderableWidget(lockOnButton = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + y++ * 18, (int) buttonWidth, Utils.translateToLocal("gui.menu.config.lock_on_hp"), ButtonType.BUTTON, (e) -> { window = ActualWindow.LOCK_ON_HP; }));
 		addRenderableWidget(partyButton = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + y++ * 18, (int) buttonWidth, Utils.translateToLocal("gui.menu.config.party"), ButtonType.BUTTON, (e) -> { window = ActualWindow.PARTY; }));
 		addRenderableWidget(impExButton = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + y++ * 18, (int) buttonWidth, Utils.translateToLocal("gui.menu.config.impexp"), ButtonType.BUTTON, (e) -> window = ActualWindow.IMPORT_EXPORT));
@@ -329,122 +334,100 @@ public class MenuConfigScreen extends MenuBackground {
 		int pos = 0;
 		PlayerData playerData = PlayerData.get(minecraft.player);
 
-		int[] notifColors = Utils.getRGBFromDec(playerData.getNotifColor());
+		// Notification colour: SB square + hue strip. Applies live, syncs on release.
+		addRenderableWidget(notifColorPicker = new ColorPickerWidget(buttonsX, (int) (topBarHeight + 40 * ++pos), 80, 44, playerData::getNotifColor, playerData::setNotifColor, () -> PacketHandler.sendToServer(new CSSetNotifColor(playerData.getNotifColor()))));
+		pos += 3; // the picker is taller than one row
 
-		addRenderableWidget(notifColorRed = new ExtendedSlider(buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, Component.translatable(""), Component.translatable("asd"), 0, 255, notifColors[0], 0, 0, false) {
+		addRenderableWidget(crownPosition = new CrownPositionWidget(box.getX() + box.getWidth() - 155, notifColorPicker.getY() - 30, 48));
+		; // the square is taller than one row
+
+		// Three axes: X pitches it forward/back, Y spins it, Z rolls it.
+		addRenderableWidget(crownRotX = new ExtendedSlider(crownPosition.getX() + crownPosition.getWidth() + 2, crownPosition.getY(), 100, 16,
+				Component.literal("X: "), Component.literal("\u00B0"), -180, 180, playerData.getCrownRotationX(), 1, 0, true) {
 			@Override
 			protected void onDrag(double mouseX, double mouseY, double dragX, double dragY) {
-				playerData.setNotifColor(Utils.getDecFromRGB(notifColorRed.getValueInt(), notifColorGreen.getValueInt(), notifColorBlue.getValueInt()));
 				super.onDrag(mouseX, mouseY, dragX, dragY);
+				applyCrownRotation();
 			}
-			
+
 			@Override
 			public void onRelease(double pMouseX, double pMouseY) {
-				PacketHandler.sendToServer(new CSSetNotifColor(playerData.getNotifColor()));
 				super.onRelease(pMouseX, pMouseY);
-			}
-		});
-		
-		addRenderableWidget(notifColorGreen = new ExtendedSlider(buttonsX + 30, (int) (topBarHeight + 20 * pos), minecraft.font.width("#####"), 16, Component.translatable(""), Component.translatable(""), 0, 255, notifColors[1], 0, 0, false) {
-			@Override
-			protected void onDrag(double mouseX, double mouseY, double dragX, double dragY) {
-				playerData.setNotifColor(Utils.getDecFromRGB(notifColorRed.getValueInt(), notifColorGreen.getValueInt(), notifColorBlue.getValueInt()));
-				super.onDrag(mouseX, mouseY, dragX, dragY);
-			}
-			
-			@Override
-			public void onRelease(double pMouseX, double pMouseY) {
-				PacketHandler.sendToServer(new CSSetNotifColor(playerData.getNotifColor()));
-				super.onRelease(pMouseX, pMouseY);
-			}
-		});
-		
-		addRenderableWidget(notifColorBlue = new ExtendedSlider(buttonsX+60, (int) (topBarHeight + 20 * pos), minecraft.font.width("#####"), 16, Component.translatable(""), Component.translatable(""), 0, 255, notifColors[2], 0, 0, false) {
-			@Override
-			protected void onDrag(double mouseX, double mouseY, double dragX, double dragY) {
-				playerData.setNotifColor(Utils.getDecFromRGB(notifColorRed.getValueInt(), notifColorGreen.getValueInt(), notifColorBlue.getValueInt()));
-				super.onDrag(mouseX, mouseY, dragX, dragY);
-			}
-			
-			@Override
-			public void onRelease(double pMouseX, double pMouseY) {
-				PacketHandler.sendToServer(new CSSetNotifColor(playerData.getNotifColor()));
-				super.onRelease(pMouseX, pMouseY);
+				sendCrownPacket();
 			}
 		});
 
-		int[] armorColors = Utils.getRGBFromDec(playerData.getArmorColor());
-		
-		addRenderableWidget(armorColorRed = new ExtendedSlider(buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, Component.translatable(""), Component.translatable(""), 0, 255, armorColors[0], 0, 0, false) {
+		addRenderableWidget(crownRotY = new ExtendedSlider(crownPosition.getX() + crownPosition.getWidth() + 2, crownPosition.getY()+16, 100, 16,
+				Component.literal("Y: "), Component.literal("\u00B0"), -180, 180, playerData.getCrownRotationY(), 1, 0, true) {
 			@Override
 			protected void onDrag(double mouseX, double mouseY, double dragX, double dragY) {
-				playerData.setArmorColor(Utils.getDecFromRGB(armorColorRed.getValueInt(), armorColorGreen.getValueInt(), armorColorBlue.getValueInt()));
 				super.onDrag(mouseX, mouseY, dragX, dragY);
+				applyCrownRotation();
 			}
-			
+
 			@Override
 			public void onRelease(double pMouseX, double pMouseY) {
-				PacketHandler.sendToServer(new CSSyncArmorColor(playerData.getArmorColor(), glint));
 				super.onRelease(pMouseX, pMouseY);
+				sendCrownPacket();
 			}
 		});
-		
-		addRenderableWidget(armorColorGreen = new ExtendedSlider(buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, Component.translatable(""), Component.translatable(""), 0, 255, armorColors[1], 0, 0, false) {
+
+		addRenderableWidget(crownRotZ = new ExtendedSlider(crownPosition.getX() + crownPosition.getWidth() + 2, crownPosition.getY()+32, 100, 16,
+				Component.literal("Z: "), Component.literal("\u00B0"), -180, 180, playerData.getCrownRotationZ(), 1, 0, true) {
 			@Override
 			protected void onDrag(double mouseX, double mouseY, double dragX, double dragY) {
-				playerData.setArmorColor(Utils.getDecFromRGB(armorColorRed.getValueInt(), armorColorGreen.getValueInt(), armorColorBlue.getValueInt()));
 				super.onDrag(mouseX, mouseY, dragX, dragY);
+				applyCrownRotation();
 			}
-			
+
 			@Override
 			public void onRelease(double pMouseX, double pMouseY) {
-				PacketHandler.sendToServer(new CSSyncArmorColor(playerData.getArmorColor(),glint));
 				super.onRelease(pMouseX, pMouseY);
+				sendCrownPacket();
 			}
 		});
-		
-		addRenderableWidget(armorColorBlue = new ExtendedSlider(buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, Component.translatable(""), Component.translatable(""), 0, 255, armorColors[2], 0, 0, false) {
-			@Override
-			protected void onDrag(double mouseX, double mouseY, double dragX, double dragY) {
-				playerData.setArmorColor(Utils.getDecFromRGB(armorColorRed.getValueInt(), armorColorGreen.getValueInt(), armorColorBlue.getValueInt()));
-				super.onDrag(mouseX, mouseY, dragX, dragY);
-			}
-			
-			@Override
-			public void onRelease(double pMouseX, double pMouseY) {
-				PacketHandler.sendToServer(new CSSyncArmorColor(playerData.getArmorColor(),glint));
-				super.onRelease(pMouseX, pMouseY);
-			}
-		});
-			
-		
-		
+
+		// Armour colour.
+		addRenderableWidget(armorColorPicker = new ColorPickerWidget(buttonsX, (int) (topBarHeight + 20 * ++pos), 80, 44, playerData::getArmorColor, playerData::setArmorColor, () -> PacketHandler.sendToServer(new CSSyncArmorColor(playerData.getArmorColor(), glint))));
+		pos += 3; // the picker is taller than one row
+
 		addRenderableWidget(glintButton = Button.builder(Component.translatable(glint+""), (e) -> {
 			 action("glint");
-		}).bounds(buttonsX - 1, (int) topBarHeight + 20 * ++pos - 2, minecraft.font.width("#####")+2, 20).build());
+		}).bounds(buttonsX + 85, (int) topBarHeight + 20 * 7 - 2, minecraft.font.width("#####")+2, 20).build());
 
-		playerSkinList.add(armorColorRed);
-		playerSkinList.add(armorColorGreen);
-		playerSkinList.add(armorColorBlue);
+		playerSkinList.add(armorColorPicker);
 		playerSkinList.add(glintButton);
-		playerSkinList.add(notifColorRed);
-		playerSkinList.add(notifColorGreen);
-		playerSkinList.add(notifColorBlue);
+		playerSkinList.add(notifColorPicker);
+		playerSkinList.add(crownPosition);
+		playerSkinList.add(crownRotX);
+		playerSkinList.add(crownRotY);
+		playerSkinList.add(crownRotZ);
 	}
 		
 	@Override
     public boolean keyPressed(int p_keyPressed_1_, int p_keyPressed_2_, int p_keyPressed_3_) {
         if (p_keyPressed_1_ == 256 || p_keyPressed_1_ == Minecraft.getInstance().options.keyInventory.getKey().getValue()) { //256 = Esc
     		PlayerData playerData = PlayerData.get(minecraft.player);
-			playerData.setArmorColor(Utils.getDecFromRGB(armorColorRed.getValueInt(), armorColorGreen.getValueInt(), armorColorBlue.getValueInt()));
+			// The colour pickers write straight into PlayerData, so there is nothing to read back
+			// off widgets here - just push whatever is currently set.
 			PacketHandler.sendToServer(new CSSyncArmorColor(playerData.getArmorColor(),glint));
-			playerData.setNotifColor(Utils.getDecFromRGB(notifColorRed.getValueInt(), notifColorGreen.getValueInt(), notifColorBlue.getValueInt()));
 			PacketHandler.sendToServer(new CSSetNotifColor(playerData.getNotifColor()));
         }
         return super.keyPressed(p_keyPressed_1_, p_keyPressed_2_, p_keyPressed_3_);
     }
 
 	
+	/** Applies the three rotation sliders locally, so the crown updates while dragging. */
+	private void applyCrownRotation() {
+		PlayerData.get(minecraft.player).setCrownRotation((float) crownRotX.getValue(), (float) crownRotY.getValue(), (float) crownRotZ.getValue());
+	}
+
+	/** Sends position and all three rotations in one packet, on release. */
+	private void sendCrownPacket() {
+		PlayerData pd = PlayerData.get(minecraft.player);
+		PacketHandler.sendToServer(new CSSetCrownOffset(pd.getCrownOffsetX(), pd.getCrownOffsetZ(), pd.getCrownRotationX(), pd.getCrownRotationY(), pd.getCrownRotationZ()));
+	}
+
 	private void initLockOn() {
 		int pos = 0;
 
@@ -698,9 +681,10 @@ public class MenuConfigScreen extends MenuBackground {
 
 					matrixStack.pushPose();
 						{
-						matrixStack.translate(-(width*0.35F), 4, 0);
+						matrixStack.translate(-(width) + box.getX() + 20, 0, 0);
 						RenderSystem.enableBlend();
-						RenderSystem.setShaderColor((float) notifColorRed.getValue() / 255F, (float) notifColorGreen.getValue() / 255F, (float) notifColorBlue.getValue() / 255F, 1F);
+						int notif = PlayerData.get(minecraft.player).getNotifColor();
+						RenderSystem.setShaderColor(((notif >> 16) & 0xFF) / 255F, ((notif >> 8) & 0xFF) / 255F, (notif & 0xFF) / 255F, 1F);
 						ResourceLocation levelUpTexture = KingdomKeys.rl("textures/gui/levelup.png");
 
 						// Top
@@ -734,14 +718,14 @@ public class MenuConfigScreen extends MenuBackground {
 					matrixStack.popPose();
 					RenderSystem.setShaderColor(1,1,1,1F);
 
-					ClientUtils.renderEntity(matrixStack, (int) (width*0.5F), (int) (height*0.55F), 50, 0, 0, player);
+					ClientUtils.renderEntity(matrixStack, (int) (width*0.5F), (int) (height*0.55F), 40, 0, 0, player);
+					ClientUtils.renderPlayerNoAnimsRaw(matrixStack, crownPosition.getX() - crownPosition.getWidth() - 65, (int) (height*0.25F), 55, 0, (float)Math.toRadians(-270), player);
 
-					gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.player_skin"), 20, 0, 0xFF9900);
-					gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.notif_color"), 100, 20 * ++pos, 0xFF9900);
-					gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.armor.red")+": "+armorColorRed.getValueInt(), 40, 20 * ++pos, 0xFF9900);
-					gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.armor.green")+": "+armorColorGreen.getValueInt(), 40, 20 * ++pos, 0xFF9900);
-					gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.armor.blue")+": "+armorColorBlue.getValueInt(), 40, 20 * ++pos, 0xFF9900);
-					gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.armor.glint"), 40, 20 * ++pos, 0xFF9900);
+
+					//gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.player_skin"), 20, 0, 0xFF9900);
+					gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.notif_color"), 10, 18 * ++pos, 0xFF9900);
+					gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.armor_color"), armorColorPicker.getX() - armorColorPicker.getWidth() + 30, armorColorPicker.getY() - armorColorPicker.getHeight(), 0xFF9900);
+					gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.armor.glint"), armorColorPicker.getX() - armorColorPicker.getWidth() + 30, armorColorPicker.getY() - armorColorPicker.getHeight() + 20, 0xFF9900);
 				}
 				case LOCK_ON_HP -> {
 					for (AbstractWidget b : lockOnList) {

@@ -17,7 +17,7 @@ public class ShadowRenderer<Type extends ShadowEntity> extends MobRenderer<Type,
 
     public ShadowRenderer(EntityRendererProvider.Context context) {
         super(context, new ShadowModel<>(context.bakeLayer(ShadowModel.LAYER_LOCATION)), 0);
-        model.CYCLES_PER_BLOCK = 0.2;
+        model.CYCLES_PER_BLOCK = 0.4F;
         this.addLayer(new HeartlessEyesLayerRenderer<>(this, KingdomKeys.rl("textures/entity/mob/shadow_eyes.png")));
     }
 

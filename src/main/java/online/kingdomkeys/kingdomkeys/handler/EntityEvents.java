@@ -502,6 +502,7 @@ public class EntityEvents {
 	public void onPlayerTick(PlayerTickEvent.Pre event) {
 		Player player = event.getEntity();
 		PlayerData playerData = PlayerData.get(player);
+		//playerData.setCrown("silver");
 		//playerData.clearRecipes("all");
 		/*System.out.println(playerData.getMaterialMap());
 		System.out.println(playerData.getTotalMaterialMap());

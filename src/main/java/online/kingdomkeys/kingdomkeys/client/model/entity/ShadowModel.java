@@ -137,8 +137,6 @@ public class ShadowModel<Type extends Entity> extends EntityModel<Type> {
 		if(Minecraft.getInstance().isPaused())
 			return;
 
-		// limbSwing is walkAnimation.position(partialTicks): a walk clock vanilla already keeps PER
-		// ENTITY, so no accumulator of our own (which the shared model instance made global).
 		int cycleIndex = (int) ((limbSwing * CYCLES_PER_BLOCK) % animationWalk.length);
 
 		if (e.distanceToSqr(e.xo, e.yo, e.zo) > 0) {
@@ -156,9 +154,6 @@ public class ShadowModel<Type extends Entity> extends EntityModel<Type> {
 		}
 
 	}
-
-	// Default methods/functions for every model
-
 
 	protected float degToRad(double degrees) {
 		return (float) (degrees * Math.PI / 180);
