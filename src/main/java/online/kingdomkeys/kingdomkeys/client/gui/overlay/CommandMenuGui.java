@@ -518,7 +518,7 @@ public class CommandMenuGui extends OverlayBase {
 				if (!portal.getPos().equals(new BlockPos(0, 0, 0))) { //If the portal is not default coords
 					summonPortal(portal);
 				} else {
-					minecraft.player.sendSystemMessage(Component.translatable(ChatFormatting.RED + "You don't have any portal destinations"));
+					minecraft.player.sendSystemMessage(Component.translatable("kingdomkeys.org_portal.no_destinations").withStyle(ChatFormatting.RED));
 				}
 				changeSubmenu(root, true);
 				playInSound();

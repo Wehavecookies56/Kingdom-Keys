@@ -77,7 +77,7 @@ public class ChoiceCommand extends BaseCommand {
             if (players.size() > 1) {
                 context.getSource().sendSuccess(() -> Component.translatable("Station of Awakening choice has been reset for %s", target.getName().getString()), true);
             }
-            target.sendSystemMessage(Component.translatable("Your Station of Awakening choice has been reset"));
+            target.sendSystemMessage(Component.translatable("kingdomkeys.command.choice.reset_self"));
 
         }
         return 1;
@@ -114,10 +114,10 @@ public class ChoiceCommand extends BaseCommand {
                     target.sendSystemMessage(Component.translatable("Your Station of Awakening choice has been set to %s and %s", chosenStr, sacrificedStr));
                 }
             } else {
-                context.getSource().sendFailure(Component.translatable("CHOSEN and SACRIFICED must not be the same"));
+                context.getSource().sendFailure(Component.translatable("kingdomkeys.command.choice.same"));
             }
         } else {
-            context.getSource().sendFailure(Component.translatable("CHOSEN or SACRIFICED value is invalid"));
+            context.getSource().sendFailure(Component.translatable("kingdomkeys.command.choice.invalid"));
         }
         return 1;
     }

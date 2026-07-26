@@ -55,7 +55,7 @@ public class GummiShipBlueprintItem extends Item implements IItemCategory {
                 tooltipComponents.add(block.getName().append(" x" + integer));
             });
         } else {
-            tooltipComponents.add(Component.translatable("(blank)"));
+            tooltipComponents.add(Component.translatable("kingdomkeys.gummi.blueprint.blank"));
         }
         super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
     }

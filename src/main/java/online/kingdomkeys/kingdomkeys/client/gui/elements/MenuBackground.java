@@ -317,7 +317,7 @@ public class MenuBackground extends Screen {
 		if(player == null)
 			return;
 		if (CastleOblivionHandler.inInterior(player)) {
-			setLocationNames(Component.literal("Castle Oblivion").withStyle(ClientUtils.KK_Font_MENU).withStyle(ChatFormatting.UNDERLINE), Component.literal("???").withStyle(ClientUtils.KK_Font_MENU).withStyle(ChatFormatting.UNDERLINE));
+			setLocationNames(Component.translatable("kingdomkeys.castle_oblivion.name").withStyle(ClientUtils.KK_Font_MENU).withStyle(ChatFormatting.UNDERLINE), Component.literal("???").withStyle(ClientUtils.KK_Font_MENU).withStyle(ChatFormatting.UNDERLINE));
 		}
 		gui.pose().pushPose();
 		{
@@ -749,8 +749,8 @@ public class MenuBackground extends Screen {
 		matrixStack.popPose();
 	}
 
-	private static String printBiome(Holder<Biome> p_205375_) {
-		return p_205375_.unwrap().map((p_205377_) -> p_205377_.location().toString(), (p_205367_) -> "[unregistered " + p_205367_ + "]");
+	private static String printBiome(Holder<Biome> biomeHolder) {
+		return biomeHolder.unwrap().map((biomeKey) -> biomeKey.location().toString(), (biome) -> "[unregistered " + biome + "]");
 	}
 
 	public void setLocationNames(Component dimension, Component biome) {

@@ -20,7 +20,7 @@ public class OrgPortalGui extends Screen {
 	BlockPos pos;
 
 	public OrgPortalGui(BlockPos pos) {
-		super(Component.translatable("Org Portal"));
+		super(Component.translatable("kingdomkeys.org_portal.gui.title"));
 		this.pos = pos;
 		minecraft = Minecraft.getInstance();
 	}
@@ -30,7 +30,7 @@ public class OrgPortalGui extends Screen {
 		int tfWidth = minecraft.font.width("####################");
 		addRenderableWidget(nameBox = new EditBox(minecraft.font, width / 2 - tfWidth / 2, height / 2 - 10, tfWidth, 16, Component.literal("")));
 
-		addRenderableWidget(Button.builder(Component.translatable("Set name"), (e) -> {
+		addRenderableWidget(Button.builder(Component.translatable("kingdomkeys.org_portal.gui.set_name"), (e) -> {
 			action();
 		}).bounds(width / 2 - tfWidth / 2, height / 2 + 10, tfWidth, 20).build());
 

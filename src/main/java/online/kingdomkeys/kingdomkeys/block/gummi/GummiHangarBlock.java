@@ -157,7 +157,7 @@ public class GummiHangarBlock extends BaseEntityBlock implements EntityBlock, IN
 
 					if (Utils.hasBlocks(level, placePos, player.getDirection().getOpposite(), 11)) {
 						event.setCanceled(true);
-						player.displayClientMessage(Component.literal("You can't place the Gummi Hangar here"), true);
+						player.displayClientMessage(Component.translatable("kingdomkeys.gummi.hangar.cant_place"), true);
 						event.setCancellationResult(InteractionResult.FAIL);
 					}
 				}
@@ -195,7 +195,7 @@ public class GummiHangarBlock extends BaseEntityBlock implements EntityBlock, IN
 
         if (stack.has(ModComponents.HANGAR_FUEL)) {
             int fuel = stack.get(ModComponents.HANGAR_FUEL);
-            tooltip.add(Component.translatable(ChatFormatting.GRAY+"Stored fuel: ").append(""+ChatFormatting.GRAY+fuel));
+            tooltip.add(Component.translatable("kingdomkeys.gummi.hangar.stored_fuel").withStyle(ChatFormatting.GRAY).append(""+ChatFormatting.GRAY+fuel));
         }
         super.appendHoverText(stack, pContext, tooltip, pTooltipFlag);
     }

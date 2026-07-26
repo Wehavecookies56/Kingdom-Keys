@@ -32,7 +32,7 @@ public class PosterEntityRenderer extends EntityRenderer<PosterEntity> {
 		{
 			poseStack.mulPose(Axis.YP.rotationDegrees(entity.getDirection().toYRot()));
 
-			float halfX = 0.45F;
+			float halfX = 0.4F;
 			float halfY = 0.5F;
 			float depth = -0.031F;
 

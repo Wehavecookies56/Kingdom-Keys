@@ -321,11 +321,11 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 				}
 			}
 		} else {
-			tooltip.add(Component.translatable(ChatFormatting.RED + "KEYBLADE DATA MISSING"));
-			tooltip.add(Component.translatable(ChatFormatting.RED + "If you see this then either the keyblade json is missing or failed to load"));
+			tooltip.add(Component.translatable("kingdomkeys.keyblade.data_missing.title").withStyle(ChatFormatting.RED));
+			tooltip.add(Component.translatable("kingdomkeys.keyblade.data_missing.desc1").withStyle(ChatFormatting.RED));
 			ResourceLocation key = BuiltInRegistries.ITEM.getKey(stack.getItem());
 			tooltip.add(Component.translatable(ChatFormatting.RED + "It should be located in data/" + key.getNamespace() + "/keyblades/" + key.getPath() + ".json"));
-			tooltip.add(Component.translatable(ChatFormatting.RED + "If the file exists check the syntax, see builtin keyblades for examples"));
+			tooltip.add(Component.translatable("kingdomkeys.keyblade.data_missing.desc2").withStyle(ChatFormatting.RED));
 		}
 		if (flagIn.isAdvanced()) {
 			UUID id = stack.get(ModComponents.KEYBLADE_ID);

@@ -47,7 +47,7 @@ public class WorldCardItem extends Item implements ICreativeTab {
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
         //TODO Remove when all floors are done
         if (stack.getItem() instanceof WorldCardItem worldCardItem && !worldCardItem.implemented) {
-            tooltipComponents.add(Component.literal("DO NOT USE, NOT FUNCTIONAL YET").withStyle(ChatFormatting.RED));
+            tooltipComponents.add(Component.translatable("kingdomkeys.card.not_functional").withStyle(ChatFormatting.RED));
         }
         super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
     }

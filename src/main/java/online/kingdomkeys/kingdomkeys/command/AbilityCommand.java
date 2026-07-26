@@ -121,7 +121,7 @@ public class AbilityCommand extends BaseCommand { // kingdomkeys ability <give/t
 			if (player != context.getSource().getPlayerOrException()) {
 				context.getSource().sendSuccess(() -> Component.translatable("Removed all abilities from " + player.getDisplayName().getString()), true);
 			}
-			player.sendSystemMessage(Component.translatable("Your abilities have been taken away"));
+			player.sendSystemMessage(Component.translatable("kingdomkeys.command.ability.taken_all_self"));
 			PacketHandler.sendTo(new SCSyncPlayerData(player), player);
 		}
 		return 1;

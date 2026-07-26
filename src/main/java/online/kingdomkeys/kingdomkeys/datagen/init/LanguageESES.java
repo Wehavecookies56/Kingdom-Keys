@@ -254,6 +254,22 @@ public class LanguageESES extends KKLanguageProvider {
         add("container.gummi_hangar.seats","Asientos");
         add("container.gummi_hangar.mobility","Movilidad");
 
+        add("kingdomkeys.gummi.block.shape_size_2x1x2", "Tamaño de forma: 2x1x2");
+        add("kingdomkeys.gummi.block.shape_size_2x2x2", "Tamaño de forma: 2x2x2");
+        add("kingdomkeys.gummi.block.place_corner", "Colócalo en la esquina inferior izquierda del área para orientarlo correctamente");
+        add("kingdomkeys.gummi.blueprint.blank", "(en blanco)");
+        add("kingdomkeys.gummi.hangar.cant_place", "No puedes colocar el Hangar Gummi aquí");
+        add("kingdomkeys.gummi.hangar.stored_fuel", "Combustible almacenado: ");
+        add("kingdomkeys.gummi.hangar.area", "Área:");
+        add("kingdomkeys.gummi.phone.call_ship", "Llamar nave Gummi: ");
+        add("kingdomkeys.gummi.phone.health", "Salud: ");
+        add("kingdomkeys.gummi.phone.fuel", "Combustible: ");
+        add("kingdomkeys.gummi.phone.no_ship", "No hay ninguna nave Gummi guardada");
+        add("kingdomkeys.gummi.phone.store_hint", "Agáchate + clic izquierdo en tu nave Gummi para guardarla");
+        add("kingdomkeys.gummi.phone.already_stored", "Ya hay una nave Gummi guardada en tu teléfono Gummi");
+        add("kingdomkeys.gummi.phone.stored", "Nave Gummi guardada en tu teléfono Gummi");
+
+
         //Gummi Ship HUD
         add("container.gummi_ship.forward", "Acelerar");
         add("container.gummi_ship.backwards", "Marcha atrás");
@@ -275,6 +291,20 @@ public class LanguageESES extends KKLanguageProvider {
 
         add("container.gummi_ship.ready", "Listo");
         add("container.gummi_ship.not_ready", "No listo");
+
+        // Organization portals
+        add("kingdomkeys.org_portal.now_yours", "Este portal ahora es tuyo");
+        add("kingdomkeys.org_portal.no_slots", "No tienes huecos libres para portales");
+        add("kingdomkeys.org_portal.destination_gone", "El destino del portal ha desaparecido");
+        add("kingdomkeys.org_portal.no_destinations", "No tienes ningún destino de portal");
+        add("kingdomkeys.org_portal.gui.title", "Portal de la Organización");
+        add("kingdomkeys.org_portal.gui.set_name", "Poner nombre");
+
+        // Save points
+        add("kingdomkeys.save_point.data_not_loaded", "Los datos del punto de guardado no se han cargado");
+        add("kingdomkeys.save_point.cannot_upgrade", "Este objeto no sirve para mejorar nada");
+        add("kingdomkeys.save_point.old_savepoint", "ERROR: probablemente sea un punto de guardado antiguo; rómpelo y vuelve a colocarlo para corregirlo");
+        add("kingdomkeys.save_point.you_are_here", "Estás aquí");
 
         //GUI
         //Main Menu
@@ -850,9 +880,13 @@ public class LanguageESES extends KKLanguageProvider {
         addBlock(ModBlocks.dataPortal, "Portal de Datos");
         addBlock(ModBlocks.airstepTarget, "Punto de modo \u00e1gil");
         addItem(ModItems.struggle_poster, "Póster de Struggle");
-        add("kingdomkeys.item.struggle_poster.saved", "¡Ubicación del tablero de Struggle guardada!");
-        add("kingdomkeys.item.struggle_poster.no_target", "Este póster todavía no está sintonizado con nada.");
-        add("kingdomkeys.item.struggle_poster.retuned", "¡Brújula resintonizada con la ubicación del Struggle!");
+        add("kingdomkeys.poster.saved", "¡Ubicación del tablero de Struggle guardada!");
+        add("kingdomkeys.poster.no_target", "Este póster todavía no está sintonizado con nada.");
+        add("kingdomkeys.poster.retuned", "¡Brújula resintonizada con la ubicación del Struggle!");
+        add("kingdomkeys.poster.dimension", "Dimensión: ");
+        add("kingdomkeys.poster.coords", "Coordenadas: ");
+        add("kingdomkeys.poster.save_hint", "¡Agáchate + clic derecho en un tablero de Struggle para guardar su ubicación!");
+
 
         add("savepoint.drive", "recuperaci\u00f3n de fusi\u00f3n");
         add("savepoint.feed", "alimentaci\u00f3n");
@@ -2529,6 +2563,48 @@ public class LanguageESES extends KKLanguageProvider {
         add("jei.info.kingdomkeys.limit_orb", "Utilizado para desbloquear la Forma Suma. Activarla requiere 4 Barras de Fusi\u00f3n. Obtenido como recompensa de los Bloques de Premio Raro.");
         add("jei.info.kingdomkeys.master_orb", "Utilizado para desbloquear la Forma Maestra. Dicha forma dispone de un hueco para una segunda Llave Espada. Activarla requiere 4 Barras de Fusi\u00f3n. Obtenido como recompensa de los Bloques de Premio Raro.");
         add("jei.info.kingdomkeys.final_orb", "Utilizado para desbloquear la Forma Final. Dicha forma dispone de un hueco para una segunda Llave Espada. Activarla requiere 5 Barras de Fusi\u00f3n. Obtenido como recompensa de los Bloques de Premio Raro.");
+        // Commands
+        add("kingdomkeys.command.player_only", "Este comando debe ejecutarlo un jugador");
+        add("kingdomkeys.command.ability.taken_all_self", "Te han quitado tus habilidades");
+        add("kingdomkeys.command.choice.reset_self", "Tu elección del Lugar del Despertar se ha restablecido");
+        add("kingdomkeys.command.choice.same", "CHOSEN y SACRIFICED no pueden ser lo mismo");
+        add("kingdomkeys.command.choice.invalid", "El valor de CHOSEN o SACRIFICED no es válido");
+        add("kingdomkeys.command.convert.warning", "AVISO: este comando sobrescribe los datos de mundo y jugador de KK con los datos de KK existentes de Forge. Ejecútalo otra vez para confirmar que quieres sobrescribirlos");
+        add("kingdomkeys.command.convert.no_data", "No se han encontrado datos antiguos que convertir");
+        add("kingdomkeys.command.convert.success", "Datos convertidos correctamente");
+        add("kingdomkeys.command.material.given_all_self", "Te han dado todos los materiales");
+        add("kingdomkeys.command.material.taken_all_self", "Te han quitado tus materiales");
+        add("kingdomkeys.command.recipe.given_all_self", "Te han dado todas las recetas");
+        add("kingdomkeys.command.recipe.given_all_keyblade_self", "Te han dado todas las recetas de llaves espada");
+        add("kingdomkeys.command.recipe.given_all_item_self", "Te han dado todas las recetas de objetos");
+        add("kingdomkeys.command.recipe.taken_all_self", "Te han quitado tus recetas");
+        add("kingdomkeys.command.recipe.taken_all_keyblade_self", "Te han quitado tus recetas de llaves espada");
+        add("kingdomkeys.command.recipe.taken_all_item_self", "Te han quitado tus recetas de objetos");
+
+        // Keyblades
+        add("kingdomkeys.keyblade.data_missing.title", "FALTAN LOS DATOS DE LA LLAVE ESPADA");
+        add("kingdomkeys.keyblade.data_missing.desc1", "Si ves esto, el json de la llave espada falta o no se ha podido cargar");
+        add("kingdomkeys.keyblade.data_missing.desc2", "Si el archivo existe, revisa la sintaxis; mira las llaves espada integradas como ejemplo");
+
+        // Castle Oblivion and cards
+        add("kingdomkeys.castle_oblivion.name", "Castillo del Olvido");
+        add("kingdomkeys.castle_oblivion.peaceful", "Castle Oblivion no funciona en dificultad pacífica");
+        add("kingdomkeys.card.not_functional", "NO USAR, TODAVÍA NO FUNCIONA");
+        add("kingdomkeys.card.door.warned_you", "Te avisé; te he salvado de petar o romper tu mundo");
+        add("kingdomkeys.card.map.not_working", "TODAVÍA NO FUNCIONA");
+        add("kingdomkeys.card.map.size_unknown", "Tamaño: ?");
+        add("kingdomkeys.card.map.enemies_unknown", "Enemigos: ?");
+
+        // Generic GUI
+        add("kingdomkeys.gui.no_options", "Sin opciones");
+        add("kingdomkeys.gui.hud_editor.title", "Editor de HUD");
+        add("kingdomkeys.gui.pedestal.reset", "Restablecer");
+        add("kingdomkeys.gui.weapon_unlock.equip", "Equipar");
+        add("kingdomkeys.gui.weapon_unlock.equipped", "Equipado");
+        add("kingdomkeys.gui.weapon_unlock.unlock", "Desbloquear");
+
+        // Datapack / loading errors
+        add("kingdomkeys.error.synthesis_tag_failed", "La etiqueta de síntesis/materiales no se ha podido cargar por un datapack roto; arregla los problemas o la síntesis no funcionará. Revisa el log para ver qué falla");
 
     }
 }

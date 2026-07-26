@@ -40,7 +40,7 @@ public class ConvertOldForgeDataCommand extends BaseCommand {
 
     public static int convertData(CommandContext<CommandSourceStack> context) {
         if (!run) {
-            context.getSource().sendFailure(Component.literal("WARNING This command overwrites the KK world and player data with any existing KK world and player data from Forge, run this command again to confirm you want to overwrite it"));
+            context.getSource().sendFailure(Component.translatable("kingdomkeys.command.convert.warning"));
             run = true;
             return 0;
         } else {
@@ -131,10 +131,10 @@ public class ConvertOldForgeDataCommand extends BaseCommand {
                 }
             }
             if (!converted.get()) {
-                context.getSource().sendFailure(Component.literal("No old data was found to convert"));
+                context.getSource().sendFailure(Component.translatable("kingdomkeys.command.convert.no_data"));
                 return 0;
             } else {
-                context.getSource().sendSuccess(() -> Component.literal("Successfully converted data"), true);
+                context.getSource().sendSuccess(() -> Component.translatable("kingdomkeys.command.convert.success"), true);
                 return 1;
             }
         }

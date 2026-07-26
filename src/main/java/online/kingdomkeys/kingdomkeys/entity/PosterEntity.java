@@ -9,7 +9,9 @@ import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
@@ -129,14 +131,15 @@ public class PosterEntity extends HangingEntity {
         if (stack.is(Items.COMPASS)) {
             if (this.target == null) {
                 if (!this.level().isClientSide) {
-                    player.displayClientMessage(Component.translatable("kingdomkeys.item.struggle_poster.no_target"), true);
+                    player.displayClientMessage(Component.translatable("kingdomkeys.poster.no_target"), true);
                 }
                 return InteractionResult.sidedSuccess(this.level().isClientSide);
             }
             if (!this.level().isClientSide) {
                 stack.set(DataComponents.LODESTONE_TRACKER, new LodestoneTracker(Optional.of(this.target), false));
-                player.displayClientMessage(Component.translatable("kingdomkeys.item.struggle_poster.retuned"), true);
+                player.displayClientMessage(Component.translatable("kingdomkeys.poster.retuned"), true);
             }
+            player.level().playSound(null, player.blockPosition(),SoundEvents.LODESTONE_COMPASS_LOCK, SoundSource.PLAYERS, 1.0F, 1.0F);
             return InteractionResult.sidedSuccess(this.level().isClientSide);
         }
         return super.interact(player, hand);

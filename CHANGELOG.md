@@ -5,7 +5,11 @@
     * Duel: 1v1, can be repeated.
     * Tournament: Up to 8 players, bracket style tournament, if two players tie there's an overtime.
     * Free for All: Up to 8 players, all vs all.
-  * You can specify the amount of initial orbs and timer,
+  * You can specify the amount of initial orbs and timer, corners and spectator coords.
+* Struggle posters:
+  * Craft them and shift + right click on a Struggle board to store it's coordenates in the poster.
+  * Then place the poster on a wall and right click it with a compass.
+  * The compass will now point towards the struggle board.
 * A bunch of limits:
   * Xaldin: Lance Storm and Fallen Spear.
   * Vexen: Icy Pillars.
@@ -63,3 +67,4 @@
 * Orientation of thrown lances, scythes and cards.
 * Gummi Ship performance issues, sacrificing a bit the visuals.
 * Check command not displaying the proper data.
+* Localized a lot of messages that were previously hardcoded in english.

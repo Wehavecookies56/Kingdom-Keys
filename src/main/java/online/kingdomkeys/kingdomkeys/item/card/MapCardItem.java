@@ -116,7 +116,7 @@ public class MapCardItem extends Item implements ICreativeTab {
     public void appendHoverText(ItemStack pStack, TooltipContext tooltipContext, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
         //TODO remove when done
         if (wip) {
-            pTooltipComponents.add(Component.translatable("DOES NOT WORK YET").withStyle(ChatFormatting.RED));
+            pTooltipComponents.add(Component.translatable("kingdomkeys.card.map.not_working").withStyle(ChatFormatting.RED));
         }
         if (type != null && hasRandomValue) {
             RoomType inst = type.get();

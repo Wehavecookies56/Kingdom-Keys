@@ -129,7 +129,7 @@ public class RecipeCommand extends BaseCommand { /// kk_recipe <give/take> <reci
 			if (player != context.getSource().getPlayerOrException()) {
 				context.getSource().sendSuccess(() -> Component.translatable("Added all recipes to " + player.getDisplayName().getString()), true);
 			}
-			player.sendSystemMessage(Component.translatable("You have been given all the recipes"));
+			player.sendSystemMessage(Component.translatable("kingdomkeys.command.recipe.given_all_self"));
 			PacketHandler.sendTo(new SCSyncPlayerData(player), player);
 		}
 		return 1;
@@ -148,7 +148,7 @@ public class RecipeCommand extends BaseCommand { /// kk_recipe <give/take> <reci
 			if (player != context.getSource().getPlayerOrException()) {
 				context.getSource().sendSuccess(() -> Component.translatable("Added all keyblade recipes to " + player.getDisplayName().getString()), true);
 			}
-			player.sendSystemMessage(Component.translatable("You have been given all the keyblade recipes"));
+			player.sendSystemMessage(Component.translatable("kingdomkeys.command.recipe.given_all_keyblade_self"));
 			PacketHandler.sendTo(new SCSyncPlayerData(player), player);
 		}
 		return 1;
@@ -168,7 +168,7 @@ public class RecipeCommand extends BaseCommand { /// kk_recipe <give/take> <reci
 			if (player != context.getSource().getPlayerOrException()) {
 				context.getSource().sendSuccess(() -> Component.translatable("Added all item recipes to " + player.getDisplayName().getString()), true);
 			}
-			player.sendSystemMessage(Component.translatable("You have been given all the item recipes"));
+			player.sendSystemMessage(Component.translatable("kingdomkeys.command.recipe.given_all_item_self"));
 			PacketHandler.sendTo(new SCSyncPlayerData(player), player);
 		}
 		return 1;
@@ -185,7 +185,7 @@ public class RecipeCommand extends BaseCommand { /// kk_recipe <give/take> <reci
 			if (player != context.getSource().getPlayerOrException()) {
 				context.getSource().sendSuccess(() -> Component.translatable("Removed all recipes from " + player.getDisplayName().getString()), true);
 			}
-			player.sendSystemMessage(Component.translatable("Your recipes have been taken away"));
+			player.sendSystemMessage(Component.translatable("kingdomkeys.command.recipe.taken_all_self"));
 			PacketHandler.sendTo(new SCSyncPlayerData(player), player);
 		}
 		return 1;
@@ -202,7 +202,7 @@ public class RecipeCommand extends BaseCommand { /// kk_recipe <give/take> <reci
 			if (player != context.getSource().getPlayerOrException()) {
 				context.getSource().sendSuccess(() -> Component.translatable("Removed all keyblade recipes from " + player.getDisplayName().getString()), true);
 			}
-			player.sendSystemMessage(Component.translatable("Your keyblade recipes have been taken away"));
+			player.sendSystemMessage(Component.translatable("kingdomkeys.command.recipe.taken_all_keyblade_self"));
 			PacketHandler.sendTo(new SCSyncPlayerData(player), player);
 		}
 		return 1;
@@ -218,7 +218,7 @@ public class RecipeCommand extends BaseCommand { /// kk_recipe <give/take> <reci
 			if (player != context.getSource().getPlayerOrException()) {
 				context.getSource().sendSuccess(() -> Component.translatable("Removed all item recipes from " + player.getDisplayName().getString()), true);
 			}
-			player.sendSystemMessage(Component.translatable("Your item recipes have been taken away"));
+			player.sendSystemMessage(Component.translatable("kingdomkeys.command.recipe.taken_all_item_self"));
 			PacketHandler.sendTo(new SCSyncPlayerData(player), player);
 		}
 		return 1;

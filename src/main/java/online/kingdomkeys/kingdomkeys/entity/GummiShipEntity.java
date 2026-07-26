@@ -160,13 +160,13 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 					if(player.isCrouching() && structure.getOwnerID().equals(player.getUUID()) && player.getMainHandItem().getItem() == ModItems.gummiPhone.get()){
 						ItemStack stack = player.getMainHandItem();
 						if(stack.has(ModComponents.GUMMI_STRUCTURE)){
-							player.displayClientMessage(Component.translatable("There's already a gummi ship stored in your gummi phone"), true);
+							player.displayClientMessage(Component.translatable("kingdomkeys.gummi.phone.already_stored"), true);
 						} else {
 							stack.set(ModComponents.GUMMI_STRUCTURE, structure);
 							stack.set(ModComponents.GUMMI_DAMAGE, getDamage());
 							stack.set(ModComponents.GUMMI_FUEL, getFuel());
 
-							player.displayClientMessage(Component.translatable("Stored gummi ship in your gummi phone"), true);
+							player.displayClientMessage(Component.translatable("kingdomkeys.gummi.phone.stored"), true);
 							((ServerLevel) level()).sendParticles(ParticleTypes.FIREWORK, this.getX(), this.getY() + 1, this.getZ(), Utils.getRealGummiStructureSize(structure).getX() * Utils.getRealGummiStructureSize(structure).getY() * Utils.getRealGummiStructureSize(structure).getZ(), 0, 0, 0, 0.2);
 							this.kill();
 						}

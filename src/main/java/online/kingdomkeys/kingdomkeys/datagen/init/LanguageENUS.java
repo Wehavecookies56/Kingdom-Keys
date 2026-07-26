@@ -208,6 +208,23 @@ public class LanguageENUS extends KKLanguageProvider {
         add("container.gummi_hangar.seats","Seats");
         add("container.gummi_hangar.mobility","Mobility");
 
+        // Gummi - ships, phone, hangar and blueprints
+        add("kingdomkeys.gummi.block.shape_size_2x1x2", "Shape size: 2x1x2");
+        add("kingdomkeys.gummi.block.shape_size_2x2x2", "Shape size: 2x2x2");
+        add("kingdomkeys.gummi.block.place_corner", "Place in the bottom-left corner of the area for correct orientation");
+        add("kingdomkeys.gummi.blueprint.blank", "(blank)");
+        add("kingdomkeys.gummi.hangar.cant_place", "You can't place the Gummi Hangar here");
+        add("kingdomkeys.gummi.hangar.stored_fuel", "Stored fuel: ");
+        add("kingdomkeys.gummi.hangar.area", "Area:");
+        add("kingdomkeys.gummi.phone.call_ship", "Call Gummi Ship: ");
+        add("kingdomkeys.gummi.phone.health", "Health: ");
+        add("kingdomkeys.gummi.phone.fuel", "Fuel: ");
+        add("kingdomkeys.gummi.phone.no_ship", "No Gummi Ship stored");
+        add("kingdomkeys.gummi.phone.store_hint", "Sneak + left click on your Gummi Ship to store it");
+        add("kingdomkeys.gummi.phone.already_stored", "There's already a gummi ship stored in your gummi phone");
+        add("kingdomkeys.gummi.phone.stored", "Stored gummi ship in your gummi phone");
+
+
         //Gummi Ship HUD
         add("container.gummi_ship.forward", "Forward");
         add("container.gummi_ship.backwards", "Backwards");
@@ -230,6 +247,19 @@ public class LanguageENUS extends KKLanguageProvider {
         add("container.gummi_ship.ready", "Ready");
         add("container.gummi_ship.not_ready", "Not ready");
 
+        // Organization portals
+        add("kingdomkeys.org_portal.now_yours", "This is now your portal");
+        add("kingdomkeys.org_portal.no_slots", "You have no empty slots for portals");
+        add("kingdomkeys.org_portal.destination_gone", "Portal destination disappeared");
+        add("kingdomkeys.org_portal.no_destinations", "You don't have any portal destinations");
+        add("kingdomkeys.org_portal.gui.title", "Org Portal");
+        add("kingdomkeys.org_portal.gui.set_name", "Set name");
+
+        // Save points
+        add("kingdomkeys.save_point.data_not_loaded", "Savepoint data not loaded");
+        add("kingdomkeys.save_point.cannot_upgrade", "This item cannot be used to upgrade anything");
+        add("kingdomkeys.save_point.old_savepoint", "ERROR, this is probably an old savepoint, break and place it again to correct it");
+        add("kingdomkeys.save_point.you_are_here", "You are here");
 
         //Menu
         add(Gui_Menu_Back, "Back");
@@ -589,9 +619,13 @@ public class LanguageENUS extends KKLanguageProvider {
         addBlock(ModBlocks.dataPortal, "Data Portal");
         addBlock(ModBlocks.airstepTarget, "Airstep point");
         addItem(ModItems.struggle_poster, "Struggle Poster");
-        add("kingdomkeys.item.struggle_poster.saved", "Struggle board location saved!");
-        add("kingdomkeys.item.struggle_poster.no_target", "This poster hasn't been tuned to anything yet.");
-        add("kingdomkeys.item.struggle_poster.retuned", "Compass re-tuned to the saved location!");
+        add("kingdomkeys.poster.saved", "Struggle board location saved!");
+        add("kingdomkeys.poster.no_target", "This poster doesn't point to any board.");
+        add("kingdomkeys.poster.retuned", "Compass re-tuned to the Struggle board!");
+        add("kingdomkeys.poster.dimension", "Dimension: ");
+        add("kingdomkeys.poster.coords", "Coords: ");
+        add("kingdomkeys.poster.save_hint", "Sneak + right click on a Struggle board to save it's location!");
+
 
         add("savepoint.healing","healing");
         add("savepoint.magic","magic restoration");
@@ -2511,6 +2545,47 @@ public class LanguageENUS extends KKLanguageProvider {
         addRoom("room_of_guidance", "Room of Guidance");
         addRoom("room_of_rewards", "Room of Rewards");
         addRoom("room_of_truth", "Room of Truth");
+        // Commands
+        add("kingdomkeys.command.player_only", "Command must be run by a player");
+        add("kingdomkeys.command.ability.taken_all_self", "Your abilities have been taken away");
+        add("kingdomkeys.command.choice.reset_self", "Your Station of Awakening choice has been reset");
+        add("kingdomkeys.command.choice.same", "CHOSEN and SACRIFICED must not be the same");
+        add("kingdomkeys.command.choice.invalid", "CHOSEN or SACRIFICED value is invalid");
+        add("kingdomkeys.command.convert.warning", "WARNING This command overwrites the KK world and player data with any existing KK world and player data from Forge, run this command again to confirm you want to overwrite it");
+        add("kingdomkeys.command.convert.no_data", "No old data was found to convert");
+        add("kingdomkeys.command.convert.success", "Successfully converted data");
+        add("kingdomkeys.command.material.given_all_self", "You have been given all the materials");
+        add("kingdomkeys.command.material.taken_all_self", "Your materials have been taken away");
+        add("kingdomkeys.command.recipe.given_all_self", "You have been given all the recipes");
+        add("kingdomkeys.command.recipe.given_all_keyblade_self", "You have been given all the keyblade recipes");
+        add("kingdomkeys.command.recipe.given_all_item_self", "You have been given all the item recipes");
+        add("kingdomkeys.command.recipe.taken_all_self", "Your recipes have been taken away");
+        add("kingdomkeys.command.recipe.taken_all_keyblade_self", "Your keyblade recipes have been taken away");
+        add("kingdomkeys.command.recipe.taken_all_item_self", "Your item recipes have been taken away");
 
+        // Keyblades
+        add("kingdomkeys.keyblade.data_missing.title", "KEYBLADE DATA MISSING");
+        add("kingdomkeys.keyblade.data_missing.desc1", "If you see this then either the keyblade json is missing or failed to load");
+        add("kingdomkeys.keyblade.data_missing.desc2", "If the file exists check the syntax, see builtin keyblades for examples");
+
+        // Castle Oblivion and cards
+        add("kingdomkeys.castle_oblivion.name", "Castle Oblivion");
+        add("kingdomkeys.castle_oblivion.peaceful", "Castle Oblivion does not work on peaceful difficulty");
+        add("kingdomkeys.card.not_functional", "DO NOT USE, NOT FUNCTIONAL YET");
+        add("kingdomkeys.card.door.warned_you", "I did warn you, saved you from crashing/breaking your world");
+        add("kingdomkeys.card.map.not_working", "DOES NOT WORK YET");
+        add("kingdomkeys.card.map.size_unknown", "Size: ?");
+        add("kingdomkeys.card.map.enemies_unknown", "Enemies: ?");
+
+        // Generic GUI
+        add("kingdomkeys.gui.no_options", "No options");
+        add("kingdomkeys.gui.hud_editor.title", "HUD Editor");
+        add("kingdomkeys.gui.pedestal.reset", "Reset");
+        add("kingdomkeys.gui.weapon_unlock.equip", "Equip");
+        add("kingdomkeys.gui.weapon_unlock.equipped", "Equipped");
+        add("kingdomkeys.gui.weapon_unlock.unlock", "Unlock");
+
+        // Datapack / loading errors
+        add("kingdomkeys.error.synthesis_tag_failed", "The synthesis/materials tag failed to load due to a broken datapack please fix any issues otherwise synthesis will not function, check the log for what is wrong");
     }
 }

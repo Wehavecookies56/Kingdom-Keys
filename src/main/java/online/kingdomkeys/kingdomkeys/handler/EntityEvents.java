@@ -247,7 +247,7 @@ public class EntityEvents {
 				}
 			});
 		} else {
-			player.sendSystemMessage(Component.translatable(ChatFormatting.RED + "The synthesis/materials tag failed to load due to a broken datapack please fix any issues otherwise synthesis will not function, check the log for what is wrong"));
+			player.sendSystemMessage(Component.translatable("kingdomkeys.error.synthesis_tag_failed").withStyle(ChatFormatting.RED));
 		}
 	}
 

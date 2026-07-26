@@ -16,10 +16,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
-import net.minecraft.network.protocol.game.ClientboundPlayerInfoRemovePacket;
-import net.minecraft.network.protocol.game.ClientboundPlayerInfoUpdatePacket;
 import net.minecraft.network.protocol.game.ClientboundRemoveMobEffectPacket;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -178,17 +174,17 @@ public class Utils {
 		};
 	}
 
-    public static void removeNegativeEffects(Player player) {
-        if (player.level().isClientSide)
-            return;
+	public static void removeNegativeEffects(Player player) {
+		if (player.level().isClientSide)
+			return;
 
-        //Copy to avoid ConcurrentModification
-        for (MobEffectInstance effect : List.copyOf(player.getActiveEffects())) {
-            if (!effect.getEffect().value().isBeneficial()) {
-                player.removeEffect(effect.getEffect());
-            }
-        }
-    }
+		//Copy to avoid ConcurrentModification
+		for (MobEffectInstance effect : List.copyOf(player.getActiveEffects())) {
+			if (!effect.getEffect().value().isBeneficial()) {
+				player.removeEffect(effect.getEffect());
+			}
+		}
+	}
 
 	public static ItemStack getItemInInventory(Player player, Item item) {
 		ItemStack itemStack = ItemStack.EMPTY;
@@ -202,14 +198,14 @@ public class Utils {
 		return itemStack;
 	}
 
-    public static ItemStack getItemInAnyHand(Player player, Item item) {
+	public static ItemStack getItemInAnyHand(Player player, Item item) {
 		if(!player.getMainHandItem().isEmpty() && player.getMainHandItem().getItem() == item) {
 			return player.getMainHandItem();
 		} else if (!player.getOffhandItem().isEmpty() && player.getOffhandItem().getItem() == item){
 			return player.getOffhandItem();
 		}
 		return null;
-    }
+	}
 
 	public static int getMagicBagSlot(Player player) {
 		NonNullList<ItemStack> items = player.getInventory().items;
@@ -329,31 +325,31 @@ public class Utils {
 		List<Component> stats = new ArrayList<>();
 
 		int str=0, mag=0, ap = 0, def = 0, fireRes = 0, iceRes = 0, thunderRes = 0, lightRes = 0, darkRes = 0;
-        switch (selectedItemStack.getItem()) {
-            case KeybladeItem kb -> {
-                str = kb.getStrength(0);
-                mag = kb.getMagic(0);
-            }
-            case KKAccessoryItem accessory -> {
-                str = accessory.getStr();
-                mag = accessory.getMag();
-                ap = accessory.getAp();
-            }
-            case KKArmorItem armor -> {
-                def = armor.getDefense();
-                for (Entry<KKResistanceType, Integer> resistanceType : armor.getResList().entrySet()) {
-                    switch (resistanceType.getKey()) {
-                        case fire -> fireRes = resistanceType.getValue();
-                        case ice -> iceRes = resistanceType.getValue();
-                        case lightning -> thunderRes = resistanceType.getValue();
-                        case light -> lightRes = resistanceType.getValue();
-                        case darkness -> darkRes = resistanceType.getValue();
-                    }
-                }
-            }
-            default -> {
-            }
-        }
+		switch (selectedItemStack.getItem()) {
+			case KeybladeItem kb -> {
+				str = kb.getStrength(0);
+				mag = kb.getMagic(0);
+			}
+			case KKAccessoryItem accessory -> {
+				str = accessory.getStr();
+				mag = accessory.getMag();
+				ap = accessory.getAp();
+			}
+			case KKArmorItem armor -> {
+				def = armor.getDefense();
+				for (Entry<KKResistanceType, Integer> resistanceType : armor.getResList().entrySet()) {
+					switch (resistanceType.getKey()) {
+						case fire -> fireRes = resistanceType.getValue();
+						case ice -> iceRes = resistanceType.getValue();
+						case lightning -> thunderRes = resistanceType.getValue();
+						case light -> lightRes = resistanceType.getValue();
+						case darkness -> darkRes = resistanceType.getValue();
+					}
+				}
+			}
+			default -> {
+			}
+		}
 
 		if(ap != 0)
 			stats.add(Component.literal(Utils.translateToLocal(Strings.Gui_Menu_Status_AP)+": "+ap).withStyle(ChatFormatting.YELLOW));
@@ -379,12 +375,12 @@ public class Utils {
 
 	public static GummiShipEntity.ShipStats getShipStats(GummiStructure structure) {
 		float speed = 0;
-        int mobility = 0;
+		int mobility = 0;
 		LinkedList<Vec3> passengers = new LinkedList<>();
 		LinkedList<Vec3> weapons = new LinkedList<>();
 		int weight = 0;
 		int armour = 0;
-        HashMap<GummiWeaponBlock.ShotType, Integer> impact = new HashMap<>();
+		HashMap<GummiWeaponBlock.ShotType, Integer> impact = new HashMap<>();
 
 		int sizeX = structure.getBlocks().length;
 		int sizeY = structure.getBlocks()[0].length;
@@ -397,16 +393,16 @@ public class Utils {
 					if (state != null && !state.isAir()) {
 						weight++;//TODO make heavier blocks maybe?
 						armour++;
-                        if (state.getBlock() instanceof GummiCockpitBlock cockpit) {
-                            if(state.getValue(GummiCockpitBlock.X) == 0 && state.getValue(GummiCockpitBlock.Y) == 0 && state.getValue(GummiCockpitBlock.Z) == 0) {
-                                if (cockpit.getMaxSeats() > 0) {
-                                    for(Vec3 s : cockpit.getSeats()){
-                                        Vec3 finalPos = new Vec3(x - s.x(), y + s.y()+0.18F, z + s.z());
-                                        passengers.add(finalPos);
-                                    }
-                                }
-                            }
-                        }
+						if (state.getBlock() instanceof GummiCockpitBlock cockpit) {
+							if(state.getValue(GummiCockpitBlock.X) == 0 && state.getValue(GummiCockpitBlock.Y) == 0 && state.getValue(GummiCockpitBlock.Z) == 0) {
+								if (cockpit.getMaxSeats() > 0) {
+									for(Vec3 s : cockpit.getSeats()){
+										Vec3 finalPos = new Vec3(x - s.x(), y + s.y()+0.18F, z + s.z());
+										passengers.add(finalPos);
+									}
+								}
+							}
+						}
 						/*if (state.getBlock() instanceof SlabBlock) {
 							passengers.addFirst(new Vec3(x, y, z));
 						}
@@ -421,26 +417,26 @@ public class Utils {
 						if (state.getBlock() == Blocks.OBSIDIAN) {
 							weight++;
 						}
-                        if(state.getBlock() instanceof GummiWeaponBlock wpn && wpn.isMultiBlock()){
-                            if(state.getValue(GummiWeaponBlock.X) == 0 && state.getValue(GummiWeaponBlock.Z) == 0) {
-                                if(wpn.shotType.getRootType() == GummiWeaponBlock.ShotType.WATER){
-                                    //int power = wpn.shotType == GummiWeaponBlock.ShotType.WATER ? 1 : wpn.shotType == GummiWeaponBlock.ShotType.WATERA ? 2 : 3;
-                                    impact.put(wpn.shotType, wpn.getFirepower());
-                                } else {
-                                    weapons.add(new Vec3(x, y, z));
-                                }
-                            }
-                        } else if (state.getBlock() instanceof GummiWeaponBlock wpn) {
-                            if(wpn.shotType.getRootType().equals(GummiWeaponBlock.ShotType.WATER)){
-                                impact.put(wpn.shotType, wpn.getFirepower());
-                            } else {
-                                weapons.add(new Vec3(x, y, z));
-                            }
-                        } else if (state.getBlock() instanceof GummiAeroBlock aero) {
-                            mobility += aero.getMobility();
-                        } else if (state.getBlock() instanceof GummiEngineBlock engine) {
-                            speed += engine.getSpeed();
-                        }
+						if(state.getBlock() instanceof GummiWeaponBlock wpn && wpn.isMultiBlock()){
+							if(state.getValue(GummiWeaponBlock.X) == 0 && state.getValue(GummiWeaponBlock.Z) == 0) {
+								if(wpn.shotType.getRootType() == GummiWeaponBlock.ShotType.WATER){
+									//int power = wpn.shotType == GummiWeaponBlock.ShotType.WATER ? 1 : wpn.shotType == GummiWeaponBlock.ShotType.WATERA ? 2 : 3;
+									impact.put(wpn.shotType, wpn.getFirepower());
+								} else {
+									weapons.add(new Vec3(x, y, z));
+								}
+							}
+						} else if (state.getBlock() instanceof GummiWeaponBlock wpn) {
+							if(wpn.shotType.getRootType().equals(GummiWeaponBlock.ShotType.WATER)){
+								impact.put(wpn.shotType, wpn.getFirepower());
+							} else {
+								weapons.add(new Vec3(x, y, z));
+							}
+						} else if (state.getBlock() instanceof GummiAeroBlock aero) {
+							mobility += aero.getMobility();
+						} else if (state.getBlock() instanceof GummiEngineBlock engine) {
+							speed += engine.getSpeed();
+						}
 					}
 				}
 			}
@@ -508,12 +504,12 @@ public class Utils {
 		return new Vec3i(realWidth, realHeight, realDepth);
 	}
 
-    public static boolean[] isStructureEven(GummiStructure structure){
-        Vec3i realDim = Utils.getRealGummiStructureSize(structure);
-        boolean xEven = realDim.getX() % 2 == 0;
-        boolean zEven = realDim.getX() % 2 == 0;
-        return new boolean[]{ xEven, zEven };
-    }
+	public static boolean[] isStructureEven(GummiStructure structure){
+		Vec3i realDim = Utils.getRealGummiStructureSize(structure);
+		boolean xEven = realDim.getX() % 2 == 0;
+		boolean zEven = realDim.getX() % 2 == 0;
+		return new boolean[]{ xEven, zEven };
+	}
 
 	public static void moveShip(Level level, BlockPos origin, Direction facing, int size, String moveDirStr) {
 		Direction realDir = switch (moveDirStr.toUpperCase()) {
@@ -535,8 +531,8 @@ public class Utils {
 			};
 			case "UP" -> Direction.UP;
 			case "DOWN" -> Direction.DOWN;
-            default -> throw new IllegalStateException("Unexpected value: " + moveDirStr.toUpperCase());
-        };
+			default -> throw new IllegalStateException("Unexpected value: " + moveDirStr.toUpperCase());
+		};
 
 		int dx = realDir.getStepX();
 		int dy = realDir.getStepY();
@@ -586,7 +582,7 @@ public class Utils {
 		}
 
 		if (!canMove) {
-            KingdomKeys.LOGGER.debug("Can't move, out of hangar");
+			KingdomKeys.LOGGER.debug("Can't move, out of hangar");
 			return;
 		}
 
@@ -632,7 +628,7 @@ public class Utils {
 							case NORTH -> Rotation.CLOCKWISE_180;
 							case WEST  -> Rotation.COUNTERCLOCKWISE_90;
 							case EAST  -> Rotation.CLOCKWISE_90;
-                            default -> Rotation.NONE;
+							default -> Rotation.NONE;
 						};
 						BlockState rotated = Utils.rotateBlock(original,rotation);
 						struct.getBlocks()[x][y][z] = rotated;
@@ -671,14 +667,14 @@ public class Utils {
 		return null;
 	}
 
-    public static List<GummiShipEntity> getAllGummiShipsInBuildPlate(Level level, BlockPos origin, Direction facing, int size) {
-        int[] offsets = Utils.getShipOffset(facing,size);
-        if(offsets == null)
-            return null;
+	public static List<GummiShipEntity> getAllGummiShipsInBuildPlate(Level level, BlockPos origin, Direction facing, int size) {
+		int[] offsets = Utils.getShipOffset(facing,size);
+		if(offsets == null)
+			return null;
 
-        AABB box = new AABB(origin.getX()+offsets[0], origin.getY(), origin.getZ()+offsets[1], origin.getX()+offsets[0]+size, origin.getY() + size, origin.getZ()+offsets[1]+size);
-        return level.getEntitiesOfClass(GummiShipEntity.class, box);
-    }
+		AABB box = new AABB(origin.getX()+offsets[0], origin.getY(), origin.getZ()+offsets[1], origin.getX()+offsets[0]+size, origin.getY() + size, origin.getZ()+offsets[1]+size);
+		return level.getEntitiesOfClass(GummiShipEntity.class, box);
+	}
 
 	public static void removeBlocks(Level level, BlockPos origin, Direction facing, int size) {
 		int max = size - 1;
@@ -719,7 +715,7 @@ public class Utils {
 			return false;
 		} else {
 			LevelChunk levelchunk = level.getChunkAt(pos);
-			Block block = state.getBlock();
+			//Block block = state.getBlock();
 
 			pos = pos.immutable(); // Forge - prevent mutable BlockPos leaks
 			BlockSnapshot blockSnapshot = null;
@@ -728,16 +724,16 @@ public class Utils {
 				level.capturedBlockSnapshots.add(blockSnapshot);
 			}
 
-			BlockState old = level.getBlockState(pos);
-			int oldLight = old.getLightEmission(level, pos);
-			int oldOpacity = old.getLightBlock(level, pos);
+			//BlockState old = level.getBlockState(pos);
+			//int oldLight = old.getLightEmission(level, pos);
+			//int oldOpacity = old.getLightBlock(level, pos);
 
 			BlockState blockstate = ((IKKLevelChunkExtension)levelchunk).kingdom_Keys$setBlockState(pos, state, (flags & 64) != 0);
 			if (blockstate == null) {
 				if (blockSnapshot != null) level.capturedBlockSnapshots.remove(blockSnapshot);
 				return false;
 			} else {
-				BlockState blockstate1 = level.getBlockState(pos);
+				//BlockState blockstate1 = level.getBlockState(pos);
 
 				if (blockSnapshot == null) { // Don't notify clients or update physics while capturing blockstates
 					markAndNotifyBlockNoNeighbourUpdate(level, pos, levelchunk, blockstate, state, flags, 512);
@@ -785,66 +781,66 @@ public class Utils {
 		}
 	}
 
-    public static BlockPos getCorePos(Level level, BlockPos origin, Direction facing, int size) {
-        int max = size - 1;
+	public static BlockPos getCorePos(Level level, BlockPos origin, Direction facing, int size) {
+		int max = size - 1;
 
-        int[] offsets = Utils.getShipOffset(facing,size);
-        if(offsets == null)
-            return null;
+		int[] offsets = Utils.getShipOffset(facing,size);
+		if(offsets == null)
+			return null;
 
-        for (int x = 0; x < size; x++) {
-            for (int y = size-1; y >= 0; y--) {
-                for (int z = 0; z < size; z++) {
-                    int rx = x;
-                    int rz = z;
+		for (int x = 0; x < size; x++) {
+			for (int y = size-1; y >= 0; y--) {
+				for (int z = 0; z < size; z++) {
+					int rx = x;
+					int rz = z;
 
-                    switch (facing) {
-                        case NORTH -> { rx = x; rz = z; }
-                        case SOUTH -> { rx = max - x; rz = max - z; }
-                        case EAST  -> { rx = z; rz = max - x; }
-                        case WEST  -> { rx = max - z; rz = x; }
-                    }
+					switch (facing) {
+						case NORTH -> { rx = x; rz = z; }
+						case SOUTH -> { rx = max - x; rz = max - z; }
+						case EAST  -> { rx = z; rz = max - x; }
+						case WEST  -> { rx = max - z; rz = x; }
+					}
 
-                    BlockPos target = origin.offset(offsets[0] + rx, y, offsets[1] + rz);
-                    if (level.getBlockState(target).getBlock() == ModBlocks.gummiCore.get()) {
-                        return target;
-                    }
-                }
-            }
-        }
-        return null;
-    }
+					BlockPos target = origin.offset(offsets[0] + rx, y, offsets[1] + rz);
+					if (level.getBlockState(target).getBlock() == ModBlocks.gummiCore.get()) {
+						return target;
+					}
+				}
+			}
+		}
+		return null;
+	}
 
-    public static int getCorePosCount(Level level, BlockPos origin, Direction facing, int size) {
-        int max = size - 1;
-        int cores = 0;
+	public static int getCorePosCount(Level level, BlockPos origin, Direction facing, int size) {
+		int max = size - 1;
+		int cores = 0;
 
-        int[] offsets = Utils.getShipOffset(facing,size);
-        if(offsets == null)
-            return 0;
+		int[] offsets = Utils.getShipOffset(facing,size);
+		if(offsets == null)
+			return 0;
 
-        for (int x = 0; x < size; x++) {
-            for (int y = size-1; y >= 0; y--) {
-                for (int z = 0; z < size; z++) {
-                    int rx = x;
-                    int rz = z;
+		for (int x = 0; x < size; x++) {
+			for (int y = size-1; y >= 0; y--) {
+				for (int z = 0; z < size; z++) {
+					int rx = x;
+					int rz = z;
 
-                    switch (facing) {
-                        case NORTH -> { rx = x; rz = z; }
-                        case SOUTH -> { rx = max - x; rz = max - z; }
-                        case EAST  -> { rx = z; rz = max - x; }
-                        case WEST  -> { rx = max - z; rz = x; }
-                    }
+					switch (facing) {
+						case NORTH -> { rx = x; rz = z; }
+						case SOUTH -> { rx = max - x; rz = max - z; }
+						case EAST  -> { rx = z; rz = max - x; }
+						case WEST  -> { rx = max - z; rz = x; }
+					}
 
-                    BlockPos target = origin.offset(offsets[0] + rx, y, offsets[1] + rz);
-                    if (level.getBlockState(target).getBlock() == ModBlocks.gummiCore.get()) {
-                        cores++;
-                    }
-                }
-            }
-        }
-        return cores;
-    }
+					BlockPos target = origin.offset(offsets[0] + rx, y, offsets[1] + rz);
+					if (level.getBlockState(target).getBlock() == ModBlocks.gummiCore.get()) {
+						cores++;
+					}
+				}
+			}
+		}
+		return cores;
+	}
 
 	public static boolean hasBlocks(Level level, BlockPos origin, Direction facing, int size) {
 		int max = size - 1;
@@ -945,36 +941,36 @@ public class Utils {
 		return null;
 	}
 
-    public static GummiHangarTileEntity.HangarEnergyStorage getEnergyStoragePerLevel(int lvl) {
-        int[] stats = getFEStatsPerLevel(lvl);
-        return new GummiHangarTileEntity.HangarEnergyStorage(stats[0], stats[1], stats[2]);
-    }
+	public static GummiHangarTileEntity.HangarEnergyStorage getEnergyStoragePerLevel(int lvl) {
+		int[] stats = getFEStatsPerLevel(lvl);
+		return new GummiHangarTileEntity.HangarEnergyStorage(stats[0], stats[1], stats[2]);
+	}
 
-    public static int[] getFEStatsPerLevel(int lvl){
-        return switch (lvl){
-            case 0 -> new int[]{ 20000, 100, 50 };
-            case 1 -> new int[]{ 60000, 120, 60 };
-            case 2 -> new int[]{ 120000, 180, 90 };
-            case 3 -> new int[]{ 240000, 260, 130 };
-            case 4 -> new int[]{ 400000, 350, 175 };
+	public static int[] getFEStatsPerLevel(int lvl){
+		return switch (lvl){
+			case 0 -> new int[]{ 20000, 100, 50 };
+			case 1 -> new int[]{ 60000, 120, 60 };
+			case 2 -> new int[]{ 120000, 180, 90 };
+			case 3 -> new int[]{ 240000, 260, 130 };
+			case 4 -> new int[]{ 400000, 350, 175 };
 			case 5,6,7,8,9,10 -> new int[]{ 1000000, 1000, 500 };
-            default -> throw new IllegalStateException("Unexpected value for Utils#getFEPerLevel: " + lvl);
-        };
-    }
+			default -> throw new IllegalStateException("Unexpected value for Utils#getFEPerLevel: " + lvl);
+		};
+	}
 
-    public static String getFormattedNumber(int num) {
-        return String.format("%,d", num);
-    }
+	public static String getFormattedNumber(int num) {
+		return String.format("%,d", num);
+	}
 
-    public static String getFormattedNumber(float num) {
-        return String.format("%,.2f", num);
-    }
+	public static String getFormattedNumber(float num) {
+		return String.format("%,.2f", num);
+	}
 
-    public static boolean isKBArmor(ItemStack stack) {
-        if (!(stack.getItem() instanceof ArmorItem armor))
-            return false;
-        return armor.getMaterial().value().equipSound().value() == ModSounds.keyblade_armor.get();
-    }
+	public static boolean isKBArmor(ItemStack stack) {
+		if (!(stack.getItem() instanceof ArmorItem armor))
+			return false;
+		return armor.getMaterial().value().equipSound().value() == ModSounds.keyblade_armor.get();
+	}
 
 	public static ResourceLocation getRCNameFromIndex(Player player, int reactionSelected) {
 		int index = 0;
@@ -1194,16 +1190,16 @@ public class Utils {
 		}
 
 		public static StreamCodec<FriendlyByteBuf, Title> STREAM_CODEC = new StreamCodec<>() {
-            @Override
-            public Title decode(FriendlyByteBuf pBuffer) {
-                return new Title(pBuffer.readNbt());
-            }
+			@Override
+			public Title decode(FriendlyByteBuf pBuffer) {
+				return new Title(pBuffer.readNbt());
+			}
 
-            @Override
-            public void encode(FriendlyByteBuf pBuffer, Title pValue) {
+			@Override
+			public void encode(FriendlyByteBuf pBuffer, Title pValue) {
 				pBuffer.writeNbt(pValue.write());
-            }
-        };
+			}
+		};
 	}
 
 	public record ShotlockPosition(int id,float x,float y, float z){
@@ -1325,7 +1321,7 @@ public class Utils {
 
 	/**
 	 * Replacement for the old i8n format method
-	 * 
+	 *
 	 * @param name   the unlocalized string to translate
 	 * @param format the format of the string
 	 * @return the translated string
@@ -1337,7 +1333,7 @@ public class Utils {
 
 	/**
 	 * Replacement for the old i8n translate to local method
-	 * 
+	 *
 	 * @param name the unlocalized string to translate
 	 * @return the translated string
 	 */
@@ -1348,22 +1344,22 @@ public class Utils {
 
 	/**
 	 * Get the ItemStack of the item that made the DamageSource
-	 * 
+	 *
 	 * @param damageSource
 	 * @param player
 	 * @return
 	 */
 	public static ItemStack getWeaponDamageStack(DamageSource damageSource, Player player) {
 		switch (damageSource.getMsgId()) {
-		case "player":
-			if (player.getMainHandItem() != null && player.getMainHandItem().getItem() instanceof KeybladeItem || player.getMainHandItem().getItem() instanceof IOrgWeapon) {
-				return player.getMainHandItem();
-			}
-			break;
-		case "offhand":
-			if (player.getOffhandItem() != null && player.getOffhandItem().getItem() instanceof KeybladeItem || player.getOffhandItem().getItem() instanceof IOrgWeapon) {
-				return player.getOffhandItem();
-			}
+			case "player":
+				if (player.getMainHandItem() != null && player.getMainHandItem().getItem() instanceof KeybladeItem || player.getMainHandItem().getItem() instanceof IOrgWeapon) {
+					return player.getMainHandItem();
+				}
+				break;
+			case "offhand":
+				if (player.getOffhandItem() != null && player.getOffhandItem().getItem() instanceof KeybladeItem || player.getOffhandItem().getItem() instanceof IOrgWeapon) {
+					return player.getOffhandItem();
+				}
 		}
 		return null;
 
@@ -1402,11 +1398,11 @@ public class Utils {
 	}
 
 	public static LinkedHashMap<ResourceLocation, int[]> getSortedAbilities(LinkedHashMap<ResourceLocation, int[]> abilities) {
-        return abilities.entrySet().stream().sorted((entry, entry2) -> {
+		return abilities.entrySet().stream().sorted((entry, entry2) -> {
 			Ability ability = ModAbilities.registry.get(entry.getKey());
 			Ability ability2 = ModAbilities.registry.get(entry2.getKey());
 			if (ability != null && ability2 != null) {
-                return ability.compareTo(ability2);
+				return ability.compareTo(ability2);
 			}
 			return entry.getKey().compareTo(entry2.getKey());
 		}).collect(Collectors.toMap(Entry::getKey, Entry::getValue, (value, value2) -> value, LinkedHashMap::new));
@@ -1415,19 +1411,19 @@ public class Utils {
 	public static LinkedHashMap<ResourceLocation, int[]> getSortedDriveForms(LinkedHashMap<ResourceLocation, int[]> driveFormsMap, List<DriveForm> visibleForms) {
 		List<DriveForm> list = new ArrayList<>();
 
-        for (ResourceLocation entry : driveFormsMap.keySet()) {
+		for (ResourceLocation entry : driveFormsMap.keySet()) {
 			DriveForm form = ModDriveForms.registry.get(entry);
 			if (visibleForms.contains(form)) { // Should only add the form if it is visible
 				list.add(form);
 			}
-        }
+		}
 
 		list.sort(Comparator.comparingInt(DriveForm::getOrder));
 
 		LinkedHashMap<ResourceLocation, int[]> map = new LinkedHashMap<>();
-        for (DriveForm driveForm : list) {
-            map.put(driveForm.getRegistryName(), driveFormsMap.get(driveForm.getRegistryName()));
-        }
+		for (DriveForm driveForm : list) {
+			map.put(driveForm.getRegistryName(), driveFormsMap.get(driveForm.getRegistryName()));
+		}
 
 		return map;
 	}
@@ -1487,9 +1483,9 @@ public class Utils {
 		return list;
 	}
 
-    public static List<Entity> getEntitiesInRadius(Entity entity, float radius) {
-        return entity.level().getEntities(entity, entity.getBoundingBox().inflate(radius), Entity::isAlive);
-    }
+	public static List<Entity> getEntitiesInRadius(Entity entity, float radius) {
+		return entity.level().getEntities(entity, entity.getBoundingBox().inflate(radius), Entity::isAlive);
+	}
 
 	public static List<LivingEntity> getLivingEntitiesInRadius(Entity entity, float radius) {
 		List<Entity> list = entity.level().getEntities(entity, entity.getBoundingBox().inflate(radius), Entity::isAlive);
@@ -1518,7 +1514,7 @@ public class Utils {
 
 	/**
 	 * Used to check if there's anyone else online in the party for KO effect
-	 * 
+	 *
 	 * @param player
 	 * @param p
 	 * @param level
@@ -1560,7 +1556,7 @@ public class Utils {
 
 	/**
 	 * Gets entities in radius from the entity param
-	 * 
+	 *
 	 * @param player  to ignore from the list
 	 * @param entity  where to check with radius
 	 * @param radiusX
@@ -1611,8 +1607,8 @@ public class Utils {
 	}
 
 	public static boolean hasKeybladeID(ItemStack stack) {
-        return stack.has(ModComponents.KEYBLADE_ID) && !stack.is(Items.AIR);
-    }
+		return stack.has(ModComponents.KEYBLADE_ID) && !stack.is(Items.AIR);
+	}
 
 	public static UUID getKeybladeID(ItemStack stack) {
 		if (hasKeybladeID(stack)) {
@@ -1657,7 +1653,7 @@ public class Utils {
 
 	public static boolean hasArmorID(ItemStack stack) {
 		if (stack.getItem() instanceof PauldronItem || stack.getItem() instanceof ArmorItem) {
-            return stack.has(ModComponents.ARMOR_ID);
+			return stack.has(ModComponents.ARMOR_ID);
 		}
 		return false;
 	}
@@ -1747,15 +1743,15 @@ public class Utils {
 			if (!ItemStack.matches(entry.getValue(), ItemStack.EMPTY)) {
 				KKAccessoryItem accessory = (KKAccessoryItem) entry.getValue().getItem();
 				switch (type) {
-				case "ap":
-					res += accessory.getAp();
-					break;
-				case "str":
-					res += accessory.getStr();
-					break;
-				case "mag":
-					res += accessory.getMag();
-					break;
+					case "ap":
+						res += accessory.getAp();
+						break;
+					case "str":
+						res += accessory.getStr();
+						break;
+					case "mag":
+						res += accessory.getMag();
+						break;
 				}
 			}
 		}
@@ -1783,37 +1779,37 @@ public class Utils {
 			if (!ItemStack.matches(entry.getValue(), ItemStack.EMPTY)) {
 				KKArmorItem kkArmorItem = (KKArmorItem) entry.getValue().getItem();
 				switch (type) {
-				case "def":
-					res += kkArmorItem.getDefense();
-					break;
-				case "darkness":
-					if (kkArmorItem.CheckKey(KKResistanceType.darkness))
-						res += kkArmorItem.GetResValue(KKResistanceType.darkness, res == 0 ? 100 : 100 - res);
-					break;
-				case "light":
-					if (kkArmorItem.CheckKey(KKResistanceType.light))
-						res += kkArmorItem.GetResValue(KKResistanceType.light, res == 0 ? 100 : 100 - res);
-					break;
-				case "ice":
-					if (kkArmorItem.CheckKey(KKResistanceType.ice))
-						res += kkArmorItem.GetResValue(KKResistanceType.ice, res == 0 ? 100 : 100 - res);
-					break;
-				case "air":
-					if (kkArmorItem.CheckKey(KKResistanceType.air))
-						res += kkArmorItem.GetResValue(KKResistanceType.air, res == 0 ? 100 : 100 - res);
-					break;
-				case "lightning":
-					if (kkArmorItem.CheckKey(KKResistanceType.lightning))
-						res += kkArmorItem.GetResValue(KKResistanceType.lightning, res == 0 ? 100 : 100 - res);
-					break;
-				case "water":
-					if (kkArmorItem.CheckKey(KKResistanceType.water))
-						res += kkArmorItem.GetResValue(KKResistanceType.water, res == 0 ? 100 : 100 - res);
-					break;
-				case "fire":
-					if (kkArmorItem.CheckKey(KKResistanceType.fire))
-						res += kkArmorItem.GetResValue(KKResistanceType.fire, res == 0 ? 100 : 100 - res);
-					break;
+					case "def":
+						res += kkArmorItem.getDefense();
+						break;
+					case "darkness":
+						if (kkArmorItem.CheckKey(KKResistanceType.darkness))
+							res += kkArmorItem.GetResValue(KKResistanceType.darkness, res == 0 ? 100 : 100 - res);
+						break;
+					case "light":
+						if (kkArmorItem.CheckKey(KKResistanceType.light))
+							res += kkArmorItem.GetResValue(KKResistanceType.light, res == 0 ? 100 : 100 - res);
+						break;
+					case "ice":
+						if (kkArmorItem.CheckKey(KKResistanceType.ice))
+							res += kkArmorItem.GetResValue(KKResistanceType.ice, res == 0 ? 100 : 100 - res);
+						break;
+					case "air":
+						if (kkArmorItem.CheckKey(KKResistanceType.air))
+							res += kkArmorItem.GetResValue(KKResistanceType.air, res == 0 ? 100 : 100 - res);
+						break;
+					case "lightning":
+						if (kkArmorItem.CheckKey(KKResistanceType.lightning))
+							res += kkArmorItem.GetResValue(KKResistanceType.lightning, res == 0 ? 100 : 100 - res);
+						break;
+					case "water":
+						if (kkArmorItem.CheckKey(KKResistanceType.water))
+							res += kkArmorItem.GetResValue(KKResistanceType.water, res == 0 ? 100 : 100 - res);
+						break;
+					case "fire":
+						if (kkArmorItem.CheckKey(KKResistanceType.fire))
+							res += kkArmorItem.GetResValue(KKResistanceType.fire, res == 0 ? 100 : 100 - res);
+						break;
 				}
 			}
 		}
@@ -1827,10 +1823,10 @@ public class Utils {
 	public static int getConsumedAP(PlayerData playerData) {
 		int ap = 0;
 		LinkedHashMap<ResourceLocation, int[]> map = playerData.getAbilityMap();
-        for (Entry<ResourceLocation, int[]> entry : map.entrySet()) {
-            Ability a = ModAbilities.registry.get(entry.getKey());
-            ap += a.getAPCost() * Integer.bitCount(entry.getValue()[1]);
-        }
+		for (Entry<ResourceLocation, int[]> entry : map.entrySet()) {
+			Ability a = ModAbilities.registry.get(entry.getKey());
+			ap += a.getAPCost() * Integer.bitCount(entry.getValue()[1]);
+		}
 		return ap;
 	}
 
@@ -1879,26 +1875,18 @@ public class Utils {
 			if (Utils.isWearingOrgRobes(player)) {
 				if (sb.getPlayersTeam(name) != team) {
 					sb.addPlayerToTeam(name, team);
-					updateTabName(player, true);
 				}
 			} else {
 				if (sb.getPlayersTeam(name) == team) {
 					sb.removePlayerFromTeam(name, team);
-					updateTabName(player, false);
 				}
 			}
 		} else {
 			//If config is false make sure everyone invisible is visible again
 			if (sb.getPlayersTeam(name) == team) {
 				sb.removePlayerFromTeam(name, team);
-				updateTabName(player, false);
 			}
 		}
-	}
-
-	public static void updateTabName(ServerPlayer player, boolean wearing) {                  // hide											//show
-		Packet<ClientGamePacketListener> packet = wearing ? new ClientboundPlayerInfoRemovePacket(List.of(player.getUUID())) : ClientboundPlayerInfoUpdatePacket.createPlayerInitializing(List.of(player));
-		player.server.getPlayerList().getPlayers().forEach(p -> p.connection.send(packet));
 	}
 
 	public static boolean isWearingOrgRobes(Player player) {
@@ -1926,20 +1914,20 @@ public class Utils {
 		return hangarCosts[hangarLevel];
 	}
 
-    public static String getHangarSizeFromLevel(int level) {
-        return switch(level){
-            case 0 -> "XS";
-            case 1 -> "S";
-            case 2 -> "M";
-            case 3 -> "L";
-            case 4 -> "XL";
+	public static String getHangarSizeFromLevel(int level) {
+		return switch(level){
+			case 0 -> "XS";
+			case 1 -> "S";
+			case 2 -> "M";
+			case 3 -> "L";
+			case 4 -> "XL";
 			case 5,6,7,8,9,10 -> level+"";
-            default -> "Unsuported value: " + level;
-        };
-    }
+			default -> "Unsuported value: " + level;
+		};
+	}
 
 
-    public static String snakeToCamel(String str) {
+	public static String snakeToCamel(String str) {
 		// Capitalize first letter of string
 		str = str.substring(0, 1).toUpperCase() + str.substring(1);
 
@@ -1963,7 +1951,7 @@ public class Utils {
 	}
 
 	public static boolean isPlayerLowHP(Player player) {
-		return player.getHealth() < player.getMaxHealth() / 4;
+		return isLowHP(player.getHealth(), player.getMaxHealth());
 	}
 
 	public static boolean isLowHP(float hp, float maxHP) {
@@ -2031,7 +2019,6 @@ public class Utils {
 
 	public static List<ResourceLocation> getOrgWeaponAbilities(Item item) {
 		ArrayList<ResourceLocation> abilities = new ArrayList<>();
-		KeybladeItem keyblade = null;
 		if (item instanceof IOrgWeapon org) {
 			ResourceLocation[] a = org.getOrganizationData().getAbilities();
 			if (a != null) {
@@ -2044,7 +2031,7 @@ public class Utils {
 
 	/**
 	 * Set to level 1
-	 * 
+	 *
 	 * @param playerData
 	 * @param player
 	 */
@@ -2075,23 +2062,23 @@ public class Utils {
 
 	/**
 	 * Recalculate drive form levels and permanent abilities and shotlocks
-	 * 
+	 *
 	 * @param playerData
 	 * @param player
 	 */
 	public static void restartLevel2(PlayerData playerData, Player player) { // calculates drive forms
 		LinkedHashMap<ResourceLocation, int[]> driveForms = playerData.getDriveFormMap();
-        for (Entry<ResourceLocation, int[]> entry : driveForms.entrySet()) {
-            int dfLevel = entry.getValue()[0];
-            DriveForm form = ModDriveForms.registry.get(entry.getKey());
-            if (!Utils.getFakeForms().contains(form.getRegistryName())) {
-                for (int i = 1; i <= dfLevel; i++) {
+		for (Entry<ResourceLocation, int[]> entry : driveForms.entrySet()) {
+			int dfLevel = entry.getValue()[0];
+			DriveForm form = ModDriveForms.registry.get(entry.getKey());
+			if (!Utils.getFakeForms().contains(form.getRegistryName())) {
+				for (int i = 1; i <= dfLevel; i++) {
 					form.getBaseAbilityForLevel(i).ifPresent(baseAbility -> {
 						playerData.addAbility(baseAbility, false);
 					});
-                }
-            }
-        }
+				}
+			}
+		}
 
 		playerData.getPAbilitiesList().forEach(a -> {
 			playerData.addAbility(a,false);
@@ -2107,14 +2094,14 @@ public class Utils {
 
 	public static String getTierFromInt(int tier) {
 		return switch (tier) {
-		case 1 -> "D";
-		case 2 -> "C";
-		case 3 -> "B";
-		case 4 -> "A";
-		case 5 -> "S";
-		case 6 -> "SS";
-		case 7 -> "SSS";
-		default -> "Unknown: " + tier;
+			case 1 -> "D";
+			case 2 -> "C";
+			case 3 -> "B";
+			case 4 -> "A";
+			case 5 -> "S";
+			case 6 -> "SS";
+			case 7 -> "SSS";
+			default -> "Unknown: " + tier;
 		};
 	}
 
@@ -2174,11 +2161,11 @@ public class Utils {
 				return false;
 			}
 		}
-        if(player instanceof LocalPlayer lp){
-            return !Minecraft.getInstance().options.hideGui;
-        }
-        return !player.hasEffect(ModMobEffects.KO);
-    }
+		if(player instanceof LocalPlayer lp){
+			return !Minecraft.getInstance().options.hideGui;
+		}
+		return !player.hasEffect(ModMobEffects.KO);
+	}
 
 	public static BlockPos stringArrayToBlockPos(String[] temp) {
 		return new BlockPos(getInt(temp[0]), getInt(temp[1]), getInt(temp[2]));

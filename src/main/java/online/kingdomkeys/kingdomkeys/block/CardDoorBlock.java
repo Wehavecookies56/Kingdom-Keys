@@ -126,7 +126,7 @@ public class CardDoorBlock extends BaseBlock implements EntityBlock, INoDataGen 
 											CastleOblivionHandler.createFirstRoom(player, te);
 											stack.consume(1, player);
 										} else {
-											player.sendSystemMessage(Component.literal("I did warn you, saved you from crashing/breaking your world"));
+											player.sendSystemMessage(Component.translatable("kingdomkeys.card.door.warned_you"));
 										}
 										return ItemInteractionResult.sidedSuccess(false);
 									}

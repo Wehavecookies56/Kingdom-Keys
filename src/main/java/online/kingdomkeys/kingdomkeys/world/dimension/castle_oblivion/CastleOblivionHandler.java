@@ -76,7 +76,7 @@ public class CastleOblivionHandler {
                         floor = currentRoom.getParent(interiorData);
                     }
                     exitCastleOblivion(floor, currentRoom, event.getEntity());
-                    event.getEntity().sendSystemMessage(Component.translatable("Castle Oblivion does not work on peaceful difficulty"));
+                    event.getEntity().sendSystemMessage(Component.translatable("kingdomkeys.castle_oblivion.peaceful"));
                 });
             }
         }
@@ -122,7 +122,7 @@ public class CastleOblivionHandler {
                     Utils.showTutorial(sPlayer, Constants.TUTORIALS.get(Constants.TUTORIAL_CO_LOBBY));
                 }
             } else {
-                player.sendSystemMessage(Component.translatable("Castle Oblivion does not work on peaceful difficulty"));
+                player.sendSystemMessage(Component.translatable("kingdomkeys.castle_oblivion.peaceful"));
                 player.teleportTo(entranceBounds.min().getX() + ((entranceBounds.max().getX() - entranceBounds.min().getX()) / 2F), entranceBounds.min().getY() + 1, entranceBounds.min().getZ() - 2);
             }
         }

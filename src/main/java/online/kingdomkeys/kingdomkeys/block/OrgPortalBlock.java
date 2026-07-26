@@ -78,13 +78,13 @@ public class OrgPortalBlock extends BaseBlock implements EntityBlock, INoDataGen
 					worldData.addPortal(portalUUID, new PortalData(portalUUID, "Portal", pos.getX(), pos.getY()-1, pos.getZ(), player.level().dimension(), player.getUUID()));
 					PacketHandler.sendToAll(new SCSyncWorldData(worldIn.getServer()));
 	
-					player.displayClientMessage(Component.translatable(ChatFormatting.GREEN + "This is now your portal"), true);
+					player.displayClientMessage(Component.translatable("kingdomkeys.org_portal.now_yours").withStyle(ChatFormatting.GREEN), true);
 	
 					te.setUUID(portalUUID);
 					te.setChanged();
 					PacketHandler.sendTo(new SCShowOrgPortalGUI(te.getBlockPos()), (ServerPlayer) player);
 				} else {
-					player.displayClientMessage(Component.translatable(ChatFormatting.RED + "You have no empty slots for portals"), true);
+					player.displayClientMessage(Component.translatable("kingdomkeys.org_portal.no_slots").withStyle(ChatFormatting.RED), true);
 				}
 			}
 		}		
@@ -135,7 +135,7 @@ public class OrgPortalBlock extends BaseBlock implements EntityBlock, INoDataGen
 					Player player = worldIn.getServer().getPlayerList().getPlayer(ownerUUID);
 					if(player != null) { //Remove from player's menu
 						PacketHandler.sendToAll(new SCSyncWorldData(worldIn.getServer()));
-						player.displayClientMessage(Component.translatable(ChatFormatting.RED + "Portal destination disappeared"), true);
+						player.displayClientMessage(Component.translatable("kingdomkeys.org_portal.destination_gone").withStyle(ChatFormatting.RED), true);
 					}
 				}
 			}

@@ -410,11 +410,11 @@ public class GummiBlockBase extends BaseBlock implements ICreativeTab {
         //TODO more multiblock sizes
         if (placementType == GummiPlacementType.MULTIBLOCK2D || placementType == GummiPlacementType.MULTIBLOCK3D) {
             if (placementType == GummiPlacementType.MULTIBLOCK2D) {
-                tooltipComponents.add(Component.translatable(ChatFormatting.GRAY + "Shape size: 2x1x2"));
+                tooltipComponents.add(Component.translatable("kingdomkeys.gummi.block.shape_size_2x1x2").withStyle(ChatFormatting.GRAY));
             } else {
-                tooltipComponents.add(Component.translatable(ChatFormatting.GRAY + "Shape size: 2x2x2"));
+                tooltipComponents.add(Component.translatable("kingdomkeys.gummi.block.shape_size_2x2x2").withStyle(ChatFormatting.GRAY));
             }
-            tooltipComponents.add(Component.translatable(ChatFormatting.GRAY+"Place in the bottom-left corner of the area for correct orientation"));
+            tooltipComponents.add(Component.translatable("kingdomkeys.gummi.block.place_corner").withStyle(ChatFormatting.GRAY));
         }
         super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
     }

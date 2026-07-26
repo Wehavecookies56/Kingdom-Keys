@@ -40,7 +40,7 @@ public class DropDownButton extends Button {
     }
 
     public DropDownButton(int pX, int pY, int pWidth, int pHeight, List<Component> options, Component label) {
-        super(builder(options.isEmpty() ? Component.translatable("No options") : options.get(0), pButton -> {}).bounds(pX, pY, pWidth, pHeight));
+        super(builder(options.isEmpty() ? Component.translatable("kingdomkeys.gui.no_options") : options.get(0), pButton -> {}).bounds(pX, pY, pWidth, pHeight));
         this.options = new ArrayList<>();
         for (int i = 0; i < options.size(); i++) {
             this.options.add(new Entry(pX, pY + ((i+1) * (Minecraft.getInstance().font.lineHeight + 3)), options.get(i)));

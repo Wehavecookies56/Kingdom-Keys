@@ -47,7 +47,7 @@ public class CheckCommand extends BaseCommand {
             KingdomKeys.LOGGER.warn("[DEBUG check] serialized NBT has {} keys: {}", packet.playerData().size(), packet.playerData().getAllKeys());
             PacketHandler.sendTo(packet, sender);
         } else {
-            context.getSource().sendFailure(Component.literal("Command must be run by a player"));
+            context.getSource().sendFailure(Component.translatable("kingdomkeys.command.player_only"));
         }
         return 1;
     }

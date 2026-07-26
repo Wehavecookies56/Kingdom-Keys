@@ -23,8 +23,8 @@ public class MinglingWorldsMapCardItem extends MapCardItem {
 
     @Override
     public void appendHoverText(ItemStack pStack, TooltipContext context, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(Component.translatable("Size: ?"));
-        pTooltipComponents.add(Component.translatable("Enemies: ?"));
+        pTooltipComponents.add(Component.translatable("kingdomkeys.card.map.size_unknown"));
+        pTooltipComponents.add(Component.translatable("kingdomkeys.card.map.enemies_unknown"));
         super.appendHoverText(pStack, context, pTooltipComponents, pIsAdvanced);
     }
 

@@ -115,7 +115,7 @@ public class MaterialCommand extends BaseCommand { // kk_material <give/take> <m
 
 			context.getSource().sendSuccess(() -> Component.translatable("Given all materials to " + player.getDisplayName().getString()), true);
 
-			player.sendSystemMessage(Component.translatable("You have been given all the materials"));
+			player.sendSystemMessage(Component.translatable("kingdomkeys.command.material.given_all_self"));
 			PacketHandler.sendTo(new SCSyncPlayerData(player), player);
 		}
 		return 1;
@@ -130,7 +130,7 @@ public class MaterialCommand extends BaseCommand { // kk_material <give/take> <m
 
 			context.getSource().sendSuccess(() -> Component.translatable("Taken all materials from " + player.getDisplayName().getString()), true);
 
-			player.sendSystemMessage(Component.translatable("Your materials have been taken away"));
+			player.sendSystemMessage(Component.translatable("kingdomkeys.command.material.taken_all_self"));
 			PacketHandler.sendTo(new SCSyncPlayerData(player), player);
 		}
 		return 1;

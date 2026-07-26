@@ -43,7 +43,7 @@ public class PedestalScreen extends AbstractContainerScreen<PedestalMenu> {
         addRenderableWidget(bobSpeedSlider = new ExtendedSlider(leftPos + 8, topPos + 66, 50, 10, Component.literal(""), Component.literal(""), 0, bobSpeedMax, menu.TE.getBobSpeed(), 0, 0, false));
         addRenderableWidget(pauseCheckbox = new CheckboxButton(leftPos + 8, topPos + 18, "Pause", menu.TE.isPaused()));
         addRenderableWidget(flippedCheckbox = new CheckboxButton(leftPos + 60, topPos + 18, "Flip", menu.TE.isFlipped()));
-        addRenderableWidget(reset = new ExtendedButton(leftPos + imageWidth - 53, topPos + 80, 45, 15, Component.translatable("Reset"), p -> {
+        addRenderableWidget(reset = new ExtendedButton(leftPos + imageWidth - 53, topPos + 80, 45, 15, Component.translatable("kingdomkeys.gui.pedestal.reset"), p -> {
             menu.TE.setPause(false);
             menu.TE.setCurrentTransforms(PedestalTileEntity.DEFAULT_ROTATION, PedestalTileEntity.DEFAULT_HEIGHT);
             menu.TE.setSpeed(PedestalTileEntity.DEFAULT_ROTATION_SPEED, PedestalTileEntity.DEFAULT_BOB_SPEED);

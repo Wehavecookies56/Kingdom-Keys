@@ -27,7 +27,7 @@ public class HUDEditorScreen extends Screen {
     private float dragOffsetY;
 
     public HUDEditorScreen() {
-        super(Component.literal("HUD Editor"));
+        super(Component.translatable("kingdomkeys.gui.hud_editor.title"));
         int scaledWidth = Minecraft.getInstance().getWindow().getGuiScaledWidth();
         int buttonWidth = (int)(scaledWidth * 0.23F);
         addRenderableWidget(rpButton = new MenuButton(scaledWidth/2 - buttonWidth - 20, 5, buttonWidth, Utils.translateToLocal("gui.menu.config.reset_defaults"), MenuButton.ButtonType.ROUNDBUTTON, (e) -> {
