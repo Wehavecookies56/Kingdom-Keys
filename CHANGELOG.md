@@ -67,4 +67,4 @@
 * Orientation of thrown lances, scythes and cards.
 * Gummi Ship performance issues, sacrificing a bit the visuals.
 * Check command not displaying the proper data.
-* Localized a lot of messages that were previously hardcoded in english.
+* Localized most if not all the messages that were previously hardcoded in english.

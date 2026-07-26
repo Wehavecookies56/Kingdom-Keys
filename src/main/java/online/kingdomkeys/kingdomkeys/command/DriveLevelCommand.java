@@ -64,7 +64,7 @@ public class DriveLevelCommand extends BaseCommand{
 		ResourceLocation form = KingdomKeys.rl(StringArgumentType.getString(context, "form"));
 
 		if(!ModDriveForms.registry.keySet().stream().toList().contains(form)) {
-			context.getSource().sendFailure(Component.literal("Form '"+form+ "' does not exist"));
+			context.getSource().sendFailure(Component.translatable("kingdomkeys.command.drive.unknown", form));
 			return 0;
 		}
 		for (ServerPlayer player : players) {
@@ -89,8 +89,8 @@ public class DriveLevelCommand extends BaseCommand{
 			ExpCommand.fix(playerData, player); //Mainly here to remove given abilities in case form is going to be lower
 			
 			DriveForm formInstance = ModDriveForms.registry.get(form);
-			context.getSource().sendSuccess(() -> Component.translatable("Set "+ Utils.translateToLocal(formInstance.getTranslationKey())+" for " +player.getDisplayName().getString()+" to level "+level), true);
-			player.sendSystemMessage(Component.translatable("Your "+Utils.translateToLocal(formInstance.getTranslationKey())+" level is now "+level));
+			context.getSource().sendSuccess(() -> Component.translatable("kingdomkeys.command.drive.set", Utils.translateToLocal(formInstance.getTranslationKey()), player.getDisplayName().getString(), level), true);
+			player.sendSystemMessage(Component.translatable("kingdomkeys.command.drive.set_self", Utils.translateToLocal(formInstance.getTranslationKey()), level));
 		}
 		return 1;
 	}

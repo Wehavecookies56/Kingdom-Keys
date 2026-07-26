@@ -232,7 +232,7 @@ public class EntityEvents {
 		if (player.level().registryAccess().lookupOrThrow(Registries.ITEM).get(ModTags.MATERIALS).isPresent()) {
 			RecipeRegistry.getInstance().getValues().forEach(recipe -> recipe.getMaterials().keySet().forEach(item -> {
 				if (!item.builtInRegistryHolder().is(ModTags.MATERIALS)) {
-					player.sendSystemMessage(Component.translatable(ChatFormatting.RED + "Recipe[" + recipe.getRegistryName().toString() + "] contains material(s) that are not present in the \"synthesis/materials\" tag you will be unable to create this recipe"));
+					player.sendSystemMessage(Component.translatable("kingdomkeys.error.recipe_missing_material", recipe.getRegistryName().toString()).withStyle(ChatFormatting.RED));
 				}
 			}));
 			BuiltInRegistries.ITEM.entrySet().stream().filter(itemRegistryObject -> itemRegistryObject.getValue() instanceof KeybladeItem).map(itemRegistryObject -> (KeybladeItem) itemRegistryObject.getValue()).toList().forEach(keybladeItem -> {
@@ -240,7 +240,7 @@ public class EntityEvents {
 					for (int i = 0; i < keybladeItem.data.getMaxLevel(); i++) {
 						keybladeItem.data.getLevelData(i).getMaterialList().keySet().forEach(item -> {
 							if (!item.builtInRegistryHolder().is(ModTags.MATERIALS)) {
-								player.sendSystemMessage(Component.translatable(ChatFormatting.RED + "Keyblade level data[" + BuiltInRegistries.ITEM.getKey(keybladeItem) + "] contains material(s) that are not present in the \"synthesis/materials\" tag you will be unable to upgrade this keyblade"));
+								player.sendSystemMessage(Component.translatable("kingdomkeys.error.keyblade_missing_material", BuiltInRegistries.ITEM.getKey(keybladeItem)).withStyle(ChatFormatting.RED));
 							}
 						});
 					}
@@ -476,7 +476,7 @@ public class EntityEvents {
 						ExpCommand.fix(playerData, player);
 						player.level().playSound(null, player.blockPosition(), ModSounds.levelup.get(), SoundSource.MASTER, 1f, 1.0f);
 						KingdomKeys.LOGGER.info("Auto adjusted " + player.getDisplayName().getString() + " data from version " + playerData.getVer() + " to version " + levelData.getVersion());
-						player.sendSystemMessage(Component.translatable("Adjusted your data value from " + playerData.getVer() + " to version " + levelData.getVersion() + ", all your missing abilities have been added to you"));
+						player.sendSystemMessage(Component.translatable("kingdomkeys.data.version_adjusted", playerData.getVer(), levelData.getVersion()));
 						playerData.setVer(levelData.getVersion());
 					}
 				}
@@ -1465,7 +1465,7 @@ public class EntityEvents {
 
 						DuskEntity newDusk = new DuskEntity(ModEntities.TYPE_DUSK.get(), event.getSource().getEntity().level());
 						newDusk.setPos(event.getEntity().blockPosition().getX(), event.getEntity().blockPosition().getY(), event.getEntity().blockPosition().getZ());
-						newDusk.setCustomName(Component.translatable(event.getEntity().getDisplayName().getString() + "'s Nobody"));
+						newDusk.setCustomName(Component.translatable("kingdomkeys.entity.nobody_of", event.getEntity().getDisplayName().getString()));
 						newDusk.getAttribute(Attributes.MAX_HEALTH).setBaseValue(Math.max(event.getEntity().getMaxHealth() * Double.parseDouble(nobody[1]) / 100, newDusk.getMaxHealth()));
 						newDusk.heal(newDusk.getMaxHealth());
 						newDusk.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(Math.max(playerData.getStrength(true) * Double.parseDouble(nobody[2]) / 100, newDusk.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue()));
@@ -1473,7 +1473,7 @@ public class EntityEvents {
 
 						ShadowEntity newShadow = new ShadowEntity(ModEntities.TYPE_SHADOW.get(), event.getSource().getEntity().level());
 						newShadow.setPos(event.getEntity().blockPosition().getX(), event.getEntity().blockPosition().getY(), event.getEntity().blockPosition().getZ());
-						newShadow.setCustomName(Component.translatable(event.getEntity().getDisplayName().getString() + "'s Heartless"));
+						newShadow.setCustomName(Component.translatable("kingdomkeys.entity.heartless_of", event.getEntity().getDisplayName().getString()));
 						newShadow.getAttribute(Attributes.MAX_HEALTH).setBaseValue(Math.max(event.getEntity().getMaxHealth() * Double.parseDouble(heartless[1]) / 100, newShadow.getMaxHealth()));
 						newShadow.heal(newShadow.getMaxHealth());
 

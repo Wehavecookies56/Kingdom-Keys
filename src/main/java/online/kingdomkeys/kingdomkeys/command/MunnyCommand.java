@@ -57,9 +57,9 @@ public class MunnyCommand extends BaseCommand { // kk_munny <give/take/set/pay> 
 		PlayerData playerData = PlayerData.get(player);
 		playerData.setMunny(value, player);
 
-		context.getSource().sendSuccess(() -> Component.translatable("Set " + player.getDisplayName().getString() + " munny to " + value), true);
+		context.getSource().sendSuccess(() -> Component.translatable("kingdomkeys.command.munny.set", player.getDisplayName().getString(), value), true);
 
-		player.sendSystemMessage(Component.translatable("Your munny has been set to " + value));
+		player.sendSystemMessage(Component.translatable("kingdomkeys.command.munny.set_self", value));
 		PacketHandler.sendTo(new SCSyncPlayerData(player), player);
 
 		return 1;
@@ -79,9 +79,9 @@ public class MunnyCommand extends BaseCommand { // kk_munny <give/take/set/pay> 
 		PlayerData playerData = PlayerData.get(player);
 		playerData.setMunny(playerData.getMunny() + value, player);
 
-		context.getSource().sendSuccess(() -> Component.translatable("Added " + value + " munny to " + player.getDisplayName().getString()), true);
+		context.getSource().sendSuccess(() -> Component.translatable("kingdomkeys.command.munny.add", value, player.getDisplayName().getString()), true);
 
-		player.sendSystemMessage(Component.translatable("Your munny has been increased by " + value));
+		player.sendSystemMessage(Component.translatable("kingdomkeys.command.munny.add_self", value));
 		PacketHandler.sendTo(new SCSyncPlayerData(player), player);
 
 		return 1;
@@ -101,9 +101,9 @@ public class MunnyCommand extends BaseCommand { // kk_munny <give/take/set/pay> 
 		PlayerData playerData = PlayerData.get(player);
 		playerData.setMunny(playerData.getMunny() - value, player);
 
-		context.getSource().sendSuccess(() -> Component.translatable("Taken " + value + " munny from " + player.getDisplayName().getString()), true);
+		context.getSource().sendSuccess(() -> Component.translatable("kingdomkeys.command.munny.remove", value, player.getDisplayName().getString()), true);
 
-		player.sendSystemMessage(Component.translatable("Your munny has been decreased by " + value));
+		player.sendSystemMessage(Component.translatable("kingdomkeys.command.munny.remove_self", value));
 		PacketHandler.sendTo(new SCSyncPlayerData(player), player);
 
 		return 1;

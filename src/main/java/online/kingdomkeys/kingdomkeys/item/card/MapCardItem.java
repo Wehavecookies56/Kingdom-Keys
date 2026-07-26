@@ -120,8 +120,8 @@ public class MapCardItem extends Item implements ICreativeTab {
         }
         if (type != null && hasRandomValue) {
             RoomType inst = type.get();
-            pTooltipComponents.add(Component.translatable("Size: " + inst.getSize().getStars()).withStyle(ChatFormatting.YELLOW));
-            pTooltipComponents.add(Component.translatable("Enemies: " + inst.getEnemies().getStars()).withStyle(ChatFormatting.YELLOW));
+            pTooltipComponents.add(Component.translatable("kingdomkeys.card.map.size", inst.getSize().getStars()).withStyle(ChatFormatting.YELLOW));
+            pTooltipComponents.add(Component.translatable("kingdomkeys.card.map.enemies", inst.getEnemies().getStars()).withStyle(ChatFormatting.YELLOW));
         }
         super.appendHoverText(pStack, tooltipContext, pTooltipComponents, pIsAdvanced);
     }

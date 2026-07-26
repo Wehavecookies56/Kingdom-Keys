@@ -95,7 +95,7 @@ public class GummiHangarScreen extends AbstractContainerScreen<GummiHangarMenu> 
 			}
 		}));
 
-        addRenderableWidget(showLines = new ExtendedButton(editShip.getX(), topPos + 117, editShip.getWidth(), 10, Component.translatable("Area: "+menu.TE.getBlockState().getValue(GummiHangarBlock.SHOW_LINES)), p -> {
+        addRenderableWidget(showLines = new ExtendedButton(editShip.getX(), topPos + 117, editShip.getWidth(), 10, Component.translatable("kingdomkeys.gummi.hangar.area_value", menu.TE.getBlockState().getValue(GummiHangarBlock.SHOW_LINES)), p -> {
             PacketHandler.sendToServer(new CSShowHangarLinesPacket(menu.containerId));
             showLines.setMessage(Component.translatable("kingdomkeys.gummi.hangar.area").append(" "+menu.TE.getBlockState().getValue(GummiHangarBlock.SHOW_LINES).next()));
         }));

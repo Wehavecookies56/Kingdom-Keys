@@ -2564,47 +2564,176 @@ public class LanguageESES extends KKLanguageProvider {
         add("jei.info.kingdomkeys.master_orb", "Utilizado para desbloquear la Forma Maestra. Dicha forma dispone de un hueco para una segunda Llave Espada. Activarla requiere 4 Barras de Fusi\u00f3n. Obtenido como recompensa de los Bloques de Premio Raro.");
         add("jei.info.kingdomkeys.final_orb", "Utilizado para desbloquear la Forma Final. Dicha forma dispone de un hueco para una segunda Llave Espada. Activarla requiere 5 Barras de Fusi\u00f3n. Obtenido como recompensa de los Bloques de Premio Raro.");
         // Commands
+        // general
+        add("kingdomkeys.command.no_choice", "%s tiene que hacer una elección primero");
         add("kingdomkeys.command.player_only", "Este comando debe ejecutarlo un jugador");
+
+        // ability
+        add("kingdomkeys.command.ability.given", "Añadida la habilidad '%s' a %s");
+        add("kingdomkeys.command.ability.given_permanent_self", "Se te ha dado la habilidad '%s' de forma permanente");
+        add("kingdomkeys.command.ability.given_self", "Se te ha dado la habilidad '%s'");
+        add("kingdomkeys.command.ability.removed", "Quitada la habilidad '%s' a %s");
+        add("kingdomkeys.command.ability.removed_self", "Se te ha quitado la habilidad '%s'");
+        add("kingdomkeys.command.ability.taken_all", "Quitadas todas las habilidades a %s");
         add("kingdomkeys.command.ability.taken_all_self", "Te han quitado tus habilidades");
+        add("kingdomkeys.command.ability.unknown", "La habilidad '%s' no existe");
+
+        // check
+        add("kingdomkeys.command.check.checking", "Comprobando datos del jugador %s");
+        add("kingdomkeys.command.check.data_null", "La PlayerData es nula para el jugador %s");
+        add("kingdomkeys.command.check.player_not_found", "Jugador no encontrado %s");
+
+        // choice
+        add("kingdomkeys.command.choice.invalid", "El valor de CHOSEN o SACRIFICED no es válido");
         add("kingdomkeys.command.choice.reset_self", "Tu elección del Lugar del Despertar se ha restablecido");
         add("kingdomkeys.command.choice.same", "CHOSEN y SACRIFICED no pueden ser lo mismo");
-        add("kingdomkeys.command.choice.invalid", "El valor de CHOSEN o SACRIFICED no es válido");
-        add("kingdomkeys.command.convert.warning", "AVISO: este comando sobrescribe los datos de mundo y jugador de KK con los datos de KK existentes de Forge. Ejecútalo otra vez para confirmar que quieres sobrescribirlos");
+
+        // convert
         add("kingdomkeys.command.convert.no_data", "No se han encontrado datos antiguos que convertir");
         add("kingdomkeys.command.convert.success", "Datos convertidos correctamente");
+        add("kingdomkeys.command.convert.warning", "AVISO: este comando sobrescribe los datos de mundo y jugador de KK con los datos de KK existentes de Forge. Ejecútalo otra vez para confirmar que quieres sobrescribirlos");
+
+        // dimension
+        add("kingdomkeys.command.dimension.teleported", "%s teletransportado a la dimensión %s");
+        add("kingdomkeys.command.dimension.unknown", "La dimensión '%s' no existe");
+
+        // dp
+        add("kingdomkeys.command.dp.add", "Añadidos %s DP a %s");
+        add("kingdomkeys.command.dp.add_self", "Tus DP han aumentado en %s");
+        add("kingdomkeys.command.dp.remove", "Quitados %s DP a %s");
+        add("kingdomkeys.command.dp.remove_self", "Tus DP han disminuido en %s");
+        add("kingdomkeys.command.dp.set", "DP de %s establecidos a %s");
+        add("kingdomkeys.command.dp.set_self", "Tus DP se han establecido a %s");
+
+        // drive
+        add("kingdomkeys.command.drive.set", "%s de %s establecida al nivel %s");
+        add("kingdomkeys.command.drive.set_self", "Tu nivel de %s ahora es %s");
+        add("kingdomkeys.command.drive.unknown", "La forma '%s' no existe");
+
+        // exp
+        add("kingdomkeys.command.exp.add", "Otorgados %s puntos de experiencia a %s");
+        add("kingdomkeys.command.exp.add_self", "Tus puntos de experiencia han aumentado en %s");
+        add("kingdomkeys.command.exp.set", "Puntos de experiencia de %s establecidos a %s");
+        add("kingdomkeys.command.exp.set_self", "Tus puntos de experiencia ahora es %s");
+        add("kingdomkeys.command.exp.set_self_abilities", "Tus puntos de experiencia ahora es %s; se te han añadido todas las habilidades que te faltaban");
+
+        // focus
+        add("kingdomkeys.command.focus.add", "Añadidos %s puntos de tino a %s");
+        add("kingdomkeys.command.focus.add_self", "Tus puntos de tino han aumentado en %s");
+        add("kingdomkeys.command.focus.remove", "Quitados %s puntos de tino a %s");
+        add("kingdomkeys.command.focus.remove_self", "Tus puntos de tino han disminuido en %s");
+        add("kingdomkeys.command.focus.set", "Puntos de tino de %s establecidos a %s");
+        add("kingdomkeys.command.focus.set_self", "Tus puntos de tino se ha establecido a %s");
+
+        // hearts
+        add("kingdomkeys.command.hearts.add", "Añadidos %s corazones a %s");
+        add("kingdomkeys.command.hearts.add_self", "Tus corazones han aumentado en %s");
+        add("kingdomkeys.command.hearts.remove", "Quitados %s corazones a %s");
+        add("kingdomkeys.command.hearts.remove_self", "Tus corazones han disminuido en %s");
+        add("kingdomkeys.command.hearts.set", "Corazones de %s establecidos a %s");
+        add("kingdomkeys.command.hearts.set_self", "Tus corazones se han establecido a %s");
+
+        // level
+        add("kingdomkeys.command.level.set", "Nivel de %s establecido a %s");
+        add("kingdomkeys.command.level.set_self", "Tu nivel ahora es %s");
+
+        // material
+        add("kingdomkeys.command.material.given", "Dados x%s de '%s' a %s");
+        add("kingdomkeys.command.material.given_all", "Dados todos los materiales a %s");
         add("kingdomkeys.command.material.given_all_self", "Te han dado todos los materiales");
+        add("kingdomkeys.command.material.given_self", "Se te han dado x%s de '%s'");
+        add("kingdomkeys.command.material.removed", "Quitado el material '%s' a %s");
+        add("kingdomkeys.command.material.removed_self", "Se te han quitado x%s de '%s'");
+        add("kingdomkeys.command.material.set", "Establecidos x%s de '%s' a %s");
+        add("kingdomkeys.command.material.set_all", "Establecidos todos los materiales de %s a %s");
+        add("kingdomkeys.command.material.set_all_self", "Todos tus materiales se han establecido a %s");
+        add("kingdomkeys.command.material.set_self", "Tus '%s' se han establecido a x%s");
+        add("kingdomkeys.command.material.taken_all", "Quitados todos los materiales a %s");
         add("kingdomkeys.command.material.taken_all_self", "Te han quitado tus materiales");
-        add("kingdomkeys.command.recipe.given_all_self", "Te han dado todas las recetas");
-        add("kingdomkeys.command.recipe.given_all_keyblade_self", "Te han dado todas las recetas de llaves espada");
+        add("kingdomkeys.command.material.unknown", "El material '%s' no existe");
+
+        // munny
+        add("kingdomkeys.command.munny.add", "Añadidos %s platines a %s");
+        add("kingdomkeys.command.munny.add_self", "Tus platines han aumentado en %s");
+        add("kingdomkeys.command.munny.remove", "Quitados %s platines a %s");
+        add("kingdomkeys.command.munny.remove_self", "Tus platines han disminuido en %s");
+        add("kingdomkeys.command.munny.set", "Platines de %s establecidos a %s");
+        add("kingdomkeys.command.munny.set_self", "Tus platines se han establecido a %s");
+
+        // pay
+        add("kingdomkeys.command.pay.not_enough", "No tienes suficientes platines (%s) para pagar a %s");
+        add("kingdomkeys.command.pay.paid", "Has pagado %s platines a %s");
+        add("kingdomkeys.command.pay.received", "Has recibido %s platines de %s");
+
+        // recipe
+        add("kingdomkeys.command.recipe.given", "Añadida la receta '%s' a %s");
+        add("kingdomkeys.command.recipe.given_all", "Añadidas todas las recetas a %s");
+        add("kingdomkeys.command.recipe.given_all_item", "Añadidas todas las recetas de objetos a %s");
         add("kingdomkeys.command.recipe.given_all_item_self", "Te han dado todas las recetas de objetos");
-        add("kingdomkeys.command.recipe.taken_all_self", "Te han quitado tus recetas");
-        add("kingdomkeys.command.recipe.taken_all_keyblade_self", "Te han quitado tus recetas de llaves espada");
+        add("kingdomkeys.command.recipe.given_all_keyblade", "Añadidas todas las recetas de llaves espada a %s");
+        add("kingdomkeys.command.recipe.given_all_keyblade_self", "Te han dado todas las recetas de llaves espada");
+        add("kingdomkeys.command.recipe.given_all_self", "Te han dado todas las recetas");
+        add("kingdomkeys.command.recipe.given_self", "Se te ha dado la receta '%s'");
+        add("kingdomkeys.command.recipe.removed", "Quitada la receta '%s' a %s");
+        add("kingdomkeys.command.recipe.removed_self", "Se te ha quitado la receta '%s'");
+        add("kingdomkeys.command.recipe.taken_all", "Quitadas todas las recetas a %s");
+        add("kingdomkeys.command.recipe.taken_all_item", "Quitadas todas las recetas de objetos a %s");
         add("kingdomkeys.command.recipe.taken_all_item_self", "Te han quitado tus recetas de objetos");
+        add("kingdomkeys.command.recipe.taken_all_keyblade", "Quitadas todas las recetas de llaves espada a %s");
+        add("kingdomkeys.command.recipe.taken_all_keyblade_self", "Te han quitado tus recetas de llaves espada");
+        add("kingdomkeys.command.recipe.taken_all_self", "Te han quitado tus recetas");
+        add("kingdomkeys.command.recipe.unknown", "La receta '%s' no existe");
+
+        // Teleporting
+        add("kingdomkeys.teleport.returned_to", "Has vuelto a %s");
+        add("kingdomkeys.teleport.teleported_to", "Has sido teletransportado a %s");
+
+        // Parties
+        add("kingdomkeys.party.invitation", "Has recibido una invitación para el grupo '%s'");
+
+        // Gummi - ships, phone, hangar and blueprints
+        add("kingdomkeys.gummi.hangar.area_value", "Área: %s");
 
         // Keyblades
-        add("kingdomkeys.keyblade.data_missing.title", "FALTAN LOS DATOS DE LA LLAVE ESPADA");
         add("kingdomkeys.keyblade.data_missing.desc1", "Si ves esto, el json de la llave espada falta o no se ha podido cargar");
         add("kingdomkeys.keyblade.data_missing.desc2", "Si el archivo existe, revisa la sintaxis; mira las llaves espada integradas como ejemplo");
+        add("kingdomkeys.keyblade.data_missing.path", "Debería estar en data/%s/keyblades/%s.json");
+        add("kingdomkeys.keyblade.data_missing.path_generic", "Debería estar en data/%s/keyblades/NOMBREDETULLAVEESPADAAQUI.json");
+        add("kingdomkeys.keyblade.data_missing.title", "FALTAN LOS DATOS DE LA LLAVE ESPADA");
+        add("kingdomkeys.keyblade.reach", "Alcance +%s");
 
         // Castle Oblivion and cards
-        add("kingdomkeys.castle_oblivion.name", "Castillo del Olvido");
-        add("kingdomkeys.castle_oblivion.peaceful", "Castle Oblivion no funciona en dificultad pacífica");
-        add("kingdomkeys.card.not_functional", "NO USAR, TODAVÍA NO FUNCIONA");
-        add("kingdomkeys.card.door.warned_you", "Te avisé; te he salvado de petar o romper tu mundo");
-        add("kingdomkeys.card.map.not_working", "TODAVÍA NO FUNCIONA");
-        add("kingdomkeys.card.map.size_unknown", "Tamaño: ?");
+        add("kingdomkeys.card.door.warned_you", "Te avisé; te he salvado de crashear o romper tu mundo");
+        add("kingdomkeys.card.map.enemies", "Enemigos: %s");
         add("kingdomkeys.card.map.enemies_unknown", "Enemigos: ?");
+        add("kingdomkeys.card.map.not_working", "TODAVÍA NO FUNCIONA");
+        add("kingdomkeys.card.map.size", "Tamaño: %s");
+        add("kingdomkeys.card.map.size_unknown", "Tamaño: ?");
+        add("kingdomkeys.card.not_functional", "NO USAR, TODAVÍA NO FUNCIONA");
+        add("kingdomkeys.castle_oblivion.name", "Castillo del Olvido");
+        add("kingdomkeys.castle_oblivion.peaceful", "El Castillo del Olvido no funciona en dificultad pacífica");
+
+        // Organization portals
+        add("kingdomkeys.org_portal.belongs_to", "Este portal pertenece a %s");
+        add("kingdomkeys.org_portal.yours_named", "Este es tu portal %s: %s");
+
+        // Entities
+        add("kingdomkeys.entity.heartless_of", "Sincorazón de %s");
+        add("kingdomkeys.entity.nobody_of", "Incorpóreo de %s");
+        add("kingdomkeys.entity.training_dummy.iframes", "Fotogramas de invencibilidad %s");
 
         // Generic GUI
-        add("kingdomkeys.gui.no_options", "Sin opciones");
         add("kingdomkeys.gui.hud_editor.title", "Editor de HUD");
+        add("kingdomkeys.gui.no_options", "Sin opciones");
         add("kingdomkeys.gui.pedestal.reset", "Restablecer");
         add("kingdomkeys.gui.weapon_unlock.equip", "Equipar");
         add("kingdomkeys.gui.weapon_unlock.equipped", "Equipado");
         add("kingdomkeys.gui.weapon_unlock.unlock", "Desbloquear");
 
-        // Datapack / loading errors
+        // Datapack, loading and data errors
+        add("kingdomkeys.data.version_adjusted", "Tus datos se han ajustado de la versión %s a la %s; se te han corregido todas las habilidades");
+        add("kingdomkeys.error.keyblade_missing_material", "Los datos de nivel de llave espada[%s] contienen material(es) que no están presentes en la etiqueta \"synthesis/materials\", no podrás mejorar esta llave espada");
+        add("kingdomkeys.error.recipe_missing_material", "La receta[%s] contiene material(es) que no están presentes en la etiqueta \"synthesis/materials\", no podrás crear esta receta");
         add("kingdomkeys.error.synthesis_tag_failed", "La etiqueta de síntesis/materiales no se ha podido cargar por un datapack roto; arregla los problemas o la síntesis no funcionará. Revisa el log para ver qué falla");
-
     }
 }

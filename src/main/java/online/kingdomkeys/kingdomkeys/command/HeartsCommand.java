@@ -64,9 +64,9 @@ public class HeartsCommand extends BaseCommand{ //kk_hearts <give/take/set> <amo
 		PlayerData playerData = PlayerData.get(player);
 		playerData.setHearts(value);
 		
-			context.getSource().sendSuccess(() -> Component.translatable("Set "+player.getDisplayName().getString()+" hearts to "+value), true);
+			context.getSource().sendSuccess(() -> Component.translatable("kingdomkeys.command.hearts.set", player.getDisplayName().getString(), value), true);
 		
-		player.sendSystemMessage(Component.translatable("Your hearts have been set to "+value));
+		player.sendSystemMessage(Component.translatable("kingdomkeys.command.hearts.set_self", value));
 		return 1;
 	}
 	
@@ -83,9 +83,9 @@ public class HeartsCommand extends BaseCommand{ //kk_hearts <give/take/set> <amo
 		PlayerData playerData = PlayerData.get(player);
 		playerData.addHearts(value);
 		
-			context.getSource().sendSuccess(() -> Component.translatable("Added "+value+" hearts to "+player.getDisplayName().getString()), true);
+			context.getSource().sendSuccess(() -> Component.translatable("kingdomkeys.command.hearts.add", value, player.getDisplayName().getString()), true);
 		
-		player.sendSystemMessage(Component.translatable("Your hearts have been increased by "+value));
+		player.sendSystemMessage(Component.translatable("kingdomkeys.command.hearts.add_self", value));
 		return 1;
 	}
 	
@@ -103,9 +103,9 @@ public class HeartsCommand extends BaseCommand{ //kk_hearts <give/take/set> <amo
 		PlayerData playerData = PlayerData.get(player);
 		playerData.removeHearts(value);
 		
-			context.getSource().sendSuccess(() -> Component.translatable("Taken "+value+" hearts from "+player.getDisplayName().getString()), true);
+			context.getSource().sendSuccess(() -> Component.translatable("kingdomkeys.command.hearts.remove", value, player.getDisplayName().getString()), true);
 		
-		player.sendSystemMessage(Component.translatable("Your hearts have been decreased by "+value));
+		player.sendSystemMessage(Component.translatable("kingdomkeys.command.hearts.remove_self", value));
 		return 1;
 	}
 }

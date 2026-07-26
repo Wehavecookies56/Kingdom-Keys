@@ -108,9 +108,9 @@ public class OrgPortalBlock extends BaseBlock implements EntityBlock, INoDataGen
 							}
 						}
 						PacketHandler.sendTo(new SCShowOrgPortalGUI(te.getBlockPos()), (ServerPlayer)player);
-						player.displayClientMessage(Component.translatable(ChatFormatting.YELLOW + "This is your portal " + (i+1)+": "+worldData.getPortalFromUUID(portals.get(i)).getName()), true);
+						player.displayClientMessage(Component.translatable("kingdomkeys.org_portal.yours_named", (i+1), worldData.getPortalFromUUID(portals.get(i)).getName()).withStyle(ChatFormatting.YELLOW), true);
 					} else {
-						player.displayClientMessage(Component.translatable(ChatFormatting.RED + "This portal belongs to " + worldIn.getPlayerByUUID(worldData.getOwnerIDFromUUID(te.getUUID())).getDisplayName().getString()), true);
+						player.displayClientMessage(Component.translatable("kingdomkeys.org_portal.belongs_to", worldIn.getPlayerByUUID(worldData.getOwnerIDFromUUID(te.getUUID())).getDisplayName().getString()).withStyle(ChatFormatting.RED), true);
 						return ItemInteractionResult.SUCCESS;
 					}
 

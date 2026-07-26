@@ -579,7 +579,7 @@ public class ClientUtils {
               tooltip.add(Component.translatable(ChatFormatting.RED + Utils.translateToLocal(Strings.Gui_Menu_Status_Strength) + " %s", baseStr + " [" + totalStr + "]"));
               tooltip.add(Component.translatable(ChatFormatting.BLUE + Utils.translateToLocal(Strings.Gui_Menu_Status_Magic) + " %s", baseMag + " [" + totalMag + "]"));
               if (stack.getItem() instanceof IExtendedReach extendedReach) {
-                tooltip.add(Component.translatable(ChatFormatting.AQUA + "Reach " + ChatFormatting.WHITE + "+" + extendedReach.getReach()));
+                tooltip.add(Component.translatable("kingdomkeys.keyblade.reach", extendedReach.getReach()).withStyle(ChatFormatting.AQUA));
               }
               tooltip.add(Component.translatable(ChatFormatting.WHITE + "" + ChatFormatting.ITALIC + desc));
 

@@ -39,7 +39,7 @@ public record CSPartyInvite(Party party, UUID playerUUID) implements Packet {
 		if(!targetPlayerData.getPartiesInvited().contains(party.getName())) {
 			targetPlayerData.addPartiesInvited(party.getName());
 
-			target.sendSystemMessage(Component.translatable(ChatFormatting.YELLOW+"You got an invitation to "+party.getName()));
+			target.sendSystemMessage(Component.translatable("kingdomkeys.party.invitation", party.getName()).withStyle(ChatFormatting.YELLOW));
 		}
 
 
