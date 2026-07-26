@@ -8,7 +8,7 @@ import java.util.List;
 
 public class ServerConfig {
 
-    public ModConfigSpec.IntValue partyRangeLimit, partyMembersLimit, shotlockMaxDist, wayfinderCD, wayfinderCDCall;
+    public ModConfigSpec.IntValue finalMixVariantChance, partyRangeLimit, partyMembersLimit, shotlockMaxDist, wayfinderCD, wayfinderCDCall;
 
     public ModConfigSpec.ConfigValue<List<? extends String>> driveFormXPMultiplier;
     public ModConfigSpec.ConfigValue<List<? extends Integer>> statsMultiplier;
@@ -29,6 +29,11 @@ public class ServerConfig {
                 .translation(KingdomKeys.MODID + ".config.gummi_fuel_system")
                 .define("gummiShipFuelSystem", true);
         
+        finalMixVariantChance = builder
+                .comment("Percentage chance for a spawning Heartless to use its Final Mix palette variant")
+                .translation(KingdomKeys.MODID + ".config.final_mix_variant_chance")
+                .defineInRange("finalMixVariantChance", 10, 0, 100);
+
         partyRangeLimit = builder
                 .comment("Party range limit")
                 .translation(KingdomKeys.MODID + ".config.party_range_limit")

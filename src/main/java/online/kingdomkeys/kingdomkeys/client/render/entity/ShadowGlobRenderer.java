@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.client.render.entity;
 
+import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
@@ -16,7 +17,7 @@ public class ShadowGlobRenderer extends MobRenderer<ShadowGlobEntity, ShadowGlob
 
     @Override
     public ResourceLocation getTextureLocation(ShadowGlobEntity entity) {
-        return KingdomKeys.rl("textures/entity/mob/shadow_glob.png");
+        return ClientUtils.variantTexture(KingdomKeys.rl("textures/entity/mob/shadow_glob.png"), entity);
     }
 
     @Override

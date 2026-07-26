@@ -86,7 +86,7 @@ public class MeldingRecipe extends MeldingRecipeProvider<MeldingRecipeBuilder> {
 		getBuilder("balloonga2").ingredient1(balloonraSpell).ingredient2(balloonraSpell).output(balloongaSpell).addCost(1600).addTier(4);
 
 
-		getBuilder("zero_gravity").ingredient1(firagaSpell).ingredient2(blackoutSpell).output(darkFiragaSpell).addCost(1200).addTier(4);
+		getBuilder("dark_firaga").ingredient1(firagaSpell).ingredient2(blackoutSpell).output(darkFiragaSpell).addCost(1200).addTier(4);
 
 		//Warps are here too
 		getBuilder("zero_gravira").ingredient1(zeroGravitySpell).ingredient2(zeroGravitySpell).output(zeroGraviraSpell).bonusOutput(warpSpell,1,10).addCost(1200).addTier(4);

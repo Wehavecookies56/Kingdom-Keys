@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.client.render.entity;
 
+import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
@@ -26,7 +27,7 @@ public class BombRenderer extends MobRenderer<BaseBombEntity, BombModel<BaseBomb
 
     @Override
     public ResourceLocation getTextureLocation(BaseBombEntity entity) {
-        return entity.getTexture();
+        return ClientUtils.variantTexture(entity.getTexture(), entity);
     }
 
     @Override

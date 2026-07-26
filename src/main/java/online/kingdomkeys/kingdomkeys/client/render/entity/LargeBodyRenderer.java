@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.client.render.entity;
 
+import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
@@ -17,6 +18,6 @@ public class LargeBodyRenderer extends MobRenderer<LargeBodyEntity, LargeBodyMod
 
     @Override
     public ResourceLocation getTextureLocation(LargeBodyEntity entity) {
-        return KingdomKeys.rl("textures/entity/mob/large_body.png");
+        return ClientUtils.variantTexture(KingdomKeys.rl("textures/entity/mob/large_body.png"), entity);
     }
 }

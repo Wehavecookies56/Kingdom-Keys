@@ -58,6 +58,7 @@ import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.HUD.*;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
+import online.kingdomkeys.kingdomkeys.entity.mob.BaseKHEntity;
 import online.kingdomkeys.kingdomkeys.handler.ClientEvents;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.KeychainItem;
@@ -132,6 +133,24 @@ public class ClientUtils {
         }
         gui.pose().popPose();
     }
+
+    public static ResourceLocation variantTexture(ResourceLocation base, Entity entity) {
+        if (!(entity instanceof BaseKHEntity mob))
+            return base;
+        String variant = mob.getVariant();
+        if (variant == null || variant.isEmpty())
+            return base;
+
+        String path = base.getPath();
+        int dot = path.lastIndexOf('.');
+        if (dot < 0)
+            return base;
+
+        ResourceLocation variantLoc = ResourceLocation.fromNamespaceAndPath(base.getNamespace(), path.substring(0, dot) + "_" + variant + path.substring(dot));
+        return VARIANT_TEXTURE_EXISTS.computeIfAbsent(variantLoc, loc -> Minecraft.getInstance().getResourceManager().getResource(loc).isPresent()) ? variantLoc : base;
+    }
+
+    private static final java.util.Map<ResourceLocation, Boolean> VARIANT_TEXTURE_EXISTS = new java.util.concurrent.ConcurrentHashMap<>();
 
     public static Style KK_Font_EXP = Style.EMPTY.withFont(KingdomKeys.rl("kk_font_exp"));
     public static Style KK_Font_MENU = Style.EMPTY.withFont(KingdomKeys.rl("kk_font_menu"));

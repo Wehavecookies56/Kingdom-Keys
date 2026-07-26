@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.client.render.entity;
 
+import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -22,7 +23,7 @@ public class ShadowRenderer<Type extends ShadowEntity> extends MobRenderer<Type,
 
     @Override
     public ResourceLocation getTextureLocation(ShadowEntity entity) {
-        return KingdomKeys.rl("textures/entity/mob/shadow.png");
+        return ClientUtils.variantTexture(KingdomKeys.rl("textures/entity/mob/shadow.png"), entity);
     }
 
     @Override

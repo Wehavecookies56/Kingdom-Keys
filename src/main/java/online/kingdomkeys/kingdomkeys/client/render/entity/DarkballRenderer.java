@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.client.render.entity;
 
+import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
@@ -18,7 +19,7 @@ public class DarkballRenderer extends MobRenderer<DarkballEntity, DarkballModel<
 
     @Override
     public ResourceLocation getTextureLocation(DarkballEntity entity) {
-        return KingdomKeys.rl("textures/entity/mob/darkball.png");
+        return ClientUtils.variantTexture(KingdomKeys.rl("textures/entity/mob/darkball.png"), entity);
     }
 
     @Override

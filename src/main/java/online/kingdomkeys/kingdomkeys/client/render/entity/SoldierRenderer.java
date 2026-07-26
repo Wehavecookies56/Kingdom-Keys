@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.client.render.entity;
 
+import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -42,7 +43,7 @@ public class SoldierRenderer<Type extends SoldierEntity> extends MobRenderer<Typ
 
 	@Override
 	public ResourceLocation getTextureLocation(SoldierEntity entity) {
-		return entity.getTexture();
+		return ClientUtils.variantTexture(entity.getTexture(), entity);
 	}
 
 }

@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.client.render.entity;
 
+import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -40,8 +41,8 @@ public class BlackFungusRenderer<Type extends BlackFungusEntity> extends MobRend
 	@Override
 	public ResourceLocation getTextureLocation(Type pEntity) {
 		if(pEntity.getState() == -4)
-			return KingdomKeys.rl("textures/entity/mob/black_fungus_stone.png");
-		return KingdomKeys.rl("textures/entity/mob/black_fungus.png");
+			return ClientUtils.variantTexture(KingdomKeys.rl("textures/entity/mob/black_fungus_stone.png"), pEntity);
+		return ClientUtils.variantTexture(KingdomKeys.rl("textures/entity/mob/black_fungus.png"), pEntity);
 	}
 
 }

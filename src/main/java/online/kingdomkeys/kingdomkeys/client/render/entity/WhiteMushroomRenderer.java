@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.client.render.entity;
 
+import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
@@ -81,7 +82,7 @@ public class WhiteMushroomRenderer<Type extends WhiteMushroomEntity> extends Mob
 
 	@Override
 	public ResourceLocation getTextureLocation(Type pEntity) {
-		return KingdomKeys.rl("textures/entity/mob/white_mushroom.png");
+		return ClientUtils.variantTexture(KingdomKeys.rl("textures/entity/mob/white_mushroom.png"), pEntity);
 	}
 
 }
