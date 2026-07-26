@@ -50,10 +50,6 @@ public class DuskModel<T extends Entity> extends EntityModel<T> {
     private final ModelPart LowerBody1;
     private final ModelPart UpperBody1;
 
-    private int cycleIndex;
-    private double totalDistance;
-    private final boolean legRotation = false;
-
     public DuskModel(ModelPart root) {
         this.RightLegUpper = root.getChild("RightLegUpper");
         this.RightLegThigh = RightLegUpper.getChild("RightLegThigh");
@@ -168,12 +164,12 @@ public class DuskModel<T extends Entity> extends EntityModel<T> {
             this.RightArmShoulder.xRot = Mth.cos(limbSwing * 0.8662F) * 0.5F * limbSwingAmount;
             this.RightHandUpper.xRot = Mth.cos(limbSwing * 0.8662F) * 0.8F * limbSwingAmount;
 
-            this.RightLegUpper.xRot = Mth.cos(limbSwing * 0.5F) * 2.0F * limbSwingAmount;// degToRad(walkingUpperLegAnimation[cycleIndex]);
+            this.RightLegUpper.xRot = Mth.cos(limbSwing * 0.8F) * 2.0F * limbSwingAmount;// degToRad(walkingUpperLegAnimation[cycleIndex]);
 
             this.LeftArmShoulder.xRot = Mth.cos(limbSwing * 0.8662F + (float) Math.PI) * 0.5F * limbSwingAmount;
             this.LeftHandUpper.xRot = Mth.cos(limbSwing * 0.8662F + (float) Math.PI) * 0.8F * limbSwingAmount;
 
-            this.LeftLegUpper.xRot = Mth.cos(limbSwing * 0.5F + (float) Math.PI) * 2.0F * limbSwingAmount;
+            this.LeftLegUpper.xRot = Mth.cos(limbSwing * 0.8F + (float) Math.PI) * 2.0F * limbSwingAmount;
         } else {
             this.LeftLegUpper.xRot = degToRad(-7);
             this.RightLegMiddle.xRot = degToRad(-7);

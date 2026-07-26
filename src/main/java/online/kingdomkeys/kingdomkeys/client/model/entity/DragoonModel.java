@@ -20,8 +20,8 @@ import java.util.List;
 
 @OnlyIn(Dist.CLIENT)
 public class DragoonModel<T extends BaseKHEntity> extends EntityModel<T> {
-    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(KingdomKeys.rl("dragoon"), "main");
-    private final ModelPart right_leg;
+	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(KingdomKeys.rl("dragoon"), "main");
+	private final ModelPart right_leg;
 	private final ModelPart left_leg;
 	private final ModelPart body;
 	private final ModelPart left_arm;
@@ -39,37 +39,39 @@ public class DragoonModel<T extends BaseKHEntity> extends EntityModel<T> {
 		this.head = root.getChild("body").getChild("head");
 		this.right_wing = root.getChild("body").getChild("right_wing");
 		this.left_wing = root.getChild("body").getChild("left_wing");
-		
-        ModelAnimation rightWingAnim = new ModelAnimation(right_wing, 0, -40, 40, 0, true, Angle.Y, left_wing);
-      //  ModelAnimation leftWingAnim = new ModelAnimation(left_wing, 0, -40, 40, 0, true, Angle.Y, null);
-        //ModelAnimation headAnim = new ModelAnimation(head, 0, -30, 30, 0, true, Angle.Z, null);
 
-        animation.add(rightWingAnim);
-       // animation.add(leftWingAnim);
+		ModelAnimation rightWingAnim = new ModelAnimation(right_wing, 0, -40, 40, 0, true, Angle.Y, left_wing);
+		//  ModelAnimation leftWingAnim = new ModelAnimation(left_wing, 0, -40, 40, 0, true, Angle.Y, null);
+		//ModelAnimation headAnim = new ModelAnimation(head, 0, -30, 30, 0, true, Angle.Z, null);
+
+		animation.add(rightWingAnim);
+		// animation.add(leftWingAnim);
 	}
-	
-    List<ModelAnimation> animation = new ArrayList<ModelAnimation>();
+
+	private static final float WING_FLAP_SPEED = 4F;
+
+	List<ModelAnimation> animation = new ArrayList<>();
 
 	public static LayerDefinition createBodyLayer() {
 		MeshDefinition meshdefinition = new MeshDefinition();
 		PartDefinition partdefinition = meshdefinition.getRoot();
 
 		PartDefinition body = partdefinition.addOrReplaceChild("body", CubeListBuilder.create().texOffs(0, 10).addBox(-4.0917F, 7.2918F, -3.9461F, 8.0F, 4.0F, 5.0F, new CubeDeformation(0.0F))
-		.texOffs(42, 40).addBox(-2.9917F, 5.2918F, -3.9461F, 6.0F, 2.0F, 5.0F, new CubeDeformation(0.0F))
-		.texOffs(28, 24).addBox(-2.9917F, -2.2082F, 2.3039F, 1.0F, 4.0F, 3.0F, new CubeDeformation(0.0F))
-		.texOffs(34, 87).addBox(2.0083F, -2.2082F, 2.3039F, 1.0F, 4.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offset(-0.0083F, -6.7918F, 3.6961F));
+				.texOffs(42, 40).addBox(-2.9917F, 5.2918F, -3.9461F, 6.0F, 2.0F, 5.0F, new CubeDeformation(0.0F))
+				.texOffs(28, 24).addBox(-2.9917F, -2.2082F, 2.3039F, 1.0F, 4.0F, 3.0F, new CubeDeformation(0.0F))
+				.texOffs(34, 87).addBox(2.0083F, -2.2082F, 2.3039F, 1.0F, 4.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offset(-0.0083F, -6.7918F, 3.6961F));
 
 		PartDefinition cube_r1 = body.addOrReplaceChild("cube_r1", CubeListBuilder.create().texOffs(0, 0).addBox(-4.0F, -2.0F, -2.5F, 8.0F, 4.0F, 5.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0083F, 0.2918F, 0.5539F, -0.2182F, 0.0F, 0.0F));
 
 		PartDefinition cube_r2 = body.addOrReplaceChild("cube_r2", CubeListBuilder.create().texOffs(102, 66).addBox(-4.0F, 1.5F, -2.5F, 8.0F, 1.0F, 5.0F, new CubeDeformation(0.0F))
-		.texOffs(0, 40).addBox(-4.0F, -1.5F, -2.5F, 8.0F, 3.0F, 5.0F, new CubeDeformation(0.0F))
-		.texOffs(60, 40).addBox(-4.0F, -2.5F, -0.5F, 8.0F, 1.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0083F, 3.7918F, -0.4461F, -0.3491F, 0.0F, 0.0F));
+				.texOffs(0, 40).addBox(-4.0F, -1.5F, -2.5F, 8.0F, 3.0F, 5.0F, new CubeDeformation(0.0F))
+				.texOffs(60, 40).addBox(-4.0F, -2.5F, -0.5F, 8.0F, 1.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0083F, 3.7918F, -0.4461F, -0.3491F, 0.0F, 0.0F));
 
 		PartDefinition cube_r3 = body.addOrReplaceChild("cube_r3", CubeListBuilder.create().texOffs(81, 35).addBox(-3.25F, -0.75F, -0.75F, 3.0F, 2.0F, 3.0F, new CubeDeformation(0.0F))
-		.texOffs(17, 93).addBox(-0.5F, -0.25F, -0.75F, 1.0F, 2.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(4.2583F, 11.0418F, -1.4461F, -0.1745F, 0.0F, 0.0F));
+				.texOffs(17, 93).addBox(-0.5F, -0.25F, -0.75F, 1.0F, 2.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(4.2583F, 11.0418F, -1.4461F, -0.1745F, 0.0F, 0.0F));
 
 		PartDefinition cube_r4 = body.addOrReplaceChild("cube_r4", CubeListBuilder.create().texOffs(91, 90).addBox(-0.5F, 0.0F, -1.0F, 1.0F, 2.0F, 3.0F, new CubeDeformation(0.0F))
-		.texOffs(83, 0).addBox(0.25F, -0.75F, -1.0F, 3.0F, 3.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-4.2417F, 10.0418F, -1.6961F, -0.3927F, 0.0F, 0.0F));
+				.texOffs(83, 0).addBox(0.25F, -0.75F, -1.0F, 3.0F, 3.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-4.2417F, 10.0418F, -1.6961F, -0.3927F, 0.0F, 0.0F));
 
 		PartDefinition tail = body.addOrReplaceChild("tail", CubeListBuilder.create().texOffs(16, 26).addBox(-1.0F, -1.702F, 4.0F, 2.0F, 2.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0083F, 8.9938F, 1.3039F));
 
@@ -116,18 +118,18 @@ public class DragoonModel<T extends BaseKHEntity> extends EntityModel<T> {
 		PartDefinition left_wing = body.addOrReplaceChild("left_wing", CubeListBuilder.create().texOffs(90, 13).addBox(-0.5F, -2.0F, -0.42F, 4.0F, 4.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offset(2.5083F, -0.2082F, 5.7239F));
 
 		PartDefinition cube_r21 = left_wing.addOrReplaceChild("cube_r21", CubeListBuilder.create().texOffs(42, 40).addBox(0.75F, 11.5F, -0.5F, 1.0F, 1.0F, 1.0F, new CubeDeformation(0.0F))
-		.texOffs(73, 66).addBox(0.25F, 10.5F, -0.5F, 2.0F, 1.0F, 1.0F, new CubeDeformation(0.0F))
-		.texOffs(99, 74).addBox(-0.25F, 8.5F, -0.5F, 3.0F, 2.0F, 1.0F, new CubeDeformation(0.0F))
-		.texOffs(9, 89).addBox(-0.75F, 3.5F, -0.5F, 4.0F, 5.0F, 1.0F, new CubeDeformation(0.0F))
-		.texOffs(61, 100).addBox(-3.5F, -1.5F, -0.5F, 2.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(5.6832F, -0.6823F, 0.08F, 0.0F, 0.0F, -0.3054F));
+				.texOffs(73, 66).addBox(0.25F, 10.5F, -0.5F, 2.0F, 1.0F, 1.0F, new CubeDeformation(0.0F))
+				.texOffs(99, 74).addBox(-0.25F, 8.5F, -0.5F, 3.0F, 2.0F, 1.0F, new CubeDeformation(0.0F))
+				.texOffs(9, 89).addBox(-0.75F, 3.5F, -0.5F, 4.0F, 5.0F, 1.0F, new CubeDeformation(0.0F))
+				.texOffs(61, 100).addBox(-3.5F, -1.5F, -0.5F, 2.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(5.6832F, -0.6823F, 0.08F, 0.0F, 0.0F, -0.3054F));
 
 		PartDefinition cube_r22 = left_wing.addOrReplaceChild("cube_r22", CubeListBuilder.create().texOffs(97, 89).addBox(-3.0008F, -6.4807F, -0.5F, 3.0F, 2.0F, 1.0F, new CubeDeformation(0.0F))
-		.texOffs(63, 95).addBox(-3.0008F, -9.3807F, -0.5F, 3.0F, 3.0F, 1.0F, new CubeDeformation(0.0F))
-		.texOffs(32, 17).addBox(-2.9992F, 8.4807F, -0.5F, 1.0F, 1.0F, 1.0F, new CubeDeformation(0.0F))
-		.texOffs(101, 13).addBox(-3.4992F, 6.4807F, -0.5F, 2.0F, 2.0F, 1.0F, new CubeDeformation(0.0F))
-		.texOffs(98, 65).addBox(-3.9992F, 4.4807F, -0.5F, 3.0F, 2.0F, 1.0F, new CubeDeformation(0.0F))
-		.texOffs(33, 51).addBox(-4.4992F, 1.4807F, -0.5F, 4.0F, 3.0F, 1.0F, new CubeDeformation(0.0F))
-		.texOffs(77, 11).addBox(-4.9992F, -4.5193F, -0.5F, 5.0F, 6.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(11.5114F, -15.7138F, 0.08F, 0.0F, 0.0F, -2.2689F));
+				.texOffs(63, 95).addBox(-3.0008F, -9.3807F, -0.5F, 3.0F, 3.0F, 1.0F, new CubeDeformation(0.0F))
+				.texOffs(32, 17).addBox(-2.9992F, 8.4807F, -0.5F, 1.0F, 1.0F, 1.0F, new CubeDeformation(0.0F))
+				.texOffs(101, 13).addBox(-3.4992F, 6.4807F, -0.5F, 2.0F, 2.0F, 1.0F, new CubeDeformation(0.0F))
+				.texOffs(98, 65).addBox(-3.9992F, 4.4807F, -0.5F, 3.0F, 2.0F, 1.0F, new CubeDeformation(0.0F))
+				.texOffs(33, 51).addBox(-4.4992F, 1.4807F, -0.5F, 4.0F, 3.0F, 1.0F, new CubeDeformation(0.0F))
+				.texOffs(77, 11).addBox(-4.9992F, -4.5193F, -0.5F, 5.0F, 6.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(11.5114F, -15.7138F, 0.08F, 0.0F, 0.0F, -2.2689F));
 
 		PartDefinition cube_r23 = left_wing.addOrReplaceChild("cube_r23", CubeListBuilder.create().texOffs(42, 100).addBox(-0.25F, -2.25F, -0.5F, 2.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(9.1848F, -7.5048F, 0.08F, 0.0F, 0.0F, -2.2689F));
 
@@ -144,25 +146,25 @@ public class DragoonModel<T extends BaseKHEntity> extends EntityModel<T> {
 		PartDefinition cube_r29 = left_wing.addOrReplaceChild("cube_r29", CubeListBuilder.create().texOffs(97, 34).addBox(-2.0F, -1.75F, -0.5F, 3.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(8.9287F, -1.8358F, 0.08F, 0.0F, 0.0F, -0.7854F));
 
 		PartDefinition cube_r30 = left_wing.addOrReplaceChild("cube_r30", CubeListBuilder.create().texOffs(0, 40).addBox(2.05F, 8.35F, -0.5F, 1.0F, 1.0F, 1.0F, new CubeDeformation(0.0F))
-		.texOffs(72, 45).addBox(1.55F, 7.35F, -0.5F, 2.0F, 1.0F, 1.0F, new CubeDeformation(0.0F))
-		.texOffs(71, 99).addBox(1.05F, 5.35F, -0.5F, 3.0F, 2.0F, 1.0F, new CubeDeformation(0.0F))
-		.texOffs(53, 89).addBox(0.55F, 0.6F, -0.5F, 4.0F, 5.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(11.6137F, -1.6338F, 0.08F, 0.0F, 0.0F, -1.5708F));
+				.texOffs(72, 45).addBox(1.55F, 7.35F, -0.5F, 2.0F, 1.0F, 1.0F, new CubeDeformation(0.0F))
+				.texOffs(71, 99).addBox(1.05F, 5.35F, -0.5F, 3.0F, 2.0F, 1.0F, new CubeDeformation(0.0F))
+				.texOffs(53, 89).addBox(0.55F, 0.6F, -0.5F, 4.0F, 5.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(11.6137F, -1.6338F, 0.08F, 0.0F, 0.0F, -1.5708F));
 
 		PartDefinition right_wing = body.addOrReplaceChild("right_wing", CubeListBuilder.create().texOffs(90, 7).addBox(-3.5F, -2.0F, -0.42F, 4.0F, 4.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offset(-2.4917F, -0.2082F, 5.7239F));
 
 		PartDefinition cube_r31 = right_wing.addOrReplaceChild("cube_r31", CubeListBuilder.create().texOffs(32, 0).addBox(-1.75F, 11.5F, -0.5F, 1.0F, 1.0F, 1.0F, new CubeDeformation(0.0F))
-		.texOffs(65, 45).addBox(-2.25F, 10.5F, -0.5F, 2.0F, 1.0F, 1.0F, new CubeDeformation(0.0F))
-		.texOffs(0, 33).addBox(-2.75F, 8.5F, -0.5F, 3.0F, 2.0F, 1.0F, new CubeDeformation(0.0F))
-		.texOffs(23, 87).addBox(-3.25F, 3.5F, -0.5F, 4.0F, 5.0F, 1.0F, new CubeDeformation(0.0F))
-		.texOffs(35, 100).addBox(1.5F, -1.5F, -0.5F, 2.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-5.6832F, -0.6823F, 0.08F, 0.0F, 0.0F, 0.3054F));
+				.texOffs(65, 45).addBox(-2.25F, 10.5F, -0.5F, 2.0F, 1.0F, 1.0F, new CubeDeformation(0.0F))
+				.texOffs(0, 33).addBox(-2.75F, 8.5F, -0.5F, 3.0F, 2.0F, 1.0F, new CubeDeformation(0.0F))
+				.texOffs(23, 87).addBox(-3.25F, 3.5F, -0.5F, 4.0F, 5.0F, 1.0F, new CubeDeformation(0.0F))
+				.texOffs(35, 100).addBox(1.5F, -1.5F, -0.5F, 2.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-5.6832F, -0.6823F, 0.08F, 0.0F, 0.0F, 0.3054F));
 
 		PartDefinition cube_r32 = right_wing.addOrReplaceChild("cube_r32", CubeListBuilder.create().texOffs(44, 33).addBox(0.0008F, -6.4807F, -0.5F, 3.0F, 2.0F, 1.0F, new CubeDeformation(0.0F))
-		.texOffs(26, 94).addBox(0.0008F, -9.3807F, -0.5F, 3.0F, 3.0F, 1.0F, new CubeDeformation(0.0F))
-		.texOffs(32, 5).addBox(1.9992F, 8.4807F, -0.5F, 1.0F, 1.0F, 1.0F, new CubeDeformation(0.0F))
-		.texOffs(101, 9).addBox(1.4992F, 6.4807F, -0.5F, 2.0F, 2.0F, 1.0F, new CubeDeformation(0.0F))
-		.texOffs(72, 0).addBox(0.9992F, 4.4807F, -0.5F, 3.0F, 2.0F, 1.0F, new CubeDeformation(0.0F))
-		.texOffs(22, 40).addBox(0.4992F, 1.4807F, -0.5F, 4.0F, 3.0F, 1.0F, new CubeDeformation(0.0F))
-		.texOffs(0, 77).addBox(-0.0008F, -4.5193F, -0.5F, 5.0F, 6.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-11.5114F, -15.7138F, 0.08F, 0.0F, 0.0F, 2.2689F));
+				.texOffs(26, 94).addBox(0.0008F, -9.3807F, -0.5F, 3.0F, 3.0F, 1.0F, new CubeDeformation(0.0F))
+				.texOffs(32, 5).addBox(1.9992F, 8.4807F, -0.5F, 1.0F, 1.0F, 1.0F, new CubeDeformation(0.0F))
+				.texOffs(101, 9).addBox(1.4992F, 6.4807F, -0.5F, 2.0F, 2.0F, 1.0F, new CubeDeformation(0.0F))
+				.texOffs(72, 0).addBox(0.9992F, 4.4807F, -0.5F, 3.0F, 2.0F, 1.0F, new CubeDeformation(0.0F))
+				.texOffs(22, 40).addBox(0.4992F, 1.4807F, -0.5F, 4.0F, 3.0F, 1.0F, new CubeDeformation(0.0F))
+				.texOffs(0, 77).addBox(-0.0008F, -4.5193F, -0.5F, 5.0F, 6.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-11.5114F, -15.7138F, 0.08F, 0.0F, 0.0F, 2.2689F));
 
 		PartDefinition cube_r33 = right_wing.addOrReplaceChild("cube_r33", CubeListBuilder.create().texOffs(0, 100).addBox(-1.75F, -2.25F, -0.5F, 2.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-9.1848F, -7.5048F, 0.08F, 0.0F, 0.0F, 2.2689F));
 
@@ -179,19 +181,19 @@ public class DragoonModel<T extends BaseKHEntity> extends EntityModel<T> {
 		PartDefinition cube_r39 = right_wing.addOrReplaceChild("cube_r39", CubeListBuilder.create().texOffs(44, 95).addBox(-1.0F, -1.75F, -0.5F, 3.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-8.9287F, -1.8358F, 0.08F, 0.0F, 0.0F, 0.7854F));
 
 		PartDefinition cube_r40 = right_wing.addOrReplaceChild("cube_r40", CubeListBuilder.create().texOffs(32, 14).addBox(-3.05F, 8.35F, -0.5F, 1.0F, 1.0F, 1.0F, new CubeDeformation(0.0F))
-		.texOffs(68, 59).addBox(-3.55F, 7.35F, -0.5F, 2.0F, 1.0F, 1.0F, new CubeDeformation(0.0F))
-		.texOffs(13, 78).addBox(-4.05F, 5.35F, -0.5F, 3.0F, 2.0F, 1.0F, new CubeDeformation(0.0F))
-		.texOffs(87, 57).addBox(-4.55F, 0.6F, -0.5F, 4.0F, 5.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-11.6137F, -1.6338F, 0.08F, 0.0F, 0.0F, 1.5708F));
+				.texOffs(68, 59).addBox(-3.55F, 7.35F, -0.5F, 2.0F, 1.0F, 1.0F, new CubeDeformation(0.0F))
+				.texOffs(13, 78).addBox(-4.05F, 5.35F, -0.5F, 3.0F, 2.0F, 1.0F, new CubeDeformation(0.0F))
+				.texOffs(87, 57).addBox(-4.55F, 0.6F, -0.5F, 4.0F, 5.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-11.6137F, -1.6338F, 0.08F, 0.0F, 0.0F, 1.5708F));
 
 		PartDefinition head = body.addOrReplaceChild("head", CubeListBuilder.create(), PartPose.offset(0.0083F, 0.4327F, 0.8039F));
 
 		PartDefinition cube_r41 = head.addOrReplaceChild("cube_r41", CubeListBuilder.create().texOffs(59, 82).addBox(-2.5F, -3.0F, -0.5F, 5.0F, 5.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -9.6498F, -4.0009F, 2.0071F, 0.0F, 0.0F));
 
 		PartDefinition cube_r42 = head.addOrReplaceChild("cube_r42", CubeListBuilder.create().texOffs(98, 42).addBox(-0.5F, -8.0F, -3.5F, 2.0F, 1.0F, 2.0F, new CubeDeformation(0.0F))
-		.texOffs(22, 0).addBox(-1.0F, -7.0F, -4.0F, 3.0F, 1.0F, 3.0F, new CubeDeformation(0.0F))
-		.texOffs(0, 69).addBox(-1.5F, -6.0F, -4.5F, 4.0F, 1.0F, 4.0F, new CubeDeformation(0.0F))
-		.texOffs(58, 30).addBox(-2.0F, -5.0F, -5.0F, 5.0F, 1.0F, 5.0F, new CubeDeformation(0.0F))
-		.texOffs(0, 20).addBox(-2.5F, -4.0F, -5.0F, 6.0F, 7.0F, 5.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.5F, -15.1143F, -2.7509F, 1.5708F, 0.0F, 0.0F));
+				.texOffs(22, 0).addBox(-1.0F, -7.0F, -4.0F, 3.0F, 1.0F, 3.0F, new CubeDeformation(0.0F))
+				.texOffs(0, 69).addBox(-1.5F, -6.0F, -4.5F, 4.0F, 1.0F, 4.0F, new CubeDeformation(0.0F))
+				.texOffs(58, 30).addBox(-2.0F, -5.0F, -5.0F, 5.0F, 1.0F, 5.0F, new CubeDeformation(0.0F))
+				.texOffs(0, 20).addBox(-2.5F, -4.0F, -5.0F, 6.0F, 7.0F, 5.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.5F, -15.1143F, -2.7509F, 1.5708F, 0.0F, 0.0F));
 
 		PartDefinition cube_r43 = head.addOrReplaceChild("cube_r43", CubeListBuilder.create().texOffs(0, 85).addBox(0.25F, -3.25F, -1.25F, 2.0F, 7.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(2.0F, -16.1143F, -3.2509F, 2.193F, 0.1782F, 0.1265F));
 
@@ -224,52 +226,52 @@ public class DragoonModel<T extends BaseKHEntity> extends EntityModel<T> {
 		PartDefinition cube_r57 = head.addOrReplaceChild("cube_r57", CubeListBuilder.create().texOffs(34, 58).addBox(-2.0F, -4.0F, -2.5F, 5.0F, 5.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.5F, -2.641F, 1.0F, -0.2618F, 0.0F, 0.0F));
 
 		PartDefinition left_arm = body.addOrReplaceChild("left_arm", CubeListBuilder.create().texOffs(58, 8).addBox(0.0F, -1.6642F, -2.5286F, 4.0F, 4.0F, 5.0F, new CubeDeformation(0.0F))
-		.texOffs(60, 68).addBox(-0.25F, -2.1642F, -2.0286F, 4.0F, 1.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(4.0083F, 0.059F, 1.6269F));
+				.texOffs(60, 68).addBox(-0.25F, -2.1642F, -2.0286F, 4.0F, 1.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(4.0083F, 0.059F, 1.6269F));
 
 		PartDefinition cube_r58 = left_arm.addOrReplaceChild("cube_r58", CubeListBuilder.create().texOffs(79, 41).addBox(-1.5F, 11.0F, -1.65F, 2.0F, 2.0F, 4.0F, new CubeDeformation(0.0F))
-		.texOffs(86, 70).addBox(-3.5F, 11.0F, -1.65F, 1.0F, 2.0F, 4.0F, new CubeDeformation(0.0F))
-		.texOffs(44, 23).addBox(-3.5F, 7.0F, -1.9F, 4.0F, 4.0F, 5.0F, new CubeDeformation(0.0F))
-		.texOffs(45, 68).addBox(-3.0F, 3.0F, -1.4F, 3.0F, 4.0F, 4.0F, new CubeDeformation(0.0F))
-		.texOffs(35, 77).addBox(-2.5F, -3.0F, -0.9F, 2.0F, 6.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(7.0725F, 3.8657F, -0.4886F, 0.0F, 0.0F, 0.0F));
+				.texOffs(86, 70).addBox(-3.5F, 11.0F, -1.65F, 1.0F, 2.0F, 4.0F, new CubeDeformation(0.0F))
+				.texOffs(44, 23).addBox(-3.5F, 7.0F, -1.9F, 4.0F, 4.0F, 5.0F, new CubeDeformation(0.0F))
+				.texOffs(45, 68).addBox(-3.0F, 3.0F, -1.4F, 3.0F, 4.0F, 4.0F, new CubeDeformation(0.0F))
+				.texOffs(35, 77).addBox(-2.5F, -3.0F, -0.9F, 2.0F, 6.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(7.0725F, 3.8657F, -0.4886F, 0.0F, 0.0F, 0.0F));
 
 		PartDefinition left_shoulder = left_arm.addOrReplaceChild("left_shoulder", CubeListBuilder.create().texOffs(19, 51).addBox(-2.0F, -2.0F, -2.5F, 4.0F, 4.0F, 5.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(4.1234F, 1.2274F, 0.0963F, 0.0F, 0.0F, 0.7854F));
 
 		PartDefinition right_arm = body.addOrReplaceChild("right_arm", CubeListBuilder.create(), PartPose.offset(-4.0901F, 0.4818F, 1.2128F));
 
 		PartDefinition cube_r59 = right_arm.addOrReplaceChild("cube_r59", CubeListBuilder.create().texOffs(30, 68).addBox(-1.5F, -4.0F, -5.0F, 3.0F, 4.0F, 4.0F, new CubeDeformation(0.0F))
-		.texOffs(44, 13).addBox(-2.0F, 0.0F, -5.5F, 4.0F, 4.0F, 5.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-5.474F, 10.1384F, 1.0023F, -0.7854F, 0.0F, 0.0F));
+				.texOffs(44, 13).addBox(-2.0F, 0.0F, -5.5F, 4.0F, 4.0F, 5.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-5.474F, 10.1384F, 1.0023F, -0.7854F, 0.0F, 0.0F));
 
 		PartDefinition cube_r60 = right_arm.addOrReplaceChild("cube_r60", CubeListBuilder.create().texOffs(68, 53).addBox(-0.8133F, -1.9129F, -2.0F, 4.0F, 1.0F, 4.0F, new CubeDeformation(0.0F))
-		.texOffs(0, 49).addBox(-1.0633F, -1.4129F, -2.5F, 4.0F, 4.0F, 5.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-2.8382F, -0.6721F, 0.5101F, 0.0F, 0.0F, 0.0F));
+				.texOffs(0, 49).addBox(-1.0633F, -1.4129F, -2.5F, 4.0F, 4.0F, 5.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-2.8382F, -0.6721F, 0.5101F, 0.0F, 0.0F, 0.0F));
 
 		PartDefinition cube_r61 = right_arm.addOrReplaceChild("cube_r61", CubeListBuilder.create().texOffs(24, 77).addBox(-1.0F, -7.25F, 0.75F, 2.0F, 6.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-5.474F, 7.7389F, -1.3546F, 0.0436F, 0.0F, 0.0F));
 
 		PartDefinition cube_r62 = right_arm.addOrReplaceChild("cube_r62", CubeListBuilder.create().texOffs(45, 48).addBox(-1.76F, -0.1706F, -2.5F, 4.0F, 4.0F, 5.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-2.8382F, -0.6721F, 0.5101F, 0.0F, 0.0F, 0.829F));
 
 		PartDefinition weapon = right_arm.addOrReplaceChild("weapon", CubeListBuilder.create().texOffs(0, 0).addBox(-1.5F, 1.75F, -13.0F, 3.0F, 2.0F, 37.0F, new CubeDeformation(0.0F))
-		.texOffs(27, 40).addBox(-1.5F, 1.75F, -20.25F, 3.0F, 2.0F, 8.0F, new CubeDeformation(0.0F))
-		.texOffs(70, 74).addBox(-1.5F, -2.25F, 20.0F, 3.0F, 4.0F, 3.0F, new CubeDeformation(0.0F))
-		.texOffs(14, 49).addBox(-1.0F, 1.75F, 28.0F, 2.0F, 2.0F, 2.0F, new CubeDeformation(0.0F))
-		.texOffs(61, 0).addBox(-1.5F, 1.25F, 24.0F, 3.0F, 3.0F, 4.0F, new CubeDeformation(0.0F))
-		.texOffs(57, 74).addBox(-1.5F, 3.75F, 20.0F, 3.0F, 4.0F, 3.0F, new CubeDeformation(0.0F))
-		.texOffs(82, 93).addBox(-1.0F, -4.25F, 20.5F, 2.0F, 2.0F, 2.0F, new CubeDeformation(0.0F))
-		.texOffs(93, 69).addBox(-1.0F, 7.75F, 20.5F, 2.0F, 2.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offset(-5.474F, 7.7389F, -2.3546F));
+				.texOffs(27, 40).addBox(-1.5F, 1.75F, -20.25F, 3.0F, 2.0F, 8.0F, new CubeDeformation(0.0F))
+				.texOffs(70, 74).addBox(-1.5F, -2.25F, 20.0F, 3.0F, 4.0F, 3.0F, new CubeDeformation(0.0F))
+				.texOffs(14, 49).addBox(-1.0F, 1.75F, 28.0F, 2.0F, 2.0F, 2.0F, new CubeDeformation(0.0F))
+				.texOffs(61, 0).addBox(-1.5F, 1.25F, 24.0F, 3.0F, 3.0F, 4.0F, new CubeDeformation(0.0F))
+				.texOffs(57, 74).addBox(-1.5F, 3.75F, 20.0F, 3.0F, 4.0F, 3.0F, new CubeDeformation(0.0F))
+				.texOffs(82, 93).addBox(-1.0F, -4.25F, 20.5F, 2.0F, 2.0F, 2.0F, new CubeDeformation(0.0F))
+				.texOffs(93, 69).addBox(-1.0F, 7.75F, 20.5F, 2.0F, 2.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offset(-5.474F, 7.7389F, -2.3546F));
 
 		PartDefinition cube_r63 = weapon.addOrReplaceChild("cube_r63", CubeListBuilder.create().texOffs(100, 93).addBox(-1.0F, 1.0F, -1.0F, 2.0F, 2.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 7.4327F, -0.3746F, -1.5708F, 0.0F, 0.0F));
 
 		PartDefinition cube_r64 = weapon.addOrReplaceChild("cube_r64", CubeListBuilder.create().texOffs(57, 0).addBox(-1.0F, -1.0F, -1.0F, 2.0F, 2.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 7.2591F, -0.3898F, -1.3963F, 0.0F, 0.0F));
 
 		PartDefinition cube_r65 = weapon.addOrReplaceChild("cube_r65", CubeListBuilder.create().texOffs(0, 0).addBox(-0.5F, 0.75F, 2.875F, 1.0F, 2.0F, 1.0F, new CubeDeformation(0.0F))
-		.texOffs(22, 5).addBox(-1.0F, 0.25F, -2.125F, 2.0F, 3.0F, 5.0F, new CubeDeformation(0.0F))
-		.texOffs(91, 38).addBox(-0.5F, 0.75F, -4.875F, 1.0F, 2.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 8.4075F, -10.0295F, -2.6616F, 0.0F, 0.0F));
+				.texOffs(22, 5).addBox(-1.0F, 0.25F, -2.125F, 2.0F, 3.0F, 5.0F, new CubeDeformation(0.0F))
+				.texOffs(91, 38).addBox(-0.5F, 0.75F, -4.875F, 1.0F, 2.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 8.4075F, -10.0295F, -2.6616F, 0.0F, 0.0F));
 
 		PartDefinition cube_r66 = weapon.addOrReplaceChild("cube_r66", CubeListBuilder.create().texOffs(0, 10).addBox(-0.5F, 0.0F, 2.25F, 1.0F, 1.0F, 1.0F, new CubeDeformation(0.0F))
-		.texOffs(46, 78).addBox(-1.0F, -0.5F, -1.75F, 2.0F, 2.0F, 4.0F, new CubeDeformation(0.0F))
-		.texOffs(9, 33).addBox(-0.5F, 0.0F, -3.75F, 1.0F, 1.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 10.2988F, -5.6174F, -2.0308F, 0.069F, -0.0485F));
+				.texOffs(46, 78).addBox(-1.0F, -0.5F, -1.75F, 2.0F, 2.0F, 4.0F, new CubeDeformation(0.0F))
+				.texOffs(9, 33).addBox(-0.5F, 0.0F, -3.75F, 1.0F, 1.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 10.2988F, -5.6174F, -2.0308F, 0.069F, -0.0485F));
 
 		PartDefinition cube_r67 = weapon.addOrReplaceChild("cube_r67", CubeListBuilder.create().texOffs(0, 20).addBox(-0.5F, 0.75F, 4.0F, 1.0F, 1.0F, 1.0F, new CubeDeformation(0.0F))
-		.texOffs(64, 89).addBox(-1.0F, 0.25F, 1.0F, 2.0F, 2.0F, 3.0F, new CubeDeformation(0.0F))
-		.texOffs(99, 80).addBox(-0.5F, 0.75F, -1.0F, 1.0F, 1.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 8.2439F, -0.2161F, -1.7017F, 0.0F, 0.0F));
+				.texOffs(64, 89).addBox(-1.0F, 0.25F, 1.0F, 2.0F, 2.0F, 3.0F, new CubeDeformation(0.0F))
+				.texOffs(99, 80).addBox(-0.5F, 0.75F, -1.0F, 1.0F, 1.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 8.2439F, -0.2161F, -1.7017F, 0.0F, 0.0F));
 
 		PartDefinition cube_r68 = weapon.addOrReplaceChild("cube_r68", CubeListBuilder.create().texOffs(100, 97).addBox(-1.0F, 3.0F, -1.0F, 2.0F, 2.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 7.9536F, -0.4201F, -1.7453F, 0.0F, 0.0F));
 
@@ -288,7 +290,7 @@ public class DragoonModel<T extends BaseKHEntity> extends EntityModel<T> {
 		PartDefinition cube_r75 = weapon.addOrReplaceChild("cube_r75", CubeListBuilder.create().texOffs(117, 11).addBox(1.0F, -4.75F, 1.75F, -2.0F, 11.0F, -2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -2.5833F, -7.2426F, -1.2677F, 0.0F, 0.0F));
 
 		PartDefinition cube_r76 = weapon.addOrReplaceChild("cube_r76", CubeListBuilder.create().texOffs(126, 9).addBox(1.0F, -10.5F, 1.75F, -2.0F, 9.0F, -2.0F, new CubeDeformation(0.0F))
-		.texOffs(83, 86).addBox(-1.0F, -1.5F, -0.25F, 2.0F, 3.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -3.4363F, -11.8344F, -1.4835F, 0.0F, 0.0F));
+				.texOffs(83, 86).addBox(-1.0F, -1.5F, -0.25F, 2.0F, 3.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -3.4363F, -11.8344F, -1.4835F, 0.0F, 0.0F));
 
 		PartDefinition cube_r77 = weapon.addOrReplaceChild("cube_r77", CubeListBuilder.create().texOffs(19, 61).addBox(-1.0F, -1.0F, -8.25F, 2.0F, 3.0F, 5.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 4.7067F, -11.8882F, -1.2654F, 0.0F, 0.0F));
 
@@ -303,52 +305,52 @@ public class DragoonModel<T extends BaseKHEntity> extends EntityModel<T> {
 		return LayerDefinition.create(meshdefinition, 128, 128);
 	}
 
-    @Override
-    public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-    	//animation.set(0,new ModelAnimation(right_wing, 0, -40, 40, 0, true, Angle.Y, left_wing));
-    	//this.left_wing.xRot =0;
+	@Override
+	public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+		//animation.set(0,new ModelAnimation(right_wing, 0, -40, 40, 0, true, Angle.Y, left_wing));
+		//this.left_wing.xRot =0;
     	/*this.left_arm.y = -3;
     	this.right_arm.y = -3;
     	this.left_leg.y = 8;
     	this.right_leg.y = 8;
     	this.head.y = -4;*/
-    	
-        if(!Minecraft.getInstance().isPaused()) {
-        	//EntityHelper.setState(entity,0);
-        	if(entity.getState() == 0) { //Normal, arms in front
-        		this.head.xRot= 0;
-        		this.left_leg.xRot= 0;
-        		this.right_leg.xRot= 0;
-        		this.left_wing.xRot = 0;
-        		this.right_wing.xRot = 0;
-        		this.body.z = 0;
-        		this.body.xRot = 0;
+
+		if(!Minecraft.getInstance().isPaused()) {
+			//EntityHelper.setState(entity,0);
+			if(entity.getState() == 0) { //Normal, arms in front
+				this.head.xRot= 0;
+				this.left_leg.xRot= 0;
+				this.right_leg.xRot= 0;
+				this.left_wing.xRot = 0;
+				this.right_wing.xRot = 0;
+				this.body.z = 0;
+				this.body.xRot = 0;
 
 
-        		if(!animation.isEmpty()) {
-	                animation.getFirst().animate(ageInTicks + entity.getId() * 7F);
-	        	}
-        		
-        	} else if(entity.getState() == 1) { //Ball-shape
-        		this.head.xRot = 90;
-        		this.left_leg.xRot = 90;
-        		this.right_leg.xRot = 90;
-        		this.left_wing.xRot = 90;
-        		this.right_wing.xRot = 90;
-        		this.body.xRot = 0;
-        		this.body.z = 0;
+				if(!animation.isEmpty()) {
+					animation.getFirst().animate(ageInTicks * WING_FLAP_SPEED + entity.getId() * 7F);
+				}
 
-        	} else if(entity.getState() == 2) { //Falling down
-        		this.head.xRot = 90;
-        		this.left_leg.xRot = 90;
-        		this.right_leg.xRot = 90;
-        		this.left_wing.xRot = 90;
-        		this.right_wing.xRot = 90;
-        		this.body.xRot = (float) Math.toRadians(90);
-        		this.body.z = -3;
-        	}
-        }
-    }
+			} else if(entity.getState() == 1) { //Ball-shape
+				this.head.xRot = 90;
+				this.left_leg.xRot = 90;
+				this.right_leg.xRot = 90;
+				this.left_wing.xRot = 90;
+				this.right_wing.xRot = 90;
+				this.body.xRot = 0;
+				this.body.z = 0;
+
+			} else if(entity.getState() == 2) { //Falling down
+				this.head.xRot = 90;
+				this.left_leg.xRot = 90;
+				this.right_leg.xRot = 90;
+				this.left_wing.xRot = 90;
+				this.right_wing.xRot = 90;
+				this.body.xRot = (float) Math.toRadians(90);
+				this.body.z = -3;
+			}
+		}
+	}
 
 	@Override
 	public void renderToBuffer(PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, int colour) {

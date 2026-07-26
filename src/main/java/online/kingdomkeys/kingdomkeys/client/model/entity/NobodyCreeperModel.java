@@ -69,9 +69,7 @@ public class NobodyCreeperModel<T extends BaseKHEntity> extends EntityModel<T> {
     public final ModelPart Sword_Blade4;
     public final ModelPart Sword_Blade5;
 
-    private int cycleIndex;
     private final boolean canAnimate = true;
-    private double frame;
 
     public NobodyCreeperModel(ModelPart root) {
         this.BodyLower = root.getChild("BodyLower");
@@ -262,21 +260,21 @@ public class NobodyCreeperModel<T extends BaseKHEntity> extends EntityModel<T> {
             {
 	    		/*
 	    		  small bits of math here but I hope it's understandable even if it's not the nicest looking code :'(
-	    		  frame is double variable that gets incremented each frame (last line frame += 0.5) it's also used to "scroll" through the animation frames and thus controls the speed of the animation
+	    		  animFrame is a double on the entity that gets incremented each frame (last line animFrame += 0.5) it's also used to "scroll" through the animation frames and thus controls the speed of the animation
 
 	    		 (really hope this is understandable cuz I don't really know how to explain it....)
 
 	    		 Important thing to note is that by default vanilla uses radians instead of degrees .... so I have this fancy degToRad (formula stolen from stackoverflow obviously) to transform degrees in radians for readability
 	    		 */
-                if(frame < animationSwordFirstHit.length)
+                if(entity.animFrame < animationSwordFirstHit.length)
                 {
-                    this.Sword_Handle1.zRot = degToRad(animationSwordFirstHit[(int) frame]);
+                    this.Sword_Handle1.zRot = degToRad(animationSwordFirstHit[(int) entity.animFrame]);
                 }
-                else if(frame > animationSwordFirstHit.length - 1 && frame < animationSwordFirstHit.length + animationSwordSecondHit.length)
+                else if(entity.animFrame > animationSwordFirstHit.length - 1 && entity.animFrame < animationSwordFirstHit.length + animationSwordSecondHit.length)
                 {
                     this.Sword_Handle1.xRot = degToRad(-90);
                     this.Sword_Handle1.zRot = degToRad(180);
-                    this.Sword_Handle1.yRot = degToRad(animationSwordSecondHit[(int) frame - animationSwordFirstHit.length]);
+                    this.Sword_Handle1.yRot = degToRad(animationSwordSecondHit[(int) entity.animFrame - animationSwordFirstHit.length]);
                 }
                 else
                 {
@@ -285,26 +283,26 @@ public class NobodyCreeperModel<T extends BaseKHEntity> extends EntityModel<T> {
 	    			  reset the frame counter (same reason), and the state to make it look like a mob again
 	    			 */
                     this.Sword_Handle1.xRot = this.Sword_Handle1.yRot = this.Sword_Handle1.zRot = degToRad(0);
-                    frame = 0;
+                    entity.animFrame = 0;
                     entity.setState(0);
                 }
 
-                frame += 0.5;
+                entity.animFrame += 0.5;
             }
             else if(entity.getState() == 3) // if the sword AI is active we begin the animation
             {
-                if(frame < animationLegHit.length)
+                if(entity.animFrame < animationLegHit.length)
                 {
-                    this.BodyLower.xRot = degToRad(animationLegHit[(int) frame]);
+                    this.BodyLower.xRot = degToRad(animationLegHit[(int) entity.animFrame]);
                 }
                 else
                 {
                     this.BodyLower.xRot = degToRad(28);
-                    frame = 0;
+                    entity.animFrame = 0;
                     entity.setState(0);
                 }
 
-                frame += 0.6;
+                entity.animFrame += 0.6;
             }
         }
     }

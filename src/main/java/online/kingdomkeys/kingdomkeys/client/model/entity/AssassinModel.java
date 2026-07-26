@@ -97,7 +97,6 @@ public class AssassinModel<T extends AssassinEntity> extends EntityModel<T> {
     }
 
     List<ModelAnimation> animation = new ArrayList<ModelAnimation>();
-    protected double distanceMovedTotal = 0.0D;
 
     public static LayerDefinition createBodyLayer() {
         MeshDefinition meshdefinition = new MeshDefinition();
@@ -172,7 +171,6 @@ public class AssassinModel<T extends AssassinEntity> extends EntityModel<T> {
 
     @Override
     public void setupAnim(T ent, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-        updateDistanceMovedTotal(ent);
         if (ent.distanceToSqr(ent.xOld, ent.yOld, ent.zOld) > 0) {
             for (ModelAnimation m : animation) { //iterate through the legs array
                 if (m != null && m.model != null) {
@@ -234,11 +232,5 @@ public class AssassinModel<T extends AssassinEntity> extends EntityModel<T> {
         bodyBot.render(poseStack, buffer, packedLight, packedOverlay);
     }
 
-    protected void updateDistanceMovedTotal(Entity e) {
-        distanceMovedTotal += e.distanceToSqr(e.xOld, e.yOld, e.zOld);
-    }
 
-    protected double getDistanceMovedTotal() {
-        return (distanceMovedTotal);
-    }
 }
