@@ -36,12 +36,12 @@ public class WhisperInMyEarPinkHairMan extends BaseCommand { // kk_wisperinmyear
 			ResourceKey<Level> dimension = ResourceKey.create(Registries.DIMENSION, ResourceLocation.withDefaultNamespace("overworld"));
 			BlockPos coords = DimensionCommand.getWorldCoords(player, dimension);
 			player.changeDimension(new DimensionTransition(player.getServer().getLevel(dimension), new Vec3(coords.getX(), coords.getY(), coords.getZ()), Vec3.ZERO, player.getYRot(), player.getXRot(), entity -> {}));
-			player.sendSystemMessage(Component.translatable("You have been teleported to " + dimension.location()));
+			player.sendSystemMessage(Component.translatable("kingdomkeys.teleport.teleported_to", dimension.location()));
 		} else {
 			ResourceKey<Level> dimension = ModDimensions.STATION_OF_SORROW;
 			BlockPos coords = DimensionCommand.getWorldCoords(player, dimension);
 			player.changeDimension(new DimensionTransition(player.getServer().getLevel(dimension), new Vec3(coords.getX(), coords.getY(), coords.getZ()), Vec3.ZERO, player.getYRot(), player.getXRot(), entity -> {}));
-			player.sendSystemMessage(Component.translatable("You have been returned back to " + dimension.location()));
+			player.sendSystemMessage(Component.translatable("kingdomkeys.teleport.returned_to", dimension.location()));
 			MarluxiaEntity marluxia = new MarluxiaEntity(player.level());
 			marluxia.finalizeSpawn((ServerLevel)player.level(), player.level().getCurrentDifficultyAt(marluxia.blockPosition()), MobSpawnType.COMMAND, null);
 			player.level().addFreshEntity(marluxia);

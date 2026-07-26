@@ -165,7 +165,7 @@ public class SpawningOrbEntity extends Monster {
 
 			BlockPos coords = nPlayer.getServer().getLevel(dimension).getSharedSpawnPos();
 			nPlayer.changeDimension(new DimensionTransition(nPlayer.getServer().getLevel(dimension), new Vec3(coords.getX(), coords.getY(), coords.getZ()), Vec3.ZERO, nPlayer.getYRot(), nPlayer.getXRot(), entity -> {}));
-			nPlayer.sendSystemMessage(Component.translatable("You have been teleported to " + dimension.location()));
+			nPlayer.sendSystemMessage(Component.translatable("kingdomkeys.teleport.teleported_to", dimension.location()));
 		}
 		super.playerTouch(nPlayer);
 	}

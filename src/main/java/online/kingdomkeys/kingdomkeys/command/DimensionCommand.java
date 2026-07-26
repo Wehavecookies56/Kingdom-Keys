@@ -51,14 +51,14 @@ public class DimensionCommand extends BaseCommand {
 		String dim = StringArgumentType.getString(context, "dim");
 		ResourceKey<Level> dimension = ResourceKey.create(Registries.DIMENSION, KingdomKeys.rl(dim));
 		if (!ServerLifecycleHooks.getCurrentServer().levelKeys().stream().toList().contains(dimension)) {
-			context.getSource().sendFailure(Component.literal("Dimension '"+dim+ "' does not exist"));
+			context.getSource().sendFailure(Component.translatable("kingdomkeys.command.dimension.unknown", dim));
 			return 0;
 		}
 		for (ServerPlayer player : players) {
 			BlockPos coords = getWorldCoords(player, dimension);
 			player.changeDimension(new DimensionTransition(player.getServer().getLevel(dimension), new Vec3(coords.getX(), coords.getY(), coords.getZ()), Vec3.ZERO, player.getYRot(), player.getXRot(), entity -> {}));
-			context.getSource().sendSuccess(() -> Component.translatable("Teleported " + player.getDisplayName().getString() + " to dimension " + dimension.location()), true);
-			player.sendSystemMessage(Component.translatable("You have been teleported to " + dimension.location()));
+			context.getSource().sendSuccess(() -> Component.translatable("kingdomkeys.command.dimension.teleported", player.getDisplayName().getString(), dimension.location()), true);
+			player.sendSystemMessage(Component.translatable("kingdomkeys.teleport.teleported_to", dimension.location()));
 		}
 		return 1;
 	}

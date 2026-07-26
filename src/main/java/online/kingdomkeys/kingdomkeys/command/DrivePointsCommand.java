@@ -65,9 +65,9 @@ public class DrivePointsCommand extends BaseCommand{ //kk_dp <give/take/set> <am
 	private static int setValue(CommandContext<CommandSourceStack> context, int value, ServerPlayer player) throws CommandSyntaxException {
 		PlayerData playerData = PlayerData.get(player);
 		playerData.setDP(value);
-		context.getSource().sendSuccess(() -> Component.translatable("Set "+player.getDisplayName().getString()+" dp to "+value), true);
+		context.getSource().sendSuccess(() -> Component.translatable("kingdomkeys.command.dp.set", player.getDisplayName().getString(), value), true);
 		
-		player.sendSystemMessage(Component.translatable("Your dp has been set to "+value));
+		player.sendSystemMessage(Component.translatable("kingdomkeys.command.dp.set_self", value));
 		PacketHandler.sendTo(new SCSyncPlayerData(player), player);
 		return 1;
 	}
@@ -84,9 +84,9 @@ public class DrivePointsCommand extends BaseCommand{ //kk_dp <give/take/set> <am
 	private static int addValue(CommandContext<CommandSourceStack> context, int value, ServerPlayer player) throws CommandSyntaxException {
 		PlayerData playerData = PlayerData.get(player);
 		playerData.addDP(player,value);
-		context.getSource().sendSuccess(() -> Component.translatable("Added "+value+" dp to "+player.getDisplayName().getString()), true);
+		context.getSource().sendSuccess(() -> Component.translatable("kingdomkeys.command.dp.add", value, player.getDisplayName().getString()), true);
 		
-		player.sendSystemMessage(Component.translatable("Your dp has been increased by "+value));
+		player.sendSystemMessage(Component.translatable("kingdomkeys.command.dp.add_self", value));
 		PacketHandler.sendTo(new SCSyncPlayerData(player), player);
 		return 1;
 	}
@@ -105,9 +105,9 @@ public class DrivePointsCommand extends BaseCommand{ //kk_dp <give/take/set> <am
 		PlayerData playerData = PlayerData.get(player);
 		playerData.remDP(value);
 		
-			context.getSource().sendSuccess(() -> Component.translatable("Taken "+value+" dp from "+player.getDisplayName().getString()), true);
+			context.getSource().sendSuccess(() -> Component.translatable("kingdomkeys.command.dp.remove", value, player.getDisplayName().getString()), true);
 		
-		player.sendSystemMessage(Component.translatable("Your dp has been decreased by "+value));
+		player.sendSystemMessage(Component.translatable("kingdomkeys.command.dp.remove_self", value));
 		PacketHandler.sendTo(new SCSyncPlayerData(player), player);
 		return 1;
 	}

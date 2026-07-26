@@ -78,7 +78,7 @@ public class KeychainItem extends SwordItem implements IKeychain, IItemCategory,
 			tooltip.add(Component.translatable("kingdomkeys.keyblade.data_missing.title").withStyle(ChatFormatting.RED));
 			tooltip.add(Component.translatable("kingdomkeys.keyblade.data_missing.desc1").withStyle(ChatFormatting.RED));
 			ResourceLocation key = BuiltInRegistries.ITEM.getKey(stack.getItem());
-			tooltip.add(Component.translatable(ChatFormatting.RED + "It should be located in data/" + key.getNamespace() + "/keyblades/YOURKEYBLADEITEMNAMEHERE.json"));
+			tooltip.add(Component.translatable("kingdomkeys.keyblade.data_missing.path_generic", key.getNamespace()).withStyle(ChatFormatting.RED));
 			tooltip.add(Component.translatable("kingdomkeys.keyblade.data_missing.desc2").withStyle(ChatFormatting.RED));
 		}
 		if (flagIn.isAdvanced()) {

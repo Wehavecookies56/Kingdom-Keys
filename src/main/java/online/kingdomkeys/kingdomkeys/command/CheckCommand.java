@@ -33,16 +33,16 @@ public class CheckCommand extends BaseCommand {
         if(context.getSource().getEntity() instanceof ServerPlayer sender){
             Player target = players.stream().findFirst().orElse(null);
             if(target == null) {
-                context.getSource().sendFailure(Component.literal("Player not found "+ players));
+                context.getSource().sendFailure(Component.translatable("kingdomkeys.command.check.player_not_found", players));
                 return 0;
             }
             PlayerData playerData = PlayerData.get(target);
             if(playerData == null) {
-                context.getSource().sendFailure(Component.literal("PlayerData seems null for player "+ target.getName().getString()));
+                context.getSource().sendFailure(Component.translatable("kingdomkeys.command.check.data_null", target.getName().getString()));
                 return 0;
             }
 
-            context.getSource().sendSuccess(() -> Component.literal("Checking data from player "+ target.getName().getString()), true);
+            context.getSource().sendSuccess(() -> Component.translatable("kingdomkeys.command.check.checking", target.getName().getString()), true);
             SCOpenCheckScreen packet = new SCOpenCheckScreen(playerData, target);
             KingdomKeys.LOGGER.warn("[DEBUG check] serialized NBT has {} keys: {}", packet.playerData().size(), packet.playerData().getAllKeys());
             PacketHandler.sendTo(packet, sender);

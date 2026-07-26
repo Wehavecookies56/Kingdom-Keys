@@ -41,13 +41,13 @@ public class PayMunnyCommand extends BaseCommand { // kk_paymunny <player> <valu
 				PlayerData targetData = PlayerData.get(target);
 				userData.setMunny(userData.getMunny() - value, user);
 				targetData.setMunny(targetData.getMunny() + value, target);
-				user.sendSystemMessage(Component.translatable("You paid " + value + " munny to " + target.getDisplayName().getString()));
-				target.sendSystemMessage(Component.translatable("You got " + value + " munny from " + user.getDisplayName().getString()));
+				user.sendSystemMessage(Component.translatable("kingdomkeys.command.pay.paid", value, target.getDisplayName().getString()));
+				target.sendSystemMessage(Component.translatable("kingdomkeys.command.pay.received", value, user.getDisplayName().getString()));
 				PacketHandler.sendTo(new SCSyncPlayerData(user), user);
 				PacketHandler.sendTo(new SCSyncPlayerData(target), target);
 			}
 		} else {
-			user.sendSystemMessage(Component.translatable("You don't have enough munny (" + value + ") to pay " + getPlayersString(players)));
+			user.sendSystemMessage(Component.translatable("kingdomkeys.command.pay.not_enough", value, getPlayersString(players)));
 		}
 		return 1;
 	}
