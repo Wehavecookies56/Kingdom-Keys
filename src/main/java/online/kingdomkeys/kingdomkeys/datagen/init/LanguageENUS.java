@@ -403,14 +403,13 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Gui_Menu_Config + ".hp_per_bar", "HP Per Bar");
         add(Gui_Menu_Config + ".show_hearts", "Show hearts on HUD");
         add(Gui_Menu_Config + ".hp_alarm", "Low HP Alarm volume");
-        add(Gui_Menu_Config + ".impexp", "Import/Export");
-        add(Gui_Menu_Config + ".impexp.import", "Import");
-        add(Gui_Menu_Config + ".impexp.export", "Export to clipboard");
-        add(Gui_Menu_Config + ".notif_color", "Notification");
-        add(Gui_Menu_Config + ".armor.red", "Armor red");
-        add(Gui_Menu_Config + ".armor.green", "Armor green");
-        add(Gui_Menu_Config + ".armor.blue", "Armor blue");
+        add(Gui_Menu_Config + ".import_export", "Import/Export");
+        add(Gui_Menu_Config + ".import_export.import", "Import");
+        add(Gui_Menu_Config + ".import_export.export", "Export to clipboard");
+        add(Gui_Menu_Config + ".notif", "Notification");
         add(Gui_Menu_Config + ".armor.glint", "Armor glint");
+        add(Gui_Menu_Config + ".armor", "Armor");
+
         add(Gui_Menu_Journal, "Journal");
         add(Gui_Menu_Style, "Combat Style");
         add(Gui_Menu_Style + ".single", "Single");
@@ -423,6 +422,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Gui_Menu_Style + ".ventus", "Ventus");
         add(Gui_Menu_Style + ".kh2roxasdual", "Roxas (KH2)");
         add(Gui_Menu_Style + ".daysroxasdual", "Roxas (358/2 Days)");
+
 
         //Synthesis
         add(Gui_Synthesis, "Item Workshop");
@@ -2707,7 +2707,8 @@ public class LanguageENUS extends KKLanguageProvider {
         // Generic GUI
         add("kingdomkeys.gui.hud_editor.title", "HUD Editor");
         add("kingdomkeys.gui.config.color_picker", "Colour picker");
-        add("gui.menu.config.armor_color", "Armour colour");
+        add("kingdomkeys.gui.config.crown_height", "Crown height");
+        add("kingdomkeys.gui.config.reset", "Reset");
         add("kingdomkeys.gui.config.crown_position", "Crown position");
         add("kingdomkeys.gui.config.crown_rotation", "Crown rotation");
         add("kingdomkeys.gui.no_options", "No options");

@@ -272,6 +272,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		storage.putInt("notif_color", notifColor);
 		storage.putString("crown", this.crown);
 		storage.putFloat("crown_offset_x", this.crownOffsetX);
+		storage.putFloat("crown_offset_y", this.crownOffsetY);
 		storage.putFloat("crown_offset_z", this.crownOffsetZ);
 		storage.putFloat("crown_rotation_x", this.crownRotationX);
 		storage.putFloat("crown_rotation_y", this.crownRotationY);
@@ -507,6 +508,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		this.setNotifColor(nbt.getInt("notif_color"));
 		this.setCrown(nbt.getString("crown"));
 		this.crownOffsetX = nbt.getFloat("crown_offset_x");
+		this.crownOffsetY = nbt.getFloat("crown_offset_y");
 		this.crownOffsetZ = nbt.getFloat("crown_offset_z");
 		this.crownRotationX = nbt.getFloat("crown_rotation_x");
 		// "crown_rotation" was the old single-axis key; fall back to it so existing saves keep their spin.
@@ -624,7 +626,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 	/** Where the crown sits on top of the head, in model units (16 = one block). Only X (left/right)
 	 * and Z (forward/back) - the height is always the top of the head, so there is no Y here.
 	 * The tilt lives in the crownRotationX/Y/Z fields below. */
-	private float crownOffsetX = 0F, crownOffsetZ = 0F;
+	private float crownOffsetX = 0F, crownOffsetY = 0F, crownOffsetZ = 0F;
 	/** Crown tilt on all three axes, in degrees: X pitches it forward/back, Y spins it, Z rolls it. */
 	private float crownRotationX = 0F, crownRotationY = 0F, crownRotationZ = 0F;
 
@@ -1504,6 +1506,10 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		return crownOffsetX;
 	}
 
+	public float getCrownOffsetY() {
+		return crownOffsetY;
+	}
+
 	public float getCrownOffsetZ() {
 		return crownOffsetZ;
 	}
@@ -1520,8 +1526,9 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		return crownRotationZ;
 	}
 
-	public void setCrownOffset(float x, float z) {
+	public void setCrownOffset(float x, float y, float z) {
 		this.crownOffsetX = x;
+		this.crownOffsetY = y;
 		this.crownOffsetZ = z;
 	}
 

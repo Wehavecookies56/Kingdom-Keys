@@ -451,8 +451,23 @@ public class ClientUtils {
     public static boolean disableEFMAnims = false;
   	
   	//Slightly modified copy of InventoryScreen.renderEntityInInventoryRaw to disable animations, so if it breaks in an update, use that to fix it
-  	@SuppressWarnings({ "deprecation", "unchecked" })
+	/**
+	 * Same as the six-argument version but with an explicit body yaw, applied to the PoseStack rather
+	 * than to the entity. Necessary because setting yBodyRot/setYRot has no visible effect in this
+	 * pipeline: the animation-disabling mixin resetPose()s every part, and with EpicFight in the chain
+	 * the entity rotations get overridden downstream. Rotating the matrix inside - after the internal
+	 * uniform scaling, so it stays undistorted - is the one spot nobody else can undo.
+	 */
+	public static void renderPlayerNoAnimsRaw(PoseStack pose, int x, int y, int scale, float angleXComponent, float angleYComponent, LivingEntity entity, float bodyYaw) {
+		renderPlayerNoAnimsRawInternal(pose, x, y, scale, angleXComponent, angleYComponent, entity, bodyYaw);
+	}
+
 	public static void renderPlayerNoAnimsRaw(PoseStack p_275396_, int p_275688_, int p_275245_, int p_275535_, float angleXComponent, float angleYComponent, LivingEntity p_275689_) {
+		renderPlayerNoAnimsRawInternal(p_275396_, p_275688_, p_275245_, p_275535_, angleXComponent, angleYComponent, p_275689_, 0F);
+	}
+
+	@SuppressWarnings({ "deprecation", "unchecked" })
+	private static void renderPlayerNoAnimsRawInternal(PoseStack p_275396_, int p_275688_, int p_275245_, int p_275535_, float angleXComponent, float angleYComponent, LivingEntity p_275689_, float bodyYaw) {
         float f = angleXComponent;
         float f1 = angleYComponent;
         Quaternionf quaternionf = (new Quaternionf()).rotateZ((float) Math.PI);
@@ -477,6 +492,11 @@ public class ClientUtils {
         p_275396_.translate(p_275688_, p_275245_, -950.0D);
         p_275396_.mulPose((new Matrix4f()).scaling((float) p_275535_, (float) p_275535_, (float) (-p_275535_)));
         p_275396_.mulPose(quaternionf);
+        // Body yaw here: the matrix has just had scaling(s, s, -s) applied, which is uniform, so a Y
+        // rotation comes out round instead of sheared.
+        if (bodyYaw != 0F) {
+            p_275396_.mulPose(com.mojang.math.Axis.YP.rotationDegrees(bodyYaw));
+        }
         Lighting.setupForEntityInInventory();
         EntityRenderDispatcher entityrenderdispatcher = Minecraft.getInstance().getEntityRenderDispatcher();
         if (quaternionf1 != null) {

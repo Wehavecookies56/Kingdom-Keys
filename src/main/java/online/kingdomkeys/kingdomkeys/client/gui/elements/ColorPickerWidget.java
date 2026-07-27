@@ -50,6 +50,10 @@ public class ColorPickerWidget extends AbstractWidget {
 
 	@Override
 	protected void renderWidget(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
+		if ((Color.HSBtoRGB(hue, saturation, brightness) & 0xFFFFFF) != (getter.get() & 0xFFFFFF)) {
+			readFromSource();
+		}
+
 		int sqW = squareWidth();
 		int sqX = getX(), sqY = getY();
 

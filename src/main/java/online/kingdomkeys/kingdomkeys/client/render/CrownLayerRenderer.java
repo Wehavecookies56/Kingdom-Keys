@@ -53,7 +53,7 @@ public class CrownLayerRenderer<T extends LivingEntity, M extends HumanoidModel<
 			float scale = 0.5F;
 			matrixStackIn.scale(scale, scale, scale);
 
-			matrixStackIn.translate(playerData.getCrownOffsetX() / 16F, -1.001F, playerData.getCrownOffsetZ() / 16F);
+			matrixStackIn.translate(playerData.getCrownOffsetX() / 16F, -1.001F + playerData.getCrownOffsetY() / 16F, playerData.getCrownOffsetZ() / 16F);
 
 			model.root.yRot = Mth.DEG_TO_RAD * playerData.getCrownRotationY();
 			model.root.xRot = Mth.DEG_TO_RAD * playerData.getCrownRotationX();

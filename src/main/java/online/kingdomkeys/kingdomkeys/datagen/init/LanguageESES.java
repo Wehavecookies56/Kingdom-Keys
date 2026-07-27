@@ -460,14 +460,12 @@ public class LanguageESES extends KKLanguageProvider {
         add(Gui_Menu_Config + ".hp_per_bar", "VT por barra");
         add(Gui_Menu_Config + ".show_hearts", "Mostrar corazones");
         add(Gui_Menu_Config + ".hp_alarm", "Volumen de Alarma de VT Baja");
-        add(Gui_Menu_Config + ".impexp", "Importar/Exportar");
-        add(Gui_Menu_Config + ".impexp.import", "Importar");
-        add(Gui_Menu_Config + ".impexp.export", "Exportar al portapapeles");
-        add(Gui_Menu_Config + ".notif_color", "Notificaci\u00f3n");
-        add(Gui_Menu_Config + ".armor.red", "Armadura roja");
-        add(Gui_Menu_Config + ".armor.green", "Armadura verde");
-        add(Gui_Menu_Config + ".armor.blue", "Armadura azul");
+        add(Gui_Menu_Config + ".import_export", "Importar/Exportar");
+        add(Gui_Menu_Config + ".import_export.import", "Importar");
+        add(Gui_Menu_Config + ".import_export.export", "Exportar al portapapeles");
+        add(Gui_Menu_Config + ".notif", "Notificación");
         add(Gui_Menu_Config + ".armor.glint", "Brillo de Armadura");
+        add(Gui_Menu_Config + ".armor", "Armadura");
 
         //Journal
         add(Gui_Menu_Journal, "Diario");
@@ -2725,7 +2723,8 @@ public class LanguageESES extends KKLanguageProvider {
         // Generic GUI
         add("kingdomkeys.gui.hud_editor.title", "Editor de HUD");
         add("kingdomkeys.gui.config.color_picker", "Selector de color");
-        add("gui.menu.config.armor_color", "Color de la armadura");
+        add("kingdomkeys.gui.config.crown_height", "Altura de la corona");
+        add("kingdomkeys.gui.config.reset", "Reiniciar");
         add("kingdomkeys.gui.config.crown_position", "Posición de corona");
         add("kingdomkeys.gui.config.crown_rotation", "Rotación de corona");
         add("kingdomkeys.gui.no_options", "Sin opciones");

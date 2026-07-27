@@ -11,12 +11,13 @@ import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.network.Packet;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 
-public record CSSetCrownOffset(float x, float z, float rotX, float rotY, float rotZ) implements Packet {
+public record CSSetCrownOffset(float x, float y, float z, float rotX, float rotY, float rotZ) implements Packet {
 
     public static final Type<CSSetCrownOffset> TYPE = new Type<>(KingdomKeys.rl("cs_set_crown_offset"));
 
     public static final StreamCodec<FriendlyByteBuf, CSSetCrownOffset> STREAM_CODEC = StreamCodec.composite(
             ByteBufCodecs.FLOAT, CSSetCrownOffset::x,
+            ByteBufCodecs.FLOAT, CSSetCrownOffset::y,
             ByteBufCodecs.FLOAT, CSSetCrownOffset::z,
             ByteBufCodecs.FLOAT, CSSetCrownOffset::rotX,
             ByteBufCodecs.FLOAT, CSSetCrownOffset::rotY,
@@ -28,7 +29,7 @@ public record CSSetCrownOffset(float x, float z, float rotX, float rotY, float r
     public void handle(IPayloadContext context) {
         Player player = context.player();
         PlayerData playerData = PlayerData.get(player);
-        playerData.setCrownOffset(x, z);
+        playerData.setCrownOffset(x, y, z);
         playerData.setCrownRotation(rotX, rotY, rotZ);
         PacketHandler.syncToAllAround(player, playerData);
     }
