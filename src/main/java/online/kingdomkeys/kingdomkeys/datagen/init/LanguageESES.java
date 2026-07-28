@@ -1699,12 +1699,12 @@ public class LanguageESES extends KKLanguageProvider {
         addItem(ModItems.hiddenDragonChain, "Llavero de Drag\u00f3n Oculto");
         addItem(ModItems.hunnySpoutChain, "Llavero de Dulce Miel");
         addItem(ModItems.hyperdriveChain, "Llavero de Hiperpropulsor");
-        addItem(ModItems.incompleteKibladeChain, "Llavero de Llave Espada    Incompleta");
+        addItem(ModItems.incompleteKibladeChain, "Llavero de Llave Espada \u03c7 Incompleta");
         addItem(ModItems.invisKeybladeChain, "Llavero de Llave Espada de Invi");
         addItem(ModItems.irasKeybladeChain, "Llavero de Llave Espada de Ira");
         addItem(ModItems.jungleKingChain, "Llavero de Artesana");
         addItem(ModItems.keybladeOfPeoplesHeartsChain, "Llavero de Llave Espada del Coraz\u00f3n");
-        addItem(ModItems.kibladeChain, "Llavero de Llave Espada   ");
+        addItem(ModItems.kibladeChain, "Llavero de Llave Espada \u03c7");
         addItem(ModItems.kingdomKeyChain, "Llavero de Cadena del Reino");
         addItem(ModItems.kingdomKeyDChain, "Llavero de Cadena del Reino D");
         addItem(ModItems.kingdomKeyNChain, "Llavero de Cadena del Reino Pesadilla");
