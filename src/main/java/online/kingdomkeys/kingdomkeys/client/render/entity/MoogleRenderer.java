@@ -26,6 +26,8 @@ public class MoogleRenderer extends MobRenderer<MoogleEntity, MoogleModel<Moogle
 
     @Override
     public void render(MoogleEntity entityIn, float entityYaw, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn) {
+        this.model.pompomColor = entityIn.isFakeMoogle() ? MoogleEntity.NO_POMPOM_DYE : entityIn.getPompomColor();
+
         if (entityIn.isFakeMoogle()) {
             VertexConsumer builder = bufferIn.getBuffer(this.model.renderType(this.getTextureLocation(entityIn)));
             matrixStackIn.popPose();

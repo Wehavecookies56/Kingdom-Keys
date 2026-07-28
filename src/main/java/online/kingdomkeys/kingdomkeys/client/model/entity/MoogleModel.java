@@ -9,6 +9,7 @@ import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.world.entity.Entity;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.entity.mob.MoogleEntity;
 
 public class MoogleModel<T extends Entity> extends EntityModel<T> {
     public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(KingdomKeys.rl("moogle"), "main");
@@ -19,10 +20,18 @@ public class MoogleModel<T extends Entity> extends EntityModel<T> {
     private final ModelPart Body;
     private final ModelPart leftArm;
     private final ModelPart leftRight;
+    private final ModelPart PomPom;
+
+    /**
+     * Opaque ARGB tint for the pompom, set by the renderer before drawing, or
+     * {@link MoogleEntity#NO_POMPOM_DYE} to draw it with the plain texture.
+     */
+    public int pompomColor = MoogleEntity.NO_POMPOM_DYE;
 
     public MoogleModel(ModelPart root) {
         this.OrgCoat = root.getChild("OrgCoat");
         this.Head = root.getChild("Head");
+        this.PomPom = this.Head.getChild("PomPom");
         this.leftLeg = root.getChild("leftLeg");
         this.rightLeg = root.getChild("rightLeg");
         this.Body = root.getChild("Body");
@@ -72,7 +81,22 @@ public class MoogleModel<T extends Entity> extends EntityModel<T> {
     public void renderToBuffer(PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, int colour) {
     	poseStack.translate(0,-0.5,0);
         OrgCoat.render(poseStack, buffer, packedLight, packedOverlay, colour);
+
+        boolean dyed = pompomColor != MoogleEntity.NO_POMPOM_DYE;
+        // The pompom is a child of the head, so it normally rides along with it. To give it its own
+        // colour it is skipped during the head pass and drawn again under the head's transform.
+        PomPom.skipDraw = dyed;
         Head.render(poseStack, buffer, packedLight, packedOverlay, colour);
+        if (dyed) {
+            //Keep whatever alpha the caller asked for (the projector moogle draws semi-transparent).
+            int tint = (colour & 0xFF000000) | (pompomColor & 0x00FFFFFF);
+            PomPom.skipDraw = false;
+            poseStack.pushPose();
+            Head.translateAndRotate(poseStack);
+            PomPom.render(poseStack, buffer, packedLight, packedOverlay, tint);
+            poseStack.popPose();
+        }
+
         leftLeg.render(poseStack, buffer, packedLight, packedOverlay, colour);
         rightLeg.render(poseStack, buffer, packedLight, packedOverlay, colour);
         Body.render(poseStack, buffer, packedLight, packedOverlay, colour);

@@ -5,6 +5,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.EntityModelSet;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.ItemRenderer;
@@ -55,6 +56,9 @@ public class KeybladeArmorRenderer<T extends LivingEntity, M extends HumanoidMod
 
 	UXArmorModel<LivingEntity> uxTopSlim;
 	UXArmorModel<LivingEntity> uxBotSlim;
+
+	/** The UX models are swapped for their slim variants at most once per session. */
+	private static boolean swappedToSlim = false;
 
 	public KeybladeArmorRenderer(RenderLayerParent<T, M> entityRendererIn, EntityModelSet modelSet) {
 		super(entityRendererIn);
@@ -118,28 +122,33 @@ public class KeybladeArmorRenderer<T extends LivingEntity, M extends HumanoidMod
 
 	@Override
 	public void render(PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn, T entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
-		NonNullList<ItemStack> armor = NonNullList.create();
+		// Left null on purpose: allocating a list for every entity rendered, armoured or not, is a cost
+		// paid thousands of times a second for nothing.
+		NonNullList<ItemStack> armor = null;
 		int color = 0xFFFFFFFF;
 		boolean glint = true;
 
 		if (entitylivingbaseIn instanceof ArmorStand armorStand) {
+			armor = NonNullList.create();
             for (ItemStack itemStack : armorStand.getArmorSlots()) {
                 armor.add(itemStack);
             }
-			
+
 		}
 		if (entitylivingbaseIn instanceof Player player) {
-			if (PlayerData.get(player) != null) {
-				if (Minecraft.getInstance().player.getSkin().model().id().equals("slim")) {
-					if (!armorModels.get(ModItems.ux_Helmet.get()).equals(uxTopSlim)) {
+			PlayerData playerData = PlayerData.get(player);
+			if (playerData != null) {
+				if (!swappedToSlim) {
+					LocalPlayer localPlayer = Minecraft.getInstance().player;
+					if (localPlayer != null && localPlayer.getSkin().model().id().equals("slim")) {
 						armorModels.replace(ModItems.ux_Helmet.get(), uxTopSlim);
 						armorModels.replace(ModItems.ux_Chestplate.get(), uxTopSlim);
 						armorModels.replace(ModItems.ux_Leggings.get(), uxBotSlim);
 						armorModels.replace(ModItems.ux_Boots.get(), uxTopSlim);
+						swappedToSlim = true;
 					}
 				}
 
-				PlayerData playerData = PlayerData.get(player);
 				//This transforms the RGB color from the player to ARGB so the glint can show
 				color = (0xFF << 24) | (playerData.getArmorColor() & 0xFFFFFF);
 				glint = playerData.getArmorGlint();

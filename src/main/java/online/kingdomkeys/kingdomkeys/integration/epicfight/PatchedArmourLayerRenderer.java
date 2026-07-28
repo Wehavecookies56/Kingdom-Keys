@@ -20,7 +20,6 @@ import online.kingdomkeys.kingdomkeys.client.model.armor.ArmorBaseModel;
 import online.kingdomkeys.kingdomkeys.client.render.KeybladeArmorRenderer;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.item.KeybladeArmorItem;
-import online.kingdomkeys.kingdomkeys.util.Utils;
 import yesman.epicfight.api.client.event.types.render.PrepareModelEvent;
 import yesman.epicfight.api.client.model.Mesh;
 import yesman.epicfight.api.client.model.Meshes;
@@ -35,29 +34,16 @@ import yesman.epicfight.gameasset.Armatures;
 import yesman.epicfight.world.capabilities.entitypatch.LivingEntityPatch;
 
 import java.util.HashMap;
+import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import static online.kingdomkeys.kingdomkeys.client.render.KeybladeArmorRenderer.armorModels;
 
-/**
- * Draws the Keyblade armour on top of an Epic Fight animated player.
- *
- * <p>Two things this class has to get right:</p>
- * <ul>
- *   <li><b>Geometry.</b> All four armour pieces share a single "top"/"bottom" model that contains the
- *       whole suit, and {@link HumanoidModelBaker} walks the entire {@link ModelPart} tree ignoring
- *       {@code ModelPart#visible}. Setting visibility before baking therefore does nothing: the boots
- *       alone would bake the helmet and the torso as well. Unwanted parts are stripped out of the tree
- *       before baking instead (see {@link #filterRoot}).</li>
- *   <li><b>Cost.</b> {@code renderLayer} runs every frame for every armoured player, so nothing here
- *       allocates: meshes, textures and render types are all resolved once and cached by item.</li>
- * </ul>
- */
 public class PatchedArmourLayerRenderer<E extends LivingEntity, T extends LivingEntityPatch<E>, M extends HumanoidModel<E>> extends PatchedLayer<E, T, M, KeybladeArmorRenderer<E, M>> {
 
-	/** Armour slots in inventory order; {@code player.getInventory().armor} uses the same indices. */
+	/** Armor slots in inventory order; {@code player.getInventory().armor} uses the same indices. */
 	private static final List<EquipmentSlot> SLOTS = List.of(EquipmentSlot.FEET, EquipmentSlot.LEGS, EquipmentSlot.CHEST, EquipmentSlot.HEAD);
 
 	/** Root children every {@link HumanoidModel} expects to find. */
@@ -71,21 +57,13 @@ public class PatchedArmourLayerRenderer<E extends LivingEntity, T extends Living
 			EquipmentSlot.HEAD, Set.of("head", "hat")
 	);
 
-	/**
-	 * What may be drawn on the entity the camera is sitting inside. Head, torso and legs are either
-	 * around the lens or clipping through it, so only the arms survive - the same thing vanilla does
-	 * with its own armour in first person.
-	 */
 	private static final Set<String> FIRST_PERSON_PARTS = Set.of("right_arm", "left_arm");
 
 	/**
-	 * Baked meshes, keyed by item <i>and</i> point of view: the first person bake contains fewer parts
-	 * than the third person one, so they must never share an entry.
+	 * Everything an armour item needs to draw, resolved once. Items are singletons, so an identity map
+	 * gives us the cheapest possible per-frame lookup and no string keys to build.
 	 */
-	private static final Map<String, SkinnedMesh> MESH_CACHE = new HashMap<>();
-
-	/** Render types are immutable and expensive to rebuild; one per armour item is enough. */
-	private static final Map<Item, RenderType> RENDER_TYPE_CACHE = new HashMap<>();
+	private static final Map<Item, ArmourPiece> PIECE_CACHE = new IdentityHashMap<>();
 
 	/** Set by the mixin on Epic Fight's first person renderer. The camera check below is the real
 	 *  authority, this only forces the reduced bake for renderers we know are first person. */
@@ -97,9 +75,8 @@ public class PatchedArmourLayerRenderer<E extends LivingEntity, T extends Living
 
 	/** Epic Fight rebuilds its meshes on resource reload; drop ours with them. */
 	public static void clearModels(PrepareModelEvent meshBuildEvent) {
-		MESH_CACHE.values().forEach(SkinnedMesh::destroy);
-		MESH_CACHE.clear();
-		RENDER_TYPE_CACHE.clear();
+		PIECE_CACHE.values().forEach(ArmourPiece::destroy);
+		PIECE_CACHE.clear();
 	}
 
 	@Override
@@ -124,9 +101,12 @@ public class PatchedArmourLayerRenderer<E extends LivingEntity, T extends Living
 		float blue = (color & 0xff) / 255F;
 
 		boolean firstPerson = this.forceFirstPerson || isCameraEntityInFirstPerson(e);
+		boolean rebake = ClientEngine.getInstance().isVanillaModelDebuggingMode();
+		var armature = Armatures.BIPED.get();
 
 		for (int i = 0; i < SLOTS.size(); i++) {
-			if (!(armor.get(i).getItem() instanceof KeybladeArmorItem item)) {
+			ItemStack itemStack = armor.get(i);
+			if (!(itemStack.getItem() instanceof KeybladeArmorItem item)) {
 				continue;
 			}
 
@@ -136,13 +116,23 @@ public class PatchedArmourLayerRenderer<E extends LivingEntity, T extends Living
 				continue; // nothing of this piece may be shown from where the camera is
 			}
 
-			SkinnedMesh mesh = getOrBakeMesh(player, armor.get(i), item, slot, parts, firstPerson, emRenderLayer);
-			if (mesh == null) {
-				continue;
+			ArmourPiece piece = PIECE_CACHE.get(item);
+			if (piece == null) {
+				piece = new ArmourPiece(item, slot);
+				PIECE_CACHE.put(item, piece);
 			}
 
-			VertexConsumer buffer = multiBufferSource.getBuffer(renderTypeFor(item, slot));
-			mesh.drawPosed(poseStack, buffer, Mesh.DrawingFunction.NEW_ENTITY, packedLightIn, red, green, blue, 1, OverlayTexture.NO_OVERLAY, Armatures.BIPED.get(), poses);
+			SkinnedMesh mesh = piece.mesh(firstPerson);
+			if (mesh == null || rebake) {
+				mesh = bake(player, itemStack, item, slot, parts, emRenderLayer);
+				if (mesh == null) {
+					continue;
+				}
+				piece.setMesh(firstPerson, mesh);
+			}
+
+			VertexConsumer buffer = multiBufferSource.getBuffer(piece.renderType());
+			mesh.drawPosed(poseStack, buffer, Mesh.DrawingFunction.NEW_ENTITY, packedLightIn, red, green, blue, 1, OverlayTexture.NO_OVERLAY, armature, poses);
 		}
 	}
 
@@ -167,36 +157,23 @@ public class PatchedArmourLayerRenderer<E extends LivingEntity, T extends Living
 	}
 
 	private static Set<String> partsFor(EquipmentSlot slot, boolean firstPerson) {
-		Set<String> parts = SLOT_PARTS.get(slot);
 		if (!firstPerson) {
-			return parts;
+			return SLOT_PARTS.get(slot);
 		}
 		// Only the chest keeps anything in first person (the arms), so this never allocates.
 		return slot == EquipmentSlot.CHEST ? FIRST_PERSON_PARTS : Set.of();
 	}
 
-	private SkinnedMesh getOrBakeMesh(Player player, ItemStack itemStack, KeybladeArmorItem item, EquipmentSlot slot, Set<String> parts, boolean firstPerson, KeybladeArmorRenderer<E, M> emRenderLayer) {
-		String cacheKey = Utils.getItemRegistryName(item) + (firstPerson ? "|fp" : "|tp");
-
-		SkinnedMesh cached = MESH_CACHE.get(cacheKey);
-		if (cached != null && !ClientEngine.getInstance().isVanillaModelDebuggingMode()) {
-			return cached;
-		}
-
+	private SkinnedMesh bake(Player player, ItemStack itemStack, KeybladeArmorItem item, EquipmentSlot slot, Set<String> parts, KeybladeArmorRenderer<E, M> emRenderLayer) {
 		ArmorBaseModel<LivingEntity> model = armorModels.get(item);
 		if (model == null) {
-			return cached;
+			return null;
 		}
 
 		HumanoidModel<LivingEntity> humanoidModel = new HumanoidModel<>(filterRoot(model.root, parts));
 		humanoidModel.setAllVisible(true);
 
-		SkinnedMesh baked = HumanoidModelBaker.bakeArmor(player, itemStack, item, slot, emRenderLayer.getParentModel(), humanoidModel, emRenderLayer.getParentModel(), Meshes.BIPED.get());
-		SkinnedMesh previous = MESH_CACHE.put(cacheKey, baked);
-		if (previous != null) {
-			previous.destroy(); // debugging mode re-bakes every frame; don't leak the old one
-		}
-		return baked;
+		return HumanoidModelBaker.bakeArmor(player, itemStack, item, slot, emRenderLayer.getParentModel(), humanoidModel, emRenderLayer.getParentModel(), Meshes.BIPED.get());
 	}
 
 	/**
@@ -216,11 +193,53 @@ public class PatchedArmourLayerRenderer<E extends LivingEntity, T extends Living
 		return new ModelPart(List.of(), Map.of());
 	}
 
-	private static RenderType renderTypeFor(KeybladeArmorItem item, EquipmentSlot slot) {
-		return RENDER_TYPE_CACHE.computeIfAbsent(item, key -> EpicFightRenderTypes.getTriangulated(EpicFightRenderTypes.armorCutoutNoCull(KeybladeArmorRenderer.getArmorTexture(item, slot == EquipmentSlot.LEGS))));
-	}
-
 	public HumanoidMesh getModel(E e) {
 		return ((AbstractClientPlayer) e).getSkin().model() == PlayerSkin.Model.WIDE ? Meshes.BIPED.get() : Meshes.ALEX.get();
+	}
+
+	/**
+	 * One armour item's resolved render state. The two meshes differ in which body parts they contain,
+	 * so first and third person can never share one; the render type is identical for both.
+	 */
+	private static final class ArmourPiece {
+
+		private final RenderType renderType;
+		private SkinnedMesh thirdPerson;
+		private SkinnedMesh firstPerson;
+
+		private ArmourPiece(KeybladeArmorItem item, EquipmentSlot slot) {
+			// Resolving the texture walks the registry and builds strings, and the render type is not
+			// cheap either - both happen exactly once per armour item.
+			this.renderType = EpicFightRenderTypes.getTriangulated(EpicFightRenderTypes.armorCutoutNoCull(KeybladeArmorRenderer.getArmorTexture(item, slot == EquipmentSlot.LEGS)));
+		}
+
+		private RenderType renderType() {
+			return this.renderType;
+		}
+
+		private SkinnedMesh mesh(boolean firstPerson) {
+			return firstPerson ? this.firstPerson : this.thirdPerson;
+		}
+
+		private void setMesh(boolean firstPerson, SkinnedMesh mesh) {
+			SkinnedMesh previous = mesh(firstPerson);
+			if (previous != null && previous != mesh) {
+				previous.destroy(); // debugging mode re-bakes constantly; don't leak the old one
+			}
+			if (firstPerson) {
+				this.firstPerson = mesh;
+			} else {
+				this.thirdPerson = mesh;
+			}
+		}
+
+		private void destroy() {
+			if (this.thirdPerson != null) {
+				this.thirdPerson.destroy();
+			}
+			if (this.firstPerson != null) {
+				this.firstPerson.destroy();
+			}
+		}
 	}
 }

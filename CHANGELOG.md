@@ -43,6 +43,7 @@
 * Obtained item display can be dismissed by pressing a mouse button or key. The item description box will use "item.<namespace>.<itemname>.desc" if it exists in the lang file otherwise will use the tooltip.
 * Item Overflow, items given to the player such as the Keycards will go into your overflow inventory if you have no inventory space. Overflow inventory can be accessed in the Stock menu.
 * Dropped cards will now bounce similar to how they do in Chain of Memories.
+* Possibility to dye a moogle's pompom.
 * Glove and dot indicator for abilities.
 
 ## Changed:
@@ -63,6 +64,8 @@
 * Castle Oblivion door criteria values match COM's mechanics, the doors within a generated room will be +1 the value of the card until it reaches 9 then will be 0.
 * 0 doors now need 0 rather than any value.
 * All For One scaling when on the ground.
+* Keyblade Armor while in EFM covering the whole screen.
+* Optimized Keyblade Armor performance dropping too low when being rendered.
 * Made some sound effects mono fixing the sound attenuation.
 * Some enemies sharing animation data, resulting in for example soldiers bobbing their head way faster if there were a few being rendered at the same time.
 * Button rendering method, improving performance while in the M menu.
