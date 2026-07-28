@@ -412,6 +412,8 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Gui_Menu_Config + ".import_export.export", "Export to clipboard");
         add(Gui_Menu_Config + ".notif", "Notification");
         add(Gui_Menu_Config + ".armor.glint", "Armor glint");
+        add(Gui_Menu_Config + ".armor.glint.enabled", "Glint enabled");
+        add(Gui_Menu_Config + ".armor.glint.disabled", "Glint disabled");
         add(Gui_Menu_Config + ".armor", "Armor");
 
         add(Gui_Menu_Journal, "Journal");

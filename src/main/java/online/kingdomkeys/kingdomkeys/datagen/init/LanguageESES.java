@@ -469,6 +469,8 @@ public class LanguageESES extends KKLanguageProvider {
         add(Gui_Menu_Config + ".import_export.export", "Exportar al portapapeles");
         add(Gui_Menu_Config + ".notif", "Notificación");
         add(Gui_Menu_Config + ".armor.glint", "Brillo de Armadura");
+        add(Gui_Menu_Config + ".armor.glint.enabled", "Brillo activado");
+        add(Gui_Menu_Config + ".armor.glint.disabled", "Brillo desactivado");
         add(Gui_Menu_Config + ".armor", "Armadura");
 
         //Journal

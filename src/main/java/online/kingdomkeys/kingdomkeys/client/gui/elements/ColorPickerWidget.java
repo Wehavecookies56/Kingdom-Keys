@@ -48,6 +48,14 @@ public class ColorPickerWidget extends AbstractWidget {
 		return width - HUE_STRIP_WIDTH - GAP;
 	}
 
+	public int getSwatchRight() {
+		return getX() + squareWidth();
+	}
+
+	public int getSwatchTop() {
+		return getY() + height + 3;
+	}
+
 	@Override
 	protected void renderWidget(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
 		if ((Color.HSBtoRGB(hue, saturation, brightness) & 0xFFFFFF) != (getter.get() & 0xFFFFFF)) {

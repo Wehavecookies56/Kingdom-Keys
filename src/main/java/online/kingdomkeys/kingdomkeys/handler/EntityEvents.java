@@ -120,6 +120,7 @@ import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.roo
 import org.joml.Vector3f;
 
 import java.util.*;
+import java.util.function.Supplier;
 
 public class EntityEvents {
 
@@ -1722,11 +1723,31 @@ public class EntityEvents {
 
 	}
 
+	//This way we can give items with the Utils#giveItems method which is better for this kind of stuff.
+	private static final Map<ResourceLocation, Supplier<Item>> ADVANCEMENT_ITEM_REWARDS = Map.of(
+			KingdomKeys.rl("munny_hoarder"), ModItems.proofOfPeace,
+			KingdomKeys.rl("max_keyblade_level"), ModItems.proofOfNonexistence,
+			KKAllAdvancementsTrigger.ADVANCEMENT_ID, ModItems.proofOfConnection
+	);
+
 	@SubscribeEvent
 	public void onAdvancementEarned(AdvancementEvent.AdvancementEarnEvent event) {
-		if (event.getEntity() instanceof ServerPlayer serverPlayer && event.getAdvancement().id().getNamespace().equals(KingdomKeys.MODID)) {
-			KKAllAdvancementsTrigger.checkCompletion(serverPlayer);
+		if (!(event.getEntity() instanceof ServerPlayer serverPlayer)) {
+			return;
 		}
+
+		ResourceLocation id = event.getAdvancement().id();
+		if (!id.getNamespace().equals(KingdomKeys.MODID)) {
+			return;
+		}
+
+		Supplier<Item> reward = ADVANCEMENT_ITEM_REWARDS.get(id);
+		if (reward != null) {
+			Utils.giveItems(serverPlayer, new ItemStack(reward.get()));
+		}
+
+		//Last advancement
+		KKAllAdvancementsTrigger.checkCompletion(serverPlayer);
 	}
 
 	public enum ThreatLevel {

@@ -138,7 +138,7 @@ public class MenuConfigScreen extends MenuBackground {
 			break;
 		case "glint":
 			glint = !glint;
-			glintButton.setMessage(Component.translatable(glint+""));
+			glintButton.setMessage(glintLabel());
 			PacketHandler.sendToServer(new CSSyncArmorColor(playerData.getArmorColor(), glint));
 			break;
 		}
@@ -349,10 +349,12 @@ public class MenuConfigScreen extends MenuBackground {
 		int pos = 0;
 
 		// Notification colour: SB square + hue strip. Applies live, syncs on release.
-		addRenderableWidget(notifColorPicker = new ColorPickerWidget(buttonsX, (int) (topBarHeight + 40 * ++pos), 80, 44, () -> data().getNotifColor(), c -> data().setNotifColor(c), () -> PacketHandler.sendToServer(new CSSetNotifColor(data().getNotifColor()))));
+		addRenderableWidget(notifColorPicker = new ColorPickerWidget(buttonsX, (int) (topBarHeight + 30 * ++pos), 80, 44, () -> data().getNotifColor(), c -> data().setNotifColor(c), () -> PacketHandler.sendToServer(new CSSetNotifColor(data().getNotifColor()))));
 		pos += 3; // the picker is taller than one row
+		addRenderableWidget(armorColorPicker = new ColorPickerWidget(buttonsX, (int) (topBarHeight + 20 * ++pos), 80, 44, () -> data().getArmorColor(), c -> data().setArmorColor(c), () -> PacketHandler.sendToServer(new CSSyncArmorColor(data().getArmorColor(), glint))));
 
-		addRenderableWidget(crownPosition = new CrownPositionWidget(box.getX() + box.getWidth() - 155, notifColorPicker.getY() - 30, 48));
+
+		addRenderableWidget(crownPosition = new CrownPositionWidget(box.getX() + box.getWidth() - 155, notifColorPicker.getY() - 15, 48));
 		addRenderableWidget(crownHeight = new CrownHeightSlider(crownPosition.getX() - 14, crownPosition.getY(), 10, crownPosition.getHeight(), () -> data().getCrownOffsetY(), y -> data().setCrownOffset(data().getCrownOffsetX(), y, data().getCrownOffsetZ()), this::sendCrownPacket));
 
 
@@ -415,16 +417,13 @@ public class MenuConfigScreen extends MenuBackground {
 			sendCrownPacket();
 		}).bounds(crownRotZ.getX() + crownRotZ.getWidth() + 2, crownRotZ.getY(), 16, 16).build());
 
-		// Which crown to wear, out of the ones unlocked with the proofs. Cycles rather than showing one
-		// button per tier: this corner of the menu is already busy, and most players own one or two.
 		addRenderableWidget(crownVariant = Button.builder(crownVariantLabel(), (e) -> cycleCrown()).bounds(crownPosition.getX(), crownPosition.getY() + crownPosition.getHeight() + 2, crownPosition.getWidth() + 86, 16).build());
 
-		// Armour colour.
-		addRenderableWidget(armorColorPicker = new ColorPickerWidget(buttonsX, (int) (topBarHeight + 20 * ++pos), 80, 44, () -> data().getArmorColor(), c -> data().setArmorColor(c), () -> PacketHandler.sendToServer(new CSSyncArmorColor(data().getArmorColor(), glint))));
-
-		addRenderableWidget(glintButton = Button.builder(Component.translatable(glint+""), (e) -> {
-			 action("glint");
-		}).bounds(buttonsX + 85, (int) topBarHeight + 20 * 7 - 10, minecraft.font.width("#####")+2, 20).build());
+		// Beside the armour colour swatch, filling the empty strip under the hue bar. The label says what
+		// the state is instead of "true"/"false" next to a caption, so it reads on its own.
+		addRenderableWidget(glintButton = Button.builder(glintLabel(), (e) -> action("glint"))
+				.bounds(armorColorPicker.getSwatchRight() + 4, armorColorPicker.getSwatchTop() - 3, glintButtonWidth(), 15)
+				.build());
 
 		playerSkinList.add(armorColorPicker);
 		playerSkinList.add(glintButton);
@@ -440,10 +439,6 @@ public class MenuConfigScreen extends MenuBackground {
 		playerSkinList.add(crownVariant);
 	}
 
-	/**
-	 * Steps to the next crown the player owns, wrapping through "none" so there is always a way back to
-	 * wearing nothing. With no crowns unlocked the button is a no-op.
-	 */
 	private void cycleCrown() {
 		List<String> options = new ArrayList<>();
 		options.add(""); // none
@@ -462,13 +457,22 @@ public class MenuConfigScreen extends MenuBackground {
 		PacketHandler.sendToServer(new CSSetCrown(next));
 	}
 
+	private Component glintLabel() {
+		return Component.translatable("gui.menu.config.armor.glint." + (glint ? "enabled" : "disabled"));
+	}
+
+
+	private int glintButtonWidth() {
+		int enabled = minecraft.font.width(Utils.translateToLocal("gui.menu.config.armor.glint.enabled"));
+		int disabled = minecraft.font.width(Utils.translateToLocal("gui.menu.config.armor.glint.disabled"));
+		return Math.max(enabled, disabled) + 10;
+	}
+
 	private Component crownVariantLabel() {
 		String crown = data().getCrown();
 		CrownTier tier = CrownTier.byName(crown);
 
-		Component name = tier != null ? Component.translatable(tier.getTranslationKey())
-				: crown.isEmpty() ? Component.translatable("kingdomkeys.crown.none")
-				: Component.literal(crown); // a crown from a pack, shown as-is
+		Component name = tier != null ? Component.translatable(tier.getTranslationKey()) : crown.isEmpty() ? Component.translatable("kingdomkeys.crown.none") : Component.literal(crown); // a crown from a pack, shown as-is
 
 		return Component.translatable("kingdomkeys.gui.config.crown_variant", name);
 	}
@@ -792,20 +796,25 @@ public class MenuConfigScreen extends MenuBackground {
 						b.visible = true;
 					}
 
+					// After the loop above, which switches everything back on: with no crown earned there
+					// is nothing to cycle through, so the button stays greyed out.
+					crownVariant.active = !data().getUnlockedCrowns().isEmpty();
+
 					Player player = Minecraft.getInstance().player;
 
 					matrixStack.pushPose();
 						{
-						matrixStack.translate(box.getX() - buttonsX + 5, 1, 0);
+						matrixStack.translate(box.getX() - buttonsX + 10, 4, 0);
 						RenderSystem.enableBlend();
 						int notif = PlayerData.get(minecraft.player).getNotifColor();
 						RenderSystem.setShaderColor(((notif >> 16) & 0xFF) / 255F, ((notif >> 8) & 0xFF) / 255F, (notif & 0xFF) / 255F, 1F);
 						ResourceLocation levelUpTexture = KingdomKeys.rl("textures/gui/levelup.png");
 
+						float notifScale = 0.33F;
 						// Top
 						matrixStack.pushPose();
 						{
-							matrixStack.scale(0.6f, 0.6f, 1);
+							matrixStack.scale(notifScale, notifScale, 1);
 							gui.blit(levelUpTexture, 0, 0, 0, 0, 256, 36);
 						}
 						matrixStack.popPose();
@@ -813,8 +822,8 @@ public class MenuConfigScreen extends MenuBackground {
 						// Half
 						matrixStack.pushPose();
 						{
-							matrixStack.translate(0, 36.0f * 0.6f, 0);
-							matrixStack.scale(0.6f, 0, 1);
+							matrixStack.translate(0, 36.0f * notifScale, 0);
+							matrixStack.scale(notifScale, 0, 1);
 							gui.blit(levelUpTexture, 0, 0, 0, 36, 256, 1);
 						}
 						matrixStack.popPose();
@@ -822,8 +831,8 @@ public class MenuConfigScreen extends MenuBackground {
 						// Bottom
 						matrixStack.pushPose();
 						{
-							matrixStack.translate(0, 36.0f * 0.6f, 0);
-							matrixStack.scale(0.6f, 0.6f, 1);
+							matrixStack.translate(0, 36.0f * notifScale, 0);
+							matrixStack.scale(notifScale, notifScale, 1);
 							gui.blit(levelUpTexture, 0, 0, 0, 37, 256, 14);
 						}
 						matrixStack.popPose();
@@ -847,7 +856,6 @@ public class MenuConfigScreen extends MenuBackground {
 
 					drawCentredOverSwatch(gui, "gui.menu.config.notif", notifColorPicker);
 					drawCentredOverSwatch(gui, "gui.menu.config.armor", armorColorPicker);
-					gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.armor.glint"), 85, glintButton.getY() - glintButton.getHeight() - 40, 0xFF9900);
 				}
 				case LOCK_ON_HP -> {
 					for (AbstractWidget b : lockOnList) {

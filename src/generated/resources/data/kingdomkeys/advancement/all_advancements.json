@@ -25,10 +25,7 @@
     ]
   ],
   "rewards": {
-    "experience": 500,
-    "loot": [
-      "kingdomkeys:grant_proof_of_connection"
-    ]
+    "experience": 500
   },
   "sends_telemetry_event": true
 }
