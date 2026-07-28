@@ -1,0 +1,37 @@
+{
+  "parent": "kingdomkeys:soa",
+  "criteria": {
+    "munny_hoarder": {
+      "conditions": {
+        "amount": 100000
+      },
+      "trigger": "kingdomkeys:munny_reached"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "description": {
+      "translate": "advancements.kingdomkeys.munny_hoarder.desc"
+    },
+    "frame": "goal",
+    "icon": {
+      "count": 1,
+      "id": "minecraft:emerald"
+    },
+    "title": {
+      "translate": "advancements.kingdomkeys.munny_hoarder"
+    }
+  },
+  "requirements": [
+    [
+      "munny_hoarder"
+    ]
+  ],
+  "rewards": {
+    "experience": 50,
+    "loot": [
+      "kingdomkeys:grant_proof_of_peace"
+    ]
+  },
+  "sends_telemetry_event": true
+}
