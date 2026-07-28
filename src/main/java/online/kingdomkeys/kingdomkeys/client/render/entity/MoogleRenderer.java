@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -16,12 +17,25 @@ import online.kingdomkeys.kingdomkeys.client.model.entity.MoogleModel;
 import online.kingdomkeys.kingdomkeys.entity.mob.MoogleEntity;
 
 import javax.annotation.Nullable;
-import java.awt.*;
 
 public class MoogleRenderer extends MobRenderer<MoogleEntity, MoogleModel<MoogleEntity>> {
 
+    private static final int PROJECTION_COLOUR = 0x80FFFFFF;
+
     public MoogleRenderer(EntityRendererProvider.Context context) {
         super(context, new MoogleModel<>(context.bakeLayer(MoogleModel.LAYER_LOCATION)), 0.35F);
+    }
+
+    private static float yawTowardsLocalPlayer(MoogleEntity moogle, float partialTicks) {
+        LocalPlayer viewer = Minecraft.getInstance().player;
+        if (viewer == null) {
+            return 0F;
+        }
+
+        // Interpolated so the projection tracks smoothly instead of stepping once per tick.
+        double dx = Mth.lerp(partialTicks, viewer.xo, viewer.getX()) - moogle.getX();
+        double dz = Mth.lerp(partialTicks, viewer.zo, viewer.getZ()) - moogle.getZ();
+        return (float) (Mth.atan2(dz, dx) * (180D / Math.PI)) - 90F;
     }
 
     @Override
@@ -39,9 +53,8 @@ public class MoogleRenderer extends MobRenderer<MoogleEntity, MoogleModel<Moogle
 	            matrixStackIn.scale(-1.0F, -1.0F, 1.0F);
 	            this.scale(entityIn, matrixStackIn, partialTicks);
 	            matrixStackIn.translate(0.5D, -1.501F, -0.5D);
-	            matrixStackIn.mulPose(Axis.YP.rotationDegrees(Minecraft.getInstance().player.getYRot() + 180));
-                Color colour = new Color(1F,1F,1F, entityIn.isFakeMoogle() ? 0.5F : 1F);
-	            this.model.renderToBuffer(matrixStackIn, builder, packedLightIn, getOverlayCoords(entityIn, 0.0F), colour.getRGB());
+	            matrixStackIn.mulPose(Axis.YP.rotationDegrees(yawTowardsLocalPlayer(entityIn, partialTicks)));
+	            this.model.renderToBuffer(matrixStackIn, builder, packedLightIn, getOverlayCoords(entityIn, 0.0F), PROJECTION_COLOUR);
             }
             matrixStackIn.pushPose();
         } else {

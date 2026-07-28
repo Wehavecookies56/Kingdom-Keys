@@ -59,6 +59,7 @@
 * White Mushroom rewards are now data driven, by default the loot table is composed by orichalcum, orichalcum plus, illusory crystal, evanescent crystal, manifest illusion and lost illusion, and they drop from 1 up to 2 or 3 of one material.
 * The obtained item display now shows for Proof of Heart when defeating the Ender Dragon, when getting the Key to Beginnings by using a World Card and when getting a reward from White Mushrooms.
 * Datagen'd Org limits, leveling paths, sell, shop, driveforms, room types, room structures, room encounters and floor types (not that this makes any difference for players).
+* Moogle projectors now properly track the local player instead of rotating with the camera.
 
 ## Fixed:
 * Castle Oblivion door criteria values match COM's mechanics, the doors within a generated room will be +1 the value of the card until it reaches 9 then will be 0.
