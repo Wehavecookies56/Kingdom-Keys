@@ -63,4 +63,8 @@ public class CrownLayerRenderer<T extends LivingEntity, M extends HumanoidModel<
 		}
 		matrixStackIn.popPose();
 	}
+
+	public CrownModel getCrownModel() {
+		return model;
+	}
 }
