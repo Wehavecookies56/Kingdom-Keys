@@ -22,7 +22,10 @@ public class FirstPersonRendererMixin {
     public void addKKLayers(EntityRendererProvider.Context context, EntityType entityType, CallbackInfo ci) {
         FirstPersonRenderer thisOne = ((FirstPersonRenderer)(Object)this);
         thisOne.addPatchedLayer(DriveLayerRenderer.class, new PatchedDriveLayerRenderer<>());
+        // First person bake: arms only, no helmet/torso/legs near the camera.
         thisOne.addPatchedLayer(KeybladeArmorRenderer.class, new PatchedArmourLayerRenderer<>(true));
+        // Pauldrons sit right beside the camera in first person and block the view. Vanilla shows no
+        // body armour in first person either, so this only belongs on the third-person renderer.
         thisOne.addPatchedLayer(ShoulderLayerRenderer.class, new PatchedShoulderLayerRenderer<>());
     }
 

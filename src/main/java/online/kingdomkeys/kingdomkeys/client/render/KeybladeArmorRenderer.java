@@ -35,6 +35,22 @@ public class KeybladeArmorRenderer<T extends LivingEntity, M extends HumanoidMod
 
 	public static final Map<Item, ArmorBaseModel<LivingEntity>> armorModels = new HashMap<>();
 
+	/** Texture paths are derived from the registry name; resolve once instead of every frame. */
+	private static final Map<Item, ResourceLocation> PRIMARY_TEXTURES = new HashMap<>();
+	private static final Map<Item, ResourceLocation> SECONDARY_TEXTURES = new HashMap<>();
+
+	/**
+	 * The armour sheet for an item. Leggings use the "2" sheet, everything else the "1" sheet.
+	 */
+	public static ResourceLocation getArmorTexture(Item item, boolean secondary) {
+		Map<Item, ResourceLocation> cache = secondary ? SECONDARY_TEXTURES : PRIMARY_TEXTURES;
+		return cache.computeIfAbsent(item, key -> {
+			String path = Utils.getItemRegistryName(key).getPath();
+			String armorName = path.substring(0, path.indexOf("_"));
+			return KingdomKeys.rl("textures/models/armor/" + armorName + (secondary ? "2" : "1") + ".png");
+		});
+	}
+
 	ResourceLocation texture, texture2;
 
 	UXArmorModel<LivingEntity> uxTopSlim;
@@ -141,10 +157,7 @@ public class KeybladeArmorRenderer<T extends LivingEntity, M extends HumanoidMod
 
 			ItemStack itemStack = armor.get(0);
 			if (itemStack.getItem() instanceof KeybladeArmorItem) {
-				Item item = itemStack.getItem();
-				String armorName = Utils.getItemRegistryName(item).getPath().substring(0, Utils.getItemRegistryName(item).getPath().indexOf("_"));
-
-				texture = KingdomKeys.rl("textures/models/armor/" + armorName + "1.png");
+				texture = getArmorTexture(itemStack.getItem(), false);
 				VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(bufferIn, RenderType.armorCutoutNoCull(texture), glint && itemStack.hasFoil());
 
 				armorModelBoots.rightLeg.copyFrom(getParentModel().rightLeg);
@@ -155,9 +168,7 @@ public class KeybladeArmorRenderer<T extends LivingEntity, M extends HumanoidMod
 			}
 			itemStack = armor.get(1);
 			if (itemStack.getItem() instanceof KeybladeArmorItem) {
-				Item item = itemStack.getItem();
-				String armorName = Utils.getItemRegistryName(item).getPath().substring(0, Utils.getItemRegistryName(item).getPath().indexOf("_"));
-				texture = KingdomKeys.rl("textures/models/armor/" + armorName + "2.png");
+				texture = getArmorTexture(itemStack.getItem(), true);
 				VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(bufferIn, RenderType.armorCutoutNoCull(texture), glint && itemStack.hasFoil());
 
 				armorModelLeggings.body.copyFrom(getParentModel().body);
@@ -170,10 +181,7 @@ public class KeybladeArmorRenderer<T extends LivingEntity, M extends HumanoidMod
 			}
 			itemStack = armor.get(2);
 			if (itemStack.getItem() instanceof KeybladeArmorItem) {
-				Item item = itemStack.getItem();
-				String armorName = Utils.getItemRegistryName(item).getPath().substring(0, Utils.getItemRegistryName(item).getPath().indexOf("_"));
-
-				texture = KingdomKeys.rl("textures/models/armor/" + armorName + "1.png");
+				texture = getArmorTexture(itemStack.getItem(), false);
 				VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(bufferIn, RenderType.armorCutoutNoCull(texture), glint && itemStack.hasFoil());
 
 				armorModelChestplate.body.copyFrom(getParentModel().body);
@@ -186,10 +194,7 @@ public class KeybladeArmorRenderer<T extends LivingEntity, M extends HumanoidMod
 			}
 			itemStack = armor.get(3);
 			if (itemStack.getItem() instanceof KeybladeArmorItem) {
-				Item item = itemStack.getItem();
-				String armorName = Utils.getItemRegistryName(item).getPath().substring(0, Utils.getItemRegistryName(item).getPath().indexOf("_"));
-
-				texture = KingdomKeys.rl("textures/models/armor/" + armorName + "1.png");
+				texture = getArmorTexture(itemStack.getItem(), false);
 				VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(bufferIn, RenderType.armorCutoutNoCull(texture), glint && itemStack.hasFoil());
 				armorModelHelmet.head.copyFrom(getParentModel().head);
 				armorModelHelmet.head.render(matrixStackIn, vertexconsumer, packedLightIn, OverlayTexture.NO_OVERLAY, color);

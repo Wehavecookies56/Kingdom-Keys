@@ -2,9 +2,11 @@ package online.kingdomkeys.kingdomkeys.integration.epicfight;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.resources.PlayerSkin;
 import net.minecraft.resources.ResourceLocation;
@@ -41,16 +43,31 @@ public class PatchedShoulderLayerRenderer<E extends LivingEntity, T extends Livi
     ResourceLocation texture;
     public static final Map<Item, SkinnedMesh> epicfight_shoulderModels = new HashMap<>();
 
+    /** Render types are immutable; rebuilding one per frame is pure waste. Keyed by texture name. */
+    private static final Map<String, RenderType> RENDER_TYPE_CACHE = new HashMap<>();
+
     public static void clearModels(PrepareModelEvent meshBuildEvent) {
         epicfight_shoulderModels.values().forEach(SkinnedMesh::destroy);
         epicfight_shoulderModels.clear();
+        RENDER_TYPE_CACHE.clear();
     }
 
     @Override
     protected void renderLayer(T t, E e, ShoulderLayerRenderer<E, M> emRenderLayer, PoseStack poseStack, MultiBufferSource multiBufferSource, int packedLight, OpenMatrix4f[] openMatrix4fs, float bob, float v, float v1, float v2) {
         HumanoidModel<LivingEntity> model = null;
         if (e instanceof Player player) {
-            ItemStack armor = PlayerData.get(player).getEquippedKBArmor(0);
+            // The pauldron sits right against the lens when the camera is inside this player.
+            Minecraft mc = Minecraft.getInstance();
+            if (mc.options.getCameraType().isFirstPerson() && mc.getCameraEntity() == e) {
+                return;
+            }
+
+            PlayerData playerData = PlayerData.get(player);
+            if (playerData == null) {
+                return;
+            }
+
+            ItemStack armor = playerData.getEquippedKBArmor(0);
             String armorName = armor != null && armor.getItem() instanceof PauldronItem shoulderArmor ? shoulderArmor.getTextureName() : "";
             if(armorName.isEmpty() || !ItemStack.isSameItem(player.getInventory().getItem(38),ItemStack.EMPTY))
                 return;
@@ -67,7 +84,8 @@ public class PatchedShoulderLayerRenderer<E extends LivingEntity, T extends Livi
                 AbstractClientPlayer clientPlayer = (AbstractClientPlayer) player;
                 boolean steve = clientPlayer.getSkin().model() == PlayerSkin.Model.WIDE;
                 poseStack.pushPose();
-                VertexConsumer bufferBuilder = multiBufferSource.getBuffer(EpicFightRenderTypes.getTriangulated(EpicFightRenderTypes.armorCutoutNoCull(texture)));
+                RenderType renderType = RENDER_TYPE_CACHE.computeIfAbsent(armorName, key -> EpicFightRenderTypes.getTriangulated(EpicFightRenderTypes.armorCutoutNoCull(KingdomKeys.rl("textures/models/armor/" + key + "_shoulder.png"))));
+                VertexConsumer bufferBuilder = multiBufferSource.getBuffer(renderType);
                 if (steve)
                     poseStack.translate(-0.07, 0, 0);
                 epicfight_shoulderModels.get(armor.getItem()).drawPosed(poseStack, bufferBuilder, Mesh.DrawingFunction.NEW_ENTITY, packedLight, 1, 1, 1, 1, OverlayTexture.NO_OVERLAY, Armatures.BIPED.get(), openMatrix4fs);
