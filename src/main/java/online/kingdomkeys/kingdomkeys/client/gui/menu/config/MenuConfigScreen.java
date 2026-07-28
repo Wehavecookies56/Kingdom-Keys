@@ -796,7 +796,7 @@ public class MenuConfigScreen extends MenuBackground {
 					int renderSize = 20;
 					matrixStack.pushPose();
 					{
-						matrixStack.translate(hx+105, hy+160, 0);
+						matrixStack.translate(hx+50, hy+160, 0);
 						matrixStack.scale(renderSize, renderSize, 1);
 						if (player instanceof AbstractClientPlayer acpPreview) {
 							ClientUtils.renderPlayerNoAnimsRaw(matrixStack, 0, 0, 4, 0F, -previewPitch / 20F, acpPreview, previewYaw);

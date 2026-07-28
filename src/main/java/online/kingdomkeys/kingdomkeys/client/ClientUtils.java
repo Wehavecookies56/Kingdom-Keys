@@ -449,6 +449,8 @@ public class ClientUtils {
     }
 
     public static boolean disableEFMAnims = false;
+
+    public static boolean renderingEntityInGui = false;
   	
   	//Slightly modified copy of InventoryScreen.renderEntityInInventoryRaw to disable animations, so if it breaks in an update, use that to fix it
 	/**
@@ -510,10 +512,12 @@ public class ClientUtils {
             LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> renderer = (LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>>) Minecraft.getInstance().getEntityRenderDispatcher().getRenderer((AbstractClientPlayer) p_275689_);
             ((IDisabledAnimations) renderer).kingdom_Keys$setDisabled(true);
             disableEFMAnims = true;
+            renderingEntityInGui = true;
             renderer.render((AbstractClientPlayer) p_275689_, 0, 1, p_275396_, multibuffersource$buffersource, 15728880);
             renderer = (LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>>) Minecraft.getInstance().getEntityRenderDispatcher().getRenderer((AbstractClientPlayer) p_275689_);
             ((IDisabledAnimations) renderer).kingdom_Keys$setDisabled(false);
             disableEFMAnims = false;
+            renderingEntityInGui = false;
         });
 
         multibuffersource$buffersource.endBatch();

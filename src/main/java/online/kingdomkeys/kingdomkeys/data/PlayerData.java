@@ -571,6 +571,8 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
     private TreeMap<ResourceLocation, Integer> materials = new TreeMap<>();
 	private TreeMap<ResourceLocation, Integer> totalMaterials = new TreeMap<>();
 	LinkedHashMap<ResourceLocation, Integer> reactionMap = new LinkedHashMap<>();
+
+	private final List<ResourceLocation> reactionTickScratch = new ArrayList<>();
 	List<ResourceLocation> pAbilitiesList = new ArrayList<>();
 
 	List<String> partyList = new ArrayList<>();
@@ -2317,6 +2319,42 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 
 	public void setReactionCommands(LinkedHashMap<ResourceLocation, Integer> list) {
 		this.reactionMap = list;
+	}
+
+	/**
+	 * Ticks every active reaction command.
+	 *
+	 * <p>A command's tick may add or remove entries, so the keys have to be walked from a snapshot.
+	 * The snapshot reuses {@link #reactionTickScratch} instead of allocating a list every tick: this
+	 * runs for every player on both sides, twenty times a second. The buffer belongs to this player's
+	 * data and is only touched during their own tick, so there is nothing to share.</p>
+	 */
+	public void tickReactionCommands(Player player) {
+		if (this.reactionMap.isEmpty()) {
+			return;
+		}
+
+		this.reactionTickScratch.clear();
+		this.reactionTickScratch.addAll(this.reactionMap.keySet());
+
+		for (int i = 0; i < this.reactionTickScratch.size(); i++) {
+			ReactionCommand rc = ModReactionCommands.registry.get(this.reactionTickScratch.get(i));
+			if (rc != null) {
+				rc.tick(player);
+			}
+		}
+	}
+
+	/**
+	 * Adds a command the caller has already resolved and already checked the conditions of, refreshing
+	 * its duration if it was there. Returns true only when it was not present before.
+	 *
+	 * <p>The {@link #addReactionCommand(ResourceLocation, Player)} path costs two registry lookups and
+	 * a second {@code conditionsToAppear} call, which the per-tick constant checks were paying for
+	 * nothing.</p>
+	 */
+	public boolean addCheckedReactionCommand(ReactionCommand command) {
+		return this.reactionMap.put(command.getRegistryName(), command.getDuration()) == null;
 	}
 
 	public boolean addReactionCommand(ResourceLocation command, Player player) {

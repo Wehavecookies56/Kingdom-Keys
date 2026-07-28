@@ -16,6 +16,7 @@
     "client.BiomeMixin",
     "client.ClientLevelMixin",
     "client.CreativeScreenMixin",
+    "client.InventoryScreenMixin",
     "client.KeyboardInputMixin",
     "client.LevelRendererMixin",
     "client.LivingEntityRendererMixin",

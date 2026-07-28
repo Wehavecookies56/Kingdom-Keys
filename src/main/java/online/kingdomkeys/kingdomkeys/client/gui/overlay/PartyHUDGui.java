@@ -1,14 +1,13 @@
 package online.kingdomkeys.kingdomkeys.client.gui.overlay;
 
-import com.mojang.authlib.GameProfile;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.client.multiplayer.PlayerInfo;
-import net.minecraft.client.player.RemotePlayer;
 import net.minecraft.client.resources.DefaultPlayerSkin;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
@@ -20,8 +19,6 @@ import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 //TODO cleanup + comments
@@ -33,9 +30,17 @@ public class PartyHUDGui extends OverlayBase {
 		super();
 	}
 
+	private static final ResourceLocation HP_BAR = KingdomKeys.rl("textures/gui/hpbar.png");
+	private static final ResourceLocation MP_BAR = KingdomKeys.rl("textures/gui/mpbar.png");
+
 	public ResourceLocation getLocationSkin(Player player) {
-		PlayerInfo networkplayerinfo = Minecraft.getInstance().getConnection().getPlayerInfo(player.getUUID());
-		return networkplayerinfo == null ? DefaultPlayerSkin.get(player.getUUID()).texture() : networkplayerinfo.getSkin().texture();
+		return getLocationSkin(player.getUUID());
+	}
+
+	public ResourceLocation getLocationSkin(UUID uuid) {
+		ClientPacketListener connection = Minecraft.getInstance().getConnection();
+		PlayerInfo info = connection == null ? null : connection.getPlayerInfo(uuid);
+		return info == null ? DefaultPlayerSkin.get(uuid).texture() : info.getSkin().texture();
 	}
 
 	@Override
@@ -54,31 +59,22 @@ public class PartyHUDGui extends OverlayBase {
 			return;
 		}
 
-		List<Member> allies = new ArrayList<>();
-		allies.clear();
-		for (Member m : p.getMembers()) {
-			if (!m.getUUID().equals(player.getUUID())) {
-				allies.add(m);
-			}
-		}
-
 		ClientUtils.PARTY_ELEMENT.applyTransform(guiGraphics, screenWidth, screenHeight);
-		for (int i = 0; i < allies.size(); i++) {
-			Member member = allies.get(i);
+		// Walked directly instead of copying the members into a fresh list every frame.
+		int slot = 0;
+		for (Member member : p.getMembers()) {
+			if (member.getUUID().equals(player.getUUID())) {
+				continue;
+			}
 			Player playerAlly = player.level().getPlayerByUUID(member.getUUID());
-			renderFace(guiGraphics, playerAlly, member, scale, i);
+			renderFace(guiGraphics, playerAlly, member, scale, slot++);
 		}
 		ClientUtils.PARTY_ELEMENT.endTransform(guiGraphics);
 	}
 
 	public void renderFace(GuiGraphics gui, Player playerAlly, Member member, float scale, int i) {
-		UUID uuid = member.getUUID();
 		String name = member.getUsername();
-
-		GameProfile profile = new GameProfile(uuid, name);
-		RemotePlayer fakePlayer = new RemotePlayer(Minecraft.getInstance().level, profile);
-
-		ResourceLocation skin = fakePlayer.getSkin().texture();
+		ResourceLocation skin = getLocationSkin(member.getUUID());
 
 		PoseStack pose = gui.pose();
 
@@ -129,13 +125,12 @@ public class PartyHUDGui extends OverlayBase {
 				float val = playerAlly.getHealth();
 				float max = playerAlly.getMaxHealth();
 
-				ResourceLocation hptexture = KingdomKeys.rl("textures/gui/hpbar.png");
-
+				
 				// top
 				pose.pushPose();
 				{
 					pose.scale(barScaleX, scale, 1);
-					this.blit(gui, hptexture, 0, 0, 0, 72, 12, 2);
+					this.blit(gui, HP_BAR, 0, 0, 0, 72, 12, 2);
 				}
 				pose.popPose();
 
@@ -144,7 +139,7 @@ public class PartyHUDGui extends OverlayBase {
 				{
 					pose.translate(0, 1, 1);
 					pose.scale(barScaleX, barHeight, 1);
-					this.blit(gui, hptexture, 0, 0, 0, 74, 12, 1);
+					this.blit(gui, HP_BAR, 0, 0, 0, 74, 12, 1);
 				}
 				pose.popPose();
 
@@ -153,7 +148,7 @@ public class PartyHUDGui extends OverlayBase {
 				{
 					pose.translate(0, 30, 1);
 					pose.scale(barScaleX, scale, 1);
-					this.blit(gui, hptexture, 0, -30, 0, 72, 12, 2);
+					this.blit(gui, HP_BAR, 0, -30, 0, 72, 12, 2);
 				}
 				pose.popPose();
 
@@ -163,7 +158,7 @@ public class PartyHUDGui extends OverlayBase {
 					pose.mulPose(Axis.ZP.rotationDegrees(180));
 					pose.translate(-4, -15, 1);
 					pose.scale(barScaleX, barHeight * val / max, 1);
-					this.blit(gui, hptexture, 0, 0, 0, 78, 12, 1);
+					this.blit(gui, HP_BAR, 0, 0, 0, 78, 12, 1);
 				}
 				pose.popPose();
 
@@ -174,8 +169,6 @@ public class PartyHUDGui extends OverlayBase {
 					val = (float) playerData.getMP();
 					max = (float) playerData.getMaxMP();
 
-					ResourceLocation mptexture =
-							KingdomKeys.rl("textures/gui/mpbar.png");
 
 					pose.translate(20, 0, 1);
 
@@ -183,7 +176,7 @@ public class PartyHUDGui extends OverlayBase {
 					pose.pushPose();
 					{
 						pose.scale(barScaleX, scale, 1);
-						this.blit(gui, mptexture, 0, 0, 0, 58, 12, 2);
+						this.blit(gui, MP_BAR, 0, 0, 0, 58, 12, 2);
 					}
 					pose.popPose();
 
@@ -192,7 +185,7 @@ public class PartyHUDGui extends OverlayBase {
 					{
 						pose.translate(0, 1, 1);
 						pose.scale(barScaleX, barHeight, 1);
-						this.blit(gui, mptexture, 0, 0, 0, 60, 12, 1);
+						this.blit(gui, MP_BAR, 0, 0, 0, 60, 12, 1);
 					}
 					pose.popPose();
 
@@ -201,7 +194,7 @@ public class PartyHUDGui extends OverlayBase {
 					{
 						pose.translate(0, 30, 1);
 						pose.scale(barScaleX, scale, 1);
-						this.blit(gui, mptexture, 0, -30, 0, 58, 12, 2);
+						this.blit(gui, MP_BAR, 0, -30, 0, 58, 12, 2);
 					}
 					pose.popPose();
 
@@ -211,7 +204,7 @@ public class PartyHUDGui extends OverlayBase {
 						pose.mulPose(Axis.ZP.rotationDegrees(180));
 						pose.translate(-4, -15, 1);
 						pose.scale(barScaleX, barHeight * val / max, 1);
-						this.blit(gui, mptexture, 0, 0, 0, 64, 12, 1);
+						this.blit(gui, MP_BAR, 0, 0, 0, 64, 12, 1);
 					}
 					pose.popPose();
 				}

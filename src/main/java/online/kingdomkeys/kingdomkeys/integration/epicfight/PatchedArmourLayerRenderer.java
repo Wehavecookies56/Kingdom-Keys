@@ -16,6 +16,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.model.armor.ArmorBaseModel;
 import online.kingdomkeys.kingdomkeys.client.render.KeybladeArmorRenderer;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
@@ -33,7 +34,9 @@ import yesman.epicfight.client.renderer.patched.layer.PatchedLayer;
 import yesman.epicfight.gameasset.Armatures;
 import yesman.epicfight.world.capabilities.entitypatch.LivingEntityPatch;
 
+import java.util.EnumMap;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.Map;
@@ -57,7 +60,25 @@ public class PatchedArmourLayerRenderer<E extends LivingEntity, T extends Living
 			EquipmentSlot.HEAD, Set.of("head", "hat")
 	);
 
-	private static final Set<String> FIRST_PERSON_PARTS = Set.of("right_arm", "left_arm");
+	private static final Set<String> FIRST_PERSON_PARTS = Set.of("right_arm", "left_arm", "right_leg", "left_leg");
+
+	private static final Map<EquipmentSlot, Set<String>> FIRST_PERSON_SLOT_PARTS = buildFirstPersonSlotParts();
+
+	private static Map<EquipmentSlot, Set<String>> buildFirstPersonSlotParts() {
+		Map<EquipmentSlot, Set<String>> bySlot = new EnumMap<>(EquipmentSlot.class);
+
+		SLOT_PARTS.forEach((slot, parts) -> {
+			if (FIRST_PERSON_PARTS.containsAll(parts)) {
+				bySlot.put(slot, parts);
+			} else {
+				Set<String> kept = new HashSet<>(parts);
+				kept.retainAll(FIRST_PERSON_PARTS);
+				bySlot.put(slot, Set.copyOf(kept));
+			}
+		});
+
+		return bySlot;
+	}
 
 	/**
 	 * Everything an armour item needs to draw, resolved once. Items are singletons, so an identity map
@@ -100,7 +121,9 @@ public class PatchedArmourLayerRenderer<E extends LivingEntity, T extends Living
 		float green = ((color >> 8) & 0xff) / 255F;
 		float blue = (color & 0xff) / 255F;
 
-		boolean firstPerson = this.forceFirstPerson || isCameraEntityInFirstPerson(e);
+		// A GUI preview is looked at from the outside, so it always gets the whole suit no matter what
+		// the camera happens to be doing.
+		boolean firstPerson = !ClientUtils.renderingEntityInGui && (this.forceFirstPerson || isCameraEntityInFirstPerson(e));
 		boolean rebake = ClientEngine.getInstance().isVanillaModelDebuggingMode();
 		var armature = Armatures.BIPED.get();
 
@@ -111,10 +134,15 @@ public class PatchedArmourLayerRenderer<E extends LivingEntity, T extends Living
 			}
 
 			EquipmentSlot slot = SLOTS.get(i);
+			Set<String> fullParts = SLOT_PARTS.get(slot);
 			Set<String> parts = partsFor(slot, firstPerson);
 			if (parts.isEmpty()) {
 				continue; // nothing of this piece may be shown from where the camera is
 			}
+
+			// Keyed on whether parts were actually removed, not on the point of view: as long as first
+			// person only drops the helmet, every other slot bakes one mesh shared by both views.
+			boolean trimmed = parts != fullParts;
 
 			ArmourPiece piece = PIECE_CACHE.get(item);
 			if (piece == null) {
@@ -122,13 +150,13 @@ public class PatchedArmourLayerRenderer<E extends LivingEntity, T extends Living
 				PIECE_CACHE.put(item, piece);
 			}
 
-			SkinnedMesh mesh = piece.mesh(firstPerson);
+			SkinnedMesh mesh = piece.mesh(trimmed);
 			if (mesh == null || rebake) {
 				mesh = bake(player, itemStack, item, slot, parts, emRenderLayer);
 				if (mesh == null) {
 					continue;
 				}
-				piece.setMesh(firstPerson, mesh);
+				piece.setMesh(trimmed, mesh);
 			}
 
 			VertexConsumer buffer = multiBufferSource.getBuffer(piece.renderType());
@@ -156,12 +184,9 @@ public class PatchedArmourLayerRenderer<E extends LivingEntity, T extends Living
 		return mc.options.getCameraType().isFirstPerson() && mc.getCameraEntity() == e;
 	}
 
+	/** The parts of a slot that may be shown from where the camera is. Both sets are precomputed. */
 	private static Set<String> partsFor(EquipmentSlot slot, boolean firstPerson) {
-		if (!firstPerson) {
-			return SLOT_PARTS.get(slot);
-		}
-		// Only the chest keeps anything in first person (the arms), so this never allocates.
-		return slot == EquipmentSlot.CHEST ? FIRST_PERSON_PARTS : Set.of();
+		return firstPerson ? FIRST_PERSON_SLOT_PARTS.get(slot) : SLOT_PARTS.get(slot);
 	}
 
 	private SkinnedMesh bake(Player player, ItemStack itemStack, KeybladeArmorItem item, EquipmentSlot slot, Set<String> parts, KeybladeArmorRenderer<E, M> emRenderLayer) {
@@ -198,14 +223,15 @@ public class PatchedArmourLayerRenderer<E extends LivingEntity, T extends Living
 	}
 
 	/**
-	 * One armour item's resolved render state. The two meshes differ in which body parts they contain,
-	 * so first and third person can never share one; the render type is identical for both.
+	 * One armour item's resolved render state: the render type, plus the mesh with every part of the
+	 * slot and - only if some view ever asks for less - a reduced one. A mesh is baked once and cached,
+	 * so a trimmed bake cannot share the entry with the full one or it would strip parts everywhere.
 	 */
 	private static final class ArmourPiece {
 
 		private final RenderType renderType;
-		private SkinnedMesh thirdPerson;
-		private SkinnedMesh firstPerson;
+		private SkinnedMesh full;
+		private SkinnedMesh trimmed;
 
 		private ArmourPiece(KeybladeArmorItem item, EquipmentSlot slot) {
 			// Resolving the texture walks the registry and builds strings, and the render type is not
@@ -217,28 +243,28 @@ public class PatchedArmourLayerRenderer<E extends LivingEntity, T extends Living
 			return this.renderType;
 		}
 
-		private SkinnedMesh mesh(boolean firstPerson) {
-			return firstPerson ? this.firstPerson : this.thirdPerson;
+		private SkinnedMesh mesh(boolean trimmed) {
+			return trimmed ? this.trimmed : this.full;
 		}
 
-		private void setMesh(boolean firstPerson, SkinnedMesh mesh) {
-			SkinnedMesh previous = mesh(firstPerson);
+		private void setMesh(boolean trimmed, SkinnedMesh mesh) {
+			SkinnedMesh previous = mesh(trimmed);
 			if (previous != null && previous != mesh) {
 				previous.destroy(); // debugging mode re-bakes constantly; don't leak the old one
 			}
-			if (firstPerson) {
-				this.firstPerson = mesh;
+			if (trimmed) {
+				this.trimmed = mesh;
 			} else {
-				this.thirdPerson = mesh;
+				this.full = mesh;
 			}
 		}
 
 		private void destroy() {
-			if (this.thirdPerson != null) {
-				this.thirdPerson.destroy();
+			if (this.full != null) {
+				this.full.destroy();
 			}
-			if (this.firstPerson != null) {
-				this.firstPerson.destroy();
+			if (this.trimmed != null) {
+				this.trimmed.destroy();
 			}
 		}
 	}

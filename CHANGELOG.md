@@ -76,4 +76,5 @@
 * Orientation of thrown lances, scythes and cards.
 * Gummi Ship performance issues, sacrificing a bit the visuals.
 * Check command not displaying the proper data.
-* Localized most if not all the messages that were previously hardcoded in english.
+* Localized most if not all the messages that were previously hardcoded in English.
+* χ character not showing for Incomplete and full χ-blade in Spanish. 

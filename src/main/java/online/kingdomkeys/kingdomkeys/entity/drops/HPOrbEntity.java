@@ -10,7 +10,6 @@ import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 
-import java.util.List;
 
 public class HPOrbEntity extends ItemDropEntity {
 
@@ -33,20 +32,4 @@ public class HPOrbEntity extends ItemDropEntity {
 		return ModSounds.hp_orb.get();
 	}
 	
-	@Override
-	public void tick() {
-		super.tick();
-		//Merge with surrounding orbs
-        if(tickCount % 5 == 0) {
-            List<HPOrbEntity> list = level().getEntitiesOfClass(HPOrbEntity.class, getBoundingBox().inflate(1.5, 1, 1.5));
-            if (!list.isEmpty()) {
-                for (HPOrbEntity e : list) {
-                    if (this.tickCount > e.tickCount) {
-                        this.value += e.value;
-                        e.remove(RemovalReason.KILLED);
-                    }
-                }
-            }
-		}
-	}
 }

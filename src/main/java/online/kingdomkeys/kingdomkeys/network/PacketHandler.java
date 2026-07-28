@@ -55,6 +55,7 @@ public class PacketHandler {
 		client(SCSyncMoogleNames.TYPE, SCSyncMoogleNames.STREAM_CODEC);
 		client(SCSyncOrganizationData.TYPE, SCSyncOrganizationData.STREAM_CODEC);
 		client(SCSyncOrgPortalPacket.TYPE, SCSyncOrgPortalPacket.STREAM_CODEC);
+		client(SCSyncOrbStats.TYPE, SCSyncOrbStats.STREAM_CODEC);
 		client(SCSyncPlayerData.TYPE, SCSyncPlayerData.STREAM_CODEC);
 		client(SCSyncShopData.TYPE, SCSyncShopData.STREAM_CODEC);
         client(SCSyncSellData.TYPE, SCSyncSellData.STREAM_CODEC);

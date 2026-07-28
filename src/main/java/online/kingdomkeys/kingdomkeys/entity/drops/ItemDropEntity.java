@@ -20,7 +20,9 @@ import net.neoforged.neoforge.common.NeoForgeMod;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncOrbStats;
+
+import java.util.List;
 
 public abstract class ItemDropEntity extends Entity {
 
@@ -30,6 +32,9 @@ public abstract class ItemDropEntity extends Entity {
 	private Player closestPlayer;
 	private static final EntityDataAccessor<Integer> VALUE = SynchedEntityData.defineId(ItemDropEntity.class, EntityDataSerializers.INT);
 	private final MutableBlockPos cachedPos = new MutableBlockPos();
+
+	/** Ticks between merge sweeps. */
+	private static final int MERGE_INTERVAL = 5;
 
 	public ItemDropEntity(EntityType<? extends Entity> type, Level worldIn, double x, double y, double z, int expValue) {
 		this(type, worldIn);
@@ -55,6 +60,10 @@ public abstract class ItemDropEntity extends Entity {
 
 		if (this.delayBeforeCanPickup > 0) {
 			--this.delayBeforeCanPickup;
+		}
+
+		if (!this.level().isClientSide && !this.isRemoved() && (this.tickCount + this.getId()) % MERGE_INTERVAL == 0) {
+			mergeNearby();
 		}
 
 		this.xo = this.getX();
@@ -135,6 +144,21 @@ public abstract class ItemDropEntity extends Entity {
 		}
 	}
 
+	private void mergeNearby() {
+		List<ItemDropEntity> nearby = this.level().getEntitiesOfClass(ItemDropEntity.class, this.getBoundingBox().inflate(1.5D, 1.0D, 1.5D), other -> other != this && !other.isRemoved() && other.getClass() == this.getClass());
+
+		for (ItemDropEntity other : nearby) {
+			if (absorbs(other)) {
+				this.setValue(this.value + other.value);
+				other.remove(RemovalReason.KILLED);
+			}
+		}
+	}
+
+	private boolean absorbs(ItemDropEntity other) {
+		return this.tickCount != other.tickCount ? this.tickCount > other.tickCount : this.getId() > other.getId();
+	}
+
 	private void applyFloatMotion() {
 		Vec3 vec3d = this.getDeltaMovement();
 		this.setDeltaMovement(vec3d.x * 0.99D, Math.min(vec3d.y + 5.0E-4D, 0.06D), vec3d.z * 0.99D);
@@ -191,7 +215,7 @@ public abstract class ItemDropEntity extends Entity {
 				onPickup(entityIn);
 				this.playSound(getPickupSound(), 1F, 1F);
 				this.remove(RemovalReason.KILLED);
-				PacketHandler.sendTo(new SCSyncPlayerData(entityIn), (ServerPlayer) entityIn);
+				PacketHandler.sendTo(new SCSyncOrbStats(PlayerData.get(entityIn)), (ServerPlayer) entityIn);
 			}
 		}
 	}

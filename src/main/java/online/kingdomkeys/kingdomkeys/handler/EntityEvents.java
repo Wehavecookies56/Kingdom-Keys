@@ -511,20 +511,16 @@ public class EntityEvents {
 		if (playerData != null) {
 			// Check if rc conditions match
 			//Tick RCs in list
-			if (!playerData.getReactionCommands().isEmpty()) {
-				for (ResourceLocation rcName : new ArrayList<>(playerData.getReactionCommands().keySet())) {
-					ReactionCommand rc = ModReactionCommands.registry.get(rcName);
-					if (rc != null) {
-						rc.tick(player);
-					}
-				}
-			}
+			playerData.tickReactionCommands(player);
 
 			// Check commands from registry that need active check (can turn off based on conditions like drive forms when you are healed)
 			// Those will be available when joining the world too if the conditions are met
 			for (ReactionCommand rc : ModReactionCommands.CONSTANT_CHECK_COMMANDS.get()) {
 				if (rc.conditionsToAppear(player, player)) {
-					playerData.addReactionCommand(rc.getRegistryName(), player);
+					// The conditions were just checked and the command is already resolved, so this skips
+					// the two registry lookups and the second conditionsToAppear the name-based overload
+					// would do - per command, per player, per tick.
+					playerData.addCheckedReactionCommand(rc);
 				}
 			}
 
@@ -707,7 +703,12 @@ public class EntityEvents {
 			playerData.setFlowmotion(false);
 		}
 
-		if (!player.level().isClientSide() && !player.hasEffect(ModMobEffects.MINI)) {
+		// Both branches below need the player to be either falling onto something or sprinting into it.
+		// Without that the loop cannot do anything, so the entity search was pure waste on every tick
+		// of every player just standing or walking around.
+		boolean canHitMini = player.fallDistance > 0.1F || player.isSprinting();
+
+		if (canHitMini && !player.level().isClientSide() && !player.hasEffect(ModMobEffects.MINI)) {
 			List<LivingEntity> entities = player.level().getEntitiesOfClass(LivingEntity.class, player.getBoundingBox().inflate(0.1D));
 
 			for (LivingEntity target : entities) {

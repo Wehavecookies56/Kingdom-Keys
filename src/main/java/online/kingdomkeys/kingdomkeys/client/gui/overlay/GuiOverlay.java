@@ -190,7 +190,9 @@ public class GuiOverlay extends OverlayBase {
 			matrixStack.popPose();
 
 			RenderSystem.setShaderColor(1, 1, 0, 1F);
-			showText(matrixStack, "LEVEL UP!" + ChatFormatting.ITALIC, 6, 4, 0, 0.75f, 0.75f, 1, Color.decode(String.format("#%02x%02x%02x", (byte)255,(byte)255,(byte)255)).hashCode());
+			// Was Color.decode(String.format("#%02x%02x%02x", 255, 255, 255)).hashCode() - a string
+			// format, a parse and an object every frame to arrive at opaque white.
+			showText(matrixStack, "LEVEL UP!" + ChatFormatting.ITALIC, 6, 4, 0, 0.75f, 0.75f, 1, 0xFFFFFFFF);
 			RenderSystem.setShaderColor(1, 1, 1, 1F);
 			showText(matrixStack, "LV.", 50, 4, 0, 0.75f, 0.75f, 1, 0xE3D000);
 			showText(matrixStack, "" + lvl, 50 + font.width("LV."), 4, 0, 0.75f, 0.75f, 1, 0xFFFFFF);

@@ -27,9 +27,6 @@ public class CrownPositionWidget extends AbstractWidget {
 
 	private boolean dragging;
 
-	private static final int GRID_COLOUR = 0x90505050;
-	private static final int HANDLE_COLOUR = 0xC0FFD900;
-
 	private CrownModel crownModel;
 
 	public CrownPositionWidget(int x, int y, int size) {
@@ -55,13 +52,15 @@ public class CrownPositionWidget extends AbstractWidget {
 			gui.drawString(Minecraft.getInstance().font, "|", cx, getY() + height - 15, 0xFFAAAAAA, false);
 			gui.drawString(Minecraft.getInstance().font, "V", cx - 2, getY() + height - 9, 0xFFAAAAAA, false);
 
-			int size = 5;
-			gui.fill(cx - size, cy, cx + size + 1, cy + 1, GRID_COLOUR);
-			gui.fill(cx, cy - size, cx + 1, cy + size + 1, GRID_COLOUR);
+			int size = 8;
+
 
 			int dx = cx + Math.round(data().getCrownOffsetX() / RANGE * (width / 2F));
 			int dy = cy - Math.round(data().getCrownOffsetZ() / RANGE * (height / 2F));
-			gui.fill(dx - size, dy - size, dx + size + 1, dy + size + 1, HANDLE_COLOUR);
+			gui.fill(dx - size, dy - size, dx + size + 1, dy + size + 1, 0x88FFD900);
+
+			gui.fill(cx - size, cy, cx + size + 1, cy + 1, 0xFFFF0000);
+			gui.fill(cx, cy - size, cx + 1, cy + size + 1, 0xFFFF0000);
 		}
 		gui.pose().popPose();
 	}

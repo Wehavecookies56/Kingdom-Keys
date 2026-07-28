@@ -17,6 +17,7 @@ import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.render.ShoulderLayerRenderer;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
@@ -56,9 +57,8 @@ public class PatchedShoulderLayerRenderer<E extends LivingEntity, T extends Livi
     protected void renderLayer(T t, E e, ShoulderLayerRenderer<E, M> emRenderLayer, PoseStack poseStack, MultiBufferSource multiBufferSource, int packedLight, OpenMatrix4f[] openMatrix4fs, float bob, float v, float v1, float v2) {
         HumanoidModel<LivingEntity> model = null;
         if (e instanceof Player player) {
-            // The pauldron sits right against the lens when the camera is inside this player.
             Minecraft mc = Minecraft.getInstance();
-            if (mc.options.getCameraType().isFirstPerson() && mc.getCameraEntity() == e) {
+            if (!ClientUtils.renderingEntityInGui && mc.options.getCameraType().isFirstPerson() && mc.getCameraEntity() == e) {
                 return;
             }
 
