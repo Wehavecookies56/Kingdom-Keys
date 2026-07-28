@@ -1,82 +1,8 @@
 ## Added:
-* Struggle! Craft the board and play around with your friends! (Multiplayer only)
-  * Firstly you need to specify the corners of the arena, where the 1 vs 1 matches will use as spawn points.
-  * Includes 3 modes, the winner needs to either collect all the enemy orbs (and their own) in the match or end with the most orbs when the timer ends:
-    * Duel: 1v1, can be repeated.
-    * Tournament: Up to 8 players, bracket style tournament, if two players tie there's an overtime.
-    * Free for All: Up to 8 players, all vs all.
-  * You can specify the amount of initial orbs and timer, corners and spectator coords.
-* Struggle posters:
-  * Craft them and shift + right click on a Struggle board to store its coordinates in the poster.
-  * Then place the poster on a wall and right click it with a compass.
-  * The compass will now point towards the struggle board.
-* A bunch of limits:
-  * Xaldin: Lance Storm and Fallen Spear.
-  * Vexen: Icy Pillars.
-  * Lexaeus: Powerup and Rocky Pillars.
-  * Zexion: Illusory Meteor.
-  * Saïx: Berserker Claymore.
-  * Axel: Ring of Flames and Flame Wall.
-  * Demyx: Water Trail and Water Wall.
-  * Luxord: Card Wall.
-  * Marluxia: Scythe Dash and Petal Void.
-  * Roxas: Light Barrage.
-* New ServerConfig option to limit Organization limit attacks to their member only.
-* Crowns! Similar to KH2 they are locked behind some advancements.
-* A bunch of new advancements.
-* A bunch of new Shotlocks:
-  * Volley style: Meteor Shower, Flame Salvo, Chaos Snake. 
-  * Dashing style: Sonic Blade, Absolute Zero, Photon Charge, Lightning Ray. 
-  * Circular style: Bubble Blaster, Bio Barrage, Thunderstorm, Pulse Bomb.
-  * Special Style: Ultima Cannon, Lightbloom, Multivortex.
-* Final Mix variants system heartless have a small chance to spawn with their FM variant texture, starting with Large Body and Soldier.
-  * Percentage configurable in a server-config option.
-* Toggle Gummi Ship flight mode with pick block key (by default middle mouse click).
-  * In that flight mode the ship follows the camera, similar to elytra.
-* Possibility to give items on player level up through datapack (and removed old shotlock and spell ones since they are items now).
-* Scroll bar to shotlock equipment screen.
-* Recipe to craft the dev heads.
-* Treasure chest block, this is a special type of chest that has no GUI and will give the player items when right-clicked, these are intended for Castle Oblivion room generation and cannot be created.
-* Calm Bounty, False Bounty, Guarded Trove map cards implemented.
-* White Room, Black Room and Roulette Room map cards added alongside the Roulette Bonus item and a new modifier type kingdomkeys:drop for adding custom drops for enemies in rooms.
-* Castle Oblivion Room Types have a treasure property to specify the loot and trapped chests.
-* Encounter rooms spawn a treasure chest on completion with the rewards.
-* Obtained item display can be dismissed by pressing a mouse button or key. The item description box will use "item.<namespace>.<itemname>.desc" if it exists in the lang file otherwise will use the tooltip.
-* Item Overflow, items given to the player such as the Keycards will go into your overflow inventory if you have no inventory space. Overflow inventory can be accessed and retrieved in the Stock menu.
-* Dropped cards will now bounce similar to how they do in Chain of Memories.
-* Possibility to dye a moogle's pompom.
-* Glove and dot indicator for abilities.
+*
 
 ## Changed:
-* Shotlocks are now levelable items like magic spells, increasing their damage and lock speed.
-* Entry to Castle Oblivion is denied if you're on peaceful difficulty.
-* Stock now displays overflow instead of the player's inventory.
-* Regenerating rooms in Castle Oblivion clears all entities so it no longer leaves dropped items everywhere.
-* Opening card packs will deposit the cards in the Cards bag if it has some space.
-* Recipes for Keyblade Forge level ups are now different for each Keyblade.
-* Slightly optimized some parts of the code. This includes some of the GUIs which should run a bit faster now.
-* Moved Portals command menu entry to the bottom for org, below Limits.
-* Updated Keyblade weapon to match new EFM declarations.
-* White Mushroom rewards are now data driven, by default the loot table is composed by orichalcum, orichalcum plus, illusory crystal, evanescent crystal, manifest illusion and lost illusion, and they drop from 1 up to 2 or 3 of one material.
-* The obtained item display now shows for Proof of Heart when defeating the Ender Dragon, when getting the Key to Beginnings by using a World Card and when getting a reward from White Mushrooms.
-* Datagen'd Org limits, leveling paths, sell, shop, driveforms, room types, room structures, room encounters and floor types (not that this makes any difference for players).
-* Moogle projectors now properly track the local player instead of rotating with the camera.
+* 
 
 ## Fixed:
-* Castle Oblivion door criteria values match COM's mechanics, the doors within a generated room will be +1 the value of the card until it reaches 9 then will be 0.
-* 0 doors now need 0 rather than any value.
-* All For One scaling when on the ground.
-* Keyblade Armor while in EFM covering the whole screen.
-* Optimized Keyblade Armor performance dropping too low when being rendered.
-* Made some sound effects mono fixing the sound attenuation.
-* Some enemies sharing animation data, resulting in for example soldiers bobbing their head way faster if there were a few being rendered at the same time.
-* Button rendering method, improving performance while in the M menu.
-* Being able to use air dash while in a vehicle.
-* Removed ship fall damage for non player entities.
-* Fixed Gummi Hangar hologram not rendering.
-* Orientation of thrown lances, scythes and cards.
-* Gummi Ship performance issues, sacrificing a bit the visuals.
-* Dead of Night, Dawn till Dusk and K111 not having EFM data to properly attack.
-* Check command not displaying the proper data.
-* Localized most if not all the messages that were previously hardcoded in English.
-* χ character not showing for Incomplete and full χ-blade in Spanish. 
+* Chat overlapping the command menu.

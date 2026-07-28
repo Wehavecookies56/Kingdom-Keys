@@ -448,6 +448,51 @@ public class ClientUtils {
             renderEntityRaw(posestack, pScale, f, f1, entity);
     }
 
+    /**
+     * Vanilla leaves this much room under the chat's bottom line, above the hotbar. Taken from
+     * {@code ChatComponent#screenToChatY}, which is where the number actually lives.
+     */
+    private static final int CHAT_BOTTOM_MARGIN = 40;
+
+    /**
+     * How far up the chat log has to be pushed to clear the command menu, in scaled pixels.
+     *
+     * <p>Both sit in the bottom-left corner and the command menu grows upwards with the number of
+     * entries, so a fixed offset would either not be enough or waste space. This measures the actual
+     * overlap instead, and returns 0 whenever there is none - the menu is hidden, the player moved it
+     * elsewhere in the HUD editor, or it is short enough to fit below the chat.</p>
+     *
+     * <p>Only the log moves. The input line belongs to the chat screen, not to this, and it is already
+     * clear of the menu.</p>
+     */
+    public static int getChatLift() {
+        Minecraft mc = Minecraft.getInstance();
+        if (mc.player == null || mc.gui == null || !Utils.shouldRenderOverlay(mc.player)) {
+            return 0;
+        }
+
+        int screenWidth = mc.getWindow().getGuiScaledWidth();
+        int screenHeight = mc.getWindow().getGuiScaledHeight();
+
+        // A negative scale flips the box, so read the edges rather than trusting the sign.
+        float edgeA = CM_ELEMENT.getPixelY(screenHeight);
+        float edgeB = edgeA + CM_ELEMENT.getScaledHeight();
+        float menuTop = Math.min(edgeA, edgeB);
+        float menuBottom = Math.max(edgeA, edgeB);
+
+        float menuLeftEdge = CM_ELEMENT.getPixelX(screenWidth);
+        float menuLeft = Math.min(menuLeftEdge, menuLeftEdge + CM_ELEMENT.getScaledWidth());
+
+        float chatBaseline = screenHeight - CHAT_BOTTOM_MARGIN;
+
+        // Above the chat entirely, or off to the side of it: nothing to dodge.
+        if (menuBottom <= chatBaseline || menuLeft >= mc.gui.getChat().getWidth()) {
+            return 0;
+        }
+
+        return (int) Math.max(0, chatBaseline - menuTop);
+    }
+
     public static boolean disableEFMAnims = false;
 
     public static boolean renderingEntityInGui = false;
