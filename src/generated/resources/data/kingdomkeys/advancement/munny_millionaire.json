@@ -1,5 +1,5 @@
 {
-  "parent": "kingdomkeys:soa",
+  "parent": "kingdomkeys:munny_hoarder",
   "criteria": {
     "munny_millionaire": {
       "conditions": {
@@ -16,7 +16,7 @@
     "frame": "goal",
     "icon": {
       "count": 1,
-      "id": "minecraft:emerald"
+      "id": "minecraft:emerald_block"
     },
     "title": {
       "translate": "advancements.kingdomkeys.munny_millionaire"

@@ -16,6 +16,7 @@ import online.kingdomkeys.kingdomkeys.item.card.*;
 import online.kingdomkeys.kingdomkeys.item.organization.*;
 import online.kingdomkeys.kingdomkeys.item.tier.KeybladeItemTier;
 import online.kingdomkeys.kingdomkeys.item.tier.WoodenKeybladeItemTier;
+import online.kingdomkeys.kingdomkeys.lib.CrownTier;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.sound.ModJukeboxSongs;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.floor.FloorType;
@@ -98,6 +99,7 @@ public class ModItems {
 			ladyLuck = createKeybladeItem(Strings.ladyLuck),
 			leviathan = createKeybladeItem(Strings.leviathan),
 			lionheart = createKeybladeItem(Strings.lionheart),
+			longNight = createKeybladeItem(Strings.longNight),
 			lostMemory = createKeybladeItem(Strings.lostMemory),
 			lunarEclipse = createKeybladeItem(Strings.lunarEclipse),
 			markOfAHero = createKeybladeItem(Strings.markOfAHero),
@@ -248,6 +250,7 @@ public class ModItems {
 			ladyLuckChain = createNewItem(Strings.ladyLuckChain, KeychainItem::new),
 			leviathanChain = createNewItem(Strings.leviathanChain, KeychainItem::new),
 			lionheartChain = createNewItem(Strings.lionheartChain, KeychainItem::new),
+			longNightChain = createNewItem(Strings.longNightChain, KeychainItem::new),
 			lostMemoryChain = createNewItem(Strings.lostMemoryChain, KeychainItem::new),
 			lunarEclipseChain = createNewItem(Strings.lunarEclipseChain, KeychainItem::new),
 			markOfAHeroChain = createNewItem(Strings.markOfAHeroChain, KeychainItem::new),
@@ -1156,6 +1159,9 @@ public class ModItems {
 			gummiPhone = createNewItem(Strings.gummiPhone, () -> new GummiPhoneItem(new Item.Properties().stacksTo(1))),
 			gummiShipBlueprint = createNewItem(Strings.gummiShipBlueprint, () -> new GummiShipBlueprintItem(new Item.Properties())),
 			proofOfHeart = createNewItem("proof_of_heart", () -> new ProofOfHeartItem(new Item.Properties())),
+			proofOfPeace = createNewItem("proof_of_peace", () -> new CrownProofItem(new Item.Properties())),
+			proofOfNonexistence = createNewItem("proof_of_nonexistence", () -> new CrownProofItem(new Item.Properties())),
+			proofOfConnection = createNewItem("proof_of_connection", () -> new CrownProofItem(new Item.Properties())),
 			iceCream = createNewItem(Strings.iceCream, () -> new KKIceCreamItem(new Item.Properties().food(new FoodProperties.Builder().fast().saturationModifier(2.0f).nutrition(2).alwaysEdible().build()))),
 			winnerStick = createNewItem(Strings.winnerStick, () -> new Item(new Item.Properties())),
 			trainingDummy = createNewItem(Strings.trainingDummy, () -> new TrainingDummyItem(new Item.Properties())),

@@ -19,6 +19,8 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuStockItem;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.KeychainItem;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
+import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.cts.CSTakeOverflowItem;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import org.jetbrains.annotations.NotNull;
 
@@ -29,7 +31,9 @@ import java.util.List;
 
 public class MenuStockScreen extends MenuFilterable {
     MenuBox box;
-	MenuButton back;
+	MenuButton back, takeItem;
+
+	private int listedOverflowSize = -1;
 
     public MenuStockScreen() {
         super(Strings.Gui_Menu_Items_Stock, new Color(0,0,255));
@@ -58,9 +62,46 @@ public class MenuStockScreen extends MenuFilterable {
         }
         gui.disableScissor();
         gui.managed = false;
+        takeItem.render(gui, mouseX, mouseY, partialTicks);
         back.render(gui, mouseX, mouseY, partialTicks);
         super.render(gui, mouseX, mouseY, partialTicks);
 
+    }
+
+    @Override
+    public void tick() {
+        super.tick();
+
+        if (takeItem == null) {
+            return; // ticked before init built the widgets
+        }
+
+        //Checks here in case it changes (or when taking it out)
+        int overflowSize = playerData.getOverflow().size();
+        if (overflowSize != listedOverflowSize) {
+            listedOverflowSize = overflowSize;
+            initItems();
+        }
+
+        takeItem.active = canTakeItem();
+    }
+
+    private void clearSelectionIfGone(List<ItemStack> overflow) {
+        if (selectedItemStack == null || selectedItemStack.isEmpty()) {
+            return;
+        }
+
+        for (ItemStack stack : overflow) {
+            if (ItemStack.matches(stack, selectedItemStack)) {
+                return;
+            }
+        }
+
+        selectedItemStack = ItemStack.EMPTY;
+    }
+
+    private boolean canTakeItem() {
+        return playerData.checkNextOverflow() != null && minecraft.player.getInventory().getFreeSlot() > -1;
     }
     
     @Override
@@ -133,7 +174,6 @@ public class MenuStockScreen extends MenuFilterable {
     public void initItems() {
         buttonWidth = ((float)width * 0.07F);
 
-        Player player = minecraft.player;
         float invPosX = (float) width * 0.1594F;
         float invPosY = (float) height * 0.1851F;
         inventory.clear();
@@ -142,15 +182,20 @@ public class MenuStockScreen extends MenuFilterable {
 
         filterBar.buttons.forEach(this::addWidget);
         
-        addRenderableWidget(back = new MenuButton((int)buttonPosX, buttonPosY, (int)buttonWidth, Component.translatable(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, b -> minecraft.setScreen(new MenuItemsScreen())));
+        addRenderableWidget(takeItem = new MenuButton((int)buttonPosX, buttonPosY, (int)buttonWidth, Component.translatable(Strings.Gui_Menu_Items_Stock_Take).getString(), MenuButton.ButtonType.BUTTON, b -> PacketHandler.sendToServer(new CSTakeOverflowItem())));
+        takeItem.active = canTakeItem();
+
+        addRenderableWidget(back = new MenuButton((int)buttonPosX, buttonPosY + 18, (int)buttonWidth, Component.translatable(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, b -> minecraft.setScreen(new MenuItemsScreen())));
 
         List<ItemStack> items = new ArrayList<>();
         List<ItemStack> overflow = playerData.getOverflowForDisplay();
-        for (int i = 0; i < overflow.size(); i++) {
-            if (filterItem(overflow.get(i))) {
-                items.add(overflow.get(i));
-            }
-        }
+	    for (ItemStack itemStack : overflow) {
+		    if (filterItem(itemStack)) {
+			    items.add(itemStack);
+		    }
+	    }
+
+        clearSelectionIfGone(overflow);
         items.sort(Comparator.comparing(Utils::getCategoryForStack).thenComparing(stack -> stack.getHoverName().getContents().toString()));
         int itemWidth = box.getWidth() / 2 - 10;
         for (int i = 0; i < items.size(); i += 2) {

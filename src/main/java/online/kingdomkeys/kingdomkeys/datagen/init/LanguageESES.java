@@ -149,7 +149,9 @@ public class LanguageESES extends KKLanguageProvider {
         addAdvancement("obtain_org", "Nadie visti\u00f3 esto", "Obt\u00e9n la ropa de la Organizaci\u00f3n");
         addAdvancement("to_rod", "La oscuridad te consumir\u00e1", "S\u00e9 absorbido al Reino de la Oscuridad");
         addAdvancement("obtain_winner_stick","Supongo que mis vacaciones de verano...", "Obtén un palito de ganador");
-        addAdvancement("munny_millionaire","¡Platinario!", "Acumula 1.000.000 de munny");
+        addAdvancement("munny_hoarder","Acaparador", "Acumula 100.000 platines");
+        addAdvancement("munny_millionaire","¡Platinario!", "Acumula 1.000.000 platines");
+        addAdvancement("all_advancements","El Rey de Corazones", "Consigue todos los logros de Kingdom Keys");
         addAdvancement("dual_wield_oblivion_oathkeeper","Lazos de luz y oscuridad", "Blande Oblivion y Oathkeeper al mismo tiempo");
         addAdvancement("get_stick","Eso es un palo", "Fabrica un palo de madera");
         addAdvancement("get_struggle_weapon","Empezando con dificultades", "Fabrica un bate de Struggle");
@@ -350,6 +352,8 @@ public class LanguageESES extends KKLanguageProvider {
         add(Gui_Menu_Items_Melding_RareItemAcquired, "¡Item Especial Obtenido!");
         add(Gui_Menu_Items_Stock, "Inventario");
         add(Gui_Menu_Items_Stock + ".desc", "Revisa tu inventario.");
+        add(Gui_Menu_Items_Stock_Take, "Coger objeto");
+        add(Gui_Menu_Items_Stock_Take_Full, "Tienes el inventario lleno");
         add(Gui_Menu_Items_Equipment_Weapon, "Arma");
         add(Gui_Menu_Items_Equipment_Weapon_Keyblades, "Llaves Espada");
         add(Gui_Menu_Items_Equipment_Shotlock, "Tiro Certero");
@@ -1208,6 +1212,20 @@ public class LanguageESES extends KKLanguageProvider {
         addItem(ModItems.magicsBag, "Bolsa de Hechizos");
         addItem(ModItems.cardsBag, "Bolsa de Cartas");
         addItem(ModItems.proofOfHeart, "Prueba de Corazón");
+
+        //Marcas de corona: un solo objeto, con el nombre de la corona que va a otorgar
+        addItem(ModItems.proofOfPeace, "Marca de la Serenidad");
+        addItem(ModItems.proofOfNonexistence, "Marca del Incorpóreo");
+        addItem(ModItems.proofOfConnection, "Marca del Nexo");
+        add("gui.crownproof.desc", "Úsalo para desbloquear tu siguiente corona");
+        add("gui.crownproof.desc2", "Elige qué corona llevar en la configuración del menú");
+        add("gui.crownproof.unlocked", "Has desbloqueado la corona de %s");
+        add("gui.crownproof.allunlocked", "Ya tienes todas las coronas");
+        add("kingdomkeys.crown.none", "Ninguna");
+        add("kingdomkeys.crown.bronze", "Bronce");
+        add("kingdomkeys.crown.silver", "Plata");
+        add("kingdomkeys.crown.gold", "Oro");
+        add("kingdomkeys.gui.config.crown_variant", "Corona: %s");
         addItem(ModItems.wayfinder, "Siemprejuntos");
         addItem(ModItems.trainingDummy, "Espantapájaros de entrenamiento");
 
@@ -1560,6 +1578,7 @@ public class LanguageESES extends KKLanguageProvider {
         addItem(ModItems.ladyLuck, "\u00daltimo Recurso");
         addItem(ModItems.leviathan, "Leviat\u00e1n");
         addItem(ModItems.lionheart, "Lionheart");
+        addItem(ModItems.longNight, "Noche Eterna");
         addItem(ModItems.lostMemory, "Evocaci\u00f3n");
         addItem(ModItems.lunarEclipse, "Eclipse Lunar");
         addItem(ModItems.markOfAHero, "Gal\u00f3n de H\u00e9roe");
@@ -1712,6 +1731,7 @@ public class LanguageESES extends KKLanguageProvider {
         addItem(ModItems.ladyLuckChain, "Llavero de \u00faltimo Recurso");
         addItem(ModItems.leviathanChain, "Llavero de Leviat\u00e1n");
         addItem(ModItems.lionheartChain, "Llavero de Lionheart");
+        addItem(ModItems.longNightChain, "Llavero de Noche Eterna");
         addItem(ModItems.lostMemoryChain, "Llavero de Evocaci\u00f3n");
         addItem(ModItems.lunarEclipseChain, "Llavero de Eclipse Lunar");
         addItem(ModItems.markOfAHeroChain, "Llavero de Gal\u00f3n de H\u00e9roe");
@@ -1856,6 +1876,7 @@ public class LanguageESES extends KKLanguageProvider {
         add("item." + MODID + "." + Strings.ladyLuck + ".desc", "Raises max MP by 2, and significantly enhances magic and summon power. Also inflicts good physical damage.");
         add("item." + MODID + "." + Strings.leviathan + ".desc", "A weapon that performs extremely well in midair. Outstanding for taking on fliers.");
         add("item." + MODID + "." + Strings.lionheart + ".desc", "Raises max MP by 1, and enhances magic and summon power. Also deals great physical damage.");
+        add("item." + MODID + "." + Strings.longNight + ".desc", "Increases maximum combo by 1 when in midair.");
         add("item." + MODID + "." + Strings.lostMemory + ".desc", "A Keyblade with long reach that makes it easier to land critical hits, and deals higher damage when you do.");
         add("item." + MODID + "." + Strings.lunarEclipse + ".desc", "A weapon that boosts versatility by greatly boosting both Strength and Magic.");
         add("item." + MODID + "." + Strings.markOfAHero + ".desc", "A Keyblade that provides an extra boost in Strength and deals higher damage when you land a critical hit.");

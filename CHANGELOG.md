@@ -22,6 +22,7 @@
   * Marluxia: Scythe Dash and Petal Void.
   * Roxas: Light Barrage.
 * New ServerConfig option to limit Organization limit attacks to their member only.
+* Crowns! Similar to KH2 they are locked behind some advancements.
 * A bunch of new advancements.
 * A bunch of new Shotlocks:
   * Volley style: Meteor Shower, Flame Salvo, Chaos Snake. 
@@ -41,7 +42,7 @@
 * Castle Oblivion Room Types have a treasure property to specify the loot and trapped chests.
 * Encounter rooms spawn a treasure chest on completion with the rewards.
 * Obtained item display can be dismissed by pressing a mouse button or key. The item description box will use "item.<namespace>.<itemname>.desc" if it exists in the lang file otherwise will use the tooltip.
-* Item Overflow, items given to the player such as the Keycards will go into your overflow inventory if you have no inventory space. Overflow inventory can be accessed in the Stock menu.
+* Item Overflow, items given to the player such as the Keycards will go into your overflow inventory if you have no inventory space. Overflow inventory can be accessed and retrieved in the Stock menu.
 * Dropped cards will now bounce similar to how they do in Chain of Memories.
 * Possibility to dye a moogle's pompom.
 * Glove and dot indicator for abilities.
@@ -75,6 +76,7 @@
 * Fixed Gummi Hangar hologram not rendering.
 * Orientation of thrown lances, scythes and cards.
 * Gummi Ship performance issues, sacrificing a bit the visuals.
+* Dead of Night, Dawn till Dusk and K111 not having EFM data to properly attack.
 * Check command not displaying the proper data.
 * Localized most if not all the messages that were previously hardcoded in English.
 * χ character not showing for Incomplete and full χ-blade in Spanish. 

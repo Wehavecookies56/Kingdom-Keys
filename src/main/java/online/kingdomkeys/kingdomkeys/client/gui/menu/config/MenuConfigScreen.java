@@ -31,9 +31,11 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton.But
 import online.kingdomkeys.kingdomkeys.client.gui.overlay.HUDEditorScreen;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
+import online.kingdomkeys.kingdomkeys.lib.CrownTier;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSOpenMenu;
+import online.kingdomkeys.kingdomkeys.network.cts.CSSetCrown;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSetCrownOffset;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSetNotifColor;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSyncArmorColor;
@@ -97,6 +99,7 @@ public class MenuConfigScreen extends MenuBackground {
 	private float previewYaw = 0F, previewPitch = 0F;
 	private boolean draggingPreview;
 	Button crownRotResetX, crownRotResetY, crownRotResetZ;
+	Button crownVariant;
 	List<AbstractWidget> lockOnList = new ArrayList<>();
 	List<AbstractWidget> partyList = new ArrayList<>();
 	List<AbstractWidget> impExpList = new ArrayList<>();
@@ -412,6 +415,10 @@ public class MenuConfigScreen extends MenuBackground {
 			sendCrownPacket();
 		}).bounds(crownRotZ.getX() + crownRotZ.getWidth() + 2, crownRotZ.getY(), 16, 16).build());
 
+		// Which crown to wear, out of the ones unlocked with the proofs. Cycles rather than showing one
+		// button per tier: this corner of the menu is already busy, and most players own one or two.
+		addRenderableWidget(crownVariant = Button.builder(crownVariantLabel(), (e) -> cycleCrown()).bounds(crownPosition.getX(), crownPosition.getY() + crownPosition.getHeight() + 2, crownPosition.getWidth() + 86, 16).build());
+
 		// Armour colour.
 		addRenderableWidget(armorColorPicker = new ColorPickerWidget(buttonsX, (int) (topBarHeight + 20 * ++pos), 80, 44, () -> data().getArmorColor(), c -> data().setArmorColor(c), () -> PacketHandler.sendToServer(new CSSyncArmorColor(data().getArmorColor(), glint))));
 
@@ -430,6 +437,40 @@ public class MenuConfigScreen extends MenuBackground {
 		playerSkinList.add(crownRotX);
 		playerSkinList.add(crownRotY);
 		playerSkinList.add(crownRotZ);
+		playerSkinList.add(crownVariant);
+	}
+
+	/**
+	 * Steps to the next crown the player owns, wrapping through "none" so there is always a way back to
+	 * wearing nothing. With no crowns unlocked the button is a no-op.
+	 */
+	private void cycleCrown() {
+		List<String> options = new ArrayList<>();
+		options.add(""); // none
+
+		for (CrownTier tier : CrownTier.values()) {
+			if (data().hasUnlockedCrown(tier.getName())) {
+				options.add(tier.getName());
+			}
+		}
+
+		int index = options.indexOf(data().getCrown());
+		String next = options.get((index + 1) % options.size()); // -1 wraps to 0, which is "none"
+
+		data().setCrown(next);
+		crownVariant.setMessage(crownVariantLabel());
+		PacketHandler.sendToServer(new CSSetCrown(next));
+	}
+
+	private Component crownVariantLabel() {
+		String crown = data().getCrown();
+		CrownTier tier = CrownTier.byName(crown);
+
+		Component name = tier != null ? Component.translatable(tier.getTranslationKey())
+				: crown.isEmpty() ? Component.translatable("kingdomkeys.crown.none")
+				: Component.literal(crown); // a crown from a pack, shown as-is
+
+		return Component.translatable("kingdomkeys.gui.config.crown_variant", name);
 	}
 		
 	@Override
@@ -793,7 +834,7 @@ public class MenuConfigScreen extends MenuBackground {
 
 					int hx = crownPosition.getX() - buttonsX;
 					int hy = crownPosition.getY() - (box.getY() + 4) + crownPosition.getHeight() + 4;   // 4 = the old HEAD_PREVIEW_GAP, inlined now that the constant is gone
-					int renderSize = 20;
+					int renderSize = 16;
 					matrixStack.pushPose();
 					{
 						matrixStack.translate(hx+50, hy+160, 0);

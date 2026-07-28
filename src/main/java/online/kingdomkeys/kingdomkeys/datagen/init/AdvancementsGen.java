@@ -15,6 +15,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.component.ResolvableProfile;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.loot.LootTable;
 import net.neoforged.neoforge.common.data.AdvancementProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
@@ -48,8 +49,9 @@ import java.util.function.Consumer;
  *  |       |- obtain_projector -> obtain_recipe
  *  |       |- get_pauldron
  *  |       |- obtain_winner_stick
- *  |       |- munny_millionaire
+ *  |       |- munny_hoarder -> munny_millionaire
  *  |       `- open_menu
+ *  |- all_advancements (needs every other one; awards the Proof of Connection)
  *  |- to_rod
  *  |- play_music_disc
  *  |- reach_castle_oblivion
@@ -58,6 +60,12 @@ import java.util.function.Consumer;
 public class AdvancementsGen implements AdvancementProvider.AdvancementGenerator {
 
 	private static final ResourceKey<Level> REALM_OF_DARKNESS = ResourceKey.create(Registries.DIMENSION, KingdomKeys.rl("realm_of_darkness"));
+
+	/** Reward tables for the crown proofs. Any proof promotes one tier, so which one goes where only
+	 *  decides the flavour of the reward, not how far it takes you. */
+	private static final ResourceKey<LootTable> PROOF_OF_PEACE = ResourceKey.create(Registries.LOOT_TABLE, KingdomKeys.rl("grant_proof_of_peace"));
+	private static final ResourceKey<LootTable> PROOF_OF_NONEXISTENCE = ResourceKey.create(Registries.LOOT_TABLE, KingdomKeys.rl("grant_proof_of_nonexistence"));
+	private static final ResourceKey<LootTable> PROOF_OF_CONNECTION = ResourceKey.create(Registries.LOOT_TABLE, KingdomKeys.rl("grant_proof_of_connection"));
 
 	@Override
 	public void generate(HolderLookup.Provider registries, Consumer<AdvancementHolder> saver, ExistingFileHelper existingFileHelper) {
@@ -173,7 +181,7 @@ public class AdvancementsGen implements AdvancementProvider.AdvancementGenerator
 				.parent(upgradeKeyblade)
 				.display(new ItemStack(ModItems.oathkeeper.get()), Component.translatable("advancements.kingdomkeys.max_keyblade_level"), Component.translatable("advancements.kingdomkeys.max_keyblade_level.desc"), null, AdvancementType.CHALLENGE, true, true, false)
 				.addCriterion("max_keyblade_level", ModAdvancements.KEYBLADE_LEVEL.get().createCriterion(new KKKeybladeLevelTrigger.TriggerInstance(Optional.empty(), 10)))
-				.rewards(AdvancementRewards.Builder.experience(300))
+				.rewards(AdvancementRewards.Builder.experience(300).addLootTable(PROOF_OF_NONEXISTENCE))
 				.save(saver, KingdomKeys.rl("max_keyblade_level"), existingFileHelper);
 
 		Advancement.Builder.advancement()
@@ -244,9 +252,16 @@ public class AdvancementsGen implements AdvancementProvider.AdvancementGenerator
 				.rewards(AdvancementRewards.Builder.experience(250))
 				.save(saver, KingdomKeys.rl("obtain_winner_stick"), existingFileHelper);
 
-		Advancement.Builder.advancement()
+		AdvancementHolder munnyHoarder = Advancement.Builder.advancement()
 				.parent(soa)
-				.display(new ItemStack(Items.EMERALD), Component.translatable("advancements.kingdomkeys.munny_millionaire"), Component.translatable("advancements.kingdomkeys.munny_millionaire.desc"), null, AdvancementType.GOAL, true, false, false)
+				.display(new ItemStack(Items.EMERALD), Component.translatable("advancements.kingdomkeys.munny_hoarder"), Component.translatable("advancements.kingdomkeys.munny_hoarder.desc"), null, AdvancementType.GOAL, true, false, false)
+				.addCriterion("munny_hoarder", ModAdvancements.MUNNY_REACHED.get().createCriterion(new KKMunnyTrigger.TriggerInstance(Optional.empty(), 100000)))
+				.rewards(AdvancementRewards.Builder.experience(50).addLootTable(PROOF_OF_PEACE))
+				.save(saver, KingdomKeys.rl("munny_hoarder"), existingFileHelper);
+
+		Advancement.Builder.advancement()
+				.parent(munnyHoarder)
+				.display(new ItemStack(Items.EMERALD_BLOCK), Component.translatable("advancements.kingdomkeys.munny_millionaire"), Component.translatable("advancements.kingdomkeys.munny_millionaire.desc"), null, AdvancementType.GOAL, true, false, false)
 				.addCriterion("munny_millionaire", ModAdvancements.MUNNY_REACHED.get().createCriterion(new KKMunnyTrigger.TriggerInstance(Optional.empty(), 1000000)))
 				.rewards(AdvancementRewards.Builder.experience(100))
 				.save(saver, KingdomKeys.rl("munny_millionaire"), existingFileHelper);
@@ -309,5 +324,15 @@ public class AdvancementsGen implements AdvancementProvider.AdvancementGenerator
 		allHeads.requirements(new AdvancementRequirements(requirements))
 				.rewards(AdvancementRewards.Builder.experience(200))
 				.save(saver, KingdomKeys.rl("all_dev_skulls"), existingFileHelper);
+
+		// Hangs off the root rather than off any one branch, because it needs all of them. Its criterion
+		// is checked in code (see KKAllAdvancementsTrigger) since there is no vanilla "has advancement X".
+		// Hidden until earned: a challenge that lists nothing is only noise until it is the last one left.
+		Advancement.Builder.advancement()
+				.parent(root)
+				.display(new ItemStack(ModItems.proofOfConnection.get()), Component.translatable("advancements.kingdomkeys.all_advancements"), Component.translatable("advancements.kingdomkeys.all_advancements.desc"), null, AdvancementType.CHALLENGE, true, true, true)
+				.addCriterion("all_advancements", ModAdvancements.ALL_ADVANCEMENTS.get().createCriterion(new KKAllAdvancementsTrigger.TriggerInstance(Optional.empty())))
+				.rewards(AdvancementRewards.Builder.experience(500).addLootTable(PROOF_OF_CONNECTION))
+				.save(saver, KKAllAdvancementsTrigger.ADVANCEMENT_ID, existingFileHelper);
 	}
 }

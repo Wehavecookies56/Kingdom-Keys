@@ -27,7 +27,10 @@
     ]
   ],
   "rewards": {
-    "experience": 300
+    "experience": 300,
+    "loot": [
+      "kingdomkeys:grant_proof_of_nonexistence"
+    ]
   },
   "sends_telemetry_event": true
 }

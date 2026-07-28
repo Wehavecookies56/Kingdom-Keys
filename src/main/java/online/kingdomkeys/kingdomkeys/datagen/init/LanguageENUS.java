@@ -152,7 +152,9 @@ public class LanguageENUS extends KKLanguageProvider {
         addAdvancement("obtain_org","Nobody wore this", "Obtain the organization robes");
         addAdvancement("to_rod","Darkness within darkness awaits you", "Get sucked into the Realm of Darkness");
         addAdvancement("obtain_winner_stick","Looks like my summer vacation is...", "Get a winner stick");
+        addAdvancement("munny_hoarder","Deep Pockets", "Accumulate 100,000 munny");
         addAdvancement("munny_millionaire","Munnillionare!", "Accumulate 1,000,000 munny");
+        addAdvancement("all_advancements","The King of Hearts", "Earn every Kingdom Keys advancement");
         addAdvancement("dual_wield_oblivion_oathkeeper","Bonds of Light and Darkness", "Wield Oblivion and Oathkeeper at the same time");
         addAdvancement("get_stick","That's a stick", "Craft a wooden stick");
         addAdvancement("get_struggle_weapon","Beginning to struggle", "Craft a Struggle bat");
@@ -300,6 +302,8 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Gui_Menu_Items_Melding_RareItemAcquired, "Rare Item Obtained!");
         add(Gui_Menu_Items_Stock, "Stock");
         add(Gui_Menu_Items_Stock + ".desc", "Check your inventory.");
+        add(Gui_Menu_Items_Stock_Take, "Take item");
+        add(Gui_Menu_Items_Stock_Take_Full, "Your inventory is full");
         add(Gui_Menu_Items_Equipment_Weapon, "Weapon");
         add(Gui_Menu_Items_Equipment_Weapon_Keyblades, "Keyblades");
         add(Gui_Menu_Items_Equipment_Shotlock, "Shotlock");
@@ -1143,6 +1147,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.ladyLuck, "Lady Luck");
         addItem(ModItems.leviathan, "Leviathan");
         addItem(ModItems.lionheart, "Lionheart");
+        addItem(ModItems.longNight, "Long Night");
         addItem(ModItems.lostMemory, "Lost Memory");
         addItem(ModItems.lunarEclipse, "Lunar Eclipse");
         addItem(ModItems.markOfAHero, "Mark Of A Hero");
@@ -1295,6 +1300,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.ladyLuckChain, "Lady Luck Chain");
         addItem(ModItems.leviathanChain, "Leviathan Chain");
         addItem(ModItems.lionheartChain, "Lionheart Chain");
+        addItem(ModItems.longNightChain, "Long Night Chain");
         addItem(ModItems.lostMemoryChain, "Lost Memory Chain");
         addItem(ModItems.lunarEclipseChain, "Lunar Eclipse Chain");
         addItem(ModItems.markOfAHeroChain, "Mark Of A Hero Chain");
@@ -1440,6 +1446,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add("item." + MODID + "." + Strings.ladyLuck + ".desc", "Raises max MP by 2, and significantly enhances magic and summon power. Also inflicts good physical damage.");
         add("item." + MODID + "." + Strings.leviathan + ".desc", "A weapon that performs extremely well in midair. Outstanding for taking on fliers.");
         add("item." + MODID + "." + Strings.lionheart + ".desc", "Raises max MP by 1, and enhances magic and summon power. Also deals great physical damage.");
+        add("item." + MODID + "." + Strings.longNight + ".desc", "Increases maximum combo by 1 when in midair.");
         add("item." + MODID + "." + Strings.lostMemory + ".desc", "A Keyblade with long reach that makes it easier to land critical hits, and deals higher damage when you do.");
         add("item." + MODID + "." + Strings.lunarEclipse + ".desc", "A weapon that boosts versatility by greatly boosting both Strength and Magic.");
         add("item." + MODID + "." + Strings.markOfAHero + ".desc", "A Keyblade that provides an extra boost in Strength and deals higher damage when you land a critical hit.");
@@ -2191,6 +2198,20 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.magicsBag, "Spells Bag");
         addItem(ModItems.cardsBag, "Cards Bag");
         addItem(ModItems.proofOfHeart, "Proof of Heart");
+
+        //Crown proofs: one item, named after the crown it is about to grant
+        addItem(ModItems.proofOfPeace, "Proof of Peace");
+        addItem(ModItems.proofOfNonexistence, "Proof of Nonexistence");
+        addItem(ModItems.proofOfConnection, "Proof of Connection");
+        add("gui.crownproof.desc", "Use to unlock your next crown");
+        add("gui.crownproof.desc2", "Choose which crown to wear in the menu configuration");
+        add("gui.crownproof.unlocked", "You unlocked the %s crown");
+        add("gui.crownproof.allunlocked", "You already own every crown");
+        add("kingdomkeys.crown.none", "None");
+        add("kingdomkeys.crown.bronze", "Bronze");
+        add("kingdomkeys.crown.silver", "Silver");
+        add("kingdomkeys.crown.gold", "Gold");
+        add("kingdomkeys.gui.config.crown_variant", "Crown: %s");
         addItem(ModItems.wayfinder, "Wayfinder");
         addItem(ModItems.trainingDummy, "Training Scarecrow");
 

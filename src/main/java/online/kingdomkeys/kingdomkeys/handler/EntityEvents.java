@@ -44,6 +44,7 @@ import net.neoforged.neoforge.event.OnDatapackSyncEvent;
 import net.neoforged.neoforge.event.PlayLevelSoundEvent;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.entity.living.*;
+import net.neoforged.neoforge.event.entity.player.AdvancementEvent;
 import net.neoforged.neoforge.event.entity.player.ItemEntityPickupEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerXpEvent;
@@ -53,6 +54,7 @@ import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import net.neoforged.neoforge.items.IItemHandler;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
+import online.kingdomkeys.kingdomkeys.advancements.KKAllAdvancementsTrigger;
 import online.kingdomkeys.kingdomkeys.advancements.ModAdvancements;
 import online.kingdomkeys.kingdomkeys.api.event.CastleOblivionEvent;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
@@ -1718,6 +1720,13 @@ public class EntityEvents {
 			Utils.removeEffects(event.getEffectInstance().getEffect(), event.getEntity());
 		}
 
+	}
+
+	@SubscribeEvent
+	public void onAdvancementEarned(AdvancementEvent.AdvancementEarnEvent event) {
+		if (event.getEntity() instanceof ServerPlayer serverPlayer && event.getAdvancement().id().getNamespace().equals(KingdomKeys.MODID)) {
+			KKAllAdvancementsTrigger.checkCompletion(serverPlayer);
+		}
 	}
 
 	public enum ThreatLevel {

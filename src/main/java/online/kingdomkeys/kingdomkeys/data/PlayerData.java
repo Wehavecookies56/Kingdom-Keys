@@ -271,6 +271,13 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		
 		storage.putInt("notif_color", notifColor);
 		storage.putString("crown", this.crown);
+
+		ListTag unlockedCrownsList = new ListTag();
+		for (String unlocked : this.unlockedCrowns) {
+			unlockedCrownsList.add(StringTag.valueOf(unlocked));
+		}
+		storage.put("unlocked_crowns", unlockedCrownsList);
+
 		storage.putFloat("crown_offset_x", this.crownOffsetX);
 		storage.putFloat("crown_offset_y", this.crownOffsetY);
 		storage.putFloat("crown_offset_z", this.crownOffsetZ);
@@ -507,6 +514,18 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		this.setRespawnROD(nbt.getBoolean("respawn_rod"));
 		this.setNotifColor(nbt.getInt("notif_color"));
 		this.setCrown(nbt.getString("crown"));
+
+		this.unlockedCrowns.clear();
+		ListTag unlockedCrownsList = nbt.getList("unlocked_crowns", Tag.TAG_STRING);
+		for (int i = 0; i < unlockedCrownsList.size(); i++) {
+			this.unlockedCrowns.add(unlockedCrownsList.getString(i));
+		}
+		// Saves from before crowns were unlockable only stored the one being worn. Whatever they had on
+		// is theirs to keep, so grandfather it in rather than taking it away on login.
+		if (this.unlockedCrowns.isEmpty() && !this.getCrown().isEmpty()) {
+			this.unlockedCrowns.add(this.getCrown());
+		}
+
 		this.crownOffsetX = nbt.getFloat("crown_offset_x");
 		this.crownOffsetY = nbt.getFloat("crown_offset_y");
 		this.crownOffsetZ = nbt.getFloat("crown_offset_z");
@@ -625,6 +644,8 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 	/** Cosmetic crown texture name ("bronze", "silver", "gold"...). Empty = no crown.
 	 * Stored as a plain string so adding a new crown only needs a PNG, no code change. */
 	private String crown = "";
+	/** Crowns this player has earned. What they wear ({@link #crown}) is a choice among these. */
+	private final Set<String> unlockedCrowns = new LinkedHashSet<>();
 	/** Where the crown sits on top of the head, in model units (16 = one block). Only X (left/right)
 	 * and Z (forward/back) - the height is always the top of the head, so there is no Y here.
 	 * The tilt lives in the crownRotationX/Y/Z fields below. */
@@ -1502,6 +1523,28 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 
 	public void setCrown(String crown) {
 		this.crown = crown == null ? "" : crown;
+	}
+
+	public Set<String> getUnlockedCrowns() {
+		return this.unlockedCrowns;
+	}
+
+	public boolean hasUnlockedCrown(String crown) {
+		return crown != null && this.unlockedCrowns.contains(crown);
+	}
+
+	public boolean unlockCrown(String crown) {
+		if (crown == null || crown.isEmpty()) {
+			return false;
+		}
+		return this.unlockedCrowns.add(crown);
+	}
+
+	public void setUnlockedCrowns(Collection<String> crowns) {
+		this.unlockedCrowns.clear();
+		if (crowns != null) {
+			this.unlockedCrowns.addAll(crowns);
+		}
 	}
 
 	public float getCrownOffsetX() {

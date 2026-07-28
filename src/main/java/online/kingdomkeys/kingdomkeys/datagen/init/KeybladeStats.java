@@ -90,6 +90,7 @@ public class KeybladeStats extends KeybladeProvider {
 		addStats(Strings.ladyLuck, Strings.ladyLuckChain, 6, 5, ModAbilities.LUCKY_STRIKE.location(), 1.0F, "item." + MODID + "." + Strings.ladyLuck + ".desc");
 		addStats(Strings.leviathan, Strings.leviathanChain, 5, 2, ModAbilities.WATER_BOOST.location(), 1.0F, "item." + MODID + "." + Strings.leviathan + ".desc");
 		addStats(Strings.lionheart, Strings.lionheartChain, 7, 3, null, 1.0F, "item." + MODID + "." + Strings.lionheart + ".desc");
+		addStats(Strings.longNight, Strings.longNightChain, 4, 1, null, 1.0F, "item." + MODID + "." + Strings.longNight + ".desc");
 		addStats(Strings.lostMemory, Strings.lostMemoryChain, 7, 6, null, 1.5F, "item." + MODID + "." + Strings.lostMemory + ".desc");
 		addStats(Strings.lunarEclipse, Strings.lunarEclipseChain, 9, 7, null, 1.0F, "item." + MODID + "." + Strings.lunarEclipse + ".desc");
 		addStats(Strings.markOfAHero, Strings.markOfAHeroChain, 6, 3, null, 1.0F, "item." + MODID + "." + Strings.markOfAHero + ".desc");
@@ -248,6 +249,7 @@ public class KeybladeStats extends KeybladeProvider {
 		BASE_MATERIALS.put(Strings.ladyLuck, List.of(m(ModItems.pulsing_stone.get(), 4), m(ModItems.wellspring_crystal.get(), 2), m(ModItems.hungry_shard.get(), 1)));
 		BASE_MATERIALS.put(Strings.leviathan, List.of(m(ModItems.lucid_crystal.get(), 2), m(ModItems.frost_stone.get(), 2), m(ModItems.writhing_shard.get(), 3)));
 		BASE_MATERIALS.put(Strings.lionheart, List.of(m(ModItems.betwixt_crystal.get(), 3), m(ModItems.twilight_crystal.get(), 3), m(ModItems.blazing_gem.get(), 5)));
+		BASE_MATERIALS.put(Strings.longNight, List.of(m(ModItems.lucid_shard.get(), 3), m(ModItems.writhing_shard.get(), 2), m(ModItems.sinister_shard.get(), 2)));
 		BASE_MATERIALS.put(Strings.lostMemory, List.of(m(ModItems.twilight_gem.get(), 3), m(ModItems.pulsing_stone.get(), 2), m(ModItems.hungry_shard.get(), 1)));
 		BASE_MATERIALS.put(Strings.lunarEclipse, List.of(m(ModItems.soothing_gem.get(), 5), m(ModItems.frost_gem.get(), 2), m(ModItems.writhing_gem.get(), 5)));
 		BASE_MATERIALS.put(Strings.markOfAHero, List.of(m(ModItems.lightning_shard.get(), 3), m(ModItems.pulsing_stone.get(), 2), m(ModItems.soothing_crystal.get(), 3)));
