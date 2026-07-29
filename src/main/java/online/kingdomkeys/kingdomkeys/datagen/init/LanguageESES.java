@@ -458,6 +458,7 @@ public class LanguageESES extends KKLanguageProvider {
         add(Gui_Menu_Config + ".sub_x_offset", "Pos. X extra Submenu");
         add(Gui_Menu_Config + ".header_title", "T\u00edtulo de Cabecera");
         add(Gui_Menu_Config + ".text_x_offset", "Pos. X del Texto extra");
+        add(Gui_Menu_Config + ".snap_chat", "Chat sobre el menú");
         add(Gui_Menu_Config + ".hp_scale", "Escala de Barra de VT");
         add(Gui_Menu_Config + ".icon_scale", "Escala del \u00edcono fijaci\u00f3n");
         add(Gui_Menu_Config + ".icon_rotation", "Velocidad de Rotaci\u00f3n del \u00edcono fijaci\u00f3n");
@@ -558,6 +559,7 @@ public class LanguageESES extends KKLanguageProvider {
 
         //Spells bag
         add("gui.spellsbag.complain","Solo puedes tener una sola bolsa de hechizos en el inventario");
+        add("gui.shotlocksbag.complain","Solo puedes tener una sola bolsa de tiros certeros en el inventario");
         add("gui.cardssbag.complain","Solo puedes tener una sola bolsa de cartas en el inventario");
 
         //Proof of Heart
@@ -1212,6 +1214,7 @@ public class LanguageESES extends KKLanguageProvider {
         addItem(ModItems.winnerStick, "Palito de ganador");
         addItem(ModItems.synthesisBag, "Bolsa de Síntesis");
         addItem(ModItems.magicsBag, "Bolsa de Hechizos");
+        addItem(ModItems.shotlocksBag, "Bolsa de Tiros Certeros");
         addItem(ModItems.cardsBag, "Bolsa de Cartas");
         addItem(ModItems.proofOfHeart, "Prueba de Corazón");
 
@@ -1580,7 +1583,7 @@ public class LanguageESES extends KKLanguageProvider {
         addItem(ModItems.ladyLuck, "\u00daltimo Recurso");
         addItem(ModItems.leviathan, "Leviat\u00e1n");
         addItem(ModItems.lionheart, "Lionheart");
-        addItem(ModItems.longNight, "Noche Eterna");
+        addItem(ModItems.longNight, "Larga Noche");
         addItem(ModItems.lostMemory, "Evocaci\u00f3n");
         addItem(ModItems.lunarEclipse, "Eclipse Lunar");
         addItem(ModItems.markOfAHero, "Gal\u00f3n de H\u00e9roe");

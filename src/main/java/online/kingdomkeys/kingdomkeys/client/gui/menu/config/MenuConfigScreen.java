@@ -70,8 +70,8 @@ public class MenuConfigScreen extends MenuBackground {
 
 	//Command Menu
 	EditBox cmTextXOffsetBox, cmSelectedXOffsetBox, cmSubXOffsetBox;
-	Button cmHeaderTextVisibleButton, cmClassicColorsButton;
-	boolean cmHeaderTextVisible, cmClassicColors;
+	Button cmHeaderTextVisibleButton, cmClassicColorsButton, snapChatButton;
+	boolean cmHeaderTextVisible, cmClassicColors, snapChatToCommandMenu;
 	
 	//HP
 	EditBox hpAlarmBox;
@@ -125,6 +125,11 @@ public class MenuConfigScreen extends MenuBackground {
 			cmHeaderTextVisible = !cmHeaderTextVisible;
 			cmHeaderTextVisibleButton.setMessage(Component.translatable(cmHeaderTextVisible+""));
 			ModConfigs.setCmHeaderTextVisible(cmHeaderTextVisible);
+			break;
+		case "snapChat":
+			snapChatToCommandMenu = !snapChatToCommandMenu;
+			snapChatButton.setMessage(Component.translatable(snapChatToCommandMenu+""));
+			ModConfigs.setSnapChatToCommandMenu(snapChatToCommandMenu);
 			break;
 		case "classicColors":
 			cmClassicColors = !cmClassicColors;
@@ -196,6 +201,7 @@ public class MenuConfigScreen extends MenuBackground {
 	private void initCommandMenu() {
 		cmHeaderTextVisible = ModConfigs.cmHeaderTextVisible;
 		cmClassicColors = ModConfigs.cmClassicColors;
+		snapChatToCommandMenu = ModConfigs.snapChatToCommandMenu;
 		int pos = 0;
 
 		addRenderableWidget(cmClassicColorsButton = Button.builder(Component.translatable(cmClassicColors+""), (e) -> {
@@ -285,6 +291,10 @@ public class MenuConfigScreen extends MenuBackground {
 			
 		});
 		
+		addRenderableWidget(snapChatButton = Button.builder(Component.translatable(snapChatToCommandMenu+""), (e) -> {
+			 action("snapChat");
+		}).bounds(buttonsX - 1, (int) topBarHeight + 20 * ++pos - 2, minecraft.font.width("#####")+2, 20).build());
+
 		cmTextXOffsetBox.setValue(""+ModConfigs.cmTextXOffset);
 		cmHeaderTextVisibleButton.setMessage(Component.translatable(cmHeaderTextVisible+""));
 		cmClassicColorsButton.setMessage(Component.translatable(cmClassicColors+""));
@@ -299,6 +309,7 @@ public class MenuConfigScreen extends MenuBackground {
 		commandMenuList.add(cmHeaderTextVisibleButton);
 		commandMenuList.add(cmSelectedXOffsetBox);
 		commandMenuList.add(cmSubXOffsetBox);
+		commandMenuList.add(snapChatButton);
 	}
 
 	private void initHP() {
@@ -780,6 +791,7 @@ public class MenuConfigScreen extends MenuBackground {
 					gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.sub_x_offset"), 40, 20 * ++pos, 0xFF9900);
 					gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.header_title"), 40, 20 * ++pos, 0xFF9900);
 					gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.text_x_offset"), 40, 20 * ++pos, 0xFF9900);
+					gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.snap_chat"), 40, 20 * ++pos, 0xFF9900);
 				}
 				case HP -> {
 					for (AbstractWidget b : hpList) {

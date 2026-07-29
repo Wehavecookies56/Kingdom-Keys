@@ -11,6 +11,7 @@ import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.common.NeoForge;
 import online.kingdomkeys.kingdomkeys.api.event.EquipmentEvent;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
@@ -18,7 +19,10 @@ import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment.MenuShotlockSelectorScreen;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
+import online.kingdomkeys.kingdomkeys.item.BagItem;
+import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.item.ShotlockItem;
+import online.kingdomkeys.kingdomkeys.menu.BagInventory;
 import online.kingdomkeys.kingdomkeys.lib.Constants;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSEquipShotlock;
@@ -41,13 +45,38 @@ public class MenuSelectShotlockButton extends MenuButtonBase {
 			if (b.visible && b.active) {
 				Player player = Minecraft.getInstance().player;
 				PlayerData playerData = PlayerData.get(player);
-				ItemStack stackToEquip = slot >= 0 ? player.getInventory().getItem(slot) : ItemStack.EMPTY;
+				boolean fromBag = slot <= MenuShotlockSelectorScreen.BAG_OFFSET;
+				ItemStack stackToEquip;
+
+				if (fromBag) {
+					int bagSlot = Math.abs(slot - MenuShotlockSelectorScreen.BAG_OFFSET);
+					if (!Utils.hasOnlyOneBag(player, BagItem.Type.SHOTLOCKS_BAG)) //Only one bag should be in the inv
+						return;
+
+					ItemStack shotlockBag = Utils.getItemInInventory(player, ModItems.shotlocksBag.get());
+					if (shotlockBag.isEmpty()) return;
+					if (!(shotlockBag.getCapability(Capabilities.ItemHandler.ITEM) instanceof BagInventory bagInv)) return;
+
+					stackToEquip = bagInv.getStackInSlot(bagSlot);
+				} else {
+					stackToEquip = slot >= 0 ? player.getInventory().getItem(slot) : ItemStack.EMPTY;
+				}
 
 				if (!NeoForge.EVENT_BUS.post(new EquipmentEvent.Shotlock(player, playerData.getEquippedShotlock(), stackToEquip, slot, 0)).isCanceled()) {
 					PacketHandler.sendToServer(new CSEquipShotlock(slot));
 					ItemStack stackPreviouslyEquipped = playerData.equipShotlock(stackToEquip);
+
 					if (stackPreviouslyEquipped != null) {
-						player.getInventory().setItem(slot, stackPreviouslyEquipped);
+						if (fromBag) {
+							int bagSlot = Math.abs(slot - MenuShotlockSelectorScreen.BAG_OFFSET);
+							ItemStack shotlockBag = Utils.getItemInInventory(player, ModItems.shotlocksBag.get());
+
+							if (shotlockBag.getCapability(Capabilities.ItemHandler.ITEM) instanceof BagInventory bagInv) {
+								bagInv.setStackInSlot(bagSlot, stackPreviouslyEquipped);
+							}
+						} else {
+							player.getInventory().setItem(slot, stackPreviouslyEquipped);
+						}
 					}
 					b.visible = false;
 				}

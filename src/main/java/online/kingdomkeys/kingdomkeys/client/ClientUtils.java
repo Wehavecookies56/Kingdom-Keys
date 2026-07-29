@@ -466,6 +466,10 @@ public class ClientUtils {
      * clear of the menu.</p>
      */
     public static int getChatLift() {
+        if (!ModConfigs.snapChatToCommandMenu) {
+            return 0;
+        }
+
         Minecraft mc = Minecraft.getInstance();
         if (mc.player == null || mc.gui == null || !Utils.shouldRenderOverlay(mc.player)) {
             return 0;

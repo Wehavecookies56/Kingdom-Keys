@@ -972,7 +972,8 @@ public class ModItems {
 	public static final Supplier<Item>
 			synthesisBag = createNewItem("synthesis_bag", () -> new BagItem(new Item.Properties().stacksTo(1), BagItem.Type.SYNTHESIS_BAG)),
 			magicsBag = createNewItem("magics_bag", () -> new BagItem(new Item.Properties().stacksTo(1), BagItem.Type.MAGICS_BAG)),
-			cardsBag = createNewItem("cards_bag", () -> new BagItem(new Item.Properties().stacksTo(1), BagItem.Type.CARDS_BAG));
+			cardsBag = createNewItem("cards_bag", () -> new BagItem(new Item.Properties().stacksTo(1), BagItem.Type.CARDS_BAG)),
+			shotlocksBag = createNewItem("shotlocks_bag", () -> new BagItem(new Item.Properties().stacksTo(1), BagItem.Type.SHOTLOCKS_BAG));
 	//endregion
 
 	//region Recipes

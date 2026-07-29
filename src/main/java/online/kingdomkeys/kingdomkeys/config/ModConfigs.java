@@ -53,7 +53,7 @@ public class ModConfigs {
     }
 
     public static List<? extends Integer> hiddenMagic;
-    public static boolean cmHeaderTextVisible, cmClassicColors, hpShowHearts, showDriveForms, summonTogether, auto3rdPersonShip, cmChangeColor, customFont, shoulderSurfingDecoupled, seasonalEvents;
+    public static boolean cmHeaderTextVisible, cmClassicColors, snapChatToCommandMenu, hpShowHearts, showDriveForms, summonTogether, auto3rdPersonShip, cmChangeColor, customFont, shoulderSurfingDecoupled, seasonalEvents;
     public static int cmTextXOffset, cmSelectedXOffset, cmSubXOffset, hpAlarm, lockOnIconScale, lockOnIconRotation, lockOnHpPerBar, partyYDistance, cmEndLWidth, cmEndRWidth, cmHeaderEndLWidth, cmHeaderEndRWidth, cmReactionEndLWidth, cmReactionEndRWidth;
 
     public static void setHUDData(String name, List<? extends Float> data){
@@ -171,6 +171,12 @@ public class ModConfigs {
         bakeClient();
     }
 
+    public static void setSnapChatToCommandMenu(boolean value) {
+        CLIENT.snapChatToCommandMenu.set(value);
+        CLIENT.snapChatToCommandMenu.save();
+        bakeClient();
+    }
+
     public static void setCmTextXOffset(int value) {
         CLIENT.cmTextXOffset.set(value);
         CLIENT.cmTextXOffset.save();
@@ -285,6 +291,7 @@ public class ModConfigs {
         cmTextXOffset = CLIENT.cmTextXOffset.get();
         cmHeaderTextVisible = CLIENT.cmHeaderTextVisible.get();
         cmClassicColors = CLIENT.cmClassicColors.get();
+        snapChatToCommandMenu = CLIENT.snapChatToCommandMenu.get();
         cmSelectedXOffset = CLIENT.cmSelectedXOffset.get();
         cmSubXOffset = CLIENT.cmSubXOffset.get();
 

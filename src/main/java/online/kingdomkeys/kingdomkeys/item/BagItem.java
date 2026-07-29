@@ -40,6 +40,7 @@ public class BagItem extends Item implements IItemCategory {
 			case SYNTHESIS_BAG -> stack -> stack.getItem() instanceof SynthesisItem;
 			case MAGICS_BAG -> stack -> stack.getItem() instanceof MagicSpellItem;
 			case CARDS_BAG -> stack -> stack.getItem() instanceof MapCardItem;
+			case SHOTLOCKS_BAG -> stack -> stack.getItem() instanceof ShotlockItem;
 		};
 	}
 
@@ -82,6 +83,11 @@ public class BagItem extends Item implements IItemCategory {
 				tooltip.add(Component.translatable("gui.cardsbag.complain").withStyle(ChatFormatting.RED));
 			}
 		}
+		if (type == Type.SHOTLOCKS_BAG) {
+			if (!Utils.hasOnlyOneBag(Minecraft.getInstance().player, Type.SHOTLOCKS_BAG)) {
+				tooltip.add(Component.translatable("gui.shotlocksbag.complain").withStyle(ChatFormatting.RED));
+			}
+		}
 		super.appendHoverText(stack, tooltipContext, tooltip, flagIn);
 	}
 
@@ -91,6 +97,6 @@ public class BagItem extends Item implements IItemCategory {
 	}
 
 	public enum Type {
-		SYNTHESIS_BAG, MAGICS_BAG, CARDS_BAG
+		SYNTHESIS_BAG, MAGICS_BAG, CARDS_BAG, SHOTLOCKS_BAG
 	}
 }

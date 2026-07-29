@@ -401,6 +401,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Gui_Menu_Config + ".sub_x_offset", "Submenu X Offset");
         add(Gui_Menu_Config + ".header_title", "Header Title");
         add(Gui_Menu_Config + ".text_x_offset", "Text X Offset");
+        add(Gui_Menu_Config + ".snap_chat", "Chat above menu");
         add(Gui_Menu_Config + ".hp_scale", "HP Bar Scale");
         add(Gui_Menu_Config + ".icon_scale", "Lock On Icon Scale");
         add(Gui_Menu_Config + ".icon_rotation", "Lock On Icon Rotation Speed");
@@ -498,6 +499,7 @@ public class LanguageENUS extends KKLanguageProvider {
         //Spells bag
         add("gui.spellsbag.complain","You should only have a single spells bag in your inventory");
         add("gui.cardsbag.complain","You should only have a single cards bag in your inventory");
+        add("gui.shotlocksbag.complain","You should only have a single shotlocks bag in your inventory");
 
         //Proof of Heart
         add("gui.proofofheart.desc", "Use this to leave Organization XIII");
@@ -2198,6 +2200,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.winnerStick, "Winner Stick");
         addItem(ModItems.synthesisBag, "Synthesis Bag");
         addItem(ModItems.magicsBag, "Spells Bag");
+        addItem(ModItems.shotlocksBag, "Shotlocks Bag");
         addItem(ModItems.cardsBag, "Cards Bag");
         addItem(ModItems.proofOfHeart, "Proof of Heart");
 

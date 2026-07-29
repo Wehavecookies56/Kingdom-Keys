@@ -5,6 +5,8 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuColourBox;
@@ -12,16 +14,22 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuScrollBar;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuSelectShotlockButton;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
+import online.kingdomkeys.kingdomkeys.item.BagItem;
+import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.item.ShotlockItem;
+import online.kingdomkeys.kingdomkeys.menu.BagInventory;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class MenuShotlockSelectorScreen extends MenuBackground {
+
+	public static final int BAG_OFFSET = -2000;
 
 	public MenuScrollBar scrollBar;
 	public MenuBox boxL, boxR;
@@ -80,6 +88,37 @@ public class MenuShotlockSelectorScreen extends MenuBackground {
 			if (stack.isEmpty()) continue;
 			if (!(stack.getItem() instanceof ShotlockItem)) continue;
 			widgets.add(new MenuSelectShotlockButton(stack, i, (int) listX, (int) listY + (itemHeight * pos++), (int) keybladesWidth - 25, this, buttonColour));
+		}
+
+		// Shotlocks bag
+		if (Utils.hasOnlyOneBag(minecraft.player, BagItem.Type.SHOTLOCKS_BAG)) {
+			ItemStack shotlockBag = Utils.getItemInInventory(minecraft.player, ModItems.shotlocksBag.get());
+
+			if (!shotlockBag.isEmpty() && shotlockBag.getCapability(Capabilities.ItemHandler.ITEM) instanceof BagInventory bagInv) {
+				for (int i = 0; i < bagInv.getSlots(); i++) {
+					ItemStack stack = bagInv.getStackInSlot(i);
+					if (stack.isEmpty())
+						continue;
+					if (!(stack.getItem() instanceof ShotlockItem))
+						continue;
+					widgets.add(new MenuSelectShotlockButton(stack, BAG_OFFSET - i, (int) listX, 0, (int) keybladesWidth - 25, this, new Color(200, 80, 200).getRGB()));
+				}
+			}
+		} else {
+			KingdomKeys.LOGGER.debug("More than one shotlock bag found, ignoring.");
+		}
+
+		// Unequip first, then the bag, then the inventory.
+		widgets.sort(Comparator.comparingInt((MenuSelectShotlockButton item) -> {
+			if (item.stack.isEmpty())
+				return -1;
+			if (item.slot <= BAG_OFFSET)
+				return 0;
+			return 1;
+		}));
+
+		for (int i = 0; i < widgets.size(); i++) {
+			widgets.get(i).setY((int) listY + (itemHeight * i));
 		}
 
 		widgets.forEach(this::addWidget);

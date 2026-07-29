@@ -12,7 +12,7 @@ import java.util.List;
 public class ClientConfig {
 	public ModConfigSpec.ConfigValue<List<? extends Float>> hpHUDData, mpHUDData, cmHUDData, rcHUDData, driveHUDData, focusHUDData, partyHUDData, lockOnHUDData, portraitHUDData, munnyExpHUDData, levelUpHUDData, driveLevelHUDData, minimapHUDData, roomNameHUDData;
 
-    public ModConfigSpec.BooleanValue cmHeaderTextVisible, cmClassicColors, auto3rdPersonShip, cmChangeColor, customFont;
+    public ModConfigSpec.BooleanValue cmHeaderTextVisible, cmClassicColors, snapChatToCommandMenu, auto3rdPersonShip, cmChangeColor, customFont;
     public ModConfigSpec.IntValue cmTextXOffset, cmSelectedXOffset, cmSubXOffset, cmEndLWidth, cmEndRWidth, cmHeaderEndLWidth, cmHeaderEndRWidth, cmReactionEndLWidth, cmReactionEndRWidth;
     
     public ModConfigSpec.BooleanValue hpShowHearts;
@@ -149,6 +149,11 @@ public class ClientConfig {
 	                .comment("Command Menu classic color scheme")
 	                .translation(KingdomKeys.MODID + ".config.cm_classic_colors")
 	                .define("cmClassicColors", false);
+	        
+	        snapChatToCommandMenu = builder
+	                .comment("Push the chat log above the Command Menu so the two do not overlap")
+	                .translation(KingdomKeys.MODID + ".config.snap_chat_to_command_menu")
+	                .define("snapChatToCommandMenu", true);
 	        
 	        cmSelectedXOffset = builder
 	                .comment("Command Menu Selected X Offset")

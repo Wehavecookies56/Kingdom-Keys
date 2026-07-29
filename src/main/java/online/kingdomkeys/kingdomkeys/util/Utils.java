@@ -227,6 +227,8 @@ public class Utils {
 				item = ModItems.magicsBag.get();
 			} else if(type == BagItem.Type.CARDS_BAG){
 				item = ModItems.cardsBag.get();
+			} else if(type == BagItem.Type.SHOTLOCKS_BAG){
+				item = ModItems.shotlocksBag.get();
 			}
 
 			if (stack.is(item)) {
@@ -244,6 +246,8 @@ public class Utils {
 				item = ModItems.magicsBag.get();
 			} else if(type == BagItem.Type.CARDS_BAG){
 				item = ModItems.cardsBag.get();
+			} else if(type == BagItem.Type.SHOTLOCKS_BAG){
+				item = ModItems.shotlocksBag.get();
 			}
 
 			if (stack.is(item)) {
