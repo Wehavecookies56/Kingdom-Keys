@@ -29,7 +29,7 @@ public class ShotlockDataProvider implements DataProvider {
 		shotlocks.put(Strings.ChaosSnake, new ShotlockBuilder().cooldown(3).cooldownMax(2).maxLocks(20).damageMultiplier(0.8F).damageMultiplierMax(0.96F).maxExp(6400).maxLevel(4).build());
 		shotlocks.put(Strings.BubbleBlaster, new ShotlockBuilder().cooldown(4).cooldownMax(2).maxLocks(15).damageMultiplier(1.1F).damageMultiplierMax(1.32F).maxExp(8600).maxLevel(5).build());
 		shotlocks.put(Strings.PulseBomb, new ShotlockBuilder().cooldown(3).cooldownMax(2).maxLocks(20).damageMultiplier(0.8F).damageMultiplierMax(0.96F).maxExp(8600).maxLevel(5).build());
-		shotlocks.put(Strings.MeteorShower, new ShotlockBuilder().cooldown(2).cooldownMax(1).maxLocks(30).damageMultiplier(0.5F).damageMultiplierMax(0.6F).maxExp(6400).maxLevel(4).build());
+		shotlocks.put(Strings.MeteorShower, new ShotlockBuilder().cooldown(3).cooldownMax(1).maxLocks(30).damageMultiplier(0.5F).damageMultiplierMax(0.6F).maxExp(6400).maxLevel(4).build());
 		shotlocks.put(Strings.FlameSalvo, new ShotlockBuilder().cooldown(4).cooldownMax(2).maxLocks(15).damageMultiplier(1.1F).damageMultiplierMax(1.32F).maxExp(6400).maxLevel(4).element("fire").build());
 
 		shotlocks.put(Strings.Ragnarok, new ShotlockBuilder().cooldown(4).cooldownMax(2).maxLocks(16).damageMultiplier(1.0F).damageMultiplierMax(1.2F).maxExp(6400).maxLevel(4).build());
@@ -42,7 +42,7 @@ public class ShotlockDataProvider implements DataProvider {
 		shotlocks.put(Strings.PhotonCharge, new ShotlockBuilder().cooldown(4).cooldownMax(2).maxLocks(15).damageMultiplier(1.1F).damageMultiplierMax(1.32F).maxExp(6400).maxLevel(4).element("light").build());
 		shotlocks.put(Strings.LightningRay, new ShotlockBuilder().cooldown(4).cooldownMax(2).maxLocks(18).damageMultiplier(0.9F).damageMultiplierMax(1.08F).maxExp(6400).maxLevel(4).element("lightning").build());
 
-		shotlocks.put(Strings.Multivortex, new ShotlockBuilder().cooldown(2).cooldownMax(1).maxLocks(30).damageMultiplier(0.5F).damageMultiplierMax(0.6F).maxExp(12000).maxLevel(6).element("air").build());
+		shotlocks.put(Strings.Multivortex, new ShotlockBuilder().cooldown(3).cooldownMax(2).maxLocks(30).damageMultiplier(0.5F).damageMultiplierMax(0.6F).maxExp(12000).maxLevel(6).element("air").build());
 		shotlocks.put(Strings.Lightbloom, new ShotlockBuilder().cooldown(3).cooldownMax(2).maxLocks(20).damageMultiplier(0.8F).damageMultiplierMax(0.96F).maxExp(12000).maxLevel(6).element("light").build());
 		shotlocks.put(Strings.UltimaCannon, new ShotlockBuilder().cooldown(40).cooldownMax(30).maxLocks(1).damageMultiplier(1.0F).damageMultiplierMax(1.2F).maxExp(12000).maxLevel(6).element("fire").build());
 

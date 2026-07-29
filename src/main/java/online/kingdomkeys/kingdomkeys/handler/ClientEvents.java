@@ -922,7 +922,7 @@ public class ClientEvents {
 							}
 						}
 						// Locking on
-					} else if (focusingTicks % shotlock.getRealCooldown(player) == 1 && playerData.getShotlockEnemies().size() < shotlock.getMaxLocks()) {
+					} else if (focusingTicks % shotlock.getRealCooldown(player) == 0 && playerData.getShotlockEnemies().size() < shotlock.getMaxLocks()) {
 						Party p = WorldData.getClient().getPartyFromMember(player.getUUID());
 						if (ertr.getEntity() instanceof LivingEntity target) {
 							if (p == null || (p.getMember(target.getUUID()) == null || p.getFriendlyFire())) { // If caster is not in a party || the party doesn't have the target in it || the party has FF on

@@ -6,8 +6,11 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
+import online.kingdomkeys.kingdomkeys.item.ShotlockItem;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.lib.KKRegistryObject;
 
@@ -56,18 +59,17 @@ public abstract class Shotlock implements KKRegistryObject {
 			return getCooldown();
 		}
 
-		online.kingdomkeys.kingdomkeys.data.PlayerData playerData = online.kingdomkeys.kingdomkeys.data.PlayerData.get(player);
-		net.minecraft.world.item.ItemStack equipped = playerData.getEquippedShotlock();
+		PlayerData playerData = PlayerData.get(player);
+		ItemStack equipped = playerData.getEquippedShotlock();
 
 		int localLevel = 1;
-		if (equipped != null && equipped.getItem() instanceof online.kingdomkeys.kingdomkeys.item.ShotlockItem shotlockItem && shotlockItem.getShotlock().equals(getRegistryName())) {
+		if (equipped != null && equipped.getItem() instanceof ShotlockItem shotlockItem && shotlockItem.getShotlock().equals(getRegistryName())) {
 			localLevel = shotlockItem.getLocalLevel(equipped);
 		}
 
 		float t = (float) (localLevel - 1) / (getMaxLevel() - 1);
 		int base = getCooldown();
 		int min = data.getCooldownMax();
-
 		return Math.max(1, Math.round(base + (min - base) * t));
 	}
 
@@ -107,11 +109,11 @@ public abstract class Shotlock implements KKRegistryObject {
 			return getDamageMult();
 		}
 
-		online.kingdomkeys.kingdomkeys.data.PlayerData playerData = online.kingdomkeys.kingdomkeys.data.PlayerData.get(player);
+		PlayerData playerData = PlayerData.get(player);
 		net.minecraft.world.item.ItemStack equipped = playerData.getEquippedShotlock();
 
 		int localLevel = 1;
-		if (equipped != null && equipped.getItem() instanceof online.kingdomkeys.kingdomkeys.item.ShotlockItem shotlockItem && shotlockItem.getShotlock().equals(getRegistryName())) {
+		if (equipped != null && equipped.getItem() instanceof ShotlockItem shotlockItem && shotlockItem.getShotlock().equals(getRegistryName())) {
 			localLevel = shotlockItem.getLocalLevel(equipped);
 		}
 

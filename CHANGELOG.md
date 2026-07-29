@@ -5,5 +5,6 @@
 
 ## Fixed:
 * Drive forms sometimes crashing when reverting.
+* Meteor Shower being too fast locking on when maxed, preventing it from locking enemies at all.
 * Spanish localization for Long Night.
 * Leftover debug code on Shotlock Items.

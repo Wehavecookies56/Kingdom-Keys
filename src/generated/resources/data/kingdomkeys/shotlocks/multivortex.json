@@ -1,6 +1,6 @@
 {
-  "cooldown": 2,
-  "cooldown_max": 1,
+  "cooldown": 3,
+  "cooldown_max": 2,
   "dmg_mult": 0.5,
   "dmg_mult_max": 0.6,
   "element": "air",
