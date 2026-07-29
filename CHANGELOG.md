@@ -5,4 +5,5 @@
 
 ## Fixed:
 * Drive forms sometimes crashing when reverting.
-* Spanish localization for Long Night
+* Spanish localization for Long Night.
+* Leftover debug code on Shotlock Items.
