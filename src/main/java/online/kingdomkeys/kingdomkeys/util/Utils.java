@@ -2538,7 +2538,7 @@ public class Utils {
 	public static void giveItems(ServerPlayer player, ItemStack... items) {
 		Arrays.stream(items).forEach(stack -> {
 			//copy stack so notification can show
-			if (!tryToAddItem(player, stack.copy())) {
+			if (!tryToAddItem(player, stack.copy(), false)) {
 				//no space so add to overflow
 				PlayerData playerData = PlayerData.get(player);
 				if (playerData != null) {
@@ -2554,9 +2554,11 @@ public class Utils {
 		PacketHandler.sendTo(new SCDisplayGivenItems(Arrays.stream(items).toList()), player);
 	}
 
-	//
-	public static boolean tryToAddItem(ServerPlayer player, ItemStack item) {
+	public static boolean tryToAddItem(Player player, ItemStack item, boolean simulate) {
 		//first pass try to find any stackable slots
+		if (simulate) {
+			item = item.copy();
+		}
 		for (ItemStack stack : player.getInventory().items) {
 			if (ItemStack.isSameItemSameComponents(item, stack)) {
 				int remaining = stack.getMaxStackSize() - stack.getCount();
@@ -2564,7 +2566,9 @@ public class Utils {
 					//stack as much as possible
 					int toAdd = Math.min(remaining, item.getCount());
 					item.shrink(toAdd);
-					stack.grow(toAdd);
+					if (!simulate) {
+						stack.grow(toAdd);
+					}
 					if (item.getCount() == 0) {
 						//no items left in stack
 						return true;
@@ -2576,7 +2580,9 @@ public class Utils {
 		for (int i = 0; i < player.getInventory().items.size(); ++i) {
 			if (player.getInventory().getItem(i).isEmpty()) {
 				//free slot found
-				player.getInventory().setItem(i, item);
+				if (!simulate) {
+					player.getInventory().setItem(i, item);
+				}
 				return true;
 			}
 		}

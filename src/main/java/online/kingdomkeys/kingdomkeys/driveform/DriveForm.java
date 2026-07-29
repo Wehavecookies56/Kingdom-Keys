@@ -173,7 +173,9 @@ public abstract class DriveForm implements KKRegistryObject {
 			pushEntities(player);
 
 			if (!getBaseGrowthAbilities()) {
-				NeoForge.EVENT_BUS.post(new AbilityEvent.Equip(ModAbilities.registry.get(getDFAbilityForLevel(playerData.getDriveFormLevel(getRegistryName())).get()), playerData.getDriveFormLevel(getRegistryName()), player, false));
+				getDFAbilityForLevel(playerData.getDriveFormLevel(getRegistryName())).ifPresent(location -> {
+					NeoForge.EVENT_BUS.post(new AbilityEvent.Equip(ModAbilities.registry.get(location), playerData.getDriveFormLevel(getRegistryName()), player, false));
+				});
 			}
 			for (ResourceLocation abilityLoc : getDriveFormData().getAbilities()) {
 				Ability ability = ModAbilities.registry.get(abilityLoc);
@@ -230,10 +232,12 @@ public abstract class DriveForm implements KKRegistryObject {
 
 		if(!getRegistryName().equals(ModDriveForms.ANTI.location())) {
 			if (!getBaseGrowthAbilities()) {
-				Ability ability = ModAbilities.registry.get(getDFAbilityForLevel(playerData.getDriveFormLevel(getRegistryName())).get());
-				if(ability != null) {
-					NeoForge.EVENT_BUS.post(new AbilityEvent.Unequip(ability, playerData.getDriveFormLevel(getRegistryName()), player, false));
-				}
+				getDFAbilityForLevel(playerData.getDriveFormLevel(getRegistryName())).ifPresent(location -> {
+					Ability ability = ModAbilities.registry.get(location);
+					if(ability != null) {
+						NeoForge.EVENT_BUS.post(new AbilityEvent.Unequip(ability, playerData.getDriveFormLevel(getRegistryName()), player, false));
+					}
+				});
 			}
 			for (ResourceLocation abilityLoc : getDriveFormData().getAbilities()) {
 				Ability ability = ModAbilities.registry.get(abilityLoc);

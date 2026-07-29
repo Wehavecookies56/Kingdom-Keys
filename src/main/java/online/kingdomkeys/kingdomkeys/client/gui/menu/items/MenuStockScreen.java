@@ -101,7 +101,7 @@ public class MenuStockScreen extends MenuFilterable {
     }
 
     private boolean canTakeItem() {
-        return playerData.checkNextOverflow() != null && minecraft.player.getInventory().getFreeSlot() > -1;
+        return playerData.checkNextOverflow() != null && Utils.tryToAddItem(player, playerData.checkNextOverflow(), true);
     }
     
     @Override
