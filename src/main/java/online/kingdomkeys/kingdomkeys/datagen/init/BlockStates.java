@@ -58,7 +58,7 @@ public class BlockStates extends BlockStateProvider {
                 tier = "";
             }
 			String path = "block/gummi/" + finalBlockName;
-			if (block instanceof GummiCockpitBlock) {
+			if (block instanceof GummiCockpitBlock cockpit && cockpit.getPlacementType() == GummiPlacementType.MULTIBLOCK3D) {
 				getVariantBuilder(block).forAllStates(blockState -> {
 					ConfiguredModel.Builder<?> builder = ConfiguredModel.builder();
 					Direction facing = blockState.getValue(GummiCockpitBlock.HORIZONTAL_FACING);
