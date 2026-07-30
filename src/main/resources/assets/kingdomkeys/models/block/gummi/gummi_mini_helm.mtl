@@ -1,0 +1,6 @@
+newmtl Material.006
+map_Kd #texture0
+
+newmtl Material2
+map_Kd #texture1
+forge_TintIndex 0

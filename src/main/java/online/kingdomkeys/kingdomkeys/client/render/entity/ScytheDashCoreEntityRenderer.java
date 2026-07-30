@@ -44,7 +44,6 @@ public class ScytheDashCoreEntityRenderer extends EntityRenderer<ScytheDashCoreE
 		if (caster == null)
 			return;
 
-		Vec3 casterPos = caster.getPosition(partialTicks);
 		Vec3 entityPos = entity.getPosition(partialTicks); // matches what the incoming poseStack already assumes as its own local origin
 		float halfHeight = caster.getBbHeight() / 2F;
 		Vec3 center = entityPos.add(0, halfHeight, 0);
@@ -54,13 +53,13 @@ public class ScytheDashCoreEntityRenderer extends EntityRenderer<ScytheDashCoreE
 		Vec3 flatForward = new Vec3(forward.x, 0, forward.z);
 		Vec3 side = flatForward.lengthSqr() > 1E-6 ? flatForward.normalize() : new Vec3(1, 0, 0);
 
-		renderSpinningScythe(entity, caster, casterPos, partialTicks, poseStack, bufferSource, packedLight);
+		renderSpinningScythe(entity, caster, partialTicks, poseStack, bufferSource, packedLight);
 		renderOrbitRing(entity, center, entityPos, side, halfHeight * ORBIT_RADIUS_MULTIPLIER, partialTicks, poseStack, bufferSource);
 
 		super.render(entity, entityYaw, partialTicks, poseStack, bufferSource, packedLight);
 	}
 
-	private void renderSpinningScythe(ScytheDashCoreEntity entity, Player caster, Vec3 casterPos, float partialTicks, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight) {
+	private void renderSpinningScythe(ScytheDashCoreEntity entity, Player caster, float partialTicks, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight) {
 		ItemStack stack = entity.getVisualItem();
 		if (stack.isEmpty())
 			return;
