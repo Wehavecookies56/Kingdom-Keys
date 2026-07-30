@@ -95,31 +95,31 @@ public class GummiHangarScreen extends AbstractContainerScreen<GummiHangarMenu> 
 			}
 		}));
 
-        addRenderableWidget(showLines = new ExtendedButton(editShip.getX(), topPos + 117, editShip.getWidth(), 10, Component.translatable("kingdomkeys.gummi.hangar.area_value", menu.TE.getBlockState().getValue(GummiHangarBlock.SHOW_LINES)), p -> {
+        addRenderableWidget(showLines = new ExtendedButton(editShip.getX(), topPos + 117, editShip.getWidth(), 10, Component.translatable("kingdomkeys.gummi.hangar.area_value", menu.TE.getBlockState().getValue(GummiHangarBlock.SHOW_LINES).getSerializedName()), p -> {
             PacketHandler.sendToServer(new CSShowHangarLinesPacket(menu.containerId));
             showLines.setMessage(Component.translatable("kingdomkeys.gummi.hangar.area").append(" "+menu.TE.getBlockState().getValue(GummiHangarBlock.SHOW_LINES).next()));
         }));
 
 		int x = editShip.getX();
 		int y = topPos + 80;
-		addRenderableWidget(moveShipDown = new ExtendedButton(x, y, 20, 10, Component.translatable("⤓"), p -> {
+		addRenderableWidget(moveShipDown = new ExtendedButton(x, y, 20, 10, Component.literal("⤓"), p -> {
 			PacketHandler.sendToServer(new CSMoveGummiShipPacket("DOWN", menu.containerId));
 		}));
-		addRenderableWidget(moveShipFW = new ExtendedButton(x + 21, y, 20, 10, Component.translatable("↑"), p -> {
+		addRenderableWidget(moveShipFW = new ExtendedButton(x + 21, y, 20, 10, Component.literal("↑"), p -> {
 			PacketHandler.sendToServer(new CSMoveGummiShipPacket("FORWARD", menu.containerId));
 		}));
-		addRenderableWidget(moveShipUp = new ExtendedButton(x + 42, y, 20, 10, Component.translatable("⤒"), p -> {
+		addRenderableWidget(moveShipUp = new ExtendedButton(x + 42, y, 20, 10, Component.literal("⤒"), p -> {
 			PacketHandler.sendToServer(new CSMoveGummiShipPacket("UP", menu.containerId));
 		}));
 
 		y += 11;
-		addRenderableWidget(moveShipLeft = new ExtendedButton(x, y, 20, 10, Component.translatable("←"), p -> {
+		addRenderableWidget(moveShipLeft = new ExtendedButton(x, y, 20, 10, Component.literal("←"), p -> {
 			PacketHandler.sendToServer(new CSMoveGummiShipPacket("LEFT", menu.containerId));
 		}));
-		addRenderableWidget(moveShipBW = new ExtendedButton(x+21, y, 20, 10, Component.translatable("↓"), p -> {
+		addRenderableWidget(moveShipBW = new ExtendedButton(x+21, y, 20, 10, Component.literal("↓"), p -> {
 			PacketHandler.sendToServer(new CSMoveGummiShipPacket("BACKWARD", menu.containerId));
 		}));
-		addRenderableWidget(moveShipRight = new ExtendedButton(x + 42, y, 20, 10, Component.translatable("→"), p -> {
+		addRenderableWidget(moveShipRight = new ExtendedButton(x + 42, y, 20, 10, Component.literal("→"), p -> {
 			PacketHandler.sendToServer(new CSMoveGummiShipPacket("RIGHT", menu.containerId));
 		}));
 	}
@@ -280,6 +280,7 @@ public class GummiHangarScreen extends AbstractContainerScreen<GummiHangarMenu> 
 	}
 
 	public boolean isHoveringButton(ExtendedButton button, int mouseX, int mouseY) {
+		System.out.println(button);
 		return mouseX >= button.getX() && mouseX <= button.getX() + button.getWidth() && mouseY >= button.getY() && mouseY <= button.getY() + button.getHeight();
 	}
 

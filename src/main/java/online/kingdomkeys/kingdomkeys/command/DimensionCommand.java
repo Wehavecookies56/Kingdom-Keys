@@ -57,8 +57,8 @@ public class DimensionCommand extends BaseCommand {
 		for (ServerPlayer player : players) {
 			BlockPos coords = getWorldCoords(player, dimension);
 			player.changeDimension(new DimensionTransition(player.getServer().getLevel(dimension), new Vec3(coords.getX(), coords.getY(), coords.getZ()), Vec3.ZERO, player.getYRot(), player.getXRot(), entity -> {}));
-			context.getSource().sendSuccess(() -> Component.translatable("kingdomkeys.command.dimension.teleported", player.getDisplayName().getString(), dimension.location()), true);
-			player.sendSystemMessage(Component.translatable("kingdomkeys.teleport.teleported_to", dimension.location()));
+			context.getSource().sendSuccess(() -> Component.translatable("kingdomkeys.command.dimension.teleported", player.getDisplayName().getString(), dimension.location().getPath()), true);
+			player.sendSystemMessage(Component.translatable("kingdomkeys.teleport.teleported_to", dimension.location().getPath()));
 		}
 		return 1;
 	}
