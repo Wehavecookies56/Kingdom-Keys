@@ -2,6 +2,7 @@
 	"parent": "neoforge:block/default",
 	"render_type": "minecraft:cutout",
 	"loader": "neoforge:obj",
+	"flip_v" : true,
 	"model": "kingdomkeys:models/block/gummi/gummi_mini_helm.obj",
 	"transform":{
 		"translation": [ -0.25, -0.7453, -0.25 ],

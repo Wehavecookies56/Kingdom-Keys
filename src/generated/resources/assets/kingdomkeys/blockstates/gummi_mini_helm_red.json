@@ -1,7 +1,7 @@
 {
   "variants": {
     "": {
-      "model": "kingdomkeys:block/gummi_mini_helm_red"
+      "model": "kingdomkeys:block/gummi/gummi_mini_helm"
     }
   }
 }

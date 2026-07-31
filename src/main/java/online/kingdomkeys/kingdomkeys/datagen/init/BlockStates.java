@@ -58,20 +58,20 @@ public class BlockStates extends BlockStateProvider {
                 tier = "";
             }
 			String path = "block/gummi/" + finalBlockName;
-			if (block instanceof GummiCockpitBlock cockpit && cockpit.getPlacementType() == GummiPlacementType.MULTIBLOCK3D) {
+			if (block instanceof GummiCockpitBlock cockpit) {
 				getVariantBuilder(block).forAllStates(blockState -> {
 					ConfiguredModel.Builder<?> builder = ConfiguredModel.builder();
-					Direction facing = blockState.getValue(GummiCockpitBlock.HORIZONTAL_FACING);
-
 					builder.modelFile(new ModelFile.ExistingModelFile(KingdomKeys.rl(path), models().existingFileHelper));
-
-					int y = switch (facing) {
-						case DOWN, UP, SOUTH -> 270;
-						case NORTH -> 90;
-						case EAST -> 180;
-						case WEST -> 0;
-					};
-					builder.rotationY(y);
+					if (cockpit.getPlacementType() == GummiPlacementType.MULTIBLOCK3D) {
+						Direction facing = blockState.getValue(GummiCockpitBlock.HORIZONTAL_FACING);
+						int y = switch (facing) {
+							case DOWN, UP, SOUTH -> 270;
+							case NORTH -> 90;
+							case EAST -> 180;
+							case WEST -> 0;
+						};
+						builder.rotationY(y);
+					}
 					return builder.build();
 				});
 			} else if (block instanceof GummiBlockBase gummiBlockBase) {
