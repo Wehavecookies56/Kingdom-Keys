@@ -20,6 +20,7 @@ public class EpicFightIntegration {
         KKMoveSets.MOVESETS.register(modEventBus);
         KKProviderConditionals.CONDITIONALS.register(modEventBus);
         EpicKKWeapons.WEAPONS.register(modEventBus);
+        KKWeaponModifiers.WEAPON_MODIFIERS.register(modEventBus);
     }
 
 }

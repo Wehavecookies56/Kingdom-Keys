@@ -59,7 +59,7 @@ public class KKMoveSets {
             .addLivingMotionModifier(LivingMotions.BLOCK, Animations.SWORD_DUAL_GUARD)
             //.addLivingMotionModifier(LivingMotions.RUN, KKAnimations.SORA_RUN)
             .addLivingMotionModifier(LivingMotions.RUN, KKAnimations.ROXAS_RUN)
-            .addLivingMotionModifier(LivingMotions.WALK, KKAnimations.SORA_IDLE)
+            .addLivingMotionModifier(LivingMotions.IDLE, KKAnimations.SORA_IDLE)
             .addMountAttacks(Animations.SWORD_MOUNT_ATTACK)
             .setPassiveSkill(KKSkills.comboExtender));
     public static final DeferredMoveset CHAKRAM_MOVESET = MOVESETS.registerMoveset("chakram", () -> Moveset.builder()
