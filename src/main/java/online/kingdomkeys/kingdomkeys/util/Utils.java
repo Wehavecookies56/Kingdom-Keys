@@ -398,21 +398,16 @@ public class Utils {
 						weight++;//TODO make heavier blocks maybe?
 						armour++;
 						if (state.getBlock() instanceof GummiCockpitBlock cockpit) {
-							if(state.getValue(GummiCockpitBlock.X) == 0 && state.getValue(GummiCockpitBlock.Y) == 0 && state.getValue(GummiCockpitBlock.Z) == 0) {
+							if (!cockpit.isMultiBlock() || state.getValue(GummiCockpitBlock.X) == 0 && state.getValue(GummiCockpitBlock.Y) == 0 && state.getValue(GummiCockpitBlock.Z) == 0) {
 								if (cockpit.getMaxSeats() > 0) {
-									for(Vec3 s : cockpit.getSeats()){
-										Vec3 finalPos = new Vec3(x - s.x(), y + s.y()+0.18F, z + s.z());
+									for (Vec3 s : cockpit.getSeats()) {
+										Vec3 finalPos = new Vec3(x - s.x(), y + s.y() + 0.18F, z + s.z());
 										passengers.add(finalPos);
 									}
 								}
 							}
 						}
-						/*if (state.getBlock() instanceof SlabBlock) {
-							passengers.addFirst(new Vec3(x, y, z));
-						}
-						if (state.getBlock() instanceof StairBlock) {
-							passengers.add(new Vec3(x, y, z));
-						}*/
+
 						if (state.getBlock() instanceof GummiBlockBase gummi) {
 							armour += gummi.getArmour();
 							weight += gummi.getWeight()-1;// we already add one by default
