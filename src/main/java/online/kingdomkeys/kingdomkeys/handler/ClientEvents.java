@@ -12,6 +12,7 @@ import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.player.AbstractClientPlayer;
+import net.minecraft.client.player.Input;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -59,6 +60,7 @@ import online.kingdomkeys.kingdomkeys.client.gui.StopGui;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.CommandMenuSubMenu;
 import online.kingdomkeys.kingdomkeys.client.gui.overlay.CommandMenuGui;
 import online.kingdomkeys.kingdomkeys.client.gui.overlay.ItemGetGui;
+import online.kingdomkeys.kingdomkeys.client.shotlock.ShotlockMinigameClient;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.CastleOblivionData;
@@ -1019,8 +1021,38 @@ public class ClientEvents {
 		BufferUploader.drawWithShader(bufferbuilder.build());
 	}
 
+	/**
+	 * Stops the player from moving except if it's a sonic blade-like attack.
+	 */
 	@SubscribeEvent
+	public void onMovementInput(MovementInputUpdateEvent event) {
+		if (!ShotlockMinigameClient.movementLocked) {
+			return;
+		}
+
+		Input input = event.getInput();
+		input.forwardImpulse = 0F;
+		input.leftImpulse = 0F;
+		input.up = false;
+		input.down = false;
+		input.left = false;
+		input.right = false;
+		input.jumping = false;
+		input.shiftKeyDown = false;
+	}
+
+	// Stop the clicking from going further if it's a minigame.
+	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public void PlayerClick(InputEvent.InteractionKeyMappingTriggered event) {
+		// While a minigame is running the attack button belongs to the minigame, not the Keyblade.
+		if (event.isAttack() && ShotlockMinigameClient.active) {
+			if (ShotlockMinigameClient.onAttack()) {
+				event.setSwingHand(false);
+				event.setCanceled(true);
+				return;
+			}
+		}
+
 		if(event.isPickBlock()) {
 			Minecraft mc = Minecraft.getInstance();
 			if(mc.player.getMainHandItem() != null && Utils.getPlayerShotlock(mc.player) != null && (mc.player.getMainHandItem().getItem() instanceof KeybladeItem || mc.player.getMainHandItem().getItem() instanceof IOrgWeapon)){

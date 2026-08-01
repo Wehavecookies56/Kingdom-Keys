@@ -13,6 +13,7 @@ import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.item.ShotlockItem;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.lib.KKRegistryObject;
+import online.kingdomkeys.kingdomkeys.shotlock.minigame.ShotlockMinigameType;
 
 import java.util.List;
 
@@ -122,6 +123,15 @@ public abstract class Shotlock implements KKRegistryObject {
 		float max = getDamageMultMax();
 
 		return base + (max - base) * t;
+	}
+
+	public ShotlockMinigameType getMinigameType() {
+		return ShotlockMinigameType.parse(data.getMinigame());
+	}
+
+	// True when this Shotlock's mash minigame charges targets instead of throwing shots
+	public boolean minigameUsesDash() {
+		return ShotlockMinigameType.isDashVariant(data.getMinigame());
 	}
 
 	/** Which KKDamageTypes entry this Shotlock deals, or null for the default generic/blended damage

@@ -1,6 +1,9 @@
 package online.kingdomkeys.kingdomkeys.entity.shotlock;
 
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.damagesource.DamageType;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -24,6 +27,28 @@ public abstract class BaseShotlockCoreEntity extends ThrowableProjectile {
 	protected float dmg;
 	protected List<Entity> targetList = new ArrayList<>();
 
+	public static final class ShotStyle {
+		public int colour = 0xFFD75A;
+		public ResourceKey<DamageType> element = null;
+		public ItemStack visualItem = ItemStack.EMPTY;
+		public boolean applyPoison = false;
+		public boolean waterVisual = false;
+		public int[] palette = null;
+
+		public int colourFor(int index) {
+			if (palette != null && palette.length > 0) {
+				return palette[Math.floorMod(index, palette.length)];
+			}
+			return colour;
+		}
+	}
+
+	protected final ShotStyle shotStyle = new ShotStyle();
+
+	public ShotStyle getShotStyle() {
+		return shotStyle;
+	}
+
 	protected BaseShotlockCoreEntity(EntityType<? extends ThrowableProjectile> type, Level world) {
 		super(type, world);
 		this.blocksBuilding = true;
@@ -37,9 +62,7 @@ public abstract class BaseShotlockCoreEntity extends ThrowableProjectile {
 		this.dmg = dmg;
 	}
 
-	/**
-	 * Turns the locked-on entity ids into the csv string the synched data carries.
-	 */
+	// Turns the locked-on entity ids into the csv string the synched data carries
 	private static String joinTargetIds(List<Entity> targets) {
 		StringBuilder ids = new StringBuilder();
 
@@ -89,6 +112,31 @@ public abstract class BaseShotlockCoreEntity extends ThrowableProjectile {
 
 	protected boolean isExpired() {
 		return this.tickCount > maxTicks || getCaster() == null;
+	}
+
+
+	public boolean movesCaster() {
+		return false;
+	}
+
+	private static final double ABANDON_DISTANCE = 96D;
+
+	protected boolean hasLiveShots(List<? extends BaseShotlockShotEntity> shots) {
+		for (BaseShotlockShotEntity shot : shots) {
+			if (shot == null || !shot.isAlive()) {
+				continue;
+			}
+
+			Entity target = shot.getTarget();
+			if (target != null && target.isAlive()) {
+				return true;
+			}
+
+			if (shot.distanceToSqr(this) < ABANDON_DISTANCE * ABANDON_DISTANCE) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	@Override

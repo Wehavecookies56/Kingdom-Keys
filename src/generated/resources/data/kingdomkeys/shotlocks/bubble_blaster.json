@@ -5,5 +5,6 @@
   "dmg_mult_max": 1.32,
   "max": 15,
   "max_exp": 8600,
-  "max_level": 5
+  "max_level": 5,
+  "minigame": "mash"
 }

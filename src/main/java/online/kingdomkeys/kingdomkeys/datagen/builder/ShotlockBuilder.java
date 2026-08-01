@@ -1,6 +1,7 @@
 package online.kingdomkeys.kingdomkeys.datagen.builder;
 
 import com.google.gson.JsonObject;
+import online.kingdomkeys.kingdomkeys.shotlock.minigame.ShotlockMinigameType;
 
 public class ShotlockBuilder {
 
@@ -44,6 +45,15 @@ public class ShotlockBuilder {
 	public ShotlockBuilder element(String value) {
 		root.addProperty("element", value);
 		return this;
+	}
+
+	public ShotlockBuilder minigame(String value) {
+		root.addProperty("minigame", value);
+		return this;
+	}
+
+	public ShotlockBuilder minigame(ShotlockMinigameType value) {
+		return minigame(value.getId());
 	}
 
 	public JsonObject build() {

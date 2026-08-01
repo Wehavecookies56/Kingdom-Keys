@@ -16,16 +16,24 @@ import java.util.List;
 
 public class PrismRainCoreEntity extends BaseShotlockCoreEntity {
 
+	// Last tick of the outward spread - past this the core is only waiting on its bullets
+	private static final int EXPAND_END_TICK = 10;
+
 	List<RagnarokShotEntity> list = new ArrayList<>();
+
+	// Prism Rain cycles its bullets through these instead of using one flat colour
+	private static final int[] PALETTE = {0xFFFFFF, 0xFF0000, 0x00FF00, 0x0000FF, 0xFF00FF, 0xFFFF00, 0x00FFFF};
 
 	public PrismRainCoreEntity(EntityType<? extends ThrowableProjectile> type, Level world) {
 		super(type, world);
 		this.maxTicks = 100;
+		this.shotStyle.palette = PALETTE;
 	}
 
 	public PrismRainCoreEntity(Level world, Player player, List<Entity> targets, float dmg) {
 		super(ModEntities.TYPE_SHOTLOCK_CIRCULAR.get(), world, player, targets, dmg);
 		this.maxTicks = 100;
+		this.shotStyle.palette = PALETTE;
 	}
 
 	@Override
@@ -79,24 +87,22 @@ public class PrismRainCoreEntity extends BaseShotlockCoreEntity {
 					double y = Y + r * ((Math.cos(alpha) * Math.sin(posI * theta)) * Math.cos(alpha) + Math.sin(alpha) * Math.sin(posI * theta) * Math.sin(alpha));
 					double z = Z - offset_amount * Math.cos(alpha) + r * (-Math.cos(alpha) * Math.sin(alpha) * (1 - Math.cos(posI * theta)) * Math.cos(alpha) + (Math.cos(posI * theta) + Math.cos(alpha) * Math.cos(alpha) * (1 - Math.cos(posI * theta))) * Math.sin(alpha));
 
-					bullet.setPos(x,y,z);		
+					bullet.setPos(x,y,z);
 				}
 			}
 		}
+
+		// Same as the Ragnarok core: everything is fired on tick 1, so once the bullets are spent
+		// there's no reason to keep idling until maxTicks.
+		if (tickCount > EXPAND_END_TICK && !hasLiveShots(list)) {
+			this.remove(RemovalReason.KILLED);
+		}
+
 		super.tick();
 	}
 
 	private int getColor(int i) {
-		return switch (i) {
-			case 0 -> 0xFFFFFF;
-			case 1 -> 0xFF0000;
-			case 2 -> 0x00FF00;
-			case 3 -> 0x0000FF;
-			case 4 -> 0xFF00FF;
-			case 5 -> 0xFFFF00;
-			case 6 -> 0x00FFFF;
-			default -> 0;
-		};
+		return PALETTE[Math.floorMod(i, PALETTE.length)];
 	}
 
 	@Override

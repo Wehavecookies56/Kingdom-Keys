@@ -14,7 +14,7 @@ public class ServerConfig {
     public ModConfigSpec.ConfigValue<List<? extends Integer>> statsMultiplier;
 
     public ModConfigSpec.DoubleValue xpMultiplier, magicXPMultiplier, heartMultiplier, partyXPShare, perMagicCooldownMultiplier;
-    public ModConfigSpec.BooleanValue requireSynthTier, requireSynthTierShop, requireMeldingTier, projectorHasShop, savepointGlobal, getExpFromShop, orgEnabled, allowBoosts, allowPartyKO, wayfinderParty, hostileMobsLevel, dragonLevel, gummiShipFuelSystem, softLockOnMode, allowCastMagicIfTooExpensive, allowAllOrgLimits, perMagicCooldown;
+    public ModConfigSpec.BooleanValue requireSynthTier, requireSynthTierShop, requireMeldingTier, projectorHasShop, savepointGlobal, getExpFromShop, orgEnabled, allowBoosts, allowPartyKO, wayfinderParty, hostileMobsLevel, dragonLevel, gummiShipFuelSystem, softLockOnMode, allowCastMagicIfTooExpensive, allowAllOrgLimits, perMagicCooldown, shotlockMinigames;
 
     ServerConfig(final ModConfigSpec.Builder builder) {
         builder.push("general");
@@ -134,6 +134,11 @@ public class ServerConfig {
                 .comment("Multiplies magic cooldowns while perMagicCooldown is on")
                 .translation(KingdomKeys.MODID + ".config.per_magic_cooldown_multiplier")
                 .defineInRange("perMagicCooldownMultiplier", 4D, 0.1D, 100D);
+
+        shotlockMinigames = builder
+                .comment("If true, landing a full Shotlock with a level 2+ Shotlock item starts a follow-up minigame (mash, timing ring or WASD prompts)")
+                .translation(KingdomKeys.MODID + ".config.shotlock_minigames")
+                .define("shotlockMinigames", true);
 
         allowAllOrgLimits = builder
                 .comment("If true it will allow any Organization XIII member to use any limit, if false only the associated member ones")

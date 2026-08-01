@@ -261,6 +261,7 @@ public class ModEntities {
 	public static final DeferredHolder<EntityType<?>, EntityType<BaseShotlockShotEntity>> TYPE_VOLLEY_SHOTLOCK_SHOT = createEntityType(VolleyShotEntity::new, MobCategory.MISC, "entity_volley_shotlock_shot", 0.5F, 0.5F);
 	public static final DeferredHolder<EntityType<?>, EntityType<BaseShotlockShotEntity>> TYPE_RAGNAROK_SHOTLOCK_SHOT = createEntityType(RagnarokShotEntity::new, MobCategory.MISC,"entity_ragnarok_shotlock_shot", 0.5F, 0.5F);
     public static final DeferredHolder<EntityType<?>, EntityType<BaseShotlockShotEntity>> TYPE_ULTIMA_CANNON_SHOT = createEntityType(UltimaCannonShotEntity::new, MobCategory.MISC,"entity_ultima_cannon_shotlock_shot", 0.5F, 0.5F);
+	public static final DeferredHolder<EntityType<?>, EntityType<BaseShotlockShotEntity>> TYPE_SHOTLOCK_MINIGAME_SHOT = createEntityType(MinigameShotEntity::new, MobCategory.MISC, "entity_shotlock_minigame_shot", 0.5F, 0.5F);
 
     public static final DeferredHolder<EntityType<?>, EntityType<GummiShotEntity>> TYPE_GUMMI_SHOT = createEntityType(GummiShotEntity::new, MobCategory.MISC, "entity_gummi_shot", 0.5F, 0.5F);
     public static final DeferredHolder<EntityType<?>, EntityType<GummiImpactEntity>> TYPE_GUMMI_IMPACT = createEntityType(GummiImpactEntity::new, MobCategory.MISC, "entity_gummi_impact", 0.5F, 0.5F);
@@ -439,6 +440,7 @@ public class ModEntities {
         event.registerEntityRenderer(TYPE_VOLLEY_SHOTLOCK_SHOT.get(), VolleyShotlockShotEntityRenderer::new);
         event.registerEntityRenderer(TYPE_ULTIMA_CANNON_SHOT.get(), MagicEntityRenderer::new);
         event.registerEntityRenderer(TYPE_RAGNAROK_SHOTLOCK_SHOT.get(), VolleyShotlockShotEntityRenderer::new);
+        event.registerEntityRenderer(TYPE_SHOTLOCK_MINIGAME_SHOT.get(), VolleyShotlockShotEntityRenderer::new);
         
         event.registerEntityRenderer(TYPE_GUMMI_SHIP.get(), GummiShipEntityRenderer::new);
         event.registerEntityRenderer(TYPE_GUMMI_SHOT.get(), GummiShotEntityRender::new);

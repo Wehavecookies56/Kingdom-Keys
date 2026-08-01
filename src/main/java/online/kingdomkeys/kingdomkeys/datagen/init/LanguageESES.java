@@ -553,6 +553,13 @@ public class LanguageESES extends KKLanguageProvider {
         add("gui.shotlockitem.equip","Equípalo en el menú para usarlo");
         add("gui.shotlockitem.max_locks","Máx. Bloqueos: %s");
 
+        add("gui.shotlock.minigame.mash","¡PULSA!");
+        add("gui.shotlock.minigame.hits","%s golpes");
+        add("gui.shotlock.minigame.perfect","¡PERFECTO!");
+        add("gui.shotlock.minigame.good","BIEN");
+        add("gui.shotlock.minigame.bad","MAL");
+        add("gui.shotlock.minigame.miss","FALLO");
+
 
         add("gui.driveformorb.tooltip", "Mejora Forma %s");
         add("gui.driveformorb.upgrade", "Forma %s ha obtenido %s exp");

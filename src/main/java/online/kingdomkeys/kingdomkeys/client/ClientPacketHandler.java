@@ -39,6 +39,7 @@ import online.kingdomkeys.kingdomkeys.client.gui.overlay.SoAMessages;
 import online.kingdomkeys.kingdomkeys.client.gui.synthesis.SellScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.synthesis.SynthesisMaterialScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.synthesis.SynthesisScreen;
+import online.kingdomkeys.kingdomkeys.client.shotlock.ShotlockMinigameClient;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.data.CastleOblivionData;
 import online.kingdomkeys.kingdomkeys.data.GlobalData;
@@ -465,6 +466,10 @@ public class ClientPacketHandler {
         if(message.value()) {
             player.addDeltaMovement(new Vec3(0, 1, 0));
         }
+    }
+
+    public static void shotlockMinigameState(SCShotlockMinigameState message) {
+        ShotlockMinigameClient.apply(message);
     }
 
     public static void openCardPack(SCOpenCardPack message) {

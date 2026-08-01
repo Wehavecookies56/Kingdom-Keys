@@ -18,6 +18,9 @@ import java.util.List;
 
 public class RagnarokCoreEntity extends BaseShotlockCoreEntity {
 
+	// Last tick of the outward spread - past this the core is only waiting on its bullets
+	private static final int EXPAND_END_TICK = 10;
+
 	List<RagnarokShotEntity> list = new ArrayList<>();
 	private int shotColor = 16757273;
 	private ResourceKey<DamageType> element = null;
@@ -26,28 +29,34 @@ public class RagnarokCoreEntity extends BaseShotlockCoreEntity {
 
 	public void setApplyPoison(boolean applyPoison) {
 		this.applyPoison = applyPoison;
+		this.shotStyle.applyPoison = applyPoison;
 	}
 
 	public void setShotColor(int color) {
 		this.shotColor = color;
+		this.shotStyle.colour = color;
 	}
 
 	public void setElement(ResourceKey<DamageType> element) {
 		this.element = element;
+		this.shotStyle.element = element;
 	}
 
 	public void setVisualItem(ItemStack stack) {
 		this.visualItem = stack;
+		this.shotStyle.visualItem = stack == null ? ItemStack.EMPTY : stack;
 	}
 
 	public RagnarokCoreEntity(EntityType<? extends ThrowableProjectile> type, Level world) {
 		super(type, world);
 		this.maxTicks = 100;
+		this.shotStyle.colour = shotColor;
 	}
 
 	public RagnarokCoreEntity(Level world, Player player, List<Entity> targets, float dmg) {
 		super(ModEntities.TYPE_SHOTLOCK_CIRCULAR.get(), world, player, targets, dmg);
 		this.maxTicks = 100;
+		this.shotStyle.colour = shotColor;
 	}
 
 	@Override
@@ -103,10 +112,17 @@ public class RagnarokCoreEntity extends BaseShotlockCoreEntity {
 					double y = Y + r * ((Math.cos(alpha) * Math.sin(posI * theta)) * Math.cos(alpha) + Math.sin(alpha) * Math.sin(posI * theta) * Math.sin(alpha));
 					double z = Z - offset_amount * Math.cos(alpha) + r * (-Math.cos(alpha) * Math.sin(alpha) * (1 - Math.cos(posI * theta)) * Math.cos(alpha) + (Math.cos(posI * theta) + Math.cos(alpha) * Math.cos(alpha) * (1 - Math.cos(posI * theta))) * Math.sin(alpha));
 
-					bullet.setPos(x,y,z);		
+					bullet.setPos(x,y,z);
 				}
 			}
 		}
+
+		// The whole volley goes out on tick 1 and finishes spreading by tick 10, after which this
+		// core has nothing left to do - without this it would sit here until maxTicks doing nothing.
+		if (tickCount > EXPAND_END_TICK && !hasLiveShots(list)) {
+			this.remove(RemovalReason.KILLED);
+		}
+
 		super.tick();
 	}
 

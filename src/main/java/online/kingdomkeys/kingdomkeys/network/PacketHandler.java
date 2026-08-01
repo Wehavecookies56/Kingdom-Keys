@@ -73,6 +73,7 @@ public class PacketHandler {
 		client(SCOpenCardPack.TYPE, SCOpenCardPack.STREAM_CODEC);
 		client(SCDisplayGivenItems.TYPE, SCDisplayGivenItems.STREAM_CODEC);
 		client(SCOpenCardRoulette.TYPE, SCOpenCardRoulette.STREAM_CODEC);
+		client(SCShotlockMinigameState.TYPE, SCShotlockMinigameState.STREAM_CODEC);
 
 		server(CSAntiPointsPacket.TYPE, CSAntiPointsPacket.STREAM_CODEC);
 		server(CSAttackOffhandPacket.TYPE, CSAttackOffhandPacket.STREAM_CODEC);
@@ -124,6 +125,7 @@ public class PacketHandler {
 		server(CSShopBuy.TYPE, CSShopBuy.STREAM_CODEC);
         server(CSShopSell.TYPE, CSShopSell.STREAM_CODEC);
 		server(CSShotlockShot.TYPE, CSShotlockShot.STREAM_CODEC);
+		server(CSShotlockMinigameInput.TYPE, CSShotlockMinigameInput.STREAM_CODEC);
 		server(CSSpawnOrgPortalPacket.TYPE, CSSpawnOrgPortalPacket.STREAM_CODEC);
 		server(CSStruggleSettings.TYPE, CSStruggleSettings.STREAM_CODEC);
 		server(CSSummonArmor.TYPE, CSSummonArmor.STREAM_CODEC);

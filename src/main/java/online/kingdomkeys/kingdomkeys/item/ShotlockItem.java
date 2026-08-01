@@ -39,7 +39,7 @@ public class ShotlockItem extends Item implements IItemCategory, ICreativeTab, I
 	public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
 		Shotlock shotlockInstance = ModShotlocks.registry.get(shotlock);
 		player.displayClientMessage(Component.translatable("gui.shotlockitem.equip", Utils.translateToLocal(shotlockInstance.getTranslationKey())), true);
-		//this.addExp(player.getMainHandItem(),100);
+		//this.addExp(player.getMainHandItem(),1000);
 		return InteractionResultHolder.success(player.getItemInHand(hand));
 	}
 

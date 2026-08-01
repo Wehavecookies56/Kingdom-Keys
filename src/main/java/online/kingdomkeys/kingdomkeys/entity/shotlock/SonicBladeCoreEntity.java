@@ -46,6 +46,11 @@ public class SonicBladeCoreEntity extends BaseShotlockCoreEntity {
 		return target.damageSources().thrown(this, getOwner());
 	}
 	
+	@Override
+	public boolean movesCaster() {
+		return true; // this one dashes the player from target to target
+	}
+
 	public SonicBladeCoreEntity(EntityType<? extends ThrowableProjectile> type, Level world) {
 		super(type, world);
 		this.maxTicks = 260;

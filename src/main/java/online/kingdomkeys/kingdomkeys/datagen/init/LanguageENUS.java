@@ -493,6 +493,13 @@ public class LanguageENUS extends KKLanguageProvider {
         add("gui.shotlockitem.equip","Equip in the menu to use it");
         add("gui.shotlockitem.max_locks","Max Locks: %s");
 
+        add("gui.shotlock.minigame.mash","MASH!");
+        add("gui.shotlock.minigame.hits","%s hits");
+        add("gui.shotlock.minigame.perfect","PERFECT!");
+        add("gui.shotlock.minigame.good","GOOD");
+        add("gui.shotlock.minigame.bad","BAD");
+        add("gui.shotlock.minigame.miss","MISS");
+
         add("gui.driveformorb.tooltip", "Upgrades %s Form");
         add("gui.driveformorb.upgrade", "%s Form has obtained %s exp");
 

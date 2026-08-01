@@ -10,6 +10,8 @@ public class ShotlockData {
 	int maxExp;
 	int maxLevel;
 	String element = "";
+	// Which follow-up minigame a full Shotlock triggers: mash, mash_dash, timing, keys or none
+	String minigame = "";
 
 	public ShotlockData() {
 	}
@@ -90,5 +92,13 @@ public class ShotlockData {
 
 	public void setElement(String element) {
 		this.element = element == null ? "" : element;
+	}
+
+	public String getMinigame() {
+		return minigame;
+	}
+
+	public void setMinigame(String minigame) {
+		this.minigame = minigame == null ? "" : minigame;
 	}
 }

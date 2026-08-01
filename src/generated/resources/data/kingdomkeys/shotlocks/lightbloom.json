@@ -6,5 +6,6 @@
   "element": "light",
   "max": 20,
   "max_exp": 12000,
-  "max_level": 6
+  "max_level": 6,
+  "minigame": "mash"
 }

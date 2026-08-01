@@ -6,5 +6,6 @@
   "element": "fire",
   "max": 15,
   "max_exp": 6400,
-  "max_level": 4
+  "max_level": 4,
+  "minigame": "mash"
 }

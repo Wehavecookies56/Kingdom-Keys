@@ -6,5 +6,6 @@
   "element": "fire",
   "max": 1,
   "max_exp": 12000,
-  "max_level": 6
+  "max_level": 6,
+  "minigame": "timing"
 }

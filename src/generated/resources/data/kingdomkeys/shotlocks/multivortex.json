@@ -6,5 +6,6 @@
   "element": "air",
   "max": 30,
   "max_exp": 12000,
-  "max_level": 6
+  "max_level": 6,
+  "minigame": "keys"
 }

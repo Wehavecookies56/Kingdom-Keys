@@ -69,6 +69,7 @@ import online.kingdomkeys.kingdomkeys.reactioncommands.ModReactionCommands;
 import online.kingdomkeys.kingdomkeys.savepoint.SavePointDataLoader;
 import online.kingdomkeys.kingdomkeys.shotlock.ModShotlocks;
 import online.kingdomkeys.kingdomkeys.shotlock.ShotlockDataLoader;
+import online.kingdomkeys.kingdomkeys.shotlock.minigame.ShotlockMinigameHandler;
 import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeDataLoader;
 import online.kingdomkeys.kingdomkeys.synthesis.melding.MeldingDataLoader;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeDataLoader;
@@ -201,6 +202,7 @@ public class KingdomKeys {
 		NeoForge.EVENT_BUS.register(new EntityEvents());
 		NeoForge.EVENT_BUS.register(new MiniCO());
 		NeoForge.EVENT_BUS.register(new StruggleHandler());
+		NeoForge.EVENT_BUS.register(new ShotlockMinigameHandler());
 	}
 
 	private void modLoaded(final FMLLoadCompleteEvent event) {

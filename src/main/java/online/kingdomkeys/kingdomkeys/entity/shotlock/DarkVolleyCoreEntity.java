@@ -29,10 +29,12 @@ public class DarkVolleyCoreEntity extends BaseShotlockCoreEntity {
 
 	public void setShotColor(int color) {
 		this.shotColor = color;
+		this.shotStyle.colour = color;
 	}
 
 	public void setElement(ResourceKey<DamageType> element) {
 		this.element = element;
+		this.shotStyle.element = element;
 	}
 
 	public void setZigzag(boolean zigzag) {
@@ -41,10 +43,12 @@ public class DarkVolleyCoreEntity extends BaseShotlockCoreEntity {
 
 	public void setWaterVisual(boolean waterVisual) {
 		this.waterVisual = waterVisual;
+		this.shotStyle.waterVisual = waterVisual;
 	}
 
 	public void setApplyPoison(boolean applyPoison) {
 		this.applyPoison = applyPoison;
+		this.shotStyle.applyPoison = applyPoison;
 	}
 
 	public void setExplodeOnHit(boolean explodeOnHit) {
@@ -58,11 +62,13 @@ public class DarkVolleyCoreEntity extends BaseShotlockCoreEntity {
 	public DarkVolleyCoreEntity(EntityType<? extends ThrowableProjectile> type, Level world) {
 		super(type, world);
 		this.maxTicks = 260;
+		this.shotStyle.colour = shotColor;
 	}
 
 	public DarkVolleyCoreEntity(Level world, Player player, List<Entity> targets, float dmg) {
 		super(ModEntities.TYPE_SHOTLOCK_DARK_VOLLEY.get(), world, player, targets, dmg);
 		this.maxTicks = 260;
+		this.shotStyle.colour = shotColor;
 	}
 
 	@Override

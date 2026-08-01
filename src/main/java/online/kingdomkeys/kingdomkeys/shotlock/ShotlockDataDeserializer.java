@@ -36,6 +36,9 @@ public class ShotlockDataDeserializer implements JsonDeserializer<ShotlockData> 
 			case "element":
 				out.setElement(element.getAsString());
 				break;
+			case "minigame":
+				out.setMinigame(element.getAsString());
+				break;
 			}
 		});
 		return out;

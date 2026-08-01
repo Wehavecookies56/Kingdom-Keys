@@ -3,7 +3,7 @@ package online.kingdomkeys.kingdomkeys.shotlock;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
-import online.kingdomkeys.kingdomkeys.entity.shotlock.RagnarokCoreEntity;
+import online.kingdomkeys.kingdomkeys.entity.shotlock.DarkVolleyCoreEntity;
 
 import java.util.List;
 
@@ -17,7 +17,7 @@ public class ShotlockFlameSalvo extends Shotlock {
 
 	@Override
 	public void doPartialShotlock(Player player, List<Entity> targetList) {
-		RagnarokCoreEntity core = new RagnarokCoreEntity(player.level(), player, targetList, getDamage(player));
+		DarkVolleyCoreEntity core = new DarkVolleyCoreEntity(player.level(), player, targetList, getDamage(player));
 		core.setShotColor(SHOT_COLOR);
 		core.setElement(getElement());
 		core.setPos(player.getX(), player.getY(), player.getZ());

@@ -107,6 +107,7 @@ public class ClientSetup {
 		event.registerBelow(VanillaGuiLayers.CHAT, KingdomKeys.rl("party_info"), PartyHUDGui.INSTANCE);
 		event.registerBelow(VanillaGuiLayers.CHAT, KingdomKeys.rl("struggle_hud"), StruggleHUDGui.INSTANCE);
 		event.registerBelow(VanillaGuiLayers.CROSSHAIR, KingdomKeys.rl("shotlock"), ShotlockGUI.INSTANCE);
+		event.registerAbove(VanillaGuiLayers.CROSSHAIR, KingdomKeys.rl("shotlock_minigame"), ShotlockMinigameGui.INSTANCE);
 		event.registerBelow(VanillaGuiLayers.TITLE, KingdomKeys.rl("station_of_awakening_messages"), SoAMessages.INSTANCE);
 		event.registerBelow(VanillaGuiLayers.CHAT, KingdomKeys.rl("castle_oblivion_minimap"), COMinimap.INSTANCE);
 		event.registerAbove(VanillaGuiLayers.CHAT, KingdomKeys.rl("item_get"), ItemGetGui.INSTANCE);
@@ -171,6 +172,7 @@ public class ClientSetup {
 		NeoForge.EVENT_BUS.register(DriveGui.INSTANCE);
 		NeoForge.EVENT_BUS.register(new InputHandler());
 		NeoForge.EVENT_BUS.register(SoAMessages.INSTANCE);
+		NeoForge.EVENT_BUS.register(ShotlockMinigameGui.INSTANCE);
 		
     }
 
