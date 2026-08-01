@@ -19,9 +19,6 @@ public class ShotlockMinigameGui extends OverlayBase {
 
 	private static final int COLOUR_TARGET_RING = 0xFFFFD75A;
 	private static final int COLOUR_MOVING_RING = 0xFFFFFFFF;
-	private static final int COLOUR_PERFECT = 0xFF7CFF9E;
-	private static final int COLOUR_GOOD = 0xFFFFD75A;
-	private static final int COLOUR_BAD = 0xFFFF5A5A;
 	private static final int COLOUR_PROMPT_BG = 0xB0101828;
 	private static final int COLOUR_PROMPT_BORDER = 0xFF6E7FA8;
 
@@ -111,22 +108,14 @@ public class ShotlockMinigameGui extends OverlayBase {
 	// --- Minigame 2: timing ring --------------------------------------------------------------
 
 	private void renderTiming(GuiGraphics guiGraphics, int centreX, int centreY, float partialTicks) {
-		drawRing(guiGraphics, centreX, centreY, ShotlockMinigameType.RING_TARGET_RADIUS,
-				ShotlockMinigameType.RING_TARGET_HALF, COLOUR_TARGET_RING);
+		drawRing(guiGraphics, centreX, centreY, ShotlockMinigameType.RING_TARGET_RADIUS, ShotlockMinigameType.RING_TARGET_HALF, COLOUR_TARGET_RING);
 
 		if (ShotlockMinigameClient.clicked) {
 			return; // already clicked, don't keep the ring shrinking past the answer
 		}
 
 		float radius = ShotlockMinigameType.movingRingRadius(ShotlockMinigameClient.progress(partialTicks));
-		int grade = ShotlockMinigameType.gradeTimingRadius(radius);
-		int colour = switch (grade) {
-			case 2 -> COLOUR_PERFECT;
-			case 1 -> COLOUR_GOOD;
-			default -> COLOUR_MOVING_RING;
-		};
-
-		drawRing(guiGraphics, centreX, centreY, radius, ShotlockMinigameType.RING_MOVING_HALF, colour);
+		drawRing(guiGraphics, centreX, centreY, radius, ShotlockMinigameType.RING_MOVING_HALF, COLOUR_MOVING_RING);
 	}
 
 	// --- Minigame 3: WASD prompts -------------------------------------------------------------
@@ -188,21 +177,14 @@ public class ShotlockMinigameGui extends OverlayBase {
 			case 0 -> "gui.shotlock.minigame.bad";
 			default -> "gui.shotlock.minigame.miss";
 		};
-		int colour = switch (ShotlockMinigameClient.lastResult) {
-			case 2 -> COLOUR_PERFECT;
-			case 1 -> COLOUR_GOOD;
-			default -> COLOUR_BAD;
-		};
 
-		drawCentered(guiGraphics, Component.translatable(key).getString(), centreX, centreY + 58, colour);
+		drawCentered(guiGraphics, Component.translatable(key).getString(), centreX, centreY + 58, COLOUR_MOVING_RING);
 	}
 
 	private void drawTimerBar(GuiGraphics guiGraphics, int centreX, int y, float partialTicks) {
 		drawTimerBar(guiGraphics, centreX, y, partialTicks, 0F);
 	}
 
-	// perfectFraction marks how far into the round a perfect answer is still possible, drawn as a
-	// notch on the bar. Asking for a fast answer without showing where fast ends would be unfair.
 	private void drawTimerBar(GuiGraphics guiGraphics, int centreX, int y, float partialTicks, float perfectFraction) {
 		int width = 80;
 		int height = 3;
