@@ -20,9 +20,7 @@ import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
-import java.awt.*;
 import java.util.*;
-import java.util.List;
 
 public class GuiOverlay extends OverlayBase {
 	public static final GuiOverlay INSTANCE = new GuiOverlay();

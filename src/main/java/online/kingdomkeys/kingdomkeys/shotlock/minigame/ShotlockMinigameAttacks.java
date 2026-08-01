@@ -16,11 +16,7 @@ import net.minecraft.world.phys.Vec3;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.damagesource.KKDamageTypes;
 import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
-import online.kingdomkeys.kingdomkeys.entity.organization.FlameRingCoreEntity;
-import online.kingdomkeys.kingdomkeys.entity.organization.IcePillarsCoreEntity;
-import online.kingdomkeys.kingdomkeys.entity.organization.LightBarrageCoreEntity;
-import online.kingdomkeys.kingdomkeys.entity.organization.RockyPillarsCoreEntity;
-import online.kingdomkeys.kingdomkeys.entity.organization.WaterWallCoreEntity;
+import online.kingdomkeys.kingdomkeys.entity.organization.*;
 import online.kingdomkeys.kingdomkeys.entity.shotlock.UltimaCannonShotEntity;
 
 import java.util.List;

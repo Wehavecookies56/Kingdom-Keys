@@ -7,7 +7,7 @@ import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 
-import java.awt.Color;
+import java.awt.*;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 

@@ -1,6 +1,5 @@
 package online.kingdomkeys.kingdomkeys.entity.shotlock;
 
-import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -16,9 +15,6 @@ import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
-import org.joml.Vector3f;
-
-import java.awt.*;
 
 public class VolleyShotEntity extends BaseShotlockShotEntity {
 	private static final int RADIAL_RETARGET_DELAY_TICKS = 30; // ~1.5s before it starts homing in on the target

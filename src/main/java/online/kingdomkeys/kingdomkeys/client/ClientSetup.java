@@ -1,6 +1,5 @@
 package online.kingdomkeys.kingdomkeys.client;
 
-import online.kingdomkeys.kingdomkeys.client.render.CrownLayerRenderer;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.PlayerModel;

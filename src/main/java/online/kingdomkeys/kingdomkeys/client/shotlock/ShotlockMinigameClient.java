@@ -1,7 +1,7 @@
 package online.kingdomkeys.kingdomkeys.client.shotlock;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.KeyMapping;
+import net.minecraft.client.Minecraft;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSShotlockMinigameInput;
 import online.kingdomkeys.kingdomkeys.network.stc.SCShotlockMinigameState;

@@ -22,11 +22,7 @@ import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCShotlockMinigameState;
 import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class ShotlockMinigameHandler {
 
@@ -424,8 +420,7 @@ public class ShotlockMinigameHandler {
 		}
 
 		ItemStack equipped = playerData.getEquippedShotlock();
-		if (equipped != null && equipped.getItem() instanceof ShotlockItem shotlockItem
-				&& shotlockItem.getShotlock().equals(shotlock.getRegistryName())) {
+		if (equipped != null && equipped.getItem() instanceof ShotlockItem shotlockItem && shotlockItem.getShotlock().equals(shotlock.getRegistryName())) {
 			return shotlockItem.getLocalLevel(equipped);
 		}
 		return 1;
