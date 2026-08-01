@@ -6,6 +6,7 @@
 
 ## Changed:
 * You can no longer shotlock while controlling an entity.
+* Changed bag-held shotlocks color in the selector gui to cyan, same as the bag.
 
 ## Fixed:
 * Gummi Hangar screen crash.

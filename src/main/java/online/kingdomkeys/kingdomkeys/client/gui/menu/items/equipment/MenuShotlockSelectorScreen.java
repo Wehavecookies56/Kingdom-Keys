@@ -101,7 +101,7 @@ public class MenuShotlockSelectorScreen extends MenuBackground {
 						continue;
 					if (!(stack.getItem() instanceof ShotlockItem))
 						continue;
-					widgets.add(new MenuSelectShotlockButton(stack, BAG_OFFSET - i, (int) listX, 0, (int) keybladesWidth - 25, this, new Color(200, 80, 200).getRGB()));
+					widgets.add(new MenuSelectShotlockButton(stack, BAG_OFFSET - i, (int) listX, 0, (int) keybladesWidth - 25, this, new Color(0, 255, 255).getRGB()));
 				}
 			}
 		} else {

@@ -1,9 +1,5 @@
 package online.kingdomkeys.kingdomkeys.entity.shotlock;
 
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.syncher.EntityDataAccessor;
-import net.minecraft.network.syncher.EntityDataSerializers;
-import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.damagesource.DamageType;
@@ -19,15 +15,10 @@ import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 
-public class RagnarokCoreEntity extends ThrowableProjectile {
+public class RagnarokCoreEntity extends BaseShotlockCoreEntity {
 
-	int maxTicks = 100;
 	List<RagnarokShotEntity> list = new ArrayList<>();
-	List<Entity> targetList = new ArrayList<>();
-	float dmg;
 	private int shotColor = 16757273;
 	private ResourceKey<DamageType> element = null;
 	private ItemStack visualItem = ItemStack.EMPTY;
@@ -51,19 +42,12 @@ public class RagnarokCoreEntity extends ThrowableProjectile {
 
 	public RagnarokCoreEntity(EntityType<? extends ThrowableProjectile> type, Level world) {
 		super(type, world);
-		this.blocksBuilding = true;
+		this.maxTicks = 100;
 	}
 
 	public RagnarokCoreEntity(Level world, Player player, List<Entity> targets, float dmg) {
-		super(ModEntities.TYPE_SHOTLOCK_CIRCULAR.get(), player, world);
-		setCaster(player.getUUID());
-		String targetIDS = "";
-		for(Entity t : targets) {
-			targetIDS+=","+t.getId();
-		}
-		setTarget(targetIDS.substring(1));
-		this.targetList = targets;
-		this.dmg = dmg;
+		super(ModEntities.TYPE_SHOTLOCK_CIRCULAR.get(), world, player, targets, dmg);
+		this.maxTicks = 100;
 	}
 
 	@Override
@@ -73,7 +57,7 @@ public class RagnarokCoreEntity extends ThrowableProjectile {
 
 	@Override
 	public void tick() {
-		if (this.tickCount > maxTicks || getCaster() == null) {
+		if (isExpired()) {
 			this.remove(RemovalReason.KILLED);
 		}
 
@@ -131,61 +115,4 @@ public class RagnarokCoreEntity extends ThrowableProjectile {
 
 	}
 
-	public int getMaxTicks() {
-		return maxTicks;
-	}
-
-	public void setMaxTicks(int maxTicks) {
-		this.maxTicks = maxTicks;
-	}
-
-	@Override
-	public void addAdditionalSaveData(CompoundTag compound) {
-		super.addAdditionalSaveData(compound);
-		if (this.entityData.get(OWNER).isPresent()) {
-			compound.putString("OwnerUUID", this.entityData.get(OWNER).get().toString());
-			compound.putString("TargetsUUID", this.entityData.get(TARGETS));
-		}
-	}
-
-	@Override
-	public void readAdditionalSaveData(CompoundTag compound) {
-		super.readAdditionalSaveData(compound);
-		this.entityData.set(OWNER, Optional.of(UUID.fromString(compound.getString("OwnerUUID"))));
-		this.entityData.set(TARGETS, compound.getString("TargetUUID"));
-	}
-
-	private static final EntityDataAccessor<Optional<UUID>> OWNER = SynchedEntityData.defineId(RagnarokCoreEntity.class, EntityDataSerializers.OPTIONAL_UUID);
-	private static final EntityDataAccessor<String> TARGETS = SynchedEntityData.defineId(RagnarokCoreEntity.class, EntityDataSerializers.STRING);
-
-	public Player getCaster() {
-		return this.getEntityData().get(OWNER).isPresent() ? this.level().getPlayerByUUID(this.getEntityData().get(OWNER).get()) : null;
-	}
-
-	public void setCaster(UUID uuid) {
-		this.entityData.set(OWNER, Optional.of(uuid));
-	}
-
-	public List<Entity> getTargets() {
-		List<Entity> list = new ArrayList<Entity>();
-		String[] ids = this.getEntityData().get(TARGETS).split(",");
-		
-		for(String id : ids) {
-		
-			if(!id.equals(""))
-				list.add(level().getEntity(Integer.parseInt(id)));
-		}
-		return list;
-	}
-
-	public void setTarget(String lists) {
-		this.entityData.set(TARGETS, lists);
-	}
-
-
-	@Override
-	protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
-		pBuilder.define(OWNER, Optional.of(new UUID(0L, 0L)));
-		pBuilder.define(TARGETS, "");
-	}
 }

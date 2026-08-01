@@ -25,14 +25,9 @@ import org.joml.Vector3f;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 
-public class SonicBladeCoreEntity extends ThrowableProjectile{
-	int maxTicks = 260;
+public class SonicBladeCoreEntity extends BaseShotlockCoreEntity {
 	List<VolleyShotEntity> list = new ArrayList<>();
-	List<Entity> targetList = new ArrayList<>();
-	float dmg;
 	private ResourceKey<DamageType> element = null; // null = original generic damage - set to a KKDamageTypes entry for elemental reskins (e.g. Absolute Zero)
 	private Color particleColor = new Color(255,255,255);
 
@@ -53,19 +48,12 @@ public class SonicBladeCoreEntity extends ThrowableProjectile{
 	
 	public SonicBladeCoreEntity(EntityType<? extends ThrowableProjectile> type, Level world) {
 		super(type, world);
-		this.blocksBuilding = true;
+		this.maxTicks = 260;
 	}
 
 	public SonicBladeCoreEntity(Level world, Player player, List<Entity> targets, float dmg) {
-		super(ModEntities.TYPE_SHOTLOCK_SONIC_BLADE.get(), player, world);
-		setCaster(player.getUUID());
-		String targetIDS = "";
-		for(Entity t : targets) {
-			targetIDS+=","+t.getId();
-		}
-		setTarget(targetIDS.substring(1));
-		this.targetList = targets;
-		this.dmg = dmg;
+		super(ModEntities.TYPE_SHOTLOCK_SONIC_BLADE.get(), world, player, targets, dmg);
+		this.maxTicks = 260;
 	}
 
 	@Override
@@ -176,60 +164,29 @@ public class SonicBladeCoreEntity extends ThrowableProjectile{
 	@Override
 	public void addAdditionalSaveData(CompoundTag compound) {
 		super.addAdditionalSaveData(compound);
-		if (this.entityData.get(OWNER).isPresent()) {
-			compound.putString("OwnerUUID", this.entityData.get(OWNER).get().toString());
-			compound.putString("TargetsUUID", this.entityData.get(TARGETS));
-			compound.putInt("ActualTargetIndex", this.entityData.get(ACTUAL_TARGET_INDEX));
-		}
+		compound.putInt("ActualTargetIndex", this.entityData.get(ACTUAL_TARGET_INDEX));
 	}
 
 	@Override
 	public void readAdditionalSaveData(CompoundTag compound) {
 		super.readAdditionalSaveData(compound);
-		this.entityData.set(OWNER, Optional.of(UUID.fromString(compound.getString("OwnerUUID"))));
-		this.entityData.set(TARGETS, compound.getString("TargetUUID"));
 		this.entityData.set(ACTUAL_TARGET_INDEX, compound.getInt("ActualTargetIndex"));
 	}
 
-	private static final EntityDataAccessor<Optional<UUID>> OWNER = SynchedEntityData.defineId(SonicBladeCoreEntity.class, EntityDataSerializers.OPTIONAL_UUID);
-	private static final EntityDataAccessor<String> TARGETS = SynchedEntityData.defineId(SonicBladeCoreEntity.class, EntityDataSerializers.STRING);
+	/** Which of the locked-on targets the blade is dashing at right now - only this core tracks one. */
 	private static final EntityDataAccessor<Integer> ACTUAL_TARGET_INDEX = SynchedEntityData.defineId(SonicBladeCoreEntity.class, EntityDataSerializers.INT);
 
-	public Player getCaster() {
-		return this.getEntityData().get(OWNER).isPresent() ? this.level().getPlayerByUUID(this.getEntityData().get(OWNER).get()) : null;
-	}
-
-	public void setCaster(UUID uuid) {
-		this.entityData.set(OWNER, Optional.of(uuid));
-	}
-	
 	public int getActualTargetIndex() {
 		return this.getEntityData().get(ACTUAL_TARGET_INDEX);
 	}
-	
+
 	public void setActualTargetIndex(int actual) {
 		this.entityData.set(ACTUAL_TARGET_INDEX, actual);
 	}
 
-	public List<Entity> getTargets() {
-		List<Entity> list = new ArrayList<Entity>();
-		String[] ids = this.getEntityData().get(TARGETS).split(",");
-		
-		for(String id : ids) {
-			if(!id.equals(""))
-				list.add(level().getEntity(Integer.parseInt(id)));
-		}
-		return list;
-	}
-
-	public void setTarget(String lists) {
-		this.entityData.set(TARGETS, lists);
-	}
-
 	@Override
 	protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
-		pBuilder.define(OWNER, Optional.of(new UUID(0L, 0L)));
-		pBuilder.define(TARGETS, "");
+		super.defineSynchedData(pBuilder);
 		pBuilder.define(ACTUAL_TARGET_INDEX, 0);
 	}
 }

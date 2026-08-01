@@ -98,7 +98,6 @@ public class MenuSelectShotlockButton extends MenuButtonBase {
 		PoseStack matrixStack = gui.pose();
 		isHovered = mouseX > getX() && mouseY >= getY() && mouseX < getX() + width && mouseY < getY() + height;
 		Color col = Color.decode(String.valueOf(colour));
-		RenderSystem.setShaderColor(1, 1, 1, 1);
 		ItemCategory category = ItemCategory.SHOTLOCK;
 
 		Shotlock shotlock = (stack == null || stack.isEmpty() || !(stack.getItem() instanceof ShotlockItem shotlockItem)) ? null : ModShotlocks.registry.get(shotlockItem.getShotlock());
@@ -106,22 +105,24 @@ public class MenuSelectShotlockButton extends MenuButtonBase {
 		if (visible) {
 			Lighting.setupForFlatItems();
 			matrixStack.pushPose();
-			RenderSystem.enableBlend();
+			{
+				RenderSystem.enableBlend();
 
-			RenderSystem.setShaderColor(col.getRed() / 255F, col.getGreen() / 255F, col.getBlue() / 255F, 1);
-			matrixStack.translate(getX() + 0.6F, getY(), 0);
-			matrixStack.scale(0.5F, 0.5F, 1);
-			gui.blit(Constants.MENU_TEXTURE, 0, 0, 166, 34, 18, 28);
-			gui.blit(Constants.MENU_TEXTURE, 16, 0, ((width * 2) - (17 + 17)) + 2, 28, 186, 34, 2, 28, 256, 256);
-			gui.blit(Constants.MENU_TEXTURE, ((width * 2) - 17), 0, 186, 34, 17, 28);
-			RenderSystem.setShaderColor(1, 1, 1, 1);
-			gui.blit(Constants.MENU_TEXTURE, 6, 4, category.getU(), category.getV(), 20, 20);
+				RenderSystem.setShaderColor(col.getRed() / 255F, col.getGreen() / 255F, col.getBlue() / 255F, 1);
+				matrixStack.translate(getX() + 0.6F, getY(), 0);
+				matrixStack.scale(0.5F, 0.5F, 1);
+				gui.blit(Constants.MENU_TEXTURE, 0, 0, 166, 34, 18, 28);
+				gui.blit(Constants.MENU_TEXTURE, 16, 0, ((width * 2) - (17 + 17)) + 2, 28, 186, 34, 2, 28, 256, 256);
+				gui.blit(Constants.MENU_TEXTURE, ((width * 2) - 17), 0, 186, 34, 17, 28);
+				RenderSystem.setShaderColor(1, 1, 1, 1);
+				gui.blit(Constants.MENU_TEXTURE, 6, 4, category.getU(), category.getV(), 20, 20);
+			}
 			matrixStack.popPose();
 
 			String shName = shotlock == null ? "---" : stack.getHoverName().getString();
 			gui.drawString(minecraft.font, shName, getX() + 15, getY() + 3, 0xFFFFFF);
 
-			// show shotlock level and exp in the button, same as magic - only if it can actually level up
+			// show shotlock level and exp in the button
 			if (shotlock != null && shotlock.getMaxLevel() > 1) {
 				ShotlockItem shotlockItem = (ShotlockItem) stack.getItem();
 				String text = Utils.translateToLocal("gui.magicspell.lvl_short", shotlockItem.getLocalLevel(stack));
