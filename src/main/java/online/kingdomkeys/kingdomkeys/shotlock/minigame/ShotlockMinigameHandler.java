@@ -79,6 +79,8 @@ public class ShotlockMinigameHandler {
 		List<Integer> coreIds = new ArrayList<>();
 		// True for the dashing Shotlocks, which must stay free to move during their own barrage.
 		boolean coreMovesCaster;
+		// True when the core threw the caster into the air, so we keep them there until we're done
+		boolean floatCaster;
 
 		int round;
 		int totalRounds;
@@ -148,7 +150,11 @@ public class ShotlockMinigameHandler {
 			shotlockSession.scannedForCores = true;
 			scanForCores(player, shotlockSession);
 
-			if (!shotlockSession.coreMovesCaster) {
+			// Pin the player for the barrage as well as the minigame, but only for the Shotlocks where
+			// that makes sense. The dashing ones are moving the caster themselves, and the ones that
+			// throw the caster into the air are already holding them still up there - locking those
+			// too just takes control away before the attack has even played out.
+			if (!shotlockSession.coreMovesCaster && !shotlockSession.floatCaster) {
 				PacketHandler.sendTo(new SCShotlockMinigameState(shotlockSession.type.ordinal(), -1, shotlockSession.totalRounds, 0, 0, RESULT_NONE), player);
 			}
 		}
@@ -180,6 +186,7 @@ public class ShotlockMinigameHandler {
 			shotlockSession.coreIds.add(core.getId());
 			longest = Math.max(longest, core.getMaxTicks());
 			shotlockSession.coreMovesCaster |= core.movesCaster();
+			shotlockSession.floatCaster |= core.launchesCaster();
 		}
 
 		if (!cores.isEmpty()) {
@@ -223,6 +230,7 @@ public class ShotlockMinigameHandler {
 	private static void end(ServerPlayer player, ShotlockSession shotlockSession, int lastResult) {
 		SESSIONS.remove(player.getUUID());
 		clearInvulnerability(player, shotlockSession);
+		dropCaster(player, shotlockSession);
 		PacketHandler.sendTo(new SCShotlockMinigameState(shotlockSession.type.ordinal(), 0, shotlockSession.totalRounds, 0, 0, lastResult), player);
 	}
 
@@ -231,6 +239,16 @@ public class ShotlockMinigameHandler {
 		ShotlockSession shotlockSession = SESSIONS.remove(player.getUUID());
 		if (shotlockSession != null) {
 			clearInvulnerability(player, shotlockSession);
+			dropCaster(player, shotlockSession);
+		}
+	}
+
+	// Gives the caster their gravity back after a Shotlock that left them hanging in the air.
+	private static void dropCaster(Player player, ShotlockSession shotlockSession) {
+		if (shotlockSession.floatCaster) {
+			shotlockSession.floatCaster = false;
+			player.setNoGravity(false);
+			player.resetFallDistance();
 		}
 	}
 
@@ -265,8 +283,6 @@ public class ShotlockMinigameHandler {
 			return;
 		}
 
-		// Each burst is nudged round a few degrees from the last so a run of presses winds outward as
-		// a spiral instead of stamping the same cross over and over.
 		float spiral = (shotlockSession.presses - 1) * MASHING_SPIRAL_STEP;
 		MinigameShotEntity.spawnBurst(player, pickTarget(player, shotlockSession), shotlockSession.damage * MASHING_SHOT_DAMAGE, shotlockSession.style, ShotlockMinigameType.MASHING_SHOTS_PER_PRESS, spiral);
 		player.level().playSound(null, player.blockPosition(), ModSounds.laser.get(), SoundSource.PLAYERS, 0.7F, 1.5F);
@@ -327,20 +343,14 @@ public class ShotlockMinigameHandler {
 		};
 
 		if (shotlockSession.cannonTiming) {
-			// Ultima Cannon's whole attack is the one big energy ball, so a volley of little shots
-			// wouldn't read as the same move. It repeats the ball instead, scaled by how clean the hit was.
-			ShotlockMinigameAttacks.cannonBlast(player, pickTarget(player, shotlockSession), shotlockSession.element,
-					shotlockSession.damage * (grade == 2 ? CANNON_PERFECT_DAMAGE : CANNON_WEAK_DAMAGE),
-					shotlockSession.style.colour);
+			ShotlockMinigameAttacks.cannonBlast(player, pickTarget(player, shotlockSession), shotlockSession.element, shotlockSession.damage * (grade == 2 ? CANNON_PERFECT_DAMAGE : CANNON_WEAK_DAMAGE), shotlockSession.style.colour);
 		} else {
 			// Rounds get the same treatment, just stepped per round rather than per press.
 			float spiral = (shotlockSession.round - 1) * MASHING_SPIRAL_STEP;
-			MinigameShotEntity.spawnBurst(player, pickTarget(player, shotlockSession), shotlockSession.damage * TIMING_SHOT_DAMAGE,
-					shotlockSession.style, shots, spiral);
+			MinigameShotEntity.spawnBurst(player, pickTarget(player, shotlockSession), shotlockSession.damage * TIMING_SHOT_DAMAGE, shotlockSession.style, shots, spiral);
 		}
 
-		player.level().playSound(null, player.blockPosition(), grade == 2 ? ModSounds.levelup.get() : ModSounds.laser.get(),
-				SoundSource.PLAYERS, 0.8F, grade == 2 ? 1.6F : 1.2F);
+		player.level().playSound(null, player.blockPosition(), grade == 2 ? ModSounds.levelup.get() : ModSounds.laser.get(), SoundSource.PLAYERS, 0.8F, grade == 2 ? 1.6F : 1.2F);
 	}
 
 	// Ticking
@@ -361,6 +371,15 @@ public class ShotlockMinigameHandler {
 			// end() allows the player to move again
 			end(serverPlayer, shotlockSession, RESULT_NONE);
 			return;
+		}
+
+		// If the Shotlock launched the caster, keep them up for the whole minigame. Re-asserted every
+		// tick because the core clears the flag when it dies, which happens mid-session.
+		if (shotlockSession.floatCaster) {
+			player.setNoGravity(true);
+			player.setDeltaMovement(player.getDeltaMovement().x, 0, player.getDeltaMovement().z);
+			player.hurtMarked = true;
+			player.resetFallDistance();
 		}
 
 		if (shotlockSession.waiting) {

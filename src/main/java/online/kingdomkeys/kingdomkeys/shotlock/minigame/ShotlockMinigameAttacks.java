@@ -66,10 +66,7 @@ public final class ShotlockMinigameAttacks {
 
 		// Same speed factor the Sonic Blade core uses per hop, so the two read as the same move.
 		double speedFactor = 0.4D;
-		player.setDeltaMovement(
-				(target.getX() - player.getX()) * speedFactor,
-				(target.getY() + 1 - player.getY()) * speedFactor,
-				(target.getZ() - player.getZ()) * speedFactor);
+		player.setDeltaMovement((target.getX() - player.getX()) * speedFactor, (target.getY() + 1 - player.getY()) * speedFactor, (target.getZ() - player.getZ()) * speedFactor);
 		player.hurtMarked = true;
 		player.resetFallDistance();
 

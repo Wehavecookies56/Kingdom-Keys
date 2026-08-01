@@ -8,6 +8,7 @@
 ## Changed:
 * You can no longer shotlock while controlling an entity.
 * You can no longer move while casting a shotlock.
+* You are sent upwards when casting a Ragnarok-like shotlock.
 * Bag-held shotlocks color in the selector gui are now cyan, same as the bag item color.
 
 ## Fixed:

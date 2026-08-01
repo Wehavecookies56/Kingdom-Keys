@@ -2,6 +2,7 @@ package online.kingdomkeys.kingdomkeys.client.shotlock;
 
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
+import online.kingdomkeys.kingdomkeys.integration.epicfight.EpicFightUtils;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSShotlockMinigameInput;
 import online.kingdomkeys.kingdomkeys.network.stc.SCShotlockMinigameState;
@@ -37,6 +38,8 @@ public class ShotlockMinigameClient {
 
 	// Edge detection for the WASD prompts - movement is locked, so we read the keys ourselves.
 	private static final boolean[] KEY_WAS_DOWN = new boolean[4];
+	// Same idea for the attack button, which we poll instead of taking from the keybind event.
+	private static boolean attackWasDown;
 
 	private static int lockWatchdog;
 	private static final int LOCK_WATCHDOG_TICKS = 200;
@@ -127,6 +130,18 @@ public class ShotlockMinigameClient {
 
 		if (type == ShotlockMinigameType.KEYS) {
 			pollDirectionKeys(minecraft);
+		} else {
+			pollAttack();
+		}
+	}
+
+	private static void pollAttack() {
+		boolean down = EpicFightUtils.isAttacking();
+		boolean pressed = down && !attackWasDown;
+		attackWasDown = down;
+
+		if (pressed) {
+			onAttack();
 		}
 	}
 
@@ -206,6 +221,7 @@ public class ShotlockMinigameClient {
 		KEY_WAS_DOWN[1] = minecraft.options.keyLeft.isDown();
 		KEY_WAS_DOWN[2] = minecraft.options.keyDown.isDown();
 		KEY_WAS_DOWN[3] = minecraft.options.keyRight.isDown();
+		attackWasDown = EpicFightUtils.isAttacking();
 	}
 	//region end
 }

@@ -119,6 +119,47 @@ public abstract class BaseShotlockCoreEntity extends ThrowableProjectile {
 		return false;
 	}
 
+	private static final double LAUNCH_HEIGHT = 2.5D;
+
+	protected void launchCasterUpwards() {
+		Player caster = getCaster();
+		if (caster == null || level().isClientSide) {
+			return;
+		}
+
+		// v = sqrt(2gh) with Minecraft's 0.08/tick gravity.
+		double velocity = Math.sqrt(2 * 0.08D * LAUNCH_HEIGHT);
+		caster.setDeltaMovement(caster.getDeltaMovement().x, velocity, caster.getDeltaMovement().z);
+		caster.hurtMarked = true;
+		caster.resetFallDistance();
+	}
+
+	public boolean launchesCaster() {
+		return false;
+	}
+
+	// Tick the caster reaches the top of the launch arc: t = v / g.
+	private static final int LAUNCH_APEX_TICK = 1 + (int) Math.ceil(Math.sqrt(2 * 0.08D * LAUNCH_HEIGHT) / 0.08D);
+
+	protected void holdCasterAirborne() {
+		Player caster = getCaster();
+		if (caster == null || level().isClientSide || tickCount < LAUNCH_APEX_TICK) {
+			return;
+		}
+
+		caster.setNoGravity(true);
+		caster.setDeltaMovement(caster.getDeltaMovement().x, 0, caster.getDeltaMovement().z);
+		caster.hurtMarked = true;
+		caster.resetFallDistance();
+	}
+
+	protected void dropCaster() {
+		Player caster = getCaster();
+		if (caster != null && !level().isClientSide) {
+			caster.setNoGravity(false);
+		}
+	}
+
 	private static final double ABANDON_DISTANCE = 96D;
 
 	protected boolean hasLiveShots(List<? extends BaseShotlockShotEntity> shots) {

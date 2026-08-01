@@ -60,6 +60,11 @@ public class RagnarokCoreEntity extends BaseShotlockCoreEntity {
 	}
 
 	@Override
+	public boolean launchesCaster() {
+		return true;
+	}
+
+	@Override
 	protected double getDefaultGravity() {
 		return 0D;
 	}
@@ -67,6 +72,7 @@ public class RagnarokCoreEntity extends BaseShotlockCoreEntity {
 	@Override
 	public void tick() {
 		if (isExpired()) {
+			dropCaster();
 			this.remove(RemovalReason.KILLED);
 		}
 
@@ -75,7 +81,10 @@ public class RagnarokCoreEntity extends BaseShotlockCoreEntity {
 		double Z = getZ();
 		
 		if (getCaster() != null && getTargets() != null) {
+			holdCasterAirborne();
+
 			if (tickCount == 1) {
+				launchCasterUpwards();
 				level().playSound(null, this.blockPosition(), ModSounds.laser.get(), SoundSource.PLAYERS, 1, 1);
 				for(int i = 0; i< getTargets().size();i++) {
 					Entity target = getTargets().get(i);
@@ -120,6 +129,7 @@ public class RagnarokCoreEntity extends BaseShotlockCoreEntity {
 		// The whole volley goes out on tick 1 and finishes spreading by tick 10, after which this
 		// core has nothing left to do - without this it would sit here until maxTicks doing nothing.
 		if (tickCount > EXPAND_END_TICK && !hasLiveShots(list)) {
+			dropCaster();
 			this.remove(RemovalReason.KILLED);
 		}
 

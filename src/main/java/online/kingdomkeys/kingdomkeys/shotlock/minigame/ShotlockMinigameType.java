@@ -69,7 +69,7 @@ public enum ShotlockMinigameType {
 	// Idle timeout ticks
 	public static final int MASHING_IDLE_CANCEL = 40;
 	// Shots per press
-	public static final int MASHING_SHOTS_PER_PRESS = 4;
+	public static final int MASHING_SHOTS_PER_PRESS = 3;
 
 	//TIMING / KEYS
 	// Max rounds

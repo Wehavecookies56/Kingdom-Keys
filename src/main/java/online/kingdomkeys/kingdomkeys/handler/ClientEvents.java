@@ -1044,13 +1044,10 @@ public class ClientEvents {
 	// Stop the clicking from going further if it's a minigame.
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public void PlayerClick(InputEvent.InteractionKeyMappingTriggered event) {
-		// While a minigame is running the attack button belongs to the minigame, not the Keyblade.
 		if (event.isAttack() && ShotlockMinigameClient.active) {
-			if (ShotlockMinigameClient.onAttack()) {
-				event.setSwingHand(false);
-				event.setCanceled(true);
-				return;
-			}
+			event.setSwingHand(false);
+			event.setCanceled(true);
+			return;
 		}
 
 		if(event.isPickBlock()) {

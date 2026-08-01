@@ -37,6 +37,11 @@ public class PrismRainCoreEntity extends BaseShotlockCoreEntity {
 	}
 
 	@Override
+	public boolean launchesCaster() {
+		return true;
+	}
+
+	@Override
 	protected double getDefaultGravity() {
 		return 0D;
 	}
@@ -44,6 +49,7 @@ public class PrismRainCoreEntity extends BaseShotlockCoreEntity {
 	@Override
 	public void tick() {
 		if (isExpired()) {
+			dropCaster();
 			this.remove(RemovalReason.KILLED);
 		}
 
@@ -54,7 +60,12 @@ public class PrismRainCoreEntity extends BaseShotlockCoreEntity {
 		double Z = getZ();
 		
 		if (getCaster() != null && getTargets() != null) {
+			// Held every tick this core is alive, and picked up by the follow-up minigame afterwards
+			holdCasterAirborne();
+
 			if (tickCount == 1) {
+				// Up first, so the ring opens around the caster in mid-air instead of clipping the floor
+				launchCasterUpwards();
 				level().playSound(null, this.blockPosition(), ModSounds.laser.get(), SoundSource.PLAYERS, 1, 1);
 				for(int i = 0; i< getTargets().size();i++) {
 					Entity target = getTargets().get(i);
@@ -95,6 +106,7 @@ public class PrismRainCoreEntity extends BaseShotlockCoreEntity {
 		// Same as the Ragnarok core: everything is fired on tick 1, so once the bullets are spent
 		// there's no reason to keep idling until maxTicks.
 		if (tickCount > EXPAND_END_TICK && !hasLiveShots(list)) {
+			dropCaster();
 			this.remove(RemovalReason.KILLED);
 		}
 
