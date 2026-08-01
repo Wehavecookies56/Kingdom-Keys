@@ -5,7 +5,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
-import online.kingdomkeys.kingdomkeys.entity.shotlock.DarkVolleyCoreEntity;
+import online.kingdomkeys.kingdomkeys.entity.shotlock.RagnarokCoreEntity;
 
 import java.util.List;
 
@@ -24,7 +24,7 @@ public class ShotlockBioBarrage extends Shotlock {
 
 	@Override
 	public void doPartialShotlock(Player player, List<Entity> targetList) {
-		DarkVolleyCoreEntity core = new DarkVolleyCoreEntity(player.level(), player, targetList, getDamage(player));
+		RagnarokCoreEntity core = new RagnarokCoreEntity(player.level(), player, targetList, getDamage(player));
 		core.setShotColor(SHOT_COLOR);
 		core.setElement(getElement());
 		core.setApplyPoison(true);

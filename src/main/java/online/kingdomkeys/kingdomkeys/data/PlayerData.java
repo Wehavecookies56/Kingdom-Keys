@@ -315,6 +315,10 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		storage.putInt("cast_ticks", magicCasttime);
 		storage.putInt("cd_ticks", magicCooldown);
 
+		CompoundTag magicCooldownsTag = new CompoundTag();
+		this.magicCooldowns.forEach((magic, ticks) -> magicCooldownsTag.putInt(magic.toString(), ticks));
+		storage.put("magic_cds", magicCooldownsTag);
+
 		storage.putInt("hanging_wall", hangingWallTicks);
 		storage.putInt("wall_grabs", wallGrabs);
 		storage.putBoolean("air_dashed", airDashed);
@@ -558,6 +562,12 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 
 		this.setMagicCasttimeTicks(nbt.getInt("cast_ticks"));
 		this.setMagicCooldownTicks(nbt.getInt("cd_ticks"));
+
+		this.magicCooldowns.clear();
+		CompoundTag magicCooldownsTag = nbt.getCompound("magic_cds");
+		for (String key : magicCooldownsTag.getAllKeys()) {
+			this.magicCooldowns.put(ResourceLocation.parse(key), magicCooldownsTag.getInt(key));
+		}
 		this.setHangingWallTicks(nbt.getInt("hanging_wall"));
 		this.setWallGrabs(nbt.getInt("wall_grabs"));
 		this.setAirDashed(nbt.getBoolean("air_dashed"));
@@ -589,6 +599,9 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 	LinkedHashMap<ResourceLocation, int[]> abilityMap = new LinkedHashMap<>(); //Key = name, value = {level, equipped},
     private TreeMap<ResourceLocation, Integer> materials = new TreeMap<>();
 	private TreeMap<ResourceLocation, Integer> totalMaterials = new TreeMap<>();
+
+	private final Map<ResourceLocation, Integer> magicCooldowns = new HashMap<>();
+
 	LinkedHashMap<ResourceLocation, Integer> reactionMap = new LinkedHashMap<>();
 
 	private final List<ResourceLocation> reactionTickScratch = new ArrayList<>();
@@ -2354,6 +2367,52 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 
 	public int getMagicCooldownTicks() {
 		return this.magicCooldown;
+	}
+
+	//Individual cooldowns
+	public int getMagicCooldownTicks(ResourceLocation magic) {
+		if (!Utils.perMagicCooldown()) {
+			return this.magicCooldown;
+		}
+		return magic == null ? 0 : this.magicCooldowns.getOrDefault(magic, 0);
+	}
+
+	public void setMagicCooldownTicks(ResourceLocation magic, int ticks) {
+		if (magic == null) {
+			return;
+		}
+		if (ticks <= 0) {
+			this.magicCooldowns.remove(magic);
+		} else {
+			this.magicCooldowns.put(magic, ticks);
+		}
+	}
+
+	public Map<ResourceLocation, Integer> getMagicCooldowns() {
+		return this.magicCooldowns;
+	}
+
+	public boolean tickMagicCooldowns() {
+		if (this.magicCooldowns.isEmpty()) {
+			return false;
+		}
+
+		boolean expired = false;
+		Iterator<Map.Entry<ResourceLocation, Integer>> it = this.magicCooldowns.entrySet().iterator();
+
+		while (it.hasNext()) {
+			Map.Entry<ResourceLocation, Integer> entry = it.next();
+			int remaining = entry.getValue() - 1;
+
+			if (remaining <= 0) {
+				it.remove();
+				expired = true;
+			} else {
+				entry.setValue(remaining);
+			}
+		}
+
+		return expired;
 	}
 
 	public LinkedHashMap<ResourceLocation, Integer> getReactionCommands() {

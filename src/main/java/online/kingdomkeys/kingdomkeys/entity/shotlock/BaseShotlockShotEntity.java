@@ -147,8 +147,23 @@ public class BaseShotlockShotEntity extends ThrowableProjectile{
 	private static final EntityDataAccessor<Integer> TARGET = SynchedEntityData.defineId(BaseShotlockShotEntity.class, EntityDataSerializers.INT);
 	private static final EntityDataAccessor<Integer> COLOR = SynchedEntityData.defineId(BaseShotlockShotEntity.class, EntityDataSerializers.INT);
 
+	//Starting tick where the trail should start drawing
+	private static final EntityDataAccessor<Integer> TRAIL_START_TICK = SynchedEntityData.defineId(BaseShotlockShotEntity.class, EntityDataSerializers.INT);
+
 	private static final EntityDataAccessor<String> ELEMENT = SynchedEntityData.defineId(BaseShotlockShotEntity.class, EntityDataSerializers.STRING);
 	private static final EntityDataAccessor<ItemStack> VISUAL_ITEM = SynchedEntityData.defineId(BaseShotlockShotEntity.class, EntityDataSerializers.ITEM_STACK);
+
+	public void setTrailStartTick(int tick) {
+		this.entityData.set(TRAIL_START_TICK, tick);
+	}
+
+	public int getTrailStartTick() {
+		return this.entityData.get(TRAIL_START_TICK);
+	}
+
+	public boolean isTrailReady() {
+		return this.tickCount >= getTrailStartTick();
+	}
 
 	public void setVisualItem(ItemStack stack) {
 		this.entityData.set(VISUAL_ITEM, stack == null ? ItemStack.EMPTY : stack);
@@ -210,5 +225,6 @@ public class BaseShotlockShotEntity extends ThrowableProjectile{
 		pBuilder.define(VISUAL_ITEM, ItemStack.EMPTY);
 		pBuilder.define(INITIAL_YAW, 0F);
 		pBuilder.define(INITIAL_PITCH, 0F);
+		pBuilder.define(TRAIL_START_TICK, 0);
 	}
 }

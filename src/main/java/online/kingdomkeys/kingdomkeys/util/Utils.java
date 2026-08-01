@@ -238,6 +238,34 @@ public class Utils {
 		return -1;
 	}
 
+	/**
+	 * Whether magic cooldowns are tracked per magic instead of as one shared timer.
+	 *
+	 * <p>Server config, so it is read through {@code isLoaded} - it is queried from client rendering
+	 * too, where the spec may not be up yet on the first frames after joining.</p>
+	 */
+	/**
+	 * The magic bound to a shortcut slot, or null if that slot is empty or out of range. Needed because
+	 * the cooldown check has to know which magic is about to be cast.
+	 */
+	public static ResourceLocation getShortcutMagic(PlayerData playerData, int index) {
+		if (playerData == null || !playerData.getShortcutsMap().containsKey(index)) {
+			return null;
+		}
+
+		int slot = playerData.getShortcutsMap().get(index);
+		if (slot >= playerData.getMaxMagics()) {
+			return null;
+		}
+
+		ItemStack stack = playerData.getEquippedMagics().get(slot);
+		return stack != null && stack.getItem() instanceof MagicSpellItem spell ? spell.getMagic() : null;
+	}
+
+	public static boolean perMagicCooldown() {
+		return ModConfigs.SERVER_SPEC.isLoaded() && ModConfigs.SERVER.perMagicCooldown.get();
+	}
+
 	public static boolean hasOnlyOneBag(Player player, BagItem.Type type) {
 		boolean found = false;
 		for (ItemStack stack : player.getInventory().items) {

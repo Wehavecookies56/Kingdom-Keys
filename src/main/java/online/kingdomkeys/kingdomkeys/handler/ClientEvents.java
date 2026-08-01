@@ -525,6 +525,12 @@ public class ClientEvents {
 				ClientUtils.fadeTrail(ClientUtils.TrailType.DASH, p);
 			}
 
+			if (!playerData.getAirStep().equals(BlockPos.ZERO)) {
+				ClientUtils.updateTrail(ClientUtils.TrailType.AIRSTEP, p, partialTick, 300);
+			} else {
+				ClientUtils.fadeTrail(ClientUtils.TrailType.AIRSTEP, p);
+			}
+
 
 			poseStack.pushPose();
 			{
@@ -547,6 +553,16 @@ public class ClientEvents {
 
 				//Body
 				ClientUtils.renderTrail(ClientUtils.TrailType.DASH, p, poseStack, buffer, 0,1.8F,1F,1F,1F, false);
+
+				//AIRSTEP - tinted with the player's own notification colour, same as the old particle was
+				Color airStepColor = new Color(playerData.getNotifColor());
+				float airR = airStepColor.getRed() / 255F;
+				float airG = airStepColor.getGreen() / 255F;
+				float airB = airStepColor.getBlue() / 255F;
+
+				ClientUtils.renderTrail(ClientUtils.TrailType.AIRSTEP, p, poseStack, buffer, 0, 1F, airR, airG, airB, false);
+				ClientUtils.renderTrail(ClientUtils.TrailType.AIRSTEP, p, poseStack, buffer, -3F, 1F, airR, airG, airB, true);
+				ClientUtils.renderTrail(ClientUtils.TrailType.AIRSTEP, p, poseStack, buffer, 3F, 1F, airR, airG, airB, true);
 			}
 			poseStack.popPose();
 		}
@@ -627,9 +643,9 @@ public class ClientEvents {
 				}
 
 				if(playerData != null) {
-					if(!playerData.getAirStep().equals(new BlockPos(0,0,0))){
-						Color c = new Color(playerData.getNotifColor());
-						player.level().addParticle(new DustParticleOptions(new Vector3f(c.getRed()/255F,c.getGreen()/255F,c.getBlue()/255F),1F), player.getX(), player.getY()+1, player.getZ(), 0, 0.0, 0);
+					if(!playerData.getAirStep().equals(BlockPos.ZERO)){
+						// Still hidden while stepping; the streak that replaces the old dust trail is drawn
+						// from the level render, so cancelling the player here does not take it with it.
 						event.setCanceled(true);
 					}
 

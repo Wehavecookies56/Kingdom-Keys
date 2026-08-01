@@ -6,6 +6,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
+import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.lib.KKRegistryObject;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
@@ -104,6 +105,20 @@ public abstract class Magic implements KKRegistryObject {
 		return Optional.ofNullable(ModAbilities.registry.get(gmAbility));
 	}
 
+	public int getCooldownTicks(PlayerData casterData) {
+		if (data == null) {
+			return 0;
+		}
+
+		double cd = data.getCooldown() * (1 - casterData.getNumberOfAbilitiesEquipped(ModAbilities.ENDLESS_MAGIC) * 0.2);
+
+		if (Utils.perMagicCooldown()) {
+			cd *= ModConfigs.SERVER.perMagicCooldownMultiplier.get();
+		}
+
+		return Math.max((int) cd, 5);
+	}
+
 	public MagicData getMagicData() {
 		return data;
 	}
@@ -165,8 +180,15 @@ public abstract class Magic implements KKRegistryObject {
 			}
 		}
 
-		int cd = (int) (data.getCooldown() * (1 - casterData.getNumberOfAbilitiesEquipped(ModAbilities.ENDLESS_MAGIC) * 0.2));
-		casterData.setMagicCooldownTicks(Math.max(cd, 5));
+		int cd = getCooldownTicks(casterData);
+
+		// Per-magic mode locks only this spell; the shared timer is left alone so the two modes cannot
+		// leak into each other if the option is flipped mid-game.
+		if (Utils.perMagicCooldown()) {
+			casterData.setMagicCooldownTicks(getRegistryName(), cd);
+		} else {
+			casterData.setMagicCooldownTicks(cd);
+		}
 
 		if (casterData.isAbilityEquipped(ModAbilities.WIZARDS_RUSE)) { //Wizard's Ruse has a chance to heal the player based on the amount of stacked abilities and amount healed based on the cost of the ability
 			double num = player.level().random.nextDouble();

@@ -13,8 +13,8 @@ public class ServerConfig {
     public ModConfigSpec.ConfigValue<List<? extends String>> driveFormXPMultiplier;
     public ModConfigSpec.ConfigValue<List<? extends Integer>> statsMultiplier;
 
-    public ModConfigSpec.DoubleValue xpMultiplier, magicXPMultiplier, heartMultiplier, partyXPShare;
-    public ModConfigSpec.BooleanValue requireSynthTier, requireSynthTierShop, requireMeldingTier, projectorHasShop, savepointGlobal, getExpFromShop, orgEnabled, allowBoosts, allowPartyKO, wayfinderParty, hostileMobsLevel, dragonLevel, gummiShipFuelSystem, softLockOnMode, allowCastMagicIfTooExpensive, allowAllOrgLimits;
+    public ModConfigSpec.DoubleValue xpMultiplier, magicXPMultiplier, heartMultiplier, partyXPShare, perMagicCooldownMultiplier;
+    public ModConfigSpec.BooleanValue requireSynthTier, requireSynthTierShop, requireMeldingTier, projectorHasShop, savepointGlobal, getExpFromShop, orgEnabled, allowBoosts, allowPartyKO, wayfinderParty, hostileMobsLevel, dragonLevel, gummiShipFuelSystem, softLockOnMode, allowCastMagicIfTooExpensive, allowAllOrgLimits, perMagicCooldown;
 
     ServerConfig(final ModConfigSpec.Builder builder) {
         builder.push("general");
@@ -124,6 +124,16 @@ public class ServerConfig {
                 .comment("If true it will allow you to cast a magic which is too expensive even if you don't have the req. Max MP (eg. Stop at level 4)")
                 .translation(KingdomKeys.MODID + ".config.allow_magic_too_expensive")
                 .define("allowCastMagicIfTooExpensive", true);
+
+        perMagicCooldown = builder
+                .comment("If true each magic has its own cooldown, so casting one does not lock the rest (Birth by Sleep style). If false a single shared cooldown blocks every magic")
+                .translation(KingdomKeys.MODID + ".config.per_magic_cooldown")
+                .define("perMagicCooldown", false);
+
+        perMagicCooldownMultiplier = builder
+                .comment("Multiplies magic cooldowns while perMagicCooldown is on")
+                .translation(KingdomKeys.MODID + ".config.per_magic_cooldown_multiplier")
+                .defineInRange("perMagicCooldownMultiplier", 4D, 0.1D, 100D);
 
         allowAllOrgLimits = builder
                 .comment("If true it will allow any Organization XIII member to use any limit, if false only the associated member ones")

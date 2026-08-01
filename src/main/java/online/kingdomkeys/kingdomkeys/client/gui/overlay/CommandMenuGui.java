@@ -440,7 +440,9 @@ public class CommandMenuGui extends OverlayBase {
 
 		double cheapest = Utils.getCheapestMagicCost(playerData.getEquippedMagics(), minecraft.player, type);
 
-		if (Utils.getSpellsList(playerData, type).isEmpty() && type == MagicData.SpellType.MAGIC) { //Only set ??? to magic
+		List<ResourceLocation> spells = Utils.getSpellsList(playerData, type);
+
+		if (spells.isEmpty() && type == MagicData.SpellType.MAGIC) { //Only set ??? to magic
 			item.setActive(false);
 			item.setMessage(Component.literal("???"));
 			return;
@@ -450,13 +452,17 @@ public class CommandMenuGui extends OverlayBase {
 
 		boolean insufficientMP = cheapest > playerData.getMaxMP() && cheapest < 300;
 
-		if ((playerData.getRecharge() || (!allowUseMagicIfCostIsHigher && insufficientMP)) && playerData.getMagicCooldownTicks() <= 0) {
+		boolean allOnCooldown = Utils.perMagicCooldown()
+				? !spells.isEmpty() && spells.stream().allMatch(spell -> playerData.getMagicCooldownTicks(spell) > 0)
+				: playerData.getMagicCooldownTicks() > 0;
+
+		if ((playerData.getRecharge() || (!allowUseMagicIfCostIsHigher && insufficientMP)) && !allOnCooldown) {
 			item.setTextColour(Color.GRAY);
 		}
 
 		DriveForm form = ModDriveForms.registry.get(playerData.getActiveDriveForm());
 
-		if (playerData.getMagicCooldownTicks() > 0 || !form.canUseMagic()) {
+		if (allOnCooldown || !form.canUseMagic()) {
 			item.setActive(false);
 			return;
 		}
@@ -480,9 +486,7 @@ public class CommandMenuGui extends OverlayBase {
 
 		//Party Members
 		if (worldData.getPartyFromMember(minecraft.player.getUUID()) != null) {
-			List<Party.Member> members = worldData
-					.getPartyFromMember(minecraft.player.getUUID())
-					.getMembers();
+			List<Party.Member> members = worldData.getPartyFromMember(minecraft.player.getUUID()).getMembers();
 
 			members.stream()
 					.filter(member -> !member.getUUID().equals(minecraft.player.getUUID()))
@@ -635,6 +639,21 @@ public class CommandMenuGui extends OverlayBase {
 							})
 							.onUpdate((item, guiGraphics) -> {
 								PlayerData playerData2 = PlayerData.get(minecraft.player);
+
+								// Its own cooldown, so the rest of the deck stays usable.
+								int cooldownLeft = playerData2.getMagicCooldownTicks(magicId);
+								if (cooldownLeft > 0) {
+									// Progress comes from the full duration recomputed by the magic itself, so the
+									// bar cannot disagree with what the cast actually applied.
+									int cooldownTotal = magic.getCooldownTicks(playerData2);
+									item.setCooldownProgress(cooldownTotal > 0 ? (float) (cooldownTotal - cooldownLeft) / cooldownTotal : 0F);
+									item.setActive(false);
+									item.setTextColour(Color.GRAY);
+									return;
+								}
+
+								item.setCooldownProgress(0F);
+
 								if (playerData2.getMP() > 0 && !playerData2.getRecharge()) {
 									item.setActive(true);
 									item.setTextColour(Color.WHITE);

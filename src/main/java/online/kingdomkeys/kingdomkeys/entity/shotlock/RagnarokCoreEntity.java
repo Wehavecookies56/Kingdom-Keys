@@ -31,6 +31,11 @@ public class RagnarokCoreEntity extends ThrowableProjectile {
 	private int shotColor = 16757273;
 	private ResourceKey<DamageType> element = null;
 	private ItemStack visualItem = ItemStack.EMPTY;
+	private boolean applyPoison = false;
+
+	public void setApplyPoison(boolean applyPoison) {
+		this.applyPoison = applyPoison;
+	}
 
 	public void setShotColor(int color) {
 		this.shotColor = color;
@@ -86,6 +91,7 @@ public class RagnarokCoreEntity extends ThrowableProjectile {
 						bullet.setColor(shotColor);
 						bullet.setElement(element);
 						bullet.setVisualItem(visualItem);
+						bullet.setApplyPoison(applyPoison);
 						float r = 0.3F;
 						double offset_amount = -1.5;
 						double alpha = Math.toRadians(getCaster().getYRot());

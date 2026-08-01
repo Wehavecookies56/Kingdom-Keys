@@ -574,6 +574,11 @@ public class EntityEvents {
 				}
 			}
 
+			boolean magicCooldownExpired = playerData.tickMagicCooldowns();
+			if (magicCooldownExpired && !player.level().isClientSide) {
+				PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
+			}
+
 			// MP Recharge system
 			if (playerData.getRecharge()) {
 				if (playerData.getMP() >= playerData.getMaxMP()) { // Has recharged fully

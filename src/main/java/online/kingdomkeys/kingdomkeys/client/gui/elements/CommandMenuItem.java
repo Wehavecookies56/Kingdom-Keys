@@ -29,6 +29,7 @@ public class CommandMenuItem {
     Supplier<ResourceLocation> iconTexture;
     int iconU, iconV;
     boolean hasIcon;
+    private float cooldownProgress = 0F;
 
     public static class Builder {
         private final ResourceLocation id;
@@ -254,6 +255,17 @@ public class CommandMenuItem {
         guiGraphics.blit(cmTexture, isThisSelectedMenu ? x + ModConfigs.cmSelectedXOffset : x, y, 0, isThisSelectedMenu ? 30 : 15, ModConfigs.cmEndLWidth+1, 15);
         guiGraphics.blit(cmTexture, isThisSelectedMenu ? x + ModConfigs.cmEndLWidth + ModConfigs.cmSelectedXOffset : x + ModConfigs.cmEndLWidth, y, getWidth() - (ModConfigs.cmEndLWidth + ModConfigs.cmEndRWidth), height, ModConfigs.cmEndLWidth + 1, isThisSelectedMenu ? 30 : 15, 1, 15, 256, 256);
         guiGraphics.blit(cmTexture, isThisSelectedMenu ? x + getWidth() - ModConfigs.cmEndRWidth + ModConfigs.cmSelectedXOffset : x + getWidth() - ModConfigs.cmEndRWidth, y, ModConfigs.cmEndLWidth + 4, isThisSelectedMenu ? 30 : 15, ModConfigs.cmEndRWidth, 15);
+        // Cooldown fill, between the slot art and the label so the text stays legible on top of it.
+        if (cooldownProgress > 0F) {
+            int barX = isThisSelectedMenu ? x + ModConfigs.cmSelectedXOffset : x;
+            int filled = Math.round(getWidth() * Math.min(cooldownProgress, 1F));
+
+            if (filled > 0) {
+                RenderSystem.setShaderColor(1, 1, 1, 1);
+                guiGraphics.fillGradient(barX, y + 1, barX + filled, y + height - 1, 0x99FF9000, 0x99C81400);
+            }
+        }
+
         Color textColour = parent.isActive() ? this.textColour : this.textColour.darker().darker();
         RenderSystem.setShaderColor(textColour.getRed() / 255F, textColour.getGreen() / 255F, textColour.getBlue() / 255F, 1);
         guiGraphics.drawString(font, getMessage(), isThisSelectedMenu ? x + ModConfigs.cmSelectedXOffset + 6 + ModConfigs.cmTextXOffset : x + ModConfigs.cmTextXOffset + 6, y + 4, isActive() ? textColour.getRGB() : textColour.darker().darker().getRGB());
@@ -274,6 +286,14 @@ public class CommandMenuItem {
         }
 
         //System.out.println("Took "+(System.nanoTime() - ns)+" ns");
+    }
+
+    public float getCooldownProgress() {
+        return cooldownProgress;
+    }
+
+    public void setCooldownProgress(float cooldownProgress) {
+        this.cooldownProgress = cooldownProgress;
     }
 
     public interface OnEnter {

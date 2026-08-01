@@ -1032,15 +1032,17 @@ public class ClientUtils {
      */
 
     public enum TrailType {
-        FLOWMOTION, DASH
+        FLOWMOTION, DASH, AIRSTEP
     }
     private static final Map<UUID, Deque<Vec3>> FLOW_TRAILS = new HashMap<>();
     private static final Map<UUID, Deque<Vec3>> DASH_TRAILS = new HashMap<>();
+    private static final Map<UUID, Deque<Vec3>> AIRSTEP_TRAILS = new HashMap<>();
 
     private static Deque<Vec3> getTrail(TrailType type, Player player) {
         return switch(type){
             case FLOWMOTION -> FLOW_TRAILS.computeIfAbsent(player.getUUID(), k -> new ArrayDeque<>());
             case DASH -> DASH_TRAILS.computeIfAbsent(player.getUUID(), k -> new ArrayDeque<>());
+            case AIRSTEP -> AIRSTEP_TRAILS.computeIfAbsent(player.getUUID(), k -> new ArrayDeque<>());
         };
     }
 
@@ -1101,7 +1103,7 @@ public class ClientUtils {
                 float angle = t * 10f + player.tickCount * 0.2f;
                 float radius = 0.05f * offsetAmount;
 
-                offset = right.scale((double)Math.cos(angle) * radius).add(up.scale((double)Math.sin(angle) * radius));
+                offset = right.scale(Math.cos(angle) * radius).add(up.scale(Math.sin(angle) * radius));
                 offset = offset.add(new Vec3(0, verticalOffset, 0));
             } else {
                 //Fixed

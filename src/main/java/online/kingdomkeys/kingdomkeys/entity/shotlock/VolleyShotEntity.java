@@ -49,6 +49,9 @@ public class VolleyShotEntity extends BaseShotlockShotEntity {
 
 	public void setRadialBurst(boolean radialBurst) {
 		this.radialBurst = radialBurst;
+		// No trail while they are spreading out: they all start from the same point and swing hard, so
+		// the ribbon folds over itself. It picks up once they settle and start homing.
+		setTrailStartTick(radialBurst ? RADIAL_RETARGET_DELAY_TICKS : 0);
 	}
 
 	public VolleyShotEntity(EntityType<? extends ThrowableProjectile> type, Level world) {
@@ -67,9 +70,6 @@ public class VolleyShotEntity extends BaseShotlockShotEntity {
 		}
 		
 		if(tickCount > 1) {
-			Color color = new Color(getColor());
-			level().addParticle(new DustParticleOptions(new Vector3f(color.getRed()/255F, color.getGreen()/255F, color.getBlue()/255F), 1F), getX(), getY(), getZ(), 1,1,1);
-
 			if (waterVisual && level() instanceof net.minecraft.server.level.ServerLevel serverLevel) {
 				serverLevel.sendParticles(ParticleTypes.SPLASH, getX(), getY(), getZ(), 4, 0.2, 0.2, 0.2, 0.05);
 				serverLevel.sendParticles(ParticleTypes.FALLING_WATER, getX(), getY(), getZ(), 2, 0.15, 0.15, 0.15, 0.01);

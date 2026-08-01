@@ -61,7 +61,7 @@ public class ShortcutsGui extends OverlayBase {
 				boolean allowUseMagicIfCostIsHigher = ModConfigs.SERVER.allowCastMagicIfTooExpensive.get();
 				boolean insufficientMP = cost > playerData.getMaxMP() && cost < 300;
 
-				if (playerData.getMaxMP() == 0 || playerData.getRecharge() || ((!allowUseMagicIfCostIsHigher && insufficientMP)|| (cost < 300 && cost >= playerData.getMP() && playerData.isAbilityEquipped(ModAbilities.MP_SAFETY))) && playerData.getMagicCooldownTicks() <= 0 || !form.canUseMagic()){
+				if (playerData.getMaxMP() == 0 || playerData.getRecharge() || ((!allowUseMagicIfCostIsHigher && insufficientMP)|| (cost < 300 && cost >= playerData.getMP() && playerData.isAbilityEquipped(ModAbilities.MP_SAFETY))) && playerData.getMagicCooldownTicks(magicId) <= 0 || !form.canUseMagic()){
 					colour = 0x888888;
 				}
 

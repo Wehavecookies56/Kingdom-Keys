@@ -464,16 +464,18 @@ public class InputHandler {
 
         if (KeyboardHelper.isScrollActivatorDown() && event.getKey() > 320 && event.getKey() < 330) {
             if (globalData != null && !player.hasEffect(ModMobEffects.STOP)) {
-                if (playerData.getMagicCasttimeTicks() <= 0 && playerData.getMagicCooldownTicks() <= 0 && !playerData.getRecharge() && form.canUseMagic() && !player.hasEffect(ModMobEffects.KO)) {
-                    PacketHandler.sendToServer(new CSUseShortcutPacket(event.getKey() - 321, InputHandler.lockOn));
+                int index = event.getKey() - 321;
+                if (playerData.getMagicCasttimeTicks() <= 0 && playerData.getMagicCooldownTicks(Utils.getShortcutMagic(playerData, index)) <= 0 && !playerData.getRecharge() && form.canUseMagic() && !player.hasEffect(ModMobEffects.KO)) {
+                    PacketHandler.sendToServer(new CSUseShortcutPacket(index, InputHandler.lockOn));
                 }
             }
         }
 
         if (KeyboardHelper.isScrollActivatorDown() && event.getKey() > 48 && event.getKey() < 58) {
             if (globalData != null && !player.hasEffect(ModMobEffects.STOP)) {
-                if (playerData.getMagicCasttimeTicks() <= 0 && playerData.getMagicCooldownTicks() <= 0 && !playerData.getRecharge() && form.canUseMagic() && !player.hasEffect(ModMobEffects.KO)) {
-                    PacketHandler.sendToServer(new CSUseShortcutPacket(event.getKey() - 49, InputHandler.lockOn));
+                int index = event.getKey() - 49;
+                if (playerData.getMagicCasttimeTicks() <= 0 && playerData.getMagicCooldownTicks(Utils.getShortcutMagic(playerData, index)) <= 0 && !playerData.getRecharge() && form.canUseMagic() && !player.hasEffect(ModMobEffects.KO)) {
+                    PacketHandler.sendToServer(new CSUseShortcutPacket(index, InputHandler.lockOn));
                 }
             }
         }

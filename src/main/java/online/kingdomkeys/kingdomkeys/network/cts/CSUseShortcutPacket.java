@@ -48,7 +48,7 @@ public record CSUseShortcutPacket(int index, int lockOnTarget) implements Packet
 		if(playerData == null)
 			return;
 
-		if (playerData.getMagicCooldownTicks() <= 0 && !playerData.getRecharge() && !playerData.getActiveDriveForm().equals(Strings.Form_Valor) && !player.hasEffect(ModMobEffects.KO)) {
+		if (!playerData.getRecharge() && !playerData.getActiveDriveForm().equals(Strings.Form_Valor) && !player.hasEffect(ModMobEffects.KO)) {
 			if (playerData.getShortcutsMap().containsKey(index)) {
 				int slot = playerData.getShortcutsMap().get(index);
 				if(slot >= playerData.getMaxMagics())
@@ -61,13 +61,17 @@ public record CSUseShortcutPacket(int index, int lockOnTarget) implements Packet
 
 				ResourceLocation magicName = spell.getMagic();
 
+				if (playerData.getMagicCooldownTicks(magicName) > 0) {
+					return;
+				}
+
 				Magic magic = ModMagic.registry.get(magicName);
 				double cost = magic.getCost( player);
 
 				boolean allowUseMagicIfCostIsHigher = ModConfigs.SERVER.allowCastMagicIfTooExpensive.get();
 				boolean insufficientMP = cost > playerData.getMaxMP() && cost < 300;
 
-				if (playerData.getMaxMP() == 0 || playerData.getRecharge() || ((!allowUseMagicIfCostIsHigher && insufficientMP)|| (cost < 300 && cost >= playerData.getMP() && playerData.isAbilityEquipped(ModAbilities.MP_SAFETY))) && playerData.getMagicCooldownTicks() <= 0){
+				if (playerData.getMaxMP() == 0 || playerData.getRecharge() || ((!allowUseMagicIfCostIsHigher && insufficientMP)|| (cost < 300 && cost >= playerData.getMP() && playerData.isAbilityEquipped(ModAbilities.MP_SAFETY))) && playerData.getMagicCooldownTicks(magicName) <= 0){
 
 				//if (playerData.getMaxMP() == 0 || playerData.getRecharge() || (cost > playerData.getMaxMP() && cost < 300) || (cost < 300 && cost >= playerData.getMP() && playerData.isAbilityEquipped(Strings.mpSafety)) || playerData.getMagicCooldownTicks() > 0) {
 

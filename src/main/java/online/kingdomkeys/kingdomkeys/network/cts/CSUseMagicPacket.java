@@ -46,6 +46,9 @@ public record CSUseMagicPacket(String name, int allyTarget, int lockedTarget) im
         if (NeoForge.EVENT_BUS.post(new MagicSpellCastEvent(player, KingdomKeys.rl(name))).isCanceled())
             return;
 
+		if (playerData == null || playerData.getMagicCooldownTicks(KingdomKeys.rl(name)) > 0)
+			return;
+
 		if (playerData.getMP() >= 0 && !playerData.getRecharge()) {
 			PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer)player);
 
