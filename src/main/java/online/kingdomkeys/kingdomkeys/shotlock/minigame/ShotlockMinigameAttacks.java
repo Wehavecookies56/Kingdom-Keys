@@ -21,6 +21,7 @@ import online.kingdomkeys.kingdomkeys.entity.organization.IcePillarsCoreEntity;
 import online.kingdomkeys.kingdomkeys.entity.organization.LightBarrageCoreEntity;
 import online.kingdomkeys.kingdomkeys.entity.organization.RockyPillarsCoreEntity;
 import online.kingdomkeys.kingdomkeys.entity.organization.WaterWallCoreEntity;
+import online.kingdomkeys.kingdomkeys.entity.shotlock.UltimaCannonShotEntity;
 
 import java.util.List;
 
@@ -179,6 +180,22 @@ public final class ShotlockMinigameAttacks {
 	}
 
 	// The shot colour the minigame projectiles use, picked off the Shotlock's element.
+	public static void cannonBlast(Player player, Entity target, ResourceKey<DamageType> element, float damage, int colour) {
+		if (player.level().isClientSide || target == null || !target.isAlive()) {
+			return;
+		}
+
+		UltimaCannonShotEntity shot = new UltimaCannonShotEntity(player.level(), player, target, damage);
+		shot.setElement(element);
+		shot.setColor(colour);
+
+		Vec3 forward = player.getLookAngle().normalize();
+		Vec3 spawn = player.position().add(forward.scale(2D));
+		shot.setPos(spawn.x, spawn.y + player.getEyeHeight(), spawn.z);
+
+		player.level().addFreshEntity(shot);
+	}
+
 	public static int shotColour(ResourceKey<DamageType> element) {
 		if (element == null) {
 			return 0xFFD75A;

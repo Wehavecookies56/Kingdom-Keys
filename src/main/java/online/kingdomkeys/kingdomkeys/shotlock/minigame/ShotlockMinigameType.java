@@ -31,6 +31,8 @@ public enum ShotlockMinigameType {
 	//* Mash variant for dashing Shotlocks: every press charges the target instead of throwing shots.
 	public static final String MASH_DASH_ID = "mash_dash";
 	public static final String TIMING_ID = "timing";
+	//* Timing variant for Shotlocks whose attack is one big shot: each hit repeats that shot instead of a volley.
+	public static final String TIMING_CANNON_ID = "timing_cannon";
 	public static final String KEYS_ID = "keys";
 	public static final String NONE_ID = "none";
 
@@ -40,7 +42,7 @@ public enum ShotlockMinigameType {
 		}
 		return switch (id.toLowerCase(Locale.ROOT).trim()) {
 			case MASH_ID, MASH_DASH_ID -> MASHING;
-			case TIMING_ID -> TIMING;
+			case TIMING_ID, TIMING_CANNON_ID -> TIMING;
 			case KEYS_ID -> KEYS;
 			default -> null;
 		};
@@ -48,6 +50,10 @@ public enum ShotlockMinigameType {
 
 	public static boolean isDashVariant(String id) {
 		return id != null && MASH_DASH_ID.equalsIgnoreCase(id.trim());
+	}
+
+	public static boolean isCannonVariant(String id) {
+		return id != null && TIMING_CANNON_ID.equalsIgnoreCase(id.trim());
 	}
 
 	// Adjustments

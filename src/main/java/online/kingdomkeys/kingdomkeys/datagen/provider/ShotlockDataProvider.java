@@ -44,7 +44,7 @@ public class ShotlockDataProvider implements DataProvider {
 
 		shotlocks.put(Strings.Multivortex, new ShotlockBuilder().cooldown(3).cooldownMax(2).maxLocks(30).damageMultiplier(0.5F).damageMultiplierMax(0.6F).maxExp(12000).maxLevel(6).element("air").minigame("keys").build());
 		shotlocks.put(Strings.Lightbloom, new ShotlockBuilder().cooldown(3).cooldownMax(2).maxLocks(20).damageMultiplier(0.8F).damageMultiplierMax(0.96F).maxExp(12000).maxLevel(6).element("light").minigame("mash").build());
-		shotlocks.put(Strings.UltimaCannon, new ShotlockBuilder().cooldown(40).cooldownMax(30).maxLocks(1).damageMultiplier(1.0F).damageMultiplierMax(1.2F).maxExp(12000).maxLevel(6).element("fire").minigame("timing").build());
+		shotlocks.put(Strings.UltimaCannon, new ShotlockBuilder().cooldown(40).cooldownMax(30).maxLocks(1).damageMultiplier(1.0F).damageMultiplierMax(1.2F).maxExp(12000).maxLevel(6).element("fire").minigame("timing_cannon").build());
 
 		CompletableFuture<?>[] futures = shotlocks.entrySet().stream().map(entry -> {
 			Path path = pathProvider.json(KingdomKeys.rl(entry.getKey()));

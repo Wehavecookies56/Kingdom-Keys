@@ -39,6 +39,9 @@ public class ShotlockMinigameHandler {
 	private static final float MASHING_SPIRAL_STEP = 10F;
 	private static final float MASHING_SHOT_DAMAGE = 0.25F;
 
+	private static final float CANNON_PERFECT_DAMAGE = 0.6F;
+	private static final float CANNON_WEAK_DAMAGE = 0.3F;
+
 	private static final float TIMING_SHOT_DAMAGE = 0.5F;
 	private static final float SLAM_DAMAGE = 1.5F;
 	// A dashing mash press lands a single hit rather than four shots, so it's worth more each
@@ -62,6 +65,8 @@ public class ShotlockMinigameHandler {
 		ShotlockMinigameType type;
 		// MASHING only: this Shotlock charges its targets instead of throwing shots.
 		boolean dashMash;
+		// TIMING only: this Shotlock repeats its big energy ball instead of throwing a volley
+		boolean cannonTiming;
 		ResourceKey<DamageType> element;
 		// Lifted off the Shotlock's own core so the follow-up shots look like the originals.
 		BaseShotlockCoreEntity.ShotStyle style = new BaseShotlockCoreEntity.ShotStyle();
@@ -119,6 +124,7 @@ public class ShotlockMinigameHandler {
 		ShotlockSession shotlockSession = new ShotlockSession();
 		shotlockSession.type = type;
 		shotlockSession.dashMash = shotlock.minigameUsesDash();
+		shotlockSession.cannonTiming = shotlock.minigameUsesCannon();
 		shotlockSession.element = shotlock.getElement();
 		shotlockSession.damage = shotlock.getDamage(player);
 
@@ -324,10 +330,18 @@ public class ShotlockMinigameHandler {
 			default -> Math.max(1, ShotlockMinigameType.TIMING_PERFECT_SHOTS / 4);
 		};
 
-		// Rounds get the same treatment, just stepped per round rather than per press.
-		float spiral = (shotlockSession.round - 1) * MASHING_SPIRAL_STEP;
-		MinigameShotEntity.spawnBurst(player, pickTarget(player, shotlockSession), shotlockSession.damage * TIMING_SHOT_DAMAGE,
-				shotlockSession.style, shots, spiral);
+		if (shotlockSession.cannonTiming) {
+			// Ultima Cannon's whole attack is the one big energy ball, so a volley of little shots
+			// wouldn't read as the same move. It repeats the ball instead, scaled by how clean the hit was.
+			ShotlockMinigameAttacks.cannonBlast(player, pickTarget(player, shotlockSession), shotlockSession.element,
+					shotlockSession.damage * (grade == 2 ? CANNON_PERFECT_DAMAGE : CANNON_WEAK_DAMAGE),
+					shotlockSession.style.colour);
+		} else {
+			// Rounds get the same treatment, just stepped per round rather than per press.
+			float spiral = (shotlockSession.round - 1) * MASHING_SPIRAL_STEP;
+			MinigameShotEntity.spawnBurst(player, pickTarget(player, shotlockSession), shotlockSession.damage * TIMING_SHOT_DAMAGE,
+					shotlockSession.style, shots, spiral);
+		}
 
 		player.level().playSound(null, player.blockPosition(), grade == 2 ? ModSounds.levelup.get() : ModSounds.laser.get(),
 				SoundSource.PLAYERS, 0.8F, grade == 2 ? 1.6F : 1.2F);

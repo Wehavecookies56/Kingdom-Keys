@@ -129,6 +129,11 @@ public abstract class Shotlock implements KKRegistryObject {
 		return ShotlockMinigameType.parse(data.getMinigame());
 	}
 
+	// True when this Shotlock's timing minigame repeats its big shot instead of throwing a volley
+	public boolean minigameUsesCannon() {
+		return ShotlockMinigameType.isCannonVariant(data.getMinigame());
+	}
+
 	// True when this Shotlock's mash minigame charges targets instead of throwing shots
 	public boolean minigameUsesDash() {
 		return ShotlockMinigameType.isDashVariant(data.getMinigame());
