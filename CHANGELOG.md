@@ -17,3 +17,4 @@
 * Flame Salvo not being a volley shotlock.
 * /kingdomkeys dimension command throwing errors in chat.
 * Idle animation playing while walking in EFM.
+* EFM attack happening when starting a shotlock.

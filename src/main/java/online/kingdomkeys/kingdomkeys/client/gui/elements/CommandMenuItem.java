@@ -256,13 +256,26 @@ public class CommandMenuItem {
         guiGraphics.blit(cmTexture, isThisSelectedMenu ? x + ModConfigs.cmEndLWidth + ModConfigs.cmSelectedXOffset : x + ModConfigs.cmEndLWidth, y, getWidth() - (ModConfigs.cmEndLWidth + ModConfigs.cmEndRWidth), height, ModConfigs.cmEndLWidth + 1, isThisSelectedMenu ? 30 : 15, 1, 15, 256, 256);
         guiGraphics.blit(cmTexture, isThisSelectedMenu ? x + getWidth() - ModConfigs.cmEndRWidth + ModConfigs.cmSelectedXOffset : x + getWidth() - ModConfigs.cmEndRWidth, y, ModConfigs.cmEndLWidth + 4, isThisSelectedMenu ? 30 : 15, ModConfigs.cmEndRWidth, 15);
         // Cooldown fill, between the slot art and the label so the text stays legible on top of it.
+        // Same nine-slice as the background, just sampled 24px further right where the red copy lives.
         if (cooldownProgress > 0F) {
             int barX = isThisSelectedMenu ? x + ModConfigs.cmSelectedXOffset : x;
             int filled = Math.round(getWidth() * Math.min(cooldownProgress, 1F));
 
             if (filled > 0) {
                 RenderSystem.setShaderColor(1, 1, 1, 1);
-                guiGraphics.fillGradient(barX, y + 1, barX + filled, y + height - 1, 0x99FF9000, 0x99C81400);
+                int leftCap = Math.min(ModConfigs.cmEndLWidth + 1, filled);
+                guiGraphics.blit(cmTexture, barX, y, leftCap, height, 24, 15, leftCap, 15, 256, 256);
+
+                int middleStart = getWidth() - ModConfigs.cmEndRWidth;
+                int middle = Math.min(filled, middleStart) - ModConfigs.cmEndLWidth;
+                if (middle > 0) {
+                    guiGraphics.blit(cmTexture, barX + ModConfigs.cmEndLWidth, y, middle, height, ModConfigs.cmEndLWidth + 1 + 24, 15, 1, 15, 256, 256);
+                }
+
+                int capShown = Math.min(filled - middleStart, ModConfigs.cmEndRWidth);
+                if (capShown > 0) {
+                    guiGraphics.blit(cmTexture, barX + middleStart, y, capShown, height, ModConfigs.cmEndLWidth + 4 + 24, 15, capShown, 15, 256, 256);
+                }
             }
         }
 
