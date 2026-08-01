@@ -12,7 +12,7 @@ import java.util.List;
 public class ClientConfig {
 	public ModConfigSpec.ConfigValue<List<? extends Float>> hpHUDData, mpHUDData, cmHUDData, rcHUDData, driveHUDData, focusHUDData, partyHUDData, lockOnHUDData, portraitHUDData, munnyExpHUDData, levelUpHUDData, driveLevelHUDData, minimapHUDData, roomNameHUDData;
 
-    public ModConfigSpec.BooleanValue cmHeaderTextVisible, cmClassicColors, snapChatToCommandMenu, auto3rdPersonShip, cmChangeColor, customFont;
+    public ModConfigSpec.BooleanValue cmHeaderTextVisible, cmClassicColors, snapChatToCommandMenu, auto3rdPersonShip, cmChangeColor, customFont, portrait3D;
     public ModConfigSpec.IntValue cmTextXOffset, cmSelectedXOffset, cmSubXOffset, cmEndLWidth, cmEndRWidth, cmHeaderEndLWidth, cmHeaderEndRWidth, cmReactionEndLWidth, cmReactionEndRWidth;
     
     public ModConfigSpec.BooleanValue hpShowHearts;
@@ -123,6 +123,11 @@ public class ClientConfig {
                 .comment("Drive Forms Visibility")
                 .translation(KingdomKeys.MODID + ".config.show_drive_forms")
                 .define("showDriveForms", true);
+
+			portrait3D = builder
+                .comment("Render the player portrait as the actual 3D model instead of a 2D skin cutout")
+                .translation(KingdomKeys.MODID + ".config.portrait_3d")
+                .define("portrait3D", false);
 
 		builder.push("command_menu");
 			cmChangeColor = builder

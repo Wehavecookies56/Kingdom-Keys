@@ -3,6 +3,7 @@
 * Mini helm cockpit, 1x1x1 and can hold a single rider.
 * New serverconfig to set individual magic cooldowns.
 * New serverconfig to set the cooldown multiplier compared to the global cooldown (defaults to x4).
+* New clientconfig to set the portrait render as 2D or 3D.
 * Airstep and shotlock trails.
 
 ## Changed:

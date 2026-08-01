@@ -98,6 +98,7 @@ public class ClientSetup {
 		event.registerBelow(VanillaGuiLayers.CHAT, KingdomKeys.rl("command_menu"), CommandMenuGui.INSTANCE);
         event.registerBelow(VanillaGuiLayers.CHAT, KingdomKeys.rl("player_portrait"), PlayerPortraitGui.INSTANCE);
 		event.registerBelow(VanillaGuiLayers.CHAT, KingdomKeys.rl("hp_bar"), HPGui.INSTANCE);
+		event.registerBelow(VanillaGuiLayers.CHAT, KingdomKeys.rl("player_portrait_crown"), PlayerPortraitGui.CROWN_OVERLAY);
         event.registerBelow(VanillaGuiLayers.CHAT, KingdomKeys.rl("gummi_hud"), GummiHUD.INSTANCE);
         event.registerBelow(VanillaGuiLayers.CHAT, KingdomKeys.rl("mp_bar"), MPGui.INSTANCE);
 		event.registerBelow(VanillaGuiLayers.CHAT, KingdomKeys.rl("drive_bar"), DriveGui.INSTANCE);

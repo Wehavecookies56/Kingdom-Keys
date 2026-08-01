@@ -6,30 +6,32 @@ import com.mojang.math.Axis;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.LayeredDraw;
 import net.minecraft.core.Vec3i;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.player.PlayerModelPart;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
+import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.entity.GummiShipEntity;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+import org.joml.Quaternionf;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-//TODO cleanup + comments
 public class PlayerPortraitGui extends OverlayBase {
+    public static ResourceLocation SKINRL = null;
 
 	public static final PlayerPortraitGui INSTANCE = new PlayerPortraitGui();
     private static final Map<UUID, Vec3i> GUMMI_SIZE_CACHE = new HashMap<>();
-
-    private boolean render3D = false;
 
     private PlayerPortraitGui() {
 		super();
@@ -80,8 +82,8 @@ public class PlayerPortraitGui extends OverlayBase {
                 //3D render
 				float playerHeight = 50;
                 ClientUtils.PORTRAIT_ELEMENT.applyTransform(guiGraphics,screenWidth, screenHeight);
-                float playerPosX = 16;
-				float playerPosY = 94;
+                int playerPosX = 16;
+                int playerPosY = 94;
 
 				poseStack.pushPose();
 				{
@@ -91,11 +93,10 @@ public class PlayerPortraitGui extends OverlayBase {
                     if(player.getVehicle() instanceof GummiShipEntity) {
                         renderShip(poseStack, scale);
                     } else {
-                        render3D = false;
-                        if(render3D) {
-                            ClientUtils.renderEntity(poseStack, (int) playerPosX + 0, (int) playerPosY+ 0, (int) playerHeight, 0,0, player);
+                        if(ModConfigs.portrait3D) {
+                            ClientUtils.renderEntity(poseStack, playerPosX, playerPosY, (int) playerHeight, 0,0, player);
                         } else {
-                            render2D(poseStack);
+                            render2D();
                         }
                     }
 					player.getInventory().setItem(player.getInventory().selected, stack);
@@ -143,20 +144,93 @@ public class PlayerPortraitGui extends OverlayBase {
         poseStack.popPose();
     }
 
-    private void render2D(PoseStack poseStack) {
-        ResourceLocation skin = minecraft.player.getSkin().texture();
-        RenderSystem.setShaderTexture(0, skin);
+    private void render2D() {
+        if(SKINRL == null) {
+            SKINRL = minecraft.player.getSkin().texture();
+        }
+        RenderSystem.setShaderTexture(0, SKINRL);
 
         // HEAD
         int headWidth = 32;
         int headHeight = 32;
 
-        this.blit(guiGraphics,skin, 0, 0, 32, 32, headWidth, headHeight);
+        this.blit(guiGraphics, SKINRL, 0, 0, 32, 32, headWidth, headHeight);
 
         // HAT
         if(minecraft.options.isModelPartEnabled(PlayerModelPart.HAT)){
-            this.blit(guiGraphics, skin, 0, 0, 160, 32, headWidth, headHeight);
+            this.blit(guiGraphics, SKINRL, 0, 0, 160, 32, headWidth, headHeight);
         }
+    }
+
+    // Individual layer so it renders above HP gui
+    public static final LayeredDraw.Layer CROWN_OVERLAY = (guiGraphics, deltaTracker) -> INSTANCE.renderCrownOverlay(guiGraphics);
+
+    private void renderCrownOverlay(GuiGraphics guiGraphics) {
+        if (ModConfigs.portrait3D || minecraft.player == null || minecraft.player.getVehicle() instanceof GummiShipEntity) {
+            return;
+        }
+
+        PlayerData playerData = PlayerData.get(minecraft.player);
+        if (playerData == null) {
+            return;
+        }
+
+        // Same tinting the portrait itself uses, so the crown keeps matching the face.
+        RenderSystem.setShaderColor(1, 1, 1, 1);
+        if (playerData.isFormActive(ModDriveForms.ANTI)) {
+            RenderSystem.setShaderColor(0.2F, 0.2F, 0.2F, 1F);
+        }
+        if (Utils.isPlayerLowHP(minecraft.player)) {
+            RenderSystem.setShaderColor(1F, 0.5F, 0.5F, 1F);
+        }
+
+        PoseStack poseStack = guiGraphics.pose();
+        poseStack.pushPose();
+        {
+            ClientUtils.PORTRAIT_ELEMENT.applyTransform(guiGraphics, minecraft.getWindow().getGuiScaledWidth(), minecraft.getWindow().getGuiScaledHeight());
+            renderCrown(guiGraphics, poseStack);
+            ClientUtils.PORTRAIT_ELEMENT.endTransform(guiGraphics);
+        }
+        poseStack.popPose();
+        RenderSystem.setShaderColor(1, 1, 1, 1);
+    }
+
+    private static final int CROWN_X = 8;
+    private static final int CROWN_Y = -6;
+    private static final int CROWN_WIDTH = 16;
+    private static final int CROWN_HEIGHT = 12;
+
+    private static final float CROWN_OFFSET_TO_PIXELS = 2F;
+
+    private void renderCrown(GuiGraphics guiGraphics, PoseStack poseStack) {
+        PlayerData playerData = PlayerData.get(minecraft.player);
+        if (playerData == null) {
+            return;
+        }
+
+        String crown = playerData.getCrown();
+        if (crown == null || crown.isEmpty()) {
+            return;
+        }
+
+        ResourceLocation texture = KingdomKeys.rl("textures/models/crown/" + crown + ".png");
+
+        float x = CROWN_X + playerData.getCrownOffsetX() * CROWN_OFFSET_TO_PIXELS;
+        float y = CROWN_Y + playerData.getCrownOffsetY() * CROWN_OFFSET_TO_PIXELS;
+
+        RenderSystem.enableBlend();
+        RenderSystem.disableCull();
+        poseStack.pushPose();
+        {
+            poseStack.translate(x + CROWN_WIDTH / 2F, y + CROWN_HEIGHT, 0);
+            poseStack.mulPose(new Quaternionf().rotationZYX(Mth.DEG_TO_RAD * playerData.getCrownRotationZ(), Mth.DEG_TO_RAD * -playerData.getCrownRotationY(), Mth.DEG_TO_RAD * -playerData.getCrownRotationX()));
+
+            poseStack.translate(-CROWN_WIDTH / 2F, -CROWN_HEIGHT, 0);
+            guiGraphics.blit(texture, 0, 0, CROWN_WIDTH, CROWN_HEIGHT, 1, 1, 8, 6, 32, 32);
+        }
+        poseStack.popPose();
+        RenderSystem.enableCull();
+        RenderSystem.disableBlend();
     }
 
     public static Vec3i getCachedGummiSize(GummiShipEntity ship) {

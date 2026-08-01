@@ -53,7 +53,7 @@ public class ModConfigs {
     }
 
     public static List<? extends Integer> hiddenMagic;
-    public static boolean cmHeaderTextVisible, cmClassicColors, snapChatToCommandMenu, hpShowHearts, showDriveForms, summonTogether, auto3rdPersonShip, cmChangeColor, customFont, shoulderSurfingDecoupled, seasonalEvents;
+    public static boolean cmHeaderTextVisible, cmClassicColors, snapChatToCommandMenu, hpShowHearts, showDriveForms, summonTogether, auto3rdPersonShip, cmChangeColor, customFont, shoulderSurfingDecoupled, seasonalEvents, portrait3D;
     public static int cmTextXOffset, cmSelectedXOffset, cmSubXOffset, hpAlarm, lockOnIconScale, lockOnIconRotation, lockOnHpPerBar, partyYDistance, cmEndLWidth, cmEndRWidth, cmHeaderEndLWidth, cmHeaderEndRWidth, cmReactionEndLWidth, cmReactionEndRWidth;
 
     public static void setHUDData(String name, List<? extends Float> data){
@@ -294,6 +294,8 @@ public class ModConfigs {
         snapChatToCommandMenu = CLIENT.snapChatToCommandMenu.get();
         cmSelectedXOffset = CLIENT.cmSelectedXOffset.get();
         cmSubXOffset = CLIENT.cmSubXOffset.get();
+
+        portrait3D = CLIENT.portrait3D.get();
 
         hpShowHearts = CLIENT.hpShowHearts.get();
         hpAlarm = CLIENT.hpAlarm.get();
