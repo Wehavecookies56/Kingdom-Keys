@@ -18,6 +18,10 @@ public class SavePointExtrasButton extends ScrollableButtonBase {
     }
 
     public void drawLabel(Component text, GuiGraphics gui) {
+        drawLabel(text, gui, Color.WHITE.getRGB());
+    }
+
+    public void drawLabel(Component text, GuiGraphics gui, int textColour) {
         gui.pose().pushPose();
         gui.pose().translate(0, 0, 1);
         gui.setColor(1, 1, 1, 0.25F);
@@ -27,12 +31,13 @@ public class SavePointExtrasButton extends ScrollableButtonBase {
         }
         gui.fill(getX(), getY(), getX() + getWidth(), getY() + getHeight(), colour);
         gui.setColor(1, 1, 1, 1);
+        gui.pose().translate(0.5F, 0.8F, 1);
         if (Minecraft.getInstance().font.width(getMessage().getVisualOrderText()) > getWidth()) {
             gui.enableScissor(getX(), getY(), getX() + getWidth(), getY() + getHeight());
-            gui.drawString(Minecraft.getInstance().font, text, getX() + 1, getY() + 1, Color.WHITE.getRGB());
+            gui.drawString(Minecraft.getInstance().font, text, getX() + 1, getY() + 1, textColour);
             gui.disableScissor();
         } else {
-            gui.drawCenteredString(Minecraft.getInstance().font, text, getX() + (getWidth() / 2), getY() + 1, Color.WHITE.getRGB());
+            gui.drawCenteredString(Minecraft.getInstance().font, text, getX() + (getWidth() / 2), getY() + 1, textColour);
         }
         gui.pose().popPose();
     }

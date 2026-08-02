@@ -1,6 +1,7 @@
 package online.kingdomkeys.kingdomkeys.client;
 
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Matrix4f;
 
@@ -41,10 +42,7 @@ public class TrailRenderer {
 				if (prev == null) {
 					result[i] = curr;
 				} else {
-					result[i] = new Vec3(
-							net.minecraft.util.Mth.lerp(partialTicks, prev.x, curr.x),
-							net.minecraft.util.Mth.lerp(partialTicks, prev.y, curr.y),
-							net.minecraft.util.Mth.lerp(partialTicks, prev.z, curr.z));
+					result[i] = new Vec3(Mth.lerp(partialTicks, prev.x, curr.x), Mth.lerp(partialTicks, prev.y, curr.y), Mth.lerp(partialTicks, prev.z, curr.z));
 				}
 			}
 			return result;

@@ -2504,6 +2504,7 @@
   "kingdomkeys.castle_oblivion.name": "Castle Oblivion",
   "kingdomkeys.castle_oblivion.peaceful": "Castle Oblivion does not work on peaceful difficulty",
   "kingdomkeys.chestplate": "Chestplate",
+  "kingdomkeys.chests.moogle_house": "Moogle House",
   "kingdomkeys.command.ability.given": "Added '%s' ability to %s",
   "kingdomkeys.command.ability.given_permanent_self": "You have been given the ability '%s' permanently",
   "kingdomkeys.command.ability.given_self": "You have been given the ability '%s'",

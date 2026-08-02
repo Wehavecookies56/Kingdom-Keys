@@ -8,6 +8,7 @@
     "ItemStackMixin",
     "LevelChunkMixin",
     "LivingEntityMixin",
+    "jer.NeoForgePlatformHelperMixin",
     "PlayerMixin",
     "ServerGamePacketListenerImplMixin",
     "TellMeTheErrorMixin"

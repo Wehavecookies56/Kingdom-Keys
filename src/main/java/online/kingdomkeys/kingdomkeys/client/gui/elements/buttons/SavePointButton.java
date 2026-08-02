@@ -99,9 +99,10 @@ public class SavePointButton extends ScrollableButtonBase {
     @Override
     public boolean isMouseOver(double pMouseX, double pMouseY) {
         boolean hovered = super.isMouseOver(pMouseX, pMouseY);
-        if (hovered) {
+        boolean over = this.visible && pMouseX >= getX() && pMouseY >= getY() && pMouseX < getX() + this.width && pMouseY < getY() + this.height;
+        if (over) {
             parent.hovered = destination;
-        } else if (parent.hovered != null && parent.hovered.equals(destination)) {
+        } else if (destination.equals(parent.hovered)) {
             parent.hovered = null;
         }
         return hovered;

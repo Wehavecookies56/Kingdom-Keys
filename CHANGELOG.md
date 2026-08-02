@@ -1,7 +1,9 @@
 ## Added:
 * Shotlock followup minigames, they are enabled by default (serverconfig for it), if they work and scale fine we'll remove the config later.
 * Mini helm cockpit, 1x1x1 and can hold a single rider.
-* New serverconfig to set individual magic cooldowns.
+* New button to add Savepoints as favourite.
+* Support for JER
+* New serverconfig to set individual magic cooldowns (Similar to BBS).
 * New serverconfig to set the cooldown multiplier compared to the global cooldown (defaults to x4).
 * New clientconfig to set the portrait render as 2D or 3D.
 * Airstep and shotlock trails.
@@ -11,6 +13,7 @@
 * You can no longer move while casting a shotlock.
 * You are sent upwards when casting a Ragnarok-like shotlock.
 * Bag-held shotlocks color in the selector gui are now cyan, same as the bag item color.
+* Updated Japanese translation (thanks to roxchan6668).
 
 ## Fixed:
 * Gummi Hangar screen crash.

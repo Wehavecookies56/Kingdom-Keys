@@ -110,6 +110,7 @@ public class PacketHandler {
 			server(CSPlayAnimation.TYPE, CSPlayAnimation.STREAM_CODEC);
 		}
 		server(CSSavePointTP.TYPE, CSSavePointTP.STREAM_CODEC);
+		server(CSToggleFavouriteSavePoint.TYPE, CSToggleFavouriteSavePoint.STREAM_CODEC);
 		server(CSSetAerialDodgeTicksPacket.TYPE, CSSetAerialDodgeTicksPacket.STREAM_CODEC);
 		server(CSSetAirStepPacket.TYPE, CSSetAirStepPacket.STREAM_CODEC);
 		server(CSSetAlignment.TYPE, CSSetAlignment.STREAM_CODEC);

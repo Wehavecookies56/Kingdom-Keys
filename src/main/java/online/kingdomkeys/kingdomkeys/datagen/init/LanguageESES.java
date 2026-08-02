@@ -553,6 +553,8 @@ public class LanguageESES extends KKLanguageProvider {
         add("gui.shotlockitem.equip","Equípalo en el menú para usarlo");
         add("gui.shotlockitem.max_locks","Máx. Bloqueos: %s");
 
+        add("kingdomkeys.chests.moogle_house","Casa Moguri");
+
         add("gui.shotlock.minigame.mash","¡PULSA!");
         add("gui.shotlock.minigame.hits","%s golpes");
         add("gui.shotlock.minigame.perfect","¡PERFECTO!");

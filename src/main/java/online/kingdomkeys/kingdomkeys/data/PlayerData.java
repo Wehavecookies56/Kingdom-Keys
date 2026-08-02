@@ -163,7 +163,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
             tag1.putFloat("y", shotlock.y());
             tag1.putFloat("z", shotlock.z());
             targetShotlocks.put("target"+i, tag1);
-        }//TODO a
+        }
         storage.put("target_shotlocks", targetShotlocks);
 
 		CompoundTag forms = new CompoundTag();
@@ -300,6 +300,12 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 			savePoints.put(uuid.toString(), timeTag);
 		});
 		storage.put("save_points", savePoints);
+
+		ListTag favouriteSavePointsList = new ListTag();
+		for (UUID favourite : this.favouriteSavePoints) {
+			favouriteSavePointsList.add(StringTag.valueOf(favourite.toString()));
+		}
+		storage.put("favourite_save_points", favouriteSavePointsList);
 
 		CompoundTag synthedRecipes = new CompoundTag();
 		for (String rec : this.getSynthesisedRecipes()) {
@@ -549,6 +555,16 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 			addDiscoveredSavePoint(uuid, Instant.ofEpochSecond(time.getLong("second"), time.getInt("nano")));
 		}
 
+		favouriteSavePoints.clear();
+		ListTag favouriteSavePointsList = nbt.getList("favourite_save_points", Tag.TAG_STRING);
+		for (int i = 0; i < favouriteSavePointsList.size(); i++) {
+			try {
+				favouriteSavePoints.add(UUID.fromString(favouriteSavePointsList.getString(i)));
+			} catch (IllegalArgumentException ignored) {
+				// A malformed id just means that favourite is dropped, which is harmless.
+			}
+		}
+
 		synthesisedRecipes.clear();
 		for (String key : nbt.getCompound("synthesised_recipes").getAllKeys()) {
 			if (RecipeRegistry.getInstance().getRegistry().containsKey(KingdomKeys.rl(key))) {
@@ -667,6 +683,8 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 	private float crownRotationX = 0F, crownRotationY = 0F, crownRotationZ = 0F;
 
 	private Map<UUID, Instant> discoveredSavePoints = new HashMap<>();
+	// Save points this player pinned to the top of the warp list. Purely a personal shortcut, so it is not tied to who owns the save point or whether it is global.
+	private final Set<UUID> favouriteSavePoints = new LinkedHashSet<>();
 
 	Utils.castMagic castMagic = null;
 
@@ -1522,7 +1540,6 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 	}
 
 	public int getNotifColor() {
-		// TODO Auto-generated method stub
 		return notifColor;
 	}
 
@@ -2654,6 +2671,33 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 
 	public void setDiscoveredSavePoints(Map<UUID, Instant> list) {
 		discoveredSavePoints = list;
+	}
+
+	public Set<UUID> getFavouriteSavePoints() {
+		return favouriteSavePoints;
+	}
+
+	public boolean isFavouriteSavePoint(UUID id) {
+		return id != null && favouriteSavePoints.contains(id);
+	}
+
+	// Returns the state it ended up in, so the caller doesn't have to ask again.
+	public boolean toggleFavouriteSavePoint(UUID id) {
+		if (id == null) {
+			return false;
+		}
+		if (!favouriteSavePoints.remove(id)) {
+			favouriteSavePoints.add(id);
+			return true;
+		}
+		return false;
+	}
+
+	public void setFavouriteSavePoints(Collection<UUID> ids) {
+		favouriteSavePoints.clear();
+		if (ids != null) {
+			favouriteSavePoints.addAll(ids);
+		}
 	}
 
 	//region Flowmotion

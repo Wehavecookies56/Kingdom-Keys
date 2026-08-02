@@ -2450,6 +2450,7 @@
   "kingdomkeys.castle_oblivion.name": "Castillo del Olvido",
   "kingdomkeys.castle_oblivion.peaceful": "El Castillo del Olvido no funciona en dificultad pacífica",
   "kingdomkeys.chestplate": "Pechera",
+  "kingdomkeys.chests.moogle_house": "Casa Moguri",
   "kingdomkeys.command.ability.given": "Añadida la habilidad '%s' a %s",
   "kingdomkeys.command.ability.given_permanent_self": "Se te ha dado la habilidad '%s' de forma permanente",
   "kingdomkeys.command.ability.given_self": "Se te ha dado la habilidad '%s'",

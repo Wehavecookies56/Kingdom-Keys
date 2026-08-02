@@ -493,6 +493,8 @@ public class LanguageENUS extends KKLanguageProvider {
         add("gui.shotlockitem.equip","Equip in the menu to use it");
         add("gui.shotlockitem.max_locks","Max Locks: %s");
 
+        add("kingdomkeys.chests.moogle_house","Moogle House");
+
         add("gui.shotlock.minigame.mash","MASH!");
         add("gui.shotlock.minigame.hits","%s hits");
         add("gui.shotlock.minigame.perfect","PERFECT!");
