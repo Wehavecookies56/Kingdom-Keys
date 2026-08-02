@@ -456,6 +456,7 @@ public class ModEntities {
         event.registerBlockEntityRenderer(TYPE_GUMMI_HANGAR.get(), GummiHangarRenderer::new);
         event.registerBlockEntityRenderer(TYPE_GUMMI_CORE_TE.get(), GummiCoreRenderer::new);
         event.registerBlockEntityRenderer(TYPE_SAVEPOINT.get(), SavePointBlockEntityRenderer::new);
+        event.registerBlockEntityRenderer(TYPE_ORG_PORTAL_TE.get(), OrgPortalBlockEntityRenderer::new);
     }
 
     @OnlyIn(Dist.CLIENT)

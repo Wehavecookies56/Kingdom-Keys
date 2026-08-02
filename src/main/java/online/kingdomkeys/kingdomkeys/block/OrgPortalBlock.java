@@ -142,11 +142,6 @@ public class OrgPortalBlock extends BaseBlock implements EntityBlock, INoDataGen
 		}
 		super.onRemove(state, worldIn, pos, newState, isMoving);
 	}
-	
-	@Override
-	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-		return type == ModEntities.TYPE_ORG_PORTAL_TE.get() ? OrgPortalTileEntity::tick : null;//EntityBlock.super.getTicker(pLevel, pState, pBlockEntityType);
-	}
 
 	@Nullable
 	@Override
