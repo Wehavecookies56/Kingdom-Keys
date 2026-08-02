@@ -16,6 +16,7 @@
 * Gummi Hangar screen crash.
 * Bio barrage not being a circular shotlock.
 * Flame Salvo not being a volley shotlock.
+* Crown not being rendered in the 2D Player Portrait.
 * /kingdomkeys dimension command throwing errors in chat.
 * Idle animation playing while walking in EFM.
 * EFM attack happening when starting a shotlock.

@@ -22,7 +22,6 @@ public class MeldingDataDeserializer implements JsonDeserializer<Melding>{
 				case "ingredient1" -> out.setIngredient1(getIngredient(element));
 				case "ingredient2" -> out.setIngredient2(getIngredient(element));
 				case "cost" -> out.setCost(element.getAsInt());
-				case "exp" -> out.setExp(element.getAsInt());
 				case "output" -> {
 					JsonObject outputObject = element.getAsJsonObject();
 					if (!outputObject.has("item") || !outputObject.has("quantity")) {
@@ -40,19 +39,10 @@ public class MeldingDataDeserializer implements JsonDeserializer<Melding>{
 						throw new JsonParseException("Output2 missing item/quantity: " + json);
 					}
 
-					Item result = BuiltInRegistries.ITEM.get(
-							KingdomKeys.rl(outputObject.get("item").getAsString())
-					);
+					Item result = BuiltInRegistries.ITEM.get(KingdomKeys.rl(outputObject.get("item").getAsString()));
 
-					int chance = outputObject.has("chance")
-							? outputObject.get("chance").getAsInt()
-							: 0;
-
-					out.setBonusResult(
-							result,
-							outputObject.get("quantity").getAsInt(),
-							chance
-					);
+					int chance = outputObject.has("chance") ? outputObject.get("chance").getAsInt() : 0;
+					out.setBonusResult(result, outputObject.get("quantity").getAsInt(), chance);
 				}
 				case "tier" -> out.setTier(element.getAsInt());
 			}

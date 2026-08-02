@@ -20,16 +20,13 @@ public class Melding {
 	@Nullable String type;
 	int cost;
 	int tier;
-	int exp;
 	int bonusChance;
 	ResourceLocation registryName;
 
 	public Melding() {
-		exp = -1;
 	}
 
 	public Melding(CompoundTag tag) {
-		exp = -1;
 		deserializeNBT(tag);
 	}
 
@@ -74,14 +71,6 @@ public class Melding {
 		this.bonusResult = result;
 		this.bonusAmount = amount;
 		this.bonusChance = chance;
-	}
-
-	public int getExp() {
-		return this.exp;
-	}
-
-	public void setExp(int exp) {
-		this.exp = exp;
 	}
 
 	public int getAmount() {
@@ -140,10 +129,6 @@ public class Melding {
 
 		nbt.putInt("cost", cost);
 
-		if (exp >= 0) {
-			nbt.putInt("exp", exp);
-		}
-
 		nbt.putInt("tier", tier);
 		nbt.putString("type", getType());
 
@@ -162,10 +147,6 @@ public class Melding {
 
 		this.setType(nbt.getString("type"));
 		this.setCost(nbt.getInt("cost"));
-
-		if (nbt.contains("exp")) {
-			this.setExp(nbt.getInt("exp"));
-		}
 
 		this.setTier(nbt.getInt("tier"));
 		this.setIngredient1(BuiltInRegistries.ITEM.get(KingdomKeys.rl(nbt.getString("ingredient_material_1"))));
