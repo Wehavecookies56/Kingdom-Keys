@@ -961,6 +961,7 @@ public class LanguageESES extends KKLanguageProvider {
         addTintedBlock(ModBlocks.gummiDispelRoundCorners, "Gummi Antimagia (Corner %s)");
         //Cockpits
         addTintedBlock(ModBlocks.gummiBubbleHelms, "Gummi Casco curvo (%s)");
+        addTintedBlock(ModBlocks.gummiMiniHelms, "Gummi Mini Casco (%s)");
         //Weapons
         addBlock(ModBlocks.gummiFire, "Gummi Piro");
         addBlock(ModBlocks.gummiFira, "Gummi Piro+");

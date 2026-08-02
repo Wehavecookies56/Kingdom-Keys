@@ -130,6 +130,7 @@ public class BlockLootTables extends BlockLootSubProvider {
 						ModBlocks.gummiDispelCones,
 						ModBlocks.gummiDispelDomes,
 						ModBlocks.gummiBubbleHelms,
+						ModBlocks.gummiMiniHelms,
 
                         ModBlocks.gummiAeroSquares,
                         ModBlocks.gummiAeroTriangles

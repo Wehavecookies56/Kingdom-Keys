@@ -161,6 +161,7 @@ public class ModBlocks {
             gummiDispelDomes = new ArrayList<>(),
 
             gummiBubbleHelms = new ArrayList<>(),
+            gummiMiniHelms = new ArrayList<>(),
             gummiAeroTriangles = new ArrayList<>(),
             gummiAeroSquares = new ArrayList<>()
         ;
@@ -205,7 +206,7 @@ public class ModBlocks {
         createNewGummiBubbleHelmBlock("gummi_bubble_helm", gummiBubbleHelms, GummiBlockProperties.of(2, 40, 0).withPlacement(GummiPlacementType.MULTIBLOCK3D), seat1,seat2,seat3);
 
         Vec3 seat0 = new Vec3(0F, 0F, 0F);
-        createNewGummiBubbleHelmBlock("gummi_mini_helm", gummiBubbleHelms, GummiBlockProperties.of(2, 20, 0), seat0);
+        createNewGummiBubbleHelmBlock("gummi_mini_helm", gummiMiniHelms, GummiBlockProperties.of(2, 20, 0), seat0);
 
         createNewGummiAeroBlock("gummi_aero_square", gummiAeroSquares, GummiBlockProperties.of(1, 1, 0).withPlacement(GummiPlacementType.EDGE), 10);
         createNewGummiAeroBlock("gummi_aero_triangle", gummiAeroTriangles, GummiBlockProperties.of(1, 1, 0).withPlacement(GummiPlacementType.EDGE), 10);

@@ -40,7 +40,7 @@ public class Recipes extends RecipeProvider {
     public static final List<List<Supplier<Block>>> gummiDispelBlocks = List.of(ModBlocks.gummiDispelCubes, ModBlocks.gummiDispelWedges, ModBlocks.gummiDispelPyramids, ModBlocks.gummiDispelCylinders, ModBlocks.gummiDispelPies, ModBlocks.gummiDispelRoundCorners, ModBlocks.gummiDispelCones, ModBlocks.gummiDispelDomes);
 
     //Other blocks that shouldn't be stonecutted alongside normal blocks
-    public static final List<List<Supplier<Block>>> gummiDifferentBlocks = List.of(ModBlocks.gummiBubbleHelms);
+    public static final List<List<Supplier<Block>>> gummiDifferentBlocks = List.of(ModBlocks.gummiBubbleHelms, ModBlocks.gummiMiniHelms);
     public Recipes(DataGenerator dataGenerator, CompletableFuture<HolderLookup.Provider> pRegistries) {
         super(dataGenerator.getPackOutput(), pRegistries);
         this.dataGenerator = dataGenerator;
@@ -612,6 +612,16 @@ public class Recipes extends RecipeProvider {
                 .pattern("GGG")
                 .pattern("GCG")
                 .pattern("FFF")
+                .define('F', ModItems.gummiMeteorFragment.get())
+                .define('C', ModItems.cureSpell.get())
+                .define('G', Blocks.GLASS)
+                .group(KingdomKeys.MODID)
+                .unlockedBy("gummi_cure", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.cureSpell.get()))
+                .save(consumer);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.gummiMiniHelms.getFirst().get())
+                .pattern("GG")
+                .pattern("FC")
                 .define('F', ModItems.gummiMeteorFragment.get())
                 .define('C', ModItems.cureSpell.get())
                 .define('G', Blocks.GLASS)

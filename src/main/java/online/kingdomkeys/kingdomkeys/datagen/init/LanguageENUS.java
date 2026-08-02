@@ -701,6 +701,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addTintedBlock(ModBlocks.gummiDispelRoundCorners, "Rounded/Dispel-G-02 (Round Corner %s)");
         //Cockpits
         addTintedBlock(ModBlocks.gummiBubbleHelms, "Bubble Helm/G (%s)");
+        addTintedBlock(ModBlocks.gummiMiniHelms, "Mini Helm/G (%s)");
         //Weapons
         addBlock(ModBlocks.gummiFire, "Fire/G");
         addBlock(ModBlocks.gummiFira, "Fira/G");
