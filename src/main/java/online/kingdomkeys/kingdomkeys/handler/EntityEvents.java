@@ -45,6 +45,7 @@ import net.neoforged.neoforge.event.PlayLevelSoundEvent;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.entity.living.*;
 import net.neoforged.neoforge.event.entity.player.AdvancementEvent;
+import net.neoforged.neoforge.common.util.TriState;
 import net.neoforged.neoforge.event.entity.player.ItemEntityPickupEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerXpEvent;
@@ -955,7 +956,7 @@ public class EntityEvents {
 		}
 	}
 
-	public void addToBag(IItemHandler inv, ItemEntityPickupEvent event, ItemStack bag) {
+	public void addToBag(IItemHandler inv, ItemEntityPickupEvent.Pre event, ItemStack bag) {
 		int bagLevel = bag.getOrDefault(ModComponents.BAG_LEVEL, 0);
 		int maxSlots = switch (bagLevel) {
 			case 0 -> 18;
@@ -965,16 +966,22 @@ public class EntityEvents {
 			default -> 0;
 		};
 
-		ItemStack remaining = event.getItemEntity().getItem().copy();
+		ItemStack onGround = event.getItemEntity().getItem();
+		if (onGround.isEmpty()) {
+			return;
+		}
+
+		ItemStack remaining = onGround.copy();
 
 		for (int j = 0; j < maxSlots && !remaining.isEmpty(); j++) {
 			remaining = inv.insertItem(j, remaining, false);
 		}
 
 		if (remaining.isEmpty()) {
+			event.setCanPickup(TriState.FALSE);
 			event.getItemEntity().discard();
 		} else {
-			event.getItemEntity().setItem(remaining);
+			onGround.setCount(remaining.getCount());
 		}
 	}
 
