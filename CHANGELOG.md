@@ -1,7 +1,8 @@
 ## Added:
-* Recipe for mini helm:
-  * glass block | glass block
-  * gummi frag. | cure spell
+* Realm of Darkness arches.
+
+## Changed:
+* Lowered meteorite frequency.
 
 ## Fixed:
-* Items that can be picked up by a bag could be duped.
+* 

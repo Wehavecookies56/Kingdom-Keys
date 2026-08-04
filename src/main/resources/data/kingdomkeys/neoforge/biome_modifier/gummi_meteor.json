@@ -4,7 +4,5 @@
   "features": [
     "kingdomkeys:gummi_meteor"
   ],
-  "step": "surface_structures",
-  "count": 1,
-  "rarity": 800
+  "step": "surface_structures"
 }
