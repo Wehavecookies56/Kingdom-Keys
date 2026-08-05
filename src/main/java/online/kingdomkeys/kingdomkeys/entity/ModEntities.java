@@ -188,6 +188,18 @@ public class ModEntities {
     public static final DeferredHolder<EntityType<?>, EntityType<SoldierEntity>> TYPE_COMMANDER = createEntityType(CommanderEntity::new, MobCategory.MONSTER, "commander", 0.9F, 2.4F);
     public static final Supplier<Item> COMMANDER_EGG = ModItems.ITEMS.register("commander_spawn_egg", () -> new DeferredSpawnEggItem(TYPE_COMMANDER, 0x003c32, Color.YELLOW.getRGB(), PROPERTIES));
 
+    public static final DeferredHolder<EntityType<?>, EntityType<AirSoldierEntity>> TYPE_AIR_SOLDIER = createEntityType(AirSoldierEntity::new, MobCategory.MONSTER, "air_soldier", 0.9F, 1.8F);
+    public static final Supplier<Item> AIR_SOLDIER_EGG = ModItems.ITEMS.register("air_soldier_spawn_egg", () -> new DeferredSpawnEggItem(TYPE_AIR_SOLDIER, 0x2f4f8f, Color.WHITE.getRGB(), PROPERTIES));
+
+    public static final DeferredHolder<EntityType<?>, EntityType<DefenderEntity>> TYPE_DEFENDER = createEntityType(DefenderEntity::new, MobCategory.MONSTER, "defender", 1.0F, 1.9F);
+    public static final Supplier<Item> DEFENDER_EGG = ModItems.ITEMS.register("defender_spawn_egg", () -> new DeferredSpawnEggItem(TYPE_DEFENDER, 0x4a3b2a, 0xc8b070, PROPERTIES));
+
+    public static final DeferredHolder<EntityType<?>, EntityType<NeoshadowEntity>> TYPE_NEOSHADOW = createEntityType(NeoshadowEntity::new, MobCategory.MONSTER, "neoshadow", 0.7F, 1.5F);
+    public static final Supplier<Item> NEOSHADOW_EGG = ModItems.ITEMS.register("neoshadow_spawn_egg", () -> new DeferredSpawnEggItem(TYPE_NEOSHADOW, 0x14111c, 0x6f4fb0, PROPERTIES));
+
+    public static final DeferredHolder<EntityType<?>, EntityType<NeoshadowEntity>> TYPE_NOVASHADOW = createEntityType(NovashadowEntity::new, MobCategory.MONSTER, "novashadow", 0.8F, 1.7F);
+    public static final Supplier<Item> NOVASHADOW_EGG = ModItems.ITEMS.register("novashadow_spawn_egg", () -> new DeferredSpawnEggItem(TYPE_NOVASHADOW, 0x1c1114, Color.RED.getRGB(), PROPERTIES));
+
     public static final DeferredHolder<EntityType<?>, EntityType<WhiteMushroomEntity>> TYPE_WHITE_MUSHROOM = createEntityType(WhiteMushroomEntity::new, MobCategory.MONSTER, "white_mushroom", 0.6F, 1.1F);
     public static final Supplier<Item> WHITE_MUSHROOM_EGG = ModItems.ITEMS.register("white_mushroom_spawn_egg", () -> new DeferredSpawnEggItem(TYPE_WHITE_MUSHROOM, 0xFAF3B9, Color.RED.getRGB(), PROPERTIES));
 
@@ -393,6 +405,10 @@ public class ModEntities {
         event.registerEntityRenderer(TYPE_SOLDIER.get(), SoldierRenderer::new);
         event.registerEntityRenderer(TYPE_DESERTER.get(), SoldierRenderer::new);
         event.registerEntityRenderer(TYPE_COMMANDER.get(), SoldierRenderer::new);
+        event.registerEntityRenderer(TYPE_AIR_SOLDIER.get(), AirSoldierRenderer::new);
+        event.registerEntityRenderer(TYPE_DEFENDER.get(), DefenderRenderer::new);
+        event.registerEntityRenderer(TYPE_NEOSHADOW.get(), NeoshadowRenderer::new);
+        event.registerEntityRenderer(TYPE_NOVASHADOW.get(), NeoshadowRenderer::new);
         event.registerEntityRenderer(TYPE_DRAGOON.get(), DragoonRenderer::new);
         event.registerEntityRenderer(TYPE_WHITE_MUSHROOM.get(), WhiteMushroomRenderer::new);
         event.registerEntityRenderer(TYPE_BLACK_FUNGUS.get(), BlackFungusRenderer::new);
@@ -472,6 +488,9 @@ public class ModEntities {
         event.registerLayerDefinition(DarkballModel.LAYER_LOCATION, DarkballModel::createBodyLayer);
         event.registerLayerDefinition(DirePlantModel.LAYER_LOCATION, DirePlantModel::createBodyLayer);
         event.registerLayerDefinition(SoldierModel.LAYER_LOCATION, SoldierModel::createBodyLayer);
+        event.registerLayerDefinition(AirSoldierModel.LAYER_LOCATION, AirSoldierModel::createBodyLayer);
+        event.registerLayerDefinition(DefenderModel.LAYER_LOCATION, DefenderModel::createBodyLayer);
+        event.registerLayerDefinition(NeoshadowModel.LAYER_LOCATION, NeoshadowModel::createBodyLayer);
         event.registerLayerDefinition(WhiteMushroomModel.LAYER_LOCATION, WhiteMushroomModel::createBodyLayer);
         //event.registerLayerDefinition(.LAYER_LOCATION, WhiteMushroomModel::createBodyLayer);
         event.registerLayerDefinition(DragoonModel.LAYER_LOCATION, DragoonModel::createBodyLayer);
@@ -545,6 +564,10 @@ public class ModEntities {
         event.put(TYPE_SOLDIER.get(), SoldierEntity.registerAttributes().build());
         event.put(TYPE_DESERTER.get(), DeserterEntity.registerAttributes().build());
         event.put(TYPE_COMMANDER.get(), CommanderEntity.registerAttributes().build());
+        event.put(TYPE_AIR_SOLDIER.get(), AirSoldierEntity.registerAttributes().build());
+        event.put(TYPE_DEFENDER.get(), DefenderEntity.registerAttributes().build());
+        event.put(TYPE_NEOSHADOW.get(), NeoshadowEntity.registerAttributes().build());
+        event.put(TYPE_NOVASHADOW.get(), NovashadowEntity.registerAttributes().build());
         event.put(TYPE_WHITE_MUSHROOM.get(), WhiteMushroomEntity.registerAttributes().build());
         event.put(TYPE_BLACK_FUNGUS.get(), BlackFungusEntity.registerAttributes().build());
         event.put(TYPE_DRAGOON.get(), DragoonEntity.registerAttributes().build());
@@ -567,6 +590,8 @@ public class ModEntities {
         addToGroup(HEARTLESS_PUREBLOOD, TYPE_GIGA_SHADOW.get(), 20);
         addToGroup(HEARTLESS_PUREBLOOD, TYPE_DARKBALL.get(), 15);
         addToGroup(HEARTLESS_PUREBLOOD, TYPE_SHADOW_GLOB.get(), 5);
+        addToGroup(HEARTLESS_PUREBLOOD, TYPE_NEOSHADOW.get(), 22);
+        addToGroup(HEARTLESS_PUREBLOOD, TYPE_NOVASHADOW.get(), 35);
         
         addToGroup(HEARTLESS_EMBLEM, TYPE_MINUTE_BOMB.get(), 4);
         addToGroup(HEARTLESS_EMBLEM, TYPE_SKATER_BOMB.get(), 8);
@@ -582,6 +607,8 @@ public class ModEntities {
         addToGroup(HEARTLESS_EMBLEM, TYPE_SOLDIER.get(), 3);
         addToGroup(HEARTLESS_EMBLEM, TYPE_DESERTER.get(), 5);
         addToGroup(HEARTLESS_EMBLEM, TYPE_COMMANDER.get(), 12);
+        addToGroup(HEARTLESS_EMBLEM, TYPE_AIR_SOLDIER.get(), 10);
+        addToGroup(HEARTLESS_EMBLEM, TYPE_DEFENDER.get(), 18);
         addToGroup(HEARTLESS_EMBLEM, TYPE_WHITE_MUSHROOM.get(), 20);
         addToGroup(HEARTLESS_EMBLEM, TYPE_BLACK_FUNGUS.get(), 25);
 
@@ -648,6 +675,10 @@ public class ModEntities {
         event.register(TYPE_SOLDIER.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
         event.register(TYPE_DESERTER.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
         event.register(TYPE_COMMANDER.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
+        event.register(TYPE_AIR_SOLDIER.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
+        event.register(TYPE_DEFENDER.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
+        event.register(TYPE_NEOSHADOW.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
+        event.register(TYPE_NOVASHADOW.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
         event.register(TYPE_WHITE_MUSHROOM.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
         event.register(TYPE_BLACK_FUNGUS.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
         event.register(TYPE_DRAGOON.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);

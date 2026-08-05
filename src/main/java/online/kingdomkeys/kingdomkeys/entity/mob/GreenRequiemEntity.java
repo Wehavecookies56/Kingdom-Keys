@@ -93,7 +93,7 @@ public class GreenRequiemEntity extends BaseElementalMusicalHeartlessEntity {
         @Override
         public void start() {
             canUseAttack = true;
-            attackTimer = 25 + level().random.nextInt(5);
+            attackTimer = 80 + level().random.nextInt(40);
             mob.setState(0);
             this.mob.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.20D);
             whileAttackTimer = 0;

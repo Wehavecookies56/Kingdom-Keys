@@ -2324,6 +2324,10 @@ public class LanguageESES extends KKLanguageProvider {
         addEntityType(ModEntities.TYPE_SOLDIER, "Soldado");
         addEntityType(ModEntities.TYPE_DESERTER, "Desertor");
         addEntityType(ModEntities.TYPE_COMMANDER, "Commander");
+        addEntityType(ModEntities.TYPE_AIR_SOLDIER, "Soldado Aéreo");
+        addEntityType(ModEntities.TYPE_DEFENDER, "Defensor");
+        addEntityType(ModEntities.TYPE_NEOSHADOW, "Neosombra");
+        addEntityType(ModEntities.TYPE_NOVASHADOW, "Novasombra");
         addEntityType(ModEntities.TYPE_WHITE_MUSHROOM, "Seta Blanca");
         addEntityType(ModEntities.TYPE_BLACK_FUNGUS, "Hongo Negro");
         addEntityType(ModEntities.TYPE_BLOX_BUG, "Bloque de Error");
@@ -2362,6 +2366,10 @@ public class LanguageESES extends KKLanguageProvider {
         addItem(ModEntities.SOLDIER_EGG, "Generar Soldado");
         addItem(ModEntities.DESERTER_EGG, "Generar Desertor");
         addItem(ModEntities.COMMANDER_EGG, "Generar Comandante");
+        addItem(ModEntities.AIR_SOLDIER_EGG, "Generar Soldado Aéreo");
+        addItem(ModEntities.DEFENDER_EGG, "Generar Defensor");
+        addItem(ModEntities.NEOSHADOW_EGG, "Generar Neosombra");
+        addItem(ModEntities.NOVASHADOW_EGG, "Generar Novasombra");
         addItem(ModEntities.WHITE_MUSHROOM_EGG, "Generar Seta Blanca");
         addItem(ModEntities.BLACK_FUNGUS_EGG, "Generar Hongo Negro");
         addItem(ModEntities.BLOX_BUG_EGG, "Generar Bloque de Error");
