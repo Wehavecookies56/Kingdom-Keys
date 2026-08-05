@@ -167,6 +167,7 @@ public class PlayerPortraitGui extends OverlayBase {
 
     private void renderCrownOverlay(GuiGraphics guiGraphics) {
         if (ModConfigs.portrait3D || minecraft.player == null || minecraft.player.getVehicle() instanceof GummiShipEntity) {
+            RenderSystem.setShaderColor(1, 1, 1, 1);
             return;
         }
 

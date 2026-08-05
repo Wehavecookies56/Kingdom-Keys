@@ -12,6 +12,7 @@ import net.minecraft.world.level.StructureManager;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.biome.BiomeManager;
 import net.minecraft.world.level.biome.BiomeSource;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.chunk.ChunkGenerator;
@@ -50,6 +51,7 @@ public class WorldMapChunkGenerator extends ChunkGenerator {
 	private static final int CLUSTER_HEIGHT = 40;
 	private static final int MIN_Y = 48;
 	private static final int MAX_Y = 320;
+	private static final float METEOR_CHANCE = 0.6F;
 
 	@Override
 	public void applyCarvers(WorldGenRegion level, long seed, RandomState random, BiomeManager biomeManager, StructureManager structureManager, ChunkAccess chunk, GenerationStep.Carving step) {
@@ -90,6 +92,7 @@ public class WorldMapChunkGenerator extends ChunkGenerator {
 
 	private void placeRock(WorldGenLevel level, RandomSource random, BlockPos centre, int radius) {
 		BlockState meteor = ModBlocks.gummiMeteor.get().defaultBlockState();
+		BlockState basalt = Blocks.BASALT.defaultBlockState();
 		BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
 
 		for (int x = -radius; x <= radius; x++) {
@@ -102,7 +105,7 @@ public class WorldMapChunkGenerator extends ChunkGenerator {
 
 					pos.set(centre.getX() + x, centre.getY() + y, centre.getZ() + z);
 					if (!level.isOutsideBuildHeight(pos)) {
-						level.setBlock(pos, meteor, 2);
+						level.setBlock(pos, random.nextFloat() < METEOR_CHANCE ? meteor : basalt, 2);
 					}
 				}
 			}
