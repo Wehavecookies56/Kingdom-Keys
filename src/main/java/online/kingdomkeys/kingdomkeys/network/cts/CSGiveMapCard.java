@@ -25,7 +25,7 @@ public record CSGiveMapCard(ItemStack item) implements Packet {
     public void handle(IPayloadContext context) {
         //at least enforce it has to be a map card to limit how exploitable this is
         if (item.getItem() instanceof MapCardItem) {
-            Utils.giveItems((ServerPlayer) context.player(), item);
+            Utils.giveItems((ServerPlayer) context.player(), true, item);
         }
     }
 

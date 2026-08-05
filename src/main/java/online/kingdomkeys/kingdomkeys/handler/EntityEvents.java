@@ -1767,7 +1767,7 @@ public class EntityEvents {
 
 		Supplier<Item> reward = ADVANCEMENT_ITEM_REWARDS.get(id);
 		if (reward != null) {
-			Utils.giveItems(serverPlayer, new ItemStack(reward.get()));
+			Utils.giveItems(serverPlayer, true, new ItemStack(reward.get()));
 		}
 
 		//Last advancement

@@ -10,7 +10,7 @@ import java.util.List;
  * Config file for client only config options
  */
 public class ClientConfig {
-	public ModConfigSpec.ConfigValue<List<? extends Float>> hpHUDData, mpHUDData, cmHUDData, rcHUDData, driveHUDData, focusHUDData, partyHUDData, lockOnHUDData, portraitHUDData, munnyExpHUDData, levelUpHUDData, driveLevelHUDData, minimapHUDData, roomNameHUDData;
+	public ModConfigSpec.ConfigValue<List<? extends Float>> hpHUDData, mpHUDData, cmHUDData, rcHUDData, driveHUDData, focusHUDData, partyHUDData, lockOnHUDData, portraitHUDData, munnyExpHUDData, levelUpHUDData, driveLevelHUDData, minimapHUDData, roomNameHUDData, itemGetHUDData;
 
     public ModConfigSpec.BooleanValue cmHeaderTextVisible, cmClassicColors, snapChatToCommandMenu, auto3rdPersonShip, cmChangeColor, customFont, portrait3D;
     public ModConfigSpec.IntValue cmTextXOffset, cmSelectedXOffset, cmSubXOffset, cmEndLWidth, cmEndRWidth, cmHeaderEndLWidth, cmHeaderEndRWidth, cmReactionEndLWidth, cmReactionEndRWidth;
@@ -106,6 +106,10 @@ public class ClientConfig {
 				.comment("Castle Oblivion Room Name HUD Data")
 				.translation(KingdomKeys.MODID + ".config.roomname_hud_data")//X,Y,Width ,Height ,xScale, yScale,rotation,anchor (ordinal)
 				.defineList("roomnameHUDData", () -> HUDElement.getDefaultValues("RoomName"), o -> o instanceof Number);
+		itemGetHUDData = builder
+				.comment("Small item obtained notification HUD Data")
+				.translation(KingdomKeys.MODID + ".config.itemget_hud_data")//X,Y,Width ,Height ,xScale, yScale,rotation,anchor (ordinal)
+				.defineList("itemGetHUDData", () -> HUDElement.getDefaultValues("ItemGet"), o -> o instanceof Number);
 		builder.pop();
 
         builder.push("gui");

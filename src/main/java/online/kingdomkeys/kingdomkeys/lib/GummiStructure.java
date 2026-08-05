@@ -189,7 +189,8 @@ public class GummiStructure implements INBTSerializable<CompoundTag> {
             for (int y = 0; y < height; ++y) {
                 for (int x = 0; x < width; ++x) {
                     BlockState state = blocks[x][y][z];
-                    if (state != null) {
+                    // Skips air to avoid huge amount of useless data being stored
+                    if (state != null && !state.isAir()) {
                         tag.put("block_" + index, NbtUtils.writeBlockState(state));
                     }
                     index++;

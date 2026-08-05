@@ -100,7 +100,7 @@ public class EncounterInstance {
                 spawnRewardsChest(level, new Room.TreasurePoint(room.getSpawnPoints().getFirst(), ModBlocks.treasureChest.get().defaultBlockState().setValue(TreasureChestBlock.FACING, Util.getRandom(Direction.Plane.HORIZONTAL.stream().toList(), RandomSource.create()))), getEncounter().getRewards());
             } else if (!players.isEmpty()) {
                 //give reward to one player as fallback if room has no spawn point for a chest
-                Utils.giveItems((ServerPlayer) players.getFirst(), getEncounter().getRewards());
+                Utils.giveItems((ServerPlayer) players.getFirst(), true, getEncounter().getRewards());
             }
         }
 

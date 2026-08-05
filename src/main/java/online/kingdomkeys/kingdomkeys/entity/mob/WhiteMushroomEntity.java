@@ -79,7 +79,7 @@ public class WhiteMushroomEntity extends BaseKHEntity {
                             player = owner;
                         }
                         if (player != null) {
-                            Utils.giveItems((ServerPlayer) player, reward);
+                            Utils.giveItems((ServerPlayer) player, false, reward);
                             givenItem = true;
                         }
                     }

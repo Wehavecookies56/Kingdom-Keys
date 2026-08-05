@@ -110,6 +110,10 @@ public class ModConfigs {
                 CLIENT.minimapHUDData.set(data);
                 CLIENT.minimapHUDData.save();
             }
+            case "ItemGet" -> {
+                CLIENT.itemGetHUDData.set(data);
+                CLIENT.itemGetHUDData.save();
+            }
         }
     }
 
@@ -129,7 +133,7 @@ public class ModConfigs {
             case "DriveLevel" -> CLIENT.driveLevelHUDData.get();
             case "Minimap" -> CLIENT.minimapHUDData.get();
             case "RoomName" -> CLIENT.roomNameHUDData.get();
-            case "ItemGet" -> List.of();
+            case "ItemGet" -> CLIENT.itemGetHUDData.get();
             default -> throw new IllegalStateException("Unexpected HUD value: " + name);
         };
     }

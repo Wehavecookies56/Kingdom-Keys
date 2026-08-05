@@ -32,6 +32,26 @@ public class ItemGetGui extends OverlayBase {
     private float ticks = 0;
     private ItemStack current;
 
+    private static final int MINI_WIDTH = 151;
+    private static final int MINI_HEIGHT = 26;
+
+    private static final int MINI_CIRCLE = 32;
+    private static final int MINI_ITEM = 16;
+
+    private static final int MINI_SHOW_TICKS = 60;
+    private static final int MINI_SHORT_TICKS = 20;
+    private static final int MINI_SLIDE_TICKS = 5;
+    private static final int MINI_FADE_TICKS = 8;
+    private static final float MINI_ALPHA = 0.8F;
+
+    private static final int MINI_RIM = 0x555555;
+    private static final int MINI_FILL = 0x000000;
+
+    private final Deque<ItemStack> miniQueue = new ArrayDeque<>();
+
+    private ItemStack miniCurrent;
+    private float miniTicks;
+
     private int titleY;
     private int spacing;
     int titleWidth = 300;
@@ -122,8 +142,10 @@ public class ItemGetGui extends OverlayBase {
 
     @Override
     public void render(GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
+        super.render(guiGraphics, deltaTracker);
+        renderMini(guiGraphics, deltaTracker);
+
         if (current != null) {
-            super.render(guiGraphics, deltaTracker);
             int screenWidth = minecraft.getWindow().getGuiScaledWidth();
             int screenHeight = minecraft.getWindow().getGuiScaledHeight();
             int defaultSpacing = 10;
@@ -158,7 +180,9 @@ public class ItemGetGui extends OverlayBase {
     }
 
     public void addItemsToDisplay(List<ItemStack> stacks, boolean mini) {
-        if (!mini) {
+        if (mini) {
+            stacks.stream().filter(stack -> !stack.isEmpty()).forEach(miniQueue::add);
+        } else {
             items.addAll(stacks);
         }
     }
@@ -168,9 +192,113 @@ public class ItemGetGui extends OverlayBase {
             items = new ArrayDeque<>();
             current = null;
         }
+        miniQueue.clear();
+        miniCurrent = null;
+        miniTicks = 0;
+    }
+
+    private void tickMini() {
+        if (miniCurrent == null) {
+            showNextMini();
+            return;
+        }
+
+        miniTicks++;
+        if (miniTicks > miniLife()) {
+            showNextMini();
+        }
+    }
+
+    private void showNextMini() {
+        miniCurrent = miniQueue.poll();
+        miniTicks = 0;
+
+        if (miniCurrent != null && minecraft.player != null) {
+            minecraft.player.playSound(ModSounds.itemget.get(), 1, 1);
+        }
+    }
+
+    private int miniLife() {
+        return miniQueue.isEmpty() ? MINI_SHOW_TICKS : MINI_SHORT_TICKS;
+    }
+
+    private void renderMini(GuiGraphics gui, DeltaTracker deltaTracker) {
+        if (miniCurrent == null || minecraft.player == null || minecraft.options.hideGui) {
+            return;
+        }
+
+        int screenWidth = minecraft.getWindow().getGuiScaledWidth();
+        int screenHeight = minecraft.getWindow().getGuiScaledHeight();
+
+        float age = miniTicks + deltaTracker.getGameTimeDeltaPartialTick(false);
+        int life = miniLife();
+
+        float slide = Math.min(age / MINI_SLIDE_TICKS, 1F);
+        float fade = age > life - MINI_FADE_TICKS ? Math.max(0F, (life - age) / MINI_FADE_TICKS) : 1F;
+        if (fade <= 0F) {
+            return;
+        }
+
+        float alpha = MINI_ALPHA * fade;
+
+        int textAlpha = Math.max(4, (int) (fade * 255)) << 24;
+
+        int u = 205;
+        int v = 63;
+        int endWidth = 14;
+        int radius = MINI_CIRCLE / 2;
+        int x = (int) ((slide - 1F) * MINI_WIDTH);
+
+        int plateX = x + radius;
+        int middleWidth = MINI_WIDTH - radius - endWidth;
+
+        ClientUtils.ITEMGET_ELEMENT.applyTransform(gui, screenWidth, screenHeight);
+        {
+            RenderSystem.enableBlend();
+            gui.setColor(1F, 1F, 1F, alpha);
+            {
+                gui.blit(Constants.MENU_TEXTURE, plateX, 0, middleWidth, MINI_HEIGHT, u + endWidth + 1, v, 1, MINI_HEIGHT, 256, 256);
+                gui.blit(Constants.MENU_TEXTURE, plateX + middleWidth, 0, u + endWidth + 3, v, endWidth, MINI_HEIGHT);
+            }
+            gui.setColor(1F, 1F, 1F, 1F);
+
+            int fill = (int) (alpha * 255) << 24;
+            int centreY = MINI_HEIGHT / 2;
+            drawDisc(gui, x + radius, centreY, radius, MINI_RIM | fill);
+            drawDisc(gui, x + radius, centreY, radius - 1, MINI_FILL | fill);
+
+            RenderSystem.defaultBlendFunc();
+            RenderSystem.setShaderColor(1F, 1F, 1F, alpha);
+            gui.renderItem(miniCurrent, x + radius - (MINI_ITEM / 2), (MINI_HEIGHT - MINI_ITEM) / 2);
+            gui.flush();
+            RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
+            RenderSystem.disableBlend();
+
+            int textX = x + MINI_CIRCLE + 3;
+
+            gui.drawString(font, Component.translatable(Strings.Gui_ItemGet_Obtained).withStyle(ClientUtils.KK_Font_EXP),
+                    textX, 3, 0xFFF200 | textAlpha, true);
+
+            String name = miniCurrent.getHoverName().getString();
+            if (miniCurrent.getCount() > 1) {
+                name += " x" + miniCurrent.getCount();
+            }
+
+            gui.drawString(font, Component.literal(name).withStyle(ClientUtils.KK_Font_MENU), textX, MINI_HEIGHT - 3 - font.lineHeight, 0xFFFFFF | textAlpha, true);
+        }
+        ClientUtils.ITEMGET_ELEMENT.endTransform(gui);
+    }
+
+    private void drawDisc(GuiGraphics gui, int centreX, int centreY, int radius, int colour) {
+        for (int dy = -radius; dy < radius; dy++) {
+            int dx = (int) Math.sqrt(Math.max(0, radius * radius - dy * dy));
+            gui.fill(centreX - dx, centreY + dy, centreX + dx, centreY + dy + 1, colour);
+        }
     }
 
     public void tick() {
+        tickMini();
+
         if (current != null) {
             ticks++;
             if (ticks > 200) {

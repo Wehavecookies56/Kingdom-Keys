@@ -67,7 +67,7 @@ public class LevelStats {
 		for (ItemStack stack : levelData.getItems(level)) {
 			if (stack != null && !stack.isEmpty()) {
 				ItemStack toGive = stack.copy();
-				Utils.giveItems((ServerPlayer) player, toGive);
+				Utils.giveItems((ServerPlayer) player, true,  toGive);
 				String itemName = toGive.getHoverName().getString();
 				cap.getMessages().add("I_" + itemName + (toGive.getCount() > 1 ? " x" + toGive.getCount() : ""));
 			}

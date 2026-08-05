@@ -164,7 +164,7 @@ public class GummiShotEntity extends ThrowableProjectile{
         serverLevel.destroyBlock(pos, false, shooter);
 
         if (shooter instanceof ServerPlayer player) {
-            Utils.giveItems(player, drops);
+            Utils.giveItems(player, false,drops);
         } else {
             drops.forEach(stack -> Block.popResource(serverLevel, pos, stack));
         }

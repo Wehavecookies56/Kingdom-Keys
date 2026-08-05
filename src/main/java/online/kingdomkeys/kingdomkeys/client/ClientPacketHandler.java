@@ -496,7 +496,7 @@ public class ClientPacketHandler {
     }
 
     public static void displayItems(SCDisplayGivenItems message) {
-        ItemGetGui.INSTANCE.addItemsToDisplay(message.items(), false);
+        ItemGetGui.INSTANCE.addItemsToDisplay(message.items(), !message.showBig());
     }
 
     public static void openCardRoulette(List<ItemStack> cards) {

@@ -2558,11 +2558,11 @@ public class Utils {
 		}
 	}
 
-	public static void giveItems(ServerPlayer player, List<ItemStack> itemStacks) {
-		giveItems(player, itemStacks.toArray(new ItemStack[0]));
+	public static void giveItems(ServerPlayer player, boolean showBig, List<ItemStack> itemStacks) {
+		giveItems(player, showBig, itemStacks.toArray(new ItemStack[0]));
 	}
 
-	public static void giveItems(ServerPlayer player, ItemStack... items) {
+	public static void giveItems(ServerPlayer player, boolean showBig, ItemStack... items) {
 		Arrays.stream(items).forEach(stack -> {
 			//copy stack so notification can show
 			if (!tryToAddItem(player, stack.copy(), false)) {
@@ -2578,7 +2578,7 @@ public class Utils {
 			}
 		});
 		//send to client
-		PacketHandler.sendTo(new SCDisplayGivenItems(Arrays.stream(items).toList()), player);
+		PacketHandler.sendTo(new SCDisplayGivenItems(Arrays.stream(items).toList(), showBig), player);
 	}
 
 	public static boolean tryToAddItem(Player player, ItemStack item, boolean simulate) {

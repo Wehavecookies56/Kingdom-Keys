@@ -151,7 +151,7 @@ public class CastleOblivionHandler {
                     for (Player playerFromList : player.level().players()) {
                         PacketHandler.sendTo(new SCUpdateCORooms(floor.getRooms()), (ServerPlayer) playerFromList);
                     }
-                    Utils.giveItems((ServerPlayer) player, new ItemStack(ModItems.keyOfBeginnings.get()));
+                    Utils.giveItems((ServerPlayer) player, true, new ItemStack(ModItems.keyOfBeginnings.get()));
                     return room;
                 } else {
                     return floor.getRoom(new RoomPos(0, 1)).getGenerated().orElse(null);

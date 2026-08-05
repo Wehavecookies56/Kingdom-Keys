@@ -110,7 +110,7 @@ public class TreasureChestTileEntity extends BlockEntity {
             level.setBlock(getBlockPos(), Blocks.AIR.defaultBlockState(), Block.UPDATE_ALL);
             return true;
         } else if (!treasure.isEmpty()) {
-            Utils.giveItems((ServerPlayer) player, treasure);
+            Utils.giveItems((ServerPlayer) player, true, treasure);
             treasure = new ArrayList<>();
             level.setBlock(getBlockPos(), Blocks.AIR.defaultBlockState(), Block.UPDATE_ALL);
             return true;

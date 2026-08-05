@@ -13,12 +13,13 @@ import online.kingdomkeys.kingdomkeys.network.Packet;
 
 import java.util.List;
 
-public record SCDisplayGivenItems(List<ItemStack> items) implements Packet {
+public record SCDisplayGivenItems(List<ItemStack> items, boolean showBig) implements Packet {
 
     public static final Type<SCDisplayGivenItems> TYPE = new Type<>(KingdomKeys.rl("sc_display_given_item"));
 
     public static final StreamCodec<RegistryFriendlyByteBuf, SCDisplayGivenItems> STREAM_CODEC = StreamCodec.composite(
         ItemStack.OPTIONAL_STREAM_CODEC.apply(ByteBufCodecs.list()), SCDisplayGivenItems::items,
+        ByteBufCodecs.BOOL, SCDisplayGivenItems::showBig,
         SCDisplayGivenItems::new
     );
 
