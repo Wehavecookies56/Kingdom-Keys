@@ -246,6 +246,7 @@ public class ModEntities {
     public static final DeferredHolder<EntityType<?>, EntityType<PetalLauncherCoreEntity>> TYPE_PETAL_LAUNCHER = createEntityType(PetalLauncherCoreEntity::new, MobCategory.MISC,"entity_petal_launcher_core", 0.7F, 0.2F);
     public static final DeferredHolder<EntityType<?>, EntityType<ScytheDashCoreEntity>> TYPE_SCYTHE_DASH = createEntityType(ScytheDashCoreEntity::new, MobCategory.MISC,"entity_scythe_dash_core", 0.5F, 1.8F);
     public static final DeferredHolder<EntityType<?>, EntityType<PetalAscendTrailEntity>> TYPE_PETAL_ASCEND_TRAIL = createEntityType(PetalAscendTrailEntity::new, MobCategory.MISC,"entity_petal_ascend_trail", 0.5F, 1.8F);
+    public static final DeferredHolder<EntityType<?>, EntityType<PetalWaveEntity>> TYPE_PETAL_WAVE = createEntityType(PetalWaveEntity::new, MobCategory.MISC,"entity_petal_wave", 0.5F, 0.5F);
     public static final DeferredHolder<EntityType<?>, EntityType<IllusoryMeteorCoreEntity>> TYPE_ILLUSORY_METEOR = createEntityType(IllusoryMeteorCoreEntity::new, MobCategory.MISC,"entity_illusory_meteor_core", 1.0F, 1.0F);
     public static final DeferredHolder<EntityType<?>, EntityType<FlameRingCoreEntity>> TYPE_FLAME_RING = createEntityType(FlameRingCoreEntity::new, MobCategory.MISC,"entity_flame_ring_core", 0.5F, 0.5F);
     public static final DeferredHolder<EntityType<?>, EntityType<LanceStormCoreEntity>> TYPE_LANCE_STORM = createEntityType(LanceStormCoreEntity::new, MobCategory.MISC,"entity_lance_storm_core", 0.5F, 0.5F);
@@ -427,6 +428,7 @@ public class ModEntities {
         event.registerEntityRenderer(TYPE_PETAL_LAUNCHER.get(), InvisibleEntityRenderer::new);
         event.registerEntityRenderer(TYPE_SCYTHE_DASH.get(), ScytheDashCoreEntityRenderer::new);
         event.registerEntityRenderer(TYPE_PETAL_ASCEND_TRAIL.get(), PetalAscendTrailEntityRenderer::new);
+        event.registerEntityRenderer(TYPE_PETAL_WAVE.get(), PetalWaveEntityRenderer::new);
         event.registerEntityRenderer(TYPE_ILLUSORY_METEOR.get(), InvisibleEntityRenderer::new);
         event.registerEntityRenderer(TYPE_FLAME_RING.get(), InvisibleEntityRenderer::new);
         event.registerEntityRenderer(TYPE_LANCE_STORM.get(), LanceStormCoreEntityRenderer::new);

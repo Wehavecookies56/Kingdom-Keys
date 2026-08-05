@@ -1,5 +1,11 @@
 package online.kingdomkeys.kingdomkeys.entity.mob;
 
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerBossEvent;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.BossEvent;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
@@ -21,29 +27,43 @@ import org.jetbrains.annotations.Nullable;
 
 public class MarluxiaEntity extends BaseKHEntity {
 
+	// How long he stands untouchable at the start, so the entrance can play out
+	private static final int INTRO_TICKS = 100;
+
+	// The armour's damage reduction and its fire weakness live in EntityEvents, alongside the rest of the mod's damage pipeline
+	private static final EntityDataAccessor<Boolean> ARMOURED = SynchedEntityData.defineId(MarluxiaEntity.class, EntityDataSerializers.BOOLEAN);
+
 	public MarluxiaGoal marluxiaGoal;
+
 	public MarluxiaEntity(EntityType<? extends Monster> type, Level worldIn) {
 		super(type, worldIn);
 		xpReward = 25;
 	}
-	
+
 	public MarluxiaEntity(Level world) {
-        this(ModEntities.TYPE_MARLUXIA.get(), world);
-    }
+		this(ModEntities.TYPE_MARLUXIA.get(), world);
+	}
+
+	@Override
+	protected void defineSynchedData(SynchedEntityData.Builder builder) {
+		super.defineSynchedData(builder);
+		builder.define(ARMOURED, false);
+	}
 
 	@Override
 	protected void registerGoals() {
-		//this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 1.0D, true));
-        this.goalSelector.addGoal(4, new MeleeAttackGoal(this, 1.0D, true));
-        this.goalSelector.addGoal(5, new MoveTowardsRestrictionGoal(this, 1.0D));
-        this.goalSelector.addGoal(7, new WaterAvoidingRandomStrollGoal(this, 1.0D));
-        this.goalSelector.addGoal(8, new LookAtPlayerGoal(this, Player.class, 8.0F));
-        this.goalSelector.addGoal(8, new RandomLookAroundGoal(this));
-        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, true));
-		this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Villager.class, true));
-		//this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, AnimalEntity.class, true));
+		// The boss script sits above the ordinary goals and holds MOVE and LOOK while an attack is playing, so nothing else can drag him around mid-animation
 		marluxiaGoal = new MarluxiaGoal(this);
-		this.targetSelector.addGoal(4, marluxiaGoal);
+		this.goalSelector.addGoal(1, marluxiaGoal);
+
+		this.goalSelector.addGoal(4, new MeleeAttackGoal(this, 1.0D, true));
+		this.goalSelector.addGoal(5, new MoveTowardsRestrictionGoal(this, 1.0D));
+		this.goalSelector.addGoal(7, new WaterAvoidingRandomStrollGoal(this, 1.0D));
+		this.goalSelector.addGoal(8, new LookAtPlayerGoal(this, Player.class, 8.0F));
+		this.goalSelector.addGoal(8, new RandomLookAroundGoal(this));
+
+		this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, true));
+		this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Villager.class, true));
 	}
 
 	public static AttributeSupplier.Builder registerAttributes() {
@@ -51,9 +71,45 @@ public class MarluxiaEntity extends BaseKHEntity {
 				.add(Attributes.FOLLOW_RANGE, 40.0D)
 				.add(Attributes.MOVEMENT_SPEED, 0.3D)
 				.add(Attributes.MAX_HEALTH, 800.0D)
-				.add(Attributes.KNOCKBACK_RESISTANCE, 1000.0D)
+				.add(Attributes.KNOCKBACK_RESISTANCE, 1.0D)
 				.add(Attributes.ATTACK_KNOCKBACK, 1.0D)
 				.add(Attributes.ATTACK_DAMAGE, 11.0D);
+	}
+
+	public boolean isArmoured() {
+		return getEntityData().get(ARMOURED);
+	}
+
+	public void setArmoured(boolean armoured) {
+		getEntityData().set(ARMOURED, armoured);
+	}
+
+	@Override
+	public void tick() {
+		super.tick();
+
+		if (level().isClientSide()) {
+			return;
+		}
+
+		if (tickCount < INTRO_TICKS) {
+			setNoAi(true);
+			setInvulnerable(true);
+			setDeltaMovement(0, getDeltaMovement().y, 0);
+		} else if (tickCount == INTRO_TICKS) {
+			setNoAi(false);
+			setInvulnerable(false);
+		}
+
+	}
+
+	@Override
+	protected void customServerAiStep() {
+		super.customServerAiStep();
+
+		if (marluxiaGoal != null) {
+			marluxiaGoal.tickCooldown();
+		}
 	}
 
 	@Override
@@ -82,5 +138,5 @@ public class MarluxiaEntity extends BaseKHEntity {
 	public int getDefense() {
 		return 200;
 	}
-	
+
 }

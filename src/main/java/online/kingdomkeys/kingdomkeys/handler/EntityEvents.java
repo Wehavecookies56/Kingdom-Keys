@@ -81,6 +81,7 @@ import online.kingdomkeys.kingdomkeys.entity.TrainingDummyEntity;
 import online.kingdomkeys.kingdomkeys.entity.block.SoRCoreTileEntity;
 import online.kingdomkeys.kingdomkeys.entity.drops.*;
 import online.kingdomkeys.kingdomkeys.entity.mob.*;
+import online.kingdomkeys.kingdomkeys.entity.mob.goal.MarluxiaGoal;
 import online.kingdomkeys.kingdomkeys.entity.organization.KKThrowableEntity;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.EpicFightUtils;
 import online.kingdomkeys.kingdomkeys.item.*;
@@ -1175,29 +1176,19 @@ public class EntityEvents {
 				damage -= (damage * resistMultiplier);
 			}
 
-			// Marluxia's final attack
+			// Marluxia's last stand: the blow that would have killed him leaves him on 1 HP and starts the finisher instead. beginFinisher handles the invulnerability, so it can also end it.
 			if (event.getEntity() instanceof MarluxiaEntity mar) {
-				if (mar.getState() != 3) {
-					if (mar.marluxiaGoal.chasedTimes == 0) {
-						if (mar.getHealth() - damage <= 0) {
-							mar.marluxiaGoal.chasedTimes++;
-							mar.setState(3);
-							event.setNewDamage(mar.getHealth() - 1);
-							mar.setInvulnerable(true);
-							return;
-						}
-					}
+				if (mar.getState() != MarluxiaGoal.STATE_FINISHER && !mar.marluxiaGoal.hasUsedFinisher() && mar.getHealth() - damage <= 0) {
+					mar.marluxiaGoal.beginFinisher();
+					event.setNewDamage(mar.getHealth() - 1);
+					return;
 				}
 
-				if (mar.getState() == 1) { // If marly is armored
+				if (mar.isArmoured()) {
 					damage = event.getNewDamage() * 0.1F;
+					// Burning the petals off is the intended answer to the armor phase.
 					if (event.getSource().is(KKDamageTypes.FIRE)) {
-						mar.marluxiaGoal.removeArmor(mar);
-					}
-				} else if (mar.getState() == 2) {
-					if (event.getSource().getEntity() == mar.getKillCredit()) {
-						mar.setState(0);
-						mar.setNoGravity(false);
+						mar.marluxiaGoal.breakArmour();
 					}
 				}
 			}

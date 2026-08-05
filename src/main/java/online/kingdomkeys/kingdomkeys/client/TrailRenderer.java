@@ -68,6 +68,15 @@ public class TrailRenderer {
 	 * @param width   half-width of the tube's cross-section.
 	 */
 	public static void render(Vec3[] trail, Vec3 origin, Matrix4f pose, VertexConsumer consumer, float[][] colors, float width) {
+		render(trail, origin, pose, consumer, colors, width, -1F);
+	}
+
+	/**
+	 * As above, but {@code alpha} >= 0 draws the whole strand at that one opacity instead of fading it
+	 * out along its length. Needed for closed shapes - on a ring the usual tail-off just reads as the
+	 * circle being broken open on one side.
+	 */
+	public static void render(Vec3[] trail, Vec3 origin, Matrix4f pose, VertexConsumer consumer, float[][] colors, float width, float alpha) {
 		int count = trail.length;
 
 		Vec3[] p0 = new Vec3[count];
@@ -112,8 +121,8 @@ public class TrailRenderer {
 		for (int i = 1; i < count - 2; i++) {
 			if (p0[i] == null || p0[i + 1] == null) continue;
 
-			float a1 = 1F - i / (float) count;
-			float a2 = 1F - (i + 1) / (float) count;
+			float a1 = alpha >= 0 ? alpha : 1F - i / (float) count;
+			float a2 = alpha >= 0 ? alpha : 1F - (i + 1) / (float) count;
 
 			drawQuad(consumer, pose, p0[i], p1[i], p0[i + 1], p1[i + 1], colors[0][0], colors[0][1], colors[0][2], a1, a2);
 			drawQuad(consumer, pose, p1[i], p2[i], p1[i + 1], p2[i + 1], colors[1][0], colors[1][1], colors[1][2], a1, a2);
