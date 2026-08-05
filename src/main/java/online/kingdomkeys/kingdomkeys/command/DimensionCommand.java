@@ -27,6 +27,8 @@ import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.item.ModComponents;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
+import online.kingdomkeys.kingdomkeys.world.worldmap.GummiWorld;
+import online.kingdomkeys.kingdomkeys.world.worldmap.GummiWorldLoader;
 
 import java.util.Collection;
 import java.util.List;
@@ -66,6 +68,12 @@ public class DimensionCommand extends BaseCommand {
 	public static BlockPos getWorldCoords(Player player, ResourceKey<Level> dimension) {
 		if (dimension.location().toString().contains("castle_oblivion_interior_")) {
 			return new BlockPos(8, 62, 8);
+		}
+		if (dimension == ModDimensions.WORLDMAP) {
+			// Drop next to whichever world you were flying over, or the origin if it isn't on the map.
+			GummiWorld world = GummiWorldLoader.forDimension(player.level().dimension());
+			Vec3 at = world != null ? world.arrivalPosition() : Vec3.ZERO.add(0, 128, 0);
+			return BlockPos.containing(at);
 		}
 		if (dimension == ModDimensions.DIVE_TO_THE_HEART) {
 			return new BlockPos(0, 26, 0);

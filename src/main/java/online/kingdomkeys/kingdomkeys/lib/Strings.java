@@ -13,7 +13,8 @@ public class Strings {
     		diveToTheHeart = "dive_to_the_heart",
     		stationOfSorrow = "station_of_sorrow",
 			castleOblivionInterior = "castle_oblivion_interior",
-			castleOblivion = "castle_oblivion";
+			castleOblivion = "castle_oblivion",
+			worldmap = "worldmap";
 
     // Magics
     public static final String
@@ -187,7 +188,9 @@ public class Strings {
        		autoWisdomRC = "rc_auto_wisdom",
        		autoLimitRC = "rc_auto_limit",
        		autoMasterRC = "rc_auto_master",
-       		autoFinalRC = "rc_auto_final";
+       		autoFinalRC = "rc_auto_final",
+       		launchRC = "rc_launch",
+       		landRC = "rc_land";
 
     // Abilities
     public static final String

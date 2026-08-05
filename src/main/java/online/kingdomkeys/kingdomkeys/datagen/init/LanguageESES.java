@@ -1002,6 +1002,8 @@ public class LanguageESES extends KKLanguageProvider {
         addReactionCommand(ModReactionCommands.AUTO_MASTER, "Auto-maestra");
         addReactionCommand(ModReactionCommands.AUTO_FINAL, "Auto-final");
         addReactionCommand(ModReactionCommands.SAVE, "Guardar");
+        addReactionCommand(ModReactionCommands.LAUNCH, "Despegar");
+        addReactionCommand(ModReactionCommands.LAND, "Aterrizar");
 
         //Items
         //Cards
@@ -2331,6 +2333,7 @@ public class LanguageESES extends KKLanguageProvider {
         addEntityType(ModEntities.TYPE_ASSASSIN, "Asesino");
         addEntityType(ModEntities.TYPE_DRAGOON, "Dragón");
         addEntityType(ModEntities.TYPE_MARLUXIA, "Marluxia");
+        addEntityType(ModEntities.TYPE_WORLD_MARKER, "Mundo");
 
         addEntityType(ModEntities.TYPE_TRAINING_DUMMY, "Espantapájaros de entrenamiento");
         addEntityType(ModEntities.TYPE_MAGIC_TARGET, "Diana Mágica");

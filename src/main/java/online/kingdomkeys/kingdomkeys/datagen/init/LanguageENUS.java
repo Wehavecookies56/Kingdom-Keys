@@ -938,6 +938,8 @@ public class LanguageENUS extends KKLanguageProvider {
         addReactionCommand(ModReactionCommands.AUTO_MASTER, "Auto Master");
         addReactionCommand(ModReactionCommands.AUTO_FINAL, "Auto Final");
         addReactionCommand(ModReactionCommands.SAVE, "Save");
+        addReactionCommand(ModReactionCommands.LAUNCH, "Take Off");
+        addReactionCommand(ModReactionCommands.LAND, "Land");
 
         /**Items**/
         //Cards
@@ -2285,6 +2287,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addEntityType(ModEntities.TYPE_ASSASSIN, "Assassin");
         addEntityType(ModEntities.TYPE_DRAGOON, "Dragoon");
         addEntityType(ModEntities.TYPE_MARLUXIA, "Marluxia");
+        addEntityType(ModEntities.TYPE_WORLD_MARKER, "World");
 
         addEntityType(ModEntities.TYPE_TRAINING_DUMMY, "Training Scarecrow");
         addEntityType(ModEntities.TYPE_MAGIC_TARGET, "Magic Target");

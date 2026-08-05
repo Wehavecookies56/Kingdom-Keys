@@ -30,7 +30,7 @@ public class MarluxiaEntity extends BaseKHEntity {
 	// How long he stands untouchable at the start, so the entrance can play out
 	private static final int INTRO_TICKS = 100;
 
-	// The armour's damage reduction and its fire weakness live in EntityEvents, alongside the rest of the mod's damage pipeline
+	// The armor's damage reduction and its fire weakness live in EntityEvents, alongside the rest of the mod's damage pipeline
 	private static final EntityDataAccessor<Boolean> ARMOURED = SynchedEntityData.defineId(MarluxiaEntity.class, EntityDataSerializers.BOOLEAN);
 
 	public MarluxiaGoal marluxiaGoal;
@@ -76,12 +76,12 @@ public class MarluxiaEntity extends BaseKHEntity {
 				.add(Attributes.ATTACK_DAMAGE, 11.0D);
 	}
 
-	public boolean isArmoured() {
+	public boolean isArmored() {
 		return getEntityData().get(ARMOURED);
 	}
 
-	public void setArmoured(boolean armoured) {
-		getEntityData().set(ARMOURED, armoured);
+	public void setArmored(boolean armored) {
+		getEntityData().set(ARMOURED, armored);
 	}
 
 	@Override

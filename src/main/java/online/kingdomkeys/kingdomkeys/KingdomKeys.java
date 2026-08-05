@@ -67,6 +67,8 @@ import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.menu.ModMenus;
 import online.kingdomkeys.kingdomkeys.reactioncommands.ModReactionCommands;
 import online.kingdomkeys.kingdomkeys.savepoint.SavePointDataLoader;
+import online.kingdomkeys.kingdomkeys.world.worldmap.GummiWorldLoader;
+import online.kingdomkeys.kingdomkeys.world.worldmap.WorldMap;
 import online.kingdomkeys.kingdomkeys.shotlock.ModShotlocks;
 import online.kingdomkeys.kingdomkeys.shotlock.ShotlockDataLoader;
 import online.kingdomkeys.kingdomkeys.shotlock.minigame.ShotlockMinigameHandler;
@@ -192,6 +194,7 @@ public class KingdomKeys {
 
 		NeoForge.EVENT_BUS.register(this);
 		NeoForge.EVENT_BUS.register(new CastleOblivionHandler());
+		NeoForge.EVENT_BUS.register(new WorldMap());
 		//MinecraftForge.EVENT_BUS.register(new APITests());
 
 		modContainer.registerConfig(ModConfig.Type.CLIENT, ModConfigs.CLIENT_SPEC);
@@ -258,6 +261,7 @@ public class KingdomKeys {
 		event.addListener(new LimitDataLoader());
 		event.addListener(new ShotlockDataLoader());
 		event.addListener(new SavePointDataLoader());
+		event.addListener(new GummiWorldLoader());
 		ModJsonRegistries.registry.forEach(jsonRegistry -> {
 			jsonRegistry.setRegistries(event.getRegistryAccess());
 			event.addListener(jsonRegistry);

@@ -280,7 +280,6 @@ public class GummiHangarScreen extends AbstractContainerScreen<GummiHangarMenu> 
 	}
 
 	public boolean isHoveringButton(ExtendedButton button, int mouseX, int mouseY) {
-		System.out.println(button);
 		return mouseX >= button.getX() && mouseX <= button.getX() + button.getWidth() && mouseY >= button.getY() && mouseY <= button.getY() + button.getHeight();
 	}
 

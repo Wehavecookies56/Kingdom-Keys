@@ -1,0 +1,10 @@
+{
+  "type": "kingdomkeys:worldmap",
+  "generator": {
+    "type": "kingdomkeys:worldmap_generator",
+    "biome_source": {
+      "type": "minecraft:fixed",
+      "biome": "minecraft:the_void"
+    }
+  }
+}

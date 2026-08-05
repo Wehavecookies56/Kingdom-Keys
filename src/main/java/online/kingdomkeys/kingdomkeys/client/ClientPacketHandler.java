@@ -81,8 +81,13 @@ import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.InputStreamReader;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import net.minecraft.resources.ResourceLocation;
+import online.kingdomkeys.kingdomkeys.world.worldmap.GummiWorld;
+import online.kingdomkeys.kingdomkeys.world.worldmap.GummiWorldLoader;
 
 public class ClientPacketHandler {
 
@@ -291,6 +296,20 @@ public class ClientPacketHandler {
             shotlock.setShotlockData(result);
             IOUtils.closeQuietly(br);
         }
+    }
+
+    public static void syncGummiWorlds(SCSyncGummiWorlds message) {
+        Map<ResourceLocation, GummiWorld> worlds = new LinkedHashMap<>();
+
+        for (int i = 0; i < message.names().size(); i++) {
+            try {
+                worlds.put(ResourceLocation.parse(message.names().get(i)), GummiWorldLoader.GSON.fromJson(message.data().get(i), GummiWorld.class));
+            } catch (JsonParseException e) {
+                KingdomKeys.LOGGER.error("Error parsing gummi world json file {}: {}", message.names().get(i), e);
+            }
+        }
+
+        GummiWorldLoader.replaceAll(worlds);
     }
 
     public static void syncSavePointData(SCSyncSavePointData message) {

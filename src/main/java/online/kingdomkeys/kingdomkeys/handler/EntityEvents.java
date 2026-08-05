@@ -102,6 +102,8 @@ import online.kingdomkeys.kingdomkeys.network.stc.*;
 import online.kingdomkeys.kingdomkeys.reactioncommands.ModReactionCommands;
 import online.kingdomkeys.kingdomkeys.reactioncommands.ReactionCommand;
 import online.kingdomkeys.kingdomkeys.savepoint.SavePointDataLoader;
+import online.kingdomkeys.kingdomkeys.world.worldmap.GummiWorldLoader;
+import online.kingdomkeys.kingdomkeys.world.worldmap.WorldMap;
 import online.kingdomkeys.kingdomkeys.shotlock.ShotlockDataLoader;
 import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeDataLoader;
 import online.kingdomkeys.kingdomkeys.synthesis.melding.MeldingRegistry;
@@ -287,6 +289,7 @@ public class EntityEvents {
 			PacketHandler.sendTo(new SCSyncLimitData(LimitDataLoader.names, LimitDataLoader.dataList), player);
 			PacketHandler.sendTo(new SCSyncShotlockData(ShotlockDataLoader.names, ShotlockDataLoader.dataList), player);
 			PacketHandler.sendTo(new SCSyncSavePointData(SavePointDataLoader.names, SavePointDataLoader.dataList), player);
+			PacketHandler.sendTo(new SCSyncGummiWorlds(GummiWorldLoader.names, GummiWorldLoader.dataList), player);
 			ModJsonRegistries.registry.forEach(jsonRegistry -> {
 				PacketHandler.sendTo(new SCSyncJsonRegistry<>(jsonRegistry), player);
 			});
@@ -1184,11 +1187,11 @@ public class EntityEvents {
 					return;
 				}
 
-				if (mar.isArmoured()) {
+				if (mar.isArmored()) {
 					damage = event.getNewDamage() * 0.1F;
 					// Burning the petals off is the intended answer to the armor phase.
 					if (event.getSource().is(KKDamageTypes.FIRE)) {
-						mar.marluxiaGoal.breakArmour();
+						mar.marluxiaGoal.breakArmor();
 					}
 				}
 			}
@@ -1618,6 +1621,11 @@ public class EntityEvents {
 		if (!player.level().isClientSide) {
 			PlayerData playerData = PlayerData.get(player);
 			ServerLevel world = player.getServer().getLevel(e.getTo());
+			// The star map's markers aren't saved to disk, so they're put back whenever anyone arrives -
+			// including by command, not just by taking off.
+			if (e.getTo() == ModDimensions.WORLDMAP && world != null) {
+				WorldMap.ensureMarkers(world);
+			}
 			if (e.getTo() == ModDimensions.STATION_OF_SORROW) {
 				BlockPos blockPos = player.blockPosition().below(2);
 				world.setBlock(blockPos, ModBlocks.sorCore.get().defaultBlockState(), 2);

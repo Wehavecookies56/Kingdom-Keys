@@ -34,7 +34,10 @@ public class ModReactionCommands {
 		GRAVITY = register(KingdomKeys.rl(Strings.Magic_Gravity).getPath(), () -> new ReactionMagic(KingdomKeys.rl(Strings.Magic_Gravity))),
 		STOP = register(KingdomKeys.rl(Strings.Magic_Stop).getPath(), () -> new ReactionMagic(KingdomKeys.rl(Strings.Magic_Stop))),
 
-		SAVE = register("save_rc", () -> new ReactionSave(KingdomKeys.rl("save_rc")));
+		SAVE = register("save_rc", () -> new ReactionSave(KingdomKeys.rl("save_rc"))),
+
+		LAUNCH = register(Strings.launchRC, () -> new ReactionLaunch(KingdomKeys.rl(Strings.launchRC))),
+		LAND = register(Strings.landRC, () -> new ReactionLand(KingdomKeys.rl(Strings.landRC)));
 
 	private static KKSupplier<ReactionCommand> register(String name, Supplier<ReactionCommand> reactionCommandSupplier) {
 		return new KKSupplier<>(KingdomKeys.rl(REACTION_COMMANDS.getNamespace(), name), REACTION_COMMANDS.register(name, reactionCommandSupplier));
