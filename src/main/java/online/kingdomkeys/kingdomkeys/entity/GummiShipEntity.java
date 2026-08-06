@@ -39,6 +39,7 @@ import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.lib.GummiStructure;
 import online.kingdomkeys.kingdomkeys.lib.Quarter;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+import online.kingdomkeys.kingdomkeys.world.worldmap.WorldMap;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -625,7 +626,9 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 	}
 
 	public void remFuel(int fuel) {
-		setFuel(Math.max(getFuel() - fuel,0));
+		if(!WorldMap.isWorldMap(this)) {
+			setFuel(Math.max(getFuel() - fuel, 0));
+		}
 	}
 
 	public int getMaxFuel(){

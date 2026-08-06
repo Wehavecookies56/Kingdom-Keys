@@ -51,7 +51,7 @@ public class WorldMapChunkGenerator extends ChunkGenerator {
 	private static final int CLUSTER_HEIGHT = 40;
 	private static final int MIN_Y = 48;
 	private static final int MAX_Y = 320;
-	private static final float METEOR_CHANCE = 0.6F;
+	private static final float METEOR_CHANCE = 0.3F;
 
 	@Override
 	public void applyCarvers(WorldGenRegion level, long seed, RandomState random, BiomeManager biomeManager, StructureManager structureManager, ChunkAccess chunk, GenerationStep.Carving step) {

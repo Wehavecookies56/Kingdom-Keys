@@ -29,8 +29,8 @@ public class WorldMap {
 	// Ticks to check if markers
 	private static final int CHECK_INTERVAL = 100;
 
-	public static boolean isWorldMap(Player player) {
-		return player.level().dimension().equals(ModDimensions.WORLDMAP);
+	public static boolean isWorldMap(Entity entity) {
+		return entity.level().dimension().equals(ModDimensions.WORLDMAP);
 	}
 
 	@SubscribeEvent

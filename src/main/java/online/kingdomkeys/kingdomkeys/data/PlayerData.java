@@ -1430,13 +1430,40 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		return overflow.size() >= OVERFLOW_CAPACITY;
 	}
 
-	public boolean addToOverflow(ItemStack stack) {
+	/**
+	 * Takes what it can of the stack, merging into anything matching that is already waiting before it spends a slot on a new entry.
+	 * @return whatever would not fit, empty if it all went in. The stack passed in is consumed.
+	 */
+	public ItemStack addToOverflow(ItemStack stack) {
+		if (stack.isEmpty()) {
+			return ItemStack.EMPTY;
+		}
+
+		// Merging first prevents repeating the same item as individual entries
+		if (stack.isStackable()) {
+			for (ItemStack waiting : overflow) {
+				if (!ItemStack.isSameItemSameComponents(waiting, stack)) {
+					continue;
+				}
+
+				int room = waiting.getMaxStackSize() - waiting.getCount();
+				if (room > 0) {
+					int moved = Math.min(room, stack.getCount());
+					waiting.grow(moved);
+					stack.shrink(moved);
+
+					if (stack.isEmpty()) {
+						return ItemStack.EMPTY;
+					}
+				}
+			}
+		}
+
 		if (!overflowFull()) {
 			overflow.add(stack);
-			return true;
-		} else {
-			return false;
+			return ItemStack.EMPTY;
 		}
+		return stack;
 	}
 
 	public List<ItemStack> getOverflowForDisplay() {

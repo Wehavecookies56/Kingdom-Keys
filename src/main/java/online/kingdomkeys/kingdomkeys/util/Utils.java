@@ -2564,16 +2564,20 @@ public class Utils {
 
 	public static void giveItems(ServerPlayer player, boolean showBig, ItemStack... items) {
 		Arrays.stream(items).forEach(stack -> {
-			//copy stack so notification can show
-			if (!tryToAddItem(player, stack.copy(), false)) {
+			// tryToAddItem shrinks it, when it fails it returns the stack that was left
+			ItemStack remaining = stack.copy();
+
+			if (!tryToAddItem(player, remaining, false)) {
 				//no space so add to overflow
 				PlayerData playerData = PlayerData.get(player);
 				if (playerData != null) {
 					//you could say this is a stack overflow
-					if (!playerData.addToOverflow(stack)) {
-						//overflow is full drop items
-						player.drop(stack, true, false);
-					}
+					remaining = playerData.addToOverflow(remaining);
+				}
+
+				//overflow is full drop items
+				if (!remaining.isEmpty()) {
+					player.drop(remaining, true, false);
 				}
 			}
 		});
