@@ -11,3 +11,4 @@
 * Red tint leak from low HP.
 * Air gets ignored in Gummi Ship structure serialization, saving tons of space.
 * Items given with the new system (window or notification) now stack if possible in the stock menu.
+* Castle Oblivion door being breakable.
