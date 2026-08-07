@@ -260,7 +260,7 @@ public class MeldingScreen extends MenuFilterable {
 					}
 
 					ItemStack base = !selected1.isEmpty() ? selected1 : selected2;
-					boolean compatible = base.isEmpty() || isCompatible(base, clicked) || ItemStack.isSameItemSameComponents(base, clicked) || alreadySelected;
+					boolean compatible = base.isEmpty() || alreadySelected || isCompatible(base, clicked);
 
 					if (!compatible) return;
 
@@ -277,8 +277,11 @@ public class MeldingScreen extends MenuFilterable {
 				public void renderWidget(GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
 					textColor = ChatFormatting.WHITE;
 
+					boolean twoSelected = !selected1.isEmpty() && !selected2.isEmpty();
+					boolean alreadySelected = selectedSlot1 == slot || selectedSlot2 == slot;
+
 					ItemStack base = !getSelected1().isEmpty() ? getSelected1() : getSelected2();
-					boolean compatible = base.isEmpty() || isCompatible(base, stack) || ItemStack.isSameItemSameComponents(base, stack);
+					boolean compatible = base.isEmpty() || alreadySelected || isCompatible(base, stack);
 					if (stack.getItem() instanceof MagicSpellItem spell) {
 						int color = spell.isMaxed(stack) ? 0x00FF00 : 0x555555;
 
@@ -293,8 +296,6 @@ public class MeldingScreen extends MenuFilterable {
 					if (!compatible) {
 						textColor = ChatFormatting.DARK_GRAY;
 					}
-					boolean twoSelected = !selected1.isEmpty() && !selected2.isEmpty();
-					boolean alreadySelected = selectedSlot1 == slot || selectedSlot2 == slot;
 
 					if (twoSelected && !alreadySelected) {
 						textColor = ChatFormatting.DARK_GRAY;

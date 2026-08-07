@@ -51,6 +51,7 @@ import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.Rotation;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.block.state.properties.Property;
@@ -574,6 +575,8 @@ public class Utils {
 
 		List<BlockPos> positions = new ArrayList<>();
 		Map<BlockPos, BlockState> blocks = new HashMap<>();
+		// Everything a block knows that isn't in its state lives in its block entity: the core's fuel and damage, for instance. Carrying the states alone would move an empty shell.
+		Map<BlockPos, CompoundTag> blockEntities = new HashMap<>();
 
 		for (int x = 0; x < size; x++) {
 			for (int y = 0; y < size; y++) {
@@ -594,6 +597,11 @@ public class Utils {
 
 					positions.add(pos);
 					blocks.put(pos, state);
+
+					BlockEntity blockEntity = level.getBlockEntity(pos);
+					if (blockEntity != null) {
+						blockEntities.put(pos, blockEntity.saveCustomOnly(level.registryAccess()));
+					}
 				}
 			}
 		}
@@ -621,6 +629,18 @@ public class Utils {
 			BlockState state = blocks.get(pos);
 			BlockPos newPos = pos.offset(dx, dy, dz);
 			level.setBlock(newPos, state, 3);
+
+			CompoundTag data = blockEntities.get(pos);
+			if (data == null) {
+				continue;
+			}
+
+			// setBlock has just made a fresh block entity, so its saved contents have to be poured back in.
+			BlockEntity moved = level.getBlockEntity(newPos);
+			if (moved != null) {
+				moved.loadCustomOnly(data, level.registryAccess());
+				moved.setChanged();
+			}
 		}
 	}
 

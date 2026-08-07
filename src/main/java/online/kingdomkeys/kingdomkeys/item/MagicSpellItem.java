@@ -40,6 +40,7 @@ public class MagicSpellItem extends Item implements IItemCategory, ICreativeTab,
 	public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
 		Magic magicInstance = ModMagic.registry.get(magic);
 		player.displayClientMessage(Component.translatable("gui.magicspell.equip", Utils.translateToLocal(magicInstance.getTranslationKey())), true);
+		//addExp(player.getMainHandItem(),1000);
 		return InteractionResultHolder.success(player.getItemInHand(hand));
 	}
 
