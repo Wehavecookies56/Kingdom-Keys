@@ -23,6 +23,7 @@ public class MagicFissionFiraga extends Magic {
 		lockOnEntity = getMagicLockOn() ? lockOnEntity : null;
 
 		FissionFiragaEntity fissionFiraga = new FissionFiragaEntity(player.level(), player, dmgMult, lockOnEntity);
+		fissionFiraga.setMagic(this);
 		player.level().addFreshEntity(fissionFiraga);
 		fissionFiraga.shootFromRotation(player, player.getXRot(), player.getYRot(), 0, 1.5F, 0);
 	}

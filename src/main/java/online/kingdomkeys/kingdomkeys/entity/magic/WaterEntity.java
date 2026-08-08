@@ -136,19 +136,7 @@ public class WaterEntity extends BaseMagicProjectile {
 				remove(RemovalReason.KILLED);
 			}
 
-			if (brtResult != null) {
-				BlockPos blockpos = brtResult.getBlockPos();
-				BlockState blockstate = level().getBlockState(blockpos);
-				if(blockstate.getBlock() == Blocks.FIRE) {
-					level().setBlockAndUpdate(blockpos, Blocks.AIR.defaultBlockState());
-				}
-				if(blockstate.hasProperty(BlockStateProperties.LIT)) {
-					level().setBlock(blockpos, blockstate.setValue(BlockStateProperties.LIT, Boolean.valueOf(false)), 11);
-				}
-				if(blockstate.getBlock() == Blocks.SPONGE) {
-					level().setBlockAndUpdate(blockpos, Blocks.WET_SPONGE.defaultBlockState());
-				}
-			}
+			interactWithBlocks(rtRes, 0);
 		}
 
 	}

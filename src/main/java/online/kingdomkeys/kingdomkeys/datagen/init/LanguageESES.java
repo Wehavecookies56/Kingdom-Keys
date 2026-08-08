@@ -83,7 +83,6 @@ public class LanguageESES extends KKLanguageProvider {
         //COMMON
         addConfigKey(ModConfigs.getCommonConfig().recipeDropChance, "Probabilidad de soltar recetas");
         addConfigKey(ModConfigs.getCommonConfig().bombExplodeWithFire, "Sincorazón bomba explotan con fuego");
-        addConfigKey(ModConfigs.getCommonConfig().blizzardChangeBlocks, "Hielo altera bloques");
         addConfigKey(ModConfigs.getCommonConfig().keybladeOpenDoors, "Llave espada abre puertas de hierro");
         addConfigKey(ModConfigs.getCommonConfig().driveHeal, "Cura de Fusión");
         addConfigKey(ModConfigs.getCommonConfig().drivePointsMultiplier, "Multiplicador de puntos de Fusión");

@@ -23,6 +23,7 @@ public class MagicFiragaBurst extends Magic {
 		lockOnEntity = getMagicLockOn() ? lockOnEntity : null;
 
 		FiragaBurstControllerEntity firagaBurst = new FiragaBurstControllerEntity(player.level(), player, dmgMult, lockOnEntity);
+		firagaBurst.setMagic(this);
 		player.level().addFreshEntity(firagaBurst);
 		firagaBurst.shootFromRotation(player, -90, player.getYRot(), 0, 0.4F, 0);
 	}

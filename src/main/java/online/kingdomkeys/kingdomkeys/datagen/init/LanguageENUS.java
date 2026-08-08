@@ -85,7 +85,6 @@ public class LanguageENUS extends KKLanguageProvider {
         //COMMON
         addConfigKey(ModConfigs.getCommonConfig().recipeDropChance, "Recipe drop chance");
         addConfigKey(ModConfigs.getCommonConfig().bombExplodeWithFire, "Bomb Heartless explode on fire");
-        addConfigKey(ModConfigs.getCommonConfig().blizzardChangeBlocks, "Blizzard change blocks");
         addConfigKey(ModConfigs.getCommonConfig().keybladeOpenDoors, "Keyblade open iron doors");
         addConfigKey(ModConfigs.getCommonConfig().driveHeal, "Drive form heal");
         addConfigKey(ModConfigs.getCommonConfig().drivePointsMultiplier, "Drive Points Multiplier");

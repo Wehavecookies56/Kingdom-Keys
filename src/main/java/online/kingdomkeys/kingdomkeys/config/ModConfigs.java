@@ -331,7 +331,7 @@ public class ModConfigs {
         hiddenMagic = CLIENT.hiddenMagic.get();
     }
 
-    public static boolean bombExplodeWithfire, keybladeOpenDoors, mobLevelingUp, playerSpawnHeartless,blizzardChangeBlocks, bossDespawnIfNoTarget, respawnROD, needKeybladeForHeartless, mobLevelName, allowBlocksInHangarArea, hideOrgNames, generateCOEntrance;
+    public static boolean bombExplodeWithfire, keybladeOpenDoors, mobLevelingUp, playerSpawnHeartless, bossDespawnIfNoTarget, respawnROD, needKeybladeForHeartless, mobLevelName, allowBlocksInHangarArea, hideOrgNames, generateCOEntrance;
 
     public static SpawningMode heartlessSpawningMode;
     public static List<String> mobSpawnRate;
@@ -372,7 +372,6 @@ public class ModConfigs {
         munnyDropProbability = COMMON.munnyDropProbability.get();
         driveDropProbability = COMMON.driveDropProbability.get();
         focusDropProbability = COMMON.focusDropProbability.get();
-        blizzardChangeBlocks = COMMON.blizzardChangeBlocks.get();
 
         mobLevelStats = COMMON.mobLevelStats.get();
         rodHeartlessLevelScale = COMMON.rodHeartlessLevelScale.get();

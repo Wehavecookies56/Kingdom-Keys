@@ -125,23 +125,7 @@ public class FiragaEntity extends BaseMagicProjectile {
 
 			float radius = 1.5F;
 
-			if (brtResult != null) {
-				BlockPos ogBlockPos = brtResult.getBlockPos();
-
-				for(int x=(int)(ogBlockPos.getX()-radius);x<ogBlockPos.getX()+radius;x++) {
-					for(int y=(int)(ogBlockPos.getY()-radius);y<ogBlockPos.getY()+radius;y++) {
-						for(int z=(int)(ogBlockPos.getZ()-radius);z<ogBlockPos.getZ()+radius;z++) {
-							BlockPos blockpos = new BlockPos(x,y,z);
-							BlockState blockstate = level().getBlockState(blockpos);
-							if(blockstate.getBlock() == Blocks.WET_SPONGE) {
-								level().setBlockAndUpdate(blockpos, Blocks.SPONGE.defaultBlockState());
-							}
-							if(blockstate.hasProperty(BlockStateProperties.LIT))
-								level().setBlock(blockpos, blockstate.setValue(BlockStateProperties.LIT, true), 11);
-						}
-					}
-				}
-			}
+			interactWithBlocks(rtRes, radius);
 
 			List<Entity> list = level().getEntities(getOwner(), getBoundingBox().inflate(radius));
 			list = Utils.removePartyMembersFromList((Player)getOwner(), list);
@@ -152,19 +136,6 @@ public class FiragaEntity extends BaseMagicProjectile {
 			for(SimpleParticleType p : getParticles()) {
 				((ServerLevel)level()).sendParticles(p, getX(), getY(), getZ(), 200/getParticles().size(), Math.random() - 0.5D, Math.random() - 0.5D, Math.random() - 0.5D,0.1);
 			}
-
-			/*if (!list.isEmpty()) {
-                for (Entity e : list) {
-                    if (e instanceof LivingEntity ent) {
-                        e.setRemainingFireTicks(15);
-						damageEntity(ent);
-
-						if (ent.getEffect(ModMobEffects.FREEZE) != null) {
-							ent.removeEffect(ModMobEffects.FREEZE);
-						}
-                    }
-                }
-			}*/
 
 			remove(RemovalReason.KILLED);
 		}

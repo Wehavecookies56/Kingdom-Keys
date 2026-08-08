@@ -64,7 +64,7 @@ public record CSEditGummiShip(String name, int containerID) implements Packet {
 
 			} else {
 				//If ship is smaller allow it in and adapt it's array
-				KingdomKeys.LOGGER.debug("Resizing ship size from "+gummi.structure.getWidth()+" to "+size);
+				//KingdomKeys.LOGGER.debug("Resizing ship size from "+gummi.structure.getWidth()+" to "+size);
 				struct = Utils.resizeStructure(struct,size);
 			}
 

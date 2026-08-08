@@ -10,17 +10,14 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
-import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.damagesource.KKDamageTypes;
 import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.lib.Party;
+import online.kingdomkeys.kingdomkeys.magic.MagicData;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.util.List;
@@ -44,18 +41,14 @@ public class BlizzazaEntity extends BaseMagicProjectile {
 
 	@Override
 	public void tick() {
-		if(ModConfigs.blizzardChangeBlocks && !level().isClientSide && level().getBlockState(blockPosition()) != Blocks.AIR.defaultBlockState()) {
+		boolean canFreeze = canInteract(MagicData.Interaction.FREEZE_WATER) || canInteract(MagicData.Interaction.FREEZE_LAVA);
+
+		if(canFreeze && !level().isClientSide && level().getBlockState(blockPosition()) != Blocks.AIR.defaultBlockState()) {
 			for(int x=(int)(getX()-radius/2);x<getX()+radius/2;x++) {
 				for(int y=(int)(getY());y<getY()+1;y++) {
 					for(int z=(int)(getZ()-radius/2);z<getZ()+radius/2;z++) {
 						if ((getX() - x) * (getX() - x) + (getY() - y) * (getY() - y) + (getZ() - z) * (getZ() - z) <= radius/2 * radius/2) {
-							BlockPos blockpos = new BlockPos(x,y,z);
-							BlockState blockstate = level().getBlockState(blockpos);
-							if(blockstate == Blocks.WATER.defaultBlockState()){
-								level().setBlockAndUpdate(blockpos, Blocks.ICE.defaultBlockState());
-							} else if(blockstate == Blocks.LAVA.defaultBlockState()){
-								level().setBlockAndUpdate(blockpos, Blocks.OBSIDIAN.defaultBlockState());
-							}
+							freezeFluid(new BlockPos(x, y, z));
 						}
 					}
 				}
@@ -107,20 +100,7 @@ public class BlizzazaEntity extends BaseMagicProjectile {
 				}
 			}
 
-			if (rtRes instanceof BlockHitResult brtResult) {
-				BlockPos ogBlockPos = brtResult.getBlockPos();
-
-				for(int x=(int)(ogBlockPos.getX()-radius);x<ogBlockPos.getX()+radius;x++) {
-					for(int y=(int)(ogBlockPos.getY()-radius);y<ogBlockPos.getY()+radius;y++) {
-						for(int z=(int)(ogBlockPos.getZ()-radius);z<ogBlockPos.getZ()+radius;z++) {
-							BlockPos blockpos = new BlockPos(x,y,z);
-							BlockState blockstate = level().getBlockState(blockpos);
-							if(blockstate.hasProperty(BlockStateProperties.LIT))
-								level().setBlock(blockpos, blockstate.setValue(BlockStateProperties.LIT, false), 11);
-						}
-					}
-				}
-			}
+			interactWithBlocks(rtRes, radius);
 
 			if (getOwner() instanceof Player player) {
 				List<LivingEntity> list = Utils.getLivingEntitiesInRadius(this, radius);

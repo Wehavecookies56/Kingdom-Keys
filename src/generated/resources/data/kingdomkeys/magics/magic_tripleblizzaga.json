@@ -4,6 +4,11 @@
   "cost": 22,
   "dmg_mult": 0.3,
   "dmg_mult_max": 0.4,
+  "interacts_with_blocks": [
+    "turn_off_lightable",
+    "freeze_water",
+    "freeze_lava"
+  ],
   "magic_lock_on": true,
   "max_exp": 4600,
   "max_lvl": 4,

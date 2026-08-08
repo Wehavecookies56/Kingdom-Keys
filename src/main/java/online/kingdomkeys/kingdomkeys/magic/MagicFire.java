@@ -27,6 +27,7 @@ public class MagicFire extends Magic {
 		//If it's dark firaga cast it directly
 		if (getRegistryName().toString().equals(Strings.Magic_DarkFiraga)) {
 			DarkFiragaEntity darkFiraga = new DarkFiragaEntity(player.level(), player, dmgMult, lockOnEntity);
+			darkFiraga.setMagic(this);
 			player.level().addFreshEntity(darkFiraga);
 			darkFiraga.shootFromRotation(player, player.getXRot(), player.getYRot(), 0, 2F, 0);
 			return;
@@ -34,22 +35,26 @@ public class MagicFire extends Magic {
 
 		switch (getTier()) {
 			case 0:
-				ThrowableProjectile fire = new FireEntity(player.level(), player, dmgMult, lockOnEntity);
+				BaseMagicProjectile fire = new FireEntity(player.level(), player, dmgMult, lockOnEntity);
+				fire.setMagic(this);
 				player.level().addFreshEntity(fire);
 				fire.shootFromRotation(player, player.getXRot(), player.getYRot(), 0, 2F, 0);
 				break;
 			case 1:
-				ThrowableProjectile fira = new FiraEntity(player.level(), player, dmgMult, lockOnEntity);
+				BaseMagicProjectile fira = new FiraEntity(player.level(), player, dmgMult, lockOnEntity);
+				fira.setMagic(this);
 				player.level().addFreshEntity(fira);
 				fira.shootFromRotation(player, player.getXRot(), player.getYRot(), 0, 2F, 0);
 				break;
 			case 2:
-				ThrowableProjectile firaga = new FiragaEntity(player.level(), player, dmgMult, lockOnEntity);
+				BaseMagicProjectile firaga = new FiragaEntity(player.level(), player, dmgMult, lockOnEntity);
+				firaga.setMagic(this);
 				player.level().addFreshEntity(firaga);
 				firaga.shootFromRotation(player, player.getXRot(), player.getYRot(), 0, 2F, 0);
 				break;
 			case 3:
-				ThrowableProjectile firaza = new FirazaEntity(player.level(), player, dmgMult, lockOnEntity);
+				BaseMagicProjectile firaza = new FirazaEntity(player.level(), player, dmgMult, lockOnEntity);
+				firaza.setMagic(this);
 				player.level().addFreshEntity(firaza);
 				firaza.shootFromRotation(player, player.getXRot(), player.getYRot(), 0, 2F, 0);
 				break;

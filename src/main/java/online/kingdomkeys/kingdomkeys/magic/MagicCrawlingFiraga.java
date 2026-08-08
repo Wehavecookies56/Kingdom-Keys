@@ -23,6 +23,7 @@ public class MagicCrawlingFiraga extends Magic {
 		lockOnEntity = getMagicLockOn() ? lockOnEntity : null;
 
 		CrawlingFiragaEntity crawlingFiraga = new CrawlingFiragaEntity(player.level(), player, dmgMult, lockOnEntity);
+		crawlingFiraga.setMagic(this);
 		player.level().addFreshEntity(crawlingFiraga);
 		crawlingFiraga.setPos(player.getX(), player.getY() + 1, player.getZ());
 		crawlingFiraga.shootFromRotation(player, player.getXRot(), player.getYRot(), 0, 0.3F, 0);

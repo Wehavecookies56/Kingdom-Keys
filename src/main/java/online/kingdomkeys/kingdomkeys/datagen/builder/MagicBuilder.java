@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.datagen.builder;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import net.minecraft.resources.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.magic.MagicData;
@@ -55,6 +56,17 @@ public class MagicBuilder {
 
 	public MagicBuilder maxExpLevel(int value) {
 		root.addProperty("max_lvl", value);
+		return this;
+	}
+
+	// World blocks interactions
+	public MagicBuilder interactsWithBlocks(MagicData.Interaction... interactions) {
+		JsonArray names = new JsonArray();
+		for (MagicData.Interaction interaction : interactions) {
+			names.add(interaction.getName());
+		}
+
+		root.add("interacts_with_blocks", names);
 		return this;
 	}
 

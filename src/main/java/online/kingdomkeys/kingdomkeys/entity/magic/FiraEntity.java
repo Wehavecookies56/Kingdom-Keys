@@ -96,18 +96,10 @@ public class FiraEntity extends BaseMagicProjectile {
 			}
 
 			if (brtResult != null) {
-				BlockPos blockpos = brtResult.getBlockPos();
-				BlockState blockstate = level().getBlockState(blockpos);
-
 				((ServerLevel)level()).sendParticles(ParticleTypes.FLAME, getX(), getY(), getZ(), 90, Math.random() - 0.5D, Math.random() - 0.5D, Math.random() - 0.5D,0.1);
-
-				if(blockstate.getBlock() == Blocks.WET_SPONGE) {
-					level().setBlockAndUpdate(blockpos, Blocks.SPONGE.defaultBlockState());
-				}
-				if (CampfireBlock.canLight(blockstate) || CandleBlock.canLight(blockstate) || CandleCakeBlock.canLight(blockstate)) {
-					level().setBlock(blockpos, blockstate.setValue(BlockStateProperties.LIT, true), 11);
-				}
 			}
+
+			interactWithBlocks(rtRes, 0);
 			remove(RemovalReason.KILLED);
 		}
 	}

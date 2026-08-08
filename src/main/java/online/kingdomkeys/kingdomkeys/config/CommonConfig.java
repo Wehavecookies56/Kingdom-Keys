@@ -19,7 +19,7 @@ public class CommonConfig {
     public ModConfigSpec.ConfigValue<List<? extends String>> mobSpawnRate;
 
     public ModConfigSpec.IntValue rodHeartlessLevelScale, rodHeartlessMaxLevel, driveHeal, recipeDropChance, biomeMemoryDropChance, gummiBlocksDropPercent, hpDropProbability, mpDropProbability, munnyDropProbability, driveDropProbability, focusDropProbability, mobLevelStats;
-    public ModConfigSpec.BooleanValue respawnROD, mobLevelingUp, mobLevelName, bombExplodeWithFire, allowBlocksInHangarArea, keybladeOpenDoors, blizzardChangeBlocks, playerSpawnHeartless, bossDespawnIfNoTarget, needKeybladeForHeartless, hideOrgNames;
+    public ModConfigSpec.BooleanValue respawnROD, mobLevelingUp, mobLevelName, bombExplodeWithFire, allowBlocksInHangarArea, keybladeOpenDoors, playerSpawnHeartless, bossDespawnIfNoTarget, needKeybladeForHeartless, hideOrgNames;
     public ModConfigSpec.DoubleValue drivePointsMultiplier, focusPointsMultiplier, shotlockMult, critMult, fuelConsumeFactor;
 
     public ModConfigSpec.ConfigValue<List<? extends String>> playerSpawnHeartlessData;
@@ -35,11 +35,6 @@ public class CommonConfig {
                 .comment("Allow Bomb heartless to explode when lit on fire")
                 .translation(KingdomKeys.MODID + ".config.bomb_explode_with_fire")
                 .define("bombExplodeWithfire", true);
-
-        blizzardChangeBlocks = builder
-                .comment("Allow Blizzard to turn lava into obsidian and freeze water")
-                .translation(KingdomKeys.MODID + ".config.blizzard_change_blocks")
-                .define("blizzardChangeBlocks", true);
 
         keybladeOpenDoors = builder
                 .comment("Allow keyblades to open iron doors with right click")
@@ -72,12 +67,12 @@ public class CommonConfig {
                 .define("generateCOEntrance", true);
 
         coEntranceChunkX = builder
-                .comment("Chunk X Co-ord to generate Castle Oblivion entrance")
+                .comment("Chunk X coord to generate Castle Oblivion entrance")
                 .translation(KingdomKeys.MODID + ".config.co_entrance_chunk_x")
                 .defineInRange("coEntranceChunkX", 13, 0, 1000);
 
         coEntranceChunkZ = builder
-                .comment("Chunk Z Co-ord to generate Castle Oblivion entrance")
+                .comment("Chunk Z coord to generate Castle Oblivion entrance")
                 .translation(KingdomKeys.MODID + ".config.co_entrance_chunk_z")
                 .defineInRange("coEntranceChunkZ", 7, 0, 1000);
 

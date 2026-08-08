@@ -1,6 +1,5 @@
 package online.kingdomkeys.kingdomkeys.entity.magic;
 
-import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -10,13 +9,9 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
-import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.damagesource.KKDamageTypes;
 import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
@@ -40,14 +35,8 @@ public class BlizzardEntity extends BaseMagicProjectile {
 
 	@Override
 	public void tick() {
-		if(ModConfigs.blizzardChangeBlocks && !level().isClientSide) {
-			if (level().getBlockState(blockPosition()) == Blocks.WATER.defaultBlockState()) {
-				level().setBlockAndUpdate(blockPosition(), Blocks.ICE.defaultBlockState());
-				remove(RemovalReason.KILLED);
-			} else if(level().getBlockState(blockPosition()) == Blocks.LAVA.defaultBlockState()){
-				level().setBlockAndUpdate(blockPosition(), Blocks.OBSIDIAN.defaultBlockState());
-				remove(RemovalReason.KILLED);
-			}
+		if (freezeFluid(blockPosition())) {
+			remove(RemovalReason.KILLED);
 		}
 
 		if (tickCount > 2)
@@ -94,13 +83,7 @@ public class BlizzardEntity extends BaseMagicProjectile {
 				}
 			}
 			
-			if (brtResult != null) {
-				BlockPos blockpos = brtResult.getBlockPos();
-				BlockState blockstate = level().getBlockState(blockpos);
-				if(blockstate.hasProperty(BlockStateProperties.LIT))
-					level().setBlock(blockpos, blockstate.setValue(BlockStateProperties.LIT, false), 11);
-
-			}
+			interactWithBlocks(rtRes, 0);
 			remove(RemovalReason.KILLED);
 		}
 

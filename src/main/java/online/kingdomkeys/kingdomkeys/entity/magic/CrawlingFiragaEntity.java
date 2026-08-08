@@ -77,23 +77,7 @@ public class CrawlingFiragaEntity extends FiragaEntity {
 			super.onHit(rtRes);
 			float radius = 1.5F;
 			
-			if (brtResult != null) {
-				BlockPos ogBlockPos = brtResult.getBlockPos();
-
-				for(int x=(int)(ogBlockPos.getX()-radius);x<ogBlockPos.getX()+radius;x++) {
-					for(int y=(int)(ogBlockPos.getY()-radius);y<ogBlockPos.getY()+radius;y++) {
-						for(int z=(int)(ogBlockPos.getZ()-radius);z<ogBlockPos.getZ()+radius;z++) {
-							BlockPos blockpos = new BlockPos(x,y,z);
-							BlockState blockstate = level().getBlockState(blockpos);
-							if(blockstate.getBlock() == Blocks.WET_SPONGE) {
-								level().setBlockAndUpdate(blockpos, Blocks.SPONGE.defaultBlockState());
-							}
-							if(blockstate.hasProperty(BlockStateProperties.LIT))
-								level().setBlock(blockpos, blockstate.setValue(BlockStateProperties.LIT, true), 11);
-						}
-					}
-				}
-			}
+			interactWithBlocks(rtRes, radius);
 			
 			List<Entity> list = level().getEntities(getOwner(), getBoundingBox().inflate(radius));
 			list = Utils.removePartyMembersFromList((Player)getOwner(), list);

@@ -100,6 +100,10 @@ public abstract class Magic implements KKRegistryObject {
 		return data.getSpellType();
 	}
 
+	public boolean canInteract(MagicData.Interaction interaction) {
+		return data != null && data.canInteract(interaction);
+	}
+
 	public Optional<Ability> getGMAbility() {
 		if (gmAbility == null) return Optional.empty();
 		return Optional.ofNullable(ModAbilities.registry.get(gmAbility));

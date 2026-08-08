@@ -137,26 +137,7 @@ public class WatergaEntity extends BaseMagicProjectile {
 
 			float radius = 2F;
 
-			if (brtResult != null) {
-				BlockPos ogBlockPos = brtResult.getBlockPos();
-
-				for(int x=(int)(ogBlockPos.getX()-radius);x<ogBlockPos.getX()+radius;x++) {
-					for(int y=(int)(ogBlockPos.getY()-radius);y<ogBlockPos.getY()+radius;y++) {
-						for(int z=(int)(ogBlockPos.getZ()-radius);z<ogBlockPos.getZ()+radius;z++) {
-							BlockPos blockpos = new BlockPos(x,y,z);
-							BlockState blockstate = level().getBlockState(blockpos);
-							if(blockstate.hasProperty(BlockStateProperties.LIT))
-								level().setBlock(blockpos, blockstate.setValue(BlockStateProperties.LIT, Boolean.valueOf(false)), 11);
-							if(blockstate.getBlock() == Blocks.FIRE) {
-								level().setBlockAndUpdate(blockpos, Blocks.AIR.defaultBlockState());
-							}
-							if(blockstate.getBlock() == Blocks.SPONGE) {
-								level().setBlockAndUpdate(blockpos, Blocks.WET_SPONGE.defaultBlockState());
-							}
-						}
-					}
-				}
-			}
+			interactWithBlocks(rtRes, radius);
 
 			if (getOwner() instanceof Player) {
 				List<LivingEntity> list = Utils.getLivingEntitiesInRadius(this, radius);

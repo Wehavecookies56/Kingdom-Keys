@@ -21,7 +21,8 @@ public class MagicTripleBlizzaga extends Magic {
 		dmgMult *= fullMPBlastMult;
 		lockOnEntity = getMagicLockOn() ? lockOnEntity : null;
 
-		ThrowableProjectile tripleFiragaController = new TripleBlizzagaControllerEntity(player.level(), player, dmgMult, lockOnEntity);
+		TripleBlizzagaControllerEntity tripleFiragaController = new TripleBlizzagaControllerEntity(player.level(), player, dmgMult, lockOnEntity);
+		tripleFiragaController.setMagic(this);
 		player.level().addFreshEntity(tripleFiragaController);
 	}
 

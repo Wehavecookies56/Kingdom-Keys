@@ -145,7 +145,7 @@ public class GummiShipEntityRenderer extends EntityRenderer<GummiShipEntity> {
 	 * per-RenderType VertexBuffers, plus the local-space positions of every engine block (for the
 	 * exhaust particles) so those don't need a full grid walk each frame either. */
 	private CachedShipMesh buildCache(GummiShipEntity entityIn, int packedLight) {
-		KingdomKeys.LOGGER.info("Gummi ship mesh cache (re)built for entity {}", entityIn.getId());
+		//KingdomKeys.LOGGER.info("Gummi ship mesh cache (re)built for entity {}", entityIn.getId());
 		int w = entityIn.structure.getWidth();
 		int h = entityIn.structure.getHeight();
 		int d = entityIn.structure.getDepth();

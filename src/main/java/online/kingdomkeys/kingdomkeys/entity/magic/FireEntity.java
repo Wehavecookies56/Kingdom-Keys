@@ -7,12 +7,6 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.CampfireBlock;
-import net.minecraft.world.level.block.CandleBlock;
-import net.minecraft.world.level.block.CandleCakeBlock;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
@@ -94,18 +88,10 @@ public class FireEntity extends BaseMagicProjectile {
 			}
 
 			if (brtResult != null) {
-				BlockPos blockpos = brtResult.getBlockPos();
-				BlockState blockstate = level().getBlockState(blockpos);
-
 				((ServerLevel)level()).sendParticles(ParticleTypes.FLAME, getX(), getY(), getZ(), 30, Math.random() - 0.5D, Math.random() - 0.5D, Math.random() - 0.5D,0.08);
-
-				if(blockstate.getBlock() == Blocks.WET_SPONGE) {
-					level().setBlockAndUpdate(blockpos, Blocks.SPONGE.defaultBlockState());
-				}
-				if (CampfireBlock.canLight(blockstate) || CandleBlock.canLight(blockstate) || CandleCakeBlock.canLight(blockstate)) {
-					level().setBlock(blockpos, blockstate.setValue(BlockStateProperties.LIT, true), 11);
-				}
 			}
+
+			interactWithBlocks(rtRes, 0);
 			remove(RemovalReason.KILLED);
 		}
 	}

@@ -27,18 +27,22 @@ public class MagicWater extends Magic {
 		switch (getTier()) {
 			case 0 -> {
 				WaterEntity water = new WaterEntity(player.level(), player, dmgMult);
+				water.setMagic(this);
 				player.level().addFreshEntity(water);
 			}
 			case 1 -> {
 				WateraEntity watera = new WateraEntity(player.level(), player, dmgMult);
+				watera.setMagic(this);
 				player.level().addFreshEntity(watera);
 			}
 			case 2 -> {
 				WatergaEntity waterga = new WatergaEntity(player.level(), player, dmgMult);
+				waterga.setMagic(this);
 				player.level().addFreshEntity(waterga);
 			}
 			case 3 -> {
 				WaterzaEntity waterza = new WaterzaEntity(player.level(), player, dmgMult);
+				waterza.setMagic(this);
 				player.level().addFreshEntity(waterza);
 			}
 		}

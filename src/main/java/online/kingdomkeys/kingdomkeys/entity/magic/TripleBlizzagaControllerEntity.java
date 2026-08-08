@@ -35,7 +35,8 @@ public class TripleBlizzagaControllerEntity extends BaseMagicProjectile {
 		if (!level().isClientSide && getOwner() != null) { // Only calculate and spawn lightning bolts server side
 			if (tickCount % 5 == 0) {
 				if(getOwner() instanceof Player player) {
-					ThrowableProjectile blizzaga = new BlizzardEntity(level(), player, dmgMult, 100);
+					BlizzardEntity blizzaga = new BlizzardEntity(level(), player, dmgMult, 100);
+					blizzaga.setMagic(getMagic());
 					player.level().addFreshEntity(blizzaga);
 					blizzaga.shootFromRotation(player, player.getXRot(), player.getYRot(), 0, 2F, 0);
 					Magic blizzard = ModMagic.BLIZZARD.get();

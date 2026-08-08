@@ -25,25 +25,29 @@ public class MagicBlizzard extends Magic {
 
 		switch (getTier()) {
 			case 0:
-				ThrowableProjectile blizzard = new BlizzardEntity(player.level(), player, dmgMult, 100);
+				BlizzardEntity blizzard = new BlizzardEntity(player.level(), player, dmgMult, 100);
+				blizzard.setMagic(this);
 				player.level().addFreshEntity(blizzard);
 				blizzard.shootFromRotation(player, player.getXRot(), player.getYRot(), 0, 2F, 0);
 				break;
 			case 1:// -ra and -ga are dmg boosted here
 				for (int i = -1; i < 2; i++) {
-					ThrowableProjectile blizzara = new BlizzardEntity(player.level(), player, dmgMult, 120);
+					BlizzardEntity blizzara = new BlizzardEntity(player.level(), player, dmgMult, 120);
+					blizzara.setMagic(this);
 					player.level().addFreshEntity(blizzara);
 					blizzara.shootFromRotation(player, player.getXRot(), player.getYRot() + i * 6, 0, 2F, 0);
 				}
 				break;
 			case 2:
 				for (int i = -1; i < 2; i++) {
-					ThrowableProjectile blizzara = new BlizzardEntity(player.level(), player, dmgMult, 130);
+					BlizzardEntity blizzara = new BlizzardEntity(player.level(), player, dmgMult, 130);
+					blizzara.setMagic(this);
 					player.level().addFreshEntity(blizzara);
 					blizzara.shootFromRotation(player, player.getXRot(), player.getYRot() + i * 6, 0, 2F, 0);
 				}
 				for (int i = -1; i < 1; i++) {
-					ThrowableProjectile blizzara = new BlizzardEntity(player.level(), player, dmgMult, 130);
+					BlizzardEntity blizzara = new BlizzardEntity(player.level(), player, dmgMult, 130);
+					blizzara.setMagic(this);
 					player.level().addFreshEntity(blizzara);
 					blizzara.shootFromRotation(player, player.getXRot() - 6, player.getYRot() + i * 6 + 3, 0, 2F, 0);
 				}
@@ -51,6 +55,7 @@ public class MagicBlizzard extends Magic {
 				break;
 			case 3:
 				BlizzazaEntity blizzaza = new BlizzazaEntity(player.level(), player, dmgMult, 200);
+				blizzaza.setMagic(this);
 				player.level().addFreshEntity(blizzaza);
 				blizzaza.shootFromRotation(player, player.getXRot(), player.getYRot(), 0, 2F, 0);
 				break;
