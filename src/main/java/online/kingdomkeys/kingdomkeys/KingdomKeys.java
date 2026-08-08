@@ -197,9 +197,9 @@ public class KingdomKeys {
 		NeoForge.EVENT_BUS.register(new WorldMap());
 		//MinecraftForge.EVENT_BUS.register(new APITests());
 
-		modContainer.registerConfig(ModConfig.Type.CLIENT, ModConfigs.CLIENT_SPEC);
-		modContainer.registerConfig(ModConfig.Type.COMMON, ModConfigs.COMMON_SPEC);
-		modContainer.registerConfig(ModConfig.Type.SERVER, ModConfigs.SERVER_SPEC);
+		modContainer.registerConfig(ModConfig.Type.CLIENT, ModConfigs.CLIENT_SPEC, MODID + "/client.toml");
+		modContainer.registerConfig(ModConfig.Type.COMMON, ModConfigs.COMMON_SPEC, MODID + "/common.toml");
+		modContainer.registerConfig(ModConfig.Type.SERVER, ModConfigs.SERVER_SPEC, MODID + "/server.toml");
 
 		// Server
 		NeoForge.EVENT_BUS.register(new EntityEvents());

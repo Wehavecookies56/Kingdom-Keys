@@ -1,4 +1,6 @@
 ## Added:
+* Some new advancements to make the early game mod progression a little bit clearer.
+* Kingdom Key recipe in the Common Config for startingRecipes (won't affect if you are in an existing world).
 * Realm of Darkness arches.
 * World Map dimension where gummi ships won't use any fuel.
 * Air Soldier, Defender, Neoshadow and Novashadow.
@@ -14,9 +16,10 @@
   * wet_sponge: Allows the projectile turn a sponge into a wet sponge.
   * freeze_water: Allows the projectile turn water into ice.
   * freeze_lava: Allows the projectile turn lava into obsidian.
-* Some new advancements to make the early game mod progression a little bit clearer.
 
 ## Changed:
+* Config files have now been moved into their own subfolder, if you modified any move them there AND RENAME to keep your existing settings.
+  * New files don't have the "kingdomkeys-" prefix, therefore a the "kingdomkeys-common.toml" file now goes into the "kingdomkeys" folder under the name "common.toml".
 * Lowered meteorite frequency.
 * Removed old blizzardChangeBlocks Common Config since the new system obsoletes it.
 
