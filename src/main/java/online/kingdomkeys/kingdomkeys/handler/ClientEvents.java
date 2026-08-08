@@ -8,6 +8,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.Camera;
 import net.minecraft.client.CameraType;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.components.toasts.TutorialToast;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -23,6 +24,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
@@ -77,6 +79,7 @@ import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.item.WayfinderItem;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
 import online.kingdomkeys.kingdomkeys.lib.Party;
+import online.kingdomkeys.kingdomkeys.lib.SoAState;
 import online.kingdomkeys.kingdomkeys.lib.Struggle;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.*;
@@ -700,8 +703,14 @@ public class ClientEvents {
 
 		if (mc.level == null) {
 			ItemGetGui.INSTANCE.clearItems();
+			// Back at the main menu: forget the nudges so the next world gets its own
+			pressMToast = null;
+			pressMDismissed = false;
+			moogleToast = null;
 		} else {
 			ItemGetGui.INSTANCE.tick();
+			tickPressMHint(mc);
+			tickMoogleHint(mc);
 		}
 
 		if (mc.level != null)
@@ -743,6 +752,64 @@ public class ClientEvents {
 				gummiBoostCD--;
 			}
 		}
+	}
+
+	private static TutorialToast pressMToast;
+	private static boolean pressMDismissed;
+
+	private void tickPressMHint(Minecraft mc) {
+		if (mc.player == null || pressMDismissed) {
+			return;
+		}
+
+		PlayerData playerData = PlayerData.get(mc.player);
+
+		// Nothing to hint at once the heart has been dived into
+		if (playerData == null || playerData.getChosen() != SoAState.NONE) {
+			hidePressMHint();
+			return;
+		}
+
+		if (pressMToast == null) {
+			pressMToast = new TutorialToast(TutorialToast.Icons.RECIPE_BOOK, Component.translatable("advancements.kingdomkeys.press_m_hint"), Component.translatable("advancements.kingdomkeys.press_m_hint.desc"), false);
+			mc.getToasts().addToast(pressMToast);
+		}
+	}
+
+	private static TutorialToast moogleToast;
+
+	private void tickMoogleHint(Minecraft mc) {
+		if (mc.player == null) {
+			return;
+		}
+
+		PlayerData playerData = PlayerData.get(mc.player);
+
+		// Only between making the choice and meeting a Moogle
+		boolean wanted = playerData != null && playerData.getChosen() != SoAState.NONE && !playerData.hasMetMoogle();
+
+		if (!wanted) {
+			if (moogleToast != null) {
+				moogleToast.hide();
+				moogleToast = null;
+			}
+			return;
+		}
+
+		if (moogleToast == null) {
+			moogleToast = new TutorialToast(TutorialToast.Icons.SOCIAL_INTERACTIONS, Component.translatable("advancements.kingdomkeys.visit_moogle"), Component.translatable("advancements.kingdomkeys.visit_moogle.desc"), false);
+			mc.getToasts().addToast(moogleToast);
+		}
+	}
+
+	// Called the moment the menu key does its job, so the hint leaves as soon as it has been obeyed
+	public static void hidePressMHint() {
+		if (pressMToast != null) {
+			pressMToast.hide();
+			pressMToast = null;
+		}
+
+		pressMDismissed = true;
 	}
 
 	public static float ballRot = 0;

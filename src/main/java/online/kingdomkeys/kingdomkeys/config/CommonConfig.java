@@ -214,6 +214,7 @@ public class CommonConfig {
                 .comment("Synthesis recipes given to the player on first join, so changing this list will not give you recipes in worlds you've already created")
                 .translation(KingdomKeys.MODID + ".config.starting_recipes")
                 .defineList("startingRecipes", List.of(
+                        KingdomKeys.MODID + ":" + Strings.kingdomKey,
                         KingdomKeys.MODID + ":" + Strings.SM_MythrilShard,
                         KingdomKeys.MODID + ":" + Strings.SM_MythrilStone,
                         KingdomKeys.MODID + ":" + Strings.SM_MythrilGem,

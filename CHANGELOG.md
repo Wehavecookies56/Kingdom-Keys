@@ -14,6 +14,7 @@
   * wet_sponge: Allows the projectile turn a sponge into a wet sponge.
   * freeze_water: Allows the projectile turn water into ice.
   * freeze_lava: Allows the projectile turn lava into obsidian.
+* Some new advancements to make the early game mod progression a little bit clearer.
 
 ## Changed:
 * Lowered meteorite frequency.

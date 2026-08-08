@@ -132,8 +132,10 @@ public class LanguageESES extends KKLanguageProvider {
 
         //Advancements
         addAdvancement("root", "\u00a1Bienvenido a Kingdom Keys!", "Instala Kingdom Keys");
+        addAdvancement("press_m_hint", "Pulsa M para empezar", "Es hora de elegir");
         addAdvancement("to_soa", "Es esto... \u00bfmi coraz\u00f3n?!", "Descende a tu coraz\u00f3n");
         addAdvancement("choice", "\u00bfUna espada, bast\u00f3n y escudo?", "Haz una elecci\u00f3n");
+        addAdvancement("visit_moogle", "Un moguri puede ayudarte", "Visita un moguri");
         addAdvancement("obtain_recipe", "Mejor se lo llevo a un Moguri", "Obt\u00e9n una receta");
         addAdvancement("obtain_projector", "El sacrificio era inevitable", "Obt\u00e9n un proyector");
         addAdvancement("summon_keyblade", "\u00bfSoy el elegido?", "Invoca la llave espada");
@@ -166,6 +168,10 @@ public class LanguageESES extends KKLanguageProvider {
         addAdvancement("craft_stel1034_skull","El escultor", "Fabrica una calavera tributo a stel312");
         addAdvancement("craft_xephirovt_skull","La mano amiga", "Fabrica una calavera tributo a XephiroVT");
         addAdvancement("all_dev_skulls","Salón de los creadores", "Fabrica las calaveras tributo de todos los creadores");
+
+        //Onboarding hints (texto persistente en pantalla, ver HintGui - no son toasts de logros)
+        add("hint.kingdomkeys.press_m", "Pulsa M para comenzar tu viaje");
+        add("hint.kingdomkeys.visit_moogle", "Visita un moguri para sintetizar tu Kingdom Key");
 
         //Keybinds
         add("key.categories.kingdomkeys", "Kingdom Keys");

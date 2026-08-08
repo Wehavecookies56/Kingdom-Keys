@@ -1,5 +1,5 @@
 {
-  "parent": "kingdomkeys:soa",
+  "parent": "kingdomkeys:open_menu",
   "criteria": {
     "obtain_drive": {
       "conditions": {

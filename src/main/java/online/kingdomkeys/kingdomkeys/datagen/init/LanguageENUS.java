@@ -135,8 +135,10 @@ public class LanguageENUS extends KKLanguageProvider {
 
         //Advancements
         addAdvancement("root","Welcome to Kingdom Keys!", "Install Kingdom Keys");
+        addAdvancement("press_m_hint","Press M to begin", "It's time to make a choice");
         addAdvancement("to_soa","Is this... my heart?!", "Deep dive into your heart");
         addAdvancement("choice","A sword, shield and staff?", "Make a choice");
+        addAdvancement("visit_moogle","A Moogle can help", "Visit a Moogle");
         addAdvancement("obtain_recipe","I better take this to a Moogle", "Obtain a recipe");
         addAdvancement("obtain_projector","A sacrifice had to be made", "Obtain a moogle projector");
         addAdvancement("summon_keyblade","Am I the choosen one?", "Summon your keyblade");
@@ -169,6 +171,10 @@ public class LanguageENUS extends KKLanguageProvider {
         addAdvancement("craft_stel1034_skull","The blender", "Craft a tribute skull for stel312");
         addAdvancement("craft_xephirovt_skull","The helping hand", "Craft a tribute skull for XephiroVT");
         addAdvancement("all_dev_skulls","Hall of Creators", "Craft all of the creators' tribute skulls");
+
+        //Onboarding hints (persistent HUD text, see HintGui - not advancement toasts)
+        add("hint.kingdomkeys.press_m", "Press M to begin your journey");
+        add("hint.kingdomkeys.visit_moogle", "Visit a Moogle to synthesize your Kingdom Key");
 
         /**GUIS**/
         //Containers

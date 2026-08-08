@@ -3,8 +3,10 @@ package online.kingdomkeys.kingdomkeys.datagen.init;
 import com.mojang.authlib.properties.PropertyMap;
 import net.minecraft.advancements.*;
 import net.minecraft.advancements.critereon.ChangeDimensionTrigger;
+import net.minecraft.advancements.critereon.EntityPredicate;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.advancements.critereon.ItemPredicate;
+import net.minecraft.advancements.critereon.PlayerInteractTrigger;
 import net.minecraft.advancements.critereon.PlayerTrigger;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponents;
@@ -20,6 +22,7 @@ import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.advancements.*;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
+import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.lib.Constants;
 import online.kingdomkeys.kingdomkeys.lib.ModTags;
@@ -37,19 +40,21 @@ import java.util.function.Consumer;
  * Tree shape (parent -> children), same overall progression as before plus the additions requested:
  *
  * root
- *  |- to_soa
- *  |   `- soa ("choice" - now fires on the actual SoA choice being made, not just leaving the dimension)
- *  |       |- get_stick
- *  |       |- first_level_up -> fifty_level_up -> hundred_level_up
- *  |       |- obtain_drive -> obtain_all_drive_forms
- *  |       |- obtain_keychain -> obtain_kiblade -> summon_keyblade -> upgrade_keyblade -> max_keyblade_level -> dual_wield_oblivion_oathkeeper
- *  |       |- obtain_magic
- *  |       |- obtain_org
- *  |       |- obtain_projector -> obtain_recipe
- *  |       |- get_pauldron
- *  |       |- obtain_winner_stick
- *  |       |- munny_hoarder -> munny_millionaire
- *  |       `- open_menu
+ *  |- press_m_hint (toast nudge, fires with root: "press M to begin")
+ *  |   `- to_soa
+ *  |       `- soa ("choice" - now fires on the actual SoA choice being made, not just leaving the dimension)
+ *  |           |- visit_moogle (toast nudge, earned by talking to a Moogle)
+ *  |           |   `- obtain_keychain -> obtain_kiblade -> summon_keyblade -> upgrade_keyblade -> max_keyblade_level -> dual_wield_oblivion_oathkeeper
+ *  |           |- open_menu
+ *  |           |   |- obtain_drive -> obtain_all_drive_forms
+ *  |           |   |- obtain_magic
+ *  |           |   `- get_pauldron          (the three things you equip from inside the menu)
+ *  |           |- get_stick
+ *  |           |- first_level_up -> fifty_level_up -> hundred_level_up
+ *  |           |- obtain_org
+ *  |           |- obtain_projector -> obtain_recipe
+ *  |           |- obtain_winner_stick
+ *  |           `- munny_hoarder -> munny_millionaire
  *  |- all_advancements (needs every other one; awards the Proof of Connection)
  *  |- to_rod
  *  |- play_music_disc
@@ -69,8 +74,14 @@ public class AdvancementsGen implements AdvancementProvider.AdvancementGenerator
 						.addLootTable(ResourceKey.create(Registries.LOOT_TABLE, KingdomKeys.rl("grant_book_on_first_join"))))
 				.save(saver, KingdomKeys.rl("root"), existingFileHelper);
 
-		AdvancementHolder toSoa = Advancement.Builder.advancement()
+		AdvancementHolder pressMHint = Advancement.Builder.advancement()
 				.parent(root)
+				.display(Items.COMPASS.getDefaultInstance(), Component.translatable("advancements.kingdomkeys.press_m_hint"), Component.translatable("advancements.kingdomkeys.press_m_hint.desc"), null, AdvancementType.TASK, false, false, false)
+				.addCriterion("tick", PlayerTrigger.TriggerInstance.tick())
+				.save(saver, KingdomKeys.rl("press_m_hint"), existingFileHelper);
+
+		AdvancementHolder toSoa = Advancement.Builder.advancement()
+				.parent(pressMHint)
 				.display(new ItemStack(ModBlocks.pedestal.get()), Component.translatable("advancements.kingdomkeys.to_soa"), Component.translatable("advancements.kingdomkeys.to_soa.desc"), null, AdvancementType.TASK, true, false, false)
 				.addCriterion("m_key", ChangeDimensionTrigger.TriggerInstance.changedDimensionTo(ModDimensions.DIVE_TO_THE_HEART))
 				.save(saver, KingdomKeys.rl("to_soa"), existingFileHelper);
@@ -82,6 +93,20 @@ public class AdvancementsGen implements AdvancementProvider.AdvancementGenerator
 				.rewards(AdvancementRewards.Builder.experience(0)
 						.addLootTable(ResourceKey.create(Registries.LOOT_TABLE, KingdomKeys.rl("grant_wooden_keyblade"))))
 				.save(saver, KingdomKeys.rl("soa"), existingFileHelper);
+
+		AdvancementHolder moogleMet = Advancement.Builder.advancement()
+				.parent(soa)
+				.display(new ItemStack(ModItems.kingdomKeyChain.get()), Component.translatable("advancements.kingdomkeys.visit_moogle"), Component.translatable("advancements.kingdomkeys.visit_moogle.desc"), null, AdvancementType.TASK, false, false, false)
+				.addCriterion("talk_to_moogle", CriteriaTriggers.PLAYER_INTERACTED_WITH_ENTITY.createCriterion(
+						new PlayerInteractTrigger.TriggerInstance(Optional.empty(), Optional.empty(), Optional.of(EntityPredicate.wrap(EntityPredicate.Builder.entity().of(ModEntities.TYPE_MOOGLE.get()))))))
+				.save(saver, KingdomKeys.rl("visit_moogle"), existingFileHelper);
+
+		AdvancementHolder openMenu = Advancement.Builder.advancement()
+				.parent(soa)
+				.display(new ItemStack(ModItems.kingdomKey.get()), Component.translatable("advancements.kingdomkeys.open_menu"), Component.translatable("advancements.kingdomkeys.open_menu.desc"), null, AdvancementType.GOAL, true, false, false)
+				.addCriterion("open_menu", ModAdvancements.OPEN_MENU.get().createCriterion(new KKOpenMenuTrigger.TriggerInstance(Optional.empty())))
+				.rewards(AdvancementRewards.Builder.experience(5))
+				.save(saver, KingdomKeys.rl("open_menu"), existingFileHelper);
 
 		Advancement.Builder.advancement()
 				.parent(soa)
@@ -122,7 +147,7 @@ public class AdvancementsGen implements AdvancementProvider.AdvancementGenerator
 				.save(saver, KingdomKeys.rl("hundred_level_up"), existingFileHelper);
 
 		AdvancementHolder obtainDrive = Advancement.Builder.advancement()
-				.parent(soa)
+				.parent(openMenu)
 				.display(new ItemStack(ModItems.valorOrb.get()), Component.translatable("advancements.kingdomkeys.obtain_drive"), Component.translatable("advancements.kingdomkeys.obtain_drive.desc"), null, AdvancementType.GOAL, true, false, false)
 				.addCriterion("obtain_drive", InventoryChangeTrigger.TriggerInstance.hasItems(ItemPredicate.Builder.item().of(ModTags.DRIVES).build()))
 				.rewards(AdvancementRewards.Builder.experience(10))
@@ -143,7 +168,7 @@ public class AdvancementsGen implements AdvancementProvider.AdvancementGenerator
 				.save(saver, KingdomKeys.rl("obtain_all_drive_forms"), existingFileHelper);
 
 		AdvancementHolder obtainKeychain = Advancement.Builder.advancement()
-				.parent(soa)
+				.parent(moogleMet)
 				.display(new ItemStack(ModItems.kingdomKeyChain.get()), Component.translatable("advancements.kingdomkeys.obtain_keychain"), Component.translatable("advancements.kingdomkeys.obtain_keychain.desc"), null, AdvancementType.GOAL, true, false, false)
 				.addCriterion("obtain_keychain", InventoryChangeTrigger.TriggerInstance.hasItems(ItemPredicate.Builder.item().of(ModTags.KEYCHAINS).build()))
 				.rewards(AdvancementRewards.Builder.experience(30))
@@ -185,7 +210,7 @@ public class AdvancementsGen implements AdvancementProvider.AdvancementGenerator
 				.save(saver, KingdomKeys.rl("dual_wield_oblivion_oathkeeper"), existingFileHelper);
 
 		Advancement.Builder.advancement()
-				.parent(soa)
+				.parent(openMenu)
 				.display(new ItemStack(ModItems.fireSpell.get()), Component.translatable("advancements.kingdomkeys.obtain_magic"), Component.translatable("advancements.kingdomkeys.obtain_magic.desc"), null, AdvancementType.GOAL, true, false, false)
 				.addCriterion("obtain_magic", InventoryChangeTrigger.TriggerInstance.hasItems(ItemPredicate.Builder.item().of(ModTags.MAGICS).build()))
 				.rewards(AdvancementRewards.Builder.experience(10))
@@ -216,7 +241,7 @@ public class AdvancementsGen implements AdvancementProvider.AdvancementGenerator
 				.save(saver, KingdomKeys.rl("obtain_org"), existingFileHelper);
 
 		AdvancementHolder obtainProjector = Advancement.Builder.advancement()
-				.parent(soa)
+				.parent(moogleMet)
 				.display(new ItemStack(ModBlocks.moogleProjector.get()), Component.translatable("advancements.kingdomkeys.obtain_projector"), Component.translatable("advancements.kingdomkeys.obtain_projector.desc"), null, AdvancementType.GOAL, true, false, false)
 				.addCriterion("obtain_projector", InventoryChangeTrigger.TriggerInstance.hasItems(ModBlocks.moogleProjector.get()))
 				.rewards(AdvancementRewards.Builder.experience(20))
@@ -232,8 +257,8 @@ public class AdvancementsGen implements AdvancementProvider.AdvancementGenerator
 				.save(saver, KingdomKeys.rl("obtain_recipe"), existingFileHelper);
 
 		Advancement.Builder.advancement()
-				.parent(soa)
-				.display(new ItemStack(Items.LEATHER_CHESTPLATE), Component.translatable("advancements.kingdomkeys.get_pauldron"), Component.translatable("advancements.kingdomkeys.get_pauldron.desc"), null, AdvancementType.GOAL, true, false, false)
+				.parent(openMenu)
+				.display(new ItemStack(ModItems.terra_Shoulder.get()), Component.translatable("advancements.kingdomkeys.get_pauldron"), Component.translatable("advancements.kingdomkeys.get_pauldron.desc"), null, AdvancementType.GOAL, true, false, false)
 				.addCriterion("get_pauldron", InventoryChangeTrigger.TriggerInstance.hasItems(ItemPredicate.Builder.item().of(ModTags.PAULDRONS).build()))
 				.rewards(AdvancementRewards.Builder.experience(15))
 				.save(saver, KingdomKeys.rl("get_pauldron"), existingFileHelper);
@@ -258,13 +283,6 @@ public class AdvancementsGen implements AdvancementProvider.AdvancementGenerator
 				.addCriterion("munny_millionaire", ModAdvancements.MUNNY_REACHED.get().createCriterion(new KKMunnyTrigger.TriggerInstance(Optional.empty(), 1000000)))
 				.rewards(AdvancementRewards.Builder.experience(100))
 				.save(saver, KingdomKeys.rl("munny_millionaire"), existingFileHelper);
-
-		Advancement.Builder.advancement()
-				.parent(soa)
-				.display(new ItemStack(ModItems.kingdomKey.get()), Component.translatable("advancements.kingdomkeys.open_menu"), Component.translatable("advancements.kingdomkeys.open_menu.desc"), null, AdvancementType.GOAL, true, false, false)
-				.addCriterion("open_menu", ModAdvancements.OPEN_MENU.get().createCriterion(new KKOpenMenuTrigger.TriggerInstance(Optional.empty())))
-				.rewards(AdvancementRewards.Builder.experience(5))
-				.save(saver, KingdomKeys.rl("open_menu"), existingFileHelper);
 
 		Advancement.Builder.advancement()
 				.parent(root)

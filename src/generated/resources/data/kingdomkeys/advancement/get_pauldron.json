@@ -1,5 +1,5 @@
 {
-  "parent": "kingdomkeys:soa",
+  "parent": "kingdomkeys:open_menu",
   "criteria": {
     "get_pauldron": {
       "conditions": {
@@ -20,7 +20,7 @@
     "frame": "goal",
     "icon": {
       "count": 1,
-      "id": "minecraft:leather_chestplate"
+      "id": "kingdomkeys:terra_shoulder"
     },
     "title": {
       "translate": "advancements.kingdomkeys.get_pauldron"

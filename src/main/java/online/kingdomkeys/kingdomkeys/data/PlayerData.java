@@ -268,7 +268,8 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		storage.putBoolean("armor_glint", armorGlint);
 		
 		storage.putBoolean("respawn_rod", respawnROD);
-		
+		storage.putBoolean("met_moogle", metMoogle);
+
 		storage.putInt("notif_color", notifColor);
 		storage.putString("crown", this.crown);
 
@@ -522,6 +523,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		this.setArmorColor(nbt.getInt("armor_color"));
 		this.setArmorGlint(nbt.getBoolean("armor_glint"));
 		this.setRespawnROD(nbt.getBoolean("respawn_rod"));
+		this.setMetMoogle(nbt.getBoolean("met_moogle"));
 		this.setNotifColor(nbt.getInt("notif_color"));
 		this.setCrown(nbt.getString("crown"));
 
@@ -669,6 +671,8 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 	private DualChoices dualStyle = DualChoices.KH2_ROXAS_DUAL;
 
 	private boolean respawnROD = false;
+	/** Whether this player has ever opened a Moogle's shop. Only drives the "find a Moogle" hint. */
+	private boolean metMoogle = false;
 	private int notifColor = 16777215;
 	/** Cosmetic crown texture name ("bronze", "silver", "gold"...). Empty = no crown.
 	 * Stored as a plain string so adding a new crown only needs a PNG, no code change. */
@@ -2607,6 +2611,14 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 
 	public void setRespawnROD(boolean respawn) {
 		this.respawnROD = respawn;
+	}
+
+	public boolean hasMetMoogle() {
+		return this.metMoogle;
+	}
+
+	public void setMetMoogle(boolean met) {
+		this.metMoogle = met;
 	}
 
 	//endregion

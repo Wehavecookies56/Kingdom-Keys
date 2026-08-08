@@ -207,6 +207,7 @@ public class MoogleEntity extends PathfinderMob implements IEntityWithComplexSpa
         //GUI opening
         if (!player.level().isClientSide) {
         	if(!player.isCrouching()) {
+                PlayerData.get(player).setMetMoogle(true);
                 PacketHandler.sendTo(new SCOpenSynthesisGui(PlayerData.get(player).serializeNBT(player.level().registryAccess()), inv, name, this.getId()), (ServerPlayer)player);
                 interacting = player;
                 goalSelector.removeAllGoals(Objects::nonNull);

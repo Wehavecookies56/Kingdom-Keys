@@ -1,5 +1,5 @@
 {
-  "parent": "kingdomkeys:root",
+  "parent": "kingdomkeys:press_m_hint",
   "criteria": {
     "m_key": {
       "conditions": {

@@ -186,6 +186,7 @@ public class InputHandler {
     }
 
     public void openMenu() {
+        ClientEvents.hidePressMHint();
         PacketHandler.sendToServer(new CSOpenMenu());
     }
 

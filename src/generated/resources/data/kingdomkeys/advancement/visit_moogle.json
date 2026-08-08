@@ -1,0 +1,39 @@
+{
+  "parent": "kingdomkeys:soa",
+  "criteria": {
+    "talk_to_moogle": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "kingdomkeys:moogle"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_interacted_with_entity"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "description": {
+      "translate": "advancements.kingdomkeys.visit_moogle.desc"
+    },
+    "icon": {
+      "count": 1,
+      "id": "kingdomkeys:kingdom_key_chain"
+    },
+    "show_toast": false,
+    "title": {
+      "translate": "advancements.kingdomkeys.visit_moogle"
+    }
+  },
+  "requirements": [
+    [
+      "talk_to_moogle"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

@@ -1,0 +1,28 @@
+{
+  "parent": "kingdomkeys:root",
+  "criteria": {
+    "tick": {
+      "trigger": "minecraft:tick"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "description": {
+      "translate": "advancements.kingdomkeys.press_m_hint.desc"
+    },
+    "icon": {
+      "count": 1,
+      "id": "minecraft:compass"
+    },
+    "show_toast": false,
+    "title": {
+      "translate": "advancements.kingdomkeys.press_m_hint"
+    }
+  },
+  "requirements": [
+    [
+      "tick"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

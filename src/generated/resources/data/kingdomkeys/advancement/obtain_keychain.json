@@ -1,5 +1,5 @@
 {
-  "parent": "kingdomkeys:soa",
+  "parent": "kingdomkeys:visit_moogle",
   "criteria": {
     "obtain_keychain": {
       "conditions": {
