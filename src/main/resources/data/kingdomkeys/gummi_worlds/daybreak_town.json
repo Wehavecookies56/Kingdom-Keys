@@ -1,0 +1,10 @@
+{
+  "dimension": "kingdomkeys:daybreak_town",
+  "takeoff_altitude": 320,
+  "worldmap_position": [100, 128, 100],
+  "arrival_position": [100, 128, 124],
+  "spawn": [106, 100, 26],
+  "texture": "kingdomkeys:textures/worldmap/daybreak_town.png",
+  "scale": 32,
+  "approach_range": 40
+}

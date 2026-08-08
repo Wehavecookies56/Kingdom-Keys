@@ -1,0 +1,9 @@
+{
+  "type": "kingdomkeys:daybreak_town",
+  "generator": {
+    "type": "kingdomkeys:prebuilt_world_generator",
+    "world": "kingdomkeys:daybreak_town",
+    "origin": [0, 64, 0],
+    "biome_source": { "type": "minecraft:fixed", "biome": "minecraft:the_void" }
+  }
+}

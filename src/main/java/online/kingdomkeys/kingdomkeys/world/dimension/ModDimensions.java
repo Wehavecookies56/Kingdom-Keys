@@ -11,6 +11,7 @@ import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.CastleOblivionChunkGenerator;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.CastleOblivionInteriorChunkGenerator;
 import online.kingdomkeys.kingdomkeys.world.dimension.dive_to_the_heart.DiveToTheHeartChunkGenerator;
+import online.kingdomkeys.kingdomkeys.world.dimension.prebuilt.PrebuiltWorldChunkGenerator;
 import online.kingdomkeys.kingdomkeys.world.dimension.station_of_sorrow.StationOfSorrowChunkGenerator;
 import online.kingdomkeys.kingdomkeys.world.dimension.worldmap.WorldMapChunkGenerator;
 
@@ -30,5 +31,8 @@ public class ModDimensions {
     public static final Supplier<MapCodec<CastleOblivionChunkGenerator>> CASTLE_OBLIVION_GENERATOR = CHUNK_GENERATORS.register("castle_oblivion_generator", () -> CastleOblivionChunkGenerator.CODEC);
     public static final Supplier<MapCodec<CastleOblivionInteriorChunkGenerator>> CASTLE_OBLIVION_INTERIOR_GENERATOR = CHUNK_GENERATORS.register("castle_oblivion_interior_generator", () -> CastleOblivionInteriorChunkGenerator.CODEC);
     public static final Supplier<MapCodec<WorldMapChunkGenerator>> WORLDMAP_GENERATOR = CHUNK_GENERATORS.register("worldmap_generator", () -> WorldMapChunkGenerator.CODEC);
+
+    // Shared by every hand-built world: which one it rebuilds is a field in the dimension json
+    public static final Supplier<MapCodec<PrebuiltWorldChunkGenerator>> PREBUILT_WORLD_GENERATOR = CHUNK_GENERATORS.register("prebuilt_world_generator", () -> PrebuiltWorldChunkGenerator.CODEC);
 
 }

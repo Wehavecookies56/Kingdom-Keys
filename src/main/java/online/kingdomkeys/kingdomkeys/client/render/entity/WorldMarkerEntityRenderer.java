@@ -38,8 +38,6 @@ public class WorldMarkerEntityRenderer extends EntityRenderer<WorldMarkerEntity>
 		poseStack.pushPose();
 		{
 			poseStack.mulPose(Minecraft.getInstance().getEntityRenderDispatcher().cameraOrientation());
-			poseStack.mulPose(Axis.YP.rotationDegrees(180));
-
 			VertexConsumer consumer = buffer.getBuffer(RenderType.entityCutoutNoCull(getTextureLocation(entity)));
 			Matrix4f matrix = poseStack.last().pose();
 			vertex(consumer, matrix, -half, -half, 0F, 0F, 1F);

@@ -19,7 +19,7 @@
 
 ## Changed:
 * Config files have now been moved into their own subfolder, if you modified any move them there AND RENAME to keep your existing settings.
-  * New files don't have the "kingdomkeys-" prefix, therefore a the "kingdomkeys-common.toml" file now goes into the "kingdomkeys" folder under the name "common.toml".
+  * New files don't have the "kingdomkeys-" prefix, therefore the "kingdomkeys-common.toml" file now goes into the "kingdomkeys" folder under the name "common.toml".
 * Lowered meteorite frequency.
 * Removed old blizzardChangeBlocks Common Config since the new system obsoletes it.
 
