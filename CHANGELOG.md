@@ -17,6 +17,7 @@
 
 ## Changed:
 * Lowered meteorite frequency.
+* Removed old blizzardChangeBlocks Common Config since the new system obsoletes it.
 
 ## Fixed:
 * Red tint leak from low HP.

@@ -34,7 +34,7 @@ public class MagicDataDeserializer implements JsonDeserializer<MagicData> {
 				case "next_tier" -> out.setNextTier(KingdomKeys.rl(element.getAsString()));
 				case "magic_rc" -> out.setMagicRC(KingdomKeys.rl(element.getAsString()));
 				case "spell_type" -> out.setSpellType(MagicData.SpellType.valueOf(element.getAsString().toUpperCase()));
-				case "interacts_with_blocks", "interactsWithBlocks" -> readInteractions(out, element);
+				case "interacts_with_blocks" -> readInteractions(out, element);
 			}
 		});
 
