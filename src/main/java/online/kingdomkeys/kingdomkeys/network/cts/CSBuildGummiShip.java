@@ -76,10 +76,6 @@ public record CSBuildGummiShip(String name, int containerID) implements Packet {
         boolean zEven = Utils.isStructureEven(struct)[1];
 
 		switch (hangar.getValue(GummiHangarBlock.FACING)) {
-			default -> {
-				shipEntity.setPos(new Vec3(origin.getX()+0.5F+(xEven ? 0.5F : 0), origin.getY(), origin.getZ()+(size/2F)+(zEven ? 0.5F : 1)));
-				shipEntity.setYRot(0);
-			}
 			case SOUTH -> {
 				shipEntity.setPos(new Vec3(origin.getX()+(xEven ? 0F : 0.5F), origin.getY(), origin.getZ()-(size/2F)+(zEven ? 0.5F : 0)));
 				shipEntity.setYRot(180);
@@ -91,6 +87,10 @@ public record CSBuildGummiShip(String name, int containerID) implements Packet {
 			case WEST -> {
 				shipEntity.setPos(new Vec3(origin.getX()+(size/2F)+(zEven ? 0.5F : 1), origin.getY(), origin.getZ() + (xEven ? 0F : 0.5F)));
 				shipEntity.setYRot(270);
+			}
+			default -> {
+				shipEntity.setPos(new Vec3(origin.getX()+0.5F+(xEven ? 0.5F : 0), origin.getY(), origin.getZ()+(size/2F)+(zEven ? 0.5F : 1)));
+				shipEntity.setYRot(0);
 			}
 		}
 

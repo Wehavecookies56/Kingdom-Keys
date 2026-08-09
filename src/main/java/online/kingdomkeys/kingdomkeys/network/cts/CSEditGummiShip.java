@@ -68,50 +68,7 @@ public record CSEditGummiShip(String name, int containerID) implements Packet {
 				struct = Utils.resizeStructure(struct,size);
 			}
 
-			int max = size - 1;
-			Direction facing = hangar.getValue(GummiHangarBlock.FACING);
-
-			int[] offsets = Utils.getShipOffset(facing,size);
-			if(offsets == null)
-				return;
-
-			Rotation rotation = switch (facing) {
-				case SOUTH -> Rotation.NONE;
-				case NORTH -> Rotation.CLOCKWISE_180;
-				case WEST  -> Rotation.CLOCKWISE_90;
-				case EAST  -> Rotation.COUNTERCLOCKWISE_90;
-				default -> Rotation.NONE;
-			};
-
-			for (int x = 0; x < size; x++) {
-				for (int y = 0; y < size; y++) {
-					for (int z = 0; z < size; z++) {
-						BlockState blockToPlace = struct.getBlocks()[x][y][z];
-						if (blockToPlace == null)
-                            continue;
-
-						int rx = x, rz = z;
-						switch (facing) {
-							case NORTH -> { rx = max - x; rz = max - z; }
-							case SOUTH -> { rx = x; rz = z; }
-							case EAST  -> { rx = z; rz = max - x; }
-							case WEST  -> { rx = max - z; rz = x; }
-						}
-
-						BlockPos target = origin.offset(offsets[0] + rx, y, offsets[1] + rz);
-						BlockState rotatedState = Utils.rotateBlock(blockToPlace,rotation);
-
-						level.setBlockAndUpdate(target, rotatedState);
-
-                        if(blockToPlace.getBlock() instanceof GummiCoreBlock){
-                            BlockEntity te = level.getBlockEntity(target);
-                            if(te instanceof GummiCoreTileEntity core) {
-                                core.saveFromShip(gummi);
-                            }
-                        }
-					}
-				}
-			}
+			Utils.placeGummiStructure(level, origin, hangar.getValue(GummiHangarBlock.FACING), size, struct, gummi);
 
             gummi.kill();
 		}

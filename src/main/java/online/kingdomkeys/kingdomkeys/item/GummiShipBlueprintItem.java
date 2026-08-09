@@ -20,6 +20,15 @@ public class GummiShipBlueprintItem extends Item implements IItemCategory {
         super(properties);
     }
 
+    /** True for both the survival blueprint and the creative one, which share this class */
+    public static boolean isBlueprint(ItemStack stack) {
+        return stack.getItem() instanceof GummiShipBlueprintItem;
+    }
+
+    public static boolean isCreative(ItemStack stack) {
+        return stack.is(ModItems.gummiShipBlueprintCreative.get());
+    }
+
     @Override
     public ItemCategory getCategory() {
         return ItemCategory.BUILDING;

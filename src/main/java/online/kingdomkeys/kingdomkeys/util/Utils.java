@@ -88,6 +88,7 @@ import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import online.kingdomkeys.kingdomkeys.entity.GummiShipEntity;
+import online.kingdomkeys.kingdomkeys.entity.block.GummiCoreTileEntity;
 import online.kingdomkeys.kingdomkeys.entity.block.GummiHangarTileEntity;
 import online.kingdomkeys.kingdomkeys.item.*;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
@@ -535,7 +536,7 @@ public class Utils {
 	public static boolean[] isStructureEven(GummiStructure structure){
 		Vec3i realDim = Utils.getRealGummiStructureSize(structure);
 		boolean xEven = realDim.getX() % 2 == 0;
-		boolean zEven = realDim.getX() % 2 == 0;
+		boolean zEven = realDim.getZ() % 2 == 0;
 		return new boolean[]{ xEven, zEven };
 	}
 
@@ -970,6 +971,51 @@ public class Utils {
 
 		return state; // if none of the above work we just return the same block
 	}
+
+	public static void placeGummiStructure(Level level, BlockPos origin, Direction facing, int size, GummiStructure struct, @Nullable GummiShipEntity source) {
+		int[] offsets = getShipOffset(facing, size);
+		if (offsets == null) {
+			return;
+		}
+
+		int max = size - 1;
+		Rotation rotation = switch (facing) {
+			case NORTH -> Rotation.CLOCKWISE_180;
+			case WEST -> Rotation.CLOCKWISE_90;
+			case EAST -> Rotation.COUNTERCLOCKWISE_90;
+			default -> Rotation.NONE;
+		};
+
+		for (int x = 0; x < size; x++) {
+			for (int y = 0; y < size; y++) {
+				for (int z = 0; z < size; z++) {
+					BlockState blockToPlace = struct.getBlocks()[x][y][z];
+					if (blockToPlace == null) {
+						continue;
+					}
+
+					int rx = x, rz = z;
+					switch (facing) {
+						case NORTH -> { rx = max - x; rz = max - z; }
+						case SOUTH -> { rx = x; rz = z; }
+						case EAST -> { rx = z; rz = max - x; }
+						case WEST -> { rx = max - z; rz = x; }
+					}
+
+					BlockPos target = origin.offset(offsets[0] + rx, y, offsets[1] + rz);
+					level.setBlockAndUpdate(target, rotateBlock(blockToPlace, rotation));
+
+					if (source != null && blockToPlace.getBlock() instanceof GummiCoreBlock) {
+						BlockEntity te = level.getBlockEntity(target);
+						if (te instanceof GummiCoreTileEntity core) {
+							core.saveFromShip(source);
+						}
+					}
+				}
+			}
+		}
+	}
+
 	public static int[] getShipOffset(Direction facing, int size) {
 		switch (facing) {
 			case NORTH -> {

@@ -806,6 +806,7 @@ public class Strings {
         wayfinder = "wayfinder",
         gummiPhone = "gummiphone",
 		gummiShipBlueprint = "gummi_ship_blueprint",
+		gummiShipBlueprintCreative = "gummi_ship_blueprint_creative",
         
         powerBoost = "powerboost",
         magicBoost = "magicboost",

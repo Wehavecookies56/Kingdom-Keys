@@ -32,8 +32,6 @@ public class GummiShipEntityRenderer extends EntityRenderer<GummiShipEntity> {
 		super(context);
 	}
 
-	int isXEven = -1, isZEven = -1;
-
 	private static final double MOVING_THRESHOLD_SQR = 0.0025D; // ~0.05 blocks/tick before particles kick in
 	private static final Map<Integer, Long> LAST_PARTICLE_TICK = new HashMap<>();
 	private static final Map<Integer, CachedShipMesh> MESH_CACHE = new HashMap<>();
@@ -150,14 +148,9 @@ public class GummiShipEntityRenderer extends EntityRenderer<GummiShipEntity> {
 		int h = entityIn.structure.getHeight();
 		int d = entityIn.structure.getDepth();
 
-		boolean xEven, zEven;
-		if (isXEven == -1 || isZEven == -1) {
-			boolean[] even = Utils.isStructureEven(entityIn.structure);
-			isXEven = even[0] ? 1 : 0;
-			isZEven = even[1] ? 1 : 0;
-		}
-		xEven = isXEven == 1;
-		zEven = isZEven == 1;
+		boolean[] even = Utils.isStructureEven(entityIn.structure);
+		boolean xEven = even[0];
+		boolean zEven = even[1];
 
 		BlockRenderDispatcher blockRenderer = Minecraft.getInstance().getBlockRenderer();
 		CapturingBufferSource capture = new CapturingBufferSource();

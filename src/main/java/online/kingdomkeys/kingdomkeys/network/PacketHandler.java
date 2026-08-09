@@ -148,8 +148,8 @@ public class PacketHandler {
 		server(CSUseShortcutPacket.TYPE, CSUseShortcutPacket.STREAM_CODEC);
 		server(CSRequestPlayerDataFromServer.TYPE, CSRequestPlayerDataFromServer.STREAM_CODEC);
 		server(CSOpenMenu.TYPE, CSOpenMenu.STREAM_CODEC);
-		//server(CSOpenMeldingScreen.TYPE, CSOpenMeldingScreen.STREAM_CODEC);
 		server(CSBuildGummiShip.TYPE, CSBuildGummiShip.STREAM_CODEC);
+		server(CSLoadGummiShipFile.TYPE, CSLoadGummiShipFile.STREAM_CODEC);
 		server(CSEditGummiShip.TYPE, CSEditGummiShip.STREAM_CODEC);
 		server(CSImportExportGummiShip.TYPE, CSImportExportGummiShip.STREAM_CODEC);
 		server(CSUpgradeGummiHangarPacket.TYPE, CSUpgradeGummiHangarPacket.STREAM_CODEC);

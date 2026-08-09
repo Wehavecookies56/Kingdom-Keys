@@ -2,6 +2,7 @@ package online.kingdomkeys.kingdomkeys.network.cts;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
@@ -12,8 +13,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.block.gummi.GummiHangarBlock;
+import online.kingdomkeys.kingdomkeys.item.GummiShipBlueprintItem;
 import online.kingdomkeys.kingdomkeys.item.ModComponents;
-import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.lib.GummiStructure;
 import online.kingdomkeys.kingdomkeys.menu.GummiHangarMenu;
 import online.kingdomkeys.kingdomkeys.network.Packet;
@@ -51,12 +52,27 @@ public record CSImportExportGummiShip(String name, int containerID, boolean expo
 		GummiStructure struct = Utils.getGummiStructureWithFacing(player.getUUID(), name, level, origin, hangar.getValue(GummiHangarBlock.FACING), GummiHangarBlock.getSize(hangar.getValue(GummiHangarBlock.LEVEL)));
 
 		if(export) {
-			if (stack.is(ModItems.gummiShipBlueprint.get())) {
+			if (GummiShipBlueprintItem.isBlueprint(stack)) {
 				stack.set(ModComponents.GUMMI_STRUCTURE, struct);
 				stack.set(ModComponents.BLUEPRINT_NAME, name);
 			}
 		} else {
 			//IMPORT
+			GummiStructure blueprint = stack.get(ModComponents.GUMMI_STRUCTURE);
+
+			// The creative blueprint directly builds it
+			if (GummiShipBlueprintItem.isCreative(stack) && blueprint != null) {
+				int hangarSize = GummiHangarBlock.getSize(hangar.getValue(GummiHangarBlock.LEVEL));
+
+				if (blueprint.getWidth() > hangarSize) {
+					player.sendSystemMessage(Component.translatable("container.gummi_hangar.blueprinttoobig"));
+					return;
+				}
+
+				Utils.placeGummiStructure(level, origin, hangar.getValue(GummiHangarBlock.FACING), hangarSize, Utils.resizeStructure(blueprint, hangarSize), null);
+				return;
+			}
+
 			level.setBlockAndUpdate(origin,hangar.setValue(DISPLAY_BLUEPRINT, !hangar.getValue(DISPLAY_BLUEPRINT)));
 		}
 	}

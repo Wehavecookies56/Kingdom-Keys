@@ -190,6 +190,17 @@ public class LanguageENUS extends KKLanguageProvider {
         add("container.gummi_hangar.gummifound","There's already a Gummi Ship in the building area");
         add("container.gummi_hangar.gummitoobig","There's a Gummi Ship too big for the hangar in the building area");
         add("container.gummi_hangar.noname","You need to name your Gummi Ship");
+        add("container.gummi_hangar.save_file", "Save file");
+        add("container.gummi_hangar.load_file", "Load file");
+        add("container.gummi_hangar.file_saved", "Saved to kingdomkeys/gummi_ships/%s.nbt");
+        add("container.gummi_hangar.file_loaded", "Loaded %s into the blueprint");
+        add("container.gummi_hangar.no_saved_ships", "Nothing saved yet in kingdomkeys/gummi_ships");
+        add("container.gummi_hangar.noblueprintsave", "There's no blueprint to save");
+        add("container.gummi_hangar.noblueprintload", "There's no blueprint to load onto");
+        add("container.gummi_hangar.file_unreadable", "That file couldn't be read as a Gummi Ship");
+        add("container.gummi_hangar.file_unwritable", "Couldn't write the file, see the log");
+        add("container.gummi_hangar.file_too_big", "That Gummi Ship is too big to send to the server");
+        add("container.gummi_hangar.nothing_to_save", "Put a blueprint with a ship on it in the slot first");
         add("container.gummi_hangar.moveshipfw","Move ship forward");
         add("container.gummi_hangar.moveshipbw","Move ship backwards");
         add("container.gummi_hangar.moveshipleft","Move ship to the left");
@@ -1099,6 +1110,7 @@ public class LanguageENUS extends KKLanguageProvider {
 
         addItem(ModItems.gummiMeteorFragment, "Gummi Fragment");
         addItem(ModItems.gummiShipBlueprint, "Gummi Blueprint");
+        addItem(ModItems.gummiShipBlueprintCreative, "Gummi Blueprint (Creative)");
         addItem(ModItems.gummiPhone, "Gummiphone");
 
         //Keyblades

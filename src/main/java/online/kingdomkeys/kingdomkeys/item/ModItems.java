@@ -1158,6 +1158,7 @@ public class ModItems {
 			wayfinder = createNewItem(Strings.wayfinder, () -> new WayfinderItem(new Item.Properties().stacksTo(1))),
 			gummiPhone = createNewItem(Strings.gummiPhone, () -> new GummiPhoneItem(new Item.Properties().stacksTo(1))),
 			gummiShipBlueprint = createNewItem(Strings.gummiShipBlueprint, () -> new GummiShipBlueprintItem(new Item.Properties())),
+			gummiShipBlueprintCreative = createNewItem(Strings.gummiShipBlueprintCreative, () -> new GummiShipBlueprintItem(new Item.Properties())),
 			proofOfHeart = createNewItem("proof_of_heart", () -> new ProofOfHeartItem(new Item.Properties())),
 			proofOfPeace = createNewItem("proof_of_peace", () -> new CrownProofItem(new Item.Properties())),
 			proofOfNonexistence = createNewItem("proof_of_nonexistence", () -> new CrownProofItem(new Item.Properties())),

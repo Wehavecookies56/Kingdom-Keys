@@ -236,6 +236,17 @@ public class LanguageESES extends KKLanguageProvider {
         add("container.gummi_hangar.gummifound","Ya hay una Nave Gummi en la zona");
         add("container.gummi_hangar.gummitoobig","Hay una Nave Gummi demasiado grande para el hangar en la zona");
         add("container.gummi_hangar.noname","Necesitas nombrar tu Nave Gummi");
+        add("container.gummi_hangar.save_file", "Guardar");
+        add("container.gummi_hangar.load_file", "Cargar");
+        add("container.gummi_hangar.file_saved", "Guardada en kingdomkeys/gummi_ships/%s.nbt");
+        add("container.gummi_hangar.file_loaded", "%s cargada en el plano");
+        add("container.gummi_hangar.no_saved_ships", "Todavía no hay nada guardado en kingdomkeys/gummi_ships");
+        add("container.gummi_hangar.noblueprintsave", "No hay ningún plano que guardar");
+        add("container.gummi_hangar.noblueprintload", "No hay ningún plano donde cargarla");
+        add("container.gummi_hangar.file_unreadable", "Ese archivo no se puede leer como Nave Gummi");
+        add("container.gummi_hangar.file_unwritable", "No se ha podido escribir el archivo, mira el log");
+        add("container.gummi_hangar.file_too_big", "Esa Nave Gummi es demasiado grande para enviarla al servidor");
+        add("container.gummi_hangar.nothing_to_save", "Pon primero en la ranura un plano con una nave");
         add("container.gummi_hangar.moveshipfw","Mover nave hacia delante");
         add("container.gummi_hangar.moveshipbw","Mover nave hacia atrás");
         add("container.gummi_hangar.moveshipleft","Mover nave hacia la izquierda");
@@ -1531,6 +1542,7 @@ public class LanguageESES extends KKLanguageProvider {
 
         addItem(ModItems.gummiMeteorFragment, "Fragmento de Gummi");
         addItem(ModItems.gummiShipBlueprint, "Planos de Gummi");
+        addItem(ModItems.gummiShipBlueprintCreative, "Planos de Gummi (Creativo)");
         addItem(ModItems.gummiPhone, "Gumífono");
 
         //Keyblades

@@ -21,6 +21,7 @@ import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.block.gummi.GummiHangarBlock;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.entity.block.GummiHangarTileEntity;
+import online.kingdomkeys.kingdomkeys.item.GummiShipBlueprintItem;
 import online.kingdomkeys.kingdomkeys.item.ModComponents;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.lib.GummiStructure;
@@ -91,38 +92,25 @@ public class GummiHangarRenderer implements BlockEntityRenderer<GummiHangarTileE
 
                 } else if(perimeter == LineDisplay.EVEN) {
                     float r = 1F, g = 0.4F, b = 1F;
-                    switch(facing){ //It has to make the box based on rotation
-                        case NORTH -> {
-                            LevelRenderer.renderLineBox(matrixStackIn, vertexLines, origin.x()+1, origin.y(), origin.z(), dest.x(), dest.y(), dest.z(), r, g, b, a);
-                            // X shape
-                            ClientUtils.drawLine(vertexLines, matrixStackIn, origin.x()+1, origin.y(), origin.z(), dest.x(), origin.y(), dest.z(), r, g, b, a);
-                            ClientUtils.drawLine(vertexLines, matrixStackIn, dest.x(), origin.y(), origin.z(), origin.x()+1, origin.y(), dest.z(), r, g, b, a);
-                        }
-                        case SOUTH -> {
-                            LevelRenderer.renderLineBox(matrixStackIn, vertexLines, origin.x(), origin.y(), origin.z(), dest.x()-1, dest.y(), dest.z(), r, g, b, a);
-                            // X shape
-                            ClientUtils.drawLine(vertexLines, matrixStackIn, origin.x(), origin.y(), origin.z(), dest.x()-1, origin.y(), dest.z(), r, g, b, a);
-                            ClientUtils.drawLine(vertexLines, matrixStackIn, dest.x()-1, origin.y(), origin.z(), origin.x(), origin.y(), dest.z(), r, g, b, a);
-                        }
-                        case WEST -> {
-                            LevelRenderer.renderLineBox(matrixStackIn, vertexLines, origin.x(), origin.y(), origin.z(), dest.x(), dest.y(), dest.z()-1, r, g, b, a);
-                            // X shape
-                            ClientUtils.drawLine(vertexLines, matrixStackIn, origin.x(), origin.y(), origin.z(), dest.x(), origin.y(), dest.z()-1, r, g, b, a);
-                            ClientUtils.drawLine(vertexLines, matrixStackIn, dest.x(), origin.y(), origin.z(), origin.x(), origin.y(), dest.z()-1, r, g, b, a);
-                        }
-                        case EAST -> {
-                            LevelRenderer.renderLineBox(matrixStackIn, vertexLines, origin.x(), origin.y(), origin.z()+1, dest.x(), dest.y(), dest.z(), r, g, b, a);
-                            // X shape
-                            ClientUtils.drawLine(vertexLines, matrixStackIn, origin.x(), origin.y(), origin.z()+1, dest.x(), origin.y(), dest.z(), r, g, b, a);
-                            ClientUtils.drawLine(vertexLines, matrixStackIn, dest.x(), origin.y(), origin.z()+1, origin.x(), origin.y(), dest.z(), r, g, b, a);
-                        }
+
+                    double x1 = origin.x(), x2 = dest.x(), z1 = origin.z(), z2 = dest.z();
+                    switch (facing) {
+                        case NORTH -> { x1 += 1; z2 -= 1; }
+                        case SOUTH -> { x2 -= 1; z2 += 1; }
+                        case EAST -> { x1 += 1; z1 += 1; }
+                        case WEST -> { x2 -= 1; z2 -= 1; }
                     }
+
+                    LevelRenderer.renderLineBox(matrixStackIn, vertexLines, x1, origin.y(), z1, x2, dest.y(), z2, r, g, b, a);
+                    // X shape
+                    ClientUtils.drawLine(vertexLines, matrixStackIn, x1, origin.y(), z1, x2, origin.y(), z2, r, g, b, a);
+                    ClientUtils.drawLine(vertexLines, matrixStackIn, x2, origin.y(), z1, x1, origin.y(), z2, r, g, b, a);
                 }
             }
 
             if(state.getValue(GummiHangarBlock.DISPLAY_BLUEPRINT)) {
                 ItemStack stack = TE.inventory.get().getStackInSlot(0);
-                if (stack.is(ModItems.gummiShipBlueprint.get())) {
+                if (GummiShipBlueprintItem.isBlueprint(stack)) {
                     GummiStructure struct = stack.get(ModComponents.GUMMI_STRUCTURE);
                     if (struct != null) {
                         int offsetX = 0;

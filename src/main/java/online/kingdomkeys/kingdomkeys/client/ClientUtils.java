@@ -31,6 +31,7 @@ import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtIo;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.FormattedText;
 import net.minecraft.network.chat.MutableComponent;
@@ -64,6 +65,7 @@ import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.KeychainItem;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
 import online.kingdomkeys.kingdomkeys.lib.Constants;
+import online.kingdomkeys.kingdomkeys.lib.GummiStructure;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
@@ -76,6 +78,9 @@ import org.joml.Quaternionf;
 
 import javax.annotation.Nullable;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.*;
 
 public class ClientUtils {
@@ -1397,6 +1402,32 @@ public class ClientUtils {
             innerBlit(guiGraphics, bufferBuilder, sprite.atlasLocation(), x, x + uWidth, y, y + vHeight, sprite.getU((float)uPosition / (float)textureWidth), sprite.getU((float)(uPosition + uWidth) / (float)textureWidth), sprite.getV((float)vPosition / (float)textureHeight), sprite.getV((float)(vPosition + vHeight) / (float)textureHeight), blitOffset);
         }
 
+    }
+
+    /**
+     * Where saved gummi ships live. Deliberately the game folder rather than the world save, which is the
+     * whole point: a ship built on one server can be loaded on any other.
+     */
+    public static Path gummiShipFolder() {
+        return Minecraft.getInstance().gameDirectory.toPath().resolve("kingdomkeys").resolve("gummi_ships");
+    }
+
+    /** Keeps a typed name to something a filesystem accepts, and stops any ../ nonsense reaching disk */
+    public static String gummiShipFileName(String name) {
+        String cleaned = name.trim().replaceAll("[^a-zA-Z0-9 ._-]", "_");
+        return cleaned.isEmpty() ? "unnamed" : cleaned;
+    }
+
+    public static Path gummiShipFile(String name) {
+        return gummiShipFolder().resolve(gummiShipFileName(name) + ".nbt");
+    }
+
+    /** @return the file it went to, for telling the player where to look */
+    public static Path saveGummiShip(String name, GummiStructure structure) throws IOException {
+        Path file = gummiShipFile(name);
+        Files.createDirectories(file.getParent());
+        NbtIo.writeCompressed(structure.serializeNBT(Minecraft.getInstance().level.registryAccess()), file);
+        return file;
     }
 
     private static void innerBlit(GuiGraphics guiGraphics, BufferBuilder bufferBuilder, ResourceLocation atlasLocation, int x1, int x2, int y1, int y2, float minU, float maxU, float minV, float maxV, int blitOffset) {

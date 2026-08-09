@@ -6,6 +6,8 @@
 * World Map dimension where gummi ships won't use any fuel.
 * Air Soldier, Defender, Neoshadow and Novashadow.
 * Gummi shots can destroy meteors.
+* Creative blueprint which builds the ship rather than displaying the hologram when clicking import.
+* Option to export gummi ship blueprints into files to be able to load them as blueprints in other worlds or servers.
 * Data driven property for magic data where you can specify what the projectile does to various blocks:
   * light_lightable: Allows the projectile to turn on campfires, candles...
   * turn_off_lightable: Allows the projectile to turn them off.
@@ -21,10 +23,12 @@
 ## Changed:
 * Config files have now been moved into their own subfolder, if you modified any move them there AND RENAME to keep your existing settings.
   * New files don't have the "kingdomkeys-" prefix, therefore the "kingdomkeys-common.toml" file now goes into the "kingdomkeys" folder under the name "common.toml".
+* Hangar screen is no longer that cluttered with information.
 * Lowered meteorite frequency.
 * Removed old blizzardChangeBlocks Common Config since the new system obsoletes it.
 
 ## Fixed:
+* Even ships offset when being built.
 * Red tint leak from low HP.
 * Melding ingredients allowing to select a copy of the first selected item even if it's not a real recipe.
 * Gummi ship losing it's fuel when moving it in edit mode with the arrow buttons from the hangar.
