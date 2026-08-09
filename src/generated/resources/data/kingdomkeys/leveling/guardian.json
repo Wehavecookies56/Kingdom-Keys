@@ -14,7 +14,8 @@
     "2": {
       "def": 1,
       "abilities": [
-        "kingdomkeys:ability_scan"
+        "kingdomkeys:ability_scan",
+        "kingdomkeys:ability_guard"
       ]
     },
     "3": {
@@ -37,7 +38,10 @@
       "max_magics": 1
     },
     "7": {
-      "str": 1
+      "str": 1,
+      "abilities": [
+        "kingdomkeys:ability_aerial_recovery"
+      ]
     },
     "8": {
       "mag": 1,
@@ -150,7 +154,8 @@
       "str": 1,
       "ap": 1,
       "abilities": [
-        "kingdomkeys:ability_curaza"
+        "kingdomkeys:ability_curaza",
+        "kingdomkeys:ability_counterguard"
       ]
     },
     "22": {
@@ -163,7 +168,8 @@
     "23": {
       "str": 1,
       "abilities": [
-        "kingdomkeys:ability_strike_raid"
+        "kingdomkeys:ability_strike_raid",
+        "kingdomkeys:ability_once_more"
       ]
     },
     "24": {

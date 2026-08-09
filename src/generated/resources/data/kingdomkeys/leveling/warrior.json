@@ -44,7 +44,10 @@
     },
     "8": {
       "mag": 1,
-      "maxmp": 8
+      "maxmp": 8,
+      "abilities": [
+        "kingdomkeys:ability_guard"
+      ]
     },
     "9": {
       "str": 1,
@@ -58,7 +61,10 @@
       "mag": 1,
       "maxhp": 5,
       "max_magics": 1,
-      "max_accessories": 1
+      "max_accessories": 1,
+      "abilities": [
+        "kingdomkeys:ability_aerial_recovery"
+      ]
     },
     "11": {
       "str": 1,
@@ -164,7 +170,10 @@
       ]
     },
     "23": {
-      "str": 1
+      "str": 1,
+      "abilities": [
+        "kingdomkeys:ability_counterguard"
+      ]
     },
     "24": {
       "mag": 1,
@@ -462,7 +471,10 @@
       "ap": 1
     },
     "61": {
-      "str": 1
+      "str": 1,
+      "abilities": [
+        "kingdomkeys:ability_once_more"
+      ]
     },
     "62": {
       "def": 1,
