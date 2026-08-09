@@ -3,6 +3,9 @@ package online.kingdomkeys.kingdomkeys.entity.block;
 import java.util.ArrayList;
 import java.util.Set;
 import java.util.HashSet;
+
+import net.minecraft.sounds.SoundSource;
+import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.entity.GummiPieceEntity;
 import net.minecraft.world.phys.AABB;
 import online.kingdomkeys.kingdomkeys.lib.GummiStructure;
@@ -323,6 +326,7 @@ public class GummiHangarTileEntity extends BlockEntity implements MenuProvider {
                     setChanged();
                     // The piece flies out and puts itself down when it gets there
                     level.addFreshEntity(GummiPieceEntity.create(level, pos.getCenter(), target, wanted));
+					level.playSound(null, getBlockPos(), ModSounds.gummiPlace.get(), SoundSource.MASTER, 1F, 1F);
                     return;
                 }
             }

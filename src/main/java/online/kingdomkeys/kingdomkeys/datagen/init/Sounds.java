@@ -53,6 +53,7 @@ public class Sounds extends SoundDefinitionsProvider {
         add(portal);
         add(laser);
         add(buy);
+        add(gummiPlace);
 
         add(fire);
         add(fira);

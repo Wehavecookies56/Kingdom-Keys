@@ -44,6 +44,11 @@
       "kingdomkeys:ether"
     ]
   },
+  "gummi_place": {
+    "sounds": [
+      "kingdomkeys:gummi_place"
+    ]
+  },
   "hp_orb": {
     "sounds": [
       "kingdomkeys:hp_orb"

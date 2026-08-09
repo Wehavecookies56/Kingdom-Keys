@@ -21,13 +21,16 @@ import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraft.world.level.block.SoundType;
 import online.kingdomkeys.kingdomkeys.block.BaseBlock;
+import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.item.ICreativeTab;
 import online.kingdomkeys.kingdomkeys.lib.Corner;
 import online.kingdomkeys.kingdomkeys.lib.Quarter;
 
 import javax.annotation.Nullable;
 import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
@@ -231,6 +234,17 @@ public class GummiBlockBase extends BaseBlock implements ICreativeTab {
     protected VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
         VoxelShape custom = customShape(state);
         return custom != null ? custom : super.getCollisionShape(state, level, pos, context);
+    }
+
+    private static final Map<SoundType, SoundType> GUMMI_SOUNDS = new HashMap<>();
+
+    public static SoundType gummiSound(SoundType base) {
+        return GUMMI_SOUNDS.computeIfAbsent(base, from -> new SoundType(from.getVolume(), from.getPitch(), from.getBreakSound(), from.getStepSound(), ModSounds.gummiPlace.get(), from.getHitSound(), from.getFallSound()));
+    }
+
+    @Override
+    protected SoundType getSoundType(BlockState state) {
+        return gummiSound(super.getSoundType(state));
     }
 
     @Nullable

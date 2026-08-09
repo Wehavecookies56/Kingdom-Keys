@@ -18,6 +18,10 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.common.util.INBTSerializable;
 
 import java.util.ArrayList;
+import java.util.stream.IntStream;
+import java.util.function.Function;
+import net.minecraft.nbt.ListTag;
+import com.mojang.datafixers.util.Either;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
@@ -68,7 +72,23 @@ public class GummiStructure implements INBTSerializable<CompoundTag> {
 
     }
 
-    public static final Codec<GummiStructure> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+    /**
+     * What a blueprint is written as. The old one listed a block state for every cell of the cube, air
+     * included, which for a big hangar came to more than the two megabytes a chunk packet is allowed to
+     * carry, so a client would be kicked the moment the hangar's chunk was sent. This names each kind of
+     * piece once and gives every cell a number.
+     */
+    private static final Codec<GummiStructure> PALETTED = RecordCodecBuilder.create(instance -> instance.group(
+            Codec.STRING.fieldOf("owner").forGetter(GummiStructure::getOwnerIDString),
+            Codec.STRING.fieldOf("name").forGetter(GummiStructure::getName),
+            Codec.INT.fieldOf("width").forGetter(GummiStructure::getWidth),
+            Codec.INT.fieldOf("height").forGetter(GummiStructure::getHeight),
+            Codec.INT.fieldOf("depth").forGetter(GummiStructure::getDepth),
+            BlockState.CODEC.listOf().fieldOf("palette").forGetter(GummiStructure::palette),
+            Codec.INT_STREAM.fieldOf("cells").forGetter(struct -> IntStream.of(struct.cells(struct.palette())))
+    ).apply(instance, GummiStructure::new));
+
+    private static final Codec<GummiStructure> LISTED = RecordCodecBuilder.create(instance -> instance.group(
             Codec.STRING.fieldOf("owner").forGetter(GummiStructure::getOwnerIDString),
             Codec.STRING.fieldOf("name").forGetter(GummiStructure::getName),
             Codec.INT.fieldOf("width").forGetter(GummiStructure::getWidth),
@@ -93,6 +113,10 @@ public class GummiStructure implements INBTSerializable<CompoundTag> {
             })
     ).apply(instance, GummiStructure::new)
     );
+
+    /** Reads either shape and always writes the paletted one, so old blueprints keep working */
+    public static final Codec<GummiStructure> CODEC = Codec.either(PALETTED, LISTED)
+            .xmap(either -> either.map(Function.identity(), Function.identity()), Either::left);
 
     public static final StreamCodec<RegistryFriendlyByteBuf, GummiStructure> STREAM_CODEC = StreamCodec.of(
             (friendlyByteBuf, gummiStructure) ->
@@ -154,6 +178,11 @@ public class GummiStructure implements INBTSerializable<CompoundTag> {
         }
     }
 
+    private GummiStructure(String ownerID, String name, int width, int height, int depth, List<BlockState> palette, IntStream cells) {
+        this(UUID.fromString(ownerID), name, width, height, depth);
+        readCells(palette, cells.toArray());
+    }
+
     public GummiStructure(HolderLookup.Provider provider, CompoundTag tag) {
         deserializeNBT(provider, tag);
     }
@@ -175,6 +204,63 @@ public class GummiStructure implements INBTSerializable<CompoundTag> {
        this(UUID.fromString(ownerID),name,width,height,depth,blocks);
     }
 
+    /**
+     * The distinct states in the ship, in the order they are first met walking it. A ship is a few dozen
+     * kinds of piece repeated hundreds of times, so naming each kind once and then pointing at it turns
+     * what used to be one block state per cell into one number per cell.
+     */
+    private List<BlockState> palette() {
+        List<BlockState> palette = new ArrayList<>();
+
+        forEachCell((x, y, z) -> {
+            BlockState state = blocks[x][y][z];
+
+            if (state != null && !state.isAir() && !palette.contains(state)) {
+                palette.add(state);
+            }
+        });
+
+        return palette;
+    }
+
+    /** One entry per cell, indexing into {@link #palette()} one based, with nought for nothing there */
+    private int[] cells(List<BlockState> palette) {
+        int[] cells = new int[width * height * depth];
+        int[] index = {0};
+
+        forEachCell((x, y, z) -> {
+            BlockState state = blocks[x][y][z];
+            cells[index[0]++] = state == null || state.isAir() ? 0 : palette.indexOf(state) + 1;
+        });
+
+        return cells;
+    }
+
+    private void readCells(List<BlockState> palette, int[] cells) {
+        int[] index = {0};
+
+        forEachCell((x, y, z) -> {
+            int id = index[0] < cells.length ? cells[index[0]] : 0;
+            blocks[x][y][z] = id <= 0 || id > palette.size() ? null : palette.get(id - 1);
+            index[0]++;
+        });
+    }
+
+    /** Walked in one place so writing and reading can never disagree about the order */
+    private void forEachCell(CellVisitor visitor) {
+        for (int x = 0; x < width; ++x) {
+            for (int y = 0; y < height; ++y) {
+                for (int z = 0; z < depth; ++z) {
+                    visitor.visit(x, y, z);
+                }
+            }
+        }
+    }
+
+    private interface CellVisitor {
+        void visit(int x, int y, int z);
+    }
+
     @Override
     public CompoundTag serializeNBT(HolderLookup.Provider provider) {
         CompoundTag tag = new CompoundTag();
@@ -184,19 +270,15 @@ public class GummiStructure implements INBTSerializable<CompoundTag> {
         tag.putInt("height", height);
         tag.putInt("depth", depth);
 
-        int index = 0;
-        for (int z = 0; z < depth; ++z) {
-            for (int y = 0; y < height; ++y) {
-                for (int x = 0; x < width; ++x) {
-                    BlockState state = blocks[x][y][z];
-                    // Skips air to avoid huge amount of useless data being stored
-                    if (state != null && !state.isAir()) {
-                        tag.put("block_" + index, NbtUtils.writeBlockState(state));
-                    }
-                    index++;
-                }
-            }
+        List<BlockState> palette = palette();
+        ListTag paletteTag = new ListTag();
+
+        for (BlockState state : palette) {
+            paletteTag.add(NbtUtils.writeBlockState(state));
         }
+
+        tag.put("palette", paletteTag);
+        tag.putIntArray("cells", cells(palette));
         return tag;
     }
 
@@ -209,6 +291,18 @@ public class GummiStructure implements INBTSerializable<CompoundTag> {
         depth = tag.getInt("depth");
         blocks = new BlockState[width][height][depth];
 
+        if (tag.contains("cells", Tag.TAG_INT_ARRAY)) {
+            List<BlockState> palette = new ArrayList<>();
+
+            for (Tag entry : tag.getList("palette", Tag.TAG_COMPOUND)) {
+                palette.add(NbtUtils.readBlockState(provider.lookupOrThrow(Registries.BLOCK), (CompoundTag) entry));
+            }
+
+            readCells(palette, tag.getIntArray("cells"));
+            return;
+        }
+
+        // Ships written before the palette: one compound per cell, keyed by its index
         int index = 0;
         for (int z = 0; z < depth; ++z) {
             for (int y = 0; y < height; ++y) {
