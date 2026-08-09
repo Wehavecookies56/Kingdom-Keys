@@ -7,16 +7,19 @@ import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.client.gui.widget.ExtendedButton;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.block.gummi.GummiHangarBlock;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
+import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.HiddenButton;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.entity.GummiShipEntity;
@@ -54,6 +57,8 @@ public class GummiHangarScreen extends AbstractContainerScreen<GummiHangarMenu> 
 	private static final int BUTTON_HEIGHT = 16;
 	/** Trimmed from twenty so name plus two button rows land exactly on the move arrows' top edge */
 	private static final int NAME_HEIGHT = 16;
+	/** Square, for the buttons that are a symbol rather than a word */
+	private static final int ICON_SIZE = 16;
 
 	public GummiHangarScreen(GummiHangarMenu container, Inventory inventory, Component title) {
 		super(container, inventory, title);
@@ -61,7 +66,7 @@ public class GummiHangarScreen extends AbstractContainerScreen<GummiHangarMenu> 
 		this.imageHeight = 212;
 	}
 
-	ExtendedButton build, editShip, imp, exp, saveFile, loadFile, moveShipFW,moveShipBW,moveShipLeft,moveShipRight,moveShipUp,moveShipDown, showLines;
+	ExtendedButton build, editShip, imp, exp, saveFile, loadFile, moveShipFW,moveShipBW,moveShipLeft,moveShipRight,moveShipUp,moveShipDown, showLines, autoBuild;
 	EditBox name;
 	GummiStructure structure;
 
@@ -107,6 +112,12 @@ public class GummiHangarScreen extends AbstractContainerScreen<GummiHangarMenu> 
 		addRenderableWidget(name = new EditBox(font, leftPos+((imageWidth - upgradeButton.getWidth())/2) - 50, topPos + 16, 100, NAME_HEIGHT, Component.literal(menu.TE.getLastShipName())));
 
 		name.setValue((menu.TE.getLastShipName()));
+
+        // Sits in the margin left of the name column, which is otherwise empty
+        addRenderableWidget(autoBuild = new ExtendedButton(name.getX() - ICON_SIZE - 2, name.getY() + name.getHeight(), ICON_SIZE, ICON_SIZE, autoBuildLabel(), p -> {
+            PacketHandler.sendToServer(new CSToggleHangarBuildPacket(menu.containerId));
+        }));
+
 		addRenderableWidget(imp = new ExtendedButton(name.getX(), name.getY() + name.getHeight(), name.getWidth()/2, BUTTON_HEIGHT, Component.translatable("container.gummi_hangar.import"), p -> {
 			PacketHandler.sendToServer(new CSImportExportGummiShip(name.getValue(), menu.containerId, false));
 		}));
@@ -206,6 +217,21 @@ public class GummiHangarScreen extends AbstractContainerScreen<GummiHangarMenu> 
 		}
 	}
 
+
+    private Component autoBuildLabel() {
+        return Component.literal(menu.TE.isBuilding() ? "\u23F8" : "\u25B6");
+    }
+
+    private boolean hasContainer(BlockPos origin) {
+        for (Direction side : Direction.values()) {
+            if (minecraft.level.getCapability(Capabilities.ItemHandler.BLOCK, origin.relative(side), side.getOpposite()) != null) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
 	@Override
 	public void render(@NotNull GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
 		this.renderBackground(gui, mouseX, mouseY, partialTick);
@@ -217,6 +243,23 @@ public class GummiHangarScreen extends AbstractContainerScreen<GummiHangarMenu> 
 		BlockState hangar = minecraft.level.getBlockState(origin);
 
 		upgradeButton.visible = hangar.getValue(GummiHangarBlock.LEVEL) < 4;
+
+        autoBuild.setMessage(autoBuildLabel());
+        autoBuild.active = ModConfigs.SERVER.gummiHangarAutoBuild.get() && hasContainer(origin);
+
+        if (isHoveringButton(autoBuild, mouseX, mouseY)) {
+            List<Component> autoBuildTip = new ArrayList<>();
+            autoBuildTip.add(Component.translatable("container.gummi_hangar.autobuild"));
+            autoBuildTip.add(Component.literal(ChatFormatting.GRAY + Component.translatable("container.gummi_hangar.autobuild.tooltip").getString()));
+
+            if (!ModConfigs.SERVER.gummiHangarAutoBuild.get()) {
+                autoBuildTip.add(Component.literal(ChatFormatting.DARK_RED + Component.translatable("container.gummi_hangar.autobuild.disabled").getString()));
+            } else if (!hasContainer(origin)) {
+                autoBuildTip.add(Component.literal(ChatFormatting.DARK_RED + Component.translatable("container.gummi_hangar.autobuild.nochest").getString()));
+            }
+
+            gui.renderTooltip(font, autoBuildTip, Optional.empty(), mouseX, mouseY);
+        }
 
 		int size = GummiHangarBlock.getSize(hangar.getValue(GummiHangarBlock.LEVEL));
 		if(Utils.getAmountOfGummiShipsInBuildPlate(minecraft.level,origin,hangar.getValue(GummiHangarBlock.FACING),size) != 0){

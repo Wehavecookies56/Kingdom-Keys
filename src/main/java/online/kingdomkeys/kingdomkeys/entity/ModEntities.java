@@ -260,6 +260,7 @@ public class ModEntities {
     public static final DeferredHolder<EntityType<?>, EntityType<ScytheDashCoreEntity>> TYPE_SCYTHE_DASH = createEntityType(ScytheDashCoreEntity::new, MobCategory.MISC,"entity_scythe_dash_core", 0.5F, 1.8F);
     public static final DeferredHolder<EntityType<?>, EntityType<PetalAscendTrailEntity>> TYPE_PETAL_ASCEND_TRAIL = createEntityType(PetalAscendTrailEntity::new, MobCategory.MISC,"entity_petal_ascend_trail", 0.5F, 1.8F);
     public static final DeferredHolder<EntityType<?>, EntityType<PetalWaveEntity>> TYPE_PETAL_WAVE = createEntityType(PetalWaveEntity::new, MobCategory.MISC,"entity_petal_wave", 0.5F, 0.5F);
+    public static final DeferredHolder<EntityType<?>, EntityType<GummiPieceEntity>> TYPE_GUMMI_PIECE = ENTITIES.register("gummi_piece", () -> EntityType.Builder.of(GummiPieceEntity::new, MobCategory.MISC).setShouldReceiveVelocityUpdates(false).setUpdateInterval(1).setTrackingRange(8).sized(0.5F, 0.5F).build("gummi_piece"));
     public static final DeferredHolder<EntityType<?>, EntityType<WorldMarkerEntity>> TYPE_WORLD_MARKER = ENTITIES.register("world_marker", () -> EntityType.Builder.of(WorldMarkerEntity::new, MobCategory.MISC).setShouldReceiveVelocityUpdates(false).setUpdateInterval(20).setTrackingRange(32).sized(1F, 1F).build("world_marker"));
     public static final DeferredHolder<EntityType<?>, EntityType<IllusoryMeteorCoreEntity>> TYPE_ILLUSORY_METEOR = createEntityType(IllusoryMeteorCoreEntity::new, MobCategory.MISC,"entity_illusory_meteor_core", 1.0F, 1.0F);
     public static final DeferredHolder<EntityType<?>, EntityType<FlameRingCoreEntity>> TYPE_FLAME_RING = createEntityType(FlameRingCoreEntity::new, MobCategory.MISC,"entity_flame_ring_core", 0.5F, 0.5F);
@@ -448,6 +449,7 @@ public class ModEntities {
         event.registerEntityRenderer(TYPE_PETAL_ASCEND_TRAIL.get(), PetalAscendTrailEntityRenderer::new);
         event.registerEntityRenderer(TYPE_PETAL_WAVE.get(), PetalWaveEntityRenderer::new);
         event.registerEntityRenderer(TYPE_WORLD_MARKER.get(), WorldMarkerEntityRenderer::new);
+        event.registerEntityRenderer(TYPE_GUMMI_PIECE.get(), GummiPieceEntityRenderer::new);
         event.registerEntityRenderer(TYPE_ILLUSORY_METEOR.get(), InvisibleEntityRenderer::new);
         event.registerEntityRenderer(TYPE_FLAME_RING.get(), InvisibleEntityRenderer::new);
         event.registerEntityRenderer(TYPE_LANCE_STORM.get(), LanceStormCoreEntityRenderer::new);

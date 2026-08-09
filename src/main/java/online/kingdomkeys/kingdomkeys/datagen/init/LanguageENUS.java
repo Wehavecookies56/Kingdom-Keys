@@ -114,6 +114,9 @@ public class LanguageENUS extends KKLanguageProvider {
 
         //SERVER
         addConfigKey(ModConfigs.getServerConfig().gummiShipFuelSystem, "Gummi fuel system");
+        addConfigKey(ModConfigs.getServerConfig().gummiHangarAutoBuild, "Hangar builds blueprints");
+        addConfigKey(ModConfigs.getServerConfig().gummiHangarBuildCost, "Energy per placed block");
+        addConfigKey(ModConfigs.getServerConfig().gummiHangarBuildDelay, "Ticks between placements");
         addConfigKey(ModConfigs.getServerConfig().partyRangeLimit, "Party range limit");
         addConfigKey(ModConfigs.getServerConfig().partyMembersLimit, "Party members limit");
         addConfigKey(ModConfigs.getServerConfig().requireSynthTier, "Require Synthesis tier");
@@ -214,6 +217,10 @@ public class LanguageENUS extends KKLanguageProvider {
         add("container.gummi_hangar.noblueprintexp","You need to place a blueprint to export it");
 
         add("container.gummi_hangar.build","Build");
+        add("container.gummi_hangar.autobuild","Auto build");
+        add("container.gummi_hangar.autobuild.tooltip","Places the blueprint block by block, spending stored energy and taking the pieces from any container next to the hangar");
+        add("container.gummi_hangar.autobuild.disabled","Disabled in the server config");
+        add("container.gummi_hangar.autobuild.nochest","No container next to the hangar");
         add("container.gummi_hangar.edit","Edit");
         add("container.gummi_hangar.import","Import");
         add("container.gummi_hangar.export","Export");
@@ -2264,6 +2271,7 @@ public class LanguageENUS extends KKLanguageProvider {
         /**Entities**/
         addEntityType(ModEntities.TYPE_BLAST_BLOX,"Primed Blast Blox");
         addEntityType(ModEntities.TYPE_PAIR_BLOX, "Pair Blox");
+        addEntityType(ModEntities.TYPE_GUMMI_PIECE, "Gummi Piece");
 
         addEntityType(ModEntities.TYPE_BLIZZARD, "Blizzard");
         addEntityType(ModEntities.TYPE_FIRE, "Fire");

@@ -1,0 +1,17 @@
+{
+	"parent": "neoforge:block/default",
+	"render_type": "minecraft:cutout",
+	"loader": "neoforge:obj",
+	"model": "kingdomkeys:models/block/gummi/shell_gummi_inner_corner.obj",
+	"transform":{
+		"translation": [ -1.75, -0.25, -1.75 ],
+		"scale": [ 0.5, 0.5, 0.5 ],
+		"rotation": [ 0, 180, 0 ]
+	},
+	"textures": {
+		"texture0": "kingdomkeys:block/gummi/gummi_solid_colour",
+		"texture1": "kingdomkeys:block/gummi/shell_gummi",
+		"texture2": "kingdomkeys:block/gummi/gummi_shell",
+		"particle": "#texture0"
+	}
+}

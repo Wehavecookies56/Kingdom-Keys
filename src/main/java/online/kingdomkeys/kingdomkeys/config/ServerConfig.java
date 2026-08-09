@@ -8,13 +8,13 @@ import java.util.List;
 
 public class ServerConfig {
 
-    public ModConfigSpec.IntValue finalMixVariantChance, partyRangeLimit, partyMembersLimit, shotlockMaxDist, wayfinderCD, wayfinderCDCall;
+    public ModConfigSpec.IntValue gummiHangarBuildCost, gummiHangarBuildDelay, finalMixVariantChance, partyRangeLimit, partyMembersLimit, shotlockMaxDist, wayfinderCD, wayfinderCDCall;
 
     public ModConfigSpec.ConfigValue<List<? extends String>> driveFormXPMultiplier;
     public ModConfigSpec.ConfigValue<List<? extends Integer>> statsMultiplier;
 
     public ModConfigSpec.DoubleValue xpMultiplier, magicXPMultiplier, heartMultiplier, partyXPShare, perMagicCooldownMultiplier;
-    public ModConfigSpec.BooleanValue requireSynthTier, requireSynthTierShop, requireMeldingTier, projectorHasShop, savepointGlobal, getExpFromShop, orgEnabled, allowBoosts, allowPartyKO, wayfinderParty, hostileMobsLevel, dragonLevel, gummiShipFuelSystem, softLockOnMode, allowCastMagicIfTooExpensive, allowAllOrgLimits, perMagicCooldown, shotlockMinigames;
+    public ModConfigSpec.BooleanValue requireSynthTier, requireSynthTierShop, requireMeldingTier, projectorHasShop, savepointGlobal, getExpFromShop, orgEnabled, allowBoosts, allowPartyKO, wayfinderParty, hostileMobsLevel, dragonLevel, gummiShipFuelSystem, gummiHangarAutoBuild, softLockOnMode, allowCastMagicIfTooExpensive, allowAllOrgLimits, perMagicCooldown, shotlockMinigames;
 
     ServerConfig(final ModConfigSpec.Builder builder) {
         builder.push("general");
@@ -28,6 +28,21 @@ public class ServerConfig {
                 .comment("Set whether to enable Gummi Ships fuel system")
                 .translation(KingdomKeys.MODID + ".config.gummi_fuel_system")
                 .define("gummiShipFuelSystem", true);
+
+        gummiHangarAutoBuild = builder
+                .comment("Set whether a Gummi Hangar showing a blueprint builds it on its own, spending stored energy and taking the blocks from any container placed against it")
+                .translation(KingdomKeys.MODID + ".config.gummi_hangar_auto_build")
+                .define("gummiHangarAutoBuild", true);
+
+        gummiHangarBuildCost = builder
+                .comment("Energy a Gummi Hangar spends on each block it places on its own")
+                .translation(KingdomKeys.MODID + ".config.gummi_hangar_build_cost")
+                .defineInRange("gummiHangarBuildCost", 20, 0, 100000);
+
+        gummiHangarBuildDelay = builder
+                .comment("Ticks a Gummi Hangar waits between rounds of placing blocks on its own. Each round places one block per hangar level")
+                .translation(KingdomKeys.MODID + ".config.gummi_hangar_build_delay")
+                .defineInRange("gummiHangarBuildDelay", 20, 1, 1200);
         
         finalMixVariantChance = builder
                 .comment("Percentage chance for a spawning Heartless to use its Final Mix palette variant")

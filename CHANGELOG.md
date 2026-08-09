@@ -5,6 +5,8 @@
 * Realm of Darkness arches.
 * World Map dimension where gummi ships won't use any fuel.
 * Air Soldier, Defender, Neoshadow and Novashadow.
+* Option to auto build Gummi Ships based on the blueprint, place items in a chest right next to the hangar and if you have energy stored it will start to build it.
+* Server Config to enable or disable that option. 
 * Gummi shots can destroy meteors.
 * Gummi inner corner shape.
 * Creative blueprint which builds the ship rather than displaying the hologram when clicking import.

@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_shell_gummi_inner_corner_brown": {
+      "conditions": {
+        "items": [
+          {
+            "items": "kingdomkeys:shell_gummi_inner_corner_brown"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "kingdomkeys:shell_gummi_cube_brown_from_shell_inner_corner"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_shell_gummi_inner_corner_brown"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "kingdomkeys:shell_gummi_cube_brown_from_shell_inner_corner"
+    ]
+  }
+}

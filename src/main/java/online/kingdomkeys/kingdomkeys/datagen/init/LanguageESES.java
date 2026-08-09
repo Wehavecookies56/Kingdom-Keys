@@ -112,6 +112,9 @@ public class LanguageESES extends KKLanguageProvider {
 
         //SERVER
         addConfigKey(ModConfigs.getServerConfig().gummiShipFuelSystem, "Gummi fuel system");
+        addConfigKey(ModConfigs.getServerConfig().gummiHangarAutoBuild, "El hangar construye los planos");
+        addConfigKey(ModConfigs.getServerConfig().gummiHangarBuildCost, "Energía por bloque colocado");
+        addConfigKey(ModConfigs.getServerConfig().gummiHangarBuildDelay, "Ticks entre colocaciones");
         addConfigKey(ModConfigs.getServerConfig().partyRangeLimit, "Límite de rango de grupo");
         addConfigKey(ModConfigs.getServerConfig().partyMembersLimit, "Límite de miembros de grupo");
         addConfigKey(ModConfigs.getServerConfig().requireSynthTier, "Requerir nivel de síntesis");
@@ -260,6 +263,10 @@ public class LanguageESES extends KKLanguageProvider {
         add("container.gummi_hangar.noblueprintexp","Debes meter unos planos para exportarlos");
 
         add("container.gummi_hangar.build","Ensamblar");
+        add("container.gummi_hangar.autobuild","Autoensamblar");
+        add("container.gummi_hangar.autobuild.tooltip","Coloca el plano bloque a bloque, gastando energía almacenada y sacando las piezas de cualquier contenedor pegado al hangar");
+        add("container.gummi_hangar.autobuild.disabled","Desactivado en la config del servidor");
+        add("container.gummi_hangar.autobuild.nochest","No hay ningún contenedor al lado del hangar");
         add("container.gummi_hangar.edit","Modificar");
         add("container.gummi_hangar.import","Importar");
         add("container.gummi_hangar.export","Exportar");
@@ -2306,6 +2313,7 @@ public class LanguageESES extends KKLanguageProvider {
         //Entities
         addEntityType(ModEntities.TYPE_BLAST_BLOX,"Bloque Explosivo Prendido");
         addEntityType(ModEntities.TYPE_PAIR_BLOX, "Bloque Emparejado");
+        addEntityType(ModEntities.TYPE_GUMMI_PIECE, "Pieza Gummi");
 
         addEntityType(ModEntities.TYPE_BLIZZARD, "Hielo");
         addEntityType(ModEntities.TYPE_FIRE, "Piro");
