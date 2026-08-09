@@ -959,6 +959,9 @@ public class LanguageESES extends KKLanguageProvider {
         addTintedBlock(ModBlocks.gummiPyramids, "Gummi Angular (Pirámide %s)");
         addTintedBlock(ModBlocks.gummiShellPyramids, "Gummi Escudo (Pirámide %s)");
         addTintedBlock(ModBlocks.gummiDispelPyramids, "Gummi Antimagia (Pirámide %s)");
+        addTintedBlock(ModBlocks.gummiInnerCorners, "Gummi Angular (Esquina interior %s)");
+        addTintedBlock(ModBlocks.gummiShellInnerCorners, "Gummi Escudo (Esquina interior %s)");
+        addTintedBlock(ModBlocks.gummiDispelInnerCorners, "Gummi Antimagia (Esquina interior %s)");
         //Tubulares
         addTintedBlock(ModBlocks.gummiCylinders, "Gummi Tubular (Cilindro %s)");
         addTintedBlock(ModBlocks.gummiShellCylinders, "Gummi Escudo (Cilindro %s)");

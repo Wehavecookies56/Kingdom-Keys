@@ -699,6 +699,9 @@ public class LanguageENUS extends KKLanguageProvider {
         addTintedBlock(ModBlocks.gummiPyramids, "Angular/G-03 (Pyramid %s)");
         addTintedBlock(ModBlocks.gummiShellPyramids, "Angular/Shell-G-03 (Pyramid %s)");
         addTintedBlock(ModBlocks.gummiDispelPyramids, "Angular/Dispel-G-03 (Pyramid %s)");
+        addTintedBlock(ModBlocks.gummiInnerCorners, "Angular/G-04 (Inner Corner %s)");
+        addTintedBlock(ModBlocks.gummiShellInnerCorners, "Angular/Shell-G-04 (Inner Corner %s)");
+        addTintedBlock(ModBlocks.gummiDispelInnerCorners, "Angular/Dispel-G-04 (Inner Corner %s)");
         //Cylindrical
         addTintedBlock(ModBlocks.gummiCylinders, "Cylindrical/G-01 (Cylinder %s)");
         addTintedBlock(ModBlocks.gummiShellCylinders, "Cylindrical/Shell-G-01 (Cylinder %s)");

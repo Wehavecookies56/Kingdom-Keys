@@ -18,6 +18,7 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.client.model.data.ModelData;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
+import online.kingdomkeys.kingdomkeys.block.gummi.GummiBlockBase;
 import online.kingdomkeys.kingdomkeys.block.gummi.GummiHangarBlock;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.entity.block.GummiHangarTileEntity;
@@ -140,7 +141,9 @@ public class GummiHangarRenderer implements BlockEntityRenderer<GummiHangarTileE
 
                                     BlockPos worldPos = TE.getBlockPos().offset(offsetX + x, y, offsetZ + z);
                                     BlockState current = TE.getLevel().getBlockState(worldPos);
-                                    if (current.equals(expected))
+                                    // Not equals: several orientations of the same piece are indistinguishable
+                                    // once placed, and marking those as missing would be wrong
+                                    if (GummiBlockBase.sameAppearance(current, expected))
                                         continue;
 
                                     matrixStackIn.pushPose();

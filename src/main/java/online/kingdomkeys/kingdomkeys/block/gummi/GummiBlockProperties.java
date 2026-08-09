@@ -33,6 +33,7 @@ public class GummiBlockProperties {
         SLAB,
         PYRAMID,
         ROUND_CORNER,
+        INNER_CORNER,
         AERO_WEDGE,
         AERO_PLATE
     }

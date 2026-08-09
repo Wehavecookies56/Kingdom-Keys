@@ -58,6 +58,7 @@ public class ModTags {
             GUMMI_BLOCK_CUBE = item("gummi_block_cube"),
             GUMMI_BLOCK_WEDGE = item("gummi_block_wedge"),
             GUMMI_BLOCK_PYRAMID = item("gummi_block_pyramid"),
+            GUMMI_BLOCK_INNER_CORNER = item("gummi_block_inner_corner"),
             GUMMI_BLOCK_CYLINDER = item("gummi_block_cylinder"),
             GUMMI_BLOCK_PIE = item("gummi_block_pie"),
             GUMMI_BLOCK_ROUND_CORNER = item("gummi_block_round_corner"),
@@ -67,6 +68,7 @@ public class ModTags {
             GUMMI_SHELL_BLOCK_CUBE = item("gummi_shell_block_cube"),
             GUMMI_SHELL_BLOCK_WEDGE = item("gummi_shell_block_wedge"),
             GUMMI_SHELL_BLOCK_PYRAMID = item("gummi_shell_block_pyramid"),
+            GUMMI_SHELL_BLOCK_INNER_CORNER = item("gummi_shell_block_inner_corner"),
             GUMMI_SHELL_BLOCK_CYLINDER = item("gummi_shell_block_cylinder"),
             GUMMI_SHELL_BLOCK_PIE = item("gummi_shell_block_pie"),
             GUMMI_SHELL_BLOCK_ROUND_CORNER = item("gummi_shell_block_round_corner"),
@@ -76,6 +78,7 @@ public class ModTags {
             GUMMI_DISPEL_BLOCK_CUBE = item("gummi_dispel_block_cube"),
             GUMMI_DISPEL_BLOCK_WEDGE = item("gummi_dispel_block_wedge"),
             GUMMI_DISPEL_BLOCK_PYRAMID = item("gummi_dispel_block_pyramid"),
+            GUMMI_DISPEL_BLOCK_INNER_CORNER = item("gummi_dispel_block_inner_corner"),
             GUMMI_DISPEL_BLOCK_CYLINDER = item("gummi_dispel_block_cylinder"),
             GUMMI_DISPEL_BLOCK_PIE = item("gummi_dispel_block_pie"),
             GUMMI_DISPEL_BLOCK_ROUND_CORNER = item("gummi_dispel_block_round_corner"),
@@ -89,9 +92,9 @@ public class ModTags {
             GUMMI_BLOCK_AERO_SQUARE = item("gummi_block_aero_square");
 
     public static final List<TagKey<Item>>
-            GUMMI_BLOCK_KEYS = List.of(GUMMI_BLOCK_CUBE, GUMMI_BLOCK_WEDGE, GUMMI_BLOCK_PYRAMID, GUMMI_BLOCK_CYLINDER, GUMMI_BLOCK_PIE, GUMMI_BLOCK_ROUND_CORNER, GUMMI_BLOCK_CONE, GUMMI_BLOCK_DOME, GUMMI_BLOCK_AERO_SQUARE, GUMMI_BLOCK_AERO_TRIANGLE),
-            GUMMI_SHELL_BLOCK_KEYS = List.of(GUMMI_SHELL_BLOCK_CUBE, GUMMI_SHELL_BLOCK_WEDGE, GUMMI_SHELL_BLOCK_PYRAMID, GUMMI_SHELL_BLOCK_CYLINDER, GUMMI_SHELL_BLOCK_PIE, GUMMI_SHELL_BLOCK_ROUND_CORNER, GUMMI_SHELL_BLOCK_CONE, GUMMI_SHELL_BLOCK_DOME),
-            GUMMI_DISPEL_BLOCK_KEYS = List.of(GUMMI_DISPEL_BLOCK_CUBE, GUMMI_DISPEL_BLOCK_WEDGE, GUMMI_DISPEL_BLOCK_PYRAMID, GUMMI_DISPEL_BLOCK_CYLINDER, GUMMI_DISPEL_BLOCK_PIE, GUMMI_DISPEL_BLOCK_ROUND_CORNER, GUMMI_DISPEL_BLOCK_CONE, GUMMI_DISPEL_BLOCK_DOME),
+            GUMMI_BLOCK_KEYS = List.of(GUMMI_BLOCK_CUBE, GUMMI_BLOCK_WEDGE, GUMMI_BLOCK_PYRAMID, GUMMI_BLOCK_INNER_CORNER, GUMMI_BLOCK_CYLINDER, GUMMI_BLOCK_PIE, GUMMI_BLOCK_ROUND_CORNER, GUMMI_BLOCK_CONE, GUMMI_BLOCK_DOME, GUMMI_BLOCK_AERO_SQUARE, GUMMI_BLOCK_AERO_TRIANGLE),
+            GUMMI_SHELL_BLOCK_KEYS = List.of(GUMMI_SHELL_BLOCK_CUBE, GUMMI_SHELL_BLOCK_WEDGE, GUMMI_SHELL_BLOCK_PYRAMID, GUMMI_SHELL_BLOCK_INNER_CORNER, GUMMI_SHELL_BLOCK_CYLINDER, GUMMI_SHELL_BLOCK_PIE, GUMMI_SHELL_BLOCK_ROUND_CORNER, GUMMI_SHELL_BLOCK_CONE, GUMMI_SHELL_BLOCK_DOME),
+            GUMMI_DISPEL_BLOCK_KEYS = List.of(GUMMI_DISPEL_BLOCK_CUBE, GUMMI_DISPEL_BLOCK_WEDGE, GUMMI_DISPEL_BLOCK_PYRAMID, GUMMI_DISPEL_BLOCK_INNER_CORNER, GUMMI_DISPEL_BLOCK_CYLINDER, GUMMI_DISPEL_BLOCK_PIE, GUMMI_DISPEL_BLOCK_ROUND_CORNER, GUMMI_DISPEL_BLOCK_CONE, GUMMI_DISPEL_BLOCK_DOME),
             GUMMI_DIFFERENT_BLOCK_KEYS = List.of(GUMMI_BLOCK_BUBBLE, GUMMI_BLOCK_MINI_HELM);
 
     public static TagKey<Item> getTagForMember(Utils.OrgMember member) {

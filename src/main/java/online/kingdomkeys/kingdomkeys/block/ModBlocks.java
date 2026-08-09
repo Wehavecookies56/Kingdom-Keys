@@ -137,6 +137,7 @@ public class ModBlocks {
             gummiCubes = new ArrayList<>(),
             gummiWedges = new ArrayList<>(),
             gummiPyramids = new ArrayList<>(),
+            gummiInnerCorners = new ArrayList<>(),
             gummiCylinders = new ArrayList<>(),
             gummiPies = new ArrayList<>(),
             gummiRoundCorners = new ArrayList<>(),
@@ -146,6 +147,7 @@ public class ModBlocks {
             gummiShellCubes = new ArrayList<>(),
             gummiShellWedges = new ArrayList<>(),
             gummiShellPyramids = new ArrayList<>(),
+            gummiShellInnerCorners = new ArrayList<>(),
             gummiShellCylinders = new ArrayList<>(),
             gummiShellPies = new ArrayList<>(),
             gummiShellRoundCorners = new ArrayList<>(),
@@ -155,6 +157,7 @@ public class ModBlocks {
             gummiDispelCubes = new ArrayList<>(),
             gummiDispelWedges = new ArrayList<>(),
             gummiDispelPyramids = new ArrayList<>(),
+            gummiDispelInnerCorners = new ArrayList<>(),
             gummiDispelCylinders = new ArrayList<>(),
             gummiDispelPies = new ArrayList<>(),
             gummiDispelRoundCorners = new ArrayList<>(),
@@ -168,15 +171,16 @@ public class ModBlocks {
         ;
 
     public static Supplier<List<Supplier<Block>>> gummiBlocks = () -> Stream.of(
-            gummiCubes, gummiWedges, gummiPyramids, gummiCylinders, gummiPies, gummiRoundCorners, gummiCones, gummiDomes,
-            gummiShellCubes, gummiShellWedges, gummiShellPyramids, gummiShellCylinders, gummiShellPies, gummiShellRoundCorners, gummiShellCones, gummiShellDomes,
-            gummiDispelCubes, gummiDispelWedges, gummiDispelPyramids, gummiDispelCylinders, gummiDispelPies, gummiDispelRoundCorners, gummiDispelCones, gummiDispelDomes
+            gummiCubes, gummiWedges, gummiPyramids, gummiInnerCorners, gummiCylinders, gummiPies, gummiRoundCorners, gummiCones, gummiDomes,
+            gummiShellCubes, gummiShellWedges, gummiShellPyramids, gummiShellInnerCorners, gummiShellCylinders, gummiShellPies, gummiShellRoundCorners, gummiShellCones, gummiShellDomes,
+            gummiDispelCubes, gummiDispelWedges, gummiDispelPyramids, gummiDispelInnerCorners, gummiDispelCylinders, gummiDispelPies, gummiDispelRoundCorners, gummiDispelCones, gummiDispelDomes
     ).flatMap(Collection::stream).toList();
 
     static {
         createNewGummiBlock("gummi_cube", gummiCubes, GummiBlockProperties.of(1,5, 0));
         createNewGummiBlock("gummi_wedge", gummiWedges, GummiBlockProperties.of(1, 3, 0).withPlacement(GummiPlacementType.EDGE).withShape(GummiBlockProperties.Shape.WEDGE));
         createNewGummiBlock("gummi_pyramid", gummiPyramids, GummiBlockProperties.of(1, 3, 0).withPlacement(GummiPlacementType.CORNER).withShape(GummiBlockProperties.Shape.PYRAMID));
+        createNewGummiBlock("gummi_inner_corner", gummiInnerCorners, GummiBlockProperties.of(1, 4, 0).withPlacement(GummiPlacementType.CORNER).withShape(GummiBlockProperties.Shape.INNER_CORNER));
         createNewGummiBlock("gummi_cylinder", gummiCylinders, GummiBlockProperties.of(1,4, 0).withPlacement(GummiPlacementType.PILLAR));
         createNewGummiBlock("gummi_pie", gummiPies, GummiBlockProperties.of(1,4, 0).withPlacement(GummiPlacementType.EDGE).withShape(GummiBlockProperties.Shape.PIE));
         createNewGummiBlock("gummi_round_corner", gummiRoundCorners, GummiBlockProperties.of(1,3, 0).withPlacement(GummiPlacementType.CORNER).withShape(GummiBlockProperties.Shape.ROUND_CORNER));
@@ -186,6 +190,7 @@ public class ModBlocks {
         createNewGummiBlock("shell_gummi_cube", gummiShellCubes, GummiBlockProperties.of(1,10, 0));
         createNewGummiBlock("shell_gummi_wedge", gummiShellWedges, GummiBlockProperties.of(1, 5, 0).withPlacement(GummiPlacementType.EDGE).withShape(GummiBlockProperties.Shape.WEDGE));
         createNewGummiBlock("shell_gummi_pyramid", gummiShellPyramids, GummiBlockProperties.of(1, 5, 0).withPlacement(GummiPlacementType.CORNER).withShape(GummiBlockProperties.Shape.PYRAMID));
+        createNewGummiBlock("shell_gummi_inner_corner", gummiShellInnerCorners, GummiBlockProperties.of(1, 7, 0).withPlacement(GummiPlacementType.CORNER).withShape(GummiBlockProperties.Shape.INNER_CORNER));
         createNewGummiBlock("shell_gummi_cylinder", gummiShellCylinders, GummiBlockProperties.of(1, 7, 0).withPlacement(GummiPlacementType.PILLAR));
         createNewGummiBlock("shell_gummi_pie", gummiShellPies, GummiBlockProperties.of(1,7, 0).withPlacement(GummiPlacementType.EDGE).withShape(GummiBlockProperties.Shape.PIE));
         createNewGummiBlock("shell_gummi_round_corner", gummiShellRoundCorners, GummiBlockProperties.of(1,5, 0).withPlacement(GummiPlacementType.CORNER).withShape(GummiBlockProperties.Shape.ROUND_CORNER));
@@ -195,6 +200,7 @@ public class ModBlocks {
         createNewGummiBlock("dispel_gummi_cube", gummiDispelCubes, GummiBlockProperties.of(1,15, 0));
         createNewGummiBlock("dispel_gummi_wedge", gummiDispelWedges, GummiBlockProperties.of(1, 7, 0).withPlacement(GummiPlacementType.EDGE).withShape(GummiBlockProperties.Shape.WEDGE));
         createNewGummiBlock("dispel_gummi_pyramid", gummiDispelPyramids, GummiBlockProperties.of(1, 7, 0).withPlacement(GummiPlacementType.CORNER).withShape(GummiBlockProperties.Shape.PYRAMID));
+        createNewGummiBlock("dispel_gummi_inner_corner", gummiDispelInnerCorners, GummiBlockProperties.of(1, 12, 0).withPlacement(GummiPlacementType.CORNER).withShape(GummiBlockProperties.Shape.INNER_CORNER));
         createNewGummiBlock("dispel_gummi_cylinder", gummiDispelCylinders, GummiBlockProperties.of(1,12, 0).withPlacement(GummiPlacementType.PILLAR));
         createNewGummiBlock("dispel_gummi_pie", gummiDispelPies, GummiBlockProperties.of(1,12, 0).withPlacement(GummiPlacementType.EDGE).withShape(GummiBlockProperties.Shape.PIE));
         createNewGummiBlock("dispel_gummi_round_corner", gummiDispelRoundCorners, GummiBlockProperties.of(1,7, 0).withPlacement(GummiPlacementType.CORNER).withShape(GummiBlockProperties.Shape.ROUND_CORNER));

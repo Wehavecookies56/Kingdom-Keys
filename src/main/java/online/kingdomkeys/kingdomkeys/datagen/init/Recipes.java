@@ -35,9 +35,9 @@ public class Recipes extends RecipeProvider {
     DataGenerator dataGenerator;
 
     //Stonecutter recipes
-	public static final List<List<Supplier<Block>>> gummiBlocks = List.of(ModBlocks.gummiCubes, ModBlocks.gummiWedges, ModBlocks.gummiPyramids, ModBlocks.gummiCylinders, ModBlocks.gummiPies, ModBlocks.gummiRoundCorners, ModBlocks.gummiCones, ModBlocks.gummiDomes, ModBlocks.gummiAeroSquares, ModBlocks.gummiAeroTriangles);
-    public static final List<List<Supplier<Block>>> gummiShellBlocks = List.of(ModBlocks.gummiShellCubes, ModBlocks.gummiShellWedges, ModBlocks.gummiShellPyramids, ModBlocks.gummiShellCylinders, ModBlocks.gummiShellPies, ModBlocks.gummiShellRoundCorners, ModBlocks.gummiShellCones, ModBlocks.gummiShellDomes);
-    public static final List<List<Supplier<Block>>> gummiDispelBlocks = List.of(ModBlocks.gummiDispelCubes, ModBlocks.gummiDispelWedges, ModBlocks.gummiDispelPyramids, ModBlocks.gummiDispelCylinders, ModBlocks.gummiDispelPies, ModBlocks.gummiDispelRoundCorners, ModBlocks.gummiDispelCones, ModBlocks.gummiDispelDomes);
+	public static final List<List<Supplier<Block>>> gummiBlocks = List.of(ModBlocks.gummiCubes, ModBlocks.gummiWedges, ModBlocks.gummiPyramids, ModBlocks.gummiInnerCorners, ModBlocks.gummiCylinders, ModBlocks.gummiPies, ModBlocks.gummiRoundCorners, ModBlocks.gummiCones, ModBlocks.gummiDomes, ModBlocks.gummiAeroSquares, ModBlocks.gummiAeroTriangles);
+    public static final List<List<Supplier<Block>>> gummiShellBlocks = List.of(ModBlocks.gummiShellCubes, ModBlocks.gummiShellWedges, ModBlocks.gummiShellPyramids, ModBlocks.gummiShellInnerCorners, ModBlocks.gummiShellCylinders, ModBlocks.gummiShellPies, ModBlocks.gummiShellRoundCorners, ModBlocks.gummiShellCones, ModBlocks.gummiShellDomes);
+    public static final List<List<Supplier<Block>>> gummiDispelBlocks = List.of(ModBlocks.gummiDispelCubes, ModBlocks.gummiDispelWedges, ModBlocks.gummiDispelPyramids, ModBlocks.gummiDispelInnerCorners, ModBlocks.gummiDispelCylinders, ModBlocks.gummiDispelPies, ModBlocks.gummiDispelRoundCorners, ModBlocks.gummiDispelCones, ModBlocks.gummiDispelDomes);
 
     //Other blocks that shouldn't be stonecutted alongside normal blocks
     public static final List<List<Supplier<Block>>> gummiDifferentBlocks = List.of(ModBlocks.gummiBubbleHelms, ModBlocks.gummiMiniHelms);

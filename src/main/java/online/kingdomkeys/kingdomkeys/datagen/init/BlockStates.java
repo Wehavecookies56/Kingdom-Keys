@@ -124,7 +124,7 @@ public class BlockStates extends BlockStateProvider {
 										case CORNER3 -> 270;
 										case CORNER4 -> 0;
 									};
-						} else if (finalBlockName.equals(tier + "gummi_round_corner")) {
+						} else if (finalBlockName.equals(tier + "gummi_round_corner") || finalBlockName.equals(tier + "gummi_inner_corner")) {
 							builder.modelFile(new ModelFile.ExistingModelFile(KingdomKeys.rl(path), models().existingFileHelper));
 							y = half == Half.TOP ?
 									switch (corner) {

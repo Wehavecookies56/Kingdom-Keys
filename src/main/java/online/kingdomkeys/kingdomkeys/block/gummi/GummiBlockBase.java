@@ -17,6 +17,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.*;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -48,6 +49,8 @@ public class GummiBlockBase extends BaseBlock implements ICreativeTab {
     private static final Map<Direction, VoxelShape> SLAB_SHAPES = new EnumMap<>(Direction.class);
     // Corner placed shapes key off CORNER and HALF instead
     private static final Map<GummiBlockProperties.Shape, Map<Corner, Map<Half, VoxelShape>>> CORNER_SHAPES = new EnumMap<>(GummiBlockProperties.Shape.class);
+    /** Facing and quarter folded onto one representative per group of orientations that look the same */
+    private static final Map<GummiBlockProperties.Shape, int[]> EDGE_CANONICAL = new EnumMap<>(GummiBlockProperties.Shape.class);
 
     static {
         List<double[]> wedge = List.of(
@@ -81,6 +84,82 @@ public class GummiBlockBase extends BaseBlock implements ICreativeTab {
                 new double[]{0, 0, 0, 1, 0.5, 1},
                 new double[]{0, 0.5, 0.5, 0.5, 1, 1}
         ));
+
+        // The inner corner is the pyramid's negative: what is left of the cube once the pyramid is taken out
+        // of it. Its boxes are the exact complement of the pyramid's, so stacking one on the other fills the
+        // block with no gap and no overlap.
+        // Its blockstate turns it half a revolution further than the pyramid, and cornerYRotation only knows
+        // the pyramid's table, so the boxes are written already turned to make up for it
+        registerCorner(GummiBlockProperties.Shape.INNER_CORNER, List.of(
+                new double[]{0.5, 0, 0, 1, 1, 1},
+                new double[]{0, 0, 0, 0.5, 0.5, 1},
+                new double[]{0, 0.5, 0, 0.5, 1, 0.5}
+        ));
+
+        SHAPES.forEach((shape, byFacing) -> EDGE_CANONICAL.put(shape, foldEdge(byFacing)));
+    }
+
+    /**
+     * Several facing and quarter pairs land the same shape in the same place: a wedge laid on its side is the
+     * same wedge whichever of the two ways round you place it. The player cannot tell them apart, but the
+     * blueprint comparison could, so each group of identical orientations is folded onto one representative.
+     */
+    private static int[] foldEdge(Map<Direction, Map<Quarter, VoxelShape>> byFacing) {
+        int[] canonical = new int[16];
+        VoxelShape[] shapes = new VoxelShape[16];
+
+        for (Direction facing : Direction.Plane.HORIZONTAL) {
+            for (Quarter quarter : Quarter.values()) {
+                shapes[edgeIndex(facing, quarter)] = byFacing.get(facing).get(quarter);
+            }
+        }
+
+        for (int i = 0; i < 16; i++) {
+            canonical[i] = i;
+
+            for (int seen = 0; seen < i; seen++) {
+                if (canonical[seen] == seen && !Shapes.joinIsNotEmpty(shapes[seen], shapes[i], BooleanOp.NOT_SAME)) {
+                    canonical[i] = seen;
+                    break;
+                }
+            }
+        }
+
+        return canonical;
+    }
+
+    private static int edgeIndex(Direction facing, Quarter quarter) {
+        return facing.get2DDataValue() * 4 + quarter.ordinal();
+    }
+
+    /**
+     * The orientation kept for a state that has visually identical alternatives, so that two blocks a player
+     * would call the same are the same block state too.
+     */
+    public BlockState canonical(BlockState state) {
+        int[] table = EDGE_CANONICAL.get(shape);
+
+        if (table == null || !state.hasProperty(HORIZONTAL_FACING) || !state.hasProperty(QUARTER)) {
+            return state;
+        }
+
+        int folded = table[edgeIndex(state.getValue(HORIZONTAL_FACING), state.getValue(QUARTER))];
+
+        return state.setValue(HORIZONTAL_FACING, Direction.from2DDataValue(folded / 4))
+                .setValue(QUARTER, Quarter.values()[folded % 4]);
+    }
+
+    /** Whether two states would be indistinguishable once placed, which is what a blueprint should ask */
+    public static boolean sameAppearance(BlockState placed, BlockState wanted) {
+        if (placed.equals(wanted)) {
+            return true;
+        }
+
+        if (placed.getBlock() != wanted.getBlock() || !(placed.getBlock() instanceof GummiBlockBase gummi)) {
+            return false;
+        }
+
+        return gummi.canonical(placed).equals(gummi.canonical(wanted));
     }
 
     private static void registerCorner(GummiBlockProperties.Shape shape, List<double[]> base) {
@@ -330,19 +409,31 @@ public class GummiBlockBase extends BaseBlock implements ICreativeTab {
             case STANDARD -> super.getStateForPlacement(context);
             case EDGE -> {
                 if (direction == Direction.DOWN || direction == Direction.UP) {
-                    yield this.defaultBlockState().setValue(HORIZONTAL_FACING, context.getHorizontalDirection()).setValue(QUARTER, direction == Direction.DOWN ? Quarter.TOP : Quarter.BOTTOM);
+                    yield canonical(this.defaultBlockState().setValue(HORIZONTAL_FACING, context.getHorizontalDirection()).setValue(QUARTER, direction == Direction.DOWN ? Quarter.TOP : Quarter.BOTTOM));
                 } else {
                     Quarter quarter = getQuarter(context);
                     if ((quarter == Quarter.LEFT || quarter == Quarter.RIGHT) && (direction == Direction.WEST || direction == Direction.SOUTH)) {
                         quarter = quarter.opposite();
                     }
-                    yield this.defaultBlockState().setValue(HORIZONTAL_FACING, context.getHorizontalDirection()).setValue(QUARTER, quarter);
+                    yield canonical(this.defaultBlockState().setValue(HORIZONTAL_FACING, context.getHorizontalDirection()).setValue(QUARTER, quarter));
                 }
             }
             case CORNER -> {
                 double horizontalClickPos = direction != Direction.EAST && direction != Direction.WEST ? context.getClickLocation().x - (double) blockpos.getX() : context.getClickLocation().z - (double) blockpos.getZ();
                 double verticalClickPos = direction == Direction.UP || direction == Direction.DOWN ? context.getClickLocation().z - (double) blockpos.getZ() : context.getClickLocation().y - (double) blockpos.getY();
-                yield this.defaultBlockState().setValue(CORNER, getCorner(direction, verticalClickPos, horizontalClickPos)).setValue(HALF, direction == Direction.DOWN || (direction != Direction.UP && verticalClickPos > 0.5) ? Half.TOP : Half.BOTTOM);
+                Corner corner = getCorner(direction, verticalClickPos, horizontalClickPos);
+                Half half = direction == Direction.DOWN || (direction != Direction.UP && verticalClickPos > 0.5) ? Half.TOP : Half.BOTTOM;
+
+                // Every other corner piece is a lump of material, so it wants to sit against whatever it was
+                // placed on, and the click picks where that lump goes. The inner corner's feature is a hollow
+                // instead: it has to open away from the block behind it, and land on the quarter aimed at
+                // rather than the one opposite. Up and down already work out, their half is read off the face.
+                if (shape == GummiBlockProperties.Shape.INNER_CORNER && direction.getAxis().isHorizontal()) {
+                    corner = direction.getAxis() == Direction.Axis.X ? mirrorX(corner) : mirrorZ(corner);
+                    half = half == Half.TOP ? Half.BOTTOM : Half.TOP;
+                }
+
+                yield this.defaultBlockState().setValue(CORNER, corner).setValue(HALF, half);
             }
             case END -> this.defaultBlockState().setValue(FACING, direction);
             case PILLAR -> this.defaultBlockState().setValue(AXIS, direction.getAxis());
@@ -495,6 +586,25 @@ public class GummiBlockBase extends BaseBlock implements ICreativeTab {
         } else {
             return verticalClickPos > horizontalClickPos ? Quarter.TOP : Quarter.RIGHT;
         }
+    }
+
+    /** Corners run anticlockwise from x0 z0, so mirroring one across an axis swaps it with its neighbour */
+    private static Corner mirrorX(Corner corner) {
+        return switch (corner) {
+            case CORNER1 -> Corner.CORNER2;
+            case CORNER2 -> Corner.CORNER1;
+            case CORNER3 -> Corner.CORNER4;
+            case CORNER4 -> Corner.CORNER3;
+        };
+    }
+
+    private static Corner mirrorZ(Corner corner) {
+        return switch (corner) {
+            case CORNER1 -> Corner.CORNER4;
+            case CORNER2 -> Corner.CORNER3;
+            case CORNER3 -> Corner.CORNER2;
+            case CORNER4 -> Corner.CORNER1;
+        };
     }
 
     private static Corner getCorner(Direction direction, double verticalClickPos, double horizontalClickPos) {
