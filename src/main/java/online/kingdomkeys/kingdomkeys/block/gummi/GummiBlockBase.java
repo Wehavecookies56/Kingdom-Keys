@@ -239,7 +239,7 @@ public class GummiBlockBase extends BaseBlock implements ICreativeTab {
     private static final Map<SoundType, SoundType> GUMMI_SOUNDS = new HashMap<>();
 
     public static SoundType gummiSound(SoundType base) {
-        return GUMMI_SOUNDS.computeIfAbsent(base, from -> new SoundType(from.getVolume(), from.getPitch(), from.getBreakSound(), from.getStepSound(), ModSounds.gummiPlace.get(), from.getHitSound(), from.getFallSound()));
+        return GUMMI_SOUNDS.computeIfAbsent(base, from -> new SoundType(from.getVolume(), from.getPitch(), ModSounds.gummiRemove.get(), from.getStepSound(), ModSounds.gummiPlace.get(), from.getHitSound(), from.getFallSound()));
     }
 
     @Override

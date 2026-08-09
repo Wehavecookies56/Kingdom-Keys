@@ -44,6 +44,7 @@ public record CSBuildGummiShip(String name, int containerID) implements Packet {
 			return;
 
 		GummiHangarMenu container = (GummiHangarMenu) player.containerMenu;
+		container.TE.setBuilding(false);
 		BlockPos origin = container.TE.getBlockPos();
 		Level level = player.level();
 		BlockState hangar = level.getBlockState(origin);

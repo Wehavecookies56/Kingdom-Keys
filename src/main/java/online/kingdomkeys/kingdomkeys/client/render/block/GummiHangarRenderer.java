@@ -2,7 +2,6 @@ package online.kingdomkeys.kingdomkeys.client.render.block;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -13,6 +12,7 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -27,12 +27,27 @@ import online.kingdomkeys.kingdomkeys.item.ModComponents;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.lib.GummiStructure;
 import online.kingdomkeys.kingdomkeys.lib.LineDisplay;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class GummiHangarRenderer implements BlockEntityRenderer<GummiHangarTileEntity> {
+
+	private GummiStructure fittedSource;
+	private GummiStructure fitted;
+	private int fittedSize;
 
 	public GummiHangarRenderer(BlockEntityRendererProvider.Context context) {
 
     }
+
+	private GummiStructure fitted(GummiStructure blueprint, int size) {
+		if (fittedSource != blueprint || fittedSize != size) {
+			fittedSource = blueprint;
+			fittedSize = size;
+			fitted = Utils.resizeStructure(blueprint, size);
+		}
+
+		return fitted;
+	}
 
     @Override
     public boolean shouldRender(GummiHangarTileEntity blockEntity, Vec3 cameraPos) {
@@ -112,34 +127,37 @@ public class GummiHangarRenderer implements BlockEntityRenderer<GummiHangarTileE
             if(state.getValue(GummiHangarBlock.DISPLAY_BLUEPRINT)) {
                 ItemStack stack = TE.inventory.get().getStackInSlot(0);
                 if (GummiShipBlueprintItem.isBlueprint(stack)) {
-                    GummiStructure struct = stack.get(ModComponents.GUMMI_STRUCTURE);
-                    if (struct != null) {
-                        int offsetX = 0;
-                        int offsetZ = 0;
+                    GummiStructure blueprint = stack.get(ModComponents.GUMMI_STRUCTURE);
+                    int[] offsets = Utils.getShipOffset(facing, size);
 
-                        switch (facing) {
-                            case NORTH -> { offsetX = -(size/2)-1; offsetZ = -size-1; }
-                            case SOUTH -> { offsetX = -(size/2); offsetZ = -size; }
-                            case EAST  -> { offsetX = -(size/2)-1; offsetZ = -size;
-                                matrixStackIn.mulPose(Axis.YP.rotationDegrees(180));}
-                            case WEST  -> { offsetX = -(size/2);  offsetZ =-size-1;
-                                matrixStackIn.mulPose(Axis.YP.rotationDegrees(180));}
-                        }
+                    if (blueprint != null && offsets != null && blueprint.getWidth() <= size) {
+                        GummiStructure struct = fitted(blueprint, size);
+                        Rotation rotation = switch (facing) {
+                            case NORTH -> Rotation.CLOCKWISE_180;
+                            case WEST -> Rotation.CLOCKWISE_90;
+                            case EAST -> Rotation.COUNTERCLOCKWISE_90;
+                            default -> Rotation.NONE;
+                        };
 
-                        int w = struct.getWidth();
-                        int h = struct.getHeight();
-                        int d = struct.getDepth();
-                        matrixStackIn.mulPose(Axis.YP.rotationDegrees(state.getValue(GummiHangarBlock.FACING).toYRot()));
-                        matrixStackIn.translate(offsetX,0,offsetZ);
+                        int max = size - 1;
 
-                        for (int x = 0; x < w; x++) {
-                            for (int y = 0; y < h; y++) {
-                                for (int z = 0; z < d; z++) {
+                        for (int x = 0; x < size; x++) {
+                            for (int y = 0; y < size; y++) {
+                                for (int z = 0; z < size; z++) {
                                     BlockState expected = struct.getBlocks()[x][y][z];
                                     if (expected == null || expected.isAir())
                                         continue;
 
-                                    BlockPos worldPos = TE.getBlockPos().offset(offsetX + x, y, offsetZ + z);
+                                    expected = Utils.rotateBlock(expected, rotation);
+
+                                    int rx = x, rz = z;
+                                    switch (facing) {
+                                        case NORTH -> { rx = max - x; rz = max - z; }
+                                        case EAST -> { rx = z; rz = max - x; }
+                                        case WEST -> { rx = max - z; rz = x; }
+                                    }
+
+                                    BlockPos worldPos = TE.getBlockPos().offset(offsets[0] + rx, y, offsets[1] + rz);
                                     BlockState current = TE.getLevel().getBlockState(worldPos);
                                     // Not equals: several orientations of the same piece are indistinguishable
                                     // once placed, and marking those as missing would be wrong
@@ -148,7 +166,7 @@ public class GummiHangarRenderer implements BlockEntityRenderer<GummiHangarTileE
 
                                     matrixStackIn.pushPose();
                                     {
-                                        matrixStackIn.translate(x, y, z);
+                                        matrixStackIn.translate(offsets[0] + rx, y, offsets[1] + rz);
                                         ClientUtils.renderSingleBlock(expected, matrixStackIn, bufferIn, 0xF000F0, OverlayTexture.NO_OVERLAY, ModelData.EMPTY, 0.75F);
                                     }
                                     matrixStackIn.popPose();

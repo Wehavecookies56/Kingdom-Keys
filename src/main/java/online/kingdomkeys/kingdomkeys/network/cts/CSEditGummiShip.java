@@ -42,7 +42,7 @@ public record CSEditGummiShip(String name, int containerID) implements Packet {
 			return;
 
 		GummiHangarMenu container = (GummiHangarMenu) player.containerMenu;
-
+		container.TE.setBuilding(false);
 		BlockPos origin = container.TE.getBlockPos();
 		Level level = player.level();
 

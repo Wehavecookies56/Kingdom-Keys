@@ -49,6 +49,11 @@
       "kingdomkeys:gummi_place"
     ]
   },
+  "gummi_remove": {
+    "sounds": [
+      "kingdomkeys:gummi_remove"
+    ]
+  },
   "hp_orb": {
     "sounds": [
       "kingdomkeys:hp_orb"

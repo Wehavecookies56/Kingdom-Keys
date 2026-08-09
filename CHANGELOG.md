@@ -11,7 +11,7 @@
 * Gummi inner corner shape.
 * Creative blueprint which builds the ship rather than displaying the hologram when clicking import.
 * Option to export gummi ship blueprints into files to be able to load them as blueprints in other worlds or servers.
-* Sound when placing gummi blocks.
+* Sound when placing and breaking gummi blocks.
 * Data driven property for magic data where you can specify what the projectile does to various blocks:
   * light_lightable: Allows the projectile to turn on campfires, candles...
   * turn_off_lightable: Allows the projectile to turn them off.
@@ -37,6 +37,7 @@
 * Red tint leak from low HP.
 * Melding ingredients allowing to select a copy of the first selected item even if it's not a real recipe.
 * Gummi ship losing it's fuel when moving it in edit mode with the arrow buttons from the hangar.
+* Gummi hangar hologram blocks not disappearing once they were correct on hangars facing north, west or east.
 * Gummi aero being invisible when faced the wrong way right next to a solid block.
 * Air gets ignored in Gummi Ship structure serialization, saving tons of space.
 * Items given with the new system (window or notification) now stack if possible in the stock menu.

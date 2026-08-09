@@ -46,6 +46,7 @@ public class ModSounds {
 	        laser = registerSound("laser"),
             buy = registerSound("buy"),
             gummiPlace = registerSound("gummi_place"),
+            gummiRemove = registerSound("gummi_remove"),
 	        
 	        fire = registerSound("magic/fire"),
 	        fira = registerSound("magic/fira"),
