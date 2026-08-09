@@ -767,6 +767,9 @@ public class LanguageENUS extends KKLanguageProvider {
         addAbilityWithDesc(ModAbilities.AIR_SLIDE, "Air slide", "Press the action button while in the air to dash forward. Stack more to increase the effect.");
         addAbilityWithDesc(ModAbilities.WALL_KICK,"Wall Kick", "Air slide or aerial dodge into a wall to kick off it and enter flowmotion. Stack more to increase the rebounds.");
         addAbilityWithDesc(ModAbilities.SUPERJUMP, "Superjump", "While in flowmotion, press jump to catapult into the air. Stack more to increase the effect.");
+        addAbilityWithDesc(ModAbilities.AERIAL_RECOVERY, "Aerial Recovery", "Quickly regains balance with Jump when knocked down.");
+        addAbilityWithDesc(ModAbilities.GUARD, "Guard", "Blocks and shoots back enemy attacks using a parrying action with right click. Not available in Epic Fight combat mode.");
+        addAbilityWithDesc(ModAbilities.COUNTERGUARD, "Counterguard", "Counterattacks neraby enemies with Attack while performing Guard.");
         addAbilityWithDesc(ModAbilities.SUPERSLIDE, "Superslide", "While in flowmotion, press the action key to air dash a long distance. Stack more to increase the effect.");
 
         addAbilityWithDesc(ModAbilities.SCAN, "Scan", "Inspect the target's current HP.");
@@ -787,6 +790,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addAbilityWithDesc(ModAbilities.EXPERIENCE_BOOST, "Experience Boost", "Increases experience gained by 100% when you are at half health or less.");
         addAbilityWithDesc(ModAbilities.ENCOUNTER_PLUS, "Encounter Plus", "Increase the amount of enemies that spawn around you. Stack the ability to increase the effect.");
         addAbilityWithDesc(ModAbilities.SECOND_CHANCE, "Second Chance", "Ensures 1 HP remains after taking massive damage.");
+        addAbilityWithDesc(ModAbilities.ONCE_MORE, "Once More", "Ensures 1 HP remains after taking damage from a combo.");
         addAbilityWithDesc(ModAbilities.LIGHT_AND_DARKNESS, "Light & Darkness", "Has a secret effect");
         addAbilityWithDesc(ModAbilities.SYNCH_BLADE, "Synch Blade", "Equips a weapon in each hand. The ability of the left hand weapon becomes available as well.");
         addAbilityWithDesc(ModAbilities.MP_SAFETY, "MP Safety", "Disable recharging when MP runs out using shortcuts. Except if it's Cure");

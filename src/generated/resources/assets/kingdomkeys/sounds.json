@@ -1,4 +1,9 @@
 {
+  "aerial_recovery": {
+    "sounds": [
+      "kingdomkeys:aerial_recovery"
+    ]
+  },
   "air_slide": {
     "sounds": [
       "kingdomkeys:air_slide"
@@ -42,6 +47,11 @@
   "ether": {
     "sounds": [
       "kingdomkeys:ether"
+    ]
+  },
+  "guard": {
+    "sounds": [
+      "kingdomkeys:guard"
     ]
   },
   "gummi_place": {

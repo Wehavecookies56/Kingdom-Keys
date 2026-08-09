@@ -1,7 +1,19 @@
 {
   "variants": {
-    "": {
+    "facing=east": {
+      "model": "kingdomkeys:block/struggle_board",
+      "y": 90
+    },
+    "facing=north": {
       "model": "kingdomkeys:block/struggle_board"
+    },
+    "facing=south": {
+      "model": "kingdomkeys:block/struggle_board",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "kingdomkeys:block/struggle_board",
+      "y": 270
     }
   }
 }

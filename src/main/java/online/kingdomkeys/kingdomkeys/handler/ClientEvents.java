@@ -61,6 +61,7 @@ import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.block.gummi.GummiBlockBase;
 import online.kingdomkeys.kingdomkeys.block.gummi.GummiPlacementType;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
+import online.kingdomkeys.kingdomkeys.client.TrailRenderer;
 import online.kingdomkeys.kingdomkeys.client.gui.KOGui;
 import online.kingdomkeys.kingdomkeys.client.gui.StopGui;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.CommandMenuSubMenu;
@@ -85,7 +86,15 @@ import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.SoAState;
 import online.kingdomkeys.kingdomkeys.lib.Struggle;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.HumanoidArm;
+import net.minecraft.world.item.ItemDisplayContext;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import net.neoforged.neoforge.client.event.CalculatePlayerTurnEvent;
+import net.neoforged.neoforge.client.event.MovementInputUpdateEvent;
+import net.neoforged.neoforge.client.event.InputEvent;
+import net.neoforged.neoforge.client.event.RenderHandEvent;
+import online.kingdomkeys.kingdomkeys.util.CombatAbilities;
 import online.kingdomkeys.kingdomkeys.network.cts.*;
 import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
 import online.kingdomkeys.kingdomkeys.sound.AlarmSoundInstance;
@@ -468,6 +477,53 @@ public class ClientEvents {
 		}
 	}
 
+	private static final int RING_SEGMENTS = 48;
+	private static final float RING_WIDTH = 0.04F;
+
+	// Counterguard and aerial recovery rings
+	private void drawCombatRings(Player p, PlayerData data, PoseStack poseStack, MultiBufferSource.BufferSource buffer, Vec3 camPos, float partialTick) {
+		if (data.getCounterRingTicks() > 0) {
+			float grown = 1F - (data.getCounterRingTicks() - partialTick) / CombatAbilities.COUNTER_RING_TICKS;
+			Vec3 centre = p.getPosition(partialTick).add(0, 0.2, 0);
+
+			drawRing(poseStack, buffer, camPos, centre, new Vec3(1, 0, 0), new Vec3(0, 0, 1), (float) (grown * CombatAbilities.COUNTER_RANGE), 1F, 1F, 1F, 1F - grown);
+		}
+
+		if (data.getRecoveryFlashTicks() > 0) {
+			float grown = 1F - (data.getRecoveryFlashTicks() - partialTick) / CombatAbilities.FLASH_TICKS;
+			Vec3 centre = p.getPosition(partialTick).add(0, p.getBbHeight() / 2F, 0);
+
+			// Upright and turned to face whoever is watching, so it always reads as a hoop round the player
+			Vec3 towards = camPos.subtract(centre);
+			Vec3 flat = new Vec3(towards.x, 0, towards.z);
+			Vec3 across = (flat.lengthSqr() > 1E-6 ? flat.normalize() : new Vec3(1, 0, 0)).cross(new Vec3(0, 1, 0));
+
+			drawRing(poseStack, buffer, camPos, centre, across, new Vec3(0, 1, 0), 0.9F + grown * 0.6F, 1F, 1F, 1F, 1F - grown);
+		}
+	}
+
+	private void drawRing(PoseStack poseStack, MultiBufferSource.BufferSource buffer, Vec3 camPos, Vec3 centre, Vec3 across, Vec3 up, float radius, float r, float g, float b, float alpha) {
+		if (radius <= 0 || alpha <= 0) {
+			return;
+		}
+
+		int overlap = 2;
+		Vec3[] points = new Vec3[RING_SEGMENTS + 1 + overlap * 2];
+
+		for (int i = 0; i < points.length; i++) {
+			double angle = (i - overlap) / (double) RING_SEGMENTS * Math.PI * 2;
+			points[i] = centre.add(across.scale(Math.cos(angle) * radius)).add(up.scale(Math.sin(angle) * radius));
+		}
+
+		poseStack.pushPose();
+		{
+			poseStack.translate(-camPos.x, -camPos.y, -camPos.z);
+			float[][] colours = {{r, g, b}, {r, g, b}, {r, g, b}, {r, g, b}};
+			TrailRenderer.render(points, Vec3.ZERO, poseStack.last().pose(), buffer.getBuffer(RenderType.debugQuads()), colours, RING_WIDTH, alpha);
+		}
+		poseStack.popPose();
+	}
+
 	@SubscribeEvent
 	public void onRenderLevel(RenderLevelStageEvent event) {
 		if (event.getStage() != RenderLevelStageEvent.Stage.AFTER_ENTITIES)
@@ -532,6 +588,8 @@ public class ClientEvents {
 			} else {
 				ClientUtils.fadeTrail(ClientUtils.TrailType.FLOWMOTION, p);
 			}
+
+			drawCombatRings(p, playerData, poseStack, buffer, camPos, partialTick);
 
 			if (playerData.hasAirDashed()) {
 				ClientUtils.updateTrail(ClientUtils.TrailType.DASH, p, partialTick, 50);
@@ -674,6 +732,12 @@ public class ClientEvents {
 						}
 					}
 
+					// Counterattack turn, so the sweep round the player is something you can see
+					if (playerData.getCounterSpinTicks() > 0) {
+						float spun = 1F - (playerData.getCounterSpinTicks() - event.getPartialTick()) / CombatAbilities.SPIN_TICKS;
+						event.getPoseStack().mulPose(Axis.YP.rotationDegrees(-spun * 360F));
+					}
+
 					if(playerData.isFormActive(ModDriveForms.ANTI)) {
 						player.level().addParticle(ParticleTypes.SMOKE, player.getX()+player.level().random.nextDouble() - 0.5D, player.getY()+player.level().random.nextDouble() *2D, player.getZ()+player.level().random.nextDouble() - 0.5D, (player.level().random.nextDouble() - 0.5D)*0.2, 0.1, (player.level().random.nextDouble() - 0.5D)*0.2);
 					} else if(playerData.isFormActive(ModDriveForms.WISDOM)) {
@@ -683,22 +747,6 @@ public class ClientEvents {
 			}
 		}
 	}
-
-    /* @SubscribeEvent
-    public void onRenderLivingPost(RenderLivingEvent.Post<?, ?> event) {
-        if (!(event.getEntity() instanceof Player player)) return;
-
-        PlayerData playerData = PlayerData.get(player); // tu sistema
-
-        if (playerData.inFlowmotion()) {
-            ClientUtils.updateTrail(player, event.getPartialTick()); // solo añadir puntos
-        } else {
-            ClientUtils.fadeTrail(player); // eliminar poco a poco
-        }
-
-
-        ClientUtils.renderTrail(player, event.getPoseStack(), event.getMultiBufferSource(), event.getPartialTick());
-    }*/
 
 	private static int selectedSlot = 0;
 
@@ -837,6 +885,114 @@ public class ClientEvents {
 
 		if (event.getEntity() == mc.player) {
 			tickGrind(mc);
+			tickCombatWindows(mc);
+		}
+	}
+
+	private static final float GUARD_TURN = 60F;
+
+	@SubscribeEvent
+	public void guardPose(RenderHandEvent event) {
+		Minecraft mc = Minecraft.getInstance();
+		PlayerData playerData = PlayerData.get(mc.player);
+
+		if (playerData == null || !(event.getItemStack().getItem() instanceof KeybladeItem)) {
+			return;
+		}
+
+		int side = event.getHand() == InteractionHand.OFF_HAND ? -1 : 1;
+		float turn = 0;
+
+		if (playerData.getCounterSpinTicks() > 0) {
+			float spun = 1F - (playerData.getCounterSpinTicks() - event.getPartialTick()) / CombatAbilities.SPIN_TICKS;
+			turn = GUARD_TURN + spun * 360F;
+		} else if (playerData.getGuardTicks() > 0) {
+			turn = GUARD_TURN;
+		}
+
+		if (turn == 0) {
+			return;
+		}
+
+		// This fires before the hand is placed, so rotating here would swing the whole arm up from the camera.
+		// Pivoting about where the hand ends up turns the keyblade on the spot instead.
+		PoseStack pose = event.getPoseStack();
+
+		pose.translate(side * 0.56F, -0.52F + event.getEquipProgress() * -0.6F, -0.72F);
+		pose.mulPose(Axis.ZP.rotationDegrees(side * turn));
+		pose.translate(side * -0.56F, 0.52F - event.getEquipProgress() * -0.6F, 0.72F);
+	}
+
+	@SubscribeEvent
+	public void attackWhileGuarding(InputEvent.InteractionKeyMappingTriggered event) {
+		if (!event.isAttack()) {
+			return;
+		}
+
+		PlayerData playerData = PlayerData.get(Minecraft.getInstance().player);
+
+		if (playerData == null) {
+			return;
+		}
+
+		if (playerData.getCounterTicks() > 0) {
+			playerData.setCounterTicks(0);
+			PacketHandler.sendToServer(new CSCombatActionPacket(true));
+		} else if (playerData.getGuardTicks() <= 0) {
+			return;
+		}
+
+		event.setSwingHand(false);
+		event.setCanceled(true);
+	}
+
+	/** Guarding plants you: the keyblade is up, not your feet or your head */
+	@SubscribeEvent
+	public void guardHolds(MovementInputUpdateEvent event) {
+		PlayerData playerData = PlayerData.get(event.getEntity());
+
+		if (playerData != null && playerData.getGuardTicks() > 0) {
+			event.getInput().forwardImpulse = 0;
+			event.getInput().leftImpulse = 0;
+			event.getInput().jumping = false;
+		}
+	}
+
+	@SubscribeEvent
+	public void guardLooks(CalculatePlayerTurnEvent event) {
+		PlayerData playerData = PlayerData.get(Minecraft.getInstance().player);
+
+		if (playerData != null && playerData.getGuardTicks() > 0) {
+			event.setMouseSensitivity(0);
+		}
+	}
+
+	private boolean recoveryHeld;
+
+	private void tickCombatWindows(Minecraft mc) {
+		LocalPlayer player = mc.player;
+
+		if (player == null || mc.screen != null) {
+			return;
+		}
+
+		// The countdown itself is run by the shared player tick, which fires on this side too
+		PlayerData playerData = PlayerData.get(player);
+
+		if (playerData == null) {
+			return;
+		}
+
+		boolean jump = mc.options.keyJump.isDown();
+		boolean pressed = jump && !recoveryHeld;
+		recoveryHeld = jump;
+
+		if (pressed && playerData.getRecoveryTicks() > 0 && !player.onGround()) {
+			playerData.setRecoveryTicks(0);
+			// Done here as well as on the server so it answers the key straight away instead of a bit later
+			player.setDeltaMovement(0, Math.min(0, player.getDeltaMovement().y) * 0.1, 0);
+			player.fallDistance = 0;
+			PacketHandler.sendToServer(new CSCombatActionPacket(false));
 		}
 	}
 

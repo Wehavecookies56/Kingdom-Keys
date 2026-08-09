@@ -4,6 +4,7 @@
 * Option to auto build Gummi Ships based on the blueprint, place items in a chest right next to the hangar and if you have energy stored it will start to build it.
   * Server Config to enable or disable that option.
 * Flowmotion Rails, which you can ride once you have the Wall Kick ability.
+* New Abilities: Guard, Counterguard, Aerial Recovery and Once more.
 * Realm of Darkness arches.
 * World Map dimension where gummi ships won't use any fuel.
 * Air Soldier, Defender, Neoshadow and Novashadow.

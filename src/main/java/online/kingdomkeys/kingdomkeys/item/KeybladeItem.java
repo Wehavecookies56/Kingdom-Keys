@@ -10,6 +10,7 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
@@ -41,6 +42,7 @@ import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
+import online.kingdomkeys.kingdomkeys.util.CombatAbilities;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.entity.organization.ArrowgunShotEntity;
@@ -259,6 +261,9 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 						}
 					}
 				}
+			} else if (CombatAbilities.canGuard(player, playerData)) { //Guard
+				CombatAbilities.startGuard(player, playerData);
+				return InteractionResultHolder.success(itemstack);
 			} else { //Wisdom attack
 				if(playerData.isFormActive(ModDriveForms.WISDOM)) {
 					player.swing(hand);

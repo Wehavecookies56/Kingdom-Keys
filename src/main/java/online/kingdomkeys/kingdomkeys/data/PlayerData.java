@@ -314,6 +314,18 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		}
 		storage.put("synthesised_recipes",synthedRecipes);
 
+		// Written out with everything else because a full sync lands on the client whenever anything at all
+		// changes, and anything left out of it would be wiped the moment the player took a scratch
+		storage.putInt("guard_ticks", this.guardTicks);
+		storage.putInt("guard_cooldown", this.guardCooldown);
+		storage.putInt("counter_ticks", this.counterTicks);
+		storage.putInt("recovery_ticks", this.recoveryTicks);
+		storage.putInt("combo_ticks", this.comboTicks);
+		storage.putInt("counter_spin_ticks", this.counterSpinTicks);
+		storage.putInt("counter_ring_ticks", this.counterRingTicks);
+		storage.putInt("recovery_flash_ticks", this.recoveryFlashTicks);
+		storage.putFloat("combo_start_health", this.comboStartHealth);
+
 		storage.putInt("aerial_dodge_ticks",this.aerialDodgeTicks);
 		storage.putBoolean("aerial_dodge_jumped",this.hasJumpedAerialDodge());
 
@@ -573,6 +585,16 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 				this.getSynthesisedRecipes().add(key);
 			}
 		}
+
+		this.guardTicks = nbt.getInt("guard_ticks");
+		this.guardCooldown = nbt.getInt("guard_cooldown");
+		this.counterTicks = nbt.getInt("counter_ticks");
+		this.recoveryTicks = nbt.getInt("recovery_ticks");
+		this.comboTicks = nbt.getInt("combo_ticks");
+		this.counterSpinTicks = nbt.getInt("counter_spin_ticks");
+		this.counterRingTicks = nbt.getInt("counter_ring_ticks");
+		this.recoveryFlashTicks = nbt.getInt("recovery_flash_ticks");
+		this.comboStartHealth = nbt.getFloat("combo_start_health");
 
 		this.setAerialDodgeTicks(nbt.getInt("aerial_dodge_ticks"));
 		this.setHasJumpedAerialDodge(nbt.getBoolean("aerial_dodge_jumped"));
@@ -2755,7 +2777,93 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		return wallGrabs;
 	}
 
-	public void setAirDashed(boolean airDashed) {
+    // Combat state that only matters for a moment, so none of it is written to disk
+    private int guardTicks, guardCooldown, counterTicks, recoveryTicks, comboTicks, counterSpinTicks, counterRingTicks, recoveryFlashTicks;
+    private float comboStartHealth;
+
+    /** Ticks of guard left */
+    public int getGuardTicks() {
+        return guardTicks;
+    }
+
+    public void setGuardTicks(int ticks) {
+        this.guardTicks = ticks;
+    }
+
+    public int getGuardCooldown() {
+        return guardCooldown;
+    }
+
+    public void setGuardCooldown(int ticks) {
+        this.guardCooldown = ticks;
+    }
+
+    /** Ticks left to answer a blocked hit with a counter */
+    public int getCounterTicks() {
+        return counterTicks;
+    }
+
+    public void setCounterTicks(int ticks) {
+        this.counterTicks = ticks;
+    }
+
+    /** Ticks left to catch yourself after being knocked about */
+    public int getRecoveryTicks() {
+        return recoveryTicks;
+    }
+
+    public void setRecoveryTicks(int ticks) {
+        this.recoveryTicks = ticks;
+    }
+
+    /** Ticks left of the turn the counter spins the player through */
+    public int getCounterSpinTicks() {
+        return counterSpinTicks;
+    }
+
+    public void setCounterSpinTicks(int ticks) {
+        this.counterSpinTicks = ticks;
+    }
+
+    /** Ticks left of the ring the counter throws out, which outlasts the turn itself */
+    public int getCounterRingTicks() {
+        return counterRingTicks;
+    }
+
+    public void setCounterRingTicks(int ticks) {
+        this.counterRingTicks = ticks;
+    }
+
+    /** Ticks left of the ring drawn round a player who just caught themselves in the air */
+    public int getRecoveryFlashTicks() {
+        return recoveryFlashTicks;
+    }
+
+    public void setRecoveryFlashTicks(int ticks) {
+        this.recoveryFlashTicks = ticks;
+    }
+
+    /**
+     * How long the run of hits you are taking has left to count as one combo, and the health you had when
+     * it started. Once More reads the second to decide whether this combo is allowed to finish you off.
+     */
+    public int getComboTicks() {
+        return comboTicks;
+    }
+
+    public void setComboTicks(int ticks) {
+        this.comboTicks = ticks;
+    }
+
+    public float getComboStartHealth() {
+        return comboStartHealth;
+    }
+
+    public void setComboStartHealth(float health) {
+        this.comboStartHealth = health;
+    }
+
+    public void setAirDashed(boolean airDashed) {
 		this.airDashed = airDashed;
 	}
 	public boolean hasAirDashed() {

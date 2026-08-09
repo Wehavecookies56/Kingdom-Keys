@@ -667,6 +667,9 @@ public class LanguageESES extends KKLanguageProvider {
         addAbilityWithDesc(ModAbilities.AIR_SLIDE, "Impulso aéreo", "Si pulsas la tecla de acción mientras estás en el aire podrás impulsarte hacia delante. Cuantos más activas, mayor efecto.");
         addAbilityWithDesc(ModAbilities.WALL_KICK,"Rebote","Usa impulso aéreo contra una pared para propulsarte con ella y entrar en el Modo acróbata. Cuantos más activas, más rebotes.");
         addAbilityWithDesc(ModAbilities.SUPERJUMP, "Supersalto", "En el Modo acróbata, pulsa el botón de salto para saltar muy, muy alto. Cuantos más activas, mayor efecto.");
+        addAbilityWithDesc(ModAbilities.AERIAL_RECOVERY, "Recuperación Aérea", "Si te derriban, pulsa saltar y recuperarás rápidamente el equilibrio.");
+        addAbilityWithDesc(ModAbilities.GUARD, "Bloqueo", "Si pulsas clic derecho con una llave espada podrás eludir ataques enemigos y contraatacar. No disponible en el modo de combate de Epic Fight.");
+        addAbilityWithDesc(ModAbilities.COUNTERGUARD, "Contrabloqueo", "Si atacas justo al bloquear, devolverás el ataque al enemigo.");
         addAbilityWithDesc(ModAbilities.SUPERSLIDE, "Superdeslizamiento", "En el Modo acróbata, pulsa la tecla de acción para darte mucho impulso en esa dirección. Cuantos más activas, mayor efecto.");
 
         addAbilityWithDesc(ModAbilities.SCAN, "Libra", "Muestra la VT actual del enemigo fijado.");
@@ -687,6 +690,7 @@ public class LanguageESES extends KKLanguageProvider {
         addAbilityWithDesc(ModAbilities.EXPERIENCE_BOOST, "Extraexperiencia", "Si la VT cae a menos de la mitad, aumenta un 100% la experiencia ganada al vencer enemigos. Cuantos m\u00e1s activas, mayor efecto.");
         addAbilityWithDesc(ModAbilities.ENCOUNTER_PLUS, "Más Encuentros", "Aumenta la cantidad de enemigos que aparecen a tu alrededor. Cuantos m\u00e1s activas, mayor efecto.");
         addAbilityWithDesc(ModAbilities.SECOND_CHANCE, "\u00daltimo Estertor", "Asegura un punto de vitalidad si recibes da\u00f1os severos.");
+        addAbilityWithDesc(ModAbilities.ONCE_MORE, "Una vez más", "Asegura un punto de vitalidad si recibes daños a causa de un combo.");
         addAbilityWithDesc(ModAbilities.LIGHT_AND_DARKNESS, "Luz y Oscuridad", "Proporciona un poder tan misterioso como poderoso.");
         addAbilityWithDesc(ModAbilities.SYNCH_BLADE, "Espada Doble", "Tendr\u00e1s una arma en cada mano. Dispondr\u00e1s tambi\u00e9n de las habilidades de la mano izquierda.");
         addAbilityWithDesc(ModAbilities.MP_SAFETY, "Seguridad PM", "Impide entrar en Carga PM cuando se acaben los PM usando los atajos, excepto si se usa Cura");

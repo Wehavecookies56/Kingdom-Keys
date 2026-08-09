@@ -27,6 +27,7 @@ public class PacketHandler {
 	public static void register(final RegisterPayloadHandlersEvent event) {
 		registrar = event.registrar(KingdomKeys.MODID);
 		client(SCAeroSoundPacket.TYPE, SCAeroSoundPacket.STREAM_CODEC);
+		client(SCCombatWindowsPacket.TYPE, SCCombatWindowsPacket.STREAM_CODEC);
 		client(SCDeleteSavePointScreenshot.TYPE, SCDeleteSavePointScreenshot.STREAM_CODEC);
 		client(SCOpenAlignmentScreen.TYPE, SCOpenAlignmentScreen.STREAM_CODEC);
 		client(SCOpenChoiceScreen.TYPE, SCOpenChoiceScreen.STREAM_CODEC);
@@ -157,6 +158,7 @@ public class PacketHandler {
 		server(CSMoveGummiShipPacket.TYPE, CSMoveGummiShipPacket.STREAM_CODEC);
         server(CSShowHangarLinesPacket.TYPE, CSShowHangarLinesPacket.STREAM_CODEC);
         server(CSToggleHangarBuildPacket.TYPE, CSToggleHangarBuildPacket.STREAM_CODEC);
+        server(CSCombatActionPacket.TYPE, CSCombatActionPacket.STREAM_CODEC);
         server(CSGummiBoostPacket.TYPE, CSGummiBoostPacket.STREAM_CODEC);
         server(CSSetShotlockEnemyListPacket.TYPE, CSSetShotlockEnemyListPacket.STREAM_CODEC);
 		server(CSSetHangingWallTicksPacket.TYPE, CSSetHangingWallTicksPacket.STREAM_CODEC);

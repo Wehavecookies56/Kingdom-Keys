@@ -55,6 +55,8 @@ public class Sounds extends SoundDefinitionsProvider {
         add(buy);
         add(gummiPlace);
         add(gummiRemove);
+        add(guard);
+        add(aerialRecovery);
 
         add(fire);
         add(fira);

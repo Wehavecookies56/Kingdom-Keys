@@ -22,6 +22,16 @@ public class EpicFightUtils {
         }
     }
 
+    /** Whether the player has Epic Fight's combat stance up, in which case its own guard is in charge */
+    public static boolean isInEpicFightMode(Player player) {
+        if (!KingdomKeys.efmLoaded) {
+            return false;
+        }
+
+        PlayerPatch patch = EpicFightCapabilities.getEntityPatch(player, PlayerPatch.class);
+        return patch != null && patch.isEpicFightMode();
+    }
+
     public static float getCritMulti(Player player) {
         PlayerData data = PlayerData.get(player);
         float critBoost = data.getNumberOfAbilitiesEquipped(ModAbilities.CRITICAL_BOOST) * 0.1f;

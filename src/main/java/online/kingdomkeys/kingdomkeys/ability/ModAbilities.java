@@ -22,6 +22,8 @@ public class ModAbilities {
 			AUTO_MASTER = createAbility(Strings.autoMaster, 1, AbilityType.ACTION),
 			AUTO_FINAL = createAbility(Strings.autoFinal, 1, AbilityType.ACTION),
 			STRIKE_RAID = createAbility(Strings.strikeRaid, 3, AbilityType.ACTION),
+			GUARD = createAbility(Strings.guard, 2, AbilityType.ACTION),
+			COUNTERGUARD = createAbility(Strings.counterguard, 3, AbilityType.ACTION),
 			FLOWSTEP = createAbility(Strings.flowStep, 4, AbilityType.ACTION),
 
 	// Growth
@@ -38,7 +40,8 @@ public class ModAbilities {
 	// Support
 			ZERO_EXP = createAbility(Strings.zeroExp, 0, AbilityType.SUPPORT),
 			SCAN = createAbility(Strings.scan, 1, AbilityType.SUPPORT),
-			MAGIC_LOCK_ON = createAbility(Strings.magicLockOn, 4, AbilityType.SUPPORT), 
+			AERIAL_RECOVERY = createAbility(Strings.aerialRecovery, 2, AbilityType.SUPPORT),
+			MAGIC_LOCK_ON = createAbility(Strings.magicLockOn, 4, AbilityType.SUPPORT),
 			LEAF_BRACER = createAbility(Strings.leafBracer, 1, AbilityType.SUPPORT),
 			HP_GAIN = createAbility(Strings.hpGain,6,AbilityType.SUPPORT),
 			MP_SAFETY = createAbility(Strings.mpSafety, 0, AbilityType.SUPPORT),
@@ -66,6 +69,7 @@ public class ModAbilities {
 			ITEM_BOOST = createAbility(Strings.itemBoost, 2, AbilityType.SUPPORT),
 			TREASURE_MAGNET = createAbility(Strings.treasureMagnet, 3, AbilityType.SUPPORT),
 			SECOND_CHANCE = createAbility(Strings.secondChance, 4, AbilityType.SUPPORT),
+			ONCE_MORE = createAbility(Strings.onceMore, 4, AbilityType.SUPPORT),
 			WIZARDS_RUSE = createAbility(Strings.wizardsRuse, 4, AbilityType.SUPPORT),
 			EXTRA_CAST = createAbility(Strings.extraCast, 3, AbilityType.SUPPORT),
 			DAMAGE_CONTROL = createAbility(Strings.damageControl, 5, AbilityType.SUPPORT),

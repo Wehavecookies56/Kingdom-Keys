@@ -1,6 +1,7 @@
 package online.kingdomkeys.kingdomkeys.datagen.init;
 
 import net.minecraft.core.Direction;
+import net.neoforged.neoforge.client.model.generators.BlockModelBuilder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
@@ -227,6 +228,8 @@ public class BlockStates extends BlockStateProvider {
 
 					return builder.build();
 				});
+			} else if (block instanceof StruggleBoardBlock board) {
+				struggleBoard(board, name);
 			} else if (block instanceof FlowmotionRailBlock rail) {
 				flowmotionRail(rail, name);
 			} else if (block instanceof INoDataGen) {
@@ -241,6 +244,30 @@ public class BlockStates extends BlockStateProvider {
 			}
 		}
 
+	}
+
+	/** A panel two pixels thick hung on a wall, turned to whichever way it was put up */
+	private void struggleBoard(StruggleBoardBlock board, String name) {
+		ResourceLocation texture = KingdomKeys.rl(ModelProvider.BLOCK_FOLDER + "/" + name);
+		BlockModelBuilder model = models().withExistingParent(name, mcLoc("block/block"))
+				.texture("board", texture)
+				.texture("particle", texture)
+				.element()
+					.from(0, 0, 14).to(16, 16, 16)
+					.face(Direction.NORTH).texture("#board").uvs(0, 0, 16, 16).end()
+					.face(Direction.SOUTH).texture("#board").uvs(0, 0, 16, 16).end()
+					.face(Direction.UP).texture("#board").uvs(0, 0, 16, 2).end()
+					.face(Direction.DOWN).texture("#board").uvs(0, 14, 16, 16).end()
+					.face(Direction.WEST).texture("#board").uvs(0, 0, 2, 16).end()
+					.face(Direction.EAST).texture("#board").uvs(14, 0, 16, 16).end()
+				.end();
+
+		getVariantBuilder(board).forAllStates(state -> ConfiguredModel.builder()
+				.modelFile(model)
+				.rotationY((int) state.getValue(StruggleBoardBlock.FACING).getOpposite().toYRot())
+				.build());
+
+		simpleBlockItem(board, model);
 	}
 
 	private void flowmotionRail(FlowmotionRailBlock rail, String name) {

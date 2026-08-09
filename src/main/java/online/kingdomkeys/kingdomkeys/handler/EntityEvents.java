@@ -112,6 +112,7 @@ import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopListRegistry;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.names.NamesListRegistry;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.sell.SellListRegistry;
+import online.kingdomkeys.kingdomkeys.util.CombatAbilities;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
 import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
@@ -521,6 +522,8 @@ public class EntityEvents {
 		System.out.println("---");*/
 
 		if (playerData != null) {
+			CombatAbilities.tick(player, playerData);
+
 			// Check if rc conditions match
 			//Tick RCs in list
 			playerData.tickReactionCommands(player);
@@ -993,6 +996,10 @@ public class EntityEvents {
 
 	@SubscribeEvent
 	public void hitEntity(LivingDamageEvent.Pre event) {
+		if (event.getEntity() instanceof Player hurt && !hurt.level().isClientSide) {
+			event.setNewDamage(CombatAbilities.survive(hurt, PlayerData.get(hurt), event.getNewDamage()));
+		}
+
 		if (event.getSource().getEntity() instanceof Player attacker && event.getEntity() instanceof Player victim) {
 			WorldData worldData = WorldData.get(attacker.getServer());
 			Struggle struggle = worldData.getStruggleFromActiveCombatant(attacker.getUUID());
@@ -1218,6 +1225,22 @@ public class EntityEvents {
 	@SubscribeEvent
 	public void onLivingAttack(LivingIncomingDamageEvent event) {
 		if (!event.getEntity().level().isClientSide) {
+			if (event.getEntity() instanceof Player guardingPlayer) {
+				PlayerData playerData = PlayerData.get(guardingPlayer);
+
+				if (CombatAbilities.blocks(guardingPlayer, playerData, event.getSource())) {
+					CombatAbilities.onBlocked(guardingPlayer, playerData);
+					event.setCanceled(true);
+					return;
+				}
+
+				// Anything that gets through is a hit to remember, both for the combo Once More watches and for the moment of flight Aerial Recovery can be caught in
+				if (playerData != null) {
+					CombatAbilities.noteHit(guardingPlayer, playerData);
+					CombatAbilities.noteKnockback(guardingPlayer, playerData);
+				}
+			}
+
 			if (event.getSource().getEntity() instanceof LivingEntity attacker) { // If attacker is a LivingEntity
 				LivingEntity target = event.getEntity();
 

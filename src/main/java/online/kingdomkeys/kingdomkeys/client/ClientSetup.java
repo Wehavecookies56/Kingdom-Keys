@@ -16,6 +16,14 @@ import net.minecraft.world.entity.player.Player;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
+import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
+import net.minecraft.client.model.HumanoidModel;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
+import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.*;
@@ -114,9 +122,29 @@ public class ClientSetup {
 	}
 
 	@SubscribeEvent
+	public static void registerClientExtensions(RegisterClientExtensionsEvent event) {
+		IClientItemExtensions guarding = new IClientItemExtensions() {
+			@Override
+			public HumanoidModel.ArmPose getArmPose(LivingEntity entity, InteractionHand hand, ItemStack stack) {
+				if (entity instanceof Player player) {
+					PlayerData data = PlayerData.get(player);
+					if (data != null && data.getGuardTicks() > 0) {
+						return HumanoidModel.ArmPose.BLOCK;
+					}
+				}
+
+				return null;
+			}
+		};
+
+		BuiltInRegistries.ITEM.stream().filter(KeybladeItem.class::isInstance).forEach(keyblade -> event.registerItem(guarding, keyblade));
+	}
+
+	@SubscribeEvent
 	public static void registerKeyBinding(RegisterKeyMappingsEvent event) {
-		for (InputHandler.Keybinds key : InputHandler.Keybinds.values())
+		for (InputHandler.Keybinds key : InputHandler.Keybinds.values()) {
 			event.register(key.getKeybind());
+		}
 	}
 
 	public static void renderOverlays(RenderGuiLayerEvent.Pre event) {
