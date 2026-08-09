@@ -10,19 +10,25 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.*;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import online.kingdomkeys.kingdomkeys.block.BaseBlock;
 import online.kingdomkeys.kingdomkeys.item.ICreativeTab;
 import online.kingdomkeys.kingdomkeys.lib.Corner;
 import online.kingdomkeys.kingdomkeys.lib.Quarter;
 
 import javax.annotation.Nullable;
+import java.util.EnumMap;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Supplier;
 
 public class GummiBlockBase extends BaseBlock implements ICreativeTab {
@@ -31,7 +37,188 @@ public class GummiBlockBase extends BaseBlock implements ICreativeTab {
     List<Supplier<Block>> blocks;
     int armour, weight, cost;
     GummiPlacementType placementType;
+    GummiBlockProperties.Shape shape;
     boolean isMultiBlock;
+
+    // Aero fins thickness
+    private static final double AERO_MIN = 0.4, AERO_MAX = 0.6;
+    // Built once per shape, facing and quarter rather than per query
+    private static final Map<GummiBlockProperties.Shape, Map<Direction, Map<Quarter, VoxelShape>>> SHAPES = new EnumMap<>(GummiBlockProperties.Shape.class);
+    // Face placed shapes key off FACING alone, including up and down, so they need their own table
+    private static final Map<Direction, VoxelShape> SLAB_SHAPES = new EnumMap<>(Direction.class);
+    // Corner placed shapes key off CORNER and HALF instead
+    private static final Map<GummiBlockProperties.Shape, Map<Corner, Map<Half, VoxelShape>>> CORNER_SHAPES = new EnumMap<>(GummiBlockProperties.Shape.class);
+
+    static {
+        List<double[]> wedge = List.of(
+                new double[]{0, 0, 0, 0.5, 1, 1},
+                new double[]{0.5, 0, 0, 1, 0.5, 1}
+        );
+
+        register(GummiBlockProperties.Shape.WEDGE, wedge);
+
+        register(GummiBlockProperties.Shape.PIE, wedge);
+
+        register(GummiBlockProperties.Shape.AERO_WEDGE, List.of(
+                new double[]{0, 0, AERO_MIN, 0.5, 1, AERO_MAX},
+                new double[]{0.5, 0, AERO_MIN, 1, 0.5, AERO_MAX}
+        ));
+
+        register(GummiBlockProperties.Shape.AERO_PLATE, List.of(new double[]{0, 0, AERO_MIN, 1, 1, AERO_MAX}));
+
+        List<double[]> slab = List.of(new double[]{0, 0, 0, 1, 0.5, 1});
+
+        for (Direction facing : Direction.values()) {
+            SLAB_SHAPES.put(facing, buildRotated(slab, slabXRotation(facing), slabYRotation(facing)));
+        }
+
+        registerCorner(GummiBlockProperties.Shape.PYRAMID, List.of(
+                new double[]{0, 0, 0, 1, 0.5, 1},
+                new double[]{0, 0.5, 0.5, 0.5, 1, 1}
+        ));
+
+        registerCorner(GummiBlockProperties.Shape.ROUND_CORNER, List.of(
+                new double[]{0, 0, 0, 1, 0.5, 1},
+                new double[]{0, 0.5, 0.5, 0.5, 1, 1}
+        ));
+    }
+
+    private static void registerCorner(GummiBlockProperties.Shape shape, List<double[]> base) {
+        Map<Corner, Map<Half, VoxelShape>> byCorner = new EnumMap<>(Corner.class);
+
+        for (Corner corner : Corner.values()) {
+            Map<Half, VoxelShape> byHalf = new EnumMap<>(Half.class);
+
+            for (Half half : Half.values()) {
+                byHalf.put(half, buildRotated(base, half == Half.TOP ? 180 : 0, cornerYRotation(corner, half)));
+            }
+
+            byCorner.put(corner, byHalf);
+        }
+
+        CORNER_SHAPES.put(shape, byCorner);
+    }
+
+    /**
+     * Matches the y rotation the generated blockstate gives each corner. Flipping to the top half also
+     * shifts the corner round by one quarter turn, which is why the two halves need separate tables.
+     */
+    private static int cornerYRotation(Corner corner, Half half) {
+        int quarter = switch (corner) {
+            case CORNER1 -> 1;
+            case CORNER2 -> 2;
+            case CORNER3 -> 3;
+            case CORNER4 -> 0;
+        };
+
+        return ((half == Half.TOP ? quarter + 3 : quarter) % 4) * 90;
+    }
+
+    /** Matches the rotations the generated blockstate gives each facing for face placed blocks */
+    private static int slabXRotation(Direction facing) {
+        return switch (facing) {
+            case UP -> 0;
+            case DOWN -> 180;
+            default -> 90;
+        };
+    }
+
+    private static int slabYRotation(Direction facing) {
+        return switch (facing) {
+            case EAST -> 90;
+            case SOUTH -> 180;
+            case WEST -> 270;
+            default -> 0;
+        };
+    }
+
+    private static void register(GummiBlockProperties.Shape shape, List<double[]> base) {
+        Map<Direction, Map<Quarter, VoxelShape>> byFacing = new EnumMap<>(Direction.class);
+
+        for (Direction facing : Direction.Plane.HORIZONTAL) {
+            Map<Quarter, VoxelShape> byQuarter = new EnumMap<>(Quarter.class);
+
+            for (Quarter quarter : Quarter.values()) {
+                byQuarter.put(quarter, buildRotated(base, xRotation(quarter), yRotation(facing)));
+            }
+
+            byFacing.put(facing, byQuarter);
+        }
+
+        SHAPES.put(shape, byFacing);
+    }
+
+    @Override
+    protected VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+        VoxelShape custom = customShape(state);
+        return custom != null ? custom : super.getCollisionShape(state, level, pos, context);
+    }
+
+    @Nullable
+    private VoxelShape customShape(BlockState state) {
+        Map<Corner, Map<Half, VoxelShape>> byCorner = CORNER_SHAPES.get(shape);
+
+        if (byCorner != null && state.hasProperty(CORNER) && state.hasProperty(HALF)) {
+            return byCorner.get(state.getValue(CORNER)).get(state.getValue(HALF));
+        }
+
+        if (shape == GummiBlockProperties.Shape.SLAB) {
+            return state.hasProperty(FACING) ? SLAB_SHAPES.get(state.getValue(FACING)) : SLAB_SHAPES.get(Direction.UP);
+        }
+
+        Map<Direction, Map<Quarter, VoxelShape>> byFacing = SHAPES.get(shape);
+
+        if (byFacing != null && state.hasProperty(HORIZONTAL_FACING) && state.hasProperty(QUARTER)) {
+            return byFacing.get(state.getValue(HORIZONTAL_FACING)).get(state.getValue(QUARTER));
+        }
+
+        return null;
+    }
+
+    /*@Nullable
+    public VoxelShape debugCollisionShape(BlockState state) {
+        return customShape(state);
+    }*/
+
+    /** Matches the x rotation the generated blockstate gives each quarter */
+    private static int xRotation(Quarter quarter) {
+        return switch (quarter) {
+            case BOTTOM -> 0;
+            case RIGHT -> 90;
+            case TOP -> 180;
+            case LEFT -> 270;
+        };
+    }
+
+    /** Matches the y rotation the generated blockstate gives each facing */
+    private static int yRotation(Direction facing) {
+        return switch (facing) {
+            case NORTH -> 90;
+            case EAST -> 180;
+            case SOUTH -> 270;
+            default -> 0;
+        };
+    }
+
+    private static VoxelShape buildRotated(List<double[]> boxes, int xRot, int yRot) {
+        VoxelShape shape = Shapes.empty();
+
+        for (double[] box : boxes) {
+            double[] rotated = box;
+
+            // Same order the model rotation uses: about X first, then about Y
+            for (int turn = 0; turn < xRot / 90; turn++) {
+                rotated = new double[]{rotated[0], rotated[2], 1 - rotated[4], rotated[3], rotated[5], 1 - rotated[1]};
+            }
+            for (int turn = 0; turn < yRot / 90; turn++) {
+                rotated = new double[]{1 - rotated[5], rotated[1], rotated[0], 1 - rotated[2], rotated[4], rotated[3]};
+            }
+
+            shape = Shapes.or(shape, Shapes.box(rotated[0], rotated[1], rotated[2], rotated[3], rotated[4], rotated[5]));
+        }
+
+        return shape;
+    }
 
     public static final EnumProperty<Corner> CORNER = EnumProperty.create("corner", Corner.class);
     public static final EnumProperty<Half> HALF = BlockStateProperties.HALF;
@@ -51,6 +238,7 @@ public class GummiBlockBase extends BaseBlock implements ICreativeTab {
         this.armour = gummiProperties.armour;
         this.cost = gummiProperties.cost;
         this.placementType = gummiProperties.placementType;
+        this.shape = gummiProperties.shape;
         properties = switch (placementType) {
             case STANDARD -> List.of();
             case EDGE -> List.of(HORIZONTAL_FACING, QUARTER);

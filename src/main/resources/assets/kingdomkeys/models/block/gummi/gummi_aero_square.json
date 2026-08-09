@@ -1,5 +1,5 @@
 {
-	"parent": "kingdomkeys:block/cube_tinted",
+	"parent": "kingdomkeys:block/cube_tinted_unculled",
 	"transform":{
 		"translation": [ 0, 0, -0.4 ],
 		"scale": [ 1, 1, 0.2 ],

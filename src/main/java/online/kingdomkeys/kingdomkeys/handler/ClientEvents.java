@@ -16,6 +16,7 @@ import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.player.Input;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
@@ -37,6 +38,7 @@ import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.RailShape;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
@@ -481,6 +483,11 @@ public class ClientEvents {
 		PlayerData localPlayerData = PlayerData.get(player);
 
 		float partialTicks = mc.getTimer().getGameTimeDeltaPartialTick(false);
+
+		/*if (DEBUG_GUMMI_COLLISION) {
+			drawGummiCollision(mc, poseStack, buffer);
+		}*/
+
 		// Lock on
 		if (InputHandler.lockOn != null && ModConfigs.SERVER.softLockOnMode.get()) {
 			ClientUtils.drawLockOnIndicator(InputHandler.lockOn.getId(), poseStack, buffer, partialTicks);
@@ -777,6 +784,38 @@ public class ClientEvents {
 			mc.getToasts().addToast(pressMToast);
 		}
 	}
+
+	// Hitbox render for gummi blocks
+	/*public static final boolean DEBUG_GUMMI_COLLISION = true;
+	private static final int DEBUG_RANGE = 6;
+
+	private void drawGummiCollision(Minecraft mc, PoseStack poseStack, MultiBufferSource.BufferSource buffer) {
+		Vec3 camera = mc.gameRenderer.getMainCamera().getPosition();
+		BlockPos around = mc.player.blockPosition();
+		VertexConsumer lines = buffer.getBuffer(RenderType.lines());
+
+		poseStack.pushPose();
+		poseStack.translate(-camera.x, -camera.y, -camera.z);
+
+		for (BlockPos pos : BlockPos.betweenClosed(around.offset(-DEBUG_RANGE, -DEBUG_RANGE, -DEBUG_RANGE), around.offset(DEBUG_RANGE, DEBUG_RANGE, DEBUG_RANGE))) {
+			BlockState state = mc.level.getBlockState(pos);
+			if (!(state.getBlock() instanceof GummiBlockBase gummi)) {
+				continue;
+			}
+
+			VoxelShape shape = gummi.debugCollisionShape(state);
+			if (shape == null) {
+				continue;
+			}
+
+			for (AABB box : shape.toAabbs()) {
+				LevelRenderer.renderLineBox(poseStack, lines, box.move(pos), 1F, 0.2F, 0.2F, 1F);
+			}
+		}
+
+		poseStack.popPose();
+		buffer.endBatch(RenderType.lines());
+	}*/
 
 	private static final double GRIND_SPEED = 0.8D;
 	private static final double HOP_OFF = 0.55D;

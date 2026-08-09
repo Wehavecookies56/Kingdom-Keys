@@ -24,6 +24,7 @@
 * Config files have now been moved into their own subfolder, if you modified any move them there AND RENAME to keep your existing settings.
   * New files don't have the "kingdomkeys-" prefix, therefore the "kingdomkeys-common.toml" file now goes into the "kingdomkeys" folder under the name "common.toml".
 * Hangar screen is no longer that cluttered with information.
+* Collision box to shaped gummi blocks, mini helm and gummi vernier.
 * Lowered meteorite frequency.
 * Removed old blizzardChangeBlocks Common Config since the new system obsoletes it.
 
@@ -32,6 +33,7 @@
 * Red tint leak from low HP.
 * Melding ingredients allowing to select a copy of the first selected item even if it's not a real recipe.
 * Gummi ship losing it's fuel when moving it in edit mode with the arrow buttons from the hangar.
+* Gummi aero being invisible when faced the wrong way right next to a solid block.
 * Air gets ignored in Gummi Ship structure serialization, saving tons of space.
 * Items given with the new system (window or notification) now stack if possible in the stock menu.
 * Castle Oblivion door being breakable.

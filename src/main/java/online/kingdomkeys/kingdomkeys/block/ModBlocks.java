@@ -127,7 +127,7 @@ public class ModBlocks {
             //gummiWatergaVertical = createNewGummiWeaponBlock("gummi_waterga_vertical", ()-> new GummiWeaponMultiBlock(Block.Properties.of().noOcclusion().strength(0.1F, 10.0F), GummiWeaponBlock.ShotType.WATERGA, 1, 1, 130,184)),
             //gummiWatergaHorizontal = createNewGummiWeaponBlock("gummi_waterga_horizontal", ()-> new GummiWeaponMultiBlock(Block.Properties.of().noOcclusion().strength(0.1F, 10.0F), GummiWeaponBlock.ShotType.WATERGA, 1, 1, 130,184));
 
-            gummiVernier = createNewGummiEngineBlock("gummi_vernier", GummiBlockProperties.of(1, 1, 0).withPlacement(GummiPlacementType.END), 30),
+            gummiVernier = createNewGummiEngineBlock("gummi_vernier", GummiBlockProperties.of(1, 1, 0).withPlacement(GummiPlacementType.END).withShape(GummiBlockProperties.Shape.SLAB), 30),
             gummiThruster = createNewGummiEngineBlock("gummi_thruster", GummiBlockProperties.of(1, 1, 0).withPlacement(GummiPlacementType.END), 40);
             //gummiBooster = createNewGummiEngineBlock("gummi_booster", GummiBlockProperties.of(1, 1, 0).withPlacement(GummiPlacementType.MULTIBLOCK3D), 50);
 
@@ -175,31 +175,31 @@ public class ModBlocks {
 
     static {
         createNewGummiBlock("gummi_cube", gummiCubes, GummiBlockProperties.of(1,5, 0));
-        createNewGummiBlock("gummi_wedge", gummiWedges, GummiBlockProperties.of(1, 3, 0).withPlacement(GummiPlacementType.EDGE));
-        createNewGummiBlock("gummi_pyramid", gummiPyramids, GummiBlockProperties.of(1, 3, 0).withPlacement(GummiPlacementType.CORNER));
+        createNewGummiBlock("gummi_wedge", gummiWedges, GummiBlockProperties.of(1, 3, 0).withPlacement(GummiPlacementType.EDGE).withShape(GummiBlockProperties.Shape.WEDGE));
+        createNewGummiBlock("gummi_pyramid", gummiPyramids, GummiBlockProperties.of(1, 3, 0).withPlacement(GummiPlacementType.CORNER).withShape(GummiBlockProperties.Shape.PYRAMID));
         createNewGummiBlock("gummi_cylinder", gummiCylinders, GummiBlockProperties.of(1,4, 0).withPlacement(GummiPlacementType.PILLAR));
-        createNewGummiBlock("gummi_pie", gummiPies, GummiBlockProperties.of(1,4, 0).withPlacement(GummiPlacementType.EDGE));
-        createNewGummiBlock("gummi_round_corner", gummiRoundCorners, GummiBlockProperties.of(1,3, 0).withPlacement(GummiPlacementType.CORNER));
-        createNewGummiBlock("gummi_cone", gummiCones, GummiBlockProperties.of(1,3, 0).withPlacement(GummiPlacementType.END));
-        createNewGummiBlock("gummi_dome", gummiDomes, GummiBlockProperties.of(1,3, 0).withPlacement(GummiPlacementType.END));
+        createNewGummiBlock("gummi_pie", gummiPies, GummiBlockProperties.of(1,4, 0).withPlacement(GummiPlacementType.EDGE).withShape(GummiBlockProperties.Shape.PIE));
+        createNewGummiBlock("gummi_round_corner", gummiRoundCorners, GummiBlockProperties.of(1,3, 0).withPlacement(GummiPlacementType.CORNER).withShape(GummiBlockProperties.Shape.ROUND_CORNER));
+        createNewGummiBlock("gummi_cone", gummiCones, GummiBlockProperties.of(1,3, 0).withPlacement(GummiPlacementType.END).withShape(GummiBlockProperties.Shape.SLAB));
+        createNewGummiBlock("gummi_dome", gummiDomes, GummiBlockProperties.of(1,3, 0).withPlacement(GummiPlacementType.END).withShape(GummiBlockProperties.Shape.SLAB));
 
         createNewGummiBlock("shell_gummi_cube", gummiShellCubes, GummiBlockProperties.of(1,10, 0));
-        createNewGummiBlock("shell_gummi_wedge", gummiShellWedges, GummiBlockProperties.of(1, 5, 0).withPlacement(GummiPlacementType.EDGE));
-        createNewGummiBlock("shell_gummi_pyramid", gummiShellPyramids, GummiBlockProperties.of(1, 5, 0).withPlacement(GummiPlacementType.CORNER));
+        createNewGummiBlock("shell_gummi_wedge", gummiShellWedges, GummiBlockProperties.of(1, 5, 0).withPlacement(GummiPlacementType.EDGE).withShape(GummiBlockProperties.Shape.WEDGE));
+        createNewGummiBlock("shell_gummi_pyramid", gummiShellPyramids, GummiBlockProperties.of(1, 5, 0).withPlacement(GummiPlacementType.CORNER).withShape(GummiBlockProperties.Shape.PYRAMID));
         createNewGummiBlock("shell_gummi_cylinder", gummiShellCylinders, GummiBlockProperties.of(1, 7, 0).withPlacement(GummiPlacementType.PILLAR));
-        createNewGummiBlock("shell_gummi_pie", gummiShellPies, GummiBlockProperties.of(1,7, 0).withPlacement(GummiPlacementType.EDGE));
-        createNewGummiBlock("shell_gummi_round_corner", gummiShellRoundCorners, GummiBlockProperties.of(1,5, 0).withPlacement(GummiPlacementType.CORNER));
-        createNewGummiBlock("shell_gummi_cone", gummiShellCones, GummiBlockProperties.of(1,5, 0).withPlacement(GummiPlacementType.END));
-        createNewGummiBlock("shell_gummi_dome", gummiShellDomes, GummiBlockProperties.of(1,5, 0).withPlacement(GummiPlacementType.END));
+        createNewGummiBlock("shell_gummi_pie", gummiShellPies, GummiBlockProperties.of(1,7, 0).withPlacement(GummiPlacementType.EDGE).withShape(GummiBlockProperties.Shape.PIE));
+        createNewGummiBlock("shell_gummi_round_corner", gummiShellRoundCorners, GummiBlockProperties.of(1,5, 0).withPlacement(GummiPlacementType.CORNER).withShape(GummiBlockProperties.Shape.ROUND_CORNER));
+        createNewGummiBlock("shell_gummi_cone", gummiShellCones, GummiBlockProperties.of(1,5, 0).withPlacement(GummiPlacementType.END).withShape(GummiBlockProperties.Shape.SLAB));
+        createNewGummiBlock("shell_gummi_dome", gummiShellDomes, GummiBlockProperties.of(1,5, 0).withPlacement(GummiPlacementType.END).withShape(GummiBlockProperties.Shape.SLAB));
 
         createNewGummiBlock("dispel_gummi_cube", gummiDispelCubes, GummiBlockProperties.of(1,15, 0));
-        createNewGummiBlock("dispel_gummi_wedge", gummiDispelWedges, GummiBlockProperties.of(1, 7, 0).withPlacement(GummiPlacementType.EDGE));
-        createNewGummiBlock("dispel_gummi_pyramid", gummiDispelPyramids, GummiBlockProperties.of(1, 7, 0).withPlacement(GummiPlacementType.CORNER));
+        createNewGummiBlock("dispel_gummi_wedge", gummiDispelWedges, GummiBlockProperties.of(1, 7, 0).withPlacement(GummiPlacementType.EDGE).withShape(GummiBlockProperties.Shape.WEDGE));
+        createNewGummiBlock("dispel_gummi_pyramid", gummiDispelPyramids, GummiBlockProperties.of(1, 7, 0).withPlacement(GummiPlacementType.CORNER).withShape(GummiBlockProperties.Shape.PYRAMID));
         createNewGummiBlock("dispel_gummi_cylinder", gummiDispelCylinders, GummiBlockProperties.of(1,12, 0).withPlacement(GummiPlacementType.PILLAR));
-        createNewGummiBlock("dispel_gummi_pie", gummiDispelPies, GummiBlockProperties.of(1,12, 0).withPlacement(GummiPlacementType.EDGE));
-        createNewGummiBlock("dispel_gummi_round_corner", gummiDispelRoundCorners, GummiBlockProperties.of(1,7, 0).withPlacement(GummiPlacementType.CORNER));
-        createNewGummiBlock("dispel_gummi_cone", gummiDispelCones, GummiBlockProperties.of(1,7, 0).withPlacement(GummiPlacementType.END));
-        createNewGummiBlock("dispel_gummi_dome", gummiDispelDomes, GummiBlockProperties.of(1,7, 0).withPlacement(GummiPlacementType.END));
+        createNewGummiBlock("dispel_gummi_pie", gummiDispelPies, GummiBlockProperties.of(1,12, 0).withPlacement(GummiPlacementType.EDGE).withShape(GummiBlockProperties.Shape.PIE));
+        createNewGummiBlock("dispel_gummi_round_corner", gummiDispelRoundCorners, GummiBlockProperties.of(1,7, 0).withPlacement(GummiPlacementType.CORNER).withShape(GummiBlockProperties.Shape.ROUND_CORNER));
+        createNewGummiBlock("dispel_gummi_cone", gummiDispelCones, GummiBlockProperties.of(1,7, 0).withPlacement(GummiPlacementType.END).withShape(GummiBlockProperties.Shape.SLAB));
+        createNewGummiBlock("dispel_gummi_dome", gummiDispelDomes, GummiBlockProperties.of(1,7, 0).withPlacement(GummiPlacementType.END).withShape(GummiBlockProperties.Shape.SLAB));
 
         Vec3 seat1 = new Vec3(0.5F, 0F, 0F); //first is 0.5F positive (to the center, first row)
         Vec3 seat2 = new Vec3(0F, 0F, 1F);//second is right behind the 0,0 block
@@ -207,10 +207,10 @@ public class ModBlocks {
         createNewGummiBubbleHelmBlock("gummi_bubble_helm", gummiBubbleHelms, GummiBlockProperties.of(2, 40, 0).withPlacement(GummiPlacementType.MULTIBLOCK3D), seat1,seat2,seat3);
 
         Vec3 seat0 = new Vec3(0F, 0F, 0F);
-        createNewGummiBubbleHelmBlock("gummi_mini_helm", gummiMiniHelms, GummiBlockProperties.of(2, 20, 0), seat0);
+        createNewGummiBubbleHelmBlock("gummi_mini_helm", gummiMiniHelms, GummiBlockProperties.of(2, 20, 0).withShape(GummiBlockProperties.Shape.SLAB), seat0);
 
-        createNewGummiAeroBlock("gummi_aero_square", gummiAeroSquares, GummiBlockProperties.of(1, 1, 0).withPlacement(GummiPlacementType.EDGE), 10);
-        createNewGummiAeroBlock("gummi_aero_triangle", gummiAeroTriangles, GummiBlockProperties.of(1, 1, 0).withPlacement(GummiPlacementType.EDGE), 10);
+        createNewGummiAeroBlock("gummi_aero_square", gummiAeroSquares, GummiBlockProperties.of(1, 1, 0).withPlacement(GummiPlacementType.EDGE).withShape(GummiBlockProperties.Shape.AERO_PLATE), 10);
+        createNewGummiAeroBlock("gummi_aero_triangle", gummiAeroTriangles, GummiBlockProperties.of(1, 1, 0).withPlacement(GummiPlacementType.EDGE).withShape(GummiBlockProperties.Shape.AERO_WEDGE), 10);
     }
 
     /**
