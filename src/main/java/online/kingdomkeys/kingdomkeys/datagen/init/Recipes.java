@@ -430,6 +430,16 @@ public class Recipes extends RecipeProvider {
                 .unlockedBy("normalblox", InventoryChangeTrigger.TriggerInstance.hasItems(ModBlocks.normalBlox.get()))
                 .save(consumer);
 
+        ShapedRecipeBuilder.shaped(RecipeCategory.TRANSPORTATION, ModBlocks.flowmotionRail.get(), 16)
+                .pattern("I I")
+                .pattern("IGI")
+                .pattern("I I")
+                .define('I', Tags.Items.INGOTS_IRON)
+                .define('G', Tags.Items.DUSTS_GLOWSTONE)
+                .group(KingdomKeys.MODID)
+                .unlockedBy("glowstone", InventoryChangeTrigger.TriggerInstance.hasItems(Items.GLOWSTONE_DUST))
+                .save(consumer);
+
         ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.magnetBlox.get())
                 .pattern("RIR")
                 .pattern("GBG")

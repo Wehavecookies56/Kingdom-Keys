@@ -215,6 +215,10 @@ public class ItemModels extends ItemModelProvider {
 				getBuilder("treasure_chest").parent(new ModelFile.UncheckedModelFile(KingdomKeys.MODID + ":block/magical_chest"));
 			}
 
+			case FlowmotionRailBlock rail -> {
+				// flat sprite, generated as part of the blockstates provider
+			}
+
 			default ->
 				// fallback in case block item could not be generated as part of blockstates
 					standardBlockItem(path);

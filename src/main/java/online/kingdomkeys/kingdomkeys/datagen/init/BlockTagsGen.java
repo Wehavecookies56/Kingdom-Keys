@@ -130,6 +130,10 @@ public class BlockTagsGen extends BlockTagsProvider {
                 	add(BLOX,block);
                 }
 
+                if (block == ModBlocks.flowmotionRail.get()) {
+                	add(BlockTags.RAILS, block);
+                	add(BlockTags.MINEABLE_WITH_PICKAXE, block);
+                }
             }
 
         }		

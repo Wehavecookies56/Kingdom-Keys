@@ -58,6 +58,7 @@ import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.advancements.KKAllAdvancementsTrigger;
 import online.kingdomkeys.kingdomkeys.advancements.ModAdvancements;
 import online.kingdomkeys.kingdomkeys.api.event.CastleOblivionEvent;
+import online.kingdomkeys.kingdomkeys.block.FlowmotionRailBlock;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.command.DimensionCommand;
@@ -716,12 +717,13 @@ public class EntityEvents {
 			playerData.setBounced(false);
 			playerData.setHangingWallTicks(0);
 			playerData.setWallGrabs(0);
-			playerData.setFlowmotion(false);
+
+			// Only remove flowmotion if player is touching ground AND NOT on a flowmotion rail
+			if (!FlowmotionRailBlock.isOn(player)) {
+				playerData.setFlowmotion(false);
+			}
 		}
 
-		// Both branches below need the player to be either falling onto something or sprinting into it.
-		// Without that the loop cannot do anything, so the entity search was pure waste on every tick
-		// of every player just standing or walking around.
 		boolean canHitMini = player.fallDistance > 0.1F || player.isSprinting();
 
 		if (canHitMini && !player.level().isClientSide() && !player.hasEffect(ModMobEffects.MINI)) {

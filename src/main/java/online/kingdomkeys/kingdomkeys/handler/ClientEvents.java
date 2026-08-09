@@ -36,6 +36,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.RailShape;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
@@ -53,6 +54,7 @@ import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.api.event.EquipmentEvent;
+import online.kingdomkeys.kingdomkeys.block.FlowmotionRailBlock;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.block.gummi.GummiBlockBase;
 import online.kingdomkeys.kingdomkeys.block.gummi.GummiPlacementType;
@@ -774,6 +776,179 @@ public class ClientEvents {
 			pressMToast = new TutorialToast(TutorialToast.Icons.RECIPE_BOOK, Component.translatable("advancements.kingdomkeys.press_m_hint"), Component.translatable("advancements.kingdomkeys.press_m_hint.desc"), false);
 			mc.getToasts().addToast(pressMToast);
 		}
+	}
+
+	private static final double GRIND_SPEED = 0.8D;
+	private static final double HOP_OFF = 0.55D;
+	private static final int RELATCH_DELAY = 10;
+	private static final int REVERSE_DELAY = 8;
+
+	private static final int MAX_STEPS_PER_TICK = 24;
+
+	private static BlockPos grindRail;
+	private static Direction grindDir;
+	private static Vec3[] grindPath;
+	private static int grindStep;
+	private static int grindCooldown;
+	private static int reverseCooldown;
+
+	@SubscribeEvent
+	public void grindTick(PlayerTickEvent.Post event) {
+		Minecraft mc = Minecraft.getInstance();
+
+		if (event.getEntity() == mc.player) {
+			tickGrind(mc);
+		}
+	}
+
+	private void tickGrind(Minecraft mc) {
+		LocalPlayer player = mc.player;
+		if (player == null) {
+			return;
+		}
+
+		if (grindCooldown > 0) {
+			grindCooldown--;
+		}
+		if (reverseCooldown > 0) {
+			reverseCooldown--;
+		}
+
+		if (grindRail == null) {
+			tryStartGrind(player);
+			return;
+		}
+
+		RailShape shape = FlowmotionRailBlock.shapeAt(player.level(), grindRail);
+		if (shape == null) {
+			stopGrind(player, false);
+			return;
+		}
+
+		if (mc.options.keyJump.isDown()) {
+			stopGrind(player, true);
+			return;
+		}
+
+		// Reversing direction
+		if (reverseCooldown == 0 && pushingBackwards(player, grindDir)) {
+			grindDir = FlowmotionRailBlock.other(shape, grindDir);
+			takePath(shape);
+			reverseCooldown = REVERSE_DELAY;
+		}
+
+		advanceGrind(player);
+	}
+
+	private void tryStartGrind(LocalPlayer player) {
+		if (grindCooldown > 0) {
+			return;
+		}
+
+		PlayerData playerData = PlayerData.get(player);
+		if (playerData == null || !playerData.isAbilityEquipped(ModAbilities.WALL_KICK)) {
+			return;
+		}
+
+		// Either passing through a floating rail or standing on one lying on the floor
+		BlockPos rail = player.blockPosition();
+		RailShape shape = FlowmotionRailBlock.shapeAt(player.level(), rail);
+
+		if (shape == null) {
+			rail = rail.below();
+			shape = FlowmotionRailBlock.shapeAt(player.level(), rail);
+		}
+
+		if (shape == null) {
+			return;
+		}
+
+		// Set off towards whichever end of the piece the player was already heading for
+		Vec3 heading = player.getDeltaMovement().horizontalDistanceSqr() > 0.01D ? player.getDeltaMovement() : player.getLookAngle();
+		Direction[] ends = FlowmotionRailBlock.connections(shape);
+
+		grindRail = rail;
+		grindDir = along(heading, ends[0]) >= along(heading, ends[1]) ? ends[0] : ends[1];
+		takePath(shape);
+
+		player.level().playSound(player, player.blockPosition(), ModSounds.wall_grab.get(), SoundSource.PLAYERS, 1F, 1.4F);
+		PacketHandler.sendToServer(new CSSetFlowmotionPacket(true));
+	}
+
+	private static double along(Vec3 heading, Direction direction) {
+		return heading.x * direction.getStepX() + heading.z * direction.getStepZ();
+	}
+
+	private static boolean pushingBackwards(LocalPlayer player, Direction travelling) {
+		Input input = player.input;
+		Vec3 newDirection = Vec3.directionFromRotation(0, player.getYRot()).scale(input.forwardImpulse).add(Vec3.directionFromRotation(0, player.getYRot() - 90).scale(input.leftImpulse));
+
+		if (newDirection.lengthSqr() < 1.0E-4D) {
+			return false;
+		}
+
+		return newDirection.normalize().dot(Vec3.atLowerCornerOf(travelling.getNormal())) < -0.5D;
+	}
+
+	private void advanceGrind(LocalPlayer player) {
+		double remaining = GRIND_SPEED;
+		Vec3 at = player.position();
+
+		for (int step = 0; step < MAX_STEPS_PER_TICK && remaining > 0; step++) {
+			// Reached the end of this piece's line, so hand over to the next one
+			if (grindPath == null || grindStep >= grindPath.length) {
+				BlockPos next = FlowmotionRailBlock.next(player.level(), grindRail, grindDir);
+				RailShape shape = next == null ? null : FlowmotionRailBlock.shapeAt(player.level(), next);
+				Direction heading = shape == null ? null : FlowmotionRailBlock.travel(shape, grindDir);
+
+				// Ran out of track, thrown off the end
+				if (heading == null) {
+					player.setPos(at.x, at.y, at.z);
+					stopGrind(player, true);
+					return;
+				}
+
+				grindRail = next;
+				grindDir = heading;
+				takePath(shape);
+				continue;
+			}
+
+			Vec3 target = grindPath[grindStep];
+			double distance = at.distanceTo(target);
+
+			// Still short of the next point: slide towards it and stop for this tick
+			if (distance > remaining) {
+				at = at.add(target.subtract(at).normalize().scale(remaining));
+				break;
+			}
+
+			at = target;
+			remaining -= distance;
+			grindStep++;
+		}
+
+		player.setPos(at.x, at.y, at.z);
+		player.setDeltaMovement(Vec3.ZERO);
+		player.fallDistance = 0;
+	}
+
+	private void takePath(RailShape shape) {
+		grindPath = FlowmotionRailBlock.path(grindRail, shape, grindDir);
+		grindStep = 0;
+	}
+
+	private void stopGrind(LocalPlayer player, boolean launch) {
+		if (launch && grindDir != null) {
+			player.setDeltaMovement(grindDir.getStepX() * GRIND_SPEED, HOP_OFF, grindDir.getStepZ() * GRIND_SPEED);
+			player.fallDistance = 0;
+		}
+
+		grindRail = null;
+		grindDir = null;
+		grindPath = null;
+		grindStep = 0;
+		grindCooldown = RELATCH_DELAY;
 	}
 
 	private static TutorialToast moogleToast;

@@ -70,6 +70,7 @@ public class BlockLootTables extends BlockLootSubProvider {
         dropSelf(ModBlocks.blastBlox.get());
         dropSelf(ModBlocks.ghostBlox.get());
         dropSelf(ModBlocks.magnetBlox.get());
+        dropSelf(ModBlocks.flowmotionRail.get());
         dropSelf(ModBlocks.orgPortal.get());
         dropSelf(ModBlocks.moogleProjector.get());
         dropSelf(ModBlocks.struggleBoard.get());

@@ -227,6 +227,8 @@ public class BlockStates extends BlockStateProvider {
 
 					return builder.build();
 				});
+			} else if (block instanceof FlowmotionRailBlock rail) {
+				flowmotionRail(rail, name);
 			} else if (block instanceof INoDataGen) {
 				// Skip
 				System.out.println("Skipping: "+block.getName());
@@ -239,6 +241,31 @@ public class BlockStates extends BlockStateProvider {
 			}
 		}
 
+	}
+
+	private void flowmotionRail(FlowmotionRailBlock rail, String name) {
+		ResourceLocation flat = KingdomKeys.rl(ModelProvider.BLOCK_FOLDER + "/" + name);
+		ResourceLocation turned = KingdomKeys.rl(ModelProvider.BLOCK_FOLDER + "/" + name + "_turned");
+
+		ModelFile straight = models().withExistingParent(name, mcLoc("block/rail_flat")).texture("rail", flat).renderType("minecraft:cutout");
+		ModelFile curved = models().withExistingParent(name + "_curved", mcLoc("block/rail_curved")).texture("rail", turned).renderType("minecraft:cutout");
+		ModelFile raised = models().withExistingParent(name + "_raised_ne", mcLoc("block/template_rail_raised_ne")).texture("rail", flat).renderType("minecraft:cutout");
+		ModelFile raisedSw = models().withExistingParent(name + "_raised_sw", mcLoc("block/template_rail_raised_sw")).texture("rail", flat).renderType("minecraft:cutout");
+
+		getVariantBuilder(rail).forAllStates(state -> switch (state.getValue(rail.getShapeProperty())) {
+			case NORTH_SOUTH -> ConfiguredModel.builder().modelFile(straight).build();
+			case EAST_WEST -> ConfiguredModel.builder().modelFile(straight).rotationY(90).build();
+			case ASCENDING_EAST -> ConfiguredModel.builder().modelFile(raised).rotationY(90).build();
+			case ASCENDING_WEST -> ConfiguredModel.builder().modelFile(raisedSw).rotationY(90).build();
+			case ASCENDING_NORTH -> ConfiguredModel.builder().modelFile(raised).build();
+			case ASCENDING_SOUTH -> ConfiguredModel.builder().modelFile(raisedSw).build();
+			case SOUTH_EAST -> ConfiguredModel.builder().modelFile(curved).build();
+			case SOUTH_WEST -> ConfiguredModel.builder().modelFile(curved).rotationY(90).build();
+			case NORTH_WEST -> ConfiguredModel.builder().modelFile(curved).rotationY(180).build();
+			case NORTH_EAST -> ConfiguredModel.builder().modelFile(curved).rotationY(270).build();
+		});
+
+		itemModels().withExistingParent(name, mcLoc("item/generated")).texture("layer0", flat);
 	}
 
 	public void simpleBlock(Supplier<? extends Block> blockSupplier) {

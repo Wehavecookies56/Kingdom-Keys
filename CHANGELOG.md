@@ -1,6 +1,7 @@
 ## Added:
 * Some new advancements to make the early game mod progression a little bit clearer.
 * Kingdom Key recipe in the Common Config for startingRecipes (won't affect if you are in an existing world).
+* Flowmotion Rails, which you can ride once you have the Wall Kick ability.
 * Realm of Darkness arches.
 * World Map dimension where gummi ships won't use any fuel.
 * Air Soldier, Defender, Neoshadow and Novashadow.
