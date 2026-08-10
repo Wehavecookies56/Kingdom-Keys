@@ -51,7 +51,7 @@ public class HeartsCommand extends BaseCommand{ //kk_hearts <give/take/set> <amo
 	}
 
 	private static int setValue(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
-		Collection<ServerPlayer> players = getPlayers(context, 3);
+		Collection<ServerPlayer> players = getPlayers(context);
 		int value = IntegerArgumentType.getInteger(context, "value");
 		
 		for (ServerPlayer player : players) {
@@ -63,15 +63,13 @@ public class HeartsCommand extends BaseCommand{ //kk_hearts <give/take/set> <amo
 	private static int setValue(CommandContext<CommandSourceStack> context, int value, ServerPlayer player) throws CommandSyntaxException {
 		PlayerData playerData = PlayerData.get(player);
 		playerData.setHearts(value);
-		
-			context.getSource().sendSuccess(() -> Component.translatable("kingdomkeys.command.hearts.set", player.getDisplayName().getString(), value), true);
-		
+		context.getSource().sendSuccess(() -> Component.translatable("kingdomkeys.command.hearts.set", player.getDisplayName().getString(), value), true);
 		player.sendSystemMessage(Component.translatable("kingdomkeys.command.hearts.set_self", value));
 		return 1;
 	}
 	
 	private static int addValue(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
-		Collection<ServerPlayer> players = getPlayers(context, 4);
+		Collection<ServerPlayer> players = getPlayers(context);
 		int value = IntegerArgumentType.getInteger(context, "value");
 		
 		for (ServerPlayer player : players) {
@@ -90,7 +88,7 @@ public class HeartsCommand extends BaseCommand{ //kk_hearts <give/take/set> <amo
 	}
 	
 	private static int removeValue(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
-		Collection<ServerPlayer> players = getPlayers(context, 4);
+		Collection<ServerPlayer> players = getPlayers(context);
 		int value = IntegerArgumentType.getInteger(context, "value");
 		
 		for (ServerPlayer player : players) {

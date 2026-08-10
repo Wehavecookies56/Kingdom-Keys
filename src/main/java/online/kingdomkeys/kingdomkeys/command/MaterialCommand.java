@@ -65,7 +65,7 @@ public class MaterialCommand extends BaseCommand { // kk_material <give/take> <m
 	}
 
 	private static int addMaterial(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
-		Collection<ServerPlayer> players = getPlayers(context, 5);
+		Collection<ServerPlayer> players = getPlayers(context);
 		ResourceLocation materialName = KingdomKeys.rl(context.getArgument("material", String.class));
 		int amount = IntegerArgumentType.getInteger(context, "amount");
 		Item material = BuiltInRegistries.ITEM.get(materialName);
@@ -86,7 +86,7 @@ public class MaterialCommand extends BaseCommand { // kk_material <give/take> <m
 	}
 
 	private static int takeMaterial(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
-		Collection<ServerPlayer> players = getPlayers(context, 5);
+		Collection<ServerPlayer> players = getPlayers(context);
 		ResourceLocation materialName = KingdomKeys.rl(context.getArgument("material", String.class));
 		int amount = IntegerArgumentType.getInteger(context, "amount");
 		Item material = BuiltInRegistries.ITEM.get(materialName);
@@ -104,7 +104,7 @@ public class MaterialCommand extends BaseCommand { // kk_material <give/take> <m
 	}
 
 	private static int addAllMaterials(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
-		Collection<ServerPlayer> players = getPlayers(context, 5);
+		Collection<ServerPlayer> players = getPlayers(context);
 		int amount = IntegerArgumentType.getInteger(context, "amount");
 
 		for (ServerPlayer player : players) {
@@ -122,7 +122,7 @@ public class MaterialCommand extends BaseCommand { // kk_material <give/take> <m
 	}
 
 	private static int takeAllMaterials(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
-		Collection<ServerPlayer> players = getPlayers(context, 4);
+		Collection<ServerPlayer> players = getPlayers(context);
 
 		for (ServerPlayer player : players) {
 			PlayerData playerData = PlayerData.get(player);
@@ -137,7 +137,7 @@ public class MaterialCommand extends BaseCommand { // kk_material <give/take> <m
 	}
 
 	private static int setMaterial(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
-		Collection<ServerPlayer> players = getPlayers(context, 5);
+		Collection<ServerPlayer> players = getPlayers(context);
 		ResourceLocation materialName = KingdomKeys.rl(context.getArgument("material", String.class));
 		int amount = IntegerArgumentType.getInteger(context, "amount");
 		Item material = BuiltInRegistries.ITEM.get(materialName);
@@ -155,7 +155,7 @@ public class MaterialCommand extends BaseCommand { // kk_material <give/take> <m
 	}
 
 	private static int setAllMaterials(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
-		Collection<ServerPlayer> players = getPlayers(context, 5);
+		Collection<ServerPlayer> players = getPlayers(context);
 		int amount = IntegerArgumentType.getInteger(context, "amount");
 
 		for (ServerPlayer player : players) {

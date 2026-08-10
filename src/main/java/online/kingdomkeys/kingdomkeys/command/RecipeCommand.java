@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class RecipeCommand extends BaseCommand { /// kk_recipe <give/take> <recipe/all> [player]
+public class RecipeCommand extends BaseCommand { // kk_recipe <give/take> <recipe/all> [player]
 	private static final SuggestionProvider<CommandSourceStack> SUGGEST_RECIPES = (p_198296_0_, p_198296_1_) -> {
 		List<String> list = new ArrayList<>();
 		for (Recipe actual : RecipeRegistry.getInstance().getValues()) {
@@ -82,7 +82,7 @@ public class RecipeCommand extends BaseCommand { /// kk_recipe <give/take> <reci
 	}
 
 	private static int addRecipe(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
-		Collection<ServerPlayer> players = getPlayers(context, 4);
+		Collection<ServerPlayer> players = getPlayers(context);
 		String recipe = StringArgumentType.getString(context, "recipe");
 
 		if(!RecipeRegistry.getInstance().containsKey(KingdomKeys.rl(recipe))){
@@ -102,7 +102,7 @@ public class RecipeCommand extends BaseCommand { /// kk_recipe <give/take> <reci
 	}
 
 	private static int removeRecipe(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
-		Collection<ServerPlayer> players = getPlayers(context, 4);
+		Collection<ServerPlayer> players = getPlayers(context);
 		String recipe = StringArgumentType.getString(context, "recipe");
 
 		for (ServerPlayer player : players) {
@@ -118,7 +118,7 @@ public class RecipeCommand extends BaseCommand { /// kk_recipe <give/take> <reci
 	}
 
 	private static int addAllRecipes(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
-		Collection<ServerPlayer> players = getPlayers(context, 4);
+		Collection<ServerPlayer> players = getPlayers(context);
 
 		for (ServerPlayer player : players) {
 			PlayerData playerData = PlayerData.get(player);
@@ -136,7 +136,7 @@ public class RecipeCommand extends BaseCommand { /// kk_recipe <give/take> <reci
 	}
 	
 	private static int addAllKeybladeRecipes(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
-		Collection<ServerPlayer> players = getPlayers(context, 4);
+		Collection<ServerPlayer> players = getPlayers(context);
 
 		for (ServerPlayer player : players) {
 			PlayerData playerData = PlayerData.get(player);
@@ -156,7 +156,7 @@ public class RecipeCommand extends BaseCommand { /// kk_recipe <give/take> <reci
 
 	
 	private static int addAllItemRecipes(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
-		Collection<ServerPlayer> players = getPlayers(context, 4);
+		Collection<ServerPlayer> players = getPlayers(context);
 
 		for (ServerPlayer player : players) {
 			PlayerData playerData = PlayerData.get(player);
@@ -176,7 +176,7 @@ public class RecipeCommand extends BaseCommand { /// kk_recipe <give/take> <reci
 
 
 	private static int removeAllRecipes(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
-		Collection<ServerPlayer> players = getPlayers(context, 4);
+		Collection<ServerPlayer> players = getPlayers(context);
 
 		for (ServerPlayer player : players) {
 			PlayerData playerData = PlayerData.get(player);
@@ -192,7 +192,7 @@ public class RecipeCommand extends BaseCommand { /// kk_recipe <give/take> <reci
 	}
 	
 	private static int removeAllKeybladeRecipes(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
-		Collection<ServerPlayer> players = getPlayers(context, 4);
+		Collection<ServerPlayer> players = getPlayers(context);
 
 		for (ServerPlayer player : players) {
 			PlayerData playerData = PlayerData.get(player);
@@ -209,7 +209,7 @@ public class RecipeCommand extends BaseCommand { /// kk_recipe <give/take> <reci
 	}
 	
 	private static int removeAllItemRecipes(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
-		Collection<ServerPlayer> players = getPlayers(context, 4);
+		Collection<ServerPlayer> players = getPlayers(context);
 
 		for (ServerPlayer player : players) {
 			PlayerData playerData = PlayerData.get(player);

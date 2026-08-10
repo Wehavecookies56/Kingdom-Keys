@@ -9,6 +9,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.registries.DeferredHolder;
+import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.item.*;
 import online.kingdomkeys.kingdomkeys.item.card.BiomeMemoryItem;
@@ -59,6 +60,8 @@ public class ItemTagsGen extends ItemTagsProvider {
             }
         }
 
+        ModBlocks.flowmotionRails.forEach(rail -> add(FLOWMOTION_RAILS, rail.get().asItem()));
+
         for(int shape = 0; shape < Recipes.gummiDifferentBlocks.size();shape++){
             List<Supplier<Block>> suppliers = Recipes.gummiDifferentBlocks.get(shape);
             List<Item> items = suppliers.stream().map(blockSupplier -> blockSupplier.get().asItem()).toList();
@@ -67,33 +70,6 @@ public class ItemTagsGen extends ItemTagsProvider {
                 add(GUMMI_DIFFERENT_BLOCK_KEYS.get(shape), item);
             }
         }
-
-		/*if(ModBlocks.gummiCubes.contains(block)){
-			add(GUMMI_BLOCK, block);
-			add(GUMMI_BLOCK_CUBE, block);
-		} else if(ModBlocks.gummiWedges.contains(block)){
-			add(GUMMI_BLOCK, block);
-			add(GUMMI_BLOCK_WEDGE, block);
-		} else if(ModBlocks.gummiPyramids.contains(block)){
-			add(GUMMI_BLOCK, block);
-			add(GUMMI_BLOCK_PYRAMID, block);
-		} else if(ModBlocks.gummiCylinders.contains(block)){
-			add(GUMMI_BLOCK, block);
-			add(GUMMI_BLOCK_CYLINDER, block);
-		} else if(ModBlocks.gummiPies.contains(block)){
-			add(GUMMI_BLOCK, block);
-			add(GUMMI_BLOCK_PIE, block);
-		} else if(ModBlocks.gummiRoundCorners.contains(block)){
-			add(GUMMI_BLOCK, block);
-			add(GUMMI_BLOCK_ROUND_CORNER, block);
-		} else if(ModBlocks.gummiCones.contains(block)){
-			add(GUMMI_BLOCK, block);
-			add(GUMMI_BLOCK_CONE, block);
-		} else if(ModBlocks.gummiDomes.contains(block)){
-			add(GUMMI_BLOCK, block);
-			add(GUMMI_BLOCK_DOME, block);
-
-		}*/
 
 		for (DeferredHolder<Item, ? extends Item> itemRegistryObject : ModItems.ITEMS.getEntries()) {
 			final Item item = itemRegistryObject.get();

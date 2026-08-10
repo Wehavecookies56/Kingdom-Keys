@@ -271,13 +271,14 @@ public class BlockStates extends BlockStateProvider {
 	}
 
 	private void flowmotionRail(FlowmotionRailBlock rail, String name) {
-		ResourceLocation flat = KingdomKeys.rl(ModelProvider.BLOCK_FOLDER + "/" + name);
-		ResourceLocation turned = KingdomKeys.rl(ModelProvider.BLOCK_FOLDER + "/" + name + "_turned");
+		// One grayscale pair of textures for the lot; the colour comes from the tint on the model
+		ResourceLocation flat = KingdomKeys.rl(ModelProvider.BLOCK_FOLDER + "/flowmotion_rail");
+		ResourceLocation turned = KingdomKeys.rl(ModelProvider.BLOCK_FOLDER + "/flowmotion_rail_turned");
 
-		ModelFile straight = models().withExistingParent(name, mcLoc("block/rail_flat")).texture("rail", flat).renderType("minecraft:cutout");
-		ModelFile curved = models().withExistingParent(name + "_curved", mcLoc("block/rail_curved")).texture("rail", turned).renderType("minecraft:cutout");
-		ModelFile raised = models().withExistingParent(name + "_raised_ne", mcLoc("block/template_rail_raised_ne")).texture("rail", flat).renderType("minecraft:cutout");
-		ModelFile raisedSw = models().withExistingParent(name + "_raised_sw", mcLoc("block/template_rail_raised_sw")).texture("rail", flat).renderType("minecraft:cutout");
+		ModelFile straight = models().withExistingParent(name, KingdomKeys.rl("block/tinted_rail_flat")).texture("rail", flat).renderType("minecraft:cutout");
+		ModelFile curved = models().withExistingParent(name + "_curved", KingdomKeys.rl("block/tinted_rail_curved")).texture("rail", turned).renderType("minecraft:cutout");
+		ModelFile raised = models().withExistingParent(name + "_raised_ne", KingdomKeys.rl("block/tinted_rail_raised_ne")).texture("rail", flat).renderType("minecraft:cutout");
+		ModelFile raisedSw = models().withExistingParent(name + "_raised_sw", KingdomKeys.rl("block/tinted_rail_raised_sw")).texture("rail", flat).renderType("minecraft:cutout");
 
 		getVariantBuilder(rail).forAllStates(state -> switch (state.getValue(rail.getShapeProperty())) {
 			case NORTH_SOUTH -> ConfiguredModel.builder().modelFile(straight).build();

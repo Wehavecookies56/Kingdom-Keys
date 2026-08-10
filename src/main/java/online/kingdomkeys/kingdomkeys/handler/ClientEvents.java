@@ -340,7 +340,7 @@ public class ClientEvents {
 								}
 							}
 
-							float pow = 0.35F + playerData.getNumberOfAbilitiesEquipped(ModAbilities.SUPERJUMP) * 0.15F;
+							float pow = (float) (SUPERJUMP_BASE + playerData.getNumberOfAbilitiesEquipped(ModAbilities.SUPERJUMP) * SUPERJUMP_PER_STACK);
 							double horizontalStrength = 0.25;
 							double verticalStrength = baseY * pow;
 
@@ -865,8 +865,9 @@ public class ClientEvents {
 		buffer.endBatch(RenderType.lines());
 	}*/
 
+	private static final double SUPERJUMP_BASE = 0.35D, SUPERJUMP_PER_STACK = 0.15D;
 	private static final double GRIND_SPEED = 0.8D;
-	private static final double HOP_OFF = 0.55D;
+	private static final double HOP_OFF = 1.55D;
 	private static final int RELATCH_DELAY = 10;
 	private static final int REVERSE_DELAY = 8;
 
@@ -1025,6 +1026,11 @@ public class ClientEvents {
 			return;
 		}
 
+		if (player.isCrouching() || player.getAbilities().flying) {
+			stopGrind(player, false);
+			return;
+		}
+
 		// Reversing direction
 		if (reverseCooldown == 0 && pushingBackwards(player, grindDir)) {
 			grindDir = FlowmotionRailBlock.other(shape, grindDir);
@@ -1036,7 +1042,7 @@ public class ClientEvents {
 	}
 
 	private void tryStartGrind(LocalPlayer player) {
-		if (grindCooldown > 0) {
+		if (grindCooldown > 0 || player.isCrouching() || player.getAbilities().flying) {
 			return;
 		}
 
@@ -1135,7 +1141,11 @@ public class ClientEvents {
 
 	private void stopGrind(LocalPlayer player, boolean launch) {
 		if (launch && grindDir != null) {
-			player.setDeltaMovement(grindDir.getStepX() * GRIND_SPEED, HOP_OFF, grindDir.getStepZ() * GRIND_SPEED);
+			PlayerData playerData = PlayerData.get(player);
+			int superjumps = playerData == null ? 0 : playerData.getNumberOfAbilitiesEquipped(ModAbilities.SUPERJUMP);
+			double lift = HOP_OFF * (SUPERJUMP_BASE + superjumps * SUPERJUMP_PER_STACK);
+
+			player.setDeltaMovement(grindDir.getStepX() * GRIND_SPEED, lift, grindDir.getStepZ() * GRIND_SPEED);
 			player.fallDistance = 0;
 		}
 
@@ -1508,6 +1518,19 @@ public class ClientEvents {
 			event.register(ModBusEvents::getGummiBlockColour, ModBlocks.gummiMiniHelms.stream().map(Supplier::get).toList().toArray(new Block[0]));
 			event.register(ModBusEvents::getGummiBlockColour, ModBlocks.gummiAeroTriangles.stream().map(Supplier::get).toList().toArray(new Block[0]));
 			event.register(ModBusEvents::getGummiBlockColour, ModBlocks.gummiAeroSquares.stream().map(Supplier::get).toList().toArray(new Block[0]));
+			event.register(ModBusEvents::getRailColour, ModBlocks.flowmotionRails.stream().map(Supplier::get).toList().toArray(new Block[0]));
+		}
+
+		public static int getRailColour(BlockState state, BlockAndTintGetter level, BlockPos pos, int tintIndex) {
+			if (tintIndex != 0 || !(state.getBlock() instanceof FlowmotionRailBlock rail)) {
+				return Color.WHITE.getRGB();
+			}
+
+			return rail.getColour().getTextureDiffuseColor();
+		}
+
+		public static int getRailColour(ItemStack stack, int tintIndex) {
+			return stack.getItem() instanceof BlockItem item ? getRailColour(item.getBlock().defaultBlockState(), null, null, tintIndex) : Color.WHITE.getRGB();
 		}
 
 		public static int getStructureWallColour(BlockState state, BlockAndTintGetter blockAndTintGetter, BlockPos pos, int tintIndex) {
@@ -1570,6 +1593,7 @@ public class ClientEvents {
 			event.register(ModBusEvents::getGummiBlockColour, ModBlocks.gummiMiniHelms.stream().map(Supplier::get).toList().toArray(new Block[0]));
 			event.register(ModBusEvents::getGummiBlockColour, ModBlocks.gummiAeroTriangles.stream().map(Supplier::get).toList().toArray(new Block[0]));
 			event.register(ModBusEvents::getGummiBlockColour, ModBlocks.gummiAeroSquares.stream().map(Supplier::get).toList().toArray(new Block[0]));
+			event.register(ModBusEvents::getRailColour, ModBlocks.flowmotionRails.stream().map(Supplier::get).toList().toArray(new Block[0]));
 		}
 	}
 

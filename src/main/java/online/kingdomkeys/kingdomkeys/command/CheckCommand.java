@@ -29,7 +29,7 @@ public class CheckCommand extends BaseCommand {
     }
 
     private static int checkPlayer(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
-        Collection<ServerPlayer> players = getPlayers(context, 2);
+        Collection<ServerPlayer> players = getPlayers(context);
         if(context.getSource().getEntity() instanceof ServerPlayer sender){
             Player target = players.stream().findFirst().orElse(null);
             if(target == null) {

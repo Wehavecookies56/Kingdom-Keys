@@ -40,11 +40,14 @@ public class AbilityCommand extends BaseCommand { // kingdomkeys ability <give/t
 
 		builder.then(Commands.literal("give")
 			.then(Commands.argument("ability", StringArgumentType.string()).suggests(SUGGEST_ABILITIES)
+				.executes(AbilityCommand::addAbility)
 				.then(Commands.argument("permanent", BoolArgumentType.bool())
 					.executes(AbilityCommand::addAbility)
 					.then(Commands.argument("targets", EntityArgument.players())
 						.executes(AbilityCommand::addAbility))
 				)
+				.then(Commands.argument("targets", EntityArgument.players())
+					.executes(AbilityCommand::addAbility))
 			)
 		);
 
@@ -65,9 +68,9 @@ public class AbilityCommand extends BaseCommand { // kingdomkeys ability <give/t
 	}
 
 	private static int addAbility(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
-		Collection<ServerPlayer> players = getPlayers(context, 5);
+		Collection<ServerPlayer> players = getPlayers(context);
 		String abilityName = StringArgumentType.getString(context, "ability");
-		boolean permanent = BoolArgumentType.getBool(context, "permanent");
+		boolean permanent = !hasArgument(context, "permanent") || BoolArgumentType.getBool(context, "permanent");
 
 		Ability a = ModAbilities.registry.get(KingdomKeys.rl(abilityName));
 		if(a == null) {
@@ -93,7 +96,7 @@ public class AbilityCommand extends BaseCommand { // kingdomkeys ability <give/t
 	}
 
 	private static int removeAbility(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
-		Collection<ServerPlayer> players = getPlayers(context, 4);
+		Collection<ServerPlayer> players = getPlayers(context);
 		String ability = StringArgumentType.getString(context, "ability");
 
 		for (ServerPlayer player : players) {
@@ -112,7 +115,7 @@ public class AbilityCommand extends BaseCommand { // kingdomkeys ability <give/t
 	}
 
 	private static int removeAllAbilities(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
-		Collection<ServerPlayer> players = getPlayers(context, 4);
+		Collection<ServerPlayer> players = getPlayers(context);
 
 		for (ServerPlayer player : players) {
 			PlayerData playerData = PlayerData.get(player);

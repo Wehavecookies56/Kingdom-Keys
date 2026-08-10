@@ -17,6 +17,8 @@ import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.neoforged.neoforge.common.Tags;
+import net.minecraft.world.item.DyeItem;
+import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.item.ModComponents;
@@ -430,15 +432,32 @@ public class Recipes extends RecipeProvider {
                 .unlockedBy("normalblox", InventoryChangeTrigger.TriggerInstance.hasItems(ModBlocks.normalBlox.get()))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.TRANSPORTATION, ModBlocks.flowmotionRail.get(), 16)
-                .pattern("I I")
-                .pattern("IGI")
-                .pattern("I I")
-                .define('I', Tags.Items.INGOTS_IRON)
-                .define('G', Tags.Items.DUSTS_GLOWSTONE)
-                .group(KingdomKeys.MODID)
-                .unlockedBy("glowstone", InventoryChangeTrigger.TriggerInstance.hasItems(Items.GLOWSTONE_DUST))
-                .save(consumer);
+        // Crafted with the dye that colours it, and any rail can be dyed into any other
+        for (int i = 0; i < DyeColor.values().length; i++) {
+            DyeColor dye = DyeColor.values()[i];
+            Block rail = ModBlocks.flowmotionRails.get(i).get();
+
+            ShapedRecipeBuilder.shaped(RecipeCategory.TRANSPORTATION, rail, 16)
+                    .pattern("IDI")
+                    .pattern("IGI")
+                    .pattern("IDI")
+                    .define('I', Tags.Items.INGOTS_IRON)
+                    .define('G', Tags.Items.DUSTS_GLOWSTONE)
+                    .define('D', DyeItem.byColor(dye))
+                    .group(KingdomKeys.MODID)
+                    .unlockedBy("glowstone", InventoryChangeTrigger.TriggerInstance.hasItems(Items.GLOWSTONE_DUST))
+                    .save(consumer);
+
+            ShapedRecipeBuilder.shaped(RecipeCategory.TRANSPORTATION, rail, 8)
+                    .pattern("RRR")
+                    .pattern("RDR")
+                    .pattern("RRR")
+                    .define('R', Ingredient.of(ModTags.FLOWMOTION_RAILS))
+                    .define('D', DyeItem.byColor(dye))
+                    .group(KingdomKeys.MODID)
+                    .unlockedBy("rail", InventoryChangeTrigger.TriggerInstance.hasItems(rail))
+                    .save(consumer, KingdomKeys.rl(Utils.getBlockRegistryName(rail).getPath() + "_dyed"));
+        }
 
         ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.magnetBlox.get())
                 .pattern("RIR")

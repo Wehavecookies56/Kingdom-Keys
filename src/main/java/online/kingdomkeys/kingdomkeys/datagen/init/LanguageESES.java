@@ -867,7 +867,7 @@ public class LanguageESES extends KKLanguageProvider {
         addBlock(ModBlocks.prizeBlox, "Bloque de Premio");
         addBlock(ModBlocks.rarePrizeBlox, "Bloque de Premio Raro");
         addBlock(ModBlocks.magnetBlox, "Bloque Magn\u00e9tico");
-        addBlock(ModBlocks.flowmotionRail, "Raíl de Flowmotion");
+        addTintedBlock(ModBlocks.flowmotionRails, "Raíl de Flowmotion (%s)");
         addBlock(ModBlocks.pairBlox, "Bloque Emparejado");
         addBlock(ModBlocks.infestedNormalBlox, "Bloque Normal Infestado");
         addBlock(ModBlocks.gummiMeteor, "Meteorito Gummi");

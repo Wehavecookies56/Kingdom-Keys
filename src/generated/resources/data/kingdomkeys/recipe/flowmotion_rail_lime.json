@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "kingdomkeys",
+  "key": {
+    "D": {
+      "item": "minecraft:lime_dye"
+    },
+    "G": {
+      "tag": "c:dusts/glowstone"
+    },
+    "I": {
+      "tag": "c:ingots/iron"
+    }
+  },
+  "pattern": [
+    "IDI",
+    "IGI",
+    "IDI"
+  ],
+  "result": {
+    "count": 16,
+    "id": "kingdomkeys:flowmotion_rail_lime"
+  }
+}

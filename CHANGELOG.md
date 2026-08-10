@@ -4,6 +4,9 @@
 * Option to auto build Gummi Ships based on the blueprint, place items in a chest right next to the hangar and if you have energy stored it will start to build it.
   * Server Config to enable or disable that option.
 * Flowmotion Rails, which you can ride once you have the Wall Kick ability.
+  * They can be crafted in all 16 colors, different colored rails won't interconnect (unless it's a straight line).
+  * Sneaking or flying in creative avoids you mounting them.
+  * Jumping power is boosted by the ability superjump.
 * New Abilities: Guard, Counterguard, Aerial Recovery and Once more.
 * Realm of Darkness arches.
 * World Map dimension where gummi ships won't use any fuel.
@@ -24,6 +27,7 @@
   * wet_sponge: Allows the projectile turn a sponge into a wet sponge.
   * freeze_water: Allows the projectile turn water into ice.
   * freeze_lava: Allows the projectile turn lava into obsidian.
+* /kk shotcut for /kingdomkeys
 
 ## Changed:
 * Config files have now been moved into their own subfolder, if you modified any move them there AND RENAME to keep your existing settings.
@@ -43,3 +47,4 @@
 * Air gets ignored in Gummi Ship structure serialization, saving tons of space.
 * Items given with the new system (window or notification) now stack if possible in the stock menu.
 * Castle Oblivion door being breakable.
+* **/kingdomkeys ability give** command not working unless specifying true / false.

@@ -604,7 +604,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addBlock(ModBlocks.prizeBlox, "Prize Blox");
         addBlock(ModBlocks.rarePrizeBlox, "Rare Prize Blox");
         addBlock(ModBlocks.magnetBlox, "Magnet Blox");
-        addBlock(ModBlocks.flowmotionRail, "Flowmotion Rail");
+        addTintedBlock(ModBlocks.flowmotionRails, "Flowmotion Rail (%s)");
         addBlock(ModBlocks.pairBlox, "Pair Blox");
         addBlock(ModBlocks.infestedNormalBlox, "Infested Normal Blox");
         addBlock(ModBlocks.gummiMeteor, "Gummi Meteorite");

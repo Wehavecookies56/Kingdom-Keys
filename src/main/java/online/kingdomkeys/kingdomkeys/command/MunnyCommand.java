@@ -44,7 +44,7 @@ public class MunnyCommand extends BaseCommand { // kk_munny <give/take/set/pay> 
 	}
 
 	private static int setValue(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
-		Collection<ServerPlayer> players = getPlayers(context, 4);
+		Collection<ServerPlayer> players = getPlayers(context);
 		int value = IntegerArgumentType.getInteger(context, "value");
 
 		for (ServerPlayer player : players) {
@@ -66,7 +66,7 @@ public class MunnyCommand extends BaseCommand { // kk_munny <give/take/set/pay> 
 	}
 
 	private static int addValue(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
-		Collection<ServerPlayer> players = getPlayers(context, 4);
+		Collection<ServerPlayer> players = getPlayers(context);
 		int value = IntegerArgumentType.getInteger(context, "value");
 
 		for (ServerPlayer player : players) {
@@ -88,7 +88,7 @@ public class MunnyCommand extends BaseCommand { // kk_munny <give/take/set/pay> 
 	}
 
 	private static int removeValue(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
-		Collection<ServerPlayer> players = getPlayers(context, 4);
+		Collection<ServerPlayer> players = getPlayers(context);
 		int value = IntegerArgumentType.getInteger(context, "value");
 
 		for (ServerPlayer player : players) {

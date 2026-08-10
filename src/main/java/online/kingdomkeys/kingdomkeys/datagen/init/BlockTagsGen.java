@@ -11,6 +11,7 @@ import net.neoforged.neoforge.common.data.BlockTagsProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.block.FlowmotionRailBlock;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.block.gummi.GummiBlockBase;
 import online.kingdomkeys.kingdomkeys.block.gummi.GummiCockpitBlock;
@@ -130,7 +131,7 @@ public class BlockTagsGen extends BlockTagsProvider {
                 	add(BLOX,block);
                 }
 
-                if (block == ModBlocks.flowmotionRail.get()) {
+                if (block instanceof FlowmotionRailBlock) {
                 	add(BlockTags.RAILS, block);
                 	add(BlockTags.MINEABLE_WITH_PICKAXE, block);
                 }

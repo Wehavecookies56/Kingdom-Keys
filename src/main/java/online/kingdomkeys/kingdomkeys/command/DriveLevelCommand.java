@@ -59,7 +59,7 @@ public class DriveLevelCommand extends BaseCommand{
 	}
 
 	private static int setValue(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
-		Collection<ServerPlayer> players = getPlayers(context, 5);
+		Collection<ServerPlayer> players = getPlayers(context);
 		int level = IntegerArgumentType.getInteger(context, "level");
 		ResourceLocation form = KingdomKeys.rl(StringArgumentType.getString(context, "form"));
 

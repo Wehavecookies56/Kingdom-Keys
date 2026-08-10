@@ -53,7 +53,7 @@ public class DrivePointsCommand extends BaseCommand{ //kk_dp <give/take/set> <am
 	}
 
 	private static int setValue(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
-		Collection<ServerPlayer> players = getPlayers(context, 4);
+		Collection<ServerPlayer> players = getPlayers(context);
 		int value = IntegerArgumentType.getInteger(context, "value");
 		
 		for (ServerPlayer player : players) {
@@ -73,7 +73,7 @@ public class DrivePointsCommand extends BaseCommand{ //kk_dp <give/take/set> <am
 	}
 	
 	private static int addValue(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
-		Collection<ServerPlayer> players = getPlayers(context, 4);
+		Collection<ServerPlayer> players = getPlayers(context);
 		int value = IntegerArgumentType.getInteger(context, "value");
 		
 		for (ServerPlayer player : players) {
@@ -92,7 +92,7 @@ public class DrivePointsCommand extends BaseCommand{ //kk_dp <give/take/set> <am
 	}
 	
 	private static int removeValue(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
-		Collection<ServerPlayer> players = getPlayers(context, 4);
+		Collection<ServerPlayer> players = getPlayers(context);
 		int value = IntegerArgumentType.getInteger(context, "value");
 		
 		for (ServerPlayer player : players) {

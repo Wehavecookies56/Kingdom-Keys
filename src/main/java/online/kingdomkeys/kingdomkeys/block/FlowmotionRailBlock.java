@@ -13,13 +13,26 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.RailShape;
 import net.minecraft.world.phys.Vec3;
 
+import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import java.util.ArrayList;
+import java.util.EnumMap;
+import java.util.List;
+import java.util.Map;
 import javax.annotation.Nullable;
 
 public class FlowmotionRailBlock extends RailBlock {
-	public static final MapCodec<RailBlock> CODEC = simpleCodec(FlowmotionRailBlock::new);
+	public static final MapCodec<RailBlock> CODEC = simpleCodec(properties -> new FlowmotionRailBlock(properties, DyeColor.WHITE));
 
-	public FlowmotionRailBlock(Properties properties) {
+	private final DyeColor colour;
+
+	public FlowmotionRailBlock(Properties properties, DyeColor colour) {
 		super(properties);
+		this.colour = colour;
+	}
+
+	public DyeColor getColour() {
+		return colour;
 	}
 
 	@Override
@@ -27,7 +40,7 @@ public class FlowmotionRailBlock extends RailBlock {
 		return CODEC;
 	}
 
-	// Allows it to survive in the air without a block below it
+	// Allows it to stay in the air without a block below it
 	@Override
 	protected boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
 		return true;
@@ -36,8 +49,106 @@ public class FlowmotionRailBlock extends RailBlock {
 	@Override
 	protected void neighborChanged(BlockState state, Level level, BlockPos pos, Block block, BlockPos fromPos, boolean isMoving) {
 		if (!level.isClientSide && level.getBlockState(pos).is(this)) {
-			updateState(state, level, pos, isMoving);
+			level.setBlock(pos, shapeFor(level, pos, state), Block.UPDATE_CLIENTS);
 		}
+	}
+
+	@Override
+	public BlockState getStateForPlacement(BlockPlaceContext context) {
+		BlockState placed = super.getStateForPlacement(context);
+		return placed == null ? null : shapeFor(context.getLevel(), context.getClickedPos(), placed);
+	}
+
+	@Override
+	protected void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean isMoving) {
+		if (!level.isClientSide && !oldState.is(state.getBlock())) {
+			level.setBlock(pos, shapeFor(level, pos, state), Block.UPDATE_CLIENTS);
+			// Neighbours of the same colour may want to curve into the new piece
+			for (Direction side : Direction.Plane.HORIZONTAL) {
+				for (BlockPos neighbour : new BlockPos[]{pos.relative(side), pos.relative(side).above(), pos.relative(side).below()}) {
+					if (level.getBlockState(neighbour).getBlock() == this) {
+						level.setBlock(neighbour, shapeFor(level, neighbour, level.getBlockState(neighbour)), Block.UPDATE_CLIENTS);
+					}
+				}
+			}
+		}
+	}
+
+	// Only same color rails can connect
+	private BlockState shapeFor(LevelReader level, BlockPos pos, BlockState state) {
+		List<Direction> joined = new ArrayList<>();
+		Map<Direction, Boolean> rises = new EnumMap<>(Direction.class);
+
+		for (Direction side : Direction.Plane.HORIZONTAL) {
+			BlockPos beside = pos.relative(side);
+
+			if (sameLine(level, beside)) {
+				joined.add(side);
+				rises.put(side, false);
+			} else if (sameLine(level, beside.above())) {
+				joined.add(side);
+				rises.put(side, true);
+			} else if (sameLine(level, beside.below())) {
+				joined.add(side);
+				rises.put(side, false);
+			}
+		}
+
+		RailShape shape = shapeFrom(joined, rises, state.getValue(getShapeProperty()));
+		return state.setValue(getShapeProperty(), shape);
+	}
+
+	private boolean sameLine(LevelReader level, BlockPos pos) {
+		return level.getBlockState(pos).getBlock() == this;
+	}
+
+	private RailShape shapeFrom(List<Direction> joined, Map<Direction, Boolean> rises, RailShape current) {
+		if (joined.size() < 2) {
+			if (joined.size() == 1) {
+				Direction side = joined.getFirst();
+				return straight(side, rises.getOrDefault(side, false), side);
+			}
+
+			return current;
+		}
+
+		Direction first = joined.get(0);
+		Direction second = joined.get(1);
+
+		if (first.getOpposite() == second) {
+			// Climbing is drawn towards whichever end is a block higher, and only one end can be
+			return straight(first, rises.getOrDefault(first, false), rises.getOrDefault(second, false) ? second : first);
+		}
+
+		return corner(first, second);
+	}
+
+	private RailShape straight(Direction side, boolean risesHere, Direction climbTowards) {
+		boolean climbs = risesHere || climbTowards != side;
+		Direction axis = side.getAxis() == Direction.Axis.Z ? Direction.NORTH : Direction.EAST;
+
+		if (!climbs) {
+			return axis == Direction.NORTH ? RailShape.NORTH_SOUTH : RailShape.EAST_WEST;
+		}
+
+		return switch (climbTowards) {
+			case NORTH -> RailShape.ASCENDING_NORTH;
+			case SOUTH -> RailShape.ASCENDING_SOUTH;
+			case EAST -> RailShape.ASCENDING_EAST;
+			default -> RailShape.ASCENDING_WEST;
+		};
+	}
+
+	private RailShape corner(Direction a, Direction b) {
+		boolean north = a == Direction.NORTH || b == Direction.NORTH;
+		boolean south = a == Direction.SOUTH || b == Direction.SOUTH;
+		boolean east = a == Direction.EAST || b == Direction.EAST;
+
+		if (north) {
+			return east ? RailShape.NORTH_EAST : RailShape.NORTH_WEST;
+		}
+
+		return south && east ? RailShape.SOUTH_EAST : RailShape.SOUTH_WEST;
 	}
 
 	/** The two directions a shape joins up with. Ascending shapes climb towards the first of the pair. */

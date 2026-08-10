@@ -55,6 +55,8 @@ public class ModTags {
             KEY_CARD = item("key_card"),
             BIOME_MEMORY = item("biome_memory"),
 
+            FLOWMOTION_RAILS = item("flowmotion_rails"),
+
             GUMMI_BLOCK_CUBE = item("gummi_block_cube"),
             GUMMI_BLOCK_WEDGE = item("gummi_block_wedge"),
             GUMMI_BLOCK_PYRAMID = item("gummi_block_pyramid"),

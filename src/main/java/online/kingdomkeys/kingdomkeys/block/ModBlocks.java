@@ -40,7 +40,6 @@ public class ModBlocks {
             pairBlox = createNewBlock("pair_blox", () -> new PairBloxBlock(Block.Properties.of().mapColor(MapColor.COLOR_LIGHT_GREEN).strength(1.0F, 10.0F))),
             infestedNormalBlox = createNewBlock("infested_normal_blox", () -> new InfestedNormalBlox(Block.Properties.of().mapColor(MapColor.COLOR_RED).strength(1, 10))),
             magicTarget = createNewBlock("magic_target", () -> new MagicTargetBlock(Block.Properties.of().mapColor(MapColor.COLOR_RED).strength(1, 10))),
-            flowmotionRail = createNewBlock("flowmotion_rail", () -> new FlowmotionRailBlock(Block.Properties.of().mapColor(MapColor.METAL).noCollission().strength(0.7F).sound(SoundType.METAL))),
 
             //TODO HARVEST LEVEL REPLACED BY TAGS
             blazingOre = createNewBlock("blazing_ore", () -> new KKOreBlock(Block.Properties.of().mapColor(MapColor.STONE).instrument(NoteBlockInstrument.BASEDRUM).strength(2.0F, 1.0F).lightLevel((state) -> 4))), //HL 1
@@ -167,7 +166,9 @@ public class ModBlocks {
             gummiBubbleHelms = new ArrayList<>(),
             gummiMiniHelms = new ArrayList<>(),
             gummiAeroTriangles = new ArrayList<>(),
-            gummiAeroSquares = new ArrayList<>()
+            gummiAeroSquares = new ArrayList<>(),
+
+            flowmotionRails = new ArrayList<>()
         ;
 
     public static Supplier<List<Supplier<Block>>> gummiBlocks = () -> Stream.of(
@@ -216,6 +217,14 @@ public class ModBlocks {
         createNewGummiBubbleHelmBlock("gummi_mini_helm", gummiMiniHelms, GummiBlockProperties.of(2, 20, 0).withShape(GummiBlockProperties.Shape.SLAB), seat0);
 
         createNewGummiAeroBlock("gummi_aero_square", gummiAeroSquares, GummiBlockProperties.of(1, 1, 0).withPlacement(GummiPlacementType.EDGE).withShape(GummiBlockProperties.Shape.AERO_PLATE), 10);
+
+        for (DyeColor dye : DyeColor.values()) {
+            String name = "flowmotion_rail_" + dye.getName();
+            Supplier<Block> rail = BLOCKS.register(name, () -> new FlowmotionRailBlock(Block.Properties.of().mapColor(dye.getMapColor()).noCollission().strength(0.7F).sound(SoundType.METAL).lightLevel(state -> 7), dye));
+            createNewBlockItem(name, rail);
+            flowmotionRails.add(rail);
+        }
+
         createNewGummiAeroBlock("gummi_aero_triangle", gummiAeroTriangles, GummiBlockProperties.of(1, 1, 0).withPlacement(GummiPlacementType.EDGE).withShape(GummiBlockProperties.Shape.AERO_WEDGE), 10);
     }
 

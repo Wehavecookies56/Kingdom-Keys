@@ -1,13 +1,14 @@
 package online.kingdomkeys.kingdomkeys.command;
 
 import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.tree.LiteralCommandNode;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 
 public class ModCommands {
 
     public static void register(final CommandDispatcher<CommandSourceStack> dispatcher) {
-        dispatcher.register(Commands.literal("kingdomkeys")
+        LiteralCommandNode<CommandSourceStack> root = dispatcher.register(Commands.literal("kingdomkeys")
         		.then(AbilityCommand.register())
                 .then(ChoiceCommand.register())
                 .then(DimensionCommand.register())
@@ -26,6 +27,7 @@ public class ModCommands {
                 .then(ConvertOldForgeDataCommand.register())
 		        .then(CheckCommand.register())
         );
+		dispatcher.register(Commands.literal("kk").redirect(root));
     }
 
 }

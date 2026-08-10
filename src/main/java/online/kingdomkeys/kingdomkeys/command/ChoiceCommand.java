@@ -63,7 +63,7 @@ public class ChoiceCommand extends BaseCommand {
     }
 
     private static int resetChoice(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
-        Collection<ServerPlayer> players = getPlayers(context, 3);
+        Collection<ServerPlayer> players = getPlayers(context);
         for (ServerPlayer target : players) {
             PlayerData targetData = PlayerData.get(target);
             if (targetData.getSoAState() == SoAState.COMPLETE) {
@@ -84,7 +84,7 @@ public class ChoiceCommand extends BaseCommand {
     }
 
     private static int makeChoice(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
-        Collection<ServerPlayer> players = getPlayers(context, 4);
+        Collection<ServerPlayer> players = getPlayers(context);
         String chosenStr = StringArgumentType.getString(context, "chosen");
         SoAState chosen = stringToChoice(chosenStr);
         String sacrificedStr = StringArgumentType.getString(context, "sacrificed");

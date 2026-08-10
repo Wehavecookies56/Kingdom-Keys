@@ -37,7 +37,7 @@ public class ExpCommand extends BaseCommand { // kk_exp <give/take/set> <amount>
 	}
 
 	private static int setValue(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
-		Collection<ServerPlayer> players = getPlayers(context, 4);
+		Collection<ServerPlayer> players = getPlayers(context);
 		int exp = IntegerArgumentType.getInteger(context, "exp");
 
 		for (ServerPlayer player : players) {
@@ -62,7 +62,7 @@ public class ExpCommand extends BaseCommand { // kk_exp <give/take/set> <amount>
 	}
 
 	private static int addValue(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
-		Collection<ServerPlayer> players = getPlayers(context, 4);
+		Collection<ServerPlayer> players = getPlayers(context);
 		int value = IntegerArgumentType.getInteger(context, "exp");
 
 		for (ServerPlayer player : players) {
@@ -78,7 +78,7 @@ public class ExpCommand extends BaseCommand { // kk_exp <give/take/set> <amount>
 
 	// Sets player to level 1 and gives all his xp back
 	private static int fixValue(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
-		Collection<ServerPlayer> players = getPlayers(context, 3);
+		Collection<ServerPlayer> players = getPlayers(context);
 		for (ServerPlayer player : players) {
 			PlayerData playerData = PlayerData.get(player);
 			int exp = playerData.getExperience();

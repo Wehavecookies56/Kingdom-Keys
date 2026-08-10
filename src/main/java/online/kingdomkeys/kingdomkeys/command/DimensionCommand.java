@@ -49,7 +49,7 @@ public class DimensionCommand extends BaseCommand {
 	}
 
 	private static int changeDim(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
-		Collection<ServerPlayer> players = getPlayers(context, 3);
+		Collection<ServerPlayer> players = getPlayers(context);
 		String dim = StringArgumentType.getString(context, "dim");
 		ResourceKey<Level> dimension = ResourceKey.create(Registries.DIMENSION, KingdomKeys.rl(dim));
 		if (!ServerLifecycleHooks.getCurrentServer().levelKeys().stream().toList().contains(dimension)) {

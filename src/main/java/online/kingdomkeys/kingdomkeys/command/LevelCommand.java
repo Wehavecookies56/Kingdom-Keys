@@ -57,7 +57,7 @@ public class LevelCommand extends BaseCommand{ //kk_level <give/take/set> <amoun
 	}
 
 	private static int setValue(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
-		Collection<ServerPlayer> players = getPlayers(context, 4);
+		Collection<ServerPlayer> players = getPlayers(context);
 		int level = IntegerArgumentType.getInteger(context, "level");
 		
 		for (ServerPlayer player : players) {
