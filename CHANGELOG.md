@@ -1,20 +1,20 @@
 ## Added:
 * Some new advancements to make the early game mod progression a little bit clearer.
 * Kingdom Key recipe in the Common Config for startingRecipes (won't affect if you are in an existing world).
-* Option to auto build Gummi Ships based on the blueprint, place items in a chest right next to the hangar and if you have energy stored it will start to build it.
-  * Server Config to enable or disable that option.
 * Flowmotion Rails, which you can ride once you have the Wall Kick ability.
   * They can be crafted in all 16 colors, different colored rails won't interconnect (unless it's a straight line).
   * Sneaking or flying in creative avoids you mounting them.
-  * Jumping power is boosted by the ability superjump.
-* New Abilities: Guard, Counterguard, Aerial Recovery and Once more.
-* Realm of Darkness arches.
+  * Rail jumping power is boosted by the ability superjump.
 * World Map dimension where gummi ships won't use any fuel.
-* Air Soldier, Defender, Neoshadow and Novashadow.
-* Gummi shots can destroy meteors.
-* Gummi inner corner shape.
+* Option to auto build Gummi Ships based on the blueprint, place items in a chest right next to the hangar and if you have energy stored it will start to build it.
+  * Server Config to enable or disable that option.
 * Creative blueprint which builds the ship rather than displaying the hologram when clicking import.
 * Option to export gummi ship blueprints into files to be able to load them as blueprints in other worlds or servers.
+* Gummi shots can destroy meteors.
+* Gummi inner corner shape.
+* New Abilities: Guard, Counterguard, Aerial Recovery and Once more.
+* New Heartless: Air Soldier, Defender, Neoshadow and Novashadow.
+* Realm of Darkness arches.
 * Sound when placing and breaking gummi blocks.
 * Data driven property for magic data where you can specify what the projectile does to various blocks:
   * light_lightable: Allows the projectile to turn on campfires, candles...

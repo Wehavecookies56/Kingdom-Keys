@@ -5,8 +5,10 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.model.entity.NeoshadowModel;
+import online.kingdomkeys.kingdomkeys.client.render.HeartlessEyesLayerRenderer;
 import online.kingdomkeys.kingdomkeys.entity.mob.NeoshadowEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.NovashadowEntity;
 
@@ -14,6 +16,7 @@ public class NeoshadowRenderer<Type extends NeoshadowEntity> extends MobRenderer
 
 	public NeoshadowRenderer(EntityRendererProvider.Context context) {
 		super(context, new NeoshadowModel<>(context.bakeLayer(NeoshadowModel.LAYER_LOCATION)), 0.4F);
+		this.addLayer(new HeartlessEyesLayerRenderer<>(this, KingdomKeys.rl("textures/entity/mob/neoshadow_eyes.png")));
 	}
 
 	@Override
