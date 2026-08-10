@@ -27,12 +27,9 @@ public record CSImportExportGummiShip(String name, int containerID, boolean expo
 	public static final Type<CSImportExportGummiShip> TYPE = new Type<>(KingdomKeys.rl("cs_import_export_gummi_ship"));
 
 	public static final StreamCodec<FriendlyByteBuf, CSImportExportGummiShip> STREAM_CODEC = StreamCodec.composite(
-			ByteBufCodecs.STRING_UTF8,
-			CSImportExportGummiShip::name,
-			ByteBufCodecs.INT,
-			CSImportExportGummiShip::containerID,
-			ByteBufCodecs.BOOL,
-			CSImportExportGummiShip::export,
+			ByteBufCodecs.STRING_UTF8, CSImportExportGummiShip::name,
+			ByteBufCodecs.INT, CSImportExportGummiShip::containerID,
+			ByteBufCodecs.BOOL, CSImportExportGummiShip::export,
 			CSImportExportGummiShip::new
 	);
 
@@ -53,7 +50,7 @@ public record CSImportExportGummiShip(String name, int containerID, boolean expo
 
 		if(export) {
 			if (GummiShipBlueprintItem.isBlueprint(stack)) {
-				stack.set(ModComponents.GUMMI_STRUCTURE, struct);
+				stack.set(ModComponents.GUMMI_STRUCTURE, struct.withoutBlockEntities());
 				stack.set(ModComponents.BLUEPRINT_NAME, name);
 			}
 		} else {
@@ -63,13 +60,14 @@ public record CSImportExportGummiShip(String name, int containerID, boolean expo
 			// The creative blueprint directly builds it
 			if (GummiShipBlueprintItem.isCreative(stack) && blueprint != null) {
 				int hangarSize = GummiHangarBlock.getSize(hangar.getValue(GummiHangarBlock.LEVEL));
+				GummiStructure fitted = Utils.resizeStructure(blueprint, hangarSize);
 
-				if (blueprint.getWidth() > hangarSize) {
+				if (fitted == null) {
 					player.sendSystemMessage(Component.translatable("container.gummi_hangar.blueprinttoobig"));
 					return;
 				}
 
-				Utils.placeGummiStructure(level, origin, hangar.getValue(GummiHangarBlock.FACING), hangarSize, Utils.resizeStructure(blueprint, hangarSize), null);
+				Utils.placeGummiStructure(level, origin, hangar.getValue(GummiHangarBlock.FACING), hangarSize, fitted, null);
 				return;
 			}
 

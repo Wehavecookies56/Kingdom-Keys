@@ -19,8 +19,8 @@ import net.neoforged.neoforge.client.gui.widget.ExtendedButton;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.block.gummi.GummiHangarBlock;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
-import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.HiddenButton;
+import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.entity.GummiShipEntity;
 import online.kingdomkeys.kingdomkeys.item.GummiShipBlueprintItem;
@@ -146,7 +146,9 @@ public class GummiHangarScreen extends AbstractContainerScreen<GummiHangarMenu> 
 			if(gummi != null) {
 				GummiStructure struct = gummi.structure;
 
-				if (struct.getWidth() <= size) {
+				// Measured by the room its blocks take up, so a ship that grew a size by visiting a bigger
+				// hangar can still come back down to the one it was built in
+				if (Utils.fitsInHangar(struct, size)) {
 					PacketHandler.sendToServer(new CSEditGummiShip(name.getValue(), menu.containerId));
 					menu.TE.setLastShipName(struct.getName());
 					onClose();
@@ -274,7 +276,7 @@ public class GummiHangarScreen extends AbstractContainerScreen<GummiHangarMenu> 
 		GummiShipEntity gummi = Utils.getGummiShipInBuildPlate(minecraft.level, origin, hangar.getValue(GummiHangarBlock.FACING), size);
 		if(gummi != null) {
 			GummiStructure struct = gummi.structure;
-			if (struct.getWidth() > GummiHangarBlock.getSize(hangar.getValue(GummiHangarBlock.LEVEL))) {
+			if (!Utils.fitsInHangar(struct, GummiHangarBlock.getSize(hangar.getValue(GummiHangarBlock.LEVEL)))) {
 				if (mouseX >= editShip.getX() && mouseX <= editShip.getX() + editShip.getWidth()) {
 					if (mouseY >= editShip.getY() && mouseY <= editShip.getY() + editShip.getHeight()) {
 						list.add(Component.translatable(ChatFormatting.DARK_RED + Component.translatable("container.gummi_hangar.gummitoobig").getString()));
@@ -323,7 +325,7 @@ public class GummiHangarScreen extends AbstractContainerScreen<GummiHangarMenu> 
 				if(GummiShipBlueprintItem.isBlueprint(stack)){
 					GummiStructure struct = stack.get(ModComponents.GUMMI_STRUCTURE);
 
-					if(struct != null && struct.getWidth() > size){
+					if(struct != null && !Utils.fitsInHangar(struct, size)){
 						list.add(Component.translatable(ChatFormatting.DARK_RED + Component.translatable("container.gummi_hangar.blueprinttoobig").getString()));
 					}
 				} else {
@@ -448,7 +450,7 @@ public class GummiHangarScreen extends AbstractContainerScreen<GummiHangarMenu> 
 
 			if(GummiShipBlueprintItem.isBlueprint(stack)){
 				GummiStructure struct = stack.get(ModComponents.GUMMI_STRUCTURE);
-				imp.active = struct != null && struct.getWidth() <= size;
+				imp.active = struct != null && Utils.fitsInHangar(struct, size);
 			}
 
             build.active = Utils.getAmountOfGummiShipsInBuildPlate(minecraft.level, origin, hangar.getValue(GummiHangarBlock.FACING), size) == 0 && !name.getValue().isEmpty();
@@ -456,7 +458,7 @@ public class GummiHangarScreen extends AbstractContainerScreen<GummiHangarMenu> 
 			GummiShipEntity gummi = Utils.getGummiShipInBuildPlate(minecraft.level, origin, hangar.getValue(GummiHangarBlock.FACING), size);
 			if(gummi != null) {
 				GummiStructure struct = gummi.structure;
-				if (struct.getWidth() > size) {
+				if (!Utils.fitsInHangar(struct, size)) {
 					editShip.active = false;
 				}
 			}

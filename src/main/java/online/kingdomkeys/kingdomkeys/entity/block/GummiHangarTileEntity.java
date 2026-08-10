@@ -244,7 +244,7 @@ public class GummiHangarTileEntity extends BlockEntity implements MenuProvider {
         GummiStructure blueprint = blueprintStack.get(ModComponents.GUMMI_STRUCTURE);
         int size = GummiHangarBlock.getSize(state.getValue(GummiHangarBlock.LEVEL));
 
-        if (blueprint == null || blueprint.getWidth() > size) {
+        if (blueprint == null) {
             return;
         }
 
@@ -271,6 +271,12 @@ public class GummiHangarTileEntity extends BlockEntity implements MenuProvider {
 
         // The same mapping the finished ship is built with, so what is laid out here lands exactly where importing the blueprint in one go would have put it
         GummiStructure struct = Utils.resizeStructure(blueprint, size);
+
+        // Null means the blueprint's blocks do not fit this plate, whatever size it says it is
+        if (struct == null) {
+            return;
+        }
+
         Rotation rotation = switch (facing) {
             case NORTH -> Rotation.CLOCKWISE_180;
             case WEST -> Rotation.CLOCKWISE_90;

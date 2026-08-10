@@ -12,10 +12,11 @@
 * Option to export gummi ship blueprints into files to be able to load them as blueprints in other worlds or servers.
 * Gummi shots can destroy meteors.
 * Gummi inner corner shape.
+* Sound when placing and breaking gummi blocks.
 * New Abilities: Guard, Counterguard, Aerial Recovery and Once more.
 * New Heartless: Air Soldier, Defender, Neoshadow and Novashadow.
 * Realm of Darkness arches.
-* Sound when placing and breaking gummi blocks.
+* Staff crowns.
 * Data driven property for magic data where you can specify what the projectile does to various blocks:
   * light_lightable: Allows the projectile to turn on campfires, candles...
   * turn_off_lightable: Allows the projectile to turn them off.
@@ -33,11 +34,13 @@
 * Config files have now been moved into their own subfolder, if you modified any move them there AND RENAME to keep your existing settings.
   * New files don't have the "kingdomkeys-" prefix, therefore the "kingdomkeys-common.toml" file now goes into the "kingdomkeys" folder under the name "common.toml".
 * Hangar screen is no longer that cluttered with information.
+* Gummi ships built in lvl 1 hangar and then were stored in lvl 2 hangar, wouldn't be able to be stored again in the former. They can now be stored again in lvl 1 hangar.
 * Collision box to shaped gummi blocks, mini helm and gummi vernier.
 * Lowered meteorite frequency.
 * Removed old blizzardChangeBlocks Common Config since the new system obsoletes it.
 
 ## Fixed:
+* Gummi ships can now transport chests and other tile entities.
 * Even ships offset when being built.
 * Red tint leak from low HP.
 * Melding ingredients allowing to select a copy of the first selected item even if it's not a real recipe.

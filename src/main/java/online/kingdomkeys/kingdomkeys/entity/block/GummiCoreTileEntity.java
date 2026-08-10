@@ -25,7 +25,7 @@ public class GummiCoreTileEntity extends BlockEntity {
 
     public void loadToShip(GummiShipEntity ship){
         ship.setDamage(this.damage);
-        ship.setFuel(this.fuel);
+        ship.setFuel(Math.min(this.fuel, ship.getMaxFuel()));
     }
 
     @Override

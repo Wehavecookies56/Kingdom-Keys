@@ -494,6 +494,8 @@ public class EntityEvents {
 					}
 				}
 
+				StaffCrowns.refresh(player.getUUID(), playerData);
+
 				PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
 				PacketHandler.sendTo(new SCSyncWorldData(player.getServer()), (ServerPlayer) player);
 				PacketHandler.syncToAllAround(player, playerData);

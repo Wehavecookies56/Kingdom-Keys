@@ -60,7 +60,7 @@ public record CSLoadGummiShipFile(String name, byte[] data, int containerID) imp
 			CompoundTag tag = NbtIo.readCompressed(new ByteArrayInputStream(data), NbtAccounter.create(MAX_UNPACKED));
 			GummiStructure structure = new GummiStructure(player.registryAccess(), tag);
 
-			stack.set(ModComponents.GUMMI_STRUCTURE, structure);
+			stack.set(ModComponents.GUMMI_STRUCTURE, structure.withoutBlockEntities());
 			stack.set(ModComponents.BLUEPRINT_NAME, name);
 			player.sendSystemMessage(Component.translatable("container.gummi_hangar.file_loaded", name));
 		} catch (Exception e) {

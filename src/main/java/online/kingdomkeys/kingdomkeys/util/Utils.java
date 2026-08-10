@@ -475,26 +475,82 @@ public class Utils {
 
 	public static GummiStructure resizeStructure(GummiStructure original, int newSize) {
 		int oldSize = original.getWidth();
+		int[] bounds = occupiedBounds(original);
 
-		if (oldSize > newSize) {
-			return null;
+		// Padding is added or taken off evenly on both sides, so the ship keeps its place over the plate
+		int centred = (newSize - oldSize) / 2;
+		int offsetX = centred,
+			offsetY = 0,
+			offsetZ = centred;
+
+		if (bounds != null) {
+			if (!fits(bounds, newSize)) {
+				return null;
+			}
+
+			// The even trim is what is wanted, but a ship sitting off to one side of its cube gets pushed until it fits
+			offsetX = fitOffset(centred, bounds[0], bounds[1], newSize);
+			offsetY = fitOffset(0, bounds[2], bounds[3], newSize);
+			offsetZ = fitOffset(centred, bounds[4], bounds[5], newSize);
 		}
 
 		GummiStructure resized = new GummiStructure(original.getOwnerID(), original.getName(), newSize, newSize, newSize);
 		BlockState[][][] oldBlocks = original.getBlocks();
 		BlockState[][][] newBlocks = resized.getBlocks();
 
-		int offset = (newSize - oldSize) / 2;
-
 		for (int x = 0; x < oldSize; x++) {
 			for (int y = 0; y < oldSize; y++) {
 				for (int z = 0; z < oldSize; z++) {
-					newBlocks[x + offset][y][z + offset] = oldBlocks[x][y][z];
+					int nx = x + offsetX, ny = y + offsetY, nz = z + offsetZ;
+					if (nx < 0 || ny < 0 || nz < 0 || nx >= newSize || ny >= newSize || nz >= newSize) {
+						continue;
+					}
+
+					newBlocks[nx][ny][nz] = oldBlocks[x][y][z];
+					resized.setBlockEntity(nx, ny, nz, original.getBlockEntity(x, y, z));
 				}
 			}
 		}
 
 		return resized;
+	}
+
+	public static boolean fitsInHangar(GummiStructure structure, int size) {
+		int[] bounds = occupiedBounds(structure);
+		return bounds == null || fits(bounds, size);
+	}
+
+	private static boolean fits(int[] bounds, int size) {
+		return bounds[1] - bounds[0] < size && bounds[3] - bounds[2] < size && bounds[5] - bounds[4] < size;
+	}
+
+	/** How far the cells have to move for everything between min and max to land inside the new cube */
+	private static int fitOffset(int wanted, int min, int max, int newSize) {
+		return Math.max(-min, Math.min(wanted, newSize - 1 - max));
+	}
+
+	/** The corners of the box the ship's blocks take up, as min/max per axis, or null if it is empty */
+	private static int[] occupiedBounds(GummiStructure structure) {
+		int minX = Integer.MAX_VALUE, minY = Integer.MAX_VALUE, minZ = Integer.MAX_VALUE;
+		int maxX = -1, maxY = -1, maxZ = -1;
+
+		for (int x = 0; x < structure.getWidth(); x++) {
+			for (int y = 0; y < structure.getHeight(); y++) {
+				for (int z = 0; z < structure.getDepth(); z++) {
+					BlockState state = structure.getBlocks()[x][y][z];
+
+					if (state == null || state.isAir()) {
+						continue;
+					}
+
+					minX = Math.min(minX, x); maxX = Math.max(maxX, x);
+					minY = Math.min(minY, y); maxY = Math.max(maxY, y);
+					minZ = Math.min(minZ, z); maxZ = Math.max(maxZ, z);
+				}
+			}
+		}
+
+		return maxX < 0 ? null : new int[]{minX, maxX, minY, maxY, minZ, maxZ};
 	}
 
 	public static Vec3i getRealGummiStructureSize(GummiStructure structure){
@@ -681,6 +737,11 @@ public class Utils {
 						BlockState rotated = Utils.rotateBlock(original,rotation);
 						struct.getBlocks()[x][y][z] = rotated;
 
+						BlockEntity blockEntity = level.getBlockEntity(target);
+						// Excluding the core since it works different by loading it's data into the ship
+						if (blockEntity != null && !(blockEntity instanceof GummiCoreTileEntity)) {
+							struct.setBlockEntity(x, y, z, blockEntity.saveCustomOnly(level.registryAccess()));
+						}
 					}
 
 				}
@@ -1004,6 +1065,18 @@ public class Utils {
 
 					BlockPos target = origin.offset(offsets[0] + rx, y, offsets[1] + rz);
 					level.setBlockAndUpdate(target, rotateBlock(blockToPlace, rotation));
+
+					// setBlockAndUpdate restores the TE contents
+					CompoundTag data = struct.getBlockEntity(x, y, z);
+
+					if (data != null) {
+						BlockEntity restored = level.getBlockEntity(target);
+
+						if (restored != null) {
+							restored.loadCustomOnly(data, level.registryAccess());
+							restored.setChanged();
+						}
+					}
 
 					if (source != null && blockToPlace.getBlock() instanceof GummiCoreBlock) {
 						BlockEntity te = level.getBlockEntity(target);

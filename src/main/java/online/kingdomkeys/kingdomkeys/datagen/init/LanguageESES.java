@@ -466,7 +466,7 @@ public class LanguageESES extends KKLanguageProvider {
         add(Gui_Menu_Config + ".hp", "Barra VT");
         add(Gui_Menu_Config + ".mp", "Barra PM");
         add(Gui_Menu_Config + ".dp", "Barra Fusi\u00f3n");
-        add(Gui_Menu_Config + ".player_skin", "Skin Jugador");
+        add(Gui_Menu_Config + ".player_skin", "Jugador");
         add(Gui_Menu_Config + ".lock_on_hp", "Fijar mob");
         add(Gui_Menu_Config + ".party", "Grupo");
         add(Gui_Menu_Config + ".focus", "Barra Tino");
@@ -1273,6 +1273,11 @@ public class LanguageESES extends KKLanguageProvider {
         add("kingdomkeys.crown.bronze", "Bronce");
         add("kingdomkeys.crown.silver", "Plata");
         add("kingdomkeys.crown.gold", "Oro");
+        add("kingdomkeys.crown.red", "Rojo");
+        add("kingdomkeys.crown.contributor", "Colaborador");
+        add("kingdomkeys.crown.addon", "Addon");
+        add("kingdomkeys.crown.green", "Verde");
+        add("kingdomkeys.crown.builder", "Constructor");
         add("kingdomkeys.gui.config.crown_variant", "Corona: %s");
         addItem(ModItems.wayfinder, "Siemprejuntos");
         addItem(ModItems.trainingDummy, "Espantapájaros de entrenamiento");

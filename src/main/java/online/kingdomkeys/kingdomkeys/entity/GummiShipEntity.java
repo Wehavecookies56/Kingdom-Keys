@@ -635,6 +635,10 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 		return Utils.getFEStatsPerLevel(getShipLevel())[0]/2;
 	}
 
+	public static int getMaxFuelForSize(int size){
+		return Utils.getFEStatsPerLevel((size - 5) / 2)[0]/2;
+	}
+
 	public boolean isFlightType3D() {
 		return this.entityData.get(FLIGHT_TYPE_3D);
 	}

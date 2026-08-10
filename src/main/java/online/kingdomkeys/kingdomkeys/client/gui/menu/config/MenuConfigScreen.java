@@ -8,6 +8,7 @@ import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.player.AbstractClientPlayer;
+import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
@@ -446,6 +447,8 @@ public class MenuConfigScreen extends MenuBackground {
 			}
 		}
 
+		data().getUnlockedCrowns().stream().filter(crown -> !crown.isEmpty() && CrownTier.byName(crown) == null).sorted().forEach(options::add);
+
 		int index = options.indexOf(data().getCrown());
 		String next = options.get((index + 1) % options.size()); // -1 wraps to 0, which is "none"
 
@@ -469,7 +472,16 @@ public class MenuConfigScreen extends MenuBackground {
 		String crown = data().getCrown();
 		CrownTier tier = CrownTier.byName(crown);
 
-		Component name = tier != null ? Component.translatable(tier.getTranslationKey()) : crown.isEmpty() ? Component.translatable("kingdomkeys.crown.none") : Component.literal(crown); // a crown from a pack, shown as-is
+		Component name;
+
+		if (tier != null) {
+			name = Component.translatable(tier.getTranslationKey());
+		} else if (crown.isEmpty()) {
+			name = Component.translatable("kingdomkeys.crown.none");
+		} else {
+			String key = "kingdomkeys.crown." + crown;
+			name = I18n.exists(key) ? Component.translatable(key) : Component.literal(crown);
+		}
 
 		return Component.translatable("kingdomkeys.gui.config.crown_variant", name);
 	}

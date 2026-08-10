@@ -37,7 +37,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add(KingdomKeys.MODID + ".configuration.hp_bar", "Health Bar settings");
         add(KingdomKeys.MODID + ".configuration.mp_bar", "Magic Bar settings");
         add(KingdomKeys.MODID + ".configuration.dp_bar", "Drive Bar settings");
-        add(KingdomKeys.MODID + ".configuration.player_skin", "Player Skin settings");
+        add(KingdomKeys.MODID + ".configuration.player_skin", "Player settings");
         add(KingdomKeys.MODID + ".configuration.lock_on", "Lock-On settings");
         add(KingdomKeys.MODID + ".configuration.party", "Party HUD settings");
         add(KingdomKeys.MODID + ".configuration.focus", "Focus HUD settings");
@@ -409,7 +409,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Gui_Menu_Config + ".hp", "HP Bar");
         add(Gui_Menu_Config + ".mp", "MP Bar");
         add(Gui_Menu_Config + ".dp", "DP Bar");
-        add(Gui_Menu_Config + ".player_skin", "Player Skin");
+        add(Gui_Menu_Config + ".player_skin", "Player");
         add(Gui_Menu_Config + ".lock_on_hp", "Lock On");
         add(Gui_Menu_Config + ".party", "Party");
         add(Gui_Menu_Config + ".focus", "Focus Bar");
@@ -2264,6 +2264,11 @@ public class LanguageENUS extends KKLanguageProvider {
         add("kingdomkeys.crown.bronze", "Bronze");
         add("kingdomkeys.crown.silver", "Silver");
         add("kingdomkeys.crown.gold", "Gold");
+        add("kingdomkeys.crown.red", "Red");
+        add("kingdomkeys.crown.contributor", "Contributor");
+        add("kingdomkeys.crown.addon", "Addon");
+        add("kingdomkeys.crown.green", "Green");
+        add("kingdomkeys.crown.builder", "Builder");
         add("kingdomkeys.gui.config.crown_variant", "Crown: %s");
         addItem(ModItems.wayfinder, "Wayfinder");
         addItem(ModItems.trainingDummy, "Training Scarecrow");

@@ -23,13 +23,17 @@ import java.util.function.Function;
 import net.minecraft.nbt.ListTag;
 import com.mojang.datafixers.util.Either;
 import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 public class GummiStructure implements INBTSerializable<CompoundTag> {
     private UUID ownerID;
     private String shipName;
     private BlockState[][][] blocks;
+
+    private CompoundTag[][][] blockEntities;
     private int width, height, depth;
 
     public String getName(){
@@ -54,6 +58,35 @@ public class GummiStructure implements INBTSerializable<CompoundTag> {
 
     public void setBlocks(BlockState[][][] blocks) {
         this.blocks = blocks;
+    }
+
+    /** The saved contents of the block entity in a cell, or null where there is nothing to remember */
+    public CompoundTag getBlockEntity(int x, int y, int z) {
+        return blockEntities[x][y][z];
+    }
+
+    public void setBlockEntity(int x, int y, int z, CompoundTag data) {
+        blockEntities[x][y][z] = data;
+    }
+
+    /**
+     * The same ship with everything its blocks were holding left behind.
+     *
+     * <p>A blueprint is a design that gets stamped out again and again, so it must carry no contents: a
+     * creative blueprint of a ship with a full chest would otherwise print those items every time it was
+     * used. A ship picked up with the phone is the opposite case and keeps everything, because there is
+     * only ever one of it.
+     */
+    public GummiStructure withoutBlockEntities() {
+        GummiStructure copy = new GummiStructure(ownerID, shipName, width, height, depth);
+
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                System.arraycopy(blocks[x][y], 0, copy.blocks[x][y], 0, depth);
+            }
+        }
+
+        return copy;
     }
 
     public int getWidth() {
@@ -85,7 +118,10 @@ public class GummiStructure implements INBTSerializable<CompoundTag> {
             Codec.INT.fieldOf("height").forGetter(GummiStructure::getHeight),
             Codec.INT.fieldOf("depth").forGetter(GummiStructure::getDepth),
             BlockState.CODEC.listOf().fieldOf("palette").forGetter(GummiStructure::palette),
-            Codec.INT_STREAM.fieldOf("cells").forGetter(struct -> IntStream.of(struct.cells(struct.palette())))
+            Codec.INT_STREAM.fieldOf("cells").forGetter(struct -> IntStream.of(struct.cells(struct.palette()))),
+            // Keyed by cell number so only the handful of cells that have a block entity take up any room,
+            // and optional so every blueprint written before this existed still reads
+            Codec.unboundedMap(Codec.STRING, CompoundTag.CODEC).optionalFieldOf("block_entities", Map.of()).forGetter(GummiStructure::blockEntityMap)
     ).apply(instance, GummiStructure::new));
 
     private static final Codec<GummiStructure> LISTED = RecordCodecBuilder.create(instance -> instance.group(
@@ -165,6 +201,7 @@ public class GummiStructure implements INBTSerializable<CompoundTag> {
         this.height = height;
         this.depth = depth;
         this.blocks = new BlockState[width][height][depth];
+        this.blockEntities = new CompoundTag[width][height][depth];
     }
 
     private GummiStructure(UUID ownerID, String name, int width, int height, int depth, List<List<List<BlockState>>> blocks) {
@@ -178,9 +215,10 @@ public class GummiStructure implements INBTSerializable<CompoundTag> {
         }
     }
 
-    private GummiStructure(String ownerID, String name, int width, int height, int depth, List<BlockState> palette, IntStream cells) {
+    private GummiStructure(String ownerID, String name, int width, int height, int depth, List<BlockState> palette, IntStream cells, Map<String, CompoundTag> blockEntities) {
         this(UUID.fromString(ownerID), name, width, height, depth);
         readCells(palette, cells.toArray());
+        readBlockEntities(blockEntities);
     }
 
     public GummiStructure(HolderLookup.Provider provider, CompoundTag tag) {
@@ -236,6 +274,37 @@ public class GummiStructure implements INBTSerializable<CompoundTag> {
         return cells;
     }
 
+    /** The saved block entities, keyed by the same cell number {@link #cells} uses, as text so it can be a map */
+    private Map<String, CompoundTag> blockEntityMap() {
+        Map<String, CompoundTag> saved = new LinkedHashMap<>();
+        int[] index = {0};
+
+        forEachCell((x, y, z) -> {
+            CompoundTag data = blockEntities[x][y][z];
+
+            if (data != null && !data.isEmpty()) {
+                saved.put(Integer.toString(index[0]), data);
+            }
+
+            index[0]++;
+        });
+
+        return saved;
+    }
+
+    private void readBlockEntities(Map<String, CompoundTag> saved) {
+        if (saved == null || saved.isEmpty()) {
+            return;
+        }
+
+        int[] index = {0};
+
+        forEachCell((x, y, z) -> {
+            blockEntities[x][y][z] = saved.get(Integer.toString(index[0]));
+            index[0]++;
+        });
+    }
+
     private void readCells(List<BlockState> palette, int[] cells) {
         int[] index = {0};
 
@@ -279,6 +348,22 @@ public class GummiStructure implements INBTSerializable<CompoundTag> {
 
         tag.put("palette", paletteTag);
         tag.putIntArray("cells", cells(palette));
+
+        Map<String, CompoundTag> saved = blockEntityMap();
+
+        if (!saved.isEmpty()) {
+            ListTag blockEntitiesTag = new ListTag();
+
+            for (Map.Entry<String, CompoundTag> entry : saved.entrySet()) {
+                CompoundTag cell = new CompoundTag();
+                cell.putInt("cell", Integer.parseInt(entry.getKey()));
+                cell.put("data", entry.getValue());
+                blockEntitiesTag.add(cell);
+            }
+
+            tag.put("block_entities", blockEntitiesTag);
+        }
+
         return tag;
     }
 
@@ -290,6 +375,18 @@ public class GummiStructure implements INBTSerializable<CompoundTag> {
         height = tag.getInt("height");
         depth = tag.getInt("depth");
         blocks = new BlockState[width][height][depth];
+        blockEntities = new CompoundTag[width][height][depth];
+
+        if (tag.contains("block_entities", Tag.TAG_LIST)) {
+            Map<String, CompoundTag> saved = new LinkedHashMap<>();
+
+            for (Tag entry : tag.getList("block_entities", Tag.TAG_COMPOUND)) {
+                CompoundTag cell = (CompoundTag) entry;
+                saved.put(Integer.toString(cell.getInt("cell")), cell.getCompound("data"));
+            }
+
+            readBlockEntities(saved);
+        }
 
         if (tag.contains("cells", Tag.TAG_INT_ARRAY)) {
             List<BlockState> palette = new ArrayList<>();

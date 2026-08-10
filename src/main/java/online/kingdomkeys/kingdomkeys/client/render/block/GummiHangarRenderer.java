@@ -130,8 +130,9 @@ public class GummiHangarRenderer implements BlockEntityRenderer<GummiHangarTileE
                     GummiStructure blueprint = stack.get(ModComponents.GUMMI_STRUCTURE);
                     int[] offsets = Utils.getShipOffset(facing, size);
 
-                    if (blueprint != null && offsets != null && blueprint.getWidth() <= size) {
-                        GummiStructure struct = fitted(blueprint, size);
+                    GummiStructure struct = blueprint == null ? null : fitted(blueprint, size);
+
+                    if (struct != null && offsets != null) {
                         Rotation rotation = switch (facing) {
                             case NORTH -> Rotation.CLOCKWISE_180;
                             case WEST -> Rotation.CLOCKWISE_90;
