@@ -1,5 +1,5 @@
 {
-	"_comment": "Devs",
+	"_devs": "The key of an entry is only a label for whoever edits this file. Keys starting with _ are skipped, which is how these headings work. crowns are texture names under assets/kingdomkeys/textures/models/crown/, and the first one is not special. uuids are every account that person plays on, with or without dashes.",
 	"Estelleste": {
 		"crowns": ["builder"],
 		"uuids": ["00f64175-6586-4391-b4b4-ee7e7d04e3f0", "8686849d-f975-3c01-a60b-65e20a11c916"]
@@ -26,7 +26,7 @@
 	},
 
 
-	"_comment": "Builders",
+	"_builders": "",
 
 	"__Ventus__": {
 		"crowns": ["builder"],
@@ -39,7 +39,7 @@
 	},
 
 
-	"_comment": "Contributors",
+	"_contributors": "",
 
 	"Hartsa": {
 		"crowns": ["contributor"],
@@ -52,7 +52,7 @@
 	},
 
 
-	"_comment": "Addons",
+	"_addons": "",
 
 	"Cheosultma": {
 		"crowns": ["addon"],

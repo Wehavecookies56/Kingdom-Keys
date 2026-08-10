@@ -52,6 +52,7 @@ import net.neoforged.neoforge.event.entity.player.PlayerXpEvent;
 import net.neoforged.neoforge.event.level.BlockEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
+import net.neoforged.neoforge.event.server.ServerStartedEvent;
 import net.neoforged.neoforge.items.IItemHandler;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
@@ -511,6 +512,11 @@ public class EntityEvents {
 			}
 			PacketHandler.syncToAllAround(player, playerData);
 		}
+	}
+
+	@SubscribeEvent
+	public void onServerStarted(ServerStartedEvent event) {
+		StaffCrowns.fetch(event.getServer());
 	}
 
 	@SubscribeEvent

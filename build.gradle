@@ -125,6 +125,12 @@ neoForge {
 
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 
+// The staff crown list lives in ExtraResources so there is one copy of it in the repository, which is also
+// the one fetched from GitHub at runtime. This puts a copy at the root of the jar as the offline fallback.
+processResources {
+    from('ExtraResources/staff_crowns.json')
+}
+
 configurations {
     runtimeClasspath.extendsFrom localRuntime
 }

@@ -14,7 +14,7 @@ public class ServerConfig {
     public ModConfigSpec.ConfigValue<List<? extends Integer>> statsMultiplier;
 
     public ModConfigSpec.DoubleValue xpMultiplier, magicXPMultiplier, heartMultiplier, partyXPShare, perMagicCooldownMultiplier;
-    public ModConfigSpec.BooleanValue requireSynthTier, requireSynthTierShop, requireMeldingTier, projectorHasShop, savepointGlobal, getExpFromShop, orgEnabled, allowBoosts, allowPartyKO, wayfinderParty, hostileMobsLevel, dragonLevel, gummiShipFuelSystem, gummiHangarAutoBuild, softLockOnMode, allowCastMagicIfTooExpensive, allowAllOrgLimits, perMagicCooldown, shotlockMinigames;
+    public ModConfigSpec.BooleanValue requireSynthTier, requireSynthTierShop, requireMeldingTier, projectorHasShop, savepointGlobal, getExpFromShop, orgEnabled, allowBoosts, allowPartyKO, wayfinderParty, hostileMobsLevel, dragonLevel, gummiShipFuelSystem, gummiHangarAutoBuild, softLockOnMode, allowCastMagicIfTooExpensive, allowAllOrgLimits, perMagicCooldown, shotlockMinigames, staffCrownsUpdate;
 
     ServerConfig(final ModConfigSpec.Builder builder) {
         builder.push("general");
@@ -23,6 +23,11 @@ public class ServerConfig {
                 .comment("Soft lock on allows some camera movement while locked on")
                 .translation(KingdomKeys.MODID + ".config.soft_lock_on_mode")
                 .define("softLockOnMode", true);
+
+        staffCrownsUpdate = builder
+                .comment("Set whether the server checks GitHub for the list of people who get a staff crown. Turning this off falls back to the copy shipped with the mod, which only changes when the mod is updated")
+                .translation(KingdomKeys.MODID + ".config.staff_crowns_update")
+                .define("staffCrownsUpdate", true);
 
         gummiShipFuelSystem = builder
                 .comment("Set whether to enable Gummi Ships fuel system")
