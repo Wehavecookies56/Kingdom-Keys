@@ -137,7 +137,9 @@ public class ModSounds {
     		Music_Lord_Of_The_Castle = registerSound("music/lord_of_the_castle"),
 			Music_Castle_Oblivion = registerSound("music/castle_oblivion"),
 			Music_The_13th_Floor = registerSound("music/the_13th_floor"),
-			Music_Forgotten_Challenge = registerSound("music/forgotten_challenge");
+			Music_Forgotten_Challenge = registerSound("music/forgotten_challenge"),
+			Music_World_Map = registerSound("music/world_map"),
+			Music_Daybreak_Town = registerSound("music/daybreak_town");
 
            /*
             Music_A_Day_In_Agrabah = registerSound("music.a_day_in_agrabah"),

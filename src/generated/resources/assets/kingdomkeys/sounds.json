@@ -338,6 +338,14 @@
       }
     ]
   },
+  "music/daybreak_town": {
+    "sounds": [
+      {
+        "name": "kingdomkeys:music/daybreak_town",
+        "stream": true
+      }
+    ]
+  },
   "music/dive_into_the_heart_destati": {
     "sounds": [
       {
@@ -366,6 +374,14 @@
     "sounds": [
       {
         "name": "kingdomkeys:music/the_13th_floor",
+        "stream": true
+      }
+    ]
+  },
+  "music/world_map": {
+    "sounds": [
+      {
+        "name": "kingdomkeys:music/world_map",
         "stream": true
       }
     ]

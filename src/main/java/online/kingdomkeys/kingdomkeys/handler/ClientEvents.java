@@ -26,7 +26,9 @@ import net.minecraft.core.Vec3i;
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.Music;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
@@ -35,6 +37,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockAndTintGetter;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.RailShape;
@@ -101,6 +104,7 @@ import online.kingdomkeys.kingdomkeys.sound.AlarmSoundInstance;
 import online.kingdomkeys.kingdomkeys.util.IDisabledAnimations;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.world.StruggleHandler;
+import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.CastleOblivionHandler;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.floor.Floor;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModRoomModifiers;
@@ -113,9 +117,32 @@ import org.lwjgl.glfw.GLFW;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.function.Supplier;
 
 public class ClientEvents {
+
+	//For dimensions that don't have a json for the music
+	private static final Map<ResourceKey<Level>, Music> DIMENSION_MUSIC = Map.of(
+			ModDimensions.WORLDMAP, new Music(ModSounds.Music_World_Map, 0, 0, true),
+			ModDimensions.DAYBREAK_TOWN, new Music(ModSounds.Music_Daybreak_Town, 0, 0, true)
+	);
+
+	@SubscribeEvent
+	public void onSelectMusic(SelectMusicEvent event) {
+		Level level = Minecraft.getInstance().level;
+
+		if (level == null) {
+			return;
+		}
+
+		Music music = DIMENSION_MUSIC.get(level.dimension());
+
+		// Overriding rather than setting, so nothing further down the line puts the menu music back on
+		if (music != null) {
+			event.overrideMusic(music);
+		}
+	}
 
 	@SubscribeEvent
 	public void onEquipmentChange(EquipmentEvent.Magic e) {

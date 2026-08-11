@@ -14,6 +14,7 @@ public class Strings {
     		stationOfSorrow = "station_of_sorrow",
 			castleOblivionInterior = "castle_oblivion_interior",
 			castleOblivion = "castle_oblivion",
+			daybreakTown = "daybreak_town",
 			worldmap = "worldmap";
 
     // Magics
