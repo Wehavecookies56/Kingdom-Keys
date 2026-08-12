@@ -30,19 +30,21 @@
   * wet_sponge: Allows the projectile turn a sponge into a wet sponge.
   * freeze_water: Allows the projectile turn water into ice.
   * freeze_lava: Allows the projectile turn lava into obsidian.
-* /kk shotcut for /kingdomkeys
+* /kk shortcut for /kingdomkeys
 
 ## Changed:
 * Config files have now been moved into their own subfolder, if you modified any move them there AND RENAME to keep your existing settings.
   * New files don't have the "kingdomkeys-" prefix, therefore the "kingdomkeys-common.toml" file now goes into the "kingdomkeys" folder under the name "common.toml".
 * Hangar screen is no longer that cluttered with information.
 * Gummi ships built in lvl 1 hangar and then were stored in lvl 2 hangar, wouldn't be able to be stored again in the former. They can now be stored again in lvl 1 hangar.
-* Collision box to shaped gummi blocks, mini helm and gummi vernier.
+* Collision boxes to shaped gummi blocks, mini helm and gummi vernier.
+* Nobody banner icon.
 * Lowered meteorite frequency.
 * Removed old blizzardChangeBlocks Common Config since the new system obsoletes it.
 
 ## Fixed:
 * Gummi ships can now transport chests and other tile entities.
+* Heartless portal tp to Realm of Darkness crash.
 * Even ships offset when being built.
 * Red tint leak from low HP.
 * Melding ingredients allowing to select a copy of the first selected item even if it's not a real recipe.
