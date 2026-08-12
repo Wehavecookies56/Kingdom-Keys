@@ -15,10 +15,6 @@ import net.minecraft.world.phys.Vec3;
 
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.context.BlockPlaceContext;
-import java.util.ArrayList;
-import java.util.EnumMap;
-import java.util.List;
-import java.util.Map;
 import javax.annotation.Nullable;
 
 public class FlowmotionRailBlock extends RailBlock {
@@ -74,81 +70,94 @@ public class FlowmotionRailBlock extends RailBlock {
 		}
 	}
 
-	// Only same color rails can connect
-	private BlockState shapeFor(LevelReader level, BlockPos pos, BlockState state) {
-		List<Direction> joined = new ArrayList<>();
-		Map<Direction, Boolean> rises = new EnumMap<>(Direction.class);
+	private BlockState shapeFor(Level level, BlockPos pos, BlockState state) {
+		boolean north = joins(level, pos, Direction.NORTH);
+		boolean south = joins(level, pos, Direction.SOUTH);
+		boolean west = joins(level, pos, Direction.WEST);
+		boolean east = joins(level, pos, Direction.EAST);
 
-		for (Direction side : Direction.Plane.HORIZONTAL) {
-			BlockPos beside = pos.relative(side);
+		boolean alongZ = north || south;
+		boolean alongX = west || east;
 
-			if (sameLine(level, beside)) {
-				joined.add(side);
-				rises.put(side, false);
-			} else if (sameLine(level, beside.above())) {
-				joined.add(side);
-				rises.put(side, true);
-			} else if (sameLine(level, beside.below())) {
-				joined.add(side);
-				rises.put(side, false);
+		RailShape shape = null;
+
+		if (alongZ && !alongX) {
+			shape = RailShape.NORTH_SOUTH;
+		}
+
+		if (alongX && !alongZ) {
+			shape = RailShape.EAST_WEST;
+		}
+
+		if (south && east && !north && !west) {
+			shape = RailShape.SOUTH_EAST;
+		}
+
+		if (south && west && !north && !east) {
+			shape = RailShape.SOUTH_WEST;
+		}
+
+		if (north && west && !south && !east) {
+			shape = RailShape.NORTH_WEST;
+		}
+
+		if (north && east && !south && !west) {
+			shape = RailShape.NORTH_EAST;
+		}
+
+		if (shape == null) {
+			shape = state.getValue(getShapeProperty());
+
+			if (level.hasNeighborSignal(pos)) {
+				if (south && east)
+					shape = RailShape.SOUTH_EAST;
+				if (south && west)
+					shape = RailShape.SOUTH_WEST;
+				if (north && east)
+					shape = RailShape.NORTH_EAST;
+				if (north && west)
+					shape = RailShape.NORTH_WEST;
+			} else {
+				if (north && west)
+					shape = RailShape.NORTH_WEST;
+				if (north && east)
+					shape = RailShape.NORTH_EAST;
+				if (south && west)
+					shape = RailShape.SOUTH_WEST;
+				if (south && east)
+					shape = RailShape.SOUTH_EAST;
 			}
 		}
 
-		RailShape shape = shapeFrom(joined, rises, state.getValue(getShapeProperty()));
+		if (shape == RailShape.NORTH_SOUTH) {
+			if (climbsTowards(level, pos, Direction.NORTH))
+				shape = RailShape.ASCENDING_NORTH;
+			if (climbsTowards(level, pos, Direction.SOUTH))
+				shape = RailShape.ASCENDING_SOUTH;
+		}
+
+		if (shape == RailShape.EAST_WEST) {
+			if (climbsTowards(level, pos, Direction.EAST))
+				shape = RailShape.ASCENDING_EAST;
+			if (climbsTowards(level, pos, Direction.WEST))
+				shape = RailShape.ASCENDING_WEST;
+		}
+
 		return state.setValue(getShapeProperty(), shape);
+	}
+
+	/** A neighbour counts whether it sits level, a block up or a block down, as long as it is the same color */
+	private boolean joins(LevelReader level, BlockPos pos, Direction side) {
+		BlockPos beside = pos.relative(side);
+		return sameLine(level, beside) || sameLine(level, beside.above()) || sameLine(level, beside.below());
+	}
+
+	private boolean climbsTowards(LevelReader level, BlockPos pos, Direction side) {
+		return sameLine(level, pos.relative(side).above());
 	}
 
 	private boolean sameLine(LevelReader level, BlockPos pos) {
 		return level.getBlockState(pos).getBlock() == this;
-	}
-
-	private RailShape shapeFrom(List<Direction> joined, Map<Direction, Boolean> rises, RailShape current) {
-		if (joined.size() < 2) {
-			if (joined.size() == 1) {
-				Direction side = joined.getFirst();
-				return straight(side, rises.getOrDefault(side, false), side);
-			}
-
-			return current;
-		}
-
-		Direction first = joined.get(0);
-		Direction second = joined.get(1);
-
-		if (first.getOpposite() == second) {
-			// Climbing is drawn towards whichever end is a block higher, and only one end can be
-			return straight(first, rises.getOrDefault(first, false), rises.getOrDefault(second, false) ? second : first);
-		}
-
-		return corner(first, second);
-	}
-
-	private RailShape straight(Direction side, boolean risesHere, Direction climbTowards) {
-		boolean climbs = risesHere || climbTowards != side;
-		Direction axis = side.getAxis() == Direction.Axis.Z ? Direction.NORTH : Direction.EAST;
-
-		if (!climbs) {
-			return axis == Direction.NORTH ? RailShape.NORTH_SOUTH : RailShape.EAST_WEST;
-		}
-
-		return switch (climbTowards) {
-			case NORTH -> RailShape.ASCENDING_NORTH;
-			case SOUTH -> RailShape.ASCENDING_SOUTH;
-			case EAST -> RailShape.ASCENDING_EAST;
-			default -> RailShape.ASCENDING_WEST;
-		};
-	}
-
-	private RailShape corner(Direction a, Direction b) {
-		boolean north = a == Direction.NORTH || b == Direction.NORTH;
-		boolean south = a == Direction.SOUTH || b == Direction.SOUTH;
-		boolean east = a == Direction.EAST || b == Direction.EAST;
-
-		if (north) {
-			return east ? RailShape.NORTH_EAST : RailShape.NORTH_WEST;
-		}
-
-		return south && east ? RailShape.SOUTH_EAST : RailShape.SOUTH_WEST;
 	}
 
 	/** The two directions a shape joins up with. Ascending shapes climb towards the first of the pair. */

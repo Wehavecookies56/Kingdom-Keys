@@ -49,6 +49,13 @@ public class ModSounds {
             gummiRemove = registerSound("gummi_remove"),
 			guard = registerSound("guard"),
             aerialRecovery = registerSound("aerial_recovery"),
+            flowmotionLoop = registerSound("flowmotion_loop"),
+            koLoop = registerSound("ko_loop"),
+            heartlessKill = registerSound("heartless_kill"),
+            heartlessSpawn = registerSound("heartless_spawn"),
+            nobodyKill = registerSound("nobody_kill"),
+            openChest = registerSound("open_chest"),
+            synthesisPickup = registerSound("synthesis_pickup"),
 	        
 	        fire = registerSound("magic/fire"),
 	        fira = registerSound("magic/fira"),

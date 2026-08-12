@@ -14,6 +14,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -25,6 +26,7 @@ import net.minecraft.world.level.portal.DimensionTransition;
 import net.minecraft.world.phys.Vec3;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
+import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.data.GlobalData;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.data.WorldData;
@@ -95,6 +97,16 @@ public class SpawningOrbEntity extends Monster {
 		if(tickCount == 70) {
 			if(!level().isClientSide) {
 				if (this.mobs != null && !this.mobs.isEmpty()) {
+					/*if(this.mobs.getFirst() instanceof IKHMob mob){
+						if(mob.getKHMobType() == MobType.NOBODY){
+							level().playSound(null, blockPosition(), ModSounds.nobodySpawn.get(), SoundSource.HOSTILE, 1F, 1F);
+						} else {
+							level().playSound(null, blockPosition(), ModSounds.heartlessSpawn.get(), SoundSource.HOSTILE, 1F, 1F);
+						}
+					}*/
+					level().playSound(null, blockPosition(), ModSounds.heartlessSpawn.get(), SoundSource.HOSTILE, 1F, 1F);
+
+
 					for (Monster mob : mobs) {
 						mob.setPos(this.getX(), this.getY(), this.getZ());
 						mob.heal(mob.getMaxHealth());
@@ -165,7 +177,7 @@ public class SpawningOrbEntity extends Monster {
 
 			BlockPos coords = nPlayer.getServer().getLevel(dimension).getSharedSpawnPos();
 			nPlayer.changeDimension(new DimensionTransition(nPlayer.getServer().getLevel(dimension), new Vec3(coords.getX(), coords.getY(), coords.getZ()), Vec3.ZERO, nPlayer.getYRot(), nPlayer.getXRot(), entity -> {}));
-			nPlayer.sendSystemMessage(Component.translatable("kingdomkeys.teleport.teleported_to", dimension.location()));
+			nPlayer.sendSystemMessage(Component.translatable("kingdomkeys.teleport.teleported_to", dimension.location().getPath()));
 		}
 		super.playerTouch(nPlayer);
 	}

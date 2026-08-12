@@ -101,6 +101,8 @@ import online.kingdomkeys.kingdomkeys.util.CombatAbilities;
 import online.kingdomkeys.kingdomkeys.network.cts.*;
 import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
 import online.kingdomkeys.kingdomkeys.sound.AlarmSoundInstance;
+import online.kingdomkeys.kingdomkeys.sound.FlowmotionSoundInstance;
+import online.kingdomkeys.kingdomkeys.sound.KOSoundInstance;
 import online.kingdomkeys.kingdomkeys.util.IDisabledAnimations;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.world.StruggleHandler;
@@ -907,6 +909,14 @@ public class ClientEvents {
 	private static int grindCooldown;
 	private static int reverseCooldown;
 
+	/** Whether the player is riding a rail right now, which is what tells the flowmotion loop when to stop */
+	public static boolean isGrinding() {
+		return grindRail != null;
+	}
+
+	/** Kept so the loop is only started once, rather than one a tick for as long as the player is down */
+	private static KOSoundInstance koSound;
+
 	@SubscribeEvent
 	public void grindTick(PlayerTickEvent.Post event) {
 		Minecraft mc = Minecraft.getInstance();
@@ -914,6 +924,18 @@ public class ClientEvents {
 		if (event.getEntity() == mc.player) {
 			tickGrind(mc);
 			tickCombatWindows(mc);
+			tickKOSound(mc);
+		}
+	}
+
+	private void tickKOSound(Minecraft mc) {
+		if (!mc.player.hasEffect(ModMobEffects.KO)) {
+			return;
+		}
+
+		if (koSound == null || !mc.getSoundManager().isActive(koSound)) {
+			koSound = new KOSoundInstance(mc.player);
+			mc.getSoundManager().play(koSound);
 		}
 	}
 
@@ -1100,6 +1122,7 @@ public class ClientEvents {
 		takePath(shape);
 
 		player.level().playSound(player, player.blockPosition(), ModSounds.wall_grab.get(), SoundSource.PLAYERS, 1F, 1.4F);
+		Minecraft.getInstance().getSoundManager().play(new FlowmotionSoundInstance(player));
 		PacketHandler.sendToServer(new CSSetFlowmotionPacket(true));
 	}
 

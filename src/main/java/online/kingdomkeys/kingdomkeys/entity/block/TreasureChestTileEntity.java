@@ -110,6 +110,7 @@ public class TreasureChestTileEntity extends BlockEntity {
             level.setBlock(getBlockPos(), Blocks.AIR.defaultBlockState(), Block.UPDATE_ALL);
             return true;
         } else if (!treasure.isEmpty()) {
+            level.playSound(null, getBlockPos(), ModSounds.openChest.get(), SoundSource.PLAYERS, 1F, 1F);
             Utils.giveItems((ServerPlayer) player, true, treasure);
             treasure = new ArrayList<>();
             level.setBlock(getBlockPos(), Blocks.AIR.defaultBlockState(), Block.UPDATE_ALL);

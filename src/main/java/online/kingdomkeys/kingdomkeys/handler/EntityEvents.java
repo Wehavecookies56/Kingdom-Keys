@@ -13,6 +13,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
@@ -931,7 +932,10 @@ public class EntityEvents {
 					if (!ItemStack.matches(bag, ItemStack.EMPTY)) {
 						if (bag.getItem() == ModItems.synthesisBag.get()) {
 							IItemHandler inv = bag.getCapability(Capabilities.ItemHandler.ITEM, null);
-							addToBag(inv, event, bag);
+							if (addToBag(inv, event, bag)) {
+								Player picker = event.getPlayer();
+								picker.level().playSound(null, picker.blockPosition(), ModSounds.synthesisPickup.get(), SoundSource.PLAYERS, 0.6F, 1F);
+							}
 						}
 					}
 				}
@@ -973,7 +977,7 @@ public class EntityEvents {
 		}
 	}
 
-	public void addToBag(IItemHandler inv, ItemEntityPickupEvent.Pre event, ItemStack bag) {
+	public boolean addToBag(IItemHandler inv, ItemEntityPickupEvent.Pre event, ItemStack bag) {
 		int bagLevel = bag.getOrDefault(ModComponents.BAG_LEVEL, 0);
 		int maxSlots = switch (bagLevel) {
 			case 0 -> 18;
@@ -985,7 +989,7 @@ public class EntityEvents {
 
 		ItemStack onGround = event.getItemEntity().getItem();
 		if (onGround.isEmpty()) {
-			return;
+			return false;
 		}
 
 		ItemStack remaining = onGround.copy();
@@ -997,9 +1001,11 @@ public class EntityEvents {
 		if (remaining.isEmpty()) {
 			event.setCanPickup(TriState.FALSE);
 			event.getItemEntity().discard();
-		} else {
-			onGround.setCount(remaining.getCount());
+			return true;
 		}
+
+		onGround.setCount(remaining.getCount());
+		return false;
 	}
 
 	@SubscribeEvent
@@ -1366,6 +1372,20 @@ public class EntityEvents {
 			} else if (event.getSource().getEntity() instanceof Player pl) {
 				player = pl;
 			}
+
+			//Kill sound
+			if (player != null && entity instanceof IKHMob killed) {
+				SoundEvent death = switch (killed.getKHMobType()) {
+					case HEARTLESS_PUREBLOOD, HEARTLESS_EMBLEM -> ModSounds.heartlessKill.get();
+					case NOBODY -> ModSounds.nobodyKill.get();
+					default -> null;
+				};
+
+				if (death != null) {
+					level.playSound(null, entity.blockPosition(), death, SoundSource.HOSTILE, 1F, 1F);
+				}
+			}
+
 			if (player != null) {
 				PlayerData playerData = PlayerData.get(player);
 
@@ -1470,6 +1490,8 @@ public class EntityEvents {
 							player.level().addFreshEntity(ie);
 						}
 					}
+
+					num = Utils.randomWithRange(0, 99);
 					if (num < ModConfigs.recipeDropChance + Utils.getLootingLevel(player)) {
 						Item recipeTier = ModItems.recipeD.get();
 						GlobalData mobData = GlobalData.get(entity);

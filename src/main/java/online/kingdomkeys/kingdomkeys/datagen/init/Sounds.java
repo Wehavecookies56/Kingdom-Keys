@@ -57,6 +57,13 @@ public class Sounds extends SoundDefinitionsProvider {
         add(gummiRemove);
         add(guard);
         add(aerialRecovery);
+        add(flowmotionLoop);
+        add(koLoop);
+        add(heartlessKill);
+        add(heartlessSpawn);
+        add(nobodyKill);
+        add(openChest);
+        add(synthesisPickup);
 
         add(fire);
         add(fira);

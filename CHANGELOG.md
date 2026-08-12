@@ -3,8 +3,9 @@
 * Kingdom Key recipe in the Common Config for startingRecipes (won't affect if you are in an existing world).
 * Flowmotion Rails, which you can ride once you have the Wall Kick ability.
   * They can be crafted in all 16 colors, different colored rails won't interconnect (unless it's a straight line).
-  * Sneaking or flying in creative avoids you mounting them.
+  * Sneaking or flying in creative avoids you grinding on them.
   * Rail jumping power is boosted by the ability superjump.
+  * Redstone can be used in intersections just like with vanilla rails.
 * World Map dimension where gummi ships won't use any fuel.
 * Option to auto build Gummi Ships based on the blueprint, place items in a chest right next to the hangar and if you have energy stored it will start to build it.
   * Server Config to enable or disable that option.
@@ -17,6 +18,7 @@
 * New Heartless: Air Soldier, Defender, Neoshadow and Novashadow.
 * Realm of Darkness arches.
 * Staff crowns.
+* New sounds for heartless spawning, defeating heartless, defeating nobodies, ko loop, opening treasure chest, picking up synthesis items into a bag. 
 * Data driven property for magic data where you can specify what the projectile does to various blocks:
   * light_lightable: Allows the projectile to turn on campfires, candles...
   * turn_off_lightable: Allows the projectile to turn them off.
@@ -50,4 +52,5 @@
 * Air gets ignored in Gummi Ship structure serialization, saving tons of space.
 * Items given with the new system (window or notification) now stack if possible in the stock menu.
 * Castle Oblivion door being breakable.
+* You will no longer get a recipe dropped everytime you get a biome memory drop.
 * **/kingdomkeys ability give** command not working unless specifying true / false.

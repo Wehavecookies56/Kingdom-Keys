@@ -49,6 +49,11 @@
       "kingdomkeys:ether"
     ]
   },
+  "flowmotion_loop": {
+    "sounds": [
+      "kingdomkeys:flowmotion_loop"
+    ]
+  },
   "guard": {
     "sounds": [
       "kingdomkeys:guard"
@@ -62,6 +67,16 @@
   "gummi_remove": {
     "sounds": [
       "kingdomkeys:gummi_remove"
+    ]
+  },
+  "heartless_kill": {
+    "sounds": [
+      "kingdomkeys:heartless_kill"
+    ]
+  },
+  "heartless_spawn": {
+    "sounds": [
+      "kingdomkeys:heartless_spawn"
     ]
   },
   "hp_orb": {
@@ -83,6 +98,11 @@
     "sounds": [
       "kingdomkeys:keyblade_armor",
       "kingdomkeys:keyblade_armor2"
+    ]
+  },
+  "ko_loop": {
+    "sounds": [
+      "kingdomkeys:ko_loop"
     ]
   },
   "kupo": {
@@ -386,6 +406,16 @@
       }
     ]
   },
+  "nobody_kill": {
+    "sounds": [
+      "kingdomkeys:nobody_kill"
+    ]
+  },
+  "open_chest": {
+    "sounds": [
+      "kingdomkeys:open_chest"
+    ]
+  },
   "player_death": {
     "sounds": [
       "kingdomkeys:player_death"
@@ -624,6 +654,11 @@
   "summon_armor": {
     "sounds": [
       "kingdomkeys:summon_armor"
+    ]
+  },
+  "synthesis_pickup": {
+    "sounds": [
+      "kingdomkeys:synthesis_pickup"
     ]
   },
   "unsummon": {
