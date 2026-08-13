@@ -6,19 +6,20 @@
   * Sneaking or flying in creative avoids you grinding on them.
   * Rail jumping power is boosted by the ability superjump.
   * Redstone can be used in intersections just like with vanilla rails.
-* World Map dimension where gummi ships won't use any fuel.
+* World Map dimension where gummi ships won't use any fuel, filled with meteors.
+  * Daybreak Town added as a world test, if kept, it might be reworked in the future.
 * Option to auto build Gummi Ships based on the blueprint, place items in a chest right next to the hangar and if you have energy stored it will start to build it.
   * Server Config to enable or disable that option.
 * Creative blueprint which builds the ship rather than displaying the hologram when clicking import.
-* Option to export gummi ship blueprints into files to be able to load them as blueprints in other worlds or servers.
-* Gummi shots can destroy meteors.
+* Option to export gummi ship blueprints into files to be able to load them as blueprints in other worlds or servers, or even send them to your friends.
+* Gummi shots can now destroy meteors.
 * Gummi inner corner shape.
 * Sound when placing and breaking gummi blocks.
 * New Abilities: Guard, Counterguard, Aerial Recovery and Once more.
 * New Heartless: Air Soldier, Defender, Neoshadow and Novashadow.
 * Realm of Darkness arches.
-* Staff crowns.
-* New sounds for heartless spawning, defeating heartless, defeating nobodies, ko loop, opening treasure chest, picking up synthesis items into a bag. 
+* Staff crowns: for devs, for people who helped to develop Addons and people who contributed to the mod somehow.
+* New sounds for: heartless spawning, defeating heartless, defeating nobodies, ko loop, opening a treasure chest and for picking up synthesis materials into a bag. 
 * Data driven property for magic data where you can specify what the projectile does to various blocks:
   * light_lightable: Allows the projectile to turn on campfires, candles...
   * turn_off_lightable: Allows the projectile to turn them off.
@@ -48,6 +49,7 @@
 * Even ships offset when being built.
 * Red tint leak from low HP.
 * Melding ingredients allowing to select a copy of the first selected item even if it's not a real recipe.
+  * You were able to select Waterga and still see another Waterga able to be selected while there's no recipe that use both.
 * Gummi ship losing it's fuel when moving it in edit mode with the arrow buttons from the hangar.
 * Gummi hangar hologram blocks not disappearing once they were correct on hangars facing north, west or east.
 * Gummi aero being invisible when faced the wrong way right next to a solid block.
