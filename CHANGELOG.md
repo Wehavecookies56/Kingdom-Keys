@@ -34,11 +34,11 @@
 * /kk shortcut for /kingdomkeys
 
 ## Changed:
-* Config files have now been moved into their own subfolder, if you modified any move them there AND RENAME to keep your existing settings.
+* Config files have now been moved into their own subfolder, if you modified any, move them there AND RENAME to keep your existing settings.
   * New files don't have the "kingdomkeys-" prefix, therefore the "kingdomkeys-common.toml" file now goes into the "kingdomkeys" folder under the name "common.toml".
-* Hangar screen is no longer that cluttered with information.
-* Gummi ships built in lvl 1 hangar and then were stored in lvl 2 hangar, wouldn't be able to be stored again in the former. They can now be stored again in lvl 1 hangar.
-* Collision boxes to shaped gummi blocks, mini helm and gummi vernier.
+* Hangar screen is no longer that cluttered with information, it was moved into a list box on the left.
+* Gummi ships built in lvl 1 hangar which then were stored in lvl 2 hangar, would increase their size internally, which wouldn't allow them to be stored in the lvl 1 hangar again, now they can.
+* Collision boxes now fit better on shaped gummi blocks, mini helm and gummi vernier.
 * Nobody banner icon.
 * Lowered meteorite frequency.
 * Removed old blizzardChangeBlocks Common Config since the new system obsoletes it.
@@ -57,4 +57,4 @@
 * Items given with the new system (window or notification) now stack if possible in the stock menu.
 * Castle Oblivion door being breakable.
 * You will no longer get a recipe dropped everytime you get a biome memory drop.
-* **/kingdomkeys ability give** command not working unless specifying true / false.
+* **/kingdomkeys ability give** command not working unless specifying true / false, now true is implied if ignored.
