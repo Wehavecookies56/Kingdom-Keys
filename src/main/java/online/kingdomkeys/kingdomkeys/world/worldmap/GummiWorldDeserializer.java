@@ -26,15 +26,15 @@ public class GummiWorldDeserializer implements JsonDeserializer<GummiWorld> {
 		ResourceKey<Level> dimension = ResourceKey.create(Registries.DIMENSION, resource(obj, "dimension"));
 		double takeoff = obj.has("takeoff_altitude") ? obj.get("takeoff_altitude").getAsDouble() : DEFAULT_TAKEOFF;
 		Vec3 worldmapPosition = vec(obj, "worldmap_position");
-		Vec3 spawn = vec(obj, "spawn");
+		Vec3 landingSpawn = vec(obj, "landingSpawn");
 		float scale = obj.has("scale") ? obj.get("scale").getAsFloat() : DEFAULT_SCALE;
 
-		Vec3 arrival = obj.has("arrival_position") ? vec(obj, "arrival_position") : worldmapPosition.add(0, 0, scale);
+		Vec3 takeOffSpawn = obj.has("takeoffSpawn") ? vec(obj, "takeoffSpawn") : worldmapPosition.add(0, 0, scale);
 		double approachRange = obj.has("approach_range") ? obj.get("approach_range").getAsDouble() : scale;
 
 		ResourceLocation texture = obj.has("texture") ? ResourceLocation.parse(obj.get("texture").getAsString()) : KingdomKeys.rl("textures/worldmap/" + dimension.location().getPath() + ".png");
 
-		return new GummiWorld(dimension, takeoff, worldmapPosition, arrival, spawn, texture, scale, approachRange);
+		return new GummiWorld(dimension, takeoff, worldmapPosition, takeOffSpawn, landingSpawn, texture, scale, approachRange);
 	}
 
 	private static ResourceLocation resource(JsonObject obj, String key) {

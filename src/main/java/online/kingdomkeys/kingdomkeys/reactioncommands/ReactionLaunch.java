@@ -33,7 +33,7 @@ public class ReactionLaunch extends ReactionCommand {
 
 		GummiWorld world = GummiWorldLoader.forDimension(player.level().dimension());
 		WorldMap.ensureMarkers(worldmap);
-		WorldMap.travel(serverPlayer, worldmap, world.arrivalPosition());
+		WorldMap.travel(serverPlayer, worldmap, world.takeOffSpawn());
 	}
 
 	@Override

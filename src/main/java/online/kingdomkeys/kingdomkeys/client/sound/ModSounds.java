@@ -146,7 +146,10 @@ public class ModSounds {
 			Music_The_13th_Floor = registerSound("music/the_13th_floor"),
 			Music_Forgotten_Challenge = registerSound("music/forgotten_challenge"),
 			Music_World_Map = registerSound("music/world_map"),
-			Music_Daybreak_Town = registerSound("music/daybreak_town");
+			Music_Daybreak_Town = registerSound("music/daybreak_town"),
+			Music_Daybreak_Town_Battle = registerSound("music/daybreak_town_battle"),
+			Music_Destiny_Islands = registerSound("music/destiny_islands"),
+			Music_Destiny_Islands_Battle = registerSound("music/night_of_fate");
 
            /*
             Music_A_Day_In_Agrabah = registerSound("music.a_day_in_agrabah"),

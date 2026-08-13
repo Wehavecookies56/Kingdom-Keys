@@ -26,7 +26,6 @@ import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
 import net.minecraft.world.entity.boss.wither.WitherBoss;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.Monster;
-import net.minecraft.world.entity.monster.Slime;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
@@ -669,11 +668,9 @@ public class EntityEvents {
 			}
 		}
 
-		if (player.level().isClientSide()) {
-			if (ModConfigs.cmChangeColor && player.tickCount % 5 == 0) {
-				updateCommandMenu(player);
-			}
-		}
+		// The threat level used to be worked out here, which ran for every player the client was ticking
+		// and left whichever went last holding the answer. ClientEvents does it now, for the one player
+		// whose command menu and music it belongs to
 
 		//Flowmotion
 		if (!player.onGround() && Utils.isTouchingWall(player) && !playerData.getIsGliding()) {
@@ -766,28 +763,6 @@ public class EntityEvents {
 			}
 		}
 
-	}
-
-	/**
-	 * This method returns the threat level around the player, boss prevails over hostile which prevails over none
-	 *
-	 * @param player
-	 */
-	private void updateCommandMenu(Player player) {
-		threatLevel = ThreatLevel.NONE;
-
-		for (LivingEntity entity : Utils.getLivingEntitiesInRadius(player, 150)) {
-			// Search for a boss
-			if (entity instanceof EnderDragon || entity instanceof WitherBoss || entity instanceof MarluxiaEntity) {
-				threatLevel = ThreatLevel.BOSS;
-				return;
-			}
-
-			// If no boss was found
-			if (threatLevel == ThreatLevel.NONE && player.distanceToSqr(entity) <= 16 * 16 && (entity instanceof Monster || entity instanceof Slime)) {
-				threatLevel = ThreatLevel.HOSTILES;
-			}
-		}
 	}
 
 	@SubscribeEvent

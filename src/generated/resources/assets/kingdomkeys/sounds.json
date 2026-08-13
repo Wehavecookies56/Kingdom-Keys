@@ -366,6 +366,22 @@
       }
     ]
   },
+  "music/daybreak_town_battle": {
+    "sounds": [
+      {
+        "name": "kingdomkeys:music/daybreak_town_battle",
+        "stream": true
+      }
+    ]
+  },
+  "music/destiny_islands": {
+    "sounds": [
+      {
+        "name": "kingdomkeys:music/destiny_islands",
+        "stream": true
+      }
+    ]
+  },
   "music/dive_into_the_heart_destati": {
     "sounds": [
       {
@@ -386,6 +402,14 @@
     "sounds": [
       {
         "name": "kingdomkeys:music/lord_of_the_castle",
+        "stream": true
+      }
+    ]
+  },
+  "music/night_of_fate": {
+    "sounds": [
+      {
+        "name": "kingdomkeys:music/night_of_fate",
         "stream": true
       }
     ]

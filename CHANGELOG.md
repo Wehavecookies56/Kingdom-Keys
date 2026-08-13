@@ -8,6 +8,7 @@
   * Redstone can be used in intersections just like with vanilla rails.
 * World Map dimension where gummi ships won't use any fuel, filled with meteors.
   * Daybreak Town added as a world test, if kept, it might be reworked in the future.
+  * Mod worlds will have idle and battle tracks which will fade in and out once the player gets in a fight.
 * Option to auto build Gummi Ships based on the blueprint, place items in a chest right next to the hangar and if you have energy stored it will start to build it.
   * Server Config to enable or disable that option.
 * Creative blueprint which builds the ship rather than displaying the hologram when clicking import.
@@ -41,6 +42,8 @@
 * Collision boxes now fit better on shaped gummi blocks, mini helm and gummi vernier.
 * Nobody banner icon.
 * Lowered meteorite frequency.
+* Hostility detection (for command menu color) is now fully client side and has a cooldown of 5 ticks, should hopefully avoid the flickering that sometimes still happened.
+  * Now in order to be in combat you need to have line of sight with the enemy, so in caves it should be less frequent.
 * Removed old blizzardChangeBlocks Common Config since the new system obsoletes it.
 
 ## Fixed:

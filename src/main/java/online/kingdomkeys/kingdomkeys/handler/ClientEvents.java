@@ -16,7 +16,6 @@ import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.player.Input;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
@@ -26,13 +25,15 @@ import net.minecraft.core.Vec3i;
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.sounds.Music;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
+import net.minecraft.world.entity.boss.wither.WitherBoss;
+import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.monster.Slime;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
@@ -41,7 +42,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.RailShape;
-import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
@@ -78,6 +78,7 @@ import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
+import online.kingdomkeys.kingdomkeys.entity.mob.MarluxiaEntity;
 import online.kingdomkeys.kingdomkeys.entity.GummiShipEntity;
 import online.kingdomkeys.kingdomkeys.entity.KKVehicleEntity;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.EpicFightUtils;
@@ -90,8 +91,6 @@ import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.SoAState;
 import online.kingdomkeys.kingdomkeys.lib.Struggle;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.entity.HumanoidArm;
-import net.minecraft.world.item.ItemDisplayContext;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import net.neoforged.neoforge.client.event.CalculatePlayerTurnEvent;
 import net.neoforged.neoforge.client.event.MovementInputUpdateEvent;
@@ -101,12 +100,12 @@ import online.kingdomkeys.kingdomkeys.util.CombatAbilities;
 import online.kingdomkeys.kingdomkeys.network.cts.*;
 import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
 import online.kingdomkeys.kingdomkeys.sound.AlarmSoundInstance;
+import online.kingdomkeys.kingdomkeys.sound.DimensionMusic;
 import online.kingdomkeys.kingdomkeys.sound.FlowmotionSoundInstance;
 import online.kingdomkeys.kingdomkeys.sound.KOSoundInstance;
 import online.kingdomkeys.kingdomkeys.util.IDisabledAnimations;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.world.StruggleHandler;
-import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.CastleOblivionHandler;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.floor.Floor;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModRoomModifiers;
@@ -119,30 +118,16 @@ import org.lwjgl.glfw.GLFW;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Map;
 import java.util.function.Supplier;
 
 public class ClientEvents {
-
-	//For dimensions that don't have a json for the music
-	private static final Map<ResourceKey<Level>, Music> DIMENSION_MUSIC = Map.of(
-			ModDimensions.WORLDMAP, new Music(ModSounds.Music_World_Map, 0, 0, true),
-			ModDimensions.DAYBREAK_TOWN, new Music(ModSounds.Music_Daybreak_Town, 0, 0, true)
-	);
 
 	@SubscribeEvent
 	public void onSelectMusic(SelectMusicEvent event) {
 		Level level = Minecraft.getInstance().level;
 
-		if (level == null) {
-			return;
-		}
-
-		Music music = DIMENSION_MUSIC.get(level.dimension());
-
-		// Overriding rather than setting, so nothing further down the line puts the menu music back on
-		if (music != null) {
-			event.overrideMusic(music);
+		if (level != null && DimensionMusic.hasMusic(level.dimension())) {
+			event.overrideMusic(null);
 		}
 	}
 
@@ -918,13 +903,42 @@ public class ClientEvents {
 	private static KOSoundInstance koSound;
 
 	@SubscribeEvent
-	public void grindTick(PlayerTickEvent.Post event) {
+	public void postTickEvent(PlayerTickEvent.Post event) {
 		Minecraft mc = Minecraft.getInstance();
 
 		if (event.getEntity() == mc.player) {
 			tickGrind(mc);
 			tickCombatWindows(mc);
 			tickKOSound(mc);
+
+			if (mc.player.tickCount % 5 == 0 && (ModConfigs.cmChangeColor || DimensionMusic.hasMusic(mc.level.dimension()))) {
+				updateThreatLevel(mc.player);
+			}
+
+			DimensionMusic.tick(mc);
+		}
+	}
+
+	/**
+	 * This method returns the threat level around the player, boss prevails over hostile which prevails over none
+	 *
+	 * @param player
+	 */
+	private void updateThreatLevel(Player player) {
+		EntityEvents.threatLevel = EntityEvents.ThreatLevel.NONE;
+
+		for (LivingEntity entity : Utils.getLivingEntitiesInRadius(player, 150)) {
+			// A boss is a fight from across the room, and there is no hiding from one
+			if (entity instanceof EnderDragon || entity instanceof WitherBoss || entity instanceof MarluxiaEntity) {
+				EntityEvents.threatLevel = EntityEvents.ThreatLevel.BOSS;
+				return;
+			}
+
+			// Keep looking after finding one of these, in case there is a boss further out
+			if (EntityEvents.threatLevel == EntityEvents.ThreatLevel.NONE && (entity instanceof Monster || entity instanceof Slime)
+					&& entity.isAlive() && player.distanceToSqr(entity) <= 16 * 16 && entity.hasLineOfSight(player)) {
+				EntityEvents.threatLevel = EntityEvents.ThreatLevel.HOSTILES;
+			}
 		}
 	}
 

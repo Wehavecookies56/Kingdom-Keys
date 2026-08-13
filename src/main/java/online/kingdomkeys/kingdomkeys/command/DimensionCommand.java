@@ -72,7 +72,7 @@ public class DimensionCommand extends BaseCommand {
 		if (dimension == ModDimensions.WORLDMAP) {
 			// Drop next to whichever world you were flying over, or the origin if it isn't on the map.
 			GummiWorld world = GummiWorldLoader.forDimension(player.level().dimension());
-			Vec3 at = world != null ? world.arrivalPosition() : Vec3.ZERO.add(0, 128, 0);
+			Vec3 at = world != null ? world.takeOffSpawn() : Vec3.ZERO.add(0, 128, 0);
 			return BlockPos.containing(at);
 		}
 		if (dimension == ModDimensions.DIVE_TO_THE_HEART) {

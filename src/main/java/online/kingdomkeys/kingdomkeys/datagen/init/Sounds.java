@@ -151,6 +151,9 @@ public class Sounds extends SoundDefinitionsProvider {
         add(Music_Forgotten_Challenge, true);
         add(Music_World_Map, true);
         add(Music_Daybreak_Town, true);
+        add(Music_Daybreak_Town_Battle, true);
+        add(Music_Destiny_Islands, true);
+        add(Music_Destiny_Islands_Battle, true);
     }
 
     public void add(Supplier<SoundEvent> sound) {

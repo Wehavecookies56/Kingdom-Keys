@@ -1,0 +1,9 @@
+{
+  "type": "kingdomkeys:destiny_islands",
+  "generator": {
+    "type": "kingdomkeys:prebuilt_world_generator",
+    "world": "kingdomkeys:destiny_islands",
+    "origin": [0, 64, 0],
+    "biome_source": { "type": "minecraft:fixed", "biome": "minecraft:the_void" }
+  }
+}

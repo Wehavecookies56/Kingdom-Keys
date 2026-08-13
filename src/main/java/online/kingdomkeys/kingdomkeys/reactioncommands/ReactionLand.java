@@ -36,7 +36,7 @@ public class ReactionLand extends ReactionCommand {
 			return;
 		}
 
-		WorldMap.travel(serverPlayer, destination, world.spawn());
+		WorldMap.travel(serverPlayer, destination, world.landingSpawn());
 	}
 
 	@Override

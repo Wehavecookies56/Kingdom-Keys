@@ -1,0 +1,10 @@
+{
+  "dimension": "kingdomkeys:destiny_islands",
+  "takeoff_altitude": 320,
+  "worldmap_position": [500, 128, -100],
+  "takeoffSpawn": [490, 128, -115],
+  "landingSpawn": [106, 100, 26],
+  "texture": "kingdomkeys:textures/worldmap/destiny_islands.png",
+  "scale": 32,
+  "approach_range": 40
+}
