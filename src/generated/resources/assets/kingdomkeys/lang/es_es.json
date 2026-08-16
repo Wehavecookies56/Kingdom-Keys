@@ -2828,6 +2828,7 @@
   "kingdomkeys.struggle.go": "¡YA!",
   "kingdomkeys.struggle.lose": "Has perdido",
   "kingdomkeys.struggle.no_weapon": "¡Necesitas tener tu bate de Struggle en la barra de items!",
+  "kingdomkeys.struggle.out_of_range": "La arena debe estar a menos de %s bloques de su tablón",
   "kingdomkeys.struggle.starting": "¡Empieza el Struggle...!",
   "kingdomkeys.struggle.tie.overtime": "¡Empate! ¡Muerte súbita!",
   "kingdomkeys.struggle.tournament.bye": "¡Pasas de ronda sin combatir!",

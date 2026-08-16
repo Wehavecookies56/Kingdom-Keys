@@ -8,7 +8,7 @@ import java.util.List;
 
 public class ServerConfig {
 
-    public ModConfigSpec.IntValue gummiHangarBuildCost, gummiHangarBuildDelay, finalMixVariantChance, partyRangeLimit, partyMembersLimit, shotlockMaxDist, wayfinderCD, wayfinderCDCall;
+    public ModConfigSpec.IntValue gummiHangarBuildCost, gummiHangarBuildDelay, finalMixVariantChance, partyRangeLimit, partyMembersLimit, shotlockMaxDist, wayfinderCD, wayfinderCDCall, struggleArenaRange;
 
     public ModConfigSpec.ConfigValue<List<? extends String>> driveFormXPMultiplier;
     public ModConfigSpec.ConfigValue<List<? extends Integer>> statsMultiplier;
@@ -23,6 +23,11 @@ public class ServerConfig {
                 .comment("Soft lock on allows some camera movement while locked on")
                 .translation(KingdomKeys.MODID + ".config.soft_lock_on_mode")
                 .define("softLockOnMode", true);
+
+        struggleArenaRange = builder
+                .comment("How far from its board a struggle's arena corners and spectator spot may be set, in blocks")
+                .translation(KingdomKeys.MODID + ".config.struggle_arena_range")
+                .defineInRange("struggleArenaRange", 32, 1, 512);
 
         staffCrownsUpdate = builder
                 .comment("Set whether the server checks GitHub for the list of people who get a staff crown. Turning this off falls back to the copy shipped with the mod, which only changes when the mod is updated")

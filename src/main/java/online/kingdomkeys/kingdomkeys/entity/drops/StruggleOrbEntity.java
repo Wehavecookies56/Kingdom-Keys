@@ -36,7 +36,7 @@ public class StruggleOrbEntity extends ItemDropEntity {
 	private String struggleName = "";
 
 	public StruggleOrbEntity(Level worldIn, double x, double y, double z, int color, String struggleName) {
-		super(ModEntities.TYPE_STRUGGLE_ORB.get(), worldIn, x, y, z, 0);
+		super(ModEntities.TYPE_STRUGGLE_ORB.get(), worldIn, x, y, z, 1);
 		this.setColor(color);
 		this.struggleName = struggleName;
 	}
@@ -96,9 +96,25 @@ public class StruggleOrbEntity extends ItemDropEntity {
 		Struggle.Participant participant = struggle.getParticipant(player.getUUID());
 		if (participant == null) return;
 
-		participant.setScore(participant.getScore() + 1);
+		participant.setScore(participant.getScore() + Math.max(1, getValue()));
 		worldData.setDirty();
 		PacketHandler.sendToAll(new SCSyncWorldData(player.getServer()));
+	}
+
+	// Makes no sense to merge them since it's always in a controlled space and players have a motivation to pick them up
+	@Override
+	protected boolean merges() {
+		return false;
+	}
+
+	@Override
+	protected int maxAge() {
+		if (level().isClientSide || getServer() == null) {
+			return super.maxAge();
+		}
+
+		Struggle struggle = WorldData.get(getServer()).getStruggleFromName(this.struggleName);
+		return struggle != null && struggle.isInProgress() ? Integer.MAX_VALUE : super.maxAge();
 	}
 
 	@Override

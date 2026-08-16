@@ -49,9 +49,17 @@ public abstract class ItemDropEntity extends Entity {
 		super(type, world);
 	}
 
+	protected int maxAge() {
+		return 2400;
+	}
+
+	protected boolean merges() {
+		return true;
+	}
+
 	@Override
 	public void tick() {
-		if (tickCount > 2400) {
+		if (tickCount > maxAge()) {
 			this.remove(RemovalReason.KILLED);
 			return;
 		}
@@ -62,7 +70,7 @@ public abstract class ItemDropEntity extends Entity {
 			--this.delayBeforeCanPickup;
 		}
 
-		if (!this.level().isClientSide && !this.isRemoved() && (this.tickCount + this.getId()) % MERGE_INTERVAL == 0) {
+		if (merges() && !this.level().isClientSide && !this.isRemoved() && (this.tickCount + this.getId()) % MERGE_INTERVAL == 0) {
 			mergeNearby();
 		}
 

@@ -36,6 +36,7 @@
 * /kk shortcut for /kingdomkeys
 * HUD Elements can now be toggled with V, if you want to just hide a specific one without having to move it outside the screen or making it small.
 * HUD Elements can now be cycled through the ones overlapping by left clicking and releasing without dragging.
+* ServerConfig option to adjust the max distance from a Struggle board and the ring, to avoid teleporting to any place (default 32 blocks).
 
 ## Changed:
 * Config files have now been moved into their own subfolder, if you modified any, move them there AND RENAME to keep your existing settings.
@@ -43,6 +44,7 @@
 * Hangar screen is no longer that cluttered with information, it was moved into a list box on the left.
 * Gummi ship driving screen information has panels and changed the way data is displayed.
 * Gummi ships built in lvl 1 hangar which then were stored in lvl 2 hangar, would increase their size internally, which wouldn't allow them to be stored in the lvl 1 hangar again, now they can.
+* Water gummi visual effects using a trail.
 * Collision boxes now fit better on shaped gummi blocks, mini helm and gummi vernier.
 * Nobody banner icon.
 * Lowered meteorite frequency.
@@ -55,6 +57,7 @@
 * Heartless portal tp to Realm of Darkness crash.
 * Even ships offset when being built.
 * Red tint leak from low HP.
+* Struggle orbs merging and losing points in the process, now they won't merge at all.
 * Melding ingredients allowing to select a copy of the first selected item even if it's not a real recipe.
   * You were able to select Waterga and still see another Waterga able to be selected while there's no recipe that use both.
 * Gummi ship losing it's fuel when moving it in edit mode with the arrow buttons from the hangar.

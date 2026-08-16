@@ -10,9 +10,11 @@ import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.client.TrailRenderer;
 import online.kingdomkeys.kingdomkeys.entity.GummiImpactEntity;
 import org.joml.Matrix4f;
 import org.joml.Quaternionf;
@@ -27,10 +29,18 @@ public class GummiImpactEntityRender extends EntityRenderer<GummiImpactEntity> {
 		this.shadowRadius = 0F;
 	}
 
+	private static final float WAVE_WIDTH = 0.45F;
+
+	private static final float FADE_TICKS = 6F;
+
+	private static final float[][] WAVE_COLORS = {{0.55F, 0.85F, 1F}, {0.25F, 0.6F, 0.95F}, {0.55F, 0.85F, 1F}, {0.25F, 0.6F, 0.95F}};
+
     @Override
     public void render(GummiImpactEntity entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource bufferIn, int packedLightIn) {
         if (entity.tickCount < 1)
             return;
+
+        drawWave(entity, partialTicks, poseStack, bufferIn);
 
         poseStack.pushPose();
         {
@@ -78,6 +88,33 @@ public class GummiImpactEntityRender extends EntityRenderer<GummiImpactEntity> {
         poseStack.popPose();
         super.render(entity, entityYaw, partialTicks, poseStack, bufferIn, packedLightIn);
     }
+
+	private void drawWave(GummiImpactEntity entity, float partialTicks, PoseStack poseStack, MultiBufferSource bufferSource) {
+		GummiImpactEntity partner = entity.otherPart();
+
+		// Only the lower of the pair draws it, the same rule the damage goes by, or it would be drawn twice
+		if (partner == null || partner.isRemoved() || entity.getId() > partner.getId()) {
+			return;
+		}
+
+		float age = entity.tickCount + partialTicks;
+		float remaining = entity.getMaxTicks() - age;
+
+		if (remaining <= 0) {
+			return;
+		}
+
+		float alpha = Math.min(1F, remaining / FADE_TICKS);
+
+		Vec3 from = entity.getPosition(partialTicks);
+		Vec3 to = partner.getPosition(partialTicks);
+
+		Vec3[] arc = GummiImpactEntity.arc(from, to, entity.origin());
+
+		Vec3 renderOrigin = entity.getPosition(partialTicks);
+
+		TrailRenderer.render(arc, renderOrigin, poseStack.last().pose(), bufferSource.getBuffer(RenderType.debugQuads()), WAVE_COLORS, WAVE_WIDTH, alpha);
+	}
 
     @Nullable
 	@Override

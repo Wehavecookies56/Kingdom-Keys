@@ -28,7 +28,7 @@ public class LootModifiers extends GlobalLootModifierProvider {
 		add("disc_gen", new DiscGenModifier(new LootItemCondition[]{
 				inTable("chests/simple_dungeon"),
 				LootItemRandomChanceCondition.randomChance(0.5F).build()
-		}), new ICondition[0]);
+		}));
 
 		blueprint("highwind_end_city", "kingdomkeys:highwind", "chests/end_city_treasure", 0.25F);
 		blueprint("highwind_stronghold", "kingdomkeys:highwind", "chests/stronghold_library", 0.15F);
@@ -38,7 +38,7 @@ public class LootModifiers extends GlobalLootModifierProvider {
 		add(name, new GummiBlueprintModifier(new LootItemCondition[]{
 				inTable(table),
 				LootItemRandomChanceCondition.randomChance(chance).build()
-		}, ResourceLocation.parse(ship)), new ICondition[0]);
+		}, ResourceLocation.parse(ship)));
 	}
 
 	private static LootItemCondition inTable(String table) {

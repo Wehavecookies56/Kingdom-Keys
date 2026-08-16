@@ -134,18 +134,18 @@ public class GummiShipEntity extends KKVehicleEntity implements IEntityWithCompl
 
 		size *= 2; //Scale it for wider area
 
-		GummiImpactEntity shot = new GummiImpactEntity(level(), player, power);
-		level().addFreshEntity(shot);
-		shot.setPos(position());
-		shot.shootFromRotation(this, getXRot(), getYRot() - size, 0, 3F, 0);
+		GummiImpactEntity left = new GummiImpactEntity(level(), player, power);
+		level().addFreshEntity(left);
+		left.setPos(position());
+		left.shootFromRotation(this, getXRot(), getYRot() - size, 0, 3F, 0);
 
-		GummiImpactEntity shot2 = new GummiImpactEntity(level(), player, power);
-		level().addFreshEntity(shot2);
-		shot2.setPos(position());
-		shot2.shootFromRotation(this, getXRot(), getYRot() + size, 0, 3F, 0);
+		GummiImpactEntity right = new GummiImpactEntity(level(), player, power);
+		level().addFreshEntity(right);
+		right.setPos(position());
+		right.shootFromRotation(this, getXRot(), getYRot() + size, 0, 3F, 0);
 
-		shot.setLinked(shot2);
-		shot2.setLinked(shot);
+		left.link(right, position());
+		right.link(left, position());
 	}
 
 	@Override

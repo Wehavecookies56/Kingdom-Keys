@@ -2493,6 +2493,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add("co.encounter.wave", "Wave");
         add("co.encounter.end", "Finished encounter");
 
+        add("kingdomkeys.struggle.out_of_range", "The arena has to stay within %s blocks of its board");
         add("kingdomkeys.struggle.starting", "Struggle starting...");
         add("kingdomkeys.struggle.tournament.next_match", "Next tournament match starting...");
         add("kingdomkeys.struggle.ffa.starting", "Free for all starting...");
