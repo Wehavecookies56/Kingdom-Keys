@@ -232,8 +232,14 @@ public class GummiHangarTileEntity extends BlockEntity implements MenuProvider {
     private GummiStructure fittedSource;
     private int fittedSize;
 
+    public List<?> ghosts = List.of();
+    public long ghostsAt = Long.MIN_VALUE;
+    public GummiStructure ghostsSource;
+    public int ghostsSize;
+    public Direction ghostsFacing;
+
     // Cache the structure so it doesn't have to rebuild it for every block
-    private GummiStructure fitted(GummiStructure blueprint, int size) {
+    public GummiStructure fitted(GummiStructure blueprint, int size) {
         if (fittedSource != blueprint || fittedSize != size) {
             fittedSource = blueprint;
             fittedSize = size;

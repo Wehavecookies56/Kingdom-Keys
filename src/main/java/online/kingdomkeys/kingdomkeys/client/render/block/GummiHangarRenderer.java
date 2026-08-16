@@ -24,29 +24,81 @@ import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.entity.block.GummiHangarTileEntity;
 import online.kingdomkeys.kingdomkeys.item.GummiShipBlueprintItem;
 import online.kingdomkeys.kingdomkeys.item.ModComponents;
-import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.lib.GummiStructure;
 import online.kingdomkeys.kingdomkeys.lib.LineDisplay;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class GummiHangarRenderer implements BlockEntityRenderer<GummiHangarTileEntity> {
 
-	private GummiStructure fittedSource;
-	private GummiStructure fitted;
-	private int fittedSize;
+	private record GhostBlock(int x, int y, int z, BlockState state) {}
+
+	//Cooldown between updates
+	private static final int REFRESH_TIME = 5;
 
 	public GummiHangarRenderer(BlockEntityRendererProvider.Context context) {
 
     }
 
-	private GummiStructure fitted(GummiStructure blueprint, int size) {
-		if (fittedSource != blueprint || fittedSize != size) {
-			fittedSource = blueprint;
-			fittedSize = size;
-			fitted = Utils.resizeStructure(blueprint, size);
+	//Missing pieces that still draw as hologram (ghost) blocks
+	@SuppressWarnings("unchecked")
+	private List<GhostBlock> ghosts(GummiHangarTileEntity hangar, GummiStructure struct, Direction facing, int size, int[] offsets) {
+		long now = hangar.getLevel().getGameTime();
+
+		if (struct == hangar.ghostsSource && size == hangar.ghostsSize && facing == hangar.ghostsFacing && now - hangar.ghostsAt < REFRESH_TIME) {
+			return (List<GhostBlock>) hangar.ghosts;
 		}
 
-		return fitted;
+		hangar.ghostsSource = struct;
+		hangar.ghostsSize = size;
+		hangar.ghostsFacing = facing;
+		hangar.ghostsAt = now;
+
+		Rotation rotation = switch (facing) {
+			case NORTH -> Rotation.CLOCKWISE_180;
+			case WEST -> Rotation.CLOCKWISE_90;
+			case EAST -> Rotation.COUNTERCLOCKWISE_90;
+			default -> Rotation.NONE;
+		};
+
+		List<GhostBlock> found = new ArrayList<>();
+		int max = size - 1;
+
+		for (int x = 0; x < size; x++) {
+			for (int y = 0; y < size; y++) {
+				for (int z = 0; z < size; z++) {
+					BlockState expected = struct.getBlocks()[x][y][z];
+
+					if (expected == null || expected.isAir()) {
+						continue;
+					}
+
+					expected = Utils.rotateBlock(expected, rotation);
+
+					int rx = x, rz = z;
+					switch (facing) {
+						case NORTH -> { rx = max - x; rz = max - z; }
+						case EAST -> { rx = z; rz = max - x; }
+						case WEST -> { rx = max - z; rz = x; }
+					}
+
+					BlockPos worldPos = hangar.getBlockPos().offset(offsets[0] + rx, y, offsets[1] + rz);
+					BlockState current = hangar.getLevel().getBlockState(worldPos);
+
+					// Not equals: several orientations of the same piece are indistinguishable once placed
+					if (GummiBlockBase.sameAppearance(current, expected)) {
+						continue;
+					}
+
+					found.add(new GhostBlock(offsets[0] + rx, y, offsets[1] + rz, expected));
+				}
+			}
+		}
+
+		hangar.ghosts = found;
+		return found;
 	}
 
     @Override
@@ -130,49 +182,16 @@ public class GummiHangarRenderer implements BlockEntityRenderer<GummiHangarTileE
                     GummiStructure blueprint = stack.get(ModComponents.GUMMI_STRUCTURE);
                     int[] offsets = Utils.getShipOffset(facing, size);
 
-                    GummiStructure struct = blueprint == null ? null : fitted(blueprint, size);
+                    GummiStructure struct = blueprint == null ? null : TE.fitted(blueprint, size);
 
                     if (struct != null && offsets != null) {
-                        Rotation rotation = switch (facing) {
-                            case NORTH -> Rotation.CLOCKWISE_180;
-                            case WEST -> Rotation.CLOCKWISE_90;
-                            case EAST -> Rotation.COUNTERCLOCKWISE_90;
-                            default -> Rotation.NONE;
-                        };
-
-                        int max = size - 1;
-
-                        for (int x = 0; x < size; x++) {
-                            for (int y = 0; y < size; y++) {
-                                for (int z = 0; z < size; z++) {
-                                    BlockState expected = struct.getBlocks()[x][y][z];
-                                    if (expected == null || expected.isAir())
-                                        continue;
-
-                                    expected = Utils.rotateBlock(expected, rotation);
-
-                                    int rx = x, rz = z;
-                                    switch (facing) {
-                                        case NORTH -> { rx = max - x; rz = max - z; }
-                                        case EAST -> { rx = z; rz = max - x; }
-                                        case WEST -> { rx = max - z; rz = x; }
-                                    }
-
-                                    BlockPos worldPos = TE.getBlockPos().offset(offsets[0] + rx, y, offsets[1] + rz);
-                                    BlockState current = TE.getLevel().getBlockState(worldPos);
-                                    // Not equals: several orientations of the same piece are indistinguishable
-                                    // once placed, and marking those as missing would be wrong
-                                    if (GummiBlockBase.sameAppearance(current, expected))
-                                        continue;
-
-                                    matrixStackIn.pushPose();
-                                    {
-                                        matrixStackIn.translate(offsets[0] + rx, y, offsets[1] + rz);
-                                        ClientUtils.renderSingleBlock(expected, matrixStackIn, bufferIn, 0xF000F0, OverlayTexture.NO_OVERLAY, ModelData.EMPTY, 0.75F);
-                                    }
-                                    matrixStackIn.popPose();
-                                }
+                        for (GhostBlock ghost : ghosts(TE, struct, facing, size, offsets)) {
+                            matrixStackIn.pushPose();
+                            {
+                                matrixStackIn.translate(ghost.x(), ghost.y(), ghost.z());
+                                ClientUtils.renderSingleBlock(ghost.state(), matrixStackIn, bufferIn, 0xF000F0, OverlayTexture.NO_OVERLAY, ModelData.EMPTY, 0.75F);
                             }
+                            matrixStackIn.popPose();
                         }
                     }
                 }
