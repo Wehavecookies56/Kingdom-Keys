@@ -15,6 +15,7 @@
 * Option to export gummi ship blueprints into files to be able to load them as blueprints in other worlds or servers, or even send them to your friends.
 * Gummi shots can now destroy meteors.
 * Gummi inner corner shape.
+* Highwind gummi ship blueprint can now be found in strongholds and end cities.
 * Sound when placing and breaking gummi blocks.
 * New Abilities: Guard, Counterguard, Aerial Recovery and Once more.
 * New Heartless: Air Soldier, Defender, Neoshadow and Novashadow.
@@ -33,11 +34,14 @@
   * freeze_water: Allows the projectile turn water into ice.
   * freeze_lava: Allows the projectile turn lava into obsidian.
 * /kk shortcut for /kingdomkeys
+* HUD Elements can now be toggled with V, if you want to just hide a specific one without having to move it outside the screen or making it small.
+* HUD Elements can now be cycled through the ones overlapping by left clicking and releasing without dragging.
 
 ## Changed:
 * Config files have now been moved into their own subfolder, if you modified any, move them there AND RENAME to keep your existing settings.
   * New files don't have the "kingdomkeys-" prefix, therefore the "kingdomkeys-common.toml" file now goes into the "kingdomkeys" folder under the name "common.toml".
 * Hangar screen is no longer that cluttered with information, it was moved into a list box on the left.
+* Gummi ship driving screen information has panels and changed the way data is displayed.
 * Gummi ships built in lvl 1 hangar which then were stored in lvl 2 hangar, would increase their size internally, which wouldn't allow them to be stored in the lvl 1 hangar again, now they can.
 * Collision boxes now fit better on shaped gummi blocks, mini helm and gummi vernier.
 * Nobody banner icon.

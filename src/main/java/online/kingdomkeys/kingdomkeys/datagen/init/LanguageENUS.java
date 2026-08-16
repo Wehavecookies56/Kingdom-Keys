@@ -251,6 +251,7 @@ public class LanguageENUS extends KKLanguageProvider {
 
 
         //Gummi Ship HUD
+        add("container.gummi_ship.movement", "Movement");
         add("container.gummi_ship.forward", "Forward");
         add("container.gummi_ship.backwards", "Backwards");
         add("container.gummi_ship.left", "Left");
@@ -403,7 +404,9 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Gui_Menu_Config + ".hud.help9", "Press LEFT ALT to show or hide outlines");
         add(Gui_Menu_Config + ".hud.help10", "RIGHT CLICK on a selected item to reset it to Resourcepack defaults");
         add(Gui_Menu_Config + ".hud.help11", "SHIFT + RIGHT CLICK on a selected item to reset it to base defaults");
-        add(Gui_Menu_Config + ".hud.help12", "Selected element data:");
+        add(Gui_Menu_Config + ".hud.help12", "Press V to show or hide an element");
+        add(Gui_Menu_Config + ".hud.help13", "LEFT CLICK without dragging to pick the next element under the cursor");
+        add(Gui_Menu_Config + ".hud.help14", "Selected element data:");
         add(Gui_Menu_Config + ".font", "Font");
         add(Gui_Menu_Config + ".command_menu", "Command Menu");
         add(Gui_Menu_Config + ".hp", "HP Bar");

@@ -67,6 +67,7 @@ import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.menu.ModMenus;
 import online.kingdomkeys.kingdomkeys.reactioncommands.ModReactionCommands;
 import online.kingdomkeys.kingdomkeys.savepoint.SavePointDataLoader;
+import online.kingdomkeys.kingdomkeys.lib.GummiShipLoader;
 import online.kingdomkeys.kingdomkeys.world.worldmap.GummiWorldLoader;
 import online.kingdomkeys.kingdomkeys.world.worldmap.WorldMap;
 import online.kingdomkeys.kingdomkeys.shotlock.ModShotlocks;
@@ -262,6 +263,7 @@ public class KingdomKeys {
 		event.addListener(new ShotlockDataLoader());
 		event.addListener(new SavePointDataLoader());
 		event.addListener(new GummiWorldLoader());
+		event.addListener(new GummiShipLoader());
 		ModJsonRegistries.registry.forEach(jsonRegistry -> {
 			jsonRegistry.setRegistries(event.getRegistryAccess());
 			event.addListener(jsonRegistry);

@@ -10,7 +10,7 @@ import java.util.List;
  * Config file for client only config options
  */
 public class ClientConfig {
-	public ModConfigSpec.ConfigValue<List<? extends Float>> hpHUDData, mpHUDData, cmHUDData, rcHUDData, driveHUDData, focusHUDData, partyHUDData, lockOnHUDData, portraitHUDData, munnyExpHUDData, levelUpHUDData, driveLevelHUDData, minimapHUDData, roomNameHUDData, itemGetHUDData;
+	public ModConfigSpec.ConfigValue<List<? extends Float>> hpHUDData, mpHUDData, cmHUDData, rcHUDData, driveHUDData, focusHUDData, partyHUDData, lockOnHUDData, portraitHUDData, munnyExpHUDData, levelUpHUDData, driveLevelHUDData, minimapHUDData, roomNameHUDData, itemGetHUDData, gummiInfoHUDData, gummiReadoutHUDData, gummiControlsHUDData;
 
     public ModConfigSpec.BooleanValue cmHeaderTextVisible, cmClassicColors, snapChatToCommandMenu, auto3rdPersonShip, cmChangeColor, customFont, portrait3D;
     public ModConfigSpec.IntValue cmTextXOffset, cmSelectedXOffset, cmSubXOffset, cmEndLWidth, cmEndRWidth, cmHeaderEndLWidth, cmHeaderEndRWidth, cmReactionEndLWidth, cmReactionEndRWidth;
@@ -110,6 +110,18 @@ public class ClientConfig {
 				.comment("Small item obtained notification HUD Data")
 				.translation(KingdomKeys.MODID + ".config.itemget_hud_data")//X,Y,Width ,Height ,xScale, yScale,rotation,anchor (ordinal)
 				.defineList("itemGetHUDData", () -> HUDElement.getDefaultValues("ItemGet"), o -> o instanceof Number);
+		gummiInfoHUDData = builder
+				.comment("Gummi ship name and coordinates HUD Data")
+				.translation(KingdomKeys.MODID + ".config.gummi_info_hud_data")//X,Y,Width ,Height ,xScale, yScale,rotation,anchor (ordinal)
+				.defineList("gummiInfoHUDData", () -> HUDElement.getDefaultValues("GummiInfo"), o -> o instanceof Number);
+		gummiReadoutHUDData = builder
+				.comment("Gummi ship fuel, engine and boost bars HUD Data")
+				.translation(KingdomKeys.MODID + ".config.gummi_readout_hud_data")//X,Y,Width ,Height ,xScale, yScale,rotation,anchor (ordinal)
+				.defineList("gummiReadoutHUDData", () -> HUDElement.getDefaultValues("GummiReadout"), o -> o instanceof Number);
+		gummiControlsHUDData = builder
+				.comment("Gummi ship flight controls HUD Data")
+				.translation(KingdomKeys.MODID + ".config.gummi_controls_hud_data")//X,Y,Width ,Height ,xScale, yScale,rotation,anchor (ordinal)
+				.defineList("gummiControlsHUDData", () -> HUDElement.getDefaultValues("GummiControls"), o -> o instanceof Number);
 		builder.pop();
 
         builder.push("gui");

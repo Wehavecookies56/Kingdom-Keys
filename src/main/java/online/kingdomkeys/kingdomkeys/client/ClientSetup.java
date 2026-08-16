@@ -201,6 +201,7 @@ public class ClientSetup {
 		NeoForge.EVENT_BUS.register(new InputHandler());
 		NeoForge.EVENT_BUS.register(SoAMessages.INSTANCE);
 		NeoForge.EVENT_BUS.register(ShotlockMinigameGui.INSTANCE);
+		NeoForge.EVENT_BUS.register(new WorldMapRenderer());
 		
     }
 

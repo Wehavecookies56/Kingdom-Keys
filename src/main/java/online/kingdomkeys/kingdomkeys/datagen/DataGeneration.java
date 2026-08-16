@@ -37,7 +37,6 @@ public class DataGeneration {
         BlockTagsGen blockTags = new BlockTagsGen(generator, event.getLookupProvider(), existingFileHelper);
         generator.addProvider(event.includeServer(), blockTags);
         generator.addProvider(event.includeServer(), new ItemTagsGen(generator.getPackOutput(), event.getLookupProvider(), blockTags.contentsGetter(), existingFileHelper));
-        //generator.addProvider(event.includeServer(), new EntityTagsGen(generator, event.getLookupProvider(), existingFileHelper));
         generator.addProvider(event.includeServer(), new Recipes(generator, event.getLookupProvider()));
         generator.addProvider(event.includeClient(), new BlockStates(generator, existingFileHelper));
         generator.addProvider(event.includeClient(), new ItemModels(generator, existingFileHelper));
@@ -45,6 +44,7 @@ public class DataGeneration {
         generator.addProvider(event.includeClient(), new BlockModels(generator, existingFileHelper));
         generator.addProvider(event.includeServer(), new KeybladeStats(generator, existingFileHelper));
         generator.addProvider(event.includeServer(), new BaseLootTableProvider(output, event.getLookupProvider()));
+        generator.addProvider(event.includeServer(), new LootModifiers(output, event.getLookupProvider()));
         generator.addProvider(event.includeServer(), new SynthesisRecipe(generator, existingFileHelper));
         generator.addProvider(event.includeServer(), new MeldingRecipe(generator, existingFileHelper));
         generator.addProvider(event.includeServer(), new MagicDataProvider(output));

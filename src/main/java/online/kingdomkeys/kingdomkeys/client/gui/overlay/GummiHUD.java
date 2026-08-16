@@ -3,6 +3,7 @@ package online.kingdomkeys.kingdomkeys.client.gui.overlay;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import net.minecraft.client.CameraType;
+import net.minecraft.client.KeyMapping;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.GameRenderer;
@@ -11,6 +12,7 @@ import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.ClientSetup;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.HUD.HUDElement;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.entity.GummiShipEntity;
 import online.kingdomkeys.kingdomkeys.handler.ClientEvents;
@@ -41,6 +43,30 @@ public class GummiHUD extends OverlayBase {
     int barX = 0;
     int barY = 0;
 
+    // Ticks the boost takes to come back, which is what its bar is filling up over
+    private static final int BOOST_COOLDOWN = 5 * 20;
+
+    private static final int PANEL_FILL = 0xB806060E;
+    private static final int PANEL_EDGE = 0xFF3A3A52;
+    private static final int TRACK_FILL = 0xFF1C1C2C;
+    private static final int TRACK_EDGE = 0xFF33334A;
+
+    private static final int LABEL = 0xFFCFD8E8;
+    private static final int FAINT = 0xFF8F9BB3;
+    private static final int SHIP_NAME = 0xFFFFD257;
+
+    private static final int FUEL = 0xFFF0A52A;
+    private static final int FUEL_LOW = 0xFFE24B4A;
+    private static final int ENGINE = 0xFF4FC3F7;
+    private static final int BOOST_READY = 0xFFE8E8F2;
+    private static final int PRESSED = 0xFFFFD257;
+    private static final int ON = 0xFF7DDC7D;
+    private static final int OFF = 0xFFB35A5A;
+
+    private static final int PAD = 5;
+    private static final int LINE = 10;
+    private static final int BAR_HEIGHT = 4;
+
     @Override
     public void render(GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
         super.render(guiGraphics, deltaTracker);
@@ -48,69 +74,194 @@ public class GummiHUD extends OverlayBase {
         if (player == null)
             return;
 
-        if(player.getVehicle() instanceof GummiShipEntity ship){
-            if(!handledCamera && ModConfigs.auto3rdPersonShip){
-                // Store and swap camera if needed
-                prevCamera = minecraft.options.getCameraType();
-                minecraft.options.setCameraType(CameraType.THIRD_PERSON_BACK);
-                handledCamera = true;
-            }
-            int screenWidth = minecraft.getWindow().getGuiScaledWidth() - 10;
-
-            int x = screenWidth, y = 1;
-            GummiShipEntity.ShipStats stats = ship.shipStats;
-            if(stats != null) {
-                float deltaX = (float) (ship.getX() - ship.xOld);
-                float deltaY = (float) (ship.getY() - ship.yOld);
-                float deltaZ = (float) (ship.getZ() - ship.zOld);
-                float speed = (float) Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2) + Math.pow(deltaZ, 2));
-
-                String text = "";
-                if(ModConfigs.SERVER.gummiShipFuelSystem.get()) {
-                    text = Utils.translateToLocal("container.gummi_ship.fuel") + ": " + ship.getFuel() + " / " + ship.getMaxFuel();
-                    drawString(guiGraphics, minecraft.font, text, x - font.width(text), 10 * y++, 0xFFFFFF);
-                }
-                text = Utils.translateToLocal("container.gummi_ship.speed")+": "+ df.format(speed * 20)+"m/s";
-                drawString(guiGraphics, minecraft.font, text, x-font.width(text), 10 * y++, 0xFFFFFF);
-                text = Utils.translateToLocal("container.gummi_ship.eng_power")+": "+(int) Math.abs(ship.currentSpeed * 100)+" / "+ (int) (stats.speed() * 100);
-                drawString(guiGraphics, minecraft.font, text, x-font.width(text), 10 * y++, 0xFFFFFF);
-                text = Utils.translateToLocal("container.gummi_ship.armor")+": " + stats.armour();
-                drawString(guiGraphics, minecraft.font, text, x-font.width(text), 10 * y++, 0xFFFFFF);
-                text = Utils.translateToLocal("container.gummi_ship.numofweapons")+": " + stats.firepower().size();
-                drawString(guiGraphics, minecraft.font, text, x-font.width(text), 10 * y++, 0xFFFFFF);
-
-                //if radar is present
-                x = screenWidth/2;
-                y = 1;
-                text = ship.structure.getName();
-                drawString(guiGraphics, minecraft.font, text, x-(font.width(text)/2), 10 * y++, 0xAA0000);
-                text = Utils.translateToLocal("container.gummi_ship.coords")+": " + (int) ship.getX()+", "+(int) ship.getY()+", "+(int) ship.getZ();
-                drawString(guiGraphics, minecraft.font, text, x-(font.width(text)/2), 10 * y++, 0xFFFFFF);
-                text = Utils.translateToLocal("container.gummi_ship.facing")+": " + ship.getDirection();
-                drawString(guiGraphics, minecraft.font, text, x-(font.width(text)/2), 10 * y++, 0xFFFFFF);
-
-                drawHP(ship, deltaTracker);
-            }
-
-            x = 10;
-            y = 1;
-
-            drawString(guiGraphics, minecraft.font, minecraft.options.keyUp.getKey().getDisplayName().getString()+": "+Utils.translateToLocal("container.gummi_ship.forward"), x, 10*y++, ship.inputForward ? 0xAA0000 : 0xFFFFFF);
-            drawString(guiGraphics, minecraft.font, minecraft.options.keyDown.getKey().getDisplayName().getString()+": "+Utils.translateToLocal("container.gummi_ship.backwards"), x, 10*y++, ship.inputBackward ? 0xAA0000 : 0xFFFFFF);
-            drawString(guiGraphics, minecraft.font, minecraft.options.keyLeft.getKey().getDisplayName().getString()+": "+Utils.translateToLocal("container.gummi_ship.left"), x, 10*y++, ship.inputLeft ? 0xAA0000 : 0xFFFFFF);
-            drawString(guiGraphics, minecraft.font, minecraft.options.keyRight.getKey().getDisplayName().getString()+": "+Utils.translateToLocal("container.gummi_ship.right"), x, 10*y++, ship.inputRight ? 0xAA0000 : 0xFFFFFF);
-            drawString(guiGraphics, minecraft.font, minecraft.options.keyJump.getKey().getDisplayName().getString()+": "+Utils.translateToLocal("container.gummi_ship.up"), x, 10*y++, ship.inputUp ? 0xAA0000 : 0xFFFFFF);
-            drawString(guiGraphics, minecraft.font, minecraft.options.keySprint.getKey().getDisplayName().getString()+": "+Utils.translateToLocal("container.gummi_ship.down"), x, 10*y++, ship.inputDown ? 0xAA0000 : 0xFFFFFF);
-            drawString(guiGraphics, minecraft.font, InputHandler.Keybinds.ACTION.getKeybind().getKey().getDisplayName().getString() +": "+Utils.translateToLocal("container.gummi_ship.boost")+" ["+ (ClientEvents.gummiBoostCD == 0 ? Utils.translateToLocal("container.gummi_ship.ready") :  Utils.translateToLocal("container.gummi_ship.not_ready"))+"]", x, 10*y++, InputHandler.Keybinds.ACTION.getKeybind().isDown() || ClientEvents.gummiBoostCD > 0 ? 0xAA0000 : 0xFFFFFF);
-            drawString(guiGraphics, minecraft.font, minecraft.options.keyPickItem.getKey().getDisplayName().getString()+": "+Utils.translateToLocal("container.gummi_ship.3d_flight"), x, 10*y++, ship.isFlightType3D() ? 0x00AA00 : 0xAA0000);
-        } else {
+        if (!(player.getVehicle() instanceof GummiShipEntity ship)) {
             //Restore camera if needed
-            if(handledCamera && ModConfigs.auto3rdPersonShip){
+            if (handledCamera && ModConfigs.auto3rdPersonShip) {
                 minecraft.options.setCameraType(prevCamera);
                 handledCamera = false;
             }
+            return;
         }
 
+        if (!handledCamera && ModConfigs.auto3rdPersonShip) {
+            // Store and swap camera if needed
+            prevCamera = minecraft.options.getCameraType();
+            minecraft.options.setCameraType(CameraType.THIRD_PERSON_BACK);
+            handledCamera = true;
+        }
+
+        int screenWidth = minecraft.getWindow().getGuiScaledWidth();
+        int screenHeight = minecraft.getWindow().getGuiScaledHeight();
+
+        draw(ClientUtils.GUMMI_INFO_ELEMENT, screenWidth, screenHeight, () -> drawCoords(ship, ClientUtils.GUMMI_INFO_ELEMENT));
+
+        if (ship.shipStats != null) {
+            draw(ClientUtils.GUMMI_READOUT_ELEMENT, screenWidth, screenHeight, () -> drawStats(ship, ClientUtils.GUMMI_READOUT_ELEMENT));
+            drawHP(ship, deltaTracker);
+        }
+
+        sizeControls(ship, ClientUtils.GUMMI_CONTROLS_ELEMENT);
+        draw(ClientUtils.GUMMI_CONTROLS_ELEMENT, screenWidth, screenHeight, () -> drawControls(ship, ClientUtils.GUMMI_CONTROLS_ELEMENT));
+    }
+
+    private void draw(HUDElement element, int screenWidth, int screenHeight, Runnable contents) {
+        element.applyTransform(guiGraphics, screenWidth, screenHeight);
+        contents.run();
+        element.endTransform(guiGraphics);
+    }
+
+    private void drawCoords(GummiShipEntity ship, HUDElement element) {
+        String name = ship.structure.getName();
+        String coords = (int) ship.getX() + ", " + (int) ship.getY() + ", " + (int) ship.getZ();
+        String facing = Utils.translateToLocal("container.gummi_ship.facing") + ": " + ship.getDirection();
+
+        panel(0, 0, element.width, element.height);
+
+        // Centred within the panel, since this one sits over the middle of the screen by default
+        drawCentred(name, element.width, PAD, SHIP_NAME);
+        drawCentred(coords, element.width, PAD + LINE, LABEL);
+        drawCentred(facing, element.width, PAD + LINE * 2, LABEL);
+    }
+
+    private void drawCentred(String text, int width, int y, int colour) {
+        drawString(guiGraphics, font, text, (width - font.width(text)) / 2, y, colour);
+    }
+
+    private void drawStats(GummiShipEntity ship, HUDElement element) {
+        GummiShipEntity.ShipStats stats = ship.shipStats;
+        boolean fuelled = ModConfigs.SERVER.gummiShipFuelSystem.get();
+        int width = element.width;
+
+        int bars = fuelled ? 3 : 2;
+        int height = PAD * 2 + bars * (LINE + BAR_HEIGHT + 3) + 2 + LINE * 3;
+
+        panel(0, 0, width, height);
+
+        int row = PAD;
+
+        if (fuelled) {
+            float left = ship.getMaxFuel() == 0 ? 0F : (float) ship.getFuel() / ship.getMaxFuel();
+            row = barRow(width, row, Utils.translateToLocal("container.gummi_ship.fuel"), ship.getFuel() + " / " + ship.getMaxFuel(), left, left <= 0.2F ? FUEL_LOW : FUEL);
+        }
+
+        // What the engines are giving against what they could give, which is the throttle rather than the speed
+        float power = stats.speed() == 0 ? 0F : Math.abs(ship.currentSpeed) / stats.speed();
+        row = barRow(width, row, Utils.translateToLocal("container.gummi_ship.eng_power"), Math.round(power * 100) + "%", power, ENGINE);
+
+        boolean ready = ClientEvents.gummiBoostCD <= 0;
+        float charge = ready ? 1F : 1F - (float) ClientEvents.gummiBoostCD / BOOST_COOLDOWN;
+        String state = Utils.translateToLocal(ready ? "container.gummi_ship.ready" : "container.gummi_ship.not_ready");
+        row = barRow(width, row, Utils.translateToLocal("container.gummi_ship.boost"), state, charge, ready ? BOOST_READY : FUEL);
+
+        guiGraphics.fill(PAD, row, width - PAD, row + 1, PANEL_EDGE);
+        row += 3;
+
+        float travelled = (float) Math.sqrt(Math.pow(ship.getX() - ship.xOld, 2) + Math.pow(ship.getY() - ship.yOld, 2) + Math.pow(ship.getZ() - ship.zOld, 2));
+        row = statRow(width, row, Utils.translateToLocal("container.gummi_ship.speed"), df.format(travelled * 20) + " m/s");
+        row = statRow(width, row, Utils.translateToLocal("container.gummi_ship.armor"), String.valueOf(stats.armour()));
+        statRow(width, row, Utils.translateToLocal("container.gummi_ship.numofweapons"), String.valueOf(stats.firepower().size()));
+    }
+
+    /** A label on the left, its value on the right, and the bar underneath. Returns where the next row starts. */
+    private int barRow(int width, int y, String label, String value, float fraction, int colour) {
+        drawString(guiGraphics, font, label, PAD, y, LABEL);
+        drawString(guiGraphics, font, value, width - PAD - font.width(value), y, LABEL);
+        bar(PAD, y + LINE - 1, width - PAD * 2, fraction, colour);
+        return y + LINE + BAR_HEIGHT + 3;
+    }
+
+    private int statRow(int width, int y, String label, String value) {
+        drawString(guiGraphics, font, label, PAD, y, FAINT);
+        drawString(guiGraphics, font, value, width - PAD - font.width(value), y, FAINT);
+        return y + LINE;
+    }
+
+    private ControlRow[] controls(GummiShipEntity ship) {
+        return new ControlRow[]{
+                new ControlRow(new String[]{
+                        minecraft.options.keyUp.getKey().getDisplayName().getString(),
+                        minecraft.options.keyLeft.getKey().getDisplayName().getString(),
+                        minecraft.options.keyDown.getKey().getDisplayName().getString(),
+                        minecraft.options.keyRight.getKey().getDisplayName().getString()
+                }, new boolean[]{ship.inputForward, ship.inputLeft, ship.inputBackward, ship.inputRight}, "container.gummi_ship.movement", false),
+
+                key(minecraft.options.keyJump, ship.inputUp, "container.gummi_ship.up"),
+                key(minecraft.options.keySprint, ship.inputDown, "container.gummi_ship.down"),
+                new ControlRow(new String[]{InputHandler.Keybinds.ACTION.getKeybind().getKey().getDisplayName().getString()},
+                        new boolean[]{InputHandler.Keybinds.ACTION.getKeybind().isDown()}, "container.gummi_ship.boost", false),
+
+                // A setting rather than a key being held, so it says which way it is set instead
+                new ControlRow(new String[]{minecraft.options.keyPickItem.getKey().getDisplayName().getString()},
+                        new boolean[]{ship.isFlightType3D()}, "container.gummi_ship.3d_flight", true)
+        };
+    }
+
+    private ControlRow key(KeyMapping mapping, boolean held, String label) {
+        return new ControlRow(new String[]{mapping.getKey().getDisplayName().getString()}, new boolean[]{held}, label, false);
+    }
+
+    private record ControlRow(String[] keys, boolean[] held, String label, boolean setting) {}
+
+    private void sizeControls(GummiShipEntity ship, HUDElement element) {
+        ControlRow[] rows = controls(ship);
+        int width = 0;
+
+        for (ControlRow row : rows) {
+            width = Math.max(width, font.width(line(row)));
+        }
+
+        element.width = width + PAD * 2;
+        element.height = rows.length * LINE + PAD;
+    }
+
+    private void drawControls(GummiShipEntity ship, HUDElement element) {
+        ControlRow[] rows = controls(ship);
+        panel(0, 0, element.width, element.height);
+
+        for (int i = 0; i < rows.length; i++) {
+            ControlRow row = rows[i];
+            int y = PAD + i * LINE;
+            int x = PAD;
+
+            for (int k = 0; k < row.keys().length; k++) {
+                String chip = "[" + row.keys()[k] + "]";
+                int colour = row.setting() ? (row.held()[k] ? ON : OFF) : row.held()[k] ? PRESSED : FAINT;
+                drawString(guiGraphics, font, chip, x, y, colour);
+                x += font.width(chip + " ");
+            }
+
+            drawString(guiGraphics, font, Utils.translateToLocal(row.label()), x, y, FAINT);
+        }
+    }
+
+    private String line(ControlRow row) {
+        StringBuilder built = new StringBuilder();
+
+        for (String key : row.keys()) {
+            built.append('[').append(key).append("] ");
+        }
+
+        return built.append(Utils.translateToLocal(row.label())).toString();
+    }
+
+    private void panel(int x, int y, int width, int height) {
+        guiGraphics.fill(x, y, x + width, y + height, PANEL_FILL);
+        guiGraphics.fill(x, y, x + width, y + 1, PANEL_EDGE);
+        guiGraphics.fill(x, y + height - 1, x + width, y + height, PANEL_EDGE);
+        guiGraphics.fill(x, y, x + 1, y + height, PANEL_EDGE);
+        guiGraphics.fill(x + width - 1, y, x + width, y + height, PANEL_EDGE);
+    }
+
+    private void bar(int x, int y, int width, float fraction, int colour) {
+        guiGraphics.fill(x, y, x + width, y + BAR_HEIGHT, TRACK_FILL);
+        guiGraphics.fill(x, y, x + width, y + 1, TRACK_EDGE);
+        guiGraphics.fill(x, y + BAR_HEIGHT - 1, x + width, y + BAR_HEIGHT, TRACK_EDGE);
+
+        int filled = Math.round(Mth.clamp(fraction, 0F, 1F) * (width - 2));
+
+        if (filled > 0) {
+            guiGraphics.fill(x + 1, y + 1, x + 1 + filled, y + BAR_HEIGHT - 1, colour);
+        }
     }
 
     private void drawHP(GummiShipEntity ship, DeltaTracker deltaTracker) {

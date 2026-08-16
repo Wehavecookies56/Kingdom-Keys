@@ -7,7 +7,6 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
-import online.kingdomkeys.kingdomkeys.entity.GummiShipEntity;
 import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
 import online.kingdomkeys.kingdomkeys.world.worldmap.GummiWorld;
 import online.kingdomkeys.kingdomkeys.world.worldmap.GummiWorldLoader;
@@ -33,12 +32,12 @@ public class ReactionLaunch extends ReactionCommand {
 
 		GummiWorld world = GummiWorldLoader.forDimension(player.level().dimension());
 		WorldMap.ensureMarkers(worldmap);
-		WorldMap.travel(serverPlayer, worldmap, world.takeOffSpawn());
+		WorldMap.travel(serverPlayer, worldmap, world.takeOffSpawn(), world.takeOffLook());
 	}
 
 	@Override
 	public boolean conditionsToAppear(Player player, LivingEntity target) {
-		if (WorldMap.isWorldMap(player) || !(player.getVehicle() instanceof GummiShipEntity)) {
+		if (WorldMap.isWorldMap(player) || !WorldMap.isPilot(player)) {
 			return false;
 		}
 

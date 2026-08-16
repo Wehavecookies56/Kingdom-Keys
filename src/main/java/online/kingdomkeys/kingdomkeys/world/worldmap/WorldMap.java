@@ -8,7 +8,9 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.portal.DimensionTransition;
+import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
+import javax.annotation.Nullable;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.event.tick.LevelTickEvent;
 import online.kingdomkeys.kingdomkeys.entity.GummiShipEntity;
@@ -16,7 +18,9 @@ import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.worldmap.WorldMarkerEntity;
 import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -31,6 +35,11 @@ public class WorldMap {
 
 	public static boolean isWorldMap(Entity entity) {
 		return entity.level().dimension().equals(ModDimensions.WORLDMAP);
+	}
+
+	/** Whether this player is the one at the controls of a gummi ship, rather than sitting in the back */
+	public static boolean isPilot(Player player) {
+		return player.getVehicle() instanceof GummiShipEntity ship && ship.getControllingPassenger() == player;
 	}
 
 	@SubscribeEvent
@@ -92,31 +101,49 @@ public class WorldMap {
 	}
 
 	// Moves the player and the ship to another dimension and puts them back in the pilot's seat, the dismount has to happen first
-	public static void travel(ServerPlayer player, ServerLevel destination, Vec3 position) {
+	public static void travel(ServerPlayer player, ServerLevel destination, Vec3 position, @Nullable Vec2 look) {
 		Entity vehicle = player.getVehicle();
-		float yRot = player.getYRot();
-		float xRot = player.getXRot();
+		float yRot = look != null ? look.x : player.getYRot();
+		float xRot = look != null ? look.y : player.getXRot();
 
 		if (!(vehicle instanceof GummiShipEntity ship)) {
 			player.changeDimension(transition(destination, position, yRot, xRot));
 			return;
 		}
 
-		player.stopRiding();
+		List<Entity> riders = new ArrayList<>(ship.getPassengers());
+		riders.forEach(Entity::stopRiding);
 
-		// Same dimension: nothing to recreate, so just move both and sit back down.
+		// Same dimension: nothing to recreate, so just move everyone and sit back down.
 		if (player.serverLevel() == destination) {
 			ship.teleportTo(position.x, position.y, position.z);
-			player.teleportTo(position.x, position.y, position.z);
-			player.startRiding(ship, true);
+			ship.setYRot(yRot);
+			ship.setYBodyRot(yRot);
+
+			for (Entity rider : riders) {
+				move(rider, position, yRot, xRot);
+				rider.startRiding(ship, true);
+			}
+
 			return;
 		}
 
 		Entity movedShip = ship.changeDimension(transition(destination, position, yRot, xRot));
-		player.changeDimension(transition(destination, position, yRot, xRot));
 
-		if (movedShip != null && !movedShip.isRemoved()) {
-			player.startRiding(movedShip, true);
+		for (Entity rider : riders) {
+			Entity moved = rider.changeDimension(transition(destination, position, yRot, xRot));
+
+			if (moved != null && !moved.isRemoved() && movedShip != null && !movedShip.isRemoved()) {
+				moved.startRiding(movedShip, true);
+			}
+		}
+	}
+
+	private static void move(Entity entity, Vec3 position, float yRot, float xRot) {
+		if (entity instanceof ServerPlayer player) {
+			player.connection.teleport(position.x, position.y, position.z, yRot, xRot);
+		} else {
+			entity.teleportTo(position.x, position.y, position.z);
 		}
 	}
 

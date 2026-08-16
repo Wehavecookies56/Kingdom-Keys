@@ -39,15 +39,13 @@ import java.util.function.Supplier;
 public class FortuneBonusModifier extends LootModifier {
     public static final Supplier<MapCodec<FortuneBonusModifier>> CODEC = Suppliers.memoize(() -> RecordCodecBuilder.mapCodec(inst -> codecStart(inst).apply(inst, FortuneBonusModifier::new)));
 
-    protected FortuneBonusModifier(LootItemCondition[] conditions)
+    public FortuneBonusModifier(LootItemCondition[] conditions)
     {
         super(conditions);
     }
 
     @Nonnull
 	protected @NotNull ObjectArrayList<ItemStack> doApply(ObjectArrayList<ItemStack> generatedLoot, LootContext context) {
-		final String hasLuckyLuckyBonus = "HasLuckyLuckyBonus";
-
         ItemStack tool = context.getParamOrNull(LootContextParams.TOOL);
 
         if (tool != null && !tool.has(ModComponents.HAS_FORTUNE_BONUS)) {

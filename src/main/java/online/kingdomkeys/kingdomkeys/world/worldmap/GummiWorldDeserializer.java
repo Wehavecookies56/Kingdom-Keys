@@ -10,6 +10,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
@@ -34,7 +35,11 @@ public class GummiWorldDeserializer implements JsonDeserializer<GummiWorld> {
 
 		ResourceLocation texture = obj.has("texture") ? ResourceLocation.parse(obj.get("texture").getAsString()) : KingdomKeys.rl("textures/worldmap/" + dimension.location().getPath() + ".png");
 
-		return new GummiWorld(dimension, takeoff, worldmapPosition, takeOffSpawn, landingSpawn, texture, scale, approachRange);
+		// Leaving either of these out keeps whichever way the player was already facing
+		Vec2 takeOffLook = look(obj, "takeoffRotation");
+		Vec2 landingLook = look(obj, "landingRotation");
+
+		return new GummiWorld(dimension, takeoff, worldmapPosition, takeOffSpawn, landingSpawn, takeOffLook, landingLook, texture, scale, approachRange);
 	}
 
 	private static ResourceLocation resource(JsonObject obj, String key) {
@@ -42,6 +47,21 @@ public class GummiWorldDeserializer implements JsonDeserializer<GummiWorld> {
 			throw new JsonParseException("Gummi world is missing the required field '" + key + "'");
 		}
 		return ResourceLocation.parse(obj.get(key).getAsString());
+	}
+
+	// A pair of degrees, yaw and pitch
+	private static Vec2 look(JsonObject obj, String key) {
+		if (!obj.has(key)) {
+			return null;
+		}
+
+		JsonArray array = obj.getAsJsonArray(key);
+
+		if (array.size() != 2) {
+			throw new JsonParseException("Field '" + key + "' must hold two numbers, a yaw and a pitch in " + obj);
+		}
+
+		return new Vec2(array.get(0).getAsFloat(), array.get(1).getAsFloat());
 	}
 
 	private static Vec3 vec(JsonObject obj, String key) {

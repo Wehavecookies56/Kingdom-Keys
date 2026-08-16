@@ -7,7 +7,6 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
-import online.kingdomkeys.kingdomkeys.entity.GummiShipEntity;
 import online.kingdomkeys.kingdomkeys.entity.worldmap.WorldMarkerEntity;
 import online.kingdomkeys.kingdomkeys.world.worldmap.GummiWorld;
 import online.kingdomkeys.kingdomkeys.world.worldmap.WorldMap;
@@ -36,12 +35,12 @@ public class ReactionLand extends ReactionCommand {
 			return;
 		}
 
-		WorldMap.travel(serverPlayer, destination, world.landingSpawn());
+		WorldMap.travel(serverPlayer, destination, world.landingSpawn(), world.landingLook());
 	}
 
 	@Override
 	public boolean conditionsToAppear(Player player, LivingEntity target) {
-		return WorldMap.isWorldMap(player) && player.getVehicle() instanceof GummiShipEntity && WorldMap.nearestMarker(player) != null;
+		return WorldMap.isWorldMap(player) && WorldMap.isPilot(player) && WorldMap.nearestMarker(player) != null;
 	}
 
 	@Override

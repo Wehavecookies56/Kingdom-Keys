@@ -177,6 +177,9 @@ public class ClientUtils {
     public static final HUDElement ROOMNAME_ELEMENT = new HUDElement("RoomName");
     public static final HUDElement MINIMAP_ELEMENT = new HUDElement("Minimap");
     public static final HUDElement ITEMGET_ELEMENT = new HUDElement("ItemGet");
+    public static final HUDElement GUMMI_INFO_ELEMENT = new HUDElement("GummiInfo");
+    public static final HUDElement GUMMI_READOUT_ELEMENT = new HUDElement("GummiReadout");
+    public static final HUDElement GUMMI_CONTROLS_ELEMENT = new HUDElement("GummiControls");
 
     public static Entity getEntityByUUIDClient(UUID uuid) {
         Minecraft mc = Minecraft.getInstance();

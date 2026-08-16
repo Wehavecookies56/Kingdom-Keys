@@ -26,6 +26,16 @@ public class HUDEditorScreen extends Screen {
     private float dragOffsetX;
     private float dragOffsetY;
 
+    private static final double DRAG_SAFEZONE = 2;
+
+    private double pressX, pressY;
+    private boolean dragged;
+
+    private boolean tookFirst;
+
+    // What was under the cursor when the button went down, in registry order, so clicking walks the pile
+    private List<HUDElement> underCursor = new ArrayList<>();
+
     public HUDEditorScreen() {
         super(Component.translatable("kingdomkeys.gui.hud_editor.title"));
         int scaledWidth = Minecraft.getInstance().getWindow().getGuiScaledWidth();
@@ -49,16 +59,16 @@ public class HUDEditorScreen extends Screen {
         resetButton.render(guiGraphics, mouseX, mouseY, partialTick);
         rpButton.render(guiGraphics, mouseX, mouseY, partialTick);
         int scaledWidth = Minecraft.getInstance().getWindow().getGuiScaledWidth();
-        int y=3;
+        int y=5;
         if(!ClientUtils.isKeyDown(GLFW.GLFW_KEY_H)) {
             guiGraphics.drawCenteredString(minecraft.font, Component.translatable("gui.menu.config.hud.help0", Component.literal("H").withStyle(ChatFormatting.DARK_RED)), scaledWidth / 2, y++ * 10, 0xFFFFFF);
         } else {
-            for(int i= 1; i < 12; i++) {
+            for(int i = 1; i < 14; i++) {
                 guiGraphics.drawCenteredString(minecraft.font, Utils.translateToLocal("gui.menu.config.hud.help"+i), scaledWidth / 2, y++ * 10, 0xFFFFFF);
             }
         }
         if(selected != null) {
-            guiGraphics.drawCenteredString(minecraft.font,Utils.translateToLocal("gui.menu.config.hud.help12"),scaledWidth / 2,y++*10+10,0xFFFFFF);
+            guiGraphics.drawCenteredString(minecraft.font,Utils.translateToLocal("gui.menu.config.hud.help14"),scaledWidth / 2,y++*10+10,0xFFFFFF);
             for(String data : selected.getData()) {
                 guiGraphics.drawString(minecraft.font, data,scaledWidth / 2-40,y++*10+ 10,0xFFFFFF);
             }
@@ -67,14 +77,19 @@ public class HUDEditorScreen extends Screen {
         List<Component> list = new ArrayList<>();
         for (HUDElement element : HUDElement.REGISTRY) {
             if(element.isMouseOver(mouseX, mouseY)) {
-                String line = (list.isEmpty() ? ChatFormatting.BOLD : "") + element.name;
+                String line = (element == selected ? ChatFormatting.BOLD : "") + element.name;
                 list.add(Component.translatable(ChatFormatting.WHITE + line));
-                guiGraphics.renderTooltip(font, list, Optional.empty(), mouseX, mouseY);
             }
             if(renderOutline) {
                 element.renderEditorBox(guiGraphics);
             }
             element.selected = selected == element;
+        }
+
+        // Once, and after the boxes. Drawing it inside the loop put one tooltip on screen per element under
+        // the cursor, each holding the names found so far, so the short ones showed from behind the long one
+        if(!list.isEmpty()) {
+            guiGraphics.renderTooltip(font, list, Optional.empty(), mouseX, mouseY);
         }
     }
 
@@ -115,6 +130,9 @@ public class HUDEditorScreen extends Screen {
             case GLFW.GLFW_KEY_LEFT_ALT -> {
                 renderOutline = !renderOutline;
             }
+            case GLFW.GLFW_KEY_V -> {
+                selected.visible = !selected.visible;
+            }
             case GLFW.GLFW_KEY_S -> {
                 if(hasControlDown()) {
                     for (HUDElement element : HUDElement.REGISTRY) {
@@ -133,20 +151,26 @@ public class HUDEditorScreen extends Screen {
             int w = minecraft.getWindow().getGuiScaledWidth();
             int h = minecraft.getWindow().getGuiScaledHeight();
 
-            for (HUDElement element : HUDElement.REGISTRY) {
-                if (element.isMouseOver(mouseX, mouseY)) {
-                    selected = element;
+            underCursor = elementsAt(mouseX, mouseY);
 
-                    float px = element.getPixelX(w);
-                    float py = element.getPixelY(h);
+            if (!underCursor.isEmpty()) {
+                // Whatever was already picked stays picked if it is in the pile, so dragging carries on
+                // with the one you had rather than jumping to whichever happens to be on top
+                tookFirst = !underCursor.contains(selected);
 
-                    dragOffsetX = (float) mouseX - px;
-                    dragOffsetY = (float) mouseY - py;
-
-                    dragging = true;
-
-                    return true;
+                if (tookFirst) {
+                    selected = underCursor.getFirst();
                 }
+
+                dragOffsetX = (float) mouseX - selected.getPixelX(w);
+                dragOffsetY = (float) mouseY - selected.getPixelY(h);
+
+                pressX = mouseX;
+                pressY = mouseY;
+                dragged = false;
+                dragging = true;
+
+                return true;
             }
         } else if (button == 1) {
             for (HUDElement element : HUDElement.REGISTRY) {
@@ -165,6 +189,14 @@ public class HUDEditorScreen extends Screen {
     @Override
     public boolean mouseDragged(double mouseX, double mouseY, int button, double dragX, double dragY) {
         if (dragging && selected != null) {
+            // Held still, or near enough. A mouse wobbles a pixel while the button goes down, and moving
+            // the element by that pixel would make every click a tiny nudge
+            if (!dragged && Math.abs(mouseX - pressX) + Math.abs(mouseY - pressY) < DRAG_SAFEZONE) {
+                return true;
+            }
+
+            dragged = true;
+
             int w = minecraft.getWindow().getGuiScaledWidth();
             int h = minecraft.getWindow().getGuiScaledHeight();
 
@@ -190,8 +222,31 @@ public class HUDEditorScreen extends Screen {
 
     @Override
     public boolean mouseReleased(double mouseX, double mouseY, int button) {
+        // A click that went nowhere, on a spot where elements overlap, means the next one down. Otherwise
+        // whatever is first in the registry would be the only one you could ever get hold of.
+        //
+        // Not when the press had to pick one to begin with: that click already did its job by landing on
+        // the first of the pile, and moving on would make the first one impossible to select
+        if (button == 0 && dragging && !dragged && !tookFirst && underCursor.size() > 1) {
+            int at = underCursor.indexOf(selected);
+            selected = underCursor.get((at + 1) % underCursor.size());
+        }
+
         dragging = false;
         return super.mouseReleased(mouseX, mouseY, button);
+    }
+
+    /** Everything the cursor is over, in registry order, which is the order clicking walks them in */
+    private List<HUDElement> elementsAt(double mouseX, double mouseY) {
+        List<HUDElement> found = new ArrayList<>();
+
+        for (HUDElement element : HUDElement.REGISTRY) {
+            if (element.isMouseOver(mouseX, mouseY)) {
+                found.add(element);
+            }
+        }
+
+        return found;
     }
 
     @Override

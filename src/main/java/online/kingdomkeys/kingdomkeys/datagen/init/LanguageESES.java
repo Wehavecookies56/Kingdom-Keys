@@ -296,6 +296,7 @@ public class LanguageESES extends KKLanguageProvider {
 
 
         //Gummi Ship HUD
+        add("container.gummi_ship.movement", "Movimiento");
         add("container.gummi_ship.forward", "Acelerar");
         add("container.gummi_ship.backwards", "Marcha atrás");
         add("container.gummi_ship.left", "Izquierda");
@@ -460,7 +461,9 @@ public class LanguageESES extends KKLanguageProvider {
         add(Gui_Menu_Config + ".hud.help9", "Pulsa ALT IZQUIERDO para mostrar u ocultar recuadros");
         add(Gui_Menu_Config + ".hud.help10", "CLICK DERECHO en un elemento seleccionado para resetearlo a valores de Resourcepack");
         add(Gui_Menu_Config + ".hud.help11", "SHIFT + CLICK DERECHO en un elemento seleccionado para resetearlo a valores por defecto");
-        add(Gui_Menu_Config + ".hud.help12", "Datos del elemento seleccionado:");
+        add(Gui_Menu_Config + ".hud.help12", "Pulsa V para mostrar u ocultar un elemento");
+        add(Gui_Menu_Config + ".hud.help13", "CLICK IZQUIERDO sin arrastrar para pasar al siguiente elemento bajo el cursor");
+        add(Gui_Menu_Config + ".hud.help14", "Datos del elemento seleccionado:");
         add(Gui_Menu_Config + ".font", "Fuente");
         add(Gui_Menu_Config + ".command_menu", "Men\u00fa Comandos");
         add(Gui_Menu_Config + ".hp", "Barra VT");

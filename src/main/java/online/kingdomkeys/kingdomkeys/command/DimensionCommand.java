@@ -19,6 +19,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.portal.DimensionTransition;
+import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.server.ServerLifecycleHooks;
@@ -58,11 +59,25 @@ public class DimensionCommand extends BaseCommand {
 		}
 		for (ServerPlayer player : players) {
 			BlockPos coords = getWorldCoords(player, dimension);
-			player.changeDimension(new DimensionTransition(player.getServer().getLevel(dimension), new Vec3(coords.getX(), coords.getY(), coords.getZ()), Vec3.ZERO, player.getYRot(), player.getXRot(), entity -> {}));
+			Vec2 look = getWorldLook(player, dimension);
+			float yRot = look != null ? look.x : player.getYRot();
+			float xRot = look != null ? look.y : player.getXRot();
+
+			player.changeDimension(new DimensionTransition(player.getServer().getLevel(dimension), new Vec3(coords.getX(), coords.getY(), coords.getZ()), Vec3.ZERO, yRot, xRot, entity -> {}));
 			context.getSource().sendSuccess(() -> Component.translatable("kingdomkeys.command.dimension.teleported", player.getDisplayName().getString(), dimension.location().getPath()), true);
 			player.sendSystemMessage(Component.translatable("kingdomkeys.teleport.teleported_to", dimension.location().getPath()));
 		}
 		return 1;
+	}
+
+	private static Vec2 getWorldLook(Player player, ResourceKey<Level> dimension) {
+		if (dimension == ModDimensions.WORLDMAP) {
+			GummiWorld from = GummiWorldLoader.forDimension(player.level().dimension());
+			return from == null ? null : from.takeOffLook();
+		}
+
+		GummiWorld to = GummiWorldLoader.forDimension(dimension);
+		return to == null ? null : to.landingLook();
 	}
 
 	public static BlockPos getWorldCoords(Player player, ResourceKey<Level> dimension) {

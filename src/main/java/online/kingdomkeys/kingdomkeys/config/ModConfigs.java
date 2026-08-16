@@ -114,6 +114,18 @@ public class ModConfigs {
                 CLIENT.itemGetHUDData.set(data);
                 CLIENT.itemGetHUDData.save();
             }
+            case "GummiInfo" -> {
+                CLIENT.gummiInfoHUDData.set(data);
+                CLIENT.gummiInfoHUDData.save();
+            }
+            case "GummiReadout" -> {
+                CLIENT.gummiReadoutHUDData.set(data);
+                CLIENT.gummiReadoutHUDData.save();
+            }
+            case "GummiControls" -> {
+                CLIENT.gummiControlsHUDData.set(data);
+                CLIENT.gummiControlsHUDData.save();
+            }
         }
     }
 
@@ -134,6 +146,9 @@ public class ModConfigs {
             case "Minimap" -> CLIENT.minimapHUDData.get();
             case "RoomName" -> CLIENT.roomNameHUDData.get();
             case "ItemGet" -> CLIENT.itemGetHUDData.get();
+            case "GummiInfo" -> CLIENT.gummiInfoHUDData.get();
+            case "GummiReadout" -> CLIENT.gummiReadoutHUDData.get();
+            case "GummiControls" -> CLIENT.gummiControlsHUDData.get();
             default -> throw new IllegalStateException("Unexpected HUD value: " + name);
         };
     }
