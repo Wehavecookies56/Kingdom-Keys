@@ -109,7 +109,7 @@ public class KingdomKeys {
 			TABS.register(MODID, () -> CreativeModeTab.builder()
 					.title(Component.translatable("itemGroup.kingdomkeys"))
 					.icon(() -> new ItemStack(ModItems.kingdomKey.get()))
-					.displayItems((params, output) -> Utils.getCurrentItems().forEach(output::accept))
+					.displayItems((params, output) -> Utils.getCurrentItems(params.holders()).forEach(output::accept))
 					.build());
 	public static boolean efmLoaded = false;
 	public static boolean patchouliLoaded = false;

@@ -23,7 +23,7 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.util.List;
 
-public class GummiPhoneItem extends Item implements IItemCategory {
+public class GummiPhoneItem extends Item implements IItemCategory, ICreativeTab {
 	public GummiPhoneItem(Properties properties) {
 		super(properties);
 	}
@@ -90,5 +90,10 @@ public class GummiPhoneItem extends Item implements IItemCategory {
 	@Override
 	public ItemCategory getCategory() {
 		return ItemCategory.MISC;
+	}
+
+	@Override
+	public ICreativeTab.Tab getTab() {
+		return Tab.GUMMI;
 	}
 }

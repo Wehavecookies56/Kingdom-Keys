@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class GummiShipBlueprintItem extends Item implements IItemCategory {
+public class GummiShipBlueprintItem extends Item implements IItemCategory, ICreativeTab{
     public GummiShipBlueprintItem(Item.Properties properties) {
         super(properties);
     }
@@ -67,5 +67,10 @@ public class GummiShipBlueprintItem extends Item implements IItemCategory {
             tooltipComponents.add(Component.translatable("kingdomkeys.gummi.blueprint.blank"));
         }
         super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
+    }
+
+    @Override
+    public ICreativeTab.Tab getTab() {
+        return Tab.GUMMI;
     }
 }

@@ -12,9 +12,17 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
 import javax.annotation.Nullable;
 import java.io.InputStream;
+import java.net.URI;
+import java.net.URL;
+import java.nio.file.FileSystemNotFoundException;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Stream;
 
 public class GummiShipLoader extends SimplePreparableReloadListener<Map<ResourceLocation, CompoundTag>> {
 	private static final String FOLDER = "gummi_ships";
@@ -56,11 +64,61 @@ public class GummiShipLoader extends SimplePreparableReloadListener<Map<Resource
 
 	@Nullable
 	public static GummiStructure get(ResourceLocation id, HolderLookup.Provider registries) {
-		CompoundTag tag = SHIPS.get(id);
+		CompoundTag tag = all().get(id);
 		return tag == null ? null : new GummiStructure(registries, tag.copy());
 	}
 
 	public static Set<ResourceLocation> names() {
-		return SHIPS.keySet();
+		return all().keySet();
 	}
+
+	// Datapacks are run server sided, therefore a client doesn't knwo the files throught he loaded values
+	// So it scans the files inside the JAR file directly
+	private static Map<ResourceLocation, CompoundTag> all() {
+		if (!SHIPS.isEmpty()) {
+			return SHIPS;
+		}
+
+		if (bundled == null) {
+			Map<ResourceLocation, CompoundTag> found = new LinkedHashMap<>();
+			String inside = "/data/" + KingdomKeys.MODID + "/" + FOLDER;
+
+			try {
+				URL url = GummiShipLoader.class.getResource(inside);
+
+				if (url == null) {
+					return found;
+				}
+
+				URI uri = url.toURI();
+				Path dir;
+
+				try {
+					dir = Paths.get(uri);
+				} catch (FileSystemNotFoundException notOpen) {
+					FileSystems.newFileSystem(uri, Map.of());
+					dir = Paths.get(uri);
+				}
+
+				try (Stream<Path> files = Files.list(dir)) {
+					for (Path file : files.filter(path -> path.getFileName().toString().endsWith(EXTENSION)).toList()) {
+						String name = file.getFileName().toString();
+						name = name.substring(0, name.length() - EXTENSION.length());
+
+						try (InputStream in = Files.newInputStream(file)) {
+							found.put(KingdomKeys.rl(name), NbtIo.readCompressed(in, NbtAccounter.create(SIZE_LIMIT)));
+						}
+					}
+				}
+			} catch (Exception failed) {
+				KingdomKeys.LOGGER.error("Could not read the gummi ships bundled at " + inside, failed);
+			}
+
+			bundled = found;
+		}
+
+		return bundled;
+	}
+
+	private static Map<ResourceLocation, CompoundTag> bundled;
 }

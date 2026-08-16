@@ -115,10 +115,15 @@ import static online.kingdomkeys.kingdomkeys.item.ICreativeTab.Tab.*;
 
 public class Utils {
 	public static List<ItemStack> getItemsForCategory(ICreativeTab.Tab category) {
+		return getItemsForCategory(category, null);
+	}
+
+	public static List<ItemStack> getItemsForCategory(ICreativeTab.Tab category, HolderLookup.Provider holders) {
 		if (category == null) {
 			List<ItemStack> list = new ArrayList<>();
 			list.addAll(KingdomKeys.kkItems.get());
 			list.addAll(KingdomKeys.kkBlocks.get());
+			list.addAll(getShipBlueprints(holders));
 			return list;
 		}
 
@@ -130,7 +135,12 @@ public class Utils {
 			case CARDS -> KingdomKeys.kkItems.get().stream().filter(stack -> stack.getItem() instanceof ICreativeTab tab && tab.getTab() == CARDS).toList();
 			case ARMORS -> KingdomKeys.kkItems.get().stream().filter(stack -> stack.getItem() instanceof ArmorItem).toList();
 			case MATS -> KingdomKeys.kkItems.get().stream().filter(stack -> stack.getItem() instanceof SynthesisItem).toList();
-			case GUMMI -> KingdomKeys.kkBlocks.get().stream().filter(stack -> stack.getItem() instanceof BlockItem block && block.getBlock() instanceof ICreativeTab tab && tab.getTab() == ICreativeTab.Tab.GUMMI).toList();
+			case GUMMI -> {
+				List<ItemStack> gummi = new ArrayList<>(KingdomKeys.kkBlocks.get().stream().filter(stack -> stack.getItem() instanceof BlockItem block && block.getBlock() instanceof ICreativeTab tab && tab.getTab() == GUMMI).toList());
+				gummi.addAll(KingdomKeys.kkItems.get().stream().filter(stack -> stack.getItem() instanceof ICreativeTab tab && tab.getTab() == GUMMI).toList());
+				gummi.addAll(getShipBlueprints(holders));
+				yield gummi;
+			}
 			case MISC -> getMiscItems();
 			case NONE -> List.of();
 		};
@@ -150,7 +160,7 @@ public class Utils {
 		return misc.stream().filter(stack -> !categorized.contains(stack.getItem())).toList();
 	}
 
-	public static List<ItemStack> getCurrentItems() {
+	public static List<ItemStack> getCurrentItems(HolderLookup.Provider holders) {
 		if (CreativeFilter.currentCategory == ICreativeTab.Tab.MISC) {
 			return getMiscItems();
 		}
@@ -159,7 +169,30 @@ public class Utils {
 			return List.of();
 		}
 
-		return getItemsForCategory(CreativeFilter.currentCategory);
+		return getItemsForCategory(CreativeFilter.currentCategory, holders);
+	}
+
+	public static List<ItemStack> getShipBlueprints(HolderLookup.Provider holders) {
+		if (holders == null) {
+			return List.of();
+		}
+
+		List<ItemStack> blueprints = new ArrayList<>();
+
+		for (ResourceLocation ship : GummiShipLoader.names()) {
+			GummiStructure structure = GummiShipLoader.get(ship, holders);
+
+			if (structure == null) {
+				continue;
+			}
+
+			ItemStack stack = new ItemStack(ModItems.gummiShipBlueprint.get());
+			stack.set(ModComponents.GUMMI_STRUCTURE, structure.withoutBlockEntities());
+			stack.set(ModComponents.BLUEPRINT_NAME, structure.getName());
+			blueprints.add(stack);
+		}
+
+		return blueprints;
 	}
 
 	public static int getRedstoneFromMagic(String type){

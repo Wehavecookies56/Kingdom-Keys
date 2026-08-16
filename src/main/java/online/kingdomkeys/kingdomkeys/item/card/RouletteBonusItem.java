@@ -7,6 +7,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import online.kingdomkeys.kingdomkeys.item.ICreativeTab;
 import online.kingdomkeys.kingdomkeys.lib.ModTags;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCOpenCardRoulette;
@@ -15,7 +16,7 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RouletteBonusItem extends Item {
+public class RouletteBonusItem extends Item implements ICreativeTab {
     public RouletteBonusItem() {
         super(new Properties());
     }
@@ -37,5 +38,10 @@ public class RouletteBonusItem extends Item {
             }
         }
         return super.use(level, player, usedHand);
+    }
+
+    @Override
+    public ICreativeTab.Tab getTab() {
+        return ICreativeTab.Tab.CARDS;
     }
 }

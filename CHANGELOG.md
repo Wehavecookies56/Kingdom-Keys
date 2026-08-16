@@ -51,6 +51,7 @@
 * Hostility detection (for command menu color) is now fully client side and has a cooldown of 5 ticks, should hopefully avoid the flickering that sometimes still happened.
   * Now in order to be in combat you need to have line of sight with the enemy, so in caves it should be less frequent.
 * Removed old blizzardChangeBlocks Common Config since the new system obsoletes it.
+* Rearranged the creative tab from the following items: Pauldrons, gummi blueprints, gummiphone and roulette bonus card, 
 
 ## Fixed:
 * Gummi ships can now transport chests and other tile entities.
