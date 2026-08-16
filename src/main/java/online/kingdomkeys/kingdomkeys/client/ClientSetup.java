@@ -50,6 +50,7 @@ public class ClientSetup {
 	public static ResourceLocation
 			COMMAND_MENU,
 			PLAYER_PORTRAIT,
+			PLAYER_PORTRAIT_CROWN,
 			HP_BAR,
 			MP_BAR,
 			DRIVE_BAR,
@@ -157,7 +158,7 @@ public class ClientSetup {
 		
 		if(!Utils.shouldRenderOverlay(player)) { //If it shouldn't render cause it's set to HIDE or WEAPON and not holding one
 			event.setCanceled(o.equals(COMMAND_MENU) || o.equals(MP_BAR) || o.equals(DRIVE_BAR) || o.equals(SHOTLOCK)); //Remove all these 4 bars
-			if(o.equals(HP_BAR) || o.equals(PLAYER_PORTRAIT)) { //Allow HP to be shown if KO'd
+			if(o.equals(HP_BAR) || o.equals(PLAYER_PORTRAIT) || o.equals(PLAYER_PORTRAIT_CROWN)) { //Allow HP to be shown if KO'd
 				event.setCanceled(!player.hasEffect(ModMobEffects.KO));
 			}
 		} else { //If mode is set to SHOW or WEAPON while holding one
@@ -185,6 +186,7 @@ public class ClientSetup {
     public static void setupClient(FMLClientSetupEvent event) {
 		COMMAND_MENU = KingdomKeys.rl("command_menu");
 		PLAYER_PORTRAIT = KingdomKeys.rl("player_portrait");
+		PLAYER_PORTRAIT_CROWN = KingdomKeys.rl("player_portrait_crown");
 		HP_BAR = KingdomKeys.rl("hp_bar");
 		MP_BAR = KingdomKeys.rl("mp_bar");
 		DRIVE_BAR = KingdomKeys.rl("drive_bar");

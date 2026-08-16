@@ -228,6 +228,21 @@ public class GummiHangarTileEntity extends BlockEntity implements MenuProvider {
         }
     }
 
+    private GummiStructure fitted;
+    private GummiStructure fittedSource;
+    private int fittedSize;
+
+    // Cache the structure so it doesn't have to rebuild it for every block
+    private GummiStructure fitted(GummiStructure blueprint, int size) {
+        if (fittedSource != blueprint || fittedSize != size) {
+            fittedSource = blueprint;
+            fittedSize = size;
+            fitted = Utils.resizeStructure(blueprint, size);
+        }
+
+        return fitted;
+    }
+
     private void buildFromBlueprint(Level level, BlockPos pos, BlockState state) {
         if (--buildCooldown > 0) {
             return;
@@ -270,7 +285,7 @@ public class GummiHangarTileEntity extends BlockEntity implements MenuProvider {
         }
 
         // The same mapping the finished ship is built with, so what is laid out here lands exactly where importing the blueprint in one go would have put it
-        GummiStructure struct = Utils.resizeStructure(blueprint, size);
+        GummiStructure struct = fitted(blueprint, size);
 
         // Null means the blueprint's blocks do not fit this plate, whatever size it says it is
         if (struct == null) {
