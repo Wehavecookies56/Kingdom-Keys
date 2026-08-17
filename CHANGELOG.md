@@ -1,14 +1,16 @@
 ## Added:
 * Some new advancements to make the early game mod progression a little bit clearer.
-* Kingdom Key recipe in the Common Config for startingRecipes (won't affect if you are in an existing world).
+* Kingdom Key recipe in the Common Config for startingRecipes (won't affect if you are in an existing world or if the config doesn't regenerate).
 * Flowmotion Rails, which you can ride once you have the Wall Kick ability.
   * They can be crafted in all 16 colors, different colored rails won't interconnect (unless it's a straight line).
   * Sneaking or flying in creative avoids you grinding on them.
   * Rail jumping power is boosted by the ability superjump.
   * Redstone can be used in intersections just like with vanilla rails.
 * World Map dimension where gummi ships won't use any fuel, filled with meteors.
-  * Daybreak Town added as a world test, if kept, it might be reworked in the future.
+  * Daybreak Town added as a world test, if kept, it might be reworked in the future. Built by our beloved builder KHWaterBlock
+  * Destiny Islands world, built by our beloved builder Ventus.
   * Mod worlds will have idle and battle tracks which will fade in and out once the player gets in a fight.
+  * Worlds can be set to allow non-op players to build in them, by default true, if false only op players will be able to.
 * Option to auto build Gummi Ships based on the blueprint, place items in a chest right next to the hangar and if you have energy stored it will start to build it.
   * Server Config to enable or disable that option.
 * Creative blueprint which builds the ship rather than displaying the hologram when clicking import.
@@ -51,7 +53,7 @@
 * Hostility detection (for command menu color) is now fully client side and has a cooldown of 5 ticks, should hopefully avoid the flickering that sometimes still happened.
   * Now in order to be in combat you need to have line of sight with the enemy, so in caves it should be less frequent.
 * Removed old blizzardChangeBlocks Common Config since the new system obsoletes it.
-* Rearranged the creative tab from the following items: Pauldrons, gummi blueprints, gummiphone and roulette bonus card, 
+* Rearranged the creative tab from the following items: Pauldrons, Gummi blueprints, Gummiphone and roulette bonus card, 
 
 ## Fixed:
 * Gummi ships can now transport chests and other tile entities.

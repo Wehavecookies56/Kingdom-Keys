@@ -33,6 +33,7 @@ import net.minecraft.world.level.levelgen.RandomState;
 import net.minecraft.world.level.levelgen.blending.Blender;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
@@ -54,30 +55,34 @@ public class PrebuiltWorldChunkGenerator extends ChunkGenerator {
 	private final ResourceLocation world;
 	/** Where the export's lowest corner goes. X and Z want to be multiples of 16 so pieces land on chunks. */
 	private final BlockPos origin;
+	/** Poured around the build instead of leaving void. Absent means the world floats in nothing, as it used to. */
+	private final Optional<SeaSettings> sea;
 
 	// Read once and kept for the life of the dimension. Worldgen is threaded, so palette is written last and read first: seeing it non-null means manifestMinY is already set.
 	private volatile int manifestMinY;
 	private volatile BlockState[] palette;
 
-	public PrebuiltWorldChunkGenerator(BiomeSource biomeSource, ResourceLocation world, BlockPos origin) {
+	public PrebuiltWorldChunkGenerator(BiomeSource biomeSource, ResourceLocation world, BlockPos origin, Optional<SeaSettings> sea) {
 		super(biomeSource);
 		this.biomeSource = biomeSource;
 		this.world = world;
 		this.origin = origin;
+		this.sea = sea;
 	}
 
 	public static final MapCodec<PrebuiltWorldChunkGenerator> CODEC = RecordCodecBuilder.mapCodec(instance ->
 			instance.group(
 					BiomeSource.CODEC.fieldOf("biome_source").forGetter(generator -> generator.biomeSource),
 					ResourceLocation.CODEC.fieldOf("world").forGetter(generator -> generator.world),
-					BlockPos.CODEC.optionalFieldOf("origin", BlockPos.ZERO).forGetter(generator -> generator.origin)
+					BlockPos.CODEC.optionalFieldOf("origin", BlockPos.ZERO).forGetter(generator -> generator.origin),
+					SeaSettings.CODEC.optionalFieldOf("sea").forGetter(generator -> generator.sea)
 			).apply(instance, instance.stable(PrebuiltWorldChunkGenerator::new)));
 
 	@Override
 	protected MapCodec<? extends ChunkGenerator> codec() {
 		return CODEC;
 	}
-	// Deliberately does NOT call super: the default runs the biome's placed features, and the void biome carries minecraft:void_start_platform, which would drop a stone square under the origin.
+	// Deliberately does NOT call super: the default runs the biome's placed features, which would scatter ores, kelp and whatever else the biome carries through a world that was built by hand.
 	@Override
 	public void applyBiomeDecoration(WorldGenLevel level, ChunkAccess chunk, StructureManager structureManager) {
 		BlockState[] states = palette(level);
@@ -94,6 +99,8 @@ public class PrebuiltWorldChunkGenerator extends ChunkGenerator {
 
 		CompoundTag piece = read(level, pieceX + "_" + pieceZ + ".nbt");
 		if (piece == null) {
+			// If the chunk is null fill it with whatever is specified
+			fill(chunk, null);
 			return;
 		}
 
@@ -102,17 +109,21 @@ public class PrebuiltWorldChunkGenerator extends ChunkGenerator {
 		int baseY = origin.getY() + piece.getInt("min_y") - manifestMinY;
 		BlockPos base = new BlockPos(chunkPos.getMinBlockX(), baseY, chunkPos.getMinBlockZ());
 
-		placeBlocks(level, piece, states, base);
+		fill(chunk, placeBlocks(level, piece, states, base));
 		placeBlockEntities(level, piece, base);
 		placeEntities(level, piece, base);
 	}
 
-	private void placeBlocks(WorldGenLevel level, CompoundTag piece, BlockState[] states, BlockPos base) {
+	/** @return the lowest Y the build reaches in each of the chunk's 256 columns, indexed z * 16 + x */
+	private int[] placeBlocks(WorldGenLevel level, CompoundTag piece, BlockState[] states, BlockPos base) {
 		int height = piece.getInt("height");
 		int[] local = piece.getIntArray("palette");
 		byte[] packed = piece.getByteArray("blocks");
 		int[] wide = piece.getIntArray("blocks_int");
 		boolean isPacked = packed.length > 0;
+
+		int[] bottoms = new int[256];
+		Arrays.fill(bottoms, Integer.MAX_VALUE);
 
 		BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
 
@@ -134,6 +145,55 @@ public class PrebuiltWorldChunkGenerator extends ChunkGenerator {
 
 					pos.set(base.getX() + x, base.getY() + y, base.getZ() + z);
 					level.setBlock(pos, states[global], Block.UPDATE_CLIENTS);
+
+					// Climbing, so the first hit in a column is its underside
+					if (bottoms[z * 16 + x] == Integer.MAX_VALUE) {
+						bottoms[z * 16 + x] = base.getY() + y;
+					}
+				}
+			}
+		}
+
+		return bottoms;
+	}
+
+	private void fill(ChunkAccess chunk, int[] bottoms) {
+		SeaSettings settings = sea.orElse(null);
+
+		if (settings == null) {
+			return;
+		}
+
+		ChunkPos chunkPos = chunk.getPos();
+		int bottom = chunk.getMinBuildHeight();
+		int surface = Math.min(settings.level(), chunk.getMaxBuildHeight());
+
+		BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
+
+		for (int z = 0; z < 16; z++) {
+			for (int x = 0; x < 16; x++) {
+				int worldX = chunkPos.getMinBlockX() + x;
+				int worldZ = chunkPos.getMinBlockZ() + z;
+
+				// The first Y that belongs to the build, and so the first one nothing may be written at
+				int limit = bottoms == null ? surface : Math.min(surface, bottoms[z * 16 + x]);
+
+				if (limit <= bottom) {
+					continue;
+				}
+
+				int solid = limit - 1 <= settings.floor() ? limit - 1 : settings.floorAt(worldX, worldZ);
+
+				// Straight at the chunk rather than through the region: every one of these is inside it, and
+				// there are thousands per chunk, so the lookup the region would do each time is worth losing
+				for (int y = bottom; y <= solid; y++) {
+					pos.set(worldX, y, worldZ);
+					chunk.setBlockState(pos, settings.bed(worldX, y, worldZ, bottom, solid), false);
+				}
+
+				for (int y = solid + 1; y < limit; y++) {
+					pos.set(worldX, y, worldZ);
+					chunk.setBlockState(pos, settings.water(), false);
 				}
 			}
 		}
@@ -241,7 +301,7 @@ public class PrebuiltWorldChunkGenerator extends ChunkGenerator {
 
 	@Override
 	public int getSeaLevel() {
-		return 0;
+		return sea.map(SeaSettings::level).orElse(0);
 	}
 
 	@Override

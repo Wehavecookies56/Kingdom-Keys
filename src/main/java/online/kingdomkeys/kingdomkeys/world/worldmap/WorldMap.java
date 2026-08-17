@@ -1,17 +1,21 @@
 package online.kingdomkeys.kingdomkeys.world.worldmap;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.portal.DimensionTransition;
 import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
 import javax.annotation.Nullable;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
+import net.neoforged.neoforge.event.level.BlockEvent;
 import net.neoforged.neoforge.event.tick.LevelTickEvent;
 import online.kingdomkeys.kingdomkeys.entity.GummiShipEntity;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
@@ -40,6 +44,64 @@ public class WorldMap {
 	/** Whether this player is the one at the controls of a gummi ship, rather than sitting in the back */
 	public static boolean isPilot(Player player) {
 		return player.getVehicle() instanceof GummiShipEntity ship && ship.getControllingPassenger() == player;
+	}
+
+	/**
+	 * Whether this world is closed to building for this player.
+	 *
+	 * Only laying and taking blocks is ever stopped: doors, chests, buttons, levers and everything else that
+	 * answers to a right click keeps working, so a locked world is still a place you can walk into rather than
+	 * a museum behind glass. Operators are never held back, which is what leaves the world editable in place.
+	 */
+	public static boolean isLocked(Player player) {
+		if (player == null || player.hasPermissions(2)) {
+			return false;
+		}
+
+		GummiWorld world = GummiWorldLoader.forDimension(player.level().dimension());
+		return world != null && !world.build();
+	}
+
+	// Answered on both sides, so a blocked placement never flickers in before the server takes it back
+	private static boolean deny(Player player) {
+		if (!isLocked(player)) {
+			return false;
+		}
+
+		player.displayClientMessage(Component.translatable("kingdomkeys.worldmap.no_building"), true);
+		return true;
+	}
+
+	@SubscribeEvent
+	public void breakBlock(BlockEvent.BreakEvent event) {
+		if (deny(event.getPlayer())) {
+			event.setCanceled(true);
+		}
+	}
+
+	@SubscribeEvent
+	public void placeBlock(BlockEvent.EntityPlaceEvent event) {
+		if (event.getEntity() instanceof Player player && deny(player)) {
+			event.setCanceled(true);
+		}
+	}
+
+	// A bed or a door comes through here instead, and the bus is not guaranteed to hand a subclass to the
+	// listener of its parent
+	@SubscribeEvent
+	public void placeBlocks(BlockEvent.EntityMultiPlaceEvent event) {
+		if (event.getEntity() instanceof Player player && deny(player)) {
+			event.setCanceled(true);
+		}
+	}
+
+	// Buckets are the one placement that never reaches EntityPlaceEvent: they are deliberately left out of the
+	// snapshot capture that fires it, because they act from Item#use rather than from a block placement
+	@SubscribeEvent
+	public void useBucket(PlayerInteractEvent.RightClickItem event) {
+		if (event.getItemStack().getItem() instanceof BucketItem && deny(event.getEntity())) {
+			event.setCanceled(true);
+		}
 	}
 
 	@SubscribeEvent

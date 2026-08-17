@@ -19,6 +19,7 @@ import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
@@ -30,7 +31,7 @@ public class GummiShipLoader extends SimplePreparableReloadListener<Map<Resource
 
 	private static final long SIZE_LIMIT = 8 * 1024 * 1024;
 
-	private static final Map<ResourceLocation, CompoundTag> SHIPS = new LinkedHashMap<>();
+	private static volatile Map<ResourceLocation, CompoundTag> SHIPS = Map.of();
 
 	@Override
 	protected Map<ResourceLocation, CompoundTag> prepare(ResourceManager manager, ProfilerFiller profiler) {
@@ -51,9 +52,8 @@ public class GummiShipLoader extends SimplePreparableReloadListener<Map<Resource
 
 	@Override
 	protected void apply(Map<ResourceLocation, CompoundTag> found, ResourceManager manager, ProfilerFiller profiler) {
-		SHIPS.clear();
-		SHIPS.putAll(found);
-		KingdomKeys.LOGGER.info("Loaded {} gummi ships", SHIPS.size());
+		SHIPS = Collections.unmodifiableMap(found);
+		KingdomKeys.LOGGER.info("Loaded {} gummi ships", found.size());
 	}
 
 	// Strips the folder and the extension, so gummi_ships/highwind.nbt --> kingdomkeys:highwind

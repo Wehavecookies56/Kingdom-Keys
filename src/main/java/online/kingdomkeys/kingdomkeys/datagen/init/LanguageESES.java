@@ -2528,6 +2528,8 @@ public class LanguageESES extends KKLanguageProvider {
         add("co.encounter.wave", "Oleada");
         add("co.encounter.end", "Encuentro terminado");
 
+        add("kingdomkeys.worldmap.no_building", "En este mundo no se puede construir");
+
         add("kingdomkeys.struggle.out_of_range", "La arena debe estar a menos de %s bloques de su tablón");
         add("kingdomkeys.struggle.starting", "¡Empieza el Struggle...!");
         add("kingdomkeys.struggle.tournament.next_match", "Siguiente combate del torneo...");

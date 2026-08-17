@@ -1,5 +1,5 @@
 {
-  "name": "WorldMap",
+  "name": "DestinyIslands",
   "ultrawarm": false,
   "natural": false,
   "coordinate_scale": 1,
@@ -14,7 +14,6 @@
   "respawn_anchor_works": false,
   "bed_works": false,
   "piglin_safe": false,
-  "fixed_time": 18000,
   "monster_spawn_block_light_limit": 0,
   "monster_spawn_light_level": 0,
   "effects": "minecraft:overworld"
