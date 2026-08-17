@@ -16,8 +16,9 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncGummiWorlds;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -25,10 +26,13 @@ public class GummiWorldLoader extends SimpleJsonResourceReloadListener {
 
 	public static final Gson GSON = new GsonBuilder().registerTypeAdapter(GummiWorld.class, new GummiWorldDeserializer()).setPrettyPrinting().create();
 
-	public static List<String> names = new LinkedList<>();
-	public static List<String> dataList = new LinkedList<>();
+	// Never mutated in place. A reload, or the sync packet arriving on the client thread, swaps whole
+	// collections instead, so whoever is halfway through iterating one simply finishes with the old copy.
+	// Clearing them live was crashing the server tick with a ConcurrentModificationException.
+	public static volatile List<String> names = List.of();
+	public static volatile List<String> dataList = List.of();
 
-	private static final Map<ResourceLocation, GummiWorld> WORLDS = new LinkedHashMap<>();
+	private static volatile Map<ResourceLocation, GummiWorld> WORLDS = Map.of();
 
 	public GummiWorldLoader() {
 		super(GSON, "gummi_worlds");
@@ -38,21 +42,25 @@ public class GummiWorldLoader extends SimpleJsonResourceReloadListener {
 	protected void apply(Map<ResourceLocation, JsonElement> objectIn, ResourceManager resourceManagerIn, ProfilerFiller profilerIn) {
 		KingdomKeys.LOGGER.info("Loading gummi world data");
 
-		names.clear();
-		dataList.clear();
-		WORLDS.clear();
+		Map<ResourceLocation, GummiWorld> loaded = new LinkedHashMap<>();
+		List<String> loadedNames = new ArrayList<>();
+		List<String> loadedData = new ArrayList<>();
 
 		objectIn.forEach((resourceLocation, element) -> {
 			try {
-				WORLDS.put(resourceLocation, GSON.fromJson(element, GummiWorld.class));
-				names.add(resourceLocation.toString());
-				dataList.add(element.toString());
+				loaded.put(resourceLocation, GSON.fromJson(element, GummiWorld.class));
+				loadedNames.add(resourceLocation.toString());
+				loadedData.add(element.toString());
 			} catch (JsonParseException e) {
 				KingdomKeys.LOGGER.error("Error parsing gummi world json file {}: {}", resourceLocation, e);
 			}
 		});
 
-		KingdomKeys.LOGGER.info("Loaded {} gummi worlds", WORLDS.size());
+		WORLDS = Collections.unmodifiableMap(loaded);
+		names = List.copyOf(loadedNames);
+		dataList = List.copyOf(loadedData);
+
+		KingdomKeys.LOGGER.info("Loaded {} gummi worlds", loaded.size());
 
 		if (ServerLifecycleHooks.getCurrentServer() != null) {
 			for (ServerPlayer player : ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayers()) {
@@ -83,7 +91,6 @@ public class GummiWorldLoader extends SimpleJsonResourceReloadListener {
 	}
 
 	public static void replaceAll(Map<ResourceLocation, GummiWorld> worlds) {
-		WORLDS.clear();
-		WORLDS.putAll(worlds);
+		WORLDS = Collections.unmodifiableMap(new LinkedHashMap<>(worlds));
 	}
 }
