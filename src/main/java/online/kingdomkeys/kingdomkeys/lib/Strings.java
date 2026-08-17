@@ -15,7 +15,7 @@ public class Strings {
 			castleOblivionInterior = "castle_oblivion_interior",
 			castleOblivion = "castle_oblivion",
 			daybreakTown = "daybreak_town",
-			worldmap = "worldmap";
+			worldmap = "ocean_between";
 
     // Magics
     public static final String
