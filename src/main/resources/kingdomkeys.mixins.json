@@ -25,6 +25,7 @@
     "client.MinecraftMixin",
     "client.MusicManagerMixin",
     "client.PlayerRendererMixin",
+    "client.SoundBufferLibraryMixin",
     "epicfight.ControlEngineMixin",
     "epicfight.EpicFightScaleMixin",
     "epicfight.FirstPersonRendererMixin",
