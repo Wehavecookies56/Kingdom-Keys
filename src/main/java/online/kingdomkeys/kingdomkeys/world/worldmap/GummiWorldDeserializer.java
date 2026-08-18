@@ -39,9 +39,11 @@ public class GummiWorldDeserializer implements JsonDeserializer<GummiWorld> {
 		Vec2 takeOffLook = look(obj, "takeoffRotation");
 		Vec2 landingLook = look(obj, "landingRotation");
 
+		// Both default to true
 		boolean build = !obj.has("build") || obj.get("build").getAsBoolean();
+		boolean vanillaMobs = !obj.has("vanilla_mobs") || obj.get("vanilla_mobs").getAsBoolean();
 
-		return new GummiWorld(dimension, takeoff, worldmapPosition, takeOffSpawn, landingSpawn, takeOffLook, landingLook, texture, scale, approachRange, build);
+		return new GummiWorld(dimension, takeoff, worldmapPosition, takeOffSpawn, landingSpawn, takeOffLook, landingLook, texture, scale, approachRange, build, vanillaMobs);
 	}
 
 	private static ResourceLocation resource(JsonObject obj, String key) {

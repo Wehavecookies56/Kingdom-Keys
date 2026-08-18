@@ -6,8 +6,8 @@
     "origin": [0, 64, 0],
     "sea": {
       "water": "minecraft:water",
-      "level": 77,
-      "floor": 64,
+      "level": 73,
+      "floor": 63,
       "variation": 3,
       "surface_depth": 4,
       "body": "minecraft:stone",

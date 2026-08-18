@@ -46,6 +46,7 @@ import online.kingdomkeys.kingdomkeys.item.ModItems;
 import java.awt.*;
 import java.util.*;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.function.Supplier;
 
@@ -301,6 +302,20 @@ public class ModEntities {
 
     public static <T extends Entity> DeferredHolder<EntityType<?>, EntityType<T>> createEntityTypeImmuneToFire(EntityType.EntityFactory<T> factory, MobCategory classification, String name, float sizeX, float sizeY) {
         return ENTITIES.register(name, () -> EntityType.Builder.of(factory, classification).setShouldReceiveVelocityUpdates(true).setUpdateInterval(1).setTrackingRange(128).sized(sizeX, sizeY).fireImmune().build(name));
+    }
+
+    /** The pool a forced mob type draws from, or null when nothing is being forced */
+    private static Map<EntityType<? extends Entity>, Integer> groupOf(EntityHelper.MobType group) {
+        if (group == null) {
+            return null;
+        }
+
+        return switch (group) {
+            case HEARTLESS_PUREBLOOD -> pureblood;
+            case HEARTLESS_EMBLEM -> emblem;
+            case NOBODY -> nobody;
+            default -> null;
+        };
     }
 
     public static void addToGroup(EntityHelper.MobType group, EntityType<?> type, int level) {
@@ -583,8 +598,8 @@ public class ModEntities {
         
         event.put(TYPE_MARLUXIA.get(), MarluxiaEntity.registerAttributes().build());
     }
-    
-    public static Monster getRandomEnemy(int level, Level world) {
+    //If only is null it rolls any
+    public static Monster getRandomEnemy(int level, Level world, MobType only) {
         addToGroup(MobType.NPC, TYPE_MOOGLE.get(), 0);
         
         addToGroup(HEARTLESS_PUREBLOOD, TYPE_SHADOW.get(), 0);
@@ -620,35 +635,35 @@ public class ModEntities {
         addToGroup(NOBODY, TYPE_ASSASSIN.get(), 15);
         addToGroup(NOBODY, TYPE_DRAGOON.get(), 10);
 
-        int purebloodChance = Integer.parseInt(ModConfigs.mobSpawnRate.get(0).split(",")[1]);
-		int emblemChance = Integer.parseInt(ModConfigs.mobSpawnRate.get(1).split(",")[1]);
-		int nobodyChance = Integer.parseInt(ModConfigs.mobSpawnRate.get(2).split(",")[1]);
-		int num = world.random.nextInt(100);
-		List<Monster> mobs = new ArrayList<Monster>();
+        Map<EntityType<? extends Entity>, Integer> group = groupOf(only);
 
-		if(num <= purebloodChance) {
-			for(Entry<EntityType<? extends Entity>, Integer> entry : pureblood.entrySet()) {
-				if(entry.getValue() <= level) {
-					mobs.add((Monster) entry.getKey().create(world));
-				}
+		if(group == null) {
+			int purebloodChance = Integer.parseInt(ModConfigs.mobSpawnRate.get(0).split(",")[1]);
+			int emblemChance = Integer.parseInt(ModConfigs.mobSpawnRate.get(1).split(",")[1]);
+			int nobodyChance = Integer.parseInt(ModConfigs.mobSpawnRate.get(2).split(",")[1]);
+			int num = world.random.nextInt(100);
+
+			if(num <= purebloodChance) {
+				group = pureblood;
+			} else if(num <= purebloodChance + emblemChance) {
+				group = emblem;
+			} else if(num <= purebloodChance + emblemChance + nobodyChance) {
+				group = nobody;
+			} else {
+				KingdomKeys.LOGGER.error("No spawning, config is not adding up to 100 percent");
+				group = pureblood;
 			}
-		} else if(num > purebloodChance && num <= purebloodChance + emblemChance) {
-			for(Entry<EntityType<? extends Entity>, Integer> entry : emblem.entrySet()) {
-				if(entry.getValue() <= level) {
-					mobs.add((Monster) entry.getKey().create(world));
-				}
-			}
-		} else if(num > purebloodChance + emblemChance && num <= purebloodChance + emblemChance + nobodyChance){
-			for(Entry<EntityType<? extends Entity>, Integer> entry : nobody.entrySet()) {
-				if(entry.getValue() <= level) {
-					mobs.add((Monster) entry.getKey().create(world));
-				}
-			}
-		} else {
-			KingdomKeys.LOGGER.error("No spawning, config is not adding up to 100 percent");
 		}
-    	
-		return mobs.get(world.random.nextInt(mobs.size()));		 
+
+		List<Monster> mobs = new ArrayList<>();
+
+		for(Entry<EntityType<? extends Entity>, Integer> entry : group.entrySet()) {
+			if(entry.getValue() <= level) {
+				mobs.add((Monster) entry.getKey().create(world));
+			}
+		}
+
+		return mobs.get(world.random.nextInt(mobs.size()));
 	}
 
     @SubscribeEvent

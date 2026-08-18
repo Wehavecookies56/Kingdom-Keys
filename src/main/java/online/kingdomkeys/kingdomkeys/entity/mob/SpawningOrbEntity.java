@@ -35,6 +35,7 @@ import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
 
 import java.util.ArrayList;
 
@@ -56,7 +57,7 @@ public class SpawningOrbEntity extends Monster {
 			int randomTimes = worldIn.random.nextInt(playerData.getNumberOfAbilitiesEquipped(ModAbilities.ENCOUNTER_PLUS)+1);
 
 			for(int i=0;i<=randomTimes;i++) {
-				this.mobs.add(ModEntities.getRandomEnemy(playerData.getLevel(), level()));
+				this.mobs.add(ModEntities.getRandomEnemy(playerData.getLevel(), level(), forcedType(worldIn)));
 
 				int randomLevel = Utils.getRandomMobLevel(player);
 				GlobalData mobData = GlobalData.get(mobs.get(i));
@@ -154,12 +155,26 @@ public class SpawningOrbEntity extends Monster {
 		return false;
 	}
 
+	/** Worlds that only ever see one kind of enemy. Null anywhere else, which rolls for it as usual. */
+	private static MobType forcedType(Level level) {
+		return level.dimension().equals(ModDimensions.DESTINY_ISLANDS) ? MobType.HEARTLESS_PUREBLOOD : null;
+	}
+
+	/** Worlds the darkness only reaches after sundown, rather than wherever it finds a shadow to hide in */
+	private static boolean nightOnly(Level level) {
+		return level.dimension().equals(ModDimensions.DESTINY_ISLANDS);
+	}
+
 	@Override
 	public boolean checkSpawnRules(LevelAccessor worldIn, MobSpawnType spawnReasonIn) {
-		if(worldIn instanceof Level level)
-			return WorldData.get(level.getServer()).getHeartlessSpawnLevel() > 0;
-		else
+		if(!(worldIn instanceof Level level))
 			return true;
+
+		// The light test alone would still let them spawn in caves
+		if(nightOnly(level) && level.isDay())
+			return false;
+
+		return WorldData.get(level.getServer()).getHeartlessSpawnLevel() > 0;
 	}
 
 	@Override

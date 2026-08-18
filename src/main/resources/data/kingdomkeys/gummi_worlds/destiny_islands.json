@@ -9,5 +9,6 @@
   "texture": "kingdomkeys:textures/worldmap/destiny_islands.png",
   "scale": 32,
   "approach_range": 40,
-  "build": true
+  "build": true,
+  "vanilla_mobs": false
 }

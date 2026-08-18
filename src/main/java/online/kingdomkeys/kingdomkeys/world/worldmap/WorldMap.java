@@ -1,11 +1,13 @@
 package online.kingdomkeys.kingdomkeys.world.worldmap;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.level.ChunkPos;
@@ -14,9 +16,11 @@ import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
 import javax.annotation.Nullable;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.event.entity.living.MobSpawnEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.event.level.BlockEvent;
 import net.neoforged.neoforge.event.tick.LevelTickEvent;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.entity.GummiShipEntity;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.worldmap.WorldMarkerEntity;
@@ -101,6 +105,24 @@ public class WorldMap {
 	public void useBucket(PlayerInteractEvent.RightClickItem event) {
 		if (event.getItemStack().getItem() instanceof BucketItem && deny(event.getEntity())) {
 			event.setCanceled(true);
+		}
+	}
+
+	// Enforces the mob types, still allows you to spawn one through egg or /summon
+	@SubscribeEvent
+	public void spawnCheck(MobSpawnEvent.SpawnPlacementCheck event) {
+		if (event.getSpawnType() != MobSpawnType.NATURAL && event.getSpawnType() != MobSpawnType.CHUNK_GENERATION) {
+			return;
+		}
+
+		if (BuiltInRegistries.ENTITY_TYPE.getKey(event.getEntityType()).getNamespace().equals(KingdomKeys.MODID)) {
+			return;
+		}
+
+		GummiWorld world = GummiWorldLoader.forDimension(event.getLevel().getLevel().dimension());
+
+		if (world != null && !world.vanillaMobs()) {
+			event.setResult(MobSpawnEvent.SpawnPlacementCheck.Result.FAIL);
 		}
 	}
 
