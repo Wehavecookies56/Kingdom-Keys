@@ -24,6 +24,11 @@
       "kingdomkeys:arrowgunreload"
     ]
   },
+  "boss_kill": {
+    "sounds": [
+      "kingdomkeys:boss_kill"
+    ]
+  },
   "buy": {
     "sounds": [
       "kingdomkeys:buy"

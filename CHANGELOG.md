@@ -7,7 +7,6 @@
   * Rail jumping power is boosted by the ability superjump.
   * Redstone can be used in intersections just like with vanilla rails.
 * World Map dimension where gummi ships won't use any fuel, filled with meteors.
-  * Daybreak Town added as a world test, if kept, it might be reworked in the future. Built by our beloved builder KHWaterBlock
   * Destiny Islands world, built by our beloved builder Ventus.
   * Mod worlds will have idle and battle tracks which will fade in and out once the player gets in a fight.
   * Worlds can be set to allow non-op players to build in them, by default true, if false only op players will be able to.
@@ -71,3 +70,5 @@
 * Castle Oblivion door being breakable.
 * You will no longer get a recipe dropped everytime you get a biome memory drop.
 * **/kingdomkeys ability give** command not working unless specifying true / false, now true is implied if ignored.
+* Keyblade armor during EFM mode will hopefully perform better.
+* Chat error messages, specially when traveling to dimensions.

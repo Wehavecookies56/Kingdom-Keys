@@ -59,6 +59,7 @@ public class Sounds extends SoundDefinitionsProvider {
         add(aerialRecovery);
         add(flowmotionLoop);
         add(koLoop);
+        add(bossKill);
         add(heartlessKill);
         add(heartlessSpawn);
         add(nobodyKill);

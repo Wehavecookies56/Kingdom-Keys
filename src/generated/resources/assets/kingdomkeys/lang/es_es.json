@@ -2838,6 +2838,7 @@
   "kingdomkeys.struggle.win": "¡Has ganado!",
   "kingdomkeys.teleport.returned_to": "Has vuelto a %s",
   "kingdomkeys.teleport.teleported_to": "Has sido teletransportado a %s",
+  "kingdomkeys.worldmap.no_building": "En este mundo no se puede construir",
   "limit.arrow_rain.name": "Lluvia Flechada",
   "limit.berserk_claymore.name": "Claymore Salvaje",
   "limit.card_ring.name": "Jaula de Cartas",

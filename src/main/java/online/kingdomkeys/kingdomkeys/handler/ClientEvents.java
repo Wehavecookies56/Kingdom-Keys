@@ -99,6 +99,9 @@ import net.neoforged.neoforge.client.event.RenderHandEvent;
 import online.kingdomkeys.kingdomkeys.util.CombatAbilities;
 import online.kingdomkeys.kingdomkeys.network.cts.*;
 import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
+import net.neoforged.neoforge.client.event.RenderLivingEvent;
+import online.kingdomkeys.kingdomkeys.client.render.BossDeathRays;
+import online.kingdomkeys.kingdomkeys.entity.mob.BaseKHEntity;
 import online.kingdomkeys.kingdomkeys.sound.AlarmSoundInstance;
 import online.kingdomkeys.kingdomkeys.sound.DimensionMusic;
 import online.kingdomkeys.kingdomkeys.sound.FlowmotionSoundInstance;
@@ -121,6 +124,21 @@ import java.util.ArrayList;
 import java.util.function.Supplier;
 
 public class ClientEvents {
+
+	@SubscribeEvent
+	public void onRenderBossDeath(RenderLivingEvent.Pre<?, ?> event) {
+		if (!(event.getEntity() instanceof BaseKHEntity boss) || !boss.isDyingWithRays()) {
+			return;
+		}
+
+		float completion = Math.min((boss.getDeathSequence() + event.getPartialTick()) / BaseKHEntity.DEATH_SEQUENCE_TICKS, 1F);
+
+		BossDeathRays.render(event.getPoseStack(), event.getMultiBufferSource(), completion);
+
+		if (boss.deathAlpha(event.getPartialTick()) <= 0F) {
+			event.setCanceled(true);
+		}
+	}
 
 	@SubscribeEvent
 	public void onSelectMusic(SelectMusicEvent event) {

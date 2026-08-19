@@ -80,6 +80,9 @@ public class PatchedArmourLayerRenderer<E extends LivingEntity, T extends Living
 	 */
 	private static final Map<Item, ArmourPiece> PIECE_CACHE = new IdentityHashMap<>();
 
+	/** Last seen state of Epic Fight's model debugging mode, so a bake happens on the switch and not while it is held */
+	private static boolean wasDebugging;
+
 	/** Set by the mixin on Epic Fight's first person renderer. The camera check below is the real
 	 *  authority, this only forces the reduced bake for renderers we know are first person. */
 	private final boolean forceFirstPerson;
@@ -118,7 +121,9 @@ public class PatchedArmourLayerRenderer<E extends LivingEntity, T extends Living
 		// A GUI preview is looked at from the outside, so it always gets the whole suit no matter what
 		// the camera happens to be doing.
 		boolean firstPerson = !ClientUtils.renderingEntityInGui && (this.forceFirstPerson || isCameraEntityInFirstPerson(e));
-		boolean rebake = ClientEngine.getInstance().isVanillaModelDebuggingMode();
+		boolean debugging = ClientEngine.getInstance().isVanillaModelDebuggingMode();
+		boolean rebake = debugging && !wasDebugging;
+		wasDebugging = debugging;
 		var armature = Armatures.BIPED.get();
 
 		for (int i = 0; i < SLOTS.size(); i++) {

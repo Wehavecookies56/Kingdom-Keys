@@ -51,6 +51,7 @@ public class ModSounds {
             aerialRecovery = registerSound("aerial_recovery"),
             flowmotionLoop = registerSound("flowmotion_loop"),
             koLoop = registerSound("ko_loop"),
+            bossKill = registerSound("boss_kill"),
             heartlessKill = registerSound("heartless_kill"),
             heartlessSpawn = registerSound("heartless_spawn"),
             nobodyKill = registerSound("nobody_kill"),

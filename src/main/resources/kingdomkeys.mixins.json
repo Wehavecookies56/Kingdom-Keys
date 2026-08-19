@@ -22,6 +22,7 @@
     "client.KeyboardInputMixin",
     "client.LevelRendererMixin",
     "client.LivingEntityRendererMixin",
+    "client.LivingEntityRendererFadeMixin",
     "client.MinecraftMixin",
     "client.MusicManagerMixin",
     "client.PlayerRendererMixin",
