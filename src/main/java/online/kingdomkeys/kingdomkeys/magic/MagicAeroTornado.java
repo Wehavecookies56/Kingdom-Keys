@@ -11,7 +11,7 @@ import online.kingdomkeys.kingdomkeys.entity.magic.AeroTornadoEntity;
 
 public class MagicAeroTornado extends Magic {
 
-	private static final double AHEAD = 4;
+	private static final double AHEAD = 6;
 
 	private static final float[] RADIUS = {2.5F, 3.5F, 4.5F};
 	private static final float[] HEIGHT = {4F, 5.5F, 7F};

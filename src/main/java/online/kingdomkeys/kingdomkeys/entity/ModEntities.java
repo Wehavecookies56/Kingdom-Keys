@@ -372,7 +372,7 @@ public class ModEntities {
         event.registerEntityRenderer(TYPE_THUNDAGASHOT.get(), MagicEntityRenderer::new);
         event.registerEntityRenderer(TYPE_TRIPLE_PLASMA_CONTROLLER.get(), InvisibleEntityRenderer::new);
 
-        event.registerEntityRenderer(TYPE_AERO_TORNADO.get(), InvisibleEntityRenderer::new);
+        event.registerEntityRenderer(TYPE_AERO_TORNADO.get(), AeroTornadoRenderer::new);
         event.registerEntityRenderer(TYPE_MAGNET.get(), MagnetEntityRenderer::new);
         event.registerEntityRenderer(TYPE_MAGNERA.get(), MagnetEntityRenderer::new);
         event.registerEntityRenderer(TYPE_MAGNEGA.get(), MagnetEntityRenderer::new);
