@@ -895,6 +895,9 @@ public class LanguageENUS extends KKLanguageProvider {
         add(ModMagic.CURAGA.get(), "Curaga");
         add(ModMagic.CURAZA.get(), "Curaza");
 
+        add(ModMagic.AERO_SHIELD.get(), "Aero Shield");
+        add(ModMagic.AERORA_SHIELD.get(), "Aerora Shield");
+        add(ModMagic.AEROGA_SHIELD.get(), "Aeroga Shield");
         add(ModMagic.AERO.get(), "Aero");
         add(ModMagic.AERORA.get(), "Aerora");
         add(ModMagic.AEROGA.get(), "Aeroga");
@@ -974,6 +977,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addReactionCommand(ModReactionCommands.SAVE, "Save");
         addReactionCommand(ModReactionCommands.LAUNCH, "Take Off");
         addReactionCommand(ModReactionCommands.LAND, "Land");
+        addReactionCommand(ModReactionCommands.REVERSAL, "Reversal");
 
         /**Items**/
         //Cards
@@ -2185,6 +2189,9 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.thundagaSpell, "Thundaga Spell");
         addItem(ModItems.curagaSpell, "Curaga Spell");
         addItem(ModItems.aerogaSpell, "Aeroga Spell");
+        addItem(ModItems.aeroShieldSpell, "Aero Shield Spell");
+        addItem(ModItems.aeroraShieldSpell, "Aerora Shield Spell");
+        addItem(ModItems.aerogaShieldSpell, "Aeroga Shield Spell");
         addItem(ModItems.magnegaSpell, "Magnega Spell");
         addItem(ModItems.reflegaSpell, "Reflega Spell");
         addItem(ModItems.gravigaSpell, "Graviga Spell");

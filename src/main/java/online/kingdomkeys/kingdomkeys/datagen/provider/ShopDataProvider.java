@@ -176,6 +176,9 @@ public class ShopDataProvider implements DataProvider {
 		defaultShop.add(shop(Strings.SpellAero, 1, 2, TIER_1_MAGIC, 1, "all"));
 		defaultShop.add(shop(Strings.SpellAerora, 1, 3, TIER_2_MAGIC, 1, "all"));
 		defaultShop.add(shop(Strings.SpellAeroga, 1, 4, TIER_3_MAGIC, 1, "all"));
+		defaultShop.add(shop(Strings.SpellAeroShield, 1, 2, TIER_1_MAGIC, 1, "all"));
+		defaultShop.add(shop(Strings.SpellAeroraShield, 1, 3, TIER_2_MAGIC, 1, "all"));
+		defaultShop.add(shop(Strings.SpellAerogaShield, 1, 4, TIER_3_MAGIC, 1, "all"));
 
 		defaultShop.add(shop(Strings.SpellMagnet, 1, 2, TIER_1_MAGIC, 1, "all"));
 		defaultShop.add(shop(Strings.SpellMagnera, 1, 3, TIER_2_MAGIC, 1, "all"));

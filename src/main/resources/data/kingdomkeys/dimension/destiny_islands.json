@@ -12,7 +12,6 @@
       "surface_depth": 4,
       "body": "minecraft:stone",
       "surface": "minecraft:sand",
-      "patches": "minecraft:gravel",
       "bedrock": "minecraft:bedrock"
     },
     "biome_source": { "type": "minecraft:fixed", "biome": "minecraft:warm_ocean" }

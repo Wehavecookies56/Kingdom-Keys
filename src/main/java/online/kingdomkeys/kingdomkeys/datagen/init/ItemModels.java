@@ -65,6 +65,9 @@ public class ItemModels extends ItemModelProvider {
 			Map.entry(ModItems.aeroSpell.get(), "aero"),
 			Map.entry(ModItems.aeroraSpell.get(), "aero"),
 			Map.entry(ModItems.aerogaSpell.get(), "aero"),
+			Map.entry(ModItems.aeroShieldSpell.get(), "aero"),
+			Map.entry(ModItems.aeroraShieldSpell.get(), "aero"),
+			Map.entry(ModItems.aerogaShieldSpell.get(), "aero"),
 
 			// Cure
 			Map.entry(ModItems.cureSpell.get(), "cure"),

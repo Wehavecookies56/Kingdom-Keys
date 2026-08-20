@@ -898,6 +898,10 @@ public class ModItems {
 			aeroraSpell = createNewItem(Strings.SpellAerora, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Aerora))),
 			aerogaSpell = createNewItem(Strings.SpellAeroga, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Aeroga))),
 
+			aeroShieldSpell = createNewItem(Strings.SpellAeroShield, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_AeroShield))),
+			aeroraShieldSpell = createNewItem(Strings.SpellAeroraShield, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_AeroraShield))),
+			aerogaShieldSpell = createNewItem(Strings.SpellAerogaShield, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_AerogaShield))),
+
 			magnetSpell = createNewItem(Strings.SpellMagnet, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Magnet))),
 			magneraSpell = createNewItem(Strings.SpellMagnera, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Magnera))),
 			magnegaSpell = createNewItem(Strings.SpellMagnega, () -> new MagicSpellItem(new Item.Properties(), KingdomKeys.rl(Strings.Magic_Magnega))),

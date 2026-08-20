@@ -103,6 +103,9 @@ public class ModEntities {
     public static final DeferredHolder<EntityType<?>, EntityType<ThundazaEntity>> TYPE_THUNDAZA = createEntityType(ThundazaEntity::new, MobCategory.MISC,"entity_thundaza", 0.5F, 0.5F);
     public static final DeferredHolder<EntityType<?>, EntityType<ThunderBoltEntity>> TYPE_THUNDERBOLT = createEntityType(ThunderBoltEntity::new, MobCategory.MISC,"entity_thunderbolt", 0.5F, 0.5F);
 
+    // The column itself is drawn with particles, so the entity only needs to be somewhere for them to come from
+    public static final DeferredHolder<EntityType<?>, EntityType<AeroTornadoEntity>> TYPE_AERO_TORNADO = createEntityType(AeroTornadoEntity::new, MobCategory.MISC,"entity_aero_tornado", 1F, 1F);
+
     public static final DeferredHolder<EntityType<?>, EntityType<MagnetEntity>> TYPE_MAGNET = createEntityType(MagnetEntity::new, MobCategory.MISC,"entity_magnet", 1F, 1F);
     public static final DeferredHolder<EntityType<?>, EntityType<MagneraEntity>> TYPE_MAGNERA = createEntityType(MagneraEntity::new, MobCategory.MISC,"entity_magnera", 1.5F, 1.5F);
     public static final DeferredHolder<EntityType<?>, EntityType<MagnegaEntity>> TYPE_MAGNEGA = createEntityType(MagnegaEntity::new, MobCategory.MISC,"entity_magnega", 2F, 2F);
@@ -369,6 +372,7 @@ public class ModEntities {
         event.registerEntityRenderer(TYPE_THUNDAGASHOT.get(), MagicEntityRenderer::new);
         event.registerEntityRenderer(TYPE_TRIPLE_PLASMA_CONTROLLER.get(), InvisibleEntityRenderer::new);
 
+        event.registerEntityRenderer(TYPE_AERO_TORNADO.get(), InvisibleEntityRenderer::new);
         event.registerEntityRenderer(TYPE_MAGNET.get(), MagnetEntityRenderer::new);
         event.registerEntityRenderer(TYPE_MAGNERA.get(), MagnetEntityRenderer::new);
         event.registerEntityRenderer(TYPE_MAGNEGA.get(), MagnetEntityRenderer::new);

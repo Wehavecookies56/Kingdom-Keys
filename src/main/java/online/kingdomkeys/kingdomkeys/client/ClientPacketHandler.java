@@ -298,6 +298,14 @@ public class ClientPacketHandler {
         }
     }
 
+    public static void startReversal(SCStartReversal message) {
+        Minecraft mc = Minecraft.getInstance();
+
+        if (mc.level != null) {
+            Reversal.begin(mc.level.getEntity(message.duskId()));
+        }
+    }
+
     public static void syncGummiWorlds(SCSyncGummiWorlds message) {
         Map<ResourceLocation, GummiWorld> worlds = new LinkedHashMap<>();
 

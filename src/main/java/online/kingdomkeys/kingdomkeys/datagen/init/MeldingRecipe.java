@@ -34,6 +34,11 @@ public class MeldingRecipe extends MeldingRecipeProvider<MeldingRecipeBuilder> {
 		getBuilder("thundaga").ingredient1(thundaraSpell).ingredient2(thundaraSpell).output(thundagaSpell).addCost(800).addTier(3);
 		getBuilder("curaga").ingredient1(curaSpell).ingredient2(curaSpell).output(curagaSpell).addCost(800).addTier(3);
 		getBuilder("aeroga").ingredient1(aeroraSpell).ingredient2(aeroraSpell).output(aerogaSpell).addCost(800).addTier(3);
+
+		// The shield line melds on its own ladder, so neither family can be reached through the other
+		getBuilder("aerora_shield").ingredient1(aeroShieldSpell).ingredient2(aeroShieldSpell).output(aeroraShieldSpell).addCost(400).addTier(2);
+		getBuilder("aeroga_shield").ingredient1(aeroraShieldSpell).ingredient2(aeroraShieldSpell).output(aerogaShieldSpell).addCost(800).addTier(3);
+
 		getBuilder("graviga").ingredient1(graviraSpell).ingredient2(graviraSpell).output(gravigaSpell).addCost(800).addTier(3);
 		getBuilder("stopga").ingredient1(stopraSpell).ingredient2(stopraSpell).output(stopgaSpell).addCost(800).addTier(3);
 		getBuilder("waterga").ingredient1(wateraSpell).ingredient2(wateraSpell).output(watergaSpell).addCost(800).addTier(3);

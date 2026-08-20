@@ -46,6 +46,10 @@ public class Strings {
 		Magic_Curaga = Mag_Prefix + "curaga",
 		Magic_Curaza = Mag_Prefix + "curaza",
 
+		Magic_AeroShield = Mag_Prefix + "aero_shield",
+		Magic_AeroraShield = Mag_Prefix + "aerora_shield",
+		Magic_AerogaShield = Mag_Prefix + "aeroga_shield",
+
 		Magic_Aero = Mag_Prefix + "aero",
 		Magic_Aerora = Mag_Prefix + "aerora",
 		Magic_Aeroga = Mag_Prefix + "aeroga",
@@ -191,7 +195,8 @@ public class Strings {
        		autoMasterRC = "rc_auto_master",
        		autoFinalRC = "rc_auto_final",
        		launchRC = "rc_launch",
-       		landRC = "rc_land";
+       		landRC = "rc_land",
+       		reversalRC = "rc_reversal";
 
     // Abilities
     public static final String
@@ -735,9 +740,14 @@ public class Strings {
 		SpellCura = "spellcura",
 		SpellCuraga = "spellcuraga",
 
+		// The plain names stay with the twister, so a spell already sitting in a chest teaches the new one
 		SpellAero = "spellaero",
 		SpellAerora = "spellaerora",
 		SpellAeroga = "spellaeroga",
+
+		SpellAeroShield = "spellaeroshield",
+		SpellAeroraShield = "spellaerorashield",
+		SpellAerogaShield = "spellaerogashield",
 
 		SpellMagnet = "spellmagnet",
 		SpellMagnera = "spellmagnera",

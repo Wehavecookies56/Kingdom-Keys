@@ -18,7 +18,10 @@
 * Gummi inner corner shape.
 * Highwind gummi ship blueprint can now be found in strongholds and end cities.
 * Sound when placing and breaking gummi blocks.
+* New Magic: KH3 Aero, Aeroga and Aeroga.
+  * Old KH1 Aero was renamed to Aero Shield.
 * New Abilities: Guard, Counterguard, Aerial Recovery and Once more.
+* New Reaction Command: Reversal, when fighting off a Dusk.
 * New Heartless: Air Soldier, Defender, Neoshadow and Novashadow.
 * Realm of Darkness arches.
 * Staff crowns: for devs, for people who helped to develop Addons and people who contributed to the mod somehow.

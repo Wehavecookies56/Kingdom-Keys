@@ -753,6 +753,9 @@ public class LanguageESES extends KKLanguageProvider {
         add(ModMagic.CURAGA.get(), "Cura++");
         add(ModMagic.CURAZA.get(), "Cura+++");
 
+        add(ModMagic.AERO_SHIELD.get(), "Escudo Aero");
+        add(ModMagic.AERORA_SHIELD.get(), "Escudo Aero+");
+        add(ModMagic.AEROGA_SHIELD.get(), "Escudo Aero++");
         add(ModMagic.AERO.get(), "Aero");
         add(ModMagic.AERORA.get(), "Aero+");
         add(ModMagic.AEROGA.get(), "Aero++");
@@ -1038,6 +1041,7 @@ public class LanguageESES extends KKLanguageProvider {
         addReactionCommand(ModReactionCommands.SAVE, "Guardar");
         addReactionCommand(ModReactionCommands.LAUNCH, "Despegar");
         addReactionCommand(ModReactionCommands.LAND, "Aterrizar");
+        addReactionCommand(ModReactionCommands.REVERSAL, "Finta");
 
         //Items
         //Cards
@@ -1190,6 +1194,9 @@ public class LanguageESES extends KKLanguageProvider {
         addItem(ModItems.thundagaSpell, "Hechizo de Electro++");
         addItem(ModItems.curagaSpell, "Hechizo de Cura++");
         addItem(ModItems.aerogaSpell, "Hechizo de Aero++");
+        addItem(ModItems.aeroShieldSpell, "Hechizo de Escudo Aero");
+        addItem(ModItems.aeroraShieldSpell, "Hechizo de Escudo Aero+");
+        addItem(ModItems.aerogaShieldSpell, "Hechizo de Escudo Aero++");
         addItem(ModItems.magnegaSpell, "Hechizo de Magneto++");
         addItem(ModItems.reflegaSpell, "Hechizo de Reflejo++");
         addItem(ModItems.gravigaSpell, "Hechizo de Gravedad++");

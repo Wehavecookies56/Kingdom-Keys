@@ -100,6 +100,7 @@ import online.kingdomkeys.kingdomkeys.util.CombatAbilities;
 import online.kingdomkeys.kingdomkeys.network.cts.*;
 import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
 import net.neoforged.neoforge.client.event.RenderLivingEvent;
+import online.kingdomkeys.kingdomkeys.client.Reversal;
 import online.kingdomkeys.kingdomkeys.client.render.BossDeathRays;
 import online.kingdomkeys.kingdomkeys.entity.mob.BaseKHEntity;
 import online.kingdomkeys.kingdomkeys.sound.AlarmSoundInstance;
@@ -1302,6 +1303,11 @@ public class ClientEvents {
 
 	@SubscribeEvent
 	public void clientTickPost(ClientTickEvent.Post event) {
+		// After the player's own tick, not before it. The engine sets the position it interpolates from at the
+		// start of that tick, so stepping the arc beforehand meant the step was erased and the frames in
+		// between had nothing to draw.
+		Reversal.tick();
+
 		if (Minecraft.getInstance().level != null) {
 			if (KeyboardHelper.isScrollActivatorDown()) {
 				Minecraft.getInstance().player.getInventory().selected = selectedSlot;

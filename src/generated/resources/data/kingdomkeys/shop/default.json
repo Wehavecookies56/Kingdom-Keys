@@ -1080,6 +1080,30 @@
     "amount": 1,
     "condition": "all",
     "cost": 800,
+    "item": "kingdomkeys:spellaeroshield",
+    "mat_req": 1,
+    "tier": 2
+  },
+  {
+    "amount": 1,
+    "condition": "all",
+    "cost": 1200,
+    "item": "kingdomkeys:spellaerorashield",
+    "mat_req": 1,
+    "tier": 3
+  },
+  {
+    "amount": 1,
+    "condition": "all",
+    "cost": 1800,
+    "item": "kingdomkeys:spellaerogashield",
+    "mat_req": 1,
+    "tier": 4
+  },
+  {
+    "amount": 1,
+    "condition": "all",
+    "cost": 800,
     "item": "kingdomkeys:spellmagnet",
     "mat_req": 1,
     "tier": 2

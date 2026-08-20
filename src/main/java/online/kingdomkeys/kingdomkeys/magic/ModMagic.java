@@ -45,9 +45,13 @@ public class ModMagic {
 			CURAGA = register(Strings.Magic_Curaga, () -> new MagicCure(KingdomKeys.rl(Strings.Magic_Curaga), 2, ModAbilities.CURAZA.location())),
 			CURAZA = register(Strings.Magic_Curaza, () -> new MagicCure(KingdomKeys.rl(Strings.Magic_Curaza), 3, ModAbilities.CURAZA.location())),
 
-			AERO = register(Strings.Magic_Aero, () -> new MagicAero(KingdomKeys.rl(Strings.Magic_Aero), 0, null)),
-			AERORA = register(Strings.Magic_Aerora, () -> new MagicAero(KingdomKeys.rl(Strings.Magic_Aerora), 1, null)),
-			AEROGA = register(Strings.Magic_Aeroga, () -> new MagicAero(KingdomKeys.rl(Strings.Magic_Aeroga), 2, null)),
+			AERO_SHIELD = register(Strings.Magic_AeroShield, () -> new MagicAero(KingdomKeys.rl(Strings.Magic_AeroShield), 0, null)),
+			AERORA_SHIELD = register(Strings.Magic_AeroraShield, () -> new MagicAero(KingdomKeys.rl(Strings.Magic_AeroraShield), 1, null)),
+			AEROGA_SHIELD = register(Strings.Magic_AerogaShield, () -> new MagicAero(KingdomKeys.rl(Strings.Magic_AerogaShield), 2, null)),
+
+			AERO = register(Strings.Magic_Aero, () -> new MagicAeroTornado(KingdomKeys.rl(Strings.Magic_Aero), 0, null)),
+			AERORA = register(Strings.Magic_Aerora, () -> new MagicAeroTornado(KingdomKeys.rl(Strings.Magic_Aerora), 1, null)),
+			AEROGA = register(Strings.Magic_Aeroga, () -> new MagicAeroTornado(KingdomKeys.rl(Strings.Magic_Aeroga), 2, null)),
 
 			MAGNET = register(Strings.Magic_Magnet, () -> new MagicMagnet(KingdomKeys.rl(Strings.Magic_Magnet), 0, null)),
 			MAGNERA = register(Strings.Magic_Magnera, () -> new MagicMagnet(KingdomKeys.rl(Strings.Magic_Magnera), 1, null)),

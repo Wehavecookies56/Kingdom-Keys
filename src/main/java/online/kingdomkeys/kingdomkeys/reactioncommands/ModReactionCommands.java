@@ -28,7 +28,7 @@ public class ModReactionCommands {
 		WATER = register(KingdomKeys.rl(Strings.Magic_Water).getPath(), () -> new ReactionMagic(KingdomKeys.rl(Strings.Magic_Water))),
 		THUNDER = register(KingdomKeys.rl(Strings.Magic_Thunder).getPath(), () -> new ReactionMagic(KingdomKeys.rl(Strings.Magic_Thunder))),
 		CURE = register(KingdomKeys.rl(Strings.Magic_Cure).getPath(), () -> new ReactionMagic(KingdomKeys.rl(Strings.Magic_Cure))),
-		AERO =  register(KingdomKeys.rl(Strings.Magic_Aero).getPath(), () -> new ReactionMagic(KingdomKeys.rl(Strings.Magic_Aero))),
+		AERO =  register(KingdomKeys.rl(Strings.Magic_AeroShield).getPath(), () -> new ReactionMagic(KingdomKeys.rl(Strings.Magic_AeroShield))),
 		MAGNET = register(KingdomKeys.rl(Strings.Magic_Magnet).getPath(), () -> new ReactionMagic(KingdomKeys.rl(Strings.Magic_Magnet))),
 		REFLECT = register(KingdomKeys.rl(Strings.Magic_Reflect).getPath(), () -> new ReactionMagic(KingdomKeys.rl(Strings.Magic_Reflect))),
 		GRAVITY = register(KingdomKeys.rl(Strings.Magic_Gravity).getPath(), () -> new ReactionMagic(KingdomKeys.rl(Strings.Magic_Gravity))),
@@ -37,7 +37,9 @@ public class ModReactionCommands {
 		SAVE = register("save_rc", () -> new ReactionSave(KingdomKeys.rl("save_rc"))),
 
 		LAUNCH = register(Strings.launchRC, () -> new ReactionLaunch(KingdomKeys.rl(Strings.launchRC))),
-		LAND = register(Strings.landRC, () -> new ReactionLand(KingdomKeys.rl(Strings.landRC)));
+		LAND = register(Strings.landRC, () -> new ReactionLand(KingdomKeys.rl(Strings.landRC))),
+
+		REVERSAL = register(Strings.reversalRC, () -> new ReactionReversal(KingdomKeys.rl(Strings.reversalRC)));
 
 	private static KKSupplier<ReactionCommand> register(String name, Supplier<ReactionCommand> reactionCommandSupplier) {
 		return new KKSupplier<>(KingdomKeys.rl(REACTION_COMMANDS.getNamespace(), name), REACTION_COMMANDS.register(name, reactionCommandSupplier));

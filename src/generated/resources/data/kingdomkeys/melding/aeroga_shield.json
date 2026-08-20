@@ -1,0 +1,11 @@
+{
+  "cost": 800,
+  "ingredient1": "kingdomkeys:spellaerorashield",
+  "ingredient2": "kingdomkeys:spellaerorashield",
+  "output": {
+    "type": "item",
+    "item": "kingdomkeys:spellaerogashield",
+    "quantity": 1
+  },
+  "tier": 3
+}

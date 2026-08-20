@@ -72,10 +72,14 @@ public class MagicDataProvider implements DataProvider {
 		magics.put(KingdomKeys.rl(Strings.Magic_Curaga).getPath(), new MagicBuilder().cost(300).castTime(1).cooldown(20).damageMultiplier(0.75F, 0.8F).lockOn(false).maxExp(4200).maxExpLevel(4).nextTier(ModMagic.CURAZA.get().getRegistryName(), ModMagic.CURE.get().getRegistryName()).build());
 		magics.put(KingdomKeys.rl(Strings.Magic_Curaza).getPath(), new MagicBuilder().cost(300).castTime(1).cooldown(20).damageMultiplier(1.0F, 1.1F).lockOn(false).maxExp(200).maxExpLevel(3).build());
 
-		magics.put(KingdomKeys.rl(Strings.Magic_Aero).getPath(), new MagicBuilder().cost(12).castTime(10).cooldown(20).damageMultiplier(1.0F, 1.3F).lockOn(false).maxExp(1800).maxExpLevel(3).build());
-		magics.put(KingdomKeys.rl(Strings.Magic_Aerora).getPath(), new MagicBuilder().cost(12).castTime(10).cooldown(20).damageMultiplier(1.5F, 1.7F).lockOn(false).maxExp(2400).maxExpLevel(3).build());
-		magics.put(KingdomKeys.rl(Strings.Magic_Aeroga).getPath(), new MagicBuilder().cost(12).castTime(10).cooldown(20).damageMultiplier(2.0F, 2.2F).lockOn(false).maxExp(4200).maxExpLevel(4).build());
+		magics.put(KingdomKeys.rl(Strings.Magic_AeroShield).getPath(), new MagicBuilder().cost(12).castTime(10).cooldown(20).damageMultiplier(1.0F, 1.3F).lockOn(false).maxExp(1800).maxExpLevel(3).build());
+		magics.put(KingdomKeys.rl(Strings.Magic_AeroraShield).getPath(), new MagicBuilder().cost(12).castTime(10).cooldown(20).damageMultiplier(1.5F, 1.7F).lockOn(false).maxExp(2400).maxExpLevel(3).build());
+		magics.put(KingdomKeys.rl(Strings.Magic_AerogaShield).getPath(), new MagicBuilder().cost(12).castTime(10).cooldown(20).damageMultiplier(2.0F, 2.2F).lockOn(false).maxExp(4200).maxExpLevel(4).build());
 		//magics.put(KingdomKeys.rl(Strings.Magic_Aeroza).getPath(), new MagicBuilder().cost(12).castTime(10).cooldown(20).damageMultiplier(1.0F).lockOn(false).maxExp(200).maxExpLevel(3).build());
+
+		magics.put(KingdomKeys.rl(Strings.Magic_Aero).getPath(), new MagicBuilder().cost(14).castTime(12).cooldown(30).damageMultiplier(1.0F, 1.3F).lockOn(true).maxExp(1800).maxExpLevel(3).build());
+		magics.put(KingdomKeys.rl(Strings.Magic_Aerora).getPath(), new MagicBuilder().cost(20).castTime(12).cooldown(35).damageMultiplier(1.5F, 1.7F).lockOn(true).maxExp(2400).maxExpLevel(3).build());
+		magics.put(KingdomKeys.rl(Strings.Magic_Aeroga).getPath(), new MagicBuilder().cost(26).castTime(12).cooldown(40).damageMultiplier(2.0F, 2.2F).lockOn(true).maxExp(4200).maxExpLevel(4).build());
 
 		magics.put(KingdomKeys.rl(Strings.Magic_Gravity).getPath(), new MagicBuilder().cost(14).castTime(10).cooldown(30).damageMultiplier(0.25F, 0.33F).lockOn(true).maxExp(1800).maxExpLevel(3).build());
 		magics.put(KingdomKeys.rl(Strings.Magic_Gravira).getPath(), new MagicBuilder().cost(14).castTime(10).cooldown(30).damageMultiplier(0.5F, 0.6F).lockOn(true).maxExp(2400).maxExpLevel(3).build());
