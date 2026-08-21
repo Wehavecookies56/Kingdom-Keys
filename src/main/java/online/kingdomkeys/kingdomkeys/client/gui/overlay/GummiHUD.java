@@ -72,6 +72,9 @@ public class GummiHUD extends OverlayBase {
     @Override
     public void render(GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
         super.render(guiGraphics, deltaTracker);
+        if(minecraft != null && minecraft.options.hideGui){
+            return;
+        }
         Player player = minecraft.player;
         if (player == null)
             return;

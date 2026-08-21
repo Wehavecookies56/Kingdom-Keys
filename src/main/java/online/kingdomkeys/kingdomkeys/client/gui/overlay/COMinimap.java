@@ -40,7 +40,9 @@ public class COMinimap extends OverlayBase {
     @Override
     public void render(GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
         super.render(guiGraphics, deltaTracker);
-
+        if(minecraft != null && minecraft.options.hideGui){
+            return;
+        }
         if (MenuScreen.rooms.isEmpty() || !CastleOblivionHandler.inInterior(minecraft.player))
             return;
 

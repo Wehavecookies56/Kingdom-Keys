@@ -40,6 +40,9 @@ public class PlayerPortraitGui extends OverlayBase {
 	@Override
 	public void render(GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
 		super.render(guiGraphics, deltaTracker);
+        if(minecraft != null && minecraft.options.hideGui){
+            return;
+        }
 		PlayerData playerData = PlayerData.get(minecraft.player);
 		int screenWidth = minecraft.getWindow().getGuiScaledWidth();
 		int screenHeight = minecraft.getWindow().getGuiScaledHeight();
@@ -166,6 +169,9 @@ public class PlayerPortraitGui extends OverlayBase {
     public static final LayeredDraw.Layer CROWN_OVERLAY = (guiGraphics, deltaTracker) -> INSTANCE.renderCrownOverlay(guiGraphics);
 
     private void renderCrownOverlay(GuiGraphics guiGraphics) {
+        if(minecraft != null && minecraft.options.hideGui){
+            return;
+        }
         if (ModConfigs.portrait3D || minecraft.player == null || minecraft.player.getVehicle() instanceof GummiShipEntity) {
             RenderSystem.setShaderColor(1, 1, 1, 1);
             return;

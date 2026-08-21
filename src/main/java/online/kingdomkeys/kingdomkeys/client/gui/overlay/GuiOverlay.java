@@ -62,6 +62,9 @@ public class GuiOverlay extends OverlayBase {
 	@Override
 	public void render(GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
 		super.render(guiGraphics, deltaTracker);
+		if(minecraft != null && minecraft.options.hideGui){
+			return;
+		}
 		this.width = minecraft.getWindow().getGuiScaledWidth();
 		sHeight = minecraft.getWindow().getGuiScaledHeight();
 

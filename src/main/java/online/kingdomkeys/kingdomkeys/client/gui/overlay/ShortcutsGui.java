@@ -32,6 +32,10 @@ public class ShortcutsGui extends OverlayBase {
 	@Override
 	public void render(GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
 		super.render(guiGraphics, deltaTracker);
+		if(minecraft != null && minecraft.options.hideGui){
+			return;
+		}
+
 		if(KeyboardHelper.isScrollActivatorDown() && CommandMenuGui.INSTANCE.currentSubmenu == CommandMenuGui.INSTANCE.root && Minecraft.getInstance().screen == null) {
 			playerData = PlayerData.get(minecraft.player);
 			int i = 0;

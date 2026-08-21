@@ -857,6 +857,9 @@ public class CommandMenuGui extends OverlayBase {
 	@Override
 	public void render(GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
 		super.render(guiGraphics, deltaTracker);
+		if(minecraft != null && minecraft.options.hideGui){
+			return;
+		}
 		guiGraphics.managed = true;
 		if (minecraft.player != null) {
 			ClientUtils.RC_ELEMENT.applyTransform(guiGraphics, minecraft.getWindow().getGuiScaledWidth(), minecraft.getWindow().getGuiScaledHeight());

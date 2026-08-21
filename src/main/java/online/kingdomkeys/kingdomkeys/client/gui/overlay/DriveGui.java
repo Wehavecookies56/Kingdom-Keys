@@ -42,6 +42,9 @@ public class DriveGui extends OverlayBase {
 
 	@Override
 	public void render(GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
+		if(minecraft != null && minecraft.options.hideGui){
+			return;
+		}
 		PlayerData playerData = PlayerData.get(minecraft.player);
 		if (playerData == null)
 			return;

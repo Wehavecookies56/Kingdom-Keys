@@ -72,6 +72,9 @@ public class LockOnGui extends OverlayBase {
 	@Override
 	public void render(GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
 		super.render(guiGraphics, deltaTracker);
+		if(minecraft != null && minecraft.options.hideGui){
+			return;
+		}
 		Player player = minecraft.player;
 		PlayerData playerData = PlayerData.get(player);
 		if (playerData != null) {
