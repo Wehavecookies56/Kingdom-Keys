@@ -259,7 +259,4 @@ public class AeroTornadoEntity extends BaseMagicProjectile {
 		List<Entity> list = level().getEntities(getOwner(), getBoundingBox().inflate(reach, getHeight(), reach));
 		return getOwner() instanceof Player player ? Utils.removePartyMembersFromList(player, list) : list;
 	}
-
-	//Particles
-
 }

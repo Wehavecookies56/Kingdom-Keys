@@ -52,15 +52,14 @@ public record SeaSettings(BlockState water, int level, int floor, int variation,
 	private static final int PATCH = 7;
 	private static final float PATCH_THRESHOLD = 0.62F;
 
-	/** Topmost solid block of the bed under this column */
-	public int floorAt(int x, int z) {
-		if (variation <= 0) {
+	public int floorAt(int x, int z, float relief) {
+		if (variation <= 0 || relief <= 0) {
 			return floor;
 		}
 
 		// Squared so the bed mostly sits at its stated height and only dips here and there, instead of spending its time halfway down. It also keeps the step where it meets a build down to a block.
 		float dip = noise(x, z, RELIEF, 0);
-		return floor - Math.round(dip * dip * variation);
+		return floor - Math.round(dip * dip * variation * relief);
 	}
 
 	// solidTop the highest block of this column, which is not always floorAt

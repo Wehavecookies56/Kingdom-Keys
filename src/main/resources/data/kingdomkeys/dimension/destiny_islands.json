@@ -8,7 +8,7 @@
       "water": "minecraft:water",
       "level": 73,
       "floor": 63,
-      "variation": 3,
+      "variation": 2,
       "surface_depth": 4,
       "body": "minecraft:stone",
       "surface": "minecraft:sand",

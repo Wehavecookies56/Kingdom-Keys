@@ -3,6 +3,8 @@ package online.kingdomkeys.kingdomkeys.world.dimension.prebuilt;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
+import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
+import it.unimi.dsi.fastutil.longs.LongSet;
 import net.minecraft.core.SectionPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
@@ -13,6 +15,7 @@ import net.minecraft.nbt.NbtUtils;
 import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.WorldGenRegion;
+import net.minecraft.util.Mth;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.ChunkPos;
@@ -49,6 +52,9 @@ import java.util.concurrent.CompletableFuture;
  * folder. See {@link online.kingdomkeys.kingdomkeys.command.ExportWorldCommand} for the file format.
  */
 public class PrebuiltWorldChunkGenerator extends ChunkGenerator {
+
+	/** What every piece and the manifest are written as */
+	private static final String EXTENSION = ".nbt";
 
 	private final BiomeSource biomeSource;
 	/** Folder under data/&lt;namespace&gt;/kk_worlds/ holding manifest.nbt and the &lt;x&gt;_&lt;z&gt;.nbt pieces */
@@ -97,10 +103,10 @@ public class PrebuiltWorldChunkGenerator extends ChunkGenerator {
 		int pieceX = chunkPos.x - SectionPos.blockToSectionCoord(origin.getX());
 		int pieceZ = chunkPos.z - SectionPos.blockToSectionCoord(origin.getZ());
 
-		CompoundTag piece = read(level, pieceX + "_" + pieceZ + ".nbt");
+		CompoundTag piece = read(level, pieceX + "_" + pieceZ + EXTENSION);
 		if (piece == null) {
 			// If the chunk is null fill it with whatever is specified
-			fill(chunk, null);
+			fill(level, chunk, null);
 			return;
 		}
 
@@ -109,7 +115,7 @@ public class PrebuiltWorldChunkGenerator extends ChunkGenerator {
 		int baseY = origin.getY() + piece.getInt("min_y") - manifestMinY;
 		BlockPos base = new BlockPos(chunkPos.getMinBlockX(), baseY, chunkPos.getMinBlockZ());
 
-		fill(chunk, placeBlocks(level, piece, states, base));
+		fill(level, chunk, placeBlocks(level, piece, states, base));
 		placeBlockEntities(level, piece, base);
 		placeEntities(level, piece, base);
 	}
@@ -157,7 +163,80 @@ public class PrebuiltWorldChunkGenerator extends ChunkGenerator {
 		return bottoms;
 	}
 
-	private void fill(ChunkAccess chunk, int[] bottoms) {
+	/** Chunks the export covers, as packed piece coordinates. Listed once and kept. */
+	private volatile LongSet covered;
+
+	/** Chunks around the build that stay as flat as it is */
+	private static final int FLAT_CHUNKS = 1;
+
+	/** Chunks to get all of its relief back */
+	private static final int FALLOFF_CHUNKS = 7;
+
+	/** Margin of flatness */
+	private float relief(WorldGenLevel level, int pieceX, int pieceZ) {
+		LongSet pieces = covered(level);
+
+		if (pieces.isEmpty()) {
+			return 1F;
+		}
+
+		for (int ring = 0; ring <= FALLOFF_CHUNKS; ring++) {
+			if (ringTouchesBuild(pieces, pieceX, pieceZ, ring)) {
+				return Mth.clamp((ring - FLAT_CHUNKS) / (float) (FALLOFF_CHUNKS - FLAT_CHUNKS), 0F, 1F);
+			}
+		}
+
+		return 1F;
+	}
+
+	/** Whether any exported chunk sits exactly this many chunks away, measured as a square ring */
+	private static boolean ringTouchesBuild(LongSet pieces, int pieceX, int pieceZ, int ring) {
+		if (ring == 0) {
+			return pieces.contains(ChunkPos.asLong(pieceX, pieceZ));
+		}
+
+		for (int offset = -ring; offset <= ring; offset++) {
+			if (pieces.contains(ChunkPos.asLong(pieceX + offset, pieceZ - ring))
+					|| pieces.contains(ChunkPos.asLong(pieceX + offset, pieceZ + ring))
+					|| pieces.contains(ChunkPos.asLong(pieceX - ring, pieceZ + offset))
+					|| pieces.contains(ChunkPos.asLong(pieceX + ring, pieceZ + offset))) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/** Reads the piece names once, which is cheaper than opening pieces to ask whether they exist */
+	private LongSet covered(WorldGenLevel level) {
+		LongSet known = covered;
+
+		if (known != null) {
+			return known;
+		}
+
+		LongSet found = new LongOpenHashSet();
+		String folder = "kk_worlds/" + world.getPath();
+
+		level.getLevel().getServer().getResourceManager().listResources(folder, path -> path.getPath().endsWith(EXTENSION)).keySet().forEach(path -> {
+			String name = path.getPath().substring(path.getPath().lastIndexOf('/') + 1, path.getPath().length() - EXTENSION.length());
+			int split = name.indexOf('_', name.startsWith("-") ? 1 : 0);
+
+			if (split <= 0) {
+				return; // the manifest, and anything else that is not a piece
+			}
+
+			try {
+				found.add(ChunkPos.asLong(Integer.parseInt(name.substring(0, split)), Integer.parseInt(name.substring(split + 1))));
+			} catch (NumberFormatException notAPiece) {
+			}
+		});
+
+		covered = found;
+		return found;
+	}
+
+	private void fill(WorldGenLevel level, ChunkAccess chunk, int[] bottoms) {
 		SeaSettings settings = sea.orElse(null);
 
 		if (settings == null) {
@@ -165,6 +244,7 @@ public class PrebuiltWorldChunkGenerator extends ChunkGenerator {
 		}
 
 		ChunkPos chunkPos = chunk.getPos();
+		float relief = relief(level, chunkPos.x - SectionPos.blockToSectionCoord(origin.getX()), chunkPos.z - SectionPos.blockToSectionCoord(origin.getZ()));
 		int bottom = chunk.getMinBuildHeight();
 		int surface = Math.min(settings.level(), chunk.getMaxBuildHeight());
 
@@ -182,7 +262,7 @@ public class PrebuiltWorldChunkGenerator extends ChunkGenerator {
 					continue;
 				}
 
-				int solid = limit - 1 <= settings.floor() ? limit - 1 : settings.floorAt(worldX, worldZ);
+				int solid = limit - 1 <= settings.floor() ? limit - 1 : settings.floorAt(worldX, worldZ, relief);
 
 				// Straight at the chunk rather than through the region: every one of these is inside it, and
 				// there are thousands per chunk, so the lookup the region would do each time is worth losing
@@ -243,7 +323,7 @@ public class PrebuiltWorldChunkGenerator extends ChunkGenerator {
 			return cached;
 		}
 
-		CompoundTag manifest = read(level, "manifest.nbt");
+		CompoundTag manifest = read(level, "manifest" + EXTENSION);
 		if (manifest == null) {
 			KingdomKeys.LOGGER.error("No manifest for prebuilt world {}, nothing will generate", world);
 			return null;
