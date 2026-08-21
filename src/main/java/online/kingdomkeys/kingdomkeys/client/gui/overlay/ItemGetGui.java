@@ -39,7 +39,7 @@ public class ItemGetGui extends OverlayBase {
     private static final int MINI_ITEM = 16;
 
     private static final int MINI_SHOW_TICKS = 60;
-    private static final int MINI_SHORT_TICKS = 20;
+    private static final int MINI_SHORT_TICKS = 13;
     private static final int MINI_SLIDE_TICKS = 5;
     private static final int MINI_FADE_TICKS = 8;
     private static final float MINI_ALPHA = 0.8F;

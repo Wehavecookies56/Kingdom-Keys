@@ -21,6 +21,8 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 import org.joml.Matrix4f;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GummiHUD extends OverlayBase {
 
@@ -96,6 +98,7 @@ public class GummiHUD extends OverlayBase {
         draw(ClientUtils.GUMMI_INFO_ELEMENT, screenWidth, screenHeight, () -> drawCoords(ship, ClientUtils.GUMMI_INFO_ELEMENT));
 
         if (ship.shipStats != null) {
+            sizeStats(ship, ClientUtils.GUMMI_READOUT_ELEMENT);
             draw(ClientUtils.GUMMI_READOUT_ELEMENT, screenWidth, screenHeight, () -> drawStats(ship, ClientUtils.GUMMI_READOUT_ELEMENT));
             drawHP(ship, deltaTracker);
         }
@@ -127,39 +130,85 @@ public class GummiHUD extends OverlayBase {
         drawString(guiGraphics, font, text, (width - font.width(text)) / 2, y, colour);
     }
 
-    private void drawStats(GummiShipEntity ship, HUDElement element) {
-        GummiShipEntity.ShipStats stats = ship.shipStats;
-        boolean fuelled = ModConfigs.SERVER.gummiShipFuelSystem.get();
-        int width = element.width;
-
-        int bars = fuelled ? 3 : 2;
-        int height = PAD * 2 + bars * (LINE + BAR_HEIGHT + 3) + 2 + LINE * 3;
-
-        panel(0, 0, width, height);
-
-        int row = PAD;
-
-        if (fuelled) {
-            float left = ship.getMaxFuel() == 0 ? 0F : (float) ship.getFuel() / ship.getMaxFuel();
-            row = barRow(width, row, Utils.translateToLocal("container.gummi_ship.fuel"), ship.getFuel() + " / " + ship.getMaxFuel(), left, left <= 0.2F ? FUEL_LOW : FUEL);
+    /** One line of the readout. A bar row carries a filled fraction under it, a plain one is just label and value. */
+    private record StatRow(String label, String value, boolean hasBar, float fraction, int colour) {
+        static StatRow bar(String label, String value, float fraction, int colour) {
+            return new StatRow(label, value, true, fraction, colour);
         }
 
-        // What the engines are giving against what they could give, which is the throttle rather than the speed
-        float power = stats.speed() == 0 ? 0F : Math.abs(ship.currentSpeed) / stats.speed();
-        row = barRow(width, row, Utils.translateToLocal("container.gummi_ship.eng_power"), Math.round(power * 100) + "%", power, ENGINE);
+        static StatRow plain(String label, String value) {
+            return new StatRow(label, value, false, 0F, FAINT);
+        }
+    }
+
+    private static final int VALUE_GAP = 8;
+
+    private StatRow[] stats(GummiShipEntity ship) {
+        GummiShipEntity.ShipStats stats = ship.shipStats;
+        List<StatRow> rows = new ArrayList<>();
+
+        if (ModConfigs.SERVER.gummiShipFuelSystem.get()) {
+            float left = ship.getMaxFuel() == 0 ? 0F : (float) ship.getFuel() / ship.getMaxFuel();
+            rows.add(StatRow.bar(Utils.translateToLocal("container.gummi_ship.fuel"), ship.getFuel() + " / " + ship.getMaxFuel(), left, left <= 0.2F ? FUEL_LOW : FUEL));
+        }
+
+        float ceiling = stats.weight() <= 0 ? 0F : stats.getEffectiveSpeed();
+        float power = ceiling <= 0F ? 0F : Math.min(Math.abs(ship.currentSpeed) / ceiling, 1F);
+        rows.add(StatRow.bar(Utils.translateToLocal("container.gummi_ship.eng_power"), Math.round(power * 100) + "%", power, ENGINE));
 
         boolean ready = ClientEvents.gummiBoostCD <= 0;
         float charge = ready ? 1F : 1F - (float) ClientEvents.gummiBoostCD / BOOST_COOLDOWN;
         String state = Utils.translateToLocal(ready ? "container.gummi_ship.ready" : "container.gummi_ship.not_ready");
-        row = barRow(width, row, Utils.translateToLocal("container.gummi_ship.boost"), state, charge, ready ? BOOST_READY : FUEL);
-
-        guiGraphics.fill(PAD, row, width - PAD, row + 1, PANEL_EDGE);
-        row += 3;
+        rows.add(StatRow.bar(Utils.translateToLocal("container.gummi_ship.boost"), state, charge, ready ? BOOST_READY : FUEL));
 
         float travelled = (float) Math.sqrt(Math.pow(ship.getX() - ship.xOld, 2) + Math.pow(ship.getY() - ship.yOld, 2) + Math.pow(ship.getZ() - ship.zOld, 2));
-        row = statRow(width, row, Utils.translateToLocal("container.gummi_ship.speed"), df.format(travelled * 20) + " m/s");
-        row = statRow(width, row, Utils.translateToLocal("container.gummi_ship.armor"), String.valueOf(stats.armour()));
-        statRow(width, row, Utils.translateToLocal("container.gummi_ship.numofweapons"), String.valueOf(stats.firepower().size()));
+        rows.add(StatRow.plain(Utils.translateToLocal("container.gummi_ship.speed"), df.format(travelled * 20) + " m/s"));
+        rows.add(StatRow.plain(Utils.translateToLocal("container.gummi_ship.armor"), String.valueOf(stats.armour())));
+        rows.add(StatRow.plain(Utils.translateToLocal("container.gummi_ship.numofweapons"), String.valueOf(stats.firepower().size())));
+
+        return rows.toArray(new StatRow[0]);
+    }
+
+    private void sizeStats(GummiShipEntity ship, HUDElement element) {
+        StatRow[] rows = stats(ship);
+        int width = 0;
+        int bars = 0;
+
+        for (StatRow row : rows) {
+            width = Math.max(width, font.width(row.label()) + VALUE_GAP + font.width(row.value()));
+
+            if (row.hasBar()) {
+                bars++;
+            }
+        }
+
+        element.width = width + PAD * 2;
+        element.height = PAD * 2 + bars * (LINE + BAR_HEIGHT + 3) + (rows.length - bars) * LINE + 3;
+    }
+
+    private void drawStats(GummiShipEntity ship, HUDElement element) {
+        StatRow[] rows = stats(ship);
+        int width = element.width;
+
+        panel(0, 0, width, element.height);
+
+        int row = PAD;
+        boolean dividerDrawn = false;
+
+        for (StatRow entry : rows) {
+            if (entry.hasBar()) {
+                row = barRow(width, row, entry.label(), entry.value(), entry.fraction(), entry.colour());
+                continue;
+            }
+
+            if (!dividerDrawn) {
+                guiGraphics.fill(PAD, row, width - PAD, row + 1, PANEL_EDGE);
+                row += 3;
+                dividerDrawn = true;
+            }
+
+            row = statRow(width, row, entry.label(), entry.value());
+        }
     }
 
     /** A label on the left, its value on the right, and the bar underneath. Returns where the next row starts. */
