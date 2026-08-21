@@ -86,9 +86,9 @@ public class MagicCure extends Magic {
 					List<Member> list = party.getMembers();
 					if (!list.isEmpty()) { // Heal everyone in the party within reach
 						for (Member member : list) {
-							if (player.level().getPlayerByUUID(member.getUUID()) != null && player.distanceTo(player.level().getPlayerByUUID(member.getUUID())) < ModConfigs.SERVER.partyRangeLimit.get()) {
-								LivingEntity e = player.level().getPlayerByUUID(member.getUUID());
-								if (e != null && Utils.isEntityInParty(party, e) && e != player) {
+							LivingEntity e = Utils.getPartyEntity(player.level(), member.getUUID());
+							if (e != null && player.distanceTo(e) < ModConfigs.SERVER.partyRangeLimit.get()) {
+								if (Utils.isEntityInParty(party, e) && e != player) {
 									e.heal(amount);
 									if (e instanceof Player targetPlayer)
 										targetPlayer.getFoodData().eat(20, 10);

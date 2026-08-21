@@ -490,18 +490,19 @@ public class CommandMenuGui extends OverlayBase {
 
 			members.stream()
 					.filter(member -> !member.getUUID().equals(minecraft.player.getUUID()))
-					.map(member -> minecraft.player.level().getPlayerByUUID(member.getUUID()))
+					.map(member -> Utils.getPartyEntity(minecraft.player.level(), member.getUUID()))
 					.filter(Objects::nonNull)
-					.filter(playerAlly ->
-							minecraft.player.distanceTo(playerAlly)
+					.filter(ally ->
+							minecraft.player.distanceTo(ally)
 									<= ModConfigs.SERVER.partyRangeLimit.get()
 					)
-					.forEach(playerAlly -> {
-						targets.add(new CommandMenuItem.Builder(
-								KingdomKeys.rl(playerAlly.getGameProfile().getName().toLowerCase()),
-								Component.literal(playerAlly.getGameProfile().getName()),
-								item -> subMenu.getParent().getSelected().onEnter()
-						).setData(playerAlly.getId() + "").build(subMenu));
+					.forEach(ally -> {
+						boolean isPlayer = ally instanceof Player;
+						String name = isPlayer ? ((Player) ally).getGameProfile().getName() : ally.getDisplayName().getString();
+						String key = isPlayer ? name.toLowerCase() : "party_member_" + ally.getId();
+
+						targets.add(new CommandMenuItem.Builder(KingdomKeys.rl(key), Component.literal(name), item -> subMenu.getParent().getSelected().onEnter()
+						).setData(ally.getId() + "").build(subMenu));
 					});
 		}
 

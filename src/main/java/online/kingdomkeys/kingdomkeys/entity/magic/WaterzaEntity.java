@@ -123,11 +123,7 @@ public class WaterzaEntity extends BaseMagicProjectile{
 					target.clearFire();
 				} else {
 					if (target != getOwner()) {
-						Party p = null;
-						if (getOwner() != null) {
-							p = WorldData.get(getOwner().getServer()).getPartyFromMember(getOwner().getUUID());
-						}
-						if (p == null || (p.getMember(target.getUUID()) == null || p.getFriendlyFire())) { //If caster is not in a party || the party doesn't have the target in it || the party has FF on
+						if (Utils.canHarm(getOwner(), target)) {
 							damageEntity(target);
 						}
 					}

@@ -100,10 +100,10 @@ public class FaithBeamEntity extends BaseMagicProjectile {
 			return;
 		}
 		AABB area = getBoundingBox().inflate(1.0D);
-		Party party = WorldData.get(getOwner().getServer()).getPartyFromMember(getOwner().getUUID());
+		Party party = Utils.getParty(getOwner());
 
 		for (LivingEntity target : level().getEntitiesOfClass(LivingEntity.class, area, e -> e.isAlive() && e != getOwner())) {
-			if (party != null && party.getMember(target.getUUID()) != null && !party.getFriendlyFire()) {
+			if (!Utils.canHarm(party, target)) {
 				continue;
 			}
 

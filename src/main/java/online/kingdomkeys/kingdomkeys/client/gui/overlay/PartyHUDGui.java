@@ -6,10 +6,12 @@ import com.mojang.math.Axis;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.client.multiplayer.PlayerInfo;
 import net.minecraft.client.resources.DefaultPlayerSkin;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
@@ -18,6 +20,9 @@ import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
+import online.kingdomkeys.kingdomkeys.util.Utils;
+import org.joml.Quaternionf;
+import org.joml.Vector3f;
 
 import java.util.UUID;
 
@@ -66,15 +71,14 @@ public class PartyHUDGui extends OverlayBase {
 			if (member.getUUID().equals(player.getUUID())) {
 				continue;
 			}
-			Player playerAlly = player.level().getPlayerByUUID(member.getUUID());
-			renderFace(guiGraphics, playerAlly, member, scale, slot++);
+			LivingEntity ally = Utils.getPartyEntity(player.level(), member.getUUID());
+			renderFace(guiGraphics, ally, member, scale, slot++);
 		}
 		ClientUtils.PARTY_ELEMENT.endTransform(guiGraphics);
 	}
 
-	public void renderFace(GuiGraphics gui, Player playerAlly, Member member, float scale, int i) {
+	public void renderFace(GuiGraphics gui, LivingEntity playerAlly, Member member, float scale, int i) {
 		String name = member.getUsername();
-		ResourceLocation skin = getLocationSkin(member.getUUID());
 
 		PoseStack pose = gui.pose();
 
@@ -82,26 +86,40 @@ public class PartyHUDGui extends OverlayBase {
 		{
 			float spacing = 40 * (ModConfigs.partyYDistance / 100f);
 			pose.translate(4, ClientUtils.PARTY_ELEMENT.height - 20 + -i * spacing, 0);
-			pose.pushPose();
-			{
-				pose.scale(scale, scale, 1);
 
-				if (playerAlly == null)
-					RenderSystem.setShaderColor(0.2F, 0.2F, 0.2F, 1F);
-				else
+			if (member.isPlayer()) {
+				// A player has a face even while it is away, because the skin comes from the tab list rather than from the entity
+				ResourceLocation skin = getLocationSkin(member.getUUID());
+
+				pose.pushPose();
+				{
+					pose.scale(scale, scale, 1);
+
+					if (playerAlly == null)
+						RenderSystem.setShaderColor(0.2F, 0.2F, 0.2F, 1F);
+					else
+						RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
+
+					this.blit(gui, skin, 0, 0, 32, 32, 32, 32);
 					RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
+				}
+				pose.popPose();
 
-				this.blit(gui, skin, 0, 0, 32, 32, 32, 32);
-				RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
+				pose.pushPose();
+				{
+					pose.scale(scale, scale, 1);
+					this.blit(gui, skin, 0, 0, 160, 32, 32, 32);
+				}
+				pose.popPose();
+			} else if (playerAlly != null) {
+				// Anything else has no skin to blit, so it sits for its own portrait. Nothing is drawn when it isn't loaded: there is no stand in for a mob the way there is for a player
+				pose.pushPose();
+				{
+					pose.scale(scale, scale, 1);
+					renderPortrait(gui, playerAlly);
+				}
+				pose.popPose();
 			}
-			pose.popPose();
-
-			pose.pushPose();
-			{
-				pose.scale(scale, scale, 1);
-				this.blit(gui, skin, 0, 0, 160, 32, 32, 32);
-			}
-			pose.popPose();
 
 			pose.pushPose();
 			{
@@ -162,8 +180,8 @@ public class PartyHUDGui extends OverlayBase {
 				}
 				pose.popPose();
 
-				//MP
-				PlayerData playerData = PlayerData.get(playerAlly);
+				//MP, which only a player has
+				PlayerData playerData = playerAlly instanceof Player ally ? PlayerData.get(ally) : null;
 				if (playerData != null) {
 
 					val = (float) playerData.getMP();
@@ -212,6 +230,20 @@ public class PartyHUDGui extends OverlayBase {
 
 		}
 		pose.popPose();
+	}
+
+	private static final int SLOT = 32;
+
+	private static final float FIT = 28F;
+
+	private void renderPortrait(GuiGraphics gui, LivingEntity entity) {
+		float bulk = Math.max(Math.max(entity.getBbHeight(), entity.getBbWidth()), 0.1F);
+		float size = FIT / bulk / Math.max(entity.getScale(), 0.01F);
+
+		// Upright: the inventory renderer draws entities upside down and turns them back with this
+		Quaternionf upright = new Quaternionf().rotateZ((float) Math.PI);
+
+		ClientUtils.facingCamera(entity, () -> InventoryScreen.renderEntityInInventory(gui, SLOT / 2F, SLOT / 2F, size, new Vector3f(0F, entity.getBbHeight() / 2F, 0F), upright, null, entity));
 	}
 
 }

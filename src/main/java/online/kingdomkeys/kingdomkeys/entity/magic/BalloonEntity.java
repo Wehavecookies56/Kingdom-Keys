@@ -19,6 +19,7 @@ import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.lib.Party;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.util.List;
 
@@ -84,11 +85,7 @@ public class BalloonEntity extends ThrowableProjectile {
 				LivingEntity target = (LivingEntity) ertResult.getEntity();
 
 				if (target != getOwner()) {
-					Party p = null;
-					if (getOwner() != null) {
-						p = WorldData.get(getOwner().getServer()).getPartyFromMember(getOwner().getUUID());
-					}
-					if(p == null || (p.getMember(target.getUUID()) == null || p.getFriendlyFire())) { //If caster is not in a party || the party doesn't have the target in it || the party has FF on
+					if (Utils.canHarm(getOwner(), target)) {
 						float dmg = this.getOwner() instanceof Player ? DamageCalculation.getMagicDamage((Player) this.getOwner()) / 2F : 2;
 
 						target.hurt(KKDamageTypes.getElementalDamage(KKDamageTypes.WATER,this, this.getOwner()), dmg * dmgMult);
@@ -135,15 +132,7 @@ public class BalloonEntity extends ThrowableProjectile {
 		List<Entity> list = level().getEntities(getOwner(), getBoundingBox().inflate(3));
 		if(worldData == null)
 			return null;
-		Party casterParty = worldData.getPartyFromMember(getOwner().getUUID());
-
-		if(casterParty != null && !casterParty.getFriendlyFire()) {
-			for(Party.Member m : casterParty.getMembers()) {
-				list.remove(level().getPlayerByUUID(m.getUUID()));
-			}
-		} else {
-			list.remove(getOwner());
-		}
+		Utils.removeAllies(getOwner(), list);
 
 		if (!list.isEmpty()) {
 			for (Entity entity : list) {

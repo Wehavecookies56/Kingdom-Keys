@@ -45,6 +45,7 @@
 ## Changed:
 * Config files have now been moved into their own subfolder, if you modified any, move them there AND RENAME to keep your existing settings.
   * New files don't have the "kingdomkeys-" prefix, therefore the "kingdomkeys-common.toml" file now goes into the "kingdomkeys" folder under the name "common.toml".
+* A party can now hold entities other than just players.
 * Hangar screen is no longer that cluttered with information, it was moved into a list box on the left.
 * Gummi ship driving screen information has panels and changed the way data is displayed.
 * Gummi ships built in lvl 1 hangar which then were stored in lvl 2 hangar, would increase their size internally, which wouldn't allow them to be stored in the lvl 1 hangar again, now they can.

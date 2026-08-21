@@ -104,7 +104,7 @@ public class PetalLauncherCoreEntity extends ThrowableProjectile {
 	private void checkForSteppers(Player caster) {
 		float radius = getRadius();
 		AABB box = new AABB(getX() - radius, getY() - 0.5D, getZ() - radius, getX() + radius, getY() + 1.0D, getZ() + radius);
-		Party party = WorldData.get(caster.getServer()).getPartyFromMember(caster.getUUID());
+		Party party = Utils.getParty(caster);
 
 		for (Entity entity : level().getEntities(this, box, Entity::isAlive)) {
 			if (!(entity instanceof LivingEntity target))
@@ -116,7 +116,7 @@ public class PetalLauncherCoreEntity extends ThrowableProjectile {
 			if (last != null && tickCount - last < TRIGGER_COOLDOWN_TICKS)
 				continue;
 
-			if (party != null && Utils.isEntityInParty(party, entity)) {
+			if (!Utils.canHarm(party, target)) {
 				continue;
 			}
 

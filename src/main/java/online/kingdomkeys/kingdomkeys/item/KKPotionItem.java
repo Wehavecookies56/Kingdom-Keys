@@ -3,6 +3,7 @@ package online.kingdomkeys.kingdomkeys.item;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -75,8 +76,9 @@ public class KKPotionItem extends Item implements IItemCategory, ICreativeTab {
     			if(party != null) {
     				for(Member m : party.getMembers()) {
     					if(!m.getUUID().equals(player.getUUID())) {
-    						Player target = player.level().getPlayerByUUID(m.getUUID());
-    						if(target.distanceTo(player) < ModConfigs.SERVER.partyRangeLimit.get()) {
+    						//Health is something everything alive has, so this one reaches mob members too
+    						LivingEntity target = Utils.getPartyEntity(player.level(), m.getUUID());
+    						if(target != null && target.distanceTo(player) < ModConfigs.SERVER.partyRangeLimit.get()) {
 	    			        	hpAmount = (float) (percentage ? target.getMaxHealth() * amount / 100 : amount);
 	    			        	hpAmount += hpAmount * itemBoosts / 2;
 	    						target.heal(hpAmount);
@@ -101,7 +103,13 @@ public class KKPotionItem extends Item implements IItemCategory, ICreativeTab {
     			if(party != null) {
     				for(Member m : party.getMembers()) {
     					if(!m.getUUID().equals(player.getUUID())) {
+    						if(!m.isPlayer()) { //We ignore non players as this is MP
+    							continue;
+    						}
     						Player target = player.level().getPlayerByUUID(m.getUUID());
+    						if(target == null) { //In another dimension, out of range still
+    							continue;
+    						}
     						PlayerData targetData = PlayerData.get(target);
     						if(target.distanceTo(player) < ModConfigs.SERVER.partyRangeLimit.get()) {
 	    						mpAmount = (float) (percentage ? targetData.getMaxMP() * amount / 100 : amount);
@@ -132,20 +140,27 @@ public class KKPotionItem extends Item implements IItemCategory, ICreativeTab {
     			if(party != null) {
     				for(Member m : party.getMembers()) {
     					if(!m.getUUID().equals(player.getUUID())) {
-    						Player target = player.level().getPlayerByUUID(m.getUUID());
-    						PlayerData targetData = PlayerData.get(target);
-    						if(target.distanceTo(player) < ModConfigs.SERVER.partyRangeLimit.get()) {
-	    						mpAmount = (float) (percentage ? targetData.getMaxMP() * amount / 100 : amount);
-	    						hpAmount = (float) (percentage ? target.getMaxHealth() * amount / 100 : amount);
-	    			        	hpAmount += hpAmount * itemBoosts / 2;
-								mpAmount += mpAmount * itemBoosts / 2;
-								Utils.reviveFromKO(target);
-	    			        	targetData.addMP(mpAmount);
-	    						target.heal(hpAmount);
-                                player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.potion.get(), SoundSource.PLAYERS, 1, 1);
-                                player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.ether.get(), SoundSource.PLAYERS, 1, 1);
+    						LivingEntity target = Utils.getPartyEntity(player.level(), m.getUUID());
+    						if(target == null || target.distanceTo(player) >= ModConfigs.SERVER.partyRangeLimit.get()) { //Not in this dimension, or too far to reach
+    							continue;
     						}
-    			    		PacketHandler.syncToAllAround(target, targetData);
+
+    						//The healing half is for anything alive
+    						hpAmount = (float) (percentage ? target.getMaxHealth() * amount / 100 : amount);
+    			        	hpAmount += hpAmount * itemBoosts / 2;
+							Utils.reviveFromKO(target);
+    						target.heal(hpAmount);
+                            player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.potion.get(), SoundSource.PLAYERS, 1, 1);
+
+    						//The magic half needs a player behind it
+    						if(target instanceof Player ally) {
+    							PlayerData targetData = PlayerData.get(ally);
+    							mpAmount = (float) (percentage ? targetData.getMaxMP() * amount / 100 : amount);
+								mpAmount += mpAmount * itemBoosts / 2;
+	    			        	targetData.addMP(mpAmount);
+                                player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.ether.get(), SoundSource.PLAYERS, 1, 1);
+	    			    		PacketHandler.syncToAllAround(ally, targetData);
+    						}
     					}
     				}
     			}
@@ -164,7 +179,13 @@ public class KKPotionItem extends Item implements IItemCategory, ICreativeTab {
     			if(party != null) {
     				for(Member m : party.getMembers()) {
     					if(!m.getUUID().equals(player.getUUID())) {
+    						if(!m.isPlayer()) {
+    							continue;
+    						}
     						Player target = player.level().getPlayerByUUID(m.getUUID());
+    						if(target == null) {
+    							continue;
+    						}
     						PlayerData targetData = PlayerData.get(target);
     						if(target.distanceTo(player) < ModConfigs.SERVER.partyRangeLimit.get()) {
 	    						dpAmount = (float) (percentage ? targetData.getMaxDP() * amount / 100 : amount);
@@ -191,7 +212,13 @@ public class KKPotionItem extends Item implements IItemCategory, ICreativeTab {
     			if(party != null) {
     				for(Member m : party.getMembers()) {
     					if(!m.getUUID().equals(player.getUUID())) {
+    						if(!m.isPlayer()) {
+    							continue;
+    						}
     						Player target = player.level().getPlayerByUUID(m.getUUID());
+    						if(target == null) {
+    							continue;
+    						}
     						PlayerData targetData = PlayerData.get(target);
     						if(target.distanceTo(player) < ModConfigs.SERVER.partyRangeLimit.get()) {
 	    						focusAmount = (float) (percentage ? targetData.getMaxFocus() * amount / 100 : amount);

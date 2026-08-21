@@ -328,6 +328,10 @@ public class WorldData extends SavedData {
     }
 
     public void addPartyMember(Party party, LivingEntity entity) {
+        if (party.hasMember(entity.getUUID())) {
+            return;
+        }
+
         party.addMember(entity);
         setDirty();
     }

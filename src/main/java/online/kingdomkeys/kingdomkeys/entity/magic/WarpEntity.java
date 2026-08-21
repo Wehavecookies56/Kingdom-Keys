@@ -88,15 +88,7 @@ public class WarpEntity extends BaseMagicProjectile {
 			WorldData worldData = WorldData.get(level().getServer());
 			if (getOwner() != null && worldData != null) {
 				List<Entity> list = level().getEntities(getOwner(), getBoundingBox().inflate(radius));
-				Party casterParty = worldData.getPartyFromMember(getOwner().getUUID());
-
-				if (casterParty != null && !casterParty.getFriendlyFire()) {
-					for (Party.Member m : casterParty.getMembers()) {
-						list.remove(level().getPlayerByUUID(m.getUUID()));
-					}
-				} else {
-					list.remove(getOwner());
-				}
+				Utils.removeAllies(getOwner(), list);
 
 				for (Entity e : list) {
 					if (!(e instanceof LivingEntity)) {

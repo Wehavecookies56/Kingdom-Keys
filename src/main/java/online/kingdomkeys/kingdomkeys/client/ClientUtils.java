@@ -453,7 +453,7 @@ public class ClientUtils {
         if(entity instanceof AbstractClientPlayer livingEntity)
   		    renderPlayerNoAnimsRaw(posestack, pPosX, pPosY, (int) pScale, f, f1, livingEntity);
         else
-            renderEntityRaw(posestack, pScale, f, f1, entity);
+            renderEntityRaw(posestack, pPosX, pPosY, pScale, f, f1, entity);
     }
 
     /**
@@ -591,13 +591,14 @@ public class ClientUtils {
         p_275689_.yHeadRot = f6;
     }
 
-    public static void renderEntityRaw(PoseStack pose, float scale, float angleXComponent, float angleYComponent, Entity entity) {
+    public static void renderEntityRaw(PoseStack pose, int x, int y, float scale, float angleXComponent, float angleYComponent, Entity entity) {
         Quaternionf qZ = new Quaternionf().rotateZ((float)Math.PI);
         Quaternionf qX = new Quaternionf().rotateX(angleYComponent * 20.0F * ((float)Math.PI / 180F));
         qZ.mul(qX);
 
         pose.pushPose();
         {
+            pose.translate(x, y, 0);
             pose.mulPose(qZ);
             pose.scale(-scale, scale, scale);
 
@@ -624,6 +625,30 @@ public class ClientUtils {
             Lighting.setupFor3DItems();
         }
         pose.popPose();
+    }
+
+    public static void facingCamera(LivingEntity entity, Runnable render) {
+        float bodyRot = entity.yBodyRot;
+        float yRot = entity.getYRot();
+        float xRot = entity.getXRot();
+        float headRot = entity.yHeadRot;
+        float headRotO = entity.yHeadRotO;
+
+        entity.yBodyRot = 180F;
+        entity.setYRot(180F);
+        entity.setXRot(0F);
+        entity.yHeadRot = 180F;
+        entity.yHeadRotO = 180F;
+
+        try {
+            render.run();
+        } finally {
+            entity.yBodyRot = bodyRot;
+            entity.setYRot(yRot);
+            entity.setXRot(xRot);
+            entity.yHeadRot = headRot;
+            entity.yHeadRotO = headRotO;
+        }
     }
   	public static List<Component> getTooltip(List<Component> tooltip, Item.TooltipContext context, ItemStack stack) {
           if (context.level() != null) {

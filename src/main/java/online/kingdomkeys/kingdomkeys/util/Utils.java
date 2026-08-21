@@ -77,6 +77,7 @@ import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategoryRegistry;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.block.gummi.*;
+import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.creativetab.CreativeFilter;
@@ -1640,6 +1641,41 @@ public class Utils {
 		return newList;
 	}
 
+	@Nullable
+	public static LivingEntity getPartyEntity(Level level, UUID id) {
+		if (level == null || id == null) {
+			return null;
+		}
+
+		if (level instanceof ServerLevel server) {
+			return server.getEntity(id) instanceof LivingEntity living ? living : null;
+		}
+
+		// Players first: it is a short list, and it is who a party is mostly made of, so the walk below is rarely reached
+		Player player = level.getPlayerByUUID(id);
+
+		if (player != null) {
+			return player;
+		}
+
+		return ClientUtils.getEntityByUUIDClient(id) instanceof LivingEntity living ? living : null;
+	}
+
+	@Nullable
+	public static LivingEntity getPartyEntity(MinecraftServer server, UUID id) {
+		if (server == null || id == null) {
+			return null;
+		}
+
+		for (ServerLevel level : server.getAllLevels()) {
+			if (level.getEntity(id) instanceof LivingEntity living) {
+				return living;
+			}
+		}
+
+		return null;
+	}
+
 	public static Player getPlayerByName(Level world, String name) {
 		List<? extends Player> players = world.getServer() == null ? world.players() : getAllPlayers(world.getServer());
 		for (Player p : players) {
@@ -1699,49 +1735,29 @@ public class Utils {
 	}
 
 	public static List<Entity> removePartyMembersFromList(Player player, List<Entity> list) {
-		Party casterParty = WorldData.get(player.getServer()).getPartyFromMember(player.getUUID());
-
-		if (casterParty != null && !casterParty.getFriendlyFire()) {
-			for (Member m : casterParty.getMembers()) {
-				list.remove(player.level().getPlayerByUUID(m.getUUID()));
-			}
-		} else {
-			list.remove(player);
-		}
-		return list;
+		list.remove(player);
+		return removeAllies(player, list);
 	}
 
-	/**
-	 * Used to check if there's anyone else online in the party for KO effect
-	 *
-	 * @param player
-	 * @param p
-	 * @param level
-	 * @return
-	 */
 	public static boolean anyPartyMemberOnExcept(Player player, Party p, ServerLevel level) {
-		boolean membersOn = false;
 		for (Member member : p.getMembers()) {
-			if (Utils.getPlayerByName(level, member.getUsername().toLowerCase()) != null) {
-				if (Utils.getPlayerByName(level, member.getUsername().toLowerCase()) != player) {
-					membersOn = true;
-				}
+			if (member.getUUID().equals(player.getUUID())) {
+				continue;
+			}
+
+			LivingEntity ally = getPartyEntity(level.getServer(), member.getUUID());
+
+			if (ally != null && ally.isAlive()) {
+				return true;
 			}
 		}
-		return membersOn;
+		return false;
 	}
 
 	public static List<LivingEntity> getLivingEntitiesInRadiusExcludingParty(LivingEntity player, float radius) {
 		List<Entity> list = player.level().getEntities(player, player.getBoundingBox().inflate(radius), Entity::isAlive);
-		Party casterParty = WorldData.get(player.getServer()).getPartyFromMember(player.getUUID());
-
-		if (casterParty != null && !casterParty.getFriendlyFire()) {
-			for (Member m : casterParty.getMembers()) {
-				list.remove(player.level().getPlayerByUUID(m.getUUID()));
-			}
-		} else {
-			list.remove(player);
-		}
+		list.remove(player);
+		removeAllies(player, list);
 
 		List<LivingEntity> elList = new ArrayList<LivingEntity>();
 		for (Entity e : list) {
@@ -1765,15 +1781,8 @@ public class Utils {
 	 */
 	public static List<LivingEntity> getLivingEntitiesInRadiusExcludingParty(Player player, Entity entity, float radiusX, float radiusY, float radiusZ) {
 		List<Entity> list = player.level().getEntities(player, entity.getBoundingBox().inflate(radiusX, radiusY, radiusZ), Entity::isAlive);
-		Party casterParty = WorldData.get(player.getServer()).getPartyFromMember(player.getUUID());
-
-		if (casterParty != null && !casterParty.getFriendlyFire()) {
-			for (Member m : casterParty.getMembers()) {
-				list.remove(player.level().getPlayerByUUID(m.getUUID()));
-			}
-		} else {
-			list.remove(player);
-		}
+		list.remove(player);
+		removeAllies(player, list);
 
 		list.remove(entity);
 
@@ -2171,15 +2180,48 @@ public class Utils {
 	}
 
 	public static boolean isEntityInParty(Party party, Entity e) {
-		if (party == null)
-			return false;
-		List<Member> list = party.getMembers();
-		for (Member m : list) {
-			if (m.getUUID().equals(e.getUUID())) {
-				return true;
-			}
+		return party != null && e != null && party.hasMember(e.getUUID());
+	}
+
+	@Nullable
+	public static Party getParty(@Nullable Entity entity) {
+		if (entity == null) {
+			return null;
 		}
-		return false;
+
+		WorldData worldData = WorldData.get(entity.getServer());
+
+		return worldData == null ? null : worldData.getPartyFromMember(entity.getUUID());
+	}
+
+	public static boolean canHarm(@Nullable Entity attacker, @Nullable Entity target) {
+		return canHarm(getParty(attacker), target);
+	}
+
+	public static boolean canHarm(@Nullable Party party, @Nullable Entity target) {
+		if (target == null) {
+			return false;
+		}
+
+		// Anyone outside a party has no allies to spare, and a party with friendly fire on has decided it has none either
+		if (party == null || party.getFriendlyFire()) {
+			return true;
+		}
+
+		// Whatever else gets added, it goes here, where every caller sees it
+		return !party.hasMember(target.getUUID());
+	}
+
+	public static <T extends Entity> List<T> removeAllies(@Nullable Entity attacker, List<T> list) {
+		Party party = getParty(attacker);
+
+		if (party == null || party.getFriendlyFire()) {
+			return list;
+		}
+
+		list.removeIf(target -> !canHarm(party, target));
+
+		return list;
 	}
 
 	public static List<Entity> removeFriendlyEntities(List<Entity> list) {

@@ -102,10 +102,7 @@ public class MineEntity extends ThrowableProjectile {
 			int searchRadius = 6;
 			List<LivingEntity> targets = level().getEntitiesOfClass(LivingEntity.class, getBoundingBox().inflate(searchRadius), e -> e != getOwner() && e.isAlive());
 
-			Party casterParty = WorldData.get(level().getServer()).getPartyFromMember(getOwner().getUUID());
-			if (casterParty != null && !casterParty.getFriendlyFire()) {
-				targets.removeIf(e -> casterParty.getMember(e.getUUID()) != null);
-			}
+			Utils.removeAllies(getOwner(), targets);
 
 			LivingEntity closest = null;
 			double minDist = Double.MAX_VALUE;
@@ -190,11 +187,7 @@ public class MineEntity extends ThrowableProjectile {
 	}
 
 	private boolean canDamage(LivingEntity target) {
-		if (getOwner() == null) return true;
-
-		Party party = WorldData.get(level().getServer()).getPartyFromMember(getOwner().getUUID());
-
-		return party == null || party.getMember(target.getUUID()) == null || party.getFriendlyFire();
+		return Utils.canHarm(getOwner(), target);
 	}
 
 	private void explode() {
@@ -237,11 +230,7 @@ public class MineEntity extends ThrowableProjectile {
 				LivingEntity target = (LivingEntity) ertResult.getEntity();
 
 				if (target != getOwner()) {
-					Party p = null;
-					if (getOwner() != null) {
-						p = WorldData.get(getOwner().getServer()).getPartyFromMember(getOwner().getUUID());
-					}
-					if (p == null || (p.getMember(target.getUUID()) == null || p.getFriendlyFire())) { //If caster is not in a party || the party doesn't have the target in it || the party has FF on
+					if (Utils.canHarm(getOwner(), target)) { //The one place that decides who may be hit
 						float dmg = this.getOwner() instanceof Player ? DamageCalculation.getMagicDamage((Player) this.getOwner()) : 2;
 						Player player = (Player) this.getOwner();
 						//target.hurt(DarknessDamageSource.getDarknessDamage(this, this.getOwner()), dmg * dmgMult);

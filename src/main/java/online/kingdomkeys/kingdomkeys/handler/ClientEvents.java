@@ -1457,8 +1457,7 @@ public class ClientEvents {
 								player.level().playSound(player, player.position().x(), player.position().y(), player.position().z(), ModSounds.shotlock_lockon_start.get(), SoundSource.PLAYERS, 1F, 1F);
 							}
 							tempShotlockEntity = target;
-							Party p = WorldData.getClient().getPartyFromMember(player.getUUID());
-							if (p == null || (p.getMember(target.getUUID()) == null || p.getFriendlyFire())) { // If caster is not in a party || the party doesn't have the target in it || the party has FF on
+							if (Utils.canHarm(player, target)) {
 								if(focusingAnEntityTicks >= shotlock.getRealCooldown(player)) {
 									float halfWidth = target.getBbWidth() * 0.5F;
 									float height = target.getBbHeight();
@@ -1476,9 +1475,8 @@ public class ClientEvents {
 						}
 						// Locking on
 					} else if (focusingTicks % shotlock.getRealCooldown(player) == 0 && playerData.getShotlockEnemies().size() < shotlock.getMaxLocks()) {
-						Party p = WorldData.getClient().getPartyFromMember(player.getUUID());
 						if (ertr.getEntity() instanceof LivingEntity target) {
-							if (p == null || (p.getMember(target.getUUID()) == null || p.getFriendlyFire())) { // If caster is not in a party || the party doesn't have the target in it || the party has FF on
+							if (Utils.canHarm(player, target)) {
 								float halfWidth = target.getBbWidth() * 0.5F;
 								float height = target.getBbHeight();
 								float ox = Mth.nextFloat(player.getRandom(), -halfWidth, halfWidth);

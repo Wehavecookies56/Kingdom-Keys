@@ -77,11 +77,7 @@ public class ThundagaShotEntity extends BaseMagicProjectile {
 
 			if (target != null) {
 				if (target != getOwner()) {
-					Party p = null;
-					if (getOwner() != null) {
-						p = WorldData.get(getOwner().getServer()).getPartyFromMember(getOwner().getUUID());
-					}
-					if (p == null || (p.getMember(target.getUUID()) == null || p.getFriendlyFire())) { //If caster is not in a party || the party doesn't have the target in it || the party has FF on
+					if (Utils.canHarm(getOwner(), target)) { //The one place that decides who may be hit
 						damageEntity(target);
 						target.invulnerableTime = 10;
 						level().playSound(null, position().x(), position().y(), position().z(), ModSounds.zap.get(), SoundSource.PLAYERS, 1F, 0.8F);

@@ -754,6 +754,9 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 
 					if(sharedXP > 0) {
 						for(Member member : party.getMembers()) {
+							if(!member.isPlayer()) { //A mob member has no PlayerData to put experience into
+								continue;
+							}
 							for(ResourceKey<Level> worldKey : player.level().getServer().levelKeys()) {
 								Player ally = player.getServer().getLevel(worldKey).getPlayerByUUID(member.getUUID());
 								if(ally != null && ally != player) { //If the ally is not this player give him exp (he will already get the full exp)
@@ -966,6 +969,9 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		Party party = WorldData.get(player.getServer()).getPartyFromMember(player.getUUID());
 		if(party != null) {
 			for(Member member : party.getMembers()) {
+				if(!member.isPlayer()) { //Nobody to show an overlay to
+					continue;
+				}
 				for(ResourceKey<Level> worldKey : player.level().getServer().levelKeys()) {
 					Player ally = player.getServer().getLevel(worldKey).getPlayerByUUID(member.getUUID());
 					if(ally != null && ally != player) { //If the ally is not this player give him exp (he will already get the full exp)

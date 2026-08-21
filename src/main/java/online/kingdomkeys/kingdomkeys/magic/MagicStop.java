@@ -18,6 +18,7 @@ import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncGlobalData;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.util.List;
 
@@ -35,13 +36,7 @@ public class MagicStop extends Magic {
 
 		float radius = 2 + getTier();
 		List<Entity> list = player.level().getEntities(player, player.getBoundingBox().inflate(radius, radius, radius));
-		Party casterParty = WorldData.get(player.getServer()).getPartyFromMember(player.getUUID());
-
-		if (casterParty != null && !casterParty.getFriendlyFire()) {
-			for (Member m : casterParty.getMembers()) {
-				list.remove(player.level().getPlayerByUUID(m.getUUID()));
-			}
-		}
+		Utils.removeAllies(player, list);
 
 		list.removeIf(e -> e instanceof MarluxiaEntity);
 

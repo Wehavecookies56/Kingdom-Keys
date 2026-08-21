@@ -14,6 +14,7 @@ import online.kingdomkeys.kingdomkeys.damagesource.KKDamageTypes;
 import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.lib.Party;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class SparkEntity extends BaseMagicProjectile {
 
@@ -144,10 +145,10 @@ public class SparkEntity extends BaseMagicProjectile {
 
 	private void damageNearbyEntities() {
 		AABB area = getBoundingBox().inflate(0.5D);
-		Party party = WorldData.get(getOwner().getServer()).getPartyFromMember(getOwner().getUUID());
+		Party party = Utils.getParty(getOwner());
 
 		for (LivingEntity target : level().getEntitiesOfClass(LivingEntity.class, area, e -> e != getOwner() && e.isAlive())) {
-			if (party != null && party.getMember(target.getUUID()) != null && !party.getFriendlyFire()) {
+			if (!Utils.canHarm(party, target)) {
 				continue;
 			}
 			damageEntity(target);

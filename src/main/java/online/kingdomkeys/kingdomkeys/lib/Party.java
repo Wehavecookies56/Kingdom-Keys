@@ -9,6 +9,7 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -70,21 +71,19 @@ public class Party {
 	}
 
 	public Member addMember(LivingEntity entity) {
-		return this.addMember(entity.getUUID(), entity.getDisplayName().getString());
-	}
-
-	public Member addMember(Player entity) {
-		return this.addMember(entity.getUUID(), entity.getGameProfile().getName());
-	}
-
-	public Member addMember(UUID uuid, String username) {
-		Member member = new Member(uuid, username);
+		Member member = new Member(entity);
 		this.members.add(member);
 		return member;
 	}
-	
-	public Member addMember(UUID uuid, String username, int lvl, int hp, int mp) {
-		Member member = new Member(uuid, username);
+
+	public Member addMember(UUID uuid, String username) {
+		Member member = new Member(uuid, username, true);
+		this.members.add(member);
+		return member;
+	}
+
+	public Member addMember(UUID uuid, String username, boolean player, int lvl, int hp, int mp) {
+		Member member = new Member(uuid, username, player);
 		member.setHP(hp);
 		member.setMP(mp);
 		member.setLevel(lvl);
@@ -94,6 +93,10 @@ public class Party {
 
 	public void removeMember(UUID id) {
 		Member member = this.getMember(id);
+
+		if (member == null)
+			return;
+
 		if (member.isLeader())
 			this.members.clear();
 		else
@@ -117,11 +120,11 @@ public class Party {
 		return this.members;
 	}
 
+	/** The members actually standing in this level right now, players or otherwise */
 	public List<Member> getMembersOnline(Level level) {
 		List<Member> onlineMembers = new ArrayList<>();
 		for(Member member : this.members) {
-			Player playerAlly = level.getPlayerByUUID(member.getUUID());
-			if(playerAlly != null) {
+			if(Utils.getPartyEntity(level, member.getUUID()) != null) {
 				onlineMembers.add(member);
 			}
 		}
@@ -149,6 +152,7 @@ public class Party {
 			CompoundTag memberNBT = new CompoundTag();
 			memberNBT.putUUID("id", member.getUUID());
 			memberNBT.putString("username", member.getUsername());
+			memberNBT.putBoolean("isMob", !member.isPlayer());
 			memberNBT.putBoolean("isLeader", member.isLeader());
 			memberNBT.putInt("level", member.getLevel());
 			memberNBT.putInt("hp", member.getHP());
@@ -169,7 +173,7 @@ public class Party {
 		ListTag members = nbt.getList("members", Tag.TAG_COMPOUND);
 		for (int j = 0; j < members.size(); j++) {
 			CompoundTag memberNBT = members.getCompound(j);
-			Party.Member member = this.addMember(memberNBT.getUUID("id"), memberNBT.getString("username"), memberNBT.getInt("level"), memberNBT.getInt("hp"), memberNBT.getInt("mp"));
+			Party.Member member = this.addMember(memberNBT.getUUID("id"), memberNBT.getString("username"), !memberNBT.getBoolean("isMob"), memberNBT.getInt("level"), memberNBT.getInt("hp"), memberNBT.getInt("mp"));
 			member.setIsLeader(memberNBT.getBoolean("isLeader"));				
 		}
 
@@ -178,6 +182,7 @@ public class Party {
 	public static class Member {
 		private final UUID uuid;
 		private final String username;
+		private final boolean player;
 		private boolean isLeader;
 		private int level,hp,mp;
 
@@ -209,15 +214,25 @@ public class Party {
 		}
 
 		public Member(LivingEntity entity) {
-			this(entity.getUUID(), entity.getDisplayName().getString());
+			this(entity.getUUID(), entity instanceof Player player ? player.getGameProfile().getName() : entity.getDisplayName().getString(), entity instanceof Player);
 		}
+
 		public Member(Player entity) {
-			this(entity.getUUID(), entity.getGameProfile().getName());
+			this((LivingEntity) entity);
 		}
 
 		public Member(UUID uuid, String username) {
+			this(uuid, username, true);
+		}
+
+		public Member(UUID uuid, String username, boolean player) {
 			this.uuid = uuid;
 			this.username = username;
+			this.player = player;
+		}
+
+		public boolean isPlayer() {
+			return this.player;
 		}
 
 		public Member setIsLeader(boolean leader) {

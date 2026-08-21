@@ -23,6 +23,7 @@ import online.kingdomkeys.kingdomkeys.damagesource.KKDamageTypes;
 import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.lib.Party;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -139,7 +140,7 @@ public class RockyPillarsCoreEntity extends ThrowableProjectile {
 	}
 
 	private void launchNearbyEntities(Player caster) {
-		Party casterParty = WorldData.get(caster.getServer()).getPartyFromMember(caster.getUUID());
+		Party casterParty = Utils.getParty(caster);
 
 		for (Vec3 base : pillarBases) {
 			AABB box = new AABB(base, base).inflate(HIT_RADIUS, PILLAR_HEIGHT, HIT_RADIUS).move(0, PILLAR_HEIGHT * 0.5, 0);
@@ -148,7 +149,7 @@ public class RockyPillarsCoreEntity extends ThrowableProjectile {
 			for (Entity entity : nearby) {
 				if (!(entity instanceof LivingEntity target)) continue;
 				if (target == caster) continue;
-				if (casterParty != null && !casterParty.getFriendlyFire() && isPartyMember(casterParty, target)) continue;
+				if (!Utils.canHarm(casterParty, target)) continue;
 
 				target.hurt(KKDamageTypes.getElementalDamage(KKDamageTypes.DARKNESS, this, caster), dmg);
 				target.invulnerableTime = 0;
@@ -156,13 +157,6 @@ public class RockyPillarsCoreEntity extends ThrowableProjectile {
 				target.hurtMarked = true;
 			}
 		}
-	}
-
-	private boolean isPartyMember(Party party, LivingEntity entity) {
-		for (Party.Member m : party.getMembers()) {
-			if (m.getUUID().equals(entity.getUUID())) return true;
-		}
-		return false;
 	}
 
 	@Override

@@ -863,13 +863,7 @@ public class EntityEvents {
 						float dmgMult = ModMagic.registry.get(ModMagic.REFLECT.location()).getDamageMult(); //TODO reflect level?
 
 						List<Entity> list = player.level().getEntities(player, player.getBoundingBox().inflate(radius, radius, radius));
-						Party casterParty = WorldData.get(player.level().getServer()).getPartyFromMember(player.getUUID());
-
-						if (casterParty != null && !casterParty.getFriendlyFire()) {
-							for (Member m : casterParty.getMembers()) {
-								list.remove(player.level().getPlayerByUUID(m.getUUID()));
-							}
-						}
+						Utils.removeAllies(player, list);
 
 						double X = entity.getX();
 						double Y = entity.getY();
@@ -988,7 +982,14 @@ public class EntityEvents {
 		if (event.getEntity() instanceof Player hurt && !hurt.level().isClientSide) {
 			event.setNewDamage(CombatAbilities.survive(hurt, PlayerData.get(hurt), event.getNewDamage()));
 		}
-
+		/*if(event.getEntity() instanceof LivingEntity khmob){
+			if(event.getSource().getDirectEntity() instanceof Player player){
+				WorldData worldData = WorldData.get(player.getServer());
+				Party p = worldData.getPartyFromMember(player.getUUID());
+				worldData.addPartyMember(p,khmob);
+				PacketHandler.sendToAll(new SCSyncWorldData(player.getServer()));
+			}
+		}*/
 		if (event.getSource().getEntity() instanceof Player attacker && event.getEntity() instanceof Player victim) {
 			WorldData worldData = WorldData.get(attacker.getServer());
 			Struggle struggle = worldData.getStruggleFromActiveCombatant(attacker.getUUID());
@@ -1233,11 +1234,8 @@ public class EntityEvents {
 			if (event.getSource().getEntity() instanceof LivingEntity attacker) { // If attacker is a LivingEntity
 				LivingEntity target = event.getEntity();
 
-				if (attacker instanceof Player && target instanceof Player) {
-					Party p = WorldData.get(attacker.getServer()).getPartyFromMember(attacker.getUUID());
-					if (p != null && p.getMember(event.getEntity().getUUID()) != null && !p.getFriendlyFire()) {
-						event.setCanceled(true);
-					}
+				if (!Utils.canHarm(attacker, target)) {
+					event.setCanceled(true);
 				}
 
 				if (target instanceof Player) {

@@ -19,6 +19,7 @@ import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.drops.ItemDropEntity;
 import online.kingdomkeys.kingdomkeys.lib.Party;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.util.*;
 
@@ -107,15 +108,7 @@ public class LaserCircleCoreEntity extends ThrowableProjectile {
 
 	private void updateList() {
 		List<Entity> tempList = level().getEntities(getCaster(), getBoundingBox().inflate(radius, radius, radius));
-		Party casterParty = WorldData.get(level().getServer()).getPartyFromMember(getCaster().getUUID());
-
-		if(casterParty != null && !casterParty.getFriendlyFire()) {
-			for (Party.Member m : casterParty.getMembers()) {
-				tempList.remove(level().getPlayerByUUID(m.getUUID()));
-			}
-		} else {
-			tempList.remove(getOwner());
-		}
+		Utils.removeAllies(getCaster(), tempList);
 
 		targetList.clear();
 		for (Entity t : tempList) {

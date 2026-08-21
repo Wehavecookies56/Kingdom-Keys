@@ -17,6 +17,7 @@ import net.minecraft.locale.Language;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -475,7 +476,7 @@ public class MenuBackground extends Screen {
 			Party party =  worldData.getPartyFromMember(this.player.getUUID());
 			for(int i=0;i<party.getMembers().size();i++) {
 				Party.Member member = party.getMembers().get(i);
-				drawPlayer(gui, party.getMembers().size(), i, member.getUUID(), member.getUsername());
+				drawPlayer(gui, party.getMembers().size(), i, member.getUUID(), member.getUsername(), member.isPlayer());
 			}
 		}
 	}
@@ -664,6 +665,13 @@ public class MenuBackground extends Screen {
 	}
 
 	public void drawPlayer(GuiGraphics gui, int count, int order, UUID memberUUID, String memberUsername) {
+		drawPlayer(gui, count, order, memberUUID, memberUsername, true);
+	}
+
+	/**
+	 * @param isPlayer used for MP or DRIVe refills, if it's not a player it shouldn't do anything to them
+	 */
+	public void drawPlayer(GuiGraphics gui, int count, int order, UUID memberUUID, String memberUsername, boolean isPlayer) {
 		PoseStack matrixStack = gui.pose();
 
 		int columns = layoutColumns(count);
@@ -673,21 +681,33 @@ public class MenuBackground extends Screen {
 		float playerPosX = pos[0];
 		float playerPosY = pos[1];
 
-		Player player = Utils.getPlayerByName(minecraft.level, memberUsername);
-
 		String level = "LV: N/A";
 		String hp = "HP: N/A";
 		String mp = "MP: N/A";
 
-		if(player == null) {
-			GameProfile profile = new GameProfile(memberUUID, memberUsername);
-			player = new RemotePlayer(Minecraft.getInstance().level, profile);
+		LivingEntity member;
+
+		if (isPlayer) {
+			Player player = Utils.getPlayerByName(minecraft.level, memberUsername);
+
+			if(player == null) {
+				GameProfile profile = new GameProfile(memberUUID, memberUsername);
+				player = new RemotePlayer(Minecraft.getInstance().level, profile);
+			} else {
+				PlayerData playerData = PlayerData.get(player);
+				if(playerData != null) {
+					level = Utils.translateToLocal(Strings.Gui_Menu_Status_Level)+": "+ playerData.getLevel();
+					hp = Utils.translateToLocal(Strings.Gui_Menu_Status_HP)+": " + (int) player.getHealth() + "/" + (int) player.getMaxHealth();
+					mp = Utils.translateToLocal(Strings.Gui_Menu_Status_MP)+": " + (int) playerData.getMP() + "/" + (int) playerData.getMaxMP();
+				}
+			}
+
+			member = player;
 		} else {
-			PlayerData playerData = PlayerData.get(player);
-			if(playerData != null) {
-				level = Utils.translateToLocal(Strings.Gui_Menu_Status_Level)+": "+ playerData.getLevel();
-				hp = Utils.translateToLocal(Strings.Gui_Menu_Status_HP)+": " + (int) player.getHealth() + "/" + (int) player.getMaxHealth();
-				mp = Utils.translateToLocal(Strings.Gui_Menu_Status_MP)+": " + (int) playerData.getMP() + "/" + (int) playerData.getMaxMP();
+			member = Utils.getPartyEntity(minecraft.level, memberUUID);
+
+			if(member != null) {
+				hp = Utils.translateToLocal(Strings.Gui_Menu_Status_HP)+": " + (int) member.getHealth() + "/" + (int) member.getMaxHealth();
 			}
 		}
 
@@ -703,8 +723,17 @@ public class MenuBackground extends Screen {
 
 			RenderSystem.setShaderColor(1F,1F,1F,1F);
 
-			if(player != null) {
-				ClientUtils.renderEntity(gui.pose(), (int)playerPosX, (int)playerPosY, (int)playerHeight/2, 0,0, player);
+			if(member != null) {
+				if (isPlayer) {
+					ClientUtils.renderEntity(gui.pose(), (int)playerPosX, (int)playerPosY, (int)playerHeight/2, 0,0, member);
+				} else {
+					// playerHeight is sized for a player, so anything taller or shorter is brought back to that height
+					// first. Otherwise a Mega-Shadow fills the screen and a Shadow is a speck
+					float fit = playerHeight / 2F * (1.8F / Math.max(member.getBbHeight(), 0.1F)) / Math.max(member.getScale(), 0.01F);
+					LivingEntity posing = member;
+
+					ClientUtils.facingCamera(posing, () -> ClientUtils.renderEntity(gui.pose(), (int)playerPosX, (int)playerPosY, (int) fit, 0,0, posing));
+				}
 			}
 
 			RenderSystem.setShaderColor(1F,1F,1F,0.75F);
