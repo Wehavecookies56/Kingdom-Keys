@@ -2192,7 +2192,11 @@ public class Utils {
 
 		WorldData worldData = WorldData.get(entity.getServer());
 
-		return worldData == null ? null : worldData.getPartyFromMember(entity.getUUID());
+		if (worldData == null || worldData.getParties().isEmpty()) {
+			return null;
+		}
+
+		return worldData.getPartyFromMember(entity.getUUID());
 	}
 
 	/** A trailing " Lv.42", with any colour codes around it, which is how the mod stamps a level onto a mob's name */

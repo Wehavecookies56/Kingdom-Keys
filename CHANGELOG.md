@@ -1,6 +1,11 @@
 ## Added:
 * Some new advancements to make the early game mod progression a little bit clearer.
 * Kingdom Key recipe in the Common Config for startingRecipes (won't affect if you are in an existing world or if the config doesn't regenerate).
+* New Magic: KH3 Aero, Aeroga and Aeroga.
+* Old KH1 Aero was renamed to Aero Shield.
+* New Abilities: Guard, Counterguard, Aerial Recovery and Once more.
+* New Reaction Command: Reversal, when fighting off a Dusk.
+* New Heartless: Air Soldier, Defender, Neoshadow and Novashadow.
 * Flowmotion Rails, which you can ride once you have the Wall Kick ability.
   * They can be crafted in all 16 colors, different colored rails won't interconnect (unless it's a straight line).
   * Sneaking or flying in creative avoids you grinding on them.
@@ -18,11 +23,6 @@
 * Gummi inner corner shape.
 * Highwind gummi ship blueprint can now be found in strongholds and end cities.
 * Sound when placing and breaking gummi blocks.
-* New Magic: KH3 Aero, Aeroga and Aeroga.
-  * Old KH1 Aero was renamed to Aero Shield.
-* New Abilities: Guard, Counterguard, Aerial Recovery and Once more.
-* New Reaction Command: Reversal, when fighting off a Dusk.
-* New Heartless: Air Soldier, Defender, Neoshadow and Novashadow.
 * Realm of Darkness arches.
 * Staff crowns: for devs, for people who helped to develop Addons and people who contributed to the mod somehow.
 * New sounds for: heartless spawning, defeating heartless, defeating nobodies, ko loop, opening a treasure chest and for picking up synthesis materials into a bag. 
@@ -45,7 +45,7 @@
 ## Changed:
 * Config files have now been moved into their own subfolder, if you modified any, move them there AND RENAME to keep your existing settings.
   * New files don't have the "kingdomkeys-" prefix, therefore the "kingdomkeys-common.toml" file now goes into the "kingdomkeys" folder under the name "common.toml".
-* A party can now hold entities other than just players.
+* A party can now hold entities other than just players, making them peaceful to the party members and aggressive against hostiles.
 * Hangar screen is no longer that cluttered with information, it was moved into a list box on the left.
 * Gummi ship driving screen information has panels and changed the way data is displayed.
 * Gummi ships built in lvl 1 hangar which then were stored in lvl 2 hangar, would increase their size internally, which wouldn't allow them to be stored in the lvl 1 hangar again, now they can.
@@ -62,11 +62,13 @@
 * Gummi ships can now transport chests and other tile entities.
 * Heartless portal tp to Realm of Darkness crash.
 * Even ships offset when being built.
+* EFM Guard not working with keyblades.
 * Red tint leak from low HP.
+* Weird color in a command menu title under some circumstances.
 * Struggle orbs merging and losing points in the process, now they won't merge at all.
 * Melding ingredients allowing to select a copy of the first selected item even if it's not a real recipe.
   * You were able to select Waterga and still see another Waterga able to be selected while there's no recipe that use both.
-* Gummi ship losing it's fuel when moving it in edit mode with the arrow buttons from the hangar.
+* Gummi ship losing its fuel when moving it in edit mode with the arrow buttons from the hangar.
 * Gummi hangar hologram blocks not disappearing once they were correct on hangars facing north, west or east.
 * Gummi aero being invisible when faced the wrong way right next to a solid block.
 * Air gets ignored in Gummi Ship structure serialization, saving tons of space.

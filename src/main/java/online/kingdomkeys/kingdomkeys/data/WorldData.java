@@ -7,8 +7,10 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.level.saveddata.SavedData;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.entity.mob.goal.PartyAllyGoals;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.PortalData;
 import online.kingdomkeys.kingdomkeys.lib.Struggle;
@@ -324,6 +326,11 @@ public class WorldData extends SavedData {
 
     public void removeLeaderMember(Party party, LivingEntity entity) {
         party.removeMember(entity.getUUID());
+
+        if (entity instanceof Mob mob) {
+            PartyAllyGoals.removeAI(mob);
+        }
+
         setDirty();
     }
 
@@ -333,6 +340,12 @@ public class WorldData extends SavedData {
         }
 
         party.addMember(entity);
+
+        if (entity instanceof Mob mob) {
+            PartyAllyGoals.applyAI(mob);
+            mob.setTarget(null);
+        }
+
         setDirty();
     }
 

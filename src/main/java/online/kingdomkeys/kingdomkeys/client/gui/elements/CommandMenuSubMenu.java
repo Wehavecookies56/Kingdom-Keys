@@ -543,12 +543,15 @@ public class CommandMenuSubMenu {
                     guiGraphics.blit(texture, getX() + getWidth() - ModConfigs.cmHeaderEndRWidth, getY(), ModConfigs.cmHeaderEndLWidth + 3, 0, ModConfigs.cmHeaderEndRWidth, getHeight());
                 }
                 if (ModConfigs.cmHeaderTextVisible) {
+                    RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
                     guiGraphics.drawCenteredString(Minecraft.getInstance().font, getTitle(), getX() + ((getWidth() - 8) / 2) + 1, getY() + 4, getColour().getRGB());
+                    guiGraphics.flush();
                 }
             }
             renderChildren(guiGraphics, screenWidth, screenHeight, partialTick);
             guiGraphics.flush();
 
+            RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
             RenderSystem.disableBlend();
         }
     }

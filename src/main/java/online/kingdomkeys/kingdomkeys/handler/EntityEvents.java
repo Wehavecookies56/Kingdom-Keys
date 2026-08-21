@@ -84,6 +84,7 @@ import online.kingdomkeys.kingdomkeys.entity.block.SoRCoreTileEntity;
 import online.kingdomkeys.kingdomkeys.entity.drops.*;
 import online.kingdomkeys.kingdomkeys.entity.mob.*;
 import online.kingdomkeys.kingdomkeys.entity.mob.goal.MarluxiaGoal;
+import online.kingdomkeys.kingdomkeys.entity.mob.goal.PartyAllyGoals;
 import online.kingdomkeys.kingdomkeys.entity.organization.KKThrowableEntity;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.EpicFightUtils;
 import online.kingdomkeys.kingdomkeys.item.*;
@@ -170,6 +171,22 @@ public class EntityEvents {
 		}
 	}
 
+	// For party mobs
+	@SubscribeEvent
+	public void onChangeTarget(LivingChangeTargetEvent event) {
+		if (event.getNewAboutToBeSetTarget() == null || event.getEntity().level().isClientSide()) {
+			return;
+		}
+
+		if (!(event.getEntity() instanceof Mob mob) || Utils.getParty(mob) == null) {
+			return;
+		}
+
+		if (!PartyAllyGoals.mayTarget(mob, event.getNewAboutToBeSetTarget())) {
+			event.setCanceled(true);
+		}
+	}
+
 	@SubscribeEvent
 	public void onEntityJoinWorld(EntityJoinLevelEvent e) {
 		if(e.getEntity() instanceof ItemEntity itemEntity) {
@@ -190,6 +207,10 @@ public class EntityEvents {
 			e.setCanceled(true);
 			e.getLevel().addFreshEntity(card);
 		}
+		if (!e.getLevel().isClientSide() && e.getEntity() instanceof Mob ally && Utils.getParty(ally) != null && !PartyAllyGoals.isApplied(ally)) {
+			PartyAllyGoals.applyAI(ally);
+		}
+
 		if (e.getEntity() instanceof LivingEntity mob) {
 			GlobalData mobData = GlobalData.get(mob);
 			if (mobData == null) return;

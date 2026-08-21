@@ -1,7 +1,6 @@
 package online.kingdomkeys.kingdomkeys.client.gui.menu.party;
 
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundSource;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
@@ -10,7 +9,6 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton.ButtonType;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
-import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
@@ -21,18 +19,22 @@ import online.kingdomkeys.kingdomkeys.network.cts.CSPartyPromote;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nullable;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 public class GuiMenu_Party_Promote extends MenuBackground {
 	MenuBox box;
 	MenuButton back;
-		
+
 	WorldData worldData;
 	Party party;
-	
-	MenuButton[] players = new MenuButton[ModConfigs.SERVER.partyMembersLimit.get()];
-	
+
+	private final List<MenuButton> memberButtons = new ArrayList<>();
+	private final List<UUID> shown = new ArrayList<>();
+	private final List<Boolean> shownLeaders = new ArrayList<>();
+
 	public GuiMenu_Party_Promote() {
 		super(Strings.Gui_Menu_Party_Leader_Promote, new Color(0,0,255));
 		drawPlayerInfo = true;
@@ -40,120 +42,140 @@ public class GuiMenu_Party_Promote extends MenuBackground {
 	}
 
 	protected void action(String string) {
-		//Clear list as it should never be seen unless in phase 2
-		for(int i=0;i<players.length;i++) {
-			if(players[i] != null) {
-				players[i].visible = false;
-			}
-		}
-		
 		switch(string) {
 		case "back":
 			minecraft.level.playSound(minecraft.player, minecraft.player.blockPosition(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
-			minecraft.setScreen(new GuiMenu_Party_Leader());			
+			minecraft.setScreen(new GuiMenu_Party_Leader());
 			break;
 		case "refresh":
-			refreshMembers(null);
+			refreshMembers();
 			break;
 		}
-		
-		if(string.startsWith("member:")) {
-			String[] data = string.split(":");
-			String name = data[1];
-			if(name.equals(minecraft.player.getDisplayName().getString())) {
-				minecraft.player.playSound(ModSounds.error.get());
-				refreshMembers(null);
-				return;
-			}
-			Member member = null;
-			for(Member m : party.getMembers()) {
-				if(m.getUsername().equals(name)){
-					member = m;
-				}
-			}
-			if(member != null) {
-				PacketHandler.sendToServer(new CSPartyPromote(party, member.getUUID()));
-				member.setIsLeader(!member.isLeader());
-			}
-			refreshMembers(null);
+	}
 
-			minecraft.level.playSound(minecraft.player, minecraft.player.blockPosition(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
-			
+	private void promote(UUID id) {
+		if(id.equals(minecraft.player.getUUID())) {
+			minecraft.player.playSound(ModSounds.error.get());
+			return;
 		}
-		updateButtons();
+
+		if(party == null) {
+			return;
+		}
+
+		Member member = party.getMember(id);
+
+		if(member == null) {
+			return;
+		}
+
+		PacketHandler.sendToServer(new CSPartyPromote(party, id));
+		member.setIsLeader(!member.isLeader());
+
+		minecraft.level.playSound(minecraft.player, minecraft.player.blockPosition(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
+
+		refreshMembers();
 	}
 
-	private void updateButtons() {
-		refreshMembers(null);
-	}
-
-	private void refreshMembers(@Nullable GuiGraphics gui) {
+	private void refreshMembers() {
 		worldData = WorldData.getClient();
-		
-		float topBarHeight = (float) height * 0.17F;
-		int button_statsY = (int) topBarHeight + 5;
-		float buttonWidth = (box.getWidth() - 40);
-
-		for(int i = 1;i<renderables.size();i++) {
-			
-			if(!((AbstractWidget)renderables.get(i)).getMessage().getString().startsWith("Refresh")) {
-				renderables.remove(i);
-			}
-		}
-		
-		//Show the buttons to join public parties
 		party = worldData.getPartyFromMember(minecraft.player.getUUID());
+
 		if(party == null) {
 			PacketHandler.sendToServer(new CSOpenMenu());
-        } else {
-			if(!party.getMember(minecraft.player.getUUID()).isLeader()) {
-				minecraft.setScreen(new GuiMenu_Party_Member());
-				return;
-			}
+			return;
+		}
 
-			for(int i = 0; i < party.getMembers().size(); i++) {
-				addRenderableWidget(players[i] = new MenuButton(box.getX()+10, button_statsY + (i * 18), (int)(buttonWidth), party.getMembers().get(i).getUsername(), ButtonType.ROUNDBUTTON, (e) -> { action("member:"+e.getMessage().getString()); }));
-				if(gui != null) {
-					if(party.getMembers().get(i).isLeader()) {
-						gui.drawString(minecraft.font, "Leader", box.getX()+box.getWidth()-minecraft.font.width("Leader")-15,  button_statsY + (i * 18)+6, 0xFF9900);
-					}
-				}
+		Member self = party.getMember(minecraft.player.getUUID());
+
+		if(self == null || !self.isLeader()) {
+			minecraft.setScreen(new GuiMenu_Party_Member());
+			return;
+		}
+
+		List<Member> promotable = party.getMembers().stream().filter(Member::isPlayer).toList();
+		List<UUID> ids = promotable.stream().map(Member::getUUID).toList();
+		List<Boolean> leaders = promotable.stream().map(Member::isLeader).toList();
+
+		if(ids.equals(shown) && leaders.equals(shownLeaders)) {
+			return;
+		}
+
+		for(MenuButton button : memberButtons) {
+			removeWidget(button);
+		}
+
+		memberButtons.clear();
+		shown.clear();
+		shown.addAll(ids);
+		shownLeaders.clear();
+		shownLeaders.addAll(leaders);
+
+		float topBarHeight = (float) height * 0.17F;
+		int button_statsY = (int) topBarHeight + 5;
+		int buttonWidth = box.getWidth() - 40;
+
+		for(int i = 0; i < promotable.size(); i++) {
+			UUID id = promotable.get(i).getUUID();
+
+			MenuButton button = new MenuButton(box.getX() + 10, button_statsY + (i * 18), buttonWidth, promotable.get(i).getUsername(), ButtonType.ROUNDBUTTON, (e) -> promote(id));
+
+			memberButtons.add(button);
+			addRenderableWidget(button);
+		}
+	}
+
+	private void drawLeaderTags(GuiGraphics gui) {
+		if(party == null) {
+			return;
+		}
+
+		float topBarHeight = (float) height * 0.17F;
+		int button_statsY = (int) topBarHeight + 5;
+
+		for(int i = 0; i < shownLeaders.size(); i++) {
+			if(shownLeaders.get(i)) {
+				gui.drawString(minecraft.font, "Leader", box.getX() + box.getWidth() - minecraft.font.width("Leader") - 15, button_statsY + (i * 18) + 6, 0xFF9900);
 			}
 		}
-		
-		
-	
-	}	
+	}
 
 	@Override
 	public void init() {
 		super.init();
-		this.renderables.clear();
-				
+		clearWidgets();
+
+		memberButtons.clear();
+		shown.clear();
+		shownLeaders.clear();
+
 		float topBarHeight = (float) height * 0.17F;
 		int button_statsY = (int) topBarHeight + 5;
 		float buttonPosX = (float) width * 0.03F;
 		float buttonWidth = ((float) width * 0.1744F) - 20;
 		box = new MenuBox((int)(width*0.25F), (int)topBarHeight, (int)(width*0.3F), (int) middleHeight,0.8F, new Color(255,128,255));
 		addRenderableWidget(back = new MenuButton((int) buttonPosX, button_statsY, (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), ButtonType.BUTTON, (e) -> { action("back"); }));
-		updateButtons();
+
+		refreshMembers();
 	}
 
 	@Override
 	public void render(@NotNull GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
 		box.render(gui, mouseX, mouseY, partialTicks);
 		super.render(gui, mouseX, mouseY, partialTicks);
-		worldData = WorldData.getClient();
-		party = worldData.getPartyFromMember(minecraft.player.getUUID());
 
-		gui.pose().pushPose();
-		{
-			float scale = 1.5F;
-			gui.pose().scale(scale, scale, 1);
-			gui.drawString(minecraft.font, Component.literal("["+party.getMembers().size()+"/"+party.getSize()+"] "+party.getName()).withStyle(ClientUtils.KK_Font_EXP), (int) (topLeftBar.getWidth() / scale + topGap) + 5, 10, 0xFF9900);
+		refreshMembers();
+
+		if(party != null) {
+			gui.pose().pushPose();
+			{
+				float scale = 1.5F;
+				gui.pose().scale(scale, scale, 1);
+				gui.drawString(minecraft.font, Component.literal("["+party.getMembers().size()+"/"+party.getSize()+"] "+party.getName()).withStyle(ClientUtils.KK_Font_EXP), (int) (topLeftBar.getWidth() / scale + topGap) + 5, 10, 0xFF9900);
+			}
+			gui.pose().popPose();
 		}
-		gui.pose().popPose();
 
-		refreshMembers(gui);
+		drawLeaderTags(gui);
 	}
 }
