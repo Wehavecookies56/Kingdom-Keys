@@ -1283,6 +1283,16 @@ public class EntityEvents {
 			LivingEntity entity = event.getEntity();
 			Level level = event.getEntity().level();
 
+			if (!(entity instanceof Player)) {
+				WorldData worldData = WorldData.get(entity.getServer());
+				Party party = worldData == null ? null : worldData.getPartyFromMember(entity.getUUID());
+
+				if (party != null) {
+					worldData.removeLeaderMember(party, entity);
+					PacketHandler.sendToAll(new SCSyncWorldData(entity.getServer()));
+				}
+			}
+
 			//Castle oblivion
 			if (CastleOblivionHandler.isInterior(level.dimension())) {
 				if (!(entity instanceof Player)) {

@@ -476,7 +476,7 @@ public class MenuBackground extends Screen {
 			Party party =  worldData.getPartyFromMember(this.player.getUUID());
 			for(int i=0;i<party.getMembers().size();i++) {
 				Party.Member member = party.getMembers().get(i);
-				drawPlayer(gui, party.getMembers().size(), i, member.getUUID(), member.getUsername(), member.isPlayer());
+				drawPlayer(gui, party.getMembers().size(), i, member.getUUID(), member.getUsername(), member.isPlayer(), member.getLevel());
 			}
 		}
 	}
@@ -665,13 +665,13 @@ public class MenuBackground extends Screen {
 	}
 
 	public void drawPlayer(GuiGraphics gui, int count, int order, UUID memberUUID, String memberUsername) {
-		drawPlayer(gui, count, order, memberUUID, memberUsername, true);
+		drawPlayer(gui, count, order, memberUUID, memberUsername, true, 0);
 	}
 
 	/**
-	 * @param isPlayer used for MP or DRIVe refills, if it's not a player it shouldn't do anything to them
+	 * @param isPlayer    used for MP or DRIVe refills, if it's not a player it shouldn't do anything to them
 	 */
-	public void drawPlayer(GuiGraphics gui, int count, int order, UUID memberUUID, String memberUsername, boolean isPlayer) {
+	public void drawPlayer(GuiGraphics gui, int count, int order, UUID memberUUID, String memberUsername, boolean isPlayer, int memberLevel) {
 		PoseStack matrixStack = gui.pose();
 
 		int columns = layoutColumns(count);
@@ -705,6 +705,10 @@ public class MenuBackground extends Screen {
 			member = player;
 		} else {
 			member = Utils.getPartyEntity(minecraft.level, memberUUID);
+
+			if(memberLevel > 0) {
+				level = Utils.translateToLocal(Strings.Gui_Menu_Status_Level)+": "+ memberLevel;
+			}
 
 			if(member != null) {
 				hp = Utils.translateToLocal(Strings.Gui_Menu_Status_HP)+": " + (int) member.getHealth() + "/" + (int) member.getMaxHealth();

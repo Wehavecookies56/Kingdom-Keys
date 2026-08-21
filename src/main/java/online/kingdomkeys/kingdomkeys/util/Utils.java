@@ -110,6 +110,7 @@ import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
 import javax.annotation.Nullable;
 import java.util.*;
 import java.util.Map.Entry;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static online.kingdomkeys.kingdomkeys.item.ICreativeTab.Tab.*;
@@ -2192,6 +2193,32 @@ public class Utils {
 		WorldData worldData = WorldData.get(entity.getServer());
 
 		return worldData == null ? null : worldData.getPartyFromMember(entity.getUUID());
+	}
+
+	/** A trailing " Lv.42", with any colour codes around it, which is how the mod stamps a level onto a mob's name */
+	private static final Pattern LEVEL_SUFFIX = Pattern.compile("(?:\\u00a7.)*\\s*Lv\\.\\s*(?:\\u00a7.)*\\d+(?:\\u00a7.)*\\s*$");
+
+	public static String getBareName(LivingEntity entity) {
+		String name = stripLevel(entity.getDisplayName().getString());
+
+		return name.isBlank() ? entity.getType().getDescription().getString() : name;
+	}
+
+	public static String stripLevel(String name) {
+		String bare = ChatFormatting.stripFormatting(LEVEL_SUFFIX.matcher(name).replaceFirst(""));
+
+		return bare == null ? "" : bare.trim();
+	}
+
+	public static int getEntityLevel(LivingEntity entity) {
+		if (entity instanceof Player player) {
+			PlayerData data = PlayerData.get(player);
+			return data == null ? 0 : data.getLevel();
+		}
+
+		GlobalData data = GlobalData.get(entity);
+
+		return data == null ? 0 : data.getLevel();
 	}
 
 	public static boolean canHarm(@Nullable Entity attacker, @Nullable Entity target) {

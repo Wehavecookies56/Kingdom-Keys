@@ -214,7 +214,12 @@ public class Party {
 		}
 
 		public Member(LivingEntity entity) {
-			this(entity.getUUID(), entity instanceof Player player ? player.getGameProfile().getName() : entity.getDisplayName().getString(), entity instanceof Player);
+			// A mob carries its level inside its name. Taken off here so the menu can put it in the level field, where
+			// it fits, instead of letting the name run off the end of the box
+			this(entity.getUUID(), entity instanceof Player player ? player.getGameProfile().getName() : Utils.getBareName(entity), entity instanceof Player);
+
+			setLevel(Utils.getEntityLevel(entity));
+			setHP((int) entity.getMaxHealth());
 		}
 
 		public Member(Player entity) {
@@ -227,7 +232,7 @@ public class Party {
 
 		public Member(UUID uuid, String username, boolean player) {
 			this.uuid = uuid;
-			this.username = username;
+			this.username = player ? username : Utils.stripLevel(username);
 			this.player = player;
 		}
 
