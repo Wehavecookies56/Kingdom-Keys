@@ -6,15 +6,15 @@
 * New Abilities: Guard, Counterguard, Aerial Recovery and Once more.
 * New Reaction Command: Reversal, when fighting off a Dusk.
 * New Heartless: Air Soldier, Defender, Neoshadow and Novashadow.
+* World Map dimension where gummi ships won't use any fuel, filled with meteors.
+  * Destiny Islands world, built by our beloved builder Ventus.
+  * Mod worlds will have idle and battle tracks which will fade in and out once the player gets in a fight.
+  * Worlds can be set to allow players to build in them, by default true, if false only op players will be able to.
 * Flowmotion Rails, which you can ride once you have the Wall Kick ability.
   * They can be crafted in all 16 colors, different colored rails won't interconnect (unless it's a straight line).
   * Sneaking or flying in creative avoids you grinding on them.
   * Rail jumping power is boosted by the ability superjump.
   * Redstone can be used in intersections just like with vanilla rails.
-* World Map dimension where gummi ships won't use any fuel, filled with meteors.
-  * Destiny Islands world, built by our beloved builder Ventus.
-  * Mod worlds will have idle and battle tracks which will fade in and out once the player gets in a fight.
-  * Worlds can be set to allow non-op players to build in them, by default true, if false only op players will be able to.
 * Option to auto build Gummi Ships based on the blueprint, place items in a chest right next to the hangar and if you have energy stored it will start to build it.
   * Server Config to enable or disable that option.
 * Creative blueprint which builds the ship rather than displaying the hologram when clicking import.
