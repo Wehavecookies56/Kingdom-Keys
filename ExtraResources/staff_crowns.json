@@ -27,7 +27,6 @@
 
 
 	"_builders": "",
-
 	"__Ventus__": {
 		"crowns": ["builder"],
 		"uuids": ["5d4c173c-6a69-483d-a0d8-3c1c16a494e9", "252bfe53-8409-3434-ae6f-c4e6dae26169"]
@@ -40,7 +39,6 @@
 
 
 	"_contributors": "",
-
 	"Hartsa": {
 		"crowns": ["contributor"],
 		"uuids": ["335f4711-fe9c-4f2a-984b-ff7fb3dd1715", "b914eadc-0db7-3daf-b8ad-96848d70c1f1"]
@@ -51,9 +49,13 @@
 		"uuids": ["d0dcd562-892d-4e4a-9cab-bcb9fa1e788c", "e653e605-72ea-347d-b3f1-ee51cb5cb03e"]
 	},
 
+	"Juniperberrry": {
+		"crowns": ["contributor"],
+		"uuids": ["7e1a421b-4d3e-4823-9311-a796c2b9b718", "d7008997-dcba-31d9-bf8d-086bb6f05184"]
+	},
+
 
 	"_addons": "",
-
 	"Cheosultma": {
 		"crowns": ["addon"],
 		"uuids": ["a6d567af-3b69-4668-a8dd-e880b4b6ed7f", "778a7deb-2c3e-3e7b-af42-1fc46b191f76"]
