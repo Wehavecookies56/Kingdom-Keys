@@ -89,9 +89,9 @@ neoForge {
             systemProperty 'neoforge.enableGameTestNamespaces', project.mod_id
         }
 
-        client2 {
+        clientAbelatox {
             client()
-            programArguments.addAll('--username', 'Dev2')
+            programArguments.addAll('--username', 'Abelatox')
         }
 
         server {

@@ -148,7 +148,9 @@ public class PlayerPortraitGui extends OverlayBase {
     }
 
     private void render2D() {
-        if(SKINRL == null) {
+        if(SKINRL == null || minecraft.player.tickCount < 100) { //For the first 5 seconds cache it instantly
+            SKINRL = minecraft.player.getSkin().texture();
+        } else if(minecraft.player.tickCount % 100 == 0) { //Every 5s cache it once
             SKINRL = minecraft.player.getSkin().texture();
         }
         RenderSystem.setShaderTexture(0, SKINRL);
