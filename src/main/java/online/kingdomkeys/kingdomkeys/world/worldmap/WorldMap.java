@@ -42,7 +42,7 @@ public class WorldMap {
 	private static final int CHECK_INTERVAL = 100;
 
 	public static boolean isWorldMap(Entity entity) {
-		return entity.level().dimension().equals(ModDimensions.WORLDMAP);
+		return entity.level().dimension().equals(ModDimensions.OCEAN_BETWEEN);
 	}
 
 	/** Whether this player is the one at the controls of a gummi ship, rather than sitting in the back */
@@ -128,7 +128,7 @@ public class WorldMap {
 
 	@SubscribeEvent
 	public void tick(LevelTickEvent.Post event) {
-		if (event.getLevel() instanceof ServerLevel level && level.dimension().equals(ModDimensions.WORLDMAP) && level.getGameTime() % CHECK_INTERVAL == 0) {
+		if (event.getLevel() instanceof ServerLevel level && level.dimension().equals(ModDimensions.OCEAN_BETWEEN) && level.getGameTime() % CHECK_INTERVAL == 0) {
 			ensureMarkers(level);
 		}
 	}

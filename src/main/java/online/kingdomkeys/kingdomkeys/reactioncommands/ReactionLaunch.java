@@ -25,7 +25,7 @@ public class ReactionLaunch extends ReactionCommand {
 			return;
 		}
 
-		ServerLevel worldmap = serverPlayer.getServer().getLevel(ModDimensions.WORLDMAP);
+		ServerLevel worldmap = serverPlayer.getServer().getLevel(ModDimensions.OCEAN_BETWEEN);
 		if (worldmap == null) {
 			return;
 		}

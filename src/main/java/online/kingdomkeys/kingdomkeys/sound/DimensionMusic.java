@@ -24,7 +24,7 @@ public final class DimensionMusic {
 	public record Theme(Holder<SoundEvent> calm, @Nullable Holder<SoundEvent> battle) {}
 
 	private static final Map<ResourceKey<Level>, Theme> THEMES = Map.of(
-			ModDimensions.WORLDMAP, new Theme(ModSounds.Music_World_Map, null),
+			ModDimensions.OCEAN_BETWEEN, new Theme(ModSounds.Music_World_Map, null),
 			ModDimensions.DAYBREAK_TOWN, new Theme(ModSounds.Music_Daybreak_Town, ModSounds.Music_Daybreak_Town_Battle),
 			ModDimensions.DESTINY_ISLANDS, new Theme(ModSounds.Music_Destiny_Islands, ModSounds.Music_Destiny_Islands_Battle)
 	);

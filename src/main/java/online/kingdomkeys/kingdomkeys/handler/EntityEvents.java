@@ -1682,7 +1682,7 @@ public class EntityEvents {
 			ServerLevel world = player.getServer().getLevel(e.getTo());
 			// The star map's markers aren't saved to disk, so they're put back whenever anyone arrives -
 			// including by command, not just by taking off.
-			if (e.getTo() == ModDimensions.WORLDMAP && world != null) {
+			if (e.getTo() == ModDimensions.OCEAN_BETWEEN && world != null) {
 				WorldMap.ensureMarkers(world);
 			}
 			if (e.getTo() == ModDimensions.STATION_OF_SORROW) {

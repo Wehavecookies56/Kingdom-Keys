@@ -23,7 +23,7 @@ public class ModDimensions {
     public static final ResourceKey<Level> CASTLE_OBLIVION = ResourceKey.create(Registries.DIMENSION, KingdomKeys.rl(Strings.castleOblivion));
     public static final ResourceKey<Level> DAYBREAK_TOWN = ResourceKey.create(Registries.DIMENSION, KingdomKeys.rl(Strings.daybreakTown));
     public static final ResourceKey<Level> DESTINY_ISLANDS = ResourceKey.create(Registries.DIMENSION, KingdomKeys.rl(Strings.destinyIslands));
-    public static final ResourceKey<Level> WORLDMAP = ResourceKey.create(Registries.DIMENSION, KingdomKeys.rl(Strings.worldmap));
+    public static final ResourceKey<Level> OCEAN_BETWEEN = ResourceKey.create(Registries.DIMENSION, KingdomKeys.rl(Strings.oceanBetween));
 
     public static final DeferredRegister<MapCodec<? extends ChunkGenerator>> CHUNK_GENERATORS = DeferredRegister.create(Registries.CHUNK_GENERATOR,  KingdomKeys.MODID);
 

@@ -33,7 +33,7 @@ public class WorldMapRenderer {
 		Minecraft mc = Minecraft.getInstance();
 		PoseStack pose = event.getPoseStack();
 
-		if (pose == null || mc.level == null || !mc.level.dimension().equals(ModDimensions.WORLDMAP) || GummiWorldLoader.all().isEmpty()) {
+		if (pose == null || mc.level == null || !mc.level.dimension().equals(ModDimensions.OCEAN_BETWEEN) || GummiWorldLoader.all().isEmpty()) {
 			return;
 		}
 

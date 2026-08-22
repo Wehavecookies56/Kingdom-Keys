@@ -1,5 +1,5 @@
 {
-  "type": "kingdomkeys:worldmap",
+  "type": "kingdomkeys:ocean_between",
   "generator": {
     "type": "kingdomkeys:worldmap_generator",
     "biome_source": {

@@ -71,7 +71,7 @@ public class DimensionCommand extends BaseCommand {
 	}
 
 	private static Vec2 getWorldLook(Player player, ResourceKey<Level> dimension) {
-		if (dimension == ModDimensions.WORLDMAP) {
+		if (dimension == ModDimensions.OCEAN_BETWEEN) {
 			GummiWorld from = GummiWorldLoader.forDimension(player.level().dimension());
 			return from == null ? null : from.takeOffLook();
 		}
@@ -84,7 +84,7 @@ public class DimensionCommand extends BaseCommand {
 		if (dimension.location().toString().contains("castle_oblivion_interior_")) {
 			return new BlockPos(8, 62, 8);
 		}
-		if (dimension == ModDimensions.WORLDMAP) {
+		if (dimension == ModDimensions.OCEAN_BETWEEN) {
 			// Drop next to whichever world you were flying over, or the origin if it isn't on the map.
 			GummiWorld world = GummiWorldLoader.forDimension(player.level().dimension());
 			Vec3 at = world != null ? world.takeOffSpawn() : Vec3.ZERO.add(0, 128, 0);
