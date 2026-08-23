@@ -19,7 +19,7 @@ public class DefenderRenderer<Type extends DefenderEntity> extends MobRenderer<T
 
 	@Override
 	protected void scale(Type entity, PoseStack matrixStackIn, float partialTickTime) {
-		matrixStackIn.scale(1.2F, 1.2F, 1.2F);
+		matrixStackIn.scale(1.8F, 1.8F, 1.8F);
 		super.scale(entity, matrixStackIn, partialTickTime);
 	}
 

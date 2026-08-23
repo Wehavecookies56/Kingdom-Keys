@@ -195,7 +195,7 @@ public class ModEntities {
     public static final DeferredHolder<EntityType<?>, EntityType<AirSoldierEntity>> TYPE_AIR_SOLDIER = createEntityType(AirSoldierEntity::new, MobCategory.MONSTER, "air_soldier", 0.9F, 1.8F);
     public static final Supplier<Item> AIR_SOLDIER_EGG = ModItems.ITEMS.register("air_soldier_spawn_egg", () -> new DeferredSpawnEggItem(TYPE_AIR_SOLDIER, 0x2f4f8f, Color.WHITE.getRGB(), PROPERTIES));
 
-    public static final DeferredHolder<EntityType<?>, EntityType<DefenderEntity>> TYPE_DEFENDER = createEntityType(DefenderEntity::new, MobCategory.MONSTER, "defender", 1.0F, 1.9F);
+    public static final DeferredHolder<EntityType<?>, EntityType<DefenderEntity>> TYPE_DEFENDER = createEntityType(DefenderEntity::new, MobCategory.MONSTER, "defender", 1.4F, 2.7F);
     public static final Supplier<Item> DEFENDER_EGG = ModItems.ITEMS.register("defender_spawn_egg", () -> new DeferredSpawnEggItem(TYPE_DEFENDER, 0x332C58, 0x7975FF, PROPERTIES));
 
     public static final DeferredHolder<EntityType<?>, EntityType<NeoshadowEntity>> TYPE_NEOSHADOW = createEntityType(NeoshadowEntity::new, MobCategory.MONSTER, "neoshadow", 0.7F, 1.5F);
