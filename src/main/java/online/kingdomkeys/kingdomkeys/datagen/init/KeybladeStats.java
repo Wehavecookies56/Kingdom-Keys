@@ -68,7 +68,7 @@ public class KeybladeStats extends KeybladeProvider {
 		addStats(Strings.followTheWind, Strings.followTheWindChain, 4, 2, ModAbilities.TREASURE_MAGNET.location(), 1.0F, ModSounds.generic_hit.get());
 		addStats(Strings.frolicFlame, Strings.frolicFlameChain, 5, 5, ModAbilities.FIRE_BOOST.location(), 1.0F, ModSounds.bond_of_the_blaze_hit.get());
 		addStats(Strings.glimpseOfDarkness, Strings.glimpseOfDarknessChain, 7, 3, null, 1.0F, ModSounds.generic_hit.get());
-		addStats(Strings.grandChef, Strings.grandChefChain, 4, 6, ModAbilities.FIRE_BOOST.location(), 1.0F, ModSounds.generic_hit.get());
+		addStats(Strings.grandChef, Strings.grandChefChain, 4, 6, ModAbilities.FIRE_BOOST.location(), 1.0F, ModSounds.bond_of_the_blaze_hit.get());
 		addStats(Strings.guardianBell, Strings.guardianBellChain, 4, 5, null, 1.5F, ModSounds.generic_hit.get());
 		addStats(Strings.guardianSoul, Strings.guardianSoulChain, 7, 4, null, 1.0F, ModSounds.generic_hit.get());
 		addStats(Strings.gulasKeyblade, Strings.gulasKeybladeChain, 8, 7, null, 1.0F, ModSounds.generic_hit.get());
