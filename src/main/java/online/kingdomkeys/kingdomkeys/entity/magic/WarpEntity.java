@@ -19,7 +19,6 @@ import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.mob.MarluxiaEntity;
-import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import org.joml.Vector3f;
 

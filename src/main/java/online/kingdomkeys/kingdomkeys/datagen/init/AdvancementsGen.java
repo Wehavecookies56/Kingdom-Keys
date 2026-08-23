@@ -2,12 +2,7 @@ package online.kingdomkeys.kingdomkeys.datagen.init;
 
 import com.mojang.authlib.properties.PropertyMap;
 import net.minecraft.advancements.*;
-import net.minecraft.advancements.critereon.ChangeDimensionTrigger;
-import net.minecraft.advancements.critereon.EntityPredicate;
-import net.minecraft.advancements.critereon.InventoryChangeTrigger;
-import net.minecraft.advancements.critereon.ItemPredicate;
-import net.minecraft.advancements.critereon.PlayerInteractTrigger;
-import net.minecraft.advancements.critereon.PlayerTrigger;
+import net.minecraft.advancements.critereon.*;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;

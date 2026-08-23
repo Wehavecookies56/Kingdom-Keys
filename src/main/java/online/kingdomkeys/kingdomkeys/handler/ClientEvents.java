@@ -19,8 +19,6 @@ import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
-import net.minecraft.client.resources.sounds.SimpleSoundInstance;
-import net.minecraft.client.resources.sounds.SoundInstance;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
@@ -28,10 +26,9 @@ import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
@@ -57,7 +54,6 @@ import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.*;
-import net.neoforged.neoforge.client.event.sound.PlaySoundEvent;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
@@ -69,12 +65,14 @@ import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.block.gummi.GummiBlockBase;
 import online.kingdomkeys.kingdomkeys.block.gummi.GummiPlacementType;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
+import online.kingdomkeys.kingdomkeys.client.Reversal;
 import online.kingdomkeys.kingdomkeys.client.TrailRenderer;
 import online.kingdomkeys.kingdomkeys.client.gui.KOGui;
 import online.kingdomkeys.kingdomkeys.client.gui.StopGui;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.CommandMenuSubMenu;
 import online.kingdomkeys.kingdomkeys.client.gui.overlay.CommandMenuGui;
 import online.kingdomkeys.kingdomkeys.client.gui.overlay.ItemGetGui;
+import online.kingdomkeys.kingdomkeys.client.render.BossDeathRays;
 import online.kingdomkeys.kingdomkeys.client.shotlock.ShotlockMinigameClient;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
@@ -83,35 +81,26 @@ import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
-import online.kingdomkeys.kingdomkeys.entity.mob.MarluxiaEntity;
 import online.kingdomkeys.kingdomkeys.entity.GummiShipEntity;
 import online.kingdomkeys.kingdomkeys.entity.KKVehicleEntity;
+import online.kingdomkeys.kingdomkeys.entity.mob.BaseKHEntity;
+import online.kingdomkeys.kingdomkeys.entity.mob.MarluxiaEntity;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.EpicFightUtils;
 import online.kingdomkeys.kingdomkeys.integration.shouldersurfing.KKShoulderSurfing;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.item.WayfinderItem;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
-import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.SoAState;
 import online.kingdomkeys.kingdomkeys.lib.Struggle;
-import net.minecraft.world.InteractionHand;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import net.neoforged.neoforge.client.event.CalculatePlayerTurnEvent;
-import net.neoforged.neoforge.client.event.MovementInputUpdateEvent;
-import net.neoforged.neoforge.client.event.InputEvent;
-import net.neoforged.neoforge.client.event.RenderHandEvent;
-import online.kingdomkeys.kingdomkeys.util.CombatAbilities;
 import online.kingdomkeys.kingdomkeys.network.cts.*;
 import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
-import net.neoforged.neoforge.client.event.RenderLivingEvent;
-import online.kingdomkeys.kingdomkeys.client.Reversal;
-import online.kingdomkeys.kingdomkeys.client.render.BossDeathRays;
-import online.kingdomkeys.kingdomkeys.entity.mob.BaseKHEntity;
 import online.kingdomkeys.kingdomkeys.sound.AlarmSoundInstance;
 import online.kingdomkeys.kingdomkeys.sound.DimensionMusic;
 import online.kingdomkeys.kingdomkeys.sound.FlowmotionSoundInstance;
 import online.kingdomkeys.kingdomkeys.sound.KOSoundInstance;
+import online.kingdomkeys.kingdomkeys.util.CombatAbilities;
 import online.kingdomkeys.kingdomkeys.util.IDisabledAnimations;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.world.StruggleHandler;
@@ -121,7 +110,6 @@ import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.reg
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.Room;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.RoomData;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.modifiers.RoomModifier;
-import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.lwjgl.glfw.GLFW;
@@ -131,31 +119,6 @@ import java.util.ArrayList;
 import java.util.function.Supplier;
 
 public class ClientEvents {
-
-	@SubscribeEvent
-	public void onPlaySound(PlaySoundEvent event) {
-	/*	SoundInstance sound = event.getSound();
-		System.out.println(sound);
-		if (sound == null)
-			return;
-
-		ResourceLocation loc = sound.getLocation();
-		boolean isAttackSound = loc.equals(SoundEvents.PLAYER_ATTACK_STRONG.getLocation()) || loc.equals(SoundEvents.PLAYER_ATTACK_WEAK.getLocation()) || loc.equals(SoundEvents.PLAYER_ATTACK_SWEEP.getLocation()) || loc.equals(SoundEvents.PLAYER_ATTACK_CRIT.getLocation()) || loc.equals(SoundEvents.PLAYER_ATTACK_KNOCKBACK.getLocation());
-		if (!isAttackSound)
-			return;
-
-		Player player = Minecraft.getInstance().player;
-		if (player == null)
-			return;
-
-		ItemStack held = player.getMainHandItem();
-		if (held.getItem() instanceof KeybladeItem keyblade) {
-			SoundEvent customSound = keyblade.data.getSound();
-			if (customSound != null) {
-				event.setSound(SimpleSoundInstance.forUI(customSound, player.getRandom().nextFloat() * 0.2F + 0.9F));
-			}
-		}*/
-	}
 
 	@SubscribeEvent
 	public void onRenderBossDeath(RenderLivingEvent.Pre<?, ?> event) {

@@ -1,11 +1,13 @@
 package online.kingdomkeys.kingdomkeys.lib;
 
+import com.mojang.datafixers.util.Either;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -17,16 +19,9 @@ import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.common.util.INBTSerializable;
 
-import java.util.ArrayList;
-import java.util.stream.IntStream;
+import java.util.*;
 import java.util.function.Function;
-import net.minecraft.nbt.ListTag;
-import com.mojang.datafixers.util.Either;
-import java.util.Arrays;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.stream.IntStream;
 
 public class GummiStructure implements INBTSerializable<CompoundTag> {
     private UUID ownerID;

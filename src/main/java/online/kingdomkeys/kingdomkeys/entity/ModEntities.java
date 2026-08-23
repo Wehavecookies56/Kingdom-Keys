@@ -39,14 +39,13 @@ import online.kingdomkeys.kingdomkeys.entity.drops.*;
 import online.kingdomkeys.kingdomkeys.entity.magic.*;
 import online.kingdomkeys.kingdomkeys.entity.mob.*;
 import online.kingdomkeys.kingdomkeys.entity.organization.*;
-import online.kingdomkeys.kingdomkeys.entity.worldmap.WorldMarkerEntity;
 import online.kingdomkeys.kingdomkeys.entity.shotlock.*;
+import online.kingdomkeys.kingdomkeys.entity.worldmap.WorldMarkerEntity;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 
 import java.awt.*;
 import java.util.*;
 import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
 import java.util.function.Supplier;
 

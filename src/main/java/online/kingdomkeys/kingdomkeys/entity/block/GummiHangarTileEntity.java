@@ -1,52 +1,51 @@
 package online.kingdomkeys.kingdomkeys.entity.block;
 
-import java.util.ArrayList;
-import java.util.Set;
-import java.util.HashSet;
-
-import net.minecraft.sounds.SoundSource;
-import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
-import online.kingdomkeys.kingdomkeys.entity.GummiPieceEntity;
-import net.minecraft.world.phys.AABB;
-import online.kingdomkeys.kingdomkeys.lib.GummiStructure;
-import online.kingdomkeys.kingdomkeys.item.ModComponents;
-import online.kingdomkeys.kingdomkeys.block.gummi.GummiBlockBase;
-import net.neoforged.neoforge.capabilities.Capabilities;
-import net.minecraft.world.level.block.Rotation;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.item.Item;
-import net.minecraft.core.Direction;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
+import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.common.util.Lazy;
 import net.neoforged.neoforge.energy.EnergyStorage;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.ItemStackHandler;
+import online.kingdomkeys.kingdomkeys.block.gummi.GummiBlockBase;
 import online.kingdomkeys.kingdomkeys.block.gummi.GummiHangarBlock;
+import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
+import online.kingdomkeys.kingdomkeys.entity.GummiPieceEntity;
 import online.kingdomkeys.kingdomkeys.entity.GummiShipEntity;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.item.GummiShipBlueprintItem;
+import online.kingdomkeys.kingdomkeys.item.ModComponents;
+import online.kingdomkeys.kingdomkeys.lib.GummiStructure;
 import online.kingdomkeys.kingdomkeys.menu.GummiHangarMenu;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class GummiHangarTileEntity extends BlockEntity implements MenuProvider {
 	public static final int NUMBER_OF_SLOTS = 2;

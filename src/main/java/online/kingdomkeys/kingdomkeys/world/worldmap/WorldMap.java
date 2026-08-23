@@ -14,7 +14,6 @@ import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.portal.DimensionTransition;
 import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
-import javax.annotation.Nullable;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.event.entity.living.MobSpawnEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
@@ -26,11 +25,8 @@ import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.worldmap.WorldMarkerEntity;
 import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import javax.annotation.Nullable;
+import java.util.*;
 
 public class WorldMap {
 

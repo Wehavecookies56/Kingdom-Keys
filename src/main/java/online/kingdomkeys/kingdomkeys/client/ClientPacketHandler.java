@@ -10,6 +10,7 @@ import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -75,6 +76,8 @@ import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopListRegistry;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.names.NamesListRegistry;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.sell.SellListRegistry;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+import online.kingdomkeys.kingdomkeys.world.worldmap.GummiWorld;
+import online.kingdomkeys.kingdomkeys.world.worldmap.GummiWorldLoader;
 import org.apache.commons.io.IOUtils;
 
 import java.io.BufferedReader;
@@ -85,9 +88,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import net.minecraft.resources.ResourceLocation;
-import online.kingdomkeys.kingdomkeys.world.worldmap.GummiWorld;
-import online.kingdomkeys.kingdomkeys.world.worldmap.GummiWorldLoader;
 
 public class ClientPacketHandler {
 

@@ -17,12 +17,11 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
-import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.damagesource.KKDamageTypes;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.util.Utils;
-
 import org.joml.Vector3f;
 
 import java.util.List;

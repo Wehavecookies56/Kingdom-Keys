@@ -59,6 +59,7 @@ import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.item.organization.OrganizationDataLoader;
 import online.kingdomkeys.kingdomkeys.leveling.LevelingDataLoader;
 import online.kingdomkeys.kingdomkeys.leveling.ModLevels;
+import online.kingdomkeys.kingdomkeys.lib.GummiShipLoader;
 import online.kingdomkeys.kingdomkeys.limit.LimitDataLoader;
 import online.kingdomkeys.kingdomkeys.limit.ModLimits;
 import online.kingdomkeys.kingdomkeys.loot.ModLootModifier;
@@ -67,9 +68,6 @@ import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.menu.ModMenus;
 import online.kingdomkeys.kingdomkeys.reactioncommands.ModReactionCommands;
 import online.kingdomkeys.kingdomkeys.savepoint.SavePointDataLoader;
-import online.kingdomkeys.kingdomkeys.lib.GummiShipLoader;
-import online.kingdomkeys.kingdomkeys.world.worldmap.GummiWorldLoader;
-import online.kingdomkeys.kingdomkeys.world.worldmap.WorldMap;
 import online.kingdomkeys.kingdomkeys.shotlock.ModShotlocks;
 import online.kingdomkeys.kingdomkeys.shotlock.ShotlockDataLoader;
 import online.kingdomkeys.kingdomkeys.shotlock.minigame.ShotlockMinigameHandler;
@@ -89,6 +87,8 @@ import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.reg
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModRoomModifiers;
 import online.kingdomkeys.kingdomkeys.world.features.ModFeatures;
 import online.kingdomkeys.kingdomkeys.world.structure.ModStructures;
+import online.kingdomkeys.kingdomkeys.world.worldmap.GummiWorldLoader;
+import online.kingdomkeys.kingdomkeys.world.worldmap.WorldMap;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

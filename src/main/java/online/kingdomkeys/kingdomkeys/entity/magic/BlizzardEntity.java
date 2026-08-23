@@ -13,11 +13,9 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import online.kingdomkeys.kingdomkeys.damagesource.KKDamageTypes;
-import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
-import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class BlizzardEntity extends BaseMagicProjectile {

@@ -11,7 +11,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import online.kingdomkeys.kingdomkeys.damagesource.KKDamageTypes;
-import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.util.Utils;

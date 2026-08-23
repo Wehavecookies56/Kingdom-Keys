@@ -1,6 +1,5 @@
 package online.kingdomkeys.kingdomkeys.entity.mob;
 
-import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -24,7 +23,6 @@ import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.mob.goal.MarluxiaGoal;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import org.jetbrains.annotations.Nullable;
-import org.joml.Vector3f;
 
 public class MarluxiaEntity extends BaseKHEntity {
 

@@ -13,8 +13,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.*;
-import org.joml.Vector3f;
 import online.kingdomkeys.kingdomkeys.block.gummi.GummiWeaponBlock;
+import org.joml.Vector3f;
 
 import javax.annotation.Nullable;
 import java.util.HashSet;

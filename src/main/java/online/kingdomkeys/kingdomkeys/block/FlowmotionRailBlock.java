@@ -4,6 +4,8 @@ import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
@@ -13,8 +15,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.RailShape;
 import net.minecraft.world.phys.Vec3;
 
-import net.minecraft.world.item.DyeColor;
-import net.minecraft.world.item.context.BlockPlaceContext;
 import javax.annotation.Nullable;
 
 public class FlowmotionRailBlock extends RailBlock {
