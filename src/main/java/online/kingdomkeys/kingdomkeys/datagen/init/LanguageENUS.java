@@ -669,6 +669,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add("kingdomkeys.poster.dimension", "Dimension: ");
         add("kingdomkeys.poster.coords", "Coords: ");
         add("kingdomkeys.poster.save_hint", "Sneak + right click on a Struggle board to save it's location!");
+        add("kingdomkeys.poster.use_compass","Right click it with a compass in hand to tune it!");
 
 
         add("savepoint.healing","healing");

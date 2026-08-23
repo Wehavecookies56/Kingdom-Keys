@@ -140,6 +140,8 @@ public class PosterEntity extends HangingEntity {
             }
             player.level().playSound(null, player.blockPosition(),SoundEvents.LODESTONE_COMPASS_LOCK, SoundSource.PLAYERS, 1.0F, 1.0F);
             return InteractionResult.sidedSuccess(this.level().isClientSide);
+        } else {
+            player.displayClientMessage(Component.translatable("kingdomkeys.poster.use_compass"), true);
         }
         return super.interact(player, hand);
     }

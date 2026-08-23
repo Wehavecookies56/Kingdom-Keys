@@ -935,6 +935,7 @@ public class LanguageESES extends KKLanguageProvider {
         add("kingdomkeys.poster.dimension", "Dimensión: ");
         add("kingdomkeys.poster.coords", "Coordenadas: ");
         add("kingdomkeys.poster.save_hint", "¡Agáchate + clic derecho en un tablero de Struggle para guardar su ubicación!");
+        add("kingdomkeys.poster.use_compass","¡Usa clic derecho con una brújula en mano para sintonizarla!");
 
 
         add("savepoint.drive", "recuperaci\u00f3n de fusi\u00f3n");

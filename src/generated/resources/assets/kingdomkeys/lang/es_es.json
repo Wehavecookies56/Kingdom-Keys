@@ -2821,6 +2821,7 @@
   "kingdomkeys.poster.retuned": "¡Brújula resintonizada con la ubicación del Struggle!",
   "kingdomkeys.poster.save_hint": "¡Agáchate + clic derecho en un tablero de Struggle para guardar su ubicación!",
   "kingdomkeys.poster.saved": "¡Ubicación del tablero de Struggle guardada!",
+  "kingdomkeys.poster.use_compass": "¡Usa clic derecho con una brújula en mano para sintonizarla!",
   "kingdomkeys.save_point.cannot_upgrade": "Este objeto no sirve para mejorar nada",
   "kingdomkeys.save_point.data_not_loaded": "Los datos del punto de guardado no se han cargado",
   "kingdomkeys.save_point.old_savepoint": "ERROR: probablemente sea un punto de guardado antiguo; rómpelo y vuelve a colocarlo para corregirlo",

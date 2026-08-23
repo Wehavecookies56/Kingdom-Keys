@@ -2877,6 +2877,7 @@
   "kingdomkeys.poster.retuned": "Compass re-tuned to the Struggle board!",
   "kingdomkeys.poster.save_hint": "Sneak + right click on a Struggle board to save it's location!",
   "kingdomkeys.poster.saved": "Struggle board location saved!",
+  "kingdomkeys.poster.use_compass": "Right click it with a compass in hand to tune it!",
   "kingdomkeys.save_point.cannot_upgrade": "This item cannot be used to upgrade anything",
   "kingdomkeys.save_point.data_not_loaded": "Savepoint data not loaded",
   "kingdomkeys.save_point.old_savepoint": "ERROR, this is probably an old savepoint, break and place it again to correct it",
