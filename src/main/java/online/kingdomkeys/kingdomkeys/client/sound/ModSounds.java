@@ -118,7 +118,19 @@ public class ModSounds {
 			wall_grab = registerSound("wall_grab"),
 			air_slide = registerSound("air_slide"),
 
-            
+			kingdom_key_hit = registerSound("keyblade_hit/kingdom_key_hit"),
+			bond_of_the_blaze_hit = registerSound("keyblade_hit/bond_of_the_blaze_hit"),
+			star_cluster_hit = registerSound("keyblade_hit/star_cluster_hit"),
+			oblivion_hit = registerSound("keyblade_hit/oblivion_hit"),
+			oathkeeper_hit = registerSound("keyblade_hit/oathkeeper_hit"),
+			way_to_dawn_hit = registerSound("keyblade_hit/way_to_dawn_hit"),
+			destinys_embrace_hit = registerSound("keyblade_hit/destinys_embrace_hit"),
+			rainfell_hit = registerSound("keyblade_hit/rainfell_hit"),
+			earthshaker_hit = registerSound("keyblade_hit/earthshaker_hit"),
+			wayward_wind_hit = registerSound("keyblade_hit/wayward_wind_hit"),
+			braveheart_hit = registerSound("keyblade_hit/braveheart_hit"),
+			generic_hit =  registerSound("keyblade_hit/generic_hit"),
+
             Record_Birth_by_Sleep_A_Link_to_the_Future = registerSound("records/birth_by_sleep_a_link_to_the_future"),
             Record_Dream_Drop_Distance_The_Next_Awakening = registerSound("records/dream_drop_distance_the_next_awakening"),
             Record_Hikari_KINGDOM_Instrumental_Version = registerSound("records/hikari_kingdom_instrumental_version"),

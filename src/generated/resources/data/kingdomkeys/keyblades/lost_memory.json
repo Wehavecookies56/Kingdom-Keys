@@ -191,5 +191,6 @@
       "str": 12
     }
   ],
-  "reach": 1.5
+  "reach": 1.5,
+  "sound": "kingdomkeys:keyblade_hit/wayward_wind_hit"
 }

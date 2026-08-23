@@ -6,12 +6,15 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvent;
 import net.neoforged.neoforge.client.model.generators.ModelFile;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.datagen.init.KeybladeStats;
 import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeLevel;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class KeybladeBuilder extends ModelFile {
 
@@ -20,6 +23,7 @@ public class KeybladeBuilder extends ModelFile {
     private String desc;
     private ResourceLocation baseAbility;
     private float reach;
+    private SoundEvent sound;
     private final ArrayList<KeybladeLevel> keybladeLevels = new ArrayList<>();
 
     public KeybladeBuilder(Object o, Object o1) {
@@ -83,8 +87,13 @@ public class KeybladeBuilder extends ModelFile {
     }
 
     public KeybladeBuilder reach(float reach) {
-    	this.reach = reach;
-    	return self();
+        this.reach = reach;
+        return self();
+    }
+
+    public KeybladeBuilder sound(SoundEvent sound) {
+        this.sound = sound;
+        return self();
     }
     
     @Override
@@ -101,7 +110,7 @@ public class KeybladeBuilder extends ModelFile {
             root.addProperty("ability", baseAbility.toString());
         }
         root.addProperty("reach", reach);
-        
+	    root.addProperty("sound", BuiltInRegistries.SOUND_EVENT.getKey(Objects.requireNonNullElseGet(sound, ModSounds.generic_hit::get)).toString());
         if (this.keychain != null) {
             root.addProperty("keychain", this.keychain.toString());
         }
@@ -122,7 +131,8 @@ public class KeybladeBuilder extends ModelFile {
                    JsonObject matObj = new JsonObject();
                    matObj.addProperty("material", BuiltInRegistries.ITEM.getKey(key).toString());
                    matObj.addProperty("quantity", value);
-                   recipe.add(matObj); });
+                   recipe.add(matObj);
+               });
             obj1.add("recipe", recipe);
             if (k.getAbility() != null)
                 obj1.addProperty("ability", k.getAbility().toString());

@@ -44,11 +44,8 @@ import net.neoforged.neoforge.event.OnDatapackSyncEvent;
 import net.neoforged.neoforge.event.PlayLevelSoundEvent;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.entity.living.*;
-import net.neoforged.neoforge.event.entity.player.AdvancementEvent;
+import net.neoforged.neoforge.event.entity.player.*;
 import net.neoforged.neoforge.common.util.TriState;
-import net.neoforged.neoforge.event.entity.player.ItemEntityPickupEvent;
-import net.neoforged.neoforge.event.entity.player.PlayerEvent;
-import net.neoforged.neoforge.event.entity.player.PlayerXpEvent;
 import net.neoforged.neoforge.event.level.BlockEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
@@ -152,6 +149,19 @@ public class EntityEvents {
 	}
 
 	@SubscribeEvent
+	public void onAttack(AttackEntityEvent event) {
+	/*Player player = event.getEntity();
+
+		ItemStack held = player.getMainHandItem();
+		if (held.getItem() instanceof KeybladeItem keyblade) {
+			SoundEvent customSound = keyblade.data.getSound();
+			if (customSound != null) {
+				player.level().playSound(null,player.getX(), player.getY(), player.getZ(), customSound, SoundSource.PLAYERS, 1.0F, player.getRandom().nextFloat() * 0.2F + 0.9F);
+			}
+		}*/
+	}
+
+	@SubscribeEvent
 	public void soundPlayed(PlayLevelSoundEvent.AtEntity event) {
 		if (event.getEntity() instanceof Player player && event.getSound().value().getLocation().getPath().contains("step")) {
 			ItemStack chest = player.getItemBySlot(EquipmentSlot.CHEST);
@@ -161,6 +171,7 @@ public class EntityEvents {
 				event.getEntity().playSound(ModSounds.keyblade_armor.get());
 			}
 		}
+		//System.out.println(event.getSound().value().getLocation().getPath());
 	}
 
 	@SubscribeEvent

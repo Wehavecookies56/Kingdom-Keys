@@ -175,5 +175,6 @@
       "str": 9
     }
   ],
-  "reach": 1.0
+  "reach": 1.0,
+  "sound": "kingdomkeys:keyblade_hit/star_cluster_hit"
 }

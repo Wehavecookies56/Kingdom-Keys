@@ -192,5 +192,6 @@
       "str": 12
     }
   ],
-  "reach": 1.0
+  "reach": 1.0,
+  "sound": "kingdomkeys:keyblade_hit/oathkeeper_hit"
 }

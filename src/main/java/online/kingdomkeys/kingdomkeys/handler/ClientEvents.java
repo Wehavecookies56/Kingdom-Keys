@@ -19,6 +19,8 @@ import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
+import net.minecraft.client.resources.sounds.SimpleSoundInstance;
+import net.minecraft.client.resources.sounds.SoundInstance;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
@@ -26,6 +28,8 @@ import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
@@ -53,6 +57,7 @@ import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.*;
+import net.neoforged.neoforge.client.event.sound.PlaySoundEvent;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
@@ -116,6 +121,7 @@ import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.reg
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.Room;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.RoomData;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.modifiers.RoomModifier;
+import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.lwjgl.glfw.GLFW;
@@ -125,6 +131,31 @@ import java.util.ArrayList;
 import java.util.function.Supplier;
 
 public class ClientEvents {
+
+	@SubscribeEvent
+	public void onPlaySound(PlaySoundEvent event) {
+	/*	SoundInstance sound = event.getSound();
+		System.out.println(sound);
+		if (sound == null)
+			return;
+
+		ResourceLocation loc = sound.getLocation();
+		boolean isAttackSound = loc.equals(SoundEvents.PLAYER_ATTACK_STRONG.getLocation()) || loc.equals(SoundEvents.PLAYER_ATTACK_WEAK.getLocation()) || loc.equals(SoundEvents.PLAYER_ATTACK_SWEEP.getLocation()) || loc.equals(SoundEvents.PLAYER_ATTACK_CRIT.getLocation()) || loc.equals(SoundEvents.PLAYER_ATTACK_KNOCKBACK.getLocation());
+		if (!isAttackSound)
+			return;
+
+		Player player = Minecraft.getInstance().player;
+		if (player == null)
+			return;
+
+		ItemStack held = player.getMainHandItem();
+		if (held.getItem() instanceof KeybladeItem keyblade) {
+			SoundEvent customSound = keyblade.data.getSound();
+			if (customSound != null) {
+				event.setSound(SimpleSoundInstance.forUI(customSound, player.getRandom().nextFloat() * 0.2F + 0.9F));
+			}
+		}*/
+	}
 
 	@SubscribeEvent
 	public void onRenderBossDeath(RenderLivingEvent.Pre<?, ?> event) {

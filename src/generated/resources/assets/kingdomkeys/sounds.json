@@ -105,6 +105,66 @@
       "kingdomkeys:keyblade_armor2"
     ]
   },
+  "keyblade_hit/bond_of_the_blaze_hit": {
+    "sounds": [
+      "kingdomkeys:keyblade_hit/bond_of_the_blaze_hit"
+    ]
+  },
+  "keyblade_hit/braveheart_hit": {
+    "sounds": [
+      "kingdomkeys:keyblade_hit/braveheart_hit"
+    ]
+  },
+  "keyblade_hit/destinys_embrace_hit": {
+    "sounds": [
+      "kingdomkeys:keyblade_hit/destinys_embrace_hit"
+    ]
+  },
+  "keyblade_hit/earthshaker_hit": {
+    "sounds": [
+      "kingdomkeys:keyblade_hit/earthshaker_hit"
+    ]
+  },
+  "keyblade_hit/generic_hit": {
+    "sounds": [
+      "kingdomkeys:keyblade_hit/generic_hit"
+    ]
+  },
+  "keyblade_hit/kingdom_key_hit": {
+    "sounds": [
+      "kingdomkeys:keyblade_hit/kingdom_key_hit"
+    ]
+  },
+  "keyblade_hit/oathkeeper_hit": {
+    "sounds": [
+      "kingdomkeys:keyblade_hit/oathkeeper_hit"
+    ]
+  },
+  "keyblade_hit/oblivion_hit": {
+    "sounds": [
+      "kingdomkeys:keyblade_hit/oblivion_hit"
+    ]
+  },
+  "keyblade_hit/rainfell_hit": {
+    "sounds": [
+      "kingdomkeys:keyblade_hit/rainfell_hit"
+    ]
+  },
+  "keyblade_hit/star_cluster_hit": {
+    "sounds": [
+      "kingdomkeys:keyblade_hit/star_cluster_hit"
+    ]
+  },
+  "keyblade_hit/way_to_dawn_hit": {
+    "sounds": [
+      "kingdomkeys:keyblade_hit/way_to_dawn_hit"
+    ]
+  },
+  "keyblade_hit/wayward_wind_hit": {
+    "sounds": [
+      "kingdomkeys:keyblade_hit/wayward_wind_hit"
+    ]
+  },
   "ko_loop": {
     "sounds": [
       "kingdomkeys:ko_loop"

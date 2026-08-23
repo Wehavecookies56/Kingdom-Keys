@@ -191,5 +191,6 @@
       "str": 14
     }
   ],
-  "reach": 6.5
+  "reach": 6.5,
+  "sound": "kingdomkeys:keyblade_hit/generic_hit"
 }

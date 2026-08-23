@@ -192,5 +192,6 @@
       "str": 10
     }
   ],
-  "reach": 0.5
+  "reach": 0.5,
+  "sound": "kingdomkeys:keyblade_hit/bond_of_the_blaze_hit"
 }

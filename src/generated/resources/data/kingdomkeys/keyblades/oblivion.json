@@ -192,5 +192,6 @@
       "str": 13
     }
   ],
-  "reach": 1.0
+  "reach": 1.0,
+  "sound": "kingdomkeys:keyblade_hit/oblivion_hit"
 }

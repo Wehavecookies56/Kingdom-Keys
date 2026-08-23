@@ -56,6 +56,9 @@ public class KeybladeDataDeserializer implements JsonDeserializer<KeybladeData> 
 			case "reach":
              	out.setReach(element.getAsFloat());
              	break;
+			case "sound":
+				out.setSound(element.getAsString());
+				break;
 			case "base_stats":
 				JsonObject statsObject = element.getAsJsonObject();
 				statsObject.entrySet().forEach(statsEntry -> {

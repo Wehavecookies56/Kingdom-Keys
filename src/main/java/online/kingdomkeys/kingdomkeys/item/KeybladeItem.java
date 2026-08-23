@@ -313,6 +313,17 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 		return InteractionResult.PASS;
 	}
 
+	@Override
+	public boolean hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
+		if (!attacker.level().isClientSide) {
+			SoundEvent customSound = this.data.getSound();
+			if (customSound != null) {
+				attacker.level().playSound(null, attacker.getX(), attacker.getY(), attacker.getZ(), customSound, SoundSource.PLAYERS, 1.0F, attacker.getRandom().nextFloat() * 0.2F + 0.9F);
+			}
+		}
+		return super.hurtEnemy(stack, target, attacker);
+	}
+
 	@OnlyIn(Dist.CLIENT)
 	@Override
 	public void appendHoverText(ItemStack stack, TooltipContext pContext, List<Component> tooltip, TooltipFlag flagIn) {

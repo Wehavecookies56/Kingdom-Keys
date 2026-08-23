@@ -66,6 +66,19 @@ public class Sounds extends SoundDefinitionsProvider {
         add(openChest);
         add(synthesisPickup);
 
+        add(bond_of_the_blaze_hit);
+        add(braveheart_hit);
+        add(destinys_embrace_hit);
+        add(earthshaker_hit);
+        add(kingdom_key_hit);
+        add(oathkeeper_hit);
+        add(oblivion_hit);
+        add(rainfell_hit);
+        add(star_cluster_hit);
+        add(way_to_dawn_hit);
+        add(wayward_wind_hit);
+        add(generic_hit);
+
         add(fire);
         add(fira);
         add(firaga);
