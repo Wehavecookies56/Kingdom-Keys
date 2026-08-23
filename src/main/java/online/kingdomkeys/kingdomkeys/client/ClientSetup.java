@@ -157,6 +157,7 @@ public class ClientSetup {
 			return;
 		
 		if(!Utils.shouldRenderOverlay(player)) { //If it shouldn't render cause it's set to HIDE or WEAPON and not holding one
+			System.out.println("a");
 			event.setCanceled(o.equals(COMMAND_MENU) || o.equals(MP_BAR) || o.equals(DRIVE_BAR) || o.equals(SHOTLOCK)); //Remove all these 4 bars
 			if(o.equals(HP_BAR) || o.equals(PLAYER_PORTRAIT) || o.equals(PLAYER_PORTRAIT_CROWN)) { //Allow HP to be shown if KO'd
 				event.setCanceled(!player.hasEffect(ModMobEffects.KO));
@@ -176,8 +177,8 @@ public class ClientSetup {
 			}
 		}
 
-		if (!ModConfigs.hpShowHearts) {
-			event.setCanceled(o.equals(VanillaGuiLayers.PLAYER_HEALTH));
+		if (!ModConfigs.hpShowHearts && o.equals(VanillaGuiLayers.PLAYER_HEALTH)) { //Condition goes on the IF due to the value overriding the previous checks
+			event.setCanceled(true);
 		}
 	}
 
