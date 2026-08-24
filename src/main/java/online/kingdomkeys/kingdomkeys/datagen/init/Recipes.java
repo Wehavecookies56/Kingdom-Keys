@@ -99,11 +99,24 @@ public class Recipes extends RecipeProvider {
 				.save(consumer);
 
 
-		ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModBlocks.magicTarget.get())
-				.requires(Blocks.TARGET)
-				.requires(Blocks.REDSTONE_BLOCK)
+		ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModBlocks.magicTarget.get())
+				.define('L', Items.LAPIS_LAZULI)
+				.define('T', Blocks.TARGET)
+				.pattern(" L ")
+				.pattern("LTL")
+				.pattern(" L ")
 				.unlockedBy("magic_target", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.TARGET))
-				.save(consumer);
+				.save(consumer, KingdomKeys.rl("magic_target_from_target"));
+
+		ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModBlocks.magicTarget.get())
+				.define('L', Items.LAPIS_LAZULI)
+				.define('R', Items.REDSTONE)
+				.define('H', Blocks.HAY_BLOCK)
+				.pattern("LRL")
+				.pattern("RHR")
+				.pattern("LRL")
+				.unlockedBy("magic_target", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.TARGET))
+				.save(consumer, KingdomKeys.rl("magic_target_from_hay"));
 
 		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.terra_Shoulder.get())
 				.define('B', ItemTags.BUTTONS)

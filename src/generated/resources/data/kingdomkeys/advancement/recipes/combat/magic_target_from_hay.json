@@ -3,7 +3,7 @@
   "criteria": {
     "has_the_recipe": {
       "conditions": {
-        "recipe": "kingdomkeys:magic_target"
+        "recipe": "kingdomkeys:magic_target_from_hay"
       },
       "trigger": "minecraft:recipe_unlocked"
     },
@@ -26,7 +26,7 @@
   ],
   "rewards": {
     "recipes": [
-      "kingdomkeys:magic_target"
+      "kingdomkeys:magic_target_from_hay"
     ]
   }
 }
