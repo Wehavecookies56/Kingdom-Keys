@@ -126,6 +126,13 @@ import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.roo
 import online.kingdomkeys.kingdomkeys.world.worldmap.GummiWorldLoader;
 import online.kingdomkeys.kingdomkeys.world.worldmap.WorldMap;
 import org.joml.Vector3f;
+import yesman.epicfight.registry.entries.EpicFightSkillDataKeys;
+import yesman.epicfight.skill.SkillContainer;
+import yesman.epicfight.skill.SkillDataManager;
+import yesman.epicfight.skill.SkillSlots;
+import yesman.epicfight.skill.guard.ImpactGuardSkill;
+import yesman.epicfight.world.capabilities.EpicFightCapabilities;
+import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
 
 import java.util.HashMap;
 import java.util.List;
@@ -549,6 +556,23 @@ public class EntityEvents {
 		/*System.out.println(playerData.getMaterialMap());
 		System.out.println(playerData.getTotalMaterialMap());
 		System.out.println("---");*/
+
+		// Workaround for EFM potential bug: PARRY_MOTION_COUNTER only references
+		// ParryingSkill.class, not ImpactGuardSkill.class (both extend GuardSkill),
+		// so it's never registered in SkillDataManager when the active skill is ImpactGuardSkill.
+		// We register it manually in both sides (client/server).
+		if (KingdomKeys.efmLoaded) {
+			PlayerPatch<?> patch = EpicFightCapabilities.getEntityPatch(player, PlayerPatch.class);
+			if (patch != null) {
+				SkillContainer guardContainer = patch.getSkill(SkillSlots.GUARD);
+				if (guardContainer != null && guardContainer.getSkill() instanceof ImpactGuardSkill) {
+					SkillDataManager dataManager = guardContainer.getDataManager();
+					if (!dataManager.hasData(EpicFightSkillDataKeys.PARRY_MOTION_COUNTER)) {
+						dataManager.registerData(EpicFightSkillDataKeys.PARRY_MOTION_COUNTER);
+					}
+				}
+			}
+		}
 
 		if (playerData != null) {
 			CombatAbilities.tick(player, playerData);
