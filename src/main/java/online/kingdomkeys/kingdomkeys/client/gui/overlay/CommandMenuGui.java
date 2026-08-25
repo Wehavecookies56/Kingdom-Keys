@@ -327,7 +327,7 @@ public class CommandMenuGui extends OverlayBase {
 				item.setActive(playerData.getDP() >= limit.getCost());
 				if (item.getParent().isVisible()) {
 					String cost = String.valueOf(ModLimits.registry.get(item.getId()).getCost() / 100);
-					drawString(guiGraphics, font, cost, item.getX() + item.getWidth() - font.width(cost) - 16, item.getY() + 4, item.isActive() ? new Color(0, 255, 255).getRGB() : new Color(0, 255, 255).darker().darker().getRGB());
+					drawString(guiGraphics, font, cost, item.getX() + item.getWidth() - font.width(cost) - 16, item.getY() + 4, item.isActive() ? 65535 : -16745348); // darker color
 				}
 			}
 		}).iconUV(0, 60)));

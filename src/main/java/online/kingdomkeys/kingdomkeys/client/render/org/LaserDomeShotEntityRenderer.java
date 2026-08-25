@@ -39,7 +39,7 @@ public class LaserDomeShotEntityRenderer extends EntityRenderer<LaserDomeShotEnt
             } else {
                 matrixStackIn.scale(0.2F, 0.2F, 0.8F);
             }
-            model.renderToBuffer(matrixStackIn, bufferIn.getBuffer(model.renderType(getTextureLocation(entity))), packedLightIn, OverlayTexture.NO_OVERLAY, new Color(1, 0.2F, 0.2F, 1).getRGB());
+            model.renderToBuffer(matrixStackIn, bufferIn.getBuffer(model.renderType(getTextureLocation(entity))), packedLightIn, OverlayTexture.NO_OVERLAY, 16724787);
         }
         matrixStackIn.popPose();
         super.render(entity, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);

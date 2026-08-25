@@ -102,8 +102,8 @@ public class MenuButton extends MenuButtonBase {
 
 				int btnMargin = 8;
 				int textX = getX() + btnMargin;
-				int activeColor = new Color(255, 255, 255).hashCode();
-				int disabledColor = new Color(100, 100, 100).hashCode();
+				int activeColor = 16777215;
+				int disabledColor = 6579300;
 
 				boolean shouldOffset = (isHovered && active) || (!active && selected);
 				int drawColor = (active ? activeColor : disabledColor);

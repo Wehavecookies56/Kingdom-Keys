@@ -99,7 +99,7 @@ public class MenuScrollBar extends Button {
 			RenderSystem.setShaderColor(1, 1, 1, 0.5F);
 			//box that is transparent offset by 7 so it doesn't stick out the triangle parts of the top and bottom textures
 			final int backgroundOffset = 7;
-			gui.fill(getX(), getY() + backgroundOffset, getX() + width, bottom - backgroundOffset, new Color(0, 0, 0, 0.5F).hashCode());
+			gui.fill(getX(), getY() + backgroundOffset, getX() + width, bottom - backgroundOffset, -2147483648); //0.5 alpha
 			RenderSystem.disableBlend();
 			RenderSystem.setShaderColor(1, 1, 1, 1);
 
