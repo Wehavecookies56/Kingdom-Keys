@@ -38,9 +38,10 @@ public class BagItem extends Item implements IItemCategory {
 	public Predicate<ItemStack> getValidator() {
 		return switch (type) {
 			case SYNTHESIS_BAG -> stack -> stack.getItem() instanceof SynthesisItem;
-			case MAGICS_BAG -> stack -> stack.getItem() instanceof MagicSpellItem;
+			case SPELLS_BAG -> stack -> stack.getItem() instanceof MagicSpellItem;
 			case CARDS_BAG -> stack -> stack.getItem() instanceof MapCardItem;
 			case SHOTLOCKS_BAG -> stack -> stack.getItem() instanceof ShotlockItem;
+			case KEYCHAINS_BAG -> stack -> stack.getItem() instanceof KeychainItem;
 		};
 	}
 
@@ -73,21 +74,12 @@ public class BagItem extends Item implements IItemCategory {
 			int bagLevel = level;
 			tooltip.add(Component.translatable(Utils.translateToLocal(Strings.Gui_Menu_Status_Level) + " " + (bagLevel + 1)));
 		}
-		if (type == Type.MAGICS_BAG) {
-			if (!Utils.hasOnlyOneBag(Minecraft.getInstance().player, Type.MAGICS_BAG)) {
-				tooltip.add(Component.translatable("gui.spellsbag.complain").withStyle(ChatFormatting.RED));
-			}
+		Player player = Minecraft.getInstance().player;
+
+		if (type.getDuplicateWarning() != null && player != null && !Utils.hasOnlyOneBag(player, type)) {
+			tooltip.add(Component.translatable(type.getDuplicateWarning()).withStyle(ChatFormatting.RED));
 		}
-		if (type == Type.CARDS_BAG) {
-			if (!Utils.hasOnlyOneBag(Minecraft.getInstance().player, Type.CARDS_BAG)) {
-				tooltip.add(Component.translatable("gui.cardsbag.complain").withStyle(ChatFormatting.RED));
-			}
-		}
-		if (type == Type.SHOTLOCKS_BAG) {
-			if (!Utils.hasOnlyOneBag(Minecraft.getInstance().player, Type.SHOTLOCKS_BAG)) {
-				tooltip.add(Component.translatable("gui.shotlocksbag.complain").withStyle(ChatFormatting.RED));
-			}
-		}
+
 		super.appendHoverText(stack, tooltipContext, tooltip, flagIn);
 	}
 
@@ -97,6 +89,12 @@ public class BagItem extends Item implements IItemCategory {
 	}
 
 	public enum Type {
-		SYNTHESIS_BAG, MAGICS_BAG, CARDS_BAG, SHOTLOCKS_BAG
+		SYNTHESIS_BAG, SPELLS_BAG, CARDS_BAG, SHOTLOCKS_BAG, KEYCHAINS_BAG;
+
+		public String getDuplicateWarning() {
+			if(this == SYNTHESIS_BAG)
+				return null;
+			return "gui."+this.name().toLowerCase()+".complain";
+		}
 	}
 }

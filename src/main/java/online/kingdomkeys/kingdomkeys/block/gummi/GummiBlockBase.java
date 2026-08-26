@@ -78,8 +78,9 @@ public class GummiBlockBase extends BaseBlock implements ICreativeTab {
         }
 
         registerCorner(GummiBlockProperties.Shape.PYRAMID, List.of(
-                new double[]{0, 0, 0, 1, 0.5, 1},
-                new double[]{0, 0.5, 0.5, 0.5, 1, 1}
+                new double[]{0, 0, 0.5, 0.5, 1, 1},
+                new double[]{0, 0, 0, 0.5, 0.5, 0.5},
+                new double[]{0.5, 0, 0.5, 1, 0.5, 1}
         ));
 
         registerCorner(GummiBlockProperties.Shape.ROUND_CORNER, List.of(
@@ -87,11 +88,6 @@ public class GummiBlockBase extends BaseBlock implements ICreativeTab {
                 new double[]{0, 0.5, 0.5, 0.5, 1, 1}
         ));
 
-        // The inner corner is the pyramid's negative: what is left of the cube once the pyramid is taken out
-        // of it. Its boxes are the exact complement of the pyramid's, so stacking one on the other fills the
-        // block with no gap and no overlap.
-        // Its blockstate turns it half a revolution further than the pyramid, and cornerYRotation only knows
-        // the pyramid's table, so the boxes are written already turned to make up for it
         registerCorner(GummiBlockProperties.Shape.INNER_CORNER, List.of(
                 new double[]{0.5, 0, 0, 1, 1, 1},
                 new double[]{0, 0, 0, 0.5, 0.5, 1},
@@ -267,10 +263,10 @@ public class GummiBlockBase extends BaseBlock implements ICreativeTab {
         return null;
     }
 
-    /*@Nullable
+    @Nullable
     public VoxelShape debugCollisionShape(BlockState state) {
         return customShape(state);
-    }*/
+    }
 
     /** Matches the x rotation the generated blockstate gives each quarter */
     private static int xRotation(Quarter quarter) {

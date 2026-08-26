@@ -113,7 +113,7 @@ public class RoomSynthesisScreen extends MenuBackground {
 
 		// Bag
 		if(Utils.hasOnlyOneBag(player, BagItem.Type.CARDS_BAG)) {
-			ItemStack bag = player.getInventory().getItem(Utils.getCardsBagSlot(player, BagItem.Type.CARDS_BAG));
+			ItemStack bag = player.getInventory().getItem(Utils.getBagSlot(player, BagItem.Type.CARDS_BAG));
 
 			if (!bag.isEmpty()) {
 				IItemHandler inv = bag.getCapability(Capabilities.ItemHandler.ITEM);

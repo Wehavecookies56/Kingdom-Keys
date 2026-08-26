@@ -532,9 +532,10 @@ public class LanguageENUS extends KKLanguageProvider {
         add("gui.driveformorb.upgrade", "%s Form has obtained %s exp");
 
         //Spells bag
-        add("gui.spellsbag.complain","You should only have a single spells bag in your inventory");
-        add("gui.cardsbag.complain","You should only have a single cards bag in your inventory");
-        add("gui.shotlocksbag.complain","You should only have a single shotlocks bag in your inventory");
+        add("gui.spells_bag.complain","You should only have a single spells bag in your inventory");
+        add("gui.cards_bag.complain","You should only have a single cards bag in your inventory");
+        add("gui.shotlocks_bag.complain","You should only have a single shotlocks bag in your inventory");
+        add("gui.keychains_bag.complain","You should only have a single keychains bag in your inventory");
 
         //Proof of Heart
         add("gui.proofofheart.desc", "Use this to leave Organization XIII");
@@ -2261,6 +2262,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.magicsBag, "Spells Bag");
         addItem(ModItems.shotlocksBag, "Shotlocks Bag");
         addItem(ModItems.cardsBag, "Cards Bag");
+        addItem(ModItems.keychainsBag, "Keychains Bag");
         addItem(ModItems.proofOfHeart, "Proof of Heart");
 
         //Crown proofs: one item, named after the crown it is about to grant

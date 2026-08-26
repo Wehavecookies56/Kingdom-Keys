@@ -983,6 +983,16 @@ public class EntityEvents {
 						}
 					}
 				}
+			} else if (event.getItemEntity().getItem().getItem() instanceof KeychainItem) {
+				for (int i = 0; i < event.getPlayer().getInventory().getContainerSize(); i++) {
+					ItemStack bag = event.getPlayer().getInventory().getItem(i);
+					if (!ItemStack.matches(bag, ItemStack.EMPTY)) {
+						if (bag.getItem() == ModItems.keychainsBag.get()) {
+							IItemHandler inv = bag.getCapability(Capabilities.ItemHandler.ITEM, null);
+							addToBag(inv, event, bag);
+						}
+					}
+				}
 			}
 		}
 	}

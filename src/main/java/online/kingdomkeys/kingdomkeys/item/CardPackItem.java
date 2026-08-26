@@ -83,7 +83,7 @@ public class CardPackItem extends Item implements ICreativeTab{
 
 	private void giveCard(ServerPlayer player, ItemStack stack) {
 		if (Utils.hasOnlyOneBag(player, BagItem.Type.CARDS_BAG)) {
-			ItemStack bag = player.getInventory().getItem(Utils.getCardsBagSlot(player, BagItem.Type.CARDS_BAG));
+			ItemStack bag = player.getInventory().getItem(Utils.getBagSlot(player, BagItem.Type.CARDS_BAG));
 			IItemHandler inv = bag.getCapability(Capabilities.ItemHandler.ITEM);
 
 			if (inv != null) {

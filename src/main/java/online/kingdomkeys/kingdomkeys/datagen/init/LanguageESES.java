@@ -593,9 +593,10 @@ public class LanguageESES extends KKLanguageProvider {
         add("gui.driveformorb.upgrade", "Forma %s ha obtenido %s exp");
 
         //Spells bag
-        add("gui.spellsbag.complain","Solo puedes tener una sola bolsa de hechizos en el inventario");
-        add("gui.shotlocksbag.complain","Solo puedes tener una sola bolsa de tiros certeros en el inventario");
-        add("gui.cardssbag.complain","Solo puedes tener una sola bolsa de cartas en el inventario");
+        add("gui.spells_bag.complain","Solo puedes tener una sola bolsa de hechizos en el inventario");
+        add("gui.cards_bag.complain","Solo puedes tener una sola bolsa de cartas en el inventario");
+        add("gui.shotlocks_bag.complain","Solo puedes tener una sola bolsa de tiros certeros en el inventario");
+        add("gui.keychains_bag.complain","Solo puedes tener una sola bolsa de llaveros en el inventario");
 
         //Proof of Heart
         add("gui.proofofheart.desc", "Úsalo para salir de la Organización XIII");
@@ -1270,6 +1271,7 @@ public class LanguageESES extends KKLanguageProvider {
         addItem(ModItems.magicsBag, "Bolsa de Hechizos");
         addItem(ModItems.shotlocksBag, "Bolsa de Tiros Certeros");
         addItem(ModItems.cardsBag, "Bolsa de Cartas");
+        addItem(ModItems.keychainsBag, "Bolsa de Llaveros");
         addItem(ModItems.proofOfHeart, "Prueba de Corazón");
 
         //Marcas de corona: un solo objeto, con el nombre de la corona que va a otorgar

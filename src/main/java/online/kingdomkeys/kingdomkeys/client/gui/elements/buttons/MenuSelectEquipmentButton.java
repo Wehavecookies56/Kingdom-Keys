@@ -13,6 +13,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.common.NeoForge;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
@@ -26,8 +27,11 @@ import online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment.MenuEquipm
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
+import online.kingdomkeys.kingdomkeys.item.BagItem;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
+import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.lib.Constants;
+import online.kingdomkeys.kingdomkeys.menu.BagInventory;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSEquipKeychain;
@@ -38,12 +42,11 @@ import java.awt.*;
 import java.util.List;
 
 public class MenuSelectEquipmentButton extends MenuButtonBase {
-
-	ItemStack stack;
+	public ItemStack stack;
+	public int slot;
 	boolean selected;
 	int colour, labelColour;
 	MenuEquipmentSelectorScreen parent;
-	int slot;
 	Minecraft minecraft;
 
 	public MenuSelectEquipmentButton(ItemStack stack, int slot, int x, int y, int widthIn, MenuEquipmentSelectorScreen parent, int colour) {
@@ -52,13 +55,40 @@ public class MenuSelectEquipmentButton extends MenuButtonBase {
 				if (slot != -1) {
 					Player player = Minecraft.getInstance().player;
 					PlayerData playerData = PlayerData.get(player);
-					if (!NeoForge.EVENT_BUS.post(new EquipmentEvent.Keychain(player, playerData.getEquippedKeychain(parent.form), player.getInventory().getItem(slot), slot, parent.form)).isCanceled()) {
+					// Slots at or below the offset are inside the keychains bag rather than the inventory
+					boolean fromBag = slot <= MenuEquipmentSelectorScreen.BAG_OFFSET;
+					ItemStack stackToEquip;
+
+					if (fromBag) {
+						if (!Utils.hasOnlyOneBag(player, BagItem.Type.KEYCHAINS_BAG)) //Only one bag should be in the inv
+							return;
+
+						ItemStack keychainBag = Utils.getItemInInventory(player, ModItems.keychainsBag.get());
+						if (keychainBag.isEmpty())
+							return;
+						if (!(keychainBag.getCapability(Capabilities.ItemHandler.ITEM) instanceof BagInventory bagInv))
+							return;
+
+						stackToEquip = bagInv.getStackInSlot(Math.abs(slot - MenuEquipmentSelectorScreen.BAG_OFFSET));
+					} else {
+						stackToEquip = player.getInventory().getItem(slot);
+					}
+
+					if (!NeoForge.EVENT_BUS.post(new EquipmentEvent.Keychain(player, playerData.getEquippedKeychain(parent.form), stackToEquip, slot, parent.form)).isCanceled()) {
 						if (Utils.findSummoned(player.getInventory(), playerData.getEquippedKeychain(DriveForm.NONE)) > -1)
 							PacketHandler.sendToServer(new CSSummonKeyblade(true));
 						PacketHandler.sendToServer(new CSEquipKeychain(parent.form, slot));
-						ItemStack stackToEquip = player.getInventory().getItem(slot);
 						ItemStack stackPreviouslyEquipped = playerData.equipKeychain(parent.form, stackToEquip);
-						player.getInventory().setItem(slot, stackPreviouslyEquipped);
+
+						if (fromBag) {
+							ItemStack keychainBag = Utils.getItemInInventory(player, ModItems.keychainsBag.get());
+
+							if (keychainBag.getCapability(Capabilities.ItemHandler.ITEM) instanceof BagInventory bagInv) {
+								bagInv.setStackInSlot(Math.abs(slot - MenuEquipmentSelectorScreen.BAG_OFFSET), stackPreviouslyEquipped);
+							}
+						} else {
+							player.getInventory().setItem(slot, stackPreviouslyEquipped);
+						}
 					}
 				} else {
 					Minecraft.getInstance().setScreen(new MenuEquipmentScreen());
