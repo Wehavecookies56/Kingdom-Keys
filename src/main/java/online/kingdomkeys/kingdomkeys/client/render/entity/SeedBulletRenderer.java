@@ -10,8 +10,6 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.model.entity.CubeModel;
 import online.kingdomkeys.kingdomkeys.entity.mob.SeedBulletEntity;
 
-import java.awt.*;
-
 public class SeedBulletRenderer extends EntityRenderer<SeedBulletEntity> {
 	private final CubeModel model;
 

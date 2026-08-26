@@ -2,9 +2,11 @@
 * Minimap icons for Air Soldier, Defender, Neoshadow and Novashadow (Thanks to WillabyNeko)
 * Level up item giving tracker so further exp readjustments won't give them again.
 * Keychains bag.
+* Test Riku idle stance.
 
 ## Changed:
 * Pyramid gummi hitbox got adjusted.
+* Sonic Blade-like shotlocks movement got adjusted.
 
 ## Fixed:
 * Grinding on rails not showing to remote players the flowmotion trail.
