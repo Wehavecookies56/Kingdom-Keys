@@ -8,6 +8,7 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -21,6 +22,7 @@ import net.minecraft.world.phys.AABB;
 import online.kingdomkeys.kingdomkeys.damagesource.KKDamageTypes;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import org.joml.Vector3f;
+import net.minecraft.world.phys.Vec3;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -45,6 +47,23 @@ public class SonicBladeCoreEntity extends BaseShotlockCoreEntity {
 		}
 		return target.damageSources().thrown(this, getOwner());
 	}
+
+	private final List<Entity> dashTargets = new ArrayList<>();
+	private final java.util.Map<Integer, Integer> locksRemaining = new java.util.HashMap<>();
+
+	private int dashTargetIndex = 0;
+	private boolean targetsPrepared = false;
+
+	private static final double DASH_SPEED = 2.1D;
+	private static final double HIT_PADDING = 0.35D;
+	private static final double CLEAR_PADDING = 0.70D;
+	private int clearingTargetId = -1;
+	private Vec3 clearVelocity = Vec3.ZERO;
+	private int clearTicks = 0;
+	private static final int MIN_CLEAR_TICKS = 1;
+
+	private boolean gravityCaptured = false;
+	private boolean previousNoGravity = false;
 	
 	@Override
 	public boolean movesCaster() {
@@ -67,27 +86,19 @@ public class SonicBladeCoreEntity extends BaseShotlockCoreEntity {
 			this.remove(RemovalReason.KILLED);
 			return;
 		}
-		getCaster().startAutoSpinAttack(10, 4, getCaster().getMainHandItem());
 
-		if(tickCount % 8 == 1) {
-			if (getCaster() != null && getTarget() != null) {
-				BlockPos pos = getTarget().blockPosition();
-				float speedFactor = 0.4F;
-				getCaster().setDeltaMovement((pos.getX() - getCaster().getX()) * speedFactor, (pos.getY() + 1 - getCaster().getY()) * speedFactor, (pos.getZ() - getCaster().getZ()) * speedFactor);
-	
-				if (level().isClientSide) {
-					getCaster().hurtMarked = true;
-				}
-	
-	            if (getCaster().getVehicle() != null) {
-	            	getCaster().getVehicle().onPassengerTurned(getCaster());
-	            }
-	            setActualTargetIndex(getActualTargetIndex()+1);
-			} else {
-				kill();
+		getCaster().startAutoSpinAttack(
+				0,
+				0.0F,
+				getCaster().getMainHandItem()
+		);
+
+
+		if (!level().isClientSide) {
+			if (!tickSonicBladeMovement(getCaster())) {
+				finishSonicBlade();
 				return;
 			}
-			
 		}
 		
 		if (this.tickCount > maxTicks) {
@@ -132,23 +143,411 @@ public class SonicBladeCoreEntity extends BaseShotlockCoreEntity {
 				serverLevel.sendParticles(net.minecraft.core.particles.ParticleTypes.CRIT, ex, ey, ez, 4, 0.3, 0.4, 0.3, 0.05);
 			}
 		}
-		
-		if(tickCount % 4 == 0) {
-			double r = 1.5D;
-            AABB aabb = new AABB(getOwner().position().x, getOwner().position().y, getOwner().position().z, getOwner().position().x + 1, getOwner().position().y + 1, getOwner().position().z + 1).inflate(r, 0, r);
-    		List<LivingEntity> list = getOwner().level().getEntitiesOfClass(LivingEntity.class, aabb);
-    		list.remove(getOwner());
-    		
-            for(LivingEntity enemy : list) {
-            	enemy.hurt(buildDamageSource(enemy), dmg);
-            	if (element != null && element.equals(KKDamageTypes.ICE)) {
-            		enemy.addEffect(new MobEffectInstance(online.kingdomkeys.kingdomkeys.effects.ModMobEffects.FREEZE, 40, 50, false, true, true));
+
+		super.tick();
+	}
+
+	private void keepCasterSpinning(Player caster) {
+		caster.startAutoSpinAttack(
+				0,
+				0F,
+				caster.getMainHandItem()
+		);
+	}
+
+	private void prepareDashTargets() {
+		if (targetsPrepared) {
+			return;
+		}
+
+		targetsPrepared = true;
+
+		for (Entity target : getTargets()) {
+			if (target == null) {
+				continue;
+			}
+
+			int id = target.getId();
+
+			locksRemaining.put(
+					id,
+					locksRemaining.getOrDefault(id, 0) + 1
+			);
+
+			if (!dashTargets.contains(target)) {
+				dashTargets.add(target);
+			}
+		}
+	}
+
+	private boolean tickSonicBladeMovement(Player caster) {
+
+		prepareDashTargets();
+
+		if (!gravityCaptured) {
+			previousNoGravity = caster.isNoGravity();
+			gravityCaptured = true;
+		}
+
+		caster.setNoGravity(true);
+		caster.setOnGround(false);
+		caster.resetFallDistance();
+
+		if (clearingTargetId != -1) {
+
+			Entity previousTarget = level().getEntity(clearingTargetId);
+
+			if (previousTarget == null
+					|| previousTarget.isRemoved()
+					|| !previousTarget.isAlive()) {
+
+				// Completely through the enemy.
+				clearingTargetId = -1;
+				clearVelocity = Vec3.ZERO;
+				clearTicks = 0;
+
+				// We already advanced the target index when the previous enemy was hit.
+				// Now physically face the NEXT enemy before dashing toward it.
+				Entity nextTarget = getNextDashTarget();
+
+				if (nextTarget != null) {
+					rotateCasterToward(caster, nextTarget);
+				}
+
+			} else {
+
+				AABB clearBox =
+						previousTarget.getBoundingBox().inflate(CLEAR_PADDING);
+
+				boolean stillInside =
+						caster.getBoundingBox().intersects(clearBox);
+
+				/*
+				 * Force at least one full movement tick THROUGH the target.
+				 *
+				 * After that, keep going until we're genuinely outside its box.
+				 */
+				if (clearTicks > 0 || stillInside) {
+
+					caster.setDeltaMovement(clearVelocity);
+					caster.hurtMarked = true;
+					caster.resetFallDistance();
+
+					if (clearTicks > 0) {
+						clearTicks--;
+					}
+
+					return true;
+				}
+
+				// Completely through the enemy.
+				clearingTargetId = -1;
+				clearVelocity = Vec3.ZERO;
+				clearTicks = 0;
+
+				// We already advanced the target index when the previous enemy was hit.
+				// Now physically face the NEXT enemy before dashing toward it.
+				Entity nextTarget = getNextDashTarget();
+
+				if (nextTarget != null) {
+					rotateCasterToward(caster, nextTarget);
+				}
+			}
+		}
+
+		Entity target = getNextDashTarget();
+
+		if (target == null) {
+			return false;
+		}
+
+		/*
+		 * Aim at the BODY of the target rather than its BlockPos.
+		 *
+		 * Slightly above geometric center generally looks better for
+		 * humanoid mobs and avoids the ground-seeking behavior.
+		 */
+		Vec3 casterCenter = caster.getBoundingBox().getCenter();
+
+		Vec3 targetPoint = new Vec3(
+				target.getX(),
+				target.getY() + target.getBbHeight() * 0.55D,
+				target.getZ()
+		);
+
+		Vec3 difference = targetPoint.subtract(casterCenter);
+
+		double distance = difference.length();
+
+		if (distance < 0.0001D) {
+			difference = caster.getLookAngle();
+			distance = difference.length();
+		}
+
+		Vec3 direction = difference.normalize();
+
+		/*
+		 * Fixed high-speed dash.
+		 */
+		Vec3 velocity = direction.scale(
+				Math.min(DASH_SPEED, Math.max(distance, 0.35D))
+		);
+
+		/*
+		 * SWEPT COLLISION.
+		 *
+		 * This fixes another problem visible in your clip:
+		 * at 2.8 blocks/tick, we can go from one side of a mob to
+		 * the other without ever having overlapping hitboxes on
+		 * an individual tick.
+		 */
+		AABB sweptBox = caster.getBoundingBox()
+				.expandTowards(velocity)
+				.inflate(HIT_PADDING);
+
+		boolean willHit =
+				sweptBox.intersects(target.getBoundingBox());
+
+		if (willHit) {
+
+			boolean damaged = false;
+
+			if (target instanceof LivingEntity enemy) {
+
+				// Each physical Sonic Blade pass should be allowed
+				// to register as its own hit.
+				enemy.invulnerableTime = 0;
+
+				damaged = enemy.hurt(
+						buildDamageSource(enemy),
+						dmg
+				);
+
+				// Only apply on-hit effects if the hit actually succeeded.
+				if (damaged) {
+
+					if (element != null
+							&& element.equals(KKDamageTypes.ICE)) {
+
+						enemy.addEffect(
+								new MobEffectInstance(
+										online.kingdomkeys.kingdomkeys.effects.ModMobEffects.FREEZE,
+										40,
+										50,
+										false,
+										true,
+										true
+								)
+						);
+					}
+
+					// Consume EXACTLY ONE lock from THIS target.
+					int remaining = locksRemaining.getOrDefault(target.getId(), 0);
+
+					locksRemaining.put(target.getId(), Math.max(0, remaining - 1));
+
+					// Only move to the next target when this hit
+					// successfully counted.
+					advanceDashTarget();
 				}
 			}
 
+			/*
+			 * ALWAYS continue through the target.
+			 *
+			 * Even if hurt() returned false, we do not want to sit
+			 * inside/on top of the enemy. We pass through, clear it,
+			 * then retry the same lock afterward.
+			 */
+			Vec3 exitVelocity = direction.scale(DASH_SPEED);
+
+			caster.setDeltaMovement(exitVelocity);
+			caster.hurtMarked = true;
+			caster.resetFallDistance();
+
+			clearingTargetId = target.getId();
+			clearVelocity = exitVelocity;
+			clearTicks = MIN_CLEAR_TICKS;
+
+			/*
+			 * If the hit succeeded, dashTargetIndex has already advanced.
+			 * We DON'T need to change movement toward the next enemy yet.
+			 * The clearing phase should finish the current pass first.
+			 * Rotation toward the next enemy should happen when clearing
+			 * finishes.
+			 */
+			return true;
 		}
-		
-		super.tick();
+
+		caster.setDeltaMovement(velocity);
+		caster.hurtMarked = true;
+		caster.resetFallDistance();
+
+		if (caster.getVehicle() != null) {
+			caster.getVehicle().onPassengerTurned(caster);
+		}
+
+		return true;
+	}
+
+	private Entity getNextDashTarget() {
+		prepareDashTargets();
+
+		if (dashTargets.isEmpty()) {
+			return null;
+		}
+
+		int checked = 0;
+
+		while (checked < dashTargets.size()) {
+
+			if (dashTargetIndex >= dashTargets.size()) {
+				dashTargetIndex = 0;
+			}
+
+			Entity target = dashTargets.get(dashTargetIndex);
+
+			if (target != null
+					&& target.isAlive()
+					&& !target.isRemoved()
+					&& locksRemaining.getOrDefault(target.getId(), 0) > 0) {
+				return target;
+			}
+
+			dashTargetIndex++;
+			checked++;
+		}
+
+		// Nobody has locks left.
+		return null;
+	}
+
+	private void advanceDashTarget() {
+		if (dashTargets.isEmpty()) {
+			return;
+		}
+
+		dashTargetIndex++;
+
+		if (dashTargetIndex >= dashTargets.size()) {
+			dashTargetIndex = 0;
+		}
+	}
+
+	private void rotateCasterToward(Player caster, Entity target) {
+		if (target == null) {
+			return;
+		}
+
+		Vec3 from = caster.getEyePosition();
+
+		Vec3 to = new Vec3(
+				target.getX(),
+				target.getY() + target.getBbHeight() * 0.55D,
+				target.getZ()
+		);
+
+		Vec3 delta = to.subtract(from);
+
+		double horizontal = Math.sqrt(
+				delta.x * delta.x +
+						delta.z * delta.z
+		);
+
+		float yaw = (float)(
+				Math.toDegrees(Math.atan2(delta.z, delta.x)) - 90.0D
+		);
+
+		float pitch = (float)(
+				-Math.toDegrees(Math.atan2(delta.y, horizontal))
+		);
+
+		// Server-side entity rotation
+		caster.setYRot(yaw);
+		caster.setXRot(pitch);
+
+		// Make the BODY and HEAD follow it too.
+		caster.setYBodyRot(yaw);
+		caster.setYHeadRot(yaw);
+
+		// Prevent interpolation from visually dragging from the old facing.
+		caster.yBodyRotO = yaw;
+		caster.yHeadRotO = yaw;
+
+		/*
+		 * IMPORTANT:
+		 * ServerPlayer rotation has to be sent back to its own client.
+		 *
+		 * Same XYZ, different yaw/pitch.
+		 */
+		if (caster instanceof ServerPlayer serverPlayer) {
+			serverPlayer.connection.teleport(
+					serverPlayer.getX(),
+					serverPlayer.getY(),
+					serverPlayer.getZ(),
+					yaw,
+					pitch
+			);
+		}
+	}
+
+	private boolean cleanedUp = false;
+
+	private void cleanupCaster() {
+		if (cleanedUp) {
+			return;
+		}
+
+		cleanedUp = true;
+
+		Player caster = getCaster();
+
+		if (caster != null && !level().isClientSide) {
+
+			if (gravityCaptured) {
+				caster.setNoGravity(previousNoGravity);
+			}
+
+			caster.resetFallDistance();
+			caster.setDeltaMovement(Vec3.ZERO);
+			caster.hurtMarked = true;
+
+			// Allow vanilla to clear our forced spin flag.
+			caster.startAutoSpinAttack(
+					1,
+					0.0F,
+					caster.getMainHandItem()
+			);
+		}
+
+		gravityCaptured = false;
+	}
+
+	private void finishSonicBlade() {
+		cleanupCaster();
+		this.remove(RemovalReason.KILLED);
+	}
+
+	private void restoreCasterMovement() {
+		Player caster = getCaster();
+
+		if (caster != null && !level().isClientSide && gravityCaptured) {
+			caster.setNoGravity(previousNoGravity);
+			caster.resetFallDistance();
+
+			// Kill leftover Sonic Blade momentum.
+			caster.setDeltaMovement(Vec3.ZERO);
+			caster.hurtMarked = true;
+		}
+
+		gravityCaptured = false;
+	}
+
+	@Override
+	public void remove(RemovalReason reason) {
+		cleanupCaster();
+		restoreCasterMovement();
+		super.remove(reason);
 	}
 
 	
