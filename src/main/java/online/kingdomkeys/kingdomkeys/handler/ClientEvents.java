@@ -1107,6 +1107,11 @@ public class ClientEvents {
 			return;
 		}
 
+		PlayerData playerData = PlayerData.get(player);
+		if (playerData != null && !playerData.inFlowmotion()) {
+			PacketHandler.sendToServer(new CSSetFlowmotionPacket(true));
+		}
+
 		// Reversing direction
 		if (reverseCooldown == 0 && pushingBackwards(player, grindDir)) {
 			grindDir = FlowmotionRailBlock.other(shape, grindDir);

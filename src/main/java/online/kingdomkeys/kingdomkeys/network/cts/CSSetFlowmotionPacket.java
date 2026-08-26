@@ -25,7 +25,11 @@ public record CSSetFlowmotionPacket(boolean flowmotion) implements Packet {
 	public void handle(IPayloadContext context) {
 		Player player = context.player();
 		PlayerData playerData = PlayerData.get(player);
-			playerData.setFlowmotion(flowmotion);
+		if (playerData == null || playerData.inFlowmotion() == flowmotion) {
+			return;
+		}
+
+		playerData.setFlowmotion(flowmotion);
 		PacketHandler.syncToAllAround(player, playerData);
 	}
 

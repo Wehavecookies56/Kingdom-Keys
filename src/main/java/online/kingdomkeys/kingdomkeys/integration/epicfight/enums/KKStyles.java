@@ -5,6 +5,7 @@ import yesman.epicfight.world.capabilities.item.Style;
 public enum KKStyles implements Style {
     VALOR_FORM(true),
     WISDOM_FORM(false),
+    LIMIT_FORM(false),
     MASTER_FORM(true),
     FINAL_FORM(true),
     ANTI_FORM(false),

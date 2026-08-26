@@ -314,6 +314,13 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		}
 		storage.put("synthesised_recipes",synthedRecipes);
 
+		ListTag grantedLevelItemsList = new ListTag();
+		for (String granted : this.grantedLevelItems) {
+			grantedLevelItemsList.add(StringTag.valueOf(granted));
+		}
+		storage.put("granted_level_items", grantedLevelItemsList);
+		storage.putBoolean("level_items_sought", this.levelItemsSought);
+
 		// Written out with everything else because a full sync lands on the client whenever anything at all
 		// changes, and anything left out of it would be wiped the moment the player took a scratch
 		storage.putInt("guard_ticks", this.guardTicks);
@@ -586,6 +593,13 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 			}
 		}
 
+		grantedLevelItems.clear();
+		ListTag grantedLevelItemsList = nbt.getList("granted_level_items", Tag.TAG_STRING);
+		for (int i = 0; i < grantedLevelItemsList.size(); i++) {
+			grantedLevelItems.add(grantedLevelItemsList.getString(i));
+		}
+		this.levelItemsSought = nbt.getBoolean("level_items_sought");
+
 		this.guardTicks = nbt.getInt("guard_ticks");
 		this.guardCooldown = nbt.getInt("guard_cooldown");
 		this.counterTicks = nbt.getInt("counter_ticks");
@@ -715,6 +729,11 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 	Utils.castMagic castMagic = null;
 
 	private Set<String> synthesisedRecipes = new HashSet<>();
+
+	private final Set<String> grantedLevelItems = new LinkedHashSet<>();
+
+	//Controls whether a player had his levelup given items tracked for future exp fixes so it doesn't give them again
+	private boolean levelItemsSought = false;
 
 	private Queue<ItemStack> overflow = new ArrayDeque<>();
 
@@ -2122,6 +2141,27 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 
 	public Set<String> getSynthesisedRecipes(){
 		return this.synthesisedRecipes;
+	}
+
+	// Key identifying one reward slot, so the same item at two different levels counts as two rewards
+	public static String levelItemKey(int level, ItemStack stack) {
+		return level + ":" + BuiltInRegistries.ITEM.getKey(stack.getItem());
+	}
+
+	public boolean hasGrantedLevelItem(String key) {
+		return this.grantedLevelItems.contains(key);
+	}
+
+	public void addGrantedLevelItem(String key) {
+		this.grantedLevelItems.add(key);
+	}
+
+	public boolean areLevelItemsSought() {
+		return this.levelItemsSought;
+	}
+
+	public void setLevelItemsSought(boolean sought) {
+		this.levelItemsSought = sought;
 	}
 
 	public List<ResourceLocation> getKnownRecipeList() {

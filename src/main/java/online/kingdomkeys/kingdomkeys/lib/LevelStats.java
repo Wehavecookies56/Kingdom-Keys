@@ -14,6 +14,35 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class LevelStats {
 
+	// Finds and marks items as given
+	public static void seekGrantedItems(PlayerData data) {
+		if (data.areLevelItemsSought()) {
+			return;
+		}
+
+		// Nothing has been earned yet, so an empty record is already ok
+		if (data.getSoAState() != SoAState.COMPLETE) {
+			data.setLevelItemsSought(true);
+			return;
+		}
+
+		Level levelData = ModLevels.registry.get(KingdomKeys.rl(data.getChosen().getSerializedName()));
+		if (levelData == null || levelData.getLevelingData() == null) {
+			KingdomKeys.LOGGER.warn("Could not seek the level reward record for {}, leveling data was not available", data.getChosen().getSerializedName());
+			return;
+		}
+
+		for (int lvl = 2; lvl <= data.getLevel(); lvl++) {
+			for (ItemStack stack : levelData.getItems(lvl)) {
+				if (stack != null && !stack.isEmpty()) {
+					data.addGrantedLevelItem(PlayerData.levelItemKey(lvl, stack));
+				}
+			}
+		}
+
+		data.setLevelItemsSought(true);
+	}
+
 	public static void applyStatsForLevel(int level, Player player, PlayerData cap) {
 		if(cap.getSoAState() != SoAState.COMPLETE) {
 			return;
@@ -66,6 +95,13 @@ public class LevelStats {
 
 		for (ItemStack stack : levelData.getItems(level)) {
 			if (stack != null && !stack.isEmpty()) {
+				String key = PlayerData.levelItemKey(level, stack);
+				if (cap.hasGrantedLevelItem(key)) {
+					continue;
+				}
+
+				cap.addGrantedLevelItem(key);
+
 				ItemStack toGive = stack.copy();
 				Utils.giveItems((ServerPlayer) player, true,  toGive);
 				String itemName = toGive.getHoverName().getString();

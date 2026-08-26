@@ -348,6 +348,8 @@ public class EntityEvents {
 			if (!player.level().isClientSide) { // Sync from server to client
 				Utils.updateOrgRobesTeam((ServerPlayer) player);
 
+				LevelStats.seekGrantedItems(playerData);
+
 				if (!playerData.getDriveFormMap().containsKey(DriveForm.NONE)) { // One time event here :D
 					Utils.getFakeForms().forEach(form -> {
 						playerData.setDriveFormLevel(form, 1);
@@ -596,18 +598,7 @@ public class EntityEvents {
 				PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
 			}
 
-			// Anti form FP code done here
-			if (playerData.isFormActive(ModDriveForms.ANTI)) {
-				if (playerData.getFP() > 0) {
-					playerData.setFP(playerData.getFP() - 0.3);
-				} else {
-					playerData.setActiveDriveForm(DriveForm.NONE);
-					player.level().playSound(player, player.position().x(), player.position().y(), player.position().z(), ModSounds.unsummon.get(), SoundSource.MASTER, 1.0f, 1.0f);
-					if (!player.level().isClientSide) {
-						PacketHandler.syncToAllAround(player, playerData);
-					}
-				}
-			} else if (!playerData.noFormActive()) {
+			if (!playerData.noFormActive()) {
 				ModDriveForms.registry.get(playerData.getActiveDriveForm()).updateDrive(player);
 			}
 			// Limit recharge system
@@ -725,9 +716,8 @@ public class EntityEvents {
 					playerData.setBounced(false);
 					playerData.setHangingWallTicks(20);
 					playerData.setWallGrabs(grabs + 1);
-					playerData.setFlowmotion(true);//TODO packet?
+					playerData.setFlowmotion(true);
 					if (!player.level().isClientSide) {
-						//PacketHandler.syncToAllAround(player, playerData);
 						float radius = 0.5F;
 						for (int i = 0; i < 10; i++) {
 							((ServerLevel) player.level()).sendParticles(ParticleTypes.ELECTRIC_SPARK, player.getX() - Math.random() * (radius * 2) + radius, player.getY(), player.getZ() - Math.random() * (radius * 2) + radius, 100, 0, 0, 0, 0);
@@ -738,6 +728,8 @@ public class EntityEvents {
 					player.addEffect(new MobEffectInstance(MobEffects.GLOWING, 100, 1, false, false, false));
 					if (player.level().isClientSide) {
 						InputHandler.jumpRayTrace = InputHandler.getMouseOverExtendedStraight(20);
+					} else {
+						PacketHandler.syncToAllAround(player, playerData);
 					}
 				}
 			}
@@ -772,9 +764,13 @@ public class EntityEvents {
 			playerData.setHangingWallTicks(0);
 			playerData.setWallGrabs(0);
 
-			// Only remove flowmotion if player is touching ground AND NOT on a flowmotion rail
-			if (!FlowmotionRailBlock.isOn(player)) {
+			// Only remove flowmotion if player is touching ground AND NOT on a flowmotion rail.
+			if (playerData.inFlowmotion() && !FlowmotionRailBlock.isOn(player) && (!player.level().isClientSide || player.isLocalPlayer())) {
 				playerData.setFlowmotion(false);
+
+				if (!player.level().isClientSide) {
+					PacketHandler.syncToAllAround(player, playerData);
+				}
 			}
 		}
 

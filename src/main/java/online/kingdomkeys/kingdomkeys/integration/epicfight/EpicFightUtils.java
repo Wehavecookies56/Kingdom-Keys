@@ -10,6 +10,7 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 import yesman.epicfight.world.capabilities.EpicFightCapabilities;
 import yesman.epicfight.world.capabilities.entitypatch.LivingEntityPatch;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
+import yesman.epicfight.world.capabilities.entitypatch.player.ServerPlayerPatch;
 
 public class EpicFightUtils {
     private EpicFightUtils() {}
@@ -60,5 +61,16 @@ public class EpicFightUtils {
 
     public static boolean isPlayerSummoning(LivingEntityPatch<?> playerPatch) {
         return Minecraft.getInstance().player.getId() == playerPatch.getOriginal().getId();
+    }
+
+    public static void refreshLivingMotions(Player player) {
+        if (!KingdomKeys.efmLoaded || player == null || player.level().isClientSide) {
+            return;
+        }
+
+        ServerPlayerPatch patch = EpicFightCapabilities.getEntityPatch(player, ServerPlayerPatch.class);
+        if (patch != null) {
+            patch.modifyLivingMotionByCurrentItem();
+        }
     }
 }
