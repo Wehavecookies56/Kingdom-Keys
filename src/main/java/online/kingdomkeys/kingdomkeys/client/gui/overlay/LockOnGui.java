@@ -19,13 +19,13 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.RenderGuiLayerEvent;
 import net.neoforged.neoforge.client.gui.VanillaGuiLayers;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.GlobalData;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import online.kingdomkeys.kingdomkeys.handler.InputHandler;
-import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 @EventBusSubscriber(value = Dist.CLIENT)
@@ -53,7 +53,7 @@ public class LockOnGui extends OverlayBase {
 	private long lastSystemTime;
 	private float lastTargetHealth;
 
-	final ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/hpbar.png");
+	final ResourceLocation texture = KingdomKeys.rl("textures/gui/hpbar.png");
 
 	private LockOnGui() {
 		super();
@@ -72,6 +72,9 @@ public class LockOnGui extends OverlayBase {
 	@Override
 	public void render(GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
 		super.render(guiGraphics, deltaTracker);
+		if(minecraft != null && minecraft.options.hideGui){
+			return;
+		}
 		Player player = minecraft.player;
 		PlayerData playerData = PlayerData.get(player);
 		if (playerData != null) {
@@ -100,19 +103,19 @@ public class LockOnGui extends OverlayBase {
                     {
                         poseStack.translate((screenWidth / 2) - (guiWidth / 2) * lockOnScale / size - 0.5F, (screenHeight / 2) - (guiHeight / 2) * lockOnScale / size - 0.5F, 0);
                         poseStack.scale(lockOnScale / size, lockOnScale / size, lockOnScale / size);
-                        this.blit(guiGraphics, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/lockon_0.png"), 0, 0, 0, 0, guiWidth, guiHeight);
+                        this.blit(guiGraphics, KingdomKeys.rl("textures/gui/lockon_0.png"), 0, 0, 0, 0, guiWidth, guiHeight);
 
                         poseStack.translate(guiWidth / 2, guiWidth / 2, 0);
                         float partialTicks = Minecraft.getInstance().getTimer().getGameTimeDeltaPartialTick(false);
                         poseStack.mulPose(Axis.ZP.rotationDegrees((float) Math.toDegrees((player.tickCount+ partialTicks % 360) * ModConfigs.lockOnIconRotation / 100F)));
                         poseStack.translate(-guiWidth / 2, -guiWidth / 2, 0);
-                        this.blit(guiGraphics, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/lockon_1.png"), 0, 0, 0, 0, guiWidth, guiHeight);
+                        this.blit(guiGraphics, KingdomKeys.rl("textures/gui/lockon_1.png"), 0, 0, 0, 0, guiWidth, guiHeight);
                     }
                     poseStack.popPose();
                 }
 				poseStack.pushPose();
                 //HP Bar and name
-				if(target != null && playerData.isAbilityEquipped(Strings.scan)) {
+				if(target != null && playerData.isAbilityEquipped(ModAbilities.SCAN)) {
 					ClientUtils.LOCKON_ELEMENT.applyTransform(guiGraphics, screenWidth, screenHeight);
 					RenderSystem.enableBlend();
 					Component targetName = target.getName();

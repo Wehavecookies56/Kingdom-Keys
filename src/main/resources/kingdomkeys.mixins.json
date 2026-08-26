@@ -8,25 +8,31 @@
     "ItemStackMixin",
     "LevelChunkMixin",
     "LivingEntityMixin",
+    "jer.NeoForgePlatformHelperMixin",
     "PlayerMixin",
     "ServerGamePacketListenerImplMixin",
     "TellMeTheErrorMixin"
   ],
   "client": [
     "client.BiomeMixin",
+    "client.ChatComponentMixin",
+    "client.ClientLevelMixin",
+    "client.CreativeScreenMixin",
+    "client.InventoryScreenMixin",
+    "client.KeyboardInputMixin",
     "client.LevelRendererMixin",
     "client.LivingEntityRendererMixin",
+    "client.LivingEntityRendererFadeMixin",
     "client.MinecraftMixin",
-    "client.PlayerRendererMixin",
     "client.MusicManagerMixin",
+    "client.PlayerRendererMixin",
+    "client.SoundBufferLibraryMixin",
+    "epicfight.ControlEngineMixin",
+    "epicfight.EpicFightScaleMixin",
     "epicfight.FirstPersonRendererMixin",
     "epicfight.PHumanoidRendererMixin",
     "epicfight.RenderEngineEventsMixin",
-    "epicfight.EpicFightScaleMixin",
-    "wildfire_gender.GenderLayerMixin",
-    "client.KeyboardInputMixin",
-    "client.CreativeScreenMixin",
-    "client.ClientLevelMixin"
+    "wildfire_gender.GenderLayerMixin"
   ],
   "minVersion": "0.8"
 }

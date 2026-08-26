@@ -1,10 +1,10 @@
 {
-  "casttime": 10,
-  "cooldown": 20,
-  "cost": 12,
+  "casttime": 12,
+  "cooldown": 35,
+  "cost": 20,
   "dmg_mult": 1.5,
   "dmg_mult_max": 1.7,
-  "magic_lock_on": false,
+  "magic_lock_on": true,
   "max_exp": 2400,
   "max_lvl": 3,
   "spell_type": "MAGIC"

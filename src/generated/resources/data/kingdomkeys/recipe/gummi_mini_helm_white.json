@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "kingdomkeys",
+  "key": {
+    "C": {
+      "item": "kingdomkeys:spellcure"
+    },
+    "F": {
+      "item": "kingdomkeys:gummi_meteor_fragment"
+    },
+    "G": {
+      "item": "minecraft:glass"
+    }
+  },
+  "pattern": [
+    "GG",
+    "FC"
+  ],
+  "result": {
+    "count": 1,
+    "id": "kingdomkeys:gummi_mini_helm_white"
+  }
+}

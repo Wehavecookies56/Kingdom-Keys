@@ -3,7 +3,6 @@ package online.kingdomkeys.kingdomkeys.client.gui.synthesis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -48,7 +47,7 @@ public class SynthesisScreen extends MenuBackground implements IPlayerDataReques
 		this(playerData, name == null || name.isEmpty() ? Strings.Gui_Synthesis : Component.translatable(Strings.Gui_Synthesis_Moogle_Name, name).getString());
 		this.moogle = moogle;
 		this.name = name;
-		if (ShopListRegistry.getInstance().containsKey(ResourceLocation.parse(inv)) || inv.isEmpty())
+		if (ShopListRegistry.getInstance().containsKey(KingdomKeys.rl(inv)) || inv.isEmpty())
 			this.invFile = inv;
 		else {
 			KingdomKeys.LOGGER.error("The Shop '" + inv + "' does not exist or didn't get registered");

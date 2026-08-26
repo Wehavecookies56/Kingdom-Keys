@@ -3,7 +3,6 @@ package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.fl
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.state.BlockState;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
@@ -59,7 +58,7 @@ public class Floor {
             BlockPos northDoor = new BlockPos(16, 63, 67); //door to first room
             room.doors.put(RoomDirection.NORTH, new Room.Door(data.getDoor(RoomDirection.NORTH), northDoor));
             room.doors.put(RoomDirection.SOUTH, new Room.Door(data.getDoor(RoomDirection.SOUTH), southDoor));
-            room.setStructure(ModRoomStructures.ENTRANCE_HALL_1F.get());
+            room.setStructure(level, ModRoomStructures.ENTRANCE_HALL_1F.get());
             data.setGenerated(room);
             BlockState northState = ModBlocks.cardDoor.get().defaultBlockState().setValue(CardDoorBlock.FACING, Direction.NORTH).setValue(CardDoorBlock.GENERATED, true).setValue(CardDoorBlock.OPEN, false);
             BlockState southState = ModBlocks.cardDoor.get().defaultBlockState().setValue(CardDoorBlock.FACING, Direction.SOUTH).setValue(CardDoorBlock.GENERATED, true).setValue(CardDoorBlock.OPEN, true);
@@ -80,7 +79,7 @@ public class Floor {
             capability.setDirty();
             return floor;
         }
-        return capability.getFloors().get(0);
+        return capability.getFloors().getFirst();
     }
 
     public RoomData getExitRoom() {
@@ -95,23 +94,26 @@ public class Floor {
         return type != ModFloorTypes.NONE.get();
     }
 
+    //thought this would be useful but not sure if it really is as we don't use it so may remove
     public boolean inFloor(BlockPos pos) {
         if (!rooms.isEmpty()) {
             if (rooms.get(RoomPos.ZERO).getGenerated().isPresent()) {
                 Room entrance = rooms.get(RoomPos.ZERO).getGenerated().get();
-                int maxX = entrance.getPosition().getX() + entrance.getStructure().getWidth();
+                int maxX = entrance.getPosition().getX() + entrance.getWidth();
                 int minX = entrance.getPosition().getX();
-                int maxZ = entrance.getPosition().getZ() + entrance.getStructure().getDepth();
+                int maxZ = entrance.getPosition().getZ() + entrance.getDepth();
                 int minZ = entrance.getPosition().getZ();
                 for (Map.Entry<RoomPos, RoomData> roomData : rooms.entrySet()) {
-                    Room room = roomData.getValue().getGenerated().get();
-                    int roomWidth = room.getStructure().getWidth();
-                    int roomDepth = room.getStructure().getDepth();
-                    BlockPos roomPos = room.getPosition();
-                    minX = Math.min(minX, roomPos.getX());
-                    maxX = Math.max(maxX, roomPos.getX() + roomWidth);
-                    minZ = Math.min(minZ, roomPos.getZ());
-                    maxZ = Math.max(maxZ, roomPos.getZ() + roomDepth);
+                    Optional<Room> room = roomData.getValue().getGenerated();
+                    if (room.isPresent()) {
+                        int roomWidth = room.get().getWidth();
+                        int roomDepth = room.get().getDepth();
+                        BlockPos roomPos = room.get().getPosition();
+                        minX = Math.min(minX, roomPos.getX());
+                        maxX = Math.max(maxX, roomPos.getX() + roomWidth);
+                        minZ = Math.min(minZ, roomPos.getZ());
+                        maxZ = Math.max(maxZ, roomPos.getZ() + roomDepth);
+                    }
                 }
                 return pos.getX() >= minX && pos.getX() <= maxX && pos.getZ() >= minZ && pos.getZ() <= maxZ;
             }
@@ -119,7 +121,7 @@ public class Floor {
         return false;
     }
 
-    public void setWorldCard(WorldCardItem card) {
+    public void setWorldCard(WorldCardItem.WorldCard card) {
         type = card.getFloorType();
         generateLayout();
     }
@@ -129,7 +131,7 @@ public class Floor {
     }
 
     public BlockPos getEntranceHallPosition() {
-        return getRoom(RoomPos.ZERO).getGenerated().map(Room::getPosition).orElse(null);
+        return getEntranceHall().getGenerated().map(Room::getPosition).orElse(null);
     }
 
     public RoomData getEntranceHall() {
@@ -264,7 +266,7 @@ public class Floor {
                 KingdomKeys.LOGGER.debug("Generating Key room no. {}", i);
                 int index = Utils.randomWithRange(0, possibleRoomsForKeyRooms.size() - 1);
                 RoomData room = possibleRoomsForKeyRooms.get(index);
-                KeycardType keycardType = KeycardType.values()[i];;
+                KeycardType keycardType = KeycardType.values()[i];
                 RoomDirection direction = setRandomFreeDoor(room, DoorData.Type.KEY, keycardType);
                 if (direction != null) {
                     RoomData newRoom = new RoomData(floorID, room.pos.add(direction), RoomData.Type.ENCOUNTER);
@@ -430,7 +432,7 @@ public class Floor {
 
     public void deserializeNBT(CompoundTag tag) {
         floorID = tag.getInt("id");
-        type = ModJsonRegistries.FLOOR_TYPE.get().getValue(ResourceLocation.parse(tag.getString("floor_type")));
+        type = ModJsonRegistries.FLOOR_TYPE.get().getValue(KingdomKeys.rl(tag.getString("floor_type")));
         rooms.clear();
         int roomssize = tag.getInt("rooms_size");
         CompoundTag roomsTag = tag.getCompound("rooms");

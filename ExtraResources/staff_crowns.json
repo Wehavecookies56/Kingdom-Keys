@@ -1,0 +1,77 @@
+{
+	"_devs": "The key of an entry is only a label for whoever edits this file. Keys starting with _ are skipped, which is how these headings work. crowns are texture names under assets/kingdomkeys/textures/models/crown/, and the first one is not special. uuids are every account that person plays on, with or without dashes.",
+	"Estelleste": {
+		"crowns": ["builder"],
+		"uuids": ["00f64175-6586-4391-b4b4-ee7e7d04e3f0", "8686849d-f975-3c01-a60b-65e20a11c916"]
+	},
+
+	"Abelatox": {
+		"crowns": ["green", "red", "contributor", "addon", "builder"],
+		"uuids": ["56ba5202-cfda-4b48-a1c2-9d1318847c0e", "947889d6-ce74-3f94-ba88-5ec95ee2e9c8"]
+	},
+
+	"wyndftw": {
+		"crowns": ["contributor"],
+		"uuids": ["c142a238-b214-46b0-8820-139df67be10b", "c7136301-a230-3486-bc31-e69dbd2d6217"]
+	},
+
+	"stel1034": {
+		"crowns": ["green"],
+		"uuids": ["e36a804b-4bbc-4a3b-bd56-9054cbced665", "9587f41c-f5b9-33eb-a3d7-e8b07fba45bc"]
+	},
+
+	"XephiroVT": {
+		"crowns": ["red"],
+		"uuids": ["70b48fbd-b67f-4f3e-9369-09cef36d51a3", "c2aa07b8-354f-33e3-aac0-777996d6b0a2"]
+	},
+
+
+	"_builders": "",
+	"__Ventus__": {
+		"crowns": ["builder"],
+		"uuids": ["5d4c173c-6a69-483d-a0d8-3c1c16a494e9", "252bfe53-8409-3434-ae6f-c4e6dae26169"]
+	},
+
+	"WaterBlock": {
+		"crowns": ["builder"],
+		"uuids": ["a7f78be2-d442-4bb8-849e-78ae3991062f", "ac38ac7c-cee2-357a-90a8-1798b1e5b4ee"]
+	},
+
+
+	"_contributors": "",
+	"Hartsa": {
+		"crowns": ["contributor"],
+		"uuids": ["335f4711-fe9c-4f2a-984b-ff7fb3dd1715", "b914eadc-0db7-3daf-b8ad-96848d70c1f1"]
+	},
+
+	"Zeit_Held": {
+		"crowns": ["contributor"],
+		"uuids": ["d0dcd562-892d-4e4a-9cab-bcb9fa1e788c", "e653e605-72ea-347d-b3f1-ee51cb5cb03e"]
+	},
+
+	"Juniperberrry": {
+		"crowns": ["contributor"],
+		"uuids": ["7e1a421b-4d3e-4823-9311-a796c2b9b718", "d7008997-dcba-31d9-bf8d-086bb6f05184"]
+	},
+
+	"Shiro_PlayZ": {
+		"crowns": ["contributor"],
+		"uuids": ["c07515e7-31db-405d-8438-b4eb38360ff6", "1d585aae-5153-3f69-adeb-1a40d677f1b4"]
+	},
+
+	"_addons": "",
+	"Cheosultma": {
+		"crowns": ["addon"],
+		"uuids": ["a6d567af-3b69-4668-a8dd-e880b4b6ed7f", "778a7deb-2c3e-3e7b-af42-1fc46b191f76"]
+	},
+
+	"Shikomi_36": {
+		"crowns": ["addon"],
+		"uuids": ["09c762c5-585e-4290-8fcf-0e238a030b40", "a6e438e3-f80b-33a4-8ecb-6896db2cd5f4"]
+	},
+
+	"MinusNoone": {
+		"crowns": ["addon"],
+		"uuids": ["f8899428-566a-47f5-bccb-4499027276bd", "0d178801-534f-3334-b733-9a22aef7c123"]
+	}
+}

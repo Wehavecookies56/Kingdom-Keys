@@ -38,5 +38,7 @@ public class LanguageENGB extends KKLanguageProvider {
         add("jei.info.kingdomkeys.organization_weapons", "As an Organisation member you can unlock weapons within the equipment menu by spending hearts gained from kills, you will earn 2x hearts from using a weapon from your chosen member. Summon the weapons using the summon key.");
         add("jei.info.kingdomkeys.organization_robes", "Wear the full Organisation set to join and select a member to start with, no matter who you choose you can unlock every member's weapons however it requires unlocking the adjacent member's weapon first.");
         add("jei.info.kingdomkeys.proof_of_heart", "Obtained from defeating the Ender Dragon, use this to leave the Organisation.");
+
+        addItem(ModItems.randomCardPack, "Random card pack", "A pack of 5 Map Cards of any colour, open to reveal them.");
     }
 }

@@ -6,22 +6,22 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
+import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.entity.magic.BalloonEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.BalloongaEntity;
-import online.kingdomkeys.kingdomkeys.lib.Strings;
 
 public class MagicBalloon extends Magic {
 
-	public MagicBalloon(ResourceLocation registryName, boolean hasToSelect, int tier, String gmAbility) {
+	public MagicBalloon(ResourceLocation registryName, boolean hasToSelect, int tier, ResourceLocation gmAbility) {
 		super(registryName, hasToSelect, gmAbility);
 		setTier(tier);
 	}
 
 	@Override
 	public void magicUse(LivingEntity player, Player caster, float fullMPBlastMult, LivingEntity lockOnEntity) {
-		float dmgMult = getRealDamageMult(caster) + PlayerData.get(caster).getNumberOfAbilitiesEquipped(Strings.waterBoost) * 0.2F;
+		float dmgMult = getRealDamageMult(caster) + PlayerData.get(caster).getNumberOfAbilitiesEquipped(ModAbilities.WATER_BOOST) * 0.2F;
 		caster.swing(InteractionHand.MAIN_HAND);
 
 		// Levels

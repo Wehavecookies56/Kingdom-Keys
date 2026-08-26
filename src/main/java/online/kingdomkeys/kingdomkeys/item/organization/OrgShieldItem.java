@@ -2,6 +2,7 @@ package online.kingdomkeys.kingdomkeys.item.organization;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -28,12 +29,12 @@ public class OrgShieldItem extends KKShieldItem implements IOrgWeapon, ICreative
 	}
 
 	@Override
-	public void setAbilities(String[] abilities) {
+	public void setAbilities(ResourceLocation[] abilities) {
 		data.abilities = abilities;
 	}
 
 	@Override
-	public String[] getAbilities() {
+	public ResourceLocation[] getAbilities() {
 		return data.getAbilities();
 	}
 

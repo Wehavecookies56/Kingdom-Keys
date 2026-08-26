@@ -4,24 +4,19 @@ import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.DefaultVertexFormat;
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.blaze3d.vertex.VertexFormat;
+import com.mojang.blaze3d.vertex.*;
 import com.mojang.math.Axis;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiSpriteManager;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.player.AbstractClientPlayer;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderStateShard;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.Sheets;
+import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.EntityRenderer;
@@ -29,11 +24,14 @@ import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlas;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.resources.metadata.gui.GuiSpriteScaling;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtIo;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.FormattedText;
 import net.minecraft.network.chat.MutableComponent;
@@ -48,25 +46,27 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.client.ClientHooks;
-import net.neoforged.neoforge.client.RenderTypeHelper;
 import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 import net.neoforged.neoforge.client.model.data.ModelData;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.HUD.*;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
+import online.kingdomkeys.kingdomkeys.entity.mob.BaseKHEntity;
 import online.kingdomkeys.kingdomkeys.handler.ClientEvents;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.KeychainItem;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
+import online.kingdomkeys.kingdomkeys.lib.Constants;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
+import online.kingdomkeys.kingdomkeys.lib.GummiStructure;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
 import online.kingdomkeys.kingdomkeys.util.IDisabledAnimations;
@@ -78,12 +78,88 @@ import org.joml.Quaternionf;
 
 import javax.annotation.Nullable;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.*;
 
 public class ClientUtils {
-    public static Style KK_Font_EXP = Style.EMPTY.withFont(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "kk_font_exp"));
-    public static Style KK_Font_MENU = Style.EMPTY.withFont(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "kk_font_menu"));
-    public static Style KK_Font_TITLE = Style.EMPTY.withFont(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "kk_font_title"));
+    public static void drawCategoryIcon(GuiGraphics gui, ItemCategory category, float x, float y, float scale) {
+        PoseStack matrixStack = gui.pose();
+        matrixStack.pushPose();
+        {
+            matrixStack.translate(x, y, 0);
+            matrixStack.scale(scale, scale, 1);
+            gui.blit(Constants.MENU_TEXTURE, 0, 0, category.getU(), category.getV(), 20, 20);
+        }
+        matrixStack.popPose();
+    }
+
+    public static void drawGloveAndDot(GuiGraphics gui, float ox, float oy, float width, float partialTicks) {
+        float ballScale = 0.5F;
+        int u = 0;
+        int v = 204;
+
+        gui.pose().pushPose();
+        {
+            float radiusX = 4.5F;
+            float radiusY = 6F;
+            float centerX = ox + width - radiusX -3;
+            float centerY = oy + 3;
+
+            float delta = ClientEvents.ballRot - ClientEvents.prevBallRot;
+
+            if (delta < -180F)
+                delta += 360F;
+            if (delta > 180F)
+                delta -= 360F;
+
+            float interpRot = ClientEvents.prevBallRot + delta * partialTicks;
+
+            float t = (float)Math.toRadians(-interpRot);
+
+            float x = centerX + (float)Math.cos(t * 3F + Math.PI / 2F) * radiusX;
+            float y = centerY + (float)Math.sin(t * 2F) * radiusY;
+
+            float gloveX = x - width - 10;
+            gui.pose().pushPose();
+            {
+                gui.pose().translate(gloveX, oy + 3, 0);
+                gui.blit(Constants.MENU_TEXTURE, 0, 0, 21, 204, 20, 14);
+            }
+            gui.pose().popPose();
+            gui.pose().pushPose();
+            {
+                gui.pose().translate(x, y, 0);
+                gui.pose().scale(ballScale, ballScale, 1F);
+                gui.blit(Constants.MENU_TEXTURE, 0, 0, u, v, 18, 16);
+            }
+            gui.pose().popPose();
+        }
+        gui.pose().popPose();
+    }
+
+    public static ResourceLocation variantTexture(ResourceLocation base, Entity entity) {
+        if (!(entity instanceof BaseKHEntity mob))
+            return base;
+        String variant = mob.getVariant();
+        if (variant == null || variant.isEmpty())
+            return base;
+
+        String path = base.getPath();
+        int dot = path.lastIndexOf('.');
+        if (dot < 0)
+            return base;
+
+        ResourceLocation variantLoc = ResourceLocation.fromNamespaceAndPath(base.getNamespace(), path.substring(0, dot) + "_" + variant + path.substring(dot));
+        return VARIANT_TEXTURE_EXISTS.computeIfAbsent(variantLoc, loc -> Minecraft.getInstance().getResourceManager().getResource(loc).isPresent()) ? variantLoc : base;
+    }
+
+    private static final java.util.Map<ResourceLocation, Boolean> VARIANT_TEXTURE_EXISTS = new java.util.concurrent.ConcurrentHashMap<>();
+
+    public static Style KK_Font_EXP = Style.EMPTY.withFont(KingdomKeys.rl("kk_font_exp"));
+    public static Style KK_Font_MENU = Style.EMPTY.withFont(KingdomKeys.rl("kk_font_menu"));
+    public static Style KK_Font_TITLE = Style.EMPTY.withFont(KingdomKeys.rl("kk_font_title"));
 
     //Order is important for overlapping boxes, top to bottom
     public static final HUDElement DRIVE_ELEMENT = new HUDElement("Drive").setScale(0.8F,0.8F);
@@ -100,6 +176,10 @@ public class ClientUtils {
     public static final HUDElement DRIVELEVEL_ELEMENT = new HUDElement("DriveLevel");
     public static final HUDElement ROOMNAME_ELEMENT = new HUDElement("RoomName");
     public static final HUDElement MINIMAP_ELEMENT = new HUDElement("Minimap");
+    public static final HUDElement ITEMGET_ELEMENT = new HUDElement("ItemGet");
+    public static final HUDElement GUMMI_INFO_ELEMENT = new HUDElement("GummiInfo");
+    public static final HUDElement GUMMI_READOUT_ELEMENT = new HUDElement("GummiReadout");
+    public static final HUDElement GUMMI_CONTROLS_ELEMENT = new HUDElement("GummiControls");
 
     public static Entity getEntityByUUIDClient(UUID uuid) {
         Minecraft mc = Minecraft.getInstance();
@@ -137,7 +217,7 @@ public class ClientUtils {
 
     public static boolean getResourceExists(String path){
         try {
-            Minecraft.getInstance().getResourceManager().getResourceOrThrow(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, path));
+            Minecraft.getInstance().getResourceManager().getResourceOrThrow(KingdomKeys.rl(path));
             return true;
         } catch (FileNotFoundException e) {
             return false;
@@ -145,7 +225,7 @@ public class ClientUtils {
     }
 
     public static ResourceLocation getResourceExistsOrDefault(String path, String name, String defaultName){
-        return ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, String.format(path, getResourceExists(String.format(path, name)) ? name : defaultName));
+        return KingdomKeys.rl(String.format(path, getResourceExists(String.format(path, name)) ? name : defaultName));
     }
 
     public static void drawXOnFace(PoseStack stack, VertexConsumer builder, double x, double y, double z, Direction face) {
@@ -244,43 +324,37 @@ public class ClientUtils {
             return defVal + ": " + actVal + " " + increasing;
         }
 
-		public void animate() {
-            if(model != null) {
-                if(increasing) { //animnation increase
-                    actVal += 2;
-                    if(actVal >= maxVal) {
-                        increasing = false;
-                    }
-                } else { //Animation decrease
-                    actVal -= 2;
-                    if(actVal <= minVal) {
-                        increasing = true;
-                    }
-                }
-                switch(angle) {
-                case X:
-                    model.xRot = (float) Math.toRadians(actVal);
-                    if(modelCounterpart != null) {
-                        modelCounterpart.xRot = (float) Math.toRadians(defVal*2-actVal);
-                    }
-                	break;
-                case Y:
-                    model.yRot = (float) Math.toRadians(actVal);
-                    if(modelCounterpart != null) {
-                        modelCounterpart.yRot = (float) Math.toRadians(defVal*2-actVal);
-                    }
-                	break;
-                case Z:
-                    model.zRot = (float) Math.toRadians(actVal);
-                    if(modelCounterpart != null) {
-                        modelCounterpart.zRot = (float) Math.toRadians(defVal*2-actVal);
-                    }
-                	break;
-                }
+		public void animate(float clock) {
+			if (model == null)
+                return;
+			float span = maxVal - minVal;
+			if (span <= 0) {
+				setDefault();
+				return;
 			}
-            
+
+			float travelled = (clock * 2F) % (2F * span);
+			actVal = minVal + (travelled <= span ? travelled : 2F * span - travelled);
+			apply(actVal);
 		}
-		
+
+		private void apply(float value) {
+			switch(angle) {
+			case X:
+				model.xRot = (float) Math.toRadians(value);
+				if(modelCounterpart != null) modelCounterpart.xRot = (float) Math.toRadians(defVal*2-value);
+				break;
+			case Y:
+				model.yRot = (float) Math.toRadians(value);
+				if(modelCounterpart != null) modelCounterpart.yRot = (float) Math.toRadians(defVal*2-value);
+				break;
+			case Z:
+				model.zRot = (float) Math.toRadians(value);
+				if(modelCounterpart != null) modelCounterpart.zRot = (float) Math.toRadians(defVal*2-value);
+				break;
+			}
+		}
+
 		public void setDefault() {
             if(model != null) {
                 switch(angle) {
@@ -379,14 +453,80 @@ public class ClientUtils {
         if(entity instanceof AbstractClientPlayer livingEntity)
   		    renderPlayerNoAnimsRaw(posestack, pPosX, pPosY, (int) pScale, f, f1, livingEntity);
         else
-            renderEntityRaw(posestack, pScale, f, f1, entity);
+            renderEntityRaw(posestack, pPosX, pPosY, pScale, f, f1, entity);
+    }
+
+    /**
+     * Vanilla leaves this much room under the chat's bottom line, above the hotbar. Taken from
+     * {@code ChatComponent#screenToChatY}, which is where the number actually lives.
+     */
+    private static final int CHAT_BOTTOM_MARGIN = 40;
+
+    /**
+     * How far up the chat log has to be pushed to clear the command menu, in scaled pixels.
+     *
+     * <p>Both sit in the bottom-left corner and the command menu grows upwards with the number of
+     * entries, so a fixed offset would either not be enough or waste space. This measures the actual
+     * overlap instead, and returns 0 whenever there is none - the menu is hidden, the player moved it
+     * elsewhere in the HUD editor, or it is short enough to fit below the chat.</p>
+     *
+     * <p>Only the log moves. The input line belongs to the chat screen, not to this, and it is already
+     * clear of the menu.</p>
+     */
+    public static int getChatLift() {
+        if (!ModConfigs.snapChatToCommandMenu) {
+            return 0;
+        }
+
+        Minecraft mc = Minecraft.getInstance();
+        if (mc.player == null || mc.gui == null || !Utils.shouldRenderOverlay(mc.player)) {
+            return 0;
+        }
+
+        int screenWidth = mc.getWindow().getGuiScaledWidth();
+        int screenHeight = mc.getWindow().getGuiScaledHeight();
+
+        // A negative scale flips the box, so read the edges rather than trusting the sign.
+        float edgeA = CM_ELEMENT.getPixelY(screenHeight);
+        float edgeB = edgeA + CM_ELEMENT.getScaledHeight();
+        float menuTop = Math.min(edgeA, edgeB);
+        float menuBottom = Math.max(edgeA, edgeB);
+
+        float menuLeftEdge = CM_ELEMENT.getPixelX(screenWidth);
+        float menuLeft = Math.min(menuLeftEdge, menuLeftEdge + CM_ELEMENT.getScaledWidth());
+
+        float chatBaseline = screenHeight - CHAT_BOTTOM_MARGIN;
+
+        // Above the chat entirely, or off to the side of it: nothing to dodge.
+        if (menuBottom <= chatBaseline || menuLeft >= mc.gui.getChat().getWidth()) {
+            return 0;
+        }
+
+        return (int) Math.max(0, chatBaseline - menuTop);
     }
 
     public static boolean disableEFMAnims = false;
+
+    public static boolean renderingEntityInGui = false;
   	
   	//Slightly modified copy of InventoryScreen.renderEntityInInventoryRaw to disable animations, so if it breaks in an update, use that to fix it
-  	@SuppressWarnings({ "deprecation", "unchecked" })
+	/**
+	 * Same as the six-argument version but with an explicit body yaw, applied to the PoseStack rather
+	 * than to the entity. Necessary because setting yBodyRot/setYRot has no visible effect in this
+	 * pipeline: the animation-disabling mixin resetPose()s every part, and with EpicFight in the chain
+	 * the entity rotations get overridden downstream. Rotating the matrix inside - after the internal
+	 * uniform scaling, so it stays undistorted - is the one spot nobody else can undo.
+	 */
+	public static void renderPlayerNoAnimsRaw(PoseStack pose, int x, int y, int scale, float angleXComponent, float angleYComponent, LivingEntity entity, float bodyYaw) {
+		renderPlayerNoAnimsRawInternal(pose, x, y, scale, angleXComponent, angleYComponent, entity, bodyYaw);
+	}
+
 	public static void renderPlayerNoAnimsRaw(PoseStack p_275396_, int p_275688_, int p_275245_, int p_275535_, float angleXComponent, float angleYComponent, LivingEntity p_275689_) {
+		renderPlayerNoAnimsRawInternal(p_275396_, p_275688_, p_275245_, p_275535_, angleXComponent, angleYComponent, p_275689_, 0F);
+	}
+
+	@SuppressWarnings({ "deprecation", "unchecked" })
+	private static void renderPlayerNoAnimsRawInternal(PoseStack p_275396_, int p_275688_, int p_275245_, int p_275535_, float angleXComponent, float angleYComponent, LivingEntity p_275689_, float bodyYaw) {
         float f = angleXComponent;
         float f1 = angleYComponent;
         Quaternionf quaternionf = (new Quaternionf()).rotateZ((float) Math.PI);
@@ -411,6 +551,11 @@ public class ClientUtils {
         p_275396_.translate(p_275688_, p_275245_, -950.0D);
         p_275396_.mulPose((new Matrix4f()).scaling((float) p_275535_, (float) p_275535_, (float) (-p_275535_)));
         p_275396_.mulPose(quaternionf);
+        // Body yaw here: the matrix has just had scaling(s, s, -s) applied, which is uniform, so a Y
+        // rotation comes out round instead of sheared.
+        if (bodyYaw != 0F) {
+            p_275396_.mulPose(com.mojang.math.Axis.YP.rotationDegrees(bodyYaw));
+        }
         Lighting.setupForEntityInInventory();
         EntityRenderDispatcher entityrenderdispatcher = Minecraft.getInstance().getEntityRenderDispatcher();
         if (quaternionf1 != null) {
@@ -424,10 +569,12 @@ public class ClientUtils {
             LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> renderer = (LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>>) Minecraft.getInstance().getEntityRenderDispatcher().getRenderer((AbstractClientPlayer) p_275689_);
             ((IDisabledAnimations) renderer).kingdom_Keys$setDisabled(true);
             disableEFMAnims = true;
+            renderingEntityInGui = true;
             renderer.render((AbstractClientPlayer) p_275689_, 0, 1, p_275396_, multibuffersource$buffersource, 15728880);
             renderer = (LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>>) Minecraft.getInstance().getEntityRenderDispatcher().getRenderer((AbstractClientPlayer) p_275689_);
             ((IDisabledAnimations) renderer).kingdom_Keys$setDisabled(false);
             disableEFMAnims = false;
+            renderingEntityInGui = false;
         });
 
         multibuffersource$buffersource.endBatch();
@@ -444,13 +591,14 @@ public class ClientUtils {
         p_275689_.yHeadRot = f6;
     }
 
-    public static void renderEntityRaw(PoseStack pose, float scale, float angleXComponent, float angleYComponent, Entity entity) {
+    public static void renderEntityRaw(PoseStack pose, int x, int y, float scale, float angleXComponent, float angleYComponent, Entity entity) {
         Quaternionf qZ = new Quaternionf().rotateZ((float)Math.PI);
         Quaternionf qX = new Quaternionf().rotateX(angleYComponent * 20.0F * ((float)Math.PI / 180F));
         qZ.mul(qX);
 
         pose.pushPose();
         {
+            pose.translate(x, y, 0);
             pose.mulPose(qZ);
             pose.scale(-scale, scale, scale);
 
@@ -477,6 +625,30 @@ public class ClientUtils {
             Lighting.setupFor3DItems();
         }
         pose.popPose();
+    }
+
+    public static void facingCamera(LivingEntity entity, Runnable render) {
+        float bodyRot = entity.yBodyRot;
+        float yRot = entity.getYRot();
+        float xRot = entity.getXRot();
+        float headRot = entity.yHeadRot;
+        float headRotO = entity.yHeadRotO;
+
+        entity.yBodyRot = 180F;
+        entity.setYRot(180F);
+        entity.setXRot(0F);
+        entity.yHeadRot = 180F;
+        entity.yHeadRotO = 180F;
+
+        try {
+            render.run();
+        } finally {
+            entity.yBodyRot = bodyRot;
+            entity.setYRot(yRot);
+            entity.setXRot(xRot);
+            entity.yHeadRot = headRot;
+            entity.yHeadRotO = headRotO;
+        }
     }
   	public static List<Component> getTooltip(List<Component> tooltip, Item.TooltipContext context, ItemStack stack) {
           if (context.level() != null) {
@@ -526,7 +698,7 @@ public class ClientUtils {
               tooltip.add(Component.translatable(ChatFormatting.RED + Utils.translateToLocal(Strings.Gui_Menu_Status_Strength) + " %s", baseStr + " [" + totalStr + "]"));
               tooltip.add(Component.translatable(ChatFormatting.BLUE + Utils.translateToLocal(Strings.Gui_Menu_Status_Magic) + " %s", baseMag + " [" + totalMag + "]"));
               if (stack.getItem() instanceof IExtendedReach extendedReach) {
-                tooltip.add(Component.translatable(ChatFormatting.AQUA + "Reach " + ChatFormatting.WHITE + "+" + extendedReach.getReach()));
+                tooltip.add(Component.translatable("kingdomkeys.keyblade.reach", extendedReach.getReach()).withStyle(ChatFormatting.AQUA));
               }
               tooltip.add(Component.translatable(ChatFormatting.WHITE + "" + ChatFormatting.ITALIC + desc));
 
@@ -573,27 +745,27 @@ public class ClientUtils {
     }
 
     public static final RenderType LOCK_ON_INDICATOR = RenderType.create(KingdomKeys.MODID + ":lock_on_indicator", DefaultVertexFormat.POSITION_TEX, VertexFormat.Mode.QUADS, 256, false, false,
-            RenderType.CompositeState.builder().setShaderState(RenderStateShard.POSITION_TEX_SHADER).setTextureState(new RenderStateShard.TextureStateShard(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/lockon_0.png"),
+            RenderType.CompositeState.builder().setShaderState(RenderStateShard.POSITION_TEX_SHADER).setTextureState(new RenderStateShard.TextureStateShard(KingdomKeys.rl("textures/gui/lockon_0.png"),
                             false, false)).setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY).setDepthTestState(RenderStateShard.NO_DEPTH_TEST).setWriteMaskState(RenderStateShard.COLOR_WRITE).setLightmapState(RenderStateShard.NO_LIGHTMAP)
                     .setOverlayState(RenderStateShard.NO_OVERLAY).createCompositeState(true));
 
     public static final RenderType LOCK_ON_INNER = RenderType.create(KingdomKeys.MODID + ":lock_on_inner", DefaultVertexFormat.POSITION_TEX, VertexFormat.Mode.QUADS, 256, false, false,
-            RenderType.CompositeState.builder().setShaderState(RenderStateShard.POSITION_TEX_SHADER).setTextureState(new RenderStateShard.TextureStateShard(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/lockon_1.png"),
+            RenderType.CompositeState.builder().setShaderState(RenderStateShard.POSITION_TEX_SHADER).setTextureState(new RenderStateShard.TextureStateShard(KingdomKeys.rl("textures/gui/lockon_1.png"),
                             false, false)).setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY).setDepthTestState(RenderStateShard.NO_DEPTH_TEST).setWriteMaskState(RenderStateShard.COLOR_WRITE).setLightmapState(RenderStateShard.NO_LIGHTMAP)
                     .setOverlayState(RenderStateShard.NO_OVERLAY).createCompositeState(true));
 
     public static final RenderType SHOTLOCK_INDICATOR = RenderType.create(KingdomKeys.MODID + ":shotlock_indicator", DefaultVertexFormat.POSITION_TEX, VertexFormat.Mode.QUADS, 256, false, false,
-            RenderType.CompositeState.builder().setShaderState(RenderStateShard.POSITION_TEX_SHADER).setTextureState(new RenderStateShard.TextureStateShard(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/shotlock_indicator.png"),
+            RenderType.CompositeState.builder().setShaderState(RenderStateShard.POSITION_TEX_SHADER).setTextureState(new RenderStateShard.TextureStateShard(KingdomKeys.rl("textures/gui/shotlock_indicator.png"),
                             false, false)).setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY).setDepthTestState(RenderStateShard.NO_DEPTH_TEST).setWriteMaskState(RenderStateShard.COLOR_WRITE).setLightmapState(RenderStateShard.NO_LIGHTMAP)
                     .setOverlayState(RenderStateShard.NO_OVERLAY).createCompositeState(true));
 
     public static final RenderType ULTIMATE_SHOTLOCK_INDICATOR = RenderType.create(KingdomKeys.MODID+":shotlock_indicator", DefaultVertexFormat.POSITION_TEX, VertexFormat.Mode.QUADS, 256, false, false,
-            RenderType.CompositeState.builder().setShaderState(RenderStateShard.POSITION_TEX_SHADER).setTextureState(new RenderStateShard.TextureStateShard(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID,"textures/gui/ultimate_shotlock_indicator.png"),
+            RenderType.CompositeState.builder().setShaderState(RenderStateShard.POSITION_TEX_SHADER).setTextureState(new RenderStateShard.TextureStateShard(KingdomKeys.rl("textures/gui/ultimate_shotlock_indicator.png"),
                             false, false)).setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY).setDepthTestState(RenderStateShard.NO_DEPTH_TEST).setWriteMaskState(RenderStateShard.COLOR_WRITE).setLightmapState(RenderStateShard.NO_LIGHTMAP)
                     .setOverlayState(RenderStateShard.NO_OVERLAY).createCompositeState(true));
 
     public static final RenderType AIRSTEP_INDICATOR = RenderType.create(KingdomKeys.MODID+":airstep_indicator", DefaultVertexFormat.POSITION_TEX, VertexFormat.Mode.QUADS, 256, false, false,
-            RenderType.CompositeState.builder().setShaderState(RenderStateShard.POSITION_TEX_SHADER).setTextureState(new RenderStateShard.TextureStateShard(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID,"textures/gui/airstep_indicator.png"),
+            RenderType.CompositeState.builder().setShaderState(RenderStateShard.POSITION_TEX_SHADER).setTextureState(new RenderStateShard.TextureStateShard(KingdomKeys.rl("textures/gui/airstep_indicator.png"),
                             false, false)).setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY).setDepthTestState(RenderStateShard.NO_DEPTH_TEST).setWriteMaskState(RenderStateShard.COLOR_WRITE).setLightmapState(RenderStateShard.NO_LIGHTMAP)
                     .setOverlayState(RenderStateShard.NO_OVERLAY).createCompositeState(true));
 
@@ -661,7 +833,7 @@ public class ClientUtils {
             poseStack.translate(x - camPos.x, y - camPos.y + target.getBbHeight() * 0.5, z - camPos.z);
             poseStack.mulPose(mc.getEntityRenderDispatcher().cameraOrientation());
 
-            float size = 1.5F + shotlock.getCooldown() * 0.2F - ClientEvents.focusingAnEntityTicks * 0.2F;
+            float size = 1.5F + shotlock.getRealCooldown(mc.player) * 0.2F - ClientEvents.focusingAnEntityTicks * 0.2F;
             Matrix4f mat = poseStack.last().pose();
             drawTexturedModalRect2DPlane(mat, buffer.getBuffer(ULTIMATE_SHOTLOCK_INDICATOR), -size, -size, size, size, 0, 0, 256, 256);
         }
@@ -744,7 +916,7 @@ public class ClientUtils {
             poseStack.translate(x - camPos.x, y - camPos.y + target.getBbHeight() * 0.5, z - camPos.z);
             poseStack.mulPose(mc.getEntityRenderDispatcher().cameraOrientation());
 
-            float size = 1.5F + shotlock.getCooldown() * 0.2F - ClientEvents.focusingAnEntityTicks * 0.2F;
+            float size = 1.5F + shotlock.getRealCooldown(mc.player) * 0.2F - ClientEvents.focusingAnEntityTicks * 0.2F;
             Matrix4f mat = poseStack.last().pose();
             drawTexturedModalRect2DPlane(mat, buffer.getBuffer(AIRSTEP_INDICATOR), -size, -size, size, size, 0, 0, 256, 256);
         }
@@ -809,7 +981,7 @@ public class ClientUtils {
         VertexConsumer buffer = bufferIn.getBuffer(Sheets.translucentCullBlockSheet());
         matrixStackIn.pushPose();
         {
-            BakedModel model = Minecraft.getInstance().getModelManager().getModel(ModelResourceLocation.standalone(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "entity/heart")));
+            BakedModel model = Minecraft.getInstance().getModelManager().getModel(ModelResourceLocation.standalone(KingdomKeys.rl("entity/heart")));
             matrixStackIn.scale(0.005F, 0.005F, 0.005F);
             matrixStackIn.translate(0, 300, 0);
             matrixStackIn.mulPose(Axis.YP.rotationDegrees(entitylivingbaseIn.tickCount*5));
@@ -821,31 +993,30 @@ public class ClientUtils {
         matrixStackIn.popPose();
     }
 
+    public static final RenderType shipHologramRenderType = RenderType.entityTranslucentCull(TextureAtlas.LOCATION_BLOCKS);
+
     /**
      * Copied from {@link net.minecraft.client.renderer.block.BlockRenderDispatcher#renderSingleBlock(BlockState, PoseStack, MultiBufferSource, int, int, ModelData, RenderType)} modified to use alpha
      */
-    public static void renderSingleBlock(BlockState state, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, int packedOverlay, ModelData modelData, RenderType renderType, float alpha) {
+    public static void renderSingleBlock(BlockState state, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, int packedOverlay, ModelData modelData, float alpha) {
         RenderShape rendershape = state.getRenderShape();
         if (rendershape != RenderShape.INVISIBLE) {
             switch (rendershape) {
                 case MODEL:
                     BakedModel bakedmodel = Minecraft.getInstance().getBlockRenderer().getBlockModel(state);
-                    int i = Minecraft.getInstance().getBlockRenderer().blockColors.getColor(state, (BlockAndTintGetter)null, (BlockPos)null, 0);
+                    int i = Minecraft.getInstance().getBlockRenderer().blockColors.getColor(state, null, null, 0);
                     float r = (float)(i >> 16 & 255) / 255.0F;
                     float g = (float)(i >> 8 & 255) / 255.0F;
                     float b = (float)(i & 255) / 255.0F;
 
-                    for (RenderType rt : bakedmodel.getRenderTypes(state, RandomSource.create(42L), modelData)) {
-                        renderModel(poseStack.last(), bufferSource.getBuffer(renderType != null ? renderType : RenderTypeHelper.getEntityRenderType(rt, false)), state, bakedmodel, r, g, b, alpha, packedLight, packedOverlay, modelData, rt);
-                    }
-
+                    VertexConsumer consumer = bufferSource.getBuffer(shipHologramRenderType);
+                    renderModel(poseStack.last(), consumer, state, bakedmodel, r, g, b, alpha, packedLight, packedOverlay, modelData, shipHologramRenderType);
                     return;
                 case ENTITYBLOCK_ANIMATED:
                     ItemStack stack = new ItemStack(state.getBlock());
                     IClientItemExtensions.of(stack).getCustomRenderer().renderByItem(stack, ItemDisplayContext.NONE, poseStack, bufferSource, packedLight, packedOverlay);
             }
         }
-
     }
 
     /**
@@ -855,17 +1026,14 @@ public class ClientUtils {
         RandomSource randomsource = RandomSource.create();
         long i = 42L;
         Direction[] var15 = Direction.values();
-        int var16 = var15.length;
 
-        for(int var17 = 0; var17 < var16; ++var17) {
-            Direction direction = var15[var17];
-            randomsource.setSeed(42L);
-            renderQuadList(pose, consumer, red, green, blue, alpha, model.getQuads(state, direction, randomsource, modelData, renderType), packedLight, packedOverlay);
-        }
+	    for (Direction direction : var15) {
+		    randomsource.setSeed(i);
+		    renderQuadList(pose, consumer, red, green, blue, alpha, model.getQuads(state, direction, randomsource, modelData, renderType), packedLight, packedOverlay);
+	    }
 
-        randomsource.setSeed(42L);
+        randomsource.setSeed(i);
         renderQuadList(pose, consumer, red, green, blue, alpha, model.getQuads(state, (Direction)null, randomsource, modelData, renderType), packedLight, packedOverlay);
-
     }
 
     /**
@@ -876,8 +1044,8 @@ public class ClientUtils {
         float f;
         float f1;
         float f2;
-        for(Iterator var8 = quads.iterator(); var8.hasNext(); consumer.putBulkData(pose, bakedquad, f, f1, f2, alpha, packedLight, packedOverlay)) {
-            bakedquad = (BakedQuad)var8.next();
+        for(Iterator<BakedQuad> var8 = quads.iterator(); var8.hasNext(); consumer.putBulkData(pose, bakedquad, f, f1, f2, alpha, packedLight, packedOverlay)) {
+            bakedquad = var8.next();
             if (bakedquad.isTinted()) {
                 f = Mth.clamp(red, 0.0F, 1.0F);
                 f1 = Mth.clamp(green, 0.0F, 1.0F);
@@ -897,15 +1065,17 @@ public class ClientUtils {
      */
 
     public enum TrailType {
-        FLOWMOTION, DASH
+        FLOWMOTION, DASH, AIRSTEP
     }
     private static final Map<UUID, Deque<Vec3>> FLOW_TRAILS = new HashMap<>();
     private static final Map<UUID, Deque<Vec3>> DASH_TRAILS = new HashMap<>();
+    private static final Map<UUID, Deque<Vec3>> AIRSTEP_TRAILS = new HashMap<>();
 
     private static Deque<Vec3> getTrail(TrailType type, Player player) {
         return switch(type){
             case FLOWMOTION -> FLOW_TRAILS.computeIfAbsent(player.getUUID(), k -> new ArrayDeque<>());
             case DASH -> DASH_TRAILS.computeIfAbsent(player.getUUID(), k -> new ArrayDeque<>());
+            case AIRSTEP -> AIRSTEP_TRAILS.computeIfAbsent(player.getUUID(), k -> new ArrayDeque<>());
         };
     }
 
@@ -927,68 +1097,66 @@ public class ClientUtils {
         }
     }
 
+    private static final float TRAIL_WIDTH = 0.03F;
+
     public static void renderTrail(TrailType type, Player player, PoseStack poseStack, MultiBufferSource bufferSource, float offsetAmount, float verticalOffset, float r, float g, float b, boolean oscillate) {
         Deque<Vec3> trail = getTrail(type, player);
 
         if (trail.size() < 2)
             return;
 
+        Vec3[] spine = new Vec3[trail.size()];
+        int idx = 0;
+        Iterator<Vec3> it = trail.descendingIterator();
+        while (it.hasNext()) {
+            spine[idx++] = it.next();
+        }
+
+        int count = spine.length;
+        Vec3[] offsetPoints = new Vec3[count];
+
+        for (int i = 0; i < count; i++) {
+            Vec3 curr = spine[i];
+            Vec3 prev = i < count - 1 ? spine[i + 1] : curr;
+            Vec3 next = i > 0 ? spine[i - 1] : curr;
+
+            Vec3 dirVec = next.subtract(prev);
+            Vec3 dir = dirVec.lengthSqr() < 1E-6 ? new Vec3(0, 0, 1) : dirVec.normalize();
+
+            Vec3 offset;
+
+            if (oscillate) {
+                //Spiral
+                Vec3 arbitrary = Math.abs(dir.y) < 0.99 ? new Vec3(0,1,0) : new Vec3(1,0,0);
+
+                Vec3 right = dir.cross(arbitrary).normalize();
+                Vec3 up = dir.cross(right).normalize();
+
+                float t = i / (float) count;
+                float angle = t * 10f + player.tickCount * 0.2f;
+                float radius = 0.05f * offsetAmount;
+
+                offset = right.scale(Math.cos(angle) * radius).add(up.scale(Math.sin(angle) * radius));
+                offset = offset.add(new Vec3(0, verticalOffset, 0));
+            } else {
+                //Fixed
+                Vec3 worldUp = new Vec3(0, 1, 0);
+                Vec3 side = dir.cross(worldUp).normalize().scale(0.05f);
+
+                Vec3 horizontalOffset = side.scale(offsetAmount);
+                Vec3 vertical = worldUp.scale(verticalOffset);
+
+                offset = horizontalOffset.add(vertical);
+            }
+
+            offsetPoints[i] = curr.add(offset);
+        }
+
         poseStack.pushPose();
         {
-            VertexConsumer buffer = bufferSource.getBuffer(RenderType.lines());
-            List<Vec3> points = new ArrayList<>(trail);
+            VertexConsumer buffer = bufferSource.getBuffer(RenderType.debugQuads());
             Matrix4f pose = poseStack.last().pose();
-
-            for (int i = 0; i < points.size() - 1; i++) {
-                Vec3 p1 = points.get(i);
-                Vec3 p2 = points.get(i + 1);
-
-                Vec3 dir = p2.subtract(p1).normalize();
-
-                Vec3 offset;
-
-                if (oscillate) {
-                    //Spiral
-                    Vec3 arbitrary = Math.abs(dir.y) < 0.99 ? new Vec3(0,1,0) : new Vec3(1,0,0);
-
-                    Vec3 right = dir.cross(arbitrary).normalize();
-                    Vec3 up = dir.cross(right).normalize();
-
-                    float t = i / (float) points.size();
-                    float angle = t * 10f + player.tickCount * 0.2f;
-                    float radius = 0.05f * offsetAmount;
-
-                    offset = right.scale((float)Math.cos(angle) * radius).add(up.scale((float)Math.sin(angle) * radius));
-                    offset = offset.add(new Vec3(0, verticalOffset, 0));
-                } else {
-                    //Fixed
-                    Vec3 worldUp = new Vec3(0, 1, 0);
-                    Vec3 side = dir.cross(worldUp).normalize().scale(0.05f);
-
-                    Vec3 horizontalOffset = side.scale(offsetAmount);
-                    Vec3 vertical = worldUp.scale(verticalOffset);
-
-                    offset = horizontalOffset.add(vertical);
-                }
-
-                // aplicar offset
-                Vec3 p1Final = p1.add(offset);
-                Vec3 p2Final = p2.add(offset);
-
-                float alpha = i / (float) points.size();
-
-                buffer.addVertex(pose, (float)p1Final.x, (float)p1Final.y, (float)p1Final.z)
-                        .setColor(r, g, b, alpha)
-                        .setUv(0f, 0f)
-                        .setUv2(0, 15728880)
-                        .setNormal(0f, 1f, 0f);
-
-                buffer.addVertex(pose, (float)p2Final.x, (float)p2Final.y, (float)p2Final.z)
-                        .setColor(r, g, b, alpha)
-                        .setUv(0f, 0f)
-                        .setUv2(0, 15728880)
-                        .setNormal(0f, 1f, 0f);
-            }
+            TrailRenderer.render(offsetPoints, Vec3.ZERO, pose, buffer, r, g, b, TRAIL_WIDTH);
         }
         poseStack.popPose();
     }
@@ -1168,6 +1336,136 @@ public class ClientUtils {
 
         MINI_TRAILS.add(new MiniTrail(start, target, speed, attract));
     }
+
+    //copy of GuiGraphics blit methods but modified to batch render and with innerStretch boolean to replicate the 1.21.2+ mcmeta property
+    public static void blitSprite(GuiGraphics guiGraphics, ResourceLocation sprite, int x, int y, int width, int height, boolean innerStretch) {
+        blitSprite(guiGraphics, sprite, x, y, width, height, 0, innerStretch);
+    }
+
+    public static void blitSprite(GuiGraphics guiGraphics, ResourceLocation sprite, int x, int y, int width, int height, int blitOffset, boolean innerStretch) {
+        GuiSpriteManager sprites = Minecraft.getInstance().getGuiSprites();
+        TextureAtlasSprite textureatlassprite = sprites.getSprite(sprite);
+        GuiSpriteScaling guispritescaling = sprites.getSpriteScaling(textureatlassprite);
+        BufferBuilder bufferbuilder = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
+        if (guispritescaling instanceof GuiSpriteScaling.Stretch) {
+            blitSprite(guiGraphics, bufferbuilder, textureatlassprite, x, y, width, height, blitOffset);
+        } else if (guispritescaling instanceof GuiSpriteScaling.Tile) {
+            GuiSpriteScaling.Tile guispritescaling$tile = (GuiSpriteScaling.Tile)guispritescaling;
+            blitTiledSprite(guiGraphics, bufferbuilder, textureatlassprite, x, y, width, height, 0, 0, guispritescaling$tile.width(), guispritescaling$tile.height(), guispritescaling$tile.width(), guispritescaling$tile.height(), blitOffset);
+        } else if (guispritescaling instanceof GuiSpriteScaling.NineSlice guispritescaling$nineslice) {
+            blitNineSlicedSprite(guiGraphics, bufferbuilder, textureatlassprite, guispritescaling$nineslice, x, y, width, height, blitOffset, innerStretch);
+        }
+        BufferUploader.drawWithShader(bufferbuilder.buildOrThrow());
+    }
+
+    private static void blitNineSlicedSprite(GuiGraphics guiGraphics, BufferBuilder bufferbuilder, TextureAtlasSprite sprite, GuiSpriteScaling.NineSlice nineSlice, int x, int y, int width, int height, int blitOffset, boolean innerStretch) {
+        RenderSystem.setShaderTexture(0, sprite.atlasLocation());
+        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        GuiSpriteScaling.NineSlice.Border guispritescaling$nineslice$border = nineSlice.border();
+        int i = Math.min(guispritescaling$nineslice$border.left(), width / 2);
+        int j = Math.min(guispritescaling$nineslice$border.right(), width / 2);
+        int k = Math.min(guispritescaling$nineslice$border.top(), height / 2);
+        int l = Math.min(guispritescaling$nineslice$border.bottom(), height / 2);
+        if (width == nineSlice.width() && height == nineSlice.height()) {
+            blitSprite(guiGraphics, bufferbuilder, sprite, nineSlice.width(), nineSlice.height(), 0, 0, x, y, width, height, blitOffset);
+        } else if (height == nineSlice.height()) {
+            blitSprite(guiGraphics, bufferbuilder, sprite, nineSlice.width(), nineSlice.height(), 0, 0, x, y, i, height, blitOffset);
+            blitTiledSprite(guiGraphics, bufferbuilder, sprite, x + i, y, width - j - i, height, i, 0, nineSlice.width() - j - i, nineSlice.height(), nineSlice.width(), nineSlice.height(), blitOffset);
+            blitSprite(guiGraphics, bufferbuilder, sprite, nineSlice.width(), nineSlice.height(), nineSlice.width() - j, 0, x + width - j, y, j, height, blitOffset);
+        } else if (width == nineSlice.width()) {
+            blitSprite(guiGraphics, bufferbuilder, sprite, nineSlice.width(), nineSlice.height(), 0, 0, x, y, width, k, blitOffset);
+            blitTiledSprite(guiGraphics, bufferbuilder, sprite, x, y + k, width, height - l - k, 0, k, nineSlice.width(), nineSlice.height() - l - k, nineSlice.width(), nineSlice.height(), blitOffset);
+            blitSprite(guiGraphics, bufferbuilder, sprite, nineSlice.width(), nineSlice.height(), 0, nineSlice.height() - l, x, y + height - l, width, l, blitOffset);
+        } else {
+            blitSprite(guiGraphics, bufferbuilder, sprite, nineSlice.width(), nineSlice.height(), 0, 0, x, y, i, k, blitOffset);
+            blitNineSliceInnerSegment(guiGraphics, bufferbuilder, sprite, x + i, y, width - j - i, k, i, 0, nineSlice.width() - j - i, k, nineSlice.width(), nineSlice.height(), blitOffset, innerStretch);
+            blitSprite(guiGraphics, bufferbuilder, sprite, nineSlice.width(), nineSlice.height(), nineSlice.width() - j, 0, x + width - j, y, j, k, blitOffset);
+            blitSprite(guiGraphics, bufferbuilder, sprite, nineSlice.width(), nineSlice.height(), 0, nineSlice.height() - l, x, y + height - l, i, l, blitOffset);
+            blitNineSliceInnerSegment(guiGraphics, bufferbuilder, sprite, x + i, y + height - l, width - j - i, l, i, nineSlice.height() - l, nineSlice.width() - j - i, l, nineSlice.width(), nineSlice.height(), blitOffset, innerStretch);
+            blitSprite(guiGraphics, bufferbuilder, sprite, nineSlice.width(), nineSlice.height(), nineSlice.width() - j, nineSlice.height() - l, x + width - j, y + height - l, j, l, blitOffset);
+            blitNineSliceInnerSegment(guiGraphics, bufferbuilder, sprite, x, y + k, i, height - l - k, 0, k, i, nineSlice.height() - l - k, nineSlice.width(), nineSlice.height(), blitOffset, innerStretch);
+            blitNineSliceInnerSegment(guiGraphics, bufferbuilder, sprite, x + i, y + k, width - j - i, height - l - k, i, k, nineSlice.width() - j - i, nineSlice.height() - l - k, nineSlice.width(), nineSlice.height(), blitOffset, innerStretch);
+            blitNineSliceInnerSegment(guiGraphics, bufferbuilder, sprite, x + width - j, y + k, i, height - l - k, nineSlice.width() - j, k, j, nineSlice.height() - l - k, nineSlice.width(), nineSlice.height(), blitOffset, innerStretch);
+        }
+    }
+
+    private static void blitNineSliceInnerSegment(GuiGraphics guiGraphics, BufferBuilder bufferBuilder, TextureAtlasSprite sprite, int x, int y, int width, int height, int uPosition, int vPosition, int spriteWidth, int spriteHeight, int nineSliceWidth, int nineSliceHeight, int blitOffset, boolean innerStretch) {
+        if (width > 0 && height > 0) {
+            if (innerStretch) {
+                innerBlit(guiGraphics, bufferBuilder, sprite.atlasLocation(), x, x + width, y, y + height, sprite.getU((float)uPosition / (float)nineSliceWidth), sprite.getU((float)(uPosition + spriteWidth) / (float)nineSliceWidth), sprite.getV((float)vPosition / (float)nineSliceHeight), sprite.getV((float)(vPosition + spriteHeight) / (float)nineSliceHeight), blitOffset);
+            } else {
+                blitTiledSprite(guiGraphics, bufferBuilder, sprite, x, y, width, height, uPosition, vPosition, spriteWidth, spriteHeight, nineSliceWidth, nineSliceHeight, blitOffset);
+            }
+        }
+
+    }
+
+    private static void blitTiledSprite(GuiGraphics guiGraphics, BufferBuilder bufferBuilder, TextureAtlasSprite sprite, int x, int y, int width, int height, int uPosition, int vPosition, int spriteWidth, int spriteHeight, int nineSliceWidth, int nineSliceHeight, int blitOffset) {
+        if (width > 0 && height > 0) {
+            if (spriteWidth <= 0 || spriteHeight <= 0) {
+                throw new IllegalArgumentException("Tiled sprite texture size must be positive, got " + spriteWidth + "x" + spriteHeight);
+            }
+
+            for(int i = 0; i < width; i += spriteWidth) {
+                int j = Math.min(spriteWidth, width - i);
+
+                for(int k = 0; k < height; k += spriteHeight) {
+                    int l = Math.min(spriteHeight, height - k);
+                    blitSprite(guiGraphics, bufferBuilder, sprite, nineSliceWidth, nineSliceHeight, uPosition, vPosition, x + i, y + k, j, l, blitOffset);
+                }
+            }
+        }
+
+    }
+
+    private static void blitSprite(GuiGraphics guiGraphics, BufferBuilder bufferBuilder, TextureAtlasSprite sprite, int x, int y, int width, int height, int blitOffset) {
+        if (width != 0 && height != 0) {
+            innerBlit(guiGraphics, bufferBuilder, sprite.atlasLocation(), x, x + width, y, y + height, sprite.getU0(), sprite.getU1(), sprite.getV0(), sprite.getV1(), blitOffset);
+        }
+
+    }
+
+    private static void blitSprite(GuiGraphics guiGraphics, BufferBuilder bufferBuilder, TextureAtlasSprite sprite, int textureWidth, int textureHeight, int uPosition, int vPosition, int x, int y, int uWidth, int vHeight, int blitOffset) {
+        if (uWidth != 0 && vHeight != 0) {
+            innerBlit(guiGraphics, bufferBuilder, sprite.atlasLocation(), x, x + uWidth, y, y + vHeight, sprite.getU((float)uPosition / (float)textureWidth), sprite.getU((float)(uPosition + uWidth) / (float)textureWidth), sprite.getV((float)vPosition / (float)textureHeight), sprite.getV((float)(vPosition + vHeight) / (float)textureHeight), blitOffset);
+        }
+
+    }
+
+    /**
+     * Where saved gummi ships live. Deliberately the game folder rather than the world save, which is the
+     * whole point: a ship built on one server can be loaded on any other.
+     */
+    public static Path gummiShipFolder() {
+        return Minecraft.getInstance().gameDirectory.toPath().resolve("kingdomkeys").resolve("gummi_ships");
+    }
+
+    /** Keeps a typed name to something a filesystem accepts, and stops any ../ nonsense reaching disk */
+    public static String gummiShipFileName(String name) {
+        String cleaned = name.trim().replaceAll("[^a-zA-Z0-9 ._-]", "_");
+        return cleaned.isEmpty() ? "unnamed" : cleaned;
+    }
+
+    public static Path gummiShipFile(String name) {
+        return gummiShipFolder().resolve(gummiShipFileName(name) + ".nbt");
+    }
+
+    /** @return the file it went to, for telling the player where to look */
+    public static Path saveGummiShip(String name, GummiStructure structure) throws IOException {
+        Path file = gummiShipFile(name);
+        Files.createDirectories(file.getParent());
+        NbtIo.writeCompressed(structure.serializeNBT(Minecraft.getInstance().level.registryAccess()), file);
+        return file;
+    }
+
+    private static void innerBlit(GuiGraphics guiGraphics, BufferBuilder bufferBuilder, ResourceLocation atlasLocation, int x1, int x2, int y1, int y2, float minU, float maxU, float minV, float maxV, int blitOffset) {
+        Matrix4f matrix4f = guiGraphics.pose().last().pose();
+        bufferBuilder.addVertex(matrix4f, (float)x1, (float)y1, (float)blitOffset).setUv(minU, minV);
+        bufferBuilder.addVertex(matrix4f, (float)x1, (float)y2, (float)blitOffset).setUv(minU, maxV);
+        bufferBuilder.addVertex(matrix4f, (float)x2, (float)y2, (float)blitOffset).setUv(maxU, maxV);
+        bufferBuilder.addVertex(matrix4f, (float)x2, (float)y1, (float)blitOffset).setUv(maxU, minV);
+    }
+
 }
 
 

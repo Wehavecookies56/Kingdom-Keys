@@ -1,15 +1,14 @@
 package online.kingdomkeys.kingdomkeys.datagen.init;
 
+import com.mojang.authlib.properties.PropertyMap;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.recipes.*;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.world.item.DyeColor;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
+import net.minecraft.world.item.*;
+import net.minecraft.world.item.component.ResolvableProfile;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
@@ -17,11 +16,15 @@ import net.minecraft.world.level.block.Blocks;
 import net.neoforged.neoforge.common.Tags;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
+import online.kingdomkeys.kingdomkeys.item.ModComponents;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
+import online.kingdomkeys.kingdomkeys.item.card.WorldCardItem;
+import online.kingdomkeys.kingdomkeys.lib.Constants;
 import online.kingdomkeys.kingdomkeys.lib.ModTags;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Supplier;
 
@@ -29,16 +32,28 @@ public class Recipes extends RecipeProvider {
     DataGenerator dataGenerator;
 
     //Stonecutter recipes
-	public static final List<List<Supplier<Block>>> gummiBlocks = List.of(ModBlocks.gummiCubes, ModBlocks.gummiWedges, ModBlocks.gummiPyramids, ModBlocks.gummiCylinders, ModBlocks.gummiPies, ModBlocks.gummiRoundCorners, ModBlocks.gummiCones, ModBlocks.gummiDomes, ModBlocks.gummiAeroSquares, ModBlocks.gummiAeroTriangles);
-    public static final List<List<Supplier<Block>>> gummiShellBlocks = List.of(ModBlocks.gummiShellCubes, ModBlocks.gummiShellWedges, ModBlocks.gummiShellPyramids, ModBlocks.gummiShellCylinders, ModBlocks.gummiShellPies, ModBlocks.gummiShellRoundCorners, ModBlocks.gummiShellCones, ModBlocks.gummiShellDomes);
-    public static final List<List<Supplier<Block>>> gummiDispelBlocks = List.of(ModBlocks.gummiDispelCubes, ModBlocks.gummiDispelWedges, ModBlocks.gummiDispelPyramids, ModBlocks.gummiDispelCylinders, ModBlocks.gummiDispelPies, ModBlocks.gummiDispelRoundCorners, ModBlocks.gummiDispelCones, ModBlocks.gummiDispelDomes);
+	public static final List<List<Supplier<Block>>> gummiBlocks = List.of(ModBlocks.gummiCubes, ModBlocks.gummiWedges, ModBlocks.gummiPyramids, ModBlocks.gummiInnerCorners, ModBlocks.gummiCylinders, ModBlocks.gummiPies, ModBlocks.gummiRoundCorners, ModBlocks.gummiCones, ModBlocks.gummiDomes, ModBlocks.gummiAeroSquares, ModBlocks.gummiAeroTriangles);
+    public static final List<List<Supplier<Block>>> gummiShellBlocks = List.of(ModBlocks.gummiShellCubes, ModBlocks.gummiShellWedges, ModBlocks.gummiShellPyramids, ModBlocks.gummiShellInnerCorners, ModBlocks.gummiShellCylinders, ModBlocks.gummiShellPies, ModBlocks.gummiShellRoundCorners, ModBlocks.gummiShellCones, ModBlocks.gummiShellDomes);
+    public static final List<List<Supplier<Block>>> gummiDispelBlocks = List.of(ModBlocks.gummiDispelCubes, ModBlocks.gummiDispelWedges, ModBlocks.gummiDispelPyramids, ModBlocks.gummiDispelInnerCorners, ModBlocks.gummiDispelCylinders, ModBlocks.gummiDispelPies, ModBlocks.gummiDispelRoundCorners, ModBlocks.gummiDispelCones, ModBlocks.gummiDispelDomes);
 
     //Other blocks that shouldn't be stonecutted alongside normal blocks
-    public static final List<List<Supplier<Block>>> gummiDifferentBlocks = List.of(ModBlocks.gummiBubbleHelms);
+    public static final List<List<Supplier<Block>>> gummiDifferentBlocks = List.of(ModBlocks.gummiBubbleHelms, ModBlocks.gummiMiniHelms);
     public Recipes(DataGenerator dataGenerator, CompletableFuture<HolderLookup.Provider> pRegistries) {
         super(dataGenerator.getPackOutput(), pRegistries);
         this.dataGenerator = dataGenerator;
     }
+
+	private ItemStack createWorldCard(Item item, String floorType) {
+		ItemStack out = new ItemStack(item);
+		out.set(ModComponents.WORLD_CARD, new WorldCardItem.WorldCard(KingdomKeys.rl(floorType)));
+		return out;
+	}
+
+	private ItemStack createDevSkull(String username) {
+		ItemStack out = new ItemStack(Items.PLAYER_HEAD);
+		out.set(DataComponents.PROFILE, new ResolvableProfile(Optional.of(username), Optional.empty(), new PropertyMap()));
+		return out;
+	}
 
 	@Override
 	protected void buildRecipes(RecipeOutput consumer, HolderLookup.Provider holderLookup) {
@@ -48,21 +63,60 @@ public class Recipes extends RecipeProvider {
 				.pattern("PPP")
 				.pattern("PEP")
 				.pattern("PPP")
-				.group("kingdomkeys")
+				.group(KingdomKeys.MODID)
 				.unlockedBy("empty_card", InventoryChangeTrigger.TriggerInstance.hasItems(Items.ENDER_EYE))
 				.save(consumer);
 
-		ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.plainsCard.get())
+		ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, createWorldCard(ModItems.plainsCard.get(), "plains"))
 				.requires(ModItems.emptyCard.get())
 				.requires(ModItems.plainsMemory.get())
 				.unlockedBy("plains_card", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.plainsMemory.get()))
 				.save(consumer);
 
-		ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModBlocks.magicTarget.get())
-				.requires(Blocks.TARGET)
-				.requires(Blocks.REDSTONE_BLOCK)
-				.unlockedBy("magic_target", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.TARGET))
+		ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, createWorldCard(ModItems.desertCard.get(), "desert"))
+				.requires(ModItems.emptyCard.get())
+				.requires(ModItems.desertMemory.get())
+				.unlockedBy("desert_card", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.desertMemory.get()))
 				.save(consumer);
+
+		for (Constants.DevRecipe dev : Constants.devRecipes) {
+			ShapelessRecipeBuilder.shapeless(RecipeCategory.DECORATIONS, createDevSkull(dev.name()))
+					.requires(Items.WITHER_SKELETON_SKULL)
+					.requires(dev.material1())
+					.requires(dev.material2())
+					.unlockedBy("wither_skeleton_skull", InventoryChangeTrigger.TriggerInstance.hasItems(Items.WITHER_SKELETON_SKULL))
+					.save(consumer, KingdomKeys.rl(dev.name().toLowerCase() + "_skull"));
+		}
+
+		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModBlocks.struggleBoard.get())
+				.define('W', ItemTags.PLANKS)
+				.define('D', ModItems.trainingDummy.get())
+				.pattern("WWW")
+				.pattern("WDW")
+				.pattern("WWW")
+				.group(KingdomKeys.MODID)
+				.unlockedBy("struggle_board", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.trainingDummy.get()))
+				.save(consumer);
+
+
+		ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModBlocks.magicTarget.get())
+				.define('L', Items.LAPIS_LAZULI)
+				.define('T', Blocks.TARGET)
+				.pattern(" L ")
+				.pattern("LTL")
+				.pattern(" L ")
+				.unlockedBy("magic_target", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.TARGET))
+				.save(consumer, KingdomKeys.rl("magic_target_from_target"));
+
+		ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModBlocks.magicTarget.get())
+				.define('L', Items.LAPIS_LAZULI)
+				.define('R', Items.REDSTONE)
+				.define('H', Blocks.HAY_BLOCK)
+				.pattern("LRL")
+				.pattern("RHR")
+				.pattern("LRL")
+				.unlockedBy("magic_target", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.TARGET))
+				.save(consumer, KingdomKeys.rl("magic_target_from_hay"));
 
 		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.terra_Shoulder.get())
 				.define('B', ItemTags.BUTTONS)
@@ -72,25 +126,25 @@ public class Recipes extends RecipeProvider {
 				.pattern("DGD")
 				.pattern("IBI")
 				.pattern("DGD")
-				.group("kingdomkeys")
+				.group(KingdomKeys.MODID)
 				.unlockedBy("terra_shoulder", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.STONE))
 				.save(consumer);
 
     	SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_HELMET), Ingredient.of(Items.ORANGE_DYE), RecipeCategory.COMBAT, ModItems.terra_Helmet.get())
         .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_HELMET))
-        .save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "keyblade_armor_terra_helmet_smithing"));
+        .save(consumer, KingdomKeys.rl("keyblade_armor_terra_helmet_smithing"));
 
 		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_CHESTPLATE), Ingredient.of(Items.ORANGE_DYE), RecipeCategory.COMBAT, ModItems.terra_Chestplate.get())
         .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_CHESTPLATE))
-        .save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "keyblade_armor_terra_chestplate_smithing"));
+        .save(consumer, KingdomKeys.rl("keyblade_armor_terra_chestplate_smithing"));
 
 		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_LEGGINGS), Ingredient.of(Items.ORANGE_DYE), RecipeCategory.COMBAT, ModItems.terra_Leggings.get())
         .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_LEGGINGS))
-        .save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "keyblade_armor_terra_leggings_smithing"));
+        .save(consumer, KingdomKeys.rl("keyblade_armor_terra_leggings_smithing"));
 
 		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_BOOTS), Ingredient.of(Items.ORANGE_DYE), RecipeCategory.COMBAT, ModItems.terra_Boots.get())
         .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_BOOTS))
-        .save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "keyblade_armor_terra_boots_smithing"));
+        .save(consumer, KingdomKeys.rl("keyblade_armor_terra_boots_smithing"));
 
     	//Aqua
 		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.aqua_Shoulder.get())
@@ -101,25 +155,25 @@ public class Recipes extends RecipeProvider {
 				.pattern("DGD")
 				.pattern("IBI")
 				.pattern("DGD")
-				.group("kingdomkeys")
+				.group(KingdomKeys.MODID)
 				.unlockedBy("aqua_shoulder", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.STONE))
 				.save(consumer);
 
 		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_HELMET), Ingredient.of(Items.BLUE_DYE), RecipeCategory.COMBAT, ModItems.aqua_Helmet.get())
         .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_HELMET))
-        .save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "keyblade_armor_aqua_helmet_smithing"));
+        .save(consumer, KingdomKeys.rl("keyblade_armor_aqua_helmet_smithing"));
 
 		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_CHESTPLATE), Ingredient.of(Items.BLUE_DYE), RecipeCategory.COMBAT, ModItems.aqua_Chestplate.get())
         .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_CHESTPLATE))
-        .save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "keyblade_armor_aqua_chestplate_smithing"));
+        .save(consumer, KingdomKeys.rl("keyblade_armor_aqua_chestplate_smithing"));
 
 		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_LEGGINGS), Ingredient.of(Items.BLUE_DYE), RecipeCategory.COMBAT, ModItems.aqua_Leggings.get())
         .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_LEGGINGS))
-        .save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "keyblade_armor_aqua_leggings_smithing"));
+        .save(consumer, KingdomKeys.rl("keyblade_armor_aqua_leggings_smithing"));
 
 		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_BOOTS), Ingredient.of(Items.BLUE_DYE), RecipeCategory.COMBAT, ModItems.aqua_Boots.get())
         .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_BOOTS))
-        .save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "keyblade_armor_aqua_boots_smithing"));
+        .save(consumer, KingdomKeys.rl("keyblade_armor_aqua_boots_smithing"));
 
     	//Ventus
 		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.ventus_Shoulder.get())
@@ -130,25 +184,25 @@ public class Recipes extends RecipeProvider {
 				.pattern("DGD")
 				.pattern("IBI")
 				.pattern("DGD")
-				.group("kingdomkeys")
+				.group(KingdomKeys.MODID)
 				.unlockedBy("ventus_shoulder", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.STONE))
 				.save(consumer);
 
 		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_HELMET), Ingredient.of(Items.LIME_DYE), RecipeCategory.COMBAT, ModItems.ventus_Helmet.get())
         .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_HELMET))
-        .save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "keyblade_armor_ventus_helmet_smithing"));
+        .save(consumer, KingdomKeys.rl("keyblade_armor_ventus_helmet_smithing"));
 
 		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_CHESTPLATE), Ingredient.of(Items.LIME_DYE), RecipeCategory.COMBAT, ModItems.ventus_Chestplate.get())
         .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_CHESTPLATE))
-        .save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "keyblade_armor_ventus_chestplate_smithing"));
+        .save(consumer, KingdomKeys.rl("keyblade_armor_ventus_chestplate_smithing"));
 
 		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_LEGGINGS), Ingredient.of(Items.LIME_DYE), RecipeCategory.COMBAT, ModItems.ventus_Leggings.get())
         .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_LEGGINGS))
-        .save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "keyblade_armor_ventus_leggings_smithing"));
+        .save(consumer, KingdomKeys.rl("keyblade_armor_ventus_leggings_smithing"));
 
 		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_BOOTS), Ingredient.of(Items.LIME_DYE), RecipeCategory.COMBAT, ModItems.ventus_Boots.get())
         .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_BOOTS))
-        .save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "keyblade_armor_ventus_boots_smithing"));
+        .save(consumer, KingdomKeys.rl("keyblade_armor_ventus_boots_smithing"));
 
     	//Nightmare Ventus
 		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.nightmareVentus_Shoulder.get())
@@ -159,25 +213,25 @@ public class Recipes extends RecipeProvider {
 				.pattern("DGD")
 				.pattern("IBI")
 				.pattern("DGD")
-				.group("kingdomkeys")
+				.group(KingdomKeys.MODID)
 				.unlockedBy("nightmareventus_shoulder", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.STONE))
 				.save(consumer);
 
 		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_HELMET), Ingredient.of(Items.BLACK_DYE), RecipeCategory.COMBAT, ModItems.nightmareVentus_Helmet.get())
         .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_HELMET))
-        .save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "keyblade_armor_nightmare_ventus_helmet_smithing"));
+        .save(consumer, KingdomKeys.rl("keyblade_armor_nightmare_ventus_helmet_smithing"));
 
 		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_CHESTPLATE), Ingredient.of(Items.BLACK_DYE), RecipeCategory.COMBAT, ModItems.nightmareVentus_Chestplate.get())
         .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_CHESTPLATE))
-        .save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "keyblade_armor_nightmare_ventus_chestplate_smithing"));
+        .save(consumer, KingdomKeys.rl("keyblade_armor_nightmare_ventus_chestplate_smithing"));
 
 		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_LEGGINGS), Ingredient.of(Items.BLACK_DYE), RecipeCategory.COMBAT, ModItems.nightmareVentus_Leggings.get())
         .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_LEGGINGS))
-        .save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "keyblade_armor_nightmare_ventus_leggings_smithing"));
+        .save(consumer, KingdomKeys.rl("keyblade_armor_nightmare_ventus_leggings_smithing"));
 
 		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_BOOTS), Ingredient.of(Items.BLACK_DYE), RecipeCategory.COMBAT, ModItems.nightmareVentus_Boots.get())
         .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_BOOTS))
-        .save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "keyblade_armor_nightmare_ventus_boots_smithing"));
+        .save(consumer, KingdomKeys.rl("keyblade_armor_nightmare_ventus_boots_smithing"));
 
     	//Eraqus
 		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.eraqus_Shoulder.get())
@@ -188,25 +242,25 @@ public class Recipes extends RecipeProvider {
 				.pattern("DGD")
 				.pattern("IBI")
 				.pattern("DGD")
-				.group("kingdomkeys")
+				.group(KingdomKeys.MODID)
 				.unlockedBy("eraqus_shoulder", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.STONE))
 				.save(consumer);
 
 		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_HELMET), Ingredient.of(Items.WHITE_DYE), RecipeCategory.COMBAT, ModItems.eraqus_Helmet.get())
         .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_HELMET))
-        .save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "keyblade_armor_eraqus_helmet_smithing"));
+        .save(consumer, KingdomKeys.rl("keyblade_armor_eraqus_helmet_smithing"));
 
 		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_CHESTPLATE), Ingredient.of(Items.WHITE_DYE), RecipeCategory.COMBAT, ModItems.eraqus_Chestplate.get())
         .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_CHESTPLATE))
-        .save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "keyblade_armor_eraqus_chestplate_smithing"));
+        .save(consumer, KingdomKeys.rl("keyblade_armor_eraqus_chestplate_smithing"));
 
 		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_LEGGINGS), Ingredient.of(Items.WHITE_DYE), RecipeCategory.COMBAT, ModItems.eraqus_Leggings.get())
         .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_LEGGINGS))
-        .save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "keyblade_armor_eraqus_leggings_smithing"));
+        .save(consumer, KingdomKeys.rl("keyblade_armor_eraqus_leggings_smithing"));
 
 		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_BOOTS), Ingredient.of(Items.WHITE_DYE), RecipeCategory.COMBAT, ModItems.eraqus_Boots.get())
         .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_BOOTS))
-        .save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "keyblade_armor_eraqus_boots_smithing"));
+        .save(consumer, KingdomKeys.rl("keyblade_armor_eraqus_boots_smithing"));
 
     	//Xehanort
 		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.xehanort_Shoulder.get())
@@ -217,25 +271,25 @@ public class Recipes extends RecipeProvider {
 				.pattern("DGD")
 				.pattern("IBI")
 				.pattern("DGD")
-				.group("kingdomkeys")
+				.group(KingdomKeys.MODID)
 				.unlockedBy("xehanort_shoulder", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.STONE))
 				.save(consumer);
 
 		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_HELMET), Ingredient.of(Items.GRAY_DYE), RecipeCategory.COMBAT, ModItems.xehanort_Helmet.get())
         .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_HELMET))
-        .save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "keyblade_armor_xehanort_helmet_smithing"));
+        .save(consumer, KingdomKeys.rl("keyblade_armor_xehanort_helmet_smithing"));
 
 		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_CHESTPLATE), Ingredient.of(Items.GRAY_DYE), RecipeCategory.COMBAT, ModItems.xehanort_Chestplate.get())
         .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_CHESTPLATE))
-        .save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "keyblade_armor_xehanort_chestplate_smithing"));
+        .save(consumer, KingdomKeys.rl("keyblade_armor_xehanort_chestplate_smithing"));
 
 		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_LEGGINGS), Ingredient.of(Items.GRAY_DYE), RecipeCategory.COMBAT, ModItems.xehanort_Leggings.get())
         .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_LEGGINGS))
-        .save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "keyblade_armor_xehanort_leggings_smithing"));
+        .save(consumer, KingdomKeys.rl("keyblade_armor_xehanort_leggings_smithing"));
 
 		SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(Items.NETHERITE_BOOTS), Ingredient.of(Items.GRAY_DYE), RecipeCategory.COMBAT, ModItems.xehanort_Boots.get())
         .unlocks("has_keyblade_armor", InventoryChangeTrigger.TriggerInstance.hasItems(Items.NETHERITE_BOOTS))
-        .save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "keyblade_armor_xehanort_boots_smithing"));
+        .save(consumer, KingdomKeys.rl("keyblade_armor_xehanort_boots_smithing"));
 
 		/*ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.firaSpell.get())
 				.requires(ModItems.fireSpell.get(), 2)
@@ -344,7 +398,7 @@ public class Recipes extends RecipeProvider {
                 .define('N', Items.DIRT)
                 .pattern("NS")
                 .pattern("SN")
-                .group("kingdomkeys")
+                .group(KingdomKeys.MODID)
                 .unlockedBy("stone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.STONE))
                 .save(consumer);
 
@@ -353,7 +407,7 @@ public class Recipes extends RecipeProvider {
                 .pattern("CN")
                 .define('C', Blocks.CACTUS)
                 .define('N', ModBlocks.normalBlox.get())
-                .group("kingdomkeys")
+                .group(KingdomKeys.MODID)
                 .unlockedBy("normalblox", InventoryChangeTrigger.TriggerInstance.hasItems(ModBlocks.normalBlox.get()))
                 .save(consumer);
 
@@ -362,7 +416,7 @@ public class Recipes extends RecipeProvider {
                 .pattern("SN")
                 .define('S', Tags.Items.STONES)
                 .define('N', ModBlocks.normalBlox.get())
-                .group("kingdomkeys")
+                .group(KingdomKeys.MODID)
                 .unlockedBy("normalblox", InventoryChangeTrigger.TriggerInstance.hasItems(ModBlocks.normalBlox.get()))
                 .save(consumer);
 
@@ -371,7 +425,7 @@ public class Recipes extends RecipeProvider {
                 .pattern("IH")
                 .define('I', Tags.Items.INGOTS_IRON)
                 .define('H', ModBlocks.hardBlox.get())
-                .group("kingdomkeys")
+                .group(KingdomKeys.MODID)
                 .unlockedBy("hardblox", InventoryChangeTrigger.TriggerInstance.hasItems(ModBlocks.hardBlox.get()))
                 .save(consumer);
 
@@ -382,9 +436,36 @@ public class Recipes extends RecipeProvider {
                 .define('G', Tags.Items.GLASS_BLOCKS)
                 .define('N', ModBlocks.normalBlox.get())
                 .define('R', Blocks.REDSTONE_BLOCK)
-                .group("kingdomkeys")
+                .group(KingdomKeys.MODID)
                 .unlockedBy("normalblox", InventoryChangeTrigger.TriggerInstance.hasItems(ModBlocks.normalBlox.get()))
                 .save(consumer);
+
+        // Crafted with the dye that colours it, and any rail can be dyed into any other
+        for (int i = 0; i < DyeColor.values().length; i++) {
+            DyeColor dye = DyeColor.values()[i];
+            Block rail = ModBlocks.flowmotionRails.get(i).get();
+
+            ShapedRecipeBuilder.shaped(RecipeCategory.TRANSPORTATION, rail, 16)
+                    .pattern("IDI")
+                    .pattern("IGI")
+                    .pattern("IDI")
+                    .define('I', Tags.Items.INGOTS_IRON)
+                    .define('G', Tags.Items.DUSTS_GLOWSTONE)
+                    .define('D', DyeItem.byColor(dye))
+                    .group(KingdomKeys.MODID)
+                    .unlockedBy("glowstone", InventoryChangeTrigger.TriggerInstance.hasItems(Items.GLOWSTONE_DUST))
+                    .save(consumer);
+
+            ShapedRecipeBuilder.shaped(RecipeCategory.TRANSPORTATION, rail, 8)
+                    .pattern("RRR")
+                    .pattern("RDR")
+                    .pattern("RRR")
+                    .define('R', Ingredient.of(ModTags.FLOWMOTION_RAILS))
+                    .define('D', DyeItem.byColor(dye))
+                    .group(KingdomKeys.MODID)
+                    .unlockedBy("rail", InventoryChangeTrigger.TriggerInstance.hasItems(rail))
+                    .save(consumer, KingdomKeys.rl(Utils.getBlockRegistryName(rail).getPath() + "_dyed"));
+        }
 
         ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.magnetBlox.get())
                 .pattern("RIR")
@@ -394,7 +475,7 @@ public class Recipes extends RecipeProvider {
                 .define('B', ModBlocks.normalBlox.get())
                 .define('R', Tags.Items.DUSTS_REDSTONE)
                 .define('G', Tags.Items.INGOTS_GOLD)
-                .group("kingdomkeys")
+                .group(KingdomKeys.MODID)
                 .unlockedBy("normalblox", InventoryChangeTrigger.TriggerInstance.hasItems(ModBlocks.normalBlox.get()))
                 .save(consumer);
 
@@ -405,7 +486,7 @@ public class Recipes extends RecipeProvider {
                 .define('T', Blocks.TNT)
                 .define('N', ModBlocks.normalBlox.get())
                 .define('L', Items.LAVA_BUCKET)
-                .group("kingdomkeys")
+                .group(KingdomKeys.MODID)
                 .unlockedBy("normalblox", InventoryChangeTrigger.TriggerInstance.hasItems(ModBlocks.normalBlox.get()))
                 .save(consumer);
 
@@ -415,7 +496,7 @@ public class Recipes extends RecipeProvider {
                 .pattern("NNN")
                 .define('S', Blocks.SLIME_BLOCK)
                 .define('N', ModBlocks.normalBlox.get())
-                .group("kingdomkeys")
+                .group(KingdomKeys.MODID)
                 .unlockedBy("normalblox", InventoryChangeTrigger.TriggerInstance.hasItems(ModBlocks.normalBlox.get()))
                 .save(consumer);
 
@@ -426,7 +507,7 @@ public class Recipes extends RecipeProvider {
                 .define('D', Tags.Items.DYES)
                 .define('G', Blocks.GLASS)
                 .define('I', Tags.Items.INGOTS_IRON)
-                .group("kingdomkeys")
+                .group(KingdomKeys.MODID)
                 .unlockedBy("glass", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.GLASS))
                 .save(consumer);
 
@@ -436,7 +517,7 @@ public class Recipes extends RecipeProvider {
 				.pattern(" G ")
 				.define('E', Items.ENDER_PEARL)
 				.define('G', Items.GLOWSTONE)
-				.group("kingdomkeys")
+				.group(KingdomKeys.MODID)
 				.unlockedBy("ender_pearl", InventoryChangeTrigger.TriggerInstance.hasItems(Items.ENDER_PEARL))
 				.save(consumer);
 
@@ -446,7 +527,7 @@ public class Recipes extends RecipeProvider {
 				.pattern("GEG")
 				.define('E', Items.ENDER_PEARL)
 				.define('G', Items.GLOWSTONE)
-				.group("kingdomkeys")
+				.group(KingdomKeys.MODID)
 				.unlockedBy("ender_pearl", InventoryChangeTrigger.TriggerInstance.hasItems(Items.ENDER_PEARL))
 				.save(consumer);
 
@@ -459,7 +540,7 @@ public class Recipes extends RecipeProvider {
 				.pattern("IEI")
 				.pattern("QCQ")
 				.pattern("IRI")
-				.group("kingdomkeys")
+				.group(KingdomKeys.MODID)
 				.unlockedBy("crafter", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.CRAFTER))
 				.save(consumer);
 
@@ -470,7 +551,7 @@ public class Recipes extends RecipeProvider {
 				.pattern("GGG")
 				.pattern("FRF")
 				.pattern("GGG")
-				.group("kingdomkeys")
+				.group(KingdomKeys.MODID)
 				.unlockedBy("fragment", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.gummiMeteorFragment.get()))
 				.save(consumer);
 
@@ -482,7 +563,7 @@ public class Recipes extends RecipeProvider {
                 .pattern("EBE")
                 .pattern("GDG")
                 .pattern("BGB")
-                .group("kingdomkeys")
+                .group(KingdomKeys.MODID)
                 .unlockedBy("ender_eye", InventoryChangeTrigger.TriggerInstance.hasItems(Items.ENDER_EYE))
                 .save(consumer);
 
@@ -571,7 +652,17 @@ public class Recipes extends RecipeProvider {
                 .define('F', ModItems.gummiMeteorFragment.get())
                 .define('C', ModItems.cureSpell.get())
                 .define('G', Blocks.GLASS)
-                .group("kingdomkeys")
+                .group(KingdomKeys.MODID)
+                .unlockedBy("gummi_cure", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.cureSpell.get()))
+                .save(consumer);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.gummiMiniHelms.getFirst().get())
+                .pattern("GG")
+                .pattern("FC")
+                .define('F', ModItems.gummiMeteorFragment.get())
+                .define('C', ModItems.cureSpell.get())
+                .define('G', Blocks.GLASS)
+                .group(KingdomKeys.MODID)
                 .unlockedBy("gummi_cure", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.cureSpell.get()))
                 .save(consumer);
 
@@ -585,7 +676,7 @@ public class Recipes extends RecipeProvider {
 	        .define('E', Items.ENDER_PEARL)
 	        .define('C', Items.COMPASS)
 	        .define('G', ModBlocks.mosaic_stained_glass.get())
-	        .group("kingdomkeys")
+	        .group(KingdomKeys.MODID)
 	        .unlockedBy("compass", InventoryChangeTrigger.TriggerInstance.hasItems(Items.COMPASS))
 	        .save(consumer);
 
@@ -595,7 +686,7 @@ public class Recipes extends RecipeProvider {
 	        .pattern(" S ")
 	        .define('S', ModItems.woodenStick.get())
 	        .define('W', Blocks.BLUE_WOOL)
-	        .group("kingdomkeys")
+	        .group(KingdomKeys.MODID)
 	        .unlockedBy("struggle_sword", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.woodenStick.get()))
 	        .save(consumer);
         
@@ -605,7 +696,7 @@ public class Recipes extends RecipeProvider {
 	        .pattern(" S ")
 	        .define('S', ModItems.woodenStick.get())
 	        .define('W', Blocks.BLUE_WOOL)
-	        .group("kingdomkeys")
+	        .group(KingdomKeys.MODID)
 	        .unlockedBy("struggle_wand", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.woodenStick.get()))
 	        .save(consumer);
         
@@ -615,7 +706,7 @@ public class Recipes extends RecipeProvider {
 	        .pattern(" S ")
 	        .define('S', ModItems.woodenStick.get())
 	        .define('W', Blocks.BLUE_WOOL)
-	        .group("kingdomkeys")
+	        .group(KingdomKeys.MODID)
 	        .unlockedBy("struggle_hammer", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.woodenStick.get()))
 	        .save(consumer);
 
@@ -627,7 +718,7 @@ public class Recipes extends RecipeProvider {
 			.define('W', Items.WHEAT)
 			.define('A', Items.ARMOR_STAND)
 			.define('H', Blocks.HAY_BLOCK)
-			.group("kingdomkeys")
+			.group(KingdomKeys.MODID)
 			.unlockedBy("training_dummy", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.HAY_BLOCK))
 			.save(consumer);
 
@@ -676,7 +767,7 @@ public class Recipes extends RecipeProvider {
 				.define('S', Tags.Items.STRINGS)
 				.define('L', Tags.Items.LEATHERS)
 				.define('D', Items.ORANGE_DYE)
-				.group("kingdomkeys")
+				.group(KingdomKeys.MODID)
 				.unlockedBy("leather", InventoryChangeTrigger.TriggerInstance.hasItems(Items.LEATHER))
 				.save(consumer);
 
@@ -687,7 +778,29 @@ public class Recipes extends RecipeProvider {
 				.define('S', Tags.Items.STRINGS)
 				.define('L', Tags.Items.LEATHERS)
 				.define('D', Items.PURPLE_DYE)
-				.group("kingdomkeys")
+				.group(KingdomKeys.MODID)
+				.unlockedBy("leather", InventoryChangeTrigger.TriggerInstance.hasItems(Items.LEATHER))
+				.save(consumer);
+
+		ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ModItems.shotlocksBag.get())
+				.pattern("LSL")
+				.pattern("LDL")
+				.pattern("LLL")
+				.define('S', Tags.Items.STRINGS)
+				.define('L', Tags.Items.LEATHERS)
+				.define('D', Items.CYAN_DYE)
+				.group(KingdomKeys.MODID)
+				.unlockedBy("leather", InventoryChangeTrigger.TriggerInstance.hasItems(Items.LEATHER))
+				.save(consumer);
+
+		ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ModItems.cardsBag.get())
+				.pattern("LSL")
+				.pattern("LRL")
+				.pattern("LLL")
+				.define('S', Tags.Items.STRINGS)
+				.define('L', Tags.Items.LEATHERS)
+				.define('R', Items.RED_DYE)
+				.group(KingdomKeys.MODID)
 				.unlockedBy("leather", InventoryChangeTrigger.TriggerInstance.hasItems(Items.LEATHER))
 				.save(consumer);
 
@@ -697,7 +810,7 @@ public class Recipes extends RecipeProvider {
                 .pattern(" S ")
                 .define('S', Items.STICK)
                 .define('W', ItemTags.PLANKS)
-                .group("kingdomkeys")
+                .group(KingdomKeys.MODID)
                 .unlockedBy("stick", InventoryChangeTrigger.TriggerInstance.hasItems(Items.STICK))
                 .save(consumer);
 
@@ -706,7 +819,7 @@ public class Recipes extends RecipeProvider {
                 .pattern("S")
                 .pattern("S")
                 .define('S', Items.STICK)
-                .group("kingdomkeys")
+                .group(KingdomKeys.MODID)
                 .unlockedBy("stick", InventoryChangeTrigger.TriggerInstance.hasItems(Items.STICK))
                 .save(consumer);
 
@@ -718,7 +831,7 @@ public class Recipes extends RecipeProvider {
                 .define('E', Tags.Items.ENDER_PEARLS)
                 .define('A', Items.LEATHER_HELMET)
                 .define('L', Tags.Items.LEATHERS)
-                .group("kingdomkeys")
+                .group(KingdomKeys.MODID)
                 .unlockedBy("ender_pearl", InventoryChangeTrigger.TriggerInstance.hasItems(Items.ENDER_PEARL))
                 .save(consumer);
 
@@ -730,7 +843,7 @@ public class Recipes extends RecipeProvider {
                 .define('A', Items.LEATHER_CHESTPLATE)
                 .define('E', Tags.Items.ENDER_PEARLS)
                 .define('B', Tags.Items.DYES_BLACK)
-                .group("kingdomkeys")
+                .group(KingdomKeys.MODID)
                 .unlockedBy("ender_pearl", InventoryChangeTrigger.TriggerInstance.hasItems(Items.ENDER_PEARL))
                 .save(consumer);
 
@@ -742,7 +855,7 @@ public class Recipes extends RecipeProvider {
                 .define('A', Items.LEATHER_LEGGINGS)
                 .define('E', Tags.Items.ENDER_PEARLS)
                 .define('B', Tags.Items.DYES_BLACK)
-                .group("kingdomkeys")
+                .group(KingdomKeys.MODID)
                 .unlockedBy("ender_pearl", InventoryChangeTrigger.TriggerInstance.hasItems(Items.ENDER_PEARL))
                 .save(consumer);
 
@@ -753,7 +866,7 @@ public class Recipes extends RecipeProvider {
                 .define('A', Items.LEATHER_BOOTS)
                 .define('E', Tags.Items.ENDER_PEARLS)
                 .define('B', Tags.Items.DYES_BLACK)
-                .group("kingdomkeys")
+                .group(KingdomKeys.MODID)
                 .unlockedBy("ender_pearl", InventoryChangeTrigger.TriggerInstance.hasItems(Items.ENDER_PEARL))
                 .save(consumer);
 
@@ -765,7 +878,7 @@ public class Recipes extends RecipeProvider {
                 .define('W', Tags.Items.DYES_WHITE)
                 .define('B', Tags.Items.DYES_BLACK)
                 .define('A', ModItems.organizationRobe_Helmet.get())
-                .group("kingdomkeys")
+                .group(KingdomKeys.MODID)
                 .unlockedBy("organization_helmet", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.organizationRobe_Helmet.get()))
                 .save(consumer);
 
@@ -776,7 +889,7 @@ public class Recipes extends RecipeProvider {
                 .define('A', ModItems.organizationRobe_Chestplate.get())
                 .define('W', Tags.Items.DYES_WHITE)
                 .define('B', Tags.Items.DYES_BLACK)
-                .group("kingdomkeys")
+                .group(KingdomKeys.MODID)
                 .unlockedBy("organization_chestplate", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.organizationRobe_Chestplate.get()))
                 .save(consumer);
 
@@ -787,7 +900,7 @@ public class Recipes extends RecipeProvider {
                 .define('A', ModItems.organizationRobe_Leggings.get())
                 .define('W', Tags.Items.DYES_WHITE)
                 .define('B', Tags.Items.DYES_BLACK)
-                .group("kingdomkeys")
+                .group(KingdomKeys.MODID)
                 .unlockedBy("organization_leggings", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.organizationRobe_Leggings.get()))
                 .save(consumer);
 
@@ -797,7 +910,7 @@ public class Recipes extends RecipeProvider {
                 .define('A', ModItems.organizationRobe_Boots.get())
                 .define('W', Tags.Items.DYES_WHITE)
                 .define('B', Tags.Items.DYES_BLACK)
-                .group("kingdomkeys")
+                .group(KingdomKeys.MODID)
                 .unlockedBy("organization_boots", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.organizationRobe_Boots.get()))
                 .save(consumer);
 
@@ -807,7 +920,7 @@ public class Recipes extends RecipeProvider {
                 .define('W', Tags.Items.DYES_PURPLE)
                 .define('B', Tags.Items.DYES_BLACK)
                 .define('A', ModItems.organizationRobe_Helmet.get())
-                .group("kingdomkeys")
+                .group(KingdomKeys.MODID)
                 .unlockedBy("organization_helmet", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.organizationRobe_Helmet.get()))
                 .save(consumer);
 
@@ -818,7 +931,7 @@ public class Recipes extends RecipeProvider {
                 .define('A', ModItems.organizationRobe_Chestplate.get())
                 .define('W', Tags.Items.DYES_PURPLE)
                 .define('B', Tags.Items.DYES_BLACK)
-                .group("kingdomkeys")
+                .group(KingdomKeys.MODID)
                 .unlockedBy("organization_chestplate", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.organizationRobe_Chestplate.get()))
                 .save(consumer);
 
@@ -829,7 +942,7 @@ public class Recipes extends RecipeProvider {
                 .define('A', ModItems.organizationRobe_Leggings.get())
                 .define('W', Tags.Items.DYES_PURPLE)
                 .define('B', Tags.Items.DYES_BLACK)
-                .group("kingdomkeys")
+                .group(KingdomKeys.MODID)
                 .unlockedBy("organization_leggings", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.organizationRobe_Leggings.get()))
                 .save(consumer);
 
@@ -839,7 +952,7 @@ public class Recipes extends RecipeProvider {
                 .define('A', ModItems.organizationRobe_Boots.get())
                 .define('W', Tags.Items.DYES_PURPLE)
                 .define('B', Tags.Items.DYES_BLACK)
-                .group("kingdomkeys")
+                .group(KingdomKeys.MODID)
                 .unlockedBy("organization_boots", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.organizationRobe_Boots.get()))
                 .save(consumer);
 
@@ -850,7 +963,7 @@ public class Recipes extends RecipeProvider {
                 .define('E', Items.GHAST_TEAR)
                 .define('A', Items.LEATHER_HELMET)
                 .define('L', Tags.Items.DYES_RED)
-                .group("kingdomkeys")
+                .group(KingdomKeys.MODID)
                 .unlockedBy("ghast_tear", InventoryChangeTrigger.TriggerInstance.hasItems(Items.GHAST_TEAR))
                 .save(consumer);
 
@@ -862,7 +975,7 @@ public class Recipes extends RecipeProvider {
                 .define('E', Items.GHAST_TEAR)
                 .define('A', Items.LEATHER_CHESTPLATE)
                 .define('L', Tags.Items.DYES_RED)
-                .group("kingdomkeys")
+                .group(KingdomKeys.MODID)
                 .unlockedBy("ghast_tear", InventoryChangeTrigger.TriggerInstance.hasItems(Items.GHAST_TEAR))
                 .save(consumer);
 
@@ -874,7 +987,7 @@ public class Recipes extends RecipeProvider {
                 .define('E', Items.GHAST_TEAR)
                 .define('A', Items.LEATHER_LEGGINGS)
                 .define('L', Tags.Items.DYES_RED)
-                .group("kingdomkeys")
+                .group(KingdomKeys.MODID)
                 .unlockedBy("ghast_tear", InventoryChangeTrigger.TriggerInstance.hasItems(Items.GHAST_TEAR))
                 .save(consumer);
 
@@ -885,35 +998,35 @@ public class Recipes extends RecipeProvider {
                 .define('E', Items.GHAST_TEAR)
                 .define('A', Items.LEATHER_BOOTS)
                 .define('L', Tags.Items.LEATHERS)
-                .group("kingdomkeys")
+                .group(KingdomKeys.MODID)
                 .unlockedBy("ghast_tear", InventoryChangeTrigger.TriggerInstance.hasItems(Items.GHAST_TEAR))
                 .save(consumer);
 
         ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.vanitas_Remnant_Helmet.get())
 		        .requires(ModItems.vanitas_Helmet.get())
 		        .requires(Tags.Items.DYES_WHITE)
-		        .group("kingdomkeys")
+		        .group(KingdomKeys.MODID)
 		        .unlockedBy("vanitas_helmet", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.vanitas_Helmet.get()))
 		        .save(consumer);
 		
 		ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.vanitas_Remnant_Chestplate.get())
 		        .requires(ModItems.vanitas_Chestplate.get())
 		        .requires(Tags.Items.DYES_WHITE)
-		        .group("kingdomkeys")
+		        .group(KingdomKeys.MODID)
 		        .unlockedBy("vanitas_chestplate", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.vanitas_Chestplate.get()))
 		        .save(consumer);
 		
 		ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.vanitas_Remnant_Leggings.get())
 		        .requires(ModItems.vanitas_Leggings.get())
 		        .requires(Tags.Items.DYES_WHITE)
-		        .group("kingdomkeys")
+		        .group(KingdomKeys.MODID)
 		        .unlockedBy("vanitas_leggings", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.vanitas_Leggings.get()))
 		        .save(consumer);
 		
 		ShapelessRecipeBuilder.shapeless(RecipeCategory.COMBAT, ModItems.vanitas_Remnant_Boots.get())
 		        .requires(ModItems.vanitas_Boots.get())
 		        .requires(Tags.Items.DYES_WHITE)
-		        .group("kingdomkeys")
+		        .group(KingdomKeys.MODID)
 		        .unlockedBy("vanitas_boots", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.vanitas_Boots.get()))
 		        .save(consumer);
         		
@@ -925,7 +1038,7 @@ public class Recipes extends RecipeProvider {
 		        .define('P', Items.PHANTOM_MEMBRANE)
 		        .define('C', Blocks.CRYING_OBSIDIAN)
 		        .define('D', Tags.Items.DYES_BLUE)
-		        .group("kingdomkeys")
+		        .group(KingdomKeys.MODID)
 		        .unlockedBy("phantom_membrane", InventoryChangeTrigger.TriggerInstance.hasItems(Items.PHANTOM_MEMBRANE))
 		        .save(consumer);
 		
@@ -936,7 +1049,7 @@ public class Recipes extends RecipeProvider {
 		        .define('B', Tags.Items.DYES_BLACK)
 		        .define('P', Items.PHANTOM_MEMBRANE)
 		        .define('C', Blocks.CRYING_OBSIDIAN)
-		        .group("kingdomkeys")
+		        .group(KingdomKeys.MODID)
 		        .unlockedBy("phantom_membrane", InventoryChangeTrigger.TriggerInstance.hasItems(Items.PHANTOM_MEMBRANE))
 		        .save(consumer);
 		
@@ -945,7 +1058,7 @@ public class Recipes extends RecipeProvider {
 		        .pattern("C C")
 		        .define('P', Items.PHANTOM_MEMBRANE)
 		        .define('C', Blocks.CRYING_OBSIDIAN)
-		        .group("kingdomkeys")
+		        .group(KingdomKeys.MODID)
 		        .unlockedBy("phantom_membrane", InventoryChangeTrigger.TriggerInstance.hasItems(Items.PHANTOM_MEMBRANE))
 		        .save(consumer);
 
@@ -958,7 +1071,7 @@ public class Recipes extends RecipeProvider {
 				.define('L', Items.LEATHER)
 				.define('H', Items.LEATHER_HELMET)
 				.define('D', Items.BROWN_DYE)
-				.group("kingdomkeys")
+				.group(KingdomKeys.MODID)
 				.unlockedBy("leather_helmet", InventoryChangeTrigger.TriggerInstance.hasItems(Items.LEATHER_HELMET))
 				.save(consumer);
 
@@ -969,7 +1082,7 @@ public class Recipes extends RecipeProvider {
 				.define('L', Items.LEATHER)
 				.define('H', Items.LEATHER_CHESTPLATE)
 				.define('D', Items.BROWN_DYE)
-				.group("kingdomkeys")
+				.group(KingdomKeys.MODID)
 				.unlockedBy("leather_chestplate", InventoryChangeTrigger.TriggerInstance.hasItems(Items.LEATHER_CHESTPLATE))
 				.save(consumer);
 
@@ -980,7 +1093,7 @@ public class Recipes extends RecipeProvider {
 				.define('L', Items.LEATHER)
 				.define('H', Items.LEATHER_LEGGINGS)
 				.define('D', Items.BROWN_DYE)
-				.group("kingdomkeys")
+				.group(KingdomKeys.MODID)
 				.unlockedBy("leather_leggings", InventoryChangeTrigger.TriggerInstance.hasItems(Items.LEATHER_LEGGINGS))
 				.save(consumer);
 
@@ -990,7 +1103,7 @@ public class Recipes extends RecipeProvider {
 				.define('D', Items.BROWN_DYE)
 				.define('H', Items.LEATHER_BOOTS)
 				.define('L', Items.LEATHER)
-				.group("kingdomkeys")
+				.group(KingdomKeys.MODID)
 				.unlockedBy("leather_boots", InventoryChangeTrigger.TriggerInstance.hasItems(Items.LEATHER_BOOTS))
 				.save(consumer);
 
@@ -1001,7 +1114,7 @@ public class Recipes extends RecipeProvider {
 				.define('L', Items.LEATHER)
 				.define('H', Items.LEATHER_HELMET)
 				.define('D', Items.WHITE_DYE)
-				.group("kingdomkeys")
+				.group(KingdomKeys.MODID)
 				.unlockedBy("leather_helmet", InventoryChangeTrigger.TriggerInstance.hasItems(Items.LEATHER_HELMET))
 				.save(consumer);
 
@@ -1012,7 +1125,7 @@ public class Recipes extends RecipeProvider {
 				.define('L', Items.LEATHER)
 				.define('H', Items.LEATHER_CHESTPLATE)
 				.define('D', Items.WHITE_DYE)
-				.group("kingdomkeys")
+				.group(KingdomKeys.MODID)
 				.unlockedBy("leather_chestplate", InventoryChangeTrigger.TriggerInstance.hasItems(Items.LEATHER_CHESTPLATE))
 				.save(consumer);
 
@@ -1023,7 +1136,7 @@ public class Recipes extends RecipeProvider {
 				.define('L', Items.LEATHER)
 				.define('H', Items.LEATHER_LEGGINGS)
 				.define('D', Items.WHITE_DYE)
-				.group("kingdomkeys")
+				.group(KingdomKeys.MODID)
 				.unlockedBy("leather_leggings", InventoryChangeTrigger.TriggerInstance.hasItems(Items.LEATHER_LEGGINGS))
 				.save(consumer);
 
@@ -1033,7 +1146,7 @@ public class Recipes extends RecipeProvider {
 				.define('D', Items.WHITE_DYE)
 				.define('H', Items.LEATHER_BOOTS)
 				.define('L', Items.LEATHER)
-				.group("kingdomkeys")
+				.group(KingdomKeys.MODID)
 				.unlockedBy("leather_boots", InventoryChangeTrigger.TriggerInstance.hasItems(Items.LEATHER_BOOTS))
 				.save(consumer);
 
@@ -1044,7 +1157,7 @@ public class Recipes extends RecipeProvider {
 				.define('L', Items.LEATHER)
 				.define('H', Items.LEATHER_HELMET)
 				.define('D', Items.PINK_DYE)
-				.group("kingdomkeys")
+				.group(KingdomKeys.MODID)
 				.unlockedBy("leather_helmet", InventoryChangeTrigger.TriggerInstance.hasItems(Items.LEATHER_HELMET))
 				.save(consumer);
 
@@ -1055,7 +1168,7 @@ public class Recipes extends RecipeProvider {
 				.define('L', Items.LEATHER)
 				.define('H', Items.LEATHER_CHESTPLATE)
 				.define('D', Items.PINK_DYE)
-				.group("kingdomkeys")
+				.group(KingdomKeys.MODID)
 				.unlockedBy("leather_chestplate", InventoryChangeTrigger.TriggerInstance.hasItems(Items.LEATHER_CHESTPLATE))
 				.save(consumer);
 
@@ -1066,7 +1179,7 @@ public class Recipes extends RecipeProvider {
 				.define('L', Items.LEATHER)
 				.define('H', Items.LEATHER_LEGGINGS)
 				.define('D', Items.PINK_DYE)
-				.group("kingdomkeys")
+				.group(KingdomKeys.MODID)
 				.unlockedBy("leather_leggings", InventoryChangeTrigger.TriggerInstance.hasItems(Items.LEATHER_LEGGINGS))
 				.save(consumer);
 
@@ -1076,7 +1189,7 @@ public class Recipes extends RecipeProvider {
 				.define('D', Items.PINK_DYE)
 				.define('H', Items.LEATHER_BOOTS)
 				.define('L', Items.LEATHER)
-				.group("kingdomkeys")
+				.group(KingdomKeys.MODID)
 				.unlockedBy("leather_boots", InventoryChangeTrigger.TriggerInstance.hasItems(Items.LEATHER_BOOTS))
 				.save(consumer);
 
@@ -1087,7 +1200,7 @@ public class Recipes extends RecipeProvider {
 				.define('L', Items.LEATHER)
 				.define('H', Items.LEATHER_HELMET)
 				.define('D', Items.YELLOW_DYE)
-				.group("kingdomkeys")
+				.group(KingdomKeys.MODID)
 				.unlockedBy("leather_helmet", InventoryChangeTrigger.TriggerInstance.hasItems(Items.LEATHER_HELMET))
 				.save(consumer);
 
@@ -1098,7 +1211,7 @@ public class Recipes extends RecipeProvider {
 				.define('L', Items.LEATHER)
 				.define('H', Items.LEATHER_CHESTPLATE)
 				.define('D', Items.YELLOW_DYE)
-				.group("kingdomkeys")
+				.group(KingdomKeys.MODID)
 				.unlockedBy("leather_chestplate", InventoryChangeTrigger.TriggerInstance.hasItems(Items.LEATHER_CHESTPLATE))
 				.save(consumer);
 
@@ -1109,7 +1222,7 @@ public class Recipes extends RecipeProvider {
 				.define('L', Items.LEATHER)
 				.define('H', Items.LEATHER_LEGGINGS)
 				.define('D', Items.YELLOW_DYE)
-				.group("kingdomkeys")
+				.group(KingdomKeys.MODID)
 				.unlockedBy("leather_leggings", InventoryChangeTrigger.TriggerInstance.hasItems(Items.LEATHER_LEGGINGS))
 				.save(consumer);
 
@@ -1119,7 +1232,7 @@ public class Recipes extends RecipeProvider {
 				.define('D', Items.YELLOW_DYE)
 				.define('H', Items.LEATHER_BOOTS)
 				.define('L', Items.LEATHER)
-				.group("kingdomkeys")
+				.group(KingdomKeys.MODID)
 				.unlockedBy("leather_boots", InventoryChangeTrigger.TriggerInstance.hasItems(Items.LEATHER_BOOTS))
 				.save(consumer);
 
@@ -1129,7 +1242,7 @@ public class Recipes extends RecipeProvider {
 				.define('L', Items.LEATHER)
 				.define('H', Items.LEATHER_HELMET)
 				.define('D', Items.BLUE_DYE)
-				.group("kingdomkeys")
+				.group(KingdomKeys.MODID)
 				.unlockedBy("leather_helmet", InventoryChangeTrigger.TriggerInstance.hasItems(Items.LEATHER_HELMET))
 				.save(consumer);
 
@@ -1140,7 +1253,7 @@ public class Recipes extends RecipeProvider {
 				.define('L', Items.LEATHER)
 				.define('H', Items.LEATHER_CHESTPLATE)
 				.define('D', Items.BLUE_DYE)
-				.group("kingdomkeys")
+				.group(KingdomKeys.MODID)
 				.unlockedBy("leather_chestplate", InventoryChangeTrigger.TriggerInstance.hasItems(Items.LEATHER_CHESTPLATE))
 				.save(consumer);
 
@@ -1151,7 +1264,7 @@ public class Recipes extends RecipeProvider {
 				.define('L', Items.LEATHER)
 				.define('H', Items.LEATHER_LEGGINGS)
 				.define('D', Items.BLUE_DYE)
-				.group("kingdomkeys")
+				.group(KingdomKeys.MODID)
 				.unlockedBy("leather_leggings", InventoryChangeTrigger.TriggerInstance.hasItems(Items.LEATHER_LEGGINGS))
 				.save(consumer);
 
@@ -1161,7 +1274,7 @@ public class Recipes extends RecipeProvider {
 				.define('D', Items.BLUE_DYE)
 				.define('H', Items.LEATHER_BOOTS)
 				.define('L', Items.LEATHER)
-				.group("kingdomkeys")
+				.group(KingdomKeys.MODID)
 				.unlockedBy("leather_boots", InventoryChangeTrigger.TriggerInstance.hasItems(Items.LEATHER_BOOTS))
 				.save(consumer);
 
@@ -1173,7 +1286,7 @@ public class Recipes extends RecipeProvider {
                 .define('G', Tags.Items.INGOTS_GOLD)
                 .define('C', Tags.Items.CHESTS)
                 .define('N', Blocks.NETHER_BRICKS)
-                .group("kingdomkeys")
+                .group(KingdomKeys.MODID)
                 .unlockedBy("chest", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.CHEST))
                 .save(consumer);
 
@@ -1185,7 +1298,7 @@ public class Recipes extends RecipeProvider {
                 .define('P', Tags.Items.ENDER_PEARLS)
                 .define('E', Items.ENDER_EYE)
                 .define('C', Items.CHORUS_FRUIT)
-                .group("kingdomkeys")
+                .group(KingdomKeys.MODID)
                 .unlockedBy("ender_eye", InventoryChangeTrigger.TriggerInstance.hasItems(Items.ENDER_EYE))
                 .save(consumer);
 
@@ -1196,7 +1309,7 @@ public class Recipes extends RecipeProvider {
                 .define('M', ModBlocks.metalBlox.get())
                 .define('B', Tags.Items.STORAGE_BLOCKS_IRON)
                 .define('I', Items.ITEM_FRAME)
-                .group("kingdomkeys")
+                .group(KingdomKeys.MODID)
                 .unlockedBy("metalblox", InventoryChangeTrigger.TriggerInstance.hasItems(ModBlocks.metalBlox.get()))
                 .save(consumer);
 
@@ -1206,7 +1319,7 @@ public class Recipes extends RecipeProvider {
                 .pattern("MMM")
                 .define('M', ModBlocks.mosaic_stained_glass.get())
                 .define('G', Blocks.GLOWSTONE)
-                .group("kingdomkeys")
+                .group(KingdomKeys.MODID)
                 .unlockedBy("mosaic_stained_glass", InventoryChangeTrigger.TriggerInstance.hasItems(ModBlocks.mosaic_stained_glass.get()))
                 .save(consumer);
 
@@ -1217,7 +1330,7 @@ public class Recipes extends RecipeProvider {
 				.define('R', Items.REDSTONE)
 				.define('G', Items.GOLD_INGOT)
 				.define('W', ModBlocks.gummiCubes.get(15).get())
-				.group("kingdomkeys")
+				.group(KingdomKeys.MODID)
 				.unlockedBy("redstone", InventoryChangeTrigger.TriggerInstance.hasItems(Items.REDSTONE))
 				.save(consumer);
 
@@ -1248,7 +1361,7 @@ public class Recipes extends RecipeProvider {
 						SingleItemRecipeBuilder.stonecutting(Ingredient.of(gummiBlocks.get(i).get(k).get()), RecipeCategory.BUILDING_BLOCKS, gummiBlocks.get(j).get(k).get())
 							.group(KingdomKeys.MODID + "_gummi_blocks")
 							.unlockedBy("has_" + Utils.getBlockRegistryName(gummiBlocks.get(i).get(k).get()).getPath(), InventoryChangeTrigger.TriggerInstance.hasItems(gummiBlocks.get(i).get(k).get()))
-							.save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, Utils.getBlockRegistryName(gummiBlocks.get(j).get(k).get()).getPath() + "_from_" + Utils.getBlockRegistryName(gummiBlocks.get(i).get(k).get()).getPath().replace("_" + DyeColor.values()[k].getName(), "").replace("gummi_", "")));
+							.save(consumer, KingdomKeys.rl(Utils.getBlockRegistryName(gummiBlocks.get(j).get(k).get()).getPath() + "_from_" + Utils.getBlockRegistryName(gummiBlocks.get(i).get(k).get()).getPath().replace("_" + DyeColor.values()[k].getName(), "").replace("gummi_", "")));
 					}
 				}
 			}
@@ -1260,7 +1373,7 @@ public class Recipes extends RecipeProvider {
                         SingleItemRecipeBuilder.stonecutting(Ingredient.of(gummiShellBlocks.get(i).get(k).get()), RecipeCategory.BUILDING_BLOCKS, gummiShellBlocks.get(j).get(k).get())
                                 .group(KingdomKeys.MODID + "_gummi_blocks")
                                 .unlockedBy("has_" + Utils.getBlockRegistryName(gummiShellBlocks.get(i).get(k).get()).getPath(), InventoryChangeTrigger.TriggerInstance.hasItems(gummiShellBlocks.get(i).get(k).get()))
-                                .save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, Utils.getBlockRegistryName(gummiShellBlocks.get(j).get(k).get()).getPath() + "_from_" + Utils.getBlockRegistryName(gummiShellBlocks.get(i).get(k).get()).getPath().replace("_" + DyeColor.values()[k].getName(), "").replace("gummi_", "")));
+                                .save(consumer, KingdomKeys.rl(Utils.getBlockRegistryName(gummiShellBlocks.get(j).get(k).get()).getPath() + "_from_" + Utils.getBlockRegistryName(gummiShellBlocks.get(i).get(k).get()).getPath().replace("_" + DyeColor.values()[k].getName(), "").replace("gummi_", "")));
                     }
                 }
             }
@@ -1272,7 +1385,7 @@ public class Recipes extends RecipeProvider {
                         SingleItemRecipeBuilder.stonecutting(Ingredient.of(gummiDispelBlocks.get(i).get(k).get()), RecipeCategory.BUILDING_BLOCKS, gummiDispelBlocks.get(j).get(k).get())
                                 .group(KingdomKeys.MODID + "_gummi_blocks")
                                 .unlockedBy("has_" + Utils.getBlockRegistryName(gummiDispelBlocks.get(i).get(k).get()).getPath(), InventoryChangeTrigger.TriggerInstance.hasItems(gummiDispelBlocks.get(i).get(k).get()))
-                                .save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, Utils.getBlockRegistryName(gummiDispelBlocks.get(j).get(k).get()).getPath() + "_from_" + Utils.getBlockRegistryName(gummiDispelBlocks.get(i).get(k).get()).getPath().replace("_" + DyeColor.values()[k].getName(), "").replace("gummi_", "")));
+                                .save(consumer, KingdomKeys.rl(Utils.getBlockRegistryName(gummiDispelBlocks.get(j).get(k).get()).getPath() + "_from_" + Utils.getBlockRegistryName(gummiDispelBlocks.get(i).get(k).get()).getPath().replace("_" + DyeColor.values()[k].getName(), "").replace("gummi_", "")));
                     }
                 }
             }
@@ -1319,7 +1432,7 @@ public class Recipes extends RecipeProvider {
 					.requires(dyes.get(i))
 					.group(KingdomKeys.MODID + "_gummi_blocks")
 					.unlockedBy("has_" + Utils.getBlockRegistryName(blocks.get(i).get()).getPath(), InventoryChangeTrigger.TriggerInstance.hasItems(blocks.get(i).get()))
-					.save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, Utils.getBlockRegistryName(blocks.get(i).get()).getPath() + "_from_dye"));
+					.save(consumer, KingdomKeys.rl(Utils.getBlockRegistryName(blocks.get(i).get()).getPath() + "_from_dye"));
 			}
 
             //Shell block + dye ? shell dyed
@@ -1330,7 +1443,7 @@ public class Recipes extends RecipeProvider {
                         .requires(dyes.get(i))
                         .group(KingdomKeys.MODID + "_gummi_blocks")
                         .unlockedBy("has_" + Utils.getBlockRegistryName(blocks.get(i).get()).getPath(), InventoryChangeTrigger.TriggerInstance.hasItems(blocks.get(i).get()))
-                        .save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, Utils.getBlockRegistryName(blocks.get(i).get()).getPath() + "_from_dye"));
+                        .save(consumer, KingdomKeys.rl(Utils.getBlockRegistryName(blocks.get(i).get()).getPath() + "_from_dye"));
             }
 
             //Dispel block + dye = dispel dyed
@@ -1341,7 +1454,7 @@ public class Recipes extends RecipeProvider {
                         .requires(dyes.get(i))
                         .group(KingdomKeys.MODID + "_gummi_blocks")
                         .unlockedBy("has_" + Utils.getBlockRegistryName(blocks.get(i).get()).getPath(), InventoryChangeTrigger.TriggerInstance.hasItems(blocks.get(i).get()))
-                        .save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, Utils.getBlockRegistryName(blocks.get(i).get()).getPath() + "_from_dye"));
+                        .save(consumer, KingdomKeys.rl(Utils.getBlockRegistryName(blocks.get(i).get()).getPath() + "_from_dye"));
             }
 
             for (int shape=0; shape<gummiDifferentBlocks.size();shape++) {
@@ -1351,7 +1464,7 @@ public class Recipes extends RecipeProvider {
                         .requires(dyes.get(i))
                         .group(KingdomKeys.MODID + "_gummi_blocks")
                         .unlockedBy("has_" + Utils.getBlockRegistryName(blocks.get(i).get()).getPath(), InventoryChangeTrigger.TriggerInstance.hasItems(blocks.get(i).get()))
-                        .save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, Utils.getBlockRegistryName(blocks.get(i).get()).getPath() + "_from_dye"));
+                        .save(consumer, KingdomKeys.rl(Utils.getBlockRegistryName(blocks.get(i).get()).getPath() + "_from_dye"));
             }
 		}
     }
@@ -1359,6 +1472,6 @@ public class Recipes extends RecipeProvider {
 	private void addRecipeUpgrade(RecipeOutput consumer, ItemLike input, ItemLike output, int amount, String id) {
 		ShapelessRecipeBuilder builder = ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, output);
 		builder.requires(input, amount);
-		builder.unlockedBy(id, InventoryChangeTrigger.TriggerInstance.hasItems(input)).save(consumer, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, id + amount));
+		builder.unlockedBy(id, InventoryChangeTrigger.TriggerInstance.hasItems(input)).save(consumer, KingdomKeys.rl(id + amount));
 	}
 }

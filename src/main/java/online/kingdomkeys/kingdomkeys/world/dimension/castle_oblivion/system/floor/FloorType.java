@@ -28,27 +28,27 @@ public class FloorType extends JsonRegistryObject {
     private final Holder<Biome> floorColour;
     @Nullable private final Holder<SoundEvent> music;
     private final List<ResourceLocation> roomBlacklist;
-    @Nullable private final ResourceLocation startingRoom;
+    private final ResourceLocation startingRoom;
     @Nullable private final ResourceLocation fixedLayout;
     private final List<RoomModifier> globalModifiers;
-    @Nullable private final TagKey<EntityType<?>> regularEnemies;
-    @Nullable private final TagKey<EntityType<?>> strongEnemies;
+    private final TagKey<EntityType<?>> regularEnemies;
+    private final TagKey<EntityType<?>> strongEnemies;
     private final boolean useFogColour;
 
     public static final Codec<FloorType> CODEC = RecordCodecBuilder.create(floorTypeInstance ->
         floorTypeInstance.group(
                 Codec.INT.fieldOf("crit_path_length").forGetter(FloorType::getCritPathLength),
                 Biome.CODEC.fieldOf("biome_colours").forGetter(FloorType::getFloorColour),
-                CountChancePair.CODEC.optionalFieldOf("bonus_rooms").forGetter(o -> Optional.ofNullable(o.getBonusRooms())),
-                CountChancePair.CODEC.optionalFieldOf("branches").forGetter(o -> Optional.ofNullable(o.getBranches())),
+                CountChancePair.CODEC.optionalFieldOf("bonus_rooms", new CountChancePair(0, 0)).forGetter(FloorType::getBonusRooms),
+                CountChancePair.CODEC.optionalFieldOf("branches", new CountChancePair(0, 0)).forGetter(FloorType::getBranches),
                 SoundEvent.CODEC.optionalFieldOf("music").forGetter(o -> Optional.ofNullable(o.music)),
-                ResourceLocation.CODEC.listOf().optionalFieldOf("room_blacklist").forGetter(o -> Optional.ofNullable(o.roomBlacklist)),
-                ResourceLocation.CODEC.optionalFieldOf("starting_room").forGetter(o -> Optional.ofNullable(o.startingRoom)),
+                ResourceLocation.CODEC.listOf().optionalFieldOf("room_blacklist", new ArrayList<>()).forGetter(o -> o.roomBlacklist),
+                ResourceLocation.CODEC.optionalFieldOf("starting_room", KingdomKeys.rl("unknown_room")).forGetter(o -> o.startingRoom),
                 ResourceLocation.CODEC.optionalFieldOf("fixed_layout").forGetter(o -> Optional.ofNullable(o.fixedLayout)),
-                RoomModifier.CODEC.listOf().optionalFieldOf("modifiers").forGetter(o -> Optional.ofNullable(o.globalModifiers)),
-                TagKey.hashedCodec(Registries.ENTITY_TYPE).optionalFieldOf("regular_enemies").forGetter(o -> Optional.ofNullable(o.getRegularEnemies())),
-                TagKey.hashedCodec(Registries.ENTITY_TYPE).optionalFieldOf("strong_enemies").forGetter(o -> Optional.ofNullable(o.getStrongEnemies())),
-                Codec.BOOL.optionalFieldOf("use_fog_colour").forGetter(o -> Optional.of(o.useFogColour()))
+                RoomModifier.CODEC.listOf().optionalFieldOf("modifiers", new ArrayList<>()).forGetter(o -> o.globalModifiers),
+                TagKey.hashedCodec(Registries.ENTITY_TYPE).optionalFieldOf("regular_enemies", ModTags.CO_REGULAR_ENEMIES).forGetter(FloorType::getRegularEnemies),
+                TagKey.hashedCodec(Registries.ENTITY_TYPE).optionalFieldOf("strong_enemies", ModTags.CO_STRONG_ENEMIES).forGetter(FloorType::getStrongEnemies),
+                Codec.BOOL.optionalFieldOf("use_fog_colour", false).forGetter(FloorType::useFogColour)
                 ).apply(floorTypeInstance, FloorType::new)
     );
 
@@ -62,19 +62,19 @@ public class FloorType extends JsonRegistryObject {
     }
 
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-    public FloorType(int critPathLength, Holder<Biome> floorColour, Optional<CountChancePair> bonusRooms, Optional<CountChancePair> branches, Optional<Holder<SoundEvent>> music, Optional<List<ResourceLocation>> roomBlacklist, Optional<ResourceLocation> startingRoom, Optional<ResourceLocation> fixedLayout, Optional<List<RoomModifier>> globalModifiers, Optional<TagKey<EntityType<?>>> regularEnemies, Optional<TagKey<EntityType<?>>> strongEnemies, Optional<Boolean> useFogColour) {
+    public FloorType(int critPathLength, Holder<Biome> floorColour, CountChancePair bonusRooms, CountChancePair branches, Optional<Holder<SoundEvent>> music, List<ResourceLocation> roomBlacklist, ResourceLocation startingRoom, Optional<ResourceLocation> fixedLayout, List<RoomModifier> globalModifiers, TagKey<EntityType<?>> regularEnemies, TagKey<EntityType<?>> strongEnemies, boolean useFogColour) {
         this.critPathLength = critPathLength;
         this.floorColour = floorColour;
-        this.bonusRooms = bonusRooms.orElse(new CountChancePair(0, 0));
-        this.branches = branches.orElse(new CountChancePair(0, 0));
+        this.bonusRooms = bonusRooms;
+        this.branches = branches;
         this.music = music.orElse(null);
-        this.roomBlacklist = roomBlacklist.orElse(new ArrayList<>());
-        this.startingRoom = startingRoom.orElse(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "unknown_room"));
+        this.roomBlacklist = roomBlacklist;
+        this.startingRoom = startingRoom;
         this.fixedLayout = fixedLayout.orElse(null);
-        this.globalModifiers = globalModifiers.orElse(new ArrayList<>());
-        this.regularEnemies = regularEnemies.orElse(ModTags.CO_REGULAR_ENEMIES);
-        this.strongEnemies = strongEnemies.orElse(ModTags.CO_STRONG_ENEMIES);
-        this.useFogColour = useFogColour.orElse(false);
+        this.globalModifiers = globalModifiers;
+        this.regularEnemies = regularEnemies;
+        this.strongEnemies = strongEnemies;
+        this.useFogColour = useFogColour;
     }
 
     public int getCritPathLength() {

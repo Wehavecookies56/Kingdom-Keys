@@ -1,16 +1,17 @@
 package online.kingdomkeys.kingdomkeys.client.gui.overlay;
 
-import com.mojang.authlib.GameProfile;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.screens.inventory.InventoryScreen;
+import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.client.multiplayer.PlayerInfo;
-import net.minecraft.client.player.RemotePlayer;
 import net.minecraft.client.resources.DefaultPlayerSkin;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
@@ -19,9 +20,10 @@ import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
+import online.kingdomkeys.kingdomkeys.util.Utils;
+import org.joml.Quaternionf;
+import org.joml.Vector3f;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 //TODO cleanup + comments
@@ -33,14 +35,25 @@ public class PartyHUDGui extends OverlayBase {
 		super();
 	}
 
+	private static final ResourceLocation HP_BAR = KingdomKeys.rl("textures/gui/hpbar.png");
+	private static final ResourceLocation MP_BAR = KingdomKeys.rl("textures/gui/mpbar.png");
+
 	public ResourceLocation getLocationSkin(Player player) {
-		PlayerInfo networkplayerinfo = Minecraft.getInstance().getConnection().getPlayerInfo(player.getUUID());
-		return networkplayerinfo == null ? DefaultPlayerSkin.get(player.getUUID()).texture() : networkplayerinfo.getSkin().texture();
+		return getLocationSkin(player.getUUID());
+	}
+
+	public ResourceLocation getLocationSkin(UUID uuid) {
+		ClientPacketListener connection = Minecraft.getInstance().getConnection();
+		PlayerInfo info = connection == null ? null : connection.getPlayerInfo(uuid);
+		return info == null ? DefaultPlayerSkin.get(uuid).texture() : info.getSkin().texture();
 	}
 
 	@Override
 	public void render(GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
 		super.render(guiGraphics, deltaTracker);
+		if(minecraft != null && minecraft.options.hideGui){
+			return;
+		}
 		Player player = minecraft.player;
 
 		int screenWidth = minecraft.getWindow().getGuiScaledWidth();
@@ -54,31 +67,21 @@ public class PartyHUDGui extends OverlayBase {
 			return;
 		}
 
-		List<Member> allies = new ArrayList<>();
-		allies.clear();
-		for (Member m : p.getMembers()) {
-			if (!m.getUUID().equals(player.getUUID())) {
-				allies.add(m);
-			}
-		}
-
 		ClientUtils.PARTY_ELEMENT.applyTransform(guiGraphics, screenWidth, screenHeight);
-		for (int i = 0; i < allies.size(); i++) {
-			Member member = allies.get(i);
-			Player playerAlly = player.level().getPlayerByUUID(member.getUUID());
-			renderFace(guiGraphics, playerAlly, member, scale, i);
+		// Walked directly instead of copying the members into a fresh list every frame.
+		int slot = 0;
+		for (Member member : p.getMembers()) {
+			if (member.getUUID().equals(player.getUUID())) {
+				continue;
+			}
+			LivingEntity ally = Utils.getPartyEntity(player.level(), member.getUUID());
+			renderFace(guiGraphics, ally, member, scale, slot++);
 		}
 		ClientUtils.PARTY_ELEMENT.endTransform(guiGraphics);
 	}
 
-	public void renderFace(GuiGraphics gui, Player playerAlly, Member member, float scale, int i) {
-		UUID uuid = member.getUUID();
+	public void renderFace(GuiGraphics gui, LivingEntity playerAlly, Member member, float scale, int i) {
 		String name = member.getUsername();
-
-		GameProfile profile = new GameProfile(uuid, name);
-		RemotePlayer fakePlayer = new RemotePlayer(Minecraft.getInstance().level, profile);
-
-		ResourceLocation skin = fakePlayer.getSkin().texture();
 
 		PoseStack pose = gui.pose();
 
@@ -86,26 +89,40 @@ public class PartyHUDGui extends OverlayBase {
 		{
 			float spacing = 40 * (ModConfigs.partyYDistance / 100f);
 			pose.translate(4, ClientUtils.PARTY_ELEMENT.height - 20 + -i * spacing, 0);
-			pose.pushPose();
-			{
-				pose.scale(scale, scale, 1);
 
-				if (playerAlly == null)
-					RenderSystem.setShaderColor(0.2F, 0.2F, 0.2F, 1F);
-				else
+			if (member.isPlayer()) {
+				// A player has a face even while it is away, because the skin comes from the tab list rather than from the entity
+				ResourceLocation skin = getLocationSkin(member.getUUID());
+
+				pose.pushPose();
+				{
+					pose.scale(scale, scale, 1);
+
+					if (playerAlly == null)
+						RenderSystem.setShaderColor(0.2F, 0.2F, 0.2F, 1F);
+					else
+						RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
+
+					this.blit(gui, skin, 0, 0, 32, 32, 32, 32);
 					RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
+				}
+				pose.popPose();
 
-				this.blit(gui, skin, 0, 0, 32, 32, 32, 32);
-				RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
+				pose.pushPose();
+				{
+					pose.scale(scale, scale, 1);
+					this.blit(gui, skin, 0, 0, 160, 32, 32, 32);
+				}
+				pose.popPose();
+			} else if (playerAlly != null) {
+				// Anything else has no skin to blit, so it sits for its own portrait. Nothing is drawn when it isn't loaded: there is no stand in for a mob the way there is for a player
+				pose.pushPose();
+				{
+					pose.scale(scale, scale, 1);
+					renderPortrait(gui, playerAlly);
+				}
+				pose.popPose();
 			}
-			pose.popPose();
-
-			pose.pushPose();
-			{
-				pose.scale(scale, scale, 1);
-				this.blit(gui, skin, 0, 0, 160, 32, 32, 32);
-			}
-			pose.popPose();
 
 			pose.pushPose();
 			{
@@ -129,13 +146,12 @@ public class PartyHUDGui extends OverlayBase {
 				float val = playerAlly.getHealth();
 				float max = playerAlly.getMaxHealth();
 
-				ResourceLocation hptexture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/hpbar.png");
-
+				
 				// top
 				pose.pushPose();
 				{
 					pose.scale(barScaleX, scale, 1);
-					this.blit(gui, hptexture, 0, 0, 0, 72, 12, 2);
+					this.blit(gui, HP_BAR, 0, 0, 0, 72, 12, 2);
 				}
 				pose.popPose();
 
@@ -144,7 +160,7 @@ public class PartyHUDGui extends OverlayBase {
 				{
 					pose.translate(0, 1, 1);
 					pose.scale(barScaleX, barHeight, 1);
-					this.blit(gui, hptexture, 0, 0, 0, 74, 12, 1);
+					this.blit(gui, HP_BAR, 0, 0, 0, 74, 12, 1);
 				}
 				pose.popPose();
 
@@ -153,7 +169,7 @@ public class PartyHUDGui extends OverlayBase {
 				{
 					pose.translate(0, 30, 1);
 					pose.scale(barScaleX, scale, 1);
-					this.blit(gui, hptexture, 0, -30, 0, 72, 12, 2);
+					this.blit(gui, HP_BAR, 0, -30, 0, 72, 12, 2);
 				}
 				pose.popPose();
 
@@ -163,19 +179,17 @@ public class PartyHUDGui extends OverlayBase {
 					pose.mulPose(Axis.ZP.rotationDegrees(180));
 					pose.translate(-4, -15, 1);
 					pose.scale(barScaleX, barHeight * val / max, 1);
-					this.blit(gui, hptexture, 0, 0, 0, 78, 12, 1);
+					this.blit(gui, HP_BAR, 0, 0, 0, 78, 12, 1);
 				}
 				pose.popPose();
 
-				//MP
-				PlayerData playerData = PlayerData.get(playerAlly);
+				//MP, which only a player has
+				PlayerData playerData = playerAlly instanceof Player ally ? PlayerData.get(ally) : null;
 				if (playerData != null) {
 
 					val = (float) playerData.getMP();
 					max = (float) playerData.getMaxMP();
 
-					ResourceLocation mptexture =
-							ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/mpbar.png");
 
 					pose.translate(20, 0, 1);
 
@@ -183,7 +197,7 @@ public class PartyHUDGui extends OverlayBase {
 					pose.pushPose();
 					{
 						pose.scale(barScaleX, scale, 1);
-						this.blit(gui, mptexture, 0, 0, 0, 58, 12, 2);
+						this.blit(gui, MP_BAR, 0, 0, 0, 58, 12, 2);
 					}
 					pose.popPose();
 
@@ -192,7 +206,7 @@ public class PartyHUDGui extends OverlayBase {
 					{
 						pose.translate(0, 1, 1);
 						pose.scale(barScaleX, barHeight, 1);
-						this.blit(gui, mptexture, 0, 0, 0, 60, 12, 1);
+						this.blit(gui, MP_BAR, 0, 0, 0, 60, 12, 1);
 					}
 					pose.popPose();
 
@@ -201,7 +215,7 @@ public class PartyHUDGui extends OverlayBase {
 					{
 						pose.translate(0, 30, 1);
 						pose.scale(barScaleX, scale, 1);
-						this.blit(gui, mptexture, 0, -30, 0, 58, 12, 2);
+						this.blit(gui, MP_BAR, 0, -30, 0, 58, 12, 2);
 					}
 					pose.popPose();
 
@@ -211,7 +225,7 @@ public class PartyHUDGui extends OverlayBase {
 						pose.mulPose(Axis.ZP.rotationDegrees(180));
 						pose.translate(-4, -15, 1);
 						pose.scale(barScaleX, barHeight * val / max, 1);
-						this.blit(gui, mptexture, 0, 0, 0, 64, 12, 1);
+						this.blit(gui, MP_BAR, 0, 0, 0, 64, 12, 1);
 					}
 					pose.popPose();
 				}
@@ -219,6 +233,20 @@ public class PartyHUDGui extends OverlayBase {
 
 		}
 		pose.popPose();
+	}
+
+	private static final int SLOT = 32;
+
+	private static final float FIT = 28F;
+
+	private void renderPortrait(GuiGraphics gui, LivingEntity entity) {
+		float bulk = Math.max(Math.max(entity.getBbHeight(), entity.getBbWidth()), 0.1F);
+		float size = FIT / bulk / Math.max(entity.getScale(), 0.01F);
+
+		// Upright: the inventory renderer draws entities upside down and turns them back with this
+		Quaternionf upright = new Quaternionf().rotateZ((float) Math.PI);
+
+		ClientUtils.facingCamera(entity, () -> InventoryScreen.renderEntityInInventory(gui, SLOT / 2F, SLOT / 2F, size, new Vector3f(0F, entity.getBbHeight() / 2F, 0F), upright, null, entity));
 	}
 
 }

@@ -2,7 +2,6 @@ package online.kingdomkeys.kingdomkeys.lib;
 
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
@@ -19,6 +18,8 @@ public class ModTags {
             HEARTLESS = entity("heartless"),
             NOBODY = entity("nobody"),
             CO_BOTTOMLESS_DARKNESS = entity("castle_oblivion/bottomless_darkness"),
+            CO_WHITE_ROOM = entity("castle_oblivion/white_room"),
+            CO_BLACK_ROOM = entity("castle_oblivion/black_room"),
             CO_REGULAR_ENEMIES = entity("castle_oblivion/regular_enemies"),
             CO_STRONG_ENEMIES = entity("castle_oblivion/strong_enemies");
 
@@ -54,9 +55,12 @@ public class ModTags {
             KEY_CARD = item("key_card"),
             BIOME_MEMORY = item("biome_memory"),
 
+            FLOWMOTION_RAILS = item("flowmotion_rails"),
+
             GUMMI_BLOCK_CUBE = item("gummi_block_cube"),
             GUMMI_BLOCK_WEDGE = item("gummi_block_wedge"),
             GUMMI_BLOCK_PYRAMID = item("gummi_block_pyramid"),
+            GUMMI_BLOCK_INNER_CORNER = item("gummi_block_inner_corner"),
             GUMMI_BLOCK_CYLINDER = item("gummi_block_cylinder"),
             GUMMI_BLOCK_PIE = item("gummi_block_pie"),
             GUMMI_BLOCK_ROUND_CORNER = item("gummi_block_round_corner"),
@@ -66,6 +70,7 @@ public class ModTags {
             GUMMI_SHELL_BLOCK_CUBE = item("gummi_shell_block_cube"),
             GUMMI_SHELL_BLOCK_WEDGE = item("gummi_shell_block_wedge"),
             GUMMI_SHELL_BLOCK_PYRAMID = item("gummi_shell_block_pyramid"),
+            GUMMI_SHELL_BLOCK_INNER_CORNER = item("gummi_shell_block_inner_corner"),
             GUMMI_SHELL_BLOCK_CYLINDER = item("gummi_shell_block_cylinder"),
             GUMMI_SHELL_BLOCK_PIE = item("gummi_shell_block_pie"),
             GUMMI_SHELL_BLOCK_ROUND_CORNER = item("gummi_shell_block_round_corner"),
@@ -75,6 +80,7 @@ public class ModTags {
             GUMMI_DISPEL_BLOCK_CUBE = item("gummi_dispel_block_cube"),
             GUMMI_DISPEL_BLOCK_WEDGE = item("gummi_dispel_block_wedge"),
             GUMMI_DISPEL_BLOCK_PYRAMID = item("gummi_dispel_block_pyramid"),
+            GUMMI_DISPEL_BLOCK_INNER_CORNER = item("gummi_dispel_block_inner_corner"),
             GUMMI_DISPEL_BLOCK_CYLINDER = item("gummi_dispel_block_cylinder"),
             GUMMI_DISPEL_BLOCK_PIE = item("gummi_dispel_block_pie"),
             GUMMI_DISPEL_BLOCK_ROUND_CORNER = item("gummi_dispel_block_round_corner"),
@@ -82,15 +88,16 @@ public class ModTags {
             GUMMI_DISPEL_BLOCK_DOME = item("gummi_dispel_block_dome"),
 
             GUMMI_BLOCK_BUBBLE = item("gummi_block_bubble"),
+            GUMMI_BLOCK_MINI_HELM = item("gummi_block_mini_helm"),
 
             GUMMI_BLOCK_AERO_TRIANGLE = item("gummi_block_aero_triangle"),
             GUMMI_BLOCK_AERO_SQUARE = item("gummi_block_aero_square");
 
     public static final List<TagKey<Item>>
-            GUMMI_BLOCK_KEYS = List.of(GUMMI_BLOCK_CUBE, GUMMI_BLOCK_WEDGE, GUMMI_BLOCK_PYRAMID, GUMMI_BLOCK_CYLINDER, GUMMI_BLOCK_PIE, GUMMI_BLOCK_ROUND_CORNER, GUMMI_BLOCK_CONE, GUMMI_BLOCK_DOME, GUMMI_BLOCK_AERO_SQUARE, GUMMI_BLOCK_AERO_TRIANGLE),
-            GUMMI_SHELL_BLOCK_KEYS = List.of(GUMMI_SHELL_BLOCK_CUBE, GUMMI_SHELL_BLOCK_WEDGE, GUMMI_SHELL_BLOCK_PYRAMID, GUMMI_SHELL_BLOCK_CYLINDER, GUMMI_SHELL_BLOCK_PIE, GUMMI_SHELL_BLOCK_ROUND_CORNER, GUMMI_SHELL_BLOCK_CONE, GUMMI_SHELL_BLOCK_DOME),
-            GUMMI_DISPEL_BLOCK_KEYS = List.of(GUMMI_DISPEL_BLOCK_CUBE, GUMMI_DISPEL_BLOCK_WEDGE, GUMMI_DISPEL_BLOCK_PYRAMID, GUMMI_DISPEL_BLOCK_CYLINDER, GUMMI_DISPEL_BLOCK_PIE, GUMMI_DISPEL_BLOCK_ROUND_CORNER, GUMMI_DISPEL_BLOCK_CONE, GUMMI_DISPEL_BLOCK_DOME),
-            GUMMI_DIFFERENT_BLOCK_KEYS = List.of(GUMMI_BLOCK_BUBBLE);
+            GUMMI_BLOCK_KEYS = List.of(GUMMI_BLOCK_CUBE, GUMMI_BLOCK_WEDGE, GUMMI_BLOCK_PYRAMID, GUMMI_BLOCK_INNER_CORNER, GUMMI_BLOCK_CYLINDER, GUMMI_BLOCK_PIE, GUMMI_BLOCK_ROUND_CORNER, GUMMI_BLOCK_CONE, GUMMI_BLOCK_DOME, GUMMI_BLOCK_AERO_SQUARE, GUMMI_BLOCK_AERO_TRIANGLE),
+            GUMMI_SHELL_BLOCK_KEYS = List.of(GUMMI_SHELL_BLOCK_CUBE, GUMMI_SHELL_BLOCK_WEDGE, GUMMI_SHELL_BLOCK_PYRAMID, GUMMI_SHELL_BLOCK_INNER_CORNER, GUMMI_SHELL_BLOCK_CYLINDER, GUMMI_SHELL_BLOCK_PIE, GUMMI_SHELL_BLOCK_ROUND_CORNER, GUMMI_SHELL_BLOCK_CONE, GUMMI_SHELL_BLOCK_DOME),
+            GUMMI_DISPEL_BLOCK_KEYS = List.of(GUMMI_DISPEL_BLOCK_CUBE, GUMMI_DISPEL_BLOCK_WEDGE, GUMMI_DISPEL_BLOCK_PYRAMID, GUMMI_DISPEL_BLOCK_INNER_CORNER, GUMMI_DISPEL_BLOCK_CYLINDER, GUMMI_DISPEL_BLOCK_PIE, GUMMI_DISPEL_BLOCK_ROUND_CORNER, GUMMI_DISPEL_BLOCK_CONE, GUMMI_DISPEL_BLOCK_DOME),
+            GUMMI_DIFFERENT_BLOCK_KEYS = List.of(GUMMI_BLOCK_BUBBLE, GUMMI_BLOCK_MINI_HELM);
 
     public static TagKey<Item> getTagForMember(Utils.OrgMember member) {
         return switch (member) {
@@ -129,11 +136,11 @@ public class ModTags {
     }
 
     private static TagKey<Item> item(String pName) {
-        return TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, pName));
+        return TagKey.create(Registries.ITEM, KingdomKeys.rl(pName));
     }
 
     private static TagKey<EntityType<?>> entity(String pName) {
-        return TagKey.create(Registries.ENTITY_TYPE, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, pName));
+        return TagKey.create(Registries.ENTITY_TYPE, KingdomKeys.rl(pName));
     }
 
 }

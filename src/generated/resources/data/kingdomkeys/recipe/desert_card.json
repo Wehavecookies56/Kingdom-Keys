@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "kingdomkeys:empty_card"
+    },
+    {
+      "item": "kingdomkeys:desert_memory"
+    }
+  ],
+  "result": {
+    "components": {
+      "kingdomkeys:world_card": "kingdomkeys:desert"
+    },
+    "count": 1,
+    "id": "kingdomkeys:desert_card"
+  }
+}

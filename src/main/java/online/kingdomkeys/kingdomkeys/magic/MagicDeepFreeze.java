@@ -21,7 +21,7 @@ public class MagicDeepFreeze extends Magic {
 
 	boolean launch;
 
-	public MagicDeepFreeze(ResourceLocation registryName, int tier, String gmAbility, boolean launch) {
+	public MagicDeepFreeze(ResourceLocation registryName, int tier, ResourceLocation gmAbility, boolean launch) {
 		super(registryName, false, gmAbility);
 		setTier(tier);
 		this.launch = launch;

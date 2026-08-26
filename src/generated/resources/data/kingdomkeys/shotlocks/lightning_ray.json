@@ -1,0 +1,11 @@
+{
+  "cooldown": 4,
+  "cooldown_max": 2,
+  "dmg_mult": 0.9,
+  "dmg_mult_max": 1.08,
+  "element": "lightning",
+  "max": 18,
+  "max_exp": 6400,
+  "max_level": 4,
+  "minigame": "mash_dash"
+}

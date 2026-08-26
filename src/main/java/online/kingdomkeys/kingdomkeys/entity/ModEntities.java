@@ -31,7 +31,6 @@ import online.kingdomkeys.kingdomkeys.client.render.entity.*;
 import online.kingdomkeys.kingdomkeys.client.render.entity.drops.*;
 import online.kingdomkeys.kingdomkeys.client.render.magic.*;
 import online.kingdomkeys.kingdomkeys.client.render.org.*;
-import online.kingdomkeys.kingdomkeys.client.render.shotlock.UltimaCannonShotlockShotEntityRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.shotlock.VolleyShotlockShotEntityRenderer;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper.MobType;
@@ -41,6 +40,7 @@ import online.kingdomkeys.kingdomkeys.entity.magic.*;
 import online.kingdomkeys.kingdomkeys.entity.mob.*;
 import online.kingdomkeys.kingdomkeys.entity.organization.*;
 import online.kingdomkeys.kingdomkeys.entity.shotlock.*;
+import online.kingdomkeys.kingdomkeys.entity.worldmap.WorldMarkerEntity;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 
 import java.awt.*;
@@ -66,7 +66,9 @@ public class ModEntities {
     public static final DeferredHolder<EntityType<?>, EntityType<HPOrbEntity>> TYPE_HPORB = createEntityType(HPOrbEntity::new, MobCategory.MISC,"entity_hp_orb", 0.25F, 0.25F);
     public static final DeferredHolder<EntityType<?>, EntityType<MPOrbEntity>> TYPE_MPORB = createEntityType(MPOrbEntity::new, MobCategory.MISC,"entity_mp_orb", 0.25F, 0.25F);
     public static final DeferredHolder<EntityType<?>, EntityType<DriveOrbEntity>> TYPE_DRIVEORB = createEntityType(DriveOrbEntity::new, MobCategory.MISC,"entity_drive_orb", 0.25F, 0.25F);
+    public static final DeferredHolder<EntityType<?>, EntityType<StruggleOrbEntity>> TYPE_STRUGGLE_ORB = createEntityType(StruggleOrbEntity::new, MobCategory.MISC,"entity_struggle_orb", 0.25F, 0.25F);
     public static final DeferredHolder<EntityType<?>, EntityType<FocusOrbEntity>> TYPE_FOCUSORB = createEntityType(FocusOrbEntity::new, MobCategory.MISC,"entity_focus_orb", 0.25F, 0.25F);
+    public static final DeferredHolder<EntityType<?>, EntityType<CardItemEntity>> TYPE_CARD_ITEM = createEntityType(CardItemEntity::new, MobCategory.MISC,"entity_card_drop", 0.25F, 0.25F);
 
     public static final DeferredHolder<EntityType<?>, EntityType<FireEntity>> TYPE_FIRE = createEntityType(FireEntity::new, MobCategory.MISC,"entity_fire", 0.5F, 0.5F);
     public static final DeferredHolder<EntityType<?>, EntityType<FiraEntity>> TYPE_FIRA = createEntityType(FiraEntity::new, MobCategory.MISC,"entity_fira", 0.8F, 0.8F);
@@ -93,17 +95,20 @@ public class ModEntities {
     public static final DeferredHolder<EntityType<?>, EntityType<WateraEntity>> TYPE_WATERA = createEntityType(WateraEntity::new, MobCategory.MISC,"entity_watera", 0.8F, 0.8F);
     public static final DeferredHolder<EntityType<?>, EntityType<WatergaEntity>> TYPE_WATERGA = createEntityType(WatergaEntity::new, MobCategory.MISC,"entity_waterga", 1F, 1F);
     public static final DeferredHolder<EntityType<?>, EntityType<WaterzaEntity>> TYPE_WATERZA = createEntityType(WaterzaEntity::new, MobCategory.MISC,"entity_waterza", 1F, 1F);
-    
+
     public static final DeferredHolder<EntityType<?>, EntityType<ThunderEntity>> TYPE_THUNDER = createEntityType(ThunderEntity::new, MobCategory.MISC,"entity_thunder", 0.5F, 0.5F);
     public static final DeferredHolder<EntityType<?>, EntityType<ThundaraEntity>> TYPE_THUNDARA = createEntityType(ThundaraEntity::new, MobCategory.MISC,"entity_thundara", 0.5F, 0.5F);
     public static final DeferredHolder<EntityType<?>, EntityType<ThundagaEntity>> TYPE_THUNDAGA = createEntityType(ThundagaEntity::new, MobCategory.MISC,"entity_thundaga", 0.5F, 0.5F);
     public static final DeferredHolder<EntityType<?>, EntityType<ThundazaEntity>> TYPE_THUNDAZA = createEntityType(ThundazaEntity::new, MobCategory.MISC,"entity_thundaza", 0.5F, 0.5F);
     public static final DeferredHolder<EntityType<?>, EntityType<ThunderBoltEntity>> TYPE_THUNDERBOLT = createEntityType(ThunderBoltEntity::new, MobCategory.MISC,"entity_thunderbolt", 0.5F, 0.5F);
-    
+
+    // The column itself is drawn with particles, so the entity only needs to be somewhere for them to come from
+    public static final DeferredHolder<EntityType<?>, EntityType<AeroTornadoEntity>> TYPE_AERO_TORNADO = createEntityType(AeroTornadoEntity::new, MobCategory.MISC,"entity_aero_tornado", 1F, 1F);
+
     public static final DeferredHolder<EntityType<?>, EntityType<MagnetEntity>> TYPE_MAGNET = createEntityType(MagnetEntity::new, MobCategory.MISC,"entity_magnet", 1F, 1F);
     public static final DeferredHolder<EntityType<?>, EntityType<MagneraEntity>> TYPE_MAGNERA = createEntityType(MagneraEntity::new, MobCategory.MISC,"entity_magnera", 1.5F, 1.5F);
     public static final DeferredHolder<EntityType<?>, EntityType<MagnegaEntity>> TYPE_MAGNEGA = createEntityType(MagnegaEntity::new, MobCategory.MISC,"entity_magnega", 2F, 2F);
-    
+
     public static final DeferredHolder<EntityType<?>, EntityType<GravityEntity>> TYPE_GRAVITY = createEntityType(GravityEntity::new, MobCategory.MISC,"entity_gravity", 0.5F, 0.5F);
     public static final DeferredHolder<EntityType<?>, EntityType<GraviraEntity>> TYPE_GRAVIRA = createEntityType(GraviraEntity::new, MobCategory.MISC,"entity_gravira", 0.5F, 0.5F);
     public static final DeferredHolder<EntityType<?>, EntityType<GravigaEntity>> TYPE_GRAVIGA = createEntityType(GravigaEntity::new, MobCategory.MISC,"entity_graviga", 0.5F, 0.5F);
@@ -125,19 +130,20 @@ public class ModEntities {
     public static final DeferredHolder<EntityType<?>, EntityType<SaixShockwave>> TYPE_SAIX_SHOCKWAVE = createEntityType(SaixShockwave::new, MobCategory.MISC,"saix_shockwave", 1.5F,3.5F);
 
     public static final DeferredHolder<EntityType<?>, EntityType<OrgPortalEntity>> TYPE_ORG_PORTAL = createEntityType(OrgPortalEntity::new, MobCategory.MISC,"entity_org_portal", 1F, 3.5F);
-    
+
    // public static final DeferredHolder<EntityType<?>, EntityType<ChakramEntity>> TYPE_CHAKRAM = createEntityType(ChakramEntity::new, ChakramEntity::new, MobCategory.MISC,"entity_chakram", 1.3F, 0.5F);
     public static final DeferredHolder<EntityType<?>, EntityType<KKThrowableEntity>> TYPE_KK_THROWABLE = ENTITIES.register("entity_chakram",
     		() -> EntityType.Builder.<KKThrowableEntity>of((e,w)->new KKThrowableEntity(w), MobCategory.MISC).sized(2.5F, 0.75F).clientTrackingRange(10)
                     .build("entity_chakram"));
 
     public static final DeferredHolder<EntityType<?>, EntityType<LanceEntity>> TYPE_LANCE = createEntityType(LanceEntity::new, MobCategory.MISC,"entity_lance", 0.5F, 0.5F);
-    
+
     public static final DeferredHolder<EntityType<?>, EntityType<HeartEntity>> TYPE_HEART = createEntityType(HeartEntity::new, MobCategory.MISC, "heart", 1F, 1F);
     public static final DeferredHolder<EntityType<?>, EntityType<XPEntity>> TYPE_XP = createEntityType(XPEntity::new, MobCategory.MISC, "xp", 1F, 1F);
     public static final DeferredHolder<EntityType<?>, EntityType<TrainingDummyEntity>> TYPE_TRAINING_DUMMY = createEntityType(TrainingDummyEntity::new, MobCategory.MISC, "training_dummy", 1F, 2F);
     public static final DeferredHolder<EntityType<?>, EntityType<DamageNumberEntity>> TYPE_DAMAGE_NUMBER = createEntityType(DamageNumberEntity::new, MobCategory.MISC, "damage_number", 1F, 1F);
     public static final DeferredHolder<EntityType<?>, EntityType<MagicTargetEntity>> TYPE_MAGIC_TARGET = createEntityTypeImmuneToFire(MagicTargetEntity::new, MobCategory.MISC, "magic_target", 1F, 1F);
+    public static final DeferredHolder<EntityType<?>, EntityType<PosterEntity>> TYPE_POSTER = ENTITIES.register("struggle_poster", () -> EntityType.Builder.<PosterEntity>of(PosterEntity::new, MobCategory.MISC).sized(1F, 1F).clientTrackingRange(10).build("struggle_poster"));
 
     //Mobs
     public static final Item.Properties PROPERTIES = new Item.Properties();
@@ -185,6 +191,18 @@ public class ModEntities {
     public static final DeferredHolder<EntityType<?>, EntityType<SoldierEntity>> TYPE_COMMANDER = createEntityType(CommanderEntity::new, MobCategory.MONSTER, "commander", 0.9F, 2.4F);
     public static final Supplier<Item> COMMANDER_EGG = ModItems.ITEMS.register("commander_spawn_egg", () -> new DeferredSpawnEggItem(TYPE_COMMANDER, 0x003c32, Color.YELLOW.getRGB(), PROPERTIES));
 
+    public static final DeferredHolder<EntityType<?>, EntityType<AirSoldierEntity>> TYPE_AIR_SOLDIER = createEntityType(AirSoldierEntity::new, MobCategory.MONSTER, "air_soldier", 0.9F, 1.8F);
+    public static final Supplier<Item> AIR_SOLDIER_EGG = ModItems.ITEMS.register("air_soldier_spawn_egg", () -> new DeferredSpawnEggItem(TYPE_AIR_SOLDIER, 0x2f4f8f, Color.WHITE.getRGB(), PROPERTIES));
+
+    public static final DeferredHolder<EntityType<?>, EntityType<DefenderEntity>> TYPE_DEFENDER = createEntityType(DefenderEntity::new, MobCategory.MONSTER, "defender", 1.4F, 2.7F);
+    public static final Supplier<Item> DEFENDER_EGG = ModItems.ITEMS.register("defender_spawn_egg", () -> new DeferredSpawnEggItem(TYPE_DEFENDER, 0x332C58, 0x7975FF, PROPERTIES));
+
+    public static final DeferredHolder<EntityType<?>, EntityType<NeoshadowEntity>> TYPE_NEOSHADOW = createEntityType(NeoshadowEntity::new, MobCategory.MONSTER, "neoshadow", 0.7F, 1.5F);
+    public static final Supplier<Item> NEOSHADOW_EGG = ModItems.ITEMS.register("neoshadow_spawn_egg", () -> new DeferredSpawnEggItem(TYPE_NEOSHADOW, 0x14111c, 0x6f4fb0, PROPERTIES));
+
+    public static final DeferredHolder<EntityType<?>, EntityType<NeoshadowEntity>> TYPE_NOVASHADOW = createEntityType(NovashadowEntity::new, MobCategory.MONSTER, "novashadow", 0.8F, 1.7F);
+    public static final Supplier<Item> NOVASHADOW_EGG = ModItems.ITEMS.register("novashadow_spawn_egg", () -> new DeferredSpawnEggItem(TYPE_NOVASHADOW, 0x1c1114, Color.RED.getRGB(), PROPERTIES));
+
     public static final DeferredHolder<EntityType<?>, EntityType<WhiteMushroomEntity>> TYPE_WHITE_MUSHROOM = createEntityType(WhiteMushroomEntity::new, MobCategory.MONSTER, "white_mushroom", 0.6F, 1.1F);
     public static final Supplier<Item> WHITE_MUSHROOM_EGG = ModItems.ITEMS.register("white_mushroom_spawn_egg", () -> new DeferredSpawnEggItem(TYPE_WHITE_MUSHROOM, 0xFAF3B9, Color.RED.getRGB(), PROPERTIES));
 
@@ -225,15 +243,36 @@ public class ModEntities {
     //Bosses
     public static final DeferredHolder<EntityType<?>, EntityType<MarluxiaEntity>> TYPE_MARLUXIA = createEntityTypeImmuneToFire(MarluxiaEntity::new, MobCategory.MONSTER, "marluxia", 1F, 2F);
     public static final Supplier<Item> MARLUXIA_EGG = ModItems.ITEMS.register("marluxia_spawn_egg", () -> new DeferredSpawnEggItem(TYPE_MARLUXIA, 0xc9c9c9, 0xFF00FF, PROPERTIES));
-    
+
     //Limits
     public static final DeferredHolder<EntityType<?>, EntityType<LaserCircleCoreEntity>> TYPE_LASER_CIRCLE = createEntityType(LaserCircleCoreEntity::new, MobCategory.MISC,"entity_laser_circle_core", 0.5F, 0.5F);
     public static final DeferredHolder<EntityType<?>, EntityType<LaserDomeCoreEntity>> TYPE_LASER_DOME = createEntityType(LaserDomeCoreEntity::new, MobCategory.MISC,"entity_laser_dome_core", 0.5F, 0.5F);
     public static final DeferredHolder<EntityType<?>, EntityType<LaserDomeShotEntity>> TYPE_LASER_SHOT = createEntityType(LaserDomeShotEntity::new, MobCategory.MISC,"entity_laser_dome_shot", 0.5F, 0.5F);
     public static final DeferredHolder<EntityType<?>, EntityType<ArrowRainCoreEntity>> TYPE_ARROW_RAIN = createEntityType(ArrowRainCoreEntity::new, MobCategory.MISC,"entity_arrow_rain_core", 0.5F, 0.5F);
     public static final DeferredHolder<EntityType<?>, EntityType<ThunderTrailCoreEntity>> TYPE_THUNDER_TRAIL = createEntityType(ThunderTrailCoreEntity::new, MobCategory.MISC,"entity_thunder_trail_core", 0.5F, 0.5F);
-    
-	public static final DeferredHolder<EntityType<?>, EntityType<DarkVolleyCoreEntity>> TYPE_SHOTLOCK_DARK_VOLLEY = createEntityType(DarkVolleyCoreEntity::new, MobCategory.MISC, "entity_shotlock_volley_core", 0.5F, 0.5F);
+    public static final DeferredHolder<EntityType<?>, EntityType<WaterTrailCoreEntity>> TYPE_WATER_TRAIL = createEntityType(WaterTrailCoreEntity::new, MobCategory.MISC,"entity_water_trail_core", 0.5F, 0.5F);
+    public static final DeferredHolder<EntityType<?>, EntityType<FallingSpearCoreEntity>> TYPE_FALLING_SPEAR = createEntityType(FallingSpearCoreEntity::new, MobCategory.MISC,"entity_falling_spear_core", 0.5F, 0.5F);
+    public static final DeferredHolder<EntityType<?>, EntityType<WaterWallCoreEntity>> TYPE_WATER_WALL = createEntityType(WaterWallCoreEntity::new, MobCategory.MISC,"entity_water_wall_core", 0.5F, 0.5F);
+    public static final DeferredHolder<EntityType<?>, EntityType<CardRingCoreEntity>> TYPE_CARD_RING = createEntityType(CardRingCoreEntity::new, MobCategory.MISC,"entity_card_ring_core", 0.5F, 0.5F);
+    public static final DeferredHolder<EntityType<?>, EntityType<IcePillarsCoreEntity>> TYPE_ICE_PILLARS = createEntityType(IcePillarsCoreEntity::new, MobCategory.MISC,"entity_ice_pillars_core", 0.5F, 0.5F);
+    public static final DeferredHolder<EntityType<?>, EntityType<RockyPillarsCoreEntity>> TYPE_ROCKY_PILLARS = createEntityType(RockyPillarsCoreEntity::new, MobCategory.MISC,"entity_rocky_pillars_core", 0.5F, 0.5F);
+    public static final DeferredHolder<EntityType<?>, EntityType<LightOrbEntity>> TYPE_LIGHT_ORB = createEntityType(LightOrbEntity::new, MobCategory.MISC,"entity_light_orb", 0.25F, 0.25F);
+    public static final DeferredHolder<EntityType<?>, EntityType<LightBarrageCoreEntity>> TYPE_LIGHT_BARRAGE = createEntityType(LightBarrageCoreEntity::new, MobCategory.MISC,"entity_light_barrage_core", 0.5F, 0.5F);
+    public static final DeferredHolder<EntityType<?>, EntityType<PillarEntity>> TYPE_PILLAR = createEntityType(PillarEntity::new, MobCategory.MISC,"entity_pillar", 1.0F, 4.0F);
+    public static final DeferredHolder<EntityType<?>, EntityType<PetalLauncherCoreEntity>> TYPE_PETAL_LAUNCHER = createEntityType(PetalLauncherCoreEntity::new, MobCategory.MISC,"entity_petal_launcher_core", 0.7F, 0.2F);
+    public static final DeferredHolder<EntityType<?>, EntityType<ScytheDashCoreEntity>> TYPE_SCYTHE_DASH = createEntityType(ScytheDashCoreEntity::new, MobCategory.MISC,"entity_scythe_dash_core", 0.5F, 1.8F);
+    public static final DeferredHolder<EntityType<?>, EntityType<PetalAscendTrailEntity>> TYPE_PETAL_ASCEND_TRAIL = createEntityType(PetalAscendTrailEntity::new, MobCategory.MISC,"entity_petal_ascend_trail", 0.5F, 1.8F);
+    public static final DeferredHolder<EntityType<?>, EntityType<PetalWaveEntity>> TYPE_PETAL_WAVE = createEntityType(PetalWaveEntity::new, MobCategory.MISC,"entity_petal_wave", 0.5F, 0.5F);
+    public static final DeferredHolder<EntityType<?>, EntityType<GummiPieceEntity>> TYPE_GUMMI_PIECE = ENTITIES.register("gummi_piece", () -> EntityType.Builder.of(GummiPieceEntity::new, MobCategory.MISC).setShouldReceiveVelocityUpdates(false).setUpdateInterval(1).setTrackingRange(8).sized(0.5F, 0.5F).build("gummi_piece"));
+    public static final DeferredHolder<EntityType<?>, EntityType<WorldMarkerEntity>> TYPE_WORLD_MARKER = ENTITIES.register("world_marker", () -> EntityType.Builder.of(WorldMarkerEntity::new, MobCategory.MISC).setShouldReceiveVelocityUpdates(false).setUpdateInterval(20).setTrackingRange(32).sized(1F, 1F).build("world_marker"));
+    public static final DeferredHolder<EntityType<?>, EntityType<IllusoryMeteorCoreEntity>> TYPE_ILLUSORY_METEOR = createEntityType(IllusoryMeteorCoreEntity::new, MobCategory.MISC,"entity_illusory_meteor_core", 1.0F, 1.0F);
+    public static final DeferredHolder<EntityType<?>, EntityType<FlameRingCoreEntity>> TYPE_FLAME_RING = createEntityType(FlameRingCoreEntity::new, MobCategory.MISC,"entity_flame_ring_core", 0.5F, 0.5F);
+    public static final DeferredHolder<EntityType<?>, EntityType<LanceStormCoreEntity>> TYPE_LANCE_STORM = createEntityType(LanceStormCoreEntity::new, MobCategory.MISC,"entity_lance_storm_core", 0.5F, 0.5F);
+    public static final DeferredHolder<EntityType<?>, EntityType<ClaymoreDropCoreEntity>> TYPE_CLAYMORE_DROP = createEntityType(ClaymoreDropCoreEntity::new, MobCategory.MISC,"entity_claymore_drop_core", 0.5F, 0.5F);
+    public static final DeferredHolder<EntityType<?>, EntityType<FlameWallCoreEntity>> TYPE_FLAME_WALL = createEntityType(FlameWallCoreEntity::new, MobCategory.MISC,"entity_flame_wall_core", 0.5F, 0.5F);
+
+
+    public static final DeferredHolder<EntityType<?>, EntityType<DarkVolleyCoreEntity>> TYPE_SHOTLOCK_DARK_VOLLEY = createEntityType(DarkVolleyCoreEntity::new, MobCategory.MISC, "entity_shotlock_volley_core", 0.5F, 0.5F);
 	public static final DeferredHolder<EntityType<?>, EntityType<RagnarokCoreEntity>> TYPE_SHOTLOCK_CIRCULAR = createEntityType(RagnarokCoreEntity::new, MobCategory.MISC, "entity_shotlock_circular_core", 0.5F, 0.5F);
 	public static final DeferredHolder<EntityType<?>, EntityType<SonicBladeCoreEntity>> TYPE_SHOTLOCK_SONIC_BLADE = createEntityType(SonicBladeCoreEntity::new, MobCategory.MISC, "entity_shotlock_sonic_blade_core", 0.5F, 0.5F);
 	public static final DeferredHolder<EntityType<?>, EntityType<PrismRainCoreEntity>> TYPE_PRISM_RAIN = createEntityType(PrismRainCoreEntity::new, MobCategory.MISC, "entity_shotlock_prism_rain", 0.5F, 0.5F);
@@ -241,6 +280,7 @@ public class ModEntities {
 	public static final DeferredHolder<EntityType<?>, EntityType<BaseShotlockShotEntity>> TYPE_VOLLEY_SHOTLOCK_SHOT = createEntityType(VolleyShotEntity::new, MobCategory.MISC, "entity_volley_shotlock_shot", 0.5F, 0.5F);
 	public static final DeferredHolder<EntityType<?>, EntityType<BaseShotlockShotEntity>> TYPE_RAGNAROK_SHOTLOCK_SHOT = createEntityType(RagnarokShotEntity::new, MobCategory.MISC,"entity_ragnarok_shotlock_shot", 0.5F, 0.5F);
     public static final DeferredHolder<EntityType<?>, EntityType<BaseShotlockShotEntity>> TYPE_ULTIMA_CANNON_SHOT = createEntityType(UltimaCannonShotEntity::new, MobCategory.MISC,"entity_ultima_cannon_shotlock_shot", 0.5F, 0.5F);
+	public static final DeferredHolder<EntityType<?>, EntityType<BaseShotlockShotEntity>> TYPE_SHOTLOCK_MINIGAME_SHOT = createEntityType(MinigameShotEntity::new, MobCategory.MISC, "entity_shotlock_minigame_shot", 0.5F, 0.5F);
 
     public static final DeferredHolder<EntityType<?>, EntityType<GummiShotEntity>> TYPE_GUMMI_SHOT = createEntityType(GummiShotEntity::new, MobCategory.MISC, "entity_gummi_shot", 0.5F, 0.5F);
     public static final DeferredHolder<EntityType<?>, EntityType<GummiImpactEntity>> TYPE_GUMMI_IMPACT = createEntityType(GummiImpactEntity::new, MobCategory.MISC, "entity_gummi_impact", 0.5F, 0.5F);
@@ -259,25 +299,26 @@ public class ModEntities {
      * @return The EntityType created
      */
     public static <T extends Entity> DeferredHolder<EntityType<?>, EntityType<T>> createEntityType(EntityType.EntityFactory<T> factory, MobCategory classification, String name, float sizeX, float sizeY) {
-        return ENTITIES.register(name, () -> EntityType.Builder.of(factory, classification)
-                .setShouldReceiveVelocityUpdates(false)
-                .setUpdateInterval(1)
-                .setTrackingRange(8)
-                .sized(sizeX, sizeY)
-                .build(name));
+        return ENTITIES.register(name, () -> EntityType.Builder.of(factory, classification).setShouldReceiveVelocityUpdates(false).setUpdateInterval(1).setTrackingRange(8).sized(sizeX, sizeY).build(name));
     }
 
     public static <T extends Entity> DeferredHolder<EntityType<?>, EntityType<T>> createEntityTypeImmuneToFire(EntityType.EntityFactory<T> factory, MobCategory classification, String name, float sizeX, float sizeY) {
-        return ENTITIES.register(name, () -> EntityType.Builder.of(factory, classification)
-                .setShouldReceiveVelocityUpdates(true)
-                .setUpdateInterval(1)
-                .setTrackingRange(128)
-                .sized(sizeX, sizeY)
-                .fireImmune()
-                .build(name));
+        return ENTITIES.register(name, () -> EntityType.Builder.of(factory, classification).setShouldReceiveVelocityUpdates(true).setUpdateInterval(1).setTrackingRange(128).sized(sizeX, sizeY).fireImmune().build(name));
     }
 
+    /** The pool a forced mob type draws from, or null when nothing is being forced */
+    private static Map<EntityType<? extends Entity>, Integer> groupOf(EntityHelper.MobType group) {
+        if (group == null) {
+            return null;
+        }
 
+        return switch (group) {
+            case HEARTLESS_PUREBLOOD -> pureblood;
+            case HEARTLESS_EMBLEM -> emblem;
+            case NOBODY -> nobody;
+            default -> null;
+        };
+    }
 
     public static void addToGroup(EntityHelper.MobType group, EntityType<?> type, int level) {
         switch (group) {
@@ -295,13 +336,16 @@ public class ModEntities {
     public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
         //Entities
         event.registerEntityRenderer(TYPE_BLAST_BLOX.get(), BlastBloxRenderer::new);
+        event.registerEntityRenderer(TYPE_POSTER.get(), online.kingdomkeys.kingdomkeys.client.render.entity.PosterEntityRenderer::new);
 
         event.registerEntityRenderer(TYPE_PAIR_BLOX.get(), PairBloxRenderer::new);
         event.registerEntityRenderer(TYPE_MUNNY.get(), MunnyRenderer::new);
         event.registerEntityRenderer(TYPE_HPORB.get(), HPOrbRenderer::new);
         event.registerEntityRenderer(TYPE_MPORB.get(), MPOrbRenderer::new);
         event.registerEntityRenderer(TYPE_DRIVEORB.get(), DriveOrbRenderer::new);
+        event.registerEntityRenderer(TYPE_STRUGGLE_ORB.get(), StruggleOrbRenderer::new);
         event.registerEntityRenderer(TYPE_FOCUSORB.get(), FocusOrbRenderer::new);
+        event.registerEntityRenderer(TYPE_CARD_ITEM.get(), CardItemRenderer::new);
         
         event.registerEntityRenderer(TYPE_FIRE.get(), MagicEntityRenderer::new);
         event.registerEntityRenderer(TYPE_FIRA.get(), MagicEntityRenderer::new);
@@ -327,6 +371,7 @@ public class ModEntities {
         event.registerEntityRenderer(TYPE_THUNDAGASHOT.get(), MagicEntityRenderer::new);
         event.registerEntityRenderer(TYPE_TRIPLE_PLASMA_CONTROLLER.get(), InvisibleEntityRenderer::new);
 
+        event.registerEntityRenderer(TYPE_AERO_TORNADO.get(), AeroTornadoRenderer::new);
         event.registerEntityRenderer(TYPE_MAGNET.get(), MagnetEntityRenderer::new);
         event.registerEntityRenderer(TYPE_MAGNERA.get(), MagnetEntityRenderer::new);
         event.registerEntityRenderer(TYPE_MAGNEGA.get(), MagnetEntityRenderer::new);
@@ -379,6 +424,10 @@ public class ModEntities {
         event.registerEntityRenderer(TYPE_SOLDIER.get(), SoldierRenderer::new);
         event.registerEntityRenderer(TYPE_DESERTER.get(), SoldierRenderer::new);
         event.registerEntityRenderer(TYPE_COMMANDER.get(), SoldierRenderer::new);
+        event.registerEntityRenderer(TYPE_AIR_SOLDIER.get(), AirSoldierRenderer::new);
+        event.registerEntityRenderer(TYPE_DEFENDER.get(), DefenderRenderer::new);
+        event.registerEntityRenderer(TYPE_NEOSHADOW.get(), NeoshadowRenderer::new);
+        event.registerEntityRenderer(TYPE_NOVASHADOW.get(), NeoshadowRenderer::new);
         event.registerEntityRenderer(TYPE_DRAGOON.get(), DragoonRenderer::new);
         event.registerEntityRenderer(TYPE_WHITE_MUSHROOM.get(), WhiteMushroomRenderer::new);
         event.registerEntityRenderer(TYPE_BLACK_FUNGUS.get(), BlackFungusRenderer::new);
@@ -404,13 +453,35 @@ public class ModEntities {
         event.registerEntityRenderer(TYPE_LASER_SHOT.get(), LaserDomeShotEntityRenderer::new);
         event.registerEntityRenderer(TYPE_ARROW_RAIN.get(), ArrowRainCoreEntityRenderer::new);
         event.registerEntityRenderer(TYPE_THUNDER_TRAIL.get(), InvisibleEntityRenderer::new);
+        event.registerEntityRenderer(TYPE_WATER_TRAIL.get(), InvisibleEntityRenderer::new);
+        event.registerEntityRenderer(TYPE_FALLING_SPEAR.get(), InvisibleEntityRenderer::new);
+        event.registerEntityRenderer(TYPE_WATER_WALL.get(), InvisibleEntityRenderer::new);
+        event.registerEntityRenderer(TYPE_CARD_RING.get(), InvisibleEntityRenderer::new);
+        event.registerEntityRenderer(TYPE_ICE_PILLARS.get(), InvisibleEntityRenderer::new);
+        event.registerEntityRenderer(TYPE_ROCKY_PILLARS.get(), InvisibleEntityRenderer::new);
+        event.registerEntityRenderer(TYPE_LIGHT_ORB.get(), InvisibleEntityRenderer::new);
+        event.registerEntityRenderer(TYPE_LIGHT_BARRAGE.get(), InvisibleEntityRenderer::new);
+        event.registerEntityRenderer(TYPE_PILLAR.get(), PillarEntityRenderer::new);
+        event.registerEntityRenderer(TYPE_PETAL_LAUNCHER.get(), InvisibleEntityRenderer::new);
+        event.registerEntityRenderer(TYPE_SCYTHE_DASH.get(), ScytheDashCoreEntityRenderer::new);
+        event.registerEntityRenderer(TYPE_PETAL_ASCEND_TRAIL.get(), PetalAscendTrailEntityRenderer::new);
+        event.registerEntityRenderer(TYPE_PETAL_WAVE.get(), PetalWaveEntityRenderer::new);
+        event.registerEntityRenderer(TYPE_WORLD_MARKER.get(), WorldMarkerEntityRenderer::new);
+        event.registerEntityRenderer(TYPE_GUMMI_PIECE.get(), GummiPieceEntityRenderer::new);
+        event.registerEntityRenderer(TYPE_ILLUSORY_METEOR.get(), InvisibleEntityRenderer::new);
+        event.registerEntityRenderer(TYPE_FLAME_RING.get(), InvisibleEntityRenderer::new);
+        event.registerEntityRenderer(TYPE_LANCE_STORM.get(), LanceStormCoreEntityRenderer::new);
+        event.registerEntityRenderer(TYPE_CLAYMORE_DROP.get(), ClaymoreDropCoreEntityRenderer::new);
+        event.registerEntityRenderer(TYPE_FLAME_WALL.get(), InvisibleEntityRenderer::new);
+
         event.registerEntityRenderer(TYPE_SHOTLOCK_DARK_VOLLEY.get(), InvisibleEntityRenderer::new);
         event.registerEntityRenderer(TYPE_SHOTLOCK_CIRCULAR.get(), InvisibleEntityRenderer::new);
         event.registerEntityRenderer(TYPE_SHOTLOCK_SONIC_BLADE.get(), InvisibleEntityRenderer::new);
         event.registerEntityRenderer(TYPE_PRISM_RAIN.get(), InvisibleEntityRenderer::new);
         event.registerEntityRenderer(TYPE_VOLLEY_SHOTLOCK_SHOT.get(), VolleyShotlockShotEntityRenderer::new);
-        event.registerEntityRenderer(TYPE_ULTIMA_CANNON_SHOT.get(), UltimaCannonShotlockShotEntityRenderer::new);
+        event.registerEntityRenderer(TYPE_ULTIMA_CANNON_SHOT.get(), MagicEntityRenderer::new);
         event.registerEntityRenderer(TYPE_RAGNAROK_SHOTLOCK_SHOT.get(), VolleyShotlockShotEntityRenderer::new);
+        event.registerEntityRenderer(TYPE_SHOTLOCK_MINIGAME_SHOT.get(), VolleyShotlockShotEntityRenderer::new);
         
         event.registerEntityRenderer(TYPE_GUMMI_SHIP.get(), GummiShipEntityRenderer::new);
         event.registerEntityRenderer(TYPE_GUMMI_SHOT.get(), GummiShotEntityRender::new);
@@ -426,6 +497,7 @@ public class ModEntities {
         event.registerBlockEntityRenderer(TYPE_GUMMI_HANGAR.get(), GummiHangarRenderer::new);
         event.registerBlockEntityRenderer(TYPE_GUMMI_CORE_TE.get(), GummiCoreRenderer::new);
         event.registerBlockEntityRenderer(TYPE_SAVEPOINT.get(), SavePointBlockEntityRenderer::new);
+        event.registerBlockEntityRenderer(TYPE_ORG_PORTAL_TE.get(), OrgPortalBlockEntityRenderer::new);
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -436,6 +508,9 @@ public class ModEntities {
         event.registerLayerDefinition(DarkballModel.LAYER_LOCATION, DarkballModel::createBodyLayer);
         event.registerLayerDefinition(DirePlantModel.LAYER_LOCATION, DirePlantModel::createBodyLayer);
         event.registerLayerDefinition(SoldierModel.LAYER_LOCATION, SoldierModel::createBodyLayer);
+        event.registerLayerDefinition(AirSoldierModel.LAYER_LOCATION, AirSoldierModel::createBodyLayer);
+        event.registerLayerDefinition(DefenderModel.LAYER_LOCATION, DefenderModel::createBodyLayer);
+        event.registerLayerDefinition(NeoshadowModel.LAYER_LOCATION, NeoshadowModel::createBodyLayer);
         event.registerLayerDefinition(WhiteMushroomModel.LAYER_LOCATION, WhiteMushroomModel::createBodyLayer);
         //event.registerLayerDefinition(.LAYER_LOCATION, WhiteMushroomModel::createBodyLayer);
         event.registerLayerDefinition(DragoonModel.LAYER_LOCATION, DragoonModel::createBodyLayer);
@@ -472,6 +547,7 @@ public class ModEntities {
 
         event.registerLayerDefinition(StopModel.LAYER_LOCATION, StopModel::createBodyLayer);
         event.registerLayerDefinition(MagnetModel.LAYER_LOCATION, MagnetModel::createBodyLayer);
+        event.registerLayerDefinition(CrownModel.LAYER_LOCATION, CrownModel::createBodyLayer);
         event.registerLayerDefinition(TerraShoulderModel.LAYER_LOCATION, () -> TerraShoulderModel.createBodyLayer(new CubeDeformation(0)));
         event.registerLayerDefinition(AquaShoulderModel.LAYER_LOCATION, () -> AquaShoulderModel.createBodyLayer(new CubeDeformation(0)));
         event.registerLayerDefinition(VentusShoulderModel.LAYER_LOCATION, () -> VentusShoulderModel.createBodyLayer(new CubeDeformation(0)));
@@ -508,6 +584,10 @@ public class ModEntities {
         event.put(TYPE_SOLDIER.get(), SoldierEntity.registerAttributes().build());
         event.put(TYPE_DESERTER.get(), DeserterEntity.registerAttributes().build());
         event.put(TYPE_COMMANDER.get(), CommanderEntity.registerAttributes().build());
+        event.put(TYPE_AIR_SOLDIER.get(), AirSoldierEntity.registerAttributes().build());
+        event.put(TYPE_DEFENDER.get(), DefenderEntity.registerAttributes().build());
+        event.put(TYPE_NEOSHADOW.get(), NeoshadowEntity.registerAttributes().build());
+        event.put(TYPE_NOVASHADOW.get(), NovashadowEntity.registerAttributes().build());
         event.put(TYPE_WHITE_MUSHROOM.get(), WhiteMushroomEntity.registerAttributes().build());
         event.put(TYPE_BLACK_FUNGUS.get(), BlackFungusEntity.registerAttributes().build());
         event.put(TYPE_DRAGOON.get(), DragoonEntity.registerAttributes().build());
@@ -521,8 +601,8 @@ public class ModEntities {
         
         event.put(TYPE_MARLUXIA.get(), MarluxiaEntity.registerAttributes().build());
     }
-    
-    public static Monster getRandomEnemy(int level, Level world) {
+    //If only is null it rolls any
+    public static Monster getRandomEnemy(int level, Level world, MobType only) {
         addToGroup(MobType.NPC, TYPE_MOOGLE.get(), 0);
         
         addToGroup(HEARTLESS_PUREBLOOD, TYPE_SHADOW.get(), 0);
@@ -530,6 +610,8 @@ public class ModEntities {
         addToGroup(HEARTLESS_PUREBLOOD, TYPE_GIGA_SHADOW.get(), 20);
         addToGroup(HEARTLESS_PUREBLOOD, TYPE_DARKBALL.get(), 15);
         addToGroup(HEARTLESS_PUREBLOOD, TYPE_SHADOW_GLOB.get(), 5);
+        addToGroup(HEARTLESS_PUREBLOOD, TYPE_NEOSHADOW.get(), 22);
+        addToGroup(HEARTLESS_PUREBLOOD, TYPE_NOVASHADOW.get(), 35);
         
         addToGroup(HEARTLESS_EMBLEM, TYPE_MINUTE_BOMB.get(), 4);
         addToGroup(HEARTLESS_EMBLEM, TYPE_SKATER_BOMB.get(), 8);
@@ -545,6 +627,8 @@ public class ModEntities {
         addToGroup(HEARTLESS_EMBLEM, TYPE_SOLDIER.get(), 3);
         addToGroup(HEARTLESS_EMBLEM, TYPE_DESERTER.get(), 5);
         addToGroup(HEARTLESS_EMBLEM, TYPE_COMMANDER.get(), 12);
+        addToGroup(HEARTLESS_EMBLEM, TYPE_AIR_SOLDIER.get(), 10);
+        addToGroup(HEARTLESS_EMBLEM, TYPE_DEFENDER.get(), 18);
         addToGroup(HEARTLESS_EMBLEM, TYPE_WHITE_MUSHROOM.get(), 20);
         addToGroup(HEARTLESS_EMBLEM, TYPE_BLACK_FUNGUS.get(), 25);
 
@@ -554,35 +638,35 @@ public class ModEntities {
         addToGroup(NOBODY, TYPE_ASSASSIN.get(), 15);
         addToGroup(NOBODY, TYPE_DRAGOON.get(), 10);
 
-        int purebloodChance = Integer.parseInt(ModConfigs.mobSpawnRate.get(0).split(",")[1]);
-		int emblemChance = Integer.parseInt(ModConfigs.mobSpawnRate.get(1).split(",")[1]);
-		int nobodyChance = Integer.parseInt(ModConfigs.mobSpawnRate.get(2).split(",")[1]);
-		int num = world.random.nextInt(100);
-		List<Monster> mobs = new ArrayList<Monster>();
+        Map<EntityType<? extends Entity>, Integer> group = groupOf(only);
 
-		if(num <= purebloodChance) {
-			for(Entry<EntityType<? extends Entity>, Integer> entry : pureblood.entrySet()) {
-				if(entry.getValue() <= level) {
-					mobs.add((Monster) entry.getKey().create(world));
-				}
+		if(group == null) {
+			int purebloodChance = Integer.parseInt(ModConfigs.mobSpawnRate.get(0).split(",")[1]);
+			int emblemChance = Integer.parseInt(ModConfigs.mobSpawnRate.get(1).split(",")[1]);
+			int nobodyChance = Integer.parseInt(ModConfigs.mobSpawnRate.get(2).split(",")[1]);
+			int num = world.random.nextInt(100);
+
+			if(num <= purebloodChance) {
+				group = pureblood;
+			} else if(num <= purebloodChance + emblemChance) {
+				group = emblem;
+			} else if(num <= purebloodChance + emblemChance + nobodyChance) {
+				group = nobody;
+			} else {
+				KingdomKeys.LOGGER.error("No spawning, config is not adding up to 100 percent");
+				group = pureblood;
 			}
-		} else if(num > purebloodChance && num <= purebloodChance + emblemChance) {
-			for(Entry<EntityType<? extends Entity>, Integer> entry : emblem.entrySet()) {
-				if(entry.getValue() <= level) {
-					mobs.add((Monster) entry.getKey().create(world));
-				}
-			}
-		} else if(num > purebloodChance + emblemChance && num <= purebloodChance + emblemChance + nobodyChance){
-			for(Entry<EntityType<? extends Entity>, Integer> entry : nobody.entrySet()) {
-				if(entry.getValue() <= level) {
-					mobs.add((Monster) entry.getKey().create(world));
-				}
-			}
-		} else {
-			KingdomKeys.LOGGER.error("No spawning, config is not adding up to 100 percent");
 		}
-    	
-		return mobs.get(world.random.nextInt(mobs.size()));		 
+
+		List<Monster> mobs = new ArrayList<>();
+
+		for(Entry<EntityType<? extends Entity>, Integer> entry : group.entrySet()) {
+			if(entry.getValue() <= level) {
+				mobs.add((Monster) entry.getKey().create(world));
+			}
+		}
+
+		return mobs.get(world.random.nextInt(mobs.size()));
 	}
 
     @SubscribeEvent
@@ -611,6 +695,10 @@ public class ModEntities {
         event.register(TYPE_SOLDIER.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
         event.register(TYPE_DESERTER.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
         event.register(TYPE_COMMANDER.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
+        event.register(TYPE_AIR_SOLDIER.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
+        event.register(TYPE_DEFENDER.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
+        event.register(TYPE_NEOSHADOW.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
+        event.register(TYPE_NOVASHADOW.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
         event.register(TYPE_WHITE_MUSHROOM.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
         event.register(TYPE_BLACK_FUNGUS.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
         event.register(TYPE_DRAGOON.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
@@ -633,4 +721,5 @@ public class ModEntities {
     public static final Supplier<BlockEntityType<CardDoorTileEntity>> TYPE_CARD_DOOR = TILE_ENTITIES.register("card_door", () -> BlockEntityType.Builder.of(CardDoorTileEntity::new, ModBlocks.cardDoor.get()).build(null));
     public static final Supplier<BlockEntityType<AirStepTargetEntity>> TYPE_AIRSTEP_TARGET_TE = TILE_ENTITIES.register("airstep_target", () -> BlockEntityType.Builder.of(AirStepTargetEntity::new, ModBlocks.airstepTarget.get()).build(null));
     public static final Supplier<BlockEntityType<MagicTargetBlockEntity>> TYPE_MAGIC_TARGET_TE = TILE_ENTITIES.register("magic_target_te", () -> BlockEntityType.Builder.of(MagicTargetBlockEntity::new, ModBlocks.magicTarget.get()).build(null));
+    public static final Supplier<BlockEntityType<TreasureChestTileEntity>> TYPE_TREASURE_CHEST = TILE_ENTITIES.register("treasure_chest", () -> BlockEntityType.Builder.of(TreasureChestTileEntity::new, ModBlocks.treasureChest.get()).build(null));
 }

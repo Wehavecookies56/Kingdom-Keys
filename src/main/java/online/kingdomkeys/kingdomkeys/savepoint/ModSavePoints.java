@@ -13,7 +13,7 @@ public class ModSavePoints {
 	public static final SavePoint WARP = register("warp");
 
 	private static SavePoint register(String name) {
-		ResourceLocation rl = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, name);
+		ResourceLocation rl = KingdomKeys.rl(name);
 		SavePoint point = new SavePoint(rl);
 		registry.put(rl, point);
 		return point;

@@ -111,7 +111,7 @@ public class JsonRegistry<T extends JsonRegistryObject> extends SimpleJsonResour
 
     public void deserializeNBT(CompoundTag tag, HolderLookup.Provider registries) {
         tag.getAllKeys().forEach(key -> {
-            ResourceLocation rl = ResourceLocation.parse(key);
+            ResourceLocation rl = KingdomKeys.rl(key);
             T value = codec.parse(RegistryOps.create(NbtOps.INSTANCE, registries), tag.getCompound(key)).getPartialOrThrow(NbtException::new);
             value.registryName = rl;
             registry.put(rl, value);

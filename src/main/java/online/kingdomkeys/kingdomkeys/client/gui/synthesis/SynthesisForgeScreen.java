@@ -56,7 +56,7 @@ public class SynthesisForgeScreen extends MenuFilterable {
 		switch (string) {
 		case "upgrade":
 			PlayerData playerData = PlayerData.get(minecraft.player);
-			minecraft.level.playSound(minecraft.player, minecraft.player.blockPosition(), ModSounds.itemget.get(), SoundSource.MASTER, 1.0f, 1.0f);
+			minecraft.level.playSound(minecraft.player, minecraft.player.blockPosition(), ModSounds.buy.get(), SoundSource.MASTER, 1.0f, 1.0f);
 
 			ItemStack stack = selectedItemStack.copy();
 			KeychainItem kcItem = (KeychainItem) stack.getItem();
@@ -270,11 +270,11 @@ public class SynthesisForgeScreen extends MenuFilterable {
 					int nextStr = kb.getStrength(level+1);
 					int actualMag = kb.getMagic(level);
 					int nextMag = kb.getMagic(level+1);
-					String nextAbility = kb.data.getLevelAbility(level+1);
+					ResourceLocation nextAbility = kb.data.getLevelAbility(level+1);
 					gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_Strength)+": "+actualStr+" -> "+nextStr, 0, -10, 0xFF0000);
 					gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Status_Magic)+": "+actualMag+" -> "+nextMag, 0, 0, 0x4444FF);
 					if(nextAbility != null) {
-						Ability a = ModAbilities.registry.get(ResourceLocation.parse(nextAbility));
+						Ability a = ModAbilities.registry.get(nextAbility);
 						if(a != null)
 							gui.drawString(minecraft.font, Utils.translateToLocal(a.getTranslationKey()), 0, 10, 0x44FF44);
 					}

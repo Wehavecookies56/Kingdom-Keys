@@ -21,7 +21,7 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public record CSUseReactionCommandPacket(int index, int lockedOnEntity) implements Packet {
 
-	public static final Type<CSUseReactionCommandPacket> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_use_reaction_command"));
+	public static final Type<CSUseReactionCommandPacket> TYPE = new Type<>(KingdomKeys.rl("cs_use_reaction_command"));
 
 	public static final StreamCodec<FriendlyByteBuf, CSUseReactionCommandPacket> STREAM_CODEC = StreamCodec.composite(
 			ByteBufCodecs.INT,
@@ -38,13 +38,13 @@ public record CSUseReactionCommandPacket(int index, int lockedOnEntity) implemen
 	@Override
 	public void handle(IPayloadContext context) {
 		Player player = context.player();
-		String reactionName = Utils.getRCNameFromIndex(player, index);
+		ResourceLocation reactionName = Utils.getRCNameFromIndex(player, index);
 		if(reactionName == null) {
 			KingdomKeys.LOGGER.warn("Reaction command packet received a null reaction name!");
 			return;
 		}
-		ReactionCommand reaction = ModReactionCommands.registry.get(ResourceLocation.parse(reactionName));
-        if (NeoForge.EVENT_BUS.post(new ReactionCommandCastEvent(player, ResourceLocation.parse(reactionName))).isCanceled())
+		ReactionCommand reaction = ModReactionCommands.registry.get(reactionName);
+        if (NeoForge.EVENT_BUS.post(new ReactionCommandCastEvent(player, reactionName)).isCanceled())
             return;
         reaction.onUse(player, player, (LivingEntity) player.level().getEntity(lockedOnEntity));
 

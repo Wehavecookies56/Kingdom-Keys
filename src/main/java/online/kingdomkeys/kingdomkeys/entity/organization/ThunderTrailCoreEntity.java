@@ -24,8 +24,6 @@ public class ThunderTrailCoreEntity extends ThrowableProjectile {
 
 	int maxTicks = 240;
 	float dmg;
-	
-	BlockPos ogPos;
 
 	public ThunderTrailCoreEntity(EntityType<? extends ThrowableProjectile> type, Level world) {
 		super(type, world);

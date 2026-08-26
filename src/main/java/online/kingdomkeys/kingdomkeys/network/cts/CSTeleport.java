@@ -5,7 +5,6 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.phys.Vec3;
@@ -15,7 +14,7 @@ import online.kingdomkeys.kingdomkeys.network.Packet;
 
 public record CSTeleport(Vec3 pos) implements Packet {
 
-    public static final Type<CSTeleport> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_teleport"));
+    public static final Type<CSTeleport> TYPE = new Type<>(KingdomKeys.rl("cs_teleport"));
 
     public static final StreamCodec<FriendlyByteBuf, CSTeleport> STREAM_CODEC = StreamCodec.composite(
             ByteBufCodecs.fromCodec(Vec3.CODEC),

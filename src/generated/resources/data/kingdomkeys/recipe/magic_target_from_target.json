@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "L": {
+      "item": "minecraft:lapis_lazuli"
+    },
+    "T": {
+      "item": "minecraft:target"
+    }
+  },
+  "pattern": [
+    " L ",
+    "LTL",
+    " L "
+  ],
+  "result": {
+    "count": 1,
+    "id": "kingdomkeys:magic_target"
+  }
+}

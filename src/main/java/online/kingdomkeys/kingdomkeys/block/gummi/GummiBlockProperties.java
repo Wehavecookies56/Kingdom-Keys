@@ -17,8 +17,26 @@ public class GummiBlockProperties {
     boolean tinted;
     DyeColor colour;
     GummiPlacementType placementType = GummiPlacementType.STANDARD;
+    Shape shape = Shape.CUBE;
     boolean isMultiBlock;
     List<Supplier<Block>> blocks;
+
+    /**
+     * What the block actually looks like, which is not the same question as how it is placed: wedges, pies
+     * and weapons all place on an EDGE but occupy very different space. Only shapes with a hitbox of their
+     * own are listed; everything else fills its block.
+     */
+    public enum Shape {
+        CUBE,
+        WEDGE,
+        PIE,
+        SLAB,
+        PYRAMID,
+        ROUND_CORNER,
+        INNER_CORNER,
+        AERO_WEDGE,
+        AERO_PLATE
+    }
 
     private GummiBlockProperties(int weight, int armour, int cost) {
         this.weight = weight;
@@ -44,6 +62,11 @@ public class GummiBlockProperties {
         this.colour = colour;
         this.tinted = true;
         this.blocks = blocks;
+        return this;
+    }
+
+    public GummiBlockProperties withShape(Shape shape) {
+        this.shape = shape;
         return this;
     }
 

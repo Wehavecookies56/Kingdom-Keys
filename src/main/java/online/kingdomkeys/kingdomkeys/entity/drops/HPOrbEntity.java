@@ -7,10 +7,9 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
+import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
-import online.kingdomkeys.kingdomkeys.lib.Strings;
 
-import java.util.List;
 
 public class HPOrbEntity extends ItemDropEntity {
 
@@ -24,7 +23,7 @@ public class HPOrbEntity extends ItemDropEntity {
 
 	@Override
 	void onPickup(Player player) {
-		if(!PlayerData.get(player).getActiveDriveForm().equals(Strings.Form_Anti))
+		if(!PlayerData.get(player).isFormActive(ModDriveForms.ANTI))
 			player.heal(Math.min(this.value, 4));
 	}
 
@@ -33,20 +32,4 @@ public class HPOrbEntity extends ItemDropEntity {
 		return ModSounds.hp_orb.get();
 	}
 	
-	@Override
-	public void tick() {
-		super.tick();
-		//Merge with surrounding orbs
-        if(tickCount % 5 == 0) {
-            List<HPOrbEntity> list = level().getEntitiesOfClass(HPOrbEntity.class, getBoundingBox().inflate(1.5, 1, 1.5));
-            if (!list.isEmpty()) {
-                for (HPOrbEntity e : list) {
-                    if (this.tickCount > e.tickCount) {
-                        this.value += e.value;
-                        e.remove(RemovalReason.KILLED);
-                    }
-                }
-            }
-		}
-	}
 }

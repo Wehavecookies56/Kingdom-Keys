@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.client.gui.elements;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
@@ -28,6 +29,7 @@ public class CommandMenuItem {
     Supplier<ResourceLocation> iconTexture;
     int iconU, iconV;
     boolean hasIcon;
+    private float cooldownProgress = 0F;
 
     public static class Builder {
         private final ResourceLocation id;
@@ -249,15 +251,40 @@ public class CommandMenuItem {
             iconTextureRL = iconTexture.get();
         boolean isThisSelectedMenu = parent.getSelected().equals(this);
 
-        guiGraphics.setColor(parent.getColour().getRed() / 255F, parent.getColour().getGreen() / 255F, parent.getColour().getBlue() / 255F, 1);
+        RenderSystem.setShaderColor(parent.getColour().getRed() / 255F, parent.getColour().getGreen() / 255F, parent.getColour().getBlue() / 255F, 1);
         guiGraphics.blit(cmTexture, isThisSelectedMenu ? x + ModConfigs.cmSelectedXOffset : x, y, 0, isThisSelectedMenu ? 30 : 15, ModConfigs.cmEndLWidth+1, 15);
         guiGraphics.blit(cmTexture, isThisSelectedMenu ? x + ModConfigs.cmEndLWidth + ModConfigs.cmSelectedXOffset : x + ModConfigs.cmEndLWidth, y, getWidth() - (ModConfigs.cmEndLWidth + ModConfigs.cmEndRWidth), height, ModConfigs.cmEndLWidth + 1, isThisSelectedMenu ? 30 : 15, 1, 15, 256, 256);
         guiGraphics.blit(cmTexture, isThisSelectedMenu ? x + getWidth() - ModConfigs.cmEndRWidth + ModConfigs.cmSelectedXOffset : x + getWidth() - ModConfigs.cmEndRWidth, y, ModConfigs.cmEndLWidth + 4, isThisSelectedMenu ? 30 : 15, ModConfigs.cmEndRWidth, 15);
+        // Cooldown fill, between the slot art and the label so the text stays legible on top of it.
+        // Same nine-slice as the background, just sampled 24px further right where the red copy lives.
+        if (cooldownProgress > 0F) {
+            int barX = isThisSelectedMenu ? x + ModConfigs.cmSelectedXOffset : x;
+            int filled = Math.round(getWidth() * Math.min(cooldownProgress, 1F));
+
+            if (filled > 0) {
+                RenderSystem.setShaderColor(1, 1, 1, 1);
+                int leftCap = Math.min(ModConfigs.cmEndLWidth + 1, filled);
+                guiGraphics.blit(cmTexture, barX, y, leftCap, height, 24, 15, leftCap, 15, 256, 256);
+
+                int middleStart = getWidth() - ModConfigs.cmEndRWidth;
+                int middle = Math.min(filled, middleStart) - ModConfigs.cmEndLWidth;
+                if (middle > 0) {
+                    guiGraphics.blit(cmTexture, barX + ModConfigs.cmEndLWidth, y, middle, height, ModConfigs.cmEndLWidth + 1 + 24, 15, 1, 15, 256, 256);
+                }
+
+                int capShown = Math.min(filled - middleStart, ModConfigs.cmEndRWidth);
+                if (capShown > 0) {
+                    guiGraphics.blit(cmTexture, barX + middleStart, y, capShown, height, ModConfigs.cmEndLWidth + 4 + 24, 15, capShown, 15, 256, 256);
+                }
+            }
+        }
+
         Color textColour = parent.isActive() ? this.textColour : this.textColour.darker().darker();
-        guiGraphics.setColor(textColour.getRed() / 255F, textColour.getGreen() / 255F, textColour.getBlue() / 255F, 1);
-        guiGraphics.drawString(font, getMessage(), isThisSelectedMenu ? x + ModConfigs.cmSelectedXOffset + 6 + ModConfigs.cmTextXOffset : x + ModConfigs.cmTextXOffset + 6, y + 4, isActive() ? Color.WHITE.getRGB() : Color.WHITE.darker().darker().getRGB());
+        RenderSystem.setShaderColor(1, 1, 1, 1);
+        guiGraphics.drawString(font, getMessage(), isThisSelectedMenu ? x + ModConfigs.cmSelectedXOffset + 6 + ModConfigs.cmTextXOffset : x + ModConfigs.cmTextXOffset + 6, y + 4, isActive() ? textColour.getRGB() : textColour.darker().darker().getRGB());
+        guiGraphics.flush();
         //System.out.println(this.getId()+"'s parent "+parent.isActive());
-       if (this.hasIcon && this.getParent().getSelected().equals(this)) {
+        if (this.hasIcon && this.getParent().getSelected().equals(this)) {
            float speed = 0.15f;
            float amplitude = 2f;
            float time = Minecraft.getInstance().player.tickCount + partialTick;
@@ -265,13 +292,21 @@ public class CommandMenuItem {
            guiGraphics.pose().pushPose();
            {
                guiGraphics.pose().translate(0, offsetY, 0);
-               guiGraphics.setColor(1,1,1, 1);
+               RenderSystem.setShaderColor(1,1,1, 1);
                guiGraphics.blit(iconTextureRL, x + ModConfigs.cmSelectedXOffset + getWidth() - ModConfigs.cmEndRWidth - 6, y, iconU, iconV, 10, 10);
            }
            guiGraphics.pose().popPose();
         }
 
         //System.out.println("Took "+(System.nanoTime() - ns)+" ns");
+    }
+
+    public float getCooldownProgress() {
+        return cooldownProgress;
+    }
+
+    public void setCooldownProgress(float cooldownProgress) {
+        this.cooldownProgress = cooldownProgress;
     }
 
     public interface OnEnter {

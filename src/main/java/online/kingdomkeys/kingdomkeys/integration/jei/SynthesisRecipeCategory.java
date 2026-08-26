@@ -13,7 +13,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
@@ -35,8 +34,8 @@ public class SynthesisRecipeCategory implements IRecipeCategory<Recipe> {
 
     public SynthesisRecipeCategory(IGuiHelper guiHelper) {
         icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(ModBlocks.moogleProjector.get()));
-        background = guiHelper.drawableBuilder(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/synthesis_recipe_background.png"), 0, 0, 170, 86).build();
-        munny = guiHelper.drawableBuilder(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/munny.png"), 0, 0, 16, 16).setTextureSize(16, 16).build();
+        background = guiHelper.drawableBuilder(KingdomKeys.rl("textures/gui/synthesis_recipe_background.png"), 0, 0, 170, 86).build();
+        munny = guiHelper.drawableBuilder(KingdomKeys.rl("textures/entity/munny.png"), 0, 0, 16, 16).setTextureSize(16, 16).build();
     }
 
     @Override

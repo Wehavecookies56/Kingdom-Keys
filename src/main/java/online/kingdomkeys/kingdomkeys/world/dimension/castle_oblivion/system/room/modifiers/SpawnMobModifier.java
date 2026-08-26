@@ -17,8 +17,6 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModRoomModifiers;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.Room;
 
-import java.util.Optional;
-
 public class SpawnMobModifier implements RoomModifier {
 
     Holder<EntityType<?>> entityType;
@@ -27,16 +25,9 @@ public class SpawnMobModifier implements RoomModifier {
     public static final MapCodec<SpawnMobModifier> CODEC = RecordCodecBuilder.mapCodec(instance ->
         instance.group(
             BuiltInRegistries.ENTITY_TYPE.holderByNameCodec().fieldOf("entity").forGetter(SpawnMobModifier::getEntityType),
-            CompoundTag.CODEC.optionalFieldOf("additional_data").forGetter(o -> Optional.ofNullable(o.getAdditionalData()))
+            CompoundTag.CODEC.optionalFieldOf("additional_data", new CompoundTag()).forGetter(SpawnMobModifier::getAdditionalData)
         ).apply(instance, SpawnMobModifier::new)
     );
-
-
-    @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-    public SpawnMobModifier(Holder<EntityType<?>> entityType, Optional<CompoundTag> additionalData) {
-        this.entityType = entityType;
-        this.additionalData = additionalData.orElse(new CompoundTag());
-    }
 
     public SpawnMobModifier(Holder<EntityType<?>> entityType, CompoundTag additionalData) {
         this.entityType = entityType;

@@ -11,11 +11,13 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.player.RemotePlayer;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.locale.Language;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -28,8 +30,10 @@ import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.handler.InputHandler;
+import online.kingdomkeys.kingdomkeys.lib.Constants;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
+import online.kingdomkeys.kingdomkeys.lib.Struggle;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.CastleOblivionHandler;
@@ -37,15 +41,17 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.awt.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 public class MenuBackground extends Screen {
 	public Player player;
 	public PlayerData playerData;
-	
-	public static final ResourceLocation PLAYER_BOX_TEXTURE = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
+
 	int selected;
-	
+
 	String tip = null;
 	protected Color color;
 	protected Component title;
@@ -54,7 +60,7 @@ public class MenuBackground extends Screen {
 	protected Component biome;
 
 	public boolean shouldCloseOnMenu;
-	
+
 	public MenuBackground(String name, Color rgb) {
 		super(Component.translatable(name));
 		minecraft = Minecraft.getInstance();
@@ -66,9 +72,12 @@ public class MenuBackground extends Screen {
 		this.playerData = PlayerData.get(this.player);
 	}
 
+	protected boolean isCheckScreen = false;
+
 	public void setPlayerData(Player player, PlayerData playerData) {
 		this.player = player;
 		this.playerData = playerData;
+		this.isCheckScreen = true;
 	}
 
 	@Override
@@ -85,7 +94,7 @@ public class MenuBackground extends Screen {
 		}
 		return false;
 	}
-	
+
 	public boolean drawPlayerInfo;
 
 	public MenuBar bottomLeftBar, bottomRightBar, topLeftBar, topRightBar;
@@ -104,11 +113,11 @@ public class MenuBackground extends Screen {
 	protected float middleHeight;
 
 	public boolean drawSeparately = false;
-	
+
 	//GUIs variables
 	protected float buttonPosX;
-    protected int buttonPosY;
-    protected float buttonWidth;
+	protected int buttonPosY;
+	protected float buttonWidth;
 
 	public ItemStack reward = ItemStack.EMPTY;
 	public String rewardTitle = "";
@@ -128,7 +137,9 @@ public class MenuBackground extends Screen {
 		if (showRewardPopup) {
 			rewardPopupTicks++;
 		}
-		playerData = PlayerData.get(player);
+		if (!isCheckScreen) {
+			playerData = PlayerData.get(player);
+		}
 
 		super.tick();
 	}
@@ -213,9 +224,9 @@ public class MenuBackground extends Screen {
 		if (!drawSeparately)
 			drawMenuBackground(gui, mouseX, mouseY, partialTicks);
 
-        for (Renderable renderable : this.renderables) {
-            renderable.render(gui, mouseX, mouseY, partialTicks);
-        }
+		for (Renderable renderable : this.renderables) {
+			renderable.render(gui, mouseX, mouseY, partialTicks);
+		}
 
 		if (showRewardPopup) {
 			renderRewardPopup(gui, mouseX, mouseY);
@@ -307,7 +318,7 @@ public class MenuBackground extends Screen {
 		if(player == null)
 			return;
 		if (CastleOblivionHandler.inInterior(player)) {
-			setLocationNames(Component.literal("Castle Oblivion").withStyle(ClientUtils.KK_Font_MENU).withStyle(ChatFormatting.UNDERLINE), Component.literal("???").withStyle(ClientUtils.KK_Font_MENU).withStyle(ChatFormatting.UNDERLINE));
+			setLocationNames(Component.translatable("kingdomkeys.castle_oblivion.name").withStyle(ClientUtils.KK_Font_MENU).withStyle(ChatFormatting.UNDERLINE), Component.literal("???").withStyle(ClientUtils.KK_Font_MENU).withStyle(ChatFormatting.UNDERLINE));
 		}
 		gui.pose().pushPose();
 		{
@@ -315,7 +326,7 @@ public class MenuBackground extends Screen {
 			Component dimText;
 			if (dimension == null && biome == null) {
 				String dimension = this.player.level().dimension().location().getPath().toUpperCase().replaceAll("_", " ");
-				ResourceLocation biomeLoc = ResourceLocation.parse(printBiome(this.minecraft.level.getBiome(this.player.blockPosition())));
+				ResourceLocation biomeLoc = KingdomKeys.rl(printBiome(this.minecraft.level.getBiome(this.player.blockPosition())));
 
 				String biome = "biome." + biomeLoc.getNamespace() + "." + biomeLoc.getPath();
 				if (Language.getInstance().has(biome)) {
@@ -392,7 +403,7 @@ public class MenuBackground extends Screen {
 		}
 		gui.pose().popPose();
 	}
-	
+
 	public void drawTip (GuiGraphics gui) {
 		tip = null;
 
@@ -408,7 +419,7 @@ public class MenuBackground extends Screen {
 				}
 			}
 		}
-		
+
 		if(tip != null) {
 			gui.pose().pushPose();
 			{
@@ -416,11 +427,10 @@ public class MenuBackground extends Screen {
 			}
 			gui.pose().popPose();
 		}
-		
+
 	}
 
-	public static final ResourceLocation menu = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
-	public static final ResourceLocation menubg = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/menu/menu_background.png");
+	public static final ResourceLocation menubg = KingdomKeys.rl("textures/gui/menu/menu_background.png");
 
 	public static String getWorldMinutes(Level world) {
 		int time = (int) Math.abs((world.getGameTime() + 6000) % 24000);
@@ -451,50 +461,75 @@ public class MenuBackground extends Screen {
 		bottomRightBar = new MenuBar((int) (bottomLeftBarWidth + bottomGap), (int) (topBarHeight + middleHeight), (int) bottomRightBarWidth + 10, (int) bottomBarHeight + 10, false);
 
 		buttonPosX = (float) width * 0.03F;
-	    buttonPosY = (int)topBarHeight+5;
-	    buttonWidth = ((float)width * 0.1744F)-22;
+		buttonPosY = (int)topBarHeight+5;
+		buttonWidth = ((float)width * 0.1744F)-22;
 
-	    tooltipPosX = bottomRightBar.getPosX() + 15;
+		tooltipPosX = bottomRightBar.getPosX() + 15;
 		tooltipPosY = bottomRightBar.getPosY() + 15;
 	}
 
 	public void drawParty(@Nullable WorldData worldData, GuiGraphics gui) {
 		if(worldData == null || worldData.getPartyFromMember(this.player.getUUID()) == null) {
-			Party.Member m = new Party.Member(this.player.getUUID(), this.player.getDisplayName().getString());
-			drawPlayer(gui, null,0, m);
+			int count = CastleOblivionHandler.inInterior(getMinecraft().player) ? 3 : 1;
+			drawPlayer(gui, count, 0, this.player.getUUID(), this.player.getDisplayName().getString());
 		} else {
 			Party party =  worldData.getPartyFromMember(this.player.getUUID());
 			for(int i=0;i<party.getMembers().size();i++) {
 				Party.Member member = party.getMembers().get(i);
-				drawPlayer(gui, party, i, member);
+				drawPlayer(gui, party.getMembers().size(), i, member.getUUID(), member.getUsername(), member.isPlayer(), member.getLevel());
 			}
 		}
 	}
 
-	public void drawPlayer(GuiGraphics gui,@Nullable Party party, int order, Party.Member member) {
-		PoseStack matrixStack = gui.pose();
-		int count =  party == null ? CastleOblivionHandler.inInterior(getMinecraft().player) ? 3 : 1 : party.getMembers().size(); //Map space
+	/** Same idea as {@link #drawParty}, but for the active members of a Struggle match anchored at boardPos. */
+	public void drawStruggle(@Nullable WorldData worldData, GuiGraphics gui, BlockPos boardPos) {
+		Struggle struggle = worldData == null ? null : worldData.getStruggleFromBlockPos(boardPos);
+		if (struggle == null || struggle.getParticipants().isEmpty()) {
+			drawPlayer(gui, 1, 0, this.player.getUUID(), this.player.getDisplayName().getString());
+			return;
+		}
 
+		if (struggle.getMode() == Struggle.Mode.TOURNAMENT && !struggle.getBracket().isEmpty()) {
+			drawTournamentBracket(gui, struggle);
+			return;
+		}
+
+		List<Struggle.Participant> participants = struggle.getParticipants();
+		if (participants.size() == 2) {
+			drawVersus(gui, participants.get(0), participants.get(1));
+			return;
+		}
+
+		for (int i = 0; i < participants.size(); i++) {
+			Struggle.Participant participant = participants.get(i);
+			drawPlayer(gui, participants.size(), i, participant.getUUID(), participant.getUsername());
+		}
+	}
+
+	private int layoutColumns(int count) {
 		boolean multiRow = count > 5;
+		return multiRow ? (int) Math.ceil(count / 2.0) : count;
+	}
 
-		int columns;
+	/** Same grid math {@link #drawPlayer} uses to place a model, exposed so other layouts (VS, bracket
+	 * "next up" row) can line other elements (like a "VS" label) up with it exactly. */
+	private float[] computeLayoutPosition(int count, int order) {
+		boolean multiRow = count > 5;
+		int columns = layoutColumns(count);
 		int row;
 		int col;
 
 		if (!multiRow) {
-			columns = count;
 			row = 1;
 			col = order;
 		} else {
-			columns = (int)Math.ceil(count / 2.0);
 			row = order / columns;
 			col = order % columns;
 		}
+
 		float layoutLeft = width * 0.2F;
 		float layoutWidth = width * 0.8F;
-		float layoutRight = layoutLeft + layoutWidth;
 		float playerHeight = height * 0.45F;
-
 		float scale = Math.max(1.0F - (columns * 0.08F), 0.55F);
 
 		float minSpacing = playerHeight * 0.65F * scale;
@@ -504,7 +539,6 @@ public class MenuBackground extends Screen {
 		float spacingY = height * 0.20F;
 
 		float usedWidth = (columns - 1) * spacingX;
-
 		if (multiRow)
 			usedWidth += spacingX * 0.5F;
 
@@ -515,24 +549,169 @@ public class MenuBackground extends Screen {
 			playerPosX += spacingX * 0.5F;
 		float playerPosY = (height * 0.45F) + (row * spacingY);
 
-		Player player = Utils.getPlayerByName(minecraft.level, member.getUsername());
+		return new float[]{playerPosX, playerPosY};
+	}
+
+	/** Two combatants side by side with a "VS" between them, so it's obvious who's fighting who. */
+	private void drawVersus(GuiGraphics gui, Struggle.Participant left, Struggle.Participant right) {
+		drawPlayer(gui, 2, 0, left.getUUID(), left.getUsername());
+		drawPlayer(gui, 2, 1, right.getUUID(), right.getUsername());
+
+		float[] leftPos = computeLayoutPosition(2, 0);
+		float[] rightPos = computeLayoutPosition(2, 1);
+		int centerX = (int) ((leftPos[0] + rightPos[0]) / 2F);
+		int centerY = (int) ((leftPos[1] + rightPos[1]) / 2F);
+
+		gui.drawCenteredString(minecraft.font, "VS", centerX, centerY, 0xFFD900);
+	}
+
+	private void drawTournamentBracket(GuiGraphics gui, Struggle struggle) {
+		List<List<UUID>> bracket = struggle.getBracket();
+		if (bracket.isEmpty())
+			return;
+
+		int rounds = bracket.size();
+		float layoutLeft = width * 0.12F;
+		float layoutRight = width * 0.88F;
+		float layoutTop = height * 0.22F;
+		float layoutBottom = height * 0.82F;
+		float roundSpacing = rounds > 1 ? (layoutRight - layoutLeft) / (rounds - 1) : 0;
+
+		// Precompute every slot's Y position up front, since the connecting lines need to know both
+		// this round's and the next round's positions at once.
+		float[][] slotY = new float[rounds][];
+		for (int r = 0; r < rounds; r++) {
+			int slotCount = bracket.get(r).size();
+			float spacing = (layoutBottom - layoutTop) / slotCount;
+			slotY[r] = new float[slotCount];
+			for (int i = 0; i < slotCount; i++) {
+				slotY[r][i] = layoutTop + spacing * (i + 0.5F);
+			}
+		}
+
+		int lineColor = 0x66FFFFFF;
+		for (int r = 0; r < rounds - 1; r++) {
+			float x1 = layoutLeft + roundSpacing * r;
+			float xElbow = x1 + roundSpacing * 0.5F;
+			float x2 = layoutLeft + roundSpacing * (r + 1);
+			List<UUID> round = bracket.get(r);
+			for (int i = 0; i < round.size(); i += 2) {
+				float y1 = slotY[r][i];
+				float y2 = slotY[r][i + 1];
+				float yMid = (y1 + y2) / 2F;
+				gui.fill((int) x1, (int) y1, (int) xElbow, (int) y1 + 1, lineColor);
+				gui.fill((int) x1, (int) y2, (int) xElbow, (int) y2 + 1, lineColor);
+				gui.fill((int) xElbow, (int) Math.min(y1, y2), (int) xElbow + 1, (int) Math.max(y1, y2), lineColor);
+				gui.fill((int) xElbow, (int) yMid, (int) x2, (int) yMid + 1, lineColor);
+			}
+		}
+
+		Set<UUID> eliminated = bracketEliminated(bracket);
+		for (int r = 0; r < rounds; r++) {
+			List<UUID> round = bracket.get(r);
+			float x = layoutLeft + roundSpacing * r;
+			for (int i = 0; i < round.size(); i++) {
+				UUID id = round.get(i);
+				if (id == null) continue;
+				Struggle.Participant participant = struggle.getParticipant(id);
+				String name = participant != null ? participant.getUsername() : "?";
+				int color = eliminated.contains(id) ? 0x808080 : 0xFFFFFF;
+				gui.drawString(minecraft.font, name, (int) x + 2, (int) slotY[r][i] - minecraft.font.lineHeight / 2, color);
+			}
+		}
+
+		int[] next = bracketNextMatch(bracket);
+		if (next != null) {
+			float x = layoutLeft + roundSpacing * next[0] + roundSpacing * 0.5F;
+			float y = (slotY[next[0]][next[1]] + slotY[next[0]][next[1] + 1]) / 2F;
+			gui.drawCenteredString(minecraft.font, "VS", (int) x, (int) y - minecraft.font.lineHeight / 2, 0xFFD900);
+		}
+	}
+
+	/** A participant is eliminated if a completed pair they were in decided someone else as the winner. */
+	private Set<UUID> bracketEliminated(List<List<UUID>> bracket) {
+		Set<UUID> eliminated = new HashSet<>();
+		for (int r = 0; r < bracket.size() - 1; r++) {
+			List<UUID> round = bracket.get(r);
+			List<UUID> nextRound = bracket.get(r + 1);
+			for (int i = 0; i < round.size(); i += 2) {
+				UUID a = round.get(i);
+				UUID b = round.get(i + 1);
+				if (a == null || b == null) continue;
+				UUID winner = nextRound.get(i / 2);
+				if (winner == null) continue;
+				if (!winner.equals(a)) eliminated.add(a);
+				if (!winner.equals(b)) eliminated.add(b);
+			}
+		}
+		return eliminated;
+	}
+
+	/** The first pair with two real players whose winner hasn't been decided yet - mirrors the same
+	 * search StruggleHandler does server-side to pick the next match to fight. */
+	private int[] bracketNextMatch(List<List<UUID>> bracket) {
+		for (int r = 0; r < bracket.size() - 1; r++) {
+			List<UUID> round = bracket.get(r);
+			List<UUID> nextRound = bracket.get(r + 1);
+			for (int i = 0; i < round.size(); i += 2) {
+				UUID a = round.get(i);
+				UUID b = round.get(i + 1);
+				if (a != null && b != null && nextRound.get(i / 2) == null) {
+					return new int[]{r, i};
+				}
+			}
+		}
+		return null;
+	}
+
+	public void drawPlayer(GuiGraphics gui, int count, int order, UUID memberUUID, String memberUsername) {
+		drawPlayer(gui, count, order, memberUUID, memberUsername, true, 0);
+	}
+
+	/**
+	 * @param isPlayer    used for MP or DRIVe refills, if it's not a player it shouldn't do anything to them
+	 */
+	public void drawPlayer(GuiGraphics gui, int count, int order, UUID memberUUID, String memberUsername, boolean isPlayer, int memberLevel) {
+		PoseStack matrixStack = gui.pose();
+
+		int columns = layoutColumns(count);
+		float scale = Math.max(1.0F - (columns * 0.08F), 0.55F);
+		float playerHeight = height * 0.45F;
+		float[] pos = computeLayoutPosition(count, order);
+		float playerPosX = pos[0];
+		float playerPosY = pos[1];
 
 		String level = "LV: N/A";
 		String hp = "HP: N/A";
 		String mp = "MP: N/A";
 
-		if(player == null) {
-			UUID uuid = member.getUUID();
-			String name = member.getUsername();
+		LivingEntity member;
 
-			GameProfile profile = new GameProfile(uuid, name);
-			player = new RemotePlayer(Minecraft.getInstance().level, profile);
+		if (isPlayer) {
+			Player player = Utils.getPlayerByName(minecraft.level, memberUsername);
+
+			if(player == null) {
+				GameProfile profile = new GameProfile(memberUUID, memberUsername);
+				player = new RemotePlayer(Minecraft.getInstance().level, profile);
+			} else {
+				PlayerData playerData = PlayerData.get(player);
+				if(playerData != null) {
+					level = Utils.translateToLocal(Strings.Gui_Menu_Status_Level)+": "+ playerData.getLevel();
+					hp = Utils.translateToLocal(Strings.Gui_Menu_Status_HP)+": " + (int) player.getHealth() + "/" + (int) player.getMaxHealth();
+					mp = Utils.translateToLocal(Strings.Gui_Menu_Status_MP)+": " + (int) playerData.getMP() + "/" + (int) playerData.getMaxMP();
+				}
+			}
+
+			member = player;
 		} else {
-			PlayerData playerData = PlayerData.get(player);
-			if(playerData != null) {
-				level = Utils.translateToLocal(Strings.Gui_Menu_Status_Level)+": "+ playerData.getLevel();
-				hp = Utils.translateToLocal(Strings.Gui_Menu_Status_HP)+": " + (int) player.getHealth() + "/" + (int) player.getMaxHealth();
-				mp = Utils.translateToLocal(Strings.Gui_Menu_Status_MP)+": " + (int) playerData.getMP() + "/" + (int) playerData.getMaxMP();
+			member = Utils.getPartyEntity(minecraft.level, memberUUID);
+
+			if(memberLevel > 0) {
+				level = Utils.translateToLocal(Strings.Gui_Menu_Status_Level)+": "+ memberLevel;
+			}
+
+			if(member != null) {
+				hp = Utils.translateToLocal(Strings.Gui_Menu_Status_HP)+": " + (int) member.getHealth() + "/" + (int) member.getMaxHealth();
 			}
 		}
 
@@ -548,8 +727,17 @@ public class MenuBackground extends Screen {
 
 			RenderSystem.setShaderColor(1F,1F,1F,1F);
 
-			if(member != null && player != null) {
-				ClientUtils.renderEntity(gui.pose(), (int)playerPosX, (int)playerPosY, (int)playerHeight/2, 0,0, player);
+			if(member != null) {
+				if (isPlayer) {
+					ClientUtils.renderEntity(gui.pose(), (int)playerPosX, (int)playerPosY, (int)playerHeight/2, 0,0, member);
+				} else {
+					// playerHeight is sized for a player, so anything taller or shorter is brought back to that height
+					// first. Otherwise a Mega-Shadow fills the screen and a Shadow is a speck
+					float fit = playerHeight / 2F * (1.8F / Math.max(member.getBbHeight(), 0.1F)) / Math.max(member.getScale(), 0.01F);
+					LivingEntity posing = member;
+
+					ClientUtils.facingCamera(posing, () -> ClientUtils.renderEntity(gui.pose(), (int)playerPosX, (int)playerPosY, (int) fit, 0,0, posing));
+				}
 			}
 
 			RenderSystem.setShaderColor(1F,1F,1F,0.75F);
@@ -561,18 +749,13 @@ public class MenuBackground extends Screen {
 
 				RenderSystem.enableBlend();
 
-				gui.blit(PLAYER_BOX_TEXTURE, infoBoxPosX, infoBoxPosY, 123,67,11,22);
+				gui.blit(Constants.MENU_TEXTURE, infoBoxPosX, infoBoxPosY, 123,67,11,22);
+				gui.blit(Constants.MENU_TEXTURE, infoBoxPosX + 11, infoBoxPosY, infoBoxWidth, 22, 135,67,1,22,256,256);
+				gui.blit(Constants.MENU_TEXTURE, infoBoxPosX + 11 + infoBoxWidth, infoBoxPosY,137,67,3,22);
 
-				for(int i=0;i<infoBoxWidth;i++)
-					gui.blit(PLAYER_BOX_TEXTURE, infoBoxPosX + 11 + i, infoBoxPosY, 135,67,2,22);
-
-				gui.blit(PLAYER_BOX_TEXTURE, infoBoxPosX + 11 + infoBoxWidth, infoBoxPosY,137,67,3,22);
-				gui.blit(PLAYER_BOX_TEXTURE, infoBoxPosX, infoBoxPosY + 22,123,90,3,35);
-
-				for(int i=0;i<infoBoxWidth+8;i++)
-					gui.blit(PLAYER_BOX_TEXTURE, infoBoxPosX + 3 + i, infoBoxPosY + 22,127,90,2,35);
-
-				gui.blit(PLAYER_BOX_TEXTURE, infoBoxPosX + 3 + infoBoxWidth + 8, infoBoxPosY + 22,129,90,3,35);
+				gui.blit(Constants.MENU_TEXTURE, infoBoxPosX, infoBoxPosY + 22,123,90,3,35);
+				gui.blit(Constants.MENU_TEXTURE, infoBoxPosX + 3, infoBoxPosY + 22, infoBoxWidth+8, 35,127,90,1,35,256,256);
+				gui.blit(Constants.MENU_TEXTURE, infoBoxPosX + 3 + infoBoxWidth + 8, infoBoxPosY + 22,129,90,3,35);
 
 				RenderSystem.disableBlend();
 			}
@@ -586,7 +769,7 @@ public class MenuBackground extends Screen {
 				matrixStack.pushPose();
 				{
 					matrixStack.translate(infoBoxPosX + 10, infoBoxPosY + ((22 / 2) - minecraft.font.lineHeight / 2), 1);
-					gui.drawString(minecraft.font, member.getUsername(),0,0,0xFFFFFF);
+					gui.drawString(minecraft.font, memberUsername,0,0,0xFFFFFF);
 				}
 				matrixStack.popPose();
 
@@ -599,9 +782,9 @@ public class MenuBackground extends Screen {
 		matrixStack.popPose();
 	}
 
-	private static String printBiome(Holder<Biome> p_205375_) {
-	      return p_205375_.unwrap().map((p_205377_) -> p_205377_.location().toString(), (p_205367_) -> "[unregistered " + p_205367_ + "]");
-	   }
+	private static String printBiome(Holder<Biome> biomeHolder) {
+		return biomeHolder.unwrap().map((biomeKey) -> biomeKey.location().toString(), (biome) -> "[unregistered " + biome + "]");
+	}
 
 	public void setLocationNames(Component dimension, Component biome) {
 		if (dimension != null && biome != null) {

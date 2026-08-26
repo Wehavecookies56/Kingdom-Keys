@@ -20,6 +20,7 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuStockItem;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
+import online.kingdomkeys.kingdomkeys.item.BagItem;
 import online.kingdomkeys.kingdomkeys.item.MagicSpellItem;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
@@ -205,7 +206,7 @@ public class MeldingScreen extends MenuFilterable {
 			entries.add(new SlotEntry(slot, stack.copy(), false, false));
 		}
 
-		if (Utils.hasOnlyOneBag(player)) {
+		if (Utils.hasOnlyOneBag(player, BagItem.Type.MAGICS_BAG)) {
 			ItemStack magicBag = ItemStack.EMPTY;
 
 			for (ItemStack stack : minecraft.player.getInventory().items) {
@@ -259,7 +260,7 @@ public class MeldingScreen extends MenuFilterable {
 					}
 
 					ItemStack base = !selected1.isEmpty() ? selected1 : selected2;
-					boolean compatible = base.isEmpty() || isCompatible(base, clicked) || ItemStack.isSameItemSameComponents(base, clicked) || alreadySelected;
+					boolean compatible = base.isEmpty() || alreadySelected || isCompatible(base, clicked);
 
 					if (!compatible) return;
 
@@ -276,8 +277,11 @@ public class MeldingScreen extends MenuFilterable {
 				public void renderWidget(GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
 					textColor = ChatFormatting.WHITE;
 
+					boolean twoSelected = !selected1.isEmpty() && !selected2.isEmpty();
+					boolean alreadySelected = selectedSlot1 == slot || selectedSlot2 == slot;
+
 					ItemStack base = !getSelected1().isEmpty() ? getSelected1() : getSelected2();
-					boolean compatible = base.isEmpty() || isCompatible(base, stack) || ItemStack.isSameItemSameComponents(base, stack);
+					boolean compatible = base.isEmpty() || alreadySelected || isCompatible(base, stack);
 					if (stack.getItem() instanceof MagicSpellItem spell) {
 						int color = spell.isMaxed(stack) ? 0x00FF00 : 0x555555;
 
@@ -292,8 +296,6 @@ public class MeldingScreen extends MenuFilterable {
 					if (!compatible) {
 						textColor = ChatFormatting.DARK_GRAY;
 					}
-					boolean twoSelected = !selected1.isEmpty() && !selected2.isEmpty();
-					boolean alreadySelected = selectedSlot1 == slot || selectedSlot2 == slot;
 
 					if (twoSelected && !alreadySelected) {
 						textColor = ChatFormatting.DARK_GRAY;

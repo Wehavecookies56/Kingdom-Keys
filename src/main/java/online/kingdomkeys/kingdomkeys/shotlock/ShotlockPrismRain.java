@@ -9,8 +9,8 @@ import java.util.List;
 
 public class ShotlockPrismRain extends Shotlock {
 
-	public ShotlockPrismRain(ResourceLocation registryName, int order, int cooldown, int max) {
-		super(registryName, order, cooldown, max);
+	public ShotlockPrismRain(ResourceLocation registryName, int order) {
+		super(registryName, order);
 	}
 
 	@Override

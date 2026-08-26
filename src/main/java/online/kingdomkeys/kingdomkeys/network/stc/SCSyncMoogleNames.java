@@ -17,7 +17,7 @@ import java.util.Map;
 
 public record SCSyncMoogleNames(Map<ResourceLocation, List<String>> names) implements Packet {
 
-    public static final Type<SCSyncMoogleNames> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "sc_sync_moogle_names"));
+    public static final Type<SCSyncMoogleNames> TYPE = new Type<>(KingdomKeys.rl("sc_sync_moogle_names"));
 
     public static final StreamCodec<FriendlyByteBuf, SCSyncMoogleNames> STREAM_CODEC = StreamCodec.composite(
             StreamCodecs.MOOGLE_NAMES,

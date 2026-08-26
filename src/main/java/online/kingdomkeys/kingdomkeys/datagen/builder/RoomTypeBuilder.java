@@ -71,4 +71,9 @@ public class RoomTypeBuilder extends BuilderBase {
         return this;
     }
 
+    public RoomTypeBuilder treasure(RoomType.Treasure treasure) {
+        root.add("treasure", RoomType.Treasure.CODEC.encodeStart(JsonOps.INSTANCE, treasure).resultOrPartial(KingdomKeys.LOGGER::error).orElseThrow());
+        return this;
+    }
+
 }

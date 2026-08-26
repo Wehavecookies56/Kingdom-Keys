@@ -15,8 +15,8 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_shard",
-          "quantity": 2
+          "material": "kingdomkeys:tranquility_gem",
+          "quantity": 1
         }
       ],
       "str": 3
@@ -29,8 +29,8 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_shard",
-          "quantity": 3
+          "material": "kingdomkeys:tranquility_gem",
+          "quantity": 2
         }
       ],
       "str": 4
@@ -43,8 +43,8 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_shard",
-          "quantity": 4
+          "material": "kingdomkeys:tranquility_gem",
+          "quantity": 2
         }
       ],
       "str": 4
@@ -57,25 +57,11 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_stone",
-          "quantity": 1
-        }
-      ],
-      "str": 5
-    },
-    {
-      "mag": 9,
-      "recipe": [
-        {
-          "material": "kingdomkeys:damascus",
-          "quantity": 1
-        },
-        {
-          "material": "kingdomkeys:wellspring_stone",
+          "material": "kingdomkeys:tranquility_gem",
           "quantity": 2
         },
         {
-          "material": "kingdomkeys:writhing_stone",
+          "material": "kingdomkeys:frost_stone",
           "quantity": 2
         }
       ],
@@ -89,11 +75,51 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_stone",
+          "material": "kingdomkeys:tranquility_gem",
+          "quantity": 2
+        },
+        {
+          "material": "kingdomkeys:frost_stone",
+          "quantity": 3
+        }
+      ],
+      "str": 5
+    },
+    {
+      "mag": 9,
+      "recipe": [
+        {
+          "material": "kingdomkeys:damascus",
+          "quantity": 1
+        },
+        {
+          "material": "kingdomkeys:tranquility_gem",
           "quantity": 3
         },
         {
-          "material": "kingdomkeys:writhing_stone",
+          "material": "kingdomkeys:frost_stone",
+          "quantity": 4
+        }
+      ],
+      "str": 6
+    },
+    {
+      "mag": 10,
+      "recipe": [
+        {
+          "material": "kingdomkeys:adamantite",
+          "quantity": 1
+        },
+        {
+          "material": "kingdomkeys:tranquility_gem",
+          "quantity": 3
+        },
+        {
+          "material": "kingdomkeys:frost_stone",
+          "quantity": 4
+        },
+        {
+          "material": "kingdomkeys:frost_crystal",
           "quantity": 2
         }
       ],
@@ -107,30 +133,16 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_gem",
-          "quantity": 1
+          "material": "kingdomkeys:tranquility_gem",
+          "quantity": 3
         },
         {
-          "material": "kingdomkeys:writhing_gem",
-          "quantity": 1
-        }
-      ],
-      "str": 6
-    },
-    {
-      "mag": 10,
-      "recipe": [
-        {
-          "material": "kingdomkeys:adamantite",
-          "quantity": 1
+          "material": "kingdomkeys:frost_stone",
+          "quantity": 5
         },
         {
-          "material": "kingdomkeys:wellspring_gem",
-          "quantity": 2
-        },
-        {
-          "material": "kingdomkeys:writhing_gem",
-          "quantity": 2
+          "material": "kingdomkeys:frost_crystal",
+          "quantity": 4
         }
       ],
       "str": 7
@@ -143,12 +155,16 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_gem",
+          "material": "kingdomkeys:tranquility_gem",
           "quantity": 3
         },
         {
-          "material": "kingdomkeys:writhing_gem",
-          "quantity": 2
+          "material": "kingdomkeys:frost_stone",
+          "quantity": 6
+        },
+        {
+          "material": "kingdomkeys:frost_crystal",
+          "quantity": 5
         }
       ],
       "str": 7
@@ -161,16 +177,21 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_crystal",
-          "quantity": 1
+          "material": "kingdomkeys:tranquility_gem",
+          "quantity": 3
         },
         {
-          "material": "kingdomkeys:writhing_crystal",
-          "quantity": 1
+          "material": "kingdomkeys:frost_stone",
+          "quantity": 6
+        },
+        {
+          "material": "kingdomkeys:frost_crystal",
+          "quantity": 6
         }
       ],
       "str": 8
     }
   ],
-  "reach": 1.0
+  "reach": 1.0,
+  "sound": "kingdomkeys:keyblade_hit/generic_hit"
 }

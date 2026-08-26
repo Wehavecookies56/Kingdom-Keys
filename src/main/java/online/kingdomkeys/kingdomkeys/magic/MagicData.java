@@ -2,6 +2,9 @@ package online.kingdomkeys.kingdomkeys.magic;
 
 import net.minecraft.resources.ResourceLocation;
 
+import java.util.EnumSet;
+import java.util.Set;
+
 /**
  * Stores the data loaded from the magics datapack
  */
@@ -17,10 +20,55 @@ public class MagicData {
 	private int maxLevel;
 	private ResourceLocation nextTier, magicRC;
 	private SpellType spellType;
+	private final Set<Interaction> interactions = EnumSet.noneOf(Interaction.class);
 
 	public enum SpellType {
 		PHYSICAL,
 		MAGIC
+	}
+
+	public enum Interaction {
+		LIGHT_LIGHTABLE("light_lightable"),
+		TURN_OFF_LIGHTABLE("turn_off_lightable"),
+		LIGHT_PORTAL("light_portal"),
+		LIGHT_TNT("light_tnt"),
+		EXTINGUISH_TNT("extinguish_tnt"),
+		EXTINGUISH_FIRE("extinguish_fire"),
+		DRY_SPONGE("dry_sponge"),
+		WET_SPONGE("wet_sponge"),
+		FREEZE_WATER("freeze_water"),
+		FREEZE_LAVA("freeze_lava");
+
+		private final String name;
+
+		Interaction(String name) {
+			this.name = name;
+		}
+
+		public String getName() {
+			return name;
+		}
+
+		public static Interaction byName(String name) {
+			for (Interaction interaction : values()) {
+				if (interaction.name.equalsIgnoreCase(name.trim())) {
+					return interaction;
+				}
+			}
+			return null;
+		}
+	}
+
+	public Set<Interaction> getInteractions() {
+		return interactions;
+	}
+
+	public boolean canInteract(Interaction interaction) {
+		return interactions.contains(interaction);
+	}
+
+	public void addInteraction(Interaction interaction) {
+		interactions.add(interaction);
 	}
 
 	public MagicData() {}

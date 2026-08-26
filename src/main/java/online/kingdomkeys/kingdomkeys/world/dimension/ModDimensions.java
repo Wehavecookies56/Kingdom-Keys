@@ -3,7 +3,6 @@ package online.kingdomkeys.kingdomkeys.world.dimension;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -12,14 +11,19 @@ import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.CastleOblivionChunkGenerator;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.CastleOblivionInteriorChunkGenerator;
 import online.kingdomkeys.kingdomkeys.world.dimension.dive_to_the_heart.DiveToTheHeartChunkGenerator;
+import online.kingdomkeys.kingdomkeys.world.dimension.prebuilt.PrebuiltWorldChunkGenerator;
 import online.kingdomkeys.kingdomkeys.world.dimension.station_of_sorrow.StationOfSorrowChunkGenerator;
+import online.kingdomkeys.kingdomkeys.world.dimension.worldmap.WorldMapChunkGenerator;
 
 import java.util.function.Supplier;
 
 public class ModDimensions {
-    public static final ResourceKey<Level> DIVE_TO_THE_HEART = ResourceKey.create(Registries.DIMENSION, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, Strings.diveToTheHeart));
-    public static final ResourceKey<Level> STATION_OF_SORROW = ResourceKey.create(Registries.DIMENSION, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, Strings.stationOfSorrow));
-    public static final ResourceKey<Level> CASTLE_OBLIVION = ResourceKey.create(Registries.DIMENSION, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, Strings.castleOblivion));
+    public static final ResourceKey<Level> DIVE_TO_THE_HEART = ResourceKey.create(Registries.DIMENSION, KingdomKeys.rl(Strings.diveToTheHeart));
+    public static final ResourceKey<Level> STATION_OF_SORROW = ResourceKey.create(Registries.DIMENSION, KingdomKeys.rl(Strings.stationOfSorrow));
+    public static final ResourceKey<Level> CASTLE_OBLIVION = ResourceKey.create(Registries.DIMENSION, KingdomKeys.rl(Strings.castleOblivion));
+    public static final ResourceKey<Level> DAYBREAK_TOWN = ResourceKey.create(Registries.DIMENSION, KingdomKeys.rl(Strings.daybreakTown));
+    public static final ResourceKey<Level> DESTINY_ISLANDS = ResourceKey.create(Registries.DIMENSION, KingdomKeys.rl(Strings.destinyIslands));
+    public static final ResourceKey<Level> OCEAN_BETWEEN = ResourceKey.create(Registries.DIMENSION, KingdomKeys.rl(Strings.oceanBetween));
 
     public static final DeferredRegister<MapCodec<? extends ChunkGenerator>> CHUNK_GENERATORS = DeferredRegister.create(Registries.CHUNK_GENERATOR,  KingdomKeys.MODID);
 
@@ -28,5 +32,9 @@ public class ModDimensions {
 
     public static final Supplier<MapCodec<CastleOblivionChunkGenerator>> CASTLE_OBLIVION_GENERATOR = CHUNK_GENERATORS.register("castle_oblivion_generator", () -> CastleOblivionChunkGenerator.CODEC);
     public static final Supplier<MapCodec<CastleOblivionInteriorChunkGenerator>> CASTLE_OBLIVION_INTERIOR_GENERATOR = CHUNK_GENERATORS.register("castle_oblivion_interior_generator", () -> CastleOblivionInteriorChunkGenerator.CODEC);
+    public static final Supplier<MapCodec<WorldMapChunkGenerator>> WORLDMAP_GENERATOR = CHUNK_GENERATORS.register("worldmap_generator", () -> WorldMapChunkGenerator.CODEC);
+
+    // Shared by every hand-built world: which one it rebuilds is a field in the dimension json
+    public static final Supplier<MapCodec<PrebuiltWorldChunkGenerator>> PREBUILT_WORLD_GENERATOR = CHUNK_GENERATORS.register("prebuilt_world_generator", () -> PrebuiltWorldChunkGenerator.CODEC);
 
 }

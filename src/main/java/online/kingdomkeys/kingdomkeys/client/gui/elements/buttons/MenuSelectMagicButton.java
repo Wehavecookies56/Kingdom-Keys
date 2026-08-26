@@ -9,20 +9,20 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.common.NeoForge;
-import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.api.event.EquipmentEvent;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment.MenuMagicSelectorScreen;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
+import online.kingdomkeys.kingdomkeys.item.BagItem;
 import online.kingdomkeys.kingdomkeys.item.MagicSpellItem;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
+import online.kingdomkeys.kingdomkeys.lib.Constants;
 import online.kingdomkeys.kingdomkeys.menu.BagInventory;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSEquipMagic;
@@ -31,9 +31,6 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 import java.awt.*;
 
 public class MenuSelectMagicButton extends MenuButtonBase {
-
-	final ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
-	final ResourceLocation barTexture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
 	public int slot;
 	public ItemStack stack;
 	boolean selected;
@@ -51,7 +48,7 @@ public class MenuSelectMagicButton extends MenuButtonBase {
 
 					if (slot <= MenuMagicSelectorScreen.BAG_OFFSET) {
 						int bagSlot = Math.abs(slot - MenuMagicSelectorScreen.BAG_OFFSET);
-						if (!Utils.hasOnlyOneBag(player)) //Only one bag should be in the inv
+						if (!Utils.hasOnlyOneBag(player, BagItem.Type.MAGICS_BAG)) //Only one bag should be in the inv
 							return;
 
 						ItemStack magicBag = player.getInventory().getItem(Utils.getMagicBagSlot(player));
@@ -118,11 +115,11 @@ public class MenuSelectMagicButton extends MenuButtonBase {
 			RenderSystem.setShaderColor(col.getRed() / 255F, col.getGreen() / 255F, col.getBlue() / 255F, 1);
 			matrixStack.translate(getX() + 0.6F, getY(), 0);
 			matrixStack.scale(0.5F, 0.5F, 1);
-			gui.blit(texture, 0, 0, 166, 34, 18, 28);
-			gui.blit(texture, 16, 0, ((width * 2) - (17 + 17)) + 2, 28, 186, 34, 2, 28, 256, 256);
-			gui.blit(texture, ((width * 2) - 17), 0, 186, 34, 17, 28);
+			gui.blit(Constants.MENU_TEXTURE, 0, 0, 166, 34, 18, 28);
+			gui.blit(Constants.MENU_TEXTURE, 16, 0, ((width * 2) - (17 + 17)) + 2, 28, 186, 34, 2, 28, 256, 256);
+			gui.blit(Constants.MENU_TEXTURE, ((width * 2) - 17), 0, 186, 34, 17, 28);
 			RenderSystem.setShaderColor(1, 1, 1, 1);
-			gui.blit(texture, 6, 4, category.getU(), category.getV(), 20, 20);
+			gui.blit(Constants.MENU_TEXTURE, 6, 4, category.getU(), category.getV(), 20, 20);
 			matrixStack.popPose();
 			String magicName = spell == null ? "---" : stack.getHoverName().getString();
 
@@ -137,8 +134,8 @@ public class MenuSelectMagicButton extends MenuButtonBase {
 				float percent = spell.getLocalPercent(stack);
 				int barWidth = minecraft.font.width(text);
 				int percentWidth = (int) (barWidth * percent);
-				gui.blit(barTexture, getX() + getWidth() - barWidth - 5, getY() + getHeight() - 4, barWidth, 2, 161, 67, 1, 5, 256, 256);
-				gui.blit(barTexture, getX() + getWidth() - barWidth - 5, getY() + getHeight() - 4, percentWidth, 2, 163, 67, 1, 5, 256, 256);
+				gui.blit(Constants.MENU_TEXTURE, getX() + getWidth() - barWidth - 5, getY() + getHeight() - 4, barWidth, 2, 161, 67, 1, 5, 256, 256);
+				gui.blit(Constants.MENU_TEXTURE, getX() + getWidth() - barWidth - 5, getY() + getHeight() - 4, percentWidth, 2, 163, 67, 1, 5, 256, 256);
 			}
 
 			if (isButtonRendered(mouseY) && (selected || isHovered)) { //Render stuff on the right
@@ -147,9 +144,9 @@ public class MenuSelectMagicButton extends MenuButtonBase {
 					RenderSystem.enableBlend();
 					matrixStack.translate(getX() + 0.6F, getY(), 0);
 					matrixStack.scale(0.5F, 0.5F, 1);
-					gui.blit(texture, 0, 0, 128, 34, 18, 28);
-					gui.blit(texture, 16, 0, ((width * 2) - (17 * 2)) + 2, 28, 148, 34, 2, 28, 256, 256);
-					gui.blit(texture, ((width * 2) - 17), 0, 148, 34, 17, 28);
+					gui.blit(Constants.MENU_TEXTURE, 0, 0, 128, 34, 18, 28);
+					gui.blit(Constants.MENU_TEXTURE, 16, 0, ((width * 2) - (17 * 2)) + 2, 28, 148, 34, 2, 28, 256, 256);
+					gui.blit(Constants.MENU_TEXTURE, ((width * 2) - 17), 0, 148, 34, 17, 28);
 					RenderSystem.disableBlend();
 				}
 				matrixStack.popPose();
@@ -194,8 +191,8 @@ public class MenuSelectMagicButton extends MenuButtonBase {
 					int barWidth = (int) (parent.boxR.getWidth() * 0.8F);
 					int percentWidth = (int)(barWidth * percent);
 
-					gui.blit(barTexture, (int) strPosX, (int) posY + 10, barWidth, 5, 161, 67, 1, 5, 256, 256);
-					gui.blit(barTexture, (int) strPosX, (int) posY + 10, percentWidth, 5, 163, 67, 1, 5, 256, 256);
+					gui.blit(Constants.MENU_TEXTURE, (int) strPosX, (int) posY + 10, barWidth, 5, 161, 67, 1, 5, 256, 256);
+					gui.blit(Constants.MENU_TEXTURE, (int) strPosX, (int) posY + 10, percentWidth, 5, 163, 67, 1, 5, 256, 256);
 				}
 			}
 		}

@@ -13,9 +13,7 @@ import online.kingdomkeys.kingdomkeys.entity.mob.SeedBulletEntity;
 import java.awt.*;
 
 public class SeedBulletRenderer extends EntityRenderer<SeedBulletEntity> {
-
-    int red = 96, green = 140, blue = 109, alpha = 255;
-    private final CubeModel model;
+	private final CubeModel model;
 
     public SeedBulletRenderer(EntityRendererProvider.Context context) {
         super(context);
@@ -25,14 +23,15 @@ public class SeedBulletRenderer extends EntityRenderer<SeedBulletEntity> {
     @Override
     public void render(SeedBulletEntity entityIn, float entityYaw, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn) {
     	matrixStackIn.pushPose();
-    	{	matrixStackIn.translate(0, 0.25, 0);
-    		model.renderToBuffer(matrixStackIn, bufferIn.getBuffer(model.renderType(getTextureLocation(entityIn))), packedLightIn, OverlayTexture.NO_OVERLAY, new Color((int)(0.6F * 255), 255, (int)(0.6F * 255), 255).getRGB());
+    	{
+			matrixStackIn.translate(0, 0.25, 0);
+		    model.renderToBuffer(matrixStackIn, bufferIn.getBuffer(model.renderType(getTextureLocation(entityIn))), packedLightIn, OverlayTexture.NO_OVERLAY, 10092441);
      	}
      	matrixStackIn.popPose();
     }
 
     @Override
     public ResourceLocation getTextureLocation(SeedBulletEntity entity) {
-		return ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/models/cube.png");
+		return KingdomKeys.rl("textures/entity/models/cube.png");
     }
 }

@@ -4,7 +4,6 @@ import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.block.Block;
@@ -12,6 +11,7 @@ import net.neoforged.neoforge.common.data.BlockTagsProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.block.FlowmotionRailBlock;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.block.gummi.GummiBlockBase;
 import online.kingdomkeys.kingdomkeys.block.gummi.GummiCockpitBlock;
@@ -131,6 +131,10 @@ public class BlockTagsGen extends BlockTagsProvider {
                 	add(BLOX,block);
                 }
 
+                if (block instanceof FlowmotionRailBlock) {
+                	add(BlockTags.RAILS, block);
+                	add(BlockTags.MINEABLE_WITH_PICKAXE, block);
+                }
             }
 
         }		
@@ -145,6 +149,6 @@ public class BlockTagsGen extends BlockTagsProvider {
 	}
 
 	 private static TagKey<Block> create(String pName) {
-	      return TagKey.create(Registries.BLOCK, ResourceLocation.parse(pName));
+	      return TagKey.create(Registries.BLOCK, KingdomKeys.rl(pName));
 	   }
 }

@@ -1,4 +1,9 @@
 {
+  "aerial_recovery": {
+    "sounds": [
+      "kingdomkeys:aerial_recovery"
+    ]
+  },
   "air_slide": {
     "sounds": [
       "kingdomkeys:air_slide"
@@ -17,6 +22,11 @@
   "arrowgunreload": {
     "sounds": [
       "kingdomkeys:arrowgunreload"
+    ]
+  },
+  "boss_kill": {
+    "sounds": [
+      "kingdomkeys:boss_kill"
     ]
   },
   "buy": {
@@ -44,6 +54,36 @@
       "kingdomkeys:ether"
     ]
   },
+  "flowmotion_loop": {
+    "sounds": [
+      "kingdomkeys:flowmotion_loop"
+    ]
+  },
+  "guard": {
+    "sounds": [
+      "kingdomkeys:guard"
+    ]
+  },
+  "gummi_place": {
+    "sounds": [
+      "kingdomkeys:gummi_place"
+    ]
+  },
+  "gummi_remove": {
+    "sounds": [
+      "kingdomkeys:gummi_remove"
+    ]
+  },
+  "heartless_kill": {
+    "sounds": [
+      "kingdomkeys:heartless_kill"
+    ]
+  },
+  "heartless_spawn": {
+    "sounds": [
+      "kingdomkeys:heartless_spawn"
+    ]
+  },
   "hp_orb": {
     "sounds": [
       "kingdomkeys:hp_orb"
@@ -63,6 +103,71 @@
     "sounds": [
       "kingdomkeys:keyblade_armor",
       "kingdomkeys:keyblade_armor2"
+    ]
+  },
+  "keyblade_hit/bond_of_the_blaze_hit": {
+    "sounds": [
+      "kingdomkeys:keyblade_hit/bond_of_the_blaze_hit"
+    ]
+  },
+  "keyblade_hit/braveheart_hit": {
+    "sounds": [
+      "kingdomkeys:keyblade_hit/braveheart_hit"
+    ]
+  },
+  "keyblade_hit/destinys_embrace_hit": {
+    "sounds": [
+      "kingdomkeys:keyblade_hit/destinys_embrace_hit"
+    ]
+  },
+  "keyblade_hit/earthshaker_hit": {
+    "sounds": [
+      "kingdomkeys:keyblade_hit/earthshaker_hit"
+    ]
+  },
+  "keyblade_hit/generic_hit": {
+    "sounds": [
+      "kingdomkeys:keyblade_hit/generic_hit"
+    ]
+  },
+  "keyblade_hit/kingdom_key_hit": {
+    "sounds": [
+      "kingdomkeys:keyblade_hit/kingdom_key_hit"
+    ]
+  },
+  "keyblade_hit/oathkeeper_hit": {
+    "sounds": [
+      "kingdomkeys:keyblade_hit/oathkeeper_hit"
+    ]
+  },
+  "keyblade_hit/oblivion_hit": {
+    "sounds": [
+      "kingdomkeys:keyblade_hit/oblivion_hit"
+    ]
+  },
+  "keyblade_hit/rainfell_hit": {
+    "sounds": [
+      "kingdomkeys:keyblade_hit/rainfell_hit"
+    ]
+  },
+  "keyblade_hit/star_cluster_hit": {
+    "sounds": [
+      "kingdomkeys:keyblade_hit/star_cluster_hit"
+    ]
+  },
+  "keyblade_hit/way_to_dawn_hit": {
+    "sounds": [
+      "kingdomkeys:keyblade_hit/way_to_dawn_hit"
+    ]
+  },
+  "keyblade_hit/wayward_wind_hit": {
+    "sounds": [
+      "kingdomkeys:keyblade_hit/wayward_wind_hit"
+    ]
+  },
+  "ko_loop": {
+    "sounds": [
+      "kingdomkeys:ko_loop"
     ]
   },
   "kupo": {
@@ -318,6 +423,30 @@
       }
     ]
   },
+  "music/daybreak_town": {
+    "sounds": [
+      {
+        "name": "kingdomkeys:music/daybreak_town",
+        "stream": true
+      }
+    ]
+  },
+  "music/daybreak_town_battle": {
+    "sounds": [
+      {
+        "name": "kingdomkeys:music/daybreak_town_battle",
+        "stream": true
+      }
+    ]
+  },
+  "music/destiny_islands": {
+    "sounds": [
+      {
+        "name": "kingdomkeys:music/destiny_islands",
+        "stream": true
+      }
+    ]
+  },
   "music/dive_into_the_heart_destati": {
     "sounds": [
       {
@@ -342,12 +471,38 @@
       }
     ]
   },
+  "music/night_of_fate": {
+    "sounds": [
+      {
+        "name": "kingdomkeys:music/night_of_fate",
+        "stream": true
+      }
+    ]
+  },
   "music/the_13th_floor": {
     "sounds": [
       {
         "name": "kingdomkeys:music/the_13th_floor",
         "stream": true
       }
+    ]
+  },
+  "music/world_map": {
+    "sounds": [
+      {
+        "name": "kingdomkeys:music/world_map",
+        "stream": true
+      }
+    ]
+  },
+  "nobody_kill": {
+    "sounds": [
+      "kingdomkeys:nobody_kill"
+    ]
+  },
+  "open_chest": {
+    "sounds": [
+      "kingdomkeys:open_chest"
     ]
   },
   "player_death": {
@@ -588,6 +743,11 @@
   "summon_armor": {
     "sounds": [
       "kingdomkeys:summon_armor"
+    ]
+  },
+  "synthesis_pickup": {
+    "sounds": [
+      "kingdomkeys:synthesis_pickup"
     ]
   },
   "unsummon": {

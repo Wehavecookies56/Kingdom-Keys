@@ -4,7 +4,6 @@ import net.minecraft.core.UUIDUtil;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
@@ -18,7 +17,7 @@ import java.util.UUID;
 
 public record CSPartyLeave(Party party, UUID playerUUID) implements Packet {
 
-	public static final Type<CSPartyLeave> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_party_leave"));
+	public static final Type<CSPartyLeave> TYPE = new Type<>(KingdomKeys.rl("cs_party_leave"));
 
 	public static final StreamCodec<FriendlyByteBuf, CSPartyLeave> STREAM_CODEC = StreamCodec.composite(
 			Party.STREAM_CODEC,

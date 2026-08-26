@@ -75,11 +75,11 @@ public class KeychainItem extends SwordItem implements IKeychain, IItemCategory,
 			tooltip.add(Component.translatable(ChatFormatting.BLUE+"Magic %s", getKeyblade().getMagic(getKeybladeLevel(stack))+" ["+DamageCalculation.getMagicDamage(Minecraft.getInstance().player, stack)+"]"));
 			tooltip.add(Component.translatable(ChatFormatting.WHITE+""+ChatFormatting.ITALIC + getKeyblade().getDesc()));*/
 		} else {
-			tooltip.add(Component.translatable(ChatFormatting.RED + "KEYBLADE DATA MISSING"));
-			tooltip.add(Component.translatable(ChatFormatting.RED + "If you see this then either the keyblade json is missing or failed to load"));
+			tooltip.add(Component.translatable("kingdomkeys.keyblade.data_missing.title").withStyle(ChatFormatting.RED));
+			tooltip.add(Component.translatable("kingdomkeys.keyblade.data_missing.desc1").withStyle(ChatFormatting.RED));
 			ResourceLocation key = BuiltInRegistries.ITEM.getKey(stack.getItem());
-			tooltip.add(Component.translatable(ChatFormatting.RED + "It should be located in data/" + key.getNamespace() + "/keyblades/YOURKEYBLADEITEMNAMEHERE.json"));
-			tooltip.add(Component.translatable(ChatFormatting.RED + "If the file exists check the syntax, see builtin keyblades for examples"));
+			tooltip.add(Component.translatable("kingdomkeys.keyblade.data_missing.path_generic", key.getNamespace()).withStyle(ChatFormatting.RED));
+			tooltip.add(Component.translatable("kingdomkeys.keyblade.data_missing.desc2").withStyle(ChatFormatting.RED));
 		}
 		if (flagIn.isAdvanced()) {
 			if (stack.has(ModComponents.KEYBLADE_ID)) {

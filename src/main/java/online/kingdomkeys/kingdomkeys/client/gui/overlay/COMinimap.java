@@ -29,7 +29,7 @@ import java.util.Map;
 public class COMinimap extends OverlayBase {
     public static final LayeredDraw.Layer INSTANCE = new COMinimap();
 
-    private static final ResourceLocation ROOM_TEX = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/co/room.png");
+    private static final ResourceLocation ROOM_TEX = KingdomKeys.rl("textures/gui/co/room.png");
 
     public RoomData currentRoom = null;
 
@@ -40,7 +40,9 @@ public class COMinimap extends OverlayBase {
     @Override
     public void render(GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
         super.render(guiGraphics, deltaTracker);
-
+        if(minecraft != null && minecraft.options.hideGui){
+            return;
+        }
         if (MenuScreen.rooms.isEmpty() || !CastleOblivionHandler.inInterior(minecraft.player))
             return;
 

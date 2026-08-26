@@ -5,7 +5,6 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
 import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
@@ -16,7 +15,7 @@ import java.util.UUID;
 
 public record SCDeleteSavePointScreenshot(String name, UUID uuid) implements Packet {
 
-    public static final Type<SCDeleteSavePointScreenshot> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "sc_delete_save_point_screenshot"));
+    public static final Type<SCDeleteSavePointScreenshot> TYPE = new Type<>(KingdomKeys.rl("sc_delete_save_point_screenshot"));
 
     public static final StreamCodec<FriendlyByteBuf, SCDeleteSavePointScreenshot> STREAM_CODEC = StreamCodec.composite(
             ByteBufCodecs.STRING_UTF8,

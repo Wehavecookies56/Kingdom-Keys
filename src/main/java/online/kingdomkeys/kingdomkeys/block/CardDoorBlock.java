@@ -33,6 +33,7 @@ import online.kingdomkeys.kingdomkeys.api.event.CastleOblivionEvent;
 import online.kingdomkeys.kingdomkeys.data.CastleOblivionData;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.block.CardDoorTileEntity;
+import online.kingdomkeys.kingdomkeys.item.ModComponents;
 import online.kingdomkeys.kingdomkeys.item.card.WorldCardItem;
 import online.kingdomkeys.kingdomkeys.lib.ModTags;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
@@ -111,14 +112,21 @@ public class CardDoorBlock extends BaseBlock implements EntityBlock, INoDataGen 
 							case HALL -> {
 								if (!te.isOpen()) {
 									//TODO open world card gui
-									if (player.getItemInHand(hand).getItem() instanceof WorldCardItem item) {
-										if (!FMLEnvironment.production || player.getItemInHand(hand).is(ModTags.WORLD_CARD)) {
-											te.getParentRoom().getParentFloor((ServerLevel) level).setWorldCard(item);
+									boolean isWorldCard = stack.has(ModComponents.WORLD_CARD);
+									//add component to world cards if they don't have them
+									if (!isWorldCard && stack.getItem() instanceof WorldCardItem worldCardItem) {
+										stack.set(ModComponents.WORLD_CARD, new WorldCardItem.WorldCard(worldCardItem.getFloorType().getRegistryName()));
+										isWorldCard = true;
+									}
+									if (isWorldCard) {
+										WorldCardItem.WorldCard worldCard = stack.get(ModComponents.WORLD_CARD);
+										if ((!FMLEnvironment.production || player.getItemInHand(hand).is(ModTags.WORLD_CARD)) && worldCard != null) {
+											te.getParentRoom().getParentFloor((ServerLevel) level).setWorldCard(worldCard);
 											te.openDoor(true);
 											CastleOblivionHandler.createFirstRoom(player, te);
 											stack.consume(1, player);
 										} else {
-											player.sendSystemMessage(Component.literal("I did warn you, saved you from crashing/breaking your world"));
+											player.sendSystemMessage(Component.translatable("kingdomkeys.card.door.warned_you"));
 										}
 										return ItemInteractionResult.sidedSuccess(false);
 									}

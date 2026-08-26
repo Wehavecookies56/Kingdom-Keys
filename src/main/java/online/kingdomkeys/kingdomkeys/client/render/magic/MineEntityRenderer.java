@@ -19,7 +19,7 @@ import online.kingdomkeys.kingdomkeys.entity.magic.MineEntity;
 import javax.annotation.Nullable;
 
 public class MineEntityRenderer extends EntityRenderer<ThrowableProjectile> {
-    public static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID,"textures/entity/models/mine.png");
+    public static final ResourceLocation TEXTURE = KingdomKeys.rl("textures/entity/models/mine.png");
     MineModel<Entity> mineModel;
 
     public MineEntityRenderer(EntityRendererProvider.Context context){

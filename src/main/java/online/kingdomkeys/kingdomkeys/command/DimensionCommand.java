@@ -14,12 +14,12 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.portal.DimensionTransition;
+import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.server.ServerLifecycleHooks;
@@ -28,6 +28,8 @@ import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.item.ModComponents;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
+import online.kingdomkeys.kingdomkeys.world.worldmap.GummiWorld;
+import online.kingdomkeys.kingdomkeys.world.worldmap.GummiWorldLoader;
 
 import java.util.Collection;
 import java.util.List;
@@ -48,25 +50,45 @@ public class DimensionCommand extends BaseCommand {
 	}
 
 	private static int changeDim(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
-		Collection<ServerPlayer> players = getPlayers(context, 3);
+		Collection<ServerPlayer> players = getPlayers(context);
 		String dim = StringArgumentType.getString(context, "dim");
-		ResourceKey<Level> dimension = ResourceKey.create(Registries.DIMENSION, ResourceLocation.parse(dim));
+		ResourceKey<Level> dimension = ResourceKey.create(Registries.DIMENSION, KingdomKeys.rl(dim));
 		if (!ServerLifecycleHooks.getCurrentServer().levelKeys().stream().toList().contains(dimension)) {
-			context.getSource().sendFailure(Component.literal("Dimension '"+dim+ "' does not exist"));
+			context.getSource().sendFailure(Component.translatable("kingdomkeys.command.dimension.unknown", dim));
 			return 0;
 		}
 		for (ServerPlayer player : players) {
 			BlockPos coords = getWorldCoords(player, dimension);
-			player.changeDimension(new DimensionTransition(player.getServer().getLevel(dimension), new Vec3(coords.getX(), coords.getY(), coords.getZ()), Vec3.ZERO, player.getYRot(), player.getXRot(), entity -> {}));
-			context.getSource().sendSuccess(() -> Component.translatable("Teleported " + player.getDisplayName().getString() + " to dimension " + dimension.location()), true);
-			player.sendSystemMessage(Component.translatable("You have been teleported to " + dimension.location()));
+			Vec2 look = getWorldLook(player, dimension);
+			float yRot = look != null ? look.x : player.getYRot();
+			float xRot = look != null ? look.y : player.getXRot();
+
+			player.changeDimension(new DimensionTransition(player.getServer().getLevel(dimension), new Vec3(coords.getX(), coords.getY(), coords.getZ()), Vec3.ZERO, yRot, xRot, entity -> {}));
+			context.getSource().sendSuccess(() -> Component.translatable("kingdomkeys.command.dimension.teleported", player.getDisplayName().getString(), dimension.location().getPath()), true);
+			player.sendSystemMessage(Component.translatable("kingdomkeys.teleport.teleported_to", dimension.location().getPath()));
 		}
 		return 1;
+	}
+
+	private static Vec2 getWorldLook(Player player, ResourceKey<Level> dimension) {
+		if (dimension == ModDimensions.OCEAN_BETWEEN) {
+			GummiWorld from = GummiWorldLoader.forDimension(player.level().dimension());
+			return from == null ? null : from.takeOffLook();
+		}
+
+		GummiWorld to = GummiWorldLoader.forDimension(dimension);
+		return to == null ? null : to.landingLook();
 	}
 
 	public static BlockPos getWorldCoords(Player player, ResourceKey<Level> dimension) {
 		if (dimension.location().toString().contains("castle_oblivion_interior_")) {
 			return new BlockPos(8, 62, 8);
+		}
+		if (dimension == ModDimensions.OCEAN_BETWEEN) {
+			// Drop next to whichever world you were flying over, or the origin if it isn't on the map.
+			GummiWorld world = GummiWorldLoader.forDimension(player.level().dimension());
+			Vec3 at = world != null ? world.takeOffSpawn() : Vec3.ZERO.add(0, 128, 0);
+			return BlockPos.containing(at);
 		}
 		if (dimension == ModDimensions.DIVE_TO_THE_HEART) {
 			return new BlockPos(0, 26, 0);

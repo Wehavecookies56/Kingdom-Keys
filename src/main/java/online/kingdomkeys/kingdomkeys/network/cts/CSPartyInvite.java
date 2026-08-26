@@ -6,7 +6,6 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
@@ -21,7 +20,7 @@ import java.util.UUID;
 
 public record CSPartyInvite(Party party, UUID playerUUID) implements Packet {
 
-	public static final Type<CSPartyInvite> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_party_invite"));
+	public static final Type<CSPartyInvite> TYPE = new Type<>(KingdomKeys.rl("cs_party_invite"));
 
 	public static final StreamCodec<FriendlyByteBuf, CSPartyInvite> STREAM_CODEC = StreamCodec.composite(
 			Party.STREAM_CODEC,
@@ -40,7 +39,7 @@ public record CSPartyInvite(Party party, UUID playerUUID) implements Packet {
 		if(!targetPlayerData.getPartiesInvited().contains(party.getName())) {
 			targetPlayerData.addPartiesInvited(party.getName());
 
-			target.sendSystemMessage(Component.translatable(ChatFormatting.YELLOW+"You got an invitation to "+party.getName()));
+			target.sendSystemMessage(Component.translatable("kingdomkeys.party.invitation", party.getName()).withStyle(ChatFormatting.YELLOW));
 		}
 
 

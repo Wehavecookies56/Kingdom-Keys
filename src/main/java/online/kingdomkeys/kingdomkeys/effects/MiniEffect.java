@@ -1,6 +1,5 @@
 package online.kingdomkeys.kingdomkeys.effects;
 
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -11,8 +10,8 @@ public class MiniEffect extends MobEffect {
 
 	public MiniEffect(MobEffectCategory category, int color) {
 		super(category, color);
-		addAttributeModifier(Attributes.SCALE, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "mini_scale"), -0.6D, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);
-		addAttributeModifier(Attributes.MOVEMENT_SPEED, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "mini_speed"), -0.3D, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);
+		addAttributeModifier(Attributes.SCALE, KingdomKeys.rl("mini_scale"), -0.6D, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);
+		addAttributeModifier(Attributes.MOVEMENT_SPEED, KingdomKeys.rl("mini_speed"), -0.3D, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);
 	}
 
 	@Override

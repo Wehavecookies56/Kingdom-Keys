@@ -33,7 +33,7 @@ import java.util.Set;
 
 public record CSSummonKeyblade(ResourceLocation formToSummonFrom, boolean forceDesummon) implements Packet {
 
-	public static final Type<CSSummonKeyblade> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_summon_keyblade"));
+	public static final Type<CSSummonKeyblade> TYPE = new Type<>(KingdomKeys.rl("cs_summon_keyblade"));
 
 	public static final StreamCodec<FriendlyByteBuf, CSSummonKeyblade> STREAM_CODEC = StreamCodec.composite(
 			ResourceLocation.STREAM_CODEC,

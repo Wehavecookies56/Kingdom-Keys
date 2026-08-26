@@ -14,9 +14,7 @@ import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.damagesource.KKDamageTypes;
-import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
-import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.util.List;
@@ -44,9 +42,12 @@ public class ThundagaShotEntity extends BaseMagicProjectile {
 		for (int i = 0; i < 1; ++i) {
 			double t = Math.random() * 360;
 			double s = Math.random() * 360;
-			double x = getX() + (radius * Math.cos(Math.toRadians(s)) * Math.sin(Math.toRadians(t)));
-			double z = getZ() + (radius * Math.sin(Math.toRadians(s)) * Math.sin(Math.toRadians(t)));
-			double y = getY() + (radius * Math.cos(Math.toRadians(t)));
+			double radT = Math.toRadians(t);
+			double sinT = Math.sin(radT);
+			double radS = Math.toRadians(s);
+			double x = getX() + (radius * Math.cos(radS) * sinT);
+			double z = getZ() + (radius * Math.sin(radS) * sinT);
+			double y = getY() + (radius * Math.cos(radT));
 			level().addParticle(ParticleTypes.ELECTRIC_SPARK, x, y, z, 0, 0, 0);
 		}
 		super.tick();
@@ -74,11 +75,7 @@ public class ThundagaShotEntity extends BaseMagicProjectile {
 
 			if (target != null) {
 				if (target != getOwner()) {
-					Party p = null;
-					if (getOwner() != null) {
-						p = WorldData.get(getOwner().getServer()).getPartyFromMember(getOwner().getUUID());
-					}
-					if (p == null || (p.getMember(target.getUUID()) == null || p.getFriendlyFire())) { //If caster is not in a party || the party doesn't have the target in it || the party has FF on
+					if (Utils.canHarm(getOwner(), target)) { //The one place that decides who may be hit
 						damageEntity(target);
 						target.invulnerableTime = 10;
 						level().playSound(null, position().x(), position().y(), position().z(), ModSounds.zap.get(), SoundSource.PLAYERS, 1F, 0.8F);

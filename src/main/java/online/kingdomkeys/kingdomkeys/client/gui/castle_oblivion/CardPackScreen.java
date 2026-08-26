@@ -1,12 +1,13 @@
 package online.kingdomkeys.kingdomkeys.client.gui.castle_oblivion;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
@@ -22,15 +23,15 @@ public class CardPackScreen extends MenuBackground {
 	private static final int CARD_SPACING = 44;
 	private static final int CARD_COUNT = 5;
 
-	private static final ResourceLocation CARD_BACK = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/co/card_back.png");
+	private static final ResourceLocation CARD_BACK = KingdomKeys.rl("textures/gui/co/card_back.png");
 	private static final int CARD_W = 32;
 	private static final int CARD_H = 32;
-	private final List<ResourceLocation> cards;
+	private final List<ItemStack> cards;
 	private final float[] revealProgress = new float[5];
 	public MenuBox box;
 	private MenuButton takeButton;
 
-	public CardPackScreen(List<ResourceLocation> cards) {
+	public CardPackScreen(List<ItemStack> cards) {
 		super(Strings.Gui_CardPack_Title, new Color(255, 128, 255));
 		this.cards = cards;
 
@@ -117,7 +118,7 @@ public class CardPackScreen extends MenuBackground {
 		int x = cardX(slot);
 		int y = box.getY() + 45;
 
-		ItemStack stack = new ItemStack(BuiltInRegistries.ITEM.get(cards.get(slot)));
+		ItemStack stack = cards.get(slot);
 
 		float p = revealProgress[slot];
 
@@ -163,7 +164,7 @@ public class CardPackScreen extends MenuBackground {
 			return;
 		}
 
-		// Carta revelada
+		// Revealed card
 		gui.pose().pushPose();
 		{
 			float cx = x + CARD_W / 2f;
@@ -173,6 +174,15 @@ public class CardPackScreen extends MenuBackground {
 			gui.pose().scale(scale, scale, 1);
 
 			gui.renderItem(stack, -8, -8);
+
+			int value = MapCardItem.getCardValue(stack);
+
+			Component val = Component.literal(String.valueOf(value)).withStyle(ChatFormatting.YELLOW).withStyle(ClientUtils.KK_Font_EXP);
+			gui.pose().scale(0.6F,0.6F, 1);
+			gui.pose().translate(0,5,200);
+
+			gui.drawString(minecraft.font, val, 0, 0, 0xFFFFFF);
+
 		}
 		gui.pose().popPose();
 

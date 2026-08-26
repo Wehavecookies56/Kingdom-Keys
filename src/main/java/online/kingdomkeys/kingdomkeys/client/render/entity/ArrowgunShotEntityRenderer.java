@@ -51,6 +51,6 @@ public class ArrowgunShotEntityRenderer extends EntityRenderer<ArrowgunShotEntit
 	@Nullable
 	@Override
 	public ResourceLocation getTextureLocation(ArrowgunShotEntity entity) {
-		return ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/models/cube.png");
+		return KingdomKeys.rl("textures/entity/models/cube.png");
 	}
 }

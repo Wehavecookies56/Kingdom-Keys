@@ -11,19 +11,17 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.data.GlobalData;
-import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import online.kingdomkeys.kingdomkeys.entity.mob.MarluxiaEntity;
-import online.kingdomkeys.kingdomkeys.lib.Party;
-import online.kingdomkeys.kingdomkeys.lib.Party.Member;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncGlobalData;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.util.List;
 
 public class MagicStop extends Magic {
 
-	public MagicStop(ResourceLocation registryName, int tier, String gmAbility) {
+	public MagicStop(ResourceLocation registryName, int tier, ResourceLocation gmAbility) {
 		super(registryName, false, gmAbility);
 		setTier(tier);
 	}
@@ -35,13 +33,7 @@ public class MagicStop extends Magic {
 
 		float radius = 2 + getTier();
 		List<Entity> list = player.level().getEntities(player, player.getBoundingBox().inflate(radius, radius, radius));
-		Party casterParty = WorldData.get(player.getServer()).getPartyFromMember(player.getUUID());
-
-		if (casterParty != null && !casterParty.getFriendlyFire()) {
-			for (Member m : casterParty.getMembers()) {
-				list.remove(player.level().getPlayerByUUID(m.getUUID()));
-			}
-		}
+		Utils.removeAllies(player, list);
 
 		list.removeIf(e -> e instanceof MarluxiaEntity);
 

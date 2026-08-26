@@ -16,6 +16,7 @@ import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.client.model.data.ModelData;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.model.entity.WhiteMushroomModel;
 import online.kingdomkeys.kingdomkeys.client.render.HeartlessEyesLayerRenderer;
 import online.kingdomkeys.kingdomkeys.entity.mob.WhiteMushroomEntity;
@@ -24,8 +25,8 @@ import online.kingdomkeys.kingdomkeys.entity.mob.WhiteMushroomEntity;
 public class WhiteMushroomRenderer<Type extends WhiteMushroomEntity> extends MobRenderer<Type, WhiteMushroomModel<Type>> {
 
 	public WhiteMushroomRenderer(EntityRendererProvider.Context context) {
-        super(context, new WhiteMushroomModel<>(context.bakeLayer(WhiteMushroomModel.LAYER_LOCATION)), 0.8F);
-		this.addLayer(new HeartlessEyesLayerRenderer<>(this, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/mob/mushroom_eyes.png")));
+        super(context, new WhiteMushroomModel<>(context.bakeLayer(WhiteMushroomModel.LAYER_LOCATION)), 0.5F);
+		this.addLayer(new HeartlessEyesLayerRenderer<>(this, KingdomKeys.rl("textures/entity/mob/mushroom_eyes.png")));
 	}
 
 	int prevState = 0;
@@ -40,7 +41,7 @@ public class WhiteMushroomRenderer<Type extends WhiteMushroomEntity> extends Mob
 					ticksDespawning = entity.tickCount;
 				}
 				VertexConsumer buffer = bufferIn.getBuffer(Sheets.translucentCullBlockSheet());
-				BakedModel model = Minecraft.getInstance().getModelManager().getModel(ModelResourceLocation.standalone(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "entity/portal")));
+				BakedModel model = Minecraft.getInstance().getModelManager().getModel(ModelResourceLocation.standalone(KingdomKeys.rl("entity/portal")));
 
 				matrixStackIn.pushPose();
 				{
@@ -81,7 +82,7 @@ public class WhiteMushroomRenderer<Type extends WhiteMushroomEntity> extends Mob
 
 	@Override
 	public ResourceLocation getTextureLocation(Type pEntity) {
-		return ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/mob/white_mushroom.png");
+		return ClientUtils.variantTexture(KingdomKeys.rl("textures/entity/mob/white_mushroom.png"), pEntity);
 	}
 
 }

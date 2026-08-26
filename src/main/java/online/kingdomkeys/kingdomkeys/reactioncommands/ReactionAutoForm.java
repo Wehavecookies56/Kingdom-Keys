@@ -19,24 +19,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ReactionAutoForm extends ReactionCommand {
-	String form, abilityName;
+	ResourceLocation form, abilityName;
 
-	public ReactionAutoForm(ResourceLocation registryName, String abilityName, String form) {
+	public ReactionAutoForm(ResourceLocation registryName, ResourceLocation abilityName, ResourceLocation form) {
 		super(registryName, true, -1);
 		this.form = form;
 		this.abilityName = abilityName;
 	}
 	
-	public String getFormName() {
+	public ResourceLocation getFormName() {
 		return form;
 	}
 	
-	public String getAbilityName() {
+	public ResourceLocation getAbilityName() {
 		return abilityName;
 	}
 
 	public DriveForm getForm() {
-		return ModDriveForms.registry.get(ResourceLocation.parse(form));
+		return ModDriveForms.registry.get(form);
 	}
 	
 	public boolean isAutoForm() {
@@ -49,32 +49,32 @@ public class ReactionAutoForm extends ReactionCommand {
 			player.level().playSound(null, player.position().x(),player.position().y(),player.position().z(), ModSounds.drive.get(), SoundSource.PLAYERS, 1F, 1F);
 			PlayerData playerData = PlayerData.get(player);
 			
-			if (!playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()) && form.equals(DriveForm.NONE.toString())) { // If is in a drive form and the target is "" (player)
-				DriveForm forma = ModDriveForms.registry.get(ResourceLocation.parse(playerData.getActiveDriveForm()));
+			if (!playerData.noFormActive() && form.equals(DriveForm.NONE)) { // If is in a drive form and the target is "" (player)
+				DriveForm forma = ModDriveForms.registry.get(playerData.getActiveDriveForm());
 				forma.endDrive(player);
 				if (!forma.getBaseGrowthAbilities()) {
-					NeoForge.EVENT_BUS.post(new AbilityEvent.Unequip(ModAbilities.registry.get(ResourceLocation.parse(forma.getDFAbilityForLevel(playerData.getDriveFormLevel(forma.getName())))), playerData.getDriveFormLevel(forma.getName()), player, false));
+					NeoForge.EVENT_BUS.post(new AbilityEvent.Unequip(ModAbilities.registry.get(forma.getDFAbilityForLevel(playerData.getDriveFormLevel(forma.getRegistryName())).get()), playerData.getDriveFormLevel(forma.getRegistryName()), player, false));
 				}
-				for (String abilityLoc : forma.getDriveFormData().getAbilities()) {
-					Ability ability = ModAbilities.registry.get(ResourceLocation.parse(abilityLoc));
+				for (ResourceLocation abilityLoc : forma.getDriveFormData().getAbilities()) {
+					Ability ability = ModAbilities.registry.get(abilityLoc);
 					NeoForge.EVENT_BUS.post(new AbilityEvent.Equip(ability, 0, player, false));
 				}
-			} else if (!form.equals(DriveForm.NONE.toString())) { // If is not in a form and wants to drive
-				DriveForm forma = ModDriveForms.registry.get(ResourceLocation.parse(form));
+			} else if (!form.equals(DriveForm.NONE)) { // If is not in a form and wants to drive
+				DriveForm forma = ModDriveForms.registry.get(form);
 				forma.initDrive(player);
 				if (!forma.getBaseGrowthAbilities()) {
-					NeoForge.EVENT_BUS.post(new AbilityEvent.Equip(ModAbilities.registry.get(ResourceLocation.parse(forma.getDFAbilityForLevel(playerData.getDriveFormLevel(forma.getName())))), playerData.getDriveFormLevel(forma.getName()), player, false));
+					NeoForge.EVENT_BUS.post(new AbilityEvent.Equip(ModAbilities.registry.get(forma.getDFAbilityForLevel(playerData.getDriveFormLevel(forma.getRegistryName())).get()), playerData.getDriveFormLevel(forma.getRegistryName()), player, false));
 				}
-				for (String abilityLoc : forma.getDriveFormData().getAbilities()) {
-					Ability ability = ModAbilities.registry.get(ResourceLocation.parse(abilityLoc));
+				for (ResourceLocation abilityLoc : forma.getDriveFormData().getAbilities()) {
+					Ability ability = ModAbilities.registry.get(abilityLoc);
 					NeoForge.EVENT_BUS.post(new AbilityEvent.Equip(ability, 0, player, false));
 				}
 			}
 			
-			playerData.removeReactionCommand(getRegistryName().toString());
+			playerData.removeReactionCommand(getRegistryName());
 			List<ReactionCommand> list = new ArrayList<>();
-			for(String name : playerData.getReactionCommands().keySet()) {
-				ReactionCommand rc = ModReactionCommands.registry.get(ResourceLocation.parse(name));
+			for(ResourceLocation name : playerData.getReactionCommands().keySet()) {
+				ReactionCommand rc = ModReactionCommands.registry.get(name);
 				if(rc instanceof ReactionAutoForm) {
 					list.add(rc);
 				}
@@ -82,7 +82,7 @@ public class ReactionAutoForm extends ReactionCommand {
 			
 			for(ReactionCommand rc : list) {
 				if(rc instanceof ReactionAutoForm) {
-					playerData.removeReactionCommand(rc.getName());
+					playerData.removeReactionCommand(rc.getRegistryName());
 				}
 			}
 		}
@@ -94,8 +94,8 @@ public class ReactionAutoForm extends ReactionCommand {
 		if(playerData != null) {
 			if(Utils.isPlayerLowHP(player)) {
 				if(playerData.getAlignment() == OrgMember.NONE) {
-					if(playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())) {
-						if(playerData.getDP() >= ModDriveForms.registry.get(ResourceLocation.parse(form)).getDriveCost()) {
+					if(playerData.noFormActive()) {
+						if(playerData.getDP() >= ModDriveForms.registry.get(form).getDriveCost()) {
                             return playerData.getEquippedAbilityLevel(abilityName)[1] > 0;
 						}
 					}

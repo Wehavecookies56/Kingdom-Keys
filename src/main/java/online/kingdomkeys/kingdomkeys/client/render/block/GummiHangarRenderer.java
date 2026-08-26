@@ -2,7 +2,6 @@ package online.kingdomkeys.kingdomkeys.client.render.block;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -13,24 +12,94 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.client.model.data.ModelData;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
+import online.kingdomkeys.kingdomkeys.block.gummi.GummiBlockBase;
 import online.kingdomkeys.kingdomkeys.block.gummi.GummiHangarBlock;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.entity.block.GummiHangarTileEntity;
+import online.kingdomkeys.kingdomkeys.item.GummiShipBlueprintItem;
 import online.kingdomkeys.kingdomkeys.item.ModComponents;
-import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.lib.GummiStructure;
 import online.kingdomkeys.kingdomkeys.lib.LineDisplay;
+import online.kingdomkeys.kingdomkeys.util.Utils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class GummiHangarRenderer implements BlockEntityRenderer<GummiHangarTileEntity> {
+
+	private record GhostBlock(int x, int y, int z, BlockState state) {}
+
+	//Cooldown between updates
+	private static final int REFRESH_TIME = 5;
 
 	public GummiHangarRenderer(BlockEntityRendererProvider.Context context) {
 
     }
+
+	//Missing pieces that still draw as hologram (ghost) blocks
+	@SuppressWarnings("unchecked")
+	private List<GhostBlock> ghosts(GummiHangarTileEntity hangar, GummiStructure struct, Direction facing, int size, int[] offsets) {
+		long now = hangar.getLevel().getGameTime();
+
+		if (struct == hangar.ghostsSource && size == hangar.ghostsSize && facing == hangar.ghostsFacing && now - hangar.ghostsAt < REFRESH_TIME) {
+			return (List<GhostBlock>) hangar.ghosts;
+		}
+
+		hangar.ghostsSource = struct;
+		hangar.ghostsSize = size;
+		hangar.ghostsFacing = facing;
+		hangar.ghostsAt = now;
+
+		Rotation rotation = switch (facing) {
+			case NORTH -> Rotation.CLOCKWISE_180;
+			case WEST -> Rotation.CLOCKWISE_90;
+			case EAST -> Rotation.COUNTERCLOCKWISE_90;
+			default -> Rotation.NONE;
+		};
+
+		List<GhostBlock> found = new ArrayList<>();
+		int max = size - 1;
+
+		for (int x = 0; x < size; x++) {
+			for (int y = 0; y < size; y++) {
+				for (int z = 0; z < size; z++) {
+					BlockState expected = struct.getBlocks()[x][y][z];
+
+					if (expected == null || expected.isAir()) {
+						continue;
+					}
+
+					expected = Utils.rotateBlock(expected, rotation);
+
+					int rx = x, rz = z;
+					switch (facing) {
+						case NORTH -> { rx = max - x; rz = max - z; }
+						case EAST -> { rx = z; rz = max - x; }
+						case WEST -> { rx = max - z; rz = x; }
+					}
+
+					BlockPos worldPos = hangar.getBlockPos().offset(offsets[0] + rx, y, offsets[1] + rz);
+					BlockState current = hangar.getLevel().getBlockState(worldPos);
+
+					// Not equals: several orientations of the same piece are indistinguishable once placed
+					if (GummiBlockBase.sameAppearance(current, expected)) {
+						continue;
+					}
+
+					found.add(new GhostBlock(offsets[0] + rx, y, offsets[1] + rz, expected));
+				}
+			}
+		}
+
+		hangar.ghosts = found;
+		return found;
+	}
 
     @Override
     public boolean shouldRender(GummiHangarTileEntity blockEntity, Vec3 cameraPos) {
@@ -91,72 +160,38 @@ public class GummiHangarRenderer implements BlockEntityRenderer<GummiHangarTileE
 
                 } else if(perimeter == LineDisplay.EVEN) {
                     float r = 1F, g = 0.4F, b = 1F;
-                    switch(facing){ //It has to make the box based on rotation
-                        case NORTH -> {
-                            LevelRenderer.renderLineBox(matrixStackIn, vertexLines, origin.x()+1, origin.y(), origin.z(), dest.x(), dest.y(), dest.z(), r, g, b, a);
-                            // X shape
-                            ClientUtils.drawLine(vertexLines, matrixStackIn, origin.x()+1, origin.y(), origin.z(), dest.x(), origin.y(), dest.z(), r, g, b, a);
-                            ClientUtils.drawLine(vertexLines, matrixStackIn, dest.x(), origin.y(), origin.z(), origin.x()+1, origin.y(), dest.z(), r, g, b, a);
-                        }
-                        case SOUTH -> {
-                            LevelRenderer.renderLineBox(matrixStackIn, vertexLines, origin.x(), origin.y(), origin.z(), dest.x()-1, dest.y(), dest.z(), r, g, b, a);
-                            // X shape
-                            ClientUtils.drawLine(vertexLines, matrixStackIn, origin.x(), origin.y(), origin.z(), dest.x()-1, origin.y(), dest.z(), r, g, b, a);
-                            ClientUtils.drawLine(vertexLines, matrixStackIn, dest.x()-1, origin.y(), origin.z(), origin.x(), origin.y(), dest.z(), r, g, b, a);
-                        }
-                        case WEST -> {
-                            LevelRenderer.renderLineBox(matrixStackIn, vertexLines, origin.x(), origin.y(), origin.z(), dest.x(), dest.y(), dest.z()-1, r, g, b, a);
-                            // X shape
-                            ClientUtils.drawLine(vertexLines, matrixStackIn, origin.x(), origin.y(), origin.z(), dest.x(), origin.y(), dest.z()-1, r, g, b, a);
-                            ClientUtils.drawLine(vertexLines, matrixStackIn, dest.x(), origin.y(), origin.z(), origin.x(), origin.y(), dest.z()-1, r, g, b, a);
-                        }
-                        case EAST -> {
-                            LevelRenderer.renderLineBox(matrixStackIn, vertexLines, origin.x(), origin.y(), origin.z()+1, dest.x(), dest.y(), dest.z(), r, g, b, a);
-                            // X shape
-                            ClientUtils.drawLine(vertexLines, matrixStackIn, origin.x(), origin.y(), origin.z()+1, dest.x(), origin.y(), dest.z(), r, g, b, a);
-                            ClientUtils.drawLine(vertexLines, matrixStackIn, dest.x(), origin.y(), origin.z()+1, origin.x(), origin.y(), dest.z(), r, g, b, a);
-                        }
+
+                    double x1 = origin.x(), x2 = dest.x(), z1 = origin.z(), z2 = dest.z();
+                    switch (facing) {
+                        case NORTH -> { x1 += 1; z2 -= 1; }
+                        case SOUTH -> { x2 -= 1; z2 += 1; }
+                        case EAST -> { x1 += 1; z1 += 1; }
+                        case WEST -> { x2 -= 1; z2 -= 1; }
                     }
+
+                    LevelRenderer.renderLineBox(matrixStackIn, vertexLines, x1, origin.y(), z1, x2, dest.y(), z2, r, g, b, a);
+                    // X shape
+                    ClientUtils.drawLine(vertexLines, matrixStackIn, x1, origin.y(), z1, x2, origin.y(), z2, r, g, b, a);
+                    ClientUtils.drawLine(vertexLines, matrixStackIn, x2, origin.y(), z1, x1, origin.y(), z2, r, g, b, a);
                 }
             }
 
             if(state.getValue(GummiHangarBlock.DISPLAY_BLUEPRINT)) {
                 ItemStack stack = TE.inventory.get().getStackInSlot(0);
-                if (stack.is(ModItems.gummiShipBlueprint.get())) {
-                    GummiStructure struct = stack.get(ModComponents.GUMMI_STRUCTURE);
-                    if (struct != null) {
-                        int offsetX = 0;
-                        int offsetZ = 0;
+                if (GummiShipBlueprintItem.isBlueprint(stack)) {
+                    GummiStructure blueprint = stack.get(ModComponents.GUMMI_STRUCTURE);
+                    int[] offsets = Utils.getShipOffset(facing, size);
 
-                        switch (facing) {
-                            case NORTH -> { offsetX = -(size/2)-1; offsetZ = -size-1; }
-                            case SOUTH -> { offsetX = -(size/2); offsetZ = -size; }
-                            case EAST  -> { offsetX = -(size/2)-1; offsetZ = -size;
-                                matrixStackIn.mulPose(Axis.YP.rotationDegrees(180));}
-                            case WEST  -> { offsetX = -(size/2);  offsetZ =-size-1;
-                                matrixStackIn.mulPose(Axis.YP.rotationDegrees(180));}
-                        }
+                    GummiStructure struct = blueprint == null ? null : TE.fitted(blueprint, size);
 
-                        int w = struct.getWidth();
-                        int h = struct.getHeight();
-                        int d = struct.getDepth();
-                        matrixStackIn.mulPose(Axis.YP.rotationDegrees(state.getValue(GummiHangarBlock.FACING).toYRot()));
-                        matrixStackIn.translate(offsetX,0,offsetZ);
-
-                        for (int x = 0; x < w; x++) {
-                            for (int y = 0; y < h; y++) {
-                                for (int z = 0; z < d; z++) {
-                                    BlockState s = struct.getBlocks()[x][y][z];
-                                    if (s == null || s.isAir()) continue;
-                                    matrixStackIn.pushPose();
-                                    {
-                                        matrixStackIn.translate(x, y, z);
-                                        ClientUtils.renderSingleBlock(s, matrixStackIn, bufferIn, 0xF000F0, OverlayTexture.NO_OVERLAY, ModelData.EMPTY, RenderType.translucent(), 0.75F);
-
-                                    }
-                                    matrixStackIn.popPose();
-                                }
+                    if (struct != null && offsets != null) {
+                        for (GhostBlock ghost : ghosts(TE, struct, facing, size, offsets)) {
+                            matrixStackIn.pushPose();
+                            {
+                                matrixStackIn.translate(ghost.x(), ghost.y(), ghost.z());
+                                ClientUtils.renderSingleBlock(ghost.state(), matrixStackIn, bufferIn, 0xF000F0, OverlayTexture.NO_OVERLAY, ModelData.EMPTY, 0.75F);
                             }
+                            matrixStackIn.popPose();
                         }
                     }
                 }

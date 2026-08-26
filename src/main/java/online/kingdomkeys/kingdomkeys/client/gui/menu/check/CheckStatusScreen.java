@@ -5,6 +5,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuColourBox;
@@ -23,7 +24,7 @@ import java.util.List;
 
 public class CheckStatusScreen extends MenuBackground {
 
-	String form = DriveForm.NONE.toString();
+	ResourceLocation form = DriveForm.NONE;
 
 	Button stats_player, stats_ability, stats_equipment;
 	List<MenuButton> dfStats = new ArrayList<>();
@@ -44,25 +45,25 @@ public class CheckStatusScreen extends MenuBackground {
 		else if (string.equals("abilities"))
 			Minecraft.getInstance().setScreen(new CheckAbilitiesScreen(playerData, player));
 		else
-			form = string;
+			form = KingdomKeys.rl(string);
 
 		updateButtons();
 	}
 
 	private void updateButtons() {
-		stats_player.active = !form.equals(DriveForm.NONE.toString()); //If form is empty we assume it's the player stats view
+		stats_player.active = !form.equals(DriveForm.NONE); //If form is empty we assume it's the player stats view
 		for (MenuButton dfStat : dfStats) {//Iterate through all the buttons to update their state
-			dfStat.active = !form.equals(dfStat.getData()) && playerData.getDriveFormMap().containsKey(dfStat.getData()); //If the form stored in class is the same as the button name (handling prefix and such) and you have that form unlocked
+			dfStat.active = !form.equals(KingdomKeys.rl(dfStat.getData())) && playerData.getDriveFormMap().containsKey(KingdomKeys.rl(dfStat.getData())); //If the form stored in class is the same as the button name (handling prefix and such) and you have that form unlocked
 			dfStat.setSelected(!dfStat.active); //Set it selected if it's not active (so it renders a bit to the right)
 		}
 
 		//Select the widgets to show depending on the selected button
-		boolean base = form.equals(DriveForm.NONE.toString());
+		boolean base = form.equals(DriveForm.NONE);
 		dfLevel.visible = dfExp.visible = dfNextLevel.visible = dfFormGauge.visible = !base;
 		level.visible = totalExp.visible = nextLevel.visible = hp.visible = mp.visible = ap.visible = driveGauge.visible = base;
 
 		if(!base) {
-			int remainingExp = playerData.getDriveFormLevel(form) == ModDriveForms.registry.get(ResourceLocation.parse(form)).getMaxLevel() ? 0 : ModDriveForms.registry.get(ResourceLocation.parse(form)).getLevelUpCost(playerData.getDriveFormLevel(form) + 1) - playerData.getDriveFormExp(form);
+			int remainingExp = playerData.getDriveFormLevel(form) == ModDriveForms.registry.get(form).getMaxLevel() ? 0 : ModDriveForms.registry.get(form).getLevelUpCost(playerData.getDriveFormLevel(form) + 1) - playerData.getDriveFormExp(form);
 			dfLevel.setValue("" + playerData.getDriveFormLevel(form));
 			dfExp.setValue("" + playerData.getDriveFormExp(form));
 			dfNextLevel.setValue("" + remainingExp);
@@ -94,18 +95,18 @@ public class CheckStatusScreen extends MenuBackground {
 
 		int i;
 
-		List<String> forms = new ArrayList<>(Utils.getSortedDriveForms(playerData.getDriveFormMap(), Utils.getVisibleDriveForms(this.player)).keySet());
-		forms.remove(DriveForm.NONE.toString());
-		forms.remove(DriveForm.SYNCH_BLADE.toString());
-		forms.remove(Strings.Form_Anti);
+		List<ResourceLocation> forms = new ArrayList<>(Utils.getSortedDriveForms(playerData.getDriveFormMap(), Utils.getVisibleDriveForms(this.player)).keySet());
+		forms.remove(DriveForm.NONE);
+		forms.remove(DriveForm.SYNCH_BLADE);
+		forms.remove(ModDriveForms.ANTI.location());
 
 		for (i = 0; i < forms.size(); i++) {
-			String formName = forms.get(i);
-			String name = ModDriveForms.registry.get(ResourceLocation.parse(formName)).getTranslationKey();
+			ResourceLocation formName = forms.get(i);
+			String name = ModDriveForms.registry.get(formName).getTranslationKey();
 			MenuButton b = new MenuButton((int) subButtonPosX, button_stats_formsY + (i * 18), (int) subButtonWidth, Utils.translateToLocal(name), ButtonType.SUBBUTTON, (e) -> {
-				action(formName);
+				action(formName.toString());
 			});
-			b.setData(formName);
+			b.setData(formName.toString());
 			dfStats.add(b);
 			addRenderableWidget(b);
 		}

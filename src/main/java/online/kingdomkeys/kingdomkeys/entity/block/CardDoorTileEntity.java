@@ -82,7 +82,7 @@ public class CardDoorTileEntity extends BlockEntity {
         }
         locked = !locked;
         if (level.getBlockState(getBlockPos()).getValue(CardDoorBlock.OPEN) == locked) {
-            level.setBlock(this.getBlockPos(), getBlockState().setValue(CardDoorBlock.OPEN, !locked), 2);
+            level.setBlock(this.getBlockPos(), getBlockState().setValue(CardDoorBlock.OPEN, !locked && open), 2);
         }
     }
 

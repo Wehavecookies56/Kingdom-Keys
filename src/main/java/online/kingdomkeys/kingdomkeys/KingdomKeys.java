@@ -59,6 +59,7 @@ import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.item.organization.OrganizationDataLoader;
 import online.kingdomkeys.kingdomkeys.leveling.LevelingDataLoader;
 import online.kingdomkeys.kingdomkeys.leveling.ModLevels;
+import online.kingdomkeys.kingdomkeys.lib.GummiShipLoader;
 import online.kingdomkeys.kingdomkeys.limit.LimitDataLoader;
 import online.kingdomkeys.kingdomkeys.limit.ModLimits;
 import online.kingdomkeys.kingdomkeys.loot.ModLootModifier;
@@ -68,6 +69,8 @@ import online.kingdomkeys.kingdomkeys.menu.ModMenus;
 import online.kingdomkeys.kingdomkeys.reactioncommands.ModReactionCommands;
 import online.kingdomkeys.kingdomkeys.savepoint.SavePointDataLoader;
 import online.kingdomkeys.kingdomkeys.shotlock.ModShotlocks;
+import online.kingdomkeys.kingdomkeys.shotlock.ShotlockDataLoader;
+import online.kingdomkeys.kingdomkeys.shotlock.minigame.ShotlockMinigameHandler;
 import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeDataLoader;
 import online.kingdomkeys.kingdomkeys.synthesis.melding.MeldingDataLoader;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeDataLoader;
@@ -76,6 +79,7 @@ import online.kingdomkeys.kingdomkeys.synthesis.shop.names.NamesListLoader;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.sell.SellListDataLoader;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.world.MiniCO;
+import online.kingdomkeys.kingdomkeys.world.StruggleHandler;
 import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.CastleOblivionHandler;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModEncounterTypes;
@@ -83,6 +87,8 @@ import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.reg
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModRoomModifiers;
 import online.kingdomkeys.kingdomkeys.world.features.ModFeatures;
 import online.kingdomkeys.kingdomkeys.world.structure.ModStructures;
+import online.kingdomkeys.kingdomkeys.world.worldmap.GummiWorldLoader;
+import online.kingdomkeys.kingdomkeys.world.worldmap.WorldMap;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -103,11 +109,22 @@ public class KingdomKeys {
 			TABS.register(MODID, () -> CreativeModeTab.builder()
 					.title(Component.translatable("itemGroup.kingdomkeys"))
 					.icon(() -> new ItemStack(ModItems.kingdomKey.get()))
-					.displayItems((params, output) -> Utils.getCurrentItems().forEach(output::accept))
+					.displayItems((params, output) -> Utils.getCurrentItems(params.holders()).forEach(output::accept))
 					.build());
 	public static boolean efmLoaded = false;
 	public static boolean patchouliLoaded = false;
 	public static boolean shoulderSurfingLoaded = false;
+
+	public static ResourceLocation rl(String namespace, String path) {
+		return ResourceLocation.fromNamespaceAndPath(namespace, path);
+	}
+
+	public static ResourceLocation rl(String path) {
+		if (path.contains(":")) {
+			return ResourceLocation.parse(path);
+		}
+		return ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, path);
+	}
 
 	public KingdomKeys(IEventBus modEventBus, ModContainer modContainer) {
 		ModMagic.MAGIC.register(modEventBus);
@@ -178,15 +195,18 @@ public class KingdomKeys {
 
 		NeoForge.EVENT_BUS.register(this);
 		NeoForge.EVENT_BUS.register(new CastleOblivionHandler());
+		NeoForge.EVENT_BUS.register(new WorldMap());
 		//MinecraftForge.EVENT_BUS.register(new APITests());
 
-		modContainer.registerConfig(ModConfig.Type.CLIENT, ModConfigs.CLIENT_SPEC);
-		modContainer.registerConfig(ModConfig.Type.COMMON, ModConfigs.COMMON_SPEC);
-		modContainer.registerConfig(ModConfig.Type.SERVER, ModConfigs.SERVER_SPEC);
+		modContainer.registerConfig(ModConfig.Type.CLIENT, ModConfigs.CLIENT_SPEC, MODID + "/client.toml");
+		modContainer.registerConfig(ModConfig.Type.COMMON, ModConfigs.COMMON_SPEC, MODID + "/common.toml");
+		modContainer.registerConfig(ModConfig.Type.SERVER, ModConfigs.SERVER_SPEC, MODID + "/server.toml");
 
 		// Server
 		NeoForge.EVENT_BUS.register(new EntityEvents());
 		NeoForge.EVENT_BUS.register(new MiniCO());
+		NeoForge.EVENT_BUS.register(new StruggleHandler());
+		NeoForge.EVENT_BUS.register(new ShotlockMinigameHandler());
 	}
 
 	private void modLoaded(final FMLLoadCompleteEvent event) {
@@ -203,11 +223,11 @@ public class KingdomKeys {
 	@SubscribeEvent
 	public void addMoogleHouse(ServerAboutToStartEvent event) {
 		ConvertOldForgeDataCommand.run = false;
-		addPieceToPattern(event.getServer().registryAccess(), ResourceLocation.withDefaultNamespace("village/plains/houses"), ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "village/moogle_house_plains"), 2);
-		addPieceToPattern(event.getServer().registryAccess(), ResourceLocation.withDefaultNamespace("village/desert/houses"), ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "village/moogle_house_desert"), 2);
-		addPieceToPattern(event.getServer().registryAccess(), ResourceLocation.withDefaultNamespace("village/savanna/houses"), ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "village/moogle_house_savanna"), 2);
-		addPieceToPattern(event.getServer().registryAccess(), ResourceLocation.withDefaultNamespace("village/snowy/houses"), ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "village/moogle_house_snowy"), 2);
-		addPieceToPattern(event.getServer().registryAccess(), ResourceLocation.withDefaultNamespace("village/taiga/houses"), ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "village/moogle_house_taiga"), 2);
+		addPieceToPattern(event.getServer().registryAccess(), ResourceLocation.withDefaultNamespace("village/plains/houses"), KingdomKeys.rl("village/moogle_house_plains"), 2);
+		addPieceToPattern(event.getServer().registryAccess(), ResourceLocation.withDefaultNamespace("village/desert/houses"), KingdomKeys.rl("village/moogle_house_desert"), 2);
+		addPieceToPattern(event.getServer().registryAccess(), ResourceLocation.withDefaultNamespace("village/savanna/houses"), KingdomKeys.rl("village/moogle_house_savanna"), 2);
+		addPieceToPattern(event.getServer().registryAccess(), ResourceLocation.withDefaultNamespace("village/snowy/houses"), KingdomKeys.rl("village/moogle_house_snowy"), 2);
+		addPieceToPattern(event.getServer().registryAccess(), ResourceLocation.withDefaultNamespace("village/taiga/houses"), KingdomKeys.rl("village/moogle_house_taiga"), 2);
 	}
 
 	public void addPieceToPattern(RegistryAccess registryAccess, ResourceLocation pattern, ResourceLocation structure, int weight) {
@@ -240,7 +260,10 @@ public class KingdomKeys {
 		event.addListener(new ShopListDataLoader());
 		event.addListener(new SellListDataLoader());
 		event.addListener(new LimitDataLoader());
+		event.addListener(new ShotlockDataLoader());
 		event.addListener(new SavePointDataLoader());
+		event.addListener(new GummiWorldLoader());
+		event.addListener(new GummiShipLoader());
 		ModJsonRegistries.registry.forEach(jsonRegistry -> {
 			jsonRegistry.setRegistries(event.getRegistryAccess());
 			event.addListener(jsonRegistry);
@@ -248,8 +271,9 @@ public class KingdomKeys {
 	}
 
 	public void findPacks(AddPackFindersEvent event) {
-		event.addPackFinders(ResourceLocation.fromNamespaceAndPath(MODID, "datapacks/disable_blox_gen"), PackType.SERVER_DATA, Component.literal("KK: Disable Blox Gen (Overworld)"), PackSource.FEATURE, false, Pack.Position.TOP);
-		event.addPackFinders(ResourceLocation.fromNamespaceAndPath(MODID, "datapacks/disable_blox_gen_end"), PackType.SERVER_DATA, Component.literal("KK: Disable Blox Gen (End)"), PackSource.FEATURE, false, Pack.Position.TOP);
-		event.addPackFinders(ResourceLocation.fromNamespaceAndPath(MODID, "datapacks/recipe_example"), PackType.SERVER_DATA, Component.literal("KK: Custom Synthesis Recipe Example"), PackSource.FEATURE, false, Pack.Position.TOP);
+		event.addPackFinders(KingdomKeys.rl("datapacks/disable_blox_gen"), PackType.SERVER_DATA, Component.literal("KK: Disable Blox Gen (Overworld)"), PackSource.FEATURE, false, Pack.Position.TOP);
+		event.addPackFinders(KingdomKeys.rl("datapacks/disable_blox_gen_end"), PackType.SERVER_DATA, Component.literal("KK: Disable Blox Gen (End)"), PackSource.FEATURE, false, Pack.Position.TOP);
+		event.addPackFinders(KingdomKeys.rl("datapacks/recipe_example"), PackType.SERVER_DATA, Component.literal("KK: Custom Synthesis Recipe Example"), PackSource.FEATURE, false, Pack.Position.TOP);
+		event.addPackFinders(KingdomKeys.rl("datapacks/co_floor_example"), PackType.SERVER_DATA, Component.literal("KK: Custom CO Floor Example"), PackSource.FEATURE, false, Pack.Position.TOP);
 	}
 }

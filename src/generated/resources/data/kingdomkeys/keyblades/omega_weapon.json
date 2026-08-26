@@ -1,5 +1,4 @@
 {
-  "ability": "",
   "base_stats": {
     "mag": 7,
     "str": 8
@@ -15,8 +14,8 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_shard",
-          "quantity": 2
+          "material": "kingdomkeys:twilight_crystal",
+          "quantity": 1
         }
       ],
       "str": 8
@@ -29,8 +28,8 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_shard",
-          "quantity": 3
+          "material": "kingdomkeys:twilight_crystal",
+          "quantity": 2
         }
       ],
       "str": 9
@@ -43,8 +42,8 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_shard",
-          "quantity": 4
+          "material": "kingdomkeys:twilight_crystal",
+          "quantity": 2
         }
       ],
       "str": 9
@@ -57,25 +56,11 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_stone",
-          "quantity": 1
-        }
-      ],
-      "str": 10
-    },
-    {
-      "mag": 10,
-      "recipe": [
-        {
-          "material": "kingdomkeys:damascus",
-          "quantity": 1
-        },
-        {
-          "material": "kingdomkeys:wellspring_stone",
+          "material": "kingdomkeys:twilight_crystal",
           "quantity": 2
         },
         {
-          "material": "kingdomkeys:writhing_stone",
+          "material": "kingdomkeys:mythril_gem",
           "quantity": 2
         }
       ],
@@ -89,11 +74,51 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_stone",
+          "material": "kingdomkeys:twilight_crystal",
+          "quantity": 2
+        },
+        {
+          "material": "kingdomkeys:mythril_gem",
+          "quantity": 3
+        }
+      ],
+      "str": 10
+    },
+    {
+      "mag": 10,
+      "recipe": [
+        {
+          "material": "kingdomkeys:damascus",
+          "quantity": 1
+        },
+        {
+          "material": "kingdomkeys:twilight_crystal",
           "quantity": 3
         },
         {
-          "material": "kingdomkeys:writhing_stone",
+          "material": "kingdomkeys:mythril_gem",
+          "quantity": 4
+        }
+      ],
+      "str": 11
+    },
+    {
+      "mag": 11,
+      "recipe": [
+        {
+          "material": "kingdomkeys:adamantite",
+          "quantity": 1
+        },
+        {
+          "material": "kingdomkeys:twilight_crystal",
+          "quantity": 3
+        },
+        {
+          "material": "kingdomkeys:mythril_gem",
+          "quantity": 4
+        },
+        {
+          "material": "kingdomkeys:writhing_gem",
           "quantity": 2
         }
       ],
@@ -107,30 +132,16 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_gem",
-          "quantity": 1
+          "material": "kingdomkeys:twilight_crystal",
+          "quantity": 3
+        },
+        {
+          "material": "kingdomkeys:mythril_gem",
+          "quantity": 5
         },
         {
           "material": "kingdomkeys:writhing_gem",
-          "quantity": 1
-        }
-      ],
-      "str": 11
-    },
-    {
-      "mag": 11,
-      "recipe": [
-        {
-          "material": "kingdomkeys:adamantite",
-          "quantity": 1
-        },
-        {
-          "material": "kingdomkeys:wellspring_gem",
-          "quantity": 2
-        },
-        {
-          "material": "kingdomkeys:writhing_gem",
-          "quantity": 2
+          "quantity": 4
         }
       ],
       "str": 12
@@ -143,12 +154,16 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_gem",
+          "material": "kingdomkeys:twilight_crystal",
           "quantity": 3
         },
         {
+          "material": "kingdomkeys:mythril_gem",
+          "quantity": 6
+        },
+        {
           "material": "kingdomkeys:writhing_gem",
-          "quantity": 2
+          "quantity": 5
         }
       ],
       "str": 12
@@ -161,16 +176,21 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_crystal",
-          "quantity": 1
+          "material": "kingdomkeys:twilight_crystal",
+          "quantity": 3
         },
         {
-          "material": "kingdomkeys:writhing_crystal",
-          "quantity": 1
+          "material": "kingdomkeys:mythril_gem",
+          "quantity": 6
+        },
+        {
+          "material": "kingdomkeys:writhing_gem",
+          "quantity": 6
         }
       ],
       "str": 13
     }
   ],
-  "reach": 1.0
+  "reach": 1.0,
+  "sound": "kingdomkeys:keyblade_hit/generic_hit"
 }

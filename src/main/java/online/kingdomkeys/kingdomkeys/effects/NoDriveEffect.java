@@ -1,6 +1,5 @@
 package online.kingdomkeys.kingdomkeys.effects;
 
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.LivingEntity;
@@ -19,8 +18,8 @@ public class NoDriveEffect extends MobEffect {
         if(pLivingEntity instanceof Player player){
             PlayerData playerData = PlayerData.get(player);
             if(playerData != null){
-                DriveForm form = ModDriveForms.registry.get(ResourceLocation.parse(playerData.getActiveDriveForm()));
-                if(form != null && !playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())){
+                DriveForm form = ModDriveForms.registry.get(playerData.getActiveDriveForm());
+                if(form != null && !playerData.noFormActive()){
                     form.endDrive(player);
                 }
             }

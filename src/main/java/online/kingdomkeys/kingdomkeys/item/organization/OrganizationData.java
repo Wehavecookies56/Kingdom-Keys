@@ -1,5 +1,7 @@
 package online.kingdomkeys.kingdomkeys.item.organization;
 
+import net.minecraft.resources.ResourceLocation;
+
 import java.util.List;
 
 /**
@@ -10,17 +12,17 @@ public class OrganizationData {
     int baseStrength, baseMagic;
     float reach;
     String description;
-    String[] abilities;
+    ResourceLocation[] abilities;
     
     public OrganizationData() {
 
     }
 
-    public OrganizationData(String description, int baseStrength, int baseMagic, float reach, List<String> abilities) {
+    public OrganizationData(String description, int baseStrength, int baseMagic, float reach, List<ResourceLocation> abilities) {
         this.description = description;
         this.baseStrength = baseStrength;
         this.baseMagic = baseMagic;
-        this.abilities = (String[]) abilities.toArray();
+        this.abilities = (ResourceLocation[]) abilities.toArray();
     }
 
     //Returns the base strength if level is 0
@@ -57,12 +59,12 @@ public class OrganizationData {
         this.reach = reach;
     }
     
-    public String[] getAbilities() {
+    public ResourceLocation[] getAbilities() {
         return abilities;
     }
     
-    public void setAbilities(String[] strings) {
-        this.abilities = strings;
+    public void setAbilities(ResourceLocation[] abilities) {
+        this.abilities = abilities;
     }
     
 }

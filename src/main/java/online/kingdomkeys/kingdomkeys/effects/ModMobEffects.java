@@ -21,5 +21,7 @@ public class ModMobEffects {
             UNDERWORLD_CURSE = MOB_EFFECTS.register("underworld_curse", () -> new NoDriveEffect(MobEffectCategory.HARMFUL, 0x612bad)),
             ZERO_GRAVITY = MOB_EFFECTS.register("zero_gravity", () -> new ZeroGravityEffect(MobEffectCategory.HARMFUL, 0x612bad)),
             CONFUSE = MOB_EFFECTS.register("confuse", () -> new ConfuseEffect(MobEffectCategory.HARMFUL, 0xCCCCFF)),
-            MINI = MOB_EFFECTS.register("mini", () -> new MiniEffect(MobEffectCategory.HARMFUL, 0xCCCCFF));
+            MINI = MOB_EFFECTS.register("mini", () -> new MiniEffect(MobEffectCategory.HARMFUL, 0xCCCCFF)),
+            SORCEROUS_WAKING = MOB_EFFECTS.register("sorcerous_waking", () -> new SorcerousWaking(MobEffectCategory.BENEFICIAL, 0x3300FF)),
+            ALCHEMIC_WAKING = MOB_EFFECTS.register("alchemic_waking", () -> new AlchemicWaking(MobEffectCategory.BENEFICIAL, 0x0DFF00));
 }

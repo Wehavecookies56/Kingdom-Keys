@@ -11,7 +11,6 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.ModelResourceLocation;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.phys.AABB;
 import net.neoforged.neoforge.client.model.data.ModelData;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
@@ -28,7 +27,7 @@ public class SoAPlatformRenderer implements BlockEntityRenderer<SoAPlatformTileE
     public void render(SoAPlatformTileEntity tileEntityIn, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn) {
         if (tileEntityIn.isMultiblockFormed()) {
             VertexConsumer buffer = bufferIn.getBuffer(Sheets.translucentCullBlockSheet());
-            BakedModel model = Minecraft.getInstance().getModelManager().getModel(ModelResourceLocation.standalone(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "block/station_of_awakening")));
+            BakedModel model = Minecraft.getInstance().getModelManager().getModel(ModelResourceLocation.standalone(KingdomKeys.rl("block/station_of_awakening")));
             matrixStackIn.pushPose();
             matrixStackIn.translate(0.5,0.026,0.5);
             matrixStackIn.scale(1.12F, 0.975F, 1.12F);

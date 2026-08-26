@@ -7,25 +7,25 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.client.player.AbstractClientPlayer;
+import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.client.gui.widget.ExtendedSlider;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
-import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
-import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.*;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.EditBoxLength;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton.ButtonType;
 import online.kingdomkeys.kingdomkeys.client.gui.overlay.HUDEditorScreen;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
+import online.kingdomkeys.kingdomkeys.lib.CrownTier;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.cts.CSOpenMenu;
-import online.kingdomkeys.kingdomkeys.network.cts.CSSetNotifColor;
-import online.kingdomkeys.kingdomkeys.network.cts.CSSyncArmorColor;
+import online.kingdomkeys.kingdomkeys.network.cts.*;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import org.jetbrains.annotations.NotNull;
 
@@ -38,14 +38,18 @@ import java.util.Map;
 public class MenuConfigScreen extends MenuBackground {
 			
 	enum ActualWindow {
-		FONT, COMMAND_MENU, HP, PLAYER, LOCK_ON_HP, PARTY, IMPORT_EXPORT
+		PLAYER_SKIN, FONT, COMMAND_MENU, HP, LOCK_ON_HP, PARTY, IMPORT_EXPORT
 	}
 
-	ActualWindow window = ActualWindow.FONT;
+	ActualWindow window = ActualWindow.PLAYER_SKIN;
 	
 	MenuButton back, fontButton, commandMenuButton, hpButton, playerSkinButton, lockOnButton, partyButton, impExButton;
 	Button backgroundButton, adjustHUDButton;
 	MenuBox box;
+
+	//PlayerSkin
+	Button glintButton;
+	boolean glint;
 
 	//Font
 	Button customFontButton;
@@ -53,18 +57,13 @@ public class MenuConfigScreen extends MenuBackground {
 
 	//Command Menu
 	EditBox cmTextXOffsetBox, cmSelectedXOffsetBox, cmSubXOffsetBox;
-	Button cmHeaderTextVisibleButton, cmClassicColorsButton;
-	boolean cmHeaderTextVisible, cmClassicColors;
+	Button cmHeaderTextVisibleButton, cmClassicColorsButton, snapChatButton;
+	boolean cmHeaderTextVisible, cmClassicColors, snapChatToCommandMenu;
 	
 	//HP
 	EditBox hpAlarmBox;
 	Button hpShowHeartsButton;
 	boolean hpShowHearts;
-
-	//PlayerSkin
-	ExtendedSlider armorColorRed, armorColorGreen, armorColorBlue, notifColorRed, notifColorGreen, notifColorBlue;
-	Button glintButton;
-	boolean glint;
 
 	//Lock On
 	EditBox lockOnIconScaleBox, lockOnIconRotationBox, lockOnHpPerBarBox;
@@ -80,6 +79,14 @@ public class MenuConfigScreen extends MenuBackground {
 	List<AbstractWidget> commandMenuList = new ArrayList<>();
 	List<AbstractWidget> hpList = new ArrayList<>();
 	List<AbstractWidget> playerSkinList = new ArrayList<>();
+	CrownPositionWidget crownPosition;
+	ExtendedSlider crownRotX, crownRotY, crownRotZ;
+	ColorPickerWidget notifColorPicker, armorColorPicker;
+	CrownHeightSlider crownHeight;
+	private float previewYaw = 0F, previewPitch = 0F;
+	private boolean draggingPreview;
+	Button crownRotResetX, crownRotResetY, crownRotResetZ;
+	Button crownVariant;
 	List<AbstractWidget> lockOnList = new ArrayList<>();
 	List<AbstractWidget> partyList = new ArrayList<>();
 	List<AbstractWidget> impExpList = new ArrayList<>();
@@ -106,6 +113,11 @@ public class MenuConfigScreen extends MenuBackground {
 			cmHeaderTextVisibleButton.setMessage(Component.translatable(cmHeaderTextVisible+""));
 			ModConfigs.setCmHeaderTextVisible(cmHeaderTextVisible);
 			break;
+		case "snapChat":
+			snapChatToCommandMenu = !snapChatToCommandMenu;
+			snapChatButton.setMessage(Component.translatable(snapChatToCommandMenu+""));
+			ModConfigs.setSnapChatToCommandMenu(snapChatToCommandMenu);
+			break;
 		case "classicColors":
 			cmClassicColors = !cmClassicColors;
 			cmClassicColorsButton.setMessage(Component.translatable(cmClassicColors+""));
@@ -118,7 +130,7 @@ public class MenuConfigScreen extends MenuBackground {
 			break;
 		case "glint":
 			glint = !glint;
-			glintButton.setMessage(Component.translatable(glint+""));
+			glintButton.setMessage(glintLabel());
 			PacketHandler.sendToServer(new CSSyncArmorColor(playerData.getArmorColor(), glint));
 			break;
 		}
@@ -148,17 +160,17 @@ public class MenuConfigScreen extends MenuBackground {
 		initParty();
 		initImpExp();
 		int y = 0;
+		addRenderableWidget(playerSkinButton = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + y++ * 18, (int) buttonWidth, Utils.translateToLocal("gui.menu.config.player_skin"), ButtonType.BUTTON, (e) -> { window = ActualWindow.PLAYER_SKIN; }));
 		addRenderableWidget(fontButton = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + y++ * 18, (int) buttonWidth, Utils.translateToLocal("gui.menu.config.font"), ButtonType.BUTTON, (e) -> { window = ActualWindow.FONT; }));
 		addRenderableWidget(commandMenuButton = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + y++ * 18, (int) buttonWidth, Utils.translateToLocal("gui.menu.config.command_menu"), ButtonType.BUTTON, (e) -> { window = ActualWindow.COMMAND_MENU; }));
 		addRenderableWidget(hpButton = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + + y++ * 18, (int) buttonWidth, Utils.translateToLocal("gui.menu.config.hp"), ButtonType.BUTTON, (e) -> { window = ActualWindow.HP; }));
-		addRenderableWidget(playerSkinButton = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + y++ * 18, (int) buttonWidth, Utils.translateToLocal("gui.menu.config.player_skin"), ButtonType.BUTTON, (e) -> { window = ActualWindow.PLAYER; }));
 		addRenderableWidget(lockOnButton = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + y++ * 18, (int) buttonWidth, Utils.translateToLocal("gui.menu.config.lock_on_hp"), ButtonType.BUTTON, (e) -> { window = ActualWindow.LOCK_ON_HP; }));
 		addRenderableWidget(partyButton = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + y++ * 18, (int) buttonWidth, Utils.translateToLocal("gui.menu.config.party"), ButtonType.BUTTON, (e) -> { window = ActualWindow.PARTY; }));
-		addRenderableWidget(impExButton = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + y++ * 18, (int) buttonWidth, Utils.translateToLocal("gui.menu.config.impexp"), ButtonType.BUTTON, (e) -> window = ActualWindow.IMPORT_EXPORT));
+		addRenderableWidget(impExButton = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + y++ * 18, (int) buttonWidth, Utils.translateToLocal("gui.menu.config.import_export"), ButtonType.BUTTON, (e) -> window = ActualWindow.IMPORT_EXPORT));
 
 		addRenderableWidget(back = new MenuButton((int) buttonPosX, (int) topBarHeight + 5 + y++ * 18, (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), ButtonType.BUTTON, (e) -> { PacketHandler.sendToServer(new CSSyncArmorColor(PlayerData.get(minecraft.player).getArmorColor(),glint)); action("back"); }));
-		addRenderableWidget(backgroundButton = new MenuButton((int)(scaledWidth/2F - buttonWidth - 20), (int) topBarHeight - 30, (int)buttonWidth, Utils.translateToLocal("gui.menu.config.bg"), ButtonType.ROUNDBUTTON, (e) -> { drawSeparately = !drawSeparately; }));
-		addRenderableWidget(adjustHUDButton = new MenuButton(scaledWidth/2 + 10, (int) topBarHeight - 30, (int)buttonWidth, Utils.translateToLocal("gui.menu.config.hud"), ButtonType.ROUNDBUTTON, (e) -> { minecraft.setScreen(new HUDEditorScreen()); }));
+		addRenderableWidget(backgroundButton = new MenuButton((int)(scaledWidth/2F * 1.3F), (int) topBarHeight - 44, (int)buttonWidth, Utils.translateToLocal("gui.menu.config.bg"), ButtonType.ROUNDBUTTON, (e) -> { drawSeparately = !drawSeparately; }));
+		addRenderableWidget(adjustHUDButton = new MenuButton((int)(scaledWidth/2F * 1.3F), (int) topBarHeight - 24, (int)buttonWidth, Utils.translateToLocal("gui.menu.config.hud"), ButtonType.ROUNDBUTTON, (e) -> { minecraft.setScreen(new HUDEditorScreen()); }));
 	}
 
 	private void initFont(){
@@ -176,6 +188,7 @@ public class MenuConfigScreen extends MenuBackground {
 	private void initCommandMenu() {
 		cmHeaderTextVisible = ModConfigs.cmHeaderTextVisible;
 		cmClassicColors = ModConfigs.cmClassicColors;
+		snapChatToCommandMenu = ModConfigs.snapChatToCommandMenu;
 		int pos = 0;
 
 		addRenderableWidget(cmClassicColorsButton = Button.builder(Component.translatable(cmClassicColors+""), (e) -> {
@@ -265,6 +278,10 @@ public class MenuConfigScreen extends MenuBackground {
 			
 		});
 		
+		addRenderableWidget(snapChatButton = Button.builder(Component.translatable(snapChatToCommandMenu+""), (e) -> {
+			 action("snapChat");
+		}).bounds(buttonsX - 1, (int) topBarHeight + 20 * ++pos - 2, minecraft.font.width("#####")+2, 20).build());
+
 		cmTextXOffsetBox.setValue(""+ModConfigs.cmTextXOffset);
 		cmHeaderTextVisibleButton.setMessage(Component.translatable(cmHeaderTextVisible+""));
 		cmClassicColorsButton.setMessage(Component.translatable(cmClassicColors+""));
@@ -279,6 +296,7 @@ public class MenuConfigScreen extends MenuBackground {
 		commandMenuList.add(cmHeaderTextVisibleButton);
 		commandMenuList.add(cmSelectedXOffsetBox);
 		commandMenuList.add(cmSubXOffsetBox);
+		commandMenuList.add(snapChatButton);
 	}
 
 	private void initHP() {
@@ -327,124 +345,212 @@ public class MenuConfigScreen extends MenuBackground {
 		glint = PlayerData.get(minecraft.player).getArmorGlint();
 
 		int pos = 0;
-		PlayerData playerData = PlayerData.get(minecraft.player);
 
-		int[] notifColors = Utils.getRGBFromDec(playerData.getNotifColor());
+		// Notification colour: SB square + hue strip. Applies live, syncs on release.
+		addRenderableWidget(notifColorPicker = new ColorPickerWidget(buttonsX, (int) (topBarHeight + 30 * ++pos), 80, 44, () -> data().getNotifColor(), c -> data().setNotifColor(c), () -> PacketHandler.sendToServer(new CSSetNotifColor(data().getNotifColor()))));
+		pos += 3; // the picker is taller than one row
+		addRenderableWidget(armorColorPicker = new ColorPickerWidget(buttonsX, (int) (topBarHeight + 20 * ++pos), 80, 44, () -> data().getArmorColor(), c -> data().setArmorColor(c), () -> PacketHandler.sendToServer(new CSSyncArmorColor(data().getArmorColor(), glint))));
 
-		addRenderableWidget(notifColorRed = new ExtendedSlider(buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, Component.translatable(""), Component.translatable("asd"), 0, 255, notifColors[0], 0, 0, false) {
+
+		addRenderableWidget(crownPosition = new CrownPositionWidget(box.getX() + box.getWidth() - 155, notifColorPicker.getY() - 15, 48));
+		addRenderableWidget(crownHeight = new CrownHeightSlider(crownPosition.getX() - 14, crownPosition.getY(), 10, crownPosition.getHeight(), () -> data().getCrownOffsetY(), y -> data().setCrownOffset(data().getCrownOffsetX(), y, data().getCrownOffsetZ()), this::sendCrownPacket));
+
+
+		// Three axes: X pitches it forward/back, Y spins it, Z rolls it.
+		addRenderableWidget(crownRotX = new ExtendedSlider(crownPosition.getX() + crownPosition.getWidth() + 2, crownPosition.getY(), 84, 16, Component.literal("X: "), Component.literal("\u00B0"), -180, 180, data().getCrownRotationX(), 1, 0, true) {
 			@Override
 			protected void onDrag(double mouseX, double mouseY, double dragX, double dragY) {
-				playerData.setNotifColor(Utils.getDecFromRGB(notifColorRed.getValueInt(), notifColorGreen.getValueInt(), notifColorBlue.getValueInt()));
 				super.onDrag(mouseX, mouseY, dragX, dragY);
+				applyCrownRotation();
 			}
-			
+
 			@Override
 			public void onRelease(double pMouseX, double pMouseY) {
-				PacketHandler.sendToServer(new CSSetNotifColor(playerData.getNotifColor()));
 				super.onRelease(pMouseX, pMouseY);
-			}
-		});
-		
-		addRenderableWidget(notifColorGreen = new ExtendedSlider(buttonsX + 30, (int) (topBarHeight + 20 * pos), minecraft.font.width("#####"), 16, Component.translatable(""), Component.translatable(""), 0, 255, notifColors[1], 0, 0, false) {
-			@Override
-			protected void onDrag(double mouseX, double mouseY, double dragX, double dragY) {
-				playerData.setNotifColor(Utils.getDecFromRGB(notifColorRed.getValueInt(), notifColorGreen.getValueInt(), notifColorBlue.getValueInt()));
-				super.onDrag(mouseX, mouseY, dragX, dragY);
-			}
-			
-			@Override
-			public void onRelease(double pMouseX, double pMouseY) {
-				PacketHandler.sendToServer(new CSSetNotifColor(playerData.getNotifColor()));
-				super.onRelease(pMouseX, pMouseY);
-			}
-		});
-		
-		addRenderableWidget(notifColorBlue = new ExtendedSlider(buttonsX+60, (int) (topBarHeight + 20 * pos), minecraft.font.width("#####"), 16, Component.translatable(""), Component.translatable(""), 0, 255, notifColors[2], 0, 0, false) {
-			@Override
-			protected void onDrag(double mouseX, double mouseY, double dragX, double dragY) {
-				playerData.setNotifColor(Utils.getDecFromRGB(notifColorRed.getValueInt(), notifColorGreen.getValueInt(), notifColorBlue.getValueInt()));
-				super.onDrag(mouseX, mouseY, dragX, dragY);
-			}
-			
-			@Override
-			public void onRelease(double pMouseX, double pMouseY) {
-				PacketHandler.sendToServer(new CSSetNotifColor(playerData.getNotifColor()));
-				super.onRelease(pMouseX, pMouseY);
+				sendCrownPacket();
 			}
 		});
 
-		int[] armorColors = Utils.getRGBFromDec(playerData.getArmorColor());
-		
-		addRenderableWidget(armorColorRed = new ExtendedSlider(buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, Component.translatable(""), Component.translatable(""), 0, 255, armorColors[0], 0, 0, false) {
+		addRenderableWidget(crownRotY = new ExtendedSlider(crownPosition.getX() + crownPosition.getWidth() + 2, crownPosition.getY()+16, 84, 16, Component.literal("Y: "), Component.literal("\u00B0"), -180, 180, data().getCrownRotationY(), 1, 0, true) {
 			@Override
 			protected void onDrag(double mouseX, double mouseY, double dragX, double dragY) {
-				playerData.setArmorColor(Utils.getDecFromRGB(armorColorRed.getValueInt(), armorColorGreen.getValueInt(), armorColorBlue.getValueInt()));
 				super.onDrag(mouseX, mouseY, dragX, dragY);
+				applyCrownRotation();
 			}
-			
-			@Override
-			public void onRelease(double pMouseX, double pMouseY) {
-				PacketHandler.sendToServer(new CSSyncArmorColor(playerData.getArmorColor(), glint));
-				super.onRelease(pMouseX, pMouseY);
-			}
-		});
-		
-		addRenderableWidget(armorColorGreen = new ExtendedSlider(buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, Component.translatable(""), Component.translatable(""), 0, 255, armorColors[1], 0, 0, false) {
-			@Override
-			protected void onDrag(double mouseX, double mouseY, double dragX, double dragY) {
-				playerData.setArmorColor(Utils.getDecFromRGB(armorColorRed.getValueInt(), armorColorGreen.getValueInt(), armorColorBlue.getValueInt()));
-				super.onDrag(mouseX, mouseY, dragX, dragY);
-			}
-			
-			@Override
-			public void onRelease(double pMouseX, double pMouseY) {
-				PacketHandler.sendToServer(new CSSyncArmorColor(playerData.getArmorColor(),glint));
-				super.onRelease(pMouseX, pMouseY);
-			}
-		});
-		
-		addRenderableWidget(armorColorBlue = new ExtendedSlider(buttonsX, (int) (topBarHeight + 20 * ++pos), minecraft.font.width("#####"), 16, Component.translatable(""), Component.translatable(""), 0, 255, armorColors[2], 0, 0, false) {
-			@Override
-			protected void onDrag(double mouseX, double mouseY, double dragX, double dragY) {
-				playerData.setArmorColor(Utils.getDecFromRGB(armorColorRed.getValueInt(), armorColorGreen.getValueInt(), armorColorBlue.getValueInt()));
-				super.onDrag(mouseX, mouseY, dragX, dragY);
-			}
-			
-			@Override
-			public void onRelease(double pMouseX, double pMouseY) {
-				PacketHandler.sendToServer(new CSSyncArmorColor(playerData.getArmorColor(),glint));
-				super.onRelease(pMouseX, pMouseY);
-			}
-		});
-			
-		
-		
-		addRenderableWidget(glintButton = Button.builder(Component.translatable(glint+""), (e) -> {
-			 action("glint");
-		}).bounds(buttonsX - 1, (int) topBarHeight + 20 * ++pos - 2, minecraft.font.width("#####")+2, 20).build());
 
-		playerSkinList.add(armorColorRed);
-		playerSkinList.add(armorColorGreen);
-		playerSkinList.add(armorColorBlue);
+			@Override
+			public void onRelease(double pMouseX, double pMouseY) {
+				super.onRelease(pMouseX, pMouseY);
+				sendCrownPacket();
+			}
+		});
+
+		addRenderableWidget(crownRotZ = new ExtendedSlider(crownPosition.getX() + crownPosition.getWidth() + 2, crownPosition.getY()+32, 84, 16, Component.literal("Z: "), Component.literal("\u00B0"), -180, 180, data().getCrownRotationZ(), 1, 0, true) {
+			@Override
+			protected void onDrag(double mouseX, double mouseY, double dragX, double dragY) {
+				super.onDrag(mouseX, mouseY, dragX, dragY);
+				applyCrownRotation();
+			}
+
+			@Override
+			public void onRelease(double pMouseX, double pMouseY) {
+				super.onRelease(pMouseX, pMouseY);
+				sendCrownPacket();
+			}
+		});
+
+		addRenderableWidget(crownRotResetX = Button.builder(Component.literal("\u21BA"), (e) -> {
+			crownRotX.setValue(0);
+			applyCrownRotation();
+			sendCrownPacket();
+		}).bounds(crownRotX.getX() + crownRotX.getWidth() + 2, crownRotX.getY(), 16, 16).build());
+		addRenderableWidget(crownRotResetY = Button.builder(Component.literal("\u21BA"), (e) -> {
+			crownRotY.setValue(0);
+			applyCrownRotation();
+			sendCrownPacket();
+		}).bounds(crownRotY.getX() + crownRotY.getWidth() + 2, crownRotY.getY(), 16, 16).build());
+		addRenderableWidget(crownRotResetZ = Button.builder(Component.literal("\u21BA"), (e) -> {
+			crownRotZ.setValue(0);
+			applyCrownRotation();
+			sendCrownPacket();
+		}).bounds(crownRotZ.getX() + crownRotZ.getWidth() + 2, crownRotZ.getY(), 16, 16).build());
+
+		addRenderableWidget(crownVariant = Button.builder(crownVariantLabel(), (e) -> cycleCrown()).bounds(crownPosition.getX(), crownPosition.getY() + crownPosition.getHeight() + 2, crownPosition.getWidth() + 86, 16).build());
+
+		// Beside the armour colour swatch, filling the empty strip under the hue bar. The label says what
+		// the state is instead of "true"/"false" next to a caption, so it reads on its own.
+		addRenderableWidget(glintButton = Button.builder(glintLabel(), (e) -> action("glint"))
+				.bounds(armorColorPicker.getSwatchRight() + 4, armorColorPicker.getSwatchTop() - 3, glintButtonWidth(), 15)
+				.build());
+
+		playerSkinList.add(armorColorPicker);
 		playerSkinList.add(glintButton);
-		playerSkinList.add(notifColorRed);
-		playerSkinList.add(notifColorGreen);
-		playerSkinList.add(notifColorBlue);
+		playerSkinList.add(notifColorPicker);
+		playerSkinList.add(crownPosition);
+		playerSkinList.add(crownHeight);
+		playerSkinList.add(crownRotResetX);
+		playerSkinList.add(crownRotResetY);
+		playerSkinList.add(crownRotResetZ);
+		playerSkinList.add(crownRotX);
+		playerSkinList.add(crownRotY);
+		playerSkinList.add(crownRotZ);
+		playerSkinList.add(crownVariant);
+	}
+
+	private void cycleCrown() {
+		List<String> options = new ArrayList<>();
+		options.add(""); // none
+
+		for (CrownTier tier : CrownTier.values()) {
+			if (data().hasUnlockedCrown(tier.getName())) {
+				options.add(tier.getName());
+			}
+		}
+
+		data().getUnlockedCrowns().stream().filter(crown -> !crown.isEmpty() && CrownTier.byName(crown) == null).sorted().forEach(options::add);
+
+		int index = options.indexOf(data().getCrown());
+		String next = options.get((index + 1) % options.size()); // -1 wraps to 0, which is "none"
+
+		data().setCrown(next);
+		crownVariant.setMessage(crownVariantLabel());
+		PacketHandler.sendToServer(new CSSetCrown(next));
+	}
+
+	private Component glintLabel() {
+		return Component.translatable("gui.menu.config.armor.glint." + (glint ? "enabled" : "disabled"));
+	}
+
+
+	private int glintButtonWidth() {
+		int enabled = minecraft.font.width(Utils.translateToLocal("gui.menu.config.armor.glint.enabled"));
+		int disabled = minecraft.font.width(Utils.translateToLocal("gui.menu.config.armor.glint.disabled"));
+		return Math.max(enabled, disabled) + 10;
+	}
+
+	private Component crownVariantLabel() {
+		String crown = data().getCrown();
+		CrownTier tier = CrownTier.byName(crown);
+
+		Component name;
+
+		if (tier != null) {
+			name = Component.translatable(tier.getTranslationKey());
+		} else if (crown.isEmpty()) {
+			name = Component.translatable("kingdomkeys.crown.none");
+		} else {
+			String key = "kingdomkeys.crown." + crown;
+			name = I18n.exists(key) ? Component.translatable(key) : Component.literal(crown);
+		}
+
+		return Component.translatable("kingdomkeys.gui.config.crown_variant", name);
 	}
 		
 	@Override
     public boolean keyPressed(int p_keyPressed_1_, int p_keyPressed_2_, int p_keyPressed_3_) {
         if (p_keyPressed_1_ == 256 || p_keyPressed_1_ == Minecraft.getInstance().options.keyInventory.getKey().getValue()) { //256 = Esc
     		PlayerData playerData = PlayerData.get(minecraft.player);
-			playerData.setArmorColor(Utils.getDecFromRGB(armorColorRed.getValueInt(), armorColorGreen.getValueInt(), armorColorBlue.getValueInt()));
 			PacketHandler.sendToServer(new CSSyncArmorColor(playerData.getArmorColor(),glint));
-			playerData.setNotifColor(Utils.getDecFromRGB(notifColorRed.getValueInt(), notifColorGreen.getValueInt(), notifColorBlue.getValueInt()));
 			PacketHandler.sendToServer(new CSSetNotifColor(playerData.getNotifColor()));
         }
         return super.keyPressed(p_keyPressed_1_, p_keyPressed_2_, p_keyPressed_3_);
     }
 
 	
+	private boolean overPreview(double mouseX, double mouseY) {
+		return window == ActualWindow.PLAYER_SKIN;
+	}
+
+	@Override
+	public boolean mouseClicked(double mouseX, double mouseY, int button) {
+		if (super.mouseClicked(mouseX, mouseY, button))
+			return true;
+		if (button == 0 && overPreview(mouseX, mouseY)) {
+			draggingPreview = true;
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public boolean mouseDragged(double mouseX, double mouseY, int button, double dragX, double dragY) {
+		if (draggingPreview) {
+			previewYaw += (float) dragX;
+			previewPitch = net.minecraft.util.Mth.clamp(previewPitch + (float) dragY, -80F, 80F);
+			return true;
+		}
+		return super.mouseDragged(mouseX, mouseY, button, dragX, dragY);
+	}
+
+	@Override
+	public boolean mouseReleased(double mouseX, double mouseY, int button) {
+		draggingPreview = false;
+		return super.mouseReleased(mouseX, mouseY, button);
+	}
+
+	private void drawCentredOverSwatch(GuiGraphics gui, String key, ColorPickerWidget picker) {
+		String text = Utils.translateToLocal(key);
+		int swatchWidth = picker.getWidth() - 13;   // minus hue strip (10) and gap (3)
+		int x = picker.getX() - buttonsX + (swatchWidth - minecraft.font.width(text)) / 2;
+		int y = picker.getY() - (box.getY() + 4) + picker.getHeight() + 4;
+		gui.drawString(minecraft.font, text, x, y, 0xFF9900);
+	}
+
+	private PlayerData data() {
+		return PlayerData.get(minecraft.player);
+	}
+
+	/** Applies the three rotation sliders locally, so the crown updates while dragging. */
+	private void applyCrownRotation() {
+		data().setCrownRotation((float) crownRotX.getValue(), (float) crownRotY.getValue(), (float) crownRotZ.getValue());
+	}
+
+	/** Sends position and all three rotations in one packet, on release. */
+	private void sendCrownPacket() {
+		PlayerData pd = data();
+		PacketHandler.sendToServer(new CSSetCrownOffset(pd.getCrownOffsetX(), pd.getCrownOffsetY(), pd.getCrownOffsetZ(), pd.getCrownRotationX(), pd.getCrownRotationY(), pd.getCrownRotationZ()));
+	}
+
 	private void initLockOn() {
 		int pos = 0;
 
@@ -607,7 +713,7 @@ public class MenuConfigScreen extends MenuBackground {
 		fontButton.active = window != ActualWindow.FONT;
 		commandMenuButton.active = window != ActualWindow.COMMAND_MENU;
 		hpButton.active = window != ActualWindow.HP;
-		playerSkinButton.active = window != ActualWindow.PLAYER;
+		playerSkinButton.active = window != ActualWindow.PLAYER_SKIN;
 		lockOnButton.active = window != ActualWindow.LOCK_ON_HP;
 		partyButton.active = window != ActualWindow.PARTY;
 		impExButton.active = window != ActualWindow.IMPORT_EXPORT;
@@ -652,6 +758,14 @@ public class MenuConfigScreen extends MenuBackground {
 
 		matrixStack.pushPose();
 		{
+			float scale = 1.5F;
+			gui.pose().scale(scale, scale, 1);
+			gui.drawString(minecraft.font, Component.literal(Utils.translateToLocal("gui.menu.config."+window.name().toLowerCase())).withStyle(ClientUtils.KK_Font_EXP), (int) (topLeftBar.getWidth() / scale + topGap) + 5, 10, 0xFF9900);
+		}
+		matrixStack.popPose();
+
+		matrixStack.pushPose();
+		{
 			int pos = 0;
 			matrixStack.translate(buttonsX, box.getY() + 4, 1);
 			
@@ -662,7 +776,6 @@ public class MenuConfigScreen extends MenuBackground {
 						b.visible = true;
 					}
 
-					gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.font"), 20, 0, 0xFF9900);
 					gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.custom_font"), 40, 20 * ++pos, 0xFF9900);
 				}
 				case COMMAND_MENU -> {
@@ -671,12 +784,12 @@ public class MenuConfigScreen extends MenuBackground {
 						b.visible = true;
 					}
 
-					gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.command_menu"), 20, 0, 0xFF9900);
 					gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.classic_colors"), 40, 20 * ++pos, 0xFF9900);
 					gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.selected_x_pos"), 40, 20 * ++pos, 0xFF9900);
 					gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.sub_x_offset"), 40, 20 * ++pos, 0xFF9900);
 					gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.header_title"), 40, 20 * ++pos, 0xFF9900);
 					gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.text_x_offset"), 40, 20 * ++pos, 0xFF9900);
+					gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.snap_chat"), 40, 20 * ++pos, 0xFF9900);
 				}
 				case HP -> {
 					for (AbstractWidget b : hpList) {
@@ -684,30 +797,34 @@ public class MenuConfigScreen extends MenuBackground {
 						b.visible = true;
 					}
 
-					gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.hp"), 20, 0, 0xFF9900);
 					gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.show_hearts"), 40, 20 * ++pos, 0xFF9900);
 					gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.hp_alarm"), 40, 20 * ++pos, 0xFF9900);
 				}
-				case PLAYER -> {
+				case PLAYER_SKIN -> {
 					for (AbstractWidget b : playerSkinList) {
 						b.active = true;
 						b.visible = true;
 					}
 
+					// After the loop above, which switches everything back on: with no crown earned there
+					// is nothing to cycle through, so the button stays greyed out.
+					crownVariant.active = !data().getUnlockedCrowns().isEmpty();
+
 					Player player = Minecraft.getInstance().player;
 
 					matrixStack.pushPose();
 						{
-						matrixStack.translate(-(width*0.35F), 4, 0);
+						matrixStack.translate(box.getX() - buttonsX + 10, 4, 0);
 						RenderSystem.enableBlend();
-						RenderSystem.setShaderColor((float) notifColorRed.getValue() / 255F, (float) notifColorGreen.getValue() / 255F, (float) notifColorBlue.getValue() / 255F, 1F);
-						ResourceLocation levelUpTexture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/levelup.png");
+						int notif = PlayerData.get(minecraft.player).getNotifColor();
+						RenderSystem.setShaderColor(((notif >> 16) & 0xFF) / 255F, ((notif >> 8) & 0xFF) / 255F, (notif & 0xFF) / 255F, 1F);
+						ResourceLocation levelUpTexture = KingdomKeys.rl("textures/gui/levelup.png");
 
+						float notifScale = 0.33F;
 						// Top
 						matrixStack.pushPose();
 						{
-							matrixStack.translate((width - 153.6f - 2), 0, 0);
-							matrixStack.scale(0.6f, 0.6f, 1);
+							matrixStack.scale(notifScale, notifScale, 1);
 							gui.blit(levelUpTexture, 0, 0, 0, 0, 256, 36);
 						}
 						matrixStack.popPose();
@@ -715,8 +832,8 @@ public class MenuConfigScreen extends MenuBackground {
 						// Half
 						matrixStack.pushPose();
 						{
-							matrixStack.translate((width - 256.0f * 0.6f - 2), 36.0f * 0.6f, 0);
-							matrixStack.scale(0.6f, 0, 1);
+							matrixStack.translate(0, 36.0f * notifScale, 0);
+							matrixStack.scale(notifScale, 0, 1);
 							gui.blit(levelUpTexture, 0, 0, 0, 36, 256, 1);
 						}
 						matrixStack.popPose();
@@ -724,24 +841,31 @@ public class MenuConfigScreen extends MenuBackground {
 						// Bottom
 						matrixStack.pushPose();
 						{
-							matrixStack.translate((width - 256.0f * 0.6f - 2), 0 + (36.0f * 0.6f), 0);
-							matrixStack.scale(0.6f, 0.6f, 1);
+							matrixStack.translate(0, 36.0f * notifScale, 0);
+							matrixStack.scale(notifScale, notifScale, 1);
 							gui.blit(levelUpTexture, 0, 0, 0, 37, 256, 14);
 						}
 						matrixStack.popPose();
 						RenderSystem.disableBlend();
 					}
 					matrixStack.popPose();
-					RenderSystem.setShaderColor(1,1,1,1F);
+					RenderSystem.setShaderColor(1,1,1,1);
 
-					ClientUtils.renderEntity(matrixStack, (int) (width*0.5F), (int) (height*0.55F), 50, 0, 0, player);
+					int hx = crownPosition.getX() - buttonsX;
+					int hy = crownPosition.getY() - (box.getY() + 4) + crownPosition.getHeight() + 4;   // 4 = the old HEAD_PREVIEW_GAP, inlined now that the constant is gone
+					int renderSize = 16;
+					matrixStack.pushPose();
+					{
+						matrixStack.translate(hx+50, hy+160, 0);
+						matrixStack.scale(renderSize, renderSize, 1);
+						if (player instanceof AbstractClientPlayer acpPreview) {
+							ClientUtils.renderPlayerNoAnimsRaw(matrixStack, 0, 0, 4, 0F, -previewPitch / 20F, acpPreview, previewYaw);
+						}
+					}
+					matrixStack.popPose();
 
-					gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.player_skin"), 20, 0, 0xFF9900);
-					gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.notif_color"), 100, 20 * ++pos, 0xFF9900);
-					gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.armor.red")+": "+armorColorRed.getValueInt(), 40, 20 * ++pos, 0xFF9900);
-					gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.armor.green")+": "+armorColorGreen.getValueInt(), 40, 20 * ++pos, 0xFF9900);
-					gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.armor.blue")+": "+armorColorBlue.getValueInt(), 40, 20 * ++pos, 0xFF9900);
-					gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.armor.glint"), 40, 20 * ++pos, 0xFF9900);
+					drawCentredOverSwatch(gui, "gui.menu.config.notif", notifColorPicker);
+					drawCentredOverSwatch(gui, "gui.menu.config.armor", armorColorPicker);
 				}
 				case LOCK_ON_HP -> {
 					for (AbstractWidget b : lockOnList) {
@@ -749,7 +873,6 @@ public class MenuConfigScreen extends MenuBackground {
 						b.visible = true;
 					}
 
-					gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.lock_on_hp"), 20, 0, 0xFF9900);
 					gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.icon_scale"), 40, 20 * ++pos, 0xFF9900);
 					gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.icon_rotation"), 40, 20 * ++pos, 0xFF9900);
 					gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.hp_per_bar"), 40, 20 * ++pos, 0xFF9900);
@@ -761,7 +884,6 @@ public class MenuConfigScreen extends MenuBackground {
 						b.visible = true;
 					}
 
-					gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.party"), 20, 0, 0xFF9900);
 					gui.drawString(minecraft.font, Utils.translateToLocal("gui.menu.config.y_dist"), 40, 20 * ++pos, 0xFF9900);
 				}
 				case IMPORT_EXPORT -> {

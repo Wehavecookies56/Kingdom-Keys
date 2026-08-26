@@ -5,7 +5,6 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
@@ -20,7 +19,7 @@ public record SCSyncPlayerData(int player, CompoundTag data) implements Packet {
 		this(player.getId(), PlayerData.get(player).serializeNBT(player.level().registryAccess()));
 	}
 
-	public static final Type<SCSyncPlayerData> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "sc_sync_player_data"));
+	public static final Type<SCSyncPlayerData> TYPE = new Type<>(KingdomKeys.rl("sc_sync_player_data"));
 
 	public static final StreamCodec<FriendlyByteBuf, SCSyncPlayerData> STREAM_CODEC = StreamCodec.composite(
 			ByteBufCodecs.INT,

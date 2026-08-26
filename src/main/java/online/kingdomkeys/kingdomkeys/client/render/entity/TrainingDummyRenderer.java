@@ -12,7 +12,7 @@ import online.kingdomkeys.kingdomkeys.entity.TrainingDummyEntity;
 
 public class TrainingDummyRenderer extends LivingEntityRenderer<TrainingDummyEntity, EntityModel<TrainingDummyEntity>> {
 
-    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/mob/training_dummy.png");
+    private static final ResourceLocation TEXTURE = KingdomKeys.rl("textures/entity/mob/training_dummy.png");
 
     public TrainingDummyRenderer(EntityRendererProvider.Context context) {
         super(context, new TrainingDummyModel<>(context.bakeLayer(TrainingDummyModel.LAYER_LOCATION)), 0);

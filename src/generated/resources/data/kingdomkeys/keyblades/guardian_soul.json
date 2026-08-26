@@ -1,5 +1,4 @@
 {
-  "ability": "",
   "base_stats": {
     "mag": 4,
     "str": 7
@@ -15,8 +14,8 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_shard",
-          "quantity": 2
+          "material": "kingdomkeys:pulsing_stone",
+          "quantity": 4
         }
       ],
       "str": 7
@@ -29,8 +28,8 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_shard",
-          "quantity": 3
+          "material": "kingdomkeys:pulsing_stone",
+          "quantity": 5
         }
       ],
       "str": 8
@@ -43,8 +42,8 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_shard",
-          "quantity": 4
+          "material": "kingdomkeys:pulsing_stone",
+          "quantity": 6
         }
       ],
       "str": 8
@@ -57,44 +56,48 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_stone",
-          "quantity": 1
-        }
-      ],
-      "str": 9
-    },
-    {
-      "mag": 7,
-      "recipe": [
-        {
-          "material": "kingdomkeys:damascus",
-          "quantity": 1
+          "material": "kingdomkeys:pulsing_stone",
+          "quantity": 7
         },
         {
-          "material": "kingdomkeys:wellspring_stone",
-          "quantity": 2
-        },
-        {
-          "material": "kingdomkeys:writhing_stone",
-          "quantity": 2
-        }
-      ],
-      "str": 9
-    },
-    {
-      "mag": 7,
-      "recipe": [
-        {
-          "material": "kingdomkeys:damascus",
-          "quantity": 1
-        },
-        {
-          "material": "kingdomkeys:wellspring_stone",
+          "material": "kingdomkeys:writhing_shard",
           "quantity": 3
+        }
+      ],
+      "str": 9
+    },
+    {
+      "mag": 7,
+      "recipe": [
+        {
+          "material": "kingdomkeys:damascus",
+          "quantity": 1
         },
         {
-          "material": "kingdomkeys:writhing_stone",
-          "quantity": 2
+          "material": "kingdomkeys:pulsing_stone",
+          "quantity": 8
+        },
+        {
+          "material": "kingdomkeys:writhing_shard",
+          "quantity": 4
+        }
+      ],
+      "str": 9
+    },
+    {
+      "mag": 7,
+      "recipe": [
+        {
+          "material": "kingdomkeys:damascus",
+          "quantity": 1
+        },
+        {
+          "material": "kingdomkeys:pulsing_stone",
+          "quantity": 9
+        },
+        {
+          "material": "kingdomkeys:writhing_shard",
+          "quantity": 5
         }
       ],
       "str": 10
@@ -107,12 +110,16 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_gem",
-          "quantity": 1
+          "material": "kingdomkeys:pulsing_stone",
+          "quantity": 10
         },
         {
-          "material": "kingdomkeys:writhing_gem",
-          "quantity": 1
+          "material": "kingdomkeys:writhing_shard",
+          "quantity": 6
+        },
+        {
+          "material": "kingdomkeys:lightning_gem",
+          "quantity": 3
         }
       ],
       "str": 10
@@ -125,12 +132,16 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_gem",
-          "quantity": 2
+          "material": "kingdomkeys:pulsing_stone",
+          "quantity": 11
         },
         {
-          "material": "kingdomkeys:writhing_gem",
-          "quantity": 2
+          "material": "kingdomkeys:writhing_shard",
+          "quantity": 7
+        },
+        {
+          "material": "kingdomkeys:lightning_gem",
+          "quantity": 5
         }
       ],
       "str": 11
@@ -143,12 +154,16 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_gem",
-          "quantity": 3
+          "material": "kingdomkeys:pulsing_stone",
+          "quantity": 12
         },
         {
-          "material": "kingdomkeys:writhing_gem",
-          "quantity": 2
+          "material": "kingdomkeys:writhing_shard",
+          "quantity": 8
+        },
+        {
+          "material": "kingdomkeys:lightning_gem",
+          "quantity": 7
         }
       ],
       "str": 11
@@ -161,16 +176,21 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_crystal",
-          "quantity": 1
+          "material": "kingdomkeys:pulsing_stone",
+          "quantity": 12
         },
         {
-          "material": "kingdomkeys:writhing_crystal",
-          "quantity": 1
+          "material": "kingdomkeys:writhing_shard",
+          "quantity": 9
+        },
+        {
+          "material": "kingdomkeys:lightning_gem",
+          "quantity": 9
         }
       ],
       "str": 12
     }
   ],
-  "reach": 1.0
+  "reach": 1.0,
+  "sound": "kingdomkeys:keyblade_hit/generic_hit"
 }

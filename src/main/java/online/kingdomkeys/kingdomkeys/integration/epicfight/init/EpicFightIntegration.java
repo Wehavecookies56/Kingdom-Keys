@@ -14,9 +14,13 @@ public class EpicFightIntegration {
         WeaponCategory.ENUM_MANAGER.registerEnumCls(KingdomKeys.MODID, EpicKKWeaponEnum.class);
         modEventBus.addListener(KKAnimations::register);
         EpicFightEventHooks.Player.CAST_SKILL.registerEvent(ComboExtender::skillCastEvent);
-        EpicKKWeapons.register();
+        //EpicKKWeapons.register();
         KKSkills.SKILLS.register(modEventBus);
         ComboExtender.DATA_KEYS.register(modEventBus);
+        KKMoveSets.MOVESETS.register(modEventBus);
+        KKProviderConditionals.CONDITIONALS.register(modEventBus);
+        EpicKKWeapons.WEAPONS.register(modEventBus);
+        KKWeaponModifiers.WEAPON_MODIFIERS.register(modEventBus);
     }
 
 }

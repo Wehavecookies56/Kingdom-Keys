@@ -8,6 +8,7 @@
   "modifiers": [
     {
       "type": "kingdomkeys:effect",
+      "amplifier": 1,
       "effect": "minecraft:strength",
       "target": "PLAYER"
     }

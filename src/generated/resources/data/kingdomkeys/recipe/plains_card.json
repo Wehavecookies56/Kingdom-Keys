@@ -10,6 +10,9 @@
     }
   ],
   "result": {
+    "components": {
+      "kingdomkeys:world_card": "kingdomkeys:plains"
+    },
     "count": 1,
     "id": "kingdomkeys:plains_card"
   }

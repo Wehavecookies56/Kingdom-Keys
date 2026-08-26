@@ -29,7 +29,7 @@ public class RealmOfDarknessEffects extends DimensionSpecialEffects {
 
     @SubscribeEvent
     public static void specialEffects(RegisterDimensionSpecialEffectsEvent event) {
-        event.register(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "realm_of_darkness"), new RealmOfDarknessEffects(Float.NaN, true, SkyType.NONE, false, true));
+        event.register(KingdomKeys.rl("realm_of_darkness"), new RealmOfDarknessEffects(Float.NaN, true, SkyType.NONE, false, true));
     }
 
     @Override
@@ -57,7 +57,7 @@ public class RealmOfDarknessEffects extends DimensionSpecialEffects {
 
         for(int i = 0; i < 6; ++i) {
             posestack.pushPose();
-            RenderSystem.setShaderTexture(0, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/environment/skybox_" + i + ".png"));
+            RenderSystem.setShaderTexture(0, KingdomKeys.rl("textures/environment/skybox_" + i + ".png"));
             //0 = down
 
             //north

@@ -21,19 +21,10 @@ import java.util.function.Supplier;
 // modified to work with the LuckyLucky effect.
 
 public class DiscGenModifier extends LootModifier {
-	//public static final Supplier<Codec<DiscGenModifier>> CODEC = Suppliers.memoize(() -> RecordCodecBuilder.create(inst -> codecStart(inst).and(ForgeRegistries.ITEMS.getCodec()
-            //.fieldOf("item").forGetter(m -> m.item)).apply(inst, DiscGenModifier::new)));
 	public static final Supplier<MapCodec<DiscGenModifier>> CODEC = Suppliers.memoize(() -> RecordCodecBuilder.mapCodec(inst -> codecStart(inst)
             .apply(inst, DiscGenModifier::new)));
 
-	/*final Item item;
-
-	protected DiscGenModifier(LootItemCondition[] conditions, Item item) {
-		super(conditions);
-		this.item = item;
-	}*/
-	
-	protected DiscGenModifier(LootItemCondition[] conditions) {
+	public DiscGenModifier(LootItemCondition[] conditions) {
 		super(conditions);
 	}
 
@@ -50,8 +41,7 @@ public class DiscGenModifier extends LootModifier {
 			if(Math.random() > 0.5)
 				break;
 		}
-        //generatedLoot.add(new ItemStack(this.item));
-		
+
         return generatedLoot;
 	}
 

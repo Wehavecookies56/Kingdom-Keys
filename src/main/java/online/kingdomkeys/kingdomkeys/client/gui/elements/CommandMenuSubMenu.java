@@ -502,7 +502,6 @@ public class CommandMenuSubMenu {
     long lastCacheTime = -1;
 
     public ResourceLocation getTexture() {
-        //long ns = System.nanoTime();
 
         Minecraft mc = Minecraft.getInstance();
         if (mc.level == null)
@@ -522,10 +521,6 @@ public class CommandMenuSubMenu {
         }
 
         lastCacheTime = now;
-
-       // System.out.println("Renewing texture into cache");
-       // System.out.println("Took: " + (System.nanoTime() - ns) + " ns");
-
         return cachedTexture;
     }
 
@@ -539,7 +534,7 @@ public class CommandMenuSubMenu {
             ResourceLocation texture = getTexture(); //Potentially improve performance
             if (!NeoForge.EVENT_BUS.post(new CommandMenuEvent.SubmenuRender(getId(), this, guiGraphics, screenWidth, screenHeight, partialTick)).isCanceled()) {
                 guiGraphics.pose().translate(0, 0, getZ());
-                guiGraphics.setColor(getColour().getRed() / 255F, getColour().getGreen() / 255F, getColour().getBlue() / 255F, 1);
+                RenderSystem.setShaderColor(getColour().getRed() / 255F, getColour().getGreen() / 255F, getColour().getBlue() / 255F, 1);
                 if (useFixedHeader) {
                     guiGraphics.blit(texture, getX(), getY(), 0, 70, 74, 15);
                 } else {
@@ -548,11 +543,15 @@ public class CommandMenuSubMenu {
                     guiGraphics.blit(texture, getX() + getWidth() - ModConfigs.cmHeaderEndRWidth, getY(), ModConfigs.cmHeaderEndLWidth + 3, 0, ModConfigs.cmHeaderEndRWidth, getHeight());
                 }
                 if (ModConfigs.cmHeaderTextVisible) {
-                    guiGraphics.drawCenteredString(Minecraft.getInstance().font, getTitle(), getX() + ((getWidth() - 8) / 2) + 1, getY() + 4, 0xFFFFFF);
+                    RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
+                    guiGraphics.drawCenteredString(Minecraft.getInstance().font, getTitle(), getX() + ((getWidth() - 8) / 2) + 1, getY() + 4, getColour().getRGB());
+                    guiGraphics.flush();
                 }
             }
             renderChildren(guiGraphics, screenWidth, screenHeight, partialTick);
+            guiGraphics.flush();
 
+            RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
             RenderSystem.disableBlend();
         }
     }

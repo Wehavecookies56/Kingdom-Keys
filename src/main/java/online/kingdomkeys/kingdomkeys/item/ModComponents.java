@@ -1,6 +1,7 @@
 package online.kingdomkeys.kingdomkeys.item;
 
 import com.mojang.serialization.Codec;
+import net.minecraft.core.GlobalPos;
 import net.minecraft.core.UUIDUtil;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.Registries;
@@ -10,6 +11,7 @@ import net.minecraft.world.item.component.ItemContainerContents;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.item.card.WorldCardItem;
 import online.kingdomkeys.kingdomkeys.lib.GummiStructure;
 
 import java.util.UUID;
@@ -36,6 +38,7 @@ public class ModComponents {
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> SAVE_POINT_MAGIC = COMPONENTS.registerComponentType("save_point_magic", builder -> builder.persistent(Codec.INT).networkSynchronized(ByteBufCodecs.INT));
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> SAVE_POINT_HUNGER = COMPONENTS.registerComponentType("save_point_hunger", builder -> builder.persistent(Codec.INT).networkSynchronized(ByteBufCodecs.INT));
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> SAVE_POINT_DRIVE = COMPONENTS.registerComponentType("save_point_drive", builder -> builder.persistent(Codec.INT).networkSynchronized(ByteBufCodecs.INT));
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<GlobalPos>> POSTER_TARGET = COMPONENTS.registerComponentType("poster_target", builder -> builder.persistent(GlobalPos.CODEC).networkSynchronized(GlobalPos.STREAM_CODEC));
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> SAVE_POINT_FOCUS = COMPONENTS.registerComponentType("save_point_focus", builder -> builder.persistent(Codec.INT).networkSynchronized(ByteBufCodecs.INT));
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> PAULDRON_CREATED = COMPONENTS.registerComponentType("pauldron_created", builder -> builder.persistent(Codec.BOOL).networkSynchronized(ByteBufCodecs.BOOL).cacheEncoding());
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<GummiStructure>> GUMMI_STRUCTURE = COMPONENTS.registerComponentType("gummi_structure", builder -> builder.persistent(GummiStructure.CODEC).networkSynchronized(GummiStructure.STREAM_CODEC).cacheEncoding());
@@ -43,4 +46,6 @@ public class ModComponents {
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> GUMMI_FUEL = COMPONENTS.registerComponentType("gummi_fuel", builder -> builder.persistent(Codec.INT).networkSynchronized(ByteBufCodecs.INT).cacheEncoding());
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<String>> BLUEPRINT_NAME = COMPONENTS.registerComponentType("blueprint_name", builder -> builder.persistent(Codec.STRING).networkSynchronized(ByteBufCodecs.STRING_UTF8).cacheEncoding());
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> MAGIC_EXP = COMPONENTS.registerComponentType("magic_exp", builder -> builder.persistent(Codec.INT).networkSynchronized(ByteBufCodecs.INT).cacheEncoding());
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> SHOTLOCK_EXP = COMPONENTS.registerComponentType("shotlock_exp", builder -> builder.persistent(Codec.INT).networkSynchronized(ByteBufCodecs.INT).cacheEncoding());
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<WorldCardItem.WorldCard>> WORLD_CARD = COMPONENTS.registerComponentType("world_card", builder -> builder.persistent(WorldCardItem.WorldCard.CODEC).networkSynchronized(WorldCardItem.WorldCard.STREAM_CODEC).cacheEncoding());
 }

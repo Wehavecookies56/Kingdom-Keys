@@ -8,6 +8,7 @@ import net.minecraft.data.DataProvider;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.datagen.builder.MeldingRecipeBuilder;
 
 import java.nio.file.Path;
@@ -39,7 +40,7 @@ public abstract class MeldingRecipeProvider<T extends MeldingRecipeBuilder> impl
 
     public T getBuilder(String path) {
         Preconditions.checkNotNull(path, "Path must not be null");
-        ResourceLocation outputLoc = path.contains(":") ? ResourceLocation.parse(path) : ResourceLocation.fromNamespaceAndPath(modid, path);
+        ResourceLocation outputLoc = path.contains(":") ? KingdomKeys.rl(path) : KingdomKeys.rl(modid, path);
         return generatedModels.computeIfAbsent(outputLoc, factory);
     }
 

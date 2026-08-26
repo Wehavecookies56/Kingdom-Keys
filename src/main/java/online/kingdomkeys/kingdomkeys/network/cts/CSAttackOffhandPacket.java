@@ -6,7 +6,6 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -38,7 +37,7 @@ import online.kingdomkeys.kingdomkeys.util.IOffHandRange;
 
 public record CSAttackOffhandPacket(int entityId) implements Packet {
 
-	public static final Type<CSAttackOffhandPacket> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_attack_off_hand"));
+	public static final Type<CSAttackOffhandPacket> TYPE = new Type<>(KingdomKeys.rl("cs_attack_off_hand"));
 
 	public static final StreamCodec<FriendlyByteBuf, CSAttackOffhandPacket> STREAM_CODEC = StreamCodec.composite(
 			ByteBufCodecs.INT,

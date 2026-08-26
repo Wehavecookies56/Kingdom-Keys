@@ -12,8 +12,10 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.saveddata.SavedData;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCastleOblivionInteriorData;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.CastleOblivionHandler;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.floor.Floor;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.Room;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.RoomData;
@@ -28,13 +30,17 @@ public class CastleOblivionData {
     public static class InteriorData extends SavedData {
 
         List<Floor> floors = new ArrayList<>();
+        //Value to check whether data needs to be updated.
+        int dataVersion = 1;
+
+        public static final int STORE_STRUCTURE_DIMS = 1;
 
         private static InteriorData create() {
             return new InteriorData();
         }
 
         public static Optional<InteriorData> get(ServerLevel level) {
-            if (level.dimension().location().toString().contains("kingdomkeys:castle_oblivion_")) {
+            if (CastleOblivionHandler.isInterior(level.dimension())) {
                 return Optional.of(level.getDataStorage().computeIfAbsent(new Factory<>(InteriorData::create, InteriorData::load), "kingdomkeys_interior_data"));
             }
             return Optional.empty();
@@ -57,6 +63,19 @@ public class CastleOblivionData {
             clientCache = new HashMap<>();
         }
 
+        public int getDataVersion() {
+            return dataVersion;
+        }
+
+        public boolean needsUpdate(int version) {
+            return dataVersion < version;
+        }
+
+        public void appliedUpdate(int version) {
+            this.dataVersion = version;
+            setDirty();
+        }
+
         public void sendToClient(Player player) {
             PacketHandler.sendTo(new SCSyncCastleOblivionInteriorData(this, player.level()), (ServerPlayer) player);
         }
@@ -64,6 +83,7 @@ public class CastleOblivionData {
         @Override
         public CompoundTag save(CompoundTag pTag, HolderLookup.Provider pRegistries) {
             CompoundTag tag = new CompoundTag();
+            tag.putInt("data_version", dataVersion);
             tag.putInt("floors_size", floors.size());
             for(int i = 0; i < floors.size(); i++) {
                 tag.put("floors_" + i, floors.get(i).serializeNBT());
@@ -73,6 +93,11 @@ public class CastleOblivionData {
 
         public static InteriorData load(CompoundTag tag, HolderLookup.Provider provider) {
             InteriorData data = InteriorData.create();
+            if (tag.contains("data_version")) {
+                data.dataVersion = tag.getInt("data_version");
+            } else {
+                data.dataVersion = 0;
+            }
             if (data.floors == null) {
                 data.floors = new ArrayList<>();
             }
@@ -177,7 +202,7 @@ public class CastleOblivionData {
             int size = tag.getInt("interiors_size");
             data.interiors.clear();
             for (int i = 0; i < size; i++) {
-                data.interiors.put(tag.getUUID("interior_uuid_" + i), ResourceLocation.parse(tag.getString("interior_dimensionrl_" + i)));
+                data.interiors.put(tag.getUUID("interior_uuid_" + i), KingdomKeys.rl(tag.getString("interior_dimensionrl_" + i)));
             }
             return data;
         }

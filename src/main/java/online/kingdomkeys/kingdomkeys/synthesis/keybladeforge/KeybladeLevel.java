@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.synthesis.keybladeforge;
 
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import online.kingdomkeys.kingdomkeys.datagen.init.KeybladeStats;
 
@@ -19,7 +20,7 @@ public class KeybladeLevel {
     //The ability gained when upgrading to this level
     
     //TODO ability system and potentially multiple abilities here
-    private String ability;
+    private ResourceLocation ability;
 
     public KeybladeLevel() { }
 
@@ -32,7 +33,7 @@ public class KeybladeLevel {
         this.materials = keybladeLevelBuilder.materials;
     }
 
-    public void setAbility(String ability) {
+    public void setAbility(ResourceLocation ability) {
         this.ability = ability;
     }
 
@@ -48,7 +49,7 @@ public class KeybladeLevel {
         this.strength = strength;
     }
 
-	public String getAbility() {
+	public ResourceLocation getAbility() {
 		return this.ability;
 	}
 
@@ -64,7 +65,7 @@ public class KeybladeLevel {
     	return materials;
     }
 
-    public KeybladeLevel(int strength, int magic, Map<Item, Integer> materials, String ability) {
+    public KeybladeLevel(int strength, int magic, Map<Item, Integer> materials, ResourceLocation ability) {
         this.strength = strength;
         this.magic = magic;
         this.materials = materials;
@@ -80,7 +81,7 @@ public class KeybladeLevel {
         private int strength;
         private int magic;
         private Map<Item, Integer> materials;
-        private String ability;
+        private ResourceLocation ability;
 
         public KeybladeLevelBuilder() { }
 
@@ -90,7 +91,7 @@ public class KeybladeLevel {
 			return this;
 		}
 
-		public KeybladeLevelBuilder withAbility(String ability) {
+		public KeybladeLevelBuilder withAbility(ResourceLocation ability) {
 			this.ability = ability;
 			return this;
 		}

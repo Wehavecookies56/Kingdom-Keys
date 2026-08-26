@@ -30,7 +30,7 @@ public class SpawningOrbRenderer extends EntityRenderer<SpawningOrbEntity> {
 		matrixStackIn.pushPose();
 		{
 			VertexConsumer buffer = bufferIn.getBuffer(Sheets.translucentCullBlockSheet());
-			BakedModel model = Minecraft.getInstance().getModelManager().getModel(ModelResourceLocation.standalone(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "entity/portal")));
+			BakedModel model = Minecraft.getInstance().getModelManager().getModel(ModelResourceLocation.standalone(KingdomKeys.rl("entity/portal")));
 
 			matrixStackIn.pushPose();
 			{
@@ -62,7 +62,7 @@ public class SpawningOrbRenderer extends EntityRenderer<SpawningOrbEntity> {
 		super.render(entity, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
 	}
 
-	private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/models/portal.png");
+	private static final ResourceLocation TEXTURE = KingdomKeys.rl("textures/entity/models/portal.png");
 
     @Override
     public ResourceLocation getTextureLocation(SpawningOrbEntity entity) {

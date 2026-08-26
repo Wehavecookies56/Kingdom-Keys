@@ -1,0 +1,38 @@
+{
+  "parent": "kingdomkeys:open_menu",
+  "criteria": {
+    "get_pauldron": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#kingdomkeys:pauldrons"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "description": {
+      "translate": "advancements.kingdomkeys.get_pauldron.desc"
+    },
+    "frame": "goal",
+    "icon": {
+      "count": 1,
+      "id": "kingdomkeys:terra_shoulder"
+    },
+    "title": {
+      "translate": "advancements.kingdomkeys.get_pauldron"
+    }
+  },
+  "requirements": [
+    [
+      "get_pauldron"
+    ]
+  ],
+  "rewards": {
+    "experience": 15
+  },
+  "sends_telemetry_event": true
+}

@@ -1,0 +1,38 @@
+{
+  "parent": "kingdomkeys:open_menu",
+  "criteria": {
+    "obtain_magic": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#kingdomkeys:magics"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "description": {
+      "translate": "advancements.kingdomkeys.obtain_magic.desc"
+    },
+    "frame": "goal",
+    "icon": {
+      "count": 1,
+      "id": "kingdomkeys:spellfire"
+    },
+    "title": {
+      "translate": "advancements.kingdomkeys.obtain_magic"
+    }
+  },
+  "requirements": [
+    [
+      "obtain_magic"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  },
+  "sends_telemetry_event": true
+}

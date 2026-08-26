@@ -21,9 +21,9 @@ import java.util.List;
 public class KKAccessoryItem extends Item implements IItemCategory, ICreativeTab {
 
 	int ap,str,mag;
-	String[] abilities;
+	ResourceLocation[] abilities;
 	
-    public KKAccessoryItem(Properties properties, int AP, int str, int mag, String[] abilities) {
+    public KKAccessoryItem(Properties properties, int AP, int str, int mag, ResourceLocation[] abilities) {
         super(properties);
 		this.ap = AP;
 		this.str = str;
@@ -50,8 +50,8 @@ public class KKAccessoryItem extends Item implements IItemCategory, ICreativeTab
     	}
     	if(!getAbilities().isEmpty()) {
 			tooltip.add(Component.translatable(ChatFormatting.GOLD+Utils.translateToLocal(Strings.Gui_Menu_Status_Abilities)+":"));
-    		for(String a : getAbilities()) {
-    			Ability ability = ModAbilities.registry.get(ResourceLocation.parse(a));
+    		for(ResourceLocation a : getAbilities()) {
+    			Ability ability = ModAbilities.registry.get(a);
 				if (ability != null) {
 					tooltip.add(Component.translatable(ChatFormatting.GOLD+"- " + Utils.translateToLocal(ability.getTranslationKey())));
 				}
@@ -84,11 +84,11 @@ public class KKAccessoryItem extends Item implements IItemCategory, ICreativeTab
 		this.mag = mag;
 	}
 
-	public List<String> getAbilities() {
+	public List<ResourceLocation> getAbilities() {
 		return abilities == null ? Lists.newArrayList() : Lists.newArrayList(abilities);
 	}
 
-	public void setAbilities(String[] abilities) {
+	public void setAbilities(ResourceLocation[] abilities) {
 		this.abilities = abilities;
 	}
 

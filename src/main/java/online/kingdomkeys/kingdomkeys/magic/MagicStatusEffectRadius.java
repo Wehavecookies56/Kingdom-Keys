@@ -24,7 +24,7 @@ public class MagicStatusEffectRadius extends Magic {
 	SoundEvent sound;
 	ParticleOptions particle;
 
-	public MagicStatusEffectRadius(ResourceLocation registryName, int tier, String gmAbility, Holder<MobEffect> effectType, SoundEvent sound, ParticleOptions particle) {
+	public MagicStatusEffectRadius(ResourceLocation registryName, int tier, ResourceLocation gmAbility, Holder<MobEffect> effectType, SoundEvent sound, ParticleOptions particle) {
 		super(registryName, true, gmAbility);
 		this.effectType = effectType;
 		this.sound = sound;
@@ -39,7 +39,7 @@ public class MagicStatusEffectRadius extends Magic {
 		if (getRegistryName().toString().equals(Strings.Magic_Bind) || getRegistryName().toString().equals(Strings.Magic_Mini))
 			time = (int) (PlayerData.get(caster).getMagic(true) * getRealDamageMult(caster));
 
-		float radius = 2 + (Utils.getMagicHighestLocalLevel(PlayerData.get(caster).getEquippedMagics(), getRegistryName().toString()) * 0.2F);
+		float radius = 2 + (Utils.getMagicHighestLocalLevel(PlayerData.get(caster).getEquippedMagics(), getRegistryName()) * 0.2F);
 		for (int a = 0; a < 360; a += 5) {
 			double x = player.getX() + radius * Math.sin(Math.toRadians(a));
 			double z = player.getZ() + radius * Math.cos(Math.toRadians(a));

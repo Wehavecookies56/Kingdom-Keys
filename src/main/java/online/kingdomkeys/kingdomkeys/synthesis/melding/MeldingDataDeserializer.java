@@ -22,14 +22,13 @@ public class MeldingDataDeserializer implements JsonDeserializer<Melding>{
 				case "ingredient1" -> out.setIngredient1(getIngredient(element));
 				case "ingredient2" -> out.setIngredient2(getIngredient(element));
 				case "cost" -> out.setCost(element.getAsInt());
-				case "exp" -> out.setExp(element.getAsInt());
 				case "output" -> {
 					JsonObject outputObject = element.getAsJsonObject();
 					if (!outputObject.has("item") || !outputObject.has("quantity")) {
 						throw new JsonParseException("Output missing item/quantity: " + json);
 					}
 
-					Item keychain = BuiltInRegistries.ITEM.get(ResourceLocation.parse(outputObject.get("item").getAsString()));
+					Item keychain = BuiltInRegistries.ITEM.get(KingdomKeys.rl(outputObject.get("item").getAsString()));
 					out.setResult(keychain, outputObject.get("quantity").getAsInt());
 					out.setType(outputObject.get("type").getAsString());
 				}
@@ -40,19 +39,10 @@ public class MeldingDataDeserializer implements JsonDeserializer<Melding>{
 						throw new JsonParseException("Output2 missing item/quantity: " + json);
 					}
 
-					Item result = BuiltInRegistries.ITEM.get(
-							ResourceLocation.parse(outputObject.get("item").getAsString())
-					);
+					Item result = BuiltInRegistries.ITEM.get(KingdomKeys.rl(outputObject.get("item").getAsString()));
 
-					int chance = outputObject.has("chance")
-							? outputObject.get("chance").getAsInt()
-							: 0;
-
-					out.setBonusResult(
-							result,
-							outputObject.get("quantity").getAsInt(),
-							chance
-					);
+					int chance = outputObject.has("chance") ? outputObject.get("chance").getAsInt() : 0;
+					out.setBonusResult(result, outputObject.get("quantity").getAsInt(), chance);
 				}
 				case "tier" -> out.setTier(element.getAsInt());
 			}
@@ -62,7 +52,7 @@ public class MeldingDataDeserializer implements JsonDeserializer<Melding>{
 	}
 
 	private static @NotNull Item getIngredient(JsonElement element) {
-		ResourceLocation id = ResourceLocation.parse(element.getAsString());
+		ResourceLocation id = KingdomKeys.rl(element.getAsString());
 		Item item = BuiltInRegistries.ITEM.get(id);
 		if (item == Items.AIR) {
 			throw new JsonParseException("Material supplied in recipe cannot be found in registry: " + id);

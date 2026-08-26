@@ -35,7 +35,7 @@ import java.util.Map.Entry;
 
 public record CSSynthesiseRecipe(ResourceLocation name) implements Packet {
 
-	public static final Type<CSSynthesiseRecipe> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_synthesis_recipe"));
+	public static final Type<CSSynthesiseRecipe> TYPE = new Type<>(KingdomKeys.rl("cs_synthesis_recipe"));
 
 	public static final StreamCodec<FriendlyByteBuf, CSSynthesiseRecipe> STREAM_CODEC = StreamCodec.composite(
 			ResourceLocation.STREAM_CODEC,
@@ -65,7 +65,7 @@ public record CSSynthesiseRecipe(ResourceLocation name) implements Packet {
 				}
 
 				if (hasMaterials && enoughMunny && enoughTier) { //If the player has the materials substract them and give the item
-					playerData.setMunny(playerData.getMunny() - recipe.getCost());
+					playerData.setMunny(playerData.getMunny() - recipe.getCost(), (ServerPlayer) player);
 					//playerData.setSynthExperience(600);
 					//playerData.setSynthLevel(1);
 					playerData.addSynthExperience(recipe.getExp() >= 0 ? recipe.getExp() : 10 + recipe.getTier() * 2);

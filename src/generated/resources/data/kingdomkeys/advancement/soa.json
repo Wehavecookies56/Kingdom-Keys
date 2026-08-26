@@ -1,0 +1,33 @@
+{
+  "parent": "kingdomkeys:to_soa",
+  "criteria": {
+    "choice_made": {
+      "trigger": "kingdomkeys:choice_made"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "description": {
+      "translate": "advancements.kingdomkeys.choice.desc"
+    },
+    "frame": "goal",
+    "icon": {
+      "count": 1,
+      "id": "kingdomkeys:dream_sword"
+    },
+    "title": {
+      "translate": "advancements.kingdomkeys.choice"
+    }
+  },
+  "requirements": [
+    [
+      "choice_made"
+    ]
+  ],
+  "rewards": {
+    "loot": [
+      "kingdomkeys:grant_wooden_keyblade"
+    ]
+  },
+  "sends_telemetry_event": true
+}

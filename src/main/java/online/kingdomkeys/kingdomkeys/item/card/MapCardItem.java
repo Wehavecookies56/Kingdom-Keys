@@ -2,7 +2,6 @@ package online.kingdomkeys.kingdomkeys.item.card;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.world.InteractionHand;
@@ -64,16 +63,27 @@ public class MapCardItem extends Item implements ICreativeTab {
 
     @Override
     public void inventoryTick(ItemStack pStack, Level pLevel, Entity pEntity, int pSlotId, boolean pIsSelected) {
-        if (!pStack.has(ModComponents.CARD_VALUE)) {
-            generateValue(pStack);
-        } else if (hasRandomValue) {
-            pStack.set(DataComponents.ITEM_NAME, Component.translatable("item.mapcard.prefix", getCardValue(pStack), Component.translatable("item." + BuiltInRegistries.ITEM.getKey(this).getNamespace() + "." + BuiltInRegistries.ITEM.getKey(this).getPath())).setStyle(Style.EMPTY.withItalic(false)));
+        if (!pStack.has(ModComponents.CARD_VALUE) || (pEntity instanceof Player player && player.isCreative())) {
+            initialize(pStack);
         }
         super.inventoryTick(pStack, pLevel, pEntity, pSlotId, pIsSelected);
     }
 
-    private void generateValue(ItemStack stack) {
-        stack.set(ModComponents.CARD_VALUE, hasRandomValue ? Utils.randomWithRange(0, 9) : keycardType.ordinal());
+    public static void initialize(ItemStack stack) {
+        if (stack.getItem() instanceof MapCardItem mapCardItem) {
+            if (!stack.has(ModComponents.CARD_VALUE)) {
+                generateValue(stack);
+            }
+            if (mapCardItem.hasRandomValue) {
+                stack.set(DataComponents.ITEM_NAME, Component.translatable("item.mapcard.prefix", getCardValue(stack), Component.translatable(stack.getDescriptionId())).setStyle(Style.EMPTY.withItalic(false)));
+            }
+        }
+    }
+
+    private static void generateValue(ItemStack stack) {
+        if (stack.getItem() instanceof MapCardItem mapCardItem) {
+            stack.set(ModComponents.CARD_VALUE, mapCardItem.hasRandomValue ? Utils.randomWithRange(0, 9) : mapCardItem.keycardType.ordinal());
+        }
     }
 
     public static int getCardValue(ItemStack stack) {
@@ -106,12 +116,12 @@ public class MapCardItem extends Item implements ICreativeTab {
     public void appendHoverText(ItemStack pStack, TooltipContext tooltipContext, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
         //TODO remove when done
         if (wip) {
-            pTooltipComponents.add(Component.translatable("DOES NOT WORK YET").withStyle(ChatFormatting.RED));
+            pTooltipComponents.add(Component.translatable("kingdomkeys.card.map.not_working").withStyle(ChatFormatting.RED));
         }
         if (type != null && hasRandomValue) {
             RoomType inst = type.get();
-            pTooltipComponents.add(Component.translatable("Size: " + inst.getSize().getStars()).withStyle(ChatFormatting.YELLOW));
-            pTooltipComponents.add(Component.translatable("Enemies: " + inst.getEnemies().getStars()).withStyle(ChatFormatting.YELLOW));
+            pTooltipComponents.add(Component.translatable("kingdomkeys.card.map.size", inst.getSize().getStars()).withStyle(ChatFormatting.YELLOW));
+            pTooltipComponents.add(Component.translatable("kingdomkeys.card.map.enemies", inst.getEnemies().getStars()).withStyle(ChatFormatting.YELLOW));
         }
         super.appendHoverText(pStack, tooltipContext, pTooltipComponents, pIsAdvanced);
     }

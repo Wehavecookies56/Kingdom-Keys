@@ -48,7 +48,7 @@ public class WeaponUnlockScreen extends Screen {
     List<Item> weapons;
     int current = 0;
 
-    private final ResourceLocation GLOW = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/org/glow.png");
+    private final ResourceLocation GLOW = KingdomKeys.rl("textures/gui/org/glow.png");
 
     @Override
     protected void renderBlurredBackground(float pPartialTick) {
@@ -213,17 +213,17 @@ public class WeaponUnlockScreen extends Screen {
     public void updateButtons() {
         if (playerData.isWeaponUnlocked(weapons.get(current))) {
             unlock = false;
-            select.setMessage(Component.translatable("Equip"));
+            select.setMessage(Component.translatable("kingdomkeys.gui.weapon_unlock.equip"));
             if (playerData.getEquippedWeapon().getItem() == weapons.get(current)) {
                 select.active = false;
-                select.setMessage(Component.translatable("Equipped"));
+                select.setMessage(Component.translatable("kingdomkeys.gui.weapon_unlock.equipped"));
             } else {
                 select.active = true;
-                select.setMessage(Component.translatable("Equip"));
+                select.setMessage(Component.translatable("kingdomkeys.gui.weapon_unlock.equip"));
             }
         } else {
             unlock = true;
-            select.setMessage(Component.translatable("Unlock"));
+            select.setMessage(Component.translatable("kingdomkeys.gui.weapon_unlock.unlock"));
             select.active = canUnlock();
         }
         next.visible = true;

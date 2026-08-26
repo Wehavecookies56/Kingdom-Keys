@@ -24,7 +24,7 @@ import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 @OnlyIn(Dist.CLIENT)
 public class DriveLayerRenderer<T extends LivingEntity, M extends HumanoidModel<T>> extends RenderLayer<T, M> {
 	private final PlayerRenderer renderPlayer;
-	private static final ResourceLocation ANTI_EYES = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/models/armor/anti_eyes.png");
+	private static final ResourceLocation ANTI_EYES = KingdomKeys.rl("textures/models/armor/anti_eyes.png");
 
 	public DriveLayerRenderer(RenderLayerParent<T, M> entityRendererIn) {
 		super(entityRendererIn);
@@ -34,9 +34,9 @@ public class DriveLayerRenderer<T extends LivingEntity, M extends HumanoidModel<
 	@Override
 	public void render(PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn, T entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
 		if(ModConfigs.showDriveForms && entitylivingbaseIn != null && PlayerData.get((Player) entitylivingbaseIn) != null) {
-			if(!PlayerData.get((Player) entitylivingbaseIn).getActiveDriveForm().equals(DriveForm.NONE.toString())) {
-				String drive = PlayerData.get((Player) entitylivingbaseIn).getActiveDriveForm();
-				DriveForm form = ModDriveForms.registry.get(ResourceLocation.parse(drive));
+			if(!PlayerData.get((Player) entitylivingbaseIn).isFormActive(ModDriveForms.NONE)) {
+				ResourceLocation drive = PlayerData.get((Player) entitylivingbaseIn).getActiveDriveForm();
+				DriveForm form = ModDriveForms.registry.get(drive);
 				
 				if (form.getTextureLocation((Player) entitylivingbaseIn) != null) {
 					VertexConsumer ivertexbuilder = ItemRenderer.getFoilBuffer(bufferIn, RenderType.entityCutoutNoCull(form.getTextureLocation((Player) entitylivingbaseIn)), false, false);

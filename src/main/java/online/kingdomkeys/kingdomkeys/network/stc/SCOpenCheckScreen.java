@@ -6,7 +6,6 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
@@ -19,7 +18,7 @@ import java.util.UUID;
 
 public record SCOpenCheckScreen(CompoundTag playerData, UUID uuid, String name) implements Packet {
 
-    public static final Type<SCOpenCheckScreen> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "sc_open_check_screen"));
+    public static final Type<SCOpenCheckScreen> TYPE = new Type<>(KingdomKeys.rl("sc_open_check_screen"));
 
     public static final StreamCodec<FriendlyByteBuf, SCOpenCheckScreen> STREAM_CODEC = StreamCodec.composite(
             ByteBufCodecs.COMPOUND_TAG, SCOpenCheckScreen::playerData,

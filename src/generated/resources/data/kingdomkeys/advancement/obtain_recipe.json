@@ -1,0 +1,59 @@
+{
+  "parent": "kingdomkeys:obtain_projector",
+  "criteria": {
+    "obtain_recipe": {
+      "conditions": {
+        "items": [
+          {
+            "items": "kingdomkeys:recipe"
+          },
+          {
+            "items": "kingdomkeys:recipe_d"
+          },
+          {
+            "items": "kingdomkeys:recipe_c"
+          },
+          {
+            "items": "kingdomkeys:recipe_b"
+          },
+          {
+            "items": "kingdomkeys:recipe_a"
+          },
+          {
+            "items": "kingdomkeys:recipe_s"
+          },
+          {
+            "items": "kingdomkeys:recipe_ss"
+          },
+          {
+            "items": "kingdomkeys:recipe_sss"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "description": {
+      "translate": "advancements.kingdomkeys.obtain_recipe.desc"
+    },
+    "frame": "goal",
+    "icon": {
+      "count": 1,
+      "id": "kingdomkeys:recipe_d"
+    },
+    "title": {
+      "translate": "advancements.kingdomkeys.obtain_recipe"
+    }
+  },
+  "requirements": [
+    [
+      "obtain_recipe"
+    ]
+  ],
+  "rewards": {
+    "experience": 25
+  },
+  "sends_telemetry_event": true
+}

@@ -34,7 +34,7 @@ public class GravityEntityRenderer extends EntityRenderer<GravityEntity> {
 	@Nullable
 	@Override
 	public ResourceLocation getTextureLocation(GravityEntity entity) {
-		return ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/models/cube.png");
+		return KingdomKeys.rl("textures/entity/models/cube.png");
 	}
 
 	@EventBusSubscriber(value = Dist.CLIENT)

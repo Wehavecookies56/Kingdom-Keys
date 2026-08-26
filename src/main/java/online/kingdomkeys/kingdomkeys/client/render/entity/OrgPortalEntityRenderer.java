@@ -36,7 +36,7 @@ public class OrgPortalEntityRenderer extends EntityRenderer<OrgPortalEntity> {
 		matrixStackIn.pushPose();
 		{
 			VertexConsumer buffer = bufferIn.getBuffer(Sheets.translucentCullBlockSheet());
-			BakedModel model = Minecraft.getInstance().getModelManager().getModel(ModelResourceLocation.standalone(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "entity/portal")));
+			BakedModel model = Minecraft.getInstance().getModelManager().getModel(ModelResourceLocation.standalone(KingdomKeys.rl("entity/portal")));
 
 			matrixStackIn.pushPose();
 			{
@@ -68,6 +68,6 @@ public class OrgPortalEntityRenderer extends EntityRenderer<OrgPortalEntity> {
 	@Nullable
 	@Override
 	public ResourceLocation getTextureLocation(OrgPortalEntity entity) {
-		return ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/models/cube.png");
+		return KingdomKeys.rl("textures/entity/models/cube.png");
 	}
 }

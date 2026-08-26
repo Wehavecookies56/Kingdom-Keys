@@ -16,7 +16,7 @@ import online.kingdomkeys.kingdomkeys.network.Packet;
 
 public record CSPlaySoundPacket(double x, double y, double z, ResourceLocation sound, SoundSource source) implements Packet {
 
-	public static final Type<CSPlaySoundPacket> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_play_sound"));
+	public static final Type<CSPlaySoundPacket> TYPE = new Type<>(KingdomKeys.rl("cs_play_sound"));
 
 	public static final StreamCodec<FriendlyByteBuf, CSPlaySoundPacket> STREAM_CODEC = StreamCodec.composite(
 			ByteBufCodecs.DOUBLE, CSPlaySoundPacket::x,

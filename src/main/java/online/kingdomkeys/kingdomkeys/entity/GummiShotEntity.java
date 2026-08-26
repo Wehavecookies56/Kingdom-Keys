@@ -1,23 +1,32 @@
 package online.kingdomkeys.kingdomkeys.entity;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
+import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.block.gummi.GummiWeaponBlock;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -117,6 +126,7 @@ public class GummiShotEntity extends ThrowableProjectile{
             }
             if (rtRes instanceof BlockHitResult hitResult) {
                 if(getTicks() > 1){
+                    mineMeteorite(hitResult.getBlockPos());
                 //if(!(level().getBlockState(blockpos).getBlock() instanceof GummiWeaponBlock)) {
                     GummiWeaponBlock.ShotType projectileType = GummiWeaponBlock.ShotType.valueOf(getShotType().toUpperCase());
                     if(projectileType.getRootType() == GummiWeaponBlock.ShotType.GRAVITY){
@@ -128,6 +138,35 @@ public class GummiShotEntity extends ThrowableProjectile{
 
             }
             remove(RemovalReason.KILLED);
+        }
+    }
+
+    private void mineMeteorite(BlockPos pos) {
+        if (!(level() instanceof ServerLevel serverLevel)) {
+            return;
+        }
+
+        BlockState state = serverLevel.getBlockState(pos);
+
+        Entity shooter = getOwner();
+
+		// Basalt drops nothing
+        if (state.is(Blocks.BASALT)) {
+            serverLevel.destroyBlock(pos, false, shooter);
+            return;
+        }
+
+        if (!state.is(ModBlocks.gummiMeteor.get())) {
+            return;
+        }
+
+        List<ItemStack> drops = Block.getDrops(state, serverLevel, pos, serverLevel.getBlockEntity(pos), shooter, ItemStack.EMPTY);
+        serverLevel.destroyBlock(pos, false, shooter);
+
+        if (shooter instanceof ServerPlayer player) {
+            Utils.giveItems(player, false,drops);
+        } else {
+            drops.forEach(stack -> Block.popResource(serverLevel, pos, stack));
         }
     }
 

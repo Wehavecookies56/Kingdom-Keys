@@ -11,6 +11,42 @@
 		{
 			"type": "text",
 			"text": "These armor sets can be crafted in the style of $(#cc7a22)Terra$(), $(#335cc1)Aqua$(), $(#80d11d)Ventus$(), $(#b6b6c9)Eraqus$(), $(#5d5d5d)Xehanort$() and $(#1a1827)Ventus' Nightmare form$(). Get in a Smithing Table and combine some netherite armor and an upgrade template with an $(#cc7a22)orange$(), $(#335cc1)blue$(), $(#80d11d)lime green$(), $(#b6b6c9)white$() or $(#5d5d5d)gray$() and $(#1a1827)black$() dye.$(p)Additionally a Pauldron can be enchanted by holding it and holding down RMB, while wearing a set of armor with the desired enchantments. $(thing)Attention$(): The currently worn armor will be disentchanted in the process!"
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "kingdomkeys:terra_shoulder",
+			"link_recipe": true,
+			"text": "In a $(thing)Smithing Table$(), combine a piece of $(item)netherite armor$(), an $(item)upgrade template$() and a $(#cc7a22)orange$() dye to get each piece of the $(thing)Terra$() set. With all 4 pieces you can craft this pauldron."
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "kingdomkeys:aqua_shoulder",
+			"link_recipe": true,
+			"text": "In a $(thing)Smithing Table$(), combine a piece of $(item)netherite armor$(), an $(item)upgrade template$() and a $(#335cc1)blue$() dye to get each piece of the $(thing)Aqua$() set. With all 4 pieces you can craft this pauldron."
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "kingdomkeys:ventus_shoulder",
+			"link_recipe": true,
+			"text": "In a $(thing)Smithing Table$(), combine a piece of $(item)netherite armor$(), an $(item)upgrade template$() and a $(#80d11d)lime green$() dye to get each piece of the $(thing)Ventus$() set. With all 4 pieces you can craft this pauldron."
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "kingdomkeys:eraqus_shoulder",
+			"link_recipe": true,
+			"text": "In a $(thing)Smithing Table$(), combine a piece of $(item)netherite armor$(), an $(item)upgrade template$() and a $(#b6b6c9)white$() dye to get each piece of the $(thing)Eraqus$() set. With all 4 pieces you can craft this pauldron."
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "kingdomkeys:xehanort_shoulder",
+			"link_recipe": true,
+			"text": "In a $(thing)Smithing Table$(), combine a piece of $(item)netherite armor$(), an $(item)upgrade template$() and a $(#5d5d5d)gray$() dye to get each piece of the $(thing)Xehanort$() set. With all 4 pieces you can craft this pauldron."
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "kingdomkeys:nightmareventus_shoulder",
+			"link_recipe": true,
+			"text": "In a $(thing)Smithing Table$(), combine a piece of $(item)netherite armor$(), an $(item)upgrade template$() and a $(#1a1827)black$() dye to get each piece of the $(thing)Ventus' Nightmare$() set. With all 4 pieces you can craft this pauldron."
 		}
 	]
 }

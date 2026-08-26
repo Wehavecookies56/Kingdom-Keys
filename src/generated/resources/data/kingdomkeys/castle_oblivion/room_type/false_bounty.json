@@ -5,5 +5,11 @@
     "number_of_enemies": 5,
     "simultaneous_enemies": 3
   },
-  "size": "S"
+  "size": "S",
+  "treasure": {
+    "count": 1,
+    "enemy": "#kingdomkeys:castle_oblivion/strong_enemies",
+    "trapped_count": 2,
+    "treasure": "kingdomkeys:castle_oblivion/standard_treasure"
+  }
 }

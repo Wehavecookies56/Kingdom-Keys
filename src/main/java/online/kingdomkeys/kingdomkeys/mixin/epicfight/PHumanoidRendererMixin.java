@@ -20,6 +20,7 @@ public class PHumanoidRendererMixin {
         thisOne.addPatchedLayer(KeybladeArmorRenderer.class, new PatchedArmourLayerRenderer<>(false));
         thisOne.addPatchedLayer(ShoulderLayerRenderer.class, new PatchedShoulderLayerRenderer<>());
         thisOne.addPatchedLayer(AeroLayerRenderer.class, new PatchedAeroLayerRenderer<>());
+        thisOne.addPatchedLayer(CrownLayerRenderer.class, new PatchedCrownLayerRenderer<>());
         thisOne.addPatchedLayer(FreezeLayerRenderer.class, new PatchedFreezeLayerRenderer<>());
         thisOne.addPatchedLayer(StopLayerRenderer.class, new PatchedStopLayerRenderer<>());
     }

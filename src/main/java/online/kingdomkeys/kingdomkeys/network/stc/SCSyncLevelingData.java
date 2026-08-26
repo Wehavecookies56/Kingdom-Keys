@@ -6,12 +6,10 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
 import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.ClientPacketHandler;
-
 import online.kingdomkeys.kingdomkeys.leveling.LevelingData;
 import online.kingdomkeys.kingdomkeys.leveling.LevelingDataDeserializer;
 import online.kingdomkeys.kingdomkeys.network.Packet;
@@ -23,7 +21,7 @@ public record SCSyncLevelingData(List<String> names, List<String> data) implemen
 
 	public static final Gson GSON_BUILDER = new GsonBuilder().registerTypeAdapter(LevelingData.class, new LevelingDataDeserializer()).setPrettyPrinting().create();
 
-	public static final Type<SCSyncLevelingData> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "sc_sync_leveling_data"));
+	public static final Type<SCSyncLevelingData> TYPE = new Type<>(KingdomKeys.rl("sc_sync_leveling_data"));
 
 	public static final StreamCodec<FriendlyByteBuf, SCSyncLevelingData> STREAM_CODEC = StreamCodec.composite(
 			ByteBufCodecs.collection(ArrayList::new, ByteBufCodecs.STRING_UTF8),

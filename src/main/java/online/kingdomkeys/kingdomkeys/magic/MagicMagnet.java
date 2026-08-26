@@ -12,7 +12,7 @@ import online.kingdomkeys.kingdomkeys.entity.magic.MagnetEntity;
 
 public class MagicMagnet extends Magic {
 
-	public MagicMagnet(ResourceLocation registryName, int tier, String gmAbility) {
+	public MagicMagnet(ResourceLocation registryName, int tier, ResourceLocation gmAbility) {
 		super(registryName, false, gmAbility);
 		setTier(tier);
 	}

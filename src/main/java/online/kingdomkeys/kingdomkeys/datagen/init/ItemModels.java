@@ -15,6 +15,7 @@ import online.kingdomkeys.kingdomkeys.block.gummi.GummiHangarBlock;
 import online.kingdomkeys.kingdomkeys.item.*;
 import online.kingdomkeys.kingdomkeys.item.card.BiomeMemoryItem;
 import online.kingdomkeys.kingdomkeys.item.card.MapCardItem;
+import online.kingdomkeys.kingdomkeys.item.card.RouletteBonusItem;
 import online.kingdomkeys.kingdomkeys.item.card.WorldCardItem;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
@@ -64,6 +65,9 @@ public class ItemModels extends ItemModelProvider {
 			Map.entry(ModItems.aeroSpell.get(), "aero"),
 			Map.entry(ModItems.aeroraSpell.get(), "aero"),
 			Map.entry(ModItems.aerogaSpell.get(), "aero"),
+			Map.entry(ModItems.aeroShieldSpell.get(), "aero"),
+			Map.entry(ModItems.aeroraShieldSpell.get(), "aero"),
+			Map.entry(ModItems.aerogaShieldSpell.get(), "aero"),
 
 			// Cure
 			Map.entry(ModItems.cureSpell.get(), "cure"),
@@ -101,8 +105,8 @@ public class ItemModels extends ItemModelProvider {
 		super(generator.getPackOutput(), KingdomKeys.MODID, existingFileHelper);
 	}
 
-    @Override
-    protected void registerModels() {
+	@Override
+	protected void registerModels() {
 		for (DeferredHolder<Item, ? extends Item> itemRegistryObject : ModItems.ITEMS.getEntries()){
 
 			//item Name
@@ -126,6 +130,8 @@ public class ItemModels extends ItemModelProvider {
 			} else if (item instanceof MagicSpellItem) {
 				String texture = SPELL_TEXTURES.getOrDefault(item, "generic");
 				standardMagic(path, texture);
+			} else if (item instanceof ShotlockItem) {
+				standardShotlockItem(path);
 			} else if (item instanceof KeybladeItem) {
 				// Keyblades already have models set up
 			} else if (item instanceof ShieldItem) {
@@ -137,13 +143,13 @@ public class ItemModels extends ItemModelProvider {
 				standardSpawnEggItem(path);
 			} else if (item instanceof RecipeItem && !path.equals("recipe")) {
 				standardRecipe(path);
-			}   else if(item instanceof WorldCardItem || item instanceof MapCardItem || item instanceof BiomeMemoryItem || item instanceof CardPackItem){
+			}   else if(item instanceof WorldCardItem || item instanceof MapCardItem || item instanceof BiomeMemoryItem || item instanceof CardPackItem || item instanceof RouletteBonusItem){
 				standardCard(path);
 			} else {
 				standardItem(path);
 			}
 		}
-    }
+	}
 
 	private void blockLogic(BlockItem item, String path) {
 		final Block block = item.getBlock();
@@ -156,7 +162,7 @@ public class ItemModels extends ItemModelProvider {
 			}
 		}
 
-        switch (block) {
+		switch (block) {
 			case GummiBlockBase gummiBlockBase -> {
 				if (!blockName.contains("gummi_cube")) {
 					gummiBlockItem(path, blockName);
@@ -164,73 +170,81 @@ public class ItemModels extends ItemModelProvider {
 					standardBlockItem(path);
 				}
 			}
-            case GhostBloxBlock ghostBloxBlock -> {
-                // generated as part of blockstates provider
-            }
-            case PairBloxBlock pairBloxBlock -> {
-                // generated as part of blockstates provider
-            }
-            case MagnetBloxBlock magnetBloxBlock -> {
-                // manually generated version exists in main/resources
-                standardBlockItem("magnet_blox_on");
-                standardBlockItem("magnet_blox_off");
-            }
-            case OrgPortalBlock orgPortalBlock -> {
-                // Custom Model
-                // manually generated version exists in main/resources
-            }
-            case SavePointBlock savePointBlock -> {
-                // Custom Model
-                // manually generated version exists in main/resources
-            }
-            case SoRCore soRCore -> {
-                // skip - no texture/special block
-            }
-            case SoAPlatformCoreBlock soAPlatformCoreBlock -> {
-                // skip - no texture/special block?
-            }
-            case DataPortalBlock dataPortalBlock -> {
-                // manually generated version exists in main/resources
-            }
-            case MagicalChestBlock magicalChestBlock ->
-                // manually generated version exists in main/resources
-                    getBuilder(path).parent(new ModelFile.UncheckedModelFile(KingdomKeys.MODID + ":block/" + path)).transforms().transform(ItemDisplayContext.GUI).rotation(0, 0, 0).translation(-0.25F, 1, 0).scale(1, 1, 1).end();
-            case GummiHangarBlock gummiHangarBlock -> {
-                // skip - no texture/special block
-            }
+			case GhostBloxBlock ghostBloxBlock -> {
+				// generated as part of blockstates provider
+			}
+			case PairBloxBlock pairBloxBlock -> {
+				// generated as part of blockstates provider
+			}
+			case MagnetBloxBlock magnetBloxBlock -> {
+				// manually generated version exists in main/resources
+				standardBlockItem("magnet_blox_on");
+				standardBlockItem("magnet_blox_off");
+			}
+			case OrgPortalBlock orgPortalBlock -> {
+				// Custom Model
+				// manually generated version exists in main/resources
+			}
+			case SavePointBlock savePointBlock -> {
+				// Custom Model
+				// manually generated version exists in main/resources
+			}
+			case SoRCore soRCore -> {
+				// skip - no texture/special block
+			}
+			case SoAPlatformCoreBlock soAPlatformCoreBlock -> {
+				// skip - no texture/special block?
+			}
+			case DataPortalBlock dataPortalBlock -> {
+				// manually generated version exists in main/resources
+			}
+			case MagicalChestBlock magicalChestBlock ->
+				// manually generated version exists in main/resources
+					getBuilder(path).parent(new ModelFile.UncheckedModelFile(KingdomKeys.MODID + ":block/" + path)).transforms().transform(ItemDisplayContext.GUI).rotation(0, 0, 0).translation(-0.25F, 1, 0).scale(1, 1, 1).end();
+			case GummiHangarBlock gummiHangarBlock -> {
+				// skip - no texture/special block
+			}
 			case MagicTargetBlock magicTargetBlock -> {
 				// manually generated version exists in main/resources
 			}
-	        case SoADoorBlock door -> {
-		        // manually generated version exists in main/resources
-	        }
-	        case CardDoorBlock door -> {
-		        // manually generated version exists in main/resources
-	        }
+			case SoADoorBlock door -> {
+				// manually generated version exists in main/resources
+			}
+			case CardDoorBlock door -> {
+				// manually generated version exists in main/resources
+			}
+
+			case TreasureChestBlock treasureChestBlock -> {
+				getBuilder("treasure_chest").parent(new ModelFile.UncheckedModelFile(KingdomKeys.MODID + ":block/magical_chest"));
+			}
+
+			case FlowmotionRailBlock rail -> {
+				// flat sprite, generated as part of the blockstates provider
+			}
 
 			default ->
-                // fallback in case block item could not be generated as part of blockstates
-                    standardBlockItem(path);
-        }
+				// fallback in case block item could not be generated as part of blockstates
+					standardBlockItem(path);
+		}
 	}
 
-    void standardMaterial(String name) {
+	void standardMaterial(String name) {
 		standardItem(name, "synthesis/");
 	}
 
-    void standardDisc(String name) {
+	void standardDisc(String name) {
 		standardItem(name, "discs/");
 	}
 
-    void standardArmor(String name) {
+	void standardArmor(String name) {
 		standardItem(name, "armor/");
 	}
 
-    void standardKeychain(String name) {
+	void standardKeychain(String name) {
 		standardItem(name, "keychains/");
 	}
 
-    void standardKKArmor(String name) {
+	void standardKKArmor(String name) {
 		standardItem(name, "kkarmors/");
 	}
 	void standardKKAccessory(String name) {
@@ -239,6 +253,10 @@ public class ItemModels extends ItemModelProvider {
 
 	void standardMagic(String name, String element) {
 		standardMagicItem(name, "magic/", element);
+	}
+
+	void standardShotlockItem(String name) {
+		getBuilder(name).parent(new ModelFile.UncheckedModelFile("item/generated")).texture("layer0", "item/shotlock_orb");
 	}
 
 	void standardCard(String name) {
@@ -301,7 +319,7 @@ public class ItemModels extends ItemModelProvider {
 		}
 	}
 
-    void standardItem(String name) {
+	void standardItem(String name) {
 		standardItem(name, "");
 	}
 
@@ -309,16 +327,16 @@ public class ItemModels extends ItemModelProvider {
 		getBuilder(name).parent(new ModelFile.UncheckedModelFile("item/generated")).texture("layer0","item/"+ path + element);
 	}
 
-    void standardItem(String name, String path) {
+	void standardItem(String name, String path) {
 		getBuilder(name).parent(new ModelFile.UncheckedModelFile("item/generated")).texture("layer0","item/"+ path + name);
 	}
 
-    void standardSpawnEggItem(String name) {
+	void standardSpawnEggItem(String name) {
 		getBuilder(name).parent(new ModelFile.UncheckedModelFile("item/template_spawn_egg"));
-    }
+	}
 
-    @Override
-    public String getName() {
-        return "Item Models";
-    }
+	@Override
+	public String getName() {
+		return "Item Models";
+	}
 }

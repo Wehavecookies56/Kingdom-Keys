@@ -3,7 +3,6 @@ package online.kingdomkeys.kingdomkeys.network.cts;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -19,7 +18,7 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public record CSUpgradeBagPacket() implements Packet {
 
-	public static final Type<CSUpgradeBagPacket> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_upgrade_synthesis_bag"));
+	public static final Type<CSUpgradeBagPacket> TYPE = new Type<>(KingdomKeys.rl("cs_upgrade_synthesis_bag"));
 
 	public static final StreamCodec<FriendlyByteBuf, CSUpgradeBagPacket> STREAM_CODEC = StreamCodec.of((pBuffer, pValue) -> {}, pBuffer -> new CSUpgradeBagPacket());
 
@@ -32,13 +31,19 @@ public record CSUpgradeBagPacket() implements Packet {
 		if(stack == null || stack.isEmpty()){
 			stack = Utils.getItemInAnyHand(player, ModItems.magicsBag.get());
 		}
+		if(stack == null || stack.isEmpty()){
+			stack = Utils.getItemInAnyHand(player, ModItems.cardsBag.get());
+		}
+		if(stack == null || stack.isEmpty()){
+			stack = Utils.getItemInAnyHand(player, ModItems.shotlocksBag.get());
+		}
 
 		if(stack != null) {
 			int bagLevel = stack.get(ModComponents.BAG_LEVEL);
 
 			int cost = Utils.getBagCosts(bagLevel);
 			if (playerData.getMunny() >= cost) {
-				playerData.setMunny(playerData.getMunny() - cost);
+				playerData.setMunny(playerData.getMunny() - cost, (ServerPlayer) player);
 				stack.set(ModComponents.BAG_LEVEL, bagLevel+1);
 				PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
 			}

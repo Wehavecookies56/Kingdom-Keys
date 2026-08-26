@@ -11,7 +11,6 @@ import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.item.KeychainItem;
@@ -24,7 +23,7 @@ public class KeybladeSummonRecipeCategory implements IRecipeCategory<KeychainIte
     public static final RecipeType<KeychainItem> TYPE = RecipeType.create(KingdomKeys.MODID, "keyblade_summon", KeychainItem.class);
 
     public KeybladeSummonRecipeCategory(IGuiHelper guiHelper) {
-        background = guiHelper.drawableBuilder(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/keyblade_summon_background.png"), 0, 0, 120, 58).build();
+        background = guiHelper.drawableBuilder(KingdomKeys.rl("textures/gui/keyblade_summon_background.png"), 0, 0, 120, 58).build();
         icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(ModItems.kingdomKeyChain.get()));
     }
 

@@ -1,0 +1,6 @@
+{
+  "type": "neoforge:add_features",
+  "biomes": "kingdomkeys:realm_of_darkness",
+  "features": "kingdomkeys:rod_arch",
+  "step": "surface_structures"
+}

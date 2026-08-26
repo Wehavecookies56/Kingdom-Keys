@@ -16,7 +16,7 @@ public class DuskRenderer extends MobRenderer<DuskEntity, DuskModel<DuskEntity>>
 
     @Override
     public ResourceLocation getTextureLocation(DuskEntity entity) {
-        return ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/mob/dusk.png");
+        return KingdomKeys.rl("textures/entity/mob/dusk.png");
     }
 
     @Override

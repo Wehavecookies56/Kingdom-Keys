@@ -10,7 +10,7 @@ import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.damagesource.KKDamageTypes;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
-import online.kingdomkeys.kingdomkeys.lib.Strings;
+import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.util.ArrayList;
@@ -64,7 +64,7 @@ public class FaithEntityController extends BaseMagicProjectile {
 		if(getOwner() instanceof Player player) {
 			PlayerData playerData = PlayerData.get(player);
 			playerData.setMagicCasttimeTicks(tickCount < 40 ? 10 : 0);
-			beamCount = getBeamCount(Utils.getMagicHighestLocalLevel(playerData.getEquippedMagics(), Strings.Magic_Faith));
+			beamCount = getBeamCount(Utils.getMagicHighestLocalLevel(playerData.getEquippedMagics(), ModMagic.FAITH.location()));
 		}
 
 		if (!level().isClientSide) {

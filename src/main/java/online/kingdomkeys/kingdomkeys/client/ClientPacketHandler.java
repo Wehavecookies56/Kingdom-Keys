@@ -15,6 +15,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
@@ -22,6 +23,8 @@ import online.kingdomkeys.kingdomkeys.client.gui.ConfirmChoiceMenuPopup;
 import online.kingdomkeys.kingdomkeys.client.gui.IPlayerDataRequester;
 import online.kingdomkeys.kingdomkeys.client.gui.OrgPortalGui;
 import online.kingdomkeys.kingdomkeys.client.gui.SavePointScreen;
+import online.kingdomkeys.kingdomkeys.client.gui.castle_oblivion.CardPackScreen;
+import online.kingdomkeys.kingdomkeys.client.gui.castle_oblivion.MapCardRouletteScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.castle_oblivion.RoomSynthesisScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.MenuScreen;
@@ -30,11 +33,14 @@ import online.kingdomkeys.kingdomkeys.client.gui.menu.check.CheckStatusScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.customize.MenuCustomizeShortcutsScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.items.MeldingScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment.MenuEquipmentScreen;
+import online.kingdomkeys.kingdomkeys.client.gui.menu.struggle.MenuStruggle;
 import online.kingdomkeys.kingdomkeys.client.gui.organization.AlignmentSelectionScreen;
+import online.kingdomkeys.kingdomkeys.client.gui.overlay.ItemGetGui;
 import online.kingdomkeys.kingdomkeys.client.gui.overlay.SoAMessages;
 import online.kingdomkeys.kingdomkeys.client.gui.synthesis.SellScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.synthesis.SynthesisMaterialScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.synthesis.SynthesisScreen;
+import online.kingdomkeys.kingdomkeys.client.shotlock.ShotlockMinigameClient;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.data.CastleOblivionData;
 import online.kingdomkeys.kingdomkeys.data.GlobalData;
@@ -61,6 +67,7 @@ import online.kingdomkeys.kingdomkeys.network.stc.*;
 import online.kingdomkeys.kingdomkeys.savepoint.ModSavePoints;
 import online.kingdomkeys.kingdomkeys.savepoint.SavePoint;
 import online.kingdomkeys.kingdomkeys.savepoint.SavePointData;
+import online.kingdomkeys.kingdomkeys.shotlock.ShotlockData;
 import online.kingdomkeys.kingdomkeys.sound.AeroSoundInstance;
 import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeData;
 import online.kingdomkeys.kingdomkeys.synthesis.melding.MeldingRegistry;
@@ -69,12 +76,17 @@ import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopListRegistry;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.names.NamesListRegistry;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.sell.SellListRegistry;
 import online.kingdomkeys.kingdomkeys.util.Utils;
+import online.kingdomkeys.kingdomkeys.world.worldmap.GummiWorld;
+import online.kingdomkeys.kingdomkeys.world.worldmap.GummiWorldLoader;
 import org.apache.commons.io.IOUtils;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.InputStreamReader;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public class ClientPacketHandler {
@@ -145,7 +157,7 @@ public class ClientPacketHandler {
 
     public static void syncDriveFormData(SCSyncDriveFormData message) {
         for (int i = 0; i < message.names().size(); i++) {
-            DriveForm driveform = ModDriveForms.registry.get(ResourceLocation.parse(message.names().get(i)));
+            DriveForm driveform = ModDriveForms.registry.get(KingdomKeys.rl(message.names().get(i)));
             String d = message.data().get(i);
             BufferedReader br = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(d.getBytes())));
 
@@ -192,7 +204,7 @@ public class ClientPacketHandler {
 
     public static void syncKeybladeData(SCSyncKeybladeData message) {
         for (int i = 0; i < message.names().size(); i++) {
-            KeybladeItem keyblade = (KeybladeItem) BuiltInRegistries.ITEM.get(ResourceLocation.parse(message.names().get(i)));
+            KeybladeItem keyblade = (KeybladeItem) BuiltInRegistries.ITEM.get(KingdomKeys.rl(message.names().get(i)));
             String d = message.data().get(i);
             BufferedReader br = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(d.getBytes())));
 
@@ -213,7 +225,7 @@ public class ClientPacketHandler {
 
     public static void syncMagicData(SCSyncMagicData message) {
         for (int i = 0; i < message.names().size(); i++) {
-            Magic magic = ModMagic.registry.get(ResourceLocation.parse(message.names().get(i)));
+            Magic magic = ModMagic.registry.get(KingdomKeys.rl(message.names().get(i)));
             String d = message.data().get(i);
             BufferedReader br = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(d.getBytes())));
 
@@ -232,7 +244,7 @@ public class ClientPacketHandler {
 
     public static void syncLevelingData(SCSyncLevelingData message) {
         for (int i = 0; i < message.names().size(); i++) {
-            online.kingdomkeys.kingdomkeys.leveling.Level level = ModLevels.registry.get(ResourceLocation.parse(message.names().get(i)));
+            online.kingdomkeys.kingdomkeys.leveling.Level level = ModLevels.registry.get(KingdomKeys.rl(message.names().get(i)));
             String d = message.data().get(i);
             BufferedReader br = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(d.getBytes())));
 
@@ -250,7 +262,7 @@ public class ClientPacketHandler {
 
     public static void syncLimitData(SCSyncLimitData message) {
         for (int i = 0; i < message.names().size(); i++) {
-            Limit limit = ModLimits.registry.get(ResourceLocation.parse(message.names().get(i)));
+            Limit limit = ModLimits.registry.get(KingdomKeys.rl(message.names().get(i)));
             String d = message.data().get(i);
             BufferedReader br = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(d.getBytes())));
 
@@ -267,9 +279,50 @@ public class ClientPacketHandler {
         }
     }
 
+    public static void syncShotlockData(online.kingdomkeys.kingdomkeys.network.stc.SCSyncShotlockData message) {
+        for (int i = 0; i < message.names().size(); i++) {
+            online.kingdomkeys.kingdomkeys.shotlock.Shotlock shotlock = online.kingdomkeys.kingdomkeys.shotlock.ModShotlocks.registry.get(KingdomKeys.rl(message.names().get(i)));
+            String d = message.data().get(i);
+            BufferedReader br = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(d.getBytes())));
+
+            ShotlockData result;
+            try {
+                result = SCSyncShotlockData.GSON_BUILDER.fromJson(br, online.kingdomkeys.kingdomkeys.shotlock.ShotlockData.class);
+
+            } catch (JsonParseException e) {
+                KingdomKeys.LOGGER.error("Error parsing shotlock json file {}: {}", message.names().get(i), e);
+                continue;
+            }
+            shotlock.setShotlockData(result);
+            IOUtils.closeQuietly(br);
+        }
+    }
+
+    public static void startReversal(SCStartReversal message) {
+        Minecraft mc = Minecraft.getInstance();
+
+        if (mc.level != null) {
+            Reversal.begin(mc.level.getEntity(message.duskId()));
+        }
+    }
+
+    public static void syncGummiWorlds(SCSyncGummiWorlds message) {
+        Map<ResourceLocation, GummiWorld> worlds = new LinkedHashMap<>();
+
+        for (int i = 0; i < message.names().size(); i++) {
+            try {
+                worlds.put(ResourceLocation.parse(message.names().get(i)), GummiWorldLoader.GSON.fromJson(message.data().get(i), GummiWorld.class));
+            } catch (JsonParseException e) {
+                KingdomKeys.LOGGER.error("Error parsing gummi world json file {}: {}", message.names().get(i), e);
+            }
+        }
+
+        GummiWorldLoader.replaceAll(worlds);
+    }
+
     public static void syncSavePointData(SCSyncSavePointData message) {
         for (int i = 0; i < message.names().size(); i++) {
-            SavePoint savepoint = ModSavePoints.registry.get(ResourceLocation.parse(message.names().get(i)));
+            SavePoint savepoint = ModSavePoints.registry.get(KingdomKeys.rl(message.names().get(i)));
             String d = message.data().get(i);
             BufferedReader br = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(d.getBytes())));
 
@@ -289,7 +342,7 @@ public class ClientPacketHandler {
 
     public static void syncOrgData(SCSyncOrganizationData message) {
         for (int i = 0; i < message.names().size(); i++) {
-            IOrgWeapon weapon = (IOrgWeapon) BuiltInRegistries.ITEM.get(ResourceLocation.parse(message.names().get(i)));
+            IOrgWeapon weapon = (IOrgWeapon) BuiltInRegistries.ITEM.get(KingdomKeys.rl(message.names().get(i)));
 
             String d = message.data().get(i);
             BufferedReader br = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(d.getBytes())));
@@ -311,6 +364,14 @@ public class ClientPacketHandler {
         Minecraft.getInstance().setScreen(new RoomSynthesisScreen((CardDoorTileEntity)Minecraft.getInstance().level.getBlockEntity(message.pos())));
     }
 
+    public static void openStruggleMenu(SCOpenStruggleMenu message) {
+        Minecraft.getInstance().setScreen(new MenuStruggle(message.pos()));
+    }
+
+    public static void closeScreen() {
+        Minecraft.getInstance().setScreen(null);
+    }
+
     public static void syncCastleOblivionInterior(SCSyncCastleOblivionInteriorData message) {
         ClientLevel world = Minecraft.getInstance().level;
         CastleOblivionData.InteriorData.setClientCache(world, CastleOblivionData.InteriorData.load(message.data(), world.registryAccess()));
@@ -328,7 +389,7 @@ public class ClientPacketHandler {
 
     public static void openSavePointScreen(SCOpenSavePointScreen message) {
         Minecraft.getInstance().setScreen(new SavePointScreen((SavepointTileEntity) Minecraft.getInstance().level.getBlockEntity(message.tileEntity()), message.savePoints(), message.create()));
-            }
+    }
 
     public static void updateSavePoints(SCUpdateSavePoints message) {
         if (Minecraft.getInstance().screen instanceof SavePointScreen savePointScreen) {
@@ -391,6 +452,7 @@ public class ClientPacketHandler {
 
     public static void openCheckScreen(SCOpenCheckScreen message) {
         Minecraft mc = Minecraft.getInstance();
+        KingdomKeys.LOGGER.warn("[DEBUG check] received NBT has {} keys: {}", message.playerData().size(), message.playerData().getAllKeys());
         GameProfile profile = new GameProfile(message.uuid(), message.name());
         Player target = new RemotePlayer(Minecraft.getInstance().level, profile);
 
@@ -431,6 +493,22 @@ public class ClientPacketHandler {
         if(message.value()) {
             player.addDeltaMovement(new Vec3(0, 1, 0));
         }
+    }
+
+    public static void shotlockMinigameState(SCShotlockMinigameState message) {
+        ShotlockMinigameClient.apply(message);
+    }
+
+    public static void openCardPack(SCOpenCardPack message) {
+        Minecraft.getInstance().setScreen(new CardPackScreen(message.cards()));
+    }
+
+    public static void displayItems(SCDisplayGivenItems message) {
+        ItemGetGui.INSTANCE.addItemsToDisplay(message.items(), !message.showBig());
+    }
+
+    public static void openCardRoulette(List<ItemStack> cards) {
+        Minecraft.getInstance().setScreen(new MapCardRouletteScreen(cards));
     }
 
 }

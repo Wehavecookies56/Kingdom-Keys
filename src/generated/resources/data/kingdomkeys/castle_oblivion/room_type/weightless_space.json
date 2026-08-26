@@ -13,6 +13,7 @@
     },
     {
       "type": "kingdomkeys:effect",
+      "amplifier": 3,
       "effect": "minecraft:jump_boost",
       "target": "BOTH"
     }

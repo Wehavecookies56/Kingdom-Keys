@@ -1,0 +1,33 @@
+{
+  "parent": "kingdomkeys:fifty_level_up",
+  "criteria": {
+    "levelup": {
+      "conditions": {
+        "level": 100
+      },
+      "trigger": "kingdomkeys:level_up"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.kingdomkeys.levelup100.desc"
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "kingdomkeys:kiblade"
+    },
+    "title": {
+      "translate": "advancements.kingdomkeys.levelup100"
+    }
+  },
+  "requirements": [
+    [
+      "levelup"
+    ]
+  ],
+  "rewards": {
+    "experience": 180
+  },
+  "sends_telemetry_event": true
+}

@@ -1,6 +1,5 @@
 package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry;
 
-import net.minecraft.resources.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.floor.FloorType;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.RoomType;
@@ -12,20 +11,20 @@ public class ModFloorTypes {
     public static Supplier<JsonRegistry<FloorType>> registry = ModJsonRegistries.FLOOR_TYPE;
 
     public static Supplier<FloorType>
-            NONE = () -> registry.get().getValue(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "none")),
-            PLAINS = () -> registry.get().getValue(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "plains")),
-            THE_NETHER = () -> registry.get().getValue(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "the_nether")),
-            THE_END = () -> registry.get().getValue(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "the_end")),
-            OCEAN = () -> registry.get().getValue(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "ocean")),
-            JUNGLE = () -> registry.get().getValue(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "jungle")),
-            DESERT = () -> registry.get().getValue(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "desert")),
-            FOREST = () -> registry.get().getValue(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "forest")),
-            CAVE = () -> registry.get().getValue(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cave")),
-            SWAMP = () -> registry.get().getValue(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "swamp")),
-            SNOWY = () -> registry.get().getValue(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "snowy")),
-            BADLANDS = () -> registry.get().getValue(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "badlands")),
-            MUSHROOM_FIELDS = () -> registry.get().getValue(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "mushroom_fields")),
-            CASTLE_OBLIVION = () -> registry.get().getValue(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "castle_oblivion"));
+            NONE = () -> registry.get().getValue(KingdomKeys.rl("none")),
+            PLAINS = () -> registry.get().getValue(KingdomKeys.rl("plains")),
+            THE_NETHER = () -> registry.get().getValue(KingdomKeys.rl("the_nether")),
+            THE_END = () -> registry.get().getValue(KingdomKeys.rl("the_end")),
+            OCEAN = () -> registry.get().getValue(KingdomKeys.rl("ocean")),
+            JUNGLE = () -> registry.get().getValue(KingdomKeys.rl("jungle")),
+            DESERT = () -> registry.get().getValue(KingdomKeys.rl("desert")),
+            FOREST = () -> registry.get().getValue(KingdomKeys.rl("forest")),
+            CAVE = () -> registry.get().getValue(KingdomKeys.rl("cave")),
+            SWAMP = () -> registry.get().getValue(KingdomKeys.rl("swamp")),
+            SNOWY = () -> registry.get().getValue(KingdomKeys.rl("snowy")),
+            BADLANDS = () -> registry.get().getValue(KingdomKeys.rl("badlands")),
+            MUSHROOM_FIELDS = () -> registry.get().getValue(KingdomKeys.rl("mushroom_fields")),
+            CASTLE_OBLIVION = () -> registry.get().getValue(KingdomKeys.rl("castle_oblivion"));
 
 
     public static boolean isFloorCompatible(FloorType floor, RoomType room) {

@@ -57,15 +57,11 @@ public class DoorData {
                 cardCriteria.put(CardCategory.values()[i], new CardCriteria(value, type));
             }
         } else if (type == Type.NORMAL) {
-            int minValue = currentRoomValue + 1;
-            if (minValue > 9) {
-                minValue = 0;
+            int value = currentRoomValue + 1;
+            if (value > 9) {
+                value = 0;
             }
-            int value = 0;
-            if (minValue != 0) {
-                value = Utils.randomWithRange(minValue, Math.min(minValue + 2, 9));
-            }
-            cardCriteria.put(CardCategory.RGB, new CardCriteria(value, CriteriaType.GREATER));
+            cardCriteria.put(CardCategory.RGB, new CardCriteria(value, value == 0 ? CriteriaType.EQUAL : CriteriaType.GREATER));
         }
     }
 

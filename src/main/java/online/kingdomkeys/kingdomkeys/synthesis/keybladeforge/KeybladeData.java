@@ -1,6 +1,10 @@
 package online.kingdomkeys.kingdomkeys.synthesis.keybladeforge;
 
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.item.Item;
+import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.item.KeychainItem;
 
 import javax.annotation.Nullable;
@@ -16,8 +20,9 @@ public class KeybladeData {
 	public KeychainItem keychain;
     //The level 0 stats
     int baseStrength, baseMagic;
-    String baseAbility;
+    ResourceLocation baseAbility;
     float reach;
+    SoundEvent sound = ModSounds.generic_hit.get();
     float critChance;
     //List of upgrades for the keyblade
     @Nullable List<KeybladeLevel> levels;
@@ -50,7 +55,7 @@ public class KeybladeData {
     }
     
     //Returns the base ability if level is 0
-    public String getLevelAbility(int level) {
+    public ResourceLocation getLevelAbility(int level) {
         return level == 0 ? baseAbility : levels.get(level-1).getAbility();
     }
     
@@ -70,11 +75,11 @@ public class KeybladeData {
     	}
     }
     
-    public void setBaseAbility(String ability) {
+    public void setBaseAbility(ResourceLocation ability) {
     	this.baseAbility = ability;
     }
     
-    public String getBaseAbility() {
+    public ResourceLocation getBaseAbility() {
     	return baseAbility;
     }
 
@@ -104,6 +109,15 @@ public class KeybladeData {
     
     public void setReach(float reach) {
         this.reach = reach;
+    }
+
+    public SoundEvent getSound() {
+        return sound;
+    }
+
+    public void setSound(String sound) {
+        ResourceLocation loc = ResourceLocation.parse(sound);
+        this.sound = BuiltInRegistries.SOUND_EVENT.getOptional(loc).orElseThrow(() -> new IllegalArgumentException("Unknown sound event: " + loc));
     }
 
     public void setCritChance(float critChance){this.critChance = critChance;}

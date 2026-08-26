@@ -63,7 +63,7 @@ public class SellScreen extends MenuFilterableIndexed {
     }
 
 	public SellList getSellList(){
-		return SellListRegistry.getInstance().getRegistry().get(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "sell"));
+		return SellListRegistry.getInstance().getRegistry().get(KingdomKeys.rl("sell"));
 	}
 
     @Override
@@ -266,7 +266,7 @@ public class SellScreen extends MenuFilterableIndexed {
 
 		if (selectedItemStack != null && selectedItemStack.getItem() instanceof KeybladeItem || selectedItemStack.getItem() instanceof KKAccessoryItem || selectedItemStack.getItem() instanceof KKArmorItem) {
 			String desc = "";
-			String ability = "";
+			ResourceLocation ability = null;
 			if(selectedItemStack.getItem() instanceof KeybladeItem kb) {
 				desc = kb.getDesc();
 				ability = kb.data.getLevelAbility(0);
@@ -289,7 +289,7 @@ public class SellScreen extends MenuFilterableIndexed {
 				}
 
 				if(ability != null) {
-					Ability a = ModAbilities.registry.get(ResourceLocation.parse(ability));
+					Ability a = ModAbilities.registry.get(ability);
 					if(a != null) {
 						String abilityName = Utils.translateToLocal(a.getTranslationKey());
 						gui.drawString(minecraft.font, abilityName, -20 + (boxM.getWidth()/2) - (minecraft.font.width(abilityName)/2), (stats.size()-1)*10, 0xFFAA44);
@@ -298,7 +298,7 @@ public class SellScreen extends MenuFilterableIndexed {
 			}
 			matrixStack.popPose();
 			
-			if(!desc.equals("")) {
+			if(!desc.isEmpty()) {
 				matrixStack.pushPose();
 				{
 					String text = Utils.translateToLocal(selectedItemStack.getDescriptionId());

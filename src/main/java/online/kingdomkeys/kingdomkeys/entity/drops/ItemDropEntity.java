@@ -17,10 +17,12 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.common.NeoForgeMod;
+import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
-import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncOrbStats;
+
+import java.util.List;
 
 public abstract class ItemDropEntity extends Entity {
 
@@ -30,6 +32,9 @@ public abstract class ItemDropEntity extends Entity {
 	private Player closestPlayer;
 	private static final EntityDataAccessor<Integer> VALUE = SynchedEntityData.defineId(ItemDropEntity.class, EntityDataSerializers.INT);
 	private final MutableBlockPos cachedPos = new MutableBlockPos();
+
+	/** Ticks between merge sweeps. */
+	private static final int MERGE_INTERVAL = 5;
 
 	public ItemDropEntity(EntityType<? extends Entity> type, Level worldIn, double x, double y, double z, int expValue) {
 		this(type, worldIn);
@@ -44,9 +49,17 @@ public abstract class ItemDropEntity extends Entity {
 		super(type, world);
 	}
 
+	protected int maxAge() {
+		return 2400;
+	}
+
+	protected boolean merges() {
+		return true;
+	}
+
 	@Override
 	public void tick() {
-		if (tickCount > 2400) {
+		if (tickCount > maxAge()) {
 			this.remove(RemovalReason.KILLED);
 			return;
 		}
@@ -55,6 +68,10 @@ public abstract class ItemDropEntity extends Entity {
 
 		if (this.delayBeforeCanPickup > 0) {
 			--this.delayBeforeCanPickup;
+		}
+
+		if (merges() && !this.level().isClientSide && !this.isRemoved() && (this.tickCount + this.getId()) % MERGE_INTERVAL == 0) {
+			mergeNearby();
 		}
 
 		this.xo = this.getX();
@@ -93,7 +110,7 @@ public abstract class ItemDropEntity extends Entity {
 			PlayerData playerData = PlayerData.get(closestPlayer);
 			if (playerData != null) {
 
-				double maxDist = 8 + (playerData.getNumberOfAbilitiesEquipped(Strings.treasureMagnet) * 2);
+				double maxDist = 8 + (playerData.getNumberOfAbilitiesEquipped(ModAbilities.TREASURE_MAGNET) * 2);
 				double maxDistSqr = maxDist * maxDist;
 
 				double dx = this.closestPlayer.getX() - this.getX();
@@ -133,6 +150,21 @@ public abstract class ItemDropEntity extends Entity {
 		if (this.onGround()) {
 			this.setDeltaMovement(this.getDeltaMovement().multiply(1.0D, -0.9D, 1.0D));
 		}
+	}
+
+	private void mergeNearby() {
+		List<ItemDropEntity> nearby = this.level().getEntitiesOfClass(ItemDropEntity.class, this.getBoundingBox().inflate(1.5D, 1.0D, 1.5D), other -> other != this && !other.isRemoved() && other.getClass() == this.getClass());
+
+		for (ItemDropEntity other : nearby) {
+			if (absorbs(other)) {
+				this.setValue(this.value + other.value);
+				other.remove(RemovalReason.KILLED);
+			}
+		}
+	}
+
+	private boolean absorbs(ItemDropEntity other) {
+		return this.tickCount != other.tickCount ? this.tickCount > other.tickCount : this.getId() > other.getId();
 	}
 
 	private void applyFloatMotion() {
@@ -191,7 +223,7 @@ public abstract class ItemDropEntity extends Entity {
 				onPickup(entityIn);
 				this.playSound(getPickupSound(), 1F, 1F);
 				this.remove(RemovalReason.KILLED);
-				PacketHandler.sendTo(new SCSyncPlayerData(entityIn), (ServerPlayer) entityIn);
+				PacketHandler.sendTo(new SCSyncOrbStats(PlayerData.get(entityIn)), (ServerPlayer) entityIn);
 			}
 		}
 	}

@@ -4,6 +4,12 @@
   "cost": 8,
   "dmg_mult": 0.2,
   "dmg_mult_max": 0.25,
+  "interacts_with_blocks": [
+    "light_lightable",
+    "light_portal",
+    "light_tnt",
+    "dry_sponge"
+  ],
   "magic_lock_on": true,
   "magic_rc": "kingdomkeys:magic_fire",
   "max_exp": 1800,

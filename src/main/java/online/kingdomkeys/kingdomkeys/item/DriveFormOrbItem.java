@@ -20,9 +20,9 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 import java.util.List;
 
 public class DriveFormOrbItem extends Item {
-	String formName;
+	ResourceLocation formName;
 
-	public DriveFormOrbItem(Properties properties, String name) {
+	public DriveFormOrbItem(Properties properties, ResourceLocation name) {
 		super(properties);
 		this.formName = name;
 	}
@@ -32,7 +32,7 @@ public class DriveFormOrbItem extends Item {
 		if (!world.isClientSide) {
 			PlayerData playerData = PlayerData.get(player);
 			if (playerData != null && playerData.getDriveFormMap() != null) {
-				DriveForm form = ModDriveForms.registry.get(ResourceLocation.parse(formName));
+				DriveForm form = ModDriveForms.registry.get(formName);
 
 				if (playerData.getDriveFormMap().containsKey(formName)) { // If you have the form add some exp
 					int level = playerData.getDriveFormMap().containsKey(formName) ? playerData.getDriveFormMap().get(formName)[0] + 1 : 1;
@@ -58,7 +58,7 @@ public class DriveFormOrbItem extends Item {
 
 				} else {// If you don't have the form unlock it
 					playerData.setDriveFormLevel(formName, 1);
-					playerData.setNewKeychain(ResourceLocation.parse(formName), ItemStack.EMPTY);
+					playerData.setNewKeychain(formName, ItemStack.EMPTY);
 					player.displayClientMessage(Component.translatable("message.form_unlocked", Utils.translateToLocal(form.getTranslationKey())), true);
 					if(!ItemStack.matches(player.getMainHandItem(), ItemStack.EMPTY) && player.getMainHandItem().getItem() == this) {
 						player.getMainHandItem().shrink(1);
@@ -74,7 +74,7 @@ public class DriveFormOrbItem extends Item {
 
 	@Override
 	public void appendHoverText(ItemStack pStack, TooltipContext pContext, List<Component> tooltip, TooltipFlag pTooltipFlag) {
-		DriveForm form = ModDriveForms.registry.get(ResourceLocation.parse(formName));
+		DriveForm form = ModDriveForms.registry.get(formName);
 		if (form != null) {
 			tooltip.add(Component.translatable(Utils.translateToLocal("gui.driveformorb.tooltip",Utils.translateToLocal(form.getTranslationKey()))));
 		}

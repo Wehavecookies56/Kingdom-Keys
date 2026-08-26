@@ -10,9 +10,7 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import online.kingdomkeys.kingdomkeys.item.BagItem;
-import online.kingdomkeys.kingdomkeys.item.MagicSpellItem;
 import online.kingdomkeys.kingdomkeys.item.ModComponents;
-import online.kingdomkeys.kingdomkeys.item.SynthesisItem;
 
 import java.util.function.Predicate;
 
@@ -55,13 +53,12 @@ public class BagMenu extends AbstractContainerMenu {
 
 	public static BagMenu fromNetwork(int windowId, Inventory inv, FriendlyByteBuf buf) {
 		InteractionHand hand = buf.readBoolean() ? InteractionHand.MAIN_HAND : InteractionHand.OFF_HAND;
-		BagItem.Type type = buf.readEnum(BagItem.Type.class);
 		ItemStack bag = inv.player.getItemInHand(hand);
+		Predicate<ItemStack> validator = null;
 
-		Predicate<ItemStack> validator = switch (type) {
-			case SYNTHESIS_BAG -> stack -> stack.getItem() instanceof SynthesisItem;
-			case MAGICS_BAG -> stack -> stack.getItem() instanceof MagicSpellItem;
-		};
+		if(bag.getItem() instanceof BagItem bagItem) {
+			validator = bagItem.getValidator();
+		}
 
 		return new BagMenu(windowId, inv, bag, validator);
 	}

@@ -29,11 +29,7 @@ public class APITests {
     @SubscribeEvent
     public void equipSomething(EquipmentEvent event) {
         if (!event.getPlayer().level().isClientSide) {
-            if (event.getNewStack() == null) {
-                KingdomKeys.LOGGER.debug("Equipped/Unequipped a shotlock {}", ((EquipmentEvent.Shotlock) event).getNewShotlock().getRegistryName());
-            } else {
-                KingdomKeys.LOGGER.debug("{} was equipped now {} is", event.getPreviousStack(), event.getNewStack());
-            }
+            KingdomKeys.LOGGER.debug("{} was equipped now {} is", event.getPreviousStack(), event.getNewStack());
         }
     }
 

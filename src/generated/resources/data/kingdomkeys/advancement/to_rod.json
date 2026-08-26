@@ -1,0 +1,33 @@
+{
+  "parent": "kingdomkeys:root",
+  "criteria": {
+    "to_rod": {
+      "conditions": {
+        "to": "kingdomkeys:realm_of_darkness"
+      },
+      "trigger": "minecraft:changed_dimension"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.kingdomkeys.to_rod.desc"
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "kingdomkeys:rod_cracked_stone"
+    },
+    "title": {
+      "translate": "advancements.kingdomkeys.to_rod"
+    }
+  },
+  "requirements": [
+    [
+      "to_rod"
+    ]
+  ],
+  "rewards": {
+    "experience": 60
+  },
+  "sends_telemetry_event": true
+}

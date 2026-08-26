@@ -1,0 +1,35 @@
+{
+  "parent": "kingdomkeys:max_keyblade_level",
+  "criteria": {
+    "dual_wield": {
+      "conditions": {
+        "item_a": "kingdomkeys:oblivion",
+        "item_b": "kingdomkeys:oathkeeper"
+      },
+      "trigger": "kingdomkeys:dual_wield"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "description": {
+      "translate": "advancements.kingdomkeys.dual_wield_oblivion_oathkeeper.desc"
+    },
+    "frame": "goal",
+    "icon": {
+      "count": 1,
+      "id": "kingdomkeys:oblivion"
+    },
+    "title": {
+      "translate": "advancements.kingdomkeys.dual_wield_oblivion_oathkeeper"
+    }
+  },
+  "requirements": [
+    [
+      "dual_wield"
+    ]
+  ],
+  "rewards": {
+    "experience": 100
+  },
+  "sends_telemetry_event": true
+}

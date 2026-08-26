@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "kingdomkeys:empty_card"
+    },
+    {
+      "item": "kingdomkeys:kiblade_chain"
+    }
+  ],
+  "result": {
+    "components": {
+      "kingdomkeys:world_card": "example:example",
+      "minecraft:custom_name": "{\"text\": \"Example World Card\"}"
+    },
+    "count": 1,
+    "id": "kingdomkeys:empty_card"
+  }
+}

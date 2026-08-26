@@ -4,10 +4,12 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.Difficulty;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -47,20 +49,35 @@ public class CastleOblivionHandler {
     public void tick(LevelTickEvent.Pre event) {
         if (!event.getLevel().isClientSide()) {
             if(event.getLevel().dimension().location().getNamespace().equals(KingdomKeys.MODID)) {//Attempt to alleviate load
-                if (event.getLevel().dimension().toString().contains(KingdomKeys.MODID + ":castle_oblivion_interior_")) {
-                    CastleOblivionData.InteriorData.get((ServerLevel) event.getLevel()).ifPresent(interiorData -> {
-                        interiorData.getFloors().forEach(floor -> {
-                            floor.getRooms().forEach(roomData -> {
-                                roomData.getGenerated().ifPresent(room -> {
-                                    floor.getType().getGlobalModifiers().forEach(roomModifier -> {
-                                        roomModifier.tick(room, Room.getPlayersInRoom(event.getLevel().getServer(), room));
-                                    });
-                                    room.tick((ServerLevel) event.getLevel());
+                CastleOblivionData.InteriorData.get((ServerLevel) event.getLevel()).ifPresent(interiorData -> {
+                    interiorData.getFloors().forEach(floor -> {
+                        floor.getRooms().forEach(roomData -> {
+                            roomData.getGenerated().ifPresent(room -> {
+                                floor.getType().getGlobalModifiers().forEach(roomModifier -> {
+                                    roomModifier.tick(room, Room.getPlayersInRoom(event.getLevel().getServer(), room));
                                 });
+                                room.tick((ServerLevel) event.getLevel());
                             });
                         });
                     });
-                }
+                });
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public void tick(PlayerTickEvent.Pre event) {
+        if (!event.getEntity().level().isClientSide() && event.getEntity().level().getDifficulty() == Difficulty.PEACEFUL) {
+            if(event.getEntity().level().dimension().location().getNamespace().equals(KingdomKeys.MODID)) {//Attempt to alleviate load
+                CastleOblivionData.InteriorData.get((ServerLevel) event.getEntity().level()).ifPresent(interiorData -> {
+                    Room currentRoom = interiorData.getRoomAtPos(event.getEntity().blockPosition());
+                    Floor floor = null;
+                    if (currentRoom != null) {
+                        floor = currentRoom.getParent(interiorData);
+                    }
+                    exitCastleOblivion(floor, currentRoom, event.getEntity());
+                    event.getEntity().sendSystemMessage(Component.translatable("kingdomkeys.castle_oblivion.peaceful"));
+                });
             }
         }
     }
@@ -75,7 +92,7 @@ public class CastleOblivionHandler {
         }
     }
 
-    public static final ResourceKey<Level> CASTLE_OBLIVION = ResourceKey.create(Registries.DIMENSION, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "castle_oblivion"));
+    public static final ResourceKey<Level> CASTLE_OBLIVION = ResourceKey.create(Registries.DIMENSION, KingdomKeys.rl("castle_oblivion"));
 
     public static final Utils.BlockPosBounds entranceBounds = new Utils.BlockPosBounds(-10, 85, 11, -1, 100, 11);
     public static final Utils.BlockPosBounds firstDoorBounds = new Utils.BlockPosBounds(15, 63, 67, 17, 66, 67);
@@ -86,21 +103,27 @@ public class CastleOblivionHandler {
     //Creates the interior dimension and teleports the player to it
     public static void enterCastleOblivion(Player player) {
         if (player.level().getServer() != null) {
-            ResourceLocation dimName = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "castle_oblivion_interior_" + player.getStringUUID());
-            CastleOblivionData.ExteriorData.get(player.getServer()).addInterior(player.getUUID(), dimName);
-            RegistryAccess registryAccess = player.level().registryAccess();
-            ResourceKey<Level> dimension = ResourceKey.create(Registries.DIMENSION, dimName);
-            Holder<DimensionType> type = registryAccess.registryOrThrow(Registries.DIMENSION_TYPE).getHolderOrThrow(ResourceKey.create(Registries.DIMENSION_TYPE, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "castle_oblivion")));
-            Holder<Biome> biome = registryAccess.registryOrThrow(Registries.BIOME).getHolderOrThrow(ResourceKey.create(Registries.BIOME, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, Strings.castleOblivionInterior)));
-            //Create new dimension if it doesn't exist
-            ServerLevel level = DynamicDimensionManager.getOrCreateLevel(player.level().getServer(), dimension, ((minecraftServer, levelStemResourceKey) -> {
-                ChunkGenerator generator = new CastleOblivionInteriorChunkGenerator(new FixedBiomeSource(biome));
-                return new LevelStem(type, generator);
-            }));
-            player.changeDimension(new DimensionTransition(level, new Vec3(entrancePos.getX(), entrancePos.getY(), entrancePos.getZ()), Vec3.ZERO, player.getYRot(), player.getXRot(), entity -> {}));
+            if (player.level().getDifficulty() != Difficulty.PEACEFUL) {
+                ResourceLocation dimName = KingdomKeys.rl("castle_oblivion_interior_" + player.getStringUUID());
+                CastleOblivionData.ExteriorData.get(player.getServer()).addInterior(player.getUUID(), dimName);
+                RegistryAccess registryAccess = player.level().registryAccess();
+                ResourceKey<Level> dimension = ResourceKey.create(Registries.DIMENSION, dimName);
+                Holder<DimensionType> type = registryAccess.registryOrThrow(Registries.DIMENSION_TYPE).getHolderOrThrow(ResourceKey.create(Registries.DIMENSION_TYPE, KingdomKeys.rl("castle_oblivion")));
+                Holder<Biome> biome = registryAccess.registryOrThrow(Registries.BIOME).getHolderOrThrow(ResourceKey.create(Registries.BIOME, KingdomKeys.rl(Strings.castleOblivionInterior)));
+                //Create new dimension if it doesn't exist
+                ServerLevel level = DynamicDimensionManager.getOrCreateLevel(player.level().getServer(), dimension, ((minecraftServer, levelStemResourceKey) -> {
+                    ChunkGenerator generator = new CastleOblivionInteriorChunkGenerator(new FixedBiomeSource(biome));
+                    return new LevelStem(type, generator);
+                }));
+                player.changeDimension(new DimensionTransition(level, new Vec3(entrancePos.getX(), entrancePos.getY(), entrancePos.getZ()), Vec3.ZERO, player.getYRot(), player.getXRot(), entity -> {
+                }));
 
-            if(player instanceof ServerPlayer sPlayer) {
-                Utils.showTutorial(sPlayer, Constants.TUTORIALS.get(Constants.TUTORIAL_CO_LOBBY));
+                if (player instanceof ServerPlayer sPlayer) {
+                    Utils.showTutorial(sPlayer, Constants.TUTORIALS.get(Constants.TUTORIAL_CO_LOBBY));
+                }
+            } else {
+                player.sendSystemMessage(Component.translatable("kingdomkeys.castle_oblivion.peaceful"));
+                player.teleportTo(entranceBounds.min().getX() + ((entranceBounds.max().getX() - entranceBounds.min().getX()) / 2F), entranceBounds.min().getY() + 1, entranceBounds.min().getZ() - 2);
             }
         }
     }
@@ -128,7 +151,7 @@ public class CastleOblivionHandler {
                     for (Player playerFromList : player.level().players()) {
                         PacketHandler.sendTo(new SCUpdateCORooms(floor.getRooms()), (ServerPlayer) playerFromList);
                     }
-                    player.addItem(new ItemStack(ModItems.keyOfBeginnings.get()));
+                    Utils.giveItems((ServerPlayer) player, true, new ItemStack(ModItems.keyOfBeginnings.get()));
                     return room;
                 } else {
                     return floor.getRoom(new RoomPos(0, 1)).getGenerated().orElse(null);
@@ -181,7 +204,22 @@ public class CastleOblivionHandler {
     @SubscribeEvent
     public void joinWorld(PlayerEvent.PlayerLoggedInEvent event) {
         if (inInterior(event.getEntity())) {
-            PacketHandler.sendTo(new SCSyncCastleOblivionInteriorData(CastleOblivionData.InteriorData.get((ServerLevel) event.getEntity().level()).orElseThrow(), event.getEntity().level()), (ServerPlayer) event.getEntity());
+            CastleOblivionData.InteriorData interiorData = CastleOblivionData.InteriorData.get((ServerLevel) event.getEntity().level()).orElseThrow();
+            //backwards compatibility to store structure dimensions in room
+            if (interiorData.needsUpdate(CastleOblivionData.InteriorData.STORE_STRUCTURE_DIMS)) {
+                KingdomKeys.LOGGER.info("Updating outdated data");
+                interiorData.getFloors().forEach(floor -> {
+                    floor.getRooms().forEach(roomData -> {
+                        roomData.getGenerated().ifPresent(room -> {
+                            if (room.getDimensions().isEmpty()) {
+                                room.readDimensionsFromStructure((ServerLevel) event.getEntity().level());
+                            }
+                        });
+                    });
+                });
+                interiorData.appliedUpdate(CastleOblivionData.InteriorData.STORE_STRUCTURE_DIMS);
+            }
+            interiorData.sendToClient(event.getEntity());
         }
     }
 

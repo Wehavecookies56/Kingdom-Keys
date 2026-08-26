@@ -10,7 +10,6 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton.ButtonType;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
-import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
@@ -30,7 +29,6 @@ public class GuiMenu_Party_Create extends MenuBackground {
 	MenuButton togglePriv, accept, size;
 	MenuButton back;
 		
-	final PlayerData playerData = PlayerData.get(minecraft.player);
 	WorldData worldData;
 	
 	Party party;
@@ -73,9 +71,7 @@ public class GuiMenu_Party_Create extends MenuBackground {
 	}
 
 	private void updateButtons() {
-		//IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 		togglePriv.setMessage(priv ? Component.translatable(Utils.translateToLocal(Strings.Gui_Menu_Party_Create_Accessibility_Private)) : Component.translatable(Utils.translateToLocal(Strings.Gui_Menu_Party_Create_Accessibility_Public)));
-
 		
 		//TBName
 		togglePriv.visible = true;

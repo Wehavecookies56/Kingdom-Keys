@@ -15,8 +15,8 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_shard",
-          "quantity": 2
+          "material": "kingdomkeys:stormy_stone",
+          "quantity": 3
         }
       ],
       "str": 9
@@ -29,8 +29,8 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_shard",
-          "quantity": 3
+          "material": "kingdomkeys:stormy_stone",
+          "quantity": 4
         }
       ],
       "str": 10
@@ -43,8 +43,8 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_shard",
-          "quantity": 4
+          "material": "kingdomkeys:stormy_stone",
+          "quantity": 5
         }
       ],
       "str": 10
@@ -57,8 +57,12 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_stone",
-          "quantity": 1
+          "material": "kingdomkeys:stormy_stone",
+          "quantity": 5
+        },
+        {
+          "material": "kingdomkeys:hungry_stone",
+          "quantity": 5
         }
       ],
       "str": 11
@@ -71,12 +75,12 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_stone",
-          "quantity": 2
+          "material": "kingdomkeys:stormy_stone",
+          "quantity": 6
         },
         {
-          "material": "kingdomkeys:writhing_stone",
-          "quantity": 2
+          "material": "kingdomkeys:hungry_stone",
+          "quantity": 7
         }
       ],
       "str": 11
@@ -89,12 +93,12 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_stone",
-          "quantity": 3
+          "material": "kingdomkeys:stormy_stone",
+          "quantity": 7
         },
         {
-          "material": "kingdomkeys:writhing_stone",
-          "quantity": 2
+          "material": "kingdomkeys:hungry_stone",
+          "quantity": 9
         }
       ],
       "str": 12
@@ -107,12 +111,16 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_gem",
-          "quantity": 1
+          "material": "kingdomkeys:stormy_stone",
+          "quantity": 7
         },
         {
-          "material": "kingdomkeys:writhing_gem",
-          "quantity": 1
+          "material": "kingdomkeys:hungry_stone",
+          "quantity": 10
+        },
+        {
+          "material": "kingdomkeys:lightning_gem",
+          "quantity": 5
         }
       ],
       "str": 12
@@ -125,12 +133,16 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_gem",
-          "quantity": 2
+          "material": "kingdomkeys:stormy_stone",
+          "quantity": 8
         },
         {
-          "material": "kingdomkeys:writhing_gem",
-          "quantity": 2
+          "material": "kingdomkeys:hungry_stone",
+          "quantity": 12
+        },
+        {
+          "material": "kingdomkeys:lightning_gem",
+          "quantity": 9
         }
       ],
       "str": 13
@@ -143,12 +155,16 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_gem",
-          "quantity": 3
+          "material": "kingdomkeys:stormy_stone",
+          "quantity": 9
         },
         {
-          "material": "kingdomkeys:writhing_gem",
-          "quantity": 2
+          "material": "kingdomkeys:hungry_stone",
+          "quantity": 14
+        },
+        {
+          "material": "kingdomkeys:lightning_gem",
+          "quantity": 12
         }
       ],
       "str": 13
@@ -161,16 +177,21 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_crystal",
-          "quantity": 1
+          "material": "kingdomkeys:stormy_stone",
+          "quantity": 9
         },
         {
-          "material": "kingdomkeys:writhing_crystal",
-          "quantity": 1
+          "material": "kingdomkeys:hungry_stone",
+          "quantity": 15
+        },
+        {
+          "material": "kingdomkeys:lightning_gem",
+          "quantity": 15
         }
       ],
       "str": 14
     }
   ],
-  "reach": 1.0
+  "reach": 1.0,
+  "sound": "kingdomkeys:keyblade_hit/generic_hit"
 }

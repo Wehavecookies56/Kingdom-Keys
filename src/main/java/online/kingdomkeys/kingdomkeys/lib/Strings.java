@@ -1,7 +1,5 @@
 package online.kingdomkeys.kingdomkeys.lib;
 
-import online.kingdomkeys.kingdomkeys.KingdomKeys;
-
 public class Strings {
     // Records
     public static final String
@@ -15,110 +13,116 @@ public class Strings {
     		diveToTheHeart = "dive_to_the_heart",
     		stationOfSorrow = "station_of_sorrow",
 			castleOblivionInterior = "castle_oblivion_interior",
-			castleOblivion = "castle_oblivion";
+			castleOblivion = "castle_oblivion",
+			daybreakTown = "daybreak_town",
+			oceanBetween = "ocean_between";
 
     // Magics
     public static final String
 		Mag_Prefix = "magic_",
 
-		Magic_Fire = KingdomKeys.MODID + ":" + Mag_Prefix + "fire",
-		Magic_Fira = KingdomKeys.MODID + ":" + Mag_Prefix + "fira",
-		Magic_Firaga = KingdomKeys.MODID + ":" + Mag_Prefix + "firaga",
-		Magic_Firaza = KingdomKeys.MODID + ":" + Mag_Prefix + "firaza",
+		Magic_Fire = Mag_Prefix + "fire",
+		Magic_Fira = Mag_Prefix + "fira",
+		Magic_Firaga = Mag_Prefix + "firaga",
+		Magic_Firaza = Mag_Prefix + "firaza",
 
-		Magic_Blizzard = KingdomKeys.MODID + ":" + Mag_Prefix + "blizzard",
-		Magic_Blizzara = KingdomKeys.MODID + ":" + Mag_Prefix + "blizzara",
-		Magic_Blizzaga = KingdomKeys.MODID + ":" + Mag_Prefix + "blizzaga",
-		Magic_Blizzaza = KingdomKeys.MODID + ":" + Mag_Prefix + "blizzaza",
+		Magic_Blizzard = Mag_Prefix + "blizzard",
+		Magic_Blizzara = Mag_Prefix + "blizzara",
+		Magic_Blizzaga = Mag_Prefix + "blizzaga",
+		Magic_Blizzaza = Mag_Prefix + "blizzaza",
 
-		Magic_Water = KingdomKeys.MODID + ":" + Mag_Prefix + "water",
-		Magic_Watera = KingdomKeys.MODID + ":" + Mag_Prefix + "watera",
-		Magic_Waterga = KingdomKeys.MODID + ":" + Mag_Prefix + "waterga",
-		Magic_Waterza = KingdomKeys.MODID + ":" + Mag_Prefix + "waterza",
+		Magic_Water = Mag_Prefix + "water",
+		Magic_Watera = Mag_Prefix + "watera",
+		Magic_Waterga = Mag_Prefix + "waterga",
+		Magic_Waterza = Mag_Prefix + "waterza",
 
-		Magic_Thunder = KingdomKeys.MODID + ":" + Mag_Prefix + "thunder",
-		Magic_Thundara = KingdomKeys.MODID + ":" + Mag_Prefix + "thundara",
-		Magic_Thundaga = KingdomKeys.MODID + ":" + Mag_Prefix + "thundaga",
-		Magic_Thundaza = KingdomKeys.MODID + ":" + Mag_Prefix + "thundaza",
+		Magic_Thunder = Mag_Prefix + "thunder",
+		Magic_Thundara = Mag_Prefix + "thundara",
+		Magic_Thundaga = Mag_Prefix + "thundaga",
+		Magic_Thundaza = Mag_Prefix + "thundaza",
 
-		Magic_Cure = KingdomKeys.MODID + ":" + Mag_Prefix + "cure",
-		Magic_Cura = KingdomKeys.MODID + ":" + Mag_Prefix + "cura",
-		Magic_Curaga = KingdomKeys.MODID + ":" + Mag_Prefix + "curaga",
-		Magic_Curaza = KingdomKeys.MODID + ":" + Mag_Prefix + "curaza",
+		Magic_Cure = Mag_Prefix + "cure",
+		Magic_Cura = Mag_Prefix + "cura",
+		Magic_Curaga = Mag_Prefix + "curaga",
+		Magic_Curaza = Mag_Prefix + "curaza",
 
-		Magic_Aero = KingdomKeys.MODID + ":" + Mag_Prefix + "aero",
-		Magic_Aerora = KingdomKeys.MODID + ":" + Mag_Prefix + "aerora",
-		Magic_Aeroga = KingdomKeys.MODID + ":" + Mag_Prefix + "aeroga",
+		Magic_AeroShield = Mag_Prefix + "aero_shield",
+		Magic_AeroraShield = Mag_Prefix + "aerora_shield",
+		Magic_AerogaShield = Mag_Prefix + "aeroga_shield",
 
-		Magic_Magnet = KingdomKeys.MODID + ":" + Mag_Prefix + "magnet",
-		Magic_Magnera = KingdomKeys.MODID + ":" + Mag_Prefix + "magnera",
-		Magic_Magnega = KingdomKeys.MODID + ":" + Mag_Prefix + "magnega",
+		Magic_Aero = Mag_Prefix + "aero",
+		Magic_Aerora = Mag_Prefix + "aerora",
+		Magic_Aeroga = Mag_Prefix + "aeroga",
 
-		Magic_Reflect = KingdomKeys.MODID + ":" + Mag_Prefix + "reflect",
-		Magic_Reflera = KingdomKeys.MODID + ":" + Mag_Prefix + "reflera",
-		Magic_Reflega = KingdomKeys.MODID + ":" + Mag_Prefix + "reflega",
+		Magic_Magnet = Mag_Prefix + "magnet",
+		Magic_Magnera = Mag_Prefix + "magnera",
+		Magic_Magnega = Mag_Prefix + "magnega",
 
-		Magic_Gravity = KingdomKeys.MODID + ":" + Mag_Prefix + "gravity",
-		Magic_Gravira = KingdomKeys.MODID + ":" + Mag_Prefix + "gravira",
-		Magic_Graviga = KingdomKeys.MODID + ":" + Mag_Prefix + "graviga",
+		Magic_Reflect = Mag_Prefix + "reflect",
+		Magic_Reflera = Mag_Prefix + "reflera",
+		Magic_Reflega = Mag_Prefix + "reflega",
 
-		Magic_ZeroGravity = KingdomKeys.MODID + ":" + Mag_Prefix + "zerogravity",
-		Magic_ZeroGravira = KingdomKeys.MODID + ":" + Mag_Prefix + "zerogravira",
-		Magic_ZeroGraviga = KingdomKeys.MODID + ":" + Mag_Prefix + "zerograviga",
+		Magic_Gravity = Mag_Prefix + "gravity",
+		Magic_Gravira = Mag_Prefix + "gravira",
+		Magic_Graviga = Mag_Prefix + "graviga",
 
-		Magic_Stop = KingdomKeys.MODID + ":" + Mag_Prefix + "stop",
-		Magic_Stopra = KingdomKeys.MODID + ":" + Mag_Prefix + "stopra",
-		Magic_Stopga = KingdomKeys.MODID + ":" + Mag_Prefix + "stopga",
+		Magic_ZeroGravity = Mag_Prefix + "zerogravity",
+		Magic_ZeroGravira = Mag_Prefix + "zerogravira",
+		Magic_ZeroGraviga = Mag_Prefix + "zerograviga",
+
+		Magic_Stop = Mag_Prefix + "stop",
+		Magic_Stopra = Mag_Prefix + "stopra",
+		Magic_Stopga = Mag_Prefix + "stopga",
 
 		//BBS / DDD
-		Magic_DarkFiraga = KingdomKeys.MODID + ":" + Mag_Prefix + "darkfiraga",
-		Magic_TripleFiraga = KingdomKeys.MODID + ":" + Mag_Prefix + "triplefiraga",
-		Magic_CrawlingFiraga = KingdomKeys.MODID + ":" + Mag_Prefix + "crawlingfiraga",
-		Magic_FissionFiraga = KingdomKeys.MODID + ":" + Mag_Prefix + "fissionfiraga",
-		Magic_FiragaBurst = KingdomKeys.MODID + ":" + Mag_Prefix + "firagaburst",
-		Magic_Ignite = KingdomKeys.MODID + ":" + Mag_Prefix + "ignite",
+		Magic_DarkFiraga = Mag_Prefix + "darkfiraga",
+		Magic_TripleFiraga = Mag_Prefix + "triplefiraga",
+		Magic_CrawlingFiraga = Mag_Prefix + "crawlingfiraga",
+		Magic_FissionFiraga = Mag_Prefix + "fissionfiraga",
+		Magic_FiragaBurst = Mag_Prefix + "firagaburst",
+		Magic_Ignite = Mag_Prefix + "ignite",
 
-		Magic_TripleBlizzard = KingdomKeys.MODID + ":" + Mag_Prefix + "tripleblizzaga",
-		Magic_DeepFreeze = KingdomKeys.MODID + ":" + Mag_Prefix + "deepfreeze",
-		Magic_Glacier = KingdomKeys.MODID + ":" + Mag_Prefix + "glacier",
-		Magic_IceBarrage = KingdomKeys.MODID + ":" + Mag_Prefix + "icebarrage",
+		Magic_TripleBlizzard = Mag_Prefix + "tripleblizzaga",
+		Magic_DeepFreeze = Mag_Prefix + "deepfreeze",
+		Magic_Glacier = Mag_Prefix + "glacier",
+		Magic_IceBarrage = Mag_Prefix + "icebarrage",
 
-		Magic_ThundagaShot = KingdomKeys.MODID + ":" + Mag_Prefix + "thundagashot",
-		Magic_TriplePlasma = KingdomKeys.MODID + ":" + Mag_Prefix + "tripleplasma",
+		Magic_ThundagaShot = Mag_Prefix + "thundagashot",
+		Magic_TriplePlasma = Mag_Prefix + "tripleplasma",
 
-		Magic_Blackout = KingdomKeys.MODID + ":" + Mag_Prefix + "blackout",
-		Magic_Poison = KingdomKeys.MODID + ":" + Mag_Prefix + "posion",
+		Magic_Blackout = Mag_Prefix + "blackout",
+		Magic_Poison = Mag_Prefix + "posion",
 
-		Magic_Balloon = KingdomKeys.MODID + ":" + Mag_Prefix + "balloon",
-		Magic_Balloonra = KingdomKeys.MODID + ":" + Mag_Prefix + "balloonra",
-		Magic_Balloonga = KingdomKeys.MODID + ":" + Mag_Prefix + "balloonga",
+		Magic_Balloon = Mag_Prefix + "balloon",
+		Magic_Balloonra = Mag_Prefix + "balloonra",
+		Magic_Balloonga = Mag_Prefix + "balloonga",
 
-		Magic_Warp = KingdomKeys.MODID + ":" + Mag_Prefix + "warp",
-		Magic_Faith = KingdomKeys.MODID + ":" + Mag_Prefix + "faith",
-		Magic_MineShield = KingdomKeys.MODID + ":" + Mag_Prefix + "mine_shield",
-		Magic_MineSquare = KingdomKeys.MODID + ":" + Mag_Prefix + "mine_square",
-		Magic_SeekerMine = KingdomKeys.MODID + ":" + Mag_Prefix + "seeker_mine",
+		Magic_Warp = Mag_Prefix + "warp",
+		Magic_Faith = Mag_Prefix + "faith",
+		Magic_MineShield = Mag_Prefix + "mine_shield",
+		Magic_MineSquare = Mag_Prefix + "mine_square",
+		Magic_SeekerMine = Mag_Prefix + "seeker_mine",
 
-		Magic_Spark = KingdomKeys.MODID + ":" + Mag_Prefix + "spark",
-		Magic_Sparkra = KingdomKeys.MODID + ":" + Mag_Prefix + "sparkra",
-		Magic_Sparkga = KingdomKeys.MODID + ":" + Mag_Prefix + "sparkga",
+		Magic_Spark = Mag_Prefix + "spark",
+		Magic_Sparkra = Mag_Prefix + "sparkra",
+		Magic_Sparkga = Mag_Prefix + "sparkga",
 
-		Magic_Bind = KingdomKeys.MODID + ":" + Mag_Prefix + "bind",
-		Magic_Confuse = KingdomKeys.MODID + ":" + Mag_Prefix + "confuse",
-		Magic_Esuna = KingdomKeys.MODID + ":" + Mag_Prefix + "esuna",
-		Magic_Mini = KingdomKeys.MODID + ":" + Mag_Prefix + "mini",
-		Magic_Slow = KingdomKeys.MODID + ":" + Mag_Prefix + "slow";
+		Magic_Bind = Mag_Prefix + "bind",
+		Magic_Confuse = Mag_Prefix + "confuse",
+		Magic_Esuna = Mag_Prefix + "esuna",
+		Magic_Mini = Mag_Prefix + "mini",
+		Magic_Slow = Mag_Prefix + "slow";
 
 
 	// Drive Forms
     public static final String
     		DF_Prefix = "form_",
-            Form_Valor = KingdomKeys.MODID+":"+DF_Prefix+"valor",
-            Form_Wisdom = KingdomKeys.MODID+":"+DF_Prefix+"wisdom",
-            Form_Limit = KingdomKeys.MODID+":"+DF_Prefix+"limit",
-            Form_Master = KingdomKeys.MODID+":"+DF_Prefix+"master",
-            Form_Final = KingdomKeys.MODID+":"+DF_Prefix+"final",
-            Form_Anti = KingdomKeys.MODID+":"+DF_Prefix+"anti";
+            Form_Valor = DF_Prefix+"valor",
+            Form_Wisdom = DF_Prefix+"wisdom",
+            Form_Limit = DF_Prefix+"limit",
+            Form_Master = DF_Prefix+"master",
+            Form_Final = DF_Prefix+"final",
+            Form_Anti = DF_Prefix+"anti";
             
     // Limits
        public static final String
@@ -126,15 +130,62 @@ public class Strings {
        		LaserDome = "laser_dome",
        		ArrowRain = "arrow_rain",
 			SlowThunderTrail = "slow_thunder_trail",
-			FastThunderTrail = "fast_thunder_trail";
+			FastThunderTrail = "fast_thunder_trail",
+		    FlameRing = "flame_ring",
+			FlameWall = "flame_wall",
+			LanceStorm = "lance_storm",
+			BerserkClaymore = "berserk_claymore",
+			FallingSpear = "falling_spear",
+			IcePillars = "ice_pillars",
+			Powerup = "powerup",
+			RockyPillars = "rocky_pillars",
+			WaterWall = "water_wall",
+			WaterTrail = "water_trail",
+			CardRing = "card_ring",
+			ScytheDash = "scythe_dash",
+			PetalVoid = "petal_void",
+			LightBarrage = "light_barrage",
+			IllusoryMeteor = "illusory_meteor";
        
     // Shotlocks
        public static final String
        		DarkVolley = "dark_volley",
-       		Ragnarok = "circular_shotlock",
+       		Ragnarok = "ragnarok",
        		SonicShadow = "sonic_shadow",
        		PrismRain = "prism_rain",
-			UltimaCannon = "ultima_cannon";
+			UltimaCannon = "ultima_cannon",
+			FlameSalvo = "flame_salvo",
+			AbsoluteZero = "absolute_zero",
+			Thunderstorm = "thunderstorm",
+			ChaosSnake = "chaos_snake",
+			BubbleBlaster = "bubble_blaster",
+			BioBarrage = "bio_barrage",
+			PulseBomb = "pulse_bomb",
+			PhotonCharge = "photon_charge",
+			LightningRay = "lightning_ray",
+			MeteorShower = "meteor_shower",
+			Multivortex = "multivortex",
+			Lightbloom = "lightbloom";
+
+	// Shotlock items
+	public static final String
+			ShotlockItemDarkVolley = "shotlock_dark_volley",
+			ShotlockItemRagnarok = "shotlock_ragnarok",
+			ShotlockItemSonicShadow = "shotlock_sonic_shadow",
+			ShotlockItemPrismRain = "shotlock_prism_rain",
+			ShotlockItemUltimaCannon = "shotlock_ultima_cannon",
+			ShotlockItemFlameSalvo = "shotlock_flame_salvo",
+			ShotlockItemAbsoluteZero = "shotlock_absolute_zero",
+			ShotlockItemThunderstorm = "shotlock_thunderstorm",
+			ShotlockItemChaosSnake = "shotlock_chaos_snake",
+			ShotlockItemBubbleBlaster = "shotlock_bubble_blaster",
+			ShotlockItemBioBarrage = "shotlock_bio_barrage",
+			ShotlockItemPulseBomb = "shotlock_pulse_bomb",
+			ShotlockItemPhotonCharge = "shotlock_photon_charge",
+			ShotlockItemLightningRay = "shotlock_lightning_ray",
+			ShotlockItemMeteorShower = "shotlock_meteor_shower",
+			ShotlockItemMultivortex = "shotlock_multivortex",
+			ShotlockItemLightbloom = "shotlock_lightbloom";
     
     // Reaction Commands
        public static final String
@@ -143,84 +194,90 @@ public class Strings {
        		autoLimitRC = "rc_auto_limit",
        		autoMasterRC = "rc_auto_master",
        		autoFinalRC = "rc_auto_final",
-       		firazaRC = "rc_firaga";
-       
+       		launchRC = "rc_launch",
+       		landRC = "rc_land",
+       		reversalRC = "rc_reversal";
+
     // Abilities
     public static final String
     		AB_Prefix = "ability_",
     		//Action
-    		autoValor = KingdomKeys.MODID+":"+AB_Prefix +"auto_valor",
-    		autoWisdom = KingdomKeys.MODID+":"+AB_Prefix +"auto_wisdom",
-    		autoLimit = KingdomKeys.MODID+":"+AB_Prefix +"auto_limit",
-    		autoMaster = KingdomKeys.MODID+":"+AB_Prefix +"auto_master",
-    		autoFinal = KingdomKeys.MODID+":"+AB_Prefix +"auto_final",
-    		strikeRaid = KingdomKeys.MODID+":"+AB_Prefix +"strike_raid",
-			flowStep = KingdomKeys.MODID+":"+AB_Prefix +"flowstep",
+    		autoValor = AB_Prefix +"auto_valor",
+    		autoWisdom = AB_Prefix +"auto_wisdom",
+    		autoLimit = AB_Prefix +"auto_limit",
+    		autoMaster = AB_Prefix +"auto_master",
+    		autoFinal = AB_Prefix +"auto_final",
+    		strikeRaid = AB_Prefix +"strike_raid",
+			flowStep = AB_Prefix +"flowstep",
     		
     		//Growth
-    		highJump = KingdomKeys.MODID+":"+AB_Prefix +"high_jump",
-    		quickRun = KingdomKeys.MODID+":"+AB_Prefix +"quick_run",
-    		dodgeRoll = KingdomKeys.MODID+":"+AB_Prefix +"dodge_roll",
-    		aerialDodge = KingdomKeys.MODID+":"+AB_Prefix +"aerial_dodge",
-    		glide = KingdomKeys.MODID+":"+AB_Prefix +"glide",
+    		highJump = AB_Prefix +"high_jump",
+    		quickRun = AB_Prefix +"quick_run",
+    		dodgeRoll = AB_Prefix +"dodge_roll",
+    		aerialDodge = AB_Prefix +"aerial_dodge",
+    		glide = AB_Prefix +"glide",
 
-			airSlide = KingdomKeys.MODID+":"+AB_Prefix +"air_slide",
-			wallKick = KingdomKeys.MODID+":"+AB_Prefix +"wall_kick",
-			superJump = KingdomKeys.MODID+":"+AB_Prefix +"superjump",
-			superSlide = KingdomKeys.MODID+":"+AB_Prefix +"superslide",
+			airSlide = AB_Prefix +"air_slide",
+			wallKick = AB_Prefix +"wall_kick",
+			superJump = AB_Prefix +"superjump",
+			superSlide = AB_Prefix +"superslide",
 
     		//Support
-    		zeroExp = KingdomKeys.MODID+":"+AB_Prefix +"zero_exp",
-    		scan = KingdomKeys.MODID+":"+AB_Prefix +"scan",
-    		magicLockOn = KingdomKeys.MODID+":"+AB_Prefix +"magic_lock_on",
-    		leafBracer = KingdomKeys.MODID+":"+AB_Prefix +"leaf_bracer",
-    		hpGain = KingdomKeys.MODID+":"+AB_Prefix +"hp_gain",
-    		mpSafety = KingdomKeys.MODID+":"+AB_Prefix +"mp_safety",
-    		mpHaste = KingdomKeys.MODID+":"+AB_Prefix +"mp_haste",
-    		mpHastera = KingdomKeys.MODID+":"+AB_Prefix +"mp_hastera",
-    		mpHastega = KingdomKeys.MODID+":"+AB_Prefix +"mp_hastega",
-    		mpRage = KingdomKeys.MODID+":"+AB_Prefix +"mp_rage",
-    		endlessMagic = KingdomKeys.MODID+":"+AB_Prefix +"endless_magic",
-    		damageDrive = KingdomKeys.MODID+":"+AB_Prefix +"damage_drive",
-    		driveBoost = KingdomKeys.MODID+":"+AB_Prefix +"drive_boost",
-    		formBoost = KingdomKeys.MODID+":"+AB_Prefix +"form_boost",
-    		fullMPBlast = KingdomKeys.MODID+":"+AB_Prefix +"full_mp_blast",
-    		fireBoost =  KingdomKeys.MODID+":"+AB_Prefix +"fire_boost",
-			blizzardBoost =  KingdomKeys.MODID+":"+AB_Prefix +"blizzard_boost",
-			waterBoost =  KingdomKeys.MODID+":"+AB_Prefix +"water_boost",
-    		thunderBoost =  KingdomKeys.MODID+":"+AB_Prefix +"thunder_boost",
-    		experienceBoost =  KingdomKeys.MODID+":"+AB_Prefix +"experience_boost",
-    		treasureMagnet =  KingdomKeys.MODID+":"+AB_Prefix +"treasure_magnet",
-    		secondChance =  KingdomKeys.MODID+":"+AB_Prefix +"second_chance",
-    		wizardsRuse =  KingdomKeys.MODID+":"+AB_Prefix +"wizards_ruse",
-    		extraCast =  KingdomKeys.MODID+":"+AB_Prefix +"extra_cast",
-    		damageControl =  KingdomKeys.MODID+":"+AB_Prefix +"damage_control",
-    		lightAndDarkness =  KingdomKeys.MODID+":"+AB_Prefix +"light_and_darkness",
-    		synchBlade = KingdomKeys.MODID+":"+AB_Prefix +"synch_blade",
-    		driveConverter = KingdomKeys.MODID+":"+AB_Prefix +"drive_converter",
-    		focusConverter = KingdomKeys.MODID+":"+AB_Prefix +"focus_converter",
-    		mpThrift = KingdomKeys.MODID+":"+AB_Prefix +"mp_thrift",
-    		criticalBoost = KingdomKeys.MODID+":"+AB_Prefix +"critical_boost",
-    		itemBoost = KingdomKeys.MODID+":"+AB_Prefix +"item_boost",
-    		jackpot = KingdomKeys.MODID+":"+AB_Prefix +"jackpot",
-    		luckyLucky = KingdomKeys.MODID+":"+AB_Prefix +"lucky_lucky",
-    		grandMagicHaste = KingdomKeys.MODID+":"+AB_Prefix +"grand_magic_haste",
-			grandMagicExtender = KingdomKeys.MODID+":"+AB_Prefix +"grand_magic_extender",
-			comboPlus = KingdomKeys.MODID + ":" + AB_Prefix +"combo_plus",
-			negativeCombo = KingdomKeys.MODID + ":" + AB_Prefix +"negative_combo",
-			finishingPlus = KingdomKeys.MODID + ":" + AB_Prefix +"finishing_plus",
-			berserkCharge = KingdomKeys.MODID+":"+AB_Prefix +"berserk_charge",
-    		darkDomination = KingdomKeys.MODID+":"+AB_Prefix +"dark_domination",
-			protect = KingdomKeys.MODID+":"+AB_Prefix + "protect",
-			protectra = KingdomKeys.MODID+":"+AB_Prefix + "protectra",
-			protectga = KingdomKeys.MODID+":"+AB_Prefix + "protectga",
-            encounterPlus =  KingdomKeys.MODID+":"+AB_Prefix +"encounter_plus",
+    		zeroExp = AB_Prefix +"zero_exp",
+    		scan = AB_Prefix +"scan",
+    		magicLockOn = AB_Prefix +"magic_lock_on",
+    		leafBracer = AB_Prefix +"leaf_bracer",
+    		hpGain = AB_Prefix +"hp_gain",
+    		mpSafety = AB_Prefix +"mp_safety",
+    		mpHaste = AB_Prefix +"mp_haste",
+    		mpHastera = AB_Prefix +"mp_hastera",
+    		mpHastega = AB_Prefix +"mp_hastega",
+    		mpRage = AB_Prefix +"mp_rage",
+    		endlessMagic = AB_Prefix +"endless_magic",
+    		damageDrive = AB_Prefix +"damage_drive",
+    		driveBoost = AB_Prefix +"drive_boost",
+    		formBoost = AB_Prefix +"form_boost",
+    		fullMPBlast = AB_Prefix +"full_mp_blast",
+    		fireBoost =  AB_Prefix +"fire_boost",
+			blizzardBoost =  AB_Prefix +"blizzard_boost",
+			waterBoost =  AB_Prefix +"water_boost",
+    		thunderBoost =  AB_Prefix +"thunder_boost",
+    		experienceBoost =  AB_Prefix +"experience_boost",
+    		treasureMagnet =  AB_Prefix +"treasure_magnet",
+    		secondChance =  AB_Prefix +"second_chance",
+    		onceMore = AB_Prefix +"once_more",
+    		aerialRecovery = AB_Prefix +"aerial_recovery",
+    		guard = AB_Prefix +"guard",
+    		counterguard = AB_Prefix +"counterguard",
+    		wizardsRuse =  AB_Prefix +"wizards_ruse",
+    		extraCast =  AB_Prefix +"extra_cast",
+    		damageControl =  AB_Prefix +"damage_control",
+    		lightAndDarkness =  AB_Prefix +"light_and_darkness",
+    		synchBlade = AB_Prefix +"synch_blade",
+    		driveConverter = AB_Prefix +"drive_converter",
+    		focusConverter = AB_Prefix +"focus_converter",
+    		mpThrift = AB_Prefix +"mp_thrift",
+    		criticalBoost = AB_Prefix +"critical_boost",
+    		itemBoost = AB_Prefix +"item_boost",
+    		jackpot = AB_Prefix +"jackpot",
+    		luckyStrike = AB_Prefix +"lucky_lucky",
+    		grandMagicHaste = AB_Prefix +"grand_magic_haste",
+			grandMagicExtender = AB_Prefix +"grand_magic_extender",
+			comboPlus = AB_Prefix +"combo_plus",
+			negativeCombo = AB_Prefix +"negative_combo",
+			finishingPlus = AB_Prefix +"finishing_plus",
+			berserkCharge = AB_Prefix +"berserk_charge",
+    		darkDomination = AB_Prefix +"dark_domination",
+			protect = AB_Prefix + "protect",
+			protectra = AB_Prefix + "protectra",
+			protectga = AB_Prefix + "protectga",
+            encounterPlus =  AB_Prefix +"encounter_plus",
 
-    		firaza = KingdomKeys.MODID+":"+AB_Prefix +"firaza",
-    		blizzaza = KingdomKeys.MODID+":"+AB_Prefix +"blizzaza",
-    		waterza = KingdomKeys.MODID+":"+AB_Prefix +"waterza",
-    		thundaza = KingdomKeys.MODID+":"+AB_Prefix +"thundaza",
-   			curaza = KingdomKeys.MODID+":"+AB_Prefix +"curaza";
+    		firaza = AB_Prefix +"firaza",
+    		blizzaza = AB_Prefix +"blizzaza",
+    		waterza = AB_Prefix +"waterza",
+    		thundaza = AB_Prefix +"thundaza",
+   			curaza = AB_Prefix +"curaza";
 
     
     // Synthesis Materials
@@ -449,6 +506,8 @@ public class Strings {
             Gui_Menu_Items = Gui_Menu + ".items",
             Gui_Menu_Items_Equipment = Gui_Menu_Items + ".equipment",
             Gui_Menu_Items_Stock = Gui_Menu_Items + ".stock",
+            Gui_Menu_Items_Stock_Take = Gui_Menu_Items + ".stock.take",
+            Gui_Menu_Items_Stock_Take_Full = Gui_Menu_Items + ".stock.take.full",
             
             Gui_Menu_Items_Equipment_Weapon = Gui_Menu_Items_Equipment + ".weapon",
             Gui_Menu_Items_Equipment_Shotlock = Gui_Menu_Items_Equipment + ".shotlock",
@@ -479,6 +538,29 @@ public class Strings {
 			Gui_Menu_Party_Member_Leave = Gui_Menu_Party+".leave",
             
             Gui_Menu_Party_Join = Gui_Menu_Party + ".join",
+
+            Gui_Menu_Struggle = Gui_Menu + ".struggle",
+            Gui_Menu_Struggle_Menu_Title = Gui_Menu_Struggle + ".menu_title",
+            Gui_Menu_Struggle_Create_Title = Gui_Menu_Struggle + ".create_title",
+            Gui_Menu_Struggle_Join_Title = Gui_Menu_Struggle + ".join_title",
+            Gui_Menu_Struggle_Settings_Title = Gui_Menu_Struggle + ".settings_title",
+            Gui_Menu_Struggle_Create_Button = Gui_Menu_Struggle + ".create_button",
+            Gui_Menu_Struggle_Join_Button = Gui_Menu_Struggle + ".join_button",
+            Gui_Menu_Struggle_Settings_Button = Gui_Menu_Struggle + ".settings_button",
+            Gui_Menu_Struggle_Delete_Button = Gui_Menu_Struggle + ".delete_button",
+            Gui_Menu_Struggle_Leave_Button = Gui_Menu_Struggle + ".leave_button",
+            Gui_Menu_Struggle_Ready = Gui_Menu_Struggle + ".ready",
+            Gui_Menu_Struggle_Cancel_Ready = Gui_Menu_Struggle + ".cancel_ready",
+            Gui_Menu_Struggle_Reason_Not_Configured = Gui_Menu_Struggle + ".reason_not_configured",
+            Gui_Menu_Struggle_Reason_Waiting = Gui_Menu_Struggle + ".reason_waiting",
+            Gui_Menu_Struggle_Name_And_Size = Gui_Menu_Struggle + ".name_and_size",
+            Gui_Menu_Struggle_Name = Gui_Menu_Struggle + ".name",
+            Gui_Menu_Struggle_Damage_Mult = Gui_Menu_Struggle + ".damage_mult",
+            Gui_Menu_Struggle_Round_Time = Gui_Menu_Struggle + ".round_time",
+            Gui_Menu_Struggle_Starting_Score = Gui_Menu_Struggle + ".starting_score",
+            Gui_Menu_Struggle_Corners_Pos = Gui_Menu_Struggle + ".corners_pos",
+            Gui_Menu_Struggle_Spectator_Pos = Gui_Menu_Struggle + ".spectator_pos",
+            Gui_Menu_Struggle_Mode = Gui_Menu_Struggle + ".mode",
             
             Gui_Menu_Status = Gui_Menu + ".status",
             Gui_Menu_Status_Title = Gui_Menu_Status + ".title",
@@ -609,9 +691,14 @@ public class Strings {
 			//KO Screen
 			Gui_KO = "gui.ko",
 			Gui_KO_Die = Gui_KO + ".give_up",
-			Gui_KO_Quit = Gui_KO + ".exit";
+			Gui_KO_Quit = Gui_KO + ".exit",
 
-    //Items
+			//Item get
+			Gui_ItemGet_Obtained = "gui.itemget.obtained",
+			Gui_ItemGet_Dismiss = "gui.itemget.dismiss";
+
+
+	//Items
 
     public static final String
         iceCream = "ice_cream",
@@ -653,9 +740,14 @@ public class Strings {
 		SpellCura = "spellcura",
 		SpellCuraga = "spellcuraga",
 
+		// The plain names stay with the twister, so a spell already sitting in a chest teaches the new one
 		SpellAero = "spellaero",
 		SpellAerora = "spellaerora",
 		SpellAeroga = "spellaeroga",
+
+		SpellAeroShield = "spellaeroshield",
+		SpellAeroraShield = "spellaerorashield",
+		SpellAerogaShield = "spellaerogashield",
 
 		SpellMagnet = "spellmagnet",
 		SpellMagnera = "spellmagnera",
@@ -729,6 +821,7 @@ public class Strings {
         wayfinder = "wayfinder",
         gummiPhone = "gummiphone",
 		gummiShipBlueprint = "gummi_ship_blueprint",
+		gummiShipBlueprintCreative = "gummi_ship_blueprint_creative",
         
         powerBoost = "powerboost",
         magicBoost = "magicboost",
@@ -904,6 +997,7 @@ public class Strings {
         ladyLuck = "lady_luck",
         leviathan = "leviathan",
         lionheart = "lionheart",
+        longNight = "long_night",
         lostMemory = "lost_memory",
         lunarEclipse = "lunar_eclipse",
         markOfAHero = "mark_of_a_hero",
@@ -1052,6 +1146,7 @@ public class Strings {
         ladyLuckChain = "lady_luck_chain",
         leviathanChain = "leviathan_chain",
         lionheartChain = "lionheart_chain",
+        longNightChain = "long_night_chain",
         lostMemoryChain = "lost_memory_chain",
         lunarEclipseChain = "lunar_eclipse_chain",
         markOfAHeroChain = "mark_of_a_hero_chain",
@@ -1507,7 +1602,10 @@ public class Strings {
 			AlmightyDarkness = "almighty_darkness",
 			SleepingDarkness = "sleeping_darkness",
 			LoomingDarkness = "looming_darkness",
+			WhiteRoom = "white_room",
+			BlackRoom = "black_room",
 			BottomlessDarkness = "bottomless_darkness",
+			RouletteRoom = "roulette_room",
 			MartialWaking = "martial_waking",
 			SorcerousWaking = "sorcerous_waking",
 			AlchemicWaking = "alchemic_waking",
@@ -1533,7 +1631,8 @@ public class Strings {
 			RedCardPack = "red_card_pack",
 			GreenCardPack = "green_card_pack",
 			BlueCardPack = "blue_card_pack",
-			RandomCardPack = "random_card_pack";
+			RandomCardPack = "random_card_pack",
+			RouletteBonus = "roulette_bonus";
 
 	//World Cards
 	public static String EmptyCard = "empty_card";

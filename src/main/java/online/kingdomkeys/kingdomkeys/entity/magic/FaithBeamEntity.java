@@ -12,10 +12,9 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.HitResult;
 import online.kingdomkeys.kingdomkeys.damagesource.KKDamageTypes;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
-import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.lib.Party;
-import online.kingdomkeys.kingdomkeys.lib.Strings;
+import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.util.HashSet;
@@ -100,10 +99,10 @@ public class FaithBeamEntity extends BaseMagicProjectile {
 			return;
 		}
 		AABB area = getBoundingBox().inflate(1.0D);
-		Party party = WorldData.get(getOwner().getServer()).getPartyFromMember(getOwner().getUUID());
+		Party party = Utils.getParty(getOwner());
 
 		for (LivingEntity target : level().getEntitiesOfClass(LivingEntity.class, area, e -> e.isAlive() && e != getOwner())) {
-			if (party != null && party.getMember(target.getUUID()) != null && !party.getFriendlyFire()) {
+			if (!Utils.canHarm(party, target)) {
 				continue;
 			}
 
@@ -111,7 +110,7 @@ public class FaithBeamEntity extends BaseMagicProjectile {
 				float healAmount = 2;
 				if (getOwner() instanceof Player player) {
 					PlayerData playerData = PlayerData.get(player);
-					int localLevel = Utils.getMagicHighestLocalLevel(playerData.getEquippedMagics(), Strings.Magic_Faith);
+					int localLevel = Utils.getMagicHighestLocalLevel(playerData.getEquippedMagics(), ModMagic.FAITH.location());
 
 					float totalHealPercent = 0.4F + localLevel * 0.1F; //0.5F --> 1.0F
 					int beamCount = 6;

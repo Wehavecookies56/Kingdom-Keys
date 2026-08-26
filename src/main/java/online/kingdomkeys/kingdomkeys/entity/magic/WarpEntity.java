@@ -19,7 +19,6 @@ import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.mob.MarluxiaEntity;
-import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import org.joml.Vector3f;
 
@@ -72,10 +71,13 @@ public class WarpEntity extends BaseMagicProjectile {
 
 			// Pretty Stuff
 			for (int t = 1; t < 360; t += 20) {
+				double radT = Math.toRadians(t);
+				double sinT = Math.sin(radT);
+				double y = Y + (radius * Math.cos(radT));
 				for (int s = 1; s < 360; s += 20) {
-					double x = X + (radius * Math.cos(Math.toRadians(s)) * Math.sin(Math.toRadians(t)));
-					double z = Z + (radius * Math.sin(Math.toRadians(s)) * Math.sin(Math.toRadians(t)));
-					double y = Y + (radius * Math.cos(Math.toRadians(t)));
+					double radS = Math.toRadians(s);
+					double x = X + (radius * Math.cos(radS) * sinT);
+					double z = Z + (radius * Math.sin(radS) * sinT);
 					((ServerLevel) level()).sendParticles(ParticleTypes.DRAGON_BREATH, x, y + 1, z, 1, 0, 0, 0, 0);
 					((ServerLevel) level()).sendParticles(new DustParticleOptions(new Vector3f(0F, 0F, 0F), 6F), x, y + 1, z, 1, 0, 0, 0, 0);
 					((ServerLevel) level()).sendParticles(new DustParticleOptions(new Vector3f(0.45F, 0.35F, 0F), 6F), x, y + 1, z, 1, 0, 0, 0, 0);
@@ -85,15 +87,7 @@ public class WarpEntity extends BaseMagicProjectile {
 			WorldData worldData = WorldData.get(level().getServer());
 			if (getOwner() != null && worldData != null) {
 				List<Entity> list = level().getEntities(getOwner(), getBoundingBox().inflate(radius));
-				Party casterParty = worldData.getPartyFromMember(getOwner().getUUID());
-
-				if (casterParty != null && !casterParty.getFriendlyFire()) {
-					for (Party.Member m : casterParty.getMembers()) {
-						list.remove(level().getPlayerByUUID(m.getUUID()));
-					}
-				} else {
-					list.remove(getOwner());
-				}
+				Utils.removeAllies(getOwner(), list);
 
 				for (Entity e : list) {
 					if (!(e instanceof LivingEntity)) {
@@ -124,4 +118,3 @@ public class WarpEntity extends BaseMagicProjectile {
 		}
 	}
 }
-

@@ -2,23 +2,23 @@ package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.ro
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.nbt.*;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtException;
+import net.minecraft.nbt.NbtOps;
+import net.minecraft.nbt.NbtUtils;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.event.EventHooks;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.data.CastleOblivionData;
 import online.kingdomkeys.kingdomkeys.data.GlobalData;
 import online.kingdomkeys.kingdomkeys.entity.block.CardDoorTileEntity;
@@ -29,6 +29,8 @@ import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.enc
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.floor.Floor;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModRoomStructures;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModRoomTypes;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.modifiers.RoomModifier;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.modifiers.RoomModifierType;
 
 import javax.annotation.Nullable;
 import java.io.IOException;
@@ -46,10 +48,15 @@ public class Room {
     List<LivingEntity> cachedEntities = new ArrayList<>();
 
     List<BlockPos> spawnPoints;
+    List<TreasurePoint> treasurePoints;
+
+    public record TreasurePoint(BlockPos pos, BlockState state) {}
 
     RoomPos roomPos;
 
     @Nullable EncounterInstance encounter;
+
+    RoomStructure.RoomDimensions dimensions;
 
     //Constructor used when generating a room
     public Room(RoomType type, int parentFloor, RoomPos roomPos, int valueUsed) {
@@ -58,13 +65,14 @@ public class Room {
         this.doors = new HashMap<>();
         this.roomPos = roomPos;
         this.spawnPoints = new ArrayList<>();
+        this.treasurePoints = new ArrayList<>();
         this.valueUsed = valueUsed;
         this.mobsRemaining = type.getNumberOfEnemies();
     }
 
     //Deserialization constructor
     public Room(CompoundTag tag) {
-        this(ModRoomTypes.registry.get().getValue(ResourceLocation.parse(tag.getString("type"))), tag.getInt("parent"), RoomPos.deserializeNBT(tag.getCompound("room_pos")), tag.getInt("value_used"));
+        this(ModRoomTypes.registry.get().getValue(KingdomKeys.rl(tag.getString("type"))), tag.getInt("parent"), RoomPos.deserializeNBT(tag.getCompound("room_pos")), tag.getInt("value_used"));
         deserializeNBT(tag);
     }
 
@@ -96,6 +104,19 @@ public class Room {
         });
     }
 
+    //gets a list of modifiers of type, returns empty list if none exist
+    public <T extends RoomModifier> List<T> getModifiers(RoomModifierType<?> type) {
+        List<T> modifiers = new ArrayList<>();
+        if (!getType().getModifiers().isEmpty()) {
+            for (RoomModifier modifier : getType().getModifiers()) {
+                if (modifier.type().equals(type)) {
+                    modifiers.add((T) modifier);
+                }
+            }
+        }
+        return modifiers;
+    }
+
     public void removeCurrentSpawn() {
         currentlySpawned--;
     }
@@ -104,8 +125,9 @@ public class Room {
         return structure;
     }
 
-    public void setStructure(RoomStructure structure) {
+    public void setStructure(ServerLevel level, RoomStructure structure) {
         this.structure = structure;
+        readDimensionsFromStructure(level);
     }
 
     public Optional<EncounterInstance> getEncounter() {
@@ -160,6 +182,10 @@ public class Room {
         return valueUsed;
     }
 
+    public void setValueUsed(int valueUsed) {
+        this.valueUsed = valueUsed;
+    }
+
     public RoomData getRoomData(CastleOblivionData.InteriorData data) {
         return getParent(data).getRoom(getRoomPos());
     }
@@ -171,6 +197,13 @@ public class Room {
     public void addSpawnPoint(BlockPos pos) {
         this.spawnPoints.add(pos);
         KingdomKeys.LOGGER.debug("Found spawn point #{} [{}]", spawnPoints.size(), pos.toShortString());
+    }
+
+    public void addTreasurePoint(BlockPos pos, BlockState state) {
+        if (state.is(ModBlocks.treasureChest.get())) {
+            this.treasurePoints.add(new TreasurePoint(pos, state));
+            KingdomKeys.LOGGER.debug("Found treasure point #{} [{}]", treasurePoints.size(), pos.toShortString());
+        }
     }
 
     public int getMobsRemaining() {
@@ -190,6 +223,10 @@ public class Room {
             currentlySpawned += Math.min(toSpawn, mobsRemaining);
             mobsRemaining -= currentlySpawned;
         }
+    }
+
+    public List<TreasurePoint> getTreasurePoints() {
+        return treasurePoints;
     }
 
     public List<BlockPos> getSpawnPoints() {
@@ -274,7 +311,7 @@ public class Room {
     }
 
     public boolean inRoom(BlockPos pos) {
-        return pos.getX() >= position.getX() - 1 && pos.getX() <= position.getX() + structure.getWidth() && pos.getZ() >= position.getZ() - 1 && pos.getZ() <= position.getZ() + structure.getDepth();
+        return pos.getX() >= position.getX() - 1 && pos.getX() <= position.getX() + getWidth() && pos.getZ() >= position.getZ() - 1 && pos.getZ() <= position.getZ() + getDepth();
     }
 
     public boolean clearRoom(ServerLevel level) {
@@ -282,26 +319,12 @@ public class Room {
         if (parent != null) {
             if (!shouldRoomTick(getPlayersInRoom(level.getServer(), this))) {
                 BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos(position.getX(), position.getY(), position.getZ());
-                getEntitiesInRoom(level, this).forEach(LivingEntity::kill);
-                int width = structure.getWidth();
-                int height = 128;
-                int depth = structure.getDepth();
-                try {
-                    String floorFolder = !structure.useFloorSpecificStructure() ? "all" : parent.getType().getRegistryName().getPath();
-                    ResourceLocation structureFile = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "structure/castle_oblivion/rooms/" + floorFolder + "/" + structure.getPath() + ".nbt");
-                    Resource resource = level.getServer().getResourceManager().getResource(structureFile).orElseThrow(IOException::new);
-                    KingdomKeys.LOGGER.debug("Generating structure file {}", structureFile);
-                    CompoundTag main = NbtIo.readCompressed(resource.open(), NbtAccounter.unlimitedHeap());
-                    ListTag size = main.getList("size", Tag.TAG_INT);
-                    width = size.getInt(0);
-                    height = size.getInt(1);
-                    depth = size.getInt(2);
-                } catch (IOException e) {
-                    KingdomKeys.LOGGER.error("Failed to read structure file", e.fillInStackTrace());
-                }
-                for (int z = 0; z < width+1; z++) {
-                    for (int y = 0; y < height; y++) {
-                        for (int x = 0; x < depth+1; x++) {
+                getAllEntitiesInRoom(level, this).forEach(entity -> {
+                    entity.remove(Entity.RemovalReason.DISCARDED);
+                });
+                for (int z = 0; z < getWidth()+1; z++) {
+                    for (int y = 0; y < 256; y++) {
+                        for (int x = 0; x < getDepth()+1; x++) {
                             pos.set(position.getX() + x, position.getY() + y, position.getZ() + z);
                             Utils.setBlockWithoutUpdate(level, pos, Blocks.AIR.defaultBlockState());
                         }
@@ -342,11 +365,16 @@ public class Room {
         if (encounter != null) {
             tag.put("encounter", encounter.serializeNBT());
         }
+        if (dimensions != null) {
+            RoomStructure.RoomDimensions.CODEC.encodeStart(NbtOps.INSTANCE, dimensions).resultOrPartial(KingdomKeys.LOGGER::error).ifPresent(dimensionsTag -> {
+                tag.put("structure_dimensions", dimensionsTag);
+            });
+        }
         return tag;
     }
 
     public void deserializeNBT(CompoundTag tag) {
-        position = NbtUtils.readBlockPos(tag, "position").get();
+        position = NbtUtils.readBlockPos(tag, "position").orElseThrow();
         mobsRemaining = tag.getInt("mobs");
         currentlySpawned = tag.getInt("current_mobs");
         int doorPosSize = tag.getInt("door_positions_size");
@@ -354,14 +382,17 @@ public class Room {
         for (int i = 0; i < doorPosSize; i++) {
             doors.put(RoomDirection.values()[doorPosTag.getInt("direction_" + i)], new Door(doorPosTag.getCompound("door_" + i)));
         }
-        structure = ModRoomStructures.registry.get().getValue(ResourceLocation.parse(tag.getString("structure")));
+        structure = ModRoomStructures.registry.get().getValue(KingdomKeys.rl(tag.getString("structure")));
         CompoundTag spawnPointsTag = tag.getCompound("spawn_points");
         int spawnPointsSize = tag.getInt("spawn_points_size");
         for (int i = 0; i < spawnPointsSize; i++) {
-            spawnPoints.add(NbtUtils.readBlockPos(spawnPointsTag,"spawn_point_" + i).get());
+            spawnPoints.add(NbtUtils.readBlockPos(spawnPointsTag,"spawn_point_" + i).orElseThrow());
         }
         if (tag.contains("encounter")) {
             encounter = new EncounterInstance(tag.getCompound("encounter"));
+        }
+        if (tag.contains("structure_dimensions")) {
+            dimensions = RoomStructure.RoomDimensions.CODEC.parse(NbtOps.INSTANCE, tag.get("structure_dimensions")).getPartialOrThrow(NbtException::new);
         }
     }
 
@@ -372,7 +403,7 @@ public class Room {
 
     public record Door(DoorData data, BlockPos pos) {
         public Door(CompoundTag tag) {
-            this(new DoorData(tag.getCompound("data")), NbtUtils.readBlockPos(tag, "pos").get());
+            this(new DoorData(tag.getCompound("data")), NbtUtils.readBlockPos(tag, "pos").orElseThrow());
         }
 
         public CompoundTag serializeNBT() {
@@ -404,6 +435,22 @@ public class Room {
         return players;
     }
 
+    public static List<Entity> getAllEntitiesInRoom(ServerLevel level, Room room) {
+        List<Entity> entities = new ArrayList<>();
+        level.getAllEntities().forEach(entity -> {
+            if (room.inRoom(entity.blockPosition())) {
+                if (entity instanceof LivingEntity livingEntity) {
+                    if (!(entity instanceof Player)) {
+                        entities.add(livingEntity);
+                    }
+                } else {
+                    entities.add(entity);
+                }
+            }
+        });
+        return entities;
+    }
+
     public static List<LivingEntity> getEntitiesInRoom(ServerLevel level, Room room) {
         List<LivingEntity> entities = new ArrayList<>();
         level.getAllEntities().forEach(entity -> {
@@ -418,6 +465,38 @@ public class Room {
             }
         });
         return entities;
+    }
+
+    public void readDimensionsFromStructure(ServerLevel level) {
+        if (structure.getDimensionsCache().isEmpty()) {
+            Floor parent = getParent(CastleOblivionData.InteriorData.get(level).orElseThrow());
+            try {
+                structure.getStructureFile(level, parent.getType()).orElseThrow(IOException::new);
+                dimensions = structure.getDimensionsCache().orElseThrow();
+            } catch (IOException e) {
+                KingdomKeys.LOGGER.error("Failed to read structure file", e.fillInStackTrace());
+            }
+        } else {
+            KingdomKeys.LOGGER.debug("Dimensions were cached, nice!");
+            dimensions = structure.getDimensionsCache().get();
+        }
+    }
+
+    public int getWidth() {
+        return dimensions.width();
+    }
+
+    public int getHeight() {
+        return dimensions.height();
+
+    }
+
+    public int getDepth() {
+        return dimensions.depth();
+    }
+
+    public Optional<RoomStructure.RoomDimensions> getDimensions() {
+        return Optional.ofNullable(dimensions);
     }
 
     //Modifier shortcut methods

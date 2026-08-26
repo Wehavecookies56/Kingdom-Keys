@@ -2,10 +2,10 @@ package online.kingdomkeys.kingdomkeys.network.cts;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -13,8 +13,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.block.gummi.GummiHangarBlock;
+import online.kingdomkeys.kingdomkeys.item.GummiShipBlueprintItem;
 import online.kingdomkeys.kingdomkeys.item.ModComponents;
-import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.lib.GummiStructure;
 import online.kingdomkeys.kingdomkeys.menu.GummiHangarMenu;
 import online.kingdomkeys.kingdomkeys.network.Packet;
@@ -24,15 +24,12 @@ import static online.kingdomkeys.kingdomkeys.block.gummi.GummiHangarBlock.DISPLA
 
 public record CSImportExportGummiShip(String name, int containerID, boolean export) implements Packet {
 
-	public static final Type<CSImportExportGummiShip> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_import_export_gummi_ship"));
+	public static final Type<CSImportExportGummiShip> TYPE = new Type<>(KingdomKeys.rl("cs_import_export_gummi_ship"));
 
 	public static final StreamCodec<FriendlyByteBuf, CSImportExportGummiShip> STREAM_CODEC = StreamCodec.composite(
-			ByteBufCodecs.STRING_UTF8,
-			CSImportExportGummiShip::name,
-			ByteBufCodecs.INT,
-			CSImportExportGummiShip::containerID,
-			ByteBufCodecs.BOOL,
-			CSImportExportGummiShip::export,
+			ByteBufCodecs.STRING_UTF8, CSImportExportGummiShip::name,
+			ByteBufCodecs.INT, CSImportExportGummiShip::containerID,
+			ByteBufCodecs.BOOL, CSImportExportGummiShip::export,
 			CSImportExportGummiShip::new
 	);
 
@@ -52,12 +49,28 @@ public record CSImportExportGummiShip(String name, int containerID, boolean expo
 		GummiStructure struct = Utils.getGummiStructureWithFacing(player.getUUID(), name, level, origin, hangar.getValue(GummiHangarBlock.FACING), GummiHangarBlock.getSize(hangar.getValue(GummiHangarBlock.LEVEL)));
 
 		if(export) {
-			if (stack.is(ModItems.gummiShipBlueprint.get())) {
-				stack.set(ModComponents.GUMMI_STRUCTURE, struct);
+			if (GummiShipBlueprintItem.isBlueprint(stack)) {
+				stack.set(ModComponents.GUMMI_STRUCTURE, struct.withoutBlockEntities());
 				stack.set(ModComponents.BLUEPRINT_NAME, name);
 			}
 		} else {
 			//IMPORT
+			GummiStructure blueprint = stack.get(ModComponents.GUMMI_STRUCTURE);
+
+			// The creative blueprint directly builds it
+			if (GummiShipBlueprintItem.isCreative(stack) && blueprint != null) {
+				int hangarSize = GummiHangarBlock.getSize(hangar.getValue(GummiHangarBlock.LEVEL));
+				GummiStructure fitted = Utils.resizeStructure(blueprint, hangarSize);
+
+				if (fitted == null) {
+					player.sendSystemMessage(Component.translatable("container.gummi_hangar.blueprinttoobig"));
+					return;
+				}
+
+				Utils.placeGummiStructure(level, origin, hangar.getValue(GummiHangarBlock.FACING), hangarSize, fitted, null);
+				return;
+			}
+
 			level.setBlockAndUpdate(origin,hangar.setValue(DISPLAY_BLUEPRINT, !hangar.getValue(DISPLAY_BLUEPRINT)));
 		}
 	}

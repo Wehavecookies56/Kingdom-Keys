@@ -12,7 +12,7 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 import java.util.List;
 
 public class MagicIgnite extends Magic {
-	public MagicIgnite(ResourceLocation registryName, int tier, String gmAbility) {
+	public MagicIgnite(ResourceLocation registryName, int tier, ResourceLocation gmAbility) {
 		super(registryName, false, gmAbility);
 		setTier(tier);
 	}
@@ -22,7 +22,7 @@ public class MagicIgnite extends Magic {
 		float dmgMult = getRealDamageMult(caster) * fullMPBlastMult;
 
 		PlayerData playerData = PlayerData.get(caster);
-		int localLevel = Utils.getMagicHighestLocalLevel(playerData.getEquippedMagics(), getRegistryName().toString());
+		int localLevel = Utils.getMagicHighestLocalLevel(playerData.getEquippedMagics(), getRegistryName());
 		int radius = 3 + localLevel;
 
 		LivingEntity target = getMagicLockOn() && lockOnEntity != null ? lockOnEntity : getRandomEntity(caster, radius);

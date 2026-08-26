@@ -7,20 +7,20 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
-import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.util.List;
 
 public class MagicCure extends Magic {
 
-	public MagicCure(ResourceLocation registryName, int tier, String gmAbility) {
+	public MagicCure(ResourceLocation registryName, int tier, ResourceLocation gmAbility) {
 		super(registryName, true, gmAbility);
 		setTier(tier);
 	}
@@ -32,7 +32,7 @@ public class MagicCure extends Magic {
 		WorldData worldData = WorldData.get(player.getServer());
 
 		float amount = playerData.getMaxHP() * getRealDamageMult(caster);
-		if (playerData.getNumberOfAbilitiesEquipped(Strings.leafBracer) > 0)
+		if (playerData.getNumberOfAbilitiesEquipped(ModAbilities.LEAF_BRACER) > 0)
 			player.invulnerableTime = 40;
 
 		Utils.reviveFromKO(player);
@@ -86,9 +86,9 @@ public class MagicCure extends Magic {
 					List<Member> list = party.getMembers();
 					if (!list.isEmpty()) { // Heal everyone in the party within reach
 						for (Member member : list) {
-							if (player.level().getPlayerByUUID(member.getUUID()) != null && player.distanceTo(player.level().getPlayerByUUID(member.getUUID())) < ModConfigs.SERVER.partyRangeLimit.get()) {
-								LivingEntity e = player.level().getPlayerByUUID(member.getUUID());
-								if (e != null && Utils.isEntityInParty(party, e) && e != player) {
+							LivingEntity e = Utils.getPartyEntity(player.level(), member.getUUID());
+							if (e != null && player.distanceTo(e) < ModConfigs.SERVER.partyRangeLimit.get()) {
+								if (Utils.isEntityInParty(party, e) && e != player) {
 									e.heal(amount);
 									if (e instanceof Player targetPlayer)
 										targetPlayer.getFoodData().eat(20, 10);

@@ -2,7 +2,6 @@ package online.kingdomkeys.kingdomkeys.synthesis.shop.sell;
 
 import com.google.gson.*;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
@@ -28,7 +27,7 @@ public class SellListDataDeserializer implements JsonDeserializer<SellList> {
         	SellItem shopItem = new SellItem();
         	JsonObject jsonObj = e.getAsJsonObject();
             if (jsonObj.get("item") != null) {
-                Item item = BuiltInRegistries.ITEM.get(ResourceLocation.parse(jsonObj.get("item").getAsString()));
+                Item item = BuiltInRegistries.ITEM.get(KingdomKeys.rl(jsonObj.get("item").getAsString()));
                 shopItem.setResult(item);
                 shopItem.setPrice(jsonObj.get("price").getAsInt());
                 out.addToList(shopItem);

@@ -1,36 +1,51 @@
 package online.kingdomkeys.kingdomkeys.entity.block;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
+import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.common.util.Lazy;
 import net.neoforged.neoforge.energy.EnergyStorage;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.ItemStackHandler;
+import online.kingdomkeys.kingdomkeys.block.gummi.GummiBlockBase;
 import online.kingdomkeys.kingdomkeys.block.gummi.GummiHangarBlock;
+import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
+import online.kingdomkeys.kingdomkeys.entity.GummiPieceEntity;
 import online.kingdomkeys.kingdomkeys.entity.GummiShipEntity;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.item.GummiShipBlueprintItem;
+import online.kingdomkeys.kingdomkeys.item.ModComponents;
+import online.kingdomkeys.kingdomkeys.lib.GummiStructure;
 import online.kingdomkeys.kingdomkeys.menu.GummiHangarMenu;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class GummiHangarTileEntity extends BlockEntity implements MenuProvider {
 	public static final int NUMBER_OF_SLOTS = 2;
@@ -39,6 +54,8 @@ public class GummiHangarTileEntity extends BlockEntity implements MenuProvider {
 	private String lastShipName = "";
 
     public int burnTime;
+    private int buildCooldown;
+    private boolean building;
     public int maxBurnTime;
 
     public HangarEnergyStorage energyStorage = Utils.getEnergyStoragePerLevel(0);
@@ -56,6 +73,16 @@ public class GummiHangarTileEntity extends BlockEntity implements MenuProvider {
 	public String getLastShipName() {
 		return lastShipName;
 	}
+
+    public boolean isBuilding() {
+        return building;
+    }
+
+    public void setBuilding(boolean building) {
+        this.building = building;
+        setChanged();
+        getLevel().sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), Block.UPDATE_ALL);
+    }
 
     public int getMaxEnergy() {
         return energyStorage.getMaxEnergyStored();
@@ -98,6 +125,7 @@ public class GummiHangarTileEntity extends BlockEntity implements MenuProvider {
 
 		if (compound.contains("LastShipName"))
 			lastShipName = compound.getString("LastShipName");
+        building = compound.getBoolean("Building");
         burnTime = compound.getInt("BurnTime");
         maxBurnTime = compound.getInt("MaxBurnTime");
         if(compound.contains("EnergyFE"))
@@ -110,6 +138,7 @@ public class GummiHangarTileEntity extends BlockEntity implements MenuProvider {
 		compound.put("inv", itemStackHandler.serializeNBT(provider));
 		compound.putString("LastShipName", lastShipName);
 
+        compound.putBoolean("Building", building);
         compound.putInt("BurnTime", burnTime);
         compound.putInt("MaxBurnTime", maxBurnTime);
         compound.put("EnergyFE", energyStorage.serializeNBT(provider));
@@ -170,6 +199,10 @@ public class GummiHangarTileEntity extends BlockEntity implements MenuProvider {
                 }
             }
 
+            if (hangar.building && ModConfigs.SERVER.gummiHangarAutoBuild.get()) {
+                hangar.buildFromBlueprint(level, pos, state);
+            }
+
             //Refuel ships
             if (level.hasNeighborSignal(pos)) {
                 int size = GummiHangarBlock.getSize(state.getValue(GummiHangarBlock.LEVEL));
@@ -192,6 +225,156 @@ public class GummiHangarTileEntity extends BlockEntity implements MenuProvider {
                 }
             }
         }
+    }
+
+    private GummiStructure fitted;
+    private GummiStructure fittedSource;
+    private int fittedSize;
+
+    public List<?> ghosts = List.of();
+    public long ghostsAt = Long.MIN_VALUE;
+    public GummiStructure ghostsSource;
+    public int ghostsSize;
+    public Direction ghostsFacing;
+
+    // Cache the structure so it doesn't have to rebuild it for every block
+    public GummiStructure fitted(GummiStructure blueprint, int size) {
+        if (fittedSource != blueprint || fittedSize != size) {
+            fittedSource = blueprint;
+            fittedSize = size;
+            fitted = Utils.resizeStructure(blueprint, size);
+        }
+
+        return fitted;
+    }
+
+    private void buildFromBlueprint(Level level, BlockPos pos, BlockState state) {
+        if (--buildCooldown > 0) {
+            return;
+        }
+
+        buildCooldown = Math.max(1, ModConfigs.SERVER.gummiHangarBuildDelay.get() / (state.getValue(GummiHangarBlock.LEVEL) + 1));
+
+        ItemStack blueprintStack = inventory.get().getStackInSlot(0);
+
+        if (!GummiShipBlueprintItem.isBlueprint(blueprintStack)) {
+            return;
+        }
+
+        GummiStructure blueprint = blueprintStack.get(ModComponents.GUMMI_STRUCTURE);
+        int size = GummiHangarBlock.getSize(state.getValue(GummiHangarBlock.LEVEL));
+
+        if (blueprint == null) {
+            return;
+        }
+
+        Direction facing = state.getValue(GummiHangarBlock.FACING);
+        int[] offsets = Utils.getShipOffset(facing, size);
+
+        if (offsets == null) {
+            return;
+        }
+
+        List<IItemHandler> containers = new ArrayList<>();
+
+        for (Direction side : Direction.values()) {
+            IItemHandler container = level.getCapability(Capabilities.ItemHandler.BLOCK, pos.relative(side), side.getOpposite());
+
+            if (container != null) {
+                containers.add(container);
+            }
+        }
+
+        if (containers.isEmpty()) {
+            return;
+        }
+
+        // The same mapping the finished ship is built with, so what is laid out here lands exactly where importing the blueprint in one go would have put it
+        GummiStructure struct = fitted(blueprint, size);
+
+        // Null means the blueprint's blocks do not fit this plate, whatever size it says it is
+        if (struct == null) {
+            return;
+        }
+
+        Rotation rotation = switch (facing) {
+            case NORTH -> Rotation.CLOCKWISE_180;
+            case WEST -> Rotation.CLOCKWISE_90;
+            case EAST -> Rotation.COUNTERCLOCKWISE_90;
+            default -> Rotation.NONE;
+        };
+
+        int cost = ModConfigs.SERVER.gummiHangarBuildCost.get();
+        int max = size - 1;
+
+        // Pieces traveling
+        Set<BlockPos> pending = new HashSet<>();
+
+        for (GummiPieceEntity piece : level.getEntitiesOfClass(GummiPieceEntity.class, new AABB(pos).inflate(size + 2))) {
+            pending.add(piece.getTarget());
+        }
+
+        // from bottom to top
+        for (int y = 0; y < size; y++) {
+            for (int x = 0; x < size; x++) {
+                for (int z = 0; z < size; z++) {
+                    BlockState wanted = struct.getBlocks()[x][y][z];
+
+                    if (wanted == null || wanted.isAir()) {
+                        continue;
+                    }
+
+                    wanted = Utils.rotateBlock(wanted, rotation);
+
+                    int rx = x, rz = z;
+                    switch (facing) {
+                        case NORTH -> { rx = max - x; rz = max - z; }
+                        case EAST -> { rx = z; rz = max - x; }
+                        case WEST -> { rx = max - z; rz = x; }
+                    }
+
+                    BlockPos target = pos.offset(offsets[0] + rx, y, offsets[1] + rz);
+                    BlockState current = level.getBlockState(target);
+
+                    if (GummiBlockBase.sameAppearance(current, wanted) || !current.canBeReplaced() || pending.contains(target)) {
+                        continue;
+                    }
+
+                    if (energyStorage.getEnergyStored() < cost) {
+                        return;
+                    }
+
+                    if (!takePiece(containers, wanted)) {
+                        continue;
+                    }
+
+                    energyStorage.extractEnergy(cost, false);
+                    setChanged();
+                    // The piece flies out and puts itself down when it gets there
+                    level.addFreshEntity(GummiPieceEntity.create(level, pos.getCenter(), target, wanted));
+					level.playSound(null, getBlockPos(), ModSounds.gummiPlace.get(), SoundSource.MASTER, 1F, 1F);
+                    return;
+                }
+            }
+        }
+    }
+
+    private static boolean takePiece(List<IItemHandler> containers, BlockState wanted) {
+        Item piece = wanted.getBlock().asItem();
+
+        if (piece == Items.AIR) {
+            return false;
+        }
+
+        for (IItemHandler container : containers) {
+            for (int slot = 0; slot < container.getSlots(); slot++) {
+                if (container.getStackInSlot(slot).is(piece) && !container.extractItem(slot, 1, false).isEmpty()) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     public static class HangarEnergyStorage extends EnergyStorage {

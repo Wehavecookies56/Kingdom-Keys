@@ -37,7 +37,7 @@ public class HeartEntityRenderer extends EntityRenderer<HeartEntity> {
 		matrixStackIn.pushPose();
 		{
 			VertexConsumer buffer = bufferIn.getBuffer(Sheets.translucentCullBlockSheet());
-			BakedModel model = Minecraft.getInstance().getModelManager().getModel(ModelResourceLocation.standalone(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "entity/heart")));
+			BakedModel model = Minecraft.getInstance().getModelManager().getModel(ModelResourceLocation.standalone(KingdomKeys.rl("entity/heart")));
 
 			matrixStackIn.pushPose();
 			{
@@ -72,6 +72,6 @@ public class HeartEntityRenderer extends EntityRenderer<HeartEntity> {
 	@Nullable
 	@Override
 	public ResourceLocation getTextureLocation(HeartEntity entity) {
-		return ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/models/heart.png");
+		return KingdomKeys.rl("textures/entity/models/heart.png");
 	}
 }

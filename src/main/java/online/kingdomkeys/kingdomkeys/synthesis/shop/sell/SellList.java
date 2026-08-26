@@ -5,6 +5,7 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -65,11 +66,7 @@ public class SellList {
         return registryName;
     }
     public void setRegistryName(String registryName) {
-        this.registryName = ResourceLocation.parse(registryName);
-    }
-
-    public void setRegistryName(String namespace, String path) {
-        this.registryName = ResourceLocation.fromNamespaceAndPath(namespace, path);
+        this.registryName = KingdomKeys.rl(registryName);
     }
 
     public void setRegistryName(ResourceLocation registryName) {

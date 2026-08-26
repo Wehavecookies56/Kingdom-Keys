@@ -16,7 +16,7 @@ public class HPOrbRenderer extends EntityItemDropRenderer {
 	 */
 	@Override
 	public ResourceLocation getTextureLocation(ItemDropEntity entity) {
-		this.texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/hp_orb.png");
+		this.texture = KingdomKeys.rl("textures/entity/hp_orb.png");
 		return texture;
 	}
 }

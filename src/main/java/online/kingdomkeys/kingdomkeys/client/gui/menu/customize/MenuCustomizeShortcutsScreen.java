@@ -2,7 +2,6 @@ package online.kingdomkeys.kingdomkeys.client.gui.menu.customize;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
@@ -92,7 +91,7 @@ public class MenuCustomizeShortcutsScreen extends MenuBackground {
 
 			if (stack.isEmpty() || !(stack.getItem() instanceof MagicSpellItem spell)) return;
 
-			Magic magic = ModMagic.registry.get(ResourceLocation.parse(spell.getMagic()));
+			Magic magic = ModMagic.registry.get(spell.getMagic());
 
 			MenuButton button = new MenuButton((int) (width * 0.32F), buttonPosY + (magics.size() * 18), (int) (buttonWidth * 0.8), Utils.translateToLocal(magic.getTranslationKey()), ButtonType.ROUNDBUTTON, (e) -> select(slot));
 

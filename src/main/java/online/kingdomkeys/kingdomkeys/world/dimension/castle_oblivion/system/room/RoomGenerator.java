@@ -2,6 +2,7 @@ package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.ro
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.*;
 import net.minecraft.resources.ResourceLocation;
@@ -11,6 +12,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.StructureBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.entity.StructureBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.StructureMode;
@@ -22,6 +25,7 @@ import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.block.StructureWallBlock;
 import online.kingdomkeys.kingdomkeys.data.CastleOblivionData;
 import online.kingdomkeys.kingdomkeys.entity.block.CardDoorTileEntity;
+import online.kingdomkeys.kingdomkeys.entity.block.TreasureChestTileEntity;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncCastleOblivionInteriorData;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.floor.Floor;
@@ -34,6 +38,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class RoomGenerator {
 
@@ -69,22 +74,17 @@ public class RoomGenerator {
             Floor currentFloor = interiorData.getFloorByID(newRoom.parentFloor);
             BlockPos pos = newRoom.position;
             KingdomKeys.LOGGER.debug("Finding compatible structures for {}", newRoom.getType());
-            if (newRoom.getType() == ModRoomTypes.CONQUERORS_RESPITE.get()) {
-                KingdomKeys.LOGGER.debug("CR TRY");
-            }
-            List<RoomStructure> possibleRooms = ModRoomStructures.getCompatibleStructures(currentFloor.getType(), newRoom.type);
+            List<RoomStructure> possibleRooms = ModRoomStructures.getCompatibleStructures(level, currentFloor.getType(), newRoom.type);
             if (possibleRooms.isEmpty()) {
                 KingdomKeys.LOGGER.warn("No compatible room structure files found for {}, using fallback room", newRoom.type.getRegistryName());
                 possibleRooms = ModRoomStructures.getFallbacks();
             }
             RoomStructure structureToGenerate = possibleRooms.get(Utils.randomWithRange(0, possibleRooms.size()-1));
             KingdomKeys.LOGGER.debug("Found {} compatible structures, {} selected", possibleRooms.size(), structureToGenerate.getRegistryName());
-            String floorFolder = !structureToGenerate.useFloorSpecificStructure() ? "all" : currentFloor.getType().getRegistryName().getPath();
-            ResourceLocation structureFile = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "structure/castle_oblivion/rooms/" + floorFolder + "/" + structureToGenerate.getPath() + ".nbt");
-            Resource resource = level.getServer().getResourceManager().getResource(structureFile).orElseThrow(IOException::new);
-            KingdomKeys.LOGGER.debug("Generating structure file {}", structureFile);
+            Resource resource = structureToGenerate.getStructureFile(level, currentFloor.getType()).orElseThrow(IOException::new);
+            KingdomKeys.LOGGER.debug("Generating structure file {}:{}/{}.nbt", currentFloor.getType().getRegistryName().getNamespace(), structureToGenerate.useFloorSpecificStructure() ? currentFloor.getType().getRegistryName().getPath() : "all", structureToGenerate.getPath());
             CompoundTag main = NbtIo.readCompressed(resource.open(), NbtAccounter.unlimitedHeap());
-            newRoom.setStructure(structureToGenerate);
+            newRoom.setStructure(level, structureToGenerate);
 
             ListTag size = main.getList("size", Tag.TAG_INT);
             ListTag palette = main.getList("palette", Tag.TAG_COMPOUND);
@@ -120,11 +120,15 @@ public class RoomGenerator {
             }
             KingdomKeys.LOGGER.debug("Read block palette");
 
+            RoomType.Treasure treasure = newRoom.getType().getTreasure().orElse(null);
+
             for (int i = 0; i < blocks.size(); i++) {
                 block = blocks.getCompound(i);
                 blockpos.set(block.getList("pos", 3).getInt(0) + pos.getX(), block.getList("pos", 3).getInt(1) + pos.getY(), block.getList("pos", 3).getInt(2) + pos.getZ());
                 state = blockStates.get(block.getInt("state"));
-                if (state.getBlock() == Blocks.STRUCTURE_BLOCK) {
+                if (state.getBlock() == ModBlocks.treasureChest.get()) {
+                    newRoom.addTreasurePoint(blockpos.immutable(), state);
+                } else if (state.getBlock() == Blocks.STRUCTURE_BLOCK) {
                     if (state.getValue(StructureBlock.MODE).equals(StructureMode.DATA)) {
                         //Replace data mode structure blocks with card doors
                         StructureBlockEntity be = new StructureBlockEntity(blockpos, state);
@@ -180,14 +184,47 @@ public class RoomGenerator {
                     }
                 } else {
                     level.setBlock(blockpos, state, 2);
+                    //create block entity and load nbt
+                    if (block.contains("nbt")) {
+                        CompoundTag nbtData = block.getCompound("nbt");
+                        ResourceLocation blockEntityID = KingdomKeys.rl(nbtData.getString("id"));
+                        BlockEntityType<?> type = BuiltInRegistries.BLOCK_ENTITY_TYPE.get(blockEntityID);
+                        if (type != null) {
+                            BlockEntity blockEntity = type.create(blockpos, state);
+                            if (blockEntity != null) {
+                                blockEntity.loadCustomOnly(nbtData, level.registryAccess());
+                                level.setBlockEntity(blockEntity);
+                            }
+                        }
+                    }
                 }
             }
             Collections.shuffle(newRoom.spawnPoints);
+            Collections.shuffle(newRoom.treasurePoints);
+            if (newRoom.spawnPoints.isEmpty() && newRoom.getType().getEnemies() != RoomEnemies.NONE) {
+                KingdomKeys.LOGGER.warn("Room Structure contains no spawn points for Room Type that contains enemies");
+            }
+            if (newRoom.treasurePoints.isEmpty() && treasure != null) {
+                KingdomKeys.LOGGER.warn("Room Structure contains no treasure chests for Room Type that contains treasures");
+            } else {
+                if (treasure != null) {
+                    final int totalChestsToCreate = treasure.count() + treasure.trappedCount();
+                    AtomicInteger chestsCreated = new AtomicInteger();
+                    newRoom.treasurePoints.forEach(treasurePoint -> {
+                        if (chestsCreated.get() < totalChestsToCreate) {
+                            level.setBlock(treasurePoint.pos(), treasurePoint.state(), 2);
+                            TreasureChestTileEntity.create(level, treasurePoint.pos(), treasurePoint.state(), treasure, chestsCreated.get() >= treasure.count());
+                            chestsCreated.getAndIncrement();
+                        }
+                    });
+                }
+            }
             data.setGenerated(newRoom);
             newRoom.modifierOnGenerate(level);
             CastleOblivionData.InteriorData.get(level).orElseThrow().setDirty();
             SCSyncCastleOblivionInteriorData.syncClients(level);
             KingdomKeys.LOGGER.info("Generated room:{} at {}", newRoom.type.getRegistryName().toString(), pos);
+            KingdomKeys.LOGGER.info("Room has {} spawn points, {} treasure points", newRoom.spawnPoints.size(), newRoom.treasurePoints.size());
             NeoForge.EVENT_BUS.post(new CastleOblivionEvent.RoomGeneratedEvent(level, data, currentRoom));
             return newRoom;
         } catch (IOException e){

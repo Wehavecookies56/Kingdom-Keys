@@ -188,7 +188,7 @@ public class SavePointBlock extends BaseBlock implements EntityBlock, INoDataGen
 		SavePointData data = getSavePointData(state);
 
 		if (data == null) {
-			player.displayClientMessage(Component.literal("Savepoint data not loaded"), true);
+			player.displayClientMessage(Component.translatable("kingdomkeys.save_point.data_not_loaded"), true);
 			return ItemInteractionResult.FAIL;
 		}
 
@@ -206,7 +206,7 @@ public class SavePointBlock extends BaseBlock implements EntityBlock, INoDataGen
 			}
 		}
 
-		player.displayClientMessage(Component.translatable("This item cannot be used to upgrade anything"), true);
+		player.displayClientMessage(Component.translatable("kingdomkeys.save_point.cannot_upgrade"), true);
 		return ItemInteractionResult.CONSUME;
 	}
 
@@ -327,13 +327,13 @@ public class SavePointBlock extends BaseBlock implements EntityBlock, INoDataGen
 		SavePoint savePoint = getSavePoint(state.getValue(TIER));
 
 		if (savePoint == null || savePoint.getData() == null) {
-			player.displayClientMessage(Component.literal("Savepoint data not loaded"), true);
+			player.displayClientMessage(Component.translatable("kingdomkeys.save_point.data_not_loaded"), true);
 			return;
 		}
 
 		SavePointData data = savePoint.getData();
 		if (hasInvalidValues(savepoint)) {
-			player.displayClientMessage(Component.translatable("ERROR, this is probably an old savepoint, break and place it again to correct it"), true);
+			player.displayClientMessage(Component.translatable("kingdomkeys.save_point.old_savepoint"), true);
 			return;
 		}
 

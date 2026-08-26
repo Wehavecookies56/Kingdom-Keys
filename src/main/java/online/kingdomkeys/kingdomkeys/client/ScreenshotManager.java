@@ -64,19 +64,30 @@ public class ScreenshotManager {
             e.printStackTrace();
         }
         NativeImage image = Screenshot.takeScreenshot(Minecraft.getInstance().getMainRenderTarget());
-        int i = image.getWidth();
-        int j = image.getHeight();
-        int k = 0;
-        int l = 0;
-        if (i > j) {
-            k = (i - j) / 2;
-            i = j;
+
+        // Crop to the thumbnail's own aspect ratio rather than to a square. Squaring it off first and
+        // then scaling that into a 16:9 thumbnail stretched everything sideways - taking the widest
+        // centre cut that already has the right shape means the scale down is uniform.
+        int sourceWidth = image.getWidth();
+        int sourceHeight = image.getHeight();
+        float targetAspect = (float) width / (float) height;
+
+        int cropWidth, cropHeight;
+        if ((float) sourceWidth / (float) sourceHeight > targetAspect) {
+            // Wider than the thumbnail, so keep the full height and trim the sides.
+            cropHeight = sourceHeight;
+            cropWidth = Math.round(sourceHeight * targetAspect);
         } else {
-            l = (j - i) / 2;
-            j = i;
+            // Taller than the thumbnail, so keep the full width and trim above and below.
+            cropWidth = sourceWidth;
+            cropHeight = Math.round(sourceWidth / targetAspect);
         }
+
+        int cropX = (sourceWidth - cropWidth) / 2;
+        int cropY = (sourceHeight - cropHeight) / 2;
+
         NativeImage resized = new NativeImage(width, height, false);
-        image.resizeSubRectTo(k, l, i, j, resized);
+        image.resizeSubRectTo(cropX, cropY, cropWidth, cropHeight, resized);
         try {
             resized.writeToFile(fileToCreate);
             KingdomKeys.LOGGER.info("Saved save point screenshot " + fileName);
@@ -84,6 +95,7 @@ public class ScreenshotManager {
             KingdomKeys.LOGGER.warn("Couldn't save screenshot", ioexception);
         } finally {
             image.close();
+            resized.close();
         }
     }
 

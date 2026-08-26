@@ -3,7 +3,6 @@ package online.kingdomkeys.kingdomkeys.network.cts;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.portal.DimensionTransition;
@@ -17,7 +16,7 @@ import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
 
 public record CSTravelToSoA() implements Packet {
 
-    public static final Type<CSTravelToSoA> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_travel_to_soa"));
+    public static final Type<CSTravelToSoA> TYPE = new Type<>(KingdomKeys.rl("cs_travel_to_soa"));
 
     public static final StreamCodec<FriendlyByteBuf, CSTravelToSoA> STREAM_CODEC = StreamCodec.of((pBuffer, pValue) -> {}, pBuffer -> new CSTravelToSoA());
 

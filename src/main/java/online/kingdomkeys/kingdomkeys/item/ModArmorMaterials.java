@@ -3,7 +3,6 @@ package online.kingdomkeys.kingdomkeys.item;
 import net.minecraft.Util;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
@@ -32,8 +31,8 @@ public class ModArmorMaterials {
 			SoundEvents.ARMOR_EQUIP_LEATHER,
 			() -> Ingredient.of(Tags.Items.LEATHERS),
 			List.of(
-					new ArmorMaterial.Layer(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "organization_layer_1")),
-					new ArmorMaterial.Layer(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "organization_layer_2"))
+					new ArmorMaterial.Layer(KingdomKeys.rl("organization_layer_1")),
+					new ArmorMaterial.Layer(KingdomKeys.rl("organization_layer_2"))
 			),
 			1,
 			0
@@ -51,7 +50,7 @@ public class ModArmorMaterials {
 			ModSounds.keyblade_armor,
 			() -> Ingredient.of(Tags.Items.INGOTS_IRON),
 			List.of(
-					new ArmorMaterial.Layer(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "keyblade"))
+					new ArmorMaterial.Layer(KingdomKeys.rl("keyblade"))
 			),
 			3,
 			0.15F
@@ -70,7 +69,7 @@ public class ModArmorMaterials {
 			() -> Ingredient.of(Tags.Items.LEATHERS),
 			List.of(
 					new ArmorMaterial.Layer(
-							ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "vanity")
+							KingdomKeys.rl("vanity")
 					)
 			),
 			1,

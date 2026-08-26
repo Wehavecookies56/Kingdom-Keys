@@ -7,6 +7,8 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.items.IItemHandler;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
@@ -14,6 +16,7 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.CardSelectButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuScrollBar;
 import online.kingdomkeys.kingdomkeys.entity.block.CardDoorTileEntity;
+import online.kingdomkeys.kingdomkeys.item.BagItem;
 import online.kingdomkeys.kingdomkeys.item.card.CardCategory;
 import online.kingdomkeys.kingdomkeys.item.card.KeycardType;
 import online.kingdomkeys.kingdomkeys.item.card.MapCardItem;
@@ -34,10 +37,13 @@ public class RoomSynthesisScreen extends MenuBackground {
 
 	private static final int CARDS_PER_ROW = 6;
 	public final CardDoorTileEntity te;
+	private final List<CardEntry> availableCards = new ArrayList<>();
 	private final List<CardSelectButton> cards = new ArrayList<>();
 	private final DoorData.Type doorType;
 	MenuBox boxB, boxL;
 	MenuScrollBar scrollBar;
+
+	private static final ResourceLocation OUTLINE = KingdomKeys.rl("textures/gui/co/card_outline.png");
 
 	public RoomSynthesisScreen(CardDoorTileEntity te) {
 		super("Room Synthesis", new Color(100, 100, 100));
@@ -49,49 +55,85 @@ public class RoomSynthesisScreen extends MenuBackground {
 		}
 	}
 
+	private void onCardSelected(CardEntry entry) {
+		ItemStack copyStack = entry.stack.copy();
+
+		PacketHandler.sendToServer(new CSConsumeCard(te.getBlockPos(), entry.slot));
+
+		te.consumeCard(entry.stack);
+
+		updateCards();
+
+		if (!te.getCurrentCriteria().isEmpty())
+			return;
+
+		if (doorType == DoorData.Type.NORMAL) {
+			PacketHandler.sendToServer(new CSGenerateRoom(copyStack, te.getBlockPos()));
+		} else if (doorType == DoorData.Type.KEY) {
+			DoorData.CardCriteria criteria = te.getData().getCardCriteria().get(CardCategory.YELLOW);
+
+			ItemStack keycard = ItemStack.EMPTY;
+
+			if (criteria != null)
+				keycard = new ItemStack(KeycardType.values()[criteria.value()].getCardForType());
+
+			PacketHandler.sendToServer(new CSGenerateRoom(keycard, te.getBlockPos()));
+		}
+
+		te.openDoor(true);
+		minecraft.setScreen(null);
+	}
+
+	private void createCardButton(CardEntry entry) {
+		CardSelectButton button = new CardSelectButton(0, 0, 42, 50, entry.stack, this, b -> onCardSelected(entry));
+		cards.add(button);
+	}
+
 	@Override
 	public void init() {
 		super.init();
+
 		cards.clear();
+		availableCards.clear();
 
 		int cardBoxWidth = 290;
 		int cardBoxHeight = 65;
 
-		boxB = new MenuBox(bottomLeftBar.getWidth() - 20, height - cardBoxHeight - (int) (bottomBarHeight / 2), cardBoxWidth, cardBoxHeight, 1, new Color(100, 100, 100));
+		boxB = new MenuBox(bottomLeftBar.getWidth() - 20, height - cardBoxHeight - (int)(bottomBarHeight / 2), cardBoxWidth, cardBoxHeight, 1, new Color(100, 100, 100));
 		boxL = new MenuBox(boxB.getX() - 100, (int)topBarHeight, 100, (int)middleHeight, 1, new Color(100, 100, 100));
-		scrollBar = new MenuScrollBar(boxB.getX() + boxB.getWidth() - 17, boxB.getY(), boxB.getY() + boxB.getHeight(), (int) middleHeight, 0, true);
-
+		scrollBar = new MenuScrollBar(boxB.getX() + boxB.getWidth() - 17, boxB.getY(), boxB.getY() + boxB.getHeight(), boxB.getHeight(), 0, true);
+		// Inventory
 		for (int i = 0; i < minecraft.player.getInventory().getContainerSize(); i++) {
 			ItemStack stack = minecraft.player.getInventory().getItem(i);
 
 			if (!stack.isEmpty() && (stack.is(ModTags.MAP_CARD) || stack.is(ModTags.KEY_CARD))) {
-				CardSelectButton c = new CardSelectButton(0, 0, 42, 50, stack, this, (e) -> {
-					ItemStack copyStack = stack.copy();
-					PacketHandler.sendToServer(new CSConsumeCard(te.getBlockPos(), copyStack));
-					te.consumeCard(stack);
-					updateCards();
-
-					if (te.getCurrentCriteria().isEmpty()) {
-						if (doorType == DoorData.Type.NORMAL) {
-							PacketHandler.sendToServer(new CSGenerateRoom(copyStack, te.getBlockPos()));
-						} else if (doorType == DoorData.Type.KEY) {
-							DoorData.CardCriteria criteria = te.getData().getCardCriteria().get(CardCategory.YELLOW);
-
-							ItemStack keycard = ItemStack.EMPTY;
-							if (criteria != null) {
-								keycard = new ItemStack(KeycardType.values()[criteria.value()].getCardForType());
-							}
-
-							PacketHandler.sendToServer(new CSGenerateRoom(keycard, te.getBlockPos()));
-						}
-
-						te.openDoor(true);
-						minecraft.setScreen(null);
-					}
-				});
-
-				cards.add(c);
+				availableCards.add(new CardEntry(stack, i));
 			}
+		}
+
+		// Bag
+		if(Utils.hasOnlyOneBag(player, BagItem.Type.CARDS_BAG)) {
+			ItemStack bag = player.getInventory().getItem(Utils.getCardsBagSlot(player, BagItem.Type.CARDS_BAG));
+
+			if (!bag.isEmpty()) {
+				IItemHandler inv = bag.getCapability(Capabilities.ItemHandler.ITEM);
+
+				if (inv != null) {
+					for (int i = 0; i < inv.getSlots(); i++) {
+						ItemStack stack = inv.getStackInSlot(i);
+
+						if (!stack.isEmpty()) {
+							availableCards.add(new CardEntry(stack, -1000 - i));
+						}
+					}
+				}
+			}
+		} else {
+			KingdomKeys.LOGGER.debug("More than one cards bag found, ignoring.");
+		}
+
+		for (CardEntry entry : availableCards) {
+			createCardButton(entry);
 		}
 
 		cards.forEach(this::addWidget);
@@ -99,27 +141,13 @@ public class RoomSynthesisScreen extends MenuBackground {
 	}
 
 	void updateCards() {
-		CardSelectButton toRemove = null;
-		for (CardSelectButton button : cards) {
+		for (CardSelectButton button : List.copyOf(cards)) {
 			if (button.stack.isEmpty()) {
-				toRemove = button;
-				break;
+				removeWidget(button);
+				cards.remove(button);
 			}
 		}
-		if (toRemove != null) {
-			cards.remove(toRemove);
-			removeWidget(toRemove);
-			int x = 0;
-			int y = 0;
-			for (CardSelectButton cardSelectButton : cards) {
-				cardSelectButton.setX((int) (width * 0.25F + (x++ * 42)));
-				cardSelectButton.setY((int) (height * 0.5F + y * 50));
-				if (x == 6) {
-					x = 0;
-					y++;
-				}
-			}
-		}
+
 		updateScroll();
 	}
 
@@ -163,7 +191,7 @@ public class RoomSynthesisScreen extends MenuBackground {
 							default -> throw new IllegalStateException("Unexpected value: " + critera.getKey());
 						};
 						RenderSystem.setShaderColor(colour.getRed(), colour.getGreen(), colour.getBlue(), 1);
-						guiGraphics.blit(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/co/card_outline.png"), 0, 0, 0, 0, 32, 32, 32, 32);
+						guiGraphics.blit(OUTLINE, 0, 0, 0, 0, 32, 32, 32, 32);
 						RenderSystem.setShaderColor(1, 1, 1, 1);
 						Component val = Component.literal(critera.getValue().toString()).withStyle(ClientUtils.KK_Font_EXP);
 						guiGraphics.drawString(minecraft.font, val, 16 - minecraft.font.width(val)/2, 14, 0xFFFFFF, false);
@@ -202,7 +230,7 @@ public class RoomSynthesisScreen extends MenuBackground {
 						if (mapCardItem.getCategory() != CardCategory.YELLOW && mapCardItem.getCategory() != CardCategory.RGB) {
 							matrixStack.pushPose();
 							matrixStack.scale(0.6F, 0.8F, 1);
-							guiGraphics.drawString(minecraft.font, Component.literal(mapCardItem.getCardValue(hoveredCard.stack)+"").withStyle(ClientUtils.KK_Font_EXP), 1, 3, 0xFFDD00);
+							guiGraphics.drawString(minecraft.font, Component.literal(MapCardItem.getCardValue(hoveredCard.stack)+"").withStyle(ClientUtils.KK_Font_EXP), 1, 3, 0xFFDD00);
 							matrixStack.popPose();
 						}
 
@@ -240,6 +268,8 @@ public class RoomSynthesisScreen extends MenuBackground {
 		int cardsStartX = boxB.getX() + 10;
 		int cardsStartY = boxB.getY() + 8;
 
+		int rows = (cards.size() + CARDS_PER_ROW - 1) / CARDS_PER_ROW;
+
 		for (int i = 0; i < cards.size(); i++) {
 			CardSelectButton card = cards.get(i);
 
@@ -250,16 +280,8 @@ public class RoomSynthesisScreen extends MenuBackground {
 			card.setY(cardsStartY + row * 50 - (int) scrollBar.scrollOffset);
 		}
 
-		//int rows = (cards.size() + CARDS_PER_ROW - 1) / CARDS_PER_ROW;
-
-		int firstY, lastY, heightDiff = 0;
-		if (!cards.isEmpty()) {
-			firstY = cards.getFirst().getY();
-			lastY = cards.getLast().getY();
-			heightDiff = lastY - firstY;
-		}
-		//System.out.println(firstY + " " + lastY + " " + heightDiff);
-		scrollBar.setContentHeight(heightDiff + 150);
+		int contentHeight = 15 + rows * 50;
+		scrollBar.setContentHeight(contentHeight);
 	}
 
 	@Override
@@ -289,5 +311,15 @@ public class RoomSynthesisScreen extends MenuBackground {
 		scrollBar.mouseDragged(mouseX, mouseY, button, dragX, dragY);
 		updateScroll();
 		return super.mouseDragged(mouseX, mouseY, button, dragX, dragY);
+	}
+
+	private static class CardEntry {
+		final ItemStack stack;
+		final int slot;
+
+		CardEntry(ItemStack stack, int slot) {
+			this.stack = stack;
+			this.slot = slot;
+		}
 	}
 }

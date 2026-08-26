@@ -51,6 +51,7 @@ public class FiragaBurstControllerEntity extends BaseMagicProjectile {
 					if (!targets.isEmpty()) {// Random enemies target
 						LivingEntity target = targets.get(random.nextInt(targets.size()));
 						FiragaEntity firaga = new FiragaEntity(level(), player, dmgMult, target);
+						firaga.setMagic(getMagic());
 						firaga.setPos(getX(), getY() + 1.5F, getZ());
 						Vec3 direction = target.position().add(0, target.getBbHeight() * 0.5D, 0).subtract(firaga.position()).normalize();
 						firaga.setDeltaMovement(direction.scale(1.5D));
@@ -66,6 +67,7 @@ public class FiragaBurstControllerEntity extends BaseMagicProjectile {
 						BlockPos groundPos = level().getHeightmapPos(Heightmap.Types.MOTION_BLOCKING, BlockPos.containing(targetX, getY(), targetZ));
 						Vec3 targetPos = new Vec3(targetX, groundPos.getY() + 0.5D, targetZ);
 						FiragaEntity firaga = new FiragaEntity(level(), player, dmgMult * 0.4F, null);
+						firaga.setMagic(getMagic());
 						firaga.setPos(getX(), getY() + 1.5F, getZ());
 						Vec3 direction = targetPos.subtract(firaga.position()).normalize();
 						firaga.setDeltaMovement(direction.scale(1.5D));

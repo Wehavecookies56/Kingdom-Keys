@@ -32,22 +32,22 @@ public class KeybladeDataDeserializer implements JsonDeserializer<KeybladeData> 
 		JsonObject jsonObject = json.getAsJsonObject();
 		jsonObject.entrySet().forEach(entry -> {
 			JsonElement element = entry.getValue();
-			List<String> abilities = new ArrayList<String>();
+			List<ResourceLocation> abilities = new ArrayList<>();
 
 			switch (entry.getKey()) {
 			case "ability":
 				// Get item from the registry using the supplied resource location
 				if(!element.getAsString().equals("")) {
-					Ability ability = ModAbilities.registry.get(ResourceLocation.parse(element.getAsString()));
+					Ability ability = ModAbilities.registry.get(KingdomKeys.rl(element.getAsString()));
 					// Make sure the item is valid
 					if (ability != null) {
-						out.setBaseAbility(ability.getRegistryName().toString());
+						out.setBaseAbility(ability.getRegistryName());
 					}
 				}
 				break;
 			case "keychain":
 				// Get item from the registry using the supplied resource location
-				Item keychain = BuiltInRegistries.ITEM.get(ResourceLocation.parse(element.getAsString()));
+				Item keychain = BuiltInRegistries.ITEM.get(KingdomKeys.rl(element.getAsString()));
 				// Make sure the item is valid
 				if (keychain != null) {
 					out.setKeychain(keychain);
@@ -56,6 +56,9 @@ public class KeybladeDataDeserializer implements JsonDeserializer<KeybladeData> 
 			case "reach":
              	out.setReach(element.getAsFloat());
              	break;
+			case "sound":
+				out.setSound(element.getAsString());
+				break;
 			case "base_stats":
 				JsonObject statsObject = element.getAsJsonObject();
 				statsObject.entrySet().forEach(statsEntry -> {
@@ -110,7 +113,7 @@ public class KeybladeDataDeserializer implements JsonDeserializer<KeybladeData> 
 						int quantity = 0;
 						boolean valid = ingredientObject.get("material") != null && ingredientObject.get("quantity") != null;
 						if (valid) {
-							m = BuiltInRegistries.ITEM.get(ResourceLocation.parse(ingredientObject.get("material").getAsString()));
+							m = BuiltInRegistries.ITEM.get(KingdomKeys.rl(ingredientObject.get("material").getAsString()));
 							if (m == null) {
 								throw new JsonParseException("Material supplied in recipe cannot be found in the registry" + json);
 							} else {
@@ -125,8 +128,8 @@ public class KeybladeDataDeserializer implements JsonDeserializer<KeybladeData> 
 					break;
 				case "ability":
 					String name = levelElement.getAsString();
-					if(ModAbilities.registry.containsKey(ResourceLocation.parse(name))) {
-						level.setAbility(levelElement.getAsString());
+					if(ModAbilities.registry.containsKey(KingdomKeys.rl(name))) {
+						level.setAbility(KingdomKeys.rl(levelElement.getAsString()));
 					} else {
 						KingdomKeys.LOGGER.error("Ability "+name+" does not exist for keyblade "+ out.keychain);
 					}

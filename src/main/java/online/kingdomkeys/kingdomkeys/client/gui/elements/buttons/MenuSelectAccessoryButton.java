@@ -15,7 +15,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.common.NeoForge;
-import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.api.event.EquipmentEvent;
@@ -30,6 +29,7 @@ import online.kingdomkeys.kingdomkeys.item.KKAccessoryItem;
 import online.kingdomkeys.kingdomkeys.item.KKPotionItem;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
+import online.kingdomkeys.kingdomkeys.lib.Constants;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSEquipAccessories;
@@ -48,8 +48,6 @@ public class MenuSelectAccessoryButton extends MenuButtonBase {
 	MenuAccessorySelectorScreen parent;
 	int slot;
 	Minecraft minecraft;
-
-	ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
 
 	public MenuSelectAccessoryButton(ItemStack stack, int slot, int x, int y, int widthIn, MenuAccessorySelectorScreen parent, int colour) {
 		super(x, y, widthIn, 20, "", b -> {
@@ -117,11 +115,11 @@ public class MenuSelectAccessoryButton extends MenuButtonBase {
 			RenderSystem.setShaderColor(col.getRed() / 255F, col.getGreen() / 255F, col.getBlue() / 255F, 1);
 			matrixStack.translate(getX() + 0.6F, getY(), 0);
 			matrixStack.scale(0.5F, 0.5F, 1);
-			gui.blit(texture, 0, 0, 166, 34, 18, 28);
-			gui.blit(texture, 16, 0, (width * 2 - (17 + 17))+2, 28, 186, 34, 2, 28, 256, 256);
-			gui.blit(texture, (width * 2 - 17), 0, 186, 34, 17, 28);
+			gui.blit(Constants.MENU_TEXTURE, 0, 0, 166, 34, 18, 28);
+			gui.blit(Constants.MENU_TEXTURE, 16, 0, (width * 2 - (17 + 17))+2, 28, 186, 34, 2, 28, 256, 256);
+			gui.blit(Constants.MENU_TEXTURE, (width * 2 - 17), 0, 186, 34, 17, 28);
 			RenderSystem.setShaderColor(1, 1, 1, 1);
-			gui.blit(texture, 6, 4, category.getU(), category.getV(), 20, 20);
+			gui.blit(Constants.MENU_TEXTURE, 6, 4, category.getU(), category.getV(), 20, 20);
 			matrixStack.popPose();
 			String accessoryName;
 			if (accessory == null) { //Name to display
@@ -140,9 +138,9 @@ public class MenuSelectAccessoryButton extends MenuButtonBase {
 
 					matrixStack.translate(getX() + 0.6F, getY(), 0);
 					matrixStack.scale(0.5F, 0.5F, 1);
-					gui.blit(texture, 0, 0, 128, 34, 18, 28);
-					gui.blit(texture, 16, 0, ((width * 2) - (17 * 2)) + 2, 28, 148, 34, 2, 28, 256, 256);
-					gui.blit(texture, ((width * 2) - 17), 0, 148, 34, 17, 28);
+					gui.blit(Constants.MENU_TEXTURE, 0, 0, 128, 34, 18, 28);
+					gui.blit(Constants.MENU_TEXTURE, 16, 0, ((width * 2) - (17 * 2)) + 2, 28, 148, 34, 2, 28, 256, 256);
+					gui.blit(Constants.MENU_TEXTURE, ((width * 2) - 17), 0, 148, 34, 17, 28);
 				}
 				matrixStack.popPose();
 			}
@@ -179,7 +177,7 @@ public class MenuSelectAccessoryButton extends MenuButtonBase {
 				int strength = 0;
 				int magic = 0;
 				int ap = 0;
-				List<String> abilities = new ArrayList<String>();
+				List<ResourceLocation> abilities = new ArrayList<>();
 				boolean showData = true;
 				if (stack.getItem() instanceof IKeychain) {
 					strength = ((IKeychain) stack.getItem()).toSummon().getStrength(stack);
@@ -284,8 +282,8 @@ public class MenuSelectAccessoryButton extends MenuButtonBase {
 					if (!abilities.isEmpty()) {
 						gui.drawString(fr, Component.translatable(Strings.Gui_Menu_Status_Abilities).getString(), (int) abiPosX, (int) posY, 0xEE8603);
 						for (int i = 0; i < abilities.size(); i++) {
-							Ability ability = ModAbilities.registry.get(ResourceLocation.parse(abilities.get(i)));
-							gui.blit(texture, (int) strPosX - 2, (int) posY + ((i + 1) * 12) - 4, 73, 102, 12, 12);
+							Ability ability = ModAbilities.registry.get(abilities.get(i));
+							gui.blit(Constants.MENU_TEXTURE, (int) strPosX - 2, (int) posY + ((i + 1) * 12) - 4, 73, 102, 12, 12);
 							gui.drawString(fr, Utils.translateToLocal(ability.getTranslationKey()), (int) strPosX + 14, (int) posY + ((i + 1) * 12) - 1, 0xFFFFFF);
 						}
 					}

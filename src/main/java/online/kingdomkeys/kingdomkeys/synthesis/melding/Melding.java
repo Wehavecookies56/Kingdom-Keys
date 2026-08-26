@@ -7,6 +7,7 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import org.jetbrains.annotations.Nullable;
 
 public class Melding {
@@ -19,16 +20,13 @@ public class Melding {
 	@Nullable String type;
 	int cost;
 	int tier;
-	int exp;
 	int bonusChance;
 	ResourceLocation registryName;
 
 	public Melding() {
-		exp = -1;
 	}
 
 	public Melding(CompoundTag tag) {
-		exp = -1;
 		deserializeNBT(tag);
 	}
 
@@ -73,14 +71,6 @@ public class Melding {
 		this.bonusResult = result;
 		this.bonusAmount = amount;
 		this.bonusChance = chance;
-	}
-
-	public int getExp() {
-		return this.exp;
-	}
-
-	public void setExp(int exp) {
-		this.exp = exp;
 	}
 
 	public int getAmount() {
@@ -139,10 +129,6 @@ public class Melding {
 
 		nbt.putInt("cost", cost);
 
-		if (exp >= 0) {
-			nbt.putInt("exp", exp);
-		}
-
 		nbt.putInt("tier", tier);
 		nbt.putString("type", getType());
 
@@ -153,22 +139,18 @@ public class Melding {
 	}
 
 	public void deserializeNBT(CompoundTag nbt) {
-		this.setResult(BuiltInRegistries.ITEM.get(ResourceLocation.parse(nbt.getString("result"))), nbt.getInt("amount"));
+		this.setResult(BuiltInRegistries.ITEM.get(KingdomKeys.rl(nbt.getString("result"))), nbt.getInt("amount"));
 
 		if (nbt.contains("bonus_result")) {
-			this.setBonusResult(BuiltInRegistries.ITEM.get(ResourceLocation.parse(nbt.getString("bonus_result"))), nbt.getInt("bonus_amount"), nbt.getInt("bonus_chance"));
+			this.setBonusResult(BuiltInRegistries.ITEM.get(KingdomKeys.rl(nbt.getString("bonus_result"))), nbt.getInt("bonus_amount"), nbt.getInt("bonus_chance"));
 		}
 
 		this.setType(nbt.getString("type"));
 		this.setCost(nbt.getInt("cost"));
 
-		if (nbt.contains("exp")) {
-			this.setExp(nbt.getInt("exp"));
-		}
-
 		this.setTier(nbt.getInt("tier"));
-		this.setIngredient1(BuiltInRegistries.ITEM.get(ResourceLocation.parse(nbt.getString("ingredient_material_1"))));
-		this.setIngredient2(BuiltInRegistries.ITEM.get(ResourceLocation.parse(nbt.getString("ingredient_material_2"))));
+		this.setIngredient1(BuiltInRegistries.ITEM.get(KingdomKeys.rl(nbt.getString("ingredient_material_1"))));
+		this.setIngredient2(BuiltInRegistries.ITEM.get(KingdomKeys.rl(nbt.getString("ingredient_material_2"))));
 		this.setRegistryName(nbt.getString("regname"));
 	}
 
@@ -177,15 +159,11 @@ public class Melding {
 	}
 
 	public void setRegistryName(String registryName) {
-		this.registryName = ResourceLocation.parse(registryName);
+		this.registryName = KingdomKeys.rl(registryName);
 	}
 
 	public void setRegistryName(ResourceLocation registryName) {
 		this.registryName = registryName;
-	}
-
-	public void setRegistryName(String namespace, String path) {
-		this.registryName = ResourceLocation.fromNamespaceAndPath(namespace, path);
 	}
 
 	public boolean hasBonus() {

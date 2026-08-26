@@ -26,7 +26,7 @@ public class CommanderEntity extends SoldierEntity {
 
     @OnlyIn(Dist.CLIENT)
     public ResourceLocation getTexture(){
-        return ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/mob/commander.png");
+        return KingdomKeys.rl("textures/entity/mob/commander.png");
     }
 
     @Override

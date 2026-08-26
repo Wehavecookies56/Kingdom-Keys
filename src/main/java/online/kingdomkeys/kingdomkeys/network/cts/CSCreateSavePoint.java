@@ -7,7 +7,6 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -28,7 +27,7 @@ import java.util.UUID;
 
 public record CSCreateSavePoint(BlockPos tileEntity, String name, UUID owner, String ownerName, boolean global) implements Packet {
 
-    public static final Type<CSCreateSavePoint> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_create_save_point"));
+    public static final Type<CSCreateSavePoint> TYPE = new Type<>(KingdomKeys.rl("cs_create_save_point"));
 
     public static final StreamCodec<FriendlyByteBuf, CSCreateSavePoint> STREAM_CODEC = StreamCodec.composite(
             BlockPos.STREAM_CODEC,

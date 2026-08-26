@@ -1,10 +1,8 @@
 package online.kingdomkeys.kingdomkeys.leveling;
 
-import java.util.List;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
 
-/**
- * Stores the data loaded from the leveling datapack
- */
 public class LevelingData {
 	int[] str = new int[101];
 	int[] mag = new int[101];
@@ -12,33 +10,14 @@ public class LevelingData {
 	int[] ap = new int[101];
 	int[] maxhp = new int[101];
 	int[] maxmp = new int[101];
-	String[][] abilities = new String[101][5];
-	String[][] shotlocks = new String[101][5];
-	String[][] spells = new String[101][5];
+	ResourceLocation[][] abilities = new ResourceLocation[101][5];
+	ItemStack[][] items = new ItemStack[101][];
 	int[] maxAccessories = new int[101];
 	int[] maxArmors = new int[101];
 	int[] maxMagics = new int[101];
 	int version;
 
-	public LevelingData() {
-
-	}
-
-	public LevelingData(int ver, int level, int str, int mag, int def, int ap, int maxhp, int maxmp, List<String> abilities, List<String> shotlocks, List<String> spells, int maxAccessories, int maxArmors, int maxSpells) {
-		this.version = ver;
-		this.mag[level] = mag;
-		this.def[level] = def;
-		this.str[level] = str;
-		this.ap[level] = ap;
-		this.maxhp[level] = maxhp;
-		this.maxmp[level] = maxmp;
-		this.abilities[level] = (String[]) abilities.toArray();
-		this.shotlocks[level] = (String[]) shotlocks.toArray();
-		this.spells[level] = (String[]) spells.toArray();
-		this.maxAccessories[level] = maxAccessories;
-		this.maxArmors[level] = maxArmors;
-		this.maxMagics[level] = maxSpells;
-	}
+	public LevelingData() {}
 
 	public int getStr(int lvl) {
 		return str[lvl];
@@ -88,33 +67,26 @@ public class LevelingData {
 		this.maxmp[lvl] = amount;
 	}
 
-	public String[] getAbilities(int lvl) {
+	public ResourceLocation[] getAbilities(int lvl) {
 		return abilities[lvl];
 	}
 
-	public void setAbilities(int lvl, String[] abilities) {
+	public void setAbilities(int lvl, ResourceLocation[] abilities) {
 		this.abilities[lvl] = abilities;
 	}
 
-	public String[] getShotlocks(int lvl) {
-		return shotlocks[lvl];
+	public ItemStack[] getItems(int lvl) {
+		return items[lvl] == null ? new ItemStack[0] : items[lvl];
 	}
 
-	public void setShotlocks(int lvl, String[] shotlocks) {
-		this.shotlocks[lvl] = shotlocks;
+	public void setItems(int lvl, ItemStack[] items) {
+		this.items[lvl] = items;
 	}
-	
-	public String[] getSpells(int lvl) {
-		return spells[lvl];
-	}
-	
-	public void setSpells(int lvl, String[] spells) {
-		this.spells[lvl] = spells;
-	}
+
 	public int getMaxAccessories(int lvl) {
 		return maxAccessories[lvl];
 	}
-	
+
 	public void setMaxAccessories(int lvl, int amount) {
 		this.maxAccessories[lvl] = amount;
 	}

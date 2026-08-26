@@ -14,7 +14,7 @@ import online.kingdomkeys.kingdomkeys.network.stc.SCAeroSoundPacket;
 
 public class MagicAero extends Magic {
 
-	public MagicAero(ResourceLocation registryName, int tier, String gmAbility) {
+	public MagicAero(ResourceLocation registryName, int tier, ResourceLocation gmAbility) {
 		super(registryName, true, gmAbility);
 		setTier(tier);
 	}

@@ -30,7 +30,7 @@ public class SellListDataLoader extends SimpleJsonResourceReloadListener {
     protected void apply(Map<ResourceLocation, JsonElement> objectIn, ResourceManager resourceManagerIn, ProfilerFiller profilerIn) {
         SellListRegistry.getInstance().clearRegistry();
         AtomicInteger count = new AtomicInteger();
-        ResourceLocation sellId = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "sell");
+        ResourceLocation sellId = KingdomKeys.rl("sell");
         JsonElement element = objectIn.get(sellId);
 
         if (element != null) {

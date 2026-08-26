@@ -3,6 +3,12 @@
   "cooldown": 10,
   "cost": 8,
   "dmg_mult": 1.0,
+  "interacts_with_blocks": [
+    "light_lightable",
+    "light_portal",
+    "light_tnt",
+    "dry_sponge"
+  ],
   "magic_lock_on": true,
   "max_exp": 800,
   "max_lvl": 3,

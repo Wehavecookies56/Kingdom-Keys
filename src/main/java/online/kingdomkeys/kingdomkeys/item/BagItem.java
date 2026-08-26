@@ -17,6 +17,7 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.api.item.IItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
+import online.kingdomkeys.kingdomkeys.item.card.MapCardItem;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.menu.BagMenu;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
@@ -38,6 +39,8 @@ public class BagItem extends Item implements IItemCategory {
 		return switch (type) {
 			case SYNTHESIS_BAG -> stack -> stack.getItem() instanceof SynthesisItem;
 			case MAGICS_BAG -> stack -> stack.getItem() instanceof MagicSpellItem;
+			case CARDS_BAG -> stack -> stack.getItem() instanceof MapCardItem;
+			case SHOTLOCKS_BAG -> stack -> stack.getItem() instanceof ShotlockItem;
 		};
 	}
 
@@ -45,7 +48,10 @@ public class BagItem extends Item implements IItemCategory {
 	public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
 		ItemStack bagStack = player.getItemInHand(hand);
 		if (!bagStack.has(ModComponents.BAG_LEVEL)) {
-			bagStack.set(ModComponents.BAG_LEVEL, 0);
+			if(bagStack.getItem() == ModItems.cardsBag.get()) //Cards bag start on lvl 1 since it's too small and either way it's a placeholder
+				bagStack.set(ModComponents.BAG_LEVEL, 1);
+			else
+				bagStack.set(ModComponents.BAG_LEVEL, 0);
 		}
 
 		if (!level.isClientSide) {
@@ -68,8 +74,18 @@ public class BagItem extends Item implements IItemCategory {
 			tooltip.add(Component.translatable(Utils.translateToLocal(Strings.Gui_Menu_Status_Level) + " " + (bagLevel + 1)));
 		}
 		if (type == Type.MAGICS_BAG) {
-			if (!Utils.hasOnlyOneBag(Minecraft.getInstance().player)) {
+			if (!Utils.hasOnlyOneBag(Minecraft.getInstance().player, Type.MAGICS_BAG)) {
 				tooltip.add(Component.translatable("gui.spellsbag.complain").withStyle(ChatFormatting.RED));
+			}
+		}
+		if (type == Type.CARDS_BAG) {
+			if (!Utils.hasOnlyOneBag(Minecraft.getInstance().player, Type.CARDS_BAG)) {
+				tooltip.add(Component.translatable("gui.cardsbag.complain").withStyle(ChatFormatting.RED));
+			}
+		}
+		if (type == Type.SHOTLOCKS_BAG) {
+			if (!Utils.hasOnlyOneBag(Minecraft.getInstance().player, Type.SHOTLOCKS_BAG)) {
+				tooltip.add(Component.translatable("gui.shotlocksbag.complain").withStyle(ChatFormatting.RED));
 			}
 		}
 		super.appendHoverText(stack, tooltipContext, tooltip, flagIn);
@@ -81,6 +97,6 @@ public class BagItem extends Item implements IItemCategory {
 	}
 
 	public enum Type {
-		SYNTHESIS_BAG, MAGICS_BAG
+		SYNTHESIS_BAG, MAGICS_BAG, CARDS_BAG, SHOTLOCKS_BAG
 	}
 }

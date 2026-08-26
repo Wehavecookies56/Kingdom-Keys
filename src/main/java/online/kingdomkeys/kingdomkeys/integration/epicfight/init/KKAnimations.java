@@ -1,6 +1,5 @@
 package online.kingdomkeys.kingdomkeys.integration.epicfight.init;
 
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
@@ -111,7 +110,7 @@ public class KKAnimations {
                 .addEvents(AnimationEvent.InTimeEvent.create(.1f, (ep, animation, arr) -> {
                     if (ep.getOriginal().level().isClientSide) {
                         if (EpicFightUtils.isPlayerSummoning(ep)) {
-                            PacketHandler.sendToServer(new CSSummonKeyblade(ResourceLocation.parse(PlayerData.get((Player) ep.getOriginal()).getActiveDriveForm())));
+                            PacketHandler.sendToServer(new CSSummonKeyblade(PlayerData.get((Player) ep.getOriginal()).getActiveDriveForm()));
                         }
                     }
                 }, AnimationEvent.Side.BOTH)));

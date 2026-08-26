@@ -1,0 +1,20 @@
+{
+  "category": "ENEMY",
+  "enemies": {
+    "type": "M",
+    "number_of_enemies": 10,
+    "simultaneous_enemies": 3
+  },
+  "modifiers": [
+    {
+      "type": "kingdomkeys:drop",
+      "chance": 50,
+      "item": {
+        "count": 1,
+        "id": "kingdomkeys:roulette_bonus"
+      },
+      "replace_card": true
+    }
+  ],
+  "size": "L"
+}

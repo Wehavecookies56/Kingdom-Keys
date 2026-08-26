@@ -53,6 +53,31 @@ public class Sounds extends SoundDefinitionsProvider {
         add(portal);
         add(laser);
         add(buy);
+        add(gummiPlace);
+        add(gummiRemove);
+        add(guard);
+        add(aerialRecovery);
+        add(flowmotionLoop);
+        add(koLoop);
+        add(bossKill);
+        add(heartlessKill);
+        add(heartlessSpawn);
+        add(nobodyKill);
+        add(openChest);
+        add(synthesisPickup);
+
+        add(bond_of_the_blaze_hit);
+        add(braveheart_hit);
+        add(destinys_embrace_hit);
+        add(earthshaker_hit);
+        add(kingdom_key_hit);
+        add(oathkeeper_hit);
+        add(oblivion_hit);
+        add(rainfell_hit);
+        add(star_cluster_hit);
+        add(way_to_dawn_hit);
+        add(wayward_wind_hit);
+        add(generic_hit);
 
         add(fire);
         add(fira);
@@ -102,7 +127,7 @@ public class Sounds extends SoundDefinitionsProvider {
         add(shotlock_shot);
         add(strike_raid);
         add(wisdom_shot);
-        add(keyblade_armor, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID,"keyblade_armor2"));
+        add(keyblade_armor, KingdomKeys.rl("keyblade_armor2"));
         add(summon_armor);
         add(unsummon_armor);
         add(wall_jump);
@@ -138,6 +163,11 @@ public class Sounds extends SoundDefinitionsProvider {
         add(Music_Castle_Oblivion, true);
         add(Music_The_13th_Floor, true);
         add(Music_Forgotten_Challenge, true);
+        add(Music_World_Map, true);
+        add(Music_Daybreak_Town, true);
+        add(Music_Daybreak_Town_Battle, true);
+        add(Music_Destiny_Islands, true);
+        add(Music_Destiny_Islands_Battle, true);
     }
 
     public void add(Supplier<SoundEvent> sound) {

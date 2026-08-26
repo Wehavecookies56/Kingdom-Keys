@@ -6,7 +6,6 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
@@ -25,7 +24,7 @@ import java.util.UUID;
 
 public record SCOpenSavePointScreen(BlockPos tileEntity, Map<UUID, Pair<SavePointStorage.SavePoint, Instant>> savePoints, boolean create) implements Packet {
 
-    public static final Type<SCOpenSavePointScreen> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "sc_open_save_point_screen"));
+    public static final Type<SCOpenSavePointScreen> TYPE = new Type<>(KingdomKeys.rl("sc_open_save_point_screen"));
 
     public static final StreamCodec<FriendlyByteBuf, SCOpenSavePointScreen> STREAM_CODEC = StreamCodec.composite(
             BlockPos.STREAM_CODEC,

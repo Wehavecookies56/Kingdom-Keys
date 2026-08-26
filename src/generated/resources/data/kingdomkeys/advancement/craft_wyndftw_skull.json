@@ -1,0 +1,40 @@
+{
+  "parent": "kingdomkeys:craft_abelatox_skull",
+  "criteria": {
+    "crafted": {
+      "conditions": {
+        "name": "wyndftw"
+      },
+      "trigger": "kingdomkeys:craft_profile_head"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "description": {
+      "translate": "advancements.kingdomkeys.craft_wyndftw_skull.desc"
+    },
+    "frame": "goal",
+    "hidden": true,
+    "icon": {
+      "components": {
+        "minecraft:profile": {
+          "name": "wyndftw"
+        }
+      },
+      "count": 1,
+      "id": "minecraft:player_head"
+    },
+    "title": {
+      "translate": "advancements.kingdomkeys.craft_wyndftw_skull"
+    }
+  },
+  "requirements": [
+    [
+      "crafted"
+    ]
+  ],
+  "rewards": {
+    "experience": 50
+  },
+  "sends_telemetry_event": true
+}

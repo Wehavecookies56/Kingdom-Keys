@@ -5,7 +5,6 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.portal.DimensionTransition;
 import net.minecraft.world.phys.Vec3;
@@ -20,7 +19,7 @@ import java.util.UUID;
 
 public record CSSavePointTP(UUID currentSavePoint, UUID destinationSavePoint) implements Packet {
 
-    public static final Type<CSSavePointTP> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_save_point_tp"));
+    public static final Type<CSSavePointTP> TYPE = new Type<>(KingdomKeys.rl("cs_save_point_tp"));
 
     public static final StreamCodec<FriendlyByteBuf, CSSavePointTP> STREAM_CODEC = StreamCodec.composite(
             UUIDUtil.STREAM_CODEC,

@@ -1,0 +1,46 @@
+{
+  "category": "ENEMY",
+  "size": "S",
+  "modifiers": [
+    {
+      "type": "kingdomkeys:spawn",
+      "entity": "kingdomkeys:marluxia"
+    },
+    {
+      "type": "kingdomkeys:level",
+      "operations": [
+        {
+          "amount": 200,
+          "operator": "="
+        },
+        {
+          "amount": 100,
+          "operator": "rand"
+        },
+        {
+          "amount": 10,
+          "operator": "+"
+        }
+      ]
+    },
+    {
+      "type": "kingdomkeys:effect",
+      "effect": "kingdomkeys:aero",
+      "amplifier": 2,
+      "target": "PLAYER"
+    },
+    {
+      "type": "kingdomkeys:effect",
+      "effect": "minecraft:glowing",
+      "target": "MOB"
+    },
+    {
+      "type": "kingdomkeys:effect",
+      "effect": "minecraft:speed",
+      "amplifier": 10,
+      "target": "BOTH"
+    }
+  ],
+  "fixed_room": "example:example_room",
+  "encounter": "example:example_encounter"
+}

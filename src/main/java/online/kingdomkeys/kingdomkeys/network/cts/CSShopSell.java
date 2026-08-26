@@ -4,7 +4,6 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -23,7 +22,7 @@ import java.util.List;
 
 public record CSShopSell(int slot, int amount, String inv, String name, int moogle) implements Packet {
 
-	public static final Type<CSShopSell> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_shop_sell"));
+	public static final Type<CSShopSell> TYPE = new Type<>(KingdomKeys.rl("cs_shop_sell"));
 
 	public static final StreamCodec<RegistryFriendlyByteBuf, CSShopSell> STREAM_CODEC = StreamCodec.composite(
             ByteBufCodecs.INT,
@@ -44,7 +43,7 @@ public record CSShopSell(int slot, int amount, String inv, String name, int moog
 		Player player = context.player();
 		PlayerData playerData = PlayerData.get(player);
 
-		List<SellItem> list = SellListRegistry.getInstance().getRegistry().get(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "sell")).getList();
+		List<SellItem> list = SellListRegistry.getInstance().getRegistry().get(KingdomKeys.rl("sell")).getList();
         ItemStack playerStack = player.getInventory().getItem(slot);
 
         SellItem item = null;
@@ -59,7 +58,7 @@ public record CSShopSell(int slot, int amount, String inv, String name, int moog
 		}
 
         if(item != null && playerStack.getCount() >= amount) {
-            playerData.setMunny(playerData.getMunny() + item.getPrice() * amount);
+            playerData.setMunny(playerData.getMunny() + item.getPrice() * amount, (ServerPlayer) player);
             player.getInventory().getItem(slot).setCount(player.getInventory().getItem(slot).getCount() - amount);
             PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
             PacketHandler.sendTo(new SCOpenSellScreen(playerData.serializeNBT(player.level().registryAccess()), inv, name, moogle), (ServerPlayer) player);

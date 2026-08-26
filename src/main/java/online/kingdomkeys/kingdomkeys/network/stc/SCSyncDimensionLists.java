@@ -6,7 +6,6 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
 import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
@@ -20,7 +19,7 @@ import java.util.Set;
 
 public record SCSyncDimensionLists(Set<ResourceKey<Level>> addedDims, Set<ResourceKey<Level>> removedDims) implements Packet {
 
-    public static final Type<SCSyncDimensionLists> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "sc_sync_dimension_lists"));
+    public static final Type<SCSyncDimensionLists> TYPE = new Type<>(KingdomKeys.rl("sc_sync_dimension_lists"));
 
     public static final StreamCodec<FriendlyByteBuf, SCSyncDimensionLists> STREAM_CODEC = StreamCodec.composite(
             ByteBufCodecs.collection(HashSet::new, ResourceKey.streamCodec(Registries.DIMENSION)),

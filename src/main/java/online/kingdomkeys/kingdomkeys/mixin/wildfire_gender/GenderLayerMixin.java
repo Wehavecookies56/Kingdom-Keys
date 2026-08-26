@@ -21,9 +21,9 @@ public class GenderLayerMixin<ENTITY extends LivingEntity> {
         if (entity instanceof AbstractClientPlayer player) {
             rl = player.getSkin().texture();
             if (PlayerData.get(player) != null) {
-                String drive = PlayerData.get(player).getActiveDriveForm();
-                if (!drive.equals(DriveForm.NONE.toString())) {
-                    DriveForm form = ModDriveForms.registry.get(ResourceLocation.parse(drive));
+                ResourceLocation drive = PlayerData.get(player).getActiveDriveForm();
+                if (!drive.equals(DriveForm.NONE)) {
+                    DriveForm form = ModDriveForms.registry.get(drive);
                     if (form.getTextureLocation(player) != null) {
                         rl = form.getTextureLocation(player);
                     }

@@ -44,7 +44,7 @@ public class GreenRequiemEntity extends BaseElementalMusicalHeartlessEntity {
     @OnlyIn(Dist.CLIENT)
     @Override
     public ResourceLocation getTexture() {
-        return ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/mob/green_requiem.png");
+        return KingdomKeys.rl("textures/entity/mob/green_requiem.png");
     }
 
     @Override
@@ -93,7 +93,7 @@ public class GreenRequiemEntity extends BaseElementalMusicalHeartlessEntity {
         @Override
         public void start() {
             canUseAttack = true;
-            attackTimer = 25 + level().random.nextInt(5);
+            attackTimer = 80 + level().random.nextInt(40);
             mob.setState(0);
             this.mob.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.20D);
             whileAttackTimer = 0;

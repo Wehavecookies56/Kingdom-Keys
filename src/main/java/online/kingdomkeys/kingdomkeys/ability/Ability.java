@@ -1,8 +1,9 @@
 package online.kingdomkeys.kingdomkeys.ability;
 
 import net.minecraft.resources.ResourceLocation;
+import online.kingdomkeys.kingdomkeys.lib.KKRegistryObject;
 
-public class Ability {
+public class Ability implements KKRegistryObject {
 
 	public enum AbilityType{
 		ACTION, GROWTH, GROWTH_STACKABLE, SUPPORT, WEAPON, ACCESSORY
@@ -55,6 +56,7 @@ public class Ability {
 		return name.toString();
 	}
 
+	@Override
 	public ResourceLocation getRegistryName() {
 		return name;
 	}

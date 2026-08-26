@@ -1,0 +1,40 @@
+{
+  "parent": "kingdomkeys:craft_wyndftw_skull",
+  "criteria": {
+    "crafted": {
+      "conditions": {
+        "name": "stel1034"
+      },
+      "trigger": "kingdomkeys:craft_profile_head"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "description": {
+      "translate": "advancements.kingdomkeys.craft_stel1034_skull.desc"
+    },
+    "frame": "goal",
+    "hidden": true,
+    "icon": {
+      "components": {
+        "minecraft:profile": {
+          "name": "stel1034"
+        }
+      },
+      "count": 1,
+      "id": "minecraft:player_head"
+    },
+    "title": {
+      "translate": "advancements.kingdomkeys.craft_stel1034_skull"
+    }
+  },
+  "requirements": [
+    [
+      "crafted"
+    ]
+  ],
+  "rewards": {
+    "experience": 50
+  },
+  "sends_telemetry_event": true
+}

@@ -4,7 +4,6 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
 import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
@@ -17,7 +16,7 @@ import java.util.List;
 
 public record SCSyncMeldingData(List<Melding> recipes) implements Packet {
 
-	public static final Type<SCSyncMeldingData> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "sc_sync_melding_data"));
+	public static final Type<SCSyncMeldingData> TYPE = new Type<>(KingdomKeys.rl("sc_sync_melding_data"));
 
 	public static final StreamCodec<FriendlyByteBuf, SCSyncMeldingData> STREAM_CODEC = StreamCodec.composite(
 			ByteBufCodecs.collection(ArrayList::new, Melding.STREAM_CODEC),

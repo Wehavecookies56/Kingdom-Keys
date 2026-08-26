@@ -4,6 +4,12 @@
   "cost": 12,
   "dmg_mult": 0.35,
   "dmg_mult_max": 0.37,
+  "interacts_with_blocks": [
+    "turn_off_lightable",
+    "extinguish_fire",
+    "extinguish_tnt",
+    "wet_sponge"
+  ],
   "magic_lock_on": false,
   "magic_rc": "kingdomkeys:magic_water",
   "max_exp": 4200,

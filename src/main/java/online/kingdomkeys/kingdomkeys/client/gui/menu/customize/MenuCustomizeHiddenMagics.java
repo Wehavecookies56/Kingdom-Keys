@@ -4,7 +4,6 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
@@ -57,7 +56,7 @@ public class MenuCustomizeHiddenMagics extends MenuBackground {
 			String magicName = "---";
 
 			if(!stack.isEmpty() && stack.getItem() instanceof MagicSpellItem spell) {
-				Magic magicInstance = ModMagic.registry.get(ResourceLocation.parse(spell.getMagic()));
+				Magic magicInstance = ModMagic.registry.get(spell.getMagic());
 				magicName = Utils.translateToLocal(magicInstance.getTranslationKey());
 			}
 

@@ -15,9 +15,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class GummiShipBlueprintItem extends Item implements IItemCategory {
+public class GummiShipBlueprintItem extends Item implements IItemCategory, ICreativeTab{
     public GummiShipBlueprintItem(Item.Properties properties) {
         super(properties);
+    }
+
+    /** True for both the survival blueprint and the creative one, which share this class */
+    public static boolean isBlueprint(ItemStack stack) {
+        return stack.getItem() instanceof GummiShipBlueprintItem;
+    }
+
+    public static boolean isCreative(ItemStack stack) {
+        return stack.is(ModItems.gummiShipBlueprintCreative.get());
     }
 
     @Override
@@ -55,8 +64,13 @@ public class GummiShipBlueprintItem extends Item implements IItemCategory {
                 tooltipComponents.add(block.getName().append(" x" + integer));
             });
         } else {
-            tooltipComponents.add(Component.translatable("(blank)"));
+            tooltipComponents.add(Component.translatable("kingdomkeys.gummi.blueprint.blank"));
         }
         super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
+    }
+
+    @Override
+    public ICreativeTab.Tab getTab() {
+        return Tab.GUMMI;
     }
 }

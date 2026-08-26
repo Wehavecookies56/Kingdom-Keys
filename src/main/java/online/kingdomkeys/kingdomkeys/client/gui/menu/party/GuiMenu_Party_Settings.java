@@ -3,6 +3,7 @@ package online.kingdomkeys.kingdomkeys.client.gui.menu.party;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundSource;
+import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
@@ -136,6 +137,14 @@ public class GuiMenu_Party_Settings extends MenuBackground {
 			int buttonX = togglePriv.getX();
 			gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Menu_Party_Create_Accessibility), buttonX, (int)(height * 0.21), 0xFFFFFF);
 			gui.drawString(minecraft.font, Utils.translateToLocal("Friendly Fire"), buttonX, (int)(height * 0.21) + 38, 0xFFFFFF);
+
+			gui.pose().pushPose();
+			{
+				float scale = 1.5F;
+				gui.pose().scale(scale, scale, 1);
+				gui.drawString(minecraft.font, Component.literal("["+party.getMembers().size()+"/"+party.getSize()+"] "+party.getName()).withStyle(ClientUtils.KK_Font_EXP), (int) (topLeftBar.getWidth() / scale + topGap) + 5, 10, 0xFF9900);
+			}
+			gui.pose().popPose();
 		}
 	}
 }

@@ -1,0 +1,48 @@
+{
+  "encounter": {
+    "type": "kingdomkeys:wave",
+    "interval_ticks": 0,
+    "waves": [
+      {
+        "spawns": [
+          "minecraft:creeper",
+          "minecraft:cow",
+          "minecraft:blaze",
+          "minecraft:skeleton",
+          "minecraft:zombie",
+          "minecraft:ghast"
+        ],
+        "modifiers": [
+          {
+            "type": "kingdomkeys:effect",
+            "effect": "kingdomkeys:gravity",
+            "target": "MOB"
+          }
+        ]
+      },
+      {
+        "spawns": [
+          "kingdomkeys:blox_bug",
+          "kingdomkeys:moogle"
+        ]
+      }
+    ]
+  },
+  "rewards": [
+    {
+      "components": {
+        "minecraft:custom_name": "{\"text\": \"A Winner is you\"}"
+      },
+      "count": 1,
+      "id": "kingdomkeys:winner_stick"
+    },
+    {
+      "components": {
+        "kingdomkeys:card_value": 0
+      },
+      "count": 64,
+      "id": "kingdomkeys:mingling_worlds"
+    }
+  ],
+  "music": "kingdomkeys:records/no_more_bugs_bug_version"
+}

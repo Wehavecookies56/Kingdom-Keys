@@ -1,0 +1,38 @@
+{
+  "parent": "kingdomkeys:open_menu",
+  "criteria": {
+    "obtain_drive": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#kingdomkeys:drives"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "description": {
+      "translate": "advancements.kingdomkeys.obtain_drive.desc"
+    },
+    "frame": "goal",
+    "icon": {
+      "count": 1,
+      "id": "kingdomkeys:levelupdrivevalor"
+    },
+    "title": {
+      "translate": "advancements.kingdomkeys.obtain_drive"
+    }
+  },
+  "requirements": [
+    [
+      "obtain_drive"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  },
+  "sends_telemetry_event": true
+}

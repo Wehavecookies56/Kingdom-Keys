@@ -14,7 +14,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.common.NeoForge;
-import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.api.event.EquipmentEvent;
@@ -28,6 +27,7 @@ import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
+import online.kingdomkeys.kingdomkeys.lib.Constants;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSEquipKeychain;
@@ -45,8 +45,6 @@ public class MenuSelectEquipmentButton extends MenuButtonBase {
 	MenuEquipmentSelectorScreen parent;
 	int slot;
 	Minecraft minecraft;
-
-	final ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
 
 	public MenuSelectEquipmentButton(ItemStack stack, int slot, int x, int y, int widthIn, MenuEquipmentSelectorScreen parent, int colour) {
 		super(x, y, widthIn, 20, "", b -> {
@@ -105,11 +103,11 @@ public class MenuSelectEquipmentButton extends MenuButtonBase {
 			RenderSystem.setShaderColor(col.getRed() / 255F, col.getGreen() / 255F, col.getBlue() / 255F, 1);
 			matrixStack.translate(getX() + 0.6F, getY(), 0);
 			matrixStack.scale(0.5F, 0.5F, 1);
-			gui.blit(texture, 0, 0, 166, 34, 18, 28);
-			gui.blit(texture, 16, 0, (int) ((itemWidth * 2) - (17 + 17))+2, 28, 186, 34, 2, 28, 256, 256);
-			gui.blit(texture, (int) ((itemWidth * 2) - 17), 0, 186, 34, 17, 28);
+			gui.blit(Constants.MENU_TEXTURE, 0, 0, 166, 34, 18, 28);
+			gui.blit(Constants.MENU_TEXTURE, 16, 0, (int) ((itemWidth * 2) - (17 + 17))+2, 28, 186, 34, 2, 28, 256, 256);
+			gui.blit(Constants.MENU_TEXTURE, (int) ((itemWidth * 2) - 17), 0, 186, 34, 17, 28);
 			RenderSystem.setShaderColor(1, 1, 1, 1);
-			gui.blit(texture, 6, 4, category.getU(), category.getV(), 20, 20);
+			gui.blit(Constants.MENU_TEXTURE, 6, 4, category.getU(), category.getV(), 20, 20);
 			matrixStack.popPose();
 			String itemName = keyblade == null ? "---" : new ItemStack(keyblade).getHoverName().getString();
 
@@ -122,18 +120,18 @@ public class MenuSelectEquipmentButton extends MenuButtonBase {
 				RenderSystem.setShaderColor(col.getRed() / 255F, col.getGreen() / 255F, col.getBlue() / 255F, 1);
 				matrixStack.translate(getX() + itemWidth + 2.1F, getY(), 0);
 				matrixStack.scale(0.5F, 0.5F, 1);
-				gui.blit(texture, 0, 0, 219, 34, 15, 28);
-				gui.blit(texture, 13, 0, (int) ((labelWidth * 2) - (17 + 14))+2, 28, 186, 34, 2, 28, 256, 256);
-				gui.blit(texture, (int) ((labelWidth * 2) - 17), 0, 186, 34, 17, 28);
+				gui.blit(Constants.MENU_TEXTURE, 0, 0, 219, 34, 15, 28);
+				gui.blit(Constants.MENU_TEXTURE, 13, 0, (int) ((labelWidth * 2) - (17 + 14))+2, 28, 186, 34, 2, 28, 256, 256);
+				gui.blit(Constants.MENU_TEXTURE, (int) ((labelWidth * 2) - 17), 0, 186, 34, 17, 28);
 			}
 			matrixStack.popPose();
 
 			String ab = "N/A";
 			if (keyblade != null) {
 				int level = keyblade.getKeybladeLevel(stack);
-				List<String> abilities = Utils.getKeybladeAbilitiesAtLevel(keyblade, level);
+				List<ResourceLocation> abilities = Utils.getKeybladeAbilitiesAtLevel(keyblade, level);
 				if (!abilities.isEmpty()) {
-					Ability a = ModAbilities.registry.get(ResourceLocation.parse(abilities.get(0)));
+					Ability a = ModAbilities.registry.get(abilities.get(0));
 					ab = Utils.translateToLocal(a.getTranslationKey());
 					if(abilities.size() > 1) {
 						ab+= " [+"+(abilities.size()-1)+"]";
@@ -151,9 +149,9 @@ public class MenuSelectEquipmentButton extends MenuButtonBase {
 					RenderSystem.enableBlend();
 					matrixStack.translate(getX() + 0.6F, getY(), 0);
 					matrixStack.scale(0.5F, 0.5F, 1);
-					gui.blit(texture, 0, 0, 128, 34, 18, 28);
-					gui.blit(texture, 16, 0, (int) ((itemWidth * 2) - (17 * 2)) + 2, 28, 148, 34, 2, 28, 256, 256);
-					gui.blit(texture, (int) ((itemWidth * 2) - 17), 0, 148, 34, 17, 28);
+					gui.blit(Constants.MENU_TEXTURE, 0, 0, 128, 34, 18, 28);
+					gui.blit(Constants.MENU_TEXTURE, 16, 0, (int) ((itemWidth * 2) - (17 * 2)) + 2, 28, 148, 34, 2, 28, 256, 256);
+					gui.blit(Constants.MENU_TEXTURE, (int) ((itemWidth * 2) - 17), 0, 148, 34, 17, 28);
 					RenderSystem.disableBlend();
 				}
 				matrixStack.popPose();
@@ -219,13 +217,13 @@ public class MenuSelectEquipmentButton extends MenuButtonBase {
 				gui.drawString(fr, "]", (int) strNumPosX + fr.width(magicStr) + fr.width(openBracketMag) + fr.width(totalMagicStr), (int) magPosY, 0xBF6004);
 				int level = keyblade.getKeybladeLevel(stack);
 
-				List<String> abilities = Utils.getKeybladeAbilitiesAtLevel(keyblade,level);
+				List<ResourceLocation> abilities = Utils.getKeybladeAbilitiesAtLevel(keyblade,level);
 
 				if(!abilities.isEmpty()) {
 					gui.drawString(fr, ChatFormatting.UNDERLINE + Component.translatable(Strings.Gui_Menu_Status_Abilities).getString(), (int) abiPosX, (int) abiPosY, 0xEE8603);
 					for(int i = 0; i < abilities.size();i++) {
-						Ability ability = ModAbilities.registry.get(ResourceLocation.parse(abilities.get(i)));
-						gui.blit(texture, (int) strPosX-2, (int) abiPosY + ((i+1)*12)-4, 73, 102, 12, 12);
+						Ability ability = ModAbilities.registry.get(abilities.get(i));
+						gui.blit(Constants.MENU_TEXTURE, (int) strPosX-2, (int) abiPosY + ((i+1)*12)-4, 73, 102, 12, 12);
 						gui.drawString(fr, Utils.translateToLocal(ability.getTranslationKey()), (int) strPosX+14, (int) abiPosY + ((i+1)*12)-1, 0xFFFFFF);
 					}
 				}
