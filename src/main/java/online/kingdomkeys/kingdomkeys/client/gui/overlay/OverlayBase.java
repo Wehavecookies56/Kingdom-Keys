@@ -13,7 +13,6 @@ public abstract class OverlayBase implements LayeredDraw.Layer {
     Minecraft minecraft;
     GuiGraphics guiGraphics;
     Font font;
-    HUDAnchorPosition anchor;
 
     protected OverlayBase() {
         minecraft = Minecraft.getInstance();

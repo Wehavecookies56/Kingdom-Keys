@@ -1,0 +1,31 @@
+{
+  "parent": "kingdomkeys:root",
+  "criteria": {
+    "all_advancements": {
+      "trigger": "kingdomkeys:all_advancements"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.kingdomkeys.all_advancements.desc"
+    },
+    "frame": "challenge",
+    "hidden": true,
+    "icon": {
+      "count": 1,
+      "id": "kingdomkeys:proof_of_connection"
+    },
+    "title": {
+      "translate": "advancements.kingdomkeys.all_advancements"
+    }
+  },
+  "requirements": [
+    [
+      "all_advancements"
+    ]
+  ],
+  "rewards": {
+    "experience": 500
+  },
+  "sends_telemetry_event": true
+}

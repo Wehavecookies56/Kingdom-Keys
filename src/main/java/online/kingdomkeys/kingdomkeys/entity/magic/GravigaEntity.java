@@ -63,24 +63,27 @@ public class GravigaEntity extends BaseMagicProjectile {
 			double X = getX();
 			double Y = getY();
 			double Z = getZ();
-	
+
 			for (int t = 1; t < 360; t += 20) {
+				double radT = Math.toRadians(t);
+				double sinT = Math.sin(radT);
+				double y = Y + (radius * Math.cos(radT));
 				for (int s = 1; s < 360 ; s += 20) {
-					double x = X + (radius * Math.cos(Math.toRadians(s)) * Math.sin(Math.toRadians(t)));
-					double z = Z + (radius * Math.sin(Math.toRadians(s)) * Math.sin(Math.toRadians(t)));
-					double y = Y + (radius * Math.cos(Math.toRadians(t)));
+					double radS = Math.toRadians(s);
+					double x = X + (radius * Math.cos(radS) * sinT);
+					double z = Z + (radius * Math.sin(radS) * sinT);
 					((ServerLevel) level()).sendParticles(ParticleTypes.DRAGON_BREATH, x, y+1, z, 1, 0,0,0, 0);
 				}
 			}
-			
+
 			WorldData worldData = WorldData.get(level().getServer());
 			if (!level().isClientSide && getOwner() != null && worldData != null) {
 				List<Entity> oList = level().getEntities(getOwner(), getBoundingBox().inflate(radius));
 				List<Entity> list = Utils.removePartyMembersFromList((Player) getOwner(),oList);
 
 				if (!list.isEmpty()) {
-                    for (Entity e : list) {
-                        if (e instanceof LivingEntity le) {
+					for (Entity e : list) {
+						if (e instanceof LivingEntity le) {
 							MobEffectInstance instance = new MobEffectInstance(ModMobEffects.GRAVITY, 100, 2, false, false, false);
 							le.addEffect(instance);
 							e.level().getServer().getPlayerList().getPlayers().forEach(player -> {
@@ -91,12 +94,12 @@ public class GravigaEntity extends BaseMagicProjectile {
 								float dmg = le.getHealth() * ratio;
 								dmg = Math.min(dmg, 99);
 								e.hurt(KKDamageTypes.getElementalDamage(KKDamageTypes.DARKNESS,this, this.getOwner()), dmg);
-                            }
+							}
 
-                            if (e instanceof ServerPlayer)
-                                PacketHandler.sendTo(new SCRecalculateEyeHeight(), (ServerPlayer) e);
-                        }
-                    }
+							if (e instanceof ServerPlayer)
+								PacketHandler.sendTo(new SCRecalculateEyeHeight(), (ServerPlayer) e);
+						}
+					}
 				}
 				remove(RemovalReason.KILLED);
 			}

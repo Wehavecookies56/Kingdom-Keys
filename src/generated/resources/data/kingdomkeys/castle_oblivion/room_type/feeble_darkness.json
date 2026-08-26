@@ -1,0 +1,20 @@
+{
+  "category": "ENEMY",
+  "enemies": {
+    "type": "S",
+    "number_of_enemies": 6,
+    "simultaneous_enemies": 3
+  },
+  "modifiers": [
+    {
+      "type": "kingdomkeys:level",
+      "operations": [
+        {
+          "amount": 2,
+          "operator": "-"
+        }
+      ]
+    }
+  ],
+  "size": "M"
+}

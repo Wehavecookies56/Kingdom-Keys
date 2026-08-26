@@ -1,75 +1,111 @@
 package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.nbt.CompoundTag;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.core.Holder;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.tags.TagKey;
+import net.minecraft.util.StringRepresentable;
+import net.minecraft.world.entity.EntityType;
+import online.kingdomkeys.kingdomkeys.util.Codecs;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.encounter.RoomEncounter;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.floor.FloorType;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.JsonRegistryObject;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModFloorTypes;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModRoomModifiers;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModRoomEncounters;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModRoomStructures;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.modifiers.RoomModifier;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nonnull;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class RoomType extends JsonRegistryObject {
 
-    private boolean entranceHall;
-    private RoomSize size;
-    private RoomCategory category;
-    private RoomEnemies enemies;
-    private Color colour;
-    private List<ResourceLocation> modifiers;
-    private List<ResourceLocation> compatibleFloors;
-    private ResourceLocation fixedRoom;
-    private ResourceLocation music;
+    private final boolean entranceHall;
+    @NotNull private final RoomSize size;
+    @NotNull private final RoomCategory category;
+    @NotNull private final Enemies enemies;
+    @Nullable private final Color colour;
+    @NotNull private final List<RoomModifier> modifiers;
+    @NotNull private final List<ResourceLocation> compatibleFloors;
+    @Nullable private final ResourceLocation fixedRoom;
+    @Nullable private final Holder<SoundEvent> music;
+    @Nullable private final ResourceLocation encounter;
+    @Nullable private final Treasure treasure;
 
-    public RoomType(CompoundTag tag) {
-        super(tag);
-    }
+    public static final Codec<RoomType> CODEC = RecordCodecBuilder.create(roomTypeInstance ->
+        roomTypeInstance.group(
+                StringRepresentable.fromEnum(RoomSize::values).fieldOf("size").forGetter(RoomType::getSize),
+                StringRepresentable.fromEnum(RoomCategory::values).fieldOf("category").forGetter(RoomType::getCategory),
+                Enemies.CODEC.optionalFieldOf("enemies", new Enemies(RoomEnemies.NONE, 0, 0)).forGetter(RoomType::getEnemiesProperties),
+                Codec.BOOL.optionalFieldOf("entrance_hall", false).forGetter(RoomType::isEntranceHall),
+                Codecs.COLOR_CODEC_HEX.optionalFieldOf("colour").forGetter(o -> Optional.ofNullable(o.getColour())),
+                RoomModifier.CODEC.listOf().optionalFieldOf("modifiers", new ArrayList<>()).forGetter(o -> o.modifiers),
+                ResourceLocation.CODEC.listOf().optionalFieldOf("compatible", new ArrayList<>()).forGetter(o -> o.compatibleFloors),
+                ResourceLocation.CODEC.optionalFieldOf("fixed_room").forGetter(o -> Optional.ofNullable(o.fixedRoom)),
+                SoundEvent.CODEC.optionalFieldOf("music").forGetter(o -> Optional.ofNullable(o.music)),
+                ResourceLocation.CODEC.optionalFieldOf("encounter").forGetter(o -> Optional.ofNullable(o.encounter)),
+                Treasure.CODEC.optionalFieldOf("treasure").forGetter(o -> Optional.ofNullable(o.treasure))
+        ).apply(roomTypeInstance, RoomType::new)
+    );
 
-    public RoomType(JsonElement element) {
-        super(element);
-    }
-
-    public ResourceLocation getRegistryName() {
-        return registryName;
+    @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
+    private RoomType(@NotNull RoomSize size, @NotNull RoomCategory category, @NotNull Enemies enemies, boolean entranceHall, Optional<Color> colour, @NotNull List<RoomModifier> modifiers, @NotNull List<ResourceLocation> compatibleFloors, Optional<ResourceLocation> fixedRoom, Optional<Holder<SoundEvent>> music, Optional<ResourceLocation> encounter, Optional<Treasure> treasure) {
+        this.entranceHall = entranceHall;
+        this.size = size;
+        this.category = category;
+        this.enemies = enemies;
+        this.colour = colour.orElse(null);
+        this.modifiers = modifiers;
+        this.compatibleFloors = compatibleFloors;
+        this.fixedRoom = fixedRoom.orElse(null);
+        this.music = music.orElse(null);
+        this.encounter = encounter.orElse(null);
+        this.treasure = treasure.orElse(null);
     }
 
     public String getTranslationKey() {
         return "room." + registryName.getPath();
     }
 
+    public MutableComponent getName(RoomData room) {
+        return isEntranceHall() ? Component.translatable(getTranslationKey(), room.getParentID() + 1) : Component.translatable(getTranslationKey());
+    }
+
     public boolean isEntranceHall() {
         return entranceHall;
     }
 
-    public RoomSize getSize() {
+    public @NotNull RoomSize getSize() {
         return size;
     }
 
-    public RoomEnemies getEnemies() {
+    public Enemies getEnemiesProperties() {
         return enemies;
     }
 
-    public RoomCategory getCategory() {
+    public RoomEnemies getEnemies() {
+        return enemies.roomEnemies;
+    }
+
+    public @NotNull RoomCategory getCategory() {
         return category;
     }
 
-    public Color getColour() {
+    public @Nullable Color getColour() {
         return colour;
     }
 
-    public List<RoomModifier> getModifiers() {
-        return modifiers.stream().map(resourceLocation -> ModRoomModifiers.registry.get(resourceLocation)).toList();
+    public @NotNull List<RoomModifier> getModifiers() {
+        return modifiers;
     }
 
     public boolean isFloorCompatible(FloorType floor) {
@@ -84,205 +120,83 @@ public class RoomType extends JsonRegistryObject {
         return compatibleFloors.stream().map(resourceLocation -> ModFloorTypes.registry.get().getValue(resourceLocation)).toList();
     }
 
-    public RoomStructure getFixedRoom() {
-        if (fixedRoom != null) {
-            return ModRoomStructures.registry.get().getValue(fixedRoom);
-        } else {
-            return null;
-        }
+    public Optional<RoomEncounter> getEncounter() {
+        return Optional.ofNullable(ModRoomEncounters.registry.get().getValue(encounter));
+    }
+
+    public Optional<RoomStructure> getFixedRoom() {
+        return Optional.ofNullable(ModRoomStructures.registry.get().getValue(fixedRoom));
+    }
+
+    public Optional<Treasure> getTreasure() {
+        return Optional.ofNullable(treasure);
     }
 
     public SoundEvent getMusic() {
         if (music != null) {
-            return BuiltInRegistries.SOUND_EVENT.get(music);
+            return music.value();
         } else {
             return null;
         }
     }
 
-    @Override
-    public CompoundTag serializeNBT() {
-        CompoundTag tag = new CompoundTag();
-
-        tag.putBoolean("entrance_hall", entranceHall);
-        tag.putInt("size", size.ordinal());
-        tag.putInt("category", category.ordinal());
-
-        CompoundTag compatibleFloors = new CompoundTag();
-        if (this.compatibleFloors != null) {
-            this.compatibleFloors.forEach(resourceLocation -> compatibleFloors.putString(resourceLocation.toString(), resourceLocation.toString()));
-        }
-        tag.put("compatible_floors", compatibleFloors);
-        CompoundTag modifiers = new CompoundTag();
-        if (this.modifiers != null) {
-            this.modifiers.forEach(resourceLocation -> modifiers.putString(resourceLocation.toString(), resourceLocation.toString()));
-        }
-        tag.put("modifiers", modifiers);
-
-        if (fixedRoom != null) {
-            tag.putString("fixed_room", fixedRoom.toString());
-        }
-        if (enemies != null) {
-            tag.putInt("enemies", enemies.ordinal());
-        }
-        if (music != null) {
-            tag.putString("music", music.toString());
-        }
-        if (colour != null) {
-            tag.putInt("colour", colour.getRGB());
-        }
-        return tag;
+    public int getNumberOfEnemies() {
+        return enemies.numberOfEnemies;
     }
 
-    @Override
-    public void deserializeNBT(CompoundTag tag) {
-        entranceHall = tag.getBoolean("entrance_hall");
-        size = RoomSize.values()[tag.getInt("size")];
-        category = RoomCategory.values()[tag.getInt("category")];
-
-        CompoundTag compatibleFloors = tag.getCompound("compatible_floors");
-        this.compatibleFloors = new ArrayList<>();
-        compatibleFloors.getAllKeys().forEach(s -> {
-            this.compatibleFloors.add(ResourceLocation.parse(s));
-        });
-        CompoundTag modifiers = tag.getCompound("modifiers");
-        this.modifiers = new ArrayList<>();
-        modifiers.getAllKeys().forEach(s -> {
-            this.modifiers.add(ResourceLocation.parse(s));
-        });
-
-        if (tag.contains("fixed_room")) {
-            fixedRoom = ResourceLocation.parse(tag.getString("fixed_room"));
-        }
-        if (tag.contains("enemies")) {
-            enemies = RoomEnemies.values()[(tag.getInt("enemies"))];
-        }
-        if (tag.contains("music")) {
-            music = ResourceLocation.parse(tag.getString("music"));
-        }
-        if (tag.contains("colour")) {
-            colour = new Color(tag.getInt("colour"));
-        }
+    public int getSimultaneousEnemies() {
+        return enemies.simultaneousEnemies;
     }
 
-    @Override
-    public void deserializeJson(JsonElement element) throws JsonParseException {
-        JsonObject root = getJsonObject(element);
-        root.entrySet().forEach(entry -> {
-            JsonElement entryElement = entry.getValue();
-            switch (entry.getKey()) {
-                case "size" -> {
-                    String s = entryElement.getAsString();
-                    if (!s.isEmpty()) {
-                        try {
-                            size = RoomSize.valueOf(s.toUpperCase());
-                        } catch (IllegalArgumentException e) {
-                            throw new JsonParseException("Invalid size, valid values are: S, M, L, SPECIAL");
-                        }
-                    } else {
-                        throw new JsonParseException("Size should not be empty");
-                    }
-                }
-                case "category" -> {
-                    String s = entryElement.getAsString();
-                    if (!s.isEmpty()) {
-                        try {
-                            category = RoomCategory.valueOf(s.toUpperCase());
-                        } catch (IllegalArgumentException e) {
-                            throw new JsonParseException("Invalid category, valid values are: ENEMY, STATUS, BOUNTY, SPECIAL, ANY");
-                        }
-                    } else {
-                        throw new JsonParseException("Category should not be empty");
-                    }
-                }
-                case "entrance_hall" -> {
-                    entranceHall = entryElement.getAsBoolean();
-                }
-                case "colour" -> {
-                    JsonArray colourArray = entryElement.getAsJsonArray();
-                    if (colourArray.size() >= 3) { //ignore values after 3rd
-                        int r = Math.max(0, Math.min(colourArray.get(0).getAsInt(), 255));
-                        int g = Math.max(0, Math.min(colourArray.get(1).getAsInt(), 255));
-                        int b = Math.max(0, Math.min(colourArray.get(2).getAsInt(), 255));
-                        colour = new Color(r, g, b);
-                    } else {
-                        throw new JsonParseException("Colour should have 3 values");
-                    }
-                }
-                case "enemies" -> {
-                    String s = entryElement.getAsString();
-                    if (!s.isEmpty()) {
-                        try {
-                            enemies = RoomEnemies.valueOf(s.toUpperCase());
-                        } catch (IllegalArgumentException e) {
-                            throw new JsonParseException("Invalid enemies, valid values are: NONE, S, M, L");
-                        }
-                    } else {
-                        throw new JsonParseException("Category should not be empty");
-                    }
-                }
-                case "compatible_floors" -> {
-                    JsonArray floors = entryElement.getAsJsonArray();
-                    if (!floors.isEmpty()) {
-                        compatibleFloors = new ArrayList<>();
-                        floors.forEach(ftentry -> {
-                            String floorType = ftentry.getAsString();
-                            compatibleFloors.add(ResourceLocation.parse(floorType));
-                        });
-                    }
-                }
-                case "modifiers" -> {
-                    JsonArray modifiers = entryElement.getAsJsonArray();
-                    if (!modifiers.isEmpty()) {
-                        this.modifiers = new ArrayList<>();
-                        modifiers.forEach(mentry -> {
-                            String modifier = mentry.getAsString();
-                            ResourceLocation rl = ResourceLocation.parse(modifier);
-                            if (ModRoomModifiers.registry.containsKey(rl)) {
-                                this.modifiers.add(rl);
-                            } else {
-                                throw new JsonParseException("Supplied room modifier does not exist");
-                            }
-                        });
-                    }
-                }
-                case "fixed_room" -> {
-                    String s = entryElement.getAsString();
-                    if (!s.isEmpty()) {
-                        fixedRoom = ResourceLocation.parse(s);
-                    }
-                }
-                case "music" -> {
-                    String s = entryElement.getAsString();
-                    if (!s.isEmpty()) {
-                        if (BuiltInRegistries.SOUND_EVENT.containsKey(ResourceLocation.parse(s))) {
-                            music = ResourceLocation.parse(s);
-                        } else {
-                            throw new JsonParseException("Supplied music does not exist");
-                        }
-                    }
-                }
-            }
-        });
-        if (enemies == null) {
-            enemies = RoomEnemies.NONE;
-        }
-        if (modifiers == null) {
-            modifiers = new ArrayList<>();
-        }
-        if (compatibleFloors == null) {
-            compatibleFloors = new ArrayList<>();
-        }
+    public TagKey<EntityType<?>> getRegularEnemies() {
+        return enemies.regularEnemies;
     }
 
-    private static @Nonnull JsonObject getJsonObject(JsonElement element) {
-        JsonObject root = element.getAsJsonObject();
-        if (!root.has("size")) {
-            throw new JsonParseException("Missing required element \"size\"");
+    public TagKey<EntityType<?>> getStrongEnemies() {
+        return enemies.strongEnemies;
+    }
+
+    public record Treasure(ResourceLocation lootTable, int count, int trappedCount, TagKey<EntityType<?>> trappedEntities) {
+        public static final Codec<Treasure> CODEC = RecordCodecBuilder.create(instance ->
+                instance.group(
+                        ResourceLocation.CODEC.fieldOf("treasure").forGetter(Treasure::lootTable),
+                        Codec.INT.fieldOf("count").forGetter(Treasure::count),
+                        Codec.INT.optionalFieldOf("trapped_count", 0).forGetter(Treasure::trappedCount),
+                        TagKey.hashedCodec(Registries.ENTITY_TYPE).optionalFieldOf("enemy").forGetter(o -> Optional.ofNullable(o.trappedEntities))
+                ).apply(instance, Treasure::new)
+        );
+
+        @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
+        public Treasure(ResourceLocation lootTable, int count, int trappedCount, Optional<TagKey<EntityType<?>>> trappedEntities) {
+            this(lootTable, count, trappedCount, trappedEntities.orElse(null));
         }
-        if (!root.has("category")) {
-            throw new JsonParseException("Missing required element \"category\"");
+
+        public Treasure(ResourceLocation lootTable, int count) {
+            this(lootTable, count, 0, (TagKey<EntityType<?>>) null);
         }
-        return root;
+
+    }
+
+    public record Enemies(RoomEnemies roomEnemies, int numberOfEnemies, int simultaneousEnemies, TagKey<EntityType<?>> regularEnemies, TagKey<EntityType<?>> strongEnemies) {
+
+        public static final Codec<Enemies> CODEC = RecordCodecBuilder.create(instance ->
+                instance.group(
+                        StringRepresentable.fromEnum(RoomEnemies::values).fieldOf("type").forGetter(Enemies::roomEnemies),
+                        Codec.INT.fieldOf("number_of_enemies").forGetter(Enemies::numberOfEnemies),
+                        Codec.INT.fieldOf("simultaneous_enemies").forGetter(Enemies::simultaneousEnemies),
+                        TagKey.hashedCodec(Registries.ENTITY_TYPE).optionalFieldOf("regular_enemies").forGetter(o -> Optional.ofNullable(o.regularEnemies)),
+                        TagKey.hashedCodec(Registries.ENTITY_TYPE).optionalFieldOf("strong_enemies").forGetter(o -> Optional.ofNullable(o.strongEnemies))
+                ).apply(instance, Enemies::new)
+        );
+
+
+        @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
+        public Enemies(RoomEnemies roomEnemies, int numberOfEnemies, int simultaneousEnemies, Optional<TagKey<EntityType<?>>> regularEnemies, Optional<TagKey<EntityType<?>>> strongEnemies) {
+            this(roomEnemies, numberOfEnemies, simultaneousEnemies, regularEnemies.orElse(null), strongEnemies.orElse(null));
+        }
+
+        public Enemies(RoomEnemies roomEnemies, int numberOfEnemies, int simultaneousEnemies) {
+            this(roomEnemies, numberOfEnemies, simultaneousEnemies, (TagKey<EntityType<?>>) null, null);
+        }
     }
 }

@@ -29,7 +29,7 @@ public class KKJEIPlugin implements IModPlugin {
 
     @Override
     public ResourceLocation getPluginUid() {
-        return ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "jei");
+        return KingdomKeys.rl("jei");
     }
 
     @Override

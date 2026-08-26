@@ -4,7 +4,6 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.common.NeoForge;
@@ -19,7 +18,7 @@ import java.util.UUID;
 
 public record CSUnlockEquipOrgWeapon(ItemStack weapon, int cost, boolean unlock) implements Packet {
 
-    public static final Type<CSUnlockEquipOrgWeapon> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_unlock_equip_org_weapon"));
+    public static final Type<CSUnlockEquipOrgWeapon> TYPE = new Type<>(KingdomKeys.rl("cs_unlock_equip_org_weapon"));
 
     public static final StreamCodec<RegistryFriendlyByteBuf, CSUnlockEquipOrgWeapon> STREAM_CODEC = StreamCodec.composite(
             ItemStack.STREAM_CODEC,

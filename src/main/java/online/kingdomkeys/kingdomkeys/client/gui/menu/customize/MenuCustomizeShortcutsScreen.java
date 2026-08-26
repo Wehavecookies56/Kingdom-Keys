@@ -2,7 +2,6 @@ package online.kingdomkeys.kingdomkeys.client.gui.menu.customize;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
@@ -25,7 +24,7 @@ import java.util.List;
 import java.util.Map;
 
 public class MenuCustomizeShortcutsScreen extends MenuBackground {
-		
+
 	MenuBox box;
 
 	MenuButton back;
@@ -38,18 +37,18 @@ public class MenuCustomizeShortcutsScreen extends MenuBackground {
 	int buttonsX = 0;
 
 	private int selectedShortcut = 0;
-	
+
 	public MenuCustomizeShortcutsScreen() {
-		super(Strings.Gui_Menu_Customize_Shortcuts, new Color(0,0,255));
+		super(Strings.Gui_Menu_Customize_Shortcuts, new Color(0, 0, 255));
 
 		drawPlayerInfo = false;
 	}
-	
+
 	protected void action(String string) {
-		switch(string) {
-		case "back":
-			Minecraft.getInstance().setScreen(new MenuCustomizeScreen());
-			break;
+		switch (string) {
+			case "back":
+				Minecraft.getInstance().setScreen(new MenuCustomizeScreen());
+				break;
 		}
 	}
 
@@ -65,50 +64,44 @@ public class MenuCustomizeShortcutsScreen extends MenuBackground {
 		float boxWidth = (float) width * 0.67F;
 
 		buttonPosY = (int) topBarHeight + 5;
-		
-		box = new MenuBox((int) boxPosX, (int) topBarHeight, (int) boxWidth, (int) middleHeight, 0.6F,new Color(4, 4, 68));
+
+		box = new MenuBox((int) boxPosX, (int) topBarHeight, (int) boxWidth, (int) middleHeight, 0.6F, new Color(4, 4, 68));
 		buttonsX = box.getX() + 10;
 
 		this.renderables.clear();
 		this.children().clear();
 		this.magics.clear();
 
-		for(int i = 0; i< shortcuts.length;i++) {
+		for (int i = 0; i < shortcuts.length; i++) {
 			int j = i;
-			addRenderableWidget(shortcuts[i] = new MenuButton((int) buttonPosX, buttonPosY +  (i * 18), (int) buttonWidth, Utils.translateToLocal("gui.menu.customize.shortcut")+" "+(i+1), ButtonType.BUTTON, (e) -> { selectedShortcut = j; init(scrollBar.scrollOffset, scrollBar.handleY);}));
-		}		
-		
+			addRenderableWidget(shortcuts[i] = new MenuButton((int) buttonPosX, buttonPosY + (i * 18), (int) buttonWidth, Utils.translateToLocal("gui.menu.customize.shortcut") + " " + (i + 1), ButtonType.BUTTON, (e) -> {
+				selectedShortcut = j;
+				init(scrollBar.scrollOffset, scrollBar.handleY);
+			}));
+		}
+
 		PlayerData playerData = PlayerData.get(minecraft.player);
-		addRenderableWidget(unequip = new MenuButton((int) buttonPosX, buttonPosY - 18, (int) (buttonWidth), Utils.translateToLocal("gui.menu.customize.unequip"), ButtonType.BUTTON, (e) -> { select(-1); }));
+		addRenderableWidget(unequip = new MenuButton((int) buttonPosX, buttonPosY - 18, (int) (buttonWidth), Utils.translateToLocal("gui.menu.customize.unequip"), ButtonType.BUTTON, (e) -> {
+			select(-1);
+		}));
 
-		playerData.getEquippedMagics().entrySet().stream()
-				.sorted(Map.Entry.comparingByKey())
-				.forEach(entry -> {
-					int slot = entry.getKey();
-					ItemStack stack = entry.getValue();
+		playerData.getEquippedMagics().entrySet().stream().sorted(Map.Entry.comparingByKey()).forEach(entry -> {
+			int slot = entry.getKey();
+			ItemStack stack = entry.getValue();
 
-					if (stack.isEmpty() || !(stack.getItem() instanceof MagicSpellItem spell)) return;
+			if (stack.isEmpty() || !(stack.getItem() instanceof MagicSpellItem spell)) return;
 
-					int level = spell.getLevel();
-					Magic magic = ModMagic.registry.get(ResourceLocation.parse(spell.getMagic()));
+			Magic magic = ModMagic.registry.get(spell.getMagic());
 
-					MenuButton button = new MenuButton(
-							(int) (width * 0.32F),
-							buttonPosY + (magics.size() * 18),
-							(int) (buttonWidth * 0.8),
-							Utils.translateToLocal(magic.getTranslationKey(level)),
-							ButtonType.SUBBUTTON,
-							(e) -> select(slot)
-					);
+			MenuButton button = new MenuButton((int) (width * 0.32F), buttonPosY + (magics.size() * 18), (int) (buttonWidth * 0.8), Utils.translateToLocal(magic.getTranslationKey()), ButtonType.ROUNDBUTTON, (e) -> select(slot));
 
+			button.setData(String.valueOf(slot));
+			magics.add(button);
+			addRenderableWidget(button);
+		});
 
-					button.setData(String.valueOf(slot));
-					magics.add(button);
-					addRenderableWidget(button);
-				});
-
-		int contentHeight = !magics.isEmpty() ? magics.get(magics.size()-1).getY() - magics.get(0).getY() + 28 : 0;
-		addRenderableWidget(scrollBar = new MenuScrollBar((int) (boxPosX + boxWidth) - MenuScrollBar.WIDTH - 4, (int) topBarHeight + 2, (int) (topBarHeight + middleHeight)-2, (int) middleHeight, contentHeight, true));
+		int contentHeight = !magics.isEmpty() ? magics.get(magics.size() - 1).getY() - magics.get(0).getY() + 28 : 0;
+		addRenderableWidget(scrollBar = new MenuScrollBar((int) (boxPosX + boxWidth) - MenuScrollBar.WIDTH - 4, (int) topBarHeight + 2, (int) (topBarHeight + middleHeight) - 2, (int) middleHeight, contentHeight, true));
 		scrollBar.scrollOffset = scrollOffset;
 		scrollBar.setHandleY(handleY);
 
@@ -131,7 +124,7 @@ public class MenuCustomizeShortcutsScreen extends MenuBackground {
 		magics.forEach(menuButton -> menuButton.render(gui, mouseX, mouseY, partialTicks));
 		gui.disableScissor();
 
-		for(int i = 0; i < shortcuts.length; i++) {
+		for (int i = 0; i < shortcuts.length; i++) {
 			shortcuts[i].render(gui, mouseX, mouseY, partialTicks);
 			shortcuts[i].active = i != selectedShortcut;
 		}

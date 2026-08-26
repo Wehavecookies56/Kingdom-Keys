@@ -6,15 +6,14 @@ import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.decoration.ArmorStand;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
 public class EraqusModel<T extends LivingEntity> extends ArmorBaseModel<T> {
 
-    public static final ModelLayerLocation LAYER_LOCATION_TOP = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "eraqus_top"), "main");
-    public static final ModelLayerLocation LAYER_LOCATION_BOTTOM = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "eraqus_bottom"), "main");
+    public static final ModelLayerLocation LAYER_LOCATION_TOP = new ModelLayerLocation(KingdomKeys.rl("eraqus_top"), "main");
+    public static final ModelLayerLocation LAYER_LOCATION_BOTTOM = new ModelLayerLocation(KingdomKeys.rl("eraqus_bottom"), "main");
 
     public final ModelPart head;
     public final ModelPart body;

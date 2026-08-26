@@ -2,6 +2,7 @@ package online.kingdomkeys.kingdomkeys.savepoint;
 
 import com.google.gson.*;
 import net.minecraft.resources.ResourceLocation;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
 import java.lang.reflect.Type;
 import java.util.EnumMap;
@@ -27,7 +28,7 @@ public class SavePointDataDeserializer implements JsonDeserializer<SavePointData
 
         for(String key : materialsObj.keySet()) {
             SavePointData.SavePointStat stat = SavePointData.SavePointStat.valueOf(key);
-            materials.put(stat, ResourceLocation.parse(materialsObj.get(key).getAsString()));
+            materials.put(stat, KingdomKeys.rl(materialsObj.get(key).getAsString()));
         }
 
         JsonArray restoreArray = obj.getAsJsonArray("restores");

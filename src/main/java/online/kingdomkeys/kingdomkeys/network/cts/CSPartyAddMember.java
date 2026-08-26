@@ -5,7 +5,6 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
@@ -22,7 +21,7 @@ import java.util.UUID;
 
 public record CSPartyAddMember(String name, UUID memberUUID, String memberName) implements Packet {
 
-	public static final Type<CSPartyAddMember> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_party_add_member"));
+	public static final Type<CSPartyAddMember> TYPE = new Type<>(KingdomKeys.rl("cs_party_add_member"));
 
 	public static final StreamCodec<FriendlyByteBuf, CSPartyAddMember> STREAM_CODEC = StreamCodec.composite(
 			ByteBufCodecs.STRING_UTF8,

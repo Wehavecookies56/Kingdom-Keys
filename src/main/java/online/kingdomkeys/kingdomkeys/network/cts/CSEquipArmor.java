@@ -4,7 +4,6 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -21,7 +20,7 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public record CSEquipArmor(int slotToEquipTo, int slotToEquipFrom) implements Packet {
 
-    public static final CustomPacketPayload.Type<CSEquipArmor> TYPE = new CustomPacketPayload.Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_equip_armor"));
+    public static final CustomPacketPayload.Type<CSEquipArmor> TYPE = new CustomPacketPayload.Type<>(KingdomKeys.rl("cs_equip_armor"));
 
     public static final StreamCodec<FriendlyByteBuf, CSEquipArmor> STREAM_CODEC = StreamCodec.composite(
             ByteBufCodecs.INT,

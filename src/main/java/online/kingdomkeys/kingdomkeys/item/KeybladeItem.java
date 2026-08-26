@@ -13,6 +13,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -34,6 +35,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.entity.item.ItemTossEvent;
+import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.api.item.IItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
@@ -41,6 +43,7 @@ import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
+import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.entity.organization.ArrowgunShotEntity;
 import online.kingdomkeys.kingdomkeys.entity.organization.KKThrowableEntity;
 import online.kingdomkeys.kingdomkeys.handler.InputHandler;
@@ -51,6 +54,7 @@ import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSAttackOffhandPacket;
 import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeData;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.Recipe;
+import online.kingdomkeys.kingdomkeys.util.CombatAbilities;
 import online.kingdomkeys.kingdomkeys.util.IExtendedReach;
 import online.kingdomkeys.kingdomkeys.util.IOffHandRange;
 import online.kingdomkeys.kingdomkeys.util.Utils;
@@ -148,10 +152,10 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 					}
 					if (mainChain != null) {
 						ItemStack formChain = null;
-						if (!playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())) {
-							formChain = playerData.getEquippedKeychain(ResourceLocation.parse(playerData.getActiveDriveForm()));
+						if (!playerData.noFormActive()) {
+							formChain = playerData.getEquippedKeychain(playerData.getActiveDriveForm());
 						} else {
-							if(playerData.isAbilityEquipped(Strings.synchBlade)) {
+							if(playerData.isAbilityEquipped(ModAbilities.SYNCH_BLADE)) {
 								formChain = playerData.getEquippedKeychain(DriveForm.SYNCH_BLADE);
 							}
 						}
@@ -206,12 +210,12 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 		ItemStack itemstack = player.getItemInHand(hand);
 		PlayerData playerData = PlayerData.get(player);
 
-		if (player.isCrouching() && playerData.isAbilityEquipped(Strings.strikeRaid)) { //Throw keyblade
+		if (player.isCrouching() && playerData.isAbilityEquipped(ModAbilities.STRIKE_RAID)) { //Throw keyblade
 			int slot = hand == InteractionHand.OFF_HAND ? player.getInventory().getContainerSize() - 1 : player.getInventory().selected;
 
 			if (itemstack != null && !playerData.getRecharge()) {
 				int cost = 10;
-	    		cost -= (int) (cost * playerData.getNumberOfAbilitiesEquipped(Strings.mpThrift) * 0.2);
+	    		cost -= (int) (cost * playerData.getNumberOfAbilitiesEquipped(ModAbilities.MP_THRIFT) * 0.2);
 				playerData.remMP(Math.max(1, cost));
 				
 				if (!level.isClientSide) {
@@ -257,8 +261,11 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 						}
 					}
 				}
+			} else if (CombatAbilities.canGuard(player, playerData)) { //Guard
+				CombatAbilities.startGuard(player, playerData);
+				return InteractionResultHolder.success(itemstack);
 			} else { //Wisdom attack
-				if(playerData.getActiveDriveForm().equals(Strings.Form_Wisdom)) {
+				if(playerData.isFormActive(ModDriveForms.WISDOM)) {
 					player.swing(hand);
 					if(!level.isClientSide) {
 						ArrowgunShotEntity shot = new ArrowgunShotEntity(player.level(), player, DamageCalculation.getMagicDamage(player) * 0.1F);
@@ -306,6 +313,17 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 		return InteractionResult.PASS;
 	}
 
+	@Override
+	public boolean hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
+		if (!attacker.level().isClientSide) {
+			SoundEvent customSound = this.data.getSound();
+			if (customSound != null) {
+				attacker.level().playSound(null, attacker.getX(), attacker.getY(), attacker.getZ(), customSound, SoundSource.PLAYERS, 1.0F, attacker.getRandom().nextFloat() * 0.2F + 0.9F);
+			}
+		}
+		return super.hurtEnemy(stack, target, attacker);
+	}
+
 	@OnlyIn(Dist.CLIENT)
 	@Override
 	public void appendHoverText(ItemStack stack, TooltipContext pContext, List<Component> tooltip, TooltipFlag flagIn) {
@@ -319,11 +337,11 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 				}
 			}
 		} else {
-			tooltip.add(Component.translatable(ChatFormatting.RED + "KEYBLADE DATA MISSING"));
-			tooltip.add(Component.translatable(ChatFormatting.RED + "If you see this then either the keyblade json is missing or failed to load"));
+			tooltip.add(Component.translatable("kingdomkeys.keyblade.data_missing.title").withStyle(ChatFormatting.RED));
+			tooltip.add(Component.translatable("kingdomkeys.keyblade.data_missing.desc1").withStyle(ChatFormatting.RED));
 			ResourceLocation key = BuiltInRegistries.ITEM.getKey(stack.getItem());
-			tooltip.add(Component.translatable(ChatFormatting.RED + "It should be located in data/" + key.getNamespace() + "/keyblades/" + key.getPath() + ".json"));
-			tooltip.add(Component.translatable(ChatFormatting.RED + "If the file exists check the syntax, see builtin keyblades for examples"));
+			tooltip.add(Component.translatable("kingdomkeys.keyblade.data_missing.path", key.getNamespace(), key.getPath()).withStyle(ChatFormatting.RED));
+			tooltip.add(Component.translatable("kingdomkeys.keyblade.data_missing.desc2").withStyle(ChatFormatting.RED));
 		}
 		if (flagIn.isAdvanced()) {
 			UUID id = stack.get(ModComponents.KEYBLADE_ID);

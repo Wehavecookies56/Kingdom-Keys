@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "desert_card": {
+      "conditions": {
+        "items": [
+          {
+            "items": "kingdomkeys:desert_memory"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "kingdomkeys:desert_card"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "desert_card"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "kingdomkeys:desert_card"
+    ]
+  }
+}

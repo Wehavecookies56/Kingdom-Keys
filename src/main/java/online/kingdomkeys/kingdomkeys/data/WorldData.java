@@ -7,8 +7,10 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.level.saveddata.SavedData;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.entity.mob.goal.PartyAllyGoals;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.PortalData;
 import online.kingdomkeys.kingdomkeys.lib.Struggle;
@@ -69,6 +71,21 @@ public class WorldData extends SavedData {
         }
         storage.put("struggles", struggles);
 
+        ListTag savedCorners = new ListTag();
+        for (Map.Entry<BlockPos, BlockPos[]> entry : this.savedStruggleCorners.entrySet()) {
+            CompoundTag cornerNBT = new CompoundTag();
+            BlockPos pos = entry.getKey();
+            BlockPos c1 = entry.getValue()[0];
+            BlockPos c2 = entry.getValue()[1];
+            cornerNBT.putIntArray("pos", new int[]{pos.getX(), pos.getY(), pos.getZ()});
+            cornerNBT.putIntArray("c1", new int[]{c1.getX(), c1.getY(), c1.getZ()});
+            cornerNBT.putIntArray("c2", new int[]{c2.getX(), c2.getY(), c2.getZ()});
+            savedCorners.add(cornerNBT);
+        }
+        storage.put("saved_struggle_corners", savedCorners);
+
+        storage.putBoolean("mini_co_generated", miniCOGenerated);
+        storage.putInt("mini_co_y", miniCOY);
         return storage;
     }
 
@@ -128,6 +145,21 @@ public class WorldData extends SavedData {
             KingdomKeys.LOGGER.warn("Discarded {} duplicate struggles while reading", struggleDupeCount);
         }
         data.setParties(partiesList);
+
+        ListTag savedCorners = nbt.getList("saved_struggle_corners", Tag.TAG_COMPOUND);
+        for (int i = 0; i < savedCorners.size(); i++) {
+            CompoundTag cornerNBT = savedCorners.getCompound(i);
+            int[] posArr = cornerNBT.getIntArray("pos");
+            int[] c1Arr = cornerNBT.getIntArray("c1");
+            int[] c2Arr = cornerNBT.getIntArray("c2");
+            BlockPos pos = new BlockPos(posArr[0], posArr[1], posArr[2]);
+            BlockPos c1 = new BlockPos(c1Arr[0], c1Arr[1], c1Arr[2]);
+            BlockPos c2 = new BlockPos(c2Arr[0], c2Arr[1], c2Arr[2]);
+            data.savedStruggleCorners.put(pos, new BlockPos[]{c1, c2});
+        }
+
+        data.miniCOGenerated = nbt.getBoolean("mini_co_generated");
+        data.miniCOY = nbt.getInt("mini_co_y");
         return data;
     }
 
@@ -146,9 +178,32 @@ public class WorldData extends SavedData {
 
     private List<Party> parties = new ArrayList<Party>();
     private List<Struggle> struggles = new ArrayList<Struggle>();
+    private final Map<BlockPos, BlockPos[]> savedStruggleCorners = new HashMap<>();
 
     int heartlessSpawnLevel = 0;
     Map<UUID, PortalData> portals = new HashMap<UUID, PortalData>();
+
+
+    private boolean miniCOGenerated = false;
+    private int miniCOY = Integer.MIN_VALUE;
+
+    public boolean isMiniCOGenerated() {
+        return miniCOGenerated;
+    }
+
+    public void setMiniCOGenerated(boolean generated) {
+        this.miniCOGenerated = generated;
+        setDirty();
+    }
+
+    public int getMiniCOY() {
+        return miniCOY;
+    }
+
+    public void setMiniCOY(int y) {
+        this.miniCOY = y;
+        setDirty();
+    }
 
     public Map<UUID, PortalData> getPortals() {
         return portals;
@@ -271,11 +326,26 @@ public class WorldData extends SavedData {
 
     public void removeLeaderMember(Party party, LivingEntity entity) {
         party.removeMember(entity.getUUID());
+
+        if (entity instanceof Mob mob) {
+            PartyAllyGoals.removeAI(mob);
+        }
+
         setDirty();
     }
 
     public void addPartyMember(Party party, LivingEntity entity) {
+        if (party.hasMember(entity.getUUID())) {
+            return;
+        }
+
         party.addMember(entity);
+
+        if (entity instanceof Mob mob) {
+            PartyAllyGoals.applyAI(mob);
+            mob.setTarget(null);
+        }
+
         setDirty();
     }
 
@@ -299,8 +369,22 @@ public class WorldData extends SavedData {
         return null;
     }
 
+    public Struggle getStruggleFromActiveCombatant(UUID memId) {
+        for (Struggle struggle : this.struggles) {
+            if (struggle.isInProgress() && struggle.getActiveCombatantIds().contains(memId)) {
+                return struggle;
+            }
+        }
+        return null;
+    }
+
     public void addStruggleParticipant(Struggle struggle, LivingEntity entity) {
         struggle.addParticipant(entity);
+        setDirty();
+    }
+
+    public void removeStruggleParticipant(Struggle struggle, UUID entityId) {
+        struggle.removeParticipant(entityId);
         setDirty();
     }
 
@@ -350,5 +434,19 @@ public class WorldData extends SavedData {
             }
         }
         return null;
+    }
+
+    /**
+     * Remembers a board's arena corners after its Struggle is removed (e.g. once a tournament crowns
+     * a champion), so the next match created at that same board doesn't need to be reconfigured.
+     */
+    public void saveStruggleCorners(BlockPos boardPos, BlockPos c1, BlockPos c2) {
+        savedStruggleCorners.put(boardPos, new BlockPos[]{c1, c2});
+        setDirty();
+    }
+
+    @Nullable
+    public BlockPos[] getSavedStruggleCorners(BlockPos boardPos) {
+        return savedStruggleCorners.get(boardPos);
     }
 }

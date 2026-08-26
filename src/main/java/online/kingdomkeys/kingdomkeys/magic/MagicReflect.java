@@ -11,20 +11,21 @@ import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 
 public class MagicReflect extends Magic {
 
-	public MagicReflect(ResourceLocation registryName, int maxLevel, String gmAbility) {
-		super(registryName, false, maxLevel, gmAbility);
+	public MagicReflect(ResourceLocation registryName, int tier, ResourceLocation gmAbility) {
+		super(registryName, false, gmAbility);
+		setTier(tier);
 	}
 
 	@Override
-	public void magicUse(LivingEntity player, Player caster, int level, float fullMPBlastMult, LivingEntity lockOnEntity) {
+	public void magicUse(LivingEntity player, Player caster, float fullMPBlastMult, LivingEntity lockOnEntity) {
 		PlayerData playerData = PlayerData.get(caster);
-		playerData.setReflectTicks((int) (40 + (getDamageMult(level) * 5)), level);
+		playerData.setReflectTicks((int) (40 + (getRealDamageMult(caster) * 5)), getTier());
 		PacketHandler.syncToAllAround(caster, playerData);
 		player.swing(InteractionHand.MAIN_HAND);
 	}
-	
+
 	@Override
-	protected void playMagicCastSound(LivingEntity player, Player caster, int level) {
+	public void playMagicCastSound(LivingEntity player, Player caster) {
 		player.level().playSound(null, player.position().x(), player.position().y(), player.position().z(), ModSounds.reflect1.get(), SoundSource.PLAYERS, 1F, 1F);
 	}
 

@@ -32,7 +32,7 @@ public class KeybladeArmorItem extends BaseArmorItem {
 
 	@Override
 	public ResourceLocation getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, ArmorMaterial.Layer layer, boolean innerModel) {
-		return ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/models/armor/empty.png");
+		return KingdomKeys.rl("textures/models/armor/empty.png");
 	}
 	
 	@EventBusSubscriber

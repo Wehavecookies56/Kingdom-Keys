@@ -20,7 +20,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
-import online.kingdomkeys.kingdomkeys.lib.Tags;
+import online.kingdomkeys.kingdomkeys.lib.ModTags;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
 import online.kingdomkeys.kingdomkeys.util.Utils;
@@ -36,7 +36,7 @@ public class MaterialCommand extends BaseCommand { // kk_material <give/take> <m
 	private static final SuggestionProvider<CommandSourceStack> SUGGEST_MATERIALS = (context, builder) -> {
 		List<String> list = new ArrayList<>();
 		for (Map.Entry<ResourceKey<Item>, Item> itemEntry : BuiltInRegistries.ITEM.entrySet()) {
-			if (new ItemStack(itemEntry.getValue()).is(Tags.MATERIALS)) {
+			if (new ItemStack(itemEntry.getValue()).is(ModTags.MATERIALS)) {
 				list.add(itemEntry.getKey().location().toString());
 			}
 		}
@@ -65,29 +65,29 @@ public class MaterialCommand extends BaseCommand { // kk_material <give/take> <m
 	}
 
 	private static int addMaterial(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
-		Collection<ServerPlayer> players = getPlayers(context, 5);
-		ResourceLocation materialName = ResourceLocation.parse(context.getArgument("material", String.class));
+		Collection<ServerPlayer> players = getPlayers(context);
+		ResourceLocation materialName = KingdomKeys.rl(context.getArgument("material", String.class));
 		int amount = IntegerArgumentType.getInteger(context, "amount");
 		Item material = BuiltInRegistries.ITEM.get(materialName);
 		if(material == null){
-			context.getSource().sendFailure(Component.literal("Material '"+materialName+ "' does not exist"));
+			context.getSource().sendFailure(Component.translatable("kingdomkeys.command.material.unknown", materialName));
 			return 0;
 		}
 		for (ServerPlayer player : players) {
 			PlayerData playerData = PlayerData.get(player);
 			playerData.addMaterial(material, amount);
 
-			context.getSource().sendSuccess(() -> Component.translatable("Given x" + amount + " '" + Utils.translateToLocal(materialName.toString()) + "' to " + player.getDisplayName().getString()), true);
+			context.getSource().sendSuccess(() -> Component.translatable("kingdomkeys.command.material.given", amount, Utils.translateToLocal(materialName.toString()), player.getDisplayName().getString()), true);
 
-			player.sendSystemMessage(Component.translatable("You have been given x" + amount + " '" + Utils.translateToLocal(materialName.toString()) + "'"));
+			player.sendSystemMessage(Component.translatable("kingdomkeys.command.material.given_self", amount, Utils.translateToLocal(materialName.toString())));
 			PacketHandler.sendTo(new SCSyncPlayerData(player), player);
 		}
 		return 1;
 	}
 
 	private static int takeMaterial(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
-		Collection<ServerPlayer> players = getPlayers(context, 5);
-		ResourceLocation materialName = ResourceLocation.parse(context.getArgument("material", String.class));
+		Collection<ServerPlayer> players = getPlayers(context);
+		ResourceLocation materialName = KingdomKeys.rl(context.getArgument("material", String.class));
 		int amount = IntegerArgumentType.getInteger(context, "amount");
 		Item material = BuiltInRegistries.ITEM.get(materialName);
 
@@ -95,50 +95,50 @@ public class MaterialCommand extends BaseCommand { // kk_material <give/take> <m
 			PlayerData playerData = PlayerData.get(player);
 			playerData.removeMaterial(material, amount);
 
-			context.getSource().sendSuccess(() -> Component.translatable("Removed material '" + Utils.translateToLocal(materialName.toString()) + "' from " + player.getDisplayName().getString()), true);
+			context.getSource().sendSuccess(() -> Component.translatable("kingdomkeys.command.material.removed", Utils.translateToLocal(materialName.toString()), player.getDisplayName().getString()), true);
 
-			player.sendSystemMessage(Component.translatable("x" + amount + " '" + Utils.translateToLocal(materialName.toString()) + "' have been taken away from you"));
+			player.sendSystemMessage(Component.translatable("kingdomkeys.command.material.removed_self", amount, Utils.translateToLocal(materialName.toString())));
 			PacketHandler.sendTo(new SCSyncPlayerData(player), player);
 		}
 		return 1;
 	}
 
 	private static int addAllMaterials(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
-		Collection<ServerPlayer> players = getPlayers(context, 5);
+		Collection<ServerPlayer> players = getPlayers(context);
 		int amount = IntegerArgumentType.getInteger(context, "amount");
 
 		for (ServerPlayer player : players) {
 			PlayerData playerData = PlayerData.get(player);
-			for (Item material : Tags.getItemsInTag(player.level(), Tags.MATERIALS)) {
+			for (Item material : ModTags.getItemsInTag(player.level(), ModTags.MATERIALS)) {
 				playerData.addMaterial(material, amount);
 			}
 
-			context.getSource().sendSuccess(() -> Component.translatable("Given all materials to " + player.getDisplayName().getString()), true);
+			context.getSource().sendSuccess(() -> Component.translatable("kingdomkeys.command.material.given_all", player.getDisplayName().getString()), true);
 
-			player.sendSystemMessage(Component.translatable("You have been given all the materials"));
+			player.sendSystemMessage(Component.translatable("kingdomkeys.command.material.given_all_self"));
 			PacketHandler.sendTo(new SCSyncPlayerData(player), player);
 		}
 		return 1;
 	}
 
 	private static int takeAllMaterials(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
-		Collection<ServerPlayer> players = getPlayers(context, 4);
+		Collection<ServerPlayer> players = getPlayers(context);
 
 		for (ServerPlayer player : players) {
 			PlayerData playerData = PlayerData.get(player);
 			playerData.clearMaterials();
 
-			context.getSource().sendSuccess(() -> Component.translatable("Taken all materials from " + player.getDisplayName().getString()), true);
+			context.getSource().sendSuccess(() -> Component.translatable("kingdomkeys.command.material.taken_all", player.getDisplayName().getString()), true);
 
-			player.sendSystemMessage(Component.translatable("Your materials have been taken away"));
+			player.sendSystemMessage(Component.translatable("kingdomkeys.command.material.taken_all_self"));
 			PacketHandler.sendTo(new SCSyncPlayerData(player), player);
 		}
 		return 1;
 	}
 
 	private static int setMaterial(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
-		Collection<ServerPlayer> players = getPlayers(context, 5);
-		ResourceLocation materialName = ResourceLocation.parse(context.getArgument("material", String.class));
+		Collection<ServerPlayer> players = getPlayers(context);
+		ResourceLocation materialName = KingdomKeys.rl(context.getArgument("material", String.class));
 		int amount = IntegerArgumentType.getInteger(context, "amount");
 		Item material = BuiltInRegistries.ITEM.get(materialName);
 
@@ -146,27 +146,27 @@ public class MaterialCommand extends BaseCommand { // kk_material <give/take> <m
 			PlayerData playerData = PlayerData.get(player);
 			playerData.setMaterial(material, amount);
 
-			context.getSource().sendSuccess(() -> Component.translatable("Set x" + amount + " '" + Utils.translateToLocal(materialName.toString()) + "' to " + player.getDisplayName().getString()), true);
+			context.getSource().sendSuccess(() -> Component.translatable("kingdomkeys.command.material.set", amount, Utils.translateToLocal(materialName.toString()), player.getDisplayName().getString()), true);
 
-			player.sendSystemMessage(Component.translatable("Your '" + Utils.translateToLocal(materialName.toString()) + "' have been set to x" + amount));
+			player.sendSystemMessage(Component.translatable("kingdomkeys.command.material.set_self", Utils.translateToLocal(materialName.toString()), amount));
 			PacketHandler.sendTo(new SCSyncPlayerData(player), player);
 		}
 		return 1;
 	}
 
 	private static int setAllMaterials(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
-		Collection<ServerPlayer> players = getPlayers(context, 5);
+		Collection<ServerPlayer> players = getPlayers(context);
 		int amount = IntegerArgumentType.getInteger(context, "amount");
 
 		for (ServerPlayer player : players) {
 			PlayerData playerData = PlayerData.get(player);
-			for (Item material : Tags.getItemsInTag(player.level(), Tags.MATERIALS)) {
+			for (Item material : ModTags.getItemsInTag(player.level(), ModTags.MATERIALS)) {
 				playerData.setMaterial(material, amount);
 			}
 
-			context.getSource().sendSuccess(() -> Component.translatable("Set all materials for " + player.getDisplayName().getString() + " to " + amount), true);
+			context.getSource().sendSuccess(() -> Component.translatable("kingdomkeys.command.material.set_all", player.getDisplayName().getString(), amount), true);
 
-			player.sendSystemMessage(Component.translatable("You have been set all the materials to " + amount));
+			player.sendSystemMessage(Component.translatable("kingdomkeys.command.material.set_all_self", amount));
 			PacketHandler.sendTo(new SCSyncPlayerData(player), player);
 		}
 		return 1;

@@ -1,0 +1,11 @@
+{
+  "cooldown": 4,
+  "cooldown_max": 2,
+  "dmg_mult": 1.1,
+  "dmg_mult_max": 1.32,
+  "element": "light",
+  "max": 15,
+  "max_exp": 6400,
+  "max_level": 4,
+  "minigame": "keys"
+}

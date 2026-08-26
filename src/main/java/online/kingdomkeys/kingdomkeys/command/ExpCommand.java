@@ -37,7 +37,7 @@ public class ExpCommand extends BaseCommand { // kk_exp <give/take/set> <amount>
 	}
 
 	private static int setValue(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
-		Collection<ServerPlayer> players = getPlayers(context, 4);
+		Collection<ServerPlayer> players = getPlayers(context);
 		int exp = IntegerArgumentType.getInteger(context, "exp");
 
 		for (ServerPlayer player : players) {
@@ -48,21 +48,21 @@ public class ExpCommand extends BaseCommand { // kk_exp <give/take/set> <amount>
 				playerData.addExperience(player, exp, false, false);
 				player.level().playSound(null, player.blockPosition(), ModSounds.levelup.get(), SoundSource.MASTER, 1f, 1.0f);
 			} else {
-				context.getSource().sendSuccess(() -> Component.translatable(player.getDisplayName().getString() + " has to make a choice first"), true);
+				context.getSource().sendSuccess(() -> Component.translatable("kingdomkeys.command.no_choice", player.getDisplayName().getString()), true);
 			}
             Utils.restartLevel2(playerData, player);			
 			PacketHandler.sendTo(new SCSyncPlayerData(player), player);
 
-			context.getSource().sendSuccess(() -> Component.translatable("Set " + player.getDisplayName().getString() + " experience to " + exp), true);
+			context.getSource().sendSuccess(() -> Component.translatable("kingdomkeys.command.exp.set", player.getDisplayName().getString(), exp), true);
 
-			player.sendSystemMessage(Component.translatable("Your experience is now " + exp));
+			player.sendSystemMessage(Component.translatable("kingdomkeys.command.exp.set_self", exp));
 		}
 		return 1;
 
 	}
 
 	private static int addValue(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
-		Collection<ServerPlayer> players = getPlayers(context, 4);
+		Collection<ServerPlayer> players = getPlayers(context);
 		int value = IntegerArgumentType.getInteger(context, "exp");
 
 		for (ServerPlayer player : players) {
@@ -70,23 +70,23 @@ public class ExpCommand extends BaseCommand { // kk_exp <give/take/set> <amount>
 			playerData.addExperience(player, value, false, false);
 			PacketHandler.sendTo(new SCSyncPlayerData(player), player);
 
-			context.getSource().sendSuccess(() -> Component.translatable("Given " + value + " experience to " + player.getDisplayName().getString()), true);
-			player.sendSystemMessage(Component.translatable("Your experience has been increased by " + value));
+			context.getSource().sendSuccess(() -> Component.translatable("kingdomkeys.command.exp.add", value, player.getDisplayName().getString()), true);
+			player.sendSystemMessage(Component.translatable("kingdomkeys.command.exp.add_self", value));
 		}
 		return 1;
 	}
 
 	// Sets player to level 1 and gives all his xp back
 	private static int fixValue(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
-		Collection<ServerPlayer> players = getPlayers(context, 3);
+		Collection<ServerPlayer> players = getPlayers(context);
 		for (ServerPlayer player : players) {
 			PlayerData playerData = PlayerData.get(player);
 			int exp = playerData.getExperience();
 			fix(playerData,player);
 			player.level().playSound(null, player.blockPosition(), ModSounds.levelup.get(), SoundSource.MASTER, 1f, 1.0f);
 			PacketHandler.sendTo(new SCSyncPlayerData(player), player);
-			context.getSource().sendSuccess(() -> Component.translatable("Set " + player.getDisplayName().getString() + " experience to " + exp), true);
-			player.sendSystemMessage(Component.translatable("Your experience is now " + exp + ", all your missing abilities have been added to you"));
+			context.getSource().sendSuccess(() -> Component.translatable("kingdomkeys.command.exp.set", player.getDisplayName().getString(), exp), true);
+			player.sendSystemMessage(Component.translatable("kingdomkeys.command.exp.set_self_abilities", exp));
 		}
 		return 1;
 	}

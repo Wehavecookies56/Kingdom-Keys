@@ -7,8 +7,6 @@ import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.Entity;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils.Angle;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils.ModelAnimation;
@@ -24,7 +22,7 @@ import java.util.List;
  */
 
 public class AssassinModel<T extends AssassinEntity> extends EntityModel<T> {
-    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "assassin"), "main");
+    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(KingdomKeys.rl("assassin"), "main");
 
     private final ModelPart bodyBot;
     private final ModelPart bodyTop;
@@ -98,7 +96,6 @@ public class AssassinModel<T extends AssassinEntity> extends EntityModel<T> {
     }
 
     List<ModelAnimation> animation = new ArrayList<ModelAnimation>();
-    protected double distanceMovedTotal = 0.0D;
 
     public static LayerDefinition createBodyLayer() {
         MeshDefinition meshdefinition = new MeshDefinition();
@@ -173,7 +170,6 @@ public class AssassinModel<T extends AssassinEntity> extends EntityModel<T> {
 
     @Override
     public void setupAnim(T ent, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-        updateDistanceMovedTotal(ent);
         if (ent.distanceToSqr(ent.xOld, ent.yOld, ent.zOld) > 0) {
             for (ModelAnimation m : animation) { //iterate through the legs array
                 if (m != null && m.model != null) {
@@ -235,11 +231,5 @@ public class AssassinModel<T extends AssassinEntity> extends EntityModel<T> {
         bodyBot.render(poseStack, buffer, packedLight, packedOverlay);
     }
 
-    protected void updateDistanceMovedTotal(Entity e) {
-        distanceMovedTotal += e.distanceToSqr(e.xOld, e.yOld, e.zOld);
-    }
 
-    protected double getDistanceMovedTotal() {
-        return (distanceMovedTotal);
-    }
 }

@@ -12,7 +12,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class CheckboxButton extends AbstractButton {
 
-    final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/checkbox.png");
+    final ResourceLocation TEXTURE = KingdomKeys.rl("textures/gui/checkbox.png");
 
     private boolean checked;
     private String tooltip;

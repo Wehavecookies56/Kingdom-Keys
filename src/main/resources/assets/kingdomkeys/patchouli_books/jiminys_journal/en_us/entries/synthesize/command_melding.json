@@ -1,0 +1,72 @@
+{
+	"name": "Command Melding",
+	"icon": "kingdomkeys:spellfira",
+	"sortnum": 6,
+	"category": "kingdomkeys:synthesize",
+	"pages": [
+		{
+			"type": "patchouli:text",
+			"text": "$(thing)Command Melding$() lets you fuse two magics together into a new, stronger one. It's done at a $(l:kingdomkeys:synthesize/moogles)Moogle$() by paying $(item)munny$(). Every meld has a $(thing)tier$(): the higher it is, the rarer the result.$(p)Below are all the combinations with their munny cost. You can also browse them interactively with $(thing)JEI$() by looking up the $(item)Command Melding$() category."
+		},
+		{
+			"type": "patchouli:text",
+			"title": "Tier 2 Melds",
+			"text": "$(li)Aero + Aero = $(item)Aerora$() (400)$(li)Blizzard + Blizzard = $(item)Blizzara$() (400)$(li)Cure + Cure = $(item)Cura$() (400)$(li)Fire + Fire = $(item)Fira$() (400)$(li)Gravity + Gravity = $(item)Gravira$() (400)$(li)Magnet + Magnet = $(item)Magnera$() (400)$(li)Reflect + Reflect = $(item)Reflera$() (400)"
+		},
+		{
+			"type": "patchouli:text",
+			"title": "Tier 2 Melds",
+			"text": "$(li)Stop + Stop = $(item)Stopra$() (400)$(li)Thunder + Thunder = $(item)Thundara$() (400)$(li)Water + Water = $(item)Watera$() (400)"
+		},
+		{
+			"type": "patchouli:text",
+			"title": "Tier 3 Melds",
+			"text": "$(li)Aerora + Aerora = $(item)Aeroga$() (800)$(li)Water + Gravity = $(item)Balloon$() (800)$(li)Balloon + Balloon = $(item)Balloonra$() (1200)$(li)Watera + Gravira = $(item)Balloonra$() (1200)$(li)Blizzara + Blizzara = $(item)Blizzaga$() (800)$(li)Cura + Cura = $(item)Curaga$() (800)$(li)Fira + Fira = $(item)Firaga$() (800)"
+		},
+		{
+			"type": "patchouli:text",
+			"title": "Tier 3 Melds",
+			"text": "$(li)Firaga + Aeroga = $(item)Fission Firaga$() (1200)$(li)Gravira + Gravira = $(item)Graviga$() (800)$(li)Magnera + Magnera = $(item)Magnega$() (800)$(li)Fira + Zero Gravity = $(item)Mine Shield$() (1200)$(li)Reflera + Reflera = $(item)Reflega$() (800)$(li)Thunder + Magnet = $(item)Spark$() (800)$(li)Spark + Spark = $(item)Sparkra$() (1200)"
+		},
+		{
+			"type": "patchouli:text",
+			"title": "Tier 3 Melds",
+			"text": "$(li)Thundara + Magnera = $(item)Sparkra$() (1200)$(li)Stopra + Stopra = $(item)Stopga$() (800)$(li)Thundara + Thundara = $(item)Thundaga$() (800)$(li)Blizzaga + Blizzaga = $(item)Triple Blizzaga$() (1000)$(li)Firaga + Firaga = $(item)Triple Firaga$() (1000)$(li)Watera + Watera = $(item)Waterga$() (800)"
+		},
+		{
+			"type": "patchouli:text",
+			"title": "Tier 4 Melds",
+			"text": "$(li)Waterga + Graviga = $(item)Balloonga$() (1600)$(li)Balloonra + Balloonra = $(item)Balloonga$() (1600)$(li)Zero Gravira + Poison = $(item)Blackout$() (1600)$(li)Firaga + Stopga = $(item)Crawling Firaga$() (1200)$(li)Firaga + Slow = $(item)Crawling Firaga$() (2000)$(li)Firaga + Blackout = $(item)Dark Firaga$() (1200)$(li)Firaga + Blackout = $(item)Dark Firaga$() (1200)"
+		},
+		{
+			"type": "patchouli:text",
+			"title": "Tier 4 Melds",
+			"text": "$(li)Blizzaga + Triple Blizzaga = $(item)Deep Freeze$() (1400)$(li)Fira + Aeroga = $(item)Fission Firaga$() (1000)$(li)Firaga + Aerora = $(item)Fission Firaga$() (1000)$(li)Triple Blizzaga + Deep Freeze = $(item)Glacier$() (1200)$(li)Fire + Bind = $(item)Ignite$() (1200)$(li)Fira + Stop = $(item)Mine Square$() (1600)$(li)Sparkra + Sparkra = $(item)Sparkga$() (1600)"
+		},
+		{
+			"type": "patchouli:text",
+			"title": "Tier 4 Melds",
+			"text": "$(li)Thundaga + Magnega = $(item)Sparkga$() (1600)$(li)Thundaga + Thundaga = $(item)Thundaga Shot$() (1000)$(li)Blizzaga + Blizzara = $(item)Triple Blizzaga$() (1200)$(li)Firaga + Fira = $(item)Triple Firaga$() (1200)$(li)Zero Gravira + Zero Gravira = $(item)Zero Graviga$() (1200)$(li)Zero Gravira + Thundara = $(item)Zero Graviga$() (1400)$(li)Zero Gravity + Zero Gravira = $(item)Zero Graviga$() (1400)"
+		},
+		{
+			"type": "patchouli:text",
+			"title": "Tier 4 Melds",
+			"text": "$(li)Zero Gravity + Zero Gravity = $(item)Zero Gravira$() (1200)$(li)Magnet + Aero = $(item)Zero Gravira$() (1600)$(li)Thunder + Zero Gravity = $(item)Zero Gravira$() (1600)"
+		},
+		{
+			"type": "patchouli:text",
+			"title": "Tier 5 Melds",
+			"text": "$(li)Firaga + Stopra = $(item)Crawling Firaga$() (1800)$(li)Blizzaga + Deep Freeze = $(item)Glacier$() (1600)$(li)Blizzaga + Mine Shield = $(item)Ice Barrage$() (1600)$(li)Blizzaga + Mine Square = $(item)Ice Barrage$() (1600)$(li)Magnega + Magnega = $(item)Mini$() (3800)$(li)Magnera + Warp = $(item)Mini$() (2600)$(li)Magnega + Bind = $(item)Mini$() (4600)"
+		},
+		{
+			"type": "patchouli:text",
+			"title": "Tier 5 Melds",
+			"text": "$(li)Mine Square + Magnega = $(item)Seeker Mine$() (1800)$(li)Mine Shield + Mine Square = $(item)Seeker Mine$() (1600)$(li)Mine Shield + Magnega = $(item)Seeker Mine$() (1800)$(li)Thundaga Shot + Thundaga Shot = $(item)Triple Plasma$() (1600)"
+		},
+		{
+			"type": "patchouli:text",
+			"title": "Tier 6 Melds",
+			"text": "$(li)Aeroga + Curaga = $(item)Faith$() (3600)"
+		}
+	]
+}

@@ -1,0 +1,11 @@
+{
+  "categories": [
+    "SPECIAL"
+  ],
+  "floor_specific_structure": false,
+  "size": "SPECIAL",
+  "structure": "entrance_hall_1f",
+  "white_list": [
+    "kingdomkeys:entrance_hall"
+  ]
+}

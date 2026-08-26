@@ -24,7 +24,7 @@ import online.kingdomkeys.kingdomkeys.util.IDisabledAnimations;
 
 @OnlyIn(Dist.CLIENT)
 public class StopLayerRenderer<T extends LivingEntity, M extends PlayerModel<T>> extends RenderLayer<T, M> {
-	public static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID,"textures/entity/models/stop.png");
+	public static final ResourceLocation TEXTURE = KingdomKeys.rl("textures/entity/models/stop.png");
 
 	ModelPart bb_main;
 	StopModel<?> stopModel;

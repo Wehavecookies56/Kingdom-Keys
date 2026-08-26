@@ -47,7 +47,7 @@ public class RedNocturneEntity extends BaseElementalMusicalHeartlessEntity {
     @OnlyIn(Dist.CLIENT)
     @Override
     public ResourceLocation getTexture() {
-        return ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/mob/red_nocturne.png");
+        return KingdomKeys.rl("textures/entity/mob/red_nocturne.png");
     }
 
     @Override
@@ -98,7 +98,7 @@ public class RedNocturneEntity extends BaseElementalMusicalHeartlessEntity {
         @Override
         public void start() {
             canUseAttack = true;
-            attackTimer = 20 + level().random.nextInt(5);
+            attackTimer = 70 + level().random.nextInt(40);
             mob.setState(0);
             this.mob.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.20D);
             whileAttackTimer = 0;

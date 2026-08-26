@@ -1,0 +1,16 @@
+{
+  "category": "STATUS",
+  "enemies": {
+    "type": "S",
+    "number_of_enemies": 5,
+    "simultaneous_enemies": 3
+  },
+  "modifiers": [
+    {
+      "type": "kingdomkeys:effect",
+      "effect": "minecraft:slowness",
+      "target": "MOB"
+    }
+  ],
+  "size": "M"
+}

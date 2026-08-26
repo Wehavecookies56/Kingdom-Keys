@@ -9,17 +9,15 @@ import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.*;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
-import net.minecraft.network.protocol.game.ClientboundPlayerInfoRemovePacket;
-import net.minecraft.network.protocol.game.ClientboundPlayerInfoUpdatePacket;
 import net.minecraft.network.protocol.game.ClientboundRemoveMobEffectPacket;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.FullChunkStatus;
@@ -43,22 +41,26 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.monster.Slime;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ArmorItem;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
+import net.minecraft.world.item.*;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.item.enchantment.ItemEnchantments;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.Rotation;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.level.chunk.LevelChunk;
+import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraft.world.level.storage.loot.LootParams;
+import net.minecraft.world.level.storage.loot.LootTable;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.scores.PlayerTeam;
@@ -75,8 +77,10 @@ import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategoryRegistry;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.block.gummi.*;
+import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
+import online.kingdomkeys.kingdomkeys.creativetab.CreativeFilter;
 import online.kingdomkeys.kingdomkeys.data.GlobalData;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.data.WorldData;
@@ -85,23 +89,20 @@ import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import online.kingdomkeys.kingdomkeys.entity.GummiShipEntity;
+import online.kingdomkeys.kingdomkeys.entity.block.GummiCoreTileEntity;
 import online.kingdomkeys.kingdomkeys.entity.block.GummiHangarTileEntity;
 import online.kingdomkeys.kingdomkeys.item.*;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
-import online.kingdomkeys.kingdomkeys.lib.GummiStructure;
-import online.kingdomkeys.kingdomkeys.lib.Party;
+import online.kingdomkeys.kingdomkeys.lib.*;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
-import online.kingdomkeys.kingdomkeys.lib.SoAState;
-import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.limit.Limit;
 import online.kingdomkeys.kingdomkeys.limit.ModLimits;
 import online.kingdomkeys.kingdomkeys.magic.Magic;
+import online.kingdomkeys.kingdomkeys.magic.MagicData;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.menu.PauldronInventory;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.stc.SCRecalculateEyeHeight;
-import online.kingdomkeys.kingdomkeys.network.stc.SCShowOverlayPacket;
-import online.kingdomkeys.kingdomkeys.network.stc.SCSyncGlobalData;
+import online.kingdomkeys.kingdomkeys.network.stc.*;
 import online.kingdomkeys.kingdomkeys.shotlock.ModShotlocks;
 import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
@@ -109,11 +110,92 @@ import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
 import javax.annotation.Nullable;
 import java.util.*;
 import java.util.Map.Entry;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import static online.kingdomkeys.kingdomkeys.client.gui.overlay.GuiOverlay.driveForm;
+import static online.kingdomkeys.kingdomkeys.item.ICreativeTab.Tab.*;
 
 public class Utils {
+	public static List<ItemStack> getItemsForCategory(ICreativeTab.Tab category) {
+		return getItemsForCategory(category, null);
+	}
+
+	public static List<ItemStack> getItemsForCategory(ICreativeTab.Tab category, HolderLookup.Provider holders) {
+		if (category == null) {
+			List<ItemStack> list = new ArrayList<>();
+			list.addAll(KingdomKeys.kkItems.get());
+			list.addAll(KingdomKeys.kkBlocks.get());
+			list.addAll(getShipBlueprints(holders));
+			return list;
+		}
+
+		return switch (category) {
+			case KEYBLADES -> KingdomKeys.kkItems.get().stream().filter(stack -> stack.getItem() instanceof ICreativeTab tab && tab.getTab() == KEYBLADES).toList();
+			case KEYCHAINS -> KingdomKeys.kkItems.get().stream().filter(stack -> stack.getItem() instanceof ICreativeTab tab && tab.getTab() == KEYCHAINS).toList();
+			case ORGANIZATION -> KingdomKeys.kkItems.get().stream().filter(stack -> stack.getItem() instanceof ICreativeTab tab && tab.getTab() == ORGANIZATION).toList();
+			case EQUIPABLES -> KingdomKeys.kkItems.get().stream().filter(stack -> stack.getItem() instanceof ICreativeTab tab && tab.getTab() == EQUIPABLES).toList();
+			case CARDS -> KingdomKeys.kkItems.get().stream().filter(stack -> stack.getItem() instanceof ICreativeTab tab && tab.getTab() == CARDS).toList();
+			case ARMORS -> KingdomKeys.kkItems.get().stream().filter(stack -> stack.getItem() instanceof ArmorItem).toList();
+			case MATS -> KingdomKeys.kkItems.get().stream().filter(stack -> stack.getItem() instanceof SynthesisItem).toList();
+			case GUMMI -> {
+				List<ItemStack> gummi = new ArrayList<>(KingdomKeys.kkBlocks.get().stream().filter(stack -> stack.getItem() instanceof BlockItem block && block.getBlock() instanceof ICreativeTab tab && tab.getTab() == GUMMI).toList());
+				gummi.addAll(KingdomKeys.kkItems.get().stream().filter(stack -> stack.getItem() instanceof ICreativeTab tab && tab.getTab() == GUMMI).toList());
+				gummi.addAll(getShipBlueprints(holders));
+				yield gummi;
+			}
+			case MISC -> getMiscItems();
+			case NONE -> List.of();
+		};
+	}
+
+	private static List<ItemStack> getMiscItems() {
+		Set<Item> categorized = Arrays.stream(ICreativeTab.Tab.values())
+				.filter(tab -> tab != ICreativeTab.Tab.MISC && tab != ICreativeTab.Tab.NONE)
+				.flatMap(tab -> getItemsForCategory(tab).stream())
+				.map(ItemStack::getItem)
+				.collect(Collectors.toSet());
+
+		List<ItemStack> misc = new ArrayList<>();
+		misc.addAll(KingdomKeys.kkItems.get());
+		misc.addAll(KingdomKeys.kkBlocks.get());
+
+		return misc.stream().filter(stack -> !categorized.contains(stack.getItem())).toList();
+	}
+
+	public static List<ItemStack> getCurrentItems(HolderLookup.Provider holders) {
+		if (CreativeFilter.currentCategory == ICreativeTab.Tab.MISC) {
+			return getMiscItems();
+		}
+
+		if (CreativeFilter.currentCategory == ICreativeTab.Tab.NONE) {
+			return List.of();
+		}
+
+		return getItemsForCategory(CreativeFilter.currentCategory, holders);
+	}
+
+	public static List<ItemStack> getShipBlueprints(HolderLookup.Provider holders) {
+		if (holders == null) {
+			return List.of();
+		}
+
+		List<ItemStack> blueprints = new ArrayList<>();
+
+		for (ResourceLocation ship : GummiShipLoader.names()) {
+			GummiStructure structure = GummiShipLoader.get(ship, holders);
+
+			if (structure == null) {
+				continue;
+			}
+
+			ItemStack stack = new ItemStack(ModItems.gummiShipBlueprint.get());
+			stack.set(ModComponents.GUMMI_STRUCTURE, structure.withoutBlockEntities());
+			stack.set(ModComponents.BLUEPRINT_NAME, structure.getName());
+			blueprints.add(stack);
+		}
+
+		return blueprints;
+	}
 
 	public static int getRedstoneFromMagic(String type){
 		return switch(type){
@@ -129,17 +211,17 @@ public class Utils {
 		};
 	}
 
-    public static void removeNegativeEffects(Player player) {
-        if (player.level().isClientSide)
-            return;
+	public static void removeNegativeEffects(Player player) {
+		if (player.level().isClientSide)
+			return;
 
-        //Copy to avoid ConcurrentModification
-        for (MobEffectInstance effect : List.copyOf(player.getActiveEffects())) {
-            if (!effect.getEffect().value().isBeneficial()) {
-                player.removeEffect(effect.getEffect());
-            }
-        }
-    }
+		//Copy to avoid ConcurrentModification
+		for (MobEffectInstance effect : List.copyOf(player.getActiveEffects())) {
+			if (!effect.getEffect().value().isBeneficial()) {
+				player.removeEffect(effect.getEffect());
+			}
+		}
+	}
 
 	public static ItemStack getItemInInventory(Player player, Item item) {
 		ItemStack itemStack = ItemStack.EMPTY;
@@ -153,14 +235,14 @@ public class Utils {
 		return itemStack;
 	}
 
-    public static ItemStack getItemInAnyHand(Player player, Item item) {
+	public static ItemStack getItemInAnyHand(Player player, Item item) {
 		if(!player.getMainHandItem().isEmpty() && player.getMainHandItem().getItem() == item) {
 			return player.getMainHandItem();
 		} else if (!player.getOffhandItem().isEmpty() && player.getOffhandItem().getItem() == item){
 			return player.getOffhandItem();
 		}
 		return null;
-    }
+	}
 
 	public static int getMagicBagSlot(Player player) {
 		NonNullList<ItemStack> items = player.getInventory().items;
@@ -173,10 +255,67 @@ public class Utils {
 		return -1;
 	}
 
-	public static boolean hasOnlyOneBag(Player player) {
+	public static int getCardsBagSlot(Player player, BagItem.Type type) {
+		NonNullList<ItemStack> items = player.getInventory().items;
+		for (int i = 0, itemsSize = items.size(); i < itemsSize; i++) {
+			ItemStack stack = items.get(i);
+			Item item = null;
+			if(type == BagItem.Type.MAGICS_BAG) {
+				item = ModItems.magicsBag.get();
+			} else if(type == BagItem.Type.CARDS_BAG){
+				item = ModItems.cardsBag.get();
+			} else if(type == BagItem.Type.SHOTLOCKS_BAG){
+				item = ModItems.shotlocksBag.get();
+			}
+
+			if (stack.is(item)) {
+				return i;
+			}
+		}
+		return -1;
+	}
+
+	/**
+	 * Whether magic cooldowns are tracked per magic instead of as one shared timer.
+	 *
+	 * <p>Server config, so it is read through {@code isLoaded} - it is queried from client rendering
+	 * too, where the spec may not be up yet on the first frames after joining.</p>
+	 */
+	/**
+	 * The magic bound to a shortcut slot, or null if that slot is empty or out of range. Needed because
+	 * the cooldown check has to know which magic is about to be cast.
+	 */
+	public static ResourceLocation getShortcutMagic(PlayerData playerData, int index) {
+		if (playerData == null || !playerData.getShortcutsMap().containsKey(index)) {
+			return null;
+		}
+
+		int slot = playerData.getShortcutsMap().get(index);
+		if (slot >= playerData.getMaxMagics()) {
+			return null;
+		}
+
+		ItemStack stack = playerData.getEquippedMagics().get(slot);
+		return stack != null && stack.getItem() instanceof MagicSpellItem spell ? spell.getMagic() : null;
+	}
+
+	public static boolean perMagicCooldown() {
+		return ModConfigs.SERVER_SPEC.isLoaded() && ModConfigs.SERVER.perMagicCooldown.get();
+	}
+
+	public static boolean hasOnlyOneBag(Player player, BagItem.Type type) {
 		boolean found = false;
 		for (ItemStack stack : player.getInventory().items) {
-			if (stack.is(ModItems.magicsBag.get())) {
+			Item item = null;
+			if(type == BagItem.Type.MAGICS_BAG) {
+				item = ModItems.magicsBag.get();
+			} else if(type == BagItem.Type.CARDS_BAG){
+				item = ModItems.cardsBag.get();
+			} else if(type == BagItem.Type.SHOTLOCKS_BAG){
+				item = ModItems.shotlocksBag.get();
+			}
+
+			if (stack.is(item)) {
 				if (found) {
 					return false;
 				} else {
@@ -194,23 +333,18 @@ public class Utils {
 		return res;
 	}
 
-	public static final ResourceLocation mobLevelHPModifier = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "mob_level_hp");
-	public static final ResourceLocation mobLevelAttackModifier = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "mob_level_attack");
+	public static final ResourceLocation mobLevelHPModifier = KingdomKeys.rl("mob_level_hp");
+	public static final ResourceLocation mobLevelAttackModifier = KingdomKeys.rl("mob_level_attack");
 
-	public static ItemStack getWhiteMushroomReward() {
-		ArrayList<Item> list = new ArrayList<>();
-		list.add(ModItems.orichalcum.get());
-		list.add(ModItems.orichalcumplus.get());
-		list.add(ModItems.evanescent_crystal.get());
-		list.add(ModItems.illusory_crystal.get());
-
-		Random rand = new Random();
-		Item item = list.get(rand.nextInt(list.size()));
-		return new ItemStack(item,rand.nextInt(3)+1);
+	public static ItemStack getWhiteMushroomReward(ServerLevel level, BlockPos pos) {
+		LootTable table = level.getServer().reloadableRegistries().getLootTable(ResourceKey.create(Registries.LOOT_TABLE, KingdomKeys.rl("entities/white_mushroom_reward")));
+		LootParams params = new LootParams.Builder(level).withParameter(LootContextParams.ORIGIN, Vec3.atCenterOf(pos)).create(LootContextParamSets.CHEST);
+		List<ItemStack> items = table.getRandomItems(params);
+		return items.isEmpty() ? ItemStack.EMPTY : items.get(0);
 	}
 
 	public static int getCheapestDriveCost(PlayerData playerData, List<DriveForm> driveFormMap) {
-		int min = playerData.isAbilityEquipped(Strings.darkDomination) ? ModDriveForms.ANTI.get().getDriveCost() : 1000;
+		int min = playerData.isAbilityEquipped(ModAbilities.DARK_DOMINATION) ? ModDriveForms.ANTI.get().getDriveCost() : 1000;
 		for(DriveForm form : driveFormMap){
 			if(form != null && form.getDriveFormData() != null && form != ModDriveForms.ANTI.get()) {
 				min = Math.min(form.getDriveCost(), min);
@@ -219,61 +353,72 @@ public class Utils {
 		return min;
 	}
 
-    public static double getCheapestMagicCost(Map<Integer, ItemStack> magicsMap, Player player) {
+	public static double getCheapestMagicCost(Map<Integer, ItemStack> magicsMap, Player player, MagicData.SpellType type) {
 		double min = 1000;
-	    PlayerData playerData = PlayerData.get(player);
-		if(playerData == null){
+
+		PlayerData playerData = PlayerData.get(player);
+		if (playerData == null) {
 			return 0;
 		}
 
-    	for (Entry<Integer, ItemStack> magic : magicsMap.entrySet()){
-			if(magic.getKey() >= playerData.getMaxMagics())
+		for (Entry<Integer, ItemStack> magic : magicsMap.entrySet()) {
+			if (magic.getKey() >= playerData.getMaxMagics())
 				break;
-		    ItemStack stack = playerData.getEquippedMagic(magic.getKey());
-			if(stack != null && stack.getItem() instanceof MagicSpellItem spell) {
-				Magic m = ModMagic.registry.get(ResourceLocation.parse(spell.getMagic()));
-				if (m != null) {
-					int lvl = spell.getLevel();
-					if (m.getCost(lvl, player) == 300) { //If has cure return it since it's used to calculate whether to show magic available or not.
-						return m.getCost(lvl, player);
-					}
-					min = Math.min(m.getCost(lvl, player), min);
 
+			ItemStack stack = playerData.getEquippedMagic(magic.getKey());
+
+			if (stack != null && stack.getItem() instanceof MagicSpellItem spell) {
+				Magic m = ModMagic.registry.get(spell.getMagic());
+
+				if (m == null)
+					continue;
+
+				// Ignorar magias de otro tipo
+				if (m.getSpellType() != type)
+					continue;
+
+				double cost = m.getCost(player);
+
+				// Mantener el comportamiento especial de Cura
+				if (cost == 300) {
+					return cost;
 				}
+
+				min = Math.min(cost, min);
 			}
 		}
-        return min;
-    }
 
+		return min;
+	}
 	public static List<Component> getResistancesStats(ItemStack selectedItemStack) {
 		List<Component> stats = new ArrayList<>();
 
 		int str=0, mag=0, ap = 0, def = 0, fireRes = 0, iceRes = 0, thunderRes = 0, lightRes = 0, darkRes = 0;
-        switch (selectedItemStack.getItem()) {
-            case KeybladeItem kb -> {
-                str = kb.getStrength(0);
-                mag = kb.getMagic(0);
-            }
-            case KKAccessoryItem accessory -> {
-                str = accessory.getStr();
-                mag = accessory.getMag();
-                ap = accessory.getAp();
-            }
-            case KKArmorItem armor -> {
-                def = armor.getDefense();
-                for (Entry<KKResistanceType, Integer> resistanceType : armor.getResList().entrySet()) {
-                    switch (resistanceType.getKey()) {
-                        case fire -> fireRes = resistanceType.getValue();
-                        case ice -> iceRes = resistanceType.getValue();
-                        case lightning -> thunderRes = resistanceType.getValue();
-                        case light -> lightRes = resistanceType.getValue();
-                        case darkness -> darkRes = resistanceType.getValue();
-                    }
-                }
-            }
-            default -> {
-            }
-        }
+		switch (selectedItemStack.getItem()) {
+			case KeybladeItem kb -> {
+				str = kb.getStrength(0);
+				mag = kb.getMagic(0);
+			}
+			case KKAccessoryItem accessory -> {
+				str = accessory.getStr();
+				mag = accessory.getMag();
+				ap = accessory.getAp();
+			}
+			case KKArmorItem armor -> {
+				def = armor.getDefense();
+				for (Entry<KKResistanceType, Integer> resistanceType : armor.getResList().entrySet()) {
+					switch (resistanceType.getKey()) {
+						case fire -> fireRes = resistanceType.getValue();
+						case ice -> iceRes = resistanceType.getValue();
+						case lightning -> thunderRes = resistanceType.getValue();
+						case light -> lightRes = resistanceType.getValue();
+						case darkness -> darkRes = resistanceType.getValue();
+					}
+				}
+			}
+			default -> {
+			}
+		}
 
 		if(ap != 0)
 			stats.add(Component.literal(Utils.translateToLocal(Strings.Gui_Menu_Status_AP)+": "+ap).withStyle(ChatFormatting.YELLOW));
@@ -299,12 +444,12 @@ public class Utils {
 
 	public static GummiShipEntity.ShipStats getShipStats(GummiStructure structure) {
 		float speed = 0;
-        int mobility = 0;
+		int mobility = 0;
 		LinkedList<Vec3> passengers = new LinkedList<>();
 		LinkedList<Vec3> weapons = new LinkedList<>();
 		int weight = 0;
 		int armour = 0;
-        HashMap<GummiWeaponBlock.ShotType, Integer> impact = new HashMap<>();
+		HashMap<GummiWeaponBlock.ShotType, Integer> impact = new HashMap<>();
 
 		int sizeX = structure.getBlocks().length;
 		int sizeY = structure.getBlocks()[0].length;
@@ -317,22 +462,17 @@ public class Utils {
 					if (state != null && !state.isAir()) {
 						weight++;//TODO make heavier blocks maybe?
 						armour++;
-                        if (state.getBlock() instanceof GummiCockpitBlock cockpit) {
-                            if(state.getValue(GummiCockpitBlock.X) == 0 && state.getValue(GummiCockpitBlock.Y) == 0 && state.getValue(GummiCockpitBlock.Z) == 0) {
-                                if (cockpit.getMaxSeats() > 0) {
-                                    for(Vec3 s : cockpit.getSeats()){
-                                        Vec3 finalPos = new Vec3(x - s.x(), y + s.y()+0.18F, z + s.z());
-                                        passengers.add(finalPos);
-                                    }
-                                }
-                            }
-                        }
-						/*if (state.getBlock() instanceof SlabBlock) {
-							passengers.addFirst(new Vec3(x, y, z));
+						if (state.getBlock() instanceof GummiCockpitBlock cockpit) {
+							if (!cockpit.isMultiBlock() || state.getValue(GummiCockpitBlock.X) == 0 && state.getValue(GummiCockpitBlock.Y) == 0 && state.getValue(GummiCockpitBlock.Z) == 0) {
+								if (cockpit.getMaxSeats() > 0) {
+									for (Vec3 s : cockpit.getSeats()) {
+										Vec3 finalPos = new Vec3(x - s.x(), y + s.y() + 0.18F, z + s.z());
+										passengers.add(finalPos);
+									}
+								}
+							}
 						}
-						if (state.getBlock() instanceof StairBlock) {
-							passengers.add(new Vec3(x, y, z));
-						}*/
+
 						if (state.getBlock() instanceof GummiBlockBase gummi) {
 							armour += gummi.getArmour();
 							weight += gummi.getWeight()-1;// we already add one by default
@@ -341,26 +481,26 @@ public class Utils {
 						if (state.getBlock() == Blocks.OBSIDIAN) {
 							weight++;
 						}
-                        if(state.getBlock() instanceof GummiWeaponBlock wpn && wpn.isMultiBlock()){
-                            if(state.getValue(GummiWeaponBlock.X) == 0 && state.getValue(GummiWeaponBlock.Z) == 0) {
-                                if(wpn.shotType.getRootType() == GummiWeaponBlock.ShotType.WATER){
-                                    //int power = wpn.shotType == GummiWeaponBlock.ShotType.WATER ? 1 : wpn.shotType == GummiWeaponBlock.ShotType.WATERA ? 2 : 3;
-                                    impact.put(wpn.shotType, wpn.getFirepower());
-                                } else {
-                                    weapons.add(new Vec3(x, y, z));
-                                }
-                            }
-                        } else if (state.getBlock() instanceof GummiWeaponBlock wpn) {
-                            if(wpn.shotType.getRootType().equals(GummiWeaponBlock.ShotType.WATER)){
-                                impact.put(wpn.shotType, wpn.getFirepower());
-                            } else {
-                                weapons.add(new Vec3(x, y, z));
-                            }
-                        } else if (state.getBlock() instanceof GummiAeroBlock aero) {
-                            mobility += aero.getMobility();
-                        } else if (state.getBlock() instanceof GummiEngineBlock engine) {
-                            speed += engine.getSpeed();
-                        }
+						if(state.getBlock() instanceof GummiWeaponBlock wpn && wpn.isMultiBlock()){
+							if(state.getValue(GummiWeaponBlock.X) == 0 && state.getValue(GummiWeaponBlock.Z) == 0) {
+								if(wpn.shotType.getRootType() == GummiWeaponBlock.ShotType.WATER){
+									//int power = wpn.shotType == GummiWeaponBlock.ShotType.WATER ? 1 : wpn.shotType == GummiWeaponBlock.ShotType.WATERA ? 2 : 3;
+									impact.put(wpn.shotType, wpn.getFirepower());
+								} else {
+									weapons.add(new Vec3(x, y, z));
+								}
+							}
+						} else if (state.getBlock() instanceof GummiWeaponBlock wpn) {
+							if(wpn.shotType.getRootType().equals(GummiWeaponBlock.ShotType.WATER)){
+								impact.put(wpn.shotType, wpn.getFirepower());
+							} else {
+								weapons.add(new Vec3(x, y, z));
+							}
+						} else if (state.getBlock() instanceof GummiAeroBlock aero) {
+							mobility += aero.getMobility();
+						} else if (state.getBlock() instanceof GummiEngineBlock engine) {
+							speed += engine.getSpeed();
+						}
 					}
 				}
 			}
@@ -370,26 +510,82 @@ public class Utils {
 
 	public static GummiStructure resizeStructure(GummiStructure original, int newSize) {
 		int oldSize = original.getWidth();
+		int[] bounds = occupiedBounds(original);
 
-		if (oldSize > newSize) {
-			return null;
+		// Padding is added or taken off evenly on both sides, so the ship keeps its place over the plate
+		int centred = (newSize - oldSize) / 2;
+		int offsetX = centred,
+			offsetY = 0,
+			offsetZ = centred;
+
+		if (bounds != null) {
+			if (!fits(bounds, newSize)) {
+				return null;
+			}
+
+			// The even trim is what is wanted, but a ship sitting off to one side of its cube gets pushed until it fits
+			offsetX = fitOffset(centred, bounds[0], bounds[1], newSize);
+			offsetY = fitOffset(0, bounds[2], bounds[3], newSize);
+			offsetZ = fitOffset(centred, bounds[4], bounds[5], newSize);
 		}
 
 		GummiStructure resized = new GummiStructure(original.getOwnerID(), original.getName(), newSize, newSize, newSize);
 		BlockState[][][] oldBlocks = original.getBlocks();
 		BlockState[][][] newBlocks = resized.getBlocks();
 
-		int offset = (newSize - oldSize) / 2;
-
 		for (int x = 0; x < oldSize; x++) {
 			for (int y = 0; y < oldSize; y++) {
 				for (int z = 0; z < oldSize; z++) {
-					newBlocks[x + offset][y][z + offset] = oldBlocks[x][y][z];
+					int nx = x + offsetX, ny = y + offsetY, nz = z + offsetZ;
+					if (nx < 0 || ny < 0 || nz < 0 || nx >= newSize || ny >= newSize || nz >= newSize) {
+						continue;
+					}
+
+					newBlocks[nx][ny][nz] = oldBlocks[x][y][z];
+					resized.setBlockEntity(nx, ny, nz, original.getBlockEntity(x, y, z));
 				}
 			}
 		}
 
 		return resized;
+	}
+
+	public static boolean fitsInHangar(GummiStructure structure, int size) {
+		int[] bounds = occupiedBounds(structure);
+		return bounds == null || fits(bounds, size);
+	}
+
+	private static boolean fits(int[] bounds, int size) {
+		return bounds[1] - bounds[0] < size && bounds[3] - bounds[2] < size && bounds[5] - bounds[4] < size;
+	}
+
+	/** How far the cells have to move for everything between min and max to land inside the new cube */
+	private static int fitOffset(int wanted, int min, int max, int newSize) {
+		return Math.max(-min, Math.min(wanted, newSize - 1 - max));
+	}
+
+	/** The corners of the box the ship's blocks take up, as min/max per axis, or null if it is empty */
+	private static int[] occupiedBounds(GummiStructure structure) {
+		int minX = Integer.MAX_VALUE, minY = Integer.MAX_VALUE, minZ = Integer.MAX_VALUE;
+		int maxX = -1, maxY = -1, maxZ = -1;
+
+		for (int x = 0; x < structure.getWidth(); x++) {
+			for (int y = 0; y < structure.getHeight(); y++) {
+				for (int z = 0; z < structure.getDepth(); z++) {
+					BlockState state = structure.getBlocks()[x][y][z];
+
+					if (state == null || state.isAir()) {
+						continue;
+					}
+
+					minX = Math.min(minX, x); maxX = Math.max(maxX, x);
+					minY = Math.min(minY, y); maxY = Math.max(maxY, y);
+					minZ = Math.min(minZ, z); maxZ = Math.max(maxZ, z);
+				}
+			}
+		}
+
+		return maxX < 0 ? null : new int[]{minX, maxX, minY, maxY, minZ, maxZ};
 	}
 
 	public static Vec3i getRealGummiStructureSize(GummiStructure structure){
@@ -428,12 +624,12 @@ public class Utils {
 		return new Vec3i(realWidth, realHeight, realDepth);
 	}
 
-    public static boolean[] isStructureEven(GummiStructure structure){
-        Vec3i realDim = Utils.getRealGummiStructureSize(structure);
-        boolean xEven = realDim.getX() % 2 == 0;
-        boolean zEven = realDim.getX() % 2 == 0;
-        return new boolean[]{ xEven, zEven };
-    }
+	public static boolean[] isStructureEven(GummiStructure structure){
+		Vec3i realDim = Utils.getRealGummiStructureSize(structure);
+		boolean xEven = realDim.getX() % 2 == 0;
+		boolean zEven = realDim.getZ() % 2 == 0;
+		return new boolean[]{ xEven, zEven };
+	}
 
 	public static void moveShip(Level level, BlockPos origin, Direction facing, int size, String moveDirStr) {
 		Direction realDir = switch (moveDirStr.toUpperCase()) {
@@ -455,8 +651,8 @@ public class Utils {
 			};
 			case "UP" -> Direction.UP;
 			case "DOWN" -> Direction.DOWN;
-            default -> throw new IllegalStateException("Unexpected value: " + moveDirStr.toUpperCase());
-        };
+			default -> throw new IllegalStateException("Unexpected value: " + moveDirStr.toUpperCase());
+		};
 
 		int dx = realDir.getStepX();
 		int dy = realDir.getStepY();
@@ -471,6 +667,8 @@ public class Utils {
 
 		List<BlockPos> positions = new ArrayList<>();
 		Map<BlockPos, BlockState> blocks = new HashMap<>();
+		// Everything a block knows that isn't in its state lives in its block entity: the core's fuel and damage, for instance. Carrying the states alone would move an empty shell.
+		Map<BlockPos, CompoundTag> blockEntities = new HashMap<>();
 
 		for (int x = 0; x < size; x++) {
 			for (int y = 0; y < size; y++) {
@@ -491,6 +689,11 @@ public class Utils {
 
 					positions.add(pos);
 					blocks.put(pos, state);
+
+					BlockEntity blockEntity = level.getBlockEntity(pos);
+					if (blockEntity != null) {
+						blockEntities.put(pos, blockEntity.saveCustomOnly(level.registryAccess()));
+					}
 				}
 			}
 		}
@@ -506,7 +709,7 @@ public class Utils {
 		}
 
 		if (!canMove) {
-            KingdomKeys.LOGGER.debug("Can't move, out of hangar");
+			KingdomKeys.LOGGER.debug("Can't move, out of hangar");
 			return;
 		}
 
@@ -518,6 +721,18 @@ public class Utils {
 			BlockState state = blocks.get(pos);
 			BlockPos newPos = pos.offset(dx, dy, dz);
 			level.setBlock(newPos, state, 3);
+
+			CompoundTag data = blockEntities.get(pos);
+			if (data == null) {
+				continue;
+			}
+
+			// setBlock has just made a fresh block entity, so its saved contents have to be poured back in.
+			BlockEntity moved = level.getBlockEntity(newPos);
+			if (moved != null) {
+				moved.loadCustomOnly(data, level.registryAccess());
+				moved.setChanged();
+			}
 		}
 	}
 
@@ -552,11 +767,16 @@ public class Utils {
 							case NORTH -> Rotation.CLOCKWISE_180;
 							case WEST  -> Rotation.COUNTERCLOCKWISE_90;
 							case EAST  -> Rotation.CLOCKWISE_90;
-                            default -> Rotation.NONE;
+							default -> Rotation.NONE;
 						};
 						BlockState rotated = Utils.rotateBlock(original,rotation);
 						struct.getBlocks()[x][y][z] = rotated;
 
+						BlockEntity blockEntity = level.getBlockEntity(target);
+						// Excluding the core since it works different by loading it's data into the ship
+						if (blockEntity != null && !(blockEntity instanceof GummiCoreTileEntity)) {
+							struct.setBlockEntity(x, y, z, blockEntity.saveCustomOnly(level.registryAccess()));
+						}
 					}
 
 				}
@@ -591,14 +811,14 @@ public class Utils {
 		return null;
 	}
 
-    public static List<GummiShipEntity> getAllGummiShipsInBuildPlate(Level level, BlockPos origin, Direction facing, int size) {
-        int[] offsets = Utils.getShipOffset(facing,size);
-        if(offsets == null)
-            return null;
+	public static List<GummiShipEntity> getAllGummiShipsInBuildPlate(Level level, BlockPos origin, Direction facing, int size) {
+		int[] offsets = Utils.getShipOffset(facing,size);
+		if(offsets == null)
+			return null;
 
-        AABB box = new AABB(origin.getX()+offsets[0], origin.getY(), origin.getZ()+offsets[1], origin.getX()+offsets[0]+size, origin.getY() + size, origin.getZ()+offsets[1]+size);
-        return level.getEntitiesOfClass(GummiShipEntity.class, box);
-    }
+		AABB box = new AABB(origin.getX()+offsets[0], origin.getY(), origin.getZ()+offsets[1], origin.getX()+offsets[0]+size, origin.getY() + size, origin.getZ()+offsets[1]+size);
+		return level.getEntitiesOfClass(GummiShipEntity.class, box);
+	}
 
 	public static void removeBlocks(Level level, BlockPos origin, Direction facing, int size) {
 		int max = size - 1;
@@ -639,7 +859,7 @@ public class Utils {
 			return false;
 		} else {
 			LevelChunk levelchunk = level.getChunkAt(pos);
-			Block block = state.getBlock();
+			//Block block = state.getBlock();
 
 			pos = pos.immutable(); // Forge - prevent mutable BlockPos leaks
 			BlockSnapshot blockSnapshot = null;
@@ -648,16 +868,16 @@ public class Utils {
 				level.capturedBlockSnapshots.add(blockSnapshot);
 			}
 
-			BlockState old = level.getBlockState(pos);
-			int oldLight = old.getLightEmission(level, pos);
-			int oldOpacity = old.getLightBlock(level, pos);
+			//BlockState old = level.getBlockState(pos);
+			//int oldLight = old.getLightEmission(level, pos);
+			//int oldOpacity = old.getLightBlock(level, pos);
 
 			BlockState blockstate = ((IKKLevelChunkExtension)levelchunk).kingdom_Keys$setBlockState(pos, state, (flags & 64) != 0);
 			if (blockstate == null) {
 				if (blockSnapshot != null) level.capturedBlockSnapshots.remove(blockSnapshot);
 				return false;
 			} else {
-				BlockState blockstate1 = level.getBlockState(pos);
+				//BlockState blockstate1 = level.getBlockState(pos);
 
 				if (blockSnapshot == null) { // Don't notify clients or update physics while capturing blockstates
 					markAndNotifyBlockNoNeighbourUpdate(level, pos, levelchunk, blockstate, state, flags, 512);
@@ -705,66 +925,66 @@ public class Utils {
 		}
 	}
 
-    public static BlockPos getCorePos(Level level, BlockPos origin, Direction facing, int size) {
-        int max = size - 1;
+	public static BlockPos getCorePos(Level level, BlockPos origin, Direction facing, int size) {
+		int max = size - 1;
 
-        int[] offsets = Utils.getShipOffset(facing,size);
-        if(offsets == null)
-            return null;
+		int[] offsets = Utils.getShipOffset(facing,size);
+		if(offsets == null)
+			return null;
 
-        for (int x = 0; x < size; x++) {
-            for (int y = size-1; y >= 0; y--) {
-                for (int z = 0; z < size; z++) {
-                    int rx = x;
-                    int rz = z;
+		for (int x = 0; x < size; x++) {
+			for (int y = size-1; y >= 0; y--) {
+				for (int z = 0; z < size; z++) {
+					int rx = x;
+					int rz = z;
 
-                    switch (facing) {
-                        case NORTH -> { rx = x; rz = z; }
-                        case SOUTH -> { rx = max - x; rz = max - z; }
-                        case EAST  -> { rx = z; rz = max - x; }
-                        case WEST  -> { rx = max - z; rz = x; }
-                    }
+					switch (facing) {
+						case NORTH -> { rx = x; rz = z; }
+						case SOUTH -> { rx = max - x; rz = max - z; }
+						case EAST  -> { rx = z; rz = max - x; }
+						case WEST  -> { rx = max - z; rz = x; }
+					}
 
-                    BlockPos target = origin.offset(offsets[0] + rx, y, offsets[1] + rz);
-                    if (level.getBlockState(target).getBlock() == ModBlocks.gummiCore.get()) {
-                        return target;
-                    }
-                }
-            }
-        }
-        return null;
-    }
+					BlockPos target = origin.offset(offsets[0] + rx, y, offsets[1] + rz);
+					if (level.getBlockState(target).getBlock() == ModBlocks.gummiCore.get()) {
+						return target;
+					}
+				}
+			}
+		}
+		return null;
+	}
 
-    public static int getCorePosCount(Level level, BlockPos origin, Direction facing, int size) {
-        int max = size - 1;
-        int cores = 0;
+	public static int getCorePosCount(Level level, BlockPos origin, Direction facing, int size) {
+		int max = size - 1;
+		int cores = 0;
 
-        int[] offsets = Utils.getShipOffset(facing,size);
-        if(offsets == null)
-            return 0;
+		int[] offsets = Utils.getShipOffset(facing,size);
+		if(offsets == null)
+			return 0;
 
-        for (int x = 0; x < size; x++) {
-            for (int y = size-1; y >= 0; y--) {
-                for (int z = 0; z < size; z++) {
-                    int rx = x;
-                    int rz = z;
+		for (int x = 0; x < size; x++) {
+			for (int y = size-1; y >= 0; y--) {
+				for (int z = 0; z < size; z++) {
+					int rx = x;
+					int rz = z;
 
-                    switch (facing) {
-                        case NORTH -> { rx = x; rz = z; }
-                        case SOUTH -> { rx = max - x; rz = max - z; }
-                        case EAST  -> { rx = z; rz = max - x; }
-                        case WEST  -> { rx = max - z; rz = x; }
-                    }
+					switch (facing) {
+						case NORTH -> { rx = x; rz = z; }
+						case SOUTH -> { rx = max - x; rz = max - z; }
+						case EAST  -> { rx = z; rz = max - x; }
+						case WEST  -> { rx = max - z; rz = x; }
+					}
 
-                    BlockPos target = origin.offset(offsets[0] + rx, y, offsets[1] + rz);
-                    if (level.getBlockState(target).getBlock() == ModBlocks.gummiCore.get()) {
-                        cores++;
-                    }
-                }
-            }
-        }
-        return cores;
-    }
+					BlockPos target = origin.offset(offsets[0] + rx, y, offsets[1] + rz);
+					if (level.getBlockState(target).getBlock() == ModBlocks.gummiCore.get()) {
+						cores++;
+					}
+				}
+			}
+		}
+		return cores;
+	}
 
 	public static boolean hasBlocks(Level level, BlockPos origin, Direction facing, int size) {
 		int max = size - 1;
@@ -847,6 +1067,63 @@ public class Utils {
 
 		return state; // if none of the above work we just return the same block
 	}
+
+	public static void placeGummiStructure(Level level, BlockPos origin, Direction facing, int size, GummiStructure struct, @Nullable GummiShipEntity source) {
+		int[] offsets = getShipOffset(facing, size);
+		if (offsets == null) {
+			return;
+		}
+
+		int max = size - 1;
+		Rotation rotation = switch (facing) {
+			case NORTH -> Rotation.CLOCKWISE_180;
+			case WEST -> Rotation.CLOCKWISE_90;
+			case EAST -> Rotation.COUNTERCLOCKWISE_90;
+			default -> Rotation.NONE;
+		};
+
+		for (int x = 0; x < size; x++) {
+			for (int y = 0; y < size; y++) {
+				for (int z = 0; z < size; z++) {
+					BlockState blockToPlace = struct.getBlocks()[x][y][z];
+					if (blockToPlace == null) {
+						continue;
+					}
+
+					int rx = x, rz = z;
+					switch (facing) {
+						case NORTH -> { rx = max - x; rz = max - z; }
+						case SOUTH -> { rx = x; rz = z; }
+						case EAST -> { rx = z; rz = max - x; }
+						case WEST -> { rx = max - z; rz = x; }
+					}
+
+					BlockPos target = origin.offset(offsets[0] + rx, y, offsets[1] + rz);
+					level.setBlockAndUpdate(target, rotateBlock(blockToPlace, rotation));
+
+					// setBlockAndUpdate restores the TE contents
+					CompoundTag data = struct.getBlockEntity(x, y, z);
+
+					if (data != null) {
+						BlockEntity restored = level.getBlockEntity(target);
+
+						if (restored != null) {
+							restored.loadCustomOnly(data, level.registryAccess());
+							restored.setChanged();
+						}
+					}
+
+					if (source != null && blockToPlace.getBlock() instanceof GummiCoreBlock) {
+						BlockEntity te = level.getBlockEntity(target);
+						if (te instanceof GummiCoreTileEntity core) {
+							core.saveFromShip(source);
+						}
+					}
+				}
+			}
+		}
+	}
+
 	public static int[] getShipOffset(Direction facing, int size) {
 		switch (facing) {
 			case NORTH -> {
@@ -865,40 +1142,40 @@ public class Utils {
 		return null;
 	}
 
-    public static GummiHangarTileEntity.HangarEnergyStorage getEnergyStoragePerLevel(int lvl) {
-        int[] stats = getFEStatsPerLevel(lvl);
-        return new GummiHangarTileEntity.HangarEnergyStorage(stats[0], stats[1], stats[2]);
-    }
+	public static GummiHangarTileEntity.HangarEnergyStorage getEnergyStoragePerLevel(int lvl) {
+		int[] stats = getFEStatsPerLevel(lvl);
+		return new GummiHangarTileEntity.HangarEnergyStorage(stats[0], stats[1], stats[2]);
+	}
 
-    public static int[] getFEStatsPerLevel(int lvl){
-        return switch (lvl){
-            case 0 -> new int[]{ 20000, 100, 50 };
-            case 1 -> new int[]{ 60000, 120, 60 };
-            case 2 -> new int[]{ 120000, 180, 90 };
-            case 3 -> new int[]{ 240000, 260, 130 };
-            case 4 -> new int[]{ 400000, 350, 175 };
+	public static int[] getFEStatsPerLevel(int lvl){
+		return switch (lvl){
+			case 0 -> new int[]{ 20000, 100, 50 };
+			case 1 -> new int[]{ 60000, 120, 60 };
+			case 2 -> new int[]{ 120000, 180, 90 };
+			case 3 -> new int[]{ 240000, 260, 130 };
+			case 4 -> new int[]{ 400000, 350, 175 };
 			case 5,6,7,8,9,10 -> new int[]{ 1000000, 1000, 500 };
-            default -> throw new IllegalStateException("Unexpected value for Utils#getFEPerLevel: " + lvl);
-        };
-    }
+			default -> throw new IllegalStateException("Unexpected value for Utils#getFEPerLevel: " + lvl);
+		};
+	}
 
-    public static String getFormattedNumber(int num) {
-        return String.format("%,d", num);
-    }
+	public static String getFormattedNumber(int num) {
+		return String.format("%,d", num);
+	}
 
-    public static String getFormattedNumber(float num) {
-        return String.format("%,.2f", num);
-    }
+	public static String getFormattedNumber(float num) {
+		return String.format("%,.2f", num);
+	}
 
-    public static boolean isKBArmor(ItemStack stack) {
-        if (!(stack.getItem() instanceof ArmorItem armor))
-            return false;
-        return armor.getMaterial().value().equipSound().value() == ModSounds.keyblade_armor.get();
-    }
+	public static boolean isKBArmor(ItemStack stack) {
+		if (!(stack.getItem() instanceof ArmorItem armor))
+			return false;
+		return armor.getMaterial().value().equipSound().value() == ModSounds.keyblade_armor.get();
+	}
 
-	public static String getRCNameFromIndex(Player player, int reactionSelected) {
+	public static ResourceLocation getRCNameFromIndex(Player player, int reactionSelected) {
 		int index = 0;
-		for (Map.Entry<String, Integer> entry : PlayerData.get(player).getReactionCommands().entrySet()) {
+		for (Entry<ResourceLocation, Integer> entry : PlayerData.get(player).getReactionCommands().entrySet()) {
 			if(index == reactionSelected) {
 				return entry.getKey();
 			}
@@ -907,29 +1184,38 @@ public class Utils {
 		return null;
 	}
 
-	public static List<String> getSpellsList(PlayerData playerData) {
+	public static List<ResourceLocation> getSpellsList(PlayerData playerData, MagicData.SpellType type) {
 		Map<Integer, ItemStack> equippedMagics = playerData.getEquippedMagics();
 		int maxMagics = playerData.getMaxMagics();
-		List<String> result = new ArrayList<>();
-		if(equippedMagics.isEmpty())
+
+		List<ResourceLocation> result = new ArrayList<>();
+
+		if (equippedMagics.isEmpty())
 			return result;
-		for (Map.Entry<Integer, ItemStack> entry : equippedMagics.entrySet()) {
-			if(entry.getKey() >= maxMagics)
+
+		for (Entry<Integer, ItemStack> entry : equippedMagics.entrySet()) {
+			if (entry.getKey() >= maxMagics)
 				break;
-			if(entry.getValue().getItem() instanceof MagicSpellItem spell) {
-				result.add(spell.getMagic());
+
+			if (entry.getValue().getItem() instanceof MagicSpellItem spell) {
+				Magic magic = ModMagic.registry.get(spell.getMagic());
+
+				if (magic != null && magic.getSpellType() == type) {
+					result.add(spell.getMagic());
+				}
 			}
 		}
+
 		return result;
 	}
 
-	public static int getMagicSlotFromNameAndLevel(Map<Integer, ItemStack> equippedMagics, String commandMagicName, int level) {
+	public static int getMagicSlotFromNameAndLevel(Map<Integer, ItemStack> equippedMagics, ResourceLocation commandMagicName) {
 		if (equippedMagics.isEmpty()) return -1;
 
-		for (Map.Entry<Integer, ItemStack> entry : equippedMagics.entrySet()) {
+		for (Entry<Integer, ItemStack> entry : equippedMagics.entrySet()) {
 			ItemStack stack = entry.getValue();
 			if (!stack.isEmpty() && stack.getItem() instanceof MagicSpellItem spell) {
-				if (spell.getMagic().equals(commandMagicName) && spell.getLevel() == level) {
+				if (spell.getMagic().equals(commandMagicName)) {
 					return entry.getKey();
 				}
 			}
@@ -937,18 +1223,19 @@ public class Utils {
 		return -1;
 	}
 
-	public static int getMagicHighestLevel(Map<Integer, ItemStack> equippedMagics, String commandMagicName) {
+	public static int getMagicHighestLocalLevel(Map<Integer, ItemStack> equippedMagics, ResourceLocation commandMagicName) {
 		if (equippedMagics.isEmpty()) return -1;
 
 		int level = -1;
-		for (Map.Entry<Integer, ItemStack> entry : equippedMagics.entrySet()) {
+		for (Entry<Integer, ItemStack> entry : equippedMagics.entrySet()) {
 			ItemStack stack = entry.getValue();
 			if (!stack.isEmpty() && stack.getItem() instanceof MagicSpellItem spell) {
 				if (spell.getMagic().equals(commandMagicName)) {
-					level = Math.max(spell.getLevel(),level);
+					level = Math.max(spell.getLocalLevel(stack), level);
 				}
 			}
 		}
+
 		return level;
 	}
 
@@ -957,7 +1244,7 @@ public class Utils {
 		if(playerData == null)
 			return;
 
-		ArrayList<String> leveledMagics =  new ArrayList();
+		ArrayList<String> leveledMagics = new ArrayList<>();
 		for (ItemStack stack : playerData.getEquippedMagics().values()) {
 			if (stack.isEmpty())
 				continue;
@@ -965,13 +1252,11 @@ public class Utils {
 			if (!(stack.getItem() instanceof MagicSpellItem magic))
 				continue;
 
-			int oldExp = magic.getExp(stack);
+			int oldLevel = magic.getLocalLevel(stack);
 			magic.addExp(stack, amount);
 
-			if(magic.getExp(stack) >= magic.getMaxExp()) {
-				if(magic.getExp(stack) != oldExp) {
-					leveledMagics.add("M_"+stack.getHoverName().getString() +" ⬆");
-				}
+			if(magic.getLocalLevel(stack) != oldLevel) { //If the level is different show notif
+				leveledMagics.add("M_" + stack.getHoverName().getString() + " " + Utils.translateToLocal("gui.magicspell.lvl_short", magic.isMaxed(stack) ? "MAX" : magic.getLocalLevel(stack)));
 			}
 		}
 
@@ -981,9 +1266,68 @@ public class Utils {
 		}
 	}
 
+
+	public static void addShotlockExperience(Player player, int amount) {
+		PlayerData playerData = PlayerData.get(player);
+		if (playerData == null)
+			return;
+
+		ItemStack equipped = playerData.getEquippedShotlock();
+		if (equipped == null || equipped.isEmpty() || !(equipped.getItem() instanceof online.kingdomkeys.kingdomkeys.item.ShotlockItem shotlockItem))
+			return;
+
+		int oldLevel = shotlockItem.getLocalLevel(equipped);
+		shotlockItem.addExp(equipped, amount);
+
+		if (shotlockItem.getLocalLevel(equipped) != oldLevel) {
+			ArrayList<String> leveledShotlocks = new ArrayList<>();
+			leveledShotlocks.add("S_" + equipped.getHoverName().getString() + " " + Utils.translateToLocal("gui.magicspell.lvl_short", shotlockItem.isMaxed(equipped) ? "MAX" : shotlockItem.getLocalLevel(equipped)));
+
+			player.level().playSound(null, player.position().x(), player.position().y(), player.position().z(), ModSounds.levelup.get(), SoundSource.MASTER, 0.5f, 1.0f);
+			PacketHandler.sendTo(new SCShowOverlayPacket("levelup", player.getUUID(), player.getGameProfile().getName(), playerData.getLevel(), playerData.getNotifColor(), leveledShotlocks), (ServerPlayer) player);
+		}
+	}
+
+	public static final Map<ResourceKey<Biome>, Item> MEMORY_BY_BIOME = new HashMap<>();
+
+	public static Item getMemoryFromBiome(Holder<Biome> biome) {
+		return biome.unwrapKey().map(MEMORY_BY_BIOME::get).orElse(null);
+	}
+
+	public static void showTutorial(ServerPlayer player, List<Title> tutorial) {
+		PlayerData playerData = PlayerData.get(player);
+		if(!playerData.hasSeenTutorial(Constants.TUTORIAL_CO_LOBBY)) {
+			PacketHandler.sendTo(new SCShowMessagesPacket(tutorial), player);
+
+			playerData.setSeenTutorial(Constants.TUTORIAL_CO_LOBBY);
+			PacketHandler.sendTo(new SCSyncPlayerData(player, playerData), player);
+		}
+	}
+
+	public static BlockPos getBlockPosYHeight(Level level, int posX, int posZ) {
+		int yPos = level.getHeight(Heightmap.Types.WORLD_SURFACE, posX, posZ);
+		BlockPos pos = new BlockPos(posX, yPos, posZ);
+
+		while (level.getBlockState(pos).is(ModBlocks.structureWall.get()) || level.getBlockState(pos).is(Blocks.AIR)) {
+			pos = pos.below();
+		}
+		return pos;
+	}
+
+	public static int getYHeight(Level level, int posX, int posZ) {
+		int yPos = level.getHeight(Heightmap.Types.WORLD_SURFACE, posX, posZ);
+		BlockPos pos = new BlockPos(posX, yPos, posZ);
+
+		while (level.getBlockState(pos).is(ModBlocks.structureWall.get()) || level.getBlockState(pos).is(Blocks.AIR)) {
+			pos = pos.below();
+		}
+		return pos.getY();
+	}
+
 	public static class Title {
 		public String title, subtitle;
 		public int fadeIn = 10, fadeOut = 20, displayTime = 70;
+		public boolean titleFont;
 
 		public Title(String title, String subtitle, int fadeIn, int displayTime, int fadeOut) {
 			this.title = title;
@@ -1002,6 +1346,11 @@ public class Utils {
 			read(compound);
 		}
 
+		public Title setKHFont(){
+			this.titleFont = true;
+			return this;
+		}
+
 		public CompoundTag write() {
 			CompoundTag compound = new CompoundTag();
 			compound.putString("title", title);
@@ -1009,6 +1358,7 @@ public class Utils {
 			compound.putInt("fadein", fadeIn);
 			compound.putInt("fadeout", fadeOut);
 			compound.putInt("displaytime", displayTime);
+			compound.putBoolean("titlefont", titleFont);
 			return compound;
 		}
 
@@ -1018,6 +1368,7 @@ public class Utils {
 			this.fadeIn = tag.getInt("fadein");
 			this.fadeOut = tag.getInt("fadeout");
 			this.displayTime = tag.getInt("displaytime");
+			this.titleFont = tag.getBoolean("titlefont");
 		}
 
 		public static CompoundTag writeList(List<Title> titles) {
@@ -1040,16 +1391,16 @@ public class Utils {
 		}
 
 		public static StreamCodec<FriendlyByteBuf, Title> STREAM_CODEC = new StreamCodec<>() {
-            @Override
-            public Title decode(FriendlyByteBuf pBuffer) {
-                return new Title(pBuffer.readNbt());
-            }
+			@Override
+			public Title decode(FriendlyByteBuf pBuffer) {
+				return new Title(pBuffer.readNbt());
+			}
 
-            @Override
-            public void encode(FriendlyByteBuf pBuffer, Title pValue) {
+			@Override
+			public void encode(FriendlyByteBuf pBuffer, Title pValue) {
 				pBuffer.writeNbt(pValue.write());
-            }
-        };
+			}
+		};
 	}
 
 	public record ShotlockPosition(int id,float x,float y, float z){
@@ -1066,7 +1417,7 @@ public class Utils {
 		);
 	}
 
-	public record castMagic(LivingEntity player, Player caster, int level, float fullMPBlastMult, LivingEntity lockOnEntity, Magic magic) {}
+	public record castMagic(LivingEntity player, Player caster, float fullMPBlastMult, LivingEntity lockOnEntity, Magic magic) {}
 
 	public static ResourceLocation getItemRegistryName(Item item) {
 		return BuiltInRegistries.ITEM.getKey(item);
@@ -1171,7 +1522,7 @@ public class Utils {
 
 	/**
 	 * Replacement for the old i8n format method
-	 * 
+	 *
 	 * @param name   the unlocalized string to translate
 	 * @param format the format of the string
 	 * @return the translated string
@@ -1183,7 +1534,7 @@ public class Utils {
 
 	/**
 	 * Replacement for the old i8n translate to local method
-	 * 
+	 *
 	 * @param name the unlocalized string to translate
 	 * @return the translated string
 	 */
@@ -1194,22 +1545,22 @@ public class Utils {
 
 	/**
 	 * Get the ItemStack of the item that made the DamageSource
-	 * 
+	 *
 	 * @param damageSource
 	 * @param player
 	 * @return
 	 */
 	public static ItemStack getWeaponDamageStack(DamageSource damageSource, Player player) {
 		switch (damageSource.getMsgId()) {
-		case "player":
-			if (player.getMainHandItem() != null && player.getMainHandItem().getItem() instanceof KeybladeItem || player.getMainHandItem().getItem() instanceof IOrgWeapon) {
-				return player.getMainHandItem();
-			}
-			break;
-		case "offhand":
-			if (player.getOffhandItem() != null && player.getOffhandItem().getItem() instanceof KeybladeItem || player.getOffhandItem().getItem() instanceof IOrgWeapon) {
-				return player.getOffhandItem();
-			}
+			case "player":
+				if (player.getMainHandItem() != null && player.getMainHandItem().getItem() instanceof KeybladeItem || player.getMainHandItem().getItem() instanceof IOrgWeapon) {
+					return player.getMainHandItem();
+				}
+				break;
+			case "offhand":
+				if (player.getOffhandItem() != null && player.getOffhandItem().getItem() instanceof KeybladeItem || player.getOffhandItem().getItem() instanceof IOrgWeapon) {
+					return player.getOffhandItem();
+				}
 		}
 		return null;
 
@@ -1225,12 +1576,12 @@ public class Utils {
 		);
 	}
 
-	public static int getDriveFormLevel(Map<String, int[]> map, String driveForm) {
+	public static int getDriveFormLevel(Map<ResourceLocation, int[]> map, ResourceLocation driveForm) {
 		if(map.get(driveForm) == null) {
 			KingdomKeys.LOGGER.error("The drive form map doesn't contain " + driveForm);
 			return 0;
 		}
-		if (driveForm.equals(Strings.Form_Anti))
+		if (driveForm.equals(ModDriveForms.ANTI.get().getRegistryName()))
 			return 7;
 		return map.get(driveForm)[0];
 	}
@@ -1247,47 +1598,42 @@ public class Utils {
 		return map;
 	}
 
-	public static LinkedHashMap<String, int[]> getSortedAbilities(LinkedHashMap<String, int[]> abilities) {
-        return abilities.entrySet().stream().sorted((entry, entry2) -> {
-			Ability ability = ModAbilities.registry.get(ResourceLocation.parse(entry.getKey()));
-			Ability ability2 = ModAbilities.registry.get(ResourceLocation.parse(entry2.getKey()));
+	public static LinkedHashMap<ResourceLocation, int[]> getSortedAbilities(LinkedHashMap<ResourceLocation, int[]> abilities) {
+		return abilities.entrySet().stream().sorted((entry, entry2) -> {
+			Ability ability = ModAbilities.registry.get(entry.getKey());
+			Ability ability2 = ModAbilities.registry.get(entry2.getKey());
 			if (ability != null && ability2 != null) {
-                return ability.compareTo(ability2);
+				return ability.compareTo(ability2);
 			}
 			return entry.getKey().compareTo(entry2.getKey());
 		}).collect(Collectors.toMap(Entry::getKey, Entry::getValue, (value, value2) -> value, LinkedHashMap::new));
 	}
 
-	public static LinkedHashMap<String, int[]> getSortedDriveForms(LinkedHashMap<String, int[]> driveFormsMap, List<DriveForm> visibleForms) {
+	public static LinkedHashMap<ResourceLocation, int[]> getSortedDriveForms(LinkedHashMap<ResourceLocation, int[]> driveFormsMap, List<DriveForm> visibleForms) {
 		List<DriveForm> list = new ArrayList<>();
 
-        for (String entry : driveFormsMap.keySet()) {
-			DriveForm form = ModDriveForms.registry.get(ResourceLocation.parse(entry));
+		for (ResourceLocation entry : driveFormsMap.keySet()) {
+			DriveForm form = ModDriveForms.registry.get(entry);
 			if (visibleForms.contains(form)) { // Should only add the form if it is visible
 				list.add(form);
 			}
-        }
+		}
 
 		list.sort(Comparator.comparingInt(DriveForm::getOrder));
 
-		LinkedHashMap<String, int[]> map = new LinkedHashMap<>();
-        for (DriveForm driveForm : list) {
-            map.put(driveForm.getRegistryName().toString(), driveFormsMap.get(driveForm.getRegistryName().toString()));
-        }
+		LinkedHashMap<ResourceLocation, int[]> map = new LinkedHashMap<>();
+		for (DriveForm driveForm : list) {
+			map.put(driveForm.getRegistryName(), driveFormsMap.get(driveForm.getRegistryName()));
+		}
 
 		return map;
 	}
 
 	public static List<Limit> getPlayerLimitAttacks(Player player) {
-//		IPlayerCapabilities playerData = ModCapabilities.getPlayer(player);
-		List<Limit> limits = new ArrayList<>(ModLimits.registry.stream().toList());
-		// TODO change when we have more member limits
-		/*
-		 * for(Limit val : ModLimits.registry.getValues()) {
-		 * System.out.println(val.getName()); if(val.getOwner() ==
-		 * playerData.getAlignment()) { limits.add(val); break; } }
-		 */
-		return limits;
+		if(ModConfigs.getServerConfig().allowAllOrgLimits.getAsBoolean())
+			return new ArrayList<>(ModLimits.registry.stream().toList());
+
+		return ModLimits.registry.stream().filter(limit -> limit.getOwner() == PlayerData.get(player).getAlignment()).collect(Collectors.toList());
 	}
 
 	public static List<Limit> getSortedLimits(List<Limit> list) {
@@ -1296,10 +1642,39 @@ public class Utils {
 		return newList;
 	}
 
-	public static List<String> getSortedShotlocks(List<String> list) {
-		List<String> newList = new ArrayList<>(list);
-		newList.sort((Comparator.comparingInt(a -> ModShotlocks.registry.get(ResourceLocation.parse(a)).getOrder())));
-		return newList;
+	@Nullable
+	public static LivingEntity getPartyEntity(Level level, UUID id) {
+		if (level == null || id == null) {
+			return null;
+		}
+
+		if (level instanceof ServerLevel server) {
+			return server.getEntity(id) instanceof LivingEntity living ? living : null;
+		}
+
+		// Players first: it is a short list, and it is who a party is mostly made of, so the walk below is rarely reached
+		Player player = level.getPlayerByUUID(id);
+
+		if (player != null) {
+			return player;
+		}
+
+		return ClientUtils.getEntityByUUIDClient(id) instanceof LivingEntity living ? living : null;
+	}
+
+	@Nullable
+	public static LivingEntity getPartyEntity(MinecraftServer server, UUID id) {
+		if (server == null || id == null) {
+			return null;
+		}
+
+		for (ServerLevel level : server.getAllLevels()) {
+			if (level.getEntity(id) instanceof LivingEntity living) {
+				return living;
+			}
+		}
+
+		return null;
 	}
 
 	public static Player getPlayerByName(Level world, String name) {
@@ -1344,9 +1719,10 @@ public class Utils {
 		return list;
 	}
 
-    public static List<Entity> getEntitiesInRadius(Entity entity, float radius) {
-        return entity.level().getEntities(entity, entity.getBoundingBox().inflate(radius), Entity::isAlive);
-    }
+	public static List<Entity> getEntitiesInRadius(Entity entity, float radius) {
+		return entity.level().getEntities(entity, entity.getBoundingBox().inflate(radius), Entity::isAlive);
+	}
+
 	public static List<LivingEntity> getLivingEntitiesInRadius(Entity entity, float radius) {
 		List<Entity> list = entity.level().getEntities(entity, entity.getBoundingBox().inflate(radius), Entity::isAlive);
 		List<LivingEntity> elList = new ArrayList<LivingEntity>();
@@ -1360,49 +1736,29 @@ public class Utils {
 	}
 
 	public static List<Entity> removePartyMembersFromList(Player player, List<Entity> list) {
-		Party casterParty = WorldData.get(player.getServer()).getPartyFromMember(player.getUUID());
-
-		if (casterParty != null && !casterParty.getFriendlyFire()) {
-			for (Member m : casterParty.getMembers()) {
-				list.remove(player.level().getPlayerByUUID(m.getUUID()));
-			}
-		} else {
-			list.remove(player);
-		}
-		return list;
+		list.remove(player);
+		return removeAllies(player, list);
 	}
 
-	/**
-	 * Used to check if there's anyone else online in the party for KO effect
-	 * 
-	 * @param player
-	 * @param p
-	 * @param level
-	 * @return
-	 */
 	public static boolean anyPartyMemberOnExcept(Player player, Party p, ServerLevel level) {
-		boolean membersOn = false;
 		for (Member member : p.getMembers()) {
-			if (Utils.getPlayerByName(level, member.getUsername().toLowerCase()) != null) {
-				if (Utils.getPlayerByName(level, member.getUsername().toLowerCase()) != player) {
-					membersOn = true;
-				}
+			if (member.getUUID().equals(player.getUUID())) {
+				continue;
+			}
+
+			LivingEntity ally = getPartyEntity(level.getServer(), member.getUUID());
+
+			if (ally != null && ally.isAlive()) {
+				return true;
 			}
 		}
-		return membersOn;
+		return false;
 	}
 
 	public static List<LivingEntity> getLivingEntitiesInRadiusExcludingParty(LivingEntity player, float radius) {
 		List<Entity> list = player.level().getEntities(player, player.getBoundingBox().inflate(radius), Entity::isAlive);
-		Party casterParty = WorldData.get(player.getServer()).getPartyFromMember(player.getUUID());
-
-		if (casterParty != null && !casterParty.getFriendlyFire()) {
-			for (Member m : casterParty.getMembers()) {
-				list.remove(player.level().getPlayerByUUID(m.getUUID()));
-			}
-		} else {
-			list.remove(player);
-		}
+		list.remove(player);
+		removeAllies(player, list);
 
 		List<LivingEntity> elList = new ArrayList<LivingEntity>();
 		for (Entity e : list) {
@@ -1416,7 +1772,7 @@ public class Utils {
 
 	/**
 	 * Gets entities in radius from the entity param
-	 * 
+	 *
 	 * @param player  to ignore from the list
 	 * @param entity  where to check with radius
 	 * @param radiusX
@@ -1426,15 +1782,8 @@ public class Utils {
 	 */
 	public static List<LivingEntity> getLivingEntitiesInRadiusExcludingParty(Player player, Entity entity, float radiusX, float radiusY, float radiusZ) {
 		List<Entity> list = player.level().getEntities(player, entity.getBoundingBox().inflate(radiusX, radiusY, radiusZ), Entity::isAlive);
-		Party casterParty = WorldData.get(player.getServer()).getPartyFromMember(player.getUUID());
-
-		if (casterParty != null && !casterParty.getFriendlyFire()) {
-			for (Member m : casterParty.getMembers()) {
-				list.remove(player.level().getPlayerByUUID(m.getUUID()));
-			}
-		} else {
-			list.remove(player);
-		}
+		list.remove(player);
+		removeAllies(player, list);
 
 		list.remove(entity);
 
@@ -1467,8 +1816,8 @@ public class Utils {
 	}
 
 	public static boolean hasKeybladeID(ItemStack stack) {
-        return stack.has(ModComponents.KEYBLADE_ID) && !stack.is(Items.AIR);
-    }
+		return stack.has(ModComponents.KEYBLADE_ID) && !stack.is(Items.AIR);
+	}
 
 	public static UUID getKeybladeID(ItemStack stack) {
 		if (hasKeybladeID(stack)) {
@@ -1513,7 +1862,7 @@ public class Utils {
 
 	public static boolean hasArmorID(ItemStack stack) {
 		if (stack.getItem() instanceof PauldronItem || stack.getItem() instanceof ArmorItem) {
-            return stack.has(ModComponents.ARMOR_ID);
+			return stack.has(ModComponents.ARMOR_ID);
 		}
 		return false;
 	}
@@ -1603,23 +1952,23 @@ public class Utils {
 			if (!ItemStack.matches(entry.getValue(), ItemStack.EMPTY)) {
 				KKAccessoryItem accessory = (KKAccessoryItem) entry.getValue().getItem();
 				switch (type) {
-				case "ap":
-					res += accessory.getAp();
-					break;
-				case "str":
-					res += accessory.getStr();
-					break;
-				case "mag":
-					res += accessory.getMag();
-					break;
+					case "ap":
+						res += accessory.getAp();
+						break;
+					case "str":
+						res += accessory.getStr();
+						break;
+					case "mag":
+						res += accessory.getMag();
+						break;
 				}
 			}
 		}
 		return res;
 	}
 
-	public static List<String> getAccessoriesAbilities(PlayerData playerData) {
-		List<String> res = new ArrayList<String>();
+	public static List<ResourceLocation> getAccessoriesAbilities(PlayerData playerData) {
+		List<ResourceLocation> res = new ArrayList<>();
 		int c = 1;
 		for (Entry<Integer, ItemStack> entry : playerData.getEquippedAccessories().entrySet()) {
 			if (c > playerData.getMaxAccessories())
@@ -1639,37 +1988,37 @@ public class Utils {
 			if (!ItemStack.matches(entry.getValue(), ItemStack.EMPTY)) {
 				KKArmorItem kkArmorItem = (KKArmorItem) entry.getValue().getItem();
 				switch (type) {
-				case "def":
-					res += kkArmorItem.getDefense();
-					break;
-				case "darkness":
-					if (kkArmorItem.CheckKey(KKResistanceType.darkness))
-						res += kkArmorItem.GetResValue(KKResistanceType.darkness, res == 0 ? 100 : 100 - res);
-					break;
-				case "light":
-					if (kkArmorItem.CheckKey(KKResistanceType.light))
-						res += kkArmorItem.GetResValue(KKResistanceType.light, res == 0 ? 100 : 100 - res);
-					break;
-				case "ice":
-					if (kkArmorItem.CheckKey(KKResistanceType.ice))
-						res += kkArmorItem.GetResValue(KKResistanceType.ice, res == 0 ? 100 : 100 - res);
-					break;
-				case "air":
-					if (kkArmorItem.CheckKey(KKResistanceType.air))
-						res += kkArmorItem.GetResValue(KKResistanceType.air, res == 0 ? 100 : 100 - res);
-					break;
-				case "lightning":
-					if (kkArmorItem.CheckKey(KKResistanceType.lightning))
-						res += kkArmorItem.GetResValue(KKResistanceType.lightning, res == 0 ? 100 : 100 - res);
-					break;
-				case "water":
-					if (kkArmorItem.CheckKey(KKResistanceType.water))
-						res += kkArmorItem.GetResValue(KKResistanceType.water, res == 0 ? 100 : 100 - res);
-					break;
-				case "fire":
-					if (kkArmorItem.CheckKey(KKResistanceType.fire))
-						res += kkArmorItem.GetResValue(KKResistanceType.fire, res == 0 ? 100 : 100 - res);
-					break;
+					case "def":
+						res += kkArmorItem.getDefense();
+						break;
+					case "darkness":
+						if (kkArmorItem.CheckKey(KKResistanceType.darkness))
+							res += kkArmorItem.GetResValue(KKResistanceType.darkness, res == 0 ? 100 : 100 - res);
+						break;
+					case "light":
+						if (kkArmorItem.CheckKey(KKResistanceType.light))
+							res += kkArmorItem.GetResValue(KKResistanceType.light, res == 0 ? 100 : 100 - res);
+						break;
+					case "ice":
+						if (kkArmorItem.CheckKey(KKResistanceType.ice))
+							res += kkArmorItem.GetResValue(KKResistanceType.ice, res == 0 ? 100 : 100 - res);
+						break;
+					case "air":
+						if (kkArmorItem.CheckKey(KKResistanceType.air))
+							res += kkArmorItem.GetResValue(KKResistanceType.air, res == 0 ? 100 : 100 - res);
+						break;
+					case "lightning":
+						if (kkArmorItem.CheckKey(KKResistanceType.lightning))
+							res += kkArmorItem.GetResValue(KKResistanceType.lightning, res == 0 ? 100 : 100 - res);
+						break;
+					case "water":
+						if (kkArmorItem.CheckKey(KKResistanceType.water))
+							res += kkArmorItem.GetResValue(KKResistanceType.water, res == 0 ? 100 : 100 - res);
+						break;
+					case "fire":
+						if (kkArmorItem.CheckKey(KKResistanceType.fire))
+							res += kkArmorItem.GetResValue(KKResistanceType.fire, res == 0 ? 100 : 100 - res);
+						break;
 				}
 			}
 		}
@@ -1682,19 +2031,19 @@ public class Utils {
 
 	public static int getConsumedAP(PlayerData playerData) {
 		int ap = 0;
-		LinkedHashMap<String, int[]> map = playerData.getAbilityMap();
-        for (Entry<String, int[]> entry : map.entrySet()) {
-            Ability a = ModAbilities.registry.get(ResourceLocation.parse(entry.getKey()));
-            ap += a.getAPCost() * Integer.bitCount(entry.getValue()[1]);
-        }
+		LinkedHashMap<ResourceLocation, int[]> map = playerData.getAbilityMap();
+		for (Entry<ResourceLocation, int[]> entry : map.entrySet()) {
+			Ability a = ModAbilities.registry.get(entry.getKey());
+			ap += a.getAPCost() * Integer.bitCount(entry.getValue()[1]);
+		}
 		return ap;
 	}
 
 	public static double getMPHasteValue(PlayerData playerData) {
 		int val = 0;
-		val += (2 * playerData.getNumberOfAbilitiesEquipped(Strings.mpHaste));
-		val += (4 * playerData.getNumberOfAbilitiesEquipped(Strings.mpHastera));
-		val += (6 * playerData.getNumberOfAbilitiesEquipped(Strings.mpHastega));
+		val += (2 * playerData.getNumberOfAbilitiesEquipped(ModAbilities.MP_HASTE));
+		val += (4 * playerData.getNumberOfAbilitiesEquipped(ModAbilities.MP_HASTERA));
+		val += (6 * playerData.getNumberOfAbilitiesEquipped(ModAbilities.MP_HASTEGA));
 		return val;
 	}
 
@@ -1705,7 +2054,7 @@ public class Utils {
 		Multimap<Holder<Attribute>, AttributeModifier> map = HashMultimap.create();
 
 		// Luck - affects things like chest loot, separate from looting or fortune.
-		AttributeModifier attributemodifier = new AttributeModifier(ResourceLocation.parse(Strings.luckyLucky), playerData.getNumberOfAbilitiesEquipped(Strings.luckyLucky), AttributeModifier.Operation.ADD_VALUE);
+		AttributeModifier attributemodifier = new AttributeModifier(ModAbilities.LUCKY_STRIKE.location(), playerData.getNumberOfAbilitiesEquipped(ModAbilities.LUCKY_STRIKE), AttributeModifier.Operation.ADD_VALUE);
 		map.put(Attributes.LUCK, attributemodifier);
 
 		player.getAttributes().addTransientAttributeModifiers(map);
@@ -1735,26 +2084,18 @@ public class Utils {
 			if (Utils.isWearingOrgRobes(player)) {
 				if (sb.getPlayersTeam(name) != team) {
 					sb.addPlayerToTeam(name, team);
-					updateTabName(player, true);
 				}
 			} else {
 				if (sb.getPlayersTeam(name) == team) {
 					sb.removePlayerFromTeam(name, team);
-					updateTabName(player, false);
 				}
 			}
 		} else {
 			//If config is false make sure everyone invisible is visible again
 			if (sb.getPlayersTeam(name) == team) {
 				sb.removePlayerFromTeam(name, team);
-				updateTabName(player, false);
 			}
 		}
-	}
-
-	public static void updateTabName(ServerPlayer player, boolean wearing) {                  // hide											//show
-		Packet<ClientGamePacketListener> packet = wearing ? new ClientboundPlayerInfoRemovePacket(List.of(player.getUUID())) : ClientboundPlayerInfoUpdatePacket.createPlayerInitializing(List.of(player));
-		player.server.getPlayerList().getPlayers().forEach(p -> p.connection.send(packet));
 	}
 
 	public static boolean isWearingOrgRobes(Player player) {
@@ -1782,20 +2123,20 @@ public class Utils {
 		return hangarCosts[hangarLevel];
 	}
 
-    public static String getHangarSizeFromLevel(int level) {
-        return switch(level){
-            case 0 -> "XS";
-            case 1 -> "S";
-            case 2 -> "M";
-            case 3 -> "L";
-            case 4 -> "XL";
+	public static String getHangarSizeFromLevel(int level) {
+		return switch(level){
+			case 0 -> "XS";
+			case 1 -> "S";
+			case 2 -> "M";
+			case 3 -> "L";
+			case 4 -> "XL";
 			case 5,6,7,8,9,10 -> level+"";
-            default -> "Unsuported value: " + level;
-        };
-    }
+			default -> "Unsuported value: " + level;
+		};
+	}
 
 
-    public static String snakeToCamel(String str) {
+	public static String snakeToCamel(String str) {
 		// Capitalize first letter of string
 		str = str.substring(0, 1).toUpperCase() + str.substring(1);
 
@@ -1810,15 +2151,16 @@ public class Utils {
 
 	public static Shotlock getPlayerShotlock(Player player) {
 		PlayerData playerData = PlayerData.get(player);
-		if (!playerData.getEquippedShotlock().isEmpty()) {
-			return ModShotlocks.registry.get(ResourceLocation.parse(playerData.getEquippedShotlock()));
+		net.minecraft.world.item.ItemStack equipped = playerData.getEquippedShotlock();
+		if (equipped != null && equipped.getItem() instanceof online.kingdomkeys.kingdomkeys.item.ShotlockItem shotlockItem) {
+			return ModShotlocks.registry.get(shotlockItem.getShotlock());
 		} else {
 			return null;
 		}
 	}
 
 	public static boolean isPlayerLowHP(Player player) {
-		return player.getHealth() < player.getMaxHealth() / 4;
+		return isLowHP(player.getHealth(), player.getMaxHealth());
 	}
 
 	public static boolean isLowHP(float hp, float maxHP) {
@@ -1827,7 +2169,7 @@ public class Utils {
 
 	// Gets items excluding AIR
 	public static Map<Integer, ItemStack> getEquippedItems(Map<Integer, ItemStack> equippedItems) {
-		Map<Integer, ItemStack> finalMap = new HashMap<Integer, ItemStack>(equippedItems);
+		Map<Integer, ItemStack> finalMap = new HashMap<>(equippedItems);
 		for (Entry<Integer, ItemStack> entry : equippedItems.entrySet()) {
 			ItemStack stack = entry.getValue();
 			if (ItemStack.matches(stack, ItemStack.EMPTY)) {
@@ -1839,19 +2181,82 @@ public class Utils {
 	}
 
 	public static boolean isEntityInParty(Party party, Entity e) {
-		if (party == null)
-			return false;
-		List<Member> list = party.getMembers();
-		for (Member m : list) {
-			if (m.getUUID().equals(e.getUUID())) {
-				return true;
-			}
+		return party != null && e != null && party.hasMember(e.getUUID());
+	}
+
+	@Nullable
+	public static Party getParty(@Nullable Entity entity) {
+		if (entity == null) {
+			return null;
 		}
-		return false;
+
+		WorldData worldData = WorldData.get(entity.getServer());
+
+		if (worldData == null || worldData.getParties().isEmpty()) {
+			return null;
+		}
+
+		return worldData.getPartyFromMember(entity.getUUID());
+	}
+
+	/** A trailing " Lv.42", with any colour codes around it, which is how the mod stamps a level onto a mob's name */
+	private static final Pattern LEVEL_SUFFIX = Pattern.compile("(?:\\u00a7.)*\\s*Lv\\.\\s*(?:\\u00a7.)*\\d+(?:\\u00a7.)*\\s*$");
+
+	public static String getBareName(LivingEntity entity) {
+		String name = stripLevel(entity.getDisplayName().getString());
+
+		return name.isBlank() ? entity.getType().getDescription().getString() : name;
+	}
+
+	public static String stripLevel(String name) {
+		String bare = ChatFormatting.stripFormatting(LEVEL_SUFFIX.matcher(name).replaceFirst(""));
+
+		return bare == null ? "" : bare.trim();
+	}
+
+	public static int getEntityLevel(LivingEntity entity) {
+		if (entity instanceof Player player) {
+			PlayerData data = PlayerData.get(player);
+			return data == null ? 0 : data.getLevel();
+		}
+
+		GlobalData data = GlobalData.get(entity);
+
+		return data == null ? 0 : data.getLevel();
+	}
+
+	public static boolean canHarm(@Nullable Entity attacker, @Nullable Entity target) {
+		return canHarm(getParty(attacker), target);
+	}
+
+	public static boolean canHarm(@Nullable Party party, @Nullable Entity target) {
+		if (target == null) {
+			return false;
+		}
+
+		// Anyone outside a party has no allies to spare, and a party with friendly fire on has decided it has none either
+		if (party == null || party.getFriendlyFire()) {
+			return true;
+		}
+
+		// Whatever else gets added, it goes here, where every caller sees it
+		return !party.hasMember(target.getUUID());
+	}
+
+	public static <T extends Entity> List<T> removeAllies(@Nullable Entity attacker, List<T> list) {
+		Party party = getParty(attacker);
+
+		if (party == null || party.getFriendlyFire()) {
+			return list;
+		}
+
+		list.removeIf(target -> !canHarm(party, target));
+
+		return list;
 	}
 
 	public static List<Entity> removeFriendlyEntities(List<Entity> list) {
-		List<Entity> list2 = new ArrayList<Entity>();
+		List<Entity> list2 = new ArrayList<>();
 		for (Entity e : list) {
 			if (e instanceof Monster || e instanceof Player) {
 				list2.add(e);
@@ -1864,8 +2269,8 @@ public class Utils {
 		return e instanceof Monster || e instanceof Player || e instanceof Slime;
 	}
 
-	public static List<String> getKeybladeAbilitiesAtLevel(Item item, int level) {
-		ArrayList<String> abilities = new ArrayList<String>();
+	public static List<ResourceLocation> getKeybladeAbilitiesAtLevel(Item item, int level) {
+		ArrayList<ResourceLocation> abilities = new ArrayList<>();
 		KeybladeItem keyblade = null;
 		if (item instanceof IKeychain) {
 			keyblade = ((IKeychain) item).toSummon();
@@ -1875,7 +2280,7 @@ public class Utils {
 
 		if (keyblade != null) {
 			for (int i = 0; i <= level; i++) {
-				String a = keyblade.data.getLevelAbility(i);
+				ResourceLocation a = keyblade.data.getLevelAbility(i);
 				if (a != null) {
 					abilities.add(a);
 				}
@@ -1884,11 +2289,10 @@ public class Utils {
 		return abilities;
 	}
 
-	public static List<String> getOrgWeaponAbilities(Item item) {
-		ArrayList<String> abilities = new ArrayList<String>();
-		KeybladeItem keyblade = null;
+	public static List<ResourceLocation> getOrgWeaponAbilities(Item item) {
+		ArrayList<ResourceLocation> abilities = new ArrayList<>();
 		if (item instanceof IOrgWeapon org) {
-			String[] a = org.getOrganizationData().getAbilities();
+			ResourceLocation[] a = org.getOrganizationData().getAbilities();
 			if (a != null) {
 				abilities.addAll(Arrays.asList(a));
 			}
@@ -1899,7 +2303,7 @@ public class Utils {
 
 	/**
 	 * Set to level 1
-	 * 
+	 *
 	 * @param playerData
 	 * @param player
 	 */
@@ -1923,64 +2327,53 @@ public class Utils {
 		playerData.clearAbilities();
 		SoAState.applyStatsForChoices(player, playerData, false);
 
-		playerData.setEquippedShotlock("");
-		playerData.getShotlockList().clear();
+		playerData.equipShotlock(net.minecraft.world.item.ItemStack.EMPTY);
 
 		// playerData.addAbility(Strings.zeroExp, false);
 	}
 
 	/**
 	 * Recalculate drive form levels and permanent abilities and shotlocks
-	 * 
+	 *
 	 * @param playerData
 	 * @param player
 	 */
 	public static void restartLevel2(PlayerData playerData, Player player) { // calculates drive forms
-		LinkedHashMap<String, int[]> driveForms = playerData.getDriveFormMap();
-        for (Entry<String, int[]> entry : driveForms.entrySet()) {
-            int dfLevel = entry.getValue()[0];
-            DriveForm form = ModDriveForms.registry.get(ResourceLocation.parse(entry.getKey()));
-            if (!Utils.getFakeForms().contains(form.getRegistryName().toString())) {
-                for (int i = 1; i <= dfLevel; i++) {
-                    String baseAbility = form.getBaseAbilityForLevel(i);
-                    if (baseAbility != null && !baseAbility.equals("")) {
-                        playerData.addAbility(baseAbility, false);
-                    }
-                }
-            }
-        }
+		LinkedHashMap<ResourceLocation, int[]> driveForms = playerData.getDriveFormMap();
+		for (Entry<ResourceLocation, int[]> entry : driveForms.entrySet()) {
+			int dfLevel = entry.getValue()[0];
+			DriveForm form = ModDriveForms.registry.get(entry.getKey());
+			if (!Utils.getFakeForms().contains(form.getRegistryName())) {
+				for (int i = 1; i <= dfLevel; i++) {
+					form.getBaseAbilityForLevel(i).ifPresent(baseAbility -> {
+						playerData.addAbility(baseAbility, false);
+					});
+				}
+			}
+		}
 
 		playerData.getPAbilitiesList().forEach(a -> {
 			playerData.addAbility(a,false);
-		});
-
-		playerData.getPShotlocksList().forEach(s -> {
-			playerData.addShotlockToList(s,false);
 		});
 
 		player.heal(playerData.getMaxHP());
 		playerData.setMP(playerData.getMaxMP());
 	}
 
-	public static List<String> getFakeForms(){
-		ArrayList<String> list = new ArrayList<>();
-		list.add(DriveForm.KB2.toString());
-		list.add(DriveForm.KB3.toString());
-		list.add(DriveForm.SYNCH_BLADE.toString());
-		list.add(DriveForm.NONE.toString());
-		return list;
+	public static List<ResourceLocation> getFakeForms(){
+		return ModDriveForms.registry.stream().filter(DriveForm::isFakeForm).map(DriveForm::getRegistryName).toList();
 	}
 
 	public static String getTierFromInt(int tier) {
 		return switch (tier) {
-		case 1 -> "D";
-		case 2 -> "C";
-		case 3 -> "B";
-		case 4 -> "A";
-		case 5 -> "S";
-		case 6 -> "SS";
-		case 7 -> "SSS";
-		default -> "Unknown: " + tier;
+			case 1 -> "D";
+			case 2 -> "C";
+			case 3 -> "B";
+			case 4 -> "A";
+			case 5 -> "S";
+			case 6 -> "SS";
+			case 7 -> "SSS";
+			default -> "Unknown: " + tier;
 		};
 	}
 
@@ -2006,7 +2399,7 @@ public class Utils {
 		if (!ItemStack.isSameItem(player.getOffhandItem(), ItemStack.EMPTY) && player.getOffhandItem().isEnchanted()) {
 			lvl += EnchantmentHelper.getTagEnchantmentLevel(player.registryAccess().holderOrThrow(Enchantments.LOOTING), player.getOffhandItem());
 		}
-		lvl += PlayerData.get(player).getNumberOfAbilitiesEquipped(Strings.luckyLucky);
+		lvl += PlayerData.get(player).getNumberOfAbilitiesEquipped(ModAbilities.LUCKY_STRIKE);
 		return lvl;
 	}
 
@@ -2040,11 +2433,11 @@ public class Utils {
 				return false;
 			}
 		}
-        if(player instanceof LocalPlayer lp){
-            return !Minecraft.getInstance().options.hideGui;
-        }
-        return !player.hasEffect(ModMobEffects.KO);
-    }
+		if(player instanceof LocalPlayer lp){
+			return !Minecraft.getInstance().options.hideGui;
+		}
+		return !player.hasEffect(ModMobEffects.KO);
+	}
 
 	public static BlockPos stringArrayToBlockPos(String[] temp) {
 		return new BlockPos(getInt(temp[0]), getInt(temp[1]), getInt(temp[2]));
@@ -2112,7 +2505,7 @@ public class Utils {
 	public static void summonKeyblade(Player player, boolean forceDesummon, ResourceLocation formToSummonFrom) {
 		PlayerData playerData = PlayerData.get(player);
 
-		if(playerData.getActiveDriveForm().equals(Strings.Form_Anti))
+		if(playerData.isFormActive(ModDriveForms.ANTI))
 			return;
 
 		ItemStack heldStack = player.getMainHandItem();
@@ -2129,7 +2522,7 @@ public class Utils {
 				extraChain = playerData.getEquippedKeychain(formToSummonFrom);
 			}
 		} else {
-			if(playerData.isAbilityEquipped(Strings.synchBlade)) {
+			if(playerData.isAbilityEquipped(ModAbilities.SYNCH_BLADE)) {
 				if(playerData.getAlignment() == OrgMember.NONE || playerData.getEquippedWeapon() != null && playerData.getEquippedWeapon().getItem() instanceof KeybladeItem && playerData.getEquippedKeychain(DriveForm.SYNCH_BLADE) != null) {
 					extraChain = playerData.getEquippedKeychain(DriveForm.SYNCH_BLADE);
 				} else {
@@ -2227,7 +2620,7 @@ public class Utils {
 					} else {
 						playerData.equipKeychain(DriveForm.NONE, chain);
 					}
-					if(playerData.isAbilityEquipped(Strings.synchBlade) && extraChain != null && !extraChain.is(Items.AIR)) {
+					if(playerData.isAbilityEquipped(ModAbilities.SYNCH_BLADE) && extraChain != null && !extraChain.is(Items.AIR)) {
 						player.getInventory().setItem(40, ItemStack.EMPTY);
 					}
 					player.getInventory().setItem(slotSummoned, ItemStack.EMPTY);
@@ -2311,10 +2704,10 @@ public class Utils {
 		public BlockPosBounds(int minX, int minY, int minZ, int maxX, int maxY, int maxZ) {
 			this(new BlockPos(minX, minY, minZ), new BlockPos(maxX, maxY, maxZ));
 		}
-	}
 
-	public static boolean isPlayerWithin(Player player, BlockPosBounds bounds) {
-		return (int) player.getX() >= bounds.min.getX() && (int) player.getX() <= bounds.max.getX() && (int) player.getY() >= bounds.min.getY() && (int) player.getY() <= bounds.max.getY() && (int) player.getZ() >= bounds.min.getZ() && (int) player.getZ() <= bounds.max.getZ();
+		public boolean isPlayerWithin(Player player) {
+			return (int) player.getX() >= min.getX() && (int) player.getX() <= max.getX() && (int) player.getY() >= min.getY() && (int) player.getY() <= max.getY() && (int) player.getZ() >= min.getZ() && (int) player.getZ() <= max.getZ();
+		}
 	}
 
 	public static boolean isTouchingWall(Player player) {
@@ -2399,14 +2792,83 @@ public class Utils {
 				PacketHandler.sendTo(new SCSyncGlobalData(entity), (ServerPlayer) entity);
 		}
 
-		if(entity.level().isClientSide)
-			return;
+		if(effect.is(ModMobEffects.ZERO_GRAVITY)){
+			entity.setNoGravity(false);
+		}
 
-		if(effect != null) {
+		if(effect != null && !entity.level().isClientSide()) {
 			entity.level().getServer().getPlayerList().getPlayers().forEach(player -> {
 				player.connection.send(new ClientboundRemoveMobEffectPacket(entity.getId(), effect));
 			});
 		}
+	}
+
+	public static void giveItems(ServerPlayer player, boolean showBig, List<ItemStack> itemStacks) {
+		giveItems(player, showBig, itemStacks.toArray(new ItemStack[0]));
+	}
+
+	public static void giveItems(ServerPlayer player, boolean showBig, ItemStack... items) {
+		Arrays.stream(items).forEach(stack -> {
+			// tryToAddItem shrinks it, when it fails it returns the stack that was left
+			ItemStack remaining = stack.copy();
+
+			if (!tryToAddItem(player, remaining, false)) {
+				//no space so add to overflow
+				PlayerData playerData = PlayerData.get(player);
+				if (playerData != null) {
+					//you could say this is a stack overflow
+					remaining = playerData.addToOverflow(remaining);
+				}
+
+				//overflow is full drop items
+				if (!remaining.isEmpty()) {
+					player.drop(remaining, true, false);
+				}
+			}
+		});
+		//send to client
+		PacketHandler.sendTo(new SCDisplayGivenItems(Arrays.stream(items).toList(), showBig), player);
+	}
+
+	public static boolean tryToAddItem(Player player, ItemStack item, boolean simulate) {
+		//first pass try to find any stackable slots
+		if (simulate) {
+			item = item.copy();
+		}
+		for (ItemStack stack : player.getInventory().items) {
+			if (ItemStack.isSameItemSameComponents(item, stack)) {
+				int remaining = stack.getMaxStackSize() - stack.getCount();
+				if (remaining != 0) {
+					//stack as much as possible
+					int toAdd = Math.min(remaining, item.getCount());
+					item.shrink(toAdd);
+					if (!simulate) {
+						stack.grow(toAdd);
+					}
+					if (item.getCount() == 0) {
+						//no items left in stack
+						return true;
+					}
+				}
+			}
+		}
+		//second pass try to find any empty slots
+		for (int i = 0; i < player.getInventory().items.size(); ++i) {
+			if (player.getInventory().getItem(i).isEmpty()) {
+				//free slot found
+				if (!simulate) {
+					player.getInventory().setItem(i, item);
+				}
+				return true;
+			}
+		}
+		//no free space
+		return false;
+	}
+
+	public static String createDescriptionKey(ItemStack stack) {
+		ResourceLocation key = BuiltInRegistries.ITEM.getKey(stack.getItem());
+		return "item." + key.getNamespace() + "." + key.getPath() + ".desc";
 	}
 
 }

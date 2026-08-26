@@ -127,8 +127,9 @@ public class GuiMenu_Party_Leader extends MenuBackground {
 			}
 			matrixStack.pushPose();
 			{
-				matrixStack.scale(1.5F,1.5F, 1);
-				gui.drawString(minecraft.font, Component.literal("["+party.getMembers().size()+"/"+party.getSize()+"] "+party.getName()).withStyle(ClientUtils.KK_Font_EXP), (int) (topLeftBarWidth + topGap) + 5, 10, 0xFF9900);
+				float scale = 1.5F;
+				gui.pose().scale(scale, scale, 1);
+				gui.drawString(minecraft.font, Component.literal("["+party.getMembers().size()+"/"+party.getSize()+"] "+party.getName()).withStyle(ClientUtils.KK_Font_EXP), (int) (topLeftBar.getWidth() / scale + topGap) + 5, 10, 0xFF9900);
 			}
 			matrixStack.popPose();
 		

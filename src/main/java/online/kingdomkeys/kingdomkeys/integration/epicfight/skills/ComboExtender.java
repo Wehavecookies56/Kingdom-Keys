@@ -1,14 +1,13 @@
 package online.kingdomkeys.kingdomkeys.integration.epicfight.skills;
 
 import net.minecraft.network.codec.ByteBufCodecs;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
-import online.kingdomkeys.kingdomkeys.lib.Strings;
 import yesman.epicfight.EpicFight;
 import yesman.epicfight.api.animation.AnimationManager;
 import yesman.epicfight.api.animation.types.AttackAnimation;
@@ -24,7 +23,7 @@ import java.util.List;
 
 public class ComboExtender extends Skill {
 	private final DeferredHolder<SkillDataKey<?>, SkillDataKey<Integer>> combo = EpicFightSkillDataKeys.COMBO_COUNTER;
-	public static final DeferredRegister<SkillDataKey<?>> DATA_KEYS = DeferredRegister.create(ResourceLocation.fromNamespaceAndPath(EpicFight.MODID, "skill_data_keys"), KingdomKeys.MODID);
+	public static final DeferredRegister<SkillDataKey<?>> DATA_KEYS = DeferredRegister.create(KingdomKeys.rl(EpicFight.MODID, "skill_data_keys"), KingdomKeys.MODID);
 	public static final DeferredHolder<SkillDataKey<?>, SkillDataKey<Integer>> FINISHER_DATA = DATA_KEYS.register("finisher_data", () -> SkillDataKey.createSkillDataKey(ByteBufCodecs.INT, 0, false, ComboExtender.class));
 	//private final SkillDataKey<Integer> finisherData = SkillDataKey.createDataKey(ValueType.INTEGER);
 	public int numberOfNegativeCombo = 0;
@@ -49,9 +48,9 @@ public class ComboExtender extends Skill {
             PlayerData playerCapabilities = PlayerData.get(player);
             event.cancel();
             AnimationManager.AnimationAccessor<? extends AttackAnimation> attackMotion;
-            skill.numberOfComboPlus = playerCapabilities.getNumberOfAbilitiesEquipped(Strings.comboPlus);
-            skill.numberOfNegativeCombo = playerCapabilities.getNumberOfAbilitiesEquipped(Strings.negativeCombo);
-            skill.numberOfFinishingPlus = playerCapabilities.getNumberOfAbilitiesEquipped(Strings.finishingPlus);
+            skill.numberOfComboPlus = playerCapabilities.getNumberOfAbilitiesEquipped(ModAbilities.COMBO_PLUS);
+            skill.numberOfNegativeCombo = playerCapabilities.getNumberOfAbilitiesEquipped(ModAbilities.NEGATIVE_COMBO);
+            skill.numberOfFinishingPlus = playerCapabilities.getNumberOfAbilitiesEquipped(ModAbilities.FINISHING_PLUS);
             skill.totalComboOffset = skill.numberOfComboPlus - skill.numberOfNegativeCombo;
 
             CapabilityItem cap = spp.getHoldingItemCapability(InteractionHand.MAIN_HAND);

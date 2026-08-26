@@ -1,0 +1,10 @@
+{
+  "categories": [
+    "BOUNTY"
+  ],
+  "size": "S",
+  "structure": "moogle_room",
+  "white_list": [
+    "kingdomkeys:moogle_room"
+  ]
+}

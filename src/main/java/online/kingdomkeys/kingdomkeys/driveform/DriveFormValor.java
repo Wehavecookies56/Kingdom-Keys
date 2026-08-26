@@ -11,9 +11,9 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
-import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
 
@@ -32,7 +32,7 @@ public class DriveFormValor extends DriveForm {
 			if (event.getSource().getEntity() instanceof Player player) {
                 PlayerData playerData = PlayerData.get(player);
 				
-				if (playerData != null && playerData.getActiveDriveForm().equals(Strings.Form_Valor)) {
+				if (playerData != null && playerData.isFormActive(ModDriveForms.VALOR)) {
 					double mult = Double.parseDouble(ModConfigs.SERVER.driveFormXPMultiplier.get().get(0).split(",")[1]);
 					playerData.setDriveFormExp(player, playerData.getActiveDriveForm(), (int) (playerData.getDriveFormExp(playerData.getActiveDriveForm()) + (1*mult)));
 					PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer)player);
@@ -58,11 +58,11 @@ public class DriveFormValor extends DriveForm {
 		if (playerData.getDriveFormMap() == null)
 			return false;
 
-		if (playerData.getActiveDriveForm().equals(Strings.Form_Valor) || playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()) && (playerData.getDriveFormMap().containsKey(Strings.Form_Valor) && playerData.getDriveFormLevel(Strings.Form_Valor) >= 3 && playerData.getEquippedAbilityLevel(Strings.highJump) != null && playerData.getEquippedAbilityLevel(Strings.highJump)[1] > 0)) {
+		if (playerData.isFormActive(ModDriveForms.VALOR) || playerData.noFormActive() && (playerData.getDriveFormMap().containsKey(ModDriveForms.VALOR.location()) && playerData.getDriveFormLevel(ModDriveForms.VALOR.location()) >= 3 && playerData.getEquippedAbilityLevel(ModAbilities.HIGH_JUMP.location()) != null && playerData.getEquippedAbilityLevel(ModAbilities.HIGH_JUMP.location())[1] > 0)) {
 			return true;
 		}
-		DriveForm form = ModDriveForms.registry.get(ResourceLocation.parse(playerData.getActiveDriveForm()));
-        return form.getBaseGrowthAbilities() || playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()) && (playerData.getDriveFormMap().containsKey(Strings.Form_Valor) && playerData.getDriveFormLevel(Strings.Form_Valor) >= 3 && playerData.getEquippedAbilityLevel(Strings.highJump) != null && playerData.getEquippedAbilityLevel(Strings.highJump)[1] > 0);
+		DriveForm form = ModDriveForms.registry.get(playerData.getActiveDriveForm());
+        return form.getBaseGrowthAbilities() || playerData.noFormActive() && (playerData.getDriveFormMap().containsKey(ModDriveForms.VALOR.location()) && playerData.getDriveFormLevel(ModDriveForms.VALOR.location()) >= 3 && playerData.getEquippedAbilityLevel(ModAbilities.HIGH_JUMP.location()) != null && playerData.getEquippedAbilityLevel(ModAbilities.HIGH_JUMP.location())[1] > 0);
     }
 
 	private static void handleHighJump(Player player, PlayerData playerData) {
@@ -73,13 +73,13 @@ public class DriveFormValor extends DriveForm {
 
 		if (j) {
 			if (player.getDeltaMovement().y > 0) {
-				DriveForm form = ModDriveForms.registry.get(ResourceLocation.parse(playerData.getActiveDriveForm()));
+				DriveForm form = ModDriveForms.registry.get(playerData.getActiveDriveForm());
 
-				if (playerData.getActiveDriveForm().equals(Strings.Form_Valor)) {
-					player.setDeltaMovement(player.getDeltaMovement().add(0, DriveForm.VALOR_JUMP_BOOST[playerData.getDriveFormLevel(Strings.Form_Valor)], 0));
+				if (playerData.isFormActive(ModDriveForms.VALOR)) {
+					player.setDeltaMovement(player.getDeltaMovement().add(0, DriveForm.VALOR_JUMP_BOOST[playerData.getDriveFormLevel(ModDriveForms.VALOR.location())], 0));
 				} else {
 					if (playerData.getActiveDriveForm() != null) {
-						int jumpLevel = playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()) || form.getBaseGrowthAbilities() ? playerData.getDriveFormLevel(Strings.Form_Valor) - 2 : playerData.getDriveFormLevel(Strings.Form_Valor);// TODO eventually replace it with the skill
+						int jumpLevel = playerData.noFormActive() || form.getBaseGrowthAbilities() ? playerData.getDriveFormLevel(ModDriveForms.VALOR.location()) - 2 : playerData.getDriveFormLevel(ModDriveForms.VALOR.location());// TODO eventually replace it with the skill
 						if(jumpLevel > -1)
 							player.setDeltaMovement(player.getDeltaMovement().add(0, DriveForm.VALOR_JUMP_BOOST[jumpLevel], 0));
 					}

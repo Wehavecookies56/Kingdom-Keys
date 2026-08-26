@@ -8,6 +8,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.neoforged.neoforge.client.model.generators.ModelFile;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -34,9 +35,9 @@ public class SynthesisRecipeBuilder extends ModelFile {
         Preconditions.checkNotNull(output, "Texture must not be null");
         ResourceLocation asLoc;
         if (output.contains(":")) {
-            asLoc = ResourceLocation.parse(output);
+            asLoc = KingdomKeys.rl(output);
         } else {
-            asLoc = ResourceLocation.fromNamespaceAndPath(getLocation().getNamespace(), output);
+            asLoc = KingdomKeys.rl(getLocation().getNamespace(), output);
         }
         return output(asLoc, quantity);
     }

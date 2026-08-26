@@ -6,6 +6,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
 import java.util.UUID;
 
@@ -84,7 +85,7 @@ public class PortalData {
 
         //TODO fix casting
 		this.setPos(new BlockPos((int) nbt.getDouble("x"), (int) nbt.getDouble("y"), (int) nbt.getDouble("z")));
-		ResourceLocation rl = ResourceLocation.parse(nbt.getString("dim"));
+		ResourceLocation rl = KingdomKeys.rl(nbt.getString("dim"));
 		this.setDimID(ResourceKey.create(Registries.DIMENSION,rl));
 		this.setOwnerID(nbt.getUUID("owner"));
 	}

@@ -14,7 +14,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class MagicalChestScreen extends AbstractContainerScreen<MagicalChestMenu> {
 
-	private static final ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/magical_chest.png");
+	private static final ResourceLocation texture = KingdomKeys.rl("textures/gui/magical_chest.png");
 
     public MagicalChestScreen(MagicalChestMenu container, Inventory inventory, Component title) {
         super(container, inventory, title);

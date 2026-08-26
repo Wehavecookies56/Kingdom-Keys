@@ -17,18 +17,19 @@ import online.kingdomkeys.kingdomkeys.util.StreamCodecs;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
-public record SCShowOverlayPacket(String _type, int munny, String driveForm, UUID player, String playerName, int level, int color, List<String> messages1, List<String> messages2) implements Packet {
+public record SCShowOverlayPacket(String _type, int munny, Optional<ResourceLocation> driveForm, UUID player, String playerName, int level, int color, List<String> messages1, List<String> messages2) implements Packet {
 
-	public static final Type<SCShowOverlayPacket> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "sc_show_overlay"));
+	public static final Type<SCShowOverlayPacket> TYPE = new Type<>(KingdomKeys.rl("sc_show_overlay"));
 
 	public static final StreamCodec<FriendlyByteBuf, SCShowOverlayPacket> STREAM_CODEC = StreamCodecs.composite(
 			ByteBufCodecs.STRING_UTF8,
 			SCShowOverlayPacket::_type,
 			ByteBufCodecs.INT,
 			SCShowOverlayPacket::munny,
-			ByteBufCodecs.STRING_UTF8,
+			ByteBufCodecs.optional(ResourceLocation.STREAM_CODEC),
 			SCShowOverlayPacket::driveForm,
 			UUIDUtil.STREAM_CODEC,
 			SCShowOverlayPacket::player,
@@ -46,21 +47,21 @@ public record SCShowOverlayPacket(String _type, int munny, String driveForm, UUI
 	);
 
 	public SCShowOverlayPacket(String type) {
-		this(type, 0, "", Util.NIL_UUID, "", 0, 0, List.of(), List.of());
+		this(type, 0, Optional.empty(), Util.NIL_UUID, "", 0, 0, List.of(), List.of());
 	}
 
 	public SCShowOverlayPacket(String type, int munny) {
-		this(type, munny, "", Util.NIL_UUID, "", 0, 0, List.of(), List.of());
+		this(type, munny, Optional.empty(), Util.NIL_UUID, "", 0, 0, List.of(), List.of());
 	}
 
-	public SCShowOverlayPacket(String type, String driveForm, List<String> messages1, List<String> messages2) {
-		this(type, 0, driveForm, Util.NIL_UUID, "", 0, 0, messages1, messages2);
+	public SCShowOverlayPacket(String type, ResourceLocation driveForm, List<String> messages1, List<String> messages2) {
+		this(type, 0, Optional.of(driveForm), Util.NIL_UUID, "", 0, 0, messages1, messages2);
 
 	}
 
 	//Party player
 	public SCShowOverlayPacket(String type, UUID player, String playerName, int level, int color, List<String> messages1) {
-		this(type, 0, "", player, playerName, level, color, messages1, List.of());
+		this(type, 0, Optional.empty(), player, playerName, level, color, messages1, List.of());
 	}
 
 	@Override
@@ -92,7 +93,7 @@ public record SCShowOverlayPacket(String _type, int munny, String driveForm, UUI
 					LevelUpData driveData = new GuiOverlay.LevelUpData();
 					GuiOverlay.showDriveLevelUp = true;
 					GuiOverlay.timeDriveLevelUp = time;
-					GuiOverlay.driveForm = driveForm;
+					GuiOverlay.driveForm = driveForm.orElseThrow();
 					GuiOverlay.driveNotifTicks = 0;
 					driveData.messages1 = messages1;
 					driveData.messages2 = messages2;

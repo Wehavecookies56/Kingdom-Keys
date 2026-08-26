@@ -1,0 +1,6 @@
+{
+  "biome_colours": "minecraft:jungle",
+  "crit_path_length": 20,
+  "music": "kingdomkeys:music/lord_of_the_castle",
+  "starting_room": "example:example_room"
+}

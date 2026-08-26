@@ -14,12 +14,12 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.portal.DimensionTransition;
+import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.server.ServerLifecycleHooks;
@@ -28,6 +28,8 @@ import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.item.ModComponents;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
+import online.kingdomkeys.kingdomkeys.world.worldmap.GummiWorld;
+import online.kingdomkeys.kingdomkeys.world.worldmap.GummiWorldLoader;
 
 import java.util.Collection;
 import java.util.List;
@@ -48,28 +50,45 @@ public class DimensionCommand extends BaseCommand {
 	}
 
 	private static int changeDim(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
-		Collection<ServerPlayer> players = getPlayers(context, 3);
+		Collection<ServerPlayer> players = getPlayers(context);
 		String dim = StringArgumentType.getString(context, "dim");
-		ResourceKey<Level> dimension = ResourceKey.create(Registries.DIMENSION, ResourceLocation.parse(dim));
+		ResourceKey<Level> dimension = ResourceKey.create(Registries.DIMENSION, KingdomKeys.rl(dim));
 		if (!ServerLifecycleHooks.getCurrentServer().levelKeys().stream().toList().contains(dimension)) {
-			context.getSource().sendFailure(Component.literal("Dimension '"+dim+ "' does not exist"));
+			context.getSource().sendFailure(Component.translatable("kingdomkeys.command.dimension.unknown", dim));
 			return 0;
 		}
 		for (ServerPlayer player : players) {
 			BlockPos coords = getWorldCoords(player, dimension);
-			player.changeDimension(new DimensionTransition(player.getServer().getLevel(dimension), new Vec3(coords.getX(), coords.getY(), coords.getZ()), Vec3.ZERO, player.getYRot(), player.getXRot(), entity -> {}));
-			context.getSource().sendSuccess(() -> Component.translatable("Teleported " + player.getDisplayName().getString() + " to dimension " + dimension.location()), true);
-			player.sendSystemMessage(Component.translatable("You have been teleported to " + dimension.location()));
+			Vec2 look = getWorldLook(player, dimension);
+			float yRot = look != null ? look.x : player.getYRot();
+			float xRot = look != null ? look.y : player.getXRot();
+
+			player.changeDimension(new DimensionTransition(player.getServer().getLevel(dimension), new Vec3(coords.getX(), coords.getY(), coords.getZ()), Vec3.ZERO, yRot, xRot, entity -> {}));
+			context.getSource().sendSuccess(() -> Component.translatable("kingdomkeys.command.dimension.teleported", player.getDisplayName().getString(), dimension.location().getPath()), true);
+			player.sendSystemMessage(Component.translatable("kingdomkeys.teleport.teleported_to", dimension.location().getPath()));
 		}
 		return 1;
 	}
 
+	private static Vec2 getWorldLook(Player player, ResourceKey<Level> dimension) {
+		if (dimension == ModDimensions.OCEAN_BETWEEN) {
+			GummiWorld from = GummiWorldLoader.forDimension(player.level().dimension());
+			return from == null ? null : from.takeOffLook();
+		}
+
+		GummiWorld to = GummiWorldLoader.forDimension(dimension);
+		return to == null ? null : to.landingLook();
+	}
+
 	public static BlockPos getWorldCoords(Player player, ResourceKey<Level> dimension) {
 		if (dimension.location().toString().contains("castle_oblivion_interior_")) {
-			player.sendSystemMessage(Component.translatable("I REPEAT, CASTLE OBLIVION IS WORK IN PROGRESS DON'T REPORT ANY ISSUES WITH IT YET PLEASE"));
-			player.sendSystemMessage(Component.translatable("IF YOUR GAME CRASHES HERE IT'S EXPECTED, THE OUTSIDE PART IS PROBABLY SAFE FROM CRASHES BUT NOT HERE DEFINITELY NOT HERE"));
-			player.sendSystemMessage(Component.translatable("THANK YOU AGAIN - Estelle"));
 			return new BlockPos(8, 62, 8);
+		}
+		if (dimension == ModDimensions.OCEAN_BETWEEN) {
+			// Drop next to whichever world you were flying over, or the origin if it isn't on the map.
+			GummiWorld world = GummiWorldLoader.forDimension(player.level().dimension());
+			Vec3 at = world != null ? world.takeOffSpawn() : Vec3.ZERO.add(0, 128, 0);
+			return BlockPos.containing(at);
 		}
 		if (dimension == ModDimensions.DIVE_TO_THE_HEART) {
 			return new BlockPos(0, 26, 0);
@@ -78,16 +97,23 @@ public class DimensionCommand extends BaseCommand {
 			return new BlockPos(0, 26, 0);
 		}
 		if (dimension == ModDimensions.CASTLE_OBLIVION) {
-			player.sendSystemMessage(Component.translatable("CASTLE OBLIVION IS WORK IN PROGRESS DON'T REPORT ANY ISSUES WITH IT YET PLEASE"));
-			player.sendSystemMessage(Component.translatable("IN CASE IT WASN'T OBVIOUS BY THE NEED TO USE THIS COMMAND TO GET HERE"));
-			player.sendSystemMessage(Component.translatable("THANK YOU - Estelle"));
 			if (!FMLEnvironment.production) {
 				player.getInventory().add(new ItemStack(ModItems.plainsCard.get()));
-				player.getInventory().add(new ItemStack(ModItems.netherCard.get()));
-				ItemStack nineCard = new ItemStack(ModItems.tranquilDarkness.get());
-				nineCard.set(ModComponents.CARD_VALUE, 9);
-				nineCard.setCount(64);
-				player.getInventory().add(nineCard);
+				player.getInventory().add(new ItemStack(ModItems.theNetherCard.get()));
+				ItemStack nineRedCard = new ItemStack(ModItems.tranquilDarkness.get());
+				ItemStack nineGreenCard = new ItemStack(ModItems.martialWaking.get());
+				ItemStack nineBlueCard = new ItemStack(ModItems.calmBounty.get());
+				nineRedCard.set(ModComponents.CARD_VALUE, 9);
+				nineRedCard.setCount(64);
+				nineGreenCard.set(ModComponents.CARD_VALUE, 9);
+				nineGreenCard.setCount(64);
+				nineBlueCard.set(ModComponents.CARD_VALUE, 9);
+				nineBlueCard.setCount(64);
+				player.getInventory().add(nineRedCard);
+				player.getInventory().add(nineGreenCard);
+				player.getInventory().add(nineBlueCard);
+				player.getInventory().add(new ItemStack(ModItems.keyOfGuidance.get()));
+				player.getInventory().add(new ItemStack(ModItems.keyToTruth.get()));
 				return new BlockPos(-6, 90, 8);
 			} else {
 				return new BlockPos(-2, 90, -167);

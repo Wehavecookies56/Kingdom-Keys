@@ -26,7 +26,7 @@ import java.util.List;
 
 public record CSShopBuy(ResourceLocation inv, ItemStack itemStack) implements Packet {
 
-	public static final Type<CSShopBuy> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_shop_buy"));
+	public static final Type<CSShopBuy> TYPE = new Type<>(KingdomKeys.rl("cs_shop_buy"));
 
 	public static final StreamCodec<RegistryFriendlyByteBuf, CSShopBuy> STREAM_CODEC = StreamCodec.composite(
 			ResourceLocation.STREAM_CODEC,
@@ -57,11 +57,18 @@ public record CSShopBuy(ResourceLocation inv, ItemStack itemStack) implements Pa
 				}
 
 			}
-			boolean enoughMunny = playerData.getMunny() >= item.getCost();
-			boolean enoughTier = !ModConfigs.SERVER.requireSynthTier.get() || playerData.getSynthLevel() >= item.getTier();
 
-			if(enoughMunny && enoughTier) { //If the player has the materials substract them and give the item
-				playerData.setMunny(playerData.getMunny() - item.getCost());
+			boolean requireTier = ModConfigs.SERVER.requireSynthTierShop.get();
+			int synthLevel = playerData.getSynthLevel();
+
+			boolean tierOk = !requireTier || item.getTier() <= synthLevel;
+			boolean matsOk = item.getMatReq() <= playerData.getTotalMaterialAmount(item.getResult());
+
+			boolean validItem = item.requireAll() ? (tierOk && matsOk) : (tierOk || matsOk);
+
+			boolean enoughMunny = playerData.getMunny() >= item.getCost();
+			if (validItem && enoughMunny) {
+				playerData.setMunny(playerData.getMunny() - item.getCost(), (ServerPlayer) player);
 
 				if(ModConfigs.SERVER.getExpFromShop.get())
 					playerData.addSynthExperience(10 + item.getTier()*2);

@@ -8,21 +8,20 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import yesman.epicfight.api.asset.AssetAccessor;
-import yesman.epicfight.client.mesh.HumanoidMesh;
-import yesman.epicfight.client.renderer.patched.entity.PHumanoidRenderer;
+import yesman.epicfight.client.renderer.patched.entity.PatchedLivingEntityRenderer;
 
-@Mixin(PHumanoidRenderer.class)
+@Mixin(PatchedLivingEntityRenderer.class)
 public class PHumanoidRendererMixin {
 
-    @SuppressWarnings("all")
     @Inject(method = "<init>", at = @At("TAIL"))
-    public void init(AssetAccessor<? extends HumanoidMesh> mesh, EntityRendererProvider.Context context, EntityType entityType, CallbackInfo ci) {
-        PHumanoidRenderer thisOne = ((PHumanoidRenderer)(Object)this);
+    public void init(EntityRendererProvider.Context context, EntityType entityType, CallbackInfo ci) {
+        PatchedLivingEntityRenderer thisOne = ((PatchedLivingEntityRenderer)(Object)this);
         thisOne.addPatchedLayer(DriveLayerRenderer.class, new PatchedDriveLayerRenderer<>());
         thisOne.addPatchedLayer(KeybladeArmorRenderer.class, new PatchedArmourLayerRenderer<>(false));
         thisOne.addPatchedLayer(ShoulderLayerRenderer.class, new PatchedShoulderLayerRenderer<>());
         thisOne.addPatchedLayer(AeroLayerRenderer.class, new PatchedAeroLayerRenderer<>());
+        thisOne.addPatchedLayer(CrownLayerRenderer.class, new PatchedCrownLayerRenderer<>());
+        thisOne.addPatchedLayer(FreezeLayerRenderer.class, new PatchedFreezeLayerRenderer<>());
         thisOne.addPatchedLayer(StopLayerRenderer.class, new PatchedStopLayerRenderer<>());
     }
 }

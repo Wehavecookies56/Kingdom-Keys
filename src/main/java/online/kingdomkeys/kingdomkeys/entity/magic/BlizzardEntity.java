@@ -1,6 +1,5 @@
 package online.kingdomkeys.kingdomkeys.entity.magic;
 
-import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -10,19 +9,14 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
-import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.damagesource.KKDamageTypes;
-import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
-import online.kingdomkeys.kingdomkeys.lib.Party;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public class BlizzardEntity extends BaseMagicProjectile {
 	int freezeTime;
@@ -40,14 +34,8 @@ public class BlizzardEntity extends BaseMagicProjectile {
 
 	@Override
 	public void tick() {
-		if(ModConfigs.blizzardChangeBlocks && !level().isClientSide) {
-			if (level().getBlockState(blockPosition()) == Blocks.WATER.defaultBlockState()) {
-				level().setBlockAndUpdate(blockPosition(), Blocks.ICE.defaultBlockState());
-				remove(RemovalReason.KILLED);
-			} else if(level().getBlockState(blockPosition()) == Blocks.LAVA.defaultBlockState()){
-				level().setBlockAndUpdate(blockPosition(), Blocks.OBSIDIAN.defaultBlockState());
-				remove(RemovalReason.KILLED);
-			}
+		if (freezeFluid(blockPosition())) {
+			remove(RemovalReason.KILLED);
 		}
 
 		if (tickCount > 2)
@@ -73,12 +61,7 @@ public class BlizzardEntity extends BaseMagicProjectile {
 
 			if (ertResult != null && ertResult.getEntity() instanceof LivingEntity target) {
 				if (target != getOwner()) {
-					Party p = null;
-					if (getOwner() != null) {
-						p = WorldData.get(getOwner().getServer()).getPartyFromMember(getOwner().getUUID());
-					}
-
-					if (p == null || (p.getMember(target.getUUID()) == null || p.getFriendlyFire())) { // If caster is not in a party || the party doesn't have the target in it || the party has FF on
+					if (Utils.canHarm(getOwner(), target)) {
 						float dmg = this.getOwner() instanceof Player ? DamageCalculation.getMagicDamage((Player) this.getOwner()) : 2;
 						target.hurt(KKDamageTypes.getElementalDamage(KKDamageTypes.ICE, this, this.getOwner()), dmg * dmgMult);
 						if (!target.isOnFire()) {
@@ -88,18 +71,13 @@ public class BlizzardEntity extends BaseMagicProjectile {
 								duration += freeze.getDuration();
 							}
 							target.addEffect(new MobEffectInstance(ModMobEffects.FREEZE, duration, 0, false, false, false));
+							target.invulnerableTime = 0;
 						}
 					}
 				}
 			}
 			
-			if (brtResult != null) {
-				BlockPos blockpos = brtResult.getBlockPos();
-				BlockState blockstate = level().getBlockState(blockpos);
-				if(blockstate.hasProperty(BlockStateProperties.LIT))
-					level().setBlock(blockpos, blockstate.setValue(BlockStateProperties.LIT, false), 11);
-
-			}
+			interactWithBlocks(rtRes, 0);
 			remove(RemovalReason.KILLED);
 		}
 

@@ -33,7 +33,7 @@ public class DriveLevelCommand extends BaseCommand{
 	private static final SuggestionProvider<CommandSourceStack> SUGGEST_DRIVE_FORMS = (p_198296_0_, p_198296_1_) -> {
 		List<String> list = new ArrayList<>();
 		for (ResourceLocation location : ModDriveForms.registry.keySet()) {
-			if(!location.toString().equals(Strings.Form_Anti) && !location.toString().equals(DriveForm.NONE.toString()) && !location.toString().equals(DriveForm.SYNCH_BLADE.toString()))
+			if(!location.toString().equals(Strings.Form_Anti) && !location.equals(DriveForm.NONE) && !location.equals(DriveForm.SYNCH_BLADE))
 				list.add(location.toString());
 		}
 		return SharedSuggestionProvider.suggest(list.stream().map(StringArgumentType::escapeIfRequired), p_198296_1_);
@@ -59,12 +59,12 @@ public class DriveLevelCommand extends BaseCommand{
 	}
 
 	private static int setValue(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
-		Collection<ServerPlayer> players = getPlayers(context, 5);
+		Collection<ServerPlayer> players = getPlayers(context);
 		int level = IntegerArgumentType.getInteger(context, "level");
-		String form = StringArgumentType.getString(context, "form");
+		ResourceLocation form = KingdomKeys.rl(StringArgumentType.getString(context, "form"));
 
-		if(!ModDriveForms.registry.keySet().stream().map(ResourceLocation::toString).toList().contains(form)) {
-			context.getSource().sendFailure(Component.literal("Form '"+form+ "' does not exist"));
+		if(!ModDriveForms.registry.keySet().stream().toList().contains(form)) {
+			context.getSource().sendFailure(Component.translatable("kingdomkeys.command.drive.unknown", form));
 			return 0;
 		}
 		for (ServerPlayer player : players) {
@@ -76,9 +76,9 @@ public class DriveLevelCommand extends BaseCommand{
 			} else {
 				playerData.setDriveFormLevel(form, 1);
 				playerData.setDriveFormExp(player, form, 0);
-				DriveForm drive = ModDriveForms.registry.get(ResourceLocation.parse(form));
-				playerData.setNewKeychain(ResourceLocation.parse(form), ItemStack.EMPTY);
-				playerData.getAbilityMap().remove(drive.getBaseAbilityForLevel(3));
+				DriveForm drive = ModDriveForms.registry.get(form);
+				playerData.setNewKeychain(form, ItemStack.EMPTY);
+				playerData.getAbilityMap().remove(drive.getBaseAbilityForLevel(3).get());
 				
 				while (playerData.getDriveFormLevel(form) < level) {
 					int cost = drive.getLevelUpCost(playerData.getDriveFormLevel(form)+1);
@@ -88,9 +88,9 @@ public class DriveLevelCommand extends BaseCommand{
 
 			ExpCommand.fix(playerData, player); //Mainly here to remove given abilities in case form is going to be lower
 			
-			DriveForm formInstance = ModDriveForms.registry.get(ResourceLocation.parse(form));
-			context.getSource().sendSuccess(() -> Component.translatable("Set "+ Utils.translateToLocal(formInstance.getTranslationKey())+" for " +player.getDisplayName().getString()+" to level "+level), true);
-			player.sendSystemMessage(Component.translatable("Your "+Utils.translateToLocal(formInstance.getTranslationKey())+" level is now "+level));
+			DriveForm formInstance = ModDriveForms.registry.get(form);
+			context.getSource().sendSuccess(() -> Component.translatable("kingdomkeys.command.drive.set", Utils.translateToLocal(formInstance.getTranslationKey()), player.getDisplayName().getString(), level), true);
+			player.sendSystemMessage(Component.translatable("kingdomkeys.command.drive.set_self", Utils.translateToLocal(formInstance.getTranslationKey()), level));
 		}
 		return 1;
 	}

@@ -1,0 +1,11 @@
+{
+  "categories": [
+    "ENEMY",
+    "STATUS",
+    "BOUNTY"
+  ],
+  "fallback": true,
+  "floor_specific_structure": false,
+  "size": "S",
+  "structure": "fallback_room"
+}

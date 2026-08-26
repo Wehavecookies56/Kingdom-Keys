@@ -1,0 +1,12 @@
+{
+  "dimension": "minecraft:overworld",
+  "takeoff_altitude": 320,
+  "worldmap_position": [0, 128, 0],
+  "takeoffRotation": [180, 0],
+  "landingRotation": [0, 0],
+  "takeoffSpawn": [0, 128, 24],
+  "landingSpawn": [0, 320, 0],
+  "texture": "kingdomkeys:textures/worldmap/overworld.png",
+  "scale": 32,
+  "approach_range": 40
+}

@@ -37,7 +37,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add(KingdomKeys.MODID + ".configuration.hp_bar", "Health Bar settings");
         add(KingdomKeys.MODID + ".configuration.mp_bar", "Magic Bar settings");
         add(KingdomKeys.MODID + ".configuration.dp_bar", "Drive Bar settings");
-        add(KingdomKeys.MODID + ".configuration.player_skin", "Player Skin settings");
+        add(KingdomKeys.MODID + ".configuration.player_skin", "Player settings");
         add(KingdomKeys.MODID + ".configuration.lock_on", "Lock-On settings");
         add(KingdomKeys.MODID + ".configuration.party", "Party HUD settings");
         add(KingdomKeys.MODID + ".configuration.focus", "Focus HUD settings");
@@ -62,7 +62,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addConfigKey(ModConfigs.getClientConfig().showGuiToggle, "Toggle HUD visibility");
         addConfigKey(ModConfigs.getClientConfig().customFont, "Toggle the custom font");
         addConfigKey(ModConfigs.getClientConfig().showDriveForms, "Drive Forms visibility");
-        addConfigKey(ModConfigs.getClientConfig().magicDisplayedInCommandMenu, "Displayed Magic order in Command Menu");
+        addConfigKey(ModConfigs.getClientConfig().hiddenMagic, "Magic hidden in the Command Menu");
         addConfigKey(ModConfigs.getClientConfig().cmTextXOffset, "Command Menu text X offset");
         addConfigKey(ModConfigs.getClientConfig().cmHeaderTextVisible, "Show Command Menu header text");
         addConfigKey(ModConfigs.getClientConfig().cmClassicColors, "Use classic Command Menu colors");
@@ -85,7 +85,6 @@ public class LanguageENUS extends KKLanguageProvider {
         //COMMON
         addConfigKey(ModConfigs.getCommonConfig().recipeDropChance, "Recipe drop chance");
         addConfigKey(ModConfigs.getCommonConfig().bombExplodeWithFire, "Bomb Heartless explode on fire");
-        addConfigKey(ModConfigs.getCommonConfig().blizzardChangeBlocks, "Blizzard change blocks");
         addConfigKey(ModConfigs.getCommonConfig().keybladeOpenDoors, "Keyblade open iron doors");
         addConfigKey(ModConfigs.getCommonConfig().driveHeal, "Drive form heal");
         addConfigKey(ModConfigs.getCommonConfig().drivePointsMultiplier, "Drive Points Multiplier");
@@ -115,6 +114,9 @@ public class LanguageENUS extends KKLanguageProvider {
 
         //SERVER
         addConfigKey(ModConfigs.getServerConfig().gummiShipFuelSystem, "Gummi fuel system");
+        addConfigKey(ModConfigs.getServerConfig().gummiHangarAutoBuild, "Hangar builds blueprints");
+        addConfigKey(ModConfigs.getServerConfig().gummiHangarBuildCost, "Energy per placed block");
+        addConfigKey(ModConfigs.getServerConfig().gummiHangarBuildDelay, "Ticks between placements");
         addConfigKey(ModConfigs.getServerConfig().partyRangeLimit, "Party range limit");
         addConfigKey(ModConfigs.getServerConfig().partyMembersLimit, "Party members limit");
         addConfigKey(ModConfigs.getServerConfig().requireSynthTier, "Require Synthesis tier");
@@ -135,24 +137,47 @@ public class LanguageENUS extends KKLanguageProvider {
 
 
         //Advancements
-    	addAdvancement("root","Welcome to Kingdom Keys!", "Install Kingdom Keys");
-    	addAdvancement("to_soa","Is this... my heart?!", "Deep dive into your heart");
-    	addAdvancement("choice","A sword, shield and staff?", "Make a choice");
-    	addAdvancement("obtain_recipe","I better take this to a Moogle", "Obtain a recipe");
-    	addAdvancement("obtain_projector","A sacrifice had to be made", "Obtain a moogle projector");
-    	addAdvancement("summon_keyblade","Am I the choosen one?", "Summon your keyblade");
-    	addAdvancement("upgrade_keyblade","It can be even stronger", "Upgrade your keyblade through the use of the Keyblade Forge");
-    	addAdvancement("levelup1","Woah!", "Level up");
-    	addAdvancement("levelup50","Halfway there", "Reach level 50");
-    	addAdvancement("levelup100","I'm at the top!", "Reach level 100");
-    	addAdvancement("obtain_drive","Do I need a license?", "Obtain your first Drive Form orb");
-    	addAdvancement("obtain_keychain","These moogles know how to work", "Obtain your first keychain");
-    	addAdvancement("obtain_kiblade","One key to rule them all!", "Obtain the legendary \u03c7-Blade");
-    	addAdvancement("obtain_magic","Like a Wizard!", "Obtain your first Magic Spell");
-    	addAdvancement("obtain_org","Nobody wore this", "Obtain the organization robes");
-    	addAdvancement("to_rod","Darkness within darkness awaits you", "Get sucked into the Realm of Darkness");
+        addAdvancement("root","Welcome to Kingdom Keys!", "Install Kingdom Keys");
+        addAdvancement("press_m_hint","Press M to begin", "It's time to make a choice");
+        addAdvancement("to_soa","Is this... my heart?!", "Deep dive into your heart");
+        addAdvancement("choice","A sword, shield and staff?", "Make a choice");
+        addAdvancement("visit_moogle","A Moogle can help", "Visit a Moogle");
+        addAdvancement("obtain_recipe","I better take this to a Moogle", "Obtain a recipe");
+        addAdvancement("obtain_projector","A sacrifice had to be made", "Obtain a moogle projector");
+        addAdvancement("summon_keyblade","Am I the choosen one?", "Summon your keyblade");
+        addAdvancement("upgrade_keyblade","It can be even stronger", "Upgrade your keyblade through the use of the Keyblade Forge");
+        addAdvancement("levelup1","Woah!", "Level up");
+        addAdvancement("levelup50","Halfway there", "Reach level 50");
+        addAdvancement("levelup100","I'm at the top!", "Reach level 100");
+        addAdvancement("obtain_drive","Do I need a license?", "Obtain your first Drive Form orb");
+        addAdvancement("obtain_keychain","These moogles know how to work", "Obtain your first keychain");
+        addAdvancement("obtain_kiblade","One key to rule them all!", "Obtain the legendary \u03c7-Blade");
+        addAdvancement("obtain_magic","Like a Wizard!", "Obtain your first Magic Spell");
+        addAdvancement("obtain_org","Nobody wore this", "Obtain the organization robes");
+        addAdvancement("to_rod","Darkness within darkness awaits you", "Get sucked into the Realm of Darkness");
         addAdvancement("obtain_winner_stick","Looks like my summer vacation is...", "Get a winner stick");
-    	//addAdvancement("castle_oblivion_tp","How did I get here?", "Reach the forgotten land of Castle Oblivion");
+        addAdvancement("munny_hoarder","Deep Pockets", "Accumulate 100,000 munny");
+        addAdvancement("munny_millionaire","Munnillionare!", "Accumulate 1,000,000 munny");
+        addAdvancement("all_advancements","The King of Hearts", "Earn every Kingdom Keys advancement");
+        addAdvancement("dual_wield_oblivion_oathkeeper","Bonds of Light and Darkness", "Wield Oblivion and Oathkeeper at the same time");
+        addAdvancement("get_stick","That's a stick", "Craft a wooden stick");
+        addAdvancement("get_struggle_weapon","Beginning to struggle", "Craft a Struggle bat");
+        addAdvancement("get_pauldron","Armor on demand", "Obtain a pauldron");
+        addAdvancement("play_music_disc","Now Playing", "Obtain one of the mod's music discs");
+        addAdvancement("open_menu","Exploring the menu", "Open the main menu");
+        addAdvancement("obtain_all_drive_forms","Drive Master", "Obtain every Drive Form");
+        addAdvancement("max_keyblade_level","Fully Forged", "Level a keyblade up to its maximum level");
+        addAdvancement("reach_castle_oblivion","Naught but memories", "Set foot in Castle Oblivion");
+        addAdvancement("craft_estelleste_skull","The mastermind", "Craft a tribute skull for Estelleste");
+        addAdvancement("craft_abelatox_skull","The blamed", "Craft a tribute skull for Abelatox");
+        addAdvancement("craft_wyndftw_skull","The forgotten", "Craft a tribute skull for wyndftw");
+        addAdvancement("craft_stel1034_skull","The blender", "Craft a tribute skull for stel312");
+        addAdvancement("craft_xephirovt_skull","The helping hand", "Craft a tribute skull for XephiroVT");
+        addAdvancement("all_dev_skulls","Hall of Creators", "Craft all of the creators' tribute skulls");
+
+        //Onboarding hints (persistent HUD text, see HintGui - not advancement toasts)
+        add("hint.kingdomkeys.press_m", "Press M to begin your journey");
+        add("hint.kingdomkeys.visit_moogle", "Visit a Moogle to synthesize your Kingdom Key");
 
         /**GUIS**/
         //Containers
@@ -168,6 +193,17 @@ public class LanguageENUS extends KKLanguageProvider {
         add("container.gummi_hangar.gummifound","There's already a Gummi Ship in the building area");
         add("container.gummi_hangar.gummitoobig","There's a Gummi Ship too big for the hangar in the building area");
         add("container.gummi_hangar.noname","You need to name your Gummi Ship");
+        add("container.gummi_hangar.save_file", "Save file");
+        add("container.gummi_hangar.load_file", "Load file");
+        add("container.gummi_hangar.file_saved", "Saved to kingdomkeys/gummi_ships/%s.nbt");
+        add("container.gummi_hangar.file_loaded", "Loaded %s into the blueprint");
+        add("container.gummi_hangar.no_saved_ships", "Nothing saved yet in kingdomkeys/gummi_ships");
+        add("container.gummi_hangar.noblueprintsave", "There's no blueprint to save");
+        add("container.gummi_hangar.noblueprintload", "There's no blueprint to load onto");
+        add("container.gummi_hangar.file_unreadable", "That file couldn't be read as a Gummi Ship");
+        add("container.gummi_hangar.file_unwritable", "Couldn't write the file, see the log");
+        add("container.gummi_hangar.file_too_big", "That Gummi Ship is too big to send to the server");
+        add("container.gummi_hangar.nothing_to_save", "Put a blueprint with a ship on it in the slot first");
         add("container.gummi_hangar.moveshipfw","Move ship forward");
         add("container.gummi_hangar.moveshipbw","Move ship backwards");
         add("container.gummi_hangar.moveshipleft","Move ship to the left");
@@ -181,6 +217,10 @@ public class LanguageENUS extends KKLanguageProvider {
         add("container.gummi_hangar.noblueprintexp","You need to place a blueprint to export it");
 
         add("container.gummi_hangar.build","Build");
+        add("container.gummi_hangar.autobuild","Auto build");
+        add("container.gummi_hangar.autobuild.tooltip","Places the blueprint block by block, spending stored energy and taking the pieces from any container next to the hangar");
+        add("container.gummi_hangar.autobuild.disabled","Disabled in the server config");
+        add("container.gummi_hangar.autobuild.nochest","No container next to the hangar");
         add("container.gummi_hangar.edit","Edit");
         add("container.gummi_hangar.import","Import");
         add("container.gummi_hangar.export","Export");
@@ -193,7 +233,25 @@ public class LanguageENUS extends KKLanguageProvider {
         add("container.gummi_hangar.seats","Seats");
         add("container.gummi_hangar.mobility","Mobility");
 
+        // Gummi - ships, phone, hangar and blueprints
+        add("kingdomkeys.gummi.block.shape_size_2x1x2", "Shape size: 2x1x2");
+        add("kingdomkeys.gummi.block.shape_size_2x2x2", "Shape size: 2x2x2");
+        add("kingdomkeys.gummi.block.place_corner", "Place in the bottom-left corner of the area for correct orientation");
+        add("kingdomkeys.gummi.blueprint.blank", "(blank)");
+        add("kingdomkeys.gummi.hangar.cant_place", "You can't place the Gummi Hangar here");
+        add("kingdomkeys.gummi.hangar.stored_fuel", "Stored fuel: ");
+        add("kingdomkeys.gummi.hangar.area", "Area:");
+        add("kingdomkeys.gummi.phone.call_ship", "Call Gummi Ship: ");
+        add("kingdomkeys.gummi.phone.health", "Health: ");
+        add("kingdomkeys.gummi.phone.fuel", "Fuel: ");
+        add("kingdomkeys.gummi.phone.no_ship", "No Gummi Ship stored");
+        add("kingdomkeys.gummi.phone.store_hint", "Sneak + left click on your Gummi Ship to store it");
+        add("kingdomkeys.gummi.phone.already_stored", "There's already a gummi ship stored in your gummi phone");
+        add("kingdomkeys.gummi.phone.stored", "Stored gummi ship in your gummi phone");
+
+
         //Gummi Ship HUD
+        add("container.gummi_ship.movement", "Movement");
         add("container.gummi_ship.forward", "Forward");
         add("container.gummi_ship.backwards", "Backwards");
         add("container.gummi_ship.left", "Left");
@@ -201,6 +259,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add("container.gummi_ship.up", "Up");
         add("container.gummi_ship.down", "Down");
         add("container.gummi_ship.boost", "Boost");
+        add("container.gummi_ship.3d_flight", "3D flight");
 
         add("container.gummi_ship.coords", "Coords");
         add("container.gummi_ship.facing", "Facing");
@@ -214,13 +273,26 @@ public class LanguageENUS extends KKLanguageProvider {
         add("container.gummi_ship.ready", "Ready");
         add("container.gummi_ship.not_ready", "Not ready");
 
+        // Organization portals
+        add("kingdomkeys.org_portal.now_yours", "This is now your portal");
+        add("kingdomkeys.org_portal.no_slots", "You have no empty slots for portals");
+        add("kingdomkeys.org_portal.destination_gone", "Portal destination disappeared");
+        add("kingdomkeys.org_portal.no_destinations", "You don't have any portal destinations");
+        add("kingdomkeys.org_portal.gui.title", "Org Portal");
+        add("kingdomkeys.org_portal.gui.set_name", "Set name");
+
+        // Save points
+        add("kingdomkeys.save_point.data_not_loaded", "Savepoint data not loaded");
+        add("kingdomkeys.save_point.cannot_upgrade", "This item cannot be used to upgrade anything");
+        add("kingdomkeys.save_point.old_savepoint", "ERROR, this is probably an old savepoint, break and place it again to correct it");
+        add("kingdomkeys.save_point.you_are_here", "You are here");
 
         //Menu
         add(Gui_Menu_Back, "Back");
         add(Gui_Menu_Back + ".desc", "Go back to the previous menu.");
         add(Gui_Menu_Accept, "Accept");
         add(Gui_Menu_Main_Title, "Menu");
-        
+
         add(Gui_Menu_Main_Button_Items, "Items");
         add(Gui_Menu_Main_Button_Items + ".desc", "Access to your equipables (weapon, potions...) and your inventory.");
         add(Gui_Menu_Main_Button_Abilities, "Abilities");
@@ -237,7 +309,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Gui_Menu_Main_Button_Config + ".desc", "Configure various graphical aspects of the HUD.");
         add(Gui_Menu_Main_Button_Style, "Combat Style");
         add(Gui_Menu_Main_Button_Style + ".desc", "Set your combat style with Epic Fight");
-        
+
         add(Gui_Menu_Main_Synthesis_Tier, "Synthesis Tier");
         add(Gui_Menu_Main_Munny, "Munny");
         add(Gui_Menu_Main_Hearts, "Hearts");
@@ -246,8 +318,16 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Gui_Menu_Items, "Items");
         add(Gui_Menu_Items_Equipment, "Equipment");
         add(Gui_Menu_Items_Equipment + ".desc", "Equip your weapon and various equipables.");
+        add(Gui_Menu_Items_Melding, "Melding");
+        add(Gui_Menu_Items_Melding + ".desc", "Combine various magics together to create new ones.");
+        add(Gui_Menu_Items_Melding_Meld, "Meld");
+        add(Gui_Menu_Items_Melding_Meldables, "Filter");
+        add(Gui_Menu_Items_Melding_ItemAcquired, "Item Obtained!");
+        add(Gui_Menu_Items_Melding_RareItemAcquired, "Rare Item Obtained!");
         add(Gui_Menu_Items_Stock, "Stock");
         add(Gui_Menu_Items_Stock + ".desc", "Check your inventory.");
+        add(Gui_Menu_Items_Stock_Take, "Take item");
+        add(Gui_Menu_Items_Stock_Take_Full, "Your inventory is full");
         add(Gui_Menu_Items_Equipment_Weapon, "Weapon");
         add(Gui_Menu_Items_Equipment_Weapon_Keyblades, "Keyblades");
         add(Gui_Menu_Items_Equipment_Shotlock, "Shotlock");
@@ -259,7 +339,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Gui_Menu_Customize, "Customize");
         add(Gui_Menu_Customize + ".shortcuts", "Shortcuts");
         add(Gui_Menu_Customize + ".shortcut", "Shortcut");
-        add(Gui_Menu_Customize + ".magic", "Magic");
+        add(Gui_Menu_Customize + ".magic", "Magic Visibility");
         add(Gui_Menu_Customize + ".unequip", "Unequip");
         add(Gui_Menu_Party, "Party");
         add(Gui_Menu_Party_Create, "Create party");
@@ -277,6 +357,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Gui_Menu_Party_Leader_Disband, "Disband");
         add(Gui_Menu_Party_Member_Leave, "Leave");
         add(Gui_Menu_Status, "Status");
+        add(Gui_Menu_Status_Choice, "Choice");
         add(Gui_Menu_Status_Level, "Level");
         add(Gui_Menu_Status_TotalExp, "Experience");
         add(Gui_Menu_Status_NextLevel, "Next LV");
@@ -305,7 +386,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Gui_Menu_Status_FormGauge, "Form Gauge");
         add(Gui_Menu_Status_Abilities, "Abilities");
         add(Gui_Menu_Status_Ability, "Ability");
-        
+
         add(Gui_Menu_Config, "Config");
         add(Gui_Menu_Config + ".bg", "Background");
         add(Gui_Menu_Config + ".hud", "Adjust HUD");
@@ -323,13 +404,15 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Gui_Menu_Config + ".hud.help9", "Press LEFT ALT to show or hide outlines");
         add(Gui_Menu_Config + ".hud.help10", "RIGHT CLICK on a selected item to reset it to Resourcepack defaults");
         add(Gui_Menu_Config + ".hud.help11", "SHIFT + RIGHT CLICK on a selected item to reset it to base defaults");
-        add(Gui_Menu_Config + ".hud.help12", "Selected element data:");
+        add(Gui_Menu_Config + ".hud.help12", "Press V to show or hide an element");
+        add(Gui_Menu_Config + ".hud.help13", "LEFT CLICK without dragging to pick the next element under the cursor");
+        add(Gui_Menu_Config + ".hud.help14", "Selected element data:");
         add(Gui_Menu_Config + ".font", "Font");
         add(Gui_Menu_Config + ".command_menu", "Command Menu");
         add(Gui_Menu_Config + ".hp", "HP Bar");
         add(Gui_Menu_Config + ".mp", "MP Bar");
         add(Gui_Menu_Config + ".dp", "DP Bar");
-        add(Gui_Menu_Config + ".player_skin", "Player Skin");
+        add(Gui_Menu_Config + ".player_skin", "Player");
         add(Gui_Menu_Config + ".lock_on_hp", "Lock On");
         add(Gui_Menu_Config + ".party", "Party");
         add(Gui_Menu_Config + ".focus", "Focus Bar");
@@ -344,20 +427,22 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Gui_Menu_Config + ".sub_x_offset", "Submenu X Offset");
         add(Gui_Menu_Config + ".header_title", "Header Title");
         add(Gui_Menu_Config + ".text_x_offset", "Text X Offset");
+        add(Gui_Menu_Config + ".snap_chat", "Chat above menu");
         add(Gui_Menu_Config + ".hp_scale", "HP Bar Scale");
         add(Gui_Menu_Config + ".icon_scale", "Lock On Icon Scale");
         add(Gui_Menu_Config + ".icon_rotation", "Lock On Icon Rotation Speed");
         add(Gui_Menu_Config + ".hp_per_bar", "HP Per Bar");
         add(Gui_Menu_Config + ".show_hearts", "Show hearts on HUD");
         add(Gui_Menu_Config + ".hp_alarm", "Low HP Alarm volume");
-        add(Gui_Menu_Config + ".impexp", "Import/Export");
-        add(Gui_Menu_Config + ".impexp.import", "Import");
-        add(Gui_Menu_Config + ".impexp.export", "Export to clipboard");
-        add(Gui_Menu_Config + ".notif_color", "Notification");
-        add(Gui_Menu_Config + ".armor.red", "Armor red");
-        add(Gui_Menu_Config + ".armor.green", "Armor green");
-        add(Gui_Menu_Config + ".armor.blue", "Armor blue");
+        add(Gui_Menu_Config + ".import_export", "Import/Export");
+        add(Gui_Menu_Config + ".import_export.import", "Import");
+        add(Gui_Menu_Config + ".import_export.export", "Export to clipboard");
+        add(Gui_Menu_Config + ".notif", "Notification");
         add(Gui_Menu_Config + ".armor.glint", "Armor glint");
+        add(Gui_Menu_Config + ".armor.glint.enabled", "Glint enabled");
+        add(Gui_Menu_Config + ".armor.glint.disabled", "Glint disabled");
+        add(Gui_Menu_Config + ".armor", "Armor");
+
         add(Gui_Menu_Journal, "Journal");
         add(Gui_Menu_Style, "Combat Style");
         add(Gui_Menu_Style + ".single", "Single");
@@ -371,9 +456,6 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Gui_Menu_Style + ".kh2roxasdual", "Roxas (KH2)");
         add(Gui_Menu_Style + ".daysroxasdual", "Roxas (358/2 Days)");
 
-        //Melding
-        add(Gui_Melding, "Melding");
-        add(Gui_Melding_Meld, "Meld");
 
         //Synthesis
         add(Gui_Synthesis, "Item Workshop");
@@ -421,22 +503,38 @@ public class LanguageENUS extends KKLanguageProvider {
         add("kingdomkeys.chestplate", "Chestplate");
         add("kingdomkeys.leggings", "Leggings");
         add("kingdomkeys.boots", "Boots");
-        
+
         //Synthesis Bag
         add("gui.synthesisbag.upgrade", "Upgrade size");
         add("gui.synthesisbag.munny", "Munny");
         add("gui.synthesisbag.notenoughmunny", "Not enough munny");
-        
+
         add("gui.statboost.increased","Increased %s, now it's %s");
         add("gui.statboost.tooltip", "Increases %s by 1");
-        		
+
         add("gui.magicspell.equip","Equip in the menu to use it");
         add("gui.magicspell.exp","Experience: %s/%s");
         add("gui.magicspell.exp_short","Exp: %s/%s");
+        add("gui.magicspell.lvl_short","Lv. %s");
+        add("gui.shotlockitem.equip","Equip in the menu to use it");
+        add("gui.shotlockitem.max_locks","Max Locks: %s");
+
+        add("kingdomkeys.chests.moogle_house","Moogle House");
+
+        add("gui.shotlock.minigame.mash","MASH!");
+        add("gui.shotlock.minigame.hits","%s hits");
+        add("gui.shotlock.minigame.perfect","PERFECT!");
+        add("gui.shotlock.minigame.good","GOOD");
+        add("gui.shotlock.minigame.bad","BAD");
+        add("gui.shotlock.minigame.miss","MISS");
 
         add("gui.driveformorb.tooltip", "Upgrades %s Form");
-    	add("gui.driveformorb.upgrade", "%s Form has obtained %s exp");
+        add("gui.driveformorb.upgrade", "%s Form has obtained %s exp");
 
+        //Spells bag
+        add("gui.spellsbag.complain","You should only have a single spells bag in your inventory");
+        add("gui.cardsbag.complain","You should only have a single cards bag in your inventory");
+        add("gui.shotlocksbag.complain","You should only have a single shotlocks bag in your inventory");
 
         //Proof of Heart
         add("gui.proofofheart.desc", "Use this to leave Organization XIII");
@@ -479,6 +577,10 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Gui_KO_Die, "Give Up");
         add(Gui_KO_Quit, "Exit");
 
+        //Item Get screen
+        add(Gui_ItemGet_Obtained, "OBTAINED");
+        add(Gui_ItemGet_Dismiss, "<Press anything to hide>");
+
         //Level up messages
         add(Stats_LevelUp_Str, "Strength increased!");
         add(Stats_LevelUp_Def, "Defense increased!");
@@ -505,6 +607,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addBlock(ModBlocks.prizeBlox, "Prize Blox");
         addBlock(ModBlocks.rarePrizeBlox, "Rare Prize Blox");
         addBlock(ModBlocks.magnetBlox, "Magnet Blox");
+        addTintedBlock(ModBlocks.flowmotionRails, "Flowmotion Rail (%s)");
         addBlock(ModBlocks.pairBlox, "Pair Blox");
         addBlock(ModBlocks.infestedNormalBlox, "Infested Normal Blox");
         addBlock(ModBlocks.gummiMeteor, "Gummi Meteorite");
@@ -547,6 +650,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addBlock(ModBlocks.mosaic_stained_glass, "Mosaic Stained Glass");
         addBlock(ModBlocks.orgPortal, "Organization Portal");
         addBlock(ModBlocks.moogleProjector, "Moogle Projector");
+        addBlock(ModBlocks.struggleBoard, "Struggle Board");
         addBlock(ModBlocks.station_of_awakening_core, "Station of Awakening Platform Core");
         addBlock(ModBlocks.magicalChest, "Magical Chest");
         addBlock(ModBlocks.pedestal, "Pedestal");
@@ -558,6 +662,15 @@ public class LanguageENUS extends KKLanguageProvider {
         addBlock(ModBlocks.sorCore, "Station of Sorrow Core");
         addBlock(ModBlocks.dataPortal, "Data Portal");
         addBlock(ModBlocks.airstepTarget, "Airstep point");
+        addItem(ModItems.struggle_poster, "Struggle Poster");
+        add("kingdomkeys.poster.saved", "Struggle board location saved!");
+        add("kingdomkeys.poster.no_target", "This poster doesn't point to any board.");
+        add("kingdomkeys.poster.retuned", "Compass re-tuned to the Struggle board!");
+        add("kingdomkeys.poster.dimension", "Dimension: ");
+        add("kingdomkeys.poster.coords", "Coords: ");
+        add("kingdomkeys.poster.save_hint", "Sneak + right click on a Struggle board to save it's location!");
+        add("kingdomkeys.poster.use_compass","Right click it with a compass in hand to tune it!");
+
 
         add("savepoint.healing","healing");
         add("savepoint.magic","magic restoration");
@@ -580,7 +693,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addBlock(ModBlocks.castleOblivionPillar, "Oblivion Pillar");
         addBlock(ModBlocks.castleOblivionStairs, "Oblivion Stairs");
         addBlock(ModBlocks.castleOblivionSlab, "Oblivion Slab");
-        
+
         //Realm of Darkness
         addBlock(ModBlocks.rodCrackedStone, "Dark Cracked Stone");
         addBlock(ModBlocks.rodSand, "Dark Sand");
@@ -597,6 +710,9 @@ public class LanguageENUS extends KKLanguageProvider {
         addTintedBlock(ModBlocks.gummiPyramids, "Angular/G-03 (Pyramid %s)");
         addTintedBlock(ModBlocks.gummiShellPyramids, "Angular/Shell-G-03 (Pyramid %s)");
         addTintedBlock(ModBlocks.gummiDispelPyramids, "Angular/Dispel-G-03 (Pyramid %s)");
+        addTintedBlock(ModBlocks.gummiInnerCorners, "Angular/G-04 (Inner Corner %s)");
+        addTintedBlock(ModBlocks.gummiShellInnerCorners, "Angular/Shell-G-04 (Inner Corner %s)");
+        addTintedBlock(ModBlocks.gummiDispelInnerCorners, "Angular/Dispel-G-04 (Inner Corner %s)");
         //Cylindrical
         addTintedBlock(ModBlocks.gummiCylinders, "Cylindrical/G-01 (Cylinder %s)");
         addTintedBlock(ModBlocks.gummiShellCylinders, "Cylindrical/Shell-G-01 (Cylinder %s)");
@@ -616,6 +732,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addTintedBlock(ModBlocks.gummiDispelRoundCorners, "Rounded/Dispel-G-02 (Round Corner %s)");
         //Cockpits
         addTintedBlock(ModBlocks.gummiBubbleHelms, "Bubble Helm/G (%s)");
+        addTintedBlock(ModBlocks.gummiMiniHelms, "Mini Helm/G (%s)");
         //Weapons
         addBlock(ModBlocks.gummiFire, "Fire/G");
         addBlock(ModBlocks.gummiFira, "Fira/G");
@@ -654,6 +771,9 @@ public class LanguageENUS extends KKLanguageProvider {
         addAbilityWithDesc(ModAbilities.AIR_SLIDE, "Air slide", "Press the action button while in the air to dash forward. Stack more to increase the effect.");
         addAbilityWithDesc(ModAbilities.WALL_KICK,"Wall Kick", "Air slide or aerial dodge into a wall to kick off it and enter flowmotion. Stack more to increase the rebounds.");
         addAbilityWithDesc(ModAbilities.SUPERJUMP, "Superjump", "While in flowmotion, press jump to catapult into the air. Stack more to increase the effect.");
+        addAbilityWithDesc(ModAbilities.AERIAL_RECOVERY, "Aerial Recovery", "Quickly regains balance with Jump when knocked down.");
+        addAbilityWithDesc(ModAbilities.GUARD, "Guard", "Blocks and shoots back enemy attacks using a parrying action with right click. Not available in Epic Fight combat mode.");
+        addAbilityWithDesc(ModAbilities.COUNTERGUARD, "Counterguard", "Counterattacks neraby enemies with Attack while performing Guard.");
         addAbilityWithDesc(ModAbilities.SUPERSLIDE, "Superslide", "While in flowmotion, press the action key to air dash a long distance. Stack more to increase the effect.");
 
         addAbilityWithDesc(ModAbilities.SCAN, "Scan", "Inspect the target's current HP.");
@@ -674,6 +794,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addAbilityWithDesc(ModAbilities.EXPERIENCE_BOOST, "Experience Boost", "Increases experience gained by 100% when you are at half health or less.");
         addAbilityWithDesc(ModAbilities.ENCOUNTER_PLUS, "Encounter Plus", "Increase the amount of enemies that spawn around you. Stack the ability to increase the effect.");
         addAbilityWithDesc(ModAbilities.SECOND_CHANCE, "Second Chance", "Ensures 1 HP remains after taking massive damage.");
+        addAbilityWithDesc(ModAbilities.ONCE_MORE, "Once More", "Ensures 1 HP remains after taking damage from a combo.");
         addAbilityWithDesc(ModAbilities.LIGHT_AND_DARKNESS, "Light & Darkness", "Has a secret effect");
         addAbilityWithDesc(ModAbilities.SYNCH_BLADE, "Synch Blade", "Equips a weapon in each hand. The ability of the left hand weapon becomes available as well.");
         addAbilityWithDesc(ModAbilities.MP_SAFETY, "MP Safety", "Disable recharging when MP runs out using shortcuts. Except if it's Cure");
@@ -685,7 +806,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addAbilityWithDesc(ModAbilities.MP_THRIFT, "MP Thrift", "Decrease MP cost by 20%. Stack the ability to increaase the effect.");
         addAbilityWithDesc(ModAbilities.CRITICAL_BOOST, "Critical Boost", "Increases damage dealt by critical hits by 10%. Stack the ability to increase the effect.");
         addAbilityWithDesc(ModAbilities.JACKPOT, "Jackpot", "Increment the values for HP, MP and Munny prizes. Stack the ability to increase the effect.");
-        addAbilityWithDesc(ModAbilities.LUCKY_LUCKY, "Lucky Strike", "Brings luck, fortune and looting to the wearer, increasing the drop rate of items. Stack the ability to increase the effect.");
+        addAbilityWithDesc(ModAbilities.LUCKY_STRIKE, "Lucky Strike", "Brings luck, fortune and looting to the wearer, increasing the drop rate of items. Stack the ability to increase the effect.");
         addAbilityWithDesc(ModAbilities.ITEM_BOOST, "Item Boost", "Increases effect done with healing items on the field by 50%. Equip more to increase the effect.");
         addAbilityWithDesc(ModAbilities.FIRAZA, "Firaza", "Allows the user to get the Firaza reaction command.");
         addAbilityWithDesc(ModAbilities.BLIZZAZA, "Blizzaza", "Allows the user to get the Blizzaza reaction command.");
@@ -714,6 +835,21 @@ public class LanguageENUS extends KKLanguageProvider {
         addLimit(ModLimits.ARROW_RAIN, "Arrow Rain");
         addLimit(ModLimits.SLOW_THUNDER_TRAIL, "Slow Thunder Trail");
         addLimit(ModLimits.FAST_THUNDER_TRAIL, "Fast Thunder Trail");
+        addLimit(ModLimits.FLAME_WHEEL, "Ring of Flames");
+        addLimit(ModLimits.FIRE_WALL, "Fire wall");
+        addLimit(ModLimits.LANCE_STORM, "Lance Storm");
+        addLimit(ModLimits.FALLING_SPEAR, "Fallen Spear");
+        addLimit(ModLimits.BERSERK_CLAYMORE, "Berserk Claymore");
+        addLimit(ModLimits.POWERUP, "Powerup");
+        addLimit(ModLimits.ROCKY_PILLARS, "Rocky Pillars");
+        addLimit(ModLimits.ICE_PILLARS, "Icy Pillars");
+        addLimit(ModLimits.WATER_TRAIL, "Water Trail");
+        addLimit(ModLimits.WATER_WALL, "Water Wall");
+        addLimit(ModLimits.CARD_RING, "Card Wall");
+        addLimit(ModLimits.SCYTHE_DASH, "Scythe Dash");
+        addLimit(ModLimits.PETAL_VOID, "Petal Void");
+        addLimit(ModLimits.LIGHT_BARRAGE, "Light Barrage");
+        addLimit(ModLimits.ILLUSORY_METEOR, "Illusory Meteor");
 
         //Shotlocks
         addShotlock(ModShotlocks.RAGNAROK, "Ragnarok");
@@ -721,18 +857,109 @@ public class LanguageENUS extends KKLanguageProvider {
         addShotlock(ModShotlocks.PRISM_RAIN, "Prism Rain");
         addShotlock(ModShotlocks.SONIC_SHADOW, "Sonic Shadow");
         addShotlock(ModShotlocks.ULTIMA_CANNON, "Ultima Cannon");
+        addShotlock(ModShotlocks.METEOR_SHOWER, "Meteor Shower");
+        addShotlock(ModShotlocks.MULTIVORTEX, "Multivortex");
+        addShotlock(ModShotlocks.LIGHTBLOOM, "Lightbloom");
+        addShotlock(ModShotlocks.FLAME_SALVO, "Flame Salvo");
+        addShotlock(ModShotlocks.ABSOLUTE_ZERO, "Absolute Zero");
+        addShotlock(ModShotlocks.THUNDERSTORM, "Thunderstorm");
+        addShotlock(ModShotlocks.CHAOS_SNAKE, "Chaos Snake");
+        addShotlock(ModShotlocks.BUBBLE_BLASTER, "Bubble Blaster");
+        addShotlock(ModShotlocks.BIO_BARRAGE, "Bio Barrage");
+        addShotlock(ModShotlocks.PULSE_BOMB, "Pulse Bomb");
+        addShotlock(ModShotlocks.PHOTON_CHARGE, "Photon Charge");
+        addShotlock(ModShotlocks.LIGHTNING_RAY, "Lightning Ray");
 
         //Magic
-        addMagic(ModMagic.FIRE, "Fire", "Fira", "Firaga", "Firaza");
-        addMagic(ModMagic.BLIZZARD, "Blizzard", "Blizzara", "Blizzaga", "Blizzaza");
-        addMagic(ModMagic.WATER, "Water", "Watera", "Waterga", "Waterza");
-        addMagic(ModMagic.THUNDER, "Thunder", "Thundara", "Thundaga", "Thundaza");
-        addMagic(ModMagic.CURE, "Cure", "Cura", "Curaga", "Curaza");
-        addMagic(ModMagic.AERO, "Aero", "Aerora", "Aeroga");
-        addMagic(ModMagic.MAGNET, "Magnet", "Magnera", "Magnega");
-        addMagic(ModMagic.REFLECT, "Reflect", "Reflera", "Reflega");
-        addMagic(ModMagic.GRAVITY, "Gravity", "Gravira", "Graviga");
-        addMagic(ModMagic.STOP, "Stop", "Stopra", "Stopga");
+        add(ModMagic.FIRE.get(), "Fire");
+        add(ModMagic.FIRA.get(), "Fira");
+        add(ModMagic.FIRAGA.get(), "Firaga");
+        add(ModMagic.FIRAZA.get(), "Firaza");
+
+        add(ModMagic.BLIZZARD.get(), "Blizzard");
+        add(ModMagic.BLIZZARA.get(), "Blizzara");
+        add(ModMagic.BLIZZAGA.get(), "Blizzaga");
+        add(ModMagic.BLIZZAZA.get(), "Blizzaza");
+
+        add(ModMagic.WATER.get(), "Water");
+        add(ModMagic.WATERA.get(), "Watera");
+        add(ModMagic.WATERGA.get(), "Waterga");
+        add(ModMagic.WATERZA.get(), "Waterza");
+
+        add(ModMagic.THUNDER.get(), "Thunder");
+        add(ModMagic.THUNDARA.get(), "Thundara");
+        add(ModMagic.THUNDAGA.get(), "Thundaga");
+        add(ModMagic.THUNDAZA.get(), "Thundaza");
+
+        add(ModMagic.CURE.get(), "Cure");
+        add(ModMagic.CURA.get(), "Cura");
+        add(ModMagic.CURAGA.get(), "Curaga");
+        add(ModMagic.CURAZA.get(), "Curaza");
+
+        add(ModMagic.AERO_SHIELD.get(), "Aero Shield");
+        add(ModMagic.AERORA_SHIELD.get(), "Aerora Shield");
+        add(ModMagic.AEROGA_SHIELD.get(), "Aeroga Shield");
+        add(ModMagic.AERO.get(), "Aero");
+        add(ModMagic.AERORA.get(), "Aerora");
+        add(ModMagic.AEROGA.get(), "Aeroga");
+
+        add(ModMagic.MAGNET.get(), "Magnet");
+        add(ModMagic.MAGNERA.get(), "Magnera");
+        add(ModMagic.MAGNEGA.get(), "Magnega");
+
+        add(ModMagic.REFLECT.get(), "Reflect");
+        add(ModMagic.REFLERA.get(), "Reflera");
+        add(ModMagic.REFLEGA.get(), "Reflega");
+
+        add(ModMagic.GRAVITY.get(), "Gravity");
+        add(ModMagic.GRAVIRA.get(), "Gravira");
+        add(ModMagic.GRAVIGA.get(), "Graviga");
+
+        add(ModMagic.STOP.get(), "Stop");
+        add(ModMagic.STOPRA.get(), "Stopra");
+        add(ModMagic.STOPGA.get(), "Stopga");
+
+        add(ModMagic.ZERO_GRAVITY.get(), "Zero Gravity");
+        add(ModMagic.ZERO_GRAVIRA.get(), "Zero Gravira");
+        add(ModMagic.ZERO_GRAVIGA.get(), "Zero Graviga");
+
+        add(ModMagic.DARK_FIRAGA.get(),"Dark Firaga");
+        add(ModMagic.TRIPLE_FIRAGA.get(),"Triple Firaga");
+        add(ModMagic.CRAWLING_FIRAGA.get(),"Crawling Firaga");
+        add(ModMagic.FISSION_FIRAGA.get(),"Fission Firaga");
+        add(ModMagic.FIRAGA_BURST.get(),"Firaga Burst");
+        add(ModMagic.IGNITE.get(),"Ignite");
+
+        add(ModMagic.TRIPLE_BLIZZAGA.get(),"Triple Blizzaga");
+        add(ModMagic.DEEP_FREEZE.get(),"Deep Freeze");
+        add(ModMagic.GLACIER.get(),"Glacier");
+        add(ModMagic.ICE_BARRAGE.get(),"Ice Barrage");
+
+        add(ModMagic.THUNDAGA_SHOT.get(),"Thundaga Shot");
+        add(ModMagic.TRIPLE_PLASMA.get(),"Triple Plasma");
+
+        add(ModMagic.BLACKOUT.get(),"Blackout");
+        add(ModMagic.POISON.get(),"Poison");
+
+        add(ModMagic.BALLOON.get(), "Balloon");
+        add(ModMagic.BALLOONRA.get(), "Balloonra");
+        add(ModMagic.BALLOONGA.get(), "Balloonga");
+
+        add(ModMagic.SPARK.get(), "Spark");
+        add(ModMagic.SPARKRA.get(), "Sparkra");
+        add(ModMagic.SPARKGA.get(), "Sparkga");
+
+        add(ModMagic.MINE_SHIELD.get(), "Mine Shield");
+        add(ModMagic.MINE_SQUARE.get(), "Mine Square");
+        add(ModMagic.SEEKER_MINE.get(), "Seeker Mine");
+
+        add(ModMagic.WARP.get(),"Warp");
+        add(ModMagic.FAITH.get(),"Faith");
+        add(ModMagic.ESUNA.get(),"Esuna");
+        add(ModMagic.CONFUSE.get(),"Confuse");
+        add(ModMagic.BIND.get(),"Bind");
+        add(ModMagic.MINI.get(),"Mini");
+        add(ModMagic.SLOW.get(),"Slow");
 
         //Drive Forms
         addDriveForm(ModDriveForms.VALOR, "Valor");
@@ -741,7 +968,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addDriveForm(ModDriveForms.MASTER, "Master");
         addDriveForm(ModDriveForms.FINAL, "Final");
         addDriveForm(ModDriveForms.ANTI, "Antiform");
-        
+
         //Reaction Commands
         addReactionCommand(ModReactionCommands.AUTO_VALOR, "Auto Valor");
         addReactionCommand(ModReactionCommands.AUTO_WISDOM, "Auto Wisdom");
@@ -749,34 +976,66 @@ public class LanguageENUS extends KKLanguageProvider {
         addReactionCommand(ModReactionCommands.AUTO_MASTER, "Auto Master");
         addReactionCommand(ModReactionCommands.AUTO_FINAL, "Auto Final");
         addReactionCommand(ModReactionCommands.SAVE, "Save");
+        addReactionCommand(ModReactionCommands.LAUNCH, "Take Off");
+        addReactionCommand(ModReactionCommands.LAND, "Land");
+        addReactionCommand(ModReactionCommands.REVERSAL, "Reversal");
 
         /**Items**/
         //Cards
         add("item.mapcard.prefix", "(%s) %s");
-        addItem(ModItems.tranquilDarkness, "Tranquil Darkness");
-        addItem(ModItems.teemingDarkness, "Teeming Darkness");
-        addItem(ModItems.feebleDarkness, "Feeble Darkness");
-        addItem(ModItems.almightyDarkness, "Almighty Darkness");
-        addItem(ModItems.sleepingDarkness, "Sleeping Darkness");
-        addItem(ModItems.loomingDarkness, "Looming Darkness");
-        addItem(ModItems.bottomlessDarkness, "Bottomless Darkness");
-        addItem(ModItems.martialWaking, "Martial Waking");
-        addItem(ModItems.sorcerousWaking, "Sorcerous Waking");
-        addItem(ModItems.alchemicWaking, "Alchemic Waking");
-        addItem(ModItems.stagnantSpace, "Stagnant Space");
-        addItem(ModItems.weightlessSpace, "Weightless Space");
-        addItem(ModItems.calmBounty, "Calm Bounty");
-        addItem(ModItems.guardedTrove, "Guarded Trove");
-        addItem(ModItems.falseBounty, "False Bounty");
-        addItem(ModItems.momentsReprieve, "Moment's Reprieve");
-        addItem(ModItems.minglingWorlds, "Mingling Worlds");
-        addItem(ModItems.moogleRoom, "Moogle Room");
-        addItem(ModItems.prosperousRepository, "Prosperous Repository");
-        addItem(ModItems.treacherousRepository, "Treacherous Repository");
-        addItem(ModItems.reposefulGrove, "Reposeful Grove");
+        addItem(ModItems.tranquilDarkness, "Tranquil Darkness", "A room where only a few Heartless appear.");
+        addItem(ModItems.teemingDarkness, "Teeming Darkness", "A room where many Heartless appear. Enemies often drop enemy cards in this room.");
+        addItem(ModItems.feebleDarkness, "Feeble Darkness", "A room where Heartless with weak cards appear.");
+        addItem(ModItems.almightyDarkness, "Almighty Darkness", "A room where Heartless with strong cards appear. Enemies often drop enemy cards in this room.");
+        addItem(ModItems.sleepingDarkness, "Sleeping Darkness", "A room where Heartless are drowsy and easy to ambush.");
+        addItem(ModItems.loomingDarkness, "Looming Darkness", "A room where Heartless attack relentlessly. Enemies often drop enemy cards in this room.");
+        addItem(ModItems.whiteRoom, "White Room", "A room where only White Mushrooms appear. What happens when you defeat White Mushrooms?");
+        addItem(ModItems.blackRoom, "Black Room", "A room where only Black Fungi appear. What happens when you defeat Black Fungi? ");
+        addItem(ModItems.bottomlessDarkness, "Bottomless Darkness", "A pitch-dark room where many Heartless appear.");
+        addItem(ModItems.rouletteRoom, "Roulette Room", "A room where victory often leads to Roulette Bonuses.");
+        addItem(ModItems.martialWaking, "Martial Waking", "A room where attacks are more effective.");
+        addItem(ModItems.sorcerousWaking, "Sorcerous Waking", "A room where spells are more effective.");
+        addItem(ModItems.alchemicWaking, "Alchemic Waking", "A room where items are more effective.");
+        addItem(ModItems.stagnantSpace, "Stagnant Space", "A room where the Heartless move slowly.");
+        addItem(ModItems.weightlessSpace, "Weightless Space", "A room where gravity feels weaker.");
+        addItem(ModItems.calmBounty, "Calm Bounty", "A room containing treasure.");
+        addItem(ModItems.guardedTrove, "Guarded Trove", "A room where treasure is guarded by Heartless.");
+        addItem(ModItems.falseBounty, "False Bounty", "A room where only one treasure chest is real. Opening a fake chest leads to battle with Heartless.");
+        addItem(ModItems.momentsReprieve, "Moment's Reprieve", "A room where you can save your progress. No Heartless.");
+        addItem(ModItems.minglingWorlds, "Mingling Worlds", "A room where anything could happen.");
+        addItem(ModItems.moogleRoom, "Moogle Room", "A room where you can trade cards at the Moogle Shop.");
+        addItem(ModItems.prosperousRepository, "Prosperous Repository", "A room containing ores.");
+        addItem(ModItems.treacherousRepository, "Treacherous Repository", "A room where ores are guarded by Heartless.");
+        addItem(ModItems.reposefulGrove, "Reposeful Grove", "A room where peaceful mobs appear.");
 
+        addItem(ModItems.keyOfBeginnings, "Key of Beginnings", "A room where untold stories unfold.");
+        addItem(ModItems.keyOfGuidance, "Key of Guidance", "A room where untold stories unfold.");
+        addItem(ModItems.keyToTruth, "Key to Truth", "A room where untold stories unfold.");
+        addItem(ModItems.keyToRewards, "Key to Rewards", "Allows access to a secret room with rare cards and sleights.");
+
+        addItem(ModItems.redCardPack, "Red card pack", "A pack of 5 red Map Cards, open to reveal them.");
+        addItem(ModItems.greenCardPack, "Green card pack", "A pack of 5 hreen Map Cards, open to reveal them.");
+        addItem(ModItems.blueCardPack, "Blue cards pack", "A pack of 5 blue Map Cards, open to reveal them.");
+        addItem(ModItems.randomCardPack, "Random card pack", "A pack of 5 Map Cards of any color, open to reveal them.");
+        addItem(ModItems.rouletteBonus, "Roulette Bonus", "Grants a random Map Card through a roulette.");
+
+        addItem(ModItems.emptyCard,"Empty Card");
         addItem(ModItems.plainsCard,"Plains Card");
-        addItem(ModItems.netherCard,"Nether Card");
+        addItem(ModItems.theNetherCard,"The Nether Card");
+        addItem(ModItems.theEndCard,"The End Card");
+        addItem(ModItems.castleOblivionCard,"Castle Oblivion Card");
+        addItem(ModItems.oceanCard,"Ocean Card");
+        addItem(ModItems.desertCard,"Desert Card");
+        addItem(ModItems.snowyCard,"Snowy Card");
+        addItem(ModItems.badlandsCard,"Badlands Card");
+        addItem(ModItems.swampCard,"Swamp Card");
+        addItem(ModItems.caveCard,"Cave Card");
+        addItem(ModItems.mushroomFieldsCard,"Mushroom Fields Card");
+        addItem(ModItems.forestCard,"Forest Card");
+        addItem(ModItems.jungleCard,"Jungle Card");
+
+        addItem(ModItems.plainsMemory,"Plains Memory");
+        addItem(ModItems.desertMemory,"Desert Memory");
 
         //Materials
         addItem(ModItems.blazing_shard, "Blazing Shard");
@@ -873,6 +1132,7 @@ public class LanguageENUS extends KKLanguageProvider {
 
         addItem(ModItems.gummiMeteorFragment, "Gummi Fragment");
         addItem(ModItems.gummiShipBlueprint, "Gummi Blueprint");
+        addItem(ModItems.gummiShipBlueprintCreative, "Gummi Blueprint (Creative)");
         addItem(ModItems.gummiPhone, "Gummiphone");
 
         //Keyblades
@@ -943,6 +1203,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.ladyLuck, "Lady Luck");
         addItem(ModItems.leviathan, "Leviathan");
         addItem(ModItems.lionheart, "Lionheart");
+        addItem(ModItems.longNight, "Long Night");
         addItem(ModItems.lostMemory, "Lost Memory");
         addItem(ModItems.lunarEclipse, "Lunar Eclipse");
         addItem(ModItems.markOfAHero, "Mark Of A Hero");
@@ -1095,6 +1356,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.ladyLuckChain, "Lady Luck Chain");
         addItem(ModItems.leviathanChain, "Leviathan Chain");
         addItem(ModItems.lionheartChain, "Lionheart Chain");
+        addItem(ModItems.longNightChain, "Long Night Chain");
         addItem(ModItems.lostMemoryChain, "Lost Memory Chain");
         addItem(ModItems.lunarEclipseChain, "Lunar Eclipse Chain");
         addItem(ModItems.markOfAHeroChain, "Mark Of A Hero Chain");
@@ -1240,6 +1502,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add("item." + MODID + "." + Strings.ladyLuck + ".desc", "Raises max MP by 2, and significantly enhances magic and summon power. Also inflicts good physical damage.");
         add("item." + MODID + "." + Strings.leviathan + ".desc", "A weapon that performs extremely well in midair. Outstanding for taking on fliers.");
         add("item." + MODID + "." + Strings.lionheart + ".desc", "Raises max MP by 1, and enhances magic and summon power. Also deals great physical damage.");
+        add("item." + MODID + "." + Strings.longNight + ".desc", "Increases maximum combo by 1 when in midair.");
         add("item." + MODID + "." + Strings.lostMemory + ".desc", "A Keyblade with long reach that makes it easier to land critical hits, and deals higher damage when you do.");
         add("item." + MODID + "." + Strings.lunarEclipse + ".desc", "A weapon that boosts versatility by greatly boosting both Strength and Magic.");
         add("item." + MODID + "." + Strings.markOfAHero + ".desc", "A Keyblade that provides an extra boost in Strength and deals higher damage when you land a critical hit.");
@@ -1628,7 +1891,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.executiveRing, "Executive Ring");
         addItem(ModItems.starCharm, "Star Charm");
         addItem(ModItems.luckyRing, "Lucky Ring");
-        
+
         addItem(ModItems.fireBangle, "Fire Bangle");
         addItem(ModItems.blizzardArmlet, "Blizzard Armlet");
         addItem(ModItems.thunderTrinket, "Thunder Trinket");
@@ -1711,6 +1974,10 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModEntities.SOLDIER_EGG, "Soldier Spawn Egg");
         addItem(ModEntities.DESERTER_EGG, "Deserter Spawn Egg");
         addItem(ModEntities.COMMANDER_EGG, "Commander Spawn Egg");
+        addItem(ModEntities.AIR_SOLDIER_EGG, "Air Soldier Spawn Egg");
+        addItem(ModEntities.DEFENDER_EGG, "Defender Spawn Egg");
+        addItem(ModEntities.NEOSHADOW_EGG, "Neoshadow Spawn Egg");
+        addItem(ModEntities.NOVASHADOW_EGG, "Novashadow Spawn Egg");
         addItem(ModEntities.WHITE_MUSHROOM_EGG, "White Mushroom Spawn Egg");
         addItem(ModEntities.BLACK_FUNGUS_EGG, "Black Fungus Spawn Egg");
         addItem(ModEntities.BLOX_BUG_EGG, "Blox Bug Spawn Egg");
@@ -1720,16 +1987,16 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModEntities.ASSASSIN_EGG, "Assassin Spawn Egg");
         addItem(ModEntities.DRAGOON_EGG, "Dragoon Spawn Egg");
         addItem(ModEntities.MARLUXIA_EGG, "Marluxia Spawn Egg");
-        
+
 
         //Armour
         add("gui.summonarmor.notenoughspace", "You don't have enough room in your inventory");
-        
+
         addItem(ModItems.organizationRobe_Helmet, "Organization Hood");
         addItem(ModItems.organizationRobe_Chestplate, "Organization Coat");
         addItem(ModItems.organizationRobe_Leggings, "Organization Leggings");
         addItem(ModItems.organizationRobe_Boots, "Organization Boots");
-        
+
         addItem(ModItems.terra_Helmet, "Terra Helmet");
         addItem(ModItems.terra_Chestplate, "Terra Chestplate");
         addItem(ModItems.terra_Leggings, "Terra Leggings");
@@ -1776,7 +2043,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.vanitas_Chestplate, "Vanitas Chestplate");
         addItem(ModItems.vanitas_Leggings, "Vanitas Leggings");
         addItem(ModItems.vanitas_Boots, "Vanitas Boots");
-        
+
         addItem(ModItems.vanitas_Remnant_Helmet, "Vanitas Remnant Helmet");
         addItem(ModItems.vanitas_Remnant_Chestplate, "Vanitas Remnant Chestplate");
         addItem(ModItems.vanitas_Remnant_Leggings, "Vanitas Remnant Leggings");
@@ -1875,6 +2142,25 @@ public class LanguageENUS extends KKLanguageProvider {
         add("potion.desc.toall", "to all your party members in range");
         add("potion.desc.toone", "to the chosen party member");
 
+        //Shotlocks
+        addItem(ModItems.ragnarokShotlock, "Ragnarok");
+        addItem(ModItems.darkVolleyShotlock, "Dark Volley");
+        addItem(ModItems.prismRainShotlock, "Prism Rain");
+        addItem(ModItems.sonicShadowShotlock, "Sonic Shadow");
+        addItem(ModItems.ultimaCannonShotlock, "Ultima Cannon");
+        addItem(ModItems.meteorShowerShotlock, "Meteor Shower");
+        addItem(ModItems.multivortexShotlock, "Multivortex");
+        addItem(ModItems.lightbloomShotlock, "Lightbloom");
+        addItem(ModItems.flameSalvoShotlock, "Flame Salvo");
+        addItem(ModItems.absoluteZeroShotlock, "Absolute Zero");
+        addItem(ModItems.thunderstormShotlock, "Thunderstorm");
+        addItem(ModItems.chaosSnakeShotlock, "Chaos Snake");
+        addItem(ModItems.bubbleBlasterShotlock, "Bubble Blaster");
+        addItem(ModItems.bioBarrageShotlock, "Bio Barrage");
+        addItem(ModItems.pulseBombShotlock, "Pulse Bomb");
+        addItem(ModItems.photonChargeShotlock, "Photon Charge");
+        addItem(ModItems.lightningRayShotlock, "Lightning Ray");
+
         //Spell orbs
         addItem(ModItems.fireSpell, "Fire Spell");
         addItem(ModItems.blizzardSpell, "Blizzard Spell");
@@ -1904,17 +2190,61 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.thundagaSpell, "Thundaga Spell");
         addItem(ModItems.curagaSpell, "Curaga Spell");
         addItem(ModItems.aerogaSpell, "Aeroga Spell");
+        addItem(ModItems.aeroShieldSpell, "Aero Shield Spell");
+        addItem(ModItems.aeroraShieldSpell, "Aerora Shield Spell");
+        addItem(ModItems.aerogaShieldSpell, "Aeroga Shield Spell");
         addItem(ModItems.magnegaSpell, "Magnega Spell");
         addItem(ModItems.reflegaSpell, "Reflega Spell");
         addItem(ModItems.gravigaSpell, "Graviga Spell");
         addItem(ModItems.stopgaSpell, "Stopga Spell");
 
+        addItem(ModItems.darkFiragaSpell, "Dark Firaga Spell");
+        addItem(ModItems.tripleFiragaSpell, "Triple Firaga Spell");
+        addItem(ModItems.crawlingFiragaSpell, "Crawling Firaga Spell");
+        addItem(ModItems.fissionFiragaSpell, "Fission Firaga Spell");
+        addItem(ModItems.firagaBurstSpell, "Firaga Burst Spell");
+        addItem(ModItems.igniteSpell, "Ignite Spell");
+
+        addItem(ModItems.tripleBlizzagaSpell, "Triple Blizzaga Spell");
+        addItem(ModItems.deepFreezeSpell, "Deep Freeze Spell");
+        addItem(ModItems.glacierSpell, "Glacier Spell");
+        addItem(ModItems.iceBarrageSpell, "Ice Barrage Spell");
+
+        addItem(ModItems.thundagaShotSpell, "Thundaga Shot Spell");
+        addItem(ModItems.triplePlasmaSpell, "Triple Plasma Spell");
+
+        addItem(ModItems.blackoutSpell, "Blackout Spell");
+        addItem(ModItems.poisonSpell, "Poison Spell");
+        addItem(ModItems.zeroGravitySpell, "Zero Gravity Spell");
+        addItem(ModItems.zeroGraviraSpell, "Zero Gravira Spell");
+        addItem(ModItems.zeroGravigaSpell, "Zero Graviga Spell");
+
+        addItem(ModItems.balloonSpell, "Balloon Spell");
+        addItem(ModItems.balloonraSpell, "Balloonra Spell");
+        addItem(ModItems.balloongaSpell, "Balloonga Spell");
+
+        addItem(ModItems.sparkSpell, "Spark Spell");
+        addItem(ModItems.sparkraSpell, "Sparkra Spell");
+        addItem(ModItems.sparkgaSpell, "Sparkga Spell");
+
+        addItem(ModItems.mineShieldSpell, "Mine Shield Spell");
+        addItem(ModItems.mineSquareSpell, "Mine Square Spell");
+        addItem(ModItems.mineSeekerSpell, "Seeker Mine Spell");
+
+        addItem(ModItems.warpSpell, "Warp Spell");
+        addItem(ModItems.faithSpell, "Faith Spell");
+        addItem(ModItems.esunaSpell, "Esuna Spell");
+        addItem(ModItems.confuseSpell, "Confuse Spell");
+        addItem(ModItems.bindSpell, "Bind Spell");
+        addItem(ModItems.miniSpell, "Mini Spell");
+        addItem(ModItems.slowSpell, "Slow Spell");
+
         //Drive form orbs
-        addItem(ModItems.valorOrb, "Valor Form Orb");
-        addItem(ModItems.wisdomOrb, "Wisdom Form Orb");
-        addItem(ModItems.limitOrb, "Limit Form Orb");
-        addItem(ModItems.masterOrb, "Master Form Orb");
-        addItem(ModItems.finalOrb, "Final Form Orb");
+        addItem(ModItems.valorOrb, "Valor Form Orb", "Orb containing Valor Form\nA Form specializing in physical attacks.");
+        addItem(ModItems.wisdomOrb, "Wisdom Form Orb", "Orb containing Wisdom Form\nA Form specializing in magic attacks.");
+        addItem(ModItems.limitOrb, "Limit Form Orb", "Orb containing Limit Form\nA Form specializing in Limit attacks.");
+        addItem(ModItems.masterOrb, "Master Form Orb", "Orb containing Master Form\nA Form that handles both the Keyblade and magic.");
+        addItem(ModItems.finalOrb, "Final Form Orb", "Orb containing Final Form\nA Form that unleashes the Keyblade's true power.");
 
         //Other
         addItem(ModItems.recipe, "Recipe");
@@ -1929,7 +2259,28 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.winnerStick, "Winner Stick");
         addItem(ModItems.synthesisBag, "Synthesis Bag");
         addItem(ModItems.magicsBag, "Spells Bag");
+        addItem(ModItems.shotlocksBag, "Shotlocks Bag");
+        addItem(ModItems.cardsBag, "Cards Bag");
         addItem(ModItems.proofOfHeart, "Proof of Heart");
+
+        //Crown proofs: one item, named after the crown it is about to grant
+        addItem(ModItems.proofOfPeace, "Proof of Peace");
+        addItem(ModItems.proofOfNonexistence, "Proof of Nonexistence");
+        addItem(ModItems.proofOfConnection, "Proof of Connection");
+        add("gui.crownproof.desc", "Use to unlock your next crown");
+        add("gui.crownproof.desc2", "Choose which crown to wear in the menu configuration");
+        add("gui.crownproof.unlocked", "You unlocked the %s crown");
+        add("gui.crownproof.allunlocked", "You already own every crown");
+        add("kingdomkeys.crown.none", "None");
+        add("kingdomkeys.crown.bronze", "Bronze");
+        add("kingdomkeys.crown.silver", "Silver");
+        add("kingdomkeys.crown.gold", "Gold");
+        add("kingdomkeys.crown.red", "Red");
+        add("kingdomkeys.crown.contributor", "Contributor");
+        add("kingdomkeys.crown.addon", "Addon");
+        add("kingdomkeys.crown.green", "Green");
+        add("kingdomkeys.crown.builder", "Builder");
+        add("kingdomkeys.gui.config.crown_variant", "Crown: %s");
         addItem(ModItems.wayfinder, "Wayfinder");
         addItem(ModItems.trainingDummy, "Training Scarecrow");
 
@@ -1940,6 +2291,7 @@ public class LanguageENUS extends KKLanguageProvider {
         /**Entities**/
         addEntityType(ModEntities.TYPE_BLAST_BLOX,"Primed Blast Blox");
         addEntityType(ModEntities.TYPE_PAIR_BLOX, "Pair Blox");
+        addEntityType(ModEntities.TYPE_GUMMI_PIECE, "Gummi Piece");
 
         addEntityType(ModEntities.TYPE_BLIZZARD, "Blizzard");
         addEntityType(ModEntities.TYPE_FIRE, "Fire");
@@ -1954,7 +2306,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addEntityType(ModEntities.TYPE_MPORB, "MP Orb");
         addEntityType(ModEntities.TYPE_DRIVEORB, "DP Orb");
         addEntityType(ModEntities.TYPE_MUNNY, "Munny");
-        
+
         addEntityType(ModEntities.TYPE_SPAWNING_ORB, "Spawning Orb");
 
         addEntityType(ModEntities.TYPE_MOOGLE, "Moogle");
@@ -1979,6 +2331,10 @@ public class LanguageENUS extends KKLanguageProvider {
         addEntityType(ModEntities.TYPE_SOLDIER, "Soldier");
         addEntityType(ModEntities.TYPE_DESERTER, "Deserter");
         addEntityType(ModEntities.TYPE_COMMANDER, "Commander");
+        addEntityType(ModEntities.TYPE_AIR_SOLDIER, "Air Soldier");
+        addEntityType(ModEntities.TYPE_DEFENDER, "Defender");
+        addEntityType(ModEntities.TYPE_NEOSHADOW, "Neoshadow");
+        addEntityType(ModEntities.TYPE_NOVASHADOW, "Novashadow");
         addEntityType(ModEntities.TYPE_WHITE_MUSHROOM, "White Mushroom");
         addEntityType(ModEntities.TYPE_BLACK_FUNGUS, "Black Fungus");
         addEntityType(ModEntities.TYPE_BLOX_BUG, "Blox Bug");
@@ -1988,6 +2344,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addEntityType(ModEntities.TYPE_ASSASSIN, "Assassin");
         addEntityType(ModEntities.TYPE_DRAGOON, "Dragoon");
         addEntityType(ModEntities.TYPE_MARLUXIA, "Marluxia");
+        addEntityType(ModEntities.TYPE_WORLD_MARKER, "World");
 
         addEntityType(ModEntities.TYPE_TRAINING_DUMMY, "Training Scarecrow");
         addEntityType(ModEntities.TYPE_MAGIC_TARGET, "Magic Target");
@@ -2106,10 +2463,92 @@ public class LanguageENUS extends KKLanguageProvider {
         add("soa.confirm.5", "Is this the form you choose?");
 
         //Heartless intro
-        add(Strings.HeartlessIntro1,"This world has been connected");
-        add(Strings.HeartlessIntro2,"Tied to the darkness...");
-        add(Strings.HeartlessIntro3,"Soon to be completely eclipsed");
-        
+        add(HeartlessIntro1, "This world has been connected");
+        add(HeartlessIntro2, "Tied to the darkness...");
+        add(HeartlessIntro3, "Soon to be completely eclipsed");
+
+        //CO intro
+        add(COIntro1, "In this place, to find is to lose");
+        add(COIntro2, "and to lose is to find.");
+        add(COIntro3, "That is the way in Castle Oblivion.");
+        add(COIntroTitle, "Castle Oblivion");
+
+        add("co.criteria_greater", "Criteria: A card with the number %s or higher or 0.");
+        add("co.criteria_lesser", "Criteria: A card with the number %s or lower.");
+        add("co.criteria_equal", "Criteria: A card with the number 0.");
+        add("co.criteria_total", "Criteria: Cards with numbers totalling %s or higher.");
+        add("co.criteria_greater_no_zero", "Criteria: A card with the number %s or higher.");
+
+        add("co.available_cards", "Available cards");
+
+        add("co.category", "CATEGORY");
+        add("co.room_size", "ROOM SIZE");
+        add("co.enemies", "ENEMIES");
+
+        add("co.category.enemy", "ENEMY");
+        add("co.category.status", "STATUS");
+        add("co.category.bounty", "BOUNTY");
+        add("co.category.encounter", "ENCOUNTER");
+        add("co.category.special", "SPECIAL");
+        add("co.category.any", "ANY");
+
+        add("gui.cardpacks.title", "Card Pack");
+        add("co.card_pack.reveal_all", "Reveal all");
+
+        add("co.door_succeed","Master the cards and make your way through the castle. From here on, you walk alone.");
+        add("co.door_failed","Hold the card before you. The door will open, and beyond it a new world");
+
+        add("co.encounter.wave", "Wave");
+        add("co.encounter.end", "Finished encounter");
+
+        add("kingdomkeys.worldmap.no_building", "You cannot build in this world");
+
+        add("kingdomkeys.struggle.out_of_range", "The arena has to stay within %s blocks of its board");
+        add("kingdomkeys.struggle.starting", "Struggle starting...");
+        add("kingdomkeys.struggle.tournament.next_match", "Next tournament match starting...");
+        add("kingdomkeys.struggle.ffa.starting", "Free for all starting...");
+        add("kingdomkeys.struggle.go", "GO!");
+        add("kingdomkeys.struggle.win", "You win!");
+        add("kingdomkeys.struggle.lose", "You lose!");
+        add("kingdomkeys.struggle.chat.winner", "[Struggle] Winner of %1$s's %2$s is %3$s!");
+        add("kingdomkeys.struggle.tournament.bye", "You got a bye this round!");
+        add("kingdomkeys.struggle.tournament.champion", "Tournament Champion:");
+        add("kingdomkeys.struggle.tournament.round_winner", "Round winner:");
+        add("kingdomkeys.struggle.no_weapon", "You need your Struggle weapon in your hotbar!");
+        add("kingdomkeys.struggle.tie.overtime", "Tied! Sudden death!");
+        add("kingdomkeys.struggle.draw", "Draw!");
+
+        add(Strings.Gui_Menu_Struggle_Menu_Title, "Struggle");
+        add(Strings.Gui_Menu_Struggle_Create_Title, "Start Struggle");
+        add(Strings.Gui_Menu_Struggle_Join_Title, "Join Struggle");
+        add(Strings.Gui_Menu_Struggle_Settings_Title, "Struggle Settings");
+        add(Strings.Gui_Menu_Struggle_Create_Button, "Create match");
+        add(Strings.Gui_Menu_Struggle_Create_Button + ".desc", "Set up a new Struggle match on this board.");
+        add(Strings.Gui_Menu_Struggle_Join_Button, "Join match");
+        add(Strings.Gui_Menu_Struggle_Join_Button + ".desc", "Join the Struggle match currently set up here.");
+        add(Strings.Gui_Menu_Struggle_Settings_Button, "Struggle Settings");
+        add(Strings.Gui_Menu_Struggle_Settings_Button + ".desc", "Configure the arena corners, mode, and other match settings [Owner only].");
+        add(Strings.Gui_Menu_Struggle_Delete_Button, "Delete match");
+        add(Strings.Gui_Menu_Struggle_Delete_Button + ".desc", "Cancel and remove this match entirely [Owner only].");
+        add(Strings.Gui_Menu_Struggle_Leave_Button, "Leave match");
+        add(Strings.Gui_Menu_Struggle_Leave_Button + ".desc", "Leave the match without ending it for everyone else.");
+        add(Strings.Gui_Menu_Struggle_Ready, "Ready");
+        add(Strings.Gui_Menu_Struggle_Ready + ".desc", "Mark yourself as ready - the match starts once everyone is.");
+        add(Strings.Gui_Menu_Struggle_Reason_Not_Configured, "The owner has not set the arena corners in Settings yet.");
+        add(Strings.Gui_Menu_Struggle_Reason_Waiting, "Waiting for at least one more player to join.");
+        add(Strings.Gui_Menu_Struggle_Cancel_Ready, "Cancel Ready");
+        add(Strings.Gui_Menu_Struggle_Name_And_Size, "Struggle name and size");
+        add(Strings.Gui_Menu_Struggle_Name, "Struggle name");
+        add(Strings.Gui_Menu_Struggle_Damage_Mult, "Orb multiplier (%)");
+        add(Strings.Gui_Menu_Struggle_Round_Time, "Round time (seconds)");
+        add(Strings.Gui_Menu_Struggle_Starting_Score, "Starting orbs");
+        add(Strings.Gui_Menu_Struggle_Corners_Pos, "Corners (x,y,z)");
+        add(Strings.Gui_Menu_Struggle_Spectator_Pos, "Spectators (x,y,z)");
+        add(Strings.Gui_Menu_Struggle_Mode, "Mode");
+        add(Strings.Gui_Menu_Struggle + ".duel", "Duel");
+        add(Strings.Gui_Menu_Struggle + ".tournament", "Tournament");
+        add(Strings.Gui_Menu_Struggle + ".ffa", "Free For All");
+
         //Controls
         add("key.categories.kingdomkeys", "Kingdom Keys");
         add(InputHandler.Keybinds.ACTION, "Action key");
@@ -2127,11 +2566,16 @@ public class LanguageENUS extends KKLanguageProvider {
         add(InputHandler.Keybinds.LOCK_ON_SWAP, "Lock-on target swap");
 
         //Groups
-        add("itemGroup.kingdomkeys_misc", "Kingdom Keys: Misc");
-        add("itemGroup.kingdomkeys_equipables", "Kingdom Keys: Equipables");
+        add("itemGroup.kingdomkeys", "Kingdom Keys");
         add("itemGroup.kingdomkeys_keyblades", "Kingdom Keys: Keyblades");
-        add("itemGroup.kingdomkeys_org_weapons", "Kingdom Keys: Organization");
+        add("itemGroup.kingdomkeys_keychains", "Kingdom Keys: Keychains");
+        add("itemGroup.kingdomkeys_organization", "Kingdom Keys: Organization");
+        add("itemGroup.kingdomkeys_armors", "Kingdom Keys: Armor");
+        add("itemGroup.kingdomkeys_equipables", "Kingdom Keys: Equipables");
         add("itemGroup.kingdomkeys_gummi", "Kingdom Keys: Gummi Blocks");
+        add("itemGroup.kingdomkeys_mats", "Kingdom Keys: Synthesis Materials");
+        add("itemGroup.kingdomkeys_cards", "Kingdom Keys: Cards");
+        add("itemGroup.kingdomkeys_misc", "Kingdom Keys: Misc");
 
         //Death Messages
         add("keybladedamage.death", "%s was slain by %s");
@@ -2161,5 +2605,221 @@ public class LanguageENUS extends KKLanguageProvider {
         addKKEffect(ModMobEffects.GRAVITY, "Gravity", "Limits your movement while being flattened.");
         addKKEffect(ModMobEffects.KO, "KO", "Allows a player in your party to save you by casting Cure or using a Potion on you.");
         addKKEffect(ModMobEffects.UNDERWORLD_CURSE, "Underworld's Curse", "Prevents the use of drive forms and limits.");
+        addKKEffect(ModMobEffects.ZERO_GRAVITY, "Zero Gravity", "Locks you in the air for a few seconds.");
+        addKKEffect(ModMobEffects.CONFUSE, "Confuse", "Inverts your movement.");
+        addKKEffect(ModMobEffects.MINI,"Mini","Shrinks you down, watch out for others jumping on you!");
+
+        //CO Rooms
+        addRoom("almighty_darkness", "Almighty Darkness");
+        addRoom("black_room", "Black Room");
+        addRoom("bottomless_darkness", "Bottomless Darkness");
+        addRoom("feeble_darkness", "Feeble Darkness");
+        addRoom("looming_darkness", "Looming Darkness");
+        addRoom("roulette_room", "Roulette Room");
+        addRoom("sleeping_darkness", "Sleeping Darkness");
+        addRoom("teeming_darkness", "Teeming Darkness");
+        addRoom("tranquil_darkness", "Tranquil Darkness");
+        addRoom("white_room", "White Room");
+
+        addRoom("alchemic_waking", "Alchemic Waking");
+        addRoom("martial_waking", "Martial Waking");
+        addRoom("sorcerous_waking", "Sorcerous Waking");
+        addRoom("stagnant_space", "Stagnant Space");
+        addRoom("weightless_space", "Weightless Space");
+
+        addRoom("calm_bounty", "Calm Bounty");
+        addRoom("false_bounty", "False Bounty");
+        addRoom("guarded_trove", "Guarded Trove");
+        addRoom("moments_reprieve", "Moment's Reprieve");
+        addRoom("moogle_room", "Moogle Room");
+        addRoom("prosperous_repository", "Prosperous Repository");
+        addRoom("reposeful_grove", "Reposeful Grove");
+        addRoom("treacherous_repository", "Treacherous Repository");
+
+        addRoom("unknown_room", "Unknown Room");
+        addRoom("conquerors_respite", "Conqueror's Respite");
+        addRoom("entrance_hall", "Entrance Hall %sF");
+
+        addRoom("room_of_beginnings", "Room of Beginnings");
+        addRoom("room_of_guidance", "Room of Guidance");
+        addRoom("room_of_rewards", "Room of Rewards");
+        addRoom("room_of_truth", "Room of Truth");
+        // Commands
+        // general
+        add("kingdomkeys.command.no_choice", "%s has to make a choice first");
+        add("kingdomkeys.command.player_only", "Command must be run by a player");
+
+        // ability
+        add("kingdomkeys.command.ability.given", "Added '%s' ability to %s");
+        add("kingdomkeys.command.ability.given_permanent_self", "You have been given the ability '%s' permanently");
+        add("kingdomkeys.command.ability.given_self", "You have been given the ability '%s'");
+        add("kingdomkeys.command.ability.removed", "Removed ability '%s' from %s");
+        add("kingdomkeys.command.ability.removed_self", "Your ability '%s' has been taken away");
+        add("kingdomkeys.command.ability.taken_all", "Removed all abilities from %s");
+        add("kingdomkeys.command.ability.taken_all_self", "Your abilities have been taken away");
+        add("kingdomkeys.command.ability.unknown", "Ability '%s' does not exist");
+
+        // check
+        add("kingdomkeys.command.check.checking", "Checking data from player %s");
+        add("kingdomkeys.command.check.data_null", "PlayerData seems null for player %s");
+        add("kingdomkeys.command.check.player_not_found", "Player not found %s");
+
+        // choice
+        add("kingdomkeys.command.choice.invalid", "CHOSEN or SACRIFICED value is invalid");
+        add("kingdomkeys.command.choice.reset_self", "Your Station of Awakening choice has been reset");
+        add("kingdomkeys.command.choice.same", "CHOSEN and SACRIFICED must not be the same");
+
+        // convert
+        add("kingdomkeys.command.convert.no_data", "No old data was found to convert");
+        add("kingdomkeys.command.convert.success", "Successfully converted data");
+        add("kingdomkeys.command.convert.warning", "WARNING This command overwrites the KK world and player data with any existing KK world and player data from Forge, run this command again to confirm you want to overwrite it");
+
+        // dimension
+        add("kingdomkeys.command.dimension.teleported", "Teleported %s to dimension %s");
+        add("kingdomkeys.command.dimension.unknown", "Dimension '%s' does not exist");
+
+        // dp
+        add("kingdomkeys.command.dp.add", "Added %s dp to %s");
+        add("kingdomkeys.command.dp.add_self", "Your dp has been increased by %s");
+        add("kingdomkeys.command.dp.remove", "Taken %s dp from %s");
+        add("kingdomkeys.command.dp.remove_self", "Your dp has been decreased by %s");
+        add("kingdomkeys.command.dp.set", "Set %s dp to %s");
+        add("kingdomkeys.command.dp.set_self", "Your dp has been set to %s");
+
+        // drive
+        add("kingdomkeys.command.drive.set", "Set %s for %s to level %s");
+        add("kingdomkeys.command.drive.set_self", "Your %s level is now %s");
+        add("kingdomkeys.command.drive.unknown", "Form '%s' does not exist");
+
+        // exp
+        add("kingdomkeys.command.exp.add", "Given %s experience to %s");
+        add("kingdomkeys.command.exp.add_self", "Your experience has been increased by %s");
+        add("kingdomkeys.command.exp.set", "Set %s experience to %s");
+        add("kingdomkeys.command.exp.set_self", "Your experience is now %s");
+        add("kingdomkeys.command.exp.set_self_abilities", "Your experience is now %s, all your missing abilities have been added to you");
+
+        // focus
+        add("kingdomkeys.command.focus.add", "Added %s focus to %s");
+        add("kingdomkeys.command.focus.add_self", "Your focus has been increased by %s");
+        add("kingdomkeys.command.focus.remove", "Taken %s focus from %s");
+        add("kingdomkeys.command.focus.remove_self", "Your focus has been decreased by %s");
+        add("kingdomkeys.command.focus.set", "Set %s focus to %s");
+        add("kingdomkeys.command.focus.set_self", "Your focus has been set to %s");
+
+        // hearts
+        add("kingdomkeys.command.hearts.add", "Added %s hearts to %s");
+        add("kingdomkeys.command.hearts.add_self", "Your hearts have been increased by %s");
+        add("kingdomkeys.command.hearts.remove", "Taken %s hearts from %s");
+        add("kingdomkeys.command.hearts.remove_self", "Your hearts have been decreased by %s");
+        add("kingdomkeys.command.hearts.set", "Set %s hearts to %s");
+        add("kingdomkeys.command.hearts.set_self", "Your hearts have been set to %s");
+
+        // level
+        add("kingdomkeys.command.level.set", "Set %s level to %s");
+        add("kingdomkeys.command.level.set_self", "Your level is now %s");
+
+        // material
+        add("kingdomkeys.command.material.given", "Given x%s '%s' to %s");
+        add("kingdomkeys.command.material.given_all", "Given all materials to %s");
+        add("kingdomkeys.command.material.given_all_self", "You have been given all the materials");
+        add("kingdomkeys.command.material.given_self", "You have been given x%s '%s'");
+        add("kingdomkeys.command.material.removed", "Removed material '%s' from %s");
+        add("kingdomkeys.command.material.removed_self", "x%s '%s' have been taken away from you");
+        add("kingdomkeys.command.material.set", "Set x%s '%s' to %s");
+        add("kingdomkeys.command.material.set_all", "Set all materials for %s to %s");
+        add("kingdomkeys.command.material.set_all_self", "You have been set all the materials to %s");
+        add("kingdomkeys.command.material.set_self", "Your '%s' have been set to x%s");
+        add("kingdomkeys.command.material.taken_all", "Taken all materials from %s");
+        add("kingdomkeys.command.material.taken_all_self", "Your materials have been taken away");
+        add("kingdomkeys.command.material.unknown", "Material '%s' does not exist");
+
+        // munny
+        add("kingdomkeys.command.munny.add", "Added %s munny to %s");
+        add("kingdomkeys.command.munny.add_self", "Your munny has been increased by %s");
+        add("kingdomkeys.command.munny.remove", "Taken %s munny from %s");
+        add("kingdomkeys.command.munny.remove_self", "Your munny has been decreased by %s");
+        add("kingdomkeys.command.munny.set", "Set %s munny to %s");
+        add("kingdomkeys.command.munny.set_self", "Your munny has been set to %s");
+
+        // pay
+        add("kingdomkeys.command.pay.not_enough", "You don't have enough munny (%s) to pay %s");
+        add("kingdomkeys.command.pay.paid", "You paid %s munny to %s");
+        add("kingdomkeys.command.pay.received", "You got %s munny from %s");
+
+        // recipe
+        add("kingdomkeys.command.recipe.given", "Added '%s' recipe to %s");
+        add("kingdomkeys.command.recipe.given_all", "Added all recipes to %s");
+        add("kingdomkeys.command.recipe.given_all_item", "Added all item recipes to %s");
+        add("kingdomkeys.command.recipe.given_all_item_self", "You have been given all the item recipes");
+        add("kingdomkeys.command.recipe.given_all_keyblade", "Added all keyblade recipes to %s");
+        add("kingdomkeys.command.recipe.given_all_keyblade_self", "You have been given all the keyblade recipes");
+        add("kingdomkeys.command.recipe.given_all_self", "You have been given all the recipes");
+        add("kingdomkeys.command.recipe.given_self", "You have been given '%s' recipe");
+        add("kingdomkeys.command.recipe.removed", "Removed recipe '%s' from %s");
+        add("kingdomkeys.command.recipe.removed_self", "Your recipe '%s' has been taken away");
+        add("kingdomkeys.command.recipe.taken_all", "Removed all recipes from %s");
+        add("kingdomkeys.command.recipe.taken_all_item", "Removed all item recipes from %s");
+        add("kingdomkeys.command.recipe.taken_all_item_self", "Your item recipes have been taken away");
+        add("kingdomkeys.command.recipe.taken_all_keyblade", "Removed all keyblade recipes from %s");
+        add("kingdomkeys.command.recipe.taken_all_keyblade_self", "Your keyblade recipes have been taken away");
+        add("kingdomkeys.command.recipe.taken_all_self", "Your recipes have been taken away");
+        add("kingdomkeys.command.recipe.unknown", "Recipe '%s' does not exist");
+
+        // Teleporting
+        add("kingdomkeys.teleport.returned_to", "You have been returned back to %s");
+        add("kingdomkeys.teleport.teleported_to", "You have been teleported to %s");
+
+        // Parties
+        add("kingdomkeys.party.invitation", "You got an invitation to the party '%s'");
+
+        // Gummi - ships, phone, hangar and blueprints
+        add("kingdomkeys.gummi.hangar.area_value", "Area: %s");
+
+        // Keyblades
+        add("kingdomkeys.keyblade.data_missing.desc1", "If you see this then either the keyblade json is missing or failed to load");
+        add("kingdomkeys.keyblade.data_missing.desc2", "If the file exists check the syntax, see builtin keyblades for examples");
+        add("kingdomkeys.keyblade.data_missing.path", "It should be located in data/%s/keyblades/%s.json");
+        add("kingdomkeys.keyblade.data_missing.path_generic", "It should be located in data/%s/keyblades/YOURKEYBLADEITEMNAMEHERE.json");
+        add("kingdomkeys.keyblade.data_missing.title", "KEYBLADE DATA MISSING");
+        add("kingdomkeys.keyblade.reach", "Reach +%s");
+
+        // Castle Oblivion and cards
+        add("kingdomkeys.card.door.warned_you", "I did warn you, saved you from crashing/breaking your world");
+        add("kingdomkeys.card.map.enemies", "Enemies: %s");
+        add("kingdomkeys.card.map.enemies_unknown", "Enemies: ?");
+        add("kingdomkeys.card.map.not_working", "DOES NOT WORK YET");
+        add("kingdomkeys.card.map.size", "Size: %s");
+        add("kingdomkeys.card.map.size_unknown", "Size: ?");
+        add("kingdomkeys.card.not_functional", "DO NOT USE, NOT FUNCTIONAL YET");
+        add("kingdomkeys.castle_oblivion.name", "Castle Oblivion");
+        add("kingdomkeys.castle_oblivion.peaceful", "Castle Oblivion does not work on peaceful difficulty");
+
+        // Organization portals
+        add("kingdomkeys.org_portal.belongs_to", "This portal belongs to %s");
+        add("kingdomkeys.org_portal.yours_named", "This is your portal %s: %s");
+
+        // Entities
+        add("kingdomkeys.entity.heartless_of", "%s's Heartless");
+        add("kingdomkeys.entity.nobody_of", "%s's Nobody");
+        add("kingdomkeys.entity.training_dummy.iframes", "Invincibility frames %s");
+
+        // Generic GUI
+        add("kingdomkeys.gui.hud_editor.title", "HUD Editor");
+        add("kingdomkeys.gui.config.color_picker", "Colour picker");
+        add("kingdomkeys.gui.config.crown_height", "Crown height");
+        add("kingdomkeys.gui.config.reset", "Reset");
+        add("kingdomkeys.gui.config.crown_position", "Crown position");
+        add("kingdomkeys.gui.config.crown_rotation", "Crown rotation");
+        add("kingdomkeys.gui.no_options", "No options");
+        add("kingdomkeys.gui.pedestal.reset", "Reset");
+        add("kingdomkeys.gui.weapon_unlock.equip", "Equip");
+        add("kingdomkeys.gui.weapon_unlock.equipped", "Equipped");
+        add("kingdomkeys.gui.weapon_unlock.unlock", "Unlock");
+
+        // Datapack, loading and data errors
+        add("kingdomkeys.data.version_adjusted", "Adjusted your data value from %s to version %s, all your abilities have been corrected");
+        add("kingdomkeys.error.keyblade_missing_material", "Keyblade level data[%s] contains material(s) that are not present in the \"synthesis/materials\" tag you will be unable to upgrade this keyblade");
+        add("kingdomkeys.error.recipe_missing_material", "Recipe[%s] contains material(s) that are not present in the \"synthesis/materials\" tag you will be unable to create this recipe");
+        add("kingdomkeys.error.synthesis_tag_failed", "The synthesis/materials tag failed to load due to a broken datapack please fix any issues otherwise synthesis will not function, check the log for what is wrong");
     }
 }

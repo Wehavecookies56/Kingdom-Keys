@@ -1,0 +1,22 @@
+{
+	"name": "Gummi Hangar",
+	"icon": "kingdomkeys:gummi_hangar",
+	"sortnum": 7,
+	"category": "kingdomkeys:misc",
+	"pages": [
+		{
+			"type": "patchouli:text",
+			"text": "The $(item)Gummi Hangar$() is where you build and store your $(thing)Gummi Ship$(). Place it on clear ground: the hangar needs free space around it to define the build area, and it'll tell you if it can't be placed there.$(p)Inside, you assemble the ship block by block out of $(item)Gummi Blocks$(). The hangar also stores the $(thing)fuel$() your ship burns while flying."
+		},
+		{
+			"type": "patchouli:text",
+			"text": "Once built, you can store the ship in a $(item)Gummi Phone$() by sneaking and left-clicking it, then call it back from the phone itself.$(p)Full details (valid shapes, block types, fuel use) are on the wiki."
+		},
+		{
+			"type": "patchouli:link",
+			"url": "https://kingdomkeys.online/blocks/gummi-blocks/",
+			"link_text": "Open the wiki",
+			"text": "The external wiki covers the Gummi system in full detail."
+		}
+	]
+}

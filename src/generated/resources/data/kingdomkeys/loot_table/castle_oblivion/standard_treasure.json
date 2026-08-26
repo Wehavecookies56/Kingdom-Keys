@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:chest",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:tag",
+          "expand": true,
+          "name": "kingdomkeys:magics"
+        }
+      ],
+      "rolls": 1.0
+    }
+  ],
+  "random_sequence": "kingdomkeys:castle_oblivion/standard_treasure"
+}

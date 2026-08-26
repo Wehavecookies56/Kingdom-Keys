@@ -3,9 +3,12 @@ package online.kingdomkeys.kingdomkeys.entity.mob;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
@@ -17,12 +20,15 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.DyeItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.entity.IEntityWithComplexSpawn;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
@@ -39,10 +45,17 @@ import java.util.Objects;
 //TODO make moogle float
 public class MoogleEntity extends PathfinderMob implements IEntityWithComplexSpawn {
 
+    private static final EntityDataAccessor<Integer> POMPOM_COLOR = SynchedEntityData.defineId(MoogleEntity.class, EntityDataSerializers.INT);
+
+    public static final int NO_POMPOM_DYE = -1;
+
+    public static final int DEFAULT_POMPOM_COLOR = DyeColor.RED.getTextureDiffuseColor();
+
 	String inv;
     String name;
     Player interacting;
-	
+    boolean stationary = false;
+
     public MoogleEntity(EntityType<? extends PathfinderMob> type, Level worldIn) {
         super(type, worldIn);
         inv = Utils.randomWithRange(0, 100) >= 98 ? "kingdomkeys:special" :  "kingdomkeys:default";
@@ -54,7 +67,7 @@ public class MoogleEntity extends PathfinderMob implements IEntityWithComplexSpa
     }
 
     public void setRandomName() {
-        ShopList shop = ShopListRegistry.getInstance().getValue(ResourceLocation.parse(inv));
+        ShopList shop = ShopListRegistry.getInstance().getValue(KingdomKeys.rl(inv));
         if (shop != null) {
             List<String> names = NamesListRegistry.getInstance().getValue(shop.getNames());
             if (names != null && !names.isEmpty()) {
@@ -85,6 +98,20 @@ public class MoogleEntity extends PathfinderMob implements IEntityWithComplexSpa
     }
 
     private boolean fakeMoogle = false;
+
+    @Override
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(POMPOM_COLOR, DEFAULT_POMPOM_COLOR);
+    }
+
+    public int getPompomColor() {
+        return this.entityData.get(POMPOM_COLOR);
+    }
+
+    public void setPompomColor(int color) {
+        this.entityData.set(POMPOM_COLOR, color);
+    }
 
     @Override
     protected void registerGoals() {
@@ -144,6 +171,17 @@ public class MoogleEntity extends PathfinderMob implements IEntityWithComplexSpa
     }
 
     @Override
+    public void travel(Vec3 travelVector) {
+        if (interacting != null || stationary) {
+            if (!this.onGround()) {
+                super.travel(Vec3.ZERO);
+            }
+        } else {
+            super.travel(travelVector);
+        }
+    }
+
+    @Override
     public InteractionResult interactAt(Player player, Vec3 vec, InteractionHand hand) {
         ItemStack itemstack = player.getItemInHand(hand);
         //Name tag
@@ -151,9 +189,25 @@ public class MoogleEntity extends PathfinderMob implements IEntityWithComplexSpa
             return super.interactAt(player, vec, hand);
         }
 
+        //Dyeing the pompom
+        if (itemstack.getItem() instanceof DyeItem dye && !isFakeMoogle()) {
+            int color = dye.getDyeColor().getTextureDiffuseColor();
+            if (getPompomColor() != color) { //Only a different color than the already applied
+                if (!level().isClientSide) {
+                    setPompomColor(color);
+                    if (!player.getAbilities().instabuild) {
+                        itemstack.shrink(1);
+                    }
+                    level().playSound(null, this, SoundEvents.DYE_USE, getSoundSource(), 1.0F, 1.0F);
+                }
+                return InteractionResult.sidedSuccess(level().isClientSide);
+            }
+        }
+
         //GUI opening
         if (!player.level().isClientSide) {
         	if(!player.isCrouching()) {
+                PlayerData.get(player).setMetMoogle(true);
                 PacketHandler.sendTo(new SCOpenSynthesisGui(PlayerData.get(player).serializeNBT(player.level().registryAccess()), inv, name, this.getId()), (ServerPlayer)player);
                 interacting = player;
                 goalSelector.removeAllGoals(Objects::nonNull);
@@ -221,6 +275,10 @@ public class MoogleEntity extends PathfinderMob implements IEntityWithComplexSpa
         if (!name.isEmpty()) {
             tag.putString("name", name);
         }
+        tag.putBoolean("stationary", stationary);
+        if (getPompomColor() != DEFAULT_POMPOM_COLOR) {
+            tag.putInt("pompomcolor", getPompomColor());
+        }
     }
 
     @Override
@@ -231,5 +289,7 @@ public class MoogleEntity extends PathfinderMob implements IEntityWithComplexSpa
         if (name.isEmpty()) {
             setRandomName();
         }
+        stationary = tag.getBoolean("stationary");
+        setPompomColor(tag.contains("pompomcolor") ? tag.getInt("pompomcolor") : DEFAULT_POMPOM_COLOR);
     }
 }

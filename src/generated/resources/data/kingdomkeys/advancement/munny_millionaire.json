@@ -1,0 +1,34 @@
+{
+  "parent": "kingdomkeys:munny_hoarder",
+  "criteria": {
+    "munny_millionaire": {
+      "conditions": {
+        "amount": 1000000
+      },
+      "trigger": "kingdomkeys:munny_reached"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "description": {
+      "translate": "advancements.kingdomkeys.munny_millionaire.desc"
+    },
+    "frame": "goal",
+    "icon": {
+      "count": 1,
+      "id": "minecraft:emerald_block"
+    },
+    "title": {
+      "translate": "advancements.kingdomkeys.munny_millionaire"
+    }
+  },
+  "requirements": [
+    [
+      "munny_millionaire"
+    ]
+  ],
+  "rewards": {
+    "experience": 100
+  },
+  "sends_telemetry_event": true
+}

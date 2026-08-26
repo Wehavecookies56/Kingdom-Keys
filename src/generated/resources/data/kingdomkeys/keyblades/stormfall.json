@@ -1,5 +1,4 @@
 {
-  "ability": "",
   "base_stats": {
     "mag": 5,
     "str": 6
@@ -15,7 +14,7 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_shard",
+          "material": "kingdomkeys:stormy_stone",
           "quantity": 2
         }
       ],
@@ -29,7 +28,7 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_shard",
+          "material": "kingdomkeys:stormy_stone",
           "quantity": 3
         }
       ],
@@ -43,8 +42,8 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_shard",
-          "quantity": 4
+          "material": "kingdomkeys:stormy_stone",
+          "quantity": 3
         }
       ],
       "str": 7
@@ -57,7 +56,11 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_stone",
+          "material": "kingdomkeys:stormy_stone",
+          "quantity": 4
+        },
+        {
+          "material": "kingdomkeys:stormy_crystal",
           "quantity": 1
         }
       ],
@@ -71,11 +74,11 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_stone",
-          "quantity": 2
+          "material": "kingdomkeys:stormy_stone",
+          "quantity": 4
         },
         {
-          "material": "kingdomkeys:writhing_stone",
+          "material": "kingdomkeys:stormy_crystal",
           "quantity": 2
         }
       ],
@@ -89,48 +92,56 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_stone",
+          "material": "kingdomkeys:stormy_stone",
+          "quantity": 5
+        },
+        {
+          "material": "kingdomkeys:stormy_crystal",
+          "quantity": 2
+        }
+      ],
+      "str": 9
+    },
+    {
+      "mag": 9,
+      "recipe": [
+        {
+          "material": "kingdomkeys:adamantite",
+          "quantity": 1
+        },
+        {
+          "material": "kingdomkeys:stormy_stone",
+          "quantity": 5
+        },
+        {
+          "material": "kingdomkeys:stormy_crystal",
+          "quantity": 2
+        },
+        {
+          "material": "kingdomkeys:soothing_stone",
+          "quantity": 3
+        }
+      ],
+      "str": 9
+    },
+    {
+      "mag": 9,
+      "recipe": [
+        {
+          "material": "kingdomkeys:adamantite",
+          "quantity": 1
+        },
+        {
+          "material": "kingdomkeys:stormy_stone",
+          "quantity": 6
+        },
+        {
+          "material": "kingdomkeys:stormy_crystal",
           "quantity": 3
         },
         {
-          "material": "kingdomkeys:writhing_stone",
-          "quantity": 2
-        }
-      ],
-      "str": 9
-    },
-    {
-      "mag": 9,
-      "recipe": [
-        {
-          "material": "kingdomkeys:adamantite",
-          "quantity": 1
-        },
-        {
-          "material": "kingdomkeys:wellspring_gem",
-          "quantity": 1
-        },
-        {
-          "material": "kingdomkeys:writhing_gem",
-          "quantity": 1
-        }
-      ],
-      "str": 9
-    },
-    {
-      "mag": 9,
-      "recipe": [
-        {
-          "material": "kingdomkeys:adamantite",
-          "quantity": 1
-        },
-        {
-          "material": "kingdomkeys:wellspring_gem",
-          "quantity": 2
-        },
-        {
-          "material": "kingdomkeys:writhing_gem",
-          "quantity": 2
+          "material": "kingdomkeys:soothing_stone",
+          "quantity": 5
         }
       ],
       "str": 10
@@ -143,12 +154,16 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_gem",
+          "material": "kingdomkeys:stormy_stone",
+          "quantity": 6
+        },
+        {
+          "material": "kingdomkeys:stormy_crystal",
           "quantity": 3
         },
         {
-          "material": "kingdomkeys:writhing_gem",
-          "quantity": 2
+          "material": "kingdomkeys:soothing_stone",
+          "quantity": 7
         }
       ],
       "str": 10
@@ -161,16 +176,21 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_crystal",
-          "quantity": 1
+          "material": "kingdomkeys:stormy_stone",
+          "quantity": 6
         },
         {
-          "material": "kingdomkeys:writhing_crystal",
-          "quantity": 1
+          "material": "kingdomkeys:stormy_crystal",
+          "quantity": 3
+        },
+        {
+          "material": "kingdomkeys:soothing_stone",
+          "quantity": 9
         }
       ],
       "str": 11
     }
   ],
-  "reach": 1.0
+  "reach": 1.0,
+  "sound": "kingdomkeys:keyblade_hit/rainfell_hit"
 }

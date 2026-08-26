@@ -11,7 +11,6 @@ import net.minecraft.commands.Commands;
 import net.minecraft.commands.SharedSuggestionProvider;
 import net.minecraft.commands.arguments.EntityArgument;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
@@ -25,7 +24,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class RecipeCommand extends BaseCommand { /// kk_recipe <give/take> <recipe/all> [player]
+public class RecipeCommand extends BaseCommand { // kk_recipe <give/take> <recipe/all> [player]
 	private static final SuggestionProvider<CommandSourceStack> SUGGEST_RECIPES = (p_198296_0_, p_198296_1_) -> {
 		List<String> list = new ArrayList<>();
 		for (Recipe actual : RecipeRegistry.getInstance().getValues()) {
@@ -83,43 +82,43 @@ public class RecipeCommand extends BaseCommand { /// kk_recipe <give/take> <reci
 	}
 
 	private static int addRecipe(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
-		Collection<ServerPlayer> players = getPlayers(context, 4);
+		Collection<ServerPlayer> players = getPlayers(context);
 		String recipe = StringArgumentType.getString(context, "recipe");
 
-		if(!RecipeRegistry.getInstance().containsKey(ResourceLocation.parse(recipe))){
-			context.getSource().sendFailure(Component.literal("Recipe '"+recipe+ "' does not exist"));
+		if(!RecipeRegistry.getInstance().containsKey(KingdomKeys.rl(recipe))){
+			context.getSource().sendFailure(Component.translatable("kingdomkeys.command.recipe.unknown", recipe));
 			return 0;
 		}
 		for (ServerPlayer player : players) {
 			PlayerData playerData = PlayerData.get(player);
-			playerData.addKnownRecipe(ResourceLocation.parse(recipe));
+			playerData.addKnownRecipe(KingdomKeys.rl(recipe));
 			if (player != context.getSource().getPlayerOrException()) {
-				context.getSource().sendSuccess(() -> Component.translatable("Added '" + Utils.translateToLocal(recipe) + "' recipe to " + player.getDisplayName().getString()), true);
+				context.getSource().sendSuccess(() -> Component.translatable("kingdomkeys.command.recipe.given", Utils.translateToLocal(recipe), player.getDisplayName().getString()), true);
 			}
-			player.sendSystemMessage(Component.translatable("You have been given '" + Utils.translateToLocal(recipe) + "' recipe"));
+			player.sendSystemMessage(Component.translatable("kingdomkeys.command.recipe.given_self", Utils.translateToLocal(recipe)));
 			PacketHandler.sendTo(new SCSyncPlayerData(player), player);
 		}
 		return 1;
 	}
 
 	private static int removeRecipe(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
-		Collection<ServerPlayer> players = getPlayers(context, 4);
+		Collection<ServerPlayer> players = getPlayers(context);
 		String recipe = StringArgumentType.getString(context, "recipe");
 
 		for (ServerPlayer player : players) {
 			PlayerData playerData = PlayerData.get(player);
-			playerData.removeKnownRecipe(ResourceLocation.parse(recipe));
+			playerData.removeKnownRecipe(KingdomKeys.rl(recipe));
 			if (player != context.getSource().getPlayerOrException()) {
-				context.getSource().sendSuccess(() -> Component.translatable("Removed recipe '" + Utils.translateToLocal(recipe) + "' from " + player.getDisplayName().getString()), true);
+				context.getSource().sendSuccess(() -> Component.translatable("kingdomkeys.command.recipe.removed", Utils.translateToLocal(recipe), player.getDisplayName().getString()), true);
 			}
-			player.sendSystemMessage(Component.translatable("Your recipe '" + Utils.translateToLocal(recipe) + "' has been taken away"));
+			player.sendSystemMessage(Component.translatable("kingdomkeys.command.recipe.removed_self", Utils.translateToLocal(recipe)));
 			PacketHandler.sendTo(new SCSyncPlayerData(player), player);
 		}
 		return 1;
 	}
 
 	private static int addAllRecipes(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
-		Collection<ServerPlayer> players = getPlayers(context, 4);
+		Collection<ServerPlayer> players = getPlayers(context);
 
 		for (ServerPlayer player : players) {
 			PlayerData playerData = PlayerData.get(player);
@@ -128,16 +127,16 @@ public class RecipeCommand extends BaseCommand { /// kk_recipe <give/take> <reci
 			}
 
 			if (player != context.getSource().getPlayerOrException()) {
-				context.getSource().sendSuccess(() -> Component.translatable("Added all recipes to " + player.getDisplayName().getString()), true);
+				context.getSource().sendSuccess(() -> Component.translatable("kingdomkeys.command.recipe.given_all", player.getDisplayName().getString()), true);
 			}
-			player.sendSystemMessage(Component.translatable("You have been given all the recipes"));
+			player.sendSystemMessage(Component.translatable("kingdomkeys.command.recipe.given_all_self"));
 			PacketHandler.sendTo(new SCSyncPlayerData(player), player);
 		}
 		return 1;
 	}
 	
 	private static int addAllKeybladeRecipes(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
-		Collection<ServerPlayer> players = getPlayers(context, 4);
+		Collection<ServerPlayer> players = getPlayers(context);
 
 		for (ServerPlayer player : players) {
 			PlayerData playerData = PlayerData.get(player);
@@ -147,9 +146,9 @@ public class RecipeCommand extends BaseCommand { /// kk_recipe <give/take> <reci
 			}
 
 			if (player != context.getSource().getPlayerOrException()) {
-				context.getSource().sendSuccess(() -> Component.translatable("Added all keyblade recipes to " + player.getDisplayName().getString()), true);
+				context.getSource().sendSuccess(() -> Component.translatable("kingdomkeys.command.recipe.given_all_keyblade", player.getDisplayName().getString()), true);
 			}
-			player.sendSystemMessage(Component.translatable("You have been given all the keyblade recipes"));
+			player.sendSystemMessage(Component.translatable("kingdomkeys.command.recipe.given_all_keyblade_self"));
 			PacketHandler.sendTo(new SCSyncPlayerData(player), player);
 		}
 		return 1;
@@ -157,7 +156,7 @@ public class RecipeCommand extends BaseCommand { /// kk_recipe <give/take> <reci
 
 	
 	private static int addAllItemRecipes(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
-		Collection<ServerPlayer> players = getPlayers(context, 4);
+		Collection<ServerPlayer> players = getPlayers(context);
 
 		for (ServerPlayer player : players) {
 			PlayerData playerData = PlayerData.get(player);
@@ -167,9 +166,9 @@ public class RecipeCommand extends BaseCommand { /// kk_recipe <give/take> <reci
 			}
 
 			if (player != context.getSource().getPlayerOrException()) {
-				context.getSource().sendSuccess(() -> Component.translatable("Added all item recipes to " + player.getDisplayName().getString()), true);
+				context.getSource().sendSuccess(() -> Component.translatable("kingdomkeys.command.recipe.given_all_item", player.getDisplayName().getString()), true);
 			}
-			player.sendSystemMessage(Component.translatable("You have been given all the item recipes"));
+			player.sendSystemMessage(Component.translatable("kingdomkeys.command.recipe.given_all_item_self"));
 			PacketHandler.sendTo(new SCSyncPlayerData(player), player);
 		}
 		return 1;
@@ -177,23 +176,23 @@ public class RecipeCommand extends BaseCommand { /// kk_recipe <give/take> <reci
 
 
 	private static int removeAllRecipes(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
-		Collection<ServerPlayer> players = getPlayers(context, 4);
+		Collection<ServerPlayer> players = getPlayers(context);
 
 		for (ServerPlayer player : players) {
 			PlayerData playerData = PlayerData.get(player);
 			playerData.clearRecipes("all");
 
 			if (player != context.getSource().getPlayerOrException()) {
-				context.getSource().sendSuccess(() -> Component.translatable("Removed all recipes from " + player.getDisplayName().getString()), true);
+				context.getSource().sendSuccess(() -> Component.translatable("kingdomkeys.command.recipe.taken_all", player.getDisplayName().getString()), true);
 			}
-			player.sendSystemMessage(Component.translatable("Your recipes have been taken away"));
+			player.sendSystemMessage(Component.translatable("kingdomkeys.command.recipe.taken_all_self"));
 			PacketHandler.sendTo(new SCSyncPlayerData(player), player);
 		}
 		return 1;
 	}
 	
 	private static int removeAllKeybladeRecipes(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
-		Collection<ServerPlayer> players = getPlayers(context, 4);
+		Collection<ServerPlayer> players = getPlayers(context);
 
 		for (ServerPlayer player : players) {
 			PlayerData playerData = PlayerData.get(player);
@@ -201,25 +200,25 @@ public class RecipeCommand extends BaseCommand { /// kk_recipe <give/take> <reci
 			playerData.clearRecipes("keyblade");
 
 			if (player != context.getSource().getPlayerOrException()) {
-				context.getSource().sendSuccess(() -> Component.translatable("Removed all keyblade recipes from " + player.getDisplayName().getString()), true);
+				context.getSource().sendSuccess(() -> Component.translatable("kingdomkeys.command.recipe.taken_all_keyblade", player.getDisplayName().getString()), true);
 			}
-			player.sendSystemMessage(Component.translatable("Your keyblade recipes have been taken away"));
+			player.sendSystemMessage(Component.translatable("kingdomkeys.command.recipe.taken_all_keyblade_self"));
 			PacketHandler.sendTo(new SCSyncPlayerData(player), player);
 		}
 		return 1;
 	}
 	
 	private static int removeAllItemRecipes(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
-		Collection<ServerPlayer> players = getPlayers(context, 4);
+		Collection<ServerPlayer> players = getPlayers(context);
 
 		for (ServerPlayer player : players) {
 			PlayerData playerData = PlayerData.get(player);
 			playerData.clearRecipes("item");
 
 			if (player != context.getSource().getPlayerOrException()) {
-				context.getSource().sendSuccess(() -> Component.translatable("Removed all item recipes from " + player.getDisplayName().getString()), true);
+				context.getSource().sendSuccess(() -> Component.translatable("kingdomkeys.command.recipe.taken_all_item", player.getDisplayName().getString()), true);
 			}
-			player.sendSystemMessage(Component.translatable("Your item recipes have been taken away"));
+			player.sendSystemMessage(Component.translatable("kingdomkeys.command.recipe.taken_all_item_self"));
 			PacketHandler.sendTo(new SCSyncPlayerData(player), player);
 		}
 		return 1;

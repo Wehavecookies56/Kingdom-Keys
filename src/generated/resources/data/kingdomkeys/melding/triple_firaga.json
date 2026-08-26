@@ -1,0 +1,11 @@
+{
+  "cost": 1000,
+  "ingredient1": "kingdomkeys:spellfiraga",
+  "ingredient2": "kingdomkeys:spellfiraga",
+  "output": {
+    "type": "item",
+    "item": "kingdomkeys:spelltriplefiraga",
+    "quantity": 1
+  },
+  "tier": 3
+}

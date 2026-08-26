@@ -1,0 +1,11 @@
+{
+  "cost": 1000,
+  "ingredient1": "kingdomkeys:spellblizzaga",
+  "ingredient2": "kingdomkeys:spellblizzaga",
+  "output": {
+    "type": "item",
+    "item": "kingdomkeys:spelltripleblizzaga",
+    "quantity": 1
+  },
+  "tier": 3
+}

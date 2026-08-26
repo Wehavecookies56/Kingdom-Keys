@@ -13,8 +13,8 @@ import java.util.List;
 
 public class ShotlockSonicBlade extends Shotlock {
 
-	public ShotlockSonicBlade(ResourceLocation registryName, int order, int cooldown, int max) {
-		super(registryName, order, cooldown, max);
+	public ShotlockSonicBlade(ResourceLocation registryName, int order) {
+		super(registryName, order);
 	}
 
 	@Override
@@ -26,6 +26,7 @@ public class ShotlockSonicBlade extends Shotlock {
 	@Override
 	public void doPartialShotlock(Player player, List<Entity> targetList) {
 		SonicBladeCoreEntity core = new SonicBladeCoreEntity(player.level(), player, targetList, getDamage(player));
+		core.setElement(getElement());
 		core.setPos(player.getX(), player.getY(), player.getZ());
 		player.level().addFreshEntity(core);
 	}
@@ -37,6 +38,6 @@ public class ShotlockSonicBlade extends Shotlock {
 
 	@Override
 	public float getDamage(Player player) {
-		return (float) (DamageCalculation.getStrengthDamage(player) * ModConfigs.shotlockMult);
+		return (float) (DamageCalculation.getStrengthDamage(player) * ModConfigs.shotlockMult) * getRealDamageMult(player);
 	}
 }

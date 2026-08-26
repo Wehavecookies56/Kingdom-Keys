@@ -14,7 +14,7 @@ import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.SlotItemHandler;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.entity.block.GummiHangarTileEntity;
-import online.kingdomkeys.kingdomkeys.item.ModItems;
+import online.kingdomkeys.kingdomkeys.item.GummiShipBlueprintItem;
 
 public class GummiHangarMenu extends AbstractContainerMenu {
 
@@ -74,7 +74,7 @@ public class GummiHangarMenu extends AbstractContainerMenu {
 		addSlot(new SlotItemHandler(iih, 0, 152, 18) {
 			@Override
 			public boolean mayPlace(ItemStack stack) {
-				return stack.getItem() == ModItems.gummiShipBlueprint.get();
+				return GummiShipBlueprintItem.isBlueprint(stack);
 			}
 		});
 

@@ -1,0 +1,11 @@
+{
+  "categories": [
+    "ENEMY"
+  ],
+  "floor_specific_structure": false,
+  "size": "L",
+  "structure": "bottomless_darkness",
+  "white_list": [
+    "kingdomkeys:bottomless_darkness"
+  ]
+}

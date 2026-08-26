@@ -14,6 +14,7 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuScrollBar;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuSelectMagicButton;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
+import online.kingdomkeys.kingdomkeys.item.BagItem;
 import online.kingdomkeys.kingdomkeys.item.MagicSpellItem;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
@@ -41,13 +42,10 @@ public class MenuMagicSelectorScreen extends MenuBackground {
 	Color colour;
 
 	public MenuMagicSelectorScreen(int slot, Color colour, int buttonColour) {
-
 		super(Strings.Gui_Menu_Items_Equipment_Magic, new Color(0, 0, 255));
-
 		drawSeparately = true;
 
 		minecraft = Minecraft.getInstance();
-
 		this.slot = slot;
 		this.colour = colour;
 		this.buttonColour = buttonColour;
@@ -55,11 +53,9 @@ public class MenuMagicSelectorScreen extends MenuBackground {
 
 	@Override
 	public void init() {
-
 		super.init();
 
 		buttonWidth = ((float) width * 0.07F);
-
 		float keybladesX = width * 0.2F;
 		float keybladesY = height * 0.175F;
 
@@ -103,7 +99,7 @@ public class MenuMagicSelectorScreen extends MenuBackground {
 			}
 
 			// Magic bag
-			if(Utils.hasOnlyOneBag(player)) {
+			if(Utils.hasOnlyOneBag(player, BagItem.Type.MAGICS_BAG)) {
 				ItemStack magicBag = ItemStack.EMPTY;
 
 				for (ItemStack stack : minecraft.player.getInventory().items) {
@@ -122,7 +118,7 @@ public class MenuMagicSelectorScreen extends MenuBackground {
 							if (!(stack.getItem() instanceof MagicSpellItem))
 								continue;
 							int virtualSlot = BAG_OFFSET - i;
-							widgets.add(new MenuSelectMagicButton(stack, virtualSlot, (int) listX, 0, (int) keybladesWidth - 25, this, new Color(200, 80, 200).getRGB()));
+							widgets.add(new MenuSelectMagicButton(stack, virtualSlot, (int) listX, 0, (int) keybladesWidth - 25, this, 13127880));
 						}
 					}
 				}

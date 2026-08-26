@@ -1,11 +1,39 @@
 package online.kingdomkeys.kingdomkeys.lib;
 
-import java.util.HashMap;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.item.ModItems;
+import online.kingdomkeys.kingdomkeys.util.Utils;
+
+import java.util.List;
 import java.util.Map;
 
-//TODO cleanup
-
 public class Constants {
+    public static final ResourceLocation MENU_TEXTURE = KingdomKeys.rl("textures/gui/menu/menu_button.png");
+
+    public static final int TUTORIAL_CO_CASTLE = 0;
+    public static final int TUTORIAL_CO_LOBBY = 1;
+
+    public record DevRecipe(String name, Item material1, Item material2) {}
+
+    public static final List<DevRecipe> devRecipes = List.of(
+            new DevRecipe("Estelleste", ModItems.orichalcumplus.get(), ModItems.mythril_crystal.get()),
+            new DevRecipe("Abelatox", ModItems.orichalcum.get(), ModItems.blazing_crystal.get()),
+            new DevRecipe("wyndftw", ModItems.remembrance_crystal.get(), ModItems.pulsing_crystal.get()),
+            new DevRecipe("stel1034", ModItems.soothing_crystal.get(), ModItems.tranquility_crystal.get()),
+            new DevRecipe("XephiroVT", ModItems.sinister_crystal.get(), ModItems.writhing_crystal.get())
+    );
+
+    public static final Map<Integer, List<Utils.Title>> TUTORIALS = Map.of(
+    TUTORIAL_CO_CASTLE, List.of(),
+
+    TUTORIAL_CO_LOBBY, List.of(
+            new Utils.Title("", Strings.COIntro1),
+            new Utils.Title("", Strings.COIntro2),
+            new Utils.Title("", Strings.COIntro3),
+            new Utils.Title(Strings.COIntroTitle, "").setKHFont()
+    ));
 
     public static final int
     // Input
@@ -13,113 +41,7 @@ public class Constants {
     RIGHT_MOUSE = 1,
     MIDDLE_MOUSE = 2,
     WHEEL_UP = 1,
-    WHEEL_DOWN = -1,
-    SCALE_AUTO = 0,
-    SCALE_SMALL = 1,
-    SCALE_NORMAL = 2,
-    SCALE_LARGE = 3,
-
-    // OTHER
-    TICKS_PER_SECOND = 20,
-
-    MAX_MAGIC_LEVEL = 3
-            ;
-
-    public static Map<String, Integer> costs;
-
-    public static void registerCosts () {
-        costs = new HashMap<String, Integer>();
-        costs.put(Strings.Spell_Fire, 20);
-        costs.put(Strings.Spell_Blizzard, 15);
-        costs.put(Strings.Spell_Thunder, 30);
-        costs.put(Strings.Spell_Gravity, 25);
-        costs.put(Strings.Spell_Aero, 20);
-        costs.put(Strings.Spell_Stop, 15);
-        costs.put(Strings.Spell_Cure, -1);
-
-        costs.put("potion", 1);
-        costs.put("ether", 1);
-        costs.put("elixir", 1);
-
-        /*costs.put(Strings.Form_Valor, (int) ModDriveForms.Valor.getCost());
-        costs.put(Strings.Form_Wisdom, (int) ModDriveForms.Wisdom.getCost());
-        costs.put(Strings.Form_Limit, (int) ModDriveForms.Limit.getCost());
-        costs.put(Strings.Form_Master, (int) ModDriveForms.Master.getCost());
-        costs.put(Strings.Form_Final, (int) ModDriveForms.Final.getCost());
-        costs.put(Strings.Form_Anti, (int) ModDriveForms.Anti.getCost());*/
-
-
-    }
-
-    public static Map<String, Map> magicLevels;
-    public static Map<Integer, String> fireLevels;
-    public static Map<Integer, String> blizzardLevels;
-    public static Map<Integer, String> cureLevels;
-    public static Map<Integer, String> thunderLevels;
-    public static Map<Integer, String> gravityLevels;
-    public static Map<Integer, String> stopLevels;
-    public static Map<Integer, String> aeroLevels;
-
-    public static void registerMagicLevels() {
-
-        fireLevels = new HashMap<Integer, String>();
-        fireLevels.put(1, Strings.Spell_Fire);
-        fireLevels.put(2, Strings.Spell_Fira);
-        fireLevels.put(3, Strings.Spell_Firaga);
-
-        blizzardLevels = new HashMap<Integer, String>();
-        blizzardLevels.put(1, Strings.Spell_Blizzard);
-        blizzardLevels.put(2, Strings.Spell_Blizzara);
-        blizzardLevels.put(3, Strings.Spell_Blizzaga);
-
-        cureLevels = new HashMap<Integer, String>();
-        cureLevels.put(1, Strings.Spell_Cure);
-        cureLevels.put(2, Strings.Spell_Cura);
-        cureLevels.put(3, Strings.Spell_Curaga);
-
-        thunderLevels = new HashMap<Integer, String>();
-        thunderLevels.put(1, Strings.Spell_Thunder);
-        thunderLevels.put(2, Strings.Spell_Thundara);
-        thunderLevels.put(3, Strings.Spell_Thundaga);
-
-        gravityLevels = new HashMap<Integer, String>();
-        gravityLevels.put(1, Strings.Spell_Gravity);
-        gravityLevels.put(2, Strings.Spell_Gravira);
-        gravityLevels.put(3, Strings.Spell_Graviga);
-
-        stopLevels = new HashMap<Integer, String>();
-        stopLevels.put(1, Strings.Spell_Stop);
-        stopLevels.put(2, Strings.Spell_Stopra);
-        stopLevels.put(3, Strings.Spell_Stopga);
-
-        aeroLevels = new HashMap<Integer, String>();
-        aeroLevels.put(1, Strings.Spell_Aero);
-        aeroLevels.put(2, Strings.Spell_Aerora);
-        aeroLevels.put(3, Strings.Spell_Aeroga);
-
-        magicLevels = new HashMap<String, Map>();
-        magicLevels.put(Strings.Spell_Fire, fireLevels);
-        magicLevels.put(Strings.Spell_Blizzard, blizzardLevels);
-        magicLevels.put(Strings.Spell_Cure, cureLevels);
-        magicLevels.put(Strings.Spell_Thunder, thunderLevels);
-        magicLevels.put(Strings.Spell_Gravity, gravityLevels);
-        magicLevels.put(Strings.Spell_Stop, stopLevels);
-        magicLevels.put(Strings.Spell_Aero, aeroLevels);
-
-    }
-
-    public static String getMagicName(String name, int level){
-        if(magicLevels.containsKey(name)){
-            if(magicLevels.get(name).containsKey(level)){
-                return (magicLevels.get(name)).get(level).toString();
-            }
-        }
-        return null;
-    }
-
-    public static int getCost (String name) {
-        return costs.get(name);
-    }
+    WHEEL_DOWN = -1;
 
     // Drive abilities
     public static double[]

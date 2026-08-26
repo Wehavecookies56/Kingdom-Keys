@@ -1,7 +1,0 @@
-{
-  "entrance_hall": true,
-  "size": "SPECIAL",
-  "category": "SPECIAL",
-  "fixed_room": "kingdomkeys:entrance_hall",
-  "music": "kingdomkeys:music/the_13th_floor"
-}

@@ -8,7 +8,6 @@ import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
-import net.minecraft.resources.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.entity.mob.BaseKHEntity;
 
@@ -18,7 +17,7 @@ import online.kingdomkeys.kingdomkeys.entity.mob.BaseKHEntity;
  * Ported to 1.18 using Tabula, Blockbench and manual code editing - Wehavecookies56
  */
 public class LargeBodyModel<T extends BaseKHEntity> extends EntityModel<T> {
-    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "largebodymodel"), "main");
+    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(KingdomKeys.rl("largebodymodel"), "main");
 
     private final ModelPart neck4;
     private final ModelPart neck3;
@@ -53,8 +52,7 @@ public class LargeBodyModel<T extends BaseKHEntity> extends EntityModel<T> {
     private final ModelPart rightLeg2;
     private final ModelPart rightLeg3;
 
-    private int cycleIndex;
-    private double totalDistance;
+    private static final double WALK_CYCLE_SPEED = 4D;
     private final double[] chargeFlailArmsAnimation = new double[]
             {1.65, 1.60, 1.57, 1.50, 1.57, 1.60, 1.65};
     private final double[] legsMovementAnimation = new double[]
@@ -175,10 +173,9 @@ public class LargeBodyModel<T extends BaseKHEntity> extends EntityModel<T> {
         if(Minecraft.getInstance().isPaused())
             return;
         
-        totalDistance += ent.distanceToSqr(ent.xOld, ent.yOld, ent.zOld);
 
         if(ent.distanceToSqr(ent.xOld, ent.yOld, ent.zOld) > 0) {
-            cycleIndex = (int) ((totalDistance * 4) % this.legsMovementAnimation.length);
+            int cycleIndex = (int) ((limbSwing * WALK_CYCLE_SPEED) % this.legsMovementAnimation.length);
             this.leftLeg1.xRot = degToRad(legsMovementAnimation[cycleIndex]);
             this.rightLeg1.xRot = -degToRad(legsMovementAnimation[cycleIndex]);
         }
@@ -195,21 +192,21 @@ public class LargeBodyModel<T extends BaseKHEntity> extends EntityModel<T> {
             this.rightArm1.xRot = this.rightArm1.yRot = this.rightArm1.zRot = 0;
         }
         else if(ent.getState() == 1) {
-            cycleIndex = ent.tickCount % chargeFlailArmsAnimation.length;
+            int cycleIndex = ent.tickCount % chargeFlailArmsAnimation.length;
             this.leftArm1.xRot  = (float) -chargeFlailArmsAnimation[cycleIndex];
             this.rightArm1.xRot  = (float) chargeFlailArmsAnimation[cycleIndex];
         }
         else if(ent.getState() == 2) {
             this.leftArm1.zRot = degToRad(-60);
             this.rightArm1.zRot = degToRad(60);
-            cycleIndex = (int) ((ent.tickCount * 1.4) % mowdownAttackAnimation.length);
+            int cycleIndex = (int) ((ent.tickCount * 1.4) % mowdownAttackAnimation.length);
             this.body.yRot = degToRad(mowdownAttackAnimation[cycleIndex]);
         }
         else if(ent.getState() == 10) {
             this.leftArm1.zRot = this.rightArm1.zRot = 0;
             this.leftArm1.xRot = this.rightArm1.xRot = 0;
 
-            cycleIndex = ent.tickCount % afterAttackAnimation.length;
+            int cycleIndex = ent.tickCount % afterAttackAnimation.length;
             this.rightArm1.xRot = degToRad((float) afterAttackAnimation[cycleIndex]);
             this.rightArm1.yRot = degToRad(-26);
             this.rightArm1.zRot = degToRad(18);

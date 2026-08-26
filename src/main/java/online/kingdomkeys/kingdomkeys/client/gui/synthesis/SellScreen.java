@@ -51,7 +51,7 @@ public class SellScreen extends MenuFilterableIndexed {
 		super(Strings.Gui_Shop_Main_Title, new Color(0, 0, 255));
 		drawSeparately = true;
 		this.parent = parent;
-		parent.playerData = playerData;
+		this.playerData = playerData;
 	}
 
 	public SellScreen(PlayerData playerData, String nbt, SynthesisScreen parent) {
@@ -63,7 +63,7 @@ public class SellScreen extends MenuFilterableIndexed {
     }
 
 	public SellList getSellList(){
-		return SellListRegistry.getInstance().getRegistry().get(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "sell"));
+		return SellListRegistry.getInstance().getRegistry().get(KingdomKeys.rl("sell"));
 	}
 
     @Override
@@ -140,8 +140,8 @@ public class SellScreen extends MenuFilterableIndexed {
 		super.init();
 
 
-		addRenderableWidget(buy = new MenuButton((int)this.buttonPosX, this.buttonPosY, (int)(buttonWidth+15)/2, Component.translatable(Strings.Gui_Shop_Buy).getString(), MenuButton.ButtonType.BUTTON, b -> minecraft.setScreen(new ShopScreen(parent.playerData, parent))));
-		addRenderableWidget(back = new MenuButton((int)this.buttonPosX, this.buttonPosY+18, (int)(buttonWidth+15)/2, Component.translatable(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, b -> minecraft.setScreen(new SynthesisScreen(parent.playerData, parent.invFile, parent.name, parent.moogle))));
+		addRenderableWidget(buy = new MenuButton((int)this.buttonPosX, this.buttonPosY, (int)(buttonWidth+15)/2, Component.translatable(Strings.Gui_Shop_Buy).getString(), MenuButton.ButtonType.BUTTON, b -> minecraft.setScreen(new ShopScreen(playerData, parent))));
+		addRenderableWidget(back = new MenuButton((int)this.buttonPosX, this.buttonPosY+18, (int)(buttonWidth+15)/2, Component.translatable(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, b -> minecraft.setScreen(new SynthesisScreen(playerData, parent.invFile, parent.name, parent.moogle))));
 		addRenderableWidget(amountBox = new EditBox(minecraft.font, boxM.getX()+5, (int) (topBarHeight + middleHeight - 22), minecraft.font.width("#####"), 16, Component.translatable("test")) {
 			@Override
 			public boolean charTyped(char c, int i) {
@@ -266,7 +266,7 @@ public class SellScreen extends MenuFilterableIndexed {
 
 		if (selectedItemStack != null && selectedItemStack.getItem() instanceof KeybladeItem || selectedItemStack.getItem() instanceof KKAccessoryItem || selectedItemStack.getItem() instanceof KKArmorItem) {
 			String desc = "";
-			String ability = "";
+			ResourceLocation ability = null;
 			if(selectedItemStack.getItem() instanceof KeybladeItem kb) {
 				desc = kb.getDesc();
 				ability = kb.data.getLevelAbility(0);
@@ -289,7 +289,7 @@ public class SellScreen extends MenuFilterableIndexed {
 				}
 
 				if(ability != null) {
-					Ability a = ModAbilities.registry.get(ResourceLocation.parse(ability));
+					Ability a = ModAbilities.registry.get(ability);
 					if(a != null) {
 						String abilityName = Utils.translateToLocal(a.getTranslationKey());
 						gui.drawString(minecraft.font, abilityName, -20 + (boxM.getWidth()/2) - (minecraft.font.width(abilityName)/2), (stats.size()-1)*10, 0xFFAA44);
@@ -298,7 +298,7 @@ public class SellScreen extends MenuFilterableIndexed {
 			}
 			matrixStack.popPose();
 			
-			if(!desc.equals("")) {
+			if(!desc.isEmpty()) {
 				matrixStack.pushPose();
 				{
 					String text = Utils.translateToLocal(selectedItemStack.getDescriptionId());

@@ -1,0 +1,10 @@
+{
+  "categories": [
+    "BOUNTY"
+  ],
+  "size": "S",
+  "structure": "moments_reprieve",
+  "white_list": [
+    "kingdomkeys:moments_reprieve"
+  ]
+}

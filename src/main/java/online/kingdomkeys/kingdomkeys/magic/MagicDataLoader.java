@@ -21,41 +21,41 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class MagicDataLoader extends SimpleJsonResourceReloadListener {
 
-    //GSON builder with custom deserializer for magic data
-    public static final Gson GSON_BUILDER = new GsonBuilder().registerTypeAdapter(MagicData.class, new MagicDataDeserializer()).setPrettyPrinting().create();
-    
-    public MagicDataLoader() {
-        super(GSON_BUILDER, "magics");
-    }
-    
-    public static List<String> names = new LinkedList<>();
-    public static List<String> dataList = new LinkedList<>();
+	//GSON builder with custom deserializer for magic data
+	public static final Gson GSON_BUILDER = new GsonBuilder().registerTypeAdapter(MagicData.class, new MagicDataDeserializer()).setPrettyPrinting().create();
 
-    @Override
-    protected void apply(Map<ResourceLocation, JsonElement> objectIn, ResourceManager resourceManagerIn, ProfilerFiller profilerIn) {
-        AtomicInteger count = new AtomicInteger();
-        objectIn.forEach((resourceLocation, element) -> {
-            try {
-                if (ModMagic.registry.containsKey(resourceLocation)) {
-                    Magic magic = ModMagic.registry.get(resourceLocation);
-                    dataList.add(element.toString());
-                    MagicData result = GSON_BUILDER.fromJson(element, MagicData.class);
-                    names.add(resourceLocation.toString());;
-                    magic.setMagicData(result);
-                    count.incrementAndGet();
-                } else {
-                    KingdomKeys.LOGGER.warn("Found magic data {} for magic that doesn't exist", resourceLocation);
-                }
-            } catch (JsonParseException e) {
-                KingdomKeys.LOGGER.error("Error parsing magic json file {}: {}", resourceLocation, e);
-            }
-        });
-        KingdomKeys.LOGGER.info("Loaded {} magics data", count.get());
-        if (ServerLifecycleHooks.getCurrentServer() != null) {
-            for (ServerPlayer player : ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayers()) {
-                PacketHandler.sendTo(new SCSyncMagicData(names,dataList), player);
-            }
-        }
-    }
+	public MagicDataLoader() {
+		super(GSON_BUILDER, "magics");
+	}
+
+	public static List<String> names = new LinkedList<>();
+	public static List<String> dataList = new LinkedList<>();
+
+	@Override
+	protected void apply(Map<ResourceLocation, JsonElement> objectIn, ResourceManager resourceManagerIn, ProfilerFiller profilerIn) {
+		AtomicInteger count = new AtomicInteger();
+		objectIn.forEach((resourceLocation, element) -> {
+			try {
+				if (ModMagic.registry.containsKey(resourceLocation)) {
+					Magic magic = ModMagic.registry.get(resourceLocation);
+					dataList.add(element.toString());
+					MagicData result = GSON_BUILDER.fromJson(element, MagicData.class);
+					names.add(resourceLocation.toString());
+					magic.setMagicData(result);
+					count.incrementAndGet();
+				} else {
+					KingdomKeys.LOGGER.warn("Found magic data {} for magic that doesn't exist", resourceLocation);
+				}
+			} catch (JsonParseException e) {
+				KingdomKeys.LOGGER.error("Error parsing magic json file {}: {}", resourceLocation, e);
+			}
+		});
+		KingdomKeys.LOGGER.info("Loaded {} magics data", count.get());
+		if (ServerLifecycleHooks.getCurrentServer() != null) {
+			for (ServerPlayer player : ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayers()) {
+				PacketHandler.sendTo(new SCSyncMagicData(names, dataList), player);
+			}
+		}
+	}
 }
 

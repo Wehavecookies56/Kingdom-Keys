@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "kingdomkeys",
+  "key": {
+    "D": {
+      "item": "kingdomkeys:training_dummy"
+    },
+    "W": {
+      "tag": "minecraft:planks"
+    }
+  },
+  "pattern": [
+    "WWW",
+    "WDW",
+    "WWW"
+  ],
+  "result": {
+    "count": 1,
+    "id": "kingdomkeys:struggle_board"
+  }
+}

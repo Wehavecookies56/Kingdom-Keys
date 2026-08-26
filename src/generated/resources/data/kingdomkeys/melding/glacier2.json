@@ -1,0 +1,11 @@
+{
+  "cost": 1200,
+  "ingredient1": "kingdomkeys:spelltripleblizzaga",
+  "ingredient2": "kingdomkeys:spelldeepfreeze",
+  "output": {
+    "type": "item",
+    "item": "kingdomkeys:spellglacier",
+    "quantity": 1
+  },
+  "tier": 4
+}

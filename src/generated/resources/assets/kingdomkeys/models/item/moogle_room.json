@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "kingdomkeys:item/moogle_room"
+    "layer0": "kingdomkeys:item/cards/moogle_room"
   }
 }

@@ -35,9 +35,9 @@ public class BaseArmorItem extends ArmorItem implements IItemCategory {
 	public ResourceLocation getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, ArmorMaterial.Layer layer, boolean innerModel) {
 		if(this.textureName != null) {
 			if (slot == EquipmentSlot.LEGS) {
-				return ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/models/armor/"+this.textureName+"_layer_2.png");
+				return KingdomKeys.rl("textures/models/armor/"+this.textureName+"_layer_2.png");
 			} else if (slot == EquipmentSlot.HEAD || slot == EquipmentSlot.CHEST || slot == EquipmentSlot.FEET){
-				return ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/models/armor/"+this.textureName+"_layer_1.png");
+				return KingdomKeys.rl("textures/models/armor/"+this.textureName+"_layer_1.png");
 			}
 		}
 		return null;

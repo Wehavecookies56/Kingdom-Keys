@@ -15,8 +15,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityTicker;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -78,13 +76,13 @@ public class OrgPortalBlock extends BaseBlock implements EntityBlock, INoDataGen
 					worldData.addPortal(portalUUID, new PortalData(portalUUID, "Portal", pos.getX(), pos.getY()-1, pos.getZ(), player.level().dimension(), player.getUUID()));
 					PacketHandler.sendToAll(new SCSyncWorldData(worldIn.getServer()));
 	
-					player.displayClientMessage(Component.translatable(ChatFormatting.GREEN + "This is now your portal"), true);
+					player.displayClientMessage(Component.translatable("kingdomkeys.org_portal.now_yours").withStyle(ChatFormatting.GREEN), true);
 	
 					te.setUUID(portalUUID);
 					te.setChanged();
 					PacketHandler.sendTo(new SCShowOrgPortalGUI(te.getBlockPos()), (ServerPlayer) player);
 				} else {
-					player.displayClientMessage(Component.translatable(ChatFormatting.RED + "You have no empty slots for portals"), true);
+					player.displayClientMessage(Component.translatable("kingdomkeys.org_portal.no_slots").withStyle(ChatFormatting.RED), true);
 				}
 			}
 		}		
@@ -108,9 +106,9 @@ public class OrgPortalBlock extends BaseBlock implements EntityBlock, INoDataGen
 							}
 						}
 						PacketHandler.sendTo(new SCShowOrgPortalGUI(te.getBlockPos()), (ServerPlayer)player);
-						player.displayClientMessage(Component.translatable(ChatFormatting.YELLOW + "This is your portal " + (i+1)+": "+worldData.getPortalFromUUID(portals.get(i)).getName()), true);
+						player.displayClientMessage(Component.translatable("kingdomkeys.org_portal.yours_named", (i+1), worldData.getPortalFromUUID(portals.get(i)).getName()).withStyle(ChatFormatting.YELLOW), true);
 					} else {
-						player.displayClientMessage(Component.translatable(ChatFormatting.RED + "This portal belongs to " + worldIn.getPlayerByUUID(worldData.getOwnerIDFromUUID(te.getUUID())).getDisplayName().getString()), true);
+						player.displayClientMessage(Component.translatable("kingdomkeys.org_portal.belongs_to", worldIn.getPlayerByUUID(worldData.getOwnerIDFromUUID(te.getUUID())).getDisplayName().getString()).withStyle(ChatFormatting.RED), true);
 						return ItemInteractionResult.SUCCESS;
 					}
 
@@ -135,17 +133,12 @@ public class OrgPortalBlock extends BaseBlock implements EntityBlock, INoDataGen
 					Player player = worldIn.getServer().getPlayerList().getPlayer(ownerUUID);
 					if(player != null) { //Remove from player's menu
 						PacketHandler.sendToAll(new SCSyncWorldData(worldIn.getServer()));
-						player.displayClientMessage(Component.translatable(ChatFormatting.RED + "Portal destination disappeared"), true);
+						player.displayClientMessage(Component.translatable("kingdomkeys.org_portal.destination_gone").withStyle(ChatFormatting.RED), true);
 					}
 				}
 			}
 		}
 		super.onRemove(state, worldIn, pos, newState, isMoving);
-	}
-	
-	@Override
-	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-		return type == ModEntities.TYPE_ORG_PORTAL_TE.get() ? OrgPortalTileEntity::tick : null;//EntityBlock.super.getTicker(pLevel, pState, pBlockEntityType);
 	}
 
 	@Nullable

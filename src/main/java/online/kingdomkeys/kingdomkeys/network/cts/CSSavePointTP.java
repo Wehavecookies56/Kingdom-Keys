@@ -2,9 +2,9 @@ package online.kingdomkeys.kingdomkeys.network.cts;
 
 import net.minecraft.core.UUIDUtil;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.portal.DimensionTransition;
 import net.minecraft.world.phys.Vec3;
@@ -19,7 +19,7 @@ import java.util.UUID;
 
 public record CSSavePointTP(UUID currentSavePoint, UUID destinationSavePoint) implements Packet {
 
-    public static final Type<CSSavePointTP> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_save_point_tp"));
+    public static final Type<CSSavePointTP> TYPE = new Type<>(KingdomKeys.rl("cs_save_point_tp"));
 
     public static final StreamCodec<FriendlyByteBuf, CSSavePointTP> STREAM_CODEC = StreamCodec.composite(
             UUIDUtil.STREAM_CODEC,
@@ -42,6 +42,8 @@ public record CSSavePointTP(UUID currentSavePoint, UUID destinationSavePoint) im
                 return;
             }
             player.connection.teleport(destination.pos().getX() + 0.5D, destination.pos().getY()+0.07D, destination.pos().getZ() + 0.5D, player.getYRot(), player.getXRot());
+            player.setRespawnPosition(destination.dimension(), destination.pos().above(), 0F, true, false);
+            player.displayClientMessage(Component.translatable("block.minecraft.set_spawn"), true);
         }
     }
 

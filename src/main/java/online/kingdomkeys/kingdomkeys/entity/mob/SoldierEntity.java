@@ -26,7 +26,7 @@ public class SoldierEntity extends BaseKHEntity {
 
     @OnlyIn(Dist.CLIENT)
     public ResourceLocation getTexture(){
-        return ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/mob/soldier.png");
+        return KingdomKeys.rl("textures/entity/mob/soldier.png");
     }
 
     @Override

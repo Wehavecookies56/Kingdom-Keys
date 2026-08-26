@@ -1,0 +1,65 @@
+{
+  "parent": "minecraft:block/block",
+  "elements": [
+    {
+      "faces": {
+        "down": {
+          "texture": "#board",
+          "uv": [
+            0.0,
+            14.0,
+            16.0,
+            16.0
+          ]
+        },
+        "east": {
+          "texture": "#board",
+          "uv": [
+            14.0,
+            0.0,
+            16.0,
+            16.0
+          ]
+        },
+        "north": {
+          "texture": "#board"
+        },
+        "south": {
+          "texture": "#board"
+        },
+        "up": {
+          "texture": "#board",
+          "uv": [
+            0.0,
+            0.0,
+            16.0,
+            2.0
+          ]
+        },
+        "west": {
+          "texture": "#board",
+          "uv": [
+            0.0,
+            0.0,
+            2.0,
+            16.0
+          ]
+        }
+      },
+      "from": [
+        0,
+        0,
+        14
+      ],
+      "to": [
+        16,
+        16,
+        16
+      ]
+    }
+  ],
+  "textures": {
+    "board": "kingdomkeys:block/struggle_board",
+    "particle": "kingdomkeys:block/struggle_board"
+  }
+}

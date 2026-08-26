@@ -1,0 +1,18 @@
+{
+  "casttime": 10,
+  "cooldown": 20,
+  "cost": 10,
+  "dmg_mult": 0.25,
+  "dmg_mult_max": 0.27,
+  "interacts_with_blocks": [
+    "turn_off_lightable",
+    "freeze_water",
+    "freeze_lava"
+  ],
+  "magic_lock_on": false,
+  "magic_rc": "kingdomkeys:magic_blizzard",
+  "max_exp": 2400,
+  "max_lvl": 3,
+  "next_tier": "kingdomkeys:magic_blizzaga",
+  "spell_type": "MAGIC"
+}

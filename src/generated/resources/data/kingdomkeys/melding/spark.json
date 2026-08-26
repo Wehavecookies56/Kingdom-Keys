@@ -1,0 +1,11 @@
+{
+  "cost": 800,
+  "ingredient1": "kingdomkeys:spellthunder",
+  "ingredient2": "kingdomkeys:spellmagnet",
+  "output": {
+    "type": "item",
+    "item": "kingdomkeys:spellspark",
+    "quantity": 1
+  },
+  "tier": 3
+}

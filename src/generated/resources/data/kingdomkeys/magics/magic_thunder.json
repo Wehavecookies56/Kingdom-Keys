@@ -1,34 +1,13 @@
 {
-  "0": {
-    "casttime": 10,
-    "cooldown": 30,
-    "cost": 14,
-    "dmg_mult": 0.1,
-    "magic_lock_on": true,
-    "max_exp": 1800
-  },
-  "1": {
-    "casttime": 10,
-    "cooldown": 35,
-    "cost": 14,
-    "dmg_mult": 0.11,
-    "magic_lock_on": true,
-    "max_exp": 2400
-  },
-  "2": {
-    "casttime": 10,
-    "cooldown": 40,
-    "cost": 14,
-    "dmg_mult": 0.12,
-    "magic_lock_on": true,
-    "max_exp": 4200
-  },
-  "3": {
-    "casttime": 10,
-    "cooldown": 50,
-    "cost": 14,
-    "dmg_mult": 0.14,
-    "magic_lock_on": true,
-    "max_exp": 200
-  }
+  "casttime": 10,
+  "cooldown": 30,
+  "cost": 14,
+  "dmg_mult": 0.1,
+  "dmg_mult_max": 0.104,
+  "magic_lock_on": true,
+  "magic_rc": "kingdomkeys:magic_thunder",
+  "max_exp": 1800,
+  "max_lvl": 3,
+  "next_tier": "kingdomkeys:magic_thundara",
+  "spell_type": "MAGIC"
 }

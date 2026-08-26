@@ -3,9 +3,11 @@ package online.kingdomkeys.kingdomkeys.limit;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.lib.KKRegistryObject;
 import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
 
-public abstract class Limit {
+public abstract class Limit implements KKRegistryObject {
 
 	ResourceLocation name;
 	int order;
@@ -24,11 +26,7 @@ public abstract class Limit {
 	}
 
 	public Limit(String registryName, int order, OrgMember owner) {
-		this(ResourceLocation.parse(registryName), order, owner);
-	}
-
-	public String getName() {
-		return name.toString();
+		this(KingdomKeys.rl(registryName), order, owner);
 	}
 
 	public String getTranslationKey() {
@@ -51,7 +49,9 @@ public abstract class Limit {
 		return owner;
 	}
 
-	public abstract void onUse(Player player, LivingEntity target);
+	public void onUse(Player player, LivingEntity target) {
+		//CD ticks already applied in the UseLimitPacket
+	}
 	
 	public LimitData getLimitData() {
 		return data;
@@ -61,6 +61,7 @@ public abstract class Limit {
 		this.data = data;
 	}
 
+	@Override
 	public ResourceLocation getRegistryName() {
 		return name;
 	}

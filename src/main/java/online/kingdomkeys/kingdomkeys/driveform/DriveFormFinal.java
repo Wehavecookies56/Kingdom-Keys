@@ -13,11 +13,11 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper.MobType;
 import online.kingdomkeys.kingdomkeys.entity.mob.IKHMob;
-import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSetAerialDodgeTicksPacket;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSetGlidingPacket;
@@ -38,7 +38,7 @@ public class DriveFormFinal extends DriveForm {
 			if (event.getSource().getEntity() instanceof Player player) {
                 PlayerData playerData = PlayerData.get(player);
 
-				if (playerData != null && playerData.getActiveDriveForm().equals(Strings.Form_Final)) {
+				if (playerData != null && playerData.isFormActive(ModDriveForms.FINAL)) {
 					double mult = Double.parseDouble(ModConfigs.SERVER.driveFormXPMultiplier.get().get(4).split(",")[1]);
 					playerData.setDriveFormExp(player, playerData.getActiveDriveForm(), (int) (playerData.getDriveFormExp(playerData.getActiveDriveForm()) + (1*mult)));
 					PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
@@ -54,18 +54,18 @@ public class DriveFormFinal extends DriveForm {
 
 		if (playerData != null) {
 			// Drive Form abilities
-			if (playerData.getDriveFormMap() != null && playerData.getActiveDriveForm().equals(Strings.Form_Final)) {
+			if (playerData.getDriveFormMap() != null && playerData.isFormActive(ModDriveForms.FINAL)) {
 				handleHighJump(player, playerData);
 			}
 
-			DriveForm form = ModDriveForms.registry.get(ResourceLocation.parse(playerData.getActiveDriveForm()));
-			if (playerData.getActiveDriveForm().equals(Strings.Form_Final) || (playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()) || form.getBaseGrowthAbilities()) && (playerData.getDriveFormMap().containsKey(Strings.Form_Final) && playerData.getDriveFormLevel(Strings.Form_Final) >= 3 && playerData.getEquippedAbilityLevel(Strings.glide) != null && playerData.getEquippedAbilityLevel(Strings.glide)[1] > 0)) {
+			DriveForm form = ModDriveForms.registry.get(playerData.getActiveDriveForm());
+			if (playerData.isFormActive(ModDriveForms.FINAL) || (playerData.noFormActive() || form.getBaseGrowthAbilities()) && (playerData.getDriveFormMap().containsKey(ModDriveForms.FINAL.location()) && playerData.getDriveFormLevel(ModDriveForms.FINAL.location()) >= 3 && playerData.getEquippedAbilityLevel(ModAbilities.GLIDE.location()) != null && playerData.getEquippedAbilityLevel(ModAbilities.GLIDE.location())[1] > 0)) {
 				handleGlide(player, playerData);
 			}
 
 			//Check if the player has the ability to cancel the variable
-			if(playerData.getIsGliding() && !playerData.getActiveDriveForm().equals(Strings.Form_Final)) {
-				if(!playerData.isAbilityEquipped(Strings.glide)) {
+			if(playerData.getIsGliding() && !playerData.isFormActive(ModDriveForms.FINAL)) {
+				if(!playerData.isAbilityEquipped(ModAbilities.GLIDE)) {
 					playerData.setIsGliding(false);
 				}
 			}
@@ -80,8 +80,8 @@ public class DriveFormFinal extends DriveForm {
 
 		if (j) {
 			if (player.getDeltaMovement().y > 0) {
-				if (playerData.getActiveDriveForm().equals(Strings.Form_Final)) {
-					player.setDeltaMovement(player.getDeltaMovement().add(0, DriveForm.FINAL_JUMP_BOOST[playerData.getDriveFormLevel(Strings.Form_Final)], 0));
+				if (playerData.isFormActive(ModDriveForms.FINAL)) {
+					player.setDeltaMovement(player.getDeltaMovement().add(0, DriveForm.FINAL_JUMP_BOOST[playerData.getDriveFormLevel(ModDriveForms.FINAL.location())], 0));
 				}
 			}
 		}
@@ -120,7 +120,7 @@ public class DriveFormFinal extends DriveForm {
 		}
 
 		if (playerData.getIsGliding()) {
-			int glideLevel = playerData.getActiveDriveForm().equals(DriveForm.NONE.toString()) ? playerData.getDriveFormLevel(Strings.Form_Final) - 2 : playerData.getDriveFormLevel(Strings.Form_Final);
+			int glideLevel = playerData.noFormActive() ? playerData.getDriveFormLevel(ModDriveForms.FINAL.location()) - 2 : playerData.getDriveFormLevel(ModDriveForms.FINAL.location());
 			float glide = DriveForm.FINAL_GLIDE[glideLevel];
 			float limit = DriveForm.FINAL_GLIDE_SPEED[glideLevel];
 

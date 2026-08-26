@@ -5,7 +5,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -19,6 +18,8 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuStockItem;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.KeychainItem;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
+import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.cts.CSTakeOverflowItem;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import org.jetbrains.annotations.NotNull;
 
@@ -29,7 +30,9 @@ import java.util.List;
 
 public class MenuStockScreen extends MenuFilterable {
     MenuBox box;
-	MenuButton back;
+	MenuButton back, takeItem;
+
+	private int listedOverflowSize = -1;
 
     public MenuStockScreen() {
         super(Strings.Gui_Menu_Items_Stock, new Color(0,0,255));
@@ -46,20 +49,58 @@ public class MenuStockScreen extends MenuFilterable {
             int listHeight = (inventory.get(inventory.size() - 1).getY() + 20) - inventory.get(0).getY() + 3;
             scrollBar.setContentHeight(listHeight);
         }
-
+        gui.managed = true;
+        gui.enableScissor(box.getX()+2,scrollBar.getY()+2,box.getX()+box.getWidth(),scrollBar.getBottom()-5); //Arbitrary number to hide the cut one
         for(Renderable renderable : this.inventory){
             if(renderable instanceof MenuStockItem menuStockItem){
                 menuStockItem.active = true;
-                gui.enableScissor(box.getX()+2,scrollBar.getY()+2,box.getX()+box.getWidth(),scrollBar.getBottom()-5); //Arbitrary number to hide the cut one
                 renderable.render(gui,mouseX,mouseY,partialTicks);
-                gui.disableScissor();
             } else {
                 renderable.render(gui,mouseX,mouseY,partialTicks);
             }
         }
+        gui.disableScissor();
+        gui.managed = false;
+        takeItem.render(gui, mouseX, mouseY, partialTicks);
         back.render(gui, mouseX, mouseY, partialTicks);
         super.render(gui, mouseX, mouseY, partialTicks);
 
+    }
+
+    @Override
+    public void tick() {
+        super.tick();
+
+        if (takeItem == null) {
+            return; // ticked before init built the widgets
+        }
+
+        //Checks here in case it changes (or when taking it out)
+        int overflowSize = playerData.getOverflow().size();
+        if (overflowSize != listedOverflowSize) {
+            listedOverflowSize = overflowSize;
+            initItems();
+        }
+
+        takeItem.active = canTakeItem();
+    }
+
+    private void clearSelectionIfGone(List<ItemStack> overflow) {
+        if (selectedItemStack == null || selectedItemStack.isEmpty()) {
+            return;
+        }
+
+        for (ItemStack stack : overflow) {
+            if (ItemStack.matches(stack, selectedItemStack)) {
+                return;
+            }
+        }
+
+        selectedItemStack = ItemStack.EMPTY;
+    }
+
+    private boolean canTakeItem() {
+        return playerData.checkNextOverflow() != null && Utils.tryToAddItem(player, playerData.checkNextOverflow(), true);
     }
     
     @Override
@@ -132,7 +173,6 @@ public class MenuStockScreen extends MenuFilterable {
     public void initItems() {
         buttonWidth = ((float)width * 0.07F);
 
-        Player player = minecraft.player;
         float invPosX = (float) width * 0.1594F;
         float invPosY = (float) height * 0.1851F;
         inventory.clear();
@@ -141,14 +181,20 @@ public class MenuStockScreen extends MenuFilterable {
 
         filterBar.buttons.forEach(this::addWidget);
         
-        addRenderableWidget(back = new MenuButton((int)buttonPosX, buttonPosY, (int)buttonWidth, Component.translatable(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, b -> minecraft.setScreen(new MenuItemsScreen())));
+        addRenderableWidget(takeItem = new MenuButton((int)buttonPosX, buttonPosY, (int)buttonWidth, Component.translatable(Strings.Gui_Menu_Items_Stock_Take).getString(), MenuButton.ButtonType.BUTTON, b -> PacketHandler.sendToServer(new CSTakeOverflowItem())));
+        takeItem.active = canTakeItem();
+
+        addRenderableWidget(back = new MenuButton((int)buttonPosX, buttonPosY + 18, (int)buttonWidth, Component.translatable(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, b -> minecraft.setScreen(new MenuItemsScreen())));
 
         List<ItemStack> items = new ArrayList<>();
-        for (int i = 0; i < player.getInventory().getContainerSize(); i++) {
-            if (filterItem(player.getInventory().getItem(i))) {
-                items.add(player.getInventory().getItem(i));
-            }
-        }
+        List<ItemStack> overflow = playerData.getOverflowForDisplay();
+	    for (ItemStack itemStack : overflow) {
+		    if (filterItem(itemStack)) {
+			    items.add(itemStack);
+		    }
+	    }
+
+        clearSelectionIfGone(overflow);
         items.sort(Comparator.comparing(Utils::getCategoryForStack).thenComparing(stack -> stack.getHoverName().getContents().toString()));
         int itemWidth = box.getWidth() / 2 - 10;
         for (int i = 0; i < items.size(); i += 2) {
@@ -164,7 +210,6 @@ public class MenuStockScreen extends MenuFilterable {
             }
         }
         inventory.forEach(this::addWidget);
-
     }
 
     @Override

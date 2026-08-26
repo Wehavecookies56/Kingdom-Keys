@@ -2,16 +2,14 @@ package online.kingdomkeys.kingdomkeys.datagen.provider;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Preconditions;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.DataProvider;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.datagen.builder.MeldingRecipeBuilder;
-import online.kingdomkeys.kingdomkeys.datagen.builder.SynthesisRecipeBuilder;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -19,12 +17,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
-import java.util.function.BiFunction;
 import java.util.function.Function;
 
 public abstract class MeldingRecipeProvider<T extends MeldingRecipeBuilder> implements DataProvider {
 
-    private static final Gson GSON = (new GsonBuilder()).setPrettyPrinting().create();
     protected final DataGenerator generator;
     protected final String modid;
     protected final Function<ResourceLocation, T> factory;
@@ -39,14 +35,12 @@ public abstract class MeldingRecipeProvider<T extends MeldingRecipeBuilder> impl
         this.existingFileHelper = existingFileHelper;
         this.factory = factory;
     }
-    public MeldingRecipeProvider(DataGenerator generator, String modid, BiFunction<ResourceLocation, ExistingFileHelper, T> builderFromModId, ExistingFileHelper existingFileHelper) {
-        this(generator, modid, loc->builderFromModId.apply(loc, existingFileHelper), existingFileHelper);
-    }
+
     protected abstract void registerRecipe();
 
     public T getBuilder(String path) {
         Preconditions.checkNotNull(path, "Path must not be null");
-        ResourceLocation outputLoc = path.contains(":") ? ResourceLocation.parse(path) : ResourceLocation.fromNamespaceAndPath(modid, path);
+        ResourceLocation outputLoc = path.contains(":") ? KingdomKeys.rl(path) : KingdomKeys.rl(modid, path);
         return generatedModels.computeIfAbsent(outputLoc, factory);
     }
 

@@ -27,7 +27,7 @@ import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
 import java.util.List;
 import java.util.UUID;
 
-public class PauldronItem extends Item implements IItemCategory {
+public class PauldronItem extends Item implements IItemCategory, ICreativeTab {
 	String textureName;
 
 	Item[] items;
@@ -98,12 +98,14 @@ public class PauldronItem extends Item implements IItemCategory {
 		}
 	}
 
-	public Item getArmor(int slot) {
-		return items[slot];
-	}
-
 	@Override
 	public boolean canGrindstoneRepair(ItemStack stack) {
 		return isFoil(stack);
 	}
+
+	@Override
+	public ICreativeTab.Tab getTab() {
+		return ICreativeTab.Tab.EQUIPABLES;
+	}
+
 }

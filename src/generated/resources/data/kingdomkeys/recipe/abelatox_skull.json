@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "minecraft:wither_skeleton_skull"
+    },
+    {
+      "item": "kingdomkeys:orichalcum"
+    },
+    {
+      "item": "kingdomkeys:blazing_crystal"
+    }
+  ],
+  "result": {
+    "components": {
+      "minecraft:profile": {
+        "name": "Abelatox"
+      }
+    },
+    "count": 1,
+    "id": "minecraft:player_head"
+  }
+}

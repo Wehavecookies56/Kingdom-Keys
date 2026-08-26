@@ -25,9 +25,9 @@ import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.common.loot.IGlobalLootModifier;
 import net.neoforged.neoforge.common.loot.LootModifier;
+import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.item.ModComponents;
-import online.kingdomkeys.kingdomkeys.lib.Strings;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
@@ -39,15 +39,13 @@ import java.util.function.Supplier;
 public class FortuneBonusModifier extends LootModifier {
     public static final Supplier<MapCodec<FortuneBonusModifier>> CODEC = Suppliers.memoize(() -> RecordCodecBuilder.mapCodec(inst -> codecStart(inst).apply(inst, FortuneBonusModifier::new)));
 
-    protected FortuneBonusModifier(LootItemCondition[] conditions)
+    public FortuneBonusModifier(LootItemCondition[] conditions)
     {
         super(conditions);
     }
 
     @Nonnull
 	protected @NotNull ObjectArrayList<ItemStack> doApply(ObjectArrayList<ItemStack> generatedLoot, LootContext context) {
-		final String hasLuckyLuckyBonus = "HasLuckyLuckyBonus";
-
         ItemStack tool = context.getParamOrNull(LootContextParams.TOOL);
 
         if (tool != null && !tool.has(ModComponents.HAS_FORTUNE_BONUS)) {
@@ -60,7 +58,7 @@ public class FortuneBonusModifier extends LootModifier {
                 if(!(blockState.getBlock() instanceof ShulkerBoxBlock)) {
                     // bonus for lucky amplifier.
                     PlayerData playerData = PlayerData.get(player);
-                    int totalFortuneBonus = playerData.getNumberOfAbilitiesEquipped(Strings.luckyLucky);
+                    int totalFortuneBonus = playerData.getNumberOfAbilitiesEquipped(ModAbilities.LUCKY_STRIKE);
 
                     if (totalFortuneBonus > 0) {
                         ItemStack fakeTool = tool.isEmpty() ? new ItemStack(Items.BARRIER) : tool.copy();

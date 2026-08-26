@@ -11,7 +11,6 @@ import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper.MobType;
 import online.kingdomkeys.kingdomkeys.entity.mob.IKHMob;
-import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
 
@@ -30,7 +29,7 @@ public class DriveFormWisdom extends DriveForm {
 			if (((IKHMob) event.getEntity()).getKHMobType() == MobType.HEARTLESS_EMBLEM || ((IKHMob) event.getEntity()).getKHMobType() == MobType.HEARTLESS_PUREBLOOD) {
 				if (event.getSource().getEntity() instanceof Player player) {
                     PlayerData playerData = PlayerData.get(player);
-					if (playerData != null && playerData.getActiveDriveForm().equals(Strings.Form_Wisdom)) {
+					if (playerData != null && playerData.isFormActive(ModDriveForms.WISDOM)) {
 						double mult = Double.parseDouble(ModConfigs.SERVER.driveFormXPMultiplier.get().get(1).split(",")[1]);
 						playerData.setDriveFormExp(player, playerData.getActiveDriveForm(), (int) (playerData.getDriveFormExp(playerData.getActiveDriveForm()) + (1*mult)));
 						PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);

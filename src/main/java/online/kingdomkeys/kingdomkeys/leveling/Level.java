@@ -2,8 +2,10 @@ package online.kingdomkeys.kingdomkeys.leveling;
 
 
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
+import online.kingdomkeys.kingdomkeys.lib.KKRegistryObject;
 
-public class Level {
+public class Level implements KKRegistryObject {
 
 	ResourceLocation name;
 	int maxLevel;
@@ -21,10 +23,6 @@ public class Level {
 
 	public LevelingData getLevelingData() {
 		return data;
-	}
-
-	public String getName() {
-		return name.toString();
 	}
 
 	public int getStr(int level) {
@@ -51,16 +49,12 @@ public class Level {
 		return data.getMaxMp(level);
 	}
 
-	public String[] getAbilities(int level) {
+	public ResourceLocation[] getAbilities(int level) {
 		return data.getAbilities(level);
 	}
 
-	public String[] getShotlocks(int level) {
-		return data.getShotlocks(level);
-	}
-	
-	public String[] getSpells(int level) {
-		return data.getSpells(level);
+	public ItemStack[] getItems(int level) {
+		return data.getItems(level);
 	}
 	
 	public int getMaxAccessories(int level) {
@@ -79,6 +73,7 @@ public class Level {
 		return data.getVersion();
 	}
 
+	@Override
 	public ResourceLocation getRegistryName() {
 		return name;
 	}

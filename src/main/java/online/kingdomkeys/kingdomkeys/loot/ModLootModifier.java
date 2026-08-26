@@ -17,4 +17,5 @@ public class ModLootModifier {
     public static final DeferredRegister<MapCodec<? extends IGlobalLootModifier>> LOOT_MODIFIERS = DeferredRegister.create(NeoForgeRegistries.Keys.GLOBAL_LOOT_MODIFIER_SERIALIZERS, KingdomKeys.MODID);
     public static final Supplier<MapCodec<FortuneBonusModifier>> FORTUNE_BONUS = LOOT_MODIFIERS.register("fortune_bonus", FortuneBonusModifier.CODEC);
     public static final Supplier<MapCodec<DiscGenModifier>> DISC_BONUS = LOOT_MODIFIERS.register("disc_gen", DiscGenModifier.CODEC);
+    public static final Supplier<MapCodec<GummiBlueprintModifier>> GUMMI_BLUEPRINT = LOOT_MODIFIERS.register("gummi_blueprint", GummiBlueprintModifier.CODEC);
 }

@@ -1,41 +1,95 @@
 package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.modifiers;
 
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.Holder;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModRoomModifiers;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.Room;
+import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
-
-public class EffectRoomModifier extends RoomModifier {
+public class EffectRoomModifier implements RoomModifier {
 
     Holder<MobEffect> effect;
 
-    public EffectRoomModifier(ResourceLocation modifierName, Holder<MobEffect> effect) {
-        super(modifierName);
-        this.effect = effect;
+    EffectType effectType;
+    int amplifier;
+
+    public enum EffectType implements StringRepresentable {
+        PLAYER("PLAYER"), MOB("MOB"), BOTH("BOTH");
+
+        final String name;
+
+        EffectType(String name) {
+            this.name = name;
+        }
+
+        @Override
+        public @NotNull String getSerializedName() {
+            return name;
+        }
     }
 
+    public static final MapCodec<EffectRoomModifier> CODEC = RecordCodecBuilder.mapCodec(instance ->
+            instance.group(
+                    BuiltInRegistries.MOB_EFFECT.holderByNameCodec().fieldOf("effect").forGetter(EffectRoomModifier::getEffect),
+                    StringRepresentable.fromEnum(EffectType::values).fieldOf("target").forGetter(EffectRoomModifier::getEffectType),
+                    Codec.INT.optionalFieldOf("amplifier", 0).forGetter(EffectRoomModifier::getAmplifier)
+            ).apply(instance, EffectRoomModifier::new)
+    );
+
+    public EffectRoomModifier(Holder<MobEffect> effect, EffectType effectType, int amplifier) {
+        this.effect = effect;
+        this.effectType = effectType;
+        this.amplifier = amplifier;
+    }
+
+    private Holder<MobEffect> getEffect() {
+        return effect;
+    }
+
+    private EffectType getEffectType() {
+        return effectType;
+    }
+
+    public int getAmplifier() {
+        return amplifier;
+    }
 
     @Override
     public void onEnter(Room room, Player player) {
-        player.addEffect(new MobEffectInstance(effect, -1, 0, false, true, true));
-    }
-
-    @Override
-    public void onGenerate(Room room) {
-
+        if (effectType != EffectType.MOB) {
+            player.addEffect(new MobEffectInstance(effect, -1, amplifier, false, true, true));
+        }
     }
 
     @Override
     public void onExit(Room room, Player player) {
-        player.removeEffect(effect);
+        if (effectType != EffectType.MOB) {
+            player.removeEffect(effect);
+        }
     }
 
     @Override
-    public void tick(Room room, List<Player> players) {
+    public void onSpawn(Room room, LivingEntity spawned) {
+        if (effectType != EffectType.PLAYER) {
+            spawned.addEffect(new MobEffectInstance(effect, -1, amplifier, false, true, true));
+        }
+    }
 
+    @Override
+    public MapCodec<? extends RoomModifier> codec() {
+        return CODEC;
+    }
+
+    @Override
+    public RoomModifierType<? extends RoomModifier> type() {
+        return ModRoomModifiers.EFFECT.get();
     }
 }

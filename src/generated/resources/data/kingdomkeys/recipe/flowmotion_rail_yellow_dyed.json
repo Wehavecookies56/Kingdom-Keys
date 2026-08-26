@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "kingdomkeys",
+  "key": {
+    "D": {
+      "item": "minecraft:yellow_dye"
+    },
+    "R": {
+      "tag": "kingdomkeys:flowmotion_rails"
+    }
+  },
+  "pattern": [
+    "RRR",
+    "RDR",
+    "RRR"
+  ],
+  "result": {
+    "count": 8,
+    "id": "kingdomkeys:flowmotion_rail_yellow"
+  }
+}

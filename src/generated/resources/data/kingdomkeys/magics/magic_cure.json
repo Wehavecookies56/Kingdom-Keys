@@ -1,34 +1,13 @@
 {
-  "0": {
-    "casttime": 1,
-    "cooldown": 20,
-    "cost": 300,
-    "dmg_mult": 0.25,
-    "magic_lock_on": false,
-    "max_exp": 1800
-  },
-  "1": {
-    "casttime": 1,
-    "cooldown": 20,
-    "cost": 300,
-    "dmg_mult": 0.5,
-    "magic_lock_on": false,
-    "max_exp": 2400
-  },
-  "2": {
-    "casttime": 1,
-    "cooldown": 20,
-    "cost": 300,
-    "dmg_mult": 0.75,
-    "magic_lock_on": false,
-    "max_exp": 4200
-  },
-  "3": {
-    "casttime": 1,
-    "cooldown": 20,
-    "cost": 300,
-    "dmg_mult": 1.0,
-    "magic_lock_on": false,
-    "max_exp": 200
-  }
+  "casttime": 1,
+  "cooldown": 20,
+  "cost": 300,
+  "dmg_mult": 0.25,
+  "dmg_mult_max": 0.33,
+  "magic_lock_on": false,
+  "magic_rc": "kingdomkeys:magic_cure",
+  "max_exp": 1800,
+  "max_lvl": 3,
+  "next_tier": "kingdomkeys:magic_cura",
+  "spell_type": "MAGIC"
 }

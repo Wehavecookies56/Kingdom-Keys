@@ -37,7 +37,10 @@ public class HUDElement {
 
     public boolean selected;
 
-    public float[] configValues = new float[8];
+    // Whether it is drawn at all. Saved with the rest of its numbers, 9th param
+    public boolean visible = true;
+
+    public float[] configValues = new float[9];
 
     public HUDElement(String name){
         this.name = name;
@@ -48,7 +51,10 @@ public class HUDElement {
         //Apply config options
         List<? extends Number> configOption = ModConfigs.getHUDData(name);
 
-        for (int i = 0; i < configOption.size(); i++) {
+        // A config written before elements could be hidden has eight numbers, and a missing ninth would read as 0, which is off. Anything not said is shown
+        configValues[8] = 1F;
+
+        for (int i = 0; i < Math.min(configOption.size(), configValues.length); i++) {
             configValues[i] = configOption.get(i).floatValue();
         }
         applyValues(configValues);
@@ -63,6 +69,7 @@ public class HUDElement {
         this.scaleY = configValues[5];
         this.rotation = configValues[6];
         this.anchor = HUDAnchorPosition.values()[(int)configValues[7]];
+        this.visible = configValues[8] != 0F;
     }
 
     public <T extends HUDElement> T setScale(float scaleX, float scaleY) {
@@ -110,7 +117,6 @@ public class HUDElement {
         float x2 = px + sw;
         float y2 = py + sh;
 
-        // Normalizar rectángulo
         float minX = Math.min(x1, x2);
         float maxX = Math.max(x1, x2);
         float minY = Math.min(y1, y2);
@@ -216,6 +222,11 @@ public class HUDElement {
         float offsetY = scaleY < 0 ? height : 0;
 
         guiGraphics.pose().translate(-width / 2f + offsetX, -height / 2f + offsetY, 0);
+
+        // To avoid breaking anything, hiding an element will simply scale it down to 0
+        if (!visible) {
+            guiGraphics.pose().scale(0F, 0F, 1F);
+        }
     }
 
     public void endTransform(GuiGraphics guiGraphics) {
@@ -236,11 +247,12 @@ public class HUDElement {
         scaleY = defaultValues.get(5);
         rotation = defaultValues.get(6);
         anchor = HUDAnchorPosition.values()[defaultValues.get(7).intValue()];
+        visible = defaultValues.get(8) != 0F;
     }
 
     public void saveConfig(){
         KingdomKeys.LOGGER.warn("Saving config for "+name);
-        List<Float> values = new ArrayList<>(List.of(x,y,(float)width,(float)height,scaleX,scaleY,rotation,(float)anchor.ordinal()));
+        List<Float> values = new ArrayList<>(List.of(x,y,(float)width,(float)height,scaleX,scaleY,rotation,(float)anchor.ordinal(),visible ? 1F : 0F));
         ModConfigs.setHUDData(name,values);
     }
 
@@ -255,9 +267,10 @@ public class HUDElement {
         float defScaleY = defaults.get(5);
         float defRotation = defaults.get(6);
         HUDAnchorPosition defAnchor = HUDAnchorPosition.values()[defaults.get(7).intValue()];
+        boolean defVisible = defaults.get(8) != 0F;
 
         try {
-            ResourceLocation rl = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "hud/" + name.toLowerCase() + ".json");
+            ResourceLocation rl = KingdomKeys.rl("hud/" + name.toLowerCase() + ".json");
             Resource resource = Minecraft.getInstance().getResourceManager().getResourceOrThrow(rl);
             KingdomKeys.LOGGER.info("Found RP config for "+name);
             try (Reader reader = new InputStreamReader(resource.open())) {
@@ -276,6 +289,8 @@ public class HUDElement {
 
                 anchor = json.has("anchor") ? HUDAnchorPosition.valueOf(json.get("anchor").getAsString()) : defAnchor;
 
+                visible = json.has("visible") ? json.get("visible").getAsBoolean() : defVisible;
+
                 return json;
             }
 
@@ -290,37 +305,44 @@ public class HUDElement {
             scaleY = defScaleY;
             rotation = defRotation;
             anchor = defAnchor;
+            visible = defVisible;
             return null;
         }
     }
 
     public static ArrayList<Float> getDefaultValues(String name){
-        return switch(name){
-            case "HP" -> Lists.newArrayList(13.8F, 3.8F, 916F, 254F,0.2F,0.2F, 0F, 8F);
-            case "MP" -> Lists.newArrayList(53F, 8.6F, 142F, 12F,0.7F,0.5F, 0F, 8F);
-            case "CM" -> Lists.newArrayList(5F, 5F, 70F, 75F, 1F,1F, 0F, 6F);
-            case "RC" -> Lists.newArrayList(5F, 80F, 100F, 16F, 1F, 1F, 0F, 6F);
-            case "Drive" -> Lists.newArrayList(53.7F, 14.6F, 95F, 18F, 0.8F, 0.8F, 0F, 8F);
-            case "Focus" -> Lists.newArrayList(3F, 27F, 66F, 40F, 1F, 1F, 0F, 8F);
-            case "Party" -> Lists.newArrayList(3F, 0F, 25F, 120F, 1F, 1F, 0F, 5F);
-            case "LockOn" -> Lists.newArrayList(2F, 2F, 166F, 40F, 0.7F, 0.7F, 0F, 2F);
-            case "Portrait" -> Lists.newArrayList(28F, 18F, 32F, 32F, 0.7F, 0.7F, 0F, 8F);
-            case "MunnyExp" -> Lists.newArrayList(0F, 0F, 80F, 60F, 1F, 1F, 0F, 0F);
-            case "LevelUp" -> Lists.newArrayList(1F, 10F, 155F, 50F, 1F, 1F, 0F, 2F);
-            case "DriveLevel" -> Lists.newArrayList(0F, -4F, 155F, 90F, 1F, 1F, 0F, 3F);
-            case "Minimap" -> Lists.newArrayList(2F, 2F, 100F, 100F, 1F, 1F, 0F, 2F);
+        return switch(name){ // X, Y, W, H, sX, sY, rot, anc
+            case "HP" -> Lists.newArrayList(13.8F, 3.8F, 916F, 254F,0.2F,0.2F, 0F, 8F, 1F);
+            case "MP" -> Lists.newArrayList(53F, 8.6F, 142F, 12F,0.7F,0.5F, 0F, 8F, 1F);
+            case "CM" -> Lists.newArrayList(5F, 5F, 70F, 75F, 1F,1F, 0F, 6F, 1F);
+            case "RC" -> Lists.newArrayList(5F, 80F, 100F, 16F, 1F, 1F, 0F, 6F, 1F);
+            case "Drive" -> Lists.newArrayList(53.7F, 14.6F, 95F, 18F, 0.8F, 0.8F, 0F, 8F, 1F);
+            case "Focus" -> Lists.newArrayList(3F, 27F, 66F, 40F, 1F, 1F, 0F, 8F, 1F);
+            case "Party" -> Lists.newArrayList(3F, 0F, 25F, 120F, 1F, 1F, 0F, 5F, 1F);
+            case "LockOn" -> Lists.newArrayList(2F, 2F, 166F, 40F, 0.7F, 0.7F, 0F, 2F, 1F);
+            case "Portrait" -> Lists.newArrayList(28F, 18F, 32F, 32F, 0.7F, 0.7F, 0F, 8F, 1F);
+            case "MunnyExp" -> Lists.newArrayList(0F, 0F, 80F, 60F, 1F, 1F, 0F, 0F, 1F);
+            case "LevelUp" -> Lists.newArrayList(1F, 10F, 155F, 50F, 1F, 1F, 0F, 2F, 1F);
+            case "DriveLevel" -> Lists.newArrayList(0F, -4F, 155F, 90F, 1F, 1F, 0F, 3F, 1F);
+            case "RoomName" -> Lists.newArrayList(2F, 138F, 100F, 10F, 1F, 1F, 0F, 8F, 1F);
+            case "Minimap" -> Lists.newArrayList(2F, 26F, 100F, 100F, 1F, 1F, 0F, 2F, 1F);
+            case "ItemGet" -> Lists.newArrayList(4F, -13F, 151F, 26F, 1F, 1F, 0F, 3F, 1F);
+            case "GummiInfo" -> Lists.newArrayList(0F, 2F, 120F, 40F, 1F, 1F, 0F, 1F, 1F);
+            case "GummiReadout" -> Lists.newArrayList(4F, 4F, 104F, 93F, 1F, 1F, 0F, 2F, 1F);
+            case "GummiControls" -> Lists.newArrayList(4F, 4F, 150F, 50F, 1F, 1F, 0F, 0F, 1F);
             default -> throw new IllegalStateException("Unexpected default HUD value: " + name);
         };
     }
 
     public String[] getData() {
-        String[] string = new String[6];
+        String[] string = new String[7];
         string[0] = "Name: " + name;
         string[1] = "Anchor: " + anchor;
         string[2] = "Position: " + x+", "+y;
         string[3] = "Dimensions: " + width+" x "+height;
         string[4] = "Scale: " + scaleX+", "+scaleY;
         string[5] = "Rotation: " + rotation;
+        string[6] = "Visible: " + visible;
         return string;
     }
 }

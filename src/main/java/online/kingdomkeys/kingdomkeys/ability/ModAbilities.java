@@ -1,22 +1,20 @@
 package online.kingdomkeys.kingdomkeys.ability;
 
 import net.minecraft.core.Registry;
-import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.Ability.AbilityType;
+import online.kingdomkeys.kingdomkeys.lib.KKSupplier;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
-
-import java.util.function.Supplier;
 
 public class ModAbilities {
 
-	public static DeferredRegister<Ability> ABILITIES = DeferredRegister.create(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "abilities"), KingdomKeys.MODID);
+	public static DeferredRegister<Ability> ABILITIES = DeferredRegister.create(KingdomKeys.rl("abilities"), KingdomKeys.MODID);
 	public static Registry<Ability> registry = ABILITIES.makeRegistry(builder -> builder.sync(true));
 
 	public static int order = 0;
 
-	public static final Supplier<Ability>
+	public static final KKSupplier<Ability>
 	//Action
 			AUTO_VALOR = createAbility(Strings.autoValor, 1, AbilityType.ACTION),
 			AUTO_WISDOM = createAbility(Strings.autoWisdom, 1, AbilityType.ACTION),
@@ -24,6 +22,8 @@ public class ModAbilities {
 			AUTO_MASTER = createAbility(Strings.autoMaster, 1, AbilityType.ACTION),
 			AUTO_FINAL = createAbility(Strings.autoFinal, 1, AbilityType.ACTION),
 			STRIKE_RAID = createAbility(Strings.strikeRaid, 3, AbilityType.ACTION),
+			GUARD = createAbility(Strings.guard, 2, AbilityType.ACTION),
+			COUNTERGUARD = createAbility(Strings.counterguard, 3, AbilityType.ACTION),
 			FLOWSTEP = createAbility(Strings.flowStep, 4, AbilityType.ACTION),
 
 	// Growth
@@ -40,7 +40,8 @@ public class ModAbilities {
 	// Support
 			ZERO_EXP = createAbility(Strings.zeroExp, 0, AbilityType.SUPPORT),
 			SCAN = createAbility(Strings.scan, 1, AbilityType.SUPPORT),
-			MAGIC_LOCK_ON = createAbility(Strings.magicLockOn, 4, AbilityType.SUPPORT), 
+			AERIAL_RECOVERY = createAbility(Strings.aerialRecovery, 2, AbilityType.SUPPORT),
+			MAGIC_LOCK_ON = createAbility(Strings.magicLockOn, 4, AbilityType.SUPPORT),
 			LEAF_BRACER = createAbility(Strings.leafBracer, 1, AbilityType.SUPPORT),
 			HP_GAIN = createAbility(Strings.hpGain,6,AbilityType.SUPPORT),
 			MP_SAFETY = createAbility(Strings.mpSafety, 0, AbilityType.SUPPORT),
@@ -56,7 +57,7 @@ public class ModAbilities {
 			FORM_BOOST = createAbility(Strings.formBoost, 3, AbilityType.SUPPORT),
 			FULL_MP_BLAST = createAbility(Strings.fullMPBlast, 2, AbilityType.SUPPORT),
 			MP_THRIFT = createAbility(Strings.mpThrift, 2, AbilityType.SUPPORT),
-			LUCKY_LUCKY = createAbility(Strings.luckyLucky, 5, AbilityType.SUPPORT),
+			LUCKY_STRIKE = createAbility(Strings.luckyStrike, 5, AbilityType.SUPPORT),
 			JACKPOT = createAbility(Strings.jackpot, 4, AbilityType.SUPPORT),
 			FIRE_BOOST = createAbility(Strings.fireBoost, 3, AbilityType.SUPPORT),
 			BLIZZARD_BOOST = createAbility(Strings.blizzardBoost, 4, AbilityType.SUPPORT),
@@ -68,6 +69,7 @@ public class ModAbilities {
 			ITEM_BOOST = createAbility(Strings.itemBoost, 2, AbilityType.SUPPORT),
 			TREASURE_MAGNET = createAbility(Strings.treasureMagnet, 3, AbilityType.SUPPORT),
 			SECOND_CHANCE = createAbility(Strings.secondChance, 4, AbilityType.SUPPORT),
+			ONCE_MORE = createAbility(Strings.onceMore, 4, AbilityType.SUPPORT),
 			WIZARDS_RUSE = createAbility(Strings.wizardsRuse, 4, AbilityType.SUPPORT),
 			EXTRA_CAST = createAbility(Strings.extraCast, 3, AbilityType.SUPPORT),
 			DAMAGE_CONTROL = createAbility(Strings.damageControl, 5, AbilityType.SUPPORT),
@@ -93,7 +95,7 @@ public class ModAbilities {
 		
 
 
-	public static Supplier<Ability> createAbility(String name, int apCost, AbilityType type) {
-		return ABILITIES.register(name.substring(12), () -> new Ability(ResourceLocation.parse(name), apCost, type, order++));
+	private static KKSupplier<Ability> createAbility(String name, int apCost, AbilityType type) {
+		return new KKSupplier<>(KingdomKeys.rl(ABILITIES.getNamespace(), name), ABILITIES.register(name, () -> new Ability(KingdomKeys.rl(name), apCost, type, order++)));
 	}
 }

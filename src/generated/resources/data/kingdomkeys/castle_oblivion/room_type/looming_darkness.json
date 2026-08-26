@@ -1,0 +1,16 @@
+{
+  "category": "ENEMY",
+  "enemies": {
+    "type": "M",
+    "number_of_enemies": 10,
+    "simultaneous_enemies": 4
+  },
+  "modifiers": [
+    {
+      "type": "kingdomkeys:effect",
+      "effect": "minecraft:speed",
+      "target": "MOB"
+    }
+  ],
+  "size": "L"
+}

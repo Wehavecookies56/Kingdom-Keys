@@ -25,15 +25,11 @@ import online.kingdomkeys.kingdomkeys.item.organization.ScytheItem;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 
 import javax.annotation.Nullable;
-import java.util.Random;
 
 @OnlyIn(Dist.CLIENT)
 public class KKThrowableEntityRenderer extends EntityRenderer<KKThrowableEntity> {
     public final ItemRenderer itemRenderer;
 
-	Random rand = new Random();
-	float rotation = 0;
-	
 	public KKThrowableEntityRenderer(EntityRendererProvider.Context context) {
 		super(context);
 		this.shadowRadius = 0.15F;
@@ -44,101 +40,98 @@ public class KKThrowableEntityRenderer extends EntityRenderer<KKThrowableEntity>
 	@Override
 	public void render(KKThrowableEntity entityIn, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource bufferIn, int packedLightIn) {
 		poseStack.pushPose();
-        ItemStack itemstack = entityIn.getItem();
-        BakedModel model = this.itemRenderer.getModel(itemstack, entityIn.level(), null, 1);
-        poseStack.translate(0, 0.4, 0);
-        poseStack.mulPose(Axis.YP.rotationDegrees(90+ entityIn.yRotO + (entityIn.getYRot() - entityIn.yRotO)));
-		float rotation = (entityIn.tickCount + partialTicks) * 1.5f;
+		{
+			ItemStack itemstack = entityIn.getItem();
+			BakedModel model = this.itemRenderer.getModel(itemstack, entityIn.level(), null, 1);
+			poseStack.translate(0, 0.4, 0);
+			if (entityIn.isStationary()) {
+				poseStack.mulPose(Axis.YP.rotationDegrees(-entityIn.getYRot()));
+				poseStack.scale(4, 4, 4);
+			} else {
+				poseStack.mulPose(Axis.YP.rotationDegrees(entityIn.yRotO + (entityIn.getYRot() - entityIn.yRotO)));
+				float rotation = (entityIn.tickCount + partialTicks) * 1.5f;
 
-        if(itemstack.getItem() instanceof ChakramItem) { //Chakrams rotation
-        	if(itemstack.getItem() == ModItems.pizzaCut.get())
-        		poseStack.scale(1,1,1);
-        	else
-        		poseStack.scale(0.04f, 0.04f, 0.04f);        
+				if (itemstack.getItem() instanceof ChakramItem) { //Chakrams rotation
+					if (itemstack.getItem() == ModItems.pizzaCut.get())
+						poseStack.scale(1, 1, 1);
+					else
+						poseStack.scale(0.04f, 0.04f, 0.04f);
 
-	        if(entityIn.getRotationPoint() == 0) {
-	        	poseStack.mulPose(Axis.ZP.rotationDegrees(90F));
-	            poseStack.mulPose(Axis.XN.rotation(rotation));
+					if (entityIn.getRotationPoint() == 0) {
+						poseStack.mulPose(Axis.ZP.rotationDegrees(90F));
+						poseStack.mulPose(Axis.XN.rotation(rotation));
+					}
+
+					if (entityIn.getRotationPoint() == 1) {
+
+					}
+
+					if (entityIn.getRotationPoint() == 2) {
+						poseStack.mulPose(Axis.XP.rotationDegrees(90F));
+						poseStack.mulPose(Axis.ZP.rotation(rotation));
+					}
+				} else if (itemstack.getItem() instanceof KeybladeItem) { //Strike raid rotation
+					poseStack.scale(2, 2, 2);
+					if (entityIn.getRotationPoint() == 0) {
+						poseStack.mulPose(Axis.ZP.rotationDegrees(180F));
+						poseStack.mulPose(Axis.YP.rotationDegrees(90F));
+						poseStack.mulPose(Axis.XN.rotation(rotation));
+						poseStack.translate(0.5F, 0, 0);
+					}
+
+					if (entityIn.getRotationPoint() == 1) {
+						poseStack.mulPose(Axis.ZP.rotation(rotation));
+					}
+
+					if (entityIn.getRotationPoint() == 2) {
+						poseStack.mulPose(Axis.XP.rotationDegrees(90F));
+						poseStack.mulPose(Axis.ZP.rotation(rotation));
+					}
+					//poseStack.mulPose(Axis.ZP.rotation(rotation));
+
+				} else if (itemstack.getItem() instanceof ScytheItem) { //Scythes rotation
+					if (entityIn.getRotationPoint() == 0) {
+						poseStack.scale(10, 10, 10);
+
+						poseStack.mulPose(Axis.YP.rotationDegrees(0F));
+						poseStack.mulPose(Axis.XP.rotation(rotation));
+					}
+
+					if (entityIn.getRotationPoint() == 1) {
+						poseStack.scale(2, 2, 2);
+
+						poseStack.mulPose(Axis.YP.rotationDegrees(90F));
+						poseStack.mulPose(Axis.ZP.rotation(rotation));
+					}
+
+					switch (BuiltInRegistries.ITEM.getKey(entityIn.getItem().getItem()).getPath()) { // Some downscale
+						case Strings.quietBelladonna:
+						case Strings.loftyGerbera:
+						case Strings.solemnMagnolia:
+						case Strings.hallowedLotus:
+							poseStack.scale(0.1F, 0.1F, 0.1F);
+							break;
+					}
+				} else if (itemstack.getItem() instanceof LanceItem) { //Lance rotation
+					if (entityIn.getRotationPoint() == 0) {
+						poseStack.mulPose(Axis.XN.rotationDegrees(entityIn.xRotO + (entityIn.getXRot() - entityIn.xRotO) + 90));
+					}
+
+					if (entityIn.getRotationPoint() == 1) {
+
+					}
+
+					if (entityIn.getRotationPoint() == 2) {
+						poseStack.mulPose(Axis.XN.rotationDegrees(entityIn.xRotO + (entityIn.getXRot() - entityIn.xRotO) + 90));
+					}
+				} else if (itemstack.getItem() instanceof CardItem) {
+					poseStack.scale(3, 3, 3);
+				}
 			}
-			
-			if(entityIn.getRotationPoint() == 1) {
-				
-			}
-			
-			if(entityIn.getRotationPoint() == 2) {
-	        	poseStack.mulPose(Axis.XP.rotationDegrees(90F));
-	            poseStack.mulPose(Axis.ZP.rotation(rotation));
-			}
-		} else if (itemstack.getItem() instanceof KeybladeItem) { //Strike raid rotation
-			poseStack.scale(2, 2, 2);
-			if(entityIn.getRotationPoint() == 0) {
-				poseStack.mulPose(Axis.ZP.rotationDegrees(180F));
-				poseStack.mulPose(Axis.YP.rotationDegrees(90F));
-				poseStack.mulPose(Axis.XN.rotation(rotation));
-				poseStack.translate(0.5F,0,0);
-			}
-
-			if(entityIn.getRotationPoint() == 1) {
-				poseStack.mulPose(Axis.ZP.rotation(rotation));
-			}
-
-			if(entityIn.getRotationPoint() == 2) {
-				poseStack.mulPose(Axis.XP.rotationDegrees(90F));
-				poseStack.mulPose(Axis.ZP.rotation(rotation));
-			}
-
-			//poseStack.mulPose(Axis.ZP.rotation(rotation));
-			
-		} else if (itemstack.getItem() instanceof ScytheItem) { //Scythes rotation
-	        if(entityIn.getRotationPoint() == 0) {
-				poseStack.scale(10, 10, 10);
-
-				poseStack.mulPose(Axis.YP.rotationDegrees(-90F));
-				poseStack.mulPose(Axis.XP.rotation(rotation));
-	        }
-	        
-	        if(entityIn.getRotationPoint() == 1) {
-				poseStack.scale(2,2,2);
-
-				poseStack.mulPose(Axis.YP.rotationDegrees(0F));
-				poseStack.mulPose(Axis.ZP.rotation(rotation));
-	        }
-	        
-	        switch(BuiltInRegistries.ITEM.getKey(entityIn.getItem().getItem()).getPath()) { // Some downscale
-	    	case Strings.quietBelladonna:
-			case Strings.loftyGerbera:
-			case Strings.solemnMagnolia:
-			case Strings.hallowedLotus:
-				poseStack.scale(0.1F,0.1F,0.1F);
-				break;
-	        }
-		} else if (itemstack.getItem() instanceof LanceItem) { //Lance rotation
-			if(entityIn.getRotationPoint() == 0) {
-	        	//poseStack.mulPose(Axis.ZP.rotationDegrees(90F));
-	           // poseStack.mulPose(Axis.XN.rotation(rotation));
-				//poseStack.mulPose(Axis.XP.rotationDegrees(entityIn.yRotO + (entityIn.getYRot() - entityIn.yRotO)));
-				poseStack.mulPose(Axis.ZN.rotationDegrees(entityIn.xRotO + (entityIn.getXRot() - entityIn.xRotO) + 90));
-
-			}
-			
-			if(entityIn.getRotationPoint() == 1) {
-				
-			}
-			
-			if(entityIn.getRotationPoint() == 2) {
-				poseStack.mulPose(Axis.ZN.rotationDegrees(entityIn.xRotO + (entityIn.getXRot() - entityIn.xRotO) + 90));
-
-	        	//poseStack.mulPose(Axis.XP.rotationDegrees(90F));
-	            //poseStack.mulPose(Axis.ZP.rotation(rotation));
-			}		
-		} else if(itemstack.getItem() instanceof CardItem) {
-			poseStack.scale(3,3,3);
+			itemRenderer.render(itemstack, (itemstack.getItem() instanceof ChakramItem) ? ItemDisplayContext.NONE : ItemDisplayContext.FIXED, false, poseStack, bufferIn, packedLightIn, OverlayTexture.NO_OVERLAY, model);
 		}
-        
-        itemRenderer.render(itemstack, (itemstack.getItem() instanceof ChakramItem) ? ItemDisplayContext.NONE : ItemDisplayContext.FIXED, false, poseStack, bufferIn, packedLightIn, OverlayTexture.NO_OVERLAY, model);
-    
-        poseStack.popPose();
-    
+		poseStack.popPose();
+
         super.render(entityIn, entityYaw, partialTicks, poseStack, bufferIn, packedLightIn);
 	}
 

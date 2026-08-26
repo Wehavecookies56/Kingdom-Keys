@@ -18,12 +18,15 @@ public class CommonConfig {
     public ModConfigSpec.EnumValue<SpawningMode> heartlessSpawningMode;
     public ModConfigSpec.ConfigValue<List<? extends String>> mobSpawnRate;
 
-    public ModConfigSpec.IntValue rodHeartlessLevelScale, rodHeartlessMaxLevel, driveHeal, recipeDropChance, gummiBlocksDropPercent, hpDropProbability, mpDropProbability, munnyDropProbability, driveDropProbability, focusDropProbability, mobLevelStats;
-    public ModConfigSpec.BooleanValue respawnROD, mobLevelingUp, mobLevelName, bombExplodeWithFire, allowBlocksInHangarArea, keybladeOpenDoors, blizzardChangeBlocks, playerSpawnHeartless, bossDespawnIfNoTarget, needKeybladeForHeartless, hideOrgNames;
+    public ModConfigSpec.IntValue rodHeartlessLevelScale, rodHeartlessMaxLevel, driveHeal, recipeDropChance, biomeMemoryDropChance, gummiBlocksDropPercent, hpDropProbability, mpDropProbability, munnyDropProbability, driveDropProbability, focusDropProbability, mobLevelStats;
+    public ModConfigSpec.BooleanValue respawnROD, mobLevelingUp, mobLevelName, bombExplodeWithFire, allowBlocksInHangarArea, keybladeOpenDoors, playerSpawnHeartless, bossDespawnIfNoTarget, needKeybladeForHeartless, hideOrgNames;
     public ModConfigSpec.DoubleValue drivePointsMultiplier, focusPointsMultiplier, shotlockMult, critMult, fuelConsumeFactor;
 
     public ModConfigSpec.ConfigValue<List<? extends String>> playerSpawnHeartlessData;
     public ModConfigSpec.ConfigValue<List<? extends String>> startingRecipes;
+
+    public ModConfigSpec.BooleanValue generateCOEntrance;
+    public ModConfigSpec.IntValue coEntranceChunkX, coEntranceChunkZ;
     
     CommonConfig(final ModConfigSpec.Builder builder) {
 		builder.push("general");
@@ -32,11 +35,6 @@ public class CommonConfig {
                 .comment("Allow Bomb heartless to explode when lit on fire")
                 .translation(KingdomKeys.MODID + ".config.bomb_explode_with_fire")
                 .define("bombExplodeWithfire", true);
-
-        blizzardChangeBlocks = builder
-                .comment("Allow Blizzard to turn lava into obsidian and freeze water")
-                .translation(KingdomKeys.MODID + ".config.blizzard_change_blocks")
-                .define("blizzardChangeBlocks", true);
 
         keybladeOpenDoors = builder
                 .comment("Allow keyblades to open iron doors with right click")
@@ -62,6 +60,21 @@ public class CommonConfig {
                 .comment("When enabled players wearing the whole Organization XIII set will not show their playername on their head and in the Tab menu")
                 .translation(KingdomKeys.MODID + ".config.hide_org_names")
                 .define("hideOrgNames", true);
+
+        generateCOEntrance = builder
+                .comment("Generates the structure to enter Castle Oblivion")
+                .translation(KingdomKeys.MODID + ".config.generate_co_entrance")
+                .define("generateCOEntrance", true);
+
+        coEntranceChunkX = builder
+                .comment("Chunk X coord to generate Castle Oblivion entrance")
+                .translation(KingdomKeys.MODID + ".config.co_entrance_chunk_x")
+                .defineInRange("coEntranceChunkX", 13, 0, 1000);
+
+        coEntranceChunkZ = builder
+                .comment("Chunk Z coord to generate Castle Oblivion entrance")
+                .translation(KingdomKeys.MODID + ".config.co_entrance_chunk_z")
+                .defineInRange("coEntranceChunkZ", 7, 0, 1000);
 
         builder.pop();
 
@@ -119,12 +132,17 @@ public class CommonConfig {
                 .comment("Focus Points Drop Multiplier")
                 .translation(KingdomKeys.MODID + ".config.focus_points_multiplier")
                 .defineInRange("focusPointsMultiplier",1.0,0,100);
-        builder.pop();
 
         recipeDropChance = builder
                 .comment("Recipe drop chance")
                 .translation(KingdomKeys.MODID + ".config.recipe_drop_chance")
                 .defineInRange("recipeDropChance", 2, 0, 100);
+
+        biomeMemoryDropChance = builder
+                .comment("Biome Memory drop chance")
+                .translation(KingdomKeys.MODID + ".config.biome_memory_drop_chance")
+                .defineInRange("biomeMemoryDropChance", 1, 0, 100);
+        builder.pop();
 
         builder.push("spawning");
         heartlessSpawningMode = builder
@@ -196,6 +214,7 @@ public class CommonConfig {
                 .comment("Synthesis recipes given to the player on first join, so changing this list will not give you recipes in worlds you've already created")
                 .translation(KingdomKeys.MODID + ".config.starting_recipes")
                 .defineList("startingRecipes", List.of(
+                        KingdomKeys.MODID + ":" + Strings.kingdomKey,
                         KingdomKeys.MODID + ":" + Strings.SM_MythrilShard,
                         KingdomKeys.MODID + ":" + Strings.SM_MythrilStone,
                         KingdomKeys.MODID + ":" + Strings.SM_MythrilGem,

@@ -6,7 +6,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Player;
@@ -28,7 +27,7 @@ import java.util.UUID;
 
 public record CSSummonArmor(boolean forceDesummon) implements Packet {
 
-	public static final Type<CSSummonArmor> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_summon_armor"));
+	public static final Type<CSSummonArmor> TYPE = new Type<>(KingdomKeys.rl("cs_summon_armor"));
 
 	public static final StreamCodec<FriendlyByteBuf, CSSummonArmor> STREAM_CODEC = StreamCodec.composite(
 			ByteBufCodecs.BOOL,

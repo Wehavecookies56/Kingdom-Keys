@@ -11,8 +11,8 @@ import java.util.List;
 
 public class ShotlockDarkVolley extends Shotlock {
 
-	public ShotlockDarkVolley(ResourceLocation registryName, int order, int cooldown, int max) {
-		super(registryName, order, cooldown, max);
+	public ShotlockDarkVolley(ResourceLocation registryName, int order) {
+		super(registryName, order);
 	}
 
 	@Override

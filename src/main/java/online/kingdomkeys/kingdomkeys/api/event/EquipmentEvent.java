@@ -5,7 +5,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.Event;
 import net.neoforged.bus.api.ICancellableEvent;
-import online.kingdomkeys.kingdomkeys.shotlock.ModShotlocks;
 
 import javax.annotation.Nullable;
 
@@ -70,20 +69,9 @@ public abstract class EquipmentEvent extends Event {
         }
     }
 
-    public static class Shotlock extends EquipmentEvent implements ICancellableEvent {
-        private final online.kingdomkeys.kingdomkeys.shotlock.Shotlock previousShotlock, newShotlock;
-        public Shotlock(Player player, ResourceLocation previousShotlock, ResourceLocation newShotlock) {
-            super(player, null, null, -1);
-            this.newShotlock = ModShotlocks.registry.get(newShotlock);
-            this.previousShotlock = ModShotlocks.registry.get(previousShotlock);
-        }
-
-        public online.kingdomkeys.kingdomkeys.shotlock.Shotlock getPreviousShotlock() {
-            return previousShotlock;
-        }
-
-        public online.kingdomkeys.kingdomkeys.shotlock.Shotlock getNewShotlock() {
-            return newShotlock;
+    public static class Shotlock extends BaseEquipment {
+        public Shotlock(Player player, ItemStack previousStack, ItemStack newStack, int slotFrom, int slotTo) {
+            super(player, previousStack, newStack, slotFrom, slotTo);
         }
     }
 

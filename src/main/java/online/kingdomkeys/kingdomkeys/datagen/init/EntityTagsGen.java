@@ -5,7 +5,6 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.tags.EntityTypeTagsProvider;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
@@ -72,6 +71,6 @@ public class EntityTagsGen extends EntityTypeTagsProvider {
 	}
 	
 	private static TagKey<EntityType<?>> create(String pName) {
-		return TagKey.create(Registries.ENTITY_TYPE, ResourceLocation.parse(pName));
+		return TagKey.create(Registries.ENTITY_TYPE, KingdomKeys.rl(pName));
 	}
 }

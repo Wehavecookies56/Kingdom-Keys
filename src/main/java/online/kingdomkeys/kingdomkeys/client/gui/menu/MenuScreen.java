@@ -5,9 +5,13 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.phys.Vec2;
+import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.common.NeoForge;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.api.event.client.MenuButtonRegisterEvent;
@@ -35,8 +39,11 @@ import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
+import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.cts.CSTeleport;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.CastleOblivionHandler;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.DoorData;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.Room;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.RoomData;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.RoomDirection;
 import org.jetbrains.annotations.NotNull;
@@ -55,11 +62,11 @@ public class MenuScreen extends MenuBackground {
 		this.playerData = playerData;
 	}
 
-    private final ArrayList<MenuButton> menuButtons = new ArrayList<>();
+	private final ArrayList<MenuButton> menuButtons = new ArrayList<>();
 
-    public enum buttons {
+	public enum buttons {
 		ITEMS, ABILITIES, CUSTOMIZE, PARTY, STATUS, JOURNAL, CONFIG, STYLES
-    }
+	}
 
 	PlayerData playerData;
 
@@ -113,27 +120,27 @@ public class MenuScreen extends MenuBackground {
 
 		float buttonX = (float) width * 0.03F;
 		float buttonWidth = ((float) width * 0.1744F) - 22;
-        menuButtons.clear();
-        menuButtons.add(items = new MenuButton((int) buttonX, startY + 18 * pos++, (int) buttonWidth, Strings.Gui_Menu_Main_Button_Items, ButtonType.BUTTON, true, e -> action(buttons.ITEMS)));
-        menuButtons.add(abilities = new MenuButton((int) buttonX, startY + 18 * pos++, (int) buttonWidth, Strings.Gui_Menu_Main_Button_Abilities, ButtonType.BUTTON, true, e -> action(buttons.ABILITIES)));
-        menuButtons.add(customize = new MenuButton((int) buttonX, startY + 18 * pos++, (int) buttonWidth, Strings.Gui_Menu_Main_Button_Customize, ButtonType.BUTTON, true, e -> action(buttons.CUSTOMIZE)));
-        menuButtons.add(party = new MenuButton((int) buttonX, startY + 18 * pos++, (int) buttonWidth, Strings.Gui_Menu_Main_Button_Party, ButtonType.BUTTON, true, e -> action(buttons.PARTY)));
-        menuButtons.add(status = new MenuButton((int) buttonX, startY + 18 * pos++, (int) buttonWidth, Strings.Gui_Menu_Main_Button_Status, ButtonType.BUTTON, true, e -> action(buttons.STATUS)));
-        menuButtons.add(journal = new MenuButton((int) buttonX, startY + 18 * pos++, (int) buttonWidth, Strings.Gui_Menu_Main_Button_Journal, ButtonType.BUTTON, true, e -> action(buttons.JOURNAL)));
+		menuButtons.clear();
+		menuButtons.add(items = new MenuButton((int) buttonX, startY + 18 * pos++, (int) buttonWidth, Strings.Gui_Menu_Main_Button_Items, ButtonType.BUTTON, true, e -> action(buttons.ITEMS)));
+		menuButtons.add(abilities = new MenuButton((int) buttonX, startY + 18 * pos++, (int) buttonWidth, Strings.Gui_Menu_Main_Button_Abilities, ButtonType.BUTTON, true, e -> action(buttons.ABILITIES)));
+		menuButtons.add(customize = new MenuButton((int) buttonX, startY + 18 * pos++, (int) buttonWidth, Strings.Gui_Menu_Main_Button_Customize, ButtonType.BUTTON, true, e -> action(buttons.CUSTOMIZE)));
+		menuButtons.add(party = new MenuButton((int) buttonX, startY + 18 * pos++, (int) buttonWidth, Strings.Gui_Menu_Main_Button_Party, ButtonType.BUTTON, true, e -> action(buttons.PARTY)));
+		menuButtons.add(status = new MenuButton((int) buttonX, startY + 18 * pos++, (int) buttonWidth, Strings.Gui_Menu_Main_Button_Status, ButtonType.BUTTON, true, e -> action(buttons.STATUS)));
+		menuButtons.add(journal = new MenuButton((int) buttonX, startY + 18 * pos++, (int) buttonWidth, Strings.Gui_Menu_Main_Button_Journal, ButtonType.BUTTON, true, e -> action(buttons.JOURNAL)));
 
-        if (KingdomKeys.efmLoaded) {
-            menuButtons.add(style = new MenuButton((int) buttonX, startY + 18 * pos++, (int) buttonWidth, Strings.Gui_Menu_Main_Button_Style, ButtonType.BUTTON, true, e -> action(buttons.STYLES)));
-        }
+		if (KingdomKeys.efmLoaded) {
+			menuButtons.add(style = new MenuButton((int) buttonX, startY + 18 * pos++, (int) buttonWidth, Strings.Gui_Menu_Main_Button_Style, ButtonType.BUTTON, true, e -> action(buttons.STYLES)));
+		}
 
-        menuButtons.add(config = new MenuButton((int) buttonX, startY + 18 * pos++, (int) buttonWidth, Strings.Gui_Menu_Main_Button_Config, ButtonType.BUTTON, true, e -> action(buttons.CONFIG)));
+		menuButtons.add(config = new MenuButton((int) buttonX, startY + 18 * pos++, (int) buttonWidth, Strings.Gui_Menu_Main_Button_Config, ButtonType.BUTTON, true, e -> action(buttons.CONFIG)));
 
-        NeoForge.EVENT_BUS.post(new MenuButtonRegisterEvent(this, menuButtons));
+		NeoForge.EVENT_BUS.post(new MenuButtonRegisterEvent(this, menuButtons));
 
-        for (MenuButton button : menuButtons) {
-            addRenderableWidget(button);
-        }
+		for (MenuButton button : menuButtons) {
+			addRenderableWidget(button);
+		}
 
-        updateButtons();
+		updateButtons();
 
 		int sw = Minecraft.getInstance().getWindow().getGuiScaledWidth();
 		int sh = Minecraft.getInstance().getWindow().getGuiScaledHeight();
@@ -169,8 +176,8 @@ public class MenuScreen extends MenuBackground {
 		pose.pushPose();
 		{
 			pose.translate(0, 0, 0);
-			Party.Member m = new Party.Member(minecraft.player.getUUID(), minecraft.player.getDisplayName().getString());
-			drawPlayer(gui, null, 0, m);
+			int count = CastleOblivionHandler.inInterior(minecraft.player) ? 3 : 1;
+			drawPlayer(gui, count, 0, minecraft.player.getUUID(), minecraft.player.getDisplayName().getString());
 		}
 		pose.popPose();
 
@@ -186,8 +193,10 @@ public class MenuScreen extends MenuBackground {
 
 	private int mapX, mapY, mapW, mapH;
 
+	private RoomData hoveredRoom = null;
+
 	public static List<RoomData> rooms = new ArrayList<>();
-	private static final ResourceLocation ROOM_TEX = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/co/room.png");
+	private static final ResourceLocation ROOM_TEX = KingdomKeys.rl("textures/gui/co/room.png");
 
 	public void renderMap(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
 		if (!CastleOblivionHandler.inInterior(getMinecraft().player) || rooms.isEmpty())
@@ -201,8 +210,8 @@ public class MenuScreen extends MenuBackground {
 
 		RoomData currentRoom = null;
 		for (RoomData roomData : rooms) {
-			if (roomData.getGenerated() != null) {
-				if (roomData.getGenerated().inRoom(minecraft.player.blockPosition())) {
+			if (roomData.getGenerated().isPresent()) {
+				if (roomData.getGenerated().get().inRoom(minecraft.player.blockPosition())) {
 					currentRoom = roomData;
 					break;
 				}
@@ -225,6 +234,8 @@ public class MenuScreen extends MenuBackground {
 			centerOffsetY += -rotatedY;
 		}
 
+		Component tooltip = Component.empty();
+
 		enableScissor(mapX, mapY, mapW, mapH);
 
 		guiGraphics.pose().pushPose();
@@ -233,6 +244,11 @@ public class MenuScreen extends MenuBackground {
 
 			guiGraphics.pose().mulPose(Axis.ZP.rotationDegrees(45));
 
+			float translatedMouseX = mouseX - (originX + mapOffsetX + centerOffsetX);
+			float translatedMouseY = mouseY - (originY + mapOffsetY + centerOffsetY);
+
+			Vec2 localMouse = inverseRotate45(translatedMouseX, translatedMouseY);
+
 			for (RoomData roomData : rooms) {
 				int x = -roomData.pos.x() * 2;
 				int y = -roomData.pos.y() * 2;
@@ -240,18 +256,38 @@ public class MenuScreen extends MenuBackground {
 				int px = x * tileSize;
 				int py = y * tileSize;
 
+				Color roomColor;
+
 				boolean isCurrent = roomData == currentRoom;
 
-				if (roomData.getGenerated() == null) {
-					guiGraphics.setColor(0.8F, 0.7F, 0.2F, 1);
+				if (roomData.getType() == RoomData.Type.EXIT || roomData.getType() == RoomData.Type.ENTRANCE) {
+					roomColor = new Color(0.1F, 0.4F, 0.9F);
+				} else if (roomData.getType() == RoomData.Type.ENCOUNTER) {
+					roomColor = new Color(0.95F, 0.7F, 0.2F);
 				} else if (isCurrent) {
-					guiGraphics.setColor(0.2F, 0.9F, 1F, 1);
+					roomColor = new Color(0.2F, 0.9F, 1F);
 				} else {
-					guiGraphics.setColor(0.9F, 0.9F, 0.8F, 1);
+					roomColor = new Color(0.9F, 0.9F, 0.8F);
 				}
+
+				if (roomData.getGenerated().isEmpty()) {
+					roomColor = roomColor.darker().darker().darker();
+				}
+
+				guiGraphics.setColor(roomColor.getRed() / 255F, roomColor.getGreen() / 255F, roomColor.getBlue() / 255F, 1F);
 
 				guiGraphics.blit(ROOM_TEX, px, py, tileSize, tileSize, 0, 0, 16, 16, 16, 16);
 				guiGraphics.setColor(1, 1, 1, 1);
+
+				if (mouseX > box.getX() && mouseX < box.getX() + box.getWidth() && mouseY > box.getY() && mouseY < box.getY() + box.getHeight()){
+					if(localMouse.x >= px && localMouse.x < px + tileSize && localMouse.y >= py && localMouse.y < py + tileSize) {
+						hoveredRoom = roomData;
+						tooltip = roomData.getGenerated().map(room -> {
+							String nameStr = room.getType().getTranslationKey();
+							return room.getType().isEntranceHall() ? Component.translatable(nameStr, roomData.getParentID() + 1) : Component.translatable(nameStr);
+						}).orElse(Component.literal("???"));
+					}
+				}
 
 				for (Map.Entry<RoomDirection, DoorData> entry : roomData.getDoors().entrySet()) {
 					RoomDirection dir = entry.getKey();
@@ -277,9 +313,9 @@ public class MenuScreen extends MenuBackground {
 
 					boolean open = false;
 
-					if (roomData.getGenerated() != null && neighbor.getGenerated() != null) {
-						CardDoorTileEntity te1 = roomData.getGenerated().getDoorTE(minecraft.level, dir);
-						CardDoorTileEntity te2 = neighbor.getGenerated().getDoorTE(minecraft.level, dir.opposite());
+					if (roomData.getGenerated().isPresent() && neighbor.getGenerated().isPresent()) {
+						CardDoorTileEntity te1 = roomData.getGenerated().get().getDoorTE(minecraft.level, dir);
+						CardDoorTileEntity te2 = neighbor.getGenerated().get().getDoorTE(minecraft.level, dir.opposite());
 
 						if (te1 != null && te1.isOpen())
 							open = true;
@@ -302,7 +338,20 @@ public class MenuScreen extends MenuBackground {
 		guiGraphics.pose().popPose();
 
 		RenderSystem.disableScissor();
+
+		if (!tooltip.getString().isEmpty()) {
+			guiGraphics.renderTooltip(minecraft.font, tooltip, mouseX, mouseY);
+		}
 	}
+
+	private static Vec2 inverseRotate45(float x, float y) {
+		float angle = (float) Math.toRadians(-45);
+		return new Vec2(
+				(float) (x * Math.cos(angle) - y * Math.sin(angle)),
+				(float) (x * Math.sin(angle) + y * Math.cos(angle))
+		);
+	}
+
 
 	private void drawKeybladeIcon(GuiGraphics guiGraphics, RoomData currentRoom, int tileSize) {
 		if (currentRoom != null) {
@@ -348,6 +397,16 @@ public class MenuScreen extends MenuBackground {
 	@Override
 	public boolean mouseClicked(double mouseX, double mouseY, int button) {
 		if (isInsideMap(mouseX, mouseY)) {
+			if (hoveredRoom != null && player.isCreative() && button == 1) {
+				hoveredRoom.getGenerated().ifPresent(room -> {
+					Map.Entry<RoomDirection, Room.Door> destination = room.doors.entrySet().stream().toList().getFirst();
+					BlockPos pos = room.doors.entrySet().stream().toList().getFirst().getValue().pos().relative(destination.getKey().opposite().toMCDirection(), 3);
+					String nameStr = room.getType().getTranslationKey();
+					player.sendSystemMessage(Component.translatable("Teleported to %s", room.getType().isEntranceHall() ? Component.translatable(nameStr, hoveredRoom.getParentID() + 1) : Component.translatable(nameStr)));
+					PacketHandler.sendToServer(new CSTeleport(new Vec3(pos.getX(), pos.getY(), pos.getZ())));
+					Minecraft.getInstance().setScreen(null);
+				});
+			}
 			draggingMap = true;
 			lastMouseX = mouseX;
 			lastMouseY = mouseY;

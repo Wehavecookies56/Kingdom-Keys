@@ -1,0 +1,15 @@
+{
+  "category": "BOUNTY",
+  "fixed_room": "kingdomkeys:moogle_room",
+  "modifiers": [
+    {
+      "type": "kingdomkeys:spawn",
+      "additional_data": {
+        "inv": "kingdomkeys:cards",
+        "stationary": 1
+      },
+      "entity": "kingdomkeys:moogle"
+    }
+  ],
+  "size": "S"
+}

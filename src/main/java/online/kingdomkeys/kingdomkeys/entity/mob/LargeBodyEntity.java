@@ -116,6 +116,9 @@ public class LargeBodyEntity extends BaseKHEntity {
                 return super.hurt(source, amount);
             }
     		Entity attacker = source.getDirectEntity();
+            if(attacker == null)
+                return super.hurt(source, amount);
+
     		double d1 = attacker.getX() - this.getX();
             double d0 = attacker.getZ() - this.getZ();
             float attackYaw = (float)Math.toDegrees((Mth.atan2(d0, d1)));// Global degree the attack is coming from

@@ -13,21 +13,22 @@ import online.kingdomkeys.kingdomkeys.entity.magic.GravityEntity;
 
 public class MagicGravity extends Magic {
 
-	public MagicGravity(ResourceLocation registryName, int maxLevel, String gmAbility) {
-		super(registryName, false, maxLevel, gmAbility);
+	public MagicGravity(ResourceLocation registryName, int tier, ResourceLocation gmAbility) {
+		super(registryName, false, gmAbility);
+		setTier(tier);
 	}
 
 	@Override
-    public void magicUse(LivingEntity player, Player caster, int level, float fullMPBlastMult, LivingEntity lockOnEntity) {
-		float dmg = /*ModCapabilities.getPlayer(player).isAbilityEquipped(Strings.waterBoost) ? getDamageMult(level) * 1.2F :*/ getDamageMult(level);
+	public void magicUse(LivingEntity player, Player caster, float fullMPBlastMult, LivingEntity lockOnEntity) {
+		float dmg = getRealDamageMult(caster);
 		dmg *= fullMPBlastMult;
 
-		switch (level) {
+		switch (getTier()) {
 			case 0 -> {
 				ThrowableProjectile gravity = new GravityEntity(player.level(), player, dmg);
 				player.level().addFreshEntity(gravity);
 				gravity.shootFromRotation(player, player.getXRot(), player.getYRot(), 0, 2F, 0);
-				if(lockOnEntity != null) {
+				if (lockOnEntity != null) {
 					gravity.setPos(lockOnEntity.getX(), lockOnEntity.getY(), lockOnEntity.getZ());
 				}
 			}
@@ -35,7 +36,7 @@ public class MagicGravity extends Magic {
 				ThrowableProjectile gravira = new GraviraEntity(player.level(), player, dmg * 1.1F);
 				player.level().addFreshEntity(gravira);
 				gravira.shootFromRotation(player, player.getXRot(), player.getYRot(), 0, 2.3F, 0);
-				if(lockOnEntity != null) {
+				if (lockOnEntity != null) {
 					gravira.setPos(lockOnEntity.getX(), lockOnEntity.getY(), lockOnEntity.getZ());
 				}
 
@@ -44,7 +45,7 @@ public class MagicGravity extends Magic {
 				ThrowableProjectile graviga = new GravigaEntity(player.level(), player, dmg * 1.2F);
 				player.level().addFreshEntity(graviga);
 				graviga.shootFromRotation(player, player.getXRot(), player.getYRot(), 0, 2.6F, 0);
-				if(lockOnEntity != null) {
+				if (lockOnEntity != null) {
 					graviga.setPos(lockOnEntity.getX(), lockOnEntity.getY(), lockOnEntity.getZ());
 				}
 
@@ -52,10 +53,10 @@ public class MagicGravity extends Magic {
 		}
 		player.swing(InteractionHand.MAIN_HAND);
 	}
-	
+
 	@Override
-	protected void playMagicCastSound(LivingEntity player, Player caster, int level) {
-		switch (level) {
+	public void playMagicCastSound(LivingEntity player, Player caster) {
+		switch (getTier()) {
 			case 0 -> player.level().playSound(null, player.position().x(), player.position().y(), player.position().z(), ModSounds.gravity.get(), SoundSource.PLAYERS, 1F, 1F);
 			case 1 -> player.level().playSound(null, player.position().x(), player.position().y(), player.position().z(), ModSounds.gravira.get(), SoundSource.PLAYERS, 1F, 1F);
 			case 2 -> player.level().playSound(null, player.position().x(), player.position().y(), player.position().z(), ModSounds.graviga.get(), SoundSource.PLAYERS, 1F, 1F);

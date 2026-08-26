@@ -1,0 +1,10 @@
+{
+  "category": "ENEMY",
+  "enemies": {
+    "type": "S",
+    "number_of_enemies": 3,
+    "regular_enemies": "#kingdomkeys:castle_oblivion/black_room",
+    "simultaneous_enemies": 3
+  },
+  "size": "S"
+}

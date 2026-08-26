@@ -29,7 +29,7 @@ public class ShopListDataDeserializer implements JsonDeserializer<ShopList> {
         	ShopItem shopItem = new ShopItem();
         	JsonObject jsonObj = e.getAsJsonObject();
 			if (jsonObj.get("names") != null && !setNames) {
-				ResourceLocation namesPath = ResourceLocation.parse(jsonObj.get("names").getAsString());
+				ResourceLocation namesPath = KingdomKeys.rl(jsonObj.get("names").getAsString());
 				if (NamesListRegistry.getInstance().containsKey(namesPath)) {
 					out.setNames(namesPath);
 				}
@@ -37,39 +37,17 @@ public class ShopListDataDeserializer implements JsonDeserializer<ShopList> {
 			} else {
 				boolean valid = jsonObj.get("item") != null && jsonObj.get("amount") != null;
 				if (valid) {
-					Item item = BuiltInRegistries.ITEM.get(ResourceLocation.parse(jsonObj.get("item").getAsString()));
+					Item item = BuiltInRegistries.ITEM.get(KingdomKeys.rl(jsonObj.get("item").getAsString()));
 					shopItem.setResult(item, jsonObj.get("amount").getAsInt());
 					shopItem.setTier(jsonObj.get("tier").getAsInt());
 					shopItem.setCost(jsonObj.get("cost").getAsInt());
+					shopItem.setMatReq(jsonObj.has("mat_req") ? jsonObj.get("mat_req").getAsInt() : 0);
+					shopItem.setRequireAll(jsonObj.has("condition") ? jsonObj.get("condition").getAsString().equals("all") : false);
 					out.addToList(shopItem);
 					KingdomKeys.LOGGER.info("OUTPUT: {}, TIER {}, QUANTITY: {}", shopItem.result, shopItem.tier, shopItem.amount);
 				}
 			}
         }
-        
-       /* jsonObject.forEach(entry -> {
-            JsonElement element = entry.getValue();
-            switch (entry.getKey()) {//Check for the first level key
-                    
-                case "cost":
-                	out.setCost(element.getAsInt());
-                	break;
-                
-                case "output":
-                	 JsonObject outputObject = element.getAsJsonObject();
-                     boolean valid = outputObject.get("item") != null && outputObject.get("quantity") != null;
-                     if(valid) {
-                    	 Item keychain = ForgeRegistries.ITEMS.getValue(new ResourceLocation(outputObject.get("item").getAsString()));
-                         out.setResult(keychain, outputObject.get("quantity").getAsInt());
-                         out.setType(outputObject.get("type").getAsString());
-                     }
-                    break;
-                    
-                case "tier":
-                	out.setTier(element.getAsInt());
-                	break;
-            }
-        });*/
         return out;
     }
 }

@@ -14,7 +14,7 @@
 		},
 		{
 			"type": "text",
-			"text": "If you have more than one Linked or Warp Save Point added, you can $(thing)teleport between them$(). Linked Save POints can teleport to any of your save points within the same dimension, where Warped ones can additionally teleport you to other Warp Points of other Dimensions.$(p)$(lissa)Breaking$() a Save Point will $(lissa)lose all upgrades$()."
+			"text": "If you have more than one Linked or Warp Save Point added, you can $(thing)teleport between them$(). Linked Save Points can teleport to any of your save points within the same dimension, where Warped ones can additionally teleport you to other Warp Points of other Dimensions.$(p)$(lissa)Breaking$() a Save Point will $(lissa)disappear from every player's teleport interface$()."
 		},
 		{
 			"type":"crafting",

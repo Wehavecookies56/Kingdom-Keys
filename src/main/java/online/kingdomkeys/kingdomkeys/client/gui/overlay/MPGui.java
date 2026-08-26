@@ -13,7 +13,7 @@ import online.kingdomkeys.kingdomkeys.handler.ClientEvents;
 
 public class MPGui extends OverlayBase {
 	public static final MPGui INSTANCE = new MPGui();
-	private static final ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/mpbar.png");
+	private static final ResourceLocation texture = KingdomKeys.rl("textures/gui/mpbar.png");
 	private PlayerData playerData;
 
 	private MPGui() {
@@ -23,7 +23,9 @@ public class MPGui extends OverlayBase {
 	@Override
 	public void render(GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
 		super.render(guiGraphics, deltaTracker);
-
+		if(minecraft != null && minecraft.options.hideGui){
+			return;
+		}
 		Player player = minecraft.player;
 		if(player == null)
 			return;

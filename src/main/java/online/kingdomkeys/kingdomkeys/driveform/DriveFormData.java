@@ -1,5 +1,7 @@
 package online.kingdomkeys.kingdomkeys.driveform;
 
+import net.minecraft.resources.ResourceLocation;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,9 +13,9 @@ public class DriveFormData {
     float strMult, magMult, speedMult;
     int cost, ap;
     int[] levelUp = new int[0];
-    List<String> abilities = new ArrayList<>();
-    List<String> baseLevelUpAbilities = new ArrayList<>();
-    List<String> dfLevelUpAbilities = new ArrayList<>();
+    List<ResourceLocation> abilities = new ArrayList<>();
+    List<ResourceLocation> baseLevelUpAbilities = new ArrayList<>();
+    List<ResourceLocation> dfLevelUpAbilities = new ArrayList<>();
     boolean canGoAnti, canUseMagic;
     
     public DriveFormData() {
@@ -79,35 +81,35 @@ public class DriveFormData {
 		this.levelUp = levelup;
 	}
 	
-	public List<String> getAbilities() {
+	public List<ResourceLocation> getAbilities() {
 		return this.abilities;
 	}
 
-	public void setAbilities(List<String> array) {
+	public void setAbilities(List<ResourceLocation> array) {
 		this.abilities = array;
 	}
 
-	public List<String> getBaseLevelUpAbilities() {
+	public List<ResourceLocation> getBaseLevelUpAbilities() {
 		return this.baseLevelUpAbilities;
 	}
 
-	public void setBaseLevelUpAbilities(List<String> array) {
+	public void setBaseLevelUpAbilities(List<ResourceLocation> array) {
 		this.baseLevelUpAbilities = array;
 	}
 	
-	public String getBaseAbilityForLevel(int driveFormLevel) {
+	public ResourceLocation getBaseAbilityForLevel(int driveFormLevel) {
 		return this.baseLevelUpAbilities.get(driveFormLevel);
 	}
 	
-	public List<String> getDFLevelUpAbilities() {
+	public List<ResourceLocation> getDFLevelUpAbilities() {
 		return this.dfLevelUpAbilities;
 	}
 
-	public void setDFLevelUpAbilities(List<String> array) {
+	public void setDFLevelUpAbilities(List<ResourceLocation> array) {
 		this.dfLevelUpAbilities = array;
 	}
 	
-	public String getDFAbilityForLevel(int driveFormLevel) {
+	public ResourceLocation getDFAbilityForLevel(int driveFormLevel) {
 		return this.dfLevelUpAbilities.get(driveFormLevel);
 	}
 	

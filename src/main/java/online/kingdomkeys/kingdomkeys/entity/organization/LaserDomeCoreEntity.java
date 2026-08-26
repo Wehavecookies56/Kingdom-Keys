@@ -15,10 +15,9 @@ import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.HitResult;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
-import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.drops.ItemDropEntity;
-import online.kingdomkeys.kingdomkeys.lib.Party;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.util.*;
 
@@ -64,10 +63,13 @@ public class LaserDomeCoreEntity extends ThrowableProjectile {
 		if (getCaster() != null) {
 			if (tickCount >= 0 && tickCount < 20) {
 				double t = tickCount * 5;
+				double radT = Math.toRadians(t);
+				double sinT = Math.sin(radT);
+				double y = Y + (radius * Math.cos(radT));
 				for (int s = 1; s < 360; s += space) {
-					double x = X + (radius * Math.cos(Math.toRadians(s)) * Math.sin(Math.toRadians(t)));
-					double z = Z + (radius * Math.sin(Math.toRadians(s)) * Math.sin(Math.toRadians(t)));
-					double y = Y + (radius * Math.cos(Math.toRadians(t)));
+					double radS = Math.toRadians(s);
+					double x = X + (radius * Math.cos(radS) * sinT);
+					double z = Z + (radius * Math.sin(radS) * sinT);
 					LaserDomeShotEntity bullet = new LaserDomeShotEntity(level(), getCaster(), dmg);
 					bullet.setPos(x, y, z);
 					bullet.setMaxTicks(maxTicks - 20);
@@ -95,7 +97,7 @@ public class LaserDomeCoreEntity extends ThrowableProjectile {
 					usedIndexes.add(num);
 
 					int targetIndex = random.nextInt(targetList.size());
-                    Entity target = targetList.get(targetIndex);
+					Entity target = targetList.get(targetIndex);
 
 					if (target != null && target.isAlive() && getCaster() != null) {
 						LaserDomeShotEntity bullet = list.get(num);
@@ -113,15 +115,7 @@ public class LaserDomeCoreEntity extends ThrowableProjectile {
 		if(level().isClientSide())
 			return;
 		List<Entity> tempList = level().getEntities(getCaster(), getBoundingBox().inflate(radius, radius, radius));
-		Party casterParty = WorldData.get(level().getServer()).getPartyFromMember(getCaster().getUUID());
-
-		if(casterParty != null && !casterParty.getFriendlyFire()) {
-			for (Party.Member m : casterParty.getMembers()) {
-				tempList.remove(level().getPlayerByUUID(m.getUUID()));
-			}
-		} else {
-			tempList.remove(getOwner());
-		}
+		Utils.removeAllies(getCaster(), tempList);
 
 		targetList.clear();
 		for (Entity t : tempList) {

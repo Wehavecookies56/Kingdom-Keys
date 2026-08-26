@@ -1,0 +1,23 @@
+{
+  "cost": 0,
+  "ingredients": [
+    {
+      "material": "kingdomkeys:sinister_shard",
+      "quantity": "2"
+    },
+    {
+      "material": "kingdomkeys:lucid_shard",
+      "quantity": "3"
+    },
+    {
+      "material": "kingdomkeys:writhing_shard",
+      "quantity": "2"
+    }
+  ],
+  "output": {
+    "type": "keyblade",
+    "item": "kingdomkeys:long_night_chain",
+    "quantity": 1
+  },
+  "tier": 1
+}

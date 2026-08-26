@@ -1,0 +1,31 @@
+{
+  "parent": "kingdomkeys:soa",
+  "criteria": {
+    "levelup": {
+      "conditions": {
+        "level": 2
+      },
+      "trigger": "kingdomkeys:level_up"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "description": {
+      "translate": "advancements.kingdomkeys.levelup1.desc"
+    },
+    "frame": "goal",
+    "icon": {
+      "count": 1,
+      "id": "kingdomkeys:kingdom_key"
+    },
+    "title": {
+      "translate": "advancements.kingdomkeys.levelup1"
+    }
+  },
+  "requirements": [
+    [
+      "levelup"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

@@ -1,0 +1,17 @@
+{
+  "casttime": 10,
+  "cooldown": 150,
+  "cost": 26,
+  "dmg_mult": 0.1,
+  "dmg_mult_max": 0.15,
+  "interacts_with_blocks": [
+    "light_lightable",
+    "light_portal",
+    "light_tnt",
+    "dry_sponge"
+  ],
+  "magic_lock_on": false,
+  "max_exp": 6800,
+  "max_lvl": 5,
+  "spell_type": "MAGIC"
+}

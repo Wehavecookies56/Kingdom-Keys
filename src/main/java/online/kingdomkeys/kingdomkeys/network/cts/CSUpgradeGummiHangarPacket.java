@@ -5,7 +5,6 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -24,7 +23,7 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public record CSUpgradeGummiHangarPacket(int containerID) implements Packet {
 
-	public static final Type<CSUpgradeGummiHangarPacket> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_upgrade_gummi_ship"));
+	public static final Type<CSUpgradeGummiHangarPacket> TYPE = new Type<>(KingdomKeys.rl("cs_upgrade_gummi_ship"));
 
 	public static final StreamCodec<FriendlyByteBuf, CSUpgradeGummiHangarPacket> STREAM_CODEC = StreamCodec.composite(
 			ByteBufCodecs.INT,
@@ -48,7 +47,7 @@ public record CSUpgradeGummiHangarPacket(int containerID) implements Packet {
 			PlayerData playerData = PlayerData.get(player);
 
 			if (playerData.getMunny() >= cost) {
-				playerData.setMunny(playerData.getMunny() - cost);
+				playerData.setMunny(playerData.getMunny() - cost, (ServerPlayer) player);
 				level.setBlockAndUpdate(origin,hangar.setValue(GummiHangarBlock.LEVEL, lvl + 1));
 
                 // Update TE energystorage

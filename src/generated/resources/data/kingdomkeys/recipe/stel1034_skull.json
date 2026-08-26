@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "minecraft:wither_skeleton_skull"
+    },
+    {
+      "item": "kingdomkeys:soothing_crystal"
+    },
+    {
+      "item": "kingdomkeys:tranquility_crystal"
+    }
+  ],
+  "result": {
+    "components": {
+      "minecraft:profile": {
+        "name": "stel1034"
+      }
+    },
+    "count": 1,
+    "id": "minecraft:player_head"
+  }
+}

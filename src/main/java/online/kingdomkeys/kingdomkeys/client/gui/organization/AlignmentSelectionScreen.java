@@ -32,24 +32,24 @@ public class AlignmentSelectionScreen extends Screen {
     private final int icon_height = 56;
 
     private final ResourceLocation[] icons = new ResourceLocation[] {
-            ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/org/xemnas_icons.png"),
-            ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/org/xigbar_icons.png"),
-            ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/org/xaldin_icons.png"),
-            ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/org/vexen_icons.png"),
-            ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/org/lexaeus_icons.png"),
-            ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/org/zexion_icons.png"),
-            ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/org/saix_icons.png"),
-            ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/org/axel_icons.png"),
-            ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/org/demyx_icons.png"),
-            ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/org/luxord_icons.png"),
-            ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/org/marluxia_icons.png"),
-            ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/org/larxene_icons.png"),
-            ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/org/roxas_icons.png")
+            KingdomKeys.rl("textures/gui/org/xemnas_icons.png"),
+            KingdomKeys.rl("textures/gui/org/xigbar_icons.png"),
+            KingdomKeys.rl("textures/gui/org/xaldin_icons.png"),
+            KingdomKeys.rl("textures/gui/org/vexen_icons.png"),
+            KingdomKeys.rl("textures/gui/org/lexaeus_icons.png"),
+            KingdomKeys.rl("textures/gui/org/zexion_icons.png"),
+            KingdomKeys.rl("textures/gui/org/saix_icons.png"),
+            KingdomKeys.rl("textures/gui/org/axel_icons.png"),
+            KingdomKeys.rl("textures/gui/org/demyx_icons.png"),
+            KingdomKeys.rl("textures/gui/org/luxord_icons.png"),
+            KingdomKeys.rl("textures/gui/org/marluxia_icons.png"),
+            KingdomKeys.rl("textures/gui/org/larxene_icons.png"),
+            KingdomKeys.rl("textures/gui/org/roxas_icons.png")
     };
 
     private final int members = icons.length;
 
-    private final ResourceLocation GLOW = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/org/glow.png");
+    private final ResourceLocation GLOW = KingdomKeys.rl("textures/gui/org/glow.png");
 
     public AlignmentSelectionScreen() {
         super(Component.literal(""));

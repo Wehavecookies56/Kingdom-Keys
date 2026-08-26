@@ -1,0 +1,21 @@
+{
+  "__comment": "cube_tinted without cullface. For models that squash the cube with a transform: the faces stop sitting on the block boundary, but the cullfaces are declared on the model and Minecraft would still drop them against a solid neighbour, leaving the shape open.",
+  "parent": "block/block",
+  "textures": {
+    "particle": "#all"
+  },
+  "elements": [
+    {
+      "from": [ 0, 0, 0 ],
+      "to": [ 16, 16, 16 ],
+      "faces": {
+        "down":  { "texture": "#all", "tintindex": 0 },
+        "up":    { "texture": "#all", "tintindex": 0 },
+        "north": { "texture": "#all", "tintindex": 0 },
+        "south": { "texture": "#all", "tintindex": 0 },
+        "west":  { "texture": "#all", "tintindex": 0 },
+        "east":  { "texture": "#all", "tintindex": 0 }
+      }
+    }
+  ]
+}

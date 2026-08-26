@@ -7,9 +7,12 @@ public enum ItemCategory {
     BUILDING(0, 80),
     MISC(0, 120),
     ACCESSORIES(0, 140),
-    MAGICS(0, 220),
+    MAGICS(0, 221),
     SHOTLOCK(0,160),
-    KBARMOR(0,180);
+    KBARMOR(0,180),
+    ITEMSTACK(0, 120),
+    ABILITIES(20, 220),
+    ABILITIES_EQUIPPED(40, 220);
 
     private final int u;
     private final int v;

@@ -1,6 +1,5 @@
 package online.kingdomkeys.kingdomkeys.entity.magic;
 
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -43,9 +42,6 @@ public class MagnegaEntity extends BaseMagicProjectile {
 		if (level() == null || WorldData.get(level().getServer()) == null)
 			return;
 
-
-		level().addParticle(ParticleTypes.BUBBLE, getX(), getY(), getZ(), 0, 0, 0);
-
 		if (tickCount >= 5) {
 			float radius = 3F;
 			if (tickCount < 30) {
@@ -53,18 +49,6 @@ public class MagnegaEntity extends BaseMagicProjectile {
 			}
 			if (tickCount > maxTicks - 30) {
 				radius = (maxTicks - tickCount) / 10F;
-			}
-			double X = getX();
-			double Y = getY();
-			double Z = getZ();
-
-			for (int t = 1; t < 360; t += 30) {
-				for (int s = 1; s < 360; s += 30) {
-					double x = X + (radius * Math.cos(Math.toRadians(s + tickCount)) * Math.sin(Math.toRadians(t + tickCount)));
-					double z = Z + (radius * Math.sin(Math.toRadians(s + tickCount)) * Math.sin(Math.toRadians(t + tickCount)));
-					double y = Y + (radius * Math.cos(Math.toRadians(t + tickCount)));
-					level().addParticle(ParticleTypes.BUBBLE_POP, x, y + 1, z, 0, 0, 0);
-				}
 			}
 
 			this.setDeltaMovement(0, 0, 0);
@@ -74,8 +58,7 @@ public class MagnegaEntity extends BaseMagicProjectile {
 			list = Utils.removePartyMembersFromList((Player) getOwner(), list);
 
 			if (!list.isEmpty()) {
-				for (int i = 0; i < list.size(); i++) {
-					Entity e = list.get(i);
+				for (Entity e : list) {
 					double d = e.getX() - getX();
 					double d1 = e.getZ() - getZ();
 					if (e.getY() < this.getY() - 0.5) {
@@ -83,11 +66,11 @@ public class MagnegaEntity extends BaseMagicProjectile {
 					}
 					e.setDeltaMovement(d * -0.1, e.getDeltaMovement().y, d1 * -0.1);
 
-					e.hurt(KKDamageTypes.getElementalDamage(KKDamageTypes.AIR,this, this.getOwner()), dmgMult);
+					e.hurt(KKDamageTypes.getElementalDamage(KKDamageTypes.AIR, this, this.getOwner()), dmgMult);
 
 					if (tickCount + 2 > maxTicks) {
 						if (Utils.isHostile(e) || e instanceof TrainingDummyEntity || e instanceof MagicTargetEntity) {
-							e.hurt(KKDamageTypes.getElementalDamage(KKDamageTypes.AIR,this, this.getOwner()), dmgMult);
+							e.hurt(KKDamageTypes.getElementalDamage(KKDamageTypes.AIR, this, this.getOwner()), dmgMult);
 						}
 						remove(RemovalReason.KILLED);
 					}

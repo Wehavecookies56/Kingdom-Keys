@@ -5,6 +5,7 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.model.entity.ShadowGlobModel;
 import online.kingdomkeys.kingdomkeys.entity.mob.ShadowGlobEntity;
 
@@ -16,7 +17,7 @@ public class ShadowGlobRenderer extends MobRenderer<ShadowGlobEntity, ShadowGlob
 
     @Override
     public ResourceLocation getTextureLocation(ShadowGlobEntity entity) {
-        return ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/mob/shadow_glob.png");
+        return ClientUtils.variantTexture(KingdomKeys.rl("textures/entity/mob/shadow_glob.png"), entity);
     }
 
     @Override

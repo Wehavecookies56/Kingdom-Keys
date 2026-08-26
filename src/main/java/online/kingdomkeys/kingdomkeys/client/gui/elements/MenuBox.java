@@ -7,8 +7,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
-import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.lib.Constants;
 
 import java.awt.*;
 
@@ -27,8 +26,6 @@ public class MenuBox extends AbstractWidget{
         mc = Minecraft.getInstance();
         this.alpha = alpha;
     }
-
-    private final ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
 
     private final int borderSize = 24;
     private final int
@@ -51,30 +48,30 @@ public class MenuBox extends AbstractWidget{
 
             RenderSystem.enableBlend();
             //Top left corner
-            gui.blit(texture, posX, posY, tlCornerU, tlCornerV, borderSize, borderSize);
+            gui.blit(Constants.MENU_TEXTURE, posX, posY, tlCornerU, tlCornerV, borderSize, borderSize);
             //Top right corner
-            gui.blit(texture, posX + width - borderSize, posY, trCornerU, trCornerV, borderSize, borderSize);
+            gui.blit(Constants.MENU_TEXTURE, posX + width - borderSize, posY, trCornerU, trCornerV, borderSize, borderSize);
             //Bottom left corner
-            gui.blit(texture, posX, posY + height - borderSize, blCornerU, blCornerV, borderSize, borderSize);
+            gui.blit(Constants.MENU_TEXTURE, posX, posY + height - borderSize, blCornerU, blCornerV, borderSize, borderSize);
             //Bottom right corner
-            gui.blit(texture, posX + width - borderSize, posY + height - borderSize, brCornerU, brCornerV, borderSize, borderSize);
+            gui.blit(Constants.MENU_TEXTURE, posX + width - borderSize, posY + height - borderSize, brCornerU, brCornerV, borderSize, borderSize);
             int centerWidth = width - (borderSize * 2);
             int centerHeight = height - (borderSize * 2);
             //Center border
             //Top
-            gui.blit(texture, posX + borderSize, posY, centerWidth, borderSize, tCenterU, tCenterV, 1, borderSize, 256, 256);
+            gui.blit(Constants.MENU_TEXTURE, posX + borderSize, posY, centerWidth, borderSize, tCenterU, tCenterV, 1, borderSize, 256, 256);
             //Bottom
-            gui.blit(texture, posX + borderSize, posY + height - borderSize, centerWidth, borderSize, bCenterU, bCenterV, 1, borderSize, 256, 256);
+            gui.blit(Constants.MENU_TEXTURE, posX + borderSize, posY + height - borderSize, centerWidth, borderSize, bCenterU, bCenterV, 1, borderSize, 256, 256);
             //Left
-            gui.blit(texture, posX, posY + borderSize, borderSize, centerHeight, lCenterU, lCenterV, borderSize, 1, 256, 256);
+            gui.blit(Constants.MENU_TEXTURE, posX, posY + borderSize, borderSize, centerHeight, lCenterU, lCenterV, borderSize, 1, 256, 256);
             //Right
-            gui.blit(texture, posX + width - borderSize, posY + borderSize, borderSize, centerHeight, rCenterU, rCenterV, borderSize, 1, 256, 256);
+            gui.blit(Constants.MENU_TEXTURE, posX + width - borderSize, posY + borderSize, borderSize, centerHeight, rCenterU, rCenterV, borderSize, 1, 256, 256);
             //Inside
             matrixStack.pushPose();
             {
                 matrixStack.translate(posX + borderSize, posY + borderSize, 0);
                 matrixStack.scale(centerWidth, centerHeight, 1);
-                gui.blit(texture, 0, 0, mCenterU, mCenterV, 1, 1);
+                gui.blit(Constants.MENU_TEXTURE, 0, 0, mCenterU, mCenterV, 1, 1);
             }
             matrixStack.popPose();
             RenderSystem.disableBlend();

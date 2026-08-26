@@ -1,0 +1,35 @@
+{
+  "parent": "kingdomkeys:soa",
+  "criteria": {
+    "get_stick": {
+      "conditions": {
+        "items": [
+          {
+            "items": "kingdomkeys:wooden_stick"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "description": {
+      "translate": "advancements.kingdomkeys.get_stick.desc"
+    },
+    "frame": "goal",
+    "icon": {
+      "count": 1,
+      "id": "kingdomkeys:wooden_stick"
+    },
+    "title": {
+      "translate": "advancements.kingdomkeys.get_stick"
+    }
+  },
+  "requirements": [
+    [
+      "get_stick"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

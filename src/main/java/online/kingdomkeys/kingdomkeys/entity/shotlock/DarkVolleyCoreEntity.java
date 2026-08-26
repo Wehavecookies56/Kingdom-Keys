@@ -1,10 +1,8 @@
 package online.kingdomkeys.kingdomkeys.entity.shotlock;
 
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.syncher.EntityDataAccessor;
-import net.minecraft.network.syncher.EntityDataSerializers;
-import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
@@ -17,33 +15,60 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 
-public class DarkVolleyCoreEntity extends ThrowableProjectile {
+public class DarkVolleyCoreEntity extends BaseShotlockCoreEntity {
 
-	int maxTicks = 260;
-	List<VolleyShotEntity> list = new ArrayList<VolleyShotEntity>();
-	List<Entity> targetList = new ArrayList<Entity>();
-	float dmg;
+	List<VolleyShotEntity> list = new ArrayList<>();
+	private int shotColor = 4921675;
+	private ResourceKey<DamageType> element = null;
+	private boolean zigzag = false;
+	private boolean waterVisual = false;
+	private boolean applyPoison = false;
+	private boolean explodeOnHit = false;
+	private boolean radialBurst = false;
+
+	public void setShotColor(int color) {
+		this.shotColor = color;
+		this.shotStyle.colour = color;
+	}
+
+	public void setElement(ResourceKey<DamageType> element) {
+		this.element = element;
+		this.shotStyle.element = element;
+	}
+
+	public void setZigzag(boolean zigzag) {
+		this.zigzag = zigzag;
+	}
+
+	public void setWaterVisual(boolean waterVisual) {
+		this.waterVisual = waterVisual;
+		this.shotStyle.waterVisual = waterVisual;
+	}
+
+	public void setApplyPoison(boolean applyPoison) {
+		this.applyPoison = applyPoison;
+		this.shotStyle.applyPoison = applyPoison;
+	}
+
+	public void setExplodeOnHit(boolean explodeOnHit) {
+		this.explodeOnHit = explodeOnHit;
+	}
+
+	public void setRadialBurst(boolean radialBurst) {
+		this.radialBurst = radialBurst;
+	}
 
 	public DarkVolleyCoreEntity(EntityType<? extends ThrowableProjectile> type, Level world) {
 		super(type, world);
-		this.blocksBuilding = true;
+		this.maxTicks = 260;
+		this.shotStyle.colour = shotColor;
 	}
 
 	public DarkVolleyCoreEntity(Level world, Player player, List<Entity> targets, float dmg) {
-		super(ModEntities.TYPE_SHOTLOCK_DARK_VOLLEY.get(), player, world);
-		setCaster(player.getUUID());
-		String targetIDS = "";
-		for(Entity t : targets) {
-            if(t != null) {
-                targetIDS += "," + t.getId();
-            }
-		}
-		setTarget(targetIDS.substring(1));
-		this.targetList = targets;
-		this.dmg = dmg;
+		super(ModEntities.TYPE_SHOTLOCK_DARK_VOLLEY.get(), world, player, targets, dmg);
+		this.maxTicks = 260;
+		this.shotStyle.colour = shotColor;
 	}
 
 	@Override
@@ -55,7 +80,7 @@ public class DarkVolleyCoreEntity extends ThrowableProjectile {
 
 	@Override
 	public void tick() {
-		if (this.tickCount > maxTicks || getCaster() == null) {
+		if (isExpired()) {
 			this.remove(RemovalReason.KILLED);
 		}
 
@@ -65,7 +90,13 @@ public class DarkVolleyCoreEntity extends ThrowableProjectile {
 				Entity target = getTargets().get(i++);
 				if(target != null) {
 					VolleyShotEntity bullet = new VolleyShotEntity(level(), getCaster(), target, dmg);
-					bullet.setColor(4921675);
+					bullet.setColor(shotColor);
+					bullet.setElement(element);
+					bullet.setZigzag(zigzag);
+					bullet.setWaterVisual(waterVisual);
+					bullet.setApplyPoison(applyPoison);
+					bullet.setExplodeOnHit(explodeOnHit);
+					bullet.setRadialBurst(radialBurst);
 					bullet.setPos(Utils.randomWithRange(this.getX()-2, this.getX()+2), Utils.randomWithRange(this.getY()-2, this.getY()+2)+1F, Utils.randomWithRange(this.getZ()-2, this.getZ()+2));
 					bullet.setMaxTicks(maxTicks + 20);
 					//bullet.shoot(this.getPosX() - bullet.getPosX(), this.getPosY() - bullet.getPosY(), this.getPosZ() - bullet.getPosZ(), 0.001f, 0);
@@ -87,60 +118,4 @@ public class DarkVolleyCoreEntity extends ThrowableProjectile {
 
 	}
 
-	public int getMaxTicks() {
-		return maxTicks;
-	}
-
-	public void setMaxTicks(int maxTicks) {
-		this.maxTicks = maxTicks;
-	}
-
-	@Override
-	public void addAdditionalSaveData(CompoundTag compound) {
-		super.addAdditionalSaveData(compound);
-		if (this.entityData.get(OWNER).isPresent()) {
-			compound.putString("OwnerUUID", this.entityData.get(OWNER).get().toString());
-			compound.putString("TargetsUUID", this.entityData.get(TARGETS));
-		}
-	}
-
-	@Override
-	public void readAdditionalSaveData(CompoundTag compound) {
-		super.readAdditionalSaveData(compound);
-		this.entityData.set(OWNER, Optional.of(UUID.fromString(compound.getString("OwnerUUID"))));
-		this.entityData.set(TARGETS, compound.getString("TargetUUID"));
-	}
-
-	private static final EntityDataAccessor<Optional<UUID>> OWNER = SynchedEntityData.defineId(DarkVolleyCoreEntity.class, EntityDataSerializers.OPTIONAL_UUID);
-	private static final EntityDataAccessor<String> TARGETS = SynchedEntityData.defineId(DarkVolleyCoreEntity.class, EntityDataSerializers.STRING);
-
-	public Player getCaster() {
-		return this.getEntityData().get(OWNER).isPresent() ? this.level().getPlayerByUUID(this.getEntityData().get(OWNER).get()) : null;
-	}
-
-	public void setCaster(UUID uuid) {
-		this.entityData.set(OWNER, Optional.of(uuid));
-	}
-
-	public List<Entity> getTargets() {
-		List<Entity> list = new ArrayList<Entity>();
-		String[] ids = this.getEntityData().get(TARGETS).split(",");
-		
-		for(String id : ids) {
-		
-			if(!id.equals(""))
-				list.add(level().getEntity(Integer.parseInt(id)));
-		}
-		return list;
-	}
-
-	public void setTarget(String lists) {
-		this.entityData.set(TARGETS, lists);
-	}
-
-	@Override
-	protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
-		pBuilder.define(OWNER, Optional.of(new UUID(0L, 0L)));
-		pBuilder.define(TARGETS, "");
-	}
 }

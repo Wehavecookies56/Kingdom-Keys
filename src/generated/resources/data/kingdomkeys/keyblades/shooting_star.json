@@ -1,5 +1,4 @@
 {
-  "ability": "",
   "base_stats": {
     "mag": 6,
     "str": 4
@@ -15,8 +14,8 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_shard",
-          "quantity": 2
+          "material": "kingdomkeys:hungry_stone",
+          "quantity": 5
         }
       ],
       "str": 4
@@ -29,8 +28,8 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_shard",
-          "quantity": 3
+          "material": "kingdomkeys:hungry_stone",
+          "quantity": 7
         }
       ],
       "str": 5
@@ -43,8 +42,8 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_shard",
-          "quantity": 4
+          "material": "kingdomkeys:hungry_stone",
+          "quantity": 8
         }
       ],
       "str": 5
@@ -57,8 +56,12 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_stone",
-          "quantity": 1
+          "material": "kingdomkeys:hungry_stone",
+          "quantity": 9
+        },
+        {
+          "material": "kingdomkeys:hungry_shard",
+          "quantity": 5
         }
       ],
       "str": 6
@@ -71,12 +74,12 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_stone",
-          "quantity": 2
+          "material": "kingdomkeys:hungry_stone",
+          "quantity": 10
         },
         {
-          "material": "kingdomkeys:writhing_stone",
-          "quantity": 2
+          "material": "kingdomkeys:hungry_shard",
+          "quantity": 7
         }
       ],
       "str": 6
@@ -89,11 +92,33 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_stone",
-          "quantity": 3
+          "material": "kingdomkeys:hungry_stone",
+          "quantity": 11
         },
         {
-          "material": "kingdomkeys:writhing_stone",
+          "material": "kingdomkeys:hungry_shard",
+          "quantity": 9
+        }
+      ],
+      "str": 7
+    },
+    {
+      "mag": 10,
+      "recipe": [
+        {
+          "material": "kingdomkeys:adamantite",
+          "quantity": 1
+        },
+        {
+          "material": "kingdomkeys:hungry_stone",
+          "quantity": 12
+        },
+        {
+          "material": "kingdomkeys:hungry_shard",
+          "quantity": 10
+        },
+        {
+          "material": "kingdomkeys:lucid_shard",
           "quantity": 2
         }
       ],
@@ -107,30 +132,16 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_gem",
-          "quantity": 1
+          "material": "kingdomkeys:hungry_stone",
+          "quantity": 13
         },
         {
-          "material": "kingdomkeys:writhing_gem",
-          "quantity": 1
-        }
-      ],
-      "str": 7
-    },
-    {
-      "mag": 10,
-      "recipe": [
-        {
-          "material": "kingdomkeys:adamantite",
-          "quantity": 1
+          "material": "kingdomkeys:hungry_shard",
+          "quantity": 12
         },
         {
-          "material": "kingdomkeys:wellspring_gem",
-          "quantity": 2
-        },
-        {
-          "material": "kingdomkeys:writhing_gem",
-          "quantity": 2
+          "material": "kingdomkeys:lucid_shard",
+          "quantity": 4
         }
       ],
       "str": 8
@@ -143,12 +154,16 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_gem",
-          "quantity": 3
+          "material": "kingdomkeys:hungry_stone",
+          "quantity": 14
         },
         {
-          "material": "kingdomkeys:writhing_gem",
-          "quantity": 2
+          "material": "kingdomkeys:hungry_shard",
+          "quantity": 14
+        },
+        {
+          "material": "kingdomkeys:lucid_shard",
+          "quantity": 5
         }
       ],
       "str": 8
@@ -161,16 +176,21 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_crystal",
-          "quantity": 1
+          "material": "kingdomkeys:hungry_stone",
+          "quantity": 15
         },
         {
-          "material": "kingdomkeys:writhing_crystal",
-          "quantity": 1
+          "material": "kingdomkeys:hungry_shard",
+          "quantity": 15
+        },
+        {
+          "material": "kingdomkeys:lucid_shard",
+          "quantity": 6
         }
       ],
       "str": 9
     }
   ],
-  "reach": 1.0
+  "reach": 1.0,
+  "sound": "kingdomkeys:keyblade_hit/generic_hit"
 }

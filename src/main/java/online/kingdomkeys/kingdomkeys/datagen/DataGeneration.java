@@ -6,15 +6,16 @@ import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.common.data.AdvancementProvider;
 import net.neoforged.neoforge.common.data.DatapackBuiltinEntriesProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.damagesource.KKDamageTypes;
 import online.kingdomkeys.kingdomkeys.datagen.init.*;
-import online.kingdomkeys.kingdomkeys.datagen.provider.BaseLootTableProvider;
-import online.kingdomkeys.kingdomkeys.datagen.provider.MagicDataProvider;
+import online.kingdomkeys.kingdomkeys.datagen.provider.*;
 
+import java.util.List;
 import java.util.Set;
 
 @EventBusSubscriber()
@@ -36,7 +37,6 @@ public class DataGeneration {
         BlockTagsGen blockTags = new BlockTagsGen(generator, event.getLookupProvider(), existingFileHelper);
         generator.addProvider(event.includeServer(), blockTags);
         generator.addProvider(event.includeServer(), new ItemTagsGen(generator.getPackOutput(), event.getLookupProvider(), blockTags.contentsGetter(), existingFileHelper));
-        //generator.addProvider(event.includeServer(), new EntityTagsGen(generator, event.getLookupProvider(), existingFileHelper));
         generator.addProvider(event.includeServer(), new Recipes(generator, event.getLookupProvider()));
         generator.addProvider(event.includeClient(), new BlockStates(generator, existingFileHelper));
         generator.addProvider(event.includeClient(), new ItemModels(generator, existingFileHelper));
@@ -44,15 +44,26 @@ public class DataGeneration {
         generator.addProvider(event.includeClient(), new BlockModels(generator, existingFileHelper));
         generator.addProvider(event.includeServer(), new KeybladeStats(generator, existingFileHelper));
         generator.addProvider(event.includeServer(), new BaseLootTableProvider(output, event.getLookupProvider()));
+        generator.addProvider(event.includeServer(), new LootModifiers(output, event.getLookupProvider()));
         generator.addProvider(event.includeServer(), new SynthesisRecipe(generator, existingFileHelper));
         generator.addProvider(event.includeServer(), new MeldingRecipe(generator, existingFileHelper));
-        event.getGenerator().addProvider(event.includeServer(), new MagicDataProvider(output));
-        //probably should use the forge provider generator.addProvider(event.includeServer(), new KKAdvancementProvider(generator.getPackOutput(), event.getLookupProvider(), ));
+        generator.addProvider(event.includeServer(), new MagicDataProvider(output));
+        generator.addProvider(event.includeServer(), new LimitDataProvider(output));
+        generator.addProvider(event.includeServer(), new LevelingDataProvider(output));
+        generator.addProvider(event.includeServer(), new ShotlockDataProvider(output));
+        generator.addProvider(event.includeServer(), new ShopDataProvider(output));
+        generator.addProvider(event.includeServer(), new SellDataProvider(output));
+        generator.addProvider(event.includeServer(), new DriveFormDataProvider(output));
+        generator.addProvider(event.includeServer(), new AdvancementProvider(output, event.getLookupProvider(), existingFileHelper, List.of(new AdvancementsGen())));
         generator.addProvider(event.includeClient(), new LanguageENUS(generator));
         generator.addProvider(event.includeClient(), new LanguageESES(generator));
         generator.addProvider(event.includeClient(), new LanguageENGB(generator));
         generator.addProvider(event.includeClient(), new Sounds(generator, existingFileHelper));
         generator.addProvider(event.includeClient(), new BannerPatterns(generator, event.getLookupProvider(), existingFileHelper));
+        generator.addProvider(event.includeServer(), new FloorTypesGen(generator));
+        generator.addProvider(event.includeServer(), new RoomTypesGen(generator));
+        generator.addProvider(event.includeServer(), new RoomStructuresGen(generator));
+        generator.addProvider(event.includeServer(), new RoomEncountersGen(generator));
         
        // generator.addProvider(event.includeServer(), new DatapackBuiltinEntriesProvider(output, event.getLookupProvider(), BUILDER, Set.of(KingdomKeys.MODID)));
 

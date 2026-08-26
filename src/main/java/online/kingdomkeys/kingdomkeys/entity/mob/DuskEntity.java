@@ -12,7 +12,10 @@ import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
+import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.reactioncommands.ModReactionCommands;
 
 public class DuskEntity extends BaseKHEntity {
 
@@ -59,6 +62,42 @@ public class DuskEntity extends BaseKHEntity {
 		return false;
 	}
 
+	private int disoriented;
+
+	public void offerReversal(LivingEntity target) {
+		if (level().isClientSide || !(target instanceof Player player)) {
+			return;
+		}
+
+		PlayerData data = PlayerData.get(player);
+
+		if (data != null && data.addReactionCommand(ModReactionCommands.REVERSAL.location(), player)) {
+			PacketHandler.syncToAllAround(player, data);
+		}
+	}
+
+	public void disorient(int ticks) {
+		this.disoriented = Math.max(this.disoriented, ticks);
+		setTarget(null);
+		getNavigation().stop();
+	}
+
+	@Override
+	protected void customServerAiStep() {
+		super.customServerAiStep();
+
+		if (disoriented > 0) {
+			disoriented--;
+			setTarget(null);
+			setYRot(getYRot() + 22F);
+			setYBodyRot(getYRot());
+		}
+	}
+
+	public boolean isDisoriented() {
+		return disoriented > 0;
+	}
+
 	class CoilGoal extends Goal {
 		private final DuskEntity theEntity;
 		private boolean canUseAttack = true;
@@ -86,9 +125,7 @@ public class DuskEntity extends BaseKHEntity {
 
 		@Override
 		public boolean canContinueToUse() {
-			boolean flag = canUseAttack;
-
-			return flag;
+			return canUseAttack;
 		}
 
 		@Override
@@ -98,8 +135,10 @@ public class DuskEntity extends BaseKHEntity {
 			theEntity.setState(0);
 			LivingEntity target = this.theEntity.getTarget();
 
-			if (target != null)
+			if (target != null) {
 				posToCharge = new double[] { target.getX(), target.getY(), target.getZ() };
+				theEntity.offerReversal(target);
+			}
 		}
 
 		@Override

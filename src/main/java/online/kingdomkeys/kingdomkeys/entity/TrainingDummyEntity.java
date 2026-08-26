@@ -43,7 +43,7 @@ public class TrainingDummyEntity extends LivingEntity {
                 return InteractionResult.SUCCESS;
 
             setIgnoreCD(!getIgnoreCD());
-            player.displayClientMessage(Component.literal("Invincibility frames "+(getIgnoreCD() ? "disabled" : "enabled")), true);
+            player.displayClientMessage(Component.translatable("kingdomkeys.entity.training_dummy.iframes", (getIgnoreCD() ? "disabled" : "enabled")), true);
         }
         return super.interact(player, hand);
     }

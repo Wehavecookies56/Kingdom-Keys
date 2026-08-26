@@ -3,9 +3,9 @@ package online.kingdomkeys.kingdomkeys.integration.epicfight;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
-import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import yesman.epicfight.world.capabilities.EpicFightCapabilities;
 import yesman.epicfight.world.capabilities.entitypatch.LivingEntityPatch;
@@ -22,9 +22,19 @@ public class EpicFightUtils {
         }
     }
 
+    /** Whether the player has Epic Fight's combat stance up, in which case its own guard is in charge */
+    public static boolean isInEpicFightMode(Player player) {
+        if (!KingdomKeys.efmLoaded) {
+            return false;
+        }
+
+        PlayerPatch patch = EpicFightCapabilities.getEntityPatch(player, PlayerPatch.class);
+        return patch != null && patch.isEpicFightMode();
+    }
+
     public static float getCritMulti(Player player) {
         PlayerData data = PlayerData.get(player);
-        float critBoost = data.getNumberOfAbilitiesEquipped(Strings.criticalBoost) * 0.1f;
+        float critBoost = data.getNumberOfAbilitiesEquipped(ModAbilities.CRITICAL_BOOST) * 0.1f;
 
         boolean isEpicFightMode = false;
 

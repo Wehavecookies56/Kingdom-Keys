@@ -5,7 +5,6 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
@@ -20,7 +19,7 @@ import online.kingdomkeys.kingdomkeys.util.StreamCodecs;
 
 public record CSOrgPortalTPPacket(ResourceKey<Level> dim, Vec3 pos) implements Packet {
 
-	public static final Type<CSOrgPortalTPPacket> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_org_portal_tp"));
+	public static final Type<CSOrgPortalTPPacket> TYPE = new Type<>(KingdomKeys.rl("cs_org_portal_tp"));
 
 	public static final StreamCodec<FriendlyByteBuf, CSOrgPortalTPPacket> STREAM_CODEC = StreamCodec.composite(
 			ResourceKey.streamCodec(Registries.DIMENSION),

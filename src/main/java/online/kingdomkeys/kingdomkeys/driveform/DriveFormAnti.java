@@ -4,11 +4,13 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Player;
+import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
-import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+
+import java.util.Optional;
 
 public class DriveFormAnti extends DriveForm {
 
@@ -17,30 +19,30 @@ public class DriveFormAnti extends DriveForm {
 		this.color = new float[] { 0F, 0F, 0F };
 		this.skinRL = skinRL;
 	}
-	
+
 	@Override
-	public String getBaseAbilityForLevel(int driveFormLevel) {
-		return null;	
+	public Optional<ResourceLocation> getBaseAbilityForLevel(int driveFormLevel) {
+		return Optional.empty();
 	}
 
 	@Override
-	public String getDFAbilityForLevel(int driveFormLevel) {
-		return null;
+	public Optional<ResourceLocation> getDFAbilityForLevel(int driveFormLevel) {
+		return Optional.empty();
 	}
 
 	@Override
 	public boolean displayInCommandMenu(Player player) {
-		return PlayerData.get(player).isAbilityEquipped(Strings.darkDomination);
+		return PlayerData.get(player).isAbilityEquipped(ModAbilities.DARK_DOMINATION);
 	}
 
 	@Override
 	public void initDrive(Player player) {
 		if (!getRegistryName().equals(NONE)) {
 			PlayerData playerData = PlayerData.get(player);
-			playerData.setActiveDriveForm(getName());
+			playerData.setActiveDriveForm(getRegistryName());
 			int cost = 1000;
-			if(playerData.isAbilityEquipped(Strings.darkDomination)){
-				cost = ModDriveForms.registry.get(ResourceLocation.parse(getName())).getDriveCost();
+			if(playerData.isAbilityEquipped(ModAbilities.DARK_DOMINATION)){
+				cost = this.getDriveCost();
 			}
 			playerData.remDP(cost);
 			playerData.setFP(1000);

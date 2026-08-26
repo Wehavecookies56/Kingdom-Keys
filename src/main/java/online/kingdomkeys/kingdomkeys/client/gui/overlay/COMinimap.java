@@ -6,6 +6,8 @@ import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.LayeredDraw;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
@@ -17,6 +19,7 @@ import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.entity.block.CardDoorTileEntity;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.CastleOblivionHandler;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.DoorData;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.RoomData;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.RoomDirection;
@@ -26,7 +29,9 @@ import java.util.Map;
 public class COMinimap extends OverlayBase {
     public static final LayeredDraw.Layer INSTANCE = new COMinimap();
 
-    private static final ResourceLocation ROOM_TEX = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/co/room.png");
+    private static final ResourceLocation ROOM_TEX = KingdomKeys.rl("textures/gui/co/room.png");
+
+    public RoomData currentRoom = null;
 
     private COMinimap() {
         super();
@@ -35,12 +40,22 @@ public class COMinimap extends OverlayBase {
     @Override
     public void render(GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
         super.render(guiGraphics, deltaTracker);
-
-        if (MenuScreen.rooms.isEmpty())
+        if(minecraft != null && minecraft.options.hideGui){
+            return;
+        }
+        if (MenuScreen.rooms.isEmpty() || !CastleOblivionHandler.inInterior(minecraft.player))
             return;
 
         int screenWidth = Minecraft.getInstance().getWindow().getGuiScaledWidth();
         int screenHeight = Minecraft.getInstance().getWindow().getGuiScaledHeight();
+
+        for (RoomData roomData : MenuScreen.rooms) {
+            if (roomData.getGenerated().isPresent()) {
+                if (roomData.getGenerated().get().inRoom(minecraft.player.blockPosition())) {
+                    currentRoom = roomData;
+                }
+            }
+        }
 
         ClientUtils.MINIMAP_ELEMENT.applyTransform(guiGraphics,screenWidth,screenHeight);
         guiGraphics.pose().translate(50.1,20,0);
@@ -52,26 +67,23 @@ public class COMinimap extends OverlayBase {
         RenderSystem.disableBlend();
 
         ClientUtils.MINIMAP_ELEMENT.endTransform(guiGraphics);
+
+        if (currentRoom != null) {
+            MutableComponent roomName = currentRoom.getGenerated().map(room -> room.getType().getName(currentRoom).withStyle(ClientUtils.KK_Font_MENU)).orElse(Component.literal("???").withStyle(ClientUtils.KK_Font_MENU));
+            ClientUtils.ROOMNAME_ELEMENT.applyTransform(guiGraphics, screenWidth, screenHeight);
+            guiGraphics.drawString(Minecraft.getInstance().font, roomName, 50 - minecraft.font.width(roomName)/2, 0, 0xFFFFFF);
+            ClientUtils.ROOMNAME_ELEMENT.endTransform(guiGraphics);
+        }
     }
 
     private void renderMinimap(GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
         int tileSize = 60;
 
-        RoomData currentRoom = null;
-
         guiGraphics.pose().pushPose();
         {
             guiGraphics.pose().mulPose(Axis.ZP.rotationDegrees(45));
 
-            for (RoomData roomData : MenuScreen.rooms) {
-                if (roomData.getGenerated() != null) {
-                    if (roomData.getGenerated().inRoom(minecraft.player.blockPosition())) {
-                        currentRoom = roomData;
-                    }
-                }
-            }
-
-            if(currentRoom == null || currentRoom.getGenerated().getType().isEntranceHall()){
+            if(currentRoom == null || currentRoom.getGenerated().get().getType().isEntranceHall()){
                 guiGraphics.pose().popPose();
                 return;
             }
@@ -108,11 +120,11 @@ public class COMinimap extends OverlayBase {
 
                 boolean open = false;
 
-                if (currentRoom.getGenerated() != null && neighbor.getGenerated() != null) {
+                if (currentRoom.getGenerated().isPresent() && neighbor.getGenerated().isPresent()) {
 
-                    CardDoorTileEntity te1 = currentRoom.getGenerated().getDoorTE(minecraft.level, dir);
+                    CardDoorTileEntity te1 = currentRoom.getGenerated().get().getDoorTE(minecraft.level, dir);
 
-                    CardDoorTileEntity te2 = neighbor.getGenerated().getDoorTE(minecraft.level, dir.opposite());
+                    CardDoorTileEntity te2 = neighbor.getGenerated().get().getDoorTE(minecraft.level, dir.opposite());
 
                     if (te1 != null && te1.isOpen())
                         open = true;

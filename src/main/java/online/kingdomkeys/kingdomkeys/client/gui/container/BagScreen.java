@@ -7,12 +7,13 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.HiddenButton;
+import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.item.BagItem;
 import online.kingdomkeys.kingdomkeys.item.ModComponents;
@@ -28,7 +29,7 @@ import java.util.Optional;
 
 public class BagScreen extends AbstractContainerScreen<BagMenu> {
 
-	private int[] texHeight = {140, 176, 212, 248};
+	private static final int[] TEX_HEIGHT = {140, 176, 212, 248};
 
 	private int bagLevel = 0;
 
@@ -42,7 +43,7 @@ public class BagScreen extends AbstractContainerScreen<BagMenu> {
 	@Override
 	protected void init() {
 		bagLevel = menu.bag.getOrDefault(ModComponents.BAG_LEVEL, 0);
-		imageHeight = texHeight[bagLevel];
+		imageHeight = TEX_HEIGHT[bagLevel];
 		imageWidth = 193;
 
 		super.init();
@@ -53,6 +54,7 @@ public class BagScreen extends AbstractContainerScreen<BagMenu> {
 	private void upgrade() {
 		if (bagLevel < 3) {
 			if (PlayerData.get(minecraft.player).getMunny() >= Utils.getBagCosts(bagLevel)) {
+				minecraft.level.playSound(minecraft.player, minecraft.player.blockPosition(), ModSounds.buy.get(), SoundSource.MASTER, 1.0f, 1.0f);
 				PacketHandler.sendToServer(new CSUpgradeBagPacket());
 				onClose();
 			}
@@ -110,6 +112,6 @@ public class BagScreen extends AbstractContainerScreen<BagMenu> {
 		int yPos = topPos;
 
 		String textureBase = "textures/gui/synthesis_bag_";
-		gui.blit(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, textureBase + bagLevel + ".png"), xPos, yPos, 0, 0, imageWidth, imageHeight);
+		gui.blit(KingdomKeys.rl(textureBase + bagLevel + ".png"), xPos, yPos, 0, 0, imageWidth, imageHeight);
 	}
 }

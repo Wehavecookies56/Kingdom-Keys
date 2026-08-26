@@ -11,7 +11,6 @@ import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.levelgen.Heightmap.Types;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import online.kingdomkeys.kingdomkeys.damagesource.KKDamageTypes;
@@ -35,7 +34,6 @@ public class ThundazaEntity extends BaseMagicProjectile {
 		this.lockedOnEntity = lockedOnEntity;
 		setDamageType(KKDamageTypes.LIGHTNING);
 	}
-
 
 	List<LivingEntity> list = new ArrayList<>();
 
@@ -93,10 +91,10 @@ public class ThundazaEntity extends BaseMagicProjectile {
 						z = (int) getOwner().getZ();
 					}
 
-					int y = getOwner().level().getHeight(Types.WORLD_SURFACE, x, z);
-
 					int posX = (int) (x + getOwner().level().random.nextInt((int) (radius*2)) - radius / 2)-1;
 					int posZ = (int) (z + getOwner().level().random.nextInt((int) (radius*2)) - radius / 2)-1;
+
+					int y = Utils.getYHeight(level(),posX,posZ);
 
 					for(int px=(int)(x-radius);px<x+radius;px++) {
 						for(int py=(int)(y-radius);py<y+radius;py++) {
@@ -113,10 +111,10 @@ public class ThundazaEntity extends BaseMagicProjectile {
 
 					float dmg = getTotalDamage();
 					dmg = Math.max(0.5F, dmg);
-					ThunderBoltEntity shot = new ThunderBoltEntity(getOwner().level(), (LivingEntity) getOwner(), posX, getOwner().level().getHeight(Types.WORLD_SURFACE, posX, posZ), posZ, dmg);
+					ThunderBoltEntity shot = new ThunderBoltEntity(getOwner().level(), (LivingEntity) getOwner(), posX, Utils.getYHeight(level(),posX,posZ), posZ, dmg);
 					level().addFreshEntity(shot);
 
-					BlockPos pos = new BlockPos(posX, getOwner().level().getHeight(Types.WORLD_SURFACE, posX, posZ), posZ);
+					BlockPos pos = Utils.getBlockPosYHeight(level(),posX,posZ);
 					LightningBolt lightningBoltEntity = EntityType.LIGHTNING_BOLT.create(this.level());
 					lightningBoltEntity.moveTo(Vec3.atBottomCenterOf(pos));
 					lightningBoltEntity.setVisualOnly(true);

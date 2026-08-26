@@ -1,0 +1,16 @@
+{
+  "category": "STATUS",
+  "enemies": {
+    "type": "M",
+    "number_of_enemies": 8,
+    "simultaneous_enemies": 3
+  },
+  "modifiers": [
+    {
+      "type": "kingdomkeys:effect",
+      "effect": "kingdomkeys:sorcerous_waking",
+      "target": "PLAYER"
+    }
+  ],
+  "size": "M"
+}

@@ -8,13 +8,13 @@ import java.util.List;
 
 public class ServerConfig {
 
-    public ModConfigSpec.IntValue partyRangeLimit, partyMembersLimit, shotlockMaxDist, wayfinderCD, wayfinderCDCall;
+    public ModConfigSpec.IntValue gummiHangarBuildCost, gummiHangarBuildDelay, finalMixVariantChance, partyRangeLimit, partyMembersLimit, shotlockMaxDist, wayfinderCD, wayfinderCDCall, struggleArenaRange;
 
     public ModConfigSpec.ConfigValue<List<? extends String>> driveFormXPMultiplier;
     public ModConfigSpec.ConfigValue<List<? extends Integer>> statsMultiplier;
 
-    public ModConfigSpec.DoubleValue xpMultiplier, magicXPMultiplier, heartMultiplier, partyXPShare;
-    public ModConfigSpec.BooleanValue requireSynthTier, requireSynthTierShop, requireMeldingTier, projectorHasShop, savepointGlobal, getExpFromShop, orgEnabled, allowBoosts, allowPartyKO, wayfinderParty, hostileMobsLevel, dragonLevel, gummiShipFuelSystem, softLockOnMode;
+    public ModConfigSpec.DoubleValue xpMultiplier, magicXPMultiplier, heartMultiplier, partyXPShare, perMagicCooldownMultiplier;
+    public ModConfigSpec.BooleanValue requireSynthTier, requireSynthTierShop, requireMeldingTier, projectorHasShop, savepointGlobal, getExpFromShop, orgEnabled, allowBoosts, allowPartyKO, wayfinderParty, hostileMobsLevel, dragonLevel, gummiShipFuelSystem, gummiHangarAutoBuild, softLockOnMode, allowCastMagicIfTooExpensive, allowAllOrgLimits, perMagicCooldown, shotlockMinigames, staffCrownsUpdate;
 
     ServerConfig(final ModConfigSpec.Builder builder) {
         builder.push("general");
@@ -24,11 +24,41 @@ public class ServerConfig {
                 .translation(KingdomKeys.MODID + ".config.soft_lock_on_mode")
                 .define("softLockOnMode", true);
 
+        struggleArenaRange = builder
+                .comment("How far from its board a struggle's arena corners and spectator spot may be set, in blocks")
+                .translation(KingdomKeys.MODID + ".config.struggle_arena_range")
+                .defineInRange("struggleArenaRange", 32, 1, 512);
+
+        staffCrownsUpdate = builder
+                .comment("Set whether the server checks GitHub for the list of people who get a staff crown. Turning this off falls back to the copy shipped with the mod, which only changes when the mod is updated")
+                .translation(KingdomKeys.MODID + ".config.staff_crowns_update")
+                .define("staffCrownsUpdate", true);
+
         gummiShipFuelSystem = builder
                 .comment("Set whether to enable Gummi Ships fuel system")
                 .translation(KingdomKeys.MODID + ".config.gummi_fuel_system")
                 .define("gummiShipFuelSystem", true);
+
+        gummiHangarAutoBuild = builder
+                .comment("Set whether a Gummi Hangar showing a blueprint builds it on its own, spending stored energy and taking the blocks from any container placed against it")
+                .translation(KingdomKeys.MODID + ".config.gummi_hangar_auto_build")
+                .define("gummiHangarAutoBuild", true);
+
+        gummiHangarBuildCost = builder
+                .comment("Energy a Gummi Hangar spends on each block it places on its own")
+                .translation(KingdomKeys.MODID + ".config.gummi_hangar_build_cost")
+                .defineInRange("gummiHangarBuildCost", 20, 0, 100000);
+
+        gummiHangarBuildDelay = builder
+                .comment("Ticks a Gummi Hangar waits between rounds of placing blocks on its own. Each round places one block per hangar level")
+                .translation(KingdomKeys.MODID + ".config.gummi_hangar_build_delay")
+                .defineInRange("gummiHangarBuildDelay", 20, 1, 1200);
         
+        finalMixVariantChance = builder
+                .comment("Percentage chance for a spawning Heartless to use its Final Mix palette variant")
+                .translation(KingdomKeys.MODID + ".config.final_mix_variant_chance")
+                .defineInRange("finalMixVariantChance", 10, 0, 100);
+
         partyRangeLimit = builder
                 .comment("Party range limit")
                 .translation(KingdomKeys.MODID + ".config.party_range_limit")
@@ -115,6 +145,31 @@ public class ServerConfig {
                 .translation(KingdomKeys.MODID + ".config.shotlock_max_dist")
                 .defineInRange("shotlockMaxDist", 200, 1, 1000);
 
+        allowCastMagicIfTooExpensive = builder
+                .comment("If true it will allow you to cast a magic which is too expensive even if you don't have the req. Max MP (eg. Stop at level 4)")
+                .translation(KingdomKeys.MODID + ".config.allow_magic_too_expensive")
+                .define("allowCastMagicIfTooExpensive", true);
+
+        perMagicCooldown = builder
+                .comment("If true each magic has its own cooldown, so casting one does not lock the rest (Birth by Sleep style). If false a single shared cooldown blocks every magic")
+                .translation(KingdomKeys.MODID + ".config.per_magic_cooldown")
+                .define("perMagicCooldown", false);
+
+        perMagicCooldownMultiplier = builder
+                .comment("Multiplies magic cooldowns while perMagicCooldown is on")
+                .translation(KingdomKeys.MODID + ".config.per_magic_cooldown_multiplier")
+                .defineInRange("perMagicCooldownMultiplier", 4D, 0.1D, 100D);
+
+        shotlockMinigames = builder
+                .comment("If true, landing a full Shotlock with a level 2+ Shotlock item starts a follow-up minigame (mash, timing ring or WASD prompts)")
+                .translation(KingdomKeys.MODID + ".config.shotlock_minigames")
+                .define("shotlockMinigames", true);
+
+        allowAllOrgLimits = builder
+                .comment("If true it will allow any Organization XIII member to use any limit, if false only the associated member ones")
+                .translation(KingdomKeys.MODID + ".config.allow_all_org_limits")
+                .define("allowAllOrgLimits", false);
+
         builder.pop();
 
         builder.push("leveling");
@@ -127,7 +182,7 @@ public class ServerConfig {
         magicXPMultiplier = builder
                 .comment("Magic spells XP Multiplier")
                 .translation(KingdomKeys.MODID + ".config.magic_xp_multiplier")
-                .defineInRange("magicXPMultiplier", 0.75F, 0, 1000);
+                .defineInRange("magicXPMultiplier", 0.4F, 0, 1000);
 
         heartMultiplier = builder
                 .comment("Hearts Multiplier")

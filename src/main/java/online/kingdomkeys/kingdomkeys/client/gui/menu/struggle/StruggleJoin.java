@@ -1,144 +1,126 @@
 package online.kingdomkeys.kingdomkeys.client.gui.menu.struggle;
 
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundSource;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton.ButtonType;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
-import online.kingdomkeys.kingdomkeys.config.ModConfigs;
-import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.data.WorldData;
-import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
+import online.kingdomkeys.kingdomkeys.lib.Struggle;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.cts.CSPartyAddMember;
+import online.kingdomkeys.kingdomkeys.network.cts.CSStruggleJoin;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class StruggleJoin extends MenuBackground {
 	BlockPos boardPos;
 
-	boolean priv = false;
-	int pSize = ModConfigs.SERVER.partyMembersLimit.get();
-	
 	MenuButton back;
-		
-	PlayerData playerData = PlayerData.get(minecraft.player);
+
 	WorldData worldData;
-	
-	MenuButton[] parties = new MenuButton[100];
-	
+
+	private final List<MenuButton> matchButtons = new ArrayList<>();
+
+	private final List<String> shown = new ArrayList<>();
+
 	public StruggleJoin(BlockPos pos) {
-		super("Join Struggle", new Color(252, 173, 3));
+		super(Utils.translateToLocal(Strings.Gui_Menu_Struggle_Join_Title), new Color(252, 173, 3));
 		drawPlayerInfo = true;
 		worldData = WorldData.getClient();
 		boardPos = pos;
 	}
 
 	protected void action(String string) {
-		//Clear list as it should never be seen unless in phase 2
-		for(int i=0;i<parties.length;i++) {
-			if(parties[i] != null) {
-				parties[i].visible = false;
-			}
-		}
-		
 		switch(string) {
 		case "back":
 			minecraft.level.playSound(minecraft.player, minecraft.player.blockPosition(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
-			minecraft.setScreen(new MenuStruggle(boardPos));			
+			minecraft.setScreen(new MenuStruggle(boardPos));
 			break;
 		}
-		
-		if(string.startsWith("party:")) {
-			String[] data = string.split(":");
-			String partyName = data[1].substring(data[1].indexOf("]")+2);
-			Party p = worldData.getPartyFromName(partyName);
-			if(p != null) {
-				if(p.getMembers().size() < p.getSize()) {
-					PacketHandler.sendToServer(new CSPartyAddMember(p, minecraft.player));
-					p.addMember(minecraft.player.getUUID(), minecraft.player.getDisplayName().getString());
-	
-					minecraft.level.playSound(minecraft.player, minecraft.player.blockPosition(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
-					minecraft.setScreen(null);
-				} else {
-					
-				}
+	}
+
+	private void join(String struggleName) {
+		Struggle s = WorldData.getClient().getStruggleFromName(struggleName);
+
+		if(s == null || s.getParticipants().size() >= s.getSize() || s.hasParticipant(minecraft.player.getUUID())) {
+			return;
+		}
+
+		PacketHandler.sendToServer(new CSStruggleJoin(s.getName()));
+
+		minecraft.level.playSound(minecraft.player, minecraft.player.blockPosition(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
+		minecraft.setScreen(null);
+	}
+
+	private void refreshMatches() {
+		worldData = WorldData.getClient();
+
+		List<Struggle> listed = new ArrayList<>();
+		List<String> labels = new ArrayList<>();
+
+		for(Struggle s : worldData.getStruggles()) {
+			if(s != null) {
+				listed.add(s);
+				labels.add("[" + s.getParticipants().size() + "/" + s.getSize() + "] " + s.getName());
 			}
 		}
-		updateButtons();
-	}
 
-	private void updateButtons() {
-		refreshParties();
-	}
+		if(labels.equals(shown)) {
+			return;
+		}
 
-	private void refreshParties() {
-		playerData = PlayerData.get(minecraft.player);
-		List<String> privateParties = playerData.getPartiesInvited();
-		
-		worldData = WorldData.getClient();
+		for(MenuButton button : matchButtons) {
+			removeWidget(button);
+		}
+
+		matchButtons.clear();
+		shown.clear();
+		shown.addAll(labels);
 
 		float topBarHeight = (float) height * 0.17F;
 		int button_statsY = (int) topBarHeight + 5;
 		float buttonWidth = ((float) width * 0.1744F) - 20;
 
-		for(int i = 0;i<renderables.size();i++) {
-			if(((AbstractWidget)renderables.get(i)).getMessage().getString().startsWith("[") || ((AbstractWidget)renderables.get(i)).getMessage().getString().startsWith("(P) [")) {
-				renderables.remove(i);
-			}
+		for(int i = 0; i < listed.size(); i++) {
+			String name = listed.get(i).getName();
+
+			MenuButton button = new MenuButton((int)(width * 0.3F), button_statsY + (i * 18), (int)(buttonWidth * 2), labels.get(i), ButtonType.BUTTON, (e) -> join(name));
+
+			matchButtons.add(button);
+			addRenderableWidget(button);
 		}
-		
-		//Show private parties
-		int c = 0;
-		int j = 0;
-		for(j = 0;j<privateParties.size();j++) {
-			Party p = worldData.getPartyFromName(privateParties.get(j));
-			if(p != null) {
-				addRenderableWidget(parties[c++] = new MenuButton((int)(width * 0.3F), button_statsY + (j * 18), (int)(buttonWidth * 2), "(P) ["+p.getMembers().size()+"/"+p.getSize()+"] "+p.getName(), ButtonType.BUTTON, (e) -> { action("party:"+e.getMessage().getString()); }));
-			}
-		}
-		//Show the buttons to join public parties
-		List<Party> partiesList = worldData.getParties();
-		for(int i=0;i<partiesList.size();i++) {
-			if(partiesList.get(i) != null && !partiesList.get(i).getPriv()) {
-				Party p = partiesList.get(i);
-				if(!privateParties.contains(p.getName())){//TODO test this xD
-					addRenderableWidget(parties[c++] = new MenuButton((int)(width * 0.3F), button_statsY + ((i+j) * 18), (int)(buttonWidth * 2), "["+p.getMembers().size()+"/"+p.getSize()+"] "+p.getName(), ButtonType.BUTTON, (e) -> { action("party:"+e.getMessage().getString()); }));
-				}
-			}
-		}
-	}	
+	}
 
 	@Override
 	public void init() {
 		super.width = width;
 		super.height = height;
 		super.init();
-		this.renderables.clear();
-				
+		clearWidgets();
+
+		matchButtons.clear();
+		shown.clear();
+
 		float topBarHeight = (float) height * 0.17F;
 		int button_statsY = (int) topBarHeight + 5;
 		float buttonPosX = (float) width * 0.03F;
 		float buttonWidth = ((float) width * 0.1744F) - 20;
 
 		addRenderableWidget(back = new MenuButton((int) buttonPosX, button_statsY, (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), ButtonType.BUTTON, (e) -> { action("back"); }));
-		
-		updateButtons();
+
+		refreshMatches();
 	}
 
 	@Override
 	public void render(@NotNull GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
 		super.render(gui, mouseX, mouseY, partialTicks);
-		worldData = WorldData.getClient();
-		refreshParties();
+		refreshMatches();
 	}
-	
-	
 }

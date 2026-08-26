@@ -1,0 +1,38 @@
+{
+  "parent": "kingdomkeys:root",
+  "criteria": {
+    "play_music_disc": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#kingdomkeys:music_discs"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "description": {
+      "translate": "advancements.kingdomkeys.play_music_disc.desc"
+    },
+    "frame": "goal",
+    "icon": {
+      "count": 1,
+      "id": "minecraft:music_disc_cat"
+    },
+    "title": {
+      "translate": "advancements.kingdomkeys.play_music_disc"
+    }
+  },
+  "requirements": [
+    [
+      "play_music_disc"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  },
+  "sends_telemetry_event": true
+}

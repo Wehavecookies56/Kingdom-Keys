@@ -1,5 +1,4 @@
 {
-  "ability": "",
   "base_stats": {
     "mag": 0,
     "str": 6
@@ -15,8 +14,8 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_shard",
-          "quantity": 2
+          "material": "kingdomkeys:blazing_stone",
+          "quantity": 1
         }
       ],
       "str": 6
@@ -29,8 +28,8 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_shard",
-          "quantity": 3
+          "material": "kingdomkeys:blazing_stone",
+          "quantity": 2
         }
       ],
       "str": 7
@@ -43,8 +42,8 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_shard",
-          "quantity": 4
+          "material": "kingdomkeys:blazing_stone",
+          "quantity": 2
         }
       ],
       "str": 7
@@ -57,8 +56,12 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_stone",
-          "quantity": 1
+          "material": "kingdomkeys:blazing_stone",
+          "quantity": 2
+        },
+        {
+          "material": "kingdomkeys:blazing_gem",
+          "quantity": 3
         }
       ],
       "str": 8
@@ -71,12 +74,12 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_stone",
+          "material": "kingdomkeys:blazing_stone",
           "quantity": 2
         },
         {
-          "material": "kingdomkeys:writhing_stone",
-          "quantity": 2
+          "material": "kingdomkeys:blazing_gem",
+          "quantity": 4
         }
       ],
       "str": 8
@@ -89,12 +92,12 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_stone",
+          "material": "kingdomkeys:blazing_stone",
           "quantity": 3
         },
         {
-          "material": "kingdomkeys:writhing_stone",
-          "quantity": 2
+          "material": "kingdomkeys:blazing_gem",
+          "quantity": 5
         }
       ],
       "str": 9
@@ -107,12 +110,16 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_gem",
-          "quantity": 1
+          "material": "kingdomkeys:blazing_stone",
+          "quantity": 3
         },
         {
-          "material": "kingdomkeys:writhing_gem",
-          "quantity": 1
+          "material": "kingdomkeys:blazing_gem",
+          "quantity": 6
+        },
+        {
+          "material": "kingdomkeys:blazing_crystal",
+          "quantity": 5
         }
       ],
       "str": 9
@@ -125,12 +132,16 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_gem",
-          "quantity": 2
+          "material": "kingdomkeys:blazing_stone",
+          "quantity": 3
         },
         {
-          "material": "kingdomkeys:writhing_gem",
-          "quantity": 2
+          "material": "kingdomkeys:blazing_gem",
+          "quantity": 7
+        },
+        {
+          "material": "kingdomkeys:blazing_crystal",
+          "quantity": 9
         }
       ],
       "str": 10
@@ -143,12 +154,16 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_gem",
+          "material": "kingdomkeys:blazing_stone",
           "quantity": 3
         },
         {
-          "material": "kingdomkeys:writhing_gem",
-          "quantity": 2
+          "material": "kingdomkeys:blazing_gem",
+          "quantity": 8
+        },
+        {
+          "material": "kingdomkeys:blazing_crystal",
+          "quantity": 12
         }
       ],
       "str": 10
@@ -161,16 +176,21 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_crystal",
-          "quantity": 1
+          "material": "kingdomkeys:blazing_stone",
+          "quantity": 3
         },
         {
-          "material": "kingdomkeys:writhing_crystal",
-          "quantity": 1
+          "material": "kingdomkeys:blazing_gem",
+          "quantity": 9
+        },
+        {
+          "material": "kingdomkeys:blazing_crystal",
+          "quantity": 15
         }
       ],
       "str": 11
     }
   ],
-  "reach": 1.5
+  "reach": 1.5,
+  "sound": "kingdomkeys:keyblade_hit/generic_hit"
 }

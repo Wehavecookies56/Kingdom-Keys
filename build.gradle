@@ -31,13 +31,19 @@ repositories {
     }
 
     maven {
-        // saps.dev Maven (KubeJS and Rhino)
-        url = "https://maven.saps.dev/minecraft"
+        url "https://maven.latvian.dev/releases"
         content {
             includeGroup "dev.latvian.mods"
+            includeGroup "dev.latvian.apps"
         }
     }
 
+    maven {
+        url 'https://jitpack.io'
+        content {
+            includeGroup "com.github.rtyley"
+        }
+    }
     exclusiveContent {
         forRepository {
             maven {
@@ -83,9 +89,9 @@ neoForge {
             systemProperty 'neoforge.enableGameTestNamespaces', project.mod_id
         }
 
-        client2 {
+        clientAbelatox {
             client()
-            programArguments.addAll('--username', 'Dev2')
+            programArguments.addAll('--username', 'Abelatox')
         }
 
         server {
@@ -119,6 +125,12 @@ neoForge {
 
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 
+// The staff crown list lives in ExtraResources so there is one copy of it in the repository, which is also
+// the one fetched from GitHub at runtime. This puts a copy at the root of the jar as the offline fallback.
+processResources {
+    from('ExtraResources/staff_crowns.json')
+}
+
 configurations {
     runtimeClasspath.extendsFrom localRuntime
 }
@@ -130,15 +142,17 @@ dependencies {
     localRuntime("mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}")
     compileOnly("vazkii.patchouli:Patchouli:1.21.1-92-NEOFORGE:api")
     runtimeOnly("vazkii.patchouli:Patchouli:1.21.1-92-NEOFORGE")
-    implementation "curse.maven:epic-fight-mod-405076:7956628-sources"
+    implementation "curse.maven:epic-fight-mod-405076:8175609-sources"
     implementation "software.bernie.geckolib:geckolib-neoforge-${minecraft_version}:${geckolib_version}"
-    implementation "curse.maven:mekanism-268560:7132168"
+    //implementation "curse.maven:mekanism-268560:7132168"
     implementation "huge-structure-blocks-kk:huge-structure-blocks-kk:1.1.2"
     implementation "curse.maven:female-gender-neoforge-481655:5579007"
-    implementation "curse.maven:gender-mod-epic-fight-compat-1489735:7778152"
-    implementation "curse.maven:shoulder-surfing-reloaded-243190:7720604"
+    compileOnly "curse.maven:shoulder-surfing-reloaded-243190:8596423"
     implementation "curse.maven:tool-belt-260262:5929065"
     implementation "curse.maven:spark-361579:6225208"
+    implementation("dev.latvian.mods:kubejs-neoforge:$kubejs_version")
+    implementation "curse.maven:just-enough-resources-jer-240630:6174588"
+    implementation "curse.maven:worldedit-225608:5830452"
 }
 
 var generateModMetadata = tasks.register("generateModMetadata", ProcessResources) {

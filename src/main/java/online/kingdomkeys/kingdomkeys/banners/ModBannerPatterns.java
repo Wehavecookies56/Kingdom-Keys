@@ -1,7 +1,6 @@
 package online.kingdomkeys.kingdomkeys.banners;
 
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.entity.BannerPattern;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
@@ -18,6 +17,6 @@ public class ModBannerPatterns {
             NOBODY_FILLED = PATTERNS.register("nobody_filled", () -> createBanner("nobody_filled"));
 
     public static BannerPattern createBanner(String name){
-        return new BannerPattern(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, name), name);
+        return new BannerPattern(KingdomKeys.rl(name), name);
     }
 }

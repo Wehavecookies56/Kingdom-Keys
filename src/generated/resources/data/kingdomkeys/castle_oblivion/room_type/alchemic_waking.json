@@ -1,0 +1,16 @@
+{
+  "category": "STATUS",
+  "enemies": {
+    "type": "S",
+    "number_of_enemies": 6,
+    "simultaneous_enemies": 3
+  },
+  "modifiers": [
+    {
+      "type": "kingdomkeys:effect",
+      "effect": "kingdomkeys:alchemic_waking",
+      "target": "PLAYER"
+    }
+  ],
+  "size": "M"
+}

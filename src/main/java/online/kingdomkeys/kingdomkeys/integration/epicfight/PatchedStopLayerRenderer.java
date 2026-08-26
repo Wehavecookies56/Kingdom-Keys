@@ -21,7 +21,7 @@ import yesman.epicfight.world.capabilities.entitypatch.LivingEntityPatch;
 
 public class PatchedStopLayerRenderer<E extends LivingEntity, T extends LivingEntityPatch<E>, M extends EntityModel<E>> extends PatchedLayer<E, T, M, net.minecraft.client.renderer.entity.layers.RenderLayer<E, M>> {
 
-    public static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID,"textures/entity/models/stop.png");
+    public static final ResourceLocation TEXTURE = KingdomKeys.rl("textures/entity/models/stop.png");
 
     private final StopModel<?> stopModel;
 

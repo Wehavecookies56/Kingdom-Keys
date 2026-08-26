@@ -3,6 +3,7 @@ package online.kingdomkeys.kingdomkeys.client.render.entity.drops;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
+import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderer;
@@ -13,7 +14,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import online.kingdomkeys.kingdomkeys.entity.drops.ItemDropEntity;
 import online.kingdomkeys.kingdomkeys.util.Utils;
-import org.joml.Matrix3f;
 import org.joml.Matrix4f;
 
 public class EntityItemDropRenderer extends EntityRenderer<ItemDropEntity> {
@@ -49,17 +49,16 @@ public class EntityItemDropRenderer extends EntityRenderer<ItemDropEntity> {
 			VertexConsumer ivertexbuilder = bufferIn.getBuffer(RenderType.entityTranslucent(getTextureLocation(entityIn)));
 			PoseStack.Pose matrixstack$entry = matrixStackIn.last();
 			Matrix4f matrix4f = matrixstack$entry.pose();
-			Matrix3f matrix3f = matrixstack$entry.normal();
-			vertex(ivertexbuilder, matrix4f, matrix3f, -0.5F, -0.25F, 255, 255, 255, f, f3, packedLightIn);
-			vertex(ivertexbuilder, matrix4f, matrix3f, 0.5F, -0.25F, 255, 255, 255, f1, f3, packedLightIn);
-			vertex(ivertexbuilder, matrix4f, matrix3f, 0.5F, 0.75F, 255, 255, 255, f1, f2, packedLightIn);
-			vertex(ivertexbuilder, matrix4f, matrix3f, -0.5F, 0.75F, 255, 255, 255, f, f2, packedLightIn);
+			vertex(ivertexbuilder, matrix4f, -0.5F, -0.25F, 255, 255, 255, f, f3, packedLightIn);
+			vertex(ivertexbuilder, matrix4f, 0.5F, -0.25F, 255, 255, 255, f1, f3, packedLightIn);
+			vertex(ivertexbuilder, matrix4f, 0.5F, 0.75F, 255, 255, 255, f1, f2, packedLightIn);
+			vertex(ivertexbuilder, matrix4f, -0.5F, 0.75F, 255, 255, 255, f, f2, packedLightIn);
 		}
 		matrixStackIn.popPose();
-		super.render(entityIn, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
+		super.render(entityIn, entityYaw, partialTicks, matrixStackIn, bufferIn, LightTexture.FULL_BRIGHT);
 	}
 
-	private static void vertex(VertexConsumer bufferIn, Matrix4f matrixIn, Matrix3f matrixNormalIn, float x, float y, int red, int green, int blue, float texU, float texV, int packedLight) {
+	private static void vertex(VertexConsumer bufferIn, Matrix4f matrixIn, float x, float y, int red, int green, int blue, float texU, float texV, int packedLight) {
 		bufferIn.addVertex(matrixIn, x, y, 0.0F).setColor(red, green, blue, 255).setUv(texU, texV).setOverlay(OverlayTexture.NO_OVERLAY).setLight(packedLight).setNormal(0.0F, 1.0F, 0.0F);
 	}
 

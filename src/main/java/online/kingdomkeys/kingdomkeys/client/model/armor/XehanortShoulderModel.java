@@ -7,14 +7,13 @@ import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.decoration.ArmorStand;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
 public class XehanortShoulderModel<T extends LivingEntity> extends HumanoidModel<T> {
 
-	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "xehanort_shoulder"), "main");
+	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(KingdomKeys.rl("xehanort_shoulder"), "main");
 
     public XehanortShoulderModel(ModelPart root) {
         super(root);

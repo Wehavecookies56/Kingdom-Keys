@@ -7,7 +7,6 @@ import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
@@ -18,7 +17,7 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
  */
 public class BombModel<T extends Entity> extends EntityModel<T> {
     public float[] modelScale = new float[] { 1.0F, 1.2F, 1.0F };
-    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "bomb"), "main");
+    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(KingdomKeys.rl("bomb"), "main");
     private final ModelPart headMain;
     private final ModelPart BottemHead;
     private final ModelPart TopHead;

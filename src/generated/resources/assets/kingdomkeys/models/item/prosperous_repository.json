@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "kingdomkeys:item/prosperous_repository"
+    "layer0": "kingdomkeys:item/cards/prosperous_repository"
   }
 }

@@ -1,16 +1,18 @@
 package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room;
 
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.server.level.ServerLevel;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.data.CastleOblivionData;
-import online.kingdomkeys.kingdomkeys.util.Utils;
+import online.kingdomkeys.kingdomkeys.item.card.KeycardType;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.floor.Floor;
+import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModRoomTypes;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class RoomData {
 
@@ -19,22 +21,21 @@ public class RoomData {
     int parent;
     Room generatedRoom;
     Type type;
+    RoomType fixedType;
 
-    int cardCost;
-
-    public RoomData(RoomPos pos, Type type) {
-        this(pos);
+    public RoomData(int parent, RoomPos pos, Type type) {
+        this(parent, pos);
         this.type = type;
     }
 
-    public RoomData(RoomPos pos) {
+    public RoomData(int parent, RoomPos pos) {
+        this.parent = parent;
         this.pos = pos;
-        doors = new HashMap<>();
-        this.cardCost = Utils.randomWithRange(0, 9);
+        doors = new HashMap<>(4);
     }
 
     public RoomData(CompoundTag tag) {
-        this(new RoomPos(tag.getCompound("roompos")));
+        this(tag.getInt("parent"), RoomPos.CODEC.parse(NbtOps.INSTANCE, tag.getCompound("roompos")).getOrThrow());
         deserializeNBT(tag);
     }
 
@@ -54,7 +55,7 @@ public class RoomData {
     }
 
     public Floor getParentFloor(ServerLevel level) {
-        return CastleOblivionData.InteriorData.get(level).getFloorByID(parent);
+        return CastleOblivionData.InteriorData.get(level).orElseThrow().getFloorByID(parent);
     }
 
     public void setParent(Floor parent) {
@@ -68,7 +69,15 @@ public class RoomData {
     }
 
     public void setDoor(DoorData.Type doorType, RoomDirection direction) {
+        setDoor(doorType, direction, false);
+    }
+
+    public void setDoor(DoorData.Type doorType, RoomDirection direction, boolean locked) {
         doors.put(direction, new DoorData(this, doorType, direction));
+    }
+
+    public void setDoor(DoorData.Type doorType, RoomDirection direction, KeycardType keycardType) {
+        doors.put(direction, new DoorData(this, doorType, direction, keycardType));
     }
 
     public void setRemainingDoors(DoorData.Type doorType) {
@@ -79,6 +88,22 @@ public class RoomData {
         }
     }
 
+    public boolean hasRemaningDoors() {
+        return doors.size() < 4;
+    }
+
+    public List<RoomDirection> getRemainingDirections() {
+        if (hasRemaningDoors()) {
+            List<RoomDirection> remainingDirs = new ArrayList<>();
+            for (RoomDirection dir : RoomDirection.values()) {
+                if (!doors.containsKey(dir)) {
+                    remainingDirs.add(dir);
+                }
+            }
+            return remainingDirs;
+        }
+        return List.of();
+    }
 
     public DoorData getDoor(RoomDirection direction) {
         return doors.get(direction);
@@ -88,16 +113,20 @@ public class RoomData {
         return doors;
     }
 
-    public int getCardCost() {
-        return cardCost;
-    }
-
     public void setGenerated(Room room) {
         this.generatedRoom = room;
     }
 
-    public Room getGenerated() {
-        return generatedRoom;
+    public Optional<Room> getGenerated() {
+        return Optional.ofNullable(generatedRoom);
+    }
+
+    public void setFixedType(RoomType type) {
+        this.fixedType = type;
+    }
+
+    public Optional<RoomType> getFixedType() {
+        return Optional.ofNullable(fixedType);
     }
 
     public CompoundTag serializeNBT() {
@@ -117,9 +146,11 @@ public class RoomData {
         if (generatedRoom != null) {
             tag.put("generated_room", generatedRoom.serializeNBT());
         }
-        tag.putInt("card_cost", cardCost);
         if (type != null) {
             tag.putInt("type", type.ordinal());
+        }
+        if (fixedType != null) {
+            tag.putString("fixed_type", fixedType.getRegistryName().toString());
         }
         return tag;
     }
@@ -137,14 +168,16 @@ public class RoomData {
         if (tag.getBoolean("generated")) {
             generatedRoom = new Room(tag.getCompound("generated_room"));
         }
-        cardCost = tag.getInt("card_cost");
         if (tag.contains("type")) {
             type = Type.values()[tag.getInt("type")];
+        }
+        if (tag.contains("fixed_type")) {
+            fixedType = ModRoomTypes.registry.get().getValue(KingdomKeys.rl(tag.getString("fixed_type")));
         }
     }
 
     public enum Type {
-        ENTRANCE, EXIT, BOSS, NORMAL
+        ENTRANCE, EXIT, BOSS, NORMAL, ENCOUNTER
     }
 
     public static final StreamCodec<FriendlyByteBuf, RoomData> STREAM_CODEC = StreamCodec.composite(
@@ -153,4 +186,13 @@ public class RoomData {
             RoomData::new
     );
 
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof RoomData roomData
+                && roomData.getParentID() == this.getParentID()
+                && roomData.pos.equals(this.pos)
+                && roomData.getDoors().size() == this.getDoors().size()
+                && roomData.getGenerated().isPresent() == this.getGenerated().isPresent()
+                && roomData.getType().equals(this.getType());
+    }
 }

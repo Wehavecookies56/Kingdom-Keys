@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "kingdomkeys:item/calm_bounty"
+    "layer0": "kingdomkeys:item/cards/calm_bounty"
   }
 }

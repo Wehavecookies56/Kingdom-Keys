@@ -1,0 +1,10 @@
+{
+  "type": "kingdomkeys:ocean_between",
+  "generator": {
+    "type": "kingdomkeys:worldmap_generator",
+    "biome_source": {
+      "type": "minecraft:fixed",
+      "biome": "minecraft:the_void"
+    }
+  }
+}

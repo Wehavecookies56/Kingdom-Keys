@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "kingdomkeys:empty_card"
+    },
+    {
+      "item": "kingdomkeys:plains_memory"
+    }
+  ],
+  "result": {
+    "components": {
+      "kingdomkeys:world_card": "kingdomkeys:plains"
+    },
+    "count": 1,
+    "id": "kingdomkeys:plains_card"
+  }
+}

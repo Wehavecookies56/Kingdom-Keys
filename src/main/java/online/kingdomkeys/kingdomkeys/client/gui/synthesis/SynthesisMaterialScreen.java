@@ -21,8 +21,8 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuScrollBar;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuStockItem;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
+import online.kingdomkeys.kingdomkeys.lib.ModTags;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
-import online.kingdomkeys.kingdomkeys.lib.Tags;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSCloseMoogleGUI;
 import online.kingdomkeys.kingdomkeys.network.cts.CSDepositMaterials;
@@ -51,7 +51,7 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 		super(Strings.Gui_Synthesis_Materials, new Color(0,255,0));
 		drawPlayerInfo = true;
 		this.parent = parent;
-		parent.playerData = playerData;
+		this.playerData = playerData;
 	}
 	
 	public SynthesisMaterialScreen(PlayerData playerData, String inv, String name, int moogle) {
@@ -76,8 +76,9 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 					ItemStack stack = player.getInventory().getItem(i);
 
 					if (!ItemStack.matches(stack, ItemStack.EMPTY)) {
-						if (stack.is(Tags.MATERIALS)) {
-							parent.playerData.addMaterial(stack.getItem(), stack.getCount());
+						if (stack.is(ModTags.MATERIALS)) {
+							playerData.addMaterial(stack.getItem(), stack.getCount());
+							playerData.addTotalMaterial(stack.getItem(), stack.getCount());
 							player.getInventory().setItem(i, ItemStack.EMPTY);
 						}
 					}
@@ -88,7 +89,7 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 			PacketHandler.sendToServer(new CSDepositMaterials(parent.invFile, parent.name, parent.moogle));
 			break;
 		case "back":
-			minecraft.setScreen(new SynthesisScreen(parent.playerData, parent.invFile, parent.name, parent.moogle));
+			minecraft.setScreen(new SynthesisScreen(playerData, parent.invFile, parent.name, parent.moogle));
 			break;
 		case "take":
 			ItemStack selectedItemstack = new ItemStack(BuiltInRegistries.ITEM.get(selectedRL));
@@ -139,7 +140,7 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 
 		List<ItemStack> items = new ArrayList<>();
 
-		for (Entry<ResourceLocation, Integer> mat : parent.playerData.getMaterialMap().entrySet()) {
+		for (Entry<ResourceLocation, Integer> mat : playerData.getMaterialMap().entrySet()) {
 			Item item = BuiltInRegistries.ITEM.get(mat.getKey());
 			items.add(new ItemStack(item, mat.getValue()));
 		}

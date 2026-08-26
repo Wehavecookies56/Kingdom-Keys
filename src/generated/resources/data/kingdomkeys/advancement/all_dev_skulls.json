@@ -1,0 +1,69 @@
+{
+  "parent": "kingdomkeys:craft_xephirovt_skull",
+  "criteria": {
+    "abelatox": {
+      "conditions": {
+        "name": "Abelatox"
+      },
+      "trigger": "kingdomkeys:craft_profile_head"
+    },
+    "estelleste": {
+      "conditions": {
+        "name": "Estelleste"
+      },
+      "trigger": "kingdomkeys:craft_profile_head"
+    },
+    "stel1034": {
+      "conditions": {
+        "name": "stel1034"
+      },
+      "trigger": "kingdomkeys:craft_profile_head"
+    },
+    "wyndftw": {
+      "conditions": {
+        "name": "wyndftw"
+      },
+      "trigger": "kingdomkeys:craft_profile_head"
+    },
+    "xephirovt": {
+      "conditions": {
+        "name": "XephiroVT"
+      },
+      "trigger": "kingdomkeys:craft_profile_head"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.kingdomkeys.all_dev_skulls.desc"
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "minecraft:player_head"
+    },
+    "title": {
+      "translate": "advancements.kingdomkeys.all_dev_skulls"
+    }
+  },
+  "requirements": [
+    [
+      "estelleste"
+    ],
+    [
+      "abelatox"
+    ],
+    [
+      "wyndftw"
+    ],
+    [
+      "stel1034"
+    ],
+    [
+      "xephirovt"
+    ]
+  ],
+  "rewards": {
+    "experience": 200
+  },
+  "sends_telemetry_event": true
+}

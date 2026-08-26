@@ -1,0 +1,31 @@
+{
+  "criteria": {
+    "tick": {
+      "trigger": "minecraft:tick"
+    }
+  },
+  "display": {
+    "background": "kingdomkeys:textures/block/rod_sand.png",
+    "description": {
+      "translate": "advancements.kingdomkeys.root.desc"
+    },
+    "icon": {
+      "count": 1,
+      "id": "kingdomkeys:kingdom_key"
+    },
+    "title": {
+      "translate": "advancements.kingdomkeys.root"
+    }
+  },
+  "requirements": [
+    [
+      "tick"
+    ]
+  ],
+  "rewards": {
+    "loot": [
+      "kingdomkeys:grant_book_on_first_join"
+    ]
+  },
+  "sends_telemetry_event": true
+}

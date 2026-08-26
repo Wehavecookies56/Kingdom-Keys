@@ -28,6 +28,6 @@ public class InvisibleEntityRenderer extends EntityRenderer<ThrowableProjectile>
 	@Nullable
 	@Override
 	public ResourceLocation getTextureLocation(ThrowableProjectile entity) {
-		return ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/models/fire.png");
+		return KingdomKeys.rl("textures/entity/models/cube.png");
 	}
 }

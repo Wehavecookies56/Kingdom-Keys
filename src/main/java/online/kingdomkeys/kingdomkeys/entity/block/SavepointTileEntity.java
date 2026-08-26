@@ -2,25 +2,23 @@ package online.kingdomkeys.kingdomkeys.entity.block;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import online.kingdomkeys.kingdomkeys.block.SavePointBlock;
+import online.kingdomkeys.kingdomkeys.client.render.block.SavePointBlockEntityRenderer;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.world.SavePointStorage;
 import org.jetbrains.annotations.Nullable;
-import org.joml.Vector3f;
 
 import java.util.UUID;
 
 public class SavepointTileEntity extends BlockEntity {
-	public static float[] WARP_COLOR = new float[]{0.6F, 1F, 1F};
-	public static float[] SAVEPOINT_COLOR = new float[]{0.3F, 1F, 0.3F};
+	public SavePointBlockEntityRenderer.SavePointParticle[] particles = new SavePointBlockEntityRenderer.SavePointParticle[2];
+	public long lastUpdateTick = -1;
 
 	public SavepointTileEntity(BlockPos pos, BlockState state) {
 		super(ModEntities.TYPE_SAVEPOINT.get(), pos, state);
@@ -128,30 +126,5 @@ public class SavepointTileEntity extends BlockEntity {
 	@Override
 	public Packet<ClientGamePacketListener> getUpdatePacket() {
 		return ClientboundBlockEntityDataPacket.create(this);
-	}
-
-	public static <T> void tick(Level level, BlockPos pos, BlockState state, T blockEntity) {
-		if(blockEntity instanceof SavepointTileEntity savepoint) {
-			if (savepoint.ticks > 1800)
-				savepoint.ticks = 0;
-
-			// Don't do anything unless it's active
-			double r = 0.7D;
-			double cx = pos.getX() + 0.5;
-			double cy = pos.getY() + 0.5;
-			double cz = pos.getZ() + 0.5;
-
-			savepoint.ticks += 10; // Speed and distance between particles
-			double x = cx + (r * Math.cos(Math.toRadians(savepoint.ticks)));
-			double z = cz + (r * Math.sin(Math.toRadians(savepoint.ticks)));
-
-			double x2 = cx + (r * Math.cos(Math.toRadians(-savepoint.ticks)));
-			double z2 = cz + (r * Math.sin(Math.toRadians(-savepoint.ticks)));
-
-			float[] color = state.getValue(SavePointBlock.TIER) == SavePointStorage.SavePointType.WARP ? WARP_COLOR : SAVEPOINT_COLOR;
-
-			level.addParticle(new DustParticleOptions(new Vector3f(color[0],color[1],color[2]), 1F), x, (cy - 0.5) - (-savepoint.ticks / 1800F), z, 0.0D, 0.0D, 0.0D);
-			level.addParticle(new DustParticleOptions(new Vector3f(color[0],color[1],color[2]), 1F), x2, (cy + 0.5) - (savepoint.ticks / 1800F), z2, 0.0D, 0.0D, 0.0D);
-		}
 	}
 }

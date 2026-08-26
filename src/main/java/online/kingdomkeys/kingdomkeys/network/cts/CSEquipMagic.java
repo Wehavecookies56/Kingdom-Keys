@@ -4,7 +4,6 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -24,7 +23,7 @@ import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public record CSEquipMagic(int slotToEquipTo, int slotToEquipFrom) implements Packet {
-	public static final Type<CSEquipMagic> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_equip_magic"));
+	public static final Type<CSEquipMagic> TYPE = new Type<>(KingdomKeys.rl("cs_equip_magic"));
 	public static final StreamCodec<FriendlyByteBuf, CSEquipMagic> STREAM_CODEC = StreamCodec.composite(ByteBufCodecs.INT, CSEquipMagic::slotToEquipTo, ByteBufCodecs.INT, CSEquipMagic::slotToEquipFrom, CSEquipMagic::new);
 
 	@Override

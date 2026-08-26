@@ -1,5 +1,4 @@
 {
-  "ability": "",
   "base_stats": {
     "mag": 3,
     "str": 6
@@ -15,8 +14,8 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_shard",
-          "quantity": 2
+          "material": "kingdomkeys:lightning_shard",
+          "quantity": 3
         }
       ],
       "str": 6
@@ -29,8 +28,8 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_shard",
-          "quantity": 3
+          "material": "kingdomkeys:lightning_shard",
+          "quantity": 4
         }
       ],
       "str": 7
@@ -43,8 +42,8 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_shard",
-          "quantity": 4
+          "material": "kingdomkeys:lightning_shard",
+          "quantity": 5
         }
       ],
       "str": 7
@@ -57,25 +56,11 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_stone",
-          "quantity": 1
-        }
-      ],
-      "str": 8
-    },
-    {
-      "mag": 6,
-      "recipe": [
-        {
-          "material": "kingdomkeys:damascus",
-          "quantity": 1
+          "material": "kingdomkeys:lightning_shard",
+          "quantity": 5
         },
         {
-          "material": "kingdomkeys:wellspring_stone",
-          "quantity": 2
-        },
-        {
-          "material": "kingdomkeys:writhing_stone",
+          "material": "kingdomkeys:pulsing_stone",
           "quantity": 2
         }
       ],
@@ -89,12 +74,30 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_stone",
+          "material": "kingdomkeys:lightning_shard",
+          "quantity": 6
+        },
+        {
+          "material": "kingdomkeys:pulsing_stone",
           "quantity": 3
+        }
+      ],
+      "str": 8
+    },
+    {
+      "mag": 6,
+      "recipe": [
+        {
+          "material": "kingdomkeys:damascus",
+          "quantity": 1
         },
         {
-          "material": "kingdomkeys:writhing_stone",
-          "quantity": 2
+          "material": "kingdomkeys:lightning_shard",
+          "quantity": 7
+        },
+        {
+          "material": "kingdomkeys:pulsing_stone",
+          "quantity": 4
         }
       ],
       "str": 9
@@ -107,12 +110,16 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_gem",
-          "quantity": 1
+          "material": "kingdomkeys:lightning_shard",
+          "quantity": 7
         },
         {
-          "material": "kingdomkeys:writhing_gem",
-          "quantity": 1
+          "material": "kingdomkeys:pulsing_stone",
+          "quantity": 4
+        },
+        {
+          "material": "kingdomkeys:soothing_crystal",
+          "quantity": 3
         }
       ],
       "str": 9
@@ -125,12 +132,16 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_gem",
-          "quantity": 2
+          "material": "kingdomkeys:lightning_shard",
+          "quantity": 8
         },
         {
-          "material": "kingdomkeys:writhing_gem",
-          "quantity": 2
+          "material": "kingdomkeys:pulsing_stone",
+          "quantity": 5
+        },
+        {
+          "material": "kingdomkeys:soothing_crystal",
+          "quantity": 5
         }
       ],
       "str": 10
@@ -143,12 +154,16 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_gem",
-          "quantity": 3
+          "material": "kingdomkeys:lightning_shard",
+          "quantity": 9
         },
         {
-          "material": "kingdomkeys:writhing_gem",
-          "quantity": 2
+          "material": "kingdomkeys:pulsing_stone",
+          "quantity": 6
+        },
+        {
+          "material": "kingdomkeys:soothing_crystal",
+          "quantity": 7
         }
       ],
       "str": 10
@@ -161,16 +176,21 @@
           "quantity": 1
         },
         {
-          "material": "kingdomkeys:wellspring_crystal",
-          "quantity": 1
+          "material": "kingdomkeys:lightning_shard",
+          "quantity": 9
         },
         {
-          "material": "kingdomkeys:writhing_crystal",
-          "quantity": 1
+          "material": "kingdomkeys:pulsing_stone",
+          "quantity": 6
+        },
+        {
+          "material": "kingdomkeys:soothing_crystal",
+          "quantity": 9
         }
       ],
       "str": 11
     }
   ],
-  "reach": 1.0
+  "reach": 1.0,
+  "sound": "kingdomkeys:keyblade_hit/generic_hit"
 }

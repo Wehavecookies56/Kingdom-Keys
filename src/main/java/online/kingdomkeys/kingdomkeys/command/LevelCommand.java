@@ -57,7 +57,7 @@ public class LevelCommand extends BaseCommand{ //kk_level <give/take/set> <amoun
 	}
 
 	private static int setValue(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
-		Collection<ServerPlayer> players = getPlayers(context, 4);
+		Collection<ServerPlayer> players = getPlayers(context);
 		int level = IntegerArgumentType.getInteger(context, "level");
 		
 		for (ServerPlayer player : players) {
@@ -69,12 +69,12 @@ public class LevelCommand extends BaseCommand{ //kk_level <give/take/set> <amoun
 				while (playerData.getLevel() < level) {
 					playerData.addExperience(player, playerData.getExpNeeded(level - 1, playerData.getExperience()), false, false);
 				}
-				context.getSource().sendSuccess(() -> Component.translatable("Set "+player.getDisplayName().getString()+" level to "+level), true);
-				player.sendSystemMessage(Component.translatable("Your level is now "+level));
+				context.getSource().sendSuccess(() -> Component.translatable("kingdomkeys.command.level.set", player.getDisplayName().getString(), level), true);
+				player.sendSystemMessage(Component.translatable("kingdomkeys.command.level.set_self", level));
 				player.level().playSound(null, player.blockPosition(), ModSounds.levelup.get(), SoundSource.MASTER, 1f, 1.0f);
 
 			} else {
-				context.getSource().sendSuccess(() -> Component.translatable(player.getDisplayName().getString() + " has to make a choice first"), true);
+				context.getSource().sendSuccess(() -> Component.translatable("kingdomkeys.command.no_choice", player.getDisplayName().getString()), true);
 			}
 
             Utils.restartLevel2(playerData, player);			

@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "minecraft:wither_skeleton_skull"
+    },
+    {
+      "item": "kingdomkeys:remembrance_crystal"
+    },
+    {
+      "item": "kingdomkeys:pulsing_crystal"
+    }
+  ],
+  "result": {
+    "components": {
+      "minecraft:profile": {
+        "name": "wyndftw"
+      }
+    },
+    "count": 1,
+    "id": "minecraft:player_head"
+  }
+}

@@ -3,7 +3,6 @@ package online.kingdomkeys.kingdomkeys.client.gui.synthesis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -18,9 +17,9 @@ import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.item.KeychainItem;
-import online.kingdomkeys.kingdomkeys.item.BagItem;
+import online.kingdomkeys.kingdomkeys.item.ModItems;
+import online.kingdomkeys.kingdomkeys.lib.ModTags;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
-import online.kingdomkeys.kingdomkeys.lib.Tags;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSCloseMoogleGUI;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopListRegistry;
@@ -33,8 +32,6 @@ public class SynthesisScreen extends MenuBackground implements IPlayerDataReques
 		
 	MenuButton synthesise, forge, materials, shop;
 
-	PlayerData playerData;
-	
 	String invFile = ModConfigs.SERVER.projectorHasShop.get() ? "kingdomkeys:default" : "";
 	int moogle = -1;
 
@@ -50,7 +47,7 @@ public class SynthesisScreen extends MenuBackground implements IPlayerDataReques
 		this(playerData, name == null || name.isEmpty() ? Strings.Gui_Synthesis : Component.translatable(Strings.Gui_Synthesis_Moogle_Name, name).getString());
 		this.moogle = moogle;
 		this.name = name;
-		if (ShopListRegistry.getInstance().containsKey(ResourceLocation.parse(inv)) || inv.isEmpty())
+		if (ShopListRegistry.getInstance().containsKey(KingdomKeys.rl(inv)) || inv.isEmpty())
 			this.invFile = inv;
 		else {
 			KingdomKeys.LOGGER.error("The Shop '" + inv + "' does not exist or didn't get registered");
@@ -112,16 +109,16 @@ public class SynthesisScreen extends MenuBackground implements IPlayerDataReques
 			if (!hasKeychain && player.getInventory().getItem(i).getItem() instanceof KeychainItem) {
 				hasKeychain = true;
 			}
-			if (!hasMaterial && player.getInventory().getItem(i).is(Tags.MATERIALS)) {
+			if (!hasMaterial && player.getInventory().getItem(i).is(ModTags.MATERIALS)) {
 				hasMaterial = true;
 			}
 
 			//Requires player to open it to sync with the client but it works
-			if(player.getInventory().getItem(i).getItem() instanceof BagItem){
+			if(player.getInventory().getItem(i).getItem() == ModItems.synthesisBag.get()){
 				IItemHandler bagInv = player.getInventory().getItem(i).getCapability(Capabilities.ItemHandler.ITEM);
 				for (int j = 0; j < bagInv.getSlots(); j++) { //Check bag slots
 					ItemStack bagItem = bagInv.getStackInSlot(j);
-					if (!ItemStack.matches(bagItem, ItemStack.EMPTY) && bagItem.is(Tags.MATERIALS)) { //If current bag slot is filled
+					if (!ItemStack.matches(bagItem, ItemStack.EMPTY) && bagItem.is(ModTags.MATERIALS)) { //If current bag slot is filled
 						hasMaterial = true;
 					}
 				}
@@ -148,8 +145,6 @@ public class SynthesisScreen extends MenuBackground implements IPlayerDataReques
 
 	@Override
 	public void render(@NotNull GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
-		
-		//fill(125, ((-140 / 16) + 75) + 10, 200, ((-140 / 16) + 75) + 20, 0xFFFFFF);
 		super.render(gui, mouseX, mouseY, partialTicks);
 	}
 	

@@ -12,14 +12,20 @@ import net.minecraft.world.level.block.Block;
 public class KeybladeItemTier implements Tier {
 
     float attackDamage;
+    int uses;
 
     public KeybladeItemTier(float attackDamage) {
+        this(attackDamage, 0);
+    }
+
+    public KeybladeItemTier(float attackDamage, int uses) {
         this.attackDamage = attackDamage;
+        this.uses = uses;
     }
 
     @Override
     public int getUses() {
-        return 0;
+        return uses;
     }
 
     @Override

@@ -12,11 +12,12 @@ import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
-import online.kingdomkeys.kingdomkeys.item.MagicSpellItem;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
+import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.menu.BagInventory;
 import online.kingdomkeys.kingdomkeys.network.Packet;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.stc.SCShowRareMeld;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
 import online.kingdomkeys.kingdomkeys.synthesis.melding.Melding;
 import online.kingdomkeys.kingdomkeys.synthesis.melding.MeldingRegistry;
@@ -24,44 +25,12 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public record CSMeldRecipe(ResourceLocation recipe, int selected1, int selected2) implements Packet {
 
-	public static final Type<CSMeldRecipe> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_meld_recipe"));
+	public static final Type<CSMeldRecipe> TYPE = new Type<>(KingdomKeys.rl("cs_meld_recipe"));
 
-	public static final StreamCodec<FriendlyByteBuf, CSMeldRecipe> STREAM_CODEC = StreamCodec.composite(
-			ResourceLocation.STREAM_CODEC, CSMeldRecipe::recipe,
-			ByteBufCodecs.INT,
-			CSMeldRecipe::selected1,
-			ByteBufCodecs.INT,
-			CSMeldRecipe::selected2,
-			CSMeldRecipe::new);
-
-	@Override
-	public void handle(IPayloadContext context) {
-		Player player = context.player();
-
-		Melding melding = MeldingRegistry.getInstance().getValue(recipe);
-
-		if (melding == null)
-			return;
-
-		PlayerData playerData = PlayerData.get(player);
-
-		if (playerData.getMunny() < melding.getCost())
-			return;
-
-		consumeMagic(player, playerData, selected1);
-		consumeMagic(player, playerData, selected2);
-
-		playerData.setMunny(playerData.getMunny() - melding.getCost());
-
-		ItemStack result = new ItemStack(melding.getResult(), melding.getAmount());
-		player.getInventory().add(result);
-
-		PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
-	}
+	public static final StreamCodec<FriendlyByteBuf, CSMeldRecipe> STREAM_CODEC = StreamCodec.composite(ResourceLocation.STREAM_CODEC, CSMeldRecipe::recipe, ByteBufCodecs.INT, CSMeldRecipe::selected1, ByteBufCodecs.INT, CSMeldRecipe::selected2, CSMeldRecipe::new);
 
 	private static void consumeMagic(Player player, PlayerData playerData, int slot) {
-		if (slot == -1)
-			return;
+		if (slot == -1) return;
 
 		if (isEquippedSlot(slot)) {
 
@@ -83,11 +52,6 @@ public record CSMeldRecipe(ResourceLocation recipe, int selected1, int selected2
 		}
 	}
 
-	@Override
-	public Type<? extends CustomPacketPayload> type() {
-		return TYPE;
-	}
-
 	private static boolean isEquippedSlot(int slot) {
 		return slot <= -1000 && slot > -2000;
 	}
@@ -102,5 +66,50 @@ public record CSMeldRecipe(ResourceLocation recipe, int selected1, int selected2
 
 	private static int getBagIndex(int slot) {
 		return -2000 - slot;
+	}
+
+	@Override
+	public void handle(IPayloadContext context) {
+		Player player = context.player();
+
+		Melding melding = MeldingRegistry.getInstance().getValue(recipe);
+
+		if (melding == null) return;
+
+		PlayerData playerData = PlayerData.get(player);
+
+		if (playerData.getMunny() < melding.getCost()) return;
+
+		consumeMagic(player, playerData, selected1);
+		consumeMagic(player, playerData, selected2);
+
+		playerData.setMunny(playerData.getMunny() - melding.getCost(), (ServerPlayer) player);
+
+		ItemStack result;
+		if (melding.hasBonus()) {
+			int rand = (int) (Math.random() * 100);
+			KingdomKeys.LOGGER.debug(melding.getRegistryName());
+			KingdomKeys.LOGGER.debug("Number: " + rand + " Bonus chance: " + melding.getBonusChance());
+			if (rand < melding.getBonusChance()) {
+				result = new ItemStack(melding.getBonusResult(), melding.getBonusAmount());
+				KingdomKeys.LOGGER.debug("Rare Meld!");
+				PacketHandler.sendTo(new SCShowRareMeld(result.copy(), Strings.Gui_Menu_Items_Melding_RareItemAcquired), (ServerPlayer) player);
+			} else {
+				result = new ItemStack(melding.getResult(), melding.getAmount());
+				PacketHandler.sendTo(new SCShowRareMeld(result.copy(), Strings.Gui_Menu_Items_Melding_ItemAcquired), (ServerPlayer) player);
+			}
+		} else {
+			result = new ItemStack(melding.getResult(), melding.getAmount());
+			PacketHandler.sendTo(new SCShowRareMeld(result.copy(), Strings.Gui_Menu_Items_Melding_ItemAcquired), (ServerPlayer) player);
+		}
+
+		player.getInventory().add(result);
+
+		PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
+	}
+
+	@Override
+	public Type<? extends CustomPacketPayload> type() {
+		return TYPE;
 	}
 }

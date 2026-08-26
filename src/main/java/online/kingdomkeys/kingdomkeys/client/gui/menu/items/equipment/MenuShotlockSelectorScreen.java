@@ -4,83 +4,190 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuColourBox;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuScrollBar;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuSelectShotlockButton;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
+import online.kingdomkeys.kingdomkeys.item.BagItem;
+import online.kingdomkeys.kingdomkeys.item.ModItems;
+import online.kingdomkeys.kingdomkeys.item.ShotlockItem;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
-import online.kingdomkeys.kingdomkeys.shotlock.ModShotlocks;
-import online.kingdomkeys.kingdomkeys.shotlock.Shotlock;
+import online.kingdomkeys.kingdomkeys.menu.BagInventory;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
 public class MenuShotlockSelectorScreen extends MenuBackground {
 
-	MenuBox keyblades;//, details;
-    Button back;
+	public static final int BAG_OFFSET = -2000;
+
+	public MenuScrollBar scrollBar;
+	public MenuBox boxL, boxR;
+	Button back;
+	MenuColourBox equipped;
+	List<MenuSelectShotlockButton> widgets = new ArrayList<>();
 
 	int buttonColour;
 	Color colour;
 
 	public MenuShotlockSelectorScreen(Color colour, int buttonColour) {
-		super(Strings.Gui_Menu_Items_Equipment_Weapon, new Color(0,0,255));
+		super(Strings.Gui_Menu_Items_Equipment_Shotlock, new Color(0, 0, 255));
 		drawSeparately = true;
 		minecraft = Minecraft.getInstance();
 		this.colour = colour;
 		this.buttonColour = buttonColour;
-	}	
+	}
 
 	@Override
 	public void init() {
 		super.init();
-        buttonWidth = ((float)width * 0.07F);
-		float keybladesX = width * 0.2432F;
+		buttonWidth = ((float) width * 0.07F);
+		float keybladesX = width * 0.2F;
 		float keybladesY = height * 0.175F;
-		float keybladesWidth = width * 0.5F;
+		float keybladesWidth = width * 0.35F;
 		float keybladesHeight = height * 0.5972F;
-		float detailsX = width * 0.675F;
-		float detailsWidth = width * 0.1817F;
-		float listX = width * 0.2546F;
+
+		float detailsX = width * 0.55F;
+		float detailsWidth = width * 0.2F;
+
+		float listX = width * 0.21F;
 		float listY = height * 0.2546F;
 
+		widgets.clear();
 
-        addRenderableWidget(back = new MenuButton((int)buttonPosX, buttonPosY, (int)buttonWidth, Component.translatable(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, false, b -> minecraft.setScreen(new MenuEquipmentScreen())));
+		addRenderableWidget(back = new MenuButton((int) buttonPosX, buttonPosY, (int) buttonWidth, Component.translatable(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, false, b -> minecraft.setScreen(new MenuEquipmentScreen())));
 
 		int itemHeight = 15;
-
-		
 		int pos = 0;
-		PlayerData playerData = PlayerData.get(minecraft.player);
-		Shotlock equippedShotlock = ModShotlocks.registry.get(ResourceLocation.parse(playerData.getEquippedShotlock()));//playerData.getEquippedKeychain(form);
-		//If the equipped keychain is a keychain get the keyblade's translation key, otherwise ---
-		String equippedShotlockName = equippedShotlock == null ? "---" : equippedShotlock.getTranslationKey();
-		
-		//Adds the form current keychain (base too as it's DriveForm.NONE)
-		addRenderableWidget(new MenuColourBox((int) listX, (int) listY + (itemHeight * (pos-1)), (int) (keybladesWidth - (listX - keybladesX)*2), Utils.translateToLocal(equippedShotlockName),equippedShotlock == null ? "N/A" : "Max: "+equippedShotlock.getMaxLocks(), buttonColour));
-		
-		if(equippedShotlock != null)
-			addRenderableWidget(new MenuSelectShotlockButton("", (int) listX, (int) listY + (itemHeight * pos++), 150, this, buttonColour));
 
-		for(String sName : Utils.getSortedShotlocks(playerData.getShotlockList())) {
-			if(equippedShotlock == null || !sName.equals(equippedShotlock.getName())) {
-				addRenderableWidget(new MenuSelectShotlockButton(sName, (int) listX, (int) listY + (itemHeight * pos++), 150, this, buttonColour));
+		PlayerData playerData = PlayerData.get(minecraft.player);
+		ItemStack equippedShotlock = playerData.getEquippedShotlock();
+		String equippedShotlockName = (equippedShotlock != null && equippedShotlock.getItem() instanceof ShotlockItem) ? equippedShotlock.getItem().getDescriptionId() : "---";
+		equipped = new MenuColourBox((int) listX, (int) listY + (itemHeight * (pos - 1)), (int) (keybladesWidth - (listX - keybladesX) * 2), Utils.translateToLocal(equippedShotlockName), "", buttonColour);
+
+		// Unequip option
+		if (equippedShotlock != null && !equippedShotlock.isEmpty()) {
+			if (minecraft.player.getInventory().getFreeSlot() > -1) {
+				widgets.add(new MenuSelectShotlockButton(ItemStack.EMPTY, minecraft.player.getInventory().getFreeSlot(), (int) listX, (int) listY + (itemHeight * pos++), (int) keybladesWidth - 25, this, buttonColour));
 			}
 		}
 
-		keyblades = new MenuBox((int) keybladesX, (int) keybladesY, (int) keybladesWidth, (int) keybladesHeight, 0.6F,colour);
-		//details = new MenuBox((int) detailsX, (int) keybladesY, (int) detailsWidth, (int) keybladesHeight, colour);
+		// Inventory
+		for (int i = 0; i < minecraft.player.getInventory().getContainerSize(); i++) {
+			ItemStack stack = minecraft.player.getInventory().getItem(i);
+			if (stack.isEmpty()) continue;
+			if (!(stack.getItem() instanceof ShotlockItem)) continue;
+			widgets.add(new MenuSelectShotlockButton(stack, i, (int) listX, (int) listY + (itemHeight * pos++), (int) keybladesWidth - 25, this, buttonColour));
+		}
+
+		// Shotlocks bag
+		if (Utils.hasOnlyOneBag(minecraft.player, BagItem.Type.SHOTLOCKS_BAG)) {
+			ItemStack shotlockBag = Utils.getItemInInventory(minecraft.player, ModItems.shotlocksBag.get());
+
+			if (!shotlockBag.isEmpty() && shotlockBag.getCapability(Capabilities.ItemHandler.ITEM) instanceof BagInventory bagInv) {
+				for (int i = 0; i < bagInv.getSlots(); i++) {
+					ItemStack stack = bagInv.getStackInSlot(i);
+					if (stack.isEmpty())
+						continue;
+					if (!(stack.getItem() instanceof ShotlockItem))
+						continue;
+					widgets.add(new MenuSelectShotlockButton(stack, BAG_OFFSET - i, (int) listX, 0, (int) keybladesWidth - 25, this, 65535));
+				}
+			}
+		} else {
+			KingdomKeys.LOGGER.debug("More than one shotlock bag found, ignoring.");
+		}
+
+		// Unequip first, then the bag, then the inventory.
+		widgets.sort(Comparator.comparingInt((MenuSelectShotlockButton item) -> {
+			if (item.stack.isEmpty())
+				return -1;
+			if (item.slot <= BAG_OFFSET)
+				return 0;
+			return 1;
+		}));
+
+		for (int i = 0; i < widgets.size(); i++) {
+			widgets.get(i).setY((int) listY + (itemHeight * i));
+		}
+
+		widgets.forEach(this::addWidget);
+
+		boxL = new MenuBox((int) keybladesX, (int) keybladesY, (int) keybladesWidth, (int) keybladesHeight, 0.6F, colour);
+		boxR = new MenuBox((int) detailsX, (int) keybladesY, (int) detailsWidth, (int) keybladesHeight, 0.6F, colour);
+
+		int scrollYPos = (int) listY;
+		int listHeight = 0;
+
+		if (!widgets.isEmpty()) {
+			listHeight = (widgets.get(widgets.size() - 1).getY() + itemHeight + equipped.getHeight()) - widgets.get(0).getY() + 3;
+		}
+
+		scrollBar = new MenuScrollBar(boxL.getX() + boxL.getWidth() - 17, scrollYPos, scrollYPos + (int) keybladesHeight - itemHeight - 8, (int) keybladesHeight - 6, listHeight, true);
+
+		if (scrollBar.isVisible()) {
+			widgets.forEach(button -> button.setWidth((int) keybladesWidth - 10 - scrollBar.getWidth()));
+		}
+
+		addRenderableWidget(scrollBar);
 	}
 
 	@Override
 	public void render(@NotNull GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
 		drawMenuBackground(gui, mouseX, mouseY, partialTicks);
-		keyblades.renderWidget(gui, mouseX, mouseY, partialTicks);
-		//details.draw(matrixStack);
-		super.render(gui, mouseX, mouseY, partialTicks);
+		boxL.renderWidget(gui, mouseX, mouseY, partialTicks);
+		boxR.renderWidget(gui, mouseX, mouseY, partialTicks);
+		equipped.render(gui, mouseX, mouseY, partialTicks);
+		scrollBar.render(gui, mouseX, mouseY, partialTicks);
+		back.render(gui, mouseX, mouseY, partialTicks);
+
+		for (MenuSelectShotlockButton renderable : widgets) {
+			gui.enableScissor(boxL.getX() + 2, scrollBar.getY(), boxL.getX() + boxL.getWidth(), scrollBar.getBottom() + 1);
+			renderable.render(gui, mouseX, mouseY, partialTicks);
+			gui.disableScissor();
+			renderable.renderData(gui, mouseX, mouseY, partialTicks);
+		}
+	}
+
+	@Override
+	public boolean mouseClicked(double mouseX, double mouseY, int mouseButton) {
+		scrollBar.mouseClicked(mouseX, mouseY, mouseButton);
+		return super.mouseClicked(mouseX, mouseY, mouseButton);
+	}
+
+	@Override
+	public boolean mouseReleased(double pMouseX, double pMouseY, int pButton) {
+		scrollBar.mouseReleased(pMouseX, pMouseY, pButton);
+		return super.mouseReleased(pMouseX, pMouseY, pButton);
+	}
+
+	@Override
+	public boolean mouseDragged(double pMouseX, double pMouseY, int pButton, double pDragX, double pDragY) {
+		scrollBar.mouseDragged(pMouseX, pMouseY, pButton, pDragX, pDragY);
+		updateScroll();
+		return super.mouseDragged(pMouseX, pMouseY, pButton, pDragX, pDragY);
+	}
+
+	public void updateScroll() {
+		widgets.forEach(button -> button.offsetY = (int) scrollBar.scrollOffset);
+	}
+
+	@Override
+	public boolean mouseScrolled(double mouseX, double mouseY, double deltaX, double deltaY) {
+		if (mouseX >= boxL.getX() && mouseX <= scrollBar.getX() + scrollBar.getWidth()) {
+			scrollBar.mouseScrolled(mouseX, mouseY, deltaX, deltaY);
+		}
+		updateScroll();
+		return false;
 	}
 }

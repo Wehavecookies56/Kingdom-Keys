@@ -24,9 +24,9 @@ public class NobodyCreeperRenderer extends MobRenderer<NobodyCreeperEntity, Nobo
 
     public NobodyCreeperRenderer(EntityRendererProvider.Context context) {
         super(context, new NobodyCreeperModel<>(context.bakeLayer(NobodyCreeperModel.LAYER_LOCATION)), 0.35F);
-        this.texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/mob/creeper.png");
-        this.swordTexture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/mob/creeper_sword.png");
-        this.spearTexture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/mob/creeper_spear.png");
+        this.texture = KingdomKeys.rl("textures/entity/mob/creeper.png");
+        this.swordTexture = KingdomKeys.rl("textures/entity/mob/creeper_sword.png");
+        this.spearTexture = KingdomKeys.rl("textures/entity/mob/creeper_spear.png");
     }
 
     @Override

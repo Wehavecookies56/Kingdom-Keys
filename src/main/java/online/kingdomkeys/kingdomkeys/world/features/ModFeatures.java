@@ -18,4 +18,5 @@ public class ModFeatures {
     public static final DeferredRegister<Feature<?>> FEATURES = DeferredRegister.create(BuiltInRegistries.FEATURE, KingdomKeys.MODID);
     public static final Supplier<Feature<BloxOreFeatureConfig>> BLOX = FEATURES.register("blox", () -> new BloxOreFeature(BloxOreFeatureConfig.CODEC));
     public static final Supplier<Feature<NoneFeatureConfiguration>> GUMMI_METEOR = FEATURES.register("gummi_meteor", () -> new GummiMeteorFeature(NoneFeatureConfiguration.CODEC));
+    public static final Supplier<Feature<NoneFeatureConfiguration>> ROD_ARCH = FEATURES.register("rod_arch", () -> new DarkArchFeature(NoneFeatureConfiguration.CODEC));
 }

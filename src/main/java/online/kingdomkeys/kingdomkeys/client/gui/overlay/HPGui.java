@@ -5,7 +5,6 @@ import com.mojang.blaze3d.vertex.*;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
@@ -18,8 +17,6 @@ import org.joml.Matrix4f;
 public class HPGui extends OverlayBase {
 
     public static final HPGui INSTANCE = new HPGui();
-
-    // HUD ELEMENT
 
     private float displayedPlayerHP, realPlayerHP;
 
@@ -37,7 +34,9 @@ public class HPGui extends OverlayBase {
     @Override
     public void render(GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
         super.render(guiGraphics, deltaTracker);
-
+        if(minecraft != null && minecraft.options.hideGui){
+            return;
+        }
         Player player = minecraft.player;
         if (player == null)
             return;
@@ -98,8 +97,8 @@ public class HPGui extends OverlayBase {
     }
 
     private void drawHPBackground(PoseStack poseStack, float maxHealthPercentage) {
-        RenderSystem.setShaderTexture(0, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/hp_background.png"));
-        RenderSystem.setShaderTexture(1, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/hp_mask.png"));
+        RenderSystem.setShaderTexture(0, KingdomKeys.rl("textures/gui/hp_background.png"));
+        RenderSystem.setShaderTexture(1, KingdomKeys.rl("textures/gui/hp_mask.png"));
 
         ClientSetup.gummiHPShader.setSampler("Sampler0", 0);
         ClientSetup.gummiHPShader.setSampler("Sampler1", 1);
@@ -129,11 +128,11 @@ public class HPGui extends OverlayBase {
         BufferBuilder buffer = tesselator.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
 
         if (minecraft.player.level().getLevelData().isHardcore())
-            RenderSystem.setShaderTexture(0, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/hp_fill_h.png"));
+            RenderSystem.setShaderTexture(0, KingdomKeys.rl("textures/gui/hp_fill_h.png"));
         else
-            RenderSystem.setShaderTexture(0, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/hp_fill.png"));
+            RenderSystem.setShaderTexture(0, KingdomKeys.rl("textures/gui/hp_fill.png"));
 
-        RenderSystem.setShaderTexture(1, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/hp_mask.png"));
+        RenderSystem.setShaderTexture(1, KingdomKeys.rl("textures/gui/hp_mask.png"));
 
         ClientSetup.gummiHPShader.setSampler("Sampler0", 0);
         ClientSetup.gummiHPShader.setSampler("Sampler1", 1);
@@ -180,9 +179,9 @@ public class HPGui extends OverlayBase {
             RenderSystem.enableBlend();
             RenderSystem.defaultBlendFunc();
 
-            RenderSystem.setShaderTexture(0, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/hp_fill.png"));
+            RenderSystem.setShaderTexture(0, KingdomKeys.rl("textures/gui/hp_fill.png"));
 
-            RenderSystem.setShaderTexture(1, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/hp_mask.png"));
+            RenderSystem.setShaderTexture(1, KingdomKeys.rl("textures/gui/hp_mask.png"));
 
             ClientSetup.gummiHPShader.setSampler("Sampler0", 0);
             ClientSetup.gummiHPShader.setSampler("Sampler1", 1);
@@ -212,8 +211,8 @@ public class HPGui extends OverlayBase {
         int barWidth = 916;
         int barHeight = 254;
 
-        RenderSystem.setShaderTexture(0, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/hp_outline.png"));
-        RenderSystem.setShaderTexture(1, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/hp_outline_mask.png"));
+        RenderSystem.setShaderTexture(0, KingdomKeys.rl("textures/gui/hp_outline.png"));
+        RenderSystem.setShaderTexture(1, KingdomKeys.rl("textures/gui/hp_outline_mask.png"));
 
         ClientSetup.gummiHPShader.setSampler("Sampler0", 0);
         ClientSetup.gummiHPShader.setSampler("Sampler1", 1);

@@ -5,6 +5,7 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.model.entity.DirePlantModel;
 import online.kingdomkeys.kingdomkeys.entity.mob.DirePlantEntity;
 
@@ -16,7 +17,7 @@ public class DirePlantRenderer extends MobRenderer<DirePlantEntity, DirePlantMod
 
     @Override
     public ResourceLocation getTextureLocation(DirePlantEntity entity) {
-        return ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/mob/dire_plant.png");
+        return ClientUtils.variantTexture(KingdomKeys.rl("textures/entity/mob/dire_plant.png"), entity);
     }
 
     @Override

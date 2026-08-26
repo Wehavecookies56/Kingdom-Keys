@@ -1,0 +1,10 @@
+{
+  "cooldown": 3,
+  "cooldown_max": 2,
+  "dmg_mult": 0.8,
+  "dmg_mult_max": 0.96,
+  "max": 20,
+  "max_exp": 8600,
+  "max_level": 5,
+  "minigame": "timing"
+}

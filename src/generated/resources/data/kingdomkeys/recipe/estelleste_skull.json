@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "minecraft:wither_skeleton_skull"
+    },
+    {
+      "item": "kingdomkeys:orichalcumplus"
+    },
+    {
+      "item": "kingdomkeys:mythril_crystal"
+    }
+  ],
+  "result": {
+    "components": {
+      "minecraft:profile": {
+        "name": "Estelleste"
+      }
+    },
+    "count": 1,
+    "id": "minecraft:player_head"
+  }
+}

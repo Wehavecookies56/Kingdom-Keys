@@ -1,0 +1,22 @@
+{
+	"name": "Hangar Gummi",
+	"icon": "kingdomkeys:gummi_hangar",
+	"sortnum": 7,
+	"category": "kingdomkeys:misc",
+	"pages": [
+		{
+			"type": "patchouli:text",
+			"text": "El $(item)Hangar Gummi$() es donde construyes y guardas tu $(thing)nave Gummi$(). Colócalo en una zona despejada: el hangar necesita espacio libre alrededor para definir el área de construcción, y te avisará si no puede colocarse ahí.$(p)Dentro montas la nave bloque a bloque con $(item)bloques Gummi$(). El hangar también almacena el $(thing)combustible$() que consume la nave al volar."
+		},
+		{
+			"type": "patchouli:text",
+			"text": "Una vez construida, puedes guardar la nave en un $(item)Gummi Phone$() agachándote y haciendo clic izquierdo sobre ella, y volver a invocarla desde el propio teléfono.$(p)Los detalles completos (formas válidas, tipos de bloque, consumo) están en la wiki."
+		},
+		{
+			"type": "patchouli:link",
+			"url": "https://kingdomkeys.online/blocks/gummi-blocks/",
+			"link_text": "Abrir la wiki",
+			"text": "La wiki externa cubre el sistema Gummi al detalle."
+		}
+	]
+}

@@ -16,11 +16,13 @@ import online.kingdomkeys.kingdomkeys.client.ScreenshotManager;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.*;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.entity.block.SavepointTileEntity;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSCreateSavePoint;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSavePointTP;
+import online.kingdomkeys.kingdomkeys.network.cts.CSToggleFavouriteSavePoint;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.world.SavePointStorage;
 import org.jetbrains.annotations.NotNull;
@@ -52,6 +54,12 @@ public class SavePointScreen extends MenuBackground {
 
     int sorting = 0, ordering = 0;
 
+    int gridLeft, gridRight;
+    int favouritesSeparatorY = -1;
+    private static final int SEPARATOR_GAP = 10;
+
+    final List<SavePointFavouriteButton> favouriteButtons = new ArrayList<>();
+
     EditBoxLength nameField;
     MenuButton save;
     MenuScrollBar bar;
@@ -72,7 +80,7 @@ public class SavePointScreen extends MenuBackground {
         this.savePoints = savePoints;
         this.create = create;
         savePoints.forEach((uuid, savePoint) -> {
-            savePointScreenshots.put(uuid, new Screenshot(Minecraft.getInstance().getTextureManager(), ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "save_points/" + uuid)));
+            savePointScreenshots.put(uuid, new Screenshot(Minecraft.getInstance().getTextureManager(), KingdomKeys.rl("save_points/" + uuid)));
         });
         if (!create) {
             current = savePoints.get(tileEntity.getID()).getFirst();
@@ -96,7 +104,7 @@ public class SavePointScreen extends MenuBackground {
             init();
             updateButtons();
             savePoints.forEach((uuid, savePoint) -> {
-                savePointScreenshots.put(uuid, new Screenshot(Minecraft.getInstance().getTextureManager(), ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "save_points/" + uuid)));
+                savePointScreenshots.put(uuid, new Screenshot(Minecraft.getInstance().getTextureManager(), KingdomKeys.rl("save_points/" + uuid)));
             });
             loadSavePointScreenshots();
         }
@@ -113,7 +121,12 @@ public class SavePointScreen extends MenuBackground {
                        mouseOverCurrent = savePointButton.isMouseOverInactive(mouseX, mouseY);
                     }
                 }
-                if (renderable instanceof SavePointButton || renderable == rename || renderable == retake) {
+                if (renderable instanceof SavePointFavouriteButton favouriteButton) {
+                    // Shown while its tile is hovered, and left up permanently once pinned so the
+                    // filled star doubles as the at-a-glance marker.
+                    favouriteButton.visible = favouriteButton.getDestination().equals(hovered) || isFavourite(favouriteButton.getDestination());
+                }
+                if (renderable instanceof SavePointButton || renderable instanceof SavePointFavouriteButton || renderable == rename || renderable == retake) {
                     gui.enableScissor(0, (int) this.topBarHeight, width, (int) (this.topBarHeight + this.middleHeight));
                     renderable.render(gui, mouseX, mouseY, partialTicks);
                     gui.disableScissor();
@@ -122,6 +135,13 @@ public class SavePointScreen extends MenuBackground {
                 } else {
                     renderable.render(gui, mouseX, mouseY, partialTicks);
                 }
+            }
+            if (favouritesSeparatorY >= 0) {
+                // Clipped and scrolled to match the buttons, so it stays glued between the two blocks.
+                gui.enableScissor(0, (int) this.topBarHeight, width, (int) (this.topBarHeight + this.middleHeight));
+                int lineY = favouritesSeparatorY - (bar != null ? (int) bar.scrollOffset : 0);
+                gui.fill(gridLeft, lineY, gridRight, lineY + 1, 0x66FFFFFF);
+                gui.disableScissor();
             }
             if (rename != null) {
                 rename.visible = mouseOverCurrent;
@@ -293,14 +313,10 @@ public class SavePointScreen extends MenuBackground {
 
     public Comparator<? super Map.Entry<UUID, Pair<SavePointStorage.SavePoint, Instant>>> getSortedList(int sorting) {
         return switch (sorting) {
-            case recent ->
-                Comparator.comparing((Map.Entry<UUID, Pair<SavePointStorage.SavePoint, Instant>> uuidPairEntry) -> uuidPairEntry.getValue().getSecond()).reversed();
-            case name ->
-                Comparator.comparing((Map.Entry<UUID, Pair<SavePointStorage.SavePoint, Instant>> uuidPairEntry) -> uuidPairEntry.getValue().getFirst().name().toLowerCase()).thenComparing((Map.Entry<UUID, Pair<SavePointStorage.SavePoint, Instant>> uuidPairEntry) -> uuidPairEntry.getValue().getFirst().name());
-            case dimension ->
-                Comparator.comparing(uuidPairEntry -> uuidPairEntry.getValue().getFirst().dimension());
-            case owner ->
-                Comparator.comparing(uuidPairEntry -> uuidPairEntry.getValue().getFirst().owner().getSecond());
+            case recent -> Comparator.comparing((Map.Entry<UUID, Pair<SavePointStorage.SavePoint, Instant>> uuidPairEntry) -> uuidPairEntry.getValue().getSecond()).reversed();
+            case name -> Comparator.comparing((Map.Entry<UUID, Pair<SavePointStorage.SavePoint, Instant>> uuidPairEntry) -> uuidPairEntry.getValue().getFirst().name().toLowerCase()).thenComparing((Map.Entry<UUID, Pair<SavePointStorage.SavePoint, Instant>> uuidPairEntry) -> uuidPairEntry.getValue().getFirst().name());
+            case dimension -> Comparator.comparing(uuidPairEntry -> uuidPairEntry.getValue().getFirst().dimension());
+            case owner -> Comparator.comparing(uuidPairEntry -> uuidPairEntry.getValue().getFirst().owner().getSecond());
             default -> Map.Entry.comparingByKey();
         };
     }
@@ -310,50 +326,125 @@ public class SavePointScreen extends MenuBackground {
         int elementWidth = (int) (elementHeight * (16F/9F));
         int maxRowWidth = (int) (width/1.5F);
         int elementsPerRow = (int) Math.max(1, (float) maxRowWidth/(elementWidth+2));
-        int column = 0;
-        int row = 0;
-        int yPos = 0;
+
+        favouriteButtons.clear();
+        gridLeft = (width / 2) - (((elementWidth + 2) * elementsPerRow) / 2);
+        gridRight = gridLeft + ((elementWidth + 2) * elementsPerRow) - 2;
+
         Comparator<? super Map.Entry<UUID, Pair<SavePointStorage.SavePoint, Instant>>> comparator = getSortedList(sorting);
         comparator = ordering == 0 ? comparator : comparator.reversed();
         List<UUID> sortedList = savePoints.entrySet().stream().filter(uuidPairEntry -> !uuidPairEntry.getKey().equals(tileEntity.getID())).sorted(comparator).map(Map.Entry::getKey).collect(Collectors.toList());
         sortedList.add(0, tileEntity.getID());
-        for (UUID uuid : sortedList) {
-            SavePointStorage.SavePoint savePoint = savePoints.get(uuid).getFirst();
-            if ((type == SavePointStorage.SavePointType.WARP && savePoint.type() == SavePointStorage.SavePointType.WARP) || savePoint.dimension() == tileEntity.getLevel().dimension()) {
-                if (column == elementsPerRow) {
-                    column = 0;
-                    row++;
-                }
-                yPos = (int) (this.topBarHeight + 2 + ((elementHeight + 2) * row));
-                SavePointButton button = new SavePointButton(this, (width/2) - (((elementWidth + 2) * elementsPerRow) / 2) + ((elementWidth + 2) * column), yPos, elementWidth, elementHeight, Component.literal(savePoint.name()), uuid);
-                if (uuid.equals(tileEntity.getID())) {
-                    button.active = false;
-                    int bwidth = elementWidth;
-                    int retakeOffset = 0;
-                    if (current.owner().getFirst().equals(Minecraft.getInstance().player.getUUID())) {
-                        bwidth /= 2;
-                        retakeOffset = bwidth + 1;
-                        addRenderableWidget(rename = new SavePointExtrasButton((width/2) - (((elementWidth + 2) * elementsPerRow) / 2) + ((elementWidth + 2) * column), yPos, bwidth, Component.translatable(Strings.Gui_Save_Main_Rename), pButton -> action(RENAME)));
-                    }
-                    addRenderableWidget(retake = new SavePointExtrasButton((width/2) - (((elementWidth + 2) * elementsPerRow) / 2) + ((elementWidth + 2) * column) + retakeOffset, yPos, bwidth, Component.translatable(Strings.Gui_Save_Main_Retake), pButton -> action(RETAKE)));
-                }
-                addRenderableWidget(button);
-                column++;
-            }
+
+        // Fav. are shown on top.
+        List<UUID> pinned = sortedList.stream().filter(this::isFavourite).collect(Collectors.toList());
+        List<UUID> rest = sortedList.stream().filter(uuid -> !isFavourite(uuid)).collect(Collectors.toList());
+
+        favouritesSeparatorY = -1;
+        int bottom = layoutBlock(pinned, 0, elementsPerRow, elementWidth, elementHeight);
+        if (bottom > 0) {
+            // Only worth a divider if something was actually laid out above it.
+            favouritesSeparatorY = (int) (topBarHeight + 2 + bottom + (SEPARATOR_GAP / 2));
+            bottom += SEPARATOR_GAP;
         }
-        addRenderableWidget(sortDropDown = new DropDownButton((width / 2) - (((elementWidth + 2) * elementsPerRow) / 2) - 62, (int) topBarHeight, 60, font.lineHeight, List.of(Component.translatable(Strings.Gui_Save_Sorting_ByRecent), Component.translatable(Strings.Gui_Save_Sorting_ByName), Component.translatable(Strings.Gui_Save_Sorting_ByDimension), Component.translatable(Strings.Gui_Save_Sorting_ByOwner)), Component.translatable(Strings.Gui_Save_Main_Sort)));
-        addRenderableWidget(orderDropDown = new DropDownButton((width / 2) - (((elementWidth + 2) * elementsPerRow) / 2) - 72, (int) topBarHeight + font.lineHeight + 4, 70, font.lineHeight, List.of(Component.translatable(Strings.Gui_Save_Sorting_Ascending), Component.translatable(Strings.Gui_Save_Sorting_Descending)), Component.empty()));
+        bottom = layoutBlock(rest, bottom, elementsPerRow, elementWidth, elementHeight);
+
+        addRenderableWidget(sortDropDown = new DropDownButton(gridLeft - 62, (int) topBarHeight, 60, font.lineHeight, List.of(Component.translatable(Strings.Gui_Save_Sorting_ByRecent), Component.translatable(Strings.Gui_Save_Sorting_ByName), Component.translatable(Strings.Gui_Save_Sorting_ByDimension), Component.translatable(Strings.Gui_Save_Sorting_ByOwner)), Component.translatable(Strings.Gui_Save_Main_Sort)));
+        addRenderableWidget(orderDropDown = new DropDownButton(gridLeft - 72, (int) topBarHeight + font.lineHeight + 4, 70, font.lineHeight, List.of(Component.translatable(Strings.Gui_Save_Sorting_Ascending), Component.translatable(Strings.Gui_Save_Sorting_Descending)), Component.empty()));
         sortDropDown.setSelected(sorting);
         orderDropDown.setSelected(ordering);
         this.sorting = sorting;
         this.ordering = ordering;
-        addRenderableWidget(bar = new MenuScrollBar((width/2) - (((elementWidth + 2) * elementsPerRow) / 2) + ((elementWidth + 2) * elementsPerRow), (int) topBarHeight, (int) (topBarHeight + middleHeight), (int) middleHeight, (int) (yPos - topBarHeight) + elementHeight+2, true));
+        addRenderableWidget(bar = new MenuScrollBar(gridLeft + ((elementWidth + 2) * elementsPerRow), (int) topBarHeight, (int) (topBarHeight + middleHeight), (int) middleHeight, bottom + 2, true));
+    }
+
+    /**
+     * Individual block of savepoints (either fav. or non fav)
+     * @param ids
+     * @param yOffset
+     * @param elementsPerRow
+     * @param elementWidth
+     * @param elementHeight
+     * @return
+     */
+    private int layoutBlock(List<UUID> ids, int yOffset, int elementsPerRow, int elementWidth, int elementHeight) {
+        int column = 0;
+        int row = 0;
+        boolean any = false;
+
+        for (UUID uuid : ids) {
+            SavePointStorage.SavePoint savePoint = savePoints.get(uuid).getFirst();
+            if (!((type == SavePointStorage.SavePointType.WARP && savePoint.type() == SavePointStorage.SavePointType.WARP) || savePoint.dimension() == tileEntity.getLevel().dimension())) {
+                continue;
+            }
+
+            if (column == elementsPerRow) {
+                column = 0;
+                row++;
+            }
+
+            int yPos = (int) (this.topBarHeight + 2 + yOffset + ((elementHeight + 2) * row));
+            int xPos = gridLeft + ((elementWidth + 2) * column);
+
+            SavePointButton button = new SavePointButton(this, xPos, yPos, elementWidth, elementHeight, Component.literal(savePoint.name()), uuid);
+
+            int starWidth = SavePointFavouriteButton.width();
+            if (uuid.equals(tileEntity.getID())) {
+                button.active = false;
+                int extrasX = xPos + starWidth;
+                int bwidth = elementWidth - starWidth;
+                int retakeOffset = 0;
+                if (current.owner().getFirst().equals(Minecraft.getInstance().player.getUUID())) {
+                    bwidth /= 2;
+                    retakeOffset = bwidth + 1;
+                    addRenderableWidget(rename = new SavePointExtrasButton(extrasX, yPos, bwidth, Component.translatable(Strings.Gui_Save_Main_Rename), pButton -> action(RENAME)));
+                }
+                addRenderableWidget(retake = new SavePointExtrasButton(extrasX + retakeOffset, yPos, bwidth, Component.translatable(Strings.Gui_Save_Main_Retake), pButton -> action(RETAKE)));
+            }
+
+            SavePointFavouriteButton favourite = new SavePointFavouriteButton(this, xPos, yPos, uuid);
+            favouriteButtons.add(favourite);
+            addRenderableWidget(favourite);
+
+            addRenderableWidget(button);
+            column++;
+            any = true;
+        }
+
+        return any ? yOffset + ((elementHeight + 2) * (row + 1)) : yOffset;
+    }
+
+    public boolean isFavourite(UUID id) {
+        PlayerData playerData = PlayerData.get(Minecraft.getInstance().player);
+        return playerData != null && playerData.isFavouriteSavePoint(id);
+    }
+
+    public void toggleFavourite(UUID id) {
+        PlayerData playerData = PlayerData.get(Minecraft.getInstance().player);
+        if (playerData == null) {
+            return;
+        }
+
+        // Applied locally first so the list reshuffles on the click rather than on the sync coming back.
+        playerData.toggleFavouriteSavePoint(id);
+        PacketHandler.sendToServer(new CSToggleFavouriteSavePoint(id));
+
+        renderables.clear();
+        children().clear();
+        init(sorting, ordering);
+        updateScroll(bar);
     }
 
     public void updateScroll(MenuScrollBar bar) {
+        if (bar == null) {
+            return;
+        }
         for (Renderable renderable : this.renderables) {
             if (renderable instanceof SavePointButton button) {
                 button.offsetY = (int) bar.scrollOffset;
+            }
+            if (renderable instanceof SavePointFavouriteButton favouriteButton) {
+                favouriteButton.offsetY = (int) bar.scrollOffset;
             }
         }
         if (rename != null) {
@@ -380,6 +471,14 @@ public class SavePointScreen extends MenuBackground {
         if ((pMouseY > topBarHeight + middleHeight || pMouseY < topBarHeight) && !create) {
             return false;
         } else {
+            // Pins get first refusal. They sit inside their own tile, and the tile's click warps you
+            // away, so whichever of the two the widget list happens to reach first would decide it.
+            // Copied because toggling rebuilds the list from under us.
+            for (SavePointFavouriteButton favourite : List.copyOf(favouriteButtons)) {
+                if (favourite.visible && favourite.active && favourite.mouseClicked(pMouseX, pMouseY, pButton)) {
+                    return true;
+                }
+            }
             return super.mouseClicked(pMouseX, pMouseY, pButton);
         }
     }

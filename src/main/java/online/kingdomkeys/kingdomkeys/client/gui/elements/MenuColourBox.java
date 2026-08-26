@@ -7,15 +7,12 @@ import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
-import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.lib.Constants;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.awt.*;
 
 public class MenuColourBox extends AbstractWidget {
-
-	private final ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
 
 	private final int u = 215;
 	private final int vPos = 0;
@@ -48,7 +45,7 @@ public class MenuColourBox extends AbstractWidget {
 			// RenderSystem.enableAlpha();
 			RenderSystem.enableBlend();
 
-			gui.blit(texture, getX(), getY(), middleWidth, height, u, vPos, 1, height, 256, 256);
+			gui.blit(Constants.MENU_TEXTURE, getX(), getY(), middleWidth, height, u, vPos, 1, height, 256, 256);
 			RenderSystem.setShaderColor(1,1,1,1);
 			gui.drawString(minecraft.font, key, getX() + 4, getY() + 4, new Color(255, 255, 255).hashCode());
 			gui.drawString(minecraft.font, value, getX() + width - minecraft.font.width(value) - 4, getY() + 4, new Color(255, 255, 0).hashCode());

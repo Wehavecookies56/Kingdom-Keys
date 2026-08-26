@@ -5,11 +5,10 @@ import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
-import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuFilterBar;
+import online.kingdomkeys.kingdomkeys.lib.Constants;
 import org.jetbrains.annotations.NotNull;
 
 public class MenuFilterButton extends Button {
@@ -17,9 +16,6 @@ public class MenuFilterButton extends Button {
     public ItemCategory category;
     int iconSize = 20;
     MenuFilterBar parent;
-
-    final ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
-
 
     public MenuFilterButton(MenuFilterBar parent, int x, int y, ItemCategory category) {
 		super(new Builder(Component.literal(""),b -> parent.onClickFilter(category)).bounds(x,y,26,15));
@@ -42,9 +38,9 @@ public class MenuFilterButton extends Button {
             float centreX = getX() + ((width - (iconSize / 2F)) * scale);
             float centreY = getY() + ((height -(iconSize / 2F)) * scale);
 
-            ClientUtils.blitScaled(texture, gui, getX(), getY(), 66, 0, 52, 30, scale);
+            ClientUtils.blitScaled(Constants.MENU_TEXTURE, gui, getX(), getY(), 66, 0, 52, 30, scale);
             if (getMessage().getString().isEmpty() && category != null) {
-                ClientUtils.blitScaled(texture, gui, centreX, centreY, category.getU(), category.getV(), iconSize, iconSize, scale);
+                ClientUtils.blitScaled(Constants.MENU_TEXTURE, gui, centreX, centreY, category.getU(), category.getV(), iconSize, iconSize, scale);
             } else {
                 float textCentreX = getX() + ((width * scale) - ((fr.width(getMessage()) * 0.75F) / 2));
                 float textCentreY = getY() + ((height * scale) - ((fr.lineHeight * 0.75F) / 2));

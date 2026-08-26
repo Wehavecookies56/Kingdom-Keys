@@ -5,7 +5,6 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
@@ -18,7 +17,7 @@ import static online.kingdomkeys.kingdomkeys.block.gummi.GummiHangarBlock.SHOW_L
 
 public record CSShowHangarLinesPacket(int containerID) implements Packet {
 
-	public static final Type<CSShowHangarLinesPacket> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_show_hangar_lines"));
+	public static final Type<CSShowHangarLinesPacket> TYPE = new Type<>(KingdomKeys.rl("cs_show_hangar_lines"));
 
 	public static final StreamCodec<FriendlyByteBuf, CSShowHangarLinesPacket> STREAM_CODEC = StreamCodec.composite(
 			ByteBufCodecs.INT,

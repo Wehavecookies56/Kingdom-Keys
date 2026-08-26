@@ -5,7 +5,6 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
@@ -16,7 +15,7 @@ import online.kingdomkeys.kingdomkeys.network.Packet;
 
 public record SCSyncWorldData(CompoundTag data) implements Packet {
 
-	public static final Type<SCSyncWorldData> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "sc_sync_world_data"));
+	public static final Type<SCSyncWorldData> TYPE = new Type<>(KingdomKeys.rl("sc_sync_world_data"));
 
 	public static final StreamCodec<FriendlyByteBuf, SCSyncWorldData> STREAM_CODEC = StreamCodec.composite(
 			ByteBufCodecs.COMPOUND_TAG,

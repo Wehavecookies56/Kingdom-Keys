@@ -1,0 +1,11 @@
+{
+  "cost": 1200,
+  "ingredient1": "kingdomkeys:spellfire",
+  "ingredient2": "kingdomkeys:spellbind",
+  "output": {
+    "type": "item",
+    "item": "kingdomkeys:spellignite",
+    "quantity": 1
+  },
+  "tier": 4
+}

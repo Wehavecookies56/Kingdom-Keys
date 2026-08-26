@@ -8,7 +8,6 @@ import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
@@ -17,7 +16,7 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
  * Ported to 1.18 using Blockbench - Wehavecookies56
  */
 public class ShadowModel<Type extends Entity> extends EntityModel<Type> {
-	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "shadow"), "main");
+	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(KingdomKeys.rl("shadow"), "main");
 	private final ModelPart UpperBody;
 	private final ModelPart LowerBody;
 	private final ModelPart LowerHead;
@@ -38,9 +37,9 @@ public class ShadowModel<Type extends Entity> extends EntityModel<Type> {
 	private final ModelPart AntenaRight2;
 
 	// Default variables for every model
-	protected double distanceMovedTotal = 0.0D;
-	public double CYCLES_PER_BLOCK = 2;
-	protected int cycleIndex = 0;
+	/** Walk cycle speed. Multiplies limbSwing (vanilla's per-entity walk clock), so raise it to
+	 * animate faster and lower it to slow down. */
+	public double CYCLES_PER_BLOCK = 0.4;
 	private final int[][] ticksForWalkingAnimation = new int[][] { { 0, -90 }, { 100, 2 }, { 51, -51 } };
 
 	// Walking animation
@@ -134,12 +133,11 @@ public class ShadowModel<Type extends Entity> extends EntityModel<Type> {
 	}
 
 	@Override
-	public void setupAnim(Type e, float p_102619_, float p_102620_, float p_102621_, float p_102622_, float p_102623_) {
+	public void setupAnim(Type e, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 		if(Minecraft.getInstance().isPaused())
 			return;
 
-		updateDistanceMovedTotal(e);
-		cycleIndex = (int) ((getDistanceMovedTotal() * CYCLES_PER_BLOCK) % animationWalk.length);
+		int cycleIndex = (int) ((limbSwing * CYCLES_PER_BLOCK) % animationWalk.length);
 
 		if (e.distanceToSqr(e.xo, e.yo, e.zo) > 0) {
 			LegLeft1.xRot = degToRad(animationWalk[cycleIndex][0]);
@@ -155,15 +153,6 @@ public class ShadowModel<Type extends Entity> extends EntityModel<Type> {
 			LegLeft3.xRot = LegRight3.xRot = 0;
 		}
 
-	}
-
-	// Default methods/functions for every model
-	protected void updateDistanceMovedTotal(Entity e) {
-		distanceMovedTotal += e.distanceToSqr(e.xo, e.yo, e.zo);
-	}
-
-	protected double getDistanceMovedTotal() {
-		return (distanceMovedTotal);
 	}
 
 	protected float degToRad(double degrees) {

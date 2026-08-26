@@ -103,9 +103,9 @@ public class GummiShotEntityRender extends EntityRenderer<GummiShotEntity> {
 	@Override
 	public ResourceLocation getTextureLocation(GummiShotEntity entity) {
         if(entity.getShotType().isEmpty()) //Just in case
-            return ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/gummi_fire.png");
+            return KingdomKeys.rl("textures/entity/gummi_fire.png");
         GummiWeaponBlock.ShotType projectileType = GummiWeaponBlock.ShotType.valueOf(entity.getShotType().toUpperCase());
 
-        return ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/gummi_"+projectileType.getRootType().name().toLowerCase()+".png");
+        return KingdomKeys.rl("textures/entity/gummi_"+projectileType.getRootType().name().toLowerCase()+".png");
 	}
 }

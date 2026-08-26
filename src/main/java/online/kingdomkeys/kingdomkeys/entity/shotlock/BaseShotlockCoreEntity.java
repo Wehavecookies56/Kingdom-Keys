@@ -1,0 +1,204 @@
+package online.kingdomkeys.kingdomkeys.entity.shotlock;
+
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.damagesource.DamageType;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.ThrowableProjectile;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
+public abstract class BaseShotlockCoreEntity extends ThrowableProjectile {
+
+	private static final EntityDataAccessor<Optional<UUID>> OWNER = SynchedEntityData.defineId(BaseShotlockCoreEntity.class, EntityDataSerializers.OPTIONAL_UUID);
+	private static final EntityDataAccessor<String> TARGETS = SynchedEntityData.defineId(BaseShotlockCoreEntity.class, EntityDataSerializers.STRING);
+
+	protected int maxTicks = 100;
+	protected float dmg;
+	protected List<Entity> targetList = new ArrayList<>();
+
+	public static final class ShotStyle {
+		public int colour = 0xFFD75A;
+		public ResourceKey<DamageType> element = null;
+		public ItemStack visualItem = ItemStack.EMPTY;
+		public boolean applyPoison = false;
+		public boolean waterVisual = false;
+		public int[] palette = null;
+
+		public int colourFor(int index) {
+			if (palette != null && palette.length > 0) {
+				return palette[Math.floorMod(index, palette.length)];
+			}
+			return colour;
+		}
+	}
+
+	protected final ShotStyle shotStyle = new ShotStyle();
+
+	public ShotStyle getShotStyle() {
+		return shotStyle;
+	}
+
+	protected BaseShotlockCoreEntity(EntityType<? extends ThrowableProjectile> type, Level world) {
+		super(type, world);
+		this.blocksBuilding = true;
+	}
+
+	protected BaseShotlockCoreEntity(EntityType<? extends ThrowableProjectile> type, Level world, Player caster, List<Entity> targets, float dmg) {
+		super(type, caster, world);
+		setCaster(caster.getUUID());
+		setTarget(joinTargetIds(targets));
+		this.targetList = targets;
+		this.dmg = dmg;
+	}
+
+	// Turns the locked-on entity ids into the csv string the synched data carries
+	private static String joinTargetIds(List<Entity> targets) {
+		StringBuilder ids = new StringBuilder();
+
+		for (Entity target : targets) {
+			if (target == null) {
+				continue;
+			}
+			if (!ids.isEmpty()) {
+				ids.append(',');
+			}
+			ids.append(target.getId());
+		}
+
+		return ids.toString();
+	}
+
+	public Player getCaster() {
+		return this.getEntityData().get(OWNER).isPresent() ? this.level().getPlayerByUUID(this.getEntityData().get(OWNER).get()) : null;
+	}
+
+	public void setCaster(UUID uuid) {
+		this.entityData.set(OWNER, Optional.of(uuid));
+	}
+
+	public List<Entity> getTargets() {
+		List<Entity> list = new ArrayList<>();
+		String[] ids = this.getEntityData().get(TARGETS).split(",");
+
+		for (String id : ids) {
+			if (!id.isEmpty())
+				list.add(level().getEntity(Integer.parseInt(id)));
+		}
+		return list;
+	}
+
+	public void setTarget(String lists) {
+		this.entityData.set(TARGETS, lists);
+	}
+
+	public int getMaxTicks() {
+		return maxTicks;
+	}
+
+	public void setMaxTicks(int maxTicks) {
+		this.maxTicks = maxTicks;
+	}
+
+	protected boolean isExpired() {
+		return this.tickCount > maxTicks || getCaster() == null;
+	}
+
+
+	public boolean movesCaster() {
+		return false;
+	}
+
+	private static final double LAUNCH_HEIGHT = 2.5D;
+
+	protected void launchCasterUpwards() {
+		Player caster = getCaster();
+		if (caster == null || level().isClientSide) {
+			return;
+		}
+
+		// v = sqrt(2gh) with Minecraft's 0.08/tick gravity.
+		double velocity = Math.sqrt(2 * 0.08D * LAUNCH_HEIGHT);
+		caster.setDeltaMovement(caster.getDeltaMovement().x, velocity, caster.getDeltaMovement().z);
+		caster.hurtMarked = true;
+		caster.resetFallDistance();
+	}
+
+	public boolean launchesCaster() {
+		return false;
+	}
+
+	// Tick the caster reaches the top of the launch arc: t = v / g.
+	private static final int LAUNCH_APEX_TICK = 1 + (int) Math.ceil(Math.sqrt(2 * 0.08D * LAUNCH_HEIGHT) / 0.08D);
+
+	protected void holdCasterAirborne() {
+		Player caster = getCaster();
+		if (caster == null || level().isClientSide || tickCount < LAUNCH_APEX_TICK) {
+			return;
+		}
+
+		caster.setNoGravity(true);
+		caster.setDeltaMovement(caster.getDeltaMovement().x, 0, caster.getDeltaMovement().z);
+		caster.hurtMarked = true;
+		caster.resetFallDistance();
+	}
+
+	protected void dropCaster() {
+		Player caster = getCaster();
+		if (caster != null && !level().isClientSide) {
+			caster.setNoGravity(false);
+		}
+	}
+
+	private static final double ABANDON_DISTANCE = 96D;
+
+	protected boolean hasLiveShots(List<? extends BaseShotlockShotEntity> shots) {
+		for (BaseShotlockShotEntity shot : shots) {
+			if (shot == null || !shot.isAlive()) {
+				continue;
+			}
+
+			Entity target = shot.getTarget();
+			if (target != null && target.isAlive()) {
+				return true;
+			}
+
+			if (shot.distanceToSqr(this) < ABANDON_DISTANCE * ABANDON_DISTANCE) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	@Override
+	public void addAdditionalSaveData(CompoundTag compound) {
+		super.addAdditionalSaveData(compound);
+		if (this.entityData.get(OWNER).isPresent()) {
+			compound.putString("OwnerUUID", this.entityData.get(OWNER).get().toString());
+			compound.putString("TargetsUUID", this.entityData.get(TARGETS));
+		}
+	}
+
+	@Override
+	public void readAdditionalSaveData(CompoundTag compound) {
+		super.readAdditionalSaveData(compound);
+		this.entityData.set(OWNER, Optional.of(UUID.fromString(compound.getString("OwnerUUID"))));
+		this.entityData.set(TARGETS, compound.getString("TargetUUID"));
+	}
+
+	@Override
+	protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
+		pBuilder.define(OWNER, Optional.of(new UUID(0L, 0L)));
+		pBuilder.define(TARGETS, "");
+	}
+}

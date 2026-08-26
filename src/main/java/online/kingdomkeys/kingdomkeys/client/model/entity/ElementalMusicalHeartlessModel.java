@@ -8,7 +8,6 @@ import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
-import net.minecraft.resources.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.entity.mob.BaseElementalMusicalHeartlessEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.BaseKHEntity;
@@ -18,7 +17,7 @@ import online.kingdomkeys.kingdomkeys.entity.mob.BaseKHEntity;
  * Ported to 1.18 using Tabula, Blockbench and manual code editing - Wehavecookies56
  */
 public class ElementalMusicalHeartlessModel<T extends BaseKHEntity> extends EntityModel<T> {
-    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "elementalmusicalheartless"), "main");
+    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(KingdomKeys.rl("elementalmusicalheartless"), "main");
 
     private final ModelPart Body;
     private final ModelPart RightLeg;
@@ -47,9 +46,6 @@ public class ElementalMusicalHeartlessModel<T extends BaseKHEntity> extends Enti
     private final ModelPart HatTop3;
     private final ModelPart HatTop4;
     private final ModelPart HatTop5;
-
-    private final boolean canAnimate = true;
-    private double frame;
 
     public ElementalMusicalHeartlessModel(ModelPart root) {
         this.Body = root.getChild("Body");
@@ -160,67 +156,67 @@ public class ElementalMusicalHeartlessModel<T extends BaseKHEntity> extends Enti
         if(entityIn.getState() == 1) {
             if (entityIn instanceof BaseElementalMusicalHeartlessEntity entity) {
                 if (entity.getElementToUse() == BaseElementalMusicalHeartlessEntity.Element.FIRE) {
-                    if (frame < animationShootFire.length) {
+                    if (entityIn.animFrame < animationShootFire.length) {
                         this.Hat1.y = this.HatTop1.y = -0.2F;
-                        this.Hat1.yRot = degToRad(animationShootFire[(int) frame]);
-                        this.HatTop1.yRot = degToRad(animationShootFire[(animationShootFire.length - 1) - (int) frame]) * 2;
+                        this.Hat1.yRot = degToRad(animationShootFire[(int) entityIn.animFrame]);
+                        this.HatTop1.yRot = degToRad(animationShootFire[(animationShootFire.length - 1) - (int) entityIn.animFrame]) * 2;
                     } else {
                         this.Hat1.yRot = this.HatTop1.yRot = degToRad(0);
                         this.Hat1.y = this.HatTop1.y = 0F;
-                        frame = 0;
+                        entityIn.animFrame = 0;
                         entityIn.setState(0);
                     }
 
-                    this.frame += 0.7;
+                    entityIn.animFrame += 0.7;
                 } else if (entity.getElementToUse() == BaseElementalMusicalHeartlessEntity.Element.BLIZZARD) {
-                    if (frame < animationShootBlizzard.length) {
-                        this.Body.xRot = degToRad(animationShootBlizzard[(int) frame]);
+                    if (entityIn.animFrame < animationShootBlizzard.length) {
+                        this.Body.xRot = degToRad(animationShootBlizzard[(int) entityIn.animFrame]);
 
-                        if (frame > animationShootBlizzard.length - 16) {
+                        if (entityIn.animFrame > animationShootBlizzard.length - 16) {
                             this.Hat1.y = this.HatTop1.y = -0.2F;
-                            this.Hat1.yRot = degToRad(animationShootFire[(int) frame]);
-                            this.HatTop1.yRot = degToRad(animationShootFire[(animationShootFire.length - 1) - (int) frame]) * 2;
+                            this.Hat1.yRot = degToRad(animationShootFire[(int) entityIn.animFrame]);
+                            this.HatTop1.yRot = degToRad(animationShootFire[(animationShootFire.length - 1) - (int) entityIn.animFrame]) * 2;
                         }
                     } else {
                         this.Hat1.yRot = this.HatTop1.yRot = degToRad(0);
                         this.Hat1.y = this.HatTop1.y = 0F;
                         this.Body.xRot = degToRad(0);
-                        frame = 0;
+                        entityIn.animFrame = 0;
                         entityIn.setState(0);
                     }
 
-                    this.frame += 0.6;
+                    entityIn.animFrame += 0.6;
                 }
             }
         }
         else if(entityIn.getState() == 2) {
-            if(frame < animationMeleeAttack.length) {
+            if(entityIn.animFrame < animationMeleeAttack.length) {
                 this.Hat1.y = this.HatTop1.y = -0.6F;
                 this.Body.xRot = degToRad(85);
-                this.Body.yRot = degToRad(animationMeleeAttack[(int) frame]);
+                this.Body.yRot = degToRad(animationMeleeAttack[(int) entityIn.animFrame]);
             }
             else {
                 this.Body.xRot = degToRad(0);
                 this.Hat1.yRot = this.Body.yRot = degToRad(0);
                 this.Hat1.y = this.HatTop1.y = 0F;
-                frame = 0;
+                entityIn.animFrame = 0;
                 entityIn.setState(0);
             }
 
-            this.frame += 1.2;
+            entityIn.animFrame += 1.2;
         }
         else if(entityIn.getState() == 3) {
-            if(frame < animationMeleeAttack.length) {
+            if(entityIn.animFrame < animationMeleeAttack.length) {
                 this.Body.xRot = degToRad(90);
-                this.Body.zRot = degToRad(animationMeleeAttack[(int) frame]);
+                this.Body.zRot = degToRad(animationMeleeAttack[(int) entityIn.animFrame]);
             }
             else {
                 this.Body.xRot = this.Body.zRot = degToRad(0);
-                frame = 0;
+                entityIn.animFrame = 0;
                 entityIn.setState(0);
             }
 
-            this.frame += 1.2;
+            entityIn.animFrame += 1.2;
         }
     }
 

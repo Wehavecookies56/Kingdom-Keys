@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "kingdomkeys:item/tranquil_darkness"
+    "layer0": "kingdomkeys:item/cards/tranquil_darkness"
   }
 }

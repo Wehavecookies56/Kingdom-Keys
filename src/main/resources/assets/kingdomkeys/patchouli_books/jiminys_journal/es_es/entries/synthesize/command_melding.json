@@ -1,0 +1,72 @@
+{
+	"name": "Síntesis de Comandos",
+	"icon": "kingdomkeys:spellfira",
+	"sortnum": 6,
+	"category": "kingdomkeys:synthesize",
+	"pages": [
+		{
+			"type": "patchouli:text",
+			"text": "La $(thing)Síntesis de Comandos$() te permite fusionar dos magias para obtener una nueva más potente. Se hace en un $(l:kingdomkeys:synthesize/moogles)Moguri$() pagando $(item)platines$(). Cada fusión tiene un $(thing)tier$(): cuanto más alto, más raro es el resultado.$(p)Abajo tienes todas las combinaciones con su coste en platines. También puedes consultarlas de forma interactiva con $(thing)JEI$(), en su categoría de fusión de magias."
+		},
+		{
+			"type": "patchouli:text",
+			"title": "Fusiones de tier 2",
+			"text": "$(li)Aero + Aero = $(item)Aero+$() (400)$(li)Aqua + Aqua = $(item)Aqua+$() (400)$(li)Cura + Cura = $(item)Cura+$() (400)$(li)Electro + Electro = $(item)Electro+$() (400)$(li)Gravedad + Gravedad = $(item)Gravedad+$() (400)$(li)Hielo + Hielo = $(item)Hielo+$() (400)$(li)Magneto + Magneto = $(item)Magneto+$() (400)"
+		},
+		{
+			"type": "patchouli:text",
+			"title": "Fusiones de tier 2 (cont.)",
+			"text": "$(li)Paro + Paro = $(item)Paro+$() (400)$(li)Piro + Piro = $(item)Piro+$() (400)$(li)Reflejo + Reflejo = $(item)Reflejo+$() (400)"
+		},
+		{
+			"type": "patchouli:text",
+			"title": "Fusiones de tier 3",
+			"text": "$(li)Aero+ + Aero+ = $(item)Aero++$() (800)$(li)Aqua+ + Aqua+ = $(item)Aqua++$() (800)$(li)Electro + Magneto = $(item)Chispa$() (800)$(li)Chispa + Chispa = $(item)Chispa+$() (1200)$(li)Electro+ + Magneto+ = $(item)Chispa+$() (1200)$(li)Cura+ + Cura+ = $(item)Cura++$() (800)$(li)Electro+ + Electro+ = $(item)Electro++$() (800)"
+		},
+		{
+			"type": "patchouli:text",
+			"title": "Fusiones de tier 3",
+			"text": "$(li)Piro+ + Ingravidez = $(item)Escudo de Minas$() (1200)$(li)Aqua + Gravedad = $(item)Globo$() (800)$(li)Aqua+ + Gravedad+ = $(item)Globo+$() (1200)$(li)Globo + Globo = $(item)Globo+$() (1200)$(li)Gravedad+ + Gravedad+ = $(item)Gravedad++$() (800)$(li)Hielo+ + Hielo+ = $(item)Hielo++$() (800)$(li)Piro++ + Aero++ = $(item)Lluvia Piro++$() (1200)"
+		},
+		{
+			"type": "patchouli:text",
+			"title": "Fusiones de tier 3",
+			"text": "$(li)Magneto+ + Magneto+ = $(item)Magneto++$() (800)$(li)Paro+ + Paro+ = $(item)Paro++$() (800)$(li)Piro+ + Piro+ = $(item)Piro++$() (800)$(li)Reflejo+ + Reflejo+ = $(item)Reflejo++$() (800)$(li)Hielo++ + Hielo++ = $(item)Triple Hielo++$() (1000)$(li)Piro++ + Piro++ = $(item)Triple Piro++$() (1000)"
+		},
+		{
+			"type": "patchouli:text",
+			"title": "Fusiones de tier 4",
+			"text": "$(li)Ingravidez+ + Toxis = $(item)Apagón$() (1600)$(li)Chispa+ + Chispa+ = $(item)Chispa++$() (1600)$(li)Electro++ + Magneto++ = $(item)Chispa++$() (1600)$(li)Piro+ + Paro = $(item)Cuadro de Minas$() (1600)$(li)Triple Hielo++ + Hipotermia = $(item)Glaciar$() (1200)$(li)Aqua++ + Gravedad++ = $(item)Globo++$() (1600)$(li)Globo+ + Globo+ = $(item)Globo++$() (1600)"
+		},
+		{
+			"type": "patchouli:text",
+			"title": "Fusiones de tier 4",
+			"text": "$(li)Hielo++ + Triple Hielo++ = $(item)Hipotermia$() (1400)$(li)Piro + Enlace = $(item)Ignición$() (1200)$(li)Electro + Ingravidez = $(item)Ingravidez+$() (1600)$(li)Ingravidez + Ingravidez = $(item)Ingravidez+$() (1200)$(li)Magneto + Aero = $(item)Ingravidez+$() (1600)$(li)Ingravidez + Ingravidez+ = $(item)Ingravidez++$() (1400)$(li)Ingravidez+ + Ingravidez+ = $(item)Ingravidez++$() (1200)"
+		},
+		{
+			"type": "patchouli:text",
+			"title": "Fusiones de tier 4",
+			"text": "$(li)Ingravidez+ + Electro+ = $(item)Ingravidez++$() (1400)$(li)Piro+ + Aero++ = $(item)Lluvia Piro++$() (1000)$(li)Piro++ + Aero+ = $(item)Lluvia Piro++$() (1000)$(li)Piro++ + Apagón = $(item)Nigro Piro++$() (1200)$(li)Piro++ + Paro++ = $(item)Tardo Piro++$() (1200)$(li)Piro++ + Freno = $(item)Tardo Piro++$() (2000)$(li)Electro++ + Electro++ = $(item)Tiro Electro++$() (1000)"
+		},
+		{
+			"type": "patchouli:text",
+			"title": "Fusiones de tier 4",
+			"text": "$(li)Hielo++ + Hielo+ = $(item)Triple Hielo++$() (1200)$(li)Piro++ + Piro+ = $(item)Triple Piro++$() (1200)"
+		},
+		{
+			"type": "patchouli:text",
+			"title": "Fusiones de tier 5",
+			"text": "$(li)Hielo++ + Escudo de Minas = $(item)Asalto Gélido$() (1600)$(li)Hielo++ + Cuadro de Minas = $(item)Asalto Gélido$() (1600)$(li)Hielo++ + Hipotermia = $(item)Glaciar$() (1600)$(li)Cuadro de Minas + Magneto++ = $(item)Mina Astuta$() (1800)$(li)Escudo de Minas + Magneto++ = $(item)Mina Astuta$() (1800)$(li)Escudo de Minas + Cuadro de Minas = $(item)Mina Astuta$() (1600)$(li)Magneto+ + Exilio = $(item)Minimalia$() (2600)"
+		},
+		{
+			"type": "patchouli:text",
+			"title": "Fusiones de tier 5",
+			"text": "$(li)Magneto++ + Magneto++ = $(item)Minimalia$() (3800)$(li)Magneto++ + Enlace = $(item)Minimalia$() (4600)$(li)Piro++ + Paro+ = $(item)Tardo Piro++$() (1800)$(li)Tiro Electro++ + Tiro Electro++ = $(item)Triplasma$() (1600)"
+		},
+		{
+			"type": "patchouli:text",
+			"title": "Fusiones de tier 6",
+			"text": "$(li)Aero++ + Cura++ = $(item)Sanctus$() (3600)"
+		}
+	]
+}

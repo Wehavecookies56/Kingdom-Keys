@@ -1,0 +1,196 @@
+{
+  "base_stats": {
+    "mag": 1,
+    "str": 4
+  },
+  "description": "item.kingdomkeys.long_night.desc",
+  "keychain": "kingdomkeys:long_night_chain",
+  "levels": [
+    {
+      "mag": 2,
+      "recipe": [
+        {
+          "material": "kingdomkeys:fluorite",
+          "quantity": 1
+        },
+        {
+          "material": "kingdomkeys:lucid_shard",
+          "quantity": 3
+        }
+      ],
+      "str": 4
+    },
+    {
+      "mag": 2,
+      "recipe": [
+        {
+          "material": "kingdomkeys:fluorite",
+          "quantity": 1
+        },
+        {
+          "material": "kingdomkeys:lucid_shard",
+          "quantity": 4
+        }
+      ],
+      "str": 5
+    },
+    {
+      "mag": 3,
+      "recipe": [
+        {
+          "material": "kingdomkeys:fluorite",
+          "quantity": 1
+        },
+        {
+          "material": "kingdomkeys:lucid_shard",
+          "quantity": 5
+        }
+      ],
+      "str": 5
+    },
+    {
+      "mag": 3,
+      "recipe": [
+        {
+          "material": "kingdomkeys:damascus",
+          "quantity": 1
+        },
+        {
+          "material": "kingdomkeys:lucid_shard",
+          "quantity": 5
+        },
+        {
+          "material": "kingdomkeys:writhing_shard",
+          "quantity": 2
+        }
+      ],
+      "str": 6
+    },
+    {
+      "mag": 4,
+      "recipe": [
+        {
+          "material": "kingdomkeys:damascus",
+          "quantity": 1
+        },
+        {
+          "material": "kingdomkeys:lucid_shard",
+          "quantity": 6
+        },
+        {
+          "material": "kingdomkeys:writhing_shard",
+          "quantity": 3
+        }
+      ],
+      "str": 6
+    },
+    {
+      "mag": 4,
+      "recipe": [
+        {
+          "material": "kingdomkeys:damascus",
+          "quantity": 1
+        },
+        {
+          "material": "kingdomkeys:lucid_shard",
+          "quantity": 7
+        },
+        {
+          "material": "kingdomkeys:writhing_shard",
+          "quantity": 4
+        }
+      ],
+      "str": 7
+    },
+    {
+      "mag": 5,
+      "recipe": [
+        {
+          "material": "kingdomkeys:adamantite",
+          "quantity": 1
+        },
+        {
+          "material": "kingdomkeys:lucid_shard",
+          "quantity": 7
+        },
+        {
+          "material": "kingdomkeys:writhing_shard",
+          "quantity": 4
+        },
+        {
+          "material": "kingdomkeys:sinister_shard",
+          "quantity": 2
+        }
+      ],
+      "str": 7
+    },
+    {
+      "mag": 5,
+      "recipe": [
+        {
+          "material": "kingdomkeys:adamantite",
+          "quantity": 1
+        },
+        {
+          "material": "kingdomkeys:lucid_shard",
+          "quantity": 8
+        },
+        {
+          "material": "kingdomkeys:writhing_shard",
+          "quantity": 5
+        },
+        {
+          "material": "kingdomkeys:sinister_shard",
+          "quantity": 4
+        }
+      ],
+      "str": 8
+    },
+    {
+      "mag": 6,
+      "recipe": [
+        {
+          "material": "kingdomkeys:adamantite",
+          "quantity": 1
+        },
+        {
+          "material": "kingdomkeys:lucid_shard",
+          "quantity": 9
+        },
+        {
+          "material": "kingdomkeys:writhing_shard",
+          "quantity": 6
+        },
+        {
+          "material": "kingdomkeys:sinister_shard",
+          "quantity": 5
+        }
+      ],
+      "str": 8
+    },
+    {
+      "mag": 6,
+      "recipe": [
+        {
+          "material": "kingdomkeys:electrum",
+          "quantity": 1
+        },
+        {
+          "material": "kingdomkeys:lucid_shard",
+          "quantity": 9
+        },
+        {
+          "material": "kingdomkeys:writhing_shard",
+          "quantity": 6
+        },
+        {
+          "material": "kingdomkeys:sinister_shard",
+          "quantity": 6
+        }
+      ],
+      "str": 9
+    }
+  ],
+  "reach": 1.0,
+  "sound": "kingdomkeys:keyblade_hit/star_cluster_hit"
+}

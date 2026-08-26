@@ -13,7 +13,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuFilterable;
@@ -27,6 +26,7 @@ import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.KeychainItem;
 import online.kingdomkeys.kingdomkeys.item.MagicSpellItem;
+import online.kingdomkeys.kingdomkeys.lib.Constants;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.Recipe;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopItem;
@@ -49,9 +49,7 @@ public class MenuStockItem extends Button {
     public Color backgroundColor;
     public ChatFormatting textColor = ChatFormatting.WHITE;
 
-    final ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
-
-    public MenuStockItem(MenuFilterable parent, ResourceLocation rl, ItemStack displayStack, int x, int y, int width, boolean showAmount, OnPress onPress) {
+	public MenuStockItem(MenuFilterable parent, ResourceLocation rl, ItemStack displayStack, int x, int y, int width, boolean showAmount, OnPress onPress) {
         super(new Builder(Component.literal(""), onPress).bounds(x, y, width, 14));
         this.parent = parent;
         this.rl = rl;
@@ -75,7 +73,7 @@ public class MenuStockItem extends Button {
         this.stack = stack;
         this.showAmount = showAmount;
     }
-    
+
     public MenuStockItem(MenuFilterable parent, ResourceLocation rl, ItemStack displayStack, int x, int y, int width, boolean showAmount, String customName) {
 		this(parent,rl,displayStack,x,y,width,showAmount);
 		this.customName = customName;
@@ -113,13 +111,13 @@ public class MenuStockItem extends Button {
                 matrixStack.pushPose();
                 {
                     RenderSystem.enableBlend();
-                    
+
                     matrixStack.translate(getX() + 0.6F, getY(), 0);
                     float scale = 0.5F;
                     matrixStack.scale(scale, scale, 1);
-                    gui.blit(texture, 0, 0, 27, 0, 18, 28);
-                    gui.blit(texture, 16, 0, (int) ((width * (1 / scale)) - (17 * (1 / scale)))+1, 28, 47, 0, 2, 28, 256, 256);
-                    gui.blit(texture, (int)(width * (1 / scale)) - 18, 0, 49, 0, 17, 28);
+                    gui.blit(Constants.MENU_TEXTURE, 0, 0, 27, 0, 18, 28);
+                    gui.blit(Constants.MENU_TEXTURE, 16, 0, (int) ((width * (1 / scale)) - (17 * (1 / scale)))+1, 28, 47, 0, 2, 28, 256, 256);
+                    gui.blit(Constants.MENU_TEXTURE, (int)(width * (1 / scale)) - 18, 0, 49, 0, 17, 28);
                 }
                 matrixStack.popPose();
             } else if(getBackgroundColor() != null) {
@@ -131,9 +129,9 @@ public class MenuStockItem extends Button {
                     float scale = 0.5F;
                     matrixStack.scale(scale, scale, 1);
                     RenderSystem.setShaderColor(getBackgroundColor().getRed()/255F,getBackgroundColor().getGreen()/255F,getBackgroundColor().getBlue()/255F,1);
-                    gui.blit(texture, 0, 0, 219, 0, 18, 28);
-                    gui.blit(texture, 16, 0, (int) ((width * (1 / scale)) - (17 * (1 / scale)))+1, 28, 239, 0, 2, 28, 256, 256);
-                    gui.blit(texture, (int)(width * (1 / scale)) - 18, 0, 239, 0, 17, 28);
+                    gui.blit(Constants.MENU_TEXTURE, 0, 0, 219, 0, 18, 28);
+                    gui.blit(Constants.MENU_TEXTURE, 16, 0, (int) ((width * (1 / scale)) - (17 * (1 / scale)))+1, 28, 239, 0, 2, 28, 256, 256);
+                    gui.blit(Constants.MENU_TEXTURE, (int)(width * (1 / scale)) - 18, 0, 239, 0, 17, 28);
                     RenderSystem.setShaderColor(1,1,1,1);
                 }
                 matrixStack.popPose();
@@ -145,7 +143,7 @@ public class MenuStockItem extends Button {
                 float scale = 0.5F;
                 int categorySize = 20;
                 matrixStack.scale(scale, scale, 1);
-                gui.blit(texture, 0, 0, category.getU(), category.getV(), categorySize, categorySize);
+                gui.blit(Constants.MENU_TEXTURE, 0, 0, category.getU(), category.getV(), categorySize, categorySize);
             }
             matrixStack.popPose();
 
@@ -192,6 +190,15 @@ public class MenuStockItem extends Button {
                 }
             }
 
+            if(parent instanceof MeldingScreen){
+                if(stack.getItem() instanceof MagicSpellItem spell) {
+                    float percent = spell.getLocalPercent(stack);
+                    int barWidth = 24;
+                    int percentWidth = (int)(barWidth * percent);
+                    gui.blit(Constants.MENU_TEXTURE, getX() + getWidth() - barWidth - 5, getY() + getHeight() - 4, barWidth, 2, 161, 67, 1, 5, 256, 256);
+                    gui.blit(Constants.MENU_TEXTURE, getX() + getWidth() - barWidth - 5, getY() + getHeight() - 4, percentWidth, 2, 163, 67, 1, 5, 256, 256);
+                }
+            }
 
             if(parent instanceof ShopScreen shop){
                 displayTick = true;

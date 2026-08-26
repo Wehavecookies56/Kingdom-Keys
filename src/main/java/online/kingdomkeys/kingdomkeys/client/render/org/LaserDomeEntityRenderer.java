@@ -20,7 +20,7 @@ public class LaserDomeEntityRenderer extends EntityRenderer<LaserDomeCoreEntity>
 	@Nullable
 	@Override
 	public ResourceLocation getTextureLocation(LaserDomeCoreEntity entity) {
-		return ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/models/fire.png");
+		return KingdomKeys.rl("textures/entity/models/cube.png");
 	}
 
 }

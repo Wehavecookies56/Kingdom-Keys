@@ -9,8 +9,8 @@ import java.util.List;
 
 public class ShotlockRagnarok extends Shotlock {
 
-	public ShotlockRagnarok(ResourceLocation registryName, int order, int cooldown, int max) {
-		super(registryName, order, cooldown, max);
+	public ShotlockRagnarok(ResourceLocation registryName, int order) {
+		super(registryName, order);
 	}
 
 	@Override

@@ -1,0 +1,678 @@
+{
+  "version": 3,
+  "levels": {
+    "0": {
+      "def": -1
+    },
+    "1": {
+      "def": 1,
+      "ap": 10,
+      "abilities": [
+        "kingdomkeys:ability_zero_exp"
+      ]
+    },
+    "2": {
+      "def": 1,
+      "abilities": [
+        "kingdomkeys:ability_scan",
+        "kingdomkeys:ability_guard"
+      ]
+    },
+    "3": {
+      "str": 1,
+      "ap": 1
+    },
+    "4": {
+      "def": 1,
+      "maxmp": 8
+    },
+    "5": {
+      "str": 1,
+      "maxhp": 5,
+      "max_armors": 1
+    },
+    "6": {
+      "def": 1,
+      "mag": 1,
+      "ap": 1,
+      "max_magics": 1
+    },
+    "7": {
+      "str": 1,
+      "abilities": [
+        "kingdomkeys:ability_aerial_recovery"
+      ]
+    },
+    "8": {
+      "mag": 1,
+      "maxmp": 8
+    },
+    "9": {
+      "str": 1,
+      "ap": 1
+    },
+    "10": {
+      "def": 1,
+      "mag": 1,
+      "maxhp": 5,
+      "max_accessories": 1,
+      "abilities": [
+        "kingdomkeys:ability_grand_magic_extender"
+      ]
+    },
+    "11": {
+      "str": 1,
+      "items": [
+        {
+          "id": "kingdomkeys:shotlock_ragnarok",
+          "count": 1
+        }
+      ]
+    },
+    "12": {
+      "mag": 1,
+      "maxmp": 8,
+      "ap": 1,
+      "max_magics": 1,
+      "abilities": [
+        "kingdomkeys:ability_mp_haste"
+      ]
+    },
+    "13": {
+      "str": 1,
+      "abilities": [
+        "kingdomkeys:ability_item_boost"
+      ]
+    },
+    "14": {
+      "def": 1,
+      "mag": 1,
+      "abilities": [
+        "kingdomkeys:ability_mp_safety",
+        "kingdomkeys:ability_wall_kick"
+      ]
+    },
+    "15": {
+      "str": 1,
+      "maxhp": 5,
+      "ap": 1,
+      "max_armors": 1,
+      "abilities": [
+        "kingdomkeys:ability_damage_drive"
+      ],
+      "items": [
+        {
+          "id": "kingdomkeys:shotlock_meteor_shower",
+          "count": 1
+        }
+      ]
+    },
+    "16": {
+      "mag": 1,
+      "maxmp": 8,
+      "abilities": [
+        "kingdomkeys:ability_mp_rage"
+      ]
+    },
+    "17": {
+      "str": 1,
+      "abilities": [
+        "kingdomkeys:ability_leaf_bracer"
+      ]
+    },
+    "18": {
+      "def": 1,
+      "mag": 1,
+      "ap": 1,
+      "max_magics": 1,
+      "abilities": [
+        "kingdomkeys:ability_focus_converter"
+      ]
+    },
+    "19": {
+      "str": 1,
+      "abilities": [
+        "kingdomkeys:ability_firaza"
+      ]
+    },
+    "20": {
+      "mag": 1,
+      "maxhp": 5,
+      "maxmp": 8,
+      "max_accessories": 1,
+      "abilities": [
+        "kingdomkeys:ability_jackpot"
+      ],
+      "items": [
+        {
+          "id": "kingdomkeys:shotlock_chaos_snake",
+          "count": 1
+        }
+      ]
+    },
+    "21": {
+      "str": 1,
+      "ap": 1,
+      "abilities": [
+        "kingdomkeys:ability_curaza",
+        "kingdomkeys:ability_counterguard"
+      ]
+    },
+    "22": {
+      "def": 1,
+      "mag": 1,
+      "abilities": [
+        "kingdomkeys:ability_form_boost"
+      ]
+    },
+    "23": {
+      "str": 1,
+      "abilities": [
+        "kingdomkeys:ability_strike_raid",
+        "kingdomkeys:ability_once_more"
+      ]
+    },
+    "24": {
+      "mag": 1,
+      "maxmp": 4,
+      "ap": 1,
+      "max_magics": 1,
+      "abilities": [
+        "kingdomkeys:ability_drive_converter",
+        "kingdomkeys:ability_air_slide"
+      ]
+    },
+    "25": {
+      "str": 1,
+      "maxhp": 5,
+      "max_armors": 1,
+      "abilities": [
+        "kingdomkeys:ability_drive_boost"
+      ],
+      "items": [
+        {
+          "id": "kingdomkeys:shotlock_pulse_bomb",
+          "count": 1
+        }
+      ]
+    },
+    "26": {
+      "def": 1,
+      "mag": 1,
+      "abilities": [
+        "kingdomkeys:ability_blizzaza"
+      ]
+    },
+    "27": {
+      "str": 1,
+      "mag": 1,
+      "ap": 1,
+      "abilities": [
+        "kingdomkeys:ability_grand_magic_haste",
+        "kingdomkeys:ability_grand_magic_extender"
+      ]
+    },
+    "28": {
+      "mag": 1,
+      "maxmp": 4,
+      "abilities": [
+        "kingdomkeys:ability_experience_boost"
+      ]
+    },
+    "29": {
+      "str": 1,
+      "abilities": [
+        "kingdomkeys:ability_encounter_plus"
+      ],
+      "items": [
+        {
+          "id": "kingdomkeys:shotlock_dark_volley",
+          "count": 1
+        }
+      ]
+    },
+    "30": {
+      "def": 1,
+      "mag": 1,
+      "maxhp": 5,
+      "ap": 1,
+      "max_magics": 1,
+      "max_accessories": 1,
+      "abilities": [
+        "kingdomkeys:ability_thundaza"
+      ]
+    },
+    "31": {
+      "str": 1,
+      "abilities": [
+        "kingdomkeys:ability_treasure_magnet"
+      ]
+    },
+    "32": {
+      "str": 1,
+      "mag": 1,
+      "maxmp": 4,
+      "abilities": [
+        "kingdomkeys:ability_endless_magic"
+      ]
+    },
+    "33": {
+      "str": 1,
+      "ap": 1,
+      "abilities": [
+        "kingdomkeys:ability_waterza"
+      ],
+      "items": [
+        {
+          "id": "kingdomkeys:shotlock_lightning_ray",
+          "count": 1
+        }
+      ]
+    },
+    "34": {
+      "def": 1,
+      "mag": 1,
+      "abilities": [
+        "kingdomkeys:ability_mp_hastera"
+      ]
+    },
+    "35": {
+      "str": 1,
+      "maxhp": 5,
+      "max_armors": 1,
+      "abilities": [
+        "kingdomkeys:ability_magic_lock_on"
+      ]
+    },
+    "36": {
+      "mag": 1,
+      "maxmp": 4,
+      "ap": 1,
+      "max_magics": 1,
+      "abilities": [
+        "kingdomkeys:ability_berserk_charge"
+      ]
+    },
+    "37": {
+      "str": 1
+    },
+    "38": {
+      "def": 1,
+      "mag": 1,
+      "abilities": [
+        "kingdomkeys:ability_extra_cast"
+      ]
+    },
+    "39": {
+      "str": 1,
+      "ap": 1,
+      "abilities": [
+        "kingdomkeys:ability_superslide"
+      ]
+    },
+    "40": {
+      "mag": 1,
+      "maxhp": 5,
+      "maxmp": 4,
+      "max_accessories": 1,
+      "abilities": [
+        "kingdomkeys:ability_flowstep"
+      ],
+      "items": [
+        {
+          "id": "kingdomkeys:shotlock_bubble_blaster",
+          "count": 1
+        }
+      ]
+    },
+    "41": {
+      "str": 1
+    },
+    "42": {
+      "def": 1,
+      "mag": 1,
+      "ap": 1,
+      "max_magics": 1,
+      "abilities": [
+        "kingdomkeys:ability_combo_plus"
+      ]
+    },
+    "43": {
+      "str": 1,
+      "mag": 1,
+      "abilities": [
+        "kingdomkeys:ability_wall_kick"
+      ]
+    },
+    "44": {
+      "mag": 1,
+      "maxmp": 4,
+      "abilities": [
+        "kingdomkeys:ability_jackpot"
+      ]
+    },
+    "45": {
+      "str": 1,
+      "maxhp": 5,
+      "ap": 1,
+      "abilities": [
+        "kingdomkeys:ability_air_slide"
+      ],
+      "items": [
+        {
+          "id": "kingdomkeys:shotlock_flame_salvo",
+          "count": 1
+        }
+      ]
+    },
+    "46": {
+      "def": 1,
+      "mag": 1
+    },
+    "47": {
+      "str": 1,
+      "abilities": [
+        "kingdomkeys:ability_treasure_magnet"
+      ]
+    },
+    "48": {
+      "str": 1,
+      "mag": 1,
+      "maxmp": 4,
+      "ap": 1,
+      "max_magics": 1
+    },
+    "49": {
+      "str": 1
+    },
+    "50": {
+      "def": 1,
+      "mag": 1,
+      "maxhp": 5,
+      "abilities": [
+        "kingdomkeys:ability_synch_blade"
+      ],
+      "items": [
+        {
+          "id": "kingdomkeys:shotlock_photon_charge",
+          "count": 1
+        }
+      ]
+    },
+    "51": {
+      "str": 1,
+      "ap": 1
+    },
+    "52": {
+      "mag": 1,
+      "maxmp": 4
+    },
+    "53": {
+      "str": 1,
+      "abilities": [
+        "kingdomkeys:ability_mp_hastega",
+        "kingdomkeys:ability_lucky_lucky"
+      ]
+    },
+    "54": {
+      "def": 1,
+      "mag": 1,
+      "ap": 1,
+      "max_magics": 1
+    },
+    "55": {
+      "str": 1,
+      "maxhp": 5
+    },
+    "56": {
+      "mag": 1,
+      "maxmp": 4,
+      "abilities": [
+        "kingdomkeys:ability_second_chance"
+      ]
+    },
+    "57": {
+      "str": 1,
+      "ap": 1
+    },
+    "58": {
+      "def": 1,
+      "mag": 1,
+      "items": [
+        {
+          "id": "kingdomkeys:shotlock_absolute_zero",
+          "count": 1
+        }
+      ]
+    },
+    "59": {
+      "str": 1
+    },
+    "60": {
+      "mag": 1,
+      "maxhp": 5,
+      "maxmp": 4,
+      "ap": 1,
+      "max_magics": 1
+    },
+    "61": {
+      "str": 1
+    },
+    "62": {
+      "def": 1,
+      "mag": 1
+    },
+    "63": {
+      "str": 1,
+      "ap": 1
+    },
+    "64": {
+      "mag": 1,
+      "maxmp": 4
+    },
+    "65": {
+      "str": 1,
+      "maxhp": 5,
+      "abilities": [
+        "kingdomkeys:ability_finishing_plus"
+      ],
+      "items": [
+        {
+          "id": "kingdomkeys:shotlock_sonic_shadow",
+          "count": 1
+        }
+      ]
+    },
+    "66": {
+      "def": 1,
+      "mag": 1,
+      "ap": 1
+    },
+    "67": {
+      "str": 1
+    },
+    "68": {
+      "mag": 1,
+      "maxmp": 4
+    },
+    "69": {
+      "str": 1,
+      "ap": 1,
+      "items": [
+        {
+          "id": "kingdomkeys:shotlock_prism_rain",
+          "count": 1
+        }
+      ]
+    },
+    "70": {
+      "def": 1,
+      "mag": 1,
+      "maxhp": 5
+    },
+    "71": {
+      "str": 1
+    },
+    "72": {
+      "mag": 1,
+      "maxmp": 4,
+      "ap": 1,
+      "abilities": [
+        "kingdomkeys:ability_jackpot"
+      ]
+    },
+    "73": {
+      "str": 1,
+      "abilities": [
+        "kingdomkeys:ability_negative_combo"
+      ]
+    },
+    "74": {
+      "def": 1,
+      "mag": 1
+    },
+    "75": {
+      "str": 1,
+      "maxhp": 5,
+      "ap": 1,
+      "abilities": [
+        "kingdomkeys:ability_combo_plus"
+      ],
+      "items": [
+        {
+          "id": "kingdomkeys:shotlock_bio_barrage",
+          "count": 1
+        }
+      ]
+    },
+    "76": {
+      "mag": 1,
+      "maxmp": 4
+    },
+    "77": {
+      "str": 1
+    },
+    "78": {
+      "def": 1,
+      "mag": 1,
+      "ap": 1
+    },
+    "79": {
+      "str": 1
+    },
+    "80": {
+      "mag": 1,
+      "maxhp": 5,
+      "maxmp": 4
+    },
+    "81": {
+      "str": 1,
+      "ap": 1
+    },
+    "82": {
+      "def": 1,
+      "mag": 1
+    },
+    "83": {
+      "str": 1
+    },
+    "84": {
+      "mag": 1,
+      "maxmp": 4,
+      "ap": 1,
+      "abilities": [
+        "kingdomkeys:ability_combo_plus"
+      ]
+    },
+    "85": {
+      "str": 1,
+      "maxhp": 5,
+      "items": [
+        {
+          "id": "kingdomkeys:shotlock_thunderstorm",
+          "count": 1
+        }
+      ]
+    },
+    "86": {
+      "def": 1,
+      "mag": 1
+    },
+    "87": {
+      "str": 1,
+      "ap": 1
+    },
+    "88": {
+      "mag": 1,
+      "maxmp": 4
+    },
+    "89": {
+      "str": 1
+    },
+    "90": {
+      "def": 1,
+      "mag": 1,
+      "maxhp": 5,
+      "ap": 1
+    },
+    "91": {
+      "str": 1
+    },
+    "92": {
+      "mag": 1,
+      "maxmp": 4
+    },
+    "93": {
+      "str": 1,
+      "ap": 1
+    },
+    "94": {
+      "def": 1,
+      "mag": 1
+    },
+    "95": {
+      "str": 1,
+      "maxhp": 5
+    },
+    "96": {
+      "mag": 1,
+      "maxmp": 4,
+      "ap": 1,
+      "abilities": [
+        "kingdomkeys:ability_combo_plus"
+      ]
+    },
+    "97": {
+      "str": 1
+    },
+    "98": {
+      "def": 1,
+      "mag": 1,
+      "items": [
+        {
+          "id": "kingdomkeys:shotlock_ultima_cannon",
+          "count": 1
+        },
+        {
+          "id": "kingdomkeys:shotlock_lightbloom",
+          "count": 1
+        },
+        {
+          "id": "kingdomkeys:shotlock_multivortex",
+          "count": 1
+        }
+      ]
+    },
+    "99": {
+      "str": 1,
+      "ap": 1
+    },
+    "100": {
+      "str": 10,
+      "def": 10,
+      "mag": 10,
+      "maxhp": 5,
+      "maxmp": 4
+    }
+  }
+}

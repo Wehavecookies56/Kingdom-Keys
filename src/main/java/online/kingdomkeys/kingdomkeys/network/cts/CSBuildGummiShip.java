@@ -6,7 +6,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -28,7 +27,7 @@ import java.util.stream.Collectors;
 
 public record CSBuildGummiShip(String name, int containerID) implements Packet {
 
-	public static final Type<CSBuildGummiShip> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_create_gummi_ship"));
+	public static final Type<CSBuildGummiShip> TYPE = new Type<>(KingdomKeys.rl("cs_create_gummi_ship"));
 
 	public static final StreamCodec<FriendlyByteBuf, CSBuildGummiShip> STREAM_CODEC = StreamCodec.composite(
 			ByteBufCodecs.STRING_UTF8,
@@ -45,6 +44,7 @@ public record CSBuildGummiShip(String name, int containerID) implements Packet {
 			return;
 
 		GummiHangarMenu container = (GummiHangarMenu) player.containerMenu;
+		container.TE.setBuilding(false);
 		BlockPos origin = container.TE.getBlockPos();
 		Level level = player.level();
 		BlockState hangar = level.getBlockState(origin);
@@ -77,10 +77,6 @@ public record CSBuildGummiShip(String name, int containerID) implements Packet {
         boolean zEven = Utils.isStructureEven(struct)[1];
 
 		switch (hangar.getValue(GummiHangarBlock.FACING)) {
-			default -> {
-				shipEntity.setPos(new Vec3(origin.getX()+0.5F+(xEven ? 0.5F : 0), origin.getY(), origin.getZ()+(size/2F)+(zEven ? 0.5F : 1)));
-				shipEntity.setYRot(0);
-			}
 			case SOUTH -> {
 				shipEntity.setPos(new Vec3(origin.getX()+(xEven ? 0F : 0.5F), origin.getY(), origin.getZ()-(size/2F)+(zEven ? 0.5F : 0)));
 				shipEntity.setYRot(180);
@@ -92,6 +88,10 @@ public record CSBuildGummiShip(String name, int containerID) implements Packet {
 			case WEST -> {
 				shipEntity.setPos(new Vec3(origin.getX()+(size/2F)+(zEven ? 0.5F : 1), origin.getY(), origin.getZ() + (xEven ? 0F : 0.5F)));
 				shipEntity.setYRot(270);
+			}
+			default -> {
+				shipEntity.setPos(new Vec3(origin.getX()+0.5F+(xEven ? 0.5F : 0), origin.getY(), origin.getZ()+(size/2F)+(zEven ? 0.5F : 1)));
+				shipEntity.setYRot(0);
 			}
 		}
 

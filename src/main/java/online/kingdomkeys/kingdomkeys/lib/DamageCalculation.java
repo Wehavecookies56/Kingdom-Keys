@@ -1,14 +1,15 @@
 package online.kingdomkeys.kingdomkeys.lib;
 
 import net.minecraft.core.RegistryAccess;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantments;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
+import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.KeychainItem;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
@@ -39,8 +40,8 @@ public class DamageCalculation {
             
             if(keyblade != null) {
 	            damage = (float) (keyblade.getMagic(stack) + playerData.getMagic(true));
-	            if(!playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())) {
-	            	DriveForm form = ModDriveForms.registry.get(ResourceLocation.parse(playerData.getActiveDriveForm()));
+	            if(!playerData.noFormActive()) {
+	            	DriveForm form = ModDriveForms.registry.get(playerData.getActiveDriveForm());
 	            	damage *= form.getMagMult();
 	            }
             }
@@ -82,6 +83,14 @@ public class DamageCalculation {
             	}
             } else {
                 finalDamage = playerData.getMagic(true);
+            }
+            if (player.hasEffect(ModMobEffects.SORCEROUS_WAKING)) {
+                MobEffectInstance buffInst = player.getEffect(ModMobEffects.SORCEROUS_WAKING);
+                int buff = 1;
+                if (buffInst != null) {
+                    buff = (buffInst.getAmplifier() + 1);
+                }
+                finalDamage += (3 * buff);
             }
             return finalDamage;
         } else {
@@ -137,8 +146,8 @@ public class DamageCalculation {
             if(keyblade != null) {
                 damage = (float) (keyblade.getStrength(stack) + playerData.getStrength(true));
 	
-	            if(!playerData.getActiveDriveForm().equals(DriveForm.NONE.toString())) {
-	            	DriveForm form = ModDriveForms.registry.get(ResourceLocation.parse(playerData.getActiveDriveForm()));
+	            if(!playerData.noFormActive()) {
+	            	DriveForm form = ModDriveForms.registry.get(playerData.getActiveDriveForm());
 	            	damage *= form.getStrMult();
 	            }
             }

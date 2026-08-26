@@ -1,0 +1,11 @@
+{
+  "cost": 1200,
+  "ingredient1": "kingdomkeys:spellthundara",
+  "ingredient2": "kingdomkeys:spellmagnera",
+  "output": {
+    "type": "item",
+    "item": "kingdomkeys:spellsparkra",
+    "quantity": 1
+  },
+  "tier": 3
+}

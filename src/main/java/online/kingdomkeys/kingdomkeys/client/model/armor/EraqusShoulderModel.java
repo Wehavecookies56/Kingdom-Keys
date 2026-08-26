@@ -7,14 +7,13 @@ import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.decoration.ArmorStand;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
 public class EraqusShoulderModel<T extends LivingEntity> extends HumanoidModel<T> {
 
-	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "eraqus_shoulder"), "main");
+	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(KingdomKeys.rl("eraqus_shoulder"), "main");
 
     public EraqusShoulderModel(ModelPart root) {
         super(root);

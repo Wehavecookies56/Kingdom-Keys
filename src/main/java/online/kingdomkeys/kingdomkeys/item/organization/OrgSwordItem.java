@@ -3,6 +3,7 @@ package online.kingdomkeys.kingdomkeys.item.organization;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SwordItem;
@@ -27,12 +28,12 @@ public abstract class OrgSwordItem extends SwordItem implements IOrgWeapon, IExt
 	}
     
     @Override
-	public void setAbilities(String[] abilities) {
+	public void setAbilities(ResourceLocation[] abilities) {
 		data.abilities = abilities;
 	}
     
     @Override
-	public String[] getAbilities() {
+	public ResourceLocation[] getAbilities() {
 		return data.getAbilities();
 	}
     

@@ -1,6 +1,8 @@
 package online.kingdomkeys.kingdomkeys.entity.shotlock;
 
-import net.minecraft.core.particles.DustParticleOptions;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -8,20 +10,28 @@ import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
+import online.kingdomkeys.kingdomkeys.damagesource.KKDamageTypes;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
-import org.joml.Vector3f;
-
-import java.awt.*;
 
 public class RagnarokShotEntity extends BaseShotlockShotEntity {
-	
+
+	private static final int FIRST_HOMING_TICK = 20;
+
+	private boolean applyPoison = false;
+
+	public void setApplyPoison(boolean applyPoison) {
+		this.applyPoison = applyPoison;
+	}
+
 	public RagnarokShotEntity(EntityType<? extends ThrowableProjectile> type, Level world) {
 		super(type, world);
 		this.blocksBuilding = true;
+		setTrailStartTick(FIRST_HOMING_TICK);
 	}
 
 	public RagnarokShotEntity(Level world, LivingEntity player, Entity target, double dmg) {
 		super(ModEntities.TYPE_RAGNAROK_SHOTLOCK_SHOT.get(), world, player, target, dmg);
+		setTrailStartTick(FIRST_HOMING_TICK);
 	}
 
 	@Override
@@ -31,8 +41,10 @@ public class RagnarokShotEntity extends BaseShotlockShotEntity {
 		}
 		
 		if(tickCount > 1) {
-			Color color = new Color(getColor());
-			level().addParticle(new DustParticleOptions(new Vector3f(color.getRed()/255F, color.getGreen()/255F, color.getBlue()/255F), 1F), getX(), getY(), getZ(), 1,1,1);
+			if (KKDamageTypes.FIRE.equals(getElement())) {
+				level().addParticle(ParticleTypes.FLAME, getX(), getY(), getZ(), 0, 0.01, 0);
+				level().addParticle(ParticleTypes.SMOKE, getX(), getY(), getZ(), 0, 0.02, 0);
+			}
 		}
 
 		if(tickCount % 10 == 0 && tickCount - 10 >= 6) {
@@ -40,6 +52,7 @@ public class RagnarokShotEntity extends BaseShotlockShotEntity {
 		}
 		
 		super.tick();
+		applySpiralWobble();
 	}
 
 	private void updateMovement() {
@@ -62,7 +75,12 @@ public class RagnarokShotEntity extends BaseShotlockShotEntity {
 				if (ertResult.getEntity() instanceof LivingEntity target) {
 					if (target != getOwner()) {
 						target.invulnerableTime = 0;
-						target.hurt(target.damageSources().thrown(this, this.getOwner()), dmg);
+						target.hurt(buildDamageSource(target), dmg);
+
+						if (applyPoison) {
+							target.addEffect(new MobEffectInstance(MobEffects.POISON, 100, 0, false, true, true));
+						}
+
 						super.remove(RemovalReason.KILLED);
 					}
 				}

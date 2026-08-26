@@ -1,0 +1,17 @@
+[
+  {
+    "names": "kingdomkeys:special"
+  },
+  {
+    "amount": 1,
+    "cost": 10111,
+    "item": "kingdomkeys:k111c",
+    "tier": 1
+  },
+  {
+    "amount": 1,
+    "cost": 9001,
+    "item": "kingdomkeys:retribution_chain",
+    "tier": 1
+  }
+]

@@ -15,10 +15,9 @@ import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.HitResult;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
-import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.drops.ItemDropEntity;
-import online.kingdomkeys.kingdomkeys.lib.Party;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.util.*;
 
@@ -31,14 +30,11 @@ public class LaserCircleCoreEntity extends ThrowableProjectile {
 	float dmg;
 
 	float radius = 4;
-	int space;
-	int shotsPerTick;
 
 	public LaserCircleCoreEntity(EntityType<? extends ThrowableProjectile> type, Level world) {
 		super(type, world);
 		this.blocksBuilding = true;
 	}
-
 
 	public LaserCircleCoreEntity(Level world, Player player, LivingEntity target, float dmg) {
 		super(ModEntities.TYPE_LASER_CIRCLE.get(), player, world);
@@ -57,8 +53,6 @@ public class LaserCircleCoreEntity extends ThrowableProjectile {
 		if (this.tickCount > maxTicks || getCaster() == null) {
 			this.remove(RemovalReason.KILLED);
 		}
-
-		//level.addParticle(ParticleTypes.BUBBLE, getX(), getY(), getZ(), 0, 0, 0);
 
 		double X = getX();
 		double Y = getY();
@@ -112,15 +106,7 @@ public class LaserCircleCoreEntity extends ThrowableProjectile {
 
 	private void updateList() {
 		List<Entity> tempList = level().getEntities(getCaster(), getBoundingBox().inflate(radius, radius, radius));
-		Party casterParty = WorldData.get(level().getServer()).getPartyFromMember(getCaster().getUUID());
-
-		if(casterParty != null && !casterParty.getFriendlyFire()) {
-			for (Party.Member m : casterParty.getMembers()) {
-				tempList.remove(level().getPlayerByUUID(m.getUUID()));
-			}
-		} else {
-			tempList.remove(getOwner());
-		}
+		Utils.removeAllies(getCaster(), tempList);
 
 		targetList.clear();
 		for (Entity t : tempList) {
@@ -180,7 +166,7 @@ public class LaserCircleCoreEntity extends ThrowableProjectile {
 
 	@Override
 	protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
-		pBuilder.define(OWNER, Optional.of(new UUID(0L, 0L)));
-		pBuilder.define(TARGET, Optional.of(new UUID(0L, 0L)));
+		pBuilder.define(OWNER, Optional.empty());
+		pBuilder.define(TARGET, Optional.empty());
 	}
 }

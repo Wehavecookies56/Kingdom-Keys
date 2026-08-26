@@ -1,14 +1,13 @@
 package online.kingdomkeys.kingdomkeys.entity.shotlock;
 
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.syncher.EntityDataAccessor;
-import net.minecraft.network.syncher.EntityDataSerializers;
-import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.HitResult;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
@@ -16,31 +15,53 @@ import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 
-public class RagnarokCoreEntity extends ThrowableProjectile {
+public class RagnarokCoreEntity extends BaseShotlockCoreEntity {
 
-	int maxTicks = 100;
-	List<RagnarokShotEntity> list = new ArrayList<RagnarokShotEntity>();
-	List<Entity> targetList = new ArrayList<Entity>();
-	float dmg;
+	// Last tick of the outward spread - past this the core is only waiting on its bullets
+	private static final int EXPAND_END_TICK = 10;
+
+	List<RagnarokShotEntity> list = new ArrayList<>();
+	private int shotColor = 16757273;
+	private ResourceKey<DamageType> element = null;
+	private ItemStack visualItem = ItemStack.EMPTY;
+	private boolean applyPoison = false;
+
+	public void setApplyPoison(boolean applyPoison) {
+		this.applyPoison = applyPoison;
+		this.shotStyle.applyPoison = applyPoison;
+	}
+
+	public void setShotColor(int color) {
+		this.shotColor = color;
+		this.shotStyle.colour = color;
+	}
+
+	public void setElement(ResourceKey<DamageType> element) {
+		this.element = element;
+		this.shotStyle.element = element;
+	}
+
+	public void setVisualItem(ItemStack stack) {
+		this.visualItem = stack;
+		this.shotStyle.visualItem = stack == null ? ItemStack.EMPTY : stack;
+	}
 
 	public RagnarokCoreEntity(EntityType<? extends ThrowableProjectile> type, Level world) {
 		super(type, world);
-		this.blocksBuilding = true;
+		this.maxTicks = 100;
+		this.shotStyle.colour = shotColor;
 	}
 
 	public RagnarokCoreEntity(Level world, Player player, List<Entity> targets, float dmg) {
-		super(ModEntities.TYPE_SHOTLOCK_CIRCULAR.get(), player, world);
-		setCaster(player.getUUID());
-		String targetIDS = "";
-		for(Entity t : targets) {
-			targetIDS+=","+t.getId();
-		}
-		setTarget(targetIDS.substring(1));
-		this.targetList = targets;
-		this.dmg = dmg;
+		super(ModEntities.TYPE_SHOTLOCK_CIRCULAR.get(), world, player, targets, dmg);
+		this.maxTicks = 100;
+		this.shotStyle.colour = shotColor;
+	}
+
+	@Override
+	public boolean launchesCaster() {
+		return true;
 	}
 
 	@Override
@@ -50,7 +71,8 @@ public class RagnarokCoreEntity extends ThrowableProjectile {
 
 	@Override
 	public void tick() {
-		if (this.tickCount > maxTicks || getCaster() == null) {
+		if (isExpired()) {
+			dropCaster();
 			this.remove(RemovalReason.KILLED);
 		}
 
@@ -59,13 +81,19 @@ public class RagnarokCoreEntity extends ThrowableProjectile {
 		double Z = getZ();
 		
 		if (getCaster() != null && getTargets() != null) {
+			holdCasterAirborne();
+
 			if (tickCount == 1) {
+				launchCasterUpwards();
 				level().playSound(null, this.blockPosition(), ModSounds.laser.get(), SoundSource.PLAYERS, 1, 1);
 				for(int i = 0; i< getTargets().size();i++) {
 					Entity target = getTargets().get(i);
 					if(target != null) {
 						RagnarokShotEntity bullet = new RagnarokShotEntity(level(), getCaster(), target, dmg);
-						bullet.setColor(16757273);
+						bullet.setColor(shotColor);
+						bullet.setElement(element);
+						bullet.setVisualItem(visualItem);
+						bullet.setApplyPoison(applyPoison);
 						float r = 0.3F;
 						double offset_amount = -1.5;
 						double alpha = Math.toRadians(getCaster().getYRot());
@@ -93,10 +121,18 @@ public class RagnarokCoreEntity extends ThrowableProjectile {
 					double y = Y + r * ((Math.cos(alpha) * Math.sin(posI * theta)) * Math.cos(alpha) + Math.sin(alpha) * Math.sin(posI * theta) * Math.sin(alpha));
 					double z = Z - offset_amount * Math.cos(alpha) + r * (-Math.cos(alpha) * Math.sin(alpha) * (1 - Math.cos(posI * theta)) * Math.cos(alpha) + (Math.cos(posI * theta) + Math.cos(alpha) * Math.cos(alpha) * (1 - Math.cos(posI * theta))) * Math.sin(alpha));
 
-					bullet.setPos(x,y,z);		
+					bullet.setPos(x,y,z);
 				}
 			}
 		}
+
+		// The whole volley goes out on tick 1 and finishes spreading by tick 10, after which this
+		// core has nothing left to do - without this it would sit here until maxTicks doing nothing.
+		if (tickCount > EXPAND_END_TICK && !hasLiveShots(list)) {
+			dropCaster();
+			this.remove(RemovalReason.KILLED);
+		}
+
 		super.tick();
 	}
 
@@ -105,61 +141,4 @@ public class RagnarokCoreEntity extends ThrowableProjectile {
 
 	}
 
-	public int getMaxTicks() {
-		return maxTicks;
-	}
-
-	public void setMaxTicks(int maxTicks) {
-		this.maxTicks = maxTicks;
-	}
-
-	@Override
-	public void addAdditionalSaveData(CompoundTag compound) {
-		super.addAdditionalSaveData(compound);
-		if (this.entityData.get(OWNER).isPresent()) {
-			compound.putString("OwnerUUID", this.entityData.get(OWNER).get().toString());
-			compound.putString("TargetsUUID", this.entityData.get(TARGETS));
-		}
-	}
-
-	@Override
-	public void readAdditionalSaveData(CompoundTag compound) {
-		super.readAdditionalSaveData(compound);
-		this.entityData.set(OWNER, Optional.of(UUID.fromString(compound.getString("OwnerUUID"))));
-		this.entityData.set(TARGETS, compound.getString("TargetUUID"));
-	}
-
-	private static final EntityDataAccessor<Optional<UUID>> OWNER = SynchedEntityData.defineId(RagnarokCoreEntity.class, EntityDataSerializers.OPTIONAL_UUID);
-	private static final EntityDataAccessor<String> TARGETS = SynchedEntityData.defineId(RagnarokCoreEntity.class, EntityDataSerializers.STRING);
-
-	public Player getCaster() {
-		return this.getEntityData().get(OWNER).isPresent() ? this.level().getPlayerByUUID(this.getEntityData().get(OWNER).get()) : null;
-	}
-
-	public void setCaster(UUID uuid) {
-		this.entityData.set(OWNER, Optional.of(uuid));
-	}
-
-	public List<Entity> getTargets() {
-		List<Entity> list = new ArrayList<Entity>();
-		String[] ids = this.getEntityData().get(TARGETS).split(",");
-		
-		for(String id : ids) {
-		
-			if(!id.equals(""))
-				list.add(level().getEntity(Integer.parseInt(id)));
-		}
-		return list;
-	}
-
-	public void setTarget(String lists) {
-		this.entityData.set(TARGETS, lists);
-	}
-
-
-	@Override
-	protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
-		pBuilder.define(OWNER, Optional.of(new UUID(0L, 0L)));
-		pBuilder.define(TARGETS, "");
-	}
 }

@@ -23,7 +23,7 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.util.List;
 
-public class GummiPhoneItem extends Item implements IItemCategory {
+public class GummiPhoneItem extends Item implements IItemCategory, ICreativeTab {
 	public GummiPhoneItem(Properties properties) {
 		super(properties);
 	}
@@ -77,23 +77,23 @@ public class GummiPhoneItem extends Item implements IItemCategory {
 	public void appendHoverText(ItemStack stack, TooltipContext pContext, List<Component> tooltip, TooltipFlag pTooltipFlag) {
 		if (stack.has(ModComponents.GUMMI_STRUCTURE)) {
 			GummiStructure structure = stack.get(ModComponents.GUMMI_STRUCTURE);
-			tooltip.add(Component.translatable(ChatFormatting.GRAY+"Call Gummi Ship: ").append(ChatFormatting.RED+structure.getName()));
-            tooltip.add(Component.translatable(ChatFormatting.GRAY+"Health: ").append(ChatFormatting.GRAY+""+(Utils.getShipStats(structure).armour() - stack.get(ModComponents.GUMMI_DAMAGE).intValue()+"/"+Utils.getShipStats(structure).armour())));
-            tooltip.add(Component.translatable(ChatFormatting.GRAY+"Fuel: ").append(ChatFormatting.GRAY+""+stack.get(ModComponents.GUMMI_FUEL)));
+			tooltip.add(Component.translatable("kingdomkeys.gummi.phone.call_ship").withStyle(ChatFormatting.GRAY).append(ChatFormatting.RED+structure.getName()));
+            tooltip.add(Component.translatable("kingdomkeys.gummi.phone.health").withStyle(ChatFormatting.GRAY).append(ChatFormatting.GRAY+""+(Utils.getShipStats(structure).armour() - stack.get(ModComponents.GUMMI_DAMAGE).intValue()+"/"+Utils.getShipStats(structure).armour())));
+            tooltip.add(Component.translatable("kingdomkeys.gummi.phone.fuel").withStyle(ChatFormatting.GRAY).append(ChatFormatting.GRAY+""+stack.get(ModComponents.GUMMI_FUEL)));
 		} else {
-			tooltip.add(Component.translatable(ChatFormatting.GRAY+"No Gummi Ship stored"));
-			tooltip.add(Component.translatable(ChatFormatting.GRAY+"Sneak + left click on your Gummi Ship to store it"));
+			tooltip.add(Component.translatable("kingdomkeys.gummi.phone.no_ship").withStyle(ChatFormatting.GRAY));
+			tooltip.add(Component.translatable("kingdomkeys.gummi.phone.store_hint").withStyle(ChatFormatting.GRAY));
 		}
 		super.appendHoverText(stack, pContext, tooltip, pTooltipFlag);
 	}
-	
-	/*@Override
-	public void inventoryTick(ItemStack itemStack, Level world, Entity entity, int itemSlot, boolean isSelected) {
-
-	}*/
 
 	@Override
 	public ItemCategory getCategory() {
 		return ItemCategory.MISC;
+	}
+
+	@Override
+	public ICreativeTab.Tab getTab() {
+		return Tab.GUMMI;
 	}
 }

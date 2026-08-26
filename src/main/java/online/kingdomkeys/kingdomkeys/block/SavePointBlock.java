@@ -22,8 +22,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityTicker;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
@@ -190,7 +188,7 @@ public class SavePointBlock extends BaseBlock implements EntityBlock, INoDataGen
 		SavePointData data = getSavePointData(state);
 
 		if (data == null) {
-			player.displayClientMessage(Component.literal("Savepoint data not loaded"), true);
+			player.displayClientMessage(Component.translatable("kingdomkeys.save_point.data_not_loaded"), true);
 			return ItemInteractionResult.FAIL;
 		}
 
@@ -208,7 +206,7 @@ public class SavePointBlock extends BaseBlock implements EntityBlock, INoDataGen
 			}
 		}
 
-		player.displayClientMessage(Component.translatable("This item cannot be used to upgrade anything"), true);
+		player.displayClientMessage(Component.translatable("kingdomkeys.save_point.cannot_upgrade"), true);
 		return ItemInteractionResult.CONSUME;
 	}
 
@@ -329,13 +327,13 @@ public class SavePointBlock extends BaseBlock implements EntityBlock, INoDataGen
 		SavePoint savePoint = getSavePoint(state.getValue(TIER));
 
 		if (savePoint == null || savePoint.getData() == null) {
-			player.displayClientMessage(Component.literal("Savepoint data not loaded"), true);
+			player.displayClientMessage(Component.translatable("kingdomkeys.save_point.data_not_loaded"), true);
 			return;
 		}
 
 		SavePointData data = savePoint.getData();
 		if (hasInvalidValues(savepoint)) {
-			player.displayClientMessage(Component.translatable("ERROR, this is probably an old savepoint, break and place it again to correct it"), true);
+			player.displayClientMessage(Component.translatable("kingdomkeys.save_point.old_savepoint"), true);
 			return;
 		}
 
@@ -417,7 +415,7 @@ public class SavePointBlock extends BaseBlock implements EntityBlock, INoDataGen
 				if (playerData.getDP() >= playerData.getMaxDP())
 					return false;
 
-				playerData.addDP(5);
+				playerData.addDP(player,5);
 				PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
 				return true;
 			}
@@ -437,11 +435,6 @@ public class SavePointBlock extends BaseBlock implements EntityBlock, INoDataGen
 		world.addParticle(ParticleTypes.HAPPY_VILLAGER, pos.getX() + 0.5, pos.getY() + 2.5, pos.getZ() + 0.2, 0.0D, 0.0D, 0.0D);
 		world.addParticle(ParticleTypes.HAPPY_VILLAGER, pos.getX() + 0.8, pos.getY() + 2.5, pos.getZ() + 0.5, 0.0D, 0.0D, 0.0D);
 		world.addParticle(ParticleTypes.HAPPY_VILLAGER, pos.getX() + 0.5, pos.getY() + 2.5, pos.getZ() + 0.8, 0.0D, 0.0D, 0.0D);
-	}
-
-	@Override
-	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-		return type == ModEntities.TYPE_SAVEPOINT.get() ? SavepointTileEntity::tick : null;
 	}
 	
 	@Nullable

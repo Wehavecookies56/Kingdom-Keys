@@ -2,10 +2,6 @@
   "cost": 0,
   "ingredients": [
     {
-      "material": "kingdomkeys:hungry_stone",
-      "quantity": "1"
-    },
-    {
       "material": "kingdomkeys:twilight_crystal",
       "quantity": "1"
     },

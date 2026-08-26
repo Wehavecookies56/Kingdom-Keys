@@ -1,0 +1,10 @@
+{
+  "categories": [
+    "SPECIAL"
+  ],
+  "size": "SPECIAL",
+  "structure": "conquerors_respite",
+  "white_list": [
+    "kingdomkeys:conquerors_respite"
+  ]
+}

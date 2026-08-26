@@ -1,0 +1,11 @@
+{
+  "cooldown": 13,
+  "cooldown_max": 8,
+  "dmg_mult": 3.2,
+  "dmg_mult_max": 3.84,
+  "element": "lightning",
+  "max": 5,
+  "max_exp": 6400,
+  "max_level": 4,
+  "minigame": "timing"
+}

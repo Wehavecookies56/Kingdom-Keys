@@ -4,7 +4,6 @@ import com.mojang.datafixers.util.Pair;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
 import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
@@ -19,7 +18,7 @@ import java.util.UUID;
 
 public record SCUpdateSavePoints(Map<UUID, Pair<SavePointStorage.SavePoint, Instant>> savePoints) implements Packet {
 
-    public static final Type<SCUpdateSavePoints> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "sc_update_save_points"));
+    public static final Type<SCUpdateSavePoints> TYPE = new Type<>(KingdomKeys.rl("sc_update_save_points"));
 
     public static final StreamCodec<FriendlyByteBuf, SCUpdateSavePoints> STREAM_CODEC = StreamCodec.composite(
             StreamCodecs.SAVE_POINTS,

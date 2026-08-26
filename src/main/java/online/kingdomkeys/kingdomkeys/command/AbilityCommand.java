@@ -40,11 +40,14 @@ public class AbilityCommand extends BaseCommand { // kingdomkeys ability <give/t
 
 		builder.then(Commands.literal("give")
 			.then(Commands.argument("ability", StringArgumentType.string()).suggests(SUGGEST_ABILITIES)
+				.executes(AbilityCommand::addAbility)
 				.then(Commands.argument("permanent", BoolArgumentType.bool())
 					.executes(AbilityCommand::addAbility)
 					.then(Commands.argument("targets", EntityArgument.players())
 						.executes(AbilityCommand::addAbility))
 				)
+				.then(Commands.argument("targets", EntityArgument.players())
+					.executes(AbilityCommand::addAbility))
 			)
 		);
 
@@ -65,27 +68,27 @@ public class AbilityCommand extends BaseCommand { // kingdomkeys ability <give/t
 	}
 
 	private static int addAbility(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
-		Collection<ServerPlayer> players = getPlayers(context, 5);
+		Collection<ServerPlayer> players = getPlayers(context);
 		String abilityName = StringArgumentType.getString(context, "ability");
-		boolean permanent = BoolArgumentType.getBool(context, "permanent");
+		boolean permanent = !hasArgument(context, "permanent") || BoolArgumentType.getBool(context, "permanent");
 
-		Ability a = ModAbilities.registry.get(ResourceLocation.parse(abilityName));
+		Ability a = ModAbilities.registry.get(KingdomKeys.rl(abilityName));
 		if(a == null) {
-			context.getSource().sendFailure(Component.literal("Ability '"+abilityName+ "' does not exist"));
+			context.getSource().sendFailure(Component.translatable("kingdomkeys.command.ability.unknown", abilityName));
 			return 0;
 		}
 
 		for (ServerPlayer player : players) {
 			PlayerData playerData = PlayerData.get(player);
 			if (permanent) {
-				playerData.addPAbility(abilityName);
-				player.sendSystemMessage(Component.translatable("You have been given the ability '" + Utils.translateToLocal(a.getTranslationKey()) + "' permanently"));
+				playerData.addPAbility(a.getRegistryName());
+				player.sendSystemMessage(Component.translatable("kingdomkeys.command.ability.given_permanent_self", Utils.translateToLocal(a.getTranslationKey())));
 			} else {
-				playerData.addAbility(abilityName, true);
-				player.sendSystemMessage(Component.translatable("You have been given the ability '" + Utils.translateToLocal(a.getTranslationKey()) + "'"));
+				playerData.addAbility(a.getRegistryName(), true);
+				player.sendSystemMessage(Component.translatable("kingdomkeys.command.ability.given_self", Utils.translateToLocal(a.getTranslationKey())));
 			}
 			if (player != context.getSource().getPlayerOrException()) {
-				context.getSource().sendSuccess(() -> Component.translatable("Added '" + Utils.translateToLocal(a.getTranslationKey()) + "' ability to " + player.getDisplayName().getString()), true);
+				context.getSource().sendSuccess(() -> Component.translatable("kingdomkeys.command.ability.given", Utils.translateToLocal(a.getTranslationKey()), player.getDisplayName().getString()), true);
 			}
 			PacketHandler.sendTo(new SCSyncPlayerData(player), player);
 		}
@@ -93,35 +96,35 @@ public class AbilityCommand extends BaseCommand { // kingdomkeys ability <give/t
 	}
 
 	private static int removeAbility(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
-		Collection<ServerPlayer> players = getPlayers(context, 4);
+		Collection<ServerPlayer> players = getPlayers(context);
 		String ability = StringArgumentType.getString(context, "ability");
 
 		for (ServerPlayer player : players) {
 			PlayerData playerData = PlayerData.get(player);
-			playerData.removePAbility(ability);
-			playerData.removeAbility(ability);
+			playerData.removePAbility(KingdomKeys.rl(ability));
+			playerData.removeAbility(KingdomKeys.rl(ability));
 
 			if (player != context.getSource().getPlayerOrException()) {
-				context.getSource().sendSuccess(() -> Component.translatable("Removed ability '" + Utils.translateToLocal(ability) + "' from " + player.getDisplayName().getString()), true);
+				context.getSource().sendSuccess(() -> Component.translatable("kingdomkeys.command.ability.removed", Utils.translateToLocal(ability), player.getDisplayName().getString()), true);
 			}
-			Ability a = ModAbilities.registry.get(ResourceLocation.parse(ability));
-			player.sendSystemMessage(Component.translatable("Your ability '" + Utils.translateToLocal(a.getTranslationKey()) + "' has been taken away"));
+			Ability a = ModAbilities.registry.get(KingdomKeys.rl(ability));
+			player.sendSystemMessage(Component.translatable("kingdomkeys.command.ability.removed_self", Utils.translateToLocal(a.getTranslationKey())));
 			PacketHandler.sendTo(new SCSyncPlayerData(player), player);
 		}
 		return 1;
 	}
 
 	private static int removeAllAbilities(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
-		Collection<ServerPlayer> players = getPlayers(context, 4);
+		Collection<ServerPlayer> players = getPlayers(context);
 
 		for (ServerPlayer player : players) {
 			PlayerData playerData = PlayerData.get(player);
 			playerData.clearAbilities();
 
 			if (player != context.getSource().getPlayerOrException()) {
-				context.getSource().sendSuccess(() -> Component.translatable("Removed all abilities from " + player.getDisplayName().getString()), true);
+				context.getSource().sendSuccess(() -> Component.translatable("kingdomkeys.command.ability.taken_all", player.getDisplayName().getString()), true);
 			}
-			player.sendSystemMessage(Component.translatable("Your abilities have been taken away"));
+			player.sendSystemMessage(Component.translatable("kingdomkeys.command.ability.taken_all_self"));
 			PacketHandler.sendTo(new SCSyncPlayerData(player), player);
 		}
 		return 1;

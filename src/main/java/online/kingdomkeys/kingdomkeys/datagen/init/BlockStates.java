@@ -7,10 +7,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.properties.Half;
-import net.neoforged.neoforge.client.model.generators.BlockStateProvider;
-import net.neoforged.neoforge.client.model.generators.ConfiguredModel;
-import net.neoforged.neoforge.client.model.generators.ModelFile;
-import net.neoforged.neoforge.client.model.generators.ModelProvider;
+import net.neoforged.neoforge.client.model.generators.*;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
@@ -58,32 +55,32 @@ public class BlockStates extends BlockStateProvider {
                 tier = "";
             }
 			String path = "block/gummi/" + finalBlockName;
-			if (block instanceof GummiCockpitBlock) {
+			if (block instanceof GummiCockpitBlock cockpit) {
 				getVariantBuilder(block).forAllStates(blockState -> {
 					ConfiguredModel.Builder<?> builder = ConfiguredModel.builder();
-					Direction facing = blockState.getValue(GummiCockpitBlock.HORIZONTAL_FACING);
-
-					builder.modelFile(new ModelFile.ExistingModelFile(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, path), models().existingFileHelper));
-
-					int y = switch (facing) {
-						case DOWN, UP, SOUTH -> 270;
-						case NORTH -> 90;
-						case EAST -> 180;
-						case WEST -> 0;
-					};
-					builder.rotationY(y);
+					builder.modelFile(new ModelFile.ExistingModelFile(KingdomKeys.rl(path), models().existingFileHelper));
+					if (cockpit.getPlacementType() == GummiPlacementType.MULTIBLOCK3D) {
+						Direction facing = blockState.getValue(GummiCockpitBlock.HORIZONTAL_FACING);
+						int y = switch (facing) {
+							case DOWN, UP, SOUTH -> 270;
+							case NORTH -> 90;
+							case EAST -> 180;
+							case WEST -> 0;
+						};
+						builder.rotationY(y);
+					}
 					return builder.build();
 				});
 			} else if (block instanceof GummiBlockBase gummiBlockBase) {
 				if (gummiBlockBase.getPlacementType() == GummiPlacementType.STANDARD) {
-					simpleBlock(block, new ModelFile.UncheckedModelFile(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "block/" + name)));
+					simpleBlock(block, new ModelFile.UncheckedModelFile(KingdomKeys.rl("block/" + name)));
 				} else if (gummiBlockBase.getPlacementType() == GummiPlacementType.EDGE || gummiBlockBase.getPlacementType() == GummiPlacementType.MULTIBLOCK2D) {
 					getVariantBuilder(block).forAllStates(blockState -> {
 						ConfiguredModel.Builder<?> builder = ConfiguredModel.builder();
 						Quarter quarter = blockState.getValue(GummiBlockBase.QUARTER);
 						Direction facing = blockState.getValue(GummiBlockBase.HORIZONTAL_FACING);
 
-						builder.modelFile(new ModelFile.ExistingModelFile(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, path), models().existingFileHelper));
+						builder.modelFile(new ModelFile.ExistingModelFile(KingdomKeys.rl(path), models().existingFileHelper));
 
 						int x = switch (quarter) {
 							case TOP -> 180;
@@ -110,7 +107,7 @@ public class BlockStates extends BlockStateProvider {
 						int x = half == Half.TOP ? 180 : 0;
 						int y = 0;
 						if (finalBlockName.equals(tier + "gummi_pyramid")) {
-							builder.modelFile(new ModelFile.ExistingModelFile(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, path), models().existingFileHelper));
+							builder.modelFile(new ModelFile.ExistingModelFile(KingdomKeys.rl(path), models().existingFileHelper));
 							y = half == Half.TOP ?
 									switch (corner) {
 										case CORNER1 -> 0;
@@ -124,8 +121,8 @@ public class BlockStates extends BlockStateProvider {
 										case CORNER3 -> 270;
 										case CORNER4 -> 0;
 									};
-						} else if (finalBlockName.equals(tier + "gummi_round_corner")) {
-							builder.modelFile(new ModelFile.ExistingModelFile(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, path), models().existingFileHelper));
+						} else if (finalBlockName.equals(tier + "gummi_round_corner") || finalBlockName.equals(tier + "gummi_inner_corner")) {
+							builder.modelFile(new ModelFile.ExistingModelFile(KingdomKeys.rl(path), models().existingFileHelper));
 							y = half == Half.TOP ?
 									switch (corner) {
 										case CORNER1 -> 180;
@@ -150,7 +147,7 @@ public class BlockStates extends BlockStateProvider {
 						ConfiguredModel.Builder<?> builder = ConfiguredModel.builder();
 						Direction.Axis facing = blockState.getValue(GummiBlockBase.AXIS);
 
-						builder.modelFile(new ModelFile.ExistingModelFile(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, path), models().existingFileHelper));
+						builder.modelFile(new ModelFile.ExistingModelFile(KingdomKeys.rl(path), models().existingFileHelper));
 
 						int x = switch (facing) {
 							case X -> 90;
@@ -172,7 +169,7 @@ public class BlockStates extends BlockStateProvider {
 						ConfiguredModel.Builder<?> builder = ConfiguredModel.builder();
 						Direction facing = blockState.getValue(GummiBlockBase.FACING);
 
-						builder.modelFile(new ModelFile.ExistingModelFile(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, path), models().existingFileHelper));
+						builder.modelFile(new ModelFile.ExistingModelFile(KingdomKeys.rl(path), models().existingFileHelper));
 						int x = switch (facing) {
 							case DOWN -> 180;
 							case UP -> 0;
@@ -201,7 +198,7 @@ public class BlockStates extends BlockStateProvider {
 					String modelName = active ? name + "_visible" : name + "_invisible";
 					ConfiguredModel.Builder<?> builder = ConfiguredModel.builder();
 
-					ModelFile blockModel = models().withExistingParent(modelName, ResourceLocation.withDefaultNamespace("block/cube_all")).texture("all", ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "block/" + modelName));
+					ModelFile blockModel = models().withExistingParent(modelName, ResourceLocation.withDefaultNamespace("block/cube_all")).texture("all", KingdomKeys.rl("block/" + modelName));
 
 					builder.modelFile(blockModel);
 
@@ -217,7 +214,7 @@ public class BlockStates extends BlockStateProvider {
 					String modelName = name + "_" + pairState;
 					ConfiguredModel.Builder<?> builder = ConfiguredModel.builder();
 
-					ModelFile blockModel = models().withExistingParent(modelName, ResourceLocation.withDefaultNamespace("block/cube_all")).texture("all", ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "block/" + modelName));
+					ModelFile blockModel = models().withExistingParent(modelName, ResourceLocation.withDefaultNamespace("block/cube_all")).texture("all", KingdomKeys.rl("block/" + modelName));
 
 					builder.modelFile(blockModel);
 
@@ -227,18 +224,72 @@ public class BlockStates extends BlockStateProvider {
 
 					return builder.build();
 				});
+			} else if (block instanceof StruggleBoardBlock board) {
+				struggleBoard(board, name);
+			} else if (block instanceof FlowmotionRailBlock rail) {
+				flowmotionRail(rail, name);
 			} else if (block instanceof INoDataGen) {
 				// Skip
 				System.out.println("Skipping: "+block.getName());
 			} else if (block instanceof KKOreBlock && name.endsWith("_n")) {
 				simpleNetherOre(itemRegistryObject);
 			} else if (block instanceof GummiBlockBase || name.contains("gummi_meteor")) {
-				simpleBlock(block, new ModelFile.UncheckedModelFile(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "block/"+name)));
+				simpleBlock(block, new ModelFile.UncheckedModelFile(KingdomKeys.rl("block/" + name)));
 			} else {
 				simpleBlock(itemRegistryObject);
 			}
 		}
 
+	}
+
+	/** A panel two pixels thick hung on a wall, turned to whichever way it was put up */
+	private void struggleBoard(StruggleBoardBlock board, String name) {
+		ResourceLocation texture = KingdomKeys.rl(ModelProvider.BLOCK_FOLDER + "/" + name);
+		BlockModelBuilder model = models().withExistingParent(name, mcLoc("block/block"))
+				.texture("board", texture)
+				.texture("particle", texture)
+				.element()
+					.from(0, 0, 14).to(16, 16, 16)
+					.face(Direction.NORTH).texture("#board").uvs(0, 0, 16, 16).end()
+					.face(Direction.SOUTH).texture("#board").uvs(0, 0, 16, 16).end()
+					.face(Direction.UP).texture("#board").uvs(0, 0, 16, 2).end()
+					.face(Direction.DOWN).texture("#board").uvs(0, 14, 16, 16).end()
+					.face(Direction.WEST).texture("#board").uvs(0, 0, 2, 16).end()
+					.face(Direction.EAST).texture("#board").uvs(14, 0, 16, 16).end()
+				.end();
+
+		getVariantBuilder(board).forAllStates(state -> ConfiguredModel.builder()
+				.modelFile(model)
+				.rotationY((int) state.getValue(StruggleBoardBlock.FACING).getOpposite().toYRot())
+				.build());
+
+		simpleBlockItem(board, model);
+	}
+
+	private void flowmotionRail(FlowmotionRailBlock rail, String name) {
+		// One grayscale pair of textures for the lot; the colour comes from the tint on the model
+		ResourceLocation flat = KingdomKeys.rl(ModelProvider.BLOCK_FOLDER + "/flowmotion_rail");
+		ResourceLocation turned = KingdomKeys.rl(ModelProvider.BLOCK_FOLDER + "/flowmotion_rail_turned");
+
+		ModelFile straight = models().withExistingParent(name, KingdomKeys.rl("block/tinted_rail_flat")).texture("rail", flat).renderType("minecraft:cutout");
+		ModelFile curved = models().withExistingParent(name + "_curved", KingdomKeys.rl("block/tinted_rail_curved")).texture("rail", turned).renderType("minecraft:cutout");
+		ModelFile raised = models().withExistingParent(name + "_raised_ne", KingdomKeys.rl("block/tinted_rail_raised_ne")).texture("rail", flat).renderType("minecraft:cutout");
+		ModelFile raisedSw = models().withExistingParent(name + "_raised_sw", KingdomKeys.rl("block/tinted_rail_raised_sw")).texture("rail", flat).renderType("minecraft:cutout");
+
+		getVariantBuilder(rail).forAllStates(state -> switch (state.getValue(rail.getShapeProperty())) {
+			case NORTH_SOUTH -> ConfiguredModel.builder().modelFile(straight).build();
+			case EAST_WEST -> ConfiguredModel.builder().modelFile(straight).rotationY(90).build();
+			case ASCENDING_EAST -> ConfiguredModel.builder().modelFile(raised).rotationY(90).build();
+			case ASCENDING_WEST -> ConfiguredModel.builder().modelFile(raisedSw).rotationY(90).build();
+			case ASCENDING_NORTH -> ConfiguredModel.builder().modelFile(raised).build();
+			case ASCENDING_SOUTH -> ConfiguredModel.builder().modelFile(raisedSw).build();
+			case SOUTH_EAST -> ConfiguredModel.builder().modelFile(curved).build();
+			case SOUTH_WEST -> ConfiguredModel.builder().modelFile(curved).rotationY(90).build();
+			case NORTH_WEST -> ConfiguredModel.builder().modelFile(curved).rotationY(180).build();
+			case NORTH_EAST -> ConfiguredModel.builder().modelFile(curved).rotationY(270).build();
+		});
+
+		itemModels().withExistingParent(name, mcLoc("item/generated")).texture("layer0", flat);
 	}
 
 	public void simpleBlock(Supplier<? extends Block> blockSupplier) {
@@ -254,7 +305,7 @@ public class BlockStates extends BlockStateProvider {
 
 	public ModelFile netherCubeAll(Block block) {
 		ResourceLocation name = BuiltInRegistries.BLOCK.getKey(block);
-		return models().cubeAll(name.getPath(), ResourceLocation.fromNamespaceAndPath(name.getNamespace(), ModelProvider.BLOCK_FOLDER + "/" + name.getPath() + "ether"));
+		return models().cubeAll(name.getPath(), KingdomKeys.rl(name.getNamespace(), ModelProvider.BLOCK_FOLDER + "/" + name.getPath() + "ether"));
 	}
 
 	public void simpleNetherOre(Supplier<? extends Block> blockSupplier) {

@@ -49,7 +49,7 @@ public class YellowOperaEntity extends BaseElementalMusicalHeartlessEntity {
     @OnlyIn(Dist.CLIENT)
     @Override
     public ResourceLocation getTexture() {
-        return ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/entity/mob/yellow_opera.png");
+        return KingdomKeys.rl("textures/entity/mob/yellow_opera.png");
     }
 
     @Override
@@ -99,7 +99,7 @@ public class YellowOperaEntity extends BaseElementalMusicalHeartlessEntity {
         @Override
         public void start() {
             canUseAttack = true;
-            attackTimer = 25 + level().random.nextInt(5);
+            attackTimer = 80 + level().random.nextInt(40);
             mob.setState(0);
             this.mob.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.20D);
             whileAttackTimer = 0;

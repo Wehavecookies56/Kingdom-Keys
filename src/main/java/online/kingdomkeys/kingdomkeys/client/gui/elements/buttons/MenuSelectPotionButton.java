@@ -9,13 +9,11 @@ import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.client.sounds.SoundManager;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag.Default;
 import net.neoforged.neoforge.common.NeoForge;
-import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.api.event.EquipmentEvent;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
@@ -25,6 +23,7 @@ import online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment.MenuPotion
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.item.KKPotionItem;
+import online.kingdomkeys.kingdomkeys.lib.Constants;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSEquipItems;
 
@@ -38,8 +37,6 @@ public class MenuSelectPotionButton extends MenuButtonBase {
 	MenuPotionSelectorScreen parent;
 	int slot;
 	Minecraft minecraft;
-
-	final ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
 
 	public MenuSelectPotionButton(ItemStack stack, int slot, int x, int y, int widthIn, MenuPotionSelectorScreen parent, int colour) {
 		super(x, y, widthIn, 20, "", b -> {
@@ -92,11 +89,11 @@ public class MenuSelectPotionButton extends MenuButtonBase {
 			RenderSystem.setShaderColor(col.getRed() / 255F, col.getGreen() / 255F, col.getBlue() / 255F, 1);
 			matrixStack.translate(getX() + 0.6F, getY(), 0);
 			matrixStack.scale(0.5F, 0.5F, 1);
-			gui.blit(texture, 0, 0, 166, 34, 18, 28);
-			gui.blit(texture, 16, 0, ((width * 2) - (17 + 17))+2, 28, 186, 34, 2, 28, 256, 256);
-			gui.blit(texture, ((width * 2) - 17), 0, 186, 34, 17, 28);
+			gui.blit(Constants.MENU_TEXTURE, 0, 0, 166, 34, 18, 28);
+			gui.blit(Constants.MENU_TEXTURE, 16, 0, ((width * 2) - (17 + 17))+2, 28, 186, 34, 2, 28, 256, 256);
+			gui.blit(Constants.MENU_TEXTURE, ((width * 2) - 17), 0, 186, 34, 17, 28);
 			RenderSystem.setShaderColor(1, 1, 1, 1);
-			gui.blit(texture, 6, 4, category.getU(), category.getV(), 20, 20);
+			gui.blit(Constants.MENU_TEXTURE, 6, 4, category.getU(), category.getV(), 20, 20);
 			matrixStack.popPose();
 			String itemName;
 			if (potion == null) { //Name to display
@@ -115,9 +112,9 @@ public class MenuSelectPotionButton extends MenuButtonBase {
 					
 					matrixStack.translate(getX() + 0.6F, getY(), 0);
 					matrixStack.scale(0.5F, 0.5F, 1);
-					gui.blit(texture, 0, 0, 128, 34, 18, 28);
-					gui.blit(texture, 16, 0, ((width * 2) - (17 * 2))+2, 28, 148, 34, 2, 28, 256, 256);
-					gui.blit(texture, ((width * 2) - 17), 0, 148, 34, 17, 28);
+					gui.blit(Constants.MENU_TEXTURE, 0, 0, 128, 34, 18, 28);
+					gui.blit(Constants.MENU_TEXTURE, 16, 0, ((width * 2) - (17 * 2))+2, 28, 148, 34, 2, 28, 256, 256);
+					gui.blit(Constants.MENU_TEXTURE, ((width * 2) - 17), 0, 148, 34, 17, 28);
 				}
 				matrixStack.popPose();
 				

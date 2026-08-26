@@ -12,19 +12,19 @@ import java.util.List;
 
 public class MinglingWorldsMapCardItem extends MapCardItem {
     public MinglingWorldsMapCardItem() {
-        super(null);
+        super(null, CardCategory.BLUE);
     }
 
     @Override
     public RoomType getRoomType() {
-        List<RoomType> types = ModRoomTypes.registry.get().getValues().stream().filter(roomType -> roomType.getCategory() != RoomCategory.SPECIAL).toList();
+        List<RoomType> types = ModRoomTypes.registry.get().getValues().stream().filter(roomType -> roomType.getCategory() != RoomCategory.SPECIAL).filter(roomType -> roomType.getCategory() != RoomCategory.ENCOUNTER).toList();
         return types.get(Utils.randomWithRange(0, types.size()-1));
     }
 
     @Override
     public void appendHoverText(ItemStack pStack, TooltipContext context, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(Component.translatable("Size: ?"));
-        pTooltipComponents.add(Component.translatable("Enemies: ?"));
+        pTooltipComponents.add(Component.translatable("kingdomkeys.card.map.size_unknown"));
+        pTooltipComponents.add(Component.translatable("kingdomkeys.card.map.enemies_unknown"));
         super.appendHoverText(pStack, context, pTooltipComponents, pIsAdvanced);
     }
 

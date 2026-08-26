@@ -1,7 +1,5 @@
 package online.kingdomkeys.kingdomkeys.entity.magic;
 
-import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -39,8 +37,7 @@ public class MagnetEntity extends BaseMagicProjectile {
 
 		if(level() == null || WorldData.get(level().getServer()) == null)
 			return;
-		
-		level().addParticle(ParticleTypes.BUBBLE, getX(), getY(), getZ(), 0, 0, 0);
+
 		float radius = 2F;
 
 		if (tickCount >= 3) {
@@ -50,18 +47,6 @@ public class MagnetEntity extends BaseMagicProjectile {
 				}
 				if(tickCount > maxTicks - 20) {
 					radius = (maxTicks - tickCount) / 10F;
-				}
-				double X = getX();
-				double Y = getY();
-				double Z = getZ();
-	
-				for (int t = 1; t < 360; t += 30) {
-					for (int s = 1; s < 360 ; s += 30) {
-						double x = X + (radius * Math.cos(Math.toRadians(s+tickCount)) * Math.sin(Math.toRadians(t+tickCount)));
-						double z = Z + (radius * Math.sin(Math.toRadians(s+tickCount)) * Math.sin(Math.toRadians(t+tickCount)));
-						double y = Y + (radius * Math.cos(Math.toRadians(t+tickCount)));
-						((ServerLevel) level()).sendParticles(ParticleTypes.BUBBLE_POP, x, y+1, z, 1, 0,0,0, 0);
-					}
 				}
 			}
 			this.setDeltaMovement(0, 0, 0);

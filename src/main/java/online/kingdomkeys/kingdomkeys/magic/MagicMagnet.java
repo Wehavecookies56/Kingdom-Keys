@@ -12,54 +12,55 @@ import online.kingdomkeys.kingdomkeys.entity.magic.MagnetEntity;
 
 public class MagicMagnet extends Magic {
 
-	public MagicMagnet(ResourceLocation registryName, int maxLevel, String gmAbility) {
-		super(registryName, false, maxLevel, gmAbility);
+	public MagicMagnet(ResourceLocation registryName, int tier, ResourceLocation gmAbility) {
+		super(registryName, false, gmAbility);
+		setTier(tier);
 	}
 
 	@Override
-	public void magicUse(LivingEntity player, Player caster, int level, float fullMPBlastMult, LivingEntity lockOnEntity) {
-		float dmg = getDamageMult(level);
+	public void magicUse(LivingEntity player, Player caster, float fullMPBlastMult, LivingEntity lockOnEntity) {
+		float dmg = getRealDamageMult(caster);
 		dmg *= fullMPBlastMult;
 
-		switch(level) {
-		case 0:
-			MagnetEntity magnet = new MagnetEntity(player.level(), player, dmg);
-			if(lockOnEntity != null) {
-				magnet.setPos(lockOnEntity.getX(), lockOnEntity.getY()+1, lockOnEntity.getZ());
-				magnet.shootFromRotation(lockOnEntity, -90, lockOnEntity.getYRot(),0,1,0);
-			} else {
-				magnet.shootFromRotation(player, -90, player.getYRot(), 0, 1F, 0);
-			}
-			player.level().addFreshEntity(magnet);
+		switch (getTier()) {
+			case 0:
+				MagnetEntity magnet = new MagnetEntity(player.level(), player, dmg);
+				if (lockOnEntity != null) {
+					magnet.setPos(lockOnEntity.getX(), lockOnEntity.getY() + 1, lockOnEntity.getZ());
+					magnet.shootFromRotation(lockOnEntity, -90, lockOnEntity.getYRot(), 0, 1, 0);
+				} else {
+					magnet.shootFromRotation(player, -90, player.getYRot(), 0, 1F, 0);
+				}
+				player.level().addFreshEntity(magnet);
 
-			break;
-		case 1:
-			MagneraEntity magnera = new MagneraEntity(player.level(), player, dmg);
-			if(lockOnEntity != null) {
-				magnera.setPos(lockOnEntity.getX(), lockOnEntity.getY()+1, lockOnEntity.getZ());
-				magnera.shootFromRotation(lockOnEntity, -90, lockOnEntity.getYRot(),0,1,0);
-			} else {
-				magnera.shootFromRotation(player, -90, player.getYRot(), 0, 1F, 0);
-			}			
-			player.level().addFreshEntity(magnera);
-			break;
-		case 2:
-			MagnegaEntity magnega = new MagnegaEntity(player.level(), player, dmg);
-			if(lockOnEntity != null) {
-				magnega.setPos(lockOnEntity.getX(), lockOnEntity.getY()+1, lockOnEntity.getZ());
-				magnega.shootFromRotation(lockOnEntity, -90, lockOnEntity.getYRot(),0,1,0);
-			} else {
-				magnega.shootFromRotation(player, -90, player.getYRot(), 0, 1F, 0);
-			}
-			player.level().addFreshEntity(magnega);
-			break;
+				break;
+			case 1:
+				MagneraEntity magnera = new MagneraEntity(player.level(), player, dmg);
+				if (lockOnEntity != null) {
+					magnera.setPos(lockOnEntity.getX(), lockOnEntity.getY() + 1, lockOnEntity.getZ());
+					magnera.shootFromRotation(lockOnEntity, -90, lockOnEntity.getYRot(), 0, 1, 0);
+				} else {
+					magnera.shootFromRotation(player, -90, player.getYRot(), 0, 1F, 0);
+				}
+				player.level().addFreshEntity(magnera);
+				break;
+			case 2:
+				MagnegaEntity magnega = new MagnegaEntity(player.level(), player, dmg);
+				if (lockOnEntity != null) {
+					magnega.setPos(lockOnEntity.getX(), lockOnEntity.getY() + 1, lockOnEntity.getZ());
+					magnega.shootFromRotation(lockOnEntity, -90, lockOnEntity.getYRot(), 0, 1, 0);
+				} else {
+					magnega.shootFromRotation(player, -90, player.getYRot(), 0, 1F, 0);
+				}
+				player.level().addFreshEntity(magnega);
+				break;
 		}
-		
+
 		player.swing(InteractionHand.MAIN_HAND);
 	}
-	
+
 	@Override
-	protected void playMagicCastSound(LivingEntity player, Player caster, int level) {
+	public void playMagicCastSound(LivingEntity player, Player caster) {
 		player.level().playSound(null, player.position().x(), player.position().y(), player.position().z(), ModSounds.magnet1.get(), SoundSource.PLAYERS, 1F, 1F);
 	}
 

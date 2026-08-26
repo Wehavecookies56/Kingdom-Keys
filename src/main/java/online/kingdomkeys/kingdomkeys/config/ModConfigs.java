@@ -52,8 +52,8 @@ public class ModConfigs {
         }
     }
 
-    public static List<String> magicDisplayedInCommandMenu;
-    public static boolean cmHeaderTextVisible, cmClassicColors, hpShowHearts, showDriveForms, summonTogether, auto3rdPersonShip, cmChangeColor, customFont, shoulderSurfingDecoupled, seasonalEvents;
+    public static List<? extends Integer> hiddenMagic;
+    public static boolean cmHeaderTextVisible, cmClassicColors, snapChatToCommandMenu, hpShowHearts, showDriveForms, summonTogether, auto3rdPersonShip, cmChangeColor, customFont, shoulderSurfingDecoupled, seasonalEvents, portrait3D;
     public static int cmTextXOffset, cmSelectedXOffset, cmSubXOffset, hpAlarm, lockOnIconScale, lockOnIconRotation, lockOnHpPerBar, partyYDistance, cmEndLWidth, cmEndRWidth, cmHeaderEndLWidth, cmHeaderEndRWidth, cmReactionEndLWidth, cmReactionEndRWidth;
 
     public static void setHUDData(String name, List<? extends Float> data){
@@ -110,6 +110,22 @@ public class ModConfigs {
                 CLIENT.minimapHUDData.set(data);
                 CLIENT.minimapHUDData.save();
             }
+            case "ItemGet" -> {
+                CLIENT.itemGetHUDData.set(data);
+                CLIENT.itemGetHUDData.save();
+            }
+            case "GummiInfo" -> {
+                CLIENT.gummiInfoHUDData.set(data);
+                CLIENT.gummiInfoHUDData.save();
+            }
+            case "GummiReadout" -> {
+                CLIENT.gummiReadoutHUDData.set(data);
+                CLIENT.gummiReadoutHUDData.save();
+            }
+            case "GummiControls" -> {
+                CLIENT.gummiControlsHUDData.set(data);
+                CLIENT.gummiControlsHUDData.save();
+            }
         }
     }
 
@@ -128,6 +144,11 @@ public class ModConfigs {
             case "LevelUp" -> CLIENT.levelUpHUDData.get();
             case "DriveLevel" -> CLIENT.driveLevelHUDData.get();
             case "Minimap" -> CLIENT.minimapHUDData.get();
+            case "RoomName" -> CLIENT.roomNameHUDData.get();
+            case "ItemGet" -> CLIENT.itemGetHUDData.get();
+            case "GummiInfo" -> CLIENT.gummiInfoHUDData.get();
+            case "GummiReadout" -> CLIENT.gummiReadoutHUDData.get();
+            case "GummiControls" -> CLIENT.gummiControlsHUDData.get();
             default -> throw new IllegalStateException("Unexpected HUD value: " + name);
         };
     }
@@ -151,9 +172,9 @@ public class ModConfigs {
         bakeClient();
     }
     //Command Menu
-    public static void setMagicDisplayedInCommandMenu(List<String> value) {
-        CLIENT.magicDisplayedInCommandMenu.set(value);
-        CLIENT.magicDisplayedInCommandMenu.save();
+    public static void setHiddenMagic(List<Integer> value) {
+        CLIENT.hiddenMagic.set(value);
+        CLIENT.hiddenMagic.save();
         bakeClient();
     }
 
@@ -166,6 +187,12 @@ public class ModConfigs {
     public static void setCmClassicColors(boolean value) {
         CLIENT.cmClassicColors.set(value);
         CLIENT.cmClassicColors.save();
+        bakeClient();
+    }
+
+    public static void setSnapChatToCommandMenu(boolean value) {
+        CLIENT.snapChatToCommandMenu.set(value);
+        CLIENT.snapChatToCommandMenu.save();
         bakeClient();
     }
 
@@ -271,19 +298,23 @@ public class ModConfigs {
     public static void bakeClient() {
         customFont = CLIENT.customFont.get();
         if(customFont) {
-            ClientUtils.KK_Font_EXP = Style.EMPTY.withFont(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "kk_font_exp"));
-            ClientUtils.KK_Font_MENU = Style.EMPTY.withFont(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "kk_font_menu"));
+            ClientUtils.KK_Font_EXP = Style.EMPTY.withFont(KingdomKeys.rl("kk_font_exp"));
+            ClientUtils.KK_Font_MENU = Style.EMPTY.withFont(KingdomKeys.rl("kk_font_menu"));
         } else {
             ClientUtils.KK_Font_EXP = Style.EMPTY;
             ClientUtils.KK_Font_MENU = Style.EMPTY;
         }
 
-        magicDisplayedInCommandMenu = (List<String>) CLIENT.magicDisplayedInCommandMenu.get();
+        hiddenMagic = (List<Integer>) CLIENT.hiddenMagic.get();
+
         cmTextXOffset = CLIENT.cmTextXOffset.get();
         cmHeaderTextVisible = CLIENT.cmHeaderTextVisible.get();
         cmClassicColors = CLIENT.cmClassicColors.get();
+        snapChatToCommandMenu = CLIENT.snapChatToCommandMenu.get();
         cmSelectedXOffset = CLIENT.cmSelectedXOffset.get();
         cmSubXOffset = CLIENT.cmSubXOffset.get();
+
+        portrait3D = CLIENT.portrait3D.get();
 
         hpShowHearts = CLIENT.hpShowHearts.get();
         hpAlarm = CLIENT.hpAlarm.get();
@@ -312,14 +343,15 @@ public class ModConfigs {
             shoulderSurfingDecoupled = CLIENT.shoulderSurfingDecoupled.get();
         }
         seasonalEvents = CLIENT.seasonalEvents.get();
+        hiddenMagic = CLIENT.hiddenMagic.get();
     }
 
-    public static boolean bombExplodeWithfire, keybladeOpenDoors, mobLevelingUp, playerSpawnHeartless,blizzardChangeBlocks, bossDespawnIfNoTarget, respawnROD, needKeybladeForHeartless, mobLevelName, allowBlocksInHangarArea, hideOrgNames;
+    public static boolean bombExplodeWithfire, keybladeOpenDoors, mobLevelingUp, playerSpawnHeartless, bossDespawnIfNoTarget, respawnROD, needKeybladeForHeartless, mobLevelName, allowBlocksInHangarArea, hideOrgNames, generateCOEntrance;
 
     public static SpawningMode heartlessSpawningMode;
     public static List<String> mobSpawnRate;
 
-    public static int driveHeal, hpDropProbability, mpDropProbability, munnyDropProbability, driveDropProbability, focusDropProbability, gummiBlocksDropPercent, recipeDropChance;
+    public static int driveHeal, hpDropProbability, mpDropProbability, munnyDropProbability, driveDropProbability, focusDropProbability, gummiBlocksDropPercent, recipeDropChance, biomeMemoryDropChance, coEntranceChunkX, coEntranceChunkZ;
 
     public static double shotlockMult, critMult, drivePointsMultiplier, focusPointsMultiplier, fuelConsumeFactor;
 
@@ -348,12 +380,13 @@ public class ModConfigs {
         critMult = COMMON.critMult.get();
 
         recipeDropChance = COMMON.recipeDropChance.get();
+        biomeMemoryDropChance = COMMON.biomeMemoryDropChance.get();
+
         hpDropProbability = COMMON.hpDropProbability.get();
         mpDropProbability = COMMON.mpDropProbability.get();
         munnyDropProbability = COMMON.munnyDropProbability.get();
         driveDropProbability = COMMON.driveDropProbability.get();
         focusDropProbability = COMMON.focusDropProbability.get();
-        blizzardChangeBlocks = COMMON.blizzardChangeBlocks.get();
 
         mobLevelStats = COMMON.mobLevelStats.get();
         rodHeartlessLevelScale = COMMON.rodHeartlessLevelScale.get();
@@ -370,6 +403,10 @@ public class ModConfigs {
         hideOrgNames = COMMON.hideOrgNames.get();
 
         fuelConsumeFactor = COMMON.fuelConsumeFactor.get();
+
+        generateCOEntrance = COMMON.generateCOEntrance.get();
+        coEntranceChunkX = COMMON.coEntranceChunkX.get();
+        coEntranceChunkZ = COMMON.coEntranceChunkZ.get();
     }
 
     @SubscribeEvent

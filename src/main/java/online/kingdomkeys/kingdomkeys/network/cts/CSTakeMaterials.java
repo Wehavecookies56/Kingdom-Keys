@@ -4,7 +4,6 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -17,7 +16,7 @@ import online.kingdomkeys.kingdomkeys.network.stc.SCOpenMaterialsScreen;
 
 public record CSTakeMaterials(ItemStack stack, int amount, String inv, String name, int moogle) implements Packet {
 	
-	public static final Type<CSTakeMaterials> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "cs_take_materials"));
+	public static final Type<CSTakeMaterials> TYPE = new Type<>(KingdomKeys.rl("cs_take_materials"));
 
 	public static final StreamCodec<RegistryFriendlyByteBuf, CSTakeMaterials> STREAM_CODEC = StreamCodec.composite(
 			ItemStack.STREAM_CODEC,
@@ -38,13 +37,11 @@ public record CSTakeMaterials(ItemStack stack, int amount, String inv, String na
 		Player player = context.player();
 		PlayerData playerData = PlayerData.get(player);
 		if(!ItemStack.isSameItem(stack, ItemStack.EMPTY)) {
-			int amountToTake = amount;
-			if(playerData.getMaterialAmount(stack.getItem())<amount) {
-				amountToTake = playerData.getMaterialAmount(stack.getItem());
-			}
+			int amountToTake = Math.min(playerData.getMaterialAmount(stack.getItem()), amount);
 			ItemStack toAdd = stack.copy();
 			toAdd.setCount(amountToTake);
 			playerData.removeMaterial(stack.getItem(), amountToTake);
+			playerData.removeTotalMaterial(stack.getItem(), amountToTake);
 			player.getInventory().add(toAdd);
 		}
 		PacketHandler.sendTo(new SCOpenMaterialsScreen(playerData.serializeNBT(player.level().registryAccess()), inv, name, moogle), (ServerPlayer) player);

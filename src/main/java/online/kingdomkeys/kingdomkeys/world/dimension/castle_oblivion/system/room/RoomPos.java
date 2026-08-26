@@ -1,19 +1,25 @@
 package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room;
 
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtOps;
 
 import java.util.Objects;
 
 public record RoomPos(int x, int y) {
 
+    public static final Codec<RoomPos> CODEC = RecordCodecBuilder.create(roomPosInstance ->
+            roomPosInstance.group(
+                    Codec.INT.fieldOf("roompos_x").forGetter(RoomPos::x),
+                    Codec.INT.fieldOf("roompos_y").forGetter(RoomPos::y)
+            ).apply(roomPosInstance, RoomPos::new)
+    );
+
     public static final RoomPos ZERO = new RoomPos(0, 0);
 
     public RoomPos(RoomPos pos) {
         this(pos.x, pos.y);
-    }
-
-    public RoomPos(CompoundTag tag) {
-        this(tag.getInt("roompos_x"), tag.getInt("roompos_y"));
     }
 
     public static RoomPos inDirection(RoomPos prevPos, RoomDirection direction) {
@@ -24,11 +30,12 @@ public record RoomPos(int x, int y) {
         return new RoomPos(this.x + direction.xDir, this.y + direction.yDir);
     }
 
+    public static RoomPos deserializeNBT(CompoundTag tag) {
+        return CODEC.parse(NbtOps.INSTANCE, tag).getOrThrow();
+    }
+
     public CompoundTag serializeNBT() {
-        CompoundTag tag = new CompoundTag();
-        tag.putInt("roompos_x", x);
-        tag.putInt("roompos_y", y);
-        return tag;
+        return (CompoundTag) CODEC.encodeStart(NbtOps.INSTANCE, this).getOrThrow();
     }
 
     @Override

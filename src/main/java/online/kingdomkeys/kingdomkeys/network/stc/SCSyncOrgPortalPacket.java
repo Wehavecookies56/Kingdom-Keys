@@ -6,7 +6,6 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
 import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
@@ -16,7 +15,7 @@ import online.kingdomkeys.kingdomkeys.network.Packet;
 
 public record SCSyncOrgPortalPacket(BlockPos pos, BlockPos destPos, ResourceKey<Level> dimension) implements Packet {
 
-	public static final Type<SCSyncOrgPortalPacket> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "sc_sync_org_portal"));
+	public static final Type<SCSyncOrgPortalPacket> TYPE = new Type<>(KingdomKeys.rl("sc_sync_org_portal"));
 
 	public static final StreamCodec<FriendlyByteBuf, SCSyncOrgPortalPacket> STREAM_CODEC = StreamCodec.composite(
 			BlockPos.STREAM_CODEC, SCSyncOrgPortalPacket::pos,

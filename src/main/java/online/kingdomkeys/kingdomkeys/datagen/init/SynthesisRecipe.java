@@ -85,6 +85,7 @@ public class SynthesisRecipe extends SynthesisRecipeProvider {
         getBuilder(Strings.ladyLuck).output(Strings.ladyLuckChain, 1).addTier(3).addType("keyblade").addMaterial(pulsing_stone, 4).addMaterial(wellspring_crystal, 2).addMaterial(hungry_shard, 1).addMaterial(blazing_gem, 2);
         getBuilder(Strings.leviathan).output(Strings.leviathanChain, 1).addTier(2).addType("keyblade").addMaterial(lucid_crystal, 2).addMaterial(frost_stone, 2).addMaterial(writhing_shard, 3);
         getBuilder(Strings.lionheart).output(Strings.lionheartChain, 1).addTier(4).addType("keyblade").addMaterial(betwixt_crystal, 3).addMaterial(twilight_crystal, 3).addMaterial(blazing_gem, 5).addMaterial(pulsing_crystal, 2);
+        getBuilder(Strings.longNight).output(Strings.longNightChain, 1).addTier(1).addType("keyblade").addMaterial(lucid_shard, 3).addMaterial(writhing_shard, 2).addMaterial(sinister_shard, 2);
         getBuilder(Strings.lostMemory).output(Strings.lostMemoryChain, 1).addTier(4).addType("keyblade").addMaterial(twilight_gem, 3).addMaterial(pulsing_stone, 2).addMaterial(hungry_shard, 1).addMaterial(mythril_gem, 3);
         getBuilder(Strings.lunarEclipse).output(Strings.lunarEclipseChain, 1).addTier(6).addType("keyblade").addMaterial(soothing_gem, 5).addMaterial(frost_gem, 2).addMaterial(writhing_gem, 5).addMaterial(pulsing_crystal, 2);
         getBuilder(Strings.markOfAHero).output(Strings.markOfAHeroChain, 1).addTier(3).addType("keyblade").addMaterial(lightning_shard, 3).addMaterial(pulsing_stone, 2).addMaterial(soothing_crystal, 3).addMaterial(lightning_gem, 3);
@@ -160,8 +161,8 @@ public class SynthesisRecipe extends SynthesisRecipeProvider {
         getBuilder(Strings.zeroOne).output(Strings.zeroOneChain, 1).addTier(3).addType("keyblade").addMaterial(lightning_crystal, 3).addMaterial(pulsing_gem, 4).addMaterial(lightning_stone, 2);
 
         // Items
-        getBuilder(Strings.SM_MythrilCrystal).output(Strings.SM_MythrilCrystal, 1).addTier(2).addType("item").addMaterial(betwixt_crystal, 1).addMaterial(betwixt_gem, 3).addMaterial(twilight_crystal, 1).addMaterial(twilight_gem, 3);
-        getBuilder(Strings.SM_MythrilGem).output(Strings.SM_MythrilGem, 1).addTier(2).addType("item").addMaterial(betwixt_crystal, 1).addMaterial(betwixt_gem, 3).addMaterial(twilight_crystal, 1).addMaterial(twilight_gem, 3).addMaterial(hungry_stone, 1);
+        getBuilder(Strings.SM_MythrilCrystal).output(Strings.SM_MythrilCrystal, 1).addTier(2).addType("item").addMaterial(betwixt_crystal, 1).addMaterial(betwixt_gem, 3).addMaterial(twilight_crystal, 1).addMaterial(twilight_gem, 3).addMaterial(hungry_stone, 1);
+        getBuilder(Strings.SM_MythrilGem).output(Strings.SM_MythrilGem, 1).addTier(2).addType("item").addMaterial(betwixt_crystal, 1).addMaterial(betwixt_gem, 3).addMaterial(twilight_crystal, 1).addMaterial(twilight_gem, 3);
         getBuilder(Strings.SM_MythrilStone).output(Strings.SM_MythrilStone, 1).addTier(1).addType("item").addMaterial(betwixt_stone, 1).addMaterial(betwixt_shard, 3).addMaterial(twilight_stone, 1).addMaterial(twilight_shard, 3).addMaterial(hungry_shard, 1);
         getBuilder(Strings.SM_MythrilShard).output(Strings.SM_MythrilShard, 1).addTier(1).addType("item").addMaterial(betwixt_stone, 1).addMaterial(betwixt_shard, 3).addMaterial(twilight_stone, 1).addMaterial(twilight_shard, 3);
 

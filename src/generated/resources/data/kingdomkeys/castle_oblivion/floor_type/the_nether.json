@@ -1,0 +1,6 @@
+{
+  "biome_colours": "minecraft:nether_wastes",
+  "crit_path_length": 7,
+  "music": "minecraft:music.nether.nether_wastes",
+  "use_fog_colour": true
+}

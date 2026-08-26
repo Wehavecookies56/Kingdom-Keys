@@ -30,7 +30,7 @@ public class BannerPatterns extends BannerPatternTagsProvider {
     }
 
     private static ResourceKey<BannerPattern> create(String name) {
-        return ResourceKey.create(Registries.BANNER_PATTERN, ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, name));
+        return ResourceKey.create(Registries.BANNER_PATTERN, KingdomKeys.rl(name));
     }
 
     private static ResourceKey<BannerPattern> create(ResourceLocation name) {

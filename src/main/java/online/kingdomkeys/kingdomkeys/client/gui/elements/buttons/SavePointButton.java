@@ -68,7 +68,7 @@ public class SavePointButton extends ScrollableButtonBase {
             }
         }
         if (!active) {
-            //gui.drawCenteredString(Minecraft.getInstance().font, Component.translatable("You are here"), getX() + (getWidth() / 2), getY() + (getHeight() - (height/2) - (Minecraft.getInstance().font.lineHeight/2)) + 1, Color.WHITE.getRGB());
+            //gui.drawCenteredString(Minecraft.getInstance().font, Component.translatable("kingdomkeys.save_point.you_are_here"), getX() + (getWidth() / 2), getY() + (getHeight() - (height/2) - (Minecraft.getInstance().font.lineHeight/2)) + 1, Color.WHITE.getRGB());
             drawLabel(Component.translatable(Strings.Gui_Save_Main_CurrentPosition), gui, labelHeight);
         }
     }
@@ -99,9 +99,10 @@ public class SavePointButton extends ScrollableButtonBase {
     @Override
     public boolean isMouseOver(double pMouseX, double pMouseY) {
         boolean hovered = super.isMouseOver(pMouseX, pMouseY);
-        if (hovered) {
+        boolean over = this.visible && pMouseX >= getX() && pMouseY >= getY() && pMouseX < getX() + this.width && pMouseY < getY() + this.height;
+        if (over) {
             parent.hovered = destination;
-        } else if (parent.hovered != null && parent.hovered.equals(destination)) {
+        } else if (destination.equals(parent.hovered)) {
             parent.hovered = null;
         }
         return hovered;

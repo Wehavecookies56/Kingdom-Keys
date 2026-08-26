@@ -6,7 +6,6 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
 import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
@@ -22,7 +21,7 @@ public record SCSyncSavePointData(List<String> names, List<String> data) impleme
 
 	public static final Gson GSON_BUILDER = new GsonBuilder().registerTypeAdapter(SavePointData.class, new SavePointDataDeserializer()).setPrettyPrinting().create();
 
-	public static final Type<SCSyncSavePointData> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "sc_sync_savepoint_data"));
+	public static final Type<SCSyncSavePointData> TYPE = new Type<>(KingdomKeys.rl("sc_sync_savepoint_data"));
 
 	public static final StreamCodec<FriendlyByteBuf, SCSyncSavePointData> STREAM_CODEC = StreamCodec.composite(
 			ByteBufCodecs.collection(ArrayList::new, ByteBufCodecs.STRING_UTF8),

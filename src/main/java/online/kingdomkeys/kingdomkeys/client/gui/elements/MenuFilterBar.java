@@ -1,14 +1,12 @@
 package online.kingdomkeys.kingdomkeys.client.gui.elements;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
-import net.minecraft.resources.ResourceLocation;
-import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuFilterButton;
+import online.kingdomkeys.kingdomkeys.lib.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,8 +22,6 @@ public class MenuFilterBar {
     public List<Button> buttons = new ArrayList<>();
 
     int x, y, startX, allX, consumableX, toolX, buildingX, equipmentX, accessoriesX, miscX, endX;
-
-    final ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(KingdomKeys.MODID, "textures/gui/menu/menu_button.png");
 
     public MenuFilterBar(int x, int y, MenuFilterable parent) {
         this.x = x;
@@ -44,7 +40,7 @@ public class MenuFilterBar {
 
     public void renderSelectionBox(GuiGraphics gui, MenuFilterButton button) {
         if (button.isHoveredOrFocused() || currentFilter == button.category)
-            ClientUtils.blitScaled(texture, gui, button.getX() - 1.5F, button.getY() - 1.5F, 66, 30, 58, 36, 0.5F);
+            ClientUtils.blitScaled(Constants.MENU_TEXTURE, gui, button.getX() - 1.5F, button.getY() - 1.5F, 66, 30, 58, 36, 0.5F);
     }
 
     public void init() {
@@ -65,9 +61,9 @@ public class MenuFilterBar {
 
     public void render(GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
         RenderSystem.setShaderColor(1, 1, 1, 1);
-        ClientUtils.blitScaled(texture, gui, startX, y, 118, 0, 48, 30, 0.5F);
+        ClientUtils.blitScaled(Constants.MENU_TEXTURE, gui, startX, y, 118, 0, 48, 30, 0.5F);
         buttons.forEach(b -> b.render(gui, mouseX, mouseY, partialTicks));
-        ClientUtils.blitScaled(texture, gui, endX, y, 166, 0, 48, 30, 0.5F);
+        ClientUtils.blitScaled(Constants.MENU_TEXTURE, gui, endX, y, 166, 0, 48, 30, 0.5F);
         buttons.forEach(b -> renderSelectionBox(gui, (MenuFilterButton) b));
     }
 

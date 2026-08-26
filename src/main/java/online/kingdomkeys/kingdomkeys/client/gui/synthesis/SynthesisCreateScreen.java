@@ -52,7 +52,7 @@ public class SynthesisCreateScreen extends MenuFilterable {
 		super(Strings.Gui_Synthesis_Synthesise_Title, new Color(0, 255, 0));
 		drawSeparately = true;
 		this.parent = parent;
-		parent.playerData = playerData;
+		this.playerData = playerData;
 	}
 
 	protected void action(String string) {
@@ -102,8 +102,8 @@ public class SynthesisCreateScreen extends MenuFilterable {
 		filterBar.buttons.forEach(this::addWidget);
 
 		List<ResourceLocation> items = new ArrayList<>();
-		for (int i = 0; i < parent.playerData.getKnownRecipeList().size(); i++) {
-			ResourceLocation itemName = parent.playerData.getKnownRecipeList().get(i);
+		for (int i = 0; i < playerData.getKnownRecipeList().size(); i++) {
+			ResourceLocation itemName = playerData.getKnownRecipeList().get(i);
 			Recipe recipe = RecipeRegistry.getInstance().getValue(itemName);
 			if(recipe != null) {
 				ResourceLocation recipeRL = recipe.getRegistryName();
@@ -140,12 +140,14 @@ public class SynthesisCreateScreen extends MenuFilterable {
 		});
 		create.setCenterText(true);
 		addRenderableWidget(create);
-		addRenderableWidget(back = new MenuButton((int)this.buttonPosX, this.buttonPosY, (int)buttonWidth/2, Component.translatable(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, b -> minecraft.setScreen(new SynthesisScreen(parent.playerData, parent.invFile, parent.name, parent.moogle))));
+		addRenderableWidget(back = new MenuButton((int)this.buttonPosX, this.buttonPosY, (int)buttonWidth/2, Component.translatable(Strings.Gui_Menu_Back).getString(), MenuButton.ButtonType.BUTTON, b -> minecraft.setScreen(new SynthesisScreen(playerData, parent.invFile, parent.name, parent.moogle))));
 
 	}
 
 	@Override
 	public void render(@NotNull GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
+		if(showRewardPopup){ mouseX = mouseY = 0; }
+
 		drawMenuBackground(gui, mouseX, mouseY, partialTicks);
 		boxL.renderWidget(gui, mouseX, mouseY, partialTicks);
 		boxM.renderWidget(gui, mouseX, mouseY, partialTicks);
@@ -216,6 +218,10 @@ public class SynthesisCreateScreen extends MenuFilterable {
 
 		create.render(gui, mouseX,  mouseY,  partialTicks);
 		back.render(gui, mouseX, mouseY, partialTicks);
+
+		if (showRewardPopup) {
+			renderRewardPopup(gui, mouseX, mouseY);
+		}
 	}
 
 	@Override
@@ -256,7 +262,7 @@ public class SynthesisCreateScreen extends MenuFilterable {
 
 		if (selectedItemStack != null && selectedItemStack.getItem() instanceof KeybladeItem || selectedItemStack.getItem() instanceof KKAccessoryItem || selectedItemStack.getItem() instanceof KKArmorItem) {
 			String desc = "";
-			String ability = "";
+			ResourceLocation ability = null;
 			if(selectedItemStack.getItem() instanceof KeybladeItem kb) {
                 desc = kb.getDesc();
 				ability = kb.data.getLevelAbility(0);
@@ -281,7 +287,7 @@ public class SynthesisCreateScreen extends MenuFilterable {
 				}
 
 				if(ability != null) {
-					Ability a = ModAbilities.registry.get(ResourceLocation.parse(ability));
+					Ability a = ModAbilities.registry.get(ability);
 					if(a != null) {
 						String abilityName = Utils.translateToLocal(a.getTranslationKey());
 						gui.drawString(minecraft.font, abilityName, -20 + (boxM.getWidth()/2) - (minecraft.font.width(abilityName)/2), (stats.size()-1)*10, 0xFFAA44);
@@ -376,6 +382,7 @@ public class SynthesisCreateScreen extends MenuFilterable {
 
 	@Override
 	public boolean mouseScrolled(double mouseX, double mouseY, double deltaX, double deltaY) {
+		if(showRewardPopup) return false;
 		if(mouseX >= boxL.getX() && mouseX <= scrollBar.getX()+ scrollBar.getWidth())
 			scrollBar.mouseScrolled(mouseX, mouseY, deltaX, deltaY);
 		if(mouseX >= boxRB.getX() && mouseX <= scrollBar2.getX()+ scrollBar2.getWidth())

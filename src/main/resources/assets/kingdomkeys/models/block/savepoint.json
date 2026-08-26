@@ -9,5 +9,6 @@
 		"rotation": [0, 0, 0]
 	},
 	"textures": {
+		"particle": "kingdomkeys:block/savepoint"
 	}
 }

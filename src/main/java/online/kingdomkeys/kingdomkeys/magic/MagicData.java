@@ -1,75 +1,163 @@
 package online.kingdomkeys.kingdomkeys.magic;
 
+import net.minecraft.resources.ResourceLocation;
+
+import java.util.EnumSet;
+import java.util.Set;
+
 /**
  * Stores the data loaded from the magics datapack
  */
 public class MagicData {
 
-    float[] dmgMult = new float[4];
-    int[] cost = new int[4];
-    int[] ct = new int[4];
-    int[] cd = new int[4];
-    boolean[] magicLockOn = new boolean[4];
-	int[] maxExp = new int[4];
+	private float dmgMult;
+	private float dmgMultMax;
+	private int cost;
+	private int ct;
+	private int cd;
+	private boolean magicLockOn;
+	private int maxExp;
+	private int maxLevel;
+	private ResourceLocation nextTier, magicRC;
+	private SpellType spellType;
+	private final Set<Interaction> interactions = EnumSet.noneOf(Interaction.class);
 
-    public MagicData() {
-
-    }
-
-    public MagicData(int level, int cost, int ct, int cd, float dmgMult, float magMult, boolean magicLockOn, int maxExp) {
-    	this.cost[level] = cost;
-    	this.ct[level] = ct;
-    	this.cd[level] = cd;
-		this.dmgMult[level] = dmgMult;
-		this.magicLockOn[level] = magicLockOn;
-		this.maxExp[level] = maxExp;
+	public enum SpellType {
+		PHYSICAL,
+		MAGIC
 	}
 
-    public int getCost(int lvl) {
-		return cost[lvl];
+	public enum Interaction {
+		LIGHT_LIGHTABLE("light_lightable"),
+		TURN_OFF_LIGHTABLE("turn_off_lightable"),
+		LIGHT_PORTAL("light_portal"),
+		LIGHT_TNT("light_tnt"),
+		EXTINGUISH_TNT("extinguish_tnt"),
+		EXTINGUISH_FIRE("extinguish_fire"),
+		DRY_SPONGE("dry_sponge"),
+		WET_SPONGE("wet_sponge"),
+		FREEZE_WATER("freeze_water"),
+		FREEZE_LAVA("freeze_lava");
+
+		private final String name;
+
+		Interaction(String name) {
+			this.name = name;
+		}
+
+		public String getName() {
+			return name;
+		}
+
+		public static Interaction byName(String name) {
+			for (Interaction interaction : values()) {
+				if (interaction.name.equalsIgnoreCase(name.trim())) {
+					return interaction;
+				}
+			}
+			return null;
+		}
 	}
 
-	public void setCost(int lvl, int cost) {
-		this.cost[lvl] = cost;
+	public Set<Interaction> getInteractions() {
+		return interactions;
 	}
 
-	public int getCasttime(int lvl) {
-		return ct[lvl];
+	public boolean canInteract(Interaction interaction) {
+		return interactions.contains(interaction);
 	}
 
-	public void setCasttime(int lvl, int ct) {
-		this.ct[lvl] = ct;
+	public void addInteraction(Interaction interaction) {
+		interactions.add(interaction);
 	}
 
-	public int getCooldown(int lvl) {
-		return cd[lvl];
+	public MagicData() {}
+
+	public int getCost() {
+		return cost;
 	}
 
-	public void setCooldown(int lvl, int cd) {
-		this.cd[lvl] = cd;
-	}
-	
-	public float getDmgMult(int lvl) {
-		return dmgMult[lvl];
+	public void setCost(int cost) {
+		this.cost = cost;
 	}
 
-	public void setDmgMult(int lvl, float dmgMult) {
-		this.dmgMult[lvl] = dmgMult;
+	public int getCasttime() {
+		return ct;
 	}
 
-	public boolean getMagicLockOn(int lvl) {
-		return this.magicLockOn[lvl];
+	public void setCasttime(int ct) {
+		this.ct = ct;
 	}
 
-	public void setMagicLockon(int lvl, boolean lockOn) {
-		this.magicLockOn[lvl] = lockOn;
+	public int getCooldown() {
+		return cd;
 	}
 
-	public int getMaxExp(int lvl) {
-		return this.maxExp[lvl];
+	public void setCooldown(int cd) {
+		this.cd = cd;
 	}
 
-	public void setMaxExp(int lvl, int maxExp) {
-		this.maxExp[lvl] = maxExp;
+	public float getDmgMult() {
+		return dmgMult;
+	}
+
+	public void setDmgMult(float dmgMult) {
+		this.dmgMult = dmgMult;
+	}
+
+	public float getDmgMultMax() {
+		return dmgMultMax > 0 ? dmgMultMax : dmgMult;
+	}
+
+	public void setDmgMultMax(float dmgMultMax) {
+		this.dmgMultMax = dmgMultMax;
+	}
+
+	public boolean getMagicLockOn() {
+		return magicLockOn;
+	}
+
+	public void setMagicLockon(boolean lockOn) {
+		this.magicLockOn = lockOn;
+	}
+
+	public int getMaxExp() {
+		return maxExp;
+	}
+
+	public void setMaxExp(int maxExp) {
+		this.maxExp = maxExp;
+	}
+
+	public int getMaxLevel() {
+		return maxLevel;
+	}
+
+	public void setMaxLevel(int level) {
+		this.maxLevel = level;
+	}
+
+	public ResourceLocation getNextTier() {
+		return nextTier;
+	}
+
+	public void setNextTier(ResourceLocation nextTier) {
+		this.nextTier = nextTier;
+	}
+
+	public ResourceLocation getMagicRC() {
+		return magicRC;
+	}
+
+	public void setMagicRC(ResourceLocation rc) {
+		this.magicRC = rc;
+	}
+
+	public SpellType getSpellType() {
+		return spellType;
+	}
+
+	public void setSpellType(SpellType spellType) {
+		this.spellType = spellType;
 	}
 }

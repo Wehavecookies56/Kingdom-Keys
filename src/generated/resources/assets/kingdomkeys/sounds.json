@@ -1,4 +1,9 @@
 {
+  "aerial_recovery": {
+    "sounds": [
+      "kingdomkeys:aerial_recovery"
+    ]
+  },
   "air_slide": {
     "sounds": [
       "kingdomkeys:air_slide"
@@ -19,9 +24,24 @@
       "kingdomkeys:arrowgunreload"
     ]
   },
+  "boss_kill": {
+    "sounds": [
+      "kingdomkeys:boss_kill"
+    ]
+  },
+  "buy": {
+    "sounds": [
+      "kingdomkeys:buy"
+    ]
+  },
   "drive": {
     "sounds": [
       "kingdomkeys:drive"
+    ]
+  },
+  "drive_up": {
+    "sounds": [
+      "kingdomkeys:drive_up"
     ]
   },
   "error": {
@@ -32,6 +52,36 @@
   "ether": {
     "sounds": [
       "kingdomkeys:ether"
+    ]
+  },
+  "flowmotion_loop": {
+    "sounds": [
+      "kingdomkeys:flowmotion_loop"
+    ]
+  },
+  "guard": {
+    "sounds": [
+      "kingdomkeys:guard"
+    ]
+  },
+  "gummi_place": {
+    "sounds": [
+      "kingdomkeys:gummi_place"
+    ]
+  },
+  "gummi_remove": {
+    "sounds": [
+      "kingdomkeys:gummi_remove"
+    ]
+  },
+  "heartless_kill": {
+    "sounds": [
+      "kingdomkeys:heartless_kill"
+    ]
+  },
+  "heartless_spawn": {
+    "sounds": [
+      "kingdomkeys:heartless_spawn"
     ]
   },
   "hp_orb": {
@@ -53,6 +103,71 @@
     "sounds": [
       "kingdomkeys:keyblade_armor",
       "kingdomkeys:keyblade_armor2"
+    ]
+  },
+  "keyblade_hit/bond_of_the_blaze_hit": {
+    "sounds": [
+      "kingdomkeys:keyblade_hit/bond_of_the_blaze_hit"
+    ]
+  },
+  "keyblade_hit/braveheart_hit": {
+    "sounds": [
+      "kingdomkeys:keyblade_hit/braveheart_hit"
+    ]
+  },
+  "keyblade_hit/destinys_embrace_hit": {
+    "sounds": [
+      "kingdomkeys:keyblade_hit/destinys_embrace_hit"
+    ]
+  },
+  "keyblade_hit/earthshaker_hit": {
+    "sounds": [
+      "kingdomkeys:keyblade_hit/earthshaker_hit"
+    ]
+  },
+  "keyblade_hit/generic_hit": {
+    "sounds": [
+      "kingdomkeys:keyblade_hit/generic_hit"
+    ]
+  },
+  "keyblade_hit/kingdom_key_hit": {
+    "sounds": [
+      "kingdomkeys:keyblade_hit/kingdom_key_hit"
+    ]
+  },
+  "keyblade_hit/oathkeeper_hit": {
+    "sounds": [
+      "kingdomkeys:keyblade_hit/oathkeeper_hit"
+    ]
+  },
+  "keyblade_hit/oblivion_hit": {
+    "sounds": [
+      "kingdomkeys:keyblade_hit/oblivion_hit"
+    ]
+  },
+  "keyblade_hit/rainfell_hit": {
+    "sounds": [
+      "kingdomkeys:keyblade_hit/rainfell_hit"
+    ]
+  },
+  "keyblade_hit/star_cluster_hit": {
+    "sounds": [
+      "kingdomkeys:keyblade_hit/star_cluster_hit"
+    ]
+  },
+  "keyblade_hit/way_to_dawn_hit": {
+    "sounds": [
+      "kingdomkeys:keyblade_hit/way_to_dawn_hit"
+    ]
+  },
+  "keyblade_hit/wayward_wind_hit": {
+    "sounds": [
+      "kingdomkeys:keyblade_hit/wayward_wind_hit"
+    ]
+  },
+  "ko_loop": {
+    "sounds": [
+      "kingdomkeys:ko_loop"
     ]
   },
   "kupo": {
@@ -95,6 +210,16 @@
       "kingdomkeys:magic/aero2"
     ]
   },
+  "magic/balloon": {
+    "sounds": [
+      "kingdomkeys:magic/balloon"
+    ]
+  },
+  "magic/balloon_bounce": {
+    "sounds": [
+      "kingdomkeys:magic/balloon_bounce"
+    ]
+  },
   "magic/blizzaga": {
     "sounds": [
       "kingdomkeys:magic/blizzaga"
@@ -125,6 +250,16 @@
       "kingdomkeys:magic/cure"
     ]
   },
+  "magic/deepfreeze": {
+    "sounds": [
+      "kingdomkeys:magic/deepfreeze"
+    ]
+  },
+  "magic/esuna": {
+    "sounds": [
+      "kingdomkeys:magic/esuna"
+    ]
+  },
   "magic/fira": {
     "sounds": [
       "kingdomkeys:magic/fira"
@@ -133,6 +268,11 @@
   "magic/firaga": {
     "sounds": [
       "kingdomkeys:magic/firaga"
+    ]
+  },
+  "magic/firagaburst": {
+    "sounds": [
+      "kingdomkeys:magic/firagaburst"
     ]
   },
   "magic/fire": {
@@ -155,6 +295,16 @@
       "kingdomkeys:magic/gravity"
     ]
   },
+  "magic/icebarrage": {
+    "sounds": [
+      "kingdomkeys:magic/icebarrage"
+    ]
+  },
+  "magic/light_beam": {
+    "sounds": [
+      "kingdomkeys:magic/light_beam"
+    ]
+  },
   "magic/magnet1": {
     "sounds": [
       "kingdomkeys:magic/magnet1"
@@ -165,6 +315,16 @@
       "kingdomkeys:magic/magnet2"
     ]
   },
+  "magic/player_cast": {
+    "sounds": [
+      "kingdomkeys:magic/player_cast"
+    ]
+  },
+  "magic/poison": {
+    "sounds": [
+      "kingdomkeys:magic/poison"
+    ]
+  },
   "magic/reflect1": {
     "sounds": [
       "kingdomkeys:magic/reflect1"
@@ -173,6 +333,21 @@
   "magic/reflect2": {
     "sounds": [
       "kingdomkeys:magic/reflect2"
+    ]
+  },
+  "magic/spark": {
+    "sounds": [
+      "kingdomkeys:magic/spark"
+    ]
+  },
+  "magic/sparkga": {
+    "sounds": [
+      "kingdomkeys:magic/sparkga"
+    ]
+  },
+  "magic/sparkra": {
+    "sounds": [
+      "kingdomkeys:magic/sparkra"
     ]
   },
   "magic/stop": {
@@ -188,6 +363,26 @@
   "magic/stopra": {
     "sounds": [
       "kingdomkeys:magic/stopra"
+    ]
+  },
+  "magic/thundagashot": {
+    "sounds": [
+      "kingdomkeys:magic/thundagashot"
+    ]
+  },
+  "magic/warp_hit_player": {
+    "sounds": [
+      "kingdomkeys:magic/warp_hit_player"
+    ]
+  },
+  "magic/zap": {
+    "sounds": [
+      "kingdomkeys:magic/zap"
+    ]
+  },
+  "magic/zerogravity": {
+    "sounds": [
+      "kingdomkeys:magic/zerogravity"
     ]
   },
   "menu_back": {
@@ -228,10 +423,42 @@
       }
     ]
   },
+  "music/daybreak_town": {
+    "sounds": [
+      {
+        "name": "kingdomkeys:music/daybreak_town",
+        "stream": true
+      }
+    ]
+  },
+  "music/daybreak_town_battle": {
+    "sounds": [
+      {
+        "name": "kingdomkeys:music/daybreak_town_battle",
+        "stream": true
+      }
+    ]
+  },
+  "music/destiny_islands": {
+    "sounds": [
+      {
+        "name": "kingdomkeys:music/destiny_islands",
+        "stream": true
+      }
+    ]
+  },
   "music/dive_into_the_heart_destati": {
     "sounds": [
       {
         "name": "kingdomkeys:music/dive_into_the_heart_destati",
+        "stream": true
+      }
+    ]
+  },
+  "music/forgotten_challenge": {
+    "sounds": [
+      {
+        "name": "kingdomkeys:music/forgotten_challenge",
         "stream": true
       }
     ]
@@ -244,12 +471,38 @@
       }
     ]
   },
+  "music/night_of_fate": {
+    "sounds": [
+      {
+        "name": "kingdomkeys:music/night_of_fate",
+        "stream": true
+      }
+    ]
+  },
   "music/the_13th_floor": {
     "sounds": [
       {
         "name": "kingdomkeys:music/the_13th_floor",
         "stream": true
       }
+    ]
+  },
+  "music/world_map": {
+    "sounds": [
+      {
+        "name": "kingdomkeys:music/world_map",
+        "stream": true
+      }
+    ]
+  },
+  "nobody_kill": {
+    "sounds": [
+      "kingdomkeys:nobody_kill"
+    ]
+  },
+  "open_chest": {
+    "sounds": [
+      "kingdomkeys:open_chest"
     ]
   },
   "player_death": {
@@ -432,6 +685,11 @@
       }
     ]
   },
+  "revert": {
+    "sounds": [
+      "kingdomkeys:revert"
+    ]
+  },
   "savepoint": {
     "sounds": [
       "kingdomkeys:savepoint"
@@ -485,6 +743,11 @@
   "summon_armor": {
     "sounds": [
       "kingdomkeys:summon_armor"
+    ]
+  },
+  "synthesis_pickup": {
+    "sounds": [
+      "kingdomkeys:synthesis_pickup"
     ]
   },
   "unsummon": {
