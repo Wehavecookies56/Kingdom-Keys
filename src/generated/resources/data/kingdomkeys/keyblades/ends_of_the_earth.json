@@ -4,6 +4,9 @@
     "str": 6
   },
   "description": "item.kingdomkeys.ends_of_the_earth.desc",
+  "hit_particles": [
+    "kingdomkeys:textures/particle/generic_hit.png"
+  ],
   "keychain": "kingdomkeys:ends_of_the_earth_chain",
   "levels": [
     {

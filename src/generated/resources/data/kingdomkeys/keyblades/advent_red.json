@@ -4,6 +4,9 @@
     "str": 4
   },
   "description": "item.kingdomkeys.advent_red.desc",
+  "hit_particles": [
+    "kingdomkeys:textures/particle/generic_hit.png"
+  ],
   "keychain": "kingdomkeys:advent_red_chain",
   "levels": [
     {

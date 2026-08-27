@@ -4,6 +4,9 @@
     "str": 7
   },
   "description": "item.kingdomkeys.divewing.desc",
+  "hit_particles": [
+    "kingdomkeys:textures/particle/generic_hit.png"
+  ],
   "keychain": "kingdomkeys:divewing_chain",
   "levels": [
     {

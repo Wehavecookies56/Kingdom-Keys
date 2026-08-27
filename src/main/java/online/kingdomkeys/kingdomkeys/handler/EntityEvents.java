@@ -87,6 +87,7 @@ import online.kingdomkeys.kingdomkeys.entity.mob.goal.MarluxiaGoal;
 import online.kingdomkeys.kingdomkeys.entity.mob.goal.PartyAllyGoals;
 import online.kingdomkeys.kingdomkeys.entity.organization.KKThrowableEntity;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.EpicFightUtils;
+import online.kingdomkeys.kingdomkeys.integration.epicfight.EpicFightEvents;
 import online.kingdomkeys.kingdomkeys.item.*;
 import online.kingdomkeys.kingdomkeys.item.card.MapCardItem;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
@@ -126,13 +127,6 @@ import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.roo
 import online.kingdomkeys.kingdomkeys.world.worldmap.GummiWorldLoader;
 import online.kingdomkeys.kingdomkeys.world.worldmap.WorldMap;
 import org.joml.Vector3f;
-import yesman.epicfight.registry.entries.EpicFightSkillDataKeys;
-import yesman.epicfight.skill.SkillContainer;
-import yesman.epicfight.skill.SkillDataManager;
-import yesman.epicfight.skill.SkillSlots;
-import yesman.epicfight.skill.guard.ImpactGuardSkill;
-import yesman.epicfight.world.capabilities.EpicFightCapabilities;
-import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
 
 import java.util.HashMap;
 import java.util.List;
@@ -559,21 +553,8 @@ public class EntityEvents {
 		System.out.println(playerData.getTotalMaterialMap());
 		System.out.println("---");*/
 
-		// Workaround for EFM potential bug: PARRY_MOTION_COUNTER only references
-		// ParryingSkill.class, not ImpactGuardSkill.class (both extend GuardSkill),
-		// so it's never registered in SkillDataManager when the active skill is ImpactGuardSkill.
-		// We register it manually in both sides (client/server).
 		if (KingdomKeys.efmLoaded) {
-			PlayerPatch<?> patch = EpicFightCapabilities.getEntityPatch(player, PlayerPatch.class);
-			if (patch != null) {
-				SkillContainer guardContainer = patch.getSkill(SkillSlots.GUARD);
-				if (guardContainer != null && guardContainer.getSkill() instanceof ImpactGuardSkill) {
-					SkillDataManager dataManager = guardContainer.getDataManager();
-					if (!dataManager.hasData(EpicFightSkillDataKeys.PARRY_MOTION_COUNTER)) {
-						dataManager.registerData(EpicFightSkillDataKeys.PARRY_MOTION_COUNTER);
-					}
-				}
-			}
+			EpicFightEvents.registerGuardParryData(player);
 		}
 
 		if (playerData != null) {
@@ -1269,8 +1250,7 @@ public class EntityEvents {
 			if (event.getEntity() instanceof Player guardingPlayer) {
 				PlayerData playerData = PlayerData.get(guardingPlayer);
 
-				if (CombatAbilities.blocks(guardingPlayer, playerData, event.getSource())) {
-					CombatAbilities.onBlocked(guardingPlayer, playerData);
+				if (CombatAbilities.blocks(guardingPlayer, playerData, event.getSource()) && CombatAbilities.onBlocked(guardingPlayer, playerData, event.getSource(), event.getAmount())) {
 					event.setCanceled(true);
 					return;
 				}

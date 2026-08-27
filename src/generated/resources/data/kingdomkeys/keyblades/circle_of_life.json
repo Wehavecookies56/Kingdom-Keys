@@ -5,6 +5,9 @@
     "str": 6
   },
   "description": "item.kingdomkeys.circle_of_life.desc",
+  "hit_particles": [
+    "kingdomkeys:textures/particle/generic_hit.png"
+  ],
   "keychain": "kingdomkeys:circle_of_life_chain",
   "levels": [
     {

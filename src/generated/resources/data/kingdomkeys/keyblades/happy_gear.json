@@ -5,6 +5,9 @@
     "str": 6
   },
   "description": "item.kingdomkeys.happy_gear.desc",
+  "hit_particles": [
+    "kingdomkeys:textures/particle/generic_hit.png"
+  ],
   "keychain": "kingdomkeys:happy_gear_chain",
   "levels": [
     {

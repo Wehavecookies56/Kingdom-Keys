@@ -5,6 +5,9 @@
     "str": 4
   },
   "description": "item.kingdomkeys.fairy_stars.desc",
+  "hit_particles": [
+    "kingdomkeys:textures/particle/generic_hit.png"
+  ],
   "keychain": "kingdomkeys:fairy_stars_chain",
   "levels": [
     {

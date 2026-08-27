@@ -4,6 +4,9 @@
     "str": 4
   },
   "description": "item.kingdomkeys.star_seeker.desc",
+  "hit_particles": [
+    "kingdomkeys:textures/particle/generic_hit.png"
+  ],
   "keychain": "kingdomkeys:star_seeker_chain",
   "levels": [
     {

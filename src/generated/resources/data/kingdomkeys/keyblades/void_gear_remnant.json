@@ -4,6 +4,9 @@
     "str": 9
   },
   "description": "item.kingdomkeys.void_gear_remnant.desc",
+  "hit_particles": [
+    "kingdomkeys:textures/particle/generic_hit.png"
+  ],
   "keychain": "kingdomkeys:void_gear_remnant_chain",
   "levels": [
     {

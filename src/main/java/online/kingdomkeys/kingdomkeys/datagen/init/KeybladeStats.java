@@ -7,6 +7,7 @@ import net.minecraft.world.item.Item;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
+import online.kingdomkeys.kingdomkeys.client.particles.ModParticles;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.datagen.builder.KeybladeBuilder;
 import online.kingdomkeys.kingdomkeys.datagen.provider.KeybladeProvider;
@@ -82,7 +83,7 @@ public class KeybladeStats extends KeybladeProvider {
 		addStats(Strings.incompleteKiblade, Strings.incompleteKibladeChain, 5, 3, ModAbilities.LIGHT_AND_DARKNESS.location(), 2.0F, ModSounds.generic_hit.get());
 		addStats(Strings.invisKeyblade, Strings.invisKeybladeChain, 8, 7, null, 1.0F, ModSounds.generic_hit.get());
 		addStats(Strings.irasKeyblade, Strings.irasKeybladeChain, 8, 7, null, 1.0F, ModSounds.generic_hit.get());
-		addStats(Strings.jungleKing, Strings.jungleKingChain, 5, 2, null, 2.0F, ModSounds.generic_hit.get());
+		addStats(Strings.jungleKing, Strings.jungleKingChain, 5, 2, null, 2.0F, ModSounds.generic_hit.get(), ModParticles.GENERIC_HIT_TEXTURE, ModParticles.LEAF_HIT_TEXTURE);
 		addStats(Strings.keybladeOfPeoplesHearts, Strings.keybladeOfPeoplesHeartsChain, 6, 2, null, 1.0F, ModSounds.way_to_dawn_hit.get());
 		addStats(Strings.kiblade, Strings.kibladeChain, 10, 7, ModAbilities.DARK_DOMINATION.location(), 2.0F, ModSounds.generic_hit.get());
 		addStats(Strings.kingdomKey, Strings.kingdomKeyChain, 4, 1, ModAbilities.DAMAGE_CONTROL.location(), 1.0F, ModSounds.kingdom_key_hit.get());
@@ -330,9 +331,9 @@ public class KeybladeStats extends KeybladeProvider {
 		return Pair.of(item, qty);
 	}
 
-	public void addStats(String keyblade, String keychain, int baseStr, int baseMag, ResourceLocation ability, float extraReach, SoundEvent sound) {
+	public void addStats(String keyblade, String keychain, int baseStr, int baseMag, ResourceLocation ability, float extraReach, SoundEvent sound, ResourceLocation... hitParticles) {
 		Recipe[] levels = buildLevels(BASE_MATERIALS.getOrDefault(keyblade, DEFAULT_MATERIALS));
-		getBuilder(keyblade).keychain(keychain).baseStats(baseStr, baseMag).ability(ability).reach(extraReach).sound(sound).levels(levels).desc("item." + MODID + "." + keyblade + ".desc");
+		getBuilder(keyblade).keychain(keychain).baseStats(baseStr, baseMag).ability(ability).reach(extraReach).sound(sound).hitParticles(hitParticles).levels(levels).desc("item." + MODID + "." + keyblade + ".desc");
 	}
 
 	/**

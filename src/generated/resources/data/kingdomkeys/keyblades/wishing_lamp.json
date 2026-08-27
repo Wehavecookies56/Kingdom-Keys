@@ -5,6 +5,9 @@
     "str": 6
   },
   "description": "item.kingdomkeys.wishing_lamp.desc",
+  "hit_particles": [
+    "kingdomkeys:textures/particle/generic_hit.png"
+  ],
   "keychain": "kingdomkeys:wishing_lamp_chain",
   "levels": [
     {

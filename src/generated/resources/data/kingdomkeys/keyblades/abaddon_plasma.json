@@ -4,6 +4,9 @@
     "str": 7
   },
   "description": "item.kingdomkeys.abaddon_plasma.desc",
+  "hit_particles": [
+    "kingdomkeys:textures/particle/generic_hit.png"
+  ],
   "keychain": "kingdomkeys:abaddon_plasma_chain",
   "levels": [
     {

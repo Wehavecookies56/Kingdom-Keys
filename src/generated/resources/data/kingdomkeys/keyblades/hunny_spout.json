@@ -5,6 +5,9 @@
     "str": 4
   },
   "description": "item.kingdomkeys.hunny_spout.desc",
+  "hit_particles": [
+    "kingdomkeys:textures/particle/generic_hit.png"
+  ],
   "keychain": "kingdomkeys:hunny_spout_chain",
   "levels": [
     {

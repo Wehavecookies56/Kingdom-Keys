@@ -4,6 +4,9 @@
     "str": 6
   },
   "description": "item.kingdomkeys.dual_disc.desc",
+  "hit_particles": [
+    "kingdomkeys:textures/particle/generic_hit.png"
+  ],
   "keychain": "kingdomkeys:dual_disc_chain",
   "levels": [
     {

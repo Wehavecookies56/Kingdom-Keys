@@ -4,6 +4,9 @@
     "str": 6
   },
   "description": "item.kingdomkeys.total_eclipse.desc",
+  "hit_particles": [
+    "kingdomkeys:textures/particle/generic_hit.png"
+  ],
   "keychain": "kingdomkeys:total_eclipse_chain",
   "levels": [
     {

@@ -5,6 +5,9 @@
     "str": 5
   },
   "description": "item.kingdomkeys.incomplete_kiblade.desc",
+  "hit_particles": [
+    "kingdomkeys:textures/particle/generic_hit.png"
+  ],
   "keychain": "kingdomkeys:incomplete_kiblade_chain",
   "levels": [
     {

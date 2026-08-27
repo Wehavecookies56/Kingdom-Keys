@@ -4,6 +4,9 @@
     "str": 7
   },
   "description": "item.kingdomkeys.guardian_soul.desc",
+  "hit_particles": [
+    "kingdomkeys:textures/particle/generic_hit.png"
+  ],
   "keychain": "kingdomkeys:guardian_soul_chain",
   "levels": [
     {

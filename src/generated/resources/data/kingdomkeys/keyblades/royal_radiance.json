@@ -5,6 +5,9 @@
     "str": 9
   },
   "description": "item.kingdomkeys.royal_radiance.desc",
+  "hit_particles": [
+    "kingdomkeys:textures/particle/generic_hit.png"
+  ],
   "keychain": "kingdomkeys:royal_radiance_chain",
   "levels": [
     {

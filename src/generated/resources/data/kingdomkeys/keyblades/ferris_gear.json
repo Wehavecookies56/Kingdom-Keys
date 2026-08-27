@@ -4,6 +4,9 @@
     "str": 5
   },
   "description": "item.kingdomkeys.ferris_gear.desc",
+  "hit_particles": [
+    "kingdomkeys:textures/particle/generic_hit.png"
+  ],
   "keychain": "kingdomkeys:ferris_gear_chain",
   "levels": [
     {

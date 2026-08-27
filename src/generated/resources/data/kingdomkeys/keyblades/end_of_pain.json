@@ -4,6 +4,9 @@
     "str": 8
   },
   "description": "item.kingdomkeys.end_of_pain.desc",
+  "hit_particles": [
+    "kingdomkeys:textures/particle/generic_hit.png"
+  ],
   "keychain": "kingdomkeys:end_of_pain_chain",
   "levels": [
     {

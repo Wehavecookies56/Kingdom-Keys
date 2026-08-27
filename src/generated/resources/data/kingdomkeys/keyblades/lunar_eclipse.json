@@ -4,6 +4,9 @@
     "str": 9
   },
   "description": "item.kingdomkeys.lunar_eclipse.desc",
+  "hit_particles": [
+    "kingdomkeys:textures/particle/generic_hit.png"
+  ],
   "keychain": "kingdomkeys:lunar_eclipse_chain",
   "levels": [
     {

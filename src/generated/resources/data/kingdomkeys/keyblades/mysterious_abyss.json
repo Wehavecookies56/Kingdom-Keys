@@ -5,6 +5,9 @@
     "str": 5
   },
   "description": "item.kingdomkeys.mysterious_abyss.desc",
+  "hit_particles": [
+    "kingdomkeys:textures/particle/generic_hit.png"
+  ],
   "keychain": "kingdomkeys:mysterious_abyss_chain",
   "levels": [
     {

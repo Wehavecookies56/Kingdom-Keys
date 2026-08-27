@@ -4,6 +4,9 @@
     "str": 5
   },
   "description": "item.kingdomkeys.star_cluster.desc",
+  "hit_particles": [
+    "kingdomkeys:textures/particle/generic_hit.png"
+  ],
   "keychain": "kingdomkeys:star_cluster_chain",
   "levels": [
     {

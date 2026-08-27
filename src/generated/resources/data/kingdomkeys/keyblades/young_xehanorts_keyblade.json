@@ -4,6 +4,9 @@
     "str": 9
   },
   "description": "item.kingdomkeys.young_xehanorts_keyblade.desc",
+  "hit_particles": [
+    "kingdomkeys:textures/particle/generic_hit.png"
+  ],
   "keychain": "kingdomkeys:young_xehanorts_keyblade_chain",
   "levels": [
     {

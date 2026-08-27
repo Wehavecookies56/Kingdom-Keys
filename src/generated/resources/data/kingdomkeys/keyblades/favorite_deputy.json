@@ -4,6 +4,9 @@
     "str": 5
   },
   "description": "item.kingdomkeys.favorite_deputy.desc",
+  "hit_particles": [
+    "kingdomkeys:textures/particle/generic_hit.png"
+  ],
   "keychain": "kingdomkeys:favorite_deputy_chain",
   "levels": [
     {

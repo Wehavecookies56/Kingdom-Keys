@@ -33,6 +33,8 @@ import online.kingdomkeys.kingdomkeys.client.gui.overlay.*;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.resources.model.BakedModel;
 import online.kingdomkeys.kingdomkeys.client.render.*;
+import online.kingdomkeys.kingdomkeys.client.particles.KeybladeHitParticle;
+import online.kingdomkeys.kingdomkeys.client.particles.ModParticles;
 import online.kingdomkeys.kingdomkeys.client.render.item.KeychainModelWrapper;
 import online.kingdomkeys.kingdomkeys.client.render.item.KeychainRenderer;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
@@ -154,6 +156,11 @@ public class ClientSetup {
 		};
 
 		BuiltInRegistries.ITEM.stream().filter(KeybladeItem.class::isInstance).forEach(keyblade -> event.registerItem(guarding, keyblade));
+	}
+
+	@SubscribeEvent
+	public static void registerParticleProviders(RegisterParticleProvidersEvent event) {
+		event.registerSpecial(ModParticles.KEYBLADE_HIT.get(), new KeybladeHitParticle.Provider());
 	}
 
 	@SubscribeEvent

@@ -6,6 +6,7 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -39,6 +40,7 @@ import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.api.item.IItemCategory;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
+import online.kingdomkeys.kingdomkeys.client.particles.KeybladeHitParticleOptions;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
@@ -262,8 +264,11 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 					}
 				}
 			} else if (CombatAbilities.canGuard(player, playerData)) { //Guard
-				CombatAbilities.startGuard(player, playerData);
-				return InteractionResultHolder.success(itemstack);
+				// Answered here rather than falling through: a cancelled guard should do nothing, not fire the
+				// Wisdom shot below, which would be a nasty surprise for a click that was spent guarding
+				return CombatAbilities.startGuard(player, playerData)
+						? InteractionResultHolder.success(itemstack)
+						: InteractionResultHolder.fail(itemstack);
 			} else { //Wisdom attack
 				if(playerData.isFormActive(ModDriveForms.WISDOM)) {
 					player.swing(hand);
@@ -320,20 +325,40 @@ public class KeybladeItem extends SwordItem implements IItemCategory, IExtendedR
 			if (customSound != null) {
 				attacker.level().playSound(null, attacker.getX(), attacker.getY(), attacker.getZ(), customSound, SoundSource.PLAYERS, 1.0F, attacker.getRandom().nextFloat() * 0.2F + 0.9F);
 			}
+
+			spawnHitParticles(target, attacker);
 		}
 		return super.hurtEnemy(stack, target, attacker);
+	}
+
+	private static final int HIT_PARTICLES = 3;
+
+	private void spawnHitParticles(LivingEntity target, LivingEntity attacker) {
+		if (data == null || data.getHitParticles().isEmpty() || !(attacker.level() instanceof ServerLevel level)) {
+			return;
+		}
+
+		List<ResourceLocation> textures = data.getHitParticles();
+		float scale = data.getHitParticleScale();
+
+		double spreadX = target.getBbWidth() * 0.5D;
+		double spreadY = target.getBbHeight() * 0.35D;
+		double middle = target.getY() + target.getBbHeight() * 0.6D;
+
+		for (int i = 0; i < HIT_PARTICLES; i++) {
+			ResourceLocation texture = textures.get(attacker.getRandom().nextInt(textures.size()));
+			level.sendParticles(new KeybladeHitParticleOptions(texture, scale), target.getX(), middle, target.getZ(), 1, spreadX, spreadY, spreadX, 0.02D);
+		}
 	}
 
 	@OnlyIn(Dist.CLIENT)
 	@Override
 	public void appendHoverText(ItemStack stack, TooltipContext pContext, List<Component> tooltip, TooltipFlag flagIn) {
 		if (data != null) {
-			tooltip = ClientUtils.getTooltip(tooltip, pContext, stack);
+			ClientUtils.getTooltip(tooltip, pContext, stack);
 			if(recipe != null) {
-				Iterator<Entry<Item, Integer>> it = recipe.getMaterials().entrySet().iterator();
-				while(it.hasNext()) {
-					Entry<Item, Integer> mat = it.next();
-					tooltip.add(Component.translatable(ChatFormatting.WHITE+ "" + new ItemStack(mat.getKey()).getHoverName() + " x"+mat.getValue()));
+				for (Entry<Item, Integer> mat : recipe.getMaterials().entrySet()) {
+					tooltip.add(Component.translatable(ChatFormatting.WHITE + "" + new ItemStack(mat.getKey()).getHoverName() + " x" + mat.getValue()));
 				}
 			}
 		} else {

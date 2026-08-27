@@ -4,6 +4,9 @@
     "str": 5
   },
   "description": "item.kingdomkeys.true_lights_flight.desc",
+  "hit_particles": [
+    "kingdomkeys:textures/particle/generic_hit.png"
+  ],
   "keychain": "kingdomkeys:true_lights_flight_chain",
   "levels": [
     {

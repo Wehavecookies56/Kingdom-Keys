@@ -5,6 +5,9 @@
     "str": 4
   },
   "description": "item.kingdomkeys.pixie_petal.desc",
+  "hit_particles": [
+    "kingdomkeys:textures/particle/generic_hit.png"
+  ],
   "keychain": "kingdomkeys:pixie_petal_chain",
   "levels": [
     {

@@ -1,8 +1,11 @@
 ## Added:
+* Animated keychains simulation!
+* Keyblade hit particles.
 * Minimap icons for Air Soldier, Defender, Neoshadow and Novashadow (Thanks to WillabyNeko)
 * Level up item giving tracker so further exp readjustments won't give them again.
 * Keychains bag.
 * Test Riku idle stance.
+* Guard event which fires both, on guard start and on an actual block.
 
 ## Changed:
 * Pyramid gummi hitbox got adjusted.
@@ -17,3 +20,5 @@
 * [EFM] Limit form boxing instead of attacking with the keyblade.
 * [EFM] Valor form walking animation.
 * [EFM] Drive Form poses not resetting when they are reverted until a weapon is resummoned.
+* [EFM] Crash when trying to cast any mob as a Player.
+* [EFM] Crash when EFM is not present in the modpack.

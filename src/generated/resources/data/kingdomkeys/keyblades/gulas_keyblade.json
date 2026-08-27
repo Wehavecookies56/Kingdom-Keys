@@ -4,6 +4,9 @@
     "str": 8
   },
   "description": "item.kingdomkeys.gulas_keyblade.desc",
+  "hit_particles": [
+    "kingdomkeys:textures/particle/generic_hit.png"
+  ],
   "keychain": "kingdomkeys:gulas_keyblade_chain",
   "levels": [
     {

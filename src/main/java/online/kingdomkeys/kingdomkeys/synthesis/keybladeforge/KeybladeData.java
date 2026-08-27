@@ -24,6 +24,10 @@ public class KeybladeData {
     float reach;
     SoundEvent sound = ModSounds.generic_hit.get();
     float critChance;
+    // Empty by default, so a keyblade that says nothing about particles simply throws none
+    List<ResourceLocation> hitParticles = List.of();
+    // How wide each one gets at the middle of its life, in blocks
+    float hitParticleScale = 0.35F;
     //List of upgrades for the keyblade
     @Nullable List<KeybladeLevel> levels;
     //Description for the tooltip of the keyblade
@@ -123,4 +127,20 @@ public class KeybladeData {
     public void setCritChance(float critChance){this.critChance = critChance;}
 
     public float getCritChance() { return critChance;}
+
+    public List<ResourceLocation> getHitParticles() {
+        return hitParticles;
+    }
+
+    public void setHitParticles(List<ResourceLocation> hitParticles) {
+        this.hitParticles = hitParticles == null ? List.of() : List.copyOf(hitParticles);
+    }
+
+    public float getHitParticleScale() {
+        return hitParticleScale;
+    }
+
+    public void setHitParticleScale(float hitParticleScale) {
+        this.hitParticleScale = hitParticleScale;
+    }
 }

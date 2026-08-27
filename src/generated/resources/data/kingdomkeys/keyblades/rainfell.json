@@ -4,6 +4,9 @@
     "str": 4
   },
   "description": "item.kingdomkeys.rainfell.desc",
+  "hit_particles": [
+    "kingdomkeys:textures/particle/generic_hit.png"
+  ],
   "keychain": "kingdomkeys:rainfell_chain",
   "levels": [
     {

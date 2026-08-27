@@ -5,6 +5,9 @@
     "str": 9
   },
   "description": "item.kingdomkeys.nightmares_end_and_mirage_split.desc",
+  "hit_particles": [
+    "kingdomkeys:textures/particle/generic_hit.png"
+  ],
   "keychain": "kingdomkeys:nightmares_end_and_mirage_split_chain",
   "levels": [
     {

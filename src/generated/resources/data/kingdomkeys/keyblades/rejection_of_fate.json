@@ -4,6 +4,9 @@
     "str": 5
   },
   "description": "item.kingdomkeys.rejection_of_fate.desc",
+  "hit_particles": [
+    "kingdomkeys:textures/particle/generic_hit.png"
+  ],
   "keychain": "kingdomkeys:rejection_of_fate_chain",
   "levels": [
     {

@@ -4,6 +4,9 @@
     "str": 7
   },
   "description": "item.kingdomkeys.lost_memory.desc",
+  "hit_particles": [
+    "kingdomkeys:textures/particle/generic_hit.png"
+  ],
   "keychain": "kingdomkeys:lost_memory_chain",
   "levels": [
     {

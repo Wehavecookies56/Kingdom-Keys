@@ -4,6 +4,9 @@
     "str": 6
   },
   "description": "item.kingdomkeys.crown_of_guilt.desc",
+  "hit_particles": [
+    "kingdomkeys:textures/particle/generic_hit.png"
+  ],
   "keychain": "kingdomkeys:crown_of_guilt_chain",
   "levels": [
     {

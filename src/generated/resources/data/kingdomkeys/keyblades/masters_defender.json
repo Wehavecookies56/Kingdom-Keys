@@ -5,6 +5,9 @@
     "str": 8
   },
   "description": "item.kingdomkeys.masters_defender.desc",
+  "hit_particles": [
+    "kingdomkeys:textures/particle/generic_hit.png"
+  ],
   "keychain": "kingdomkeys:masters_defender_chain",
   "levels": [
     {

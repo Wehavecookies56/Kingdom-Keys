@@ -4,6 +4,9 @@
     "str": 6
   },
   "description": "item.kingdomkeys.silent_dirge.desc",
+  "hit_particles": [
+    "kingdomkeys:textures/particle/generic_hit.png"
+  ],
   "keychain": "kingdomkeys:silent_dirge_chain",
   "levels": [
     {

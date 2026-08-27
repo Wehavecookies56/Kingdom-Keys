@@ -5,6 +5,9 @@
     "str": 4
   },
   "description": "item.kingdomkeys.follow_the_wind.desc",
+  "hit_particles": [
+    "kingdomkeys:textures/particle/generic_hit.png"
+  ],
   "keychain": "kingdomkeys:follow_the_wind_chain",
   "levels": [
     {
