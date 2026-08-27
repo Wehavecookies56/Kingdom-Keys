@@ -111,7 +111,7 @@ public class KeychainRenderer extends BlockEntityWithoutLevelRenderer {
 		CUTS.put(KingdomKeys.rl(Strings.kingdomKey), 0.2870F);
 		CUTS.put(KingdomKeys.rl(Strings.kingdomKeyD), 0.2870F);
 		CUTS.put(KingdomKeys.rl(Strings.kingdomKeyN), 0.2870F);
-		CUTS.put(KingdomKeys.rl(Strings.longNight), 0.2450F);//
+		CUTS.put(KingdomKeys.rl(Strings.longNight), 0.2450F);
 		CUTS.put(KingdomKeys.rl(Strings.lostMemory), 0.2490F);
 		CUTS.put(KingdomKeys.rl(Strings.mastersDefender), 0.2429F);
 		CUTS.put(KingdomKeys.rl(Strings.midnightBlue), 0.2420F);
