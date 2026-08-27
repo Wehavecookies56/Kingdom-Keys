@@ -5,14 +5,14 @@
 		"blade": {
 			"parent": "neoforge:item/default",
 			"loader": "neoforge:obj",
-			"model": "kingdomkeys:models/item/keyblade/kingdomkeyd.obj",
-			"visibility": { "keychain": false }
+			"mtl_override": "kingdomkeys:models/item/keyblade/kingdomkeyd.mtl",
+			"model": "kingdomkeys:models/item/keyblade/kingdomkeyd_base.obj"
 		},
 		"keychain": {
 			"parent": "neoforge:item/default",
 			"loader": "neoforge:obj",
-			"model": "kingdomkeys:models/item/keyblade/kingdomkeyd.obj",
-			"visibility": { "base": false }
+			"mtl_override": "kingdomkeys:models/item/keyblade/kingdomkeyd.mtl",
+			"model": "kingdomkeys:models/item/keyblade/kingdomkeyd_keychain.obj"
 		}
 	}
 }

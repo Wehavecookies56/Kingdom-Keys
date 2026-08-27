@@ -6,11 +6,11 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
@@ -27,6 +27,7 @@ import org.joml.Matrix3f;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -73,7 +74,29 @@ public class KeychainRenderer extends BlockEntityWithoutLevelRenderer {
 			KingdomKeys.rl(Strings.kingdomKeyD),
 			KingdomKeys.rl(Strings.kingdomKeyN),
 			KingdomKeys.rl(Strings.fenrir),
-			KingdomKeys.rl(Strings.deadOfNight));
+			KingdomKeys.rl(Strings.deadOfNight),
+
+			// The ones that carry their own hit sound rather than the generic one, so the weapons that were
+			// given individual attention elsewhere get it here too
+			KingdomKeys.rl(Strings.braveheart),
+			KingdomKeys.rl(Strings.dawnTillDusk),
+			KingdomKeys.rl(Strings.destinysEmbrace),
+			KingdomKeys.rl(Strings.earthshaker),
+			KingdomKeys.rl(Strings.endsOfTheEarth),
+			KingdomKeys.rl(Strings.frolicFlame),
+			KingdomKeys.rl(Strings.grandChef),
+			KingdomKeys.rl(Strings.hiddenDragon),
+			KingdomKeys.rl(Strings.keybladeOfPeoplesHearts),
+			KingdomKeys.rl(Strings.longNight),
+			KingdomKeys.rl(Strings.lostMemory),
+			KingdomKeys.rl(Strings.midnightBlue),
+			KingdomKeys.rl(Strings.phantomGreen),
+			KingdomKeys.rl(Strings.rainfell),
+			KingdomKeys.rl(Strings.retribution),
+			KingdomKeys.rl(Strings.starSeeker),
+			KingdomKeys.rl(Strings.stormfall),
+			KingdomKeys.rl(Strings.waywardWind),
+			KingdomKeys.rl(Strings.voidGearRemnant));
 
 	/**
 	 * The model holding both halves. A composite, whose children are the same obj baked twice with opposite
@@ -128,13 +151,13 @@ public class KeychainRenderer extends BlockEntityWithoutLevelRenderer {
 
 		Vector3f hinge = pivot(keyblade, keychain);
 
+		describe(keyblade, blade, keychain, hinge);
+
 		// The blade keeps the render type the item would have had anyway
 		VertexConsumer bladeConsumer = ItemRenderer.getFoilBufferDirect(buffer, ItemBlockRenderTypes.getRenderType(stack, true), true, stack.hasFoil());
 		itemRenderer.renderModelLists(blade, stack, packedLight, packedOverlay, poseStack, bladeConsumer);
 
-		// The chain links and the token are flat cards with no thickness, so the culling render type the item
-		// would normally get makes them vanish from behind. They need the two sided sheet.
-		VertexConsumer keychainConsumer = ItemRenderer.getFoilBufferDirect(buffer, Sheets.translucentItemSheet(), true, stack.hasFoil());
+		VertexConsumer keychainConsumer = ItemRenderer.getFoilBufferDirect(buffer, ItemBlockRenderTypes.getRenderType(stack, true), true, stack.hasFoil());
 
 		poseStack.pushPose();
 		{
@@ -265,8 +288,49 @@ public class KeychainRenderer extends BlockEntityWithoutLevelRenderer {
 		return hinge;
 	}
 
+	private static final java.util.Set<ResourceLocation> DESCRIBED = new java.util.HashSet<>();
+
+	/**
+	 * Temporary. Reports what actually came out of the bake for each half, once per keyblade. The point is to
+	 * tell apart the two things that look alike in game: a keychain child that really does hold only the chain
+	 * but is being hinged in the wrong place, and a keychain child where the visibility switch did not take,
+	 * so it holds the whole weapon and swings a second copy of it about the blade tip.
+	 */
+	private static void describe(ResourceLocation keyblade, BakedModel blade, BakedModel keychain, Vector3f hinge) {
+		if (!DESCRIBED.add(keyblade)) {
+			return;
+		}
+
+		KingdomKeys.LOGGER.info("keychain split {} | blade {} | keychain {} | hinge {} {} {}",
+				keyblade, summarise(blade), summarise(keychain), hinge.x(), hinge.y(), hinge.z());
+	}
+
+	private static String summarise(BakedModel model) {
+		List<BakedQuad> quads = new ArrayList<>(model.getQuads(null, null, RANDOM));
+
+		for (Direction direction : Direction.values()) {
+			quads.addAll(model.getQuads(null, direction, RANDOM));
+		}
+
+		float low = Float.POSITIVE_INFINITY, high = Float.NEGATIVE_INFINITY;
+
+		for (BakedQuad quad : quads) {
+			int[] vertices = quad.getVertices();
+			int stride = vertices.length / 4;
+
+			for (int i = 0; i < 4; i++) {
+				float y = Float.intBitsToFloat(vertices[i * stride + 1]);
+				low = Math.min(low, y);
+				high = Math.max(high, y);
+			}
+		}
+
+		return String.format("%d quads, Y %.2f..%.2f", quads.size(), low, high);
+	}
+
 	/** Clears the cached hinges so a resource reload can pick up an edited model */
 	public static void clearCache() {
 		PIVOTS.clear();
+		DESCRIBED.clear();
 	}
 }

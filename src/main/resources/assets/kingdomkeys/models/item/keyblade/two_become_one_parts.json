@@ -5,14 +5,16 @@
 		"blade": {
 			"parent": "neoforge:item/default",
 			"loader": "neoforge:obj",
-			"model": "kingdomkeys:models/item/keyblade/twobecomeone.obj",
-			"visibility": { "keychain": false }
+			"flip_v": true,
+			"mtl_override": "kingdomkeys:models/item/keyblade/twobecomeone.mtl",
+			"model": "kingdomkeys:models/item/keyblade/twobecomeone_base.obj"
 		},
 		"keychain": {
 			"parent": "neoforge:item/default",
 			"loader": "neoforge:obj",
-			"model": "kingdomkeys:models/item/keyblade/twobecomeone.obj",
-			"visibility": { "base": false }
+			"flip_v": true,
+			"mtl_override": "kingdomkeys:models/item/keyblade/twobecomeone.mtl",
+			"model": "kingdomkeys:models/item/keyblade/twobecomeone_keychain.obj"
 		}
 	}
 }

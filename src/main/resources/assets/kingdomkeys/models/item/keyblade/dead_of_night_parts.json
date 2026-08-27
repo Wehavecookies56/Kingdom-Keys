@@ -5,14 +5,16 @@
 		"blade": {
 			"parent": "neoforge:item/default",
 			"loader": "neoforge:obj",
-			"model": "kingdomkeys:models/item/keyblade/starcluster.obj",
-			"visibility": { "keychain": false }
+			"mtl_override": "kingdomkeys:models/item/keyblade/deadofnight.mtl",
+			"flip_v": true,
+			"model": "kingdomkeys:models/item/keyblade/starcluster_base.obj"
 		},
 		"keychain": {
 			"parent": "neoforge:item/default",
 			"loader": "neoforge:obj",
-			"model": "kingdomkeys:models/item/keyblade/starcluster.obj",
-			"visibility": { "base": false }
+			"mtl_override": "kingdomkeys:models/item/keyblade/deadofnight.mtl",
+			"flip_v": true,
+			"model": "kingdomkeys:models/item/keyblade/starcluster_keychain.obj"
 		}
 	}
 }

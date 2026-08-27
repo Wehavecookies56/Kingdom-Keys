@@ -5,14 +5,14 @@
 		"blade": {
 			"parent": "neoforge:item/default",
 			"loader": "neoforge:obj",
-			"model": "kingdomkeys:models/item/keyblade/oblivion.obj",
-			"visibility": { "keychain": false }
+			"mtl_override": "kingdomkeys:models/item/keyblade/oblivion.mtl",
+			"model": "kingdomkeys:models/item/keyblade/oblivion_base.obj"
 		},
 		"keychain": {
 			"parent": "neoforge:item/default",
 			"loader": "neoforge:obj",
-			"model": "kingdomkeys:models/item/keyblade/oblivion.obj",
-			"visibility": { "base": false }
+			"mtl_override": "kingdomkeys:models/item/keyblade/oblivion.mtl",
+			"model": "kingdomkeys:models/item/keyblade/oblivion_keychain.obj"
 		}
 	}
 }

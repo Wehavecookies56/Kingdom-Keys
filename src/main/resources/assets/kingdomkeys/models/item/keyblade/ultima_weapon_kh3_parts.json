@@ -5,14 +5,14 @@
 		"blade": {
 			"parent": "neoforge:item/default",
 			"loader": "neoforge:obj",
-			"model": "kingdomkeys:models/item/keyblade/ultimaweaponkh3.obj",
-			"visibility": { "keychain": false }
+			"mtl_override": "kingdomkeys:models/item/keyblade/ultimaweaponkh3.mtl",
+			"model": "kingdomkeys:models/item/keyblade/ultimaweaponkh3_base.obj"
 		},
 		"keychain": {
 			"parent": "neoforge:item/default",
 			"loader": "neoforge:obj",
-			"model": "kingdomkeys:models/item/keyblade/ultimaweaponkh3.obj",
-			"visibility": { "base": false }
+			"mtl_override": "kingdomkeys:models/item/keyblade/ultimaweaponkh3.mtl",
+			"model": "kingdomkeys:models/item/keyblade/ultimaweaponkh3_keychain.obj"
 		}
 	}
 }
