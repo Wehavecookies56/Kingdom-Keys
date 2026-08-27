@@ -235,10 +235,6 @@ public class ClientSetup {
 		event.register(ModelResourceLocation.standalone(KingdomKeys.rl("entity/portal")));
 		event.register(ModelResourceLocation.standalone(KingdomKeys.rl("block/station_of_awakening")));
 		event.register(ModelResourceLocation.standalone(KingdomKeys.rl("entity/heart")));
-
-		for (ResourceLocation keyblade : KeychainRenderer.SPLIT_KEYBLADES) {
-			event.register(KeychainRenderer.partsModel(keyblade));
-		}
 	}
 
 	@OnlyIn(Dist.CLIENT)
@@ -246,7 +242,7 @@ public class ClientSetup {
 	public static void wrapKeybladeModels(ModelEvent.ModifyBakingResult event) {
 		KeychainRenderer.clearCache();
 
-		for (ResourceLocation keyblade : KeychainRenderer.SPLIT_KEYBLADES) {
+		for (ResourceLocation keyblade : KeychainRenderer.splitKeyblades()) {
 			ModelResourceLocation location = ModelResourceLocation.inventory(keyblade);
 			BakedModel model = event.getModels().get(location);
 
@@ -255,8 +251,9 @@ public class ClientSetup {
 				continue;
 			}
 
-			event.getModels().put(location, new KeychainModelWrapper(model));
-			KingdomKeys.LOGGER.info("Wrapped {} for keychain animation, was {}", location, model.getClass().getName());
+			if (KeychainRenderer.install(keyblade, model)) {
+				event.getModels().put(location, new KeychainModelWrapper(model));
+			}
 		}
 	}
 

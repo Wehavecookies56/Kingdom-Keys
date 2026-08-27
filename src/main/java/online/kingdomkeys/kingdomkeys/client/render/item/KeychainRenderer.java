@@ -6,110 +6,83 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.resources.model.BakedModel;
-import net.minecraft.client.resources.model.ModelResourceLocation;
-import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import net.neoforged.neoforge.client.model.CompositeModel;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import org.joml.Matrix3f;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Draws a keyblade as two pieces so the keychain can hang and swing instead of being welded to the hilt.
  * <p>
- * The obj carries both halves as named groups, and the two model files bake it twice with opposite
- * {@code visibility}, which is what lets each half be drawn on its own transform. By the time this runs,
- * {@code ItemRenderer} has already applied the display transform of the model the item points at, so both
- * halves are drawn raw, in the same space, and only the keychain gets an extra rotation.
+ * The two halves are worked out by {@link KeychainSplit} from the model that was actually baked, not from a
+ * second set of model files. Splitting in the assets meant the result depended on which obj won the resource
+ * lookup, and any pack that shipped its own keyblade broke it: its groups are named differently, so nothing
+ * got hidden and the whole weapon was drawn twice, and its material names differ, so the model failed to load
+ * outright. Reading the baked quads sidesteps both, and a repainted keyblade comes apart like any other.
+ * <p>
+ * By the time this runs, {@code ItemRenderer} has already applied the display transform of the model the item
+ * points at, so both halves are drawn raw, in the same space, and only the keychain gets an extra rotation.
  */
 @OnlyIn(Dist.CLIENT)
 public class KeychainRenderer extends BlockEntityWithoutLevelRenderer {
 
-	/**
-	 * Keyblades whose obj has been split into a base and a keychain group. Only these get the two piece
-	 * treatment; every other keyblade keeps rendering the way it always has, so nothing breaks while the rest
-	 * of the models are still in one piece.
-	 */
-	public static final List<ResourceLocation> SPLIT_KEYBLADES = List.of(
-			KingdomKeys.rl(Strings.kingdomKey),
-			KingdomKeys.rl(Strings.oblivion),
-			KingdomKeys.rl(Strings.oathkeeper),
-			KingdomKeys.rl(Strings.bondOfFlame),
-			KingdomKeys.rl(Strings.bondOfTheBlaze),
-			KingdomKeys.rl(Strings.starCluster),
-			KingdomKeys.rl(Strings.twoBecomeOne),
-			KingdomKeys.rl(Strings.ultimaWeaponBBS),
-			KingdomKeys.rl(Strings.ultimaWeaponDDD),
-			KingdomKeys.rl(Strings.ultimaWeaponKH1),
-			KingdomKeys.rl(Strings.ultimaWeaponKH2),
-			KingdomKeys.rl(Strings.ultimaWeaponKH3),
-			KingdomKeys.rl(Strings.mastersDefender),
-			KingdomKeys.rl(Strings.youngXehanortsKeyblade),
-			KingdomKeys.rl(Strings.noName),
-			KingdomKeys.rl(Strings.noNameBBS),
-			KingdomKeys.rl(Strings.wayToTheDawn),
-			KingdomKeys.rl(Strings.mirageSplit),
-			KingdomKeys.rl(Strings.nightmaresEndAndMirageSplit),
-			KingdomKeys.rl(Strings.voidGear),
-			KingdomKeys.rl(Strings.kiblade),
-			KingdomKeys.rl(Strings.incompleteKiblade),
-			KingdomKeys.rl(Strings.kingdomKeyD),
-			KingdomKeys.rl(Strings.kingdomKeyN),
-			KingdomKeys.rl(Strings.fenrir),
-			KingdomKeys.rl(Strings.deadOfNight),
-
-			// The ones that carry their own hit sound rather than the generic one, so the weapons that were
-			// given individual attention elsewhere get it here too
-			KingdomKeys.rl(Strings.braveheart),
-			KingdomKeys.rl(Strings.dawnTillDusk),
-			KingdomKeys.rl(Strings.destinysEmbrace),
-			KingdomKeys.rl(Strings.earthshaker),
-			KingdomKeys.rl(Strings.endsOfTheEarth),
-			KingdomKeys.rl(Strings.frolicFlame),
-			KingdomKeys.rl(Strings.grandChef),
-			KingdomKeys.rl(Strings.hiddenDragon),
-			KingdomKeys.rl(Strings.keybladeOfPeoplesHearts),
-			KingdomKeys.rl(Strings.longNight),
-			KingdomKeys.rl(Strings.lostMemory),
-			KingdomKeys.rl(Strings.midnightBlue),
-			KingdomKeys.rl(Strings.phantomGreen),
-			KingdomKeys.rl(Strings.rainfell),
-			KingdomKeys.rl(Strings.retribution),
-			KingdomKeys.rl(Strings.starSeeker),
-			KingdomKeys.rl(Strings.stormfall),
-			KingdomKeys.rl(Strings.waywardWind),
-			KingdomKeys.rl(Strings.voidGearRemnant));
-
-	/**
-	 * The model holding both halves. A composite, whose children are the same obj baked twice with opposite
-	 * visibility, because visibility is a bake time switch and a BakedModel has no memory of which group a
-	 * quad came from: ObjModel.addQuads pours every visible group into one builder. Two bakes are unavoidable,
-	 * but the composite loader at least keeps them in one file and hands them back by name.
-	 */
-	public static ModelResourceLocation partsModel(ResourceLocation keyblade) {
-		return ModelResourceLocation.standalone(KingdomKeys.rl("item/keyblade/" + keyblade.getPath() + "_parts"));
+	/** Every keyblade this renderer knows how to take apart */
+	public static Set<ResourceLocation> splitKeyblades() {
+		return CUTS.keySet();
 	}
 
-	public static final String BLADE_PART = "blade";
-	public static final String KEYCHAIN_PART = "keychain";
+	/**
+	 * Where each keyblade is cut, as a share of its height measured up from its lowest point.
+	 * <p>
+	 * A share and not a coordinate on purpose. A resource pack is free to remodel a keyblade at whatever scale
+	 * it likes, and the split is made against whichever model won the resource lookup, so anything expressed in
+	 * model units would stop meaning the same thing the moment somebody shipped their own obj. The chain still
+	 * begins about a quarter of the way up, whatever units that turns out to be.
+	 * <p>
+	 * These were measured off the hand checked splits rather than guessed.
+	 */
+	private static final Map<ResourceLocation, Float> CUTS = new HashMap<>();
+
+	/** Filled in at bake time, one entry per keyblade whose model could actually be taken apart */
+	private static final Map<ResourceLocation, KeychainSplit> SPLITS = new HashMap<>();
+
+	/**
+	 * Takes a baked keyblade apart and remembers the halves, or leaves it alone if the cut found nothing to
+	 * swing. Returns whether the keyblade should be drawn by this renderer at all.
+	 */
+	public static boolean install(ResourceLocation keyblade, BakedModel model) {
+		Float cut = CUTS.get(keyblade);
+
+		if (cut == null) {
+			return false;
+		}
+
+		KeychainSplit split = KeychainSplit.of(model, cut);
+
+		if (split == null) {
+			KingdomKeys.LOGGER.warn("The model for {} could not be split at {}, so its keychain will not swing", keyblade, cut);
+			return false;
+		}
+
+		SPLITS.put(keyblade, split);
+
+		return true;
+	}
 
 	/** Where the chain points in the model when nothing is pulling on it: straight down the hilt */
 	private static final Vector3f REST = new Vector3f(0.0F, -1.0F, 0.0F);
@@ -120,10 +93,52 @@ public class KeychainRenderer extends BlockEntityWithoutLevelRenderer {
 	private static final float SWAY = 0.05F;
 	private static final float PERIOD_TICKS = 27.0F;
 
-	private static final RandomSource RANDOM = RandomSource.create();
-
-	/** Worked out from the baked quads the first time each keyblade is drawn, one hinge per model */
-	private static final Map<ResourceLocation, Vector3f> PIVOTS = new HashMap<>();
+	static {
+		CUTS.put(KingdomKeys.rl(Strings.bondOfFlame), 0.3149F);
+		CUTS.put(KingdomKeys.rl(Strings.bondOfTheBlaze), 0.2244F);
+		CUTS.put(KingdomKeys.rl(Strings.braveheart), 0.2268F);
+		CUTS.put(KingdomKeys.rl(Strings.dawnTillDusk), 0.2941F);
+		CUTS.put(KingdomKeys.rl(Strings.deadOfNight), 0.2787F);
+		CUTS.put(KingdomKeys.rl(Strings.destinysEmbrace), 0.3639F);
+		CUTS.put(KingdomKeys.rl(Strings.earthshaker), 0.2578F);
+		CUTS.put(KingdomKeys.rl(Strings.endsOfTheEarth), 0.2437F);
+		CUTS.put(KingdomKeys.rl(Strings.fenrir), 0.2349F);
+		CUTS.put(KingdomKeys.rl(Strings.frolicFlame), 0.2955F);
+		CUTS.put(KingdomKeys.rl(Strings.grandChef), 0.2107F);
+		CUTS.put(KingdomKeys.rl(Strings.hiddenDragon), 0.3141F);
+		CUTS.put(KingdomKeys.rl(Strings.incompleteKiblade), 0.1575F);
+		CUTS.put(KingdomKeys.rl(Strings.kiblade), 0.1575F);
+		CUTS.put(KingdomKeys.rl(Strings.kingdomKey), 0.2870F);
+		CUTS.put(KingdomKeys.rl(Strings.kingdomKeyD), 0.2870F);
+		CUTS.put(KingdomKeys.rl(Strings.kingdomKeyN), 0.2870F);
+		CUTS.put(KingdomKeys.rl(Strings.longNight), 0.2450F);//
+		CUTS.put(KingdomKeys.rl(Strings.lostMemory), 0.2490F);
+		CUTS.put(KingdomKeys.rl(Strings.mastersDefender), 0.2429F);
+		CUTS.put(KingdomKeys.rl(Strings.midnightBlue), 0.2420F);
+		CUTS.put(KingdomKeys.rl(Strings.mirageSplit), 0.2600F);
+		CUTS.put(KingdomKeys.rl(Strings.nightmaresEndAndMirageSplit), 0.1526F);
+		CUTS.put(KingdomKeys.rl(Strings.noName), 0.1945F);
+		CUTS.put(KingdomKeys.rl(Strings.noNameBBS), 0.2198F);
+		CUTS.put(KingdomKeys.rl(Strings.oathkeeper), 0.3052F);
+		CUTS.put(KingdomKeys.rl(Strings.oblivion), 0.2846F);
+		CUTS.put(KingdomKeys.rl(Strings.phantomGreen), 0.2421F);
+		CUTS.put(KingdomKeys.rl(Strings.rainfell), 0.2946F);
+		CUTS.put(KingdomKeys.rl(Strings.retribution), 0.2927F);
+		CUTS.put(KingdomKeys.rl(Strings.starCluster), 0.2787F);
+		CUTS.put(KingdomKeys.rl(Strings.starSeeker), 0.2450F);
+		CUTS.put(KingdomKeys.rl(Strings.stormfall), 0.2765F);
+		CUTS.put(KingdomKeys.rl(Strings.twoBecomeOne), 0.2603F);
+		CUTS.put(KingdomKeys.rl(Strings.ultimaWeaponBBS), 0.1781F);
+		CUTS.put(KingdomKeys.rl(Strings.ultimaWeaponDDD), 0.2381F);
+		CUTS.put(KingdomKeys.rl(Strings.ultimaWeaponKH1), 0.2839F);
+		CUTS.put(KingdomKeys.rl(Strings.ultimaWeaponKH2), 0.2533F);
+		CUTS.put(KingdomKeys.rl(Strings.ultimaWeaponKH3), 0.1614F);
+		CUTS.put(KingdomKeys.rl(Strings.voidGear), 0.2172F);
+		CUTS.put(KingdomKeys.rl(Strings.voidGearRemnant), 0.2172F);
+		CUTS.put(KingdomKeys.rl(Strings.wayToTheDawn), 0.2543F);
+		CUTS.put(KingdomKeys.rl(Strings.waywardWind), 0.3229F);
+		CUTS.put(KingdomKeys.rl(Strings.youngXehanortsKeyblade), 0.1858F);
+	}
 
 	public KeychainRenderer() {
 		super(Minecraft.getInstance().getBlockEntityRenderDispatcher(), Minecraft.getInstance().getEntityModels());
@@ -134,24 +149,18 @@ public class KeychainRenderer extends BlockEntityWithoutLevelRenderer {
 		Minecraft minecraft = Minecraft.getInstance();
 		ResourceLocation keyblade = BuiltInRegistries.ITEM.getKey(stack.getItem());
 
-		if (!(minecraft.getModelManager().getModel(partsModel(keyblade)) instanceof CompositeModel.Baked parts)) {
-			KingdomKeys.LOGGER.warn("{} is listed as split but its parts model is missing or is not a composite", keyblade);
+		KeychainSplit split = SPLITS.get(keyblade);
+
+		if (split == null) {
+			KingdomKeys.LOGGER.warn("{} reached the keychain renderer without a split, so it cannot be drawn", keyblade);
 			return;
 		}
 
-		BakedModel blade = parts.getPart(BLADE_PART);
-		BakedModel keychain = parts.getPart(KEYCHAIN_PART);
-
-		if (blade == null || keychain == null) {
-			KingdomKeys.LOGGER.warn("The parts model for {} is missing a {} or {} child", keyblade, BLADE_PART, KEYCHAIN_PART);
-			return;
-		}
+		BakedModel blade = split.blade;
+		BakedModel keychain = split.keychain;
 
 		ItemRenderer itemRenderer = minecraft.getItemRenderer();
-
-		Vector3f hinge = pivot(keyblade, keychain);
-
-		describe(keyblade, blade, keychain, hinge);
+		Vector3f hinge = split.hinge;
 
 		// The blade keeps the render type the item would have had anyway
 		VertexConsumer bladeConsumer = ItemRenderer.getFoilBufferDirect(buffer, ItemBlockRenderTypes.getRenderType(stack, true), true, stack.hasFoil());
@@ -211,126 +220,17 @@ public class KeychainRenderer extends BlockEntityWithoutLevelRenderer {
 
 		target.normalize();
 
-		Vector3f inWorld = new Vector3f(target);
-
+		// Straight down in world space is not straight down in the model. The inverse of the pose, not of its
+		// normal matrix: normal() is the inverse transpose, which only agrees with the inverse when the matrix
+		// is orthonormal, and these display transforms scale unevenly.
 		new Matrix3f(poseStack.last().pose()).invert().transform(target);
 		target.normalize();
-
-		trace(minecraft, displayContext, vx, vy, vz, inWorld, target);
 
 		return new Quaternionf().rotateTo(REST.x(), REST.y(), REST.z(), target.x(), target.y(), target.z());
 	}
 
-	private static long lastTrace = Long.MIN_VALUE;
-
-	/**
-	 * Temporary. Prints the direction the chain is being aimed at, at each step of the way from world space to
-	 * model space, so it is possible to tell which of those steps is losing the sideways part of the movement.
-	 * Once a second, and only while actually moving, so it stays readable.
-	 */
-	private static void trace(Minecraft minecraft, ItemDisplayContext displayContext, double vx, double vy, double vz, Vector3f inWorld, Vector3f inModel) {
-		if (minecraft.level == null) {
-			return;
-		}
-
-		long now = minecraft.level.getGameTime();
-
-		if (now - lastTrace < 20L || Math.abs(vx) + Math.abs(vy) + Math.abs(vz) < 0.05D) {
-			return;
-		}
-
-		lastTrace = now;
-		KingdomKeys.LOGGER.info(String.format("keychain %s | vel %+.3f %+.3f %+.3f | world %+.2f %+.2f %+.2f | model %+.2f %+.2f %+.2f", displayContext, vx, vy, vz, inWorld.x(), inWorld.y(), inWorld.z(), inModel.x(), inModel.y(), inModel.z()));
-	}
-
-	/**
-	 * The topmost point of the keychain, read straight off the baked geometry. Taking it from the quads rather
-	 * than from the obj file means it lands in whatever units the loader ended up in, so the hinge cannot drift
-	 * out of place if that ever changes.
-	 */
-	private static Vector3f pivot(ResourceLocation keyblade, BakedModel keychain) {
-		Vector3f cached = PIVOTS.get(keyblade);
-
-		if (cached != null) {
-			return cached;
-		}
-
-		float bestY = Float.NEGATIVE_INFINITY;
-		float x = 0.0F, z = 0.0F;
-
-		List<BakedQuad> quads = keychain.getQuads(null, null, RANDOM);
-
-		for (BakedQuad quad : quads) {
-			int[] vertices = quad.getVertices();
-			int stride = vertices.length / 4;
-
-			for (int i = 0; i < 4; i++) {
-				int at = i * stride;
-				float vy = Float.intBitsToFloat(vertices[at + 1]);
-
-				if (vy > bestY) {
-					bestY = vy;
-					x = Float.intBitsToFloat(vertices[at]);
-					z = Float.intBitsToFloat(vertices[at + 2]);
-				}
-			}
-		}
-
-		if (bestY == Float.NEGATIVE_INFINITY) {
-			// No keychain geometry baked. Hinging on the origin is wrong but harmless, and beats crashing
-			KingdomKeys.LOGGER.warn("The keychain model for {} baked with no quads, so its hinge could not be found", keyblade);
-			bestY = 0.0F;
-		}
-
-		Vector3f hinge = new Vector3f(x, bestY, z);
-		PIVOTS.put(keyblade, hinge);
-
-		return hinge;
-	}
-
-	private static final java.util.Set<ResourceLocation> DESCRIBED = new java.util.HashSet<>();
-
-	/**
-	 * Temporary. Reports what actually came out of the bake for each half, once per keyblade. The point is to
-	 * tell apart the two things that look alike in game: a keychain child that really does hold only the chain
-	 * but is being hinged in the wrong place, and a keychain child where the visibility switch did not take,
-	 * so it holds the whole weapon and swings a second copy of it about the blade tip.
-	 */
-	private static void describe(ResourceLocation keyblade, BakedModel blade, BakedModel keychain, Vector3f hinge) {
-		if (!DESCRIBED.add(keyblade)) {
-			return;
-		}
-
-		KingdomKeys.LOGGER.info("keychain split {} | blade {} | keychain {} | hinge {} {} {}",
-				keyblade, summarise(blade), summarise(keychain), hinge.x(), hinge.y(), hinge.z());
-	}
-
-	private static String summarise(BakedModel model) {
-		List<BakedQuad> quads = new ArrayList<>(model.getQuads(null, null, RANDOM));
-
-		for (Direction direction : Direction.values()) {
-			quads.addAll(model.getQuads(null, direction, RANDOM));
-		}
-
-		float low = Float.POSITIVE_INFINITY, high = Float.NEGATIVE_INFINITY;
-
-		for (BakedQuad quad : quads) {
-			int[] vertices = quad.getVertices();
-			int stride = vertices.length / 4;
-
-			for (int i = 0; i < 4; i++) {
-				float y = Float.intBitsToFloat(vertices[i * stride + 1]);
-				low = Math.min(low, y);
-				high = Math.max(high, y);
-			}
-		}
-
-		return String.format("%d quads, Y %.2f..%.2f", quads.size(), low, high);
-	}
-
-	/** Clears the cached hinges so a resource reload can pick up an edited model */
+	/** Drops the split halves so a resource reload takes them apart again from the new models */
 	public static void clearCache() {
-		PIVOTS.clear();
-		DESCRIBED.clear();
+		SPLITS.clear();
 	}
 }
