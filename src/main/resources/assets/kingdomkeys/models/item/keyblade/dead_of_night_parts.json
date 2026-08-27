@@ -1,0 +1,18 @@
+{
+	"parent": "neoforge:item/default",
+	"loader": "neoforge:composite",
+	"children": {
+		"blade": {
+			"parent": "neoforge:item/default",
+			"loader": "neoforge:obj",
+			"model": "kingdomkeys:models/item/keyblade/starcluster.obj",
+			"visibility": { "keychain": false }
+		},
+		"keychain": {
+			"parent": "neoforge:item/default",
+			"loader": "neoforge:obj",
+			"model": "kingdomkeys:models/item/keyblade/starcluster.obj",
+			"visibility": { "base": false }
+		}
+	}
+}

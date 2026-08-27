@@ -555,6 +555,9 @@ public class EntityEvents {
 
 		if (KingdomKeys.efmLoaded) {
 			EpicFightEvents.registerGuardParryData(player);
+			if (EpicFightUtils.needsAntiFormMotions(player)) {
+				EpicFightUtils.refreshLivingMotions(player);
+			}
 		}
 
 		if (playerData != null) {

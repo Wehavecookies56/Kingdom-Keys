@@ -6,7 +6,7 @@
   },
   "description": "item.kingdomkeys.oblivion.desc",
   "hit_particles": [
-    "kingdomkeys:textures/particle/generic_hit.png"
+    "kingdomkeys:textures/particle/oblivion_hit.png"
   ],
   "keychain": "kingdomkeys:oblivion_chain",
   "levels": [

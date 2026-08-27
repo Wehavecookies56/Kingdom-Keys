@@ -123,7 +123,7 @@ public class KeybladeBuilder extends ModelFile {
 
         JsonArray particles = new JsonArray();
         if (hitParticles.isEmpty()) {
-            particles.add(ModParticles.GENERIC_HIT_TEXTURE.toString());
+            particles.add(ModParticles.GENERIC_HIT.toString());
         } else {
             hitParticles.forEach(particle -> particles.add(particle.toString()));
         }

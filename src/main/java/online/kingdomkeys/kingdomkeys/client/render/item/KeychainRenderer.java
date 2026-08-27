@@ -50,7 +50,30 @@ public class KeychainRenderer extends BlockEntityWithoutLevelRenderer {
 	public static final List<ResourceLocation> SPLIT_KEYBLADES = List.of(
 			KingdomKeys.rl(Strings.kingdomKey),
 			KingdomKeys.rl(Strings.oblivion),
-			KingdomKeys.rl(Strings.oathkeeper));
+			KingdomKeys.rl(Strings.oathkeeper),
+			KingdomKeys.rl(Strings.bondOfFlame),
+			KingdomKeys.rl(Strings.bondOfTheBlaze),
+			KingdomKeys.rl(Strings.starCluster),
+			KingdomKeys.rl(Strings.twoBecomeOne),
+			KingdomKeys.rl(Strings.ultimaWeaponBBS),
+			KingdomKeys.rl(Strings.ultimaWeaponDDD),
+			KingdomKeys.rl(Strings.ultimaWeaponKH1),
+			KingdomKeys.rl(Strings.ultimaWeaponKH2),
+			KingdomKeys.rl(Strings.ultimaWeaponKH3),
+			KingdomKeys.rl(Strings.mastersDefender),
+			KingdomKeys.rl(Strings.youngXehanortsKeyblade),
+			KingdomKeys.rl(Strings.noName),
+			KingdomKeys.rl(Strings.noNameBBS),
+			KingdomKeys.rl(Strings.wayToTheDawn),
+			KingdomKeys.rl(Strings.mirageSplit),
+			KingdomKeys.rl(Strings.nightmaresEndAndMirageSplit),
+			KingdomKeys.rl(Strings.voidGear),
+			KingdomKeys.rl(Strings.kiblade),
+			KingdomKeys.rl(Strings.incompleteKiblade),
+			KingdomKeys.rl(Strings.kingdomKeyD),
+			KingdomKeys.rl(Strings.kingdomKeyN),
+			KingdomKeys.rl(Strings.fenrir),
+			KingdomKeys.rl(Strings.deadOfNight));
 
 	/**
 	 * The model holding both halves. A composite, whose children are the same obj baked twice with opposite

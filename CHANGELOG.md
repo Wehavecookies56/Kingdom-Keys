@@ -6,6 +6,7 @@
 * Keychains bag.
 * Test Riku idle stance.
 * Guard event which fires both, on guard start and on an actual block.
+* [EFM] Added antiform idle, walking and running animations.
 
 ## Changed:
 * Pyramid gummi hitbox got adjusted.

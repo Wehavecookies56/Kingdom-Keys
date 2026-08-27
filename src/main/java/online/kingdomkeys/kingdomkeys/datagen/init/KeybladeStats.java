@@ -83,7 +83,7 @@ public class KeybladeStats extends KeybladeProvider {
 		addStats(Strings.incompleteKiblade, Strings.incompleteKibladeChain, 5, 3, ModAbilities.LIGHT_AND_DARKNESS.location(), 2.0F, ModSounds.generic_hit.get());
 		addStats(Strings.invisKeyblade, Strings.invisKeybladeChain, 8, 7, null, 1.0F, ModSounds.generic_hit.get());
 		addStats(Strings.irasKeyblade, Strings.irasKeybladeChain, 8, 7, null, 1.0F, ModSounds.generic_hit.get());
-		addStats(Strings.jungleKing, Strings.jungleKingChain, 5, 2, null, 2.0F, ModSounds.generic_hit.get(), ModParticles.GENERIC_HIT_TEXTURE, ModParticles.LEAF_HIT_TEXTURE);
+		addStats(Strings.jungleKing, Strings.jungleKingChain, 5, 2, null, 2.0F, ModSounds.generic_hit.get(), ModParticles.GENERIC_HIT, ModParticles.LEAF_HIT);
 		addStats(Strings.keybladeOfPeoplesHearts, Strings.keybladeOfPeoplesHeartsChain, 6, 2, null, 1.0F, ModSounds.way_to_dawn_hit.get());
 		addStats(Strings.kiblade, Strings.kibladeChain, 10, 7, ModAbilities.DARK_DOMINATION.location(), 2.0F, ModSounds.generic_hit.get());
 		addStats(Strings.kingdomKey, Strings.kingdomKeyChain, 4, 1, ModAbilities.DAMAGE_CONTROL.location(), 1.0F, ModSounds.kingdom_key_hit.get());
@@ -112,8 +112,8 @@ public class KeybladeStats extends KeybladeProvider {
 		addStats(Strings.nightmaresEndAndMirageSplit, Strings.nightmaresEndAndMirageSplitChain, 9, 8, ModAbilities.WIZARDS_RUSE.location(), 1.0F, ModSounds.generic_hit.get());
 		addStats(Strings.noName, Strings.noNameChain, 9, 7, null, 1.0F, ModSounds.generic_hit.get());
 		addStats(Strings.noNameBBS, Strings.noNameBBSChain, 7, 7, null, 2.0F, ModSounds.generic_hit.get());
-		addStats(Strings.oathkeeper, Strings.oathkeeperChain, 7, 7, ModAbilities.FORM_BOOST.location(), 1.0F, ModSounds.oathkeeper_hit.get());
-		addStats(Strings.oblivion, Strings.oblivionChain, 8, 5, ModAbilities.DRIVE_BOOST.location(), 1.0F, ModSounds.oblivion_hit.get());
+		addStats(Strings.oathkeeper, Strings.oathkeeperChain, 7, 7, ModAbilities.FORM_BOOST.location(), 1.0F, ModSounds.oathkeeper_hit.get(), ModParticles.GENERIC_HIT, ModParticles.ULTIMA_HIT);
+		addStats(Strings.oblivion, Strings.oblivionChain, 8, 5, ModAbilities.DRIVE_BOOST.location(), 1.0F, ModSounds.oblivion_hit.get(), ModParticles.OBLIVION_HIT);
 		addStats(Strings.oceansRage, Strings.oceansRageChain, 5, 5, ModAbilities.BLIZZARD_BOOST.location(), 5.0F, ModSounds.generic_hit.get());
 		addStats(Strings.olympia, Strings.olympiaChain, 7, 1, null, 1.0F, ModSounds.generic_hit.get());
 		addStats(Strings.omegaWeapon, Strings.omegaWeaponChain, 8, 7, null, 1.0F, ModSounds.generic_hit.get());
@@ -149,11 +149,11 @@ public class KeybladeStats extends KeybladeProvider {
 		addStats(Strings.trueLightsFlight, Strings.trueLightsFlightChain, 5, 2, null, 1.0F, ModSounds.generic_hit.get());
 		addStats(Strings.twilightBlaze, Strings.twilightBlazeChain, 9, 5, ModAbilities.FIRAZA.location(), 1.0F, ModSounds.generic_hit.get());
 		addStats(Strings.twoBecomeOne, Strings.twoBecomeOneChain, 7, 6, ModAbilities.LIGHT_AND_DARKNESS.location(), 1.0F, ModSounds.generic_hit.get());
-		addStats(Strings.ultimaWeaponBBS, Strings.ultimaWeaponBBSChain, 9, 7, ModAbilities.MP_HASTEGA.location(), 1.0F, ModSounds.generic_hit.get());
-		addStats(Strings.ultimaWeaponDDD, Strings.ultimaWeaponDDDChain, 9, 7, ModAbilities.MP_HASTEGA.location(), 1.0F, ModSounds.generic_hit.get());
-		addStats(Strings.ultimaWeaponKH1, Strings.ultimaWeaponKH1Chain, 9, 6, ModAbilities.MP_HASTEGA.location(), 1.0F, ModSounds.generic_hit.get());
-		addStats(Strings.ultimaWeaponKH2, Strings.ultimaWeaponKH2Chain, 9, 7, ModAbilities.MP_HASTEGA.location(), 1.0F, ModSounds.generic_hit.get());
-		addStats(Strings.ultimaWeaponKH3, Strings.ultimaWeaponKH3Chain, 9, 7, ModAbilities.MP_HASTEGA.location(), 1.0F, ModSounds.generic_hit.get());
+		addStats(Strings.ultimaWeaponBBS, Strings.ultimaWeaponBBSChain, 9, 7, ModAbilities.MP_HASTEGA.location(), 1.0F, ModSounds.generic_hit.get(), ModParticles.ULTIMA_HIT);
+		addStats(Strings.ultimaWeaponDDD, Strings.ultimaWeaponDDDChain, 9, 7, ModAbilities.MP_HASTEGA.location(), 1.0F, ModSounds.generic_hit.get(), ModParticles.ULTIMA_HIT);
+		addStats(Strings.ultimaWeaponKH1, Strings.ultimaWeaponKH1Chain, 9, 6, ModAbilities.MP_HASTEGA.location(), 1.0F, ModSounds.generic_hit.get(), ModParticles.ULTIMA_HIT);
+		addStats(Strings.ultimaWeaponKH2, Strings.ultimaWeaponKH2Chain, 9, 7, ModAbilities.MP_HASTEGA.location(), 1.0F, ModSounds.generic_hit.get(), ModParticles.ULTIMA_HIT);
+		addStats(Strings.ultimaWeaponKH3, Strings.ultimaWeaponKH3Chain, 9, 7, ModAbilities.MP_HASTEGA.location(), 1.0F, ModSounds.generic_hit.get(), ModParticles.ULTIMA_HIT);
 		addStats(Strings.umbrella, Strings.umbrellaChain, 4, 0, null, 0.67F, ModSounds.generic_hit.get());
 		addStats(Strings.unbound, Strings.unboundChain, 9, 6, null, 1.0F, ModSounds.generic_hit.get());
 		addStats(Strings.victoryLine, Strings.victoryLineChain, 5, 3, null, 1.0F, ModSounds.generic_hit.get());

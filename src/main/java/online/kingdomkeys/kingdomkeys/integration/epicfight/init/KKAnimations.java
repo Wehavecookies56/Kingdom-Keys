@@ -27,10 +27,10 @@ import java.util.Map;
 public class KKAnimations {
 
     public static AnimationManager.AnimationAccessor<? extends StaticAnimation>
-        SORA_IDLE, RIKU_IDLE, VALOR_FORM_IDLE, WISDOM_FORM_IDLE, MASTER_FORM_IDLE, FINAL_FORM_IDLE, AXEL_IDLE, DEMYX_IDLE, LARXENE_IDLE,
+        SORA_IDLE, RIKU_IDLE, VALOR_FORM_IDLE, WISDOM_FORM_IDLE, MASTER_FORM_IDLE, FINAL_FORM_IDLE, ANTI_FORM_IDLE, AXEL_IDLE, DEMYX_IDLE, LARXENE_IDLE,
             LEXAEUS_IDLE, LUXORD_IDLE, MARLUXIA_IDLE, ROXAS_IDLE, SAIX_IDLE, VEXEN_IDLE, XALDIN_IDLE, XEMNAS_IDLE, XIGBAR_IDLE, ZEXION_IDLE;
     public static AnimationManager.AnimationAccessor<? extends StaticAnimation>
-        ROXAS_RUN, WISDOM_FORM_RUN, MASTER_FORM_WALK, MASTER_FORM_RUN, XEMNAS_WALK, XEMNAS_RUN, XEMNAS_FLY, XIGBAR_WALK, XALDIN_WALK,
+        ROXAS_RUN, WISDOM_FORM_RUN, MASTER_FORM_WALK, MASTER_FORM_RUN, ANTI_FORM_WALK, ANTI_FORM_RUN, XEMNAS_WALK, XEMNAS_RUN, XEMNAS_FLY, XIGBAR_WALK, XALDIN_WALK,
             XALDIN_RUN, VEXEN_WALK, LEXAEUS_WALK, LEXAEUS_RUN, ZEXION_WALK, ZEXION_RUN,
             SAIX_WALK, SAIX_RUN, AXEL_RUN, DEMYX_WALK, DEMYX_RUN, LUXORD_WALK, LUXORD_RUN, MARLUXIA_WALK, MARLUXIA_RUN,
             LARXENE_WALK, LARXENE_RUN;
@@ -145,12 +145,9 @@ public class KKAnimations {
             }
         }.addProperty(AnimationProperty.ActionAnimationProperty.STOP_MOVEMENT, false)
                 .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> 1.0F)
-                .addEvents(AnimationEvent.InTimeEvent.create(.1f, (ep, animation, arr) ->
-                                WisdomProjectile.shoot(ep, Armatures.BIPED.get().toolR), AnimationEvent.Side.BOTH),
-                        AnimationEvent.InTimeEvent.create(.2f, (ep, animation, arr) ->
-                                WisdomProjectile.shoot(ep, Armatures.BIPED.get().toolR), AnimationEvent.Side.BOTH),
-                        AnimationEvent.InTimeEvent.create(.3f, (ep, animation, arr) ->
-                                WisdomProjectile.shoot(ep, Armatures.BIPED.get().toolR), AnimationEvent.Side.BOTH)).addState(EntityState.MOVEMENT_LOCKED, false));
+                .addEvents(AnimationEvent.InTimeEvent.create(.1f, (ep, animation, arr) -> WisdomProjectile.shoot(ep, Armatures.BIPED.get().toolR), AnimationEvent.Side.BOTH),
+                        AnimationEvent.InTimeEvent.create(.2f, (ep, animation, arr) -> WisdomProjectile.shoot(ep, Armatures.BIPED.get().toolR), AnimationEvent.Side.BOTH),
+                        AnimationEvent.InTimeEvent.create(.3f, (ep, animation, arr) -> WisdomProjectile.shoot(ep, Armatures.BIPED.get().toolR), AnimationEvent.Side.BOTH)).addState(EntityState.MOVEMENT_LOCKED, false));
         WISDOM_FINISHER = builder.nextAccessor("biped/combat/forms/wisdom_form/wisdom_finisher", animationAccessor -> new AttackAnimation(0.1F, 0.00F, 0.1f, 0.16F, 1.5F, KKCollider.NO, Armatures.BIPED.get().rootJoint, animationAccessor, Armatures.BIPED) {
 
             @Override
@@ -184,6 +181,13 @@ public class KKAnimations {
         MASTER_FORM_RUN = builder.nextAccessor("biped/living/forms/master_form/master_form_run", animationAccessor -> new StaticAnimation(true, animationAccessor, Armatures.BIPED)
                 .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> 1.5F));
 
+
+        ANTI_FORM_IDLE = builder.nextAccessor("biped/living/forms/anti_form/anti_form_idle", animationAccessor -> new StaticAnimation(true, animationAccessor, Armatures.BIPED)
+                .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) ->  1.25F));
+        ANTI_FORM_WALK = builder.nextAccessor("biped/living/forms/anti_form/anti_form_walk", animationAccessor -> new StaticAnimation(true, animationAccessor, Armatures.BIPED)
+                .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) ->  4.3F));
+        ANTI_FORM_RUN = builder.nextAccessor("biped/living/forms/anti_form/anti_form_run", animationAccessor -> new StaticAnimation(true, animationAccessor, Armatures.BIPED)
+                .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) ->  2F));
 
         FINAL_FORM_IDLE = builder.nextAccessor("biped/living/forms/final_form/final_idle", animationAccessor -> new StaticAnimation(true, animationAccessor, Armatures.BIPED).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> .8f));
         FINAL_AUTO1 = builder.nextAccessor("biped/combat/forms/final_form/final_auto1", animationAccessor -> new ComboAttackAnimation(0.01F, animationAccessor, Armatures.BIPED,

@@ -6,7 +6,7 @@
   },
   "description": "item.kingdomkeys.ultima_weapon_kh3.desc",
   "hit_particles": [
-    "kingdomkeys:textures/particle/generic_hit.png"
+    "kingdomkeys:textures/particle/ultima_hit.png"
   ],
   "keychain": "kingdomkeys:ultima_weapon_kh3_chain",
   "levels": [

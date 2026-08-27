@@ -52,7 +52,12 @@ public class KKMoveSets {
             .setPassiveSkill(KKSkills.comboExtender)
             .addGuardAnimations(GuardSkill.BlockType.GUARD, Animations.SWORD_DUAL_GUARD_HIT).addGuardAnimations(GuardSkill.BlockType.ADVANCED_GUARD, Animations.SWORD_DUAL_GUARD_HIT).addGuardAnimations(GuardSkill.BlockType.GUARD_BREAK, Animations.BIPED_COMMON_NEUTRALIZED));
 
-    public static final DeferredMoveset ANTI_FORM_MOVESET = MOVESETS.registerMoveset("anti_form", () -> Moveset.builder());
+    public static final DeferredMoveset ANTI_FORM_MOVESET = MOVESETS.registerMoveset("anti_form", () -> Moveset.builder()
+            .addComboAttacks(Animations.FIST_AUTO1, Animations.FIST_AUTO2, Animations.FIST_AUTO3,
+                    Animations.FIST_DASH, Animations.FIST_AIR_SLASH)
+            .addLivingMotionModifier(LivingMotions.IDLE, KKAnimations.ANTI_FORM_IDLE)
+            .addLivingMotionModifier(LivingMotions.WALK, KKAnimations.ANTI_FORM_WALK)
+            .addLivingMotionModifier(LivingMotions.RUN, KKAnimations.ANTI_FORM_RUN));
 
 
     public static final DeferredMoveset SORA_MOVESET = MOVESETS.registerMoveset("sora", () -> Moveset.builder()
