@@ -8,7 +8,8 @@ import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
-import online.kingdomkeys.kingdomkeys.integration.epicfight.EpicFightUtils;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.integration.epicfight.EpicFightEvents;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 
 import java.util.Optional;
@@ -54,7 +55,9 @@ public class DriveFormAnti extends DriveForm {
 			if(getDriveSound() != null)
 				player.level().playSound(null, player.blockPosition(), getDriveSound(), SoundSource.MASTER, 1.0f, 1.0f);
 			pushEntities(player);
-			EpicFightUtils.refreshLivingMotions(player);
+			if (KingdomKeys.efmLoaded) {
+				EpicFightEvents.refreshLivingMotions(player);
+			}
 			PacketHandler.syncToAllAround(player, playerData);
 		}
 	}

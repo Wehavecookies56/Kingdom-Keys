@@ -1,23 +1,15 @@
 package online.kingdomkeys.kingdomkeys.integration.epicfight;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
-import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
-import online.kingdomkeys.kingdomkeys.integration.epicfight.init.KKAnimations;
 import online.kingdomkeys.kingdomkeys.util.Utils;
-import yesman.epicfight.api.animation.Animator;
-import yesman.epicfight.api.animation.LivingMotions;
-import yesman.epicfight.network.EpicFightNetworkManager;
-import yesman.epicfight.network.server.SPChangeLivingMotion;
 import yesman.epicfight.world.capabilities.EpicFightCapabilities;
 import yesman.epicfight.world.capabilities.entitypatch.LivingEntityPatch;
 import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
-import yesman.epicfight.world.capabilities.entitypatch.player.ServerPlayerPatch;
 
 public class EpicFightUtils {
     private EpicFightUtils() {}
@@ -70,66 +62,6 @@ public class EpicFightUtils {
         return Minecraft.getInstance().player.getId() == playerPatch.getOriginal().getId();
     }
 
-    public static void refreshLivingMotions(Player player) {
-        if (!KingdomKeys.efmLoaded || player == null || player.level().isClientSide) {
-            return;
-        }
 
-        ServerPlayerPatch patch = EpicFightCapabilities.getEntityPatch(player, ServerPlayerPatch.class);
-        if (patch != null) {
-            patch.modifyLivingMotionByCurrentItem();
-            applyAntiFormMotions(player, patch);
-        }
-    }
 
-    public static boolean applyAntiFormMotions(Player player, ServerPlayerPatch patch) {
-        PlayerData data = PlayerData.get(player);
-
-        if (data == null || !data.isFormActive(ModDriveForms.ANTI)) {
-            return false;
-        }
-
-        Animator animator = patch.getAnimator();
-
-        animator.addLivingAnimation(LivingMotions.IDLE, KKAnimations.ANTI_FORM_IDLE);
-        animator.addLivingAnimation(LivingMotions.WALK, KKAnimations.ANTI_FORM_WALK);
-        animator.addLivingAnimation(LivingMotions.RUN, KKAnimations.ANTI_FORM_RUN);
-
-        SPChangeLivingMotion message = new SPChangeLivingMotion(player.getId());
-        message.putEntries(animator.getLivingAnimations().entrySet());
-        EpicFightNetworkManager.sendToAllPlayerTrackingThisEntityWithSelf(message, (ServerPlayer) player);
-        return true;
-    }
-
-    public static void playCastAnimation(Player caster, boolean projectile) {
-        if (!KingdomKeys.efmLoaded || caster == null || caster.level().isClientSide) {
-            return;
-        }
-
-        ServerPlayerPatch patch = EpicFightCapabilities.getEntityPatch(caster, ServerPlayerPatch.class);
-        if (patch == null) {
-            return;
-        }
-
-        patch.playAnimationSynchronized(projectile ? KKAnimations.PROJECTILE_CAST : KKAnimations.INDIRECT_CAST, 0.0F);
-    }
-
-    public static boolean needsAntiFormMotions(Player player) {
-        if (!KingdomKeys.efmLoaded || player == null || player.level().isClientSide) {
-            return false;
-        }
-
-        PlayerData data = PlayerData.get(player);
-
-        if (data == null || !data.isFormActive(ModDriveForms.ANTI)) {
-            return false;
-        }
-
-        ServerPlayerPatch patch = EpicFightCapabilities.getEntityPatch(player, ServerPlayerPatch.class);
-        if (patch == null) {
-            return false;
-        }
-
-        return patch.getAnimator().getLivingAnimations().get(LivingMotions.IDLE) != KKAnimations.ANTI_FORM_IDLE;
-    }
 }
