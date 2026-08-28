@@ -9,7 +9,7 @@
 * [EFM] Added antiform idle, walking and running animations.
 
 ## Changed:
-* Pyramid gummi hitbox got adjusted.
+* Pyramid gummi hitbox got slightly lowered in the lowest corner.
 * Sonic Blade-like shotlocks movement got adjusted.
 
 ## Fixed:
@@ -21,5 +21,6 @@
 * [EFM] Limit form boxing instead of attacking with the keyblade.
 * [EFM] Valor form walking animation.
 * [EFM] Drive Form poses not resetting when they are reverted until a weapon is resummoned.
+* [EFM] Antiform rendering it's head in first person.
 * [EFM] Crash when trying to cast any mob as a Player.
 * [EFM] Crash when EFM is not present in the modpack.

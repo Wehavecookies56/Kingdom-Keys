@@ -21,7 +21,7 @@ public class FirstPersonRendererMixin {
     @Inject(method = "<init>", at = @At("TAIL"))
     public void addKKLayers(EntityRendererProvider.Context context, EntityType entityType, CallbackInfo ci) {
         FirstPersonRenderer thisOne = ((FirstPersonRenderer)(Object)this);
-        thisOne.addPatchedLayer(DriveLayerRenderer.class, new PatchedDriveLayerRenderer<>());
+        thisOne.addPatchedLayer(DriveLayerRenderer.class, new PatchedDriveLayerRenderer<>(true));
         thisOne.addPatchedLayer(KeybladeArmorRenderer.class, new PatchedArmourLayerRenderer<>(true));
         thisOne.addPatchedLayer(ShoulderLayerRenderer.class, new PatchedShoulderLayerRenderer<>());
     }
