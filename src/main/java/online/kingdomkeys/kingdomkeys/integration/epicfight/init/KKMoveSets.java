@@ -71,6 +71,16 @@ public class KKMoveSets {
             .setPassiveSkill(KKSkills.comboExtender)
             .addGuardAnimations(GuardSkill.BlockType.GUARD, Animations.SWORD_DUAL_GUARD_HIT).addGuardAnimations(GuardSkill.BlockType.ADVANCED_GUARD, Animations.SWORD_DUAL_GUARD_HIT).addGuardAnimations(GuardSkill.BlockType.GUARD_BREAK, Animations.BIPED_COMMON_NEUTRALIZED));
 
+    public static final DeferredMoveset AQUA_MOVESET = MOVESETS.registerMoveset("aqua", () -> Moveset.builder()
+            .addComboAttacks(KKAnimations.SORA_AUTO1, KKAnimations.SORA_AUTO2, KKAnimations.SORA_AUTO3, KKAnimations.SORA_FINISHER1,
+                    Animations.SWORD_DUAL_DASH, Animations.SWORD_DUAL_AIR_SLASH)
+            .addLivingMotionModifier(LivingMotions.BLOCK, Animations.SWORD_DUAL_GUARD)
+            .addLivingMotionModifier(LivingMotions.RUN, KKAnimations.ROXAS_RUN)
+            .addLivingMotionModifier(LivingMotions.IDLE, KKAnimations.AQUA_IDLE)
+            .addMountAttacks(Animations.SWORD_MOUNT_ATTACK)
+            .setPassiveSkill(KKSkills.comboExtender)
+            .addGuardAnimations(GuardSkill.BlockType.GUARD, Animations.SWORD_DUAL_GUARD_HIT).addGuardAnimations(GuardSkill.BlockType.ADVANCED_GUARD, Animations.SWORD_DUAL_GUARD_HIT).addGuardAnimations(GuardSkill.BlockType.GUARD_BREAK, Animations.BIPED_COMMON_NEUTRALIZED));
+
     public static final DeferredMoveset RIKU_MOVESET = MOVESETS.registerMoveset("riku", () -> Moveset.builder()
             .addComboAttacks(KKAnimations.SORA_AUTO1, KKAnimations.SORA_AUTO2, KKAnimations.SORA_AUTO3, KKAnimations.SORA_FINISHER1,
                     Animations.SWORD_DUAL_DASH, Animations.SWORD_DUAL_AIR_SLASH)

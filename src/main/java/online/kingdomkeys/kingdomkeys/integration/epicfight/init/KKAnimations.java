@@ -27,7 +27,7 @@ import java.util.Map;
 public class KKAnimations {
 
     public static AnimationManager.AnimationAccessor<? extends StaticAnimation>
-        SORA_IDLE, RIKU_IDLE, VALOR_FORM_IDLE, WISDOM_FORM_IDLE, MASTER_FORM_IDLE, FINAL_FORM_IDLE, ANTI_FORM_IDLE, AXEL_IDLE, DEMYX_IDLE, LARXENE_IDLE,
+        SORA_IDLE, RIKU_IDLE, AQUA_IDLE, VALOR_FORM_IDLE, WISDOM_FORM_IDLE, MASTER_FORM_IDLE, FINAL_FORM_IDLE, ANTI_FORM_IDLE, AXEL_IDLE, DEMYX_IDLE, LARXENE_IDLE,
             LEXAEUS_IDLE, LUXORD_IDLE, MARLUXIA_IDLE, ROXAS_IDLE, SAIX_IDLE, VEXEN_IDLE, XALDIN_IDLE, XEMNAS_IDLE, XIGBAR_IDLE, ZEXION_IDLE;
     public static AnimationManager.AnimationAccessor<? extends StaticAnimation>
         ROXAS_RUN, WISDOM_FORM_RUN, MASTER_FORM_WALK, MASTER_FORM_RUN, ANTI_FORM_WALK, ANTI_FORM_RUN, XEMNAS_WALK, XEMNAS_RUN, XEMNAS_FLY, XIGBAR_WALK, XALDIN_WALK,
@@ -201,6 +201,7 @@ public class KKAnimations {
 
         SORA_IDLE = builder.nextAccessor("biped/living/single_keyblade/sora/sora_idle", animationAccessor -> new StaticAnimation(true, animationAccessor, Armatures.BIPED).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> .6f));
         RIKU_IDLE = builder.nextAccessor("biped/living/single_keyblade/riku/riku_idle", animationAccessor -> new StaticAnimation(true, animationAccessor, Armatures.BIPED).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> .6f));
+        AQUA_IDLE = builder.nextAccessor("biped/living/single_keyblade/aqua/aqua_idle", animationAccessor -> new StaticAnimation(true, animationAccessor, Armatures.BIPED).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> .6f));
         SORA_SUMMON = builder.nextAccessor("biped/living/single_keyblade/sora/sora_summon", animationAccessor -> new ActionAnimation(0.05F, animationAccessor, Armatures.BIPED)
                 .addProperty(AnimationProperty.ActionAnimationProperty.CANCELABLE_MOVE, true)
                 .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> 0.8F)

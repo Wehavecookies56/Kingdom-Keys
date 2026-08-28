@@ -50,7 +50,6 @@ public class StylesMenu extends MenuBackground {
 
         unavailable.add(roxas);
         unavailable.add(terra);
-        unavailable.add(aqua);
         unavailable.add(ventus);
 
         dualButton.active = false;

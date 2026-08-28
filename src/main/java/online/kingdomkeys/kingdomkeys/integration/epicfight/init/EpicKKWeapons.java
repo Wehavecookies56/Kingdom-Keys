@@ -24,7 +24,7 @@ public class EpicKKWeapons {
                     .setTierValues(0, 10d, 0.7, 0.3)
                     .addMoveset(KKStyles.SORA, KKMoveSets.SORA_MOVESET)
                     .addMoveset(KKStyles.RIKU, KKMoveSets.RIKU_MOVESET)
-                    .addMoveset(KKStyles.AQUA, KKMoveSets.SORA_MOVESET)
+                    .addMoveset(KKStyles.AQUA, KKMoveSets.AQUA_MOVESET)
                     .addMoveset(KKStyles.ROXAS, KKMoveSets.SORA_MOVESET)
                     .addMoveset(KKStyles.VENTUS, KKMoveSets.SORA_MOVESET)
                     .addMoveset(KKStyles.TERRA, KKMoveSets.SORA_MOVESET)
