@@ -2732,7 +2732,6 @@
   "kingdomkeys.config.rod_heartless_max_level": "Máximo nivel de Sincorazón en RoD",
   "kingdomkeys.config.shotlock_max_dist": "Distancia máxima de Tiro Certero",
   "kingdomkeys.config.shotlock_mult": "Multiplicador de daño del Tiro Certero",
-  "kingdomkeys.config.show_drive_forms": "Visibilidad de Formas de Fusión",
   "kingdomkeys.config.show_gui_toggle": "Cambiar visibilidad del HUD",
   "kingdomkeys.config.starting_recipes": "Recetas iniciales",
   "kingdomkeys.config.stats_multiplier": "Multiplicador de Estadísticas",

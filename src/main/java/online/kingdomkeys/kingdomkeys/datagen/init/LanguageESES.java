@@ -59,7 +59,6 @@ public class LanguageESES extends KKLanguageProvider {
         addConfigKey(ModConfigs.getClientConfig().summonTogether, "Invoca simultáneamente arma y armadura");
         addConfigKey(ModConfigs.getClientConfig().auto3rdPersonShip, "3a persona automática en Nave Gummi");
         addConfigKey(ModConfigs.getClientConfig().showGuiToggle, "Cambiar visibilidad del HUD");
-        addConfigKey(ModConfigs.getClientConfig().showDriveForms, "Visibilidad de Formas de Fusión");
         addConfigKey(ModConfigs.getClientConfig().hiddenMagic, "Magias ocultas en el Menú de Comandos");
         addConfigKey(ModConfigs.getClientConfig().cmTextXOffset, "Menú de Comandos offset del texto X");
         addConfigKey(ModConfigs.getClientConfig().cmHeaderTextVisible, "Mostrar cabecera del Menú de Comandos");

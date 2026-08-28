@@ -53,7 +53,7 @@ public class ModConfigs {
     }
 
     public static List<? extends Integer> hiddenMagic;
-    public static boolean cmHeaderTextVisible, cmClassicColors, snapChatToCommandMenu, hpShowHearts, showDriveForms, summonTogether, auto3rdPersonShip, cmChangeColor, customFont, shoulderSurfingDecoupled, seasonalEvents, portrait3D;
+    public static boolean cmHeaderTextVisible, cmClassicColors, snapChatToCommandMenu, hpShowHearts, summonTogether, auto3rdPersonShip, cmChangeColor, customFont, shoulderSurfingDecoupled, seasonalEvents, portrait3D;
     public static int cmTextXOffset, cmSelectedXOffset, cmSubXOffset, hpAlarm, lockOnIconScale, lockOnIconRotation, lockOnHpPerBar, partyYDistance, cmEndLWidth, cmEndRWidth, cmHeaderEndLWidth, cmHeaderEndRWidth, cmReactionEndLWidth, cmReactionEndRWidth;
 
     public static void setHUDData(String name, List<? extends Float> data){
@@ -253,12 +253,6 @@ public class ModConfigs {
         bakeClient();
     }
 
-    public static void setShowDriveForms(boolean val) {
-        CLIENT.showDriveForms.set(val);
-        CLIENT.showDriveForms.save();
-        bakeClient();
-    }
-
     public static void setCmEndLWidth(int value) {
         CLIENT.cmEndLWidth.set(value);
         CLIENT.cmEndLWidth.save();
@@ -324,8 +318,6 @@ public class ModConfigs {
         lockOnHpPerBar = CLIENT.lockOnHpPerBar.get();
 
         partyYDistance = CLIENT.partyYDistance.get();
-
-        showDriveForms = CLIENT.showDriveForms.get();
         summonTogether = CLIENT.summonTogether.get();
 
         showGuiToggle = CLIENT.showGuiToggle.get();

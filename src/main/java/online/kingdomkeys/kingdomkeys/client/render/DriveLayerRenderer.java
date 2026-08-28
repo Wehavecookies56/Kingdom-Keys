@@ -16,7 +16,6 @@ import net.minecraft.world.entity.player.Player;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
@@ -33,7 +32,7 @@ public class DriveLayerRenderer<T extends LivingEntity, M extends HumanoidModel<
 
 	@Override
 	public void render(PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn, T entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
-		if(ModConfigs.showDriveForms && entitylivingbaseIn != null && PlayerData.get((Player) entitylivingbaseIn) != null) {
+		if(entitylivingbaseIn != null && PlayerData.get((Player) entitylivingbaseIn) != null) {
 			if(!PlayerData.get((Player) entitylivingbaseIn).isFormActive(ModDriveForms.NONE)) {
 				ResourceLocation drive = PlayerData.get((Player) entitylivingbaseIn).getActiveDriveForm();
 				DriveForm form = ModDriveForms.registry.get(drive);

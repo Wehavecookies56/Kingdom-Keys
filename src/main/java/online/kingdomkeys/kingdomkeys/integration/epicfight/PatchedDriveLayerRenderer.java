@@ -13,7 +13,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
-import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
@@ -36,7 +35,7 @@ public class PatchedDriveLayerRenderer<E extends LivingEntity, T extends LivingE
 
     @Override
     public void renderLayer(T entityPatch, E entity, RenderLayer<E, M> emRenderLayer, PoseStack poseStack, MultiBufferSource multiBufferSource, int i, OpenMatrix4f[] openMatrix4fs, float bob, float v, float v1, float v2) {
-        if (!ModConfigs.showDriveForms || !(entity instanceof Player player)) {
+        if (!(entity instanceof Player player)) {
             return;
         }
 

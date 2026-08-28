@@ -23,7 +23,7 @@ public class ClientConfig {
     
     public ModConfigSpec.IntValue partyYDistance;
 
-    public ModConfigSpec.BooleanValue showDriveForms, summonTogether;
+    public ModConfigSpec.BooleanValue summonTogether;
 
 	public ModConfigSpec.EnumValue<ModConfigs.ShowType> showGuiToggle;
 
@@ -134,11 +134,6 @@ public class ClientConfig {
 				.comment("Enable the custom font")
 				.translation(KingdomKeys.MODID + ".config.custom_font")
 				.define("customFont", true);
-
-			showDriveForms = builder
-                .comment("Drive Forms Visibility")
-                .translation(KingdomKeys.MODID + ".config.show_drive_forms")
-                .define("showDriveForms", true);
 
 			portrait3D = builder
                 .comment("Render the player portrait as the actual 3D model instead of a 2D skin cutout")

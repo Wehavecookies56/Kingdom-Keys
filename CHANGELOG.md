@@ -11,6 +11,7 @@
 ## Changed:
 * Pyramid gummi hitbox got slightly lowered in the lowest corner.
 * Sonic Blade-like shotlocks movement got adjusted.
+* Removed Drive Form Visibility config option, it was added a long time ago when their render was buggy, now it's been fine for a long time :)
 
 ## Fixed:
 * Grinding on rails not showing to remote players the flowmotion trail.

@@ -2788,7 +2788,6 @@
   "kingdomkeys.config.shotlock_max_dist": "Shotlock max distance",
   "kingdomkeys.config.shotlock_mult": "Shotlock Damage Multiplier",
   "kingdomkeys.config.shoulder_surfing_decoupled": "Shoulder Surfing Mod: Use decoupled camera when not locked on",
-  "kingdomkeys.config.show_drive_forms": "Drive Forms visibility",
   "kingdomkeys.config.show_gui_toggle": "Toggle HUD visibility",
   "kingdomkeys.config.starting_recipes": "Starter recipes",
   "kingdomkeys.config.stats_multiplier": "Stats multiplier",

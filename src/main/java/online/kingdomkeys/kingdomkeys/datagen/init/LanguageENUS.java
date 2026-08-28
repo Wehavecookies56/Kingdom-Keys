@@ -61,7 +61,6 @@ public class LanguageENUS extends KKLanguageProvider {
         addConfigKey(ModConfigs.getClientConfig().seasonalEvents, "Enable Seasonal Events");
         addConfigKey(ModConfigs.getClientConfig().showGuiToggle, "Toggle HUD visibility");
         addConfigKey(ModConfigs.getClientConfig().customFont, "Toggle the custom font");
-        addConfigKey(ModConfigs.getClientConfig().showDriveForms, "Drive Forms visibility");
         addConfigKey(ModConfigs.getClientConfig().hiddenMagic, "Magic hidden in the Command Menu");
         addConfigKey(ModConfigs.getClientConfig().cmTextXOffset, "Command Menu text X offset");
         addConfigKey(ModConfigs.getClientConfig().cmHeaderTextVisible, "Show Command Menu header text");
