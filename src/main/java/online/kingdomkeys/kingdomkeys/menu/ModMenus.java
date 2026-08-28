@@ -49,7 +49,8 @@ public class ModMenus {
                     return null;
                 }
             return new BagInventory(object, bagItem.getValidator());
-            }, ModItems.synthesisBag.get(), ModItems.magicsBag.get(), ModItems.cardsBag.get(), ModItems.shotlocksBag.get());
+            }, ModItems.synthesisBag.get(), ModItems.magicsBag.get(), ModItems.cardsBag.get(), ModItems.shotlocksBag.get(), ModItems.keychainsBag.get());
+
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, ModEntities.TYPE_PEDESTAL.get(), (object, context) -> object.inventory.get());
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, ModEntities.TYPE_MAGICAL_CHEST.get(), (object, context) -> object.inventory.get());
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, ModEntities.TYPE_GUMMI_HANGAR.get(), (object, context) -> object.inventory.get());

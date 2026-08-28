@@ -5,6 +5,9 @@
     "str": 6
   },
   "description": "item.kingdomkeys.classic_tone.desc",
+  "hit_particles": [
+    "kingdomkeys:textures/particle/generic_hit.png"
+  ],
   "keychain": "kingdomkeys:classic_tone_chain",
   "levels": [
     {

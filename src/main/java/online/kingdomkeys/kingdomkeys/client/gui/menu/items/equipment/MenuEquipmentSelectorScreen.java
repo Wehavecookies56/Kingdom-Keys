@@ -6,6 +6,8 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.api.item.IKeychain;
@@ -16,16 +18,24 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuScrollBar;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuSelectEquipmentButton;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
+import online.kingdomkeys.kingdomkeys.item.BagItem;
 import online.kingdomkeys.kingdomkeys.item.KeychainItem;
+import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
+import online.kingdomkeys.kingdomkeys.menu.BagInventory;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class MenuEquipmentSelectorScreen extends MenuBackground {
+
+	// Slots at or below this are inside the keychains bag, not the inventory
+	public static final int BAG_OFFSET = -2000;
+
 	public MenuScrollBar scrollBar;
 	MenuBox boxL, boxR;
     Button back;
@@ -85,20 +95,51 @@ public class MenuEquipmentSelectorScreen extends MenuBackground {
 		if(form != null) {
 			if (!ItemStack.matches(playerData.getEquippedKeychain(form), ItemStack.EMPTY)) {// If the form doesn't have an empty slot add it, otherwise it has already been added
 				if (minecraft.player.getInventory().getFreeSlot() > -1)
-					widgets.add(new MenuSelectEquipmentButton(ItemStack.EMPTY, minecraft.player.getInventory().getFreeSlot(), (int) listX, (int) listY + (itemHeight * pos++), (int) keybladesWidth-17, this, buttonColour));
+					widgets.add(new MenuSelectEquipmentButton(ItemStack.EMPTY, minecraft.player.getInventory().getFreeSlot(), (int) listX, (int) listY + (itemHeight * pos++), (int) keybladesWidth-24, this, buttonColour));
 			}
 
 			for (int i = 0; i < minecraft.player.getInventory().getContainerSize(); i++) {
 				if (!ItemStack.matches(minecraft.player.getInventory().getItem(i), ItemStack.EMPTY)) {
 					if (minecraft.player.getInventory().getItem(i).getItem() instanceof KeychainItem keychainItem) {
 						if (keychainItem.getKeyblade() != null) {
-							widgets.add(new MenuSelectEquipmentButton(minecraft.player.getInventory().getItem(i), i, (int) listX, (int) listY + (itemHeight * pos++), (int) keybladesWidth-17, this, buttonColour));
+							widgets.add(new MenuSelectEquipmentButton(minecraft.player.getInventory().getItem(i), i, (int) listX, (int) listY + (itemHeight * pos++), (int) keybladesWidth-24, this, buttonColour));
 						}
 					}
 				}
 			}
 
+			// Keychains bag
+			if (Utils.hasOnlyOneBag(minecraft.player, BagItem.Type.KEYCHAINS_BAG)) {
+				ItemStack keychainBag = Utils.getItemInInventory(minecraft.player, ModItems.keychainsBag.get());
+
+				if (!keychainBag.isEmpty() && keychainBag.getCapability(Capabilities.ItemHandler.ITEM) instanceof BagInventory bagInv) {
+					for (int i = 0; i < bagInv.getSlots(); i++) {
+						ItemStack stack = bagInv.getStackInSlot(i);
+						if (stack.isEmpty())
+							continue;
+						if (!(stack.getItem() instanceof KeychainItem keychainItem) || keychainItem.getKeyblade() == null)
+							continue;
+						widgets.add(new MenuSelectEquipmentButton(stack, BAG_OFFSET - i, (int) listX, 0, (int) keybladesWidth - 24, this, 15124480));
+					}
+				}
+			} else {
+				KingdomKeys.LOGGER.debug("More than one keychains bag found, ignoring.");
+			}
 		}
+
+		// Unequip first, then the bag, then the inventory.
+		widgets.sort(Comparator.comparingInt((MenuSelectEquipmentButton item) -> {
+			if (item.stack.isEmpty())
+				return -1;
+			if (item.slot <= BAG_OFFSET)
+				return 0;
+			return 1;
+		}));
+
+		for (int i = 0; i < widgets.size(); i++) {
+			widgets.get(i).setY((int) listY + (itemHeight * i));
+		}
+
 		widgets.forEach(this::addWidget);
 
 		boxL = new MenuBox((int) keybladesX, (int) keybladesY, (int) keybladesWidth, (int) keybladesHeight,0.9F, colour);

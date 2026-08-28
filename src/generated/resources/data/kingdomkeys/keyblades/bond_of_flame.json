@@ -5,6 +5,9 @@
     "str": 6
   },
   "description": "item.kingdomkeys.bond_of_flame.desc",
+  "hit_particles": [
+    "kingdomkeys:textures/particle/generic_hit.png"
+  ],
   "keychain": "kingdomkeys:bond_of_flame_chain",
   "levels": [
     {

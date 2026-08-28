@@ -4,6 +4,9 @@
     "str": 9
   },
   "description": "item.kingdomkeys.chaos_ripper.desc",
+  "hit_particles": [
+    "kingdomkeys:textures/particle/generic_hit.png"
+  ],
   "keychain": "kingdomkeys:chaos_ripper_chain",
   "levels": [
     {

@@ -4,6 +4,9 @@
     "str": 6
   },
   "description": "item.kingdomkeys.stormfall.desc",
+  "hit_particles": [
+    "kingdomkeys:textures/particle/generic_hit.png"
+  ],
   "keychain": "kingdomkeys:stormfall_chain",
   "levels": [
     {

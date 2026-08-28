@@ -5,6 +5,9 @@
     "str": 5
   },
   "description": "item.kingdomkeys.starlight.desc",
+  "hit_particles": [
+    "kingdomkeys:textures/particle/generic_hit.png"
+  ],
   "keychain": "kingdomkeys:starlight_chain",
   "levels": [
     {

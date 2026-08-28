@@ -5,6 +5,9 @@
     "str": 4
   },
   "description": "item.kingdomkeys.diamond_dust.desc",
+  "hit_particles": [
+    "kingdomkeys:textures/particle/generic_hit.png"
+  ],
   "keychain": "kingdomkeys:diamond_dust_chain",
   "levels": [
     {

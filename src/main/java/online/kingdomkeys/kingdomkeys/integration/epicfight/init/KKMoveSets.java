@@ -47,11 +47,17 @@ public class KKMoveSets {
             .addComboAttacks(KKAnimations.VALOR_AUTO1, KKAnimations.VALOR_AUTO2, KKAnimations.VALOR_AUTO3,
                                         Animations.SWORD_DUAL_DASH, Animations.SWORD_DUAL_AIR_SLASH)
             .addLivingMotionModifier(LivingMotions.BLOCK, Animations.SWORD_DUAL_GUARD)
-            //.addLivingMotionModifier(LivingMotions.RUN, KKAnimations.VALOR_FORM_RUN)
-            .addLivingMotionModifier(LivingMotions.WALK, KKAnimations.VALOR_FORM_IDLE)
+            .addLivingMotionModifier(LivingMotions.IDLE, KKAnimations.VALOR_FORM_IDLE)
             .addMountAttacks(Animations.SWORD_MOUNT_ATTACK)
             .setPassiveSkill(KKSkills.comboExtender)
-            .addGuardAnimations(GuardSkill.BlockType.GUARD, Animations.SWORD_DUAL_GUARD_HIT).addGuardAnimations(GuardSkill.BlockType.ADVANCED_GUARD, Animations.SWORD_DUAL_GUARD_HIT).addGuardAnimations(GuardSkill.BlockType.GUARD_BREAK, Animations.BIPED_COMMON_NEUTRALIZED));    public static final DeferredMoveset ANTI_FORM_MOVESET = MOVESETS.registerMoveset("anti_form", () -> Moveset.builder());
+            .addGuardAnimations(GuardSkill.BlockType.GUARD, Animations.SWORD_DUAL_GUARD_HIT).addGuardAnimations(GuardSkill.BlockType.ADVANCED_GUARD, Animations.SWORD_DUAL_GUARD_HIT).addGuardAnimations(GuardSkill.BlockType.GUARD_BREAK, Animations.BIPED_COMMON_NEUTRALIZED));
+
+    public static final DeferredMoveset ANTI_FORM_MOVESET = MOVESETS.registerMoveset("anti_form", () -> Moveset.builder()
+            .addComboAttacks(Animations.FIST_AUTO1, Animations.FIST_AUTO2, Animations.FIST_AUTO3,
+                    Animations.FIST_DASH, Animations.FIST_AIR_SLASH)
+            .addLivingMotionModifier(LivingMotions.IDLE, KKAnimations.ANTI_FORM_IDLE)
+            .addLivingMotionModifier(LivingMotions.WALK, KKAnimations.ANTI_FORM_WALK)
+            .addLivingMotionModifier(LivingMotions.RUN, KKAnimations.ANTI_FORM_RUN));
 
 
     public static final DeferredMoveset SORA_MOVESET = MOVESETS.registerMoveset("sora", () -> Moveset.builder()
@@ -63,10 +69,34 @@ public class KKMoveSets {
             .addLivingMotionModifier(LivingMotions.IDLE, KKAnimations.SORA_IDLE)
             .addMountAttacks(Animations.SWORD_MOUNT_ATTACK)
             .setPassiveSkill(KKSkills.comboExtender)
-            .addGuardAnimations(GuardSkill.BlockType.GUARD, Animations.SWORD_DUAL_GUARD_HIT).addGuardAnimations(GuardSkill.BlockType.ADVANCED_GUARD, Animations.SWORD_DUAL_GUARD_HIT).addGuardAnimations(GuardSkill.BlockType.GUARD_BREAK, Animations.BIPED_COMMON_NEUTRALIZED));    public static final DeferredMoveset CHAKRAM_MOVESET = MOVESETS.registerMoveset("chakram", () -> Moveset.builder()
+            .addGuardAnimations(GuardSkill.BlockType.GUARD, Animations.SWORD_DUAL_GUARD_HIT).addGuardAnimations(GuardSkill.BlockType.ADVANCED_GUARD, Animations.SWORD_DUAL_GUARD_HIT).addGuardAnimations(GuardSkill.BlockType.GUARD_BREAK, Animations.BIPED_COMMON_NEUTRALIZED));
+
+    public static final DeferredMoveset AQUA_MOVESET = MOVESETS.registerMoveset("aqua", () -> Moveset.builder()
+            .addComboAttacks(KKAnimations.SORA_AUTO1, KKAnimations.SORA_AUTO2, KKAnimations.SORA_AUTO3, KKAnimations.SORA_FINISHER1,
+                    Animations.SWORD_DUAL_DASH, Animations.SWORD_DUAL_AIR_SLASH)
+            .addLivingMotionModifier(LivingMotions.BLOCK, Animations.SWORD_DUAL_GUARD)
+            .addLivingMotionModifier(LivingMotions.RUN, KKAnimations.ROXAS_RUN)
+            .addLivingMotionModifier(LivingMotions.IDLE, KKAnimations.AQUA_IDLE)
+            .addMountAttacks(Animations.SWORD_MOUNT_ATTACK)
+            .setPassiveSkill(KKSkills.comboExtender)
+            .addGuardAnimations(GuardSkill.BlockType.GUARD, Animations.SWORD_DUAL_GUARD_HIT).addGuardAnimations(GuardSkill.BlockType.ADVANCED_GUARD, Animations.SWORD_DUAL_GUARD_HIT).addGuardAnimations(GuardSkill.BlockType.GUARD_BREAK, Animations.BIPED_COMMON_NEUTRALIZED));
+
+    public static final DeferredMoveset RIKU_MOVESET = MOVESETS.registerMoveset("riku", () -> Moveset.builder()
+            .addComboAttacks(KKAnimations.RIKU_AUTO1, KKAnimations.SORA_AUTO2, KKAnimations.SORA_AUTO3, KKAnimations.SORA_FINISHER1,
+                    Animations.SWORD_DUAL_DASH, Animations.SWORD_DUAL_AIR_SLASH)
+            .addLivingMotionModifier(LivingMotions.BLOCK, Animations.SWORD_DUAL_GUARD)
+            .addLivingMotionModifier(LivingMotions.RUN, KKAnimations.RIKU_RUN)
+            .addLivingMotionModifier(LivingMotions.WALK, KKAnimations.RIKU_WALK)
+            .addLivingMotionModifier(LivingMotions.IDLE, KKAnimations.RIKU_IDLE)
+            .addMountAttacks(Animations.SWORD_MOUNT_ATTACK)
+            .setPassiveSkill(KKSkills.comboExtender)
+            .addGuardAnimations(GuardSkill.BlockType.GUARD, Animations.SWORD_DUAL_GUARD_HIT).addGuardAnimations(GuardSkill.BlockType.ADVANCED_GUARD, Animations.SWORD_DUAL_GUARD_HIT).addGuardAnimations(GuardSkill.BlockType.GUARD_BREAK, Animations.BIPED_COMMON_NEUTRALIZED));
+
+    public static final DeferredMoveset CHAKRAM_MOVESET = MOVESETS.registerMoveset("chakram", () -> Moveset.builder()
             .addComboAttacks(KKAnimations.AXEL_AUTO1, Animations.DAGGER_DUAL_AUTO2, Animations.DAGGER_DUAL_AUTO3, Animations.DAGGER_DUAL_AUTO4,
                     Animations.DAGGER_DUAL_DASH, Animations.DAGGER_DUAL_AIR_SLASH)
             .addLivingMotionModifier(LivingMotions.BLOCK, Animations.SWORD_DUAL_GUARD)
             .addMountAttacks(Animations.SWORD_MOUNT_ATTACK)
-            .setPassiveSkill(KKSkills.comboExtender));
+            .setPassiveSkill(KKSkills.comboExtender)
+            .addGuardAnimations(GuardSkill.BlockType.GUARD, Animations.SWORD_DUAL_GUARD_HIT).addGuardAnimations(GuardSkill.BlockType.ADVANCED_GUARD, Animations.SWORD_DUAL_GUARD_HIT).addGuardAnimations(GuardSkill.BlockType.GUARD_BREAK, Animations.BIPED_COMMON_NEUTRALIZED));
 }

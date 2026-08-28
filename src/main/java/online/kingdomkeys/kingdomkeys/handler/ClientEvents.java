@@ -16,6 +16,7 @@ import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.player.Input;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
@@ -43,10 +44,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.RailShape;
-import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.EntityHitResult;
-import net.minecraft.world.phys.HitResult;
-import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.*;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.api.distmarker.Dist;
@@ -567,9 +565,9 @@ public class ClientEvents {
 
 		float partialTicks = mc.getTimer().getGameTimeDeltaPartialTick(false);
 
-		/*if (DEBUG_GUMMI_COLLISION) {
+		if (DEBUG_GUMMI_COLLISION) {
 			drawGummiCollision(mc, poseStack, buffer);
-		}*/
+		}
 
 		// Lock on
 		if (InputHandler.lockOn != null && ModConfigs.SERVER.softLockOnMode.get()) {
@@ -861,7 +859,7 @@ public class ClientEvents {
 	}
 
 	// Hitbox render for gummi blocks
-	/*public static final boolean DEBUG_GUMMI_COLLISION = true;
+	public static final boolean DEBUG_GUMMI_COLLISION = false;
 	private static final int DEBUG_RANGE = 6;
 
 	private void drawGummiCollision(Minecraft mc, PoseStack poseStack, MultiBufferSource.BufferSource buffer) {
@@ -890,7 +888,7 @@ public class ClientEvents {
 
 		poseStack.popPose();
 		buffer.endBatch(RenderType.lines());
-	}*/
+	}
 
 	private static final double SUPERJUMP_BASE = 0.35D, SUPERJUMP_PER_STACK = 0.15D;
 	private static final double GRIND_SPEED = 0.8D;
@@ -1105,6 +1103,11 @@ public class ClientEvents {
 		if (player.isCrouching() || player.getAbilities().flying) {
 			stopGrind(player, false);
 			return;
+		}
+
+		PlayerData playerData = PlayerData.get(player);
+		if (playerData != null && !playerData.inFlowmotion()) {
+			PacketHandler.sendToServer(new CSSetFlowmotionPacket(true));
 		}
 
 		// Reversing direction

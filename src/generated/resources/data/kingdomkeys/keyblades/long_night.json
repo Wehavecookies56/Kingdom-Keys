@@ -4,6 +4,9 @@
     "str": 4
   },
   "description": "item.kingdomkeys.long_night.desc",
+  "hit_particles": [
+    "kingdomkeys:textures/particle/generic_hit.png"
+  ],
   "keychain": "kingdomkeys:long_night_chain",
   "levels": [
     {

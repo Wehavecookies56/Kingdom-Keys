@@ -255,20 +255,22 @@ public class Utils {
 		return -1;
 	}
 
-	public static int getCardsBagSlot(Player player, BagItem.Type type) {
-		NonNullList<ItemStack> items = player.getInventory().items;
-		for (int i = 0, itemsSize = items.size(); i < itemsSize; i++) {
-			ItemStack stack = items.get(i);
-			Item item = null;
-			if(type == BagItem.Type.MAGICS_BAG) {
-				item = ModItems.magicsBag.get();
-			} else if(type == BagItem.Type.CARDS_BAG){
-				item = ModItems.cardsBag.get();
-			} else if(type == BagItem.Type.SHOTLOCKS_BAG){
-				item = ModItems.shotlocksBag.get();
-			}
+	public static Item getBagItem(BagItem.Type type) {
+		return switch (type) {
+			case SYNTHESIS_BAG -> ModItems.synthesisBag.get();
+			case SPELLS_BAG -> ModItems.magicsBag.get();
+			case CARDS_BAG -> ModItems.cardsBag.get();
+			case SHOTLOCKS_BAG -> ModItems.shotlocksBag.get();
+			case KEYCHAINS_BAG -> ModItems.keychainsBag.get();
+		};
+	}
 
-			if (stack.is(item)) {
+	public static int getBagSlot(Player player, BagItem.Type type) {
+		NonNullList<ItemStack> items = player.getInventory().items;
+		Item item = getBagItem(type);
+
+		for (int i = 0, itemsSize = items.size(); i < itemsSize; i++) {
+			if (items.get(i).is(item)) {
 				return i;
 			}
 		}
@@ -305,16 +307,9 @@ public class Utils {
 
 	public static boolean hasOnlyOneBag(Player player, BagItem.Type type) {
 		boolean found = false;
-		for (ItemStack stack : player.getInventory().items) {
-			Item item = null;
-			if(type == BagItem.Type.MAGICS_BAG) {
-				item = ModItems.magicsBag.get();
-			} else if(type == BagItem.Type.CARDS_BAG){
-				item = ModItems.cardsBag.get();
-			} else if(type == BagItem.Type.SHOTLOCKS_BAG){
-				item = ModItems.shotlocksBag.get();
-			}
+		Item item = getBagItem(type);
 
+		for (ItemStack stack : player.getInventory().items) {
 			if (stack.is(item)) {
 				if (found) {
 					return false;

@@ -10,8 +10,6 @@ import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.lib.Constants;
 import org.jetbrains.annotations.NotNull;
 
-import java.awt.*;
-
 public class MenuScrollBar extends Button {
 
 	double clickX, clickY;

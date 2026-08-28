@@ -5,6 +5,9 @@
     "str": 4
   },
   "description": "item.kingdomkeys.spellbinder.desc",
+  "hit_particles": [
+    "kingdomkeys:textures/particle/generic_hit.png"
+  ],
   "keychain": "kingdomkeys:spellbinder_chain",
   "levels": [
     {

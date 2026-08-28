@@ -5,6 +5,9 @@
     "str": 4
   },
   "description": "item.kingdomkeys.sweet_memories.desc",
+  "hit_particles": [
+    "kingdomkeys:textures/particle/generic_hit.png"
+  ],
   "keychain": "kingdomkeys:sweet_memories_chain",
   "levels": [
     {

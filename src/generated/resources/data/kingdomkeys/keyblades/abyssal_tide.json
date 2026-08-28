@@ -5,6 +5,9 @@
     "str": 5
   },
   "description": "item.kingdomkeys.abyssal_tide.desc",
+  "hit_particles": [
+    "kingdomkeys:textures/particle/generic_hit.png"
+  ],
   "keychain": "kingdomkeys:abyssal_tide_chain",
   "levels": [
     {

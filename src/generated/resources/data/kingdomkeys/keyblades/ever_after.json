@@ -5,6 +5,9 @@
     "str": 4
   },
   "description": "item.kingdomkeys.ever_after.desc",
+  "hit_particles": [
+    "kingdomkeys:textures/particle/generic_hit.png"
+  ],
   "keychain": "kingdomkeys:ever_after_chain",
   "levels": [
     {

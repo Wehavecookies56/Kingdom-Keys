@@ -5,6 +5,9 @@
     "str": 7
   },
   "description": "item.kingdomkeys.nightmares_end.desc",
+  "hit_particles": [
+    "kingdomkeys:textures/particle/generic_hit.png"
+  ],
   "keychain": "kingdomkeys:nightmares_end_chain",
   "levels": [
     {

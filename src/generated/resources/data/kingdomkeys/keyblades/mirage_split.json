@@ -5,6 +5,9 @@
     "str": 7
   },
   "description": "item.kingdomkeys.mirage_split.desc",
+  "hit_particles": [
+    "kingdomkeys:textures/particle/generic_hit.png"
+  ],
   "keychain": "kingdomkeys:mirage_split_chain",
   "levels": [
     {

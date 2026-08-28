@@ -4,6 +4,9 @@
     "str": 7
   },
   "description": "item.kingdomkeys.metal_chocobo.desc",
+  "hit_particles": [
+    "kingdomkeys:textures/particle/generic_hit.png"
+  ],
   "keychain": "kingdomkeys:metal_chocobo_chain",
   "levels": [
     {

@@ -4,6 +4,9 @@
     "str": 5
   },
   "description": "item.kingdomkeys.three_wishes.desc",
+  "hit_particles": [
+    "kingdomkeys:textures/particle/generic_hit.png"
+  ],
   "keychain": "kingdomkeys:three_wishes_chain",
   "levels": [
     {

@@ -30,7 +30,13 @@ import net.neoforged.neoforge.client.gui.VanillaGuiLayers;
 import net.neoforged.neoforge.common.NeoForge;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.gui.overlay.*;
+import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
+import net.minecraft.client.resources.model.BakedModel;
 import online.kingdomkeys.kingdomkeys.client.render.*;
+import online.kingdomkeys.kingdomkeys.client.particles.KeybladeHitParticle;
+import online.kingdomkeys.kingdomkeys.client.particles.ModParticles;
+import online.kingdomkeys.kingdomkeys.client.render.item.KeychainModelWrapper;
+import online.kingdomkeys.kingdomkeys.client.render.item.KeychainRenderer;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.GlobalData;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
@@ -122,6 +128,8 @@ public class ClientSetup {
 		event.registerAbove(VanillaGuiLayers.CHAT, KingdomKeys.rl("item_get"), ItemGetGui.INSTANCE);
 	}
 
+	private static KeychainRenderer keychainRenderer;
+
 	@SubscribeEvent
 	public static void registerClientExtensions(RegisterClientExtensionsEvent event) {
 		IClientItemExtensions guarding = new IClientItemExtensions() {
@@ -136,9 +144,23 @@ public class ClientSetup {
 
 				return null;
 			}
+
+			@Override
+			public BlockEntityWithoutLevelRenderer getCustomRenderer() {
+				if (keychainRenderer == null) {
+					keychainRenderer = new KeychainRenderer();
+				}
+
+				return keychainRenderer;
+			}
 		};
 
 		BuiltInRegistries.ITEM.stream().filter(KeybladeItem.class::isInstance).forEach(keyblade -> event.registerItem(guarding, keyblade));
+	}
+
+	@SubscribeEvent
+	public static void registerParticleProviders(RegisterParticleProvidersEvent event) {
+		event.registerSpecial(ModParticles.KEYBLADE_HIT.get(), new KeybladeHitParticle.Provider());
 	}
 
 	@SubscribeEvent
@@ -213,6 +235,26 @@ public class ClientSetup {
 		event.register(ModelResourceLocation.standalone(KingdomKeys.rl("entity/portal")));
 		event.register(ModelResourceLocation.standalone(KingdomKeys.rl("block/station_of_awakening")));
 		event.register(ModelResourceLocation.standalone(KingdomKeys.rl("entity/heart")));
+	}
+
+	@OnlyIn(Dist.CLIENT)
+	@SubscribeEvent
+	public static void wrapKeybladeModels(ModelEvent.ModifyBakingResult event) {
+		KeychainRenderer.clearCache();
+
+		for (ResourceLocation keyblade : KeychainRenderer.splitKeyblades()) {
+			ModelResourceLocation location = ModelResourceLocation.inventory(keyblade);
+			BakedModel model = event.getModels().get(location);
+
+			if (model == null) {
+				KingdomKeys.LOGGER.warn("No baked model for {} at {}, so its keychain will not be animated", keyblade, location);
+				continue;
+			}
+
+			if (KeychainRenderer.install(keyblade, model)) {
+				event.getModels().put(location, new KeychainModelWrapper(model));
+			}
+		}
 	}
 
 	public static ShaderInstance hpShader, focusShader, shotlockShader, gummiHPShader;

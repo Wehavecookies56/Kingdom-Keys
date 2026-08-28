@@ -4,6 +4,9 @@
     "str": 7
   },
   "description": "item.kingdomkeys.sleeping_lion.desc",
+  "hit_particles": [
+    "kingdomkeys:textures/particle/generic_hit.png"
+  ],
   "keychain": "kingdomkeys:sleeping_lion_chain",
   "levels": [
     {

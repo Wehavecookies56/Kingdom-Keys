@@ -10,6 +10,7 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.enums.DualChoices;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.enums.HandStyle;
+import online.kingdomkeys.kingdomkeys.integration.epicfight.EpicFightUtils;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.enums.SingleChoices;
 import online.kingdomkeys.kingdomkeys.network.Packet;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
@@ -35,6 +36,10 @@ public record CSChangeStyle(String style, String handStyle) implements Packet {
         else
             playerData.setSingleStyle(SingleChoices.valueOf(style));
         PacketHandler.syncToAllAround(player, playerData);
+
+        if (KingdomKeys.efmLoaded) {
+            EpicFightUtils.refreshLivingMotions(player);
+        }
     }
 
     @Override

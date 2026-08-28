@@ -4,6 +4,9 @@
     "str": 6
   },
   "description": "item.kingdomkeys.heros_crest.desc",
+  "hit_particles": [
+    "kingdomkeys:textures/particle/generic_hit.png"
+  ],
   "keychain": "kingdomkeys:heros_crest_chain",
   "levels": [
     {

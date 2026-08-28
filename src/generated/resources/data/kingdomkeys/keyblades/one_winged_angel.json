@@ -4,6 +4,9 @@
     "str": 6
   },
   "description": "item.kingdomkeys.one_winged_angel.desc",
+  "hit_particles": [
+    "kingdomkeys:textures/particle/generic_hit.png"
+  ],
   "keychain": "kingdomkeys:one_winged_angel_chain",
   "levels": [
     {

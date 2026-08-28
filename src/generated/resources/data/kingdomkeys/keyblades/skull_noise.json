@@ -4,6 +4,9 @@
     "str": 4
   },
   "description": "item.kingdomkeys.skull_noise.desc",
+  "hit_particles": [
+    "kingdomkeys:textures/particle/generic_hit.png"
+  ],
   "keychain": "kingdomkeys:skull_noise_chain",
   "levels": [
     {

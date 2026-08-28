@@ -4,6 +4,9 @@
     "str": 7
   },
   "description": "item.kingdomkeys.darker_than_dark.desc",
+  "hit_particles": [
+    "kingdomkeys:textures/particle/generic_hit.png"
+  ],
   "keychain": "kingdomkeys:darker_than_dark_chain",
   "levels": [
     {

@@ -9,7 +9,9 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.common.NeoForge;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
+import online.kingdomkeys.kingdomkeys.api.event.GuardEvent;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.EpicFightUtils;
@@ -70,11 +72,17 @@ public class CombatAbilities {
                 && !EpicFightUtils.isInEpicFightMode(player);
     }
 
-    public static void startGuard(Player player, PlayerData data) {
+    public static boolean startGuard(Player player, PlayerData data) {
+        if (NeoForge.EVENT_BUS.post(new GuardEvent.Start(player)).isCanceled()) {
+            return false;
+        }
+
         data.setGuardTicks(GUARD_TICKS);
         data.setGuardCooldown(GUARD_TICKS + GUARD_COOLDOWN);
         playSound(player, SoundEvents.ARMOR_EQUIP_NETHERITE.value(), 0.7F, 1.3F);
         tellEveryone(player, data);
+
+        return true;
     }
 
     private static void playSound(Player player, SoundEvent sound, float volume, float pitch) {
@@ -108,7 +116,12 @@ public class CombatAbilities {
     }
 
 
-    public static void onBlocked(Player player, PlayerData data) {
+    public static boolean onBlocked(Player player, PlayerData data, DamageSource source, float amount) {
+        if (NeoForge.EVENT_BUS.post(new GuardEvent.Blocked(player, source, amount)).isCanceled()) {
+            // The window is left alone on purpose, so a later blow of the same combo can still be caught
+            return false;
+        }
+
         playSound(player, ModSounds.guard.get(), 1F, 1.4F);
         data.setGuardTicks(Math.max(data.getGuardTicks(), GUARD_EXTEND));
         data.setGuardCooldown(data.getGuardTicks() + GUARD_COOLDOWN);
@@ -117,6 +130,8 @@ public class CombatAbilities {
             data.setCounterTicks(COUNTER_TICKS);
 
         tellEveryone(player, data);
+
+        return true;
     }
 
     /**

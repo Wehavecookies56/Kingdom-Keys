@@ -5,6 +5,9 @@
     "str": 9
   },
   "description": "item.kingdomkeys.ultima_weapon_bbs.desc",
+  "hit_particles": [
+    "kingdomkeys:textures/particle/ultima_hit.png"
+  ],
   "keychain": "kingdomkeys:ultima_weapon_bbs_chain",
   "levels": [
     {

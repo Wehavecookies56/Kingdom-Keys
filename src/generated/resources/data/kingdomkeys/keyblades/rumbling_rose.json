@@ -4,6 +4,9 @@
     "str": 7
   },
   "description": "item.kingdomkeys.rumbling_rose.desc",
+  "hit_particles": [
+    "kingdomkeys:textures/particle/generic_hit.png"
+  ],
   "keychain": "kingdomkeys:rumbling_rose_chain",
   "levels": [
     {

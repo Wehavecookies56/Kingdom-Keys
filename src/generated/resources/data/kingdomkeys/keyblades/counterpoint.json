@@ -5,6 +5,9 @@
     "str": 7
   },
   "description": "item.kingdomkeys.counterpoint.desc",
+  "hit_particles": [
+    "kingdomkeys:textures/particle/generic_hit.png"
+  ],
   "keychain": "kingdomkeys:counterpoint_chain",
   "levels": [
     {

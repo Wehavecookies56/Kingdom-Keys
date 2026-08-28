@@ -5,6 +5,9 @@
     "str": 4
   },
   "description": "item.kingdomkeys.dead_of_night.desc",
+  "hit_particles": [
+    "kingdomkeys:textures/particle/generic_hit.png"
+  ],
   "keychain": "kingdomkeys:dead_of_night_chain",
   "levels": [
     {

@@ -5,6 +5,9 @@
     "str": 5
   },
   "description": "item.kingdomkeys.frolic_flame.desc",
+  "hit_particles": [
+    "kingdomkeys:textures/particle/generic_hit.png"
+  ],
   "keychain": "kingdomkeys:frolic_flame_chain",
   "levels": [
     {

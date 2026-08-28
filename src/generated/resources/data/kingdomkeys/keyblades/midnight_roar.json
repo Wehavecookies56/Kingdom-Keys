@@ -4,6 +4,9 @@
     "str": 7
   },
   "description": "item.kingdomkeys.midnight_roar.desc",
+  "hit_particles": [
+    "kingdomkeys:textures/particle/generic_hit.png"
+  ],
   "keychain": "kingdomkeys:midnight_roar_chain",
   "levels": [
     {

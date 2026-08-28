@@ -4,6 +4,9 @@
     "str": 7
   },
   "description": "item.kingdomkeys.knockout_punch.desc",
+  "hit_particles": [
+    "kingdomkeys:textures/particle/generic_hit.png"
+  ],
   "keychain": "kingdomkeys:knockout_punch_chain",
   "levels": [
     {

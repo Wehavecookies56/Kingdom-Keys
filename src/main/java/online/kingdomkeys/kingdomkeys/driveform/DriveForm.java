@@ -14,6 +14,7 @@ import online.kingdomkeys.kingdomkeys.api.event.AbilityEvent;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
+import online.kingdomkeys.kingdomkeys.integration.epicfight.EpicFightUtils;
 import online.kingdomkeys.kingdomkeys.lib.KKRegistryObject;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 
@@ -181,6 +182,7 @@ public abstract class DriveForm implements KKRegistryObject {
 				Ability ability = ModAbilities.registry.get(abilityLoc);
 				NeoForge.EVENT_BUS.post(new AbilityEvent.Equip(ability, 0, player, false));
 			}
+			EpicFightUtils.refreshLivingMotions(player);
 			PacketHandler.syncToAllAround(player, playerData);
 		}
 	}
@@ -246,6 +248,8 @@ public abstract class DriveForm implements KKRegistryObject {
 				}
 			}
 		}
+
+		EpicFightUtils.refreshLivingMotions(player);
 
 		if(!player.level().isClientSide) {
 			PacketHandler.syncToAllAround(player, playerData);

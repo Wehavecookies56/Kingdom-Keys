@@ -1,2 +1,6 @@
 ## Added:
-* Minimap icons for Air Soldier, Defender, Neoshadow and Novashadow (Thanks to WillabyNeko)
+* [EFM] WIP Aqua style idle pose.
+## Changed:
+* [EFM] Riku's combat style (Thanks to Xephiro).
+
+## Fixed:

@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "group": "kingdomkeys",
+  "key": {
+    "D": {
+      "item": "minecraft:yellow_dye"
+    },
+    "L": {
+      "tag": "c:leathers"
+    },
+    "S": {
+      "tag": "c:strings"
+    }
+  },
+  "pattern": [
+    "LSL",
+    "LDL",
+    "LLL"
+  ],
+  "result": {
+    "count": 1,
+    "id": "kingdomkeys:keychains_bag"
+  }
+}

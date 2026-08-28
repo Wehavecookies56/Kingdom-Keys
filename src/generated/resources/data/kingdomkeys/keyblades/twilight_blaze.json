@@ -5,6 +5,9 @@
     "str": 9
   },
   "description": "item.kingdomkeys.twilight_blaze.desc",
+  "hit_particles": [
+    "kingdomkeys:textures/particle/generic_hit.png"
+  ],
   "keychain": "kingdomkeys:twilight_blaze_chain",
   "levels": [
     {

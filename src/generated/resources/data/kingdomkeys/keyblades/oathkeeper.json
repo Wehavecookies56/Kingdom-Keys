@@ -5,6 +5,10 @@
     "str": 7
   },
   "description": "item.kingdomkeys.oathkeeper.desc",
+  "hit_particles": [
+    "kingdomkeys:textures/particle/generic_hit.png",
+    "kingdomkeys:textures/particle/ultima_hit.png"
+  ],
   "keychain": "kingdomkeys:oathkeeper_chain",
   "levels": [
     {

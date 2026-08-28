@@ -5,6 +5,9 @@
     "str": 4
   },
   "description": "item.kingdomkeys.kingdom_key.desc",
+  "hit_particles": [
+    "kingdomkeys:textures/particle/generic_hit.png"
+  ],
   "keychain": "kingdomkeys:kingdom_key_chain",
   "levels": [
     {

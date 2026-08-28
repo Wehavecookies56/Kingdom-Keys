@@ -14,7 +14,6 @@ import online.kingdomkeys.kingdomkeys.lib.Constants;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import javax.annotation.ParametersAreNonnullByDefault;
-import java.awt.*;
 
 public class MenuButton extends MenuButtonBase {
 	private final int endWidth = 11;

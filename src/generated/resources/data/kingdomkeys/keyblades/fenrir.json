@@ -5,6 +5,9 @@
     "str": 9
   },
   "description": "item.kingdomkeys.fenrir.desc",
+  "hit_particles": [
+    "kingdomkeys:textures/particle/generic_hit.png"
+  ],
   "keychain": "kingdomkeys:fenrir_chain",
   "levels": [
     {

@@ -15,7 +15,6 @@ import online.kingdomkeys.kingdomkeys.client.model.entity.CubeModel;
 import online.kingdomkeys.kingdomkeys.entity.organization.LaserDomeShotEntity;
 
 import javax.annotation.Nullable;
-import java.awt.*;
 
 @OnlyIn(Dist.CLIENT)
 public class LaserDomeShotEntityRenderer extends EntityRenderer<LaserDomeShotEntity> {

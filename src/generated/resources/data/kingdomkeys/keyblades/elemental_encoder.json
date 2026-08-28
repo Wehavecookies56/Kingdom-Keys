@@ -5,6 +5,9 @@
     "str": 4
   },
   "description": "item.kingdomkeys.elemental_encoder.desc",
+  "hit_particles": [
+    "kingdomkeys:textures/particle/generic_hit.png"
+  ],
   "keychain": "kingdomkeys:elemental_encoder_chain",
   "levels": [
     {

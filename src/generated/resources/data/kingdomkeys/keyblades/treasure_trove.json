@@ -5,6 +5,9 @@
     "str": 4
   },
   "description": "item.kingdomkeys.treasure_trove.desc",
+  "hit_particles": [
+    "kingdomkeys:textures/particle/generic_hit.png"
+  ],
   "keychain": "kingdomkeys:treasure_trove_chain",
   "levels": [
     {

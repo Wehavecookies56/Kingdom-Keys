@@ -5,6 +5,9 @@
     "str": 6
   },
   "description": "item.kingdomkeys.wheel_of_fate.desc",
+  "hit_particles": [
+    "kingdomkeys:textures/particle/generic_hit.png"
+  ],
   "keychain": "kingdomkeys:wheel_of_fate_chain",
   "levels": [
     {

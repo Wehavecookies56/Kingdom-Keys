@@ -4,6 +4,9 @@
     "str": 6
   },
   "description": "item.kingdomkeys.sign_of_innocence.desc",
+  "hit_particles": [
+    "kingdomkeys:textures/particle/generic_hit.png"
+  ],
   "keychain": "kingdomkeys:sign_of_innocence_chain",
   "levels": [
     {

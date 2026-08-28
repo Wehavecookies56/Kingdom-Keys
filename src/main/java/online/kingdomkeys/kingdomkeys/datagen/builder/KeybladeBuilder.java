@@ -9,11 +9,13 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.neoforged.neoforge.client.model.generators.ModelFile;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.client.particles.ModParticles;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.datagen.init.KeybladeStats;
 import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeLevel;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Objects;
 
 public class KeybladeBuilder extends ModelFile {
@@ -24,6 +26,7 @@ public class KeybladeBuilder extends ModelFile {
     private ResourceLocation baseAbility;
     private float reach;
     private SoundEvent sound;
+    private final ArrayList<ResourceLocation> hitParticles = new ArrayList<>();
     private final ArrayList<KeybladeLevel> keybladeLevels = new ArrayList<>();
 
     public KeybladeBuilder(Object o, Object o1) {
@@ -95,6 +98,12 @@ public class KeybladeBuilder extends ModelFile {
         this.sound = sound;
         return self();
     }
+
+    public KeybladeBuilder hitParticles(ResourceLocation... particles) {
+        this.hitParticles.clear();
+        this.hitParticles.addAll(Arrays.asList(particles));
+        return self();
+    }
     
     @Override
     protected boolean exists() {
@@ -111,6 +120,14 @@ public class KeybladeBuilder extends ModelFile {
         }
         root.addProperty("reach", reach);
 	    root.addProperty("sound", BuiltInRegistries.SOUND_EVENT.getKey(Objects.requireNonNullElseGet(sound, ModSounds.generic_hit::get)).toString());
+
+        JsonArray particles = new JsonArray();
+        if (hitParticles.isEmpty()) {
+            particles.add(ModParticles.GENERIC_HIT.toString());
+        } else {
+            hitParticles.forEach(particle -> particles.add(particle.toString()));
+        }
+        root.add("hit_particles", particles);
         if (this.keychain != null) {
             root.addProperty("keychain", this.keychain.toString());
         }

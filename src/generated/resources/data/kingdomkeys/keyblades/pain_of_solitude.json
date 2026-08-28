@@ -4,6 +4,9 @@
     "str": 4
   },
   "description": "item.kingdomkeys.pain_of_solitude.desc",
+  "hit_particles": [
+    "kingdomkeys:textures/particle/generic_hit.png"
+  ],
   "keychain": "kingdomkeys:pain_of_solitude_chain",
   "levels": [
     {

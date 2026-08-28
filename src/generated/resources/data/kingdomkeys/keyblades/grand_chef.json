@@ -5,6 +5,9 @@
     "str": 4
   },
   "description": "item.kingdomkeys.grand_chef.desc",
+  "hit_particles": [
+    "kingdomkeys:textures/particle/generic_hit.png"
+  ],
   "keychain": "kingdomkeys:grand_chef_chain",
   "levels": [
     {

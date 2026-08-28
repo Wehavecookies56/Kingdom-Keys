@@ -8,11 +8,15 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.api.event.EquipmentEvent;
+import online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment.MenuEquipmentSelectorScreen;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
+import online.kingdomkeys.kingdomkeys.item.ModItems;
+import online.kingdomkeys.kingdomkeys.menu.BagInventory;
 import online.kingdomkeys.kingdomkeys.network.Packet;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCOpenEquipmentScreen;
@@ -35,10 +39,43 @@ public record CSEquipKeychain(ResourceLocation slotToEquipTo, int slotToEquipFro
     public void handle(IPayloadContext context) {
         Player player = context.player();
         PlayerData playerData = PlayerData.get(player);
-        if (!NeoForge.EVENT_BUS.post(new EquipmentEvent.Keychain(player, playerData.getEquippedKeychain(slotToEquipTo), player.getInventory().getItem(slotToEquipFrom), slotToEquipFrom, slotToEquipTo)).isCanceled()) {
-            ItemStack stackToEquip = player.getInventory().getItem(slotToEquipFrom);
+
+        boolean fromBag = slotToEquipFrom <= MenuEquipmentSelectorScreen.BAG_OFFSET;
+        BagInventory bagInv = null;
+        int bagSlot = -1;
+        ItemStack stackToEquip;
+
+        if (fromBag) {
+            bagSlot = Math.abs(slotToEquipFrom - MenuEquipmentSelectorScreen.BAG_OFFSET);
+            ItemStack keychainBag = Utils.getItemInInventory(player, ModItems.keychainsBag.get());
+            if (keychainBag.isEmpty())
+                return;
+
+            if (!(keychainBag.getCapability(Capabilities.ItemHandler.ITEM) instanceof BagInventory inv))
+                return;
+
+            bagInv = inv;
+            if (bagSlot < 0 || bagSlot >= bagInv.getSlots())
+                return;
+
+            stackToEquip = bagInv.getStackInSlot(bagSlot);
+        } else {
+            if (slotToEquipFrom < 0 || slotToEquipFrom >= player.getInventory().getContainerSize()) {
+                return;
+            }
+
+            stackToEquip = player.getInventory().getItem(slotToEquipFrom);
+        }
+
+        if (!NeoForge.EVENT_BUS.post(new EquipmentEvent.Keychain(player, playerData.getEquippedKeychain(slotToEquipTo), stackToEquip, slotToEquipFrom, slotToEquipTo)).isCanceled()) {
             ItemStack stackPreviouslyEquipped = playerData.equipKeychain(slotToEquipTo, stackToEquip);
-            player.getInventory().setItem(slotToEquipFrom, stackPreviouslyEquipped);
+
+            if (fromBag) {
+                bagInv.setStackInSlot(bagSlot, stackPreviouslyEquipped);
+            } else {
+                player.getInventory().setItem(slotToEquipFrom, stackPreviouslyEquipped);
+            }
+
             PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
             PacketHandler.sendTo(new SCOpenEquipmentScreen(), (ServerPlayer) player);
 

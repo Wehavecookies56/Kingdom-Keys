@@ -87,6 +87,7 @@ import online.kingdomkeys.kingdomkeys.entity.mob.goal.MarluxiaGoal;
 import online.kingdomkeys.kingdomkeys.entity.mob.goal.PartyAllyGoals;
 import online.kingdomkeys.kingdomkeys.entity.organization.KKThrowableEntity;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.EpicFightUtils;
+import online.kingdomkeys.kingdomkeys.integration.epicfight.EpicFightEvents;
 import online.kingdomkeys.kingdomkeys.item.*;
 import online.kingdomkeys.kingdomkeys.item.card.MapCardItem;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
@@ -126,13 +127,6 @@ import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.roo
 import online.kingdomkeys.kingdomkeys.world.worldmap.GummiWorldLoader;
 import online.kingdomkeys.kingdomkeys.world.worldmap.WorldMap;
 import org.joml.Vector3f;
-import yesman.epicfight.registry.entries.EpicFightSkillDataKeys;
-import yesman.epicfight.skill.SkillContainer;
-import yesman.epicfight.skill.SkillDataManager;
-import yesman.epicfight.skill.SkillSlots;
-import yesman.epicfight.skill.guard.ImpactGuardSkill;
-import yesman.epicfight.world.capabilities.EpicFightCapabilities;
-import yesman.epicfight.world.capabilities.entitypatch.player.PlayerPatch;
 
 import java.util.HashMap;
 import java.util.List;
@@ -348,6 +342,8 @@ public class EntityEvents {
 			if (!player.level().isClientSide) { // Sync from server to client
 				Utils.updateOrgRobesTeam((ServerPlayer) player);
 
+				LevelStats.seekGrantedItems(playerData);
+
 				if (!playerData.getDriveFormMap().containsKey(DriveForm.NONE)) { // One time event here :D
 					Utils.getFakeForms().forEach(form -> {
 						playerData.setDriveFormLevel(form, 1);
@@ -557,20 +553,10 @@ public class EntityEvents {
 		System.out.println(playerData.getTotalMaterialMap());
 		System.out.println("---");*/
 
-		// Workaround for EFM potential bug: PARRY_MOTION_COUNTER only references
-		// ParryingSkill.class, not ImpactGuardSkill.class (both extend GuardSkill),
-		// so it's never registered in SkillDataManager when the active skill is ImpactGuardSkill.
-		// We register it manually in both sides (client/server).
 		if (KingdomKeys.efmLoaded) {
-			PlayerPatch<?> patch = EpicFightCapabilities.getEntityPatch(player, PlayerPatch.class);
-			if (patch != null) {
-				SkillContainer guardContainer = patch.getSkill(SkillSlots.GUARD);
-				if (guardContainer != null && guardContainer.getSkill() instanceof ImpactGuardSkill) {
-					SkillDataManager dataManager = guardContainer.getDataManager();
-					if (!dataManager.hasData(EpicFightSkillDataKeys.PARRY_MOTION_COUNTER)) {
-						dataManager.registerData(EpicFightSkillDataKeys.PARRY_MOTION_COUNTER);
-					}
-				}
+			EpicFightEvents.registerGuardParryData(player);
+			if (EpicFightUtils.needsAntiFormMotions(player)) {
+				EpicFightUtils.refreshLivingMotions(player);
 			}
 		}
 
@@ -596,18 +582,7 @@ public class EntityEvents {
 				PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
 			}
 
-			// Anti form FP code done here
-			if (playerData.isFormActive(ModDriveForms.ANTI)) {
-				if (playerData.getFP() > 0) {
-					playerData.setFP(playerData.getFP() - 0.3);
-				} else {
-					playerData.setActiveDriveForm(DriveForm.NONE);
-					player.level().playSound(player, player.position().x(), player.position().y(), player.position().z(), ModSounds.unsummon.get(), SoundSource.MASTER, 1.0f, 1.0f);
-					if (!player.level().isClientSide) {
-						PacketHandler.syncToAllAround(player, playerData);
-					}
-				}
-			} else if (!playerData.noFormActive()) {
+			if (!playerData.noFormActive()) {
 				ModDriveForms.registry.get(playerData.getActiveDriveForm()).updateDrive(player);
 			}
 			// Limit recharge system
@@ -725,9 +700,8 @@ public class EntityEvents {
 					playerData.setBounced(false);
 					playerData.setHangingWallTicks(20);
 					playerData.setWallGrabs(grabs + 1);
-					playerData.setFlowmotion(true);//TODO packet?
+					playerData.setFlowmotion(true);
 					if (!player.level().isClientSide) {
-						//PacketHandler.syncToAllAround(player, playerData);
 						float radius = 0.5F;
 						for (int i = 0; i < 10; i++) {
 							((ServerLevel) player.level()).sendParticles(ParticleTypes.ELECTRIC_SPARK, player.getX() - Math.random() * (radius * 2) + radius, player.getY(), player.getZ() - Math.random() * (radius * 2) + radius, 100, 0, 0, 0, 0);
@@ -738,6 +712,8 @@ public class EntityEvents {
 					player.addEffect(new MobEffectInstance(MobEffects.GLOWING, 100, 1, false, false, false));
 					if (player.level().isClientSide) {
 						InputHandler.jumpRayTrace = InputHandler.getMouseOverExtendedStraight(20);
+					} else {
+						PacketHandler.syncToAllAround(player, playerData);
 					}
 				}
 			}
@@ -772,9 +748,13 @@ public class EntityEvents {
 			playerData.setHangingWallTicks(0);
 			playerData.setWallGrabs(0);
 
-			// Only remove flowmotion if player is touching ground AND NOT on a flowmotion rail
-			if (!FlowmotionRailBlock.isOn(player)) {
+			// Only remove flowmotion if player is touching ground AND NOT on a flowmotion rail.
+			if (playerData.inFlowmotion() && !FlowmotionRailBlock.isOn(player) && (!player.level().isClientSide || player.isLocalPlayer())) {
 				playerData.setFlowmotion(false);
+
+				if (!player.level().isClientSide) {
+					PacketHandler.syncToAllAround(player, playerData);
+				}
 			}
 		}
 
@@ -982,6 +962,16 @@ public class EntityEvents {
 					ItemStack bag = event.getPlayer().getInventory().getItem(i);
 					if (!ItemStack.matches(bag, ItemStack.EMPTY)) {
 						if (bag.getItem() == ModItems.shotlocksBag.get()) {
+							IItemHandler inv = bag.getCapability(Capabilities.ItemHandler.ITEM, null);
+							addToBag(inv, event, bag);
+						}
+					}
+				}
+			} else if (event.getItemEntity().getItem().getItem() instanceof KeychainItem) {
+				for (int i = 0; i < event.getPlayer().getInventory().getContainerSize(); i++) {
+					ItemStack bag = event.getPlayer().getInventory().getItem(i);
+					if (!ItemStack.matches(bag, ItemStack.EMPTY)) {
+						if (bag.getItem() == ModItems.keychainsBag.get()) {
 							IItemHandler inv = bag.getCapability(Capabilities.ItemHandler.ITEM, null);
 							addToBag(inv, event, bag);
 						}
@@ -1263,8 +1253,7 @@ public class EntityEvents {
 			if (event.getEntity() instanceof Player guardingPlayer) {
 				PlayerData playerData = PlayerData.get(guardingPlayer);
 
-				if (CombatAbilities.blocks(guardingPlayer, playerData, event.getSource())) {
-					CombatAbilities.onBlocked(guardingPlayer, playerData);
+				if (CombatAbilities.blocks(guardingPlayer, playerData, event.getSource()) && CombatAbilities.onBlocked(guardingPlayer, playerData, event.getSource(), event.getAmount())) {
 					event.setCanceled(true);
 					return;
 				}

@@ -4,6 +4,9 @@
     "str": 7
   },
   "description": "item.kingdomkeys.lionheart.desc",
+  "hit_particles": [
+    "kingdomkeys:textures/particle/generic_hit.png"
+  ],
   "keychain": "kingdomkeys:lionheart_chain",
   "levels": [
     {

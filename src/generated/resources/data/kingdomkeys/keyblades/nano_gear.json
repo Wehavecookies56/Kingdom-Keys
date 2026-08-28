@@ -4,6 +4,9 @@
     "str": 5
   },
   "description": "item.kingdomkeys.nano_gear.desc",
+  "hit_particles": [
+    "kingdomkeys:textures/particle/generic_hit.png"
+  ],
   "keychain": "kingdomkeys:nano_gear_chain",
   "levels": [
     {

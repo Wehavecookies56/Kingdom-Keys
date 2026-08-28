@@ -5,6 +5,9 @@
     "str": 7
   },
   "description": "item.kingdomkeys.two_become_one.desc",
+  "hit_particles": [
+    "kingdomkeys:textures/particle/generic_hit.png"
+  ],
   "keychain": "kingdomkeys:two_become_one_chain",
   "levels": [
     {

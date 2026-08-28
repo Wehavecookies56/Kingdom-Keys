@@ -4,6 +4,9 @@
     "str": 6
   },
   "description": "item.kingdomkeys.mark_of_a_hero.desc",
+  "hit_particles": [
+    "kingdomkeys:textures/particle/generic_hit.png"
+  ],
   "keychain": "kingdomkeys:mark_of_a_hero_chain",
   "levels": [
     {

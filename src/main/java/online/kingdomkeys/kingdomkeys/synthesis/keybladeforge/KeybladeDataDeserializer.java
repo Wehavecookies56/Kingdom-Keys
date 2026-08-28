@@ -59,6 +59,20 @@ public class KeybladeDataDeserializer implements JsonDeserializer<KeybladeData> 
 			case "sound":
 				out.setSound(element.getAsString());
 				break;
+			case "hit_particles":
+				List<ResourceLocation> particles = new ArrayList<>();
+
+				if (element.isJsonArray()) {
+					element.getAsJsonArray().forEach(particle -> particles.add(ResourceLocation.parse(particle.getAsString())));
+				} else if (!element.getAsString().isEmpty()) {
+					particles.add(ResourceLocation.parse(element.getAsString()));
+				}
+
+				out.setHitParticles(particles);
+				break;
+			case "hit_particle_scale":
+				out.setHitParticleScale(element.getAsFloat());
+				break;
 			case "base_stats":
 				JsonObject statsObject = element.getAsJsonObject();
 				statsObject.entrySet().forEach(statsEntry -> {
