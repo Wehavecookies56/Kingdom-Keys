@@ -17,11 +17,11 @@
 * Removed Drive Form Visibility config option, it was added a long time ago when their render was buggy, now it's been fine for a long time :)
 
 ## Fixed:
-* Grinding on rails not showing to remote players the flowmotion trail.
-* Antiform revert sound still being the unsummon one.
+* Grinding on rails not showing the flowmotion trail to other players.
+* Antiform revert sound still being the old unsummon one.
 * Keychain equipment screen button width overlapping the scroll bar.
 * [EFM] Keyblades in dual wield boxing animation, removed their keychain requirement, now they will work as long as the held items are keyblades.
-* [EFM] idle animations on some drive forms.
+* [EFM] Idle animations on some drive forms.
 * [EFM] Limit form boxing instead of attacking with the keyblade.
 * [EFM] Valor form walking animation.
 * [EFM] Drive Form poses not resetting when they are reverted until a weapon is resummoned.
