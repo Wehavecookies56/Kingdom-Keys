@@ -27,7 +27,7 @@ import java.util.Map;
 public class KKAnimations {
 
     public static AnimationManager.AnimationAccessor<? extends StaticAnimation>
-        SORA_IDLE, RIKU_IDLE, AQUA_IDLE, VALOR_FORM_IDLE, WISDOM_FORM_IDLE, MASTER_FORM_IDLE, FINAL_FORM_IDLE, ANTI_FORM_IDLE, AXEL_IDLE, DEMYX_IDLE, LARXENE_IDLE,
+        SORA_IDLE, RIKU_IDLE, RIKU_WALK, RIKU_RUN, AQUA_IDLE, VALOR_FORM_IDLE, WISDOM_FORM_IDLE, MASTER_FORM_IDLE, FINAL_FORM_IDLE, ANTI_FORM_IDLE, AXEL_IDLE, DEMYX_IDLE, LARXENE_IDLE,
             LEXAEUS_IDLE, LUXORD_IDLE, MARLUXIA_IDLE, ROXAS_IDLE, SAIX_IDLE, VEXEN_IDLE, XALDIN_IDLE, XEMNAS_IDLE, XIGBAR_IDLE, ZEXION_IDLE;
     public static AnimationManager.AnimationAccessor<? extends StaticAnimation>
         ROXAS_RUN, WISDOM_FORM_RUN, MASTER_FORM_WALK, MASTER_FORM_RUN, ANTI_FORM_WALK, ANTI_FORM_RUN, XEMNAS_WALK, XEMNAS_RUN, XEMNAS_FLY, XIGBAR_WALK, XALDIN_WALK,
@@ -41,7 +41,7 @@ public class KKAnimations {
             MASTER_AUTO1,
             FINAL_AUTO1,
             ROXAS_AUTO1,
-            SORA_AUTO1, SORA_AUTO2, SORA_AUTO3, SORA_FINISHER1,
+            SORA_AUTO1, SORA_AUTO2, SORA_AUTO3, SORA_FINISHER1, RIKU_AUTO1,
             KK_SHIELD_AUTO1, KK_SHIELD_AUTO2, KK_SHIELD_AUTO3,
             AXEL_AUTO1;
 
@@ -201,6 +201,8 @@ public class KKAnimations {
 
         SORA_IDLE = builder.nextAccessor("biped/living/single_keyblade/sora/sora_idle", animationAccessor -> new StaticAnimation(true, animationAccessor, Armatures.BIPED).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> .6f));
         RIKU_IDLE = builder.nextAccessor("biped/living/single_keyblade/riku/riku_idle", animationAccessor -> new StaticAnimation(true, animationAccessor, Armatures.BIPED).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> .6f));
+        RIKU_WALK = builder.nextAccessor("biped/living/single_keyblade/riku/riku_walk", animationAccessor -> new StaticAnimation(true, animationAccessor, Armatures.BIPED).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> 4f));
+        RIKU_RUN = builder.nextAccessor("biped/living/single_keyblade/riku/riku_run", animationAccessor -> new StaticAnimation(true, animationAccessor, Armatures.BIPED).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> 3f));
         AQUA_IDLE = builder.nextAccessor("biped/living/single_keyblade/aqua/aqua_idle", animationAccessor -> new StaticAnimation(true, animationAccessor, Armatures.BIPED).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> .6f));
         SORA_SUMMON = builder.nextAccessor("biped/living/single_keyblade/sora/sora_summon", animationAccessor -> new ActionAnimation(0.05F, animationAccessor, Armatures.BIPED)
                 .addProperty(AnimationProperty.ActionAnimationProperty.CANCELABLE_MOVE, true)
@@ -216,6 +218,12 @@ public class KKAnimations {
         SORA_AUTO2 = builder.nextAccessor("biped/combat/sora_auto2", animationAccessor -> new ComboAttackAnimation(0.16F, 0.05F, 0.39F, 0.4F, KKCollider.KEYBLADE, Armatures.BIPED.get().toolR, animationAccessor, Armatures.BIPED).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> .9f));
         SORA_AUTO3 = builder.nextAccessor("biped/combat/sora_auto3", animationAccessor -> new ComboAttackAnimation(0.16F, 0.05F, 0.5F, 0.6F, KKCollider.KEYBLADE, Armatures.BIPED.get().toolR, animationAccessor, Armatures.BIPED).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> .9f));
         SORA_FINISHER1 = builder.nextAccessor("biped/combat/sora_finisher1", animationAccessor -> new ComboAttackAnimation(-0.85F, 0.05F, 0.59F, 0.6F, KKCollider.KEYBLADE, Armatures.BIPED.get().toolR, animationAccessor, Armatures.BIPED).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> .9f));
+
+        RIKU_AUTO1 = builder.nextAccessor("biped/combat/riku_attack1", animationAccessor -> new ComboAttackAnimation(-0.85F, animationAccessor, Armatures.BIPED,
+                new AttackAnimation.Phase(0.0F, 0.85F, 1.30F, 1.45F, 1.45F, Armatures.BIPED.get().toolR, KKCollider.KEYBLADE),
+                new AttackAnimation.Phase(1.45F, 1.52F, 1.82F, 2.70F, 2.70F, Armatures.BIPED.get().toolR, KKCollider.KEYBLADE),
+                new AttackAnimation.Phase(2.70F, 2.75F, 3.45F, 3.50F, Float.MAX_VALUE, Armatures.BIPED.get().toolR, KKCollider.KEYBLADE))
+                .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> 2.6f));
 
         KK_SHIELD_AUTO1 = builder.nextAccessor("biped/combat/kk_shield_auto_1", animationAccessor -> new ComboAttackAnimation(0.16F, 0.05F, 0.16F, 0.7F, null, Armatures.BIPED.get().toolR, animationAccessor, Armatures.BIPED));
         KK_SHIELD_AUTO2 = builder.nextAccessor("biped/combat/kk_shield_auto_2", animationAccessor -> new ComboAttackAnimation(0.16F, 0.05F, 0.16F, 0.7F, null, Armatures.BIPED.get().toolR, animationAccessor, Armatures.BIPED));
