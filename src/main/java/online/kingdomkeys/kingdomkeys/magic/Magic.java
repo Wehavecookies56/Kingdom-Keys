@@ -4,10 +4,12 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
+import online.kingdomkeys.kingdomkeys.integration.epicfight.EpicFightUtils;
 import online.kingdomkeys.kingdomkeys.lib.KKRegistryObject;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
@@ -209,6 +211,10 @@ public abstract class Magic implements KKRegistryObject {
 		Utils.castMagic cast = new Utils.castMagic(player, caster, fullMPBlastMult, lockOnEntity, this);
 		casterData.setCastedMagic(cast);
 
+		if (KingdomKeys.efmLoaded) {
+			EpicFightUtils.playCastAnimation(caster, isProjectile());
+		}
+
 		PacketHandler.sendTo(new SCSyncPlayerData(caster), (ServerPlayer) caster);
 	}
 
@@ -223,6 +229,10 @@ public abstract class Magic implements KKRegistryObject {
 			return this;
 
 		return ModMagic.registry.get(next);
+	}
+
+	public boolean isProjectile() {
+		return false;
 	}
 
 	public abstract void magicUse(LivingEntity player, Player caster, float fullMPBlastMult, LivingEntity lockOnEntity);

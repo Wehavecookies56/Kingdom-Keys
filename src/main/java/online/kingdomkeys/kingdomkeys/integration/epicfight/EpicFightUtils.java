@@ -101,6 +101,19 @@ public class EpicFightUtils {
         return true;
     }
 
+    public static void playCastAnimation(Player caster, boolean projectile) {
+        if (!KingdomKeys.efmLoaded || caster == null || caster.level().isClientSide) {
+            return;
+        }
+
+        ServerPlayerPatch patch = EpicFightCapabilities.getEntityPatch(caster, ServerPlayerPatch.class);
+        if (patch == null) {
+            return;
+        }
+
+        patch.playAnimationSynchronized(projectile ? KKAnimations.PROJECTILE_CAST : KKAnimations.INDIRECT_CAST, 0.0F);
+    }
+
     public static boolean needsAntiFormMotions(Player player) {
         if (!KingdomKeys.efmLoaded || player == null || player.level().isClientSide) {
             return false;

@@ -46,6 +46,7 @@ public class KKAnimations {
             AXEL_AUTO1;
 
     public static AnimationManager.AnimationAccessor<ActionAnimation>
+            INDIRECT_CAST, PROJECTILE_CAST,
             DRIVE_SUMMON, SORA_SUMMON, XEMNAS_SUMMON, XIGBAR_SUMMON, XALDIN_SUMMON, VEXEN_SUMMON, LEXAEUS_SUMMON,
                 ZEXION_SUMMON, SAIX_SUMMON, AXEL_SUMMON, DEMYX_SUMMON, LUXORD_SUMMON, MARLUXIA_SUMMON, LARXENE_SUMMON;
 
@@ -218,6 +219,11 @@ public class KKAnimations {
         SORA_AUTO2 = builder.nextAccessor("biped/combat/sora_auto2", animationAccessor -> new ComboAttackAnimation(0.16F, 0.05F, 0.39F, 0.4F, KKCollider.KEYBLADE, Armatures.BIPED.get().toolR, animationAccessor, Armatures.BIPED).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> .9f));
         SORA_AUTO3 = builder.nextAccessor("biped/combat/sora_auto3", animationAccessor -> new ComboAttackAnimation(0.16F, 0.05F, 0.5F, 0.6F, KKCollider.KEYBLADE, Armatures.BIPED.get().toolR, animationAccessor, Armatures.BIPED).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> .9f));
         SORA_FINISHER1 = builder.nextAccessor("biped/combat/sora_finisher1", animationAccessor -> new ComboAttackAnimation(-0.85F, 0.05F, 0.59F, 0.6F, KKCollider.KEYBLADE, Armatures.BIPED.get().toolR, animationAccessor, Armatures.BIPED).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> .9f));
+
+        INDIRECT_CAST = builder.nextAccessor("biped/combat/indirect_cast", animationAccessor -> new ActionAnimation(0.05F, animationAccessor, Armatures.BIPED)
+                .addProperty(AnimationProperty.ActionAnimationProperty.CANCELABLE_MOVE, true).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> 3f));
+        PROJECTILE_CAST = builder.nextAccessor("biped/combat/projectile_cast", animationAccessor -> new ActionAnimation(0.05F, animationAccessor, Armatures.BIPED)
+                .addProperty(AnimationProperty.ActionAnimationProperty.CANCELABLE_MOVE, true).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> 2.8f));
 
         RIKU_AUTO1 = builder.nextAccessor("biped/combat/riku_attack1", animationAccessor -> new ComboAttackAnimation(-0.85F, animationAccessor, Armatures.BIPED,
                 new AttackAnimation.Phase(0.0F, 0.85F, 1.30F, 1.45F, 1.45F, Armatures.BIPED.get().toolR, KKCollider.KEYBLADE),

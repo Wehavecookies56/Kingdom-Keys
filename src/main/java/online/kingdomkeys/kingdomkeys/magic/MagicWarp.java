@@ -15,6 +15,11 @@ public class MagicWarp extends Magic {
 	}
 
 	@Override
+	public boolean isProjectile() {
+		return true;
+	}
+
+	@Override
 	public void magicUse(LivingEntity player, Player caster, float fullMPBlastMult, LivingEntity lockOnTarget) {
 		float warpChance = getRealDamageMult(caster);
 
