@@ -2667,6 +2667,8 @@
   "kingdomkeys.command.recipe.taken_all_keyblade_self": "Te han quitado tus recetas de llaves espada",
   "kingdomkeys.command.recipe.taken_all_self": "Te han quitado tus recetas",
   "kingdomkeys.command.recipe.unknown": "La receta '%s' no existe",
+  "kingdomkeys.command.synthlevel.set": "Establecido el nivel de síntesis de %s en %s",
+  "kingdomkeys.command.synthlevel.set_self": "Tu nivel de síntesis ahora es %s",
   "kingdomkeys.config.allow_blocks_in_hangar_area": "Permitir bloques en la zona del hangar",
   "kingdomkeys.config.allow_boosts": "Impulsos de estadísticas",
   "kingdomkeys.config.allow_party_ko": "Sistema de KO en grupo",

@@ -2721,6 +2721,8 @@
   "kingdomkeys.command.recipe.taken_all_keyblade_self": "Your keyblade recipes have been taken away",
   "kingdomkeys.command.recipe.taken_all_self": "Your recipes have been taken away",
   "kingdomkeys.command.recipe.unknown": "Recipe '%s' does not exist",
+  "kingdomkeys.command.synthlevel.set": "Set %s's synthesis level to %s",
+  "kingdomkeys.command.synthlevel.set_self": "Your synthesis level is now %s",
   "kingdomkeys.config.allow_blocks_in_hangar_area": "Allow blocks in hangar area",
   "kingdomkeys.config.allow_boosts": "Stat boosts",
   "kingdomkeys.config.allow_party_ko": "Party KO system",

@@ -6,6 +6,7 @@ import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.Mth;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
@@ -43,6 +44,12 @@ import java.util.List;
 import java.util.Map.Entry;
 
 public class SynthesisCreateScreen extends MenuFilterable {
+
+	/** The moogle level the curve stops at, past which there is nothing left to fill */
+	private static final int MAX_SYNTH_LEVEL = 7;
+
+	private static final int BAR_HEIGHT = 2;
+
 	MenuBox boxL, boxM, boxRT, boxRB;
 	MenuButton create;
 	private MenuButton back;
@@ -205,22 +212,57 @@ public class SynthesisCreateScreen extends MenuFilterable {
 
 		//Render synth level
 		PlayerData playerData = PlayerData.get(minecraft.player);
-		gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Synthesis_Exp_MoogleLevel)+": "+playerData.getSynthLevel(), boxRT.getX()+7, boxRT.getY()+6, 0xFFFF00);
+		gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Synthesis_Exp_MoogleLevel)+": "+playerData.getSynthLevel()+" ["+Utils.getTierFromInt(playerData.getSynthLevel())+"]", boxRT.getX()+7, boxRT.getY()+6, 0xFFFF00);
 
-		String line = Utils.translateToLocal(Strings.Gui_Menu_Main_Synthesis_Tier)+": "+Utils.getTierFromInt(playerData.getSynthLevel());
-		gui.drawString(minecraft.font, line, boxRT.getX()+boxRT.getWidth()-minecraft.font.width(line)-5, boxRT.getY()+6, 0xFFFFFF);
-
-		line = Utils.translateToLocal(Strings.Gui_Synthesis_Exp_NextLevel)+": ";
+		String line = Utils.translateToLocal(Strings.Gui_Synthesis_Exp_NextLevel)+": ";
 		gui.drawString(minecraft.font, line, boxRT.getX()+7, boxRT.getY()+18, 0xFFFF00);
 
 		line = playerData.getSynthLevel() >= 7 ? "0 "+Utils.translateToLocal(Strings.Gui_Synthesis_Exp): playerData.getSynthExpNeeded(playerData.getSynthLevel(),playerData.getSynthExperience())+" "+Utils.translateToLocal(Strings.Gui_Synthesis_Exp);
 		gui.drawString(minecraft.font, line, boxRT.getX()+boxRT.getWidth()-minecraft.font.width(line)-5, boxRT.getY()+18, 0xFFFFFF);
+
+		renderSynthProgressBar(gui, playerData);
 
 		create.render(gui, mouseX,  mouseY,  partialTicks);
 		back.render(gui, mouseX, mouseY, partialTicks);
 
 		if (showRewardPopup) {
 			renderRewardPopup(gui, mouseX, mouseY);
+		}
+	}
+
+	private static float synthProgress(PlayerData playerData) {
+		int level = playerData.getSynthLevel();
+
+		if (level >= MAX_SYNTH_LEVEL) {
+			return 1.0F;
+		}
+
+		int start = PlayerData.getSynthExpForLevel(level - 1);
+		int end = PlayerData.getSynthExpForLevel(level);
+		int span = end - start;
+
+		if (span <= 0) {
+			return 0.0F;
+		}
+
+		return Mth.clamp((playerData.getSynthExperience() - start) / (float) span, 0.0F, 1.0F);
+	}
+
+	private void renderSynthProgressBar(GuiGraphics gui, PlayerData playerData) {
+		int left = boxRT.getX() + 8;
+		int right = boxRT.getX() + boxRT.getWidth() - 8;
+		int top = boxRT.getY() + 27;
+		int width = right - left;
+
+		if (width <= 0) {
+			return;
+		}
+
+		gui.fill(left, top, right, top + BAR_HEIGHT, 0xFF3F3F3F);
+
+		int filled = Math.round(width * synthProgress(playerData));
+		if (filled > 0) {
+			gui.fill(left, top, left + filled, top + BAR_HEIGHT, 0xFFFFDD00);
 		}
 	}
 

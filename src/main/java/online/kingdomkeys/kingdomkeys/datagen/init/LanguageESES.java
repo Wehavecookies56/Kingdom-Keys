@@ -2706,6 +2706,8 @@ public class LanguageESES extends KKLanguageProvider {
         // drive
         add("kingdomkeys.command.drive.set", "%s de %s establecida al nivel %s");
         add("kingdomkeys.command.drive.set_self", "Tu nivel de %s ahora es %s");
+        add("kingdomkeys.command.synthlevel.set", "Establecido el nivel de síntesis de %s en %s");
+        add("kingdomkeys.command.synthlevel.set_self", "Tu nivel de síntesis ahora es %s");
         add("kingdomkeys.command.drive.unknown", "La forma '%s' no existe");
 
         // exp

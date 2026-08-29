@@ -2664,9 +2664,14 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 	public int getSynthExpNeeded(int level, int currentExp) {
 		if (level > 7)
 			return 0;
-		double nextLevel = (level + 300.0 * (Math.pow(2.0, (level / 8.0)))) * (level * 0.25);
-		remainingSynthExp = ((int) nextLevel - currentExp);
+		remainingSynthExp = getSynthExpForLevel(level) - currentExp;
 		return remainingSynthExp;
+	}
+
+	public static int getSynthExpForLevel(int level) {
+		if (level <= 0)
+			return 0;
+		return (int) ((level + 300.0 * (Math.pow(2.0, (level / 8.0)))) * (level * 0.25));
 	}
 
 	//endregion

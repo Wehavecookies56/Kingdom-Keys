@@ -57,11 +57,6 @@ public class KKAnimations {
     public static Map<SingleChoices, AnimationManager.AnimationAccessor<?>> singleKeybladeMap = new HashMap<>();
     public static Map<DualChoices, AnimationManager.AnimationAccessor<?>> dualKeybladeMap = new HashMap<>();
 
-    public static Map<?, ?> spellFireMap = new HashMap<>();
-    public static Map<?, ?> spellBlizzardMap = new HashMap<>();
-    public static Map<?, ?> spellThunderMap = new HashMap<>();
-
-
     private KKAnimations() {
 
     }

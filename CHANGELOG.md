@@ -1,7 +1,10 @@
 ## Added:
-* [EFM] WIP Aqua style idle pose.
+* Synthesis experience bar in the Synthesis screen.
+* χ-blade and incomplete χ-blade hit particles.
+* Command to set a player's synthesis level [1-7].
+
 ## Changed:
-* [EFM] Riku's combat style (Thanks to Xephiro).
+* 
 
 ## Fixed:
-* Crash when EFM is not present (for real this time).
+* 

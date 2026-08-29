@@ -6,7 +6,7 @@
   },
   "description": "item.kingdomkeys.incomplete_kiblade.desc",
   "hit_particles": [
-    "kingdomkeys:textures/particle/generic_hit.png"
+    "kingdomkeys:textures/particle/kiblade_hit.png"
   ],
   "keychain": "kingdomkeys:incomplete_kiblade_chain",
   "levels": [
