@@ -27,7 +27,7 @@ import java.util.Map;
 public class KKAnimations {
 
     public static AnimationManager.AnimationAccessor<? extends StaticAnimation>
-        SORA_IDLE, RIKU_IDLE, RIKU_WALK, RIKU_RUN, AQUA_IDLE, VALOR_FORM_IDLE, WISDOM_FORM_IDLE, MASTER_FORM_IDLE, FINAL_FORM_IDLE, ANTI_FORM_IDLE, AXEL_IDLE, DEMYX_IDLE, LARXENE_IDLE,
+        SORA_IDLE, RIKU_IDLE, RIKU_WALK, RIKU_RUN, AQUA_IDLE, KH2_ROXAS_DUAL_IDLE, KH2_ROXAS_DUAL_WALK, VALOR_FORM_IDLE, WISDOM_FORM_IDLE, MASTER_FORM_IDLE, FINAL_FORM_IDLE, ANTI_FORM_IDLE, AXEL_IDLE, DEMYX_IDLE, LARXENE_IDLE,
             LEXAEUS_IDLE, LUXORD_IDLE, MARLUXIA_IDLE, ROXAS_IDLE, SAIX_IDLE, VEXEN_IDLE, XALDIN_IDLE, XEMNAS_IDLE, XIGBAR_IDLE, ZEXION_IDLE;
     public static AnimationManager.AnimationAccessor<? extends StaticAnimation>
         ROXAS_RUN, WISDOM_FORM_RUN, MASTER_FORM_WALK, MASTER_FORM_RUN, ANTI_FORM_WALK, ANTI_FORM_RUN, XEMNAS_WALK, XEMNAS_RUN, XEMNAS_FLY, XIGBAR_WALK, XALDIN_WALK,
@@ -41,7 +41,7 @@ public class KKAnimations {
             MASTER_AUTO1,
             FINAL_AUTO1,
             ROXAS_AUTO1,
-            SORA_AUTO1, SORA_AUTO2, SORA_AUTO3, SORA_FINISHER1, RIKU_AUTO1,
+            SORA_AUTO1, SORA_AUTO2, SORA_AUTO3, SORA_FINISHER1, RIKU_AUTO1, DUAL_ROXAS_AUTO1,
             KK_SHIELD_AUTO1, KK_SHIELD_AUTO2, KK_SHIELD_AUTO3,
             AXEL_AUTO1;
 
@@ -199,6 +199,8 @@ public class KKAnimations {
         RIKU_IDLE = builder.nextAccessor("biped/living/single_keyblade/riku/riku_idle", animationAccessor -> new StaticAnimation(true, animationAccessor, Armatures.BIPED).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> .6f));
         RIKU_WALK = builder.nextAccessor("biped/living/single_keyblade/riku/riku_walk", animationAccessor -> new StaticAnimation(true, animationAccessor, Armatures.BIPED).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> 4f));
         RIKU_RUN = builder.nextAccessor("biped/living/single_keyblade/riku/riku_run", animationAccessor -> new StaticAnimation(true, animationAccessor, Armatures.BIPED).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> 3f));
+        KH2_ROXAS_DUAL_IDLE = builder.nextAccessor("biped/living/dual_keyblade/kh2_roxas/idle", animationAccessor -> new StaticAnimation(true, animationAccessor, Armatures.BIPED).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> 1f));
+        KH2_ROXAS_DUAL_WALK = builder.nextAccessor("biped/living/dual_keyblade/kh2_roxas/walk", animationAccessor -> new StaticAnimation(true, animationAccessor, Armatures.BIPED).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> 2.6f));
         AQUA_IDLE = builder.nextAccessor("biped/living/single_keyblade/aqua/aqua_idle", animationAccessor -> new StaticAnimation(true, animationAccessor, Armatures.BIPED).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> .6f));
         SORA_SUMMON = builder.nextAccessor("biped/living/single_keyblade/sora/sora_summon", animationAccessor -> new ActionAnimation(0.05F, animationAccessor, Armatures.BIPED)
                 .addProperty(AnimationProperty.ActionAnimationProperty.CANCELABLE_MOVE, true)
@@ -225,6 +227,12 @@ public class KKAnimations {
                 new AttackAnimation.Phase(1.45F, 1.52F, 1.82F, 2.70F, 2.70F, Armatures.BIPED.get().toolR, KKCollider.KEYBLADE),
                 new AttackAnimation.Phase(2.70F, 2.75F, 3.45F, 3.50F, Float.MAX_VALUE, Armatures.BIPED.get().toolR, KKCollider.KEYBLADE))
                 .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> 2.6f));
+
+        DUAL_ROXAS_AUTO1 = builder.nextAccessor("biped/living/dual_keyblade/kh2_roxas/attack", animationAccessor -> new ComboAttackAnimation(-0.85F, animationAccessor, Armatures.BIPED,
+                new AttackAnimation.Phase(0.0F, 2.35F, 2.35F, 2.70F, 3.20F, 3.20F, false, InteractionHand.MAIN_HAND, dualKeyblade),
+                new AttackAnimation.Phase(3.20F, 3.30F, 3.30F, 3.60F, 4.05F, 4.05F, false, InteractionHand.MAIN_HAND, dualKeyblade),
+                new AttackAnimation.Phase(4.05F, 4.10F, 4.10F, 4.50F, 5.00F, Float.MAX_VALUE, false, InteractionHand.MAIN_HAND, dualKeyblade))
+                .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> 1.8f));
 
         KK_SHIELD_AUTO1 = builder.nextAccessor("biped/combat/kk_shield_auto_1", animationAccessor -> new ComboAttackAnimation(0.16F, 0.05F, 0.16F, 0.7F, null, Armatures.BIPED.get().toolR, animationAccessor, Armatures.BIPED));
         KK_SHIELD_AUTO2 = builder.nextAccessor("biped/combat/kk_shield_auto_2", animationAccessor -> new ComboAttackAnimation(0.16F, 0.05F, 0.16F, 0.7F, null, Armatures.BIPED.get().toolR, animationAccessor, Armatures.BIPED));

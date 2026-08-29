@@ -5,7 +5,7 @@
   },
   "description": "item.kingdomkeys.jungle_king.desc",
   "hit_particles": [
-    "kingdomkeys:textures/particle/generic_hit.png",
+    "kingdomkeys:textures/particle/yellow_star_hit.png",
     "kingdomkeys:textures/particle/leaf_hit.png"
   ],
   "keychain": "kingdomkeys:jungle_king_chain",

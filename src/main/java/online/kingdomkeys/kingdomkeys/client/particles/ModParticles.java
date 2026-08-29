@@ -19,6 +19,7 @@ public class ModParticles {
     public static final ResourceLocation OBLIVION_HIT = KingdomKeys.rl("textures/particle/oblivion_hit.png");
     public static final ResourceLocation ULTIMA_HIT = KingdomKeys.rl("textures/particle/ultima_hit.png");
     public static final ResourceLocation KIBLADE_HIT = KingdomKeys.rl("textures/particle/kiblade_hit.png");
+    public static final ResourceLocation YELLOW_HIT = KingdomKeys.rl("textures/particle/yellow_star_hit.png");
 
     public static final DeferredHolder<ParticleType<?>, ParticleType<KeybladeHitParticleOptions>> KEYBLADE_HIT =
             PARTICLES.register("keyblade_hit", () -> new ParticleType<KeybladeHitParticleOptions>(false) {
