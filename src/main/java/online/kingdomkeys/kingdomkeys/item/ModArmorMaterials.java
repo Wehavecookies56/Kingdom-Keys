@@ -31,8 +31,7 @@ public class ModArmorMaterials {
 			SoundEvents.ARMOR_EQUIP_LEATHER,
 			() -> Ingredient.of(Tags.Items.LEATHERS),
 			List.of(
-					new ArmorMaterial.Layer(KingdomKeys.rl("organization_layer_1")),
-					new ArmorMaterial.Layer(KingdomKeys.rl("organization_layer_2"))
+					new ArmorMaterial.Layer(KingdomKeys.rl("organization"))
 			),
 			1,
 			0

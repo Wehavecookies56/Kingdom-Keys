@@ -72,9 +72,21 @@ public class ClientSetup {
         ModEntities.registerRenderers(event);
     }
 
-    @SubscribeEvent
-	public static void registerLayers(EntityRenderersEvent.RegisterLayerDefinitions event) {
-    	ModEntities.registerLayers(event);
+	@SubscribeEvent
+	public static void registerLayers(
+			EntityRenderersEvent.RegisterLayerDefinitions event
+	) {
+		ModEntities.registerLayers(event);
+
+		event.registerLayerDefinition(
+				OrganizationArmorOverlayRenderer.OUTER_LAYER,
+				OrganizationArmorOverlayRenderer::createOuterLayer
+		);
+
+		event.registerLayerDefinition(
+				OrganizationArmorOverlayRenderer.LEGGINGS_LAYER,
+				OrganizationArmorOverlayRenderer::createLeggingsLayer
+		);
 	}
 
 	@SubscribeEvent
@@ -85,6 +97,7 @@ public class ClientSetup {
 				renderer.addLayer(new CrownLayerRenderer<>(renderer, event.getEntityModels()));
 				renderer.addLayer(new FreezeLayerRenderer<>(renderer, event.getEntityModels()));
 				renderer.addLayer(new KeybladeArmorRenderer<>(renderer, event.getEntityModels()));
+				renderer.addLayer(new OrganizationArmorOverlayRenderer<>(renderer, event.getEntityModels()));
 			}
 		}
 
@@ -96,6 +109,7 @@ public class ClientSetup {
 		renderer.addLayer(new AeroLayerRenderer<>(renderer, event.getEntityModels()));
 		renderer.addLayer(new CrownLayerRenderer<>(renderer, event.getEntityModels()));
 		renderer.addLayer(new FreezeLayerRenderer<>(renderer, event.getEntityModels()));
+		renderer.addLayer(new OrganizationArmorOverlayRenderer<>(renderer, event.getEntityModels()));
 
 		renderer = event.getSkin(PlayerSkin.Model.SLIM);
 		renderer.addLayer(new DriveLayerRenderer<>(renderer));
@@ -105,6 +119,7 @@ public class ClientSetup {
 		renderer.addLayer(new AeroLayerRenderer<>(renderer, event.getEntityModels()));
 		renderer.addLayer(new CrownLayerRenderer<>(renderer, event.getEntityModels()));
 		renderer.addLayer(new FreezeLayerRenderer<>(renderer, event.getEntityModels()));
+		renderer.addLayer(new OrganizationArmorOverlayRenderer<>(renderer, event.getEntityModels()));
 	}
 
 	@SubscribeEvent
