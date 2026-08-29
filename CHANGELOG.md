@@ -8,4 +8,4 @@
 * Riku attacks are now individual attacks.
 
 ## Fixed:
-* 
+* Keychains bag not being able to be upgraded.
