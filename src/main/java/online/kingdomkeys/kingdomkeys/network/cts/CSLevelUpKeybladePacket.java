@@ -3,7 +3,6 @@ package online.kingdomkeys.kingdomkeys.network.cts;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -21,7 +20,6 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.util.Iterator;
 import java.util.Map.Entry;
-import java.util.UUID;
 
 public record CSLevelUpKeybladePacket(ItemStack stack) implements Packet {
 
@@ -64,19 +62,8 @@ public record CSLevelUpKeybladePacket(ItemStack stack) implements Packet {
 				if(summonedKeyblade!= null && summonedKeyblade.getItem() instanceof KeybladeItem kbItem)
 					kbItem.setKeybladeLevel(summonedKeyblade, kcItem.getKeybladeLevel(stack));
 			}
-			UUID keybladeID = Utils.getKeybladeID(stack);
-			if (keybladeID != null) {
-				ResourceLocation slot = null;
-				for (Entry<ResourceLocation, ItemStack> entry : playerData.getEquippedKeychains().entrySet()) {
-					if (keybladeID.equals(Utils.getKeybladeID(entry.getValue()))) {
-						slot = entry.getKey();
-					}
-				}
-				if (slot != null) {
-					playerData.equipKeychain(slot, stack);
-				} else {
-					player.getInventory().setItem(player.getInventory().findSlotMatchingItem(stack()), stack);
-				}
+			if (!Utils.storeKeychain(player, playerData, stack)) {
+				KingdomKeys.LOGGER.warn("Could not store the upgraded keychain {} for {}", Utils.getKeybladeID(stack), player.getGameProfile().getName());
 			}
 		}
 		PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer)player);

@@ -76,12 +76,13 @@ public record CSSynthesiseRecipe(ResourceLocation name) implements Packet {
 
 					Item i = recipe.getResult();
 					ItemStack stack = new ItemStack(i);
+					// Si el resultado tiene bolsa, va ahi antes que al inventario.
 					for (int s = 0; s < stacksToGive - 1; s++) {
-						player.getInventory().add(new ItemStack(i, stack.getMaxStackSize()));
+						Utils.addToBagOrInventory(player, new ItemStack(i, stack.getMaxStackSize()));
 					}
 					int remainder = recipe.getAmount() - ((stacksToGive - 1) * stack.getMaxStackSize());
 					if (remainder > 0) {
-						player.getInventory().add(new ItemStack(i, remainder));
+						Utils.addToBagOrInventory(player, new ItemStack(i, remainder));
 					}
 
 					ItemStack visual;

@@ -925,8 +925,7 @@ public class EntityEvents {
 					ItemStack bag = event.getPlayer().getInventory().getItem(i);
 					if (!ItemStack.matches(bag, ItemStack.EMPTY)) {
 						if (bag.getItem() == ModItems.synthesisBag.get()) {
-							IItemHandler inv = bag.getCapability(Capabilities.ItemHandler.ITEM, null);
-							if (addToBag(inv, event, bag)) {
+							if (addToBag(event, bag)) {
 								Player picker = event.getPlayer();
 								picker.level().playSound(null, picker.blockPosition(), ModSounds.synthesisPickup.get(), SoundSource.PLAYERS, 0.6F, 1F);
 							}
@@ -942,8 +941,7 @@ public class EntityEvents {
 					ItemStack bag = event.getPlayer().getInventory().getItem(i);
 					if (!ItemStack.matches(bag, ItemStack.EMPTY)) {
 						if (bag.getItem() == ModItems.magicsBag.get()) {
-							IItemHandler inv = bag.getCapability(Capabilities.ItemHandler.ITEM, null);
-							addToBag(inv, event, bag);
+							addToBag(event, bag);
 						}
 					}
 				}
@@ -952,8 +950,7 @@ public class EntityEvents {
 					ItemStack bag = event.getPlayer().getInventory().getItem(i);
 					if (!ItemStack.matches(bag, ItemStack.EMPTY)) {
 						if (bag.getItem() == ModItems.cardsBag.get()) {
-							IItemHandler inv = bag.getCapability(Capabilities.ItemHandler.ITEM, null);
-							addToBag(inv, event, bag);
+							addToBag(event, bag);
 						}
 					}
 				}
@@ -962,8 +959,7 @@ public class EntityEvents {
 					ItemStack bag = event.getPlayer().getInventory().getItem(i);
 					if (!ItemStack.matches(bag, ItemStack.EMPTY)) {
 						if (bag.getItem() == ModItems.shotlocksBag.get()) {
-							IItemHandler inv = bag.getCapability(Capabilities.ItemHandler.ITEM, null);
-							addToBag(inv, event, bag);
+							addToBag(event, bag);
 						}
 					}
 				}
@@ -972,8 +968,7 @@ public class EntityEvents {
 					ItemStack bag = event.getPlayer().getInventory().getItem(i);
 					if (!ItemStack.matches(bag, ItemStack.EMPTY)) {
 						if (bag.getItem() == ModItems.keychainsBag.get()) {
-							IItemHandler inv = bag.getCapability(Capabilities.ItemHandler.ITEM, null);
-							addToBag(inv, event, bag);
+							addToBag(event, bag);
 						}
 					}
 				}
@@ -981,26 +976,13 @@ public class EntityEvents {
 		}
 	}
 
-	public boolean addToBag(IItemHandler inv, ItemEntityPickupEvent.Pre event, ItemStack bag) {
-		int bagLevel = bag.getOrDefault(ModComponents.BAG_LEVEL, 0);
-		int maxSlots = switch (bagLevel) {
-			case 0 -> 18;
-			case 1 -> 36;
-			case 2 -> 54;
-			case 3 -> 72;
-			default -> 0;
-		};
-
+	public boolean addToBag(ItemEntityPickupEvent.Pre event, ItemStack bag) {
 		ItemStack onGround = event.getItemEntity().getItem();
 		if (onGround.isEmpty()) {
 			return false;
 		}
 
-		ItemStack remaining = onGround.copy();
-
-		for (int j = 0; j < maxSlots && !remaining.isEmpty(); j++) {
-			remaining = inv.insertItem(j, remaining, false);
-		}
+		ItemStack remaining = Utils.insertIntoBag(bag, onGround.copy());
 
 		if (remaining.isEmpty()) {
 			event.setCanPickup(TriState.FALSE);

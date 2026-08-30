@@ -94,6 +94,7 @@ import online.kingdomkeys.kingdomkeys.entity.block.GummiHangarTileEntity;
 import online.kingdomkeys.kingdomkeys.item.*;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
 import online.kingdomkeys.kingdomkeys.lib.*;
+import online.kingdomkeys.kingdomkeys.menu.BagInventory;
 import online.kingdomkeys.kingdomkeys.lib.Party.Member;
 import online.kingdomkeys.kingdomkeys.limit.Limit;
 import online.kingdomkeys.kingdomkeys.limit.ModLimits;
@@ -277,16 +278,6 @@ public class Utils {
 		return -1;
 	}
 
-	/**
-	 * Whether magic cooldowns are tracked per magic instead of as one shared timer.
-	 *
-	 * <p>Server config, so it is read through {@code isLoaded} - it is queried from client rendering
-	 * too, where the spec may not be up yet on the first frames after joining.</p>
-	 */
-	/**
-	 * The magic bound to a shortcut slot, or null if that slot is empty or out of range. Needed because
-	 * the cooldown check has to know which magic is about to be cast.
-	 */
 	public static ResourceLocation getShortcutMagic(PlayerData playerData, int index) {
 		if (playerData == null || !playerData.getShortcutsMap().containsKey(index)) {
 			return null;
@@ -319,6 +310,174 @@ public class Utils {
 			}
 		}
 		return found;
+	}
+
+	public static int getBagSlots(ItemStack bag) {
+		return switch (bag.getOrDefault(ModComponents.BAG_LEVEL, 0)) {
+			case 0 -> 18;
+			case 1 -> 36;
+			case 2 -> 54;
+			case 3 -> 72;
+			default -> 0;
+		};
+	}
+
+	public static BagItem.Type getBagTypeFor(ItemStack stack) {
+		if (stack.isEmpty()) {
+			return null;
+		}
+
+		for (BagItem.Type type : BagItem.Type.values()) {
+			if (getBagItem(type) instanceof BagItem bag && bag.getValidator().test(stack)) {
+				return type;
+			}
+		}
+
+		return null;
+	}
+
+	public static void addToBagOrInventory(Player player, ItemStack stack) {
+		ItemStack remaining = insertIntoBags(player, stack);
+
+		if (!remaining.isEmpty()) {
+			player.getInventory().add(remaining);
+		}
+	}
+
+	public static ItemStack insertIntoBag(ItemStack bag, ItemStack stack) {
+		if (stack.isEmpty() || !(bag.getCapability(Capabilities.ItemHandler.ITEM) instanceof BagInventory inv)) {
+			return stack;
+		}
+
+		ItemStack remaining = stack;
+		int slots = getBagSlots(bag);
+
+		for (int i = 0; i < slots && !remaining.isEmpty(); i++) {
+			remaining = inv.insertItem(i, remaining, false);
+		}
+
+		return remaining;
+	}
+
+	public static ItemStack insertIntoBags(Player player, ItemStack stack) {
+		BagItem.Type type = getBagTypeFor(stack);
+
+		if (type == null) {
+			return stack;
+		}
+
+		Item bagItem = getBagItem(type);
+		ItemStack remaining = stack;
+		Inventory inventory = player.getInventory();
+
+		for (int i = 0; i < inventory.getContainerSize() && !remaining.isEmpty(); i++) {
+			ItemStack bag = inventory.getItem(i);
+
+			if (bag.is(bagItem)) {
+				remaining = insertIntoBag(bag, remaining);
+			}
+		}
+
+		return remaining;
+	}
+
+	public static BagInventory getKeychainsBag(Player player) {
+		if (!hasOnlyOneBag(player, BagItem.Type.KEYCHAINS_BAG)) {
+			return null;
+		}
+
+		ItemStack bag = getItemInInventory(player, ModItems.keychainsBag.get());
+
+		return !bag.isEmpty() && bag.getCapability(Capabilities.ItemHandler.ITEM) instanceof BagInventory inv ? inv : null;
+	}
+
+	public static Set<UUID> getBagKeychainIDs(Player player) {
+		Set<UUID> ids = new HashSet<>();
+		BagInventory bag = getKeychainsBag(player);
+
+		if (bag == null) {
+			return ids;
+		}
+
+		for (int i = 0; i < bag.getSlots(); i++) {
+			UUID id = getKeybladeID(bag.getStackInSlot(i));
+
+			if (id != null) {
+				ids.add(id);
+			}
+		}
+
+		return ids;
+	}
+
+	public static List<ItemStack> getAllKeychains(Player player, PlayerData playerData) {
+		List<ItemStack> keychains = new ArrayList<>();
+
+		for (int i = 0; i < player.getInventory().getContainerSize(); i++) {
+			ItemStack stack = player.getInventory().getItem(i);
+
+			if (stack.getItem() instanceof KeychainItem keychain && keychain.getKeyblade() != null) {
+				keychains.add(stack);
+			}
+		}
+
+		BagInventory bag = getKeychainsBag(player);
+
+		if (bag != null) {
+			for (int i = 0; i < bag.getSlots(); i++) {
+				ItemStack stack = bag.getStackInSlot(i);
+
+				if (stack.getItem() instanceof KeychainItem keychain && keychain.getKeyblade() != null) {
+					keychains.add(stack);
+				}
+			}
+		}
+
+		if (playerData != null) {
+			for (ItemStack stack : playerData.getEquippedKeychains().values()) {
+				if (!stack.isEmpty()) {
+					keychains.add(stack);
+				}
+			}
+		}
+
+		return keychains;
+	}
+
+	public static boolean storeKeychain(Player player, PlayerData playerData, ItemStack updated) {
+		UUID id = getKeybladeID(updated);
+
+		if (id == null) {
+			return false;
+		}
+
+		if (playerData != null) {
+			for (Entry<ResourceLocation, ItemStack> entry : playerData.getEquippedKeychains().entrySet()) {
+				if (id.equals(getKeybladeID(entry.getValue()))) {
+					playerData.equipKeychain(entry.getKey(), updated);
+					return true;
+				}
+			}
+		}
+
+		for (int i = 0; i < player.getInventory().getContainerSize(); i++) {
+			if (id.equals(getKeybladeID(player.getInventory().getItem(i)))) {
+				player.getInventory().setItem(i, updated);
+				return true;
+			}
+		}
+
+		BagInventory bag = getKeychainsBag(player);
+		if (bag != null) {
+			for (int i = 0; i < bag.getSlots(); i++) {
+				if (id.equals(getKeybladeID(bag.getStackInSlot(i)))) {
+					bag.setStackInSlot(i, updated);
+					return true;
+				}
+			}
+		}
+
+		return false;
 	}
 
 	public static int getSavepointPercent(int ticks) {
@@ -2804,6 +2963,14 @@ public class Utils {
 		Arrays.stream(items).forEach(stack -> {
 			// tryToAddItem shrinks it, when it fails it returns the stack that was left
 			ItemStack remaining = stack.copy();
+
+			// La bolsa va antes que el inventario: si el item tiene bolsa, es donde el jugador espera
+			// encontrarlo. Lo que no quepa sigue por el camino de siempre.
+			remaining = insertIntoBags(player, remaining);
+
+			if (remaining.isEmpty()) {
+				return;
+			}
 
 			if (!tryToAddItem(player, remaining, false)) {
 				//no space so add to overflow

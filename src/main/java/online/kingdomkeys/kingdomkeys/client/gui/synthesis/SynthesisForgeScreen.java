@@ -77,20 +77,8 @@ public class SynthesisForgeScreen extends MenuFilterable {
                     playerData.removeMaterial(m.getKey(), m.getValue());
                 }
 				kcItem.setKeybladeLevel(stack, kcItem.getKeybladeLevel(stack)+1);
-				UUID keybladeID = Utils.getKeybladeID(stack);
-				if (keybladeID != null) {
-					ResourceLocation slot = null;
-					for (Entry<ResourceLocation, ItemStack> entry : playerData.getEquippedKeychains().entrySet()) {
-						if (keybladeID.equals(Utils.getKeybladeID(entry.getValue()))) {
-							slot = entry.getKey();
-						}
-					}
-					if (slot != null) {
-						playerData.equipKeychain(slot, stack);
-					} else {
-						minecraft.player.getInventory().setItem(minecraft.player.getInventory().findSlotMatchingItem(selectedItemStack), stack);
-					}
-				}
+				// Lo escribe donde estuviera: equipado, inventario o bolsa.
+				Utils.storeKeychain(minecraft.player, playerData, stack);
 			}
 			PacketHandler.sendToServer(new CSLevelUpKeybladePacket(selectedItemStack));
 			init();
@@ -143,15 +131,13 @@ public class SynthesisForgeScreen extends MenuFilterable {
 		children().clear();
 		renderables.clear();
 
-		List<ItemStack> items = new ArrayList<>();
-		
-		for (int i = 0; i < player.getInventory().getContainerSize(); i++) {
-			if (player.getInventory().getItem(i).getItem() instanceof KeychainItem) {
-				items.add(player.getInventory().getItem(i));
-			}
-		}
-		items.addAll(PlayerData.get(player).getEquippedKeychains().values().stream().filter(itemStack -> !itemStack.isEmpty()).toList());
+		// Inventario, bolsa de llaveros y equipados. Un llavero guardado en la bolsa se puede mejorar igual
+		// que uno suelto: la forge no lo mueve de sitio, solo le sube el nivel donde este.
+		List<ItemStack> items = new ArrayList<>(Utils.getAllKeychains(player, PlayerData.get(player)));
 		items.sort(Comparator.comparing(Utils::getCategoryForStack).thenComparing(stack -> stack.getHoverName().getContents().toString()));
+
+		// Mismo amarillo que usa el menu de equipar para los llaveros que salen de la bolsa.
+		Set<UUID> inBag = Utils.getBagKeychainIDs(player);
 
 		for (int i = 0; i < items.size(); i++) {
 			MenuStockItem item;
@@ -162,6 +148,13 @@ public class SynthesisForgeScreen extends MenuFilterable {
 				item = new MenuStockItem(this, items.get(i), (int) invPosX, (int) invPosY + (i * 14),boxL.getWidth()-scrollBar.getWidth()-6, false);
 			}
 			item.setBackgroundColor(new Color(30,30,100));
+
+			UUID id = Utils.getKeybladeID(items.get(i));
+
+			if (id != null && inBag.contains(id)) {
+				item.setBackgroundColor(new Color(15124480).darker().darker());
+			}
+
 			inventory.add(item);
 
 		}

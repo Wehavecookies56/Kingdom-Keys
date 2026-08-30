@@ -103,8 +103,7 @@ public record CSMeldRecipe(ResourceLocation recipe, int selected1, int selected2
 			PacketHandler.sendTo(new SCShowRareMeld(result.copy(), Strings.Gui_Menu_Items_Melding_ItemAcquired), (ServerPlayer) player);
 		}
 
-		player.getInventory().add(result);
-
+		Utils.addToBagOrInventory(player, result);
 		PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
 	}
 
