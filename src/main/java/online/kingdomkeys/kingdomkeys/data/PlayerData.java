@@ -1973,6 +1973,15 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		return new int[] {0,0};
 	}
 
+	public int getGrowthAbilityLevel(ResourceLocation ability) {
+		if (!isAbilityEquipped(ability)) {
+			return 0;
+		}
+
+		int[] entry = getEquippedAbilityLevel(ability);
+		return entry == null ? 0 : Math.max(entry[0], 0);
+	}
+
 	public boolean isAbilityEquipped(KKSupplier<Ability> ability) {// First checks for weapon abilities
 		return isAbilityEquipped(ability.location());
 	}

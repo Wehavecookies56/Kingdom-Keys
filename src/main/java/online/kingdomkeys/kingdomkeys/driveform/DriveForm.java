@@ -16,6 +16,7 @@ import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.EpicFightEvents;
 import online.kingdomkeys.kingdomkeys.lib.KKRegistryObject;
+import online.kingdomkeys.kingdomkeys.lib.KKSupplier;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 
 import java.util.List;
@@ -295,6 +296,20 @@ public abstract class DriveForm implements KKRegistryObject {
 
 	public boolean displayInCommandMenu(Player player) {
 		return true;
+	}
+
+	/**
+	 * Index the ability has (previously the value of the Drive Form it'd use to get the growth ability stats
+	 * @param tableSize table size so it doesn't go past the limit
+	 */
+	public static int growthLevel(PlayerData playerData, ResourceLocation ability, KKSupplier<DriveForm> form, int tableSize) {
+		int level = playerData.getGrowthAbilityLevel(ability);
+
+		if (playerData.isFormActive(form)) {
+			level = Math.max(level, playerData.getDriveFormLevel(form.location()));
+		}
+
+		return Math.min(level, tableSize - 1);
 	}
 
 }
