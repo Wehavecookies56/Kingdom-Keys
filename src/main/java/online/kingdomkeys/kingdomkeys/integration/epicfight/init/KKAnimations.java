@@ -27,7 +27,7 @@ import java.util.Map;
 public class KKAnimations {
 
     public static AnimationManager.AnimationAccessor<? extends StaticAnimation>
-        SORA_IDLE, RIKU_IDLE, RIKU_WALK, RIKU_RUN, AQUA_IDLE, VALOR_FORM_IDLE, WISDOM_FORM_IDLE, MASTER_FORM_IDLE, FINAL_FORM_IDLE, ANTI_FORM_IDLE, AXEL_IDLE, DEMYX_IDLE, LARXENE_IDLE,
+        SORA_IDLE, RIKU_IDLE, RIKU_WALK, RIKU_RUN, AQUA_IDLE, KH2_ROXAS_DUAL_IDLE, KH2_ROXAS_DUAL_WALK, VALOR_FORM_IDLE, WISDOM_FORM_IDLE, MASTER_FORM_IDLE, FINAL_FORM_IDLE, ANTI_FORM_IDLE, AXEL_IDLE, DEMYX_IDLE, LARXENE_IDLE,
             LEXAEUS_IDLE, LUXORD_IDLE, MARLUXIA_IDLE, ROXAS_IDLE, SAIX_IDLE, VEXEN_IDLE, XALDIN_IDLE, XEMNAS_IDLE, XIGBAR_IDLE, ZEXION_IDLE;
     public static AnimationManager.AnimationAccessor<? extends StaticAnimation>
         ROXAS_RUN, WISDOM_FORM_RUN, MASTER_FORM_WALK, MASTER_FORM_RUN, ANTI_FORM_WALK, ANTI_FORM_RUN, XEMNAS_WALK, XEMNAS_RUN, XEMNAS_FLY, XIGBAR_WALK, XALDIN_WALK,
@@ -41,7 +41,7 @@ public class KKAnimations {
             MASTER_AUTO1,
             FINAL_AUTO1,
             ROXAS_AUTO1,
-            SORA_AUTO1, SORA_AUTO2, SORA_AUTO3, SORA_FINISHER1, RIKU_AUTO1,
+            SORA_AUTO1, SORA_AUTO2, SORA_AUTO3, SORA_FINISHER1, RIKU_AUTO1, RIKU_AUTO2, RIKU_AUTO3, DUAL_ROXAS_AUTO1, DUAL_ROXAS_AUTO2, DUAL_ROXAS_AUTO3,
             KK_SHIELD_AUTO1, KK_SHIELD_AUTO2, KK_SHIELD_AUTO3,
             AXEL_AUTO1;
 
@@ -56,11 +56,6 @@ public class KKAnimations {
     public static Map<OrgMember, AnimationManager.AnimationAccessor<?>> orgMap = new HashMap<>();
     public static Map<SingleChoices, AnimationManager.AnimationAccessor<?>> singleKeybladeMap = new HashMap<>();
     public static Map<DualChoices, AnimationManager.AnimationAccessor<?>> dualKeybladeMap = new HashMap<>();
-
-    public static Map<?, ?> spellFireMap = new HashMap<>();
-    public static Map<?, ?> spellBlizzardMap = new HashMap<>();
-    public static Map<?, ?> spellThunderMap = new HashMap<>();
-
 
     private KKAnimations() {
 
@@ -204,6 +199,8 @@ public class KKAnimations {
         RIKU_IDLE = builder.nextAccessor("biped/living/single_keyblade/riku/riku_idle", animationAccessor -> new StaticAnimation(true, animationAccessor, Armatures.BIPED).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> .6f));
         RIKU_WALK = builder.nextAccessor("biped/living/single_keyblade/riku/riku_walk", animationAccessor -> new StaticAnimation(true, animationAccessor, Armatures.BIPED).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> 4f));
         RIKU_RUN = builder.nextAccessor("biped/living/single_keyblade/riku/riku_run", animationAccessor -> new StaticAnimation(true, animationAccessor, Armatures.BIPED).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> 3f));
+        KH2_ROXAS_DUAL_IDLE = builder.nextAccessor("biped/living/dual_keyblade/kh2_roxas/idle", animationAccessor -> new StaticAnimation(true, animationAccessor, Armatures.BIPED).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> 1f));
+        KH2_ROXAS_DUAL_WALK = builder.nextAccessor("biped/living/dual_keyblade/kh2_roxas/walk", animationAccessor -> new StaticAnimation(true, animationAccessor, Armatures.BIPED).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> 4f));
         AQUA_IDLE = builder.nextAccessor("biped/living/single_keyblade/aqua/aqua_idle", animationAccessor -> new StaticAnimation(true, animationAccessor, Armatures.BIPED).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> .6f));
         SORA_SUMMON = builder.nextAccessor("biped/living/single_keyblade/sora/sora_summon", animationAccessor -> new ActionAnimation(0.05F, animationAccessor, Armatures.BIPED)
                 .addProperty(AnimationProperty.ActionAnimationProperty.CANCELABLE_MOVE, true)
@@ -226,10 +223,32 @@ public class KKAnimations {
                 .addProperty(AnimationProperty.ActionAnimationProperty.CANCELABLE_MOVE, true).addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> 2.8f));
 
         RIKU_AUTO1 = builder.nextAccessor("biped/combat/riku_attack1", animationAccessor -> new ComboAttackAnimation(-0.85F, animationAccessor, Armatures.BIPED,
-                new AttackAnimation.Phase(0.0F, 0.85F, 1.30F, 1.45F, 1.45F, Armatures.BIPED.get().toolR, KKCollider.KEYBLADE),
-                new AttackAnimation.Phase(1.45F, 1.52F, 1.82F, 2.70F, 2.70F, Armatures.BIPED.get().toolR, KKCollider.KEYBLADE),
-                new AttackAnimation.Phase(2.70F, 2.75F, 3.45F, 3.50F, Float.MAX_VALUE, Armatures.BIPED.get().toolR, KKCollider.KEYBLADE))
+                new AttackAnimation.Phase(0.0F, 0.85F, 0.85F, 1.50F, 1.52F, Float.MAX_VALUE, Armatures.BIPED.get().toolR, KKCollider.KEYBLADE))
                 .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> 2.6f));
+
+        RIKU_AUTO2 = builder.nextAccessor("biped/combat/riku_attack2", animationAccessor -> new ComboAttackAnimation(0.16F, animationAccessor, Armatures.BIPED,
+                new AttackAnimation.Phase(0.0F, 0.25F, 0.25F, 0.55F, 0.60F, Float.MAX_VALUE, Armatures.BIPED.get().toolR, KKCollider.KEYBLADE))
+                .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> 2.6f));
+
+        RIKU_AUTO3 = builder.nextAccessor("biped/combat/riku_attack3", animationAccessor -> new ComboAttackAnimation(0.16F, animationAccessor, Armatures.BIPED,
+                new AttackAnimation.Phase(0.0F, 0.28F, 0.28F, 1.15F, 1.20F, Float.MAX_VALUE, Armatures.BIPED.get().toolR, KKCollider.KEYBLADE))
+                .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> 2.6f));
+
+        DUAL_ROXAS_AUTO1 = builder.nextAccessor("biped/living/dual_keyblade/kh2_roxas/attack1", animationAccessor -> new ComboAttackAnimation(-0.85F, animationAccessor, Armatures.BIPED,
+                new AttackAnimation.Phase(0.0F, 1.25F, 1.25F, 1.65F, 1.95F, 1.95F, false, InteractionHand.MAIN_HAND, dualKeyblade),
+                new AttackAnimation.Phase(1.95F, 2.05F, 2.05F, 2.25F, 2.41F, Float.MAX_VALUE, false, InteractionHand.MAIN_HAND, dualKeyblade))
+                .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> 1.8f));
+
+        DUAL_ROXAS_AUTO2 = builder.nextAccessor("biped/living/dual_keyblade/kh2_roxas/attack2", animationAccessor -> new ComboAttackAnimation(-0.85F, animationAccessor, Armatures.BIPED,
+                new AttackAnimation.Phase(0.0F, 0.05F, 0.05F, 0.45F, 1.05F, 1.05F, false, InteractionHand.MAIN_HAND, dualKeyblade),
+                new AttackAnimation.Phase(1.05F, 1.10F, 1.10F, 1.35F, 1.50F, 1.50F, false, InteractionHand.MAIN_HAND, dualKeyblade),
+                new AttackAnimation.Phase(1.50F, 1.52F, 1.52F, 2.25F, 2.65F, 2.65F, false, InteractionHand.MAIN_HAND, dualKeyblade),
+                new AttackAnimation.Phase(2.65F, 2.70F, 2.70F, 3.30F, 4.00F, Float.MAX_VALUE, false, InteractionHand.MAIN_HAND, dualKeyblade))
+                .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> 1.8f));
+
+        DUAL_ROXAS_AUTO3 = builder.nextAccessor("biped/living/dual_keyblade/kh2_roxas/attack3", animationAccessor -> new ComboAttackAnimation(-0.85F, animationAccessor, Armatures.BIPED,
+                new AttackAnimation.Phase(0.0F, 1.45F, 1.45F, 2.50F, 3.00F, Float.MAX_VALUE, false, InteractionHand.MAIN_HAND, dualKeyblade))
+                .addProperty(AnimationProperty.StaticAnimationProperty.PLAY_SPEED_MODIFIER, (self, entitypatch, speed, prevElapsedTime, elapsedTime) -> 1.8f));
 
         KK_SHIELD_AUTO1 = builder.nextAccessor("biped/combat/kk_shield_auto_1", animationAccessor -> new ComboAttackAnimation(0.16F, 0.05F, 0.16F, 0.7F, null, Armatures.BIPED.get().toolR, animationAccessor, Armatures.BIPED));
         KK_SHIELD_AUTO2 = builder.nextAccessor("biped/combat/kk_shield_auto_2", animationAccessor -> new ComboAttackAnimation(0.16F, 0.05F, 0.16F, 0.7F, null, Armatures.BIPED.get().toolR, animationAccessor, Armatures.BIPED));

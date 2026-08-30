@@ -9,7 +9,7 @@ import online.kingdomkeys.kingdomkeys.ability.Ability;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
-import online.kingdomkeys.kingdomkeys.integration.epicfight.EpicFightUtils;
+import online.kingdomkeys.kingdomkeys.integration.epicfight.EpicFightEvents;
 import online.kingdomkeys.kingdomkeys.lib.KKRegistryObject;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
@@ -212,7 +212,7 @@ public abstract class Magic implements KKRegistryObject {
 		casterData.setCastedMagic(cast);
 
 		if (KingdomKeys.efmLoaded) {
-			EpicFightUtils.playCastAnimation(caster, isProjectile());
+			EpicFightEvents.playCastAnimation(caster, isProjectile());
 		}
 
 		PacketHandler.sendTo(new SCSyncPlayerData(caster), (ServerPlayer) caster);

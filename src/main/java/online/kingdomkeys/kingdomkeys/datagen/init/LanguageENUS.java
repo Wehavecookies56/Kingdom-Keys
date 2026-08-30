@@ -2690,6 +2690,8 @@ public class LanguageENUS extends KKLanguageProvider {
         // drive
         add("kingdomkeys.command.drive.set", "Set %s for %s to level %s");
         add("kingdomkeys.command.drive.set_self", "Your %s level is now %s");
+        add("kingdomkeys.command.synthlevel.set", "Set %s's synthesis level to %s");
+        add("kingdomkeys.command.synthlevel.set_self", "Your synthesis level is now %s");
         add("kingdomkeys.command.drive.unknown", "Form '%s' does not exist");
 
         // exp

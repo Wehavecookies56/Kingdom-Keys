@@ -80,12 +80,12 @@ public class KeybladeStats extends KeybladeProvider {
 		addStats(Strings.hiddenDragon, Strings.hiddenDragonChain, 4, 4, ModAbilities.MP_RAGE.location(), 1.0F, ModSounds.bond_of_the_blaze_hit.get());
 		addStats(Strings.hunnySpout, Strings.hunnySpoutChain, 4, 4, ModAbilities.MP_HASTE.location(), 1.0F, ModSounds.generic_hit.get());
 		addStats(Strings.hyperdrive, Strings.hyperdriveChain, 5, 5, null, 1.0F, ModSounds.generic_hit.get());
-		addStats(Strings.incompleteKiblade, Strings.incompleteKibladeChain, 5, 3, ModAbilities.LIGHT_AND_DARKNESS.location(), 2.0F, ModSounds.generic_hit.get());
+		addStats(Strings.incompleteKiblade, Strings.incompleteKibladeChain, 5, 3, ModAbilities.LIGHT_AND_DARKNESS.location(), 2.0F, ModSounds.generic_hit.get(), ModParticles.KIBLADE_HIT);
 		addStats(Strings.invisKeyblade, Strings.invisKeybladeChain, 8, 7, null, 1.0F, ModSounds.generic_hit.get());
 		addStats(Strings.irasKeyblade, Strings.irasKeybladeChain, 8, 7, null, 1.0F, ModSounds.generic_hit.get());
-		addStats(Strings.jungleKing, Strings.jungleKingChain, 5, 2, null, 2.0F, ModSounds.generic_hit.get(), ModParticles.GENERIC_HIT, ModParticles.LEAF_HIT);
+		addStats(Strings.jungleKing, Strings.jungleKingChain, 5, 2, null, 2.0F, ModSounds.generic_hit.get(), ModParticles.YELLOW_HIT, ModParticles.LEAF_HIT);
 		addStats(Strings.keybladeOfPeoplesHearts, Strings.keybladeOfPeoplesHeartsChain, 6, 2, null, 1.0F, ModSounds.way_to_dawn_hit.get());
-		addStats(Strings.kiblade, Strings.kibladeChain, 10, 7, ModAbilities.DARK_DOMINATION.location(), 2.0F, ModSounds.generic_hit.get());
+		addStats(Strings.kiblade, Strings.kibladeChain, 10, 7, ModAbilities.DARK_DOMINATION.location(), 2.0F, ModSounds.generic_hit.get(), ModParticles.KIBLADE_HIT);
 		addStats(Strings.kingdomKey, Strings.kingdomKeyChain, 4, 1, ModAbilities.DAMAGE_CONTROL.location(), 1.0F, ModSounds.kingdom_key_hit.get());
 		addStats(Strings.kingdomKeyD, Strings.kingdomKeyDChain, 4, 1, null, 1.0F, ModSounds.kingdom_key_hit.get());
 		addStats(Strings.kingdomKeyN, Strings.kingdomKeyNChain, 4, 1, ModAbilities.BERSERK_CHARGE.location(), 1.0F, ModSounds.kingdom_key_hit.get());

@@ -1,6 +1,11 @@
 ## Added:
-* [EFM] WIP Aqua style idle pose.
+* Synthesis experience bar in the Synthesis screen.
+* χ-blade and incomplete χ-blade hit particles.
+* Command to set a player's synthesis level [1-7].
+* KH2 Roxas animations.
+
 ## Changed:
-* [EFM] Riku's combat style (Thanks to Xephiro).
+* Riku attacks are now individual attacks.
 
 ## Fixed:
+* Keychains bag not being able to be upgraded.

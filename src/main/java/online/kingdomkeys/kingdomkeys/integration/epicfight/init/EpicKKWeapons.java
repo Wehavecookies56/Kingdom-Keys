@@ -28,7 +28,7 @@ public class EpicKKWeapons {
                     .addMoveset(KKStyles.ROXAS, KKMoveSets.SORA_MOVESET)
                     .addMoveset(KKStyles.VENTUS, KKMoveSets.SORA_MOVESET)
                     .addMoveset(KKStyles.TERRA, KKMoveSets.SORA_MOVESET)
-                    .addMoveset(KKStyles.KH2_ROXAS_DUAL, EpicFightMovesets.SWORD_DUAL)
+                    .addMoveset(KKStyles.KH2_ROXAS_DUAL, KKMoveSets.KH2_ROXAS_DUAL_MOVESET)
                     .addMoveset(KKStyles.DAYS_ROXAS_DUAL, EpicFightMovesets.SWORD_DUAL)
                     .addMoveset(KKStyles.VALOR_FORM, KKMoveSets.VALOR_FORM_MOVESET)
                     .addMoveset(KKStyles.WISDOM_FORM, KKMoveSets.WISDOM_FORM_MOVESET)
