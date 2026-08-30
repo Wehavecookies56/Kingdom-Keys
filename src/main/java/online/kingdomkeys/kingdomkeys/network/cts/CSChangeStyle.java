@@ -8,9 +8,9 @@ import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
+import online.kingdomkeys.kingdomkeys.integration.epicfight.EpicFightEvents;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.enums.DualChoices;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.enums.HandStyle;
-import online.kingdomkeys.kingdomkeys.integration.epicfight.EpicFightEvents;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.enums.SingleChoices;
 import online.kingdomkeys.kingdomkeys.network.Packet;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
@@ -20,10 +20,8 @@ public record CSChangeStyle(String style, String handStyle) implements Packet {
     public static final Type<CSChangeStyle> TYPE = new Type<>(KingdomKeys.rl("cs_change_style"));
 
     public static final StreamCodec<FriendlyByteBuf, CSChangeStyle> STREAM_CODEC = StreamCodec.composite(
-            ByteBufCodecs.STRING_UTF8,
-            CSChangeStyle::style,
-            ByteBufCodecs.STRING_UTF8,
-            CSChangeStyle::handStyle,
+            ByteBufCodecs.STRING_UTF8, CSChangeStyle::style,
+            ByteBufCodecs.STRING_UTF8, CSChangeStyle::handStyle,
             CSChangeStyle::new
     );
 

@@ -2844,5 +2844,9 @@ public class LanguageESES extends KKLanguageProvider {
         // Aviso de actualización en el menú principal
         add("kingdomkeys.update.available", "Kingdom Keys %s disponible (tienes la %s)");
         add("kingdomkeys.update.development", "Kingdom Keys %s - versión de desarrollo");
+        add("kingdomkeys.update.links.title", "Kingdom Keys");
+        add("kingdomkeys.update.links.body", "La versión %s ya está disponible. ¿Desde dónde quieres descargarla?");
+        add("kingdomkeys.update.links.curseforge", "CurseForge");
+        add("kingdomkeys.update.links.modrinth", "Modrinth");
     }
 }

@@ -80,7 +80,7 @@ public class CombatAbilities {
         data.setGuardTicks(GUARD_TICKS);
         data.setGuardCooldown(GUARD_TICKS + GUARD_COOLDOWN);
         playSound(player, SoundEvents.ARMOR_EQUIP_NETHERITE.value(), 0.7F, 1.3F);
-        tellEveryone(player, data);
+        broadcastPlayerData(player, data);
 
         return true;
     }
@@ -129,8 +129,7 @@ public class CombatAbilities {
         if (data.isAbilityEquipped(ModAbilities.COUNTERGUARD))
             data.setCounterTicks(COUNTER_TICKS);
 
-        tellEveryone(player, data);
-
+        broadcastPlayerData(player, data);
         return true;
     }
 
@@ -138,7 +137,7 @@ public class CombatAbilities {
      * The windows live on the server. Their owner needs them to know when to watch the keys, and everyone
      * else needs them to draw the raised keyblade and the counter's turn.
      */
-    private static void tellEveryone(Player player, PlayerData data) {
+    private static void broadcastPlayerData(Player player, PlayerData data) {
         if (!player.level().isClientSide) {
             PacketHandler.sendToAll(new SCCombatWindowsPacket(player.getId(), data.getGuardTicks(), data.getCounterTicks(), data.getRecoveryTicks(), data.getCounterSpinTicks(), data.getCounterRingTicks(), data.getRecoveryFlashTicks()));
         }
@@ -157,7 +156,7 @@ public class CombatAbilities {
         data.setGuardTicks(0);
         data.setCounterSpinTicks(SPIN_TICKS);
         data.setCounterRingTicks(COUNTER_RING_TICKS);
-        tellEveryone(player, data);
+        broadcastPlayerData(player, data);
         playSound(player, SoundEvents.PLAYER_ATTACK_SWEEP, 1F, 0.7F);
         playSound(player, SoundEvents.PLAYER_ATTACK_CRIT, 1F, 0.8F);
 
@@ -214,7 +213,7 @@ public class CombatAbilities {
 
         if (data.isAbilityEquipped(ModAbilities.AERIAL_RECOVERY)) {
             data.setRecoveryTicks(RECOVERY_TICKS);
-            tellEveryone(player, data);
+            broadcastPlayerData(player, data);
         }
     }
 
@@ -226,7 +225,7 @@ public class CombatAbilities {
 
         data.setRecoveryTicks(0);
         data.setRecoveryFlashTicks(FLASH_TICKS);
-        tellEveryone(player, data);
+        broadcastPlayerData(player, data);
         player.fallDistance = 0;
         player.setDeltaMovement(0, Math.min(0, player.getDeltaMovement().y) * 0.1, 0);
         player.hurtMarked = true;

@@ -2,13 +2,13 @@ package online.kingdomkeys.kingdomkeys.mixin.epicfight;
 
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.world.entity.EntityType;
+import online.kingdomkeys.kingdomkeys.client.render.ClothArmorOverlayRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.DriveLayerRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.KeybladeArmorRenderer;
-import online.kingdomkeys.kingdomkeys.client.render.ClothArmorOverlayRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.ShoulderLayerRenderer;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.PatchedArmourLayerRenderer;
-import online.kingdomkeys.kingdomkeys.integration.epicfight.PatchedDriveLayerRenderer;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.PatchedClothArmorOverlayRenderer;
+import online.kingdomkeys.kingdomkeys.integration.epicfight.PatchedDriveLayerRenderer;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.PatchedShoulderLayerRenderer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

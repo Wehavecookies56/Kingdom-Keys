@@ -2828,5 +2828,9 @@ public class LanguageENUS extends KKLanguageProvider {
         // Update notice on the title screen
         add("kingdomkeys.update.available", "Kingdom Keys %s is available (you have %s)");
         add("kingdomkeys.update.development", "Kingdom Keys %s - development build");
+        add("kingdomkeys.update.links.title", "Kingdom Keys");
+        add("kingdomkeys.update.links.body", "Version %s is available. Where do you want to download it from?");
+        add("kingdomkeys.update.links.curseforge", "CurseForge");
+        add("kingdomkeys.update.links.modrinth", "Modrinth");
     }
 }

@@ -61,7 +61,6 @@ import online.kingdomkeys.kingdomkeys.util.IExtendedReach;
 import online.kingdomkeys.kingdomkeys.util.IOffHandRange;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.UUID;
