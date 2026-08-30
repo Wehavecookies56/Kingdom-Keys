@@ -11,3 +11,4 @@
 
 ## Fixed:
 * Keychains bag not being able to be upgraded.
+* Equipped Shotlock being lost when using command to level up drive, fix exp or leveling up.

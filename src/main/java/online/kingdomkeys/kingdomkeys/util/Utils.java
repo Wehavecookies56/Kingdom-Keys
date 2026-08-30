@@ -2322,8 +2322,6 @@ public class Utils {
 		playerData.clearAbilities();
 		SoAState.applyStatsForChoices(player, playerData, false);
 
-		playerData.equipShotlock(net.minecraft.world.item.ItemStack.EMPTY);
-
 		// playerData.addAbility(Strings.zeroExp, false);
 	}
 
