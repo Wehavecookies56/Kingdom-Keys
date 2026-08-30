@@ -355,20 +355,22 @@ public class BloxBugEntity extends PathfinderMob implements GeoEntity, IKHMob, I
                         if (target != null) {
                             targetPosCache = target.position();
                         }
-                        targetDirection = new Vec3((float) (targetPosCache.x() - instance.position().x()), (float) (targetPosCache.y() - instance.position().y()), (float) (targetPosCache.z() - instance.position().z())).normalize();
-                        prepareTicks--;
-                        instance.setNoGravity(true);
-                        instance.lookAt(EntityAnchorArgument.Anchor.EYES, targetPosCache);
-                        instance.lookControl.setLookAt(targetPosCache);
-                        if (prepareTicks >= 4) {
-                            instance.setDeltaMovement(new Vec3(0, 1, 0));
-                        }
-                        if (prepareTicks < 4) {
-                            instance.triggerAnim("anims", "jump_attack_prepare");
-                            instance.setDeltaMovement(new Vec3(0, 0, 0));
-                        }
-                        if (prepareTicks <= 0) {;
-                            instance.triggerAnim("anims", "jump_attack");
+                        if (targetPosCache != null) {
+                            targetDirection = new Vec3((float) (targetPosCache.x() - instance.position().x()), (float) (targetPosCache.y() - instance.position().y()), (float) (targetPosCache.z() - instance.position().z())).normalize();
+                            prepareTicks--;
+                            instance.setNoGravity(true);
+                            instance.lookAt(EntityAnchorArgument.Anchor.EYES, targetPosCache);
+                            instance.lookControl.setLookAt(targetPosCache);
+                            if (prepareTicks >= 4) {
+                                instance.setDeltaMovement(new Vec3(0, 1, 0));
+                            }
+                            if (prepareTicks < 4) {
+                                instance.triggerAnim("anims", "jump_attack_prepare");
+                                instance.setDeltaMovement(new Vec3(0, 0, 0));
+                            }
+                            if (prepareTicks <= 0) {
+                                instance.triggerAnim("anims", "jump_attack");
+                            }
                         }
                     }
                 }
