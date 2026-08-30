@@ -4,9 +4,11 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.world.entity.EntityType;
 import online.kingdomkeys.kingdomkeys.client.render.DriveLayerRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.KeybladeArmorRenderer;
+import online.kingdomkeys.kingdomkeys.client.render.OrganizationArmorOverlayRenderer;
 import online.kingdomkeys.kingdomkeys.client.render.ShoulderLayerRenderer;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.PatchedArmourLayerRenderer;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.PatchedDriveLayerRenderer;
+import online.kingdomkeys.kingdomkeys.integration.epicfight.PatchedOrganizationArmorOverlayRenderer;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.PatchedShoulderLayerRenderer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -24,6 +26,7 @@ public class FirstPersonRendererMixin {
         thisOne.addPatchedLayer(DriveLayerRenderer.class, new PatchedDriveLayerRenderer<>(true));
         thisOne.addPatchedLayer(KeybladeArmorRenderer.class, new PatchedArmourLayerRenderer<>(true));
         thisOne.addPatchedLayer(ShoulderLayerRenderer.class, new PatchedShoulderLayerRenderer<>());
+        thisOne.addPatchedLayer(OrganizationArmorOverlayRenderer.class, new PatchedOrganizationArmorOverlayRenderer<>(true));
     }
 
 }
