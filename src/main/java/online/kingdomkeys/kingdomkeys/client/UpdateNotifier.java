@@ -15,7 +15,7 @@ import net.neoforged.neoforgespi.language.IModInfo;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
 @EventBusSubscriber(value = Dist.CLIENT)
-public class UpdateNotice {
+public class UpdateNotifier {
 	private static final int AVAILABLE_COLOR = 0xFFFFDD00;
 	private static final int DEVELOPMENT_COLOR = 0xFFFF6666;
 
