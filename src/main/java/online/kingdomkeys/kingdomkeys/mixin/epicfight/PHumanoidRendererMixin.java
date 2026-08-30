@@ -23,6 +23,6 @@ public class PHumanoidRendererMixin {
         thisOne.addPatchedLayer(CrownLayerRenderer.class, new PatchedCrownLayerRenderer<>());
         thisOne.addPatchedLayer(FreezeLayerRenderer.class, new PatchedFreezeLayerRenderer<>());
         thisOne.addPatchedLayer(StopLayerRenderer.class, new PatchedStopLayerRenderer<>());
-        thisOne.addPatchedLayer(OrganizationArmorOverlayRenderer.class, new PatchedOrganizationArmorOverlayRenderer<>(false));
+        thisOne.addPatchedLayer(ClothArmorOverlayRenderer.class, new PatchedClothArmorOverlayRenderer<>(false));
     }
 }

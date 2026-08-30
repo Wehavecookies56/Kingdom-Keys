@@ -6,6 +6,8 @@
 
 ## Changed:
 * Riku attacks are now individual attacks.
+* Cloth-based armors are now fit to the player (not so bulky).
+* Org armor texture (Thanks to Xephiro).
 
 ## Fixed:
 * Keychains bag not being able to be upgraded.
