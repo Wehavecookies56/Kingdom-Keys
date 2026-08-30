@@ -197,6 +197,34 @@ tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
 }
 
+tasks.register("updateJson") {
+    group = "publishing"
+    description = "Writes the current mod version into update.json"
+
+    var updateFile = layout.projectDirectory.file("update.json").asFile
+    var modVersion = mod_version
+    var mcVersion = minecraft_version
+    var homepage = "https://www.curseforge.com/minecraft/mc-mods/kingdom-keys-re-coded"
+    var preRelease = providers.gradleProperty("prerelease").present
+
+    outputs.upToDateWhen { false }
+
+    doLast {
+        var json = updateFile.exists() ? new groovy.json.JsonSlurper().parseText(updateFile.text) : [:]
+
+        json.homepage = json.homepage ?: homepage
+        json.promos = json.promos ?: [:]
+        json.promos["${mcVersion}-latest".toString()] = modVersion
+
+        if (!preRelease) {
+            json.promos["${mcVersion}-recommended".toString()] = modVersion
+        }
+
+        updateFile.text = groovy.json.JsonOutput.prettyPrint(groovy.json.JsonOutput.toJson(json)) + "\n"
+        logger.lifecycle("update.json: {} -> {}{}", mcVersion, modVersion, preRelease ? " (latest)" : "")
+    }
+}
+
 java {
     withSourcesJar()
 }

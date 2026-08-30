@@ -2840,5 +2840,9 @@ public class LanguageESES extends KKLanguageProvider {
         add("kingdomkeys.error.keyblade_missing_material", "Los datos de nivel de llave espada[%s] contienen material(es) que no están presentes en la etiqueta \"synthesis/materials\", no podrás mejorar esta llave espada");
         add("kingdomkeys.error.recipe_missing_material", "La receta[%s] contiene material(es) que no están presentes en la etiqueta \"synthesis/materials\", no podrás crear esta receta");
         add("kingdomkeys.error.synthesis_tag_failed", "La etiqueta de síntesis/materiales no se ha podido cargar por un datapack roto; arregla los problemas o la síntesis no funcionará. Revisa el log para ver qué falla");
+
+        // Aviso de actualización en el menú principal
+        add("kingdomkeys.update.available", "Kingdom Keys %s disponible (tienes la %s)");
+        add("kingdomkeys.update.development", "Kingdom Keys %s - versión de desarrollo");
     }
 }

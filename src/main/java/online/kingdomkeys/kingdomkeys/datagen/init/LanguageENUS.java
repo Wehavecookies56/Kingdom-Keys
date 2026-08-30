@@ -2824,5 +2824,9 @@ public class LanguageENUS extends KKLanguageProvider {
         add("kingdomkeys.error.keyblade_missing_material", "Keyblade level data[%s] contains material(s) that are not present in the \"synthesis/materials\" tag you will be unable to upgrade this keyblade");
         add("kingdomkeys.error.recipe_missing_material", "Recipe[%s] contains material(s) that are not present in the \"synthesis/materials\" tag you will be unable to create this recipe");
         add("kingdomkeys.error.synthesis_tag_failed", "The synthesis/materials tag failed to load due to a broken datapack please fix any issues otherwise synthesis will not function, check the log for what is wrong");
+
+        // Update notice on the title screen
+        add("kingdomkeys.update.available", "Kingdom Keys %s is available (you have %s)");
+        add("kingdomkeys.update.development", "Kingdom Keys %s - development build");
     }
 }

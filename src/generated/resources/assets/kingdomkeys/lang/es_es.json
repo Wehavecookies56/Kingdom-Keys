@@ -2845,6 +2845,8 @@
   "kingdomkeys.struggle.win": "¡Has ganado!",
   "kingdomkeys.teleport.returned_to": "Has vuelto a %s",
   "kingdomkeys.teleport.teleported_to": "Has sido teletransportado a %s",
+  "kingdomkeys.update.available": "Kingdom Keys %s disponible (tienes la %s)",
+  "kingdomkeys.update.development": "Kingdom Keys %s - versión de desarrollo",
   "kingdomkeys.worldmap.no_building": "En este mundo no se puede construir",
   "limit.arrow_rain.name": "Lluvia Flechada",
   "limit.berserk_claymore.name": "Claymore Salvaje",

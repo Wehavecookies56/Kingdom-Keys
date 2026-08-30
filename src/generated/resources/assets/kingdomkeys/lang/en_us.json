@@ -2901,6 +2901,8 @@
   "kingdomkeys.struggle.win": "You win!",
   "kingdomkeys.teleport.returned_to": "You have been returned back to %s",
   "kingdomkeys.teleport.teleported_to": "You have been teleported to %s",
+  "kingdomkeys.update.available": "Kingdom Keys %s is available (you have %s)",
+  "kingdomkeys.update.development": "Kingdom Keys %s - development build",
   "kingdomkeys.worldmap.no_building": "You cannot build in this world",
   "limit.arrow_rain.name": "Arrow Rain",
   "limit.berserk_claymore.name": "Berserk Claymore",
