@@ -19,14 +19,35 @@ public class UpdateNotice {
 	private static final int AVAILABLE_COLOR = 0xFFFFDD00;
 	private static final int DEVELOPMENT_COLOR = 0xFFFF6666;
 
+	private static VersionChecker.Status logged;
+
+	private static IModInfo modInfo() {
+		for (IModInfo info : ModList.get().getMods()) {
+			if (info.getModId().equals(KingdomKeys.MODID)) {
+				return info;
+			}
+		}
+
+		return null;
+	}
+
 	@SubscribeEvent
 	public static void onTitleScreenRender(ScreenEvent.Render.Post event) {
 		if (!(event.getScreen() instanceof TitleScreen screen)) {
 			return;
 		}
 
-		IModInfo mod = ModList.get().getModContainerById(KingdomKeys.MODID).orElseThrow().getModInfo();
+		IModInfo mod = modInfo();
+
+		if (mod == null) {
+			return;
+		}
+
 		VersionChecker.CheckResult result = VersionChecker.getResult(mod);
+		if (logged != result.status()) { //To prevent spam lol
+			logged = result.status();
+			KingdomKeys.LOGGER.info("Update check: status={} current={} target={} updateURL={}", result.status(), mod.getVersion(), result.target(), mod.getUpdateURL().orElse(null));
+		}
 
 		Component message;
 		int color;
