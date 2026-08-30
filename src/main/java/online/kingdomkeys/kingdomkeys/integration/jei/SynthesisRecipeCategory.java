@@ -40,6 +40,8 @@ public class SynthesisRecipeCategory implements IRecipeCategory<Recipe> {
 
     @Override
     public void draw(Recipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
+        background.draw(guiGraphics);
+
         if (recipe.getCost() > 0) {
             munny.draw(guiGraphics, 5, 57);
             new TextDrawable(Component.translatable(String.valueOf(recipe.getCost())), 0xFFFF55).draw(guiGraphics, 5, 57);
@@ -62,8 +64,13 @@ public class SynthesisRecipeCategory implements IRecipeCategory<Recipe> {
     }
 
     @Override
-    public IDrawable getBackground() {
-        return background;
+    public int getWidth() {
+        return background.getWidth();
+    }
+
+    @Override
+    public int getHeight() {
+        return background.getHeight();
     }
 
     @Override

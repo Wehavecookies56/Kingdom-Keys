@@ -468,7 +468,6 @@ public class ClientPacketHandler {
     }
 
     public static void syncGlobalData(SCSyncGlobalData message) {
-        //TODO keep an eye if something doesn't sync cause of this
         if(Minecraft.getInstance().level.getEntity(message.entity()) == null)
             return;
         GlobalData globalData = GlobalData.get((LivingEntity) Minecraft.getInstance().level.getEntity(message.entity()));

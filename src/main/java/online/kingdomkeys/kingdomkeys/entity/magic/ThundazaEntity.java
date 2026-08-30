@@ -129,7 +129,6 @@ public class ThundazaEntity extends BaseMagicProjectile {
 
 	@Override
 	protected void onHit(HitResult result) {
-		// TODO Auto-generated method stub
 
 	}
 

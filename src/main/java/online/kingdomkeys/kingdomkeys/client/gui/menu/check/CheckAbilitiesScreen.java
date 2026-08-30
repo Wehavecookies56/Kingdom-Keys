@@ -227,7 +227,6 @@ public class CheckAbilitiesScreen extends MenuBackground {
 		} else { //Drive form displays with disabled and equipped buttons
 			//Display list of abilities in the drive form data
 			DriveForm driveForm = ModDriveForms.registry.get(form);
-			//TODO                  AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 			if(driveForm.getBaseGrowthAbilities()) { //If the selected drive form inherits base form growth abilities
 				for (int i = 0; i < abilitiesMap.size(); i++) {
 					String abilityName = (String) abilitiesMap.keySet().toArray()[i];

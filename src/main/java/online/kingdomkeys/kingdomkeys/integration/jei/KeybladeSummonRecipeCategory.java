@@ -33,8 +33,13 @@ public class KeybladeSummonRecipeCategory implements IRecipeCategory<KeychainIte
     }
 
     @Override
-    public IDrawable getBackground() {
-        return background;
+    public int getWidth() {
+        return background.getWidth();
+    }
+
+    @Override
+    public int getHeight() {
+        return background.getHeight();
     }
 
     @Override
@@ -49,6 +54,7 @@ public class KeybladeSummonRecipeCategory implements IRecipeCategory<KeychainIte
 
     @Override
     public void draw(KeychainItem recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
+        background.draw(guiGraphics);
         new TextDrawable(Component.translatable("jei.category.kingdomkeys.keyblade_summon.info")).draw(guiGraphics, 0, 32);
     }
 

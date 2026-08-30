@@ -45,13 +45,11 @@ public class HeartEntity extends Entity {
 
 	@Override
 	protected void readAdditionalSaveData(CompoundTag compound) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	protected void addAdditionalSaveData(CompoundTag compound) {
-		// TODO Auto-generated method stub
 		
 	}
 

@@ -41,7 +41,6 @@ public class ModBlocks {
             infestedNormalBlox = createNewBlock("infested_normal_blox", () -> new InfestedNormalBlox(Block.Properties.of().mapColor(MapColor.COLOR_RED).strength(1, 10))),
             magicTarget = createNewBlock("magic_target", () -> new MagicTargetBlock(Block.Properties.of().mapColor(MapColor.COLOR_RED).strength(1, 10))),
 
-            //TODO HARVEST LEVEL REPLACED BY TAGS
             blazingOre = createNewBlock("blazing_ore", () -> new KKOreBlock(Block.Properties.of().mapColor(MapColor.STONE).instrument(NoteBlockInstrument.BASEDRUM).strength(2.0F, 1.0F).lightLevel((state) -> 4))), //HL 1
             blazingOreN = createNewBlock("blazing_ore_n", () -> new KKOreBlock(Block.Properties.of().mapColor(MapColor.STONE).instrument(NoteBlockInstrument.BASEDRUM).strength(2.0F, 1.0F).lightLevel((state) -> 4))), //HL 1
             blazingOreD = createNewBlock("blazing_ore_d", () -> new KKOreBlock(Block.Properties.of().mapColor(MapColor.STONE).instrument(NoteBlockInstrument.BASEDRUM).strength(2.0F, 1.0F).lightLevel((state) -> 4))), //HL 1

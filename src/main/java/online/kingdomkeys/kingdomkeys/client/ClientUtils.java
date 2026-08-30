@@ -947,7 +947,7 @@ public class ClientUtils {
     /**
      * Used in the KO system so it doesn't rotate
      */
-    public static void renderNameTag(LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> renderer, LivingEntity entity, String displayName, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, float partialTick) {
+    public static void renderNameTag(LivingEntityRenderer<?, ?> renderer, LivingEntity entity, String displayName, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, float partialTick) {
         EntityRenderDispatcher dispatcher = Minecraft.getInstance().getEntityRenderDispatcher();
 
         double d0 = dispatcher.distanceToSqr(entity);

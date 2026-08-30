@@ -265,7 +265,7 @@ public class EntityEvents {
 	public void checkRecipeMaterials(Player player) {
 		if (player.level().registryAccess().lookupOrThrow(Registries.ITEM).get(ModTags.MATERIALS).isPresent()) {
 			RecipeRegistry.getInstance().getValues().forEach(recipe -> recipe.getMaterials().keySet().forEach(item -> {
-				if (!item.builtInRegistryHolder().is(ModTags.MATERIALS)) {
+				if (!BuiltInRegistries.ITEM.wrapAsHolder(item).is(ModTags.MATERIALS)) {
 					player.sendSystemMessage(Component.translatable("kingdomkeys.error.recipe_missing_material", recipe.getRegistryName().toString()).withStyle(ChatFormatting.RED));
 				}
 			}));
@@ -273,7 +273,7 @@ public class EntityEvents {
 				if (keybladeItem.data != null) {
 					for (int i = 0; i < keybladeItem.data.getMaxLevel(); i++) {
 						keybladeItem.data.getLevelData(i).getMaterialList().keySet().forEach(item -> {
-							if (!item.builtInRegistryHolder().is(ModTags.MATERIALS)) {
+							if (!BuiltInRegistries.ITEM.wrapAsHolder(item).is(ModTags.MATERIALS)) {
 								player.sendSystemMessage(Component.translatable("kingdomkeys.error.keyblade_missing_material", BuiltInRegistries.ITEM.getKey(keybladeItem)).withStyle(ChatFormatting.RED));
 							}
 						});
@@ -441,9 +441,8 @@ public class EntityEvents {
 					playerData.setDriveFormLevel(DriveForm.SYNCH_BLADE, 1);
 				}
 
-				// TODO (done) Fix for retrocompatibility, move above in a few versions
 				if (playerData.getEquippedKBArmors().isEmpty()) {
-					HashMap<Integer, ItemStack> map = new HashMap<Integer, ItemStack>();
+					HashMap<Integer, ItemStack> map = new HashMap<>();
 					for (int i = 0; i < 1; i++) {
 						map.put(i, ItemStack.EMPTY);
 					}

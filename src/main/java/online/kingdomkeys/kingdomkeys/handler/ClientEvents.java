@@ -694,7 +694,7 @@ public class ClientEvents {
 				}
 
 				if(player.hasEffect(ModMobEffects.KO)) {
-					LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> renderer = (LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>>) Minecraft.getInstance().getEntityRenderDispatcher().getRenderer((AbstractClientPlayer) player);
+					LivingEntityRenderer<?, ?> renderer = event.getRenderer();
 					if (!((IDisabledAnimations) renderer).kingdom_Keys$isDisabled()) {
 						//Cancel the vanilla animation
 						event.setCanceled(true);
@@ -748,7 +748,7 @@ public class ClientEvents {
 
 					// Aerial Dodge rotation
 					if(playerData.getAerialDodgeTicks() > 0) {
-						LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> renderer = (LivingEntityRenderer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>>) Minecraft.getInstance().getEntityRenderDispatcher().getRenderer((AbstractClientPlayer) player);
+						LivingEntityRenderer<?, ?> renderer = event.getRenderer();
 						if (!((IDisabledAnimations) renderer).kingdom_Keys$isDisabled()) {
 							float partialTicks = event.getPartialTick();
 							float time = player.tickCount + partialTicks;

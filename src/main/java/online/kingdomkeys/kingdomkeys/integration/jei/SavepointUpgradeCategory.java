@@ -45,8 +45,13 @@ public class SavepointUpgradeCategory implements IRecipeCategory<SavePointData> 
     }
 
     @Override
-    public IDrawable getBackground() {
-        return background;
+    public int getWidth() {
+        return background.getWidth();
+    }
+
+    @Override
+    public int getHeight() {
+        return background.getHeight();
     }
 
     @Override
@@ -56,6 +61,8 @@ public class SavepointUpgradeCategory implements IRecipeCategory<SavePointData> 
 
     @Override
     public void draw(SavePointData data, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
+        background.draw(guiGraphics);
+
         Component text = Component.literal(data.getName().substring(data.getName().indexOf(":") + 1).toUpperCase());
 
         FormattedCharSequence formattedcharsequence = text.getVisualOrderText();

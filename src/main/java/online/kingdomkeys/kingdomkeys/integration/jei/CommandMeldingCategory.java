@@ -56,8 +56,13 @@ public class CommandMeldingCategory implements IRecipeCategory<Melding> {
 	}
 
 	@Override
-	public IDrawable getBackground() {
-		return background;
+	public int getWidth() {
+		return background.getWidth();
+	}
+
+	@Override
+	public int getHeight() {
+		return background.getHeight();
 	}
 
 	@Override
@@ -67,6 +72,8 @@ public class CommandMeldingCategory implements IRecipeCategory<Melding> {
 
 	@Override
 	public void draw(Melding data, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
+		background.draw(guiGraphics);
+
 		Minecraft mc = Minecraft.getInstance();
 
 		String resultName = getDisplayName(data.getResult());
