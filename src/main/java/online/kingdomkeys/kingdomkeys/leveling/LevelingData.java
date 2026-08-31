@@ -4,17 +4,21 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
 public class LevelingData {
-	int[] str = new int[101];
-	int[] mag = new int[101];
-	int[] def = new int[101];
-	int[] ap = new int[101];
-	int[] maxhp = new int[101];
-	int[] maxmp = new int[101];
-	ResourceLocation[][] abilities = new ResourceLocation[101][5];
-	ItemStack[][] items = new ItemStack[101][];
-	int[] maxAccessories = new int[101];
-	int[] maxArmors = new int[101];
-	int[] maxMagics = new int[101];
+	public static final int MAX_LEVEL = 100;
+
+	private static final int LEVELS = MAX_LEVEL + 1;
+
+	int[] str = new int[LEVELS];
+	int[] mag = new int[LEVELS];
+	int[] def = new int[LEVELS];
+	int[] ap = new int[LEVELS];
+	int[] maxhp = new int[LEVELS];
+	int[] maxmp = new int[LEVELS];
+	ResourceLocation[][] abilities = new ResourceLocation[LEVELS][5];
+	ItemStack[][] items = new ItemStack[LEVELS][];
+	int[] maxAccessories = new int[LEVELS];
+	int[] maxArmors = new int[LEVELS];
+	int[] maxMagics = new int[LEVELS];
 	int version;
 
 	public LevelingData() {}

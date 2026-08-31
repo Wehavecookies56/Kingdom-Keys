@@ -3,6 +3,7 @@ package online.kingdomkeys.kingdomkeys.network.cts;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
@@ -23,7 +24,6 @@ import online.kingdomkeys.kingdomkeys.network.Packet;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.util.ArrayList;
-import java.util.stream.Collectors;
 
 public record CSBuildGummiShip(String name, int containerID) implements Packet {
 
@@ -54,8 +54,16 @@ public record CSBuildGummiShip(String name, int containerID) implements Packet {
 		int size = GummiHangarBlock.getSize(hangar.getValue(GummiHangarBlock.LEVEL));
 		ArrayList<Block> bannedBlocks = Utils.getBannedBlocks(level,origin,hangar.getValue(GummiHangarBlock.FACING), size);
 		if(bannedBlocks != null && !bannedBlocks.isEmpty()) {
-			String bannedBlocksNames = bannedBlocks.stream().map(block -> block.asItem().getDescription().getString()).collect(Collectors.joining(", "));
-			player.sendSystemMessage(Component.translatable("container.gummi_hangar.hasbannedblocks").append(Component.literal(bannedBlocksNames))); //TODO translatable
+			MutableComponent bannedBlocksNames = Component.empty();
+			for (int i = 0; i < bannedBlocks.size(); i++) {
+				if (i > 0) {
+					bannedBlocksNames.append(", ");
+				}
+
+				bannedBlocksNames.append(bannedBlocks.get(i).asItem().getDescription());
+			}
+
+			player.sendSystemMessage(Component.translatable("container.gummi_hangar.hasbannedblocks").append(bannedBlocksNames));
 			return;
 		}
         if(Utils.getCorePos(level,origin,hangar.getValue(GummiHangarBlock.FACING), size) == null){

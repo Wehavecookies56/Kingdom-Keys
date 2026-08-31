@@ -37,6 +37,7 @@ import online.kingdomkeys.kingdomkeys.integration.epicfight.enums.DualChoices;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.enums.SingleChoices;
 import online.kingdomkeys.kingdomkeys.item.*;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
+import online.kingdomkeys.kingdomkeys.leveling.LevelingData;
 import online.kingdomkeys.kingdomkeys.leveling.ModLevels;
 import online.kingdomkeys.kingdomkeys.leveling.Stat;
 import online.kingdomkeys.kingdomkeys.lib.*;
@@ -765,7 +766,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 
 	public void addExperience(Player player, int exp, boolean shareXP, boolean sound) {
 		if (player != null && getSoAState() == SoAState.COMPLETE) {
-			if (this.level < 100) {//TODO change 100 for the actual max level in the config file?
+			if (this.level < LevelingData.MAX_LEVEL) {
 				Party party = WorldData.get(player.getServer()).getPartyFromMember(player.getUUID());
 				if(party != null && shareXP) { //If player is in a party and first to get EXP
 					double sharedXP = (exp * ((ModConfigs.SERVER.partyXPShare.get() / 100F) * 2F)); // exp * share% * 2 (2 being to apply the formula from the 2 player party as mentioned in the config)
@@ -844,7 +845,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 	}
 
 	public int getExpNeeded(int level, int currentExp) {
-		if (level == 100)
+		if (level >= LevelingData.MAX_LEVEL)
 			return 0;
 		double nextLevel = (level + 300.0 * (Math.pow(2.0, (level / 7.0)))) * (level * 0.25);
 		this.remainingExp = ((int) nextLevel - currentExp);

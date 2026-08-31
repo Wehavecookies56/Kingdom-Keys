@@ -9,3 +9,4 @@
 * Savepoint tooltip numbers.
 * Tooltip not visible for current savepoint.
 * (Hopefully) the bug where org portals could teleport all players in a radius on servers.
+* Translated banned blocks in hangar list.

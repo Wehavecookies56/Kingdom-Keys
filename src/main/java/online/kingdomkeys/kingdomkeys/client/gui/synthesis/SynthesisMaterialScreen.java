@@ -178,11 +178,8 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 		take.visible = false;
 	}
 
-	
-
 	@Override
 	public void render(@NotNull GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
-		PoseStack matrixStack = gui.pose();
 		drawMenuBackground(gui, mouseX, mouseY, partialTicks);
 		boxL.renderWidget(gui, mouseX, mouseY, partialTicks);
 		boxR.renderWidget(gui, mouseX, mouseY, partialTicks);
@@ -194,8 +191,7 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 			scrollBar.setContentHeight(listHeight);
 		}
 
-
-		if(minecraft.player.getInventory().getFreeSlot() == -1) { //TODO somehow make this detect in singleplayer the inventory changes
+		if(!Utils.hasRoomFor(minecraft.player, selectedItemStack)) {
 			take.active = false;
 			take.setMessage(Component.translatable(Strings.Gui_Shop_NoSpace));
 		}
@@ -252,7 +248,6 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 	@Override
 	public boolean mouseClicked(double mouseX, double mouseY, int mouseButton) {
 		scrollBar.mouseClicked(mouseX, mouseY, mouseButton);
-
 		if (mouseButton == 1) {
 			PacketHandler.sendToServer(new CSOpenMenu());
 		}
@@ -262,14 +257,12 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 	@Override
 	public boolean mouseReleased(double pMouseX, double pMouseY, int pButton) {
 		scrollBar.mouseReleased(pMouseX, pMouseY, pButton);
-
 		return super.mouseReleased(pMouseX, pMouseY, pButton);
 	}
 
 	@Override
 	public boolean mouseDragged(double pMouseX, double pMouseY, int pButton, double pDragX, double pDragY) {
 		scrollBar.mouseDragged(pMouseX, pMouseY, pButton, pDragX, pDragY);
-
 		updateScroll();
 		return super.mouseDragged(pMouseX, pMouseY, pButton, pDragX, pDragY);
 	}
@@ -284,7 +277,6 @@ public class SynthesisMaterialScreen extends MenuFilterable {
 	public boolean mouseScrolled(double mouseX, double mouseY, double deltaX, double deltaY) {
 		if(mouseX >= boxL.getX() && mouseX <= scrollBar.getX()+ scrollBar.getWidth())
 			scrollBar.mouseScrolled(mouseX, mouseY, deltaX, deltaY);
-
 		updateScroll();
 		return false;
 	}

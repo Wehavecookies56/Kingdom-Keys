@@ -175,7 +175,8 @@ public class SynthesisCreateScreen extends MenuFilterable {
 			boolean enoughSpace = false;
 			if (RecipeRegistry.getInstance().containsKey(selectedRL)) {
 				Recipe recipe = RecipeRegistry.getInstance().getValue(selectedRL);
-				enoughSpace = Utils.getFreeSlotsForPlayer(minecraft.player) >= Utils.stacksForItemAmount(new ItemStack(recipe.getResult()), recipe.getAmount());
+				ItemStack result = new ItemStack(recipe.getResult(), recipe.getAmount());
+				enoughSpace = Utils.insertIntoBags(minecraft.player, result, true).isEmpty() || Utils.getFreeSlotsForPlayer(minecraft.player) >= Utils.stacksForItemAmount(new ItemStack(recipe.getResult()), recipe.getAmount());
 				enoughMunny = playerData.getMunny() >= recipe.getCost();
 				enoughTier = !ModConfigs.SERVER.requireSynthTier.get() || playerData.getSynthLevel() >= recipe.getTier();
 				create.visible = true;
@@ -189,7 +190,7 @@ public class SynthesisCreateScreen extends MenuFilterable {
 			}
 
 			create.active = enoughMats && enoughMunny && enoughTier && enoughSpace;
-			if(!enoughSpace) { //TODO somehow make this detect in singleplayer the inventory changes
+			if(!enoughSpace) {
 				create.setMessage(Component.translatable(Strings.Gui_Shop_NoSpace));
 			} else {
 				create.setMessage(Component.translatable(Strings.Gui_Synthesis_Synthesise_Create));

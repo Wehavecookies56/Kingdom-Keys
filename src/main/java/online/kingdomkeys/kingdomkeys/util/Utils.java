@@ -337,14 +337,15 @@ public class Utils {
 	}
 
 	public static void addToBagOrInventory(Player player, ItemStack stack) {
-		ItemStack remaining = insertIntoBags(player, stack);
+		ItemStack remaining = insertIntoBags(player, stack, false);
 
 		if (!remaining.isEmpty()) {
 			player.getInventory().add(remaining);
 		}
 	}
 
-	public static ItemStack insertIntoBag(ItemStack bag, ItemStack stack) {
+	// Simulate only returns the remainer but without putting into the bag
+	public static ItemStack insertIntoBag(ItemStack bag, ItemStack stack, boolean simulate) {
 		if (stack.isEmpty() || !(bag.getCapability(Capabilities.ItemHandler.ITEM) instanceof BagInventory inv)) {
 			return stack;
 		}
@@ -353,13 +354,13 @@ public class Utils {
 		int slots = getBagSlots(bag);
 
 		for (int i = 0; i < slots && !remaining.isEmpty(); i++) {
-			remaining = inv.insertItem(i, remaining, false);
+			remaining = inv.insertItem(i, remaining, simulate);
 		}
 
 		return remaining;
 	}
 
-	public static ItemStack insertIntoBags(Player player, ItemStack stack) {
+	public static ItemStack insertIntoBags(Player player, ItemStack stack, boolean simulate) {
 		BagItem.Type type = getBagTypeFor(stack);
 
 		if (type == null) {
@@ -374,11 +375,19 @@ public class Utils {
 			ItemStack bag = inventory.getItem(i);
 
 			if (bag.is(bagItem)) {
-				remaining = insertIntoBag(bag, remaining);
+				remaining = insertIntoBag(bag, remaining, simulate);
 			}
 		}
 
 		return remaining;
+	}
+
+	public static boolean hasRoomFor(Player player, ItemStack stack) {
+		if (stack.isEmpty()) {
+			return true;
+		}
+
+		return player.getInventory().getFreeSlot() > -1 || insertIntoBags(player, stack, true).isEmpty();
 	}
 
 	public static BagInventory getKeychainsBag(Player player) {
@@ -2990,7 +2999,7 @@ public class Utils {
 
 			// La bolsa va antes que el inventario: si el item tiene bolsa, es donde el jugador espera
 			// encontrarlo. Lo que no quepa sigue por el camino de siempre.
-			remaining = insertIntoBags(player, remaining);
+			remaining = insertIntoBags(player, remaining, false);
 
 			if (remaining.isEmpty()) {
 				return;
