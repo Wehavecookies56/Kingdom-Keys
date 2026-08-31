@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.lib;
 
+import net.minecraft.network.chat.Component;
 import net.minecraft.util.StringRepresentable;
 
 public enum LineDisplay implements StringRepresentable {
@@ -19,6 +20,10 @@ public enum LineDisplay implements StringRepresentable {
     @Override
     public String getSerializedName() {
         return this.name;
+    }
+
+    public Component getDisplayName() {
+        return Component.translatable("kingdomkeys.gummi.hangar.area." + this.name);
     }
 
     public LineDisplay next() {

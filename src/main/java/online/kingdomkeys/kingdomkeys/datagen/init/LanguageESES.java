@@ -284,7 +284,6 @@ public class LanguageESES extends KKLanguageProvider {
         add("kingdomkeys.gummi.blueprint.blank", "(en blanco)");
         add("kingdomkeys.gummi.hangar.cant_place", "No puedes colocar el Hangar Gummi aquí");
         add("kingdomkeys.gummi.hangar.stored_fuel", "Combustible almacenado: ");
-        add("kingdomkeys.gummi.hangar.area", "Área:");
         add("kingdomkeys.gummi.phone.call_ship", "Llamar nave Gummi: ");
         add("kingdomkeys.gummi.phone.health", "Salud: ");
         add("kingdomkeys.gummi.phone.fuel", "Combustible: ");
@@ -948,6 +947,13 @@ public class LanguageESES extends KKLanguageProvider {
         add("savepoint.upgrade", "La velocidad de %s est\u00e1 al %s%%");
         add("savepoint.upgrade_type", "Punto de guardado mejorado a %s");
         add("savepoint.unavailable","%s no está disponible en este punto de guardado");
+        add("savepoint.tooltip.dimension","Dimensión");
+        add("savepoint.tooltip.owner","Dueño");
+        add("savepoint.stat.hp","VT");
+        add("savepoint.stat.mp","PM");
+        add("savepoint.stat.hunger","Comida");
+        add("savepoint.stat.focus","Tino");
+        add("savepoint.stat.drive","Fusión");
 
 
         //Castle Oblivion
@@ -2793,6 +2799,9 @@ public class LanguageESES extends KKLanguageProvider {
 
         // Gummi - ships, phone, hangar and blueprints
         add("kingdomkeys.gummi.hangar.area_value", "Área: %s");
+        add("kingdomkeys.gummi.hangar.area.off", "Off");
+        add("kingdomkeys.gummi.hangar.area.odd", "Impar");
+        add("kingdomkeys.gummi.hangar.area.even", "Par");
 
         // Keyblades
         add("kingdomkeys.keyblade.data_missing.desc1", "Si ves esto, el json de la llave espada falta o no se ha podido cargar");

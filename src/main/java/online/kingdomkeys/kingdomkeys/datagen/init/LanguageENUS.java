@@ -239,7 +239,6 @@ public class LanguageENUS extends KKLanguageProvider {
         add("kingdomkeys.gummi.blueprint.blank", "(blank)");
         add("kingdomkeys.gummi.hangar.cant_place", "You can't place the Gummi Hangar here");
         add("kingdomkeys.gummi.hangar.stored_fuel", "Stored fuel: ");
-        add("kingdomkeys.gummi.hangar.area", "Area:");
         add("kingdomkeys.gummi.phone.call_ship", "Call Gummi Ship: ");
         add("kingdomkeys.gummi.phone.health", "Health: ");
         add("kingdomkeys.gummi.phone.fuel", "Fuel: ");
@@ -682,6 +681,13 @@ public class LanguageENUS extends KKLanguageProvider {
         add("savepoint.upgrade_type","Savepoint upgraded to %s");
         add("savepoint.max_upgrade","Max upgrade reached");
         add("savepoint.unavailable","%s is not available on this savepoint");
+        add("savepoint.tooltip.dimension","Dimension");
+        add("savepoint.tooltip.owner","Owner");
+        add("savepoint.stat.hp","HP");
+        add("savepoint.stat.mp","MP");
+        add("savepoint.stat.hunger","Food");
+        add("savepoint.stat.focus","Focus");
+        add("savepoint.stat.drive","Drive");
 
         //Castle Oblivion
         addBlock(ModBlocks.cardDoor, "Card Door");
@@ -2777,6 +2783,9 @@ public class LanguageENUS extends KKLanguageProvider {
 
         // Gummi - ships, phone, hangar and blueprints
         add("kingdomkeys.gummi.hangar.area_value", "Area: %s");
+        add("kingdomkeys.gummi.hangar.area.off", "Off");
+        add("kingdomkeys.gummi.hangar.area.odd", "Odd");
+        add("kingdomkeys.gummi.hangar.area.even", "Even");
 
         // Keyblades
         add("kingdomkeys.keyblade.data_missing.desc1", "If you see this then either the keyblade json is missing or failed to load");

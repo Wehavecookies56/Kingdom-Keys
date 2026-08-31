@@ -195,7 +195,12 @@ public class GummiHangarTileEntity extends BlockEntity implements MenuProvider {
                 if (fuel > 0) {
                     hangar.burnTime = fuel;
                     hangar.maxBurnTime = fuel;
+                    ItemStack remainder = fuelStack.getCraftingRemainingItem();
                     fuelStack.shrink(1);
+                    if (!remainder.isEmpty() && fuelStack.isEmpty()) {
+                        hangar.itemStackHandler.setStackInSlot(1, remainder);
+                    }
+                    hangar.setChanged();
                 }
             }
 

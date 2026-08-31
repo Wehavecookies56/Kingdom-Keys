@@ -93,7 +93,7 @@ public class SavePointBlock extends BaseBlock implements EntityBlock, INoDataGen
 
 	private void addToList(List<Component> tooltipComponents, String s, Integer val) {
 		if(val != null)
-			tooltipComponents.add(Component.translatable(Character.toUpperCase(s.charAt(0))+s.substring(1)+": "+Utils.getSavepointPercent(val)+"%"));
+			tooltipComponents.add(Component.literal(Character.toUpperCase(s.charAt(0))+s.substring(1)+": "+Utils.getSavepointPercent(val)+"%"));
 	}
 
 	@Override

@@ -6,9 +6,12 @@
 
 ## Fixed:
 * Lilostitched incompatibility where villages were Moogle houses exclusively.
+* Hangar will now return the combustible remainder (for example a bucket when using a lava bucket).
 * Some warnings when loading the mod.
 * Savepoint tooltip numbers.
 * Tooltip not visible for current savepoint.
 * (Hopefully) the bug where org portals could teleport all players in a radius on servers.
 * (Hopefully) party crash under weird names like color codes.
 * Translated banned blocks in hangar list.
+* Translated savepoint tooltip attributes.
+* Translated area button from Hangar screen.

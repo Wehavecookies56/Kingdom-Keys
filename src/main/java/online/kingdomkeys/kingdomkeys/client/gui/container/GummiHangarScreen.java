@@ -156,9 +156,9 @@ public class GummiHangarScreen extends AbstractContainerScreen<GummiHangarMenu> 
 			}
 		}));
 
-        addRenderableWidget(showLines = new ExtendedButton(build.getX(), build.getY() - BUTTON_HEIGHT, editShip.getWidth(), BUTTON_HEIGHT, Component.translatable("kingdomkeys.gummi.hangar.area_value", menu.TE.getBlockState().getValue(GummiHangarBlock.SHOW_LINES).getSerializedName()), p -> {
+        addRenderableWidget(showLines = new ExtendedButton(build.getX(), build.getY() - BUTTON_HEIGHT, editShip.getWidth(), BUTTON_HEIGHT, Component.translatable("kingdomkeys.gummi.hangar.area_value", menu.TE.getBlockState().getValue(GummiHangarBlock.SHOW_LINES).getDisplayName()), p -> {
             PacketHandler.sendToServer(new CSShowHangarLinesPacket(menu.containerId));
-            showLines.setMessage(Component.translatable("kingdomkeys.gummi.hangar.area").append(" "+menu.TE.getBlockState().getValue(GummiHangarBlock.SHOW_LINES).next()));
+            showLines.setMessage(Component.translatable("kingdomkeys.gummi.hangar.area_value", menu.TE.getBlockState().getValue(GummiHangarBlock.SHOW_LINES).next().getDisplayName()));
         }));
 
 		int x = editShip.getX();
