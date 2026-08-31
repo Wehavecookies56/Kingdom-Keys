@@ -980,7 +980,7 @@ public class EntityEvents {
 			return false;
 		}
 
-		ItemStack remaining = Utils.insertIntoBag(bag, onGround.copy());
+		ItemStack remaining = Utils.insertIntoBag(bag, onGround.copy(), false);
 
 		if (remaining.isEmpty()) {
 			event.setCanPickup(TriState.FALSE);

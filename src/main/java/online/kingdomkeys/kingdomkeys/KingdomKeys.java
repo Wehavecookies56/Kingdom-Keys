@@ -93,8 +93,8 @@ import online.kingdomkeys.kingdomkeys.world.worldmap.WorldMap;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.function.Supplier;
 
 @Mod("kingdomkeys")
@@ -234,12 +234,19 @@ public class KingdomKeys {
 
 	public void addPieceToPattern(RegistryAccess registryAccess, ResourceLocation pattern, ResourceLocation structure, int weight) {
 		Registry<StructureTemplatePool> registry = registryAccess.registryOrThrow(Registries.TEMPLATE_POOL);
-		StructureTemplatePool pat = Objects.requireNonNull(registry.get(pattern));
+		StructureTemplatePool pat = registry.get(pattern);
+		if (pat == null) {
+			LOGGER.warn("Template pool {} is missing, skipping {}", pattern, structure);
+			return;
+		}
 		SinglePoolElement piece = StructurePoolElement.legacy(structure.toString()).apply(StructureTemplatePool.Projection.RIGID);
 		for (int i = 0; i < weight; i++) {
 			pat.templates.add(piece);
 		}
-		pat.rawTemplates = List.of(Pair.of(piece, weight));
+		// rawTemplates has to be appended to, never replaced: other worldgen mods (Lithostitched for example) rebuild their own element list from it, so overwriting it wipes every vanilla piece of the pool
+		List<Pair<StructurePoolElement, Integer>> rawTemplates = new ArrayList<>(pat.rawTemplates);
+		rawTemplates.add(Pair.of(piece, weight));
+		pat.rawTemplates = rawTemplates;
 	}
 
 

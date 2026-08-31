@@ -5,6 +5,7 @@
 * Glide animation.
 
 ## Fixed:
+* Lilostitched incompatibility where villages were Moogle houses exclusively.
 * Some warnings when loading the mod.
 * Savepoint tooltip numbers.
 * Tooltip not visible for current savepoint.
