@@ -3,6 +3,7 @@ package online.kingdomkeys.kingdomkeys.client.render.block;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.Sheets;
@@ -32,7 +33,7 @@ public class SoAPlatformRenderer implements BlockEntityRenderer<SoAPlatformTileE
             matrixStackIn.translate(0.5,0.026,0.5);
             matrixStackIn.scale(1.12F, 0.975F, 1.12F);
             for (BakedQuad quad : model.getQuads(null, null, tileEntityIn.getLevel().getRandom(), ModelData.EMPTY, RenderType.translucent())) {
-                buffer.putBulkData(matrixStackIn.last(), quad, 1,1,1,1, combinedOverlayIn, combinedLightIn, true);
+                buffer.putBulkData(matrixStackIn.last(), quad, 1,1,1,1, LightTexture.FULL_BRIGHT, combinedOverlayIn, true);
             }
             matrixStackIn.popPose();
         }
