@@ -263,6 +263,7 @@ public class Utils {
 			case CARDS_BAG -> ModItems.cardsBag.get();
 			case SHOTLOCKS_BAG -> ModItems.shotlocksBag.get();
 			case KEYCHAINS_BAG -> ModItems.keychainsBag.get();
+			case CONSUMABLES_BAG -> ModItems.consumablesBag.get();
 		};
 	}
 
@@ -391,13 +392,59 @@ public class Utils {
 	}
 
 	public static BagInventory getKeychainsBag(Player player) {
-		if (!hasOnlyOneBag(player, BagItem.Type.KEYCHAINS_BAG)) {
+		return getBagInventory(player, BagItem.Type.KEYCHAINS_BAG);
+	}
+
+	public static BagInventory getBagInventory(Player player, BagItem.Type type) {
+		if (!hasOnlyOneBag(player, type)) {
 			return null;
 		}
 
-		ItemStack bag = getItemInInventory(player, ModItems.keychainsBag.get());
+		ItemStack bag = getItemInInventory(player, getBagItem(type));
 
 		return !bag.isEmpty() && bag.getCapability(Capabilities.ItemHandler.ITEM) instanceof BagInventory inv ? inv : null;
+	}
+
+	public static int getFreeBagSlot(Player player, BagItem.Type type) {
+		if (!hasOnlyOneBag(player, type)) {
+			return -1;
+		}
+
+		ItemStack bag = getItemInInventory(player, getBagItem(type));
+
+		if (bag.isEmpty() || !(bag.getCapability(Capabilities.ItemHandler.ITEM) instanceof BagInventory inv)) {
+			return -1;
+		}
+
+		int slots = Math.min(getBagSlots(bag), inv.getSlots());
+
+		for (int i = 0; i < slots; i++) {
+			if (inv.getStackInSlot(i).isEmpty()) {
+				return i;
+			}
+		}
+
+		return -1;
+	}
+
+	// Disabled RN, it's for AT items maybe
+	public static ItemStack takeFromBag(Player player, BagItem.Type type, Item item) {
+		BagInventory bag = getBagInventory(player, type);
+
+		if (bag == null || item == null) {
+			return ItemStack.EMPTY;
+		}
+
+		for (int i = 0; i < bag.getSlots(); i++) {
+			ItemStack stack = bag.getStackInSlot(i);
+
+			if (!stack.isEmpty() && stack.getItem() == item) {
+				bag.setStackInSlot(i, ItemStack.EMPTY);
+				return stack;
+			}
+		}
+
+		return ItemStack.EMPTY;
 	}
 
 	public static Set<UUID> getBagKeychainIDs(Player player) {

@@ -5,6 +5,8 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuColourBox;
@@ -12,8 +14,11 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuScrollBar;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuSelectPotionButton;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
+import online.kingdomkeys.kingdomkeys.item.BagItem;
 import online.kingdomkeys.kingdomkeys.item.KKPotionItem;
+import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
+import online.kingdomkeys.kingdomkeys.menu.BagInventory;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import org.jetbrains.annotations.NotNull;
 
@@ -24,6 +29,10 @@ import java.util.List;
 import java.util.Map;
 
 public class MenuPotionSelectorScreen extends MenuBackground {
+	// Slots at or below this are inside the consumables bag, not the inventory
+	public static final int BAG_OFFSET = -2000;
+	private static final int BAG_SLOT_COLOR = 1362080;
+
 	public MenuScrollBar scrollBar;
 	MenuBox boxL, boxR;
     Button back;
@@ -71,12 +80,14 @@ public class MenuPotionSelectorScreen extends MenuBackground {
 		//If the equipped item is an item get the translation key, otherwise ---
 		String equippedPotionName = (equippedPotion != null && equippedPotion.getItem() instanceof KKPotionItem) ? equippedPotion.getItem().getDescriptionId() : "---";
 		
-		//Adds the form current keychain (base too as it's DriveForm.NONE)
 		equipped = new MenuColourBox((int) listX, (int) listY + (itemHeight * (pos-1)), (int) (keybladesWidth - (listX - keybladesX)*2), Utils.translateToLocal(equippedPotionName),"", buttonColour);
 		if(slot >= 0) {
 			if(!ItemStack.matches(equippedPotion, ItemStack.EMPTY)) {
-				if (minecraft.player.getInventory().getFreeSlot() > -1) {
-					widgets.add(new MenuSelectPotionButton(ItemStack.EMPTY, minecraft.player.getInventory().getFreeSlot(), (int) listX, (int) listY + (itemHeight * pos++), (int) keybladesWidth-17, this, buttonColour));
+				int freeBagSlot = Utils.getFreeBagSlot(minecraft.player, BagItem.Type.CONSUMABLES_BAG);
+				int unequipSlot = freeBagSlot > -1 ? BAG_OFFSET - freeBagSlot : minecraft.player.getInventory().getFreeSlot();
+
+				if (unequipSlot != -1) {
+					widgets.add(new MenuSelectPotionButton(ItemStack.EMPTY, unequipSlot, (int) listX, (int) listY + (itemHeight * pos++), (int) keybladesWidth-17, this, buttonColour));
 				}
 			}
 			
@@ -87,11 +98,32 @@ public class MenuPotionSelectorScreen extends MenuBackground {
 							int amount = addedItemsList.get(item);
 							addedItemsList.replace(item, amount+1);
 						} else {
-							widgets.add(new MenuSelectPotionButton(minecraft.player.getInventory().getItem(i), i, (int) listX, (int) listY + (itemHeight * pos++), (int) keybladesWidth-17, this, buttonColour));
+							widgets.add(new MenuSelectPotionButton(minecraft.player.getInventory().getItem(i), i, (int) listX, (int) listY + (itemHeight * pos++), (int) keybladesWidth-24, this, buttonColour));
 							addedItemsList.put((KKPotionItem) minecraft.player.getInventory().getItem(i).getItem(), 1);
 						}
 					}
 				}
+			}
+
+			if (Utils.hasOnlyOneBag(minecraft.player, BagItem.Type.CONSUMABLES_BAG)) {
+				ItemStack consumablesBag = Utils.getItemInInventory(minecraft.player, ModItems.consumablesBag.get());
+
+				if (!consumablesBag.isEmpty() && consumablesBag.getCapability(Capabilities.ItemHandler.ITEM) instanceof BagInventory bagInv) {
+					for (int i = 0; i < bagInv.getSlots(); i++) {
+						ItemStack stack = bagInv.getStackInSlot(i);
+						if (stack.isEmpty() || !(stack.getItem() instanceof KKPotionItem item))
+							continue;
+
+						if (addedItemsList.containsKey(item)) {
+							addedItemsList.replace(item, addedItemsList.get(item) + 1);
+						} else {
+							widgets.add(new MenuSelectPotionButton(stack, BAG_OFFSET - i, (int) listX, (int) listY + (itemHeight * pos++), (int) keybladesWidth-24, this, BAG_SLOT_COLOR));
+							addedItemsList.put(item, 1);
+						}
+					}
+				}
+			} else {
+				KingdomKeys.LOGGER.debug("More than one consumables bag found, ignoring.");
 			}
 		}
 

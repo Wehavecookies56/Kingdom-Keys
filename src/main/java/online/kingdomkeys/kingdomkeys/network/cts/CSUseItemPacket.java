@@ -12,6 +12,7 @@ import net.neoforged.neoforge.network.handling.IPayloadContext;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.api.event.ItemUseEvent;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
+import online.kingdomkeys.kingdomkeys.item.BagItem;
 import online.kingdomkeys.kingdomkeys.item.KKPotionItem;
 import online.kingdomkeys.kingdomkeys.network.Packet;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
@@ -23,10 +24,8 @@ public record CSUseItemPacket(int slot, String target) implements Packet {
 	public static final Type<CSUseItemPacket> TYPE = new Type<>(KingdomKeys.rl("cs_use_item"));
 
 	public static final StreamCodec<FriendlyByteBuf, CSUseItemPacket> STREAM_CODEC = StreamCodec.composite(
-			ByteBufCodecs.INT,
-			CSUseItemPacket::slot,
-			ByteBufCodecs.STRING_UTF8,
-			CSUseItemPacket::target,
+			ByteBufCodecs.INT, CSUseItemPacket::slot,
+			ByteBufCodecs.STRING_UTF8, CSUseItemPacket::target,
 			CSUseItemPacket::new
 	);
 
@@ -49,6 +48,8 @@ public record CSUseItemPacket(int slot, String target) implements Packet {
 			Player targetEntity = Utils.getPlayerByName(player.level(), target.toLowerCase());
 			potion.potionEffect(targetEntity);
 		}
+		//AT maybe one day
+		//playerData.equipItem(slot, Utils.takeFromBag(player, BagItem.Type.CONSUMABLES_BAG, potion));
 		playerData.equipItem(slot, ItemStack.EMPTY);
 
 		PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);

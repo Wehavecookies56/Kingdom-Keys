@@ -4,6 +4,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.item.Item;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.capabilities.Capabilities;
@@ -44,12 +45,13 @@ public class ModMenus {
     }
 
     public static void registerCapabilities(RegisterCapabilitiesEvent event) {
+        Item[] bags = ModItems.ITEMS.getEntries().stream().<Item>map(Supplier::get).filter(item -> item instanceof BagItem).toArray(Item[]::new);
         event.registerItem(Capabilities.ItemHandler.ITEM, (object, context) -> {
                 if (!(object.getItem() instanceof BagItem bagItem)) {
                     return null;
                 }
             return new BagInventory(object, bagItem.getValidator());
-            }, ModItems.synthesisBag.get(), ModItems.magicsBag.get(), ModItems.cardsBag.get(), ModItems.shotlocksBag.get(), ModItems.keychainsBag.get());
+            }, bags);
 
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, ModEntities.TYPE_PEDESTAL.get(), (object, context) -> object.inventory.get());
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, ModEntities.TYPE_MAGICAL_CHEST.get(), (object, context) -> object.inventory.get());

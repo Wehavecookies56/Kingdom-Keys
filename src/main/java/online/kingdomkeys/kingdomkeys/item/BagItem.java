@@ -42,6 +42,7 @@ public class BagItem extends Item implements IItemCategory {
 			case CARDS_BAG -> stack -> stack.getItem() instanceof MapCardItem;
 			case SHOTLOCKS_BAG -> stack -> stack.getItem() instanceof ShotlockItem;
 			case KEYCHAINS_BAG -> stack -> stack.getItem() instanceof KeychainItem;
+			case CONSUMABLES_BAG -> stack -> stack.getItem() instanceof KKPotionItem;
 		};
 	}
 
@@ -89,7 +90,7 @@ public class BagItem extends Item implements IItemCategory {
 	}
 
 	public enum Type {
-		SYNTHESIS_BAG, SPELLS_BAG, CARDS_BAG, SHOTLOCKS_BAG, KEYCHAINS_BAG;
+		SYNTHESIS_BAG, SPELLS_BAG, CARDS_BAG, SHOTLOCKS_BAG, KEYCHAINS_BAG, CONSUMABLES_BAG;
 
 		public String getDuplicateWarning() {
 			if(this == SYNTHESIS_BAG)

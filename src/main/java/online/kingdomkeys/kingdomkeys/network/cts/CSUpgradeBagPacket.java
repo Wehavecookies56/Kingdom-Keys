@@ -40,6 +40,9 @@ public record CSUpgradeBagPacket() implements Packet {
 		if(stack == null || stack.isEmpty()){
 			stack = Utils.getItemInAnyHand(player, ModItems.keychainsBag.get());
 		}
+		if(stack == null || stack.isEmpty()){
+			stack = Utils.getItemInAnyHand(player, ModItems.consumablesBag.get());
+		}
 
 		if(stack != null) {
 			int bagLevel = stack.get(ModComponents.BAG_LEVEL);

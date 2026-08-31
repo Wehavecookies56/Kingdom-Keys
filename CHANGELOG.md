@@ -1,8 +1,11 @@
+## Added:
+* Consumables bag for potions and other recovery items.
+
 ## Changed:
 * Update notifier is now a button that can take you to the mod download page.
 * Growth abilities coming from Drive Forms no longer require leveling said form in order to work.
   * This change does not affect mod progression due to the need of leveling them in order to earn the growth ability but it might help for servers giving them in different ways.
-* Glide animation.
+* Glide animation now won't move its arms and legs.
 
 ## Fixed:
 * Lilostitched incompatibility where villages were Moogle houses exclusively.

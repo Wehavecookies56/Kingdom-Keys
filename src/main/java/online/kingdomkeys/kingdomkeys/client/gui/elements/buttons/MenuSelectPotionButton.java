@@ -13,6 +13,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag.Default;
+import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.common.NeoForge;
 import online.kingdomkeys.kingdomkeys.api.event.EquipmentEvent;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
@@ -23,9 +24,12 @@ import online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment.MenuPotion
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.item.KKPotionItem;
+import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.lib.Constants;
+import online.kingdomkeys.kingdomkeys.menu.BagInventory;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSEquipItems;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.awt.*;
 
@@ -44,11 +48,30 @@ public class MenuSelectPotionButton extends MenuButtonBase {
 				if (slot != -1) {
 					Player player = Minecraft.getInstance().player;
 					PlayerData playerData = PlayerData.get(player);
-					if (!NeoForge.EVENT_BUS.post(new EquipmentEvent.Item(player, playerData.getEquippedItem(parent.slot), player.getInventory().getItem(slot), slot, parent.slot)).isCanceled()) {
+					boolean fromBag = slot <= MenuPotionSelectorScreen.BAG_OFFSET;
+					BagInventory bagInv = null;
+					int bagSlot = -1;
+					ItemStack stackToEquip;
+
+					if (fromBag) {
+						bagSlot = Math.abs(slot - MenuPotionSelectorScreen.BAG_OFFSET);
+						ItemStack bag = Utils.getItemInInventory(player, ModItems.consumablesBag.get());
+						if (bag.isEmpty() || !(bag.getCapability(Capabilities.ItemHandler.ITEM) instanceof BagInventory inv) || bagSlot >= inv.getSlots())
+							return;
+						bagInv = inv;
+						stackToEquip = inv.getStackInSlot(bagSlot);
+					} else {
+						stackToEquip = player.getInventory().getItem(slot);
+					}
+
+					if (!NeoForge.EVENT_BUS.post(new EquipmentEvent.Item(player, playerData.getEquippedItem(parent.slot), stackToEquip, slot, parent.slot)).isCanceled()) {
 						PacketHandler.sendToServer(new CSEquipItems(parent.slot, slot));
-						ItemStack stackToEquip = player.getInventory().getItem(slot);
 						ItemStack stackPreviouslyEquipped = playerData.equipItem(parent.slot, stackToEquip);
-						player.getInventory().setItem(slot, stackPreviouslyEquipped);
+						if (fromBag) {
+							bagInv.setStackInSlot(bagSlot, stackPreviouslyEquipped);
+						} else {
+							player.getInventory().setItem(slot, stackPreviouslyEquipped);
+						}
 					}
 				} else {
 					Minecraft.getInstance().setScreen(new MenuEquipmentScreen());

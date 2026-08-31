@@ -815,6 +815,17 @@ public class Recipes extends RecipeProvider {
 				.unlockedBy("leather", InventoryChangeTrigger.TriggerInstance.hasItems(Items.LEATHER))
 				.save(consumer);
 
+		ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ModItems.consumablesBag.get())
+				.pattern("LSL")
+				.pattern("LDL")
+				.pattern("LLL")
+				.define('S', Tags.Items.STRINGS)
+				.define('L', Tags.Items.LEATHERS)
+				.define('D', Items.GREEN_DYE)
+				.group(KingdomKeys.MODID)
+				.unlockedBy("leather", InventoryChangeTrigger.TriggerInstance.hasItems(Items.LEATHER))
+				.save(consumer);
+
         ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.woodenKeyblade.get())
                 .pattern(" WS")
                 .pattern(" WS")

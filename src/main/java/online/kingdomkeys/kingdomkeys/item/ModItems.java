@@ -977,7 +977,8 @@ public class ModItems {
 			magicsBag = createNewItem("magics_bag", () -> new BagItem(new Item.Properties().stacksTo(1), BagItem.Type.SPELLS_BAG)),
 			cardsBag = createNewItem("cards_bag", () -> new BagItem(new Item.Properties().stacksTo(1), BagItem.Type.CARDS_BAG)),
 			shotlocksBag = createNewItem("shotlocks_bag", () -> new BagItem(new Item.Properties().stacksTo(1), BagItem.Type.SHOTLOCKS_BAG)),
-			keychainsBag = createNewItem("keychains_bag", () -> new BagItem(new Item.Properties().stacksTo(1), BagItem.Type.KEYCHAINS_BAG));
+			keychainsBag = createNewItem("keychains_bag", () -> new BagItem(new Item.Properties().stacksTo(1), BagItem.Type.KEYCHAINS_BAG)),
+			consumablesBag = createNewItem("consumables_bag", () -> new BagItem(new Item.Properties().stacksTo(1), BagItem.Type.CONSUMABLES_BAG));
 	//endregion
 
 	//region Recipes
@@ -1215,17 +1216,4 @@ public class ModItems {
 	private static Supplier<Item> createKeybladeArmorItem(String name, Holder<ArmorMaterial> material, ArmorItem.Type slot, String textureName) {
 		return ITEMS.register(name, () -> new KeybladeArmorItem(material, slot, textureName));
 	}
-
-	/** Finds the ShotlockItem linked to a given Shotlock, if one's registered - used when granting a
-	 * Shotlock item to a player (e.g. on level up) without needing a hand-maintained lookup table. */
-	public static Item getShotlockItem(net.minecraft.resources.ResourceLocation shotlock) {
-		for (var holder : ITEMS.getEntries()) {
-			Item item = holder.get();
-			if (item instanceof ShotlockItem shotlockItem && shotlockItem.getShotlock().equals(shotlock)) {
-				return item;
-			}
-		}
-		return null;
-	}
-
 }
