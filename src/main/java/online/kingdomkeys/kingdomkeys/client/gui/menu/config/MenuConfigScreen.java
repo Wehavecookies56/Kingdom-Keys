@@ -105,27 +105,27 @@ public class MenuConfigScreen extends MenuBackground {
 			break;
 		case "customFont":
 			customFont = !customFont;
-			customFontButton.setMessage(Component.translatable(customFont+""));
+			customFontButton.setMessage(Component.literal(customFont+""));
 			ModConfigs.setCustomFont(customFont);
 			break;
 		case "textHeaderVisibility":
 			cmHeaderTextVisible = !cmHeaderTextVisible;
-			cmHeaderTextVisibleButton.setMessage(Component.translatable(cmHeaderTextVisible+""));
+			cmHeaderTextVisibleButton.setMessage(Component.literal(cmHeaderTextVisible+""));
 			ModConfigs.setCmHeaderTextVisible(cmHeaderTextVisible);
 			break;
 		case "snapChat":
 			snapChatToCommandMenu = !snapChatToCommandMenu;
-			snapChatButton.setMessage(Component.translatable(snapChatToCommandMenu+""));
+			snapChatButton.setMessage(Component.literal(snapChatToCommandMenu+""));
 			ModConfigs.setSnapChatToCommandMenu(snapChatToCommandMenu);
 			break;
 		case "classicColors":
 			cmClassicColors = !cmClassicColors;
-			cmClassicColorsButton.setMessage(Component.translatable(cmClassicColors+""));
+			cmClassicColorsButton.setMessage(Component.literal(cmClassicColors+""));
 			ModConfigs.setCmClassicColors(cmClassicColors);
 			break;
 		case "hpShowHearts":
 			hpShowHearts = !hpShowHearts;
-			hpShowHeartsButton.setMessage(Component.translatable(hpShowHearts+""));
+			hpShowHeartsButton.setMessage(Component.literal(hpShowHearts+""));
 			ModConfigs.setShowHearts(hpShowHearts);
 			break;
 		case "glint":
@@ -177,11 +177,11 @@ public class MenuConfigScreen extends MenuBackground {
 		customFont = ModConfigs.customFont;
 
 		int pos = 0;
-		addRenderableWidget(customFontButton = Button.builder(Component.translatable(customFont+""), (e) -> {
+		addRenderableWidget(customFontButton = Button.builder(Component.literal(customFont+""), (e) -> {
 			action("customFont");
 		}).bounds(buttonsX - 1, (int) topBarHeight + 20 * ++pos - 2, minecraft.font.width("#####")+2, 20).build());
 
-		customFontButton.setMessage(Component.translatable(customFont+""));
+		customFontButton.setMessage(Component.literal(customFont+""));
 		fontList.add(customFontButton);
 	}
 
@@ -191,7 +191,7 @@ public class MenuConfigScreen extends MenuBackground {
 		snapChatToCommandMenu = ModConfigs.snapChatToCommandMenu;
 		int pos = 0;
 
-		addRenderableWidget(cmClassicColorsButton = Button.builder(Component.translatable(cmClassicColors+""), (e) -> {
+		addRenderableWidget(cmClassicColorsButton = Button.builder(Component.literal(cmClassicColors+""), (e) -> {
 			 action("classicColors");
 		}).bounds(buttonsX - 1, (int) topBarHeight + 20 * ++pos - 2, minecraft.font.width("#####")+2, 20).build());
 		
@@ -247,7 +247,7 @@ public class MenuConfigScreen extends MenuBackground {
 			
 		});
 		
-		addRenderableWidget(cmHeaderTextVisibleButton = Button.builder(Component.translatable(cmHeaderTextVisible+""), (e) -> {
+		addRenderableWidget(cmHeaderTextVisibleButton = Button.builder(Component.literal(cmHeaderTextVisible+""), (e) -> {
 			 action("textHeaderVisibility");
 		}).bounds(buttonsX - 1, (int) topBarHeight + 20 * ++pos - 2, minecraft.font.width("#####")+2, 20).build());
 		
@@ -278,13 +278,13 @@ public class MenuConfigScreen extends MenuBackground {
 			
 		});
 		
-		addRenderableWidget(snapChatButton = Button.builder(Component.translatable(snapChatToCommandMenu+""), (e) -> {
+		addRenderableWidget(snapChatButton = Button.builder(Component.literal(snapChatToCommandMenu+""), (e) -> {
 			 action("snapChat");
 		}).bounds(buttonsX - 1, (int) topBarHeight + 20 * ++pos - 2, minecraft.font.width("#####")+2, 20).build());
 
 		cmTextXOffsetBox.setValue(""+ModConfigs.cmTextXOffset);
-		cmHeaderTextVisibleButton.setMessage(Component.translatable(cmHeaderTextVisible+""));
-		cmClassicColorsButton.setMessage(Component.translatable(cmClassicColors+""));
+		cmHeaderTextVisibleButton.setMessage(Component.literal(cmHeaderTextVisible+""));
+		cmClassicColorsButton.setMessage(Component.literal(cmClassicColors+""));
 
 		cmSelectedXOffsetBox.setValue(""+ModConfigs.cmSelectedXOffset);
 		cmSubXOffsetBox.setValue(""+ModConfigs.cmSubXOffset);
@@ -303,7 +303,7 @@ public class MenuConfigScreen extends MenuBackground {
 		hpShowHearts = ModConfigs.hpShowHearts;
 		int pos = 0;
 		
-		addRenderableWidget(hpShowHeartsButton = Button.builder(Component.translatable(hpShowHearts+""), (e) -> {
+		addRenderableWidget(hpShowHeartsButton = Button.builder(Component.literal(hpShowHearts+""), (e) -> {
 			 action("hpShowHearts");
 		}).bounds(buttonsX - 1, (int) topBarHeight + 20 * ++pos - 2, minecraft.font.width("#####")+2, 20).build());
 		
@@ -333,7 +333,7 @@ public class MenuConfigScreen extends MenuBackground {
 			
 		});
 
-		hpShowHeartsButton.setMessage(Component.translatable(hpShowHearts+""));
+		hpShowHeartsButton.setMessage(Component.literal(hpShowHearts+""));
 		hpAlarmBox.setValue(""+ModConfigs.hpAlarm);
 
 
@@ -1058,7 +1058,7 @@ public class MenuConfigScreen extends MenuBackground {
 			case 'E' -> {
 				ModConfigs.setCmHeaderTextVisible(value == 1);
 				cmHeaderTextVisible = value == 1;
-				cmHeaderTextVisibleButton.setMessage(Component.translatable(cmHeaderTextVisible+""));
+				cmHeaderTextVisibleButton.setMessage(Component.literal(cmHeaderTextVisible+""));
 			}
 			case 'F' -> {
 				ModConfigs.setCmTextXOffset(value);
@@ -1071,7 +1071,7 @@ public class MenuConfigScreen extends MenuBackground {
 			case 'I' -> {
 				ModConfigs.setShowHearts(value == 1);
 				hpShowHearts = value == 1;
-				hpShowHeartsButton.setMessage(Component.translatable(hpShowHearts+""));
+				hpShowHeartsButton.setMessage(Component.literal(hpShowHearts+""));
 			}
 			case 'J' -> {
 			}

@@ -69,7 +69,7 @@ public class GuiMenu_Party_Settings extends MenuBackground {
 			} else {
 				pSize++;
 			}
-			size.setMessage(Component.translatable(pSize+""));
+			size.setMessage(Component.literal(pSize+""));
 			break;
 		}
 		
@@ -79,9 +79,9 @@ public class GuiMenu_Party_Settings extends MenuBackground {
 	private void updateButtons() {
 		//IPlayerCapabilities playerData = ModCapabilities.getPlayer(minecraft.player);
 		togglePriv.setMessage(priv ? Component.translatable(Utils.translateToLocal(Strings.Gui_Menu_Party_Create_Accessibility_Private)) : Component.translatable(Utils.translateToLocal(Strings.Gui_Menu_Party_Create_Accessibility_Public)));
-		toggleFF.setMessage(Component.translatable(friendlyFire+""));// ? new TranslationTextComponent(Utils.translateToLocal("FF")) : new TranslationTextComponent(Utils.translateToLocal(Strings.Gui_Menu_Party_Create_Accessibility_Public)));
+		toggleFF.setMessage(Component.literal(friendlyFire+""));// ? new TranslationTextComponent(Utils.translateToLocal("FF")) : new TranslationTextComponent(Utils.translateToLocal(Strings.Gui_Menu_Party_Create_Accessibility_Public)));
 
-		size.setMessage(Component.translatable(pSize+""));
+		size.setMessage(Component.literal(pSize+""));
 
 		//TBName
 		togglePriv.visible = true;

@@ -9,4 +9,5 @@
 * Savepoint tooltip numbers.
 * Tooltip not visible for current savepoint.
 * (Hopefully) the bug where org portals could teleport all players in a radius on servers.
+* (Hopefully) party crash under weird names like color codes.
 * Translated banned blocks in hangar list.

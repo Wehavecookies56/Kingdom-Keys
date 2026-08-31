@@ -89,7 +89,7 @@ public class StruggleSettings extends MenuBackground {
 				} else {
 					pSize++;
 				}
-				size.setMessage(Component.translatable(pSize+""));
+				size.setMessage(Component.literal(pSize+""));
 				break;
 			case "mode":
 				Struggle.Mode[] modes = Struggle.Mode.values();
@@ -117,7 +117,7 @@ public class StruggleSettings extends MenuBackground {
 		if (isDuel)
 			pSize = 2;
 
-		size.setMessage(Component.translatable(pSize+""));
+		size.setMessage(Component.literal(pSize+""));
 		size.active = !isDuel;
 		nameBox.setValue(struggle.getName());
 		dmgMultBox.setValue(dmgMult+"");

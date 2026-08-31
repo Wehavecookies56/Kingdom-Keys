@@ -50,7 +50,7 @@ public class GuiMenu_Party_Create extends MenuBackground {
 			break;
 		case "accept":
 			if(!tfName.getValue().equals("") && checkAvailable()) { //Accept Party creation
-				Party localParty = new Party(tfName.getValue(), minecraft.player.getUUID(), minecraft.player.getName().getString(), priv, Byte.parseByte(size.getMessage().getString()));
+				Party localParty = new Party(tfName.getValue(), minecraft.player.getUUID(), minecraft.player.getName().getString(), priv, (byte) pSize);
 				PacketHandler.sendToServer(new CSPartyCreate(localParty));
 				
 				minecraft.level.playSound(minecraft.player, minecraft.player.blockPosition(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
@@ -63,7 +63,6 @@ public class GuiMenu_Party_Create extends MenuBackground {
 			} else {
 				pSize++;
 			}
-			size.setMessage(Component.translatable(pSize+""));
 			break;
 		}
 		
@@ -72,7 +71,8 @@ public class GuiMenu_Party_Create extends MenuBackground {
 
 	private void updateButtons() {
 		togglePriv.setMessage(priv ? Component.translatable(Utils.translateToLocal(Strings.Gui_Menu_Party_Create_Accessibility_Private)) : Component.translatable(Utils.translateToLocal(Strings.Gui_Menu_Party_Create_Accessibility_Public)));
-		
+		size.setMessage(Component.literal(pSize+""));
+
 		//TBName
 		togglePriv.visible = true;
 		accept.visible = true;
@@ -82,7 +82,6 @@ public class GuiMenu_Party_Create extends MenuBackground {
 
 	@Override
 	public void init() {
-		//TODO request packet to sync other players data
 		super.init();
 		this.renderables.clear();
 		
