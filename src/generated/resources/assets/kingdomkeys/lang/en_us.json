@@ -1264,7 +1264,7 @@
   "gui.save.create.global.desc": "Makes this save point accessible to all players",
   "gui.save.create.prompt": "Enter a name for this Save Point",
   "gui.save.create.title": "Name Save Point",
-  "gui.save.main.here": "You are Here",
+  "gui.save.main.here": "You are here",
   "gui.save.main.rename": "Rename",
   "gui.save.main.retake": "Retake",
   "gui.save.main.sort": "Sort:",

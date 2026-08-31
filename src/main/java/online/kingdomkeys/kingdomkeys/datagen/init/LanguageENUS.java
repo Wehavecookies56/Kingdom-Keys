@@ -560,7 +560,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Gui_Save_Creation_Global_Desc, "Makes this save point accessible to all players");
         add(Gui_Save_Creation_Accept, "Save");
 
-        add(Gui_Save_Main_CurrentPosition, "You are Here");
+        add(Gui_Save_Main_CurrentPosition, "You are here");
         add(Gui_Save_Main_Sort, "Sort:");
         add(Gui_Save_Main_Rename, "Rename");
         add(Gui_Save_Main_Retake, "Retake");

@@ -50,7 +50,7 @@ public class SavePointFavouriteButton extends SavePointExtrasButton {
 		{
 			gui.pose().translate(0, 0, 1);
 			if (destination.equals(parent.hovered)) {
-				gui.setColor(1, 1, 1, 0.25F);
+				gui.setColor(1, 1, 1, EXTRA_BUTTON_ALPHA_BG);
 				gui.fill(getX(), getY(), getX() + getWidth(), getY() + getHeight(), isHovered ? Color.LIGHT_GRAY.getRGB() : Color.BLACK.getRGB());
 				gui.setColor(1, 1, 1, 1);
 			}

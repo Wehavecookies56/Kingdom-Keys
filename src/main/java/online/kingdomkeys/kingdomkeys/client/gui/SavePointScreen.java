@@ -110,6 +110,12 @@ public class SavePointScreen extends MenuBackground {
         }
     }
 
+    private void renderScrolled(GuiGraphics gui, Renderable renderable, int mouseX, int mouseY, float partialTicks) {
+        gui.enableScissor(0, (int) this.topBarHeight, width, (int) (this.topBarHeight + this.middleHeight));
+        renderable.render(gui, mouseX, mouseY, partialTicks);
+        gui.disableScissor();
+    }
+
     @Override
     public void render(@NotNull GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
         if (!ScreenshotManager.isTakingScreenshot()) {
@@ -120,16 +126,8 @@ public class SavePointScreen extends MenuBackground {
                     if (savePointButton.getDestination().equals(tileEntity.getID())) {
                        mouseOverCurrent = savePointButton.isMouseOverInactive(mouseX, mouseY);
                     }
-                }
-                if (renderable instanceof SavePointFavouriteButton favouriteButton) {
-                    favouriteButton.visible = favouriteButton.getDestination().equals(hovered) || isFavourite(favouriteButton.getDestination());
-                }
-                if (renderable instanceof SavePointButton || renderable instanceof SavePointFavouriteButton || renderable == rename || renderable == retake) {
-                    gui.enableScissor(0, (int) this.topBarHeight, width, (int) (this.topBarHeight + this.middleHeight));
-                    renderable.render(gui, mouseX, mouseY, partialTicks);
-                    gui.disableScissor();
-                } else if (renderable instanceof DropDownButton)  {
-
+                    renderScrolled(gui, renderable, mouseX, mouseY, partialTicks);
+                } else if (renderable instanceof SavePointFavouriteButton || renderable == rename || renderable == retake || renderable instanceof DropDownButton) {
                 } else {
                     renderable.render(gui, mouseX, mouseY, partialTicks);
                 }
@@ -141,12 +139,23 @@ public class SavePointScreen extends MenuBackground {
                 gui.fill(gridLeft, lineY, gridRight, lineY + 1, 0x66FFFFFF);
                 gui.disableScissor();
             }
+
+            // Manually render after due to Z issues
             if (rename != null) {
                 rename.visible = mouseOverCurrent;
             }
             if (retake != null) {
                 retake.visible = mouseOverCurrent;
             }
+            for(Renderable renderable : this.renderables) {
+                if (renderable instanceof SavePointFavouriteButton favouriteButton) {
+                    favouriteButton.visible = favouriteButton.getDestination().equals(hovered) || isFavourite(favouriteButton.getDestination());
+                    renderScrolled(gui, favouriteButton, mouseX, mouseY, partialTicks);
+                } else if (renderable == rename || renderable == retake) {
+                    renderScrolled(gui, renderable, mouseX, mouseY, partialTicks);
+                }
+            }
+
             if (orderDropDown != null && sortDropDown != null) {
                 orderDropDown.render(gui, mouseX, mouseY, partialTicks);
                 gui.pose().translate(0, 0, 1);

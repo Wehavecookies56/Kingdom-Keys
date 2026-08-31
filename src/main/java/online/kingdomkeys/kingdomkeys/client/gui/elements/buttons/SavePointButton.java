@@ -90,7 +90,7 @@ public class SavePointButton extends ScrollableButtonBase {
     }
 
     public void drawLabel(Component text, GuiGraphics gui, int labelHeight) {
-        gui.setColor(1, 1, 1, 0.5F);
+        gui.setColor(1, 1, 1, SavePointExtrasButton.EXTRA_BUTTON_ALPHA_BG);
         gui.fill(getX(), getY() + (getHeight() - labelHeight), getX() + getWidth(), getY() + getHeight(), Color.BLACK.getRGB());
         gui.setColor(1, 1, 1, 1);
         if (Minecraft.getInstance().font.width(getMessage().getVisualOrderText()) > getWidth()) {

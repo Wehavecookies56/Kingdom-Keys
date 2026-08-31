@@ -223,7 +223,7 @@ public class ShopScreen extends MenuFilterable {
 	@Override
 	protected void renderSelectedData(GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
 		PoseStack matrixStack = gui.pose();
-		float tooltipPosX = width * 0.3333F;
+		float tooltipPosX = bottomRightBar.getPosX() + 8;
 		float tooltipPosY = height * 0.8F;
 
 		float iconPosY = boxM.getPosY() + 25;

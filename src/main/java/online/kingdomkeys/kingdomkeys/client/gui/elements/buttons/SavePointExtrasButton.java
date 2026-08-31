@@ -7,6 +7,8 @@ import net.minecraft.network.chat.Component;
 import java.awt.*;
 
 public class SavePointExtrasButton extends ScrollableButtonBase {
+    public static final float EXTRA_BUTTON_ALPHA_BG = 0.5F;
+
     public SavePointExtrasButton(int pX, int pY, int pWidth, Component pMessage, OnPress pOnPress) {
         super(new Builder(pMessage, pOnPress).bounds(pX, pY, pWidth, Minecraft.getInstance().font.lineHeight + 2));
     }
@@ -24,7 +26,7 @@ public class SavePointExtrasButton extends ScrollableButtonBase {
     public void drawLabel(Component text, GuiGraphics gui, int textColour) {
         gui.pose().pushPose();
         gui.pose().translate(0, 0, 1);
-        gui.setColor(1, 1, 1, 0.25F);
+        gui.setColor(1, 1, 1, EXTRA_BUTTON_ALPHA_BG);
         int colour = Color.BLACK.getRGB();
         if (isHovered) {
             colour = Color.LIGHT_GRAY.getRGB();

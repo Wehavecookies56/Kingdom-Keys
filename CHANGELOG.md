@@ -7,10 +7,12 @@
 ## Fixed:
 * Lilostitched incompatibility where villages were Moogle houses exclusively.
 * Station of Awakening being very dark when using Sodium.
+* Savepoint buttons not rendering when using Immediately Fast.
 * Hangar will now return the combustible remainder (for example a bucket when using a lava bucket).
 * Some warnings when loading the mod.
 * Savepoint tooltip numbers.
 * Tooltip not visible for current savepoint.
+* Shop item description not being properly aligned.
 * (Hopefully) the bug where org portals could teleport all players in a radius on servers.
 * (Hopefully) party crash under weird names like color codes.
 * Translated banned blocks in hangar chat message.
