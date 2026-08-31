@@ -11,6 +11,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import online.kingdomkeys.kingdomkeys.block.SavePointBlock;
 import online.kingdomkeys.kingdomkeys.client.render.block.SavePointBlockEntityRenderer;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
+import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.world.SavePointStorage;
 import org.jetbrains.annotations.Nullable;
 
@@ -23,21 +24,18 @@ public class SavepointTileEntity extends BlockEntity {
 	public SavepointTileEntity(BlockPos pos, BlockState state) {
 		super(ModEntities.TYPE_SAVEPOINT.get(), pos, state);
 	}
-	long ticks;
-	//TODO Change savepoint type to tier
+
 	private UUID id = UUID.randomUUID();
 
 	public UUID getID() {
 		return id;
 	}
 
-	private int
-			heal = 24,
-			hunger = 24,
-			magic = 24,
-			drive = 24,
-			focus = 24
-	; //24 because once the first time it gets used it will be enabled since it will go down to 20, but if it's > 20 it won't work, ensuring at least spending one item in it.
+	private int heal = Utils.SAVEPOINT_START,
+				hunger = Utils.SAVEPOINT_START,
+				magic = Utils.SAVEPOINT_START,
+				drive = Utils.SAVEPOINT_START,
+				focus = Utils.SAVEPOINT_START;
 
 	public int getHeal() {
 		return heal;

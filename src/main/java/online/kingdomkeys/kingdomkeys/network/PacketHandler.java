@@ -95,7 +95,6 @@ public class PacketHandler {
 		server(CSGiveUpKO.TYPE, CSGiveUpKO.STREAM_CODEC);
 		server(CSToggleFlightModePacket.TYPE, CSToggleFlightModePacket.STREAM_CODEC);
 		server(CSLevelUpKeybladePacket.TYPE, CSLevelUpKeybladePacket.STREAM_CODEC);
-		server(CSOrgPortalTPPacket.TYPE, CSOrgPortalTPPacket.STREAM_CODEC);
 		server(CSPartyAddMember.TYPE, CSPartyAddMember.STREAM_CODEC);
 		server(CSPartyCreate.TYPE, CSPartyCreate.STREAM_CODEC);
 		server(CSStruggleCreate.TYPE, CSStruggleCreate.STREAM_CODEC);

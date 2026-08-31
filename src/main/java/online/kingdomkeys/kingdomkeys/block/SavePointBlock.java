@@ -93,7 +93,7 @@ public class SavePointBlock extends BaseBlock implements EntityBlock, INoDataGen
 
 	private void addToList(List<Component> tooltipComponents, String s, Integer val) {
 		if(val != null)
-			tooltipComponents.add(Component.translatable(Character.toUpperCase(s.charAt(0))+s.substring(1)+": "+val+"%"));
+			tooltipComponents.add(Component.translatable(Character.toUpperCase(s.charAt(0))+s.substring(1)+": "+Utils.getSavepointPercent(val)+"%"));
 	}
 
 	@Override
@@ -249,13 +249,13 @@ public class SavePointBlock extends BaseBlock implements EntityBlock, INoDataGen
 		}
 
 		int current = getSavepointValue(savepoint, stat);
-		if (current <= 1) {
+		if (current <= Utils.SAVEPOINT_MIN) {
 			player.displayClientMessage(Component.translatable("savepoint.maxed", Utils.translateToLocal(getTranslationKey(stat))), true);
 			return;
 		}
 
 		stack.shrink(1);
-		int newValue = Math.max(current - 4, 1);
+		int newValue = Math.max(current - Utils.SAVEPOINT_STEP, Utils.SAVEPOINT_MIN);
 
 		setSavepointValue(savepoint, stat, newValue);
 		player.displayClientMessage(Component.translatable("savepoint.upgrade", Utils.translateToLocal(getTranslationKey(stat)), Utils.getSavepointPercent(newValue)), true);

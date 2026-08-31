@@ -7,18 +7,19 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.portal.DimensionTransition;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.entity.IEntityWithComplexSpawn;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.cts.CSOrgPortalTPPacket;
-
-import java.util.List;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
 
 public class OrgPortalEntity extends Entity implements IEntityWithComplexSpawn {
 
@@ -49,24 +50,54 @@ public class OrgPortalEntity extends Entity implements IEntityWithComplexSpawn {
         }
         level().addParticle(ParticleTypes.DRAGON_BREATH, getX() - 1 + random.nextDouble() * 2, getY() + random.nextDouble() * 4, getZ() - 1 + random.nextDouble() * 2, 0.0D, 0.0D, 0.0D);
 
-        List<Entity> tempList = level().getEntities(this, getBoundingBox().inflate(radius, radius, radius));
-        for (Entity t : tempList) {
-            if (shouldTeleport && !(t instanceof OrgPortalEntity)) {
-                if (!this.isAlive())
-                    return;
-                if (t != null) {
-                    if (destinationPos != null) {
-                        if (destinationPos.getX() != 0 && destinationPos.getY() != 0 && destinationPos.getZ() != 0) {
-                            double yOffset = t.getY() - this.getY();
-                            t.setPos(destinationPos.getX() + 0.5, destinationPos.getY() + 1 + yOffset, destinationPos.getZ() + 0.5);
-                            if (t instanceof Player && level().isClientSide)
-                                PacketHandler.sendToServer(new CSOrgPortalTPPacket(this.destinationDim, new Vec3(destinationPos.getX() + 0.5, destinationPos.getY() + 1 + yOffset, destinationPos.getZ() + 0.5)));
-                        }
-                    }
+        if (!level().isClientSide && shouldTeleport && destinationPos != null && !destinationPos.equals(BlockPos.ZERO)) {
+            for (Entity t : level().getEntities(this, getBoundingBox().inflate(radius, radius, radius))) {
+                if (t instanceof OrgPortalEntity) {
+                    continue;
                 }
+
+                if (!this.isAlive()) {
+                    break;
+                }
+
+                teleport(t);
             }
         }
+
         super.tick();
+    }
+
+    private void teleport(Entity entity) {
+        ServerLevel destinationLevel = level().getServer().getLevel(destinationDim);
+
+        if (destinationLevel == null) {
+            return;
+        }
+
+        double yOffset = entity.getY() - this.getY();
+        Vec3 destination = new Vec3(destinationPos.getX() + 0.5, destinationPos.getY() + 1 + yOffset, destinationPos.getZ() + 0.5);
+
+        boolean isPlayer = entity instanceof ServerPlayer;
+
+        if (entity instanceof ServerPlayer player) {
+            PlayerData playerData = PlayerData.get(player);
+
+            //If destination is the ROD lock the player there, otherwise unlock
+            if (playerData != null) {
+                playerData.setRespawnROD(destinationDim.location().getPath().equals("realm_of_darkness"));
+                PacketHandler.sendTo(new SCSyncPlayerData(player), player);
+            }
+        }
+
+        Vec3 velocity = isPlayer ? Vec3.ZERO : entity.getDeltaMovement();
+
+        if (entity.level().dimension().equals(destinationDim)) {
+            entity.teleportTo(destination.x, destination.y, destination.z);
+            entity.setDeltaMovement(velocity);
+            entity.hasImpulse = !isPlayer;
+        } else {
+            entity.changeDimension(new DimensionTransition(destinationLevel, destination, velocity, entity.getYRot(), entity.getXRot(), pEntity -> {}));
+        }
     }
 
     public int getMaxTicks() {
@@ -79,33 +110,18 @@ public class OrgPortalEntity extends Entity implements IEntityWithComplexSpawn {
 
     @Override
     public void addAdditionalSaveData(CompoundTag compound) {
-        // compound.putInt("lvl", this.getLvl());
-		/*if(destinationPos == null)
-            return;
-    	
-        compound.putInt("x",destinationPos.getX());
-        compound.putInt("y",destinationPos.getY());
-        compound.putInt("z",destinationPos.getZ());
-        compound.putInt("dim",destinationDim);
-        compound.putBoolean("tp",shouldTeleport);*/
     }
 
     @Override
     public void readAdditionalSaveData(CompoundTag compound) {
-        // this.setLvl(compound.getInt("lvl"));
-	/*	destinationPos = new BlockPos(compound.getInt("x"),compound.getInt("y"),compound.getInt("z"));
-    	destinationDim = compound.getInt("dim");
-    	shouldTeleport = compound.getBoolean("tp");*/
     }
 
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder pBuilder) {
-
     }
 
     @Override
     public void writeSpawnData(RegistryFriendlyByteBuf buffer) {
-
         buffer.writeBoolean(destinationPos != null);
 
         if (destinationPos != null) {
@@ -117,7 +133,6 @@ public class OrgPortalEntity extends Entity implements IEntityWithComplexSpawn {
 
     @Override
     public void readSpawnData(RegistryFriendlyByteBuf buffer) {
-
         boolean hasDestination = buffer.readBoolean();
 
         if (hasDestination) {

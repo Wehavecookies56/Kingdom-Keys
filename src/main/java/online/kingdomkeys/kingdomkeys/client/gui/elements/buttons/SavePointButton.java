@@ -29,7 +29,7 @@ public class SavePointButton extends ScrollableButtonBase {
 
     @Override
     protected void renderWidget(GuiGraphics gui, int pMouseX, int pMouseY, float pPartialTick) {
-        isHovered = isMouseOver(pMouseX, pMouseY);
+        isHovered = isMouseOver(pMouseX, pMouseY) || isMouseOverInactive(pMouseX, pMouseY);
         int labelHeight = Minecraft.getInstance().font.lineHeight + 2;
         if (visible) {
             if (!active || isHovered) {
@@ -60,8 +60,10 @@ public class SavePointButton extends ScrollableButtonBase {
                             "%\nDrive: "+Utils.getSavepointPercent(savepoint.getDrive())+"%"));
                     setTooltip(tooltip);
                 }
-                drawLabel(getMessage(), gui, labelHeight);
 
+                if (active) {
+                    drawLabel(getMessage(), gui, labelHeight);
+                }
             }
             if (parent.hovered == null || !parent.hovered.equals(destination)) {
                 drawDark(gui, Color.BLACK);

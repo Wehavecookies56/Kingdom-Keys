@@ -6,3 +6,6 @@
 
 ## Fixed:
 * Some warnings when loading the mod.
+* Savepoint tooltip numbers.
+* Tooltip not visible for current savepoint.
+* (Hopefully) the bug where org portals could teleport all players in a radius on servers.

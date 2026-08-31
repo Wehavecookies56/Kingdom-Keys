@@ -122,8 +122,6 @@ public class SavePointScreen extends MenuBackground {
                     }
                 }
                 if (renderable instanceof SavePointFavouriteButton favouriteButton) {
-                    // Shown while its tile is hovered, and left up permanently once pinned so the
-                    // filled star doubles as the at-a-glance marker.
                     favouriteButton.visible = favouriteButton.getDestination().equals(hovered) || isFavourite(favouriteButton.getDestination());
                 }
                 if (renderable instanceof SavePointButton || renderable instanceof SavePointFavouriteButton || renderable == rename || renderable == retake) {

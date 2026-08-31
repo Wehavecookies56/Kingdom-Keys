@@ -480,11 +480,35 @@ public class Utils {
 		return false;
 	}
 
-	public static int getSavepointPercent(int ticks) {
-		int res = Math.round(100 - (((ticks-1) /(20F-1F)) * 100F));
-		if(res == 0)
-			res = 1;
-		return res;
+	public static final int SAVEPOINT_START = 24;
+	public static final int SAVEPOINT_STEP = 4;
+	public static final int SAVEPOINT_MIN = 1;
+
+	public static final int SAVEPOINT_UPGRADES = countSavepointUpgrades();
+
+	private static int countSavepointUpgrades() {
+		int value = SAVEPOINT_START;
+		int upgrades = 0;
+
+		while (value > SAVEPOINT_MIN) {
+			value = Math.max(value - SAVEPOINT_STEP, SAVEPOINT_MIN);
+			upgrades++;
+		}
+
+		return upgrades;
+	}
+
+	public static int getSavepointPercent(int value) {
+		if (value >= SAVEPOINT_START) {
+			return 0;
+		}
+
+		if (value <= SAVEPOINT_MIN) {
+			return 100;
+		}
+
+		int done = (SAVEPOINT_START - value + SAVEPOINT_STEP - 1) / SAVEPOINT_STEP;
+		return Math.round(done * 100F / SAVEPOINT_UPGRADES);
 	}
 
 	public static final ResourceLocation mobLevelHPModifier = KingdomKeys.rl("mob_level_hp");
