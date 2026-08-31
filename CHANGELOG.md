@@ -8,16 +8,16 @@
 * Glide animation now won't move its arms and legs.
 
 ## Fixed:
-* Lilostitched incompatibility where villages were Moogle houses exclusively.
+* Lilostitched incompatibility where villages were made out of Moogle houses exclusively.
 * Station of Awakening being very dark when using Sodium.
-* Savepoint buttons not rendering when using Immediately Fast.
+* Savepoint top buttons not rendering when using Immediately Fast.
 * Hangar will now return the combustible remainder (for example a bucket when using a lava bucket).
-* Some warnings when loading the mod.
 * Savepoint tooltip numbers.
 * Tooltip not visible for current savepoint.
 * Shop item description not being properly aligned.
-* (Hopefully) the bug where org portals could teleport all players in a radius on servers.
+* (Hopefully) the bug where org portals could occasionally teleport all players in a radius on servers.
 * (Hopefully) party crash under weird names like color codes.
 * Translated banned blocks in hangar chat message.
 * Translated savepoint tooltip attributes.
 * Translated area button from Hangar screen.
+* Some warnings when loading the mod.
