@@ -283,7 +283,6 @@ public class LanguageENUS extends KKLanguageProvider {
         add("kingdomkeys.save_point.data_not_loaded", "Savepoint data not loaded");
         add("kingdomkeys.save_point.cannot_upgrade", "This item cannot be used to upgrade anything");
         add("kingdomkeys.save_point.old_savepoint", "ERROR, this is probably an old savepoint, break and place it again to correct it");
-        add("kingdomkeys.save_point.you_are_here", "You are here");
 
         //Menu
         add(Gui_Menu_Back, "Back");

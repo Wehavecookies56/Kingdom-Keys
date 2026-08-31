@@ -2830,7 +2830,6 @@
   "kingdomkeys.save_point.cannot_upgrade": "Este objeto no sirve para mejorar nada",
   "kingdomkeys.save_point.data_not_loaded": "Los datos del punto de guardado no se han cargado",
   "kingdomkeys.save_point.old_savepoint": "ERROR: probablemente sea un punto de guardado antiguo; rómpelo y vuelve a colocarlo para corregirlo",
-  "kingdomkeys.save_point.you_are_here": "Estás aquí",
   "kingdomkeys.struggle.chat.winner": "[Struggle] ¡El ganador del %2$s de %1$s es %3$s!",
   "kingdomkeys.struggle.draw": "¡Empate!",
   "kingdomkeys.struggle.ffa.starting": "¡Empieza el todos contra todos...!",

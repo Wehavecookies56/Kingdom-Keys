@@ -70,7 +70,6 @@ public class SavePointButton extends ScrollableButtonBase {
             }
         }
         if (!active) {
-            //gui.drawCenteredString(Minecraft.getInstance().font, Component.translatable("kingdomkeys.save_point.you_are_here"), getX() + (getWidth() / 2), getY() + (getHeight() - (height/2) - (Minecraft.getInstance().font.lineHeight/2)) + 1, Color.WHITE.getRGB());
             drawLabel(Component.translatable(Strings.Gui_Save_Main_CurrentPosition), gui, labelHeight);
         }
     }

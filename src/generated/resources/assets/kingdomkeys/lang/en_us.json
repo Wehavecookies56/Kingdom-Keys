@@ -2886,7 +2886,6 @@
   "kingdomkeys.save_point.cannot_upgrade": "This item cannot be used to upgrade anything",
   "kingdomkeys.save_point.data_not_loaded": "Savepoint data not loaded",
   "kingdomkeys.save_point.old_savepoint": "ERROR, this is probably an old savepoint, break and place it again to correct it",
-  "kingdomkeys.save_point.you_are_here": "You are here",
   "kingdomkeys.struggle.chat.winner": "[Struggle] Winner of %1$s's %2$s is %3$s!",
   "kingdomkeys.struggle.draw": "Draw!",
   "kingdomkeys.struggle.ffa.starting": "Free for all starting...",

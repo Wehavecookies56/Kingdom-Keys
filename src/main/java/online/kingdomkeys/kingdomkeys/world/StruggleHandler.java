@@ -221,7 +221,7 @@ public class StruggleHandler {
 	 * power of 2 - extra slots are byes. Immediately resolves any bye matches (a real player against an
 	 * empty slot advances automatically, cascading through multiple rounds if needed).
 	 */
-	private void buildBracket(Struggle struggle) {
+	private void buildBracket(MinecraftServer server, Struggle struggle) {
 		List<UUID> players = struggle.getParticipants().stream().map(Struggle.Participant::getUUID).collect(Collectors.toList());
 		Collections.shuffle(players, RANDOM);
 
@@ -245,10 +245,10 @@ public class StruggleHandler {
 			roundSize /= 2;
 		}
 
-		resolveByes(struggle);
+		resolveByes(server, struggle);
 	}
 
-	private void resolveByes(Struggle struggle) {
+	private void resolveByes(MinecraftServer server, Struggle struggle) {
 		List<List<UUID>> bracket = struggle.getBracket();
 		if (bracket.isEmpty()) return;
 
@@ -274,11 +274,13 @@ public class StruggleHandler {
 					// Exactly one side is empty: the other side advances as a bye (only if not already
 					// filled - don't clobber a real match result that happened to run before this call).
 					if (nextRound.get(parentIndex) == null) {
-						nextRound.set(parentIndex, aEmpty ? round.get(i + 1) : round.get(i));
+						UUID advancing = aEmpty ? round.get(i + 1) : round.get(i);
+						nextRound.set(parentIndex, advancing);
+						if (advancing != null) {
+							sendTitle(server, List.of(advancing), "kingdomkeys.struggle.tournament.bye", "");
+						}
 					}
 				}
-				// Both sides real: a genuine match that has to actually be played - leave nextRound
-				// alone (null = still pending), regardless of what its current value happens to be.
 			}
 
 			permanentlyEmpty = nextPermanentlyEmpty;
@@ -311,7 +313,7 @@ public class StruggleHandler {
 			if (struggle.getParticipants().size() < 2) return;
 			if (struggle.getParticipants().stream().anyMatch(p -> !p.isReady())) return;
 
-			buildBracket(struggle);
+			buildBracket(server, struggle);
 			worldData.setDirty();
 			PacketHandler.sendToAll(new SCSyncWorldData(server));
 		}
@@ -585,7 +587,7 @@ public class StruggleHandler {
 						|| (a.equals(combatants.get(1).getUUID()) && b.equals(combatants.get(0).getUUID()));
 				if (matches) {
 					bracket.get(r + 1).set(i / 2, winner.getUUID());
-					resolveByes(struggle); // in case this newly-placed winner unblocks a further bye
+					resolveByes(server, struggle); // in case this newly-placed winner unblocks a further bye
 					break outer;
 				}
 			}

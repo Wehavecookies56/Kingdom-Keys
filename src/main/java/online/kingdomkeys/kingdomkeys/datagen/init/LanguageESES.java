@@ -328,7 +328,6 @@ public class LanguageESES extends KKLanguageProvider {
         add("kingdomkeys.save_point.data_not_loaded", "Los datos del punto de guardado no se han cargado");
         add("kingdomkeys.save_point.cannot_upgrade", "Este objeto no sirve para mejorar nada");
         add("kingdomkeys.save_point.old_savepoint", "ERROR: probablemente sea un punto de guardado antiguo; rómpelo y vuelve a colocarlo para corregirlo");
-        add("kingdomkeys.save_point.you_are_here", "Estás aquí");
 
         //GUI
         //Main Menu
@@ -621,7 +620,7 @@ public class LanguageESES extends KKLanguageProvider {
         add(Gui_Save_Creation_Global_Desc, "Convierte este punto en accesible para todos los jugadores");
         add(Gui_Save_Creation_Accept, "Guardar");
 
-        add(Gui_Save_Main_CurrentPosition, "Est\u00e1s aqu\u00ed");
+        add(Gui_Save_Main_CurrentPosition, "Estás aquí");
         add(Gui_Save_Main_Sort, "Ordenar:");
         add(Gui_Save_Main_Rename, "Nombre");
         add(Gui_Save_Main_Retake, "Foto");
