@@ -334,6 +334,7 @@ public class LanguageESES extends KKLanguageProvider {
         add(Gui_Menu_Back, "Atr\u00e1s");
         add(Gui_Menu_Back + ".desc", "Vuelve al men\u00fa anterior.");
         add(Gui_Menu_Accept, "Aceptar");
+        add(Gui_Menu_Cancel, "Cancelar");
         add(Gui_Menu_Main_Title, "Men\u00fa");
 
         //Main Menu Buttons
@@ -383,8 +384,6 @@ public class LanguageESES extends KKLanguageProvider {
         add(Gui_Menu_Items_Equipment_Magic, "Magias");
         add(Gui_Menu_Items_Equipment_Pauldron, "Hombrera");
         add(Gui_Menu_Items_Equipment_Items, "Objetos");
-        add(Gui_Menu_Items_Equipment_NotEnoughAP, "INFORMACIÓN");
-        add(Gui_Menu_Items_Equipment_NotEnoughAP_Desc, "Ese cambio te dejaría a deber %s PH de lo que gastan las habilidades que llevas equipadas. Desactiva alguna primero.");
 
         //Customize Sub-menu
         add(Gui_Menu_Customize, "Configuración");
@@ -2860,5 +2859,9 @@ public class LanguageESES extends KKLanguageProvider {
         add("kingdomkeys.update.links.body", "La versión %s ya está disponible. ¿Desde dónde quieres descargarla?");
         add("kingdomkeys.update.links.curseforge", "CurseForge");
         add("kingdomkeys.update.links.modrinth", "Modrinth");
+
+        add(WarningInformation, "INFORMACIÓN");
+        add(WarningAP, "Ese cambio te dejaría a deber %s PH de lo que gastan las habilidades que llevas equipadas. Desactiva alguna primero.");
+        add(WarningSell, "Vas a vender x%s %s. ¿Estás seguro?");
     }
 }

@@ -288,6 +288,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Gui_Menu_Back, "Back");
         add(Gui_Menu_Back + ".desc", "Go back to the previous menu.");
         add(Gui_Menu_Accept, "Accept");
+        add(Gui_Menu_Cancel, "Cancel");
         add(Gui_Menu_Main_Title, "Menu");
 
         add(Gui_Menu_Main_Button_Items, "Items");
@@ -333,8 +334,6 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Gui_Menu_Items_Equipment_Magic, "Magic");
         add(Gui_Menu_Items_Equipment_Pauldron, "Pauldron");
         add(Gui_Menu_Items_Equipment_Items, "Items");
-        add(Gui_Menu_Items_Equipment_NotEnoughAP, "INFORMATION");
-        add(Gui_Menu_Items_Equipment_NotEnoughAP_Desc, "That change would leave you %s AP short for the abilities you have equipped. Turn some of them off first.");
         add(Gui_Menu_Customize, "Customize");
         add(Gui_Menu_Customize + ".shortcuts", "Shortcuts");
         add(Gui_Menu_Customize + ".shortcut", "Shortcut");
@@ -2844,5 +2843,9 @@ public class LanguageENUS extends KKLanguageProvider {
         add("kingdomkeys.update.links.body", "Version %s is available. Where do you want to download it from?");
         add("kingdomkeys.update.links.curseforge", "CurseForge");
         add("kingdomkeys.update.links.modrinth", "Modrinth");
+
+        add(WarningInformation, "INFORMATION");
+        add(WarningAP, "That change would leave you %s AP short for the abilities you have equipped. Turn some of them off first.");
+        add(WarningSell, "You're about to sell x%s %s. Are you sure?");
     }
 }

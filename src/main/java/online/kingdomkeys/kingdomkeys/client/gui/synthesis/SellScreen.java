@@ -1,6 +1,7 @@
 package online.kingdomkeys.kingdomkeys.client.gui.synthesis;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.components.Renderable;
@@ -16,6 +17,7 @@ import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuFilterBar;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuFilterableIndexed;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.PopupWarningScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuScrollBar;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuStockItem;
@@ -77,12 +79,14 @@ public class SellScreen extends MenuFilterableIndexed {
 		switch (string) {
 		case "sell":
             if(getTextBoxAmount() > 0){
-                ItemStack item = minecraft.player.getInventory().getItem(selectedIndex);
-                if(item != null && item.getCount() >= getTextBoxAmount()) {
-                    minecraft.player.getInventory().getItem(selectedIndex).setCount(minecraft.player.getInventory().getItem(selectedIndex).getCount() - getTextBoxAmount());
-                    PacketHandler.sendToServer(new CSShopSell(selectedIndex, Integer.parseInt(amountBox.getValue()), parent.invFile, parent.name == null ? "" : parent.name, parent.moogle));
-                }
-                minecraft.level.playSound(minecraft.player, minecraft.player.blockPosition(), ModSounds.itemget.get(), SoundSource.MASTER, 1.0f, 1.0f);
+	            ItemStack item = minecraft.player.getInventory().getItem(selectedIndex);
+	            Minecraft.getInstance().setScreen(new PopupWarningScreen(this, Component.translatable(Strings.WarningInformation), Component.translatable(Strings.WarningSell, getTextBoxAmount(),item.getItem().getDescription().getString()), new Color(112, 31, 35), () -> {
+		            if(item != null && item.getCount() >= getTextBoxAmount()) {
+			            minecraft.player.getInventory().getItem(selectedIndex).setCount(minecraft.player.getInventory().getItem(selectedIndex).getCount() - getTextBoxAmount());
+			            PacketHandler.sendToServer(new CSShopSell(selectedIndex, Integer.parseInt(amountBox.getValue()), parent.invFile, parent.name == null ? "" : parent.name, parent.moogle));
+		            }
+		            minecraft.level.playSound(minecraft.player, minecraft.player.blockPosition(), ModSounds.buy.get(), SoundSource.MASTER, 1.0f, 1.0f);
+	            }));
             }
             break;
 		}

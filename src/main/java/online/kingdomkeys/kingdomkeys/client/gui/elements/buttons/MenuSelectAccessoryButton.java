@@ -21,7 +21,7 @@ import online.kingdomkeys.kingdomkeys.api.event.EquipmentEvent;
 import online.kingdomkeys.kingdomkeys.api.item.IKeychain;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
-import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuNoticeScreen;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.PopupWarningScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment.MenuAccessorySelectorScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment.MenuEquipmentScreen;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
@@ -78,7 +78,7 @@ public class MenuSelectAccessoryButton extends MenuButtonBase {
 							player.getInventory().setItem(slot, stackPreviouslyEquipped);
 						} else {
 							player.playSound(ModSounds.error.get(), 1, 1);
-							Minecraft.getInstance().setScreen(new MenuNoticeScreen(parent, Component.translatable(Strings.Gui_Menu_Items_Equipment_NotEnoughAP), Component.translatable(Strings.Gui_Menu_Items_Equipment_NotEnoughAP_Desc, consumed - newMax)));
+							Minecraft.getInstance().setScreen(new PopupWarningScreen(parent, Component.translatable(Strings.WarningInformation), Component.translatable(Strings.WarningAP, consumed - newMax), new Color(112, 31, 35)));
 						}
 					} else {
 						player.playSound(ModSounds.error.get(), 1, 1);

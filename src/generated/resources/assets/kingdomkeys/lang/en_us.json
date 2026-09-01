@@ -1062,6 +1062,7 @@
   "gui.menu.accept": "Accept",
   "gui.menu.back": "Back",
   "gui.menu.back.desc": "Go back to the previous menu.",
+  "gui.menu.cancel": "Cancel",
   "gui.menu.config": "Config",
   "gui.menu.config.armor": "Armor",
   "gui.menu.config.armor.glint": "Armor glint",
@@ -1129,8 +1130,6 @@
   "gui.menu.items.equipment.desc": "Equip your weapon and various equipables.",
   "gui.menu.items.equipment.items": "Items",
   "gui.menu.items.equipment.magic": "Magic",
-  "gui.menu.items.equipment.not_enough_ap": "INFORMATION",
-  "gui.menu.items.equipment.not_enough_ap.desc": "That change would leave you %s AP short for the abilities you have equipped. Turn some of them off first.",
   "gui.menu.items.equipment.pauldron": "Pauldron",
   "gui.menu.items.equipment.shotlock": "Shotlock",
   "gui.menu.items.equipment.weapon": "Weapon",
@@ -3164,5 +3163,8 @@
   "stats.levelUpMaxArmors": "Gained armor slot!",
   "stats.levelUpMaxMagics": "Gained spell slot!",
   "stats.levelUpStr": "Strength increased!",
-  "stats.munnyGet": "Munny Get!"
+  "stats.munnyGet": "Munny Get!",
+  "warning.ap": "That change would leave you %s AP short for the abilities you have equipped. Turn some of them off first.",
+  "warning.information": "INFORMATION",
+  "warning.sell": "You're about to sell x%s %s. Are you sure?"
 }

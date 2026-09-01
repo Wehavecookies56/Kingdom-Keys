@@ -486,6 +486,7 @@ public class Strings {
             Gui_Menu_Main = Gui_Menu + ".main",
             Gui_Menu_Main_Title = Gui_Menu_Main + ".title",
             Gui_Menu_Accept = Gui_Menu + ".accept",
+			Gui_Menu_Cancel = Gui_Menu + ".cancel",
             Gui_Menu_Back = Gui_Menu + ".back",
 
             Gui_Menu_Main_Button = Gui_Menu_Main + ".button",
@@ -516,8 +517,6 @@ public class Strings {
             Gui_Menu_Items_Equipment_Magic = Gui_Menu_Items_Equipment + ".magic",
             Gui_Menu_Items_Equipment_Pauldron = Gui_Menu_Items_Equipment + ".pauldron",
             Gui_Menu_Items_Equipment_Items = Gui_Menu_Items_Equipment + ".items",
-            Gui_Menu_Items_Equipment_NotEnoughAP = Gui_Menu_Items_Equipment + ".not_enough_ap",
-            Gui_Menu_Items_Equipment_NotEnoughAP_Desc = Gui_Menu_Items_Equipment + ".not_enough_ap.desc",
 
             Gui_Menu_Items_Equipment_Weapon_Keyblades = Gui_Menu_Items_Equipment_Weapon + ".keyblades",
             
@@ -1669,4 +1668,9 @@ public class Strings {
 			ForestMemory = "forest_memory",
 			SwampMemory = "swamp_memory",
 			BadlandsMemory = "badlands_memory";
+
+	public static String
+			WarningInformation = "warning.information",
+			WarningAP = "warning.ap",
+			WarningSell = "warning.sell";
 }
