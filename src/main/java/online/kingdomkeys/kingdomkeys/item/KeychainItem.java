@@ -40,11 +40,15 @@ public class KeychainItem extends SwordItem implements IKeychain, IItemCategory,
     	return this.keyblade;
     }
 
-	@Override
-	public void inventoryTick(ItemStack stack, Level worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
-		if (!stack.has(ModComponents.KEYBLADE_ID)) {
+	public static void ensureID(ItemStack stack) {
+		if (stack.getItem() instanceof KeychainItem && !stack.has(ModComponents.KEYBLADE_ID)) {
 			stack.set(ModComponents.KEYBLADE_ID, UUID.randomUUID());
 		}
+	}
+
+	@Override
+	public void inventoryTick(ItemStack stack, Level worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
+		ensureID(stack);
     	super.inventoryTick(stack, worldIn, entityIn, itemSlot, isSelected);
 	}
 

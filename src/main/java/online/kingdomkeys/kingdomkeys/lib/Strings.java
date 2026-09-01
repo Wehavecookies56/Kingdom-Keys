@@ -516,7 +516,9 @@ public class Strings {
             Gui_Menu_Items_Equipment_Magic = Gui_Menu_Items_Equipment + ".magic",
             Gui_Menu_Items_Equipment_Pauldron = Gui_Menu_Items_Equipment + ".pauldron",
             Gui_Menu_Items_Equipment_Items = Gui_Menu_Items_Equipment + ".items",
-            
+            Gui_Menu_Items_Equipment_NotEnoughAP = Gui_Menu_Items_Equipment + ".not_enough_ap",
+            Gui_Menu_Items_Equipment_NotEnoughAP_Desc = Gui_Menu_Items_Equipment + ".not_enough_ap.desc",
+
             Gui_Menu_Items_Equipment_Weapon_Keyblades = Gui_Menu_Items_Equipment_Weapon + ".keyblades",
             
             Gui_Menu_Customize = Gui_Menu + ".customize",

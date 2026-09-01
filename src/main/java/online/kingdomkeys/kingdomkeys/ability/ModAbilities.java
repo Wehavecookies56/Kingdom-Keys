@@ -96,6 +96,10 @@ public class ModAbilities {
 
 
 	private static KKSupplier<Ability> createAbility(String name, int apCost, AbilityType type) {
-		return new KKSupplier<>(KingdomKeys.rl(ABILITIES.getNamespace(), name), ABILITIES.register(name, () -> new Ability(KingdomKeys.rl(name), apCost, type, order++)));
+		return createAbility(name, apCost, type, null);
+	}
+
+	private static KKSupplier<Ability> createAbility(String name, int apCost, AbilityType type, String exclusionGroup) {
+		return new KKSupplier<>(KingdomKeys.rl(ABILITIES.getNamespace(), name), ABILITIES.register(name, () -> new Ability(KingdomKeys.rl(name), apCost, type, order++, exclusionGroup)));
 	}
 }

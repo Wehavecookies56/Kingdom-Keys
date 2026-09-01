@@ -145,7 +145,7 @@ public class LanguageESES extends KKLanguageProvider {
         addAdvancement("levelup1", "\u00a1Wow!", "Sube de nivel");
         addAdvancement("levelup50", "A medio camino", "Alcanza el nivel 50");
         addAdvancement("levelup100", "\u00a1En la cima!", "Alcanza el nivel 100");
-        addAdvancement("obtain_drive", "\u00bfUna fusi\u00f3n?", "Obt\u00e9n tu primera forma de fusi\u00f3n");
+        addAdvancement("obtain_drive", "1, 2, 3 ¡Fusión!", "Obtén tu primera forma de fusión");
         addAdvancement("obtain_keychain", "Estos moguris saben como trabajar", "Obt\u00e9n tu primer llavero");
         addAdvancement("obtain_kiblade", "\u00a1Una llave para gobernarlos a todos!", "Obt\u00e9n la legendaria Llave Espada \u03c7");
         addAdvancement("obtain_magic", "\u00a1Como un hechicero!", "Obt\u00e9n tu primera magia");
@@ -383,6 +383,8 @@ public class LanguageESES extends KKLanguageProvider {
         add(Gui_Menu_Items_Equipment_Magic, "Magias");
         add(Gui_Menu_Items_Equipment_Pauldron, "Hombrera");
         add(Gui_Menu_Items_Equipment_Items, "Objetos");
+        add(Gui_Menu_Items_Equipment_NotEnoughAP, "INFORMACIÓN");
+        add(Gui_Menu_Items_Equipment_NotEnoughAP_Desc, "Ese cambio te dejaría a deber %s PH de lo que gastan las habilidades que llevas equipadas. Desactiva alguna primero.");
 
         //Customize Sub-menu
         add(Gui_Menu_Customize, "Configuración");

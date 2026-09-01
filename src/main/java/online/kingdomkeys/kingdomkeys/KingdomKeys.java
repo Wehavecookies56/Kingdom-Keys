@@ -64,6 +64,7 @@ import online.kingdomkeys.kingdomkeys.lib.GummiShipLoader;
 import online.kingdomkeys.kingdomkeys.limit.LimitDataLoader;
 import online.kingdomkeys.kingdomkeys.limit.ModLimits;
 import online.kingdomkeys.kingdomkeys.loot.ModLootModifier;
+import online.kingdomkeys.kingdomkeys.ability.AbilityDataLoader;
 import online.kingdomkeys.kingdomkeys.magic.MagicDataLoader;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.menu.ModMenus;
@@ -264,6 +265,7 @@ public class KingdomKeys {
 		event.addListener(new MeldingDataLoader());
 		event.addListener(new DriveFormDataLoader());
 		event.addListener(new MagicDataLoader());
+		event.addListener(new AbilityDataLoader());
 		event.addListener(new LevelingDataLoader());
 		event.addListener(new NamesListLoader.Loader());
 		event.addListener(new ShopListDataLoader());

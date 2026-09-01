@@ -2263,6 +2263,30 @@ public class Utils {
 		return getArmorsStat(playerData.getEquippedArmors(), type);
 	}
 
+	public static Ability getConflictingAbility(PlayerData playerData, Ability ability) {
+		if (ability == null || ability.getExclusionGroup() == null) {
+			return null;
+		}
+
+		for (Entry<ResourceLocation, int[]> entry : playerData.getAbilityMap().entrySet()) {
+			if (entry.getValue()[1] == 0) { // nothing of this one is actually equipped
+				continue;
+			}
+
+			Ability equipped = ModAbilities.registry.get(entry.getKey());
+
+			if (ability.conflictsWith(equipped)) {
+				return equipped;
+			}
+		}
+
+		return null;
+	}
+
+	public static boolean canEquipAbility(PlayerData playerData, Ability ability) {
+		return getConflictingAbility(playerData, ability) == null;
+	}
+
 	public static int getConsumedAP(PlayerData playerData) {
 		int ap = 0;
 		LinkedHashMap<ResourceLocation, int[]> map = playerData.getAbilityMap();

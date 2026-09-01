@@ -48,6 +48,7 @@ public class DataGeneration {
         generator.addProvider(event.includeServer(), new SynthesisRecipe(generator, existingFileHelper));
         generator.addProvider(event.includeServer(), new MeldingRecipe(generator, existingFileHelper));
         generator.addProvider(event.includeServer(), new MagicDataProvider(output));
+        generator.addProvider(event.includeServer(), new AbilityDataProvider(output));
         generator.addProvider(event.includeServer(), new LimitDataProvider(output));
         generator.addProvider(event.includeServer(), new LevelingDataProvider(output));
         generator.addProvider(event.includeServer(), new ShotlockDataProvider(output));

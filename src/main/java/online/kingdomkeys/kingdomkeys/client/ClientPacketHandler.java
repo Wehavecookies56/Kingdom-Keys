@@ -19,6 +19,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.ability.Ability;
+import online.kingdomkeys.kingdomkeys.ability.AbilityData;
+import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.client.gui.ConfirmChoiceMenuPopup;
 import online.kingdomkeys.kingdomkeys.client.gui.IPlayerDataRequester;
 import online.kingdomkeys.kingdomkeys.client.gui.OrgPortalGui;
@@ -238,6 +241,32 @@ public class ClientPacketHandler {
                 continue;
             }
             magic.setMagicData(result);
+            IOUtils.closeQuietly(br);
+        }
+    }
+
+    public static void syncAbilityData(SCSyncAbilityData message) {
+        // Anything the server didn't send has to go back to its registered values, same as on the server
+        ModAbilities.registry.forEach(ability -> ability.setAbilityData(null));
+
+        for (int i = 0; i < message.names().size(); i++) {
+            Ability ability = ModAbilities.registry.get(KingdomKeys.rl(message.names().get(i)));
+
+            if (ability == null) {
+                continue;
+            }
+
+            String d = message.data().get(i);
+            BufferedReader br = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(d.getBytes())));
+
+            AbilityData result;
+            try {
+                result = SCSyncAbilityData.GSON_BUILDER.fromJson(br, AbilityData.class);
+            } catch (JsonParseException e) {
+                KingdomKeys.LOGGER.error("Error parsing ability json file {}: {}", message.names().get(i), e);
+                continue;
+            }
+            ability.setAbilityData(result);
             IOUtils.closeQuietly(br);
         }
     }

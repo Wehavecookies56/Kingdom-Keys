@@ -28,7 +28,7 @@ public class ReactionReversal extends ReactionCommand {
 			return;
 		}
 
-		DuskEntity dusk = lockedOnEntity instanceof DuskEntity locked ? locked : nearestDusk(player);
+		DuskEntity dusk = findDusk(player, lockedOnEntity);
 
 		if (dusk == null) {
 			return;
@@ -40,7 +40,7 @@ public class ReactionReversal extends ReactionCommand {
 
 	@Override
 	public boolean conditionsToAppear(Player player, LivingEntity target) {
-		return true;
+		return findDusk(player, null) != null;
 	}
 
 	@Override
@@ -49,13 +49,17 @@ public class ReactionReversal extends ReactionCommand {
 	}
 
 	@Nullable
-	private static DuskEntity nearestDusk(Player player) {
+	private static DuskEntity findDusk(Player player, @Nullable LivingEntity lockedOnEntity) {
+		if (lockedOnEntity instanceof DuskEntity locked && inReach(player, locked)) {
+			return locked;
+		}
+
 		DuskEntity closest = null;
 		double best = Double.MAX_VALUE;
 
 		AABB around = player.getBoundingBox().inflate(REACH);
 
-		for (DuskEntity dusk : player.level().getEntitiesOfClass(DuskEntity.class, around, LivingEntity::isAlive)) {
+		for (DuskEntity dusk : player.level().getEntitiesOfClass(DuskEntity.class, around, dusk -> inReach(player, dusk))) {
 			double distance = dusk.distanceToSqr(player);
 
 			if (distance < best) {
@@ -65,6 +69,10 @@ public class ReactionReversal extends ReactionCommand {
 		}
 
 		return closest;
+	}
+
+	private static boolean inReach(Player player, DuskEntity dusk) {
+		return dusk.isAlive() && dusk.distanceToSqr(player) <= REACH * REACH;
 	}
 
 }

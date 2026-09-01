@@ -21,6 +21,7 @@ import online.kingdomkeys.kingdomkeys.api.event.EquipmentEvent;
 import online.kingdomkeys.kingdomkeys.api.item.IKeychain;
 import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuNoticeScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment.MenuAccessorySelectorScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment.MenuEquipmentScreen;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
@@ -56,7 +57,6 @@ public class MenuSelectAccessoryButton extends MenuButtonBase {
 					Player player = Minecraft.getInstance().player;
 					PlayerData playerData = PlayerData.get(player);
 					if (!NeoForge.EVENT_BUS.post(new EquipmentEvent.Accessory(player, playerData.getEquippedAccessory(parent.slot), player.getInventory().getItem(slot), slot, parent.slot)).isCanceled()) {
-						PacketHandler.sendToServer(new CSEquipAccessories(parent.slot, slot));
 						int oldItemAP = 0;
 						int newItemAP = 0;
 
@@ -68,10 +68,17 @@ public class MenuSelectAccessoryButton extends MenuButtonBase {
 							newItemAP = ((KKAccessoryItem) player.getInventory().getItem(slot).getItem()).getAp();
 						}
 
-						if (playerData.getMaxAP(true) - oldItemAP + newItemAP >= Utils.getConsumedAP(playerData)) {
+						int newMax = playerData.getMaxAP(true) - oldItemAP + newItemAP;
+						int consumed = Utils.getConsumedAP(playerData);
+
+						if (newMax >= consumed) {
+							PacketHandler.sendToServer(new CSEquipAccessories(parent.slot, slot));
 							ItemStack stackToEquip = player.getInventory().getItem(slot);
 							ItemStack stackPreviouslyEquipped = playerData.equipAccessory(parent.slot, stackToEquip);
 							player.getInventory().setItem(slot, stackPreviouslyEquipped);
+						} else {
+							player.playSound(ModSounds.error.get(), 1, 1);
+							Minecraft.getInstance().setScreen(new MenuNoticeScreen(parent, Component.translatable(Strings.Gui_Menu_Items_Equipment_NotEnoughAP), Component.translatable(Strings.Gui_Menu_Items_Equipment_NotEnoughAP_Desc, consumed - newMax)));
 						}
 					} else {
 						player.playSound(ModSounds.error.get(), 1, 1);

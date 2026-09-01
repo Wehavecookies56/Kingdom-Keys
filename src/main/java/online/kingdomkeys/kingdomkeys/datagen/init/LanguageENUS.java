@@ -333,6 +333,8 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Gui_Menu_Items_Equipment_Magic, "Magic");
         add(Gui_Menu_Items_Equipment_Pauldron, "Pauldron");
         add(Gui_Menu_Items_Equipment_Items, "Items");
+        add(Gui_Menu_Items_Equipment_NotEnoughAP, "INFORMATION");
+        add(Gui_Menu_Items_Equipment_NotEnoughAP_Desc, "That change would leave you %s AP short for the abilities you have equipped. Turn some of them off first.");
         add(Gui_Menu_Customize, "Customize");
         add(Gui_Menu_Customize + ".shortcuts", "Shortcuts");
         add(Gui_Menu_Customize + ".shortcut", "Shortcut");

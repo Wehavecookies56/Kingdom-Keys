@@ -15,6 +15,7 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.api.event.EquipmentEvent;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.items.equipment.MenuEquipmentSelectorScreen;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
+import online.kingdomkeys.kingdomkeys.item.KeychainItem;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.menu.BagInventory;
 import online.kingdomkeys.kingdomkeys.network.Packet;
@@ -28,10 +29,8 @@ public record CSEquipKeychain(ResourceLocation slotToEquipTo, int slotToEquipFro
     public static final Type<CSEquipKeychain> TYPE = new Type<>(KingdomKeys.rl("cs_equip_keychain"));
 
     public static final StreamCodec<FriendlyByteBuf, CSEquipKeychain> STREAM_CODEC = StreamCodec.composite(
-            ResourceLocation.STREAM_CODEC,
-            CSEquipKeychain::slotToEquipTo,
-            ByteBufCodecs.INT,
-            CSEquipKeychain::slotToEquipFrom,
+            ResourceLocation.STREAM_CODEC, CSEquipKeychain::slotToEquipTo,
+            ByteBufCodecs.INT, CSEquipKeychain::slotToEquipFrom,
             CSEquipKeychain::new
     );
 
@@ -66,6 +65,9 @@ public record CSEquipKeychain(ResourceLocation slotToEquipTo, int slotToEquipFro
 
             stackToEquip = player.getInventory().getItem(slotToEquipFrom);
         }
+
+        // Just in case
+        KeychainItem.ensureID(stackToEquip);
 
         if (!NeoForge.EVENT_BUS.post(new EquipmentEvent.Keychain(player, playerData.getEquippedKeychain(slotToEquipTo), stackToEquip, slotToEquipFrom, slotToEquipTo)).isCanceled()) {
             ItemStack stackPreviouslyEquipped = playerData.equipKeychain(slotToEquipTo, stackToEquip);
