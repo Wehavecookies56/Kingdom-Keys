@@ -2866,5 +2866,6 @@ public class LanguageESES extends KKLanguageProvider {
         add(WarningPartyDisband, "'%s' se disolverá para todos sus miembros. No se puede deshacer.");
         add(WarningPartyLeave, "Saldrás de '%s'.");
         add(WarningPartyKick, "%s saldrá del grupo.");
+        add(WarningShipOverwrite, "'%s' ya existe y se va a reemplazar, ¿estás seguro?.");
     }
 }

@@ -3110,5 +3110,6 @@
   "warning.party.disband": "'%s' se disolverá para todos sus miembros. No se puede deshacer.",
   "warning.party.kick": "%s saldrá del grupo.",
   "warning.party.leave": "Saldrás de '%s'.",
-  "warning.sell": "Vas a vender x%s %s. ¿Estás seguro?"
+  "warning.sell": "Vas a vender x%s %s. ¿Estás seguro?",
+  "warning.ship.overwrite": "'%s' ya existe y se va a reemplazar, ¿estás seguro?."
 }

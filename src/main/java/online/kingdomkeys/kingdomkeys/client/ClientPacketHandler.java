@@ -29,7 +29,10 @@ import online.kingdomkeys.kingdomkeys.client.gui.SavePointScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.castle_oblivion.CardPackScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.castle_oblivion.MapCardRouletteScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.castle_oblivion.RoomSynthesisScreen;
+import net.minecraft.network.chat.Component;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.PopupWarningScreen;
+import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.MenuScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.NoChoiceMenuPopup;
 import online.kingdomkeys.kingdomkeys.client.gui.menu.check.CheckStatusScreen;
@@ -83,6 +86,7 @@ import online.kingdomkeys.kingdomkeys.world.worldmap.GummiWorld;
 import online.kingdomkeys.kingdomkeys.world.worldmap.GummiWorldLoader;
 import org.apache.commons.io.IOUtils;
 
+import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -243,6 +247,11 @@ public class ClientPacketHandler {
             magic.setMagicData(result);
             IOUtils.closeQuietly(br);
         }
+    }
+
+    public static void showWarning(SCShowWarning message) {
+        Minecraft mc = Minecraft.getInstance();
+        mc.setScreen(new PopupWarningScreen(mc.screen, Component.translatable(Strings.WarningInformation), message.body(), new Color(112, 31, 35)));
     }
 
     public static void syncAbilityData(SCSyncAbilityData message) {

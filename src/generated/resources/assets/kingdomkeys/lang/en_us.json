@@ -3169,5 +3169,6 @@
   "warning.party.disband": "'%s' will be disbanded for everyone in it. This can't be undone.",
   "warning.party.kick": "%s will be removed from the party.",
   "warning.party.leave": "You will leave '%s'.",
-  "warning.sell": "You're about to sell x%s %s. Are you sure?"
+  "warning.sell": "You're about to sell x%s %s. Are you sure?",
+  "warning.ship.overwrite": "'%s' already exists and will be replaced, are you sure?"
 }

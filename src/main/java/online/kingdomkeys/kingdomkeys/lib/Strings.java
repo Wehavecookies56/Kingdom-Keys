@@ -1675,5 +1675,6 @@ public class Strings {
 			WarningSell = "warning.sell",
 			WarningPartyDisband = "warning.party.disband",
 			WarningPartyLeave = "warning.party.leave",
-			WarningPartyKick = "warning.party.kick";
+			WarningPartyKick = "warning.party.kick",
+			WarningShipOverwrite = "warning.ship.overwrite";
 }

@@ -20,7 +20,10 @@ import online.kingdomkeys.kingdomkeys.entity.GummiShipEntity;
 import online.kingdomkeys.kingdomkeys.entity.block.GummiCoreTileEntity;
 import online.kingdomkeys.kingdomkeys.lib.GummiStructure;
 import online.kingdomkeys.kingdomkeys.menu.GummiHangarMenu;
+import net.minecraft.server.level.ServerPlayer;
 import online.kingdomkeys.kingdomkeys.network.Packet;
+import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.stc.SCShowWarning;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.util.ArrayList;
@@ -48,8 +51,6 @@ public record CSBuildGummiShip(String name, int containerID) implements Packet {
 		BlockPos origin = container.TE.getBlockPos();
 		Level level = player.level();
 		BlockState hangar = level.getBlockState(origin);
-        // When we build a ship from blocks to entity we want to clear the name
-        container.TE.setLastShipName("");
 
 		int size = GummiHangarBlock.getSize(hangar.getValue(GummiHangarBlock.LEVEL));
 		ArrayList<Block> bannedBlocks = Utils.getBannedBlocks(level,origin,hangar.getValue(GummiHangarBlock.FACING), size);
@@ -63,7 +64,13 @@ public record CSBuildGummiShip(String name, int containerID) implements Packet {
 				bannedBlocksNames.append(bannedBlocks.get(i).asItem().getDescription());
 			}
 
-			player.sendSystemMessage(Component.translatable("container.gummi_hangar.hasbannedblocks").append(bannedBlocksNames));
+			Component warning = Component.translatable("container.gummi_hangar.hasbannedblocks").append(bannedBlocksNames);
+			player.sendSystemMessage(warning);
+
+			if (player instanceof ServerPlayer serverPlayer) {
+				PacketHandler.sendTo(new SCShowWarning(warning), serverPlayer);
+			}
+
 			return;
 		}
         if(Utils.getCorePos(level,origin,hangar.getValue(GummiHangarBlock.FACING), size) == null){
@@ -77,6 +84,8 @@ public record CSBuildGummiShip(String name, int containerID) implements Packet {
 		if(Utils.getAmountOfGummiShipsInBuildPlate(level, origin, hangar.getValue(GummiHangarBlock.FACING), size) > 0){
 			return;
 		}
+
+		container.TE.setLastShipName("");
 
 		GummiStructure struct = Utils.getGummiStructureWithFacing(player.getUUID(), name, level, origin, hangar.getValue(GummiHangarBlock.FACING), size);
 		GummiShipEntity shipEntity = new GummiShipEntity(level, struct);

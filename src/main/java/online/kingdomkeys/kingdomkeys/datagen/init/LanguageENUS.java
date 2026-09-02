@@ -2850,5 +2850,6 @@ public class LanguageENUS extends KKLanguageProvider {
         add(WarningPartyDisband, "'%s' will be disbanded for everyone in it. This can't be undone.");
         add(WarningPartyLeave, "You will leave '%s'.");
         add(WarningPartyKick, "%s will be removed from the party.");
+        add(WarningShipOverwrite, "'%s' already exists and will be replaced, are you sure?");
     }
 }

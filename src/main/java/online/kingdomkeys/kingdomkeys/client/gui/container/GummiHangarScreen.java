@@ -19,6 +19,7 @@ import net.neoforged.neoforge.client.gui.widget.ExtendedButton;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.block.gummi.GummiHangarBlock;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.PopupWarningScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.HiddenButton;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
@@ -26,6 +27,7 @@ import online.kingdomkeys.kingdomkeys.entity.GummiShipEntity;
 import online.kingdomkeys.kingdomkeys.item.GummiShipBlueprintItem;
 import online.kingdomkeys.kingdomkeys.item.ModComponents;
 import online.kingdomkeys.kingdomkeys.lib.GummiStructure;
+import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.menu.GummiHangarMenu;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.*;
@@ -33,7 +35,9 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 import org.jetbrains.annotations.NotNull;
 import org.lwjgl.glfw.GLFW;
 
+import java.awt.Color;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
@@ -83,6 +87,15 @@ public class GummiHangarScreen extends AbstractContainerScreen<GummiHangarMenu> 
 
 		String shipName = name.getValue().isBlank() ? struct.getName() : name.getValue();
 
+		if (Files.exists(ClientUtils.gummiShipFile(shipName))) {
+			minecraft.setScreen(new PopupWarningScreen(this, Component.translatable(Strings.WarningInformation), Component.translatable(Strings.WarningShipOverwrite, ClientUtils.gummiShipFileName(shipName)), new Color(112, 31, 35), () -> writeShip(shipName, struct)));
+			return;
+		}
+
+		writeShip(shipName, struct);
+	}
+
+	private void writeShip(String shipName, GummiStructure struct) {
 		try {
 			ClientUtils.saveGummiShip(shipName, struct);
 			say(Component.translatable("container.gummi_hangar.file_saved", ClientUtils.gummiShipFileName(shipName)));
