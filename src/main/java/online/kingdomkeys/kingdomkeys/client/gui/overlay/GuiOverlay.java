@@ -420,6 +420,7 @@ public class GuiOverlay extends OverlayBase {
 		MESSAGE_ICON_PREFIXES.put("C_", ItemCategory.ACCESSORIES);
 		MESSAGE_ICON_PREFIXES.put("R_", ItemCategory.EQUIPMENT);
 		MESSAGE_ICON_PREFIXES.put("I_", ItemCategory.ITEMSTACK);
+		MESSAGE_ICON_PREFIXES.put("P_", ItemCategory.CONSUMABLE);
 	}
 
 	private String drawMessagePrefixIcon(GuiGraphics gui, String message, float x, float y) {

@@ -69,6 +69,10 @@ public class Level implements KKRegistryObject {
 		return data.getMaxMagics(level);
 	}
 
+	public int getMaxItems(int level) {
+		return data.getMaxItems(level);
+	}
+
 	public int getVersion() {
 		return data.getVersion();
 	}

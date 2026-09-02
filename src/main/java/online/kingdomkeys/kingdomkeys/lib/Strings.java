@@ -453,10 +453,10 @@ public class Strings {
 		    Stats_LevelUp_MP = "stats.levelUpMP",
 		    Stats_LevelUp_AP = "stats.levelUpAP",
 		    Stats_LevelUp_FormGauge = "stats.levelUpFG",
-			Stats_LevelUp_HighJump = "stats.levelUpHighJump",
 			Stats_LevelUp_MaxAccessories = "stats.levelUpMaxAccessories",
 			Stats_LevelUp_MaxArmors = "stats.levelUpMaxArmors",
 		    Stats_LevelUp_MaxMagics = "stats.levelUpMaxMagics",
+		    Stats_LevelUp_MaxItems = "stats.levelUpMaxItems",
 			Stats_LevelNext = "stats.levelNext",
 			Stats_MunnyGet = "stats.munnyGet";
 
@@ -507,7 +507,8 @@ public class Strings {
             Gui_Menu_Items = Gui_Menu + ".items",
             Gui_Menu_Items_Equipment = Gui_Menu_Items + ".equipment",
             Gui_Menu_Items_Stock = Gui_Menu_Items + ".stock",
-            Gui_Menu_Items_Stock_Take = Gui_Menu_Items + ".stock.take",
+            Gui_Menu_Items_Stock_Take = Gui_Menu_Items + ".stock.take",
+
             
             Gui_Menu_Items_Equipment_Weapon = Gui_Menu_Items_Equipment + ".weapon",
             Gui_Menu_Items_Equipment_Shotlock = Gui_Menu_Items_Equipment + ".shotlock",

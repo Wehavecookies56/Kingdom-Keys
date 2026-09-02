@@ -642,6 +642,7 @@ public class LanguageESES extends KKLanguageProvider {
         add(Stats_LevelUp_MaxAccessories, "\u00a1Espacio para accesorios +1!");
         add(Stats_LevelUp_MaxArmors, "\u00a1Espacio para armaduras +1!");
         add(Stats_LevelUp_MaxMagics,"\u00a1Espacio para hechizos +1!");
+        add(Stats_LevelUp_MaxItems,"\u00a1Espacio para objetos +1!");
         add(Stats_LevelNext, "Sig. nivel");
         add(Stats_MunnyGet, "¡Platines!");
 

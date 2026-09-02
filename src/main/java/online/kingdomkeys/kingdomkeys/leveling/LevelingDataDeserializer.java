@@ -53,6 +53,7 @@ public class LevelingDataDeserializer implements JsonDeserializer<LevelingData> 
 					case "max_accessories" -> out.setMaxAccessories(level, element.getAsInt());
 					case "max_armors" -> out.setMaxArmors(level, element.getAsInt());
 					case "max_magics" -> out.setMaxMagics(level, element.getAsInt());
+					case "max_items" -> out.setMaxItems(level, element.getAsInt());
 				}
 			}
 		}

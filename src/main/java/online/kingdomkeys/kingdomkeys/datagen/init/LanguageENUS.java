@@ -584,6 +584,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Stats_LevelUp_MaxAccessories, "Gained accessory slot!");
         add(Stats_LevelUp_MaxArmors,"Gained armor slot!");
         add(Stats_LevelUp_MaxMagics,"Gained spell slot!");
+        add(Stats_LevelUp_MaxItems,"Gained item slot!");
         add(Stats_LevelNext, "Next LV");
         add(Stats_MunnyGet, "Munny Get!");
 

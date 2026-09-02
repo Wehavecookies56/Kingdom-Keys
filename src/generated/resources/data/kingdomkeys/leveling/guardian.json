@@ -24,7 +24,8 @@
     },
     "4": {
       "def": 1,
-      "maxmp": 8
+      "maxmp": 8,
+      "max_items": 1
     },
     "5": {
       "str": 1,
@@ -45,7 +46,8 @@
     },
     "8": {
       "mag": 1,
-      "maxmp": 8
+      "maxmp": 8,
+      "max_items": 1
     },
     "9": {
       "str": 1,
@@ -74,6 +76,7 @@
       "maxmp": 8,
       "ap": 1,
       "max_magics": 1,
+      "max_items": 1,
       "abilities": [
         "kingdomkeys:ability_mp_haste"
       ]
@@ -110,6 +113,7 @@
     "16": {
       "mag": 1,
       "maxmp": 8,
+      "max_items": 1,
       "abilities": [
         "kingdomkeys:ability_mp_rage"
       ]
@@ -140,6 +144,7 @@
       "maxhp": 5,
       "maxmp": 8,
       "max_accessories": 1,
+      "max_items": 1,
       "abilities": [
         "kingdomkeys:ability_jackpot"
       ],
@@ -177,6 +182,7 @@
       "maxmp": 4,
       "ap": 1,
       "max_magics": 1,
+      "max_items": 1,
       "abilities": [
         "kingdomkeys:ability_drive_converter",
         "kingdomkeys:ability_air_slide"

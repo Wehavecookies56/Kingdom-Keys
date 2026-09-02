@@ -213,9 +213,15 @@ public class SynthesisCreateScreen extends MenuFilterable {
 
 		//Render synth level
 		PlayerData playerData = PlayerData.get(minecraft.player);
-		gui.drawString(minecraft.font, Utils.translateToLocal(Strings.Gui_Synthesis_Exp_MoogleLevel)+": "+playerData.getSynthLevel()+" ["+Utils.getTierFromInt(playerData.getSynthLevel())+"]", boxRT.getX()+7, boxRT.getY()+6, 0xFFFF00);
 
-		String line = Utils.translateToLocal(Strings.Gui_Synthesis_Exp_NextLevel)+": ";
+		String line = Utils.translateToLocal(Strings.Gui_Synthesis_Exp_MoogleLevel)+": ";
+		gui.drawString(minecraft.font, line, boxRT.getX()+7, boxRT.getY()+6, 0xFFFF00);
+
+		line = playerData.getSynthLevel()+" ["+Utils.getTierFromInt(playerData.getSynthLevel())+"]";
+		gui.drawString(minecraft.font, line, boxRT.getX()+boxRT.getWidth()-minecraft.font.width(line)-5, boxRT.getY()+6, 0xFFFFFF);
+
+
+		line = Utils.translateToLocal(Strings.Gui_Synthesis_Exp_NextLevel)+": ";
 		gui.drawString(minecraft.font, line, boxRT.getX()+7, boxRT.getY()+18, 0xFFFF00);
 
 		line = playerData.getSynthLevel() >= 7 ? "0 "+Utils.translateToLocal(Strings.Gui_Synthesis_Exp): playerData.getSynthExpNeeded(playerData.getSynthLevel(),playerData.getSynthExperience())+" "+Utils.translateToLocal(Strings.Gui_Synthesis_Exp);

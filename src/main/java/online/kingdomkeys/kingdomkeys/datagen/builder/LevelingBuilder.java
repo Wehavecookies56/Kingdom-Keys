@@ -68,6 +68,11 @@ public class LevelingBuilder {
 		return this;
 	}
 
+	public LevelingBuilder maxItems(int value) {
+		current.addProperty("max_items", value);
+		return this;
+	}
+
 	public LevelingBuilder maxAccessories(int value) {
 		current.addProperty("max_accessories", value);
 		return this;

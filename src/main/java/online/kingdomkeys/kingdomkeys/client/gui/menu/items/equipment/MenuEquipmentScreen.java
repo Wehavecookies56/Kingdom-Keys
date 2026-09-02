@@ -225,19 +225,23 @@ public class MenuEquipmentScreen extends MenuBackground {
 			}
 		}
 		
-        if(items != null) {
-        	 items.entrySet().stream().forEachOrdered((entry) -> {
-                int slot = entry.getKey();
-                ItemStack item = entry.getValue();
-                MenuEquipmentButton potionSlot;
-                if(slot == 0) {
-                	potionSlot = new MenuEquipmentButton(item, (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement(), 0x007700, new MenuPotionSelectorScreen(slot, new Color(31, 112, 35), 0x22FF22), ItemCategory.CONSUMABLE, this, Utils.translateToLocal(Strings.Gui_Menu_Items_Equipment_Items)+" ["+items.size()+"]", 0x81FE85);
-                } else {
-                	potionSlot = new MenuEquipmentButton(item, (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement(), 0x007700, new MenuPotionSelectorScreen(slot, new Color(31, 112, 35), 0x22FF22), ItemCategory.CONSUMABLE, this);
-                }
-                addRenderableWidget(potionSlot);
-             });
-        }
+		if (items != null) {
+			int c = 1;
+			for (Map.Entry<Integer, ItemStack> entry : items.entrySet()) {
+				if (c > playerData.getMaxItems())
+					break;
+				int slot = entry.getKey();
+				ItemStack item = entry.getValue();
+				MenuEquipmentButton potionSlot;
+				if (slot == 0) {
+					potionSlot = new MenuEquipmentButton(item, (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement(), 0x007700, new MenuPotionSelectorScreen(slot, new Color(31, 112, 35), 0x22FF22), ItemCategory.CONSUMABLE, this, Utils.translateToLocal(Strings.Gui_Menu_Items_Equipment_Items)+" ["+playerData.getMaxItems()+"]", 0x81FE85);
+				} else {
+					potionSlot = new MenuEquipmentButton(item, (int) itemsX, (int) itemsY + offset.get() + itemHeight * offset.getAndIncrement(), 0x007700, new MenuPotionSelectorScreen(slot, new Color(31, 112, 35), 0x22FF22), ItemCategory.CONSUMABLE, this);
+				}
+				addRenderableWidget(potionSlot);
+				c++;
+			}
+		}
 
         for (Renderable renderable : renderables) {
             if (renderable instanceof MenuEquipmentButton button) {

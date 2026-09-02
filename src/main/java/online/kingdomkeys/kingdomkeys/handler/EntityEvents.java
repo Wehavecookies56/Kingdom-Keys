@@ -135,7 +135,6 @@ import java.util.UUID;
 import java.util.function.Supplier;
 
 public class EntityEvents {
-
 	public static ThreatLevel threatLevel = ThreatLevel.NONE;
 	Map<UUID, Boolean> openedAlignment = new HashMap<>();
 	int airstepTicks = -1;
@@ -351,13 +350,6 @@ public class EntityEvents {
 					});
 					playerData.setDriveFormLevel(ModDriveForms.ANTI.location(), 1);
 
-					if (playerData.getEquippedItems().isEmpty()) {
-						HashMap<Integer, ItemStack> map = new HashMap<>();
-						for (int i = 0; i < 4; i++) {
-							map.put(i, ItemStack.EMPTY);
-						}
-						playerData.equipAllItems(map, true);
-					}
 				}
 
 				if(!playerData.getMaterialMap().isEmpty() && playerData.getTotalMaterialMap().isEmpty()){ //Shop req
@@ -450,6 +442,17 @@ public class EntityEvents {
 					}
 					playerData.equipAllKBArmor(map, true);
 				}
+
+				HashMap<Integer, ItemStack> itemsMap = (HashMap<Integer, ItemStack>) playerData.getEquippedItems();
+				if (itemsMap.isEmpty()) {
+					for (int i = 0; i < 20; i++) {
+						itemsMap.put(i, ItemStack.EMPTY);
+					}
+				}
+				for (int i = itemsMap.size(); i < 20; i++) {
+					itemsMap.put(i, ItemStack.EMPTY);
+				}
+				playerData.equipAllItems(itemsMap, true);
 
 				HashMap<Integer, ItemStack> accessoriesMap = (HashMap<Integer, ItemStack>) playerData.getEquippedAccessories();
 				if (accessoriesMap.isEmpty()) {

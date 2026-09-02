@@ -34,7 +34,8 @@
     "6": {
       "def": 1,
       "mag": 1,
-      "ap": 1
+      "ap": 1,
+      "max_items": 1
     },
     "7": {
       "str": 1,
@@ -78,6 +79,7 @@
       "maxmp": 8,
       "ap": 1,
       "max_magics": 1,
+      "max_items": 1,
       "abilities": [
         "kingdomkeys:ability_mp_haste"
       ]
@@ -128,6 +130,7 @@
       "def": 1,
       "mag": 1,
       "ap": 1,
+      "max_items": 1,
       "abilities": [
         "kingdomkeys:ability_focus_converter"
       ]
@@ -181,6 +184,7 @@
       "maxmp": 4,
       "ap": 1,
       "max_magics": 1,
+      "max_items": 1,
       "abilities": [
         "kingdomkeys:ability_drive_converter",
         "kingdomkeys:ability_endless_magic"
@@ -242,6 +246,7 @@
       "maxhp": 5,
       "ap": 1,
       "max_accessories": 1,
+      "max_items": 1,
       "abilities": [
         "kingdomkeys:ability_waterza"
       ]
@@ -291,6 +296,7 @@
       "maxmp": 4,
       "ap": 1,
       "max_magics": 1,
+      "max_items": 1,
       "abilities": [
         "kingdomkeys:ability_negative_combo"
       ]

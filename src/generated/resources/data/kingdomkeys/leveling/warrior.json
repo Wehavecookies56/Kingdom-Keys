@@ -29,7 +29,8 @@
       "str": 1,
       "maxhp": 5,
       "max_armors": 1,
-      "max_magics": 1
+      "max_magics": 1,
+      "max_items": 1
     },
     "6": {
       "def": 1,
@@ -62,6 +63,7 @@
       "maxhp": 5,
       "max_magics": 1,
       "max_accessories": 1,
+      "max_items": 1,
       "abilities": [
         "kingdomkeys:ability_aerial_recovery"
       ]
@@ -102,6 +104,7 @@
       "ap": 1,
       "max_armors": 1,
       "max_magics": 1,
+      "max_items": 1,
       "abilities": [
         "kingdomkeys:ability_damage_drive"
       ],
@@ -145,6 +148,7 @@
       "maxmp": 8,
       "max_magics": 1,
       "max_accessories": 1,
+      "max_items": 1,
       "abilities": [
         "kingdomkeys:ability_jackpot"
       ],
@@ -188,6 +192,7 @@
       "maxhp": 5,
       "max_armors": 1,
       "max_magics": 1,
+      "max_items": 1,
       "abilities": [
         "kingdomkeys:ability_drive_boost"
       ],
@@ -239,6 +244,7 @@
       "ap": 1,
       "max_magics": 1,
       "max_accessories": 1,
+      "max_items": 1,
       "abilities": [
         "kingdomkeys:ability_curaza"
       ]

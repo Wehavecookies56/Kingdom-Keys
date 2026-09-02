@@ -222,6 +222,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		storage.putInt("max_accessories", this.getMaxAccessories());
 		storage.putInt("max_armors", this.getMaxArmors());
 	    storage.putInt("max_magics", this.getMaxMagics());
+		storage.putInt("max_items", this.getMaxItems());
 
 		storage.putInt("hearts", this.getHearts());
 		storage.putInt("org_alignment", this.getAlignmentIndex());
@@ -501,6 +502,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		this.setMaxAccessories(nbt.getInt("max_accessories"));
 		this.setMaxArmors(nbt.getInt("max_armors"));
 		this.setMaxMagics(nbt.getInt("max_magics"));
+		this.setMaxItems(nbt.getInt("max_items"));
 		
 		this.setHearts(nbt.getInt("hearts"));
 		this.setAlignment(nbt.getInt("org_alignment"));
@@ -700,6 +702,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 	private int maxAccessories = 0;
 	private int maxArmors = 0;
 	private int maxMagics = 0;
+	private int maxItems = 0;
 
 	private int armorColor = 16777215;
 	private boolean armorGlint = true;
@@ -2761,6 +2764,19 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 	public void addMaxMagics(int num) {
 		this.maxMagics += num;
 		messages.add("M_"+Strings.Stats_LevelUp_MaxMagics);
+	}
+
+	public int getMaxItems() {
+		return maxItems;
+	}
+
+	public void setMaxItems(int num) {
+		this.maxItems = num;
+	}
+
+	public void addMaxItems(int num) {
+		this.maxItems += num;
+		messages.add("P_"+Strings.Stats_LevelUp_MaxItems);
 	}
 	//endregion
 

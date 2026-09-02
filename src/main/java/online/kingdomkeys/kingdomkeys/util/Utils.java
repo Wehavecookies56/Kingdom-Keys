@@ -2581,15 +2581,14 @@ public class Utils {
 		playerData.setMaxAccessories(0);
 		playerData.setMaxArmors(0);
 		playerData.setMaxMagics(0);
+		playerData.setMaxItems(0);
 
 		playerData.clearAbilities();
 		SoAState.applyStatsForChoices(player, playerData, false);
-
-		// playerData.addAbility(Strings.zeroExp, false);
 	}
 
 	/**
-	 * Recalculate drive form levels and permanent abilities and shotlocks
+	 * Recalculate drive form levels, permanent abilities and shotlocks
 	 *
 	 * @param playerData
 	 * @param player

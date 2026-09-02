@@ -118,6 +118,9 @@ public class LevelStats {
 		if (levelData.getMaxMagics(level) > 0) {
 			cap.addMaxMagics(levelData.getMaxMagics(level));
 		}
+		if (levelData.getMaxItems(level) > 0) {
+			cap.addMaxItems(levelData.getMaxItems(level));
+		}
 	}
 
 }

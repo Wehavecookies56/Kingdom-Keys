@@ -116,6 +116,10 @@ public enum SoAState implements StringRepresentable {
 		if (choice.getMaxMagics(choiceLevel) != 0) {
 			playerData.addMaxMagics(choice.getMaxMagics(choiceLevel));
 		}
+
+		if (choice.getMaxItems(choiceLevel) != 0) {
+			playerData.addMaxItems(choice.getMaxItems(choiceLevel));
+		}
 	}
     
     public static void removeNonStatsData(Level levelData, PlayerData playerData) {

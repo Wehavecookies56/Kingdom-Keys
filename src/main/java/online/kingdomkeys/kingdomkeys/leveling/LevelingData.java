@@ -19,6 +19,7 @@ public class LevelingData {
 	int[] maxAccessories = new int[LEVELS];
 	int[] maxArmors = new int[LEVELS];
 	int[] maxMagics = new int[LEVELS];
+	int[] maxItems = new int[LEVELS];
 	int version;
 
 	public LevelingData() {}
@@ -109,6 +110,14 @@ public class LevelingData {
 
 	public void setMaxMagics(int lvl, int amount) {
 		this.maxMagics[lvl] = amount;
+	}
+
+	public int getMaxItems(int lvl) {
+		return maxItems[lvl];
+	}
+
+	public void setMaxItems(int lvl, int amount) {
+		this.maxItems[lvl] = amount;
 	}
 
 	public int getVersion() {
