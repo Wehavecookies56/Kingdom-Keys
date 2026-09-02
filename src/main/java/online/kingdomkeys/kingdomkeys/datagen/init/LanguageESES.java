@@ -2863,5 +2863,8 @@ public class LanguageESES extends KKLanguageProvider {
         add(WarningInformation, "INFORMACIÓN");
         add(WarningAP, "Ese cambio te dejaría a deber %s PH de lo que gastan las habilidades que llevas equipadas. Desactiva alguna primero.");
         add(WarningSell, "Vas a vender x%s %s. ¿Estás seguro?");
+        add(WarningPartyDisband, "'%s' se disolverá para todos sus miembros. No se puede deshacer.");
+        add(WarningPartyLeave, "Saldrás de '%s'.");
+        add(WarningPartyKick, "%s saldrá del grupo.");
     }
 }

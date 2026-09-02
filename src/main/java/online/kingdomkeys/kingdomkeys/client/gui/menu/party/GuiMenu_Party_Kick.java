@@ -2,8 +2,10 @@ package online.kingdomkeys.kingdomkeys.client.gui.menu.party;
 
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.network.chat.Component;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.PopupWarningScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton.ButtonType;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
@@ -55,11 +57,16 @@ public class GuiMenu_Party_Kick extends MenuBackground {
 			return;
 		}
 
-		PacketHandler.sendToServer(new CSPartyLeave(party, id));
-		party.removeMember(id);
+		Party target = party;
+		String name = party.getMember(id).getUsername();
 
-		minecraft.level.playSound(minecraft.player, minecraft.player.blockPosition(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
-		refreshMembers();
+		minecraft.setScreen(new PopupWarningScreen(this, Component.translatable(Strings.WarningInformation), Component.translatable(Strings.WarningPartyKick, name), new Color(112, 31, 35), () -> {
+					PacketHandler.sendToServer(new CSPartyLeave(target, id));
+					target.removeMember(id);
+
+					minecraft.level.playSound(minecraft.player, minecraft.player.blockPosition(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
+					refreshMembers();
+				}));
 	}
 
 	private void refreshMembers() {

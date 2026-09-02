@@ -1672,5 +1672,8 @@ public class Strings {
 	public static String
 			WarningInformation = "warning.information",
 			WarningAP = "warning.ap",
-			WarningSell = "warning.sell";
+			WarningSell = "warning.sell",
+			WarningPartyDisband = "warning.party.disband",
+			WarningPartyLeave = "warning.party.leave",
+			WarningPartyKick = "warning.party.kick";
 }

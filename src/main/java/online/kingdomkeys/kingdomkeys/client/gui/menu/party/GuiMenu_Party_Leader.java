@@ -6,6 +6,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundSource;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.PopupWarningScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton.ButtonType;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
@@ -40,12 +41,16 @@ public class GuiMenu_Party_Leader extends MenuBackground {
 			PacketHandler.sendToServer(new CSOpenMenu());
 			break;
 		case "disband":
-			PacketHandler.sendToServer(new CSPartyDisband(party));
-			PacketHandler.sendToServer(new CSOpenMenu());
+			minecraft.setScreen(new PopupWarningScreen(this, Component.translatable(Strings.WarningInformation), Component.translatable(Strings.WarningPartyDisband, party.getName()), new Color(112, 31, 35), () -> {
+						PacketHandler.sendToServer(new CSPartyDisband(party));
+						PacketHandler.sendToServer(new CSOpenMenu());
+					}));
 			break;
 		case "leave":
-			PacketHandler.sendToServer(new CSPartyLeave(party, minecraft.player.getUUID()));
-			party = null;
+			minecraft.setScreen(new PopupWarningScreen(this, Component.translatable(Strings.WarningInformation), Component.translatable(Strings.WarningPartyLeave, party.getName()), new Color(112, 31, 35), () -> {
+						PacketHandler.sendToServer(new CSPartyLeave(party, minecraft.player.getUUID()));
+						party = null;
+					}));
 			break;
 		case "settings":
 			minecraft.level.playSound(minecraft.player, minecraft.player.blockPosition(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);

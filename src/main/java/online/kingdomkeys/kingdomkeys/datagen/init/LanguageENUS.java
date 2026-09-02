@@ -2847,5 +2847,8 @@ public class LanguageENUS extends KKLanguageProvider {
         add(WarningInformation, "INFORMATION");
         add(WarningAP, "That change would leave you %s AP short for the abilities you have equipped. Turn some of them off first.");
         add(WarningSell, "You're about to sell x%s %s. Are you sure?");
+        add(WarningPartyDisband, "'%s' will be disbanded for everyone in it. This can't be undone.");
+        add(WarningPartyLeave, "You will leave '%s'.");
+        add(WarningPartyKick, "%s will be removed from the party.");
     }
 }

@@ -3166,5 +3166,8 @@
   "stats.munnyGet": "Munny Get!",
   "warning.ap": "That change would leave you %s AP short for the abilities you have equipped. Turn some of them off first.",
   "warning.information": "INFORMATION",
+  "warning.party.disband": "'%s' will be disbanded for everyone in it. This can't be undone.",
+  "warning.party.kick": "%s will be removed from the party.",
+  "warning.party.leave": "You will leave '%s'.",
   "warning.sell": "You're about to sell x%s %s. Are you sure?"
 }

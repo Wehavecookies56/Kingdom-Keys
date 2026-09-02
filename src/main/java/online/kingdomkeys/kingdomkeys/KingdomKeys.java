@@ -33,6 +33,7 @@ import net.neoforged.neoforge.event.AddReloadListenerEvent;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import net.neoforged.neoforge.event.server.ServerAboutToStartEvent;
 import net.neoforged.neoforge.registries.DeferredRegister;
+import online.kingdomkeys.kingdomkeys.ability.AbilityDataLoader;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.advancements.ModAdvancements;
 import online.kingdomkeys.kingdomkeys.api.event.client.CommandMenuEvent;
@@ -64,7 +65,6 @@ import online.kingdomkeys.kingdomkeys.lib.GummiShipLoader;
 import online.kingdomkeys.kingdomkeys.limit.LimitDataLoader;
 import online.kingdomkeys.kingdomkeys.limit.ModLimits;
 import online.kingdomkeys.kingdomkeys.loot.ModLootModifier;
-import online.kingdomkeys.kingdomkeys.ability.AbilityDataLoader;
 import online.kingdomkeys.kingdomkeys.magic.MagicDataLoader;
 import online.kingdomkeys.kingdomkeys.magic.ModMagic;
 import online.kingdomkeys.kingdomkeys.menu.ModMenus;
@@ -175,7 +175,6 @@ public class KingdomKeys {
 		if (ModList.get().isLoaded("epicfight")) {
 			efmLoaded = true;
 			EpicFightIntegration.initIntegration(modEventBus);
-			// NeoForge.EVENT_BUS.register(new EpicFightEvents());
 		}
 
 		if (ModList.get().isLoaded("wildfire_gender")) {
@@ -216,7 +215,6 @@ public class KingdomKeys {
 		if (FMLEnvironment.dist.isClient()) {
 			if (ModList.get().isLoaded("epicfight")) {
 				ClientEpicFightIntegration.init();
-				//ModList.get().getModContainerById(KingdomKeys.MODID).get().getEventBus().addListener(EpicFightRendering::patchedRenderersEventModify);
 			}
 			NeoForge.EVENT_BUS.post(new CommandMenuEvent.Construct(CommandMenuGui.INSTANCE));
 			HUDElement.REGISTRY.forEach(HUDElement::loadFromConfig);

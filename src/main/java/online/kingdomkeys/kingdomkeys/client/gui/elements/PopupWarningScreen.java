@@ -84,6 +84,12 @@ public class PopupWarningScreen extends Screen {
 		int buttonY = boxY + boxHeight - PADDING - 12;
 		int confirmX = boxX + BOX_WIDTH - rendered - 5;
 
+		if (onConfirm != null) {
+			MenuButton cancel = new MenuButton(confirmX - rendered - BUTTON_GAP, buttonY, BUTTON_WIDTH, cancelLabel, MenuButton.ButtonType.ROUNDBUTTON, b -> onClose());
+			cancel.setCenterText(true);
+			addRenderableWidget(cancel);
+		}
+
 		// Runs the action first: onClose puts the parent back, and the action may well want to leave a different screen up instead.
 		MenuButton confirm = new MenuButton(confirmX, buttonY, BUTTON_WIDTH, confirmLabel, MenuButton.ButtonType.ROUNDBUTTON, b -> {
 			if (onConfirm != null) {
@@ -94,12 +100,6 @@ public class PopupWarningScreen extends Screen {
 		});
 		confirm.setCenterText(true);
 		addRenderableWidget(confirm);
-
-		if (onConfirm != null) {
-			MenuButton cancel = new MenuButton(confirmX - rendered - BUTTON_GAP, buttonY, BUTTON_WIDTH, cancelLabel, MenuButton.ButtonType.ROUNDBUTTON, b -> onClose());
-			cancel.setCenterText(true);
-			addRenderableWidget(cancel);
-		}
 	}
 
 	@Override
@@ -112,8 +112,9 @@ public class PopupWarningScreen extends Screen {
 		gui.flush();
 
 		gui.pose().pushPose();
-		gui.pose().translate(0, 0, OVERLAY_Z);
 		{
+			gui.pose().translate(0, 0, OVERLAY_Z);
+
 			gui.fill(0, 0, width, height, DIM);
 			box.renderWidget(gui, mouseX, mouseY, partialTicks);
 

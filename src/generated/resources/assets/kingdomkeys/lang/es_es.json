@@ -3107,5 +3107,8 @@
   "stats.munnyGet": "¡Platines!",
   "warning.ap": "Ese cambio te dejaría a deber %s PH de lo que gastan las habilidades que llevas equipadas. Desactiva alguna primero.",
   "warning.information": "INFORMACIÓN",
+  "warning.party.disband": "'%s' se disolverá para todos sus miembros. No se puede deshacer.",
+  "warning.party.kick": "%s saldrá del grupo.",
+  "warning.party.leave": "Saldrás de '%s'.",
   "warning.sell": "Vas a vender x%s %s. ¿Estás seguro?"
 }

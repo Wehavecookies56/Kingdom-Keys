@@ -6,6 +6,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundSource;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
+import online.kingdomkeys.kingdomkeys.client.gui.elements.PopupWarningScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.buttons.MenuButton.ButtonType;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
@@ -40,10 +41,12 @@ public class GuiMenu_Party_Member extends MenuBackground {
 			PacketHandler.sendToServer(new CSOpenMenu());
 			break;		
 		case "leave":
-			PacketHandler.sendToServer(new CSPartyLeave(party, minecraft.player.getUUID()));
-			minecraft.level.playSound(minecraft.player, minecraft.player.blockPosition(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
-			minecraft.setScreen(new GuiMenu_Party_None());
-			break;		
+			minecraft.setScreen(new PopupWarningScreen(this, Component.translatable(Strings.WarningInformation), Component.translatable(Strings.WarningPartyLeave, party.getName()), new Color(112, 31, 35), () -> {
+						PacketHandler.sendToServer(new CSPartyLeave(party, minecraft.player.getUUID()));
+						minecraft.level.playSound(minecraft.player, minecraft.player.blockPosition(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0f, 1.0f);
+						minecraft.setScreen(new GuiMenu_Party_None());
+					}));
+			break;
 		}
 		
 		updateButtons();
