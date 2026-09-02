@@ -776,7 +776,7 @@ public class LanguageENUS extends KKLanguageProvider {
         addGrowthAbility(ModAbilities.AERIAL_DODGE, "In the air you can press jump again to double jump.", "Aerial Dodge LV.1", "Aerial Dodge LV.2", "Aerial Dodge LV.3", "Aerial Dodge MAX");
         addGrowthAbility(ModAbilities.GLIDE,"In the air, hold the jump key to glide.", "Glide LV.1", "Glide LV.2", "Glide LV.3", "Glide MAX");
         addAbilityWithDesc(ModAbilities.AIR_SLIDE, "Air slide", "Press the action button while in the air to dash forward. Stack more to increase the effect.");
-        addAbilityWithDesc(ModAbilities.WALL_KICK,"Wall Kick", "Air slide or aerial dodge into a wall to kick off it and enter flowmotion. Stack more to increase the rebounds.");
+        addAbilityWithDesc(ModAbilities.WALL_KICK,"Wall Kick", "Air slide into a wall to kick off it and enter flowmotion. Stack more to increase the rebounds.");
         addAbilityWithDesc(ModAbilities.SUPERJUMP, "Superjump", "While in flowmotion, press jump to catapult into the air. Stack more to increase the effect.");
         addAbilityWithDesc(ModAbilities.AERIAL_RECOVERY, "Aerial Recovery", "Quickly regains balance with Jump when knocked down.");
         addAbilityWithDesc(ModAbilities.GUARD, "Guard", "Blocks and shoots back enemy attacks using a parrying action with right click. Not available in Epic Fight combat mode.");
