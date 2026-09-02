@@ -610,7 +610,6 @@ public class Strings {
 
             // Shop
             Gui_Shop = "gui.shop",
-            Gui_Shop_Page = Gui_Shop + ".page",
 	    	Gui_Shop_Tier = Gui_Shop + ".tier",
             Gui_Shop_Main = Gui_Shop + ".main",
             Gui_Shop_NoSpace = Gui_Shop + ".no_empty_slot",
