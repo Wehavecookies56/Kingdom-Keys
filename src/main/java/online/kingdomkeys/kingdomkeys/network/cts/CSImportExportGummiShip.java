@@ -16,8 +16,10 @@ import online.kingdomkeys.kingdomkeys.block.gummi.GummiHangarBlock;
 import online.kingdomkeys.kingdomkeys.item.GummiShipBlueprintItem;
 import online.kingdomkeys.kingdomkeys.item.ModComponents;
 import online.kingdomkeys.kingdomkeys.lib.GummiStructure;
+import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.menu.GummiHangarMenu;
 import online.kingdomkeys.kingdomkeys.network.Packet;
+import online.kingdomkeys.kingdomkeys.network.stc.SCShowWarning;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import static online.kingdomkeys.kingdomkeys.block.gummi.GummiHangarBlock.DISPLAY_BLUEPRINT;
@@ -63,7 +65,9 @@ public record CSImportExportGummiShip(String name, int containerID, boolean expo
 				GummiStructure fitted = Utils.resizeStructure(blueprint, hangarSize);
 
 				if (fitted == null) {
-					player.sendSystemMessage(Component.translatable("container.gummi_hangar.blueprinttoobig"));
+					Component warning = Component.translatable(Strings.WarningBlueprintTooBig);
+					player.sendSystemMessage(warning);
+					SCShowWarning.send(player, warning);
 					return;
 				}
 

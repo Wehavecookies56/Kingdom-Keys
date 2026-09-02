@@ -507,8 +507,7 @@ public class Strings {
             Gui_Menu_Items = Gui_Menu + ".items",
             Gui_Menu_Items_Equipment = Gui_Menu_Items + ".equipment",
             Gui_Menu_Items_Stock = Gui_Menu_Items + ".stock",
-            Gui_Menu_Items_Stock_Take = Gui_Menu_Items + ".stock.take",
-            Gui_Menu_Items_Stock_Take_Full = Gui_Menu_Items + ".stock.take.full",
+            Gui_Menu_Items_Stock_Take = Gui_Menu_Items + ".stock.take",
             
             Gui_Menu_Items_Equipment_Weapon = Gui_Menu_Items_Equipment + ".weapon",
             Gui_Menu_Items_Equipment_Shotlock = Gui_Menu_Items_Equipment + ".shotlock",
@@ -1676,5 +1675,15 @@ public class Strings {
 			WarningPartyDisband = "warning.party.disband",
 			WarningPartyLeave = "warning.party.leave",
 			WarningPartyKick = "warning.party.kick",
-			WarningShipOverwrite = "warning.ship.overwrite";
+			WarningShipOverwrite = "warning.ship.overwrite",
+			WarningPlateOccupied = "warning.gummi.plate_occupied",
+			WarningBannedBlocks = "warning.gummi.banned_blocks",
+			WarningNoCore = "warning.gummi.no_core",
+			WarningSingleCore = "warning.gummi.single_core",
+			WarningShipTooBig = "warning.gummi.ship_too_big",
+			WarningBlueprintTooBig = "warning.gummi.blueprint_too_big",
+			WarningFileTooBig = "warning.gummi.file_too_big",
+			WarningFileUnreadable = "warning.gummi.file_unreadable",
+			WarningStruggleRange = "warning.struggle.out_of_range",
+			WarningStockFull = "warning.stock.full";
 }

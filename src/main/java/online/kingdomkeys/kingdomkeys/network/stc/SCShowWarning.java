@@ -8,8 +8,11 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.client.ClientPacketHandler;
 import online.kingdomkeys.kingdomkeys.network.Packet;
+import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 
 public record SCShowWarning(Component body) implements Packet {
 	public static final Type<SCShowWarning> TYPE = new Type<>(KingdomKeys.rl("sc_show_warning"));
@@ -18,6 +21,12 @@ public record SCShowWarning(Component body) implements Packet {
 			ComponentSerialization.STREAM_CODEC, SCShowWarning::body,
 			SCShowWarning::new
 	);
+
+	public static void send(Player player, Component body) {
+		if (player instanceof ServerPlayer serverPlayer) {
+			PacketHandler.sendTo(new SCShowWarning(body), serverPlayer);
+		}
+	}
 
 	@Override
 	public void handle(IPayloadContext context) {

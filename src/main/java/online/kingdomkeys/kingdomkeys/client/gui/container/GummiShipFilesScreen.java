@@ -21,6 +21,7 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.lib.GummiStructure;
+import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSLoadGummiShipFile;
 import org.jetbrains.annotations.NotNull;
@@ -226,7 +227,7 @@ public class GummiShipFilesScreen extends MenuBackground {
 
 	private void choose(Saved ship) {
 		if (ship.data().length > CSLoadGummiShipFile.MAX_BYTES) {
-			minecraft.player.displayClientMessage(Component.translatable("container.gummi_hangar.file_too_big"), false);
+			minecraft.player.displayClientMessage(Component.translatable(Strings.WarningFileTooBig), false);
 			return;
 		}
 

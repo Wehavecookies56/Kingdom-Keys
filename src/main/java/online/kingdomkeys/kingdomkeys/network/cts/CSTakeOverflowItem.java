@@ -13,6 +13,7 @@ import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.Packet;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.stc.SCShowWarning;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
 
 public record CSTakeOverflowItem() implements Packet {
@@ -31,7 +32,9 @@ public record CSTakeOverflowItem() implements Packet {
         }
 
         if (player.getInventory().getFreeSlot() < 0) {
-            player.displayClientMessage(Component.translatable(Strings.Gui_Menu_Items_Stock_Take_Full), true);
+            Component warning = Component.translatable(Strings.WarningStockFull);
+            player.displayClientMessage(warning, true);
+            SCShowWarning.send(player, warning);
             return;
         }
 

@@ -890,6 +890,7 @@
   "container.gummi_hangar.noblueprintsave": "There's no blueprint to save",
   "container.gummi_hangar.noname": "You need to name your Gummi Ship",
   "container.gummi_hangar.nothing_to_save": "Put a blueprint with a ship on it in the slot first",
+  "container.gummi_hangar.plate_occupied": "There is already a gummi ship on the build plate. Move it out of the way first.",
   "container.gummi_hangar.power": "Engine power",
   "container.gummi_hangar.save_file": "Save file",
   "container.gummi_hangar.seats": "Seats",

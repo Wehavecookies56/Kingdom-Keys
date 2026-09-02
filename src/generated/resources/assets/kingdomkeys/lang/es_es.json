@@ -890,6 +890,7 @@
   "container.gummi_hangar.noblueprintsave": "No hay ningún plano que guardar",
   "container.gummi_hangar.noname": "Necesitas nombrar tu Nave Gummi",
   "container.gummi_hangar.nothing_to_save": "Pon primero en la ranura un plano con una nave",
+  "container.gummi_hangar.plate_occupied": "Ya hay una nave gummi en la plataforma. Apártala primero.",
   "container.gummi_hangar.power": "Pot. motora",
   "container.gummi_hangar.save_file": "Guardar",
   "container.gummi_hangar.seats": "Asientos",

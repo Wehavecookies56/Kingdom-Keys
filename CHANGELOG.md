@@ -5,6 +5,8 @@
 * When trying to unequip an accessory and max AP would decrease below the total used AP.
 * When selling items.
 * When kicking, leaving or disbanding party.
+* When interacting with gummi build/edit and it errors.
+* When setting the struggle coords further away than the max range.
 
 ## Changed:
 * Abilities are now data driven.

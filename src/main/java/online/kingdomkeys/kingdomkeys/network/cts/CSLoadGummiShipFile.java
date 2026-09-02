@@ -15,8 +15,10 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.item.GummiShipBlueprintItem;
 import online.kingdomkeys.kingdomkeys.item.ModComponents;
 import online.kingdomkeys.kingdomkeys.lib.GummiStructure;
+import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.menu.GummiHangarMenu;
 import online.kingdomkeys.kingdomkeys.network.Packet;
+import online.kingdomkeys.kingdomkeys.network.stc.SCShowWarning;
 
 import java.io.ByteArrayInputStream;
 
@@ -45,7 +47,9 @@ public record CSLoadGummiShipFile(String name, byte[] data, int containerID) imp
 		}
 
 		if (data.length > MAX_BYTES) {
-			player.sendSystemMessage(Component.translatable("container.gummi_hangar.file_too_big"));
+			Component tooBig = Component.translatable(Strings.WarningFileTooBig);
+			player.sendSystemMessage(tooBig);
+			SCShowWarning.send(player, tooBig);
 			return;
 		}
 
@@ -65,7 +69,9 @@ public record CSLoadGummiShipFile(String name, byte[] data, int containerID) imp
 			player.sendSystemMessage(Component.translatable("container.gummi_hangar.file_loaded", name));
 		} catch (Exception e) {
 			KingdomKeys.LOGGER.error("Could not load gummi ship {} sent by {}", name, player.getName().getString(), e);
-			player.sendSystemMessage(Component.translatable("container.gummi_hangar.file_unreadable"));
+			Component unreadable = Component.translatable(Strings.WarningFileUnreadable);
+			player.sendSystemMessage(unreadable);
+			SCShowWarning.send(player, unreadable);
 		}
 	}
 

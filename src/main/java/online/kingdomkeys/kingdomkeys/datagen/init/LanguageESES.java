@@ -230,10 +230,6 @@ public class LanguageESES extends KKLanguageProvider {
         add("container.pedestal", "Pedestal");
         add("container.gummi_hangar", "Hangar Gummi");
 
-        add("container.gummi_hangar.hasbannedblocks", "La estructura contiene bloques prohibidos: ");
-        add("container.gummi_hangar.doesntcontaincore", "La estructura no tiene un núcleo");
-        add("container.gummi_hangar.singlecore", "La estructura solo puede tener un núcle, detectados ");
-        add("container.gummi_hangar.shiptoobig","Esta Nave Gummi es demasiado grande");
 
         add("container.gummi_hangar.gummifound","Ya hay una Nave Gummi en la zona");
         add("container.gummi_hangar.gummitoobig","Hay una Nave Gummi demasiado grande para el hangar en la zona");
@@ -245,9 +241,7 @@ public class LanguageESES extends KKLanguageProvider {
         add("container.gummi_hangar.no_saved_ships", "Todavía no hay nada guardado en kingdomkeys/gummi_ships");
         add("container.gummi_hangar.noblueprintsave", "No hay ningún plano que guardar");
         add("container.gummi_hangar.noblueprintload", "No hay ningún plano donde cargarla");
-        add("container.gummi_hangar.file_unreadable", "Ese archivo no se puede leer como Nave Gummi");
         add("container.gummi_hangar.file_unwritable", "No se ha podido escribir el archivo, mira el log");
-        add("container.gummi_hangar.file_too_big", "Esa Nave Gummi es demasiado grande para enviarla al servidor");
         add("container.gummi_hangar.nothing_to_save", "Pon primero en la ranura un plano con una nave");
         add("container.gummi_hangar.moveshipfw","Mover nave hacia delante");
         add("container.gummi_hangar.moveshipbw","Mover nave hacia atrás");
@@ -256,7 +250,6 @@ public class LanguageESES extends KKLanguageProvider {
         add("container.gummi_hangar.moveshiphigher","Mover nave hacia arriba");
         add("container.gummi_hangar.moveshiplower","Mover nave hacia abajo");
 
-        add("container.gummi_hangar.blueprinttoobig","Los planos son demasiado grandes para este hangar");
         add("container.gummi_hangar.noblueprintimp","Debes meter unos planos para importarlos");
         add("container.gummi_hangar.noblueprintname","Debes especificar un nombre para los planos");
         add("container.gummi_hangar.noblueprintexp","Debes meter unos planos para exportarlos");
@@ -375,7 +368,6 @@ public class LanguageESES extends KKLanguageProvider {
         add(Gui_Menu_Items_Stock, "Inventario");
         add(Gui_Menu_Items_Stock + ".desc", "Revisa tu inventario.");
         add(Gui_Menu_Items_Stock_Take, "Coger objeto");
-        add(Gui_Menu_Items_Stock_Take_Full, "Tienes el inventario lleno");
         add(Gui_Menu_Items_Equipment_Weapon, "Arma");
         add(Gui_Menu_Items_Equipment_Weapon_Keyblades, "Llaves Espada");
         add(Gui_Menu_Items_Equipment_Shotlock, "Tiro Certero");
@@ -2547,7 +2539,6 @@ public class LanguageESES extends KKLanguageProvider {
 
         add("kingdomkeys.worldmap.no_building", "En este mundo no se puede construir");
 
-        add("kingdomkeys.struggle.out_of_range", "La arena debe estar a menos de %s bloques de su tablón");
         add("kingdomkeys.struggle.starting", "¡Empieza el Struggle...!");
         add("kingdomkeys.struggle.tournament.next_match", "Siguiente combate del torneo...");
         add("kingdomkeys.struggle.ffa.starting", "¡Empieza el todos contra todos...!");
@@ -2867,5 +2858,15 @@ public class LanguageESES extends KKLanguageProvider {
         add(WarningPartyLeave, "Saldrás de '%s'.");
         add(WarningPartyKick, "%s saldrá del grupo.");
         add(WarningShipOverwrite, "'%s' ya existe y se va a reemplazar, ¿estás seguro?.");
+        add(WarningPlateOccupied, "Ya hay una nave gummi en la plataforma, apártala primero.");
+        add(WarningBannedBlocks, "La estructura contiene bloques prohibidos: ");
+        add(WarningNoCore, "La estructura no tiene un núcleo");
+        add(WarningSingleCore, "La estructura solo puede tener un núcleo, actualmente hay ");
+        add(WarningShipTooBig, "Esta Nave Gummi es demasiado grande");
+        add(WarningFileUnreadable, "Ese archivo no se puede leer como Nave Gummi");
+        add(WarningFileTooBig, "Esa Nave Gummi es demasiado grande para enviarla al servidor");
+        add(WarningBlueprintTooBig, "Los planos son demasiado grandes para este hangar");
+        add(WarningStockFull, "Tienes el inventario lleno");
+        add(WarningStruggleRange, "La arena debe estar a menos de %s bloques de su tablón");
     }
 }

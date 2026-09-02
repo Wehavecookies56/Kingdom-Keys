@@ -10,9 +10,11 @@ import net.neoforged.neoforge.network.handling.IPayloadContext;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.WorldData;
+import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.lib.Struggle;
 import online.kingdomkeys.kingdomkeys.network.Packet;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.stc.SCShowWarning;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncWorldData;
 
 import javax.annotation.Nullable;
@@ -44,7 +46,9 @@ public record CSStruggleSettings(Struggle struggle) implements Packet {
 		int range = ModConfigs.SERVER.struggleArenaRange.get();
 
 		if (tooFar(struggle.getC1(), match.blockPos, range) || tooFar(struggle.getC2(), match.blockPos, range) || tooFar(struggle.getSpectatorPos(), match.blockPos, range)) {
-			player.displayClientMessage(Component.translatable("kingdomkeys.struggle.out_of_range", range), true);
+			Component warning = Component.translatable(Strings.WarningStruggleRange, range);
+			player.displayClientMessage(warning, true);
+			SCShowWarning.send(player, warning);
 			return;
 		}
 

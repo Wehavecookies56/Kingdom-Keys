@@ -111,6 +111,7 @@ public class PopupWarningScreen extends Screen {
 			parent.render(gui, -1, -1, partialTicks);
 		}
 
+		//Fixes other screens stuff rendering on top regardless of the Z layer
 		gui.flush();
 		RenderSystem.enableDepthTest();
 		RenderSystem.clear(GL11.GL_DEPTH_BUFFER_BIT, Minecraft.ON_OSX);

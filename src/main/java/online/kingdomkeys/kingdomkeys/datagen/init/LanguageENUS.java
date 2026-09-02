@@ -184,10 +184,6 @@ public class LanguageENUS extends KKLanguageProvider {
         add("container.pedestal", "Pedestal");
         add("container.gummi_hangar", "Gummi Hangar");
 
-        add("container.gummi_hangar.hasbannedblocks", "Structure contains banned blocks: ");
-        add("container.gummi_hangar.doesntcontaincore", "Structure doesn't contain a core");
-        add("container.gummi_hangar.singlecore", "Structure must contain a single core, currently has ");
-        add("container.gummi_hangar.shiptoobig","This Gummi Ship is too big");
 
         add("container.gummi_hangar.gummifound","There's already a Gummi Ship in the building area");
         add("container.gummi_hangar.gummitoobig","There's a Gummi Ship too big for the hangar in the building area");
@@ -199,9 +195,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add("container.gummi_hangar.no_saved_ships", "Nothing saved yet in kingdomkeys/gummi_ships");
         add("container.gummi_hangar.noblueprintsave", "There's no blueprint to save");
         add("container.gummi_hangar.noblueprintload", "There's no blueprint to load onto");
-        add("container.gummi_hangar.file_unreadable", "That file couldn't be read as a Gummi Ship");
         add("container.gummi_hangar.file_unwritable", "Couldn't write the file, see the log");
-        add("container.gummi_hangar.file_too_big", "That Gummi Ship is too big to send to the server");
         add("container.gummi_hangar.nothing_to_save", "Put a blueprint with a ship on it in the slot first");
         add("container.gummi_hangar.moveshipfw","Move ship forward");
         add("container.gummi_hangar.moveshipbw","Move ship backwards");
@@ -210,7 +204,6 @@ public class LanguageENUS extends KKLanguageProvider {
         add("container.gummi_hangar.moveshiphigher","Move ship higher");
         add("container.gummi_hangar.moveshiplower","Move ship lower");
 
-        add("container.gummi_hangar.blueprinttoobig","The blueprint is too big for this hangar");
         add("container.gummi_hangar.noblueprintimp","You need to place a blueprint to import it");
         add("container.gummi_hangar.noblueprintname","You need to specify the blueprint name");
         add("container.gummi_hangar.noblueprintexp","You need to place a blueprint to export it");
@@ -325,7 +318,6 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Gui_Menu_Items_Stock, "Stock");
         add(Gui_Menu_Items_Stock + ".desc", "Check your inventory.");
         add(Gui_Menu_Items_Stock_Take, "Take item");
-        add(Gui_Menu_Items_Stock_Take_Full, "Your inventory is full");
         add(Gui_Menu_Items_Equipment_Weapon, "Weapon");
         add(Gui_Menu_Items_Equipment_Weapon_Keyblades, "Keyblades");
         add(Gui_Menu_Items_Equipment_Shotlock, "Shotlock");
@@ -2512,7 +2504,6 @@ public class LanguageENUS extends KKLanguageProvider {
 
         add("kingdomkeys.worldmap.no_building", "You cannot build in this world");
 
-        add("kingdomkeys.struggle.out_of_range", "The arena has to stay within %s blocks of its board");
         add("kingdomkeys.struggle.starting", "Struggle starting...");
         add("kingdomkeys.struggle.tournament.next_match", "Next tournament match starting...");
         add("kingdomkeys.struggle.ffa.starting", "Free for all starting...");
@@ -2851,5 +2842,15 @@ public class LanguageENUS extends KKLanguageProvider {
         add(WarningPartyLeave, "You will leave '%s'.");
         add(WarningPartyKick, "%s will be removed from the party.");
         add(WarningShipOverwrite, "'%s' already exists and will be replaced, are you sure?");
+        add(WarningPlateOccupied, "There is already a gummi ship on the build plate, move it out of the way first.");
+        add(WarningBannedBlocks, "Structure contains banned blocks: ");
+        add(WarningNoCore, "Structure doesn't contain a core");
+        add(WarningSingleCore, "Structure must contain a single core, currently has ");
+        add(WarningShipTooBig, "This Gummi Ship is too big");
+        add(WarningFileUnreadable, "That file couldn't be read as a Gummi Ship");
+        add(WarningFileTooBig, "That Gummi Ship is too big to send to the server");
+        add(WarningBlueprintTooBig, "The blueprint is too big for this hangar");
+        add(WarningStockFull, "Your inventory is full");
+        add(WarningStruggleRange, "The arena has to stay within %s blocks of its board");
     }
 }

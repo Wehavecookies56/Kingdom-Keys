@@ -14,8 +14,10 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.block.gummi.GummiHangarBlock;
 import online.kingdomkeys.kingdomkeys.entity.GummiShipEntity;
 import online.kingdomkeys.kingdomkeys.lib.GummiStructure;
+import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.menu.GummiHangarMenu;
 import online.kingdomkeys.kingdomkeys.network.Packet;
+import online.kingdomkeys.kingdomkeys.network.stc.SCShowWarning;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 public record CSEditGummiShip(String name, int containerID) implements Packet {
@@ -23,10 +25,8 @@ public record CSEditGummiShip(String name, int containerID) implements Packet {
 	public static final Type<CSEditGummiShip> TYPE = new Type<>(KingdomKeys.rl("cs_edit_gummi_ship"));
 
 	public static final StreamCodec<FriendlyByteBuf, CSEditGummiShip> STREAM_CODEC = StreamCodec.composite(
-			ByteBufCodecs.STRING_UTF8,
-			CSEditGummiShip::name,
-			ByteBufCodecs.INT,
-			CSEditGummiShip::containerID,
+			ByteBufCodecs.STRING_UTF8, CSEditGummiShip::name,
+			ByteBufCodecs.INT, CSEditGummiShip::containerID,
 			CSEditGummiShip::new
 	);
 
@@ -54,7 +54,9 @@ public record CSEditGummiShip(String name, int containerID) implements Packet {
 
 			if (fitted == null) {
 				KingdomKeys.LOGGER.debug("Can't resize a ship from "+gummi.structure.getWidth()+" to "+size);
-				player.sendSystemMessage(Component.translatable("container.gummi_hangar.shiptoobig"));
+				Component warning = Component.translatable(Strings.WarningShipTooBig);
+				player.sendSystemMessage(warning);
+				SCShowWarning.send(player, warning);
 				return;
 			}
 

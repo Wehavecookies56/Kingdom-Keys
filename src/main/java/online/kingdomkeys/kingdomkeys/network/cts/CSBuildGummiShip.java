@@ -19,10 +19,9 @@ import online.kingdomkeys.kingdomkeys.block.gummi.GummiHangarBlock;
 import online.kingdomkeys.kingdomkeys.entity.GummiShipEntity;
 import online.kingdomkeys.kingdomkeys.entity.block.GummiCoreTileEntity;
 import online.kingdomkeys.kingdomkeys.lib.GummiStructure;
+import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.menu.GummiHangarMenu;
-import net.minecraft.server.level.ServerPlayer;
 import online.kingdomkeys.kingdomkeys.network.Packet;
-import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCShowWarning;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
@@ -33,10 +32,8 @@ public record CSBuildGummiShip(String name, int containerID) implements Packet {
 	public static final Type<CSBuildGummiShip> TYPE = new Type<>(KingdomKeys.rl("cs_create_gummi_ship"));
 
 	public static final StreamCodec<FriendlyByteBuf, CSBuildGummiShip> STREAM_CODEC = StreamCodec.composite(
-			ByteBufCodecs.STRING_UTF8,
-			CSBuildGummiShip::name,
-			ByteBufCodecs.INT,
-			CSBuildGummiShip::containerID,
+			ByteBufCodecs.STRING_UTF8, CSBuildGummiShip::name,
+			ByteBufCodecs.INT, CSBuildGummiShip::containerID,
 			CSBuildGummiShip::new
 	);
 
@@ -64,24 +61,28 @@ public record CSBuildGummiShip(String name, int containerID) implements Packet {
 				bannedBlocksNames.append(bannedBlocks.get(i).asItem().getDescription());
 			}
 
-			Component warning = Component.translatable("container.gummi_hangar.hasbannedblocks").append(bannedBlocksNames);
+			Component warning = Component.translatable(Strings.WarningBannedBlocks).append(bannedBlocksNames);
 			player.sendSystemMessage(warning);
-
-			if (player instanceof ServerPlayer serverPlayer) {
-				PacketHandler.sendTo(new SCShowWarning(warning), serverPlayer);
-			}
+			SCShowWarning.send(player, warning);
 
 			return;
 		}
         if(Utils.getCorePos(level,origin,hangar.getValue(GummiHangarBlock.FACING), size) == null){
-            player.displayClientMessage(Component.translatable("container.gummi_hangar.doesntcontaincore"),true);
+            Component warning = Component.translatable(Strings.WarningNoCore);
+            player.displayClientMessage(warning, true);
+            SCShowWarning.send(player, warning);
             return;
         }
         if(Utils.getCorePosCount(level,origin,hangar.getValue(GummiHangarBlock.FACING), size) != 1){
-            player.displayClientMessage(Component.translatable("container.gummi_hangar.singlecore").append(""+Utils.getCorePosCount(level,origin,hangar.getValue(GummiHangarBlock.FACING), size)),true);
+            Component warning = Component.translatable(Strings.WarningSingleCore).append(""+Utils.getCorePosCount(level,origin,hangar.getValue(GummiHangarBlock.FACING), size));
+            player.displayClientMessage(warning, true);
+            SCShowWarning.send(player, warning);
             return;
         }
 		if(Utils.getAmountOfGummiShipsInBuildPlate(level, origin, hangar.getValue(GummiHangarBlock.FACING), size) > 0){
+			Component warning = Component.translatable(Strings.WarningPlateOccupied);
+			player.displayClientMessage(warning, true);
+			SCShowWarning.send(player, warning);
 			return;
 		}
 
