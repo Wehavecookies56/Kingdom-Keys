@@ -1,0 +1,19 @@
+{
+  "type": "kingdomkeys:daybreak_town",
+  "generator": {
+    "type": "kingdomkeys:prebuilt_world_generator",
+    "world": "kingdomkeys:daybreak_town",
+    "origin": [0, 64, 0],
+    "sea": {
+      "water": "minecraft:water",
+      "level": 66,
+      "floor": 64,
+      "variation": 2,
+      "surface_depth": 4,
+      "body": "minecraft:stone",
+      "surface": "minecraft:sand",
+      "bedrock": "minecraft:bedrock"
+    },
+    "biome_source": { "type": "minecraft:fixed", "biome": "minecraft:warm_ocean" }
+  }
+}

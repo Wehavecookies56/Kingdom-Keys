@@ -8,5 +8,7 @@
   "landingSpawn": [106, 100, 26],
   "texture": "kingdomkeys:textures/worldmap/daybreak_town.png",
   "scale": 32,
-  "approach_range": 40
+  "approach_range": 40,
+  "build": true,
+  "vanilla_mobs": false
 }
