@@ -2,8 +2,10 @@ package online.kingdomkeys.kingdomkeys.client.gui.menu.status;
 
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuColourBox;
@@ -23,7 +25,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MenuStatusScreen extends MenuBackground {
-
 	ResourceLocation form = DriveForm.NONE;
 	
 	final PlayerData playerData = PlayerData.get(minecraft.player);
@@ -156,7 +157,13 @@ public class MenuStatusScreen extends MenuBackground {
 	public void render(@NotNull GuiGraphics gui, int mouseX, int mouseY, float partialTicks) {
 		box.render(gui, mouseX, mouseY, partialTicks);
 		super.render(gui, mouseX, mouseY, partialTicks);
-
+		gui.pose().pushPose();
+		{
+			float scale = 1.5F;
+			gui.pose().scale(scale, scale, 1);
+			gui.drawString(minecraft.font, Component.translatable(playerData.getUnion().getTranslationKey()).withStyle(ClientUtils.KK_Font_EXP), (int) (topLeftBar.getWidth() / scale + topGap) + 5, 10, 0xFF9900);
+		}
+		gui.pose().popPose();
 	}
 	
 }
