@@ -38,10 +38,6 @@ public record CSTravelToSoA() implements Packet {
             BlockPos arrival = DiveToTheHeartChunkGenerator.spawnFor(hasUnion);
             ServerLevel dimension = player.level().getServer().getLevel(ModDimensions.DIVE_TO_THE_HEART);
             player.changeDimension(new DimensionTransition(dimension, new Vec3(arrival.getX() + 0.5D, arrival.getY() + 3, arrival.getZ() + 0.5D), Vec3.ZERO, player.getYRot(), player.getXRot(), pEntity -> {}));
-
-            if (!hasUnion && dimension != null) {
-                DiveToTheHeartDimension.ensureForetellers(dimension);
-            }
         }
     }
 

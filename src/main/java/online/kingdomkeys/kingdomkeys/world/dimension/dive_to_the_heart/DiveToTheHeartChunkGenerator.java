@@ -18,6 +18,7 @@ import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.RandomState;
 import net.minecraft.world.level.levelgen.blending.Blender;
+import net.minecraft.world.phys.Vec3;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.block.MosaicStainedGlassBlock;
 import online.kingdomkeys.kingdomkeys.block.SoAPlatformCoreBlock;
@@ -43,12 +44,10 @@ public class DiveToTheHeartChunkGenerator extends ChunkGenerator {
 
     private static final BlockPos SPAWN_POS = new BlockPos(0, 25, 0);
 
-    //x
+    //x z
     int width = 17;
     //y
     int height = 25;
-    //z
-    int depth = 17;
 
     public static final int PLATFORM_RADIUS = 8;
 
@@ -65,7 +64,10 @@ public class DiveToTheHeartChunkGenerator extends ChunkGenerator {
     public static final int BRIDGE_Z_MIN = PEDESTAL_CZ + PLATFORM_RADIUS + 1;
     public static final int BRIDGE_Z_MAX = UNION_CZ - PLATFORM_RADIUS - 1;
 
-    public static final int FORETELLERS_RADIUS = 5;
+    public static final double UNION_CENTRE_X = UNION_CX + 0.5D;
+    public static final double UNION_CENTRE_Z = UNION_CZ + 0.5D;
+
+    public static final double FORETELLERS_RADIUS = 5.0D;
 
     /**
      * Where the first Foreteller stands, in degrees: 90 is due south, the far end from
@@ -78,11 +80,9 @@ public class DiveToTheHeartChunkGenerator extends ChunkGenerator {
     public static final int FORETELLERS_STEP = 72;
 
     // "Pentagon" the foretellers form
-    public static BlockPos foretellerPos(int index) {
+    public static Vec3 foretellerPos(int index) {
         double angle = Math.toRadians(FORETELLERS_START_ANGLE + index * FORETELLERS_STEP);
-        int x = UNION_CX + (int) Math.round(FORETELLERS_RADIUS * Math.cos(angle));
-        int z = UNION_CZ + (int) Math.round(FORETELLERS_RADIUS * Math.sin(angle));
-        return new BlockPos(x, SPAWN_POS.getY(), z);
+        return new Vec3(UNION_CENTRE_X + FORETELLERS_RADIUS * Math.cos(angle), SPAWN_POS.getY(), UNION_CENTRE_Z + FORETELLERS_RADIUS * Math.sin(angle));
     }
 
     public static BlockPos spawnFor(boolean hasUnion) {
@@ -317,7 +317,7 @@ public class DiveToTheHeartChunkGenerator extends ChunkGenerator {
          case '5':
              createPedestal(pLevel, pos, new ItemStack(ModItems.dreamStaff.get()));
              break;
-     }
+        }
     }
 
     private void createPedestal(WorldGenRegion pLevel, BlockPos.MutableBlockPos pos, ItemStack toDisplay) {
