@@ -50,11 +50,49 @@ public class DiveToTheHeartChunkGenerator extends ChunkGenerator {
     //z
     int depth = 17;
 
-    int leftXSize = 8;
-    int rightXSize = 9;
-    int topZSize = 8;
-    int bottomZSize = 9;
+    public static final int PLATFORM_RADIUS = 8;
 
+    /** The layer the player stands on top of. The masks hang downwards from SPAWN_POS.getY(). */
+    public static final int FLOOR_Y = SPAWN_POS.getY() - 1;
+
+    /** Platform of pedestals: where the weapon choice happens, and where it has always been. */
+    public static final int PEDESTAL_CX = 0, PEDESTAL_CZ = 0;
+
+    public static final int UNION_CX = 0, UNION_CZ = 48;
+
+    /** Walkway joining the two, running north along the z axis between the two edges. */
+    public static final int BRIDGE_HALF_WIDTH = 1;
+    public static final int BRIDGE_Z_MIN = PEDESTAL_CZ + PLATFORM_RADIUS + 1;
+    public static final int BRIDGE_Z_MAX = UNION_CZ - PLATFORM_RADIUS - 1;
+
+    public static final int FORETELLERS_RADIUS = 5;
+
+    /**
+     * Where the first Foreteller stands, in degrees: 90 is due south, the far end from
+     * the walkway, so index 0 faces the player head on as they arrive. Turn this to
+     * rotate the whole pentagon.
+     */
+    public static final int FORETELLERS_START_ANGLE = 90;
+
+    /** Degrees between one Foreteller and the next. Positive runs clockwise seen from above. */
+    public static final int FORETELLERS_STEP = 72;
+
+    // "Pentagon" the foretellers form
+    public static BlockPos foretellerPos(int index) {
+        double angle = Math.toRadians(FORETELLERS_START_ANGLE + index * FORETELLERS_STEP);
+        int x = UNION_CX + (int) Math.round(FORETELLERS_RADIUS * Math.cos(angle));
+        int z = UNION_CZ + (int) Math.round(FORETELLERS_RADIUS * Math.sin(angle));
+        return new BlockPos(x, SPAWN_POS.getY(), z);
+    }
+
+    public static BlockPos spawnFor(boolean hasUnion) {
+        return hasUnion ? new BlockPos(PEDESTAL_CX, SPAWN_POS.getY(), PEDESTAL_CZ) : new BlockPos(UNION_CX, SPAWN_POS.getY(), UNION_CZ);
+    }
+
+    /** True while the player is still stood on the platform they are meant to be on. */
+    public static boolean onUnionPlatform(double x, double z) {
+        return Math.abs(x - UNION_CX) <= PLATFORM_RADIUS + 1 && Math.abs(z - UNION_CZ) <= PLATFORM_RADIUS + 1;
+    }
 
     String topOfPlatform =
 			"00000000000000000" +
@@ -69,6 +107,26 @@ public class DiveToTheHeartChunkGenerator extends ChunkGenerator {
             "00000000000000000" +
             "00000000000000000" +
             "00400000000000500" +
+            "00000000000000000" +
+            "00000000000000000" +
+            "00000000000000000" +
+            "00000000000000000" +
+            "00000000000000000";
+
+    /** The union platform carries no pedestals: the Foretellers standing on it are entities. */
+    String topOfUnionPlatform =
+            "00000000000000000" +
+            "00000000000000000" +
+            "00000000000000000" +
+            "00000000000000000" +
+            "00000000000000000" +
+            "00000000000000000" +
+            "00000000000000000" +
+            "00000000000000000" +
+            "00000000000000000" +
+            "00000000000000000" +
+            "00000000000000000" +
+            "00000000000000000" +
             "00000000000000000" +
             "00000000000000000" +
             "00000000000000000" +
@@ -132,7 +190,7 @@ public class DiveToTheHeartChunkGenerator extends ChunkGenerator {
             "00011111111111000" +
             "00000111111100000";
 
-    
+
     @Override
     protected MapCodec<? extends ChunkGenerator> codec() {
         return CODEC;
@@ -156,78 +214,58 @@ public class DiveToTheHeartChunkGenerator extends ChunkGenerator {
         return CompletableFuture.completedFuture(chunk);
     }
 
-    public enum Corner { TL, TR, BL, BR }
-
     @Override
     public void buildSurface(WorldGenRegion pLevel, StructureManager pStructureManager, RandomState pRandom, ChunkAccess pChunk) {
-        BlockPos.MutableBlockPos blockpos$mutable = new BlockPos.MutableBlockPos();
+        BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
         ChunkPos cPos = pChunk.getPos();
-        int xOffset = 0;
-        int zOffset = 0;
-        int startZ;
-        int startX;
-        //Bottom right
-        if (cPos.equals(new ChunkPos(0, 0))) {
-            startZ = cPos.getMinBlockZ() + zOffset;
-            startX = cPos.getMinBlockX() + xOffset;
-            generateCorner(pLevel, cPos, blockpos$mutable, startX, startZ, rightXSize, bottomZSize, Corner.BR);
-        }
-        //Bottom left
-        if (cPos.equals(new ChunkPos(-1, 0))) {
-            xOffset = 8;
-            startZ = cPos.getMinBlockZ() + zOffset;
-            startX = cPos.getMinBlockX() + xOffset;
-            generateCorner(pLevel, cPos, blockpos$mutable, startX, startZ, leftXSize, bottomZSize, Corner.BL);
-        }
-        //Top right
-        if (cPos.equals(new ChunkPos(0, -1))) {
-            zOffset = 8;
-            startZ = cPos.getMinBlockZ() + zOffset;
-            startX = cPos.getMinBlockX() + xOffset;
-            generateCorner(pLevel, cPos, blockpos$mutable, startX, startZ, rightXSize, topZSize, Corner.TR);
-        }
-        //Top left
-        if (cPos.equals(new ChunkPos(-1, -1))) {
-            zOffset = 8;
-            xOffset = 8;
-            startZ = cPos.getMinBlockZ() + zOffset;
-            startX = cPos.getMinBlockX() + xOffset;
-            generateCorner(pLevel, cPos, blockpos$mutable, startX, startZ, leftXSize, topZSize, Corner.TL);
+
+        generatePlatform(pLevel, cPos, pos, PEDESTAL_CX, PEDESTAL_CZ, topOfPlatform, false);
+        generatePlatform(pLevel, cPos, pos, UNION_CX, UNION_CZ, topOfUnionPlatform, true);
+        generateBridge(pLevel, cPos, pos);
+    }
+
+    public void generatePlatform(WorldGenRegion level, ChunkPos cPos, BlockPos.MutableBlockPos pos, int centreX, int centreZ, String top, boolean fate) {
+        int fromX = Math.max(cPos.getMinBlockX(), centreX - PLATFORM_RADIUS);
+        int toX = Math.min(cPos.getMaxBlockX(), centreX + PLATFORM_RADIUS);
+        int fromZ = Math.max(cPos.getMinBlockZ(), centreZ - PLATFORM_RADIUS);
+        int toZ = Math.min(cPos.getMaxBlockZ(), centreZ + PLATFORM_RADIUS);
+        if (fromX > toX || fromZ > toZ)
+            return;
+
+        for (int y = 0; y < height; ++y) {
+            String layer;
+            if (y == 0) {
+                layer = top;
+            } else if (y == 1) {
+                layer = structureTop;
+            } else if (y == height - 1) {
+                layer = structureBottom;
+            } else {
+                layer = structureMiddle;
+            }
+            for (int worldZ = fromZ; worldZ <= toZ; ++worldZ) {
+                for (int worldX = fromX; worldX <= toX; ++worldX) {
+                    pos.set(worldX, SPAWN_POS.getY() - y, worldZ);
+                    int maskX = worldX - centreX + PLATFORM_RADIUS;
+                    int maskZ = worldZ - centreZ + PLATFORM_RADIUS;
+                    stateToPlace(layer.charAt(maskX + (maskZ * width)), level, pos, fate);
+                }
+            }
         }
     }
 
-    public void generateCorner(WorldGenRegion level, ChunkPos cPos, BlockPos.MutableBlockPos pos, int startX, int startZ, int xSize, int zSize, Corner corner) {
-        for (int y = 0; y < height; ++y) {
-            for (int z = 0; z < zSize; ++z) {
-                for (int x = 0; x < xSize; ++x) {
-                    pos.set(x + startX, SPAWN_POS.getY() - y, z + startZ);
-                    int strucX = x;
-                    int strucZ = z;
-                    switch (corner) {
-                        case BL:
-                            strucZ += 8;
-                            break;
-                        case BR:
-                            strucX += 8;
-                            strucZ += 8;
-                            break;
-                        case TL:
-                            //no change
-                            break;
-                        case TR:
-                            strucX += 8;
-                            break;
-                    }
-                    if (y == 0) {
-                        stateToPlace(topOfPlatform.charAt(strucX + (strucZ * width)), level, pos);
-                    } else if (y == 1) {
-                        stateToPlace(structureTop.charAt(strucX + (strucZ * width)), level, pos);
-                    } else if (y == height - 1) {
-                        stateToPlace(structureBottom.charAt(strucX + (strucZ * width)), level, pos);
-                    } else {
-                        stateToPlace(structureMiddle.charAt(strucX + (strucZ * width)), level, pos);
-                    }
-                }
+    public void generateBridge(WorldGenRegion level, ChunkPos cPos, BlockPos.MutableBlockPos pos) {
+        int fromX = Math.max(cPos.getMinBlockX(), UNION_CX - BRIDGE_HALF_WIDTH);
+        int toX = Math.min(cPos.getMaxBlockX(), UNION_CX + BRIDGE_HALF_WIDTH);
+        int fromZ = Math.max(cPos.getMinBlockZ(), BRIDGE_Z_MIN);
+        int toZ = Math.min(cPos.getMaxBlockZ(), BRIDGE_Z_MAX);
+        if (fromX > toX || fromZ > toZ)
+            return;
+
+        for (int worldZ = fromZ; worldZ <= toZ; ++worldZ) {
+            for (int worldX = fromX; worldX <= toX; ++worldX) {
+                pos.set(worldX, FLOOR_Y, worldZ);
+                stateToPlace('1', level, pos, false);
             }
         }
     }
@@ -257,14 +295,7 @@ public class DiveToTheHeartChunkGenerator extends ChunkGenerator {
 
     }
 
-    /**
-     * Returns the Manhattan distance between the two points.
-     */
-    private static int distance(int firstX, int firstZ, int secondX, int secondZ) {
-        return Math.max(Math.abs(firstX - secondX), Math.abs(firstZ - secondZ));
-    }
-
-    private void stateToPlace(char c, WorldGenRegion pLevel, BlockPos.MutableBlockPos pos) {
+    private void stateToPlace(char c, WorldGenRegion pLevel, BlockPos.MutableBlockPos pos, boolean fate) {
     	 switch (c) {
          case '0':
              return;
@@ -273,7 +304,9 @@ public class DiveToTheHeartChunkGenerator extends ChunkGenerator {
              break;
          case '2':
         	 pLevel.setBlock(pos, ModBlocks.station_of_awakening_core.get().defaultBlockState().setValue(SoAPlatformCoreBlock.STRUCTURE, true), 2);
-             ((SoAPlatformTileEntity) pLevel.getBlockEntity(pos)).setMultiblockFormed(true);
+             SoAPlatformTileEntity core = (SoAPlatformTileEntity) pLevel.getBlockEntity(pos);
+             core.setMultiblockFormed(true);
+             core.setFate(fate);
              break;
          case '3':
              createPedestal(pLevel, pos, new ItemStack(ModItems.dreamSword.get()));
@@ -293,5 +326,5 @@ public class DiveToTheHeartChunkGenerator extends ChunkGenerator {
         te.setStationOfAwakeningMarker(true);
         te.setDisplayStack(toDisplay);
     }
-    
+
 }

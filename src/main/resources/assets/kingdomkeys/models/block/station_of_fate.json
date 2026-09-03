@@ -1,0 +1,13 @@
+{
+    "parent": "neoforge:block/default",
+    "render_type": "minecraft:translucent",
+    "loader": "neoforge:obj",
+    "model": "kingdomkeys:models/block/station_of_fate.obj",
+    "transform": {
+        "translation": [0, 1, 0],
+        "scale": [1.0, 1.0, 1.0]
+    },
+    "automatic_culling": false,
+    "flip_v": true,
+    "textures": {}
+}

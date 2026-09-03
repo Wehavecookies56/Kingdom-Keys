@@ -121,6 +121,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		storage.putByte("soa_state", this.getSoAState().get());
 		storage.putByte("soa_choice", this.getChosen().get());
 		storage.putByte("soa_sacrifice", this.getSacrificed().get());
+		storage.putByte("soa_union", this.getUnion().get());
 		CompoundTag returnCompound = new CompoundTag();
 		Vec3 pos = this.getReturnLocation();
 		returnCompound.putDouble("x", pos.x);
@@ -406,6 +407,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		this.setSoAState(SoAState.fromByte(nbt.getByte("soa_state")));
 		this.setChoice(SoAState.fromByte(nbt.getByte("soa_choice")));
 		this.setSacrifice(SoAState.fromByte(nbt.getByte("soa_sacrifice")));
+		this.setUnion(Union.fromByte(nbt.getByte("soa_union")));
 		CompoundTag returnCompound = nbt.getCompound("soa_return_pos");
 		this.setReturnLocation(new Vec3(returnCompound.getDouble("x"), returnCompound.getDouble("y"), returnCompound.getDouble("z")));
 		this.setReturnDimension(ResourceKey.create(Registries.DIMENSION, KingdomKeys.rl(nbt.getString("soa_return_dim"))));
@@ -677,6 +679,8 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 	private ResourceKey<Level> returnDim = Level.OVERWORLD;
 
 	SoAState soAState = SoAState.NONE, choice = SoAState.NONE, sacrifice = SoAState.NONE;
+
+	private Union union = Union.NONE;
 
 	private BlockPos choicePedestal = new BlockPos(0, 0, 0), sacrificePedestal = new BlockPos(0, 0, 0);
 
@@ -2401,6 +2405,18 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 
 	public void setSoAState(SoAState state) {
 		this.soAState = state;
+	}
+
+	public Union getUnion() {
+		return this.union;
+	}
+
+	public void setUnion(Union union) {
+		this.union = union;
+	}
+
+	public boolean hasUnion() {
+		return this.union != Union.NONE;
 	}
 
 	public SoAState getChosen() {

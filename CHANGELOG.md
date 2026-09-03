@@ -16,5 +16,6 @@
 * Reversal RC being available even when the Dusk was out of reach.
 * Keychains not getting an UUID assigned when synthesised directly into the Keychains Bag, allowing for dupes.
 * Selling using the old item get sound.
+* Gula's hat not having a back texture.
 * Aligned moogle level to the right of the synthesis screen.
 * Some localization issues.

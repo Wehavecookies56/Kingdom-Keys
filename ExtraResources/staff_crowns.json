@@ -73,5 +73,10 @@
 	"MinusNoone": {
 		"crowns": ["addon"],
 		"uuids": ["f8899428-566a-47f5-bccb-4499027276bd", "0d178801-534f-3334-b733-9a22aef7c123"]
+	},
+
+	"LilithStrife": {
+		"crowns": ["addon"],
+		"uuids": ["a1f6de77-0ecd-4ffe-9fab-55d04cdb94c7", "8cc8ea33-b8d0-35a2-98b9-61f0ddf52769"]
 	}
 }

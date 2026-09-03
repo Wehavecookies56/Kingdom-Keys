@@ -2463,6 +2463,26 @@ public class LanguageENUS extends KKLanguageProvider {
         add("soa.confirm.3", "You've given the power");
         add("soa.confirm.5", "Is this the form you choose?");
 
+        //Unions
+        add("soa.union.intro.1", "Five bearers stand before you.");
+        add("soa.union.intro.2", "One of them will instruct you.");
+        add("soa.union.confirm", "Will you stand with them?");
+        add("soa.union.chosen.1", "Your union is decided.");
+        add("soa.union.chosen.2", "The road ahead is open now.");
+        add("kingdomkeys.union.none", "No Union");
+        add("kingdomkeys.union.none.desc", "No bearer has claimed you.");
+        add("kingdomkeys.union.unicornis", "Unicornis");
+        add("kingdomkeys.union.unicornis.desc", "The leadership that guides with balance.");
+        add("kingdomkeys.union.leopardos", "Leopardos");
+        add("kingdomkeys.union.leopardos.desc", "The cunning that walks its own path.");
+        add("kingdomkeys.union.vulpes", "Vulpes");
+        add("kingdomkeys.union.vulpes.desc", "The empathy that protects what matters.");
+        add("kingdomkeys.union.anguis", "Anguis");
+        add("kingdomkeys.union.anguis.desc", "The wisdom that waits and watches.");
+        add("kingdomkeys.union.ursus", "Ursus");
+        add("kingdomkeys.union.ursus.desc", "The strength that stands for others.");
+
+
         //Heartless intro
         add(HeartlessIntro1, "This world has been connected");
         add(HeartlessIntro2, "Tied to the darkness...");

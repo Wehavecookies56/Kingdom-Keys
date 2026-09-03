@@ -1580,7 +1580,12 @@ public class Strings {
             SoA_ConfirmGuardian = "soa.confirm.guardian",
             SoA_ConfirmMystic = "soa.confirm.mystic",
             SoA_Confirm3 = "soa.confirm.3",
-            SoA_Confirm5 = "soa.confirm.5"
+            SoA_Confirm5 = "soa.confirm.5",
+            SoA_UnionIntro1 = "soa.union.intro.1",
+            SoA_UnionIntro2 = "soa.union.intro.2",
+            SoA_UnionConfirm = "soa.union.confirm",
+            SoA_UnionChosen1 = "soa.union.chosen.1",
+            SoA_UnionChosen2 = "soa.union.chosen.2"
     ;
     
     public static String

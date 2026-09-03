@@ -23,17 +23,29 @@ public class NoChoiceMenuPopup extends MenuPopup {
         PlayerData playerData = PlayerData.get(player);
         playerData.setReturnDimension(player);
         playerData.setReturnLocation(player);
-        playerData.setSoAState(SoAState.CHOICE);
+
+        // The union platform comes first, unless this player already belongs to one
+        boolean hasUnion = playerData.hasUnion();
+        playerData.setSoAState(hasUnion ? SoAState.CHOICE : SoAState.UNION);
         PacketHandler.sendToServer(new CSTravelToSoA());
         Minecraft.getInstance().setScreen(null);
         SoAMessages.INSTANCE.clearMessage();
-        SoAMessages.INSTANCE.queueMessages(
-                new Utils.Title(Strings.SoA_Title, Strings.SoA_Subtitle),
-                new Utils.Title(null, Strings.SoA_ChoiceIntro1, 20, 60, 20),
-                new Utils.Title(null, Strings.SoA_ChoiceIntro2, 20, 60, 20),
-                new Utils.Title(null, Strings.SoA_ChoiceIntro3, 20, 60, 20),
-                new Utils.Title(null, Strings.SoA_ChoiceIntro4, 20, 60, 20)
-        );
+
+        if (hasUnion) {
+            SoAMessages.INSTANCE.queueMessages(
+                    new Utils.Title(Strings.SoA_Title, Strings.SoA_Subtitle),
+                    new Utils.Title(null, Strings.SoA_ChoiceIntro1, 20, 60, 20),
+                    new Utils.Title(null, Strings.SoA_ChoiceIntro2, 20, 60, 20),
+                    new Utils.Title(null, Strings.SoA_ChoiceIntro3, 20, 60, 20),
+                    new Utils.Title(null, Strings.SoA_ChoiceIntro4, 20, 60, 20)
+            );
+        } else {
+            SoAMessages.INSTANCE.queueMessages(
+                    new Utils.Title(Strings.SoA_Title, Strings.SoA_Subtitle),
+                    new Utils.Title(null, Strings.SoA_UnionIntro1, 20, 60, 20),
+                    new Utils.Title(null, Strings.SoA_UnionIntro2, 20, 60, 20)
+            );
+        }
     }
 
     @Override

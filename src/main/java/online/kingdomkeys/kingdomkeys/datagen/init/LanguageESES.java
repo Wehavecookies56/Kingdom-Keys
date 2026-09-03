@@ -2499,6 +2499,25 @@ public class LanguageESES extends KKLanguageProvider {
         add("soa.confirm.3", "Has renunciado al");
         add("soa.confirm.5", "¿Es esta la forma que quieres eligir?");
 
+        //Uniones
+        add("soa.union.intro.1", "Cinco portadores te esperan.");
+        add("soa.union.intro.2", "Uno de ellos te adiestrará.");
+        add("soa.union.confirm", "¿Caminarás a su lado?");
+        add("soa.union.chosen.1", "Tu unión está decidida.");
+        add("soa.union.chosen.2", "El camino ya está abierto.");
+        add("kingdomkeys.union.none", "Sin unión");
+        add("kingdomkeys.union.none.desc", "Ningún portador te ha reclamado.");
+        add("kingdomkeys.union.unicornis", "Unicornis");
+        add("kingdomkeys.union.unicornis.desc", "El liderazgo que guía con equilibrio.");
+        add("kingdomkeys.union.leopardos", "Leopardos");
+        add("kingdomkeys.union.leopardos.desc", "La astucia que sigue su propio camino.");
+        add("kingdomkeys.union.vulpes", "Vulpes");
+        add("kingdomkeys.union.vulpes.desc", "La empatía que protege lo que importa.");
+        add("kingdomkeys.union.anguis", "Anguis");
+        add("kingdomkeys.union.anguis.desc", "La sabiduría que observa pacientemente.");
+        add("kingdomkeys.union.ursus", "Ursus");
+        add("kingdomkeys.union.ursus.desc", "La fuerza que se alza por los demás.");
+
         add(HeartlessIntro1, "Este mundo ha sido conectado");
         add(HeartlessIntro2, "Unido a la oscuridad...");
         add(HeartlessIntro3, "Y pronto perderá la luz");

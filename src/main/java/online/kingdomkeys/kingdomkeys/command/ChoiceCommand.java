@@ -17,6 +17,7 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.api.event.ChoiceEvent;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.lib.SoAState;
+import online.kingdomkeys.kingdomkeys.lib.Union;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
 
@@ -73,6 +74,7 @@ public class ChoiceCommand extends BaseCommand {
             targetData.setSoAState(SoAState.NONE);
             targetData.setChoice(SoAState.NONE);
             targetData.setSacrifice(SoAState.NONE);
+            targetData.setUnion(Union.NONE);
             PacketHandler.sendTo(new SCSyncPlayerData(target), target);
             if (players.size() > 1) {
                 context.getSource().sendSuccess(() -> Component.translatable("Station of Awakening choice has been reset for %s", target.getName().getString()), true);

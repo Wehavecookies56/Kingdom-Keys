@@ -2,10 +2,13 @@ package online.kingdomkeys.kingdomkeys.world.dimension.dive_to_the_heart;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
+import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.portal.DimensionTransition;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
@@ -18,7 +21,10 @@ import net.neoforged.neoforge.event.level.BlockEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
+import online.kingdomkeys.kingdomkeys.entity.ModEntities;
+import online.kingdomkeys.kingdomkeys.entity.mob.ForetellerEntity;
 import online.kingdomkeys.kingdomkeys.lib.SoAState;
+import online.kingdomkeys.kingdomkeys.lib.Union;
 import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
 
 @EventBusSubscriber
@@ -56,11 +62,25 @@ public class DiveToTheHeartDimension{
         if (!event.getEntity().isCreative()) {
             if (event.getEntity().level().dimension().equals(ModDimensions.DIVE_TO_THE_HEART)) {
                 PlayerData playerData = PlayerData.get(event.getEntity());
-                if (playerData != null) {
-                    if (playerData.getSoAState() == SoAState.NONE) {
-                        playerData.setSoAState(SoAState.CHOICE);
+                if (playerData == null)
+                    return;
+
+                if (playerData.getSoAState() == SoAState.NONE) {
+                    // Anyone who already has a union goes straight to the weapon choice
+                    playerData.setSoAState(playerData.hasUnion() ? SoAState.CHOICE : SoAState.UNION);
+                }
+
+                if (playerData.getSoAState() == SoAState.UNION) {
+                    if (!event.getEntity().level().isClientSide() && event.getEntity().tickCount % 40 == 0) {
+                        ensureForetellers((ServerLevel) event.getEntity().level());
+                    }
+
+                    // Bridge is always solid
+                    if (!DiveToTheHeartChunkGenerator.onUnionPlatform(event.getEntity().getX(), event.getEntity().getZ())) {
+                        returnToPlatform(event.getEntity(), false);
                     }
                 }
+
                 if (event.getEntity().getY() < 10) {
                     if (playerData.getSoAState() == SoAState.COMPLETE) {
                         if (!event.getEntity().level().isClientSide()) {
@@ -69,10 +89,44 @@ public class DiveToTheHeartDimension{
                             event.getEntity().changeDimension(new DimensionTransition(dimension, new Vec3(playerData.getReturnLocation().x, playerData.getReturnLocation().y, playerData.getReturnLocation().z), Vec3.ZERO, event.getEntity().getYRot(), event.getEntity().getXRot(), entity -> {}));
                         }
                     } else {
-                        event.getEntity().teleportTo(0, 25, 0);
+                        returnToPlatform(event.getEntity(), playerData.hasUnion());
                     }
                 }
             }
+        }
+    }
+
+    private static void returnToPlatform(Player player, boolean hasUnion) {
+        BlockPos back = DiveToTheHeartChunkGenerator.spawnFor(hasUnion);
+        player.resetFallDistance();
+        player.teleportTo(back.getX() + 0.5D, back.getY(), back.getZ() + 0.5D);
+    }
+
+    public static void ensureForetellers(ServerLevel level) {
+        Union[] unions = Union.choosable();
+        for (int i = 0; i < unions.length; i++) {
+            Union union = unions[i];
+            BlockPos pos = DiveToTheHeartChunkGenerator.foretellerPos(i);
+
+            if (!level.getEntitiesOfClass(ForetellerEntity.class, new AABB(pos).inflate(3.0D), f -> f.getUnion() == union).isEmpty())
+                continue;
+
+            ForetellerEntity foreteller = ModEntities.TYPE_FORETELLER.get().create(level);
+            if (foreteller == null)
+                continue;
+
+            foreteller.setUnion(union);
+            foreteller.wearUnionRobes();
+
+            // Facing the middle of the platform, so the five of them look inwards at the player
+            double dx = DiveToTheHeartChunkGenerator.UNION_CX - pos.getX();
+            double dz = DiveToTheHeartChunkGenerator.UNION_CZ - pos.getZ();
+            float yaw = (float) (Mth.atan2(dz, dx) * (180D / Math.PI)) - 90.0F;
+
+            foreteller.moveTo(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, yaw, 0.0F);
+            foreteller.setYHeadRot(yaw);
+            foreteller.setYBodyRot(yaw);
+            level.addFreshEntity(foreteller);
         }
     }
 

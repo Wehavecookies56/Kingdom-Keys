@@ -20,6 +20,8 @@ public class SoAPlatformTileEntity extends BlockEntity {
 
     private boolean multiblockFormed = false;
 
+    private boolean fate = false;
+
     public List<BlockPos> structureBlockPosCache = new ArrayList<>();
 
     public void setMultiblockFormed(boolean formed) {
@@ -29,6 +31,15 @@ public class SoAPlatformTileEntity extends BlockEntity {
 
     public boolean isMultiblockFormed() {
         return multiblockFormed;
+    }
+
+    public void setFate(boolean fate) {
+        this.fate = fate;
+        setChanged();
+    }
+
+    public boolean isFate() {
+        return fate;
     }
 
     public SoAPlatformTileEntity(BlockPos pos, BlockState state) {
@@ -49,6 +60,7 @@ public class SoAPlatformTileEntity extends BlockEntity {
     public void loadAdditional(CompoundTag compound, HolderLookup.Provider registries) {
         super.loadAdditional(compound, registries);
         multiblockFormed = compound.getBoolean("formed");
+        fate = compound.getBoolean("fate");
         CompoundTag structureCompound = compound.getCompound("structure");
         int size = structureCompound.getInt("size");
         structureBlockPosCache.clear();
@@ -61,6 +73,7 @@ public class SoAPlatformTileEntity extends BlockEntity {
     protected void saveAdditional(CompoundTag compound, HolderLookup.Provider registries) {
         super.saveAdditional(compound, registries);
         compound.putBoolean("formed", multiblockFormed);
+        compound.putBoolean("fate", fate);
         CompoundTag structureCompound = new CompoundTag();
         structureCompound.putInt("size", structureBlockPosCache.size());
         for (int i = 0; i < structureBlockPosCache.size(); i++) {

@@ -151,6 +151,8 @@ public class ModEntities {
     public static final DeferredHolder<EntityType<?>, EntityType<MoogleEntity>> TYPE_MOOGLE = createEntityType(MoogleEntity::new, MobCategory.AMBIENT, "moogle", 0.6F, 1.5F);
     public static final Supplier<Item> MOOGLE_EGG = ModItems.ITEMS.register("moogle_spawn_egg", () -> new DeferredSpawnEggItem(TYPE_MOOGLE, 0xDACAB0, 0xC50033, PROPERTIES));
 
+    public static final DeferredHolder<EntityType<?>, EntityType<ForetellerEntity>> TYPE_FORETELLER = createEntityType(ForetellerEntity::new, MobCategory.MISC, "foreteller", 0.6F, 1.95F);
+
     public static final DeferredHolder<EntityType<?>, EntityType<ShadowEntity>> TYPE_SHADOW = createEntityType(ShadowEntity::new, MobCategory.MONSTER, "shadow", 0.5F, 0.7F);
     public static final Supplier<Item> SHADOW_EGG = ModItems.ITEMS.register("shadow_spawn_egg", () -> new DeferredSpawnEggItem(TYPE_SHADOW, 0x000000, 0xFFFF00, PROPERTIES));
     public static final DeferredHolder<EntityType<?>, EntityType<MegaShadowEntity>> TYPE_MEGA_SHADOW = createEntityType(MegaShadowEntity::new, MobCategory.MONSTER, "mega_shadow", 1.5F, 1.7F);
@@ -402,6 +404,7 @@ public class ModEntities {
         event.registerEntityRenderer(TYPE_SPAWNING_ORB.get(), SpawningOrbRenderer::new);
         
         event.registerEntityRenderer(TYPE_MOOGLE.get(), MoogleRenderer::new);
+        event.registerEntityRenderer(TYPE_FORETELLER.get(), ForetellerRenderer::new);
         event.registerEntityRenderer(TYPE_SHADOW.get(), ShadowRenderer::new);
         event.registerEntityRenderer(TYPE_MEGA_SHADOW.get(), ShadowRenderer::new);
         event.registerEntityRenderer(TYPE_GIGA_SHADOW.get(), ShadowRenderer::new);
@@ -519,6 +522,7 @@ public class ModEntities {
         event.registerLayerDefinition(LargeBodyModel.LAYER_LOCATION, LargeBodyModel::createBodyLayer);
         event.registerLayerDefinition(MarluxiaModel.LAYER_LOCATION, MarluxiaModel::createBodyLayer);
         event.registerLayerDefinition(MoogleModel.LAYER_LOCATION, MoogleModel::createBodyLayer);
+        event.registerLayerDefinition(ForetellerModel.LAYER_LOCATION, ForetellerModel::createBodyLayer);
         event.registerLayerDefinition(TrainingDummyModel.LAYER_LOCATION, TrainingDummyModel::createBodyLayer);
         event.registerLayerDefinition(NobodyCreeperModel.LAYER_LOCATION, NobodyCreeperModel::createBodyLayer);
         event.registerLayerDefinition(ShadowGlobModel.LAYER_LOCATION, ShadowGlobModel::createBodyLayer);
@@ -574,6 +578,7 @@ public class ModEntities {
         event.put(TYPE_MEGA_SHADOW.get(), MegaShadowEntity.registerAttributes().build());
         event.put(TYPE_MINUTE_BOMB.get(), MinuteBombEntity.registerAttributes().build());
         event.put(TYPE_MOOGLE.get(), MoogleEntity.registerAttributes().build());
+        event.put(TYPE_FORETELLER.get(), ForetellerEntity.registerAttributes().build());
         event.put(TYPE_NOBODY_CREEPER.get(), NobodyCreeperEntity.registerAttributes().build());
         event.put(TYPE_RED_NOCTURNE.get(), RedNocturneEntity.registerAttributes().build());
         event.put(TYPE_SHADOW.get(), ShadowEntity.registerAttributes().build());

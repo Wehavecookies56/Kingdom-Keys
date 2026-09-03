@@ -31,6 +31,7 @@ public class PacketHandler {
 		client(SCDeleteSavePointScreenshot.TYPE, SCDeleteSavePointScreenshot.STREAM_CODEC);
 		client(SCOpenAlignmentScreen.TYPE, SCOpenAlignmentScreen.STREAM_CODEC);
 		client(SCOpenChoiceScreen.TYPE, SCOpenChoiceScreen.STREAM_CODEC);
+		client(SCOpenUnionScreen.TYPE, SCOpenUnionScreen.STREAM_CODEC);
 		client(SCOpenCODoorGui.TYPE, SCOpenCODoorGui.STREAM_CODEC);
 		client(SCOpenStruggleMenu.TYPE, SCOpenStruggleMenu.STREAM_CODEC);
 		client(SCCloseScreen.TYPE, SCCloseScreen.STREAM_CODEC);
@@ -119,6 +120,7 @@ public class PacketHandler {
 		server(CSSetAirStepPacket.TYPE, CSSetAirStepPacket.STREAM_CODEC);
 		server(CSSetAlignment.TYPE, CSSetAlignment.STREAM_CODEC);
 		server(CSSetChoice.TYPE, CSSetChoice.STREAM_CODEC);
+		server(CSSetUnion.TYPE, CSSetUnion.STREAM_CODEC);
 		server(CSSetEquippedAbilityPacket.TYPE, CSSetEquippedAbilityPacket.STREAM_CODEC);
 		server(CSSetGlidingPacket.TYPE, CSSetGlidingPacket.STREAM_CODEC);
 		server(CSSetNotifColor.TYPE, CSSetNotifColor.STREAM_CODEC);

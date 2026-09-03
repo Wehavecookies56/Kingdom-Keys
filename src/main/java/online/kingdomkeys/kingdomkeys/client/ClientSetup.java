@@ -253,6 +253,7 @@ public class ClientSetup {
 	public static void modelRegistry(ModelEvent.RegisterAdditional event) {
 		event.register(ModelResourceLocation.standalone(KingdomKeys.rl("entity/portal")));
 		event.register(ModelResourceLocation.standalone(KingdomKeys.rl("block/station_of_awakening")));
+		event.register(ModelResourceLocation.standalone(KingdomKeys.rl("block/station_of_fate")));
 		event.register(ModelResourceLocation.standalone(KingdomKeys.rl("entity/heart")));
 	}
 

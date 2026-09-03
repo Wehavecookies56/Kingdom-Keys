@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.network.cts;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
@@ -13,6 +14,8 @@ import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.lib.SoAState;
 import online.kingdomkeys.kingdomkeys.network.Packet;
 import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
+import online.kingdomkeys.kingdomkeys.world.dimension.dive_to_the_heart.DiveToTheHeartChunkGenerator;
+import online.kingdomkeys.kingdomkeys.world.dimension.dive_to_the_heart.DiveToTheHeartDimension;
 
 public record CSTravelToSoA() implements Packet {
 
@@ -27,9 +30,18 @@ public record CSTravelToSoA() implements Packet {
         if (playerData.getSoAState() != SoAState.COMPLETE) {
             playerData.setReturnDimension(player);
             playerData.setReturnLocation(player);
-            playerData.setSoAState(SoAState.CHOICE);
+
+            // Without a union the dive starts in a new platform which then takes you to the pedestals one
+            boolean hasUnion = playerData.hasUnion();
+            playerData.setSoAState(hasUnion ? SoAState.CHOICE : SoAState.UNION);
+
+            BlockPos arrival = DiveToTheHeartChunkGenerator.spawnFor(hasUnion);
             ServerLevel dimension = player.level().getServer().getLevel(ModDimensions.DIVE_TO_THE_HEART);
-            player.changeDimension(new DimensionTransition(dimension, new Vec3(0, 28, 0), Vec3.ZERO, player.getYRot(), player.getXRot(), pEntity -> {}));
+            player.changeDimension(new DimensionTransition(dimension, new Vec3(arrival.getX() + 0.5D, arrival.getY() + 3, arrival.getZ() + 0.5D), Vec3.ZERO, player.getYRot(), player.getXRot(), pEntity -> {}));
+
+            if (!hasUnion && dimension != null) {
+                DiveToTheHeartDimension.ensureForetellers(dimension);
+            }
         }
     }
 
