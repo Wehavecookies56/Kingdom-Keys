@@ -1,0 +1,37 @@
+[
+  {
+    "amount": 1,
+    "cost": 5000,
+    "currency": "lux",
+    "item": "kingdomkeys:avas_keyblade_chain",
+    "tier": 1
+  },
+  {
+    "amount": 1,
+    "cost": 600,
+    "currency": "lux",
+    "item": "kingdomkeys:ava_helmet",
+    "tier": 1
+  },
+  {
+    "amount": 1,
+    "cost": 600,
+    "currency": "lux",
+    "item": "kingdomkeys:ava_chestplate",
+    "tier": 1
+  },
+  {
+    "amount": 1,
+    "cost": 600,
+    "currency": "lux",
+    "item": "kingdomkeys:ava_leggings",
+    "tier": 1
+  },
+  {
+    "amount": 1,
+    "cost": 600,
+    "currency": "lux",
+    "item": "kingdomkeys:ava_boots",
+    "tier": 1
+  }
+]

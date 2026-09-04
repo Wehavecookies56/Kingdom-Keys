@@ -1,0 +1,37 @@
+[
+  {
+    "amount": 1,
+    "cost": 5000,
+    "currency": "lux",
+    "item": "kingdomkeys:gulas_keyblade_chain",
+    "tier": 1
+  },
+  {
+    "amount": 1,
+    "cost": 600,
+    "currency": "lux",
+    "item": "kingdomkeys:gula_helmet",
+    "tier": 1
+  },
+  {
+    "amount": 1,
+    "cost": 600,
+    "currency": "lux",
+    "item": "kingdomkeys:gula_chestplate",
+    "tier": 1
+  },
+  {
+    "amount": 1,
+    "cost": 600,
+    "currency": "lux",
+    "item": "kingdomkeys:gula_leggings",
+    "tier": 1
+  },
+  {
+    "amount": 1,
+    "cost": 600,
+    "currency": "lux",
+    "item": "kingdomkeys:gula_boots",
+    "tier": 1
+  }
+]

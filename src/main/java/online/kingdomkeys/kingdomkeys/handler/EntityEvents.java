@@ -1493,6 +1493,11 @@ public class EntityEvents {
 						entity.level().addFreshEntity(new FocusOrbEntity(event.getEntity().level(), x, y, z, num));
 					}
 
+					if (playerData.hasUnion()) {
+						int lux = (int) Utils.randomWithRange(1, Math.max(2, entity.getMaxHealth() / 10)); //a zombie of 20 HP can drop 1-2, if it has more hp its 1 extra point per 10 hp
+						entity.level().addFreshEntity(new LuxOrbEntity(event.getEntity().level(), x, y, z, lux));
+					}
+
 					int num = Utils.randomWithRange(0, 99);
 					if (num < ModConfigs.biomeMemoryDropChance + Utils.getLootingLevel(player)) {
 						Item biomeMemoryItem = Utils.getMemoryFromBiome(level.getBiomeManager().getBiome(new BlockPos((int)x,(int)y,(int)z)));

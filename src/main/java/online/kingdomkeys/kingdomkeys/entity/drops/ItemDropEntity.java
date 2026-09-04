@@ -29,7 +29,7 @@ public abstract class ItemDropEntity extends Entity {
 	public int delayBeforeCanPickup;
 	public int value;
 
-	private Player closestPlayer;
+	protected Player closestPlayer;
 	private static final EntityDataAccessor<Integer> VALUE = SynchedEntityData.defineId(ItemDropEntity.class, EntityDataSerializers.INT);
 	private final MutableBlockPos cachedPos = new MutableBlockPos();
 

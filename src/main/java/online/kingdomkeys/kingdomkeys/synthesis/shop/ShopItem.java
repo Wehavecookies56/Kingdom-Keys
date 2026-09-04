@@ -16,6 +16,7 @@ public class ShopItem {
     @Nullable int amount;
    // @Nullable String type;
     @Nullable int cost;
+    Currency currency = Currency.MUNNY;
     @Nullable int tier;
 	@Nullable int matReq;
 	@Nullable boolean requireAll;
@@ -55,6 +56,14 @@ public class ShopItem {
 		this.cost = cost;
 	}
 
+	public Currency getCurrency() {
+		return currency == null ? Currency.MUNNY : currency;
+	}
+
+	public void setCurrency(Currency currency) {
+		this.currency = currency == null ? Currency.MUNNY : currency;
+	}
+
 	public int getMatReq() {
 		return matReq;
 	}
@@ -85,6 +94,7 @@ public class ShopItem {
 		nbt.putString("result", Utils.getItemRegistryName(result).toString());
 		nbt.putInt("amount", amount);
 		nbt.putInt("cost", cost);
+		nbt.putString("currency", getCurrency().getSerializedName());
 		nbt.putInt("tier", tier);
 		nbt.putInt("mat_req", matReq);
 		nbt.putBoolean("require_all", requireAll);
@@ -94,6 +104,7 @@ public class ShopItem {
 	public void deserializeNBT(CompoundTag nbt) {
 		this.setResult(BuiltInRegistries.ITEM.get(KingdomKeys.rl(nbt.getString("result"))), nbt.getInt("amount"));
 		this.setCost(nbt.getInt("cost"));
+		this.setCurrency(Currency.fromName(nbt.getString("currency")));
 		this.setTier(nbt.getInt("tier"));
 		this.setMatReq(nbt.getInt("mat_req"));
 		this.setRequireAll(nbt.getBoolean("require_all"));

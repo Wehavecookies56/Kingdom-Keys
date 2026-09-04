@@ -24,6 +24,7 @@ import online.kingdomkeys.kingdomkeys.ability.AbilityData;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.client.gui.ConfirmChoiceMenuPopup;
 import online.kingdomkeys.kingdomkeys.client.gui.ConfirmUnionMenuPopup;
+import online.kingdomkeys.kingdomkeys.client.gui.ForetellerScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.IPlayerDataRequester;
 import online.kingdomkeys.kingdomkeys.client.gui.OrgPortalGui;
 import online.kingdomkeys.kingdomkeys.client.gui.SavePointScreen;
@@ -118,6 +119,12 @@ public class ClientPacketHandler {
     public static void openChoice(SCOpenChoiceScreen message) {
         Minecraft.getInstance().setScreen(new ConfirmChoiceMenuPopup(message.state(), message.choice(), message.pos()));
         SoAMessages.INSTANCE.clearMessage();
+    }
+
+    public static void openForeteller(SCOpenForetellerScreen message) {
+        PlayerData data = PlayerData.get(Minecraft.getInstance().player);
+        data.deserializeNBT(Minecraft.getInstance().level.registryAccess(), message.playerData());
+        Minecraft.getInstance().setScreen(new ForetellerScreen(data, message.union()));
     }
 
     public static void openUnion(SCOpenUnionScreen message) {

@@ -351,6 +351,8 @@ public class LanguageESES extends KKLanguageProvider {
         //Main Menu Status Bar
         add(Gui_Menu_Main_Synthesis_Tier, "Síntesis");
         add(Gui_Menu_Main_Munny, "Platines");
+        add(Gui_Menu_Main_Lux, "Lux");
+        add(Gui_Foreteller_Redeem, "Canjear");
         add(Gui_Menu_Main_Hearts, "Corazones");
         add(Gui_Menu_Main_Time, "Hora del Mundo");
         add(Gui_Menu_Main_Time_Spent, "Tiempo total");

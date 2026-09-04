@@ -19,12 +19,10 @@ public class SynthesisRecipe extends SynthesisRecipeProvider {
         // Keyblades
         getBuilder(Strings.abaddonPlasma).output(Strings.abaddonPlasmaChain, 1).addTier(4).addType("keyblade").addMaterial(soothing_gem, 2).addMaterial(writhing_stone, 4).addMaterial(soothing_crystal, 3);
         getBuilder(Strings.abyssalTide).output(Strings.abyssalTideChain, 1).addTier(2).addType("keyblade").addMaterial(pulsing_stone, 3).addMaterial(frost_shard, 3);
-        getBuilder(Strings.acedsKeyblade).output(Strings.acedsKeybladeChain, 1).addTier(5).addType("keyblade").addMaterial(manifest_illusion, 1).addMaterial(lost_illusion, 1).addMaterial(tranquility_crystal, 6).addMaterial(tranquility_stone, 3).addMaterial(tranquility_gem, 4).addMaterial(tranquility_shard, 2);
         getBuilder(Strings.adventRed).output(Strings.adventRedChain, 1).addTier(1).addType("keyblade").addMaterial(blazing_crystal,1).addMaterial(pulsing_crystal,1);
         getBuilder(Strings.allForOne).output(Strings.allForOneChain, 1).addTier(3).addType("keyblade").addMaterial(wellspring_crystal, 1).addMaterial(soothing_stone, 3).addMaterial(soothing_shard, 2);
         getBuilder(Strings.astralBlast).output(Strings.astralBlastChain, 1).addTier(5).addType("keyblade").addMaterial(soothing_gem, 2).addMaterial(lucid_stone, 2).addMaterial(blazing_shard, 3);
         getBuilder(Strings.aubade).output(Strings.aubadeChain, 1).addTier(5).addType("keyblade").addMaterial(blazing_stone, 1).addMaterial(blazing_shard, 2).addMaterial(blazing_crystal, 1);
-        getBuilder(Strings.avasKeyblade).output(Strings.avasKeybladeChain, 1).addTier(5).addType("keyblade").addMaterial(lost_illusion, 1).addMaterial(betwixt_crystal, 6).addMaterial(betwixt_stone, 3).addMaterial(betwixt_gem, 4).addMaterial(betwixt_shard, 2);
         getBuilder(Strings.bondOfFlame).output(Strings.bondOfFlameChain, 1).addTier(3).addType("keyblade").addMaterial(blazing_stone, 3).addMaterial(blazing_shard, 5).addMaterial(blazing_gem, 2);
         getBuilder(Strings.bondOfTheBlaze).output(Strings.bondOfTheBlazeChain, 1).addTier(3).addType("keyblade").addMaterial(blazing_gem, 4).addMaterial(blazing_stone, 2).addMaterial(blazing_shard, 5);
         getBuilder(Strings.braveheart).output(Strings.braveheartChain, 1).addTier(1).addType("keyblade").addMaterial(betwixt_crystal,1).addMaterial(pulsing_gem,2);
@@ -63,7 +61,6 @@ public class SynthesisRecipe extends SynthesisRecipeProvider {
         getBuilder(Strings.grandChef).output(Strings.grandChefChain, 1).addTier(1).addType("keyblade").addMaterial(blazing_stone, 3).addMaterial(blazing_crystal, 1).addMaterial(blazing_shard, 2);
         getBuilder(Strings.guardianBell).output(Strings.guardianBellChain, 1).addTier(1).addType("keyblade").addMaterial(writhing_stone, 3).addMaterial(lightning_shard, 3).addMaterial(wellspring_crystal, 2);
         getBuilder(Strings.guardianSoul).output(Strings.guardianSoulChain, 1).addTier(4).addType("keyblade").addMaterial(pulsing_stone, 4).addMaterial(writhing_shard, 3).addMaterial(lightning_gem, 3).addMaterial(wellspring_stone, 1);
-        getBuilder(Strings.gulasKeyblade).output(Strings.gulasKeybladeChain, 1).addTier(5).addType("keyblade").addMaterial(manifest_illusion, 1).addMaterial(lost_illusion, 1).addMaterial(hungry_crystal, 6).addMaterial(hungry_stone, 3).addMaterial(hungry_gem, 4).addMaterial(hungry_shard, 2);
         getBuilder(Strings.gullWing).output(Strings.gullWingChain, 1).addTier(1).addType("keyblade").addMaterial(wellspring_crystal, 2).addMaterial(blazing_gem, 2).addMaterial(pulsing_shard, 5);
         getBuilder(Strings.happyGear).output(Strings.happyGearChain, 1).addTier(2).addType("keyblade").addMaterial(wellspring_crystal, 2).addMaterial(sinister_gem, 2).addMaterial(sinister_shard, 4);
         getBuilder(Strings.herosCrest).output(Strings.herosCrestChain, 1).addTier(3).addType("keyblade").addMaterial(soothing_stone, 2).addMaterial(lightning_crystal, 2).addMaterial(pulsing_shard, 3).addMaterial(lightning_gem, 2);
@@ -72,8 +69,6 @@ public class SynthesisRecipe extends SynthesisRecipeProvider {
         getBuilder(Strings.hunnySpout).output(Strings.hunnySpoutChain, 1).addTier(1).addType("keyblade").addMaterial(blazing_shard, 1).addMaterial(pulsing_stone, 3).addMaterial(betwixt_crystal, 1);
         getBuilder(Strings.hyperdrive).output(Strings.hyperdriveChain, 1).addTier(2).addType("keyblade").addMaterial(wellspring_crystal, 4).addMaterial(frost_stone, 2).addMaterial(lucid_gem, 2);
         getBuilder(Strings.incompleteKiblade).output(Strings.incompleteKibladeChain, 1).addTier(1).addType("keyblade").addMaterial(writhing_crystal, 1).addMaterial(mythril_crystal, 1).addMaterial(twilight_crystal, 1).addMaterial(betwixt_crystal, 1).addMaterial(blazing_crystal, 1).addMaterial(pulsing_crystal, 1);
-        getBuilder(Strings.invisKeyblade).output(Strings.invisKeybladeChain, 1).addTier(5).addType("keyblade").addMaterial(lost_illusion, 1).addMaterial(lucid_crystal, 6).addMaterial(lucid_stone, 3).addMaterial(lucid_gem, 4).addMaterial(lucid_shard, 2);
-        getBuilder(Strings.irasKeyblade).output(Strings.irasKeybladeChain, 1).addTier(5).addType("keyblade").addMaterial(lost_illusion, 1).addMaterial(pulsing_crystal, 6).addMaterial(pulsing_stone, 3).addMaterial(pulsing_gem, 4).addMaterial(pulsing_shard, 2);
         getBuilder(Strings.jungleKing).output(Strings.jungleKingChain, 1).addTier(2).addType("keyblade").addMaterial(wellspring_gem, 3).addMaterial(pulsing_stone, 4).addMaterial(betwixt_shard, 3);
         getBuilder(Strings.keybladeOfPeoplesHearts).output(Strings.keybladeOfPeoplesHeartsChain, 1).addTier(3).addType("keyblade").addMaterial(writhing_crystal, 3).addMaterial(pulsing_stone, 2).addMaterial(lost_illusion, 1);
         // TODO finish the kiblade recipe

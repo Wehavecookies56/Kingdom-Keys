@@ -32,6 +32,7 @@ public class PacketHandler {
 		client(SCOpenAlignmentScreen.TYPE, SCOpenAlignmentScreen.STREAM_CODEC);
 		client(SCOpenChoiceScreen.TYPE, SCOpenChoiceScreen.STREAM_CODEC);
 		client(SCOpenUnionScreen.TYPE, SCOpenUnionScreen.STREAM_CODEC);
+		client(SCOpenForetellerScreen.TYPE, SCOpenForetellerScreen.STREAM_CODEC);
 		client(SCOpenCODoorGui.TYPE, SCOpenCODoorGui.STREAM_CODEC);
 		client(SCOpenStruggleMenu.TYPE, SCOpenStruggleMenu.STREAM_CODEC);
 		client(SCCloseScreen.TYPE, SCCloseScreen.STREAM_CODEC);

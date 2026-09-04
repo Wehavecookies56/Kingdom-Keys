@@ -41,6 +41,7 @@ public class ShopListDataDeserializer implements JsonDeserializer<ShopList> {
 					shopItem.setResult(item, jsonObj.get("amount").getAsInt());
 					shopItem.setTier(jsonObj.get("tier").getAsInt());
 					shopItem.setCost(jsonObj.get("cost").getAsInt());
+					shopItem.setCurrency(jsonObj.has("currency") ? Currency.fromName(jsonObj.get("currency").getAsString()) : Currency.MUNNY);
 					shopItem.setMatReq(jsonObj.has("mat_req") ? jsonObj.get("mat_req").getAsInt() : 0);
 					shopItem.setRequireAll(jsonObj.has("condition") ? jsonObj.get("condition").getAsString().equals("all") : false);
 					out.addToList(shopItem);

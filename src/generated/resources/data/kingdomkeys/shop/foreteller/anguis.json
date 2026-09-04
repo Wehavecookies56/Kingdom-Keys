@@ -1,0 +1,37 @@
+[
+  {
+    "amount": 1,
+    "cost": 5000,
+    "currency": "lux",
+    "item": "kingdomkeys:invis_keyblade_chain",
+    "tier": 1
+  },
+  {
+    "amount": 1,
+    "cost": 600,
+    "currency": "lux",
+    "item": "kingdomkeys:invi_helmet",
+    "tier": 1
+  },
+  {
+    "amount": 1,
+    "cost": 600,
+    "currency": "lux",
+    "item": "kingdomkeys:invi_chestplate",
+    "tier": 1
+  },
+  {
+    "amount": 1,
+    "cost": 600,
+    "currency": "lux",
+    "item": "kingdomkeys:invi_leggings",
+    "tier": 1
+  },
+  {
+    "amount": 1,
+    "cost": 600,
+    "currency": "lux",
+    "item": "kingdomkeys:invi_boots",
+    "tier": 1
+  }
+]

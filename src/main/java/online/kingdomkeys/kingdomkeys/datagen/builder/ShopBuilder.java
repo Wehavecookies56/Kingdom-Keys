@@ -4,10 +4,13 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.Item;
+import online.kingdomkeys.kingdomkeys.synthesis.shop.Currency;
 
 import java.util.function.Supplier;
 
 public class ShopBuilder {
+
+	private static final int NO_MAT_REQ = -1;
 
 	private final JsonArray array = new JsonArray();
 
@@ -19,34 +22,35 @@ public class ShopBuilder {
 	}
 
 	public ShopBuilder item(Supplier<? extends Item> item, int amount, int tier, int cost) {
-		JsonObject obj = new JsonObject();
-		obj.addProperty("item", registryName(item));
-		obj.addProperty("amount", amount);
-		obj.addProperty("tier", tier);
-		obj.addProperty("cost", cost);
-		array.add(obj);
-		return this;
+		return item(item, amount, tier, cost, Currency.MUNNY);
+	}
+
+	// Paid in something other than munny
+	public ShopBuilder item(Supplier<? extends Item> item, int amount, int tier, int cost, Currency currency) {
+		return item(item, amount, tier, cost, currency, NO_MAT_REQ, false);
 	}
 
 	public ShopBuilder item(Supplier<? extends Item> item, int amount, int tier, int cost, int matReq) {
-		JsonObject obj = new JsonObject();
-		obj.addProperty("item", registryName(item));
-		obj.addProperty("amount", amount);
-		obj.addProperty("tier", tier);
-		obj.addProperty("cost", cost);
-		obj.addProperty("mat_req", matReq);
-		array.add(obj);
-		return this;
+		return item(item, amount, tier, cost, Currency.MUNNY, matReq, false);
 	}
 
-	public ShopBuilder itemRequireAll(Supplier<? extends Item> item, int amount, int tier, int cost, int matReq) {
+	public ShopBuilder item(Supplier<? extends Item> item, int amount, int tier, int cost, Currency currency, int matReq, boolean requireAll) {
 		JsonObject obj = new JsonObject();
 		obj.addProperty("item", registryName(item));
 		obj.addProperty("amount", amount);
 		obj.addProperty("tier", tier);
 		obj.addProperty("cost", cost);
-		obj.addProperty("mat_req", matReq);
-		obj.addProperty("condition", "all");
+
+		if (currency != Currency.MUNNY) {
+			obj.addProperty("currency", currency.getSerializedName());
+		}
+		if (matReq != NO_MAT_REQ) {
+			obj.addProperty("mat_req", matReq);
+		}
+		if (requireAll) {
+			obj.addProperty("condition", "all");
+		}
+
 		array.add(obj);
 		return this;
 	}

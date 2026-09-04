@@ -1,0 +1,37 @@
+[
+  {
+    "amount": 1,
+    "cost": 5000,
+    "currency": "lux",
+    "item": "kingdomkeys:iras_keyblade_chain",
+    "tier": 1
+  },
+  {
+    "amount": 1,
+    "cost": 600,
+    "currency": "lux",
+    "item": "kingdomkeys:ira_helmet",
+    "tier": 1
+  },
+  {
+    "amount": 1,
+    "cost": 600,
+    "currency": "lux",
+    "item": "kingdomkeys:ira_chestplate",
+    "tier": 1
+  },
+  {
+    "amount": 1,
+    "cost": 600,
+    "currency": "lux",
+    "item": "kingdomkeys:ira_leggings",
+    "tier": 1
+  },
+  {
+    "amount": 1,
+    "cost": 600,
+    "currency": "lux",
+    "item": "kingdomkeys:ira_boots",
+    "tier": 1
+  }
+]

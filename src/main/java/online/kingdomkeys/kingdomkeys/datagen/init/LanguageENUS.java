@@ -303,9 +303,13 @@ public class LanguageENUS extends KKLanguageProvider {
 
         add(Gui_Menu_Main_Synthesis_Tier, "Synthesis Tier");
         add(Gui_Menu_Main_Munny, "Munny");
+        add(Gui_Menu_Main_Lux, "Lux");
+        add(Gui_Foreteller_Redeem, "Redeem");
         add(Gui_Menu_Main_Hearts, "Hearts");
         add(Gui_Menu_Main_Time, "World Time");
         add(Gui_Menu_Main_Time_Spent, "Global Time");
+
+        //Items Sub-menu
         add(Gui_Menu_Items, "Items");
         add(Gui_Menu_Items_Equipment, "Equipment");
         add(Gui_Menu_Items_Equipment + ".desc", "Equip your weapon and various equipables.");

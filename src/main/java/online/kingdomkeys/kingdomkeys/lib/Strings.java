@@ -500,6 +500,8 @@ public class Strings {
 			Gui_Menu_Main_Button_Style = Gui_Menu_Main_Button + ".style",
             Gui_Menu_Main_Synthesis_Tier = Gui_Menu_Main + ".synthesis_tier",
             Gui_Menu_Main_Munny = Gui_Menu_Main + ".munny",
+            Gui_Menu_Main_Lux = Gui_Menu_Main + ".lux",
+            Gui_Foreteller_Redeem = "gui.foreteller.redeem",
             Gui_Menu_Main_Hearts = Gui_Menu_Main + ".hearts",
             Gui_Menu_Main_Time = Gui_Menu_Main + ".time",
             Gui_Menu_Main_Time_Spent = Gui_Menu_Main_Time + ".spent",

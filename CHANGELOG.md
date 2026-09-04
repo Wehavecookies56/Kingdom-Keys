@@ -1,6 +1,6 @@
 ## Added:
 * Unions system, now the SoA choice will be preceded by an Union choice, just like the path it's not changeable once done.
-  * For now they will serve no purpose, subject to change. Neko stop spying now.
+  * For now they will serve no purpose, subject to change. Neko stop spying now, second warning.
 * Daybreak Town.
 * Ability group parameter.
   * Prevents a player from equipping multiple abilities that belong in the same group.

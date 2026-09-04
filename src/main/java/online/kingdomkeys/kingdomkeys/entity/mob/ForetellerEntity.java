@@ -28,6 +28,7 @@ import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.lib.SoAState;
 import online.kingdomkeys.kingdomkeys.lib.Union;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.stc.SCOpenForetellerScreen;
 import online.kingdomkeys.kingdomkeys.network.stc.SCOpenUnionScreen;
 
 public class ForetellerEntity extends PathfinderMob {
@@ -110,11 +111,15 @@ public class ForetellerEntity extends PathfinderMob {
         if (playerData == null)
             return InteractionResult.FAIL;
 
-        // Only while the player is actually at the union stage and has not settled on one yet
-        if (playerData.getSoAState() != SoAState.UNION || playerData.hasUnion())
-            return InteractionResult.FAIL;
+        if (playerData.getSoAState() == SoAState.UNION && !playerData.hasUnion()) { // SOA join union screen
+            PacketHandler.sendTo(new SCOpenUnionScreen(getUnion()), serverPlayer);
+            return InteractionResult.SUCCESS;
+        }
 
-        PacketHandler.sendTo(new SCOpenUnionScreen(getUnion()), serverPlayer);
+        if (!playerData.hasUnion())
+            return InteractionResult.FAIL;
+        // Pupil - master screen
+        PacketHandler.sendTo(new SCOpenForetellerScreen(getUnion(), playerData.serializeNBT(level().registryAccess())), serverPlayer);
         return InteractionResult.SUCCESS;
     }
 
