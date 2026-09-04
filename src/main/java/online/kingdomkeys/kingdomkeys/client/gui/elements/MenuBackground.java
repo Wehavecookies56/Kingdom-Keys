@@ -35,7 +35,6 @@ import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.lib.Struggle;
 import online.kingdomkeys.kingdomkeys.util.Utils;
-import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.CastleOblivionHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -365,10 +364,12 @@ public class MenuBackground extends Screen {
 
 			String time = String.format("%02d:%02d:%02d", h, m, s);
 
+			String heartsOrLux = playerData.isOrgMember() ? Utils.translateToLocal(Strings.Gui_Menu_Main_Hearts) + ": " + Utils.getFormattedNumber(playerData.getHearts()) : Utils.translateToLocal(Strings.Gui_Menu_Main_Lux) + ": " + Utils.getFormattedNumber(playerData.getLux());
+
 			Component[] lines = new Component[]{
 					Component.literal(Utils.translateToLocal(Strings.Gui_Menu_Main_Synthesis_Tier) + ": " + Utils.getTierFromInt(playerData.getSynthLevel())).withStyle(ClientUtils.KK_Font_EXP),
 					Component.literal(Utils.translateToLocal(Strings.Gui_Menu_Main_Munny) + ": " + Utils.getFormattedNumber(playerData.getMunny())).withStyle(ClientUtils.KK_Font_EXP),
-					Component.literal(Utils.translateToLocal(Strings.Gui_Menu_Main_Hearts) + ": " + Utils.getFormattedNumber(playerData.getHearts())).withStyle(ClientUtils.KK_Font_EXP),
+					Component.literal(heartsOrLux).withStyle(ClientUtils.KK_Font_EXP),
 					Component.literal(Utils.translateToLocal(Strings.Gui_Menu_Main_Time) + ": " + getWorldHours(minecraft.level) + ":" + getWorldMinutes(minecraft.level)).withStyle(ClientUtils.KK_Font_EXP),
 					Component.literal(Utils.translateToLocal(Strings.Gui_Menu_Main_Time_Spent) + ": " + time).withStyle(ClientUtils.KK_Font_EXP)
 			};
@@ -376,7 +377,7 @@ public class MenuBackground extends Screen {
 			int[] colors = new int[]{
 					0xFFFF00,
 					0xF66627,
-					playerData.getAlignment() == OrgMember.NONE ? 0x888888 : 0xFF3333,
+					playerData.isOrgMember() ? 0xFF3333 : 0x88EEFF,
 					0xFFFFFF,
 					0x42ceff
 			};

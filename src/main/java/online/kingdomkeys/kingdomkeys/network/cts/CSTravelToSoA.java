@@ -15,10 +15,8 @@ import online.kingdomkeys.kingdomkeys.lib.SoAState;
 import online.kingdomkeys.kingdomkeys.network.Packet;
 import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
 import online.kingdomkeys.kingdomkeys.world.dimension.dive_to_the_heart.DiveToTheHeartChunkGenerator;
-import online.kingdomkeys.kingdomkeys.world.dimension.dive_to_the_heart.DiveToTheHeartDimension;
 
 public record CSTravelToSoA() implements Packet {
-
     public static final Type<CSTravelToSoA> TYPE = new Type<>(KingdomKeys.rl("cs_travel_to_soa"));
 
     public static final StreamCodec<FriendlyByteBuf, CSTravelToSoA> STREAM_CODEC = StreamCodec.of((pBuffer, pValue) -> {}, pBuffer -> new CSTravelToSoA());

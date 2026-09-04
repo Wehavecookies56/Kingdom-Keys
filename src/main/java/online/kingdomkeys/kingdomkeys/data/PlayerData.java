@@ -2423,6 +2423,10 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		return this.union != Union.NONE;
 	}
 
+	public boolean isOrgMember() {
+		return getAlignment() != Utils.OrgMember.NONE;
+	}
+
 	public int getLux() {
 		return this.lux;
 	}

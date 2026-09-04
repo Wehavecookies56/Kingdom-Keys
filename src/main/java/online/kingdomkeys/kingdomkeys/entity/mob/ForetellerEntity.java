@@ -111,6 +111,9 @@ public class ForetellerEntity extends PathfinderMob {
         if (playerData == null)
             return InteractionResult.FAIL;
 
+        if (playerData.isOrgMember())
+            return InteractionResult.FAIL;
+
         if (playerData.getSoAState() == SoAState.UNION && !playerData.hasUnion()) { // SOA join union screen
             PacketHandler.sendTo(new SCOpenUnionScreen(getUnion()), serverPlayer);
             return InteractionResult.SUCCESS;

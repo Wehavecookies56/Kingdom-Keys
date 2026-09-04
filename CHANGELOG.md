@@ -1,6 +1,6 @@
 ## Added:
 * Unions system, now the SoA choice will be preceded by an Union choice, just like the path it's not changeable once done.
-  * For now they will serve no purpose, subject to change. Neko stop spying now, second warning.
+  * They are all equal to themselves, if a player joins Organization XIII they won't have access to their Union.
 * Daybreak Town.
 * Ability group parameter.
   * Prevents a player from equipping multiple abilities that belong in the same group.

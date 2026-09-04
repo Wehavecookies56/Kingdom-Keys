@@ -37,7 +37,7 @@ public class LuxOrbEntity extends ItemDropEntity {
 	@Override
 	void onPickup(Player player) {
 		PlayerData playerData = PlayerData.get(player);
-		if (playerData != null && playerData.hasUnion()) {
+		if (playerData != null && playerData.hasUnion() && !playerData.isOrgMember()) {
 			playerData.addLux(value);
 		}
 	}
