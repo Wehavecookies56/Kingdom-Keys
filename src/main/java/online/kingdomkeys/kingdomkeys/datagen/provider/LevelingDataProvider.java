@@ -33,9 +33,9 @@ public class LevelingDataProvider implements DataProvider {
 	@Override
 	public CompletableFuture<?> run(CachedOutput cache) {
 		Map<String, JsonObject> paths = new LinkedHashMap<>();
-		paths.put("warrior", buildWarrior());
-		paths.put("mystic", buildMystic());
-		paths.put("guardian", buildGuardian());
+		paths.put("warrior", buildWarrior(4));
+		paths.put("mystic", buildMystic(4));
+		paths.put("guardian", buildGuardian(4));
 
 		CompletableFuture<?>[] futures = paths.entrySet().stream().map(entry -> {
 			Path path = pathProvider.json(KingdomKeys.rl(entry.getKey()));
@@ -66,8 +66,8 @@ public class LevelingDataProvider implements DataProvider {
 		return "Kingdom Keys Leveling Data";
 	}
 
-	private static JsonObject buildWarrior() {
-		return new LevelingBuilder()
+	private static JsonObject buildWarrior(int version) {
+		return new LevelingBuilder(version)
 			.level(0).str(-1)
 			.level(1).str(1).ap(10).abilities(ModAbilities.ZERO_EXP)
 			.level(2).def(1).abilities(ModAbilities.SCAN)
@@ -172,8 +172,8 @@ public class LevelingDataProvider implements DataProvider {
 			.build();
 	}
 
-	private static JsonObject buildMystic() {
-		return new LevelingBuilder()
+	private static JsonObject buildMystic(int version) {
+		return new LevelingBuilder(version)
 			.level(0).mag(-1)
 			.level(1).mag(1).ap(10).abilities(ModAbilities.ZERO_EXP)
 			.level(2).def(1).abilities(ModAbilities.SCAN)
@@ -278,8 +278,8 @@ public class LevelingDataProvider implements DataProvider {
 			.build();
 	}
 
-	private static JsonObject buildGuardian() {
-		return new LevelingBuilder()
+	private static JsonObject buildGuardian(int version) {
+		return new LevelingBuilder(version)
 			.level(0).def(-1)
 			.level(1).def(1).ap(10).abilities(ModAbilities.ZERO_EXP)
 			.level(2).def(1).abilities(ModAbilities.SCAN, ModAbilities.GUARD)

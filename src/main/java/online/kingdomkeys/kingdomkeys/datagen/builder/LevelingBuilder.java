@@ -16,8 +16,8 @@ public class LevelingBuilder {
 	private final JsonObject levels = new JsonObject();
 	private JsonObject current;
 
-	public LevelingBuilder() {
-		root.addProperty("version", 3);
+	public LevelingBuilder(int version) {
+		root.addProperty("version", version);
 		root.add("levels", levels);
 	}
 

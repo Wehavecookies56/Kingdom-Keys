@@ -8,5 +8,7 @@
   "landingSpawn": [0, 320, 0],
   "texture": "kingdomkeys:textures/worldmap/overworld.png",
   "scale": 32,
-  "approach_range": 40
+  "approach_range": 40,
+  "unlocked_by_default": true,
+  "marker_colour": "#FFFFFF"
 }

@@ -2507,6 +2507,8 @@ public class LanguageESES extends KKLanguageProvider {
         add("soa.union.confirm", "¿Caminarás a su lado?");
         add("soa.union.chosen.1", "Tu unión está decidida.");
         add("soa.union.chosen.2", "El camino ya está abierto.");
+        add("soa.chat.union.choice", "Las cinco uniones se fundaron después de que abandonaras la Estación del Despertar, así que no perteneces a ninguna. Hasta que te unas a una, ningún portador te hablará y no recibirás lux.");
+        add("soa.chat.union.pick", "Elige a cuál acompañarás: ");
         add("kingdomkeys.union.none", "Sin unión");
         add("kingdomkeys.union.none.desc", "Ningún portador te ha reclamado.");
         add("kingdomkeys.union.unicornis", "Unicornis");
@@ -2559,6 +2561,7 @@ public class LanguageESES extends KKLanguageProvider {
         add("co.encounter.end", "Encuentro terminado");
 
         add("kingdomkeys.worldmap.no_building", "En este mundo no se puede construir");
+        add("kingdomkeys.worldmap.locked", "El camino a este mundo aún no se te ha abierto");
 
         add("kingdomkeys.struggle.starting", "¡Empieza el Struggle...!");
         add("kingdomkeys.struggle.tournament.next_match", "Siguiente combate del torneo...");
@@ -2730,6 +2733,13 @@ public class LanguageESES extends KKLanguageProvider {
         add("kingdomkeys.command.synthlevel.set_self", "Tu nivel de síntesis ahora es %s");
         add("kingdomkeys.command.drive.unknown", "La forma '%s' no existe");
 
+        // union
+        add("kingdomkeys.command.union.set", "Te has unido a %s");
+        add("kingdomkeys.command.union.already", "Ya perteneces a %s");
+        add("kingdomkeys.command.union.org", "Quien sirve a la Organización no pertenece a ninguna unión");
+        add("kingdomkeys.command.union.set_other", "%s ahora pertenece a %s");
+        add("kingdomkeys.command.union.org_other", "%s sirve a la Organización y no puede pertenecer a ninguna unión");
+
         // exp
         add("kingdomkeys.command.exp.add", "Otorgados %s puntos de experiencia a %s");
         add("kingdomkeys.command.exp.add_self", "Tus puntos de experiencia han aumentado en %s");
@@ -2771,6 +2781,14 @@ public class LanguageESES extends KKLanguageProvider {
         add("kingdomkeys.command.material.taken_all", "Quitados todos los materiales a %s");
         add("kingdomkeys.command.material.taken_all_self", "Te han quitado tus materiales");
         add("kingdomkeys.command.material.unknown", "El material '%s' no existe");
+
+        // lux
+        add("kingdomkeys.command.lux.add", "Añadido %s de Lux a %s");
+        add("kingdomkeys.command.lux.add_self", "Tu Lux ha aumentado en %s");
+        add("kingdomkeys.command.lux.remove", "Quitado %s de Lux a %s");
+        add("kingdomkeys.command.lux.remove_self", "Tu Lux ha disminuido en %s");
+        add("kingdomkeys.command.lux.set", "Lux de %s establecido a %s");
+        add("kingdomkeys.command.lux.set_self", "Tu Lux se ha establecido a %s");
 
         // munny
         add("kingdomkeys.command.munny.add", "Añadidos %s platines a %s");

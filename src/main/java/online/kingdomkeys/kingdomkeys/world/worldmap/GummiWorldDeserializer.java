@@ -14,6 +14,7 @@ import java.lang.reflect.Type;
 public class GummiWorldDeserializer implements JsonDeserializer<GummiWorld> {
 	private static final double DEFAULT_TAKEOFF = 320;
 	private static final float DEFAULT_SCALE = 24F;
+	private static final int DEFAULT_MARKER_COLOR = 0xFFFFFF;
 
 	@Override
 	public GummiWorld deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
@@ -38,7 +39,35 @@ public class GummiWorldDeserializer implements JsonDeserializer<GummiWorld> {
 		boolean build = !obj.has("build") || obj.get("build").getAsBoolean();
 		boolean vanillaMobs = !obj.has("vanilla_mobs") || obj.get("vanilla_mobs").getAsBoolean();
 
-		return new GummiWorld(dimension, takeoff, worldmapPosition, takeOffSpawn, landingSpawn, takeOffLook, landingLook, texture, scale, approachRange, build, vanillaMobs);
+		boolean unlockedByDefault = obj.has("unlocked_by_default") && obj.get("unlocked_by_default").getAsBoolean();
+
+		int markerColour = color(obj, "marker_colour", DEFAULT_MARKER_COLOR);
+
+		return new GummiWorld(dimension, takeoff, worldmapPosition, takeOffSpawn, landingSpawn, takeOffLook, landingLook, texture, scale, approachRange, build, vanillaMobs, unlockedByDefault, markerColour);
+	}
+
+	// Color parser
+	private static int color(JsonObject obj, String key, int fallback) {
+		if (!obj.has(key)) {
+			return fallback;
+		}
+
+		JsonElement element = obj.get(key);
+		if (element.isJsonPrimitive() && element.getAsJsonPrimitive().isNumber()) {
+			return element.getAsInt() & 0xFFFFFF;
+		}
+
+		String text = element.getAsString().trim();
+		if (text.startsWith("#")) {
+			text = text.substring(1);
+		}
+
+		try {
+			//Ignoring alpha
+			return Integer.parseInt(text, 16) & 0xFFFFFF;
+		} catch (NumberFormatException e) {
+			throw new JsonParseException("Field '" + key + "' must be a colour such as \"#4FE3E3\", got '" + text + "'");
+		}
 	}
 
 	private static ResourceLocation resource(JsonObject obj, String key) {

@@ -10,5 +10,7 @@
   "scale": 32,
   "approach_range": 40,
   "build": true,
-  "vanilla_mobs": false
+  "vanilla_mobs": false,
+  "unlocked_by_default": false,
+  "marker_colour": "#4FE3E3"
 }

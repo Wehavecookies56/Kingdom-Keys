@@ -1587,7 +1587,9 @@ public class Strings {
             SoA_UnionIntro2 = "soa.union.intro.2",
             SoA_UnionConfirm = "soa.union.confirm",
             SoA_UnionChosen1 = "soa.union.chosen.1",
-            SoA_UnionChosen2 = "soa.union.chosen.2"
+            SoA_UnionChosen2 = "soa.union.chosen.2",
+            UnionChoice = "soa.chat.union.choice",
+            UnionChoicePick = "soa.chat.union.pick"
     ;
     
     public static String

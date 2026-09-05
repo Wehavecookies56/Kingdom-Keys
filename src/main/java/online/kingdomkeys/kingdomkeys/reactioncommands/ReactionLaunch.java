@@ -31,6 +31,10 @@ public class ReactionLaunch extends ReactionCommand {
 		}
 
 		GummiWorld world = GummiWorldLoader.forDimension(player.level().dimension());
+
+		// Ensure the world you just left from is 100% unlocked
+		WorldMap.unlock(serverPlayer, world.dimension());
+
 		WorldMap.ensureMarkers(worldmap);
 		WorldMap.travel(serverPlayer, worldmap, world.takeOffSpawn(), world.takeOffLook());
 	}

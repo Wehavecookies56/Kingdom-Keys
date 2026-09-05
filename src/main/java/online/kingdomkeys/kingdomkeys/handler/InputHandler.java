@@ -452,8 +452,11 @@ public class InputHandler {
 
             ReactionCommand reaction = ModReactionCommands.registry.get(reactionName);
             CommandMenuGui.reactionSelected = 0;
+		    SoundEvent sound = reaction.getUseSound(player, InputHandler.lockOn);
             if (reaction != null) {
-                playSound(reaction.getUseSound(player, InputHandler.lockOn));
+                if(sound != null) {
+                    playSound(sound);
+                }
             } else {
                 playInSound();
             }

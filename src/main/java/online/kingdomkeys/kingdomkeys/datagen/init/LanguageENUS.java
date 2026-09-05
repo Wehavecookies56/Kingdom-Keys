@@ -2485,7 +2485,8 @@ public class LanguageENUS extends KKLanguageProvider {
         add("kingdomkeys.union.anguis.desc", "The wisdom that waits and watches.");
         add("kingdomkeys.union.ursus", "Ursus");
         add("kingdomkeys.union.ursus.desc", "The strength that stands for others.");
-
+        add(UnionChoice, "The five unions were founded after you left the Station of Awakening, so you belong to none of them. Until you join one, no Foreteller will speak to you and no Lux will come to you.");
+        add(UnionChoicePick, "Choose the one you will stand with: ");
 
         //Heartless intro
         add(HeartlessIntro1, "This world has been connected");
@@ -2527,6 +2528,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add("co.encounter.end", "Finished encounter");
 
         add("kingdomkeys.worldmap.no_building", "You cannot build in this world");
+        add("kingdomkeys.worldmap.locked", "The way to this world has not opened to you yet");
 
         add("kingdomkeys.struggle.starting", "Struggle starting...");
         add("kingdomkeys.struggle.tournament.next_match", "Next tournament match starting...");
@@ -2717,6 +2719,13 @@ public class LanguageENUS extends KKLanguageProvider {
         add("kingdomkeys.command.synthlevel.set_self", "Your synthesis level is now %s");
         add("kingdomkeys.command.drive.unknown", "Form '%s' does not exist");
 
+        // union
+        add("kingdomkeys.command.union.set", "You have joined %s");
+        add("kingdomkeys.command.union.already", "You already belong to %s");
+        add("kingdomkeys.command.union.org", "Those who serve the Organization belong to no union");
+        add("kingdomkeys.command.union.set_other", "%s now belongs to %s");
+        add("kingdomkeys.command.union.org_other", "%s serves the Organization and can belong to no union");
+
         // exp
         add("kingdomkeys.command.exp.add", "Given %s experience to %s");
         add("kingdomkeys.command.exp.add_self", "Your experience has been increased by %s");
@@ -2758,6 +2767,14 @@ public class LanguageENUS extends KKLanguageProvider {
         add("kingdomkeys.command.material.taken_all", "Taken all materials from %s");
         add("kingdomkeys.command.material.taken_all_self", "Your materials have been taken away");
         add("kingdomkeys.command.material.unknown", "Material '%s' does not exist");
+
+        // lux
+        add("kingdomkeys.command.lux.add", "Added %s Lux to %s");
+        add("kingdomkeys.command.lux.add_self", "Your Lux has been increased by %s");
+        add("kingdomkeys.command.lux.remove", "Taken %s Lux from %s");
+        add("kingdomkeys.command.lux.remove_self", "Your Lux has been decreased by %s");
+        add("kingdomkeys.command.lux.set", "Set %s Lux to %s");
+        add("kingdomkeys.command.lux.set_self", "Your Lux has been set to %s");
 
         // munny
         add("kingdomkeys.command.munny.add", "Added %s munny to %s");

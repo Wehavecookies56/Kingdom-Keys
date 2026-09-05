@@ -56,6 +56,8 @@ import online.kingdomkeys.kingdomkeys.util.Utils.castMagic;
 
 import javax.annotation.Nullable;
 import java.time.Instant;
+import online.kingdomkeys.kingdomkeys.world.worldmap.GummiWorld;
+
 import java.util.*;
 import java.util.Map.Entry;
 
@@ -282,6 +284,12 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 			unlockedCrownsList.add(StringTag.valueOf(unlocked));
 		}
 		storage.put("unlocked_crowns", unlockedCrownsList);
+
+		ListTag unlockedWorldsList = new ListTag();
+		for (String unlocked : this.unlockedWorlds) {
+			unlockedWorldsList.add(StringTag.valueOf(unlocked));
+		}
+		storage.put("unlocked_worlds", unlockedWorldsList);
 
 		storage.putFloat("crown_offset_x", this.crownOffsetX);
 		storage.putFloat("crown_offset_y", this.crownOffsetY);
@@ -564,6 +572,12 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 			this.unlockedCrowns.add(this.getCrown());
 		}
 
+		this.unlockedWorlds.clear();
+		ListTag unlockedWorldsList = nbt.getList("unlocked_worlds", Tag.TAG_STRING);
+		for (int i = 0; i < unlockedWorldsList.size(); i++) {
+			this.unlockedWorlds.add(unlockedWorldsList.getString(i));
+		}
+
 		this.crownOffsetX = nbt.getFloat("crown_offset_x");
 		this.crownOffsetY = nbt.getFloat("crown_offset_y");
 		this.crownOffsetZ = nbt.getFloat("crown_offset_z");
@@ -727,6 +741,9 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 	private String crown = "";
 	/** Crowns this player has earned. What they wear ({@link #crown}) is a choice among these. */
 	private final Set<String> unlockedCrowns = new LinkedHashSet<>();
+
+	/** Dimension ids of the worlds found on the star map, kept in the order they were reached. */
+	private final Set<String> unlockedWorlds = new LinkedHashSet<>();
 	/** Where the crown sits on top of the head, in model units (16 = one block). Only X (left/right)
 	 * and Z (forward/back) - the height is always the top of the head, so there is no Y here.
 	 * The tilt lives in the crownRotationX/Y/Z fields below. */
@@ -1664,6 +1681,30 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		this.unlockedCrowns.clear();
 		if (crowns != null) {
 			this.unlockedCrowns.addAll(crowns);
+		}
+	}
+
+	public Set<String> getUnlockedWorlds() {
+		return this.unlockedWorlds;
+	}
+
+	/**
+	 * Whether this world is marked on the star map. A world the data marks as known from the
+	 * start counts for everyone, so a new pilot has somewhere to aim at rather than an empty sky.
+	 */
+	public boolean knowsWorld(GummiWorld world) {
+		return world != null && world.isKnownTo(this.unlockedWorlds);
+	}
+
+	/** @return true when this was the first time, so the caller knows whether to say anything. */
+	public boolean unlockWorld(ResourceKey<Level> dimension) {
+		return dimension != null && this.unlockedWorlds.add(dimension.location().toString());
+	}
+
+	public void setUnlockedWorlds(Collection<String> worlds) {
+		this.unlockedWorlds.clear();
+		if (worlds != null) {
+			this.unlockedWorlds.addAll(worlds);
 		}
 	}
 

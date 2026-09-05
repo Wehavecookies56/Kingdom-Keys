@@ -89,15 +89,22 @@ public class DiveToTheHeartDimension{
 
         if (player.getY() < 10) {
             if (playerData.getSoAState() == SoAState.COMPLETE) {
-                if (!player.level().isClientSide()) {
-                    player.resetFallDistance();
-                    ServerLevel dimension = player.level().getServer().getLevel(playerData.getReturnDimension());
-                    player.changeDimension(new DimensionTransition(dimension, new Vec3(playerData.getReturnLocation().x, playerData.getReturnLocation().y, playerData.getReturnLocation().z), Vec3.ZERO, player.getYRot(), player.getXRot(), entity -> {}));
-                }
+                sendHome(player, playerData);
             } else {
                 returnToPlatform(player, playerData.hasUnion());
             }
         }
+    }
+
+    // For old worlds which went to the union choice only
+    public static void sendHome(Player player, PlayerData playerData) {
+        if (player.level().isClientSide())
+            return;
+
+        player.resetFallDistance();
+        ServerLevel dimension = player.level().getServer().getLevel(playerData.getReturnDimension());
+        Vec3 back = playerData.getReturnLocation();
+        player.changeDimension(new DimensionTransition(dimension, new Vec3(back.x, back.y, back.z), Vec3.ZERO, player.getYRot(), player.getXRot(), entity -> {}));
     }
 
     private static void returnToPlatform(Player player, boolean hasUnion) {

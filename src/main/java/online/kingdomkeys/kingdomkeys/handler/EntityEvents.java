@@ -7,7 +7,11 @@ import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.HoverEvent;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.TextColor;
 import net.minecraft.network.protocol.game.ClientboundUpdateMobEffectPacket;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -341,8 +345,12 @@ public class EntityEvents {
 
 			if (!player.level().isClientSide) { // Sync from server to client
 				Utils.updateOrgRobesTeam((ServerPlayer) player);
-
 				LevelStats.seekGrantedItems(playerData);
+				// TODO remove in the future, union for old players
+				if (playerData.getSoAState() == SoAState.COMPLETE && !playerData.hasUnion() && !playerData.isOrgMember()) {
+					player.sendSystemMessage(Component.translatable(Strings.UnionChoice).withStyle(ChatFormatting.GRAY));
+					player.sendSystemMessage(unionOffer());
+				}
 
 				if (!playerData.getDriveFormMap().containsKey(DriveForm.NONE)) { // One time event here :D
 					Utils.getFakeForms().forEach(form -> {
@@ -539,6 +547,26 @@ public class EntityEvents {
 			}
 			PacketHandler.syncToAllAround(player, playerData);
 		}
+	}
+
+	private static Component unionOffer() {
+		MutableComponent line = Component.translatable(Strings.UnionChoicePick).withStyle(ChatFormatting.GRAY);
+		Union[] unions = Union.choosable();
+
+		for (int i = 0; i < unions.length; i++) {
+			Union union = unions[i];
+			if (i > 0) {
+				line.append(Component.literal(", ").withStyle(ChatFormatting.DARK_GRAY));
+			}
+
+			line.append(Component.translatable(union.getTranslationKey()).withStyle(style -> style
+					.withColor(TextColor.fromRgb(union.getColour()))
+					.withUnderlined(true)
+					.withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/kingdomkeys union " + union.getSerializedName()))
+					.withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, Component.translatable(union.getDescriptionKey())))));
+		}
+
+		return line;
 	}
 
 	@SubscribeEvent

@@ -3,6 +3,7 @@ package online.kingdomkeys.kingdomkeys.world.worldmap;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -11,6 +12,7 @@ import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.portal.DimensionTransition;
 import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
@@ -20,9 +22,12 @@ import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.event.level.BlockEvent;
 import net.neoforged.neoforge.event.tick.LevelTickEvent;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.entity.GummiShipEntity;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.worldmap.WorldMarkerEntity;
+import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
 import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
 
 import javax.annotation.Nullable;
@@ -178,6 +183,20 @@ public class WorldMap {
 			}
 		}
 		return closest;
+	}
+
+	/**
+	 * Unlocks a world for a player
+	 * @return true when the world was not already known, for a caller that wants to announce it
+	 */
+	public static boolean unlock(ServerPlayer player, ResourceKey<Level> dimension) {
+		PlayerData playerData = PlayerData.get(player);
+		if (playerData == null || !playerData.unlockWorld(dimension)) {
+			return false;
+		}
+
+		PacketHandler.sendTo(new SCSyncPlayerData(player), player);
+		return true;
 	}
 
 	// Moves the player and the ship to another dimension and puts them back in the pilot's seat, the dismount has to happen first
