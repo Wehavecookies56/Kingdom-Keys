@@ -129,6 +129,7 @@ sourceSets.main.resources { srcDir 'src/generated/resources' }
 // the one fetched from GitHub at runtime. This puts a copy at the root of the jar as the offline fallback.
 processResources {
     from('ExtraResources/staff_crowns.json')
+    exclude '.cache/**'
 }
 
 configurations {
