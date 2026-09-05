@@ -13,7 +13,7 @@ import online.kingdomkeys.kingdomkeys.lib.Union;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.ForetellerShop;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
-import java.awt.Color;
+import java.awt.*;
 
 public class ForetellerScreen extends MenuBackground implements IPlayerDataRequester {
 	private final Union union;

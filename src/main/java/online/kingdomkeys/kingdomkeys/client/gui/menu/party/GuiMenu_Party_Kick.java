@@ -1,8 +1,8 @@
 package online.kingdomkeys.kingdomkeys.client.gui.menu.party;
 
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.sounds.SoundSource;
 import net.minecraft.network.chat.Component;
+import net.minecraft.sounds.SoundSource;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBackground;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.MenuBox;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.PopupWarningScreen;

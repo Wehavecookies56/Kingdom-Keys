@@ -8,10 +8,10 @@
     "ItemStackMixin",
     "LevelChunkMixin",
     "LivingEntityMixin",
-    "jer.NeoForgePlatformHelperMixin",
     "PlayerMixin",
     "ServerGamePacketListenerImplMixin",
-    "TellMeTheErrorMixin"
+    "TellMeTheErrorMixin",
+    "jer.NeoForgePlatformHelperMixin"
   ],
   "client": [
     "client.BiomeMixin",
@@ -21,8 +21,8 @@
     "client.InventoryScreenMixin",
     "client.KeyboardInputMixin",
     "client.LevelRendererMixin",
-    "client.LivingEntityRendererMixin",
     "client.LivingEntityRendererFadeMixin",
+    "client.LivingEntityRendererMixin",
     "client.MinecraftMixin",
     "client.MusicManagerMixin",
     "client.PlayerRendererMixin",

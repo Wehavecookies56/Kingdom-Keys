@@ -35,7 +35,7 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 import org.jetbrains.annotations.NotNull;
 import org.lwjgl.glfw.GLFW;
 
-import java.awt.Color;
+import java.awt.*;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.text.DecimalFormat;
