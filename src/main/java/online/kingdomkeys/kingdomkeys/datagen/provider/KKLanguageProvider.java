@@ -123,7 +123,7 @@ public abstract class KKLanguageProvider extends LanguageProvider {
     }
 
     Map<String, Map<String, String>> colours = Map.ofEntries(
-            Map.entry("es_es", Map.ofEntries(
+            Map.entry("es", Map.ofEntries(
             Map.entry("color.minecraft.black", "Negro"),
             Map.entry("color.minecraft.blue", "Azul"),
             Map.entry("color.minecraft.brown", "Marrón"),
@@ -143,10 +143,12 @@ public abstract class KKLanguageProvider extends LanguageProvider {
             ));
 
     public void addTintedBlock(List<Supplier<Block>> blocks, String name) {
+        String language = locale.split("_")[0];
+
         for (int i = 0; i < DyeColor.values().length; i++) {
             String colour;
-            if (colours.containsKey(locale)) {
-                colour = colours.get(locale).get("color.minecraft." + DyeColor.values()[i].getName());
+            if (colours.containsKey(language)) {
+                colour = colours.get(language).get("color.minecraft." + DyeColor.values()[i].getName());
             } else {
                 colour = Component.translatable("color.minecraft." + DyeColor.values()[i].getName()).getString();
 

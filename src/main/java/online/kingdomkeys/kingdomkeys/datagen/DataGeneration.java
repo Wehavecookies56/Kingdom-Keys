@@ -57,8 +57,10 @@ public class DataGeneration {
         generator.addProvider(event.includeServer(), new DriveFormDataProvider(output));
         generator.addProvider(event.includeServer(), new AdvancementProvider(output, event.getLookupProvider(), existingFileHelper, List.of(new AdvancementsGen())));
         generator.addProvider(event.includeClient(), new LanguageENUS(generator));
-        generator.addProvider(event.includeClient(), new LanguageESES(generator));
         generator.addProvider(event.includeClient(), new LanguageENGB(generator));
+        for (String locale : LanguageESES.LOCALES) {
+            generator.addProvider(event.includeClient(), new LanguageESES(generator, locale));
+        }
         generator.addProvider(event.includeClient(), new Sounds(generator, existingFileHelper));
         generator.addProvider(event.includeClient(), new BannerPatterns(generator, event.getLookupProvider(), existingFileHelper));
         generator.addProvider(event.includeServer(), new FloorTypesGen(generator));

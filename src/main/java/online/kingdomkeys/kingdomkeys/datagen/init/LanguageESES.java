@@ -22,8 +22,10 @@ import static online.kingdomkeys.kingdomkeys.lib.Strings.*;
 
 public class LanguageESES extends KKLanguageProvider {
 
-    public LanguageESES(DataGenerator gen) {
-        super(gen, "es_es");
+    public static final String[] LOCALES = { "es_es", "es_ar", "es_cl", "es_ec", "es_mx", "es_uy", "es_ve" };
+
+    public LanguageESES(DataGenerator gen, String locale) {
+        super(gen, locale);
     }
 
     @SuppressWarnings("all")
