@@ -502,6 +502,8 @@ public class Strings {
             Gui_Menu_Main_Munny = Gui_Menu_Main + ".munny",
             Gui_Menu_Main_Lux = Gui_Menu_Main + ".lux",
             Gui_Foreteller_Redeem = "gui.foreteller.redeem",
+            Gui_Foreteller_Train = "gui.foreteller.train",
+            Gui_Foreteller_Duel = "gui.foreteller.duel",
             Gui_Menu_Main_Hearts = Gui_Menu_Main + ".hearts",
             Gui_Menu_Main_Time = Gui_Menu_Main + ".time",
             Gui_Menu_Main_Time_Spent = Gui_Menu_Main_Time + ".spent",

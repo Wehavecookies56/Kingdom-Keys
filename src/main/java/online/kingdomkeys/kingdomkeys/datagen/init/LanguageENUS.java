@@ -305,6 +305,8 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Gui_Menu_Main_Munny, "Munny");
         add(Gui_Menu_Main_Lux, "Lux");
         add(Gui_Foreteller_Redeem, "Redeem");
+        add(Gui_Foreteller_Train, "Train");
+        add(Gui_Foreteller_Duel, "Spar");
         add(Gui_Menu_Main_Hearts, "Hearts");
         add(Gui_Menu_Main_Time, "World Time");
         add(Gui_Menu_Main_Time_Spent, "Global Time");
@@ -1962,6 +1964,9 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModEntities.DARKBALL_EGG, "Darkball Spawn Egg");
         addItem(ModEntities.SHADOW_GLOB_EGG, "Shadow Glob Spawn Egg");
 
+        addItem(ModEntities.LIGHT_TRAINING_ORB_EGG, "Orb of Light Spawn Egg");
+        addItem(ModEntities.DARK_TRAINING_ORB_EGG, "Shaded Light Orb Spawn Egg");
+
         addItem(ModEntities.MINUTE_BOMB_EGG, "Minute Bomb Spawn Egg");
         addItem(ModEntities.SKATER_BOMB_EGG, "Skater Bomb Spawn Egg");
         addItem(ModEntities.STORM_BOMB_EGG, "Storm Bomb Spawn Egg");
@@ -2353,6 +2358,8 @@ public class LanguageENUS extends KKLanguageProvider {
 
         addEntityType(ModEntities.TYPE_TRAINING_DUMMY, "Training Scarecrow");
         addEntityType(ModEntities.TYPE_MAGIC_TARGET, "Magic Target");
+        addEntityType(ModEntities.TYPE_LIGHT_TRAINING_ORB, "Orb of Light");
+        addEntityType(ModEntities.TYPE_DARK_TRAINING_ORB, "Shaded Light Orb");
 
         /**Biomes**/
         add("biome.kingdomkeys.dive_to_the_heart", "Dive to the Heart");

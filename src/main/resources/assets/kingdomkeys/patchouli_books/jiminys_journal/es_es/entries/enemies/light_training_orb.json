@@ -1,0 +1,17 @@
+{
+	"name": "Orbe de Luz",
+	"icon": "kingdomkeys:light_training_orb_spawn_egg",
+	"category": "kingdomkeys:enemies",
+	"sortnum": 1,
+	"advancement": "kingdomkeys:obtain_keychain",
+	"pages": [
+		{
+			"type": "text",
+			"text": "Un orbe de luz pura que invoca un maestro para que su pupilo tenga algo a lo que golpear sin llevarse un disgusto. Flota, esquiva y se lanza contra quien empuñe la $(item)Llave Espada$(): no hay malicia en ello, solo la lección.$(p)Lleva su propio brillo, así que un escenario oscuro no es excusa para fallar.$(p)$(lissa)$(l)$(o)[Primera aparición: Kingdom Hearts Birth by Sleep]$()"
+		},
+		{
+			"type": "patchouli:entity",
+			"entity": "kingdomkeys:light_training_orb"
+		}
+	]
+}

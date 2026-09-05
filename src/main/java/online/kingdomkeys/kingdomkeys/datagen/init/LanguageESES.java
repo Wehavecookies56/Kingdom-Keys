@@ -355,6 +355,8 @@ public class LanguageESES extends KKLanguageProvider {
         add(Gui_Menu_Main_Munny, "Platines");
         add(Gui_Menu_Main_Lux, "Lux");
         add(Gui_Foreteller_Redeem, "Canjear");
+        add(Gui_Foreteller_Train, "Entrenar");
+        add(Gui_Foreteller_Duel, "Enfrentarse");
         add(Gui_Menu_Main_Hearts, "Corazones");
         add(Gui_Menu_Main_Time, "Hora del Mundo");
         add(Gui_Menu_Main_Time_Spent, "Tiempo total");
@@ -2395,6 +2397,8 @@ public class LanguageESES extends KKLanguageProvider {
 
         addEntityType(ModEntities.TYPE_TRAINING_DUMMY, "Espantapájaros de entrenamiento");
         addEntityType(ModEntities.TYPE_MAGIC_TARGET, "Diana Mágica");
+        addEntityType(ModEntities.TYPE_LIGHT_TRAINING_ORB, "Orbe de Luz");
+        addEntityType(ModEntities.TYPE_DARK_TRAINING_ORB, "Orbe de Luz Sombrío");
 
 
         //Spawn eggs
@@ -2404,6 +2408,9 @@ public class LanguageESES extends KKLanguageProvider {
         addItem(ModEntities.GIGA_SHADOW_EGG, "Generar GigaSombra");
         addItem(ModEntities.DARKBALL_EGG, "Generar Bola oscura");
         addItem(ModEntities.SHADOW_GLOB_EGG, "Generar Mole de Sombra");
+
+        addItem(ModEntities.LIGHT_TRAINING_ORB_EGG, "Generar Orbe de Luz");
+        addItem(ModEntities.DARK_TRAINING_ORB_EGG, "Generar Orbe de Luz Sombrío");
 
         addItem(ModEntities.MINUTE_BOMB_EGG, "Generar Minuto Explosivo");
         addItem(ModEntities.SKATER_BOMB_EGG, "Generar Bomba Patinadora");

@@ -1,0 +1,17 @@
+{
+	"name": "Shaded Orb",
+	"icon": "kingdomkeys:dark_training_orb_spawn_egg",
+	"category": "kingdomkeys:enemies",
+	"sortnum": 2,
+	"advancement": "kingdomkeys:obtain_keychain",
+	"pages": [
+		{
+			"type": "text",
+			"text": "The same sparring orb, after the $(thing)darkness$() has got into it. Heavier, slower to come around for another charge, and it hits like something that has stopped pretending to be a lesson.$(p)Masters bring these out once a pupil stops flinching at the bright ones.$(p)$(lissa)$(l)$(o)[First Appearance: Kingdom Hearts Birth by Sleep]$()"
+		},
+		{
+			"type": "patchouli:entity",
+			"entity": "kingdomkeys:dark_training_orb"
+		}
+	]
+}

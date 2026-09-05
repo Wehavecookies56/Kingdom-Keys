@@ -175,11 +175,10 @@ public class LargeBodyModel<T extends BaseKHEntity> extends EntityModel<T> {
         
 
         if(ent.distanceToSqr(ent.xOld, ent.yOld, ent.zOld) > 0) {
-            int cycleIndex = (int) ((limbSwing * WALK_CYCLE_SPEED) % this.legsMovementAnimation.length);
+            int cycleIndex = Math.floorMod((int) (limbSwing * WALK_CYCLE_SPEED), this.legsMovementAnimation.length);
             this.leftLeg1.xRot = degToRad(legsMovementAnimation[cycleIndex]);
             this.rightLeg1.xRot = -degToRad(legsMovementAnimation[cycleIndex]);
-        }
-        else {
+        } else {
             this.leftLeg1.xRot = this.rightLeg1.xRot = 0;
         }
 

@@ -16,6 +16,8 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 import java.awt.*;
 
 public class ForetellerScreen extends MenuBackground implements IPlayerDataRequester {
+	private static final int BUTTON_GAP = 18;
+
 	private final Union union;
 
 	public ForetellerScreen(PlayerData playerData, Union union) {
@@ -44,6 +46,18 @@ public class ForetellerScreen extends MenuBackground implements IPlayerDataReque
 			mc.level.playSound(mc.player, mc.player.blockPosition(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0F, 1.0F);
 			mc.setScreen(new ShopScreen(playerData, shopFor(union), this));
 		}));
+
+		buttonY += BUTTON_GAP;
+
+		MenuButton train = new MenuButton((int) buttonPosX, buttonY, (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Foreteller_Train), ButtonType.BUTTON, e -> {});
+		train.active = false;
+		addRenderableWidget(train);
+
+		buttonY += BUTTON_GAP;
+
+		MenuButton duel = new MenuButton((int) buttonPosX, buttonY, (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Foreteller_Duel), ButtonType.BUTTON, e -> {});
+		duel.active = false;
+		addRenderableWidget(duel);
 	}
 
 	@Override

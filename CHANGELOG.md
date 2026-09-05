@@ -1,10 +1,11 @@
 ## Added:
 * Unions system, now the SoA choice will be preceded by an Union choice, just like the path it's not changeable once done.
   * They are all equal to themselves, if a player joins Organization XIII they won't have access to their Union privileges.
-  * 
+  * Foretellers will be able to train you, either by summoning rounds of enemies or by sparring with them (WIP).
 * Daybreak Town.
 * World Markers in the Ocean Between, rendered while you're in a gummi ship.
 * Lux when defeating enemies, used with your union's foreteller to redeem some rewards.
+* Orb of Light and it's shaded variant as enemies, not spawning on their own, only used by the foretellers as training to their pupils.
 * Command to set a player Lux amount.
 * Command to set a player union.
   * Players *with no unions* (returning players with a choice made) can use it to get their union, OPs can use it with a player parameter to enforce one.
@@ -34,3 +35,4 @@
 * Aligned moogle level to the right of the synthesis screen.
 * Some localization issues.
 * Removed a couple of warnings when loading the mod.
+* Rare Large Body model crash.

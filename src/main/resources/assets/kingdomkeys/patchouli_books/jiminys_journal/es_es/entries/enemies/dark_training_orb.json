@@ -1,0 +1,17 @@
+{
+	"name": "Orbe Sombrío",
+	"icon": "kingdomkeys:dark_training_orb_spawn_egg",
+	"category": "kingdomkeys:enemies",
+	"sortnum": 2,
+	"advancement": "kingdomkeys:obtain_keychain",
+	"pages": [
+		{
+			"type": "text",
+			"text": "El mismo orbe de entrenamiento, después de que la $(thing)oscuridad$() se le haya metido dentro. Más pesado, más lento en volver a por otra carga, y golpea como algo que ha dejado de fingir que es una lección.$(p)Los maestros los sacan cuando el pupilo ya no se encoge ante los luminosos.$(p)$(lissa)$(l)$(o)[Primera aparición: Kingdom Hearts Birth by Sleep]$()"
+		},
+		{
+			"type": "patchouli:entity",
+			"entity": "kingdomkeys:dark_training_orb"
+		}
+	]
+}
