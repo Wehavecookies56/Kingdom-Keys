@@ -12,7 +12,6 @@ import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.Witch;
 import net.minecraft.world.entity.monster.ZombifiedPiglin;
 import net.minecraft.world.entity.npc.Villager;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -81,14 +80,14 @@ public class ThunderBoltEntity extends ThrowableProjectile {
 			} else if (!this.effectOnly) {
 				float radius = 1.0F;
 				List<LivingEntity> list;
-				if(getOwner() instanceof Player player) {
+				if(getOwner() instanceof LivingEntity player) {
 					list = Utils.getLivingEntitiesInRadiusExcludingParty(player,this, radius, 10F,radius);
 				} else {
 					list = Utils.getLivingEntitiesInRadius(this, radius);
 				}
 
 				for (LivingEntity entity : list) {
-					float dmg = this.getOwner() instanceof Player ? DamageCalculation.getMagicDamage((Player) this.getOwner()) * 0.02F : 2;
+					float dmg = this.getOwner() instanceof LivingEntity magicCaster ? DamageCalculation.getMagicDamage(magicCaster) * 0.02F : 2;
 					entity.invulnerableTime = 0;
 					entity.hurt(KKDamageTypes.getElementalDamage(KKDamageTypes.LIGHTNING,this, this.getOwner()), dmg * dmgMult);
 

@@ -10,11 +10,9 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.damagesource.KKDamageTypes;
-import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MagicDeepFreeze extends Magic {
@@ -28,12 +26,12 @@ public class MagicDeepFreeze extends Magic {
 	}
 
 	@Override
-	public void magicUse(LivingEntity player, Player caster, float fullMPBlastMult, LivingEntity lockOnEntity) {
-		PlayerData playerData = PlayerData.get(caster);
+	public void magicUse(LivingEntity player, LivingEntity caster, float fullMPBlastMult, LivingEntity lockOnEntity) {
+
 		float dmg = getRealDamageMult(caster);
 		dmg *= fullMPBlastMult;
 
-		int time = playerData.getMagic(true) * 2;
+		int time = (int) casterMagicStat(caster) * 2;
 		float radius = 3 + (getMagicLocalLevel(caster) * 0.2F);
 
 		for (int a = 0; a < 360; a += 5) {
@@ -47,10 +45,7 @@ public class MagicDeepFreeze extends Magic {
 			((ServerLevel) player.level()).sendParticles(ParticleTypes.SNOWFLAKE, x, player.getY() + 1, z, 0, dirX * 0.15, 0, dirZ * 0.15, 1);
 		}
 
-		List<LivingEntity> list = new ArrayList<>();
-		if (caster instanceof Player p) {
-			list = Utils.getLivingEntitiesInRadiusExcludingParty(p, radius);
-		}
+		List<LivingEntity> list = Utils.getLivingEntitiesInRadiusExcludingParty(caster, radius);
 		list.remove(this);
 
 		for (LivingEntity e : list) {
@@ -66,7 +61,7 @@ public class MagicDeepFreeze extends Magic {
 	}
 
 	@Override
-	public void playMagicCastSound(LivingEntity player, Player caster) {
+	public void playMagicCastSound(LivingEntity player, LivingEntity caster) {
 		player.level().playSound(null, player.position().x(), player.position().y(), player.position().z(), ModSounds.deepFreeze.get(), SoundSource.PLAYERS, 1F, 1F);
 	}
 

@@ -4,7 +4,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.levelgen.Heightmap;
@@ -48,7 +47,7 @@ public class IceBarrageControllerEntity extends BaseMagicProjectile {
 		this.maxTicks = 200;
 	}
 
-	private LivingEntity findTarget(Player player) {
+	private LivingEntity findTarget(LivingEntity player) {
 		List<LivingEntity> entities = level().getEntitiesOfClass(LivingEntity.class, player.getBoundingBox().inflate(5), e -> e != player && Utils.isHostile(e));
 
 		double closest = Double.MAX_VALUE;
@@ -74,7 +73,7 @@ public class IceBarrageControllerEntity extends BaseMagicProjectile {
 			return;
 		}
 
-		if (!(getOwner() instanceof Player player)) {
+		if (!(getOwner() instanceof LivingEntity player)) {
 			discard();
 			return;
 		}

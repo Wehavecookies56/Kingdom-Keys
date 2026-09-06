@@ -2,9 +2,7 @@ package online.kingdomkeys.kingdomkeys.magic;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
-import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.entity.magic.FaithEntityController;
 
 public class MagicFaith extends Magic {
@@ -15,8 +13,8 @@ public class MagicFaith extends Magic {
 	}
 
 	@Override
-	public void magicUse(LivingEntity player, Player caster, float fullMPBlastMult, LivingEntity lockOnEntity) {
-		float dmgMult = getDamageMult() + PlayerData.get(caster).getNumberOfAbilitiesEquipped(ModAbilities.THUNDER_BOOST) * 0.25F;
+	public void magicUse(LivingEntity player, LivingEntity caster, float fullMPBlastMult, LivingEntity lockOnEntity) {
+		float dmgMult = getDamageMult() + abilityStacks(caster, ModAbilities.THUNDER_BOOST) * 0.25F;
 		dmgMult *= fullMPBlastMult;
 
 		FaithEntityController faith = new FaithEntityController(player.level(), player, dmgMult, lockOnEntity);
@@ -25,6 +23,6 @@ public class MagicFaith extends Magic {
 	}
 
 	@Override
-	public void playMagicCastSound(LivingEntity player, Player caster) {
+	public void playMagicCastSound(LivingEntity player, LivingEntity caster) {
 	}
 }

@@ -5,8 +5,6 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
-import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
 import java.util.List;
@@ -18,11 +16,11 @@ public class MagicIgnite extends Magic {
 	}
 
 	@Override
-	public void magicUse(LivingEntity player, Player caster, float fullMPBlastMult, LivingEntity lockOnEntity) {
+	public void magicUse(LivingEntity player, LivingEntity caster, float fullMPBlastMult, LivingEntity lockOnEntity) {
 		float dmgMult = getRealDamageMult(caster) * fullMPBlastMult;
 
-		PlayerData playerData = PlayerData.get(caster);
-		int localLevel = Utils.getMagicHighestLocalLevel(playerData.getEquippedMagics(), getRegistryName());
+
+		int localLevel = getMagicLocalLevel(caster);
 		int radius = 3 + localLevel;
 
 		LivingEntity target = getMagicLockOn() && lockOnEntity != null ? lockOnEntity : getRandomEntity(caster, radius);
@@ -32,8 +30,8 @@ public class MagicIgnite extends Magic {
 		player.swing(InteractionHand.MAIN_HAND);
 	}
 
-	public LivingEntity getRandomEntity(Player player, float radius) {
-		List<LivingEntity> list = Utils.getLivingEntitiesInRadiusExcludingParty(player, radius);
+	public LivingEntity getRandomEntity(LivingEntity caster, float radius) {
+		List<LivingEntity> list = Utils.getLivingEntitiesInRadiusExcludingParty(caster, radius);
 		if (list.isEmpty()) {
 			return null;
 		}
@@ -41,7 +39,7 @@ public class MagicIgnite extends Magic {
 	}
 
 	@Override
-	public void playMagicCastSound(LivingEntity player, Player caster) {
+	public void playMagicCastSound(LivingEntity player, LivingEntity caster) {
 		player.level().playSound(null, player.position().x(), player.position().y(), player.position().z(), SoundEvents.GHAST_SHOOT, SoundSource.PLAYERS, 1F, 1F);
 	}
 

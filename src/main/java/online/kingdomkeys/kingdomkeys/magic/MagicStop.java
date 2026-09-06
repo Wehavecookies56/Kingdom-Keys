@@ -8,7 +8,6 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.data.GlobalData;
 import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
@@ -27,7 +26,7 @@ public class MagicStop extends Magic {
 	}
 
 	@Override
-	public void magicUse(LivingEntity player, Player caster, float fullMPBlastMult, LivingEntity lockOnEntity) {
+	public void magicUse(LivingEntity player, LivingEntity caster, float fullMPBlastMult, LivingEntity lockOnEntity) {
 		float dmg = getRealDamageMult(caster);
 		dmg *= fullMPBlastMult;
 
@@ -62,7 +61,7 @@ public class MagicStop extends Magic {
 	}
 
 	@Override
-	public void playMagicCastSound(LivingEntity player, Player caster) {
+	public void playMagicCastSound(LivingEntity player, LivingEntity caster) {
 		switch (getTier()) {
 			case 0 -> player.level().playSound(null, player.position().x(), player.position().y(), player.position().z(), ModSounds.stop.get(), SoundSource.PLAYERS, 1F, 1F);
 			case 1 -> player.level().playSound(null, player.position().x(), player.position().y(), player.position().z(), ModSounds.stopra.get(), SoundSource.PLAYERS, 1F, 1F);

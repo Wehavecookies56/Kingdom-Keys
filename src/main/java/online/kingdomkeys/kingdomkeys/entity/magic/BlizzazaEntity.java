@@ -6,14 +6,12 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import online.kingdomkeys.kingdomkeys.damagesource.KKDamageTypes;
-import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.lib.Party;
@@ -97,7 +95,7 @@ public class BlizzazaEntity extends BaseMagicProjectile {
 
 			interactWithBlocks(rtRes, radius);
 
-			if (getOwner() instanceof Player player) {
+			if (getOwner() != null) {
 				List<LivingEntity> list = Utils.getLivingEntitiesInRadius(this, radius);
 				int r = 2;
 				for (int t = 1; t < 360; t += 20) {
@@ -124,7 +122,7 @@ public class BlizzazaEntity extends BaseMagicProjectile {
 					((ServerLevel) level()).sendParticles(ParticleTypes.CLOUD, getX(), getY(), getZ()+i, 3, 0,0,0, 0.2);
 				}
 
-				Party casterParty = WorldData.get(player.getServer()).getPartyFromMember(player.getUUID());
+				Party casterParty = Utils.getParty(getOwner());
 
 				if (!list.isEmpty()) {
 					for (LivingEntity e : list) {

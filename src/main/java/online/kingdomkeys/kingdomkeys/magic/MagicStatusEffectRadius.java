@@ -11,11 +11,9 @@ import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MagicStatusEffectRadius extends Magic {
@@ -33,24 +31,20 @@ public class MagicStatusEffectRadius extends Magic {
 	}
 
 	@Override
-	public void magicUse(LivingEntity player, Player caster, float fullMPBlastMult, LivingEntity lockOnEntity) {
-		int time = (int) (PlayerData.get(caster).getMaxMP() * (4F + getRealDamageMult(caster) / 2F)); //in ticks
+	public void magicUse(LivingEntity player, LivingEntity caster, float fullMPBlastMult, LivingEntity lockOnEntity) {
+		int time = (int) (casterMagicPool(caster) * (4F + getRealDamageMult(caster) / 2F)); //in ticks
 
-		if (getRegistryName().toString().equals(Strings.Magic_Bind) || getRegistryName().toString().equals(Strings.Magic_Mini))
-			time = (int) (PlayerData.get(caster).getMagic(true) * getRealDamageMult(caster));
+		if (is(Strings.Magic_Bind) || is(Strings.Magic_Mini))
+			time = (int) (casterMagicStat(caster) * getRealDamageMult(caster));
 
-		float radius = 2 + (Utils.getMagicHighestLocalLevel(PlayerData.get(caster).getEquippedMagics(), getRegistryName()) * 0.2F);
+		float radius = 2 + (getMagicLocalLevel(caster) * 0.2F);
 		for (int a = 0; a < 360; a += 5) {
 			double x = player.getX() + radius * Math.sin(Math.toRadians(a));
 			double z = player.getZ() + radius * Math.cos(Math.toRadians(a));
 			((ServerLevel) player.level()).sendParticles(particle, x, player.getY() + 1, z, 0, 0, 1F, 0, 0);
 		}
 
-		List<LivingEntity> list = new ArrayList<>();
-
-		if (caster instanceof Player p) {
-			list = Utils.getLivingEntitiesInRadiusExcludingParty(p, radius);
-		}
+		List<LivingEntity> list = Utils.getLivingEntitiesInRadiusExcludingParty(caster, radius);
 		list.remove(this);
 
 		for (LivingEntity e : list) {
@@ -60,7 +54,7 @@ public class MagicStatusEffectRadius extends Magic {
 	}
 
 	@Override
-	public void playMagicCastSound(LivingEntity player, Player caster) {
+	public void playMagicCastSound(LivingEntity player, LivingEntity caster) {
 		player.level().playSound(null, player.position().x(), player.position().y(), player.position().z(), sound, SoundSource.PLAYERS, 1F, 1F);
 	}
 

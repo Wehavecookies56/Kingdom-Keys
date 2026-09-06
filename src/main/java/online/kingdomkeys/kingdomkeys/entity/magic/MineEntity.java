@@ -5,7 +5,6 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
@@ -189,7 +188,7 @@ public class MineEntity extends ThrowableProjectile {
 	}
 
 	private void explode() {
-		if (!(getOwner() instanceof Player player)) {
+		if (!(getOwner() instanceof LivingEntity player)) {
 			discard();
 			return;
 		}
@@ -229,18 +228,16 @@ public class MineEntity extends ThrowableProjectile {
 
 				if (target != getOwner()) {
 					if (Utils.canHarm(getOwner(), target)) { //The one place that decides who may be hit
-						float dmg = this.getOwner() instanceof Player ? DamageCalculation.getMagicDamage((Player) this.getOwner()) : 2;
-						Player player = (Player) this.getOwner();
+						float dmg = this.getOwner() instanceof LivingEntity magicCaster ? DamageCalculation.getMagicDamage(magicCaster) : 2;
 						//target.hurt(DarknessDamageSource.getDarknessDamage(this, this.getOwner()), dmg * dmgMult);
-						if (this.getOwner() instanceof Player) {
-							List<LivingEntity> targetList = Utils.getLivingEntitiesInRadiusExcludingParty((Player) this.getOwner(), this, radius, radius, radius);
+						if (this.getOwner() != null) {
+							List<LivingEntity> targetList = Utils.getLivingEntitiesInRadiusExcludingParty(this.getOwner(), this, radius, radius, radius);
 							for (LivingEntity e : targetList) {
 								e.hurt(KKDamageTypes.getElementalDamage(KKDamageTypes.FIRE, this, this.getOwner()), dmg);
 								e.invulnerableTime = 0;
 							}
 						}
 						level().explode(this.getOwner(), this.blockPosition().getX(), this.blockPosition().getY() + (double) (this.getBbHeight() / 16.0F), this.blockPosition().getZ(), radius, false, Level.ExplosionInteraction.NONE);
-						PlayerData playerData = PlayerData.get(player);
 						remove(RemovalReason.KILLED);
 
 					}

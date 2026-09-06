@@ -26,13 +26,13 @@ public class MagicCure extends Magic {
 	}
 
 	@Override
-	public void magicUse(LivingEntity player, Player caster, float fullMPBlastMult, LivingEntity lockOnEntity) {
+	public void magicUse(LivingEntity player, LivingEntity caster, float fullMPBlastMult, LivingEntity lockOnEntity) {
 		((ServerLevel) player.level()).sendParticles(ParticleTypes.HAPPY_VILLAGER.getType(), player.getX(), player.getY() + 2.3D, player.getZ(), 5, 0D, 0D, 0D, 0D);
-		PlayerData playerData = PlayerData.get(caster);
+		PlayerData playerData = caster instanceof Player p ? PlayerData.get(p) : null;
 		WorldData worldData = WorldData.get(player.getServer());
 
-		float amount = playerData.getMaxHP() * getRealDamageMult(caster);
-		if (playerData.getNumberOfAbilitiesEquipped(ModAbilities.LEAF_BRACER) > 0)
+		float amount = (playerData != null ? playerData.getMaxHP() : caster.getMaxHealth()) * getRealDamageMult(caster);
+		if (abilityStacks(caster, ModAbilities.LEAF_BRACER) > 0)
 			player.invulnerableTime = 40;
 
 		Utils.reviveFromKO(player);
@@ -104,7 +104,7 @@ public class MagicCure extends Magic {
 	}
 
 	@Override
-	public void playMagicCastSound(LivingEntity player, Player caster) {
+	public void playMagicCastSound(LivingEntity player, LivingEntity caster) {
 		switch (getTier()) {
 			case 0 -> player.level().playSound(null, player.position().x(), player.position().y(), player.position().z(), ModSounds.cure.get(), SoundSource.PLAYERS, 1F, 1F);
 			case 1 -> player.level().playSound(null, player.position().x(), player.position().y(), player.position().z(), ModSounds.cura.get(), SoundSource.PLAYERS, 1F, 1F);

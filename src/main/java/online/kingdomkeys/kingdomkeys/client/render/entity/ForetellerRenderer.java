@@ -2,6 +2,7 @@ package online.kingdomkeys.kingdomkeys.client.render.entity;
 
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelLayers;
+import net.minecraft.client.renderer.culling.Frustum;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.HumanoidMobRenderer;
 import net.minecraft.client.renderer.entity.layers.HumanoidArmorLayer;
@@ -17,6 +18,11 @@ public class ForetellerRenderer extends HumanoidMobRenderer<ForetellerEntity, Fo
     public ForetellerRenderer(EntityRendererProvider.Context context) {
         super(context, new ForetellerModel<>(context.bakeLayer(ForetellerModel.LAYER_LOCATION)), 0.5F);
         this.addLayer(new HumanoidArmorLayer<>(this, new HumanoidModel<>(context.bakeLayer(ModelLayers.PLAYER_INNER_ARMOR)), new HumanoidModel<>(context.bakeLayer(ModelLayers.PLAYER_OUTER_ARMOR)), context.getModelManager()));
+    }
+
+    @Override
+    public boolean shouldRender(ForetellerEntity entity, Frustum frustum, double camX, double camY, double camZ) {
+        return !entity.isInvisible() && super.shouldRender(entity, frustum, camX, camY, camZ);
     }
 
     @Override

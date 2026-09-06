@@ -94,7 +94,7 @@ public class MeteorEntity extends ThrowableProjectile {
                 list.remove(this);
             }
             if (tickCount % 6 == 1){
-                float dmg = this.getOwner() instanceof Player player ? DamageCalculation.getMagicDamage(player) * 0.055F :3;
+                float dmg = this.getOwner() instanceof LivingEntity magicCaster ? DamageCalculation.getMagicDamage(magicCaster) * 0.055F :3;
 
                 /*if (!list.isEmpty()) { //If it detects entities either around the caster or around the locked on entity
                     int i = level().random.nextInt(list.size());

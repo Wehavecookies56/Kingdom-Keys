@@ -4,7 +4,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.entity.magic.MagnegaEntity;
 import online.kingdomkeys.kingdomkeys.entity.magic.MagneraEntity;
@@ -18,7 +17,7 @@ public class MagicMagnet extends Magic {
 	}
 
 	@Override
-	public void magicUse(LivingEntity player, Player caster, float fullMPBlastMult, LivingEntity lockOnEntity) {
+	public void magicUse(LivingEntity player, LivingEntity caster, float fullMPBlastMult, LivingEntity lockOnEntity) {
 		float dmg = getRealDamageMult(caster);
 		dmg *= fullMPBlastMult;
 
@@ -60,7 +59,7 @@ public class MagicMagnet extends Magic {
 	}
 
 	@Override
-	public void playMagicCastSound(LivingEntity player, Player caster) {
+	public void playMagicCastSound(LivingEntity player, LivingEntity caster) {
 		player.level().playSound(null, player.position().x(), player.position().y(), player.position().z(), ModSounds.magnet1.get(), SoundSource.PLAYERS, 1F, 1F);
 	}
 

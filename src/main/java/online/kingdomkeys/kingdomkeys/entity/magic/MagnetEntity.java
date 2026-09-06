@@ -4,7 +4,6 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
@@ -54,7 +53,7 @@ public class MagnetEntity extends BaseMagicProjectile {
 			
 			
 			List<Entity> list = level().getEntities(getOwner(), getBoundingBox().inflate(radius,radius*2,radius));
-			list = Utils.removePartyMembersFromList((Player) getOwner(), list);
+			list = Utils.removePartyMembersFromList(getOwner(), list);
 
 			if (!list.isEmpty()) {
 				for (Entity e : list) {

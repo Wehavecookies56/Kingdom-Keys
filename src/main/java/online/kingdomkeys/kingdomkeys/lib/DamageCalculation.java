@@ -3,6 +3,8 @@ package online.kingdomkeys.kingdomkeys.lib;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantments;
@@ -96,6 +98,18 @@ public class DamageCalculation {
         } else {
             return 0;
         }
+    }
+
+    public static float getMagicDamage(LivingEntity caster) {
+        if (caster instanceof Player player) {
+            return getMagicDamage(player);
+        }
+
+        if (caster == null) {
+            return 0;
+        }
+
+        return (float) caster.getAttributeValue(Attributes.ATTACK_DAMAGE);
     }
 
     /**

@@ -256,6 +256,6 @@ public class AeroTornadoEntity extends BaseMagicProjectile {
 	// Everything the tornado holds except owner and party
 	private List<Entity> caught(float reach) {
 		List<Entity> list = level().getEntities(getOwner(), getBoundingBox().inflate(reach, getHeight(), reach));
-		return getOwner() instanceof Player player ? Utils.removePartyMembersFromList(player, list) : list;
+		return Utils.removePartyMembersFromList(getOwner(), list);
 	}
 }

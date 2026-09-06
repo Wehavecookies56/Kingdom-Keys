@@ -307,6 +307,13 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Gui_Foreteller_Redeem, "Redeem");
         add(Gui_Foreteller_Train, "Train");
         add(Gui_Foreteller_Duel, "Spar");
+        add(Gui_Duel_Level, "Lv. %s");
+        add(Duel_Begin, "Begin");
+        add(Duel_Lost, "Enough");
+        add(Duel_Lost_Sub, "Rest, and come back when you are ready");
+        add("kingdomkeys.duel.difficulty.easy", "Easy");
+        add("kingdomkeys.duel.difficulty.normal", "Medium");
+        add("kingdomkeys.duel.difficulty.hard", "Hard");
         add(Gui_Menu_Main_Hearts, "Hearts");
         add(Gui_Menu_Main_Time, "World Time");
         add(Gui_Menu_Main_Time_Spent, "Global Time");
@@ -2358,6 +2365,13 @@ public class LanguageENUS extends KKLanguageProvider {
 
         addEntityType(ModEntities.TYPE_TRAINING_DUMMY, "Training Scarecrow");
         addEntityType(ModEntities.TYPE_MAGIC_TARGET, "Magic Target");
+        addEntityType(ModEntities.TYPE_MASTER_DUEL, "Master");
+        add("kingdomkeys.entity.master_duel", "Master %s");
+        add("kingdomkeys.foreteller.ira", "Ira");
+        add("kingdomkeys.foreteller.gula", "Gula");
+        add("kingdomkeys.foreteller.ava", "Ava");
+        add("kingdomkeys.foreteller.invi", "Invi");
+        add("kingdomkeys.foreteller.aced", "Aced");
         addEntityType(ModEntities.TYPE_LIGHT_TRAINING_ORB, "Orb of Light");
         addEntityType(ModEntities.TYPE_DARK_TRAINING_ORB, "Shaded Light Orb");
 

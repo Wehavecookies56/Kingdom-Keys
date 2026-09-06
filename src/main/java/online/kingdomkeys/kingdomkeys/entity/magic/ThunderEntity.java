@@ -6,7 +6,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
@@ -47,7 +46,7 @@ public class ThunderEntity extends BaseMagicProjectile {
 
 		if (!level().isClientSide && getOwner() != null) { // Only calculate and spawn lightning bolts server side
 			if (tickCount == 1) {
-				if(getOwner() instanceof Player p) {
+				if(getOwner() instanceof LivingEntity p) {
 					if(lockOnEntity != null) {
 						list = Utils.getLivingEntitiesInRadiusExcludingParty(p, lockOnEntity, radius, radius, radius);
 					} else {

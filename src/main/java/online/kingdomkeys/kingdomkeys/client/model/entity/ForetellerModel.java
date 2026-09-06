@@ -6,13 +6,13 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
+import net.minecraft.world.entity.Mob;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.entity.mob.ForetellerEntity;
 
 @OnlyIn(Dist.CLIENT)
-public class ForetellerModel<T extends ForetellerEntity> extends HumanoidModel<T> {
+public class ForetellerModel<T extends Mob> extends HumanoidModel<T> {
     public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(KingdomKeys.rl("foreteller"), "main");
 
     public ForetellerModel(ModelPart root) {

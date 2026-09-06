@@ -22,6 +22,7 @@ import net.minecraft.world.level.Level;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.lib.SoAState;
+import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.lib.Union;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCOpenForetellerScreen;
@@ -29,6 +30,13 @@ import online.kingdomkeys.kingdomkeys.network.stc.SCOpenUnionScreen;
 
 public class ForetellerEntity extends PathfinderMob {
     private static final EntityDataAccessor<Byte> UNION = SynchedEntityData.defineId(ForetellerEntity.class, EntityDataSerializers.BYTE);
+
+    private static final double DUEL_WATCH_RANGE = 32.0D;
+    private static final int DUEL_CHECK_INTERVAL = 20;
+
+    private static final String FORETELLER_KEY = "kingdomkeys.foreteller.";
+
+    private boolean sparring;
 
     public ForetellerEntity(EntityType<? extends PathfinderMob> type, Level level) {
         super(type, level);
@@ -66,13 +74,35 @@ public class ForetellerEntity extends PathfinderMob {
     }
 
     /** Helmet, chestplate, leggings, boots of the Foreteller who leads each union. */
-    private static Item[] robesFor(Union union) {
+    public static Item[] robesFor(Union union) {
         return switch (union) {
             case UNICORNIS -> new Item[] { ModItems.ira_Helmet.get(), ModItems.ira_Chestplate.get(), ModItems.ira_Leggings.get(), ModItems.ira_Boots.get() };
             case LEOPARDOS -> new Item[] { ModItems.gula_Helmet.get(), ModItems.gula_Chestplate.get(), ModItems.gula_Leggings.get(), ModItems.gula_Boots.get() };
             case VULPES -> new Item[] { ModItems.ava_Helmet.get(), ModItems.ava_Chestplate.get(), ModItems.ava_Leggings.get(), ModItems.ava_Boots.get() };
             case ANGUIS -> new Item[] { ModItems.invi_Helmet.get(), ModItems.invi_Chestplate.get(), ModItems.invi_Leggings.get(), ModItems.invi_Boots.get() };
             case URSUS -> new Item[] { ModItems.aced_Helmet.get(), ModItems.aced_Chestplate.get(), ModItems.aced_Leggings.get(), ModItems.aced_Boots.get() };
+            case NONE -> null;
+        };
+    }
+
+    public static String nameKeyFor(Union union) {
+        return switch (union) {
+            case UNICORNIS -> FORETELLER_KEY + Strings.ira;
+            case LEOPARDOS -> FORETELLER_KEY + Strings.gula;
+            case VULPES -> FORETELLER_KEY + Strings.ava;
+            case ANGUIS -> FORETELLER_KEY + Strings.invi;
+            case URSUS -> FORETELLER_KEY + Strings.aced;
+            case NONE -> union.getTranslationKey();
+        };
+    }
+
+    public static Item keybladeFor(Union union) {
+        return switch (union) {
+            case UNICORNIS -> ModItems.irasKeyblade.get();
+            case LEOPARDOS -> ModItems.gulasKeyblade.get();
+            case VULPES -> ModItems.avasKeyblade.get();
+            case ANGUIS -> ModItems.invisKeyblade.get();
+            case URSUS -> ModItems.acedsKeyblade.get();
             case NONE -> null;
         };
     }
@@ -93,7 +123,18 @@ public class ForetellerEntity extends PathfinderMob {
     @Override
     public Component getName() {
         Union union = getUnion();
-        return Component.translatable(union.getTranslationKey()).withStyle(style -> style.withColor(TextColor.fromRgb(union.getColour())));
+        return Component.translatable(nameKeyFor(union)).withStyle(style -> style.withColor(TextColor.fromRgb(union.getColour())));
+    }
+
+    @Override
+    public void tick() {
+        super.tick();
+
+        if (level().isClientSide || tickCount % DUEL_CHECK_INTERVAL != 0)
+            return;
+
+        sparring = !level().getEntitiesOfClass(MasterDuelEntity.class, getBoundingBox().inflate(DUEL_WATCH_RANGE), copy -> copy.isAlive() && copy.getUnion() == getUnion()).isEmpty();
+        setInvisible(sparring);
     }
 
     @Override
@@ -101,6 +142,9 @@ public class ForetellerEntity extends PathfinderMob {
         if (level().isClientSide || hand != InteractionHand.MAIN_HAND)
             return InteractionResult.SUCCESS;
         if (!(player instanceof ServerPlayer serverPlayer))
+            return InteractionResult.FAIL;
+
+        if (sparring)
             return InteractionResult.FAIL;
 
         PlayerData playerData = PlayerData.get(player);

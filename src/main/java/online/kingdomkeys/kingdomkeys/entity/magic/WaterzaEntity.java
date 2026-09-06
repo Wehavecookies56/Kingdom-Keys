@@ -6,14 +6,12 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import online.kingdomkeys.kingdomkeys.damagesource.KKDamageTypes;
-import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.lib.Party;
 import online.kingdomkeys.kingdomkeys.util.Utils;
@@ -130,7 +128,7 @@ public class WaterzaEntity extends BaseMagicProjectile{
 
 			interactWithBlocks(rtRes, radius);
 
-			if (getOwner() instanceof Player) {
+			if (getOwner() != null) {
 				List<LivingEntity> list = Utils.getLivingEntitiesInRadius(this, radius);
 
 				for (int t = 1; t < 360; t += 10) {
@@ -150,7 +148,7 @@ public class WaterzaEntity extends BaseMagicProjectile{
 					}
 				}
 
-				Party casterParty = WorldData.get(getOwner().getServer()).getPartyFromMember(getOwner().getUUID());
+				Party casterParty = Utils.getParty(getOwner());
 
 				if (!list.isEmpty()) {
 					for (LivingEntity e : list) {

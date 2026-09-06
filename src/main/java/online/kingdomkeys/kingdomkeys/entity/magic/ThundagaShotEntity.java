@@ -6,7 +6,6 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
@@ -87,7 +86,7 @@ public class ThundagaShotEntity extends BaseMagicProjectile {
 			float radius = 2F;
 
 			List<Entity> list = level().getEntities(getOwner(), getBoundingBox().inflate(radius));
-			list = Utils.removePartyMembersFromList((Player) getOwner(), list);
+			list = Utils.removePartyMembersFromList(getOwner(), list);
 			if (target != null) { //If was direct impact remove the target from the explosion damage
 				list.remove(target);
 			}

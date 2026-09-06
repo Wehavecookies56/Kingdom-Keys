@@ -357,6 +357,13 @@ public class LanguageESES extends KKLanguageProvider {
         add(Gui_Foreteller_Redeem, "Canjear");
         add(Gui_Foreteller_Train, "Entrenar");
         add(Gui_Foreteller_Duel, "Enfrentarse");
+        add(Gui_Duel_Level, "Nv. %s");
+        add(Duel_Begin, "¡Ya!");
+        add(Duel_Lost, "Basta");
+        add(Duel_Lost_Sub, "Descansa y vuelve cuando estés listo");
+        add("kingdomkeys.duel.difficulty.easy", "Fácil");
+        add("kingdomkeys.duel.difficulty.normal", "Medio");
+        add("kingdomkeys.duel.difficulty.hard", "Difícil");
         add(Gui_Menu_Main_Hearts, "Corazones");
         add(Gui_Menu_Main_Time, "Hora del Mundo");
         add(Gui_Menu_Main_Time_Spent, "Tiempo total");
@@ -2397,6 +2404,13 @@ public class LanguageESES extends KKLanguageProvider {
 
         addEntityType(ModEntities.TYPE_TRAINING_DUMMY, "Espantapájaros de entrenamiento");
         addEntityType(ModEntities.TYPE_MAGIC_TARGET, "Diana Mágica");
+        addEntityType(ModEntities.TYPE_MASTER_DUEL, "Maestro");
+        add("kingdomkeys.entity.master_duel", "Maestro %s");
+        add("kingdomkeys.foreteller.ira", "Ira");
+        add("kingdomkeys.foreteller.gula", "Gula");
+        add("kingdomkeys.foreteller.ava", "Ava");
+        add("kingdomkeys.foreteller.invi", "Invi");
+        add("kingdomkeys.foreteller.aced", "Aced");
         addEntityType(ModEntities.TYPE_LIGHT_TRAINING_ORB, "Orbe de Luz");
         addEntityType(ModEntities.TYPE_DARK_TRAINING_ORB, "Orbe de Luz Sombrío");
 

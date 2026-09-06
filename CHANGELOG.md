@@ -2,16 +2,17 @@
 * Unions system, now the SoA choice will be preceded by an Union choice, just like the path it's not changeable once done.
   * They are all equal to themselves, if a player joins Organization XIII they won't have access to their Union privileges.
   * Foretellers will be able to train you, either by summoning rounds of enemies or by sparring with them (WIP).
+  * Lux is used to claim rewards from the Foretellers. Foretellers from other unions will charge you extra Lux for theirs.
 * Daybreak Town.
 * World Markers in the Ocean Between, rendered while you're in a gummi ship.
-* Lux when defeating enemies, used with your union's foreteller to redeem some rewards.
+* Lux when defeating enemies and training with your Foreteller.
 * Orb of Light and it's shaded variant as enemies, not spawning on their own, only used by the foretellers as training to their pupils.
 * Command to set a player Lux amount.
 * Command to set a player union.
   * Players *with no unions* (returning players with a choice made) can use it to get their union, OPs can use it with a player parameter to enforce one.
 * Ability group parameter.
   * Prevents a player from equipping multiple abilities that belong in the same group.
-* Item slot unlocks through levelup, by default they get one every X levels: Guardian 4, Warrior 5, Mystic 6.
+* Item slot unlocks through levelup, by default they get one every X levels: Guardian 4, Warrior 5, Mystic 6. Up to 6 slots.
 * Warning / Confirmation screens on:
   * When trying to unequip an accessory and max AP would decrease below the total used AP.
   * When selling items.
@@ -25,10 +26,12 @@
 
 ## Changed:
 * Abilities are now data driven.
-* Updated version for the leveling json files.
+* Updated version for the leveling json files, next time a player joins will get their level adjusted and abilities re-given.
 
 ## Fixed:
 * Reversal RC being available even when the Dusk was out of reach.
+* Dark Firaga being a normal Firaga.
+* Bind and Mini not adjusting their time properly based on what was configured.
 * Org portal not being visible in the destination if it was casted from another dimension.
 * Org portal not ticking in the source after it was crossed and chunk was unloaded.
 * Keychains not getting an UUID assigned when synthesised directly into the Keychains Bag, allowing for dupes.

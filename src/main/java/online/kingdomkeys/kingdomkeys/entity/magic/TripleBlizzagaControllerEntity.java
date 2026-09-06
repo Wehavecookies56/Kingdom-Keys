@@ -2,7 +2,6 @@ package online.kingdomkeys.kingdomkeys.entity.magic;
 
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.HitResult;
@@ -34,7 +33,7 @@ public class TripleBlizzagaControllerEntity extends BaseMagicProjectile {
 
 		if (!level().isClientSide && getOwner() != null) { // Only calculate and spawn lightning bolts server side
 			if (tickCount % 5 == 0) {
-				if(getOwner() instanceof Player player) {
+				if(getOwner() instanceof LivingEntity player) {
 					BlizzardEntity blizzaga = new BlizzardEntity(level(), player, dmgMult, 100);
 					blizzaga.setMagic(getMagic());
 					player.level().addFreshEntity(blizzaga);

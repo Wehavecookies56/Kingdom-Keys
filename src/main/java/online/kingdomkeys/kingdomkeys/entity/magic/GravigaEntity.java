@@ -10,7 +10,6 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.HitResult;
@@ -79,7 +78,7 @@ public class GravigaEntity extends BaseMagicProjectile {
 			WorldData worldData = WorldData.get(level().getServer());
 			if (!level().isClientSide && getOwner() != null && worldData != null) {
 				List<Entity> oList = level().getEntities(getOwner(), getBoundingBox().inflate(radius));
-				List<Entity> list = Utils.removePartyMembersFromList((Player) getOwner(),oList);
+				List<Entity> list = Utils.removePartyMembersFromList(getOwner(),oList);
 
 				if (!list.isEmpty()) {
 					for (Entity e : list) {
@@ -90,7 +89,7 @@ public class GravigaEntity extends BaseMagicProjectile {
 								player.connection.send(new ClientboundUpdateMobEffectPacket(le.getId(), instance, false));
 							});
 							if (Utils.isHostile(e) || e instanceof TrainingDummyEntity || e instanceof MagicTargetEntity) {
-								float ratio = dmgMult * (this.getOwner() instanceof Player ? DamageCalculation.getMagicDamage((Player) this.getOwner()) / 100 : 2);
+								float ratio = dmgMult * (this.getOwner() instanceof LivingEntity magicCaster ? DamageCalculation.getMagicDamage(magicCaster) / 100 : 2);
 								float dmg = le.getHealth() * ratio;
 								dmg = Math.min(dmg, 99);
 								e.hurt(KKDamageTypes.getElementalDamage(KKDamageTypes.DARKNESS,this, this.getOwner()), dmg);

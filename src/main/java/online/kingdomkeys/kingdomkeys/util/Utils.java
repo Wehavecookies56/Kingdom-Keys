@@ -1969,9 +1969,9 @@ public class Utils {
 		return elList;
 	}
 
-	public static List<Entity> removePartyMembersFromList(Player player, List<Entity> list) {
-		list.remove(player);
-		return removeAllies(player, list);
+	public static List<Entity> removePartyMembersFromList(@Nullable Entity caster, List<Entity> list) {
+		list.remove(caster);
+		return removeAllies(caster, list);
 	}
 
 	public static boolean anyPartyMemberOnExcept(Player player, Party p, ServerLevel level) {
@@ -1989,10 +1989,10 @@ public class Utils {
 		return false;
 	}
 
-	public static List<LivingEntity> getLivingEntitiesInRadiusExcludingParty(LivingEntity player, float radius) {
-		List<Entity> list = player.level().getEntities(player, player.getBoundingBox().inflate(radius), Entity::isAlive);
-		list.remove(player);
-		removeAllies(player, list);
+	public static List<LivingEntity> getLivingEntitiesInRadiusExcludingParty(Entity caster, float radius) {
+		List<Entity> list = caster.level().getEntities(caster, caster.getBoundingBox().inflate(radius), Entity::isAlive);
+		list.remove(caster);
+		removeAllies(caster, list);
 
 		List<LivingEntity> elList = new ArrayList<LivingEntity>();
 		for (Entity e : list) {
@@ -2007,17 +2007,17 @@ public class Utils {
 	/**
 	 * Gets entities in radius from the entity param
 	 *
-	 * @param player  to ignore from the list
+	 * @param caster  to ignore from the list, along with anyone on its side
 	 * @param entity  where to check with radius
 	 * @param radiusX
 	 * @param radiusY
 	 * @param radiusZ
 	 * @return
 	 */
-	public static List<LivingEntity> getLivingEntitiesInRadiusExcludingParty(Player player, Entity entity, float radiusX, float radiusY, float radiusZ) {
-		List<Entity> list = player.level().getEntities(player, entity.getBoundingBox().inflate(radiusX, radiusY, radiusZ), Entity::isAlive);
-		list.remove(player);
-		removeAllies(player, list);
+	public static List<LivingEntity> getLivingEntitiesInRadiusExcludingParty(Entity caster, Entity entity, float radiusX, float radiusY, float radiusZ) {
+		List<Entity> list = caster.level().getEntities(caster, entity.getBoundingBox().inflate(radiusX, radiusY, radiusZ), Entity::isAlive);
+		list.remove(caster);
+		removeAllies(caster, list);
 
 		list.remove(entity);
 
@@ -2700,6 +2700,21 @@ public class Utils {
 
 	public static void reviveFromKO(LivingEntity entity) {
 		entity.removeEffect(ModMobEffects.KO);
+	}
+
+	public static void knockOut(Player player) {
+		if (player.hasEffect(ModMobEffects.KO)) {
+			return;
+		}
+
+		player.removeAllEffects();
+		player.setHealth(player.getMaxHealth());
+		player.invulnerableTime = 40;
+		player.getFoodData().setFoodLevel(10);
+		player.getFoodData().setExhaustion(0);
+		player.getFoodData().setSaturation(0);
+		player.addEffect(new MobEffectInstance(ModMobEffects.KO, MobEffectInstance.INFINITE_DURATION, 0, false, false, false));
+		player.level().playSound(null, player.blockPosition(), ModSounds.playerDeathHardcore.get(), SoundSource.PLAYERS);
 	}
 
 	public static int getRandomMobLevel(Player player) {

@@ -3,10 +3,8 @@ package online.kingdomkeys.kingdomkeys.magic;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.ability.ModAbilities;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
-import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.entity.magic.*;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 
@@ -23,13 +21,13 @@ public class MagicFire extends Magic {
 	}
 
 	@Override
-	public void magicUse(LivingEntity player, Player caster, float fullMPBlastMult, LivingEntity lockOnEntity) {
-		float dmgMult = getRealDamageMult(caster) + PlayerData.get(caster).getNumberOfAbilitiesEquipped(ModAbilities.FIRAZA) * 0.2F;
+	public void magicUse(LivingEntity player, LivingEntity caster, float fullMPBlastMult, LivingEntity lockOnEntity) {
+		float dmgMult = getRealDamageMult(caster) + abilityStacks(caster, ModAbilities.FIRAZA) * 0.2F;
 		dmgMult *= fullMPBlastMult;
 		lockOnEntity = getMagicLockOn() ? lockOnEntity : null;
 
 		//If it's dark firaga cast it directly
-		if (getRegistryName().toString().equals(Strings.Magic_DarkFiraga)) {
+		if (is(Strings.Magic_DarkFiraga)) {
 			DarkFiragaEntity darkFiraga = new DarkFiragaEntity(player.level(), player, dmgMult, lockOnEntity);
 			darkFiraga.setMagic(this);
 			player.level().addFreshEntity(darkFiraga);
@@ -67,7 +65,7 @@ public class MagicFire extends Magic {
 	}
 
 	@Override
-	public void playMagicCastSound(LivingEntity player, Player caster) {
+	public void playMagicCastSound(LivingEntity player, LivingEntity caster) {
 		switch (getTier()) {
 			case 0 -> player.level().playSound(null, player.position().x(), player.position().y(), player.position().z(), ModSounds.fire.get(), SoundSource.PLAYERS, 1F, 1F);
 			case 1 -> player.level().playSound(null, player.position().x(), player.position().y(), player.position().z(), ModSounds.fira.get(), SoundSource.PLAYERS, 1F, 1F);

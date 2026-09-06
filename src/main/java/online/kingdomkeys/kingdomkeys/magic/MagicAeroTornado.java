@@ -4,7 +4,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.entity.magic.AeroTornadoEntity;
@@ -22,7 +21,7 @@ public class MagicAeroTornado extends Magic {
 	}
 
 	@Override
-	public void magicUse(LivingEntity player, Player caster, float fullMPBlastMult, LivingEntity lockOnEntity) {
+	public void magicUse(LivingEntity player, LivingEntity caster, float fullMPBlastMult, LivingEntity lockOnEntity) {
 		int tier = Math.min(getTier(), RADIUS.length - 1);
 
 		AeroTornadoEntity tornado = new AeroTornadoEntity(player.level(), player, getRealDamageMult(caster) * fullMPBlastMult, RADIUS[tier], HEIGHT[tier]);
@@ -46,7 +45,7 @@ public class MagicAeroTornado extends Magic {
 	}
 
 	@Override
-	public void playMagicCastSound(LivingEntity player, Player caster) {
+	public void playMagicCastSound(LivingEntity player, LivingEntity caster) {
 		player.level().playSound(null, player.getX(), player.getY(), player.getZ(), ModSounds.aero1.get(), SoundSource.PLAYERS, 1F, 1F);
 	}
 }

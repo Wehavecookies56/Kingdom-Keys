@@ -243,6 +243,9 @@ public class ModEntities {
     public static final DeferredHolder<EntityType<?>, EntityType<DragoonEntity>> TYPE_DRAGOON = createEntityType(DragoonEntity::new, MobCategory.MONSTER, "dragoon", 1F, 2F);
     public static final Supplier<Item> DRAGOON_EGG = ModItems.ITEMS.register("dragoon_spawn_egg", () -> new DeferredSpawnEggItem(TYPE_DRAGOON, 0xc9c9c9, 0xc2387f, PROPERTIES));
 
+    //The master a pupil spars against
+    public static final DeferredHolder<EntityType<?>, EntityType<MasterDuelEntity>> TYPE_MASTER_DUEL = createEntityType(MasterDuelEntity::new, MobCategory.MONSTER, "master_duel", 0.6F, 1.95F);
+
     //Training orbs. Summoned for a lesson, never found in the wild, so no spawn placement for either
     public static final DeferredHolder<EntityType<?>, EntityType<LightTrainingOrbEntity>> TYPE_LIGHT_TRAINING_ORB = createEntityType(LightTrainingOrbEntity::new, MobCategory.MONSTER, "light_training_orb", 0.8F, 0.8F);
     public static final Supplier<Item> LIGHT_TRAINING_ORB_EGG = ModItems.ITEMS.register("light_training_orb_spawn_egg", () -> new DeferredSpawnEggItem(TYPE_LIGHT_TRAINING_ORB, 0xFFF6D8, 0xFFFFFF, PROPERTIES));
@@ -498,6 +501,7 @@ public class ModEntities {
         event.registerEntityRenderer(TYPE_GUMMI_SHOT.get(), GummiShotEntityRender::new);
         event.registerEntityRenderer(TYPE_GUMMI_IMPACT.get(), GummiImpactEntityRender::new);
 
+        event.registerEntityRenderer(TYPE_MASTER_DUEL.get(), MasterDuelRenderer::new);
         event.registerEntityRenderer(TYPE_LIGHT_TRAINING_ORB.get(), context -> new TrainingOrbRenderer<LightTrainingOrbEntity>(context, KingdomKeys.rl("textures/entity/mob/light_training_orb.png"), false));
         event.registerEntityRenderer(TYPE_DARK_TRAINING_ORB.get(), context -> new TrainingOrbRenderer<DarkTrainingOrbEntity>(context, KingdomKeys.rl("textures/entity/mob/dark_training_orb.png"), true));
         event.registerEntityRenderer(TYPE_MARLUXIA.get(), MarluxiaRenderer::new);
@@ -614,6 +618,7 @@ public class ModEntities {
         //GlobalEntityTypeAttributes.put(TYPE_GUMMI_SHIP.get(), GummiShipEntity.registerAttributes().create());
         event.put(TYPE_SPAWNING_ORB.get(), SpawningOrbEntity.registerAttributes().build());
         
+        event.put(TYPE_MASTER_DUEL.get(), MasterDuelEntity.registerAttributes().build());
         event.put(TYPE_LIGHT_TRAINING_ORB.get(), LightTrainingOrbEntity.registerAttributes().build());
         event.put(TYPE_DARK_TRAINING_ORB.get(), DarkTrainingOrbEntity.registerAttributes().build());
         event.put(TYPE_MARLUXIA.get(), MarluxiaEntity.registerAttributes().build());

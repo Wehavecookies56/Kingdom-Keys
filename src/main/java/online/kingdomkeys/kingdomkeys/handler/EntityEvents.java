@@ -1030,9 +1030,16 @@ public class EntityEvents {
 		return false;
 	}
 
+	@SubscribeEvent(priority = EventPriority.LOWEST)
+	public void sparCannotKill(LivingDamageEvent.Pre event) {
+		if (event.getEntity() instanceof Player hurt && !hurt.level().isClientSide) {
+			event.setNewDamage(MasterDuelEntity.sparBlow(hurt, event.getSource(), event.getNewDamage()));
+		}
+	}
+
 	@SubscribeEvent
 	public void hitEntity(LivingDamageEvent.Pre event) {
-		if (event.getEntity() instanceof Player hurt && !hurt.level().isClientSide) {
+		if (event.getEntity() instanceof Player hurt && !hurt.level().isClientSide && !MasterDuelEntity.isSparBlow(hurt, event.getSource())) {
 			event.setNewDamage(CombatAbilities.survive(hurt, PlayerData.get(hurt), event.getNewDamage()));
 		}
 		/*if(event.getEntity() instanceof LivingEntity khmob){

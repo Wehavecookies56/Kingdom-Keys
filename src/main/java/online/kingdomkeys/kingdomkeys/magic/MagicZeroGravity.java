@@ -9,11 +9,9 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
-import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MagicZeroGravity extends Magic {
@@ -24,8 +22,8 @@ public class MagicZeroGravity extends Magic {
 	}
 
 	@Override
-	public void magicUse(LivingEntity player, Player caster, float fullMPBlastMult, LivingEntity lockOnEntity) {
-		int time = (int) (PlayerData.get(caster).getMagic(true) * getRealDamageMult(caster));
+	public void magicUse(LivingEntity player, LivingEntity caster, float fullMPBlastMult, LivingEntity lockOnEntity) {
+		int time = (int) (casterMagicStat(caster) * getRealDamageMult(caster));
 		float radius = getTier() + 1 + (getMagicLocalLevel(caster) * 0.2F);
 
 		for (int a = 0; a < 360; a += 5) {
@@ -36,11 +34,7 @@ public class MagicZeroGravity extends Magic {
 			((ServerLevel) player.level()).sendParticles(ParticleTypes.DRAGON_BREATH, x, player.getY() - radius * 2, z, 0, 0, 1F, 0, 0.25);
 		}
 
-		List<LivingEntity> list = new ArrayList<>();
-
-		if (caster instanceof Player p) {
-			list = Utils.getLivingEntitiesInRadiusExcludingParty(p, radius);
-		}
+		List<LivingEntity> list = Utils.getLivingEntitiesInRadiusExcludingParty(caster, radius);
 		list.remove(this);
 
 		for (LivingEntity e : list) {
@@ -51,7 +45,7 @@ public class MagicZeroGravity extends Magic {
 	}
 
 	@Override
-	public void playMagicCastSound(LivingEntity player, Player caster) {
+	public void playMagicCastSound(LivingEntity player, LivingEntity caster) {
 		switch (getTier()) {
 			case 0 -> player.level().playSound(null, player.position().x(), player.position().y(), player.position().z(), ModSounds.zeroGravity.get(), SoundSource.PLAYERS, 1F, 1F);
 			case 1 -> player.level().playSound(null, player.position().x(), player.position().y(), player.position().z(), ModSounds.zeroGravity.get(), SoundSource.PLAYERS, 1F, 1F);
