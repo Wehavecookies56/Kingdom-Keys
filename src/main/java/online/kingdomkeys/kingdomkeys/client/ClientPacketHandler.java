@@ -53,7 +53,6 @@ import online.kingdomkeys.kingdomkeys.driveform.DriveFormData;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.entity.block.CardDoorTileEntity;
 import online.kingdomkeys.kingdomkeys.entity.block.SavepointTileEntity;
-import online.kingdomkeys.kingdomkeys.entity.organization.OrgPortalEntity;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
 import online.kingdomkeys.kingdomkeys.item.organization.OrganizationData;
@@ -125,12 +124,6 @@ public class ClientPacketHandler {
     public static void openUnion(SCOpenUnionScreen message) {
         Minecraft.getInstance().setScreen(new ConfirmUnionMenuPopup(message.union()));
         SoAMessages.INSTANCE.clearMessage();
-    }
-
-    public static void syncOrgPortal(SCSyncOrgPortalPacket msg) {
-        Player player = Minecraft.getInstance().player;
-        OrgPortalEntity portal = new OrgPortalEntity(player.level(), msg.pos(), msg.destPos(), msg.dimension(), msg.pos() != msg.destPos());
-        player.level().addFreshEntity(portal);
     }
 
     public static void showOrgPortalGUI(SCShowOrgPortalGUI message) {

@@ -29,6 +29,8 @@
 
 ## Fixed:
 * Reversal RC being available even when the Dusk was out of reach.
+* Org portal not being visible in the destination if it was casted from another dimension.
+* Org portal not ticking in the source after it was crossed and chunk was unloaded.
 * Keychains not getting an UUID assigned when synthesised directly into the Keychains Bag, allowing for dupes.
 * Selling using the old item get sound.
 * Gula's hat not having a back texture.
