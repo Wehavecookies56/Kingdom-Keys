@@ -69,6 +69,7 @@ import online.kingdomkeys.kingdomkeys.network.stc.*;
 import online.kingdomkeys.kingdomkeys.savepoint.ModSavePoints;
 import online.kingdomkeys.kingdomkeys.savepoint.SavePoint;
 import online.kingdomkeys.kingdomkeys.savepoint.SavePointData;
+import online.kingdomkeys.kingdomkeys.shotlock.ModShotlocks;
 import online.kingdomkeys.kingdomkeys.shotlock.ShotlockData;
 import online.kingdomkeys.kingdomkeys.sound.AeroSoundInstance;
 import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeData;
@@ -232,8 +233,16 @@ public class ClientPacketHandler {
     }
 
     public static void syncMagicData(SCSyncMagicData message) {
+        ModMagic.registry.forEach(magic -> magic.setMagicData(null));
+
         for (int i = 0; i < message.names().size(); i++) {
             Magic magic = ModMagic.registry.get(KingdomKeys.rl(message.names().get(i)));
+
+            // The server has a magic this client doesn't - a mod mismatch, not something to crash over
+            if (magic == null) {
+                continue;
+            }
+
             String d = message.data().get(i);
             BufferedReader br = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(d.getBytes())));
 
@@ -319,8 +328,16 @@ public class ClientPacketHandler {
     }
 
     public static void syncShotlockData(online.kingdomkeys.kingdomkeys.network.stc.SCSyncShotlockData message) {
+        ModShotlocks.registry.forEach(shotlock -> shotlock.setShotlockData(null));
+
         for (int i = 0; i < message.names().size(); i++) {
             online.kingdomkeys.kingdomkeys.shotlock.Shotlock shotlock = online.kingdomkeys.kingdomkeys.shotlock.ModShotlocks.registry.get(KingdomKeys.rl(message.names().get(i)));
+
+            // The server has a shotlock this client doesn't - a mod mismatch, not something to crash over
+            if (shotlock == null) {
+                continue;
+            }
+
             String d = message.data().get(i);
             BufferedReader br = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(d.getBytes())));
 

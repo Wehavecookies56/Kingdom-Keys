@@ -14,9 +14,11 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncMagicData;
 
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class MagicDataLoader extends SimpleJsonResourceReloadListener {
@@ -34,6 +36,12 @@ public class MagicDataLoader extends SimpleJsonResourceReloadListener {
 	@Override
 	protected void apply(Map<ResourceLocation, JsonElement> objectIn, ResourceManager resourceManagerIn, ProfilerFiller profilerIn) {
 		AtomicInteger count = new AtomicInteger();
+		Set<ResourceLocation> covered = new HashSet<>();
+
+		names.clear();
+		dataList.clear();
+		ModMagic.registry.forEach(magic -> magic.setMagicData(null));
+
 		objectIn.forEach((resourceLocation, element) -> {
 			try {
 				if (ModMagic.registry.containsKey(resourceLocation)) {
@@ -42,6 +50,7 @@ public class MagicDataLoader extends SimpleJsonResourceReloadListener {
 					MagicData result = GSON_BUILDER.fromJson(element, MagicData.class);
 					names.add(resourceLocation.toString());
 					magic.setMagicData(result);
+					covered.add(resourceLocation);
 					count.incrementAndGet();
 				} else {
 					KingdomKeys.LOGGER.warn("Found magic data {} for magic that doesn't exist", resourceLocation);
@@ -51,6 +60,13 @@ public class MagicDataLoader extends SimpleJsonResourceReloadListener {
 			}
 		});
 		KingdomKeys.LOGGER.info("Loaded {} magics data", count.get());
+
+		ModMagic.registry.keySet().forEach(registryName -> {
+			if (!covered.contains(registryName)) {
+				KingdomKeys.LOGGER.warn("Magic {} has no data in any datapack, it will do nothing", registryName);
+			}
+		});
+
 		if (ServerLifecycleHooks.getCurrentServer() != null) {
 			for (ServerPlayer player : ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayers()) {
 				PacketHandler.sendTo(new SCSyncMagicData(names, dataList), player);

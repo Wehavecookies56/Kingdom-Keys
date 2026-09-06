@@ -22,7 +22,12 @@ public abstract class Shotlock implements KKRegistryObject {
 	ResourceLocation name;
 	int order;
 
-	private ShotlockData data = new ShotlockData(4, 16, 1.0F, "");
+	private ShotlockData data = defaultData();
+
+	/** What a shotlock runs on until a datapack says otherwise. A fresh one each time - these are mutable. */
+	private static ShotlockData defaultData() {
+		return new ShotlockData(4, 16, 1.0F, "");
+	}
 
 	String translationKey;
 
@@ -36,8 +41,9 @@ public abstract class Shotlock implements KKRegistryObject {
 		this(KingdomKeys.rl(registryName), order);
 	}
 
+	/** Passing null puts the shotlock back on its defaults rather than leaving the getters with nothing to read. */
 	public void setShotlockData(ShotlockData data) {
-		this.data = data;
+		this.data = data == null ? defaultData() : data;
 	}
 
 	public ShotlockData getShotlockData() {

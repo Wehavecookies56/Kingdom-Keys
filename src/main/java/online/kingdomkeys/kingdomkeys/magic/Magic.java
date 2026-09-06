@@ -28,7 +28,7 @@ public abstract class Magic implements KKRegistryObject {
 	String translationKey;
 	ResourceLocation gmAbility;
 
-	private MagicData data;
+	private MagicData data = new MagicData();
 
 	public Magic(ResourceLocation registryName, boolean hasToSelect, ResourceLocation gmAbility) {
 		this.name = registryName;
@@ -136,8 +136,9 @@ public abstract class Magic implements KKRegistryObject {
 		return data;
 	}
 
+	// Passing null clears the magic back to blank data rather than leaving the getters with nothing to read
 	public void setMagicData(MagicData data) {
-		this.data = data;
+		this.data = data == null ? new MagicData() : data;
 	}
 
 	public int getTier() {
@@ -159,6 +160,7 @@ public abstract class Magic implements KKRegistryObject {
 
 	public static final float MOB_MAGIC_POOL = 100F;
 
+	/** Entities' magic stat, if it's a player it adds it's internal magic stat */
 	protected float casterMagicStat(LivingEntity caster) {
 		if (caster instanceof Player player) {
 			PlayerData playerData = PlayerData.get(player);
@@ -168,6 +170,18 @@ public abstract class Magic implements KKRegistryObject {
 		}
 
 		return DamageCalculation.getMagicDamage(caster);
+	}
+
+	/** Entities' strength stat, if it's a player it adds it's internal strength stat */
+	protected float casterStrengthStat(LivingEntity caster) {
+		if (caster instanceof Player player) {
+			PlayerData playerData = PlayerData.get(player);
+			if (playerData != null) {
+				return playerData.getStrength(true);
+			}
+		}
+
+		return DamageCalculation.getStrengthDamage(caster);
 	}
 
 	protected float casterMagicPool(LivingEntity caster) {

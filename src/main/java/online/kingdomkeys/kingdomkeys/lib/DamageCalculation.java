@@ -138,6 +138,18 @@ public class DamageCalculation {
         }
     }
 
+    public static float getStrengthDamage(LivingEntity caster) {
+        if (caster instanceof Player player) {
+            return getStrengthDamage(player);
+        }
+
+        if (caster == null) {
+            return 0;
+        }
+
+        return (float) caster.getAttributeValue(Attributes.ATTACK_DAMAGE);
+    }
+
     /**
      * Strength
      */

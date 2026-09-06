@@ -35,6 +35,8 @@ public class ShotlockDataLoader extends SimpleJsonResourceReloadListener {
 		KingdomKeys.LOGGER.info("Loading shotlocks data");
 		names.clear();
 		dataList.clear();
+		// Anything this pass doesn't cover goes back to defaults instead of keeping what an unloaded pack set
+		ModShotlocks.registry.forEach(shotlock -> shotlock.setShotlockData(null));
 		AtomicInteger count = new AtomicInteger();
 		objectIn.forEach((resourceLocation, element) -> {
 			try {

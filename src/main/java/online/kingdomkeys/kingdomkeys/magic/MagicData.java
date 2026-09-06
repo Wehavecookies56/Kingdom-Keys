@@ -154,7 +154,7 @@ public class MagicData {
 	}
 
 	public SpellType getSpellType() {
-		return spellType;
+		return spellType == null ? SpellType.MAGIC : spellType;
 	}
 
 	public void setSpellType(SpellType spellType) {

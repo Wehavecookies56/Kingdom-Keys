@@ -42,17 +42,34 @@ public class HUDElement {
 
     public float[] configValues = new float[9];
 
+    //kingdomkeys for Kingdom Keys' own elements
+    protected final String namespace;
+    protected final List<Float> externalDefaults;
+    protected final HUDDataStorage storage;
+
     public HUDElement(String name){
+        this(name, KingdomKeys.MODID, null, null);
+    }
+
+    public HUDElement(String name, String namespace, List<Float> defaults, HUDDataStorage storage){
         this.name = name;
+        this.namespace = namespace == null ? KingdomKeys.MODID : namespace;
+        this.externalDefaults = defaults == null ? null : List.copyOf(defaults);
+        this.storage = storage;
         REGISTRY.add(this);
     }
 
     public void loadFromConfig(){
         //Apply config options
-        List<? extends Number> configOption = ModConfigs.getHUDData(name);
+        List<? extends Number> configOption = storage != null ? storage.load() : ModConfigs.getHUDData(name);
 
         // A config written before elements could be hidden has eight numbers, and a missing ninth would read as 0, which is off. Anything not said is shown
         configValues[8] = 1F;
+
+        // Nothing saved yet, which an addon's config can be on a first launch
+        if (configOption == null || configOption.isEmpty()) {
+            configOption = getDefaults();
+        }
 
         for (int i = 0; i < Math.min(configOption.size(), configValues.length); i++) {
             configValues[i] = configOption.get(i).floatValue();
@@ -237,8 +254,12 @@ public class HUDElement {
         }
     }
 
+    public ArrayList<Float> getDefaults(){
+        return externalDefaults != null ? new ArrayList<>(externalDefaults) : getDefaultValues(name);
+    }
+
     public void restoreDefaultValues(){
-        ArrayList<Float> defaultValues = getDefaultValues(name);
+        ArrayList<Float> defaultValues = getDefaults();
         x = defaultValues.get(0);
         y = defaultValues.get(1);
         width = defaultValues.get(2).intValue();
@@ -253,11 +274,15 @@ public class HUDElement {
     public void saveConfig(){
         KingdomKeys.LOGGER.warn("Saving config for "+name);
         List<Float> values = new ArrayList<>(List.of(x,y,(float)width,(float)height,scaleX,scaleY,rotation,(float)anchor.ordinal(),visible ? 1F : 0F));
-        ModConfigs.setHUDData(name,values);
+        if (storage != null) {
+            storage.save(values);
+        } else {
+            ModConfigs.setHUDData(name,values);
+        }
     }
 
     public JsonObject loadDefaultsFromJson() {
-        ArrayList<Float> defaults = getDefaultValues(name);
+        ArrayList<Float> defaults = getDefaults();
 
         float defX = defaults.get(0);
         float defY = defaults.get(1);
@@ -270,7 +295,7 @@ public class HUDElement {
         boolean defVisible = defaults.get(8) != 0F;
 
         try {
-            ResourceLocation rl = KingdomKeys.rl("hud/" + name.toLowerCase() + ".json");
+            ResourceLocation rl = KingdomKeys.rl(namespace, "hud/" + name.toLowerCase() + ".json");
             Resource resource = Minecraft.getInstance().getResourceManager().getResourceOrThrow(rl);
             KingdomKeys.LOGGER.info("Found RP config for "+name);
             try (Reader reader = new InputStreamReader(resource.open())) {
