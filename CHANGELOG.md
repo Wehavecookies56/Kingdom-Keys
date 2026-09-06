@@ -22,11 +22,13 @@
 * World json parameters:
   * "unlocked_by_default": Makes so a world is always accessible, if false it needs to be unlocked.
   * "marker_colour": Color of the world markers in the Ocean Between. 
+* HUDElements are now usable by addons.
 * Translations for all the Spanish variants (Argentina, Chile, Ecuador, México, Uruguay and Venezuela).
 
 ## Changed:
 * Abilities are now data driven.
 * Updated version for the leveling json files, next time a player joins will get their level adjusted and abilities re-given.
+* Magic spells are now usable by entities.
 
 ## Fixed:
 * Reversal RC being available even when the Dusk was out of reach.
@@ -40,4 +42,5 @@
 * Aligned moogle level to the right of the synthesis screen.
 * Some localization issues.
 * Removed a couple of warnings when loading the mod.
+* Some crashes when needed json files are not present.
 * Rare Large Body model crash.
