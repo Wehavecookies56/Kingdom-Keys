@@ -32,6 +32,18 @@
 			"weight": 40,
 			"minCount": 1,
 			"maxCount": 5
+		},
+		{
+			"type": "kingdomkeys:neoshadow",
+			"weight": 25,
+			"minCount": 3,
+			"maxCount": 7
+		},
+		{
+			"type": "kingdomkeys:novashadow",
+			"weight": 12,
+			"minCount": 1,
+			"maxCount": 4
 		}
 	]
 }

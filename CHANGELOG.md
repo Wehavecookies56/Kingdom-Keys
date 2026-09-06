@@ -23,6 +23,7 @@
   * "unlocked_by_default": Makes so a world is always accessible, if false it needs to be unlocked.
   * "marker_colour": Color of the world markers in the Ocean Between. 
 * HUDElements are now usable by addons.
+* Neoshadows and Novashadows spawn to the Realm of Darkness.
 * Translations for all the Spanish variants (Argentina, Chile, Ecuador, México, Uruguay and Venezuela).
 
 ## Changed:
