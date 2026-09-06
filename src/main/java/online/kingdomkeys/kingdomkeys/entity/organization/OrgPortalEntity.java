@@ -122,6 +122,9 @@ public class OrgPortalEntity extends Entity implements IEntityWithComplexSpawn {
 
     @Override
     public void writeSpawnData(RegistryFriendlyByteBuf buffer) {
+        buffer.writeVarInt(tickCount);
+        buffer.writeVarInt(maxTicks);
+
         buffer.writeBoolean(destinationPos != null);
 
         if (destinationPos != null) {
@@ -133,6 +136,9 @@ public class OrgPortalEntity extends Entity implements IEntityWithComplexSpawn {
 
     @Override
     public void readSpawnData(RegistryFriendlyByteBuf buffer) {
+        tickCount = buffer.readVarInt();
+        maxTicks = buffer.readVarInt();
+
         boolean hasDestination = buffer.readBoolean();
 
         if (hasDestination) {

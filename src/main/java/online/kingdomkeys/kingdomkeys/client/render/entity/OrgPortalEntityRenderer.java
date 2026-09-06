@@ -24,7 +24,10 @@ import javax.annotation.Nullable;
 
 @OnlyIn(Dist.CLIENT)
 public class OrgPortalEntityRenderer extends EntityRenderer<OrgPortalEntity> {
+	private static final float FULL_SIZE = 2.0F;
 
+	// Animation ticks
+	private static final float SWEEP = 10F;
 
 	public OrgPortalEntityRenderer(EntityRendererProvider.Context context) {
 		super(context);
@@ -44,12 +47,16 @@ public class OrgPortalEntityRenderer extends EntityRenderer<OrgPortalEntity> {
 				float[] rgb = new float[] { 0.125F, 0.0F, 0.2F, 0.9F };
 
 				float ticks = entity.tickCount + partialTicks;
-		        if(ticks < 10) //Growing
-		        	matrixStackIn.scale(ticks*0.2f, ticks*0.2f, ticks*0.2f);
-		        else if(ticks > 90) //Disappearing
-		        	matrixStackIn.scale((100-ticks)*0.2f, (100-ticks)*0.2f, (100-ticks)*0.2f);
+				float life = entity.getMaxTicks();
+
+				float scale;
+		        if(ticks < SWEEP) //Growing
+		        	scale = ticks * FULL_SIZE / SWEEP;
+		        else if(ticks > life - SWEEP) //Disappearing
+		        	scale = Math.max(0F, (life - ticks) * FULL_SIZE / SWEEP);
 		        else //Static size
-		        	matrixStackIn.scale(2.0f, 2.0f, 2.0f);
+		        	scale = FULL_SIZE;
+				matrixStackIn.scale(scale, scale, scale);
 		        
 				matrixStackIn.mulPose(Axis.YN.rotationDegrees(Minecraft.getInstance().player.getRotationVector().y));
 				
