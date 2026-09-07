@@ -51,6 +51,7 @@ public class PrismRainCoreEntity extends BaseShotlockCoreEntity {
 		if (isExpired()) {
 			dropCaster();
 			this.remove(RemovalReason.KILLED);
+			return;
 		}
 
 		level().addParticle(ParticleTypes.BUBBLE, getX(), getY(), getZ(), 0, 0, 0);

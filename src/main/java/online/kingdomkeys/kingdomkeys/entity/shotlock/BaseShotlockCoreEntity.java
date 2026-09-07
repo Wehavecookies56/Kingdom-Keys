@@ -154,10 +154,31 @@ public abstract class BaseShotlockCoreEntity extends ThrowableProjectile {
 	}
 
 	protected void dropCaster() {
+		if (level().isClientSide) {
+			return;
+		}
+
 		Player caster = getCaster();
-		if (caster != null && !level().isClientSide) {
+
+		if (caster == null) {
+			UUID owner = getEntityData().get(OWNER).orElse(null);
+			if (owner != null && level().getServer() != null) {
+				caster = level().getServer().getPlayerList().getPlayer(owner);
+			}
+		}
+
+		if (caster != null) {
 			caster.setNoGravity(false);
 		}
+	}
+
+	@Override
+	public void remove(RemovalReason reason) {
+		if (launchesCaster()) {
+			dropCaster();
+		}
+
+		super.remove(reason);
 	}
 
 	private static final double ABANDON_DISTANCE = 96D;

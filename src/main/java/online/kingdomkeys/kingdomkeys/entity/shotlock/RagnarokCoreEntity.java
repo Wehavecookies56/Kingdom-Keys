@@ -74,6 +74,7 @@ public class RagnarokCoreEntity extends BaseShotlockCoreEntity {
 		if (isExpired()) {
 			dropCaster();
 			this.remove(RemovalReason.KILLED);
+			return;
 		}
 
 		double X = getX();

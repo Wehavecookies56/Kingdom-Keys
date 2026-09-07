@@ -234,6 +234,16 @@ public class ShotlockMinigameHandler {
 		PacketHandler.sendTo(new SCShotlockMinigameState(shotlockSession.type.ordinal(), 0, shotlockSession.totalRounds, 0, 0, lastResult), player);
 	}
 
+	@SubscribeEvent
+	public void onPlayerLoggedOut(PlayerEvent.PlayerLoggedOutEvent event) {
+		forget(event.getEntity());
+	}
+
+	@SubscribeEvent
+	public void onPlayerChangedDimension(PlayerEvent.PlayerChangedDimensionEvent event) {
+		forget(event.getEntity());
+	}
+
 	// Drops a session without touching the client - for logout, where there's no client left.
 	public static void forget(Player player) {
 		ShotlockSession shotlockSession = SESSIONS.remove(player.getUUID());

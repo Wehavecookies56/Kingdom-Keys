@@ -35,6 +35,7 @@
 * Reversal RC being available even when the Dusk was out of reach.
 * Dark Firaga being a normal Firaga.
 * Bind and Mini not adjusting their time properly based on what was configured.
+* Shotlocks leaving players airborne if they get somehow interrumpted.
 * Org portal not being visible in the destination if it was casted from another dimension.
 * Org portal not ticking in the source after it was crossed and chunk was unloaded.
 * Keychains not getting an UUID assigned when synthesised directly into the Keychains Bag, allowing for dupes.
