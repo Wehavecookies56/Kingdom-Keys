@@ -6,6 +6,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.entity.LivingEntity;
 import online.kingdomkeys.kingdomkeys.data.GlobalData;
+import online.kingdomkeys.kingdomkeys.encounter.EncounterContext;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModRoomModifiers;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.Room;
@@ -65,7 +66,7 @@ public class LevelModifier implements RoomModifier {
     }
 
     @Override
-    public void onSpawn(Room room, LivingEntity spawned) {
+    public void onSpawn(EncounterContext context, LivingEntity spawned) {
         if (!operations.isEmpty()) {
             GlobalData globalData = GlobalData.get(spawned);
             int level = globalData.getLevel();

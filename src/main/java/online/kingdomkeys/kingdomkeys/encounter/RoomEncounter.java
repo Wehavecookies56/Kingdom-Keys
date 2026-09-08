@@ -1,4 +1,4 @@
-package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.encounter;
+package online.kingdomkeys.kingdomkeys.encounter;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -35,8 +35,8 @@ public class RoomEncounter extends JsonRegistryObject {
     }
 
     @SuppressWarnings("unchecked")
-    public EncounterHandler<Encounter, EncounterState> getHandler() {
-        return (EncounterHandler<Encounter, EncounterState>) encounter.type().handler();
+    public EncounterHandler<Encounter, Encounter.State> getHandler() {
+        return (EncounterHandler<Encounter, Encounter.State>) encounter.type().handler();
     }
 
     public List<ItemStack> getRewards() {

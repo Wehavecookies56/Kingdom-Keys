@@ -10,6 +10,7 @@ import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import online.kingdomkeys.kingdomkeys.encounter.EncounterContext;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModRoomModifiers;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.Room;
 import org.jetbrains.annotations.NotNull;
@@ -63,21 +64,21 @@ public class EffectRoomModifier implements RoomModifier {
     }
 
     @Override
-    public void onEnter(Room room, Player player) {
+    public void onEnter(EncounterContext context, Player player) {
         if (effectType != EffectType.MOB) {
             player.addEffect(new MobEffectInstance(effect, -1, amplifier, false, true, true));
         }
     }
 
     @Override
-    public void onExit(Room room, Player player) {
+    public void onExit(EncounterContext context, Player player) {
         if (effectType != EffectType.MOB) {
             player.removeEffect(effect);
         }
     }
 
     @Override
-    public void onSpawn(Room room, LivingEntity spawned) {
+    public void onSpawn(EncounterContext context, LivingEntity spawned) {
         if (effectType != EffectType.PLAYER) {
             spawned.addEffect(new MobEffectInstance(effect, -1, amplifier, false, true, true));
         }

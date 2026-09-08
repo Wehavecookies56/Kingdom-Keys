@@ -1,4 +1,4 @@
-package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.encounter;
+package online.kingdomkeys.kingdomkeys.encounter;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
@@ -6,6 +6,8 @@ import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.reg
 
 public interface Encounter {
     MapCodec<? extends Encounter> codec();
-    EncounterType<? extends Encounter, ? extends EncounterState> type();
+    EncounterType<? extends Encounter, ? extends State> type();
     Codec<Encounter> CODEC = ModEncounterTypes.REGISTRY.byNameCodec().dispatch(Encounter::type, EncounterType::codec);
+
+    interface State { }
 }

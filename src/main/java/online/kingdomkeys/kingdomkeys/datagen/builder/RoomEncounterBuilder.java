@@ -6,7 +6,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.item.ItemStack;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.encounter.Encounter;
+import online.kingdomkeys.kingdomkeys.encounter.Encounter;
 
 import java.util.Arrays;
 

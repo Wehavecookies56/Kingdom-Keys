@@ -1,7 +1,7 @@
 package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry;
 
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.encounter.RoomEncounter;
+import online.kingdomkeys.kingdomkeys.encounter.RoomEncounter;
 
 import java.util.function.Supplier;
 

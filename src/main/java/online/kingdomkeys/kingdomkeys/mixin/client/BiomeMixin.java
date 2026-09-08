@@ -8,7 +8,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.level.biome.Biome;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.data.CastleOblivionData;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.encounter.EncounterInstance;
+import online.kingdomkeys.kingdomkeys.encounter.EncounterInstance;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.floor.Floor;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.Room;
 import org.jetbrains.annotations.Nullable;

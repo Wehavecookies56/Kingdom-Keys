@@ -1,4 +1,4 @@
-package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.encounter;
+package online.kingdomkeys.kingdomkeys.encounter;
 
 import com.mojang.serialization.MapCodec;
 
@@ -10,7 +10,7 @@ public class BossEncounter implements Encounter {
     }
 
     @Override
-    public EncounterType<? extends Encounter, ? extends EncounterState> type() {
+    public EncounterType<? extends Encounter, ? extends Encounter.State> type() {
         return null;
     }
 

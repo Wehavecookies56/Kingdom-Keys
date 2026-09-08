@@ -75,6 +75,8 @@ import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.DriveFormDataLoader;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
+import online.kingdomkeys.kingdomkeys.encounter.EncounterContext;
+import online.kingdomkeys.kingdomkeys.encounter.WaveEncounter;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper.MobType;
 import online.kingdomkeys.kingdomkeys.entity.GummiShipEntity;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
@@ -121,7 +123,6 @@ import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.CastleObli
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.floor.Floor;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModJsonRegistries;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModRoomModifiers;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.Room;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.RoomPos;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.modifiers.DropModifier;
 import online.kingdomkeys.kingdomkeys.world.worldmap.GummiWorldLoader;
@@ -132,6 +133,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Supplier;
 
 public class EntityEvents {
@@ -1353,41 +1355,51 @@ public class EntityEvents {
 			}
 
 			//Castle oblivion
-			if (CastleOblivionHandler.isInterior(level.dimension())) {
-				if (!(entity instanceof Player)) {
-					if (GlobalData.get(entity).getCastleOblivionMarker()) {
-						CastleOblivionData.InteriorData.get((ServerLevel) level).ifPresent(interiorData -> {
-							Room room = interiorData.getRoomAtPos(entity.blockPosition());
-
-							boolean replaced = false;
-							List<DropModifier> modifiers =  room.getModifiers(ModRoomModifiers.DROP.get());
-							for (DropModifier dropModifier : modifiers) {
-								boolean shouldDrop = true;
-								if (dropModifier.getChance() < 100) {
-									shouldDrop = Utils.randomWithRange(1, 100) < dropModifier.getChance();
-								}
-								if (shouldDrop) {
-									level.addFreshEntity(new ItemEntity(level, entity.getX(), entity.getY(), entity.getZ(), dropModifier.getItem()));
-									//if any of the modifiers replace the drops then the rest can be ignored
-									if (!replaced) {
-										replaced = dropModifier.replaceCard();
-									}
-								}
-							}
-
+			if (!(entity instanceof Player)) {
+				if (GlobalData.get(entity).getCastleOblivionMarker()) {
+					EncounterContext context = CastleOblivionData.InteriorData.get((ServerLevel) level).map(interiorData -> (EncounterContext)interiorData.getRoomAtPos(entity.blockPosition())).orElse(null); //TODO NON CO CONTEXT NEEDS TO BE RETRIEVED HERE INSTEAD OF NULL
+					boolean replaced = false;
+					List<DropModifier> modifiers =  context.getModifiers(ModRoomModifiers.DROP.get());
+					for (DropModifier dropModifier : modifiers) {
+						boolean shouldDrop = true;
+						if (dropModifier.getChance() < 100) {
+							shouldDrop = Utils.randomWithRange(1, 100) < dropModifier.getChance();
+						}
+						if (shouldDrop) {
+							level.addFreshEntity(new ItemEntity(level, entity.getX(), entity.getY(), entity.getZ(), dropModifier.getItem()));
+							//if any of the modifiers replace the drops then the rest can be ignored
 							if (!replaced) {
-								List<Item> cardDrops = ModTags.getItemsInTag(level, ModTags.MAP_CARD);
-								Item toDrop = cardDrops.get(Utils.randomWithRange(0, cardDrops.size() - 1));
-								ItemStack dropStack = new ItemStack(toDrop);
-								MapCardItem.initialize(dropStack);
-								level.addFreshEntity(new ItemEntity(level, entity.getX(), entity.getY(), entity.getZ(), dropStack));
+								replaced = dropModifier.replaceCard();
 							}
+						}
+					}
 
+					if (!replaced) {
+						List<Item> cardDrops = ModTags.getItemsInTag(level, ModTags.MAP_CARD);
+						Item toDrop = cardDrops.get(Utils.randomWithRange(0, cardDrops.size() - 1));
+						ItemStack dropStack = new ItemStack(toDrop);
+						MapCardItem.initialize(dropStack);
+						level.addFreshEntity(new ItemEntity(level, entity.getX(), entity.getY(), entity.getZ(), dropStack));
+					}
+
+					AtomicInteger spawned = new AtomicInteger();
+
+					if (context.getEncounter().isPresent()) {
+						context.getEncounter().ifPresent(encounterInstance -> {
+							if (encounterInstance.getEncounter().getEncounter() instanceof WaveEncounter waveEncounter) {
+								WaveEncounter.State state = encounterInstance.getState(WaveEncounter.State.class);
+								state.removeCurrentSpawn();
+								spawned.set(state.getCurrentlySpawned());
+							}
+						});
+					} else {
+						context.getRoom().ifPresent(room -> {
 							room.removeCurrentSpawn();
 							room.removeEntityFromCache(entity);
-							KingdomKeys.LOGGER.debug("CO spawned mob died {} remaining", room.getCurrentlySpawned());
+							spawned.set(room.getCurrentlySpawned());
 						});
 					}
+					KingdomKeys.LOGGER.debug("CO spawned mob died {} remaining", spawned);
 				}
 			}
 

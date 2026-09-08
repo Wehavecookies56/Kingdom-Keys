@@ -1,4 +1,4 @@
-package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.encounter;
+package online.kingdomkeys.kingdomkeys.encounter;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
@@ -86,33 +86,33 @@ public class WaveEncounter implements Encounter {
         Queue<BlockPos> spawnPoints;
 
         @Override
-        public void start(WaveEncounter encounter, State state, EncounterInstance instance, Room room, ServerLevel level) {
+        public void start(WaveEncounter encounter, State state, EncounterInstance instance, EncounterContext context, ServerLevel level) {
             if (encounter.shuffleWaveOrder) {
                 state.shuffleOrder(encounter.waves.size());
             }
 
             //spawn first wave
 
-            createSpawnPointQueue(room);
+            createSpawnPointQueue(context);
 
-            room.setMobsRemaining(encounter.getWaves().stream().mapToInt(Wave::size).sum());
-            KingdomKeys.LOGGER.debug("Wave encounter started with {} mobs total", room.getMobsRemaining());
+            state.setMobsRemaining(encounter.getWaves().stream().mapToInt(Wave::size).sum());
+            KingdomKeys.LOGGER.debug("Wave encounter started with {} mobs total", state.getMobsRemaining());
 
-            spawnWave(instance, encounter, state, room, level);
+            spawnWave(instance, encounter, state, context, level);
         }
 
         @Override
-        public void tick(WaveEncounter encounter, State state, EncounterInstance instance, Room room, ServerLevel level) {
+        public void tick(WaveEncounter encounter, State state, EncounterInstance instance, EncounterContext context, ServerLevel level) {
             if (spawnPoints == null) {
-                createSpawnPointQueue(room);
+                createSpawnPointQueue(context);
             }
 
             //TODO interval ticks
 
-            if (room.getMobsRemaining() > 0 || state.currentWave < encounter.getWaves().size()) {
-                if (room.getCurrentlySpawned() <= 0) {
+            if (state.getMobsRemaining() > 0 || state.currentWave < encounter.getWaves().size()) {
+                if (state.getCurrentlySpawned() <= 0) {
                     state.nextWave();
-                    spawnWave(instance, encounter, state, room, level);
+                    spawnWave(instance, encounter, state, context, level);
                 }
             } else {
                 instance.setComplete();
@@ -120,12 +120,12 @@ public class WaveEncounter implements Encounter {
         }
 
         @Override
-        public void end(WaveEncounter encounter, State state, EncounterInstance instance, Room room, ServerLevel level) {
+        public void end(WaveEncounter encounter, State state, EncounterInstance instance, EncounterContext context, ServerLevel level) {
 
         }
 
-        public void createSpawnPointQueue(Room room) {
-            spawnPoints = room.getSpawnPoints().stream().collect(Collectors.toCollection(ArrayListDeque::new));
+        public void createSpawnPointQueue(EncounterContext context) {
+            spawnPoints = context.getSpawnPoints().stream().collect(Collectors.toCollection(ArrayListDeque::new));
         }
 
         public BlockPos getSpawnPoint() {
@@ -134,34 +134,36 @@ public class WaveEncounter implements Encounter {
             return next;
         }
 
-        public void spawnWave(EncounterInstance instance, WaveEncounter encounter, State state, Room room, ServerLevel level) {
-            if (room.getCurrentlySpawned() <= 0) {
+        public void spawnWave(EncounterInstance instance, WaveEncounter encounter, State state, EncounterContext context, ServerLevel level) {
+            if (state.getCurrentlySpawned() <= 0) {
                 if (state.currentWave < encounter.getWaves().size()) {
                     KingdomKeys.LOGGER.debug("Spawning wave {}", state.currentWave);
                     Wave currentWave = encounter.getWaves().get(state.getWaveIndex());
                     if (state.getWaveIndex() > 0) {
                         Wave prevWave = encounter.getWaves().get(state.getWaveIndex()-1);
-                        Room.getPlayersInRoom(level.getServer(), room).forEach(player -> {
-                            prevWave.onEnd(room, player);
+                        context.getParticipants(level).forEach(player -> {
+                            prevWave.onEnd(context, player);
                         });
                     }
-                    Room.getPlayersInRoom(level.getServer(), room).forEach(player -> {
+                    context.getParticipants(level).forEach(player -> {
                         List<Utils.Title> message = List.of(
                                 new Utils.Title("co.encounter.wave", ""+(state.currentWave + 1))
                         );
                         PacketHandler.sendTo(new SCShowMessagesPacket(message), (ServerPlayer) player);
-                        currentWave.onStart(room, player);
+                        currentWave.onStart(context, player);
                     });
                     currentWave.forEach(entityType -> {
                         LivingEntity spawned = (LivingEntity) entityType.create(level);
                         BlockPos spawnPoint = getSpawnPoint();
                         if (spawned != null) {
-                            room.addEntityToCache(spawned);
+                            context.getRoom().ifPresent(room -> {
+                                room.addEntityToCache(spawned);
+                            });
                             GlobalData globalData = GlobalData.get(spawned);
                             globalData.setCastleOblivionMarker(true);
-                            globalData.setLevel(((room.parentFloor+1) * 10) + Utils.randomWithRange(-3, 3));
-                            room.modifierOnSpawn(spawned);
-                            currentWave.onSpawn(room, spawned);
+                            globalData.setLevel(context.getBaseLevel() + Utils.randomWithRange(-3, 3));
+                            context.onSpawn(spawned);
+                            currentWave.onSpawn(context, spawned);
                             spawned.moveTo((double)spawnPoint.getX() + 0.5, spawnPoint.getY(), (double)spawnPoint.getZ() + 0.5, Mth.wrapDegrees(level.random.nextFloat() * 360.0F), 0.0F);
                             level.addFreshEntityWithPassengers(spawned);
                             level.playSound(null, spawnPoint, ModSounds.portal.get(), SoundSource.HOSTILE, 2, 2);
@@ -171,14 +173,14 @@ public class WaveEncounter implements Encounter {
                             KingdomKeys.LOGGER.debug("Spawned {}", spawned);
                         } else {
                             KingdomKeys.LOGGER.error("Failed to spawn {}", entityType);
-                            room.removeCurrentSpawn();
+                            state.removeCurrentSpawn();
                         }
                     });
-                    room.spawnMobs(currentWave.size());
+                    state.spawnMobs(currentWave.size());
                     CastleOblivionData.InteriorData.get(level).ifPresent(SavedData::setDirty);
                 } else {
-                    Room.getPlayersInRoom(level.getServer(), room).forEach(player -> {
-                        encounter.getWaves().getLast().onEnd(room, player);
+                    context.getParticipants(level).forEach(player -> {
+                        encounter.getWaves().getLast().onEnd(context, player);
                     });
                     instance.setComplete();
                 }
@@ -209,28 +211,28 @@ public class WaveEncounter implements Encounter {
             }
         }
 
-        public void onStart(Room room, Player player) {
+        public void onStart(EncounterContext context, Player player) {
             modifiers.forEach(modifier -> {
-                modifier.onEnter(room, player);
+                modifier.onEnter(context, player);
             });
         }
 
-        public void onEnd(Room room, Player player) {
+        public void onEnd(EncounterContext context, Player player) {
             modifiers.forEach(modifier -> {
-                modifier.onExit(room, player);
+                modifier.onExit(context, player);
             });
         }
 
-        public void onSpawn(Room room, LivingEntity spawned) {
+        public void onSpawn(EncounterContext context, LivingEntity spawned) {
             modifiers.forEach(modifier -> {
-                modifier.onSpawn(room, spawned);
+                modifier.onSpawn(context, spawned);
             });
         }
     }
 
-    public static class State implements EncounterState {
+    public static class State implements Encounter.State {
 
-        private int currentWave;
+        private int currentWave, mobsRemaining, currentlySpawned;
         long waveEndTime;
         List<Integer> shuffledOrder = new ArrayList<>();
 
@@ -238,7 +240,9 @@ public class WaveEncounter implements Encounter {
                 stateInstance.group(
                         Codec.INT.fieldOf("current_wave").forGetter(State::getCurrentWave),
                         Codec.INT.listOf().optionalFieldOf("shuffled_order", new ArrayList<>()).forGetter(o -> o.shuffledOrder),
-                        Codec.LONG.fieldOf("wave_end_time").forGetter(State::getWaveEndTime)
+                        Codec.LONG.fieldOf("wave_end_time").forGetter(State::getWaveEndTime),
+                        Codec.INT.fieldOf("mobs_remaining").forGetter(State::getMobsRemaining),
+                        Codec.INT.fieldOf("currently_spawned").forGetter(State::getCurrentlySpawned)
                 ).apply(stateInstance, State::new)
         );
 
@@ -262,10 +266,12 @@ public class WaveEncounter implements Encounter {
             Collections.shuffle(shuffledOrder);
         }
 
-        private State(int currentWave, List<Integer> shuffledOrder, long waveEndTime) {
+        private State(int currentWave, List<Integer> shuffledOrder, long waveEndTime, int mobsRemaining, int currentlySpawned) {
             this.currentWave = currentWave;
             this.shuffledOrder = shuffledOrder;
             this.waveEndTime = waveEndTime;
+            this.mobsRemaining = mobsRemaining;
+            this.currentlySpawned = currentlySpawned;
         }
 
         public int getCurrentWave() {
@@ -278,6 +284,33 @@ public class WaveEncounter implements Encounter {
 
         public long getWaveEndTime() {
             return waveEndTime;
+        }
+
+        public int getMobsRemaining() {
+            return mobsRemaining;
+        }
+
+        public int getCurrentlySpawned() {
+            return currentlySpawned;
+        }
+
+        public void setMobsRemaining(int mobsRemaining) {
+            this.mobsRemaining = mobsRemaining;
+        }
+
+        public void setCurrentlySpawned(int currentlySpawned) {
+            this.currentlySpawned = currentlySpawned;
+        }
+
+        public void spawnMobs(int toSpawn) {
+            if (mobsRemaining > 0) {
+                currentlySpawned += Math.min(toSpawn, mobsRemaining);
+                mobsRemaining -= currentlySpawned;
+            }
+        }
+
+        public void removeCurrentSpawn() {
+            currentlySpawned--;
         }
     }
 }

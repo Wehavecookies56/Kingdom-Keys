@@ -5,6 +5,7 @@ import com.mojang.serialization.MapCodec;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import online.kingdomkeys.kingdomkeys.encounter.EncounterContext;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModRoomModifiers;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.Room;
 
@@ -13,19 +14,19 @@ import java.util.List;
 public interface RoomModifier {
 
     //Do something when the player enters the room
-    default void onEnter(Room room, Player player) {}
+    default void onEnter(EncounterContext context, Player player) {}
 
     //Do something when the room is generated
-    default void onGenerate(Room room, ServerLevel level) {}
+    default void onGenerate(EncounterContext context, ServerLevel level) {}
 
     //Do something when the player exits the room
-    default void onExit(Room room, Player player) {}
+    default void onExit(EncounterContext context, Player player) {}
 
     //Do something while the room ticks
-    default void tick(Room room, List<Player> players) {}
+    default void tick(EncounterContext context, List<Player> players) {}
 
     //Do something when a mob is spawned
-    default void onSpawn(Room room, LivingEntity spawned) {}
+    default void onSpawn(EncounterContext context, LivingEntity spawned) {}
 
     MapCodec<? extends RoomModifier> codec();
     RoomModifierType<? extends RoomModifier> type();

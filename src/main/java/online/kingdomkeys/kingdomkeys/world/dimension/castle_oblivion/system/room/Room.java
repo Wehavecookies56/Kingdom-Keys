@@ -21,11 +21,11 @@ import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.data.CastleOblivionData;
 import online.kingdomkeys.kingdomkeys.data.GlobalData;
+import online.kingdomkeys.kingdomkeys.encounter.*;
 import online.kingdomkeys.kingdomkeys.entity.block.CardDoorTileEntity;
 import online.kingdomkeys.kingdomkeys.lib.ModTags;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.CastleOblivionHandler;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.encounter.*;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.floor.Floor;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModRoomStructures;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModRoomTypes;
@@ -36,7 +36,7 @@ import javax.annotation.Nullable;
 import java.io.IOException;
 import java.util.*;
 
-public class Room {
+public class Room implements EncounterContext {
     RoomType type;
     RoomStructure structure;
     BlockPos position;
@@ -105,6 +105,7 @@ public class Room {
     }
 
     //gets a list of modifiers of type, returns empty list if none exist
+    @Override
     public <T extends RoomModifier> List<T> getModifiers(RoomModifierType<?> type) {
         List<T> modifiers = new ArrayList<>();
         if (!getType().getModifiers().isEmpty()) {
@@ -130,6 +131,7 @@ public class Room {
         readDimensionsFromStructure(level);
     }
 
+    @Override
     public Optional<EncounterInstance> getEncounter() {
         return Optional.ofNullable(encounter);
     }
@@ -229,6 +231,7 @@ public class Room {
         return treasurePoints;
     }
 
+    @Override
     public List<BlockPos> getSpawnPoints() {
         return spawnPoints;
     }
@@ -265,8 +268,8 @@ public class Room {
                 if (!encounterInstance.isComplete()) {
                     ticksSinceLastSpawn++;
                     RoomEncounter roomEncounter = encounterInstance.getEncounter();
-                    EncounterHandler<Encounter, EncounterState> handler = getEncounter().get().getEncounter().getHandler();
-                    handler.tick(roomEncounter.getEncounter(), encounter.getState(), encounterInstance, this, level);
+                    EncounterHandler<Encounter, Encounter.State> handler = getEncounter().get().getEncounter().getHandler();
+                    handler.tick(roomEncounter.getEncounter(), encounterInstance.getState(), encounterInstance, this, level);
                     encounterInstance.tick(this, level);
                 }
             } else {
@@ -524,5 +527,25 @@ public class Room {
     @Override
     public String toString() {
         return type.toString();
+    }
+
+    @Override
+    public Optional<Room> getRoom() {
+        return Optional.of(this);
+    }
+
+    @Override
+    public int getBaseLevel() {
+        return (parentFloor+1) * 10;
+    }
+
+    @Override
+    public List<Player> getParticipants(ServerLevel level) {
+        return Room.getPlayersInRoom(level.getServer(), this);
+    }
+
+    @Override
+    public void onSpawn(LivingEntity entity) {
+        modifierOnSpawn(entity);
     }
 }

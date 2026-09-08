@@ -10,9 +10,9 @@ import online.kingdomkeys.kingdomkeys.datagen.builder.RoomEncounterBuilder;
 import online.kingdomkeys.kingdomkeys.datagen.provider.BaseProvider;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.encounter.Encounter;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.encounter.WaveEncounter;
-import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.encounter.WaveEncounter.Wave;
+import online.kingdomkeys.kingdomkeys.encounter.Encounter;
+import online.kingdomkeys.kingdomkeys.encounter.WaveEncounter;
+import online.kingdomkeys.kingdomkeys.encounter.WaveEncounter.Wave;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.modifiers.RoomModifier;
 
 import java.util.ArrayList;

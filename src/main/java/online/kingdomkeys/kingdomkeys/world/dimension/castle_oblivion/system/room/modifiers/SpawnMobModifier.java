@@ -14,6 +14,7 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
 import net.neoforged.neoforge.event.EventHooks;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.encounter.EncounterContext;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModRoomModifiers;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.Room;
 
@@ -35,9 +36,9 @@ public class SpawnMobModifier implements RoomModifier {
     }
 
     @Override
-    public void onGenerate(Room room, ServerLevel level) {
-        if (!room.getSpawnPoints().isEmpty()) {
-            BlockPos spawnPoint = room.getSpawnPoints().getFirst();
+    public void onGenerate(EncounterContext context, ServerLevel level) {
+        if (!context.getSpawnPoints().isEmpty()) {
+            BlockPos spawnPoint = context.getSpawnPoints().getFirst();
             additionalData.putString("id", entityType.getKey().location().toString());
             Entity spawned = entityType.value().create(level);
             spawned.load(additionalData);

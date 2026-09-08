@@ -1,4 +1,4 @@
-package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.encounter;
+package online.kingdomkeys.kingdomkeys.encounter;
 
 import net.minecraft.Util;
 import net.minecraft.core.Direction;
@@ -28,11 +28,11 @@ import java.util.List;
 
 public class EncounterInstance {
     private final RoomEncounter encounter;
-    private EncounterState state;
+    private Encounter.State state;
     private long activeTicks;
     private boolean isComplete;
 
-    public EncounterInstance(RoomEncounter encounter, EncounterState state) {
+    public EncounterInstance(RoomEncounter encounter, Encounter.State state) {
         this.encounter = encounter;
         this.state = state;
     }
@@ -41,11 +41,11 @@ public class EncounterInstance {
         return encounter;
     }
 
-    public EncounterState getState() {
+    public Encounter.State getState() {
         return state;
     }
 
-    public <T extends EncounterState> T getState(Class<T> clazz) {
+    public <T extends Encounter.State> T getState(Class<T> clazz) {
         return clazz.cast(state);
     }
 
@@ -57,7 +57,7 @@ public class EncounterInstance {
         return isComplete;
     }
 
-    public void setState(EncounterState state) {
+    public void setState(Encounter.State state) {
         this.state = state;
     }
 
@@ -65,39 +65,39 @@ public class EncounterInstance {
         return activeTicks;
     }
 
-    public void start(Room room, ServerLevel level) {
+    public void start(EncounterContext context, ServerLevel level) {
         if (!isComplete) {
-            Room.getPlayersInRoom(level.getServer(), room).forEach(player -> {
+            context.getParticipants(level).forEach(player -> {
                 CastleOblivionData.InteriorData.get(level).ifPresent(interiorData -> {
                     interiorData.setDirty();
                     interiorData.sendToClient(player);
+                    PacketHandler.sendTo(new SCSyncCastleOblivionInteriorData(interiorData, level), (ServerPlayer) player);
                 });
-                PacketHandler.sendTo(new SCSyncCastleOblivionInteriorData(CastleOblivionData.InteriorData.get(level).get(), level), (ServerPlayer) player);
             });
-            room.setDoorLocks(level, true);
-            encounter.getHandler().start(encounter.getEncounter(), getEncounter().getHandler().createState(), this, room, level);
+            context.getRoom().ifPresent(room -> room.setDoorLocks(level, true));
+            encounter.getHandler().start(encounter.getEncounter(), state, this, context, level);
         }
     }
 
-    public void tick(Room room, ServerLevel level) {
+    public void tick(EncounterContext context, ServerLevel level) {
         if (!isComplete) {
-            encounter.getHandler().tick(encounter.getEncounter(), state, this, room, level);
+            encounter.getHandler().tick(encounter.getEncounter(), state, this, context, level);
             activeTicks++;
         } else {
-            end(room, level);
+            end(context, level);
         }
     }
 
-    public void end(Room room, ServerLevel level) {
-        room.setDoorLocks(level, false);
-        encounter.getHandler().end(encounter.getEncounter(), state, this, room, level);
-        List<Player> players = Room.getPlayersInRoom(level.getServer(),  room);
+    public void end(EncounterContext context, ServerLevel level) {
+        context.getRoom().ifPresent(room -> room.setDoorLocks(level, false));
+        encounter.getHandler().end(encounter.getEncounter(), state, this, context, level);
+        List<Player> players = context.getParticipants(level);
         if (!encounter.getRewards().isEmpty()) {
-            if (!room.getTreasurePoints().isEmpty()) {
-                spawnRewardsChest(level, room.getTreasurePoints().getFirst(), getEncounter().getRewards());
-            } else if (!room.getSpawnPoints().isEmpty()) {
+            if (!context.getTreasurePoints().isEmpty()) {
+                spawnRewardsChest(level, context.getTreasurePoints().getFirst(), getEncounter().getRewards());
+            } else if (!context.getSpawnPoints().isEmpty()) {
                 //fallback to spawn points
-                spawnRewardsChest(level, new Room.TreasurePoint(room.getSpawnPoints().getFirst(), ModBlocks.treasureChest.get().defaultBlockState().setValue(TreasureChestBlock.FACING, Util.getRandom(Direction.Plane.HORIZONTAL.stream().toList(), RandomSource.create()))), getEncounter().getRewards());
+                spawnRewardsChest(level, new Room.TreasurePoint(context.getSpawnPoints().getFirst(), ModBlocks.treasureChest.get().defaultBlockState().setValue(TreasureChestBlock.FACING, Util.getRandom(Direction.Plane.HORIZONTAL.stream().toList(), RandomSource.create()))), getEncounter().getRewards());
             } else if (!players.isEmpty()) {
                 //give reward to one player as fallback if room has no spawn point for a chest
                 Utils.giveItems((ServerPlayer) players.getFirst(), true, getEncounter().getRewards());
