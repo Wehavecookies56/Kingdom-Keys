@@ -3,6 +3,7 @@ package online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.re
 import net.minecraft.core.Registry;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.dialogue.Dialogue;
 import online.kingdomkeys.kingdomkeys.encounter.RoomEncounter;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.floor.FloorType;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.RoomStructure;
@@ -22,4 +23,5 @@ public class ModJsonRegistries {
 
     public static Supplier<JsonRegistry<RoomEncounter>> TRAINING_ENCOUNTER = JSON_REGISTRIES.register("training_encounter", () -> new JsonRegistry<>(KingdomKeys.rl("training_encounter"), "training_encounter", RoomEncounter.CODEC));
     public static Supplier<JsonRegistry<RoomEncounter>> DUEL_ENCOUNTER = JSON_REGISTRIES.register("duel_encounter", () -> new JsonRegistry<>(KingdomKeys.rl("duel_encounter"), "duel_encounter", RoomEncounter.CODEC));
+    public static Supplier<JsonRegistry<Dialogue>> DIALOGUE = JSON_REGISTRIES.register("dialogue", () -> new JsonRegistry<>(KingdomKeys.rl("dialogue"), "dialogue", Dialogue.CODEC));
 }

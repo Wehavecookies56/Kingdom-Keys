@@ -1,5 +1,6 @@
 package online.kingdomkeys.kingdomkeys.lib;
 
+import com.mojang.serialization.Codec;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
@@ -58,9 +59,10 @@ public enum Union implements StringRepresentable {
         return "kingdomkeys.union." + name + ".desc";
     }
 
+    public static final Codec<Union> CODEC = StringRepresentable.fromEnum(Union::values);
+
     public static final StreamCodec<FriendlyByteBuf, Union> STREAM_CODEC = StreamCodec.composite(
-            ByteBufCodecs.BYTE,
-            Union::get,
+            ByteBufCodecs.BYTE, Union::get,
             Union::fromByte
     );
 

@@ -1,7 +1,7 @@
 ## Added:
 * Unions system, now the SoA choice will be preceded by an Union choice, just like the path it's not changeable once done.
   * They are all equal to themselves, if a player joins Organization XIII they won't have access to their Union privileges.
-  * Foretellers will be able to train you, either by summoning rounds of enemies or by sparring with them (WIP).
+  * Foretellers will be able to train you, either by summoning rounds of enemies or by sparring with them.
   * Lux is used to claim rewards from the Foretellers. Foretellers from other unions will charge you extra Lux for theirs.
 * Daybreak Town.
 * World Markers in the Ocean Between, rendered while you're in a gummi ship.
@@ -42,6 +42,7 @@
 * Selling using the old item get sound.
 * Gula's hat not having a back texture.
 * Aligned moogle level to the right of the synthesis screen.
+* Interpolated the glove movement in selected button.
 * Some localization issues.
 * Removed a couple of warnings when loading the mod.
 * Some crashes when needed json files are not present.

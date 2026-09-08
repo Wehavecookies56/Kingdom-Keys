@@ -164,7 +164,7 @@ public class MenuButton extends MenuButtonBase {
 
 		//Glove and dot
 		if(hovered) {
-			ClientUtils.drawGloveAndDot(gui,getX(),getY(),getWidth(),partialTicks);
+			ClientUtils.drawGloveAndDot(gui, getX(), getY(), getWidth());
 		}
 	}
 

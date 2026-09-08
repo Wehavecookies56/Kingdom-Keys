@@ -47,6 +47,7 @@ import online.kingdomkeys.kingdomkeys.command.ConvertOldForgeDataCommand;
 import online.kingdomkeys.kingdomkeys.command.ModCommands;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.ModData;
+import online.kingdomkeys.kingdomkeys.dialogue.ModDialogue;
 import online.kingdomkeys.kingdomkeys.driveform.DriveFormDataLoader;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
@@ -73,6 +74,7 @@ import online.kingdomkeys.kingdomkeys.savepoint.SavePointDataLoader;
 import online.kingdomkeys.kingdomkeys.shotlock.ModShotlocks;
 import online.kingdomkeys.kingdomkeys.shotlock.ShotlockDataLoader;
 import online.kingdomkeys.kingdomkeys.shotlock.minigame.ShotlockMinigameHandler;
+import online.kingdomkeys.kingdomkeys.world.DialogueHandler;
 import online.kingdomkeys.kingdomkeys.world.TrainingHandler;
 import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeDataLoader;
 import online.kingdomkeys.kingdomkeys.synthesis.melding.MeldingDataLoader;
@@ -157,6 +159,8 @@ public class KingdomKeys {
 		ModJsonRegistries.JSON_REGISTRIES.register(modEventBus);
 		ModRoomModifiers.ROOM_MODIFIERS.register(modEventBus);
 		ModEncounterTypes.ENCOUNTER_TYPES.register(modEventBus);
+		ModDialogue.DIALOGUE_CONDITIONS.register(modEventBus);
+		ModDialogue.DIALOGUE_ACTIONS.register(modEventBus);
 		ModData.ATTACHMENT_TYPES.register(modEventBus);
 		ModComponents.COMPONENTS.register(modEventBus);
 		ModArmorMaterials.ARMOR_MATERIALS.register(modEventBus);
@@ -211,6 +215,7 @@ public class KingdomKeys {
 		NeoForge.EVENT_BUS.register(new StruggleHandler());
 		NeoForge.EVENT_BUS.register(new ShotlockMinigameHandler());
 		NeoForge.EVENT_BUS.register(new TrainingHandler());
+		NeoForge.EVENT_BUS.register(new DialogueHandler());
 	}
 
 	private void modLoaded(final FMLLoadCompleteEvent event) {

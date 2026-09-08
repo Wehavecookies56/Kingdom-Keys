@@ -95,37 +95,68 @@ public class ClientUtils {
         matrixStack.popPose();
     }
 
-    public static void drawGloveAndDot(GuiGraphics gui, float ox, float oy, float width, float partialTicks) {
+    /** How far the glove and the dot swing to either side. */
+    public static final float SWAY_X = 4.5F;
+
+    public static final int GLOVE_U = 21, GLOVE_V = 204, GLOVE_W = 21, GLOVE_H = 14;
+
+    /**
+     * How far round the swing is, this frame.
+     *
+     * <p>It reads the frame timer itself rather than taking a number. A screen is handed the ticks
+     * elapsed since the last frame, not how far it is between two ticks, so interpolating with what
+     * the caller was given left this stepping once a tick and looking rough. Every caller of this
+     * happens to be inside a screen.</p>
+     */
+    private static float ballRotation() {
+        float delta = ClientEvents.ballRot - ClientEvents.prevBallRot;
+
+        if (delta < -180F)
+            delta += 360F;
+        if (delta > 180F)
+            delta -= 360F;
+
+        float partialTick = Minecraft.getInstance().getTimer().getGameTimeDeltaPartialTick(false);
+
+        return ClientEvents.prevBallRot + delta * partialTick;
+    }
+
+    /**
+     * Where in its swing the glove is.
+     *
+     * <p>The menus have it drifting side to side rather than sitting still, and anything else that
+     * points at a choice has to keep the same time or the two look wrong side by side.</p>
+     *
+     * @return how far to shift it, in pixels either way
+     */
+    public static float gloveSway() {
+        float t = (float) Math.toRadians(-ballRotation());
+
+        return (float) Math.cos(t * 3F + Math.PI / 2F) * SWAY_X;
+    }
+
+    public static void drawGloveAndDot(GuiGraphics gui, float ox, float oy, float width) {
         float ballScale = 0.5F;
         int u = 0;
         int v = 204;
 
         gui.pose().pushPose();
         {
-            float radiusX = 4.5F;
+            float radiusX = SWAY_X;
             float radiusY = 6F;
-            float centerX = ox + width - radiusX -3;
+            float centerX = ox + width - radiusX - 3;
             float centerY = oy + 3;
 
-            float delta = ClientEvents.ballRot - ClientEvents.prevBallRot;
+            float t = (float) Math.toRadians(-ballRotation());
 
-            if (delta < -180F)
-                delta += 360F;
-            if (delta > 180F)
-                delta -= 360F;
-
-            float interpRot = ClientEvents.prevBallRot + delta * partialTicks;
-
-            float t = (float)Math.toRadians(-interpRot);
-
-            float x = centerX + (float)Math.cos(t * 3F + Math.PI / 2F) * radiusX;
+            float x = centerX + gloveSway();
             float y = centerY + (float)Math.sin(t * 2F) * radiusY;
 
             float gloveX = x - width - 10;
             gui.pose().pushPose();
             {
                 gui.pose().translate(gloveX, oy + 3, 0);
-                gui.blit(Constants.MENU_TEXTURE, 0, 0, 21, 204, 20, 14);
+                gui.blit(Constants.MENU_TEXTURE, 0, 0, GLOVE_U, GLOVE_V, GLOVE_W, GLOVE_H);
             }
             gui.pose().popPose();
             gui.pose().pushPose();

@@ -172,7 +172,7 @@ public class MenuAbilitiesButton extends MenuButtonBase {
 			}
 			matrixStack.popPose();
 
-			ClientUtils.drawGloveAndDot(gui,getX(),getY(),getWidth(),partialTicks);
+			ClientUtils.drawGloveAndDot(gui, getX(), getY(), getWidth());
 
 		}
 		

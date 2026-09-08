@@ -33,6 +33,7 @@ public class PacketHandler {
 		client(SCOpenChoiceScreen.TYPE, SCOpenChoiceScreen.STREAM_CODEC);
 		client(SCOpenUnionScreen.TYPE, SCOpenUnionScreen.STREAM_CODEC);
 		client(SCOpenForetellerScreen.TYPE, SCOpenForetellerScreen.STREAM_CODEC);
+		client(SCOpenDialogue.TYPE, SCOpenDialogue.STREAM_CODEC);
 		client(SCOpenCODoorGui.TYPE, SCOpenCODoorGui.STREAM_CODEC);
 		client(SCOpenStruggleMenu.TYPE, SCOpenStruggleMenu.STREAM_CODEC);
 		client(SCCloseScreen.TYPE, SCCloseScreen.STREAM_CODEC);
@@ -101,6 +102,7 @@ public class PacketHandler {
 		server(CSPartyAddMember.TYPE, CSPartyAddMember.STREAM_CODEC);
 		server(CSPartyCreate.TYPE, CSPartyCreate.STREAM_CODEC);
 		server(CSStartEncounter.TYPE, CSStartEncounter.STREAM_CODEC);
+		server(CSDialogueAnswer.TYPE, CSDialogueAnswer.STREAM_CODEC);
 		server(CSStruggleCreate.TYPE, CSStruggleCreate.STREAM_CODEC);
 		server(CSStruggleJoin.TYPE, CSStruggleJoin.STREAM_CODEC);
 		server(CSStruggleLeave.TYPE, CSStruggleLeave.STREAM_CODEC);

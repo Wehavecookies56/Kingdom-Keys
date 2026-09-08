@@ -46,6 +46,10 @@ import online.kingdomkeys.kingdomkeys.client.shotlock.ShotlockMinigameClient;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.data.CastleOblivionData;
 import online.kingdomkeys.kingdomkeys.data.GlobalData;
+import online.kingdomkeys.kingdomkeys.client.gui.DialogueScreen;
+import online.kingdomkeys.kingdomkeys.client.gui.synthesis.ShopScreen;
+import online.kingdomkeys.kingdomkeys.synthesis.shop.ForetellerShop;
+import online.kingdomkeys.kingdomkeys.network.stc.SCOpenDialogue;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
@@ -119,7 +123,11 @@ public class ClientPacketHandler {
     public static void openForeteller(SCOpenForetellerScreen message) {
         PlayerData data = PlayerData.get(Minecraft.getInstance().player);
         data.deserializeNBT(Minecraft.getInstance().level.registryAccess(), message.playerData());
-        Minecraft.getInstance().setScreen(new ForetellerScreen(data, message.union()));
+        Minecraft.getInstance().setScreen(new ShopScreen(data, ForetellerShop.shopFor(message.union()), null));
+    }
+
+    public static void openDialogue(SCOpenDialogue message) {
+        Minecraft.getInstance().setScreen(new DialogueScreen(message.speaker(), message.lines(), message.answers()));
     }
 
     public static void openUnion(SCOpenUnionScreen message) {

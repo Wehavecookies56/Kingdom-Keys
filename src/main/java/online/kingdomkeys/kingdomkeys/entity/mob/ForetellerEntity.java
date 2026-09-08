@@ -24,12 +24,16 @@ import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.lib.SoAState;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.lib.Union;
+import net.minecraft.resources.ResourceLocation;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.world.DialogueHandler;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.stc.SCOpenForetellerScreen;
 import online.kingdomkeys.kingdomkeys.network.stc.SCOpenUnionScreen;
 
 public class ForetellerEntity extends PathfinderMob {
     private static final EntityDataAccessor<Byte> UNION = SynchedEntityData.defineId(ForetellerEntity.class, EntityDataSerializers.BYTE);
+
+    private static final ResourceLocation DIALOGUE = KingdomKeys.rl("foreteller");
 
     private static final double DUEL_WATCH_RANGE = 32.0D;
     private static final int DUEL_CHECK_INTERVAL = 20;
@@ -161,8 +165,8 @@ public class ForetellerEntity extends PathfinderMob {
 
         if (!playerData.hasUnion())
             return InteractionResult.FAIL;
-        // Pupil - master screen
-        PacketHandler.sendTo(new SCOpenForetellerScreen(getUnion(), playerData.serializeNBT(level().registryAccess())), serverPlayer);
+
+        DialogueHandler.start(serverPlayer, this, DIALOGUE);
         return InteractionResult.SUCCESS;
     }
 

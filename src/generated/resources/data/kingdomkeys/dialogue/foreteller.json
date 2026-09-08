@@ -1,0 +1,143 @@
+{
+  "nodes": {
+    "duels": {
+      "answers": [
+        {
+          "do": [
+            {
+              "type": "kingdomkeys:start_encounter",
+              "duel": true,
+              "encounter": "kingdomkeys:easy"
+            }
+          ],
+          "text": "kingdomkeys.encounter.easy"
+        },
+        {
+          "do": [
+            {
+              "type": "kingdomkeys:start_encounter",
+              "duel": true,
+              "encounter": "kingdomkeys:medium"
+            }
+          ],
+          "text": "kingdomkeys.encounter.medium"
+        },
+        {
+          "do": [
+            {
+              "type": "kingdomkeys:start_encounter",
+              "duel": true,
+              "encounter": "kingdomkeys:hard"
+            }
+          ],
+          "text": "kingdomkeys.encounter.hard"
+        },
+        {
+          "do": [
+            {
+              "type": "kingdomkeys:start_encounter",
+              "duel": true,
+              "encounter": "kingdomkeys:dynamic"
+            }
+          ],
+          "text": "kingdomkeys.encounter.dynamic"
+        },
+        {
+          "goto": "start",
+          "text": "kingdomkeys.dialogue.foreteller.answer.back"
+        }
+      ],
+      "lines": [
+        "kingdomkeys.dialogue.foreteller.duels"
+      ]
+    },
+    "lessons": {
+      "answers": [
+        {
+          "do": [
+            {
+              "type": "kingdomkeys:start_encounter",
+              "encounter": "kingdomkeys:easy"
+            }
+          ],
+          "text": "kingdomkeys.encounter.easy"
+        },
+        {
+          "do": [
+            {
+              "type": "kingdomkeys:start_encounter",
+              "encounter": "kingdomkeys:medium"
+            }
+          ],
+          "text": "kingdomkeys.encounter.medium"
+        },
+        {
+          "do": [
+            {
+              "type": "kingdomkeys:start_encounter",
+              "encounter": "kingdomkeys:hard"
+            }
+          ],
+          "text": "kingdomkeys.encounter.hard"
+        },
+        {
+          "do": [
+            {
+              "type": "kingdomkeys:start_encounter",
+              "encounter": "kingdomkeys:dynamic"
+            }
+          ],
+          "text": "kingdomkeys.encounter.dynamic"
+        },
+        {
+          "goto": "start",
+          "text": "kingdomkeys.dialogue.foreteller.answer.back"
+        }
+      ],
+      "lines": [
+        "kingdomkeys.dialogue.foreteller.lessons"
+      ]
+    },
+    "start": {
+      "answers": [
+        {
+          "goto": "lessons",
+          "if": [
+            {
+              "type": "kingdomkeys:union"
+            }
+          ],
+          "text": "kingdomkeys.dialogue.foreteller.answer.train"
+        },
+        {
+          "goto": "duels",
+          "if": [
+            {
+              "type": "kingdomkeys:union"
+            }
+          ],
+          "text": "kingdomkeys.dialogue.foreteller.answer.spar"
+        },
+        {
+          "do": [
+            {
+              "type": "kingdomkeys:open_shop"
+            }
+          ],
+          "text": "kingdomkeys.dialogue.foreteller.answer.shop"
+        },
+        {
+          "do": [
+            {
+              "type": "kingdomkeys:close"
+            }
+          ],
+          "text": "kingdomkeys.dialogue.foreteller.answer.leave"
+        }
+      ],
+      "lines": [
+        "kingdomkeys.dialogue.foreteller.greeting"
+      ]
+    }
+  }
+}

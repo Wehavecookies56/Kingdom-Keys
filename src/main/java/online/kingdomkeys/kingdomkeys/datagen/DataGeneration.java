@@ -69,6 +69,7 @@ public class DataGeneration {
         generator.addProvider(event.includeServer(), new RoomEncountersGen(generator));
         generator.addProvider(event.includeServer(), new TrainingEncountersGen(generator));
         generator.addProvider(event.includeServer(), new DuelEncountersGen(generator));
+        generator.addProvider(event.includeServer(), new DialoguesGen(generator));
         
        // generator.addProvider(event.includeServer(), new DatapackBuiltinEntriesProvider(output, event.getLookupProvider(), BUILDER, Set.of(KingdomKeys.MODID)));
 
