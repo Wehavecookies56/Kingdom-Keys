@@ -1,0 +1,48 @@
+{
+  "arena_radius": 8,
+  "encounter": {
+    "type": "kingdomkeys:wave",
+    "interval_ticks": 60,
+    "waves": [
+      {
+        "spawns": [
+          "kingdomkeys:light_training_orb",
+          "kingdomkeys:light_training_orb",
+          "kingdomkeys:light_training_orb",
+          "kingdomkeys:light_training_orb"
+        ]
+      },
+      {
+        "spawns": [
+          "kingdomkeys:light_training_orb",
+          "kingdomkeys:light_training_orb",
+          "kingdomkeys:dark_training_orb",
+          "kingdomkeys:dark_training_orb"
+        ]
+      },
+      {
+        "spawns": [
+          "kingdomkeys:light_training_orb",
+          "kingdomkeys:dark_training_orb",
+          "kingdomkeys:dark_training_orb",
+          "kingdomkeys:dark_training_orb",
+          "kingdomkeys:dark_training_orb"
+        ]
+      },
+      {
+        "spawns": [
+          "kingdomkeys:dark_training_orb",
+          "kingdomkeys:dark_training_orb",
+          "kingdomkeys:dark_training_orb",
+          "kingdomkeys:dark_training_orb",
+          "kingdomkeys:dark_training_orb",
+          "kingdomkeys:dark_training_orb"
+        ]
+      }
+    ]
+  },
+  "experience": 400,
+  "lux": 220,
+  "rewards": [],
+  "spawn_points": 10
+}

@@ -130,7 +130,7 @@ public class EncounterInstance {
     public CompoundTag serializeNBT(){
         CompoundTag tag = new CompoundTag();
         tag.putString("room_encounter", encounter.getRegistryName().toString());
-        EncounterType<?, ?> type = encounter.encounter.type();
+        EncounterType<?, ?> type = encounter.getEncounter().type();
         tag.put("state", type.encodeStart(NbtOps.INSTANCE, state).getOrThrow());
         tag.putLong("active_ticks", activeTicks);
         tag.putBoolean("complete", isComplete);
@@ -139,7 +139,7 @@ public class EncounterInstance {
 
     public EncounterInstance(CompoundTag tag) {
         encounter = ModRoomEncounters.registry.get().getValue(KingdomKeys.rl(tag.getString("room_encounter")));
-        state = encounter.encounter.type().decodeStart(NbtOps.INSTANCE, tag.getCompound("state")).getOrThrow();
+        state = encounter.getEncounter().type().decodeStart(NbtOps.INSTANCE, tag.getCompound("state")).getOrThrow();
         activeTicks = tag.getLong("active_ticks");
         isComplete = tag.getBoolean("complete");
     }

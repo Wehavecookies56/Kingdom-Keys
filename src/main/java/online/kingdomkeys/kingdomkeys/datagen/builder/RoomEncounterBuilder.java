@@ -22,6 +22,23 @@ public class RoomEncounterBuilder extends BuilderBase {
         root.add("rewards", rewardsArray);
     }
 
+    public RoomEncounterBuilder payout(int experience, int lux) {
+        root.addProperty("experience", experience);
+        root.addProperty("lux", lux);
+        return this;
+    }
+
+    public RoomEncounterBuilder level(int level) {
+        root.addProperty("level", level);
+        return this;
+    }
+
+    public RoomEncounterBuilder arena(int radius, int spawnPoints) {
+        root.addProperty("arena_radius", radius);
+        root.addProperty("spawn_points", spawnPoints);
+        return this;
+    }
+
     public RoomEncounterBuilder music(SoundEvent music) {
         root.addProperty("music", music.getLocation().toString());
         return this;

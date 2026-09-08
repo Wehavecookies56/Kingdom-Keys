@@ -118,6 +118,7 @@ import online.kingdomkeys.kingdomkeys.synthesis.shop.sell.SellListRegistry;
 import online.kingdomkeys.kingdomkeys.util.CombatAbilities;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
+import online.kingdomkeys.kingdomkeys.world.TrainingHandler;
 import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.CastleOblivionHandler;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.floor.Floor;
@@ -1036,12 +1037,13 @@ public class EntityEvents {
 	public void sparCannotKill(LivingDamageEvent.Pre event) {
 		if (event.getEntity() instanceof Player hurt && !hurt.level().isClientSide) {
 			event.setNewDamage(MasterDuelEntity.sparBlow(hurt, event.getSource(), event.getNewDamage()));
+			event.setNewDamage(TrainingHandler.trainingBlow(hurt, event.getSource(), event.getNewDamage()));
 		}
 	}
 
 	@SubscribeEvent
 	public void hitEntity(LivingDamageEvent.Pre event) {
-		if (event.getEntity() instanceof Player hurt && !hurt.level().isClientSide && !MasterDuelEntity.isSparBlow(hurt, event.getSource())) {
+		if (event.getEntity() instanceof Player hurt && !hurt.level().isClientSide && !MasterDuelEntity.isSparBlow(hurt, event.getSource()) && !TrainingHandler.isTraining(hurt)) {
 			event.setNewDamage(CombatAbilities.survive(hurt, PlayerData.get(hurt), event.getNewDamage()));
 		}
 		/*if(event.getEntity() instanceof LivingEntity khmob){
@@ -1356,8 +1358,11 @@ public class EntityEvents {
 
 			//Castle oblivion
 			if (!(entity instanceof Player)) {
-				if (GlobalData.get(entity).getCastleOblivionMarker()) {
-					EncounterContext context = CastleOblivionData.InteriorData.get((ServerLevel) level).map(interiorData -> (EncounterContext)interiorData.getRoomAtPos(entity.blockPosition())).orElse(null); //TODO NON CO CONTEXT NEEDS TO BE RETRIEVED HERE INSTEAD OF NULL
+				EncounterContext context = !GlobalData.get(entity).getCastleOblivionMarker() ? null : CastleOblivionData.InteriorData.get((ServerLevel) level)
+								.map(interiorData -> (EncounterContext) interiorData.getRoomAtPos(entity.blockPosition()))
+								.orElseGet(() -> TrainingHandler.contextOf(entity));
+
+				if (context != null) {
 					boolean replaced = false;
 					List<DropModifier> modifiers =  context.getModifiers(ModRoomModifiers.DROP.get());
 					for (DropModifier dropModifier : modifiers) {
@@ -1374,7 +1379,7 @@ public class EntityEvents {
 						}
 					}
 
-					if (!replaced) {
+					if (!replaced && context.getRoom().isPresent()) {
 						List<Item> cardDrops = ModTags.getItemsInTag(level, ModTags.MAP_CARD);
 						Item toDrop = cardDrops.get(Utils.randomWithRange(0, cardDrops.size() - 1));
 						ItemStack dropStack = new ItemStack(toDrop);

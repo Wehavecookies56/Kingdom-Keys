@@ -40,7 +40,7 @@ public record CSStartDuel(DuelDifficulty difficulty) implements Packet {
 		Union union = playerData.getUnion();
 		ServerLevel level = player.serverLevel();
 
-		MasterDuelEntity master = new MasterDuelEntity(level, union, difficulty.getLevel());
+		MasterDuelEntity master = new MasterDuelEntity(level, union, difficulty.getLevel(playerData.getLevel()));
 
 		if (!placeMasterForDuel(level, master, player)) {
 			return;

@@ -364,6 +364,17 @@ public class LanguageESES extends KKLanguageProvider {
         add("kingdomkeys.duel.difficulty.easy", "Fácil");
         add("kingdomkeys.duel.difficulty.normal", "Medio");
         add("kingdomkeys.duel.difficulty.hard", "Difícil");
+        add("kingdomkeys.duel.difficulty.dynamic", "Dinámico");
+        add(Gui_Level_Dynamic, "Tu nivel");
+        add(Gui_Training_Reward, "%s EXP, %s Lux");
+        add(Training_Won, "Bien hecho");
+        add(Training_Won_Sub, "Por hoy es suficiente");
+        add(Training_Lost, "Basta");
+        add(Training_Left, "Entrenamiento terminado");
+        add("kingdomkeys.training.easy", "Fácil");
+        add("kingdomkeys.training.medium", "Medio");
+        add("kingdomkeys.training.hard", "Difícil");
+        add("kingdomkeys.training.dynamic", "Dinámico");
         add(Gui_Menu_Main_Hearts, "Corazones");
         add(Gui_Menu_Main_Time, "Hora del Mundo");
         add(Gui_Menu_Main_Time_Spent, "Tiempo total");

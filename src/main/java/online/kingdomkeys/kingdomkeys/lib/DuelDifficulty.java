@@ -4,11 +4,15 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.util.StringRepresentable;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
 
 public enum DuelDifficulty implements StringRepresentable {
     EASY("easy", (byte) 0, 10),
     NORMAL("normal", (byte) 1, 25),
-    HARD("hard", (byte) 2, 60);
+    HARD("hard", (byte) 2, 60),
+    DYNAMIC("dynamic", (byte) 3, DuelDifficulty.DYNAMIC_LEVEL);
+
+    public static final int DYNAMIC_LEVEL = 0;
 
     private final String name;
     private final byte id;
@@ -28,8 +32,16 @@ public enum DuelDifficulty implements StringRepresentable {
         return level;
     }
 
+    public boolean isDynamic() {
+        return level <= DYNAMIC_LEVEL;
+    }
+
+    public int getLevel(int opponentLevel) {
+        return isDynamic() ? Math.max(1, opponentLevel) : level;
+    }
+
     public String getTranslationKey() {
-        return "kingdomkeys.duel.difficulty." + name;
+        return KingdomKeys.MODID+".duel.difficulty." + name;
     }
 
     public static DuelDifficulty fromByte(byte b) {

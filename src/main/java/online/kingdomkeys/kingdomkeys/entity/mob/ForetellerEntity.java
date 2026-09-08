@@ -177,6 +177,11 @@ public class ForetellerEntity extends PathfinderMob {
     }
 
     @Override
+    public boolean canBeHitByProjectile() {
+        return false;
+    }
+
+    @Override
     public boolean isPushable() {
         return false;
     }

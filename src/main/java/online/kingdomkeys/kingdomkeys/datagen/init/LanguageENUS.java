@@ -314,6 +314,17 @@ public class LanguageENUS extends KKLanguageProvider {
         add("kingdomkeys.duel.difficulty.easy", "Easy");
         add("kingdomkeys.duel.difficulty.normal", "Medium");
         add("kingdomkeys.duel.difficulty.hard", "Hard");
+        add("kingdomkeys.duel.difficulty.dynamic", "Dynamic");
+        add(Gui_Level_Dynamic, "Your level");
+        add(Gui_Training_Reward, "%s EXP, %s Lux");
+        add(Training_Won, "Well done");
+        add(Training_Won_Sub, "That is enough for today");
+        add(Training_Lost, "Enough");
+        add(Training_Left, "Training over");
+        add("kingdomkeys.training.easy", "Easy");
+        add("kingdomkeys.training.medium", "Medium");
+        add("kingdomkeys.training.hard", "Hard");
+        add("kingdomkeys.training.dynamic", "Dynamic");
         add(Gui_Menu_Main_Hearts, "Hearts");
         add(Gui_Menu_Main_Time, "World Time");
         add(Gui_Menu_Main_Time_Spent, "Global Time");

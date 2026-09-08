@@ -91,6 +91,7 @@ import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import online.kingdomkeys.kingdomkeys.entity.GummiShipEntity;
 import online.kingdomkeys.kingdomkeys.entity.block.GummiCoreTileEntity;
 import online.kingdomkeys.kingdomkeys.entity.block.GummiHangarTileEntity;
+import online.kingdomkeys.kingdomkeys.entity.mob.ForetellerEntity;
 import online.kingdomkeys.kingdomkeys.item.*;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
 import online.kingdomkeys.kingdomkeys.lib.*;
@@ -2492,6 +2493,10 @@ public class Utils {
 			return false;
 		}
 
+		if (target instanceof ForetellerEntity) {
+			return false;
+		}
+
 		// Anyone outside a party has no allies to spare, and a party with friendly fire on has decided it has none either
 		if (party == null || party.getFriendlyFire()) {
 			return true;
@@ -2503,10 +2508,6 @@ public class Utils {
 
 	public static <T extends Entity> List<T> removeAllies(@Nullable Entity attacker, List<T> list) {
 		Party party = getParty(attacker);
-
-		if (party == null || party.getFriendlyFire()) {
-			return list;
-		}
 
 		list.removeIf(target -> !canHarm(party, target));
 
