@@ -13,7 +13,6 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.util.Mth;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
@@ -33,7 +32,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.data.GlobalData;
-import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
 import online.kingdomkeys.kingdomkeys.entity.mob.goal.MasterDuelGoal;
@@ -206,38 +204,7 @@ public class MasterDuelEntity extends BaseKHEntity {
 		return duelist != null && pupil != null && duelist.equals(pupil.getUUID());
 	}
 
-	@Nullable
-	private static MasterDuelEntity sparringWith(Player pupil, DamageSource source) {
-		return source.getEntity() instanceof MasterDuelEntity master && master.isDuelist(pupil) ? master : null;
-	}
-
-	public static boolean isSparBlow(Player pupil, DamageSource source) {
-		return sparringWith(pupil, source) != null;
-	}
-
-	public static float sparBlow(Player pupil, DamageSource source, float damage) {
-		MasterDuelEntity master = sparringWith(pupil, source);
-
-		if (master == null) {
-			return damage;
-		}
-
-		// Someone got there first, most likely the party KO further up the same event
-		if (pupil.hasEffect(ModMobEffects.KO)) {
-			master.concede();
-			return damage;
-		}
-
-		if (damage < pupil.getHealth() + pupil.getAbsorptionAmount()) {
-			return damage;
-		}
-
-		Utils.knockOut(pupil);
-		master.concede();
-		return 0F;
-	}
-
-	public void concede() {
+	public void loseDuel() {
 		if (endingTicks >= 0) {
 			return;
 		}

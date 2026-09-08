@@ -1,6 +1,7 @@
 package online.kingdomkeys.kingdomkeys.network.cts;
 
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
@@ -16,12 +17,13 @@ import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.reg
 
 import java.util.List;
 
-public record CSStartTraining(ResourceLocation encounter) implements Packet {
-	public static final Type<CSStartTraining> TYPE = new Type<>(KingdomKeys.rl("cs_start_training"));
+public record CSStartEncounter(boolean duel, ResourceLocation encounter) implements Packet {
+	public static final Type<CSStartEncounter> TYPE = new Type<>(KingdomKeys.rl("cs_start_encounter"));
 
-	public static final StreamCodec<FriendlyByteBuf, CSStartTraining> STREAM_CODEC = StreamCodec.composite(
-			ResourceLocation.STREAM_CODEC, CSStartTraining::encounter,
-			CSStartTraining::new
+	public static final StreamCodec<FriendlyByteBuf, CSStartEncounter> STREAM_CODEC = StreamCodec.composite(
+			ByteBufCodecs.BOOL, CSStartEncounter::duel,
+			ResourceLocation.STREAM_CODEC, CSStartEncounter::encounter,
+			CSStartEncounter::new
 	);
 
 	private static final double REACH = 8.0D;
@@ -37,14 +39,13 @@ public record CSStartTraining(ResourceLocation encounter) implements Packet {
 			return;
 		}
 
-		RoomEncounter lesson = ModJsonRegistries.TRAINING_ENCOUNTER.get().getValue(encounter);
+		RoomEncounter lesson = (duel ? ModJsonRegistries.DUEL_ENCOUNTER : ModJsonRegistries.TRAINING_ENCOUNTER).get().getValue(encounter);
 		if (lesson == null) {
 			return;
 		}
 
-		List<ForetellerEntity> nearby = pupil.level().getEntitiesOfClass(ForetellerEntity.class,
-				pupil.getBoundingBox().inflate(REACH),
-				master -> master.getUnion() == playerData.getUnion() && master.isAlive());
+		// The master has to actually be here to set anyone on anything
+		List<ForetellerEntity> nearby = pupil.level().getEntitiesOfClass(ForetellerEntity.class, pupil.getBoundingBox().inflate(REACH), master -> master.getUnion() == playerData.getUnion() && master.isAlive());
 
 		if (nearby.isEmpty()) {
 			return;

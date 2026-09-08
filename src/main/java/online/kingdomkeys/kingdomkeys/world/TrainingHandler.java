@@ -17,6 +17,7 @@ import online.kingdomkeys.kingdomkeys.encounter.EncounterContext;
 import online.kingdomkeys.kingdomkeys.encounter.EncounterInstance;
 import online.kingdomkeys.kingdomkeys.encounter.RoomEncounter;
 import online.kingdomkeys.kingdomkeys.entity.mob.ForetellerEntity;
+import online.kingdomkeys.kingdomkeys.entity.mob.MasterDuelEntity;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.Room;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.modifiers.RoomModifier;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.modifiers.RoomModifierType;
@@ -63,7 +64,13 @@ public class TrainingHandler {
 
         void removeSpawned() {
             spawned.forEach(entity -> {
-                if (entity.isAlive()) {
+                if (!entity.isAlive()) {
+                    return;
+                }
+
+                if (entity instanceof MasterDuelEntity duel) {
+                    duel.loseDuel();
+                } else {
                     entity.discard();
                 }
             });
@@ -133,6 +140,11 @@ public class TrainingHandler {
         }
 
         @Override
+        public int getSpawnLevel() {
+            return level > RoomEncounter.DYNAMIC_LEVEL ? level : EncounterContext.super.getSpawnLevel();
+        }
+
+        @Override
         public int getBaseLevel() {
             if (level > RoomEncounter.DYNAMIC_LEVEL) {
                 return level;
@@ -152,6 +164,16 @@ public class TrainingHandler {
 
         @Override
         public void onSpawn(LivingEntity entity) {
+            if (entity instanceof MasterDuelEntity master) {
+                master.setUnion(this.master.getUnion());
+                master.setDuelLevel(getBaseLevel());
+
+                Player player = this.master.level().getPlayerByUUID(pupil);
+                if (player != null) {
+                    master.setDuelist(player);
+                }
+            }
+
             spawned.add(entity);
         }
     }

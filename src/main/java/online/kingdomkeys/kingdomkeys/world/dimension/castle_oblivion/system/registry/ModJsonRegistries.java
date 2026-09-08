@@ -21,4 +21,5 @@ public class ModJsonRegistries {
     public static Supplier<JsonRegistry<RoomEncounter>> ROOM_ENCOUNTER = JSON_REGISTRIES.register("room_encounter", () -> new JsonRegistry<>(KingdomKeys.rl("room_encounter"), "castle_oblivion/room_encounter", RoomEncounter.CODEC));
 
     public static Supplier<JsonRegistry<RoomEncounter>> TRAINING_ENCOUNTER = JSON_REGISTRIES.register("training_encounter", () -> new JsonRegistry<>(KingdomKeys.rl("training_encounter"), "training_encounter", RoomEncounter.CODEC));
+    public static Supplier<JsonRegistry<RoomEncounter>> DUEL_ENCOUNTER = JSON_REGISTRIES.register("duel_encounter", () -> new JsonRegistry<>(KingdomKeys.rl("duel_encounter"), "duel_encounter", RoomEncounter.CODEC));
 }

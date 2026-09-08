@@ -231,7 +231,9 @@ public class EntityEvents {
 			}
 
 			//Set level based on config
-			if (mobData.getLevel() <= 0 && mob instanceof Monster && ModConfigs.SERVER.hostileMobsLevel.get()) {
+			// Never re-roll one the encounter system placed: it was given a level on purpose, and a
+			// lesson that says Lv. 25 on the button has to field level 25
+			if (mobData.getLevel() <= 0 && !mobData.getCastleOblivionMarker() && mob instanceof Monster && ModConfigs.SERVER.hostileMobsLevel.get()) {
 				mobData.setLevel(Utils.getRandomMobLevel(player));
 			}
 
@@ -1036,14 +1038,13 @@ public class EntityEvents {
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void sparCannotKill(LivingDamageEvent.Pre event) {
 		if (event.getEntity() instanceof Player hurt && !hurt.level().isClientSide) {
-			event.setNewDamage(MasterDuelEntity.sparBlow(hurt, event.getSource(), event.getNewDamage()));
 			event.setNewDamage(TrainingHandler.trainingBlow(hurt, event.getSource(), event.getNewDamage()));
 		}
 	}
 
 	@SubscribeEvent
 	public void hitEntity(LivingDamageEvent.Pre event) {
-		if (event.getEntity() instanceof Player hurt && !hurt.level().isClientSide && !MasterDuelEntity.isSparBlow(hurt, event.getSource()) && !TrainingHandler.isTraining(hurt)) {
+		if (event.getEntity() instanceof Player hurt && !hurt.level().isClientSide && !TrainingHandler.isTraining(hurt)) {
 			event.setNewDamage(CombatAbilities.survive(hurt, PlayerData.get(hurt), event.getNewDamage()));
 		}
 		/*if(event.getEntity() instanceof LivingEntity khmob){

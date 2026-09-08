@@ -10,12 +10,10 @@ import online.kingdomkeys.kingdomkeys.client.gui.synthesis.ShopScreen;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.encounter.RoomEncounter;
-import online.kingdomkeys.kingdomkeys.lib.DuelDifficulty;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.lib.Union;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
-import online.kingdomkeys.kingdomkeys.network.cts.CSStartDuel;
-import online.kingdomkeys.kingdomkeys.network.cts.CSStartTraining;
+import online.kingdomkeys.kingdomkeys.network.cts.CSStartEncounter;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.ForetellerShop;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModJsonRegistries;
@@ -26,9 +24,7 @@ import java.util.List;
 
 public class ForetellerScreen extends MenuBackground implements IPlayerDataRequester {
 	private static final int BUTTON_GAP = 18;
-	private static final int BACK_GAP = 28;
 
-	/** Which list is up. The submenus are this screen redrawn, not screens of their own. */
 	private enum Page { MAIN, TRAIN, DUEL }
 
 	private final Union union;
@@ -83,7 +79,9 @@ public class ForetellerScreen extends MenuBackground implements IPlayerDataReque
 
 			case TRAIN -> {
 				List<RoomEncounter> lessons = ModJsonRegistries.TRAINING_ENCOUNTER.get().getValues().stream()
-						.sorted(Comparator.comparingInt(RoomEncounter::getExperience))
+						.sorted(Comparator.comparing(RoomEncounter::isDynamicLevel)
+								.thenComparingInt(RoomEncounter::getLevel)
+								.thenComparingInt(RoomEncounter::getExperience))
 						.toList();
 
 				for (RoomEncounter lesson : lessons) {
@@ -93,7 +91,7 @@ public class ForetellerScreen extends MenuBackground implements IPlayerDataReque
 					MenuButton button = new MenuButton((int) buttonPosX, buttonY, (int) buttonWidth, Component.translatable(lesson.getTranslationKey()).getString(), ButtonType.BUTTON, e -> {
 						mc.level.playSound(mc.player, mc.player.blockPosition(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0F, 1.0F);
 						mc.setScreen(null);
-						PacketHandler.sendToServer(new CSStartTraining(lesson.getRegistryName()));
+						PacketHandler.sendToServer(new CSStartEncounter(false, lesson.getRegistryName()));
 					});
 					button.setTip(level + " - " + reward);
 					addRenderableWidget(button);
@@ -101,7 +99,7 @@ public class ForetellerScreen extends MenuBackground implements IPlayerDataReque
 					buttonY += BUTTON_GAP;
 				}
 
-				buttonY += BACK_GAP;
+				buttonY += BUTTON_GAP;
 
 				addRenderableWidget(new MenuButton((int) buttonPosX, buttonY, (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), ButtonType.BUTTON, e -> {
 					mc.level.playSound(mc.player, mc.player.blockPosition(), ModSounds.menu_back.get(), SoundSource.MASTER, 1.0F, 1.0F);
@@ -111,21 +109,28 @@ public class ForetellerScreen extends MenuBackground implements IPlayerDataReque
 			}
 
 			case DUEL -> {
-				for (DuelDifficulty difficulty : DuelDifficulty.values()) {
-					String level = difficulty.isDynamic() ? Utils.translateToLocal(Strings.Gui_Level_Dynamic) : Component.translatable(Strings.Gui_Duel_Level, difficulty.getLevel()).getString();
+				List<RoomEncounter> duels = ModJsonRegistries.DUEL_ENCOUNTER.get().getValues().stream()
+						.sorted(Comparator.comparing(RoomEncounter::isDynamicLevel)
+								.thenComparingInt(RoomEncounter::getLevel)
+								.thenComparingInt(RoomEncounter::getExperience))
+						.toList();
 
-					MenuButton button = new MenuButton((int) buttonPosX, buttonY, (int) buttonWidth, Component.translatable(difficulty.getTranslationKey()).getString(), ButtonType.BUTTON, e -> {
+				for (RoomEncounter duel : duels) {
+					String level = duel.isDynamicLevel() ? Utils.translateToLocal(Strings.Gui_Level_Dynamic) : Component.translatable(Strings.Gui_Duel_Level, duel.getLevel()).getString();
+					String reward = Component.translatable(Strings.Gui_Training_Reward, duel.getExperience(), duel.getLux()).getString();
+
+					MenuButton button = new MenuButton((int) buttonPosX, buttonY, (int) buttonWidth, Component.translatable(duel.getTranslationKey()).getString(), ButtonType.BUTTON, e -> {
 						mc.level.playSound(mc.player, mc.player.blockPosition(), ModSounds.menu_in.get(), SoundSource.MASTER, 1.0F, 1.0F);
 						mc.setScreen(null);
-						PacketHandler.sendToServer(new CSStartDuel(difficulty));
+						PacketHandler.sendToServer(new CSStartEncounter(true, duel.getRegistryName()));
 					});
-					button.setTip(level);
+					button.setTip(level + " - " + reward);
 					addRenderableWidget(button);
 
 					buttonY += BUTTON_GAP;
 				}
 
-				buttonY += BACK_GAP;
+				buttonY += BUTTON_GAP;
 
 				addRenderableWidget(new MenuButton((int) buttonPosX, buttonY, (int) buttonWidth, Utils.translateToLocal(Strings.Gui_Menu_Back), ButtonType.BUTTON, e -> {
 					mc.level.playSound(mc.player, mc.player.blockPosition(), ModSounds.menu_back.get(), SoundSource.MASTER, 1.0F, 1.0F);

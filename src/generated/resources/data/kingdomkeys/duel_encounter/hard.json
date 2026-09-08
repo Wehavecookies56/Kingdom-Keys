@@ -1,0 +1,19 @@
+{
+  "arena_radius": 4,
+  "encounter": {
+    "type": "kingdomkeys:wave",
+    "interval_ticks": 60,
+    "waves": [
+      {
+        "spawns": [
+          "kingdomkeys:master_duel"
+        ]
+      }
+    ]
+  },
+  "experience": 1200,
+  "level": 60,
+  "lux": 700,
+  "rewards": [],
+  "spawn_points": 1
+}

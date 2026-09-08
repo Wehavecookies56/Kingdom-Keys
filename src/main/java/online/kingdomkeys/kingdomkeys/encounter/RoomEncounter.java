@@ -95,6 +95,6 @@ public class RoomEncounter extends JsonRegistryObject {
     }
 
     public String getTranslationKey() {
-        return KingdomKeys.MODID+".training." + getRegistryName().getPath();
+        return KingdomKeys.MODID+".encounter." + getRegistryName().getPath();
     }
 }

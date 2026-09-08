@@ -161,7 +161,7 @@ public class WaveEncounter implements Encounter {
                             });
                             GlobalData globalData = GlobalData.get(spawned);
                             globalData.setCastleOblivionMarker(true);
-                            globalData.setLevel(context.getBaseLevel() + Utils.randomWithRange(-3, 3));
+                            globalData.setLevel(context.getSpawnLevel());
                             context.onSpawn(spawned);
                             currentWave.onSpawn(context, spawned);
                             spawned.moveTo((double)spawnPoint.getX() + 0.5, spawnPoint.getY(), (double)spawnPoint.getZ() + 0.5, Mth.wrapDegrees(level.random.nextFloat() * 360.0F), 0.0F);

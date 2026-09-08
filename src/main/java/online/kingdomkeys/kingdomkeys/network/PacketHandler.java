@@ -100,8 +100,7 @@ public class PacketHandler {
 		server(CSLevelUpKeybladePacket.TYPE, CSLevelUpKeybladePacket.STREAM_CODEC);
 		server(CSPartyAddMember.TYPE, CSPartyAddMember.STREAM_CODEC);
 		server(CSPartyCreate.TYPE, CSPartyCreate.STREAM_CODEC);
-		server(CSStartDuel.TYPE, CSStartDuel.STREAM_CODEC);
-		server(CSStartTraining.TYPE, CSStartTraining.STREAM_CODEC);
+		server(CSStartEncounter.TYPE, CSStartEncounter.STREAM_CODEC);
 		server(CSStruggleCreate.TYPE, CSStruggleCreate.STREAM_CODEC);
 		server(CSStruggleJoin.TYPE, CSStruggleJoin.STREAM_CODEC);
 		server(CSStruggleLeave.TYPE, CSStruggleLeave.STREAM_CODEC);
