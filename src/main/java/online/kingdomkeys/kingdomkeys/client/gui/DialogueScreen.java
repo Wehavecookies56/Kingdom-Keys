@@ -86,7 +86,7 @@ public class DialogueScreen extends Screen {
 	}
 
 	private String text(int index) {
-		return index < 0 || index >= lines.size() ? "" : Component.translatable(lines.get(index)).getString();
+		return index < 0 || index >= lines.size() ? "" : ClientUtils.fillTokens(Component.translatable(lines.get(index)).getString());
 	}
 
 	@Override
@@ -149,7 +149,7 @@ public class DialogueScreen extends Screen {
 	}
 
 	private void drawAnswers(GuiGraphics gui, int mouseX, int mouseY) {
-		List<String> texts = answers.stream().map(key -> Component.translatable(key).getString()).toList();
+		List<String> texts = answers.stream().map(key -> ClientUtils.fillTokens(Component.translatable(key).getString())).toList();
 
 		int rowHeight = font.lineHeight + LINE_GAP * 2;
 		int bubbleWidth = widest(texts) + GLOVE_ROOM + PADDING * 2;
@@ -308,7 +308,17 @@ public class DialogueScreen extends Screen {
 
 	private void close() {
 		playSound(ModSounds.menu_back.get());
-		Minecraft.getInstance().setScreen(null);
+		onClose();
+	}
+
+	/**
+	 * Walking away has to be said out loud, since the speaker is held still until the server hears
+	 * that this is over. Out of range of any answer, which the server reads as being dropped.
+	 */
+	@Override
+	public void onClose() {
+		PacketHandler.sendToServer(new CSDialogueAnswer(-1));
+		super.onClose();
 	}
 
 	private void playSound(SoundEvent sound) {

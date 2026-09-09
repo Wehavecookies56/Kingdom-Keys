@@ -42,6 +42,7 @@
   },
   "experience": 320,
   "grants": "kingdomkeys:training/medium",
+  "info": "kingdomkeys.information.training",
   "level": 25,
   "lux": 180,
   "requires": [

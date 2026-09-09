@@ -18,6 +18,7 @@ public class ModSounds {
 		    revert = registerSound("revert"),
 		    driveUp = registerSound("drive_up"),
     	    error = registerSound("error"),
+            information = registerSound("information"),
             //ether
     	    //hi-potion
     	    hp_orb = registerSound("hp_orb"),

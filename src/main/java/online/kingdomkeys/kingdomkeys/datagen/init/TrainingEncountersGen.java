@@ -74,6 +74,6 @@ public class TrainingEncountersGen extends BaseProvider<RoomEncounterBuilder> {
     }
 
     public RoomEncounterBuilder createTrainingEncounter(String path, Encounter encounter) {
-        return addBuilder(new RoomEncounterBuilder(getLocation(path), encounter));
+        return addBuilder(new RoomEncounterBuilder(getLocation(path), encounter)).info(KingdomKeys.MODID + ".information.training");
     }
 }

@@ -31,6 +31,7 @@ public class RoomEncounter extends JsonRegistryObject {
     int level;
     List<ResourceLocation> requires;
     ResourceLocation grants;
+    String info;
 
     public static final Codec<RoomEncounter> CODEC = RecordCodecBuilder.create(roomEncounterInstance ->
             roomEncounterInstance.group(
@@ -43,12 +44,13 @@ public class RoomEncounter extends JsonRegistryObject {
                 Codec.INT.optionalFieldOf("spawn_points", DEFAULT_SPAWN_POINTS).forGetter(RoomEncounter::getSpawnPoints),
                 Codec.INT.optionalFieldOf("level", DYNAMIC_LEVEL).forGetter(RoomEncounter::getLevel),
                 ResourceLocation.CODEC.listOf().optionalFieldOf("requires", List.of()).forGetter(RoomEncounter::getRequires),
-                ResourceLocation.CODEC.optionalFieldOf("grants").forGetter(o -> Optional.ofNullable(o.grants))
+                ResourceLocation.CODEC.optionalFieldOf("grants").forGetter(o -> Optional.ofNullable(o.grants)),
+                Codec.STRING.optionalFieldOf("info").forGetter(o -> Optional.ofNullable(o.info))
             ).apply(roomEncounterInstance, RoomEncounter::new)
     );
 
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-    private RoomEncounter(Encounter encounter, List<ItemStack> rewards, Optional<Holder<SoundEvent>> music, int experience, int lux, int arenaRadius, int spawnPoints, int level, List<ResourceLocation> requires, Optional<ResourceLocation> grants) {
+    private RoomEncounter(Encounter encounter, List<ItemStack> rewards, Optional<Holder<SoundEvent>> music, int experience, int lux, int arenaRadius, int spawnPoints, int level, List<ResourceLocation> requires, Optional<ResourceLocation> grants, Optional<String> info) {
         this.encounter = encounter;
         this.rewards = rewards;
         this.music = music.orElse(null);
@@ -59,6 +61,7 @@ public class RoomEncounter extends JsonRegistryObject {
         this.level = Math.max(DYNAMIC_LEVEL, level);
         this.requires = requires;
         this.grants = grants.orElse(null);
+        this.info = info.orElse(null);
     }
 
     public Encounter getEncounter() {
@@ -112,6 +115,13 @@ public class RoomEncounter extends JsonRegistryObject {
 
     public boolean canStart(PlayerData player) {
         return player != null && player.hasFlags(requires);
+    }
+
+    /**
+    * Information plaque text at top-left
+    * */
+    public Optional<String> getInfo() {
+        return Optional.ofNullable(info);
     }
 
     public String getTranslationKey() {

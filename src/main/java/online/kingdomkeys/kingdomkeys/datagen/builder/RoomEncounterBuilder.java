@@ -51,6 +51,12 @@ public class RoomEncounterBuilder extends BuilderBase {
         return this;
     }
 
+    /** What the information plaque says when it starts. */
+    public RoomEncounterBuilder info(String translationKey) {
+        root.addProperty("info", translationKey);
+        return this;
+    }
+
     public RoomEncounterBuilder music(SoundEvent music) {
         root.addProperty("music", music.getLocation().toString());
         return this;

@@ -89,6 +89,11 @@
       "kingdomkeys:hp_orb"
     ]
   },
+  "information": {
+    "sounds": [
+      "kingdomkeys:information"
+    ]
+  },
   "invincible_hit": {
     "sounds": [
       "kingdomkeys:invincible_hit"

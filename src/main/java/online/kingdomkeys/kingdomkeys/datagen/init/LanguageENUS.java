@@ -329,6 +329,9 @@ public class LanguageENUS extends KKLanguageProvider {
         add("kingdomkeys.dialogue.foreteller.answer.back", "Let me think about it...");
         add(Gui_Level_Dynamic, "Your level");
         add(Gui_Training_Reward, "%s EXP, %s Lux");
+        add("kingdomkeys.information.title", "INFORMATION");
+        add("kingdomkeys.information.training", "Defeat all the orbs");
+        add("kingdomkeys.information.duel", "Defeat your master");
         add(Training_Won, "Well done");
         add(Training_Won_Sub, "That is enough for today");
         add(Training_Lost, "Enough");

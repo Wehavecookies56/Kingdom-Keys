@@ -129,6 +129,7 @@ public class ClientSetup {
 		event.registerBelow(VanillaGuiLayers.TITLE, KingdomKeys.rl("station_of_awakening_messages"), SoAMessages.INSTANCE);
 		event.registerBelow(VanillaGuiLayers.CHAT, KingdomKeys.rl("castle_oblivion_minimap"), COMinimap.INSTANCE);
 		event.registerAbove(VanillaGuiLayers.CHAT, KingdomKeys.rl("item_get"), ItemGetGui.INSTANCE);
+		event.registerAbove(VanillaGuiLayers.CHAT, KingdomKeys.rl("information"), InformationGui.INSTANCE);
 	}
 
 	@SubscribeEvent
@@ -244,6 +245,7 @@ public class ClientSetup {
 		NeoForge.EVENT_BUS.register(DriveGui.INSTANCE);
 		NeoForge.EVENT_BUS.register(new InputHandler());
 		NeoForge.EVENT_BUS.register(SoAMessages.INSTANCE);
+		NeoForge.EVENT_BUS.register(InformationGui.INSTANCE);
 		NeoForge.EVENT_BUS.register(ShotlockMinigameGui.INSTANCE);
 		NeoForge.EVENT_BUS.register(new WorldMapRenderer());
 		NeoForge.EVENT_BUS.register(new CameraFrame());

@@ -50,6 +50,7 @@ import online.kingdomkeys.kingdomkeys.client.gui.DialogueScreen;
 import online.kingdomkeys.kingdomkeys.client.gui.synthesis.ShopScreen;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.ForetellerShop;
 import online.kingdomkeys.kingdomkeys.network.stc.SCOpenDialogue;
+import online.kingdomkeys.kingdomkeys.client.gui.overlay.InformationGui;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
@@ -128,6 +129,10 @@ public class ClientPacketHandler {
 
     public static void openDialogue(SCOpenDialogue message) {
         Minecraft.getInstance().setScreen(new DialogueScreen(message.speaker(), message.lines(), message.answers()));
+    }
+
+    public static void showInformation(SCShowInformation message) {
+        InformationGui.show(message.key());
     }
 
     public static void openUnion(SCOpenUnionScreen message) {

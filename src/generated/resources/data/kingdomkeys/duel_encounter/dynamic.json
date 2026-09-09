@@ -13,6 +13,7 @@
   },
   "experience": 700,
   "grants": "kingdomkeys:duel/dynamic",
+  "info": "kingdomkeys.information.duel",
   "lux": 400,
   "requires": [
     "kingdomkeys:duel/hard"

@@ -514,6 +514,7 @@ public class Strings {
             Training_Won_Sub = "kingdomkeys.training.won.sub",
             Training_Lost = "kingdomkeys.training.lost",
             Training_Left = "kingdomkeys.training.left",
+            Information_Title = "kingdomkeys.information.title",
             Gui_Menu_Main_Hearts = Gui_Menu_Main + ".hearts",
             Gui_Menu_Main_Time = Gui_Menu_Main + ".time",
             Gui_Menu_Main_Time_Spent = Gui_Menu_Main_Time + ".spent",

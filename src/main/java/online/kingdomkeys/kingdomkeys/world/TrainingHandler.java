@@ -23,6 +23,7 @@ import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.roo
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.modifiers.RoomModifierType;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
+import online.kingdomkeys.kingdomkeys.network.stc.SCShowInformation;
 import online.kingdomkeys.kingdomkeys.network.stc.SCShowMessagesPacket;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
 import online.kingdomkeys.kingdomkeys.util.Utils;
@@ -206,6 +207,9 @@ public class TrainingHandler {
         arena.instance = instance;
 
         LESSONS.put(pupil.getUUID(), new Lesson(encounter, arena, instance));
+
+        // The plaque, the way a mission announces itself
+        encounter.getInfo().ifPresent(key -> PacketHandler.sendTo(new SCShowInformation(key), pupil));
 
         instance.start(arena, pupil.serverLevel());
         return true;

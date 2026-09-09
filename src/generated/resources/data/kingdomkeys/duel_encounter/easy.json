@@ -13,6 +13,7 @@
   },
   "experience": 200,
   "grants": "kingdomkeys:duel/easy",
+  "info": "kingdomkeys.information.duel",
   "level": 5,
   "lux": 100,
   "rewards": [],

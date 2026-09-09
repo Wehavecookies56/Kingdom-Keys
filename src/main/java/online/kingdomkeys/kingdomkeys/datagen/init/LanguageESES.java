@@ -379,6 +379,9 @@ public class LanguageESES extends KKLanguageProvider {
         add("kingdomkeys.dialogue.foreteller.answer.back", "Déjame pensarlo...");
         add(Gui_Level_Dynamic, "Tu nivel");
         add(Gui_Training_Reward, "%s EXP, %s Lux");
+        add("kingdomkeys.information.title", "INFORMACIÓN");
+        add("kingdomkeys.information.training", "Acaba con todos los orbes");
+        add("kingdomkeys.information.duel", "Derrota a tu maestro");
         add(Training_Won, "Bien hecho");
         add(Training_Won_Sub, "Por hoy es suficiente");
         add(Training_Lost, "Basta");

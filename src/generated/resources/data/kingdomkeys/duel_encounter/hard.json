@@ -13,6 +13,7 @@
   },
   "experience": 1200,
   "grants": "kingdomkeys:duel/hard",
+  "info": "kingdomkeys.information.duel",
   "level": 75,
   "lux": 700,
   "requires": [

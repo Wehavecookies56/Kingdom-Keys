@@ -28,6 +28,7 @@ public class Sounds extends SoundDefinitionsProvider {
         add(revert);
         add(driveUp);
         add(error);
+        add(information);
         add(hp_orb);
         add(itemget);
         add(kupo);

@@ -46,6 +46,7 @@ public class PacketHandler {
 		client(SCRecalculateEyeHeight.TYPE, SCRecalculateEyeHeight.STREAM_CODEC);
 		client(SCShowMessagesPacket.TYPE, SCShowMessagesPacket.STREAM_CODEC);
 		client(SCShowOrgPortalGUI.TYPE, SCShowOrgPortalGUI.STREAM_CODEC);
+		client(SCShowInformation.TYPE, SCShowInformation.STREAM_CODEC);
 		client(SCShowOverlayPacket.TYPE, SCShowOverlayPacket.STREAM_CODEC);
 		client(SCSyncCastleOblivionInteriorData.TYPE, SCSyncCastleOblivionInteriorData.STREAM_CODEC);
 		client(SCSyncDimensionLists.TYPE, SCSyncDimensionLists.STREAM_CODEC);

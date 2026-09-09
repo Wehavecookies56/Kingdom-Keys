@@ -51,6 +51,6 @@ public class DuelEncountersGen extends BaseProvider<RoomEncounterBuilder> {
                 false
         );
 
-        return addBuilder(new RoomEncounterBuilder(getLocation(path), encounter));
+        return addBuilder(new RoomEncounterBuilder(getLocation(path), encounter)).info(KingdomKeys.MODID + ".information.duel");
     }
 }

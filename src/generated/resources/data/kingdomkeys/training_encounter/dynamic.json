@@ -43,6 +43,7 @@
   },
   "experience": 400,
   "grants": "kingdomkeys:training/dynamic",
+  "info": "kingdomkeys.information.training",
   "lux": 220,
   "requires": [
     "kingdomkeys:training/hard"

@@ -2,10 +2,10 @@ package online.kingdomkeys.kingdomkeys.client.gui.overlay;
 
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.resources.language.I18n;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
+import online.kingdomkeys.kingdomkeys.client.ClientUtils;
 import online.kingdomkeys.kingdomkeys.client.render.WorldMapRenderer;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.entity.GummiShipEntity;
@@ -163,24 +163,7 @@ public class WorldMarkerHUD extends OverlayBase {
 	}
 
 	private static String nameOf(GummiWorld world) {
-		String path = world.dimension().location().getPath();
-		String key = "kingdomkeys.worldmap.world." + path;
-
-		if (I18n.exists(key)) {
-			return I18n.get(key);
-		}
-
-		StringBuilder name = new StringBuilder();
-		for (String word : path.split("_")) {
-			if (word.isEmpty()) {
-				continue;
-			}
-			if (!name.isEmpty()) {
-				name.append(' ');
-			}
-			name.append(Character.toUpperCase(word.charAt(0))).append(word.substring(1));
-		}
-		return name.toString();
+		return ClientUtils.worldName(world.dimension().location());
 	}
 
 	private static String distanceOf(double distance) {

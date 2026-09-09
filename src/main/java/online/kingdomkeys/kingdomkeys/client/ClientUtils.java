@@ -24,6 +24,7 @@ import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlas;
+import net.minecraft.client.resources.language.I18n;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.metadata.gui.GuiSpriteScaling;
 import net.minecraft.client.resources.model.BakedModel;
@@ -59,6 +60,8 @@ import online.kingdomkeys.kingdomkeys.api.item.ItemCategory;
 import online.kingdomkeys.kingdomkeys.client.gui.elements.HUD.*;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
+import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
+import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.entity.mob.BaseKHEntity;
 import online.kingdomkeys.kingdomkeys.handler.ClientEvents;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
@@ -1423,7 +1426,7 @@ public class ClientUtils {
     private static void blitNineSliceInnerSegment(GuiGraphics guiGraphics, BufferBuilder bufferBuilder, TextureAtlasSprite sprite, int x, int y, int width, int height, int uPosition, int vPosition, int spriteWidth, int spriteHeight, int nineSliceWidth, int nineSliceHeight, int blitOffset, boolean innerStretch) {
         if (width > 0 && height > 0) {
             if (innerStretch) {
-                innerBlit(guiGraphics, bufferBuilder, sprite.atlasLocation(), x, x + width, y, y + height, sprite.getU((float)uPosition / (float)nineSliceWidth), sprite.getU((float)(uPosition + spriteWidth) / (float)nineSliceWidth), sprite.getV((float)vPosition / (float)nineSliceHeight), sprite.getV((float)(vPosition + spriteHeight) / (float)nineSliceHeight), blitOffset);
+                innerBlit(guiGraphics, bufferBuilder, x, x + width, y, y + height, sprite.getU((float)uPosition / (float)nineSliceWidth), sprite.getU((float)(uPosition + spriteWidth) / (float)nineSliceWidth), sprite.getV((float)vPosition / (float)nineSliceHeight), sprite.getV((float)(vPosition + spriteHeight) / (float)nineSliceHeight), blitOffset);
             } else {
                 blitTiledSprite(guiGraphics, bufferBuilder, sprite, x, y, width, height, uPosition, vPosition, spriteWidth, spriteHeight, nineSliceWidth, nineSliceHeight, blitOffset);
             }
@@ -1451,14 +1454,14 @@ public class ClientUtils {
 
     private static void blitSprite(GuiGraphics guiGraphics, BufferBuilder bufferBuilder, TextureAtlasSprite sprite, int x, int y, int width, int height, int blitOffset) {
         if (width != 0 && height != 0) {
-            innerBlit(guiGraphics, bufferBuilder, sprite.atlasLocation(), x, x + width, y, y + height, sprite.getU0(), sprite.getU1(), sprite.getV0(), sprite.getV1(), blitOffset);
+            innerBlit(guiGraphics, bufferBuilder, x, x + width, y, y + height, sprite.getU0(), sprite.getU1(), sprite.getV0(), sprite.getV1(), blitOffset);
         }
 
     }
 
     private static void blitSprite(GuiGraphics guiGraphics, BufferBuilder bufferBuilder, TextureAtlasSprite sprite, int textureWidth, int textureHeight, int uPosition, int vPosition, int x, int y, int uWidth, int vHeight, int blitOffset) {
         if (uWidth != 0 && vHeight != 0) {
-            innerBlit(guiGraphics, bufferBuilder, sprite.atlasLocation(), x, x + uWidth, y, y + vHeight, sprite.getU((float)uPosition / (float)textureWidth), sprite.getU((float)(uPosition + uWidth) / (float)textureWidth), sprite.getV((float)vPosition / (float)textureHeight), sprite.getV((float)(vPosition + vHeight) / (float)textureHeight), blitOffset);
+            innerBlit(guiGraphics, bufferBuilder, x, x + uWidth, y, y + vHeight, sprite.getU((float)uPosition / (float)textureWidth), sprite.getU((float)(uPosition + uWidth) / (float)textureWidth), sprite.getV((float)vPosition / (float)textureHeight), sprite.getV((float)(vPosition + vHeight) / (float)textureHeight), blitOffset);
         }
 
     }
@@ -1489,7 +1492,83 @@ public class ClientUtils {
         return file;
     }
 
-    private static void innerBlit(GuiGraphics guiGraphics, BufferBuilder bufferBuilder, ResourceLocation atlasLocation, int x1, int x2, int y1, int y2, float minU, float maxU, float minV, float maxV, int blitOffset) {
+    /**
+     * Swaps the placeholders in a line of text for what they stand for right now: {player}, {union},
+     * {level}, {world}, {munny}, {lux}, {hearts}, {hp}, {maxhp}, {mp}, {maxmp}, {keyblade}, {drive}.
+     */
+    public static String fillTokens(String text) {
+        if (text == null || text.indexOf('{') < 0) {
+            return text;
+        }
+
+        Player player = Minecraft.getInstance().player;
+
+        if (player == null) {
+            return text;
+        }
+
+        text = text.replace("{player}", player.getName().getString());
+        text = text.replace("{hp}", String.valueOf(Mth.ceil(player.getHealth())));
+
+        PlayerData playerData = PlayerData.get(player);
+
+        if (playerData != null) {
+            text = text.replace("{union}", Component.translatable(playerData.getUnion().getTranslationKey()).getString());
+            text = text.replace("{level}", String.valueOf(playerData.getLevel()));
+
+            text = text.replace("{munny}", String.valueOf(playerData.getMunny()));
+            text = text.replace("{lux}", String.valueOf(playerData.getLux()));
+            text = text.replace("{hearts}", String.valueOf(playerData.getHearts()));
+
+            text = text.replace("{maxhp}", String.valueOf(playerData.getMaxHP()));
+            text = text.replace("{mp}", String.valueOf(Mth.ceil(playerData.getMP())));
+            text = text.replace("{maxmp}", String.valueOf(Mth.ceil(playerData.getMaxMP())));
+
+            text = text.replace("{keyblade}", playerData.getEquippedWeapon().getHoverName().getString());
+            text = text.replace("{drive}", driveFormName(playerData.getActiveDriveForm()));
+        }
+
+        if (Minecraft.getInstance().level != null) {
+            text = text.replace("{world}", worldName(Minecraft.getInstance().level.dimension().location()));
+        }
+
+        return text;
+    }
+
+    /** @return the form's name, or nothing at all when they are walking around as themselves */
+    private static String driveFormName(ResourceLocation form) {
+        DriveForm drive = form == null ? null : ModDriveForms.registry.get(form);
+        return drive == null ? "" : Component.translatable(drive.getTranslationKey()).getString();
+    }
+
+    /**
+     * What to call a world on screen: its own translation if somebody wrote one, otherwise the
+     * dimension path tidied up into words.
+     */
+    public static String worldName(ResourceLocation dimension) {
+        String path = dimension.getPath();
+        String key = "kingdomkeys.worldmap.world." + path;
+
+        if (I18n.exists(key)) {
+            return I18n.get(key);
+        }
+
+        StringBuilder name = new StringBuilder();
+
+        for (String word : path.split("_")) {
+            if (word.isEmpty()) {
+                continue;
+            }
+            if (!name.isEmpty()) {
+                name.append(' ');
+            }
+            name.append(Character.toUpperCase(word.charAt(0))).append(word.substring(1));
+        }
+
+        return name.toString();
+    }
+
+    private static void innerBlit(GuiGraphics guiGraphics, BufferBuilder bufferBuilder, int x1, int x2, int y1, int y2, float minU, float maxU, float minV, float maxV, int blitOffset) {
         Matrix4f matrix4f = guiGraphics.pose().last().pose();
         bufferBuilder.addVertex(matrix4f, (float)x1, (float)y1, (float)blitOffset).setUv(minU, minV);
         bufferBuilder.addVertex(matrix4f, (float)x1, (float)y2, (float)blitOffset).setUv(minU, maxV);
