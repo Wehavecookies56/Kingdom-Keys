@@ -1,0 +1,37 @@
+{
+  "nodes": {
+    "start": {
+      "answers": [
+        {
+          "do": [
+            {
+              "type": "kingdomkeys:start_encounter",
+              "duel": true,
+              "encounter": "kingdomkeys:spar/apprentice"
+            }
+          ],
+          "text": "kingdomkeys.dialogue.apprentice.answer.spar"
+        },
+        {
+          "do": [
+            {
+              "type": "kingdomkeys:close"
+            }
+          ],
+          "text": "kingdomkeys.dialogue.apprentice.answer.leave"
+        }
+      ],
+      "lines": [
+        "kingdomkeys.dialogue.apprentice.greeting.1",
+        "kingdomkeys.dialogue.apprentice.greeting.2",
+        "kingdomkeys.dialogue.apprentice.greeting.3",
+        "kingdomkeys.dialogue.apprentice.greeting.4",
+        "kingdomkeys.dialogue.apprentice.greeting.5",
+        "kingdomkeys.dialogue.apprentice.greeting.6",
+        "kingdomkeys.dialogue.apprentice.greeting.7",
+        "kingdomkeys.dialogue.apprentice.greeting.8"
+      ],
+      "pick": true
+    }
+  }
+}

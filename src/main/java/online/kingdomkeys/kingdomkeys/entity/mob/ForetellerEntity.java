@@ -137,8 +137,27 @@ public class ForetellerEntity extends PathfinderMob {
         if (level().isClientSide || tickCount % DUEL_CHECK_INTERVAL != 0)
             return;
 
-        sparring = !level().getEntitiesOfClass(MasterDuelEntity.class, getBoundingBox().inflate(DUEL_WATCH_RANGE), copy -> copy.isAlive() && copy.getUnion() == getUnion()).isEmpty();
-        setInvisible(sparring);
+        boolean copyOut = !level().getEntitiesOfClass(MasterDuelEntity.class, getBoundingBox().inflate(DUEL_WATCH_RANGE), copy -> copy.isAlive() && copy.getUnion() == getUnion()).isEmpty();
+
+        if (copyOut == sparring)
+            return;
+
+        if (copyOut) {
+            standAside();
+        } else {
+            sparring = false;
+            setInvisible(false);
+            wearUnionRobes();
+        }
+    }
+
+    public void standAside() {
+        sparring = true;
+        setInvisible(true);
+
+        for (EquipmentSlot slot : EquipmentSlot.values()) {
+            setItemSlot(slot, ItemStack.EMPTY);
+        }
     }
 
     @Override
@@ -228,5 +247,9 @@ public class ForetellerEntity extends PathfinderMob {
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
         setUnion(Union.fromByte(tag.getByte("union")));
+
+        sparring = false;
+        setInvisible(false);
+        wearUnionRobes();
     }
 }

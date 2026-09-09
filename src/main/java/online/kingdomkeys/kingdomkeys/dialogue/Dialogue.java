@@ -2,6 +2,7 @@ package online.kingdomkeys.kingdomkeys.dialogue;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.util.RandomSource;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.JsonRegistryObject;
 
 import java.util.List;
@@ -35,13 +36,27 @@ public class Dialogue extends JsonRegistryObject {
         return nodes.get(name);
     }
 
-    public record Node(List<String> lines, List<Answer> answers) {
+    /**
+     * @param pick one of the lines at random instead of all of them in order, so a crowd of the same
+     *             kind of person does not greet you with the same sentence every time
+     */
+    public record Node(List<String> lines, boolean pick, List<Answer> answers) {
 
         public static final Codec<Node> CODEC = RecordCodecBuilder.create(instance -> instance.group(
                 Codec.STRING.listOf().fieldOf("lines").forGetter(Node::lines),
+                Codec.BOOL.optionalFieldOf("pick", false).forGetter(Node::pick),
                 Answer.CODEC.listOf().optionalFieldOf("answers", List.of()).forGetter(Node::answers)
             ).apply(instance, Node::new)
         );
+
+        /** What this node actually says this time round. */
+        public List<String> spoken(RandomSource random) {
+            if (!pick || lines.size() < 2) {
+                return lines;
+            }
+
+            return List.of(lines.get(random.nextInt(lines.size())));
+        }
     }
 
     public record Answer(String text, Optional<String> next, List<DialogueCondition> conditions, List<DialogueAction> actions) {

@@ -3,7 +3,8 @@
   * They are all equal to themselves, if a player joins Organization XIII they won't have access to their Union privileges.
   * Foretellers will be able to train you, either by summoning rounds of enemies or by sparring with them.
   * Lux is used to claim rewards from the Foretellers. Foretellers from other unions will charge you extra Lux for theirs.
-* Daybreak Town.
+* Daybreak Town, full of keyblade wielders who you can spar with.
+* Physics for Starlight keychain.
 * World Markers in the Ocean Between, rendered while you're in a gummi ship.
 * Lux when defeating enemies and training with your Foreteller.
 * Orb of Light and it's shaded variant as enemies, not spawning on their own, only used by the foretellers as training to their pupils.
@@ -42,6 +43,7 @@
 * Selling using the old item get sound.
 * Gula's hat not having a back texture.
 * Aligned moogle level to the right of the synthesis screen.
+* Keychain physics not being isolated per player.
 * Interpolated the glove movement in selected button.
 * Some localization issues.
 * Removed a couple of warnings when loading the mod.

@@ -332,6 +332,18 @@ public class LanguageENUS extends KKLanguageProvider {
         add("kingdomkeys.information.title", "INFORMATION");
         add("kingdomkeys.information.training", "Defeat all the orbs");
         add("kingdomkeys.information.duel", "Defeat your master");
+        add("kingdomkeys.information.spar", "Win the spar");
+
+        add("kingdomkeys.dialogue.apprentice.greeting.1", "Careful with that thing, you nearly took my arm off.");
+        add("kingdomkeys.dialogue.apprentice.greeting.2", "They say the Foretellers watch every one of us. Do you believe that?");
+        add("kingdomkeys.dialogue.apprentice.greeting.3", "I have been out here since dawn and I have collected barely any Lux.");
+        add("kingdomkeys.dialogue.apprentice.greeting.4", "My union keeps telling me to train. My legs keep telling me otherwise.");
+        add("kingdomkeys.dialogue.apprentice.greeting.5", "You are the one everybody talks about, are you not?");
+        add("kingdomkeys.dialogue.apprentice.greeting.6", "The clock tower is the best spot in town. Do not tell anyone I said so.");
+        add("kingdomkeys.dialogue.apprentice.greeting.7", "One day I will carry a strong keyblade like the masters do. One day.");
+        add("kingdomkeys.dialogue.apprentice.greeting.8", "Heartless in the outskirts again. Somebody should do something about that.");
+        add("kingdomkeys.dialogue.apprentice.answer.spar", "Wanna spar?");
+        add("kingdomkeys.dialogue.apprentice.answer.leave", "See you around.");
         add(Training_Won, "Well done");
         add(Training_Won_Sub, "That is enough for today");
         add(Training_Lost, "Enough");
@@ -2388,6 +2400,8 @@ public class LanguageENUS extends KKLanguageProvider {
         addEntityType(ModEntities.TYPE_TRAINING_DUMMY, "Training Scarecrow");
         addEntityType(ModEntities.TYPE_MAGIC_TARGET, "Magic Target");
         addEntityType(ModEntities.TYPE_MASTER_DUEL, "Master");
+        addEntityType(ModEntities.TYPE_APPRENTICE, "Apprentice");
+        addEntityType(ModEntities.TYPE_APPRENTICE_DUEL, "Apprentice");
         add("kingdomkeys.entity.master_duel", "Master %s");
         add("kingdomkeys.foreteller.ira", "Ira");
         add("kingdomkeys.foreteller.gula", "Gula");

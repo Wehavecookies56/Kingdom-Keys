@@ -153,6 +153,7 @@ public class ModEntities {
     public static final Supplier<Item> MOOGLE_EGG = ModItems.ITEMS.register("moogle_spawn_egg", () -> new DeferredSpawnEggItem(TYPE_MOOGLE, 0xDACAB0, 0xC50033, PROPERTIES));
 
     public static final DeferredHolder<EntityType<?>, EntityType<ForetellerEntity>> TYPE_FORETELLER = createEntityType(ForetellerEntity::new, MobCategory.MISC, "foreteller", 0.6F, 1.95F);
+    public static final DeferredHolder<EntityType<?>, EntityType<ApprenticeEntity>> TYPE_APPRENTICE = createEntityType(ApprenticeEntity::new, MobCategory.MISC, "apprentice", 0.6F, 1.95F);
 
     public static final DeferredHolder<EntityType<?>, EntityType<ShadowEntity>> TYPE_SHADOW = createEntityType(ShadowEntity::new, MobCategory.MONSTER, "shadow", 0.5F, 0.7F);
     public static final Supplier<Item> SHADOW_EGG = ModItems.ITEMS.register("shadow_spawn_egg", () -> new DeferredSpawnEggItem(TYPE_SHADOW, 0x000000, 0xFFFF00, PROPERTIES));
@@ -245,6 +246,8 @@ public class ModEntities {
 
     //The master a pupil spars against
     public static final DeferredHolder<EntityType<?>, EntityType<MasterDuelEntity>> TYPE_MASTER_DUEL = createEntityType(MasterDuelEntity::new, MobCategory.MONSTER, "master_duel", 0.6F, 1.95F);
+
+    public static final DeferredHolder<EntityType<?>, EntityType<ApprenticeDuelEntity>> TYPE_APPRENTICE_DUEL = createEntityType(ApprenticeDuelEntity::new, MobCategory.MONSTER, "apprentice_duel", 0.6F, 1.95F);
 
     //Training orbs. Summoned for a lesson, never found in the wild, so no spawn placement for either
     public static final DeferredHolder<EntityType<?>, EntityType<LightTrainingOrbEntity>> TYPE_LIGHT_TRAINING_ORB = createEntityType(LightTrainingOrbEntity::new, MobCategory.MONSTER, "light_training_orb", 0.8F, 0.8F);
@@ -416,6 +419,7 @@ public class ModEntities {
         
         event.registerEntityRenderer(TYPE_MOOGLE.get(), MoogleRenderer::new);
         event.registerEntityRenderer(TYPE_FORETELLER.get(), ForetellerRenderer::new);
+        event.registerEntityRenderer(TYPE_APPRENTICE.get(), ApprenticeRenderer::new);
         event.registerEntityRenderer(TYPE_SHADOW.get(), ShadowRenderer::new);
         event.registerEntityRenderer(TYPE_MEGA_SHADOW.get(), ShadowRenderer::new);
         event.registerEntityRenderer(TYPE_GIGA_SHADOW.get(), ShadowRenderer::new);
@@ -501,7 +505,8 @@ public class ModEntities {
         event.registerEntityRenderer(TYPE_GUMMI_SHOT.get(), GummiShotEntityRender::new);
         event.registerEntityRenderer(TYPE_GUMMI_IMPACT.get(), GummiImpactEntityRender::new);
 
-        event.registerEntityRenderer(TYPE_MASTER_DUEL.get(), MasterDuelRenderer::new);
+        event.registerEntityRenderer(TYPE_MASTER_DUEL.get(), MasterDuelRenderer<MasterDuelEntity>::new);
+        event.registerEntityRenderer(TYPE_APPRENTICE_DUEL.get(), MasterDuelRenderer<ApprenticeDuelEntity>::new);
         event.registerEntityRenderer(TYPE_LIGHT_TRAINING_ORB.get(), context -> new TrainingOrbRenderer<LightTrainingOrbEntity>(context, KingdomKeys.rl("textures/entity/mob/light_training_orb.png"), false));
         event.registerEntityRenderer(TYPE_DARK_TRAINING_ORB.get(), context -> new TrainingOrbRenderer<DarkTrainingOrbEntity>(context, KingdomKeys.rl("textures/entity/mob/dark_training_orb.png"), true));
         event.registerEntityRenderer(TYPE_MARLUXIA.get(), MarluxiaRenderer::new);
@@ -593,6 +598,7 @@ public class ModEntities {
         event.put(TYPE_MINUTE_BOMB.get(), MinuteBombEntity.registerAttributes().build());
         event.put(TYPE_MOOGLE.get(), MoogleEntity.registerAttributes().build());
         event.put(TYPE_FORETELLER.get(), ForetellerEntity.registerAttributes().build());
+        event.put(TYPE_APPRENTICE.get(), ApprenticeEntity.registerAttributes().build());
         event.put(TYPE_NOBODY_CREEPER.get(), NobodyCreeperEntity.registerAttributes().build());
         event.put(TYPE_RED_NOCTURNE.get(), RedNocturneEntity.registerAttributes().build());
         event.put(TYPE_SHADOW.get(), ShadowEntity.registerAttributes().build());
@@ -619,6 +625,7 @@ public class ModEntities {
         event.put(TYPE_SPAWNING_ORB.get(), SpawningOrbEntity.registerAttributes().build());
         
         event.put(TYPE_MASTER_DUEL.get(), MasterDuelEntity.registerAttributes().build());
+        event.put(TYPE_APPRENTICE_DUEL.get(), MasterDuelEntity.registerAttributes().build());
         event.put(TYPE_LIGHT_TRAINING_ORB.get(), LightTrainingOrbEntity.registerAttributes().build());
         event.put(TYPE_DARK_TRAINING_ORB.get(), DarkTrainingOrbEntity.registerAttributes().build());
         event.put(TYPE_MARLUXIA.get(), MarluxiaEntity.registerAttributes().build());

@@ -16,6 +16,8 @@ import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
 import online.kingdomkeys.kingdomkeys.encounter.EncounterContext;
 import online.kingdomkeys.kingdomkeys.encounter.EncounterInstance;
 import online.kingdomkeys.kingdomkeys.encounter.RoomEncounter;
+import online.kingdomkeys.kingdomkeys.entity.mob.ApprenticeDuelEntity;
+import online.kingdomkeys.kingdomkeys.entity.mob.ApprenticeEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.ForetellerEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.MasterDuelEntity;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.room.Room;
@@ -44,7 +46,7 @@ public class TrainingHandler {
     }
 
     private static class Arena implements EncounterContext {
-        private final ForetellerEntity master;
+        private final LivingEntity master;
         private final UUID pupil;
         private final int radius;
         private final int points;
@@ -55,12 +57,18 @@ public class TrainingHandler {
 
         private final List<LivingEntity> spawned = new ArrayList<>();
 
-        Arena(ForetellerEntity master, Player pupil, int radius, int points, int level) {
+        Arena(LivingEntity master, Player pupil, int radius, int points, int level) {
             this.master = master;
             this.pupil = pupil.getUUID();
             this.radius = radius;
             this.points = points;
             this.level = level;
+        }
+
+        void stepInto(LivingEntity copy) {
+            copy.moveTo(master.getX(), master.getY(), master.getZ(), master.getYRot(), master.getXRot());
+            copy.setYHeadRot(master.getYHeadRot());
+            copy.setYBodyRot(master.getYRot());
         }
 
         void removeSpawned() {
@@ -165,13 +173,21 @@ public class TrainingHandler {
 
         @Override
         public void onSpawn(LivingEntity entity) {
-            if (entity instanceof MasterDuelEntity master) {
-                master.setUnion(this.master.getUnion());
-                master.setDuelLevel(getBaseLevel());
+            if (entity instanceof MasterDuelEntity copy) {
+                if (this.master instanceof ForetellerEntity foreteller) {
+                    copy.setUnion(foreteller.getUnion());
+                }
+
+                if (copy instanceof ApprenticeDuelEntity apprenticeCopy && this.master instanceof ApprenticeEntity apprentice) {
+                    apprenticeCopy.setOwner(apprentice);
+                    apprenticeCopy.setUnion(apprentice.getUnion());
+                }
+
+                copy.setDuelLevel(getBaseLevel());
 
                 Player player = this.master.level().getPlayerByUUID(pupil);
                 if (player != null) {
-                    master.setDuelist(player);
+                    copy.setDuelist(player);
                 }
             }
 
@@ -193,7 +209,7 @@ public class TrainingHandler {
         return null;
     }
 
-    public static boolean start(ServerPlayer pupil, ForetellerEntity master, RoomEncounter encounter) {
+    public static boolean start(ServerPlayer pupil, LivingEntity master, RoomEncounter encounter) {
         if (encounter == null || LESSONS.containsKey(pupil.getUUID())) {
             return false;
         }
@@ -202,7 +218,9 @@ public class TrainingHandler {
             return false;
         }
 
-        Arena arena = new Arena(master, pupil, encounter.getArenaRadius(), encounter.getSpawnPoints(), encounter.getLevel());
+        int level = master instanceof ApprenticeEntity apprentice ? apprentice.getApprenticeLevel() : encounter.getLevel();
+
+        Arena arena = new Arena(master, pupil, encounter.getArenaRadius(), encounter.getSpawnPoints(), level);
         EncounterInstance instance = encounter.getEncounter().type().createInstance(encounter);
         arena.instance = instance;
 
@@ -212,6 +230,21 @@ public class TrainingHandler {
         encounter.getInfo().ifPresent(key -> PacketHandler.sendTo(new SCShowInformation(key), pupil));
 
         instance.start(arena, pupil.serverLevel());
+
+        // An arena with no radius means the fight happens on the spot, so whatever the wave spawned
+        // takes over the place of the one who set it instead of appearing next to them
+        if (encounter.getArenaRadius() == 0) {
+            arena.spawned.forEach(arena::stepInto);
+
+            // And they stand aside now rather than on their next check, a second later, which with
+            // the copy in the same spot would be a second of the two of them inside each other
+            if (master instanceof ApprenticeEntity apprentice) {
+                apprentice.standAside();
+            } else if (master instanceof ForetellerEntity foreteller) {
+                foreteller.standAside();
+            }
+        }
+
         return true;
     }
 

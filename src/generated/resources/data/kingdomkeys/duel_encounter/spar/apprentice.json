@@ -6,16 +6,14 @@
     "waves": [
       {
         "spawns": [
-          "kingdomkeys:master_duel"
+          "kingdomkeys:apprentice_duel"
         ]
       }
     ]
   },
-  "experience": 200,
-  "grants": "kingdomkeys:duel/easy",
-  "info": "kingdomkeys.information.duel",
-  "level": 5,
-  "lux": 100,
+  "experience": 120,
+  "info": "kingdomkeys.information.spar",
+  "lux": 60,
   "rewards": [],
   "spawn_points": 1
 }

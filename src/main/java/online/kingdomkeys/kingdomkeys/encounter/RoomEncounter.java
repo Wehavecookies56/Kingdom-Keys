@@ -56,7 +56,8 @@ public class RoomEncounter extends JsonRegistryObject {
         this.music = music.orElse(null);
         this.experience = experience;
         this.lux = lux;
-        this.arenaRadius = Math.max(2, arenaRadius);
+        // Zero is a real answer: it means spawn on the spot rather than in a ring around it
+        this.arenaRadius = Math.max(0, arenaRadius);
         this.spawnPoints = Math.max(1, spawnPoints);
         this.level = Math.max(DYNAMIC_LEVEL, level);
         this.requires = requires;

@@ -61,7 +61,7 @@ public class DialogueHandler {
         speaker.lookAt(EntityAnchorArgument.Anchor.EYES, player.getEyePosition());
 
         List<Dialogue.Answer> offered = offered(node, player, speaker);
-        PacketHandler.sendTo(new SCOpenDialogue(speaker.getId(), node.lines(), offered.stream().map(Dialogue.Answer::text).toList()), player);
+        PacketHandler.sendTo(new SCOpenDialogue(speaker.getId(), node.spoken(player.getRandom()), offered.stream().map(Dialogue.Answer::text).toList()), player);
         return true;
     }
 

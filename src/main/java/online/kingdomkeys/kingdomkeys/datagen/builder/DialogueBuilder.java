@@ -44,6 +44,12 @@ public class DialogueBuilder extends BuilderBase {
             node.add("answers", answers);
         }
 
+        /** Says one of its lines at random rather than all of them in order. */
+        public NodeBuilder pick() {
+            node.addProperty("pick", true);
+            return this;
+        }
+
         public AnswerBuilder answer(String text) {
             return new AnswerBuilder(this, text);
         }

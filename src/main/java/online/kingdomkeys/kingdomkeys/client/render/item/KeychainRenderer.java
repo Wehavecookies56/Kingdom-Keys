@@ -11,13 +11,14 @@ import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
+import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix3f;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
@@ -126,6 +127,7 @@ public class KeychainRenderer extends BlockEntityWithoutLevelRenderer {
 		CUTS.put(KingdomKeys.rl(Strings.retribution), 0.2927F);
 		CUTS.put(KingdomKeys.rl(Strings.starCluster), 0.2787F);
 		CUTS.put(KingdomKeys.rl(Strings.starSeeker), 0.2450F);
+		CUTS.put(KingdomKeys.rl(Strings.starlight), 0.2962F);
 		CUTS.put(KingdomKeys.rl(Strings.stormfall), 0.2765F);
 		CUTS.put(KingdomKeys.rl(Strings.twoBecomeOne), 0.2603F);
 		CUTS.put(KingdomKeys.rl(Strings.ultimaWeaponBBS), 0.1781F);
@@ -195,16 +197,17 @@ public class KeychainRenderer extends BlockEntityWithoutLevelRenderer {
 		}
 
 		Vector3f target = new Vector3f(0.0F, -1.0F, 0.0F);
-		Player player = minecraft.player;
-		double vx = 0.0D, vy = 0.0D, vz = 0.0D;
 
-		if (player != null) {
+		// The entity being drawn, or the local player when nothing is: that is the first person hand
+		LivingEntity wielder = holder != null ? holder : minecraft.player;
+
+		if (wielder != null) {
 			// Trailing behind the holder is what sells the weight: set off and the chain is left behind, stop
 			// and it falls back under the hilt. Taken from the last tick of movement rather than from any
 			// stored velocity, so it needs nothing kept between frames
-			vx = player.getX() - player.xo;
-			vy = player.getY() - player.yo;
-			vz = player.getZ() - player.zo;
+			double vx = wielder.getX() - wielder.xo;
+			double vy = wielder.getY() - wielder.yo;
+			double vz = wielder.getZ() - wielder.zo;
 
 			target.add((float) (-vx * TRAIL), (float) (-vy * TRAIL), (float) (-vz * TRAIL));
 		}
@@ -227,6 +230,25 @@ public class KeychainRenderer extends BlockEntityWithoutLevelRenderer {
 		target.normalize();
 
 		return new Quaternionf().rotateTo(REST.x(), REST.y(), REST.z(), target.x(), target.y(), target.z());
+	}
+
+	/**
+	 * Whoever is being drawn while this renderer runs.
+	 * <p>
+	 * The item renderer is handed a stack and a display context and nothing about who is holding it, so without
+	 * this every chain in sight read the local player's movement: walking made the chains of every apprentice
+	 * in the street swing along with yours. Set around the entity render, and left null for the first person
+	 * hand, where the holder is the local player anyway.
+	 */
+	@Nullable
+	private static LivingEntity holder;
+
+	public static void drawing(LivingEntity entity) {
+		holder = entity;
+	}
+
+	public static void drawn() {
+		holder = null;
 	}
 
 	/** Drops the split halves so a resource reload takes them apart again from the new models */

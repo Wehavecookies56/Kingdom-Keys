@@ -8,18 +8,19 @@ import net.minecraft.client.renderer.entity.layers.HumanoidArmorLayer;
 import net.minecraft.resources.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.client.model.entity.ForetellerModel;
-import online.kingdomkeys.kingdomkeys.entity.mob.MasterDuelEntity;
+import online.kingdomkeys.kingdomkeys.entity.mob.ApprenticeEntity;
 
-public class MasterDuelRenderer<T extends MasterDuelEntity> extends HumanoidMobRenderer<T, ForetellerModel<T>> {
+public class ApprenticeRenderer extends HumanoidMobRenderer<ApprenticeEntity, ForetellerModel<ApprenticeEntity>> {
+
 	private static final ResourceLocation TEXTURE = KingdomKeys.rl("textures/entity/mob/foreteller.png");
 
-	public MasterDuelRenderer(EntityRendererProvider.Context context) {
+	public ApprenticeRenderer(EntityRendererProvider.Context context) {
 		super(context, new ForetellerModel<>(context.bakeLayer(ForetellerModel.LAYER_LOCATION)), 0.5F);
 		this.addLayer(new HumanoidArmorLayer<>(this, new HumanoidModel<>(context.bakeLayer(ModelLayers.PLAYER_INNER_ARMOR)), new HumanoidModel<>(context.bakeLayer(ModelLayers.PLAYER_OUTER_ARMOR)), context.getModelManager()));
 	}
 
 	@Override
-	public ResourceLocation getTextureLocation(T entity) {
+	public ResourceLocation getTextureLocation(ApprenticeEntity entity) {
 		return TEXTURE;
 	}
 }

@@ -79,13 +79,9 @@ public interface DialogueAction {
 
         @Override
         public void run(ServerPlayer player, LivingEntity speaker) {
-            if (!(speaker instanceof ForetellerEntity master)) {
-                return;
-            }
-
             RoomEncounter lesson = (duel ? ModJsonRegistries.DUEL_ENCOUNTER : ModJsonRegistries.TRAINING_ENCOUNTER).get().getValue(encounter);
             if (lesson != null) {
-                TrainingHandler.start(player, master, lesson);
+                TrainingHandler.start(player, speaker, lesson);
             }
         }
 

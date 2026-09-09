@@ -63,6 +63,7 @@ import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.block.gummi.GummiBlockBase;
 import online.kingdomkeys.kingdomkeys.block.gummi.GummiPlacementType;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
+import online.kingdomkeys.kingdomkeys.client.render.item.KeychainRenderer;
 import online.kingdomkeys.kingdomkeys.client.Reversal;
 import online.kingdomkeys.kingdomkeys.client.TrailRenderer;
 import online.kingdomkeys.kingdomkeys.client.gui.KOGui;
@@ -117,6 +118,15 @@ import java.util.ArrayList;
 import java.util.function.Supplier;
 
 public class ClientEvents {
+	@SubscribeEvent
+	public void onKeychainHolderPre(RenderLivingEvent.Pre<?, ?> event) {
+		KeychainRenderer.drawing(event.getEntity());
+	}
+
+	@SubscribeEvent
+	public void onKeychainHolderPost(RenderLivingEvent.Post<?, ?> event) {
+		KeychainRenderer.drawn();
+	}
 
 	@SubscribeEvent
 	public void onRenderBossDeath(RenderLivingEvent.Pre<?, ?> event) {

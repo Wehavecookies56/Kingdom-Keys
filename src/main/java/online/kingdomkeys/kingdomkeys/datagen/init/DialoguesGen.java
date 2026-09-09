@@ -21,6 +21,11 @@ public class DialoguesGen extends BaseProvider<DialogueBuilder> {
     /** The lesson that first fields dark orbs, and so the one the warning belongs to. */
     private static final String DARK_FROM = "medium";
 
+    /** How many things an apprentice might open with. */
+    private static final int SMALL_TALK = 8;
+
+    private static final ResourceLocation SPAR = KingdomKeys.rl("spar/apprentice");
+
     public DialoguesGen(DataGenerator generator) {
         super(generator, KingdomKeys.MODID, "dialogue");
     }
@@ -46,6 +51,23 @@ public class DialoguesGen extends BaseProvider<DialogueBuilder> {
                     .end()
                 .answer(KEY + "answer.notyet").goTo("lessons").end()
                 .end();
+
+        apprentice();
+    }
+
+    private void apprentice() {
+        String key = KingdomKeys.MODID + ".dialogue.apprentice.";
+
+        String[] smallTalk = new String[SMALL_TALK];
+        for (int i = 0; i < SMALL_TALK; i++) {
+            smallTalk[i] = key + "greeting." + (i + 1);
+        }
+
+        createDialogue("apprentice")
+                .node("start", smallTalk).pick()
+                    .answer(key + "answer.spar").then(new DialogueAction.StartEncounter(true, SPAR)).end()
+                    .answer(key + "answer.leave").then(new DialogueAction.Close()).end()
+                    .end();
     }
 
     /**

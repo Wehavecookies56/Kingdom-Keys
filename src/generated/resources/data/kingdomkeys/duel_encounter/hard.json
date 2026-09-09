@@ -1,5 +1,5 @@
 {
-  "arena_radius": 4,
+  "arena_radius": 0,
   "encounter": {
     "type": "kingdomkeys:wave",
     "interval_ticks": 60,
