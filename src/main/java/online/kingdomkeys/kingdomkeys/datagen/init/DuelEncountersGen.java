@@ -2,6 +2,7 @@ package online.kingdomkeys.kingdomkeys.datagen.init;
 
 import net.minecraft.core.Holder;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.datagen.builder.RoomEncounterBuilder;
@@ -14,6 +15,10 @@ public class DuelEncountersGen extends BaseProvider<RoomEncounterBuilder> {
 
     private static final int INTERVAL = 60;
 
+    public static ResourceLocation fought(String grade) {
+        return KingdomKeys.rl("duel/" + grade);
+    }
+
     private static final int ARENA_RADIUS = 4;
     private static final int SPAWN_POINTS = 1;
 
@@ -23,11 +28,11 @@ public class DuelEncountersGen extends BaseProvider<RoomEncounterBuilder> {
 
     @Override
     protected void build() {
-        createDuelEncounter("easy").payout(200, 100).arena(ARENA_RADIUS, SPAWN_POINTS).level(10);
-        createDuelEncounter("medium").payout(550, 300).arena(ARENA_RADIUS, SPAWN_POINTS).level(25);
-        createDuelEncounter("hard").payout(1200, 700).arena(ARENA_RADIUS, SPAWN_POINTS).level(60);
+        createDuelEncounter("easy").payout(200, 100).arena(ARENA_RADIUS, SPAWN_POINTS).level(5).grants(fought("easy"));
+        createDuelEncounter("medium").payout(550, 300).arena(ARENA_RADIUS, SPAWN_POINTS).level(30).requires(fought("easy")).grants(fought("medium"));
+        createDuelEncounter("hard").payout(1200, 700).arena(ARENA_RADIUS, SPAWN_POINTS).level(75).requires(fought("medium")).grants(fought("hard"));
 
-        createDuelEncounter("dynamic").payout(700, 400).arena(ARENA_RADIUS, SPAWN_POINTS);
+        createDuelEncounter("dynamic").payout(700, 400).arena(ARENA_RADIUS, SPAWN_POINTS).requires(fought("hard")).grants(fought("dynamic"));
     }
 
     private static Holder<EntityType<?>> master() {

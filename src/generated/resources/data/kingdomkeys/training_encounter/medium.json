@@ -41,8 +41,12 @@
     ]
   },
   "experience": 320,
+  "grants": "kingdomkeys:training/medium",
   "level": 25,
   "lux": 180,
+  "requires": [
+    "kingdomkeys:training/easy"
+  ],
   "rewards": [],
   "spawn_points": 8
 }

@@ -34,6 +34,7 @@
     ]
   },
   "experience": 120,
+  "grants": "kingdomkeys:training/easy",
   "level": 10,
   "lux": 60,
   "rewards": [],

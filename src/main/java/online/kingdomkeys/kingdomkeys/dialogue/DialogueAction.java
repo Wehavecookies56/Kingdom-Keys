@@ -12,6 +12,7 @@ import online.kingdomkeys.kingdomkeys.encounter.RoomEncounter;
 import online.kingdomkeys.kingdomkeys.entity.mob.ForetellerEntity;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.stc.SCOpenForetellerScreen;
+import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.world.TrainingHandler;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModJsonRegistries;
@@ -124,6 +125,38 @@ public interface DialogueAction {
         @Override
         public Type<GiveItem> type() {
             return ModDialogue.GIVE_ITEM.get();
+        }
+    }
+
+    record SetFlag(ResourceLocation flag, boolean set) implements DialogueAction {
+        public static final MapCodec<SetFlag> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+                ResourceLocation.CODEC.fieldOf("flag").forGetter(SetFlag::flag),
+                Codec.BOOL.optionalFieldOf("set", true).forGetter(SetFlag::set)
+            ).apply(instance, SetFlag::new)
+        );
+
+        @Override
+        public void run(ServerPlayer player, LivingEntity speaker) {
+            PlayerData data = PlayerData.get(player);
+            if (data == null) {
+                return;
+            }
+
+            boolean changed = set ? data.addFlag(flag) : data.removeFlag(flag);
+
+            if (changed) {
+                PacketHandler.sendTo(new SCSyncPlayerData(player), player);
+            }
+        }
+
+        @Override
+        public MapCodec<SetFlag> codec() {
+            return CODEC;
+        }
+
+        @Override
+        public Type<SetFlag> type() {
+            return ModDialogue.SET_FLAG.get();
         }
     }
 

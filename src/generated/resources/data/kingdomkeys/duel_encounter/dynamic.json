@@ -12,7 +12,11 @@
     ]
   },
   "experience": 700,
+  "grants": "kingdomkeys:duel/dynamic",
   "lux": 400,
+  "requires": [
+    "kingdomkeys:duel/hard"
+  ],
   "rewards": [],
   "spawn_points": 1
 }

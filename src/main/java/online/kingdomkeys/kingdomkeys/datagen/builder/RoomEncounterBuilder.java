@@ -33,6 +33,18 @@ public class RoomEncounterBuilder extends BuilderBase {
         return this;
     }
 
+    public RoomEncounterBuilder requires(ResourceLocation... flags) {
+        JsonArray needed = new JsonArray();
+        Arrays.stream(flags).forEach(flag -> needed.add(flag.toString()));
+        root.add("requires", needed);
+        return this;
+    }
+
+    public RoomEncounterBuilder grants(ResourceLocation flag) {
+        root.addProperty("grants", flag.toString());
+        return this;
+    }
+
     public RoomEncounterBuilder arena(int radius, int spawnPoints) {
         root.addProperty("arena_radius", radius);
         root.addProperty("spawn_points", spawnPoints);

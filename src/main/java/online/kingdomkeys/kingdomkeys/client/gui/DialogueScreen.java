@@ -5,7 +5,8 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.sounds.SoundSource;
+import net.minecraft.client.resources.sounds.SimpleSoundInstance;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.Vec3;
@@ -298,7 +299,7 @@ public class DialogueScreen extends Screen {
 	}
 
 	private void answer(int index) {
-		playSound(ModSounds.menu_in.get());
+		playSound(ModSounds.menu_select.get());
 		PacketHandler.sendToServer(new CSDialogueAnswer(index));
 
 		// The server decides what comes next: either another of these arrives or nothing does
@@ -310,11 +311,8 @@ public class DialogueScreen extends Screen {
 		Minecraft.getInstance().setScreen(null);
 	}
 
-	private void playSound(net.minecraft.sounds.SoundEvent sound) {
-		Minecraft mc = Minecraft.getInstance();
-		if (mc.level != null && mc.player != null) {
-			mc.level.playSound(mc.player, mc.player.blockPosition(), sound, SoundSource.MASTER, 1.0F, 1.0F);
-		}
+	private void playSound(SoundEvent sound) {
+		Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(sound, 1.0F, 1.0F));
 	}
 
 	@Override

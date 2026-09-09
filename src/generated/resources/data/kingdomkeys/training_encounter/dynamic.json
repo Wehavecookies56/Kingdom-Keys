@@ -42,7 +42,11 @@
     ]
   },
   "experience": 400,
+  "grants": "kingdomkeys:training/dynamic",
   "lux": 220,
+  "requires": [
+    "kingdomkeys:training/hard"
+  ],
   "rewards": [],
   "spawn_points": 10
 }

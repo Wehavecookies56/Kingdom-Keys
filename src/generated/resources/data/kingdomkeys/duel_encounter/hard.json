@@ -12,8 +12,12 @@
     ]
   },
   "experience": 1200,
-  "level": 60,
+  "grants": "kingdomkeys:duel/hard",
+  "level": 75,
   "lux": 700,
+  "requires": [
+    "kingdomkeys:duel/medium"
+  ],
   "rewards": [],
   "spawn_points": 1
 }

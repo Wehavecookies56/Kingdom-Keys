@@ -1,11 +1,43 @@
 {
   "nodes": {
+    "darkness": {
+      "answers": [
+        {
+          "do": [
+            {
+              "type": "kingdomkeys:set_flag",
+              "flag": "kingdomkeys:foreteller/warned_of_darkness"
+            },
+            {
+              "type": "kingdomkeys:start_encounter",
+              "encounter": "kingdomkeys:medium"
+            }
+          ],
+          "text": "kingdomkeys.dialogue.foreteller.answer.ready"
+        },
+        {
+          "goto": "lessons",
+          "text": "kingdomkeys.dialogue.foreteller.answer.notyet"
+        }
+      ],
+      "lines": [
+        "kingdomkeys.dialogue.foreteller.darkness.1",
+        "kingdomkeys.dialogue.foreteller.darkness.2"
+      ]
+    },
     "duels": {
       "answers": [
         {
           "do": [
             {
               "type": "kingdomkeys:start_encounter",
+              "duel": true,
+              "encounter": "kingdomkeys:easy"
+            }
+          ],
+          "if": [
+            {
+              "type": "kingdomkeys:can_start",
               "duel": true,
               "encounter": "kingdomkeys:easy"
             }
@@ -20,6 +52,13 @@
               "encounter": "kingdomkeys:medium"
             }
           ],
+          "if": [
+            {
+              "type": "kingdomkeys:can_start",
+              "duel": true,
+              "encounter": "kingdomkeys:medium"
+            }
+          ],
           "text": "kingdomkeys.encounter.medium"
         },
         {
@@ -30,12 +69,26 @@
               "encounter": "kingdomkeys:hard"
             }
           ],
+          "if": [
+            {
+              "type": "kingdomkeys:can_start",
+              "duel": true,
+              "encounter": "kingdomkeys:hard"
+            }
+          ],
           "text": "kingdomkeys.encounter.hard"
         },
         {
           "do": [
             {
               "type": "kingdomkeys:start_encounter",
+              "duel": true,
+              "encounter": "kingdomkeys:dynamic"
+            }
+          ],
+          "if": [
+            {
+              "type": "kingdomkeys:can_start",
               "duel": true,
               "encounter": "kingdomkeys:dynamic"
             }
@@ -60,13 +113,44 @@
               "encounter": "kingdomkeys:easy"
             }
           ],
+          "if": [
+            {
+              "type": "kingdomkeys:can_start",
+              "encounter": "kingdomkeys:easy"
+            }
+          ],
           "text": "kingdomkeys.encounter.easy"
+        },
+        {
+          "goto": "darkness",
+          "if": [
+            {
+              "type": "kingdomkeys:can_start",
+              "encounter": "kingdomkeys:medium"
+            },
+            {
+              "type": "kingdomkeys:flag",
+              "flag": "kingdomkeys:foreteller/warned_of_darkness",
+              "present": false
+            }
+          ],
+          "text": "kingdomkeys.encounter.medium"
         },
         {
           "do": [
             {
               "type": "kingdomkeys:start_encounter",
               "encounter": "kingdomkeys:medium"
+            }
+          ],
+          "if": [
+            {
+              "type": "kingdomkeys:can_start",
+              "encounter": "kingdomkeys:medium"
+            },
+            {
+              "type": "kingdomkeys:flag",
+              "flag": "kingdomkeys:foreteller/warned_of_darkness"
             }
           ],
           "text": "kingdomkeys.encounter.medium"
@@ -78,12 +162,24 @@
               "encounter": "kingdomkeys:hard"
             }
           ],
+          "if": [
+            {
+              "type": "kingdomkeys:can_start",
+              "encounter": "kingdomkeys:hard"
+            }
+          ],
           "text": "kingdomkeys.encounter.hard"
         },
         {
           "do": [
             {
               "type": "kingdomkeys:start_encounter",
+              "encounter": "kingdomkeys:dynamic"
+            }
+          ],
+          "if": [
+            {
+              "type": "kingdomkeys:can_start",
               "encounter": "kingdomkeys:dynamic"
             }
           ],

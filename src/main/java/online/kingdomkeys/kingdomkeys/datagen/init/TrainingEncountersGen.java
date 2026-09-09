@@ -1,6 +1,7 @@
 package online.kingdomkeys.kingdomkeys.datagen.init;
 
 import net.minecraft.data.DataGenerator;
+import net.minecraft.resources.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.datagen.builder.RoomEncounterBuilder;
 import online.kingdomkeys.kingdomkeys.datagen.provider.BaseProvider;
@@ -17,6 +18,10 @@ public class TrainingEncountersGen extends BaseProvider<RoomEncounterBuilder> {
         super(generator, KingdomKeys.MODID, "training_encounter");
     }
 
+    public static ResourceLocation trained(String grade) {
+        return KingdomKeys.rl("training/" + grade);
+    }
+
     private static final int EASY_LEVEL = 10;
     private static final int MEDIUM_LEVEL = 25;
     private static final int HARD_LEVEL = 60;
@@ -28,7 +33,7 @@ public class TrainingEncountersGen extends BaseProvider<RoomEncounterBuilder> {
                         .wave(light(), light(), light(), light()).end()
                         .wave(light(), light(), light(), light(), light()).end()
                         .wave(light(), light(), light(), light(), light(), light()).end()
-                        .build(), INTERVAL, false)).payout(120, 60).arena(7, 8).level(EASY_LEVEL);
+                        .build(), INTERVAL, false)).payout(120, 60).arena(7, 8).level(EASY_LEVEL).grants(trained("easy"));
 
         createTrainingEncounter("medium", new WaveEncounter(
                 new RoomEncountersGen.WaveBuilder()
@@ -36,7 +41,7 @@ public class TrainingEncountersGen extends BaseProvider<RoomEncounterBuilder> {
                         .wave(light(), light(), dark(), dark(), dark()).end()
                         .wave(light(), light(), dark(), light(), dark(), dark()).end()
                         .wave(dark(), dark(), dark()).end()
-                        .build(), INTERVAL, false)).payout(320, 180).arena(8, 8).level(MEDIUM_LEVEL);
+                        .build(), INTERVAL, false)).payout(320, 180).arena(8, 8).level(MEDIUM_LEVEL).requires(trained("easy")).grants(trained("medium"));
 
         createTrainingEncounter("hard", new WaveEncounter(
                 new RoomEncountersGen.WaveBuilder()
@@ -44,7 +49,7 @@ public class TrainingEncountersGen extends BaseProvider<RoomEncounterBuilder> {
                         .wave(dark(), dark(), dark(), dark(), dark()).end()
                         .wave(dark(), dark(), dark(), dark(), dark(), dark()).end()
                         .wave(dark(), dark(), dark(), dark(), dark(), dark(), dark()).end()
-                        .build(), INTERVAL, false)).payout(700, 400).arena(9, 10).level(HARD_LEVEL);
+                        .build(), INTERVAL, false)).payout(700, 400).arena(9, 10).level(HARD_LEVEL).requires(trained("medium")).grants(trained("hard"));
 
         createTrainingEncounter("dynamic", new WaveEncounter(
                 new RoomEncountersGen.WaveBuilder()
@@ -52,7 +57,7 @@ public class TrainingEncountersGen extends BaseProvider<RoomEncounterBuilder> {
                         .wave(light(), light(), dark(), dark()).end()
                         .wave(light(), dark(), dark(), dark(), dark()).end()
                         .wave(dark(), dark(), dark(), dark(), dark(), dark()).end()
-                        .build(), INTERVAL, false)).payout(400, 220).arena(8, 10);
+                        .build(), INTERVAL, false)).payout(400, 220).arena(8, 10).requires(trained("hard")).grants(trained("dynamic"));
     }
 
     private static Holder<EntityType<?>> light() {

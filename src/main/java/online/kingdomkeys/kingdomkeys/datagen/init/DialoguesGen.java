@@ -1,6 +1,7 @@
 package online.kingdomkeys.kingdomkeys.datagen.init;
 
 import net.minecraft.data.DataGenerator;
+import net.minecraft.resources.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.datagen.builder.DialogueBuilder;
 import online.kingdomkeys.kingdomkeys.datagen.provider.BaseProvider;
@@ -14,6 +15,12 @@ public class DialoguesGen extends BaseProvider<DialogueBuilder> {
 
     private static final String[] GRADES = { "easy", "medium", "hard", "dynamic" };
 
+    /** Set once he has explained why the orbs are about to start biting back. */
+    private static final ResourceLocation WARNED_OF_DARKNESS = KingdomKeys.rl("foreteller/warned_of_darkness");
+
+    /** The lesson that first fields dark orbs, and so the one the warning belongs to. */
+    private static final String DARK_FROM = "medium";
+
     public DialoguesGen(DataGenerator generator) {
         super(generator, KingdomKeys.MODID, "dialogue");
     }
@@ -22,26 +29,52 @@ public class DialoguesGen extends BaseProvider<DialogueBuilder> {
     protected void build() {
         DialogueBuilder foreteller = createDialogue("foreteller");
 
-        DialogueBuilder.NodeBuilder start = foreteller.node("start", KEY + "greeting")
+        foreteller.node("start", KEY + "greeting")
                 .answer(KEY + "answer.train").goTo("lessons").onlyIf(ownPupil()).end()
                 .answer(KEY + "answer.spar").goTo("duels").onlyIf(ownPupil()).end()
                 .answer(KEY + "answer.shop").then(new DialogueAction.OpenShop()).end()
-                .answer(KEY + "answer.leave").then(new DialogueAction.Close()).end();
-
-        start.end();
+                .answer(KEY + "answer.leave").then(new DialogueAction.Close()).end()
+                .end();
 
         grades(foreteller.node("lessons", KEY + "lessons"), false).end();
         grades(foreteller.node("duels", KEY + "duels"), true).end();
+
+        foreteller.node("darkness", KEY + "darkness.1", KEY + "darkness.2")
+                .answer(KEY + "answer.ready")
+                    .then(new DialogueAction.SetFlag(WARNED_OF_DARKNESS, true))
+                    .then(new DialogueAction.StartEncounter(false, KingdomKeys.rl(DARK_FROM)))
+                    .end()
+                .answer(KEY + "answer.notyet").goTo("lessons").end()
+                .end();
     }
 
-    /** The same four answers either side, each one setting the encounter of that name going. */
+    /**
+     * One answer per grade, each one only offered once the one before it has been beaten.
+     */
     private static DialogueBuilder.NodeBuilder grades(DialogueBuilder.NodeBuilder node, boolean duel) {
         DialogueBuilder.NodeBuilder built = node;
 
         for (String grade : GRADES) {
-            built = built.answer(KingdomKeys.MODID + ".encounter." + grade)
-                    .then(new DialogueAction.StartEncounter(duel, KingdomKeys.rl(grade)))
-                    .end();
+            String text = KingdomKeys.MODID + ".encounter." + grade;
+            ResourceLocation name = KingdomKeys.rl(grade);
+            boolean warns = !duel && DARK_FROM.equals(grade);
+
+            if (warns) {
+                built = built.answer(text)
+                        .onlyIf(new DialogueCondition.CanStart(false, name))
+                        .onlyIf(new DialogueCondition.HasFlag(WARNED_OF_DARKNESS, false))
+                        .goTo("darkness")
+                        .end();
+            }
+
+            DialogueBuilder.AnswerBuilder answer = built.answer(text)
+                    .onlyIf(new DialogueCondition.CanStart(duel, name));
+
+            if (warns) {
+                answer = answer.onlyIf(new DialogueCondition.HasFlag(WARNED_OF_DARKNESS, true));
+            }
+
+            built = answer.then(new DialogueAction.StartEncounter(duel, name)).end();
         }
 
         return built.answer(KEY + "answer.back").goTo("start").end();

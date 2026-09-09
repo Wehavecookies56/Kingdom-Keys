@@ -367,11 +367,15 @@ public class LanguageESES extends KKLanguageProvider {
         add("kingdomkeys.encounter.dynamic", "Dinámico");
         add("kingdomkeys.dialogue.foreteller.greeting", "¿Qué quieres, entonces?");
         add("kingdomkeys.dialogue.foreteller.lessons", "¿Los orbes? Di lo duro que lo quieres.");
-        add("kingdomkeys.dialogue.foreteller.bouts", "¿Contra mí? ¿Cuanto quieres sudar?");
+        add("kingdomkeys.dialogue.foreteller.duels", "¿Contra mí? ¿Quieres sudar?");
         add("kingdomkeys.dialogue.foreteller.answer.train", "¡Quiero entrenar!");
         add("kingdomkeys.dialogue.foreteller.answer.spar", "Quiero enfrentarme a ti.");
         add("kingdomkeys.dialogue.foreteller.answer.shop", "Tengo Lux que gastar.");
         add("kingdomkeys.dialogue.foreteller.answer.leave", "Nada. Perdona las molestias.");
+        add("kingdomkeys.dialogue.foreteller.darkness.1", "Ya que vas a enfrentarte a la oscuridad, más te vale saber cómo pelea.");
+        add("kingdomkeys.dialogue.foreteller.darkness.2", "Así que voy a imbuir los orbes con un poco de ella. Mejor que te enfrentes a ella aquí que ahí fuera.");
+        add("kingdomkeys.dialogue.foreteller.answer.ready", "Hazlo.");
+        add("kingdomkeys.dialogue.foreteller.answer.notyet", "Todavía no.");
         add("kingdomkeys.dialogue.foreteller.answer.back", "Déjame pensarlo...");
         add(Gui_Level_Dynamic, "Tu nivel");
         add(Gui_Training_Reward, "%s EXP, %s Lux");

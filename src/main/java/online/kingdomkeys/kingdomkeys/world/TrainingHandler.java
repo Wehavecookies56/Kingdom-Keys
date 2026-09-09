@@ -197,6 +197,10 @@ public class TrainingHandler {
             return false;
         }
 
+        if (!encounter.canStart(PlayerData.get(pupil))) {
+            return false;
+        }
+
         Arena arena = new Arena(master, pupil, encounter.getArenaRadius(), encounter.getSpawnPoints(), encounter.getLevel());
         EncounterInstance instance = encounter.getEncounter().type().createInstance(encounter);
         arena.instance = instance;
@@ -248,6 +252,9 @@ public class TrainingHandler {
             if (lesson.encounter().getExperience() > 0) {
                 playerData.addExperience(pupil, lesson.encounter().getExperience(), false, true);
             }
+            // Grant this encounter's grants into the player's data
+            lesson.encounter().getGrants().ifPresent(playerData::addFlag);
+
             PacketHandler.sendTo(new SCSyncPlayerData(pupil), pupil);
         }
 

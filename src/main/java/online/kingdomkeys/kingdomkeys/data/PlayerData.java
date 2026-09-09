@@ -290,6 +290,12 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		}
 		storage.put("unlocked_worlds", unlockedWorldsList);
 
+		ListTag flagsList = new ListTag();
+		for (String flag : this.flags) {
+			flagsList.add(StringTag.valueOf(flag));
+		}
+		storage.put("flags", flagsList);
+
 		storage.putFloat("crown_offset_x", this.crownOffsetX);
 		storage.putFloat("crown_offset_y", this.crownOffsetY);
 		storage.putFloat("crown_offset_z", this.crownOffsetZ);
@@ -577,6 +583,12 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 			this.unlockedWorlds.add(unlockedWorldsList.getString(i));
 		}
 
+		this.flags.clear();
+		ListTag flagsList = nbt.getList("flags", Tag.TAG_STRING);
+		for (int i = 0; i < flagsList.size(); i++) {
+			this.flags.add(flagsList.getString(i));
+		}
+
 		this.crownOffsetX = nbt.getFloat("crown_offset_x");
 		this.crownOffsetY = nbt.getFloat("crown_offset_y");
 		this.crownOffsetZ = nbt.getFloat("crown_offset_z");
@@ -743,6 +755,15 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 
 	/** Dimension ids of the worlds found on the star map, kept in the order they were reached. */
 	private final Set<String> unlockedWorlds = new LinkedHashSet<>();
+
+	/**
+	 * Things this player has done, by name.
+	 *
+	 * <p>Anything that wants to remember "already happened" puts a name in here: a lesson beaten, a
+	 * speech heard, a quest handed in. Names rather than a bitfield so a datapack can invent its own
+	 * without anybody handing out numbers, and so nothing breaks when one is added or dropped.</p>
+	 */
+	private final Set<String> flags = new LinkedHashSet<>();
 	/** Where the crown sits on top of the head, in model units (16 = one block). Only X (left/right)
 	 * and Z (forward/back) - the height is always the top of the head, so there is no Y here.
 	 * The tilt lives in the crownRotationX/Y/Z fields below. */
@@ -1704,6 +1725,34 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		this.unlockedWorlds.clear();
 		if (worlds != null) {
 			this.unlockedWorlds.addAll(worlds);
+		}
+	}
+
+	/** Flags system for the dialogues */
+	public Set<String> getFlags() {
+		return this.flags;
+	}
+
+	public boolean hasFlag(ResourceLocation flag) {
+		return flag != null && this.flags.contains(flag.toString());
+	}
+
+	public boolean hasFlags(Collection<ResourceLocation> needed) {
+		return needed.stream().allMatch(this::hasFlag);
+	}
+
+	public boolean addFlag(ResourceLocation flag) {
+		return flag != null && this.flags.add(flag.toString());
+	}
+
+	public boolean removeFlag(ResourceLocation flag) {
+		return flag != null && this.flags.remove(flag.toString());
+	}
+
+	public void setFlags(Collection<String> flags) {
+		this.flags.clear();
+		if (flags != null) {
+			this.flags.addAll(flags);
 		}
 	}
 

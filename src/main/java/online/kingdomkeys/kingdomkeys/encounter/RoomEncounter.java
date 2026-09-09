@@ -5,6 +5,8 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.Holder;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.resources.ResourceLocation;
+import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.JsonRegistryObject;
 
@@ -27,6 +29,8 @@ public class RoomEncounter extends JsonRegistryObject {
     int arenaRadius;
     int spawnPoints;
     int level;
+    List<ResourceLocation> requires;
+    ResourceLocation grants;
 
     public static final Codec<RoomEncounter> CODEC = RecordCodecBuilder.create(roomEncounterInstance ->
             roomEncounterInstance.group(
@@ -37,12 +41,14 @@ public class RoomEncounter extends JsonRegistryObject {
                 Codec.INT.optionalFieldOf("lux", 0).forGetter(RoomEncounter::getLux),
                 Codec.INT.optionalFieldOf("arena_radius", DEFAULT_ARENA_RADIUS).forGetter(RoomEncounter::getArenaRadius),
                 Codec.INT.optionalFieldOf("spawn_points", DEFAULT_SPAWN_POINTS).forGetter(RoomEncounter::getSpawnPoints),
-                Codec.INT.optionalFieldOf("level", DYNAMIC_LEVEL).forGetter(RoomEncounter::getLevel)
+                Codec.INT.optionalFieldOf("level", DYNAMIC_LEVEL).forGetter(RoomEncounter::getLevel),
+                ResourceLocation.CODEC.listOf().optionalFieldOf("requires", List.of()).forGetter(RoomEncounter::getRequires),
+                ResourceLocation.CODEC.optionalFieldOf("grants").forGetter(o -> Optional.ofNullable(o.grants))
             ).apply(roomEncounterInstance, RoomEncounter::new)
     );
 
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-    private RoomEncounter(Encounter encounter, List<ItemStack> rewards, Optional<Holder<SoundEvent>> music, int experience, int lux, int arenaRadius, int spawnPoints, int level) {
+    private RoomEncounter(Encounter encounter, List<ItemStack> rewards, Optional<Holder<SoundEvent>> music, int experience, int lux, int arenaRadius, int spawnPoints, int level, List<ResourceLocation> requires, Optional<ResourceLocation> grants) {
         this.encounter = encounter;
         this.rewards = rewards;
         this.music = music.orElse(null);
@@ -51,6 +57,8 @@ public class RoomEncounter extends JsonRegistryObject {
         this.arenaRadius = Math.max(2, arenaRadius);
         this.spawnPoints = Math.max(1, spawnPoints);
         this.level = Math.max(DYNAMIC_LEVEL, level);
+        this.requires = requires;
+        this.grants = grants.orElse(null);
     }
 
     public Encounter getEncounter() {
@@ -92,6 +100,18 @@ public class RoomEncounter extends JsonRegistryObject {
 
     public boolean isDynamicLevel() {
         return level <= DYNAMIC_LEVEL;
+    }
+
+    public List<ResourceLocation> getRequires() {
+        return requires;
+    }
+
+    public Optional<ResourceLocation> getGrants() {
+        return Optional.ofNullable(grants);
+    }
+
+    public boolean canStart(PlayerData player) {
+        return player != null && player.hasFlags(requires);
     }
 
     public String getTranslationKey() {
