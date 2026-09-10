@@ -22,6 +22,7 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.item.BaseArmorItem;
+import online.kingdomkeys.kingdomkeys.item.UnionApprenticeArmorItem;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -35,14 +36,20 @@ public class ClothArmorOverlayRenderer<T extends LivingEntity, M extends Humanoi
 	public static final ModelLayerLocation OUTER_LAYER = new ModelLayerLocation(KingdomKeys.rl("cloth_overlay"), "outer");
 	public static final ModelLayerLocation LEGGINGS_LAYER = new ModelLayerLocation(KingdomKeys.rl("cloth_overlay"), "leggings");
 
+	public static final ModelLayerLocation APPRENTICE_OUTER_LAYER = new ModelLayerLocation(KingdomKeys.rl("cloth_apprentice"), "outer");
+	public static final ModelLayerLocation APPRENTICE_LEGGINGS_LAYER = new ModelLayerLocation(KingdomKeys.rl("cloth_apprentice"), "leggings");
+
 	private static final float BASE_SIZE = 0.42F;
 	private static final float OUTER_BASE_SIZE = 0.48F;
 
 	private static final float BASE_LEGGINGS_SIZE = 0.30F;
 	private static final float OUTER_LEGGINGS_SIZE = 0.36F;
 
-	private static final Map<ResourceLocation, Boolean> EXISTING_OVERLAYS = new HashMap<>();
+	private static final float APPRENTICE_SIZE = 0.40F;
+	private static final float APPRENTICE_LEGGINGS_SIZE = 0.28F;
 
+
+	private static final Map<ResourceLocation, Boolean> EXISTING_OVERLAYS = new HashMap<>();
 
 	public static ResourceLocation overlayTexture(ItemStack stack, EquipmentSlot slot) {
 		if (!(stack.getItem() instanceof BaseArmorItem armor) || armor.getTextureName() == null) {
@@ -62,11 +69,15 @@ public class ClothArmorOverlayRenderer<T extends LivingEntity, M extends Humanoi
 
 	private final HumanoidArmorModel<T> outerModel;
 	private final HumanoidArmorModel<T> leggingsModel;
+	private final HumanoidArmorModel<T> apprenticeOuterModel;
+	private final HumanoidArmorModel<T> apprenticeLeggingsModel;
 
 	public ClothArmorOverlayRenderer(RenderLayerParent<T, M> parent, EntityModelSet modelSet) {
 		super(parent);
 		this.outerModel = new HumanoidArmorModel<>(modelSet.bakeLayer(OUTER_LAYER));
 		this.leggingsModel = new HumanoidArmorModel<>(modelSet.bakeLayer(LEGGINGS_LAYER));
+		this.apprenticeOuterModel = new HumanoidArmorModel<>(modelSet.bakeLayer(APPRENTICE_OUTER_LAYER));
+		this.apprenticeLeggingsModel = new HumanoidArmorModel<>(modelSet.bakeLayer(APPRENTICE_LEGGINGS_LAYER));
 	}
 
 	private static LayerDefinition clothLayer(float size) {
@@ -93,6 +104,15 @@ public class ClothArmorOverlayRenderer<T extends LivingEntity, M extends Humanoi
 
 	public static LayerDefinition createBaseLeggingsLayer() {
 		return clothLayer(BASE_LEGGINGS_SIZE);
+	}
+
+	// The apprentice's base and dyeable details intentionally share a size
+	public static LayerDefinition createApprenticeOuterLayer() {
+		return clothLayer(APPRENTICE_SIZE);
+	}
+
+	public static LayerDefinition createApprenticeLeggingsLayer() {
+		return clothLayer(APPRENTICE_LEGGINGS_SIZE);
 	}
 
 	private static EntityModelSet bakedFrom;
@@ -127,12 +147,14 @@ public class ClothArmorOverlayRenderer<T extends LivingEntity, M extends Humanoi
 
 		VertexConsumer consumer = buffer.getBuffer(RenderType.armorCutoutNoCull(texture));
 
-		outerModel.body.copyFrom(getParentModel().body);
-		outerModel.rightArm.copyFrom(getParentModel().rightArm);
-		outerModel.leftArm.copyFrom(getParentModel().leftArm);
-		outerModel.body.render(poseStack, consumer, packedLight, OverlayTexture.NO_OVERLAY, 0xFFFFFFFF);
-		outerModel.rightArm.render(poseStack, consumer, packedLight, OverlayTexture.NO_OVERLAY, 0xFFFFFFFF);
-		outerModel.leftArm.render(poseStack, consumer, packedLight, OverlayTexture.NO_OVERLAY, 0xFFFFFFFF);
+		HumanoidArmorModel<T> model = outerModel(stack);
+		model.body.copyFrom(getParentModel().body);
+		model.rightArm.copyFrom(getParentModel().rightArm);
+		model.leftArm.copyFrom(getParentModel().leftArm);
+		int color = overlayColor(stack);
+		model.body.render(poseStack, consumer, packedLight, OverlayTexture.NO_OVERLAY, color);
+		model.rightArm.render(poseStack, consumer, packedLight, OverlayTexture.NO_OVERLAY, color);
+		model.leftArm.render(poseStack, consumer, packedLight, OverlayTexture.NO_OVERLAY, color);
 	}
 
 	private void renderLeggings(PoseStack poseStack, MultiBufferSource buffer, int packedLight, T entity) {
@@ -144,13 +166,15 @@ public class ClothArmorOverlayRenderer<T extends LivingEntity, M extends Humanoi
 		}
 
 		VertexConsumer consumer = buffer.getBuffer(RenderType.armorCutoutNoCull(texture));
-		leggingsModel.body.copyFrom(getParentModel().body);
-		leggingsModel.rightLeg.copyFrom(getParentModel().rightLeg);
-		leggingsModel.leftLeg.copyFrom(getParentModel().leftLeg);
+		HumanoidArmorModel<T> model = leggingsModel(stack);
+		model.body.copyFrom(getParentModel().body);
+		model.rightLeg.copyFrom(getParentModel().rightLeg);
+		model.leftLeg.copyFrom(getParentModel().leftLeg);
 
-		leggingsModel.body.render(poseStack, consumer, packedLight, OverlayTexture.NO_OVERLAY, 0xFFFFFFFF);
-		leggingsModel.rightLeg.render(poseStack, consumer, packedLight, OverlayTexture.NO_OVERLAY, 0xFFFFFFFF);
-		leggingsModel.leftLeg.render(poseStack, consumer, packedLight, OverlayTexture.NO_OVERLAY, 0xFFFFFFFF);
+		int color = overlayColor(stack);
+		model.body.render(poseStack, consumer, packedLight, OverlayTexture.NO_OVERLAY, color);
+		model.rightLeg.render(poseStack, consumer, packedLight, OverlayTexture.NO_OVERLAY, color);
+		model.leftLeg.render(poseStack, consumer, packedLight, OverlayTexture.NO_OVERLAY, color);
 	}
 
 	private void renderBoots(PoseStack poseStack, MultiBufferSource buffer, int packedLight, T entity) {
@@ -162,9 +186,27 @@ public class ClothArmorOverlayRenderer<T extends LivingEntity, M extends Humanoi
 		}
 
 		VertexConsumer consumer = buffer.getBuffer(RenderType.armorCutoutNoCull(texture));
-		outerModel.rightLeg.copyFrom(getParentModel().rightLeg);
-		outerModel.leftLeg.copyFrom(getParentModel().leftLeg);
-		outerModel.rightLeg.render(poseStack, consumer, packedLight, OverlayTexture.NO_OVERLAY, 0xFFFFFFFF);
-		outerModel.leftLeg.render(poseStack, consumer, packedLight, OverlayTexture.NO_OVERLAY, 0xFFFFFFFF);
+		HumanoidArmorModel<T> model = outerModel(stack);
+		model.rightLeg.copyFrom(getParentModel().rightLeg);
+		model.leftLeg.copyFrom(getParentModel().leftLeg);
+		int color = overlayColor(stack);
+		model.rightLeg.render(poseStack, consumer, packedLight, OverlayTexture.NO_OVERLAY, color);
+		model.leftLeg.render(poseStack, consumer, packedLight, OverlayTexture.NO_OVERLAY, color);
+	}
+
+	private HumanoidArmorModel<T> outerModel(ItemStack stack) {
+		return stack.getItem() instanceof UnionApprenticeArmorItem ? apprenticeOuterModel : outerModel;
+	}
+
+	private HumanoidArmorModel<T> leggingsModel(ItemStack stack) {
+		return stack.getItem() instanceof UnionApprenticeArmorItem ? apprenticeLeggingsModel : leggingsModel;
+	}
+
+	private static int overlayColor(ItemStack stack) {
+		if (stack.getItem() instanceof UnionApprenticeArmorItem apprenticeArmor) {
+			return 0xFF000000 | apprenticeArmor.getDetailColor(stack);
+		}
+
+		return 0xFFFFFFFF;
 	}
 }

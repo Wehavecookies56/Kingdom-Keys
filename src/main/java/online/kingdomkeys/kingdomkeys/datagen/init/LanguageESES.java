@@ -1375,6 +1375,10 @@ public class LanguageESES extends KKLanguageProvider {
         //Armour
         add("gui.summonarmor.notenoughspace", "No tienes suficiente espacio en el inventario");
 
+        addItem(ModItems.apprentice_Chestplate, "Túnica de aprendiz");
+        addItem(ModItems.apprentice_Leggings, "Pantalones de aprendiz");
+        addItem(ModItems.apprentice_Boots, "Botas de aprendiz");
+
         addItem(ModItems.organizationRobe_Helmet, "Capucha de la Organización");
         addItem(ModItems.organizationRobe_Chestplate, "Abrigo de la Organización");
         addItem(ModItems.organizationRobe_Leggings, "Pantalones de la Organización");

@@ -9,7 +9,6 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.component.DyedItemColor;
 import net.minecraft.world.level.Level;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
@@ -42,9 +41,9 @@ public class ApprenticeDuelEntity extends MasterDuelEntity {
 
 	private void arm() {
 		setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(ModItems.starlight.get()));
-		setItemSlot(EquipmentSlot.CHEST, dyed(Items.LEATHER_CHESTPLATE));
-		setItemSlot(EquipmentSlot.LEGS, dyed(Items.LEATHER_LEGGINGS));
-		setItemSlot(EquipmentSlot.FEET, dyed(Items.LEATHER_BOOTS));
+		setItemSlot(EquipmentSlot.CHEST, dyed(ModItems.apprentice_Chestplate.get()));
+		setItemSlot(EquipmentSlot.LEGS, dyed(ModItems.apprentice_Leggings.get()));
+		setItemSlot(EquipmentSlot.FEET, dyed(ModItems.apprentice_Boots.get()));
 
 		for (EquipmentSlot slot : EquipmentSlot.values()) {
 			setDropChance(slot, 0.0F);

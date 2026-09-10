@@ -26,7 +26,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.component.DyedItemColor;
 import net.minecraft.world.level.Level;
 import net.minecraft.resources.ResourceLocation;
@@ -113,9 +112,9 @@ public class ApprenticeEntity extends PathfinderMob {
 
 	public void dress() {
 		setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(ModItems.starlight.get()));
-		setItemSlot(EquipmentSlot.CHEST, dyed(Items.LEATHER_CHESTPLATE));
-		setItemSlot(EquipmentSlot.LEGS, dyed(Items.LEATHER_LEGGINGS));
-		setItemSlot(EquipmentSlot.FEET, dyed(Items.LEATHER_BOOTS));
+		setItemSlot(EquipmentSlot.CHEST, dyed(ModItems.apprentice_Chestplate.get()));
+		setItemSlot(EquipmentSlot.LEGS, dyed(ModItems.apprentice_Leggings.get()));
+		setItemSlot(EquipmentSlot.FEET, dyed(ModItems.apprentice_Boots.get()));
 
 		for (EquipmentSlot slot : EquipmentSlot.values()) {
 			setDropChance(slot, 0.0F);

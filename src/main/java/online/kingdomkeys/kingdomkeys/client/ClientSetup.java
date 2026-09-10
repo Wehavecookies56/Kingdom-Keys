@@ -74,6 +74,8 @@ public class ClientSetup {
 
 		event.registerLayerDefinition(ClothArmorOverlayRenderer.OUTER_LAYER, ClothArmorOverlayRenderer::createOuterLayer);
 		event.registerLayerDefinition(ClothArmorOverlayRenderer.LEGGINGS_LAYER, ClothArmorOverlayRenderer::createLeggingsLayer);
+		event.registerLayerDefinition(ClothArmorOverlayRenderer.APPRENTICE_OUTER_LAYER, ClothArmorOverlayRenderer::createApprenticeOuterLayer);
+		event.registerLayerDefinition(ClothArmorOverlayRenderer.APPRENTICE_LEGGINGS_LAYER, ClothArmorOverlayRenderer::createApprenticeLeggingsLayer);
 	}
 
 	@SubscribeEvent
@@ -167,6 +169,7 @@ public class ClientSetup {
 		};
 
 		event.registerItem(clothArmor,
+				ModItems.apprentice_Chestplate.get(), ModItems.apprentice_Leggings.get(), ModItems.apprentice_Boots.get(),
 				ModItems.organizationRobe_Chestplate.get(), ModItems.organizationRobe_Leggings.get(), ModItems.organizationRobe_Boots.get(),
 				ModItems.xemnas_Chestplate.get(), ModItems.xemnas_Leggings.get(), ModItems.xemnas_Boots.get(),
 				ModItems.antiCoat_Chestplate.get(), ModItems.antiCoat_Leggings.get(), ModItems.antiCoat_Boots.get(),

@@ -88,6 +88,9 @@ public class ItemTagsGen extends ItemTagsProvider {
 					case FEET -> add(ItemTags.FOOT_ARMOR, armor);
 				}
 			}
+			if (item instanceof UnionApprenticeArmorItem) {
+				add(ItemTags.DYEABLE, item);
+			}
 			if(item instanceof KeychainItem) {
 				add(KEYCHAINS,item);
 				add(ItemTags.SWORD_ENCHANTABLE, item);

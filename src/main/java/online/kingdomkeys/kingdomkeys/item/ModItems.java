@@ -657,6 +657,10 @@ public class ModItems {
 
 	//region Armour
 	public static final Supplier<Item>
+			apprentice_Chestplate = createUnionApprenticeArmorItem("apprentice_chestplate", ArmorItem.Type.CHESTPLATE),
+			apprentice_Leggings = createUnionApprenticeArmorItem("apprentice_leggings", ArmorItem.Type.LEGGINGS),
+			apprentice_Boots = createUnionApprenticeArmorItem("apprentice_boots", ArmorItem.Type.BOOTS),
+
 			organizationRobe_Helmet = createArmorItem(Strings.organization+"_"+Strings.helmet, ModArmorMaterials.ORGANIZATION, ArmorItem.Type.HELMET, Strings.organization),
 			organizationRobe_Chestplate = createArmorItem(Strings.organization+"_"+Strings.chestplate, ModArmorMaterials.ORGANIZATION, ArmorItem.Type.CHESTPLATE, Strings.organization),
 			organizationRobe_Leggings = createArmorItem(Strings.organization+"_"+Strings.leggings, ModArmorMaterials.ORGANIZATION, ArmorItem.Type.LEGGINGS, Strings.organization),
@@ -1191,6 +1195,10 @@ public class ModItems {
 
 	private static Supplier<Item> createArmorItem(String name, Holder<ArmorMaterial> material, ArmorItem.Type slot, String textureName) {
 		return ITEMS.register(name, () -> new BaseArmorItem(material, slot, textureName));
+	}
+
+	private static Supplier<Item> createUnionApprenticeArmorItem(String name, ArmorItem.Type slot) {
+		return ITEMS.register(name, () -> new UnionApprenticeArmorItem(ModArmorMaterials.VANITY, slot));
 	}
 
 	private static Supplier<Item> createMapCard(String name, Supplier<RoomType> type, CardCategory category, boolean wip) {
