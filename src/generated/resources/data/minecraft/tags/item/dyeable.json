@@ -1,7 +1,16 @@
 {
   "values": [
-    "kingdomkeys:apprentice_chestplate",
-    "kingdomkeys:apprentice_leggings",
-    "kingdomkeys:apprentice_boots"
+    "kingdomkeys:apprentice1_chestplate",
+    "kingdomkeys:apprentice1_leggings",
+    "kingdomkeys:apprentice1_boots",
+    "kingdomkeys:apprentice2_chestplate",
+    "kingdomkeys:apprentice2_leggings",
+    "kingdomkeys:apprentice2_boots",
+    "kingdomkeys:apprentice3_chestplate",
+    "kingdomkeys:apprentice3_leggings",
+    "kingdomkeys:apprentice3_boots",
+    "kingdomkeys:apprentice4_chestplate",
+    "kingdomkeys:apprentice4_leggings",
+    "kingdomkeys:apprentice4_boots"
   ]
 }

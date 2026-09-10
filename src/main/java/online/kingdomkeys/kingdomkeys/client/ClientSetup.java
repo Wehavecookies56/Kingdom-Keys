@@ -169,7 +169,10 @@ public class ClientSetup {
 		};
 
 		event.registerItem(clothArmor,
-				ModItems.apprentice_Chestplate.get(), ModItems.apprentice_Leggings.get(), ModItems.apprentice_Boots.get(),
+				ModItems.apprentice1_Chestplate.get(), ModItems.apprentice1_Leggings.get(), ModItems.apprentice1_Boots.get(),
+				ModItems.apprentice2_Chestplate.get(), ModItems.apprentice2_Leggings.get(), ModItems.apprentice2_Boots.get(),
+				ModItems.apprentice3_Chestplate.get(), ModItems.apprentice3_Leggings.get(), ModItems.apprentice3_Boots.get(),
+				ModItems.apprentice4_Chestplate.get(), ModItems.apprentice4_Leggings.get(), ModItems.apprentice4_Boots.get(),
 				ModItems.organizationRobe_Chestplate.get(), ModItems.organizationRobe_Leggings.get(), ModItems.organizationRobe_Boots.get(),
 				ModItems.xemnas_Chestplate.get(), ModItems.xemnas_Leggings.get(), ModItems.xemnas_Boots.get(),
 				ModItems.antiCoat_Chestplate.get(), ModItems.antiCoat_Leggings.get(), ModItems.antiCoat_Boots.get(),

@@ -2041,9 +2041,18 @@ public class LanguageENUS extends KKLanguageProvider {
         //Armour
         add("gui.summonarmor.notenoughspace", "You don't have enough room in your inventory");
 
-        addItem(ModItems.apprentice_Chestplate, "Apprentice Tunic");
-        addItem(ModItems.apprentice_Leggings, "Apprentice Leggings");
-        addItem(ModItems.apprentice_Boots, "Apprentice Boots");
+        addItem(ModItems.apprentice1_Chestplate, "Apprentice Tunic I");
+        addItem(ModItems.apprentice1_Leggings, "Apprentice Leggings I");
+        addItem(ModItems.apprentice1_Boots, "Apprentice Boots I");
+        addItem(ModItems.apprentice2_Chestplate, "Apprentice Tunic II");
+        addItem(ModItems.apprentice2_Leggings, "Apprentice Leggings II");
+        addItem(ModItems.apprentice2_Boots, "Apprentice Boots II");
+        addItem(ModItems.apprentice3_Chestplate, "Apprentice Tunic III");
+        addItem(ModItems.apprentice3_Leggings, "Apprentice Leggings III");
+        addItem(ModItems.apprentice3_Boots, "Apprentice Boots III");
+        addItem(ModItems.apprentice4_Chestplate, "Apprentice Tunic IV");
+        addItem(ModItems.apprentice4_Leggings, "Apprentice Leggings IV");
+        addItem(ModItems.apprentice4_Boots, "Apprentice Boots IV");
 
         addItem(ModItems.organizationRobe_Helmet, "Organization Hood");
         addItem(ModItems.organizationRobe_Chestplate, "Organization Coat");

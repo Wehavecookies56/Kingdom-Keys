@@ -4,6 +4,7 @@
   * Foretellers will be able to train you, either by summoning rounds of enemies or by sparring with them.
   * Lux is used to claim rewards from the Foretellers. Foretellers from other unions will charge you extra Lux for theirs.
 * Daybreak Town, full of keyblade wielders who you can spar with.
+* Union apprentice armors, 2 designs with 2 variants, can be dyed just like leather armor can. 
 * Physics for Starlight keychain.
 * World Markers in the Ocean Between, rendered while you're in a gummi ship.
 * Lux when defeating enemies and training with your Foreteller.

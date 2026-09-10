@@ -11,8 +11,8 @@ public class UnionApprenticeArmorItem extends BaseArmorItem {
 
 	public static final int DEFAULT_DETAIL_COLOR = 0xFFFFFF;
 
-	public UnionApprenticeArmorItem(Holder<ArmorMaterial> material, ArmorItem.Type slot) {
-		super(material, slot, "apprentice");
+	public UnionApprenticeArmorItem(Holder<ArmorMaterial> material, ArmorItem.Type slot, String textureName) {
+		super(material, slot, textureName);
 	}
 
 	public int getDetailColor(ItemStack stack) {

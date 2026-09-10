@@ -53,6 +53,7 @@ public class ApprenticeEntity extends PathfinderMob {
 	private BlockPos home;
 
 	private boolean sparring;
+	private int outfit;
 
 	public ApprenticeEntity(EntityType<? extends PathfinderMob> type, Level level) {
 		super(type, level);
@@ -111,13 +112,25 @@ public class ApprenticeEntity extends PathfinderMob {
 	}
 
 	public void dress() {
+		ensureOutfit();
 		setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(ModItems.starlight.get()));
-		setItemSlot(EquipmentSlot.CHEST, dyed(ModItems.apprentice_Chestplate.get()));
-		setItemSlot(EquipmentSlot.LEGS, dyed(ModItems.apprentice_Leggings.get()));
-		setItemSlot(EquipmentSlot.FEET, dyed(ModItems.apprentice_Boots.get()));
+		setItemSlot(EquipmentSlot.CHEST, dyed(ModItems.getApprenticeArmor(outfit, net.minecraft.world.item.ArmorItem.Type.CHESTPLATE)));
+		setItemSlot(EquipmentSlot.LEGS, dyed(ModItems.getApprenticeArmor(outfit, net.minecraft.world.item.ArmorItem.Type.LEGGINGS)));
+		setItemSlot(EquipmentSlot.FEET, dyed(ModItems.getApprenticeArmor(outfit, net.minecraft.world.item.ArmorItem.Type.BOOTS)));
 
 		for (EquipmentSlot slot : EquipmentSlot.values()) {
 			setDropChance(slot, 0.0F);
+		}
+	}
+
+	public int getOutfit() {
+		ensureOutfit();
+		return outfit;
+	}
+
+	private void ensureOutfit() {
+		if (outfit == 0) {
+			outfit = random.nextInt(4) + 1;
 		}
 	}
 
@@ -252,6 +265,7 @@ public class ApprenticeEntity extends PathfinderMob {
 	public void addAdditionalSaveData(CompoundTag tag) {
 		super.addAdditionalSaveData(tag);
 		tag.putInt("apprentice_level", getApprenticeLevel());
+		tag.putInt("apprentice_outfit", getOutfit());
 		tag.putByte("union", getUnion().get());
 
 		if (home != null) {
@@ -270,6 +284,7 @@ public class ApprenticeEntity extends PathfinderMob {
 		RandomSource seeded = RandomSource.create(getHome().asLong());
 
 		setApprenticeLevel(tag.contains("apprentice_level") ? tag.getInt("apprentice_level") : rollLevel(seeded));
+		outfit = tag.contains("apprentice_outfit") ? tag.getInt("apprentice_outfit") : seeded.nextInt(4) + 1;
 		setUnion(tag.contains("union") ? Union.fromByte(tag.getByte("union")) : rollUnion(seeded));
 
 		// Dropped so the mod writes it again from the level above; an old one is a stale number
