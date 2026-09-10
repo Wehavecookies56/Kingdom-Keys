@@ -1060,8 +1060,8 @@ public class LanguageENUS extends KKLanguageProvider {
         addItem(ModItems.keyToRewards, "Key to Rewards", "Allows access to a secret room with rare cards and sleights.");
 
         addItem(ModItems.redCardPack, "Red card pack", "A pack of 5 red Map Cards, open to reveal them.");
-        addItem(ModItems.greenCardPack, "Green card pack", "A pack of 5 hreen Map Cards, open to reveal them.");
-        addItem(ModItems.blueCardPack, "Blue cards pack", "A pack of 5 blue Map Cards, open to reveal them.");
+        addItem(ModItems.greenCardPack, "Green card pack", "A pack of 5 green Map Cards, open to reveal them.");
+        addItem(ModItems.blueCardPack, "Blue card pack", "A pack of 5 blue Map Cards, open to reveal them.");
         addItem(ModItems.randomCardPack, "Random card pack", "A pack of 5 Map Cards of any color, open to reveal them.");
         addItem(ModItems.rouletteBonus, "Roulette Bonus", "Grants a random Map Card through a roulette.");
 
