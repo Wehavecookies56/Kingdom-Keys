@@ -50,3 +50,4 @@
 * Removed a couple of warnings when loading the mod.
 * Some crashes when needed json files are not present.
 * Rare Large Body model crash.
+* Small translation issues (Thanks to Held_der_Zeit).

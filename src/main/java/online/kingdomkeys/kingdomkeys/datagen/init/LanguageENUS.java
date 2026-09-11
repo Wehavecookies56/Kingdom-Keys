@@ -315,7 +315,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add("kingdomkeys.encounter.medium", "Medium");
         add("kingdomkeys.encounter.hard", "Hard");
         add("kingdomkeys.encounter.dynamic", "Dynamic");
-        add("kingdomkeys.dialogue.foreteller.greeting", "What do you want, then?");
+        add("kingdomkeys.dialogue.foreteller.greeting", "Hello, what do you want?");
         add("kingdomkeys.dialogue.foreteller.lessons", "Orbs, is it? Say how hard you want it.");
         add("kingdomkeys.dialogue.foreteller.duels", "Against me? Choose your ground.");
         add("kingdomkeys.dialogue.foreteller.answer.train", "I want to train!");
