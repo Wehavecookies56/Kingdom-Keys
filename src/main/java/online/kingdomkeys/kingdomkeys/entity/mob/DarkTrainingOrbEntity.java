@@ -10,6 +10,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
+import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 
 public class DarkTrainingOrbEntity extends TrainingOrbEntity {
 
@@ -26,6 +27,11 @@ public class DarkTrainingOrbEntity extends TrainingOrbEntity {
 				.add(Attributes.ATTACK_DAMAGE, 3.0D)
 				.add(Attributes.ATTACK_KNOCKBACK, 0.6D)
 				.add(Attributes.KNOCKBACK_RESISTANCE, 0.3D);
+	}
+
+	@Override
+	public SoundEvent arrivalSound() {
+		return ModSounds.lightOrbSpawn.get();
 	}
 
 	@Override

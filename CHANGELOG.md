@@ -6,9 +6,8 @@
 * Your foreteller will visit you once at dawn you synthesise your first keyblade (next keyblade you synthesise in old worlds).
   * It will take you to Daybreak Town to do some introductory training and then you'll return to where you were.
 * Daybreak Town, full of keyblade wielders who you can spar with.
-  * They will fight the heartless and nobodies that spawn there, which will be weak since it's a light-related world.
+  * They will fight the heartless that spawn there, which will be weak since it's a light-related world.
   * Their outfit's main color is linked to the union they belong to, the secondary color is randomized.
-  * Some enemies may spawn there but won't be stronger than lvl 3 due to Daybreak Town being a light-themed place.
 * Union apprentice armors, 2 designs which can be dyed in the new Clothing Table.
   * The armor can be obtained by completing an initial training with your master and redeeming Lux to your union master.
   * The table can be obtained by crafting with 3 strings at the top, shears in the middle and 5 wooden planks at the rest.
@@ -47,6 +46,7 @@
 
 ## Fixed:
 * Reversal RC being available even when the Dusk was out of reach.
+* Small jump after being hit due to aerial recovery.
 * Blocking Blizzard will no longer add you the Freezing effect.
 * Dark Firaga being a normal Firaga.
 * Bind and Mini not adjusting their time properly based on what was configured.

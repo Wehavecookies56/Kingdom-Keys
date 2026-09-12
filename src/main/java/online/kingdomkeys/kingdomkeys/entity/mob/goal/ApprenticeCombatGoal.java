@@ -54,6 +54,7 @@ public class ApprenticeCombatGoal extends Goal {
 		cooldown = 0;
 		hitsLeft = COMBO_HITS;
 		repath = 0;
+		apprentice.setAggressive(true);
 	}
 
 	@Override
@@ -93,7 +94,6 @@ public class ApprenticeCombatGoal extends Goal {
 			return;
 		}
 
-		apprentice.setAggressive(true);
 		apprentice.swing(InteractionHand.MAIN_HAND);
 		apprentice.doHurtTarget(target);
 

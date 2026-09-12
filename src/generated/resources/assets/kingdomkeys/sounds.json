@@ -195,6 +195,11 @@
       "kingdomkeys:levelup"
     ]
   },
+  "light_orb_spawn": {
+    "sounds": [
+      "kingdomkeys:light_orb_spawn"
+    ]
+  },
   "lockoff": {
     "sounds": [
       "kingdomkeys:lockoff"

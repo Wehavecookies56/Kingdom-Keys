@@ -55,6 +55,7 @@ public class ModSounds {
             bossKill = registerSound("boss_kill"),
             heartlessKill = registerSound("heartless_kill"),
             heartlessSpawn = registerSound("heartless_spawn"),
+            lightOrbSpawn = registerSound("light_orb_spawn"),
             nobodyKill = registerSound("nobody_kill"),
             openChest = registerSound("open_chest"),
             synthesisPickup = registerSound("synthesis_pickup"),

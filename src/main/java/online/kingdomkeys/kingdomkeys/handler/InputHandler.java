@@ -40,6 +40,8 @@ import online.kingdomkeys.kingdomkeys.data.WorldData;
 import online.kingdomkeys.kingdomkeys.driveform.DriveForm;
 import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 import online.kingdomkeys.kingdomkeys.effects.ModMobEffects;
+import online.kingdomkeys.kingdomkeys.entity.mob.ApprenticeEntity;
+import online.kingdomkeys.kingdomkeys.entity.mob.ForetellerEntity;
 import online.kingdomkeys.kingdomkeys.entity.mob.SpawningOrbEntity;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.init.KKAnimations;
 import online.kingdomkeys.kingdomkeys.lib.Constants;
@@ -225,6 +227,14 @@ public class InputHandler {
 
     public static int LOCK_ON_REACH = 35;
 
+    public static boolean canLockOn(Entity entity) {
+        if (!(entity instanceof LivingEntity) || entity instanceof SpawningOrbEntity) {
+            return false;
+        }
+
+        return !(entity instanceof ForetellerEntity) && !(entity instanceof ApprenticeEntity);
+    }
+
     public void lockOn() {
         if (lockOn == null) {
             HitResult rtr = getMouseOverExtended(LOCK_ON_REACH);
@@ -232,7 +242,7 @@ public class InputHandler {
                 double distance = player.distanceTo(ertr.getEntity());
 
                 if (LOCK_ON_REACH >= distance) {
-                    if (ertr.getEntity() instanceof LivingEntity && !(ertr.getEntity() instanceof SpawningOrbEntity)) {
+                    if (canLockOn(ertr.getEntity())) {
                         lockOn = (LivingEntity) ertr.getEntity();
                         playSound(ModSounds.lockon.get());
                     } else if(ertr.getEntity() instanceof EnderDragonPart part){
@@ -262,7 +272,7 @@ public class InputHandler {
 
         LivingEntity currentTarget = InputHandler.lockOn;
         //Get all entities in a radius (25% of the lock on reach)
-        List<LivingEntity> candidates = player.level().getEntitiesOfClass(LivingEntity.class, player.getBoundingBox().inflate(LOCK_ON_REACH / 4F), e -> e != player && !e.isDeadOrDying() && e.isAlive());
+        List<LivingEntity> candidates = player.level().getEntitiesOfClass(LivingEntity.class, player.getBoundingBox().inflate(LOCK_ON_REACH / 4F), e -> e != player && !e.isDeadOrDying() && e.isAlive() && canLockOn(e));
 
         if (candidates.size() <= 1)
             return;

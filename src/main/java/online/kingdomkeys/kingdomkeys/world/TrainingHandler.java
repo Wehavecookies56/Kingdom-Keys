@@ -283,6 +283,8 @@ public class TrainingHandler {
 
         PlayerData playerData = PlayerData.get(pupil);
 
+        boolean firstClear = lesson.encounter().getGrants().map(flag -> playerData == null || !playerData.hasFlag(flag)).orElse(true);
+
         if (playerData != null) {
             if (lesson.encounter().getLux() > 0) {
                 playerData.addLux(lesson.encounter().getLux());
@@ -296,7 +298,7 @@ public class TrainingHandler {
             PacketHandler.sendTo(new SCSyncPlayerData(pupil), pupil);
         }
 
-        if (!lesson.encounter().getRewards().isEmpty()) {
+        if (firstClear && !lesson.encounter().getRewards().isEmpty()) {
             Utils.giveItems(pupil, true, lesson.encounter().getRewards().stream().map(ItemStack::copy).toList());
         }
 

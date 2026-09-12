@@ -215,6 +215,10 @@ public class ForetellerEntity extends PathfinderMob {
     }
 
     @Override
+    public void knockback(double strength, double x, double z) {
+    }
+
+    @Override
     public boolean isPushable() {
         return false;
     }

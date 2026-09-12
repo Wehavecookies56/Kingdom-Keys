@@ -22,6 +22,7 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
 import net.minecraft.world.entity.boss.wither.WitherBoss;
@@ -228,6 +229,10 @@ public class EntityEvents {
 
 		if (!e.getLevel().isClientSide() && e.getEntity() instanceof Mob darkness && ApprenticeEntity.isDarkness(darkness)) {
 			darkness.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(darkness, ApprenticeEntity.class, 10, true, false, target -> target instanceof ApprenticeEntity apprentice && !apprentice.isSparring()));
+
+			if (darkness instanceof PathfinderMob chaser && !retaliates(chaser)) {
+				chaser.targetSelector.addGoal(0, new HurtByTargetGoal(chaser));
+			}
 		}
 
 		if (e.getEntity() instanceof LivingEntity mob) {
@@ -1746,6 +1751,11 @@ public class EntityEvents {
 				}
 			}
 		}
+	}
+
+	/** Whether it already knows to hit back, so it is not handed a second goal that does the same. */
+	private static boolean retaliates(Mob mob) {
+		return mob.targetSelector.getAvailableGoals().stream().anyMatch(wrapped -> wrapped.getGoal() instanceof HurtByTargetGoal);
 	}
 
 	private static boolean isNobody(LivingEntity entity) {

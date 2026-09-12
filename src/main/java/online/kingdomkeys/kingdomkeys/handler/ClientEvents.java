@@ -1055,6 +1055,9 @@ public class ClientEvents {
 
 	private boolean recoveryHeld;
 
+	/** Whether the player had their feet on the floor as of the end of the previous tick. */
+	private boolean recoveryGrounded = true;
+
 	private void tickCombatWindows(Minecraft mc) {
 		LocalPlayer player = mc.player;
 
@@ -1073,7 +1076,10 @@ public class ClientEvents {
 		boolean pressed = jump && !recoveryHeld;
 		recoveryHeld = jump;
 
-		if (pressed && playerData.getRecoveryTicks() > 0 && !player.onGround()) {
+		boolean grounded = recoveryGrounded;
+		recoveryGrounded = player.onGround();
+
+		if (pressed && !grounded && playerData.getRecoveryTicks() > 0 && !player.onGround()) {
 			playerData.setRecoveryTicks(0);
 			// Done here as well as on the server so it answers the key straight away instead of a bit later
 			player.setDeltaMovement(0, Math.min(0, player.getDeltaMovement().y) * 0.1, 0);

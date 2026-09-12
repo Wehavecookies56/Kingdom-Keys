@@ -3,6 +3,7 @@
   "encounter": {
     "type": "kingdomkeys:wave",
     "interval_ticks": 60,
+    "spawn_delay_ticks": 10,
     "waves": [
       {
         "spawns": [

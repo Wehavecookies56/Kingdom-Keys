@@ -7,6 +7,7 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
@@ -44,6 +45,7 @@ public class ApprenticeEntity extends PathfinderMob {
 	public static final int MIN_LEVEL = 1, MAX_LEVEL = 50;
 
 	private static final int WANDER_RADIUS = 24;
+	private static final double WATCH_RANGE = 32.0D;
 
 	private static final double SPAR_WATCH_RANGE = 32.0D;
 	private static final int SPAR_CHECK_INTERVAL = 20;
@@ -83,6 +85,7 @@ public class ApprenticeEntity extends PathfinderMob {
 	}
 
 	private static final double BASE_DAMAGE = 2.0D, DAMAGE_PER_LEVEL = 0.12D;
+	private static final double BASE_HEALTH = 20.0D, HEALTH_PER_LEVEL = 0.8D;
 
 	public void setApprenticeLevel(int level) {
 		int rank = Mth.clamp(level, MIN_LEVEL, MAX_LEVEL);
@@ -91,6 +94,16 @@ public class ApprenticeEntity extends PathfinderMob {
 		AttributeInstance damage = getAttribute(Attributes.ATTACK_DAMAGE);
 		if (damage != null) {
 			damage.setBaseValue(BASE_DAMAGE + DAMAGE_PER_LEVEL * (rank - MIN_LEVEL));
+		}
+
+		AttributeInstance health = getAttribute(Attributes.MAX_HEALTH);
+		if (health != null) {
+			boolean unhurt = getHealth() >= (float) health.getValue();
+			health.setBaseValue(BASE_HEALTH + HEALTH_PER_LEVEL * (rank - MIN_LEVEL));
+
+			if (unhurt) {
+				setHealth(getMaxHealth());
+			}
 		}
 
 		if (!level().isClientSide) {
@@ -122,6 +135,18 @@ public class ApprenticeEntity extends PathfinderMob {
 	public void setHome(BlockPos home) {
 		this.home = home;
 		restrictTo(home, WANDER_RADIUS);
+	}
+
+	private void moveRadius(boolean fighting) {
+		if (home == null) {
+			return;
+		}
+
+		int radius = fighting ? (int) WATCH_RANGE : WANDER_RADIUS;
+
+		if (getRestrictRadius() != radius) {
+			restrictTo(home, radius);
+		}
 	}
 
 	public static int rollLevel(RandomSource random) {
@@ -205,17 +230,38 @@ public class ApprenticeEntity extends PathfinderMob {
 
 	public static AttributeSupplier.Builder registerAttributes() {
 		return Mob.createLivingAttributes()
-				.add(Attributes.MAX_HEALTH, 20.0D)
+				.add(Attributes.MAX_HEALTH, BASE_HEALTH)
 				.add(Attributes.MOVEMENT_SPEED, 0.28D)
-				.add(Attributes.FOLLOW_RANGE, 16.0D)
+				.add(Attributes.FOLLOW_RANGE, WATCH_RANGE)
 				.add(Attributes.ATTACK_DAMAGE, BASE_DAMAGE);
 	}
+
+	@Override
+	public void aiStep() {
+		updateSwingTime();
+		super.aiStep();
+	}
+
+	private static final int MEND_INTERVAL = 40;
 
 	@Override
 	public void tick() {
 		super.tick();
 
-		if (level().isClientSide || tickCount % SPAR_CHECK_INTERVAL != 0) {
+		if (level().isClientSide) {
+			return;
+		}
+
+		// Off the leash while there is something to run down, back on it once there is not
+		boolean fighting = getTarget() != null && getTarget().isAlive();
+		moveRadius(fighting);
+
+		// They tend to their own wounds between fights rather than standing their post half dead forever
+		if (!fighting && tickCount % MEND_INTERVAL == 0 && getHealth() < getMaxHealth()) {
+			heal(1.0F);
+		}
+
+		if (tickCount % SPAR_CHECK_INTERVAL != 0) {
 			return;
 		}
 
@@ -257,19 +303,46 @@ public class ApprenticeEntity extends PathfinderMob {
 		return InteractionResult.SUCCESS;
 	}
 
+	private boolean vulnerableTo(DamageSource source) {
+		if (sparring) {
+			return false;
+		}
+
+		// So /kill and these still work on them
+		if (source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
+			return true;
+		}
+
+		return source.getEntity() instanceof LivingEntity attacker && isDarkness(attacker);
+	}
+
+	private boolean gettingHurt;
+
 	@Override
 	public boolean hurt(DamageSource source, float amount) {
-		return false;
+		if (!vulnerableTo(source)) {
+			return false;
+		}
+
+		gettingHurt = true;
+
+		try {
+			return super.hurt(source, amount);
+		} finally {
+			gettingHurt = false;
+		}
+	}
+
+	@Override
+	public void knockback(double strength, double x, double z) {
+		if (gettingHurt) {
+			super.knockback(strength, x, z);
+		}
 	}
 
 	@Override
 	public boolean isInvulnerableTo(DamageSource source) {
-		return true;
-	}
-
-	@Override
-	public boolean canBeHitByProjectile() {
-		return false;
+		return !vulnerableTo(source) || super.isInvulnerableTo(source);
 	}
 
 	@Override
