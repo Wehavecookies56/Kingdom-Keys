@@ -1,0 +1,115 @@
+{
+  "nodes": {
+    "offer": {
+      "answers": [
+        {
+          "do": [
+            {
+              "type": "kingdomkeys:open_portal",
+              "dimension": "kingdomkeys:daybreak_town",
+              "until": "kingdomkeys:story/training_done"
+            }
+          ],
+          "text": "kingdomkeys.dialogue.first_meeting.answer.open"
+        },
+        {
+          "do": [
+            {
+              "type": "kingdomkeys:close"
+            }
+          ],
+          "text": "kingdomkeys.dialogue.first_meeting.answer.leave"
+        }
+      ],
+      "lines": [
+        "kingdomkeys.dialogue.first_meeting.offer.1",
+        "kingdomkeys.dialogue.first_meeting.offer.2",
+        "kingdomkeys.dialogue.first_meeting.offer.3"
+      ]
+    },
+    "start": {
+      "answers": [
+        {
+          "goto": "who",
+          "text": "kingdomkeys.dialogue.first_meeting.answer.who"
+        },
+        {
+          "goto": "why",
+          "text": "kingdomkeys.dialogue.first_meeting.answer.why"
+        },
+        {
+          "goto": "offer",
+          "text": "kingdomkeys.dialogue.first_meeting.answer.come"
+        },
+        {
+          "do": [
+            {
+              "type": "kingdomkeys:close"
+            }
+          ],
+          "text": "kingdomkeys.dialogue.first_meeting.answer.leave"
+        }
+      ],
+      "lines": [
+        "kingdomkeys.dialogue.first_meeting.greeting.1",
+        "kingdomkeys.dialogue.first_meeting.greeting.2"
+      ]
+    },
+    "who": {
+      "answers": [
+        {
+          "goto": "who",
+          "text": "kingdomkeys.dialogue.first_meeting.answer.who"
+        },
+        {
+          "goto": "why",
+          "text": "kingdomkeys.dialogue.first_meeting.answer.why"
+        },
+        {
+          "goto": "offer",
+          "text": "kingdomkeys.dialogue.first_meeting.answer.come"
+        },
+        {
+          "do": [
+            {
+              "type": "kingdomkeys:close"
+            }
+          ],
+          "text": "kingdomkeys.dialogue.first_meeting.answer.leave"
+        }
+      ],
+      "lines": [
+        "kingdomkeys.dialogue.first_meeting.who.1",
+        "kingdomkeys.dialogue.first_meeting.who.2"
+      ]
+    },
+    "why": {
+      "answers": [
+        {
+          "goto": "who",
+          "text": "kingdomkeys.dialogue.first_meeting.answer.who"
+        },
+        {
+          "goto": "why",
+          "text": "kingdomkeys.dialogue.first_meeting.answer.why"
+        },
+        {
+          "goto": "offer",
+          "text": "kingdomkeys.dialogue.first_meeting.answer.come"
+        },
+        {
+          "do": [
+            {
+              "type": "kingdomkeys:close"
+            }
+          ],
+          "text": "kingdomkeys.dialogue.first_meeting.answer.leave"
+        }
+      ],
+      "lines": [
+        "kingdomkeys.dialogue.first_meeting.why.1",
+        "kingdomkeys.dialogue.first_meeting.why.2"
+      ]
+    }
+  }
+}

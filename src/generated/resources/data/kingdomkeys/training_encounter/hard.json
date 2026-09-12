@@ -50,7 +50,8 @@
   "level": 60,
   "lux": 400,
   "requires": [
-    "kingdomkeys:training/medium"
+    "kingdomkeys:training/medium",
+    "kingdomkeys:story/training_done"
   ],
   "rewards": [],
   "spawn_points": 10

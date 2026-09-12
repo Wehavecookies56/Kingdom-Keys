@@ -23,5 +23,7 @@ public class ModDialogue {
     public static final DeferredHolder<DialogueAction.Type<?>, DialogueAction.Type<DialogueAction.StartEncounter>> START_ENCOUNTER = DIALOGUE_ACTIONS.register("start_encounter", () -> new DialogueAction.Type<>(DialogueAction.StartEncounter.CODEC));
     public static final DeferredHolder<DialogueAction.Type<?>, DialogueAction.Type<DialogueAction.GiveItem>> GIVE_ITEM = DIALOGUE_ACTIONS.register("give_item", () -> new DialogueAction.Type<>(DialogueAction.GiveItem.CODEC));
     public static final DeferredHolder<DialogueAction.Type<?>, DialogueAction.Type<DialogueAction.SetFlag>> SET_FLAG = DIALOGUE_ACTIONS.register("set_flag", () -> new DialogueAction.Type<>(DialogueAction.SetFlag.CODEC));
+    public static final DeferredHolder<DialogueAction.Type<?>, DialogueAction.Type<DialogueAction.OpenPortal>> OPEN_PORTAL = DIALOGUE_ACTIONS.register("open_portal", () -> new DialogueAction.Type<>(DialogueAction.OpenPortal.CODEC));
+    public static final DeferredHolder<DialogueAction.Type<?>, DialogueAction.Type<DialogueAction.ReturnHome>> RETURN_HOME = DIALOGUE_ACTIONS.register("return_home", () -> new DialogueAction.Type<>(DialogueAction.ReturnHome.CODEC));
     public static final DeferredHolder<DialogueAction.Type<?>, DialogueAction.Type<DialogueAction.Close>> CLOSE = DIALOGUE_ACTIONS.register("close", () -> new DialogueAction.Type<>(DialogueAction.Close.CODEC));
 }

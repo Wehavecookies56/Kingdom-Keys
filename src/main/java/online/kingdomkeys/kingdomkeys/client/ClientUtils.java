@@ -1512,8 +1512,16 @@ public class ClientUtils {
      * {level}, {world}, {munny}, {lux}, {hearts}, {hp}, {maxhp}, {mp}, {maxmp}, {keyblade}, {drive}.
      */
     public static String fillTokens(String text) {
+        return fillTokens(text, null);
+    }
+
+    public static String fillTokens(String text, Entity speaker) {
         if (text == null || text.indexOf('{') < 0) {
             return text;
+        }
+
+        if (speaker != null) {
+            text = text.replace("{speaker}", speaker.getName().getString());
         }
 
         Player player = Minecraft.getInstance().player;

@@ -42,6 +42,8 @@ public class ForetellerEntity extends PathfinderMob {
 
     private boolean sparring;
 
+    private ResourceLocation dialogue = DIALOGUE;
+
     public ForetellerEntity(EntityType<? extends PathfinderMob> type, Level level) {
         super(type, level);
         this.setPersistenceRequired();
@@ -60,6 +62,14 @@ public class ForetellerEntity extends PathfinderMob {
 
     public void setUnion(Union union) {
         this.entityData.set(UNION, union.get());
+    }
+
+    public ResourceLocation getDialogue() {
+        return dialogue;
+    }
+
+    public void setDialogue(ResourceLocation dialogue) {
+        this.dialogue = dialogue == null ? DIALOGUE : dialogue;
     }
 
     public void wearUnionRobes() {
@@ -185,7 +195,7 @@ public class ForetellerEntity extends PathfinderMob {
         if (!playerData.hasUnion())
             return InteractionResult.FAIL;
 
-        DialogueHandler.start(serverPlayer, this, DIALOGUE);
+        DialogueHandler.start(serverPlayer, this, dialogue);
         return InteractionResult.SUCCESS;
     }
 
@@ -241,12 +251,14 @@ public class ForetellerEntity extends PathfinderMob {
     public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
         tag.putByte("union", getUnion().get());
+        tag.putString("dialogue", dialogue.toString());
     }
 
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
         setUnion(Union.fromByte(tag.getByte("union")));
+        setDialogue(tag.contains("dialogue") ? ResourceLocation.tryParse(tag.getString("dialogue")) : null);
 
         sparring = false;
         setInvisible(false);

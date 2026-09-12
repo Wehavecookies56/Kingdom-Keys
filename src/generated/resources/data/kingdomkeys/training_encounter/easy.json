@@ -38,6 +38,19 @@
   "info": "kingdomkeys.information.training",
   "level": 10,
   "lux": 60,
-  "rewards": [],
+  "rewards": [
+    {
+      "count": 1,
+      "id": "kingdomkeys:apprentice_chestplate"
+    },
+    {
+      "count": 1,
+      "id": "kingdomkeys:apprentice_leggings"
+    },
+    {
+      "count": 1,
+      "id": "kingdomkeys:apprentice_boots"
+    }
+  ],
   "spawn_points": 8
 }

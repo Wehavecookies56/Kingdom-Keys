@@ -77,6 +77,7 @@ import online.kingdomkeys.kingdomkeys.shotlock.ModShotlocks;
 import online.kingdomkeys.kingdomkeys.shotlock.ShotlockDataLoader;
 import online.kingdomkeys.kingdomkeys.shotlock.minigame.ShotlockMinigameHandler;
 import online.kingdomkeys.kingdomkeys.world.DialogueHandler;
+import online.kingdomkeys.kingdomkeys.story.ForetellerVisit;
 import online.kingdomkeys.kingdomkeys.world.TrainingHandler;
 import online.kingdomkeys.kingdomkeys.synthesis.keybladeforge.KeybladeDataLoader;
 import online.kingdomkeys.kingdomkeys.synthesis.melding.MeldingDataLoader;
@@ -219,6 +220,7 @@ public class KingdomKeys {
 		NeoForge.EVENT_BUS.register(new ShotlockMinigameHandler());
 		NeoForge.EVENT_BUS.register(new TrainingHandler());
 		NeoForge.EVENT_BUS.register(new DialogueHandler());
+		NeoForge.EVENT_BUS.register(new ForetellerVisit());
 	}
 
 	private void commonSetup(final FMLCommonSetupEvent event) {

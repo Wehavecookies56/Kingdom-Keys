@@ -24,7 +24,6 @@ import java.util.Map;
 public class ApprenticeClothStationScreen extends AbstractContainerScreen<ApprenticeClothStationMenu> {
 	private static final ResourceLocation TEXTURE = KingdomKeys.rl("textures/gui/apprentice_cloth_station.png");
 
-
 	private static final int DESIGN_Y = 16;
 	private static final int DESIGN_W = 16, DESIGN_H = 16;
 	private static final int DESIGN_BAND_LEFT = 44, DESIGN_BAND_RIGHT = 132;

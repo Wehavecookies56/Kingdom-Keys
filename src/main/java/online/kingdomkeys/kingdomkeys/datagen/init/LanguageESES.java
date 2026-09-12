@@ -365,18 +365,57 @@ public class LanguageESES extends KKLanguageProvider {
         add("kingdomkeys.encounter.medium", "Medio");
         add("kingdomkeys.encounter.hard", "Difícil");
         add("kingdomkeys.encounter.dynamic", "Dinámico");
+
+        add("kingdomkeys.dialogue.first_meeting.greeting.1", "Así que eras tú. He sentido despertar una llave espada nueva, y abrirse con ella el mundo al que pertenece.");
+        add("kingdomkeys.dialogue.first_meeting.greeting.2", "He viajado mucho siguiendo esa sensación. Concédeme un momento de tu mañana.");
+        add("kingdomkeys.dialogue.first_meeting.who.1", "Soy {speaker}, uno de los cinco líderes de las uniones. A cada uno nos entregaron un libro que cuenta lo que está por venir, y una unión a la que guiar a través de ello.");
+        add("kingdomkeys.dialogue.first_meeting.who.2", "La nuestra es {union}. Seremos la voz que oirás cuando haya algo que debas saber.");
+        add("kingdomkeys.dialogue.first_meeting.why.1", "Una llave espada no es una herramienta. Es una puerta, y las puertas se abren en ambos sentidos. La oscuridad seguramente se ha fijado en ti tanto como yo.");
+        add("kingdomkeys.dialogue.first_meeting.why.2", "Sin enseñanza te encontrará mucho antes de que estés listo. Prefiero que te encuentre enseñado.");
+        add("kingdomkeys.dialogue.first_meeting.answer.who", "¿Quién eres?");
+        add("kingdomkeys.dialogue.first_meeting.answer.why", "¿Por qué yo?");
+        add("kingdomkeys.dialogue.first_meeting.offer.1", "Entonces déjame enseñarte. Aquí no, donde cada sombra escucha, sino donde las uniones mantienen el orden.");
+        add("kingdomkeys.dialogue.first_meeting.offer.2", "Abriré el camino desde donde estamos, y lo dejaré activo. Ve y ven según lo necesites, y lleva contigo lo que haga falta, esto no es cosa de una tarde.");
+        add("kingdomkeys.dialogue.first_meeting.offer.3", "Pídemelo cuando quieras regresar y yo te mandaré. Y cuando hayas aprendido lo bastante como para merecer el viaje, el camino se cerrará, y a partir de entonces vendrás a mí en Nave Gummi como todo el mundo.");
+        add("kingdomkeys.dialogue.first_meeting.answer.come", "¿Adónde quieres llevarme?");
+        add("kingdomkeys.dialogue.first_meeting.answer.open", "Ábrelo.");
+        add("kingdomkeys.dialogue.first_meeting.answer.leave", "Necesito pensarlo.");
+
         add("kingdomkeys.dialogue.foreteller.greeting", "Hola, ¿qué quieres?");
-        add("kingdomkeys.dialogue.foreteller.lessons", "¿Los orbes? Di lo duro que lo quieres.");
+        add("kingdomkeys.dialogue.foreteller.lessons", "¿Los orbes? Elige la dificultad.");
         add("kingdomkeys.dialogue.foreteller.duels", "¿Contra mí? ¿Cuanto quieres que me esfuerce?");
         add("kingdomkeys.dialogue.foreteller.answer.train", "¡Quiero entrenar!");
-        add("kingdomkeys.dialogue.foreteller.answer.spar", "Quiero enfrentarme a ti.");
+        add("kingdomkeys.dialogue.foreteller.answer.spar", "Quiero enfrentarme a usted.");
         add("kingdomkeys.dialogue.foreteller.answer.shop", "Tengo Lux que gastar.");
-        add("kingdomkeys.dialogue.foreteller.answer.leave", "Nada. Perdona las molestias.");
+        add("kingdomkeys.dialogue.foreteller.answer.leave", "Nada. Disculpe las molestias.");
         add("kingdomkeys.dialogue.foreteller.darkness.1", "Ya que vas a enfrentarte a la oscuridad, más te vale saber cómo pelea.");
         add("kingdomkeys.dialogue.foreteller.darkness.2", "Así que voy a imbuir los orbes con un poco de ella. Mejor que te enfrentes a ella aquí que ahí fuera.");
         add("kingdomkeys.dialogue.foreteller.answer.ready", "Hazlo.");
         add("kingdomkeys.dialogue.foreteller.answer.notyet", "Todavía no.");
         add("kingdomkeys.dialogue.foreteller.answer.back", "Déjame pensarlo...");
+        add("kingdomkeys.dialogue.foreteller.home", "¿Ya te vas? Ve y coge lo que necesites y vuelve, tu formación aún no ha terminado.");
+        add("kingdomkeys.dialogue.foreteller.answer.home", "Quiero volver.");
+        add("kingdomkeys.dialogue.foreteller.answer.send", "¡Volveré!");
+        add("kingdomkeys.dialogue.foreteller.graduation.1", "Eso es lo último que puedo enseñarte ahora mismo. Lo demás está ahí fuera, y lo afrontarás solo.");
+        add("kingdomkeys.dialogue.foreteller.graduation.2", "Voy a cerrar el camino que abrí. No es un castigo, una puerta en el mundo es una puerta que otro ser puede encontrar.");
+        add("kingdomkeys.dialogue.foreteller.graduation.3", "Constrúyete una Nave Gummi. Vuelve a mí por tus propios medios y te enseñaré cómo son las lecciones duras, y además cruzaré llaves contigo.");
+        add("kingdomkeys.dialogue.foreteller.graduation.4", "Y sigue recogiendo Lux ahí fuera. Cuando regreses tendré género que merezca la pena a cambio, tráeme una buena cantidad y te legaré mi llave espada.");
+        add("kingdomkeys.dialogue.foreteller.answer.graduate", "Esa última ha sido más complicada...");
+
+        add("kingdomkeys.dialogue.foreteller.theory", "Pregunta, pues. Mejor que lo aprendas de mí que de algo que habite en la oscuridad.");
+        add("kingdomkeys.dialogue.foreteller.answer.ask", "Hay cosas que no entiendo.");
+        add("kingdomkeys.dialogue.foreteller.answer.theory.keyblade", "¿Qué es en realidad una llave espada?");
+        add("kingdomkeys.dialogue.foreteller.answer.theory.lux", "¿Y para qué sirve el Lux?");
+
+        add("kingdomkeys.dialogue.foreteller.theory_keyblade.1", "Un arma es algo que uno recoge. Una llave espada es algo que te escoge a ti: responde al corazón que la sostiene, y a ningún otro.");
+        add("kingdomkeys.dialogue.foreteller.theory_keyblade.2", "Por eso abre lo que está cerrado y cierra lo que debería estarlo. Una puerta, un cofre, el camino entre dos enlaces... para ella todo son cerraduras.");
+        add("kingdomkeys.dialogue.foreteller.theory_keyblade.3", "Y por eso la oscuridad quiere a quienes las portan. Toma al portador y habrás tomado la llave.");
+
+        add("kingdomkeys.dialogue.foreteller.theory_lux.1", "El Lux es la manifestación física de la luz. Todo corazón desprende algo; un corazón alegre brilla más.");
+        add("kingdomkeys.dialogue.foreteller.theory_lux.2", "Cuando abates a un sincorazón no destruyes luz, sueltas la que se había tragado. El objetivo es destruir la oscuridad que amenaza con corromper los mundos.");
+        add("kingdomkeys.dialogue.foreteller.theory_lux.3", "Tu unión cuenta lo que traes. Las otras cuatro también, por lo que tómalo como una competición amistosa.");
+
+
         add(Gui_Level_Dynamic, "Tu nivel");
         add(Gui_Training_Reward, "%s EXP, %s Lux");
         add("kingdomkeys.information.title", "INFORMACIÓN");
@@ -2860,6 +2899,10 @@ public class LanguageESES extends KKLanguageProvider {
         add("kingdomkeys.command.lux.add_self", "Tu Lux ha aumentado en %s");
         add("kingdomkeys.command.lux.remove", "Quitado %s de Lux a %s");
         add("kingdomkeys.command.lux.remove_self", "Tu Lux ha disminuido en %s");
+        add("kingdomkeys.command.story.visit", "El maestro ha venido a por %s");
+        add("kingdomkeys.command.story.reset", "Olvidada la visita del maestro a %s");
+        add("kingdomkeys.command.story.no_union", "%s no tiene unión de la que venga ningún maestro");
+        add("kingdomkeys.command.story.no_room", "No hay sitio alrededor de %s donde ponerse el maestro");
         add("kingdomkeys.command.lux.set", "Lux de %s establecido a %s");
         add("kingdomkeys.command.lux.set_self", "Tu Lux se ha establecido a %s");
 

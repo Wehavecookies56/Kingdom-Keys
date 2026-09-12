@@ -6,6 +6,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -293,6 +294,10 @@ public class TrainingHandler {
             lesson.encounter().getGrants().ifPresent(playerData::addFlag);
 
             PacketHandler.sendTo(new SCSyncPlayerData(pupil), pupil);
+        }
+
+        if (!lesson.encounter().getRewards().isEmpty()) {
+            Utils.giveItems(pupil, true, lesson.encounter().getRewards().stream().map(ItemStack::copy).toList());
         }
 
         announce(pupil, Strings.Training_Won, Strings.Training_Won_Sub);

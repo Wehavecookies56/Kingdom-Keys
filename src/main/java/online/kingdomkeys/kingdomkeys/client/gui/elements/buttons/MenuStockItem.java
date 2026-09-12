@@ -29,6 +29,8 @@ import online.kingdomkeys.kingdomkeys.item.MagicSpellItem;
 import online.kingdomkeys.kingdomkeys.lib.Constants;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.Recipe;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
+import online.kingdomkeys.kingdomkeys.KingdomKeys;
+import online.kingdomkeys.kingdomkeys.synthesis.shop.ForetellerShop;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopItem;
 import online.kingdomkeys.kingdomkeys.synthesis.shop.ShopList;
 import online.kingdomkeys.kingdomkeys.util.Utils;
@@ -205,7 +207,8 @@ public class MenuStockItem extends Button {
                 ShopList shopList = shop.getShopList();
                 for(ShopItem item : shopList.getList()){
                     if(rl.equals(Utils.getItemRegistryName(item.getResult()))){
-                        textColor = item.getCost() > playerData.getMunny() ? ChatFormatting.DARK_GRAY : ChatFormatting.WHITE;
+                        int price = ForetellerShop.priceFor(item, playerData, KingdomKeys.rl(shop.invFile));
+                        textColor = price > item.getCurrency().held(playerData) ? ChatFormatting.DARK_GRAY : ChatFormatting.WHITE;
                         break;
                     }
                 }

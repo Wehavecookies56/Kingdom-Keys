@@ -9,7 +9,11 @@ import online.kingdomkeys.kingdomkeys.encounter.Encounter;
 import online.kingdomkeys.kingdomkeys.encounter.WaveEncounter;
 import net.minecraft.core.Holder;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.item.ArmorItem;
+import net.minecraft.world.item.ItemStack;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
+import online.kingdomkeys.kingdomkeys.item.ModItems;
+import online.kingdomkeys.kingdomkeys.story.StoryFlags;
 
 public class TrainingEncountersGen extends BaseProvider<RoomEncounterBuilder> {
     private static final int INTERVAL = 60;
@@ -33,7 +37,8 @@ public class TrainingEncountersGen extends BaseProvider<RoomEncounterBuilder> {
                         .wave(light(), light(), light(), light()).end()
                         .wave(light(), light(), light(), light(), light()).end()
                         .wave(light(), light(), light(), light(), light(), light()).end()
-                        .build(), INTERVAL, false)).payout(120, 60).arena(7, 8).level(EASY_LEVEL).grants(trained("easy"));
+                        .build(), INTERVAL, false), cloth(ArmorItem.Type.CHESTPLATE), cloth(ArmorItem.Type.LEGGINGS), cloth(ArmorItem.Type.BOOTS))
+                .payout(120, 60).arena(7, 8).level(EASY_LEVEL).grants(trained("easy"));
 
         createTrainingEncounter("medium", new WaveEncounter(
                 new RoomEncountersGen.WaveBuilder()
@@ -49,7 +54,7 @@ public class TrainingEncountersGen extends BaseProvider<RoomEncounterBuilder> {
                         .wave(dark(), dark(), dark(), dark(), dark()).end()
                         .wave(dark(), dark(), dark(), dark(), dark(), dark()).end()
                         .wave(dark(), dark(), dark(), dark(), dark(), dark(), dark()).end()
-                        .build(), INTERVAL, false)).payout(700, 400).arena(9, 10).level(HARD_LEVEL).requires(trained("medium")).grants(trained("hard"));
+                        .build(), INTERVAL, false)).payout(700, 400).arena(9, 10).level(HARD_LEVEL).requires(trained("medium"), StoryFlags.INTRODUCTORY_TRAINING_DONE).grants(trained("hard"));
 
         createTrainingEncounter("dynamic", new WaveEncounter(
                 new RoomEncountersGen.WaveBuilder()
@@ -73,7 +78,11 @@ public class TrainingEncountersGen extends BaseProvider<RoomEncounterBuilder> {
         return "Kingdom Keys Foreteller Training Encounters";
     }
 
-    public RoomEncounterBuilder createTrainingEncounter(String path, Encounter encounter) {
-        return addBuilder(new RoomEncounterBuilder(getLocation(path), encounter)).info(KingdomKeys.MODID + ".information.training");
+    public RoomEncounterBuilder createTrainingEncounter(String path, Encounter encounter, ItemStack... rewards) {
+        return addBuilder(new RoomEncounterBuilder(getLocation(path), encounter, rewards)).info(KingdomKeys.MODID + ".information.training");
+    }
+
+    private static ItemStack cloth(ArmorItem.Type slot) {
+        return new ItemStack(ModItems.getApprenticeArmor(slot));
     }
 }

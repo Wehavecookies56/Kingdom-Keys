@@ -131,6 +131,7 @@ public class ModEntities {
     public static final DeferredHolder<EntityType<?>, EntityType<SaixShockwave>> TYPE_SAIX_SHOCKWAVE = createEntityType(SaixShockwave::new, MobCategory.MISC,"saix_shockwave", 1.5F,3.5F);
 
     public static final DeferredHolder<EntityType<?>, EntityType<OrgPortalEntity>> TYPE_ORG_PORTAL = createEntityType(OrgPortalEntity::new, MobCategory.MISC,"entity_org_portal", 1F, 3.5F);
+    public static final DeferredHolder<EntityType<?>, EntityType<LightPortalEntity>> TYPE_LIGHT_PORTAL = createEntityType(LightPortalEntity::new, MobCategory.MISC,"entity_light_portal", 1F, 3.5F);
 
    // public static final DeferredHolder<EntityType<?>, EntityType<ChakramEntity>> TYPE_CHAKRAM = createEntityType(ChakramEntity::new, ChakramEntity::new, MobCategory.MISC,"entity_chakram", 1.3F, 0.5F);
     public static final DeferredHolder<EntityType<?>, EntityType<KKThrowableEntity>> TYPE_KK_THROWABLE = ENTITIES.register("entity_chakram",
@@ -452,6 +453,7 @@ public class ModEntities {
         event.registerEntityRenderer(TYPE_BLOX_BUG.get(), BloxBugEntityRenderer::new);
 
         event.registerEntityRenderer(TYPE_ORG_PORTAL.get(), OrgPortalEntityRenderer::new);
+        event.registerEntityRenderer(TYPE_LIGHT_PORTAL.get(), LightPortalEntityRenderer::new);
         event.registerEntityRenderer(TYPE_HEART.get(), HeartEntityRenderer::new);
         event.registerEntityRenderer(TYPE_XP.get(), XPEntityRenderer::new);
         event.registerEntityRenderer(TYPE_TRAINING_DUMMY.get(), TrainingDummyRenderer::new);

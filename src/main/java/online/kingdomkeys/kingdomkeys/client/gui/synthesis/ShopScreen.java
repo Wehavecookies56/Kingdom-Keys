@@ -52,7 +52,7 @@ public class ShopScreen extends MenuFilterable {
 	// null if opened from outside a moogle, like a foreteller
 	SynthesisScreen parent;
 
-	String invFile;
+	public String invFile;
 	Screen returnTo;
 
 	public ShopScreen(PlayerData playerData, SynthesisScreen parent) {

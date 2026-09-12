@@ -3,12 +3,14 @@
   * They are all equal to themselves, if a player joins Organization XIII they won't have access to their Union privileges.
   * Foretellers will be able to train you, either by summoning rounds of enemies or by sparring with them.
   * Lux is used to claim rewards from the Foretellers. Foretellers from other unions will charge you extra Lux for theirs.
+* Your foreteller will visit you once at dawn you synthesise your first keyblade (next keyblade you synthesise in old worlds).
+  * It will take you to Daybreak Town to do some introductory training and then you'll return to where you were.
 * Daybreak Town, full of keyblade wielders who you can spar with.
   * They will fight the heartless and nobodies that spawn there, which will be weak since it's a light-related world.
   * Their outfit's main color is linked to the union they belong to, the secondary color is randomized.
-  * Some enemies may spawn there but won't be stronger than lvl 10 due to Daybreak Town being a light-themed place.
+  * Some enemies may spawn there but won't be stronger than lvl 3 due to Daybreak Town being a light-themed place.
 * Union apprentice armors, 2 designs which can be dyed in the new Clothing Table.
-  * The armor can be obtained by redeeming Lux to your union master.
+  * The armor can be obtained by completing an initial training with your master and redeeming Lux to your union master.
   * The table can be obtained by crafting with 3 strings at the top, shears in the middle and 5 wooden planks at the rest.
   * It can be dyed with two different colors and can be cleaned by washing it on a water cauldron with right click.
   * In the table you can add up to 8 dyes to make your desired color, can stack them and even after dyeing it you can put the resulting item as input again.
@@ -61,4 +63,5 @@
 * Removed a couple of warnings when loading the mod.
 * Some crashes when needed json files are not present.
 * Rare Large Body model crash.
+* Moogle projector block having red tint.
 * Small translation issues (Thanks to Held_der_Zeit).

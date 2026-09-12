@@ -42,6 +42,10 @@ public class DaybreakTownDimension {
         POSTS.put(Union.ANGUIS, new Post(87, 77, 260, 0.0F));
     }
 
+    public static Post postFor(Union union) {
+        return POSTS.get(union);
+    }
+
     private static final double NEAR_PLAYER = 48.0D;
 
     private static final double POST_RADIUS = 8.0D;

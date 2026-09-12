@@ -120,7 +120,9 @@ import online.kingdomkeys.kingdomkeys.util.CombatAbilities;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 import online.kingdomkeys.kingdomkeys.util.Utils.OrgMember;
 import online.kingdomkeys.kingdomkeys.world.TrainingHandler;
+import online.kingdomkeys.kingdomkeys.story.StoryFlags;
 import online.kingdomkeys.kingdomkeys.world.dimension.ModDimensions;
+import online.kingdomkeys.kingdomkeys.world.dimension.daybreak_town.DaybreakTownDimension;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.CastleOblivionHandler;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.floor.Floor;
 import online.kingdomkeys.kingdomkeys.world.dimension.castle_oblivion.system.registry.ModJsonRegistries;
@@ -139,7 +141,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Supplier;
 
 public class EntityEvents {
-	private static final int DAYBREAK_MAX_LEVEL = 10;
+	private static final int DAYBREAK_MAX_LEVEL = 3;
 	public static ThreatLevel threatLevel = ThreatLevel.NONE;
 	Map<UUID, Boolean> openedAlignment = new HashMap<>();
 	int airstepTicks = -1;
@@ -214,6 +216,14 @@ public class EntityEvents {
 		}
 		if (!e.getLevel().isClientSide() && e.getEntity() instanceof Mob ally && Utils.getParty(ally) != null && !PartyAllyGoals.isApplied(ally)) {
 			PartyAllyGoals.applyAI(ally);
+		}
+
+		if (!e.getLevel().isClientSide() && e.getLevel().dimension().equals(ModDimensions.DAYBREAK_TOWN) && e.getEntity() instanceof LivingEntity unwanted && isNobody(unwanted)) {
+			GlobalData data = GlobalData.get(unwanted);
+			if (data == null || !data.getCastleOblivionMarker()) {
+				e.setCanceled(true);
+				return;
+			}
 		}
 
 		if (!e.getLevel().isClientSide() && e.getEntity() instanceof Mob darkness && ApprenticeEntity.isDarkness(darkness)) {
@@ -1522,7 +1532,7 @@ public class EntityEvents {
 
 					if (entity.level().random.nextInt(100) <= ModConfigs.munnyDropProbability) {
 						int num = (int) Utils.randomWithRange(5, entity.getMaxHealth() / 5);
-						num += playerData.getNumberOfAbilitiesEquipped(ModAbilities.JACKPOT) * 1.2;
+						num = (int) (num + playerData.getNumberOfAbilitiesEquipped(ModAbilities.JACKPOT) * 1.2);
 						// reduce munny value by 2 for each level of drive converter
 						num /= (1 + playerData.getNumberOfAbilitiesEquipped(ModAbilities.DRIVE_CONVERTER));
 						entity.level().addFreshEntity(new MunnyEntity(event.getEntity().level(), x, y, z, num));
@@ -1530,25 +1540,25 @@ public class EntityEvents {
 
 					if (entity.level().random.nextInt(100) <= ModConfigs.hpDropProbability) {
 						int num = (int) Utils.randomWithRange(entity.getMaxHealth() / 10, entity.getMaxHealth() / 5);
-						num += playerData.getNumberOfAbilitiesEquipped(ModAbilities.JACKPOT) * 1.2;
+						num = (int) (num + playerData.getNumberOfAbilitiesEquipped(ModAbilities.JACKPOT) * 1.2);
 						entity.level().addFreshEntity(new HPOrbEntity(event.getEntity().level(), x, y, z, num));
 					}
 
 					if (entity.level().random.nextInt(100) <= ModConfigs.mpDropProbability) {
 						int num = (int) Utils.randomWithRange(entity.getMaxHealth() / 10, entity.getMaxHealth() / 5);
-						num += playerData.getNumberOfAbilitiesEquipped(ModAbilities.JACKPOT) * 1.2;
+						num = (int) (num + playerData.getNumberOfAbilitiesEquipped(ModAbilities.JACKPOT) * 1.2);
 						entity.level().addFreshEntity(new MPOrbEntity(event.getEntity().level(), x, y, z, num));
 					}
 
 					if (entity.level().random.nextInt(100) <= ModConfigs.driveDropProbability) {
 						int num = (int) (Utils.randomWithRange(entity.getMaxHealth() * 0.1F, entity.getMaxHealth() * 0.25F) * ModConfigs.drivePointsMultiplier);
-						num += num * playerData.getNumberOfAbilitiesEquipped(ModAbilities.JACKPOT) * 0.5;
+						num = (int) (num + num * playerData.getNumberOfAbilitiesEquipped(ModAbilities.JACKPOT) * 0.5);
 						entity.level().addFreshEntity(new DriveOrbEntity(event.getEntity().level(), x, y, z, num));
 					}
 
 					if (entity.level().random.nextInt(100) <= ModConfigs.focusDropProbability) {
 						int num = (int) (Utils.randomWithRange(entity.getMaxHealth() * 0.1F, entity.getMaxHealth() * 0.25F) * ModConfigs.focusPointsMultiplier);
-						num += num * playerData.getNumberOfAbilitiesEquipped(ModAbilities.JACKPOT) * 0.25;
+						num = (int) (num + num * playerData.getNumberOfAbilitiesEquipped(ModAbilities.JACKPOT) * 0.25);
 						entity.level().addFreshEntity(new FocusOrbEntity(event.getEntity().level(), x, y, z, num));
 					}
 
@@ -1722,6 +1732,10 @@ public class EntityEvents {
 			PacketHandler.sendTo(new SCSyncWorldData(nPlayer.getServer()), (ServerPlayer) nPlayer);
 
 			if (!event.isEndConquered() && !nPlayer.level().isClientSide()) {
+				if (returnedToTheMaster(nPlayer, playerData)) {
+					return;
+				}
+
 				if (playerData.getRespawnROD() && ModConfigs.respawnROD) {
 					ServerPlayer sPlayer = (ServerPlayer) nPlayer;
 					ResourceKey<Level> dimension = ResourceKey.create(Registries.DIMENSION, KingdomKeys.rl("realm_of_darkness"));
@@ -1732,6 +1746,39 @@ public class EntityEvents {
 				}
 			}
 		}
+	}
+
+	private static boolean isNobody(LivingEntity entity) {
+		if (entity instanceof SpawningOrbEntity orb) {
+			return MobType.NOBODY.name().equals(orb.getEntityType());
+		}
+
+		return entity instanceof IKHMob mob && mob.getKHMobType() == MobType.NOBODY;
+	}
+
+	private static boolean returnedToTheMaster(Player player, PlayerData playerData) {
+		if (playerData == null || !playerData.hasUnion() || playerData.hasFlag(StoryFlags.INTRODUCTORY_TRAINING_DONE) || !playerData.hasFlag(StoryFlags.FORETELLER_VISITED)) {
+			return false;
+		}
+
+		if (player.getLastDeathLocation().filter(death -> death.dimension().equals(ModDimensions.DAYBREAK_TOWN)).isEmpty()) {
+			return false;
+		}
+
+		DaybreakTownDimension.Post post = DaybreakTownDimension.postFor(playerData.getUnion());
+
+		if (post == null || !(player instanceof ServerPlayer sPlayer)) {
+			return false;
+		}
+
+		ServerLevel town = sPlayer.getServer().getLevel(ModDimensions.DAYBREAK_TOWN);
+
+		if (town == null) {
+			return false;
+		}
+
+		sPlayer.teleportTo(town, post.x() + 0.5D, post.y(), post.z() + 0.5D, post.yaw(), 0F);
+		return true;
 	}
 
 	@SubscribeEvent

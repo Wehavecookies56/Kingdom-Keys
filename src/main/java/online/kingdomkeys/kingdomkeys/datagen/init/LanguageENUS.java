@@ -315,9 +315,25 @@ public class LanguageENUS extends KKLanguageProvider {
         add("kingdomkeys.encounter.medium", "Medium");
         add("kingdomkeys.encounter.hard", "Hard");
         add("kingdomkeys.encounter.dynamic", "Dynamic");
+
+        add("kingdomkeys.dialogue.first_meeting.greeting.1", "So it was you. I felt a new keyblade wake, and the world it belongs to open along with it.");
+        add("kingdomkeys.dialogue.first_meeting.greeting.2", "I have traveled from a far place following that feeling. Give me a moment of your morning.");
+        add("kingdomkeys.dialogue.first_meeting.who.1", "I am {speaker}, one of five union leaders. Each of us was given a book that tells what is coming, and a union to carry through it.");
+        add("kingdomkeys.dialogue.first_meeting.who.2", "Ours is {union}. We'll be the voice you will hear when there is something you need to know.");
+        add("kingdomkeys.dialogue.first_meeting.why.1", "A keyblade is not a tool. It is a door, and doors open both ways. The darkness surely has noticed you the same way as I have.");
+        add("kingdomkeys.dialogue.first_meeting.why.2", "Untaught, it will find you long before you are ready for it. I would rather prefer you being ready for it.");
+        add("kingdomkeys.dialogue.first_meeting.answer.who", "Who are you?");
+        add("kingdomkeys.dialogue.first_meeting.answer.why", "Why me?");
+        add("kingdomkeys.dialogue.first_meeting.offer.1", "Then let me teach you. Not here, where every shadow is listening, but where unions keep order.");
+        add("kingdomkeys.dialogue.first_meeting.offer.2", "I will open the way from where we stand, and leave it active. Come and go as you need to, bring what you must, this is not an afternoon's work.");
+        add("kingdomkeys.dialogue.first_meeting.offer.3", "Ask me when you want to come back and I will send you. When you have learned enough to be worth the walk, the way will close, and after that you come to me by Gummi Ship like everybody else.");
+        add("kingdomkeys.dialogue.first_meeting.answer.come", "Where are you taking me?");
+        add("kingdomkeys.dialogue.first_meeting.answer.open", "Open it.");
+        add("kingdomkeys.dialogue.first_meeting.answer.leave", "I need to think about this.");
+
         add("kingdomkeys.dialogue.foreteller.greeting", "Hello, what do you want?");
         add("kingdomkeys.dialogue.foreteller.lessons", "Orbs, is it? Say how hard you want it.");
-        add("kingdomkeys.dialogue.foreteller.duels", "Against me? Choose your ground.");
+        add("kingdomkeys.dialogue.foreteller.duels", "Against me? Choose the amount of effort you want me to put in.");
         add("kingdomkeys.dialogue.foreteller.answer.train", "I want to train!");
         add("kingdomkeys.dialogue.foreteller.answer.spar", "I want to face you.");
         add("kingdomkeys.dialogue.foreteller.answer.shop", "I have Lux to spend.");
@@ -327,6 +343,29 @@ public class LanguageENUS extends KKLanguageProvider {
         add("kingdomkeys.dialogue.foreteller.answer.ready", "Do it.");
         add("kingdomkeys.dialogue.foreteller.answer.notyet", "Not yet.");
         add("kingdomkeys.dialogue.foreteller.answer.back", "Let me think about it...");
+        add("kingdomkeys.dialogue.foreteller.home", "You're leaving already? Go and get what you need and come back, your training is not done yet.");
+        add("kingdomkeys.dialogue.foreteller.answer.home", "I want to go back.");
+        add("kingdomkeys.dialogue.foreteller.answer.send", "I will be back!");
+        add("kingdomkeys.dialogue.foreteller.graduation.1", "That is the last of what I can teach you right now. The rest is out there, and you will find it on your own.");
+        add("kingdomkeys.dialogue.foreteller.graduation.2", "I am closing the way I opened. Not to punish you, a door left hanging in the world is a door something else can find.");
+        add("kingdomkeys.dialogue.foreteller.graduation.3", "Build yourself a Gummi Ship. Come back to me after you've developed your own power and I will show you what the hard lessons look like, and cross keyblades with me.");
+        add("kingdomkeys.dialogue.foreteller.graduation.4", "Keep gathering Lux out there. When you return I will have goods worth trading it for, bring me a good amount and I will be able to bequeath you my keyblade.");
+        add("kingdomkeys.dialogue.foreteller.answer.graduate", "That one was harder...");
+
+        add("kingdomkeys.dialogue.foreteller.theory", "Ask, then. Better you learn it from me than from something in the dark.");
+        add("kingdomkeys.dialogue.foreteller.answer.ask", "There are things I do not understand.");
+        add("kingdomkeys.dialogue.foreteller.answer.theory.keyblade", "What is a keyblade?");
+        add("kingdomkeys.dialogue.foreteller.answer.theory.lux", "And what is Lux for?");
+
+        add("kingdomkeys.dialogue.foreteller.theory_keyblade.1", "A weapon is a thing you pick up. A keyblade is a thing that picks you: it answers to the heart holding it, and to no other.");
+        add("kingdomkeys.dialogue.foreteller.theory_keyblade.2", "That is why it opens what is locked and closes what should be. A door, a chest, the way between two worlds... they are all locks to it.");
+        add("kingdomkeys.dialogue.foreteller.theory_keyblade.3", "And it is why the darkness wants the ones who carry them. Take the wielder and you have taken the key.");
+
+        add("kingdomkeys.dialogue.foreteller.theory_lux.1", "Lux is the physical manifestation of the light. Every heart gives some off; a joyful heart shines more.");
+        add("kingdomkeys.dialogue.foreteller.theory_lux.2", "When you strike down a Heartless you are not destroying light, you are letting go what it swallowed. The goal is to defeat the darkness that attempts to corrupt the worlds.");
+        add("kingdomkeys.dialogue.foreteller.theory_lux.3", "Your union counts what you bring in, but so do the other four, take it as a friendly competition.");
+
+
         add(Gui_Level_Dynamic, "Your level");
         add(Gui_Training_Reward, "%s EXP, %s Lux");
         add("kingdomkeys.information.title", "INFORMATION");
@@ -2844,6 +2883,10 @@ public class LanguageENUS extends KKLanguageProvider {
         add("kingdomkeys.command.lux.add_self", "Your Lux has been increased by %s");
         add("kingdomkeys.command.lux.remove", "Taken %s Lux from %s");
         add("kingdomkeys.command.lux.remove_self", "Your Lux has been decreased by %s");
+        add("kingdomkeys.command.story.visit", "The master has come for %s");
+        add("kingdomkeys.command.story.reset", "Forgot the master's visit to %s");
+        add("kingdomkeys.command.story.no_union", "%s has no union for a master to come from");
+        add("kingdomkeys.command.story.no_room", "Nowhere around %s for the master to stand");
         add("kingdomkeys.command.lux.set", "Set %s Lux to %s");
         add("kingdomkeys.command.lux.set_self", "Your Lux has been set to %s");
 

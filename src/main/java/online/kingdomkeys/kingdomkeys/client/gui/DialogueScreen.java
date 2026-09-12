@@ -86,7 +86,11 @@ public class DialogueScreen extends Screen {
 	}
 
 	private String text(int index) {
-		return index < 0 || index >= lines.size() ? "" : ClientUtils.fillTokens(Component.translatable(lines.get(index)).getString());
+		return index < 0 || index >= lines.size() ? "" : ClientUtils.fillTokens(Component.translatable(lines.get(index)).getString(), speaker());
+	}
+
+	private Entity speaker() {
+		return minecraft == null || minecraft.level == null ? null : minecraft.level.getEntity(speakerId);
 	}
 
 	@Override
@@ -149,7 +153,8 @@ public class DialogueScreen extends Screen {
 	}
 
 	private void drawAnswers(GuiGraphics gui, int mouseX, int mouseY) {
-		List<String> texts = answers.stream().map(key -> ClientUtils.fillTokens(Component.translatable(key).getString())).toList();
+		Entity speaker = speaker();
+		List<String> texts = answers.stream().map(key -> ClientUtils.fillTokens(Component.translatable(key).getString(), speaker)).toList();
 
 		int rowHeight = font.lineHeight + LINE_GAP * 2;
 		int bubbleWidth = widest(texts) + GLOVE_ROOM + PADDING * 2;
@@ -286,7 +291,14 @@ public class DialogueScreen extends Screen {
 			return true;
 		}
 
-		if (key == 257 || key == 32) { // enter, space
+		if (key == 32) {
+			if (!choosing) {
+				mouseClicked(0, 0, 0);
+			}
+			return true;
+		}
+
+		if (key == 257) { // enter
 			if (choosing) {
 				answer(selected);
 			} else {
