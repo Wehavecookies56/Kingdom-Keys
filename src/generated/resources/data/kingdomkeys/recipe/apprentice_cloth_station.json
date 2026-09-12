@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "kingdomkeys",
+  "key": {
+    "H": {
+      "item": "minecraft:shears"
+    },
+    "S": {
+      "item": "minecraft:string"
+    },
+    "W": {
+      "tag": "minecraft:planks"
+    }
+  },
+  "pattern": [
+    "SSS",
+    "WHW",
+    "WWW"
+  ],
+  "result": {
+    "count": 1,
+    "id": "kingdomkeys:apprentice_cloth_station"
+  }
+}

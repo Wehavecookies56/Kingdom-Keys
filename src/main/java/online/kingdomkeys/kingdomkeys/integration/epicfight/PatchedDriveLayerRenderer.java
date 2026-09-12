@@ -25,7 +25,7 @@ import yesman.epicfight.gameasset.Armatures;
 import yesman.epicfight.world.capabilities.entitypatch.LivingEntityPatch;
 
 public class PatchedDriveLayerRenderer<E extends LivingEntity, T extends LivingEntityPatch<E>, M extends EntityModel<E>> extends PatchedLayer<E, T, M, RenderLayer<E, M>> {
-    private static final ResourceLocation ANTI_EYES = KingdomKeys.rl("textures/models/armor/anti_eyes.png");
+    private static final ResourceLocation ANTI_EYES = KingdomKeys.rl("textures/models/armor/driveforms/anti_eyes.png");
 
     private final boolean forceFirstPerson;
 

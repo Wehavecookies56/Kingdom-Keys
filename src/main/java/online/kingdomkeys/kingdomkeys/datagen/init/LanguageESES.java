@@ -1384,6 +1384,7 @@ public class LanguageESES extends KKLanguageProvider {
         add("tooltip.kingdomkeys.apprentice.design", "Diseño %s");
         add("tooltip.kingdomkeys.apprentice.primary_color", "Primario");
         add("tooltip.kingdomkeys.apprentice.secondary_color", "Secundario");
+        add("tooltip.kingdomkeys.apprentice.undyed", "Sin teñir - puedes darle color en una %s");
 
         addItem(ModItems.organizationRobe_Helmet, "Capucha de la Organización");
         addItem(ModItems.organizationRobe_Chestplate, "Abrigo de la Organización");

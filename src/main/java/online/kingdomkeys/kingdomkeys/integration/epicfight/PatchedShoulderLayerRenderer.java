@@ -79,12 +79,12 @@ public class PatchedShoulderLayerRenderer<E extends LivingEntity, T extends Livi
                     //Item doesn't matter
                     epicfight_shoulderModels.put(armor.getItem(), HumanoidModelBaker.bakeArmor(player, armor, (ArmorItem) ModItems.terra_Helmet.get(), EquipmentSlot.CHEST, emRenderLayer.getParentModel(), model, emRenderLayer.getParentModel(), Meshes.BIPED.get()));
                 }
-                texture = KingdomKeys.rl("textures/models/armor/"+armorName+"_shoulder.png");
+                texture = KingdomKeys.rl("textures/models/armor/keyblade_armor/"+armorName+"_shoulder.png");
                 model.setAllVisible(true);
                 AbstractClientPlayer clientPlayer = (AbstractClientPlayer) player;
                 boolean steve = clientPlayer.getSkin().model() == PlayerSkin.Model.WIDE;
                 poseStack.pushPose();
-                RenderType renderType = RENDER_TYPE_CACHE.computeIfAbsent(armorName, key -> EpicFightRenderTypes.getTriangulated(EpicFightRenderTypes.armorCutoutNoCull(KingdomKeys.rl("textures/models/armor/" + key + "_shoulder.png"))));
+                RenderType renderType = RENDER_TYPE_CACHE.computeIfAbsent(armorName, key -> EpicFightRenderTypes.getTriangulated(EpicFightRenderTypes.armorCutoutNoCull(KingdomKeys.rl("textures/models/armor/keyblade_armor/" + key + "_shoulder.png"))));
                 VertexConsumer bufferBuilder = multiBufferSource.getBuffer(renderType);
                 if (steve)
                     poseStack.translate(-0.07, 0, 0);

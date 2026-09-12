@@ -44,25 +44,56 @@ public record CSShopSell(int slot, int amount, String inv, String name, int moog
 		PlayerData playerData = PlayerData.get(player);
 
 		List<SellItem> list = SellListRegistry.getInstance().getRegistry().get(KingdomKeys.rl("sell")).getList();
-        ItemStack playerStack = player.getInventory().getItem(slot);
+		ItemStack sold = player.getInventory().getItem(slot).copy();
 
         SellItem item = null;
 		for(SellItem shopItem : list) {
 			Item it = shopItem.getResult();
 
-			if(ItemStack.isSameItem(new ItemStack(it), playerStack)) {
+			if(ItemStack.isSameItem(new ItemStack(it), sold)) {
 				item = shopItem;
 				break;
 			}
 
 		}
 
-        if(item != null && playerStack.getCount() >= amount) {
-            playerData.setMunny(playerData.getMunny() + item.getPrice() * amount, (ServerPlayer) player);
-            player.getInventory().getItem(slot).setCount(player.getInventory().getItem(slot).getCount() - amount);
-            PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
-            PacketHandler.sendTo(new SCOpenSellScreen(playerData.serializeNBT(player.level().registryAccess()), inv, name, moogle), (ServerPlayer) player);
-        }
+		// A client asking for nothing, or for a negative amount that would pay out and hand the goods back
+		if (item == null || amount <= 0 || count(player, sold) < amount) {
+			return;
+		}
+
+		playerData.setMunny(playerData.getMunny() + item.getPrice() * amount, (ServerPlayer) player);
+		take(player, sold, amount);
+		PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);
+		PacketHandler.sendTo(new SCOpenSellScreen(playerData.serializeNBT(player.level().registryAccess()), inv, name, moogle), (ServerPlayer) player);
+	}
+
+	private static int count(Player player, ItemStack sold) {
+		int total = 0;
+
+		for (int i = 0; i < player.getInventory().getContainerSize(); i++) {
+			ItemStack stack = player.getInventory().getItem(i);
+
+			if (ItemStack.isSameItemSameComponents(stack, sold)) {
+				total += stack.getCount();
+			}
+		}
+
+		return total;
+	}
+
+	private static void take(Player player, ItemStack sold, int amount) {
+		int left = amount;
+
+		for (int i = 0; i < player.getInventory().getContainerSize() && left > 0; i++) {
+			ItemStack stack = player.getInventory().getItem(i);
+
+			if (ItemStack.isSameItemSameComponents(stack, sold)) {
+				int taken = Math.min(left, stack.getCount());
+				stack.shrink(taken);
+				left -= taken;
+			}
+		}
 	}
 
 	@Override

@@ -32,6 +32,9 @@ public class ApprenticeClothStationMenu extends AbstractContainerMenu {
 	private static final int DYE_TOP = 17, DYE_STEP = 18;
 	private static final int PRIMARY_LEFT = 8, SECONDARY_LEFT = 134;
 
+	public static final int PIECE_LEFT = 80;
+	public static final int INPUT_TOP = 35, OUTPUT_TOP = 75;
+
 	public ApprenticeClothStationMenu(int windowId, Inventory playerInv, ApprenticeClothStationTileEntity te) {
 		super(ModMenus.APPRENTICE_CLOTH_STATION.get(), windowId);
 		this.TE = te;
@@ -39,8 +42,8 @@ public class ApprenticeClothStationMenu extends AbstractContainerMenu {
 
 		IItemHandler inv = te.getItemHandler();
 
-		// Input armor (center-ish)
-		addSlot(new SlotItemHandler(inv, ApprenticeClothStationTileEntity.INPUT_SLOT, 80, 35) {
+		// Input armor
+		addSlot(new SlotItemHandler(inv, ApprenticeClothStationTileEntity.INPUT_SLOT, PIECE_LEFT, INPUT_TOP) {
 			@Override
 			public boolean mayPlace(ItemStack stack) {
 				return stack.getItem() instanceof UnionApprenticeArmorItem;
@@ -59,7 +62,7 @@ public class ApprenticeClothStationMenu extends AbstractContainerMenu {
 		addDyeBlock(inv, ApprenticeClothStationTileEntity.SECONDARY_DYE_START, ApprenticeClothStationTileEntity.SECONDARY_DYE_COUNT, SECONDARY_LEFT);
 
 		// Output
-		addSlot(new SlotItemHandler(inv, ApprenticeClothStationTileEntity.OUTPUT_SLOT, 80, 75) {
+		addSlot(new SlotItemHandler(inv, ApprenticeClothStationTileEntity.OUTPUT_SLOT, PIECE_LEFT, OUTPUT_TOP) {
 			@Override
 			public boolean mayPlace(ItemStack stack) {
 				return false;

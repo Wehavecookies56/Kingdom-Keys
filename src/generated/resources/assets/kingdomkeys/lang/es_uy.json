@@ -3193,6 +3193,7 @@
   "tooltip.kingdomkeys.apprentice.design": "Diseño %s",
   "tooltip.kingdomkeys.apprentice.primary_color": "Primario",
   "tooltip.kingdomkeys.apprentice.secondary_color": "Secundario",
+  "tooltip.kingdomkeys.apprentice.undyed": "Sin teñir - puedes darle color en una %s",
   "warning.ap": "Ese cambio te dejaría a deber %s PH de lo que gastan las habilidades que llevas equipadas. Desactiva alguna primero.",
   "warning.gummi.banned_blocks": "La estructura contiene bloques prohibidos: ",
   "warning.gummi.blueprint_too_big": "Los planos son demasiado grandes para este hangar",

@@ -28,6 +28,14 @@ public class ApprenticeClothStationScreen extends AbstractContainerScreen<Appren
 	private static final int DESIGN_X = 52, DESIGN_Y = 16;
 	private static final int DESIGN_W = 18, DESIGN_H = 16;
 
+	private static final int PANEL_U = 176, PANEL_V = 0;
+	private static final int PANEL_W = 68, PANEL_H = 94;
+	private static final int PANEL_TOP = 12, PANEL_OVERLAP = 4;
+
+	private static final int STAND_LEFT = 8, STAND_RIGHT = 62;
+	private static final int STAND_TOP = -6, STAND_BOTTOM = 88;
+	private static final int STAND_SCALE = 40;
+
 	private ArmorStand previewStand;
 	private ItemStack lastPreviewStack = ItemStack.EMPTY;
 
@@ -40,9 +48,15 @@ public class ApprenticeClothStationScreen extends AbstractContainerScreen<Appren
 		this.inventoryLabelY = this.imageHeight - 94;
 	}
 
+	private int panelX() {
+		return leftPos + imageWidth - PANEL_OVERLAP;
+	}
+
 	@Override
 	protected void init() {
 		super.init();
+		leftPos -= (PANEL_W - PANEL_OVERLAP) / 2;
+
 		ensurePreviewStand();
 
 		designButtons.clear();
@@ -117,13 +131,15 @@ public class ApprenticeClothStationScreen extends AbstractContainerScreen<Appren
 	@Override
 	protected void renderBg(GuiGraphics gui, float partialTick, int mouseX, int mouseY) {
 		RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
+
+		int panelX = panelX();
+		int panelY = topPos + PANEL_TOP;
+		gui.blit(TEXTURE, panelX, panelY, PANEL_U, PANEL_V, PANEL_W, PANEL_H);
+
 		gui.blit(TEXTURE, leftPos, topPos, 0, 0, imageWidth, imageHeight);
 
-		// Armor stand preview, in the gap between the input column and the secondary dyes
 		if (previewStand != null) {
-			int standX = leftPos + 114;
-			int standY = topPos + 70;
-			InventoryScreen.renderEntityInInventoryFollowsMouse(gui, standX - 20, standY - 55, standX + 20, standY + 5, 30, 0.0625F, mouseX, mouseY, previewStand);
+			InventoryScreen.renderEntityInInventoryFollowsMouse(gui, panelX + STAND_LEFT, panelY + STAND_TOP, panelX + STAND_RIGHT, panelY + STAND_BOTTOM, STAND_SCALE, 0.0625F, mouseX, mouseY, previewStand);
 		}
 	}
 

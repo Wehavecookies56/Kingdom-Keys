@@ -74,6 +74,7 @@ public class BlockLootTables extends BlockLootSubProvider {
         dropSelf(ModBlocks.orgPortal.get());
         dropSelf(ModBlocks.moogleProjector.get());
         dropSelf(ModBlocks.struggleBoard.get());
+        dropSelf(ModBlocks.apprenticeClothStation.get());
         dropSelf(ModBlocks.mosaic_stained_glass.get());
         dropSelf(ModBlocks.station_of_awakening_core.get());
         dropSelf(ModBlocks.pedestal.get());        

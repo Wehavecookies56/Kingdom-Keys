@@ -184,9 +184,8 @@ public class BaseKHEntity extends Monster implements IKHMob {
 		setTarget(null);
 		setDeltaMovement(Vec3.ZERO);
 
-		for (EquipmentSlot slot : EquipmentSlot.values()) {
-			setItemSlot(slot, ItemStack.EMPTY);
-		}
+		setItemSlot(EquipmentSlot.MAINHAND, ItemStack.EMPTY);
+		setItemSlot(EquipmentSlot.OFFHAND, ItemStack.EMPTY);
 
 		level().playSound(null, blockPosition(), ModSounds.bossKill.get(), SoundSource.HOSTILE, 1F, 1F);
 	}

@@ -8,6 +8,8 @@
   * Their outfit's main color is linked to the union they belong to, the secondary color is randomized.
   * Some enemies may spawn there but won't be stronger than lvl 10 due to Daybreak Town being a light-themed place.
 * Union apprentice armors, 2 designs which can be dyed in the new Clothing Table.
+  * The armor can be obtained by redeeming Lux to your union master.
+  * The table can be obtained by crafting with 3 strings at the top, shears in the middle and 5 wooden planks at the rest.
   * It can be dyed with two different colors and can be cleaned by washing it on a water cauldron with right click.
   * In the table you can add up to 8 dyes to make your desired color, can stack them and even after dyeing it you can put the resulting item as input again.
 * Physics for Starlight keychain.
@@ -37,6 +39,7 @@
 * Abilities are now data driven.
 * Updated version for the leveling json files, next time a player joins will get their level adjusted and abilities re-given.
 * Magic spells are now usable by entities.
+* Sell screen now groups all equal items, showing fewer lines and able to sell it all at once.
 * Path to some armor texture files.
 
 ## Fixed:

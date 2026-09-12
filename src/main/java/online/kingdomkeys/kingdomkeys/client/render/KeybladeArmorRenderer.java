@@ -48,7 +48,7 @@ public class KeybladeArmorRenderer<T extends LivingEntity, M extends HumanoidMod
 		return cache.computeIfAbsent(item, key -> {
 			String path = Utils.getItemRegistryName(key).getPath();
 			String armorName = path.substring(0, path.indexOf("_"));
-			return KingdomKeys.rl("textures/models/armor/" + armorName + (secondary ? "2" : "1") + ".png");
+			return KingdomKeys.rl("textures/models/armor/keyblade_armor/" + armorName + (secondary ? "2" : "1") + ".png");
 		});
 	}
 
@@ -213,6 +213,7 @@ public class KeybladeArmorRenderer<T extends LivingEntity, M extends HumanoidMod
 
 	@Override
 	protected ResourceLocation getTextureLocation(T pEntity) {
-		return KingdomKeys.rl("textures/models/armor/" + "terra" + "1.png");
+		// Never actually sampled: every piece binds its own sheet in render. Something has to be returned
+		return KingdomKeys.rl("textures/models/armor/keyblade_armor/terra1.png");
 	}
 }

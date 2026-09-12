@@ -248,8 +248,15 @@ public class ShopDataProvider implements DataProvider {
 	private static final int PRICE_FORETELLER_KEYCHAIN = 5000;
 	private static final int PRICE_FORETELLER_ROBES = 600;
 
+	private static final int PRICE_APPRENTICE_CLOTH = 250;
+
 	private static JsonArray buildForetellerShop(String keychain, String armourName) {
 		JsonArray shop = new JsonArray();
+
+		shop.add(lux(shop("apprentice_" + Strings.chestplate, 1, 1, PRICE_APPRENTICE_CLOTH)));
+		shop.add(lux(shop("apprentice_" + Strings.leggings, 1, 1, PRICE_APPRENTICE_CLOTH)));
+		shop.add(lux(shop("apprentice_" + Strings.boots, 1, 1, PRICE_APPRENTICE_CLOTH)));
+
 		shop.add(lux(shop(keychain, 1, 1, PRICE_FORETELLER_KEYCHAIN)));
 
 		shop.add(lux(shop(armourName + "_" + Strings.helmet, 1, 1, PRICE_FORETELLER_ROBES)));

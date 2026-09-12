@@ -8,6 +8,7 @@ import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
@@ -38,7 +39,9 @@ import online.kingdomkeys.kingdomkeys.util.Utils;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 public class SellScreen extends MenuFilterableIndexed {
 	MenuBox boxL, boxM;
@@ -48,6 +51,8 @@ public class SellScreen extends MenuFilterableIndexed {
     EditBox amountBox;
 
 	SynthesisScreen parent;
+
+	private final Map<Integer, ItemStack> grouped = new LinkedHashMap<>();
 
 	public SellScreen(PlayerData playerData, SynthesisScreen parent) {
 		super(Strings.Gui_Shop_Main_Title, new Color(0, 0, 255));
@@ -68,28 +73,81 @@ public class SellScreen extends MenuFilterableIndexed {
 		return SellListRegistry.getInstance().getRegistry().get(KingdomKeys.rl("sell"));
 	}
 
+	private static boolean isSellable(SellList sellList, ItemStack stack) {
+		for (SellItem sellItem : sellList.getList()) {
+			if (stack.getItem() == sellItem.getResult()) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
     @Override
     public void action(int index) {
         super.action(index);
-        int amount = minecraft.player.getInventory().getItem(index).getCount();
-        amountBox.setValue(""+amount);
+
+        // The row speaks for every stack of that item, so the box opens on the lot rather than on one stack
+        ItemStack row = grouped.get(index);
+        if (row != null) {
+            selectedItemStack = row;
+        }
+
+        amountBox.setValue("" + selectedItemStack.getCount());
     }
 
 	protected void action(String string) {
 		switch (string) {
 		case "sell":
-            if(getTextBoxAmount() > 0){
-	            ItemStack item = minecraft.player.getInventory().getItem(selectedIndex);
-	            Minecraft.getInstance().setScreen(new PopupWarningScreen(this, Component.translatable(Strings.WarningInformation), Component.translatable(Strings.WarningSell, getTextBoxAmount(),item.getItem().getDescription().getString()), new Color(112, 31, 35), () -> {
-		            if(item != null && item.getCount() >= getTextBoxAmount()) {
-			            minecraft.player.getInventory().getItem(selectedIndex).setCount(minecraft.player.getInventory().getItem(selectedIndex).getCount() - getTextBoxAmount());
-			            PacketHandler.sendToServer(new CSShopSell(selectedIndex, Integer.parseInt(amountBox.getValue()), parent.invFile, parent.name == null ? "" : parent.name, parent.moogle));
-		            }
-		            minecraft.level.playSound(minecraft.player, minecraft.player.blockPosition(), ModSounds.buy.get(), SoundSource.MASTER, 1.0f, 1.0f);
-	            }));
+            int amount = getTextBoxAmount();
+            ItemStack row = grouped.get(selectedIndex);
+
+            if (amount <= 0 || row == null || row.getCount() < amount) {
+	            break;
             }
+
+            Minecraft.getInstance().setScreen(new PopupWarningScreen(this, Component.translatable(Strings.WarningInformation), Component.translatable(Strings.WarningSell, amount, row.getItem().getDescription().getString()), new Color(112, 31, 35), () -> {
+	            if (takeFromInventory(row, amount)) {
+		            PacketHandler.sendToServer(new CSShopSell(selectedIndex, amount, parent.invFile, parent.name == null ? "" : parent.name, parent.moogle));
+	            }
+	            minecraft.level.playSound(minecraft.player, minecraft.player.blockPosition(), ModSounds.buy.get(), SoundSource.MASTER, 1.0f, 1.0f);
+            }));
             break;
 		}
+	}
+
+	private int countInInventory(ItemStack sold) {
+		Inventory inventory = minecraft.player.getInventory();
+		int total = 0;
+
+		for (int i = 0; i < inventory.getContainerSize(); i++) {
+			if (ItemStack.isSameItemSameComponents(inventory.getItem(i), sold)) {
+				total += inventory.getItem(i).getCount();
+			}
+		}
+
+		return total;
+	}
+
+	private boolean takeFromInventory(ItemStack sold, int amount) {
+		if (countInInventory(sold) < amount) {
+			return false;
+		}
+
+		Inventory inventory = minecraft.player.getInventory();
+		int left = amount;
+
+		for (int i = 0; i < inventory.getContainerSize() && left > 0; i++) {
+			ItemStack stack = inventory.getItem(i);
+
+			if (ItemStack.isSameItemSameComponents(stack, sold)) {
+				int taken = Math.min(left, stack.getCount());
+				stack.shrink(taken);
+				left -= taken;
+			}
+		}
+
+		return true;
 	}
 	
 	@Override
@@ -123,22 +181,32 @@ public class SellScreen extends MenuFilterableIndexed {
 		filterBar.buttons.forEach(this::addWidget);
 		
 		SellList sellList = getSellList();
+		Inventory playerInventory = minecraft.player.getInventory();
+		grouped.clear();
+
+		for (int i = 0; i < playerInventory.getContainerSize(); i++) {
+			ItemStack stack = playerInventory.getItem(i);
+
+			if (stack.isEmpty() || !isSellable(sellList, stack) || !filterItem(stack)) {
+				continue;
+			}
+
+			ItemStack row = grouped.values().stream().filter(known -> ItemStack.isSameItemSameComponents(known, stack)).findFirst().orElse(null);
+
+			if (row != null) {
+				row.setCount(row.getCount() + stack.getCount());
+			} else {
+				grouped.put(i, stack.copy());
+			}
+		}
 
 		int c = 0;
-		for (int i = 0; i < minecraft.player.getInventory().getContainerSize(); i++) {
-            ItemStack stack = minecraft.player.getInventory().getItem(i);
-            if(stack != null){
-                for(int j=0;j<getSellList().getList().size();j++) {
-                    SellItem sellItem = sellList.getList().get(j);
-                    if (stack.getItem() == sellItem.getResult() && filterItem(stack)) {
-						MenuStockItemIndexed item = new MenuStockItemIndexed(this, i, stack, (int) invPosX, (int) invPosY + (c++ * 14), boxL.getWidth() - scrollBar.getWidth() - 6, true);
-						item.setBackgroundColor(new Color(10, 10, 80));
-						inventory.add(item);
-					}
-                }
-            }
+		for (Map.Entry<Integer, ItemStack> row : grouped.entrySet()) {
+			MenuStockItemIndexed item = new MenuStockItemIndexed(this, row.getKey(), row.getValue(), (int) invPosX, (int) invPosY + (c++ * 14), boxL.getWidth() - scrollBar.getWidth() - 6, true);
+			item.setBackgroundColor(new Color(10, 10, 80));
+			inventory.add(item);
 		}
-		
+
 		inventory.forEach(this::addWidget);
 
 		super.init();

@@ -2050,6 +2050,7 @@ public class LanguageENUS extends KKLanguageProvider {
         add("tooltip.kingdomkeys.apprentice.design", "Design %s");
         add("tooltip.kingdomkeys.apprentice.primary_color", "Primary");
         add("tooltip.kingdomkeys.apprentice.secondary_color", "Secondary");
+        add("tooltip.kingdomkeys.apprentice.undyed", "Undyed - can be coloured at a %s");
 
         addItem(ModItems.organizationRobe_Helmet, "Organization Hood");
         addItem(ModItems.organizationRobe_Chestplate, "Organization Coat");

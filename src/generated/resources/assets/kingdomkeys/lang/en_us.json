@@ -3252,6 +3252,7 @@
   "tooltip.kingdomkeys.apprentice.design": "Design %s",
   "tooltip.kingdomkeys.apprentice.primary_color": "Primary",
   "tooltip.kingdomkeys.apprentice.secondary_color": "Secondary",
+  "tooltip.kingdomkeys.apprentice.undyed": "Undyed - can be coloured at a %s",
   "warning.ap": "That change would leave you %s AP short for the abilities you have equipped. Turn some of them off first.",
   "warning.gummi.banned_blocks": "Structure contains banned blocks: ",
   "warning.gummi.blueprint_too_big": "The blueprint is too big for this hangar",

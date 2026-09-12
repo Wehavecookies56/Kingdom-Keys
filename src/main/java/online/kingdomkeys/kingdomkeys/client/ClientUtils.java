@@ -803,6 +803,21 @@ public class ClientUtils {
                             false, false)).setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY).setDepthTestState(RenderStateShard.NO_DEPTH_TEST).setWriteMaskState(RenderStateShard.COLOR_WRITE).setLightmapState(RenderStateShard.NO_LIGHTMAP)
                     .setOverlayState(RenderStateShard.NO_OVERLAY).createCompositeState(true));
 
+    private static final Map<ResourceLocation, RenderType> ARMOR_TRANSLUCENT_NO_CULL = new HashMap<>();
+
+    public static RenderType armorTranslucentNoCull(ResourceLocation texture) {
+        return ARMOR_TRANSLUCENT_NO_CULL.computeIfAbsent(texture, t -> RenderType.create(KingdomKeys.MODID + ":armor_translucent_no_cull", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 1536, true, false,
+                RenderType.CompositeState.builder()
+                        .setShaderState(RenderStateShard.RENDERTYPE_ARMOR_CUTOUT_NO_CULL_SHADER)
+                        .setTextureState(new RenderStateShard.TextureStateShard(t, false, false))
+                        .setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY)
+                        .setCullState(RenderStateShard.NO_CULL)
+                        .setLightmapState(RenderStateShard.LIGHTMAP)
+                        .setOverlayState(RenderStateShard.OVERLAY)
+                        .setLayeringState(RenderStateShard.VIEW_OFFSET_Z_LAYERING)
+                        .setDepthTestState(RenderStateShard.LEQUAL_DEPTH_TEST)
+                        .createCompositeState(true)));
+    }
 
     //Lock on
     public static void drawLockOnIndicator(int entityID, PoseStack poseStack, MultiBufferSource buffer, float partialTicks) {

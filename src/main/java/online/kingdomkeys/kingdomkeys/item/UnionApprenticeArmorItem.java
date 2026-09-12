@@ -92,13 +92,19 @@ public class UnionApprenticeArmorItem extends BaseArmorItem {
 	@Override
 	public void appendHoverText(ItemStack stack, Item.TooltipContext tooltipContext, List<Component> tooltip, TooltipFlag flagIn) {
 		int design = getDesign(stack);
-		int primary = getPrimaryColor(stack);
-		int secondary = getSecondaryColor(stack);
 
 		tooltip.add(Component.translatable("tooltip.kingdomkeys.apprentice.design", design).withStyle(ChatFormatting.GRAY));
 
-		tooltip.add(Component.translatable("tooltip.kingdomkeys.apprentice.primary_color").withStyle(ChatFormatting.GRAY).append(Component.literal(": ")).append(Component.literal(String.format("#%06X", primary)).withStyle(style -> style.withColor(primary))));
-		tooltip.add(Component.translatable("tooltip.kingdomkeys.apprentice.secondary_color").withStyle(ChatFormatting.GRAY).append(Component.literal(": ")).append(Component.literal(String.format("#%06X", secondary)).withStyle(style -> style.withColor(secondary))));
+		// Undyed, both colours read #FFFFFF, which tells nobody anything. Say where to change that instead
+		if (isDyed(stack)) {
+			int primary = getPrimaryColor(stack);
+			int secondary = getSecondaryColor(stack);
+
+			tooltip.add(Component.translatable("tooltip.kingdomkeys.apprentice.primary_color").withStyle(ChatFormatting.GRAY).append(Component.literal(": ")).append(Component.literal(String.format("#%06X", primary)).withStyle(style -> style.withColor(primary))));
+			tooltip.add(Component.translatable("tooltip.kingdomkeys.apprentice.secondary_color").withStyle(ChatFormatting.GRAY).append(Component.literal(": ")).append(Component.literal(String.format("#%06X", secondary)).withStyle(style -> style.withColor(secondary))));
+		} else {
+			tooltip.add(Component.translatable("tooltip.kingdomkeys.apprentice.undyed", Component.translatable("block.kingdomkeys.apprentice_cloth_station")).withStyle(ChatFormatting.DARK_AQUA));
+		}
 
 		super.appendHoverText(stack, tooltipContext, tooltip, flagIn);
 	}
