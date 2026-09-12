@@ -7,6 +7,7 @@ import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.level.biome.Biomes;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -657,18 +658,9 @@ public class ModItems {
 
 	//region Armour
 	public static final Supplier<Item>
-			apprentice1_Chestplate = createUnionApprenticeArmorItem("apprentice1", ArmorItem.Type.CHESTPLATE),
-			apprentice1_Leggings = createUnionApprenticeArmorItem("apprentice1", ArmorItem.Type.LEGGINGS),
-			apprentice1_Boots = createUnionApprenticeArmorItem("apprentice1", ArmorItem.Type.BOOTS),
-			apprentice2_Chestplate = createUnionApprenticeArmorItem("apprentice2", ArmorItem.Type.CHESTPLATE),
-			apprentice2_Leggings = createUnionApprenticeArmorItem("apprentice2", ArmorItem.Type.LEGGINGS),
-			apprentice2_Boots = createUnionApprenticeArmorItem("apprentice2", ArmorItem.Type.BOOTS),
-			apprentice3_Chestplate = createUnionApprenticeArmorItem("apprentice3", ArmorItem.Type.CHESTPLATE),
-			apprentice3_Leggings = createUnionApprenticeArmorItem("apprentice3", ArmorItem.Type.LEGGINGS),
-			apprentice3_Boots = createUnionApprenticeArmorItem("apprentice3", ArmorItem.Type.BOOTS),
-			apprentice4_Chestplate = createUnionApprenticeArmorItem("apprentice4", ArmorItem.Type.CHESTPLATE),
-			apprentice4_Leggings = createUnionApprenticeArmorItem("apprentice4", ArmorItem.Type.LEGGINGS),
-			apprentice4_Boots = createUnionApprenticeArmorItem("apprentice4", ArmorItem.Type.BOOTS),
+			apprentice_Chestplate = createUnionApprenticeArmorItem(ArmorItem.Type.CHESTPLATE),
+			apprentice_Leggings = createUnionApprenticeArmorItem(ArmorItem.Type.LEGGINGS),
+			apprentice_Boots = createUnionApprenticeArmorItem(ArmorItem.Type.BOOTS),
 
 			organizationRobe_Helmet = createArmorItem(Strings.organization+"_"+Strings.helmet, ModArmorMaterials.ORGANIZATION, ArmorItem.Type.HELMET, Strings.organization),
 			organizationRobe_Chestplate = createArmorItem(Strings.organization+"_"+Strings.chestplate, ModArmorMaterials.ORGANIZATION, ArmorItem.Type.CHESTPLATE, Strings.organization),
@@ -1206,38 +1198,27 @@ public class ModItems {
 		return ITEMS.register(name, () -> new BaseArmorItem(material, slot, textureName));
 	}
 
-	private static Supplier<Item> createUnionApprenticeArmorItem(String outfit, ArmorItem.Type slot) {
-		return ITEMS.register(outfit + "_" + slot.getName(), () -> new UnionApprenticeArmorItem(ModArmorMaterials.VANITY, slot, "apprentices/" + outfit));
+	private static Supplier<Item> createUnionApprenticeArmorItem(ArmorItem.Type slot) {
+		return ITEMS.register("apprentice_" + slot.getName(), () -> new UnionApprenticeArmorItem(ModArmorMaterials.VANITY, slot));
 	}
 
-	public static Item getApprenticeArmor(int outfit, ArmorItem.Type slot) {
-		int normalizedOutfit = Math.floorMod(outfit - 1, 4) + 1;
-		return switch (normalizedOutfit) {
-			case 1 -> switch (slot) {
-				case CHESTPLATE -> apprentice1_Chestplate.get();
-				case LEGGINGS -> apprentice1_Leggings.get();
-				case BOOTS -> apprentice1_Boots.get();
-				default -> throw new IllegalArgumentException("Apprentice outfits have no " + slot.getName());
-			};
-			case 2 -> switch (slot) {
-				case CHESTPLATE -> apprentice2_Chestplate.get();
-				case LEGGINGS -> apprentice2_Leggings.get();
-				case BOOTS -> apprentice2_Boots.get();
-				default -> throw new IllegalArgumentException("Apprentice outfits have no " + slot.getName());
-			};
-			case 3 -> switch (slot) {
-				case CHESTPLATE -> apprentice3_Chestplate.get();
-				case LEGGINGS -> apprentice3_Leggings.get();
-				case BOOTS -> apprentice3_Boots.get();
-				default -> throw new IllegalArgumentException("Apprentice outfits have no " + slot.getName());
-			};
-			default -> switch (slot) {
-				case CHESTPLATE -> apprentice4_Chestplate.get();
-				case LEGGINGS -> apprentice4_Leggings.get();
-				case BOOTS -> apprentice4_Boots.get();
-				default -> throw new IllegalArgumentException("Apprentice outfits have no " + slot.getName());
-			};
+	public static Item getApprenticeArmor(ArmorItem.Type slot) {
+		return switch (slot) {
+			case CHESTPLATE -> apprentice_Chestplate.get();
+			case LEGGINGS -> apprentice_Leggings.get();
+			case BOOTS -> apprentice_Boots.get();
+			default -> throw new IllegalArgumentException("Apprentice outfits have no " + slot.getName());
 		};
+	}
+
+	public static ItemStack createApprenticeArmor(ArmorItem.Type slot, int design, int primaryColor, int secondaryColor) {
+		ItemStack stack = new ItemStack(getApprenticeArmor(slot));
+		if (stack.getItem() instanceof UnionApprenticeArmorItem armor) {
+			armor.setDesign(stack, design);
+			armor.setPrimaryColor(stack, primaryColor);
+			armor.setSecondaryColor(stack, secondaryColor);
+		}
+		return stack;
 	}
 
 	private static Supplier<Item> createMapCard(String name, Supplier<RoomType> type, CardCategory category, boolean wip) {

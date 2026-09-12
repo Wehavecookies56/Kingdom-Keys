@@ -1,15 +1,13 @@
 package online.kingdomkeys.kingdomkeys.entity.mob;
 
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.monster.Monster;
-import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.component.DyedItemColor;
 import net.minecraft.world.level.Level;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
@@ -21,6 +19,7 @@ public class ApprenticeDuelEntity extends MasterDuelEntity {
 	@Nullable
 	private UUID owner;
 	private int outfit;
+	private int trim;
 
 	public ApprenticeDuelEntity(EntityType<? extends Monster> type, Level level) {
 		super(type, level);
@@ -31,6 +30,7 @@ public class ApprenticeDuelEntity extends MasterDuelEntity {
 		this.owner = apprentice == null ? null : apprentice.getUUID();
 		if (apprentice instanceof ApprenticeEntity source) {
 			outfit = source.getOutfit();
+			trim = source.getTrim();
 			arm();
 		}
 	}
@@ -48,21 +48,22 @@ public class ApprenticeDuelEntity extends MasterDuelEntity {
 		if (outfit == 0) {
 			outfit = random.nextInt(4) + 1;
 		}
+		if (trim == 0) {
+			trim = ApprenticeEntity.rollTrim(random);
+		}
 		setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(ModItems.starlight.get()));
-		setItemSlot(EquipmentSlot.CHEST, dyed(ModItems.getApprenticeArmor(outfit, net.minecraft.world.item.ArmorItem.Type.CHESTPLATE)));
-		setItemSlot(EquipmentSlot.LEGS, dyed(ModItems.getApprenticeArmor(outfit, net.minecraft.world.item.ArmorItem.Type.LEGGINGS)));
-		setItemSlot(EquipmentSlot.FEET, dyed(ModItems.getApprenticeArmor(outfit, net.minecraft.world.item.ArmorItem.Type.BOOTS)));
+
+		// Dressed as whoever it stands in for, trim included
+		int color = getUnion().getColour();
+		setItemSlot(EquipmentSlot.CHEST, ModItems.createApprenticeArmor(ArmorItem.Type.CHESTPLATE, outfit, color, trim));
+		setItemSlot(EquipmentSlot.LEGS, ModItems.createApprenticeArmor(ArmorItem.Type.LEGGINGS, outfit, color, trim));
+		setItemSlot(EquipmentSlot.FEET, ModItems.createApprenticeArmor(ArmorItem.Type.BOOTS, outfit, color, trim));
 
 		for (EquipmentSlot slot : EquipmentSlot.values()) {
 			setDropChance(slot, 0.0F);
 		}
 	}
 
-	private ItemStack dyed(Item item) {
-		ItemStack stack = new ItemStack(item);
-		stack.set(DataComponents.DYED_COLOR, new DyedItemColor(getUnion().getColour(), false));
-		return stack;
-	}
 
 	@Override
 	public Component getName() {
@@ -82,6 +83,7 @@ public class ApprenticeDuelEntity extends MasterDuelEntity {
 			tag.putUUID("owner", owner);
 		}
 		tag.putInt("apprentice_outfit", outfit);
+		tag.putInt("apprentice_trim", trim);
 	}
 
 	@Override
@@ -89,5 +91,6 @@ public class ApprenticeDuelEntity extends MasterDuelEntity {
 		super.readAdditionalSaveData(tag);
 		owner = tag.hasUUID("owner") ? tag.getUUID("owner") : null;
 		outfit = tag.contains("apprentice_outfit") ? tag.getInt("apprentice_outfit") : 0;
+		trim = tag.contains("apprentice_trim") ? tag.getInt("apprentice_trim") : 0;
 	}
 }

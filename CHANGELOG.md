@@ -4,7 +4,12 @@
   * Foretellers will be able to train you, either by summoning rounds of enemies or by sparring with them.
   * Lux is used to claim rewards from the Foretellers. Foretellers from other unions will charge you extra Lux for theirs.
 * Daybreak Town, full of keyblade wielders who you can spar with.
-* Union apprentice armors, 2 designs with 2 variants, can be dyed just like leather armor can. 
+  * They will fight the heartless and nobodies that spawn there, which will be weak since it's a light-related world.
+  * Their outfit's main color is linked to the union they belong to, the secondary color is randomized.
+  * Some enemies may spawn there but won't be stronger than lvl 10 due to Daybreak Town being a light-themed place.
+* Union apprentice armors, 2 designs which can be dyed in the new Clothing Table.
+  * It can be dyed with two different colors and can be cleaned by washing it on a water cauldron with right click.
+  * In the table you can add up to 8 dyes to make your desired color, can stack them and even after dyeing it you can put the resulting item as input again.
 * Physics for Starlight keychain.
 * World Markers in the Ocean Between, rendered while you're in a gummi ship.
 * Lux when defeating enemies and training with your Foreteller.
@@ -32,9 +37,11 @@
 * Abilities are now data driven.
 * Updated version for the leveling json files, next time a player joins will get their level adjusted and abilities re-given.
 * Magic spells are now usable by entities.
+* Path to some armor texture files.
 
 ## Fixed:
 * Reversal RC being available even when the Dusk was out of reach.
+* Blocking Blizzard will no longer add you the Freezing effect.
 * Dark Firaga being a normal Firaga.
 * Bind and Mini not adjusting their time properly based on what was configured.
 * Shotlocks leaving players airborne if they get somehow interrupted.

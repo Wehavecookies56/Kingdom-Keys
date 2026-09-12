@@ -48,4 +48,8 @@ public class ModComponents {
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> MAGIC_EXP = COMPONENTS.registerComponentType("magic_exp", builder -> builder.persistent(Codec.INT).networkSynchronized(ByteBufCodecs.INT).cacheEncoding());
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> SHOTLOCK_EXP = COMPONENTS.registerComponentType("shotlock_exp", builder -> builder.persistent(Codec.INT).networkSynchronized(ByteBufCodecs.INT).cacheEncoding());
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<WorldCardItem.WorldCard>> WORLD_CARD = COMPONENTS.registerComponentType("world_card", builder -> builder.persistent(WorldCardItem.WorldCard.CODEC).networkSynchronized(WorldCardItem.WorldCard.STREAM_CODEC).cacheEncoding());
+
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> APPRENTICE_DESIGN = COMPONENTS.registerComponentType("apprentice_design", builder -> builder.persistent(ExtraCodecs.intRange(UnionApprenticeArmorItem.MIN_DESIGN, UnionApprenticeArmorItem.MAX_DESIGN)).networkSynchronized(ByteBufCodecs.VAR_INT));
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> APPRENTICE_PRIMARY_COLOR = COMPONENTS.registerComponentType("apprentice_primary_color", builder -> builder.persistent(Codec.INT).networkSynchronized(ByteBufCodecs.INT));
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> APPRENTICE_SECONDARY_COLOR = COMPONENTS.registerComponentType("apprentice_secondary_color", builder -> builder.persistent(Codec.INT).networkSynchronized(ByteBufCodecs.INT));
 }

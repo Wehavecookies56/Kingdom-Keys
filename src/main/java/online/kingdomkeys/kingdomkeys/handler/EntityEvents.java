@@ -22,6 +22,7 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
 import net.minecraft.world.entity.boss.wither.WitherBoss;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -138,6 +139,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Supplier;
 
 public class EntityEvents {
+	private static final int DAYBREAK_MAX_LEVEL = 10;
 	public static ThreatLevel threatLevel = ThreatLevel.NONE;
 	Map<UUID, Boolean> openedAlignment = new HashMap<>();
 	int airstepTicks = -1;
@@ -214,6 +216,10 @@ public class EntityEvents {
 			PartyAllyGoals.applyAI(ally);
 		}
 
+		if (!e.getLevel().isClientSide() && e.getEntity() instanceof Mob darkness && ApprenticeEntity.isDarkness(darkness)) {
+			darkness.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(darkness, ApprenticeEntity.class, 10, true, false, target -> target instanceof ApprenticeEntity apprentice && !apprentice.isSparring()));
+		}
+
 		if (e.getEntity() instanceof LivingEntity mob) {
 			GlobalData mobData = GlobalData.get(mob);
 			if (mobData == null) return;
@@ -239,6 +245,10 @@ public class EntityEvents {
 
 			if (mob instanceof EnderDragon && ModConfigs.SERVER.dragonLevel.get()) {
 				mobData.setLevel(Utils.getRandomMobLevel(player));
+			}
+
+			if (mob instanceof Monster && !mobData.getCastleOblivionMarker() && mobData.getLevel() > DAYBREAK_MAX_LEVEL && e.getLevel().dimension().equals(ModDimensions.DAYBREAK_TOWN)) {
+				mobData.setLevel(DAYBREAK_MAX_LEVEL);
 			}
 
 			//Tamed mobs

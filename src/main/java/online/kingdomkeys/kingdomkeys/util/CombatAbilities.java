@@ -115,6 +115,9 @@ public class CombatAbilities {
         return aim >= GUARD_ARC;
     }
 
+    public static boolean guarded(LivingEntity target, DamageSource source) {
+        return target instanceof Player player && blocks(player, PlayerData.get(player), source);
+    }
 
     public static boolean onBlocked(Player player, PlayerData data, DamageSource source, float amount) {
         if (NeoForge.EVENT_BUS.post(new GuardEvent.Blocked(player, source, amount)).isCanceled()) {

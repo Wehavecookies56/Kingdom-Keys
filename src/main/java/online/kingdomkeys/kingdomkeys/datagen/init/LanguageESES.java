@@ -1375,18 +1375,15 @@ public class LanguageESES extends KKLanguageProvider {
         //Armour
         add("gui.summonarmor.notenoughspace", "No tienes suficiente espacio en el inventario");
 
-        addItem(ModItems.apprentice1_Chestplate, "Túnica de aprendiz I");
-        addItem(ModItems.apprentice1_Leggings, "Pantalones de aprendiz I");
-        addItem(ModItems.apprentice1_Boots, "Botas de aprendiz I");
-        addItem(ModItems.apprentice2_Chestplate, "Túnica de aprendiz II");
-        addItem(ModItems.apprentice2_Leggings, "Pantalones de aprendiz II");
-        addItem(ModItems.apprentice2_Boots, "Botas de aprendiz II");
-        addItem(ModItems.apprentice3_Chestplate, "Túnica de aprendiz III");
-        addItem(ModItems.apprentice3_Leggings, "Pantalones de aprendiz III");
-        addItem(ModItems.apprentice3_Boots, "Botas de aprendiz III");
-        addItem(ModItems.apprentice4_Chestplate, "Túnica de aprendiz IV");
-        addItem(ModItems.apprentice4_Leggings, "Pantalones de aprendiz IV");
-        addItem(ModItems.apprentice4_Boots, "Botas de aprendiz IV");
+        addItem(ModItems.apprentice_Chestplate, "Túnica de aprendiz");
+        addItem(ModItems.apprentice_Leggings, "Pantalones de aprendiz");
+        addItem(ModItems.apprentice_Boots, "Botas de aprendiz");
+        add("block.kingdomkeys.apprentice_cloth_station", "Mesa de Ropajes");
+        add("gui.kingdomkeys.apprentice.primary", "Primario");
+        add("gui.kingdomkeys.apprentice.secondary", "Secundario");
+        add("tooltip.kingdomkeys.apprentice.design", "Diseño %s");
+        add("tooltip.kingdomkeys.apprentice.primary_color", "Primario");
+        add("tooltip.kingdomkeys.apprentice.secondary_color", "Secundario");
 
         addItem(ModItems.organizationRobe_Helmet, "Capucha de la Organización");
         addItem(ModItems.organizationRobe_Chestplate, "Abrigo de la Organización");

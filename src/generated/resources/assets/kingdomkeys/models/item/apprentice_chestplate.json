@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "kingdomkeys:item/apprentice/chestplate_left",
+    "layer1": "kingdomkeys:item/apprentice/chestplate_right"
+  }
+}

@@ -5,6 +5,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.Mth;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -23,6 +24,7 @@ import online.kingdomkeys.kingdomkeys.damagesource.KKDamageTypes;
 import online.kingdomkeys.kingdomkeys.lib.DamageCalculation;
 import online.kingdomkeys.kingdomkeys.magic.Magic;
 import online.kingdomkeys.kingdomkeys.magic.MagicData;
+import online.kingdomkeys.kingdomkeys.util.CombatAbilities;
 
 import javax.annotation.Nullable;
 
@@ -68,7 +70,15 @@ public abstract class BaseMagicProjectile extends ThrowableProjectile {
 		if(e.level().isClientSide || damageType == null) //Client side might crash cause damage-related values are only set server-wide
 			return;
 
-		e.hurt(KKDamageTypes.getElementalDamage(damageType,this, this.getOwner()), getTotalDamage());
+		e.hurt(getDamageSource(), getTotalDamage());
+	}
+
+	public DamageSource getDamageSource() {
+		return KKDamageTypes.getElementalDamage(damageType, this, this.getOwner());
+	}
+
+	public boolean wasGuarded(LivingEntity target) {
+		return damageType != null && CombatAbilities.guarded(target, getDamageSource());
 	}
 
 	public void interactWithBlocks(HitResult hit, float radius) {

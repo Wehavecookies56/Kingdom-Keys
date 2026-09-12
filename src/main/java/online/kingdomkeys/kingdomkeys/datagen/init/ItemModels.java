@@ -244,7 +244,10 @@ public class ItemModels extends ItemModelProvider {
 
 	void unionApprenticeArmor(String name) {
 		String slot = name.substring(name.lastIndexOf('_') + 1);
-		getBuilder(name).parent(new ModelFile.UncheckedModelFile("item/generated")).texture("layer0", "minecraft:item/leather_" + slot);
+
+		getBuilder(name).parent(new ModelFile.UncheckedModelFile("item/generated"))
+				.texture("layer0", KingdomKeys.MODID + ":item/apprentice/" + slot + "_left")
+				.texture("layer1", KingdomKeys.MODID + ":item/apprentice/" + slot + "_right");
 	}
 
 	void standardKeychain(String name) {

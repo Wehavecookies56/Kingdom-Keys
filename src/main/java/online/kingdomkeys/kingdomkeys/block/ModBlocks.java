@@ -77,6 +77,7 @@ public class ModBlocks {
             magicalChest = createNewBlock("magical_chest", () -> new MagicalChestBlock(Block.Properties.of().mapColor(MapColor.GOLD).strength(2.0F, 1.0F))), //HL 2
     		soADoor = createNewBlock("soa_door", () -> new SoADoorBlock(Block.Properties.of().mapColor(MapColor.METAL).strength(-1.0F, 3600000.0F))), //HL 2
     		pedestal = createNewBlock("pedestal", () -> new PedestalBlock(Block.Properties.of().mapColor(MapColor.METAL).strength(2.0F, 1.0F))), //HL 2
+    		apprenticeClothStation = createNewBlock("apprentice_cloth_station", () -> new ApprenticeClothStationBlock(Block.Properties.of().mapColor(MapColor.WOOD).strength(2.5F).sound(SoundType.WOOD).noOcclusion())),
     		mosaic_stained_glass = createNewBlock("mosaic_stained_glass", () -> new MosaicStainedGlassBlock(Block.Properties.of().instrument(NoteBlockInstrument.HAT).lightLevel(state -> state.getValue(MosaicStainedGlassBlock.STRUCTURE) ? 15 : 0).noOcclusion().sound(SoundType.GLASS).strength(1.0F, 10.0F))),
             treasureChest = createNewBlock("treasure_chest", () -> new TreasureChestBlock(Block.Properties.of().mapColor(MapColor.GOLD).strength(2.0F, 1.0F))),
 

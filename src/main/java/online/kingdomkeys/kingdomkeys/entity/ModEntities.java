@@ -751,4 +751,5 @@ public class ModEntities {
     public static final Supplier<BlockEntityType<AirStepTargetEntity>> TYPE_AIRSTEP_TARGET_TE = TILE_ENTITIES.register("airstep_target", () -> BlockEntityType.Builder.of(AirStepTargetEntity::new, ModBlocks.airstepTarget.get()).build(null));
     public static final Supplier<BlockEntityType<MagicTargetBlockEntity>> TYPE_MAGIC_TARGET_TE = TILE_ENTITIES.register("magic_target_te", () -> BlockEntityType.Builder.of(MagicTargetBlockEntity::new, ModBlocks.magicTarget.get()).build(null));
     public static final Supplier<BlockEntityType<TreasureChestTileEntity>> TYPE_TREASURE_CHEST = TILE_ENTITIES.register("treasure_chest", () -> BlockEntityType.Builder.of(TreasureChestTileEntity::new, ModBlocks.treasureChest.get()).build(null));
+    public static final Supplier<BlockEntityType<ApprenticeClothStationTileEntity>> TYPE_APPRENTICE_CLOTH_STATION = TILE_ENTITIES.register("apprentice_cloth_station", () -> BlockEntityType.Builder.of(ApprenticeClothStationTileEntity::new, ModBlocks.apprenticeClothStation.get()).build(null));
 }

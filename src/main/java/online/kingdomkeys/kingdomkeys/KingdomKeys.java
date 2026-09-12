@@ -23,6 +23,7 @@ import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.client.gui.ConfigurationScreen;
@@ -56,6 +57,7 @@ import online.kingdomkeys.kingdomkeys.handler.EntityEvents;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.init.ClientEpicFightIntegration;
 import online.kingdomkeys.kingdomkeys.integration.epicfight.init.EpicFightIntegration;
 import online.kingdomkeys.kingdomkeys.integration.wildfire_gender.KKWildFireGender;
+import online.kingdomkeys.kingdomkeys.item.ApprenticeCauldron;
 import online.kingdomkeys.kingdomkeys.item.ModArmorMaterials;
 import online.kingdomkeys.kingdomkeys.item.ModComponents;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
@@ -167,6 +169,7 @@ public class KingdomKeys {
 
 		ModAdvancements.TRIGGERS.register(modEventBus);
 
+		modEventBus.addListener(this::commonSetup);
 		modEventBus.addListener(this::modLoaded);
 		modEventBus.addListener(ModMenus::registerCapabilities);
 		modEventBus.addListener(ModEnergy::registerCapabilities);
@@ -216,6 +219,10 @@ public class KingdomKeys {
 		NeoForge.EVENT_BUS.register(new ShotlockMinigameHandler());
 		NeoForge.EVENT_BUS.register(new TrainingHandler());
 		NeoForge.EVENT_BUS.register(new DialogueHandler());
+	}
+
+	private void commonSetup(final FMLCommonSetupEvent event) {
+		event.enqueueWork(ApprenticeCauldron::register);
 	}
 
 	private void modLoaded(final FMLLoadCompleteEvent event) {

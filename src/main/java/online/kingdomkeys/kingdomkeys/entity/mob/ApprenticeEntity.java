@@ -5,33 +5,31 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.PathfinderMob;
+import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.core.component.DataComponents;
-import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.component.DyedItemColor;
 import net.minecraft.world.level.Level;
-import net.minecraft.resources.ResourceLocation;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.data.GlobalData;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
+import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
+import online.kingdomkeys.kingdomkeys.entity.mob.goal.ApprenticeCombatGoal;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.lib.Union;
 import online.kingdomkeys.kingdomkeys.world.DialogueHandler;
@@ -55,10 +53,22 @@ public class ApprenticeEntity extends PathfinderMob {
 	private boolean sparring;
 	private int outfit;
 
+	private int trim;
+
+	private static final int[] TRIMS = {
+			0xF9FFFE, // white
+			0xE9ECEC, // bone
+			0x9D9D97, // light grey
+			0x5E5E5E, // slate
+			0x1D1D21, // black
+			0x8F5D3A, // leather
+			0xC9A227, // brass
+			0x7A5CA8  // plum
+	};
+
 	public ApprenticeEntity(EntityType<? extends PathfinderMob> type, Level level) {
 		super(type, level);
 		setPersistenceRequired();
-		setInvulnerable(true);
 	}
 
 	@Override
@@ -72,9 +82,16 @@ public class ApprenticeEntity extends PathfinderMob {
 		return entityData.get(LEVEL);
 	}
 
+	private static final double BASE_DAMAGE = 2.0D, DAMAGE_PER_LEVEL = 0.12D;
+
 	public void setApprenticeLevel(int level) {
 		int rank = Mth.clamp(level, MIN_LEVEL, MAX_LEVEL);
 		entityData.set(LEVEL, rank);
+
+		AttributeInstance damage = getAttribute(Attributes.ATTACK_DAMAGE);
+		if (damage != null) {
+			damage.setBaseValue(BASE_DAMAGE + DAMAGE_PER_LEVEL * (rank - MIN_LEVEL));
+		}
 
 		if (!level().isClientSide) {
 			GlobalData globalData = GlobalData.get(this);
@@ -114,9 +131,11 @@ public class ApprenticeEntity extends PathfinderMob {
 	public void dress() {
 		ensureOutfit();
 		setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(ModItems.starlight.get()));
-		setItemSlot(EquipmentSlot.CHEST, dyed(ModItems.getApprenticeArmor(outfit, net.minecraft.world.item.ArmorItem.Type.CHESTPLATE)));
-		setItemSlot(EquipmentSlot.LEGS, dyed(ModItems.getApprenticeArmor(outfit, net.minecraft.world.item.ArmorItem.Type.LEGGINGS)));
-		setItemSlot(EquipmentSlot.FEET, dyed(ModItems.getApprenticeArmor(outfit, net.minecraft.world.item.ArmorItem.Type.BOOTS)));
+
+		int color = getUnion().getColour();
+		setItemSlot(EquipmentSlot.CHEST, ModItems.createApprenticeArmor(ArmorItem.Type.CHESTPLATE, outfit, color, trim));
+		setItemSlot(EquipmentSlot.LEGS, ModItems.createApprenticeArmor(ArmorItem.Type.LEGGINGS, outfit, color, trim));
+		setItemSlot(EquipmentSlot.FEET, ModItems.createApprenticeArmor(ArmorItem.Type.BOOTS, outfit, color, trim));
 
 		for (EquipmentSlot slot : EquipmentSlot.values()) {
 			setDropChance(slot, 0.0F);
@@ -128,10 +147,26 @@ public class ApprenticeEntity extends PathfinderMob {
 		return outfit;
 	}
 
+	public int getTrim() {
+		ensureOutfit();
+		return trim;
+	}
+
+	public static int rollTrim(RandomSource random) {
+		return TRIMS[random.nextInt(TRIMS.length)];
+	}
+
 	private void ensureOutfit() {
 		if (outfit == 0) {
 			outfit = random.nextInt(4) + 1;
 		}
+		if (trim == 0) {
+			trim = rollTrim(random);
+		}
+	}
+
+	public boolean isSparring() {
+		return sparring;
 	}
 
 	public void standAside() {
@@ -146,25 +181,34 @@ public class ApprenticeEntity extends PathfinderMob {
 		}
 	}
 
-	private ItemStack dyed(Item item) {
-		ItemStack stack = new ItemStack(item);
-		stack.set(DataComponents.DYED_COLOR, new DyedItemColor(getUnion().getColour(), false));
-		return stack;
-	}
 
 	@Override
 	protected void registerGoals() {
 		goalSelector.addGoal(0, new FloatGoal(this));
-		goalSelector.addGoal(1, new WaterAvoidingRandomStrollGoal(this, 0.6D));
-		goalSelector.addGoal(2, new LookAtPlayerGoal(this, Player.class, 8.0F));
-		goalSelector.addGoal(3, new RandomLookAroundGoal(this));
+		goalSelector.addGoal(1, new ApprenticeCombatGoal(this));
+
+		goalSelector.addGoal(2, new WaterAvoidingRandomStrollGoal(this, 0.6D));
+		goalSelector.addGoal(3, new LookAtPlayerGoal(this, Player.class, 8.0F));
+		goalSelector.addGoal(4, new RandomLookAroundGoal(this));
+
+		targetSelector.addGoal(0, new NearestAttackableTargetGoal<>(this, Mob.class, 10, true, false, target -> !sparring && isDarkness(target)));
+	}
+
+	public static boolean isDarkness(LivingEntity target) {
+		if (!(target instanceof IKHMob mob)) {
+			return false;
+		}
+
+		EntityHelper.MobType type = mob.getKHMobType();
+		return type == EntityHelper.MobType.HEARTLESS_PUREBLOOD || type == EntityHelper.MobType.HEARTLESS_EMBLEM || type == EntityHelper.MobType.NOBODY;
 	}
 
 	public static AttributeSupplier.Builder registerAttributes() {
 		return Mob.createLivingAttributes()
 				.add(Attributes.MAX_HEALTH, 20.0D)
 				.add(Attributes.MOVEMENT_SPEED, 0.28D)
-				.add(Attributes.FOLLOW_RANGE, 16.0D);
+				.add(Attributes.FOLLOW_RANGE, 16.0D)
+				.add(Attributes.ATTACK_DAMAGE, BASE_DAMAGE);
 	}
 
 	@Override
@@ -266,6 +310,7 @@ public class ApprenticeEntity extends PathfinderMob {
 		super.addAdditionalSaveData(tag);
 		tag.putInt("apprentice_level", getApprenticeLevel());
 		tag.putInt("apprentice_outfit", getOutfit());
+		tag.putInt("apprentice_trim", getTrim());
 		tag.putByte("union", getUnion().get());
 
 		if (home != null) {
@@ -285,9 +330,9 @@ public class ApprenticeEntity extends PathfinderMob {
 
 		setApprenticeLevel(tag.contains("apprentice_level") ? tag.getInt("apprentice_level") : rollLevel(seeded));
 		outfit = tag.contains("apprentice_outfit") ? tag.getInt("apprentice_outfit") : seeded.nextInt(4) + 1;
+		trim = tag.contains("apprentice_trim") ? tag.getInt("apprentice_trim") : rollTrim(seeded);
 		setUnion(tag.contains("union") ? Union.fromByte(tag.getByte("union")) : rollUnion(seeded));
 
-		// Dropped so the mod writes it again from the level above; an old one is a stale number
 		setCustomName(null);
 
 		// A world saved mid-spar would reload them hidden and stripped, so they come back as themselves; if their copy is somehow still out there the next check hides them again

@@ -63,7 +63,8 @@ public class BlizzardEntity extends BaseMagicProjectile {
 					if (Utils.canHarm(getOwner(), target)) {
 						float dmg = this.getOwner() instanceof LivingEntity magicCaster ? DamageCalculation.getMagicDamage(magicCaster) : 2;
 						target.hurt(KKDamageTypes.getElementalDamage(KKDamageTypes.ICE, this, this.getOwner()), dmg * dmgMult);
-						if (!target.isOnFire()) {
+
+						if (!target.isOnFire() && !wasGuarded(target)) {
 							MobEffectInstance freeze = target.getEffect(ModMobEffects.FREEZE);
 							int duration = freezeTime;
 							if (freeze != null) {

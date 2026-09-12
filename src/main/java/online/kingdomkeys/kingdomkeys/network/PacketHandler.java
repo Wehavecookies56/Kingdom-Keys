@@ -115,6 +115,7 @@ public class PacketHandler {
 		server(CSPartyPromote.TYPE, CSPartyPromote.STREAM_CODEC);
 		server(CSPartySettings.TYPE, CSPartySettings.STREAM_CODEC);
 		server(CSPedestalConfig.TYPE, CSPedestalConfig.STREAM_CODEC);
+		server(CSApprenticeClothDesign.TYPE, CSApprenticeClothDesign.STREAM_CODEC);
 		if (KingdomKeys.efmLoaded) {
 			server(CSPlayAnimation.TYPE, CSPlayAnimation.STREAM_CODEC);
 		}
