@@ -245,10 +245,9 @@ public class ShopDataProvider implements DataProvider {
 		return CompletableFuture.allOf(futures);
 	}
 
+	private static final int PRICE_APPRENTICE_CLOTH = 250;
 	private static final int PRICE_FORETELLER_KEYCHAIN = 5000;
 	private static final int PRICE_FORETELLER_ROBES = 600;
-
-	private static final int PRICE_APPRENTICE_CLOTH = 250;
 
 	private static JsonArray buildForetellerShop(String keychain, String armourName) {
 		JsonArray shop = new JsonArray();

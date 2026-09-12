@@ -40,6 +40,7 @@
 * Updated version for the leveling json files, next time a player joins will get their level adjusted and abilities re-given.
 * Magic spells are now usable by entities.
 * Sell screen now groups all equal items, showing fewer lines and able to sell it all at once.
+* Consumables like potions in shop will now show the recovery stats they affect.
 * Path to some armor texture files.
 
 ## Fixed:

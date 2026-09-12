@@ -2201,6 +2201,9 @@ public class LanguageENUS extends KKLanguageProvider {
         add("potion.desc.beginning", "Will restore %s%s %s ");
         add("potion.desc.toall", "to all your party members in range");
         add("potion.desc.toone", "to the chosen party member");
+        add("potion.stat.line", "%s: +%s%s");
+        add("potion.stat.panacea", "Cures all status effects");
+        add("potion.stat.party", "Whole party in range");
 
         //Shotlocks
         addItem(ModItems.ragnarokShotlock, "Ragnarok");

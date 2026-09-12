@@ -25,6 +25,7 @@ import online.kingdomkeys.kingdomkeys.config.ModConfigs;
 import online.kingdomkeys.kingdomkeys.data.PlayerData;
 import online.kingdomkeys.kingdomkeys.item.KKAccessoryItem;
 import online.kingdomkeys.kingdomkeys.item.KKArmorItem;
+import online.kingdomkeys.kingdomkeys.item.KKPotionItem;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.KeychainItem;
 import online.kingdomkeys.kingdomkeys.lib.Strings;
@@ -299,7 +300,11 @@ public class ShopScreen extends MenuFilterable {
 		}
 		matrixStack.popPose();
 
-		if (selectedItemStack != null && selectedItemStack.getItem() instanceof KeybladeItem || selectedItemStack.getItem() instanceof KKAccessoryItem || selectedItemStack.getItem() instanceof KKArmorItem) {
+		if (selectedItemStack == null || selectedItemStack.isEmpty()) {
+			return;
+		}
+
+		if (isEquipment(selectedItemStack)) {
 			String desc = "";
 			ResourceLocation ability = null;
 			if(selectedItemStack.getItem() instanceof KeybladeItem kb) {
@@ -342,7 +347,31 @@ public class ShopScreen extends MenuFilterable {
 				}
 				matrixStack.popPose();
 			}
+		} else if (selectedItemStack.getItem() instanceof KKPotionItem potion) {
+			renderPotionStats(gui, matrixStack, potion);
 		}
+	}
+
+	private static boolean isEquipment(ItemStack stack) {
+		return stack.getItem() instanceof KeybladeItem || stack.getItem() instanceof KKAccessoryItem || stack.getItem() instanceof KKArmorItem;
+	}
+
+	private void renderPotionStats(GuiGraphics gui, PoseStack matrixStack, KKPotionItem potion) {
+		List<Component> stats = potion.getRestoreStats();
+
+		if (stats.isEmpty()) {
+			return;
+		}
+
+		matrixStack.pushPose();
+		{
+			matrixStack.translate(boxM.getX() + 20, height * 0.58, 1);
+
+			for (int i = 0; i < stats.size(); i++) {
+				gui.drawString(minecraft.font, stats.get(i), 0, -15 + (10 * i), 0x888888);
+			}
+		}
+		matrixStack.popPose();
 	}
 
 	@Override

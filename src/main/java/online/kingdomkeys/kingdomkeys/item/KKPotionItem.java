@@ -23,6 +23,7 @@ import online.kingdomkeys.kingdomkeys.lib.Party.Member;
 import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.util.Utils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class KKPotionItem extends Item implements IItemCategory, ICreativeTab {
@@ -239,6 +240,33 @@ public class KKPotionItem extends Item implements IItemCategory, ICreativeTab {
     	}
 		PacketHandler.syncToAllAround(player, playerData);
 
+    }
+
+    public List<Component> getRestoreStats() {
+        List<Component> stats = new ArrayList<>();
+
+        switch (type) {
+            case PANACEA -> stats.add(Component.translatable("potion.stat.panacea"));
+            case HP -> stats.add(restores("potion.desc.hp"));
+            case MP -> stats.add(restores("potion.desc.mp"));
+            case HPMP -> {
+                stats.add(restores("potion.desc.hp"));
+                stats.add(restores("potion.desc.mp"));
+            }
+            case DRIVE -> stats.add(restores("potion.desc.drive"));
+            case FOCUS -> stats.add(restores("potion.desc.focus"));
+        }
+
+        // Otherwise a Mega Potion is indistinguishable from a Potion at the same numbers
+        if (all) {
+            stats.add(Component.translatable("potion.stat.party"));
+        }
+
+        return stats;
+    }
+
+    private Component restores(String poolKey) {
+        return Component.translatable("potion.stat.line", Utils.translateToLocal(poolKey), (int) amount, percentage ? "%" : "");
     }
 
     @OnlyIn(Dist.CLIENT)

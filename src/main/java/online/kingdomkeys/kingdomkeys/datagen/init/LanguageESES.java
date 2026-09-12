@@ -1192,6 +1192,9 @@ public class LanguageESES extends KKLanguageProvider {
         add("potion.desc.beginning", "Restaurará %s%s de %s ");
         add("potion.desc.toall", "a todos los miembros del grupo en rango");
         add("potion.desc.toone", "al miembro del grupo elegido");
+        add("potion.stat.line", "%s: +%s%s");
+        add("potion.stat.panacea", "Cura todos los estados alterados");
+        add("potion.stat.party", "A todo el grupo en rango");
 
         // Shotlocks
         addItem(ModItems.ragnarokShotlock, "Ragnarok");

@@ -24,9 +24,10 @@ import java.util.Map;
 public class ApprenticeClothStationScreen extends AbstractContainerScreen<ApprenticeClothStationMenu> {
 	private static final ResourceLocation TEXTURE = KingdomKeys.rl("textures/gui/apprentice_cloth_station.png");
 
-	/** The row of design buttons: where it starts, how far apart, and how big each one is. */
-	private static final int DESIGN_X = 52, DESIGN_Y = 16;
-	private static final int DESIGN_W = 18, DESIGN_H = 16;
+
+	private static final int DESIGN_Y = 16;
+	private static final int DESIGN_W = 16, DESIGN_H = 16;
+	private static final int DESIGN_BAND_LEFT = 44, DESIGN_BAND_RIGHT = 132;
 
 	private static final int PANEL_U = 176, PANEL_V = 0;
 	private static final int PANEL_W = 68, PANEL_H = 94;
@@ -61,15 +62,24 @@ public class ApprenticeClothStationScreen extends AbstractContainerScreen<Appren
 
 		designButtons.clear();
 
+		int count = UnionApprenticeArmorItem.MAX_DESIGN - UnionApprenticeArmorItem.MIN_DESIGN + 1;
+		int rowLeft = designRowLeft(count);
+
 		for (int i = UnionApprenticeArmorItem.MIN_DESIGN; i <= UnionApprenticeArmorItem.MAX_DESIGN; i++) {
 			final int design = i;
-			Button button = Button.builder(Component.literal(String.valueOf(design)), b -> selectDesign(design)).bounds(leftPos + DESIGN_X + (design - 1) * DESIGN_W, topPos + DESIGN_Y, DESIGN_W, DESIGN_H).tooltip(Tooltip.create(Component.translatable("tooltip.kingdomkeys.apprentice.design", design))).build();
+			int x = leftPos + rowLeft + (design - UnionApprenticeArmorItem.MIN_DESIGN) * DESIGN_W;
+			Button button = Button.builder(Component.literal(String.valueOf(design)), b -> selectDesign(design)).bounds(x, topPos + DESIGN_Y, DESIGN_W, DESIGN_H).tooltip(Tooltip.create(Component.translatable("tooltip.kingdomkeys.apprentice.design", design))).build();
 
 			designButtons.put(design, button);
 			addRenderableWidget(button);
 		}
 
 		refreshDesignButtons();
+	}
+
+	private static int designRowLeft(int count) {
+		int slack = (DESIGN_BAND_RIGHT - DESIGN_BAND_LEFT) - count * DESIGN_W;
+		return DESIGN_BAND_LEFT + Math.max(0, slack / 2);
 	}
 
 	private void selectDesign(int design) {
