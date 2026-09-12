@@ -23,8 +23,7 @@ public class DialoguesGen extends BaseProvider<DialogueBuilder> {
     /** The lesson that first fields dark orbs, and so the one the warning belongs to. */
     private static final String DARK_FROM = "medium";
 
-    /** How many things an apprentice might open with. */
-    private static final int SMALL_TALK = 8;
+    private static final int SMALL_TALK = 24;
 
     private static final ResourceLocation SPAR = KingdomKeys.rl("spar/apprentice");
 
@@ -39,10 +38,10 @@ public class DialoguesGen extends BaseProvider<DialogueBuilder> {
         DialogueBuilder foreteller = createDialogue("foreteller");
 
         foreteller.node("start", KEY + "greeting")
+                .answer(KEY + "answer.ask").goTo("theory").onlyIf(ownPupil()).end()
                 .answer(KEY + "answer.train").goTo("lessons").onlyIf(ownPupil()).end()
                 // Not while you are his pupil under his roof: crossing keyblades with him is for a wielder who has finished and come back by their own means
                 .answer(KEY + "answer.spar").goTo("duels").onlyIf(ownPupil()).onlyIf(new DialogueCondition.HasFlag(StoryFlags.INTRODUCTORY_TRAINING_DONE, true)).end()
-                .answer(KEY + "answer.ask").goTo("theory").onlyIf(ownPupil()).end()
                 // He keeps no stall for an apprentice he is housing. Lux is worth spending once you are travelling on your own account
                 .answer(KEY + "answer.shop").onlyIf(new DialogueCondition.HasFlag(StoryFlags.INTRODUCTORY_TRAINING_DONE, true)).then(new DialogueAction.OpenShop()).end()
                 // The apprenticeship is over the moment the middle lesson is passed. Until he has said so, this is the only way out, and saying so is what ends it

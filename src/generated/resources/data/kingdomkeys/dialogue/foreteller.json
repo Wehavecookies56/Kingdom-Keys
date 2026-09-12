@@ -238,6 +238,15 @@
     "start": {
       "answers": [
         {
+          "goto": "theory",
+          "if": [
+            {
+              "type": "kingdomkeys:union"
+            }
+          ],
+          "text": "kingdomkeys.dialogue.foreteller.answer.ask"
+        },
+        {
           "goto": "lessons",
           "if": [
             {
@@ -258,15 +267,6 @@
             }
           ],
           "text": "kingdomkeys.dialogue.foreteller.answer.spar"
-        },
-        {
-          "goto": "theory",
-          "if": [
-            {
-              "type": "kingdomkeys:union"
-            }
-          ],
-          "text": "kingdomkeys.dialogue.foreteller.answer.ask"
         },
         {
           "do": [
