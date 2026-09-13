@@ -217,6 +217,7 @@ public class ModBlocks {
         createNewGummiBubbleHelmBlock("gummi_mini_helm", gummiMiniHelms, GummiBlockProperties.of(2, 20, 0).withShape(GummiBlockProperties.Shape.SLAB), seat0);
 
         createNewGummiAeroBlock("gummi_aero_square", gummiAeroSquares, GummiBlockProperties.of(1, 1, 0).withPlacement(GummiPlacementType.EDGE).withShape(GummiBlockProperties.Shape.AERO_PLATE), 10);
+        createNewGummiAeroBlock("gummi_aero_triangle", gummiAeroTriangles, GummiBlockProperties.of(1, 1, 0).withPlacement(GummiPlacementType.EDGE).withShape(GummiBlockProperties.Shape.AERO_WEDGE), 5);
 
         for (DyeColor dye : DyeColor.values()) {
             String name = "flowmotion_rail_" + dye.getName();
@@ -224,8 +225,6 @@ public class ModBlocks {
             createNewBlockItem(name, rail);
             flowmotionRails.add(rail);
         }
-
-        createNewGummiAeroBlock("gummi_aero_triangle", gummiAeroTriangles, GummiBlockProperties.of(1, 1, 0).withPlacement(GummiPlacementType.EDGE).withShape(GummiBlockProperties.Shape.AERO_WEDGE), 10);
     }
 
     /**

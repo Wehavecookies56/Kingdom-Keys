@@ -109,11 +109,8 @@
         {
           "do": [
             {
-              "type": "kingdomkeys:set_flag",
-              "flag": "kingdomkeys:story/training_done"
-            },
-            {
-              "type": "kingdomkeys:return_home"
+              "type": "kingdomkeys:return_home",
+              "grants": "kingdomkeys:story/training_done"
             }
           ],
           "text": "kingdomkeys.dialogue.foreteller.answer.send"

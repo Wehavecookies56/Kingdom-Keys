@@ -43,10 +43,12 @@
 * Sell screen now groups all equal items, showing fewer lines and able to sell it all at once.
 * Consumables like potions in shop will now show the recovery stats they affect.
 * Path to some armor texture files.
+* Halved the mobility triangular Aero/G-02 gives.
 
 ## Fixed:
 * Reversal RC being available even when the Dusk was out of reach.
 * Small jump after being hit due to aerial recovery.
+* Melding screen not showing the level of equipped spells.
 * Blocking Blizzard will no longer add you the Freezing effect.
 * Dark Firaga being a normal Firaga.
 * Bind and Mini not adjusting their time properly based on what was configured.
@@ -64,4 +66,5 @@
 * Some crashes when needed json files are not present.
 * Rare Large Body model crash.
 * Moogle projector block having red tint.
+* Blox bug texture being full black.
 * Small translation issues (Thanks to Held_der_Zeit).

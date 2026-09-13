@@ -67,8 +67,7 @@ public class DialoguesGen extends BaseProvider<DialogueBuilder> {
         // Taking the way out he opens here is what shuts the one he left in your world
         foreteller.node("graduation", KEY + "graduation.1", KEY + "graduation.2", KEY + "graduation.3", KEY + "graduation.4")
                 .answer(KEY + "answer.send")
-                    .then(new DialogueAction.SetFlag(StoryFlags.INTRODUCTORY_TRAINING_DONE, true))
-                    .then(new DialogueAction.ReturnHome())
+                    .then(new DialogueAction.ReturnHome(StoryFlags.INTRODUCTORY_TRAINING_DONE))
                     .end()
                 .end();
 

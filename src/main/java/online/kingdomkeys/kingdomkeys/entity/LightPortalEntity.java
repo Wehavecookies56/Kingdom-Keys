@@ -35,7 +35,14 @@ public class LightPortalEntity extends Entity implements IEntityWithComplexSpawn
 
 	private static final int CLOSE_CHECK = 40;
 
-	private boolean ownerInside;
+	private boolean ownerInside = true;
+
+	/** Earned by walking through, not by being offered the way. */
+	private ResourceLocation grantsOnCross;
+
+	public void grantsOnCross(ResourceLocation flag) {
+		this.grantsOnCross = flag;
+	}
 
 	private UUID greeter;
 
@@ -139,10 +146,23 @@ public class LightPortalEntity extends Entity implements IEntityWithComplexSpawn
 
 		PlayerData data = PlayerData.get(player);
 
-		if (data != null && recordsOrigin) {
-			data.setReturnDimension(player);
-			data.setReturnLocation(player);
-			PacketHandler.sendTo(new SCSyncPlayerData(player), player);
+		if (data != null) {
+			if (recordsOrigin) {
+				data.setReturnDimension(player);
+				data.setReturnLocation(player);
+			}
+
+			// Whatever this crossing was worth is paid here rather than when the master offered it.
+			// Granted at the door, you could turn the offer down and keep the reward: the lux shop,
+			// the duels and the hard course were all open while you were still on your first visit,
+			// with the way out still standing behind you.
+			if (grantsOnCross != null) {
+				data.addFlag(grantsOnCross);
+			}
+
+			if (recordsOrigin || grantsOnCross != null) {
+				PacketHandler.sendTo(new SCSyncPlayerData(player), player);
+			}
 		}
 
 		if (player.level().dimension().equals(destinationDim)) {
@@ -155,11 +175,39 @@ public class LightPortalEntity extends Entity implements IEntityWithComplexSpawn
 		// them get their bearings before it considers taking them anywhere
 		player.setPortalCooldown();
 
+		closeSpentDoors(player, destinationLevel);
+
 		dismissGreeter();
 
 		// A door with nothing to wait for is spent; one that is waiting stays for the trip back
 		if (closesOn == null) {
 			discard();
+		}
+	}
+
+	/** How far around the arrival to look for doors of the player's that are now spent. */
+	private static final double SWEEP = 16.0D;
+
+	/**
+	 * Shuts any other door of this player's waiting at the far end that has now done its job.
+	 *
+	 * <p>A door watches for its own closing condition, but only once every forty ticks and only while
+	 * something is ticking its chunk — and the way out sits alone in a world the player left. Coming
+	 * back through is the moment it becomes pointless, and it is also the one moment we are certainly
+	 * standing right next to it, so it is torn down here rather than left to notice on its own.</p>
+	 */
+	private void closeSpentDoors(ServerPlayer player, ServerLevel destinationLevel) {
+		PlayerData data = PlayerData.get(player);
+
+		if (data == null) {
+			return;
+		}
+
+		for (LightPortalEntity door : destinationLevel.getEntitiesOfClass(LightPortalEntity.class, player.getBoundingBox().inflate(SWEEP),
+				other -> other != this && other.closesOn != null && other.isOwnedBy(player))) {
+			if (data.hasFlag(door.closesOn)) {
+				door.discard();
+			}
 		}
 	}
 
@@ -211,6 +259,10 @@ public class LightPortalEntity extends Entity implements IEntityWithComplexSpawn
 		if (closesOn != null) {
 			tag.putString("closes_on", closesOn.toString());
 		}
+
+		if (grantsOnCross != null) {
+			tag.putString("grants_on_cross", grantsOnCross.toString());
+		}
 	}
 
 	@Override
@@ -225,6 +277,7 @@ public class LightPortalEntity extends Entity implements IEntityWithComplexSpawn
 		owner = tag.hasUUID("owner") ? tag.getUUID("owner") : null;
 		greeter = tag.hasUUID("greeter") ? tag.getUUID("greeter") : null;
 		closesOn = tag.contains("closes_on") ? ResourceLocation.tryParse(tag.getString("closes_on")) : null;
+		grantsOnCross = tag.contains("grants_on_cross") ? ResourceLocation.tryParse(tag.getString("grants_on_cross")) : null;
 	}
 
 	@Override

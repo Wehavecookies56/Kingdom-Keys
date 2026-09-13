@@ -227,8 +227,20 @@ public interface DialogueAction {
         }
     }
 
-    record ReturnHome() implements DialogueAction {
-        public static final MapCodec<ReturnHome> CODEC = MapCodec.unit(ReturnHome::new);
+    /** Portal which grantsthe flag once it's been crossed */
+    record ReturnHome(Optional<ResourceLocation> grants) implements DialogueAction {
+        public static final MapCodec<ReturnHome> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+                ResourceLocation.CODEC.optionalFieldOf("grants").forGetter(ReturnHome::grants)
+            ).apply(instance, ReturnHome::new)
+        );
+
+        public ReturnHome() {
+            this(Optional.empty());
+        }
+
+        public ReturnHome(ResourceLocation grants) {
+            this(Optional.of(grants));
+        }
 
         @Override
         public void run(ServerPlayer player, LivingEntity speaker) {
@@ -245,6 +257,8 @@ public interface DialogueAction {
             }
 
             LightPortalEntity way = new LightPortalEntity(speaker.level(), beside(player, speaker), data.getReturnLocation(), home, player.getYRot(), player.getUUID());
+
+            grants.ifPresent(way::grantsOnCross);
 
             if (speaker.level().addFreshEntity(way)) {
                 speaker.level().playSound(null, way.blockPosition(), SoundEvents.BEACON_ACTIVATE, SoundSource.AMBIENT, 0.7F, 1.6F);
