@@ -227,7 +227,7 @@ public interface DialogueAction {
         }
     }
 
-    /** Portal which grantsthe flag once it's been crossed */
+    /** Portal which grants the flag once it's been crossed */
     record ReturnHome(Optional<ResourceLocation> grants) implements DialogueAction {
         public static final MapCodec<ReturnHome> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
                 ResourceLocation.CODEC.optionalFieldOf("grants").forGetter(ReturnHome::grants)

@@ -10,7 +10,7 @@ import java.util.List;
  * Config file for client only config options
  */
 public class ClientConfig {
-	public ModConfigSpec.ConfigValue<List<? extends Float>> hpHUDData, mpHUDData, cmHUDData, rcHUDData, driveHUDData, focusHUDData, partyHUDData, lockOnHUDData, portraitHUDData, munnyExpHUDData, levelUpHUDData, driveLevelHUDData, minimapHUDData, roomNameHUDData, itemGetHUDData, gummiInfoHUDData, gummiReadoutHUDData, gummiControlsHUDData;
+	public ModConfigSpec.ConfigValue<List<? extends Float>> hpHUDData, mpHUDData, cmHUDData, rcHUDData, driveHUDData, focusHUDData, partyHUDData, lockOnHUDData, portraitHUDData, munnyExpHUDData, levelUpHUDData, driveLevelHUDData, minimapHUDData, roomNameHUDData, itemGetHUDData, gummiInfoHUDData, gummiReadoutHUDData, gummiControlsHUDData, synthesisTrackerHUDData;
 
     public ModConfigSpec.BooleanValue cmHeaderTextVisible, cmClassicColors, snapChatToCommandMenu, auto3rdPersonShip, cmChangeColor, customFont, portrait3D;
     public ModConfigSpec.IntValue cmTextXOffset, cmSelectedXOffset, cmSubXOffset, cmEndLWidth, cmEndRWidth, cmHeaderEndLWidth, cmHeaderEndRWidth, cmReactionEndLWidth, cmReactionEndRWidth;
@@ -122,6 +122,10 @@ public class ClientConfig {
 				.comment("Gummi ship flight controls HUD Data")
 				.translation(KingdomKeys.MODID + ".config.gummi_controls_hud_data")//X,Y,Width ,Height ,xScale, yScale,rotation,anchor (ordinal)
 				.defineList("gummiControlsHUDData", () -> HUDElement.getDefaultValues("GummiControls"), o -> o instanceof Number);
+		synthesisTrackerHUDData = builder
+				.comment("Materials still needed for the synthesis recipe being followed HUD Data")
+				.translation(KingdomKeys.MODID + ".config.synthesis_tracker_hud_data")//X,Y,Width ,Height ,xScale, yScale,rotation,anchor (ordinal)
+				.defineList("synthesisTrackerHUDData", () -> HUDElement.getDefaultValues("SynthesisTracker"), o -> o instanceof Number);
 		builder.pop();
 
         builder.push("gui");

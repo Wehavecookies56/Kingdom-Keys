@@ -52,7 +52,7 @@ public class StylesMenu extends MenuBackground {
         unavailable.add(terra);
         unavailable.add(ventus);
 
-        dualButton.active = false;
+        dualButton.active = true;
 
     }
 

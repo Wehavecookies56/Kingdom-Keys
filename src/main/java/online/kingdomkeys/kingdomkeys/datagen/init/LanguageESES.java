@@ -616,6 +616,8 @@ public class LanguageESES extends KKLanguageProvider {
         add(Gui_Synthesis_Synthesise, "Fabricar");
         add(Gui_Synthesis_Synthesise_Title, "Fabricar");
         add(Gui_Synthesis_Synthesise_Create, "Crear");
+        add(Gui_Synthesis_Synthesise_Track, "Seguir");
+        add(Gui_Synthesis_Synthesise_Untrack, "Dejar");
         add(Gui_Synthesis_Forge_Upgrade, "Mejorar");
         add(Gui_Synthesis_Forge, "Forja");
         add(Gui_Synthesis_Forge_Title, "Forja");

@@ -355,6 +355,7 @@ public class HUDElement {
             case "GummiInfo" -> Lists.newArrayList(0F, 2F, 120F, 40F, 1F, 1F, 0F, 1F, 1F);
             case "GummiReadout" -> Lists.newArrayList(4F, 4F, 104F, 93F, 1F, 1F, 0F, 2F, 1F);
             case "GummiControls" -> Lists.newArrayList(4F, 4F, 150F, 50F, 1F, 1F, 0F, 0F, 1F);
+            case "SynthesisTracker" -> Lists.newArrayList(32F, 0F, 90F, 120F, 1F, 1F, 0F, 5F, 1F);
             default -> throw new IllegalStateException("Unexpected default HUD value: " + name);
         };
     }

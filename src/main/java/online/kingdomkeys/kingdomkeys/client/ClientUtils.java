@@ -214,6 +214,7 @@ public class ClientUtils {
     public static final HUDElement GUMMI_INFO_ELEMENT = new HUDElement("GummiInfo");
     public static final HUDElement GUMMI_READOUT_ELEMENT = new HUDElement("GummiReadout");
     public static final HUDElement GUMMI_CONTROLS_ELEMENT = new HUDElement("GummiControls");
+    public static final HUDElement SYNTHESIS_TRACKER_ELEMENT = new HUDElement("SynthesisTracker");
 
     public static Entity getEntityByUUIDClient(UUID uuid) {
         Minecraft mc = Minecraft.getInstance();

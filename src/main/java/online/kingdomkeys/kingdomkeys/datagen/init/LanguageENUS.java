@@ -557,6 +557,8 @@ public class LanguageENUS extends KKLanguageProvider {
         add(Gui_Synthesis_Synthesise, "Synthesise Items");
         add(Gui_Synthesis_Synthesise_Title, "Synthesis");
         add(Gui_Synthesis_Synthesise_Create, "Create");
+        add(Gui_Synthesis_Synthesise_Track, "Track");
+        add(Gui_Synthesis_Synthesise_Untrack, "Untrack");
         add(Gui_Synthesis_Forge_Upgrade, "Upgrade");
         add(Gui_Synthesis_Forge, "Keyblade Forge");
         add(Gui_Synthesis_Forge_Title, "Forge");

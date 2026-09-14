@@ -31,6 +31,7 @@ import online.kingdomkeys.kingdomkeys.network.PacketHandler;
 import online.kingdomkeys.kingdomkeys.network.cts.CSCloseMoogleGUI;
 import online.kingdomkeys.kingdomkeys.network.cts.CSOpenMenu;
 import online.kingdomkeys.kingdomkeys.network.cts.CSSynthesiseRecipe;
+import online.kingdomkeys.kingdomkeys.network.cts.CSTrackRecipe;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.Recipe;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
 import online.kingdomkeys.kingdomkeys.util.Utils;
@@ -53,6 +54,8 @@ public class SynthesisCreateScreen extends MenuFilterable {
 	MenuBox boxL, boxM, boxRT, boxRB;
 	MenuButton create;
 	private MenuButton back;
+
+	private boolean trackMode;
 	SynthesisScreen parent;
 
 	public SynthesisCreateScreen(PlayerData playerData, SynthesisScreen parent) {
@@ -67,6 +70,10 @@ public class SynthesisCreateScreen extends MenuFilterable {
 		case "create":
 			PacketHandler.sendToServer(new CSSynthesiseRecipe(selectedRL));
 			minecraft.level.playSound(minecraft.player, minecraft.player.blockPosition(), ModSounds.itemget.get(), SoundSource.MASTER, 1.0f, 1.0f);
+			break;
+		case "track":
+			PacketHandler.sendToServer(new CSTrackRecipe(selectedRL));
+			minecraft.level.playSound(minecraft.player, minecraft.player.blockPosition(), ModSounds.menu_select.get(), SoundSource.MASTER, 1.0f, 1.0f);
 			break;
 		}
 	}
@@ -143,7 +150,7 @@ public class SynthesisCreateScreen extends MenuFilterable {
 		super.init();
 
 		create = new MenuButton(boxM.getX()+boxM.getWidth()/2 - (int)(buttonWidth+22)/2, (int) (height * 0.67),(int)buttonWidth, Strings.Gui_Synthesis_Synthesise_Create, MenuButton.ButtonType.ROUNDBUTTON,(e) -> {
-			action("create");
+			action(trackMode ? "track" : "create");
 		});
 		create.setCenterText(true);
 		addRenderableWidget(create);
@@ -189,12 +196,19 @@ public class SynthesisCreateScreen extends MenuFilterable {
 
 			}
 
-			create.active = enoughMats && enoughMunny && enoughTier && enoughSpace;
-			if(!enoughSpace) {
-				create.setMessage(Component.translatable(Strings.Gui_Shop_NoSpace));
+			trackMode = !enoughMats;
+
+			if (trackMode) {
+				boolean following = playerData.getTrackedRecipe() != null && playerData.getTrackedRecipe().equals(selectedRL);
+
+				// Always pressable, unlike Create: following a recipe costs nothing and asks for nothing
+				create.active = true;
+				create.setMessage(Component.translatable(following ? Strings.Gui_Synthesis_Synthesise_Untrack : Strings.Gui_Synthesis_Synthesise_Track));
 			} else {
-				create.setMessage(Component.translatable(Strings.Gui_Synthesis_Synthesise_Create));
+				create.active = enoughMunny && enoughTier && enoughSpace;
+				create.setMessage(Component.translatable(enoughSpace ? Strings.Gui_Synthesis_Synthesise_Create : Strings.Gui_Shop_NoSpace));
 			}
+
 			create.visible = RecipeRegistry.getInstance().containsKey(selectedRL);
 		} else {
 			create.visible = false;

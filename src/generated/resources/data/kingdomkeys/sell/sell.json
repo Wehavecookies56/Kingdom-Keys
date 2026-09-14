@@ -1,5 +1,249 @@
 [
   {
+    "item": "kingdomkeys:spellfire",
+    "price": 200
+  },
+  {
+    "item": "kingdomkeys:spellfira",
+    "price": 300
+  },
+  {
+    "item": "kingdomkeys:spellfiraga",
+    "price": 450
+  },
+  {
+    "item": "kingdomkeys:spelldarkfiraga",
+    "price": 600
+  },
+  {
+    "item": "kingdomkeys:spelltriplefiraga",
+    "price": 600
+  },
+  {
+    "item": "kingdomkeys:spellcrawlingfiraga",
+    "price": 600
+  },
+  {
+    "item": "kingdomkeys:spellfissionfiraga",
+    "price": 600
+  },
+  {
+    "item": "kingdomkeys:spellfiragaburst",
+    "price": 700
+  },
+  {
+    "item": "kingdomkeys:spellblizzard",
+    "price": 200
+  },
+  {
+    "item": "kingdomkeys:spellblizzara",
+    "price": 300
+  },
+  {
+    "item": "kingdomkeys:spellblizzaga",
+    "price": 450
+  },
+  {
+    "item": "kingdomkeys:spelltripleblizzaga",
+    "price": 600
+  },
+  {
+    "item": "kingdomkeys:spelldeepfreeze",
+    "price": 600
+  },
+  {
+    "item": "kingdomkeys:spellicebarrage",
+    "price": 600
+  },
+  {
+    "item": "kingdomkeys:spellglacier",
+    "price": 700
+  },
+  {
+    "item": "kingdomkeys:spellwater",
+    "price": 200
+  },
+  {
+    "item": "kingdomkeys:spellwatera",
+    "price": 300
+  },
+  {
+    "item": "kingdomkeys:spellwaterga",
+    "price": 450
+  },
+  {
+    "item": "kingdomkeys:spellthunder",
+    "price": 200
+  },
+  {
+    "item": "kingdomkeys:spellthundara",
+    "price": 300
+  },
+  {
+    "item": "kingdomkeys:spellthundaga",
+    "price": 450
+  },
+  {
+    "item": "kingdomkeys:spellthundagashot",
+    "price": 600
+  },
+  {
+    "item": "kingdomkeys:spelltripleplasma",
+    "price": 700
+  },
+  {
+    "item": "kingdomkeys:spellcure",
+    "price": 200
+  },
+  {
+    "item": "kingdomkeys:spellcura",
+    "price": 300
+  },
+  {
+    "item": "kingdomkeys:spellcuraga",
+    "price": 450
+  },
+  {
+    "item": "kingdomkeys:spellaero",
+    "price": 200
+  },
+  {
+    "item": "kingdomkeys:spellaerora",
+    "price": 300
+  },
+  {
+    "item": "kingdomkeys:spellaeroga",
+    "price": 450
+  },
+  {
+    "item": "kingdomkeys:spellaeroshield",
+    "price": 200
+  },
+  {
+    "item": "kingdomkeys:spellaerorashield",
+    "price": 300
+  },
+  {
+    "item": "kingdomkeys:spellaerogashield",
+    "price": 450
+  },
+  {
+    "item": "kingdomkeys:spellmagnet",
+    "price": 200
+  },
+  {
+    "item": "kingdomkeys:spellmagnera",
+    "price": 300
+  },
+  {
+    "item": "kingdomkeys:spellmagnega",
+    "price": 450
+  },
+  {
+    "item": "kingdomkeys:spellreflect",
+    "price": 200
+  },
+  {
+    "item": "kingdomkeys:spellreflera",
+    "price": 300
+  },
+  {
+    "item": "kingdomkeys:spellreflega",
+    "price": 450
+  },
+  {
+    "item": "kingdomkeys:spellgravity",
+    "price": 200
+  },
+  {
+    "item": "kingdomkeys:spellgravira",
+    "price": 300
+  },
+  {
+    "item": "kingdomkeys:spellgraviga",
+    "price": 450
+  },
+  {
+    "item": "kingdomkeys:spellstop",
+    "price": 200
+  },
+  {
+    "item": "kingdomkeys:spellstopra",
+    "price": 300
+  },
+  {
+    "item": "kingdomkeys:spellstopga",
+    "price": 450
+  },
+  {
+    "item": "kingdomkeys:spellballoon",
+    "price": 200
+  },
+  {
+    "item": "kingdomkeys:spellballoonra",
+    "price": 300
+  },
+  {
+    "item": "kingdomkeys:spellballoonga",
+    "price": 450
+  },
+  {
+    "item": "kingdomkeys:spellmineshield",
+    "price": 200
+  },
+  {
+    "item": "kingdomkeys:spellminesquare",
+    "price": 300
+  },
+  {
+    "item": "kingdomkeys:spellseekermine",
+    "price": 450
+  },
+  {
+    "item": "kingdomkeys:spellspark",
+    "price": 200
+  },
+  {
+    "item": "kingdomkeys:spellsparkra",
+    "price": 300
+  },
+  {
+    "item": "kingdomkeys:spellsparkga",
+    "price": 450
+  },
+  {
+    "item": "kingdomkeys:spellwarp",
+    "price": 700
+  },
+  {
+    "item": "kingdomkeys:spellfaith",
+    "price": 700
+  },
+  {
+    "item": "kingdomkeys:spellzerogravity",
+    "price": 200
+  },
+  {
+    "item": "kingdomkeys:spellpoison",
+    "price": 125
+  },
+  {
+    "item": "kingdomkeys:spellesuna",
+    "price": 175
+  },
+  {
+    "item": "kingdomkeys:spellbind",
+    "price": 187
+  },
+  {
+    "item": "kingdomkeys:spellconfuse",
+    "price": 212
+  },
+  {
+    "item": "kingdomkeys:spellslow",
+    "price": 162
+  },
+  {
     "item": "kingdomkeys:winner_stick",
     "price": 500
   },

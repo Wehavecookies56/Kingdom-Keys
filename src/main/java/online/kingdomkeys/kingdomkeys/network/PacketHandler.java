@@ -145,6 +145,7 @@ public class PacketHandler {
 		server(CSSyncAllClientDataPacket.TYPE, CSSyncAllClientDataPacket.STREAM_CODEC);
 		server(CSSyncArmorColor.TYPE, CSSyncArmorColor.STREAM_CODEC);
 		server(CSSynthesiseRecipe.TYPE, CSSynthesiseRecipe.STREAM_CODEC);
+		server(CSTrackRecipe.TYPE, CSTrackRecipe.STREAM_CODEC);
 		server(CSMeldRecipe.TYPE, CSMeldRecipe.STREAM_CODEC);
 		server(CSTakeMaterials.TYPE, CSTakeMaterials.STREAM_CODEC);
 		server(CSTravelToSoA.TYPE, CSTravelToSoA.STREAM_CODEC);

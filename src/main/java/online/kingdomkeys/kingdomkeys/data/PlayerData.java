@@ -150,6 +150,10 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		}
 		storage.put("recipes", recipes);
 
+		if (this.getTrackedRecipe() != null) {
+			storage.putString("tracked_recipe", this.getTrackedRecipe().toString());
+		}
+
 		CompoundTag magics = new CompoundTag();
 		for (Entry<ResourceLocation, Integer> pair : this.getMagicsCastMap().entrySet()) {
 			magics.putInt(pair.getKey().toString(), pair.getValue());
@@ -437,6 +441,8 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 		}
 		Collections.sort(recipeList);
 
+		this.setTrackedRecipe(nbt.contains("tracked_recipe") ? ResourceLocation.tryParse(nbt.getString("tracked_recipe")) : null);
+
 		magicCastMap.clear();
 		for (String magicName : nbt.getCompound("magic_casts").getAllKeys()) {
 			int casts = nbt.getCompound("magic_casts").getInt(magicName);
@@ -682,6 +688,7 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 	List<Utils.ShotlockPosition> shotlockEnemies = new ArrayList<>();
 	boolean hasShotMaxShotlock = false;
 	List<ResourceLocation> recipeList = new ArrayList<>();
+	private ResourceLocation trackedRecipe = null;
 	LinkedHashMap<ResourceLocation, int[]> abilityMap = new LinkedHashMap<>(); //Key = name, value = {level, equipped},
     private TreeMap<ResourceLocation, Integer> materials = new TreeMap<>();
 	private TreeMap<ResourceLocation, Integer> totalMaterials = new TreeMap<>();
@@ -2272,6 +2279,14 @@ public class PlayerData implements INBTSerializable<CompoundTag> {
 
 	public void setLevelItemsSought(boolean sought) {
 		this.levelItemsSought = sought;
+	}
+
+	public ResourceLocation getTrackedRecipe() {
+		return trackedRecipe;
+	}
+
+	public void setTrackedRecipe(ResourceLocation recipe) {
+		this.trackedRecipe = recipe;
 	}
 
 	public List<ResourceLocation> getKnownRecipeList() {

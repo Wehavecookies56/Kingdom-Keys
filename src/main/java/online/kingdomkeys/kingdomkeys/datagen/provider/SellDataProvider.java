@@ -1,12 +1,18 @@
 package online.kingdomkeys.kingdomkeys.datagen.provider;
 
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataProvider;
 import net.minecraft.data.PackOutput;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import online.kingdomkeys.kingdomkeys.KingdomKeys;
 import online.kingdomkeys.kingdomkeys.datagen.builder.SellBuilder;
+import online.kingdomkeys.kingdomkeys.item.MagicSpellItem;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
 
 import java.nio.file.Path;
@@ -31,8 +37,30 @@ public class SellDataProvider implements DataProvider {
 		return "Kingdom Keys Sell Data";
 	}
 
+	private static final int RESALE_DIVIDER = 4;
+
+	private static void addSpells(SellBuilder sell) {
+		for (JsonElement element : ShopDataProvider.buildDefaultShop()) {
+			JsonObject entry = element.getAsJsonObject();
+
+			// The first entry of a shop is the name of its list rather than anything on the shelves
+			if (!entry.has("item") || !entry.has("cost")) {
+				continue;
+			}
+
+			Item item = BuiltInRegistries.ITEM.get(ResourceLocation.parse(entry.get("item").getAsString()));
+
+			if (item instanceof MagicSpellItem) {
+				sell.item(item, entry.get("cost").getAsInt() / RESALE_DIVIDER);
+			}
+		}
+	}
+
 	private static JsonArray buildSell() {
-		return new SellBuilder()
+		SellBuilder sell = new SellBuilder();
+		addSpells(sell);
+
+		return sell
 			.item(ModItems.winnerStick, 500)
 			.item(Items.COAL, 10)
 			.item(Items.COPPER_INGOT, 10)
