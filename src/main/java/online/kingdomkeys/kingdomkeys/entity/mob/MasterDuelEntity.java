@@ -46,7 +46,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.UUID;
 
-public class MasterDuelEntity extends BaseKHEntity {
+public class MasterDuelEntity extends BaseKHEntity implements KeybladeWielder {
 	private static final EntityDataAccessor<Byte> UNION = SynchedEntityData.defineId(MasterDuelEntity.class, EntityDataSerializers.BYTE);
 	private static final EntityDataAccessor<Integer> DUEL_LEVEL = SynchedEntityData.defineId(MasterDuelEntity.class, EntityDataSerializers.INT);
 
@@ -137,6 +137,25 @@ public class MasterDuelEntity extends BaseKHEntity {
 		}
 	}
 
+	private final KeybladeSummon summon = new KeybladeSummon(this);
+
+	@Override
+	public KeybladeSummon keybladeSummon() {
+		return summon;
+	}
+
+	@Override
+	public ItemStack keybladeToCall() {
+		Item keyblade = ForetellerEntity.keybladeFor(getUnion());
+		return keyblade == null ? ItemStack.EMPTY : new ItemStack(keyblade);
+	}
+
+	//Mastered = first try
+	@Override
+	public int callingRank() {
+		return KeybladeSummon.MASTERED;
+	}
+
 	public int getDuelLevel() {
 		return getEntityData().get(DUEL_LEVEL);
 	}
@@ -176,6 +195,7 @@ public class MasterDuelEntity extends BaseKHEntity {
 			return;
 		}
 
+		summon.tick();
 		// The level is usually set while he is still being built, before anyone can be tracking
 		// him, and that first packet is dropped on the floor. This is the one that lands.
 		if (tickCount == 2) {
@@ -259,8 +279,7 @@ public class MasterDuelEntity extends BaseKHEntity {
 
 	public void dismiss() {
 		if (level() instanceof ServerLevel server) {
-			server.sendParticles(deathParticle(), getX(), getY() + getBbHeight() * 0.5D, getZ(),
-					40, getBbWidth() * 0.5D, getBbHeight() * 0.4D, getBbWidth() * 0.5D, 0.05D);
+			server.sendParticles(deathParticle(), getX(), getY() + getBbHeight() * 0.5D, getZ(), 40, getBbWidth() * 0.5D, getBbHeight() * 0.4D, getBbWidth() * 0.5D, 0.05D);
 		}
 
 		level().playSound(null, blockPosition(), ModSounds.portal.get(), SoundSource.HOSTILE, 0.8F, 1.2F);
@@ -347,11 +366,6 @@ public class MasterDuelEntity extends BaseKHEntity {
 			setItemSlot(EquipmentSlot.CHEST, new ItemStack(robes[1]));
 			setItemSlot(EquipmentSlot.LEGS, new ItemStack(robes[2]));
 			setItemSlot(EquipmentSlot.FEET, new ItemStack(robes[3]));
-		}
-
-		Item keyblade = ForetellerEntity.keybladeFor(union);
-		if (keyblade != null) {
-			setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(keyblade));
 		}
 
 		for (EquipmentSlot slot : EquipmentSlot.values()) {

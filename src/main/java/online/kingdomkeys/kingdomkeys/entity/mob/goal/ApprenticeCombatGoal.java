@@ -3,6 +3,8 @@ package online.kingdomkeys.kingdomkeys.entity.mob.goal;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.entity.ai.util.DefaultRandomPos;
+import net.minecraft.world.phys.Vec3;
 import online.kingdomkeys.kingdomkeys.entity.mob.ApprenticeEntity;
 
 import java.util.EnumSet;
@@ -10,9 +12,16 @@ import java.util.EnumSet;
 public class ApprenticeCombatGoal extends Goal {
 	private static final double REACH = 3.2D;
 
+	private static final double FIST_REACH = 1.9D;
+
 	private static final double CHASE_SPEED = 1.15D;
+	private static final double FLEE_SPEED = 1.25D;
+
+	private static final int FLEE_RADIUS = 10, FLEE_HEIGHT = 4;
 
 	private static final int SWING_INTERVAL = 12;
+
+	private static final int FIST_INTERVAL = 20;
 	private static final int COMBO_HITS = 3;
 	private static final int RECOVERY = 26;
 
@@ -55,6 +64,8 @@ public class ApprenticeCombatGoal extends Goal {
 		hitsLeft = COMBO_HITS;
 		repath = 0;
 		apprentice.setAggressive(true);
+
+		apprentice.callKeyblade();
 	}
 
 	@Override
@@ -73,10 +84,17 @@ public class ApprenticeCombatGoal extends Goal {
 
 		apprentice.getLookControl().setLookAt(target, 30F, 30F);
 
+		if (apprentice.isSummoning() && !apprentice.holdsGroundUnarmed()) {
+			backAway(target);
+			return;
+		}
+
+		boolean armed = apprentice.hasKeyblade();
+		double reach = armed ? REACH : FIST_REACH;
 		double distance = apprentice.distanceTo(target);
 
 		// Walk them down rather than rooting to the spot, but stop short so the swing has room
-		if (distance > REACH * 0.85D) {
+		if (distance > reach * 0.85D) {
 			if (--repath <= 0) {
 				repath = REPATH_INTERVAL;
 				apprentice.getNavigation().moveTo(target, CHASE_SPEED);
@@ -90,7 +108,7 @@ public class ApprenticeCombatGoal extends Goal {
 			return;
 		}
 
-		if (distance > REACH || !apprentice.getSensing().hasLineOfSight(target)) {
+		if (distance > reach || !apprentice.getSensing().hasLineOfSight(target)) {
 			return;
 		}
 
@@ -99,10 +117,23 @@ public class ApprenticeCombatGoal extends Goal {
 
 		// Three blows then a breather, so a fight reads as a fight and not a metronome
 		if (--hitsLeft > 0) {
-			cooldown = SWING_INTERVAL;
+			cooldown = armed ? SWING_INTERVAL : FIST_INTERVAL;
 		} else {
 			hitsLeft = COMBO_HITS;
 			cooldown = RECOVERY;
+		}
+	}
+
+	private void backAway(LivingEntity target) {
+		if (--repath > 0) {
+			return;
+		}
+
+		repath = REPATH_INTERVAL;
+
+		Vec3 away = DefaultRandomPos.getPosAway(apprentice, FLEE_RADIUS, FLEE_HEIGHT, target.position());
+		if (away != null) {
+			apprentice.getNavigation().moveTo(away.x, away.y, away.z, FLEE_SPEED);
 		}
 	}
 }
