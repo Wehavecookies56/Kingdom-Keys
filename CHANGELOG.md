@@ -3,7 +3,16 @@
   * They are all equal to themselves, if a player joins Organization XIII they won't have access to their Union privileges.
   * Foretellers will be able to train you, either by summoning rounds of enemies or by sparring with them.
   * Lux is used to claim rewards from the Foretellers. Foretellers from other unions will charge you extra Lux for theirs.
+* Your foreteller will visit you once at dawn you synthesise your first keyblade (next keyblade you synthesise in old worlds).
+  * It will take you to Daybreak Town to do some introductory training and then you'll return to where you were.
 * Daybreak Town, full of keyblade wielders who you can spar with.
+  * They will fight the heartless that spawn there, which will be weak since it's a light-related world.
+  * Their outfit's main color is linked to the union they belong to, the secondary color is randomized.
+* Union apprentice armors, 2 designs which can be dyed in the new Clothing Table.
+  * The armor can be obtained by completing an initial training with your master and redeeming Lux to your union master.
+  * The table can be obtained by crafting with 3 strings at the top, shears in the middle and 5 wooden planks at the rest.
+  * It can be dyed with two different colors and can be cleaned by washing it on a water cauldron with right click.
+  * In the table you can add up to 8 dyes to make your desired color, can stack them and even after dyeing it you can put the resulting item as input again.
 * Physics for Starlight keychain.
 * World Markers in the Ocean Between, rendered while you're in a gummi ship.
 * Lux when defeating enemies and training with your Foreteller.
@@ -31,9 +40,16 @@
 * Abilities are now data driven.
 * Updated version for the leveling json files, next time a player joins will get their level adjusted and abilities re-given.
 * Magic spells are now usable by entities.
+* Sell screen now groups all equal items, showing fewer lines and able to sell it all at once.
+* Consumables like potions in shop will now show the recovery stats they affect.
+* Path to some armor texture files.
+* Halved the mobility triangular Aero/G-02 gives.
 
 ## Fixed:
 * Reversal RC being available even when the Dusk was out of reach.
+* Small jump after being hit due to aerial recovery.
+* Melding screen not showing the level of equipped spells.
+* Blocking Blizzard will no longer add you the Freezing effect.
 * Dark Firaga being a normal Firaga.
 * Bind and Mini not adjusting their time properly based on what was configured.
 * Shotlocks leaving players airborne if they get somehow interrupted.
@@ -49,3 +65,6 @@
 * Removed a couple of warnings when loading the mod.
 * Some crashes when needed json files are not present.
 * Rare Large Body model crash.
+* Moogle projector block having red tint.
+* Blox bug texture being full black.
+* Small translation issues (Thanks to Held_der_Zeit).

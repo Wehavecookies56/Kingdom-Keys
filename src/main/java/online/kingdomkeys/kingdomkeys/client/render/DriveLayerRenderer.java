@@ -23,7 +23,7 @@ import online.kingdomkeys.kingdomkeys.driveform.ModDriveForms;
 @OnlyIn(Dist.CLIENT)
 public class DriveLayerRenderer<T extends LivingEntity, M extends HumanoidModel<T>> extends RenderLayer<T, M> {
 	private final PlayerRenderer renderPlayer;
-	private static final ResourceLocation ANTI_EYES = KingdomKeys.rl("textures/models/armor/anti_eyes.png");
+	private static final ResourceLocation ANTI_EYES = KingdomKeys.rl("textures/models/armor/driveforms/anti_eyes.png");
 
 	public DriveLayerRenderer(RenderLayerParent<T, M> entityRendererIn) {
 		super(entityRendererIn);

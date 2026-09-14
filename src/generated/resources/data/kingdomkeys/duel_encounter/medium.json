@@ -14,7 +14,7 @@
   "experience": 550,
   "grants": "kingdomkeys:duel/medium",
   "info": "kingdomkeys.information.duel",
-  "level": 30,
+  "level": 45,
   "lux": 300,
   "requires": [
     "kingdomkeys:duel/easy"

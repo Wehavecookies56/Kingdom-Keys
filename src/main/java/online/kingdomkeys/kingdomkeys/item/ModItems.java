@@ -7,6 +7,7 @@ import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.level.biome.Biomes;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -657,6 +658,10 @@ public class ModItems {
 
 	//region Armour
 	public static final Supplier<Item>
+			apprentice_Chestplate = createUnionApprenticeArmorItem(ArmorItem.Type.CHESTPLATE),
+			apprentice_Leggings = createUnionApprenticeArmorItem(ArmorItem.Type.LEGGINGS),
+			apprentice_Boots = createUnionApprenticeArmorItem(ArmorItem.Type.BOOTS),
+
 			organizationRobe_Helmet = createArmorItem(Strings.organization+"_"+Strings.helmet, ModArmorMaterials.ORGANIZATION, ArmorItem.Type.HELMET, Strings.organization),
 			organizationRobe_Chestplate = createArmorItem(Strings.organization+"_"+Strings.chestplate, ModArmorMaterials.ORGANIZATION, ArmorItem.Type.CHESTPLATE, Strings.organization),
 			organizationRobe_Leggings = createArmorItem(Strings.organization+"_"+Strings.leggings, ModArmorMaterials.ORGANIZATION, ArmorItem.Type.LEGGINGS, Strings.organization),
@@ -728,30 +733,30 @@ public class ModItems {
 			dark_Riku_Leggings = createArmorItem(Strings.darkRiku+"_"+Strings.leggings, ModArmorMaterials.VANITY, ArmorItem.Type.LEGGINGS, Strings.darkRiku),
 			dark_Riku_Boots = createArmorItem(Strings.darkRiku+"_"+Strings.boots, ModArmorMaterials.VANITY, ArmorItem.Type.BOOTS, Strings.darkRiku),
 
-			aced_Helmet = createArmorItem(Strings.aced+"_"+Strings.helmet, ModArmorMaterials.VANITY, ArmorItem.Type.HELMET, Strings.aced),
-			aced_Chestplate = createArmorItem(Strings.aced+"_"+Strings.chestplate, ModArmorMaterials.VANITY, ArmorItem.Type.CHESTPLATE, Strings.aced),
-			aced_Leggings = createArmorItem(Strings.aced+"_"+Strings.leggings, ModArmorMaterials.VANITY, ArmorItem.Type.LEGGINGS, Strings.aced),
-			aced_Boots = createArmorItem(Strings.aced+"_"+Strings.boots, ModArmorMaterials.VANITY, ArmorItem.Type.BOOTS, Strings.aced),
+			aced_Helmet = createArmorItem(Strings.aced+"_"+Strings.helmet, ModArmorMaterials.VANITY, ArmorItem.Type.HELMET, "foretellers/" + Strings.aced),
+			aced_Chestplate = createArmorItem(Strings.aced+"_"+Strings.chestplate, ModArmorMaterials.VANITY, ArmorItem.Type.CHESTPLATE, "foretellers/" + Strings.aced),
+			aced_Leggings = createArmorItem(Strings.aced+"_"+Strings.leggings, ModArmorMaterials.VANITY, ArmorItem.Type.LEGGINGS, "foretellers/" + Strings.aced),
+			aced_Boots = createArmorItem(Strings.aced+"_"+Strings.boots, ModArmorMaterials.VANITY, ArmorItem.Type.BOOTS, "foretellers/" + Strings.aced),
 
-			ava_Helmet = createArmorItem(Strings.ava+"_"+Strings.helmet, ModArmorMaterials.VANITY, ArmorItem.Type.HELMET, Strings.ava),
-			ava_Chestplate = createArmorItem(Strings.ava+"_"+Strings.chestplate, ModArmorMaterials.VANITY, ArmorItem.Type.CHESTPLATE, Strings.ava),
-			ava_Leggings = createArmorItem(Strings.ava+"_"+Strings.leggings, ModArmorMaterials.VANITY, ArmorItem.Type.LEGGINGS, Strings.ava),
-			ava_Boots = createArmorItem(Strings.ava+"_"+Strings.boots, ModArmorMaterials.VANITY, ArmorItem.Type.BOOTS, Strings.ava),
+			ava_Helmet = createArmorItem(Strings.ava+"_"+Strings.helmet, ModArmorMaterials.VANITY, ArmorItem.Type.HELMET, "foretellers/" + Strings.ava),
+			ava_Chestplate = createArmorItem(Strings.ava+"_"+Strings.chestplate, ModArmorMaterials.VANITY, ArmorItem.Type.CHESTPLATE, "foretellers/" + Strings.ava),
+			ava_Leggings = createArmorItem(Strings.ava+"_"+Strings.leggings, ModArmorMaterials.VANITY, ArmorItem.Type.LEGGINGS, "foretellers/" + Strings.ava),
+			ava_Boots = createArmorItem(Strings.ava+"_"+Strings.boots, ModArmorMaterials.VANITY, ArmorItem.Type.BOOTS, "foretellers/" + Strings.ava),
 
-			gula_Helmet = createArmorItem(Strings.gula+"_"+Strings.helmet, ModArmorMaterials.VANITY, ArmorItem.Type.HELMET, Strings.gula),
-			gula_Chestplate = createArmorItem(Strings.gula+"_"+Strings.chestplate, ModArmorMaterials.VANITY, ArmorItem.Type.CHESTPLATE, Strings.gula),
-			gula_Leggings = createArmorItem(Strings.gula+"_"+Strings.leggings, ModArmorMaterials.VANITY, ArmorItem.Type.LEGGINGS, Strings.gula),
-			gula_Boots = createArmorItem(Strings.gula+"_"+Strings.boots, ModArmorMaterials.VANITY, ArmorItem.Type.BOOTS, Strings.gula),
+			gula_Helmet = createArmorItem(Strings.gula+"_"+Strings.helmet, ModArmorMaterials.VANITY, ArmorItem.Type.HELMET, "foretellers/" + Strings.gula),
+			gula_Chestplate = createArmorItem(Strings.gula+"_"+Strings.chestplate, ModArmorMaterials.VANITY, ArmorItem.Type.CHESTPLATE, "foretellers/" + Strings.gula),
+			gula_Leggings = createArmorItem(Strings.gula+"_"+Strings.leggings, ModArmorMaterials.VANITY, ArmorItem.Type.LEGGINGS, "foretellers/" + Strings.gula),
+			gula_Boots = createArmorItem(Strings.gula+"_"+Strings.boots, ModArmorMaterials.VANITY, ArmorItem.Type.BOOTS, "foretellers/" + Strings.gula),
 
-			invi_Helmet = createArmorItem(Strings.invi+"_"+Strings.helmet, ModArmorMaterials.VANITY, ArmorItem.Type.HELMET, Strings.invi),
-			invi_Chestplate = createArmorItem(Strings.invi+"_"+Strings.chestplate, ModArmorMaterials.VANITY, ArmorItem.Type.CHESTPLATE, Strings.invi),
-			invi_Leggings = createArmorItem(Strings.invi+"_"+Strings.leggings, ModArmorMaterials.VANITY, ArmorItem.Type.LEGGINGS, Strings.invi),
-			invi_Boots = createArmorItem(Strings.invi+"_"+Strings.boots, ModArmorMaterials.VANITY, ArmorItem.Type.BOOTS, Strings.invi),
+			invi_Helmet = createArmorItem(Strings.invi+"_"+Strings.helmet, ModArmorMaterials.VANITY, ArmorItem.Type.HELMET, "foretellers/" + Strings.invi),
+			invi_Chestplate = createArmorItem(Strings.invi+"_"+Strings.chestplate, ModArmorMaterials.VANITY, ArmorItem.Type.CHESTPLATE, "foretellers/" + Strings.invi),
+			invi_Leggings = createArmorItem(Strings.invi+"_"+Strings.leggings, ModArmorMaterials.VANITY, ArmorItem.Type.LEGGINGS, "foretellers/" + Strings.invi),
+			invi_Boots = createArmorItem(Strings.invi+"_"+Strings.boots, ModArmorMaterials.VANITY, ArmorItem.Type.BOOTS, "foretellers/" + Strings.invi),
 
-			ira_Helmet = createArmorItem(Strings.ira+"_"+Strings.helmet, ModArmorMaterials.VANITY, ArmorItem.Type.HELMET, Strings.ira),
-			ira_Chestplate = createArmorItem(Strings.ira+"_"+Strings.chestplate, ModArmorMaterials.VANITY, ArmorItem.Type.CHESTPLATE, Strings.ira),
-			ira_Leggings = createArmorItem(Strings.ira+"_"+Strings.leggings, ModArmorMaterials.VANITY, ArmorItem.Type.LEGGINGS, Strings.ira),
-			ira_Boots = createArmorItem(Strings.ira+"_"+Strings.boots, ModArmorMaterials.VANITY, ArmorItem.Type.BOOTS, Strings.ira);
+			ira_Helmet = createArmorItem(Strings.ira+"_"+Strings.helmet, ModArmorMaterials.VANITY, ArmorItem.Type.HELMET, "foretellers/" + Strings.ira),
+			ira_Chestplate = createArmorItem(Strings.ira+"_"+Strings.chestplate, ModArmorMaterials.VANITY, ArmorItem.Type.CHESTPLATE, "foretellers/" + Strings.ira),
+			ira_Leggings = createArmorItem(Strings.ira+"_"+Strings.leggings, ModArmorMaterials.VANITY, ArmorItem.Type.LEGGINGS, "foretellers/" + Strings.ira),
+			ira_Boots = createArmorItem(Strings.ira+"_"+Strings.boots, ModArmorMaterials.VANITY, ArmorItem.Type.BOOTS, "foretellers/" + Strings.ira);
 	//endregion
 
 	//region Records
@@ -1191,6 +1196,29 @@ public class ModItems {
 
 	private static Supplier<Item> createArmorItem(String name, Holder<ArmorMaterial> material, ArmorItem.Type slot, String textureName) {
 		return ITEMS.register(name, () -> new BaseArmorItem(material, slot, textureName));
+	}
+
+	private static Supplier<Item> createUnionApprenticeArmorItem(ArmorItem.Type slot) {
+		return ITEMS.register("apprentice_" + slot.getName(), () -> new UnionApprenticeArmorItem(ModArmorMaterials.VANITY, slot));
+	}
+
+	public static Item getApprenticeArmor(ArmorItem.Type slot) {
+		return switch (slot) {
+			case CHESTPLATE -> apprentice_Chestplate.get();
+			case LEGGINGS -> apprentice_Leggings.get();
+			case BOOTS -> apprentice_Boots.get();
+			default -> throw new IllegalArgumentException("Apprentice outfits have no " + slot.getName());
+		};
+	}
+
+	public static ItemStack createApprenticeArmor(ArmorItem.Type slot, int design, int primaryColor, int secondaryColor) {
+		ItemStack stack = new ItemStack(getApprenticeArmor(slot));
+		if (stack.getItem() instanceof UnionApprenticeArmorItem armor) {
+			armor.setDesign(stack, design);
+			armor.setPrimaryColor(stack, primaryColor);
+			armor.setSecondaryColor(stack, secondaryColor);
+		}
+		return stack;
 	}
 
 	private static Supplier<Item> createMapCard(String name, Supplier<RoomType> type, CardCategory category, boolean wip) {

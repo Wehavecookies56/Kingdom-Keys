@@ -1,6 +1,27 @@
 [
   {
     "amount": 1,
+    "cost": 250,
+    "currency": "lux",
+    "item": "kingdomkeys:apprentice_chestplate",
+    "tier": 1
+  },
+  {
+    "amount": 1,
+    "cost": 250,
+    "currency": "lux",
+    "item": "kingdomkeys:apprentice_leggings",
+    "tier": 1
+  },
+  {
+    "amount": 1,
+    "cost": 250,
+    "currency": "lux",
+    "item": "kingdomkeys:apprentice_boots",
+    "tier": 1
+  },
+  {
+    "amount": 1,
     "cost": 5000,
     "currency": "lux",
     "item": "kingdomkeys:avas_keyblade_chain",

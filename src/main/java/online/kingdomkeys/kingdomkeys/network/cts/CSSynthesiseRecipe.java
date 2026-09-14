@@ -24,6 +24,7 @@ import online.kingdomkeys.kingdomkeys.network.stc.SCShowMessagesPacket;
 import online.kingdomkeys.kingdomkeys.network.stc.SCShowRareMeld;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncPlayerData;
 import online.kingdomkeys.kingdomkeys.network.stc.SCSyncWorldData;
+import online.kingdomkeys.kingdomkeys.story.StoryFlags;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.Recipe;
 import online.kingdomkeys.kingdomkeys.synthesis.recipe.RecipeRegistry;
 import online.kingdomkeys.kingdomkeys.util.Utils;
@@ -109,6 +110,10 @@ public record CSSynthesiseRecipe(ResourceLocation name) implements Packet {
 					}
 
 					playerData.addSynthesisedRecipe(name.toString());
+
+					if (i instanceof KeychainItem && playerData.hasUnion() && !playerData.isOrgMember() && !playerData.hasFlag(StoryFlags.FORETELLER_VISITED)) {
+						playerData.addFlag(StoryFlags.FORETELLER_OWED);
+					}
 				}
 
 				PacketHandler.sendTo(new SCSyncPlayerData(player), (ServerPlayer) player);

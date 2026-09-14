@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": { "model": "kingdomkeys:block/apprentice_cloth_station" },
+    "facing=south": { "model": "kingdomkeys:block/apprentice_cloth_station", "y": 180 },
+    "facing=west":  { "model": "kingdomkeys:block/apprentice_cloth_station", "y": 270 },
+    "facing=east":  { "model": "kingdomkeys:block/apprentice_cloth_station", "y": 90 }
+  }
+}

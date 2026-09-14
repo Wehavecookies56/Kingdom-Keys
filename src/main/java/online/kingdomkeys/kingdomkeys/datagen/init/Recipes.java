@@ -99,6 +99,17 @@ public class Recipes extends RecipeProvider {
 				.save(consumer);
 
 
+		ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, ModBlocks.apprenticeClothStation.get())
+				.define('S', Items.STRING)
+				.define('H', Items.SHEARS)
+				.define('W', ItemTags.PLANKS)
+				.pattern("SSS")
+				.pattern("WHW")
+				.pattern("WWW")
+				.group(KingdomKeys.MODID)
+				.unlockedBy("apprentice_cloth_station", InventoryChangeTrigger.TriggerInstance.hasItems(Items.SHEARS))
+				.save(consumer);
+
 		ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModBlocks.magicTarget.get())
 				.define('L', Items.LAPIS_LAZULI)
 				.define('T', Blocks.TARGET)

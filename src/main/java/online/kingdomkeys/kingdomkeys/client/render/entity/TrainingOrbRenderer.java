@@ -27,8 +27,7 @@ public class TrainingOrbRenderer<T extends TrainingOrbEntity> extends EntityRend
 		super(context);
 		this.texture = texture;
 		this.shrouded = shrouded;
-		this.shadowRadius = 0.3F;
-		this.shadowStrength = 0.4F;
+		this.shadowRadius = 0;
 	}
 
 	@Override
@@ -42,7 +41,7 @@ public class TrainingOrbRenderer<T extends TrainingOrbEntity> extends EntityRend
 			pose.translate(0.0D, orb.getBbHeight() * 0.5F + Mth.sin(phase) * 0.06F, 0.0D);
 
 			float pulse = orb.isCharging() ? 1.0F + Mth.sin(phase * 3F) * 0.12F : 1.0F;
-			float size = orb.getBbWidth() * 1.25F * pulse;
+			float size = orb.getBbWidth() * 1.25F * pulse * orb.emerging(partialTicks);
 			pose.scale(size, size, size);
 
 			pose.mulPose(this.entityRenderDispatcher.cameraOrientation());

@@ -14,8 +14,11 @@
   "experience": 200,
   "grants": "kingdomkeys:duel/easy",
   "info": "kingdomkeys.information.duel",
-  "level": 5,
+  "level": 20,
   "lux": 100,
+  "requires": [
+    "kingdomkeys:story/training_done"
+  ],
   "rewards": [],
   "spawn_points": 1
 }

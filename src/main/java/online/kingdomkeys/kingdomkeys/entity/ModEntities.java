@@ -131,6 +131,7 @@ public class ModEntities {
     public static final DeferredHolder<EntityType<?>, EntityType<SaixShockwave>> TYPE_SAIX_SHOCKWAVE = createEntityType(SaixShockwave::new, MobCategory.MISC,"saix_shockwave", 1.5F,3.5F);
 
     public static final DeferredHolder<EntityType<?>, EntityType<OrgPortalEntity>> TYPE_ORG_PORTAL = createEntityType(OrgPortalEntity::new, MobCategory.MISC,"entity_org_portal", 1F, 3.5F);
+    public static final DeferredHolder<EntityType<?>, EntityType<LightPortalEntity>> TYPE_LIGHT_PORTAL = createEntityType(LightPortalEntity::new, MobCategory.MISC,"entity_light_portal", 1F, 3.5F);
 
    // public static final DeferredHolder<EntityType<?>, EntityType<ChakramEntity>> TYPE_CHAKRAM = createEntityType(ChakramEntity::new, ChakramEntity::new, MobCategory.MISC,"entity_chakram", 1.3F, 0.5F);
     public static final DeferredHolder<EntityType<?>, EntityType<KKThrowableEntity>> TYPE_KK_THROWABLE = ENTITIES.register("entity_chakram",
@@ -452,6 +453,7 @@ public class ModEntities {
         event.registerEntityRenderer(TYPE_BLOX_BUG.get(), BloxBugEntityRenderer::new);
 
         event.registerEntityRenderer(TYPE_ORG_PORTAL.get(), OrgPortalEntityRenderer::new);
+        event.registerEntityRenderer(TYPE_LIGHT_PORTAL.get(), LightPortalEntityRenderer::new);
         event.registerEntityRenderer(TYPE_HEART.get(), HeartEntityRenderer::new);
         event.registerEntityRenderer(TYPE_XP.get(), XPEntityRenderer::new);
         event.registerEntityRenderer(TYPE_TRAINING_DUMMY.get(), TrainingDummyRenderer::new);
@@ -751,4 +753,5 @@ public class ModEntities {
     public static final Supplier<BlockEntityType<AirStepTargetEntity>> TYPE_AIRSTEP_TARGET_TE = TILE_ENTITIES.register("airstep_target", () -> BlockEntityType.Builder.of(AirStepTargetEntity::new, ModBlocks.airstepTarget.get()).build(null));
     public static final Supplier<BlockEntityType<MagicTargetBlockEntity>> TYPE_MAGIC_TARGET_TE = TILE_ENTITIES.register("magic_target_te", () -> BlockEntityType.Builder.of(MagicTargetBlockEntity::new, ModBlocks.magicTarget.get()).build(null));
     public static final Supplier<BlockEntityType<TreasureChestTileEntity>> TYPE_TREASURE_CHEST = TILE_ENTITIES.register("treasure_chest", () -> BlockEntityType.Builder.of(TreasureChestTileEntity::new, ModBlocks.treasureChest.get()).build(null));
+    public static final Supplier<BlockEntityType<ApprenticeClothStationTileEntity>> TYPE_APPRENTICE_CLOTH_STATION = TILE_ENTITIES.register("apprentice_cloth_station", () -> BlockEntityType.Builder.of(ApprenticeClothStationTileEntity::new, ModBlocks.apprenticeClothStation.get()).build(null));
 }

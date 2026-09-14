@@ -12,6 +12,8 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.MoveControl;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
@@ -21,12 +23,18 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
+import online.kingdomkeys.kingdomkeys.data.GlobalData;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
 
 import java.util.EnumSet;
 
 public abstract class TrainingOrbEntity extends BaseKHEntity {
 	private static final EntityDataAccessor<Boolean> CHARGING = SynchedEntityData.defineId(TrainingOrbEntity.class, EntityDataSerializers.BOOLEAN);
+
+	private static final int MAX_SCALE_LEVEL = 100;
+	private static final double LARGEST = 2.0D;
+
+	private static final int SIZE_CHECK = 5;
 
 	private BlockPos spawnPoint;
 	private int cdTicks;
@@ -92,15 +100,50 @@ public abstract class TrainingOrbEntity extends BaseKHEntity {
 				spawnPoint = blockPosition();
 			}
 
+			if (tickCount % SIZE_CHECK == 0) {
+				resize();
+			}
+
 			if (tickCount % 10 == 0 && !level().noCollision(this, getBoundingBox().deflate(0.1D))) {
 				setDeltaMovement(getDeltaMovement().add(0.0D, 0.14D, 0.0D));
 			}
 		}
 
 		if (level().isClientSide && random.nextInt(isCharging() ? 2 : 6) == 0) {
-			double spread = getBbWidth() * 0.6;
+			double spread = getBbWidth() * 0.6 * emerging(0F);
 			level().addParticle(trail(), getX() + (random.nextDouble() - 0.5) * spread, getY() + getBbHeight() * 0.5 + (random.nextDouble() - 0.5) * spread, getZ() + (random.nextDouble() - 0.5) * spread, 0, 0, 0);
 		}
+	}
+
+	private void resize() {
+		AttributeInstance scale = getAttribute(Attributes.SCALE);
+
+		if (scale == null) {
+			return;
+		}
+
+		GlobalData data = GlobalData.get(this);
+		int level = Mth.clamp(data == null ? 1 : data.getLevel(), 1, MAX_SCALE_LEVEL);
+
+		double grown = 1.0D + (LARGEST - 1.0D) * (level - 1) / (double) (MAX_SCALE_LEVEL - 1);
+
+		if (Math.abs(scale.getBaseValue() - grown) > 1.0E-4D) {
+			scale.setBaseValue(grown);
+		}
+	}
+
+
+	private static final float EMERGES_OVER = 40F;
+
+	public float emerging(float partialTick) {
+		float age = tickCount + partialTick;
+
+		if (age >= EMERGES_OVER) {
+			return 1F;
+		}
+
+		float progress = age / EMERGES_OVER;
+		return progress * progress * (3F - 2F * progress);
 	}
 
 	public float hoverPhase(float partialTick) {

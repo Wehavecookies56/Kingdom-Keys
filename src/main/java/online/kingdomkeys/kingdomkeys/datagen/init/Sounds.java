@@ -63,6 +63,7 @@ public class Sounds extends SoundDefinitionsProvider {
         add(bossKill);
         add(heartlessKill);
         add(heartlessSpawn);
+        add(lightOrbSpawn);
         add(nobodyKill);
         add(openChest);
         add(synthesisPickup);

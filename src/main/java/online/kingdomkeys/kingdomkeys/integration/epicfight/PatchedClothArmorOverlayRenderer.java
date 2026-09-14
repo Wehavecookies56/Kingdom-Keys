@@ -16,6 +16,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 
 import online.kingdomkeys.kingdomkeys.client.render.ClothArmorOverlayRenderer;
+import online.kingdomkeys.kingdomkeys.item.UnionApprenticeArmorItem;
 
 import yesman.epicfight.api.client.model.Mesh;
 import yesman.epicfight.api.client.model.SkinnedMesh;
@@ -33,8 +34,7 @@ public class PatchedClothArmorOverlayRenderer<E extends LivingEntity, T extends 
 	private static final Map<ResourceLocation, RenderType> RENDER_TYPES = new HashMap<>();
 
 	private static RenderType renderType(ResourceLocation texture) {
-		return RENDER_TYPES.computeIfAbsent(texture,
-				rl -> EpicFightRenderTypes.getTriangulated(EpicFightRenderTypes.armorCutoutNoCull(rl)));
+		return RENDER_TYPES.computeIfAbsent(texture, rl -> EpicFightRenderTypes.getTriangulated(EpicFightRenderTypes.armorCutoutNoCull(rl)));
 	}
 
 	/*
@@ -43,16 +43,10 @@ public class PatchedClothArmorOverlayRenderer<E extends LivingEntity, T extends 
 	 */
 	private final boolean firstPerson;
 
-	/*
-	 * Epic Fight cannot directly animate Minecraft ModelParts.
-	 * These are the Epic Fight skinned-mesh versions of our
-	 * inflated armor models.
-	 */
-	private SkinnedMesh chestMesh;
-	private SkinnedMesh armMesh;
-	private SkinnedMesh waistMesh;
-	private SkinnedMesh legMesh;
-	private SkinnedMesh bootMesh;
+	private record Meshes(SkinnedMesh chest, SkinnedMesh arm, SkinnedMesh waist, SkinnedMesh leg, SkinnedMesh boot) { }
+
+	private Meshes org;
+	private Meshes apprentice;
 
 	public PatchedClothArmorOverlayRenderer(boolean firstPerson) {
 		this.firstPerson = firstPerson;
@@ -81,13 +75,17 @@ public class PatchedClothArmorOverlayRenderer<E extends LivingEntity, T extends 
 		return HumanoidModelBaker.VANILLA_TRANSFORMER.transformArmorModel(model);
 	}
 
-	private static void draw(SkinnedMesh mesh, RenderType renderType, PoseStack poseStack, MultiBufferSource buffer, int packedLight, OpenMatrix4f[] poses) {
-		if (mesh == null) {
+	private static void draw(SkinnedMesh mesh, ResourceLocation texture, int colour, PoseStack poseStack, MultiBufferSource buffer, int packedLight, OpenMatrix4f[] poses) {
+		if (mesh == null || texture == null) {
 			return;
 		}
 
-		VertexConsumer vertexConsumer = buffer.getBuffer(renderType);
-		mesh.drawPosed(poseStack, vertexConsumer, Mesh.DrawingFunction.NEW_ENTITY, packedLight, 1.0F, 1.0F, 1.0F, 1.0F, OverlayTexture.NO_OVERLAY, Armatures.BIPED.get(), poses);
+		float r = (colour >> 16 & 0xFF) / 255F;
+		float g = (colour >> 8 & 0xFF) / 255F;
+		float b = (colour & 0xFF) / 255F;
+
+		VertexConsumer vertexConsumer = buffer.getBuffer(renderType(texture));
+		mesh.drawPosed(poseStack, vertexConsumer, Mesh.DrawingFunction.NEW_ENTITY, packedLight, r, g, b, 1.0F, OverlayTexture.NO_OVERLAY, Armatures.BIPED.get(), poses);
 	}
 
 	@Override
@@ -96,11 +94,7 @@ public class PatchedClothArmorOverlayRenderer<E extends LivingEntity, T extends 
 		ItemStack leggings = entity.getItemBySlot(EquipmentSlot.LEGS);
 		ItemStack boots = entity.getItemBySlot(EquipmentSlot.FEET);
 
-		ResourceLocation chestTexture = ClothArmorOverlayRenderer.overlayTexture(chest, EquipmentSlot.CHEST);
-		ResourceLocation leggingsTexture = ClothArmorOverlayRenderer.overlayTexture(leggings, EquipmentSlot.LEGS);
-		ResourceLocation bootsTexture = ClothArmorOverlayRenderer.overlayTexture(boots, EquipmentSlot.FEET);
-
-		if (chestTexture == null && leggingsTexture == null && bootsTexture == null) {
+		if (!wearsCloth(chest, EquipmentSlot.CHEST) && !wearsCloth(leggings, EquipmentSlot.LEGS) && !wearsCloth(boots, EquipmentSlot.FEET)) {
 			return;
 		}
 
@@ -111,64 +105,64 @@ public class PatchedClothArmorOverlayRenderer<E extends LivingEntity, T extends 
 		 * Third person: body + both arms
 		 * First person: arms only
 		 */
-		if (chestTexture != null) {
-			RenderType type = renderType(chestTexture);
-
-			if (firstPerson) {
-				draw(armMesh, type, poseStack, buffer, packedLight, poses);
-			} else {
-				draw(chestMesh, type, poseStack, buffer, packedLight, poses);
-			}
-		}
+		Meshes chestMeshes = familyOf(chest);
+		paint(chest, EquipmentSlot.CHEST, firstPerson ? chestMeshes.arm() : chestMeshes.chest(), poseStack, buffer, packedLight, poses);
 
 		/*
 		 * LEGGINGS
 		 * waist = torso shell
 		 * legs  = leg shell, both from the leggings layer
 		 */
-		if (leggingsTexture != null) {
-			RenderType type = renderType(leggingsTexture);
+		Meshes legMeshes = familyOf(leggings);
 
-			if (!firstPerson) {
-				draw(waistMesh, type, poseStack, buffer, packedLight, poses);
-			}
-
-			draw(legMesh, type, poseStack, buffer, packedLight, poses);
+		if (!firstPerson) {
+			paint(leggings, EquipmentSlot.LEGS, legMeshes.waist(), poseStack, buffer, packedLight, poses);
 		}
+
+		paint(leggings, EquipmentSlot.LEGS, legMeshes.leg(), poseStack, buffer, packedLight, poses);
 
 		/*
 		 * BOOTS Uses the outer leg geometry.
 		 */
-		if (bootsTexture != null) {
-			draw(bootMesh, renderType(bootsTexture), poseStack, buffer, packedLight, poses);
+		paint(boots, EquipmentSlot.FEET, familyOf(boots).boot(), poseStack, buffer, packedLight, poses);
+	}
+
+	private static void paint(ItemStack stack, EquipmentSlot slot, SkinnedMesh mesh, PoseStack poseStack, MultiBufferSource buffer, int packedLight, OpenMatrix4f[] poses) {
+		if (stack.getItem() instanceof UnionApprenticeArmorItem armor) {
+			draw(mesh, ClothArmorOverlayRenderer.fixedTexture(stack, slot), 0xFFFFFF, poseStack, buffer, packedLight, poses);
+			draw(mesh, ClothArmorOverlayRenderer.overlay1Texture(stack, slot), armor.getPrimaryColor(stack), poseStack, buffer, packedLight, poses);
+			draw(mesh, ClothArmorOverlayRenderer.overlay2Texture(stack, slot), armor.getSecondaryColor(stack), poseStack, buffer, packedLight, poses);
+			return;
+		}
+
+		draw(mesh, ClothArmorOverlayRenderer.overlayTexture(stack, slot), 0xFFFFFF, poseStack, buffer, packedLight, poses);
+	}
+
+	private static boolean wearsCloth(ItemStack stack, EquipmentSlot slot) {
+		return stack.getItem() instanceof UnionApprenticeArmorItem ? ClothArmorOverlayRenderer.fixedTexture(stack, slot) != null : ClothArmorOverlayRenderer.overlayTexture(stack, slot) != null;
+	}
+
+	private Meshes familyOf(ItemStack stack) {
+		return stack.getItem() instanceof UnionApprenticeArmorItem ? apprentice : org;
+	}
+
+	private void ensureMeshes() {
+		if (org == null) {
+			org = bake(ClothArmorOverlayRenderer.OUTER_LAYER, ClothArmorOverlayRenderer.LEGGINGS_LAYER);
+		}
+
+		if (apprentice == null) {
+			apprentice = bake(ClothArmorOverlayRenderer.APPRENTICE_OUTER_LAYER, ClothArmorOverlayRenderer.APPRENTICE_LEGGINGS_LAYER);
 		}
 	}
 
-	/*
-	 * Build Epic Fight-compatible skinned meshes from the exact same model layers used by
-	 * ClothArmorOverlayRenderer. Las piernas de las mallas salen de LEGGINGS_LAYER y las de las botas de
-	 * OUTER_LAYER, igual que alli: si las dos salieran de la misma capa quedarian a la misma distancia del
-	 * cuerpo y pelearian por el z-buffer.
-	 */
-	private void ensureMeshes() {
-		if (chestMesh == null) {
-			chestMesh = bakeMesh(ClothArmorOverlayRenderer.OUTER_LAYER, true, true, false);
-		}
-
-		if (armMesh == null) {
-			armMesh = bakeMesh(ClothArmorOverlayRenderer.OUTER_LAYER, false, true, false);
-		}
-
-		if (waistMesh == null) {
-			waistMesh = bakeMesh(ClothArmorOverlayRenderer.LEGGINGS_LAYER, true, false, false);
-		}
-
-		if (legMesh == null) {
-			legMesh = bakeMesh(ClothArmorOverlayRenderer.LEGGINGS_LAYER, false, false, true);
-		}
-
-		if (bootMesh == null) {
-			bootMesh = bakeMesh(ClothArmorOverlayRenderer.OUTER_LAYER, false, false, true);
-		}
+	private static Meshes bake(ModelLayerLocation outer, ModelLayerLocation leggings) {
+		return new Meshes(
+				bakeMesh(outer, true, true, false),
+				bakeMesh(outer, false, true, false),
+				bakeMesh(leggings, true, false, false),
+				bakeMesh(leggings, false, false, true),
+				bakeMesh(outer, false, false, true)
+		);
 	}
 }

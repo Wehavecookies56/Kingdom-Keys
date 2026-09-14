@@ -1,0 +1,9 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "particle": "kingdomkeys:block/apprentice_cloth_station_side",
+    "side": "kingdomkeys:block/apprentice_cloth_station_side",
+    "top": "kingdomkeys:block/apprentice_cloth_station_top",
+    "bottom": "minecraft:block/oak_planks"
+  }
+}

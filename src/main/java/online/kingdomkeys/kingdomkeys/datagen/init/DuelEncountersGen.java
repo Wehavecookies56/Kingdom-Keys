@@ -10,6 +10,7 @@ import online.kingdomkeys.kingdomkeys.datagen.provider.BaseProvider;
 import online.kingdomkeys.kingdomkeys.encounter.Encounter;
 import online.kingdomkeys.kingdomkeys.encounter.WaveEncounter;
 import online.kingdomkeys.kingdomkeys.entity.ModEntities;
+import online.kingdomkeys.kingdomkeys.story.StoryFlags;
 
 
 public class DuelEncountersGen extends BaseProvider<RoomEncounterBuilder> {
@@ -33,10 +34,9 @@ public class DuelEncountersGen extends BaseProvider<RoomEncounterBuilder> {
 
     @Override
     protected void build() {
-        // Against your own master, by grade, each gated on the one before it
-        duel("easy", master(), ARENA).payout(200, 100).level(5).grants(fought("easy")).info(DUEL_INFO);
-        duel("medium", master(), ARENA).payout(550, 300).level(30).requires(fought("easy")).grants(fought("medium")).info(DUEL_INFO);
-        duel("hard", master(), ARENA).payout(1200, 700).level(75).requires(fought("medium")).grants(fought("hard")).info(DUEL_INFO);
+        duel("easy", master(), ARENA).payout(200, 100).level(20).requires(StoryFlags.INTRODUCTORY_TRAINING_DONE).grants(fought("easy")).info(DUEL_INFO);
+        duel("medium", master(), ARENA).payout(550, 300).level(45).requires(fought("easy")).grants(fought("medium")).info(DUEL_INFO);
+        duel("hard", master(), ARENA).payout(1200, 700).level(80).requires(fought("medium")).grants(fought("hard")).info(DUEL_INFO);
 
         duel("dynamic", master(), ARENA).payout(700, 400).requires(fought("hard")).grants(fought("dynamic")).info(DUEL_INFO);
 

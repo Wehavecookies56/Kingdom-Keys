@@ -13,6 +13,7 @@ public class ModCommands {
                 .then(ChoiceCommand.register())
                 .then(DimensionCommand.register())
                 .then(DriveLevelCommand.register())
+                .then(StoryCommand.register())
                 .then(SynthLevelCommand.register())
                 .then(DrivePointsCommand.register())
                 .then(ExpCommand.register())

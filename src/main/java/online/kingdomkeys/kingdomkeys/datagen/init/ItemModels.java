@@ -113,7 +113,9 @@ public class ItemModels extends ItemModelProvider {
 			final Item item = itemRegistryObject.get();
 			final String path = BuiltInRegistries.ITEM.getKey(item).getPath();
 
-			if (item instanceof BaseArmorItem) {
+			if (item instanceof UnionApprenticeArmorItem) {
+				unionApprenticeArmor(path);
+			} else if (item instanceof BaseArmorItem) {
 				standardArmor(path);
 			} else if (item instanceof KeychainItem) {
 				standardKeychain(path);
@@ -238,6 +240,14 @@ public class ItemModels extends ItemModelProvider {
 
 	void standardArmor(String name) {
 		standardItem(name, "armor/");
+	}
+
+	void unionApprenticeArmor(String name) {
+		String slot = name.substring(name.lastIndexOf('_') + 1);
+
+		getBuilder(name).parent(new ModelFile.UncheckedModelFile("item/generated"))
+				.texture("layer0", KingdomKeys.MODID + ":item/apprentice/" + slot + "_left")
+				.texture("layer1", KingdomKeys.MODID + ":item/apprentice/" + slot + "_right");
 	}
 
 	void standardKeychain(String name) {

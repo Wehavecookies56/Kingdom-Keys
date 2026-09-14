@@ -3,6 +3,7 @@
   "encounter": {
     "type": "kingdomkeys:wave",
     "interval_ticks": 60,
+    "spawn_delay_ticks": 7,
     "waves": [
       {
         "spawns": [
@@ -50,7 +51,8 @@
   "level": 60,
   "lux": 400,
   "requires": [
-    "kingdomkeys:training/medium"
+    "kingdomkeys:training/medium",
+    "kingdomkeys:story/training_done"
   ],
   "rewards": [],
   "spawn_points": 10

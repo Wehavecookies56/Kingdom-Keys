@@ -63,7 +63,6 @@ import online.kingdomkeys.kingdomkeys.block.ModBlocks;
 import online.kingdomkeys.kingdomkeys.block.gummi.GummiBlockBase;
 import online.kingdomkeys.kingdomkeys.block.gummi.GummiPlacementType;
 import online.kingdomkeys.kingdomkeys.client.ClientUtils;
-import online.kingdomkeys.kingdomkeys.client.render.item.KeychainRenderer;
 import online.kingdomkeys.kingdomkeys.client.Reversal;
 import online.kingdomkeys.kingdomkeys.client.TrailRenderer;
 import online.kingdomkeys.kingdomkeys.client.gui.KOGui;
@@ -72,6 +71,7 @@ import online.kingdomkeys.kingdomkeys.client.gui.elements.CommandMenuSubMenu;
 import online.kingdomkeys.kingdomkeys.client.gui.overlay.CommandMenuGui;
 import online.kingdomkeys.kingdomkeys.client.gui.overlay.ItemGetGui;
 import online.kingdomkeys.kingdomkeys.client.render.BossDeathRays;
+import online.kingdomkeys.kingdomkeys.client.render.item.KeychainRenderer;
 import online.kingdomkeys.kingdomkeys.client.shotlock.ShotlockMinigameClient;
 import online.kingdomkeys.kingdomkeys.client.sound.ModSounds;
 import online.kingdomkeys.kingdomkeys.config.ModConfigs;
@@ -88,6 +88,7 @@ import online.kingdomkeys.kingdomkeys.integration.epicfight.EpicFightUtils;
 import online.kingdomkeys.kingdomkeys.integration.shouldersurfing.KKShoulderSurfing;
 import online.kingdomkeys.kingdomkeys.item.KeybladeItem;
 import online.kingdomkeys.kingdomkeys.item.ModItems;
+import online.kingdomkeys.kingdomkeys.item.UnionApprenticeArmorItem;
 import online.kingdomkeys.kingdomkeys.item.WayfinderItem;
 import online.kingdomkeys.kingdomkeys.item.organization.IOrgWeapon;
 import online.kingdomkeys.kingdomkeys.lib.SoAState;
@@ -1054,6 +1055,9 @@ public class ClientEvents {
 
 	private boolean recoveryHeld;
 
+	/** Whether the player had their feet on the floor as of the end of the previous tick. */
+	private boolean recoveryGrounded = true;
+
 	private void tickCombatWindows(Minecraft mc) {
 		LocalPlayer player = mc.player;
 
@@ -1072,7 +1076,10 @@ public class ClientEvents {
 		boolean pressed = jump && !recoveryHeld;
 		recoveryHeld = jump;
 
-		if (pressed && playerData.getRecoveryTicks() > 0 && !player.onGround()) {
+		boolean grounded = recoveryGrounded;
+		recoveryGrounded = player.onGround();
+
+		if (pressed && !grounded && playerData.getRecoveryTicks() > 0 && !player.onGround()) {
 			playerData.setRecoveryTicks(0);
 			// Done here as well as on the server so it answers the key straight away instead of a bit later
 			player.setDeltaMovement(0, Math.min(0, player.getDeltaMovement().y) * 0.1, 0);
@@ -1681,6 +1688,13 @@ public class ClientEvents {
 				Color colour = new Color(itemColor);
 				return colour.getRGB();
 			}, ModItems.wayfinder.get());
+			event.register((stack, tintIndex) -> {
+				if (stack.getItem() instanceof UnionApprenticeArmorItem armor) {
+					int rgb = tintIndex == 1 ? armor.getSecondaryColor(stack) : armor.getPrimaryColor(stack);
+					return 0xFF000000 | rgb;
+				}
+				return 0xFFFFFFFF;
+			}, ModItems.apprentice_Chestplate.get(), ModItems.apprentice_Leggings.get(), ModItems.apprentice_Boots.get());
 			event.register(ModBusEvents::getGummiBlockColour, ModBlocks.gummiBlocks.get().stream().map(Supplier::get).toList().toArray(new Block[0]));
 			event.register(ModBusEvents::getGummiBlockColour, ModBlocks.gummiBubbleHelms.stream().map(Supplier::get).toList().toArray(new Block[0]));
 			event.register(ModBusEvents::getGummiBlockColour, ModBlocks.gummiMiniHelms.stream().map(Supplier::get).toList().toArray(new Block[0]));

@@ -81,7 +81,7 @@ public class BlizzazaEntity extends BaseMagicProjectile {
 					if (Utils.canHarm(getOwner(), target)) {
 						damageEntity(target);
 
-						if (!target.isOnFire()) {
+						if (!target.isOnFire() && !wasGuarded(target)) {
 							MobEffectInstance freeze = target.getEffect(ModMobEffects.FREEZE);
 							int duration = freezeTime;
 							if (freeze != null) {

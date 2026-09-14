@@ -19,6 +19,7 @@
     "client.ClientLevelMixin",
     "client.CreativeScreenMixin",
     "client.InventoryScreenMixin",
+    "client.HumanoidArmorLayerFadeMixin",
     "client.KeyboardInputMixin",
     "client.LevelRendererMixin",
     "client.LivingEntityRendererFadeMixin",
