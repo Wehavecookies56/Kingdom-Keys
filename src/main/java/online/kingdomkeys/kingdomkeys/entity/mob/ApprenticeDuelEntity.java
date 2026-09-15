@@ -2,11 +2,10 @@ package online.kingdomkeys.kingdomkeys.entity.mob;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.monster.Monster;
-import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import online.kingdomkeys.kingdomkeys.entity.EntityHelper;
@@ -40,8 +39,34 @@ public class ApprenticeDuelEntity extends MasterDuelEntity {
 	}
 
 	@Override
+	public void remove(Entity.RemovalReason reason) {
+		stepAside();
+		super.remove(reason);
+	}
+
+	private void stepAside() {
+		if (owner == null || !(level() instanceof ServerLevel server) || !(server.getEntity(owner) instanceof ApprenticeEntity apprentice)) {
+			return;
+		}
+
+		apprentice.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
+		apprentice.setYHeadRot(getYHeadRot());
+		apprentice.setYBodyRot(yBodyRot);
+	}
+
+	@Override
 	public void equipForUnion() {
 		arm();
+	}
+
+	@Override
+	public ItemStack keybladeToCall() {
+		return new ItemStack(ModItems.starlight.get());
+	}
+
+	@Override
+	public int callingRank() {
+		return getDuelLevel();
 	}
 
 	private void arm() {
@@ -51,17 +76,9 @@ public class ApprenticeDuelEntity extends MasterDuelEntity {
 		if (trim == 0) {
 			trim = ApprenticeEntity.rollTrim(random);
 		}
-		setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(ModItems.starlight.get()));
 
 		// Dressed as whoever it stands in for, trim included
-		int color = getUnion().getColour();
-		setItemSlot(EquipmentSlot.CHEST, ModItems.createApprenticeArmor(ArmorItem.Type.CHESTPLATE, outfit, color, trim));
-		setItemSlot(EquipmentSlot.LEGS, ModItems.createApprenticeArmor(ArmorItem.Type.LEGGINGS, outfit, color, trim));
-		setItemSlot(EquipmentSlot.FEET, ModItems.createApprenticeArmor(ArmorItem.Type.BOOTS, outfit, color, trim));
-
-		for (EquipmentSlot slot : EquipmentSlot.values()) {
-			setDropChance(slot, 0.0F);
-		}
+		ApprenticeEntity.dressAs(this, outfit, trim, getUnion());
 	}
 
 

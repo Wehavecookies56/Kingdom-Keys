@@ -13,6 +13,8 @@
   * The table can be obtained by crafting with 3 strings at the top, shears in the middle and 5 wooden planks at the rest.
   * It can be dyed with two different colors and can be cleaned by washing it on a water cauldron with right click.
   * In the table you can add up to 8 dyes to make your desired color, can stack them and even after dyeing it you can put the resulting item as input again.
+* Synthesis recipe tracker to keep the amount of required materials on screen at all times.
+* Spells in the selling shop, for a 25% of their original price.
 * Physics for Starlight keychain.
 * World Markers in the Ocean Between, rendered while you're in a gummi ship.
 * Lux when defeating enemies and training with your Foreteller.
@@ -44,6 +46,7 @@
 * Consumables like potions in shop will now show the recovery stats they affect.
 * Path to some armor texture files.
 * Halved the mobility triangular Aero/G-02 gives.
+* [EFM] Dual option re-enabled for people who switched to Days Roxas style before it was locked.
 
 ## Fixed:
 * Reversal RC being available even when the Dusk was out of reach.

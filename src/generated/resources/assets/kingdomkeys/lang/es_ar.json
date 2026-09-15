@@ -1306,6 +1306,8 @@
   "gui.synthesis.synthesise": "Fabricar",
   "gui.synthesis.synthesise.create": "Crear",
   "gui.synthesis.synthesise.title": "Fabricar",
+  "gui.synthesis.synthesise.track": "Seguir",
+  "gui.synthesis.synthesise.untrack": "Dejar",
   "gui.synthesisbag.munny": "Platines",
   "gui.synthesisbag.notenoughmunny": "No tienes suf. platines",
   "gui.synthesisbag.upgrade": "Mejorar tamaño",

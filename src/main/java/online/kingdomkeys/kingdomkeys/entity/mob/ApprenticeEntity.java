@@ -35,7 +35,7 @@ import online.kingdomkeys.kingdomkeys.item.ModItems;
 import online.kingdomkeys.kingdomkeys.lib.Union;
 import online.kingdomkeys.kingdomkeys.world.DialogueHandler;
 
-public class ApprenticeEntity extends PathfinderMob {
+public class ApprenticeEntity extends PathfinderMob implements KeybladeWielder {
 
 	private static final EntityDataAccessor<Integer> LEVEL = SynchedEntityData.defineId(ApprenticeEntity.class, EntityDataSerializers.INT);
 	private static final EntityDataAccessor<Byte> UNION = SynchedEntityData.defineId(ApprenticeEntity.class, EntityDataSerializers.BYTE);
@@ -155,15 +155,17 @@ public class ApprenticeEntity extends PathfinderMob {
 
 	public void dress() {
 		ensureOutfit();
-		setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(ModItems.starlight.get()));
+		dressAs(this, outfit, trim, getUnion());
+	}
 
-		int color = getUnion().getColour();
-		setItemSlot(EquipmentSlot.CHEST, ModItems.createApprenticeArmor(ArmorItem.Type.CHESTPLATE, outfit, color, trim));
-		setItemSlot(EquipmentSlot.LEGS, ModItems.createApprenticeArmor(ArmorItem.Type.LEGGINGS, outfit, color, trim));
-		setItemSlot(EquipmentSlot.FEET, ModItems.createApprenticeArmor(ArmorItem.Type.BOOTS, outfit, color, trim));
+	public static void dressAs(Mob wearer, int outfit, int trim, Union union) {
+		int color = union.getColour();
+		wearer.setItemSlot(EquipmentSlot.CHEST, ModItems.createApprenticeArmor(ArmorItem.Type.CHESTPLATE, outfit, color, trim));
+		wearer.setItemSlot(EquipmentSlot.LEGS, ModItems.createApprenticeArmor(ArmorItem.Type.LEGGINGS, outfit, color, trim));
+		wearer.setItemSlot(EquipmentSlot.FEET, ModItems.createApprenticeArmor(ArmorItem.Type.BOOTS, outfit, color, trim));
 
 		for (EquipmentSlot slot : EquipmentSlot.values()) {
-			setDropChance(slot, 0.0F);
+			wearer.setDropChance(slot, 0.0F);
 		}
 	}
 
@@ -201,11 +203,64 @@ public class ApprenticeEntity extends PathfinderMob {
 	}
 
 	private void strip() {
+		summon.cancel();
+
 		for (EquipmentSlot slot : EquipmentSlot.values()) {
 			setItemSlot(slot, ItemStack.EMPTY);
 		}
 	}
 
+	private final KeybladeSummon summon = new KeybladeSummon(this);
+
+	@Override
+	public KeybladeSummon keybladeSummon() {
+		return summon;
+	}
+
+	@Override
+	public ItemStack keybladeToCall() {
+		return new ItemStack(ModItems.starlight.get());
+	}
+
+	@Override
+	public int callingRank() {
+		return getApprenticeLevel();
+	}
+
+	private static final int STAND_DOWN_MIN = 50, STAND_DOWN_MAX = 110;
+
+	private static final int DANGER_CHECK = 10;
+
+	private int quiet = STAND_DOWN_MAX;
+
+	private int rollStandDown() {
+		return STAND_DOWN_MIN + random.nextInt(STAND_DOWN_MAX - STAND_DOWN_MIN + 1);
+	}
+
+	private void standDown(boolean fighting) {
+		if (fighting) {
+			quiet = rollStandDown();
+			return;
+		}
+
+		if (!hasKeyblade()) {
+			return;
+		}
+
+		if (tickCount % DANGER_CHECK == 0 && darknessNearby()) {
+			quiet = rollStandDown();
+			return;
+		}
+
+		if (--quiet <= 0) {
+			dismissKeyblade();
+		}
+	}
+
+	private boolean darknessNearby() {
+		return !level().getEntitiesOfClass(LivingEntity.class, getBoundingBox().inflate(WANDER_RADIUS),
+				darkness -> darkness.isAlive() && isDarkness(darkness) && isWithinRestriction(darkness.blockPosition())).isEmpty();
+	}
 
 	@Override
 	protected void registerGoals() {
@@ -252,9 +307,13 @@ public class ApprenticeEntity extends PathfinderMob {
 			return;
 		}
 
+		summon.tick();
+
 		// Off the leash while there is something to run down, back on it once there is not
 		boolean fighting = getTarget() != null && getTarget().isAlive();
 		moveRadius(fighting);
+
+		standDown(fighting);
 
 		// They tend to their own wounds between fights rather than standing their post half dead forever
 		if (!fighting && tickCount % MEND_INTERVAL == 0 && getHealth() < getMaxHealth()) {

@@ -111,6 +111,10 @@ public record CSSynthesiseRecipe(ResourceLocation name) implements Packet {
 
 					playerData.addSynthesisedRecipe(name.toString());
 
+					if (name.equals(playerData.getTrackedRecipe())) {
+						playerData.setTrackedRecipe(null);
+					}
+
 					if (i instanceof KeychainItem && playerData.hasUnion() && !playerData.isOrgMember() && !playerData.hasFlag(StoryFlags.FORETELLER_VISITED)) {
 						playerData.addFlag(StoryFlags.FORETELLER_OWED);
 					}

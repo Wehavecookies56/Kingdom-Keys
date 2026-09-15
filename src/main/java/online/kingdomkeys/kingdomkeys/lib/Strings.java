@@ -661,6 +661,8 @@ public class Strings {
             Gui_Synthesis_Synthesise = Gui_Synthesis + ".synthesise",
 	    	Gui_Synthesis_Synthesise_Title = Gui_Synthesis_Synthesise + ".title",
             Gui_Synthesis_Synthesise_Create = Gui_Synthesis_Synthesise + ".create",
+            Gui_Synthesis_Synthesise_Track = Gui_Synthesis_Synthesise + ".track",
+            Gui_Synthesis_Synthesise_Untrack = Gui_Synthesis_Synthesise + ".untrack",
             
             Gui_Synthesis_Forge = Gui_Synthesis + ".forge",
 	    	Gui_Synthesis_Forge_Title = Gui_Synthesis_Forge + ".title",

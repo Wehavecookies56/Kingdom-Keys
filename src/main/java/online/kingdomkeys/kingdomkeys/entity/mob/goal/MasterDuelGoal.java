@@ -7,6 +7,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.entity.ai.util.DefaultRandomPos;
 import net.minecraft.world.phys.Vec3;
 import online.kingdomkeys.kingdomkeys.entity.mob.MasterDuelEntity;
 import online.kingdomkeys.kingdomkeys.lib.KKSupplier;
@@ -37,6 +38,12 @@ public class MasterDuelGoal extends Goal {
 	private static final int CAST_TELEGRAPH = 16;
 
 	private static final int REPATH_INTERVAL = 5;
+
+	/** For whoever turns up to a duel without a keyblade yet: an arm is shorter and slower than one */
+	private static final double FIST_REACH = 1.9D;
+	private static final int FIST_INTERVAL = 20;
+	private static final double FLEE_SPEED = 1.25D;
+	private static final int FLEE_RADIUS = 10, FLEE_HEIGHT = 4;
 
 	private final MasterDuelEntity master;
 
@@ -73,6 +80,8 @@ public class MasterDuelGoal extends Goal {
 		state = IDLE;
 		stateTicks = 0;
 		recovery = 0;
+
+		master.callKeyblade();
 	}
 
 	@Override
@@ -89,6 +98,16 @@ public class MasterDuelGoal extends Goal {
 		}
 
 		master.getLookControl().setLookAt(target, 30F, 30F);
+
+		if (!master.hasKeyblade()) {
+			if (master.holdsGroundUnarmed()) {
+				punch(target);
+			} else {
+				backAway(target);
+			}
+			return;
+		}
+
 		stateTicks++;
 
 		switch (state) {
@@ -211,6 +230,36 @@ public class MasterDuelGoal extends Goal {
 		}
 		repath = REPATH_INTERVAL;
 		master.getNavigation().moveTo(target, speed);
+	}
+
+	private void punch(LivingEntity target) {
+		chase(target, 1.0D);
+
+		if (recovery > 0) {
+			recovery--;
+			return;
+		}
+
+		if (master.distanceTo(target) > FIST_REACH || !master.getSensing().hasLineOfSight(target)) {
+			return;
+		}
+
+		master.swing(InteractionHand.MAIN_HAND);
+		master.doHurtTarget(target);
+		recovery = FIST_INTERVAL;
+	}
+
+	private void backAway(LivingEntity target) {
+		if (--repath > 0) {
+			return;
+		}
+
+		repath = REPATH_INTERVAL;
+
+		Vec3 away = DefaultRandomPos.getPosAway(master, FLEE_RADIUS, FLEE_HEIGHT, target.position());
+		if (away != null) {
+			master.getNavigation().moveTo(away.x, away.y, away.z, FLEE_SPEED);
+		}
 	}
 
 	private void enter(int next) {

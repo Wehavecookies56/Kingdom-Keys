@@ -126,6 +126,10 @@ public class ModConfigs {
                 CLIENT.gummiControlsHUDData.set(data);
                 CLIENT.gummiControlsHUDData.save();
             }
+            case "SynthesisTracker" -> {
+                CLIENT.synthesisTrackerHUDData.set(data);
+                CLIENT.synthesisTrackerHUDData.save();
+            }
         }
     }
 
@@ -149,6 +153,7 @@ public class ModConfigs {
             case "GummiInfo" -> CLIENT.gummiInfoHUDData.get();
             case "GummiReadout" -> CLIENT.gummiReadoutHUDData.get();
             case "GummiControls" -> CLIENT.gummiControlsHUDData.get();
+            case "SynthesisTracker" -> CLIENT.synthesisTrackerHUDData.get();
             default -> throw new IllegalStateException("Unexpected HUD value: " + name);
         };
     }

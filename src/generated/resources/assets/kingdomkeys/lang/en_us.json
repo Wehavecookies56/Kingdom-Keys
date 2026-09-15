@@ -1317,6 +1317,8 @@
   "gui.synthesis.synthesise": "Synthesise Items",
   "gui.synthesis.synthesise.create": "Create",
   "gui.synthesis.synthesise.title": "Synthesis",
+  "gui.synthesis.synthesise.track": "Track",
+  "gui.synthesis.synthesise.untrack": "Untrack",
   "gui.synthesisbag.munny": "Munny",
   "gui.synthesisbag.notenoughmunny": "Not enough munny",
   "gui.synthesisbag.upgrade": "Upgrade size",
